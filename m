@@ -2,186 +2,187 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2951C54E94
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 17:50:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF52C25B4E
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 17:52:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232203AbjAXRue (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 12:50:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47110 "EHLO
+        id S233152AbjAXRwR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 12:52:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232320AbjAXRud (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 12:50:33 -0500
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 362F24C6D8;
-        Tue, 24 Jan 2023 09:49:52 -0800 (PST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 606D7320099F;
-        Tue, 24 Jan 2023 12:49:21 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 24 Jan 2023 12:49:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
-        cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1674582560; x=1674668960; bh=TiAYhPCl6q
-        NczcRfD1WrZ3PWj1k4oktdgxFxtN95dnU=; b=qZLbKJY5rDjyOtK1FNm8R4Fj57
-        V3fKol44bNw8vQU4lWZq8gHjeyA97xkCLFNivRLk9oUAffvedCNLJJzwRsbijZsJ
-        oO920iWMTlA6g2Kjek1K2vBEqKYoR/xlTXCTVf2+q29h/Em1GeDeRy5qd5ErmInG
-        SPa3wYa35HecBTnaP9CjTYA6ThgqIV7HerGIwfRuAayk5MCA9M8XXHHJ5zI70NEF
-        HTi4pn2XSlDIT9iATdGwNkGdD2pkrfN8JDy0uq0np0NyY6dRAUirBlgl8hmE8Ejw
-        +nKx385ive0/obXdxOby+8jyKwTj8Im+udbbc+B1GrNHzfuhWGkyHuOZ6sAQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1674582560; x=1674668960; bh=TiAYhPCl6qNczcRfD1WrZ3PWj1k4
-        oktdgxFxtN95dnU=; b=PbjZfprjNETCkGCacq3BVexyZqsNXtT6+90L1ZGvzxyG
-        4bQqaJnYmCZViLnix24fmr+raoMK6NX8/8Chqvx0b/K1qBNHYJNAS69n4E2Zm7zh
-        Uy8sl0YLYP4/Xy9dqFI+g8OfOl53Y5dWR2IfVl5zG5yIvzYO4UV2NSTiLumbjzPU
-        NikTLWXKviuctxEXSF5fnko9XgmOio9zhR+LAGFEiYm6knUc72WZht8V8/Yf7WJw
-        xAUTvzBYXa6fznBDgzoTGy6Ve0ZMFTcXWbXubwkuNTSaybAX2ij3HV/Wzc0FrniG
-        bBAjjsJy/NP1ovT+u4H3W0+xz04+2g+iPvsfWB4lTg==
-X-ME-Sender: <xms:IBrQY8_M9mxcPDIVoNLf77xtisnl8Y5MXKrbcx-sAFJynKABdeBFHw>
-    <xme:IBrQY0tK4blNKFsfVAkiq3BGL0D2_0kIVs8OxqbgitB8JEp-xYekP9fBZ6dXWqEac
-    BLr2Bv7gzkX0dWv3mQ>
-X-ME-Received: <xmr:IBrQYyBcMAwRQOX818Yf__ESIXhxHHRk7cp8j4u5WTzo7aLyrvvqF8L6uNIbhlN4YoDSUT-nokFGITnAU12QZxkrsXzaRqk2q4hvPU80>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvtddguddtudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpehffgfhvfevufffjgfkgggtsehttdertddtredtnecuhfhrohhmpefuthgv
-    fhgrnhcutfhovghstghhuceoshhhrhesuggvvhhkvghrnhgvlhdrihhoqeenucggtffrrg
-    htthgvrhhnpefhgfejveduudehvdduvefguddvffefgffhieeuudefudfhhfeijeefjeff
-    heelvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshhhrhesuggvvhhkvghrnhgvlhdrihho
-X-ME-Proxy: <xmx:IBrQY8dlv5U7D9D4KA-S-ZRBHiPEary6JoeQSO3XFV6RuIaeQtTb4Q>
-    <xmx:IBrQYxPkpllkDctEYfqujUo3SbDDPKHvGd2KAzvJnUUdndkKGIdLQw>
-    <xmx:IBrQY2nKYlmQ3TR0hy1lXCvhcxT7mTHDsjP5eD4VXXNyMXb39cvs5g>
-    <xmx:IBrQY6iMLm81xJNgCD_I0O1GI2qjDoWbVOy8Pb7ZoLSCKKJ6foM0YQ>
-Feedback-ID: i84614614:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Jan 2023 12:49:19 -0500 (EST)
-References: <20230123173748.1734238-1-shr@devkernel.io>
- <5844ee9f-1992-a62a-2141-3b694a1e1915@redhat.com>
-User-agent: mu4e 1.6.11; emacs 28.2.50
-From:   Stefan Roesch <shr@devkernel.io>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org, CGEL <cgel.zte@gmail.com>,
-        Michal Hocko <mhocko@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [RESEND RFC PATCH v1 00/20] mm: process/cgroup ksm support
-Date:   Tue, 24 Jan 2023 09:37:33 -0800
-In-reply-to: <5844ee9f-1992-a62a-2141-3b694a1e1915@redhat.com>
-Message-ID: <qvqwbkmnj014.fsf@dev0134.prn3.facebook.com>
+        with ESMTP id S232388AbjAXRwP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 12:52:15 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB80049541;
+        Tue, 24 Jan 2023 09:52:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674582728; x=1706118728;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Ij7ONRpXo0i3enJFPPUMyDDXekRpmuCTr+eC1iIPvHY=;
+  b=TvePt5tEaHlqsWQhT5MnUD/YnDlCvrnJKq5NfXkCZBTGum3fwmlRftxi
+   c1RGFCjonkd5GbfRgbasJ6eDuZCY+i7kQkBAPGCV7RGx/970AM352iy0H
+   SLsnbao+B9yPlBq/NI4/PLcqcgrmLBUyQ8bMKk+dS3fXtVl4Wlr9DjiQD
+   FjldA9P47Q78RgWNEbOsgoMWL1JhSLLgdJ7LgjdWNVvS1lRBJjkMVmKb/
+   fC01y3G09e3tT6otiy+e78jx3KcjiFWI/WhwpW36+UWXSkHRI7bvJCI3W
+   UcWe82d4OdY98WGltr/vccW0T1KUa3qG0JkYqFsXPz3sUIBeVwXZSxgru
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="412591255"
+X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
+   d="scan'208";a="412591255"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 09:49:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="730763802"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="730763802"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga004.fm.intel.com with ESMTP; 24 Jan 2023 09:49:59 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 24 Jan 2023 09:49:58 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Tue, 24 Jan 2023 09:49:58 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.177)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Tue, 24 Jan 2023 09:49:57 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RS7A/JjOYwvioMT/dEBujjy4KAxdLp1f8iNkfGxmXXIXFu1k65xj08sPLgU7v0Hk3Tm5FKx2wG6gAierZCgOGK9VC4+9z4NnfKLZRo2qSaCKgTlbnFaGGlgfFIj5oCCGf9H7gxblND5nYD9F+Pp2RZRjS92P/eArdFEFDGEmP2BRvKY4ELAJeZI9BFOslo+Hrri5vZVVI8ONHUdG2qFyoErbwnWYaI7ohu0x6kw9ImeZcfxvVdrsjNyiCLIklJ0S721W3WV9wHWDIPOTKd4BnUckNxo/Hfvkkmn1FJzrdNONv/oq4Pac6YAS0nh+IIXohxRq10KD9SEME2YXoow58w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Uv0E6Q19IcN7HZAGaya1XVlB4t1UWS/PHA0fo+PSJNk=;
+ b=hjT2+PpR3UZsKLWG0pC28q963vE6D7YABpvian6fo0WsgO1uDxFgzkXA7oXGTTCTrj1EIGue4H0y7cJDqdPhxeb1UiVIUZVGbV9LsBYhm/G3ZAnNV8DDVYfiDBm+kiK73r1NKJ5WZdIw5f1J9g5YTYurC5H7l23yYF3WjONXIjwZU+wb7lt6hyWwgv4eDxl1NmAZHiKa83pbbjuSSa7QJ63UEIQC/oqzk9ChRVOXeKThRv/wLOeXpIJPpuweNvcyNXlfNQFubTJ2p07o/0rWB93zb1WeAMhm5cmmO4xLSKMUfJ0PBwMyLkickTkGtu3j1A61KKBxe1raWiw5XdJqJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
+ by MW4PR11MB5821.namprd11.prod.outlook.com (2603:10b6:303:184::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.27; Tue, 24 Jan
+ 2023 17:49:55 +0000
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::3ff6:ca60:f9fe:6934]) by DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::3ff6:ca60:f9fe:6934%3]) with mapi id 15.20.6002.033; Tue, 24 Jan 2023
+ 17:49:55 +0000
+Message-ID: <a16382e3-b66f-0a57-2482-72afd00cdabe@intel.com>
+Date:   Tue, 24 Jan 2023 18:49:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH net-next v4 5/8] net: fou: regenerate the uAPI from the
+ spec
+Content-Language: en-US
+To:     Jakub Kicinski <kuba@kernel.org>
+CC:     <davem@davemloft.net>, <netdev@vger.kernel.org>,
+        <edumazet@google.com>, <pabeni@redhat.com>, <robh@kernel.org>,
+        <johannes@sipsolutions.net>, <stephen@networkplumber.org>,
+        <ecree.xilinx@gmail.com>, <sdf@google.com>, <f.fainelli@gmail.com>,
+        <fw@strlen.de>, <linux-doc@vger.kernel.org>, <razor@blackwall.org>,
+        <nicolas.dichtel@6wind.com>
+References: <20230120175041.342573-1-kuba@kernel.org>
+ <20230120175041.342573-6-kuba@kernel.org>
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+In-Reply-To: <20230120175041.342573-6-kuba@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0141.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9e::20) To DM6PR11MB3625.namprd11.prod.outlook.com
+ (2603:10b6:5:13a::21)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3625:EE_|MW4PR11MB5821:EE_
+X-MS-Office365-Filtering-Correlation-Id: 21c9d734-8fda-4b6c-4d39-08dafe3366fc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lQUSUGq5dAjtjoZbpNJIxUJwR0pODEce4TH7iGnNtbJMZVmjySZuy9Mom/5Oppn7C+PhZ8rVJpsbbMMugOfe0zuTN2OKctmq6Hc29UU/DgYZ5Av4L2TQ195ij6qgWBjGGMNrlVCijTY9F9T0XJvuv2CaIkX86JQmTJNC/ipMroCWjQiui4AKm01WKZ8x5/u/SJr6lF6+OnBgoKCw9yh31gy8awsaKExxayu3A/o2RXkgScBeHDoZFKcYkG88MSF3v+mD76cRXbsFZfkbzuSr/O3/weSd8eWhF5qPp4B7c+/tz2hgfZM+F27FJjfPQ6Yq0gYXmek1Kcuv++VRelAuNBw7Sz0+h5KqQWPn3WnzpT9sPqmGpqOKCOOQo2vodof67cMY39dZIBFwX4yfpXRrngF8ach8NWXJAlH6aWGrK2NHGKr4DJMiQdIaTP3L4968Lz1p8B8riDBWzd7Z2IhbZ6eWgRjTuUgzCFfpiMoKUkOMHB3Cemw5YUdcCcmPc8BAtkmn8PiP4X9xfJA5CXQbts2L0YKOAb6n0Y/atDmieatwXUNPKhajYN5fHVIpLCZAFgtNXB+jSAHfY1trLzTVoDbqiSypWkMEfH3urZPUNscsLIgN54NZeP2Fy4fDkc35eovaeYKRlXABtpKOwGOFTo9IjoyZlenaARCbOq36c7613Eu0uN1bciHm+RmDFcAb1uAYCXJXcm8kw2SokbIz3BdY4aVz28Z5ozX+Ikt0Im8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3625.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(366004)(376002)(39860400002)(346002)(396003)(451199015)(5660300002)(31686004)(8936002)(4326008)(4744005)(7416002)(66476007)(8676002)(66556008)(66946007)(6916009)(38100700002)(31696002)(478600001)(6512007)(26005)(186003)(6666004)(2906002)(6486002)(316002)(36756003)(2616005)(6506007)(83380400001)(82960400001)(41300700001)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U0Z5Rko5S3d6ekc2TUIwSkVLQ3FnZVBPcjhmS0dUTERqd29NQTRJRVBjZTRT?=
+ =?utf-8?B?VGpZRkpLQllrWGRkc01yMGhESVRuR1FQQ01VTW4zd0dyOHUzc1FZUWNPc2o5?=
+ =?utf-8?B?RGJpa05YRTNZMXEyTDVqeCtWbzVBUTFMbWFTUkwvdW04eVd1NS9Ma2RSY2lU?=
+ =?utf-8?B?a0lWVmVqTGVRU205WWZDOEZMcDQwZHdSU2RLT2ZuRWk2bXdwazhwVFRKb0t3?=
+ =?utf-8?B?MHhZcVkwRFV0REF5blQrOGhXZXZuV1JOQk1QL1gySnk3Z1hBM1V5bTh2VmZJ?=
+ =?utf-8?B?NmJmTXBUK1ZpbURzRHN1c0pXbERPR3kyekc3UlJ6aVhydldqMVpNek0reDVY?=
+ =?utf-8?B?UE5oQk1WZHUxSkV3MTVZeDc5djlMbTRHbUVBMzNTMUI5WVR2YnZpeXU3b3NR?=
+ =?utf-8?B?VTZsN1BJL2ozWU16OXEyRlBoSllCZmNxSE4zdktsSHlHcGlEUFJmRnFqOHdt?=
+ =?utf-8?B?RUhGT0VFa0FtRzFWYklKWkpoaitQSi9QTzFrV0o4QlVOaGgyWjRUZ0lPTXdJ?=
+ =?utf-8?B?K2Nyay9BeitBbVlUcjN3WGRhclRpNnJaVEJ5TG5sU3U4dk5wTnBUdUhMcU14?=
+ =?utf-8?B?N1FsNFg2MTBUUHBsdURaMTdrT3FidEZpZUxobEM4NCtSL0xkbVVWU1U4VUFx?=
+ =?utf-8?B?eEhENlRnbWZLeUQyYWZFMTREYWZjbWs4VXhYTlVIdkhrdWwxbGNDdXNHRGcr?=
+ =?utf-8?B?TDhibWdPT0t4SU9xZjMyZmhsdkdOMHo1Y3pjT3dnQWJwYzlzRE9ic0s4RFM5?=
+ =?utf-8?B?NFo2RXRmbWNOcVhkbTJkYndXVjQ5RHhPaUd6cHcwNnZGWnNtVWk3dy9sV0Nh?=
+ =?utf-8?B?UmdMeXllSmdjUUU4elB4aGtFRzJMbWN1L1FJUzF5M2RiN1VCdldYbkxWSXRu?=
+ =?utf-8?B?SnozazFNNEtoN1Q0aDYrdFM2TkpscEt6blU0MlJJWEIyaVNaRC9zUGFYMEw1?=
+ =?utf-8?B?cGRMSEZUWnFPYm9tVDFYcnI4YkFxWUtkeWhGQ0MzUGhLeXpJWmRHaDBtV3NJ?=
+ =?utf-8?B?c3VQUldOLzdVZlR3YlhkM3BTSUtZTGRIczF0STZOUXZTMDZoR2JLcTRzQktD?=
+ =?utf-8?B?WDFKbzNYUDJUTXZhSUcvb1B6TnV2TjdUY1E2SXF2aXBEL0lacFNteld2QU9v?=
+ =?utf-8?B?S05udUM2WVAvYmQxa2xmRi9xNUJVLzZoa05SNUU5Sk51OEpDMnhmQlQrY0hF?=
+ =?utf-8?B?VTFobDRPZ1N6ZndtUkxia2lsdHJiNThDMzRERnhzdFlPOHpMekE2My9RcHdK?=
+ =?utf-8?B?cGJ5L2pxUFF2amExS0dmczQ0blpYSE1nSzJGMy93Z2xhVVZLcm00RUZHSVNz?=
+ =?utf-8?B?a09teWIwRCtjM0ljelNzdHN2YzFDWHh4emhTYmZKQmhlREpEWGxTcXZ5RXJw?=
+ =?utf-8?B?YkFBSXJ2cTFXVC9qa0ovZEJIcnh3MEo1akRwVE1ROFNQNFN0SlpQNndHMDQ0?=
+ =?utf-8?B?SHBpRWZDTmZkUmgwaEl0SU5HY0NQb1RVVWd6VUxJZDhaSVlNTDF6UTZFN2VE?=
+ =?utf-8?B?cmFVR3IxU2FieWhQQ2dLdFZBYy9zOTRjVnRTaHZ1YkdHMTB5R2Q1MDFKNjZO?=
+ =?utf-8?B?N0s2eG5iWkhzVUIyYVoyZVVQU0V6L0duRHVlaDdnR29Pdjd2VitQN0ppRmNn?=
+ =?utf-8?B?QWp6T2JQYU1ic25VQ3BTWFBOck8xdzNGNTZ0KzREZUtJSjdKdjVlbXpwMFo1?=
+ =?utf-8?B?d05GeVZzZXUyRk4rRHhmRWJmNm9CMm81ZnRNbk9MbTVjVi9RWEhOdGYvQU9N?=
+ =?utf-8?B?V3RtWGRxdEV4NWN4TTlhZ1E0QVVaQ0FrdmJwTmZRS3hCYkhwdTNOUlo3alhp?=
+ =?utf-8?B?dHFEaysweEpwRmdvb1k2ejZYMm5jQ2t1QVd6OFNaUlZNczFNa0gwaE15V1dq?=
+ =?utf-8?B?Y1A5SVBhRnFpL0NMYS9CVGo1ejFKRXJYZVJvSVN3eWZqdjN0ZVJLTDYrSVdY?=
+ =?utf-8?B?MVcxWVZPZ3ZWVFNxQndmZ2Vnd3JFN2g5QURyK0NPNjNpbzRQLzh0UXhQbExY?=
+ =?utf-8?B?Z1BVNGovb2xLYzNSdStLN3lObjc5SE1qcjM1eXhLRFRZcUxKMlBvK2JrOWhy?=
+ =?utf-8?B?Rk51Q2tOaEJtY3VWTWZ6NVV6d3ExeG1KckJ6eGpvcEltNVRGdzRpS1NhRUVx?=
+ =?utf-8?B?N3c5eHRZUDNKMko3cFlLekw3R0g2QUpwajVSNk4xcWFLWkxkRFdpNEx2K2FP?=
+ =?utf-8?B?Wmc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21c9d734-8fda-4b6c-4d39-08dafe3366fc
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3625.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2023 17:49:55.3600
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8Z1ruRwIBbjVt6PACSq5WFupfYWsUVYU1nFd8kICz9LJqi7ewm3H8HPh7ef0vvNaHm/uT+G09DmJK5xLPK62l9bslb6QMkQn5yPchcfboi4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB5821
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Jakub Kicinski <kuba@kernel.org>
+Date: Fri, 20 Jan 2023 09:50:38 -0800
 
-David Hildenbrand <david@redhat.com> writes:
+> Regenerate the FOU uAPI header from the YAML spec.
+> 
+> The flags now come before attributes which use them,
+> and the comments for type disappear (coders should look
+> at the spec instead).
 
-> On 23.01.23 18:37, Stefan Roesch wrote:
->> So far KSM can only be enabled by calling madvise for memory regions. What is
->> required to enable KSM for more workloads is to enable / disable it at the
->> process / cgroup level.
->
-> Did you stumble over the proposals from last year to enable this per-process [1]
-> and system-wide [2]? I remember there was also regarding enabling it
-> system-wide.
->
-I saw the earlier proposals. Enabling it at the system level doesn't
-seem to be the right choice. You generally want to enable it at a more
-fine-grained level. Therefore this enables it at the process level with
-prctl.
+Sorry I missed the whole history of this topic. Wanted to ask: if we can
+generate these headers and even C files, why ship the generated with the
+source code and not generate them during building? Or it's slow and/or
+requires some software etc.?
 
-> I'm going to point out the security aspect, and that e.g., Windows used to
-> enable it system-wide before getting taught by security experts otherwise.
-> Details on KSM and security aspects can be found in that thread.
->
-If I'm not mistaken the security aspect exists today. When KSM is
-enabled with madvise this is the same.
+> 
+> Acked-by: Stanislav Fomichev <sdf@google.com>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+>  include/uapi/linux/fou.h | 54 +++++++++++++++++++---------------------
+>  1 file changed, 26 insertions(+), 28 deletions(-)
 
-> Long story short: one has to be very careful with that and only enable it for
-> very carefully selected worklads. Letting a workload opt-in on a VMA level is
-> most probably safer than an admin blindly turning this on for random processes
-> ...
->
-Thats why this is enabled with prctl. Its a deliberate choice to enable
-it for a process.
+[...]
 
-> Last attempts got nacked ...
->
-> [1] https://lore.kernel.org/all/20220517092701.1662641-1-xu.xin16@zte.com.cn/
-> [2] https://lore.kernel.org/all/20220609055658.703472-1-xu.xin16@zte.com.cn/
->
-My understanding is that there were problems with the patch and how it
-exposed KSM. The other objection was the enable-all configuration
-option.
+> -#define FOU_CMD_MAX	(__FOU_CMD_MAX - 1)
+> +#define FOU_CMD_MAX (__FOU_CMD_MAX - 1)
+>  
+>  #endif /* _UAPI_LINUX_FOU_H */
 
->> 1. New options for prctl system command
->> This patch series adds two new options to the prctl system call. The first
->> one allows to enable KSM at the process level and the second one to query the
->> setting.
->> The setting will be inherited by child processes.
->> With the above setting, KSM can be enabled for the seed process of a cgroup
->> and all processes in the cgroup will inherit the setting.
->> 2. Changes to KSM processing
->> When KSM is enabled at the process level, the KSM code will iterate over all
->> the VMA's and enable KSM for the eligible VMA's.
->> When forking a process that has KSM enabled, the setting will be inherited by
->> the new child process.
->> In addition when KSM is disabled for a process, KSM will be disabled for the
->> VMA's where KSM has been enabled.
->> 3. Add tracepoints to KSM
->> Currently KSM has no tracepoints. This adds tracepoints to the key KSM functions
->> to make it easier to debug KSM.
->> 4. Add general_profit metric
->> The general_profit metric of KSM is specified in the documentation, but not
->> calculated. This adds the general profit metric to /sys/kernel/debug/mm/ksm.
->> 5. Add more metrics to ksm_stat
->> This adds the process profit and ksm type metric to /proc/<pid>/ksm_stat.
->> 6. Add more tests to ksm_tests
->> This adds an option to specify the merge type to the ksm_tests. This allows to
->> test madvise and prctl KSM. It also adds a new option to query if prctl KSM has
->> been enabled. It adds a fork test to verify that the KSM process setting is
->> inherited by client processes.
->> Stefan Roesch (20):
->>    mm: add new flag to enable ksm per process
->>    mm: add flag to __ksm_enter
->>    mm: add flag to __ksm_exit call
->>    mm: invoke madvise for all vmas in scan_get_next_rmap_item
->>    mm: support disabling of ksm for a process
->>    mm: add new prctl option to get and set ksm for a process
->>    mm: add tracepoints to ksm
->>    mm: split off pages_volatile function
->>    mm: expose general_profit metric
->>    docs: document general_profit sysfs knob
->>    mm: calculate ksm process profit metric
->>    mm: add ksm_merge_type() function
->>    mm: expose ksm process profit metric in ksm_stat
->>    mm: expose ksm merge type in ksm_stat
->>    docs: document new procfs ksm knobs
->>    tools: add new prctl flags to prctl in tools dir
->>    selftests/vm: add KSM prctl merge test
->>    selftests/vm: add KSM get merge type test
->>    selftests/vm: add KSM fork test
->>    selftests/vm: add two functions for debugging merge outcome
->>   Documentation/ABI/testing/sysfs-kernel-mm-ksm |   8 +
->>   Documentation/admin-guide/mm/ksm.rst          |   8 +-
->>   MAINTAINERS                                   |   1 +
->>   fs/proc/base.c                                |   5 +
->>   include/linux/ksm.h                           |  19 +-
->>   include/linux/sched/coredump.h                |   1 +
->>   include/trace/events/ksm.h                    | 257 ++++++++++++++++++
->>   include/uapi/linux/prctl.h                    |   2 +
->>   kernel/sys.c                                  |  29 ++
->>   mm/ksm.c                                      | 134 ++++++++-
->>   tools/include/uapi/linux/prctl.h              |   2 +
->>   tools/testing/selftests/vm/Makefile           |   3 +-
->>   tools/testing/selftests/vm/ksm_tests.c        | 254 ++++++++++++++---
->>   13 files changed, 665 insertions(+), 58 deletions(-)
->>   create mode 100644 include/trace/events/ksm.h
->> base-commit: c1649ec55708ae42091a2f1bca1ab49ecd722d55
+Thanks,
+Olek
