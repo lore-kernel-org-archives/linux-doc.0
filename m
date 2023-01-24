@@ -2,245 +2,249 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42473C25B4E
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 08:01:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37B02C54EB4
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 08:25:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232793AbjAXIBf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 03:01:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37326 "EHLO
+        id S229753AbjAXIZf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 03:25:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232964AbjAXIBd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 03:01:33 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 050543EFD3;
-        Tue, 24 Jan 2023 00:01:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674547279; x=1706083279;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xc2SUtCeobW/ezSFCjJCHss3YwaPNlCk6liXkETTUwY=;
-  b=OO0JqQXWHbSHmDqsl3FAklPyf3Dz00YxD5nI5Qj6p9+6emyM/twBpzKD
-   CFWohiEqUOF0Sg4xFFHA3lDdaZTWSDQmQg+aRWtGPWq5u8aCSXIG6rSL5
-   u/vu+DDtRNiBeqT5UgSkai2cbaqzW7QNd8kcrtJKtpi+PgwhR/zwysROF
-   BIRPpW8elZ8tErORh8XuCi93RX3cBStioeSRW8L/kOVooCHN5T6wHyT38
-   4sM8GET3S8AeKOze4t6QVfyhPx2HlO8JP96cBEcyydkcfvQyl0WDbplc5
-   7GhotkHwThmHMaF1/KdPjK7f1N0Ku2xlkXPw/k8nKIIHmFPmBoVykIkEo
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="324920715"
-X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="324920715"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 00:00:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="692510306"
-X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
-   d="scan'208";a="692510306"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 24 Jan 2023 00:00:46 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pKEEX-0006Fs-1k;
-        Tue, 24 Jan 2023 08:00:45 +0000
-Date:   Tue, 24 Jan 2023 15:59:55 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Leon Romanovsky <leon@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Steffen Klassert <steffen.klassert@secunet.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>, oss-drivers@corigine.com,
-        linux-doc@vger.kernel.org, Raju Rangoju <rajur@chelsio.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org,
-        Ayush Sawal <ayush.sawal@chelsio.com>,
-        Simon Horman <simon.horman@corigine.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Andy Gospodarek <andy@greyhouse.net>
-Subject: Re: [Intel-wired-lan] [PATCH net-next 04/10] net/mlx5e: Fill IPsec
- state validation failure reason
-Message-ID: <202301241552.GWkgnAH7-lkp@intel.com>
-References: <a5426033528ccef6e0e71fe06b55ae56c5596e85.1674481435.git.leon@kernel.org>
+        with ESMTP id S232832AbjAXIZe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 03:25:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1708A62
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 00:25:32 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 14450B810E2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 08:25:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7F70C433A7
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 08:25:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674548729;
+        bh=d3hd/qjnj5/ariY+QFAVEgRiRwaFb6UIIwLnXE/W1rU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QVJmmAmE1sbJeq0OlxM4myQveslGjrsfGHvJSBAagwzcRlOvDa21DWySUHSogJeJF
+         OY6KzRSJx1lc0iQ4bDEKv1VhK/tHXCFIIGs9urGCii3OeD/mH/uKxTCWzijKLqQuD7
+         ITQ1M8qAPn15YXWD5qpuaa4ilqoFQzY3cuwtrx0y0cK3l/ssyoWpGNNK4SXb65V68+
+         GNDR3Q/cJlbGCpXO0THshO3p/X/p9cApbxSsKBwjBdiGMfN6nTAhYE6X+RWwMDBtPG
+         Ye4ctCPCkM78PwNj/Nk9R8t3Roy8df7Wb2Yy9Mj3Wjg8e1vmEhCyUOm5P5Hhb8GZmC
+         9ecR2BiZPPtsA==
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-4a263c4ddbaso208266597b3.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 00:25:29 -0800 (PST)
+X-Gm-Message-State: AFqh2koDXNgLAqS0eZWEEXFJ7P9Ot7wJmFVKX+i3BG/CblUOrc1GSWk2
+        L8ttlEfSAKpfnB9CyaTH3Mc1JJSckJHGTKfO2CI=
+X-Google-Smtp-Source: AMrXdXsbVrThOokHM+ctecycU8cIB7xqX3oeesE7Nt5k8lcU1Hezck4pxiopmgjZi3viCG1A1VCv8XooMrbE5yovk6Y=
+X-Received: by 2002:a81:a146:0:b0:4ed:916b:d3e4 with SMTP id
+ y67-20020a81a146000000b004ed916bd3e4mr3361908ywg.487.1674548728739; Tue, 24
+ Jan 2023 00:25:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a5426033528ccef6e0e71fe06b55ae56c5596e85.1674481435.git.leon@kernel.org>
+References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com> <105c2c1c-bce7-637d-9d25-a58e68bbbbab@suse.de>
+In-Reply-To: <105c2c1c-bce7-637d-9d25-a58e68bbbbab@suse.de>
+From:   Oded Gabbay <ogabbay@kernel.org>
+Date:   Tue, 24 Jan 2023 10:25:02 +0200
+X-Gmail-Original-Message-ID: <CAFCwf121TDo93nM4w-OnLB9TUoPf3XKOFCqcSjgAuW=KzjxLzQ@mail.gmail.com>
+Message-ID: <CAFCwf121TDo93nM4w-OnLB9TUoPf3XKOFCqcSjgAuW=KzjxLzQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/10] Driver of Intel(R) Gaussian & Neural Accelerator
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Olof Johansson <olof@lixom.net>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Leon,
+On Mon, Oct 24, 2022 at 2:29 PM Thomas Zimmermann <tzimmermann@suse.de> wro=
+te:
+>
+> Hi
+>
+> Am 20.10.22 um 19:53 schrieb Maciej Kwapulinski:
+> > Dear kernel maintainers,
+> >
+> > This submission is a kernel driver to support Intel(R) Gaussian & Neura=
+l
+> > Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-proce=
+ssor
+> > available on multiple Intel platforms. AI developers and users can offl=
+oad
+> > continuous inference workloads to an Intel(R) GNA device in order to fr=
+ee
+> > processor resources and save power. Noise reduction and speech recognit=
+ion
+> > are the examples of the workloads Intel(R) GNA deals with while its usa=
+ge
+> > is not limited to the two.
+> >
+> > For a list of processors equipped with Intel(R) GNA device, please refe=
+r to
+> > this link:
+> > https://docs.openvinotoolkit.org/latest/openvino_docs_IE_DG_supported_p=
+lugins_GNA.html
+> >
+> > We think contributing this driver to the upstream kernel project is the
+> > best way for developers and users to get the latest Intel(R) GNA suppor=
+t in
+> > a Linux kernel, through the mainline to any Linux distributions install=
+ed
+> > on their systems. Upstreaming also enables contribution from developers
+> > around the world to the driver once it is merged.
+> >
+> > The driver works with Intel(R) libraries in user space. The Intel(R) dr=
+iver
+> > exposes a few IOCTL interfaces for use by libraries in user space. The
+> > libraries are open sourced and are available at:
+> > https://github.com/intel/gna
+>
+> This driver appears to be a candidate for the accel subsystem that has
+> been proposed here. [1] At a minimum, you'd now get standardized file
+> names. Longterm, I'd expect dedicated helpers for accel devices.
+>
+> Best regards
+> Thomas
+>
+>
+> [1]
+> https://lore.kernel.org/dri-devel/Y1VMX9J44FJZp0dl@kroah.com/T/#m977efaeb=
+39fc5be581ae05e1dccbd896546db943
+>
+> >
+> > ---
+> >
+> > Changelogs:
+> >
+> >   v1->v2:
+> >   - driver's new layout:
+> >     - driver name: gna -> intel_gna
+> >     - module name: gna -> intel_gna
+> >     - device file name: /dev/gnaN -> /dev/intel_gnaN
+> >     - driver's source directory: drivers/misc/gna/ -> drivers/misc/inte=
+l/gna/
+> >     - UAPI: include/uapi/misc/gna.h -> include/uapi/misc/intel/gna.h
+> >     - DOC: Documentation/misc-devices/gna.rst ->
+> >         Documentation/misc-devices/intel/gna.rst
+> >   - 'MISC' device framework used
+> >   - fixes throughout GNA device's PCI management
+> >   - header files' includes and forward declarations cleanup
+> >   - ISR made static
+> >   - unused comments cleanup
+> >   - "_priv_" segment removed from function names
+> >   - tested: v5.11-rc3 -> v5.11
+> >   - number of other/minor fixes
+> >
+> >   v2->v3:
+> >   - PCI glue driver part split.
+> >   - GNA probe fail path made fully implicit.
+> >   - 'recovery_timeout' module parameter present under 'CONFIG_DEBUG_INT=
+EL_GNA' flag only.
+> >   - build for X86_32 enabled.
+> >   - module initialization through 'module_pci_driver()'.
+> >   - gna_priv->file_list cleanup.
+> >   - 'gna_' prefix removed from source files' names.
+> >   - power management handling added.
+> >   - number of other/minor fixes
+> >   - tests performed on kernel v5.12
+> >
+> >   v3->v4:
+> >   - GNA driver adapted to DRM framework (+userspace GNA library adapted=
+ to use the driver)
+> >     - drm_managed (drmm) feature is used for objects lifetime managemen=
+t
+> >     - GNA memory objects use ~drm_gem_shmem_object~ objects as a base
+> >   - patches reorganized to meet symbols' usage with their declarations/=
+definitions
+> >   - 'recovery_timeout' module parameter removed
+> >   - number of other/minor fixes from v3 review
+> >   - tests performed on kernel v6.0
+> >
+> >   v4->v5:
+> >   - indentation fixed in drivers/gpu/drm/gna/Kconfig
+> >
+> > Maciej Kwapulinski (4):
+> >    gna: add PCI driver module
+> >    gna: add GNA DRM device
+> >    gna: add GNA_GEM_NEW and GNA_GEM_FREE ioctls
+> >    gna: add power management
+> >
+> > Tomasz Jankowski (6):
+> >    gna: read hardware info
+> >    gna: initialize MMU
+> >    gna: add GNA_GET_PARAMETER ioctl
+> >    gna: add GNA_COMPUTE ioctl
+> >    gna: add GNA_WAIT ioctl
+> >    gna: add open and close operations on GNA device
+> >
+> >   Documentation/gpu/drivers.rst     |   1 +
+> >   Documentation/gpu/gna.rst         |  64 +++++
+> >   MAINTAINERS                       |   7 +
+> >   drivers/gpu/drm/Kconfig           |   2 +
+> >   drivers/gpu/drm/Makefile          |   1 +
+> >   drivers/gpu/drm/gna/Kbuild        |   5 +
+> >   drivers/gpu/drm/gna/Kconfig       |  15 +
+> >   drivers/gpu/drm/gna/gna_device.c  | 317 +++++++++++++++++++++
+> >   drivers/gpu/drm/gna/gna_device.h  | 114 ++++++++
+> >   drivers/gpu/drm/gna/gna_gem.h     |  22 ++
+> >   drivers/gpu/drm/gna/gna_hw.c      | 110 ++++++++
+> >   drivers/gpu/drm/gna/gna_hw.h      | 107 ++++++++
+> >   drivers/gpu/drm/gna/gna_ioctl.c   | 208 ++++++++++++++
+> >   drivers/gpu/drm/gna/gna_mem.c     | 249 +++++++++++++++++
+> >   drivers/gpu/drm/gna/gna_mem.h     |  58 ++++
+> >   drivers/gpu/drm/gna/gna_pci.c     | 148 ++++++++++
+> >   drivers/gpu/drm/gna/gna_pci.h     |  12 +
+> >   drivers/gpu/drm/gna/gna_request.c | 441 +++++++++++++++++++++++++++++=
++
+> >   drivers/gpu/drm/gna/gna_request.h |  64 +++++
+> >   drivers/gpu/drm/gna/gna_score.c   | 222 +++++++++++++++
+> >   drivers/gpu/drm/gna/gna_score.h   |  11 +
+> >   include/uapi/drm/gna_drm.h        | 169 ++++++++++++
+> >   22 files changed, 2347 insertions(+)
+> >   create mode 100644 Documentation/gpu/gna.rst
+> >   create mode 100644 drivers/gpu/drm/gna/Kbuild
+> >   create mode 100644 drivers/gpu/drm/gna/Kconfig
+> >   create mode 100644 drivers/gpu/drm/gna/gna_device.c
+> >   create mode 100644 drivers/gpu/drm/gna/gna_device.h
+> >   create mode 100644 drivers/gpu/drm/gna/gna_gem.h
+> >   create mode 100644 drivers/gpu/drm/gna/gna_hw.c
+> >   create mode 100644 drivers/gpu/drm/gna/gna_hw.h
+> >   create mode 100644 drivers/gpu/drm/gna/gna_ioctl.c
+> >   create mode 100644 drivers/gpu/drm/gna/gna_mem.c
+> >   create mode 100644 drivers/gpu/drm/gna/gna_mem.h
+> >   create mode 100644 drivers/gpu/drm/gna/gna_pci.c
+> >   create mode 100644 drivers/gpu/drm/gna/gna_pci.h
+> >   create mode 100644 drivers/gpu/drm/gna/gna_request.c
+> >   create mode 100644 drivers/gpu/drm/gna/gna_request.h
+> >   create mode 100644 drivers/gpu/drm/gna/gna_score.c
+> >   create mode 100644 drivers/gpu/drm/gna/gna_score.h
+> >   create mode 100644 include/uapi/drm/gna_drm.h
+> >
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
 
-I love your patch! Yet something to improve:
+Hi Maciej,
+I just wanted to touch base with you about gna, asking whether you are
+going (or maybe started) to port the gna to the accel subsystem ?
+fyi, ivpu driver was just merged to the accel subsystem, so we already have=
+ our
+first driver tested & merged.
 
-[auto build test ERROR on net-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Romanovsky/xfrm-extend-add-policy-callback-to-set-failure-reason/20230123-220422
-patch link:    https://lore.kernel.org/r/a5426033528ccef6e0e71fe06b55ae56c5596e85.1674481435.git.leon%40kernel.org
-patch subject: [Intel-wired-lan] [PATCH net-next 04/10] net/mlx5e: Fill IPsec state validation failure reason
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20230124/202301241552.GWkgnAH7-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/bd6a3bcc8978f551f83f85b9c18d199c71c29d7c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Leon-Romanovsky/xfrm-extend-add-policy-callback-to-set-failure-reason/20230123-220422
-        git checkout bd6a3bcc8978f551f83f85b9c18d199c71c29d7c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/ drivers/net/ethernet/mellanox/mlx5/core/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c:276:22: error: use of undeclared identifier 'extackx'; did you mean 'extack'?
-                   NL_SET_ERR_MSG_MOD(extackx, "Unsupported xfrm offload type");
-                                      ^~~~~~~
-                                      extack
-   include/linux/netlink.h:128:18: note: expanded from macro 'NL_SET_ERR_MSG_MOD'
-           NL_SET_ERR_MSG((extack), KBUILD_MODNAME ": " msg)
-                           ^
-   include/linux/netlink.h:100:38: note: expanded from macro 'NL_SET_ERR_MSG'
-           struct netlink_ext_ack *__extack = (extack);    \
-                                               ^
-   drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c:167:34: note: 'extack' declared here
-                                        struct netlink_ext_ack *extack)
-                                                                ^
-   1 error generated.
-
-
-vim +276 drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c
-
-   164	
-   165	static int mlx5e_xfrm_validate_state(struct mlx5_core_dev *mdev,
-   166					     struct xfrm_state *x,
-   167					     struct netlink_ext_ack *extack)
-   168	{
-   169		if (x->props.aalgo != SADB_AALG_NONE) {
-   170			NL_SET_ERR_MSG_MOD(extack, "Cannot offload authenticated xfrm states");
-   171			return -EINVAL;
-   172		}
-   173		if (x->props.ealgo != SADB_X_EALG_AES_GCM_ICV16) {
-   174			NL_SET_ERR_MSG_MOD(extack, "Only AES-GCM-ICV16 xfrm state may be offloaded");
-   175			return -EINVAL;
-   176		}
-   177		if (x->props.calgo != SADB_X_CALG_NONE) {
-   178			NL_SET_ERR_MSG_MOD(extack, "Cannot offload compressed xfrm states");
-   179			return -EINVAL;
-   180		}
-   181		if (x->props.flags & XFRM_STATE_ESN &&
-   182		    !(mlx5_ipsec_device_caps(mdev) & MLX5_IPSEC_CAP_ESN)) {
-   183			NL_SET_ERR_MSG_MOD(extack, "Cannot offload ESN xfrm states");
-   184			return -EINVAL;
-   185		}
-   186		if (x->props.family != AF_INET &&
-   187		    x->props.family != AF_INET6) {
-   188			NL_SET_ERR_MSG_MOD(extack, "Only IPv4/6 xfrm states may be offloaded");
-   189			return -EINVAL;
-   190		}
-   191		if (x->id.proto != IPPROTO_ESP) {
-   192			NL_SET_ERR_MSG_MOD(extack, "Only ESP xfrm state may be offloaded");
-   193			return -EINVAL;
-   194		}
-   195		if (x->encap) {
-   196			NL_SET_ERR_MSG_MOD(extack, "Encapsulated xfrm state may not be offloaded");
-   197			return -EINVAL;
-   198		}
-   199		if (!x->aead) {
-   200			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states without aead");
-   201			return -EINVAL;
-   202		}
-   203		if (x->aead->alg_icv_len != 128) {
-   204			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with AEAD ICV length other than 128bit");
-   205			return -EINVAL;
-   206		}
-   207		if ((x->aead->alg_key_len != 128 + 32) &&
-   208		    (x->aead->alg_key_len != 256 + 32)) {
-   209			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with AEAD key length other than 128/256 bit");
-   210			return -EINVAL;
-   211		}
-   212		if (x->tfcpad) {
-   213			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with tfc padding");
-   214			return -EINVAL;
-   215		}
-   216		if (!x->geniv) {
-   217			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states without geniv");
-   218			return -EINVAL;
-   219		}
-   220		if (strcmp(x->geniv, "seqiv")) {
-   221			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with geniv other than seqiv");
-   222			return -EINVAL;
-   223		}
-   224		switch (x->xso.type) {
-   225		case XFRM_DEV_OFFLOAD_CRYPTO:
-   226			if (!(mlx5_ipsec_device_caps(mdev) & MLX5_IPSEC_CAP_CRYPTO)) {
-   227				NL_SET_ERR_MSG_MOD(extack, "Crypto offload is not supported");
-   228				return -EINVAL;
-   229			}
-   230	
-   231			if (x->props.mode != XFRM_MODE_TRANSPORT &&
-   232			    x->props.mode != XFRM_MODE_TUNNEL) {
-   233				NL_SET_ERR_MSG_MOD(extack, "Only transport and tunnel xfrm states may be offloaded");
-   234				return -EINVAL;
-   235			}
-   236			break;
-   237		case XFRM_DEV_OFFLOAD_PACKET:
-   238			if (!(mlx5_ipsec_device_caps(mdev) &
-   239			      MLX5_IPSEC_CAP_PACKET_OFFLOAD)) {
-   240				NL_SET_ERR_MSG_MOD(extack, "Packet offload is not supported");
-   241				return -EINVAL;
-   242			}
-   243	
-   244			if (x->props.mode != XFRM_MODE_TRANSPORT) {
-   245				NL_SET_ERR_MSG_MOD(extack, "Only transport xfrm states may be offloaded in packet mode");
-   246				return -EINVAL;
-   247			}
-   248	
-   249			if (x->replay_esn && x->replay_esn->replay_window != 32 &&
-   250			    x->replay_esn->replay_window != 64 &&
-   251			    x->replay_esn->replay_window != 128 &&
-   252			    x->replay_esn->replay_window != 256) {
-   253				NL_SET_ERR_MSG_MOD(extack, "Unsupported replay window size");
-   254				return -EINVAL;
-   255			}
-   256	
-   257			if (!x->props.reqid) {
-   258				NL_SET_ERR_MSG_MOD(extack, "Cannot offload without reqid");
-   259				return -EINVAL;
-   260			}
-   261	
-   262			if (x->lft.hard_byte_limit != XFRM_INF ||
-   263			    x->lft.soft_byte_limit != XFRM_INF) {
-   264				NL_SET_ERR_MSG_MOD(extack, "Device doesn't support limits in bytes");
-   265				return -EINVAL;
-   266			}
-   267	
-   268			if (x->lft.soft_packet_limit >= x->lft.hard_packet_limit &&
-   269			    x->lft.hard_packet_limit != XFRM_INF) {
-   270				/* XFRM stack doesn't prevent such configuration :(. */
-   271				NL_SET_ERR_MSG_MOD(extack, "Hard packet limit must be greater than soft one");
-   272				return -EINVAL;
-   273			}
-   274			break;
-   275		default:
- > 276			NL_SET_ERR_MSG_MOD(extackx, "Unsupported xfrm offload type");
-   277			return -EINVAL;
-   278		}
-   279		return 0;
-   280	}
-   281	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks,
+Oded
