@@ -2,204 +2,245 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44C5EC54EB4
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 07:53:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42473C25B4E
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 08:01:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232422AbjAXHxl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 02:53:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33876 "EHLO
+        id S232793AbjAXIBf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 03:01:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231749AbjAXHxk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 02:53:40 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB23844A9;
-        Mon, 23 Jan 2023 23:53:38 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id E57DA1F889;
-        Tue, 24 Jan 2023 07:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1674546816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ruXNUJNdlgxTcKpGQIIryFyEkOXceoGZmlzFPRxeoas=;
-        b=KBZy/6rf1TQ67g44L7GTiJ8oSbfhPfVBczpwAWnzfsUxhfC2iuCIk6qk9LBZzqbdqHS9ij
-        Xo/ephBOmafeSayjs7c5/FPCJUSd2Msf8a1NMzxX8FC7m33OJCMAr4kwrcZhMcXrY5NeLZ
-        PTRszq6e6uAR3JoT+NAAk5grhZN/cnk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1674546816;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ruXNUJNdlgxTcKpGQIIryFyEkOXceoGZmlzFPRxeoas=;
-        b=5qR8OroDRbnLzHCA3YaBwq02hXFJllZS99kT3/fzfEAfh1RBI9ipdG1fjVOHFRLXyqtRUK
-        okE5lPcauQAR8tCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CA32C139FB;
-        Tue, 24 Jan 2023 07:53:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id E4c3MH+Oz2OlHgAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Tue, 24 Jan 2023 07:53:35 +0000
-Message-ID: <8ac234a3-9dc3-3ebf-309a-b4a6bcb72d2d@suse.cz>
-Date:   Tue, 24 Jan 2023 08:51:43 +0100
+        with ESMTP id S232964AbjAXIBd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 03:01:33 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 050543EFD3;
+        Tue, 24 Jan 2023 00:01:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674547279; x=1706083279;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xc2SUtCeobW/ezSFCjJCHss3YwaPNlCk6liXkETTUwY=;
+  b=OO0JqQXWHbSHmDqsl3FAklPyf3Dz00YxD5nI5Qj6p9+6emyM/twBpzKD
+   CFWohiEqUOF0Sg4xFFHA3lDdaZTWSDQmQg+aRWtGPWq5u8aCSXIG6rSL5
+   u/vu+DDtRNiBeqT5UgSkai2cbaqzW7QNd8kcrtJKtpi+PgwhR/zwysROF
+   BIRPpW8elZ8tErORh8XuCi93RX3cBStioeSRW8L/kOVooCHN5T6wHyT38
+   4sM8GET3S8AeKOze4t6QVfyhPx2HlO8JP96cBEcyydkcfvQyl0WDbplc5
+   7GhotkHwThmHMaF1/KdPjK7f1N0Ku2xlkXPw/k8nKIIHmFPmBoVykIkEo
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="324920715"
+X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
+   d="scan'208";a="324920715"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 00:00:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="692510306"
+X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
+   d="scan'208";a="692510306"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 24 Jan 2023 00:00:46 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pKEEX-0006Fs-1k;
+        Tue, 24 Jan 2023 08:00:45 +0000
+Date:   Tue, 24 Jan 2023 15:59:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Leon Romanovsky <leon@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Steffen Klassert <steffen.klassert@secunet.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>, oss-drivers@corigine.com,
+        linux-doc@vger.kernel.org, Raju Rangoju <rajur@chelsio.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Andy Gospodarek <andy@greyhouse.net>
+Subject: Re: [Intel-wired-lan] [PATCH net-next 04/10] net/mlx5e: Fill IPsec
+ state validation failure reason
+Message-ID: <202301241552.GWkgnAH7-lkp@intel.com>
+References: <a5426033528ccef6e0e71fe06b55ae56c5596e85.1674481435.git.leon@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Content-Language: en-US
-To:     Sean Christopherson <seanjc@google.com>,
-        "Huang, Kai" <kai.huang@intel.com>
-Cc:     "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "jmattson@google.com" <jmattson@google.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "ak@linux.intel.com" <ak@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Hocko, Michal" <mhocko@suse.com>,
-        "tabba@google.com" <tabba@google.com>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        "david@redhat.com" <david@redhat.com>,
-        "michael.roth@amd.com" <michael.roth@amd.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dhildenb@redhat.com" <dhildenb@redhat.com>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-        "ddutile@redhat.com" <ddutile@redhat.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "qperret@google.com" <qperret@google.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Annapurve, Vishal" <vannapurve@google.com>,
-        "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
-        "wanpengli@tencent.com" <wanpengli@tencent.com>,
-        "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
-        "hughd@google.com" <hughd@google.com>,
-        "aarcange@redhat.com" <aarcange@redhat.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        "jlayton@kernel.org" <jlayton@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Wang, Wei W" <wei.w.wang@intel.com>,
-        "steven.price@arm.com" <steven.price@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linmiaohe@huawei.com" <linmiaohe@huawei.com>
-References: <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
- <20221219075313.GB1691829@chaop.bj.intel.com>
- <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
- <20221220072228.GA1724933@chaop.bj.intel.com>
- <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
- <20221221133905.GA1766136@chaop.bj.intel.com>
- <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
- <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
- <0959c72ec635688f4b6c1b516815f79f52543b31.camel@intel.com>
- <Y88aX+MIZeteDQju@google.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <Y88aX+MIZeteDQju@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a5426033528ccef6e0e71fe06b55ae56c5596e85.1674481435.git.leon@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/24/23 00:38, Sean Christopherson wrote:
-> On Mon, Jan 23, 2023, Huang, Kai wrote:
->> On Mon, 2023-01-23 at 15:03 +0100, Vlastimil Babka wrote:
->>> On 12/22/22 01:37, Huang, Kai wrote:
->>>>>> I argue that this page pinning (or page migration prevention) is not
->>>>>> tied to where the page comes from, instead related to how the page will
->>>>>> be used. Whether the page is restrictedmem backed or GUP() backed, once
->>>>>> it's used by current version of TDX then the page pinning is needed. So
->>>>>> such page migration prevention is really TDX thing, even not KVM generic
->>>>>> thing (that's why I think we don't need change the existing logic of
->>>>>> kvm_release_pfn_clean()). 
->>>>>>
->>>> This essentially boils down to who "owns" page migration handling, and sadly,
->>>> page migration is kinda "owned" by the core-kernel, i.e. KVM cannot handle page
->>>> migration by itself -- it's just a passive receiver.
->>>>
->>>> For normal pages, page migration is totally done by the core-kernel (i.e. it
->>>> unmaps page from VMA, allocates a new page, and uses migrate_pape() or a_ops-
->>>>> migrate_page() to actually migrate the page).
->>>> In the sense of TDX, conceptually it should be done in the same way. The more
->>>> important thing is: yes KVM can use get_page() to prevent page migration, but
->>>> when KVM wants to support it, KVM cannot just remove get_page(), as the core-
->>>> kernel will still just do migrate_page() which won't work for TDX (given
->>>> restricted_memfd doesn't have a_ops->migrate_page() implemented).
->>>>
->>>> So I think the restricted_memfd filesystem should own page migration handling,
->>>> (i.e. by implementing a_ops->migrate_page() to either just reject page migration
->>>> or somehow support it).
->>>
->>> While this thread seems to be settled on refcounts already, 
->>>
->>
->> I am not sure but will let Sean/Paolo to decide.
-> 
-> My preference is whatever is most performant without being hideous :-)
-> 
->>> just wanted
->>> to point out that it wouldn't be ideal to prevent migrations by
->>> a_ops->migrate_page() rejecting them. It would mean cputime wasted (i.e.
->>> by memory compaction) by isolating the pages for migration and then
->>> releasing them after the callback rejects it (at least we wouldn't waste
->>> time creating and undoing migration entries in the userspace page tables
->>> as there's no mmap). Elevated refcount on the other hand is detected
->>> very early in compaction so no isolation is attempted, so from that
->>> aspect it's optimal.
->>
->> I am probably missing something,
-> 
-> Heh, me too, I could have sworn that using refcounts was the least efficient way
-> to block migration.
+Hi Leon,
 
-Well I admit that due to my experience with it, I do mostly consider
-migration through memory compaction POV, which is a significant user of
-migration on random pages that's not requested by userspace actions on
-specific ranges.
+I love your patch! Yet something to improve:
 
-And compaction has in isolate_migratepages_block():
+[auto build test ERROR on net-next/master]
 
-/*
- * Migration will fail if an anonymous page is pinned in memory,
- * so avoid taking lru_lock and isolating it unnecessarily in an
- * admittedly racy check.
- */
-mapping = page_mapping(page);
-if (!mapping && page_count(page) > page_mapcount(page))
-        goto isolate_fail;
+url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Romanovsky/xfrm-extend-add-policy-callback-to-set-failure-reason/20230123-220422
+patch link:    https://lore.kernel.org/r/a5426033528ccef6e0e71fe06b55ae56c5596e85.1674481435.git.leon%40kernel.org
+patch subject: [Intel-wired-lan] [PATCH net-next 04/10] net/mlx5e: Fill IPsec state validation failure reason
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20230124/202301241552.GWkgnAH7-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/bd6a3bcc8978f551f83f85b9c18d199c71c29d7c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Leon-Romanovsky/xfrm-extend-add-policy-callback-to-set-failure-reason/20230123-220422
+        git checkout bd6a3bcc8978f551f83f85b9c18d199c71c29d7c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/ drivers/net/ethernet/mellanox/mlx5/core/
 
-so that prevents migration of pages with elevated refcount very early,
-before they are even isolated, so before migrate_pages() is called.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-But it's true there are other sources of "random pages migration" - numa
-balancing, demotion in lieu of reclaim... and I'm not sure if all have
-such early check too.
+All errors (new ones prefixed by >>):
 
-Anyway, whatever is decided to be a better way than elevated refcounts,
-would ideally be checked before isolation as well, as that's the most
-efficient way.
+>> drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c:276:22: error: use of undeclared identifier 'extackx'; did you mean 'extack'?
+                   NL_SET_ERR_MSG_MOD(extackx, "Unsupported xfrm offload type");
+                                      ^~~~~~~
+                                      extack
+   include/linux/netlink.h:128:18: note: expanded from macro 'NL_SET_ERR_MSG_MOD'
+           NL_SET_ERR_MSG((extack), KBUILD_MODNAME ": " msg)
+                           ^
+   include/linux/netlink.h:100:38: note: expanded from macro 'NL_SET_ERR_MSG'
+           struct netlink_ext_ack *__extack = (extack);    \
+                                               ^
+   drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c:167:34: note: 'extack' declared here
+                                        struct netlink_ext_ack *extack)
+                                                                ^
+   1 error generated.
 
->> but IIUC the checking of refcount happens at very last stage of page migration too 
 
+vim +276 drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c
+
+   164	
+   165	static int mlx5e_xfrm_validate_state(struct mlx5_core_dev *mdev,
+   166					     struct xfrm_state *x,
+   167					     struct netlink_ext_ack *extack)
+   168	{
+   169		if (x->props.aalgo != SADB_AALG_NONE) {
+   170			NL_SET_ERR_MSG_MOD(extack, "Cannot offload authenticated xfrm states");
+   171			return -EINVAL;
+   172		}
+   173		if (x->props.ealgo != SADB_X_EALG_AES_GCM_ICV16) {
+   174			NL_SET_ERR_MSG_MOD(extack, "Only AES-GCM-ICV16 xfrm state may be offloaded");
+   175			return -EINVAL;
+   176		}
+   177		if (x->props.calgo != SADB_X_CALG_NONE) {
+   178			NL_SET_ERR_MSG_MOD(extack, "Cannot offload compressed xfrm states");
+   179			return -EINVAL;
+   180		}
+   181		if (x->props.flags & XFRM_STATE_ESN &&
+   182		    !(mlx5_ipsec_device_caps(mdev) & MLX5_IPSEC_CAP_ESN)) {
+   183			NL_SET_ERR_MSG_MOD(extack, "Cannot offload ESN xfrm states");
+   184			return -EINVAL;
+   185		}
+   186		if (x->props.family != AF_INET &&
+   187		    x->props.family != AF_INET6) {
+   188			NL_SET_ERR_MSG_MOD(extack, "Only IPv4/6 xfrm states may be offloaded");
+   189			return -EINVAL;
+   190		}
+   191		if (x->id.proto != IPPROTO_ESP) {
+   192			NL_SET_ERR_MSG_MOD(extack, "Only ESP xfrm state may be offloaded");
+   193			return -EINVAL;
+   194		}
+   195		if (x->encap) {
+   196			NL_SET_ERR_MSG_MOD(extack, "Encapsulated xfrm state may not be offloaded");
+   197			return -EINVAL;
+   198		}
+   199		if (!x->aead) {
+   200			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states without aead");
+   201			return -EINVAL;
+   202		}
+   203		if (x->aead->alg_icv_len != 128) {
+   204			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with AEAD ICV length other than 128bit");
+   205			return -EINVAL;
+   206		}
+   207		if ((x->aead->alg_key_len != 128 + 32) &&
+   208		    (x->aead->alg_key_len != 256 + 32)) {
+   209			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with AEAD key length other than 128/256 bit");
+   210			return -EINVAL;
+   211		}
+   212		if (x->tfcpad) {
+   213			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with tfc padding");
+   214			return -EINVAL;
+   215		}
+   216		if (!x->geniv) {
+   217			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states without geniv");
+   218			return -EINVAL;
+   219		}
+   220		if (strcmp(x->geniv, "seqiv")) {
+   221			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with geniv other than seqiv");
+   222			return -EINVAL;
+   223		}
+   224		switch (x->xso.type) {
+   225		case XFRM_DEV_OFFLOAD_CRYPTO:
+   226			if (!(mlx5_ipsec_device_caps(mdev) & MLX5_IPSEC_CAP_CRYPTO)) {
+   227				NL_SET_ERR_MSG_MOD(extack, "Crypto offload is not supported");
+   228				return -EINVAL;
+   229			}
+   230	
+   231			if (x->props.mode != XFRM_MODE_TRANSPORT &&
+   232			    x->props.mode != XFRM_MODE_TUNNEL) {
+   233				NL_SET_ERR_MSG_MOD(extack, "Only transport and tunnel xfrm states may be offloaded");
+   234				return -EINVAL;
+   235			}
+   236			break;
+   237		case XFRM_DEV_OFFLOAD_PACKET:
+   238			if (!(mlx5_ipsec_device_caps(mdev) &
+   239			      MLX5_IPSEC_CAP_PACKET_OFFLOAD)) {
+   240				NL_SET_ERR_MSG_MOD(extack, "Packet offload is not supported");
+   241				return -EINVAL;
+   242			}
+   243	
+   244			if (x->props.mode != XFRM_MODE_TRANSPORT) {
+   245				NL_SET_ERR_MSG_MOD(extack, "Only transport xfrm states may be offloaded in packet mode");
+   246				return -EINVAL;
+   247			}
+   248	
+   249			if (x->replay_esn && x->replay_esn->replay_window != 32 &&
+   250			    x->replay_esn->replay_window != 64 &&
+   251			    x->replay_esn->replay_window != 128 &&
+   252			    x->replay_esn->replay_window != 256) {
+   253				NL_SET_ERR_MSG_MOD(extack, "Unsupported replay window size");
+   254				return -EINVAL;
+   255			}
+   256	
+   257			if (!x->props.reqid) {
+   258				NL_SET_ERR_MSG_MOD(extack, "Cannot offload without reqid");
+   259				return -EINVAL;
+   260			}
+   261	
+   262			if (x->lft.hard_byte_limit != XFRM_INF ||
+   263			    x->lft.soft_byte_limit != XFRM_INF) {
+   264				NL_SET_ERR_MSG_MOD(extack, "Device doesn't support limits in bytes");
+   265				return -EINVAL;
+   266			}
+   267	
+   268			if (x->lft.soft_packet_limit >= x->lft.hard_packet_limit &&
+   269			    x->lft.hard_packet_limit != XFRM_INF) {
+   270				/* XFRM stack doesn't prevent such configuration :(. */
+   271				NL_SET_ERR_MSG_MOD(extack, "Hard packet limit must be greater than soft one");
+   272				return -EINVAL;
+   273			}
+   274			break;
+   275		default:
+ > 276			NL_SET_ERR_MSG_MOD(extackx, "Unsupported xfrm offload type");
+   277			return -EINVAL;
+   278		}
+   279		return 0;
+   280	}
+   281	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
