@@ -2,169 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD1BBC54E94
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 14:14:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17FE0C38142
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 14:27:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234765AbjAXOOx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 09:14:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53232 "EHLO
+        id S234864AbjAXO1S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 09:27:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234307AbjAXOOo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 09:14:44 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B258913DE9
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 06:14:41 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id r9so14012049wrw.4
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 06:14:41 -0800 (PST)
+        with ESMTP id S234857AbjAXO1R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 09:27:17 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 787A85BA7
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 06:27:16 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id d14so10370103wrr.9
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 06:27:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Au4u9KBkIo5to8crSQusvLcqb1ZkXUDlXU6YC07WRXI=;
-        b=gZAd503SLY6MJPqZDjkv8FhjyUSMk7GS7KaqF95p6p3jWsfu7lVw7q67XxdOnrFl7Q
-         qHIkH08vS3YJPGl6XpIVBEksDZQkhrIwl3hP/cZi4NvIrgh+b9xKNn6STdCLte3T4CwV
-         e0q/6e5B+YzgD9oyMooGjagxRK5USD9016yZiHd/99vUmgArlRhI0sO7lqV8odg7xci1
-         y2ORxbe6fJ6ayZly3eYucsU4YrUBVgEsQh7GsUOqyGhpXh23YY/RlRlPn2CC+P8wE/rk
-         4qRv5kkaxGNj+dpMvj6c7hLfuYYCWnVmb5pjxJpF+BjElQbUOmUXlQYNsfeP36QDmTMS
-         7JHw==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=83ylCl/7imBVz3B8ZOzg+0qRgMLvJMRlFiKPHboLlxk=;
+        b=MPXhllcNYY9b3gb+8OWFbAz6PZAmG5olDb7v7cFbSDAv6IwaYP5r1ajWxqqAcJTWRE
+         kv0aj0tN9/TLxX2C07tXUA4T+tY9fJDb2/QglaKVJBF2/D7sbVLoz6sbMTS0v7gAZMuS
+         MYj+dHDvQFFpLMA7UwCs9Sxm2e/estStI2h9lq43kj5blR9fw7REwxLAoLApCwsbfUJi
+         lWicTdTu5OI6gTe1zV/Ka2C286XKTSvWQVqXSpJD1OHjuMhwmGKF8h63ESyu67sPQ4tO
+         Z5zvyc1unTIeZNGNnoSTjkZH5pUaPbagmQflF1JqyXrRU1msMP203UZceEzYUCOoCWYA
+         jzng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Au4u9KBkIo5to8crSQusvLcqb1ZkXUDlXU6YC07WRXI=;
-        b=7pHOz10w4Pa8Jr7nv4MUuFcPTUeN7XSR7TBdEwmKvWiVgvdNKwi9iWmzhX/Mvq89mz
-         n3YU9v9f4uTj4VKp+qbXaceAyKrkuDoTvPXg3s46mbLRsVggS4LuDG+5AbbySjEoHErB
-         n3wGZqDadz1rR6rI7ayMYjqZ7yxnEq8vuNb6+Yam8EzVaIYXCOMN1DFgwmGTRja89tNd
-         fCRWikrQksX2Tigx678p0scZmmQqFBZ6eCNM8wLDSnkbiGgVDSAtLzk1rpM6kw+p7Zw7
-         UM4utvRODrfO3H9eUywBbqMexFYCn7vkc0Wjfd2NGDbuaAUlftuA2lLwGtMsT9pl4ovG
-         Hjsw==
-X-Gm-Message-State: AO0yUKXn0YVnLrL5SdvyVzeNXlDdJ0DYTDUXdGg4wknMhd+EGfwwpaax
-        FvFdWlKgBs4LGBc7LmvsTp73Jw==
-X-Google-Smtp-Source: AK7set9XOZzJZckd2Wolnok/+YCvr+Xch61X0yc1EZEaHHKPPJqgNCKMisSGVCnlFoMSmPnf1AudbQ==
-X-Received: by 2002:a05:6000:1186:b0:2bf:b511:115 with SMTP id g6-20020a056000118600b002bfb5110115mr471810wrx.54.1674569680254;
-        Tue, 24 Jan 2023 06:14:40 -0800 (PST)
-Received: from stroh80.sec.9e.network (ip-078-094-000-051.um19.pools.vodafone-ip.de. [78.94.0.51])
-        by smtp.gmail.com with ESMTPSA id z8-20020a5d4408000000b002b8fe58d6desm1966269wrq.62.2023.01.24.06.14.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 06:14:39 -0800 (PST)
-From:   Naresh Solanki <naresh.solanki@9elements.com>
-X-Google-Original-From: Naresh Solanki <Naresh.Solanki@9elements.com>
-To:     Guenter Roeck <linux@roeck-us.net>,
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=83ylCl/7imBVz3B8ZOzg+0qRgMLvJMRlFiKPHboLlxk=;
+        b=he98jbyBZ/qb8T29al/2lmnCdED5Uw+k3/buPzuc5n7MCO1XAq2JWATl/b43tQ7B8d
+         WImuEfsHtl5K3pZH7SV12NBe+oVmv6UlqZEqqHYsYGPmCKOxKpoNQeOivDfbRSsZx9KG
+         LnwMvfjAlhr9PHf7JOJ0nb4xvL/brbcAMuCjHyTBCyZTblTHsEiYSWq7aV4Q+yT/1fb3
+         l8YIA6J+dlIwzPdBENw5LyhTwq8OrcVfb1pj05u7qiJ0yhvYGUnOhIxVp+AzSDx6ViW6
+         iPwYoAGexZl23Z9MEViJ+b3D8bPZ9ffd+kxl2Tj34WgMY58Rxkr59gJ8zPNYw+n5/QyZ
+         oh0g==
+X-Gm-Message-State: AFqh2kp131HqGq6emiarcHciaRDQe0kkP+qXclCVkOEjr2/Xwslkte9W
+        QoAQlYWWEfqwI0bgYOHdLIAhhg==
+X-Google-Smtp-Source: AMrXdXvMAViaj+SgLZBHJD3XBfKynm+jGHWqx/r/lR4qtu9h2VNuT7hG8p9SQKXEEJx9GAShpDsPrg==
+X-Received: by 2002:a05:6000:1b85:b0:2be:f21:6af6 with SMTP id r5-20020a0560001b8500b002be0f216af6mr24625431wru.23.1674570434971;
+        Tue, 24 Jan 2023 06:27:14 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id v4-20020adfedc4000000b002bf94527b9esm2002227wro.85.2023.01.24.06.27.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Jan 2023 06:27:14 -0800 (PST)
+Message-ID: <d2efeff9-1fb9-222c-2d21-1811d8237326@linaro.org>
+Date:   Tue, 24 Jan 2023 15:27:11 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v2 1/2] dt-bindings: trivial-devices: Add Infineon
+ TDA38640 Voltage Regulator
+To:     Naresh Solanki <naresh.solanki@9elements.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jean Delvare <jdelvare@suse.com>,
         Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-hwmon@vger.kernel.org,
-        Naresh Solanki <Naresh.Solanki@9elements.com>,
-        Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v2 1/2] dt-bindings: trivial-devices: Add Infineon TDA38640 Voltage Regulator
-Date:   Tue, 24 Jan 2023 15:14:34 +0100
-Message-Id: <20230124141436.1687397-1-Naresh.Solanki@9elements.com>
-X-Mailer: git-send-email 2.38.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc:     linux-hwmon@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230124141436.1687397-1-Naresh.Solanki@9elements.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230124141436.1687397-1-Naresh.Solanki@9elements.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Infineon TDA38640 is PMBUS compliant voltage regulator.
+On 24/01/2023 15:14, Naresh Solanki wrote:
+> Infineon TDA38640 is PMBUS compliant voltage regulator.
+> 
+> Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
+> ---
+>  .../devicetree/bindings/trivial-devices.yaml  |  2 +
 
-Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
----
- .../devicetree/bindings/trivial-devices.yaml  |  2 +
- Documentation/hwmon/tda38640.rst              | 66 +++++++++++++++++++
- 2 files changed, 68 insertions(+)
- create mode 100644 Documentation/hwmon/tda38640.rst
+Where is the second patch?
 
-diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-index f5c0a6283e61..a28b02036489 100644
---- a/Documentation/devicetree/bindings/trivial-devices.yaml
-+++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-@@ -141,6 +141,8 @@ properties:
-           - infineon,slb9645tt
-             # Infineon SLB9673 I2C TPM 2.0
-           - infineon,slb9673
-+            # Infineon TDA38640 Voltage Regulator
-+          - infineon,tda38640
-             # Infineon TLV493D-A1B6 I2C 3D Magnetic Sensor
-           - infineon,tlv493d-a1b6
-             # Infineon Multi-phase Digital VR Controller xdpe11280
-diff --git a/Documentation/hwmon/tda38640.rst b/Documentation/hwmon/tda38640.rst
-new file mode 100644
-index 000000000000..45dd07e41247
---- /dev/null
-+++ b/Documentation/hwmon/tda38640.rst
-@@ -0,0 +1,66 @@
-+Kernel driver tda38640
-+=====================
-+
-+Supported chips:
-+
-+  * Infineon TDA38060
-+
-+    Prefix: 'TDA38640'
-+    Addresses scanned: -
-+
-+    Datasheet: Publicly available at the Infineon website
-+      https://www.infineon.com/dgdl/Infineon-TDA38640-0000-DataSheet-v02_04-EN.pdf?fileId=8ac78c8c80027ecd018042f2337f00c9
-+
-+Authors:
-+      - Patrick Rudolph <patrick.rudolph@9elements.com>
-+      - Naresh Solanki <Naresh.Solanki@9elements.com>
-+
-+Description
-+-----------
-+
-+TDA38640 is a 40A Single-voltage Synchronous Buck Regulator with SVID and I2C.
-+
-+Usage Notes
-+-----------
-+
-+This driver does not probe for PMBus devices. You will have to instantiate
-+devices explicitly.
-+
-+Sysfs attributes
-+----------------
-+
-+======================= ===========================
-+curr1_label		"iout1"
-+curr1_input		Measured output current
-+curr1_crit		Critical maximum current
-+curr1_crit_alarm	Current critical high alarm
-+curr1_max		Maximum current
-+curr1_max_alarm		Current high alarm
-+
-+in1_label		"vin"
-+in1_input		Measured input voltage
-+in1_crit		Critical maximum input voltage
-+in1_crit_alarm		Input voltage critical high alarm
-+in1_min			Minimum input voltage
-+in1_min_alarm		Input voltage low alarm
-+
-+in2_label		"vout1"
-+in2_input		Measured output voltage
-+in2_lcrit		Critical minimum output voltage
-+in2_lcrit_alarm		Output voltage critical low alarm
-+in2_crit		Critical maximum output voltage
-+in2_crit_alarm		Output voltage critical high alarm
-+in2_max			Maximum output voltage
-+in2_max_alarm		Output voltage high alarm
-+in2_min			Minimum output voltage
-+in2_min_alarm		Output voltage low alarm
-+
-+power1_label		"pout1"
-+power1_input		Measured output power
-+
-+temp1_input		Measured temperature
-+temp1_crit		Critical high temperature
-+temp1_crit_alarm	Chip temperature critical high alarm
-+temp1_max		Maximum temperature
-+temp1_max_alarm		Chip temperature high alarm
-+======================= ===========================
+>  Documentation/hwmon/tda38640.rst              | 66 +++++++++++++++++++
 
-base-commit: 4d891f76a30d3be4194a805c5e4277786140ef05
--- 
-2.38.1
+These are not bindings. You can keep them with the driver.
+
+Best regards,
+Krzysztof
 
