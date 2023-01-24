@@ -2,105 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB85C54E94
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 23:03:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63677C54E94
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 23:08:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232517AbjAXXDu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 18:03:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53756 "EHLO
+        id S233771AbjAXXIu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 18:08:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233603AbjAXXDr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 18:03:47 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC5EE49548;
-        Tue, 24 Jan 2023 15:03:45 -0800 (PST)
+        with ESMTP id S233847AbjAXXIt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 18:08:49 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A37D4E539;
+        Tue, 24 Jan 2023 15:08:45 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7F9A7B81717;
-        Tue, 24 Jan 2023 23:03:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93AC5C433EF;
-        Tue, 24 Jan 2023 23:03:41 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8F2C9613F8;
+        Tue, 24 Jan 2023 23:08:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7A68C4339C;
+        Tue, 24 Jan 2023 23:08:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674601423;
-        bh=FInAJGM6hitQqEWREbqfiZT6RW4VKmJRYiGIyELSJQc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VDav27OxxZTsAQgsUUqCRxbi02UJHTXeQ4BNvRR2EVcVurslbfZQ1hQbAIbZQ0Dfe
-         d2YSKzxKcs/H8PX8n256ShJsj1Yt/HpEuQvjdnXNW7LxK4qClB/5cWjD9N85pUzOHq
-         f9gUdwmJmO9TH4Nu6ulKdR7s5iitURCwPLteuRHaK6g42tTBOlrwyVzrc/b54PXQrm
-         FbSFiUK1nyUKX9eWCnkged8yubqQAufRoj0a6bqC3EvH/1rfsEWHb0Tb9HTxrVTird
-         q9ZhjkXbmN7rMAWQP3zs8stWUwCCsCvl/nEQ1sr2UBHleUHB7lQ7F6o7uEEzUcCbTU
-         KQ4JYbXPqsgEQ==
-From:   SeongJae Park <sj@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     SeongJae Park <sj@kernel.org>,
-        Alex Deucher <alexdeucher@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jean Delvare <jdelvare@suse.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/8] Docs: Add missing SPDX license identifiers of
-Date:   Tue, 24 Jan 2023 23:03:40 +0000
-Message-Id: <20230124230340.113608-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <87a627ftuf.fsf@meer.lwn.net>
-References: 
+        s=k20201202; t=1674601724;
+        bh=IbzbzQ0xciaiyYsjPaDasMlvV/iw0I2Bm7dIPBgXPh4=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+        b=lW2Y9CMKwr0f3yBu3MAd11Y5GvI43oUYGwDPlHRFMECuZCbsz3KktpI/NvoqIbzmx
+         42scFkq0oP3vRnCrL+HmfDa1e6VYFRYrtPRnQOe+Jb0l7WQD5I4igTnWErA71a3hq8
+         Fhx1d6rxikZEEs88/8ovvCp3FiSfFRmZ3a/CY/CVe/FFnB+SO4LrXQq/qoX7HnjZE2
+         Neq0VWJcLFsRvTjRK4fk6vrtyBRXCW/LNRByQPL/iEtK4HtzJ9DtW0Yzyr3t8kZbzM
+         W3WPrWB6VDYEUh3KIIp4iKpfAMXV9KHld8741QQMENK1ZX8GxktYhq5GOzq/fP3tAh
+         yOGBEHjAEx6Og==
+Date:   Tue, 24 Jan 2023 15:08:40 -0800
+From:   Kees Cook <kees@kernel.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "david@redhat.com" <david@redhat.com>
+CC:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "rppt@kernel.org" <rppt@kernel.org>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v5_23/39=5D_mm=3A_Don=27t_allo?= =?US-ASCII?Q?w_write_GUPs_to_shadow_stack_memory?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <6adfa0b5c38a9362f819fcc364e02c37d99a7f4a.camel@intel.com>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com> <20230119212317.8324-24-rick.p.edgecombe@intel.com> <aa973c0f-5d90-36df-01b2-db9d9182910e@redhat.com> <87fsc1il73.fsf@oldenburg.str.redhat.com> <c6dc94eb193634fa27e1715ab2978a3ce4b6c544.camel@intel.com> <fd741ac9-8214-a375-00b2-a652a7ef27ea@redhat.com> <6adfa0b5c38a9362f819fcc364e02c37d99a7f4a.camel@intel.com>
+Message-ID: <5B29D7A0-385A-41E8-AA56-EF726E6906BF@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 24 Jan 2023 15:31:04 -0700 Jonathan Corbet <corbet@lwn.net> wrote:
+On January 24, 2023 10:42:28 AM PST, "Edgecombe, Rick P" <rick=2Ep=2Eedgeco=
+mbe@intel=2Ecom> wrote:
+>Ping Cristina regarding GDB=2E
+>
+>Ping Kees regarding /proc/self/mem=2E
+>
+>On Tue, 2023-01-24 at 17:26 +0100, David Hildenbrand wrote:
+>> > > Isn't it possible to overwrite GOT pointers using the same
+>> > > vector?
+>> > > So I think it's merely reflecting the status quo=2E
+>> >=20
+>> > There was some debate on this=2E /proc/self/mem can currently write
+>> > through read-only memory which protects executable code=2E So should
+>> > shadow stack get separate rules? Is ROP a worry when you can
+>> > overwrite
+>> > executable code?
+>> >=20
+>>=20
+>> The question is, if there is reasonable debugging reason to keep it=2E
+>> I=20
+>> assume if a debugger would adjust the ordinary stack, it would have
+>> to=20
+>> adjust the shadow stack as well (oh my =2E=2E=2E)=2E So it sounds reaso=
+nable
+>> to=20
+>> have it in theory at least =2E=2E=2E not sure when debugger would suppo=
+rt=20
+>> that, but maybe they already do=2E
+>
+>GDB support for shadow stack is queued up for whenever the kernel
+>interface settles=2E I believe it just uses ptrace, and not this proc=2E
+>But yea ptrace poke will still need to use FOLL_FORCE and be able to
+>write through shadow stacks=2E
 
-> SeongJae Park <sj@kernel.org> writes:
-> 
-> > Some subsystem documents are missing SPDX license identifiers on index
-> > files.  This patchset adds those.
-> >
-> > Changes from v1
-> > (https://lore.kernel.org/lkml/20230114194741.115855-2-sj@kernel.org/)
-> > - Separate from index file content changes
-> > - Separate patch for each subsystem doc (Alex Deucher)
-> > - Use MIT license for gpu (Alex Deucher)
-> >
-> > SeongJae Park (8):
-> >   Docs/crypto/index: Add missing SPDX License Identifier
-> >   Docs/driver-api/index: Add missing SPDX License Identifier
-> >   Docs/gpu/index: Add missing SPDX License Identifier
-> >   Docs/hwmon/index: Add missing SPDX License Identifier
-> >   Docs/input/index: Add missing SPDX License Identifier
-> >   Docs/mm/index: Add missing SPDX License Identifier
-> >   Docs/scheduler/index: Add missing SPDX License Identifier
-> >   Docs/sound/index: Add missing SPDX License Identifier
-> 
-> So I've applied patches 2 (since I wrote the initial file) and 8 (with
-> Takashi's ack).  The others are also fine, I think, but I hesitate to
-> apply license texts to files without knowing that they match the
-> author's intent.  I hate to say it, but I think the best approach is to
-> send each of the remaining patches to the appropriate maintainers for
-> the subsystem involved.
+I'd prefer to avoid adding more FOLL_FORCE if we can=2E If gdb can do stac=
+k manipulations through a ptrace interface then let's leave off FOLL_FORCE=
+=2E
 
-That makes 100% sense, thank you, Jon!
+-Kees
+
+>
+>>=20
+>> > The consensus seemed to lean towards not making special rules for
+>> > this
+>> > case, and there was some discussion that /proc/self/mem should
+>> > maybe be
+>> > hardened generally=2E
+>>=20
+>> I agree with that=2E It's a debugging mechanism that a process can
+>> abuse=20
+>> to do nasty stuff to its memory that it maybe shouldn't be able to do
+>> =2E=2E=2E
+>
+>Ok=2E
 
 
-Thanks,
-SJ
-
-> 
-> Thanks,
-> 
-> jon
+--=20
+Kees Cook
