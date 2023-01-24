@@ -2,209 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9167C25B4E
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 09:42:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB6AC38142
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 10:31:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233414AbjAXJm7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 04:42:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38298 "EHLO
+        id S233100AbjAXKbD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 05:31:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233407AbjAXJm5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 04:42:57 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D71DCEFAA;
-        Tue, 24 Jan 2023 01:42:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674553375; x=1706089375;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HeaXoa9wAMLuHvO4i89p5YmVEi4JDbJhzhRjYfIMEEY=;
-  b=PlYt9ccSt5hijC1G9jyvWUuGDKZtilCK4vh4633/rebBFOclYv8Zkgm7
-   3zIg7LehGVi5KZXPjcwvLkiA1Msmpcg4A2eooy/EoYB2OcWNw45/xuVGw
-   vJpqyQl7IGZDtG4uYmNA6Nf5t+VCmjnkrZiHdjo5w76WVRLil+bljmO6N
-   9bwy+cE6C+YP14EWeuoGsS/HESZza0nAYVEQaQ9DkVa4/FMnDoF5ZViP+
-   gUk+m/Sm2flooJydQqVtJXVCEV/HOuZTFqLlzQlNQnt0kaQyC1E/3ZI3R
-   MUlbxO7vkm5MXy7HJHjzf+ZmmrUs8IzHntmCv9eu2Cq4X981s9e3K+vYB
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="324934537"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="324934537"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 01:42:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="655362520"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="655362520"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 24 Jan 2023 01:42:48 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pKFpH-0006JI-2r;
-        Tue, 24 Jan 2023 09:42:47 +0000
-Date:   Tue, 24 Jan 2023 17:42:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Leon Romanovsky <leon@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Steffen Klassert <steffen.klassert@secunet.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Ayush Sawal <ayush.sawal@chelsio.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        intel-wired-lan@lists.osuosl.org,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, oss-drivers@corigine.com,
-        Paolo Abeni <pabeni@redhat.com>,
-        Raju Rangoju <rajur@chelsio.com>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Simon Horman <simon.horman@corigine.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Veaceslav Falico <vfalico@gmail.com>
-Subject: Re: [PATCH net-next 10/10] cxgb4: fill IPsec state validation
- failure reason
-Message-ID: <202301241750.Qpv1Vuj6-lkp@intel.com>
-References: <9b45993fb96b6faa2b65f3dd78e677a54eeeec31.1674481435.git.leon@kernel.org>
+        with ESMTP id S229538AbjAXKbC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 05:31:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A29B402D6
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 02:30:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674556207;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=gE6RrMNzmZS7ybaJ3k9jp16YpeIMyFtfxc7Ij1LgomY=;
+        b=K97wuNpX/NWAXaKEgchrhwYlJeo9FJgKhzsnxHZMbvx3MoAUBO7LcmRCIM5HOtuh13qnBZ
+        jAhU57qRhruu5T8hTZruPKOhQR8FxsjW2QoDm1U/pigtWinTMzHFkpqhAfBweMDqnJ6zYO
+        aomzOXTCxcXEtdjKi7Qt8GncKoPqgt4=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-640-QDY0fioBOCSzaLOxlrUW-A-1; Tue, 24 Jan 2023 05:30:06 -0500
+X-MC-Unique: QDY0fioBOCSzaLOxlrUW-A-1
+Received: by mail-qk1-f197.google.com with SMTP id bq15-20020a05620a468f00b00706ae242abcso10721120qkb.7
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 02:30:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gE6RrMNzmZS7ybaJ3k9jp16YpeIMyFtfxc7Ij1LgomY=;
+        b=fPWw12JDdBlCsL/0PlikmOEyvKC6jRibIrYNBZ0ADZntzocHxliJYwwVsl/B4D4lkf
+         F0+OltRT66/bMPsAY0Cz7z74+jZVdFIW4krxwccGfRDu4RnjAXX7CWs0ngOn/J0o3rIZ
+         bxtFyOMjZVBHuQczlLnEQmoYHUxfgnmZNbd/ah4VKCo0ax9v/0/rS+U5K1vLAl/dvpLJ
+         fhGEuI9d0mLhEpZPy7on4ouIeIVGZ18yEw3KfAfteGNDA0hA64pFdDMYzD9sVhzkL4s/
+         Fpv4ozed6C3w8c7AruLv6YGlLWsE+J9xdwMbGRvSETlUgIxfZILK0R7Uob3g6TddqWiq
+         j3fA==
+X-Gm-Message-State: AFqh2kq8P+mOnrIiq3OeOeqR+ZYns3ajOHyl0sWF6qZPteA+kNusdrxm
+        GFAKwi7NHkGx+DP3P9IUOzbLdU2zMY4D5wK9zdnN8HRyQdLp2fNiGYQb4ccsm1RIOnbXHMEqON4
+        7ZkG7zhwMBFiNy+IdhFL8
+X-Received: by 2002:ac8:7ee6:0:b0:3a8:28fb:b076 with SMTP id r6-20020ac87ee6000000b003a828fbb076mr36536512qtc.31.1674556205117;
+        Tue, 24 Jan 2023 02:30:05 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs/aw10vutO5iLbCj/8fXlV7eIS/fKjhVMMxih8szWVQpFxZRKFIQ6yQ2WFku9UqiOy9NwgBw==
+X-Received: by 2002:ac8:7ee6:0:b0:3a8:28fb:b076 with SMTP id r6-20020ac87ee6000000b003a828fbb076mr36536484qtc.31.1674556204835;
+        Tue, 24 Jan 2023 02:30:04 -0800 (PST)
+Received: from gerbillo.redhat.com (146-241-113-28.dyn.eolo.it. [146.241.113.28])
+        by smtp.gmail.com with ESMTPSA id a17-20020ac86111000000b003b68c7aeebfsm1048894qtm.3.2023.01.24.02.30.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jan 2023 02:30:04 -0800 (PST)
+Message-ID: <2aee59dccbcafb32cefdf164fd1d58eb6038b01a.camel@redhat.com>
+Subject: Re: [PATCH net-next v4 0/8] Netlink protocol specs
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, robh@kernel.org,
+        johannes@sipsolutions.net, stephen@networkplumber.org,
+        ecree.xilinx@gmail.com, sdf@google.com, f.fainelli@gmail.com,
+        fw@strlen.de, linux-doc@vger.kernel.org, razor@blackwall.org,
+        nicolas.dichtel@6wind.com
+Date:   Tue, 24 Jan 2023 11:29:59 +0100
+In-Reply-To: <20230120175041.342573-1-kuba@kernel.org>
+References: <20230120175041.342573-1-kuba@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9b45993fb96b6faa2b65f3dd78e677a54eeeec31.1674481435.git.leon@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Leon,
+On Fri, 2023-01-20 at 09:50 -0800, Jakub Kicinski wrote:
+> I think the Netlink proto specs are far along enough to merge.
+> Filling in all attribute types and quirks will be an ongoing
+> effort but we have enough to cover FOU so it's somewhat complete.
+>=20
+> I fully intend to continue polishing the code but at the same
+> time I'd like to start helping others base their work on the
+> specs (e.g. DPLL) and need to start working on some new families
+> myself.
+>=20
+> That's the progress / motivation for merging. The RFC [1] has more
+> of a high level blurb, plus I created a lot of documentation, I'm
+> not going to repeat it here. There was also the talk at LPC [2].
+>=20
+> [1] https://lore.kernel.org/all/20220811022304.583300-1-kuba@kernel.org/
+> [2] https://youtu.be/9QkXIQXkaQk?t=3D2562
+> v2: https://lore.kernel.org/all/20220930023418.1346263-1-kuba@kernel.org/
+> v3: https://lore.kernel.org/all/20230119003613.111778-1-kuba@kernel.org/1
 
-I love your patch! Yet something to improve:
+My understanding is that there is agreement on this, so merging as-is.
 
-[auto build test ERROR on net-next/master]
+As possible follow-ups, I think it would be nice to drop the generated
+files from the source tree and instead trigger the re-generation on-
+demand. Additionally the yaml files could include an SPDX-License-
+Identifier in an initial comments, I think.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Romanovsky/xfrm-extend-add-policy-callback-to-set-failure-reason/20230123-220422
-patch link:    https://lore.kernel.org/r/9b45993fb96b6faa2b65f3dd78e677a54eeeec31.1674481435.git.leon%40kernel.org
-patch subject: [PATCH net-next 10/10] cxgb4: fill IPsec state validation failure reason
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20230124/202301241750.Qpv1Vuj6-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7eb8edee0c687243325ffd27b20c0f5d429b76f0
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Leon-Romanovsky/xfrm-extend-add-policy-callback-to-set-failure-reason/20230123-220422
-        git checkout 7eb8edee0c687243325ffd27b20c0f5d429b76f0
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/
+Thanks,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Paolo
 
-All errors (new ones prefixed by >>):
+p.s. I guess we have new todo item for the mptcp protocol ;)
 
->> drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/chcr_ipsec.c:263:63: error: too few arguments provided to function-like macro invocation
-                   NL_SET_ERR_MSG_MOD("Cannot offload xfrm states without aead");
-                                                                               ^
-   include/linux/netlink.h:127:9: note: macro 'NL_SET_ERR_MSG_MOD' defined here
-   #define NL_SET_ERR_MSG_MOD(extack, msg)                 \
-           ^
->> drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/chcr_ipsec.c:263:3: error: use of undeclared identifier 'NL_SET_ERR_MSG_MOD'
-                   NL_SET_ERR_MSG_MOD("Cannot offload xfrm states without aead");
-                   ^
-   2 errors generated.
-
-
-vim +263 drivers/net/ethernet/chelsio/inline_crypto/ch_ipsec/chcr_ipsec.c
-
-   224	
-   225	/*
-   226	 * ch_ipsec_xfrm_add_state
-   227	 * returns 0 on success, negative error if failed to send message to FPGA
-   228	 * positive error if FPGA returned a bad response
-   229	 */
-   230	static int ch_ipsec_xfrm_add_state(struct xfrm_state *x,
-   231					   struct netlink_ext_ack *extack)
-   232	{
-   233		struct ipsec_sa_entry *sa_entry;
-   234		int res = 0;
-   235	
-   236		if (x->props.aalgo != SADB_AALG_NONE) {
-   237			NL_SET_ERR_MSG_MOD(extack, "Cannot offload authenticated xfrm states");
-   238			return -EINVAL;
-   239		}
-   240		if (x->props.calgo != SADB_X_CALG_NONE) {
-   241			NL_SET_ERR_MSG_MOD(extack, "Cannot offload compressed xfrm states");
-   242			return -EINVAL;
-   243		}
-   244		if (x->props.family != AF_INET &&
-   245		    x->props.family != AF_INET6) {
-   246			NL_SET_ERR_MSG_MOD(extack, "Only IPv4/6 xfrm state offloaded");
-   247			return -EINVAL;
-   248		}
-   249		if (x->props.mode != XFRM_MODE_TRANSPORT &&
-   250		    x->props.mode != XFRM_MODE_TUNNEL) {
-   251			NL_SET_ERR_MSG_MOD(extack, "Only transport and tunnel xfrm offload");
-   252			return -EINVAL;
-   253		}
-   254		if (x->id.proto != IPPROTO_ESP) {
-   255			NL_SET_ERR_MSG_MOD(extack, "Only ESP xfrm state offloaded");
-   256			return -EINVAL;
-   257		}
-   258		if (x->encap) {
-   259			NL_SET_ERR_MSG_MOD(extack, "Encapsulated xfrm state not offloaded");
-   260			return -EINVAL;
-   261		}
-   262		if (!x->aead) {
- > 263			NL_SET_ERR_MSG_MOD("Cannot offload xfrm states without aead");
-   264			return -EINVAL;
-   265		}
-   266		if (x->aead->alg_icv_len != 128 &&
-   267		    x->aead->alg_icv_len != 96) {
-   268			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with AEAD ICV length other than 96b & 128b");
-   269			return -EINVAL;
-   270		}
-   271		if ((x->aead->alg_key_len != 128 + 32) &&
-   272		    (x->aead->alg_key_len != 256 + 32)) {
-   273			NL_SET_ERR_MSG_MOD(extack, "cannot offload xfrm states with AEAD key length other than 128/256 bit");
-   274			return -EINVAL;
-   275		}
-   276		if (x->tfcpad) {
-   277			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with tfc padding");
-   278			return -EINVAL;
-   279		}
-   280		if (!x->geniv) {
-   281			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states without geniv");
-   282			return -EINVAL;
-   283		}
-   284		if (strcmp(x->geniv, "seqiv")) {
-   285			NL_SET_ERR_MSG_MOD(extack, "Cannot offload xfrm states with geniv other than seqiv");
-   286			return -EINVAL;
-   287		}
-   288		if (x->xso.type != XFRM_DEV_OFFLOAD_CRYPTO) {
-   289			NL_SET_ERR_MSG_MOD(extack, "Unsupported xfrm offload");
-   290			return -EINVAL;
-   291		}
-   292	
-   293		sa_entry = kzalloc(sizeof(*sa_entry), GFP_KERNEL);
-   294		if (!sa_entry) {
-   295			res = -ENOMEM;
-   296			goto out;
-   297		}
-   298	
-   299		sa_entry->hmac_ctrl = ch_ipsec_setauthsize(x, sa_entry);
-   300		if (x->props.flags & XFRM_STATE_ESN)
-   301			sa_entry->esn = 1;
-   302		ch_ipsec_setkey(x, sa_entry);
-   303		x->xso.offload_handle = (unsigned long)sa_entry;
-   304		try_module_get(THIS_MODULE);
-   305	out:
-   306		return res;
-   307	}
-   308	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
