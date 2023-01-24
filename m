@@ -2,95 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E13C9C25B4E
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 10:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9554C54EAA
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 11:02:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbjAXKkW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 05:40:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45872 "EHLO
+        id S232827AbjAXLCQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 06:02:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229933AbjAXKkV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 05:40:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E6A2D45;
-        Tue, 24 Jan 2023 02:40:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S233657AbjAXLCC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 06:02:02 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B021E394;
+        Tue, 24 Jan 2023 03:02:01 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5DCEE60E86;
-        Tue, 24 Jan 2023 10:40:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 99C50C433EF;
-        Tue, 24 Jan 2023 10:40:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674556818;
-        bh=l4Tu+EbMZL36A9gZdOLyolqouv6pJfcDpasghfLPFEs=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=j4OmV8gx5NyhGAIT8ZU2jRBXWr/X0w3ku6wGI9KzMGrKQgxTX8P+QAHR9yXxLyeLE
-         QnGxcNGiYugA1wlOQl3RCBSiQD3liLSFxPfq9Nl+eG1CVyCwbmw8I0TvS1Ha3rdR5F
-         +bicpxiry7eVSEwYVqYXFKJImqaVFkF/mdmj+A7zpFnUu1usanLCG9C/zBGCVIivQx
-         nrHKrASvDQKTnPsLJefD8oOKnqi3AyQMWo9t5DlbwlDaduHv2bMw24q8UpOvtB0SZS
-         mVv2B/4a7OfwXftqOabd8cZUR14mEp6zvI3bvIOTjEJlH033j0FdCS5jyfQepRPAyW
-         s9Vvr1TL4OhLg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 82598E52508;
-        Tue, 24 Jan 2023 10:40:18 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        by smtp-out1.suse.de (Postfix) with ESMTPS id DFAD0219D4;
+        Tue, 24 Jan 2023 11:01:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1674558119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=qIPJ4BajorMcKBe9rM/oMiSejSUgyU9LsAd5Im2601Y=;
+        b=FGGJ6r+LfUZwKs12imYsOsTvCtHr1dK5SRTnB90Urs0AhVwA0sCMIVSo6Ua6Z2KRtpEnmz
+        TnBb0ets/fOq2VLPfvHvNm9yBRezNpeJPnxrvaCqqCpIEneHW9R8MrW1aSajIHZOEi+n7u
+        D/YAlp1ixlViSjRwyIfqf0XOPN6OJ9E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1674558119;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=qIPJ4BajorMcKBe9rM/oMiSejSUgyU9LsAd5Im2601Y=;
+        b=go7yQVD8PcQWxFnVVPJZmZehh/PwKtzb2vxbSKcVcnFVbz40SebNeyBFyj+xmdV+M/mB3e
+        F36+7lj5eNbu3uBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7D4EF13487;
+        Tue, 24 Jan 2023 11:01:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 6I9mHae6z2MVCgAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Tue, 24 Jan 2023 11:01:59 +0000
+Message-ID: <bea284c3-fe7c-f55a-449d-07f47a364c1c@suse.cz>
+Date:   Tue, 24 Jan 2023 12:00:07 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v4 0/8] Netlink protocol specs
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167455681853.26386.14381375194899546381.git-patchwork-notify@kernel.org>
-Date:   Tue, 24 Jan 2023 10:40:18 +0000
-References: <20230120175041.342573-1-kuba@kernel.org>
-In-Reply-To: <20230120175041.342573-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, robh@kernel.org, johannes@sipsolutions.net,
-        stephen@networkplumber.org, ecree.xilinx@gmail.com, sdf@google.com,
-        f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
-        razor@blackwall.org, nicolas.dichtel@6wind.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v4 1/1] docs/mm: Physical Memory: add structure,
+ introduction and nodes description
+Content-Language: en-US
+To:     Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, Michal Hocko <mhocko@suse.com>
+References: <20230115184212.996298-1-rppt@kernel.org>
+ <20230115184212.996298-2-rppt@kernel.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20230115184212.996298-2-rppt@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
-
-This series was applied to netdev/net-next.git (master)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Fri, 20 Jan 2023 09:50:33 -0800 you wrote:
-> I think the Netlink proto specs are far along enough to merge.
-> Filling in all attribute types and quirks will be an ongoing
-> effort but we have enough to cover FOU so it's somewhat complete.
+On 1/15/23 19:42, Mike Rapoport wrote:
+> From: "Mike Rapoport (IBM)" <rppt@kernel.org>
 > 
-> I fully intend to continue polishing the code but at the same
-> time I'd like to start helping others base their work on the
-> specs (e.g. DPLL) and need to start working on some new families
-> myself.
+> Add structure, introduction and Nodes section to Physical Memory
+> chapter.
 > 
-> [...]
+> As the new documentation references core-api/dma-api and mm/page_reclaim,
+> add page labels to those documents.
+> 
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Reviewed-by: Lorenzo Stoakes <lstoakes@gmail.com>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
 
-Here is the summary with links:
-  - [net-next,v4,1/8] docs: add more netlink docs (incl. spec docs)
-    https://git.kernel.org/netdev/net-next/c/9d6a65079c98
-  - [net-next,v4,2/8] netlink: add schemas for YAML specs
-    https://git.kernel.org/netdev/net-next/c/e616c07ca518
-  - [net-next,v4,3/8] net: add basic C code generators for Netlink
-    https://git.kernel.org/netdev/net-next/c/be5bea1cc0bf
-  - [net-next,v4,4/8] netlink: add a proto specification for FOU
-    https://git.kernel.org/netdev/net-next/c/4eb77b4ecd3c
-  - [net-next,v4,5/8] net: fou: regenerate the uAPI from the spec
-    https://git.kernel.org/netdev/net-next/c/3a330496baa8
-  - [net-next,v4,6/8] net: fou: rename the source for linking
-    https://git.kernel.org/netdev/net-next/c/08d323234d10
-  - [net-next,v4,7/8] net: fou: use policy and operation tables generated from the spec
-    https://git.kernel.org/netdev/net-next/c/1d562c32e439
-  - [net-next,v4,8/8] tools: ynl: add a completely generic client
-    https://git.kernel.org/netdev/net-next/c/e4b48ed460d3
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+A small bug to fix below?
+
+<snip>
+
+> +
+> +Along with the node structures, kernel maintains an array of ``nodemask_t``
+> +bitmasks called ``node_states``. Each bitmask in this array represents a set of
+> +nodes with particular properties as defined by ``enum node_states``:
+> +
+> +``N_POSSIBLE``
+> +  The node could become online at some point.
+> +``N_ONLINE``
+> +  The node is online.
+> +``N_NORMAL_MEMORY``
+> +  The node has regular memory.
+> +``N_HIGH_MEMORY``
+> +  The node has regular or high memory. When ``CONFIG_HIGHMEM`` is disabled
+> +  aliased to ``N_NORMAL_MEMORY``.
+
+Noted.
+
+> +``N_MEMORY``
+> +  The node has memory(regular, high, movable)
+> +``N_CPU``
+> +  The node has one or more CPUs
+> +
+> +For each node that has a property described above, the bit corresponding to the
+> +node ID in the ``node_states[<property>]`` bitmask is set.
+> +
+> +For example, for node 2 with normal memory and CPUs, bit 2 will be set in ::
+> +
+> +  node_states[N_POSSIBLE]
+> +  node_states[N_ONLINE]
+> +  node_states[N_NORMAL_MEMORY]
+> +  node_states[N_MEMORY]
+> +  node_states[N_CPU]
+
+Should it be set also in node_states[N_HIGH_MEMORY]?
 
 
