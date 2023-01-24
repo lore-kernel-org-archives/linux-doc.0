@@ -2,95 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB9A1C38142
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 05:21:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E0CC25B4E
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 06:27:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232763AbjAXFVB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 00:21:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58360 "EHLO
+        id S233248AbjAXG1B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 01:27:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbjAXFVA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 00:21:00 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D41838E99;
-        Mon, 23 Jan 2023 21:20:53 -0800 (PST)
+        with ESMTP id S231544AbjAXG1B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 01:27:01 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EE8530B17;
+        Mon, 23 Jan 2023 22:27:00 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 40971CE18B2;
-        Tue, 24 Jan 2023 05:20:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD6B6C433EF;
-        Tue, 24 Jan 2023 05:20:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674537649;
-        bh=IPH+4bKPJ1q/DT8SYZikBubihCjX3YUeSWZ2Pk8HJvo=;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C9135611E8;
+        Tue, 24 Jan 2023 06:26:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B04B8C433EF;
+        Tue, 24 Jan 2023 06:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674541619;
+        bh=0E4Oc7/Z2stBA8qPrvNH0kEWWPBwgaEO48l8pr7o85U=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R4djtlxqzSL669QEV9XRu8IM6qFlotd2DrwQ7ct2ypDX3HlTIh7Robjbh1JWvp6la
-         D+LM4FL+XogclgO/F0u+BOYAcM7M95VUgC5/O7+cxmfNLAY7nJmzgizlWTMM9v+yGP
-         4jkkv6ijvwa3Z1yj8LLBgll+wLCwSOPFURqzkUA0=
-Date:   Tue, 24 Jan 2023 06:20:46 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Konstantin Ryabitsev <mricon@kernel.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Anton Blanchard <anton@linux.ibm.com>,
-        Trilok Soni <tsoni@codeaurora.org>,
-        James Morris <jamorris@linux.microsoft.com>, corbet@lwn.net,
-        javier.gonz@samsung.com, linux-doc@vger.kernel.org,
-        a.manzanares@samsung.com, dave@stgolabs.net,
-        darren@os.amperecomputing.com, ndesaulniers@google.com,
-        gost.dev@samsung.com, linux-kernel@vger.kernel.org,
-        Luis Chamberlain <mcgrof.c@samsung.com>
-Subject: Re: [PATCH] docs: embargoed-hardware-issues: add embargoed HW
- contact for Samsung
-Message-ID: <Y89qrid7YOsIFbD6@kroah.com>
-References: <20230123183926.249601-1-mcgrof@kernel.org>
- <Y87X6tFlevIebcc6@kroah.com>
- <Y88Ak8K5mD7tFItG@bombadil.infradead.org>
- <Y89E+S7TA6UwtNe2@casper.infradead.org>
+        b=Y0C8LuIeZXm8qzNM/0x9oaruuBIALECSGYaMY6JmMXHEt/4OO6fq6+06qZLWrY6i8
+         /YYXqNse4w2KUvniABDf9pA3W11MlsCChz5gJvaziaPWU5exQ10jdXHnq18ftwwENJ
+         WFWPLGpiW20wYNKbJJEXOqd9nDmLzA81okfyPzqIWTVrb6JlllE262R87ggNDsSftd
+         ILWr1fy2sGPKt1lW5713650iPtEhl5Bemos7Ul6Kw5aghe/uDMFQCr1TmgUCJPph8Z
+         Xu57x2nxiwSFl/idayA3VSw1jJzKxozO5QYBFU7NORPZvlvN0aI9/owULgjlII7j/5
+         tcOXg3V17Py7Q==
+Date:   Tue, 24 Jan 2023 08:22:33 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Jay Vosburgh <jay.vosburgh@canonical.com>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Jonathan Corbet <corbet@lwn.net>, oss-drivers@corigine.com,
+        linux-doc@vger.kernel.org, Raju Rangoju <rajur@chelsio.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Andy Gospodarek <andy@greyhouse.net>
+Subject: Re: [Intel-wired-lan] [PATCH net-next 09/10] bonding: fill IPsec
+ state validation failure reason
+Message-ID: <Y895KXqtQgXOytj1@unreal>
+References: <cover.1674481435.git.leon@kernel.org>
+ <d563de401d6fdc1c52959300eebb2bbb27c6c181.1674481435.git.leon@kernel.org>
+ <5064.1674514892@famine>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y89E+S7TA6UwtNe2@casper.infradead.org>
+In-Reply-To: <5064.1674514892@famine>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 02:39:53AM +0000, Matthew Wilcox wrote:
-> On Mon, Jan 23, 2023 at 01:48:03PM -0800, Luis Chamberlain wrote:
-> > > > @@ -251,6 +251,7 @@ an involved disclosed party. The current ambassadors list:
-> > > >    IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
-> > > >    Intel		Tony Luck <tony.luck@intel.com>
-> > > >    Qualcomm	Trilok Soni <tsoni@codeaurora.org>
-> > > > +  Samsung       Javier González <javier.gonz@samsung.com>
-> > 
-> > I'll send a fix on v2.
-> > 
-> > BTW while at it, it got me wondering, since most of the emails on
-> > this hw embargo page are not required to have kernel.org accounts
+On Mon, Jan 23, 2023 at 03:01:32PM -0800, Jay Vosburgh wrote:
+> Leon Romanovsky <leon@kernel.org> wrote:
 > 
-> This isn't the list of hw embargo people.  This is the list of
-> "ambassadors" who can help people work through the security disclosure
-> process.  My impression is that it's to tell me that I should contact
-> Konrad, since he also works at Oracle, to help me through the process.
-> It's not for people outside Oracle to contact.
+> >From: Leon Romanovsky <leonro@nvidia.com>
+> >
+> >Rely on extack to return failure reason.
+> >
+> >Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> >Signed-off-by: Leon Romanovsky <leon@kernel.org>
+> >---
+> > drivers/net/bonding/bond_main.c | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> >diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_main.c
+> >index 686b2a6fd674..00646aa315c3 100644
+> >--- a/drivers/net/bonding/bond_main.c
+> >+++ b/drivers/net/bonding/bond_main.c
+> >@@ -444,7 +444,7 @@ static int bond_ipsec_add_sa(struct xfrm_state *xs,
+> > 	if (!slave->dev->xfrmdev_ops ||
+> > 	    !slave->dev->xfrmdev_ops->xdo_dev_state_add ||
+> > 	    netif_is_bond_master(slave->dev)) {
+> >-		slave_warn(bond_dev, slave->dev, "Slave does not support ipsec offload\n");
+> >+		NL_SET_ERR_MSG_MOD(extack, "Slave does not support ipsec offload");
+> > 		rcu_read_unlock();
+> > 		return -EINVAL;
+> > 	}
 > 
-> If I have the wrong impression of that list, perhaps the description
-> could be clarified.
+> 	Why only this one, and not include the other similar
+> slave_warn() calls in the bond_ipsec_* functions?  
 
-That is correct, but it is primarily a list that I use when needing to
-contact companies about potential issues in their hardware.  For that I
-don't need a GPG key, that's only required if they need to get added to
-a secure mailing list, and at that point I can have a key sent to me, it
-does not have to be in our kernel.org keyring at all (and list
-participants usually are not there.)
+Which functions did you have in mind?
 
-So there's no need for any of these addresses to be part of the kernel
-gpg ring of trust for any of their activities.
+The extack was added to XFRM .xdo_dev_state_add() call, which is
+translated to bond_ipsec_add_sa() with only one slave_warn() print.
 
-thanks,
+If you are talking about bond_ipsec_add_sa_all(), that function isn't
+directly connected to netlink and doesn't have extack pointer to fill.
 
-greg k-h
+If you are talking about bond_ipsec_del_sai*() and slave_warn() there, it
+will be better to be deleted/changed to make sure what ipsec_list have
+only valid devices.
+
+Thanks
+
+
+> That would seem to make some failures show up in dmesg,
+> and others returned to the caller via extack.
+> 
+> 	-J
+> 
+> ---
+> 	-Jay Vosburgh, jay.vosburgh@canonical.com
