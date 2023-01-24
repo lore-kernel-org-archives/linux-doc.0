@@ -2,389 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02C38C54E94
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 14:01:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 447A4C38142
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 14:11:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234529AbjAXOB3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 09:01:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36854 "EHLO
+        id S234537AbjAXOLh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 09:11:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234413AbjAXOBU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 09:01:20 -0500
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0836269B;
-        Tue, 24 Jan 2023 06:00:58 -0800 (PST)
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-15f97c478a8so17664412fac.13;
-        Tue, 24 Jan 2023 06:00:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tmoyjXZIJi9Rx65rj6ruYDX6ndfhRM7zJBh2XJQLDbY=;
-        b=gPXaSlpMh9zl75rRP8w5h2kwbRlLwklFAMHM0dTjYNRr8rlxNh8B7Em4jZG6EaJVGO
-         p9VEphibY0mxZjRrZlGOuRNX3IzYSNk3WUwdYlVf4lMCydHqBPJLffa7xyivvUgkVcoF
-         DOBIojG+mBOV9Vdl/diy58xlwCTN/wgSUmrs0ayiQVu5uYn6e1jOSQ5Ik+pyIKLZmvg7
-         u0x/s0AjkSxcinjUWJegzOz0o4ThcmhAArMC8U20FDZWEB9fcUQIYu/P/ZkEJMimiEeM
-         VUWItBHCzaR29ftVVU50+fJziWq2k6bMPm2z32EyS+QEZROF4E4/GrP0JrE5JG+FNp5Q
-         UEfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tmoyjXZIJi9Rx65rj6ruYDX6ndfhRM7zJBh2XJQLDbY=;
-        b=oE2rmOpIbuK6dF5FUThYxWRTD56BrilBUXBNATmBJCwextFHh/iRun63lLad6uHlJk
-         butunCK+b5hEg+xGDIgTZE2NDTPDDk7V/8ORPrm4ypP+LygpxPTRRJ2dIxb4dHpzWhbR
-         Rcx8RwpcJUjW8ToGZYN2DQQPPZiEaM9mud9u3EKQIpX8JfY3rGmzcVhDWm7byoN6BjtI
-         XKP351q2aDPJmmfUtRpe9lAy2D27b6+NIKID5iwdnkVqY/T0bYmb3FBwFxAiFLXFyglw
-         g+x0HtPcKcJCJduluBJfVnUO7ZYrd2EuurEaBTVj9zYkiNA7OmGmala+vsi4OcEHnC3/
-         vheQ==
-X-Gm-Message-State: AFqh2koZuEzR0gtwK6pMGho0FVpVvNWg7GwUv0ImzFlnMxIpC8b1LNmV
-        IAzot8zJZxITX8HG9MZ9BW4=
-X-Google-Smtp-Source: AMrXdXsFbPWzZEWJ+ey/CazkqACJ6dIGevse4ra/3zvmFXKJn0i663Q/medPHl64JRx/vm2Zu4SGJg==
-X-Received: by 2002:a05:6870:3516:b0:15e:c4e1:c9fb with SMTP id k22-20020a056870351600b0015ec4e1c9fbmr16466432oah.31.1674568856289;
-        Tue, 24 Jan 2023 06:00:56 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id lu24-20020a056871431800b0013297705e5dsm737363oab.28.2023.01.24.06.00.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 06:00:55 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Tue, 24 Jan 2023 06:00:54 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Mario Kicherer <dev@kicherer.org>
-Cc:     linux-hwmon@vger.kernel.org, jdelvare@suse.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] hwmon: add initial NXP MC34VR500 PMIC monitoring
- support
-Message-ID: <20230124140054.GA37573@roeck-us.net>
-References: <20230118123019.3041303-1-dev@kicherer.org>
- <20230118123019.3041303-4-dev@kicherer.org>
+        with ESMTP id S234589AbjAXOLc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 09:11:32 -0500
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2059.outbound.protection.outlook.com [40.107.220.59])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78D7442DCA;
+        Tue, 24 Jan 2023 06:11:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SpwekxedMehIGzmw+VcqzSSnceXEIhlwSUW/fZxfXGe2RENtdURPwofzghZnk8QqG5jUSApGE7dJBJmSBIsJqDxyLG0PrkKElO2nqecWqArr/oiOsuVgNkcWSJ3F0mEr9b+0jw9W1m6onksDRXMm0mtPhrvx2VN7VkWBGwe8fuCZY0ranQv3ydseep4eeHRLJttRvrRsiH1yttBP3Vf1gcNOMdfHVbHpB/xz0KEIDteBLOTEm83JQcpbhN6qWodUEQUDTRDuV8LCXYic7Ep1HVptmGCrXUFAcSudEVgCmygtUmSXbCPfAkBQkIIw+Pvd9WgpV8AYQJ/dQjOLNIQyyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nZzA6mY2esQpfQbEFaHM/Dk9RtOalsbVX/JDFWrFcSg=;
+ b=NgbYWGVaNz+f/DVXAxqluLQLzpAbo7hQzF8l+MQbNOhWZ8GQmbpWQDKrX8Eouu/yhCYEzuDX7CkUlDjoomoA1X0wRyO/5AYl9HS/ROXyQAjq6jq2GQzCDrIA4H8AO7QZgfA/uPfSjwtqsnuaxvaccLRQN+EK4mBb/tJWwpqHxpTq0eUYYX9/N7A3RDPoP/y5C20AOZpivX01n8ryM97GC4+h2rmL5l0CUltHSdTsGWAgwQ9nKzXUKSeWEAkCNr/kTDpqcX7O50KQcpeQJdEAhZusGw1nN+CPHMneUSIDEKq1FaubaEXKFQpbwfXbTi6Vjv4zjneq4tSFRK3meeTJ9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nZzA6mY2esQpfQbEFaHM/Dk9RtOalsbVX/JDFWrFcSg=;
+ b=XXr+vo/Hs/jXH2ctaVQzeCX3MCdl8xEStl1eA6rKnDdIpxHj5UwqjvuLstLnidSRn09VBRt+KmxWc22AaEMAgCwQ1zcTO7AhSKv4AN0wtO1uydTXTL2bBay+tBqsavWJCJ+Fe02wvJzep1crNtsXO8UCMiNHp8AFgOiY84Pv5g0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by SJ0PR12MB6991.namprd12.prod.outlook.com (2603:10b6:a03:47c::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Tue, 24 Jan
+ 2023 14:11:28 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::790c:da77:2d05:6098]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::790c:da77:2d05:6098%9]) with mapi id 15.20.6002.033; Tue, 24 Jan 2023
+ 14:11:28 +0000
+Message-ID: <72cdefc5-1601-5c43-9ea4-4b637f5fafa5@amd.com>
+Date:   Tue, 24 Jan 2023 08:11:21 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v11 04/13] x86/cpufeatures: Add Bandwidth Monitoring Event
+ Configuration feature flag
+Content-Language: en-US
+To:     Borislav Petkov <bp@alien8.de>, "Moger, Babu" <Babu.Moger@amd.com>
+Cc:     "Luck, Tony" <tony.luck@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+        "Das1, Sandipan" <Sandipan.Das@amd.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "Hunter, Adrian" <adrian.hunter@intel.com>,
+        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+        "peternewman@google.com" <peternewman@google.com>
+References: <20230109164405.569714-1-babu.moger@amd.com>
+ <20230109164405.569714-5-babu.moger@amd.com> <Y7xjxUj+KnOEJssZ@zn.tnic>
+ <5afd0a7c-3fbe-dfea-f1b4-2fc35fbb4f13@amd.com> <Y7yCCNANVBnOOmxM@zn.tnic>
+ <SJ1PR11MB608321F26D729A082BFC6FAEFCFE9@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <ecf0abf0-59fe-3898-762c-d9d883925550@amd.com> <Y7yMbQ8hI9MGl1w3@zn.tnic>
+ <MW3PR12MB455384130AF0BDE3AF88BCF095FE9@MW3PR12MB4553.namprd12.prod.outlook.com>
+ <Y8/CSrU8Bo298VzO@zn.tnic>
+From:   "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <Y8/CSrU8Bo298VzO@zn.tnic>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR20CA0009.namprd20.prod.outlook.com
+ (2603:10b6:208:e8::22) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118123019.3041303-4-dev@kicherer.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SJ0PR12MB6991:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc88aca9-9ccd-49be-c4f7-08dafe14e272
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fjiA+cR1GNar8ES9UPdAcEroq+b3MWSi+iAbhk78NdkTP2xQCqk1Ro/DEu+t5AKzr2uIm8Id71sVAhdZrvadv85v+Jjz25TsdH0mTJjyrauPJBYrgUBdzw4++9nM5O2u9EW8x60ZYpkCQ2YqLvTJvOrqqx0U6ACl8GIJkeVdK8v1VdcVVgycMlMEgaSiNq/NcNN7c7RRyQZO5cOnDloi4PVJmeubS3GBDg+XNBBE0xPkAUtqmOkDMBjeku63ADALf6GcZms9uS+lmT8UGkHJ5A7x/dPozbJgGbG4OBiez54uqecRoLbIA7fdTe3YbHQAqhfXKmEnpwWLF4CojjwNvJ/jUOFxNNAwOClMuakEvPaRwaAjhjS5jkkwKFawyVaBlodDmHNtxCVYC7V17tK4bunbOeQRYMWLZHjXzPNJ8OElJlW9JogNwTzT9wGwSV+XM3bVXLbe9wYQm7tbFVY2a/0mj6jFTMVged78nGbwa62hijGnzgcC0SePF69iWnJDx6x45xq2emAULSq+dTPEYlAy+Ur4TahzZ0TfnzJCXc47Gu74VtWVC2HW7QiaV8svV5OEurDOd69+npj7Oea0gRs1Pwmyrwc5huTOCb/CLXJwwypn2/PTFeHJFmi10PSPK95z5jtSJjsuN6r5k+M4m9twv8RKZ7uWLDO0aiYx02pJg1cYgbe9DeAxcjN/CHAqC4tWwbX+LcoB1bp5n/Q85r8z5nLoGdlgPPhj8l6tHfI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39860400002)(396003)(376002)(136003)(346002)(451199015)(316002)(41300700001)(110136005)(54906003)(66946007)(4326008)(66556008)(8676002)(66476007)(6636002)(6666004)(6506007)(478600001)(53546011)(6512007)(186003)(36756003)(6486002)(2616005)(31686004)(8936002)(7406005)(7416002)(4744005)(5660300002)(31696002)(2906002)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1FXcGUycEFaajdsVm5zejZQb2FtRmZNZmhxaEJOdDBoOEtnbUFoZXQ5a0Jm?=
+ =?utf-8?B?SFk4QXBEbHFwSSswcDY1cDY2ZlM4YXdoOGJIQ0hQdTNzdXVkSWVqUWYrSno0?=
+ =?utf-8?B?bU1oSkREQlJLL0l2VGJmbWZQNU9rTEJQUEpGODRMVVVkczF5ZkRNbHFzYm04?=
+ =?utf-8?B?T1c0L0I2UjUwMVovNEZxYkdwME5uc3NIZytRK1ZpQ3d5OFZ5QmhIWnBGRTZE?=
+ =?utf-8?B?M0V5Z28wS3VQWWtJNUVPTFE2OVk4MmdzbjZyWHR5dGNEUitrOExWWDBpWldy?=
+ =?utf-8?B?RHBsOGlqLzVRUFhVV0lYOU5qZTVrbjNlQXJZTVJScVNjUWEzYW9FTWNnQ2NC?=
+ =?utf-8?B?Z3pWNk1KL0c3aHRuL1BybldiWXlDYTZEU2V2SEJ1YU9MNjE0UWwyamNlZTlJ?=
+ =?utf-8?B?aUtjZkdDWkpqV0U4ejBvZk1tL0s2TThheEVGSkZtU285K2F0SDIxVktxQm1Q?=
+ =?utf-8?B?TzQ0UlhZcWRUdis5SWM0WkFZOWQzTlFvU2QyU3ROYmVrRGNZQVFFSWtmdzJU?=
+ =?utf-8?B?MUkrR3lidWdIbVJpOHROZlppbVpDa25jYjNqM2YwY28yVUI5RlIyNm1yRldN?=
+ =?utf-8?B?WjU2cDE1Z05ZdUFKVEZob3pTWmI2WkVXUUk1ak5mZHdxRGk4UktNMlB5azdi?=
+ =?utf-8?B?TFUzRXRHeGplYVBRL0NqYUZDeGErVklIbFJYcTZIZ296cGdXVTZNZHJ0Mkt6?=
+ =?utf-8?B?aVQ1czJtMXl2WStYSGZwZHRraWNRUytIRElTVnR2WWlPWDVKaXVEejdpUUhU?=
+ =?utf-8?B?OWZHa0piZjJJSkVkdEVzUU9IRnFRR0E4QW1vTDdENC91dGMvWlk4aUNxTC9M?=
+ =?utf-8?B?NFFPakppRFFDQkhhVjd0THFrU29sZTR4c203dnorcC9iaW1wODEzVDlOMmpV?=
+ =?utf-8?B?Z053NVJxdkM5dklvQnl4TWhNRkhZRmxaMndtOC9PdWNKRGNSWnR0L2tpSmFv?=
+ =?utf-8?B?V2QyVDl4cXV0aDM0clgvUjNMZlZ1dEhmVnhyQU9PT003cTd1L3cyUXN2Q2RJ?=
+ =?utf-8?B?UUtUMTY1WGZma2c0eVVEeG5kQ3RBdCtkK2FiMU1naEQ2YndmRHFwVDRoblNa?=
+ =?utf-8?B?S3lQdDU5L2ZieTBMNHhoN3htSjlVemh3UnRlWU5jVHRGQ2I0ZnN5aHJmRUZh?=
+ =?utf-8?B?RVpzSHduaEIvcyttcW1uM0xSVk1DVzhQRWlFS2grcTZqRFFZVm8wQzlZVHZF?=
+ =?utf-8?B?Q2E1V1B3SGFpektNL215dmV6MmlmbDV4eGUySVVpdW9pcnczR01VcG10OWQr?=
+ =?utf-8?B?T3BsRUlEd3dRRlNjeVFQWm9nZDd6U0NUbFc2eTNySTFRMzRsaWlURzBVVXFh?=
+ =?utf-8?B?ZWRocFlJQ09jVENzdU1qQ3dtREJBTzdNNVFiL3ZnMWJYTU0xVDArQ3hIZFdj?=
+ =?utf-8?B?am9ob2JPUS9QV3BINjAyWUtJVmViOWtIWGp3SE9lTitVek1CTEtZcnBjVTVu?=
+ =?utf-8?B?aEFxMDBVSjNTZzg2eUVQamh0cGwvVHhzM3NXK1l6TGhBY3FDUkloVkdzVFhI?=
+ =?utf-8?B?bllIbkF5VnUrUzBQbW9uU0pFTlRUZXIwclhVN29hWHkyV091VGRLU3FEMVMz?=
+ =?utf-8?B?VUdPTm9NQUUvMklPR0o4emxYS2puTnFnaGQ0aVBNc1JHTFBkbHQrSWNvNUVr?=
+ =?utf-8?B?UHZHN2RyQTdXUUxNaWZFd1diTk5mZnQvb0NZdERvaXZ3Y2VWS3Vucm1wY1pW?=
+ =?utf-8?B?RTEya1JEYlNLc09iR1NPNVZldCt2NEFVdVRQMDVwUjVNRUtwem5kdlhkUlFU?=
+ =?utf-8?B?NnMyMFg0bjFxNWhqNTNyRUhEZ2dTc1dvVUR0cmpva1I1Ni9rSGYvZzE4aDEw?=
+ =?utf-8?B?MUtJazVqVk5JNFJhaHhpbTlLSHhLaUFYenIrS0lKKzVndHZOc1RIejV3UnBF?=
+ =?utf-8?B?ZUh2dzVzYVJqZWFtOGQrZ1JYaGY4TEtwWkxXeEwyVzB2T0NjNmgyajdrWWpi?=
+ =?utf-8?B?c0lOMTF5MjgxYXpYNXBGOWJtM2hDUFhjNGFSL3R5WGFMZ3RDckhxSUZRUWNy?=
+ =?utf-8?B?S01XaWx5L25SU3hDRG5aNHFWNEJMRVZNNXBubHIyYmpnQVViVE9STzZleHVT?=
+ =?utf-8?B?d1FoQzkwNUN0a0R3d1Z6YVVNL2NwZVdiOXdFVXBlQit1N0JwNnQ2Q1JadHdS?=
+ =?utf-8?B?WlBFTW1oL0g5UThKTWdxUERzdkNtSS85QWZrNnpmeG1Ub2xicGltK3daeWRp?=
+ =?utf-8?Q?cUXlUvwHftk6AsIwOg3LGvqTCT++E4KigIht7/ESmGFH?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc88aca9-9ccd-49be-c4f7-08dafe14e272
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2023 14:11:28.2225
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N+6ZSlEQilAxrqfxcOOnnkCJ24amYzhDyFvTfQZIA7CItUntqjtTQf+hN3G/9+6K
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6991
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 18, 2023 at 01:30:19PM +0100, Mario Kicherer wrote:
-> Add initial monitoring support for the MC34VR500 PMIC. In its current
-> state, input voltage and temperature alarms are reported to hwmon.
-> 
-> Datasheet:
->  - https://www.nxp.com/docs/en/data-sheet/MC34VR500.pdf
-> 
-> Signed-off-by: Mario Kicherer <dev@kicherer.org>
 
-Applied to hwmon-next.
+On 1/24/2023 5:34 AM, Borislav Petkov wrote:
+> On Mon, Jan 09, 2023 at 11:10:40PM +0000, Moger, Babu wrote:
+>> Yes. We could.
+>>
+>> But at this point we don't have all the features listed in /sys/fs/resctrl/info
+>> directory. We need to add all the resctrl feature bits in info directory. How
+>> about we take this as separate task and I can send separate series to address
+>> it?
+> See my reply to Reinette from just now and lemme know if something's not clear
+> yet.
 
-Thanks,
-Guenter
+Understood. I am planning to add resctrl feature list inside 
+/sys/fs/resctrl/info/ in my next series.
 
-> ---
->  drivers/hwmon/Kconfig     |   7 +
->  drivers/hwmon/Makefile    |   1 +
->  drivers/hwmon/mc34vr500.c | 262 ++++++++++++++++++++++++++++++++++++++
->  3 files changed, 270 insertions(+)
->  create mode 100644 drivers/hwmon/mc34vr500.c
-> 
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 3176c33af6c6..69d4c1609494 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -1166,6 +1166,13 @@ config SENSORS_MAX31790
->  	  This driver can also be built as a module. If so, the module
->  	  will be called max31790.
->  
-> +config SENSORS_MC34VR500
-> +	tristate "NXP MC34VR500 hardware monitoring driver"
-> +	depends on I2C
-> +	help
-> +	  If you say yes here you get support for the temperature and input
-> +	  voltage sensors of the NXP MC34VR500.
-> +
->  config SENSORS_MCP3021
->  	tristate "Microchip MCP3021 and compatibles"
->  	depends on I2C
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index e2e4e87b282f..4bef13d16c66 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -149,6 +149,7 @@ obj-$(CONFIG_SENSORS_MAX6650)	+= max6650.o
->  obj-$(CONFIG_SENSORS_MAX6697)	+= max6697.o
->  obj-$(CONFIG_SENSORS_MAX31790)	+= max31790.o
->  obj-$(CONFIG_SENSORS_MC13783_ADC)+= mc13783-adc.o
-> +obj-$(CONFIG_SENSORS_MC34VR500)	+= mc34vr500.o
->  obj-$(CONFIG_SENSORS_MCP3021)	+= mcp3021.o
->  obj-$(CONFIG_SENSORS_TC654)	+= tc654.o
->  obj-$(CONFIG_SENSORS_TPS23861)	+= tps23861.o
-> diff --git a/drivers/hwmon/mc34vr500.c b/drivers/hwmon/mc34vr500.c
-> new file mode 100644
-> index 000000000000..b14daa999a2e
-> --- /dev/null
-> +++ b/drivers/hwmon/mc34vr500.c
-> @@ -0,0 +1,262 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * An hwmon driver for the NXP MC34VR500 PMIC
-> + *
-> + * Author: Mario Kicherer <dev@kicherer.org>
-> + */
-> +
-> +#include <linux/bits.h>
-> +#include <linux/dev_printk.h>
-> +#include <linux/device.h>
-> +#include <linux/err.h>
-> +#include <linux/errno.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/i2c.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/irqreturn.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/regmap.h>
-> +
-> +#define MC34VR500_I2C_ADDR		0x08
-> +#define MC34VR500_DEVICEID_VALUE	0x14
-> +
-> +/* INTSENSE0 */
-> +#define ENS_BIT		BIT(0)
-> +#define LOWVINS_BIT	BIT(1)
-> +#define THERM110S_BIT	BIT(2)
-> +#define THERM120S_BIT	BIT(3)
-> +#define THERM125S_BIT	BIT(4)
-> +#define THERM130S_BIT	BIT(5)
-> +
-> +#define MC34VR500_DEVICEID	0x00
-> +
-> +#define MC34VR500_SILICONREVID	0x03
-> +#define MC34VR500_FABID		0x04
-> +#define MC34VR500_INTSTAT0	0x05
-> +#define MC34VR500_INTMASK0	0x06
-> +#define MC34VR500_INTSENSE0	0x07
-> +
-> +struct mc34vr500_data {
-> +	struct device *hwmon_dev;
-> +	struct regmap *regmap;
-> +};
-> +
-> +static irqreturn_t mc34vr500_process_interrupt(int irq, void *userdata)
-> +{
-> +	struct mc34vr500_data *data = (struct mc34vr500_data *)userdata;
-> +	unsigned int reg;
-> +	int ret;
-> +
-> +	ret = regmap_read(data->regmap, MC34VR500_INTSTAT0, &reg);
-> +	if (ret < 0)
-> +		return IRQ_HANDLED;
-> +
-> +	if (reg) {
-> +		if (reg & LOWVINS_BIT)
-> +			hwmon_notify_event(data->hwmon_dev, hwmon_in,
-> +					   hwmon_in_min_alarm, 0);
-> +
-> +		if (reg & THERM110S_BIT)
-> +			hwmon_notify_event(data->hwmon_dev, hwmon_temp,
-> +					   hwmon_temp_max_alarm, 0);
-> +
-> +		if (reg & THERM120S_BIT)
-> +			hwmon_notify_event(data->hwmon_dev, hwmon_temp,
-> +					   hwmon_temp_crit_alarm, 0);
-> +
-> +		if (reg & THERM130S_BIT)
-> +			hwmon_notify_event(data->hwmon_dev, hwmon_temp,
-> +					   hwmon_temp_emergency_alarm, 0);
-> +
-> +		/* write 1 to clear */
-> +		regmap_write(data->regmap, MC34VR500_INTSTAT0, LOWVINS_BIT |
-> +			     THERM110S_BIT | THERM120S_BIT | THERM130S_BIT);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static umode_t mc34vr500_is_visible(const void *data,
-> +				    enum hwmon_sensor_types type,
-> +				    u32 attr, int channel)
-> +{
-> +	switch (attr) {
-> +	case hwmon_in_min_alarm:
-> +	case hwmon_temp_max_alarm:
-> +	case hwmon_temp_crit_alarm:
-> +	case hwmon_temp_emergency_alarm:
-> +		return 0444;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int mc34vr500_alarm_read(struct mc34vr500_data *data, int index,
-> +				long *val)
-> +{
-> +	unsigned int reg;
-> +	int ret;
-> +
-> +	ret = regmap_read(data->regmap, MC34VR500_INTSENSE0, &reg);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	*val = !!(reg & index);
-> +
-> +	return 0;
-> +}
-> +
-> +static int mc34vr500_read(struct device *dev, enum hwmon_sensor_types type,
-> +			  u32 attr, int channel, long *val)
-> +{
-> +	struct mc34vr500_data *data = dev_get_drvdata(dev);
-> +
-> +	switch (type) {
-> +	case hwmon_in:
-> +		switch (attr) {
-> +		case hwmon_in_min_alarm:
-> +			return mc34vr500_alarm_read(data, LOWVINS_BIT, val);
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_max_alarm:
-> +			return mc34vr500_alarm_read(data, THERM110S_BIT, val);
-> +		case hwmon_temp_crit_alarm:
-> +			return mc34vr500_alarm_read(data, THERM120S_BIT, val);
-> +		case hwmon_temp_emergency_alarm:
-> +			return mc34vr500_alarm_read(data, THERM130S_BIT, val);
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static const struct hwmon_channel_info *mc34vr500_info[] = {
-> +	HWMON_CHANNEL_INFO(in, HWMON_I_MIN_ALARM),
-> +	HWMON_CHANNEL_INFO(temp, HWMON_T_MAX_ALARM | HWMON_T_CRIT_ALARM
-> +			   | HWMON_T_EMERGENCY_ALARM),
-> +	NULL,
-> +};
-> +
-> +static const struct hwmon_ops mc34vr500_hwmon_ops = {
-> +	.is_visible = mc34vr500_is_visible,
-> +	.read = mc34vr500_read,
-> +};
-> +
-> +static const struct hwmon_chip_info mc34vr500_chip_info = {
-> +	.ops = &mc34vr500_hwmon_ops,
-> +	.info = mc34vr500_info,
-> +};
-> +
-> +static const struct regmap_config mc34vr500_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = MC34VR500_INTSENSE0,
-> +};
-> +
-> +static int mc34vr500_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct mc34vr500_data *data;
-> +	struct device *hwmon_dev;
-> +	int ret;
-> +	unsigned int reg, revid, fabid;
-> +	struct regmap *regmap;
-> +
-> +	regmap = devm_regmap_init_i2c(client, &mc34vr500_regmap_config);
-> +	if (IS_ERR(regmap))
-> +		return PTR_ERR(regmap);
-> +
-> +	data = devm_kzalloc(dev, sizeof(struct mc34vr500_data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	data->regmap = regmap;
-> +
-> +	ret = regmap_read(regmap, MC34VR500_DEVICEID, &reg);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (reg != MC34VR500_DEVICEID_VALUE)
-> +		return -ENODEV;
-> +
-> +	ret = regmap_read(regmap, MC34VR500_SILICONREVID, &revid);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = regmap_read(regmap, MC34VR500_FABID, &fabid);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	dev_dbg(dev, "mc34vr500: revid 0x%x fabid 0x%x\n", revid, fabid);
-> +
-> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name,
-> +							 data,
-> +							 &mc34vr500_chip_info,
-> +							 NULL);
-> +	if (IS_ERR(hwmon_dev))
-> +		return PTR_ERR(hwmon_dev);
-> +
-> +	data->hwmon_dev = hwmon_dev;
-> +
-> +	if (client->irq) {
-> +		ret = devm_request_threaded_irq(dev, client->irq, NULL,
-> +						mc34vr500_process_interrupt,
-> +						IRQF_TRIGGER_RISING |
-> +						IRQF_ONESHOT |
-> +						IRQF_SHARED,
-> +						dev_name(dev), data);
-> +		if (ret)
-> +			return ret;
-> +
-> +		/* write 1 to clear interrupts */
-> +		ret = regmap_write(regmap, MC34VR500_INTSTAT0, LOWVINS_BIT |
-> +				   THERM110S_BIT | THERM120S_BIT |
-> +				   THERM130S_BIT);
-> +		if (ret)
-> +			return ret;
-> +
-> +		/* unmask interrupts */
-> +		ret = regmap_write(regmap, MC34VR500_INTMASK0,
-> +				   ~(LOWVINS_BIT | THERM110S_BIT |
-> +				   THERM120S_BIT | THERM130S_BIT));
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct i2c_device_id mc34vr500_id[] = {
-> +	{ "mc34vr500", 0 },
-> +};
-> +
-> +MODULE_DEVICE_TABLE(i2c, mc34vr500_id);
-> +
-> +static const struct of_device_id __maybe_unused mc34vr500_of_match[] = {
-> +	{ .compatible = "nxp,mc34vr500" },
-> +};
-> +MODULE_DEVICE_TABLE(of, mc34vr500_of_match);
-> +
-> +static struct i2c_driver mc34vr500_driver = {
-> +	.driver = {
-> +		   .name = "mc34vr500",
-> +		   .of_match_table = of_match_ptr(mc34vr500_of_match),
-> +		    },
-> +	.probe_new = mc34vr500_probe,
-> +	.id_table = mc34vr500_id,
-> +};
-> +
-> +module_i2c_driver(mc34vr500_driver);
-> +
-> +MODULE_AUTHOR("Mario Kicherer <dev@kicherer.org>");
-> +
-> +MODULE_DESCRIPTION("MC34VR500 driver");
-> +MODULE_LICENSE("GPL");
+Thanks
+
+Babu
+
