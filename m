@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86141C54EED
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 21:33:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 915C7C54EED
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 21:37:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235010AbjAXVdD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 16:33:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54740 "EHLO
+        id S234783AbjAXVho (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 16:37:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234805AbjAXVdC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 16:33:02 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0811B47422
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 13:33:01 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id jm10so16012455plb.13
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 13:33:01 -0800 (PST)
+        with ESMTP id S232483AbjAXVhn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 16:37:43 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7355E26AD
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 13:37:42 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id lp10so13059515pjb.4
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 13:37:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8MIgb1FC4LRlLs+V9SCUKWjUyCpMInu0ZH7wUPNGpSs=;
-        b=E6psx8YV4vAdnKkIV2m9Germ7GqmWEnc/9AQtceX/5eUz7Ni5cLT8Qkasf4DyoTkPK
-         NtydHCmOO8uBc5OaQuKOXDvyB6FS7izFrMRL5uUtPtNf92BH5fETbbTziouNUVTfxyEK
-         bshnS081IcP4kevvdQAw7a2kdNa3fDxHA7TAooZyPspTqLykH+pGcEobdFD/Ui6vWEWg
-         9z2y+Aym6kGKGfl2Zys9b+2JBon3OA9oIO/F4nVNPEgIILjpO1QkbwPh1vQNM96Mm01V
-         qzdLLYslq3l9dlLKxzBoWvrdOvbvsceB9li+nZu7OO8wuQho+Ty3/fu/CZJkD1EuVf5k
-         855g==
+        bh=xCg+14KhdGv7fDnqb2rUDWNTTTL3orxb6Lg6ROb71qM=;
+        b=bqryvfh/KBC/5NXKHYJZ0a9Jy2d6IlGtG0JOTS7QF96tYE8zMNzUvhCVnXfvJEt2YV
+         0qgrpUr5VGeO3/A++oBiRYp/0U+ORZ2U0NniFmlFE1yig3fjukEUqNXLWsIqogpWtK0h
+         n3pEGCAx91Bm+4Y8Lyur18S5rJ5jieQvtfruWWYoCrkfrI8vf0JDWTDmH05cBLZCxNaH
+         g61bXKhXQdncJ3GWly7Ga/2YFUZM7WttST3Jc4HJps86NcPYKBhS6VgP+IwOfF0t2mvG
+         bHAIUSNtomwtMrot4HD074x+hN7XUWAlG5GzzZJSai6fkLzcJXQBOHCgIIbGz8JmYsIo
+         xxAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8MIgb1FC4LRlLs+V9SCUKWjUyCpMInu0ZH7wUPNGpSs=;
-        b=svv/am5Hxbm4xcMlC/yofGk24uR5U+msDflV/CoXf8HiBsQ7YxPyr81Q4jQxs4Z3JJ
-         Vv0b21DCkMlmYTpY/SPy13Oy0dwsBkMvOsviVGl3IlosTGFPY0cqaLfiE5Af3oNMjKxR
-         I17FprfVWqPmxLMhpdF27v18nC4BdFwV07dOdHKANL2MyRx0thuP3hlyDFd6EddV3wOw
-         OdacWwkDXQWhHj2iYy+jRvKhejvngTGTkIxQ9X6qzNEKq0VVArC0d/k1Mwjs5ctGWbu3
-         CoN3xAcAJIgwvFvL0289vbFUk0hkQTMTbuxOpDUDhulDLLS+iLbRAqLbYCS9a9JDULy7
-         DOkw==
-X-Gm-Message-State: AO0yUKXv+PetMWxsfaEplehLmV2byyLBMfv1XNDOvj8moDQG/Y46i+Nh
-        ANBOb5T4dxBbyPKTxMRYssvZXg==
-X-Google-Smtp-Source: AK7set8LwrT8q6wW7rJIZWqL1MaFgvrOp6tyO1Mlya56e2G9m/iyC8pIqiUrW4bbqzd8lVk2aoSXqA==
-X-Received: by 2002:a17:902:e00c:b0:192:8a1e:9bc7 with SMTP id o12-20020a170902e00c00b001928a1e9bc7mr344558plo.0.1674595980333;
-        Tue, 24 Jan 2023 13:33:00 -0800 (PST)
+        bh=xCg+14KhdGv7fDnqb2rUDWNTTTL3orxb6Lg6ROb71qM=;
+        b=bBCXxCiIxMMZwRAyZAyUHbzcezjj9Zl9dWO+WMvsZeiZ9G8zAM4AYwqdn1+Epiu0YW
+         BeKODOxZ0AygYFVkdTPDCoPuo16qJmRw4dyq+qzeVXisRGf4BISi5mfGlrKSliTEaNzM
+         kLJSweB5y/wwaGZ2NsS09frNXpwzIy/oPUzH0ZTxgQ+/JlhjZmLWj0FQMyyGVBoD+z5+
+         XYQYukSViVfOVoUZO5FYcBG275y7KvfgIHFb7phfLgqMuxhK2/5GD9Mp8sKnTVhFIqyU
+         3R+CwbRlVB+7eQ2L+onpSgdyyskBtPTgEQUdrjmc0tfFEF2PeuMO60M20U6fVJPaFJru
+         AOpw==
+X-Gm-Message-State: AO0yUKVh5b0uhxwIRSq7G5fqH/MzeYJxRr7pNimRed7EEXcyNt6hqccW
+        9u70H4+7a46I46blE4W+Tu+7qA==
+X-Google-Smtp-Source: AK7set86jseu/vYRkmTo3r44uV1Oupq7/YteqiMcddsfINv9XXxhuDed8J59rP/5cL3MDxIbQhc2ng==
+X-Received: by 2002:a05:6a20:4c08:b0:a4:efde:2ed8 with SMTP id fm8-20020a056a204c0800b000a4efde2ed8mr400647pzb.0.1674596261827;
+        Tue, 24 Jan 2023 13:37:41 -0800 (PST)
 Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id jw19-20020a170903279300b00196251ca124sm236809plb.75.2023.01.24.13.32.59
+        by smtp.gmail.com with ESMTPSA id y5-20020a056a00180500b0058d97b624f0sm2068374pfa.75.2023.01.24.13.37.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 13:32:59 -0800 (PST)
-Date:   Tue, 24 Jan 2023 21:32:55 +0000
+        Tue, 24 Jan 2023 13:37:38 -0800 (PST)
+Date:   Tue, 24 Jan 2023 21:37:33 +0000
 From:   Sean Christopherson <seanjc@google.com>
 To:     Kim Phillips <kim.phillips@amd.com>
 Cc:     x86@kernel.org, Borislav Petkov <bp@alien8.de>,
@@ -68,144 +68,47 @@ Cc:     x86@kernel.org, Borislav Petkov <bp@alien8.de>,
         Tom Lendacky <thomas.lendacky@amd.com>,
         Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 4/8] x86/cpu, kvm: Move X86_FEATURE_LFENCE_RDTSC to
- its native leaf
-Message-ID: <Y9BOh9xB/G5Ifj8N@google.com>
+Subject: Re: [PATCH v9 0/8] x86/cpu, kvm: Support AMD Automatic IBRS
+Message-ID: <Y9BPnTJSI247DV50@google.com>
 References: <20230124163319.2277355-1-kim.phillips@amd.com>
- <20230124163319.2277355-5-kim.phillips@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230124163319.2277355-5-kim.phillips@amd.com>
+In-Reply-To: <20230124163319.2277355-1-kim.phillips@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, Jan 24, 2023, Kim Phillips wrote:
-> The LFENCE always serializing feature bit was defined as scattered
-> LFENCE_RDTSC and its native leaf bit position open-coded for KVM.
-> Add it to its newly added CPUID leaf 0x80000021 EAX proper.
-> With LFENCE_RDTSC is in its proper place, the kernel's set_cpu_cap()
-> will effectively sythesize the feature for KVM going forward.
+> Kim Phillips (8):
+>   x86/cpu, kvm: Add support for CPUID_80000021_EAX
+>   KVM: x86: Move open-coded cpuid leaf 0x80000021 EAX bit propagation
+>     code
+>   x86/cpu, kvm: Add the NO_NESTED_DATA_BP feature
+>   x86/cpu, kvm: Move X86_FEATURE_LFENCE_RDTSC to its native leaf
+>   x86/cpu, kvm: Add the Null Selector Clears Base feature
+>   x86/cpu, kvm: Add the SMM_CTL MSR not present feature
+>   x86/cpu: Support AMD Automatic IBRS
+>   KVM: x86: Propagate the AMD Automatic IBRS feature to the guest
 > 
-> Drop the bit description comments now it's more self-describing.
+>  Documentation/admin-guide/hw-vuln/spectre.rst |  6 ++--
+>  .../admin-guide/kernel-parameters.txt         |  6 ++--
+>  arch/x86/include/asm/cpufeature.h             |  7 +++--
+>  arch/x86/include/asm/cpufeatures.h            | 11 ++++++--
+>  arch/x86/include/asm/disabled-features.h      |  3 +-
+>  arch/x86/include/asm/msr-index.h              |  2 ++
+>  arch/x86/include/asm/required-features.h      |  3 +-
+>  arch/x86/kernel/cpu/amd.c                     |  2 +-
+>  arch/x86/kernel/cpu/bugs.c                    | 20 +++++++------
+>  arch/x86/kernel/cpu/common.c                  | 26 +++++++++--------
+>  arch/x86/kvm/cpuid.c                          | 28 ++++++-------------
+>  arch/x86/kvm/reverse_cpuid.h                  |  1 +
+>  arch/x86/kvm/svm/svm.c                        |  3 ++
+>  arch/x86/kvm/x86.c                            |  3 ++
+>  14 files changed, 70 insertions(+), 51 deletions(-)
 > 
-> Also, in amd_init(), don't bother setting DE_CFG[1] any more.
-> 
-> Signed-off-by: Kim Phillips <kim.phillips@amd.com>
-> ---
->  arch/x86/include/asm/cpufeatures.h | 3 ++-
->  arch/x86/kernel/cpu/amd.c          | 2 +-
->  arch/x86/kvm/cpuid.c               | 5 +----
->  3 files changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> index 4637fd7a84d6..e975822951b2 100644
-> --- a/arch/x86/include/asm/cpufeatures.h
-> +++ b/arch/x86/include/asm/cpufeatures.h
-> @@ -97,7 +97,7 @@
->  #define X86_FEATURE_SYSENTER32		( 3*32+15) /* "" sysenter in IA32 userspace */
->  #define X86_FEATURE_REP_GOOD		( 3*32+16) /* REP microcode works well */
->  #define X86_FEATURE_AMD_LBR_V2		( 3*32+17) /* AMD Last Branch Record Extension Version 2 */
-> -#define X86_FEATURE_LFENCE_RDTSC	( 3*32+18) /* "" LFENCE synchronizes RDTSC */
-> +/* FREE, was #define X86_FEATURE_LFENCE_RDTSC		( 3*32+18) "" LFENCE synchronizes RDTSC */
->  #define X86_FEATURE_ACC_POWER		( 3*32+19) /* AMD Accumulated Power Mechanism */
->  #define X86_FEATURE_NOPL		( 3*32+20) /* The NOPL (0F 1F) instructions */
->  #define X86_FEATURE_ALWAYS		( 3*32+21) /* "" Always-present feature */
-> @@ -432,6 +432,7 @@
->  
->  /* AMD-defined Extended Feature 2 EAX, CPUID level 0x80000021 (EAX), word 20 */
->  #define X86_FEATURE_NO_NESTED_DATA_BP	(20*32+ 0) /* "" No Nested Data Breakpoints */
-> +#define X86_FEATURE_LFENCE_RDTSC	(20*32+ 2) /* "" LFENCE always serializing / synchronizes RDTSC */
->  
->  /*
->   * BUG word(s)
-> diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
-> index f769d6d08b43..208c2ce8598a 100644
-> --- a/arch/x86/kernel/cpu/amd.c
-> +++ b/arch/x86/kernel/cpu/amd.c
-> @@ -956,7 +956,7 @@ static void init_amd(struct cpuinfo_x86 *c)
->  
->  	init_amd_cacheinfo(c);
->  
-> -	if (cpu_has(c, X86_FEATURE_XMM2)) {
-> +	if (!cpu_has(c, X86_FEATURE_LFENCE_RDTSC) && cpu_has(c, X86_FEATURE_XMM2)) {
->  		/*
->  		 * Use LFENCE for execution serialization.  On families which
->  		 * don't have that MSR, LFENCE is already serializing.
-> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-> index 9764499acce2..448b5de98b8f 100644
-> --- a/arch/x86/kvm/cpuid.c
-> +++ b/arch/x86/kvm/cpuid.c
-> @@ -742,12 +742,9 @@ void kvm_set_cpu_caps(void)
->  		F(SME_COHERENT));
->  
->  	kvm_cpu_cap_mask(CPUID_8000_0021_EAX,
-> -		F(NO_NESTED_DATA_BP) |
-> -		BIT(2) /* LFENCE Always serializing */ | 0 /* SmmPgCfgLock */ |
-> +		F(NO_NESTED_DATA_BP) | F(LFENCE_RDTSC) | 0 /* SmmPgCfgLock */ |
->  		BIT(6) /* NULL_SEL_CLR_BASE */ | 0 /* PrefetchCtlMsr */
->  	);
-> -	if (cpu_feature_enabled(X86_FEATURE_LFENCE_RDTSC))
-> -		kvm_cpu_caps[CPUID_8000_0021_EAX] |= BIT(2) /* LFENCE Always serializing */;
+> -- 
 
-Gah, I was wrong.  I lost track of the fact that kvm_cpu_cap_mask() does an
-actual CPUID, i.e. the oddball code is necessary to manual synthesize the flag.
+With my goof in the LFENCE_RDTSC patch fixed,
 
-Boris, can you fold this in?
-
----
- arch/x86/kvm/cpuid.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index fb32e084a40f..12455dc5afe5 100644
---- a/arch/x86/kvm/cpuid.c
-+++ b/arch/x86/kvm/cpuid.c
-@@ -745,6 +745,19 @@ void kvm_set_cpu_caps(void)
- 		F(NO_NESTED_DATA_BP) | F(LFENCE_RDTSC) | 0 /* SmmPgCfgLock */ |
- 		BIT(6) /* NULL_SEL_CLR_BASE */ | 0 /* PrefetchCtlMsr */
- 	);
-+
-+	/*
-+	 * Synthesize "LFENCE is serializing" into the AMD-defined entry in
-+	 * KVM's supported CPUID if the feature is reported as supported by the
-+	 * kernel.  LFENCE_RDTSC was a Linux-defined synthetic feature long
-+	 * before AMD joined the bandwagon, e.g. LFENCE is serializing on most
-+	 * CPUs that support SSE2.  On CPUs that don't support AMD's leaf,
-+	 * kvm_cpu_cap_mask() will unfortunately drop the flag due to ANDing
-+	 * the mask with the raw host CPUID, and reporting support in AMD's
-+	 * leaf can make it easier for userspace to detect the feature.
-+	 */
-+	if (cpu_feature_enabled(X86_FEATURE_LFENCE_RDTSC))
-+		kvm_cpu_cap_set(X86_FEATURE_LFENCE_RDTSC);
- 	if (!static_cpu_has_bug(X86_BUG_NULL_SEG))
- 		kvm_cpu_caps[CPUID_8000_0021_EAX] |= BIT(6) /* NULL_SEL_CLR_BASE */;
- 	kvm_cpu_caps[CPUID_8000_0021_EAX] |= BIT(9) /* NO_SMM_CTL_MSR */;
-
-base-commit: f607476ee37397a72a2abb687bc170ce0bbec780
--- 
-
-I.e. end up with this as of this patch:
-
-	kvm_cpu_cap_mask(CPUID_8000_0021_EAX,
-		F(NO_NESTED_DATA_BP) | F(LFENCE_RDTSC) | 0 /* SmmPgCfgLock */ |
-		BIT(6) /* NULL_SEL_CLR_BASE */ | 0 /* PrefetchCtlMsr */
-	);
-
-	/*
-	 * Synthesize "LFENCE is serializing" into the AMD-defined entry in
-	 * KVM's supported CPUID if the feature is reported as supported by the
-	 * kernel.  LFENCE_RDTSC was a Linux-defined synthetic feature long
-	 * before AMD joined the bandwagon, e.g. LFENCE is serializing on most
-	 * CPUs that support SSE2.  On CPUs that don't support AMD's leaf,
-	 * kvm_cpu_cap_mask() will unfortunately drop the flag due to ANDing
-	 * the mask with the raw host CPUID, and reporting support in AMD's
-	 * leaf can make it easier for userspace to detect the feature.
-	 */
-	if (cpu_feature_enabled(X86_FEATURE_LFENCE_RDTSC))
-		kvm_cpu_cap_set(X86_FEATURE_LFENCE_RDTSC);
-	if (!static_cpu_has_bug(X86_BUG_NULL_SEG))
-		kvm_cpu_caps[CPUID_8000_0021_EAX] |= BIT(6) /* NULL_SEL_CLR_BASE */;
-	kvm_cpu_caps[CPUID_8000_0021_EAX] |= BIT(9) /* NO_SMM_CTL_MSR */;
-
+Acked-by: Sean Christopherson <seanjc@google.com>
