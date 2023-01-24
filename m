@@ -2,99 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 002A3C25B50
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 02:41:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D70CC25B50
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 02:51:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232609AbjAXClM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Jan 2023 21:41:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55212 "EHLO
+        id S230315AbjAXCv1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Jan 2023 21:51:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232667AbjAXClA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 21:41:00 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 577543C291;
-        Mon, 23 Jan 2023 18:40:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=hJzZkQ5tXghkUUrzWChisLPF8Mi1gd4we1pNZEFybz4=; b=BNkeuaZKrQdLKO0JthXe6ioOVI
-        /fGtObqN4ZTyFYEeLhwrbKiO2/Xs+4BWrOSxdEy3UYD/vOQmK5bUUP8M2z/Bug7Pc1W/VmkPpae8J
-        ORg1G/CCKiFh2yjUtNovYGdAOzaSOS0390hQc8+cjj7CpXji0m/2WRx1WAf2hyuav/YmKHHyyc0F5
-        EhmrHtS9CRiJcUDQdJ7eIjVpZE3IZAB8k5ini+ouo4Hu+5nnYVz6cYsTfarSzPdwz+xZi8nGgG/Qf
-        xwAVbMuA1P5s8ktPbPl//v69czuYeTSGObdjMHwanxpvuIK7LHimAkr8sNzjlihGCnVaJ4+eJNnGd
-        AGWn11HA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pK9E1-004i9u-Cj; Tue, 24 Jan 2023 02:39:53 +0000
-Date:   Tue, 24 Jan 2023 02:39:53 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Konstantin Ryabitsev <mricon@kernel.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Anton Blanchard <anton@linux.ibm.com>,
-        Trilok Soni <tsoni@codeaurora.org>,
-        James Morris <jamorris@linux.microsoft.com>, corbet@lwn.net,
-        javier.gonz@samsung.com, linux-doc@vger.kernel.org,
-        a.manzanares@samsung.com, dave@stgolabs.net,
-        darren@os.amperecomputing.com, ndesaulniers@google.com,
-        gost.dev@samsung.com, linux-kernel@vger.kernel.org,
-        Luis Chamberlain <mcgrof.c@samsung.com>
-Subject: Re: [PATCH] docs: embargoed-hardware-issues: add embargoed HW
- contact for Samsung
-Message-ID: <Y89E+S7TA6UwtNe2@casper.infradead.org>
-References: <20230123183926.249601-1-mcgrof@kernel.org>
- <Y87X6tFlevIebcc6@kroah.com>
- <Y88Ak8K5mD7tFItG@bombadil.infradead.org>
+        with ESMTP id S229930AbjAXCvX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Jan 2023 21:51:23 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEC2512875;
+        Mon, 23 Jan 2023 18:51:21 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id n7so12565080wrx.5;
+        Mon, 23 Jan 2023 18:51:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gAY8vTZyGk4M83RejMJDWSVQbhO5UIeP+/JnuniVPrg=;
+        b=S2EsGrQuOEU3Y4RGr7uuVf6dI5nPSlI0GiuLVrqgLazzWYX90iOjMzZYyVgMddzVsX
+         w25hR1vptvZlEFwB0eyVraN5Qvzn84zZ8lb9TG3E8lT8wKDXRpBUzLyopqBno9Be3kAu
+         HsJ1gZ60PCggsTDTxlLQ/D8o5TDpJcmshYmhqLneSeHjAOSyU4GNB3nfsfYgPjbzcD9N
+         PrNH+lW9zs8irTLqDMrkXcNHjI0a27JOWm9htzAag+2PFbTHoZSMmoxOstSbPBiLdZbr
+         MStHGVmBFjOlqlj4cVKQmTCLeen9k0uw9biauAa4u0l8JJgxOtx8DQb8shfd9H5ZDECp
+         MQdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gAY8vTZyGk4M83RejMJDWSVQbhO5UIeP+/JnuniVPrg=;
+        b=F+CaRI50BwA2THGPdYkSdt0jm/VauLkQTqYNhoYzD1sQQEZzKkRPtdhZZq/RachUnW
+         mndZbsdmYcdhl1D2Tg0zSSUucOT51cTqMbD3HZ5h+UyK9WyOR0lsqqRjfTHssXAFstHU
+         B98P+jgEKVXFHRTdf9RqoKNpvPuYIxEc2X1HN56TSG4LrkPzlLVrGw+KC2D15G8SrHkc
+         f2e00zUFQACJFCK6V8EQ7b+udj+VNAPV+zA41if4n+s7f34ZklQUz6SN7B+kqp/A2/Xf
+         gDUc1HGhpdujbtgcPIPU/IKoo/53UfMD4J4DfyM4+2C8s8+oaYlAgsn/mXUtt0C/RQjr
+         LXSw==
+X-Gm-Message-State: AFqh2krIOW6KBbdVUz/Z96iIRDp6mwrMx48l389SK1zPWnNlJJQcb93L
+        h2oaEwGFBpo7kL9YYlIsAlrbv69dZdIXWRiBe0M=
+X-Google-Smtp-Source: AMrXdXtE2KHUJeDVXhPQUTYkHKp8SQa1hujduK30aDNEeyEHd80uFa/sA9H62IvvTm5YgT/eugKtTOl8LOGRi8K5uU8=
+X-Received: by 2002:a5d:4851:0:b0:2be:575:2e07 with SMTP id
+ n17-20020a5d4851000000b002be05752e07mr675943wrs.111.1674528680274; Mon, 23
+ Jan 2023 18:51:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y88Ak8K5mD7tFItG@bombadil.infradead.org>
+References: <20230123032942.18263-1-gregory.price@memverge.com> <20230123032942.18263-4-gregory.price@memverge.com>
+In-Reply-To: <20230123032942.18263-4-gregory.price@memverge.com>
+From:   Andrei Vagin <avagin@gmail.com>
+Date:   Mon, 23 Jan 2023 18:51:07 -0800
+Message-ID: <CANaxB-x86NUAYG1F2+-uOj676weVOdy9aKnmxjaHTuNxek28gg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] ptrace,syscall_user_dispatch: add a getter/setter for
+ sud configuration
+To:     Gregory Price <gourry.memverge@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, luto@kernel.org,
+        oleg@redhat.com, peterz@infradead.org, ebiederm@xmission.com,
+        akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 01:48:03PM -0800, Luis Chamberlain wrote:
-> > > @@ -251,6 +251,7 @@ an involved disclosed party. The current ambassadors list:
-> > >    IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
-> > >    Intel		Tony Luck <tony.luck@intel.com>
-> > >    Qualcomm	Trilok Soni <tsoni@codeaurora.org>
-> > > +  Samsung       Javier González <javier.gonz@samsung.com>
-> 
-> I'll send a fix on v2.
-> 
-> BTW while at it, it got me wondering, since most of the emails on
-> this hw embargo page are not required to have kernel.org accounts
+On Sun, Jan 22, 2023 at 8:22 PM Gregory Price <gourry.memverge@gmail.com> wrote:
+<snip>
+>
+> +#define PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG 0x4210
+> +#define PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG 0x4211
+> +struct syscall_user_dispatch_config {
+> +       __u64 mode;
+> +       __s8 *selector;
+> +       __u64 offset;
+> +       __u64 len;
+> +       __u8 on_dispatch;
 
-This isn't the list of hw embargo people.  This is the list of
-"ambassadors" who can help people work through the security disclosure
-process.  My impression is that it's to tell me that I should contact
-Konrad, since he also works at Oracle, to help me through the process.
-It's not for people outside Oracle to contact.
+Sorry, I didn't notice this in the previous version. on_dispatch looks
+like an internal
+property and I don't see how we can stop a process with ptrace when on_dispatch
+is set to a non-zero value. I am not sure that we need to expose it to
+user-space.
 
-If I have the wrong impression of that list, perhaps the description
-could be clarified.
+Other than that, the patch looks good to me.
 
-> not all of the folks on that page have a PGP key on the pgpkeys git
-> tree [0]. Today we constrain kernel.org accounts to folks that send
-> pull requests to Linus. Not all folks on the embargo list need to also
-> be active kernel developers. Given the issues reported before by Konstantin
-> on PGP keyservers we rely on our own git tree for keys we wish to get access
-> to in our community. The below email addresses do not have any PGP
-> key associated on the pgpkeys tree as of this day.
-> 
->   * Tom Lendacky <thomas.lendacky@amd.com>
->   * Catalin Marinas <catalin.marinas@arm.com>
->   * Anton Blanchard <anton@linux.ibm.com>
->   * Trilok Soni <tsoni@codeaurora.org>
->   * James Morris <jamorris@linux.microsoft.com
-> 
-> So it occurs to me to perhaps modify pgpg keys documentation to welcome
-> community related keys to at least include folks like the above for the
-> hw embargo emails should communication via PGP be required. Thoughts?
-> 
-> [0] https://git.kernel.org/pub/scm/docs/kernel/pgpkeys.git
-> 
->   Luis
+Thanks,
+Andrei
