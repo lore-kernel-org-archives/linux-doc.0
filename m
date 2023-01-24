@@ -2,74 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E7FC54E94
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 22:20:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DE0C54E94
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 22:23:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233931AbjAXWUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 17:20:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51956 "EHLO
+        id S231538AbjAXWXf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 17:23:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233975AbjAXWUv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 17:20:51 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 952BA48A1B;
-        Tue, 24 Jan 2023 14:20:43 -0800 (PST)
+        with ESMTP id S230126AbjAXWXf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 17:23:35 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFD404523F;
+        Tue, 24 Jan 2023 14:23:34 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0C8B8739;
-        Tue, 24 Jan 2023 22:20:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0C8B8739
+        by ms.lwn.net (Postfix) with ESMTPSA id 5889699C;
+        Tue, 24 Jan 2023 22:23:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5889699C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674598843; bh=BFuMfm2b/s+EbxALlbvXjniNZ5TTunbX1CSvm2qW0fE=;
+        t=1674599014; bh=Ft2ulHLDz1m2tzoU3sxJIQBkkOU+9wH41AFiUCgDGIw=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=UII91CncQrnQQvKvjNPN2T6N1IsKFU7gfAE0phP1+fT0Kc2PCtZ4J/EbxhvAxm+lG
-         AZj3JWcd1BNvVdqPDA/IhBmMyxX6FtCirfHoecZGi5wEEvVpaDUKf+Ay1oy9+yAwCx
-         La0kbOdLLOA7QqFGeZ65Gm2QqNFj3Ket3smHsnxEPYFtJpiWXuVqk/SZ0ilqMNFRlf
-         JSgAvNYzdJrV4c6HimI4Ecx6B8FDIUPbWSbEWjxpOA+ZMlfTLw7pqa+gP85nWu5fgo
-         kbWs+pz6s7fjqN/CdpixL4EotCX+rpBQQhYqO056+ECHw+gCAXJyZSzFch6Myw+2Va
-         y8XulmEf1gG1A==
+        b=hKETxO20ZrAtMUEfyf448vYdpkHcasrqDMK96q0uaM5gTin863wloY4ZdusWzd1Dl
+         531flfsGITSdiI7BV0vNZ+IWMZKSTEslChfUjstTca4gK3GHRI3rDVqYZLFLz8JavL
+         P9jV/ATIoavD1Wa2cMfbw06y+ep5S/v85HyXJqcMeUnFMxQkM8qEK2C6UgR7VWyovx
+         l3+PQXeDaEuF5LKNcliAB1uoRwufhWITV06jpW03A8d3IT+1GR2plY7tiS485SlcKv
+         2ZhoMl25QbpLWKmivhFFxlqYpID9gMf7LaVlyB/V2IAK0Y80SK3u5ZNrRELCjJ3BtY
+         bNckbf8Wso4mw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH] docs: accel: Fix debugfs path
-In-Reply-To: <1674145568-31513-1-git-send-email-quic_jhugo@quicinc.com>
-References: <1674145568-31513-1-git-send-email-quic_jhugo@quicinc.com>
-Date:   Tue, 24 Jan 2023 15:20:42 -0700
-Message-ID: <87mt67fubp.fsf@meer.lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bilbao@vt.edu, Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH v2] docs/sp_SP: Add process email-clients translation
+In-Reply-To: <20230117144722.31195-1-carlos.bilbao@amd.com>
+References: <272c6c52-767f-8b3d-ab37-4bc7d3161fff@amd.com>
+ <20230117144722.31195-1-carlos.bilbao@amd.com>
+Date:   Tue, 24 Jan 2023 15:23:33 -0700
+Message-ID: <87ilgvfu6y.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jeffrey Hugo <quic_jhugo@quicinc.com> writes:
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-> The device specific directory in debugfs does not have "accel".  For
-> example, the documentation says device 0 should have a debugfs entry as
-> /sys/kernel/debug/accel/accel0/ but in reality the entry is
-> /sys/kernel/debug/accel/0/
+> Translate the following document into Spanish:
 >
-> Fix the documentation to match the implementation.
+> - process/email-clients.rst
 >
-> Fixes: 8c5577a5ccc6 ("doc: add documentation for accel subsystem")
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 > ---
->  Documentation/accel/introduction.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/accel/introduction.rst b/Documentation/accel/introduction.rst
-> index 6f31af1..11cade5 100644
-> --- a/Documentation/accel/introduction.rst
-> +++ b/Documentation/accel/introduction.rst
-> @@ -69,7 +69,7 @@ The accelerator devices will be exposed to the user space with the dedicated
->  
->  - device char files - /dev/accel/accel*
->  - sysfs             - /sys/class/accel/accel*/
-> -- debugfs           - /sys/kernel/debug/accel/accel*/
-> +- debugfs           - /sys/kernel/debug/accel/*/
->  
+> Changes since V1:
+>  - Remove duplicated paragraph left in English
+>
+> ---
+>  .../sp_SP/process/email-clients.rst           | 374 ++++++++++++++++++
+>  .../translations/sp_SP/process/index.rst      |   1 +
+>  2 files changed, 375 insertions(+)
+>  create mode 100644 Documentation/translations/sp_SP/process/email-clients.rst
+
 Applied, thanks.
 
 jon
