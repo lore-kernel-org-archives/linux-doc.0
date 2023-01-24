@@ -2,103 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CD8CC25B50
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 11:35:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D50C25B50
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 11:41:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234137AbjAXLfI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 06:35:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
+        id S234223AbjAXLlh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 06:41:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234166AbjAXLey (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 06:34:54 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBE3829170;
-        Tue, 24 Jan 2023 03:34:35 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        with ESMTP id S234222AbjAXLlf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 06:41:35 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC3F2884B;
+        Tue, 24 Jan 2023 03:41:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 52F4F1EC05DD;
-        Tue, 24 Jan 2023 12:34:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1674560074;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=qSdddbrcW/t7UTL+Z37rW+rJ88pwheRkk68N97Dg+bY=;
-        b=ZtVusnLYfu/Q4VG8+LA2uY7FavJEoNJZALWRJ+85EYeH9zoOuwYfxyIkb8sOjDBVKv6Par
-        S/MphKEynhIOf2bnyEXhxAKzZeiXLGRyhwT95EZQ96BssXd2Z7R3hlte8Ease1DJSWbrwx
-        t9r9k9IEAv6eoqug6xJT1ezlOoc+ZH8=
-Date:   Tue, 24 Jan 2023 12:34:34 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Moger, Babu" <Babu.Moger@amd.com>
-Cc:     "Luck, Tony" <tony.luck@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jmattson@google.com" <jmattson@google.com>,
-        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-        "Das1, Sandipan" <Sandipan.Das@amd.com>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-        "jarkko@kernel.org" <jarkko@kernel.org>,
-        "Hunter, Adrian" <adrian.hunter@intel.com>,
-        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
-        "peternewman@google.com" <peternewman@google.com>
-Subject: Re: [PATCH v11 04/13] x86/cpufeatures: Add Bandwidth Monitoring
- Event Configuration feature flag
-Message-ID: <Y8/CSrU8Bo298VzO@zn.tnic>
-References: <20230109164405.569714-1-babu.moger@amd.com>
- <20230109164405.569714-5-babu.moger@amd.com>
- <Y7xjxUj+KnOEJssZ@zn.tnic>
- <5afd0a7c-3fbe-dfea-f1b4-2fc35fbb4f13@amd.com>
- <Y7yCCNANVBnOOmxM@zn.tnic>
- <SJ1PR11MB608321F26D729A082BFC6FAEFCFE9@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <ecf0abf0-59fe-3898-762c-d9d883925550@amd.com>
- <Y7yMbQ8hI9MGl1w3@zn.tnic>
- <MW3PR12MB455384130AF0BDE3AF88BCF095FE9@MW3PR12MB4553.namprd12.prod.outlook.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0FEF4B81178;
+        Tue, 24 Jan 2023 11:41:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C68F6C433EF;
+        Tue, 24 Jan 2023 11:41:28 +0000 (UTC)
+Date:   Tue, 24 Jan 2023 11:41:25 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Konstantin Ryabitsev <mricon@kernel.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Anton Blanchard <anton@linux.ibm.com>,
+        Trilok Soni <tsoni@codeaurora.org>,
+        James Morris <jamorris@linux.microsoft.com>, corbet@lwn.net,
+        javier.gonz@samsung.com, linux-doc@vger.kernel.org,
+        a.manzanares@samsung.com, dave@stgolabs.net,
+        darren@os.amperecomputing.com, ndesaulniers@google.com,
+        gost.dev@samsung.com, linux-kernel@vger.kernel.org,
+        Luis Chamberlain <mcgrof.c@samsung.com>
+Subject: Re: [PATCH] docs: embargoed-hardware-issues: add embargoed HW
+ contact for Samsung
+Message-ID: <Y8/D5dOdyfuN9MbO@arm.com>
+References: <20230123183926.249601-1-mcgrof@kernel.org>
+ <Y87X6tFlevIebcc6@kroah.com>
+ <Y88Ak8K5mD7tFItG@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MW3PR12MB455384130AF0BDE3AF88BCF095FE9@MW3PR12MB4553.namprd12.prod.outlook.com>
+In-Reply-To: <Y88Ak8K5mD7tFItG@bombadil.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 09, 2023 at 11:10:40PM +0000, Moger, Babu wrote:
-> Yes. We could.
->
-> But at this point we don't have all the features listed in /sys/fs/resctrl/info
-> directory. We need to add all the resctrl feature bits in info directory. How
-> about we take this as separate task and I can send separate series to address
-> it?
+On Mon, Jan 23, 2023 at 01:48:03PM -0800, Luis Chamberlain wrote:
+> The below email addresses do not have any PGP
+> key associated on the pgpkeys tree as of this day.
+[...]
+>   * Catalin Marinas <catalin.marinas@arm.com>
 
-See my reply to Reinette from just now and lemme know if something's not clear
-yet.
-
-Thx.
+FWIW, this one does have a key: keys/6BD6B12D00C85EF1.asc
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Catalin
