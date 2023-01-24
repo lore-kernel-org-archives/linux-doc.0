@@ -2,66 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DE0C54E94
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 22:23:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 797E3C54EED
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 22:28:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231538AbjAXWXf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 17:23:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53798 "EHLO
+        id S233872AbjAXW2D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 17:28:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230126AbjAXWXf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 17:23:35 -0500
+        with ESMTP id S234638AbjAXW2B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 17:28:01 -0500
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFD404523F;
-        Tue, 24 Jan 2023 14:23:34 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D34FD2ED75;
+        Tue, 24 Jan 2023 14:27:54 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5889699C;
-        Tue, 24 Jan 2023 22:23:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5889699C
+        by ms.lwn.net (Postfix) with ESMTPSA id 5D12E739;
+        Tue, 24 Jan 2023 22:27:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5D12E739
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674599014; bh=Ft2ulHLDz1m2tzoU3sxJIQBkkOU+9wH41AFiUCgDGIw=;
+        t=1674599273; bh=MTaO760PJgYwDFixyQndXwkcxJ6qlGsTUp+EUcJgaCs=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=hKETxO20ZrAtMUEfyf448vYdpkHcasrqDMK96q0uaM5gTin863wloY4ZdusWzd1Dl
-         531flfsGITSdiI7BV0vNZ+IWMZKSTEslChfUjstTca4gK3GHRI3rDVqYZLFLz8JavL
-         P9jV/ATIoavD1Wa2cMfbw06y+ep5S/v85HyXJqcMeUnFMxQkM8qEK2C6UgR7VWyovx
-         l3+PQXeDaEuF5LKNcliAB1uoRwufhWITV06jpW03A8d3IT+1GR2plY7tiS485SlcKv
-         2ZhoMl25QbpLWKmivhFFxlqYpID9gMf7LaVlyB/V2IAK0Y80SK3u5ZNrRELCjJ3BtY
-         bNckbf8Wso4mw==
+        b=XW1biFoIP9a4rIRf2cLd3puFe2cCFrQPnLjCIkaYxizp+J6e+ypbS83QROQV7RjZL
+         x+AsBikpA3Vkk3ujbg62UV6QrSznWRdtlGR3w9N1P6p5SjPTaB1VvvVuFhl7bYnzao
+         e+Pb9bvOHC00Tv7pEsztMhT9Z72Gat9MaqdsTs8TiPqfNYcDgG/+/KR+sn5dVczsue
+         lu1v1+vuz/4hzlpLBA+KYbHbvLOlZ4/b/+Fc8THgu2Xt0YT87foyxCIQE79oboIidh
+         ZhOk8JFsQO6mPuPHLHgprow+Ki52f77LDa52ffGAHq1nhkgYRnJAeU48pOJekm2FoI
+         ARNZkhtCcl3AQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bilbao@vt.edu, Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: Re: [PATCH v2] docs/sp_SP: Add process email-clients translation
-In-Reply-To: <20230117144722.31195-1-carlos.bilbao@amd.com>
-References: <272c6c52-767f-8b3d-ab37-4bc7d3161fff@amd.com>
- <20230117144722.31195-1-carlos.bilbao@amd.com>
-Date:   Tue, 24 Jan 2023 15:23:33 -0700
-Message-ID: <87ilgvfu6y.fsf@meer.lwn.net>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     SeongJae Park <sj@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Iwona Winiarska <iwona.winiarska@intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-mm@kvack.org,
+        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+        linux-input@vger.kernel.org, openbmc@lists.ozlabs.org,
+        alsa-devel@alsa-project.org, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] Docs/subsystem-apis: Remove '[The ]Linux'
+ prefixes from titles of listed documents
+In-Reply-To: <20230122184834.181977-1-sj@kernel.org>
+References: <20230122184834.181977-1-sj@kernel.org>
+Date:   Tue, 24 Jan 2023 15:27:52 -0700
+Message-ID: <87edrjftzr.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
+SeongJae Park <sj@kernel.org> writes:
 
-> Translate the following document into Spanish:
+> Some documents that listed on subsystem-apis have 'Linux' or 'The Linux'
+> title prefixes.  It's duplicated information, and makes finding the
+> document of interest with human eyes not easy.  Remove the prefixes from
+> the titles.
 >
-> - process/email-clients.rst
->
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 > ---
+> Changes from v1
+> (https://lore.kernel.org/lkml/20230114194741.115855-1-sj@kernel.org/)
+> - Drop second patch (will post later for each subsystem)
 >
-> Changes since V1:
->  - Remove duplicated paragraph left in English
->
-> ---
->  .../sp_SP/process/email-clients.rst           | 374 ++++++++++++++++++
->  .../translations/sp_SP/process/index.rst      |   1 +
->  2 files changed, 375 insertions(+)
->  create mode 100644 Documentation/translations/sp_SP/process/email-clients.rst
+>  Documentation/PCI/index.rst        | 6 +++---
+>  Documentation/cpu-freq/index.rst   | 6 +++---
+>  Documentation/crypto/index.rst     | 6 +++---
+>  Documentation/driver-api/index.rst | 6 +++---
+>  Documentation/gpu/index.rst        | 6 +++---
+>  Documentation/hwmon/index.rst      | 6 +++---
+>  Documentation/input/index.rst      | 6 +++---
+>  Documentation/mm/index.rst         | 6 +++---
+>  Documentation/peci/index.rst       | 6 +++---
+>  Documentation/scheduler/index.rst  | 6 +++---
+>  Documentation/scsi/index.rst       | 6 +++---
+>  Documentation/sound/index.rst      | 6 +++---
+>  Documentation/virt/index.rst       | 6 +++---
+>  Documentation/watchdog/index.rst   | 6 +++---
+>  14 files changed, 42 insertions(+), 42 deletions(-)
 
 Applied, thanks.
 
