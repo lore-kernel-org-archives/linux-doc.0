@@ -2,108 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB6AC38142
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 10:31:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E13C9C25B4E
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 10:40:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233100AbjAXKbD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 05:31:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35196 "EHLO
+        id S230229AbjAXKkW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 05:40:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbjAXKbC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 05:31:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A29B402D6
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 02:30:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674556207;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gE6RrMNzmZS7ybaJ3k9jp16YpeIMyFtfxc7Ij1LgomY=;
-        b=K97wuNpX/NWAXaKEgchrhwYlJeo9FJgKhzsnxHZMbvx3MoAUBO7LcmRCIM5HOtuh13qnBZ
-        jAhU57qRhruu5T8hTZruPKOhQR8FxsjW2QoDm1U/pigtWinTMzHFkpqhAfBweMDqnJ6zYO
-        aomzOXTCxcXEtdjKi7Qt8GncKoPqgt4=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-640-QDY0fioBOCSzaLOxlrUW-A-1; Tue, 24 Jan 2023 05:30:06 -0500
-X-MC-Unique: QDY0fioBOCSzaLOxlrUW-A-1
-Received: by mail-qk1-f197.google.com with SMTP id bq15-20020a05620a468f00b00706ae242abcso10721120qkb.7
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 02:30:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gE6RrMNzmZS7ybaJ3k9jp16YpeIMyFtfxc7Ij1LgomY=;
-        b=fPWw12JDdBlCsL/0PlikmOEyvKC6jRibIrYNBZ0ADZntzocHxliJYwwVsl/B4D4lkf
-         F0+OltRT66/bMPsAY0Cz7z74+jZVdFIW4krxwccGfRDu4RnjAXX7CWs0ngOn/J0o3rIZ
-         bxtFyOMjZVBHuQczlLnEQmoYHUxfgnmZNbd/ah4VKCo0ax9v/0/rS+U5K1vLAl/dvpLJ
-         fhGEuI9d0mLhEpZPy7on4ouIeIVGZ18yEw3KfAfteGNDA0hA64pFdDMYzD9sVhzkL4s/
-         Fpv4ozed6C3w8c7AruLv6YGlLWsE+J9xdwMbGRvSETlUgIxfZILK0R7Uob3g6TddqWiq
-         j3fA==
-X-Gm-Message-State: AFqh2kq8P+mOnrIiq3OeOeqR+ZYns3ajOHyl0sWF6qZPteA+kNusdrxm
-        GFAKwi7NHkGx+DP3P9IUOzbLdU2zMY4D5wK9zdnN8HRyQdLp2fNiGYQb4ccsm1RIOnbXHMEqON4
-        7ZkG7zhwMBFiNy+IdhFL8
-X-Received: by 2002:ac8:7ee6:0:b0:3a8:28fb:b076 with SMTP id r6-20020ac87ee6000000b003a828fbb076mr36536512qtc.31.1674556205117;
-        Tue, 24 Jan 2023 02:30:05 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs/aw10vutO5iLbCj/8fXlV7eIS/fKjhVMMxih8szWVQpFxZRKFIQ6yQ2WFku9UqiOy9NwgBw==
-X-Received: by 2002:ac8:7ee6:0:b0:3a8:28fb:b076 with SMTP id r6-20020ac87ee6000000b003a828fbb076mr36536484qtc.31.1674556204835;
-        Tue, 24 Jan 2023 02:30:04 -0800 (PST)
-Received: from gerbillo.redhat.com (146-241-113-28.dyn.eolo.it. [146.241.113.28])
-        by smtp.gmail.com with ESMTPSA id a17-20020ac86111000000b003b68c7aeebfsm1048894qtm.3.2023.01.24.02.30.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 02:30:04 -0800 (PST)
-Message-ID: <2aee59dccbcafb32cefdf164fd1d58eb6038b01a.camel@redhat.com>
-Subject: Re: [PATCH net-next v4 0/8] Netlink protocol specs
-From:   Paolo Abeni <pabeni@redhat.com>
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, robh@kernel.org,
-        johannes@sipsolutions.net, stephen@networkplumber.org,
-        ecree.xilinx@gmail.com, sdf@google.com, f.fainelli@gmail.com,
-        fw@strlen.de, linux-doc@vger.kernel.org, razor@blackwall.org,
-        nicolas.dichtel@6wind.com
-Date:   Tue, 24 Jan 2023 11:29:59 +0100
-In-Reply-To: <20230120175041.342573-1-kuba@kernel.org>
-References: <20230120175041.342573-1-kuba@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        with ESMTP id S229933AbjAXKkV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 05:40:21 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E6A2D45;
+        Tue, 24 Jan 2023 02:40:19 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5DCEE60E86;
+        Tue, 24 Jan 2023 10:40:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 99C50C433EF;
+        Tue, 24 Jan 2023 10:40:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674556818;
+        bh=l4Tu+EbMZL36A9gZdOLyolqouv6pJfcDpasghfLPFEs=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=j4OmV8gx5NyhGAIT8ZU2jRBXWr/X0w3ku6wGI9KzMGrKQgxTX8P+QAHR9yXxLyeLE
+         QnGxcNGiYugA1wlOQl3RCBSiQD3liLSFxPfq9Nl+eG1CVyCwbmw8I0TvS1Ha3rdR5F
+         +bicpxiry7eVSEwYVqYXFKJImqaVFkF/mdmj+A7zpFnUu1usanLCG9C/zBGCVIivQx
+         nrHKrASvDQKTnPsLJefD8oOKnqi3AyQMWo9t5DlbwlDaduHv2bMw24q8UpOvtB0SZS
+         mVv2B/4a7OfwXftqOabd8cZUR14mEp6zvI3bvIOTjEJlH033j0FdCS5jyfQepRPAyW
+         s9Vvr1TL4OhLg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 82598E52508;
+        Tue, 24 Jan 2023 10:40:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4 0/8] Netlink protocol specs
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167455681853.26386.14381375194899546381.git-patchwork-notify@kernel.org>
+Date:   Tue, 24 Jan 2023 10:40:18 +0000
+References: <20230120175041.342573-1-kuba@kernel.org>
+In-Reply-To: <20230120175041.342573-1-kuba@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, robh@kernel.org, johannes@sipsolutions.net,
+        stephen@networkplumber.org, ecree.xilinx@gmail.com, sdf@google.com,
+        f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
+        razor@blackwall.org, nicolas.dichtel@6wind.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2023-01-20 at 09:50 -0800, Jakub Kicinski wrote:
+Hello:
+
+This series was applied to netdev/net-next.git (master)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Fri, 20 Jan 2023 09:50:33 -0800 you wrote:
 > I think the Netlink proto specs are far along enough to merge.
 > Filling in all attribute types and quirks will be an ongoing
 > effort but we have enough to cover FOU so it's somewhat complete.
->=20
+> 
 > I fully intend to continue polishing the code but at the same
 > time I'd like to start helping others base their work on the
 > specs (e.g. DPLL) and need to start working on some new families
 > myself.
->=20
-> That's the progress / motivation for merging. The RFC [1] has more
-> of a high level blurb, plus I created a lot of documentation, I'm
-> not going to repeat it here. There was also the talk at LPC [2].
->=20
-> [1] https://lore.kernel.org/all/20220811022304.583300-1-kuba@kernel.org/
-> [2] https://youtu.be/9QkXIQXkaQk?t=3D2562
-> v2: https://lore.kernel.org/all/20220930023418.1346263-1-kuba@kernel.org/
-> v3: https://lore.kernel.org/all/20230119003613.111778-1-kuba@kernel.org/1
+> 
+> [...]
 
-My understanding is that there is agreement on this, so merging as-is.
+Here is the summary with links:
+  - [net-next,v4,1/8] docs: add more netlink docs (incl. spec docs)
+    https://git.kernel.org/netdev/net-next/c/9d6a65079c98
+  - [net-next,v4,2/8] netlink: add schemas for YAML specs
+    https://git.kernel.org/netdev/net-next/c/e616c07ca518
+  - [net-next,v4,3/8] net: add basic C code generators for Netlink
+    https://git.kernel.org/netdev/net-next/c/be5bea1cc0bf
+  - [net-next,v4,4/8] netlink: add a proto specification for FOU
+    https://git.kernel.org/netdev/net-next/c/4eb77b4ecd3c
+  - [net-next,v4,5/8] net: fou: regenerate the uAPI from the spec
+    https://git.kernel.org/netdev/net-next/c/3a330496baa8
+  - [net-next,v4,6/8] net: fou: rename the source for linking
+    https://git.kernel.org/netdev/net-next/c/08d323234d10
+  - [net-next,v4,7/8] net: fou: use policy and operation tables generated from the spec
+    https://git.kernel.org/netdev/net-next/c/1d562c32e439
+  - [net-next,v4,8/8] tools: ynl: add a completely generic client
+    https://git.kernel.org/netdev/net-next/c/e4b48ed460d3
 
-As possible follow-ups, I think it would be nice to drop the generated
-files from the source tree and instead trigger the re-generation on-
-demand. Additionally the yaml files could include an SPDX-License-
-Identifier in an initial comments, I think.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thanks,
-
-Paolo
-
-p.s. I guess we have new todo item for the mptcp protocol ;)
 
