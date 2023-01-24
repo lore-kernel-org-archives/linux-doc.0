@@ -2,117 +2,204 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E0CC25B4E
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 06:27:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44C5EC54EB4
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 07:53:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233248AbjAXG1B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 01:27:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41928 "EHLO
+        id S232422AbjAXHxl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 02:53:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231544AbjAXG1B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 01:27:01 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EE8530B17;
-        Mon, 23 Jan 2023 22:27:00 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S231749AbjAXHxk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 02:53:40 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB23844A9;
+        Mon, 23 Jan 2023 23:53:38 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C9135611E8;
-        Tue, 24 Jan 2023 06:26:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B04B8C433EF;
-        Tue, 24 Jan 2023 06:26:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674541619;
-        bh=0E4Oc7/Z2stBA8qPrvNH0kEWWPBwgaEO48l8pr7o85U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y0C8LuIeZXm8qzNM/0x9oaruuBIALECSGYaMY6JmMXHEt/4OO6fq6+06qZLWrY6i8
-         /YYXqNse4w2KUvniABDf9pA3W11MlsCChz5gJvaziaPWU5exQ10jdXHnq18ftwwENJ
-         WFWPLGpiW20wYNKbJJEXOqd9nDmLzA81okfyPzqIWTVrb6JlllE262R87ggNDsSftd
-         ILWr1fy2sGPKt1lW5713650iPtEhl5Bemos7Ul6Kw5aghe/uDMFQCr1TmgUCJPph8Z
-         Xu57x2nxiwSFl/idayA3VSw1jJzKxozO5QYBFU7NORPZvlvN0aI9/owULgjlII7j/5
-         tcOXg3V17Py7Q==
-Date:   Tue, 24 Jan 2023 08:22:33 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Jay Vosburgh <jay.vosburgh@canonical.com>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Jonathan Corbet <corbet@lwn.net>, oss-drivers@corigine.com,
-        linux-doc@vger.kernel.org, Raju Rangoju <rajur@chelsio.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org,
-        Ayush Sawal <ayush.sawal@chelsio.com>,
-        Simon Horman <simon.horman@corigine.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Andy Gospodarek <andy@greyhouse.net>
-Subject: Re: [Intel-wired-lan] [PATCH net-next 09/10] bonding: fill IPsec
- state validation failure reason
-Message-ID: <Y895KXqtQgXOytj1@unreal>
-References: <cover.1674481435.git.leon@kernel.org>
- <d563de401d6fdc1c52959300eebb2bbb27c6c181.1674481435.git.leon@kernel.org>
- <5064.1674514892@famine>
+        by smtp-out2.suse.de (Postfix) with ESMTPS id E57DA1F889;
+        Tue, 24 Jan 2023 07:53:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1674546816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ruXNUJNdlgxTcKpGQIIryFyEkOXceoGZmlzFPRxeoas=;
+        b=KBZy/6rf1TQ67g44L7GTiJ8oSbfhPfVBczpwAWnzfsUxhfC2iuCIk6qk9LBZzqbdqHS9ij
+        Xo/ephBOmafeSayjs7c5/FPCJUSd2Msf8a1NMzxX8FC7m33OJCMAr4kwrcZhMcXrY5NeLZ
+        PTRszq6e6uAR3JoT+NAAk5grhZN/cnk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1674546816;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ruXNUJNdlgxTcKpGQIIryFyEkOXceoGZmlzFPRxeoas=;
+        b=5qR8OroDRbnLzHCA3YaBwq02hXFJllZS99kT3/fzfEAfh1RBI9ipdG1fjVOHFRLXyqtRUK
+        okE5lPcauQAR8tCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CA32C139FB;
+        Tue, 24 Jan 2023 07:53:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id E4c3MH+Oz2OlHgAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Tue, 24 Jan 2023 07:53:35 +0000
+Message-ID: <8ac234a3-9dc3-3ebf-309a-b4a6bcb72d2d@suse.cz>
+Date:   Tue, 24 Jan 2023 08:51:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5064.1674514892@famine>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Content-Language: en-US
+To:     Sean Christopherson <seanjc@google.com>,
+        "Huang, Kai" <kai.huang@intel.com>
+Cc:     "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "ak@linux.intel.com" <ak@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Hocko, Michal" <mhocko@suse.com>,
+        "tabba@google.com" <tabba@google.com>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "david@redhat.com" <david@redhat.com>,
+        "michael.roth@amd.com" <michael.roth@amd.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dhildenb@redhat.com" <dhildenb@redhat.com>,
+        "bfields@fieldses.org" <bfields@fieldses.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+        "ddutile@redhat.com" <ddutile@redhat.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "qperret@google.com" <qperret@google.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Annapurve, Vishal" <vannapurve@google.com>,
+        "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
+        "wanpengli@tencent.com" <wanpengli@tencent.com>,
+        "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
+        "hughd@google.com" <hughd@google.com>,
+        "aarcange@redhat.com" <aarcange@redhat.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "jlayton@kernel.org" <jlayton@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Wang, Wei W" <wei.w.wang@intel.com>,
+        "steven.price@arm.com" <steven.price@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linmiaohe@huawei.com" <linmiaohe@huawei.com>
+References: <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
+ <20221219075313.GB1691829@chaop.bj.intel.com>
+ <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
+ <20221220072228.GA1724933@chaop.bj.intel.com>
+ <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
+ <20221221133905.GA1766136@chaop.bj.intel.com>
+ <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
+ <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
+ <0959c72ec635688f4b6c1b516815f79f52543b31.camel@intel.com>
+ <Y88aX+MIZeteDQju@google.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <Y88aX+MIZeteDQju@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 03:01:32PM -0800, Jay Vosburgh wrote:
-> Leon Romanovsky <leon@kernel.org> wrote:
+On 1/24/23 00:38, Sean Christopherson wrote:
+> On Mon, Jan 23, 2023, Huang, Kai wrote:
+>> On Mon, 2023-01-23 at 15:03 +0100, Vlastimil Babka wrote:
+>>> On 12/22/22 01:37, Huang, Kai wrote:
+>>>>>> I argue that this page pinning (or page migration prevention) is not
+>>>>>> tied to where the page comes from, instead related to how the page will
+>>>>>> be used. Whether the page is restrictedmem backed or GUP() backed, once
+>>>>>> it's used by current version of TDX then the page pinning is needed. So
+>>>>>> such page migration prevention is really TDX thing, even not KVM generic
+>>>>>> thing (that's why I think we don't need change the existing logic of
+>>>>>> kvm_release_pfn_clean()). 
+>>>>>>
+>>>> This essentially boils down to who "owns" page migration handling, and sadly,
+>>>> page migration is kinda "owned" by the core-kernel, i.e. KVM cannot handle page
+>>>> migration by itself -- it's just a passive receiver.
+>>>>
+>>>> For normal pages, page migration is totally done by the core-kernel (i.e. it
+>>>> unmaps page from VMA, allocates a new page, and uses migrate_pape() or a_ops-
+>>>>> migrate_page() to actually migrate the page).
+>>>> In the sense of TDX, conceptually it should be done in the same way. The more
+>>>> important thing is: yes KVM can use get_page() to prevent page migration, but
+>>>> when KVM wants to support it, KVM cannot just remove get_page(), as the core-
+>>>> kernel will still just do migrate_page() which won't work for TDX (given
+>>>> restricted_memfd doesn't have a_ops->migrate_page() implemented).
+>>>>
+>>>> So I think the restricted_memfd filesystem should own page migration handling,
+>>>> (i.e. by implementing a_ops->migrate_page() to either just reject page migration
+>>>> or somehow support it).
+>>>
+>>> While this thread seems to be settled on refcounts already, 
+>>>
+>>
+>> I am not sure but will let Sean/Paolo to decide.
 > 
-> >From: Leon Romanovsky <leonro@nvidia.com>
-> >
-> >Rely on extack to return failure reason.
-> >
-> >Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> >Signed-off-by: Leon Romanovsky <leon@kernel.org>
-> >---
-> > drivers/net/bonding/bond_main.c | 2 +-
-> > 1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> >diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_main.c
-> >index 686b2a6fd674..00646aa315c3 100644
-> >--- a/drivers/net/bonding/bond_main.c
-> >+++ b/drivers/net/bonding/bond_main.c
-> >@@ -444,7 +444,7 @@ static int bond_ipsec_add_sa(struct xfrm_state *xs,
-> > 	if (!slave->dev->xfrmdev_ops ||
-> > 	    !slave->dev->xfrmdev_ops->xdo_dev_state_add ||
-> > 	    netif_is_bond_master(slave->dev)) {
-> >-		slave_warn(bond_dev, slave->dev, "Slave does not support ipsec offload\n");
-> >+		NL_SET_ERR_MSG_MOD(extack, "Slave does not support ipsec offload");
-> > 		rcu_read_unlock();
-> > 		return -EINVAL;
-> > 	}
+> My preference is whatever is most performant without being hideous :-)
 > 
-> 	Why only this one, and not include the other similar
-> slave_warn() calls in the bond_ipsec_* functions?  
-
-Which functions did you have in mind?
-
-The extack was added to XFRM .xdo_dev_state_add() call, which is
-translated to bond_ipsec_add_sa() with only one slave_warn() print.
-
-If you are talking about bond_ipsec_add_sa_all(), that function isn't
-directly connected to netlink and doesn't have extack pointer to fill.
-
-If you are talking about bond_ipsec_del_sai*() and slave_warn() there, it
-will be better to be deleted/changed to make sure what ipsec_list have
-only valid devices.
-
-Thanks
-
-
-> That would seem to make some failures show up in dmesg,
-> and others returned to the caller via extack.
+>>> just wanted
+>>> to point out that it wouldn't be ideal to prevent migrations by
+>>> a_ops->migrate_page() rejecting them. It would mean cputime wasted (i.e.
+>>> by memory compaction) by isolating the pages for migration and then
+>>> releasing them after the callback rejects it (at least we wouldn't waste
+>>> time creating and undoing migration entries in the userspace page tables
+>>> as there's no mmap). Elevated refcount on the other hand is detected
+>>> very early in compaction so no isolation is attempted, so from that
+>>> aspect it's optimal.
+>>
+>> I am probably missing something,
 > 
-> 	-J
-> 
-> ---
-> 	-Jay Vosburgh, jay.vosburgh@canonical.com
+> Heh, me too, I could have sworn that using refcounts was the least efficient way
+> to block migration.
+
+Well I admit that due to my experience with it, I do mostly consider
+migration through memory compaction POV, which is a significant user of
+migration on random pages that's not requested by userspace actions on
+specific ranges.
+
+And compaction has in isolate_migratepages_block():
+
+/*
+ * Migration will fail if an anonymous page is pinned in memory,
+ * so avoid taking lru_lock and isolating it unnecessarily in an
+ * admittedly racy check.
+ */
+mapping = page_mapping(page);
+if (!mapping && page_count(page) > page_mapcount(page))
+        goto isolate_fail;
+
+so that prevents migration of pages with elevated refcount very early,
+before they are even isolated, so before migrate_pages() is called.
+
+But it's true there are other sources of "random pages migration" - numa
+balancing, demotion in lieu of reclaim... and I'm not sure if all have
+such early check too.
+
+Anyway, whatever is decided to be a better way than elevated refcounts,
+would ideally be checked before isolation as well, as that's the most
+efficient way.
+
+>> but IIUC the checking of refcount happens at very last stage of page migration too 
+
