@@ -2,145 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A437C54E94
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 13:41:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E76C38142
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 13:53:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbjAXNlB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 08:41:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59916 "EHLO
+        id S233939AbjAXNxk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 08:53:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjAXNlA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 08:41:00 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76DC31BE5;
-        Tue, 24 Jan 2023 05:40:59 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 2A47E1FDAB;
-        Tue, 24 Jan 2023 13:40:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1674567658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=abri0zFA+xjooP9Ux7FyiMJ1tEcfHRQmA6ycin20OiU=;
-        b=2bZMNHzl2etHCSdbjIvf9JPvQRmje+DRWoIA59q9l0qb3e/pSIkNnMbbogxfeua2Nq4jNN
-        q9sU+KwAAx8V8s143WDCb1EkL7EYCBQyf6QKspa8kd138NZjC1dRhfKltiuLj0mYjaQYOe
-        W29fte9MKLw0VUqbZtITDa13cTbvM7Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1674567658;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=abri0zFA+xjooP9Ux7FyiMJ1tEcfHRQmA6ycin20OiU=;
-        b=z42iM2O16v7RZ9l2xP6I7NGba8aNNuxfmNysErxOtpoz7jZfs1W8OgwfHV+g/Swc0HwL38
-        VZQcFpFxo+JYpcCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E6C9513487;
-        Tue, 24 Jan 2023 13:40:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id m9xBNunfz2NHZwAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Tue, 24 Jan 2023 13:40:57 +0000
-Date:   Tue, 24 Jan 2023 14:40:54 +0100
-From:   Vlastimil Babka <vbabka@suse.cz>
-To:     Mike Rapoport <rppt@kernel.org>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Michal Hocko <mhocko@suse.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_1/1=5D_docs/mm=3A_Physical_Memory=3A_ad?= =?US-ASCII?Q?d_structure=2C_introduction_and_nodes_description?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <Y8++BJcHgfzuoURl@kernel.org>
-References: <20230115184212.996298-1-rppt@kernel.org> <20230115184212.996298-2-rppt@kernel.org> <bea284c3-fe7c-f55a-449d-07f47a364c1c@suse.cz> <Y8++BJcHgfzuoURl@kernel.org>
-Message-ID: <AC10188D-6728-478F-A95D-1A460958533A@suse.cz>
+        with ESMTP id S233992AbjAXNxW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 08:53:22 -0500
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81F9447EEF;
+        Tue, 24 Jan 2023 05:51:17 -0800 (PST)
+Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-15085b8a2f7so17735053fac.2;
+        Tue, 24 Jan 2023 05:51:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dNmYUl409IZsHj9DfvEccpURlLXPvpb9z3n6thycbJw=;
+        b=PXOHVyAvtCMtMRojfLNF22ATgUORqO8lp6WIdj/cBaLXsXDALbbPQr9TGIOKf5GKuE
+         iOKUxb/ZzKId/+UaQZEuOfgrseJYJkzCbnz95mHxbOikAUVP+67Pom+MZDaC0ICpxj0S
+         /Hz5Rrc3mEWqTMyBj744OjBkxopwMAY2/H0M1VdZAcPIdI82S0o8SDygU9AAseZRnrRk
+         3kdvhh+h3Nsvgtnw3lKF+PV4RVsLMzI4Mf1Fa82G+Y8BJgGeAmDehwFQup631sj1fgfP
+         n+xJW44ap2rtLdftsZqVbcnkFngJkH9PaiVYNeY5DMr6wXcoNTa/+f/Cjsj20K1ehspJ
+         mcGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dNmYUl409IZsHj9DfvEccpURlLXPvpb9z3n6thycbJw=;
+        b=qBREczcIUSypBHCyvPBF4PrVpaKLSWR9uQo/wyB+bCa4MeKU2miKeia+oJ3f/n0ltv
+         mEUfRtWgqLKinBLIL1dgJIaqpj3DW3jQvDw600LlUJaKro78hONvnzRolMl86NNlPVOR
+         CaXCuTX9qXOdjcwr1je0oOV82zA5Q8g6oOBZdSFHItyMGerugulfJdIGRKumOaZ3hbr8
+         mlZKJN9ljTiZIY8lo3YAnejBa5DC2y0usf2/H+xLDHSrNwgD8quGOmh/y+uu4ovsbjfJ
+         8or7MEbJ0TCMxxBdlnyJJPC9p7pMzTwqU0cRaJfaISunDkdyA9MjhDd7SuhRuz7dnhdW
+         75Zg==
+X-Gm-Message-State: AO0yUKVdZkRn7uYXA8NWsuDiUp4ahmdolYxKlbIxBlZnaW6uahw3Rfpz
+        Mj5fLOrL+Uv7v/p1PXKDGbQ=
+X-Google-Smtp-Source: AK7set89KGI+5szNvQVzjZUVYqBHzkd3rsbRL3vhfBOS8WcKB8UdGVG6c1E225mpRamBavwCd1vPyQ==
+X-Received: by 2002:a05:6870:f28b:b0:163:1eab:b7d6 with SMTP id u11-20020a056870f28b00b001631eabb7d6mr619353oap.11.1674568201235;
+        Tue, 24 Jan 2023 05:50:01 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id k8-20020a05680808c800b0036718f58b7esm1024007oij.15.2023.01.24.05.49.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jan 2023 05:50:00 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Tue, 24 Jan 2023 05:49:58 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jean Delvare <jdelvare@suse.com>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/8] Docs/hwmon/index: Add missing SPDX License
+ Identifier
+Message-ID: <20230124134958.GA36313@roeck-us.net>
+References: <20230122213650.187710-1-sj@kernel.org>
+ <20230122213650.187710-5-sj@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230122213650.187710-5-sj@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sun, Jan 22, 2023 at 09:36:46PM +0000, SeongJae Park wrote:
+> Add missing SPDX License Identifier for hwmon documentation index file.
+> 
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 
+Is it documented somewhere that GPL 2.0 is the default in the absence
+of an explicit SPDX or other license identifier ? I don't find it
+in Documentation/process/license-rules.rst, though maybe I am missing
+it.
 
-On January 24, 2023 12:16:20 PM GMT+01:00, Mike Rapoport <rppt@kernel=2Eor=
-g> wrote:
->On Tue, Jan 24, 2023 at 12:00:07PM +0100, Vlastimil Babka wrote:
->> On 1/15/23 19:42, Mike Rapoport wrote:
->> > From: "Mike Rapoport (IBM)" <rppt@kernel=2Eorg>
->> >=20
->> > Add structure, introduction and Nodes section to Physical Memory
->> > chapter=2E
->> >=20
->> > As the new documentation references core-api/dma-api and mm/page_recl=
-aim,
->> > add page labels to those documents=2E
->> >=20
->> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail=2Ecom>
->> > Reviewed-by: Lorenzo Stoakes <lstoakes@gmail=2Ecom>
->> > Acked-by: Michal Hocko <mhocko@suse=2Ecom>
->> > Signed-off-by: Mike Rapoport (IBM) <rppt@kernel=2Eorg>
->>=20
->> Acked-by: Vlastimil Babka <vbabka@suse=2Ecz>
->>=20
->> A small bug to fix below?
->>=20
->> <snip>
->>=20
->> > +
->> > +Along with the node structures, kernel maintains an array of ``nodem=
-ask_t``
->> > +bitmasks called ``node_states``=2E Each bitmask in this array repres=
-ents a set of
->> > +nodes with particular properties as defined by ``enum node_states``:
->> > +
->> > +``N_POSSIBLE``
->> > +  The node could become online at some point=2E
->> > +``N_ONLINE``
->> > +  The node is online=2E
->> > +``N_NORMAL_MEMORY``
->> > +  The node has regular memory=2E
->> > +``N_HIGH_MEMORY``
->> > +  The node has regular or high memory=2E When ``CONFIG_HIGHMEM`` is =
-disabled
->> > +  aliased to ``N_NORMAL_MEMORY``=2E
->>=20
->> Noted=2E
->>=20
->> > +``N_MEMORY``
->> > +  The node has memory(regular, high, movable)
->> > +``N_CPU``
->> > +  The node has one or more CPUs
->> > +
->> > +For each node that has a property described above, the bit correspon=
-ding to the
->> > +node ID in the ``node_states[<property>]`` bitmask is set=2E
->> > +
->> > +For example, for node 2 with normal memory and CPUs, bit 2 will be s=
-et in ::
->> > +
->> > +  node_states[N_POSSIBLE]
->> > +  node_states[N_ONLINE]
->> > +  node_states[N_NORMAL_MEMORY]
->> > +  node_states[N_MEMORY]
->> > +  node_states[N_CPU]
->>=20
->> Should it be set also in node_states[N_HIGH_MEMORY]?
->=20
->You mean because of the aliasing of N_NORMAL_MEMORY and N_HIGH_MEMORY?
+Guenter
 
-No I meant due to "The node has regular or high memory=2E" Or do I misunde=
-rstand? 
+> ---
+>  Documentation/hwmon/index.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index c2b3c1a822dd..2186d732654f 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ===================
+>  Hardware Monitoring
+>  ===================
