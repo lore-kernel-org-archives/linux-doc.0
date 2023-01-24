@@ -2,93 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3FD2C38142
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 16:25:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA72BC38142
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 16:27:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234250AbjAXQZW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 11:25:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57240 "EHLO
+        id S231538AbjAXQ1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 11:27:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233853AbjAXQZV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 11:25:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49884B8B3
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 08:24:09 -0800 (PST)
+        with ESMTP id S233111AbjAXQ1b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 11:27:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFA7B3C0E
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 08:26:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674577448;
+        s=mimecast20190719; t=1674577609;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=bX9IT7xjfbuY2NTWDjty1xoUFXXw0P63GK85NclMpJ4=;
-        b=iz3bv4v6WrgEffwcLDCXBf81T/N5RYMTVFWRzls2qJdGPuv6nAxmXG/j3G25UBVy8N/PMJ
-        Ka2DHUtal6IBiY+XnALR/2PdwJPNuagndy6g+nLmdmYK8qvfyoi6VIsAfRJOlSg/1EP+XC
-        KpLXY1pgzwmUTln+t+xvRm2ZLLSoG6s=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=i7Pw8HLyonCZeA68egrmyo7nTJgPIzxf4MWuoam80Xs=;
+        b=SDyNE1+w1+HKQlJ7VSAIEpIcdaW7+88OIg9ry7nSp6r1QUQbOfxVJjEAKDxJg1xk0cW0YD
+        e6W12wHIIQNiuL+fkziQPzBvyuvbSRNzSt39A2oZ5RHRbDFYVOAxLQzYnu2UU36rbs3w7H
+        5z7d6ze3gJFI6rWwavjPa1hm+XViq2s=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-111-_w0K-tKuP0CcL458Zyr9QQ-1; Tue, 24 Jan 2023 11:24:07 -0500
-X-MC-Unique: _w0K-tKuP0CcL458Zyr9QQ-1
-Received: by mail-wr1-f69.google.com with SMTP id t20-20020adfba54000000b002be0eb97f4fso2705294wrg.8
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 08:24:06 -0800 (PST)
+ us-mta-120-RpKumOx2NqCYV-4waDmq8w-1; Tue, 24 Jan 2023 11:26:47 -0500
+X-MC-Unique: RpKumOx2NqCYV-4waDmq8w-1
+Received: by mail-wr1-f72.google.com with SMTP id bj7-20020a0560001e0700b002bfb3c6ec00so297581wrb.4
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 08:26:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bX9IT7xjfbuY2NTWDjty1xoUFXXw0P63GK85NclMpJ4=;
-        b=Y2THE0cEYK1bg5wwO3KecKB0qQT1tzCchkDoanOGACNIepdEHbk8HD1815OE6Ue8bX
-         cNqfcuLJ4cuig/WnUreDd/JL8G7B7qy9yK/Zt+r2qedmO/smJR9714gRpJdjw8sP0s97
-         8YpMVpdZPul1kibFnSZGzQJtF/BBhKYEQcyaZ3o2CZ0/I+yNnZY8yArxdhadYbJyLOSQ
-         QpgVKk9EgihkUUlxFY9VLq/57MXLUni/YBE2pCbdGC9pBY3S09mv4OwO1NvpRXsOKVSj
-         GEzIHwgQYY0J48wGbHsz0CUmskSkugKAYVTOGioPBPikSs2CjHpf7z7/vudQwSfAqUvV
-         k1Fw==
-X-Gm-Message-State: AFqh2koz5nfgE66aLT+/roflAVGQ3OmbFGA2QYdvAjZxxoGj46jVUU3G
-        /xqGU8OgoK8SDbjLHfeMrY53BOjSjYsxdBlMZ83S4N7wu7VDQXyTmo/qsqElcPcSSKxeaPsWJhB
-        M3W0HcTAqWzzg37diAu3F
-X-Received: by 2002:a7b:cbcb:0:b0:3db:2ad:e330 with SMTP id n11-20020a7bcbcb000000b003db02ade330mr28272727wmi.5.1674577445829;
-        Tue, 24 Jan 2023 08:24:05 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvVa2+1egZlhr/xt2amqGJknvYkEtFYGQNyqzp/aYD39jd9aby4xdRXSty3HU8zkUSOb5cmTg==
-X-Received: by 2002:a7b:cbcb:0:b0:3db:2ad:e330 with SMTP id n11-20020a7bcbcb000000b003db02ade330mr28272696wmi.5.1674577445575;
-        Tue, 24 Jan 2023 08:24:05 -0800 (PST)
+        bh=i7Pw8HLyonCZeA68egrmyo7nTJgPIzxf4MWuoam80Xs=;
+        b=R92w4ZXCcnJuGWRyZlvVMJAZrwmxA8udLinkA9sq64wxosLHCfyDekEnuBPoiVVpyv
+         Zd+l2j3+P6NtVJj96W1OlNIisTVabPbCQLAmJtzXurTy5St22RMf42QIxcY0DSNPPDsr
+         oMqhYCga/8dhbjG8xVL5wFRvEgQufcOGyLsfvKcxKtpOeODROhm1l93MritOzc0XYITW
+         k0OjtaJqLW4RKPB9zg9Fh9wlF6uArIDu5DiY6ut/I/MO9R10ymx3F704VChB6bDjhuA6
+         zA1/S5CPhzzCYXa2xS0hYZZmjCKQUzDjpWFquCdfhfrNZrzdvhvGPFyFHr05sDIIsogu
+         Gqjw==
+X-Gm-Message-State: AFqh2krHfzY5JZ1abVyeimEiJSuE3RnFiaZqvBkXfWIUkOEVigabS9dH
+        U9FCoy7nyupO+Xm6GxEWYcZatUmMEpXxIc+KSdQiImpzbqk+j1hhQ/oDS1w/x/2uNacPjpfWRtS
+        tB8q8OMxKWVirvvhBPn1z
+X-Received: by 2002:a05:6000:10c6:b0:2bd:e33e:c04b with SMTP id b6-20020a05600010c600b002bde33ec04bmr23891400wrx.22.1674577606154;
+        Tue, 24 Jan 2023 08:26:46 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtQ9TD2bnXMPy82nhP127kncrzx3y56M6S5Ht8LsvTwDvmKsGRFx5R/aF94Ts9iBIA/bwn/sg==
+X-Received: by 2002:a05:6000:10c6:b0:2bd:e33e:c04b with SMTP id b6-20020a05600010c600b002bde33ec04bmr23891359wrx.22.1674577605843;
+        Tue, 24 Jan 2023 08:26:45 -0800 (PST)
 Received: from ?IPV6:2003:cb:c707:9d00:9303:90ce:6dcb:2bc9? (p200300cbc7079d00930390ce6dcb2bc9.dip0.t-ipconnect.de. [2003:cb:c707:9d00:9303:90ce:6dcb:2bc9])
-        by smtp.gmail.com with ESMTPSA id l36-20020a05600c08a400b003da28dfdedcsm2868528wmp.5.2023.01.24.08.24.03
+        by smtp.gmail.com with ESMTPSA id t16-20020a5d49d0000000b002bfb0c5527esm1691618wrs.109.2023.01.24.08.26.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jan 2023 08:24:05 -0800 (PST)
-Message-ID: <1327c608-1473-af4f-d962-c24f04f3952c@redhat.com>
-Date:   Tue, 24 Jan 2023 17:24:02 +0100
+        Tue, 24 Jan 2023 08:26:45 -0800 (PST)
+Message-ID: <fd741ac9-8214-a375-00b2-a652a7ef27ea@redhat.com>
+Date:   Tue, 24 Jan 2023 17:26:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
+Subject: Re: [PATCH v5 23/39] mm: Don't allow write GUPs to shadow stack
+ memory
 Content-Language: en-US
 To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
         "hpa@zytor.com" <hpa@zytor.com>,
         "Syromiatnikov, Eugene" <esyr@redhat.com>,
         "peterz@infradead.org" <peterz@infradead.org>,
         "rdunlap@infradead.org" <rdunlap@infradead.org>,
         "keescook@chromium.org" <keescook@chromium.org>,
         "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
         "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
         "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
         "jannh@google.com" <jannh@google.com>,
         "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
         "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "oleg@redhat.com" <oleg@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
         "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "bp@alien8.de" <bp@alien8.de>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
         "Lutomirski, Andy" <luto@kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "arnd@arndb.de" <arnd@arndb.de>,
         "tglx@linutronix.de" <tglx@linutronix.de>,
         "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
         "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
         "Yang, Weijiang" <weijiang.yang@intel.com>,
         "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
         "john.allen@amd.com" <john.allen@amd.com>,
@@ -100,119 +102,73 @@ To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
         "gorcunov@gmail.com" <gorcunov@gmail.com>,
         "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
 References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119212317.8324-19-rick.p.edgecombe@intel.com>
- <7f63d13d-7940-afb6-8b25-26fdf3804e00@redhat.com>
- <50cf64932507ba60639eca28692e7df285bcc0a7.camel@intel.com>
+ <20230119212317.8324-24-rick.p.edgecombe@intel.com>
+ <aa973c0f-5d90-36df-01b2-db9d9182910e@redhat.com>
+ <87fsc1il73.fsf@oldenburg.str.redhat.com>
+ <c6dc94eb193634fa27e1715ab2978a3ce4b6c544.camel@intel.com>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Subject: Re: [PATCH v5 18/39] mm: Handle faultless write upgrades for shstk
-In-Reply-To: <50cf64932507ba60639eca28692e7df285bcc0a7.camel@intel.com>
+In-Reply-To: <c6dc94eb193634fa27e1715ab2978a3ce4b6c544.camel@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23.01.23 21:47, Edgecombe, Rick P wrote:
-> On Mon, 2023-01-23 at 10:50 +0100, David Hildenbrand wrote:
->> On 19.01.23 22:22, Rick Edgecombe wrote:
->>> The x86 Control-flow Enforcement Technology (CET) feature includes
->>> a new
->>> type of memory called shadow stack. This shadow stack memory has
->>> some
->>> unusual properties, which requires some core mm changes to function
->>> properly.
->>>
->>> Since shadow stack memory can be changed from userspace, is both
->>> VM_SHADOW_STACK and VM_WRITE. But it should not be made
->>> conventionally
->>> writable (i.e. pte_mkwrite()). So some code that calls
->>> pte_mkwrite() needs
->>> to be adjusted.
->>>
->>> One such case is when memory is made writable without an actual
->>> write
->>> fault. This happens in some mprotect operations, and also prot_numa
->>> faults.
->>> In both cases code checks whether it should be made
->>> (conventionally)
->>> writable by calling vma_wants_manual_pte_write_upgrade().
->>>
->>> One way to fix this would be have code actually check if memory is
->>> also
->>> VM_SHADOW_STACK and in that case call pte_mkwrite_shstk(). But
->>> since
->>> most memory won't be shadow stack, just have simpler logic and skip
->>> this
->>> optimization by changing vma_wants_manual_pte_write_upgrade() to
->>> not
->>> return true for VM_SHADOW_STACK_MEMORY. This will simply handle all
->>> cases of this type.
->>>
->>> Cc: David Hildenbrand <david@redhat.com>
->>> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
->>> Tested-by: John Allen <john.allen@amd.com>
->>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->>> Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
->>> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
->>> ---
+On 23.01.23 21:46, Edgecombe, Rick P wrote:
+> On Mon, 2023-01-23 at 11:45 +0100, Florian Weimer wrote:
+>> * David Hildenbrand:
 >>
->> Instead of having these x86-shadow stack details all over the MM
->> space,
->> was the option explored to handle this more in arch specific code?
+>>> On 19.01.23 22:23, Rick Edgecombe wrote:
+>>>> The x86 Control-flow Enforcement Technology (CET) feature
+>>>> includes a new
+>>>> type of memory called shadow stack. This shadow stack memory has
+>>>> some
+>>>> unusual properties, which requires some core mm changes to
+>>>> function
+>>>> properly.
+>>>> Shadow stack memory is writable only in very specific, controlled
+>>>> ways.
+>>>> However, since it is writable, the kernel treats it as such. As a
+>>>> result
+>>>> there remain many ways for userspace to trigger the kernel to
+>>>> write to
+>>>> shadow stack's via get_user_pages(, FOLL_WRITE) operations. To
+>>>> make this a
+>>>> little less exposed, block writable GUPs for shadow stack VMAs.
+>>>> Still allow FOLL_FORCE to write through shadow stack protections,
+>>>> as
+>>>> it
+>>>> does for read-only protections.
+>>>
+>>> So an app can simply modify the shadow stack itself by writing to
+>>> /proc/self/mem ?
+>>>
+>>> Is that really intended? Looks like security hole to me at first
+>>> sight, but maybe I am missing something important.
 >>
->> IIUC, one way to get it working would be
->>
->> 1) Have a SW "shadowstack" PTE flag.
->> 2) Have an "SW-dirty" PTE flag, to store "dirty=1" when "write=0".
+>> Isn't it possible to overwrite GOT pointers using the same vector?
+>> So I think it's merely reflecting the status quo.
 > 
-> I don't think that idea came up. So vma->vm_page_prot would have the SW
-> shadow stack flag for VM_SHADOW_STACK, and pte_mkwrite() could do
-> Write=0,Dirty=1 part. It seems like it should work.
+> There was some debate on this. /proc/self/mem can currently write
+> through read-only memory which protects executable code. So should
+> shadow stack get separate rules? Is ROP a worry when you can overwrite
+> executable code?
 > 
 
-Right, if we include it in vma->vm_page_prot, we'd immediately let 
-mk_pte() just handle that.
+The question is, if there is reasonable debugging reason to keep it. I 
+assume if a debugger would adjust the ordinary stack, it would have to 
+adjust the shadow stack as well (oh my ...). So it sounds reasonable to 
+have it in theory at least ... not sure when debugger would support 
+that, but maybe they already do.
 
-Otherwise, we'd have to refactor e.g., mk_pte() to consume a vma instead 
-of the vma->vm_page_prot. Let's see if we can avoid that for now.
+> The consensus seemed to lean towards not making special rules for this
+> case, and there was some discussion that /proc/self/mem should maybe be
+> hardened generally.
 
->>
->> pte_mkwrite(), pte_write(), pte_dirty ... can then make decisions
->> based
->> on the "shadowstack" PTE flag and hide all these details from core-
->> mm.
->>
->> When mapping a shadowstack page (new page, migration, swapin, ...),
->> which can be obtained by looking at the VMA flags, the first thing
->> you'd
->> do is set the "shadowstack" PTE flag.
-> 
-> I guess the downside is that it uses an extra software bit. But the
-> other positive is that it's less error prone, so that someone writing
-> core-mm code won't introduce a change that makes shadow stack VMAs
-> Write=1 if they don't know to also check for VM_SHADOW_STACK.
-
-Right. And I think this mimics the what I would have expected HW to 
-provide: a dedicated HW bit, not somehow mangling this into semantics of 
-existing bits.
-
-Roughly speaking: if we abstract it that way and get all of the "how to 
-set it writable now?" out of core-MM, it not only is cleaner and less 
-error prone, it might even allow other architectures that implement 
-something comparable (e.g., using a dedicated HW bit) to actually reuse 
-some of that work. Otherwise most of that "shstk" is really just x86 
-specific ...
-
-I guess the only cases we have to special case would be page pinning 
-code where pte_write() would indicate that the PTE is writable (well, it 
-is, just not by "ordinary CPU instruction" context directly): but you do 
-that already, so ... :)
-
-Sorry for stumbling over that this late, I only started looking into 
-this when you CCed me on that one patch.
+I agree with that. It's a debugging mechanism that a process can abuse 
+to do nasty stuff to its memory that it maybe shouldn't be able to do ...
 
 -- 
 Thanks,
