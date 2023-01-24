@@ -2,107 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12399C25B4E
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 15:11:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A780C54E94
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 16:00:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233174AbjAXPLL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 10:11:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54836 "EHLO
+        id S233684AbjAXQAD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 11:00:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233118AbjAXPLK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 10:11:10 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89DC64B1BD;
-        Tue, 24 Jan 2023 07:10:39 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0D2D81EC054E;
-        Tue, 24 Jan 2023 16:10:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1674573038;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=hNxsATHUiFYFGUzyQcOoNwYQQ4X1qmaFJkYQaTAGaHA=;
-        b=StFZeMMgy/Kto5AGdvoCPTDk3k76C6HiDxcjGyoY03eGPOPyMXA7TG1tT5vLB3QbbXcT0E
-        l/E3nKzcn7MxuLGWHZN09OoyKr4sB2CVUfVa1f/MnwW1YQamhUsV+lKDGtvribzU+ljBYh
-        QVh74Z69v5E89P8maRb2i3HUdrWHYdg=
-Date:   Tue, 24 Jan 2023 16:10:37 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     babu.moger@amd.com
-Cc:     "Luck, Tony" <tony.luck@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jmattson@google.com" <jmattson@google.com>,
-        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-        "Das1, Sandipan" <Sandipan.Das@amd.com>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-        "jarkko@kernel.org" <jarkko@kernel.org>,
-        "Hunter, Adrian" <adrian.hunter@intel.com>,
-        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
-        "peternewman@google.com" <peternewman@google.com>
-Subject: Re: [PATCH v11 04/13] x86/cpufeatures: Add Bandwidth Monitoring
- Event Configuration feature flag
-Message-ID: <Y8/07cV+t0PrqWX9@zn.tnic>
-References: <20230109164405.569714-5-babu.moger@amd.com>
- <Y7xjxUj+KnOEJssZ@zn.tnic>
- <5afd0a7c-3fbe-dfea-f1b4-2fc35fbb4f13@amd.com>
- <Y7yCCNANVBnOOmxM@zn.tnic>
- <SJ1PR11MB608321F26D729A082BFC6FAEFCFE9@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <ecf0abf0-59fe-3898-762c-d9d883925550@amd.com>
- <Y7yMbQ8hI9MGl1w3@zn.tnic>
- <MW3PR12MB455384130AF0BDE3AF88BCF095FE9@MW3PR12MB4553.namprd12.prod.outlook.com>
- <Y8/CSrU8Bo298VzO@zn.tnic>
- <72cdefc5-1601-5c43-9ea4-4b637f5fafa5@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        with ESMTP id S233461AbjAXQAA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 11:00:00 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2086.outbound.protection.outlook.com [40.107.223.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D759ABA;
+        Tue, 24 Jan 2023 07:59:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=juCJLe5fQe7IUPsxrS2Q5VEfB7fzhzTlztUbkeZYfl76MedmA9CRW+WwlWVJbAOscD17nhr0DEX02Z8LdFNbuPYBDI8QsoBXA2RAvbySMmw2Icvt/xsSFKhW44F4jcsfDbmUd6CcU1PkvqN+IfS7WZdAdqejZYexKgnc0Rn/NkHdASLUqfZ6UmDIPmnIUAPwhaqfiR6399JhQmc91GaRu0qXSrR5RQz3aLcpm6wvPYPyqHaYWkkc28z7TxMGUNnyyS7heGKmz1LxTVShTt6XIKOUGgzpTHtBnxBfJ9tW6CeC21JuooIkttun1114ozDQtMu2ezl693yNhS4ubc9lnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HYFd9SN8uyt7sDJWr1Z6HvxkKuUrSIfTeO5zURDGchM=;
+ b=lZG9KgZLB6ghVGjHMYj7axap06mMlca8JRNWqy41EEShG+GcwFgIHfgMsF+YfLrfy/LLk788GaJFQAPm/lpkrkGFlFir5ie9UWM68eea/sbx+mYyaRDa2EY3YvRlgm+TGWMPrbfB9BoqSaIV1ttZiE+drlQNs8MHgGbMZA4xWuPQfFqBxeiSxat6Ciob+UX/EgckNLNW344dtWeTdTlQiFu/TH9HH+UovU60F361LK0nEsvP9m+miwhhDknSO7fabH4KGX0UwMhCkcak+TFWiwbujRRp+si3IMu0g0062kGTZamxyFGke0LjbBxcaSagizHZX3ZOkDatvMjKzHsa6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HYFd9SN8uyt7sDJWr1Z6HvxkKuUrSIfTeO5zURDGchM=;
+ b=S4XFGy6Iwau0WKgXzkqaY6ZnHQcWXsRnlH4HH6/8mhdGcFx91n570xVdPOXiopeGOe92N7+z8FKe2aerGp2FOJ6C/E+U5c1j17CNUe+HgDjZCasU9AjXwJjrl6bIYu8jx3nCMLinZuwToUo3j+Norki0PFS+k4tLMdLBKvsIlpM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
+ by SA1PR17MB5106.namprd17.prod.outlook.com (2603:10b6:806:1b5::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Tue, 24 Jan
+ 2023 15:59:57 +0000
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.6002.033; Tue, 24 Jan 2023
+ 15:59:57 +0000
+Date:   Tue, 24 Jan 2023 10:59:46 -0500
+From:   Gregory Price <gregory.price@memverge.com>
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, luto@kernel.org,
+        peterz@infradead.org, ebiederm@xmission.com,
+        akpm@linux-foundation.org, adobriyan@gmail.com, corbet@lwn.net,
+        shuah@kernel.org, avagin@gmail.com
+Subject: Re: [PATCH 3/3] ptrace,syscall_user_dispatch: add a getter/setter
+ for sud configuration
+Message-ID: <Y9AAcuomaVM2JRCA@memverge.com>
+References: <20230123032942.18263-1-gregory.price@memverge.com>
+ <20230123032942.18263-4-gregory.price@memverge.com>
+ <20230123154101.GA6268@redhat.com>
+ <Y87OEdDXwZG8pmmE@memverge.com>
+ <20230123195228.GD6268@redhat.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <72cdefc5-1601-5c43-9ea4-4b637f5fafa5@amd.com>
+In-Reply-To: <20230123195228.GD6268@redhat.com>
+X-ClientProxiedBy: BY3PR05CA0052.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b::27) To BN6PR17MB3121.namprd17.prod.outlook.com
+ (2603:10b6:405:7c::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|SA1PR17MB5106:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8b5c9749-da80-4c63-1148-08dafe2409ef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rbjWVF3sZCW9rgIj7RTwCFlBzX2mGpDIACid58ne9XXCsLkKPbwGEgHZ+zil34g2TFrkpauZQYUAlCpgP+0YvtLnBrZJ48Qmc2oRbaJADIKA44WGe4GUergXR3ENtLFlgeJsPaXcblvEB4l7wpRRjpAIPTTxDQ0Wvo1YdCNve0/8N3pmCK4TD5DVbM0FyhIiBXKAxyQBUYH0jgdjwDo6GpRKQBd/O2aklo+ka/gJAVmE3GsRx5Fnr27iqMGgtFjz9B91ZFnkLmdVGCXtBU1GP37zlY+RtU3PpqZkhzJcd3gRbtzbFqwr81Z9c8UmPMNmHQ5Sv+nhDJLYQEl4lxIOG83sePaHPeH+URWCvuSjNctjukwVzwGdPp5B6pITpoPC0KU3RijDIGmEBr4Ez0c6PVAPOcbQkFbrzJwd8tRAKF90ciDSGwmgexhCT7x7LkUWU7HCg69xskLw1Ec+Wz6tehB0r7C2YvAM3a1p2JGtfDtCD3QvSO7zmoPqAxK98MGLpRS+Y4Qm00j08SYPaafCWf2PLsZcC7vK2h9DR/JrVUhFvJQUe1kA97yHssxFEdocz1C0K1k5c9kbAS6YNbxIW0+VYIUV0gaqki3leIUgiwFAAorNWN5COsUfZpUvQAdYTlX8SWI4PFEROXBBLdE4sA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR17MB3121.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(136003)(376002)(366004)(39840400004)(396003)(451199015)(36756003)(41300700001)(86362001)(7416002)(8936002)(5660300002)(4326008)(44832011)(2906002)(38100700002)(83380400001)(478600001)(6486002)(66946007)(6512007)(6916009)(26005)(6506007)(8676002)(186003)(316002)(6666004)(2616005)(66476007)(66556008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wo0z7Rc2krAkqAQgfClILT9QFEv9mYrw0j2WsWDbe5ZojbnwBYoVHeEbMqON?=
+ =?us-ascii?Q?n6SKpAhSKrk+VSnqk6dkVhyWUgu8XxE6ophAk3u31cQDWiamD52mnOgOoODe?=
+ =?us-ascii?Q?tNpK51pepudTe+mC1TMXjRNl5ofilR39t50nKGUgLYEdvROMo6t/YnLsUnql?=
+ =?us-ascii?Q?qnHeoHMGFA5OXcC9VG6F6oPIZPJaNde8KplxfgQAYFAQhXH8YSLV0w73OSCl?=
+ =?us-ascii?Q?x1pj0C8If25atXCwsrvvRcEbk9JfMntF/qSSlzKjH3aMSh37nXAkWz4j4Bgr?=
+ =?us-ascii?Q?kHq6Vf91yrLFgP5MpNr5Zjj5dr18nbsprIwwyYNFXNl845Fso+/w5oW1js5z?=
+ =?us-ascii?Q?kUlk6XzJGTuCb6USGsbESS7+VVA/1C/pD0ABsNC2wP4up6036xB4vmFRCYlz?=
+ =?us-ascii?Q?lA9E/dE68Utcg8E6bn/IBYErUTJgMyjR32uwbFCECggU40vJKx+gHIzdS5Vz?=
+ =?us-ascii?Q?HUR3X4/dHi9tof2WsAV/GzIwnEkJmZdC8UjPBpW1KZpVZxtjUaOFlz5bcULK?=
+ =?us-ascii?Q?AUwMuzO1J0r/xfVmNM1zq0nOwycSASsnl7F8fRLVeAxlkr3JRD60vwJI1Ghr?=
+ =?us-ascii?Q?nrUxGP+OLFflH3QDIDYyLP28kGPuY0STbECJ5kAVlzvQG6w0LhEPWAL1D+ie?=
+ =?us-ascii?Q?CJPZveR6bfZiwP6PZh70b6FZ9/fxV2f05Wv9950WDj5fyAFe4CfxQ3EB5CCO?=
+ =?us-ascii?Q?qncTmr5Wule3fs10aDzHA9J8fQ9oObxEPahUdcn8SVyZqd4lMt4v2cFPjGr9?=
+ =?us-ascii?Q?V5k2DTmHcmABtaFcRr4JYy74CIO3/RCCqNjVp0BJiYpi+20Ej2nQbmT8ZGWI?=
+ =?us-ascii?Q?0QkwlyrH9C7JELS1jtV+1LxQAP59PdTPku+3iYzB2dvvwZIS+h7qOmocfu2L?=
+ =?us-ascii?Q?weo5X3QZAAebH5lFsuwwRRWvorLTgbnsWTz42t63FOb2it9BA6QI8Gmwfr8h?=
+ =?us-ascii?Q?tuXqA88Vlmm55aY+eZt7z7mF8b2ntkuloI2xlQp80yheJ95+zkUD53EQQ8u+?=
+ =?us-ascii?Q?29Lrq54RDBsu15AGiY8q6qBVFty1gfUOOMgkz/c5DYLsZvTTmTCdMypH69fu?=
+ =?us-ascii?Q?nyorEh7OqDMKZgE1C75zZacxBCbNd4C3GBSJxkvxzpRtefTQqTfMvLoKPE33?=
+ =?us-ascii?Q?TKeVB2RtNjiwADAiJAh68dc1cLESm9LuWsDMnVZGsj8IY+/DecnmDhFRumNH?=
+ =?us-ascii?Q?hp4LyPOIWi65E476eQsrFo3im2VPFB4pjGXkNpylTtqw7zXhOpndP7yS9KHd?=
+ =?us-ascii?Q?N6GD38sjh2ifPAQ++clBQx6kovJ7o24Qz6uwnT+RFxaMBVTLLDmE2UWkZmYC?=
+ =?us-ascii?Q?YhhRtwLxkmLMNniZNejX5/O+tjgmmmnZRvP87RjTSW1cCjvLE5WlxG0JSa9O?=
+ =?us-ascii?Q?CgGfWu25HZSren6t0QaEhFgf9UfomOTm+0kUsi+ztqpzzCDk5NJlcvqKSnMl?=
+ =?us-ascii?Q?QnJWSAWXF7NQe+0HuNcncUre1iUUbjB0UaEpUpBJ1Fkf+mTM/abHusqIiAmQ?=
+ =?us-ascii?Q?zXYHgA8/zZTycGcevsaVF5SoMbXqUZTOp31bCBK6eD5hNe8/tWDVcR9sPsWT?=
+ =?us-ascii?Q?VZSBFS2ZSZ2bwrbHKE87KqffV8Ui6yfLoMv+W7WlCOkJa//zlc+T6bKOx/MW?=
+ =?us-ascii?Q?Yg=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b5c9749-da80-4c63-1148-08dafe2409ef
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2023 15:59:56.8567
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wIkMSvEKE0e9qbnXuJN9n9EYLsNn2+4lzS8W+31LqMEv1egP3eb/RlnHi1SlPOV89WLZxCmc/PDu3lFRdfSlf2Sfs1yotA25h73gTasnvNw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR17MB5106
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 08:11:21AM -0600, Moger, Babu wrote:
-> Understood. I am planning to add resctrl feature list inside
-> /sys/fs/resctrl/info/ in my next series.
+On Mon, Jan 23, 2023 at 08:52:29PM +0100, Oleg Nesterov wrote:
+> On 01/23, Gregory Price wrote:
+> >
+> > So i think dropping 2/3 in the list is good.  If you concur i'll do
+> > that.
+> 
+> Well I obviously think that 2/3 should be dropped ;)
+> 
+> As for 1/3 and 3/3, feel free to add my reviewed-by.
+> 
+> Oleg.
+>
 
-Maybe I wasn't as clear as I hoped for:
+I'm actually going to walk my agreement back.
 
-so you have a couple of flags in /proc/cpuinfo which are actively being used by
-tools.
+After one more review, the need for the proc/status entry is not to
+decide whether to dump SUD settings, but for use in deciding whether to
+set the SUSPEND_SYSCALL_DISPATCH option from patch 1/3.
 
-Why would you want to move the flags somewhere else and do the extra work for no
-apparent reason?
+For SECCOMP, CRIU's `compel` does the following:
 
-> We need to add all the resctrl feature bits in info directory.
+1. ptrace attach / halt
+2. examine proc/status for seccomp usage
+3. if seccomp in use, set PTRACE_O_SUSPEND_SECCOMP
+4. proceed with further operations
 
-What for?
+The same pattern would be used for syscall dispatch.
 
--- 
-Regards/Gruss,
-    Boris.
+Technically I think setting the flag unconditionally would be safe, but
+it would lead to unclear system state (i.e. did i actually suspend
+something? was the process actually using it?)
 
-https://people.kernel.org/tglx/notes-about-netiquette
+To me it seems better to leave it explicit and keep the second commit.
+
+Thoughts?
+
+(cc: @avagin if you happen to have any input on this particular pattern)
+
+~Gregory
