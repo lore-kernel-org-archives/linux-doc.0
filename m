@@ -2,74 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FBA6C38142
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 16:21:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4704EC38142
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 16:23:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233815AbjAXQV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 11:21:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53556 "EHLO
+        id S231660AbjAXQXM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 11:23:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231544AbjAXQV4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 11:21:56 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E7364A1EB;
-        Tue, 24 Jan 2023 08:21:53 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C4B09FFC;
-        Tue, 24 Jan 2023 16:21:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C4B09FFC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674577313; bh=e9Ms9NIy69DBSpc92O0jPbndqt+BbCrpQpQKJy7enug=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=WPbLObmI5eAb0UsjPjiNUr79jLBFhGBDmCGswQ79irtiddDZD2UhaHwuf8wU5gtfI
-         2jAAKuH+RBriYMbp7LixiK6L7pNeOUSxZFezSVb/0m50PA3orzwhQC4NuRPNqwGCwB
-         XDrYpBoLrZhu/1rM+RSTjEWiP7ym60bfW/4Vo1Lg/rKXyJovUrqZu7VNX82OlQTAZC
-         ZyjzajqT1YDtnHxcrXFSGDlm8v77Ug8RcmouOhagCzpz0AYS92XrGo6W7CfyimkdKa
-         Jf1qzBf10+bNkiATeHsiLRqWoz2H91c1xuBWPntnymecG7+43dW6zNirv1E1MWCaQ7
-         YZ0dyfisBnmwQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Stefan Roesch <shr@devkernel.io>, linux-mm@kvack.org
-Cc:     linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org
-Subject: Re: [RESEND RFC PATCH v1 10/20] docs: document general_profit sysfs
- knob
-In-Reply-To: <Y89Zko/TWYcphmJA@debian.me>
-References: <20230123173748.1734238-1-shr@devkernel.io>
- <20230123173748.1734238-11-shr@devkernel.io> <Y89Zko/TWYcphmJA@debian.me>
-Date:   Tue, 24 Jan 2023 09:21:51 -0700
-Message-ID: <87h6wfhpi8.fsf@meer.lwn.net>
+        with ESMTP id S234215AbjAXQXK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 11:23:10 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FCFB6A56;
+        Tue, 24 Jan 2023 08:22:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
+        bh=hJtnfFyj9mQFKS9gYTdD9QF9mbnLj6wzdIlpc9Mzmtc=; b=QG8pY8TLbtbuk56ZwQ9ACeowgZ
+        RYEHWeUSM8f12aPmM2OlD8gsF3D3iFgqw0YufCScZZN+zfauFhgCJxSBT2JFOlatxoWuvN2C0EJg5
+        h5rahUsALpVAO4JUlhjXi0iQG0113hvKGqpzYZwREjrujIt7OgMy1FJqPw3txiOFGm04NEgeTZh6W
+        jQvvdUapweDZQ0yp1gXs3ZEONsWgijuvReQxCDaxQ8jztox/ugqRFLOMl+IVoqqvOWaRcjM0a102i
+        7f5Er6sFwo+ZPtW1aACbGQcs52h1mreJRszrMBsiD1Re3DYr91tiZ6Q3HJmW4sPDCI+Fneti1Sx/c
+        ZhZuI0/Q==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pKM4L-004f0a-5z; Tue, 24 Jan 2023 16:22:45 +0000
+Date:   Tue, 24 Jan 2023 08:22:45 -0800
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Konstantin Ryabitsev <mricon@kernel.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Anton Blanchard <anton@linux.ibm.com>,
+        Trilok Soni <tsoni@codeaurora.org>,
+        James Morris <jamorris@linux.microsoft.com>, corbet@lwn.net,
+        javier.gonz@samsung.com, linux-doc@vger.kernel.org,
+        a.manzanares@samsung.com, dave@stgolabs.net,
+        darren@os.amperecomputing.com, ndesaulniers@google.com,
+        gost.dev@samsung.com, linux-kernel@vger.kernel.org,
+        Luis Chamberlain <mcgrof.c@samsung.com>
+Subject: Re: [PATCH] docs: embargoed-hardware-issues: add embargoed HW
+ contact for Samsung
+Message-ID: <Y9AF1UV/ow7eP92L@bombadil.infradead.org>
+References: <20230123183926.249601-1-mcgrof@kernel.org>
+ <Y87X6tFlevIebcc6@kroah.com>
+ <Y88Ak8K5mD7tFItG@bombadil.infradead.org>
+ <Y89E+S7TA6UwtNe2@casper.infradead.org>
+ <Y89qrid7YOsIFbD6@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y89qrid7YOsIFbD6@kroah.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On Tue, Jan 24, 2023 at 06:20:46AM +0100, Greg KH wrote:
+> On Tue, Jan 24, 2023 at 02:39:53AM +0000, Matthew Wilcox wrote:
+> > On Mon, Jan 23, 2023 at 01:48:03PM -0800, Luis Chamberlain wrote:
+> > > > > @@ -251,6 +251,7 @@ an involved disclosed party. The current ambassadors list:
+> > > > >    IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
+> > > > >    Intel		Tony Luck <tony.luck@intel.com>
+> > > > >    Qualcomm	Trilok Soni <tsoni@codeaurora.org>
+> > > > > +  Samsung       Javier González <javier.gonz@samsung.com>
+> > > 
+> > > I'll send a fix on v2.
+> > > 
+> > > BTW while at it, it got me wondering, since most of the emails on
+> > > this hw embargo page are not required to have kernel.org accounts
+> > 
+> > This isn't the list of hw embargo people.  This is the list of
+> > "ambassadors" who can help people work through the security disclosure
+> > process.  My impression is that it's to tell me that I should contact
+> > Konrad, since he also works at Oracle, to help me through the process.
+> > It's not for people outside Oracle to contact.
+> > 
+> > If I have the wrong impression of that list, perhaps the description
+> > could be clarified.
+> 
+> That is correct, but it is primarily a list that I use when needing to
+> contact companies about potential issues in their hardware. 
 
-> Seems like the wording is confusing me, so I write the improv:
->
-> ---- >8 ----
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-ksm b/Documentation/ABI/testing/sysfs-kernel-mm-ksm
-> index 7768e90f7a8fef..5309a912ab679b 100644
-> --- a/Documentation/ABI/testing/sysfs-kernel-mm-ksm
-> +++ b/Documentation/ABI/testing/sysfs-kernel-mm-ksm
-> @@ -56,6 +56,6 @@ What:		/sys/kernel/mm/ksm/general_profit
->  Date:		January 2023
->  KernelVersion:  6.1
->  Contact:	Linux memory management mailing list <linux-mm@kvack.org>
-> -Description:	Measure how effective KSM is.
-> -		general_profit: how effective is KSM. The formula for the
-> -		calculation is in Documentation/admin-guide/mm/ksm.rst.
-> +Description:	Measure the KSM profit. See
-> +		:ref:`KSM documentation <monitoring-ksm-profit>` for details
-> +		on the calculated formula.
+That is the impression I gathered.
 
-So the original at least attempted to tell us what "KSM profit" is; the
-"improved" version makes no such effort.  I don't think that is actually
-better.
+> For that I
+> don't need a GPG key, that's only required if they need to get added to
+> a secure mailing list, and at that point I can have a key sent to me, it
+> does not have to be in our kernel.org keyring at all (and list
+> participants usually are not there.)
 
-jon
+That might be useful to explain in the documentation.
+
+> So there's no need for any of these addresses to be part of the kernel
+> gpg ring of trust for any of their activities.
+
+Sounds good.
+
+  Luis
