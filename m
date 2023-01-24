@@ -2,116 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 308EAC25B50
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 11:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06DF4C25B4E
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Jan 2023 11:29:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232966AbjAXLQo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 06:16:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46578 "EHLO
+        id S233961AbjAXL26 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 06:28:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233241AbjAXLQj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 06:16:39 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F03DC42DC7;
-        Tue, 24 Jan 2023 03:16:36 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S233925AbjAXL26 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 06:28:58 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04897B74D;
+        Tue, 24 Jan 2023 03:28:56 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9FC63B81150;
-        Tue, 24 Jan 2023 11:16:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF644C433D2;
-        Tue, 24 Jan 2023 11:16:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674558994;
-        bh=VFgWKUXRmBeqnN9+X5YE4oCai3W5xNvHzLxb1SYdmas=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=N2qDdHWYOcHoqzldk1nQ6njv+/5dbLTBti8PUnsfqt7NKFZFbfOJuQpaktg7jf7bS
-         aBROW63NBfleI9miL4mP/ezn/PAd5yUQbpyWy5A7bBGjrNSTSho3+ZSJbZBATppiyg
-         UsCu7Ao34SWwdBdmtjD77S/odfWOEh6WgcEIIs6kp+NjGS4fFZyicOFKevJDsyP+lg
-         jbcyXumk/o9/g9Wp8FsfJWu43GtO4XjnK3z+UweDuLMjICfveJQj2R6kZef7LU2bCI
-         3vHxaYd0KBzfEzRCarhI8iaWOfRxrzDmnLACN27E1aWhzjcroZNQJfqE972iSaIGHp
-         QIlOoVkD10uuQ==
-Date:   Tue, 24 Jan 2023 13:16:20 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Michal Hocko <mhocko@suse.com>
-Subject: Re: [PATCH v4 1/1] docs/mm: Physical Memory: add structure,
- introduction and nodes description
-Message-ID: <Y8++BJcHgfzuoURl@kernel.org>
-References: <20230115184212.996298-1-rppt@kernel.org>
- <20230115184212.996298-2-rppt@kernel.org>
- <bea284c3-fe7c-f55a-449d-07f47a364c1c@suse.cz>
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 916DF1EC05DD;
+        Tue, 24 Jan 2023 12:28:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1674559735;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=T/Ams73IS9pldjpzsGFlcABahyaCKghXFaudjYvUOgE=;
+        b=cXgUcsNUfF6P+SjHqCuNAxT84nV5oe/5u+2t5INvDnnNWPn5Q7ARhf+Pb18qGAYifk/0XE
+        znw6/Rvere9W8D/xW7u0qTYsyGIh9gTN2wzuWOs3VJGRsaN3RkElclAwOslWbw+F1vS1ie
+        wf0z59faKNsNTHDm1/yA9bE+rnqkrFU=
+Date:   Tue, 24 Jan 2023 12:28:51 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Luck, Tony" <tony.luck@intel.com>
+Cc:     "Moger, Babu" <babu.moger@amd.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+        "sandipan.das@amd.com" <sandipan.das@amd.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "Hunter, Adrian" <adrian.hunter@intel.com>,
+        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+        "peternewman@google.com" <peternewman@google.com>
+Subject: Re: [PATCH v11 04/13] x86/cpufeatures: Add Bandwidth Monitoring
+ Event Configuration feature flag
+Message-ID: <Y8/A8yYcU0QXVRGG@zn.tnic>
+References: <20230109164405.569714-1-babu.moger@amd.com>
+ <20230109164405.569714-5-babu.moger@amd.com>
+ <Y7xjxUj+KnOEJssZ@zn.tnic>
+ <5afd0a7c-3fbe-dfea-f1b4-2fc35fbb4f13@amd.com>
+ <Y7yCCNANVBnOOmxM@zn.tnic>
+ <SJ1PR11MB608321F26D729A082BFC6FAEFCFE9@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <Y7yJq2lV262EPCQT@zn.tnic>
+ <SJ1PR11MB60839FFE6A7769A1E15818DDFCFE9@SJ1PR11MB6083.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <bea284c3-fe7c-f55a-449d-07f47a364c1c@suse.cz>
+In-Reply-To: <SJ1PR11MB60839FFE6A7769A1E15818DDFCFE9@SJ1PR11MB6083.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 12:00:07PM +0100, Vlastimil Babka wrote:
-> On 1/15/23 19:42, Mike Rapoport wrote:
-> > From: "Mike Rapoport (IBM)" <rppt@kernel.org>
-> > 
-> > Add structure, introduction and Nodes section to Physical Memory
-> > chapter.
-> > 
-> > As the new documentation references core-api/dma-api and mm/page_reclaim,
-> > add page labels to those documents.
-> > 
-> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > Reviewed-by: Lorenzo Stoakes <lstoakes@gmail.com>
-> > Acked-by: Michal Hocko <mhocko@suse.com>
-> > Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
-> 
-> Acked-by: Vlastimil Babka <vbabka@suse.cz>
-> 
-> A small bug to fix below?
-> 
-> <snip>
-> 
-> > +
-> > +Along with the node structures, kernel maintains an array of ``nodemask_t``
-> > +bitmasks called ``node_states``. Each bitmask in this array represents a set of
-> > +nodes with particular properties as defined by ``enum node_states``:
-> > +
-> > +``N_POSSIBLE``
-> > +  The node could become online at some point.
-> > +``N_ONLINE``
-> > +  The node is online.
-> > +``N_NORMAL_MEMORY``
-> > +  The node has regular memory.
-> > +``N_HIGH_MEMORY``
-> > +  The node has regular or high memory. When ``CONFIG_HIGHMEM`` is disabled
-> > +  aliased to ``N_NORMAL_MEMORY``.
-> 
-> Noted.
-> 
-> > +``N_MEMORY``
-> > +  The node has memory(regular, high, movable)
-> > +``N_CPU``
-> > +  The node has one or more CPUs
-> > +
-> > +For each node that has a property described above, the bit corresponding to the
-> > +node ID in the ``node_states[<property>]`` bitmask is set.
-> > +
-> > +For example, for node 2 with normal memory and CPUs, bit 2 will be set in ::
-> > +
-> > +  node_states[N_POSSIBLE]
-> > +  node_states[N_ONLINE]
-> > +  node_states[N_NORMAL_MEMORY]
-> > +  node_states[N_MEMORY]
-> > +  node_states[N_CPU]
-> 
-> Should it be set also in node_states[N_HIGH_MEMORY]?
- 
-You mean because of the aliasing of N_NORMAL_MEMORY and N_HIGH_MEMORY?
+On Mon, Jan 09, 2023 at 09:50:20PM +0000, Luck, Tony wrote:
+> But that allows for the flimsiest of reasons to used to justify making a
+> flag visible.
+
+How's that for starters?
+
+c: The naming override can be "", which means it will not appear in /proc/cpuinfo.
+----------------------------------------------------------------------------------
+
+The feature shall be omitted from /proc/cpuinfo if there is no valid use case
+for userspace to query this flag and cannot rely on other means for detecting
+feature support. For example, toolchains do use CPUID directly instead of
+relying on the kernel providing that info.
+
+If unsure, that flag can always be omitted initially and, once a valid use case
+presents itself, be shown later. Not the other way around.
+
+Another example is X86_FEATURE_ALWAYS, defined in cpufeatures.h. That flag is an
+internal kernel feature used in the alternative runtime patching functionality.
+So, its name is overridden with "". Its flag will not appear in /proc/cpuinfo
+because it absolutely does not make any sense to appear there.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
