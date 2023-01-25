@@ -2,84 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 130D7C61D9D
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 19:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72BBAC27C76
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 19:18:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235925AbjAYTCd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 14:02:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52208 "EHLO
+        id S235784AbjAYTS4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Jan 2023 14:18:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235915AbjAYTCc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 14:02:32 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58969CDCB;
-        Wed, 25 Jan 2023 11:02:31 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 17F46B81B8C;
-        Wed, 25 Jan 2023 19:02:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8F3DC433D2;
-        Wed, 25 Jan 2023 19:02:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674673348;
-        bh=RP5Va6toXXyTmcOr/ME//AhDzcNFVNsgf8+hwufjGl0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=OvZAxPfjKXDdktK4TkpLMXDuL4L107cdVVZ70PnwD568R3gI+0pb9bt8L790fN2cO
-         0EzUCDa6kkq9wiKJndJf4Ce6tFT6lhgwjkri5ihpOt5PBf3p67zOOvnwlXLab5eFiw
-         uZz5SAcXwp6zfrhiZf/23QjiJL41EE2/yvMvIZlRFcS1aFtBfMB9pePhbuhwV2FK7R
-         hQpP731ZhIaxFfP/jW1ElFNHHCWNw/avRemfV0YMNfl7cCLsdJEHKf/4DubkALGlhv
-         kj8g0I5R7tiLa4hLJtPKkhQ2xpa25WBjEdydJD/flvD/WZ/xs/m4FQa5IQoWyJqlYh
-         hCmuU/ozTe4xg==
-Date:   Wed, 25 Jan 2023 11:02:26 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Ayush Sawal <ayush.sawal@chelsio.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        intel-wired-lan@lists.osuosl.org,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, oss-drivers@corigine.com,
-        Paolo Abeni <pabeni@redhat.com>,
-        Raju Rangoju <rajur@chelsio.com>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Simon Horman <simon.horman@corigine.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Veaceslav Falico <vfalico@gmail.com>
-Subject: Re: [PATCH net-next v1 01/10] xfrm: extend add policy callback to
- set failure reason
-Message-ID: <20230125110226.66dc7eeb@kernel.org>
-In-Reply-To: <c182cae29914fa19ce970859e74234d3de506853.1674560845.git.leon@kernel.org>
-References: <cover.1674560845.git.leon@kernel.org>
-        <c182cae29914fa19ce970859e74234d3de506853.1674560845.git.leon@kernel.org>
+        with ESMTP id S229505AbjAYTSz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 14:18:55 -0500
+X-Greylist: delayed 932 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 25 Jan 2023 11:18:51 PST
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF637A84;
+        Wed, 25 Jan 2023 11:18:51 -0800 (PST)
+Received: from imladris.home.surriel.com ([10.0.13.28] helo=imladris.surriel.com)
+        by shelob.surriel.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.96)
+        (envelope-from <riel@shelob.surriel.com>)
+        id 1pKkjm-0002iB-37;
+        Wed, 25 Jan 2023 13:43:10 -0500
+Message-ID: <4fe0e2eb6a3e2d7e0838f177706f1be13d61375c.camel@surriel.com>
+Subject: Re: [RESEND RFC PATCH v1 00/20] mm: process/cgroup ksm support
+From:   Rik van Riel <riel@surriel.com>
+To:     Michal Hocko <mhocko@suse.com>,
+        David Hildenbrand <david@redhat.com>
+Cc:     Stefan Roesch <shr@devkernel.io>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, CGEL <cgel.zte@gmail.com>,
+        Jann Horn <jannh@google.com>
+Date:   Wed, 25 Jan 2023 13:43:09 -0500
+In-Reply-To: <Y9EoJ0jlXMeuJzuY@dhcp22.suse.cz>
+References: <20230123173748.1734238-1-shr@devkernel.io>
+         <5844ee9f-1992-a62a-2141-3b694a1e1915@redhat.com>
+         <qvqwbkmnj014.fsf@dev0134.prn3.facebook.com>
+         <a391e98c-88af-886c-0426-c41c9980afa1@redhat.com>
+         <Y9EoJ0jlXMeuJzuY@dhcp22.suse.cz>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-fHtooTLBHokjrlt3AOkT"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Sender: riel@shelob.surriel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 24 Jan 2023 13:54:57 +0200 Leon Romanovsky wrote:
-> -	err = dev->xfrmdev_ops->xdo_dev_policy_add(xp);
-> +	err = dev->xfrmdev_ops->xdo_dev_policy_add(xp, extack);
->  	if (err) {
->  		xdo->dev = NULL;
->  		xdo->real_dev = NULL;
->  		xdo->type = XFRM_DEV_OFFLOAD_UNSPECIFIED;
->  		xdo->dir = 0;
->  		netdev_put(dev, &xdo->dev_tracker);
-> -		NL_SET_ERR_MSG(extack, "Device failed to offload this policy");
 
-In a handful of places we do:
+--=-fHtooTLBHokjrlt3AOkT
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-if (!extack->msg)
-	NL_SET_ERR_MSG(extack, "Device failed to offload this policy");
+On Wed, 2023-01-25 at 14:01 +0100, Michal Hocko wrote:
+>=20
+> I have read through your cover letter and it talks about the
+> interface
+> but it doesn't really talk about usecases and how they are supposed
+> to
+> use this feature - except the prctl based flag gets inherited. So
+> could
+> you elaborate some more about those usecases please?
 
-in case the device did not provide the extack.
-Dunno if it's worth doing here.
+I can explain a little about the use case. There are people
+who use forked (rather than threaded) servers for certain
+workloads, from a garbage collected language without pointers,
+which means madvise simply cannot be made available in that
+language.
+
+The people running that workload have experimented with uKSM
+in the past, and seen about a 20% capacity increase from
+doing that.
+
+Because madvise is not possible in that programming language,
+and the addresses of data keep moving around as things get
+garbage collected, KSM sharing needs to be enabled "from the
+outside" for that workload.
+
+prctl seems like a good way to do that.
+
+--=20
+All Rights Reversed.
+
+--=-fHtooTLBHokjrlt3AOkT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEKR73pCCtJ5Xj3yADznnekoTE3oMFAmPReD0ACgkQznnekoTE
+3oOf6Qf+OZdpabz5qPJU/62BiPgM4Iz1Ih3vwmzqU4gPC6zRlgHsqxQ9unGulcc5
+u9IIstoDUDaZRtbvJas1YO3wlaBgyIag+J0yR0Vflg6KWnBrYz+AKa0f8rfi4I0H
+MPavada+vlPdaIM/duOza4Je/nUkKenXaknZ3ng/j17JfWTPDNbtF/0Qne0t4nnf
+pM0i49ZgGNPAAqeT6FI1jf07BN+01QVjDKellwxGx5s8MjNKkEsmvpXT2ePTJQhK
+YXhsdf1sP3C9ftRKOBBzp0izIjvwnSuKcauOdhckdmX69SLbVSgxUgaTVxBUa2Ur
+RUUcMqJMaSgPERS3K+TdPHAaIJYY8Q==
+=k7TU
+-----END PGP SIGNATURE-----
+
+--=-fHtooTLBHokjrlt3AOkT--
