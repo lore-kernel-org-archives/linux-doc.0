@@ -2,137 +2,193 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D132BC38142
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 00:20:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76059C54E94
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 00:28:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230015AbjAYAUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 19:20:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33794 "EHLO
+        id S234078AbjAYA2O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 19:28:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230404AbjAYAUg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 19:20:36 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB3C49578
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 16:20:31 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id n20-20020a17090aab9400b00229ca6a4636so381417pjq.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jan 2023 16:20:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vd0fuRLUDjU8rvXBur9NhqOrPTXVZKZJ4oN8G/lkhJI=;
-        b=o+HXYRIxPxQ8KPpGLHKkZdPsJO5M09uHZapYHKFtwuihESZLkI6Zkm4ULLnmfHYxaN
-         z6Bkf5/oL9w9YxifsJFcA+QqHXQpANCQz/OmWBa9Rlyll+JFY8LEgS0okBOrevjCF1S3
-         zR7B+TPDrrG/OfCNb5TJIPizamziaqvNbn8/9CvRZxXi09FQ5URRCGE/FpZIYdJ6T4/N
-         AY4adBiPMnMz+1wL4iuMS9jBXixwStGqund1wI/dbZkKpFhaJDOGRoji+PGQ7Xch442u
-         xgwPTskywSS01/xVU1ilxRAsaLiYsitEfD5ZykZTycKtYgDSWCaIA6Ar69OkijI/Sgc/
-         1/Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vd0fuRLUDjU8rvXBur9NhqOrPTXVZKZJ4oN8G/lkhJI=;
-        b=NUO51tkfz+MLldZIJDhgP2CkTxUKz0vCfMC/kTF/otEOlvPbn5mdW5YI4AyVMHMvAk
-         +GEhNEssQloXbve1OdlHxzLi/9PYPq5GHnhjSMW4ieJ9+EWBPlXOif6tPzcjCI9knF2l
-         LGgCBslOLQdfZFQ7eQTgDatRCuYkT3frxYu9Ec8/QYB/TuMkkbFLH5PSWI00EoRb04Fe
-         dL5a1dMhymDFTHZAxIpG1/VktO59kqTCJTHo8t5+WC4QoYiFQ1OIv0v2sCIFFj35lTvQ
-         O0NQfMzkx+qsGovr0XpoWVNiV4YYlAbky8wgT58wBxNHILqt6AYCCXXHjN83D9L8VrnX
-         /2NQ==
-X-Gm-Message-State: AO0yUKXslucUpoFy89WIwDyB1KkdFq2sWSy5xSCpwMMiLXU3FBCh+jC/
-        fKbwYyEWQ0l5Onfy18ist0VEEg==
-X-Google-Smtp-Source: AK7set8DMFuhHtJA8X11WSyZdq14F8cMlJuZ6jde92u/m6yVtA5WC0P8SrmivvZz4XbeH1VArDptDg==
-X-Received: by 2002:a17:90a:690e:b0:22b:b82a:8b5f with SMTP id r14-20020a17090a690e00b0022bb82a8b5fmr436422pjj.2.1674606030366;
-        Tue, 24 Jan 2023 16:20:30 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id l8-20020a17090a49c800b0022bae5c3e1esm148419pjm.9.2023.01.24.16.20.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 16:20:29 -0800 (PST)
-Date:   Wed, 25 Jan 2023 00:20:26 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Liam Merwick <liam.merwick@oracle.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        with ESMTP id S234745AbjAYA2N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 19:28:13 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C719518E0;
+        Tue, 24 Jan 2023 16:27:39 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F33146141D;
+        Wed, 25 Jan 2023 00:27:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2088BC43442;
+        Wed, 25 Jan 2023 00:27:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674606453;
+        bh=Hf6D8jaVh9N46w1G0EEZbriQYqxBI7NIDla18BtPWI4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=GsY2fk5zT8DTcq3AwyfRvEy78M9JjdbFUe8YMnBV7hXK7/RIi5I8ZkMfNVaxnQfoi
+         uT6pA7E7X2eN+KlCKaWkSG8pvviYwHmm2/ji9DqcUamRKwt0h/IKwmy1NPPekEvYXX
+         i5JxsWEH6816qagZnEbQCN2dWOeNM+y87ChgdTEqHuOW10rYUruZxvIQu0x53ogep+
+         lcv7lypzWme4ZHo+TO/GX0SbaBrXR5srcqayHkvhPLyyLRt88zs3m+Dldxnzz+UEMn
+         SIiAZLAhaqRx0i14Tfho4gcsTgBv0Bj7l7vAfSKoZoWJ4yoYGd4svMwYpbc9gTStQc
+         FjFFY0BU+NGQg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 7D74F5C1D0D; Tue, 24 Jan 2023 16:27:32 -0800 (PST)
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     tglx@linutronix.de
+Cc:     linux-kernel@vger.kernel.org, john.stultz@linaro.org,
+        sboyd@kernel.org, corbet@lwn.net, Mark.Rutland@arm.com,
+        maz@kernel.org, kernel-team@meta.com, neeraju@codeaurora.org,
+        ak@linux.intel.com, feng.tang@intel.com, zhengjun.xing@intel.com,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <Y9B1yiRR8DpANAEo@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com>
- <48953bf2-cee9-f818-dc50-5fb5b9b410bf@oracle.com>
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        linux-doc@vger.kernel.org, "Paul E . McKenney" <paulmck@kernel.org>
+Subject: [PATCH v2 clocksource 7/7] x86/tsc: Add option to force frequency recalibration with HW timer
+Date:   Tue, 24 Jan 2023 16:27:30 -0800
+Message-Id: <20230125002730.1471349-7-paulmck@kernel.org>
+X-Mailer: git-send-email 2.31.1.189.g2e36527f23
+In-Reply-To: <20230125002708.GA1471122@paulmck-ThinkPad-P17-Gen-1>
+References: <20230125002708.GA1471122@paulmck-ThinkPad-P17-Gen-1>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <48953bf2-cee9-f818-dc50-5fb5b9b410bf@oracle.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 24, 2023, Liam Merwick wrote:
-> On 14/01/2023 00:37, Sean Christopherson wrote:
-> > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > This patch series implements KVM guest private memory for confidential
-> > > computing scenarios like Intel TDX[1]. If a TDX host accesses
-> > > TDX-protected guest memory, machine check can happen which can further
-> > > crash the running host system, this is terrible for multi-tenant
-> > > configurations. The host accesses include those from KVM userspace like
-> > > QEMU. This series addresses KVM userspace induced crash by introducing
-> > > new mm and KVM interfaces so KVM userspace can still manage guest memory
-> > > via a fd-based approach, but it can never access the guest memory
-> > > content.
-> > > 
-> > > The patch series touches both core mm and KVM code. I appreciate
-> > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> > > reviews are always welcome.
-> > >    - 01: mm change, target for mm tree
-> > >    - 02-09: KVM change, target for KVM tree
-> > 
-> > A version with all of my feedback, plus reworked versions of Vishal's selftest,
-> > is available here:
-> > 
-> >    git@github.com:sean-jc/linux.git x86/upm_base_support
-> > 
-> > It compiles and passes the selftest, but it's otherwise barely tested.  There are
-> > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-> > a WIP.
-> > 
-> 
-> When running LTP (https://github.com/linux-test-project/ltp) on the v10
-> bits (and also with Sean's branch above) I encounter the following NULL
-> pointer dereference with testcases/kernel/syscalls/madvise/madvise01
-> (100% reproducible).
-> 
-> It appears that in restrictedmem_error_page() inode->i_mapping->private_data
-> is NULL
-> in the list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list)
-> but I don't know why.
+From: Feng Tang <feng.tang@intel.com>
 
-Kirill, can you take a look?  Or pass the buck to someone who can? :-)
+The kernel assumes that the TSC frequency which is provided by the
+hardware / firmware via MSRs or CPUID(0x15) is correct after applying
+a few basic consistency checks. This disables the TSC recalibration
+against HPET or PM timer.
+
+As a result there is no mechanism to validate that frequency in cases
+where a firmware or hardware defect is suspected. And there was case
+that some user used atomic clock to measure the TSC frequency and
+reported an inaccuracy issue, which was later fixed in firmware.
+
+Add an option 'recalibrate' for 'tsc' kernel parameter to force the
+tsc freq recalibration with HPET or PM timer, and warn if the
+deviation from previous value is more than about 500 PPM, which
+provides a way to verify the data from hardware / firmware.
+
+There is no functional change to existing work flow.
+
+Recently there was a real-world case: "The 40ms/s divergence between
+TSC and HPET was observed on hardware that is quite recent" [1], on
+that platform the TSC frequence 1896 MHz was got from CPUID(0x15),
+and the force-reclibration with HPET/PMTIMER both calibrated out
+value of 1975 MHz, which also matched with check from software
+'chronyd', indicating it's a problem of BIOS or firmware.
+
+[Thanks tglx for helping improving the commit log]
+[ paulmck: Wordsmith Kconfig help text. ]
+
+[1]. https://lore.kernel.org/lkml/20221117230910.GI4001@paulmck-ThinkPad-P17-Gen-1/
+Signed-off-by: Feng Tang <feng.tang@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: <x86@kernel.org>
+Cc: <linux-doc@vger.kernel.org>
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+---
+ .../admin-guide/kernel-parameters.txt         |  4 +++
+ arch/x86/kernel/tsc.c                         | 34 ++++++++++++++++---
+ 2 files changed, 34 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6cfa6e3996cf7..95f0d104c2322 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6369,6 +6369,10 @@
+ 			in situations with strict latency requirements (where
+ 			interruptions from clocksource watchdog are not
+ 			acceptable).
++			[x86] recalibrate: force recalibration against a HW timer
++			(HPET or PM timer) on systems whose TSC frequency was
++			obtained from HW or FW using either an MSR or CPUID(0x15).
++			Warn if the difference is more than 500 ppm.
+ 
+ 	tsc_early_khz=  [X86] Skip early TSC calibration and use the given
+ 			value instead. Useful when the early TSC frequency discovery
+diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+index af3782fb6200c..a5371c6d4b64b 100644
+--- a/arch/x86/kernel/tsc.c
++++ b/arch/x86/kernel/tsc.c
+@@ -48,6 +48,8 @@ static DEFINE_STATIC_KEY_FALSE(__use_tsc);
+ 
+ int tsc_clocksource_reliable;
+ 
++static int __read_mostly tsc_force_recalibrate;
++
+ static u32 art_to_tsc_numerator;
+ static u32 art_to_tsc_denominator;
+ static u64 art_to_tsc_offset;
+@@ -303,6 +305,8 @@ static int __init tsc_setup(char *str)
+ 		mark_tsc_unstable("boot parameter");
+ 	if (!strcmp(str, "nowatchdog"))
+ 		no_tsc_watchdog = 1;
++	if (!strcmp(str, "recalibrate"))
++		tsc_force_recalibrate = 1;
+ 	return 1;
+ }
+ 
+@@ -1379,6 +1383,25 @@ static void tsc_refine_calibration_work(struct work_struct *work)
+ 	else
+ 		freq = calc_pmtimer_ref(delta, ref_start, ref_stop);
+ 
++	/* Will hit this only if tsc_force_recalibrate has been set */
++	if (boot_cpu_has(X86_FEATURE_TSC_KNOWN_FREQ)) {
++
++		/* Warn if the deviation exceeds 500 ppm */
++		if (abs(tsc_khz - freq) > (tsc_khz >> 11)) {
++			pr_warn("Warning: TSC freq calibrated by CPUID/MSR differs from what is calibrated by HW timer, please check with vendor!!\n");
++			pr_info("Previous calibrated TSC freq:\t %lu.%03lu MHz\n",
++				(unsigned long)tsc_khz / 1000,
++				(unsigned long)tsc_khz % 1000);
++		}
++
++		pr_info("TSC freq recalibrated by [%s]:\t %lu.%03lu MHz\n",
++			hpet ? "HPET" : "PM_TIMER",
++			(unsigned long)freq / 1000,
++			(unsigned long)freq % 1000);
++
++		return;
++	}
++
+ 	/* Make sure we're within 1% */
+ 	if (abs(tsc_khz - freq) > tsc_khz/100)
+ 		goto out;
+@@ -1412,8 +1435,10 @@ static int __init init_tsc_clocksource(void)
+ 	if (!boot_cpu_has(X86_FEATURE_TSC) || !tsc_khz)
+ 		return 0;
+ 
+-	if (tsc_unstable)
+-		goto unreg;
++	if (tsc_unstable) {
++		clocksource_unregister(&clocksource_tsc_early);
++		return 0;
++	}
+ 
+ 	if (boot_cpu_has(X86_FEATURE_NONSTOP_TSC_S3))
+ 		clocksource_tsc.flags |= CLOCK_SOURCE_SUSPEND_NONSTOP;
+@@ -1426,9 +1451,10 @@ static int __init init_tsc_clocksource(void)
+ 		if (boot_cpu_has(X86_FEATURE_ART))
+ 			art_related_clocksource = &clocksource_tsc;
+ 		clocksource_register_khz(&clocksource_tsc, tsc_khz);
+-unreg:
+ 		clocksource_unregister(&clocksource_tsc_early);
+-		return 0;
++
++		if (!tsc_force_recalibrate)
++			return 0;
+ 	}
+ 
+ 	schedule_delayed_work(&tsc_irqwork, 0);
+-- 
+2.31.1.189.g2e36527f23
+
