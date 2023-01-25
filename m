@@ -2,165 +2,198 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E490BC27C76
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 12:09:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F895C54E94
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 13:01:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235269AbjAYMJn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 07:09:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50344 "EHLO
+        id S235057AbjAYNB0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Jan 2023 08:01:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234969AbjAYMJm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 07:09:42 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 306B6DE;
-        Wed, 25 Jan 2023 04:09:38 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 629921EC047F;
-        Wed, 25 Jan 2023 13:09:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1674648577;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=2CKK5UqFKEbdOFeMTDMTUfy7cL9pOE+BIckZRxnZFls=;
-        b=N7mQUWfDbZHBP1w1vSbWCyHQmoYxavgmGF9takgbVKtSQvkgSrCo1cuaeytqiHnlbiGRMs
-        wW87s7zOaiKTNkK1BsCW9MatXilYyVkONKrxwFHA6du27aDJzXUOmb8zeteDv2osM4SJpM
-        YxefZwwOut5QGw/4eDXLEaErPcbkpmw=
-Date:   Wed, 25 Jan 2023 13:09:33 +0100
-From:   Borislav Petkov <bp@alien8.de>
+        with ESMTP id S232999AbjAYNBZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 08:01:25 -0500
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D19712064;
+        Wed, 25 Jan 2023 05:01:22 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 6D5F8581DCF;
+        Wed, 25 Jan 2023 07:53:28 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 25 Jan 2023 07:53:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1674651208; x=1674658408; bh=4+
+        WTh2wxYnUegwTOEldoemeAGUATx2lachXfcnNgrRM=; b=rW63RSV1s6p/5iI23s
+        pPb3Yev73vywbEK2l+K+UINyN0wq/ycFBZaIek7/rkZOTLRNsrb0bR8ni0tCGKby
+        EHkp3vTR7w59Cpw8IPpHzmtvU/PAFIfoRD4vaV/obIMlj05qa0x0RAP2GeD852oI
+        ql2jJRikMcmoNxIvJmcP7Y2F4bop+DZRBWkTHAJ76vxDVBlc2G1W0ri4zWEjF47W
+        RNJyjY1rMDCHnYAKtmDJut0wQz71Qi2dD1xllshO9o7KofTMflb45iXB1p9qfcp5
+        4SQQayRWg5q076nLUgQgb8PIAPhLi5FkrHBJEv3jQavuT8nd6Rl0xsJ+kfBWIN0h
+        5v+g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1674651208; x=1674658408; bh=4+WTh2wxYnUegwTOEldoemeAGUAT
+        x2lachXfcnNgrRM=; b=nMswIvhy39T0VwYZ++ke/f29wffPClGz2z3gerpeHY/P
+        veXiiALrTIG/Tq9iBnbIj1PjWFh/FIo+58pZWDG6X1UIpGokb3bWoMHiLtdDhXvK
+        7o1HZ0CYempwzfVV2O7x73la0cJpLaWtgAH5HWaHiJocgmAeMgBmgq83HcWq7Ffd
+        xvNnslwVO7SP3TDfN3BfKw3R3so/jjjZlzOtsjm8FsMi5As2hPcsHhGyN4/OiZIK
+        LX495GAPtTfvbAzlrws4yqPcGPUor/eUCjtIKv9eZOOb+PPPEZC7I6bP5Noa2dFF
+        yaaaeBAAMwBnWn3TsiT6GRQTzvIVT0bmyhlBeCVDHw==
+X-ME-Sender: <xms:RSbRY0TA1r4YQIZjOVqLRPcMjJJroxY05TIFzvdQrmh3afSbh6tl0A>
+    <xme:RSbRYxwR07Buzc1-9g4iscFNJklm3cZWzy2UjM9A9nop7GWGvW8iVknU2UCQDhQZs
+    1jR5u6ldOQ0FQDh9ho>
+X-ME-Received: <xmr:RSbRYx3JbfBe5NnwBX2dniGaNNSfnmu1-cBMXGWYcGd0-PPhiHZ3gt9pmNtJln1bG9KsoA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvvddggeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+    grmhgvqeenucggtffrrghtthgvrhhnpeetvdehffelffeiveeikeduffetudeuheeiiefg
+    ueduvdevtdejhedvhfffffehfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuve
+    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhl
+    sehshhhuthgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:RSbRY4AbDtPzxiU39td1Iki7uLF6-jp-3aOZzfoZGyoDTIrf9RfLeA>
+    <xmx:RSbRY9h5-h-9JQGeknGeWaqQNuf4_aCfT7IpAqbyOUSGtA1M0YIPFw>
+    <xmx:RSbRY0qNJMsSbCQasoVfsWkaEgxvOFJLjZxj4oEPBCIybrVRiUPRqg>
+    <xmx:SCbRY7GTBtI4J-Eaiys6yGJBW86fFTQIdmIVpm3Ln5Wgc4JKyv-GBA>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Jan 2023 07:53:24 -0500 (EST)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id 83A27104985; Wed, 25 Jan 2023 15:53:21 +0300 (+03)
+Date:   Wed, 25 Jan 2023 15:53:21 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
 To:     Sean Christopherson <seanjc@google.com>
-Cc:     Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
+Cc:     Liam Merwick <liam.merwick@oracle.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 4/8] x86/cpu, kvm: Move X86_FEATURE_LFENCE_RDTSC to
- its native leaf
-Message-ID: <Y9Eb/Yvw38W01gPA@zn.tnic>
-References: <20230124163319.2277355-1-kim.phillips@amd.com>
- <20230124163319.2277355-5-kim.phillips@amd.com>
- <Y9BOh9xB/G5Ifj8N@google.com>
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20230125125321.yvsivupbbaqkb7a5@box.shutemov.name>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <48953bf2-cee9-f818-dc50-5fb5b9b410bf@oracle.com>
+ <Y9B1yiRR8DpANAEo@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y9BOh9xB/G5Ifj8N@google.com>
+In-Reply-To: <Y9B1yiRR8DpANAEo@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 09:32:55PM +0000, Sean Christopherson wrote:
-> Boris, can you fold this in?
+On Wed, Jan 25, 2023 at 12:20:26AM +0000, Sean Christopherson wrote:
+> On Tue, Jan 24, 2023, Liam Merwick wrote:
+> > On 14/01/2023 00:37, Sean Christopherson wrote:
+> > > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > > This patch series implements KVM guest private memory for confidential
+> > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > > TDX-protected guest memory, machine check can happen which can further
+> > > > crash the running host system, this is terrible for multi-tenant
+> > > > configurations. The host accesses include those from KVM userspace like
+> > > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > > via a fd-based approach, but it can never access the guest memory
+> > > > content.
+> > > > 
+> > > > The patch series touches both core mm and KVM code. I appreciate
+> > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > > > reviews are always welcome.
+> > > >    - 01: mm change, target for mm tree
+> > > >    - 02-09: KVM change, target for KVM tree
+> > > 
+> > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
+> > > is available here:
+> > > 
+> > >    git@github.com:sean-jc/linux.git x86/upm_base_support
+> > > 
+> > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
+> > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
+> > > a WIP.
+> > > 
+> > 
+> > When running LTP (https://github.com/linux-test-project/ltp) on the v10
+> > bits (and also with Sean's branch above) I encounter the following NULL
+> > pointer dereference with testcases/kernel/syscalls/madvise/madvise01
+> > (100% reproducible).
+> > 
+> > It appears that in restrictedmem_error_page() inode->i_mapping->private_data
+> > is NULL
+> > in the list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list)
+> > but I don't know why.
+> 
+> Kirill, can you take a look?  Or pass the buck to someone who can? :-)
 
-Sure, see below.
+The patch below should help.
 
----
-From: Kim Phillips <kim.phillips@amd.com>
-Date: Tue, 24 Jan 2023 10:33:15 -0600
-Subject: [PATCH] x86/cpu, kvm: Move X86_FEATURE_LFENCE_RDTSC to its native leaf
-
-The LFENCE always serializing feature bit was defined as scattered
-LFENCE_RDTSC and its native leaf bit position open-coded for KVM.  Add
-it to its newly added CPUID leaf 0x80000021 EAX proper.  With
-LFENCE_RDTSC in its proper place, the kernel's set_cpu_cap() will
-effectively synthesize the feature for KVM going forward.
-
-Also, DE_CFG[1] doesn't need to be set on such CPUs anymore.
-
-  [ bp: Massage and merge diff from Sean. ]
-
-Signed-off-by: Kim Phillips <kim.phillips@amd.com>
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-Acked-by: Sean Christopherson <seanjc@google.com>
-Link: https://lore.kernel.org/r/20230124163319.2277355-5-kim.phillips@amd.com
----
- arch/x86/include/asm/cpufeatures.h |  3 ++-
- arch/x86/kernel/cpu/amd.c          |  2 +-
- arch/x86/kvm/cpuid.c               | 16 +++++++++++++---
- 3 files changed, 16 insertions(+), 5 deletions(-)
-
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 1b2d40a96b97..901128ed4c7a 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -97,7 +97,7 @@
- #define X86_FEATURE_SYSENTER32		( 3*32+15) /* "" sysenter in IA32 userspace */
- #define X86_FEATURE_REP_GOOD		( 3*32+16) /* REP microcode works well */
- #define X86_FEATURE_AMD_LBR_V2		( 3*32+17) /* AMD Last Branch Record Extension Version 2 */
--#define X86_FEATURE_LFENCE_RDTSC	( 3*32+18) /* "" LFENCE synchronizes RDTSC */
-+/* FREE, was #define X86_FEATURE_LFENCE_RDTSC		( 3*32+18) "" LFENCE synchronizes RDTSC */
- #define X86_FEATURE_ACC_POWER		( 3*32+19) /* AMD Accumulated Power Mechanism */
- #define X86_FEATURE_NOPL		( 3*32+20) /* The NOPL (0F 1F) instructions */
- #define X86_FEATURE_ALWAYS		( 3*32+21) /* "" Always-present feature */
-@@ -429,6 +429,7 @@
+diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+index 15c52301eeb9..39ada985c7c0 100644
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -307,14 +307,29 @@ void restrictedmem_error_page(struct page *page, struct address_space *mapping)
  
- /* AMD-defined Extended Feature 2 EAX, CPUID level 0x80000021 (EAX), word 20 */
- #define X86_FEATURE_NO_NESTED_DATA_BP	(20*32+ 0) /* "" No Nested Data Breakpoints */
-+#define X86_FEATURE_LFENCE_RDTSC	(20*32+ 2) /* "" LFENCE always serializing / synchronizes RDTSC */
+ 	spin_lock(&sb->s_inode_list_lock);
+ 	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
+-		struct restrictedmem *rm = inode->i_mapping->private_data;
+ 		struct restrictedmem_notifier *notifier;
+-		struct file *memfd = rm->memfd;
++		struct restrictedmem *rm;
+ 		unsigned long index;
++		struct file *memfd;
  
- /*
-  * BUG word(s)
-diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
-index f769d6d08b43..208c2ce8598a 100644
---- a/arch/x86/kernel/cpu/amd.c
-+++ b/arch/x86/kernel/cpu/amd.c
-@@ -956,7 +956,7 @@ static void init_amd(struct cpuinfo_x86 *c)
+-		if (memfd->f_mapping != mapping)
++		if (atomic_read(&inode->i_count))
+ 			continue;
  
- 	init_amd_cacheinfo(c);
- 
--	if (cpu_has(c, X86_FEATURE_XMM2)) {
-+	if (!cpu_has(c, X86_FEATURE_LFENCE_RDTSC) && cpu_has(c, X86_FEATURE_XMM2)) {
- 		/*
- 		 * Use LFENCE for execution serialization.  On families which
- 		 * don't have that MSR, LFENCE is already serializing.
-diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index aa3a6dc74e95..12455dc5afe5 100644
---- a/arch/x86/kvm/cpuid.c
-+++ b/arch/x86/kvm/cpuid.c
-@@ -742,12 +742,22 @@ void kvm_set_cpu_caps(void)
- 		F(SME_COHERENT));
- 
- 	kvm_cpu_cap_mask(CPUID_8000_0021_EAX,
--		F(NO_NESTED_DATA_BP) |
--		BIT(2) /* LFENCE Always serializing */ | 0 /* SmmPgCfgLock */ |
-+		F(NO_NESTED_DATA_BP) | F(LFENCE_RDTSC) | 0 /* SmmPgCfgLock */ |
- 		BIT(6) /* NULL_SEL_CLR_BASE */ | 0 /* PrefetchCtlMsr */
- 	);
++		spin_lock(&inode->i_lock);
++		if (inode->i_state & (I_NEW | I_FREEING | I_WILL_FREE)) {
++			spin_unlock(&inode->i_lock);
++			continue;
++		}
 +
-+	/*
-+	 * Synthesize "LFENCE is serializing" into the AMD-defined entry in
-+	 * KVM's supported CPUID if the feature is reported as supported by the
-+	 * kernel.  LFENCE_RDTSC was a Linux-defined synthetic feature long
-+	 * before AMD joined the bandwagon, e.g. LFENCE is serializing on most
-+	 * CPUs that support SSE2.  On CPUs that don't support AMD's leaf,
-+	 * kvm_cpu_cap_mask() will unfortunately drop the flag due to ANDing
-+	 * the mask with the raw host CPUID, and reporting support in AMD's
-+	 * leaf can make it easier for userspace to detect the feature.
-+	 */
- 	if (cpu_feature_enabled(X86_FEATURE_LFENCE_RDTSC))
--		kvm_cpu_caps[CPUID_8000_0021_EAX] |= BIT(2) /* LFENCE Always serializing */;
-+		kvm_cpu_cap_set(X86_FEATURE_LFENCE_RDTSC);
- 	if (!static_cpu_has_bug(X86_BUG_NULL_SEG))
- 		kvm_cpu_caps[CPUID_8000_0021_EAX] |= BIT(6) /* NULL_SEL_CLR_BASE */;
- 	kvm_cpu_caps[CPUID_8000_0021_EAX] |= BIT(9) /* NO_SMM_CTL_MSR */;
++		rm = inode->i_mapping->private_data;
++		memfd = rm->memfd;
++
++		if (memfd->f_mapping != mapping) {
++			spin_unlock(&inode->i_lock);
++			continue;
++		}
++		spin_unlock(&inode->i_lock);
++
+ 		xa_for_each_range(&rm->bindings, index, notifier, start, end)
+ 			notifier->ops->error(notifier, start, end);
+ 		break;
 -- 
-2.35.1
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+  Kiryl Shutsemau / Kirill A. Shutemov
