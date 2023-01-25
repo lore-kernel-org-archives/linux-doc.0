@@ -2,181 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A77D2C61D9D
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 20:04:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC9D4C27C76
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 20:13:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236217AbjAYUEs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 15:04:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36826 "EHLO
+        id S236176AbjAYUNr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Jan 2023 15:13:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236220AbjAYUEr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 15:04:47 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 252774A221
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jan 2023 12:04:44 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id a9so24512040ybb.3
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jan 2023 12:04:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MtZUdD+8O7hxMGTcR1DMvNk+cmrcvsJPjaaxCUIim34=;
-        b=fOjBWO27z2DRRtGxPdgxFPgp37eKG2B9PVK/K0KiaXIloz+AuZ38tULN6fcXWxzCXe
-         tU2hdkFiNRDubvDFYYKIraSWMsmgZB5TrENA6ESEOPBjPR/dQpPpkMJl5TsP7oaNQBaU
-         TxPNiWcr87ZC110sXUh6RSZVcOchas4NTyfHWTxoFZ1DzEOO9gAxP0Yd2EzEp0fULRzI
-         KH11tad7CESbeI0SS36cVhoreBuXewlt8xttyfZyHJv8HTgUAkB8genFUrpEvMtBNPp0
-         +Cp+2h8ohoZFxIl3/0g98E+3IWq3CPHCxOoXQqQtkHA1Zm+a4/B25A6qnkeflqA4pUuK
-         /J3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MtZUdD+8O7hxMGTcR1DMvNk+cmrcvsJPjaaxCUIim34=;
-        b=ndWRp1VCzLM3k+gryeFo+FfkxkIdcOArj5ZLnhGkjH4nyhXbyuRRylfE8qbEqlIxYO
-         TINGzt2Z/2oujtWP8AjbeLBkLBMWUHNDzEU4T9vXlSm1/n4f1uJigoZjA9gEUJArQTEk
-         nRv5MlHGujlZyHdPudICWIaH2kzw3d2ElFBnA8fynBu9nDIo3QxApKp/zt4cu4YpULyX
-         9/CBovO9YrtoDQfbzhD7rfYmjPuobfntKNYpGvOR9WOz9csJQurfjaUSxbBlagXu6mHJ
-         u0NfSarUZ4Tk8OFhHiBB1IRkzuUKvgrjn7yjxWveHLq/7NOAZszS4koO4XIoUJMLn157
-         oi+w==
-X-Gm-Message-State: AO0yUKVvhnf4gA6zMtiUjxhnvmlaZvZRS+pdTFvCSDifvcKHLpycP+5e
-        ujJjaGjaFkVI6rAb25la9XfXszfDCz+BBIot/ppaYg==
-X-Google-Smtp-Source: AK7set/0yo0srPljd82kRg54UhHAn9kAcoGNmLhg0Ao5vhrkKbvYpqMk0gx/CzAceT8L+J/HB1ohTrPmB4dI55xwr6c=
-X-Received: by 2002:a25:341:0:b0:80b:96cc:310d with SMTP id
- 62-20020a250341000000b0080b96cc310dmr522771ybd.117.1674677083118; Wed, 25 Jan
- 2023 12:04:43 -0800 (PST)
+        with ESMTP id S236055AbjAYUNq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 15:13:46 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E0C24B88F;
+        Wed, 25 Jan 2023 12:13:26 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5CFFE380;
+        Wed, 25 Jan 2023 20:12:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5CFFE380
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1674677566; bh=ZOwU7H5BGcY8Fa5leXBGZB1PrEvbGydF4lOqCyJMD1I=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=QmSqOsSEo2tVFDcDrUC07GWlfvNqW+l6PiO/EuZNsAx6vN2H1i1P0JYJ4Hx3vlPFP
+         1B69DlZ+XLclON1F3lXWWE0bvkzy50dnpnKd5i68qXZRR9bQYlvgW/rcrwZKGCJHG+
+         PF3CqgN5Q3gOq+5ttNsrlknwlLMF+WpR5yU5fSHh0KfSeHx9BZy1qh/XeMINZ8jyqg
+         4P2hIt32fj6TuVXQkdWv8KHoaZsg5yumHlznnXON+Es0TtSVBN+QfED/i7zd70BPci
+         K/1Oe5ShiAFbl9Vq5F9wvEvxJt2v0h4paGMva6Yccjk45920Sy6MjKrkxmi2FHjiPV
+         XgySdgbHAa9jA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>
+Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bilbao@vt.edu
+Subject: Re: [PATCH] docs/sp_SP: Add process magic-number translation
+In-Reply-To: <20230125200307.5f7yvbfhxxwq2ped@tarta.nabijaczleweli.xyz>
+References: <20230125181840.3007341-1-carlos.bilbao@amd.com>
+ <87tu0ecsk1.fsf@meer.lwn.net>
+ <20230125200307.5f7yvbfhxxwq2ped@tarta.nabijaczleweli.xyz>
+Date:   Wed, 25 Jan 2023 13:12:45 -0700
+Message-ID: <87lelqcr0i.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20230123191728.2928839-1-tjmercier@google.com>
- <20230123191728.2928839-2-tjmercier@google.com> <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
- <CABdmKX1c_8LdJJboENnZhwGjrszDWOOVt-Do93-sJW46mZMD6A@mail.gmail.com> <Y9EbHW84ydBzpTTO@dhcp22.suse.cz>
-In-Reply-To: <Y9EbHW84ydBzpTTO@dhcp22.suse.cz>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Wed, 25 Jan 2023 12:04:32 -0800
-Message-ID: <CABdmKX0TEf_18UC0_pt1BumB9vDdJW2Ntv5bo0wh_CMOEcAEdA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] memcg: Track exported dma-buffers
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <muchun.song@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
-        jeffv@google.com, cmllamas@google.com,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 4:05 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Tue 24-01-23 10:55:21, T.J. Mercier wrote:
-> > On Tue, Jan 24, 2023 at 7:00 AM Michal Hocko <mhocko@suse.com> wrote:
-> > >
-> > > On Mon 23-01-23 19:17:23, T.J. Mercier wrote:
-> > > > When a buffer is exported to userspace, use memcg to attribute the
-> > > > buffer to the allocating cgroup until all buffer references are
-> > > > released.
-> > >
-> > > Is there any reason why this memory cannot be charged during the
-> > > allocation (__GFP_ACCOUNT used)?
-> >
-> > My main motivation was to keep code changes away from exporters and
-> > implement the accounting in one common spot for all of them. This is a
-> > bit of a carryover from a previous approach [1] where there was some
-> > objection to pushing off this work onto exporters and forcing them to
-> > adapt, but __GFP_ACCOUNT does seem like a smaller burden than before
-> > at least initially. However in order to support charge transfer
-> > between cgroups with __GFP_ACCOUNT we'd need to be able to get at the
-> > pages backing dmabuf objects, and the exporters are the ones with that
-> > access. Meaning I think we'd have to add some additional dma_buf_ops
-> > to achieve that, which was the objection from [1].
-> >
-> > [1] https://lore.kernel.org/lkml/5cc27a05-8131-ce9b-dea1-5c75e994216d@amd.com/
-> >
-> > >
-> > > Also you do charge and account the memory but underlying pages do not
-> > > know about their memcg (this is normally done with commit_charge for
-> > > user mapped pages). This would become a problem if the memory is
-> > > migrated for example.
-> >
-> > Hmm, what problem do you see in this situation? If the backing pages
-> > are to be migrated that requires the cooperation of the exporter,
-> > which currently has no influence on how the cgroup charging is done
-> > and that seems fine. (Unless you mean migrating the charge across
-> > cgroups? In which case that's the next patch.)
->
-> My main concern was that page migration could lose the external tracking
-> without some additional steps on the dmabuf front.
->
-I see, yes that would be true if an exporter moves data around between
-system memory and VRAM for example. (I think TTM does this sort of
-thing, but not sure if that's actually within a single dma buffer.)
-VRAM feels like it maybe doesn't belong in memcg, yet it would still
-be charged there under this series right now. I don't really see a way
-around this except to involve the exporters directly in the accounting
-(or don't attempt to distinguish between types of memory).
+Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz> writes:
 
-> > > This also means that you have to maintain memcg
-> > > reference outside of the memcg proper which is not really nice either.
-> > > This mimicks tcp kmem limit implementation which I really have to say I
-> > > am not a great fan of and this pattern shouldn't be coppied.
-> > >
-> > Ah, what can I say. This way looked simple to me. I think otherwise
-> > we're back to making all exporters do more stuff for the accounting.
-> >
-> > > Also you are not really saying anything about the oom behavior. With
-> > > this implementation the kernel will try to reclaim the memory and even
-> > > trigger the memcg oom killer if the request size is <= 8 pages. Is this
-> > > a desirable behavior?
-> >
-> > It will try to reclaim some memory, but not the dmabuf pages right?
-> > Not *yet* anyway. This behavior sounds expected to me.
->
-> Yes, we have discussed that shrinkers will follow up later which is
-> fine. The question is how much reclaim actually makes sense at this
-> stage. Charging interface usually copes with sizes resulting from
-> allocation requests (so usually 1<<order based). I can imagine that a
-> batch charge like implemented here could easily be 100s of MBs and it is
-> much harder to define reclaim targets for. At least that is something
-> the memcg charging hasn't really considered yet.  Maybe the existing
-> try_charge implementation can cope with that just fine but it would be
-> really great to have the expected behavior described.
->
-> E.g. should be memcg OOM killer be invoked? Should reclaim really target
-> regular memory at all costs or just a lightweight memory reclaim is
-> preferred (is the dmabuf charge failure an expensive operation wrt.
-> memory refault due to reclaim).
+> On Wed, Jan 25, 2023 at 12:39:26PM -0700, Jonathan Corbet wrote:
+>> There was a series out there to delete this file entirely:
+>>   https://lore.kernel.org/lkml/cover.1668128257.git.nabijaczleweli@nabij=
+aczleweli.xyz/
+>> I wonder whatever became of that?
+> No-one cared enough to apply and I got over re-sending it,
+> so only part of the whole clean-up landed.
 
-Ah, in my experience very large individual buffers like that are rare.
-Cumulative system-wide usage might reach 100s of megs or more spread
-across many buffers. On my phone the majority of buffer sizes are 4
-pages or less, but there are a few that reach into the tens of megs.
-But now I see your point. I still think that where a memcg limit is
-exceeded and we can't reclaim enough as a result of a new dmabuf
-allocation, we should see a memcg OOM kill. Sounds like you are
-looking for that to be written down, so I'll try to find a place for
-that.
+That's too bad, I think it was a good cleanup.  Cross-subsystem changes
+like this always take some work to get through.  If you were to persist,
+I expect you'd eventually get there.
 
-Part of the motivation for this accounting is to eventually have a
-well defined limit for applications to know how much more they can
-allocate. So where buffer size or number of buffers is a flexible
-variable, I'd like to see an application checking this limit before
-making a large request in an effort to avoid reclaim in the first
-place. Where there is heavy memory pressure and multiple competing
-apps, the status-quo today is a kill for us anyways (typically LMKD).
+I'm tempted to do the magic-number.rst removal regardless, lest it tempt
+others into trying to add more of them.
 
+Thanks,
 
-
-
-> --
-> Michal Hocko
-> SUSE Labs
+jon
