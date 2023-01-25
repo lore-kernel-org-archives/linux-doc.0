@@ -2,85 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FE71C54EAA
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 03:50:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B9CFC54EAA
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 04:22:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233983AbjAYDu1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Jan 2023 22:50:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55050 "EHLO
+        id S231620AbjAYEWM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Jan 2023 23:22:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjAYDuX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 22:50:23 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 399754900B;
-        Tue, 24 Jan 2023 19:50:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B343B6144D;
-        Wed, 25 Jan 2023 03:50:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0B82DC4339C;
-        Wed, 25 Jan 2023 03:50:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674618619;
-        bh=5zYmil3GpjhlKKEO9HlMg1matkV2+zsa3NF9i+Idsaw=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=QYYA1Z0/PbzFDo8jvAvczuNLHcVO9ml0x5u3HcjnIfdZLSX41QzZnBxyor1elhfLm
-         Gc1MUf7+c0N8W9HnXviYlwtBw65xD/GaEEwXGNTBWs1S8RRfR1NxzgQOyX1gyLuxnf
-         IQGnNQD3wyG40/hbQ+m82/67Hd+5KILCbHbLQPOTfmvLwP1KTY2rhQPhlR1B0qhb+B
-         Gg7PiA7PT8jHr92jX9h1R5vauTzL0nXVWnh0u5YaBJRG+8upI/TwrFePJW+wH65+Mo
-         NZLPvY/cds/pnpXkDEoc/WF0xrcazmiJYoOoK+Yzd4HvSB+lG/F1rH5vK5Qsedz0Kl
-         0sUmfwSDD3NKQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id DC620F83ECD;
-        Wed, 25 Jan 2023 03:50:18 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S231286AbjAYEWL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Jan 2023 23:22:11 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE8A053B01;
+        Tue, 24 Jan 2023 20:22:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674620525; x=1706156525;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NhOPx0gE0BklEYBntjw2S+n2t7urmONIUgn/cw4sNzQ=;
+  b=cmZ/hpHuoi62xxIcTXpfAEozZ4cthOFFo5c8At44kqH5FJkVKQg54rPQ
+   mtwrELPFObeZqdpgPpfgtW7gbsMwusud/pTS50NWnNQLiO3JOI6eYJ4wb
+   6x1zKEtkulQbCwvApEFoR9t5/FN1zbVzDC/BDLK1uvadUDxtiybx0DYrW
+   9v3uTyW/l2+86+kfxZmPXSQzdTfQrz5ubG2i7xIuB79oWz4N4OeACtAmr
+   Pz1c05rwyy0Bx4F/iaGND6Q/R+/8U/83QgdRPVQDxHSVKnOT3Auy/vWga
+   +AiStsNc94j+Xv6djwwIOGvfwMkWFB6P4yJsxXcTs4OTgfLL7UKOztDKl
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="310052477"
+X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
+   d="scan'208";a="310052477"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 20:21:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="786312481"
+X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
+   d="scan'208";a="786312481"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 24 Jan 2023 20:21:42 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pKXI5-000720-1T;
+        Wed, 25 Jan 2023 04:21:41 +0000
+Date:   Wed, 25 Jan 2023 12:20:49 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Carlos Llamas <cmllamas@google.com>,
+        Suren Baghdasaryan <surenb@google.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
+        jeffv@google.com, linux-security-module@vger.kernel.org,
+        selinux@vger.kernel.org, cgroups@vger.kernel.org,
+        Hridya Valsaraju <hridya@google.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] binder: Add flags to relinquish ownership of fds
+Message-ID: <202301251234.klClMpZF-lkp@intel.com>
+References: <20230123191728.2928839-4-tjmercier@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/3] Putting some basic order on isa extension lists
-From:   patchwork-bot+linux-riscv@kernel.org
-Message-Id: <167461861889.411.5843489021071731633.git-patchwork-notify@kernel.org>
-Date:   Wed, 25 Jan 2023 03:50:18 +0000
-References: <20221205144525.2148448-1-conor.dooley@microchip.com>
-In-Reply-To: <20221205144525.2148448-1-conor.dooley@microchip.com>
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     linux-riscv@lists.infradead.org, palmer@dabbelt.com,
-        ajones@ventanamicro.com, aou@eecs.berkeley.edu, conor@kernel.org,
-        corbet@lwn.net, guoren@kernel.org, heiko@sntech.de,
-        paul.walmsley@sifive.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230123191728.2928839-4-tjmercier@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Hi Mercier",
 
-This series was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
+Thank you for the patch! Yet something to improve:
 
-On Mon, 5 Dec 2022 14:45:23 +0000 you wrote:
-> For v2+, I added another path with some uapi docs & switched to Drew's
-> suggested ordering of alphabetically, except in the /proc/cpuinfo array,
-> as per the discussion today in the pw-sync call. I also added a
-> sprinkling of comments around which things should be sorted in which
-> way.
-> 
-> Pasting from the chat on v2, since it's relevant to whether re-ordering
-> what appears in /proc/cpuinfo is even permitted..
-> 
-> [...]
+[auto build test ERROR on 2241ab53cbb5cdb08a6b2d4688feb13971058f65]
 
-Here is the summary with links:
-  - [v2,1/3] RISC-V: clarify ISA string ordering rules in cpu.c
-    https://git.kernel.org/riscv/c/99e2266f2460
-  - [v2,2/3] RISC-V: resort all extensions in consistent orders
-    https://git.kernel.org/riscv/c/80c200b34ee8
-  - [v2,3/3] Documentation: riscv: add a section about ISA string ordering in /proc/cpuinfo
-    https://git.kernel.org/riscv/c/f07b2b3f9d47
+url:    https://github.com/intel-lab-lkp/linux/commits/T-J-Mercier/memcg-Track-exported-dma-buffers/20230124-032017
+base:   2241ab53cbb5cdb08a6b2d4688feb13971058f65
+patch link:    https://lore.kernel.org/r/20230123191728.2928839-4-tjmercier%40google.com
+patch subject: [PATCH v2 3/4] binder: Add flags to relinquish ownership of fds
+config: x86_64-randconfig-a016-20230123 (https://download.01.org/0day-ci/archive/20230125/202301251234.klClMpZF-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/41e80f59d1b70691eefc0490e7f1df800cead9f2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review T-J-Mercier/memcg-Track-exported-dma-buffers/20230124-032017
+        git checkout 41e80f59d1b70691eefc0490e7f1df800cead9f2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-You are awesome, thank you!
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: dma_buf_transfer_charge
+   >>> referenced by binder.c:2280 (drivers/android/binder.c:2280)
+   >>>               drivers/android/binder.o:(binder_translate_fd) in archive vmlinux.a
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
