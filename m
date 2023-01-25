@@ -2,203 +2,277 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2E34C54E94
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 21:56:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D022C54EED
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 22:08:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbjAYV4x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 16:56:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49450 "EHLO
+        id S230257AbjAYWIH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Jan 2023 17:08:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236106AbjAYVz0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 16:55:26 -0500
-Received: from fx403.security-mail.net (smtpout140.security-mail.net [85.31.212.143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56ECC4EFD
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jan 2023 13:55:24 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by fx403.security-mail.net (Postfix) with ESMTP id 7EE365792A4
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jan 2023 22:55:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1674683722;
-        bh=WtoB9JtlKwd4Y8mogATd1m73eAkNffWMtzkgdcOdrFg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=jpK3fSfJCzy3ZANEGkjKa68WlzWKHAnxNIOUyHjrFerEyLWvdC7JV4+9BbvbaYOVc
-         zG/WmhbgVQcAC7cuLJSoEk6kP3iplqZGTody8prkX2fh/DSCpiNkfhrN11Nmfvh2q9
-         5rHYkMRf2BwOr/BqbGtWV8yBWOizstOkO2UnIhWc=
-Received: from fx403 (localhost [127.0.0.1]) by fx403.security-mail.net
- (Postfix) with ESMTP id 0F1A55794C5; Wed, 25 Jan 2023 22:55:22 +0100 (CET)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx403.security-mail.net (Postfix) with ESMTPS id 194FF578B2C; Wed, 25 Jan
- 2023 22:55:21 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id D2EB627E0493; Wed, 25 Jan 2023
- 22:55:20 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id AEC3727E0491; Wed, 25 Jan 2023 22:55:20 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- si6Lv1AzzjtE; Wed, 25 Jan 2023 22:55:20 +0100 (CET)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 4AA5127E0461; Wed, 25 Jan 2023
- 22:55:20 +0100 (CET)
-X-Virus-Scanned: E-securemail
-Secumail-id: <13e79.63d1a549.170d1.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu AEC3727E0491
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674683720;
- bh=OP2H0clmfjMlntXGEQUOupSQETmz7iibW86xdOXdO/c=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=FiSVH+wqDIs88qUIullcsu5BFjd2D7z2E5u8DrTYSpKgGNXgRV/wZx6pLf0jEnjj1
- nq174SqV22wtEYt+DC4eOS10NI0yUL2JmwTj2bfQCvZEO4mxAawGM/7zjbG/MQC8HR
- kpFf4zpnPjbRuo+I0TP0j3cj6aN2Vd984BCzoL6c=
-Date:   Wed, 25 Jan 2023 22:55:19 +0100
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Waiman Long <longman@redhat.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Piggin <npiggin@gmail.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@redhat.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Guillaume Thouvenin <gthouvenin@kalray.eu>,
-        Clement Leger <clement@clement-leger.fr>,
-        Vincent Chardon <vincent.chardon@elsys-design.com>,
-        Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>,
-        Julian Vetter <jvetter@kalray.eu>,
-        Samuel Jones <sjones@kalray.eu>,
-        Ashley Lesdalons <alesdalons@kalray.eu>,
-        Thomas Costis <tcostis@kalray.eu>,
-        Marius Gligor <mgligor@kalray.eu>,
-        Jonathan Borne <jborne@kalray.eu>,
-        Julien Villette <jvillette@kalray.eu>,
-        Luc Michel <lmichel@kalray.eu>,
-        Louis Morhet <lmorhet@kalray.eu>,
-        Julien Hascoet <jhascoet@kalray.eu>,
-        Jean-Christophe Pince <jcpince@gmail.com>,
-        Guillaume Missonnier <gmissonnier@kalray.eu>,
-        Alex Michon <amichon@kalray.eu>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <git@xen0n.name>,
-        Shaokun Zhang <zhangshaokun@hisilicon.com>,
-        John Garry <john.garry@huawei.com>,
-        Guangbin Huang <huangguangbin2@huawei.com>,
-        Bharat Bhushan <bbhushan2@marvell.com>,
-        Bibo Mao <maobibo@loongson.cn>,
-        Atish Patra <atishp@atishpatra.org>,
-        Qi Liu <liuqi115@huawei.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Brown <broonie@kernel.org>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Benjamin Mugnier <mugnier.benjamin@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-audit@redhat.com,
-        linux-riscv@lists.infradead.org, bpf@vger.kernel.org
-Subject: Re: [RFC PATCH v2 12/31] kvx: Add other common headers
-Message-ID: <20230125215519.GE5952@tellis.lin.mbt.kalray.eu>
-References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-13-ysionneau@kalray.eu> <Y8qlOpYgDefMPqWH@zx2c4.com>
+        with ESMTP id S230253AbjAYWIG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 17:08:06 -0500
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99DF4272E
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jan 2023 14:08:00 -0800 (PST)
+Received: by mail-yb1-xb36.google.com with SMTP id 129so20886363ybb.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jan 2023 14:08:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8cCX3Y5tMpHTPxdGP+eKd5H05mGoGhd8poBDVYoeLTo=;
+        b=Kfk6HOfsvcxS2w6EkpDVfvvJgCCF/DvffgNZiCN2kvPi1KgC+riOaURGWiiHIBPvUM
+         tinoQZVroy8ARazmEY+SSuc64b6tSLat9K6JYKix9+fj781rEz/rgOIHXtOpFuW1J68D
+         c24RA6qzkEbHfi2faBuMKy3wnloeCgvN86U35SK+CCQz/2OyBgEUDxmbmYgDOXtBY0Io
+         1tXG+wo92Zfzjr6tja4/CWvhIJI9zPjiMSvncDQi5aZu/0REMikqGGySAXRXu8VIwJIY
+         yVdUx5tucq3wqUsN2YKOqiTOOmiIMkpJCUKyG9a/fkjEUF9J4n0BBaPFz/BdGFSSkVRB
+         KdtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8cCX3Y5tMpHTPxdGP+eKd5H05mGoGhd8poBDVYoeLTo=;
+        b=KAyd56L5I1r+hyOavE+I8S3pPi9H9WXzuHWqfWmh6XfjomqWH+Pfob6FBlKPrHGbWq
+         hi2fEz5J7eW7Jjem0BAU2iaTHlMfvzB4S2gADJEazjT0oIaNcTMPJLd6S+X2jqXkw9ZY
+         Hx0XhQxHFXQkyzkymUSFKhot9OITVNVEXy4QKzV1Q8U6uk+HX1obVcGUmCUmfWAHwjns
+         GRYaFOhBhqfApy3zdsu6wC+z3HAVDfGYkJ/UvmS9dYV+z8/DQq1gKLvtrsBpN3Y4DAIi
+         GFDIWOFzS97EfdHzKPU0oQbuQybRfzNeK6yg5OE4alHcn15b4GBwGeu8cP5r/MYaWHCk
+         KWSQ==
+X-Gm-Message-State: AFqh2kqP9/I5EvtCNpoJ5Kyw9FlcC7l3T8fuQiCiD+viJwtbkumQXAsU
+        pBdwJJIwDGh6DDNcuapZg+4HKkWKpPVzEHdywnLTKA==
+X-Google-Smtp-Source: AMrXdXs7G0Oy1eOkRMD5hv9YO0RT324jdvsOMEaNF6TPQ8kzN5s9vSottpKNjr7WBsHmKfVNJPGh0dkRyT4f73X221U=
+X-Received: by 2002:a25:d505:0:b0:7bf:d201:60cb with SMTP id
+ r5-20020a25d505000000b007bfd20160cbmr2763028ybe.365.1674684479589; Wed, 25
+ Jan 2023 14:07:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <Y8qlOpYgDefMPqWH@zx2c4.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
+References: <20230123191728.2928839-1-tjmercier@google.com>
+ <20230123191728.2928839-4-tjmercier@google.com> <Y9FnJ/U41XN3h8gT@google.com>
+In-Reply-To: <Y9FnJ/U41XN3h8gT@google.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Wed, 25 Jan 2023 14:07:48 -0800
+Message-ID: <CABdmKX3L=Ue8zxA8axR0yJ5F2bgGjWA7dYxL4uNQPqyazqOd=g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] binder: Add flags to relinquish ownership of fds
+To:     Carlos Llamas <cmllamas@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, daniel.vetter@ffwll.ch,
+        android-mm@google.com, jstultz@google.com, jeffv@google.com,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+        cgroups@vger.kernel.org, Hridya Valsaraju <hridya@google.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jason,
+On Wed, Jan 25, 2023 at 9:30 AM Carlos Llamas <cmllamas@google.com> wrote:
+>
+> On Mon, Jan 23, 2023 at 07:17:25PM +0000, T.J. Mercier wrote:
+> > From: Hridya Valsaraju <hridya@google.com>
+> >
+> > This patch introduces flag BINDER_FD_FLAG_XFER_CHARGE that a process
+> > sending an individual fd or fd array to another process over binder IPC
+> > can set to relinquish ownership of the fd(s) being sent for memory
+> > accounting purposes. If the flag is found to be set during the fd or fd
+> > array translation and the fd is for a DMA-BUF, the buffer is uncharged
+> > from the sender's cgroup and charged to the receiving process's cgroup
+> > instead.
+> >
+> > It is up to the sending process to ensure that it closes the fds
+> > regardless of whether the transfer failed or succeeded.
+> >
+> > Most graphics shared memory allocations in Android are done by the
+> > graphics allocator HAL process. On requests from clients, the HAL
+> > process allocates memory and sends the fds to the clients over binder
+> > IPC. The graphics allocator HAL will not retain any references to the
+> > buffers. When the HAL sets BINDER_FD_FLAG_XFER_CHARGE, binder will
+> > transfer the charge for the buffer from the allocator process cgroup to
+> > the client process cgroup.
+> >
+> > The pad [1] and pad_flags [2] fields of binder_fd_object and
+> > binder_fda_array_object come from alignment with flat_binder_object and
+> > have never been exposed for use from userspace. This new flags use
+> > follows the pattern set by binder_buffer_object.
+> >
+> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/uapi/linux/android/binder.h?id=feba3900cabb8e7c87368faa28e7a6936809ba22
+> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/uapi/linux/android/binder.h?id=5cdcf4c6a638591ec0e98c57404a19e7f9997567
+> >
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > ---
+> >  Documentation/admin-guide/cgroup-v2.rst |  3 ++-
+> >  drivers/android/binder.c                | 25 +++++++++++++++++++++----
+> >  include/uapi/linux/android/binder.h     | 19 +++++++++++++++----
+> >  3 files changed, 38 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> > index 538ae22bc514..d225295932c0 100644
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -1457,7 +1457,8 @@ PAGE_SIZE multiple when read back.
+> >
+> >         dmabuf (npn)
+> >               Amount of memory used for exported DMA buffers allocated by the cgroup.
+> > -             Stays with the allocating cgroup regardless of how the buffer is shared.
+> > +             Stays with the allocating cgroup regardless of how the buffer is shared
+> > +             unless explicitly transferred.
+> >
+> >         workingset_refault_anon
+> >               Number of refaults of previously evicted anonymous pages.
+> > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+> > index 880224ec6abb..5e707974793f 100644
+> > --- a/drivers/android/binder.c
+> > +++ b/drivers/android/binder.c
+> > @@ -42,6 +42,7 @@
+> >
+> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> >
+> > +#include <linux/dma-buf.h>
+> >  #include <linux/fdtable.h>
+> >  #include <linux/file.h>
+> >  #include <linux/freezer.h>
+> > @@ -2237,7 +2238,7 @@ static int binder_translate_handle(struct flat_binder_object *fp,
+> >       return ret;
+> >  }
+> >
+> > -static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+> > +static int binder_translate_fd(u32 fd, binder_size_t fd_offset, __u32 flags,
+> >                              struct binder_transaction *t,
+> >                              struct binder_thread *thread,
+> >                              struct binder_transaction *in_reply_to)
+> > @@ -2275,6 +2276,20 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+> >               goto err_security;
+> >       }
+> >
+> > +     if (IS_ENABLED(CONFIG_MEMCG) && (flags & BINDER_FD_FLAG_XFER_CHARGE)) {
+>
+> Do we need to test for MEMCG here? it seems this has been offloaded to
+> dma_buf_transfer_charge()?
+>
+Nope, that's a duplicate check now. Will remove.
 
-On Fri, Jan 20, 2023 at 03:29:14PM +0100, Jason A. Donenfeld wrote:
-> Hi Yann,
-> 
-> On Fri, Jan 20, 2023 at 03:09:43PM +0100, Yann Sionneau wrote:
-> > +#include <linux/random.h>
-> > +#include <linux/version.h>
+> > +             ret = dma_buf_transfer_charge(file, target_proc->tsk);
+> > +             if (unlikely(ret == -EBADF)) {
+> > +                     binder_user_error(
+> > +                             "%d:%d got transaction with XFER_CHARGE for non-DMA-BUF fd, %d\n",
+> > +                             proc->pid, thread->pid, fd);
+> > +                     goto err_dmabuf;
+> > +             } else if (ret) {
+> > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d\n",
+> > +                             proc->pid, thread->pid, target_proc->pid);
+> > +                     goto err_xfer;
+> > +             }
+> > +     }
 > > +
-> > +extern unsigned long __stack_chk_guard;
+> >       /*
+> >        * Add fixup record for this transaction. The allocation
+> >        * of the fd in the target needs to be done from a
+> > @@ -2294,6 +2309,8 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+> >       return ret;
+> >
+> >  err_alloc:
+> > +err_xfer:
+> > +err_dmabuf:
+> >  err_security:
+> >       fput(file);
+> >  err_fget:
+> > @@ -2604,7 +2621,7 @@ static int binder_translate_fd_array(struct list_head *pf_head,
+> >
+> >               ret = copy_from_user(&fd, sender_ufda_base + sender_uoffset, sizeof(fd));
+> >               if (!ret)
+> > -                     ret = binder_translate_fd(fd, offset, t, thread,
+> > +                     ret = binder_translate_fd(fd, offset, fda->flags, t, thread,
+> >                                                 in_reply_to);
+> >               if (ret)
+> >                       return ret > 0 ? -EINVAL : ret;
+> > @@ -3383,8 +3400,8 @@ static void binder_transaction(struct binder_proc *proc,
+> >                       struct binder_fd_object *fp = to_binder_fd_object(hdr);
+> >                       binder_size_t fd_offset = object_offset +
+> >                               (uintptr_t)&fp->fd - (uintptr_t)fp;
+> > -                     int ret = binder_translate_fd(fp->fd, fd_offset, t,
+> > -                                                   thread, in_reply_to);
+> > +                     int ret = binder_translate_fd(fp->fd, fd_offset, fp->flags,
+> > +                                                   t, thread, in_reply_to);
+> >
+> >                       fp->pad_binder = 0;
+> >                       if (ret < 0 ||
+> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/android/binder.h
+> > index e72e4de8f452..4b20dd1dccb1 100644
+> > --- a/include/uapi/linux/android/binder.h
+> > +++ b/include/uapi/linux/android/binder.h
+> > @@ -91,14 +91,14 @@ struct flat_binder_object {
+> >  /**
+> >   * struct binder_fd_object - describes a filedescriptor to be fixed up.
+> >   * @hdr:     common header structure
+> > - * @pad_flags:       padding to remain compatible with old userspace code
+> > + * @flags:   One or more BINDER_FD_FLAG_* flags
+> >   * @pad_binder:      padding to remain compatible with old userspace code
+> >   * @fd:              file descriptor
+> >   * @cookie:  opaque data, used by user-space
+> >   */
+> >  struct binder_fd_object {
+> >       struct binder_object_header     hdr;
+> > -     __u32                           pad_flags;
+> > +     __u32                           flags;
+> >       union {
+> >               binder_uintptr_t        pad_binder;
+> >               __u32                   fd;
+> > @@ -107,6 +107,17 @@ struct binder_fd_object {
+> >       binder_uintptr_t                cookie;
+> >  };
+> >
+> > +enum {
+> > +     /**
+> > +      * @BINDER_FD_FLAG_XFER_CHARGE
+> > +      *
+> > +      * When set, the sender of a binder_fd_object wishes to relinquish ownership of the fd for
+> > +      * memory accounting purposes. If the fd is for a DMA-BUF, the buffer is uncharged from the
+> > +      * sender's cgroup and charged to the receiving process's cgroup instead.
+> > +      */
+> > +     BINDER_FD_FLAG_XFER_CHARGE = 0x01,
+> > +};
 > > +
-> > +/*
-> > + * Initialize the stackprotector canary value.
-> > + *
-> > + * NOTE: this must only be called from functions that never return,
-> > + * and it must always be inlined.
-> > + */
-> > +static __always_inline void boot_init_stack_canary(void)
-> > +{
-> > +	unsigned long canary;
-> > +
-> > +	/* Try to get a semi random initial value. */
-> > +	get_random_bytes(&canary, sizeof(canary));
-> > +	canary ^= LINUX_VERSION_CODE;
-> > +	canary &= CANARY_MASK;
-> > +
-> > +	current->stack_canary = canary;
-> > +	__stack_chk_guard = current->stack_canary;
-> > +}
-> 
-> 
-> You should rewrite this as:
-> 
->     current->stack_canary = get_random_canary();
->     __stack_chk_guard = current->stack_canary;
-> 
-> which is what the other archs all now do. (They didn't used to, and this
-> looks like it's simply based on older code.)
-Thanks for the suggestion, this will be into v3
+> >  /* struct binder_buffer_object - object describing a userspace buffer
+> >   * @hdr:             common header structure
+> >   * @flags:           one or more BINDER_BUFFER_* flags
+> > @@ -141,7 +152,7 @@ enum {
+> >
+> >  /* struct binder_fd_array_object - object describing an array of fds in a buffer
+> >   * @hdr:             common header structure
+> > - * @pad:             padding to ensure correct alignment
+> > + * @flags:           One or more BINDER_FD_FLAG_* flags
+> >   * @num_fds:         number of file descriptors in the buffer
+> >   * @parent:          index in offset array to buffer holding the fd array
+> >   * @parent_offset:   start offset of fd array in the buffer
+> > @@ -162,7 +173,7 @@ enum {
+> >   */
+> >  struct binder_fd_array_object {
+> >       struct binder_object_header     hdr;
+> > -     __u32                           pad;
+> > +     __u32                           flags;
+> >       binder_size_t                   num_fds;
+> >       binder_size_t                   parent;
+> >       binder_size_t                   parent_offset;
+> > --
+> > 2.39.0.246.g2a6d74b583-goog
+> >
+>
+> Other than the previous question this looks good to me. Also, the error
+> from the test robot seems to indicate a missing stub for
+> dma_buf_transfer_charg() when !CONFIG_DMA_SHARED_BUFFER. However, this
+> is likely to be fixed outside of this patch. Feel free to add this tag
+> to the following round:
+>
+> Acked-by: Carlos Llamas <cmllamas@google.com>
+>
+> Thanks,
 
-> > +#define get_cycles get_cycles
-> > +
-> > +#include <asm/sfr.h>
-> > +#include <asm-generic/timex.h>
-> > +
-> > +static inline cycles_t get_cycles(void)
-> > +{
-> > +	return kvx_sfr_get(PM0);
-> > +}
-> 
-> Glad to see this CPU has a cycle counter. Out of curiosity, what is
-> its resolution?
-This cpu has 4 performance monitor (PM), the first one is reserved to
-count cycles, and it is cycle accurate.
-
-> Also, related, does this CPU happen to have a "RDRAND"-like instruction?
-I didn't knew about the RDRAND insruction, but no this CPU do not have
-an instruction like that.
-
-> (I don't know anything about kvx or even what it is.)
-It's a VLIW core, a bit like Itanium, there are currently not publicly
-available documentation.  We have started a discussion internally at
-Kalray to share more information regarding this CPU and its ABI.
-
-A very crude instruction listing can be found in our fork of
-gdb-binutils: https://raw.githubusercontent.com/kalray/binutils/binutils-2_35_2/coolidge/opcodes/kv3-opc.c
-
-Best regards,
--- Jules
-
-
-
-
-
+Got it, thanks!
