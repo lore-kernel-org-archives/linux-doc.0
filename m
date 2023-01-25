@@ -2,40 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88381C27C76
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 19:01:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 130D7C61D9D
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 19:02:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235373AbjAYTBk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 14:01:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51542 "EHLO
+        id S235925AbjAYTCd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Jan 2023 14:02:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234805AbjAYTBj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 14:01:39 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE2D23C55;
-        Wed, 25 Jan 2023 11:01:38 -0800 (PST)
+        with ESMTP id S235915AbjAYTCc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 14:02:32 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58969CDCB;
+        Wed, 25 Jan 2023 11:02:31 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 38E09CE2129;
-        Wed, 25 Jan 2023 19:01:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AADBC433EF;
-        Wed, 25 Jan 2023 19:01:34 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 17F46B81B8C;
+        Wed, 25 Jan 2023 19:02:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8F3DC433D2;
+        Wed, 25 Jan 2023 19:02:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674673295;
-        bh=AXaUtpNg3QgcsfBT6bp4+5ZQ5MYWDv9VhOmUZbTWnSA=;
+        s=k20201202; t=1674673348;
+        bh=RP5Va6toXXyTmcOr/ME//AhDzcNFVNsgf8+hwufjGl0=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=JZLmlLIsVO5/PNbtG96h90qvJZDxugRBOB6FfaCfl767Y3S+jHYyamYGzDLnqsV+i
-         hm+PbuwyiX8nzUHL3++9JOwsm7HZiKMnFKxVc1KX2EVGb1mig9eYgHaHqhGj0yJHJu
-         hxAEcn9mXXNjtwEDP6fy0OAWUO3+X1cjhA9EIOpe7ntewNDBRBTblFx7NJM8xwuGoi
-         mOaHNAW52/vQs9X1ORq3L+o81eafxZcKsyB+jftIQU905ijscxtKPa0itatbKW8WQ5
-         T584vxFIV0tdNdmrwZIZTN60YO/bJ1mHQ21TXQZa1DvS1AR80xwBk6ORrEX2EcZmqG
-         uyFsyben+XrsQ==
-Date:   Wed, 25 Jan 2023 11:01:33 -0800
+        b=OvZAxPfjKXDdktK4TkpLMXDuL4L107cdVVZ70PnwD568R3gI+0pb9bt8L790fN2cO
+         0EzUCDa6kkq9wiKJndJf4Ce6tFT6lhgwjkri5ihpOt5PBf3p67zOOvnwlXLab5eFiw
+         uZz5SAcXwp6zfrhiZf/23QjiJL41EE2/yvMvIZlRFcS1aFtBfMB9pePhbuhwV2FK7R
+         hQpP731ZhIaxFfP/jW1ElFNHHCWNw/avRemfV0YMNfl7cCLsdJEHKf/4DubkALGlhv
+         kj8g0I5R7tiLa4hLJtPKkhQ2xpa25WBjEdydJD/flvD/WZ/xs/m4FQa5IQoWyJqlYh
+         hCmuU/ozTe4xg==
+Date:   Wed, 25 Jan 2023 11:02:26 -0800
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     Leon Romanovsky <leon@kernel.org>
 Cc:     "David S . Miller" <davem@davemloft.net>,
         Steffen Klassert <steffen.klassert@secunet.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
         Andy Gospodarek <andy@greyhouse.net>,
         Ayush Sawal <ayush.sawal@chelsio.com>,
         Eric Dumazet <edumazet@google.com>,
@@ -44,18 +45,19 @@ Cc:     "David S . Miller" <davem@davemloft.net>,
         Jay Vosburgh <j.vosburgh@gmail.com>,
         Jesse Brandeburg <jesse.brandeburg@intel.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        oss-drivers@corigine.com, Paolo Abeni <pabeni@redhat.com>,
+        netdev@vger.kernel.org, oss-drivers@corigine.com,
+        Paolo Abeni <pabeni@redhat.com>,
         Raju Rangoju <rajur@chelsio.com>,
         Saeed Mahameed <saeedm@nvidia.com>,
         Simon Horman <simon.horman@corigine.com>,
         Tony Nguyen <anthony.l.nguyen@intel.com>,
         Veaceslav Falico <vfalico@gmail.com>
-Subject: Re: [PATCH net-next v1 00/10] Convert drivers to return XFRM
- configuration errors through extack
-Message-ID: <20230125110133.7195b663@kernel.org>
-In-Reply-To: <cover.1674560845.git.leon@kernel.org>
+Subject: Re: [PATCH net-next v1 01/10] xfrm: extend add policy callback to
+ set failure reason
+Message-ID: <20230125110226.66dc7eeb@kernel.org>
+In-Reply-To: <c182cae29914fa19ce970859e74234d3de506853.1674560845.git.leon@kernel.org>
 References: <cover.1674560845.git.leon@kernel.org>
+        <c182cae29914fa19ce970859e74234d3de506853.1674560845.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -63,10 +65,21 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 24 Jan 2023 13:54:56 +0200 Leon Romanovsky wrote:
-> This series continues effort started by Sabrina to return XFRM configuration
-> errors through extack. It allows for user space software stack easily present
-> driver failure reasons to users.
+On Tue, 24 Jan 2023 13:54:57 +0200 Leon Romanovsky wrote:
+> -	err = dev->xfrmdev_ops->xdo_dev_policy_add(xp);
+> +	err = dev->xfrmdev_ops->xdo_dev_policy_add(xp, extack);
+>  	if (err) {
+>  		xdo->dev = NULL;
+>  		xdo->real_dev = NULL;
+>  		xdo->type = XFRM_DEV_OFFLOAD_UNSPECIFIED;
+>  		xdo->dir = 0;
+>  		netdev_put(dev, &xdo->dev_tracker);
+> -		NL_SET_ERR_MSG(extack, "Device failed to offload this policy");
 
-Steffen, would you like to take these into your tree or should we apply
-directly? Looks like mostly driver changes.
+In a handful of places we do:
+
+if (!extack->msg)
+	NL_SET_ERR_MSG(extack, "Device failed to offload this policy");
+
+in case the device did not provide the extack.
+Dunno if it's worth doing here.
