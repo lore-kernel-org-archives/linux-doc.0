@@ -2,101 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72BBAC27C76
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 19:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25265C27C76
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 19:29:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235784AbjAYTS4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 14:18:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36638 "EHLO
+        id S229806AbjAYT3B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Jan 2023 14:29:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbjAYTSz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 14:18:55 -0500
-X-Greylist: delayed 932 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 25 Jan 2023 11:18:51 PST
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF637A84;
-        Wed, 25 Jan 2023 11:18:51 -0800 (PST)
-Received: from imladris.home.surriel.com ([10.0.13.28] helo=imladris.surriel.com)
-        by shelob.surriel.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.96)
-        (envelope-from <riel@shelob.surriel.com>)
-        id 1pKkjm-0002iB-37;
-        Wed, 25 Jan 2023 13:43:10 -0500
-Message-ID: <4fe0e2eb6a3e2d7e0838f177706f1be13d61375c.camel@surriel.com>
-Subject: Re: [RESEND RFC PATCH v1 00/20] mm: process/cgroup ksm support
-From:   Rik van Riel <riel@surriel.com>
-To:     Michal Hocko <mhocko@suse.com>,
-        David Hildenbrand <david@redhat.com>
-Cc:     Stefan Roesch <shr@devkernel.io>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org, CGEL <cgel.zte@gmail.com>,
-        Jann Horn <jannh@google.com>
-Date:   Wed, 25 Jan 2023 13:43:09 -0500
-In-Reply-To: <Y9EoJ0jlXMeuJzuY@dhcp22.suse.cz>
-References: <20230123173748.1734238-1-shr@devkernel.io>
-         <5844ee9f-1992-a62a-2141-3b694a1e1915@redhat.com>
-         <qvqwbkmnj014.fsf@dev0134.prn3.facebook.com>
-         <a391e98c-88af-886c-0426-c41c9980afa1@redhat.com>
-         <Y9EoJ0jlXMeuJzuY@dhcp22.suse.cz>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-fHtooTLBHokjrlt3AOkT"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+        with ESMTP id S229449AbjAYT3B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 14:29:01 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3579116ACF;
+        Wed, 25 Jan 2023 11:28:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AFB01615CC;
+        Wed, 25 Jan 2023 19:28:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63D90C433D2;
+        Wed, 25 Jan 2023 19:28:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674674935;
+        bh=6X73NX5j0pdKQCjWu91w+LH3cNHmhTzci/Tjxm01REM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=h4IbjAXcQ07Ul7kUysKKrLB0Kxw2pdwQkCaWH1crC0sedx4zxq3OoFUKwb1B2Wc2+
+         rCAxszh7hp/QXGXrnbo2u+LPTDkWOQYSyN7WozhN4sgabiGhVDvWcWMTcWPy4L9N9v
+         Jut/5DBukorM5pygJGEUd7IjJ235CPQnCq1UBm2q/73/n6V/koO2ppmOofTUpb7ccr
+         Com1WR94iqb+QeEqBdKv8jgiOGJEkQ+ZOOfD3DWb+sl+doC2VLtS8EBeIob2shzQin
+         c6GdZB0dULFNVcObs13TQAntv/2dXeWLm0JfhhHHtnncWDX4P2FJ3IeBKGhKVqfq9w
+         qYuArwzATRSVA==
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v5 0/1] docs/mm: start filling out new structure
+Date:   Wed, 25 Jan 2023 21:28:40 +0200
+Message-Id: <20230125192841.25342-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Sender: riel@shelob.surriel.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: "Mike Rapoport (IBM)" <rppt@kernel.org>
 
---=-fHtooTLBHokjrlt3AOkT
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Wed, 2023-01-25 at 14:01 +0100, Michal Hocko wrote:
->=20
-> I have read through your cover letter and it talks about the
-> interface
-> but it doesn't really talk about usecases and how they are supposed
-> to
-> use this feature - except the prctl based flag gets inherited. So
-> could
-> you elaborate some more about those usecases please?
+Last year at LSF/MM Matthew promptly created the new structure for MM
+documentation, but there still was no patches with content.
 
-I can explain a little about the use case. There are people
-who use forked (rather than threaded) servers for certain
-workloads, from a garbage collected language without pointers,
-which means madvise simply cannot be made available in that
-language.
+I've started to work on it a while ago and I wanted to send it out in a
+more complete form, but I've got distracted and didn't have time to work
+on this.
 
-The people running that workload have experimented with uKSM
-in the past, and seen about a 20% capacity increase from
-doing that.
+With fast changes around struct page and the threat of Lorenzo's book,
+I've decided to send out what I have till now with a hope that we can
+really make this a collaborative effort with people filling paragraph
+here and there.
 
-Because madvise is not possible in that programming language,
-and the addresses of data keep moving around as things get
-garbage collected, KSM sharing needs to be enabled "from the
-outside" for that workload.
+If somebody does not feel like sending formal patches, just send me the
+"raw" text my way and I'll deal with the rest.
 
-prctl seems like a good way to do that.
+The text is relatively heavily formatted because I believe the target
+audience will prefer html version.
 
---=20
-All Rights Reversed.
+v5:
+* fix node_states[] example (Vlastimil)
 
---=-fHtooTLBHokjrlt3AOkT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+v4: https://lore.kernel.org/all/20230115184212.996298-1-rppt@kernel.org
+* squash commits into one (Bagas)
+* fix references formatting (kbuild)
+* add Reviewed-by and Acked-by tags
 
------BEGIN PGP SIGNATURE-----
+v3: https://lore.kernel.org/all/20230112091616.824565-1-rppt@kernel.org
+* rephrase ZONE_DMA(32) and ZONE_MOVABLE description (Michal)
+* add cross-reference to DMA API
 
-iQEzBAABCAAdFiEEKR73pCCtJ5Xj3yADznnekoTE3oMFAmPReD0ACgkQznnekoTE
-3oOf6Qf+OZdpabz5qPJU/62BiPgM4Iz1Ih3vwmzqU4gPC6zRlgHsqxQ9unGulcc5
-u9IIstoDUDaZRtbvJas1YO3wlaBgyIag+J0yR0Vflg6KWnBrYz+AKa0f8rfi4I0H
-MPavada+vlPdaIM/duOza4Je/nUkKenXaknZ3ng/j17JfWTPDNbtF/0Qne0t4nnf
-pM0i49ZgGNPAAqeT6FI1jf07BN+01QVjDKellwxGx5s8MjNKkEsmvpXT2ePTJQhK
-YXhsdf1sP3C9ftRKOBBzp0izIjvwnSuKcauOdhckdmX69SLbVSgxUgaTVxBUa2Ur
-RUUcMqJMaSgPERS3K+TdPHAaIJYY8Q==
-=k7TU
------END PGP SIGNATURE-----
+v2: https://lore.kernel.org/all/20230110152358.2641910-1-rppt@kernel.org
+* rephrase the paragraph inroducing zones (Lorenzo)
+* update formatting (Bagas)
+* add section stubs (Bagas)
+* small fixes here and there
 
---=-fHtooTLBHokjrlt3AOkT--
+v1: https://lore.kernel.org/all/20230101094523.1522109-1-rppt@kernel.org
+
+Mike Rapoport (IBM) (1):
+  docs/mm: Physical Memory: add structure, introduction and nodes
+    description
+
+ Documentation/core-api/dma-api.rst   |   2 +
+ Documentation/mm/page_reclaim.rst    |   2 +
+ Documentation/mm/physical_memory.rst | 346 +++++++++++++++++++++++++++
+ 3 files changed, 350 insertions(+)
+
+-- 
+2.35.1
+
+
+*** BLURB HERE ***
+
+Mike Rapoport (IBM) (1):
+  docs/mm: Physical Memory: add structure, introduction and nodes
+    description
+
+ Documentation/core-api/dma-api.rst   |   2 +
+ Documentation/mm/page_reclaim.rst    |   2 +
+ Documentation/mm/physical_memory.rst | 347 +++++++++++++++++++++++++++
+ 3 files changed, 351 insertions(+)
+
+
+base-commit: b7bfaa761d760e72a969d116517eaa12e404c262
+-- 
+2.35.1
+
