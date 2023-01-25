@@ -2,131 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 948C1C61DA2
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 13:34:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C828C54EAA
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 14:39:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235437AbjAYNez (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 08:34:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59542 "EHLO
+        id S235722AbjAYOjs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Jan 2023 09:39:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234869AbjAYNex (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 08:34:53 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C39A56EF7;
-        Wed, 25 Jan 2023 05:34:53 -0800 (PST)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30PDQDl8019535;
-        Wed, 25 Jan 2023 13:34:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : reply-to : references : mime-version :
- content-type : in-reply-to; s=qcppdkim1;
- bh=bVExUW5TsBTIAyHKVhS2iVtTheeV6yIVPn1bahdiUQ8=;
- b=XXmCCdoCQdD9UXAKSUXLYddVShB0WLzlE/Ij8QVvJwh47j9nQad8GjkzcsD/ELLeNCLR
- vdjp3s5HL6boHgb0ngQV1/S6srUkeCspOgpwFsFzpLk61xKY6qVoDxKo4w2SVZpc64IA
- jw9ufR9P6EAPi7wGwHJF2Jrk2CjaPgObEwfBpED5hGOX0lfjtX8s3ZBReMEDPh340Ggt
- 8SLEy2xC/f8+6SYNCRbQo39PX4KDG7c82IE3rFn9Pn6Q7JvDvj+AfXwO6GEvLn1+UCf3
- Wd8+4jse/em2dr2MOVm6AMo94F3zi3A+IEQ1tOQwjam4Xaw3RjL7xvbwxqXB+F5ENO0R dQ== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89hk74xm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 25 Jan 2023 13:34:35 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30PDYYLe000852
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 25 Jan 2023 13:34:34 GMT
-Received: from quicinc.com (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 25 Jan
- 2023 05:34:28 -0800
-Date:   Wed, 25 Jan 2023 19:04:24 +0530
-From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v9 13/27] gunyah: vm_mgr: Add/remove user memory regions
-Message-ID: <20230125133424.GA332@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-14-quic_eberman@quicinc.com>
+        with ESMTP id S235619AbjAYOjr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 09:39:47 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61CE3C642;
+        Wed, 25 Jan 2023 06:39:14 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C8FF461520;
+        Wed, 25 Jan 2023 14:38:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACCBEC433D2;
+        Wed, 25 Jan 2023 14:38:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1674657505;
+        bh=0pN6iUk0frIEY9jd5haQTHTxexp54lAmG4VMISAveTs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bszh+lRbTRrhEPHElC/vn3g0DHY+0OEb5+8Y4cW1RAwFlJ+xv55Y2sf/joav/FerR
+         GW+LYrzb/W6VwieJHov+E95G+R77WxMTqVVP2HU2ehwBsBP58XsSNlmEamrp025KSf
+         mdsQVM+RfHqiuuyyUVYXFGngBgWHxz+FR/B7SgW0=
+Date:   Wed, 25 Jan 2023 15:38:22 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Siddharth Vadapalli <s-vadapalli@ti.com>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-phy@lists.infradead.org, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v2 9/9] usb: host: ohci-exynos: Convert to
+ devm_of_phy_optional_get()
+Message-ID: <Y9E+3pSA6/aANQpu@kroah.com>
+References: <cover.1674584626.git.geert+renesas@glider.be>
+ <3adc5dd1149a17ea7daf4463549feab886c6b145.1674584626.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230120224627.4053418-14-quic_eberman@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: jaB3vNnrEZlj2BcTgEhiu4QVKnZcfpEO
-X-Proofpoint-ORIG-GUID: jaB3vNnrEZlj2BcTgEhiu4QVKnZcfpEO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-25_08,2023-01-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=706 phishscore=0
- suspectscore=0 clxscore=1015 mlxscore=0 impostorscore=0 spamscore=0
- adultscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301250121
+In-Reply-To: <3adc5dd1149a17ea7daf4463549feab886c6b145.1674584626.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:12]:
+On Tue, Jan 24, 2023 at 07:37:28PM +0100, Geert Uytterhoeven wrote:
+> Use the new devm_of_phy_optional_get() helper instead of open-coding the
+> same operation.
+> 
+> As devm_of_phy_optional_get() returns NULL if either the PHY cannot be
+> found, or if support for the PHY framework is not enabled, it is no
+> longer needed to check for -ENODEV or -ENOSYS.
+> 
+> This lets us drop several checks for IS_ERR(), as phy_power_{on,off}()
+> handle NULL parameters fine.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-> +	/* Check for overlap */
-> +	list_for_each_entry(tmp_mapping, &ghvm->memory_mappings, list) {
-> +		if (!((mapping->guest_phys_addr + (mapping->npages << PAGE_SHIFT) <=
-> +			tmp_mapping->guest_phys_addr) ||
-> +			(mapping->guest_phys_addr >=
-> +			tmp_mapping->guest_phys_addr + (tmp_mapping->npages << PAGE_SHIFT)))) {
-> +			ret = -EEXIST;
-> +			goto unlock;
-> +		}
-> +	}
-> +
-> +	list_add(&mapping->list, &ghvm->memory_mappings);
-
-I think the potential race condition described last time is still possible. Pls
-check.
-
-> +unlock:
-> +	mutex_unlock(&ghvm->mm_lock);
-> +	if (ret)
-> +		goto free_mapping;
-> +
-> +	mapping->pages = kcalloc(mapping->npages, sizeof(*mapping->pages), GFP_KERNEL);
-> +	if (!mapping->pages) {
-> +		ret = -ENOMEM;
-> +		goto reclaim;
-
-Same comment as last time. Can you check this error path? We seem to call
-unpin_user_page() in this path, which is not correct.
-
-> +	}
-> +
-> +	pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
-> +					FOLL_WRITE | FOLL_LONGTERM, mapping->pages);
-> +	if (pinned < 0) {
-> +		ret = pinned;
-> +		goto reclaim;
-
-Same comment as above.
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
