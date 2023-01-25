@@ -2,109 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8869C54E94
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 06:12:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D6CDC27C76
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 07:15:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233674AbjAYGMq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 01:12:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33648 "EHLO
+        id S234768AbjAYHPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Jan 2023 02:15:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229646AbjAYGMp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 01:12:45 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF7921BDA;
-        Tue, 24 Jan 2023 22:12:43 -0800 (PST)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30P5cuFV024224;
-        Wed, 25 Jan 2023 06:12:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : reply-to : references : mime-version :
- content-type : in-reply-to; s=qcppdkim1;
- bh=0j66/YD7f4II8RbHrf0ugo1Am5B3Ml1BbSggU0bq0jk=;
- b=ZY0wOgMl9UxZIe0hjsBTgaYBP1iuvrtyngsKLWqc/8knWLzlcuPpjm1ejLmrAL8EikPs
- alixNIQM4USf4mDkOfvvGbQrwlEXVWfholv8n0pEo/5Q6ZFOAnQVJq3Pq2W2M/IySWsu
- E8sAWL2khHmA8g3Pje80q+DmKshxvhpp0REkSIXlZzzWPMgyrgw18HlCZ7kFWsmnsURQ
- 2vQSV8LiuncK8Mvjx6kGbMQstLlqhzLnQpj5G4b0lHzTqV/sRnJ+MYry8N44JqqxrbWy
- 3wb0yTghINulFcqgHLMSdlUKVHXPIKw8y+/q6ICRdSfVG9cERmoDSPTr7iAz7GJ+yIgk RA== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89dnegjy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 25 Jan 2023 06:12:26 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30P6CPoT006380
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 25 Jan 2023 06:12:25 GMT
-Received: from quicinc.com (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 24 Jan
- 2023 22:12:18 -0800
-Date:   Wed, 25 Jan 2023 11:42:14 +0530
-From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v9 10/27] gunyah: rsc_mgr: Add VM lifecycle RPC
-Message-ID: <20230125060929.GA3779774@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-11-quic_eberman@quicinc.com>
+        with ESMTP id S233674AbjAYHPx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 02:15:53 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4298537B58;
+        Tue, 24 Jan 2023 23:15:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674630952; x=1706166952;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=44OlyVK1Da2TLv8xj0eXULV9HtAjRmmQ/wsfiiqecZU=;
+  b=m+5l80wy/FJlwLpF4X/rDmaDo8nKJ9x3xY6CODNUygwXJMyNvJrJpvt0
+   JcmywcimcSqXaQl3Qt/X6zuS/bO4Agn0H18iCw56G8dvyIUsgduHf1SHY
+   E51/rJzGu7xnI3jSdMLu8gXHTGFCm6Pwnz7lnF1iBuUUm1eoDCR5odTcD
+   b/CpC6skHe2lwZL4oG9KD5g3paRI3+xz/SHzW0TI97hRGT6vbJ48Zpoqm
+   hFNUyw9WZNSLX/xRnp7Qh/WI7wvlwW/7ihxHOtJU6DVmbUwV7ibQQmLOm
+   g8BC0IJkc+4LnHH5HXHRnEe9L4Md8D1ankjE8VdFAnvxPybjlWdUFn4O6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="391002140"
+X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
+   d="scan'208";a="391002140"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 23:15:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="804909011"
+X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; 
+   d="scan'208";a="804909011"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 24 Jan 2023 23:15:48 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pKa0Z-00078W-2v;
+        Wed, 25 Jan 2023 07:15:47 +0000
+Date:   Wed, 25 Jan 2023 15:14:57 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+        oleg@redhat.com, avagin@gmail.com, luto@kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v6 2/2] ptrace,syscall_user_dispatch: add a getter/setter
+ for sud configuration
+Message-ID: <202301251548.C0OCmAX0-lkp@intel.com>
+References: <20230125025126.787431-3-gregory.price@memverge.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230120224627.4053418-11-quic_eberman@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: h9gcaoQx8Vvx4XRUyt6ZcXIiQelw1WcT
-X-Proofpoint-ORIG-GUID: h9gcaoQx8Vvx4XRUyt6ZcXIiQelw1WcT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-25_02,2023-01-24_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1011
- lowpriorityscore=0 spamscore=0 phishscore=0 mlxscore=0 bulkscore=0
- malwarescore=0 mlxlogscore=695 suspectscore=0 priorityscore=1501
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301250055
+In-Reply-To: <20230125025126.787431-3-gregory.price@memverge.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:09]:
+Hi Gregory,
 
-> +int gh_rm_vm_stop(struct gh_rm *rm, u16 vmid)
-> +{
-> +	struct gh_vm_stop_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +	};
-> +	void *resp;
-> +	size_t resp_size;
-> +	int ret;
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_STOP, &req_payload, sizeof(req_payload),
-> +			&resp, &resp_size);
+Thank you for the patch! Perhaps something to improve:
 
-Why not use gh_rm_common_vmid_call() here as well?
+[auto build test WARNING on linus/master]
+[cannot apply to tip/core/entry]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-        return gh_rm_common_vmid_call(rm, GH_RM_RPC_VM_STOP, vmid);
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-add-a-getter-setter-for-sud-configuration/20230125-115155
+patch link:    https://lore.kernel.org/r/20230125025126.787431-3-gregory.price%40memverge.com
+patch subject: [PATCH v6 2/2] ptrace,syscall_user_dispatch: add a getter/setter for sud configuration
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230125/202301251548.C0OCmAX0-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/581ad4d3309b94aafb967b0ca56607436c18127f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-add-a-getter-setter-for-sud-configuration/20230125-115155
+        git checkout 581ad4d3309b94aafb967b0ca56607436c18127f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_set_config':
+>> kernel/entry/syscall_user_dispatch.c:143:13: warning: unused variable 'ret' [-Wunused-variable]
+     143 |         int ret;
+         |             ^~~
 
 
+vim +/ret +143 kernel/entry/syscall_user_dispatch.c
+
+   138	
+   139	int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
+   140			void __user *data)
+   141	{
+   142		struct syscall_user_dispatch_config config;
+ > 143		int ret;
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
