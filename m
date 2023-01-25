@@ -2,113 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3098BC61D9D
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 13:01:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 948C1C61DA2
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 13:34:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235539AbjAYNBl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 08:01:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43736 "EHLO
+        id S235437AbjAYNez (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Jan 2023 08:34:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235222AbjAYNBa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 08:01:30 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C30846730;
-        Wed, 25 Jan 2023 05:01:29 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 1995121A38;
-        Wed, 25 Jan 2023 13:01:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1674651688; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZHPUEmgHN9HHsele0Ce3YewvjVaFUupPCQ2N9ydCuzU=;
-        b=r+QImpXSov56FLm1H+hELmnDF3ba33PDw9X+GNnrXwjl2eQ+ZuX3YhWChiKOdofziQIIEm
-        lXbb2vLp56dhnNJ7EOBz3awHc1j72nCdmCZWUEIjOJydKML1zstPO/PSZz0O5XA4flp7vX
-        J2LJKE4EyuI1Ln1V1xiBggPmq3RuK7Y=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EF07E1339E;
-        Wed, 25 Jan 2023 13:01:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id uoscOCco0WNBGAAAMHmgww
-        (envelope-from <mhocko@suse.com>); Wed, 25 Jan 2023 13:01:27 +0000
-Date:   Wed, 25 Jan 2023 14:01:27 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Stefan Roesch <shr@devkernel.io>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org, CGEL <cgel.zte@gmail.com>,
-        Jann Horn <jannh@google.com>
-Subject: Re: [RESEND RFC PATCH v1 00/20] mm: process/cgroup ksm support
-Message-ID: <Y9EoJ0jlXMeuJzuY@dhcp22.suse.cz>
-References: <20230123173748.1734238-1-shr@devkernel.io>
- <5844ee9f-1992-a62a-2141-3b694a1e1915@redhat.com>
- <qvqwbkmnj014.fsf@dev0134.prn3.facebook.com>
- <a391e98c-88af-886c-0426-c41c9980afa1@redhat.com>
+        with ESMTP id S234869AbjAYNex (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 08:34:53 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C39A56EF7;
+        Wed, 25 Jan 2023 05:34:53 -0800 (PST)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30PDQDl8019535;
+        Wed, 25 Jan 2023 13:34:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : reply-to : references : mime-version :
+ content-type : in-reply-to; s=qcppdkim1;
+ bh=bVExUW5TsBTIAyHKVhS2iVtTheeV6yIVPn1bahdiUQ8=;
+ b=XXmCCdoCQdD9UXAKSUXLYddVShB0WLzlE/Ij8QVvJwh47j9nQad8GjkzcsD/ELLeNCLR
+ vdjp3s5HL6boHgb0ngQV1/S6srUkeCspOgpwFsFzpLk61xKY6qVoDxKo4w2SVZpc64IA
+ jw9ufR9P6EAPi7wGwHJF2Jrk2CjaPgObEwfBpED5hGOX0lfjtX8s3ZBReMEDPh340Ggt
+ 8SLEy2xC/f8+6SYNCRbQo39PX4KDG7c82IE3rFn9Pn6Q7JvDvj+AfXwO6GEvLn1+UCf3
+ Wd8+4jse/em2dr2MOVm6AMo94F3zi3A+IEQ1tOQwjam4Xaw3RjL7xvbwxqXB+F5ENO0R dQ== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89hk74xm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 25 Jan 2023 13:34:35 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30PDYYLe000852
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 25 Jan 2023 13:34:34 GMT
+Received: from quicinc.com (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 25 Jan
+ 2023 05:34:28 -0800
+Date:   Wed, 25 Jan 2023 19:04:24 +0530
+From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v9 13/27] gunyah: vm_mgr: Add/remove user memory regions
+Message-ID: <20230125133424.GA332@quicinc.com>
+Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+ <20230120224627.4053418-14-quic_eberman@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-In-Reply-To: <a391e98c-88af-886c-0426-c41c9980afa1@redhat.com>
+In-Reply-To: <20230120224627.4053418-14-quic_eberman@quicinc.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: jaB3vNnrEZlj2BcTgEhiu4QVKnZcfpEO
+X-Proofpoint-ORIG-GUID: jaB3vNnrEZlj2BcTgEhiu4QVKnZcfpEO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-25_08,2023-01-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=706 phishscore=0
+ suspectscore=0 clxscore=1015 mlxscore=0 impostorscore=0 spamscore=0
+ adultscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301250121
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 24-01-23 19:01:49, David Hildenbrand wrote:
-> [...]
-> 
-> > > I'm going to point out the security aspect, and that e.g., Windows used to
-> > > enable it system-wide before getting taught by security experts otherwise.
-> > > Details on KSM and security aspects can be found in that thread.
-> > > 
-> > If I'm not mistaken the security aspect exists today. When KSM is
-> > enabled with madvise this is the same.
-> 
-> Yes, and we mostly only use it for virtual machines -- and to be precise,
-> guest memory only -- where it has to be enabled explicitly on a well
-> documented basis ...
-> 
-> Impossible for an admin to force it on other parts of the hypervisor process
-> that might be more security sensitive. Or on other arbitrary applications,
-> for now.
-> 
-> > 
-> > > Long story short: one has to be very careful with that and only enable it for
-> > > very carefully selected worklads. Letting a workload opt-in on a VMA level is
-> > > most probably safer than an admin blindly turning this on for random processes
-> > > ... >>
-> [...]
-> 
-> > > 
-> > > [1] https://lore.kernel.org/all/20220517092701.1662641-1-xu.xin16@zte.com.cn/
-> > > [2] https://lore.kernel.org/all/20220609055658.703472-1-xu.xin16@zte.com.cn/
-> > > 
-> > My understanding is that there were problems with the patch and how it
-> > exposed KSM. The other objection was the enable-all configuration
-> > option.
-> 
-> I don't remember all the discussions, but one concern was how to handle
-> processes that deliberately want to disable it on some parts of memory.
-> 
-> Anyhow, I cc'ed the relevant parties already.
+* Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:12]:
 
-Thanks! I do not remember all the details from the past discussion
-except it was /proc and later global setting. Neither really were great
-choices. We have discussed pidfd_madvise and prctl IIRC. For the latter
-there was no real argument about when it is desirable to apply merging
-on all existing vmas (e.g. is it really desirable on stack/brk or malloc
-arenas or would user need to opt out for those).
+> +	/* Check for overlap */
+> +	list_for_each_entry(tmp_mapping, &ghvm->memory_mappings, list) {
+> +		if (!((mapping->guest_phys_addr + (mapping->npages << PAGE_SHIFT) <=
+> +			tmp_mapping->guest_phys_addr) ||
+> +			(mapping->guest_phys_addr >=
+> +			tmp_mapping->guest_phys_addr + (tmp_mapping->npages << PAGE_SHIFT)))) {
+> +			ret = -EEXIST;
+> +			goto unlock;
+> +		}
+> +	}
+> +
+> +	list_add(&mapping->list, &ghvm->memory_mappings);
 
-I have read through your cover letter and it talks about the interface
-but it doesn't really talk about usecases and how they are supposed to
-use this feature - except the prctl based flag gets inherited. So could
-you elaborate some more about those usecases please?
--- 
-Michal Hocko
-SUSE Labs
+I think the potential race condition described last time is still possible. Pls
+check.
+
+> +unlock:
+> +	mutex_unlock(&ghvm->mm_lock);
+> +	if (ret)
+> +		goto free_mapping;
+> +
+> +	mapping->pages = kcalloc(mapping->npages, sizeof(*mapping->pages), GFP_KERNEL);
+> +	if (!mapping->pages) {
+> +		ret = -ENOMEM;
+> +		goto reclaim;
+
+Same comment as last time. Can you check this error path? We seem to call
+unpin_user_page() in this path, which is not correct.
+
+> +	}
+> +
+> +	pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
+> +					FOLL_WRITE | FOLL_LONGTERM, mapping->pages);
+> +	if (pinned < 0) {
+> +		ret = pinned;
+> +		goto reclaim;
+
+Same comment as above.
+
