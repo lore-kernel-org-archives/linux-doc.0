@@ -2,127 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AAD2C27C76
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 18:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88381C27C76
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 19:01:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235678AbjAYS5P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 13:57:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48712 "EHLO
+        id S235373AbjAYTBk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Jan 2023 14:01:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235817AbjAYS5N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 13:57:13 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A35F31043F;
-        Wed, 25 Jan 2023 10:57:09 -0800 (PST)
+        with ESMTP id S234805AbjAYTBj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 14:01:39 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE2D23C55;
+        Wed, 25 Jan 2023 11:01:38 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 54C99B81B95;
-        Wed, 25 Jan 2023 18:57:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E73DC433D2;
-        Wed, 25 Jan 2023 18:57:02 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 38E09CE2129;
+        Wed, 25 Jan 2023 19:01:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AADBC433EF;
+        Wed, 25 Jan 2023 19:01:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674673027;
-        bh=st13cJxsleWr9ZGQyG0CvLVid1afNTC/Q/aI29/yE6E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=s9iUhDWO1LkoWKK/9tMkgE1+y4bqcZmtnTF2kwqoyHRRJB02vVuEGGoxSCC4+ZKqY
-         Yb/BjsMfTj/u41pueMR4JiSu0tKNTwSP8UwjGeXXoQSTZ/UE9sx4p0/WjxWWAA0+8j
-         IXCQ3AqaYAPdJh6uPgMB/k2C/h4POGHNbHiMCmlBLt2KDPUtnl8DUhqNiBb2vpG9TM
-         AHFv1tUQ6XKPugM4oU/NLD97zuBEF5i9Vx4LvPI1m2Ee4ugxf1Em7sdU24srXkx07V
-         9d+UVqvfGamHn6Q0RUj3e+tEBfJiNWBlwdTVm3T9d7/bitY6eNKfON/UykP2SDNqC3
-         pEXnw9IMTctnA==
-Date:   Wed, 25 Jan 2023 20:56:52 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Michal Hocko <mhocko@suse.com>
-Subject: Re: [PATCH v4 1/1] docs/mm: Physical Memory: add structure,
- introduction and nodes description
-Message-ID: <Y9F7dOuvX3rBfcvr@kernel.org>
-References: <20230115184212.996298-1-rppt@kernel.org>
- <20230115184212.996298-2-rppt@kernel.org>
- <bea284c3-fe7c-f55a-449d-07f47a364c1c@suse.cz>
- <Y8++BJcHgfzuoURl@kernel.org>
- <AC10188D-6728-478F-A95D-1A460958533A@suse.cz>
+        s=k20201202; t=1674673295;
+        bh=AXaUtpNg3QgcsfBT6bp4+5ZQ5MYWDv9VhOmUZbTWnSA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=JZLmlLIsVO5/PNbtG96h90qvJZDxugRBOB6FfaCfl767Y3S+jHYyamYGzDLnqsV+i
+         hm+PbuwyiX8nzUHL3++9JOwsm7HZiKMnFKxVc1KX2EVGb1mig9eYgHaHqhGj0yJHJu
+         hxAEcn9mXXNjtwEDP6fy0OAWUO3+X1cjhA9EIOpe7ntewNDBRBTblFx7NJM8xwuGoi
+         mOaHNAW52/vQs9X1ORq3L+o81eafxZcKsyB+jftIQU905ijscxtKPa0itatbKW8WQ5
+         T584vxFIV0tdNdmrwZIZTN60YO/bJ1mHQ21TXQZa1DvS1AR80xwBk6ORrEX2EcZmqG
+         uyFsyben+XrsQ==
+Date:   Wed, 25 Jan 2023 11:01:33 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Leon Romanovsky <leon@kernel.org>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        intel-wired-lan@lists.osuosl.org,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        oss-drivers@corigine.com, Paolo Abeni <pabeni@redhat.com>,
+        Raju Rangoju <rajur@chelsio.com>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Veaceslav Falico <vfalico@gmail.com>
+Subject: Re: [PATCH net-next v1 00/10] Convert drivers to return XFRM
+ configuration errors through extack
+Message-ID: <20230125110133.7195b663@kernel.org>
+In-Reply-To: <cover.1674560845.git.leon@kernel.org>
+References: <cover.1674560845.git.leon@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AC10188D-6728-478F-A95D-1A460958533A@suse.cz>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 02:40:54PM +0100, Vlastimil Babka wrote:
-> 
-> 
-> On January 24, 2023 12:16:20 PM GMT+01:00, Mike Rapoport <rppt@kernel.org> wrote:
-> >On Tue, Jan 24, 2023 at 12:00:07PM +0100, Vlastimil Babka wrote:
-> >> On 1/15/23 19:42, Mike Rapoport wrote:
-> >> > From: "Mike Rapoport (IBM)" <rppt@kernel.org>
-> >> > 
-> >> > Add structure, introduction and Nodes section to Physical Memory
-> >> > chapter.
-> >> > 
-> >> > As the new documentation references core-api/dma-api and mm/page_reclaim,
-> >> > add page labels to those documents.
-> >> > 
-> >> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> >> > Reviewed-by: Lorenzo Stoakes <lstoakes@gmail.com>
-> >> > Acked-by: Michal Hocko <mhocko@suse.com>
-> >> > Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
-> >> 
-> >> Acked-by: Vlastimil Babka <vbabka@suse.cz>
-> >> 
-> >> A small bug to fix below?
-> >> 
-> >> <snip>
-> >> 
-> >> > +
-> >> > +Along with the node structures, kernel maintains an array of ``nodemask_t``
-> >> > +bitmasks called ``node_states``. Each bitmask in this array represents a set of
-> >> > +nodes with particular properties as defined by ``enum node_states``:
-> >> > +
-> >> > +``N_POSSIBLE``
-> >> > +  The node could become online at some point.
-> >> > +``N_ONLINE``
-> >> > +  The node is online.
-> >> > +``N_NORMAL_MEMORY``
-> >> > +  The node has regular memory.
-> >> > +``N_HIGH_MEMORY``
-> >> > +  The node has regular or high memory. When ``CONFIG_HIGHMEM`` is disabled
-> >> > +  aliased to ``N_NORMAL_MEMORY``.
-> >> 
-> >> Noted.
-> >> 
-> >> > +``N_MEMORY``
-> >> > +  The node has memory(regular, high, movable)
-> >> > +``N_CPU``
-> >> > +  The node has one or more CPUs
-> >> > +
-> >> > +For each node that has a property described above, the bit corresponding to the
-> >> > +node ID in the ``node_states[<property>]`` bitmask is set.
-> >> > +
-> >> > +For example, for node 2 with normal memory and CPUs, bit 2 will be set in ::
-> >> > +
-> >> > +  node_states[N_POSSIBLE]
-> >> > +  node_states[N_ONLINE]
-> >> > +  node_states[N_NORMAL_MEMORY]
-> >> > +  node_states[N_MEMORY]
-> >> > +  node_states[N_CPU]
-> >> 
-> >> Should it be set also in node_states[N_HIGH_MEMORY]?
-> > 
-> >You mean because of the aliasing of N_NORMAL_MEMORY and N_HIGH_MEMORY?
-> 
-> No I meant due to "The node has regular or high memory." Or do I misunderstand?
+On Tue, 24 Jan 2023 13:54:56 +0200 Leon Romanovsky wrote:
+> This series continues effort started by Sabrina to return XFRM configuration
+> errors through extack. It allows for user space software stack easily present
+> driver failure reasons to users.
 
-I checked the code, node_states[N_HIGH_MEMORY] will be set indeed.
-Will send v5 soon.
+Steffen, would you like to take these into your tree or should we apply
+directly? Looks like mostly driver changes.
