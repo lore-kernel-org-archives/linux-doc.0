@@ -2,28 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA153C54EAA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BE11C05027
 	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 20:27:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbjAZU1X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S229560AbjAZU1X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 26 Jan 2023 15:27:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40552 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjAZU1W (ORCPT
+        with ESMTP id S229531AbjAZU1W (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 15:27:22 -0500
-Received: from out-63.mta0.migadu.com (out-63.mta0.migadu.com [IPv6:2001:41d0:1004:224b::3f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A419349952
+X-Greylist: delayed 378 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 26 Jan 2023 12:27:20 PST
+Received: from out-229.mta0.migadu.com (out-229.mta0.migadu.com [IPv6:2001:41d0:1004:224b::e5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 939D7227B3
         for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 12:27:20 -0800 (PST)
-Date:   Thu, 26 Jan 2023 20:21:40 +0000
+Date:   Thu, 26 Jan 2023 20:20:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1674764506;
+        t=1674764460;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=HCSsOa0JEOzhu3a9IEBtJokH+VBhBqNS4dXI8GM6BrQ=;
-        b=i/OFi55Kk1Tj0Kbnkwfvkt5xhK41K7otXqMXHyW9PC+97eT58SMprP3IyAXkwxD+HzvAfI
-        2rOsQDnYp/lYKzNBFcuBYyaUOsEO0DG6HreD7ssgJPJgzzW7fn4Jku/4QAoTmt/QyTNUey
-        6xw2MuMloIX00xPGtvtk1Tw91nAIiz0=
+        bh=P8JRB0ZTuKzOcaN6t/zgZzy2q4XicQ9675yPHBbKAJE=;
+        b=SEN0QyX13UyBorIsbpCTmG6er5954SCoAlZj9H4TrOI9Nkx8Rb4eX1Yk3Wop+Juk4BdXCI
+        KZSOnhA+XQMdFLD6T42NDwp1hJPi4m9ftdbLg58+OLgaMIyzGLKRAnggcD29NcTStHoyGv
+        KCtNbNIQ8a2NffR4AX4B8uTKrsedhgQ=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From:   Oliver Upton <oliver.upton@linux.dev>
 To:     Gavin Shan <gshan@redhat.com>
@@ -34,30 +35,63 @@ Cc:     kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu,
         eric.auger@redhat.com, yuzhe@nfschina.com, renzhengeek@gmail.com,
         reijiw@google.com, ardb@kernel.org, Julia.Lawall@inria.fr,
         yuzenghui@huawei.com, seanjc@google.com, shan.gavin@gmail.com
-Subject: Re: [PATCH v2 0/3] Improve dirty ring warning report
-Message-ID: <Y9Lg1ESUVJov0WpH@google.com>
+Subject: Re: [PATCH v2 1/3] KVM: arm64: Add helper vgic_write_guest_lock()
+Message-ID: <Y9LgplvWZtdjXCEE@google.com>
 References: <20230119234405.349644-1-gshan@redhat.com>
+ <20230119234405.349644-2-gshan@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119234405.349644-1-gshan@redhat.com>
+In-Reply-To: <20230119234405.349644-2-gshan@redhat.com>
 X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 07:44:02AM +0800, Gavin Shan wrote:
-> It has been known case where no running VCPU context exists when the
-> vgic/its tables are saved. There are other two unknown cases where we
-> don't have the running VCPU context: (a) restore vgic3 LPI pending
-> status. (b) restoring vgic3 pending tables.
+Hi Gavin,
+
+On Fri, Jan 20, 2023 at 07:44:03AM +0800, Gavin Shan wrote:
+> Currently, the unknown no-running-vcpu sites are reported when a
+> dirty page is tracked by mark_page_dirty_in_slot(). Until now, the
+> only known no-running-vcpu site is saving vgic/its tables through
+> KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_SAVE_TABLES} command on KVM device
+> "kvm-arm-vgic-its". Unfortunately, there are more unknown sites to
+> be handled and no-running-vcpu context will be allowed in these
+> sites: (1) KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_RESTORE_TABLES} command
+> on KVM device "kvm-arm-vgic-its" to restore vgic/its tables. The
+> vgic3 LPI pending status could be restored. (2) Save vgic3 pending
+> table through KVM_DEV_ARM_{VGIC_GRP_CTRL, VGIC_SAVE_PENDING_TABLES}
+> command on KVM device "kvm-arm-vgic-v3".
 > 
-> PATCH[1]     adds unified helper vgic_write_guest_lock()
-> PATCH[2 - 3] allows no-running-vcpu context for (a) and (b)
+> In order to handle those unknown cases, we need a unified helper
+> vgic_write_guest_lock(). struct vgic_dist::save_its_tables_in_progress
+> is also renamed to struct vgic_dist::save_tables_in_progress. Besides,
+> "asm/kvm_mmu.h" needs to be included for "vgic.h" for the definition
+> of kvm_write_guest_lock().
+> 
+> No functional change intended.
+> 
+> Suggested-by: Oliver Upton <oliver.upton@linux.dev>
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  arch/arm64/kvm/vgic-sys-reg-v3.c   |  1 +
+>  arch/arm64/kvm/vgic/vgic-irqfd.c   |  1 +
+>  arch/arm64/kvm/vgic/vgic-its.c     | 13 +++++--------
+>  arch/arm64/kvm/vgic/vgic-mmio-v2.c |  1 +
+>  arch/arm64/kvm/vgic/vgic-mmio.c    |  1 +
+>  arch/arm64/kvm/vgic/vgic-v4.c      |  1 +
+>  arch/arm64/kvm/vgic/vgic.c         |  1 +
+>  arch/arm64/kvm/vgic/vgic.h         | 13 +++++++++++++
+>  include/kvm/arm_vgic.h             |  2 +-
+>  9 files changed, 25 insertions(+), 9 deletions(-)
 
-Besides the issue with the first patch, for the series:
+You wouldn't have to add the include all around the shop if you instead
+just stuck it in vgic.h...
 
-Reviewed-by: Oliver Upton <oliver.upton@linux.dev>
+Having said that, we really ought to get a fix in for this sooner rather
+than later. I just hit it myself testing kvmarm/next.
+
+Marc, could you take care of the include fix when applying?
 
 -- 
 Thanks,
