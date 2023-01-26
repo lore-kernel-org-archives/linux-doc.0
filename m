@@ -2,89 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82016C05027
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 17:32:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0FE4C52D11
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 17:45:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229756AbjAZRcd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 12:32:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37800 "EHLO
+        id S231918AbjAZRpy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 12:45:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229646AbjAZRcc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 12:32:32 -0500
-Received: from fx403.security-mail.net (smtpout140.security-mail.net [85.31.212.143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B857983CE
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 09:32:31 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by fx403.security-mail.net (Postfix) with ESMTP id DB1165CC144
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 18:32:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1674754349;
-        bh=6/90w43OAYgF0Bg+2eZ5gViTyRq0br/gZ7uEalJdF1o=;
-        h=From:To:Cc:Subject:Date;
-        b=qCPCV0jokQHH/m7KMbkFZ4Tv/3vbOCDOCP5qaRop4CLRe7AXOJic5ahtf9XVqvAqC
-         RgTP1k7+sRvviYPJODQ8nnPpq1a6xHDmf0TcBH4TZEKtiA0D2RC3frPQWu+5DpKkjJ
-         9QEaiCOwcYmTZ1Yx2oMO1E8CiXH0EorREk1jRZN4=
-Received: from fx403 (localhost [127.0.0.1])
-        by fx403.security-mail.net (Postfix) with ESMTP id 9E9B45CC142;
-        Thu, 26 Jan 2023 18:32:29 +0100 (CET)
-X-Virus-Scanned: E-securemail
-Secumail-id: <a0a7.63d2b92c.c999f.0>
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
-        by fx403.security-mail.net (Postfix) with ESMTPS id CBADB5CC1AF;
-        Thu, 26 Jan 2023 18:32:28 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTPS id A3E7727E0374;
-        Thu, 26 Jan 2023 18:32:28 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 86ABF27E0431;
-        Thu, 26 Jan 2023 18:32:28 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 86ABF27E0431
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
-        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674754348;
-        bh=RYbnzhQ3FDTjG3as2uuzmyoOHcgNTEdJzvexnfAGgVg=;
-        h=From:To:Date:Message-Id;
-        b=LLv+IgqaK+miDMpEVHbjdtnjfWQVHM8vtbW5GPTHxilCs8zaSHDBudM45kLJr5I9F
-         B07p/DVVypogPpaRhh5djqAplUKJbLnR+nYpIdxZxlDG6ynEW4gFEEQbGoA70zamie
-         q+2HEbPlkn9myc+QJ7vO36Hv4RpYetuAuivcnMxI=
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Gv4uQcdGM6F0; Thu, 26 Jan 2023 18:32:28 +0100 (CET)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
-        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 71D5527E0374;
-        Thu, 26 Jan 2023 18:32:28 +0100 (CET)
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
-        Wu XiangCheng <bobwxc@email.cn>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jules Maselbas <jmaselbas@kalray.eu>
-Subject: [PATCH] Documentation/mm: Fix typo emluation -> emulation
-Date:   Thu, 26 Jan 2023 18:32:17 +0100
-Message-Id: <20230126173217.12912-1-jmaselbas@kalray.eu>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S231546AbjAZRpw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 12:45:52 -0500
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B46318B0B;
+        Thu, 26 Jan 2023 09:45:51 -0800 (PST)
+Received: by mail-il1-x134.google.com with SMTP id z2so500059ilq.2;
+        Thu, 26 Jan 2023 09:45:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=T04Lwt/osJ3z9x91/GQOsUFFhCST0Wo0GTgNZCVXnH0=;
+        b=De6qwAn5MQi8akTue0jKjOs7ZgOKo3hL7mvKewl9zt5UCTKrazNkIcEVM+vQ3KL+2G
+         nQtql5bCwKdFlZepauedfaGfmPOAtgEIQReZN6ZJyCLWzy2h6SPHY3SPNO7XwULp5lwn
+         qfvTlyAFyGp9ElWok5cJs1/ny3Tign6sNSyNzZuljNxbSL8+nstpkiOVbUehz8UUESfB
+         nl77FcB6lMQL9zZvPvCpl4LFBD9Avur9djCkttQeaqcfY3g/cNTfuDptf8gSIa6wQVFI
+         nBggE9DJ1lgnEuymrsVqUYHMhWjbVY79Bs3ExxhjQN6HJW7kBFoHA9sajY9jxry6m6RK
+         4lGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T04Lwt/osJ3z9x91/GQOsUFFhCST0Wo0GTgNZCVXnH0=;
+        b=zo68qMV4ml+4SVNnGaTOFI2ZIkwFQP3QPpjbrgwg7bgu3IIMsw7ot5Tjb/k0oDRLXZ
+         Iz22cEfyVO4j9vCAcHPgSRvqZdmYHOKoeZwt1RuZ1sefM8cjvvzx+W4PuFUtVAYHmS0/
+         t3sZrSlKQgO1iK2ZvN/9YJ5tCncEMotOZc7Ec8OuixelADQXVyxWMt/Lf5II+1gYboYy
+         kGZcOZ/sJMOrhOgPUCdW4WREHX/q01BS6141EFwCDEN6gKFiOZ/7RGTnpL9XwxlM1BBj
+         4nt0yDy+WPdOZjzfhNLzQoRgtodekPuzWxDzFYpwZlc9gqnml4GXkwwJl8BWF5ezgjap
+         mFMw==
+X-Gm-Message-State: AFqh2kqKBHnv8vpp0cfW5RmC0ym6K52cZvvFwUNWQV6muFpVRgWyQlQs
+        ys0f68MpxtwEVBu2x25OgQ1B3vdaZ7S8eD1wZ+A=
+X-Google-Smtp-Source: AMrXdXvdEk+Fe1q+esJXTIVOij0pu05ZSglHaVIW6Er7Va3Sc3FL8hEN1czKSfxDdhISkgN0NBd4JbUDMDzmTByCSzY=
+X-Received: by 2002:a92:6a05:0:b0:30d:ba97:90e2 with SMTP id
+ f5-20020a926a05000000b0030dba9790e2mr4314331ilc.38.1674755150671; Thu, 26 Jan
+ 2023 09:45:50 -0800 (PST)
+MIME-Version: 1.0
+References: <20230125025126.787431-1-gregory.price@memverge.com>
+ <20230125025126.787431-2-gregory.price@memverge.com> <20230126003008.GA31684@redhat.com>
+ <CANaxB-xn0wW5xA_CT7bA5=jig+td__EDKPBWSpZdfgMgVOezCg@mail.gmail.com> <20230126150725.GB4069@redhat.com>
+In-Reply-To: <20230126150725.GB4069@redhat.com>
+From:   Andrei Vagin <avagin@gmail.com>
+Date:   Thu, 26 Jan 2023 09:45:39 -0800
+Message-ID: <CANaxB-woave9F479O75P9PC+nFO3DVmbeFA1rXf2c=bhRmWoiQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] ptrace,syscall_user_dispatch: Implement Syscall
+ User Dispatch Suspension
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     Gregory Price <gourry.memverge@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Gregory Price <gregory.price@memverge.com>,
+        Mike Rapoport <rppt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix typo emluation -> emulation
+On Thu, Jan 26, 2023 at 7:07 AM Oleg Nesterov <oleg@redhat.com> wrote:
+>
+> On 01/25, Andrei Vagin wrote:
+> >
+> > On Wed, Jan 25, 2023 at 4:30 PM Oleg Nesterov <oleg@redhat.com> wrote:
+> > >
+> > > On 01/24, Gregory Price wrote:
+> > > >
+> > > > Adds PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH to ptrace options, and
+> > > > modify Syscall User Dispatch to suspend interception when enabled.
+> > > >
+> > > > This is modeled after the SUSPEND_SECCOMP feature, which suspends
+> > > > SECCOMP interposition.  Without doing this, software like CRIU will
+> > > > inject system calls into a process and be intercepted by Syscall
+> > > > User Dispatch, either causing a crash (due to blocked signals) or
+> > > > the delivery of those signals to a ptracer (not the intended behavior).
+> > >
+> > > Cough... Gregory, I am sorry ;)
+> > >
+> > > but can't we drop this patch to ?
+> > >
+> > > CRIU needs to do PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG and check
+> > > config->mode anyway as we discussed.
+> > >
+> > > Then it can simply set *config->selector = SYSCALL_DISPATCH_FILTER_ALLOW
+> > > with the same effect, no?
+> >
+> > Oleg,
+> >
+> > PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH is automatically cleared when
+> > a tracer detaches. It is critical when tracers detach due to unexpected
+> > reasons
+>
+> IIUC, PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH is needed to run the injected
+> code, and this also needs to change the state of the traced process. If
+> the tracer (CRIU) dies while the tracee runs this code, I guess the tracee
+> will have other problems?
 
-Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
----
- Documentation/mm/numa.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Our injected code can reheal itself if something goes wrong. The hack
+here is that we inject
+the code with a signal frame and it calls rt_segreturn to resume the process.
 
-diff --git a/Documentation/mm/numa.rst b/Documentation/mm/numa.rst
-index 99fdeca917ca..e1410974c941 100644
---- a/Documentation/mm/numa.rst
-+++ b/Documentation/mm/numa.rst
-@@ -64,7 +64,7 @@ In addition, for some architectures, again x86 is an example, Linux supports
- the emulation of additional nodes.  For NUMA emulation, linux will carve up
- the existing nodes--or the system memory for non-NUMA platforms--into multiple
- nodes.  Each emulated node will manage a fraction of the underlying cells'
--physical memory.  NUMA emluation is useful for testing NUMA kernel and
-+physical memory.  NUMA emulation is useful for testing NUMA kernel and
- application features on non-NUMA platforms, and as a sort of memory resource
- management mechanism when used together with cpusets.
- [see Documentation/admin-guide/cgroup-v1/cpusets.rst]
--- 
-2.17.1
+We want to have this functionality for most cases. I don't expect that
+the syscall user dispatch
+is used by many applications, so I don't strongly insist on
+PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH. In addition, if we know a user dispatch
+memory region, it can be enough to inject our code out of this region
+without disabling SUD.
 
+Thanks,
+Andrei
