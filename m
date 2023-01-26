@@ -2,106 +2,206 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB4AC61DA3
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 18:31:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3B9DC54EAA
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 18:42:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231670AbjAZSbS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 13:31:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50718 "EHLO
+        id S229611AbjAZSmc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 13:42:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231664AbjAZSbQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 13:31:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CFBD72B6
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 10:30:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674757829;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=tZQdAeWhpsHHDlnk0ZLGhZkWwYVHE6PEpnsUOblp67M=;
-        b=Oy2Ooh6/0KkSegme7i8E+CkQLVMRrOR/eIzFMsZxCSGzRV4dATnOY5ZbrzHUJ0LetV/yL7
-        0c/p26ANdDh7Ky1WIJ+ddmpPTwjrIjKtT9W9qY9piD9YGrHKlidt/gwx42NPIGYCMdHXFY
-        J0rklMNYBgNMlBqR7zaxlMcZIWKlSPQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-chZp4DlCM_q_QexTTWLAfw-1; Thu, 26 Jan 2023 13:30:26 -0500
-X-MC-Unique: chZp4DlCM_q_QexTTWLAfw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7632310115E0;
-        Thu, 26 Jan 2023 18:30:25 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (ovpn-194-60.brq.redhat.com [10.40.194.60])
-        by smtp.corp.redhat.com (Postfix) with SMTP id C4E722026D76;
-        Thu, 26 Jan 2023 18:30:22 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu, 26 Jan 2023 19:30:22 +0100 (CET)
-Date:   Thu, 26 Jan 2023 19:30:19 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Andrei Vagin <avagin@gmail.com>
-Cc:     Gregory Price <gourry.memverge@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Gregory Price <gregory.price@memverge.com>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH v6 1/2] ptrace,syscall_user_dispatch: Implement Syscall
- User Dispatch Suspension
-Message-ID: <20230126183019.GD4069@redhat.com>
-References: <20230125025126.787431-1-gregory.price@memverge.com>
- <20230125025126.787431-2-gregory.price@memverge.com>
- <20230126003008.GA31684@redhat.com>
- <CANaxB-xn0wW5xA_CT7bA5=jig+td__EDKPBWSpZdfgMgVOezCg@mail.gmail.com>
- <20230126150725.GB4069@redhat.com>
- <CANaxB-woave9F479O75P9PC+nFO3DVmbeFA1rXf2c=bhRmWoiQ@mail.gmail.com>
+        with ESMTP id S229536AbjAZSmb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 13:42:31 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732343EFC6;
+        Thu, 26 Jan 2023 10:42:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674758550; x=1706294550;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Pd74plTjDM934Mu3gAMHaaPSse3mzDXyW5UsS0F/p6Y=;
+  b=M4+DrZXgFsISNEoVz+4DKQxvK+yFOj3zhIvbQlnh9XFRglKmQXe6dDJN
+   M6Bdz0Yibu4rwzoSkclp8zi/9W0zEU/WRi783thglTZQ3UF1VjwojgqgO
+   1uNm9vDA7IVPy3EpVfKrQ+miFU/6OeOpUdH1zNMbsMlIxLzYzE1pB+Co6
+   Ha8+OC/OqlsevFMwHscJKkZOrauGidQA2yD19Le9nggr8/5aBsZMi506c
+   EuNzHDWnmmLJh3qAPqvrWR7hyfm94SOHE9tZy0COvwsE0M/TUeFxs7U/e
+   Sc5iOKKq6YS9noaDIHFoElJzW3tzH606RmjmbEm2GVFHjh/uZ2vxIZ3kw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="354203321"
+X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; 
+   d="scan'208";a="354203321"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 10:42:05 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="991745439"
+X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; 
+   d="scan'208";a="991745439"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 10:42:05 -0800
+From:   Tony Luck <tony.luck@intel.com>
+To:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Peter Newman <peternewman@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org
+Cc:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, patches@lists.linux.dev,
+        Tony Luck <tony.luck@intel.com>
+Subject: [PATCH 1/7] x86/resctrl: Refactor in preparation for node-scoped resources
+Date:   Thu, 26 Jan 2023 10:41:51 -0800
+Message-Id: <20230126184157.27626-2-tony.luck@intel.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230126184157.27626-1-tony.luck@intel.com>
+References: <20230126184157.27626-1-tony.luck@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANaxB-woave9F479O75P9PC+nFO3DVmbeFA1rXf2c=bhRmWoiQ@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/26, Andrei Vagin wrote:
->
-> On Thu, Jan 26, 2023 at 7:07 AM Oleg Nesterov <oleg@redhat.com> wrote:
-> >
-> > IIUC, PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH is needed to run the injected
-> > code, and this also needs to change the state of the traced process. If
-> > the tracer (CRIU) dies while the tracee runs this code, I guess the tracee
-> > will have other problems?
->
-> Our injected code can reheal itself if something goes wrong. The hack
-> here is that we inject
-> the code with a signal frame and it calls rt_segreturn to resume the process.
+Sub-NUMA cluster systems provide monitoring resources at the NUMA
+node scope instead of the L3 cache scope.
 
-What will happen if CRIU dies and clears ->ptrace right before
-syscall_user_dispatch() checks PT_SUSPEND_SYSCALL_USER_DISPATCH ?
+Rename the cache_level field in struct rdt_resource to the more
+generic "scope" and add symbolic names and a helper function.
 
-How the tracee will react to SIGSYS with unexpected .si_syscall ?
+No functional change.
 
-> I don't expect that
-> the syscall user dispatch
-> is used by many applications,
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+---
+ include/linux/resctrl.h                   |  4 ++--
+ arch/x86/kernel/cpu/resctrl/internal.h    |  5 +++++
+ arch/x86/kernel/cpu/resctrl/core.c        | 15 ++++++++++-----
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c |  2 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c    |  2 +-
+ 5 files changed, 19 insertions(+), 9 deletions(-)
 
-Agreed, so the case when CRIU will need to do the additional
-PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG twice to disable and then re-enable
-syscall_user_dispatch is unlikely.
-
-> so I don't strongly insist on
-> PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH.
-
-I too won't argue too much. but so far I do not feel there is enough
-justification for this feature ...
-
-Oleg.
+diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+index 0cee154abc9f..64ecfcafa0a2 100644
+--- a/include/linux/resctrl.h
++++ b/include/linux/resctrl.h
+@@ -150,7 +150,7 @@ struct resctrl_schema;
+  * @alloc_capable:	Is allocation available on this machine
+  * @mon_capable:	Is monitor feature available on this machine
+  * @num_rmid:		Number of RMIDs available
+- * @cache_level:	Which cache level defines scope of this resource
++ * @scope:		Scope of this resource (cache level or NUMA node)
+  * @cache:		Cache allocation related data
+  * @membw:		If the component has bandwidth controls, their properties.
+  * @domains:		All domains for this resource
+@@ -168,7 +168,7 @@ struct rdt_resource {
+ 	bool			alloc_capable;
+ 	bool			mon_capable;
+ 	int			num_rmid;
+-	int			cache_level;
++	int			scope;
+ 	struct resctrl_cache	cache;
+ 	struct resctrl_membw	membw;
+ 	struct list_head	domains;
+diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+index 5ebd28e6aa0c..15cea517efaa 100644
+--- a/arch/x86/kernel/cpu/resctrl/internal.h
++++ b/arch/x86/kernel/cpu/resctrl/internal.h
+@@ -414,6 +414,11 @@ enum resctrl_res_level {
+ 	RDT_NUM_RESOURCES,
+ };
+ 
++enum resctrl_scope {
++	SCOPE_L2_CACHE = 2,
++	SCOPE_L3_CACHE = 3
++};
++
+ static inline struct rdt_resource *resctrl_inc(struct rdt_resource *res)
+ {
+ 	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(res);
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+index c98e52ff5f20..6914232acf84 100644
+--- a/arch/x86/kernel/cpu/resctrl/core.c
++++ b/arch/x86/kernel/cpu/resctrl/core.c
+@@ -65,7 +65,7 @@ struct rdt_hw_resource rdt_resources_all[] = {
+ 		.r_resctrl = {
+ 			.rid			= RDT_RESOURCE_L3,
+ 			.name			= "L3",
+-			.cache_level		= 3,
++			.scope			= SCOPE_L3_CACHE,
+ 			.domains		= domain_init(RDT_RESOURCE_L3),
+ 			.parse_ctrlval		= parse_cbm,
+ 			.format_str		= "%d=%0*x",
+@@ -79,7 +79,7 @@ struct rdt_hw_resource rdt_resources_all[] = {
+ 		.r_resctrl = {
+ 			.rid			= RDT_RESOURCE_L2,
+ 			.name			= "L2",
+-			.cache_level		= 2,
++			.scope			= SCOPE_L2_CACHE,
+ 			.domains		= domain_init(RDT_RESOURCE_L2),
+ 			.parse_ctrlval		= parse_cbm,
+ 			.format_str		= "%d=%0*x",
+@@ -93,7 +93,7 @@ struct rdt_hw_resource rdt_resources_all[] = {
+ 		.r_resctrl = {
+ 			.rid			= RDT_RESOURCE_MBA,
+ 			.name			= "MB",
+-			.cache_level		= 3,
++			.scope			= SCOPE_L3_CACHE,
+ 			.domains		= domain_init(RDT_RESOURCE_MBA),
+ 			.parse_ctrlval		= parse_bw,
+ 			.format_str		= "%d=%*u",
+@@ -462,6 +462,11 @@ static int arch_domain_mbm_alloc(u32 num_rmid, struct rdt_hw_domain *hw_dom)
+ 	return 0;
+ }
+ 
++static int get_domain_id(int cpu, enum resctrl_scope scope)
++{
++	return get_cpu_cacheinfo_id(cpu, scope);
++}
++
+ /*
+  * domain_add_cpu - Add a cpu to a resource's domain list.
+  *
+@@ -477,7 +482,7 @@ static int arch_domain_mbm_alloc(u32 num_rmid, struct rdt_hw_domain *hw_dom)
+  */
+ static void domain_add_cpu(int cpu, struct rdt_resource *r)
+ {
+-	int id = get_cpu_cacheinfo_id(cpu, r->cache_level);
++	int id = get_domain_id(cpu, r->scope);
+ 	struct list_head *add_pos = NULL;
+ 	struct rdt_hw_domain *hw_dom;
+ 	struct rdt_domain *d;
+@@ -527,7 +532,7 @@ static void domain_add_cpu(int cpu, struct rdt_resource *r)
+ 
+ static void domain_remove_cpu(int cpu, struct rdt_resource *r)
+ {
+-	int id = get_cpu_cacheinfo_id(cpu, r->cache_level);
++	int id = get_domain_id(cpu, r->scope);
+ 	struct rdt_hw_domain *hw_dom;
+ 	struct rdt_domain *d;
+ 
+diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+index 524f8ff3e69c..d2ba4f7f6a79 100644
+--- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
++++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+@@ -297,7 +297,7 @@ static int pseudo_lock_region_init(struct pseudo_lock_region *plr)
+ 	plr->size = rdtgroup_cbm_to_size(plr->s->res, plr->d, plr->cbm);
+ 
+ 	for (i = 0; i < ci->num_leaves; i++) {
+-		if (ci->info_list[i].level == plr->s->res->cache_level) {
++		if (ci->info_list[i].level == plr->s->res->scope) {
+ 			plr->line_size = ci->info_list[i].coherency_line_size;
+ 			return 0;
+ 		}
+diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+index 5993da21d822..a6ba3080e5db 100644
+--- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
++++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+@@ -1333,7 +1333,7 @@ unsigned int rdtgroup_cbm_to_size(struct rdt_resource *r,
+ 	num_b = bitmap_weight(&cbm, r->cache.cbm_len);
+ 	ci = get_cpu_cacheinfo(cpumask_any(&d->cpu_mask));
+ 	for (i = 0; i < ci->num_leaves; i++) {
+-		if (ci->info_list[i].level == r->cache_level) {
++		if (ci->info_list[i].level == r->scope) {
+ 			size = ci->info_list[i].size / r->cache.cbm_len * num_b;
+ 			break;
+ 		}
+-- 
+2.39.1
 
