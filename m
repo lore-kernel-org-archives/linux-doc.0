@@ -2,187 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4D6DC05027
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 19:26:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F3E4C54EAA
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 19:36:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232118AbjAZT0S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 14:26:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34272 "EHLO
+        id S229512AbjAZTgU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 14:36:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjAZT0R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 14:26:17 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60C0D5C0DE;
-        Thu, 26 Jan 2023 11:26:16 -0800 (PST)
+        with ESMTP id S229469AbjAZTgT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 14:36:19 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0613D5C0DE;
+        Thu, 26 Jan 2023 11:36:18 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EC2B6618A9;
-        Thu, 26 Jan 2023 19:26:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5369EC433EF;
-        Thu, 26 Jan 2023 19:26:15 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 93318617D1;
+        Thu, 26 Jan 2023 19:36:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ACFBC433D2;
+        Thu, 26 Jan 2023 19:36:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674761175;
-        bh=n8TZeJo3FvcCJuf7g+eoX/LF31ASk7eOswmcNXrJ6pQ=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Y/D63xP2KAhNqIF4WoGvWZD5HO4ih0nNp8np8wqUhiHOMKsMJvPLI0II6m+TD2u7/
-         3k48LCPOXMy5v3LIv0mbL0GolnVtSXaorOzzJgum8544DMmqeCjIX3CDDaioLnGpOy
-         roqsYoy3rRFqkve7mcta/YFLrRxnmNrBIOC3L5gwy+p2msU/gD5PH1ftjJdidP031u
-         VmiXzRSIGQkO+CiqtVsaZvLWuVfDa9O0ROOjtFS0L18AlmzlWBo2dg99nwM/BWaT+B
-         hs/+XiWUkgTdFjFG3UY9DqlCHDxqUh0N79g+F7fidRB9X0/HTg15G0+qR/aI3PUFuc
-         6xfM5CmS7lt9A==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id ED76F5C0510; Thu, 26 Jan 2023 11:26:14 -0800 (PST)
-Date:   Thu, 26 Jan 2023 11:26:14 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, akpm@linux-foundation.org, ndesaulniers@google.com,
-        vbabka@suse.cz, hannes@cmpxchg.org, joel@joelfernandes.org,
-        quic_neeraju@quicinc.com, urezki@gmail.com
-Subject: Re: [PATCH RFC bootconfig] Allow forcing unconditional bootconfig
- processing
-Message-ID: <20230126192614.GA691808@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20230108002215.c18df95b19acdd3207b379fa@kernel.org>
- <20230107162202.GA4028633@paulmck-ThinkPad-P17-Gen-1>
- <20230108150425.426f2861e9db1152fa84508f@kernel.org>
- <20230109042501.GF4028633@paulmck-ThinkPad-P17-Gen-1>
- <20230110085636.5d679f98c5b6914ecf19e724@kernel.org>
- <20230110000732.GD4028633@paulmck-ThinkPad-P17-Gen-1>
- <20230110095450.2cb4c875f95459e3a4e7dcf1@kernel.org>
- <20230110010953.GF4028633@paulmck-ThinkPad-P17-Gen-1>
- <20230110231721.ed737bcc46ee6b8572d7cdff@kernel.org>
- <20230110150259.GO4028633@paulmck-ThinkPad-P17-Gen-1>
+        s=k20201202; t=1674761777;
+        bh=72HEEnOH20yJvoB1+XWBLjr3pyJltAWyEBlDLtKqyq0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CAcjO1/aPjl7TnLPQGqYMkjsORV+g0Tt1xAqkPwB5UsZjZU+yIGxho+iHjteAenNh
+         pEOIB9MvUwQIsIq8SPIrJEdkK5ri3DeRkLPs9ilzzobtzo1meN+s30IJK+GmUilivu
+         skIeTUSuujTq9gIj473MiKLLD+d2Z/VBwiLGhcspyEbOuVqZk5j0DDv2yDvM2LTocm
+         17/uM+0N94Y2xOCPq4EkdeDtbUL/DyRcQjUEaZi9DZ1nqIV3iu7ENQwlvEq8cAXC91
+         +pbGowV4a7X3F0eR/GeTmyr+PYX4ndDixL3Fc8PN87+1Fb3qI3iZG4NtieskagVGBv
+         90HSblswJCBVQ==
+Date:   Thu, 26 Jan 2023 21:36:01 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Michal Hocko <mhocko@suse.com>
+Subject: Re: [PATCH v5 1/1] docs/mm: Physical Memory: add structure,
+ introduction and nodes description
+Message-ID: <Y9LWIQtPQ5yLIwu9@kernel.org>
+References: <20230125192841.25342-1-rppt@kernel.org>
+ <20230125192841.25342-2-rppt@kernel.org>
+ <87r0vh9n17.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230110150259.GO4028633@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <87r0vh9n17.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 07:02:59AM -0800, Paul E. McKenney wrote:
-> On Tue, Jan 10, 2023 at 11:17:21PM +0900, Masami Hiramatsu wrote:
-> > On Mon, 9 Jan 2023 17:09:53 -0800
-> > "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> > 
-> > > On Tue, Jan 10, 2023 at 09:54:50AM +0900, Masami Hiramatsu wrote:
-> > > > On Mon, 9 Jan 2023 16:07:32 -0800
-> > > > "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> > > > 
-> > > > > On Tue, Jan 10, 2023 at 08:56:36AM +0900, Masami Hiramatsu wrote:
-> > > > > > On Sun, 8 Jan 2023 20:25:01 -0800
-> > > > > > "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> > > > > > 
-> > > > > > > On Sun, Jan 08, 2023 at 03:04:25PM +0900, Masami Hiramatsu wrote:
-> > > > > > > > On Sat, 7 Jan 2023 08:22:02 -0800
-> > > > > > > > "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> > > > > > > > 
-> > > > > > > > > On Sun, Jan 08, 2023 at 12:22:15AM +0900, Masami Hiramatsu wrote:
-> > > > > > > > > > On Wed, 4 Jan 2023 16:58:38 -0800
-> > > > > > > > > > "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> > > > > > > > > > 
-> > > > > > > > > > > The BOOT_CONFIG family of Kconfig options allows a bootconfig file
-> > > > > > > > > > > containing kernel boot parameters to be embedded into an initrd or into
-> > > > > > > > > > > the kernel itself.  This can be extremely useful when deploying kernels
-> > > > > > > > > > > in cases where some of the boot parameters depend on the kernel version
-> > > > > > > > > > > rather than on the server hardware, firmware, or workload.
-> > > > > > > > > > > 
-> > > > > > > > > > > Unfortunately, the "bootconfig" kernel parameter must be specified in
-> > > > > > > > > > > order to cause the kernel to look for the embedded bootconfig file,
-> > > > > > > > > > > and it clearly does not help to embed this "bootconfig" kernel parameter
-> > > > > > > > > > > into that file.
-> > > > > > > > > > > 
-> > > > > > > > > > > Therefore, provide a new BOOT_CONFIG_FORCE Kconfig option that causes the
-> > > > > > > > > > > kernel to act as if the "bootconfig" kernel parameter had been specified.
-> > > > > > > > > > > In other words, kernels built with CONFIG_BOOT_CONFIG_FORCE=y will look
-> > > > > > > > > > > for the embedded bootconfig file even when the "bootconfig" kernel
-> > > > > > > > > > > parameter is omitted.  This permits kernel-version-dependent kernel
-> > > > > > > > > > > boot parameters to be embedded into the kernel image without the need to
-> > > > > > > > > > > (for example) update large numbers of boot loaders.
-> > > > > > > > > > 
-> > > > > > > > > > I like this because this is a simple solution. We have another option
-> > > > > > > > > > to specify "bootconfig" in CONFIG_CMDLINE, but it can be overwritten by
-> > > > > > > > > > bootloader. Thus, it is better to have this option so that user can
-> > > > > > > > > > always enable bootconfig.
-> > > > > > > > > 
-> > > > > > > > > Glad you like it!
-> > > > > > > > > 
-> > > > > > > > > In addition, if the help text is accurate, another shortcoming of
-> > > > > > > > > CONFIG_CMDLINE is that its semantics vary from one architecture to
-> > > > > > > > > another.  Some have CONFIG_CMDLINE override the boot-loader supplied
-> > > > > > > > > parameters, and others differ in the order in which the parameters
-> > > > > > > > > are processed.
-> > > > > > > > 
-> > > > > > > > Yes, that differences confuse us...
-> > > > > > > 
-> > > > > > > I am glad that it is not just me.  ;-)
-> > > > > > > 
-> > > > > > > I will add words to that effect to the commit log.
-> > > > > > > 
-> > > > > > > > > > Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > > > > > > > > 
-> > > > > > > > > Thank you!
-> > > > > > > > > 
-> > > > > > > > > > BTW, maybe CONFIG_BOOT_CONFIG_EMBED is better to select this.
-> > > > > > > > > > (or at least recommend to enable this)
-> > > > > > > > > 
-> > > > > > > > > Like this?
-> > > > > > > > 
-> > > > > > > > Yes! Thanks.
-> > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > 							Thanx, Paul
-> > > > > > > > > 
-> > > > > > > > > ------------------------------------------------------------------------
-> > > > > > > > > 
-> > > > > > > > > commit d09a1505c51a70da38b34ac38062977299aef742
-> > > > > > > > > Author: Paul E. McKenney <paulmck@kernel.org>
-> > > > > > > > > Date:   Sat Jan 7 08:09:22 2023 -0800
-> > > > > > > > > 
-> > > > > > > > >     bootconfig: Default BOOT_CONFIG_FORCE to y if BOOT_CONFIG_EMBED
-> > > > > > > > >     
-> > > > > > > > >     When a kernel is built with CONFIG_BOOT_CONFIG_EMBED=y, the intention
-> > > > > > > > >     will normally be to unconditionally provide the specified kernel-boot
-> > > > > > > > >     arguments to the kernel, as opposed to requiring a separately provided
-> > > > > > > > >     bootconfig parameter.  Therefore, make the BOOT_CONFIG_FORCE Kconfig
-> > > > > > > > >     option default to y in kernels built with CONFIG_BOOT_CONFIG_EMBED=y.
-> > > > > > > > >     
-> > > > > > > > >     The old semantics may be obtained by manually overriding this default.
-> > > > > > > > >     
-> > > > > > > > >     Suggested-by: Masami Hiramatsu <mhiramat@kernel.org>
-> > > > > > > > >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > > > > > > > 
-> > > > > > > > Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > > > > > > 
-> > > > > > > Applied, thank you!
-> > > > > > 
-> > > > > > Paul, just for confirmation, have you picked these patches on your tree?
-> > > > > 
-> > > > > I have, but if you would prefer to take them, just let me know when you
-> > > > > have pulled them in.  It is easy for me to drop them.
-> > > > > 
-> > > > > Here they are in the -rcu tree:
-> > > > > 
-> > > > > 3d9ccc4a8b56e bootconfig: Allow forcing unconditional bootconfig processing
-> > > > > 68b920592ff67 bootconfig: Default BOOT_CONFIG_FORCE to y if BOOT_CONFIG_EMBED
-> > > > > 
-> > > > > git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
-> > > > 
-> > > > Yeah, if it's not hurry, let me pick those to linux-trace tree
-> > > > (bootconfig/for-next). I would like to consolidate the bootconfig
-> > > > updates on my tree.
-> > > 
-> > > Please go ahead and grab them.  Just out of curiosity, are they in time
-> > > for the upcoming v6.3 merge window?
-> > 
-> > Yes, I will do.
+On Thu, Jan 26, 2023 at 11:19:16AM -0700, Jonathan Corbet wrote:
+> Mike Rapoport <rppt@kernel.org> writes:
 > 
-> Very good, I will drop them from my tree on my next rebase.
+> > From: "Mike Rapoport (IBM)" <rppt@kernel.org>
+> >
+> > Add structure, introduction and Nodes section to Physical Memory
+> > chapter.
+> >
+> > As the new documentation references core-api/dma-api and mm/page_reclaim,
+> > add page labels to those documents.
+> >
+> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > Reviewed-by: Lorenzo Stoakes <lstoakes@gmail.com>
+> > Acked-by: Michal Hocko <mhocko@suse.com>
+> > Acked-by: Vlastimil Babka <vbabka@suse.cz>
+> > Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
+> 
+> I've gone ahead and applied this, but I do have one little gripe...
+> 
+> Something like:
+> 
+> > +Reclaim control
+> > +~~~~~~~~~~~~~~~
+> > +
+> > +See also :ref:`Page Reclaim <page_reclaim>`.
+> 
+> Can also just be "See also Documentation/mm/page_reclaim.rst".  The
+> right things will happen in the HTML output, readers of the plain-text
+> will know immediately where to go, and we don't have to add the label
+> clutter.
+> 
+> </gripe> :)
 
-Apologies for nagging, but I don't see this in -next, so I figured that
-I should follow up.  Is there some adjustment required to this patch?
-If so, please let me know so that I can fix it.
+Do you want v6? ;-)
+ 
+> Thanks,
+> 
+> jon
 
-							Thanx, Paul
+-- 
+Sincerely yours,
+Mike.
