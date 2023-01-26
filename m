@@ -2,259 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF4F8C61DA0
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 09:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D957C54E94
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 10:42:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236925AbjAZJ53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 04:57:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55142 "EHLO
+        id S233159AbjAZKmQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 05:42:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236504AbjAZJ52 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 04:57:28 -0500
-Received: from fx303.security-mail.net (mxout.security-mail.net [85.31.212.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C138E15C99
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 01:57:25 -0800 (PST)
-Received: from localhost (fx303.security-mail.net [127.0.0.1])
-        by fx303.security-mail.net (Postfix) with ESMTP id BD96230F6B2
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 10:57:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1674727043;
-        bh=uO7MCO8H75KotDHIyR6heNsXJ56/BH7BOfcV5EHmMEI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=kULLa981S4tOBsEgMKIgRBRcxvVQA4yWLY0Bt17Dy9VQ/XpjBpcKXqKezwdjuIyzr
-         Ps9k7ANCXVB2wh7dWIPokZM97HX7YcClHpAMRAA5oSbz2/CxiYGAO6PMt6zS5nLIRq
-         yeHFSyjqgI9rf768GvkorNHQG+wXboRlg6z9n+Tc=
-Received: from fx303 (fx303.security-mail.net [127.0.0.1]) by
- fx303.security-mail.net (Postfix) with ESMTP id 47B0330F6E2; Thu, 26 Jan
- 2023 10:57:23 +0100 (CET)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx303.security-mail.net (Postfix) with ESMTPS id 600CC30EF2D; Thu, 26 Jan
- 2023 10:57:22 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 1EF2427E0493; Thu, 26 Jan 2023
- 10:57:22 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id F0A6127E0491; Thu, 26 Jan 2023 10:57:21 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- JRZseFWEf3ef; Thu, 26 Jan 2023 10:57:21 +0100 (CET)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 9A5BE27E048E; Thu, 26 Jan 2023
- 10:57:21 +0100 (CET)
-X-Virus-Scanned: E-securemail
-Secumail-id: <12187.63d24e82.597fe.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu F0A6127E0491
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674727042;
- bh=y0pU6bUB9NtRwjLHJtgOZpwuFzZAZbLkd/6NSd04WhM=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=X7BuUXlibp43NQwoW2XoKczIL4vzGNFTCj5F8yW370vweqIXc9XTSGMKEFeNuiA5e
- bkUAd/wPpBSOBVN1KkeOkTfHQXjfCuCp1M/EQOs9zosEydOfE9WuKyG1Bj/44r3wGZ
- mysuu23qG+bNP9s2Himt9ysP+5Wj3jljQFPyrv34=
-Date:   Thu, 26 Jan 2023 10:57:20 +0100
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Waiman Long <longman@redhat.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Piggin <npiggin@gmail.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@redhat.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Guillaume Thouvenin <gthouvenin@kalray.eu>,
-        Clement Leger <clement@clement-leger.fr>,
-        Vincent Chardon <vincent.chardon@elsys-design.com>,
-        Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>,
-        Julian Vetter <jvetter@kalray.eu>,
-        Samuel Jones <sjones@kalray.eu>,
-        Ashley Lesdalons <alesdalons@kalray.eu>,
-        Thomas Costis <tcostis@kalray.eu>,
-        Marius Gligor <mgligor@kalray.eu>,
-        Jonathan Borne <jborne@kalray.eu>,
-        Julien Villette <jvillette@kalray.eu>,
-        Luc Michel <lmichel@kalray.eu>,
-        Louis Morhet <lmorhet@kalray.eu>,
-        Julien Hascoet <jhascoet@kalray.eu>,
-        Jean-Christophe Pince <jcpince@gmail.com>,
-        Guillaume Missonnier <gmissonnier@kalray.eu>,
-        Alex Michon <amichon@kalray.eu>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <git@xen0n.name>,
-        Shaokun Zhang <zhangshaokun@hisilicon.com>,
-        John Garry <john.garry@huawei.com>,
-        Guangbin Huang <huangguangbin2@huawei.com>,
-        Bharat Bhushan <bbhushan2@marvell.com>,
-        Bibo Mao <maobibo@loongson.cn>,
-        Atish Patra <atishp@atishpatra.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Qi Liu <liuqi115@huawei.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Brown <broonie@kernel.org>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Benjamin Mugnier <mugnier.benjamin@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-audit@redhat.com,
-        linux-riscv@lists.infradead.org, bpf@vger.kernel.org
-Subject: Re: [RFC PATCH v2 11/31] kvx: Add atomic/locking headers
-Message-ID: <20230126095720.GF5952@tellis.lin.mbt.kalray.eu>
-References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-12-ysionneau@kalray.eu> <Y8qw2MaCJZzu3Ows@FVFF77S0Q05N>
+        with ESMTP id S236902AbjAZKmO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 05:42:14 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CF745688C;
+        Thu, 26 Jan 2023 02:42:13 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F8FE617A3;
+        Thu, 26 Jan 2023 10:42:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F24A1C433D2;
+        Thu, 26 Jan 2023 10:42:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674729732;
+        bh=xW9HRR8a9oajieaxS1LWPtit9dg4vphLwBMUXfq8ERQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rV0Chr7piTtIcyMjMupZz/Sa/O2hbYSFnkfEMLSGpfXRWjQRUUsKAagGwfHGUu8m2
+         2f7YsnHwth8dfOpc49W4iHIPfnf/nRNEZBDvkLcTlwhfqwVOKcb9nLuEBXEXYAmAy5
+         ncBs/YZL/b9VDJTreShkTQtmF1LIurRaaxQDdmcWbPHB2+Lxu3RbchfURLdN6cnROr
+         LqYu7yzvmuwKSQrq+jO5pwxelcSRU3q1ZHZrBVIcri6OFQHkLn+dWNngVEtJ/Elfzg
+         R6WHtJ9NGq08qVxOD5TUxaXC2gIfLY9LJmkAYADp9ROB/Xs9XVLunX7h34jWts+GJW
+         ORXa5mJ7q3GOg==
+Date:   Thu, 26 Jan 2023 12:42:08 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Paolo Abeni <pabeni@redhat.com>
+Cc:     Jakub Kicinski <kuba@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        intel-wired-lan@lists.osuosl.org,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, oss-drivers@corigine.com,
+        Raju Rangoju <rajur@chelsio.com>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Veaceslav Falico <vfalico@gmail.com>
+Subject: Re: [PATCH net-next v1 01/10] xfrm: extend add policy callback to
+ set failure reason
+Message-ID: <Y9JZAEa6HkLMfs2P@unreal>
+References: <cover.1674560845.git.leon@kernel.org>
+ <c182cae29914fa19ce970859e74234d3de506853.1674560845.git.leon@kernel.org>
+ <20230125110226.66dc7eeb@kernel.org>
+ <Y9Irgrgf3uxOjwUm@unreal>
+ <75f6e5d0e42a8b9895c1b2330c373da9ed7f41db.camel@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y8qw2MaCJZzu3Ows@FVFF77S0Q05N>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
+In-Reply-To: <75f6e5d0e42a8b9895c1b2330c373da9ed7f41db.camel@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mark,
-
-On Fri, Jan 20, 2023 at 03:18:48PM +0000, Mark Rutland wrote:
-> On Fri, Jan 20, 2023 at 03:09:42PM +0100, Yann Sionneau wrote:
-> > Add common headers (atomic, bitops, barrier and locking) for basic
-> > kvx support.
+On Thu, Jan 26, 2023 at 10:45:50AM +0100, Paolo Abeni wrote:
+> On Thu, 2023-01-26 at 09:28 +0200, Leon Romanovsky wrote:
+> > On Wed, Jan 25, 2023 at 11:02:26AM -0800, Jakub Kicinski wrote:
+> > > On Tue, 24 Jan 2023 13:54:57 +0200 Leon Romanovsky wrote:
+> > > > -	err = dev->xfrmdev_ops->xdo_dev_policy_add(xp);
+> > > > +	err = dev->xfrmdev_ops->xdo_dev_policy_add(xp, extack);
+> > > >  	if (err) {
+> > > >  		xdo->dev = NULL;
+> > > >  		xdo->real_dev = NULL;
+> > > >  		xdo->type = XFRM_DEV_OFFLOAD_UNSPECIFIED;
+> > > >  		xdo->dir = 0;
+> > > >  		netdev_put(dev, &xdo->dev_tracker);
+> > > > -		NL_SET_ERR_MSG(extack, "Device failed to offload this policy");
+> > > 
+> > > In a handful of places we do:
+> > > 
+> > > if (!extack->msg)
+> > > 	NL_SET_ERR_MSG(extack, "Device failed to offload this policy");
+> > > 
+> > > in case the device did not provide the extack.
+> > > Dunno if it's worth doing here.
 > > 
-> > Co-developed-by: Clement Leger <clement@clement-leger.fr>
-> > Signed-off-by: Clement Leger <clement@clement-leger.fr>
-> > Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
-> > Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
-> > Co-developed-by: Julian Vetter <jvetter@kalray.eu>
-> > Signed-off-by: Julian Vetter <jvetter@kalray.eu>
-> > Co-developed-by: Julien Villette <jvillette@kalray.eu>
-> > Signed-off-by: Julien Villette <jvillette@kalray.eu>
-> > Co-developed-by: Yann Sionneau <ysionneau@kalray.eu>
-> > Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
-> > ---
+> > Honestly, I followed devlink.c which didn't do that, but looked again
+> > and found that devlink can potentially overwrite messages :)
 > > 
-> > Notes:
-> >     V1 -> V2:
-> >      - use {READ,WRITE}_ONCE for arch_atomic64_{read,set}
-> >      - use asm-generic/bitops/atomic.h instead of __test_and_*_bit
-> >      - removed duplicated includes
-> >      - rewrite xchg and cmpxchg in C using builtins for acswap insn
+> > For example in this case:
+> >     997         err = ops->port_fn_state_get(port, &state, &opstate, extack);
+> >     998         if (err) {
+> >     999                 if (err == -EOPNOTSUPP)
+> >    1000                         return 0;
+> >    1001                 return err;
+> >    1002         }
+> >    1003         if (!devlink_port_fn_state_valid(state)) {
+> >    1004                 WARN_ON_ONCE(1);
+> >    1005                 NL_SET_ERR_MSG_MOD(extack, "Invalid state read from driver");
+> >    1006                 return -EINVAL;
+> >    1007         }
+> > 
+> > 
+> > So what do you think about the following change, so we can leave
+> > NL_SET_ERR_MSG_MOD() in devlink and xfrm intact? 
+> > 
+> > diff --git a/include/linux/netlink.h b/include/linux/netlink.h
+> > index 38f6334f408c..d6f3a958e30b 100644
+> > --- a/include/linux/netlink.h
+> > +++ b/include/linux/netlink.h
+> > @@ -101,7 +101,7 @@ struct netlink_ext_ack {
+> >                                                         \
+> >         do_trace_netlink_extack(__msg);                 \
+> >                                                         \
+> > -       if (__extack)                                   \
+> > +       if (__extack && !__extack->msg)                 \
+> >                 __extack->_msg = __msg;                 \
+> >  } while (0)
+> > 
+> > @@ -111,7 +111,7 @@ struct netlink_ext_ack {
+> >  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {                         \
+> >         struct netlink_ext_ack *__extack = (extack);                           \
+> >                                                                                \
+> > -       if (!__extack)                                                         \
+> > +       if (!__extack || __extack->msg)                                        \
+> >                 break;                                                         \
+> >         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+> >                      "%s" fmt "%s", "", ##args, "") >=                         \
+> > 
 > 
-> Thanks for those changes. I see one issue below (instantiated a few times), but
-> other than that this looks good to me.
+> I think it makes sense. With the above patch 3/10 should be updated to
+> preserve the 'catch-all' error message, I guess.
+
+Great, thanks
+
 > 
-> [...]
+> Let's see what Jakub thinks ;)
 > 
-> > +#define ATOMIC64_RETURN_OP(op, c_op)					\
-> > +static inline long arch_atomic64_##op##_return(long i, atomic64_t *v)	\
-> > +{									\
-> > +	long new, old, ret;						\
-> > +									\
-> > +	do {								\
-> > +		old = v->counter;					\
+> Cheers,
 > 
-> This should be arch_atomic64_read(v), in order to avoid the potential for the
-> compiler to replay the access and introduce ABA races and other such problems.
-Thanks for the suggestion, this will be into v3.
-
-> For details, see:
+> Paolo
 > 
->   https://lore.kernel.org/lkml/Y70SWXHDmOc3RhMd@osiris/
->   https://lore.kernel.org/lkml/Y71LoCIl+IFdy9D8@FVFF77S0Q05N/
-> 
-> I see that the generic 32-bit atomic code suffers from that issue, and we
-> should fix it.
-I took a look at the generic 32-bit atomic, but I am unsure if this
-needs to be done for both the SMP and non-SMP implementations. But I
-can send a first patch and we can discuss from there.
-
-> > +		new = old c_op i;					\
-> > +		ret = arch_cmpxchg(&v->counter, old, new);		\
-> > +	} while (ret != old);						\
-> > +									\
-> > +	return new;							\
-> > +}
-> > +
-> > +#define ATOMIC64_OP(op, c_op)						\
-> > +static inline void arch_atomic64_##op(long i, atomic64_t *v)		\
-> > +{									\
-> > +	long new, old, ret;						\
-> > +									\
-> > +	do {								\
-> > +		old = v->counter;					\
-> 
-> Likewise, arch_atomic64_read(v) here.
-ack
-
-> > +		new = old c_op i;					\
-> > +		ret = arch_cmpxchg(&v->counter, old, new);		\
-> > +	} while (ret != old);						\
-> > +}
-> > +
-> > +#define ATOMIC64_FETCH_OP(op, c_op)					\
-> > +static inline long arch_atomic64_fetch_##op(long i, atomic64_t *v)	\
-> > +{									\
-> > +	long new, old, ret;						\
-> > +									\
-> > +	do {								\
-> > +		old = v->counter;					\
-> 
-> Likewise, arch_atomic64_read(v) here.
-ack
-
-> > +		new = old c_op i;					\
-> > +		ret = arch_cmpxchg(&v->counter, old, new);		\
-> > +	} while (ret != old);						\
-> > +									\
-> > +	return old;							\
-> > +}
-> > +
-> > +#define ATOMIC64_OPS(op, c_op)						\
-> > +	ATOMIC64_OP(op, c_op)						\
-> > +	ATOMIC64_RETURN_OP(op, c_op)					\
-> > +	ATOMIC64_FETCH_OP(op, c_op)
-> > +
-> > +ATOMIC64_OPS(and, &)
-> > +ATOMIC64_OPS(or, |)
-> > +ATOMIC64_OPS(xor, ^)
-> > +ATOMIC64_OPS(add, +)
-> > +ATOMIC64_OPS(sub, -)
-> > +
-> > +#undef ATOMIC64_OPS
-> > +#undef ATOMIC64_FETCH_OP
-> > +#undef ATOMIC64_OP
-> > +
-> > +static inline int arch_atomic_add_return(int i, atomic_t *v)
-> > +{
-> > +	int new, old, ret;
-> > +
-> > +	do {
-> > +		old = v->counter;
-> 
-> Likewise, arch_atomic64_read(v) here.
-ack, this will bt arch_atomic_read(v) here since this is not atomic64_t
-here.
-
-
-Thanks
--- Jules
-
-
-
-
-
