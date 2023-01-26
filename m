@@ -2,119 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61D71C61DA3
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 18:19:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB001C05027
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 18:20:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229641AbjAZSTT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 13:19:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39044 "EHLO
+        id S230051AbjAZSUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 13:20:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjAZSTS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 13:19:18 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E6585E504;
-        Thu, 26 Jan 2023 10:19:17 -0800 (PST)
+        with ESMTP id S230414AbjAZSUa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 13:20:30 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01B855EF9C;
+        Thu, 26 Jan 2023 10:20:29 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 08A16381;
-        Thu, 26 Jan 2023 18:19:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 08A16381
+        by ms.lwn.net (Postfix) with ESMTPSA id 748B22D3;
+        Thu, 26 Jan 2023 18:20:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 748B22D3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674757157; bh=uUHe/yXy7xcAjN0XD1xm8zwwZxvs4eNmBcGRwrOYI7k=;
+        t=1674757229; bh=9h5c/Wc/TnQKi8hrEAkk6qxaNidEx19xoyRt26ZvJQQ=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=PJSOhdl9GjEzPANxW9cqfUMkasqCiYKqU1VML76NpJnTyTkQSGNNPVWbWOxzHlqh5
-         cdfigy3J/rDz484djEK7R7xxLkYpN2HTkN+Pk8sF4iTCSkq/dHZC5EA/8KyxiZSlXQ
-         8sT25q7ILoaGAvu5Gwt5pNNR8DJSrfkSESumwXPHrxwgtLbl5yXf+AEJIGEVN0Yxez
-         rpGwBuzsxg+pPeaN1NbCKMZTYR81vPS0IM2nXn6hsoeo8VEE/5X3UchdLpjsEso6wI
-         ag5362TC3K3hIORUpUBgbWzEV9ADPJv8nZZFGvR2z4DdnLc6Hj/Odp6pIDlp5pjrxF
-         YWrQ3lTAkHHiA==
+        b=TqTY6znsRo+VoXIJG+5iKdD/+S4ir0PYxv+9iwcakv92fm3PV34aPIRNPKNMDD7An
+         KTjC5siMllNZ45tAMThh9FaYw80MRY8DmneyMvQJXXS/RKKEh5LsX/74mZsIgxdOq2
+         YCHAGEH4nKawqTLz1Sgm5m9vayCq/JMV0EthRD2eqakYhsQg3VQNFT5qvCzszdegMn
+         CGBBnXQ8CtSxDXcGQlS8kX7/iNH5Hhz3+G5TGbL1x/G1QZOF3TtnkaQmZezQUFO/U4
+         jb7FxC5UiykidLXKSDGB2C+LddH9qhzeBD9/1dKneJutaTXxlSWdGwPHGqRPH9hv8/
+         s9arfc5auaRkw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>
-Subject: Re: [PATCH v5 1/1] docs/mm: Physical Memory: add structure,
- introduction and nodes description
-In-Reply-To: <20230125192841.25342-2-rppt@kernel.org>
-References: <20230125192841.25342-1-rppt@kernel.org>
- <20230125192841.25342-2-rppt@kernel.org>
-Date:   Thu, 26 Jan 2023 11:19:16 -0700
-Message-ID: <87r0vh9n17.fsf@meer.lwn.net>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: leds: fix the following docu build warning
+In-Reply-To: <20230125154426.12464-1-skhan@linuxfoundation.org>
+References: <20230125154426.12464-1-skhan@linuxfoundation.org>
+Date:   Thu, 26 Jan 2023 11:20:28 -0700
+Message-ID: <87mt659mz7.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mike Rapoport <rppt@kernel.org> writes:
+Shuah Khan <skhan@linuxfoundation.org> writes:
 
-> From: "Mike Rapoport (IBM)" <rppt@kernel.org>
+> Add leds-qcom-lpg to Documentation/leds/index.rst to fix the following
+> doc build warning.
 >
-> Add structure, introduction and Nodes section to Physical Memory
-> chapter.
+> Documentation/leds/leds-qcom-lpg.rst: WARNING: document isn't included in any toctree
 >
-> As the new documentation references core-api/dma-api and mm/page_reclaim,
-> add page labels to those documents.
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+>  Documentation/leds/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Reviewed-by: Lorenzo Stoakes <lstoakes@gmail.com>
-> Acked-by: Michal Hocko <mhocko@suse.com>
-> Acked-by: Vlastimil Babka <vbabka@suse.cz>
-> Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
+> diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+> index e5d63b940045..b9ca081fac71 100644
+> --- a/Documentation/leds/index.rst
+> +++ b/Documentation/leds/index.rst
+> @@ -26,3 +26,4 @@ LEDs
+>     leds-lp55xx
+>     leds-mlxcpld
+>     leds-sc27xx
+> +   leds-qcom-lpg
+> -- 
 
-I've gone ahead and applied this, but I do have one little gripe...
-
->  Documentation/core-api/dma-api.rst   |   2 +
->  Documentation/mm/page_reclaim.rst    |   2 +
->  Documentation/mm/physical_memory.rst | 347 +++++++++++++++++++++++++++
->  3 files changed, 351 insertions(+)
->
-> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-> index 829f20a193ca..c847a5b0a0d3 100644
-> --- a/Documentation/core-api/dma-api.rst
-> +++ b/Documentation/core-api/dma-api.rst
-> @@ -1,3 +1,5 @@
-> +.. _dma_api:
-> +
-
-Top-of-file labels like this one...
-
->  ============================================
->  Dynamic DMA mapping using the generic device
->  ============================================
-> diff --git a/Documentation/mm/page_reclaim.rst b/Documentation/mm/page_reclaim.rst
-> index 50a30b7f8ac3..3fccde066436 100644
-> --- a/Documentation/mm/page_reclaim.rst
-> +++ b/Documentation/mm/page_reclaim.rst
-> @@ -1,5 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> +.. _page_reclaim:
-
-...and this one really just add noise without bringing any value.
-Something like:
-
-> +Reclaim control
-> +~~~~~~~~~~~~~~~
-> +
-> +See also :ref:`Page Reclaim <page_reclaim>`.
-
-Can also just be "See also Documentation/mm/page_reclaim.rst".  The
-right things will happen in the HTML output, readers of the plain-text
-will know immediately where to go, and we don't have to add the label
-clutter.
-
-</gripe> :)
-
-Thanks,
+I've been meaning to fix this annoying warning for a long time, but
+never got around to it.  Applied, thanks!
 
 jon
