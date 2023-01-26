@@ -2,85 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 990CCC636D6
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 15:11:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB42C54EED
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 15:24:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbjAZPLj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 10:11:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44074 "EHLO
+        id S232487AbjAZPYZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 10:24:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231440AbjAZPLd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 10:11:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DC8814E96
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 07:10:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674745847;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7QG6Sd9tYt9i9oyjRZB/m7JGOx0vpbuKAr/nqEOLMCI=;
-        b=Svy8oPBa6R/lOtMNGNcXMySQozg5ub5rnBWuJ1H9hrjSvtsADvK12mWDUzv3coTGU3qZMu
-        4rl1dzwHIYzGvVL0bKu4stfTtyQOWVhm4pFaYLnoW/deG3wu4fDFiccO7oEn6CCQyrAxPk
-        dtAN9e18QsKvwYJxbPZ3CIkXJN4kMOo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-456-Pq3b_L0CMSSNTmEXsBRC9w-1; Thu, 26 Jan 2023 10:10:43 -0500
-X-MC-Unique: Pq3b_L0CMSSNTmEXsBRC9w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8381181E3F4;
-        Thu, 26 Jan 2023 15:10:41 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (ovpn-194-60.brq.redhat.com [10.40.194.60])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 763A9140EBF5;
-        Thu, 26 Jan 2023 15:10:39 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu, 26 Jan 2023 16:10:39 +0100 (CET)
-Date:   Thu, 26 Jan 2023 16:10:36 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Gregory Price <gregory.price@memverge.com>
-Cc:     Andrei Vagin <avagin@gmail.com>,
-        Gregory Price <gourry.memverge@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Subject: Re: [PATCH v6 1/2] ptrace,syscall_user_dispatch: Implement Syscall
- User Dispatch Suspension
-Message-ID: <20230126151035.GC4069@redhat.com>
-References: <20230125025126.787431-1-gregory.price@memverge.com>
- <20230125025126.787431-2-gregory.price@memverge.com>
- <20230126003008.GA31684@redhat.com>
- <CANaxB-xn0wW5xA_CT7bA5=jig+td__EDKPBWSpZdfgMgVOezCg@mail.gmail.com>
- <Y9IPCpYzfGb6k0sF@memverge.com>
+        with ESMTP id S232501AbjAZPYK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 10:24:10 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AE2B420C;
+        Thu, 26 Jan 2023 07:23:53 -0800 (PST)
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30QFEiR3004356;
+        Thu, 26 Jan 2023 15:23:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : to : cc : references : from : subject : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=38Q/0OCGry8peDMSSdqlhdz0+1fJJuYxwowWJYS44go=;
+ b=f0JWtdmKNHHIZwUwiDGJM69eVPs8Y5AjYb3g3BqL94aw5tg1LbDgjTxK9NpBqs5omPfD
+ TWWDJN7GOgxjXPd1iahdemLwBRJahCVwLZpzaU+tTSETaHm9kGOuj7qtBC5QfjlupSCI
+ 3CQjRLWGZ+yD8GxOW+U/2yUeCF8B3XxP0e7wGSYai1vlceE17tdWqDKO0lTlRelg9eKd
+ RVpK/DeNGlqzUrO3YFqB64vrsaciUfCtzTM4gteJtftdeSydjnV3Ni88FPpjCqWDYJeR
+ rwl/e6DDkP91ra6Whr/eTN0A/3hxSO72Vdz6slnBwqvMzcNGk4OVUavZo3ZRGogjc5fE EA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nbv06g5rr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 26 Jan 2023 15:23:48 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30QFEqEK004557;
+        Thu, 26 Jan 2023 15:23:47 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nbv06g5qw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 26 Jan 2023 15:23:47 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+        by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30Q2KLlU027371;
+        Thu, 26 Jan 2023 15:23:45 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+        by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3n87p6cpay-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 26 Jan 2023 15:23:45 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+        by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30QFNeUG44827002
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 26 Jan 2023 15:23:40 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A228E2004D;
+        Thu, 26 Jan 2023 15:23:40 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 668CA20043;
+        Thu, 26 Jan 2023 15:23:40 +0000 (GMT)
+Received: from [9.152.224.253] (unknown [9.152.224.253])
+        by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Thu, 26 Jan 2023 15:23:40 +0000 (GMT)
+Message-ID: <2a21195b-9a13-a332-bab9-e2c023fc37a6@linux.ibm.com>
+Date:   Thu, 26 Jan 2023 16:23:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9IPCpYzfGb6k0sF@memverge.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Content-Language: en-US
+To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Nico Boehr <nrb@linux.ibm.com>
+References: <20230125212608.1860251-1-scgl@linux.ibm.com>
+ <20230125212608.1860251-5-scgl@linux.ibm.com>
+From:   Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v6 04/14] KVM: s390: selftest: memop: Add bad address test
+In-Reply-To: <20230125212608.1860251-5-scgl@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: S7x_h8djFowqJrL1JZ7Fwk9QiDnFy7Pd
+X-Proofpoint-ORIG-GUID: RdPz5P2-f5xBlgJ2o1DLR7EfVdsF4d4e
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-26_07,2023-01-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ malwarescore=0 clxscore=1015 mlxscore=0 bulkscore=0 impostorscore=0
+ phishscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301260146
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/26, Gregory Price wrote:
->
-> So basic questions are:
-> 1) Andrei do you think any injection occurs during quiesce that can't be
->    worked around?
->
-> 2) Oleg is the auto-clearing nature of the flag sufficient justification
->    for keeping SUSPEND?
+On 1/25/23 22:25, Janis Schoetterl-Glausch wrote:
+> Add test that tries to access, instead of CHECK_ONLY.
+""
+Add a test that tries a real write to a bad address.
+A CHECK_ONLY test doesn't cover all paths.
+""
 
-I understand that SUSPEND is more convenient for CRIU and more "safe".
+At first I thought you were replacing a test.
 
-But. This kernel is already overbloated ;) IMO, if SUSPEND is not strictly
-necessary, it should be dropped.
+> 
+> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> Reviewed-by: Nico Boehr <nrb@linux.ibm.com>
+> ---
+>   tools/testing/selftests/kvm/s390x/memop.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/selftests/kvm/s390x/memop.c
+> index bbc191a13760..5aae27549437 100644
+> --- a/tools/testing/selftests/kvm/s390x/memop.c
+> +++ b/tools/testing/selftests/kvm/s390x/memop.c
+> @@ -641,7 +641,9 @@ static void _test_errors_common(struct test_info info, enum mop_target target, i
+>   
+>   	/* Bad guest address: */
+>   	rv = ERR_MOP(info, target, WRITE, mem1, size, GADDR((void *)~0xfffUL), CHECK_ONLY);
+> -	TEST_ASSERT(rv > 0, "ioctl does not report bad guest memory access");
+> +	TEST_ASSERT(rv > 0, "ioctl does not report bad guest memory address");
 
-Oleg.
+"ioctl does not report bad guest memory address on CHECK_ONLY write" ?
+
+> +	rv = ERR_MOP(info, target, WRITE, mem1, size, GADDR((void *)~0xfffUL));
+> +	TEST_ASSERT(rv > 0, "ioctl does not report bad guest memory address");
+
+"ioctl does not report bad guest memory address on write" ?
+
+Not really necessary in this case, it just needs to be different from 
+the one on top.
+
+>   
+>   	/* Bad host address: */
+>   	rv = ERR_MOP(info, target, WRITE, 0, size, GADDR_V(mem1));
 
