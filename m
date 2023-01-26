@@ -2,69 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 399E3C05027
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 18:21:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E04EC61DA3
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 18:24:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230414AbjAZSVu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 13:21:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41046 "EHLO
+        id S231784AbjAZSYR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 13:24:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjAZSVt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 13:21:49 -0500
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0516628D10;
-        Thu, 26 Jan 2023 10:21:48 -0800 (PST)
+        with ESMTP id S230227AbjAZSYQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 13:24:16 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F107A2E811;
+        Thu, 26 Jan 2023 10:24:15 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A0C2C2CD;
-        Thu, 26 Jan 2023 18:21:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A0C2C2CD
+        by ms.lwn.net (Postfix) with ESMTPSA id 748872CD;
+        Thu, 26 Jan 2023 18:24:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 748872CD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674757308; bh=7LRAM4xW9Cd23mz8zfZE43vjfppGNnSxZToZG/Sf9pg=;
+        t=1674757455; bh=NDkHtT0XjsN48TGbkrZ3csn8ktoYSDEN7MwnP8baIsI=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=RQ73nv9WO3dw0WiU1sKgC4J8qXaUjFPXruiEjsl8GmQuNJuv/7o44mz9BF+99lXB9
-         OelqyswEbRL4xuoQSVroJ948nQtn4eJMjsYcstLQOmelMb6aRUkrTFAWhz9y89I7Hn
-         7In35WsnXR6kA8nSEOZJ592OcqzJ/s2GirAkQdn+THA9yyMUfn1/vUASDwVBGAxLa+
-         hFai0WY3ucftXHd7zWa/LDnMJi7NG1fESCydC0T+0oGOI7COVqHIlmOiRe682HLaQO
-         WRFhTzcSdz9ll/12axlcO8ZFYzl+xMem77JpMhfbQNuorIwvJYpRVznwnYz1UhUgwI
-         J3fqZl4i+eRKQ==
+        b=EfE1CVoBF1Lav23Y8wMwuTM1CGVqLS3IWz+nISXGDdFbPIyEUe7SW+jf3xOlU0DHf
+         lfvBfJEFlncw56/QVROaAgU+gtk7Jpnn70NV8ESfaRX5mO8JhzJfwB1WoyGS8RMSn5
+         U5GsPIv+d523u8tOjZ8PkYMJyA+/B60lO7WiEYnN2SL00p/nwDaLrWPqg/Uh7BynkO
+         +qISNhKnhSfBgZKrRDE7QbaYQ3EN5u10cp5GnZ39YuGnalzCy/IOpt/78fqqQ5Alz5
+         BnEJvGjdOUO/DVh9CMXI0e7rJ24ojMFS0WzKuJ/1N06+dJx+4GHIUAQMsRBeOqqR3a
+         sO9zJRCnposSw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jakob Koschel <jkl820.git@gmail.com>
+To:     Wang Yong <yongw.kernel@gmail.com>, pbonzini@redhat.com,
+        kchamart@redhat.com
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jakob Koschel <jkl820.git@gmail.com>
-Subject: Re: [PATCH v2] docs/scripts/gdb: add necessary make scripts_gdb step
-In-Reply-To: <20230112-documentation-gdb-v2-1-292785c43dc9@gmail.com>
-References: <20230112-documentation-gdb-v2-1-292785c43dc9@gmail.com>
-Date:   Thu, 26 Jan 2023 11:21:47 -0700
-Message-ID: <87ilgt9mx0.fsf@meer.lwn.net>
+        kvm@vger.kernel.org, Wang Yong <yongw.kernel@gmail.com>
+Subject: Re: [PATCH] Documentation: KVM: fix typos in running-nested-guests.rst
+In-Reply-To: <20230110150046.549755-1-yongw.kernel@gmail.com>
+References: <20230110150046.549755-1-yongw.kernel@gmail.com>
+Date:   Thu, 26 Jan 2023 11:24:14 -0700
+Message-ID: <87edrh9msx.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakob Koschel <jkl820.git@gmail.com> writes:
+Wang Yong <yongw.kernel@gmail.com> writes:
 
-> In order to debug the kernel successfully with gdb you need to run
-> 'make scripts_gdb' nowadays.
+> change "gues" to "guest" and remove redundant ")".
 >
-> This was changed with the following commit:
->
-> Commit 67274c083438340ad16c ("scripts/gdb: delay generation of gdb
-> constants.py")
->
-> In order to have a complete guide for beginners this remark
-> should be added to the offial documentation.
->
-> Signed-off-by: Jakob Koschel <jkl820.git@gmail.com>
+> Signed-off-by: Wang Yong <yongw.kernel@gmail.com>
 > ---
-> Changes in v2:
-> - Add correct Signed-off-by
-> - Link to v1: https://lore.kernel.org/r/20230112-documentation-gdb-v1-1-09ab556e9124@gmail.com
-> ---
->  Documentation/dev-tools/gdb-kernel-debugging.rst | 4 ++++
->  1 file changed, 4 insertions(+)
+>  Documentation/virt/kvm/x86/running-nested-guests.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/virt/kvm/x86/running-nested-guests.rst b/Documentation/virt/kvm/x86/running-nested-guests.rst
+> index a27e6768d900..71136fe1723b 100644
+> --- a/Documentation/virt/kvm/x86/running-nested-guests.rst
+> +++ b/Documentation/virt/kvm/x86/running-nested-guests.rst
+> @@ -150,7 +150,7 @@ able to start an L1 guest with::
+>      $ qemu-kvm -cpu host [...]
+>  
+>  The above will pass through the host CPU's capabilities as-is to the
+> -gues); or for better live migration compatibility, use a named CPU
+> +guest, or for better live migration compatibility, use a named CPU
+>  model supported by QEMU. e.g.::
 
 Applied, thanks.
 
