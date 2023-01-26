@@ -2,220 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8106CC54E94
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 05:26:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDFD3C05027
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 06:39:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235788AbjAZF0u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 00:26:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54138 "EHLO
+        id S229539AbjAZGjm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 01:39:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbjAZF0r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 00:26:47 -0500
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2046.outbound.protection.outlook.com [40.107.243.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E282C47ED3;
-        Wed, 25 Jan 2023 21:26:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IqiggCEBk3lrbteY/ejgNPQ7Y86OT+Ii+sL+GvUgqS9IFl9x+Fx1ak/ZzJpQ+sx9hUvZeP7z38C7o1Xl5+tmTd+AInLtZ76qRhxBoUfCrdxRCFkS9Eib7tu7VJ8ywoTn4UuZ6eVf+Mge94h5OYjoD7cEkrdsg8u/Wvb+5RaTp8gbB/LEkSTqhek1GZdQlIplthAP6Vw4LFI5hm8esU9lVwkLxs/QnCpI2pnToqxJ8foZ4WM5Rd70fjUz6YFoKvQysMv61jzFt/AgdyeMzXqUxAm3lGYy6pM3jUZXclZpT4E5BpWWlie8wavo1x7PRo55Rj3Jx1J/0c72LRRgFeQfvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J8ZlkILZIj+KB2gAECZWByhWYn588uav07lw1bl7z+4=;
- b=oegAikyeWDYxZ/Z2hNGbABe2D6tDkLNoBEcwj7NbmOPWlNG3AukQMQJGGv2SC27XQliRgcCUvzopLzrxn01rs66w03enYs1ANYp9v+VN1LI1C+azYThfMO0Go1UbV+tVIrHi4MrHpKIH9q4k5kdon1FZNSNrnZ/2HrAmdgTaAUSjwTMBINKYAjagzT8LF6H51hvHPeA6cwYk34t2/vAUxkV+5m4D+b7k7WYhldip+fmxMF7Y9AHOk+1AU0I2lTJCkad0pZyOb0bMYnIY9roeT/Bs7FJFzQCCxUB4MIrKksyh9AXTlPEzwb9/BX/i/EzSg8xYSeJP5ioeTGU7IbqxBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J8ZlkILZIj+KB2gAECZWByhWYn588uav07lw1bl7z+4=;
- b=OmTEYH0BlwZjLVZZ8xtyTVnGtpOw1u4Yz0nbBKa+AI1Rp894CEI7pT5q+/O9gHVfDOnPUHdh67Mq77iraoNxqxcWDddFJYDtZuaba7aBU8k5Zq7zFMASZ0BAkeiyPsgDHimBd7jWvNW9CrDoDq04e1P4vsZ3Uiy1TVlSKlt2vU0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by DM4PR17MB6293.namprd17.prod.outlook.com (2603:10b6:8:10b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Thu, 26 Jan
- 2023 05:26:44 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.6002.033; Thu, 26 Jan 2023
- 05:26:44 +0000
-Date:   Thu, 26 Jan 2023 00:26:34 -0500
-From:   Gregory Price <gregory.price@memverge.com>
-To:     Andrei Vagin <avagin@gmail.com>
-Cc:     Oleg Nesterov <oleg@redhat.com>,
-        Gregory Price <gourry.memverge@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Subject: Re: [PATCH v6 1/2] ptrace,syscall_user_dispatch: Implement Syscall
- User Dispatch Suspension
-Message-ID: <Y9IPCpYzfGb6k0sF@memverge.com>
-References: <20230125025126.787431-1-gregory.price@memverge.com>
- <20230125025126.787431-2-gregory.price@memverge.com>
- <20230126003008.GA31684@redhat.com>
- <CANaxB-xn0wW5xA_CT7bA5=jig+td__EDKPBWSpZdfgMgVOezCg@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANaxB-xn0wW5xA_CT7bA5=jig+td__EDKPBWSpZdfgMgVOezCg@mail.gmail.com>
-X-ClientProxiedBy: SJ0PR05CA0066.namprd05.prod.outlook.com
- (2603:10b6:a03:332::11) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+        with ESMTP id S229483AbjAZGjl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 01:39:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647504FC01
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jan 2023 22:38:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674715137;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IwnaW40wODo/RPJeJh2TlciTsJYMAL7AVIWQnJnbBqw=;
+        b=SnU3S1hGb+tn0O3MZ1cVMNdRVsvcGpJVOr7ybG3UeB6mGplFspwjjiBOJb7QShMq0cZwcI
+        EQhtQxXfHD9LZbwuUBjGYX9vB5CnV5cqcKCxcDMfnQt8y+wXLm/LoEjxT4z86rb64MVeLI
+        nTjzQn92U4M871wABFRozT6xsyyBcp8=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-442-R4AtziA1NuG3l57e1fQSdw-1; Thu, 26 Jan 2023 01:38:55 -0500
+X-MC-Unique: R4AtziA1NuG3l57e1fQSdw-1
+Received: by mail-qk1-f198.google.com with SMTP id az16-20020a05620a171000b00709129a745eso517535qkb.8
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jan 2023 22:38:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IwnaW40wODo/RPJeJh2TlciTsJYMAL7AVIWQnJnbBqw=;
+        b=sEUqoDVUFnXxDoupzShjl/WOpJsMwUQ6OJ/ExHwJgRIQVqovbQMOEfNnMjxdkUSzvm
+         P3oKNHKJ9pwe9A1xgrqCC+CNmabP4bxKp6CxbH1xX+p+wYJgqihiQkyNyYdNJ0A9rvD+
+         NxCRQxfRCzfEuBAyUkt5lm5xr2iFfSyiHuu+xDa1Pi/K/b1ft/Wux2gB9VMQEN6wsLpE
+         O45bTwI7UR1f2SS17XvucyOLV9ZIa0jpcDfl4qQq0mEFLi82PwgKQBBlCYnvDUhodStw
+         zrk4GJlwKvzNl4BGTtQRzQ+PCPtusDdLut5wyJz1ZxwGxBtoBKN6iSX6LvRg80K10tLh
+         45UA==
+X-Gm-Message-State: AFqh2kpDgM+WjbocLkdJ6eLqUXQCbezqclnvbV9vpXDroH/URWMLxXhj
+        lxD5r/PjtpMYPd7YYcN2HqyF8d3bZRnaL77mKRTBwtDEhz5MjtKm6CcFyked6SSYJSUUQqF20+h
+        czKynOGNCpqjvIfTvtBo2
+X-Received: by 2002:a05:622a:1aa5:b0:3b6:a1fd:19cd with SMTP id s37-20020a05622a1aa500b003b6a1fd19cdmr41574769qtc.46.1674715134722;
+        Wed, 25 Jan 2023 22:38:54 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuf7UjZI2ffXZKoGViT9PivCgdjta/q3yUMmhqaU7OtGXYv4rT+XOka9LZmTzNCFQdUCAdNYA==
+X-Received: by 2002:a05:622a:1aa5:b0:3b6:a1fd:19cd with SMTP id s37-20020a05622a1aa500b003b6a1fd19cdmr41574753qtc.46.1674715134495;
+        Wed, 25 Jan 2023 22:38:54 -0800 (PST)
+Received: from [192.168.8.105] (tmo-064-101.customers.d1-online.com. [80.187.64.101])
+        by smtp.gmail.com with ESMTPSA id x8-20020ac84d48000000b003b63b8df24asm247352qtv.36.2023.01.25.22.38.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Jan 2023 22:38:53 -0800 (PST)
+Message-ID: <957489fb-8080-8806-6ddf-8687da469a43@redhat.com>
+Date:   Thu, 26 Jan 2023 07:38:48 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|DM4PR17MB6293:EE_
-X-MS-Office365-Filtering-Correlation-Id: e0ebfad0-a32c-44bc-82e9-08daff5de9b8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WDEzS88L1drG9WC8pZ0AJOBt0Mpf+etGbzbOnWGGx2k2BM9rh5Fg+2aZy7vopPYzJnUXhKgcRA9TZUP0H+uW8QOqJfemhYxZRfJtZ3k6rcg0A9vKK5ExgFJBTohBbQq8jNtObd/LT1N+im5pxJVImVJrQUlfIgu1UUvEvD2PVQHm1PsEtx6uHEFsI39Jtkj7ZuYh4JVXphueH8+Vs8ycuMJugysvKeX2Yh7g3Bu880b+Q4HaFHkgPgCbyN3eMNlV/xhmj02pssEBMY2DsmE/R9S/iMvLnz5CuuVLzxSm9nc1IKzHxeD+96d5KTKjJm7jFo2jPLMqOBlB46gxHKk9wM+KPZTVOnJ1Gk0BJzKfTdlQGg6LyaXz7CT3Z5eu692WVXUOOHzJEITtS+QVgRSY75x+vhA08b3NhLliWtDks5ifqjubdf59wudscTT9cDuhNPjH0LyDASBuVihLMoUWwbxOap9gIjXQx8KF1djp/UVwYeabZsvn0GnB6GekQqTfXNHUJooTiOBuXSoMXhaAKiK9DrxecEIh4KCxtASh51N5dtFd2GXz7EAAxftNwxivz6K9RRU0vGj+oUSwxE1VnlYhMbAb/AkTVn5m3x0T7SEpI865vdgAv4ccliZJ0mCu3LEyk9oHjxiSx3dXMWUhuQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR17MB3121.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(346002)(39840400004)(396003)(376002)(136003)(451199018)(66476007)(41300700001)(316002)(54906003)(4326008)(8676002)(86362001)(66946007)(53546011)(186003)(6486002)(478600001)(66556008)(26005)(83380400001)(6666004)(36756003)(6916009)(6512007)(2616005)(44832011)(5660300002)(7416002)(6506007)(2906002)(8936002)(38100700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?z/hjbs3fkubdBa8BsHUUOeoS9ztjcLpNGiVIWmztw4Mp+M0IHewpfDlMXG7r?=
- =?us-ascii?Q?9kQLVtsmXTy/wMbsdtqY6d8WYEqFBwstGG3LYXs7opDz4boHY8cY9gcNgfdp?=
- =?us-ascii?Q?dY3PVaS/BOFX7zS/32NKmW8LOFpziObgqsII5sGxFowYWiFek8B3pUhxzYBZ?=
- =?us-ascii?Q?UMZzFT9cKSQ1uAYQPAo1Uho5EvY/GnIRcmgWMSqsl5JuDw1qp7+DkFHs2X34?=
- =?us-ascii?Q?D4FBKCODA2TLGfCs3q8wS7HkCA4c7nLK8TrZUAFVDu4J5wvQojU3AG2BGYzU?=
- =?us-ascii?Q?BVEaFqxKaL//WPPNWtbnWb61VptWszFn9pMby/7iaslRYN+gj8W74N/gaKHF?=
- =?us-ascii?Q?LEsYiiDjDIwvTKIoLvnBjdmwQ/rWZ3x+t66LjYlAQh3PCTnJm7rg14PeXlh5?=
- =?us-ascii?Q?ITqUUIE2W4dcZYTJMACovoHhyHG5cVfjOXp7ZAq9sSqF9pv4VHEBZbyx+GBE?=
- =?us-ascii?Q?aJ9g0qMylgKGaModNIDIIZ8+dm23RZ1dAHo1zNXdWyG+ux88forJylgfMlpy?=
- =?us-ascii?Q?9/w3dBBG4cZrQxDfaXosMOFeRMN3qUwlo3HlxGf/Gb1g5/G/RqGdrx9/w4u4?=
- =?us-ascii?Q?2ZcoMPdNBMQHm94HpqRgashq0HJCFx0FViStLLHw2Hy3xuGv4BUuIXml1Rsl?=
- =?us-ascii?Q?BlhAeCO+lIE5CCR1x89MDaV1grcmUohTdV/6TQzD2vZRlziuLGm4fWo16449?=
- =?us-ascii?Q?eOFyopYA3MeWtNt8p5275aJ6JLaBjOtiVxLRur8ggtNrWsLc1tAwvvaC3XZ5?=
- =?us-ascii?Q?Qh/eF8GNh42+jCrGNcme4XCmuO+pTr41qzLHmiMlLZHcj2I17w6fuYkCnB8u?=
- =?us-ascii?Q?czCGve7N6i+5EBrCsf0YKBnGJBPCeVNyzD/tSxpiqBO5i0eolvlbQMGtTTCF?=
- =?us-ascii?Q?2Cge9GREpTxXME/1cwdtzkcnS601NWSDbPfRAtnjqHEHRlwasXiHAjnw6HHl?=
- =?us-ascii?Q?s/kI4estu4vW9hCAAI//w6rowDpt4ejMwvB0L1DDRiSxZLtUJe7qhQ/yWO+R?=
- =?us-ascii?Q?I05mp3kuzp94JyLWd9xxIFR9ZpoBz1TL08m4HSzpO5hyFGKEYtlsstCOaTIz?=
- =?us-ascii?Q?toD+FiwUpUO+dCog4E6gW7dWIrYYBeC8HN89BLEri2O1ov5oBDYYNRVnmKpP?=
- =?us-ascii?Q?u4bbTnt+0p4M/mRyuUo73wKdCHqt3xF1mwiXX86IMrIGqHgBbWcXjLZQDaNu?=
- =?us-ascii?Q?DiliJT6Tvx834NSJH6xKmWgJz7H7DImEpOE/QTNJ3Y3AotYBfPEZbRqT+JCf?=
- =?us-ascii?Q?RhRpfZATkeQWk+uJlPqJwn66z7dlM7JVGq5uHY19Az9PNJ45edHsAkRdc7O4?=
- =?us-ascii?Q?ciUtEih9J8zJ1lOznsmcRAIVrJJ6PiPzZDp14aaOfnaJTfAhiHH6RyXqU2KI?=
- =?us-ascii?Q?mHbVP9RWnE+HzB9uKwE+bakh5SX4MqceN2lb7P1e5AVgolgw7uyo5yzWvA4k?=
- =?us-ascii?Q?TSQ0pUQfOMT2qBoJull2QBBK3qOy+WLk4wAHp8S9A18zBaqVHXqSlChVOfHB?=
- =?us-ascii?Q?hboj+H6kHoSb80Yp6xMamRQjaxSV0ZCq7fkWHR9JMGNlw07NXGA9En/yu6Oj?=
- =?us-ascii?Q?3NdxeVN/c4SLki5XK9gRE9J14s8SLRIwHASSF+woV8PfyJz8n3ePXrlRd7yT?=
- =?us-ascii?Q?zA=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0ebfad0-a32c-44bc-82e9-08daff5de9b8
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 05:26:44.6758
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mOoW7lHaU//OXlhfR/nzSMAx7ADeFJDzpS/KromKoGMQqcr665pRMifFkpNOGQZ1xiFCSsqL66L5HEzNAO53XaU2XYzlYDQbkFewixgvZIo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR17MB6293
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v6 07/14] KVM: s390: selftest: memop: Fix integer literal
+Content-Language: en-US
+To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+References: <20230125212608.1860251-1-scgl@linux.ibm.com>
+ <20230125212608.1860251-8-scgl@linux.ibm.com>
+From:   Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230125212608.1860251-8-scgl@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 08:54:48PM -0800, Andrei Vagin wrote:
-> On Wed, Jan 25, 2023 at 4:30 PM Oleg Nesterov <oleg@redhat.com> wrote:
-> >
-> > On 01/24, Gregory Price wrote:
-> > >
-> > > Adds PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH to ptrace options, and
-> > > modify Syscall User Dispatch to suspend interception when enabled.
-> > >
-> > > This is modeled after the SUSPEND_SECCOMP feature, which suspends
-> > > SECCOMP interposition.  Without doing this, software like CRIU will
-> > > inject system calls into a process and be intercepted by Syscall
-> > > User Dispatch, either causing a crash (due to blocked signals) or
-> > > the delivery of those signals to a ptracer (not the intended behavior).
-> >
-> > Cough... Gregory, I am sorry ;)
-> >
-> > but can't we drop this patch to ?
-> >
-> > CRIU needs to do PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG and check
-> > config->mode anyway as we discussed.
-> >
-> > Then it can simply set *config->selector = SYSCALL_DISPATCH_FILTER_ALLOW
-> > with the same effect, no?
+On 25/01/2023 22.26, Janis Schoetterl-Glausch wrote:
+> The address is a 64 bit value, specifying a 32 bit value can crash the
+> guest. In this case things worked out with -O2 but not -O0.
 > 
-> Oleg,
+> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> Fixes: 1bb873495a9e ("KVM: s390: selftests: Add more copy memop tests")
+> ---
+>   tools/testing/selftests/kvm/s390x/memop.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH is automatically cleared when
-> a tracer detaches. It is critical when tracers detach due to unexpected
-> reasons
-> (crashes, killed by oom, etc). In such cases, we want to be sure that a
-> tracee will continue
-> running from the point where it has been trapped.
-> 
-> Thanks,
-> Andrei
+> diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/selftests/kvm/s390x/memop.c
+> index 3ec501881c7c..55b856c4d656 100644
+> --- a/tools/testing/selftests/kvm/s390x/memop.c
+> +++ b/tools/testing/selftests/kvm/s390x/memop.c
+> @@ -514,7 +514,7 @@ static void guest_copy_key_fetch_prot_override(void)
+>   	GUEST_SYNC(STAGE_INITED);
+>   	set_storage_key_range(0, PAGE_SIZE, 0x18);
+>   	set_storage_key_range((void *)last_page_addr, PAGE_SIZE, 0x0);
+> -	asm volatile ("sske %[key],%[addr]\n" :: [addr] "r"(0), [key] "r"(0x18) : "cc");
+> +	asm volatile ("sske %[key],%[addr]\n" :: [addr] "r"(0L), [key] "r"(0x18) : "cc");
+>   	GUEST_SYNC(STAGE_SKEYS_SET);
+>   
+>   	for (;;) {
 
-There might be a better place for the full C/R discussion, but it's worth
-the extra context to hash out the SUSPEND flag.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-The relevant kernel code i'm concerned about:
-
-static long syscall_trace_enter(struct pt_regs *regs, long syscall,
-        unsigned long work)
-{
-  long ret = 0;
-  /* ... snip ... do syscall user dispatch */
-  if (work & SYSCALL_WORK_SYSCALL_USER_DISPATCH) {
-    if (syscall_user_dispatch(regs))
-      return -1L;
-   }
- 
-  /* Handle ptrace */
-  if (work & (SYSCALL_WORK_SYSCALL_TRACE | SYSCALL_WORK_SYSCALL_EMU)) {
-    ret = ptrace_report_syscall_entry(regs);
-    if (ret || (work & SYSCALL_WORK_SYSCALL_EMU))
-      return -1L;
-  }
-
-  /* Do seccomp after ptrace, to catch any tracer changes. */
-  if (work & SYSCALL_WORK_SECCOMP) {
-    ret = __secure_computing(NULL);
-  }
-	/* ... snip ... */
-}
-
-The problem i'm seeing with PTRACE_O_SUSPEND_SUD is that SUD comes before
-ptrace, while Seccomp comes after.
-
-CRIU seems to use a few different methods to quiesce:
-* ptrace syscall entry traps
-* breakpoints (on sigreturn it seems)
-* masking everything but SIGSTOP and waiting for a STOP
-
-SUD represent an issue in all three cases
-* syscall dispatch preempts ptrace traps (though syscalls may come
-  from the exclusion area, so it should hit eventually)
-* sigreturn can be changed (glibc prevents this, but the raw sigaction
-  syscall will take whatever address you give it)
-* masking SIGSYS crashes a program on next dispatch if SUD is enabled
-
-Most of this can be worked around.
-
-My concern is whether there is any injection occuring during the quiesce
-phase.  If there is no injection - this SUSPEND isn't needed during
-quiesce (and in fact, it's dangerous).  If there is injection, then
-the current CRIU quiesce method is incompatible with SUD anyway and this
-would take more investigation to determine a solution.
-
-Once quiesced, however, SUD has to be disabled to allow injections. And
-I think auto-clearing of the PTRACE Options on detach is a good reason
-to keep it.
-
-
-So basic questions are:
-1) Andrei do you think any injection occurs during quiesce that can't be
-   worked around?
-
-2) Oleg is the auto-clearing nature of the flag sufficient justification
-   for keeping SUSPEND?
-
-~Gregory
