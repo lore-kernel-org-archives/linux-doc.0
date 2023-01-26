@@ -2,146 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D957C54E94
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 10:42:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C040C54E94
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 10:55:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233159AbjAZKmQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 05:42:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36340 "EHLO
+        id S237015AbjAZKzr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 05:55:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236902AbjAZKmO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 05:42:14 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CF745688C;
-        Thu, 26 Jan 2023 02:42:13 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F8FE617A3;
-        Thu, 26 Jan 2023 10:42:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F24A1C433D2;
-        Thu, 26 Jan 2023 10:42:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674729732;
-        bh=xW9HRR8a9oajieaxS1LWPtit9dg4vphLwBMUXfq8ERQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rV0Chr7piTtIcyMjMupZz/Sa/O2hbYSFnkfEMLSGpfXRWjQRUUsKAagGwfHGUu8m2
-         2f7YsnHwth8dfOpc49W4iHIPfnf/nRNEZBDvkLcTlwhfqwVOKcb9nLuEBXEXYAmAy5
-         ncBs/YZL/b9VDJTreShkTQtmF1LIurRaaxQDdmcWbPHB2+Lxu3RbchfURLdN6cnROr
-         LqYu7yzvmuwKSQrq+jO5pwxelcSRU3q1ZHZrBVIcri6OFQHkLn+dWNngVEtJ/Elfzg
-         R6WHtJ9NGq08qVxOD5TUxaXC2gIfLY9LJmkAYADp9ROB/Xs9XVLunX7h34jWts+GJW
-         ORXa5mJ7q3GOg==
-Date:   Thu, 26 Jan 2023 12:42:08 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Paolo Abeni <pabeni@redhat.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Ayush Sawal <ayush.sawal@chelsio.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        intel-wired-lan@lists.osuosl.org,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, oss-drivers@corigine.com,
-        Raju Rangoju <rajur@chelsio.com>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Simon Horman <simon.horman@corigine.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Veaceslav Falico <vfalico@gmail.com>
-Subject: Re: [PATCH net-next v1 01/10] xfrm: extend add policy callback to
- set failure reason
-Message-ID: <Y9JZAEa6HkLMfs2P@unreal>
-References: <cover.1674560845.git.leon@kernel.org>
- <c182cae29914fa19ce970859e74234d3de506853.1674560845.git.leon@kernel.org>
- <20230125110226.66dc7eeb@kernel.org>
- <Y9Irgrgf3uxOjwUm@unreal>
- <75f6e5d0e42a8b9895c1b2330c373da9ed7f41db.camel@redhat.com>
+        with ESMTP id S237067AbjAZKzp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 05:55:45 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BA7C6ACBE;
+        Thu, 26 Jan 2023 02:55:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674730543; x=1706266543;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=u69v3S/g7l8w7wR1kGbqMcI8pLDCGnhHV65PcCEa6YU=;
+  b=agx+Y5LPKzC6DFxvFsBLd+X3yBgfHOyJUoDF4YvH6mESjmreAQRsllQU
+   bs3MLI04fiiuqlqw/una+FZYyu63dm2sJHXnXo5Eb9cAZFjwAksmaIOW7
+   Rl0WuqqxlOeSTbitAG1lWO6IOq/l44Jpc8wdqbJ2C/KL3SyrmjaeS40b6
+   IgjhBs49I8Ru2+PHopcPTZ04Tsd6QNp9luzQtEJ9kV5EnIv1ImzyPP9aV
+   ZiA9P5SU97CHB13eigqVauAX6/EkhuVbG+NoE39FCU919dGJBvmMh2w1c
+   MW957T5j0b1g2wjpyrU/7ZtvnTpNWbb/Mcg/y84Ss8lODO8XuvF5cyx8C
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="389123082"
+X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; 
+   d="scan'208";a="389123082"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 02:55:42 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="786777308"
+X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; 
+   d="scan'208";a="786777308"
+Received: from mckumar-mobl2.gar.corp.intel.com (HELO [10.215.115.96]) ([10.215.115.96])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 02:55:37 -0800
+Message-ID: <e8316533-53cc-1533-a8f2-fb8860a31a9d@linux.intel.com>
+Date:   Thu, 26 Jan 2023 16:25:34 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <75f6e5d0e42a8b9895c1b2330c373da9ed7f41db.camel@redhat.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v5 net-next 5/5] net: wwan: t7xx: Devlink documentation
+Content-Language: en-US
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net,
+        johannes@sipsolutions.net, ryazanov.s.a@gmail.com,
+        loic.poulain@linaro.org, ilpo.jarvinen@linux.intel.com,
+        ricardo.martinez@linux.intel.com,
+        chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
+        edumazet@google.com, pabeni@redhat.com,
+        chandrashekar.devegowda@intel.com, linuxwwan@intel.com,
+        linuxwwan_5g@intel.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        jiri@nvidia.com
+References: <cover.1674307425.git.m.chetan.kumar@linux.intel.com>
+ <f902d4a0cb807a205687f7e693079fba72ca7341.1674307425.git.m.chetan.kumar@linux.intel.com>
+ <20230124205142.772ac24c@kernel.org>
+ <c9f0eca7-99e8-62a5-9790-1230c43e1817@linux.intel.com>
+ <20230125100812.026c0a1e@kernel.org>
+From:   "Kumar, M Chetan" <m.chetan.kumar@linux.intel.com>
+In-Reply-To: <20230125100812.026c0a1e@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 10:45:50AM +0100, Paolo Abeni wrote:
-> On Thu, 2023-01-26 at 09:28 +0200, Leon Romanovsky wrote:
-> > On Wed, Jan 25, 2023 at 11:02:26AM -0800, Jakub Kicinski wrote:
-> > > On Tue, 24 Jan 2023 13:54:57 +0200 Leon Romanovsky wrote:
-> > > > -	err = dev->xfrmdev_ops->xdo_dev_policy_add(xp);
-> > > > +	err = dev->xfrmdev_ops->xdo_dev_policy_add(xp, extack);
-> > > >  	if (err) {
-> > > >  		xdo->dev = NULL;
-> > > >  		xdo->real_dev = NULL;
-> > > >  		xdo->type = XFRM_DEV_OFFLOAD_UNSPECIFIED;
-> > > >  		xdo->dir = 0;
-> > > >  		netdev_put(dev, &xdo->dev_tracker);
-> > > > -		NL_SET_ERR_MSG(extack, "Device failed to offload this policy");
-> > > 
-> > > In a handful of places we do:
-> > > 
-> > > if (!extack->msg)
-> > > 	NL_SET_ERR_MSG(extack, "Device failed to offload this policy");
-> > > 
-> > > in case the device did not provide the extack.
-> > > Dunno if it's worth doing here.
-> > 
-> > Honestly, I followed devlink.c which didn't do that, but looked again
-> > and found that devlink can potentially overwrite messages :)
-> > 
-> > For example in this case:
-> >     997         err = ops->port_fn_state_get(port, &state, &opstate, extack);
-> >     998         if (err) {
-> >     999                 if (err == -EOPNOTSUPP)
-> >    1000                         return 0;
-> >    1001                 return err;
-> >    1002         }
-> >    1003         if (!devlink_port_fn_state_valid(state)) {
-> >    1004                 WARN_ON_ONCE(1);
-> >    1005                 NL_SET_ERR_MSG_MOD(extack, "Invalid state read from driver");
-> >    1006                 return -EINVAL;
-> >    1007         }
-> > 
-> > 
-> > So what do you think about the following change, so we can leave
-> > NL_SET_ERR_MSG_MOD() in devlink and xfrm intact? 
-> > 
-> > diff --git a/include/linux/netlink.h b/include/linux/netlink.h
-> > index 38f6334f408c..d6f3a958e30b 100644
-> > --- a/include/linux/netlink.h
-> > +++ b/include/linux/netlink.h
-> > @@ -101,7 +101,7 @@ struct netlink_ext_ack {
-> >                                                         \
-> >         do_trace_netlink_extack(__msg);                 \
-> >                                                         \
-> > -       if (__extack)                                   \
-> > +       if (__extack && !__extack->msg)                 \
-> >                 __extack->_msg = __msg;                 \
-> >  } while (0)
-> > 
-> > @@ -111,7 +111,7 @@ struct netlink_ext_ack {
-> >  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {                         \
-> >         struct netlink_ext_ack *__extack = (extack);                           \
-> >                                                                                \
-> > -       if (!__extack)                                                         \
-> > +       if (!__extack || __extack->msg)                                        \
-> >                 break;                                                         \
-> >         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-> >                      "%s" fmt "%s", "", ##args, "") >=                         \
-> > 
+On 1/25/2023 11:38 PM, Jakub Kicinski wrote:
+> On Wed, 25 Jan 2023 16:03:37 +0530 Kumar, M Chetan wrote:
+>>> I don't know what fastboot is, and reading this doc I see it used in
+>>> three forms:
+>>>    - fastboot protocol
+>>>    - fastboot mode
+>>>    - fastboot command & response
+>>
+>> The fastboot is sort of a tool. It implements the protocol for
+>> programming the device flash or getting device information. The device
+>> implements the fastboot commands and host issue those commands for
+>> programming the firmware to device flash or to obtain device
+>> information. Inorder to execute those commands, first the device needs
+>> to be put into fastboot mode.
+>>
+>> More details on fastboot can be found in links [1].
+>>
+>>> In the end - I have no idea what the devlink param you're adding does.
+>>
+>> "fastboot" devlink param is used to put the device into fastboot mode
+>> to program firmware to device flash or to obtain device information.
+>>
+>>
+>> [1]
+>> https://en.wikipedia.org/wiki/Fastboot
+>> https://android.googlesource.com/platform/system/core/+/refs/heads/master/fastboot/README.md
 > 
-> I think it makes sense. With the above patch 3/10 should be updated to
-> preserve the 'catch-all' error message, I guess.
+> As Ilpo mentions, please add this info into the doc, including
+> the links.
 
-Great, thanks
+Sure. In the next patch, I will detail out the fastboot and include 
+those links for reference.
 
 > 
-> Let's see what Jakub thinks ;)
+> The most confusing part is that "fastboot" sounds like it's going
+> to boot fast, while IIUC the behavior is the opposite - it's not going
+> to boot at all and just expose an interface to load the FW, is that
+> right?
+
+On device side, the fastboot protocol is implemented in bootloader. When 
+the host request the device to enter fastboot mode, the device is reset. 
+Post reset, the host will be able to communicate with device bootloader 
+using fastboot protocol.
+
+Fastboot protocol implements a set of commands for various operations. 
+The "flash" is one such command used for programming firmware.
+
 > 
-> Cheers,
+> Please also clarify what the normal operation for the device is.
+
+It means fully functional mode.
+In this mode wwan functionalities like AT, MBIM, modem trace collection 
+& data path are operational.
+
+> In what scenarios does the fastboot mode get used?
+
+It is used in 2 scenarios.
+1> Firmware update, when user/app wants to update firmware.
+2> Core dump collection, when device encounters an exception.
+
 > 
-> Paolo
-> 
+> And just to double confirm - that the FW loaded in fastboot mode is
+> persistently stored on the device, and will be used after power cycle.
+> Rather than it being an upload into RAM.
+
+That's correct.
+The firmware is permanently stored on the device & it will be used after 
+power cycle.
+
+-- 
+Chetan
