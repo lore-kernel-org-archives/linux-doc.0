@@ -2,150 +2,220 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9256C05027
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 04:43:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8106CC54E94
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 05:26:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbjAZEnc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 23:43:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43978 "EHLO
+        id S235788AbjAZF0u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 00:26:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjAZEnc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 23:43:32 -0500
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2083.outbound.protection.outlook.com [40.107.93.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AB8D7DB8;
-        Wed, 25 Jan 2023 20:43:31 -0800 (PST)
+        with ESMTP id S229510AbjAZF0r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 00:26:47 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2046.outbound.protection.outlook.com [40.107.243.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E282C47ED3;
+        Wed, 25 Jan 2023 21:26:46 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lxjHi8xCdsQ6sLf3zuDSRuFUe2uBX3rcgf0w95MJnKIF0UyTPa5Byrz8HNy8zYtdQWZFWQ3h2dR+ODWn0+c5d8Fxz+xk7L37fTKn4h28dWenV24NYFfPC4iPKKPazQvWTDHRQpV+6VywPuoEg9Q0SSRCThSm3EU5EGd69W6APc56UZRvVFf3k2i/PlW3y1rI8UboGeIZK9VPpM3OCkDfbkhSaCFyGKHP7GybkgTrOXOnrSENm+XuhuEb3TxbU0jqvHizivHIJUxrnlHcNXz21AItwl0dnV0H0jpHz/bQsf0VTYoYMdCbD9tEyWf3UdbwHnpBgeq0Bo9tS7QmM2wbMg==
+ b=IqiggCEBk3lrbteY/ejgNPQ7Y86OT+Ii+sL+GvUgqS9IFl9x+Fx1ak/ZzJpQ+sx9hUvZeP7z38C7o1Xl5+tmTd+AInLtZ76qRhxBoUfCrdxRCFkS9Eib7tu7VJ8ywoTn4UuZ6eVf+Mge94h5OYjoD7cEkrdsg8u/Wvb+5RaTp8gbB/LEkSTqhek1GZdQlIplthAP6Vw4LFI5hm8esU9lVwkLxs/QnCpI2pnToqxJ8foZ4WM5Rd70fjUz6YFoKvQysMv61jzFt/AgdyeMzXqUxAm3lGYy6pM3jUZXclZpT4E5BpWWlie8wavo1x7PRo55Rj3Jx1J/0c72LRRgFeQfvQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LenMtkMaUOie3PCzbVdzSBBbokNi88XcC8DwVG6zJyM=;
- b=Qgm4fZoDEye/lcaYFRizoTRJ3RYDE2dReVU9jDNiUrA+JV2cQUXGpdrLHkBBtczatQSpf3jj23U6veX8ohcsS0ZF/h7IWoNMpezIZwUV49jBBNl6iU8p4EtciGOy/PUuWJnP2uaejwwnVPgMXOGp6YgCKgWrbIUBz56HEIYfeQ9UcXbu+MtAO575VbY9fZUkQMIdV651xfF5q5dN3RXdtoDYPU7e8FvBpBl3z/zQtHDAYYIhCPSQgJxSByBtqektpncvp2cT5HpoL4NF4D51jyVb7lDPS8DecEgAatbyPkm1t4YDrDwnYHhRDomKecrh43YFodj3whZxE0cCU/iRjw==
+ bh=J8ZlkILZIj+KB2gAECZWByhWYn588uav07lw1bl7z+4=;
+ b=oegAikyeWDYxZ/Z2hNGbABe2D6tDkLNoBEcwj7NbmOPWlNG3AukQMQJGGv2SC27XQliRgcCUvzopLzrxn01rs66w03enYs1ANYp9v+VN1LI1C+azYThfMO0Go1UbV+tVIrHi4MrHpKIH9q4k5kdon1FZNSNrnZ/2HrAmdgTaAUSjwTMBINKYAjagzT8LF6H51hvHPeA6cwYk34t2/vAUxkV+5m4D+b7k7WYhldip+fmxMF7Y9AHOk+1AU0I2lTJCkad0pZyOb0bMYnIY9roeT/Bs7FJFzQCCxUB4MIrKksyh9AXTlPEzwb9/BX/i/EzSg8xYSeJP5ioeTGU7IbqxBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
  dkim=pass header.d=memverge.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LenMtkMaUOie3PCzbVdzSBBbokNi88XcC8DwVG6zJyM=;
- b=WSzeHhKV63skckg/dfSUfxhU1FF3hvpmTW/nODN2wOzoZUnSnx0boP1KCwCkbbrD2lVMtTzBJ755bLB7jQobpbNu3rAC4Bh1JnhLj19tS9ANik5ZV1x/FtvdVIhDlo1B2t0LAY3zwDPz772zhPsyNWBvLNDpKhr/CNiY8Q4Zlm8=
+ bh=J8ZlkILZIj+KB2gAECZWByhWYn588uav07lw1bl7z+4=;
+ b=OmTEYH0BlwZjLVZZ8xtyTVnGtpOw1u4Yz0nbBKa+AI1Rp894CEI7pT5q+/O9gHVfDOnPUHdh67Mq77iraoNxqxcWDddFJYDtZuaba7aBU8k5Zq7zFMASZ0BAkeiyPsgDHimBd7jWvNW9CrDoDq04e1P4vsZ3Uiy1TVlSKlt2vU0=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=memverge.com;
 Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by SJ0PR17MB5857.namprd17.prod.outlook.com (2603:10b6:a03:40c::16) with
+ by DM4PR17MB6293.namprd17.prod.outlook.com (2603:10b6:8:10b::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Thu, 26 Jan
- 2023 04:43:28 +0000
+ 2023 05:26:44 +0000
 Received: from BN6PR17MB3121.namprd17.prod.outlook.com
  ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
  ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.6002.033; Thu, 26 Jan 2023
- 04:43:28 +0000
-Date:   Wed, 25 Jan 2023 23:43:18 -0500
+ 05:26:44 +0000
+Date:   Thu, 26 Jan 2023 00:26:34 -0500
 From:   Gregory Price <gregory.price@memverge.com>
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        avagin@gmail.com, peterz@infradead.org, luto@kernel.org,
-        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
-        shuah@kernel.org
+To:     Andrei Vagin <avagin@gmail.com>
+Cc:     Oleg Nesterov <oleg@redhat.com>,
+        Gregory Price <gourry.memverge@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
 Subject: Re: [PATCH v6 1/2] ptrace,syscall_user_dispatch: Implement Syscall
  User Dispatch Suspension
-Message-ID: <Y9IE5tBjY1GlFCFH@memverge.com>
+Message-ID: <Y9IPCpYzfGb6k0sF@memverge.com>
 References: <20230125025126.787431-1-gregory.price@memverge.com>
  <20230125025126.787431-2-gregory.price@memverge.com>
  <20230126003008.GA31684@redhat.com>
+ <CANaxB-xn0wW5xA_CT7bA5=jig+td__EDKPBWSpZdfgMgVOezCg@mail.gmail.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126003008.GA31684@redhat.com>
-X-ClientProxiedBy: BYAPR02CA0006.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::19) To BN6PR17MB3121.namprd17.prod.outlook.com
+In-Reply-To: <CANaxB-xn0wW5xA_CT7bA5=jig+td__EDKPBWSpZdfgMgVOezCg@mail.gmail.com>
+X-ClientProxiedBy: SJ0PR05CA0066.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::11) To BN6PR17MB3121.namprd17.prod.outlook.com
  (2603:10b6:405:7c::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|SJ0PR17MB5857:EE_
-X-MS-Office365-Filtering-Correlation-Id: c3d04389-0a7c-48c7-79c6-08daff57de1d
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|DM4PR17MB6293:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0ebfad0-a32c-44bc-82e9-08daff5de9b8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yQfgNqZruqb9BRdm+ZSnUmrIwniMq6xl6zxQ0zK7pBL84NNJH1tr67hm2oPYuzuq86Zrvzr0rVf7l+JMiIwlSGfhk2ZaqFCsCRO96Z0zmuFk6hieNJl9uEk1AJ++v9gEsPJzFNuL47tGwUuUtcVw3OD0DmwFc5i/XQCRBel9/6kx0DmdpUqY+X7DdFPOdavNqUpJN7VheGot9XiHb2svy8UfWazwUhqlUBiqdVhafhtuDs2JaWQwjVzv4NSXj1kIa+NCW8e2xpTlj33KnKU30zLXBbFO0sdb6KCzDDoUMGWgER44B2Ph5Uq5+uCC8p+OaXdK46Z2BcUicTex27axpd5ALvykhbrwa3UafJoAWZa3rKwnS4QiuYEfn4qE6NfLs+ltaaIO2mlKkk1uEmQ2MR4kYjx+wy/kqs1dFboJR/0a4YI8iZ31tjfFnnP+OJebjeW76er7IU1aydpkOo13Job3ZIcMFpUt4+PFPRWVACNkXXftk6SynCtMSi1BN2T97ZZkYgxlzj8zxFjKiDyUlXqLno9P/wezGksSHbptRM263Z5GFoGhNf9Z7N0bozlXt/JljZfWBE8REWm+O3UpSjYWqSN5jXhZ41GQ+qYYSdE8TDzUZsEn2mUzJk2KI9AR+S4HGs0KNAuEvl5GOCWBgg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR17MB3121.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(346002)(366004)(39840400004)(376002)(136003)(396003)(451199018)(2616005)(36756003)(2906002)(86362001)(4326008)(83380400001)(44832011)(8936002)(66476007)(316002)(478600001)(38100700002)(7416002)(6486002)(5660300002)(6506007)(186003)(6916009)(8676002)(26005)(6512007)(66946007)(66556008)(41300700001)(6666004);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: WDEzS88L1drG9WC8pZ0AJOBt0Mpf+etGbzbOnWGGx2k2BM9rh5Fg+2aZy7vopPYzJnUXhKgcRA9TZUP0H+uW8QOqJfemhYxZRfJtZ3k6rcg0A9vKK5ExgFJBTohBbQq8jNtObd/LT1N+im5pxJVImVJrQUlfIgu1UUvEvD2PVQHm1PsEtx6uHEFsI39Jtkj7ZuYh4JVXphueH8+Vs8ycuMJugysvKeX2Yh7g3Bu880b+Q4HaFHkgPgCbyN3eMNlV/xhmj02pssEBMY2DsmE/R9S/iMvLnz5CuuVLzxSm9nc1IKzHxeD+96d5KTKjJm7jFo2jPLMqOBlB46gxHKk9wM+KPZTVOnJ1Gk0BJzKfTdlQGg6LyaXz7CT3Z5eu692WVXUOOHzJEITtS+QVgRSY75x+vhA08b3NhLliWtDks5ifqjubdf59wudscTT9cDuhNPjH0LyDASBuVihLMoUWwbxOap9gIjXQx8KF1djp/UVwYeabZsvn0GnB6GekQqTfXNHUJooTiOBuXSoMXhaAKiK9DrxecEIh4KCxtASh51N5dtFd2GXz7EAAxftNwxivz6K9RRU0vGj+oUSwxE1VnlYhMbAb/AkTVn5m3x0T7SEpI865vdgAv4ccliZJ0mCu3LEyk9oHjxiSx3dXMWUhuQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR17MB3121.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(346002)(39840400004)(396003)(376002)(136003)(451199018)(66476007)(41300700001)(316002)(54906003)(4326008)(8676002)(86362001)(66946007)(53546011)(186003)(6486002)(478600001)(66556008)(26005)(83380400001)(6666004)(36756003)(6916009)(6512007)(2616005)(44832011)(5660300002)(7416002)(6506007)(2906002)(8936002)(38100700002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UDXE8rul8qXVhfn0umWIZ1yHHOFVJVPxbidN1ZLpJfm0fXhl1uEQ8P6wnuW0?=
- =?us-ascii?Q?dmWdTe2QD0H5L1LAsmJW8goDvzU0NYSTubGo/hs3xsBg9stplifzS0iPyxG/?=
- =?us-ascii?Q?D7SUmQjxC5sYoz0uxt6x1dSrqbmYyxK3JvS/y2U/DOGvJ3G8eNGi8paaWlHj?=
- =?us-ascii?Q?T6qHjCBO+BgXplgIopnFVIKBzazw0Zg6Lob5FaLziuZrvE5vjYRzFHR7dDSf?=
- =?us-ascii?Q?rZYHumhj/xQAY2knSy/jaq27KDpxUGQaAu+eOyMsC+WvvdgoUQKYEliPV2as?=
- =?us-ascii?Q?7hAGjk621bi0HWn849w6GuGCAahvdw4zmEyfrPlswdHmex0eMTlZ79ULhev2?=
- =?us-ascii?Q?r+kG56GuAo5v3iz91xicty6LOXsDvxRUXF1+1NGbt28LiJ3fEOb6Yq3GX3YJ?=
- =?us-ascii?Q?q1T+A7vkazYE1j/3cvmlD0gUzgvwX+U1pmGGJO7Rr3S2rk0/beSuQs14IJa9?=
- =?us-ascii?Q?rN1NDHnk46c1IqcWhh9SNDZcvn+sF+G0swUDdKMKQ2u9Cpi7s2Z/uJULX4vU?=
- =?us-ascii?Q?ZLLwfg6poqDrC+GAIisxwhEHb90rYIRuT71H4B9EPiGAVkAJna/GKPGKacQj?=
- =?us-ascii?Q?FGeV1hgZT6/0lehjD7KFO3q7HALAsDp9WKijPZ+XeZ4Qvea/QqfChJiy6RoM?=
- =?us-ascii?Q?Qzd6u/DYxEw6mDG9vLsdzcfoyyI0HvHX5X9Jb3hNd/Dpnag+MDzK86FwHxah?=
- =?us-ascii?Q?o+iwvg94Miq5UDYyJXgJl5UH/Ixvg73lZL9l3CXulRBbkO3UozOR1ObP8jod?=
- =?us-ascii?Q?4jEtzORjM/x55Erecc1/8mYxMfrOqG9BlMuNX1IE9MlxwTBTG9tri4QuRnkK?=
- =?us-ascii?Q?CXSMaBWDJVYxMAVM2MvTlg+GVvnAgtVbe6swft7OXQ6qwNyjPfAMUxQmjTsk?=
- =?us-ascii?Q?B21gwTXiS4v5tAiKH8jclaKJ5PzmquAtUvBx2Xy+IM6tlVjf4bklSoREWJoV?=
- =?us-ascii?Q?RGfb2qWwxhWU89W5+SvR+3GiIUE/Byx4AjzVqhoOMp0qfEei7zocJ5nJWxPA?=
- =?us-ascii?Q?QM9a6jDoAfjBrjNv14yF9R7cJoRQvZTuXSvA/F4old/8f33x+GH8k2jXIDu/?=
- =?us-ascii?Q?b82VRqQHTt2ZAOCyUgmmEBOWd/orJZgMg9rJ0T6TYJL3O8jjb4L1cs8h/Ply?=
- =?us-ascii?Q?RnxIl1LwywSL26foX+gksCtoS7YUkYOxMZ7Z8oMG+nxfeMWdSLAOJEAmloSB?=
- =?us-ascii?Q?s8ylvwUJ7sqoZRtDlwdJ6oWlfs7ZnDmxQZgCQOmqiDIaUQmEVbr8vPr4RUle?=
- =?us-ascii?Q?jcu6Xpxo+DCqWwitsVu+aw5+gqwBQQfxuc8T2LqAjbI5DeHt4spYbscJZ7cA?=
- =?us-ascii?Q?PFZG7BmgDHzncETDdnRmPC91BrkmZzRcxyI8DHHkeoxOsScYOKG3ixRoEjS5?=
- =?us-ascii?Q?ab0/02qEx4pl+sojEkfU4GtZrwb/bur62Z6WCKDbcVohnVxBgx/SdwH3BfKw?=
- =?us-ascii?Q?km5vF5hT9wEjNojjQxLqgbHKFzNnX2u6dbc9K722uY4jgUNpkrIARK+K0Fji?=
- =?us-ascii?Q?jg52Xs2LitgiBvyX6sUrenyQ4pIb8zWrejT8dnXnC0waZClZd2WvMqKqroI5?=
- =?us-ascii?Q?wuZVq+rYxzk/K2UMlDVDmUPiyZYbIF4WWQqYFDokYzWBmhBleSGAco9Q2UR8?=
- =?us-ascii?Q?fA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?z/hjbs3fkubdBa8BsHUUOeoS9ztjcLpNGiVIWmztw4Mp+M0IHewpfDlMXG7r?=
+ =?us-ascii?Q?9kQLVtsmXTy/wMbsdtqY6d8WYEqFBwstGG3LYXs7opDz4boHY8cY9gcNgfdp?=
+ =?us-ascii?Q?dY3PVaS/BOFX7zS/32NKmW8LOFpziObgqsII5sGxFowYWiFek8B3pUhxzYBZ?=
+ =?us-ascii?Q?UMZzFT9cKSQ1uAYQPAo1Uho5EvY/GnIRcmgWMSqsl5JuDw1qp7+DkFHs2X34?=
+ =?us-ascii?Q?D4FBKCODA2TLGfCs3q8wS7HkCA4c7nLK8TrZUAFVDu4J5wvQojU3AG2BGYzU?=
+ =?us-ascii?Q?BVEaFqxKaL//WPPNWtbnWb61VptWszFn9pMby/7iaslRYN+gj8W74N/gaKHF?=
+ =?us-ascii?Q?LEsYiiDjDIwvTKIoLvnBjdmwQ/rWZ3x+t66LjYlAQh3PCTnJm7rg14PeXlh5?=
+ =?us-ascii?Q?ITqUUIE2W4dcZYTJMACovoHhyHG5cVfjOXp7ZAq9sSqF9pv4VHEBZbyx+GBE?=
+ =?us-ascii?Q?aJ9g0qMylgKGaModNIDIIZ8+dm23RZ1dAHo1zNXdWyG+ux88forJylgfMlpy?=
+ =?us-ascii?Q?9/w3dBBG4cZrQxDfaXosMOFeRMN3qUwlo3HlxGf/Gb1g5/G/RqGdrx9/w4u4?=
+ =?us-ascii?Q?2ZcoMPdNBMQHm94HpqRgashq0HJCFx0FViStLLHw2Hy3xuGv4BUuIXml1Rsl?=
+ =?us-ascii?Q?BlhAeCO+lIE5CCR1x89MDaV1grcmUohTdV/6TQzD2vZRlziuLGm4fWo16449?=
+ =?us-ascii?Q?eOFyopYA3MeWtNt8p5275aJ6JLaBjOtiVxLRur8ggtNrWsLc1tAwvvaC3XZ5?=
+ =?us-ascii?Q?Qh/eF8GNh42+jCrGNcme4XCmuO+pTr41qzLHmiMlLZHcj2I17w6fuYkCnB8u?=
+ =?us-ascii?Q?czCGve7N6i+5EBrCsf0YKBnGJBPCeVNyzD/tSxpiqBO5i0eolvlbQMGtTTCF?=
+ =?us-ascii?Q?2Cge9GREpTxXME/1cwdtzkcnS601NWSDbPfRAtnjqHEHRlwasXiHAjnw6HHl?=
+ =?us-ascii?Q?s/kI4estu4vW9hCAAI//w6rowDpt4ejMwvB0L1DDRiSxZLtUJe7qhQ/yWO+R?=
+ =?us-ascii?Q?I05mp3kuzp94JyLWd9xxIFR9ZpoBz1TL08m4HSzpO5hyFGKEYtlsstCOaTIz?=
+ =?us-ascii?Q?toD+FiwUpUO+dCog4E6gW7dWIrYYBeC8HN89BLEri2O1ov5oBDYYNRVnmKpP?=
+ =?us-ascii?Q?u4bbTnt+0p4M/mRyuUo73wKdCHqt3xF1mwiXX86IMrIGqHgBbWcXjLZQDaNu?=
+ =?us-ascii?Q?DiliJT6Tvx834NSJH6xKmWgJz7H7DImEpOE/QTNJ3Y3AotYBfPEZbRqT+JCf?=
+ =?us-ascii?Q?RhRpfZATkeQWk+uJlPqJwn66z7dlM7JVGq5uHY19Az9PNJ45edHsAkRdc7O4?=
+ =?us-ascii?Q?ciUtEih9J8zJ1lOznsmcRAIVrJJ6PiPzZDp14aaOfnaJTfAhiHH6RyXqU2KI?=
+ =?us-ascii?Q?mHbVP9RWnE+HzB9uKwE+bakh5SX4MqceN2lb7P1e5AVgolgw7uyo5yzWvA4k?=
+ =?us-ascii?Q?TSQ0pUQfOMT2qBoJull2QBBK3qOy+WLk4wAHp8S9A18zBaqVHXqSlChVOfHB?=
+ =?us-ascii?Q?hboj+H6kHoSb80Yp6xMamRQjaxSV0ZCq7fkWHR9JMGNlw07NXGA9En/yu6Oj?=
+ =?us-ascii?Q?3NdxeVN/c4SLki5XK9gRE9J14s8SLRIwHASSF+woV8PfyJz8n3ePXrlRd7yT?=
+ =?us-ascii?Q?zA=3D=3D?=
 X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3d04389-0a7c-48c7-79c6-08daff57de1d
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0ebfad0-a32c-44bc-82e9-08daff5de9b8
 X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 04:43:28.2245
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 05:26:44.6758
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s+iXwA9uAuqZrPvFZzkYLZNx6DS9kyL4u+f/jXunFZMsoLos857rV3G237I511YVB6M/Nv1gQaY23QVBNdiUH3z4VREfE7mD59HqhiuEGqo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB5857
+X-MS-Exchange-CrossTenant-UserPrincipalName: mOoW7lHaU//OXlhfR/nzSMAx7ADeFJDzpS/KromKoGMQqcr665pRMifFkpNOGQZ1xiFCSsqL66L5HEzNAO53XaU2XYzlYDQbkFewixgvZIo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR17MB6293
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 01:30:08AM +0100, Oleg Nesterov wrote:
-> On 01/24, Gregory Price wrote:
+On Wed, Jan 25, 2023 at 08:54:48PM -0800, Andrei Vagin wrote:
+> On Wed, Jan 25, 2023 at 4:30 PM Oleg Nesterov <oleg@redhat.com> wrote:
 > >
-> > Adds PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH to ptrace options, and
-> > modify Syscall User Dispatch to suspend interception when enabled.
+> > On 01/24, Gregory Price wrote:
+> > >
+> > > Adds PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH to ptrace options, and
+> > > modify Syscall User Dispatch to suspend interception when enabled.
+> > >
+> > > This is modeled after the SUSPEND_SECCOMP feature, which suspends
+> > > SECCOMP interposition.  Without doing this, software like CRIU will
+> > > inject system calls into a process and be intercepted by Syscall
+> > > User Dispatch, either causing a crash (due to blocked signals) or
+> > > the delivery of those signals to a ptracer (not the intended behavior).
 > >
-> > This is modeled after the SUSPEND_SECCOMP feature, which suspends
-> > SECCOMP interposition.  Without doing this, software like CRIU will
-> > inject system calls into a process and be intercepted by Syscall
-> > User Dispatch, either causing a crash (due to blocked signals) or
-> > the delivery of those signals to a ptracer (not the intended behavior).
+> > Cough... Gregory, I am sorry ;)
+> >
+> > but can't we drop this patch to ?
+> >
+> > CRIU needs to do PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG and check
+> > config->mode anyway as we discussed.
+> >
+> > Then it can simply set *config->selector = SYSCALL_DISPATCH_FILTER_ALLOW
+> > with the same effect, no?
 > 
-> Cough... Gregory, I am sorry ;)
+> Oleg,
 > 
-> but can't we drop this patch to ?
+> PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH is automatically cleared when
+> a tracer detaches. It is critical when tracers detach due to unexpected
+> reasons
+> (crashes, killed by oom, etc). In such cases, we want to be sure that a
+> tracee will continue
+> running from the point where it has been trapped.
 > 
-> CRIU needs to do PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG and check
-> config->mode anyway as we discussed.
-> 
-> Then it can simply set *config->selector = SYSCALL_DISPATCH_FILTER_ALLOW
-> with the same effect, no?
-> 
-> Oleg.
-> 
+> Thanks,
+> Andrei
 
-After further investigation, I believe we can drop 1/2, but for a
-different reason:  It's actually insane behavior during the quiesce
-phase.  Quiesce allows the program to run until a particular state,
-which means we can't turn it off lest we interfere with intended
-behavior - (cough cough prior review said this cough cough i'm dumb).
+There might be a better place for the full C/R discussion, but it's worth
+the extra context to hash out the SUSPEND flag.
 
-I'll drop patch 1/2 and resubmit (there's an unused variable warning i
-need to clean up).
+The relevant kernel code i'm concerned about:
 
-Thanks again for the reviews all
+static long syscall_trace_enter(struct pt_regs *regs, long syscall,
+        unsigned long work)
+{
+  long ret = 0;
+  /* ... snip ... do syscall user dispatch */
+  if (work & SYSCALL_WORK_SYSCALL_USER_DISPATCH) {
+    if (syscall_user_dispatch(regs))
+      return -1L;
+   }
+ 
+  /* Handle ptrace */
+  if (work & (SYSCALL_WORK_SYSCALL_TRACE | SYSCALL_WORK_SYSCALL_EMU)) {
+    ret = ptrace_report_syscall_entry(regs);
+    if (ret || (work & SYSCALL_WORK_SYSCALL_EMU))
+      return -1L;
+  }
+
+  /* Do seccomp after ptrace, to catch any tracer changes. */
+  if (work & SYSCALL_WORK_SECCOMP) {
+    ret = __secure_computing(NULL);
+  }
+	/* ... snip ... */
+}
+
+The problem i'm seeing with PTRACE_O_SUSPEND_SUD is that SUD comes before
+ptrace, while Seccomp comes after.
+
+CRIU seems to use a few different methods to quiesce:
+* ptrace syscall entry traps
+* breakpoints (on sigreturn it seems)
+* masking everything but SIGSTOP and waiting for a STOP
+
+SUD represent an issue in all three cases
+* syscall dispatch preempts ptrace traps (though syscalls may come
+  from the exclusion area, so it should hit eventually)
+* sigreturn can be changed (glibc prevents this, but the raw sigaction
+  syscall will take whatever address you give it)
+* masking SIGSYS crashes a program on next dispatch if SUD is enabled
+
+Most of this can be worked around.
+
+My concern is whether there is any injection occuring during the quiesce
+phase.  If there is no injection - this SUSPEND isn't needed during
+quiesce (and in fact, it's dangerous).  If there is injection, then
+the current CRIU quiesce method is incompatible with SUD anyway and this
+would take more investigation to determine a solution.
+
+Once quiesced, however, SUD has to be disabled to allow injections. And
+I think auto-clearing of the PTRACE Options on detach is a good reason
+to keep it.
+
+
+So basic questions are:
+1) Andrei do you think any injection occurs during quiesce that can't be
+   worked around?
+
+2) Oleg is the auto-clearing nature of the flag sufficient justification
+   for keeping SUSPEND?
+
 ~Gregory
