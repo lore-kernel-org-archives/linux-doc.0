@@ -2,82 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68357C54EAA
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 19:16:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D100C54EAA
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 19:17:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229832AbjAZTQU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 14:16:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58070 "EHLO
+        id S229619AbjAZTRM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 14:17:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232029AbjAZTQT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 14:16:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 104AC5B59D
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 11:15:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674760526;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=z/6NzXul2HEh42eixvs/tgvbhLjr/JPWRiufbihZODs=;
-        b=f5NyZlG3Cgp0fYjcfzdwweufTINe7qhpmbexAE2KfXaNtFzEn+vlSASRRFHx+JOQsgBLKE
-        xLX3rkewlIALd7BXpZz9ReG8ykVe9DkxVey4ZOVquK3pidNyncO1EXLqd4AWdcXjCH8anR
-        tnrQPz/hr4S4m/RyOMyVHKwkbKTFU9o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-112-UnlMdd_YM9eYwBW14uadDA-1; Thu, 26 Jan 2023 14:15:22 -0500
-X-MC-Unique: UnlMdd_YM9eYwBW14uadDA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S229514AbjAZTRL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 14:17:11 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 394236185;
+        Thu, 26 Jan 2023 11:17:10 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5DF8787B2A4;
-        Thu, 26 Jan 2023 19:15:21 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (ovpn-194-60.brq.redhat.com [10.40.194.60])
-        by smtp.corp.redhat.com (Postfix) with SMTP id ACBFAC15BA0;
-        Thu, 26 Jan 2023 19:15:18 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu, 26 Jan 2023 20:15:18 +0100 (CET)
-Date:   Thu, 26 Jan 2023 20:15:15 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Gregory Price <gourry.memverge@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        avagin@gmail.com, peterz@infradead.org, luto@kernel.org,
-        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
-        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore
- support for SUD
-Message-ID: <20230126191515.GE4069@redhat.com>
-References: <20230126190645.18341-1-gregory.price@memverge.com>
- <20230126190645.18341-2-gregory.price@memverge.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8ED7E60B55;
+        Thu, 26 Jan 2023 19:17:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34C50C433EF;
+        Thu, 26 Jan 2023 19:17:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674760629;
+        bh=qZW5kvveXCZHcR/ZqTwrsTUv+BB2nwUSCg4zBsaJH9s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tAGSAWglttIMy99bfGZPzoDW6BfVFKVp/OJ9p9TL6bhcyHUAIWnaDEY1ck7ENRKBK
+         Bv/w78fimWKWPySQLNdB9hcVRlNaXgjBmIyYLPNgoxd6yXMqSXsNH1yqsrQoG3wd+o
+         MByT21tYwiwZLGCte0wRAtKRx+INlOTm9OjK0twjvj7KbXISBb2g+2z4MNqBD3ufnw
+         GhYvvNYc1yd2yP0ndzzR5MCWbeT5Kp8zM9mIkOkvPfwVIFxLcIHQ8y4W0sZYId9gYC
+         HK0PSHekWJqMor8pOGBMYH0o+l4xP3VMbSSDCMTZQJC3HXqggvS/kMtfyjEZ90NMK3
+         nF9VXFNdu0RPg==
+Date:   Thu, 26 Jan 2023 21:17:04 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        intel-wired-lan@lists.osuosl.org,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, oss-drivers@corigine.com,
+        Raju Rangoju <rajur@chelsio.com>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Veaceslav Falico <vfalico@gmail.com>
+Subject: Re: [PATCH net-next v1 01/10] xfrm: extend add policy callback to
+ set failure reason
+Message-ID: <Y9LRsNmI2anlwdNP@unreal>
+References: <cover.1674560845.git.leon@kernel.org>
+ <c182cae29914fa19ce970859e74234d3de506853.1674560845.git.leon@kernel.org>
+ <20230125110226.66dc7eeb@kernel.org>
+ <Y9Irgrgf3uxOjwUm@unreal>
+ <75f6e5d0e42a8b9895c1b2330c373da9ed7f41db.camel@redhat.com>
+ <Y9JZAEa6HkLMfs2P@unreal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126190645.18341-2-gregory.price@memverge.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+In-Reply-To: <Y9JZAEa6HkLMfs2P@unreal>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/26, Gregory Price wrote:
->
-> Implement ptrace getter/setter interface for syscall user dispatch.
->
-> These prctl settings are presently write-only, making it impossible to
-> implement transparent checkpoint/restore via software like CRIU.
->
-> 'on_dispatch' field is not exposed because it is a kernel-internal
-> only field that cannot be 'true' when returning to userland.
->
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
-> ---
->  .../admin-guide/syscall-user-dispatch.rst     |  5 ++-
->  include/linux/syscall_user_dispatch.h         | 18 +++++++++
->  include/uapi/linux/ptrace.h                   |  9 +++++
->  kernel/entry/syscall_user_dispatch.c          | 39 +++++++++++++++++++
->  kernel/ptrace.c                               |  9 +++++
->  5 files changed, 79 insertions(+), 1 deletion(-)
+On Thu, Jan 26, 2023 at 12:42:08PM +0200, Leon Romanovsky wrote:
+> On Thu, Jan 26, 2023 at 10:45:50AM +0100, Paolo Abeni wrote:
+> > On Thu, 2023-01-26 at 09:28 +0200, Leon Romanovsky wrote:
+> > > On Wed, Jan 25, 2023 at 11:02:26AM -0800, Jakub Kicinski wrote:
+> > > > On Tue, 24 Jan 2023 13:54:57 +0200 Leon Romanovsky wrote:
+> > > > > -	err = dev->xfrmdev_ops->xdo_dev_policy_add(xp);
+> > > > > +	err = dev->xfrmdev_ops->xdo_dev_policy_add(xp, extack);
+> > > > >  	if (err) {
+> > > > >  		xdo->dev = NULL;
+> > > > >  		xdo->real_dev = NULL;
+> > > > >  		xdo->type = XFRM_DEV_OFFLOAD_UNSPECIFIED;
+> > > > >  		xdo->dir = 0;
+> > > > >  		netdev_put(dev, &xdo->dev_tracker);
+> > > > > -		NL_SET_ERR_MSG(extack, "Device failed to offload this policy");
+> > > > 
+> > > > In a handful of places we do:
+> > > > 
+> > > > if (!extack->msg)
+> > > > 	NL_SET_ERR_MSG(extack, "Device failed to offload this policy");
+> > > > 
+> > > > in case the device did not provide the extack.
+> > > > Dunno if it's worth doing here.
+> > > 
+> > > Honestly, I followed devlink.c which didn't do that, but looked again
+> > > and found that devlink can potentially overwrite messages :)
+> > > 
+> > > For example in this case:
+> > >     997         err = ops->port_fn_state_get(port, &state, &opstate, extack);
+> > >     998         if (err) {
+> > >     999                 if (err == -EOPNOTSUPP)
+> > >    1000                         return 0;
+> > >    1001                 return err;
+> > >    1002         }
+> > >    1003         if (!devlink_port_fn_state_valid(state)) {
+> > >    1004                 WARN_ON_ONCE(1);
+> > >    1005                 NL_SET_ERR_MSG_MOD(extack, "Invalid state read from driver");
+> > >    1006                 return -EINVAL;
+> > >    1007         }
+> > > 
+> > > 
+> > > So what do you think about the following change, so we can leave
+> > > NL_SET_ERR_MSG_MOD() in devlink and xfrm intact? 
+> > > 
+> > > diff --git a/include/linux/netlink.h b/include/linux/netlink.h
+> > > index 38f6334f408c..d6f3a958e30b 100644
+> > > --- a/include/linux/netlink.h
+> > > +++ b/include/linux/netlink.h
+> > > @@ -101,7 +101,7 @@ struct netlink_ext_ack {
+> > >                                                         \
+> > >         do_trace_netlink_extack(__msg);                 \
+> > >                                                         \
+> > > -       if (__extack)                                   \
+> > > +       if (__extack && !__extack->msg)                 \
+> > >                 __extack->_msg = __msg;                 \
+> > >  } while (0)
+> > > 
+> > > @@ -111,7 +111,7 @@ struct netlink_ext_ack {
+> > >  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {                         \
+> > >         struct netlink_ext_ack *__extack = (extack);                           \
+> > >                                                                                \
+> > > -       if (!__extack)                                                         \
+> > > +       if (!__extack || __extack->msg)                                        \
+> > >                 break;                                                         \
+> > >         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+> > >                      "%s" fmt "%s", "", ##args, "") >=                         \
+> > > 
+> > 
+> > I think it makes sense. With the above patch 3/10 should be updated to
+> > preserve the 'catch-all' error message, I guess.
+> 
+> Great, thanks
+> 
+> > 
+> > Let's see what Jakub thinks ;)
 
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+https://lore.kernel.org/netdev/2919eb55e2e9b92265a3ba600afc8137a901ae5f.1674760340.git.leon@kernel.org/T/#u
 
+> > 
+> > Cheers,
+> > 
+> > Paolo
+> > 
