@@ -2,141 +2,250 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB42C54EED
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 15:24:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D89D8C61DA7
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 16:10:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232487AbjAZPYZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 10:24:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60310 "EHLO
+        id S229806AbjAZQKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 11:10:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232501AbjAZPYK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 10:24:10 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AE2B420C;
-        Thu, 26 Jan 2023 07:23:53 -0800 (PST)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30QFEiR3004356;
-        Thu, 26 Jan 2023 15:23:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : to : cc : references : from : subject : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=38Q/0OCGry8peDMSSdqlhdz0+1fJJuYxwowWJYS44go=;
- b=f0JWtdmKNHHIZwUwiDGJM69eVPs8Y5AjYb3g3BqL94aw5tg1LbDgjTxK9NpBqs5omPfD
- TWWDJN7GOgxjXPd1iahdemLwBRJahCVwLZpzaU+tTSETaHm9kGOuj7qtBC5QfjlupSCI
- 3CQjRLWGZ+yD8GxOW+U/2yUeCF8B3XxP0e7wGSYai1vlceE17tdWqDKO0lTlRelg9eKd
- RVpK/DeNGlqzUrO3YFqB64vrsaciUfCtzTM4gteJtftdeSydjnV3Ni88FPpjCqWDYJeR
- rwl/e6DDkP91ra6Whr/eTN0A/3hxSO72Vdz6slnBwqvMzcNGk4OVUavZo3ZRGogjc5fE EA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nbv06g5rr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Jan 2023 15:23:48 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30QFEqEK004557;
-        Thu, 26 Jan 2023 15:23:47 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nbv06g5qw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Jan 2023 15:23:47 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-        by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30Q2KLlU027371;
-        Thu, 26 Jan 2023 15:23:45 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-        by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3n87p6cpay-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Jan 2023 15:23:45 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-        by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30QFNeUG44827002
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 26 Jan 2023 15:23:40 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A228E2004D;
-        Thu, 26 Jan 2023 15:23:40 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 668CA20043;
-        Thu, 26 Jan 2023 15:23:40 +0000 (GMT)
-Received: from [9.152.224.253] (unknown [9.152.224.253])
-        by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Thu, 26 Jan 2023 15:23:40 +0000 (GMT)
-Message-ID: <2a21195b-9a13-a332-bab9-e2c023fc37a6@linux.ibm.com>
-Date:   Thu, 26 Jan 2023 16:23:40 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        with ESMTP id S232587AbjAZQKk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 11:10:40 -0500
+Received: from fx409.security-mail.net (smtpout140.security-mail.net [85.31.212.149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF24C5356C
+        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 08:10:38 -0800 (PST)
+Received: from localhost (fx409.security-mail.net [127.0.0.1])
+        by fx409.security-mail.net (Postfix) with ESMTP id 344223497A4
+        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 17:10:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1674749437;
+        bh=18h0PvVkWw5cOD2tUF5rJDodhNIHFoyGd3swtBhEV9s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=2j+PLAfcFq/dMJAm7QTIXrm0muDDhYaPROPgytN3gaTJa6LkYepek8NuWASCmXbjk
+         BSj8xuje1RDBvbgEdTd13Bs0SSELaXlSeYbazQnkW+tgJ0bzaaR5DZK2kqeKnsxeVO
+         V/F0b4xMun1FYOPN9Q3rOIJWltJMZCMOaHln8qIs=
+Received: from fx409 (fx409.security-mail.net [127.0.0.1]) by
+ fx409.security-mail.net (Postfix) with ESMTP id 6CDFA3496E5; Thu, 26 Jan
+ 2023 17:10:36 +0100 (CET)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx409.security-mail.net (Postfix) with ESMTPS id 42F9E3496BD; Thu, 26 Jan
+ 2023 17:10:35 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 0E32B27E0492; Thu, 26 Jan 2023
+ 17:10:35 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id E364B27E0431; Thu, 26 Jan 2023 17:10:34 +0100 (CET)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ DTQUInwcUDo5; Thu, 26 Jan 2023 17:10:34 +0100 (CET)
+Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 8E3C527E0374; Thu, 26 Jan 2023
+ 17:10:34 +0100 (CET)
+X-Virus-Scanned: E-securemail
+Secumail-id: <4f4e.63d2a5fb.40271.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu E364B27E0431
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1674749435;
+ bh=9giavlvQOACZW0fqif+Jno6XkcerIxtPM3AoszI6iXA=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=gjg/x2TlOcjiKN3NypFbIHFe/byI2jjV8o3VpLfw+6A29RvT0tO7rhyOLP4RSQBmB
+ x4Tx+6M47/jYTq+5ZLA2uCIUhHGzwDXxt8eUceRV5P9eFpkBGwoYQYAzaEc236wUu9
+ 1kIkSP3K+m+aYLf/4oc9MR/KzKUTElR11/fHsdhg=
+Date:   Thu, 26 Jan 2023 17:10:33 +0100
+From:   Jules Maselbas <jmaselbas@kalray.eu>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Waiman Long <longman@redhat.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Piggin <npiggin@gmail.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Eric Paris <eparis@redhat.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Guillaume Thouvenin <gthouvenin@kalray.eu>,
+        Clement Leger <clement@clement-leger.fr>,
+        Vincent Chardon <vincent.chardon@elsys-design.com>,
+        Marc =?utf-8?b?UG91bGhpw6hz?= <dkm@kataplop.net>,
+        Julian Vetter <jvetter@kalray.eu>,
+        Samuel Jones <sjones@kalray.eu>,
+        Ashley Lesdalons <alesdalons@kalray.eu>,
+        Thomas Costis <tcostis@kalray.eu>,
+        Marius Gligor <mgligor@kalray.eu>,
+        Jonathan Borne <jborne@kalray.eu>,
+        Julien Villette <jvillette@kalray.eu>,
+        Luc Michel <lmichel@kalray.eu>,
+        Louis Morhet <lmorhet@kalray.eu>,
+        Julien Hascoet <jhascoet@kalray.eu>,
+        Jean-Christophe Pince <jcpince@gmail.com>,
+        Guillaume Missonnier <gmissonnier@kalray.eu>,
+        Alex Michon <amichon@kalray.eu>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <git@xen0n.name>,
+        Shaokun Zhang <zhangshaokun@hisilicon.com>,
+        John Garry <john.garry@huawei.com>,
+        Guangbin Huang <huangguangbin2@huawei.com>,
+        Bharat Bhushan <bbhushan2@marvell.com>,
+        Bibo Mao <maobibo@loongson.cn>,
+        Atish Patra <atishp@atishpatra.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Qi Liu <liuqi115@huawei.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Brown <broonie@kernel.org>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Benjamin Mugnier <mugnier.benjamin@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Nico Boehr <nrb@linux.ibm.com>
-References: <20230125212608.1860251-1-scgl@linux.ibm.com>
- <20230125212608.1860251-5-scgl@linux.ibm.com>
-From:   Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v6 04/14] KVM: s390: selftest: memop: Add bad address test
-In-Reply-To: <20230125212608.1860251-5-scgl@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: S7x_h8djFowqJrL1JZ7Fwk9QiDnFy7Pd
-X-Proofpoint-ORIG-GUID: RdPz5P2-f5xBlgJ2o1DLR7EfVdsF4d4e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-26_07,2023-01-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
- malwarescore=0 clxscore=1015 mlxscore=0 bulkscore=0 impostorscore=0
- phishscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301260146
+        devicetree@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-audit@redhat.com,
+        linux-riscv@lists.infradead.org, bpf@vger.kernel.org
+Subject: Re: [RFC PATCH v2 02/31] Documentation: Add binding for
+ kalray,kv3-1-core-intc
+Message-ID: <20230126161032.GH5952@tellis.lin.mbt.kalray.eu>
+References: <20230120141002.2442-1-ysionneau@kalray.eu>
+ <20230120141002.2442-3-ysionneau@kalray.eu>
+ <d4d998ee-1532-c896-df25-195ec9c72e3f@linaro.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <d4d998ee-1532-c896-df25-195ec9c72e3f@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-ALTERMIMEV2_out: done
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/25/23 22:25, Janis Schoetterl-Glausch wrote:
-> Add test that tries to access, instead of CHECK_ONLY.
-""
-Add a test that tries a real write to a bad address.
-A CHECK_ONLY test doesn't cover all paths.
-""
+Hi Krzysztof,
 
-At first I thought you were replacing a test.
+On Sun, Jan 22, 2023 at 12:44:46PM +0100, Krzysztof Kozlowski wrote:
+> On 20/01/2023 15:09, Yann Sionneau wrote:
+> > From: Jules Maselbas <jmaselbas@kalray.eu>
+> 
+> Use subject prefixes matching the subsystem (which you can get for
+> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+> your patch is touching).
+This will be fixed, sorry for the inconvenience.
 
 > 
-> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> Reviewed-by: Nico Boehr <nrb@linux.ibm.com>
-> ---
->   tools/testing/selftests/kvm/s390x/memop.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > Add documentation for `kalray,kv3-1-core-intc` binding.
+> > 
+> > Co-developed-by: Jules Maselbas <jmaselbas@kalray.eu>
+> > Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+> > Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
+> > ---
+> > 
+> > Notes:
+> >     V1 -> V2: new patch
+> > 
+> >  .../kalray,kv3-1-core-intc.yaml               | 46 +++++++++++++++++++
+> >  1 file changed, 46 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml
+> > new file mode 100644
+> > index 000000000000..1e3d0593173a
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/interrupt-controller/kalray,kv3-1-core-intc.yaml
+> > @@ -0,0 +1,46 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/interrupt-controller/kalray,kv3-1-core-intc#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Kalray kv3-1 Core Interrupt Controller
+> > +
+> > +description: |
+> > +  The Kalray Core Interrupt Controller is tightly integrated in each kv3 core
+> > +  present in the Coolidge SoC.
+> > +
+> > +  It provides the following features:
+> > +  - 32 independent interrupt sources
+> > +  - 2-bit configurable priority level
+> > +  - 2-bit configurable ownership level
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/interrupt-controller.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: kalray,kv3-1-core-intc
 > 
-> diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/selftests/kvm/s390x/memop.c
-> index bbc191a13760..5aae27549437 100644
-> --- a/tools/testing/selftests/kvm/s390x/memop.c
-> +++ b/tools/testing/selftests/kvm/s390x/memop.c
-> @@ -641,7 +641,9 @@ static void _test_errors_common(struct test_info info, enum mop_target target, i
->   
->   	/* Bad guest address: */
->   	rv = ERR_MOP(info, target, WRITE, mem1, size, GADDR((void *)~0xfffUL), CHECK_ONLY);
-> -	TEST_ASSERT(rv > 0, "ioctl does not report bad guest memory access");
-> +	TEST_ASSERT(rv > 0, "ioctl does not report bad guest memory address");
+> Blank line between each of these,
+Ack
 
-"ioctl does not report bad guest memory address on CHECK_ONLY write" ?
+> > +  "#interrupt-cells":
+> > +    const: 1
+> > +    description:
+> > +      The IRQ number.
+> > +  reg:
+> > +    maxItems: 0
+> 
+> ??? No way... What's this?
+This (per CPU) interrupt controller is not memory mapped at all, it is
+controlled and configured through system registers.
 
-> +	rv = ERR_MOP(info, target, WRITE, mem1, size, GADDR((void *)~0xfffUL));
-> +	TEST_ASSERT(rv > 0, "ioctl does not report bad guest memory address");
+I do not have found existing .yaml bindings for such devices, only the
+file snps,archs-intc.txt has something similar.
 
-"ioctl does not report bad guest memory address on write" ?
+I do not know what is the best way to represent such devices in the
+device-tree.  Any suggestions are welcome.
 
-Not really necessary in this case, it just needs to be different from 
-the one on top.
+> 
+> > +  "kalray,intc-nr-irqs":
+> 
+> Drop quotes.
+> 
+> > +    description: Number of irqs handled by the controller.
+> 
+> Why this is variable per board? Why do you need it ?
+This property is not even used in our device-tree, this will be removed
+from the documentation and from the driver as well.
 
->   
->   	/* Bad host address: */
->   	rv = ERR_MOP(info, target, WRITE, 0, size, GADDR_V(mem1));
+> > +
+> > +required:
+> > +  - compatible
+> > +  - "#interrupt-cells"
+> > +  - interrupt-controller
+> 
+> missing additionalProperties: false
+> 
+> This binding looks poor, like you started from something odd. Please
+> don't. Take the newest reviewed binding or better example-schema and use
+> it to build yours. This would solve several trivial mistakes and style
+> issues.
+I am starting over from the example-schema.
+
+> > +
+> > +examples:
+> > +  - |
+> > +    intc: interrupt-controller {
+> 
+> What's the IO address space?
+As said above, this is not a memory mapped device, but is accessed
+through system registers.
+
+Thanks,
+-- Jules
+
+
+
 
