@@ -2,277 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D022C54EED
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Jan 2023 22:08:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC5A7C27C76
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 00:31:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230257AbjAYWIH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Jan 2023 17:08:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57076 "EHLO
+        id S236151AbjAZAbx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Jan 2023 19:31:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230253AbjAYWIG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 17:08:06 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99DF4272E
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jan 2023 14:08:00 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id 129so20886363ybb.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jan 2023 14:08:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8cCX3Y5tMpHTPxdGP+eKd5H05mGoGhd8poBDVYoeLTo=;
-        b=Kfk6HOfsvcxS2w6EkpDVfvvJgCCF/DvffgNZiCN2kvPi1KgC+riOaURGWiiHIBPvUM
-         tinoQZVroy8ARazmEY+SSuc64b6tSLat9K6JYKix9+fj781rEz/rgOIHXtOpFuW1J68D
-         c24RA6qzkEbHfi2faBuMKy3wnloeCgvN86U35SK+CCQz/2OyBgEUDxmbmYgDOXtBY0Io
-         1tXG+wo92Zfzjr6tja4/CWvhIJI9zPjiMSvncDQi5aZu/0REMikqGGySAXRXu8VIwJIY
-         yVdUx5tucq3wqUsN2YKOqiTOOmiIMkpJCUKyG9a/fkjEUF9J4n0BBaPFz/BdGFSSkVRB
-         KdtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8cCX3Y5tMpHTPxdGP+eKd5H05mGoGhd8poBDVYoeLTo=;
-        b=KAyd56L5I1r+hyOavE+I8S3pPi9H9WXzuHWqfWmh6XfjomqWH+Pfob6FBlKPrHGbWq
-         hi2fEz5J7eW7Jjem0BAU2iaTHlMfvzB4S2gADJEazjT0oIaNcTMPJLd6S+X2jqXkw9ZY
-         Hx0XhQxHFXQkyzkymUSFKhot9OITVNVEXy4QKzV1Q8U6uk+HX1obVcGUmCUmfWAHwjns
-         GRYaFOhBhqfApy3zdsu6wC+z3HAVDfGYkJ/UvmS9dYV+z8/DQq1gKLvtrsBpN3Y4DAIi
-         GFDIWOFzS97EfdHzKPU0oQbuQybRfzNeK6yg5OE4alHcn15b4GBwGeu8cP5r/MYaWHCk
-         KWSQ==
-X-Gm-Message-State: AFqh2kqP9/I5EvtCNpoJ5Kyw9FlcC7l3T8fuQiCiD+viJwtbkumQXAsU
-        pBdwJJIwDGh6DDNcuapZg+4HKkWKpPVzEHdywnLTKA==
-X-Google-Smtp-Source: AMrXdXs7G0Oy1eOkRMD5hv9YO0RT324jdvsOMEaNF6TPQ8kzN5s9vSottpKNjr7WBsHmKfVNJPGh0dkRyT4f73X221U=
-X-Received: by 2002:a25:d505:0:b0:7bf:d201:60cb with SMTP id
- r5-20020a25d505000000b007bfd20160cbmr2763028ybe.365.1674684479589; Wed, 25
- Jan 2023 14:07:59 -0800 (PST)
+        with ESMTP id S236108AbjAZAbv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Jan 2023 19:31:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BFD2646B3
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jan 2023 16:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674693021;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VHSmXHW9yZ+UbSSxJPY4DxQLbjMrGPHlslJcTPeWITk=;
+        b=DlC9IOpCEnsoeYz/o7vz85Ke+K4peXaezwAo+vbRYEsQXi1lQi+2sOJis22fQ7wkqQuSMs
+        LDFbP2CcLLSUdpVhWIeXqjOs971Z1rN03DSv2Diw/xtuv9z8qQdyJcB+KffoCDRtql657W
+        gv3ALGHohrgwKAg5jHAxMBeoY19bvVU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-192-BtXAPO8HM76e3a6RiLVqdg-1; Wed, 25 Jan 2023 19:30:15 -0500
+X-MC-Unique: BtXAPO8HM76e3a6RiLVqdg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35FB185C06A;
+        Thu, 26 Jan 2023 00:30:15 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (ovpn-195-63.brq.redhat.com [10.40.195.63])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 07FA1492C14;
+        Thu, 26 Jan 2023 00:30:11 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Thu, 26 Jan 2023 01:30:12 +0100 (CET)
+Date:   Thu, 26 Jan 2023 01:30:08 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Gregory Price <gourry.memverge@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        avagin@gmail.com, peterz@infradead.org, luto@kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v6 1/2] ptrace,syscall_user_dispatch: Implement Syscall
+ User Dispatch Suspension
+Message-ID: <20230126003008.GA31684@redhat.com>
+References: <20230125025126.787431-1-gregory.price@memverge.com>
+ <20230125025126.787431-2-gregory.price@memverge.com>
 MIME-Version: 1.0
-References: <20230123191728.2928839-1-tjmercier@google.com>
- <20230123191728.2928839-4-tjmercier@google.com> <Y9FnJ/U41XN3h8gT@google.com>
-In-Reply-To: <Y9FnJ/U41XN3h8gT@google.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Wed, 25 Jan 2023 14:07:48 -0800
-Message-ID: <CABdmKX3L=Ue8zxA8axR0yJ5F2bgGjWA7dYxL4uNQPqyazqOd=g@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] binder: Add flags to relinquish ownership of fds
-To:     Carlos Llamas <cmllamas@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, daniel.vetter@ffwll.ch,
-        android-mm@google.com, jstultz@google.com, jeffv@google.com,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-        cgroups@vger.kernel.org, Hridya Valsaraju <hridya@google.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230125025126.787431-2-gregory.price@memverge.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 9:30 AM Carlos Llamas <cmllamas@google.com> wrote:
+On 01/24, Gregory Price wrote:
 >
-> On Mon, Jan 23, 2023 at 07:17:25PM +0000, T.J. Mercier wrote:
-> > From: Hridya Valsaraju <hridya@google.com>
-> >
-> > This patch introduces flag BINDER_FD_FLAG_XFER_CHARGE that a process
-> > sending an individual fd or fd array to another process over binder IPC
-> > can set to relinquish ownership of the fd(s) being sent for memory
-> > accounting purposes. If the flag is found to be set during the fd or fd
-> > array translation and the fd is for a DMA-BUF, the buffer is uncharged
-> > from the sender's cgroup and charged to the receiving process's cgroup
-> > instead.
-> >
-> > It is up to the sending process to ensure that it closes the fds
-> > regardless of whether the transfer failed or succeeded.
-> >
-> > Most graphics shared memory allocations in Android are done by the
-> > graphics allocator HAL process. On requests from clients, the HAL
-> > process allocates memory and sends the fds to the clients over binder
-> > IPC. The graphics allocator HAL will not retain any references to the
-> > buffers. When the HAL sets BINDER_FD_FLAG_XFER_CHARGE, binder will
-> > transfer the charge for the buffer from the allocator process cgroup to
-> > the client process cgroup.
-> >
-> > The pad [1] and pad_flags [2] fields of binder_fd_object and
-> > binder_fda_array_object come from alignment with flat_binder_object and
-> > have never been exposed for use from userspace. This new flags use
-> > follows the pattern set by binder_buffer_object.
-> >
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/uapi/linux/android/binder.h?id=feba3900cabb8e7c87368faa28e7a6936809ba22
-> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/uapi/linux/android/binder.h?id=5cdcf4c6a638591ec0e98c57404a19e7f9997567
-> >
-> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > ---
-> >  Documentation/admin-guide/cgroup-v2.rst |  3 ++-
-> >  drivers/android/binder.c                | 25 +++++++++++++++++++++----
-> >  include/uapi/linux/android/binder.h     | 19 +++++++++++++++----
-> >  3 files changed, 38 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> > index 538ae22bc514..d225295932c0 100644
-> > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > @@ -1457,7 +1457,8 @@ PAGE_SIZE multiple when read back.
-> >
-> >         dmabuf (npn)
-> >               Amount of memory used for exported DMA buffers allocated by the cgroup.
-> > -             Stays with the allocating cgroup regardless of how the buffer is shared.
-> > +             Stays with the allocating cgroup regardless of how the buffer is shared
-> > +             unless explicitly transferred.
-> >
-> >         workingset_refault_anon
-> >               Number of refaults of previously evicted anonymous pages.
-> > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-> > index 880224ec6abb..5e707974793f 100644
-> > --- a/drivers/android/binder.c
-> > +++ b/drivers/android/binder.c
-> > @@ -42,6 +42,7 @@
-> >
-> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> >
-> > +#include <linux/dma-buf.h>
-> >  #include <linux/fdtable.h>
-> >  #include <linux/file.h>
-> >  #include <linux/freezer.h>
-> > @@ -2237,7 +2238,7 @@ static int binder_translate_handle(struct flat_binder_object *fp,
-> >       return ret;
-> >  }
-> >
-> > -static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
-> > +static int binder_translate_fd(u32 fd, binder_size_t fd_offset, __u32 flags,
-> >                              struct binder_transaction *t,
-> >                              struct binder_thread *thread,
-> >                              struct binder_transaction *in_reply_to)
-> > @@ -2275,6 +2276,20 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
-> >               goto err_security;
-> >       }
-> >
-> > +     if (IS_ENABLED(CONFIG_MEMCG) && (flags & BINDER_FD_FLAG_XFER_CHARGE)) {
+> Adds PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH to ptrace options, and
+> modify Syscall User Dispatch to suspend interception when enabled.
 >
-> Do we need to test for MEMCG here? it seems this has been offloaded to
-> dma_buf_transfer_charge()?
->
-Nope, that's a duplicate check now. Will remove.
+> This is modeled after the SUSPEND_SECCOMP feature, which suspends
+> SECCOMP interposition.  Without doing this, software like CRIU will
+> inject system calls into a process and be intercepted by Syscall
+> User Dispatch, either causing a crash (due to blocked signals) or
+> the delivery of those signals to a ptracer (not the intended behavior).
 
-> > +             ret = dma_buf_transfer_charge(file, target_proc->tsk);
-> > +             if (unlikely(ret == -EBADF)) {
-> > +                     binder_user_error(
-> > +                             "%d:%d got transaction with XFER_CHARGE for non-DMA-BUF fd, %d\n",
-> > +                             proc->pid, thread->pid, fd);
-> > +                     goto err_dmabuf;
-> > +             } else if (ret) {
-> > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d\n",
-> > +                             proc->pid, thread->pid, target_proc->pid);
-> > +                     goto err_xfer;
-> > +             }
-> > +     }
-> > +
-> >       /*
-> >        * Add fixup record for this transaction. The allocation
-> >        * of the fd in the target needs to be done from a
-> > @@ -2294,6 +2309,8 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
-> >       return ret;
-> >
-> >  err_alloc:
-> > +err_xfer:
-> > +err_dmabuf:
-> >  err_security:
-> >       fput(file);
-> >  err_fget:
-> > @@ -2604,7 +2621,7 @@ static int binder_translate_fd_array(struct list_head *pf_head,
-> >
-> >               ret = copy_from_user(&fd, sender_ufda_base + sender_uoffset, sizeof(fd));
-> >               if (!ret)
-> > -                     ret = binder_translate_fd(fd, offset, t, thread,
-> > +                     ret = binder_translate_fd(fd, offset, fda->flags, t, thread,
-> >                                                 in_reply_to);
-> >               if (ret)
-> >                       return ret > 0 ? -EINVAL : ret;
-> > @@ -3383,8 +3400,8 @@ static void binder_transaction(struct binder_proc *proc,
-> >                       struct binder_fd_object *fp = to_binder_fd_object(hdr);
-> >                       binder_size_t fd_offset = object_offset +
-> >                               (uintptr_t)&fp->fd - (uintptr_t)fp;
-> > -                     int ret = binder_translate_fd(fp->fd, fd_offset, t,
-> > -                                                   thread, in_reply_to);
-> > +                     int ret = binder_translate_fd(fp->fd, fd_offset, fp->flags,
-> > +                                                   t, thread, in_reply_to);
-> >
-> >                       fp->pad_binder = 0;
-> >                       if (ret < 0 ||
-> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/android/binder.h
-> > index e72e4de8f452..4b20dd1dccb1 100644
-> > --- a/include/uapi/linux/android/binder.h
-> > +++ b/include/uapi/linux/android/binder.h
-> > @@ -91,14 +91,14 @@ struct flat_binder_object {
-> >  /**
-> >   * struct binder_fd_object - describes a filedescriptor to be fixed up.
-> >   * @hdr:     common header structure
-> > - * @pad_flags:       padding to remain compatible with old userspace code
-> > + * @flags:   One or more BINDER_FD_FLAG_* flags
-> >   * @pad_binder:      padding to remain compatible with old userspace code
-> >   * @fd:              file descriptor
-> >   * @cookie:  opaque data, used by user-space
-> >   */
-> >  struct binder_fd_object {
-> >       struct binder_object_header     hdr;
-> > -     __u32                           pad_flags;
-> > +     __u32                           flags;
-> >       union {
-> >               binder_uintptr_t        pad_binder;
-> >               __u32                   fd;
-> > @@ -107,6 +107,17 @@ struct binder_fd_object {
-> >       binder_uintptr_t                cookie;
-> >  };
-> >
-> > +enum {
-> > +     /**
-> > +      * @BINDER_FD_FLAG_XFER_CHARGE
-> > +      *
-> > +      * When set, the sender of a binder_fd_object wishes to relinquish ownership of the fd for
-> > +      * memory accounting purposes. If the fd is for a DMA-BUF, the buffer is uncharged from the
-> > +      * sender's cgroup and charged to the receiving process's cgroup instead.
-> > +      */
-> > +     BINDER_FD_FLAG_XFER_CHARGE = 0x01,
-> > +};
-> > +
-> >  /* struct binder_buffer_object - object describing a userspace buffer
-> >   * @hdr:             common header structure
-> >   * @flags:           one or more BINDER_BUFFER_* flags
-> > @@ -141,7 +152,7 @@ enum {
-> >
-> >  /* struct binder_fd_array_object - object describing an array of fds in a buffer
-> >   * @hdr:             common header structure
-> > - * @pad:             padding to ensure correct alignment
-> > + * @flags:           One or more BINDER_FD_FLAG_* flags
-> >   * @num_fds:         number of file descriptors in the buffer
-> >   * @parent:          index in offset array to buffer holding the fd array
-> >   * @parent_offset:   start offset of fd array in the buffer
-> > @@ -162,7 +173,7 @@ enum {
-> >   */
-> >  struct binder_fd_array_object {
-> >       struct binder_object_header     hdr;
-> > -     __u32                           pad;
-> > +     __u32                           flags;
-> >       binder_size_t                   num_fds;
-> >       binder_size_t                   parent;
-> >       binder_size_t                   parent_offset;
-> > --
-> > 2.39.0.246.g2a6d74b583-goog
-> >
->
-> Other than the previous question this looks good to me. Also, the error
-> from the test robot seems to indicate a missing stub for
-> dma_buf_transfer_charg() when !CONFIG_DMA_SHARED_BUFFER. However, this
-> is likely to be fixed outside of this patch. Feel free to add this tag
-> to the following round:
->
-> Acked-by: Carlos Llamas <cmllamas@google.com>
->
-> Thanks,
+Cough... Gregory, I am sorry ;)
 
-Got it, thanks!
+but can't we drop this patch to ?
+
+CRIU needs to do PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG and check
+config->mode anyway as we discussed.
+
+Then it can simply set *config->selector = SYSCALL_DISPATCH_FILTER_ALLOW
+with the same effect, no?
+
+Oleg.
+
