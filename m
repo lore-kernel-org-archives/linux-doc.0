@@ -2,121 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7726FC54E94
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 08:19:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC2EC54E94
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 08:47:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230244AbjAZITz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 03:19:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47358 "EHLO
+        id S234330AbjAZIrG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 03:47:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236232AbjAZITw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 03:19:52 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830D067796;
-        Thu, 26 Jan 2023 00:19:51 -0800 (PST)
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30Q7UoDZ027942;
-        Thu, 26 Jan 2023 08:19:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=w1SKFIv5r6+TuNq7lmTQSD7DtViWx/NFlXNfIRbezzo=;
- b=RxX3QlNPoS5I7JhEsvY3heKqGgwG5H4gL0BlYM53ZiXqpczx6PWIcP97ROD9kH7qGRLM
- P7hWL/jJD8UdzrnW0ZEsKbzutUNBauCWBL6UPwJ6nSxoZstrKXz3/jv1t9gYkNvkVDN/
- B3LxxCXuRIWFZOMnXx8fVdUf3jWTL5V4ZcKHQtEDzq3CBvbo5TknZg+n4dh+ys4KrL2H
- 27+Nz9n6zOdloj/0PZn5dGkbhFnkZHE4dzSoMrRMQuAW3Fvk9QG1yxKh8Yda6kX/YOCp
- 6S7pOxj9wfryWsBt0AdKHbafj1wqjYUJ/cjtkrZ5NVTrilxQFbSfe5NeMYhlEAO6ZETE qA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nbhkad9k1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Jan 2023 08:19:42 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30Q807HM007694;
-        Thu, 26 Jan 2023 08:19:41 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nbhkad9j8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Jan 2023 08:19:41 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-        by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30PMixBj004576;
-        Thu, 26 Jan 2023 08:19:39 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-        by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3n87afcerc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Jan 2023 08:19:38 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-        by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30Q8JZ9749938688
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 26 Jan 2023 08:19:35 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2127120040;
-        Thu, 26 Jan 2023 08:19:35 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9BC232004B;
-        Thu, 26 Jan 2023 08:19:34 +0000 (GMT)
-Received: from osiris (unknown [9.152.212.250])
-        by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-        Thu, 26 Jan 2023 08:19:34 +0000 (GMT)
-Date:   Thu, 26 Jan 2023 09:19:34 +0100
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Subject: Re: [PATCH v6 12/14] KVM: s390: Extend MEM_OP ioctl by storage key
- checked cmpxchg
-Message-ID: <Y9I3liGZJhNtt1N5@osiris>
-References: <20230125212608.1860251-1-scgl@linux.ibm.com>
- <20230125212608.1860251-13-scgl@linux.ibm.com>
+        with ESMTP id S233517AbjAZIrF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 03:47:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B9C0A5D6
+        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 00:46:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674722784;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2UJoQG8XqIV2gdZ5V2M7MUTXNJ4+fqx8kSeoZEHtCyE=;
+        b=UWeGjmL6q0Sj4pkM0pHuVYZ8wDN2nuIObNTZUVp+gosFV0gHeo8IkPya9vtrqt4SqHTk0k
+        fOdQjiaLdMAOhlOsW+M0n/VZqL/mGiApf7lLqabvGuC3fNPiWK2J3vfiAN5oVxxBIGWd2s
+        EUn31rvMU3kiL13cwbMHLVqHYin+3DE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-65-8ISqrfebN2uH99oNIeJzzA-1; Thu, 26 Jan 2023 03:46:23 -0500
+X-MC-Unique: 8ISqrfebN2uH99oNIeJzzA-1
+Received: by mail-wm1-f70.google.com with SMTP id o22-20020a05600c511600b003db02b921f1so2497785wms.8
+        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 00:46:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2UJoQG8XqIV2gdZ5V2M7MUTXNJ4+fqx8kSeoZEHtCyE=;
+        b=zBp38TJCtGIHijP/KUYs11qi1WVrdw3WiIjs+sRCchHqpwXA2wEtYORY0rNUM0IQDb
+         w5R5DLyuy6/Pi2j0UiI2GR1xbCi0XZT0rWVmqEO5Ct24ywFIsLvmar3TEm+YENRze6qa
+         JaT5l836i1rWk9yc6lSF9Nu9JRNBGkyIfd8SYTgotFjBspubMn1fJycPPesHCmPSyc86
+         uCX2x/BaoSqAHOmpiyhathtOsOnbDrFobMATNSk63mbL9D1ku56PssK5Ah0et9a7zliC
+         MgAKq7N4qCa/lCEFL0YsEpvf4x9FCEBSyhLBvI1KUAvqBhaNqHLkBeImHahomX+Gj1mR
+         0DfQ==
+X-Gm-Message-State: AFqh2ko9TPV2ZRKAKM04xhOy8GqDPHW2yrgCOKEd16eI30nVQEK83DWc
+        qR3Fd/gu9HHuhb84tUDhhW+LEnxJhKHmEOS/goEGS1jC8ooH/Fj9sdGg5CPQFPKqhAWmFXyRngl
+        GXMoPkYbLdWNxYksPHFtL
+X-Received: by 2002:a05:600c:714:b0:3d9:ed30:79d with SMTP id i20-20020a05600c071400b003d9ed30079dmr34687541wmn.18.1674722781971;
+        Thu, 26 Jan 2023 00:46:21 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtafnDCs+MxdtjVDkOlNHLIvv1Gu+xFfV8rFc8O/8mrsHf9iNdy6mNIXFzLYO+oSkffev3lmA==
+X-Received: by 2002:a05:600c:714:b0:3d9:ed30:79d with SMTP id i20-20020a05600c071400b003d9ed30079dmr34687520wmn.18.1674722781631;
+        Thu, 26 Jan 2023 00:46:21 -0800 (PST)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+        by smtp.gmail.com with ESMTPSA id p20-20020a05600c2e9400b003d9862ec435sm824806wmn.20.2023.01.26.00.46.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jan 2023 00:46:21 -0800 (PST)
+Message-ID: <ad7d94dd-f0aa-bf21-38c3-58ef1e9e46dc@redhat.com>
+Date:   Thu, 26 Jan 2023 09:46:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230125212608.1860251-13-scgl@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: VgjH7YKl424iAO4clPGJBQUw0OfmbI4s
-X-Proofpoint-ORIG-GUID: mlOscjtaWAVu1lk_0oQDdr1ahSrT9QAw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-26_02,2023-01-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 phishscore=0
- malwarescore=0 bulkscore=0 adultscore=0 spamscore=0 mlxlogscore=511
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301260076
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 18/39] mm: Handle faultless write upgrades for shstk
+Content-Language: en-US
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-19-rick.p.edgecombe@intel.com>
+ <7f63d13d-7940-afb6-8b25-26fdf3804e00@redhat.com>
+ <50cf64932507ba60639eca28692e7df285bcc0a7.camel@intel.com>
+ <1327c608-1473-af4f-d962-c24f04f3952c@redhat.com>
+ <8c3820ae1448de4baffe7c476b4b5d9ba0a309ff.camel@intel.com>
+ <4d224020-f26f-60a4-c7ab-721a024c7a6d@redhat.com>
+ <dd06b54291ad5721da392a42f2d8e5636301ffef.camel@intel.com>
+ <899d8f3baaf45b896cf335dec2143cd0969a2d8a.camel@intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <899d8f3baaf45b896cf335dec2143cd0969a2d8a.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 10:26:06PM +0100, Janis Schoetterl-Glausch wrote:
-> User space can use the MEM_OP ioctl to make storage key checked reads
-> and writes to the guest, however, it has no way of performing atomic,
-> key checked, accesses to the guest.
-> Extend the MEM_OP ioctl in order to allow for this, by adding a cmpxchg
-> op. For now, support this op for absolute accesses only.
+On 26.01.23 01:59, Edgecombe, Rick P wrote:
+> On Wed, 2023-01-25 at 10:43 -0800, Rick Edgecombe wrote:
+>> Thanks for your comments and ideas here, I'll give the:
+>> pte_t pte_mkwrite(struct vm_area_struct *vma, pte_t pte)
+>> ...solution a try.
 > 
-> This op can be use, for example, to set the device-state-change
-> indicator and the adapter-local-summary indicator atomically.
-> 
-> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> ---
->  include/uapi/linux/kvm.h |   8 +++
->  arch/s390/kvm/gaccess.h  |   3 ++
->  arch/s390/kvm/gaccess.c  | 103 +++++++++++++++++++++++++++++++++++++++
->  arch/s390/kvm/kvm-s390.c |  56 ++++++++++++++++++++-
->  4 files changed, 169 insertions(+), 1 deletion(-)
-...
-> +		ret = cmpxchg_user_key((u8 *)hva, &old, *old_addr, new, access_key);
+> Well, it turns out there are some pte_mkwrite() callers in other arch's
+> that operate on kernel memory and don't have a VMA. So it needed a new
 
-FWIW, this and the three others need a __user annotation:
+Why not pass in NULL as VMA then and document the semantics? The less 
+similarly named but slightly different functions, the better :)
 
-		ret = cmpxchg_user_key((u8 __user *)hva, &old, *old_addr, new, access_key);
+-- 
+Thanks,
 
-Otherwise you end up with sparse warnings (compile with C=1).
+David / dhildenb
+
