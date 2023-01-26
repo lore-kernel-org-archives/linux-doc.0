@@ -2,70 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E04EC61DA3
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 18:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC07CC61DA3
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Jan 2023 18:31:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231784AbjAZSYR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 13:24:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43250 "EHLO
+        id S229470AbjAZSbA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 13:31:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230227AbjAZSYQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 13:24:16 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F107A2E811;
-        Thu, 26 Jan 2023 10:24:15 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 748872CD;
-        Thu, 26 Jan 2023 18:24:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 748872CD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1674757455; bh=NDkHtT0XjsN48TGbkrZ3csn8ktoYSDEN7MwnP8baIsI=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=EfE1CVoBF1Lav23Y8wMwuTM1CGVqLS3IWz+nISXGDdFbPIyEUe7SW+jf3xOlU0DHf
-         lfvBfJEFlncw56/QVROaAgU+gtk7Jpnn70NV8ESfaRX5mO8JhzJfwB1WoyGS8RMSn5
-         U5GsPIv+d523u8tOjZ8PkYMJyA+/B60lO7WiEYnN2SL00p/nwDaLrWPqg/Uh7BynkO
-         +qISNhKnhSfBgZKrRDE7QbaYQ3EN5u10cp5GnZ39YuGnalzCy/IOpt/78fqqQ5Alz5
-         BnEJvGjdOUO/DVh9CMXI0e7rJ24ojMFS0WzKuJ/1N06+dJx+4GHIUAQMsRBeOqqR3a
-         sO9zJRCnposSw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wang Yong <yongw.kernel@gmail.com>, pbonzini@redhat.com,
-        kchamart@redhat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, Wang Yong <yongw.kernel@gmail.com>
-Subject: Re: [PATCH] Documentation: KVM: fix typos in running-nested-guests.rst
-In-Reply-To: <20230110150046.549755-1-yongw.kernel@gmail.com>
-References: <20230110150046.549755-1-yongw.kernel@gmail.com>
-Date:   Thu, 26 Jan 2023 11:24:14 -0700
-Message-ID: <87edrh9msx.fsf@meer.lwn.net>
+        with ESMTP id S231378AbjAZSa7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 13:30:59 -0500
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C98D09029;
+        Thu, 26 Jan 2023 10:30:56 -0800 (PST)
+Received: by mail-il1-x135.google.com with SMTP id h10so1138821ilq.6;
+        Thu, 26 Jan 2023 10:30:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BtZAD+XajG4Ff3lpRNxc5VU6XMKBXj9jHvhDyP5qqKs=;
+        b=KPsDp1ZwjFTTJ9gseCa1sE6zHCopqeOf/Sg/pl/lSTGYaq7YbyYzCXFfjgqTaFoz2y
+         /78jOoWSVY8fpqVWeng2kRq1uHlIVfjJo7BnEpJ7D7749rrhv/gM4JQ7e5gNp5OOTSdH
+         efknyTybs2voRsrloxjG8Gs+qgrtOdoGgrjDdP6ayo/IQLrbKCIJAKXfbJCARC22Cwpl
+         N9UuoCUe7mDjrqiLucD+/LF55z+jxisMJ4WSqcBWYYm9fVDz+u3PZVxldCN9GJol1BvT
+         zq2K+sIX0tzzWEKLiZXjq6Xt41mwrgMDI5LT6r7+On7DMs2nuTaFTyLzRfXxAztNrTA6
+         FuYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BtZAD+XajG4Ff3lpRNxc5VU6XMKBXj9jHvhDyP5qqKs=;
+        b=Q7HautlicMRnXFrqA5hxrpjMP6GGtb19j8DP6tSQhAK6m4ymOCIYEpbans2LxQ8xVs
+         r43kBhX6y0AmBy7PSWXHzJHOSfEnWhO/RPRHirTyRqYsdR/lcKqc+WnUuRQKV39xKr2v
+         1Sdhm/MoVr5WQGC/X0IU619kKGG8UX15pq8V2roiJ9izn7R2hq+s7tHv7vi984IUfj7B
+         3eX7QuabzB3I9qZbZB4jdM1HTxKY2UAJV4UhrV+lJjHuKYY90gmewp+xVCA6Xjdu8cE6
+         ccFwGuefCxDMHDbzNan/tSjfY4HSIC4ir037i4KowkAuvfQ1JxIILw6VupXHD5OHuPcs
+         voNQ==
+X-Gm-Message-State: AFqh2kowD5I67IwNFYkCH+dRWAWQIxZjOqKAwcWobNCTU81xvk6tYULp
+        /wkGc02DrQYggg29PzM7XoHLx9xFVdGG5D6y8dtnzBlMaOw=
+X-Google-Smtp-Source: AMrXdXs7ZAjEie6unF52csPKnYMHWPA0TToP3oo+e6ede7qZNmS9Jv0sLRReSaXYHZxccnUNnT9ZZeW+MZ0E6f7JTY8=
+X-Received: by 2002:a92:6a05:0:b0:30d:ba97:90e2 with SMTP id
+ f5-20020a926a05000000b0030dba9790e2mr4343477ilc.38.1674757856075; Thu, 26 Jan
+ 2023 10:30:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230125025126.787431-1-gregory.price@memverge.com>
+ <20230125025126.787431-2-gregory.price@memverge.com> <20230126003008.GA31684@redhat.com>
+ <CANaxB-xn0wW5xA_CT7bA5=jig+td__EDKPBWSpZdfgMgVOezCg@mail.gmail.com>
+ <20230126150725.GB4069@redhat.com> <CANaxB-woave9F479O75P9PC+nFO3DVmbeFA1rXf2c=bhRmWoiQ@mail.gmail.com>
+ <Y9K92SQnrXhd0qjC@memverge.com>
+In-Reply-To: <Y9K92SQnrXhd0qjC@memverge.com>
+From:   Andrei Vagin <avagin@gmail.com>
+Date:   Thu, 26 Jan 2023 10:30:44 -0800
+Message-ID: <CANaxB-yL8-4DWMb4h9bBXSZBJ=RrPQuJw76mz0CFkX-3f4Pq_w@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] ptrace,syscall_user_dispatch: Implement Syscall
+ User Dispatch Suspension
+To:     Gregory Price <gregory.price@memverge.com>
+Cc:     Oleg Nesterov <oleg@redhat.com>,
+        Gregory Price <gourry.memverge@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wang Yong <yongw.kernel@gmail.com> writes:
-
-> change "gues" to "guest" and remove redundant ")".
+On Thu, Jan 26, 2023 at 9:52 AM Gregory Price
+<gregory.price@memverge.com> wrote:
 >
-> Signed-off-by: Wang Yong <yongw.kernel@gmail.com>
-> ---
->  Documentation/virt/kvm/x86/running-nested-guests.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Thu, Jan 26, 2023 at 09:45:39AM -0800, Andrei Vagin wrote:
+> > On Thu, Jan 26, 2023 at 7:07 AM Oleg Nesterov <oleg@redhat.com> wrote:
+> > >
+> > > On 01/25, Andrei Vagin wrote:
+> > > >
+> > > > On Wed, Jan 25, 2023 at 4:30 PM Oleg Nesterov <oleg@redhat.com> wrote:
+> > > > >
+> > > > > On 01/24, Gregory Price wrote:
+> > > > > >
+> > > > > > Adds PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH to ptrace options, and
+> > > > > > modify Syscall User Dispatch to suspend interception when enabled.
+> > > > > >
+> > > > > > This is modeled after the SUSPEND_SECCOMP feature, which suspends
+> > > > > > SECCOMP interposition.  Without doing this, software like CRIU will
+> > > > > > inject system calls into a process and be intercepted by Syscall
+> > > > > > User Dispatch, either causing a crash (due to blocked signals) or
+> > > > > > the delivery of those signals to a ptracer (not the intended behavior).
+> > > > >
+> > > > > Cough... Gregory, I am sorry ;)
+> > > > >
+> > > > > but can't we drop this patch to ?
+> > > > >
+> > > > > CRIU needs to do PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG and check
+> > > > > config->mode anyway as we discussed.
+> > > > >
+> > > > > Then it can simply set *config->selector = SYSCALL_DISPATCH_FILTER_ALLOW
+> > > > > with the same effect, no?
+> > > >
+> > > > Oleg,
+> > > >
+> > > > PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH is automatically cleared when
+> > > > a tracer detaches. It is critical when tracers detach due to unexpected
+> > > > reasons
+> > >
+> > > IIUC, PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH is needed to run the injected
+> > > code, and this also needs to change the state of the traced process. If
+> > > the tracer (CRIU) dies while the tracee runs this code, I guess the tracee
+> > > will have other problems?
+> >
+> > Our injected code can reheal itself if something goes wrong. The hack
+> > here is that we inject
+> > the code with a signal frame and it calls rt_segreturn to resume the process.
+> >
+> > We want to have this functionality for most cases. I don't expect that
+> > the syscall user dispatch
+> > is used by many applications, so I don't strongly insist on
+> > PTRACE_O_SUSPEND_SYSCALL_USER_DISPATCH. In addition, if we know a user dispatch
+> > memory region, it can be enough to inject our code out of this region
+> > without disabling SUD.
+> >
+> > Thanks,
+> > Andrei
 >
-> diff --git a/Documentation/virt/kvm/x86/running-nested-guests.rst b/Documentation/virt/kvm/x86/running-nested-guests.rst
-> index a27e6768d900..71136fe1723b 100644
-> --- a/Documentation/virt/kvm/x86/running-nested-guests.rst
-> +++ b/Documentation/virt/kvm/x86/running-nested-guests.rst
-> @@ -150,7 +150,7 @@ able to start an L1 guest with::
->      $ qemu-kvm -cpu host [...]
->  
->  The above will pass through the host CPU's capabilities as-is to the
-> -gues); or for better live migration compatibility, use a named CPU
-> +guest, or for better live migration compatibility, use a named CPU
->  model supported by QEMU. e.g.::
+> The region is exclusive, so syscalls *outside* [offset, offset+len]
+> produce a dispatch. That means you would have to inject into that region.
 
-Applied, thanks.
+You are right. I missed that. So it depends how large a region is and
+whether it has enough
+free space to inject our code.
 
-jon
+Out of curiosity, do you know any real app that use SUD? I think it
+was implemented for wine,
+but they haven't started using it yet.
+
+Thanks,
+Andrei
