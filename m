@@ -2,101 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F189EC61DA4
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 12:28:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F49C54EAA
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 12:30:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233700AbjA0M2e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 07:28:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37440 "EHLO
+        id S232254AbjA0MaQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 07:30:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233990AbjA0M2Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 07:28:16 -0500
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD48AAD24;
-        Fri, 27 Jan 2023 04:27:46 -0800 (PST)
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30RALg1j017328;
-        Fri, 27 Jan 2023 11:43:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=mghF05r9ADEypUYcx7SnYoI/1VfwNYwXit9C0zNG9xc=;
- b=jE7hqYahf20n0Srim2uO+xkZrfC1F4wAmsQrA85TUoN9gwJWwZgHUi4Lijo3qPffpUNE
- Z2loP0s5iaRbG0uGa91OvNTqEFpXjPaJur4v5N0oTThBiNvdVfkGkTlkqt4/7Ethem0J
- nI+EYZk2amFE8t2u/r0N4JtAEbVCV6rZ1GF3mRARnxOZ5q0WMBbWYm2iAqJ9mtjlWViL
- tFt4Bq30A2eKGQ96qFqqaIw/8gGBsXH6nOocZslL+0Tuo/dSi+KQsxsP+enqiSbrmfDQ
- NFqHoCXXuHYhbh7V/+/qbcYw1SCuVp/MYb3uVPR5BR5GFtC6xITf2dpitTfioMw7XlDL Cg== 
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nccsuhsq4-1
+        with ESMTP id S232525AbjA0MaN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 07:30:13 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F7E30E4;
+        Fri, 27 Jan 2023 04:30:10 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30RBv4YZ024366;
+        Fri, 27 Jan 2023 12:29:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=6601227chkLYrNzE4yqvw/mKCTmKQwmwYAxGEzjr2CQ=;
+ b=Y9niUPaE3hZuVQWSxiobmtfNmBRfp+eLGAbpXsS15i4iTXY48dxoIQQLnDZnEVVilQcB
+ JNAajD6af9LzP6ZzlIucfcXZ1PTanPCE0++n+oJ1a/OX2E+UhUBQQy3X96U9WiRWEe4z
+ IE/ci/0l+V8LznIj6BrmAeCpqUWCfFy+eEVilUim73cPensHbkJlnzyhjt8ByUeKYsmo
+ DtUlMXB56m2XiknA4zlgCq4AEHLfuAsX6oZakH2KZ5Td5rUIEDlvs9XlEln/Ipd8PHar
+ 9LjoSsVVR0+QrXPRAykgvQ8XgSTLiMft2YtqQjK+9JsscWpAomq3TzQprR6WjzGh1rOf +g== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nbd7au6vb-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 27 Jan 2023 11:43:26 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-        by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30QNr64q029222;
-        Fri, 27 Jan 2023 11:43:25 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-        by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3n87afddb0-1
+        Fri, 27 Jan 2023 12:29:56 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30RCTu79024155
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 27 Jan 2023 11:43:25 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-        by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30RBhLZ845875624
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 27 Jan 2023 11:43:21 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 75DC12004D;
-        Fri, 27 Jan 2023 11:43:21 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 101F820040;
-        Fri, 27 Jan 2023 11:43:21 +0000 (GMT)
-Received: from osiris (unknown [9.179.15.200])
-        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-        Fri, 27 Jan 2023 11:43:20 +0000 (GMT)
-Date:   Fri, 27 Jan 2023 12:43:19 +0100
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        linux-s390@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 23/35] Documentation: s390: correct spelling
-Message-ID: <Y9O4150V0hMBsEoj@osiris>
-References: <20230127064005.1558-1-rdunlap@infradead.org>
- <20230127064005.1558-24-rdunlap@infradead.org>
+        Fri, 27 Jan 2023 12:29:56 GMT
+Received: from [10.216.47.84] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 27 Jan
+ 2023 04:29:52 -0800
+Message-ID: <9610a38e-9f39-c514-f535-73434ae8f51a@quicinc.com>
+Date:   Fri, 27 Jan 2023 17:59:49 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230127064005.1558-24-rdunlap@infradead.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: P30Yg8-afwC5vdm2D5Zy-_VHHMJ9sY_t
-X-Proofpoint-GUID: P30Yg8-afwC5vdm2D5Zy-_VHHMJ9sY_t
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v2 1/3] dt-bindings: reserved-memory: ramoops: Update the
+ binding
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <keescook@chromium.org>, <gpiccoli@igalia.com>, <corbet@lwn.net>,
+        <tony.luck@intel.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>
+CC:     <linux-hardening@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <1673611126-13803-1-git-send-email-quic_mojha@quicinc.com>
+ <7cb96551-094c-1a68-cc3f-31e4e2e94518@linaro.org>
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <7cb96551-094c-1a68-cc3f-31e4e2e94518@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: tPkkxhmOhWHw67xDJR3jJqJHnWT6pnn7
+X-Proofpoint-GUID: tPkkxhmOhWHw67xDJR3jJqJHnWT6pnn7
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-27_06,2023-01-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
- spamscore=0 clxscore=1011 adultscore=0 phishscore=0 bulkscore=0
- suspectscore=0 mlxlogscore=399 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2301270109
+ definitions=2023-01-27_08,2023-01-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ malwarescore=0 spamscore=0 mlxlogscore=999 impostorscore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301270117
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 10:39:53PM -0800, Randy Dunlap wrote:
-> Correct spelling problems for Documentation/s390/ as reported
-> by codespell.
+Hi,
+
+On 1/13/2023 5:34 PM, Krzysztof Kozlowski wrote:
+> Subject: drop second/last, redundant "binding". The "dt-bindings" prefix
+> is already stating that these are bindings.
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Heiko Carstens <hca@linux.ibm.com>
-> Cc: Vasily Gorbik <gor@linux.ibm.com>
-> Cc: Alexander Gordeev <agordeev@linux.ibm.com>
-> Cc: linux-s390@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/s390/pci.rst      |    4 ++--
->  Documentation/s390/vfio-ccw.rst |    2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+> Your subject says nothing. Everything is "update".
+> 
+> On 13/01/2023 12:58, Mukesh Ojha wrote:
+>> Update the ramoops region binding document with details
+>> like region can also be reserved dynamically apart from
+>> reserving it statically.
+> 
+> So what exactly can be here reserved dynamically? And what does it mean
+> 'dynamically'? By whom? How is this property of hardware (not OS)?
+> 
+>>
+>> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+>> ---
+>> Change in v2:
+>>    - Added this patch as per changes going to be done in patch 3/3
+>>
+>>   .../bindings/reserved-memory/ramoops.yaml          | 34 ++++++++++++++++++++--
+>>   1 file changed, 32 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
+>> index 0391871..54e46e8 100644
+>> --- a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
+>> +++ b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
+>> @@ -10,7 +10,8 @@ description: |
+>>     ramoops provides persistent RAM storage for oops and panics, so they can be
+>>     recovered after a reboot. This is a child-node of "/reserved-memory", and
+>>     is named "ramoops" after the backend, rather than "pstore" which is the
+>> -  subsystem.
+>> +  subsystem. This region can be reserved both statically or dynamically by
+>> +  using appropriate property in device tree.
+>>   
+>>     Parts of this storage may be set aside for other persistent log buffers, such
+>>     as kernel log messages, or for optional ECC error-correction data.  The total
+>> @@ -112,7 +113,13 @@ unevaluatedProperties: false
+>>   
+>>   required:
+>>     - compatible
+>> -  - reg
+>> +
+>> +oneOf:
+>> +  - required:
+>> +      - reg
+>> +
+>> +  - required:
+>> +      - size
+> 
+> There is no such property. You cannot require it.
 
-FWIW,
+I was thinking, since this size is part reserved-memory.yaml and
+we have
 
-Acked-by: Heiko Carstens <hca@linux.ibm.com>
+allOf:
+   - $ref: "reserved-memory.yaml"
 
-If you expect me to pick this up via the s390 tree, please let me know.
+Is your comment still applies?
+
+-Mukesh
+> 
+>>   
+>>   anyOf:
+>>     - required: [record-size]
+>> @@ -142,3 +149,26 @@ examples:
+>>               };
+>>           };
+>>       };
+>> +
+>> +  - |
+>> +    / {
+>> +        compatible = "foo";
+>> +        model = "foo";
+>> +        #address-cells = <2>;
+>> +        #size-cells = <2>;
+>> +
+>> +        reserved-memory {
+>> +            #address-cells = <2>;
+>> +            #size-cells = <2>;
+>> +            ranges;
+>> +
+>> +            ramoops: ramoops_region {
+> 
+> Node names should be generic, no underscores in node names.
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+> 
+> Any reason in naming it differently then existing one? You have there
+> example.
+> 
+>> +                compatible = "ramoops";
+>> +                alloc-ranges = <0x0 0x00000000 0xffffffff 0xffffffff>;
+>> +                size = <0x0 0x10000>;       /* 64kB */
+>> +                console-size = <0x8000>;    /* 32kB */
+>> +                record-size = <0x400>;      /*  1kB */
+>> +                ecc-size = <16>;
+>> +            };
+>> +        };
+>> +    };
+> 
+> Best regards,
+> Krzysztof
+> 
