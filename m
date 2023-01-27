@@ -2,596 +2,184 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D548C38142
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 16:55:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D121BC54EAA
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 16:57:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234160AbjA0QzA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 11:55:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49970 "EHLO
+        id S233476AbjA0Q5e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 11:57:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234660AbjA0Qyy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 11:54:54 -0500
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA051ADF7
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 08:54:43 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id c66so2126819iof.12
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 08:54:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FXPGAQo6R8EiYSAsDjZ79BgcqJdogDKRUAhM+iQ2QKA=;
-        b=F7AG2UVtuFjRMeU8N9CP9dE5NDvevkZsogHr7IkM/ceIhWXJmjLK68zElORVmVwTld
-         EyjEQvmmoahk/Urio+AetGrupRB8dJWgVxYUYZ7hh/tLUcDkBUuvsZBW1mI6XYnpIZ7j
-         g+HdqzZAMyk/RmqiMS+SLizYTU2W7Ukfe056g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FXPGAQo6R8EiYSAsDjZ79BgcqJdogDKRUAhM+iQ2QKA=;
-        b=CZcZ+FN29bm8059GF0gCkUeP5rla9nz+PnsCrBxNjw3Yhn9te45sRYs4q4Xz1wBIdc
-         gbEzOUeEe4QOKjOrEPCzhMayYB510R3I788Qf9DoWvYWWKZptROLZpXf7he1oaFNQkIg
-         hAmvRDh6DmAFtIpaeWDlFEvzJSVXd+9CtM2jmWf3XiWAcuVr9DZqRfopmko1IatKg5yl
-         UHaj+ghhUcO9XLxCUYRE6M26G1EGVbNGa2jUvy74bYWpCg7AFeEvZf2hSdlVzrwG7wZD
-         m65f29UoqQVWB7I99X8bWeJe+kzrh140Le58JmjWFRzcidsrnIVoaJyOa4OhzpU9r2rN
-         kDUw==
-X-Gm-Message-State: AFqh2kpF2+yB2/rLhxwJZDQ+CN15Kdi5oJ3vBWd5E9iq/5e3Bat+Iuk6
-        JifGNXi4aL7VKMx4cWazWK6Cdg==
-X-Google-Smtp-Source: AMrXdXuYxei1rQYSHmE9rE2MMPrix6DUUFdT+Xg5iI9ltBDQE/RMFrsdu+cQc/eEqaeSgYKiJZQ5NA==
-X-Received: by 2002:a6b:b445:0:b0:707:e4eb:d91c with SMTP id d66-20020a6bb445000000b00707e4ebd91cmr2041475iof.1.1674838482584;
-        Fri, 27 Jan 2023 08:54:42 -0800 (PST)
-Received: from shuah-tx13.internal ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id u20-20020a6be414000000b006bbddd49984sm1400206iog.9.2023.01.27.08.54.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jan 2023 08:54:41 -0800 (PST)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     corbet@lwn.net
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, sshefali021@gmail.com,
-        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: add workload-tracing document to admin-guide
-Date:   Fri, 27 Jan 2023 09:54:40 -0700
-Message-Id: <20230127165440.19158-1-skhan@linuxfoundation.org>
+        with ESMTP id S232579AbjA0Q5d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 11:57:33 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2040.outbound.protection.outlook.com [40.107.223.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF3D11F;
+        Fri, 27 Jan 2023 08:57:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lCVvWHJ4hPfG5ny/I+5cdXImcxMxXih8kz5nN1VBgS/CUAK1z4HAFOCiE6ooRfGZhR9Zye0giV/Uf1m5brSbZOQTivAHwYvAiWjJUymxvsApJt+4GPB+D1U8clV2z/T0WMrYKB579r0TKuEiyrrCRLPrycycCGX1s7V+Xjr/RUE4VTj5j4TLRhp0dLnmzRElkgPrReeWf4aqsriScnLWIJ5BW/nErRoUb1nmauqVHRb0/k90MPtvjATNvNWrNtdoTK0lgWRo/oEqW/cj2GgcE8RFeeyMh6wEaAKMlpU/bx4rk2pYbS6y5FdVhIfzRUAuxmMasqMGoTnEt9TjVWD9+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eEvYD05+DILWPF29H57c5xi+s7dBsP1BYajS+dY1OuA=;
+ b=P7qZzOCoBzJaLypnuWYdXbmIxEiMdCqvVFVaddkuId0w3SaYlzND7oVJ13vYsPzoSfdBNoGS1Qyt8NOjx69aZPX3VYAoye3ZSQ1lqnhwgOTEWfoAubvkZuCc8B/5/vC1WHbFly5MCXdv2hUoYVvdmkjNrQ5vx9XP96QUtx76hBlkpBgHxIp8lGEWm1iigppU+OuPsehUoa0adoh7UNcgzhln4njllpR9/V7LJyPziX09jQ0o87zPuMlq2CoznD9X49AKOwxYvh+lJkDaAB1/C47nIeDNoI0/CqstHZwqCtQSeTCT4qWdtVgcTR9YwYqkeMOqVc5BQLwHs76DopgUGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eEvYD05+DILWPF29H57c5xi+s7dBsP1BYajS+dY1OuA=;
+ b=OvmmTzkrK2y5Pg9nmH1ApQgdscJZ2Zj8SPY5P8kaWStwpZCWuntAiJ/PYrJGmIK0qytqJxPCXWgDlBn9NSCeWSKI/yVdNe/xAkvLs+/wPy5KNqXfF05A3HaD8whK4kd98Vr+OGqLDeUHPAicegHusgw4RZnLlDXZG0x7lQfrB64=
+Received: from DM6PR08CA0053.namprd08.prod.outlook.com (2603:10b6:5:1e0::27)
+ by SA1PR12MB6994.namprd12.prod.outlook.com (2603:10b6:806:24d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.23; Fri, 27 Jan
+ 2023 16:57:30 +0000
+Received: from DM6NAM11FT066.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:1e0:cafe::c3) by DM6PR08CA0053.outlook.office365.com
+ (2603:10b6:5:1e0::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.23 via Frontend
+ Transport; Fri, 27 Jan 2023 16:57:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT066.mail.protection.outlook.com (10.13.173.179) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6043.22 via Frontend Transport; Fri, 27 Jan 2023 16:57:30 +0000
+Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 27 Jan
+ 2023 10:57:29 -0600
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
+ (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 27 Jan
+ 2023 08:57:29 -0800
+Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Fri, 27 Jan 2023 10:57:29 -0600
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+To:     <ojeda@kernel.org>, <corbet@lwn.net>,
+        <jani.nikula@linux.intel.com>, <rdunlap@infradead.org>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <konstantin@linuxfoundation.org>, <bilbao@vt.edu>,
+        Carlos Bilbao <carlos.bilbao@amd.com>,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v6 1/2] docs: Move rustdoc output, cross-reference it
+Date:   Fri, 27 Jan 2023 10:57:27 -0600
+Message-ID: <20230127165728.119507-2-carlos.bilbao@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230127165728.119507-1-carlos.bilbao@amd.com>
+References: <20230127165728.119507-1-carlos.bilbao@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT066:EE_|SA1PR12MB6994:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0bbe65f-0b59-44c4-e6fb-08db008793dc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ORQKbIp9Pcrp9TnPyJ6JW4TqSaaBBAuoLhUr1oaboKOqgR4TVhiH+aC5rN0KvGFHyke5LtbwJfhiEhx0+dI3V8/ShcEXt9sw1FaFa+plTsn64URf1y/a97gXYnYx0Xekyysy3dvUczdMGJdMYDn+16iImSQTqBp3S+i2c15/rj7T85NugBQcHByGR3/dF42JOldA9kh19QUUTqpxdv1/rcyU8WB+Ir9sT2yBFjT1xV4Km+q8911KBDpY+YVSdftE9QsNle9EWKnLg5T3KHSwrVSKyh+1LwoOaDaZJXPcO7p5h68W0rehGb5mTCLP2D4+f6BIkEamfCVQC77qp/FE6fIOy3r76M7p0jtZQ0D83kd9l4OMINf+gqMbQNViTAVprGrdEcdLEV63XaAWzkrtAc0FZxPo6CiNcLCBmLMVCI/gys+k3yFq6DaLZzdd8q+1qAIA3juLopC/98ygO+ffuSdS4pXLs0k+nEli8eA7nf5TzlEU6cu8ovX6BG5JMaVuH1uPU/ofAQyoTVgPIQUbOmF1fzOvvCw1tws7kn9jAX04tB/Ega8PM2iazOkVphsnBEmesf47hzqlAU2+t/4rDnfPLGToL2nVGKDkBFxoatI/aqCKh5d6SKJ7vXo3ETu9goxVDJba9XiMevEzK1+2Rtkud9xdkOulIwLZH2/LZabLNBGnL0UaaLiaTPeUe/+aCjgr5OL7U2bxQSmZ/6Xn+wSijzHJiCS9GBI6tslEKhc=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(376002)(396003)(346002)(136003)(451199018)(40470700004)(46966006)(36840700001)(356005)(44832011)(2906002)(5660300002)(81166007)(8936002)(41300700001)(86362001)(478600001)(40460700003)(83380400001)(36756003)(110136005)(36860700001)(54906003)(82740400003)(316002)(47076005)(426003)(336012)(2616005)(7696005)(40480700001)(8676002)(4326008)(70586007)(70206006)(82310400005)(1076003)(26005)(186003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2023 16:57:30.3432
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0bbe65f-0b59-44c4-e6fb-08db008793dc
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT066.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6994
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new section to the admin-guide with information of interest to
-application developers and system integrators doing analysis of the
-Linux kernel for safety critical applications.
+Generate rustdoc documentation with the rest of subsystem's documentation
+in Documentation/output. Add a cross reference to the generated rustdoc in
+Documentation/rust/index.rst if Sphinx target rustdoc is set.
 
-This section will contain documents supporting analysis of kernel
-interactions with applications, and key kernel subsystems expectations.
-
-Add a new workload-tracing document to this new section.
-
-Signed-off-by: Shefali Sharma <sshefali021@gmail.com>
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 ---
- Documentation/admin-guide/index.rst           |  11 +
- .../admin-guide/workload-tracing.rst          | 486 ++++++++++++++++++
- 2 files changed, 497 insertions(+)
- create mode 100644 Documentation/admin-guide/workload-tracing.rst
+ Documentation/rust/index.rst |  8 ++++++++
+ rust/Makefile                | 15 +++++++++------
+ 2 files changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 5bfafcbb9562..f475554382e2 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -56,6 +56,17 @@ ABI will be found here.
+diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
+index 4ae8c66b94fa..e599be2cec9b 100644
+--- a/Documentation/rust/index.rst
++++ b/Documentation/rust/index.rst
+@@ -6,6 +6,14 @@ Rust
+ Documentation related to Rust within the kernel. To start using Rust
+ in the kernel, please read the quick-start.rst guide.
  
-    sysfs-rules
++.. only:: rustdoc and html
++
++	You can also browse `rustdoc documentation <rustdoc/kernel/index.html>`_.
++
++.. only:: not rustdoc and html
++
++	This documentation does not include rustdoc generated information.
++
+ .. toctree::
+     :maxdepth: 1
  
-+This is the beginning of a section with information of interest to
-+application developers and system integrators doing analysis of the
-+Linux kernel for safety critical applications. Documents supporting
-+analysis of kernel interactions with applications, and key kernel
-+subsystems expectations will be found here.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   workload-tracing
-+
- The rest of this manual consists of various unordered guides on how to
- configure specific aspects of kernel behavior to your liking.
+diff --git a/rust/Makefile b/rust/Makefile
+index ff70c4c916f8..04f4ee3a193e 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -1,5 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0
  
-diff --git a/Documentation/admin-guide/workload-tracing.rst b/Documentation/admin-guide/workload-tracing.rst
-new file mode 100644
-index 000000000000..a04359a4f858
---- /dev/null
-+++ b/Documentation/admin-guide/workload-tracing.rst
-@@ -0,0 +1,486 @@
-+.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
-+.. See the bottom of this file for additional redistribution information.
-+
-+Discovering Linux kernel subsystems used by a workload
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+
-+:Authors: - Shuah Khan <skhan@linuxfoundation.org>
-+          - Shefali Sharma <sshefali021@gmail.com>
-+
-+Key Points
-+==========
-+
-+ * Understanding system resources necessary to build and run a workload
-+   is important.
-+ * Linux tracing and strace can be used to discover the system resources
-+   in use by a workload. The completeness of the system usage information
-+   depends on the completeness of coverage of a workload.
-+ * Performance and security of the operating system can be analyzed with
-+   the help of tools such as `perf <https://man7.org/linux/man-pages/man1/perf.1.html>`_, `stress-ng <https://www.mankier.com/1/stress-ng>`_, `paxtest <https://github.com/opntr/paxtest-freebsd/blob/hardenedbsd/0.9.14-hbsd/README>`_.
-+ * Once we discover and understand the workload needs, we can focus on them
-+   to avoid regressions and use it to evaluate safety considerations.
-+
-+Methodology
-+===========
-+
-+`strace <https://man7.org/linux/man-pages/man1/strace.1.html>`_ is a diagnostic, instructional, and debugging tool and can be used to discover the system resources in use by a workload. Once we discover and understand the workload needs, we can focus on them to avoid regressions and use it to evaluate safety considerations. We chose strace tool to trace workloads.
-+
-+This method of tracing tells us the system calls invoked by the workload and doesn't include all the system calls that can be invoked by it. In addition to that this trace tells us just the code paths within these system calls that are invoked. As an example, if a workload opens a file and reads from it successfully, then the success path is the one that is traced. Any error paths in that system call will not be traced. If there is a workload that provides full coverage the method outlined here will trace and find all possible code paths. The completeness of the system usage information depends on the completeness of coverage of a workload.
-+
-+The goal is tracing a workload on a system running a default kernel without requiring custom kernel installs.
-+
-+How do we gather fine grained system information?
-+==================================================
-+
-+strace tool can be used to trace system calls made by a process and signals it receives. a process to the perf, stress-ng, paxtest workloads. System calls are the fundamental interface between an application and the operating system kernel. They enable a program to request services from the kernel. For instance, the open() system call in Linux is used to provide access to a file in the file system. strace enables us to track all the system calls made by an application. It lists all the system calls made by a process with the outputs of those calls.
-+
-+You can generate profiling data combining strace and perf record tools to record the events and information associated with a process. This provides insight into the process and "perf annotate" generates the statistics of each instruction of the program. This document goes over the details of how to gather fine grained information on a workload's usage of system resources.
-+
-+Getting the system ready for tracing
-+====================================
-+
-+Before we can get started we will have to get our system ready. We assume that you have a Linux distribution running on a physical system or virtual machine. Most distributions will include strace command. Let’s install other tools that aren’t usually included to build Linux kernel. Please note that the following works on Debian based distributions. You might have to find equivalent packages on other Linux distributions.
-+
-+Install tools to build Linux kernel and tools in kernel repository. scripts/ver_linux is a good way to check if your system already has the necessary tools.
-+::
-+
-+  sudo apt-get build-essentials flex bison yacc
-+  sudo apt install libelf-dev systemtap-sdt-dev libaudit-dev libslang2-dev libperl-dev libdw-dev
-+
-+Browsing kernel sources
-+::
-+
-+  sudo apt-get install cscope
-+
-+Install stress-ng and paxtest
-+::
-+
-+  apt-get install stress-ng
-+  apt-get install paxtest
-+
-+Workload overview
-+=================
-+
-+We used strace to trace perf bench, stress-ng and paxtest workloads to show how to analyze a workload and identify Linux subsystems used by these workloads. We hope this process can be applied to trace workload(s). We will go over the workloads first.
-+
-+perf bench (all) workload:
-+--------------------------
-+
-+The perf bench command contains multiple multi-threaded microkernel benchmarks for executing different subsystems in the Linux kernel and system calls. This allows us to easily measure the impact of changes, which can help mitigate performance regressions. It also acts as a common benchmarking framework, enabling developers to easily create test cases, integrate transparently, and use performance-rich tooling subsystems.
-+
-+Stress-ng netdev stressor workload:
-+-----------------------------------
-+
-+stress-ng is used for performing stress testing on the kernel. It allows you to exercise various physical subsystems of the computer, as well as interfaces of the OS kernel, using "stressor-s". They are available for CPU, CPU cache, devices, I/O, interrupts, file system, memory, network, operating system, pipelines, schedulers, virtual machines. Please refer to the `stress-ng man-page <https://www.mankier.com/1/stress-ng>`_ to find the description of all the available stressor-s. The netdev stressor starts specified number (N) of workers that exercise various netdevice ioctl commands across all the available network devices.
-+
-+paxtest kiddie workload:
-+------------------------
-+
-+paxtest is a program that tests buffer overflows in the kernel. It tests kernel enforcements over memory usage. Generally, execution in some memory segments makes buffer overflows possible. It runs a set of programs that attempt to subvert memory usage. It is used as a regression test suite for PaX, but might be useful to test other memory protection patches for the kernel. We used paxtest kiddie mode which looks for simple vulnerabilities.
-+
-+What is strace and how do we use it?
-+====================================
-+
-+As mentioned earlier, strace which is a useful diagnostic, instructional, and debugging tool and can be used to discover the system resources in use by a workload. It can be used:
-+
-+ * To see how a process interacts with the kernel.
-+ * To see why a process is failing or hanging.
-+ * For reverse engineering a process.
-+ * To find the files on which a program depends.
-+ * For analyzing the performance of an application.
-+ * For troubleshooting various problems related to the operating system.
-+
-+In addition, strace can generate run-time statistics on time, calls, and errors for each system call and report a summary on program exit, suppressing the regular output. This attempts to show system time (CPU time spent running in the kernel) independent of wall clock time. We plan to use these features to get information on workload system usage.
-+
-+strace command supports basic, verbose, and stats modes. strace command when run in verbose mode gives more detailed information about the system calls. Running strace -c generates a report of the percentage of time spent in each system call, the total time in seconds, the microseconds per call, the total number of calls, the count of each system call that has failed with an error and the type of system call made.
-+
-+ * Usage: strace <command we want to trace>
-+ * Verbose mode usage: strace -v <command>
-+ * Gather statistics: strace -c <command>
-+
-+We used the “-c” option to gather fine grained information.
-+
-+What is cscope and how do we use it?
-+====================================
-+
-+Now let’s look at `cscope <https://cscope.sourceforge.net/>`_, a command line tool for browsing C, C++ or Java code-bases. We can use it to find all the references to a symbol, global definitions, functions called by a function, functions calling a function, text strings, regular expression patterns, files including a file.
-+
-+We can use cscope to find which system call belongs to which subsystem. This way we can find the kernel subsystems used by a process when it is executed. To use it navigate to the source code directory. Here we are analyzing the kernel source tree.
-+
-+First let’s checkout the latest Linux repository and build cscope database:
-+::
-+
-+  git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux
-+  cd linux
-+  cscope -R -p10  # builds cscope.out database before starting browse session
-+  cscope -d -p10  # starts browse session on cscope.out database
-+
-+Note: Run cscope -R to build the database (run it only once) and cscope -d -p10 to enter into the interactive mode of cscope. To get out of this mode press ctrl+d.
-+
-+What is perf and how do we use it?
-+====================================
-+
-+Perf is an analysis tool based on Linux 2.6+ systems, which abstracts the CPU hardware difference in performance measurement in Linux, and provides a simple command line interface. Perf is based on the perf_events interface exported by the kernel. It is very useful for profiling the system and finding performance bottlenecks in an application.
-+
-+If you haven't already checkout the Linux mainline repository, you can do so and then build kernel and perf tool:
-+::
-+
-+  git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux
-+  cd linux
-+  make -j3 all
-+  cd tools/perf
-+  make
-+
-+Note: The perf command can be built without building the kernel in the repo and can be run on older kernels. However matching the kernel and perf revisions gives more accurate information on the subsystem usage.
-+
-+We used perf stat and perf bench options. For a detailed information on the prof tool, run perf -h.
-+
-+perf stat
-+---------
-+The perf stat command generates a report of various hardware and software events. It does so with the help of hardware counter registers found in modern CPUs that keep the count of these activities. "perf stat cal" shows stats for cal command.
-+
-+Perf bench
-+----------
-+The perf bench command contains multiple multi-threaded microkernel benchmarks for executing different subsystems in the Linux kernel and system calls. This allows us to easily measure the impact of changes, which can help mitigate performance regressions. It also acts as a common benchmarking framework, enabling developers to easily create test cases, integrate transparently, and use performance-rich tooling. "perf bench all" runs sched/messaging, sched/pipe, syscall/basic, mem/memcpy, and mem/memset benchmarks.
-+
-+What is stress-ng and how do we use it?
-+=======================================
-+
-+stress-ng is used for performing stress testing on the kernel. It allows you to exercise various physical subsystems of the computer, as well as interfaces of the OS kernel, using stressor-s. They are available for CPU, CPU cache, devices, I/O, interrupts, file system, memory, network, operating system, pipelines, schedulers, virtual machines. You may find the description of all the available stressors here.
-+
-+Running the netdev stressor (It starts N workers that exercise various netdevice ioctl commands across all the available network devices. The ioctls exercised by this stressor are as follows: SIOCGIFCONF, SIOCGIFINDEX, SIOCGIFNAME, SIOCGIFFLAGS, SIOCGIFADDR, SIOCGIFNETMASK, SIOCGIFMETRIC, SIOCGIFMTU, SIOCGIFHWADDR, SIOCGIFMAP and SIOCGIFTXQLEN). The following command runs the stressor:
-+::
-+
-+  stress-ng --netdev 1 -t 60 --metrics command.
-+
-+We can use the perf record command to record the events and information associated with a process. This command records the profiling data in the perf.data file in the same directory.
-+
-+Using the following commands you can record the events associated with the netdev stressor, view the generated report perf.data and annotate the to see the statistics of each instruction of the program.
-+::
-+
-+  perf record stress-ng --netdev 1 -t 60 --metrics command.
-+  perf report
-+  perf annotate
-+
-+What is paxtest and how do we use it?
-+=====================================
-+
-+paxtest is a program that tests buffer overflows in the kernel. It tests kernel enforcements over memory usage. Generally, execution in some memory segments makes buffer overflows possible. It runs a set of programs that attempt to subvert memory usage. It is used as a regression test suite for PaX, and will be useful to test other memory protection patches for the kernel. paxtest provided kiddie and blackhat modes. paxtest kiddie mode runs in normal mode, whereas blackhat mode tries to get around the protection of the kernel testing for vulnerabilities. We focus on the kiddie mode here and combine "paxtest kiddie" run with "perf record" to collect CPU stack traces for the paxtest kiddie run to see which function is calling other functions in the performance profile. Then the "dwarf" (DWARF's CFI - Call Frame Information) mode can be used to unwind the stack. The resulting report can be viewed in call-graph format as follows:
-+::
-+
-+  perf record --call-graph dwarf paxtest kiddie
-+  perf report --stdio
-+
-+Tracing workloads
-+=================
-+
-+Now that we understand the workloads, let's start tracing them.
-+
-+Tracing perf bench all workload
-+-------------------------------
-+
-+Run the following command to trace perf bench all workload:
-+::
-+
-+ strace -c perf bench all
-+
-+**System Calls made by the workload:**
-+
-+The following table shows you the system calls, number of times the system call was invoked, and the Linux subsystem they fall under.
-+
-++-------------------+-----------+-----------------+-------------------------+
-+| System Call       | # calls   | Linux Subsystem | System Call (API)       |
-++===================+===========+=================+=========================+
-+| getppid           | 10000001  | Process Mgmt    | sys_getpid()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| clone             | 1077      | Process Mgmt.   | sys_clone()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| prctl             | 23        | Process Mgmt.   | sys_prctl()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| prlimit64         | 7         | Process Mgmt.   | sys_prlimit64()         |
-++-------------------+-----------+-----------------+-------------------------+
-+| getpid            | 10        | Process Mgmt.   | sys_getpid()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| uname             | 3         | Process Mgmt.   | sys_uname()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| sysinfo           | 1         | Process Mgmt.   | sys_sysinfo()           |
-++-------------------+-----------+-----------------+-------------------------+
-+| getuid            | 1         | Process Mgmt.   | sys_getuid()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| getgid            | 1         | Process Mgmt.   | sys_getgid()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| geteuid           | 1         | Process Mgmt.   | sys_geteuid()           |
-++-------------------+-----------+-----------------+-------------------------+
-+| getegid           | 1         | Process Mgmt.   | sys_getegid             |
-++-------------------+-----------+-----------------+-------------------------+
-+| close             | 49951     | Filesystem      | sys_close()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| pipe              | 604       | Filesystem      | sys_pipe()              |
-++-------------------+-----------+-----------------+-------------------------+
-+| openat            | 48560     | Filesystem      | sys_opennat()           |
-++-------------------+-----------+-----------------+-------------------------+
-+| fstat             | 8338      | Filesystem      | sys_fstat()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| stat              | 1573      | Filesystem      | sys_stat()              |
-++-------------------+-----------+-----------------+-------------------------+
-+| pread64           | 9646      | Filesystem      | sys_pread64()           |
-++-------------------+-----------+-----------------+-------------------------+
-+| getdents64        | 1873      | Filesystem      | sys_getdents64()        |
-++-------------------+-----------+-----------------+-------------------------+
-+| access            | 3         | Filesystem      | sys_access()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| lstat             | 1880      | Filesystem      | sys_lstat()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| lseek             | 6         | Filesystem      | sys_lseek()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| ioctl             | 3         | Filesystem      | sys_ioctl()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| dup2              | 1         | Filesystem      | sys_dup2()              |
-++-------------------+-----------+-----------------+-------------------------+
-+| execve            | 2         | Filesystem      | sys_execve()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| fcntl             | 8779      | Filesystem      | sys_fcntl()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| statfs            | 1         | Filesystem      | sys_statfs()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| epoll_create      | 2         | Filesystem      | sys_epoll_create()      |
-++-------------------+-----------+-----------------+-------------------------+
-+| epoll_ctl         | 64        | Filesystem      | sys_epoll_ctl()         |
-++-------------------+-----------+-----------------+-------------------------+
-+| newfstatat        | 8318      | Filesystem      | sys_newfstatat()        |
-++-------------------+-----------+-----------------+-------------------------+
-+| eventfd2          | 192       | Filesystem      | sys_eventfd2()          |
-++-------------------+-----------+-----------------+-------------------------+
-+| mmap              | 243       | Memory Mgmt.    | sys_mmap()              |
-++-------------------+-----------+-----------------+-------------------------+
-+| mprotect          | 32        | Memory Mgmt.    | sys_mprotect()          |
-++-------------------+-----------+-----------------+-------------------------+
-+| brk               | 21        | Memory Mgmt.    | sys_brk()               |
-++-------------------+-----------+-----------------+-------------------------+
-+| munmap            | 128       | Memory Mgmt.    | sys_munmap()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| set_mempolicy     | 156       | Memory Mgmt.    | sys_set_mempolicy()     |
-++-------------------+-----------+-----------------+-------------------------+
-+| set_tid_address   | 1         | Process Mgmt.   | sys_set_tid_address()   |
-++-------------------+-----------+-----------------+-------------------------+
-+| set_robust_list   | 1         | Futex           | sys_set_robust_list()   |
-++-------------------+-----------+-----------------+-------------------------+
-+| futex             | 341       | Futex           | sys_futex()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| sched_getaffinity | 79        | Scheduler       | sys_sched_getaffinity() |
-++-------------------+-----------+-----------------+-------------------------+
-+| sched_setaffinity | 223       | Scheduler       | sys_sched_setaffinity() |
-++-------------------+-----------+-----------------+-------------------------+
-+| socketpair        | 202       | Network         | sys_socketpair()        |
-++-------------------+-----------+-----------------+-------------------------+
-+| rt_sigprocmask    | 21        | Signal          | sys_rt_sigprocmask()    |
-++-------------------+-----------+-----------------+-------------------------+
-+| rt_sigaction      | 36        | Signal          | sys_rt_sigaction()      |
-++-------------------+-----------+-----------------+-------------------------+
-+| rt_sigreturn      | 2         | Signal          | sys_rt_sigreturn()      |
-++-------------------+-----------+-----------------+-------------------------+
-+| wait4             | 889       | Time            | sys_wait4()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| clock_nanosleep   | 37        | Time            | sys_clock_nanosleep()   |
-++-------------------+-----------+-----------------+-------------------------+
-+| capget            | 4         | Capability      | sys_capget()            |
-++-------------------+-----------+-----------------+-------------------------+
-+
-+Tracing stress-ng netdev stressor workload
-+------------------------------------------
-+
-+Run the following command to trace stress-ng netdev stressor workload:
-+::
-+
-+  strace -c  stress-ng --netdev 1 -t 60 --metrics
-+
-+**System Calls made by the workload:**
-+
-+The following table shows you the system calls, number of times the system call was invoked, and the Linux subsystem they fall under.
-+
-++-------------------+-----------+-----------------+-------------------------+
-+| System Call       | # calls   | Linux Subsystem | System Call (API)       |
-++===================+===========+=================+=========================+
-+| openat            | 74        | Filesystem      | sys_openat()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| close             | 75        | Filesystem      | sys_close()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| read              | 58        | Filesystem      | sys_read()              |
-++-------------------+-----------+-----------------+-------------------------+
-+| fstat             | 20        | Filesystem      | sys_fstat()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| flock             | 10        | Filesystem      | sys_flock()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| write             | 7         | Filesystem      | sys_write()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| getdents64        | 8         | Filesystem      | sys_getdents64()        |
-++-------------------+-----------+-----------------+-------------------------+
-+| pread64           | 8         | Filesystem      | sys_pread64()           |
-++-------------------+-----------+-----------------+-------------------------+
-+| lseek             | 1         | Filesystem      | sys_lseek()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| access            | 2         | Filesystem      | sys_access()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| getcwd            | 1         | Filesystem      | sys_getcwd()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| execve            | 1         | Filesystem      | sys_execve()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| mmap              | 61        | Memory Mgmt.    | sys_mmap()              |
-++-------------------+-----------+-----------------+-------------------------+
-+| munmap            | 3         | Memory Mgmt.    | sys_munmap()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| mprotect          | 20        | Memory Mgmt.    | sys_mprotect()          |
-++-------------------+-----------+-----------------+-------------------------+
-+| mlock             | 2         | Memory Mgmt.    | sys_mlock()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| brk               | 3         | Memory Mgmt.    | sys_brk()               |
-++-------------------+-----------+-----------------+-------------------------+
-+| rt_sigaction      | 21        | Signal          | sys_rt_sigaction()      |
-++-------------------+-----------+-----------------+-------------------------+
-+| rt_sigprocmask    | 1         | Signal          | sys_rt_sigprocmask()    |
-++-------------------+-----------+-----------------+-------------------------+
-+| sigaltstack       | 1         | Signal          | sys_sigaltstack()       |
-++-------------------+-----------+-----------------+-------------------------+
-+| rt_sigreturn      | 1         | Signal          | sys_rt_sigreturn()      |
-++-------------------+-----------+-----------------+-------------------------+
-+| getpid            | 8         | Process Mgmt.   | sys_getpid()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| prlimit64         | 5         | Process Mgmt.   | sys_prlimit64()         |
-++-------------------+-----------+-----------------+-------------------------+
-+| arch_prctl        | 2         | Process Mgmt.   | sys_arch_prctl()        |
-++-------------------+-----------+-----------------+-------------------------+
-+| sysinfo           | 2         | Process Mgmt.   | sys_sysinfo()           |
-++-------------------+-----------+-----------------+-------------------------+
-+| getuid            | 2         | Process Mgmt.   | sys_getuid()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| uname             | 1         | Process Mgmt.   | sys_uname()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| setpgid           | 1         | Process Mgmt.   | sys_setpgid()           |
-++-------------------+-----------+-----------------+-------------------------+
-+| getrusage         | 1         | Process Mgmt.   | sys_getrusage()         |
-++-------------------+-----------+-----------------+-------------------------+
-+| geteuid           | 1         | Process Mgmt.   | sys_geteuid()           |
-++-------------------+-----------+-----------------+-------------------------+
-+| getppid           | 1         | Process Mgmt.   | sys_getppid()           |
-++-------------------+-----------+-----------------+-------------------------+
-+| sendto            | 3         | Network         | sys_sendto()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| connect           | 1         | Network         | sys_connect()           |
-++-------------------+-----------+-----------------+-------------------------+
-+| socket            | 1         | Network         | sys_socket()            |
-++-------------------+-----------+-----------------+-------------------------+
-+| clone             | 1         | Process Mgmt.   | sys_clone()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| set_tid_address   | 1         | Process Mgmt.   | sys_set_tid_address()   |
-++-------------------+-----------+-----------------+-------------------------+
-+| wait4             | 2         | Time            | sys_wait4()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| alarm             | 1         | Time            | sys_alarm()             |
-++-------------------+-----------+-----------------+-------------------------+
-+| set_robust_list   | 1         | Futex           | sys_set_robust_list()   |
-++-------------------+-----------+-----------------+-------------------------+
-+
-+Tracing paxtest kiddie workload
-+-------------------------------
-+
-+Run the following command to trace paxtest kiddie workload:
-+::
-+
-+ strace -c paxtest kiddie
-+
-+**System Calls made by the workload:**
-+
-+The following table shows you the system calls, number of times the system call was invoked, and the Linux subsystem they fall under.
-+
-++-------------------+-----------+-----------------+----------------------+
-+| System Call       | # calls   | Linux Subsystem | System Call (API)    |
-++===================+===========+=================+======================+
-+| read              | 3         | Filesystem      | sys_read()           |
-++-------------------+-----------+-----------------+----------------------+
-+| write             | 11        | Filesystem      | sys_write()          |
-++-------------------+-----------+-----------------+----------------------+
-+| close             | 41        | Filesystem      | sys_close()          |
-++-------------------+-----------+-----------------+----------------------+
-+| stat              | 24        | Filesystem      | sys_stat()           |
-++-------------------+-----------+-----------------+----------------------+
-+| fstat             | 2         | Filesystem      | sys_fstat()          |
-++-------------------+-----------+-----------------+----------------------+
-+| pread64           | 6         | Filesystem      | sys_pread64()        |
-++-------------------+-----------+-----------------+----------------------+
-+| access	    | 1         | Filesystem      | sys_access()         |
-++-------------------+-----------+-----------------+----------------------+
-+| pipe              | 1         | Filesystem      | sys_pipe()           |
-++-------------------+-----------+-----------------+----------------------+
-+| dup2              | 24        | Filesystem      | sys_dup2()           |
-++-------------------+-----------+-----------------+----------------------+
-+| execve            | 1         | Filesystem      | sys_execve()         |
-++-------------------+-----------+-----------------+----------------------+
-+| fcntl             | 26        | Filesystem      | sys_fcntl()          |
-++-------------------+-----------+-----------------+----------------------+
-+| openat            | 14        | Filesystem      | sys_openat()         |
-++-------------------+-----------+-----------------+----------------------+
-+| rt_sigaction      | 7         | Signal          | sys_rt_sigaction()   |
-++-------------------+-----------+-----------------+----------------------+
-+| rt_sigreturn      | 38        | Signal          | sys_rt_sigreturn()   |
-++-------------------+-----------+-----------------+----------------------+
-+| clone             | 38        | Process Mgmt.   | sys_clone()          |
-++-------------------+-----------+-----------------+----------------------+
-+| wait4             | 44        | Time            | sys_wait4()          |
-++-------------------+-----------+-----------------+----------------------+
-+| mmap              | 7         | Memory Mgmt.    | sys_mmap()           |
-++-------------------+-----------+-----------------+----------------------+
-+| mprotect          | 3         | Memory Mgmt.    | sys_mprotect()       |
-++-------------------+-----------+-----------------+----------------------+
-+| munmap            | 1         | Memory Mgmt.    | sys_munmap()         |
-++-------------------+-----------+-----------------+----------------------+
-+| brk               | 3         | Memory Mgmt.    | sys_brk()            |
-++-------------------+-----------+-----------------+----------------------+
-+| getpid            | 1         | Process Mgmt.   | sys_getpid()         |
-++-------------------+-----------+-----------------+----------------------+
-+| getuid            | 1         | Process Mgmt.   | sys_getuid()         |
-++-------------------+-----------+-----------------+----------------------+
-+| getgid            | 1         | Process Mgmt.   | sys_getgid()         |
-++-------------------+-----------+-----------------+----------------------+
-+| geteuid           | 2         | Process Mgmt.   | sys_geteuid()        |
-++-------------------+-----------+-----------------+----------------------+
-+| getegid           | 1         | Process Mgmt.   | sys_getegid()        |
-++-------------------+-----------+-----------------+----------------------+
-+| getppid           | 1         | Process Mgmt.   | sys_getppid()        |
-++-------------------+-----------+-----------------+----------------------+
-+| arch_prctl        | 2         | Process Mgmt.   | sys_arch_prctl()     |
-++-------------------+-----------+-----------------+----------------------+
-+
-+Conclusion
-+==========
-+
-+This document is intended to be used as a guide on how to gather fine grained information on workloads using strace.
-+
-+References
-+==========
-+
-+ * `Discovery Linux Kernel Subsystems used by OpenAPS <https://elisa.tech/blog/2022/02/02/discovery-linux-kernel-subsystems-used-by-openaps>`_
-+ * `ELISA-White-Papers-Discovering Linux kernel subsystems used by a workload <https://github.com/elisa-tech/ELISA-White-Papers/blob/master/Processes/Discovering_Linux_kernel_subsystems_used_by_a_workload.md>`_
-+ * `strace <https://man7.org/linux/man-pages/man1/strace.1.html>`_
-+ * `perf <https://man7.org/linux/man-pages/man1/perf.1.html>`_
-+ * `paxtest <https://github.com/opntr/paxtest-freebsd/blob/hardenedbsd/0.9.14-hbsd/README>`_
-+ * `stress-ng <https://www.mankier.com/1/stress-ng>`_
-+ * `Monitoring and managing system status and performance <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/monitoring_and_managing_system_status_and_performance/index>`_
-+
-+SPDX-License-Identifier: CC-BY-4.0
-+==================================
-+This document is released under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode. Pursuant to Section 5 of the license, please note that the following disclaimers apply (capitalized terms have the meanings set forth in the license). To the extent possible, the Licensor offers the Licensed Material as-is and as-available, and makes no representations or warranties of any kind concerning the Licensed Material, whether express, implied, statutory, or other. This includes, without limitation, warranties of title, merchantability, fitness for a particular purpose, non-infringement, absence of latent or other defects, accuracy, or the presence or absence of errors, whether or not known or discoverable. Where disclaimers of warranties are not allowed in full or in part, this disclaimer may not apply to You.
-+
-+To the extent possible, in no event will the Licensor be liable to You on any legal theory (including, without limitation, negligence) or otherwise for any direct, special, indirect, incidental, consequential, punitive, exemplary, or other losses, costs, expenses, or damages arising out of this Public License or use of the Licensed Material, even if the Licensor has been advised of the possibility of such losses, costs, expenses, or damages. Where a limitation of liability is not allowed in full or in part, this limitation may not apply to You.
-+
-+The disclaimer of warranties and limitation of liability provided above shall be interpreted in a manner that, to the extent possible, most closely approximates an absolute disclaimer and waiver of all liability.
-+
-+Note: Only the content of this RST file as found in the Linux kernel sources
-+is available under CC-BY-4.0, as versions of this text that were processed
-+(for example by the kernel's build system) might contain content taken from
-+files which use a more restrictive license.
-+
-+..
-+   end-of-content
-+..
-+   This document is maintained by Shuah Khan <skhan@linuxfoundation.org>.
-+   Please Send update patches to Shuah and CC linux-doc@vger.kernel.org.
++# Where to place rustdoc generated documentation
++RUSTDOC_OUTPUT = $(objtree)/Documentation/output/rust/rustdoc
++
+ always-$(CONFIG_RUST) += target.json
+ no-clean-files += target.json
+ 
+@@ -64,7 +67,7 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
+ 	OBJTREE=$(abspath $(objtree)) \
+ 	$(RUSTDOC) $(if $(rustdoc_host),$(rust_common_flags),$(rust_flags)) \
+ 		$(rustc_target_flags) -L$(objtree)/$(obj) \
+-		--output $(objtree)/$(obj)/doc \
++		--output $(RUSTDOC_OUTPUT) \
+ 		--crate-name $(subst rustdoc-,,$@) \
+ 		@$(objtree)/include/generated/rustc_cfg $<
+ 
+@@ -81,15 +84,15 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
+ # and then retouch the generated files.
+ rustdoc: rustdoc-core rustdoc-macros rustdoc-compiler_builtins \
+     rustdoc-alloc rustdoc-kernel
+-	$(Q)cp $(srctree)/Documentation/images/logo.svg $(objtree)/$(obj)/doc
+-	$(Q)cp $(srctree)/Documentation/images/COPYING-logo $(objtree)/$(obj)/doc
+-	$(Q)find $(objtree)/$(obj)/doc -name '*.html' -type f -print0 | xargs -0 sed -Ei \
++	$(Q)cp $(srctree)/Documentation/images/logo.svg $(RUSTDOC_OUTPUT)
++	$(Q)cp $(srctree)/Documentation/images/COPYING-logo $(RUSTDOC_OUTPUT)
++	$(Q)find $(RUSTDOC_OUTPUT) -name '*.html' -type f -print0 | xargs -0 sed -Ei \
+ 		-e 's:rust-logo\.svg:logo.svg:g' \
+ 		-e 's:rust-logo\.png:logo.svg:g' \
+ 		-e 's:favicon\.svg:logo.svg:g' \
+ 		-e 's:<link rel="alternate icon" type="image/png" href="[./]*favicon-(16x16|32x32)\.png">::g'
+ 	$(Q)echo '.logo-container > img { object-fit: contain; }' \
+-		>> $(objtree)/$(obj)/doc/rustdoc.css
++		>> $(RUSTDOC_OUTPUT)/rustdoc.css
+ 
+ rustdoc-macros: private rustdoc_host = yes
+ rustdoc-macros: private rustc_target_flags = --crate-type proc-macro \
+@@ -150,7 +153,7 @@ quiet_cmd_rustdoc_test = RUSTDOC T $<
+ 		@$(objtree)/include/generated/rustc_cfg \
+ 		$(rustc_target_flags) $(rustdoc_test_target_flags) \
+ 		--sysroot $(objtree)/$(obj)/test/sysroot $(rustdoc_test_quiet) \
+-		-L$(objtree)/$(obj)/test --output $(objtree)/$(obj)/doc \
++		-L$(objtree)/$(obj)/test --output $(RUSTDOC_OUTPUT) \
+ 		--crate-name $(subst rusttest-,,$@) $<
+ 
+ # We cannot use `-Zpanic-abort-tests` because some tests are dynamic,
 -- 
 2.34.1
 
