@@ -2,174 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56E39C38142
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 19:18:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03E3DC54EAA
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 19:19:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232132AbjA0TSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 14:18:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35406 "EHLO
+        id S233083AbjA0TTD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 14:19:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230414AbjA0TSF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 14:18:05 -0500
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E15C92684C
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 11:18:03 -0800 (PST)
-Received: by mail-io1-xd2f.google.com with SMTP id r71so2307316iod.2
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 11:18:03 -0800 (PST)
+        with ESMTP id S233756AbjA0TTA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 14:19:00 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29AAB7D6CB
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 11:18:35 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id e10-20020a17090a630a00b0022bedd66e6dso9576370pjj.1
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 11:18:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=k93tzYKTMBeyLqj6KqGKxCb2OB32c5FpykAR37wgg84=;
-        b=KgZJItC8fAjM5eQ4u/RplQA0TddngU7JdmdO8awhth4we+FBezJHf7Qg0X3L7KmbRC
-         4dfxbTCikKbIhrhqxr2rBA7dLXCcke9XHBLYUL5wXzvDM/s0c1CsKd8zVwBChH7d0r4q
-         Dkm7DSLjvwvqZ6RAyl481dqGEI1KN/uLDapAU=
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rrpVKqMmu6aS8nYMVOqBou02mxi1hvJKXYbLMwv8NQs=;
+        b=gpFq7sLNE6mtb8IXlsZj7CCQRrpRWeNX0DaVfrF+tfxo9TmGeMLBn+/gnfOMUf9f03
+         kgwSxVzTICgFikTbtgUWpuNyQft8c8V/oKrK4TQ3eLWiN6R+PKS/rBGLc5GeDDP9ipoj
+         eQhp2NlMF4R8DBNAY1vd+ghK2hq5P4QC8sK34=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k93tzYKTMBeyLqj6KqGKxCb2OB32c5FpykAR37wgg84=;
-        b=8BlHJjgnMNdjyalUQr8p6Jt//CHcVcrsGILckSKVzlEVSIEM59fegtgsBD2rvSqlrE
-         EvVOqfj/hfWkt2N73FsgAI+YHfSjGLADGEyseznTKqv4yLzemiMsiFgHYlHuN1HmLafU
-         VYLzIBBMtQKmlxVdX28yibZtTF72RiIkEFTC1H0GwGouW6D9R+GMB5nx6HZpdqSZlbbO
-         7FZVuj6v07C9XKCR460/g4C2EHvMdezZ9t9o8tW87YjEYi6+hsfhy3RuHF4LMEfyjgRP
-         hW7aovZEt+uI2+tt0v6oOkVLWkvS2j0zWkBEh5mqTzYWNlIpUo85GDjYITnfQjeZRcYZ
-         7NAg==
-X-Gm-Message-State: AO0yUKVanBRspcUoy/1KNybA0bawDm2YjDQgJmvbnXQxw46/kFnIRSZd
-        KjHh//BSK0hSvCX9RqcspKKbAA==
-X-Google-Smtp-Source: AK7set9ZIbcG06bFoUTBU0fU0JBSLM1aEPqgeX6Xa/QLliKlITqE8yDoInU3/IkqlzS9SvV/UwNZDA==
-X-Received: by 2002:a6b:6b0e:0:b0:70a:9fce:853c with SMTP id g14-20020a6b6b0e000000b0070a9fce853cmr915215ioc.2.1674847083110;
-        Fri, 27 Jan 2023 11:18:03 -0800 (PST)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id cn19-20020a0566383a1300b0039e20ffb236sm1731469jab.162.2023.01.27.11.18.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jan 2023 11:18:02 -0800 (PST)
-Message-ID: <063c51c3-c276-3b68-f130-db0751b35d42@linuxfoundation.org>
-Date:   Fri, 27 Jan 2023 12:18:01 -0700
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rrpVKqMmu6aS8nYMVOqBou02mxi1hvJKXYbLMwv8NQs=;
+        b=2f2yqZNJ3qwv6BwfRbaAYS+PdB6Dp4jqPaWYuhyTORwU0D8bt7HwN3PxfjI7q0y2Ll
+         uM+5ix8kBz4Z0j5ttEETRHhSTITD9kobORcCFUbvYGzNNCjBY6OTXo3iOx9qhwnjmFQi
+         lGuV3zY/eeWOuVPsgGckqebEPgXJia+2MkRV+02ClZ+F0ULshoGOnS4YhnmBQV63KOIX
+         fjDXtzSNucWUax2wld4ZdrvxGAIRCbu7lPhmT5aisaey94Zy9AfX+NLWBkYWH3Y3H+1/
+         WdYuBBBudCbOSpiED/dycXQ6GixrioXnVHGtDkg6iPfG+d4w5FHAQPD/ryywtKJwmWi3
+         TDuw==
+X-Gm-Message-State: AO0yUKUPNGHVCZtyP9B+KlS3ELEjVkqtLkBJwYiB1FTRf7BgTb7Ia4Lm
+        DaCU1DCJVySCXUI3drz1hdCZ+Q==
+X-Google-Smtp-Source: AK7set9hsln9I1KJbS/pzMIo0pAzaGsMtCQ40nv8FkEkxL0KJF+vuhYW0O7+D6uWuvitFfC8bRPHhg==
+X-Received: by 2002:a17:90b:1646:b0:22b:e79f:fff with SMTP id il6-20020a17090b164600b0022be79f0fffmr16835308pjb.15.1674847115070;
+        Fri, 27 Jan 2023 11:18:35 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id p5-20020a17090a748500b0020aacde1964sm5320872pjk.32.2023.01.27.11.18.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jan 2023 11:18:34 -0800 (PST)
+Date:   Fri, 27 Jan 2023 11:18:34 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+Cc:     linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Tony Luck <tony.luck@intel.com>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH v4 1/2] dt-bindings: ramoops: Inherit reserve memory
+ property
+Message-ID: <202301271118.A223F4E88B@keescook>
+References: <1674835252-31954-1-git-send-email-quic_mojha@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] docs: add workload-tracing document to admin-guide
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     sshefali021@gmail.com, kstewart@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20230127165440.19158-1-skhan@linuxfoundation.org>
- <87bkmj99yv.fsf@meer.lwn.net>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <87bkmj99yv.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1674835252-31954-1-git-send-email-quic_mojha@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/27/23 10:13, Jonathan Corbet wrote:
-> Shuah Khan <skhan@linuxfoundation.org> writes:
+On Fri, Jan 27, 2023 at 09:30:51PM +0530, Mukesh Ojha wrote:
+> The reserved memory region for ramoops is assumed to be at a
+> fixed and known location when read from the devicetree. This
+> is not desirable in an environment where it is preferred the
+> region to be dynamically allocated at runtime, as opposed to
+> being fixed at compile time.
 > 
->> Add a new section to the admin-guide with information of interest to
->> application developers and system integrators doing analysis of the
->> Linux kernel for safety critical applications.
->>
->> This section will contain documents supporting analysis of kernel
->> interactions with applications, and key kernel subsystems expectations.
->>
->> Add a new workload-tracing document to this new section.
->>
->> Signed-off-by: Shefali Sharma <sshefali021@gmail.com>
->> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
->> ---
->>   Documentation/admin-guide/index.rst           |  11 +
->>   .../admin-guide/workload-tracing.rst          | 486 ++++++++++++++++++
->>   2 files changed, 497 insertions(+)
->>   create mode 100644 Documentation/admin-guide/workload-tracing.rst
+> So, update the ramoops binding by inheriting some reserve memory
+> property to allocate the ramoops region dynamically.
 > 
-> This seems like generally good stuff, thanks.  I have a few nits...
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Tony Luck <tony.luck@intel.com>
+> Cc: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+> ---
+> Changes in v4:
+>  - Addressed comment made by Krzysztof on ramoops node name.
 
-Thanks for the review.
+Thanks! Krzysztof, if this looks good to you, I can carry it in the
+pstore tree.
 
-> 
->> +Key Points
->> +==========
->> +
->> + * Understanding system resources necessary to build and run a workload
->> +   is important.
->> + * Linux tracing and strace can be used to discover the system resources
->> +   in use by a workload. The completeness of the system usage information
->> +   depends on the completeness of coverage of a workload.
->> + * Performance and security of the operating system can be analyzed with
->> +   the help of tools such as `perf <https://man7.org/linux/man-pages/man1/perf.1.html>`_, `stress-ng <https://www.mankier.com/1/stress-ng>`_, `paxtest <https://github.com/opntr/paxtest-freebsd/blob/hardenedbsd/0.9.14-hbsd/README>`_.
->> + * Once we discover and understand the workload needs, we can focus on them
->> +   to avoid regressions and use it to evaluate safety considerations.
->> +
->> +Methodology
->> +===========
->> +
->> +`strace <https://man7.org/linux/man-pages/man1/strace.1.html>`_ is a diagnostic, instructional, and debugging tool and can be used to discover the system resources in use by a workload. Once we discover and understand the workload needs, we can focus on them to avoid regressions and use it to evaluate safety considerations. We chose strace tool to trace workloads.
-> 
-> I know that the 80-column limit is controversial to some; I happen to
-> believe that text should certainly adhere to it for basic readability
-> reasons.  But can we all agree that nearly 400 columns is too many? :)
-> Please line-break the whole document properly.
-
-Yeah that is my bad. I noticed it once the patch was in my Inbox.
-I will fix them all up.
+-Kees
 
 > 
->> +Install tools to build Linux kernel and tools in kernel repository. scripts/ver_linux is a good way to check if your system already has the necessary tools.
->> +::
->> +
->> +  sudo apt-get build-essentials flex bison yacc
->> +  sudo apt install libelf-dev systemtap-sdt-dev libaudit-dev libslang2-dev libperl-dev libdw-dev
->> +
->> +Browsing kernel sources
->> +::
->> +
->> +  sudo apt-get install cscope
->> +
->> +Install stress-ng and paxtest
->> +::
->> +
->> +  apt-get install stress-ng
->> +  apt-get install paxtest
+> Changes in v3:
+>  - Fixed yaml error and updated commit text as per comment.
 > 
-> For literal blocks, the "::" can go at the end of the previous line,
-> which makes the document a bit more readable.
-
-Makes sense. Will fix it.
-
+> Change in v2:
+>   - Added this patch as per changes going to be done in patch 3/3
 > 
-> [...]
+>  .../bindings/reserved-memory/ramoops.yaml          | 34 ++++++++++++++++++++--
+>  1 file changed, 32 insertions(+), 2 deletions(-)
 > 
->> +SPDX-License-Identifier: CC-BY-4.0
->> +==================================
->> +This document is released under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode. Pursuant to Section 5 of the license, please note that the following disclaimers apply (capitalized terms have the meanings set forth in the license). To the extent possible, the Licensor offers the Licensed Material as-is and as-available, and makes no representations or warranties of any kind concerning the Licensed Material, whether express, implied, statutory, or other. This includes, without limitation, warranties of title, merchantability, fitness for a particular purpose, non-infringement, absence of latent or other defects, accuracy, or the presence or absence of errors, whether or not known or discoverable. Where disclaimers of warranties are not allowed in full or in part, this disclaimer may not apply to You.
->> +
->> +To the extent possible, in no event will the Licensor be liable to You on any legal theory (including, without limitation, negligence) or otherwise for any direct, special, indirect, incidental, consequential, punitive, exemplary, or other losses, costs, expenses, or damages arising out of this Public License or use of the Licensed Material, even if the Licensor has been advised of the possibility of such losses, costs, expenses, or damages. Where a limitation of liability is not allowed in full or in part, this limitation may not apply to You.
->> +
->> +The disclaimer of warranties and limitation of liability provided above shall be interpreted in a manner that, to the extent possible, most closely approximates an absolute disclaimer and waiver of all liability.
->> +
->> +Note: Only the content of this RST file as found in the Linux kernel sources
->> +is available under CC-BY-4.0, as versions of this text that were processed
->> +(for example by the kernel's build system) might contain content taken from
->> +files which use a more restrictive license.
-> 
-> This is just the kind of license boilerplate that we have been trying
-> hard to get rid of.  *Dual*-licensing with CC4 is OK, and the SPDX line
-> at the top properly reflects that; this additional text shouldn't be here.
+> diff --git a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
+> index 0391871..8741626 100644
+> --- a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
+> +++ b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
+> @@ -10,7 +10,8 @@ description: |
+>    ramoops provides persistent RAM storage for oops and panics, so they can be
+>    recovered after a reboot. This is a child-node of "/reserved-memory", and
+>    is named "ramoops" after the backend, rather than "pstore" which is the
+> -  subsystem.
+> +  subsystem. This region can be reserved both statically or dynamically by
+> +  using appropriate property in device tree.
+>  
+>    Parts of this storage may be set aside for other persistent log buffers, such
+>    as kernel log messages, or for optional ECC error-correction data.  The total
+> @@ -112,7 +113,13 @@ unevaluatedProperties: false
+>  
+>  required:
+>    - compatible
+> -  - reg
+> +
+> +oneOf:
+> +  - required:
+> +      - reg
+> +
+> +  - required:
+> +      - size
+>  
+>  anyOf:
+>    - required: [record-size]
+> @@ -142,3 +149,26 @@ examples:
+>              };
+>          };
+>      };
+> +
+> +  - |
+> +    / {
+> +        compatible = "foo";
+> +        model = "foo";
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +
+> +        reserved-memory {
+> +            #address-cells = <1>;
+> +            #size-cells = <1>;
+> +            ranges;
+> +
+> +            ramoops_region: ramoops {
+> +                compatible = "ramoops";
+> +                alloc-ranges = <0x00000000 0xffffffff>;
+> +                size = <0x0 0x10000>;       /* 64kB */
+> +                console-size = <0x8000>;    /* 32kB */
+> +                record-size = <0x400>;      /*  1kB */
+> +                ecc-size = <16>;
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.7.4
 > 
 
-Okay - I can get rid of this.
-
->> +..
->> +   end-of-content
-> 
-> ...and that seems a bit redundant somehow...:)
-
-Yup. Correct.
-
-thanks,
--- Shuah
+-- 
+Kees Cook
