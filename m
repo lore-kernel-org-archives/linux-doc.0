@@ -2,82 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 089BDC38142
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 23:01:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA085C61DA7
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 23:34:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232296AbjA0XBa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 18:01:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51236 "EHLO
+        id S232180AbjA0XeN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 18:34:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229762AbjA0XB3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 18:01:29 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C30D448F;
-        Fri, 27 Jan 2023 15:01:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=2dVS85V6zgrrlR3J1zwtdDQGnP+6KKOnqcZIKTaKgDo=; b=JqWRiFfEg03UEycB0zpY/ofRZ0
-        7XcUKso2g8IFZFdOTS08vUSPlPu9GbwwLcg1/RihKX827vcFB9EAIs8SlMEVdrNVxiv0kxPTZAFoV
-        L+rLfWhwENATUMRpsmhPtKASQTAhbZtfmUoFY/iuZQEpwlG0Oy5qrt3HH+V5sX5uMx/zXI76iUeCE
-        e7ZjdPFvJb7qEevYGzlq16itT8a8FmJSuazYZJBAZM4vf4b54rAVzu+l4XKEQVUePDTlUtnzuPutf
-        saV/nqhnH+lotUWZB1T5986zIn/fIlO6e1SGq6Q6LQUkjtW8GNHgyiV55fpRM2Hyf0gJ0JYXncnA4
-        emwLUqlg==;
-Received: from [2601:1c2:d00:6a60::9526]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pLXio-00Gm3t-6c; Fri, 27 Jan 2023 23:01:26 +0000
-Message-ID: <9fc96bce-630d-3f2c-eab7-1270251fbb5b@infradead.org>
-Date:   Fri, 27 Jan 2023 15:01:25 -0800
+        with ESMTP id S231975AbjA0XeM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 18:34:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3B984942
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 15:33:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674862405;
+        h=from:from:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=M6k4SK0tssJUsReKgWrMbkASPa1DRov0Livqs+ZaJ88=;
+        b=fTn5uxdEYz2qx6YAWWwbpvqcKHr+5fwNXF6EXCaYX2UEDtb5vS3wzsqg0OTum74DWmf9mo
+        aruJKRrn/S7QGf+/PkYmDz+2l4t+3iegOurJszMMPnrHCvncvK+wU9xRUHB/VT8CW1B8KY
+        h/+5VZ3Ru0yeg9fpS5SfNyLVGR168sw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-654-Ybk-MWwANHCBmQf3YXeg-w-1; Fri, 27 Jan 2023 18:33:21 -0500
+X-MC-Unique: Ybk-MWwANHCBmQf3YXeg-w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 651E829AA3B9;
+        Fri, 27 Jan 2023 23:33:20 +0000 (UTC)
+Received: from [10.64.54.64] (vpn2-54-64.bne.redhat.com [10.64.54.64])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 497E52166B26;
+        Fri, 27 Jan 2023 23:33:11 +0000 (UTC)
+Reply-To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH v3 2/4] KVM: arm64: Add helper vgic_write_guest_lock()
+To:     Zenghui Yu <zenghui.yu@linux.dev>, kvmarm@lists.linux.dev
+Cc:     kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, pbonzini@redhat.com,
+        corbet@lwn.net, maz@kernel.org, james.morse@arm.com,
+        suzuki.poulose@arm.com, oliver.upton@linux.dev,
+        yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org,
+        yuzhe@nfschina.com, isaku.yamahata@intel.com, seanjc@google.com,
+        ricarkol@google.com, eric.auger@redhat.com, renzhengeek@gmail.com,
+        reijiw@google.com, shan.gavin@gmail.com
+References: <20230126235451.469087-1-gshan@redhat.com>
+ <20230126235451.469087-3-gshan@redhat.com>
+ <a4b3ee35-a0d7-80f6-c64f-f9056c5b6110@linux.dev>
+From:   Gavin Shan <gshan@redhat.com>
+Message-ID: <9a8260b1-15f9-f8c9-34a7-0cce8e62a386@redhat.com>
+Date:   Sat, 28 Jan 2023 10:33:09 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 31/35] Documentation: trace: correct spelling
+In-Reply-To: <a4b3ee35-a0d7-80f6-c64f-f9056c5b6110@linux.dev>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        linux-kernel@vger.kernel.org
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-trace-kernel@vger.kernel.org,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20230127064005.1558-1-rdunlap@infradead.org>
- <20230127064005.1558-32-rdunlap@infradead.org>
- <5c1d8862-4ee6-bd17-1a61-ec32689d0578@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <5c1d8862-4ee6-bd17-1a61-ec32689d0578@kernel.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Zenghui,
 
-
-On 1/27/23 00:54, Daniel Bristot de Oliveira wrote:
-> On 1/27/23 07:40, Randy Dunlap wrote:
->> --- a/Documentation/trace/rv/runtime-verification.rst
->> +++ b/Documentation/trace/rv/runtime-verification.rst
->> @@ -31,7 +31,7 @@ In Linux terms, the runtime verification
->>  *RV monitor* abstraction. A *RV monitor* includes a reference model of the
->>  system, a set of instances of the monitor (per-cpu monitor, per-task monitor,
->>  and so on), and the helper functions that glue the monitor to the system via
->> -trace, as depicted bellow::
->> +trace, as depicted below::
->>  
->>   Linux   +---- RV Monitor ----------------------------------+ Formal
->>    Realm  |                                                  |  Realm
+On 1/28/23 2:57 AM, Zenghui Yu wrote:
+> [ just coming back from holiday, sorry for the late reply ]
 > 
-> Do you mind making the rv part an independent patch?
+
+Hope you have a nice refresh. Thanks for your review.
+
+> On 2023/1/27 07:54, Gavin Shan wrote:
+>> Currently, the unknown no-running-vcpu sites are reported when a
+>> dirty page is tracked by mark_page_dirty_in_slot(). Until now, the
+>> only known no-running-vcpu site is saving vgic/its tables through
+>> KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_SAVE_TABLES} command on KVM device
+>> "kvm-arm-vgic-its". Unfortunately, there are more unknown sites to
+>> be handled and no-running-vcpu context will be allowed in these
+>> sites: (1) KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_RESTORE_TABLES} command
+>> on KVM device "kvm-arm-vgic-its" to restore vgic/its tables. The
+>> vgic3 LPI pending status could be restored. (2) Save vgic3 pending
 > 
-> Spiting it helps in the backport of the fix to stable/distro kernels.
+> We typically write it as "VGICv3".
+> 
 
-I wouldn't expect this to be packported. stable-kernel-rules.rst says:
+Ok. I will fix by replacing 'vgic3' with 'VGICv3' in v4. However, the
+term 'vgic/its' will be kept.
 
- - It cannot contain any "trivial" fixes in it (spelling changes,
-   whitespace cleanups, etc).
+>> table through KVM_DEV_ARM_{VGIC_GRP_CTRL, VGIC_SAVE_PENDING_TABLES}
+>> command on KVM device "kvm-arm-vgic-v3".
+>>
+>> In order to handle those unknown cases, we need a unified helper
+>> vgic_write_guest_lock(). struct vgic_dist::save_its_tables_in_progress
+>> is also renamed to struct vgic_dist::save_tables_in_progress.
+> 
+> How about renaming it to 'write_tables_in_progress' which would look a
+> bit more generic? The rest looks good to me.
+> 
 
--- 
-~Randy
+'write_tables_in_progress' works for me. I will have it in v4, which
+will be posted shortly.
+
+Thanks,
+Gavin
+
