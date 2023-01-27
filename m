@@ -2,80 +2,188 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 734A7C54EAA
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 16:08:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 889E0C54EAA
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 16:13:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233817AbjA0QH6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 11:07:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35884 "EHLO
+        id S234637AbjA0QNU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 11:13:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233599AbjA0QH6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 11:07:58 -0500
-X-Greylist: delayed 574 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 27 Jan 2023 08:07:55 PST
-Received: from out-158.mta0.migadu.com (out-158.mta0.migadu.com [91.218.175.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFCA62068E
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 08:07:52 -0800 (PST)
-Message-ID: <a4b3ee35-a0d7-80f6-c64f-f9056c5b6110@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1674835097;
+        with ESMTP id S234644AbjA0QNR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 11:13:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA3184DBCE
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 08:12:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674835952;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=gvi6m70GbKqrQkpAzMUr7WtmhWXUZdYOPES9ccn9egI=;
-        b=KRE4nOsctuEOl2LC2RDrgOWHYDOICSl9b3eAwTINeDAKX61JelkAi9iTzhDSLN6i0N4x/C
-        8V/akap4D9bywbnfxgFBx/MT1rGL7DIrtaCptD2OExsatEpXKZ+6pjRJFX1M9/SrT2CaWU
-        v98jc0dGUQ1VNvLSaosQbnwToi+t2Xs=
-Date:   Fri, 27 Jan 2023 23:57:40 +0800
+        bh=SwogfK/xLNDHbbwXO1sIym9vY9/jCFhsud5wbKcvQaU=;
+        b=MvkDhpC60BEksuWrQlrG0YhuNwEfwWEQ4Ydn/2F3+tZb9mPK4FJghmtnfhsGbXuJfsOWgM
+        hg1xZsNBJ8tnV1ZCYfFkhPYeAOKovrmysSYrr3FGaIUkH26ghpcwh6UuhF7He1BLTk8X1n
+        RX/y0daxFpnfb8F4OUGWzyvlnGCObKc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-248-I0cJ5ZsZNGaSTRQeYNuw7g-1; Fri, 27 Jan 2023 11:12:30 -0500
+X-MC-Unique: I0cJ5ZsZNGaSTRQeYNuw7g-1
+Received: by mail-wm1-f70.google.com with SMTP id m15-20020a05600c3b0f00b003dc37d0e995so1281757wms.4
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 08:12:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SwogfK/xLNDHbbwXO1sIym9vY9/jCFhsud5wbKcvQaU=;
+        b=OfCTcDeyaQgvOprx1HYpwT8o3FcJ3w4h13MTRIDtTtLmoRkXXr5jDwRYZ78zRBUG1Q
+         eiQ1X19ljnU8OY7wyB/usuqS9ttqbvQbX7NCNfkH8ZcdUa3GqDfAJoWMcgmLKBFzSA+6
+         WqDcA4/JfRR8J3U/y5ymf0f4RmTt8EdQEQOZiK22Kkuu7wt+XP3R1HExWwBLOsKxbXes
+         8uRlnv+BxxBu+yOwk50Wl9KI500Sob53WRA7nO0SrWN4JxzdQMUaKxox42nbG1l6uoH8
+         kZhNfAQ+irBWxv/mtH+qKbFpWdSAbzPWORHqVaK8CgwvPGbx2htJ88VW2ErWOg0RdcLF
+         o4Qw==
+X-Gm-Message-State: AO0yUKU2Gtzz0tBJB7lAQLYotjaucM70B2+Zlmu9SRUNEida4ysq2zJK
+        Bo2M2+XfJ/pfGwpMAmo8ZL7aNMtMmInq+xvQ5rnXY37GRettVEm/UM7YEdCSCgkU5zqASGvhJxc
+        uVRDIlMthYyvW4iy9b4+0
+X-Received: by 2002:a05:6000:1f05:b0:2bf:bc38:17c1 with SMTP id bv5-20020a0560001f0500b002bfbc3817c1mr9332017wrb.4.1674835949251;
+        Fri, 27 Jan 2023 08:12:29 -0800 (PST)
+X-Google-Smtp-Source: AK7set9xHxRFMELkql7GhWmWFY9SeZNG8Y1DmSr6SFxhFl3Z+1haelg4X8dDIm2uqRediNz9/rRjDw==
+X-Received: by 2002:a05:6000:1f05:b0:2bf:bc38:17c1 with SMTP id bv5-20020a0560001f0500b002bfbc3817c1mr9331981wrb.4.1674835948989;
+        Fri, 27 Jan 2023 08:12:28 -0800 (PST)
+Received: from ?IPV6:2003:d8:2f16:1800:a9b4:1776:c5d9:1d9a? (p200300d82f161800a9b41776c5d91d9a.dip0.t-ipconnect.de. [2003:d8:2f16:1800:a9b4:1776:c5d9:1d9a])
+        by smtp.gmail.com with ESMTPSA id e21-20020a5d5955000000b002b57bae7174sm4283915wri.5.2023.01.27.08.12.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jan 2023 08:12:28 -0800 (PST)
+Message-ID: <f4b62ed9-21a9-4b23-567e-51b339a643ac@redhat.com>
+Date:   Fri, 27 Jan 2023 17:12:26 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 2/4] KVM: arm64: Add helper vgic_write_guest_lock()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 18/39] mm: Handle faultless write upgrades for shstk
 Content-Language: en-US
-To:     Gavin Shan <gshan@redhat.com>, kvmarm@lists.linux.dev
-Cc:     kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, pbonzini@redhat.com,
-        corbet@lwn.net, maz@kernel.org, james.morse@arm.com,
-        suzuki.poulose@arm.com, oliver.upton@linux.dev,
-        yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org,
-        yuzhe@nfschina.com, isaku.yamahata@intel.com, seanjc@google.com,
-        ricarkol@google.com, eric.auger@redhat.com, renzhengeek@gmail.com,
-        reijiw@google.com, shan.gavin@gmail.com
-References: <20230126235451.469087-1-gshan@redhat.com>
- <20230126235451.469087-3-gshan@redhat.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Zenghui Yu <zenghui.yu@linux.dev>
-In-Reply-To: <20230126235451.469087-3-gshan@redhat.com>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-19-rick.p.edgecombe@intel.com>
+ <7f63d13d-7940-afb6-8b25-26fdf3804e00@redhat.com>
+ <50cf64932507ba60639eca28692e7df285bcc0a7.camel@intel.com>
+ <1327c608-1473-af4f-d962-c24f04f3952c@redhat.com>
+ <8c3820ae1448de4baffe7c476b4b5d9ba0a309ff.camel@intel.com>
+ <4d224020-f26f-60a4-c7ab-721a024c7a6d@redhat.com>
+ <dd06b54291ad5721da392a42f2d8e5636301ffef.camel@intel.com>
+ <899d8f3baaf45b896cf335dec2143cd0969a2d8a.camel@intel.com>
+ <ad7d94dd-f0aa-bf21-38c3-58ef1e9e46dc@redhat.com>
+ <27b141c06c37da78afca7214ec7efeaf730162d9.camel@intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <27b141c06c37da78afca7214ec7efeaf730162d9.camel@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[ just coming back from holiday, sorry for the late reply ]
-
-On 2023/1/27 07:54, Gavin Shan wrote:
-> Currently, the unknown no-running-vcpu sites are reported when a
-> dirty page is tracked by mark_page_dirty_in_slot(). Until now, the
-> only known no-running-vcpu site is saving vgic/its tables through
-> KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_SAVE_TABLES} command on KVM device
-> "kvm-arm-vgic-its". Unfortunately, there are more unknown sites to
-> be handled and no-running-vcpu context will be allowed in these
-> sites: (1) KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_RESTORE_TABLES} command
-> on KVM device "kvm-arm-vgic-its" to restore vgic/its tables. The
-> vgic3 LPI pending status could be restored. (2) Save vgic3 pending
-
-We typically write it as "VGICv3".
-
-> table through KVM_DEV_ARM_{VGIC_GRP_CTRL, VGIC_SAVE_PENDING_TABLES}
-> command on KVM device "kvm-arm-vgic-v3".
+On 26.01.23 21:19, Edgecombe, Rick P wrote:
+> On Thu, 2023-01-26 at 09:46 +0100, David Hildenbrand wrote:
+>> On 26.01.23 01:59, Edgecombe, Rick P wrote:
+>>> On Wed, 2023-01-25 at 10:43 -0800, Rick Edgecombe wrote:
+>>>> Thanks for your comments and ideas here, I'll give the:
+>>>> pte_t pte_mkwrite(struct vm_area_struct *vma, pte_t pte)
+>>>> ...solution a try.
+>>>
+>>> Well, it turns out there are some pte_mkwrite() callers in other
+>>> arch's
+>>> that operate on kernel memory and don't have a VMA. So it needed a
+>>> new
+>>
+>> Why not pass in NULL as VMA then and document the semantics? The
+>> less
+>> similarly named but slightly different functions, the better :)
 > 
-> In order to handle those unknown cases, we need a unified helper
-> vgic_write_guest_lock(). struct vgic_dist::save_its_tables_in_progress
-> is also renamed to struct vgic_dist::save_tables_in_progress.
+> Hmm. The x86 and generic versions should probably have the same
+> semantics, so then if you pass a NULL, it would do a regular
+> pte_mkwrite() I guess?
+> 
+> I see another benefit of requiring the vma argument, such that raw
+> pte_mkwrite()s are less likely to appear in core MM code. But I think
+> the NULL is awkward because it's not obvious, to me at least, what the
+> implications of that should be.
+> 
+> So it will be confusing to read in the NULL cases for the other archs.
+> We also have some warnings to catch miss cases in the PTE tear down
+> code, so the scenario of new code accidentally marking shadow stack
+> PTEs as writable is not totally unchecked.
+> 
+> The three functions that do slightly different things are:
+> 
+> pte_mkwrite():
+> Makes a PTE conventionally writable, only takes a PTE. Very clear that
+> it is a low level helper and what it does.
+> 
+> maybe_mkwrite():
+> Might make a PTE writable if the VMA allows it.
+> 
+> pte_mkwrite_vma():
+> Makes a PTE writable in a specific way depending on the VMA
+> 
+> I wonder if the name pte_mkwrite_vma() is maybe just not clear enough.
+> It takes a VMA, yes, but what does it do with it?
+> 
+> What if it was called pte_mkwrite_type() instead? Some arch's have
+> additional types of writable memory and this function creates them. Of
+> course they also have the normal type of writable memory, and
+> pte_mkwrite() creates that like usual. Doesn't it seem more readable?
 
-How about renaming it to 'write_tables_in_progress' which would look a
-bit more generic? The rest looks good to me.
+The issue is, the more variants we provide the easier it is to make 
+mistakes and introduce new buggy code.
 
+It's tempting to simply use pte_mkwrite() and call it a day, where 
+people actually should use pte_mkwrite_vma().
+
+Then, they at least have to investigate what to do about the second VMA 
+parameter.
+
+-- 
 Thanks,
-Zenghui
+
+David / dhildenb
+
