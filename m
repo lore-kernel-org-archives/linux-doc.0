@@ -2,62 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ABFEC54EAA
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 01:27:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DCE4C05027
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 01:44:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbjA0B1T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 20:27:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53266 "EHLO
+        id S232380AbjA0BoY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 20:44:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjA0B1S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 20:27:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D08E721FB
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 17:26:32 -0800 (PST)
+        with ESMTP id S232292AbjA0BoX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 20:44:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5485402F6
+        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 17:43:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674782791;
+        s=mimecast20190719; t=1674783817;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=hbvey5wHHvjs/oXB5rGmtyX2nEk7d2EsdqbZiV/BBWQ=;
-        b=BKXTLytUhlRwxG7l79TY9DFxEO8JCdfuCdMAsdcZlHOQMGL3JjmMgStQnlq4lAQnlaF0Jq
-        14EelEsSCOqWM46mJDOiyZSRMEhPdm0WJxkFqCa1KVc1wNO+aYabiUsB6Cy2/JjFVqTRhU
-        DpEbBA/aYLGG2lqG/NKsXqpWnVTNuaY=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=klEMThSq4VD88RqpfRh/FhT879utDrAYmm/oRbd9oCw=;
+        b=YgvzY6DznZTqjs4PSaz3i1aUtXZXJGCKSXBjK0Cwjwx5kOJ2LBm7JwfUzVqYn85HXU6Lvy
+        McczIgerXvnAMyoCKBLiurWheYhB6uKHUgkyzh6vqXNkI1FNH9csf0Koug5pFBi6weIwLX
+        +aORpVbFg2EY4crxw3d/AFqv5jp9uiY=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-255-pDWKffKENz6lXs8mTKqvIQ-1; Thu, 26 Jan 2023 20:26:28 -0500
-X-MC-Unique: pDWKffKENz6lXs8mTKqvIQ-1
-Received: by mail-ej1-f69.google.com with SMTP id jg2-20020a170907970200b0086ee94381fbso2319684ejc.2
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 17:26:27 -0800 (PST)
+ us-mta-370-jFPG-VmTOF6waNZ7GpASog-1; Thu, 26 Jan 2023 20:43:33 -0500
+X-MC-Unique: jFPG-VmTOF6waNZ7GpASog-1
+Received: by mail-ej1-f71.google.com with SMTP id d10-20020a170906640a00b008787d18c373so1251673ejm.17
+        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 17:43:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:organization:from:references
          :cc:to:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hbvey5wHHvjs/oXB5rGmtyX2nEk7d2EsdqbZiV/BBWQ=;
-        b=Ji+HuzoBDid3Xl0aVTMC+/LGzTfJcN3j3lTArXwXourOBX70Yrr5gT1DxLWAmE3JcT
-         NpeWDZcdlP/rZU8E1hzTzEcxlHK3I5xzNlvTzYHw46dfoQNVH2jN+umtGZhUkJ33jjhD
-         YitlZNEpK1nlva72ypohI1qT9sz/PR6dmCi2zkMjMwvPbanuoevwVRlN+R7D2oGLm9fI
-         1M9HSPSdzzQoIx6h0w+NXxQKDpL6GxCQqPApl6hvJqS5xe4e1F98CCDYRqzHYohFPcLS
-         ydlXRNbzN7aaQuP/uBwpyW4tB4eS4hvccIENk2rLiil+5gGVtXHHdozlmtd7JZsLpOeP
-         uzKA==
-X-Gm-Message-State: AFqh2krwbuOY9Sq4lmcHeDqiYHNts774nqIDrDQ93ReSR+IlMPHWmoxK
-        UtP8eaKXF5cYQIcTyIAgsUDRuZcyUVrJA+AsJ8wfFnm0UzNQiOdUodCmJi7bh0scsLqEd+PlX7R
-        8+4MFgiXZ/DW/kDiybbeG
-X-Received: by 2002:aa7:c845:0:b0:497:b6bc:b811 with SMTP id g5-20020aa7c845000000b00497b6bcb811mr37913425edt.33.1674782787022;
-        Thu, 26 Jan 2023 17:26:27 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu6lha1mIb8CVkXNvveMAnSWzbNPvcCRf2xMZqXV2fpjBOJrCyBsekrS27Y2oQ8i/77wGdXrA==
-X-Received: by 2002:aa7:c845:0:b0:497:b6bc:b811 with SMTP id g5-20020aa7c845000000b00497b6bcb811mr37913404edt.33.1674782786693;
-        Thu, 26 Jan 2023 17:26:26 -0800 (PST)
+        bh=klEMThSq4VD88RqpfRh/FhT879utDrAYmm/oRbd9oCw=;
+        b=ruCi7cNGWfA73mpfwPNBijCH9Zjnljw0iU+nZrOZ+6sdKmvucJyR0HG5B27OQbVEnX
+         gQWN4pjScuy7tm0Txz7z/4HDQm8lTewCLf2vyXEh7zCbwpyL5hTeN9a4Jbd+ZCvcIoYL
+         7AF7rlHxPjJnTT9q79MYUWgNrxqIEQ5Mur4fqvvRLSrTuJpdk4ClkyrGfT9gmHH9eHLH
+         tDcm77sQiUZ5X4CvQUwMoGJN5sVgSMqUz84zJ2ONxVbKVRpwcUZJCWb5BTuDR89ib0we
+         h0d5QseK9n/yTAbQfCUFLJDRIS/j2W/MtLfEtpN1nWFc597GDjOE2xl9ZdPjNW7CeiHa
+         yDww==
+X-Gm-Message-State: AFqh2kqITY9m8hvFjJ1GnJIkjrGM8c5mlRlewnBQrtAm6s1LGjdd507o
+        qzu/Tdpc1fJt42vflSgHuGh7bgpBIzDsQHDoee9EKWgI6M/JbFJhb7ogGga5+t6cCUU5XX5e2Sw
+        nu1lM1fUYWhaURaoIIhwk
+X-Received: by 2002:a17:906:814e:b0:86d:f6fe:3c3b with SMTP id z14-20020a170906814e00b0086df6fe3c3bmr40210804ejw.23.1674783812676;
+        Thu, 26 Jan 2023 17:43:32 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuRiEZe0tJTLhounCiwsl8cmVMaC2QzkbhzkEhofcXURHObWEtYm1ypBPdTHjbRkaU/GCsNeg==
+X-Received: by 2002:a17:906:814e:b0:86d:f6fe:3c3b with SMTP id z14-20020a170906814e00b0086df6fe3c3bmr40210791ejw.23.1674783812416;
+        Thu, 26 Jan 2023 17:43:32 -0800 (PST)
 Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id j23-20020aa7c0d7000000b0046892e493dcsm1530377edp.26.2023.01.26.17.26.25
+        by smtp.gmail.com with ESMTPSA id w5-20020a1709061f0500b0086a2e31d1c1sm1404316ejj.28.2023.01.26.17.43.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jan 2023 17:26:26 -0800 (PST)
-Message-ID: <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
-Date:   Fri, 27 Jan 2023 02:26:24 +0100
+        Thu, 26 Jan 2023 17:43:31 -0800 (PST)
+Message-ID: <0bf3fec7-5aac-d3cb-8953-a332f84bdf8a@redhat.com>
+Date:   Fri, 27 Jan 2023 02:43:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
@@ -80,6 +80,8 @@ Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
+
+
 
 On 1/27/23 02:05, Matthew Brost wrote:
 > On Wed, Jan 18, 2023 at 07:12:47AM +0100, Danilo Krummrich wrote:
@@ -201,38 +203,21 @@ On 1/27/23 02:05, Matthew Brost wrote:
 > Do you really need this operation? We have no concept of this in Xe,
 > e.g. we can create a VM and the entire address space is managed exactly
 > the same.
-
-The idea for alloc/free is to let UMDs allocate a portion of the VA 
-space (which I call a region), basically the same thing Vulkan 
-represents with a VKBuffer.
-
-It serves two purposes:
-
-1. It gives the kernel (in particular the GPUVA manager) the bounds in 
-which it is allowed to merge mappings. E.g. when a user request asks for 
-a new mapping and we detect we could merge this mapping with an existing 
-one (used in another VKBuffer than the mapping request came for) the 
-driver is not allowed to change the page table for the existing mapping 
-we want to merge with (assuming that some drivers would need to do this 
-in order to merge), because the existing mapping could already be in use 
-and by re-mapping it we'd potentially cause a fault on the GPU.
-
-2. It is used for sparse residency in a way that such an allocated VA 
-space region can be flagged as sparse, such that the kernel always keeps 
-sparse mappings around for the parts of the region that do not contain 
-actual memory backed mappings.
-
-If for your driver merging is always OK, creating a single huge region 
-would do the trick I guess. Otherwise, we could also add an option to 
-the GPUVA manager (or a specific region, which could also be a single 
-huge one) within which it never merges.
-
 > 
 > If this can be removed then the entire concept of regions in the GPUVA
 > can be removed too (drop struct drm_gpuva_region). I say this because
 > in Xe as I'm porting over to GPUVA the first thing I'm doing after
 > drm_gpuva_manager_init is calling drm_gpuva_region_insert on the entire
-> address space. To me this seems kinda useless but maybe I'm missing why
+> address space. 
+
+Also, since you've been starting to use the code, this [1] is the branch 
+I'm pushing my fixes for a v2 to. It already contains the changes for 
+the GPUVA manager except for switching away from drm_mm.
+
+[1] 
+https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next-fixes
+
+> To me this seems kinda useless but maybe I'm missing why
 > you need this for Nouveau.
 > 
 > Matt
