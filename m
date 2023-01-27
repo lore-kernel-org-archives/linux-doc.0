@@ -2,188 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 889E0C54EAA
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 16:13:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6290FC54EAA
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 16:20:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234637AbjA0QNU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 11:13:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40378 "EHLO
+        id S234534AbjA0QUZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 11:20:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234644AbjA0QNR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 11:13:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA3184DBCE
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 08:12:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674835952;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=SwogfK/xLNDHbbwXO1sIym9vY9/jCFhsud5wbKcvQaU=;
-        b=MvkDhpC60BEksuWrQlrG0YhuNwEfwWEQ4Ydn/2F3+tZb9mPK4FJghmtnfhsGbXuJfsOWgM
-        hg1xZsNBJ8tnV1ZCYfFkhPYeAOKovrmysSYrr3FGaIUkH26ghpcwh6UuhF7He1BLTk8X1n
-        RX/y0daxFpnfb8F4OUGWzyvlnGCObKc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-248-I0cJ5ZsZNGaSTRQeYNuw7g-1; Fri, 27 Jan 2023 11:12:30 -0500
-X-MC-Unique: I0cJ5ZsZNGaSTRQeYNuw7g-1
-Received: by mail-wm1-f70.google.com with SMTP id m15-20020a05600c3b0f00b003dc37d0e995so1281757wms.4
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 08:12:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SwogfK/xLNDHbbwXO1sIym9vY9/jCFhsud5wbKcvQaU=;
-        b=OfCTcDeyaQgvOprx1HYpwT8o3FcJ3w4h13MTRIDtTtLmoRkXXr5jDwRYZ78zRBUG1Q
-         eiQ1X19ljnU8OY7wyB/usuqS9ttqbvQbX7NCNfkH8ZcdUa3GqDfAJoWMcgmLKBFzSA+6
-         WqDcA4/JfRR8J3U/y5ymf0f4RmTt8EdQEQOZiK22Kkuu7wt+XP3R1HExWwBLOsKxbXes
-         8uRlnv+BxxBu+yOwk50Wl9KI500Sob53WRA7nO0SrWN4JxzdQMUaKxox42nbG1l6uoH8
-         kZhNfAQ+irBWxv/mtH+qKbFpWdSAbzPWORHqVaK8CgwvPGbx2htJ88VW2ErWOg0RdcLF
-         o4Qw==
-X-Gm-Message-State: AO0yUKU2Gtzz0tBJB7lAQLYotjaucM70B2+Zlmu9SRUNEida4ysq2zJK
-        Bo2M2+XfJ/pfGwpMAmo8ZL7aNMtMmInq+xvQ5rnXY37GRettVEm/UM7YEdCSCgkU5zqASGvhJxc
-        uVRDIlMthYyvW4iy9b4+0
-X-Received: by 2002:a05:6000:1f05:b0:2bf:bc38:17c1 with SMTP id bv5-20020a0560001f0500b002bfbc3817c1mr9332017wrb.4.1674835949251;
-        Fri, 27 Jan 2023 08:12:29 -0800 (PST)
-X-Google-Smtp-Source: AK7set9xHxRFMELkql7GhWmWFY9SeZNG8Y1DmSr6SFxhFl3Z+1haelg4X8dDIm2uqRediNz9/rRjDw==
-X-Received: by 2002:a05:6000:1f05:b0:2bf:bc38:17c1 with SMTP id bv5-20020a0560001f0500b002bfbc3817c1mr9331981wrb.4.1674835948989;
-        Fri, 27 Jan 2023 08:12:28 -0800 (PST)
-Received: from ?IPV6:2003:d8:2f16:1800:a9b4:1776:c5d9:1d9a? (p200300d82f161800a9b41776c5d91d9a.dip0.t-ipconnect.de. [2003:d8:2f16:1800:a9b4:1776:c5d9:1d9a])
-        by smtp.gmail.com with ESMTPSA id e21-20020a5d5955000000b002b57bae7174sm4283915wri.5.2023.01.27.08.12.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jan 2023 08:12:28 -0800 (PST)
-Message-ID: <f4b62ed9-21a9-4b23-567e-51b339a643ac@redhat.com>
-Date:   Fri, 27 Jan 2023 17:12:26 +0100
+        with ESMTP id S234589AbjA0QUU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 11:20:20 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15849841B5;
+        Fri, 27 Jan 2023 08:20:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674836415; x=1706372415;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=U270CQoWlTfib2ccUnX91Q4dGBBbjD5E5gXGCup4EEQ=;
+  b=Qn+RvgIesu0Cu+aqdHXGe3w+vWWMV5Wuloeit5gwz6E5U4yYilFGBnWp
+   9VRK90jzgk7BwNyeLJ5jSmEoRIxxite/KdE2kWy5a0PyLKaGKljtX5gOj
+   2TF0hL2GObgsNW+gn4FVE/DP4nAgG8Z2uv+pWJ93ZcdevHh1NV8Uaaa0c
+   8M5nTkihPneLZRJlDHXGLu+7X+C1HgCduc0AuJhBrxv1noUxaTe8y6XnC
+   oafPUKh96SmWaIhJw8IrJnr1gTtqrlY7xNFgwpDGIcuostyeP1Yo/PN8w
+   qkKykKFhyFmjfp/kgWZsr8mvaOitT5eWkaou8coqplL1dREF/gVnMpFSi
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="306770287"
+X-IronPort-AV: E=Sophos;i="5.97,251,1669104000"; 
+   d="scan'208";a="306770287"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 08:20:14 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="771630254"
+X-IronPort-AV: E=Sophos;i="5.97,251,1669104000"; 
+   d="scan'208";a="771630254"
+Received: from dpbogia-mobl1.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.209.18.51])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 08:20:14 -0800
+Message-ID: <bcc22f45efbde7b7b075fe84a495a52b81e02b18.camel@linux.intel.com>
+Subject: Re: [PATCH 10/35] Documentation: hid: correct spelling
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Date:   Fri, 27 Jan 2023 08:20:13 -0800
+In-Reply-To: <20230127064005.1558-11-rdunlap@infradead.org>
+References: <20230127064005.1558-1-rdunlap@infradead.org>
+         <20230127064005.1558-11-rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5 18/39] mm: Handle faultless write upgrades for shstk
-Content-Language: en-US
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119212317.8324-19-rick.p.edgecombe@intel.com>
- <7f63d13d-7940-afb6-8b25-26fdf3804e00@redhat.com>
- <50cf64932507ba60639eca28692e7df285bcc0a7.camel@intel.com>
- <1327c608-1473-af4f-d962-c24f04f3952c@redhat.com>
- <8c3820ae1448de4baffe7c476b4b5d9ba0a309ff.camel@intel.com>
- <4d224020-f26f-60a4-c7ab-721a024c7a6d@redhat.com>
- <dd06b54291ad5721da392a42f2d8e5636301ffef.camel@intel.com>
- <899d8f3baaf45b896cf335dec2143cd0969a2d8a.camel@intel.com>
- <ad7d94dd-f0aa-bf21-38c3-58ef1e9e46dc@redhat.com>
- <27b141c06c37da78afca7214ec7efeaf730162d9.camel@intel.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <27b141c06c37da78afca7214ec7efeaf730162d9.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26.01.23 21:19, Edgecombe, Rick P wrote:
-> On Thu, 2023-01-26 at 09:46 +0100, David Hildenbrand wrote:
->> On 26.01.23 01:59, Edgecombe, Rick P wrote:
->>> On Wed, 2023-01-25 at 10:43 -0800, Rick Edgecombe wrote:
->>>> Thanks for your comments and ideas here, I'll give the:
->>>> pte_t pte_mkwrite(struct vm_area_struct *vma, pte_t pte)
->>>> ...solution a try.
->>>
->>> Well, it turns out there are some pte_mkwrite() callers in other
->>> arch's
->>> that operate on kernel memory and don't have a VMA. So it needed a
->>> new
->>
->> Why not pass in NULL as VMA then and document the semantics? The
->> less
->> similarly named but slightly different functions, the better :)
+On Thu, 2023-01-26 at 22:39 -0800, Randy Dunlap wrote:
+> Correct spelling problems for Documentation/hid/ as reported
+> by codespell.
 > 
-> Hmm. The x86 and generic versions should probably have the same
-> semantics, so then if you pass a NULL, it would do a regular
-> pte_mkwrite() I guess?
-> 
-> I see another benefit of requiring the vma argument, such that raw
-> pte_mkwrite()s are less likely to appear in core MM code. But I think
-> the NULL is awkward because it's not obvious, to me at least, what the
-> implications of that should be.
-> 
-> So it will be confusing to read in the NULL cases for the other archs.
-> We also have some warnings to catch miss cases in the PTE tear down
-> code, so the scenario of new code accidentally marking shadow stack
-> PTEs as writable is not totally unchecked.
-> 
-> The three functions that do slightly different things are:
-> 
-> pte_mkwrite():
-> Makes a PTE conventionally writable, only takes a PTE. Very clear that
-> it is a low level helper and what it does.
-> 
-> maybe_mkwrite():
-> Might make a PTE writable if the VMA allows it.
-> 
-> pte_mkwrite_vma():
-> Makes a PTE writable in a specific way depending on the VMA
-> 
-> I wonder if the name pte_mkwrite_vma() is maybe just not clear enough.
-> It takes a VMA, yes, but what does it do with it?
-> 
-> What if it was called pte_mkwrite_type() instead? Some arch's have
-> additional types of writable memory and this function creates them. Of
-> course they also have the normal type of writable memory, and
-> pte_mkwrite() creates that like usual. Doesn't it seem more readable?
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
 
-The issue is, the more variants we provide the easier it is to make 
-mistakes and introduce new buggy code.
+For Documentation/hid/intel-ish-hid.rst
 
-It's tempting to simply use pte_mkwrite() and call it a day, where 
-people actually should use pte_mkwrite_vma().
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-Then, they at least have to investigate what to do about the second VMA 
-parameter.
 
--- 
-Thanks,
-
-David / dhildenb
+> ---
+>  Documentation/hid/hid-alps.rst      |    2 +-
+>  Documentation/hid/hid-bpf.rst       |    2 +-
+>  Documentation/hid/hiddev.rst        |    2 +-
+>  Documentation/hid/hidraw.rst        |    2 +-
+>  Documentation/hid/intel-ish-hid.rst |    2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff -- a/Documentation/hid/hid-alps.rst b/Documentation/hid/hid-
+> alps.rst
+> --- a/Documentation/hid/hid-alps.rst
+> +++ b/Documentation/hid/hid-alps.rst
+> @@ -9,7 +9,7 @@ Currently ALPS HID driver supports U1 To
+>  U1 device basic information.
+>  
+>  ==========     ======
+> -Vender ID      0x044E
+> +Vendor ID      0x044E
+>  Product ID     0x120B
+>  Version ID     0x0121
+>  ==========     ======
+> diff -- a/Documentation/hid/hid-bpf.rst b/Documentation/hid/hid-
+> bpf.rst
+> --- a/Documentation/hid/hid-bpf.rst
+> +++ b/Documentation/hid/hid-bpf.rst
+> @@ -307,7 +307,7 @@ sysfs path: ``/sys/bus/hid/devices/xxxx:
+>  
+>  We can not rely on hidraw to bind a BPF program to a HID device.
+> hidraw is an
+>  artefact of the processing of the HID device, and is not stable.
+> Some drivers
+> -even disable it, so that removes the tracing capabilies on those
+> devices
+> +even disable it, so that removes the tracing capabilities on those
+> devices
+>  (where it is interesting to get the non-hidraw traces).
+>  
+>  On the other hand, the ``hid_id`` is stable for the entire life of
+> the HID device,
+> diff -- a/Documentation/hid/hiddev.rst b/Documentation/hid/hiddev.rst
+> --- a/Documentation/hid/hiddev.rst
+> +++ b/Documentation/hid/hiddev.rst
+> @@ -8,7 +8,7 @@ Introduction
+>  In addition to the normal input type HID devices, USB also uses the
+>  human interface device protocols for things that are not really
+> human
+>  interfaces, but have similar sorts of communication needs. The two
+> big
+> -examples for this are power devices (especially uninterruptable
+> power
+> +examples for this are power devices (especially uninterruptible
+> power
+>  supplies) and monitor control on higher end monitors.
+>  
+>  To support these disparate requirements, the Linux USB system
+> provides
+> diff -- a/Documentation/hid/hidraw.rst b/Documentation/hid/hidraw.rst
+> --- a/Documentation/hid/hidraw.rst
+> +++ b/Documentation/hid/hidraw.rst
+> @@ -163,7 +163,7 @@ HIDIOCGOUTPUT(len):
+>         Get an Output Report
+>  
+>  This ioctl will request an output report from the device using the
+> control
+> -endpoint.  Typically, this is used to retrive the initial state of
+> +endpoint.  Typically, this is used to retrieve the initial state of
+>  an output report of a device, before an application updates it as
+> necessary either
+>  via a HIDIOCSOUTPUT request, or the regular device write()
+> interface.  The format
+>  of the buffer issued with this report is identical to that of
+> HIDIOCGFEATURE.
+> diff -- a/Documentation/hid/intel-ish-hid.rst
+> b/Documentation/hid/intel-ish-hid.rst
+> --- a/Documentation/hid/intel-ish-hid.rst
+> +++ b/Documentation/hid/intel-ish-hid.rst
+> @@ -199,7 +199,7 @@ the sender that the memory region for th
+>  DMA initialization is started with host sending DMA_ALLOC_NOTIFY bus
+> message
+>  (that includes RX buffer) and FW responds with DMA_ALLOC_NOTIFY_ACK.
+>  Additionally to DMA address communication, this sequence checks
+> capabilities:
+> -if thw host doesn't support DMA, then it won't send DMA allocation,
+> so FW can't
+> +if the host doesn't support DMA, then it won't send DMA allocation,
+> so FW can't
+>  send DMA; if FW doesn't support DMA then it won't respond with
+>  DMA_ALLOC_NOTIFY_ACK, in which case host will not use DMA transfers.
+>  Here ISH acts as busmaster DMA controller. Hence when host sends
+> DMA_XFER,
 
