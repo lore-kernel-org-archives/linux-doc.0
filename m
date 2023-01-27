@@ -2,159 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0083FC61DA4
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 16:02:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51538C54EAA
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 16:03:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232785AbjA0QC3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 11:02:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57306 "EHLO
+        id S232659AbjA0QDE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 11:03:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjA0QC3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 11:02:29 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325418B063;
-        Fri, 27 Jan 2023 08:02:01 -0800 (PST)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30RFavqC021454;
-        Fri, 27 Jan 2023 16:01:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=/S22GBkuN8cVeMhaytVE3/ENZ87v5s8LO6nyMoxDA20=;
- b=bVWQfxJ9nVf+D7QwGRMEqInO3q9qTiWkFdTTcPEqzze5qG8Y3FA8PeVU6dzcHZnWpUFJ
- JmZ1jJXDvQu1BbEqYC67IS9Sb2Ssya8NuIZE1FDo8Z5ahckIb4nON41jzdjT7mQLmNIY
- zZg8HKgkEOzjH8hRsdw3nO1oH4dGuneaBAxQrimEjMYhOsb9WiGHEWjdqxGzp/RNefsF
- +WZmCeof63uqmQnP7ECfifR2TlOSH4GqwCmradvou6nCN199efaRTrKVxiutRNdmhGJW
- LJsQqH3DDJaoMsz4uXEcLFVMNWfaa69En59g0vr3tLUX4NwIQuhVwm8zvUQ16xP7t/PR VQ== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncchxrggh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 27 Jan 2023 16:01:16 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30RG19V1021597
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 27 Jan 2023 16:01:09 GMT
-Received: from hu-mojha-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Fri, 27 Jan 2023 08:01:06 -0800
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-To:     <linux-hardening@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
-CC:     Mukesh Ojha <quic_mojha@quicinc.com>,
-        Kees Cook <keescook@chromium.org>,
-        Tony Luck <tony.luck@intel.com>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v4 1/2] dt-bindings: ramoops: Inherit reserve memory property
-Date:   Fri, 27 Jan 2023 21:30:51 +0530
-Message-ID: <1674835252-31954-1-git-send-email-quic_mojha@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+        with ESMTP id S233036AbjA0QCx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 11:02:53 -0500
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E720087360
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 08:02:30 -0800 (PST)
+Received: by mail-qk1-x733.google.com with SMTP id w21so2547705qkf.8
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 08:02:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=K6anF/hme5CxdN/v2AxIOwVlqBuJbrYgKdBlK4gdSTc=;
+        b=rfn4ZOVzxnWfwhSIE8fkDMAxjolzF6kjdNho2Tt2KbjgrwOdvpYDCJg4XE0UF1ww/a
+         DWLoEkC3WvlpmCpGmzy3JCRm3y/ekNQ+VJw9Qg7YbBn+BgaNixIipxSUP2aDLyvAxgxF
+         UPK5ciVbW056HreDoSQSF+UlIbC9KGmzM7XwOsEcakZrPTNLVPUt5OPuiasL5WCFprKe
+         YIOdWzPY2MmanVRj6NrjOTbou6mKwojzy1wHVjNqyA/zS4Q39L/ppG+JRF63KRUra/KH
+         n9N1B4wF13I2sHApXGUIF5wHHVZzE/u49bCFteRMP50r6EZenFdZADc/bJztTjD9/z2R
+         ZlAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K6anF/hme5CxdN/v2AxIOwVlqBuJbrYgKdBlK4gdSTc=;
+        b=vwif/Mm+dgcdHcTMgAnH+zLWtj3UNEB6DUxx1QUIhbYbQ9fEbnfAm4hG6+1/6Vc1Pq
+         uJKCfM7AxIoHJnLNbmmSdW4itgt9A5pQ+T/bk5vBhOxPN5yS8TNRY7vfkb0bGaqX/ViD
+         EFip0FSOXHy0afUNjbXxq7db3aEnk8oT9CU4ejsrcLeYhLd4H7yfK//dfX0vibKF2cuX
+         grK6mdHNNBXOqTjmEW31L2nmNkiJsaTPGwjPkS0zbuXp0RdGCF901MF49hS89nBxUVNB
+         c6VWRJbNPVAXnuLYGCo1oocjmNBef7+PkP8Zfxijjcm6CzrPEqYtavtrNFvHzTrJ/6G6
+         Kf9Q==
+X-Gm-Message-State: AFqh2krP7mJgSUfz+B3UdJyVi+4ENWUW5zv2sdaZDQCXfjWdLNOJHe5V
+        CrV7Q+Skddn0TCBJuSlwRR+v5ZTtDispjW/+1CTtlw==
+X-Google-Smtp-Source: AMrXdXtQsGdbJsrbBeF3q8V17XDVqU2isO6dhJveWB03TYXftJcVZ2ElfilNcMywMtoyOtMxp8PqMFzRNq5S/xKnSpc=
+X-Received: by 2002:a05:620a:9cf:b0:706:8a3f:f17a with SMTP id
+ y15-20020a05620a09cf00b007068a3ff17amr1913224qky.52.1674835346359; Fri, 27
+ Jan 2023 08:02:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: VmMSqO6Cn7xkm1WzqPYAvWqmB6PsJMMJ
-X-Proofpoint-GUID: VmMSqO6Cn7xkm1WzqPYAvWqmB6PsJMMJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-27_09,2023-01-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0
- spamscore=0 clxscore=1011 adultscore=0 mlxscore=0 mlxlogscore=999
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301270148
+References: <20230126184157.27626-1-tony.luck@intel.com> <20230126184157.27626-4-tony.luck@intel.com>
+ <IA1PR11MB6097400A3056553FCC8E193C9BCC9@IA1PR11MB6097.namprd11.prod.outlook.com>
+In-Reply-To: <IA1PR11MB6097400A3056553FCC8E193C9BCC9@IA1PR11MB6097.namprd11.prod.outlook.com>
+From:   Peter Newman <peternewman@google.com>
+Date:   Fri, 27 Jan 2023 17:02:15 +0100
+Message-ID: <CALPaoCiFotg80LJZ3d+QeO=bNUh85AuP2VgmLaWXX7JaAMYfLQ@mail.gmail.com>
+Subject: Re: [PATCH 3/7] x86/resctrl: Add a new node-scoped resource to rdt_resources_all[]
+To:     "Yu, Fenghua" <fenghua.yu@intel.com>
+Cc:     "Luck, Tony" <tony.luck@intel.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The reserved memory region for ramoops is assumed to be at a
-fixed and known location when read from the devicetree. This
-is not desirable in an environment where it is preferred the
-region to be dynamically allocated at runtime, as opposed to
-being fixed at compile time.
+Hi Tony,
 
-So, update the ramoops binding by inheriting some reserve memory
-property to allocate the ramoops region dynamically.
+On Fri, Jan 27, 2023 at 6:25 AM Yu, Fenghua <fenghua.yu@intel.com> wrote:
+>
+> On 1/26/23 10:41, Tony Luck wrote:
+> > diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+> > index 6914232acf84..19be6fe42ef3 100644
+> > --- a/arch/x86/kernel/cpu/resctrl/core.c
+> > +++ b/arch/x86/kernel/cpu/resctrl/core.c
+> > @@ -100,6 +100,16 @@ struct rdt_hw_resource rdt_resources_all[] = {
+> >                       .fflags                 = RFTYPE_RES_MB,
+> >               },
+> >       },
+> > +     [RDT_RESOURCE_NODE] =
+> > +     {
+> > +             .r_resctrl = {
+> > +                     .rid                    = RDT_RESOURCE_NODE,
+> > +                     .name                   = "L3",
+> "L3" was named as RDT_RESOURCE_L3 already. The duplicate name here may
+> cause duplicate file names in info dir. Maybe rename it as "L3_NODE"?
 
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Guilherme G. Piccoli <gpiccoli@igalia.com>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
----
-Changes in v4:
- - Addressed comment made by Krzysztof on ramoops node name.
+I'm trying to get some feedback from our own users on whether changing
+the directory names would bother them. At least from my own testing, I
+did learn to appreciate the interface change a bit more: I needed an
+SNC and non-SNC case to correctly predict which mon_data subdirectory
+the data would appear in.
 
-Changes in v3:
- - Fixed yaml error and updated commit text as per comment.
+I was able to confirm that this change allows bandwidth to be counted
+on RMID/CPU combos where it didn't work before on an SNC2
+configuration.
 
-Change in v2:
-  - Added this patch as per changes going to be done in patch 3/3
+If I'm understanding this correctly, it might be helpful to highlight
+that the extra resource is needed to allow a different number of L3
+domains in L3 monitoring vs allocation.
 
- .../bindings/reserved-memory/ramoops.yaml          | 34 ++++++++++++++++++++--
- 1 file changed, 32 insertions(+), 2 deletions(-)
+Thanks!
+-Peter
 
-diff --git a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
-index 0391871..8741626 100644
---- a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
-+++ b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
-@@ -10,7 +10,8 @@ description: |
-   ramoops provides persistent RAM storage for oops and panics, so they can be
-   recovered after a reboot. This is a child-node of "/reserved-memory", and
-   is named "ramoops" after the backend, rather than "pstore" which is the
--  subsystem.
-+  subsystem. This region can be reserved both statically or dynamically by
-+  using appropriate property in device tree.
- 
-   Parts of this storage may be set aside for other persistent log buffers, such
-   as kernel log messages, or for optional ECC error-correction data.  The total
-@@ -112,7 +113,13 @@ unevaluatedProperties: false
- 
- required:
-   - compatible
--  - reg
-+
-+oneOf:
-+  - required:
-+      - reg
-+
-+  - required:
-+      - size
- 
- anyOf:
-   - required: [record-size]
-@@ -142,3 +149,26 @@ examples:
-             };
-         };
-     };
-+
-+  - |
-+    / {
-+        compatible = "foo";
-+        model = "foo";
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+
-+        reserved-memory {
-+            #address-cells = <1>;
-+            #size-cells = <1>;
-+            ranges;
-+
-+            ramoops_region: ramoops {
-+                compatible = "ramoops";
-+                alloc-ranges = <0x00000000 0xffffffff>;
-+                size = <0x0 0x10000>;       /* 64kB */
-+                console-size = <0x8000>;    /* 32kB */
-+                record-size = <0x400>;      /*  1kB */
-+                ecc-size = <16>;
-+            };
-+        };
-+    };
--- 
-2.7.4
-
+Tested-By: Peter Newman <peternewman@google.com>
+Reviewed-By: Peter Newman <peternewman@google.com>
