@@ -2,39 +2,39 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4AF1C61DB3
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 06:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 682E8C61DA3
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 06:40:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231878AbjA0GkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 01:40:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39066 "EHLO
+        id S231915AbjA0GkX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 01:40:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231782AbjA0GkR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 01:40:17 -0500
+        with ESMTP id S231792AbjA0GkS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 01:40:18 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF9C169B0A;
-        Thu, 26 Jan 2023 22:40:12 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F0B369B26;
+        Thu, 26 Jan 2023 22:40:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=WOlMkCDCy8lExYDWc6Zx7In/UvKr77iVceai4v2zQUc=; b=yREXSIUIV0KMN9H5ZkaIyKd563
-        3lB4/W0R3xNn2UEXA2m04oQGR77gKuYmlVUjC6DDi4OefqeMCQf9fP12CuwM9YROmrb2umhlh80b8
-        bLbRy4wsd8Rfz/Id5LeluVJPBXytotX27WLLh7FoaAI/ToKMfn6540Hm/Gv+TsLeF1ExHzJeCsB4H
-        WO914oX+2i5tV24+vSNsbfb4QplCzHi4Cznr6hydoK5gyqZM8KjeMf6x4Xuc7MGAEGzec/8ZkirY2
-        emlXXA4m2qIspfBbvlUX9I10zsA4tONNuBiJ1RKzN1DczSmHo2wKjpqEeIXW6Qe9OsiVbCdIGfYE1
-        bYOrSuCg==;
+        bh=MQhbP0hMtr6BqR9ppLU18nCzMDHRZuJTLBNnsV14sTQ=; b=HPZzIxZ2Y24tVIs+wsteg0TY9K
+        82s1noli9pOZWZV0YLGeW3+rmF40e5pIBOrH2uSR9FeesJVFoLE7ATLRnDRJKo8CF+z35x3LJV8vH
+        CEzENprql+0E7oCG3LmmoA0SJ0BwUtOdGdE3cHrGA00LBXMLfxO2dFOnuuxhc5nYdy1zjYNJ8IF3B
+        RitQNiZb0Ut3fS1HoBNat58IxFaAIS5jO2lTNjfytu7+Lpl5JIk3d+QNw+5yUHJzTEMOm04xRXYOe
+        G7QlKMMsMBy7l//VBoiE+uT8iYF0I8kqVh4P/9KEJ9s8sFxuajCcYqLpEXMJ75FRSs+kCzc8SCen6
+        DOdw9cOg==;
 Received: from [2601:1c2:d80:3110::9307] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pLIPC-00DM0u-VC; Fri, 27 Jan 2023 06:40:11 +0000
+        id 1pLIPE-00DM0u-V9; Fri, 27 Jan 2023 06:40:13 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-        linux-block@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 03/35] Documentation: block: correct spelling
-Date:   Thu, 26 Jan 2023 22:39:33 -0800
-Message-Id: <20230127064005.1558-4-rdunlap@infradead.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 08/35] Documentation: features: correct spelling
+Date:   Thu, 26 Jan 2023 22:39:38 -0800
+Message-Id: <20230127064005.1558-9-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230127064005.1558-1-rdunlap@infradead.org>
 References: <20230127064005.1558-1-rdunlap@infradead.org>
@@ -44,27 +44,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/block/ as reported
+Correct spelling problems for Documentation/features/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: linux-block@vger.kernel.org
+Cc: Ingo Molnar <mingo@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 ---
- Documentation/block/data-integrity.rst |    2 +-
+ Documentation/features/core/thread-info-in-task/arch-support.txt |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff -- a/Documentation/block/data-integrity.rst b/Documentation/block/data-integrity.rst
---- a/Documentation/block/data-integrity.rst
-+++ b/Documentation/block/data-integrity.rst
-@@ -209,7 +209,7 @@ will require extra work due to the appli
-       sector must be set, and the bio should have all data pages
-       added.  It is up to the caller to ensure that the bio does not
-       change while I/O is in progress.
--      Complete bio with error if prepare failed for some reson.
-+      Complete bio with error if prepare failed for some reason.
- 
- 
- 5.3 Passing Existing Integrity Metadata
+diff -- a/Documentation/features/core/thread-info-in-task/arch-support.txt b/Documentation/features/core/thread-info-in-task/arch-support.txt
+--- a/Documentation/features/core/thread-info-in-task/arch-support.txt
++++ b/Documentation/features/core/thread-info-in-task/arch-support.txt
+@@ -1,7 +1,7 @@
+ #
+ # Feature name:          thread-info-in-task
+ #         Kconfig:       THREAD_INFO_IN_TASK
+-#         description:   arch makes use of the core kernel facility to embedd thread_info in task_struct
++#         description:   arch makes use of the core kernel facility to embed thread_info in task_struct
+ #
+     -----------------------
+     |         arch |status|
