@@ -2,162 +2,246 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15BD3C61DA7
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 20:07:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D7EC38142
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 20:26:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233574AbjA0UHh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 15:07:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50136 "EHLO
+        id S230372AbjA0U0J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 15:26:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232882AbjA0UHI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 15:07:08 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E2AA88CCF;
-        Fri, 27 Jan 2023 12:05:58 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D6FB361D9D;
-        Fri, 27 Jan 2023 20:05:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 410AAC433A4;
-        Fri, 27 Jan 2023 20:05:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674849957;
-        bh=v29blagsokF4DUYAWbvcpTiop0WyodX0gl/oyRzswqA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=P3wMkOsmn/C6ifTpe0WSVeEB0ovdAXKs6HeHt68o0xMi0ysOsRvQKvkm4Aic9WQVV
-         QuQ58v1cCfguXjQcLRiS9rqBxqjocjfkAjWiDAnLdAlyIFWcDV0/NqvCsvBhjCtUkY
-         ajr7C/+lVYhOyi62hyy1gR61+yUyf2HBqFM45QczIo8fFapswJBDfH3D3FoKFP3mry
-         YWfVKzVK/aqiC/LfKjprLrvjoOiZMVgSgk2inE2+rOIjfRhwbkvD4cspG+Q0p7qhBK
-         P/wUIWrDXaR057BpjV1YmbPxjHS7rJ0Yk46AkycLntAg2vLNQuZSbMdIrew6dhE6FX
-         KWXjC/cr59s9Q==
-Received: by mail-vs1-f48.google.com with SMTP id h19so4685794vsv.13;
-        Fri, 27 Jan 2023 12:05:57 -0800 (PST)
-X-Gm-Message-State: AFqh2krchwUg//fwMF4FSzV5XvDNk/bRgVXl8y0gTtOveCLPwIOvYPtp
-        PhPiBA6h6KrwIsxk4UWsUCq2gk9++38C5I6lNA==
-X-Google-Smtp-Source: AMrXdXu9qsE8D6rWHgYZwwCPcVxgXD2SdLnghYhLaXPA9fqnGjkWOWvQtB2DHP+Tq8yStJ4VrPxvSNnkBQbACCj47Z0=
-X-Received: by 2002:a67:ef8a:0:b0:3d0:b955:e0af with SMTP id
- r10-20020a67ef8a000000b003d0b955e0afmr6106856vsp.26.1674849956011; Fri, 27
- Jan 2023 12:05:56 -0800 (PST)
+        with ESMTP id S229502AbjA0U0I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 15:26:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C818A2D167
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 12:25:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674851121;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IPFaivJKn71UfPFDN84nxVwrXtkpEKt3PCNX8OYRPaI=;
+        b=dK+x//Au8PmxTWbdWyZGBptQ90UKZV0Il4wVDsB+lyZ5E8AOoE3CRnYKzgcE4beLaTysyh
+        AClNAKvrATIO4iLBAgeJBigYat93LirnEAZdNeeUYky3JGgOANTLX1Xi5xpUlqogml/UpO
+        84cCz96L4DlJ+jlf2pMLpC3R/AmZfvY=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-650-rxXBQd5QNJKC5kkaZ7NJIQ-1; Fri, 27 Jan 2023 15:25:19 -0500
+X-MC-Unique: rxXBQd5QNJKC5kkaZ7NJIQ-1
+Received: by mail-qk1-f198.google.com with SMTP id bp33-20020a05620a45a100b007090e2e1b0cso3657663qkb.16
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 12:25:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IPFaivJKn71UfPFDN84nxVwrXtkpEKt3PCNX8OYRPaI=;
+        b=mWjMf1WCfY8pYXQWNpI4yKIoLPtzMnafgjUf3Bq9TjXk5rfL/CaTkL2Wu5UwIvJt4s
+         xuBE7w0Nj5DfvN1bg4jo9iCPJKDAa8YEZBjsyLOofOq8hs/50+P2s0wlaiOFDLIfsVzd
+         3jZxRcL2sr7cFpJQ6O7tFCeolD9IXJnhm7/MBerOpWB8HuoT/OomuE3Dxd5LMWSmMTvL
+         hhZbMNwbJPDk5p2Sl7TLo4ZMhZNLGGoUJEmyY+pJNzTFs38VRb+ZmkIIDk1b/jpsISeh
+         JskJutFbNYiIr/Gtr7hh6y7DvQ9l3oTOqHrBZmpCmEfPofWqBFFpiCWusSG51pztTmUn
+         V+jg==
+X-Gm-Message-State: AO0yUKWaDP1Cpyu4rkRmTtJclrN3NUGV2jpGWgxSe6S7750T3IV1JQnl
+        1U/UVM43Y5uTLQo40RpyDu2rdp82qVuN0qVN65Q/djvVwwa3HK5D8K8cII63YnbuJK3h2R0wiIE
+        XECB6x9SeVTglO64dQH7Lj6ts28fP4ZXnnHkB
+X-Received: by 2002:ae9:e314:0:b0:719:484e:f986 with SMTP id v20-20020ae9e314000000b00719484ef986mr166687qkf.209.1674851118758;
+        Fri, 27 Jan 2023 12:25:18 -0800 (PST)
+X-Google-Smtp-Source: AK7set+reW9epoUgsTvkoCuS4BWyTRI928d66PYTf9uNh1S8zfiJVxGLovoAqoY3RSrdRLwfrJTOHStCXA8a5N+ZuEY=
+X-Received: by 2002:ae9:e314:0:b0:719:484e:f986 with SMTP id
+ v20-20020ae9e314000000b00719484ef986mr166680qkf.209.1674851118416; Fri, 27
+ Jan 2023 12:25:18 -0800 (PST)
 MIME-Version: 1.0
-References: <1674835252-31954-1-git-send-email-quic_mojha@quicinc.com>
-In-Reply-To: <1674835252-31954-1-git-send-email-quic_mojha@quicinc.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 27 Jan 2023 14:05:44 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqK_wuOwJS=dSkSdYs10kE1S3gmtHVU31wkxkP5wT39qqg@mail.gmail.com>
-Message-ID: <CAL_JsqK_wuOwJS=dSkSdYs10kE1S3gmtHVU31wkxkP5wT39qqg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: ramoops: Inherit reserve memory property
-To:     Mukesh Ojha <quic_mojha@quicinc.com>
-Cc:     linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>,
-        Tony Luck <tony.luck@intel.com>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230118061256.2689-1-dakr@redhat.com> <20230118061256.2689-6-dakr@redhat.com>
+ <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com> <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
+ <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com> <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
+ <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com> <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
+ <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
+In-Reply-To: <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
+From:   David Airlie <airlied@redhat.com>
+Date:   Sat, 28 Jan 2023 06:25:06 +1000
+Message-ID: <CAMwc25oGap_hEg5AquM_L2eH42PcG=pM3KPS6HNTNj-SzeHu+g@mail.gmail.com>
+Subject: Re: [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi interfaces
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Danilo Krummrich <dakr@redhat.com>,
+        Matthew Brost <matthew.brost@intel.com>, daniel@ffwll.ch,
+        bskeggs@redhat.com, jason@jlekstrand.net, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 27, 2023 at 10:01 AM Mukesh Ojha <quic_mojha@quicinc.com> wrote:
+On Sat, Jan 28, 2023 at 1:17 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> The reserved memory region for ramoops is assumed to be at a
-> fixed and known location when read from the devicetree. This
-> is not desirable in an environment where it is preferred the
-> region to be dynamically allocated at runtime, as opposed to
-> being fixed at compile time.
+> Am 27.01.23 um 15:44 schrieb Danilo Krummrich:
+> > [SNIP]
+> >>>>
+> >>>> What you want is one component for tracking the VA allocations
+> >>>> (drm_mm based) and a different component/interface for tracking the
+> >>>> VA mappings (probably rb tree based).
+> >>>
+> >>> That's what the GPUVA manager is doing. There are gpuva_regions
+> >>> which correspond to VA allocations and gpuvas which represent the
+> >>> mappings. Both are tracked separately (currently both with a
+> >>> separate drm_mm, though). However, the GPUVA manager needs to take
+> >>> regions into account when dealing with mappings to make sure the
+> >>> GPUVA manager doesn't propose drivers to merge over region
+> >>> boundaries. Speaking from userspace PoV, the kernel wouldn't merge
+> >>> mappings from different VKBuffer objects even if they're virtually
+> >>> and physically contiguous.
+> >>
+> >> That are two completely different things and shouldn't be handled in
+> >> a single component.
+> >
+> > They are different things, but they're related in a way that for
+> > handling the mappings (in particular merging and sparse) the GPUVA
+> > manager needs to know the VA allocation (or region) boundaries.
+> >
+> > I have the feeling there might be a misunderstanding. Userspace is in
+> > charge to actually allocate a portion of VA space and manage it. The
+> > GPUVA manager just needs to know about those VA space allocations and
+> > hence keeps track of them.
+> >
+> > The GPUVA manager is not meant to be an allocator in the sense of
+> > finding and providing a hole for a given request.
+> >
+> > Maybe the non-ideal choice of using drm_mm was implying something else.
+>
+> Uff, well long story short that doesn't even remotely match the
+> requirements. This way the GPUVA manager won't be usable for a whole
+> bunch of use cases.
+>
+> What we have are mappings which say X needs to point to Y with this and
+> hw dependent flags.
+>
+> The whole idea of having ranges is not going to fly. Neither with AMD
+> GPUs and I strongly think not with Intels XA either.
+>
+> >> We should probably talk about the design of the GPUVA manager once
+> >> more when this should be applicable to all GPU drivers.
+> >
+> > That's what I try to figure out with this RFC, how to make it
+> > appicable for all GPU drivers, so I'm happy to discuss this. :-)
+>
+> Yeah, that was really good idea :) That proposal here is really far away
+> from the actual requirements.
+>
+> >>> For sparse residency the kernel also needs to know the region
+> >>> boundaries to make sure that it keeps sparse mappings around.
+> >>
+> >> What?
+> >
+> > When userspace creates a new VKBuffer with the
+> > VK_BUFFER_CREATE_SPARSE_BINDING_BIT the kernel may need to create
+> > sparse mappings in order to ensure that using this buffer without any
+> > memory backed mappings doesn't fault the GPU.
+> >
+> > Currently, the implementation does this the following way:
+> >
+> > 1. Userspace creates a new VKBuffer and hence allocates a portion of
+> > the VA space for it. It calls into the kernel indicating the new VA
+> > space region and the fact that the region is sparse.
+> >
+> > 2. The kernel picks up the region and stores it in the GPUVA manager,
+> > the driver creates the corresponding sparse mappings / page table
+> > entries.
+> >
+> > 3. Userspace might ask the driver to create a couple of memory backed
+> > mappings for this particular VA region. The GPUVA manager stores the
+> > mapping parameters, the driver creates the corresponding page table
+> > entries.
+> >
+> > 4. Userspace might ask to unmap all the memory backed mappings from
+> > this particular VA region. The GPUVA manager removes the mapping
+> > parameters, the driver cleans up the corresponding page table entries.
+> > However, the driver also needs to re-create the sparse mappings, since
+> > it's a sparse buffer, hence it needs to know the boundaries of the
+> > region it needs to create the sparse mappings in.
+>
+> Again, this is not how things are working. First of all the kernel
+> absolutely should *NOT* know about those regions.
+>
+> What we have inside the kernel is the information what happens if an
+> address X is accessed. On AMD HW this can be:
+>
+> 1. Route to the PCIe bus because the mapped BO is stored in system memory=
+.
+> 2. Route to the internal MC because the mapped BO is stored in local memo=
+ry.
+> 3. Route to other GPUs in the same hive.
+> 4. Route to some doorbell to kick of other work.
+> ...
+> x. Ignore write, return 0 on reads (this is what is used for sparse
+> mappings).
+> x+1. Trigger a recoverable page fault. This is used for things like SVA.
+> x+2. Trigger a non-recoverable page fault. This is used for things like
+> unmapped regions where access is illegal.
+>
+> All this is plus some hw specific caching flags.
+>
+> When Vulkan allocates a sparse VKBuffer what should happen is the followi=
+ng:
+>
+> 1. The Vulkan driver somehow figures out a VA region A..B for the
+> buffer. This can be in userspace (libdrm_amdgpu) or kernel (drm_mm), but
+> essentially is currently driver specific.
 
-I don't see how this can work. How do you find the region after
-rebooting? Or this is only used for the current boot? If so, provide a
-userspace interface to configure it (or the existing module params).
+There are NO plans to have drm_mm do VA region management, VA region
+management will be in userspace in Mesa. Can we just not bring that up agai=
+n?
+This is for GPU VA tracking not management if that makes it easier we
+could rename it.
 
-The addition of 'size' type regions was primarily for large carveouts
-that needed to be allocated before anything else. ramoops is not that.
-It's 10s or 100s of KB at most.
+>
+> 2. The kernel gets a request to map the VA range A..B as sparse, meaning
+> that it updates the page tables from A..B with the sparse setting.
+>
+> 3. User space asks kernel to map a couple of memory backings at location
+> A+1, A+10, A+15 etc....
 
+3.5?
 
-> So, update the ramoops binding by inheriting some reserve memory
-> property to allocate the ramoops region dynamically.
->
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Tony Luck <tony.luck@intel.com>
-> Cc: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
-> ---
-> Changes in v4:
->  - Addressed comment made by Krzysztof on ramoops node name.
->
-> Changes in v3:
->  - Fixed yaml error and updated commit text as per comment.
->
-> Change in v2:
->   - Added this patch as per changes going to be done in patch 3/3
->
->  .../bindings/reserved-memory/ramoops.yaml          | 34 ++++++++++++++++++++--
->  1 file changed, 32 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
-> index 0391871..8741626 100644
-> --- a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
-> +++ b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
-> @@ -10,7 +10,8 @@ description: |
->    ramoops provides persistent RAM storage for oops and panics, so they can be
->    recovered after a reboot. This is a child-node of "/reserved-memory", and
->    is named "ramoops" after the backend, rather than "pstore" which is the
-> -  subsystem.
-> +  subsystem. This region can be reserved both statically or dynamically by
-> +  using appropriate property in device tree.
->
->    Parts of this storage may be set aside for other persistent log buffers, such
->    as kernel log messages, or for optional ECC error-correction data.  The total
-> @@ -112,7 +113,13 @@ unevaluatedProperties: false
->
->  required:
->    - compatible
-> -  - reg
-> +
-> +oneOf:
-> +  - required:
-> +      - reg
-> +
-> +  - required:
-> +      - size
->
->  anyOf:
->    - required: [record-size]
-> @@ -142,3 +149,26 @@ examples:
->              };
->          };
->      };
-> +
-> +  - |
-> +    / {
+Userspace asks the kernel to unmap A+1 so it can later map something
+else in there?
 
-You can't have multiple root node examples. Check the example dts, the
-examples will be merged together.
+What happens in that case, with a set of queued binds, do you just do
+a new sparse mapping for A+1, does userspace decide that?
 
-> +        compatible = "foo";
-> +        model = "foo";
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +
-> +        reserved-memory {
-> +            #address-cells = <1>;
-> +            #size-cells = <1>;
-> +            ranges;
-> +
-> +            ramoops_region: ramoops {
-> +                compatible = "ramoops";
-> +                alloc-ranges = <0x00000000 0xffffffff>;
-> +                size = <0x0 0x10000>;       /* 64kB */
-> +                console-size = <0x8000>;    /* 32kB */
-> +                record-size = <0x400>;      /*  1kB */
-> +                ecc-size = <16>;
-> +            };
-> +        };
-> +    };
-> --
-> 2.7.4
+Dave.
+
 >
+> 4. The VKBuffer is de-allocated, userspace asks kernel to update region
+> A..B to not map anything (usually triggers a non-recoverable fault).
+>
+> When you want to unify this between hw drivers I strongly suggest to
+> completely start from scratch once more.
+>
+> First of all don't think about those mappings as VMAs, that won't work
+> because VMAs are usually something large. Think of this as individual
+> PTEs controlled by the application. similar how COW mappings and struct
+> pages are handled inside the kernel.
+>
+> Then I would start with the VA allocation manager. You could probably
+> base that on drm_mm. We handle it differently in amdgpu currently, but I
+> think this is something we could change.
+>
+> Then come up with something close to the amdgpu VM system. I'm pretty
+> sure that should work for Nouveau and Intel XA as well. In other words
+> you just have a bunch of very very small structures which represents
+> mappings and a larger structure which combine all mappings of a specific
+> type, e.g. all mappings of a BO or all sparse mappings etc...
+>
+> Merging of regions is actually not mandatory. We don't do it in amdgpu
+> and can live with the additional mappings pretty well. But I think this
+> can differ between drivers.
+>
+> Regards,
+> Christian.
+>
+
