@@ -2,42 +2,40 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6163C636CB
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 06:40:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C99DC636D3
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 06:40:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232043AbjA0Gk3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 01:40:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39112 "EHLO
+        id S232053AbjA0Gka (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 01:40:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231837AbjA0GkU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 01:40:20 -0500
+        with ESMTP id S231829AbjA0GkT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 01:40:19 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C2386A71B;
-        Thu, 26 Jan 2023 22:40:14 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 776D769500;
+        Thu, 26 Jan 2023 22:40:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=KcKsJtC6oOKWkifb5+Em1PMtEImD0uDWB79dBqTOMOQ=; b=j6RhCeb0whQCBOOCmTgtyFqBDL
-        9bR8clDs+E1glbxGJmq5uzFTq3vtrweZNUuwgv42OnNoE28sOhe1m0w2GTZ7xcSxLF2SELD+28kal
-        u21vZo7BaOjjZuPkOlw0szbGlkfoLCp8aBguY3lr5KdANLaIPJ9GGEkrt6y3kWRU5iCbIBAvFIiZD
-        1RdBEOfQIozuz0lz6r20kG6H5eC5M0WJoF01iyNNBdx1j0i/g6jxtjuVzhSpUEDK4zCBJ1dJKSnEe
-        JFxwyFjBZysMctLU05fjavEpqee/tTDXy6iFI+Gw8oSgeRxuEX6Bzfgjkrc934B13Iu5m2mKbLu9j
-        U2jC8v7g==;
+        bh=swjGj2JGsgoS6As86ky5T5gStqDz1F5YkyPVKyHV0jk=; b=5G839/UAJb/cuL47f1MLvz5JiM
+        JIzzclpfAngAmHt5ChGlBIj7wmO0SU4osdMpJi/cug7/TJCYGP+tYqcuC898uzyxYzUPMPpoeY7F7
+        HdPi+AoYtMLni2toasm47FvEx6UsgYS6ji6Ad1zSuwWbJRaCoNdjnRGI7OsjHP9365FTBJPoRXsh6
+        vllXt38/QU13Ex98G+dEBarT/ZrmKRw2SXmtjrhqJdIBDftl7sBJM0K11i/I16QiUKK64EuhpmOOd
+        mIlrjxb5GDbCpKMh26zZEJcnSB4ZvAEXAgAArtG/Io4jZVK8NyGjgauoZKv1Oqz8qIQ94thEJ8L5V
+        JAqPrxZA==;
 Received: from [2601:1c2:d80:3110::9307] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pLIPF-00DM0u-RS; Fri, 27 Jan 2023 06:40:14 +0000
+        id 1pLIPH-00DM0u-VN; Fri, 27 Jan 2023 06:40:16 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 10/35] Documentation: hid: correct spelling
-Date:   Thu, 26 Jan 2023 22:39:40 -0800
-Message-Id: <20230127064005.1558-11-rdunlap@infradead.org>
+        Karsten Keil <isdn@linux-pingi.de>,
+        isdn4linux@listserv.isdn4linux.de, netdev@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 13/35] Documentation: isdn: correct spelling
+Date:   Thu, 26 Jan 2023 22:39:43 -0800
+Message-Id: <20230127064005.1558-14-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230127064005.1558-1-rdunlap@infradead.org>
 References: <20230127064005.1558-1-rdunlap@infradead.org>
@@ -47,81 +45,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/hid/ as reported
+Correct spelling problems for Documentation/isdn/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: linux-input@vger.kernel.org
+Cc: Karsten Keil <isdn@linux-pingi.de>
+Cc: isdn4linux@listserv.isdn4linux.de
+Cc: netdev@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 ---
- Documentation/hid/hid-alps.rst      |    2 +-
- Documentation/hid/hid-bpf.rst       |    2 +-
- Documentation/hid/hiddev.rst        |    2 +-
- Documentation/hid/hidraw.rst        |    2 +-
- Documentation/hid/intel-ish-hid.rst |    2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ Documentation/isdn/interface_capi.rst |    2 +-
+ Documentation/isdn/m_isdn.rst         |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff -- a/Documentation/hid/hid-alps.rst b/Documentation/hid/hid-alps.rst
---- a/Documentation/hid/hid-alps.rst
-+++ b/Documentation/hid/hid-alps.rst
-@@ -9,7 +9,7 @@ Currently ALPS HID driver supports U1 To
- U1 device basic information.
+diff -- a/Documentation/isdn/interface_capi.rst b/Documentation/isdn/interface_capi.rst
+--- a/Documentation/isdn/interface_capi.rst
++++ b/Documentation/isdn/interface_capi.rst
+@@ -323,7 +323,7 @@ If the lowest bit of showcapimsgs is set
+ application up and down events.
  
- ==========	======
--Vender ID	0x044E
-+Vendor ID	0x044E
- Product ID	0x120B
- Version ID	0x0121
- ==========	======
-diff -- a/Documentation/hid/hid-bpf.rst b/Documentation/hid/hid-bpf.rst
---- a/Documentation/hid/hid-bpf.rst
-+++ b/Documentation/hid/hid-bpf.rst
-@@ -307,7 +307,7 @@ sysfs path: ``/sys/bus/hid/devices/xxxx:
+ In addition, every registered CAPI controller has an associated traceflag
+-parameter controlling how CAPI messages sent from and to tha controller are
++parameter controlling how CAPI messages sent from and to the controller are
+ logged. The traceflag parameter is initialized with the value of the
+ showcapimsgs parameter when the controller is registered, but can later be
+ changed via the MANUFACTURER_REQ command KCAPI_CMD_TRACE.
+diff -- a/Documentation/isdn/m_isdn.rst b/Documentation/isdn/m_isdn.rst
+--- a/Documentation/isdn/m_isdn.rst
++++ b/Documentation/isdn/m_isdn.rst
+@@ -3,7 +3,7 @@ mISDN Driver
+ ============
  
- We can not rely on hidraw to bind a BPF program to a HID device. hidraw is an
- artefact of the processing of the HID device, and is not stable. Some drivers
--even disable it, so that removes the tracing capabilies on those devices
-+even disable it, so that removes the tracing capabilities on those devices
- (where it is interesting to get the non-hidraw traces).
- 
- On the other hand, the ``hid_id`` is stable for the entire life of the HID device,
-diff -- a/Documentation/hid/hiddev.rst b/Documentation/hid/hiddev.rst
---- a/Documentation/hid/hiddev.rst
-+++ b/Documentation/hid/hiddev.rst
-@@ -8,7 +8,7 @@ Introduction
- In addition to the normal input type HID devices, USB also uses the
- human interface device protocols for things that are not really human
- interfaces, but have similar sorts of communication needs. The two big
--examples for this are power devices (especially uninterruptable power
-+examples for this are power devices (especially uninterruptible power
- supplies) and monitor control on higher end monitors.
- 
- To support these disparate requirements, the Linux USB system provides
-diff -- a/Documentation/hid/hidraw.rst b/Documentation/hid/hidraw.rst
---- a/Documentation/hid/hidraw.rst
-+++ b/Documentation/hid/hidraw.rst
-@@ -163,7 +163,7 @@ HIDIOCGOUTPUT(len):
- 	Get an Output Report
- 
- This ioctl will request an output report from the device using the control
--endpoint.  Typically, this is used to retrive the initial state of
-+endpoint.  Typically, this is used to retrieve the initial state of
- an output report of a device, before an application updates it as necessary either
- via a HIDIOCSOUTPUT request, or the regular device write() interface.  The format
- of the buffer issued with this report is identical to that of HIDIOCGFEATURE.
-diff -- a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
---- a/Documentation/hid/intel-ish-hid.rst
-+++ b/Documentation/hid/intel-ish-hid.rst
-@@ -199,7 +199,7 @@ the sender that the memory region for th
- DMA initialization is started with host sending DMA_ALLOC_NOTIFY bus message
- (that includes RX buffer) and FW responds with DMA_ALLOC_NOTIFY_ACK.
- Additionally to DMA address communication, this sequence checks capabilities:
--if thw host doesn't support DMA, then it won't send DMA allocation, so FW can't
-+if the host doesn't support DMA, then it won't send DMA allocation, so FW can't
- send DMA; if FW doesn't support DMA then it won't respond with
- DMA_ALLOC_NOTIFY_ACK, in which case host will not use DMA transfers.
- Here ISH acts as busmaster DMA controller. Hence when host sends DMA_XFER,
+ mISDN is a new modular ISDN driver, in the long term it should replace
+-the old I4L driver architecture for passiv ISDN cards.
++the old I4L driver architecture for passive ISDN cards.
+ It was designed to allow a broad range of applications and interfaces
+ but only have the basic function in kernel, the interface to the user
+ space is based on sockets with a own address family AF_ISDN.
