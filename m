@@ -2,140 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09D35C38142
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 16:57:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00AF1C54EAA
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 17:13:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234013AbjA0Q5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 11:57:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52114 "EHLO
+        id S234401AbjA0RN5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 12:13:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjA0Q5d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 11:57:33 -0500
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2084.outbound.protection.outlook.com [40.107.95.84])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC782D5D;
-        Fri, 27 Jan 2023 08:57:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k3VzMBHwXqUEM3fdzUIdRwWYn67SgVnauQTlL1G/kA+L5Yo226HzvsfSXLiCcxg99siY/C0EM0tdLu+n7TtCmvg6gnkAptl3Ur64jjIUY7mvOYxeMOHt2R19CaLgCrL2nCzLAcnPSyupt4RvB1nvwNLa4o43eq8pC9Buyq/RlzI5o8oPgqjW3bZ/GCZ4gP8nAJmc89aZpTJOKrrlf39Pc7+BEsm68t8SNKOzWmounCkjfQ4bYN61Rh50jKErsHzYMr33PaMIm8q9GvYHDoQW+b9CYUlIBVmSQnIsRe5/1nc8t1kwISK1yLsCCanwnMVTA8HUWBAHmJhvOPBRP6Grfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LQcDmVzPKVLhte1QLeCCDRNnHJBDJ9UkicLQqJ997Do=;
- b=ctqB9sALHEKetf9j7Yo9qotogMpP/Bri/962p7eUgo6ks6G5l+TAFpX21W66wIP8ZDyjOpxu75eI/w93Y845RgT4eoSmFF4MMsCbBoGLmP89VMLgcod8uUJKBmysA6Aw5g34yoJy9nrjpSxhrd9g/bJlpNRN4AUIZB58sbfnoajQlWCUCC2RhtpL1qI2k/SGXGcAuXiixFvchKJsVQlRkbHNDHYHyZRFjmLZr95uBCN7jJRA7VCRnQZ3/9qlza4o/WCCkA1ilTwncHUbnRM6ObIQ4LXhycrcUowIX0NNsBdvPJI/n6i+FJooFCW3hy6e71UZorLcVSXZOjWLeHkiog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LQcDmVzPKVLhte1QLeCCDRNnHJBDJ9UkicLQqJ997Do=;
- b=hfaBR3QhzqfFTxcW6l5p8hkdtzEc+CkhwRkfo8OyiFX+2HAxzRhSyHkf84Ikghl3ZZMI8mPhdVrMbmx+eNTf/chPuzQDaL+qislVyDKYKb0s/c5PpIcwN5oX1cxPldzXIw4Z4Ii5wnP5CJp5SNEsZ8eJ2koHcklZHxx7W+3tLms=
-Received: from CY5PR15CA0077.namprd15.prod.outlook.com (2603:10b6:930:18::33)
- by DS0PR12MB7947.namprd12.prod.outlook.com (2603:10b6:8:150::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.25; Fri, 27 Jan
- 2023 16:57:31 +0000
-Received: from CY4PEPF0000B8EC.namprd05.prod.outlook.com
- (2603:10b6:930:18:cafe::3d) by CY5PR15CA0077.outlook.office365.com
- (2603:10b6:930:18::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22 via Frontend
- Transport; Fri, 27 Jan 2023 16:57:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CY4PEPF0000B8EC.mail.protection.outlook.com (10.167.241.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6064.3 via Frontend Transport; Fri, 27 Jan 2023 16:57:31 +0000
-Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 27 Jan
- 2023 10:57:30 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
- (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 27 Jan
- 2023 08:57:30 -0800
-Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Fri, 27 Jan 2023 10:57:29 -0600
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-To:     <ojeda@kernel.org>, <corbet@lwn.net>,
-        <jani.nikula@linux.intel.com>, <rdunlap@infradead.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <konstantin@linuxfoundation.org>, <bilbao@vt.edu>,
-        Carlos Bilbao <carlos.bilbao@amd.com>,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH v6 2/2] docs: Integrate rustdoc generation into htmldocs
-Date:   Fri, 27 Jan 2023 10:57:28 -0600
-Message-ID: <20230127165728.119507-3-carlos.bilbao@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230127165728.119507-1-carlos.bilbao@amd.com>
-References: <20230127165728.119507-1-carlos.bilbao@amd.com>
+        with ESMTP id S234381AbjA0RNw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 12:13:52 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B40A26A9;
+        Fri, 27 Jan 2023 09:13:46 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5E8412D3;
+        Fri, 27 Jan 2023 17:13:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5E8412D3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1674839625; bh=S3dil/jJhCjqHHB5iBm3wiRiGo1U/GbKwYcoUCM075w=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=DYlgWhGQLcMyDRc/eD0FUj3janxYh2qU1eQJ/+K22NrHu4AHeYxVaXHM3Zatp3AbL
+         FYTg6MZrc9pOmqv05fiDVAIxMSkhuWCJfDM2gmi3HP2wVWGTbr+WJh8OWA0wtHurvh
+         JbhGE/o8jdkBEddlFO/j50vFhC3CYMdnMhXN3orF/4k/QL589embhsUuwhDIp6BZRu
+         m674jlcQAdAQq67gCfQmz4kZWNHJo+Xj8QMQ4Zl9Zga0MVMXI1CfPLgPKzFi3vPA2s
+         2epGlsDxdgIwiT9VbvmBQ9X+fbKQkPU1sWI4/JQZbTMZFPFtUQt6t4BX5N7XHKFJP9
+         rn2FBJdfm49ow==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, sshefali021@gmail.com,
+        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: add workload-tracing document to admin-guide
+In-Reply-To: <20230127165440.19158-1-skhan@linuxfoundation.org>
+References: <20230127165440.19158-1-skhan@linuxfoundation.org>
+Date:   Fri, 27 Jan 2023 10:13:44 -0700
+Message-ID: <87bkmj99yv.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000B8EC:EE_|DS0PR12MB7947:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d2d3bf9-d67e-47c9-8457-08db0087944a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HD7uExyS9xNMDZTAbW9yUq3GdJ2kxhKOZfIkYLp0K9muSosoMAgej0tzrMBjchmSpg3EqP3Zv646uBSDm5RARWLGVOYgaC2trD/HMpya4sLdUIbYmkenDvBLrsTVWSOanr0paPGJeXmQDcrdqxf/UUYAnTFHq8y2gDQVH/bUnrDjI7VR4s5immXZT4zyVNVZOKXINK7Uv6LBS/19dKUk8+J5B+V3NMo6R/0k6dWKGFEXyWCUmYXE0opV7EeaiblqOsgVT2+QdT4tVDi6ZX1jXu2jddO6dYTb4JvepocnjCfLh2mDHHWsHB3KZLBJCiXMd+SPlcaO21XwmlcOQhFGHVcuOP52OCruEB1fnkt/qSM0Kn11PusCgahykhWDYKN+DJa083k4bfsTD4q+sevs2Jg262EGiG56ddeiO72A5UqS29O6ImuUkgdPtgXm/JSJId8HWo4V8654jV0BVznX4fFo5vkoMNpqb2lZiiwKNsEHEd4d8/CU5Lj3a3T8qwEdppjTYIe9V8P0lgVLJsnV0jyvZrmbcFRVegq/DJ9HaIhSWuTBieRe7Nz+YomHFP7HW2MM3Qu8PLu/Zf8j2viHmnQUaMqwNMBQcaDFUp2Dcx9dvuSO0QbrOe/O7wu0r4XrwL8Ryw5YpxM1xeKsxuSL+W+xL5PZaPMcmuKJL6STleyaa38juGXqUwwZ9IvQCo9REZEii07tMjOEy+NZugYow3Hp1gl7eskieDV1Y3twUJo=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(39860400002)(346002)(376002)(396003)(451199018)(40470700004)(36840700001)(46966006)(86362001)(82310400005)(82740400003)(5660300002)(44832011)(2906002)(36756003)(356005)(41300700001)(81166007)(70586007)(4326008)(70206006)(40480700001)(8676002)(8936002)(316002)(110136005)(54906003)(2616005)(40460700003)(36860700001)(426003)(336012)(478600001)(47076005)(26005)(1076003)(186003)(7696005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2023 16:57:31.0459
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d2d3bf9-d67e-47c9-8457-08db0087944a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000B8EC.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7947
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change target `make htmldocs` to combine RST Sphinx and the generation of
-Rust documentation, when support is available.
+Shuah Khan <skhan@linuxfoundation.org> writes:
 
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
----
- Documentation/Makefile | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> Add a new section to the admin-guide with information of interest to
+> application developers and system integrators doing analysis of the
+> Linux kernel for safety critical applications.
+>
+> This section will contain documents supporting analysis of kernel
+> interactions with applications, and key kernel subsystems expectations.
+>
+> Add a new workload-tracing document to this new section.
+>
+> Signed-off-by: Shefali Sharma <sshefali021@gmail.com>
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+>  Documentation/admin-guide/index.rst           |  11 +
+>  .../admin-guide/workload-tracing.rst          | 486 ++++++++++++++++++
+>  2 files changed, 497 insertions(+)
+>  create mode 100644 Documentation/admin-guide/workload-tracing.rst
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index bb73dcb5ed05..4111d0dd54d0 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -59,6 +59,10 @@ PAPEROPT_letter = -D latex_paper_size=letter
- KERNELDOC       = $(srctree)/scripts/kernel-doc
- KERNELDOC_CONF  = -D kerneldoc_srctree=$(srctree) -D kerneldoc_bin=$(KERNELDOC)
- ALLSPHINXOPTS   =  $(KERNELDOC_CONF) $(PAPEROPT_$(PAPER)) $(SPHINXOPTS)
-+ifeq ($(CONFIG_RUST),y)
-+# Let Sphinx know we will include rustdoc
-+ALLSPHINXOPTS   +=  -t rustdoc
-+endif
- # the i18n builder cannot share the environment and doctrees with the others
- I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
- 
-@@ -94,6 +98,12 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
- htmldocs:
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
-+# If Rust support is available, add rustdoc generated contents.
-+# If there are any, the errors from this make rustdoc will be displayed but
-+# won't stop the execution of htmldocs
-+ifeq ($(CONFIG_RUST),y)
-+	$(Q)$(MAKE) rustdoc || true
-+endif
- 
- texinfodocs:
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
--- 
-2.34.1
+This seems like generally good stuff, thanks.  I have a few nits...
 
+> +Key Points
+> +==========
+> +
+> + * Understanding system resources necessary to build and run a workload
+> +   is important.
+> + * Linux tracing and strace can be used to discover the system resources
+> +   in use by a workload. The completeness of the system usage information
+> +   depends on the completeness of coverage of a workload.
+> + * Performance and security of the operating system can be analyzed with
+> +   the help of tools such as `perf <https://man7.org/linux/man-pages/man1/perf.1.html>`_, `stress-ng <https://www.mankier.com/1/stress-ng>`_, `paxtest <https://github.com/opntr/paxtest-freebsd/blob/hardenedbsd/0.9.14-hbsd/README>`_.
+> + * Once we discover and understand the workload needs, we can focus on them
+> +   to avoid regressions and use it to evaluate safety considerations.
+> +
+> +Methodology
+> +===========
+> +
+> +`strace <https://man7.org/linux/man-pages/man1/strace.1.html>`_ is a diagnostic, instructional, and debugging tool and can be used to discover the system resources in use by a workload. Once we discover and understand the workload needs, we can focus on them to avoid regressions and use it to evaluate safety considerations. We chose strace tool to trace workloads.
+
+I know that the 80-column limit is controversial to some; I happen to
+believe that text should certainly adhere to it for basic readability
+reasons.  But can we all agree that nearly 400 columns is too many? :)
+Please line-break the whole document properly.
+
+> +Install tools to build Linux kernel and tools in kernel repository. scripts/ver_linux is a good way to check if your system already has the necessary tools.
+> +::
+> +
+> +  sudo apt-get build-essentials flex bison yacc
+> +  sudo apt install libelf-dev systemtap-sdt-dev libaudit-dev libslang2-dev libperl-dev libdw-dev
+> +
+> +Browsing kernel sources
+> +::
+> +
+> +  sudo apt-get install cscope
+> +
+> +Install stress-ng and paxtest
+> +::
+> +
+> +  apt-get install stress-ng
+> +  apt-get install paxtest
+
+For literal blocks, the "::" can go at the end of the previous line,
+which makes the document a bit more readable.
+
+[...]
+
+> +SPDX-License-Identifier: CC-BY-4.0
+> +==================================
+> +This document is released under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode. Pursuant to Section 5 of the license, please note that the following disclaimers apply (capitalized terms have the meanings set forth in the license). To the extent possible, the Licensor offers the Licensed Material as-is and as-available, and makes no representations or warranties of any kind concerning the Licensed Material, whether express, implied, statutory, or other. This includes, without limitation, warranties of title, merchantability, fitness for a particular purpose, non-infringement, absence of latent or other defects, accuracy, or the presence or absence of errors, whether or not known or discoverable. Where disclaimers of warranties are not allowed in full or in part, this disclaimer may not apply to You.
+> +
+> +To the extent possible, in no event will the Licensor be liable to You on any legal theory (including, without limitation, negligence) or otherwise for any direct, special, indirect, incidental, consequential, punitive, exemplary, or other losses, costs, expenses, or damages arising out of this Public License or use of the Licensed Material, even if the Licensor has been advised of the possibility of such losses, costs, expenses, or damages. Where a limitation of liability is not allowed in full or in part, this limitation may not apply to You.
+> +
+> +The disclaimer of warranties and limitation of liability provided above shall be interpreted in a manner that, to the extent possible, most closely approximates an absolute disclaimer and waiver of all liability.
+> +
+> +Note: Only the content of this RST file as found in the Linux kernel sources
+> +is available under CC-BY-4.0, as versions of this text that were processed
+> +(for example by the kernel's build system) might contain content taken from
+> +files which use a more restrictive license.
+
+This is just the kind of license boilerplate that we have been trying
+hard to get rid of.  *Dual*-licensing with CC4 is OK, and the SPDX line
+at the top properly reflects that; this additional text shouldn't be here.
+
+> +..
+> +   end-of-content
+
+...and that seems a bit redundant somehow...:)
+
+Thanks,
+
+jon
