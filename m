@@ -2,40 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20E5EC54EAA
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 06:40:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 997C6C61DA7
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 06:41:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231912AbjA0Gkw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 01:40:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39118 "EHLO
+        id S232489AbjA0GlV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 01:41:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232046AbjA0Gk3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 01:40:29 -0500
+        with ESMTP id S232050AbjA0Gka (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 01:40:30 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E63E174C32;
-        Thu, 26 Jan 2023 22:40:25 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F277751A8;
+        Thu, 26 Jan 2023 22:40:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=0tBu6Erz+dlIKmi6Fcf2PLuhswsM+Mn8+mdPYDo4x14=; b=2SuElG0dZjMUm+IcyMMWh43ge6
-        7wfgozINmdWGJA/BmCuooKFLOzUf6abx+CRWJVB/nrCj8dIalHAgBTH9e88wpmFrnK65/M+YHUlC6
-        EqexX3bTfz+aJ2udkWFgNeS+OPJVIxQk1sj6KgQbWaIkX186kM6vw9a5+h8R6+L4GqZ/zRD8TnIlt
-        y9kF7cTpjm0PK1p+aXmmj4OyRcYdWfUAyRI8/k58ShYkspQ3EKyhe8cNJCLKX7RsR8jDE3kuxN/qi
-        KrhD26P2QeKQ92+WKZtDsxWtLQiRamsfZGcBU5cbArNGcWcFuvoeRCB+odep4AIi++lSm8H7ITNly
-        Qx2DryIw==;
+        bh=RabzW2onkbK88Jry4X6k/vy1HM1YZdyLqoiuOttw51A=; b=kNDwnnuXkhvoQdYEJI6kdc4LS5
+        ZGwL/ehZkHYq5TO1Z2c8XfREfcaK/RM8a0TOIlF+sY5KTOCfrrYwBRr81jUbQk9a3tudg2Kgx0Ar9
+        d+63Eeste5xjtUQYwS+oRnVH8+zQiHNBUFOb4AxDUQd+yOqtkOd+V5VEd2cEmk9VevHvYfZAxY8MK
+        apT69YJdcdZZCgWeFYIpjDMdykMEhs44nloeM5WH8WhAHw25xC+wv6mqA5S9ag28yvefjEIQF1J+/
+        Z5ftzpL6VIX7TJoxygUzts12Ev9WIrWT06VaafGKEXJhbhByUKwf9gpIse7QP0Lrvz+45HbsNsdAT
+        LKgyTcNw==;
 Received: from [2601:1c2:d80:3110::9307] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pLIPR-00DM0u-1E; Fri, 27 Jan 2023 06:40:25 +0000
+        id 1pLIPR-00DM0u-Us; Fri, 27 Jan 2023 06:40:26 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jarkko Sakkinen <jarkko@kernel.org>, linux-sgx@vger.kernel.org,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org
-Subject: [PATCH 32/35] Documentation: usb: correct spelling
-Date:   Thu, 26 Jan 2023 22:40:02 -0800
-Message-Id: <20230127064005.1558-33-rdunlap@infradead.org>
+Subject: [PATCH 34/35] Documentation: x86: correct spelling
+Date:   Thu, 26 Jan 2023 22:40:04 -0800
+Message-Id: <20230127064005.1558-35-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230127064005.1558-1-rdunlap@infradead.org>
 References: <20230127064005.1558-1-rdunlap@infradead.org>
@@ -45,99 +49,85 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/usb/ as reported
+Correct spelling problems for Documentation/x86/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
+Cc: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: linux-sgx@vger.kernel.org
+Cc: Fenghua Yu <fenghua.yu@intel.com>
+Cc: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: x86@kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 ---
- Documentation/usb/chipidea.rst       |   19 ++++++++++---------
- Documentation/usb/gadget-testing.rst |    2 +-
- Documentation/usb/mass-storage.rst   |    2 +-
- 3 files changed, 12 insertions(+), 11 deletions(-)
+ Documentation/x86/boot.rst    |    2 +-
+ Documentation/x86/buslock.rst |    2 +-
+ Documentation/x86/mds.rst     |    2 +-
+ Documentation/x86/resctrl.rst |    2 +-
+ Documentation/x86/sgx.rst     |    2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff -- a/Documentation/usb/chipidea.rst b/Documentation/usb/chipidea.rst
---- a/Documentation/usb/chipidea.rst
-+++ b/Documentation/usb/chipidea.rst
-@@ -35,10 +35,10 @@ which can show otg fsm variables and som
- 1) Power up 2 Freescale i.MX6Q sabre SD boards with gadget class driver loaded
-    (e.g. g_mass_storage).
+diff -- a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
+--- a/Documentation/x86/boot.rst
++++ b/Documentation/x86/boot.rst
+@@ -1105,7 +1105,7 @@ The kernel command line should not be lo
+ code, nor should it be located in high memory.
  
--2) Connect 2 boards with usb cable with one end is micro A plug, the other end
-+2) Connect 2 boards with usb cable: one end is micro A plug, the other end
-    is micro B plug.
  
--   The A-device(with micro A plug inserted) should enumerate B-device.
-+   The A-device (with micro A plug inserted) should enumerate B-device.
+-Sample Boot Configuartion
++Sample Boot Configuration
+ =========================
  
- 3) Role switch
+ As a sample configuration, assume the following layout of the real
+diff -- a/Documentation/x86/buslock.rst b/Documentation/x86/buslock.rst
+--- a/Documentation/x86/buslock.rst
++++ b/Documentation/x86/buslock.rst
+@@ -32,7 +32,7 @@ mechanisms to detect split locks and bus
+ --------------------------------------
  
-@@ -54,18 +54,19 @@ which can show otg fsm variables and som
+ Beginning with the Tremont Atom CPU split lock operations may raise an
+-Alignment Check (#AC) exception when a split lock operation is attemped.
++Alignment Check (#AC) exception when a split lock operation is attempted.
  
- 	echo 0 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
+ #DB exception for bus lock detection
+ ------------------------------------
+diff -- a/Documentation/x86/mds.rst b/Documentation/x86/mds.rst
+--- a/Documentation/x86/mds.rst
++++ b/Documentation/x86/mds.rst
+@@ -60,7 +60,7 @@ needed for exploiting MDS requires:
+    data
  
--   or, by introducing HNP polling, B-Host can know when A-peripheral wish
--   to be host role, so this role switch also can be trigged in A-peripheral
--   side by answering the polling from B-Host, this can be done on A-device::
-+   or, by introducing HNP polling, B-Host can know when A-peripheral wishes to
-+   be in the host role, so this role switch also can be triggered in
-+   A-peripheral side by answering the polling from B-Host. This can be done on
-+   A-device::
+ The existence of such a construct in the kernel cannot be excluded with
+-100% certainty, but the complexity involved makes it extremly unlikely.
++100% certainty, but the complexity involved makes it extremely unlikely.
  
- 	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_req
+ There is one exception, which is untrusted BPF. The functionality of
+ untrusted BPF is limited, but it needs to be thoroughly investigated
+diff -- a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
+--- a/Documentation/x86/resctrl.rst
++++ b/Documentation/x86/resctrl.rst
+@@ -487,7 +487,7 @@ this would be dependent on number of cor
+    depending on # of threads:
  
-    A-device should switch back to host and enumerate B-device.
+ For the same SKU in #1, a 'single thread, with 10% bandwidth' and '4
+-thread, with 10% bandwidth' can consume upto 10GBps and 40GBps although
++thread, with 10% bandwidth' can consume up to 10GBps and 40GBps although
+ they have same percentage bandwidth of 10%. This is simply because as
+ threads start using more cores in an rdtgroup, the actual bandwidth may
+ increase or vary although user specified bandwidth percentage is same.
+diff -- a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
+--- a/Documentation/x86/sgx.rst
++++ b/Documentation/x86/sgx.rst
+@@ -245,7 +245,7 @@ SGX will likely become unusable because
+ limited. However, while this may be fatal to SGX, the rest of the kernel
+ is unlikely to be impacted and should continue to work.
  
--5) Remove B-device(unplug micro B plug) and insert again in 10 seconds,
-+5) Remove B-device (unplug micro B plug) and insert again in 10 seconds;
-    A-device should enumerate B-device again.
- 
--6) Remove B-device(unplug micro B plug) and insert again after 10 seconds,
-+6) Remove B-device (unplug micro B plug) and insert again after 10 seconds;
-    A-device should NOT enumerate B-device.
- 
-    if A-device wants to use bus:
-@@ -105,7 +106,7 @@ July 27, 2012 Revision 2.0 version 1.1a"
- 2. How to enable USB as system wakeup source
- --------------------------------------------
- Below is the example for how to enable USB as system wakeup source
--at imx6 platform.
-+on an imx6 platform.
- 
- 2.1 Enable core's wakeup::
- 
-@@ -128,6 +129,6 @@ at imx6 platform.
- 	echo enabled > /sys/bus/usb/devices/1-1/power/wakeup
- 
- If the system has only one usb port, and you want usb wakeup at this port, you
--can use below script to enable usb wakeup::
-+can use the below script to enable usb wakeup::
- 
- 	for i in $(find /sys -name wakeup | grep usb);do echo enabled > $i;done;
-diff -- a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -813,7 +813,7 @@ the user must provide the following:
- 	================== ====================================================
- 
- Each frame description contains frame interval specification, and each
--such specification consists of a number of lines with an inverval value
-+such specification consists of a number of lines with an interval value
- in each line. The rules stated above are best illustrated with an example::
- 
-   # mkdir functions/uvc.usb0/control/header/h
-diff -- a/Documentation/usb/mass-storage.rst b/Documentation/usb/mass-storage.rst
---- a/Documentation/usb/mass-storage.rst
-+++ b/Documentation/usb/mass-storage.rst
-@@ -150,7 +150,7 @@ Module parameters
-   - bcdDevice     -- USB Device version (BCD) (16 bit integer)
-   - iManufacturer -- USB Manufacturer string (string)
-   - iProduct      -- USB Product string (string)
--  - iSerialNumber -- SerialNumber string (sting)
-+  - iSerialNumber -- SerialNumber string (string)
- 
- sysfs entries
- =============
+-As a result, when this happpens, user should stop running any new
++As a result, when this happens, the user should stop running any new
+ SGX workloads, (or just any new workloads), and migrate all valuable
+ workloads. Although a machine reboot can recover all EPC memory, the bug
+ should be reported to Linux developers.
