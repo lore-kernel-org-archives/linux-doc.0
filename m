@@ -2,69 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F7A1C54EAA
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 15:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD02C54EAA
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 15:56:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234546AbjA0Pdz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 10:33:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60128 "EHLO
+        id S232813AbjA0P4H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 10:56:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232907AbjA0Pdy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 10:33:54 -0500
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA17180009;
-        Fri, 27 Jan 2023 07:33:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1674833630; x=1706369630;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=TM1hjHi+eDRW+VgPVGPxBuNkCyVsgYLZD5xZEXIA5fc=;
-  b=R9p+TXoIVAz56edl6z90CbqrhlJlK3WLXgedw/U9tIUoBMFFFmeLIg42
-   n6ILt1/k4g42UkPbu9N2Z+/1c78qFustNck99DCZIGZGDFbzOnUKLNIU2
-   mSSexXkPuJT7razt71Qh6xjubyCw2Kh0buv0E9qsj56Q7yz4baZX6BpAD
-   0=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 27 Jan 2023 07:33:50 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.45.79.139])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 07:33:50 -0800
-Received: from hu-mojha-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Fri, 27 Jan 2023 07:33:47 -0800
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-To:     <rdunlap@infradead.org>
-CC:     <corbet@lwn.net>, <juri.lelli@redhat.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mingo@redhat.com>, <peterz@infradead.org>,
-        <vincent.guittot@linaro.org>
-Subject: Re: [PATCH 24/35] Documentation: scheduler: correct spelling
-Date:   Fri, 27 Jan 2023 21:03:29 +0530
-Message-ID: <1674833609-11434-1-git-send-email-quic_mojha@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20230127064005.1558-25-rdunlap@infradead.org>
-References: <20230127064005.1558-25-rdunlap@infradead.org>
+        with ESMTP id S232060AbjA0P4G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 10:56:06 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58AAD8497F;
+        Fri, 27 Jan 2023 07:55:57 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E8E44B80AF8;
+        Fri, 27 Jan 2023 15:55:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61F96C433D2;
+        Fri, 27 Jan 2023 15:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674834954;
+        bh=TD9Z1LDYEmj7oIuL5xM2XqnFzwsMUmAt2yOOCa2Lpm4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=r0YhX9aPn1VearHX4n9CIIYmelJVHpX6YefoobdGtIRemFoYbYZ5fnBe/3FcnZW6O
+         EkgxNNvdOg9QvRxtm3mPk4EmlGpDZyFzLYNT2oE46tDpZhuzMUQvVvAunjCdtmSsyk
+         PNUiIIayS8YUphtRSEBG6XHiCrW+XeQXlNYNne/FR82jHra0ZidQiR5u3Ts0FiZd7E
+         SwgKJxaoGRJKCXVnrTf2YsVK5Lj2957G7pGghHowRTgbyBTO//k9VKZ1VjiTKpyXJn
+         zSB1bP3Tam/Jyfbw46IUOex7dT18X0Rzw31pjOtp2ByKmTc28axv4peOuBfgJbZxnY
+         L3BAGFT+84LBw==
+Date:   Fri, 27 Jan 2023 09:55:51 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        linux-pci@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 20/35] Documentation: PCI: correct spelling
+Message-ID: <20230127155551.GA1387211@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230127064005.1558-21-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->Correct spelling problems for Documentation/scheduler/ as reported
->by codespell.
->
->Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->Cc: Ingo Molnar <mingo@redhat.com>
->Cc: Peter Zijlstra <peterz@infradead.org>
->Cc: Juri Lelli <juri.lelli@redhat.com>
->Cc: Vincent Guittot <vincent.guittot@linaro.org>
->Cc: Jonathan Corbet <corbet@lwn.net>
->Cc: linux-doc@vger.kernel.org
+On Thu, Jan 26, 2023 at 10:39:50PM -0800, Randy Dunlap wrote:
+> Correct spelling problems for Documentation/PCI/ as reported
+> by codespell.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
 
-Reviewed-by: Mukesh Ojha <quic_mojha@quicinc.com>
+Looks good, thanks!  I assume these will be merged all together, but
+let me know if you'd like me to pick this up.
 
--Mukesh
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
+> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+> Cc: linux-pci@vger.kernel.org
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/PCI/endpoint/pci-vntb-howto.rst |    2 +-
+>  Documentation/PCI/msi-howto.rst               |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff -- a/Documentation/PCI/endpoint/pci-vntb-howto.rst b/Documentation/PCI/endpoint/pci-vntb-howto.rst
+> --- a/Documentation/PCI/endpoint/pci-vntb-howto.rst
+> +++ b/Documentation/PCI/endpoint/pci-vntb-howto.rst
+> @@ -103,7 +103,7 @@ A sample configuration for NTB function
+>  	# echo 1 > functions/pci_epf_vntb/func1/pci_epf_vntb.0/num_mws
+>  	# echo 0x100000 > functions/pci_epf_vntb/func1/pci_epf_vntb.0/mw1
+>  
+> -A sample configuration for virtual NTB driver for virutal PCI bus::
+> +A sample configuration for virtual NTB driver for virtual PCI bus::
+>  
+>  	# echo 0x1957 > functions/pci_epf_vntb/func1/pci_epf_vntb.0/vntb_vid
+>  	# echo 0x080A > functions/pci_epf_vntb/func1/pci_epf_vntb.0/vntb_pid
+> diff -- a/Documentation/PCI/msi-howto.rst b/Documentation/PCI/msi-howto.rst
+> --- a/Documentation/PCI/msi-howto.rst
+> +++ b/Documentation/PCI/msi-howto.rst
+> @@ -290,7 +290,7 @@ PCI_IRQ_MSI or PCI_IRQ_MSIX flags.
+>  List of device drivers MSI(-X) APIs
+>  ===================================
+>  
+> -The PCI/MSI subystem has a dedicated C file for its exported device driver
+> +The PCI/MSI subsystem has a dedicated C file for its exported device driver
+>  APIs — `drivers/pci/msi/api.c`. The following functions are exported:
+>  
+>  .. kernel-doc:: drivers/pci/msi/api.c
