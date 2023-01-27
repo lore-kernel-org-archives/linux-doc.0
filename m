@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AB25C38142
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 23:53:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1003C61DA7
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 23:53:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231878AbjA0Xxa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 18:53:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47082 "EHLO
+        id S232254AbjA0Xxl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 18:53:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232260AbjA0Xx1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 18:53:27 -0500
+        with ESMTP id S232400AbjA0Xxh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 18:53:37 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A762D86E81
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 15:52:40 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E551824C9F
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 15:52:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674863559;
+        s=mimecast20190719; t=1674863577;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=kli5sE9lIHwCvZbbt0ccDIlIdit3t3RFH2I2s6WRBok=;
-        b=Vwk2AyR47b9ZhpRRCAaoT4VmqT2dfeQ8FQ6Lqzyz+usTCBXnff0ma2jhDCtyQgcx0e9Uuh
-        BpLxbjoqjazWmIkkCejh4Ue9WaMUbU/MnPINnsYp8a9XXBgoXA2y1spULq2ix3JXfDxFt7
-        SE3Vcze4n+T2xhejaVJEGCEm6f9opUE=
+        bh=c2wJW8358fg+BxDaJzgkd3OND14b2zFqKAQeciq7tLo=;
+        b=epzPdeZJBD8B7tzXeKPUBTUXMKR+QpIw97U0yc3xz+pjh75BlWa7eDeqDoxUkk0KHHoDyX
+        3j1YFGBq13Jb/YJlf7guvlpaVoA1ZmCXNBlTjlvjRQ+wYkj1br2R2Q3TXjYDAa+enqlszw
+        uszuzVzUXrMYPU1tKIigTM60TaqtYWA=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-336-Q5XBn_UUMMCmDKAq2A9obQ-1; Fri, 27 Jan 2023 18:52:36 -0500
-X-MC-Unique: Q5XBn_UUMMCmDKAq2A9obQ-1
+ us-mta-490--DjD9ThIOLGmJsNr4myWAw-1; Fri, 27 Jan 2023 18:52:52 -0500
+X-MC-Unique: -DjD9ThIOLGmJsNr4myWAw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 836E23804067;
-        Fri, 27 Jan 2023 23:52:35 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5B672801E4F;
+        Fri, 27 Jan 2023 23:52:51 +0000 (UTC)
 Received: from gshan.redhat.com (vpn2-54-64.bne.redhat.com [10.64.54.64])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id DC4F240ED413;
-        Fri, 27 Jan 2023 23:52:27 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F02B40C141B;
+        Fri, 27 Jan 2023 23:52:44 +0000 (UTC)
 From:   Gavin Shan <gshan@redhat.com>
 To:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -48,9 +48,9 @@ Cc:     pbonzini@redhat.com, corbet@lwn.net, maz@kernel.org,
         gshan@redhat.com, seanjc@google.com, isaku.yamahata@intel.com,
         ricarkol@google.com, eric.auger@redhat.com, renzhengeek@gmail.com,
         reijiw@google.com, shan.gavin@gmail.com
-Subject: [PATCH v4 1/4] KVM: arm64: Include kvm_mmu.h from vgic.h
-Date:   Sat, 28 Jan 2023 07:51:47 +0800
-Message-Id: <20230127235150.17025-2-gshan@redhat.com>
+Subject: [PATCH v4 3/4] KVM: arm64: Allow no running vcpu on restoring VGICv3 LPI pending status
+Date:   Sat, 28 Jan 2023 07:51:49 +0800
+Message-Id: <20230127235150.17025-4-gshan@redhat.com>
 In-Reply-To: <20230127235150.17025-1-gshan@redhat.com>
 References: <20230127235150.17025-1-gshan@redhat.com>
 MIME-Version: 1.0
@@ -61,126 +61,51 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We need a unified helper in 'kvm/vgic/vgic.h' to write guest memory. In
-the helper, the check of no-running-vcpu context for dirty ring will be
-applied. kvm_write_guest_lock(), defined in 'include/asm/kvm_mmu.h', is
-going to be dereferenced by the unified helper.
+We don't have a running VCPU context to restore VGICv3 LPI pending status
+due to command KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_RESTORE_TABLES} on KVM
+device "kvm-arm-vgic-its".
 
-Include 'include/asm/kvm_mmu.h' to 'kvm/vgic/vgic.h' to avoid including
-the former header file when the later one is needed. With the change,
-the duplicate inclusions of 'include/asm/kvm_mmu.h' are removed.
+Use vgic_write_guest_lock() to restore VGICv3 LPI pending status.
 
-No functional change intended.
-
-Suggested-by: Oliver Upton <oliver.upton@linux.dev>
 Signed-off-by: Gavin Shan <gshan@redhat.com>
+Reviewed-by: Oliver Upton <oliver.upton@linux.dev>
 ---
- arch/arm64/kvm/vgic/vgic-debug.c      | 1 -
- arch/arm64/kvm/vgic/vgic-init.c       | 1 -
- arch/arm64/kvm/vgic/vgic-its.c        | 1 -
- arch/arm64/kvm/vgic/vgic-kvm-device.c | 1 -
- arch/arm64/kvm/vgic/vgic-mmio-v3.c    | 1 -
- arch/arm64/kvm/vgic/vgic-v2.c         | 1 -
- arch/arm64/kvm/vgic/vgic-v3.c         | 1 -
- arch/arm64/kvm/vgic/vgic.h            | 1 +
- 8 files changed, 1 insertion(+), 7 deletions(-)
+ Documentation/virt/kvm/api.rst | 8 +++++---
+ arch/arm64/kvm/vgic/vgic-v3.c  | 2 +-
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/kvm/vgic/vgic-debug.c b/arch/arm64/kvm/vgic/vgic-debug.c
-index 78cde687383c..69201c2dfc6c 100644
---- a/arch/arm64/kvm/vgic/vgic-debug.c
-+++ b/arch/arm64/kvm/vgic/vgic-debug.c
-@@ -10,7 +10,6 @@
- #include <linux/kvm_host.h>
- #include <linux/seq_file.h>
- #include <kvm/arm_vgic.h>
--#include <asm/kvm_mmu.h>
- #include "vgic.h"
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 9807b05a1b57..5dc3598afbe2 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -8070,9 +8070,11 @@ considering the state as complete. VMM needs to ensure that the dirty
+ state is final and avoid missing dirty pages from another ioctl ordered
+ after the bitmap collection.
  
- /*
-diff --git a/arch/arm64/kvm/vgic/vgic-init.c b/arch/arm64/kvm/vgic/vgic-init.c
-index f6d4f4052555..de389a5bec45 100644
---- a/arch/arm64/kvm/vgic/vgic-init.c
-+++ b/arch/arm64/kvm/vgic/vgic-init.c
-@@ -9,7 +9,6 @@
- #include <linux/kvm_host.h>
- #include <kvm/arm_vgic.h>
- #include <asm/kvm_emulate.h>
--#include <asm/kvm_mmu.h>
- #include "vgic.h"
+-NOTE: One example of using the backup bitmap is saving arm64 vgic/its
+-tables through KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_SAVE_TABLES} command on
+-KVM device "kvm-arm-vgic-its" when dirty ring is enabled.
++NOTE: Multiple examples of using the backup bitmap: (1) save vgic/its
++tables through command KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_SAVE_TABLES} on
++KVM device "kvm-arm-vgic-its". (2) restore vgic/its tables through
++command KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_RESTORE_TABLES} on KVM device
++"kvm-arm-vgic-its". VGICv3 LPI pending status is restored.
  
- /*
-diff --git a/arch/arm64/kvm/vgic/vgic-its.c b/arch/arm64/kvm/vgic/vgic-its.c
-index 94a666dd1443..ad4bb69ab83e 100644
---- a/arch/arm64/kvm/vgic/vgic-its.c
-+++ b/arch/arm64/kvm/vgic/vgic-its.c
-@@ -18,7 +18,6 @@
- 
- #include <asm/kvm_emulate.h>
- #include <asm/kvm_arm.h>
--#include <asm/kvm_mmu.h>
- 
- #include "vgic.h"
- #include "vgic-mmio.h"
-diff --git a/arch/arm64/kvm/vgic/vgic-kvm-device.c b/arch/arm64/kvm/vgic/vgic-kvm-device.c
-index edeac2380591..552668a91bd9 100644
---- a/arch/arm64/kvm/vgic/vgic-kvm-device.c
-+++ b/arch/arm64/kvm/vgic/vgic-kvm-device.c
-@@ -8,7 +8,6 @@
- #include <linux/kvm_host.h>
- #include <kvm/arm_vgic.h>
- #include <linux/uaccess.h>
--#include <asm/kvm_mmu.h>
- #include <asm/cputype.h>
- #include "vgic.h"
- 
-diff --git a/arch/arm64/kvm/vgic/vgic-mmio-v3.c b/arch/arm64/kvm/vgic/vgic-mmio-v3.c
-index 91201f743033..8ba04f4fa63d 100644
---- a/arch/arm64/kvm/vgic/vgic-mmio-v3.c
-+++ b/arch/arm64/kvm/vgic/vgic-mmio-v3.c
-@@ -13,7 +13,6 @@
- 
- #include <asm/kvm_emulate.h>
- #include <asm/kvm_arm.h>
--#include <asm/kvm_mmu.h>
- 
- #include "vgic.h"
- #include "vgic-mmio.h"
-diff --git a/arch/arm64/kvm/vgic/vgic-v2.c b/arch/arm64/kvm/vgic/vgic-v2.c
-index 645648349c99..d8604fdfdfcd 100644
---- a/arch/arm64/kvm/vgic/vgic-v2.c
-+++ b/arch/arm64/kvm/vgic/vgic-v2.c
-@@ -7,7 +7,6 @@
- #include <linux/kvm.h>
- #include <linux/kvm_host.h>
- #include <kvm/arm_vgic.h>
--#include <asm/kvm_mmu.h>
- 
- #include "vgic.h"
- 
+ 8.30 KVM_CAP_XEN_HVM
+ --------------------
 diff --git a/arch/arm64/kvm/vgic/vgic-v3.c b/arch/arm64/kvm/vgic/vgic-v3.c
-index 2074521d4a8c..5dfbd03e5e1a 100644
+index 5dfbd03e5e1a..c94e4d7520fc 100644
 --- a/arch/arm64/kvm/vgic/vgic-v3.c
 +++ b/arch/arm64/kvm/vgic/vgic-v3.c
-@@ -7,7 +7,6 @@
- #include <linux/kvm_host.h>
- #include <kvm/arm_vgic.h>
- #include <asm/kvm_hyp.h>
--#include <asm/kvm_mmu.h>
- #include <asm/kvm_asm.h>
- 
- #include "vgic.h"
-diff --git a/arch/arm64/kvm/vgic/vgic.h b/arch/arm64/kvm/vgic/vgic.h
-index 0c8da72953f0..056425e3a490 100644
---- a/arch/arm64/kvm/vgic/vgic.h
-+++ b/arch/arm64/kvm/vgic/vgic.h
-@@ -6,6 +6,7 @@
- #define __KVM_ARM_VGIC_NEW_H__
- 
- #include <linux/irqchip/arm-gic-common.h>
-+#include <asm/kvm_mmu.h>
- 
- #define PRODUCT_ID_KVM		0x4b	/* ASCII code K */
- #define IMPLEMENTER_ARM		0x43b
+@@ -338,7 +338,7 @@ int vgic_v3_lpi_sync_pending_status(struct kvm *kvm, struct vgic_irq *irq)
+ 	if (status) {
+ 		/* clear consumed data */
+ 		val &= ~(1 << bit_nr);
+-		ret = kvm_write_guest_lock(kvm, ptr, &val, 1);
++		ret = vgic_write_guest_lock(kvm, ptr, &val, 1);
+ 		if (ret)
+ 			return ret;
+ 	}
 -- 
 2.23.0
 
