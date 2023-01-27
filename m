@@ -2,253 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 322C4C38142
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 18:34:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56E39C38142
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 19:18:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235031AbjA0SeZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 13:34:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41590 "EHLO
+        id S232132AbjA0TSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 14:18:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235063AbjA0SeX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 13:34:23 -0500
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A0996F21C;
-        Fri, 27 Jan 2023 10:34:22 -0800 (PST)
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30RHhJr5003759;
-        Fri, 27 Jan 2023 18:15:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=z4AA2ZK0KoCUrgCsScIkdFlax+AQ1xvYsqquTrj3a5k=;
- b=G9pUnuBbqRSCRdf+GsYx9Y7GLDNQsNXSdMqDVm4TYpQzKToLMJbNSrqH2mRHgGP35JBq
- tTLFq1hDM3Rp+BT67b9LYISni+BkgJpgI6ECun+omCs8zIiHLKx3bbocbZaxJHjjQYER
- 3wYnjcyuFKX5Jp6EZx/YbOi4EpvFnVnWlzp+/szXrMECf+4L/6HqdIScFvWZGfkApzIE
- 5wmmtPJ/U/lPZ3CJyl0jLKVRBb2OhH8l08ddTeixAjFZa4y7lyMgHdSf2lOWqgHgprcv
- XYdaMP0CrkjP6zdPIcgYEsulABQV2K+UL3iFPzwjqiplH+NdVrXM3kwansig+s1x0Yq5 CA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nck8s0rsd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 27 Jan 2023 18:15:28 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30RHujp9007987;
-        Fri, 27 Jan 2023 18:15:28 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nck8s0rrm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 27 Jan 2023 18:15:28 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30R6E8Fo014903;
-        Fri, 27 Jan 2023 18:15:26 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-        by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3n87affwh6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 27 Jan 2023 18:15:26 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30RIFMIn47579566
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 27 Jan 2023 18:15:22 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9857720049;
-        Fri, 27 Jan 2023 18:15:22 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3DDE920040;
-        Fri, 27 Jan 2023 18:15:22 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown [9.171.154.20])
-        by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Fri, 27 Jan 2023 18:15:22 +0000 (GMT)
-Message-ID: <f0f6c83f7d38a24234203849e116516ab7ac32f7.camel@linux.ibm.com>
-Subject: Re: [PATCH v6 12/14] KVM: s390: Extend MEM_OP ioctl by storage key
- checked cmpxchg
-From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To:     Janosch Frank <frankja@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Date:   Fri, 27 Jan 2023 19:15:22 +0100
-In-Reply-To: <aa942cf0-6f50-05f5-75a9-278129f00bf6@linux.ibm.com>
-References: <20230125212608.1860251-1-scgl@linux.ibm.com>
-         <20230125212608.1860251-13-scgl@linux.ibm.com>
-         <aa942cf0-6f50-05f5-75a9-278129f00bf6@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        with ESMTP id S230414AbjA0TSF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 14:18:05 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E15C92684C
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 11:18:03 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id r71so2307316iod.2
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 11:18:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=k93tzYKTMBeyLqj6KqGKxCb2OB32c5FpykAR37wgg84=;
+        b=KgZJItC8fAjM5eQ4u/RplQA0TddngU7JdmdO8awhth4we+FBezJHf7Qg0X3L7KmbRC
+         4dfxbTCikKbIhrhqxr2rBA7dLXCcke9XHBLYUL5wXzvDM/s0c1CsKd8zVwBChH7d0r4q
+         Dkm7DSLjvwvqZ6RAyl481dqGEI1KN/uLDapAU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k93tzYKTMBeyLqj6KqGKxCb2OB32c5FpykAR37wgg84=;
+        b=8BlHJjgnMNdjyalUQr8p6Jt//CHcVcrsGILckSKVzlEVSIEM59fegtgsBD2rvSqlrE
+         EvVOqfj/hfWkt2N73FsgAI+YHfSjGLADGEyseznTKqv4yLzemiMsiFgHYlHuN1HmLafU
+         VYLzIBBMtQKmlxVdX28yibZtTF72RiIkEFTC1H0GwGouW6D9R+GMB5nx6HZpdqSZlbbO
+         7FZVuj6v07C9XKCR460/g4C2EHvMdezZ9t9o8tW87YjEYi6+hsfhy3RuHF4LMEfyjgRP
+         hW7aovZEt+uI2+tt0v6oOkVLWkvS2j0zWkBEh5mqTzYWNlIpUo85GDjYITnfQjeZRcYZ
+         7NAg==
+X-Gm-Message-State: AO0yUKVanBRspcUoy/1KNybA0bawDm2YjDQgJmvbnXQxw46/kFnIRSZd
+        KjHh//BSK0hSvCX9RqcspKKbAA==
+X-Google-Smtp-Source: AK7set9ZIbcG06bFoUTBU0fU0JBSLM1aEPqgeX6Xa/QLliKlITqE8yDoInU3/IkqlzS9SvV/UwNZDA==
+X-Received: by 2002:a6b:6b0e:0:b0:70a:9fce:853c with SMTP id g14-20020a6b6b0e000000b0070a9fce853cmr915215ioc.2.1674847083110;
+        Fri, 27 Jan 2023 11:18:03 -0800 (PST)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id cn19-20020a0566383a1300b0039e20ffb236sm1731469jab.162.2023.01.27.11.18.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jan 2023 11:18:02 -0800 (PST)
+Message-ID: <063c51c3-c276-3b68-f130-db0751b35d42@linuxfoundation.org>
+Date:   Fri, 27 Jan 2023 12:18:01 -0700
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: X4TYTTeX60ySKf2aPVbcn3mRdDhAB91y
-X-Proofpoint-ORIG-GUID: fWJGBKK6oPYom01hnFAZGuDL5eIDQoTZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-27_10,2023-01-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- mlxscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999 clxscore=1015
- priorityscore=1501 impostorscore=0 spamscore=0 phishscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301270167
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] docs: add workload-tracing document to admin-guide
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     sshefali021@gmail.com, kstewart@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20230127165440.19158-1-skhan@linuxfoundation.org>
+ <87bkmj99yv.fsf@meer.lwn.net>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <87bkmj99yv.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2023-01-26 at 17:10 +0100, Janosch Frank wrote:
-> On 1/25/23 22:26, Janis Schoetterl-Glausch wrote:
-> > User space can use the MEM_OP ioctl to make storage key checked reads
-> > and writes to the guest, however, it has no way of performing atomic,
-> > key checked, accesses to the guest.
-> > Extend the MEM_OP ioctl in order to allow for this, by adding a cmpxchg
-> > op. For now, support this op for absolute accesses only.
-> >=20
-> > This op can be use, for example, to set the device-state-change
->=20
-> s/use/used/
->=20
-> > indicator and the adapter-local-summary indicator atomically.
-> >=20
-> > Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> > ---
+On 1/27/23 10:13, Jonathan Corbet wrote:
+> Shuah Khan <skhan@linuxfoundation.org> writes:
+> 
+>> Add a new section to the admin-guide with information of interest to
+>> application developers and system integrators doing analysis of the
+>> Linux kernel for safety critical applications.
+>>
+>> This section will contain documents supporting analysis of kernel
+>> interactions with applications, and key kernel subsystems expectations.
+>>
+>> Add a new workload-tracing document to this new section.
+>>
+>> Signed-off-by: Shefali Sharma <sshefali021@gmail.com>
+>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+>> ---
+>>   Documentation/admin-guide/index.rst           |  11 +
+>>   .../admin-guide/workload-tracing.rst          | 486 ++++++++++++++++++
+>>   2 files changed, 497 insertions(+)
+>>   create mode 100644 Documentation/admin-guide/workload-tracing.rst
+> 
+> This seems like generally good stuff, thanks.  I have a few nits...
+
+Thanks for the review.
+
+> 
+>> +Key Points
+>> +==========
+>> +
+>> + * Understanding system resources necessary to build and run a workload
+>> +   is important.
+>> + * Linux tracing and strace can be used to discover the system resources
+>> +   in use by a workload. The completeness of the system usage information
+>> +   depends on the completeness of coverage of a workload.
+>> + * Performance and security of the operating system can be analyzed with
+>> +   the help of tools such as `perf <https://man7.org/linux/man-pages/man1/perf.1.html>`_, `stress-ng <https://www.mankier.com/1/stress-ng>`_, `paxtest <https://github.com/opntr/paxtest-freebsd/blob/hardenedbsd/0.9.14-hbsd/README>`_.
+>> + * Once we discover and understand the workload needs, we can focus on them
+>> +   to avoid regressions and use it to evaluate safety considerations.
+>> +
+>> +Methodology
+>> +===========
+>> +
+>> +`strace <https://man7.org/linux/man-pages/man1/strace.1.html>`_ is a diagnostic, instructional, and debugging tool and can be used to discover the system resources in use by a workload. Once we discover and understand the workload needs, we can focus on them to avoid regressions and use it to evaluate safety considerations. We chose strace tool to trace workloads.
+> 
+> I know that the 80-column limit is controversial to some; I happen to
+> believe that text should certainly adhere to it for basic readability
+> reasons.  But can we all agree that nearly 400 columns is too many? :)
+> Please line-break the whole document properly.
+
+Yeah that is my bad. I noticed it once the patch was in my Inbox.
+I will fix them all up.
+
+> 
+>> +Install tools to build Linux kernel and tools in kernel repository. scripts/ver_linux is a good way to check if your system already has the necessary tools.
+>> +::
+>> +
+>> +  sudo apt-get build-essentials flex bison yacc
+>> +  sudo apt install libelf-dev systemtap-sdt-dev libaudit-dev libslang2-dev libperl-dev libdw-dev
+>> +
+>> +Browsing kernel sources
+>> +::
+>> +
+>> +  sudo apt-get install cscope
+>> +
+>> +Install stress-ng and paxtest
+>> +::
+>> +
+>> +  apt-get install stress-ng
+>> +  apt-get install paxtest
+> 
+> For literal blocks, the "::" can go at the end of the previous line,
+> which makes the document a bit more readable.
+
+Makes sense. Will fix it.
+
+> 
 > [...]
-> > +/**
-> > + * cmpxchg_guest_abs_with_key() - Perform cmpxchg on guest absolute ad=
-dress.
-> > + * @kvm: Virtual machine instance.
-> > + * @gpa: Absolute guest address of the location to be changed.
-> > + * @len: Operand length of the cmpxchg, required: 1 <=3D len <=3D 16. =
-Providing a
-> > + *       non power of two will result in failure.
-> > + * @old_addr: Pointer to old value. If the location at @gpa contains t=
-his value,
-> > + *            the exchange will succeed. After calling cmpxchg_guest_a=
-bs_with_key()
-> > + *            *@old_addr contains the value at @gpa before the attempt=
- to
-> > + *            exchange the value.
-> > + * @new: The value to place at @gpa.
-> > + * @access_key: The access key to use for the guest access.
-> > + * @success: output value indicating if an exchange occurred.
-> > + *
-> > + * Atomically exchange the value at @gpa by @new, if it contains *@old=
-.
-> > + * Honors storage keys.
-> > + *
-> > + * Return: * 0: successful exchange
-> > + *         * a program interruption code indicating the reason cmpxchg=
- could
-> > + *           not be attempted
->=20
-> Nit:
->  >0: a program interruption code...
->=20
->=20
-> > + *         * -EINVAL: address misaligned or len not power of two
-> > + *         * -EAGAIN: transient failure (len 1 or 2)
-> > + *         * -EOPNOTSUPP: read-only memslot (should never occur)
-> > + */
-> > +int cmpxchg_guest_abs_with_key(struct kvm *kvm, gpa_t gpa, int len,
-> > +			       __uint128_t *old_addr, __uint128_t new,
-> > +			       u8 access_key, bool *success)
-> > +{
-> > +	gfn_t gfn =3D gpa >> PAGE_SHIFT;
->=20
->   gpa_to_gfn()?
+> 
+>> +SPDX-License-Identifier: CC-BY-4.0
+>> +==================================
+>> +This document is released under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode. Pursuant to Section 5 of the license, please note that the following disclaimers apply (capitalized terms have the meanings set forth in the license). To the extent possible, the Licensor offers the Licensed Material as-is and as-available, and makes no representations or warranties of any kind concerning the Licensed Material, whether express, implied, statutory, or other. This includes, without limitation, warranties of title, merchantability, fitness for a particular purpose, non-infringement, absence of latent or other defects, accuracy, or the presence or absence of errors, whether or not known or discoverable. Where disclaimers of warranties are not allowed in full or in part, this disclaimer may not apply to You.
+>> +
+>> +To the extent possible, in no event will the Licensor be liable to You on any legal theory (including, without limitation, negligence) or otherwise for any direct, special, indirect, incidental, consequential, punitive, exemplary, or other losses, costs, expenses, or damages arising out of this Public License or use of the Licensed Material, even if the Licensor has been advised of the possibility of such losses, costs, expenses, or damages. Where a limitation of liability is not allowed in full or in part, this limitation may not apply to You.
+>> +
+>> +The disclaimer of warranties and limitation of liability provided above shall be interpreted in a manner that, to the extent possible, most closely approximates an absolute disclaimer and waiver of all liability.
+>> +
+>> +Note: Only the content of this RST file as found in the Linux kernel sources
+>> +is available under CC-BY-4.0, as versions of this text that were processed
+>> +(for example by the kernel's build system) might contain content taken from
+>> +files which use a more restrictive license.
+> 
+> This is just the kind of license boilerplate that we have been trying
+> hard to get rid of.  *Dual*-licensing with CC4 is OK, and the SPDX line
+> at the top properly reflects that; this additional text shouldn't be here.
+> 
 
-Yes.
->=20
-> > +	struct kvm_memory_slot *slot =3D gfn_to_memslot(kvm, gfn);
-> > +	bool writable;
-> > +	hva_t hva;
-> > +	int ret;
-> > +
-> > +	if (!IS_ALIGNED(gpa, len))
-> > +		return -EINVAL;
-> > +
-> > +	hva =3D gfn_to_hva_memslot_prot(slot, gfn, &writable);
-> > +	if (kvm_is_error_hva(hva))
-> > +		return PGM_ADDRESSING;
-> > +	/*
-> > +	 * Check if it's a read-only memslot, even though that cannot occur
-> > +	 * since those are unsupported.
-> > +	 * Don't try to actually handle that case.
-> > +	 */
-> > +	if (!writable)
-> > +		return -EOPNOTSUPP;
-> > +
-> > +	hva +=3D offset_in_page(gpa);
->=20
-> Hmm if we don't use a macro to generate these then I'd add an explanation=
-:
->=20
-> cmpxchg_user_key() is a macro that is dependent on the type of "old" so=
-=20
-> there's no deduplication possible without further macros.
+Okay - I can get rid of this.
 
-Can do.
-Btw. I could move the other two statements out of the switch by using a uni=
-on of old values,
-memcmp and memcpy, but I think that would be less readable.
+>> +..
+>> +   end-of-content
+> 
+> ...and that seems a bit redundant somehow...:)
 
->=20
-> > +	switch (len) {
-> > +	case 1: {
-> > +		u8 old;
-> > +
-> > +		ret =3D cmpxchg_user_key((u8 *)hva, &old, *old_addr, new, access_key=
-);
-> > +		*success =3D !ret && old =3D=3D *old_addr;
-> > +		*old_addr =3D old;
-> > +		break;
-> > +	}
-> > +	case 2: {
-> > +		u16 old;
-> > +
-> > +		ret =3D cmpxchg_user_key((u16 *)hva, &old, *old_addr, new, access_ke=
-y);
-> > +		*success =3D !ret && old =3D=3D *old_addr;
-> > +		*old_addr =3D old;
-> > +		break;
-> > +	}
-> > +	case 4: {
-> > +		u32 old;
-> > +
-> > +		ret =3D cmpxchg_user_key((u32 *)hva, &old, *old_addr, new, access_ke=
-y);
-> > +		*success =3D !ret && old =3D=3D *old_addr;
-> > +		*old_addr =3D old;
-> > +		break;
-> > +	}
-> > +	case 8: {
-> > +		u64 old;
-> > +
-> > +		ret =3D cmpxchg_user_key((u64 *)hva, &old, *old_addr, new, access_ke=
-y);
-> > +		*success =3D !ret && old =3D=3D *old_addr;
-> > +		*old_addr =3D old;
-> > +		break;
-> > +	}
-> > +	case 16: {
-> > +		__uint128_t old;
-> > +
-> > +		ret =3D cmpxchg_user_key((__uint128_t *)hva, &old, *old_addr, new, a=
-ccess_key);
-> > +		*success =3D !ret && old =3D=3D *old_addr;
-> > +		*old_addr =3D old;
-> > +		break;
-> > +	}
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +	mark_page_dirty_in_slot(kvm, slot, gfn);
->=20
-> Is that needed if we failed the store?
+Yup. Correct.
 
-Indeed it isn't.
-
-[...]
-
+thanks,
+-- Shuah
