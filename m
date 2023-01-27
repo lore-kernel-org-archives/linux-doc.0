@@ -2,136 +2,225 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17A52C38142
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 06:48:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A715AC54EAA
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 06:56:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231848AbjA0Gso (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 01:48:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49884 "EHLO
+        id S231637AbjA0G4B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 01:56:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231866AbjA0GsU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 01:48:20 -0500
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2060d.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::60d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 397E41630A;
-        Thu, 26 Jan 2023 22:45:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aV5om6YK4UswUE+ftZVbf9obTodGVdDO/j8JlnApcmxTPwLZmyg1iIUYBTVyw69gY1XgsAD8bwwLh54dwZQlpMDHnqWQ86dlBMYejpmTyF4HTTi1kZlu0E0OtSQbpU04NEXw6TLaNrIivT+twxwzKTcUxouP2e5rn7MMzpNCwvbSQZJKuGa6pnKnkZtyT3t+fGJtKLQS5HrbKOwoHTdhMm/yXd1RuASYW0rFd+4d+I4sZ+6oQ8sYd/gMyKHnuPTZD4XsmBFm9VLIUPqGB1Ada0xrI8rKUXl59Q9Es723JeN1a7p1ngI0TF+Ii9fq4gZ1e5FM9xqQwxD/w15Uy2E42w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7BFLHIeab7XSDCYAmPCbl2ZFAXCKq2In362Wd2eteGs=;
- b=EavpSdQZHc4gL2/o01jcXWThdyG262td1/RwappG351UY6AJ4MAImn/Q5vLRzw1r5IKIGBxhOaxrjtb1qS3MQV8xdcd4VHoQv+VUnFW55jwtsl/3oyucC/krUSZnx3qchTkToLSYag55eE1HQYItZU2hUyJ4ju3ACLvJlxPnr09gwm6nHOyCUvAyGe/kYjtaZcoeiFSmQ7rHc1CCNf50FOOFBQxScswZiwca//ixC0Z6/LNcVjTj0bSx9BchHeYo9d5JrGuVdZleV+suqNbyMpMsueBQa4LpVmspdM3Sflaf11qOE1NOhb78SnMYak5poUy7CBvTdyAcbrNKGYKdXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nec.com; dmarc=pass action=none header.from=nec.com; dkim=pass
- header.d=nec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nec.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7BFLHIeab7XSDCYAmPCbl2ZFAXCKq2In362Wd2eteGs=;
- b=CYQKj8XIpkKV6lLO3V+xWBy8kSbzVL3G8VPwclkuijEv8sS/x1rZ+iCylLUWZtBW9uEocwlzaMbVsCzm1UAi/BcmDaVIErmFFZ2M42tOSF5okbkJhRfGFDAmy3pITdzLv2lKzNoyLVLLE6vkl9/H3jY7n3WhIdlY2LWZ1Kymhr8=
-Received: from TYWPR01MB8591.jpnprd01.prod.outlook.com (2603:1096:400:13c::10)
- by TYAPR01MB5754.jpnprd01.prod.outlook.com (2603:1096:404:8059::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.23; Fri, 27 Jan
- 2023 06:44:26 +0000
-Received: from TYWPR01MB8591.jpnprd01.prod.outlook.com
- ([fe80::f495:bf26:717c:c45b]) by TYWPR01MB8591.jpnprd01.prod.outlook.com
- ([fe80::f495:bf26:717c:c45b%3]) with mapi id 15.20.6043.023; Fri, 27 Jan 2023
- 06:44:26 +0000
-From:   =?utf-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPo+OAgOebtOS5nyk=?= 
-        <naoya.horiguchi@nec.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        =?utf-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 18/35] Documentation: mm: correct spelling
-Thread-Topic: [PATCH 18/35] Documentation: mm: correct spelling
-Thread-Index: AQHZMhpWCfbq1XFJhUiz5J+iPUh7MK6x0WKA
-Date:   Fri, 27 Jan 2023 06:44:26 +0000
-Message-ID: <20230127064425.GA3836285@hori.linux.bs1.fc.nec.co.jp>
-References: <20230127064005.1558-1-rdunlap@infradead.org>
- <20230127064005.1558-19-rdunlap@infradead.org>
-In-Reply-To: <20230127064005.1558-19-rdunlap@infradead.org>
-Accept-Language: ja-JP, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nec.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYWPR01MB8591:EE_|TYAPR01MB5754:EE_
-x-ms-office365-filtering-correlation-id: 1d84f687-8abf-4035-4caf-08db0031eeb7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: dJ3a0AZ1h18YIFQo30nene7JGtCT4dx94S1K/EdlUSrks66KLsMF5c4QpqlyU1epX3afzvSiWMjBGlse6UYgQ2mnZ0yAoduYTWF55XuhSRXhWpU/LSirYwAj40Z1b1gmBvAK7NSLT6NQ4jVL2MwlqG/QaZbwTVufmiH9ZYVrd2/fFBlFxy9oN2x9sEu8kHxfGYxh6oa0ivH+h/VLmabuq+tKGwJzlvfNg5MPIMPMtU4N39tm0cyaRdS8rZy0jMl7stUzJ1kTJk40eAb1n96QBr+DW/sUKF1zN3V+5npuXrpi36EnTzLVLCi8UdEc00Hw0LvJiyapZX5zB6pd5vlQxXDqYuM5hBr1j4C39qqOqpbBI3aCHV4jfB3aNGVOQ03q2Wy/4UJsWEzKmcqscmI+txe+nZJujBPB2hTsmJ3wd922jhaf5O2/1L9oxkhgztHQuGMbrlpIoJCbi5FGrWLgLaBFcMJ2NwZit0LU4Fr3LYtIPWXWEZK6TzFLBEu982rS7ChNW/veqYTJrWKoGp+bF1qKB4c9cMI9tnwfnA/mslHi2oatvstA3qnuZIxRj+OKj4pl5jHmL/xPthBL0M35kluE3+YmCbhLxzEPmcvj9qRMBKvDMUa70jJfmj+hCY19TLxPAzmu+bN5mYGyg6YiBT6Ns5Xie5D0JikaxgwEu2snrhKZhRNbArMoO6Xak4P8rcZ/Fduaq/Mgc3oeQ8Z+bg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYWPR01MB8591.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(39860400002)(376002)(396003)(136003)(366004)(451199018)(38070700005)(41300700001)(33656002)(64756008)(66476007)(66556008)(66446008)(316002)(66946007)(76116006)(86362001)(4326008)(478600001)(6486002)(6916009)(8676002)(54906003)(85182001)(122000001)(5660300002)(4744005)(186003)(26005)(9686003)(6512007)(2906002)(8936002)(82960400001)(71200400001)(1076003)(38100700002)(6506007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OVBBK281dHJBYm9uSEs4SmQ2Y0VBTkhBWitISUVqTkpRL29Pb2cyTTV5MkpG?=
- =?utf-8?B?Q2Rzb2lLZkNJaVpPY2pzbURodFlDcHdQaXVOMWRQYUo4Umd5YThWUDFZWWpj?=
- =?utf-8?B?aHZrRm1LcVM0eHFQdE1DbXI0K0cyQ2FCYzlrbEdaL2RwRlhtdmRSN2hQc2hw?=
- =?utf-8?B?bFdzckszaXIvYUhKcUcvZ0VNb2llOGlJSVBZS05zM25WNnpWcXl5cWRMNysx?=
- =?utf-8?B?SWgwZTNkZEFrall2cTRlbGdsdGJuWkk4bFgzWkxzQ0d5OWs1bzZZbkpVeFo1?=
- =?utf-8?B?ZHdSNW1aVUIvelJxQzRPS2hwK0xjQytvMHhYVUtzNHpCYlc5ZVo5WXppb1Mz?=
- =?utf-8?B?L0Z2K3ZmRG1wLzZCOElKNlpXN05DYW1vanZXZUZ4dkNuMGJlWStFdThha0da?=
- =?utf-8?B?UStvVnVOS0hDM21oUUZVdVNjTFpuZis1TW1xZ0dJeHlLR1dYeDNzRGgxVU55?=
- =?utf-8?B?Qk9MeEh3QW5vL25rZ3FLSjZZa3c0YjJxMU0vSGhkQ0NrQ2MzWWlnN2w3Z2VQ?=
- =?utf-8?B?M2g3K0tqb0gxZGIvRTBuKzhFZUVDTXpON2tEdWdCbEpwWWIzRFFNU21PK2lo?=
- =?utf-8?B?SUNsZGo2YkVJK09uMGtXOHZFZk5LRnZFazJVL3RDVHAvSSt3endlUGpudEUw?=
- =?utf-8?B?dXdvY0NSa1VwS0ZUZmdBSkErdy94R09NYUc0alNJUkVMYWY0YlZmVGtCSnVy?=
- =?utf-8?B?Wkc5TkhzM3Bza3dCNVpPYk9xQnNLeElOYmxURjR0M3JobWF0bU9SOVFETldo?=
- =?utf-8?B?SXYzWU5vMGdmMFpwUmdORmh6d1NObmF5Q3ByK0pGOElqRVpxNHBmaFlBUE1V?=
- =?utf-8?B?eUdROEZTWmJ2eWtFNU01TkNtUnp0aXV1OHBaYU1GZmFGVVdTblJLTjJkOU12?=
- =?utf-8?B?RldWTjBDUDh6V1ZBU2J1eW9KbG45K2I5aXlmaThDSnkvYlRhSnc1VGVpY3Vz?=
- =?utf-8?B?dkN0bEpwZWlOMzk2MTR4a3lHVVZHSmN0eS9TZlYxUit3M1d3TDZuS3VvdDZG?=
- =?utf-8?B?dTBqVkYyU2EyWGFPdUxGaTFIRlFZbmtZZ04wZTNhWHF1emxDWlgvYTRNbDdw?=
- =?utf-8?B?TENMSE8vaTVmb21nWHJIaEZZbkwyRDV0eWFTV0Q5dUZ2akRtSm03LytCYUxR?=
- =?utf-8?B?SUpNODk3bHV2ZEFZd3pEZ0s2TVRzVzA4alJoakdLbjlBdVVpTlM1YkhYWEdQ?=
- =?utf-8?B?Nm5BdlYxVXRGN2szWXJYQjV1bFdvQkRDenJldkljLzE5QVp0eDFBRlRab1ov?=
- =?utf-8?B?TGx2ZDJGcHlpZVdVTEZaSFEyYURDRTRGZkI3QzVOMzAxYXZzQWo4SmN1bFUw?=
- =?utf-8?B?TlE5VEdqMzdFTFFCQnRkNWx6VHFIOFZtREVjdkRuY3AzZG9HSWZZMVZZSW45?=
- =?utf-8?B?ZzJ0OUNOYXRQbzExcENWYWkxd2lKNTBDaTQ0bksyNXk2NDRTWWR6Qy91WGNo?=
- =?utf-8?B?S3VqVENxVFJSblZ6YUdPVWJWWXg3dW1hMlc0em9ma0VUdldTVG41aXlCM0g4?=
- =?utf-8?B?eXBINTNWRnp2Sk5YcTAveEpjZnpnNWx4V3lmMjBYczRiR2c1NURVT0JYaXJk?=
- =?utf-8?B?Z0xXOGhKR2wxWXZEV1RGY3NWRzM3TFJ3MHdrR1lxMStNVzg1clpDc2RKcldw?=
- =?utf-8?B?M20zYSsxZmJOMWNpaGpvUVpPTDRWRlJyTWczQm53TFlQVkhYOGdyZThETmhS?=
- =?utf-8?B?Z3Q1RGNkY3JGckp3S3BKOFFBT2F2ZWdSRVFtL2ZLT2ExczZkb0ZKdkJta3JQ?=
- =?utf-8?B?NGJJaWxHaStkTTJhK3Y3WVB3T09CUXFXYm55V3lXeTMxaUJQZVUwaHN3WWVZ?=
- =?utf-8?B?ZkJhd1I0b3ptckhMbU1USHlvdElza2YrNnR2TVZ3TWl2VlRqZmlwNmpVdHhL?=
- =?utf-8?B?U0pZRXd1RStyVHJBUFYwSUVqR0hld3BjbmVQWkRWK01hc1psRi9Ybm52NU5H?=
- =?utf-8?B?MTFVcG4rRm40S2diZmRsOG0xd2FYbWlwc1Rib2EyUEY4aUxXWUJZeGxjQzdq?=
- =?utf-8?B?Zlp2ZEdZVjFPdG4waEZKWnNLaVc3UzY1bXZNRDdpcXBFSVI4MVhxaU1FZU5v?=
- =?utf-8?B?L3Irc1V2SlZuTXFmRWcxUHlDcndxTmt2L2Z2UklDeEVISmpRSGJkQitoaHNq?=
- =?utf-8?B?eTRLS2hEcExkUW9mMDBGUi9adkpwRHIybXdXa3JaRkxWN0FuaTVsc2Z3a1M2?=
- =?utf-8?B?R1E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <63A95A8AEAE5DD4B974C250E49F34A76@jpnprd01.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S229792AbjA0G4A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 01:56:00 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A51E718B;
+        Thu, 26 Jan 2023 22:55:58 -0800 (PST)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30R6pu80019129;
+        Fri, 27 Jan 2023 06:55:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=HGwzQi8eBbFgB7XgKrIxnk5MJfxXDdJjWi+i8hCwJS4=;
+ b=TtIRBsmLph0bkbnDDaXOUZTVI4huQN50oB4uyyCVoaAtrw+2IejvXZAuzPjKgIdcoAax
+ nvTfvG2ogIRoqbO5O33jEZ9ekweqECq6GYQz9+xv012kztoHQiBF/WQesRq7v3Igu6pO
+ bZtjhADPx/ietH76c6Qj0nCVcglrjU+sJ7HyVBtxuvGqYn+vHemqSyoxeGh6mOGoNM4q
+ Jmcc46ekI2tT3iklfNMtqtuJ7mZpOF57pt2tDt6NXNpiUu2sP1ms3WP+jY3nJLjxNMyf
+ fn7MVnBuvyeXdlxI6GbGmLn05SfjpDwga8yOsw7zwyJ6Prr6kHxOQNUWYNMJIs87MZ6I 2g== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nb5ynbuqa-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 27 Jan 2023 06:55:45 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30R6tihC018284
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 27 Jan 2023 06:55:44 GMT
+Received: from [10.216.47.84] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 26 Jan
+ 2023 22:55:42 -0800
+Message-ID: <3d99cf40-b5e2-21da-cc37-cd2e17ce10ad@quicinc.com>
+Date:   Fri, 27 Jan 2023 12:25:32 +0530
 MIME-Version: 1.0
-X-OriginatorOrg: nec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB8591.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d84f687-8abf-4035-4caf-08db0031eeb7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jan 2023 06:44:26.1288
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: e67df547-9d0d-4f4d-9161-51c6ed1f7d11
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6srOL3J9hQQztPLsi9CR41S6MdKq/bjHqvVHF8YxrbyH5Th0oXDNoxTIyjWSa3ZUoB0ueFk2NRxVKhA7XYpR2g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5754
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH 02/35] Documentation: arm: correct spelling
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Russell King <linux@armlinux.org.uk>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+References: <20230127064005.1558-1-rdunlap@infradead.org>
+ <20230127064005.1558-2-rdunlap@infradead.org>
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <20230127064005.1558-2-rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: fUz_eJxNtqxoY0BFYwge7aDbau9S8lhX
+X-Proofpoint-GUID: fUz_eJxNtqxoY0BFYwge7aDbau9S8lhX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-27_02,2023-01-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=890 phishscore=0
+ malwarescore=0 impostorscore=0 spamscore=0 clxscore=1011 mlxscore=0
+ adultscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301270065
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gVGh1LCBKYW4gMjYsIDIwMjMgYXQgMTA6Mzk6NDhQTSAtMDgwMCwgUmFuZHkgRHVubGFwIHdy
-b3RlOg0KPiBDb3JyZWN0IHNwZWxsaW5nIHByb2JsZW1zIGZvciBEb2N1bWVudGF0aW9uL21tLyBh
-cyByZXBvcnRlZA0KPiBieSBjb2Rlc3BlbGwuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBSYW5keSBE
-dW5sYXAgPHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4NCj4gQ2M6IErDqXLDtG1lIEdsaXNzZSA8amds
-aXNzZUByZWRoYXQuY29tPg0KPiBDYzogTmFveWEgSG9yaWd1Y2hpIDxuYW95YS5ob3JpZ3VjaGlA
-bmVjLmNvbT4NCj4gQ2M6IE1pYW9oZSBMaW4gPGxpbm1pYW9oZUBodWF3ZWkuY29tPg0KPiBDYzog
-bGludXgtbW1Aa3ZhY2sub3JnDQo+IENjOiBKb25hdGhhbiBDb3JiZXQgPGNvcmJldEBsd24ubmV0
-Pg0KPiBDYzogbGludXgtZG9jQHZnZXIua2VybmVsLm9yZw0KDQpMb29rcyBnb29kIHRvIG1lLCB0
-aGFuayB5b3UuDQoNClJldmlld2VkLWJ5OiBOYW95YSBIb3JpZ3VjaGkgPG5hb3lhLmhvcmlndWNo
-aUBuZWMuY29tPg==
+Hi,
+
+Thanks for the patch.
+
+On 1/27/2023 12:09 PM, Randy Dunlap wrote:
+> Correct spelling problems for Documentation/arm/ as reported
+> by codespell.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>   Documentation/arm/arm.rst                           |    2 +-
+>   Documentation/arm/ixp4xx.rst                        |    4 ++--
+>   Documentation/arm/keystone/knav-qmss.rst            |    2 +-
+>   Documentation/arm/stm32/stm32-dma-mdma-chaining.rst |    6 +++---
+>   Documentation/arm/sunxi/clocks.rst                  |    2 +-
+>   Documentation/arm/swp_emulation.rst                 |    2 +-
+>   Documentation/arm/tcm.rst                           |    2 +-
+>   Documentation/arm/vlocks.rst                        |    2 +-
+>   8 files changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff -- a/Documentation/arm/ixp4xx.rst b/Documentation/arm/ixp4xx.rst
+> --- a/Documentation/arm/ixp4xx.rst
+> +++ b/Documentation/arm/ixp4xx.rst
+> @@ -78,9 +78,9 @@ IXP4xx provides two methods of accessing
+>   1) A direct mapped window from 0x48000000 to 0x4bffffff (64MB).
+>      To access PCI via this space, we simply ioremap() the BAR
+>      into the kernel and we can use the standard read[bwl]/write[bwl]
+> -   macros. This is the preffered method due to speed but it
+> +   macros. This is the preferred method due to speed but it
+>      limits the system to just 64MB of PCI memory. This can be
+> -   problamatic if using video cards and other memory-heavy devices.
+> +   problematic if using video cards and other memory-heavy devices.
+>   
+>   2) If > 64MB of memory space is required, the IXP4xx can be
+>      configured to use indirect registers to access PCI This allows
+> diff -- a/Documentation/arm/swp_emulation.rst b/Documentation/arm/swp_emulation.rst
+> --- a/Documentation/arm/swp_emulation.rst
+> +++ b/Documentation/arm/swp_emulation.rst
+> @@ -1,7 +1,7 @@
+>   Software emulation of deprecated SWP instruction (CONFIG_SWP_EMULATE)
+>   ---------------------------------------------------------------------
+>   
+> -ARMv6 architecture deprecates use of the SWP/SWPB instructions, and recommeds
+> +ARMv6 architecture deprecates use of the SWP/SWPB instructions, and recommends
+>   moving to the load-locked/store-conditional instructions LDREX and STREX.
+>   
+>   ARMv7 multiprocessing extensions introduce the ability to disable these
+> diff -- a/Documentation/arm/tcm.rst b/Documentation/arm/tcm.rst
+> --- a/Documentation/arm/tcm.rst
+> +++ b/Documentation/arm/tcm.rst
+> @@ -71,7 +71,7 @@ in <asm/tcm.h>. Using this interface it
+>   
+>   - Have the remaining TCM RAM added to a special
+>     allocation pool with gen_pool_create() and gen_pool_add()
+> -  and provice tcm_alloc() and tcm_free() for this
+> +  and provide tcm_alloc() and tcm_free() for this
+>     memory. Such a heap is great for things like saving
+>     device state when shutting off device power domains.
+>   
+> diff -- a/Documentation/arm/stm32/stm32-dma-mdma-chaining.rst b/Documentation/arm/stm32/stm32-dma-mdma-chaining.rst
+> --- a/Documentation/arm/stm32/stm32-dma-mdma-chaining.rst
+> +++ b/Documentation/arm/stm32/stm32-dma-mdma-chaining.rst
+> @@ -359,7 +359,7 @@ Driver updates for STM32 DMA-MDMA chaini
+>       descriptor you want a callback to be called at the end of the transfer
+>       (dmaengine_prep_slave_sg()) or the period (dmaengine_prep_dma_cyclic()).
+>       Depending on the direction, set the callback on the descriptor that finishes
+> -    the overal transfer:
+> +    the overall transfer:
+>   
+>       * DMA_DEV_TO_MEM: set the callback on the "MDMA" descriptor
+>       * DMA_MEM_TO_DEV: set the callback on the "DMA" descriptor
+> @@ -371,7 +371,7 @@ Driver updates for STM32 DMA-MDMA chaini
+>     As STM32 MDMA channel transfer is triggered by STM32 DMA, you must issue
+>     STM32 MDMA channel before STM32 DMA channel.
+>   
+> -  If any, your callback will be called to warn you about the end of the overal
+> +  If any, your callback will be called to warn you about the end of the overall
+>     transfer or the period completion.
+>   
+>     Don't forget to terminate both channels. STM32 DMA channel is configured in
+> @@ -412,4 +412,4 @@ Resources
+>   
+>   :Authors:
+>   
+> -- Amelie Delaunay <amelie.delaunay@foss.st.com>
+> \ No newline at end of file
+> +- Amelie Delaunay <amelie.delaunay@foss.st.com>
+> diff -- a/Documentation/arm/arm.rst b/Documentation/arm/arm.rst
+> --- a/Documentation/arm/arm.rst
+> +++ b/Documentation/arm/arm.rst
+> @@ -141,7 +141,7 @@ ST506 hard drives
+>     `*configure` harddrive set to 2). I've got an internal 20MB and a great
+>     big external 5.25" FH 64MB drive (who could ever want more :-) ).
+>   
+> -  I've just got 240K/s off it (a dd with bs=128k); thats about half of what
+> +  I've just got 240K/s off it (a dd with bs=128k); that's about half of what
+>     RiscOS gets; but it's a heck of a lot better than the 50K/s I was getting
+>     last week :-)
+>   
+> diff -- a/Documentation/arm/keystone/knav-qmss.rst b/Documentation/arm/keystone/knav-qmss.rst
+> --- a/Documentation/arm/keystone/knav-qmss.rst
+> +++ b/Documentation/arm/keystone/knav-qmss.rst
+> @@ -39,7 +39,7 @@ CPPI/QMSS Low Level Driver document (doc
+>   
+>   	git://git.ti.com/keystone-rtos/qmss-lld.git
+>   
+> -k2_qmss_pdsp_acc48_k2_le_1_0_0_9.bin firmware supports upto 48 accumulator
+> +k2_qmss_pdsp_acc48_k2_le_1_0_0_9.bin firmware supports up to 48 accumulator
+>   channels. This firmware is available under ti-keystone folder of
+>   firmware.git at
+>   
+> diff -- a/Documentation/arm/sunxi/clocks.rst b/Documentation/arm/sunxi/clocks.rst
+> --- a/Documentation/arm/sunxi/clocks.rst
+> +++ b/Documentation/arm/sunxi/clocks.rst
+> @@ -5,7 +5,7 @@ Frequently asked questions about the sun
+>   This document contains useful bits of information that people tend to ask
+>   about the sunxi clock system, as well as accompanying ASCII art when adequate.
+>   
+> -Q: Why is the main 24MHz oscillator gatable? Wouldn't that break the
+> +Q: Why is the main 24MHz oscillator gateable? Wouldn't that break the
+>      system?
+>   
+>   A: The 24MHz oscillator allows gating to save power. Indeed, if gated
+> diff -- a/Documentation/arm/vlocks.rst b/Documentation/arm/vlocks.rst
+> --- a/Documentation/arm/vlocks.rst
+> +++ b/Documentation/arm/vlocks.rst
+> @@ -155,7 +155,7 @@ the basic algorithm:
+>      optimisation.
+>   
+>      If there are too many CPUs to read the currently_voting array in
+> -   one transaction then multiple transations are still required.  The
+> +   one transaction then multiple transactions are still required.  The
+>      implementation uses a simple loop of word-sized loads for this
+>      case.  The number of transactions is still fewer than would be
+>      required if bytes were loaded individually.
+> 
+
+Reviewed-by: Mukesh Ojha <quic_mojha@quicinc.com>
+
+-Mukesh
+
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
