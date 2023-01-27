@@ -2,103 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29629C38142
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 23:49:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C9E4C54EAA
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 23:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229737AbjA0XtT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 18:49:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45456 "EHLO
+        id S230414AbjA0XxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 18:53:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbjA0XtS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 18:49:18 -0500
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9858784FA2
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 15:49:17 -0800 (PST)
-Received: by mail-il1-x136.google.com with SMTP id g16so2978203ilr.1
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 15:49:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U82QSz4+U84WxJAv5AOeZHi+Nv+t9W488aQxHAi4MfI=;
-        b=GYJAPsuouZscCL5o7baIs2C1YXAC6QFhQiV+KUv1CbaLFmdzMODgqqMSpqfFXhHiCz
-         l5P0bPCwfgnW2pCqS5Jyd+mu690xZz6W3SbmGWgW0p+zKhh1gAxmJeLZreiIEScAaIlh
-         Qothlg1jXn8jZYGmRaYeUHG8zp4zkwp9iyT4Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U82QSz4+U84WxJAv5AOeZHi+Nv+t9W488aQxHAi4MfI=;
-        b=npy9lv4mmQ6lPZy/PKdAyJfYGh0S1zEi3NDzkxcCbXQvmHPZ4B6jrL10L7c8UxKSG0
-         echfsKYzZGg3RacFYm+aUu0kR5uK1UhFMspuA4COotLI7l5sr1+ObXxwAUOJtV5HWSP0
-         BySn54LeyscbI26hFWnw5aLbb5yUXaXgV0/q8vP9nlLFwf5hsFQWEvo/dUMJqyS0xeeX
-         H3VFT+9E2afj2Dg9jrdvSXRb72CwTqECAksvqahwWcn2YTMaK9VyDWLlc/wB41gn5Ijw
-         V5kjcHlP2rhxI31cEzbjj8UI/APLQ3hryBfMCvcnX+wSZe2bTg/deoV557X0EAPJlnWx
-         Hz9g==
-X-Gm-Message-State: AO0yUKWFbQLGBAARPsWsoFpKo6lKvdj3ctwqB4LbjserEXYqiGjQm7I2
-        IoT436+t9gOvNkirFwQxvGiq9w==
-X-Google-Smtp-Source: AK7set/5rL1ZWD/4GChUwZWhgeB7xoK8dGE9qFyGcrngeVcRaArqc/3GCftQ0aify7WUd+ie+onZMQ==
-X-Received: by 2002:a05:6e02:54c:b0:310:57cd:2728 with SMTP id i12-20020a056e02054c00b0031057cd2728mr2534240ils.3.1674863356965;
-        Fri, 27 Jan 2023 15:49:16 -0800 (PST)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id t16-20020a92ca90000000b0030f3bdd1f24sm872696ilo.61.2023.01.27.15.49.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jan 2023 15:49:16 -0800 (PST)
-Message-ID: <8d2f86cb-5dd1-4291-cbeb-2c9f72f9ed0b@linuxfoundation.org>
-Date:   Fri, 27 Jan 2023 16:49:15 -0700
+        with ESMTP id S229619AbjA0XxQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 18:53:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B14B884FA3
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 15:52:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674863551;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=BQMEZRsgVM2HSFe9NijBSKPEa568wzbl1o/5iMJMWGk=;
+        b=h0yBBSEIjjGAcgHawIP7zwtvxe8MFc/u6BYvZSCrl0WPyiOsLIu18J4jGZCg3iM7I9GFAS
+        aNvJmQDTIVT8FAhyG8twLQd1/wZOuXs+vas2UbH609nqggBtu4GxBmmt3n5HBweEKnj9EC
+        PfB3Js8HzUSz30KG0qU5lBaiLojDJ/Y=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-516-JnfRbcj7PrW6L-U2dOC3tA-1; Fri, 27 Jan 2023 18:52:28 -0500
+X-MC-Unique: JnfRbcj7PrW6L-U2dOC3tA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4BF8F29AA3B9;
+        Fri, 27 Jan 2023 23:52:27 +0000 (UTC)
+Received: from gshan.redhat.com (vpn2-54-64.bne.redhat.com [10.64.54.64])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id F259240C141B;
+        Fri, 27 Jan 2023 23:52:18 +0000 (UTC)
+From:   Gavin Shan <gshan@redhat.com>
+To:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu
+Cc:     pbonzini@redhat.com, corbet@lwn.net, maz@kernel.org,
+        james.morse@arm.com, suzuki.poulose@arm.com,
+        oliver.upton@linux.dev, yuzenghui@huawei.com,
+        catalin.marinas@arm.com, will@kernel.org, yuzhe@nfschina.com,
+        gshan@redhat.com, seanjc@google.com, isaku.yamahata@intel.com,
+        ricarkol@google.com, eric.auger@redhat.com, renzhengeek@gmail.com,
+        reijiw@google.com, shan.gavin@gmail.com
+Subject: [PATCH v4 0/4] Improve dirty ring warning report
+Date:   Sat, 28 Jan 2023 07:51:46 +0800
+Message-Id: <20230127235150.17025-1-gshan@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] docs: add workload-tracing document to admin-guide
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     sshefali021@gmail.com, kstewart@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20230127165440.19158-1-skhan@linuxfoundation.org>
- <87bkmj99yv.fsf@meer.lwn.net>
- <063c51c3-c276-3b68-f130-db0751b35d42@linuxfoundation.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <063c51c3-c276-3b68-f130-db0751b35d42@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/27/23 12:18, Shuah Khan wrote:
-> On 1/27/23 10:13, Jonathan Corbet wrote:
->> Shuah Khan <skhan@linuxfoundation.org> writes:
->>
->>> Add a new section to the admin-guide with information of interest to
->>> application developers and system integrators doing analysis of the
->>> Linux kernel for safety critical applications.
->>>
->>> This section will contain documents supporting analysis of kernel
->>> interactions with applications, and key kernel subsystems expectations.
->>>
->>> Add a new workload-tracing document to this new section.
->>>
->>> Signed-off-by: Shefali Sharma <sshefali021@gmail.com>
->>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
->>> ---
->>>   Documentation/admin-guide/index.rst           |  11 +
->>>   .../admin-guide/workload-tracing.rst          | 486 ++++++++++++++++++
->>>   2 files changed, 497 insertions(+)
->>>   create mode 100644 Documentation/admin-guide/workload-tracing.rst
->>
->> This seems like generally good stuff, thanks.  I have a few nits...
-> 
-> Thanks for the review.
-> 
+It has been known case where no running VCPU context exists when the
+vgic/its tables are saved. There are other two unknown cases where we
+don't have the running VCPU context: (a) restore VGICv3 LPI pending
+status. (b) restoring VGICv3 pending tables.
 
-Cleaned it up and sent you v2. Odd. checkpatch.pl didn't catch long
-lines in the document. I was so focused on verifying the html doc,
-I totally missed the cut & pasted long lines. Anyway it is all fixed
-now in v2.
+PATCH[1]     includes 'kvm_mmu.h' to 'vgic.h'
+PATCH[2]     adds unified helper vgic_write_guest_lock()
+PATCH[3 - 4] allows no-running-vcpu context for (a) and (b)
 
-thanks,
--- Shuah
+v3: https://lore.kernel.org/kvmarm/20230126235451.469087-1-gshan@redhat.com/T/#t
+v2: https://lore.kernel.org/kvmarm/Y9Lg1ESUVJov0WpH@google.com/T/#t
+v1: https://lore.kernel.org/kvmarm/20230116040405.260935-1-gshan@redhat.com/T/#t
+
+Changelog
+=========
+v4:
+  * s/vgic3/VGICv3                                             (Zenghui)
+  * s/save_tables_in_progress/write_tables_in_progress         (Zenghui)
+v3:
+  * Pick Oliver's r-bs
+  * Include 'kvm_mmu.h' to 'vgic.h'                            (Oliver)
+v2:
+  * Add unified helper vgic_write_guest_lock()                 (Oliver)
+  * Dropped two patches to refactor mark_page_dirty_in_slot()  (Sean)
+
+Gavin Shan (4):
+  KVM: arm64: Include kvm_mmu.h from vgic.h
+  KVM: arm64: Add helper vgic_write_guest_lock()
+  KVM: arm64: Allow no running vcpu on restoring VGICv3 LPI pending
+    status
+  KVM: arm64: Allow no running vcpu on saving VGICv3 pending table
+
+ Documentation/virt/kvm/api.rst        | 10 +++++++---
+ arch/arm64/kvm/vgic/vgic-debug.c      |  1 -
+ arch/arm64/kvm/vgic/vgic-init.c       |  1 -
+ arch/arm64/kvm/vgic/vgic-its.c        | 14 +++++---------
+ arch/arm64/kvm/vgic/vgic-kvm-device.c |  1 -
+ arch/arm64/kvm/vgic/vgic-mmio-v3.c    |  1 -
+ arch/arm64/kvm/vgic/vgic-v2.c         |  1 -
+ arch/arm64/kvm/vgic/vgic-v3.c         |  5 ++---
+ arch/arm64/kvm/vgic/vgic.h            | 14 ++++++++++++++
+ include/kvm/arm_vgic.h                |  2 +-
+ 10 files changed, 29 insertions(+), 21 deletions(-)
+
+-- 
+2.23.0
 
