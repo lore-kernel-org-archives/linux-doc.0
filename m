@@ -2,123 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C4E1C636CB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7077C6379F
 	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 06:40:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232078AbjA0Gkc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 01:40:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39106 "EHLO
+        id S232090AbjA0Gkd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 01:40:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229759AbjA0GkW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 01:40:22 -0500
+        with ESMTP id S231630AbjA0GkV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 01:40:21 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1EC26BBE8;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A77F6BBDB;
         Thu, 26 Jan 2023 22:40:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=CA1Cigbjbo5d5kU+L4D/OrisiUcoKP764Ad5A2j0x8s=; b=J058ZoDSOmgIy+41JlX8VQ/lVD
-        qfnzQ4K91uwGZWBMc0FOc8u18kq333GsVAotxcqrKJB4CUfERHCn+CjDxDKzpV5ZBCVuVHFc7mrvd
-        +qt06JxB/UpmfisQSGvwPTvtmJFNNCha3KeDgoP2RKtjWE4tk/fBb9ozmZgp5pad9Rax+m4lPk7pe
-        umTKtZ/+rP7KGwrqxtvC3tZddGvL5kBIqglMv0KQmg4mIFTcZUZUZZ5GQpiiEB5egTfEr/XDrMuBc
-        UVwFb8pDfJH3NUQDUCO7dy8fI4yP+NuFtJONImIXeXwkuli7JXFXGeYw/6n6+TcifRssCWT6NC0r+
-        M9arjeOw==;
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Sender:Reply-To:Content-ID:Content-Description;
+        bh=prJFFnuAiUXQdRC1PgWpjhLkRPaYfQrgleVAIYdHgzU=; b=LR5gJJr7AASyucFdQvWC3xWx1J
+        O/N3GP7+uQZIZEWF8hwwipU+dOnZKBecFeNZg9bD3mr9nCFruhm/3lyL70GH43R5St9YN9StzHV6a
+        JadW58JoIdeKsPu26CVL25BtumVGwziapWk/q94C1T5CLOF7dvKBGdRoZYChKLzrcP1SK+/J/c/KE
+        ZvmrgqRB8co5cfcOAtEj/1YqMXbe9PH57hH10IW581RQWoBU+Vme/l8elVn4IoA6r6daDEW3/wUZW
+        msBOKi3ePvBmBUodHzUyyjppQYMN3Xw0E28MjzQPbvow2jlIubI4lqVAo7nJ8R5cdTh0pUBffnmXz
+        bYHuj8aA==;
 Received: from [2601:1c2:d80:3110::9307] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pLIPM-00DM0u-A4; Fri, 27 Jan 2023 06:40:20 +0000
+        id 1pLIPK-00DM0u-Jl; Fri, 27 Jan 2023 06:40:18 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev@lists.ozlabs.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 21/35] Documentation: powerpc: correct spelling
-Date:   Thu, 26 Jan 2023 22:39:52 -0800
-Message-Id: <20230127064005.1558-23-rdunlap@infradead.org>
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 18/35] Documentation: mm: correct spelling
+Date:   Thu, 26 Jan 2023 22:39:48 -0800
+Message-Id: <20230127064005.1558-19-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230127064005.1558-1-rdunlap@infradead.org>
 References: <20230127064005.1558-1-rdunlap@infradead.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/powerpc/ as reported
+Correct spelling problems for Documentation/mm/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: linuxppc-dev@lists.ozlabs.org
+Cc: Jérôme Glisse <jglisse@redhat.com>
+Cc: Naoya Horiguchi <naoya.horiguchi@nec.com>
+Cc: Miaohe Lin <linmiaohe@huawei.com>
+Cc: linux-mm@kvack.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 ---
- Documentation/powerpc/kasan.txt       |    2 +-
- Documentation/powerpc/papr_hcalls.rst |    2 +-
- Documentation/powerpc/qe_firmware.rst |    4 ++--
- Documentation/powerpc/vas-api.rst     |    4 ++--
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ Documentation/mm/hmm.rst      |    4 ++--
+ Documentation/mm/hwpoison.rst |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff -- a/Documentation/powerpc/kasan.txt b/Documentation/powerpc/kasan.txt
---- a/Documentation/powerpc/kasan.txt
-+++ b/Documentation/powerpc/kasan.txt
-@@ -40,7 +40,7 @@ checks can be delayed until after the MM
- instrument any code that runs with translations off after booting. This is the
- current approach.
+diff -- a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
+--- a/Documentation/mm/hmm.rst
++++ b/Documentation/mm/hmm.rst
+@@ -416,10 +416,10 @@ can be used to make a memory range inacc
  
--To avoid this limitiation, the KASAN shadow would have to be placed inside the
-+To avoid this limitation, the KASAN shadow would have to be placed inside the
- linear mapping, using the same high-bits trick we use for the rest of the linear
- mapping. This is tricky:
+ This replaces all mappings for pages in the given range with special swap
+ entries. Any attempt to access the swap entry results in a fault which is
+-resovled by replacing the entry with the original mapping. A driver gets
++resolved by replacing the entry with the original mapping. A driver gets
+ notified that the mapping has been changed by MMU notifiers, after which point
+ it will no longer have exclusive access to the page. Exclusive access is
+-guranteed to last until the driver drops the page lock and page reference, at
++guaranteed to last until the driver drops the page lock and page reference, at
+ which point any CPU faults on the page may proceed as described.
  
-diff -- a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
---- a/Documentation/powerpc/papr_hcalls.rst
-+++ b/Documentation/powerpc/papr_hcalls.rst
-@@ -22,7 +22,7 @@ privileged operations. Currently there a
- On PPC64 arch a guest kernel running on top of a PAPR hypervisor is called
- a *pSeries guest*. A pseries guest runs in a supervisor mode (HV=0) and must
- issue hypercalls to the hypervisor whenever it needs to perform an action
--that is hypervisor priviledged [3]_ or for other services managed by the
-+that is hypervisor privileged [3]_ or for other services managed by the
- hypervisor.
+ Memory cgroup (memcg) and rss accounting
+diff -- a/Documentation/mm/hwpoison.rst b/Documentation/mm/hwpoison.rst
+--- a/Documentation/mm/hwpoison.rst
++++ b/Documentation/mm/hwpoison.rst
+@@ -50,7 +50,7 @@ of applications. KVM support requires a
+ For the KVM use there was need for a new signal type so that
+ KVM can inject the machine check into the guest with the proper
+ address. This in theory allows other applications to handle
+-memory failures too. The expection is that near all applications
++memory failures too. The expectation is that near all applications
+ won't do that, but some very specialized ones might.
  
- Hence a Hypercall (hcall) is essentially a request by the pseries guest
-diff -- a/Documentation/powerpc/qe_firmware.rst b/Documentation/powerpc/qe_firmware.rst
---- a/Documentation/powerpc/qe_firmware.rst
-+++ b/Documentation/powerpc/qe_firmware.rst
-@@ -232,11 +232,11 @@ For example, to match the 8323, revision
- 'extended_modes' is a bitfield that defines special functionality which has an
- impact on the device drivers.  Each bit has its own impact and has special
- instructions for the driver associated with it.  This field is stored in
--the QE library and available to any driver that calles qe_get_firmware_info().
-+the QE library and available to any driver that calls qe_get_firmware_info().
- 
- 'vtraps' is an array of 8 words that contain virtual trap values for each
- virtual traps.  As with 'extended_modes', this field is stored in the QE
--library and available to any driver that calles qe_get_firmware_info().
-+library and available to any driver that calls qe_get_firmware_info().
- 
- 'microcode' (type: struct qe_microcode):
- 	For each RISC processor there is one 'microcode' structure.  The first
-diff -- a/Documentation/powerpc/vas-api.rst b/Documentation/powerpc/vas-api.rst
---- a/Documentation/powerpc/vas-api.rst
-+++ b/Documentation/powerpc/vas-api.rst
-@@ -46,7 +46,7 @@ request queue into the application's vir
- The application can then submit one or more requests to the engine by
- using copy/paste instructions and pasting the CRBs to the virtual address
- (aka paste_address) returned by mmap(). User space can close the
--established connection or send window by closing the file descriptior
-+established connection or send window by closing the file descriptor
- (close(fd)) or upon the process exit.
- 
- Note that applications can send several requests with the same window or
-@@ -240,7 +240,7 @@ issued. This signal returns with the fol
- 	siginfo.si_signo = SIGSEGV;
- 	siginfo.si_errno = EFAULT;
- 	siginfo.si_code = SEGV_MAPERR;
--	siginfo.si_addr = CSB adress;
-+	siginfo.si_addr = CSB address;
- 
- In the case of multi-thread applications, NX send windows can be shared
- across all threads. For example, a child thread can open a send window,
+ Failure recovery modes
