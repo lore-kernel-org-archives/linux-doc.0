@@ -2,62 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03488C54EAA
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 22:34:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFF22C636CB
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 22:54:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbjA0WeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 17:34:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59426 "EHLO
+        id S231938AbjA0WyA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 17:54:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjA0WeX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 17:34:23 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F019668AD7;
-        Fri, 27 Jan 2023 14:34:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=dZ0yoI1EYq5VvW98U5aa31PACmLs8B3+1hTJZcF0jRM=; b=i7weQH0caDwnGvyTl9WiMTLxTe
-        8dcUW9q8dUU29PgVe81Ovd1dIHJ1kb/vy8FCuMlHj0cqW6IUpct+oRHu5McksCmiwTVH/Vj5IsHgn
-        goZZ7CYDcQ8zdNH+wIrlEe43/igko0xm6x4d0yIskCIx8p1C0OKviYJDnKSVyLbKMWNp/3jQFH2xz
-        xUQiUrjW2KKm0B/L4yId9myJiE2YRTyyyf829OSgsez+QqmG8ubuGJd4Cz1WbmU941qXnaO931FTe
-        SOA4gK5UCpXPekPQdcenMlFsll7/VHIqe33zi6vetMwCZ5A6tW0UrpZq2fFBXGNrxyvlQ1yQQtfic
-        D0QK7L4A==;
-Received: from [2601:1c2:d00:6a60::9526]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pLXIW-00GihT-Ou; Fri, 27 Jan 2023 22:34:16 +0000
-Message-ID: <ce18988a-775d-cb74-0ee3-acc24ee45c70@infradead.org>
-Date:   Fri, 27 Jan 2023 14:34:15 -0800
+        with ESMTP id S231929AbjA0Wx5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 17:53:57 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06A71448F;
+        Fri, 27 Jan 2023 14:53:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674860027; x=1706396027;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=k0FW4EkggWQRCfPtZeaDhmMpy1hVsTfGGXcTPn3H24A=;
+  b=HK7LdYqp860nFikrxJJbTA/PmbgW8uOK+ZrV6K5dUe1tDeD9eiDlqFSC
+   JFeJwcq2KvG/Ddp6xM2eNdogM/v+HA7ysBsC2MXZpZbmWTwzhX90d5diJ
+   8cwvUTZGxV3i2F+HWHJ0W0PGT9kYx/KHLBgpdfThQwxZEDnpKVvkJPO90
+   +BZhheZSb+AW84Wsb1DwpfvasHNkjmUgOGu7Rw5ube1jqBmwfN97Qds/z
+   t/9w1mmczb9lSA8DWUdhEHd1w8upMjkf5kp6MIbzQb+yD8du7MhVQqnOC
+   xBWDQJxw+/CG8D+ChHPL8Qm9IqH9j53AQiqBx80Us1yXTiIOsFjg7ONke
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="327229824"
+X-IronPort-AV: E=Sophos;i="5.97,252,1669104000"; 
+   d="scan'208";a="327229824"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 14:53:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="805976405"
+X-IronPort-AV: E=Sophos;i="5.97,252,1669104000"; 
+   d="scan'208";a="805976405"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by fmsmga001.fm.intel.com with ESMTP; 27 Jan 2023 14:53:37 -0800
+From:   Tony Nguyen <anthony.l.nguyen@intel.com>
+To:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com
+Cc:     Michal Wilczynski <michal.wilczynski@intel.com>,
+        netdev@vger.kernel.org, anthony.l.nguyen@intel.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>
+Subject: [PATCH net v4 2/2] ice: Fix broken link in ice NAPI doc
+Date:   Fri, 27 Jan 2023 14:53:33 -0800
+Message-Id: <20230127225333.1534783-3-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230127225333.1534783-1-anthony.l.nguyen@intel.com>
+References: <20230127225333.1534783-1-anthony.l.nguyen@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 11/35] Documentation: i2c: correct spelling
-To:     Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <20230127064005.1558-1-rdunlap@infradead.org>
- <20230127064005.1558-12-rdunlap@infradead.org> <Y9N55pFZc6TRD9S2@shikoro>
-Content-Language: en-US
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <Y9N55pFZc6TRD9S2@shikoro>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Michal Wilczynski <michal.wilczynski@intel.com>
 
+Current link for NAPI documentation in ice driver doesn't work - it
+returns 404. Update the link to the working one.
 
-On 1/26/23 23:14, Wolfram Sang wrote:
-> 
->> -  client->irq assigned to a Host Notify IRQ if noone else specified an other.
->> +  client->irq assigned to a Host Notify IRQ if no one else specified an other.
-> 
-> I am not a native speaker, but shouldn't the last word be "another"?
-> 
+Signed-off-by: Michal Wilczynski <michal.wilczynski@intel.com>
+Acked-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
+Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
+---
+ Documentation/networking/device_drivers/ethernet/intel/ice.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, I'll correct that. Thanks.
-
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+index dc2e60ced927..b481b81f3be5 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+@@ -819,7 +819,7 @@ NAPI
+ ----
+ This driver supports NAPI (Rx polling mode).
+ For more information on NAPI, see
+-https://www.linuxfoundation.org/collaborate/workgroups/networking/napi
++https://wiki.linuxfoundation.org/networking/napi
+ 
+ 
+ MACVLAN
 -- 
-~Randy
+2.38.1
+
