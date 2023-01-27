@@ -2,123 +2,318 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6758C05027
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 00:03:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC847C05027
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Jan 2023 00:24:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbjA0ADv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Jan 2023 19:03:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40456 "EHLO
+        id S229500AbjA0AYc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Jan 2023 19:24:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbjA0ADu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 19:03:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC3992A9B7
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jan 2023 16:03:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674777787;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MhI12ICe242ci+pWMRLlhSgKz/EtJeRMJyar7EF8onw=;
-        b=deLkXVmwLTh56UwPVnCUkjY3FwYCOFiQQDFU/wuHJtjNxXHCQpcrIPC0VJiHxrR68e7Tmh
-        r1MZ2uwdZwPk+3YAen5QY30Ip9maDjFhIqb0dmIJ/IYugam/V0T2XR/796n8XcimZsIzRT
-        d1Igc8oigCtqnP/DUv8fWks05y1sI80=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-153-bRSEd4VSPWK3FSgK10-1kg-1; Thu, 26 Jan 2023 19:03:03 -0500
-X-MC-Unique: bRSEd4VSPWK3FSgK10-1kg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF4743810B26;
-        Fri, 27 Jan 2023 00:03:02 +0000 (UTC)
-Received: from [10.64.54.98] (vpn2-54-98.bne.redhat.com [10.64.54.98])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C654492B02;
-        Fri, 27 Jan 2023 00:02:55 +0000 (UTC)
-Reply-To: Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v2 1/3] KVM: arm64: Add helper vgic_write_guest_lock()
-To:     Oliver Upton <oliver.upton@linux.dev>
-Cc:     kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
-        maz@kernel.org, will@kernel.org, ricarkol@google.com,
-        eric.auger@redhat.com, yuzhe@nfschina.com, renzhengeek@gmail.com,
-        reijiw@google.com, ardb@kernel.org, Julia.Lawall@inria.fr,
-        yuzenghui@huawei.com, seanjc@google.com, shan.gavin@gmail.com
-References: <20230119234405.349644-1-gshan@redhat.com>
- <20230119234405.349644-2-gshan@redhat.com> <Y9LgplvWZtdjXCEE@google.com>
-From:   Gavin Shan <gshan@redhat.com>
-Message-ID: <847162da-f3fd-9bcd-f784-e1b152ad6336@redhat.com>
-Date:   Fri, 27 Jan 2023 11:02:53 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+        with ESMTP id S229498AbjA0AYb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Jan 2023 19:24:31 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1841A4239;
+        Thu, 26 Jan 2023 16:24:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674779069; x=1706315069;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=3zvtwYkF4x7JR7GfQTB42xEiRF1GORKuIqha6xtK7kI=;
+  b=F64kj5XHu24bpT7+cb5LaYVLvJ/WG8qlp3vSkC0Ih9+QOsMDBonPDOYS
+   wCYtji87CjOnMF6qnWz4f11pWnFXF4gX0d5DKCsDnCjWLMNBhmSMmFUY8
+   E+aUx/E+kfosV+fTI+3MrxWso1RiY4At9ZEVqg0+R+AmliOi7zaplvHGp
+   aCtYErD7PA7RCGMYbkCjMJPBpONIMePZKRaY9FQHwEL0iGvRoHXXmtnZu
+   PfjPZ4AyB4r6Kuijnux2HUMlg6J+M0mz0/QVjwkAFRc56Q0BQrKf4zxJf
+   oUE0k/B/QBlKx8KTNxSint/etyVSaCJ+Ww7blEEmpLdLcnpEV/O6Ll9yT
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="327014020"
+X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; 
+   d="scan'208";a="327014020"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 16:24:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="836946653"
+X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; 
+   d="scan'208";a="836946653"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orsmga005.jf.intel.com with ESMTP; 26 Jan 2023 16:24:28 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 26 Jan 2023 16:24:27 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Thu, 26 Jan 2023 16:24:27 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.173)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Thu, 26 Jan 2023 16:24:28 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KAjAswiuoMZJ3wEB5ZeaiTPa0/W6WtZXZspyjZNuV79pekIcF2UKgjIGltp9mH9uLmBdAqLlWRDUplhqB4oX8fkJvMM04yK5ampyxy/bpLl06f0aOh/FxxXC22MRLjfPqkehrKL13JlGI9VfIvFyn2hnp5RGuuoRepQyO2Hcj0z0IqbpHmhc2zHLB/7CWPd2XYhzoi9vXCszKqmEFZQNgOs/6pzrr9VfFrOkckwQshR3YSCO5L3PoRdywHXgv3LJKuamvQMMKO8ivFTdAooSfoM0ChG3jRnlAEmokUHlYVEjxLkkfN+HFMCYR7F0UvM695ne3qVYDIPcA+sK26AkqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PteN60NkqZbaSuuc3uIbPxASLYzRmaC00Avw5HErIPE=;
+ b=hCMfcDd7Vnsu/+6wZviQUc55n+QkEK0AJUMSsWv6X5pxm7hKYy/T0Y69D4QeZpCw3mswxCp72WHKAj3aQsmzbD9kCSw9InFvs3NV21EwkT2Nz9AhDA+fvLDjBQlXhRKNkwPN7FZV4gOJ2comyKxP69OYEAaTcuKzndg4D0kPpo+guyOVt+CMt4NT0YFSY9sfaJgGekwPv2goSglOiebJ7/xS+uC1PXPy8xOfKopSnuecTJ+x6czlnYajz9hrfPj4leB2+Anesnn+ve2wLnon2Rl0cLV6rCMET2WvdIbCOd7mGOP8mSCRDnWSi2bmYjDOi1OlY7mlBY1C6uGwCi1+BQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by MW4PR11MB8268.namprd11.prod.outlook.com (2603:10b6:303:1ef::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22; Fri, 27 Jan
+ 2023 00:24:26 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::2ceb:afd:8ee7:4cc]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::2ceb:afd:8ee7:4cc%6]) with mapi id 15.20.6002.033; Fri, 27 Jan 2023
+ 00:24:26 +0000
+Date:   Fri, 27 Jan 2023 00:24:07 +0000
+From:   Matthew Brost <matthew.brost@intel.com>
+To:     Danilo Krummrich <dakr@redhat.com>
+CC:     <daniel@ffwll.ch>, <airlied@redhat.com>,
+        <christian.koenig@amd.com>, <bskeggs@redhat.com>,
+        <jason@jlekstrand.net>, <tzimmermann@suse.de>,
+        <mripard@kernel.org>, <corbet@lwn.net>,
+        <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH drm-next 03/14] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <Y9MZp2Uu2xwVBO2d@DUT025-TGLU.fm.intel.com>
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <20230118061256.2689-4-dakr@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230118061256.2689-4-dakr@redhat.com>
+X-ClientProxiedBy: BY3PR03CA0002.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::7) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-In-Reply-To: <Y9LgplvWZtdjXCEE@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MW4PR11MB8268:EE_
+X-MS-Office365-Filtering-Correlation-Id: e50b4d91-34d2-486b-17ff-08dafffcd8bd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bGiuipUQNQ86KXDn7aJtr2eFkHFQpjUkkDkM7rYHP0qKcNOlYm4e7OUBzfNODGfU4h4gsrWf8Rw0cyVELQ6hCUePh416C++pbQf4pRRZtOZZ6XtYtgIMUFOJI6zhxxc9UITfZ3DUTsM7Cd51oCLMpy6RkUUb3kgdFPBGzCy20u/Kg+bVL96L5l6n8CdODfW6pqW4N82tX8uZ6UjX9D8NiLOKbyB5YANUOG71M7Ix7pRUxh3g5JNl7nj9ox/seCnA8l8ZPVJw/wXS9jN571b2bcS+n269olun4fSo9bHhz1K7fUodArUDYx2wAJ950/JADlYuGLsuvH1MYXq0mNDbbpP20IoQkJIqDV2nM37cfunpxPfMhvA9IDr+BvDESr0kGR3C5tbkc0QrEwEj8Ikf8EjFdzqK1JrwbRC3r6uIkdHk0euqTlCjMKFPw6noUoRbTn+JJZU/qIG5Y05ucH98ACxiEiJhv0cpf8dDExFppf6m2kkxonpjhN858gjI+ZHON3SBQSbjga+frLDK5z91dax85GDiVoBkDhAD87ySS1EkTSj4raVf3+evl2dOVNape2x4ET52lx90I8ia5fAbvYkbXwz8cQt3xhrUAXoDjzRNBYzYG7Fhg7lKW5cDiZgcdgevX8LXr1mAoNyQ/8VFHg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(366004)(396003)(346002)(376002)(136003)(451199018)(6512007)(26005)(186003)(83380400001)(38100700002)(82960400001)(66946007)(66476007)(66556008)(86362001)(4326008)(316002)(6916009)(6666004)(8676002)(44832011)(41300700001)(7416002)(8936002)(5660300002)(2906002)(478600001)(6486002)(6506007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?E11jKHbZFSqLEuYSu7einEMcE5dZarm4mWv6eC2IksHXB0C1rMeJcH4EVgv2?=
+ =?us-ascii?Q?2wZiRxGBAJwrN/jjJ+NrRdGr/qMrLHMRl76+RyU2mWatwtWD2R4OFuOhXc2b?=
+ =?us-ascii?Q?I9cUkk2SgounC95oHt27bf0XOYGL48Oa7HkFFU85hBfdbE02anlmLuxU9oYP?=
+ =?us-ascii?Q?UZS3I/q1hC2TVODZWVDKZ8C95w4wTn9YHUmtCrRg/lQxCT390mQoQdSbf/sf?=
+ =?us-ascii?Q?d2+UQUu9kJ3LOUV0VfPND/GdQv6eBbcEiaaWj5Rsk/+YslHyekFx0fhXjpX3?=
+ =?us-ascii?Q?SEbajXZ5FWFcPDnEABpwnQPkY8pLCIfW1gjHSaENxqd6JLFOtCmF5fVIQKbq?=
+ =?us-ascii?Q?iu3b3nbt4QybD/6L7oPFYyfUoududndQyhLW0As4cKSd7B4aLiJACv9hy55y?=
+ =?us-ascii?Q?b78DouA4M/1p7tmAPdW6gzBaR+qR4+JyzkHIJmY9IlfyJ7BhVu7BTFRIAFAh?=
+ =?us-ascii?Q?TpXI4YOnclLlqTEDS1aTW9v6gO5zwlSdpF2p5j1/EjBLM9dUz3MTmbwSJnz9?=
+ =?us-ascii?Q?A2zNqBfJZalrNU7ZLqHAy7DDXoPU9bjTZMPDvybs2BeSnHNYunK3bfXbhuIu?=
+ =?us-ascii?Q?5w25+jDBFqL0QVHTaiJZiTnw89TG4ujnnNWEcY8nTETahxq1cT2uOwwno99z?=
+ =?us-ascii?Q?xpPMyog6hXcWHiHTGMxB8OARPCoQQmcqja7LmXxGS/Nk7Htx6UAVo5N1LEgM?=
+ =?us-ascii?Q?DU3QRMQ6+LcSQg2XfQf+CumhU/4DtRXdWsSaMnA3Ll4Kig3nmF6cGzaVcPIw?=
+ =?us-ascii?Q?W8F6nTE6PvTXchziDQo6pyfw+y0oSXMBM3Y2p+FQaP+05lI+vMfImKeR6VNb?=
+ =?us-ascii?Q?3qQV3CG06iuhc3EXfKBw8ebiBSFxSaCFC/FmJxeIRvWYvcrlmdca/rzwkOzu?=
+ =?us-ascii?Q?0Y+9oti5zI6b1jc7xHM72D6le3bz2t+Ntdc6jFNoOnqCZVL7GRGEXQU5EYLW?=
+ =?us-ascii?Q?bp8IabudLK6NrIZROX8o+hvLaUYh7sKSBz91aKR5ktyyBXTgP3fxe7ZV7aye?=
+ =?us-ascii?Q?gfCbw5FrZIO8WXPZTKchQflFrZhTXaBlzGhr0ONQdka9aqS+psqyNXATR+tw?=
+ =?us-ascii?Q?rQPG9MAsE+104zgP3Mo6gjy/dbKZhdL4TG+UUpQDIFsEuzUc0liyvv3WKaRt?=
+ =?us-ascii?Q?j14srGFJ4ha407b4BX+dJg7F7v+YPR2+o8CMZVfOvgDcsMRMoInpgxBtC/Tv?=
+ =?us-ascii?Q?SGMQ1AkkivKRhJBMU4nl7HVjS6MdWYDVm4ayP4wkdsKwmXpRrsakifZFUwcR?=
+ =?us-ascii?Q?2jQ7fqJG36wnB0aww/AeaVRw4MXyVEU8cGEyS1Cx2BeQ3DEdXGcTEuVn7bxm?=
+ =?us-ascii?Q?n17VsS+5281t1Jp4AEOP8CCbbQIwEgN+cKEkEkfBiPgm6xbzZthQRLOEj8rt?=
+ =?us-ascii?Q?oP7ii5MkDEFkQNfUW5L8/DOQhtV09b93XLMq5PI6hILuRrHq6VW9GlRSJCp9?=
+ =?us-ascii?Q?thPXfLxhkUrxnz04H10RTsrDX/wCDnyHfYAsgp3uehG6Ai15K2o0Wr3OaEj+?=
+ =?us-ascii?Q?L/hsJ09tB1pkOfsu08B2VWBqn6706zTsoRGJR+PVEy1oSBjDPkERjNoZhgBy?=
+ =?us-ascii?Q?jNpg4TtJfqOEQYkst8g0AYZIVJSC5AlJjIsSaUpscMI5jx2Rmxfx3Xiu1ulj?=
+ =?us-ascii?Q?Gg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e50b4d91-34d2-486b-17ff-08dafffcd8bd
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2023 00:24:26.1333
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: y8LykEEOevq5DqXOr+UngHl75gvY5DB2a2MJzPvCF+p8rzfp8812zpVxSgwQfAokD7v5r/LqFC6A5KrMkbCyKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB8268
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Oliver,
-
-On 1/27/23 7:20 AM, Oliver Upton wrote:
-> On Fri, Jan 20, 2023 at 07:44:03AM +0800, Gavin Shan wrote:
->> Currently, the unknown no-running-vcpu sites are reported when a
->> dirty page is tracked by mark_page_dirty_in_slot(). Until now, the
->> only known no-running-vcpu site is saving vgic/its tables through
->> KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_SAVE_TABLES} command on KVM device
->> "kvm-arm-vgic-its". Unfortunately, there are more unknown sites to
->> be handled and no-running-vcpu context will be allowed in these
->> sites: (1) KVM_DEV_ARM_{VGIC_GRP_CTRL, ITS_RESTORE_TABLES} command
->> on KVM device "kvm-arm-vgic-its" to restore vgic/its tables. The
->> vgic3 LPI pending status could be restored. (2) Save vgic3 pending
->> table through KVM_DEV_ARM_{VGIC_GRP_CTRL, VGIC_SAVE_PENDING_TABLES}
->> command on KVM device "kvm-arm-vgic-v3".
->>
->> In order to handle those unknown cases, we need a unified helper
->> vgic_write_guest_lock(). struct vgic_dist::save_its_tables_in_progress
->> is also renamed to struct vgic_dist::save_tables_in_progress. Besides,
->> "asm/kvm_mmu.h" needs to be included for "vgic.h" for the definition
->> of kvm_write_guest_lock().
->>
->> No functional change intended.
->>
->> Suggested-by: Oliver Upton <oliver.upton@linux.dev>
->> Signed-off-by: Gavin Shan <gshan@redhat.com>
->> ---
->>   arch/arm64/kvm/vgic-sys-reg-v3.c   |  1 +
->>   arch/arm64/kvm/vgic/vgic-irqfd.c   |  1 +
->>   arch/arm64/kvm/vgic/vgic-its.c     | 13 +++++--------
->>   arch/arm64/kvm/vgic/vgic-mmio-v2.c |  1 +
->>   arch/arm64/kvm/vgic/vgic-mmio.c    |  1 +
->>   arch/arm64/kvm/vgic/vgic-v4.c      |  1 +
->>   arch/arm64/kvm/vgic/vgic.c         |  1 +
->>   arch/arm64/kvm/vgic/vgic.h         | 13 +++++++++++++
->>   include/kvm/arm_vgic.h             |  2 +-
->>   9 files changed, 25 insertions(+), 9 deletions(-)
+On Wed, Jan 18, 2023 at 07:12:45AM +0100, Danilo Krummrich wrote:
+> This adds the infrastructure for a manager implementation to keep track
+> of GPU virtual address (VA) mappings.
 > 
-> You wouldn't have to add the include all around the shop if you instead
-> just stuck it in vgic.h...
+> New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
+> start implementing, allow userspace applications to request multiple and
+> arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
+> intended to serve the following purposes in this context.
 > 
-> Having said that, we really ought to get a fix in for this sooner rather
-> than later. I just hit it myself testing kvmarm/next.
+> 1) Provide a dedicated range allocator to track GPU VA allocations and
+>    mappings, making use of the drm_mm range allocator.
 > 
-> Marc, could you take care of the include fix when applying?
+> 2) Generically connect GPU VA mappings to their backing buffers, in
+>    particular DRM GEM objects.
 > 
+> 3) Provide a common implementation to perform more complex mapping
+>    operations on the GPU VA space. In particular splitting and merging
+>    of GPU VA mappings, e.g. for intersecting mapping requests or partial
+>    unmap requests.
+> 
+> Idea-suggested-by: Dave Airlie <airlied@redhat.com>
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 
-I've posted v3 to have a separate PATCH[1/4] where the header file inclusions
-are handled, to save Marc's valuable time. After 'kvm_mmu.h' is included to
-'vgic.h', the duplicate inclusions of 'kvm_mmu.h' needs to be removed. A separate
-patch would make the follow-up patches clean.
+<snip>
 
-https://lore.kernel.org/kvmarm/20230126235451.469087-1-gshan@redhat.com/T/#t
+> +++ b/drivers/gpu/drm/drm_gpuva_mgr.c
 
-Thanks,
-Gavin
+<snip>
 
+> +struct drm_gpuva *
+> +drm_gpuva_find(struct drm_gpuva_manager *mgr,
+> +	       u64 addr, u64 range)
+> +{
+> +	struct drm_gpuva *va;
+> +
+> +	drm_gpuva_for_each_va_in_range(va, mgr, addr, range) {
+
+Last argument should be: range + addr, right?
+
+> +		if (va->node.start == addr &&
+> +		    va->node.size == range)
+> +			return va;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +EXPORT_SYMBOL(drm_gpuva_find);
+> +
+> +/**
+> + * drm_gpuva_find_prev - find the &drm_gpuva before the given address
+> + * @mgr: the &drm_gpuva_manager to search in
+> + * @start: the given GPU VA's start address
+> + *
+> + * Find the adjacent &drm_gpuva before the GPU VA with given &start address.
+> + *
+> + * Note that if there is any free space between the GPU VA mappings no mapping
+> + * is returned.
+> + *
+> + * Returns: a pointer to the found &drm_gpuva or NULL if none was found
+> + */
+> +struct drm_gpuva *
+> +drm_gpuva_find_prev(struct drm_gpuva_manager *mgr, u64 start)
+> +{
+> +	struct drm_mm_node *node;
+> +
+> +	if (start <= mgr->mm_start ||
+> +	    start > (mgr->mm_start + mgr->mm_range))
+> +		return NULL;
+> +
+> +	node = __drm_mm_interval_first(&mgr->va_mm, start - 1, start);
+> +	if (node == &mgr->va_mm.head_node)
+> +		return NULL;
+> +
+> +	return (struct drm_gpuva *)node;
+> +}
+> +EXPORT_SYMBOL(drm_gpuva_find_prev);
+> +
+> +/**
+> + * drm_gpuva_find_next - find the &drm_gpuva after the given address
+> + * @mgr: the &drm_gpuva_manager to search in
+> + * @end: the given GPU VA's end address
+> + *
+> + * Find the adjacent &drm_gpuva after the GPU VA with given &end address.
+> + *
+> + * Note that if there is any free space between the GPU VA mappings no mapping
+> + * is returned.
+> + *
+> + * Returns: a pointer to the found &drm_gpuva or NULL if none was found
+> + */
+> +struct drm_gpuva *
+> +drm_gpuva_find_next(struct drm_gpuva_manager *mgr, u64 end)
+> +{
+> +	struct drm_mm_node *node;
+> +
+> +	if (end < mgr->mm_start ||
+> +	    end >= (mgr->mm_start + mgr->mm_range))
+> +		return NULL;
+> +
+> +	node = __drm_mm_interval_first(&mgr->va_mm, end, end + 1);
+> +	if (node == &mgr->va_mm.head_node)
+> +		return NULL;
+> +
+> +	return (struct drm_gpuva *)node;
+> +}
+> +EXPORT_SYMBOL(drm_gpuva_find_next);
+> +
+> +/**
+> + * drm_gpuva_region_insert - insert a &drm_gpuva_region
+> + * @mgr: the &drm_gpuva_manager to insert the &drm_gpuva in
+> + * @reg: the &drm_gpuva_region to insert
+> + * @addr: the start address of the GPU VA
+> + * @range: the range of the GPU VA
+> + *
+> + * Insert a &drm_gpuva_region with a given address and range into a
+> + * &drm_gpuva_manager.
+> + *
+> + * Returns: 0 on success, negative error code on failure.
+> + */
+> +int
+> +drm_gpuva_region_insert(struct drm_gpuva_manager *mgr,
+> +			struct drm_gpuva_region *reg,
+> +			u64 addr, u64 range)
+> +{
+> +	int ret;
+> +
+> +	ret = drm_mm_insert_node_in_range(&mgr->region_mm, &reg->node,
+> +					  range, 0,
+> +					  0, addr,
+> +					  addr + range,
+> +					  DRM_MM_INSERT_LOW|
+> +					  DRM_MM_INSERT_ONCE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	reg->mgr = mgr;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_gpuva_region_insert);
+> +
+> +/**
+> + * drm_gpuva_region_destroy - destroy a &drm_gpuva_region
+> + * @mgr: the &drm_gpuva_manager holding the region
+> + * @reg: the &drm_gpuva to destroy
+> + *
+> + * This removes the given &reg from the underlaying range allocator.
+> + */
+> +void
+> +drm_gpuva_region_destroy(struct drm_gpuva_manager *mgr,
+> +			 struct drm_gpuva_region *reg)
+> +{
+> +	struct drm_gpuva *va;
+> +
+> +	drm_gpuva_for_each_va_in_range(va, mgr,
+> +				       reg->node.start,
+> +				       reg->node.size) {
+
+Last argument should be: reg->node.start + reg->node.size, right?
+
+Matt
+
+> +		WARN(1, "GPU VA region must be empty on destroy.\n");
+> +		return;
+> +	}
+> +
+> +	if (&reg->node == &mgr->kernel_alloc_node) {
+> +		WARN(1, "Can't destroy kernel reserved region.\n");
+> +		return;
+> +	}
+> +
+> +	drm_mm_remove_node(&reg->node);
+> +}
+> +EXPORT_SYMBOL(drm_gpuva_region_destroy);
