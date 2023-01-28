@@ -2,99 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E92C38142
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 19:38:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 048EDC38142
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 19:49:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229966AbjA1Tip (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Jan 2023 14:38:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42186 "EHLO
+        id S233622AbjA1Ttz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Jan 2023 14:49:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229850AbjA1Tio (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 14:38:44 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7535C23C70;
-        Sat, 28 Jan 2023 11:38:42 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id mg12so21907283ejc.5;
-        Sat, 28 Jan 2023 11:38:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WyA4c37awf6FUfhGcOco5QeZhWEaTt+jLXuHAzBLLqI=;
-        b=bM+z29DpFQQ4ihX2O9Y0Lqm0kdgUonTGz3jD9ujj1ZvLHhr04tjq4bmd5uA1eFbSN4
-         xFrzAzoZzx3X6HNCOHJg4DoPC7FF3REorfDIVLmg1+db0XZPJm6zwaO0gAMHazWn42M3
-         c0hSUtkTs9Pkq5NktLUHYff7orO/ghSGE178GT62jAquf7rZ5VtHkjpWblyWP4SqMraS
-         ckkOPtDPEmALHlNBN1FfOjSOHGhRi71gaYw3XoQ4VqBUc9bbo+wGdwHqksLPX/mzLAe0
-         cRbqM0paHGEEgEaI3TG4mO/kVaV1rANFKsHYGW+bX4hk1shpOSBpd/jBQZOLlzT1XCJd
-         /JwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WyA4c37awf6FUfhGcOco5QeZhWEaTt+jLXuHAzBLLqI=;
-        b=nFA3TXKT12VJufATUHNdgXnVlO0QZXiM3xxcU17EFKVrEXV3iYWbLyZ3bA0HjYL5z/
-         zDdNuEP0btoRGuaK4/FSjvLBpm//srDHcYmi815EM2ircsi4hJNopgilm61qjW0gEXFG
-         gU9e6tsI+jz8qq/zhGzaAl1LQ4lh+6PTHEECWfZRmJ/yYKej+ysAZar7uGbxv/w4yncR
-         RcHsEM0XfDaqbe3c+JRbDQlEWbNq0C97zVJK7L0mMDNmRxwdg/DsvoBeNfTlyLGrERoR
-         DjlAtN6sY9e9OkHzPNtyo8Kxyhh90E6H/jnKsy82T4+CBJN8u0Xw3u0yz3qBGZ2grgdq
-         pwrg==
-X-Gm-Message-State: AFqh2koL4bxpV5EMU8QRsEWQ56C/nT9r7ihlMLAJ2l0xtqyj7YNRgWGK
-        koYXdKyF9es23L0IhguDe0/HLOF29UIq/XyFEjE=
-X-Google-Smtp-Source: AMrXdXsYLotcrhMN0rZxq9THR4dxNGnQoJZwpVUcMUxlIBXqMhcP9wXoZWTOEhCdjKrUBWT3zv6eIQ2RdFpqT8aRmAE=
-X-Received: by 2002:a17:906:3b4a:b0:86d:30f9:2e3d with SMTP id
- h10-20020a1709063b4a00b0086d30f92e3dmr6002375ejf.299.1674934720953; Sat, 28
- Jan 2023 11:38:40 -0800 (PST)
+        with ESMTP id S229966AbjA1Tty (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 14:49:54 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9339320D03;
+        Sat, 28 Jan 2023 11:49:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674935393; x=1706471393;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ks8NPG/0wNzB8QAK/WMNQrtn0BmzV/O50xmmaQ8aYiE=;
+  b=oJj3J4GEEjlLkHQpDq/SRuSeGUMOGl0aQjLVfrnWOD7P0d9iEV51km0n
+   PkCGGPtm5uWwZeEUqyYwdHcz889u+eQVsopmlmVSmh8trHj9oXQl/mxRB
+   ShLw1pwIJu3kXgTzd1vMo36Pxdlfx4rzVXEYC40o8V8aMPcdGPcRTBHHt
+   acAf5f5UlVXTZMwrlj94cseypJGa83BKY4iNEdHFeAogLP9TqJV5LZQpA
+   TYKpX6Em9ksHoYVXcK28ehZlUnA/B/rVTOQGgrikwYpTubVahOl88ZcPN
+   dySD2HybNgujxxM6Pj1+Dlsc+HrJyQdXAm1oO+vD7NdyZn4Pt6Zkhu3EW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="413548360"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
+   d="scan'208";a="413548360"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 11:49:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="732231775"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
+   d="scan'208";a="732231775"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 28 Jan 2023 11:49:50 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pLrCv-000135-17;
+        Sat, 28 Jan 2023 19:49:49 +0000
+Date:   Sun, 29 Jan 2023 03:49:18 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+        oleg@redhat.com, avagin@gmail.com, peterz@infradead.org,
+        luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
+        corbet@lwn.net, shuah@kernel.org,
+        Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore
+ support for SUD
+Message-ID: <202301290302.CSHz4zLe-lkp@intel.com>
+References: <20230126190645.18341-2-gregory.price@memverge.com>
 MIME-Version: 1.0
-References: <20230127064005.1558-1-rdunlap@infradead.org> <20230127064005.1558-5-rdunlap@infradead.org>
-In-Reply-To: <20230127064005.1558-5-rdunlap@infradead.org>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Sat, 28 Jan 2023 11:38:29 -0800
-Message-ID: <CAADnVQK58PHXuVOXgu1r306RZKRvEGgQwm3cLW0ak4fFNB4W5w@mail.gmail.com>
-Subject: Re: [PATCH 04/35] Documentation: bpf: correct spelling
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        bpf <bpf@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230126190645.18341-2-gregory.price@memverge.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 10:40 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Correct spelling problems for Documentation/bpf/ as reported
-> by codespell.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Andrii Nakryiko <andrii@kernel.org>
-> Cc: Alexei Starovoitov <ast@kernel.org>
-> Cc: Daniel Borkmann <daniel@iogearbox.net>
-> Cc: bpf@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/bpf/libbpf/libbpf_naming_convention.rst |    6 +++---
->  Documentation/bpf/map_xskmap.rst                      |    2 +-
->  Documentation/bpf/ringbuf.rst                         |    4 ++--
->  Documentation/bpf/verifier.rst                        |    2 +-
->  4 files changed, 7 insertions(+), 7 deletions(-)
->
-> diff -- a/Documentation/bpf/libbpf/libbpf_naming_convention.rst b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-> --- a/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-> +++ b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-> @@ -83,8 +83,8 @@ This prevents from accidentally exportin
->  to be a part of ABI what, in turn, improves both libbpf developer- and
->  user-experiences.
->
-> -ABI versionning
-> ----------------
-> +ABI versioning
-> +--------------
+Hi Gregory,
 
-The patch looks fine, but please submit it independently
-targeting bpf-next with [PATCH bpf-next] subj.
-We want to avoid conflicts.
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on tip/core/entry v6.2-rc5 next-20230127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
+patch link:    https://lore.kernel.org/r/20230126190645.18341-2-gregory.price%40memverge.com
+patch subject: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20230129/202301290302.CSHz4zLe-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/bc68df21f98617e74a8c5368a901041f89bdb17f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
+        git checkout bc68df21f98617e74a8c5368a901041f89bdb17f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_get_config':
+>> kernel/entry/syscall_user_dispatch.c:114:45: error: storage size of 'config' isn't known
+     114 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+>> kernel/entry/syscall_user_dispatch.c:116:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
+     116 |         if (size != sizeof(struct syscall_user_dispatch_config))
+         |                            ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:114:45: warning: unused variable 'config' [-Wunused-variable]
+     114 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_set_config':
+   kernel/entry/syscall_user_dispatch.c:137:45: error: storage size of 'config' isn't known
+     137 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:139:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
+     139 |         if (size != sizeof(struct syscall_user_dispatch_config))
+         |                            ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:137:45: warning: unused variable 'config' [-Wunused-variable]
+     137 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:147:1: error: control reaches end of non-void function [-Werror=return-type]
+     147 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +114 kernel/entry/syscall_user_dispatch.c
+
+   109	
+   110	int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+   111			void __user *data)
+   112	{
+   113		struct syscall_user_dispatch *sd = &task->syscall_dispatch;
+ > 114		struct syscall_user_dispatch_config config;
+   115	
+ > 116		if (size != sizeof(struct syscall_user_dispatch_config))
+   117			return -EINVAL;
+   118	
+   119		if (test_syscall_work(SYSCALL_USER_DISPATCH))
+   120			config.mode = PR_SYS_DISPATCH_ON;
+   121		else
+   122			config.mode = PR_SYS_DISPATCH_OFF;
+   123	
+   124		config.offset = sd->offset;
+   125		config.len = sd->len;
+   126		config.selector = sd->selector;
+   127	
+   128		if (copy_to_user(data, &config, sizeof(config)))
+   129			return -EFAULT;
+   130	
+   131		return 0;
+   132	}
+   133	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
