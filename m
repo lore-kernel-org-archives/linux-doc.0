@@ -2,150 +2,225 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5526C38142
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 12:03:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D69C38142
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 14:03:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234003AbjA1MDi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Jan 2023 07:03:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45186 "EHLO
+        id S232020AbjA1OC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Jan 2023 09:02:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233973AbjA1MDh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 07:03:37 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6002578AF6;
-        Sat, 28 Jan 2023 04:03:35 -0800 (PST)
+        with ESMTP id S230175AbjA1OC6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 09:02:58 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94C461043C;
+        Sat, 28 Jan 2023 06:02:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674907415; x=1706443415;
-  h=date:from:to:cc:subject:message-id:references:
+  t=1674914572; x=1706450572;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
    mime-version:in-reply-to;
-  bh=g0nYUyAl0keLEWY5bIHOgRjp4TZCidbtA0BM2hVWcKk=;
-  b=U76kHGUIDiTpqcLKu5zGJtdcSl5xR+L8Nh1BAjZllsy0kRC8vYYRpCpR
-   M8dstdLciebtLkV4D/w9FAq69BREHQcVZDh8H75vDNqgMUQ1AHBfC9wxS
-   X45jSNiLSPicokZrUf5tPk9dRM/+ozRZkNza6Dx8Ce2UFERaemzjlkyhY
-   pPkCRYYhyXdkMWIgfR3rJc1SdEl9CIl6i7biqxgMgoV7SPzZoJOWkMzdu
-   CGET0d/Gnu6gXQPlRpOqpAOLFUpnWnGWwdVDi5fUlUsObxn/V+kijNO5H
-   A1y9GWk2ZM4IWmzGf+apG3c6YvHBEoRTyatlSB074tVpstm5WQy5RcmTI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="354593396"
+  bh=Kc8vJ3FvU/EJ0EkuHD1xOBQzKplcG7pKfCLj/xSsBkU=;
+  b=mU20VRy12R8p2Lt0ta8VNz+LnWUNK2FkIyxLprxPBA3d4vo8URlkdFZ+
+   gUhbk2/CXe59rcoya2dmV/buQZXq5aWiY87KoNDRyVD2DLrSuRzfRmgJD
+   zoP/PFkKup/HYA4Ro27UMS/kQG/t1cSvfFkeQGN9FE/4NAzGnadpc4bAJ
+   XzbViP9oOB6fZgfYB3wDpv7RMgI0jVLLAR/S6iQuwFkgKrDzTDiGh5gFB
+   yr5NHivuhuc0UhPx/3AG7B43BLaFJ8H9zXvdYodOB7SuAPffcD70kTJdQ
+   cqRt2V8F+iYhqcdQlnsHT9B4YhHgj6SBhPZKZeTe4nOT7lW2f9pTrDIYa
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="391846258"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="354593396"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 04:03:31 -0800
+   d="scan'208";a="391846258"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 06:02:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="656917222"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="908979126"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="656917222"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 28 Jan 2023 04:03:28 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pLjvb-0000cn-1O;
-        Sat, 28 Jan 2023 12:03:27 +0000
-Date:   Sat, 28 Jan 2023 20:03:23 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-        oleg@redhat.com, avagin@gmail.com, luto@kernel.org,
-        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
-        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore
- support for SUD
-Message-ID: <202301281932.AtpbMlh9-lkp@intel.com>
-References: <20230126190645.18341-2-gregory.price@memverge.com>
+   d="scan'208";a="908979126"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
+  by fmsmga006.fm.intel.com with ESMTP; 28 Jan 2023 06:02:39 -0800
+Date:   Sat, 28 Jan 2023 21:54:54 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 7/9] KVM: Update lpage info when private/shared
+ memory are mixed
+Message-ID: <20230128135454.GA700688@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-8-chao.p.peng@linux.intel.com>
+ <Y8HmS2iE4u0Gfkrn@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126190645.18341-2-gregory.price@memverge.com>
+In-Reply-To: <Y8HmS2iE4u0Gfkrn@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Gregory,
+On Fri, Jan 13, 2023 at 11:16:27PM +0000, Sean Christopherson wrote:
+> On Fri, Dec 02, 2022, Chao Peng wrote:
+> > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> > index 9a07380f8d3c..5aefcff614d2 100644
+> > --- a/arch/x86/kvm/x86.c
+> > +++ b/arch/x86/kvm/x86.c
+> > @@ -12362,6 +12362,8 @@ static int kvm_alloc_memslot_metadata(struct kvm *kvm,
+> >  		if ((slot->base_gfn + npages) & (KVM_PAGES_PER_HPAGE(level) - 1))
+> >  			linfo[lpages - 1].disallow_lpage = 1;
+> >  		ugfn = slot->userspace_addr >> PAGE_SHIFT;
+> > +		if (kvm_slot_can_be_private(slot))
+> > +			ugfn |= slot->restricted_offset >> PAGE_SHIFT;
+> >  		/*
+> >  		 * If the gfn and userspace address are not aligned wrt each
+> >  		 * other, disable large page support for this slot.
+> 
+> Forgot to talk about the bug.  This code needs to handle the scenario where a
+> memslot is created with existing, non-uniform attributes.  It might be a bit ugly
+> (I didn't even try to write the code), but it's definitely possible, and since
+> memslot updates are already slow I think it's best to handle things here.
+> 
+> In the meantime, I added this so we don't forget to fix it before merging.
+> 
+> #ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> 	pr_crit_once("FIXME: Walk the memory attributes of the slot and set the mixed status appropriately");
+> #endif
 
-Thank you for the patch! Perhaps something to improve:
+Here is the code to fix (based on your latest github repo).
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on tip/core/entry v6.2-rc5 next-20230127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
-patch link:    https://lore.kernel.org/r/20230126190645.18341-2-gregory.price%40memverge.com
-patch subject: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
-config: x86_64-rhel-8.3-syz (https://download.01.org/0day-ci/archive/20230128/202301281932.AtpbMlh9-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/bc68df21f98617e74a8c5368a901041f89bdb17f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
-        git checkout bc68df21f98617e74a8c5368a901041f89bdb17f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/entry/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_get_config':
-   kernel/entry/syscall_user_dispatch.c:114:45: error: storage size of 'config' isn't known
-     114 |         struct syscall_user_dispatch_config config;
-         |                                             ^~~~~~
-   kernel/entry/syscall_user_dispatch.c:116:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
-     116 |         if (size != sizeof(struct syscall_user_dispatch_config))
-         |                            ^~~~~~
->> kernel/entry/syscall_user_dispatch.c:114:45: warning: unused variable 'config' [-Wunused-variable]
-     114 |         struct syscall_user_dispatch_config config;
-         |                                             ^~~~~~
-   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_set_config':
-   kernel/entry/syscall_user_dispatch.c:137:45: error: storage size of 'config' isn't known
-     137 |         struct syscall_user_dispatch_config config;
-         |                                             ^~~~~~
-   kernel/entry/syscall_user_dispatch.c:139:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
-     139 |         if (size != sizeof(struct syscall_user_dispatch_config))
-         |                            ^~~~~~
-   kernel/entry/syscall_user_dispatch.c:137:45: warning: unused variable 'config' [-Wunused-variable]
-     137 |         struct syscall_user_dispatch_config config;
-         |                                             ^~~~~~
-   kernel/entry/syscall_user_dispatch.c:147:1: error: control reaches end of non-void function [-Werror=return-type]
-     147 | }
-         | ^
-   cc1: some warnings being treated as errors
-
-
-vim +/config +114 kernel/entry/syscall_user_dispatch.c
-
-   109	
-   110	int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
-   111			void __user *data)
-   112	{
-   113		struct syscall_user_dispatch *sd = &task->syscall_dispatch;
- > 114		struct syscall_user_dispatch_config config;
-   115	
-   116		if (size != sizeof(struct syscall_user_dispatch_config))
-   117			return -EINVAL;
-   118	
-   119		if (test_syscall_work(SYSCALL_USER_DISPATCH))
-   120			config.mode = PR_SYS_DISPATCH_ON;
-   121		else
-   122			config.mode = PR_SYS_DISPATCH_OFF;
-   123	
-   124		config.offset = sd->offset;
-   125		config.len = sd->len;
-   126		config.selector = sd->selector;
-   127	
-   128		if (copy_to_user(data, &config, sizeof(config)))
-   129			return -EFAULT;
-   130	
-   131		return 0;
-   132	}
-   133	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index e552374f2357..609ff1cba9c5 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -2195,4 +2195,9 @@ int memslot_rmap_alloc(struct kvm_memory_slot *slot, unsigned long npages);
+ 	 KVM_X86_QUIRK_FIX_HYPERCALL_INSN |	\
+ 	 KVM_X86_QUIRK_MWAIT_NEVER_UD_FAULTS)
+ 
++#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
++void kvm_memory_attributes_create_memslot(struct kvm *kvm,
++					  struct kvm_memory_slot *slot);
++#endif
++
+ #endif /* _ASM_X86_KVM_HOST_H */
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index eda615f3951c..8833d7201e41 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -7201,10 +7201,11 @@ static bool has_mixed_attrs(struct kvm *kvm, struct kvm_memory_slot *slot,
+ 	return false;
+ }
+ 
+-void kvm_arch_set_memory_attributes(struct kvm *kvm,
+-				    struct kvm_memory_slot *slot,
+-				    unsigned long attrs,
+-				    gfn_t start, gfn_t end)
++static void kvm_update_lpage_mixed_flag(struct kvm *kvm,
++					struct kvm_memory_slot *slot,
++					bool set_attrs,
++					unsigned long attrs,
++					gfn_t start, gfn_t end)
+ {
+ 	unsigned long pages, mask;
+ 	gfn_t gfn, gfn_end, first, last;
+@@ -7231,25 +7232,53 @@ void kvm_arch_set_memory_attributes(struct kvm *kvm,
+ 		first = start & mask;
+ 		last = (end - 1) & mask;
+ 
+-		/*
+-		 * We only need to scan the head and tail page, for middle pages
+-		 * we know they will not be mixed.
+-		 */
++		/* head page */
+ 		gfn = max(first, slot->base_gfn);
+ 		gfn_end = min(first + pages, slot->base_gfn + slot->npages);
++		if(!set_attrs)
++			attrs = kvm_get_memory_attributes(kvm, gfn);
+ 		mixed = has_mixed_attrs(kvm, slot, level, attrs, gfn, gfn_end);
+ 		linfo_update_mixed(gfn, slot, level, mixed);
+ 
+ 		if (first == last)
+ 			return;
+ 
+-		for (gfn = first + pages; gfn < last; gfn += pages)
+-			linfo_update_mixed(gfn, slot, level, false);
++		/* middle pages */
++		for (gfn = first + pages; gfn < last; gfn += pages) {
++			if (set_attrs) {
++				mixed = false;
++			} else {
++				gfn_end = gfn + pages;
++				attrs = kvm_get_memory_attributes(kvm, gfn);
++				mixed = has_mixed_attrs(kvm, slot, level, attrs,
++							gfn, gfn_end);
++			}
++			linfo_update_mixed(gfn, slot, level, mixed);
++		}
+ 
++		/* tail page */
+ 		gfn = last;
+ 		gfn_end = min(last + pages, slot->base_gfn + slot->npages);
++		if(!set_attrs)
++			attrs = kvm_get_memory_attributes(kvm, gfn);
+ 		mixed = has_mixed_attrs(kvm, slot, level, attrs, gfn, gfn_end);
+ 		linfo_update_mixed(gfn, slot, level, mixed);
+ 	}
+ }
++
++void kvm_arch_set_memory_attributes(struct kvm *kvm,
++				    struct kvm_memory_slot *slot,
++				    unsigned long attrs,
++				    gfn_t start, gfn_t end)
++{
++	kvm_update_lpage_mixed_flag(kvm, slot, true, attrs, start, end);
++}
++
++void kvm_memory_attributes_create_memslot(struct kvm *kvm,
++					  struct kvm_memory_slot *slot)
++{
++
++	kvm_update_lpage_mixed_flag(kvm, slot, false, 0, slot->base_gfn,
++				    slot->base_gfn + slot->npages);
++}
+ #endif
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 268c3d16894d..c1074aecf2d0 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -12443,7 +12443,7 @@ static int kvm_alloc_memslot_metadata(struct kvm *kvm,
+ 	}
+ 
+ #ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+-	pr_crit_once("FIXME: Walk the memory attributes of the slot and set the mixed status appropriately");
++	kvm_memory_attributes_create_memslot(kvm, slot);
+ #endif
+ 
+ 	if (kvm_page_track_create_memslot(kvm, slot, npages))
