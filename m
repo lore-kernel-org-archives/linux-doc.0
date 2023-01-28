@@ -2,47 +2,40 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77991C61DA4
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 18:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE18C61DA4
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 19:21:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229966AbjA1SzE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Jan 2023 13:55:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59532 "EHLO
+        id S233440AbjA1TVO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Jan 2023 14:21:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbjA1SzC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 13:55:02 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCE816301;
-        Sat, 28 Jan 2023 10:55:00 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 35557CE009E;
-        Sat, 28 Jan 2023 18:54:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5355AC433EF;
-        Sat, 28 Jan 2023 18:54:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674932096;
-        bh=b3LC7GzJbKCQgoSIJh2AUXE2SY/l0rvrW75DR/3uPMQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C5Se+sjU2iJ1IBGxkJQSZfWkUmGEQHJJciDry/WOxVI2jP+O9XwMTS2mYVpstaXFt
-         uTPduMZ46mj9Fonxm3rwvjctPwaGxWGGKIMGM1YkwLcqRVQa/C1/rFgB8I4FTmQM+s
-         963+jkwhe77UKjqPOMU/JiriyNe4tDkMxp9fCtmfovMgwgId79LSkcbvPdUxzOpgO7
-         YGPHEleqhN4eIaE9WFuvlgZ9hStjGREK3jjiuNm1NEh3kX8UqtrAbxmxj2BzNqt3nU
-         fHjMOYIpjyENkhMN3mfi5RXwwLCVpfcX9laWQ/68zjHqS81+my3XIjKSIJn2Qh7zps
-         ZQfiYYurRE+4A==
-From:   SeongJae Park <sj@kernel.org>
-To:     Hui Su <suhui_kernel@163.com>
-Cc:     sj@kernel.org, corbet@lwn.net, alexs@kernel.org,
-        siyanteng@loongson.cn, rppt@kernel.org, bobwxc@email.cn,
-        damon@lists.linux.dev, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Doc/damon: fix the data path error
-Date:   Sat, 28 Jan 2023 18:54:53 +0000
-Message-Id: <20230128185453.131270-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <Y9Tm1FiKBPKA2Tcx@localhost.localdomain>
-References: 
+        with ESMTP id S230012AbjA1TVN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 14:21:13 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84AB76A7B;
+        Sat, 28 Jan 2023 11:21:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=9X5fnKvj0J96e64hU3Ho9oSUCRavGnoZ2ETS0FJ7eDo=; b=GRZAr5fe/w7grCuqpdMDwTXCr/
+        Pua73eDiTEomfDyV8/UvEy/uJU2ryL+2IPo0GMrxOjQRn14g1HjW6ZMKImN4kGvVu/rZQzsyAZTzU
+        AWnCvUosKPcBxYSgN2R062F2DEmuuFZAhC7Njs8SdOCtfXTbxGlRkKcXXmWAa/7Uy9+8PNTgQ6qLd
+        nzFiwWelZ7DQv3wIpG8SM5QZs69Xu2QsD/4HUznLcWDZhOXgAqD2FM3/WH/AEUyJrgs7Q4DaGoe0m
+        OU9Sr5kguchKeOnPJIT9GZNaAm3uJ7jZnbjS08ptEeyaJK5MeibyZawSukyGdCeT8m5RF0gMa/Klh
+        BCXLtNjg==;
+Received: from [2601:1c2:d00:6a60::9526] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pLqlC-000a3B-1Y; Sat, 28 Jan 2023 19:21:10 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 11/35 v2] Documentation: i2c: correct spelling
+Date:   Sat, 28 Jan 2023 11:21:09 -0800
+Message-Id: <20230128192109.31127-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -50,95 +43,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Hui,
+Correct spelling problems for Documentation/i2c/ as reported
+by codespell.
 
-On Sat, 28 Jan 2023 17:11:48 +0800 Hui Su <suhui_kernel@163.com> wrote:
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Wolfram Sang <wsa@kernel.org>
+Cc: linux-i2c@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+v2: add correction for "an other" -> "another"
 
-> %s/modules/module/
-> 
-> Signed-off-by: Hui Su <suhui_kernel@163.com>
+ Documentation/i2c/gpio-fault-injection.rst |    2 +-
+ Documentation/i2c/smbus-protocol.rst       |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: SeongJae Park <sj@kernel.org>
-
-> ---
->  Documentation/admin-guide/mm/damon/lru_sort.rst               | 4 ++--
->  Documentation/admin-guide/mm/damon/reclaim.rst                | 4 ++--
->  .../translations/zh_CN/admin-guide/mm/damon/reclaim.rst       | 4 ++--
-
-I realized DAMON documentation is also translated for Chinese today!  Thank you
-for letting me know this, and also thanks to the translators!
-
-
-Thanks,
-SJ
-
->  3 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
-> index c09cace80651..7b0775d281b4 100644
-> --- a/Documentation/admin-guide/mm/damon/lru_sort.rst
-> +++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
-> @@ -54,7 +54,7 @@ that is built with ``CONFIG_DAMON_LRU_SORT=y``.
->  To let sysadmins enable or disable it and tune for the given system,
->  DAMON_LRU_SORT utilizes module parameters.  That is, you can put
->  ``damon_lru_sort.<parameter>=<value>`` on the kernel boot command line or write
-> -proper values to ``/sys/modules/damon_lru_sort/parameters/<parameter>`` files.
-> +proper values to ``/sys/module/damon_lru_sort/parameters/<parameter>`` files.
->  
->  Below are the description of each parameter.
->  
-> @@ -283,7 +283,7 @@ doesn't make progress and therefore the free memory rate becomes lower than
->  20%, it asks DAMON_LRU_SORT to do nothing again, so that we can fall back to
->  the LRU-list based page granularity reclamation. ::
->  
-> -    # cd /sys/modules/damon_lru_sort/parameters
-> +    # cd /sys/module/damon_lru_sort/parameters
->      # echo 500 > hot_thres_access_freq
->      # echo 120000000 > cold_min_age
->      # echo 10 > quota_ms
-> diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
-> index 4f1479a11e63..d2ccd9c21b9a 100644
-> --- a/Documentation/admin-guide/mm/damon/reclaim.rst
-> +++ b/Documentation/admin-guide/mm/damon/reclaim.rst
-> @@ -46,7 +46,7 @@ that is built with ``CONFIG_DAMON_RECLAIM=y``.
->  To let sysadmins enable or disable it and tune for the given system,
->  DAMON_RECLAIM utilizes module parameters.  That is, you can put
->  ``damon_reclaim.<parameter>=<value>`` on the kernel boot command line or write
-> -proper values to ``/sys/modules/damon_reclaim/parameters/<parameter>`` files.
-> +proper values to ``/sys/module/damon_reclaim/parameters/<parameter>`` files.
->  
->  Below are the description of each parameter.
->  
-> @@ -251,7 +251,7 @@ therefore the free memory rate becomes lower than 20%, it asks DAMON_RECLAIM to
->  do nothing again, so that we can fall back to the LRU-list based page
->  granularity reclamation. ::
->  
-> -    # cd /sys/modules/damon_reclaim/parameters
-> +    # cd /sys/module/damon_reclaim/parameters
->      # echo 30000000 > min_age
->      # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
->      # echo 1000 > quota_reset_interval_ms
-> diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-> index c976f3e33ffd..d15a2f20bb11 100644
-> --- a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-> +++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-> @@ -45,7 +45,7 @@ DAMON_RECLAIM找到在特定时间内没有被访问的内存区域并分页。
->  
->  为了让系统管理员启用或禁用它，并为给定的系统进行调整，DAMON_RECLAIM利用了模块参数。也就
->  是说，你可以把 ``damon_reclaim.<parameter>=<value>`` 放在内核启动命令行上，或者把
-> -适当的值写入 ``/sys/modules/damon_reclaim/parameters/<parameter>`` 文件。
-> +适当的值写入 ``/sys/module/damon_reclaim/parameters/<parameter>`` 文件。
->  
->  注意，除 ``启用`` 外的参数值只在DAMON_RECLAIM启动时应用。因此，如果你想在运行时应用新
->  的参数值，而DAMON_RECLAIM已经被启用，你应该通过 ``启用`` 的参数文件禁用和重新启用它。
-> @@ -218,7 +218,7 @@ nr_quota_exceeds
->  就开始真正的工作。如果DAMON_RECLAIM没有取得进展，因此空闲内存率低于20%，它会要求
->  DAMON_RECLAIM再次什么都不做，这样我们就可以退回到基于LRU列表的页面粒度回收了::
->  
-> -    # cd /sys/modules/damon_reclaim/parameters
-> +    # cd /sys/module/damon_reclaim/parameters
->      # echo 30000000 > min_age
->      # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
->      # echo 1000 > quota_reset_interval_ms
-> -- 
-> 2.34.1
+diff -- a/Documentation/i2c/gpio-fault-injection.rst b/Documentation/i2c/gpio-fault-injection.rst
+--- a/Documentation/i2c/gpio-fault-injection.rst
++++ b/Documentation/i2c/gpio-fault-injection.rst
+@@ -93,7 +93,7 @@ bus arbitration against another master i
+ ------------------
+ 
+ This file is write only and you need to write the duration of the arbitration
+-intereference (in µs, maximum is 100ms). The calling process will then sleep
++interference (in µs, maximum is 100ms). The calling process will then sleep
+ and wait for the next bus clock. The process is interruptible, though.
+ 
+ Arbitration lost is achieved by waiting for SCL going down by the master under
+diff -- a/Documentation/i2c/smbus-protocol.rst b/Documentation/i2c/smbus-protocol.rst
+--- a/Documentation/i2c/smbus-protocol.rst
++++ b/Documentation/i2c/smbus-protocol.rst
+@@ -238,7 +238,7 @@ This is implemented in the following way
+ * I2C bus drivers trigger SMBus Host Notify by a call to
+   i2c_handle_smbus_host_notify().
+ * I2C drivers for devices which can trigger SMBus Host Notify will have
+-  client->irq assigned to a Host Notify IRQ if noone else specified an other.
++  client->irq assigned to a Host Notify IRQ if no one else specified another.
+ 
+ There is currently no way to retrieve the data parameter from the client.
+ 
