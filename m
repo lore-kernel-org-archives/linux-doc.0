@@ -2,206 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8052AC27C76
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 18:26:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77991C61DA4
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 18:55:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234654AbjA1S05 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Jan 2023 13:26:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53872 "EHLO
+        id S229966AbjA1SzE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Jan 2023 13:55:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234605AbjA1S0x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 13:26:53 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C872727491
-        for <linux-doc@vger.kernel.org>; Sat, 28 Jan 2023 10:26:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674930408; x=1706466408;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Nz8GX3QOo82LFTJHTuntX781bnPSCczSWXsrTZiCOQ4=;
-  b=D+tedFu3PEXd6Bh339D89wc75P4+YhBsFKjnVanzjcJuvjZ62t1ZMOWH
-   H7tuNiHBiF+l5KyXj3/lKGIaRRxUelkou0kKp+LTXEdvDkshmzBTH3JCr
-   2wsyjX66F6P///T/g/BfWRetdfJZc2TVoIkb1rrMX42LP1PQLJRuYpg+P
-   ZmLOX1+ic3qu6VOFnFJL3p5wYH0TkavIeoxjvcIKFxRNFUPWoCG+oTHdG
-   K1CM74iL8SENl5gpM59vUzdlV3SrGRBnR/UQZB+dT3IrPkPNreeAITI1X
-   ho2RxpM3UTJIeLDZlrMMzfWTZM5EhVfcftIj9Flzot6G9St/GVk1rQfNY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="307660939"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="307660939"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 10:26:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="613556307"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="613556307"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 28 Jan 2023 10:26:46 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pLpuX-0000zH-2h;
-        Sat, 28 Jan 2023 18:26:45 +0000
-Date:   Sun, 29 Jan 2023 02:26:33 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Steven Rostedt (Google)" <rostedt@goodmis.org>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [trace:trace/for-next 19/23] htmldocs:
- Documentation/trace/histogram.rst:1969: WARNING: Unexpected indentation.
-Message-ID: <202301290253.LU5yIxcJ-lkp@intel.com>
+        with ESMTP id S229619AbjA1SzC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 13:55:02 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCE816301;
+        Sat, 28 Jan 2023 10:55:00 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 35557CE009E;
+        Sat, 28 Jan 2023 18:54:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5355AC433EF;
+        Sat, 28 Jan 2023 18:54:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674932096;
+        bh=b3LC7GzJbKCQgoSIJh2AUXE2SY/l0rvrW75DR/3uPMQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=C5Se+sjU2iJ1IBGxkJQSZfWkUmGEQHJJciDry/WOxVI2jP+O9XwMTS2mYVpstaXFt
+         uTPduMZ46mj9Fonxm3rwvjctPwaGxWGGKIMGM1YkwLcqRVQa/C1/rFgB8I4FTmQM+s
+         963+jkwhe77UKjqPOMU/JiriyNe4tDkMxp9fCtmfovMgwgId79LSkcbvPdUxzOpgO7
+         YGPHEleqhN4eIaE9WFuvlgZ9hStjGREK3jjiuNm1NEh3kX8UqtrAbxmxj2BzNqt3nU
+         fHjMOYIpjyENkhMN3mfi5RXwwLCVpfcX9laWQ/68zjHqS81+my3XIjKSIJn2Qh7zps
+         ZQfiYYurRE+4A==
+From:   SeongJae Park <sj@kernel.org>
+To:     Hui Su <suhui_kernel@163.com>
+Cc:     sj@kernel.org, corbet@lwn.net, alexs@kernel.org,
+        siyanteng@loongson.cn, rppt@kernel.org, bobwxc@email.cn,
+        damon@lists.linux.dev, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Doc/damon: fix the data path error
+Date:   Sat, 28 Jan 2023 18:54:53 +0000
+Message-Id: <20230128185453.131270-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <Y9Tm1FiKBPKA2Tcx@localhost.localdomain>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace trace/for-next
-head:   9f712417e1fc7d3db042941524e59573e02a55c7
-commit: 88238513bb26713ef6d4418bdf1af062fe608bcb [19/23] tracing/histogram: Document variable stacktrace
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git/commit/?id=88238513bb26713ef6d4418bdf1af062fe608bcb
-        git remote add trace git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace
-        git fetch --no-tags trace trace/for-next
-        git checkout 88238513bb26713ef6d4418bdf1af062fe608bcb
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Hi Hui,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+On Sat, 28 Jan 2023 17:11:48 +0800 Hui Su <suhui_kernel@163.com> wrote:
 
-All warnings (new ones prefixed by >>):
+> %s/modules/module/
+> 
+> Signed-off-by: Hui Su <suhui_kernel@163.com>
 
->> Documentation/trace/histogram.rst:1969: WARNING: Unexpected indentation.
->> Documentation/trace/histogram.rst:1970: WARNING: Block quote ends without a blank line; unexpected unindent.
->> Documentation/trace/histogram.rst:2014: WARNING: Definition list ends without a blank line; unexpected unindent.
+Reviewed-by: SeongJae Park <sj@kernel.org>
 
-vim +1969 Documentation/trace/histogram.rst
+> ---
+>  Documentation/admin-guide/mm/damon/lru_sort.rst               | 4 ++--
+>  Documentation/admin-guide/mm/damon/reclaim.rst                | 4 ++--
+>  .../translations/zh_CN/admin-guide/mm/damon/reclaim.rst       | 4 ++--
 
-  1949	
-  1950	  # cd /sys/kernel/tracing
-  1951	  # echo 's:block_lat pid_t pid; u64 delta; unsigned long[] stack;' > dynamic_events
-  1952	  # echo 'hist:keys=next_pid:ts=common_timestamp.usecs,st=stacktrace  if prev_state == 2' >> events/sched/sched_switch/trigger
-  1953	  # echo 'hist:keys=prev_pid:delta=common_timestamp.usecs-$ts,s=$st:onmax($delta).trace(block_lat,prev_pid,$delta,$s)' >> events/sched/sched_switch/trigger
-  1954	  # echo 1 > events/synthetic/block_lat/enable
-  1955	  # cat trace
-  1956	
-  1957	  # tracer: nop
-  1958	  #
-  1959	  # entries-in-buffer/entries-written: 2/2   #P:8
-  1960	  #
-  1961	  #                                _-----=> irqs-off/BH-disabled
-  1962	  #                               / _----=> need-resched
-  1963	  #                              | / _---=> hardirq/softirq
-  1964	  #                              || / _--=> preempt-depth
-  1965	  #                              ||| / _-=> migrate-disable
-  1966	  #                              |||| /     delay
-  1967	  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
-  1968	  #              | |         |   |||||     |         |
-> 1969	            <idle>-0       [005] d..4.   521.164922: block_lat: pid=0 delta=8322 stack=STACK:
-> 1970	  => __schedule+0x448/0x7b0
-  1971	  => schedule+0x5a/0xb0
-  1972	  => io_schedule+0x42/0x70
-  1973	  => bit_wait_io+0xd/0x60
-  1974	  => __wait_on_bit+0x4b/0x140
-  1975	  => out_of_line_wait_on_bit+0x91/0xb0
-  1976	  => jbd2_journal_commit_transaction+0x1679/0x1a70
-  1977	  => kjournald2+0xa9/0x280
-  1978	  => kthread+0xe9/0x110
-  1979	  => ret_from_fork+0x2c/0x50
-  1980	
-  1981	             <...>-2       [004] d..4.   525.184257: block_lat: pid=2 delta=76 stack=STACK:
-  1982	  => __schedule+0x448/0x7b0
-  1983	  => schedule+0x5a/0xb0
-  1984	  => schedule_timeout+0x11a/0x150
-  1985	  => wait_for_completion_killable+0x144/0x1f0
-  1986	  => __kthread_create_on_node+0xe7/0x1e0
-  1987	  => kthread_create_on_node+0x51/0x70
-  1988	  => create_worker+0xcc/0x1a0
-  1989	  => worker_thread+0x2ad/0x380
-  1990	  => kthread+0xe9/0x110
-  1991	  => ret_from_fork+0x2c/0x50
-  1992	
-  1993	A synthetic event that has a stacktrace field may use it as a key in histogram:
-  1994	
-  1995	  # echo 'hist:delta.buckets=100,stack.stacktrace:sort=delta' > events/synthetic/block_lat/trigger
-  1996	  # cat events/synthetic/block_lat/hist
-  1997	
-  1998	  # event histogram
-  1999	  #
-  2000	  # trigger info: hist:keys=delta.buckets=100,stacktrace:vals=hitcount:sort=delta.buckets=100:size=2048 [active]
-  2001	  #
-  2002	
-  2003	  { delta: ~ 0-99, stacktrace:
-  2004	           event_hist_trigger+0x464/0x480
-  2005	           event_triggers_call+0x52/0xe0
-  2006	           trace_event_buffer_commit+0x193/0x250
-  2007	           trace_event_raw_event_sched_switch+0xfc/0x150
-  2008	           __traceiter_sched_switch+0x41/0x60
-  2009	           __schedule+0x448/0x7b0
-  2010	           schedule_idle+0x26/0x40
-  2011	           cpu_startup_entry+0x19/0x20
-  2012	           start_secondary+0xed/0xf0
-  2013	           secondary_startup_64_no_verify+0xe0/0xeb
-> 2014	  } hitcount:          6
-  2015	  { delta: ~ 0-99, stacktrace:
-  2016	           event_hist_trigger+0x464/0x480
-  2017	           event_triggers_call+0x52/0xe0
-  2018	           trace_event_buffer_commit+0x193/0x250
-  2019	           trace_event_raw_event_sched_switch+0xfc/0x150
-  2020	           __traceiter_sched_switch+0x41/0x60
-  2021	           __schedule+0x448/0x7b0
-  2022	           schedule_idle+0x26/0x40
-  2023	           cpu_startup_entry+0x19/0x20
-  2024	           __pfx_kernel_init+0x0/0x10
-  2025	           arch_call_rest_init+0xa/0x24
-  2026	           start_kernel+0x964/0x98d
-  2027	           secondary_startup_64_no_verify+0xe0/0xeb
-  2028	  } hitcount:          3
-  2029	  { delta: ~ 0-99, stacktrace:
-  2030	           event_hist_trigger+0x464/0x480
-  2031	           event_triggers_call+0x52/0xe0
-  2032	           trace_event_buffer_commit+0x193/0x250
-  2033	           trace_event_raw_event_sched_switch+0xfc/0x150
-  2034	           __traceiter_sched_switch+0x41/0x60
-  2035	           __schedule+0x448/0x7b0
-  2036	           schedule+0x5a/0xb0
-  2037	           worker_thread+0xaf/0x380
-  2038	           kthread+0xe9/0x110
-  2039	           ret_from_fork+0x2c/0x50
-  2040	  } hitcount:          1
-  2041	  { delta: ~ 100-199, stacktrace:
-  2042	           event_hist_trigger+0x464/0x480
-  2043	           event_triggers_call+0x52/0xe0
-  2044	           trace_event_buffer_commit+0x193/0x250
-  2045	           trace_event_raw_event_sched_switch+0xfc/0x150
-  2046	           __traceiter_sched_switch+0x41/0x60
-  2047	           __schedule+0x448/0x7b0
-  2048	           schedule_idle+0x26/0x40
-  2049	           cpu_startup_entry+0x19/0x20
-  2050	           start_secondary+0xed/0xf0
-  2051	           secondary_startup_64_no_verify+0xe0/0xeb
-  2052	  } hitcount:         15
-  2053	  [..]
-  2054	  { delta: ~ 8500-8599, stacktrace:
-  2055	           event_hist_trigger+0x464/0x480
-  2056	           event_triggers_call+0x52/0xe0
-  2057	           trace_event_buffer_commit+0x193/0x250
-  2058	           trace_event_raw_event_sched_switch+0xfc/0x150
-  2059	           __traceiter_sched_switch+0x41/0x60
-  2060	           __schedule+0x448/0x7b0
-  2061	           schedule_idle+0x26/0x40
-  2062	           cpu_startup_entry+0x19/0x20
-  2063	           start_secondary+0xed/0xf0
-  2064	           secondary_startup_64_no_verify+0xe0/0xeb
-  2065	  } hitcount:          1
-  2066	
-  2067	  Totals:
-  2068	      Hits: 89
-  2069	      Entries: 11
-  2070	      Dropped: 0
-  2071	
+I realized DAMON documentation is also translated for Chinese today!  Thank you
+for letting me know this, and also thanks to the translators!
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+
+Thanks,
+SJ
+
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
+> index c09cace80651..7b0775d281b4 100644
+> --- a/Documentation/admin-guide/mm/damon/lru_sort.rst
+> +++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
+> @@ -54,7 +54,7 @@ that is built with ``CONFIG_DAMON_LRU_SORT=y``.
+>  To let sysadmins enable or disable it and tune for the given system,
+>  DAMON_LRU_SORT utilizes module parameters.  That is, you can put
+>  ``damon_lru_sort.<parameter>=<value>`` on the kernel boot command line or write
+> -proper values to ``/sys/modules/damon_lru_sort/parameters/<parameter>`` files.
+> +proper values to ``/sys/module/damon_lru_sort/parameters/<parameter>`` files.
+>  
+>  Below are the description of each parameter.
+>  
+> @@ -283,7 +283,7 @@ doesn't make progress and therefore the free memory rate becomes lower than
+>  20%, it asks DAMON_LRU_SORT to do nothing again, so that we can fall back to
+>  the LRU-list based page granularity reclamation. ::
+>  
+> -    # cd /sys/modules/damon_lru_sort/parameters
+> +    # cd /sys/module/damon_lru_sort/parameters
+>      # echo 500 > hot_thres_access_freq
+>      # echo 120000000 > cold_min_age
+>      # echo 10 > quota_ms
+> diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
+> index 4f1479a11e63..d2ccd9c21b9a 100644
+> --- a/Documentation/admin-guide/mm/damon/reclaim.rst
+> +++ b/Documentation/admin-guide/mm/damon/reclaim.rst
+> @@ -46,7 +46,7 @@ that is built with ``CONFIG_DAMON_RECLAIM=y``.
+>  To let sysadmins enable or disable it and tune for the given system,
+>  DAMON_RECLAIM utilizes module parameters.  That is, you can put
+>  ``damon_reclaim.<parameter>=<value>`` on the kernel boot command line or write
+> -proper values to ``/sys/modules/damon_reclaim/parameters/<parameter>`` files.
+> +proper values to ``/sys/module/damon_reclaim/parameters/<parameter>`` files.
+>  
+>  Below are the description of each parameter.
+>  
+> @@ -251,7 +251,7 @@ therefore the free memory rate becomes lower than 20%, it asks DAMON_RECLAIM to
+>  do nothing again, so that we can fall back to the LRU-list based page
+>  granularity reclamation. ::
+>  
+> -    # cd /sys/modules/damon_reclaim/parameters
+> +    # cd /sys/module/damon_reclaim/parameters
+>      # echo 30000000 > min_age
+>      # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
+>      # echo 1000 > quota_reset_interval_ms
+> diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
+> index c976f3e33ffd..d15a2f20bb11 100644
+> --- a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
+> +++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
+> @@ -45,7 +45,7 @@ DAMON_RECLAIM找到在特定时间内没有被访问的内存区域并分页。
+>  
+>  为了让系统管理员启用或禁用它，并为给定的系统进行调整，DAMON_RECLAIM利用了模块参数。也就
+>  是说，你可以把 ``damon_reclaim.<parameter>=<value>`` 放在内核启动命令行上，或者把
+> -适当的值写入 ``/sys/modules/damon_reclaim/parameters/<parameter>`` 文件。
+> +适当的值写入 ``/sys/module/damon_reclaim/parameters/<parameter>`` 文件。
+>  
+>  注意，除 ``启用`` 外的参数值只在DAMON_RECLAIM启动时应用。因此，如果你想在运行时应用新
+>  的参数值，而DAMON_RECLAIM已经被启用，你应该通过 ``启用`` 的参数文件禁用和重新启用它。
+> @@ -218,7 +218,7 @@ nr_quota_exceeds
+>  就开始真正的工作。如果DAMON_RECLAIM没有取得进展，因此空闲内存率低于20%，它会要求
+>  DAMON_RECLAIM再次什么都不做，这样我们就可以退回到基于LRU列表的页面粒度回收了::
+>  
+> -    # cd /sys/modules/damon_reclaim/parameters
+> +    # cd /sys/module/damon_reclaim/parameters
+>      # echo 30000000 > min_age
+>      # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
+>      # echo 1000 > quota_reset_interval_ms
+> -- 
+> 2.34.1
