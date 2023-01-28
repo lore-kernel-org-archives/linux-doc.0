@@ -2,74 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC85CC38142
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 08:35:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEEF0C27C76
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 09:12:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229579AbjA1Ifk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Jan 2023 03:35:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34110 "EHLO
+        id S230500AbjA1JM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Jan 2023 04:12:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233967AbjA1Ifb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 03:35:31 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22CA953E6E;
-        Sat, 28 Jan 2023 00:35:26 -0800 (PST)
-Received: from [2a02:8108:963f:de38:4bc7:2566:28bd:b73c]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pLggF-0005NG-IE; Sat, 28 Jan 2023 09:35:23 +0100
-Message-ID: <f48e8dab-2a68-88d2-7917-f8f34a39e322@leemhuis.info>
-Date:   Sat, 28 Jan 2023 09:35:22 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US, de-DE
-To:     Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net
-Cc:     sshefali021@gmail.com, kstewart@linuxfoundation.org,
+        with ESMTP id S229464AbjA1JMZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 04:12:25 -0500
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.214])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B5EB81CAFC;
+        Sat, 28 Jan 2023 01:12:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
+        Content-Type; bh=+vDrkP2F8VPkWsCf/ZbZMm5gtlkYDS7DkNhsTVZw5f0=;
+        b=OgPWOZLE249HCw312oGXeYyjXFbXtal64QKrQrJL/odJtT0genuQaYD1AaZG/4
+        pxf10s77OzZHpyBTXSGNnCjvEAKj1TFnaD6eYcD+DDK/XJUwBKelBK0eXBUgxuTc
+        tN1Od3Iba6VES1iJc7fyAgqrYZo00fqqZ1lmvDwfFLb5c=
+Received: from localhost (unknown [49.235.41.28])
+        by zwqz-smtp-mta-g0-0 (Coremail) with SMTP id _____wCXxR7U5tRj9TjLBw--.29123S2;
+        Sat, 28 Jan 2023 17:11:48 +0800 (CST)
+Date:   Sat, 28 Jan 2023 17:11:48 +0800
+From:   Hui Su <suhui_kernel@163.com>
+To:     sj@kernel.org, corbet@lwn.net, alexs@kernel.org,
+        siyanteng@loongson.cn, rppt@kernel.org, bobwxc@email.cn,
+        damon@lists.linux.dev, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230127234616.55137-1-skhan@linuxfoundation.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v2] docs: add workload-tracing document to admin-guide
-In-Reply-To: <20230127234616.55137-1-skhan@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
+Subject: [PATCH] Doc/damon: fix the data path error
+Message-ID: <Y9Tm1FiKBPKA2Tcx@localhost.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1674894926;f3f14f9d;
-X-HE-SMSGID: 1pLggF-0005NG-IE
+X-CM-TRANSID: _____wCXxR7U5tRj9TjLBw--.29123S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCFW3CF17ZrWrAF13Xr4DXFb_yoWrCryUpF
+        93tryIq3yxJF9Igws7AanrWF15AayIkFWYqFWfW3Z7ZFs0qa4vyF13Kr1Yk3WkZryrGa15
+        Zan3GryUuFy7A3DanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UEZXrUUUUU=
+X-Originating-IP: [49.235.41.28]
+X-CM-SenderInfo: 5vxk3xhbnh20lho6il2tof0z/xtbCfhAFbWDcMzXLngAAsp
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lo! One small quick question.
+%s/modules/module/
 
-On 28.01.23 00:46, Shuah Khan wrote:
-> Add a new section to the admin-guide with information of interest to
-> application developers and system integrators doing analysis of the
-> Linux kernel for safety critical applications.
+Signed-off-by: Hui Su <suhui_kernel@163.com>
+---
+ Documentation/admin-guide/mm/damon/lru_sort.rst               | 4 ++--
+ Documentation/admin-guide/mm/damon/reclaim.rst                | 4 ++--
+ .../translations/zh_CN/admin-guide/mm/damon/reclaim.rst       | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-That intro made my mind go "neither 'application developers' or 'system
-integrators' are admins, so why is this added to the 'admin guide' then?"
+diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
+index c09cace80651..7b0775d281b4 100644
+--- a/Documentation/admin-guide/mm/damon/lru_sort.rst
++++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
+@@ -54,7 +54,7 @@ that is built with ``CONFIG_DAMON_LRU_SORT=y``.
+ To let sysadmins enable or disable it and tune for the given system,
+ DAMON_LRU_SORT utilizes module parameters.  That is, you can put
+ ``damon_lru_sort.<parameter>=<value>`` on the kernel boot command line or write
+-proper values to ``/sys/modules/damon_lru_sort/parameters/<parameter>`` files.
++proper values to ``/sys/module/damon_lru_sort/parameters/<parameter>`` files.
+ 
+ Below are the description of each parameter.
+ 
+@@ -283,7 +283,7 @@ doesn't make progress and therefore the free memory rate becomes lower than
+ 20%, it asks DAMON_LRU_SORT to do nothing again, so that we can fall back to
+ the LRU-list based page granularity reclamation. ::
+ 
+-    # cd /sys/modules/damon_lru_sort/parameters
++    # cd /sys/module/damon_lru_sort/parameters
+     # echo 500 > hot_thres_access_freq
+     # echo 120000000 > cold_min_age
+     # echo 10 > quota_ms
+diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
+index 4f1479a11e63..d2ccd9c21b9a 100644
+--- a/Documentation/admin-guide/mm/damon/reclaim.rst
++++ b/Documentation/admin-guide/mm/damon/reclaim.rst
+@@ -46,7 +46,7 @@ that is built with ``CONFIG_DAMON_RECLAIM=y``.
+ To let sysadmins enable or disable it and tune for the given system,
+ DAMON_RECLAIM utilizes module parameters.  That is, you can put
+ ``damon_reclaim.<parameter>=<value>`` on the kernel boot command line or write
+-proper values to ``/sys/modules/damon_reclaim/parameters/<parameter>`` files.
++proper values to ``/sys/module/damon_reclaim/parameters/<parameter>`` files.
+ 
+ Below are the description of each parameter.
+ 
+@@ -251,7 +251,7 @@ therefore the free memory rate becomes lower than 20%, it asks DAMON_RECLAIM to
+ do nothing again, so that we can fall back to the LRU-list based page
+ granularity reclamation. ::
+ 
+-    # cd /sys/modules/damon_reclaim/parameters
++    # cd /sys/module/damon_reclaim/parameters
+     # echo 30000000 > min_age
+     # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
+     # echo 1000 > quota_reset_interval_ms
+diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
+index c976f3e33ffd..d15a2f20bb11 100644
+--- a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
++++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
+@@ -45,7 +45,7 @@ DAMON_RECLAIM找到在特定时间内没有被访问的内存区域并分页。
+ 
+ 为了让系统管理员启用或禁用它，并为给定的系统进行调整，DAMON_RECLAIM利用了模块参数。也就
+ 是说，你可以把 ``damon_reclaim.<parameter>=<value>`` 放在内核启动命令行上，或者把
+-适当的值写入 ``/sys/modules/damon_reclaim/parameters/<parameter>`` 文件。
++适当的值写入 ``/sys/module/damon_reclaim/parameters/<parameter>`` 文件。
+ 
+ 注意，除 ``启用`` 外的参数值只在DAMON_RECLAIM启动时应用。因此，如果你想在运行时应用新
+ 的参数值，而DAMON_RECLAIM已经被启用，你应该通过 ``启用`` 的参数文件禁用和重新启用它。
+@@ -218,7 +218,7 @@ nr_quota_exceeds
+ 就开始真正的工作。如果DAMON_RECLAIM没有取得进展，因此空闲内存率低于20%，它会要求
+ DAMON_RECLAIM再次什么都不做，这样我们就可以退回到基于LRU列表的页面粒度回收了::
+ 
+-    # cd /sys/modules/damon_reclaim/parameters
++    # cd /sys/module/damon_reclaim/parameters
+     # echo 30000000 > min_age
+     # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
+     # echo 1000 > quota_reset_interval_ms
+-- 
+2.34.1
 
-That made me look up the into for the admin guide, which is
-```
-The Linux kernel user’s and administrator’s guide
-
-The following is a collection of user-oriented documents that have been
-added to the kernel over time. There is, as yet, little overall order or
-organization here — this material was not written to be a single,
-coherent document! With luck things will improve quickly over time.
-```
-
-Adding another section that doesn't seem to a be a good fit feels a bit
-like "making things worse than better".  So wouldn't this maybe be a
-good opportunity to create a totally new top-level section for
-application developers and system integrators, even if it's tiny for
-now? The audience is likely big enough to justify that -- and the topics
-are likely different enough, too (of course sometimes there will be
-overlap, as always). Any maybe it will help to bring other stuff over
-from admin guide that is more targeted for application developers and
-system integrators, which will help to get more structure into the
-admin-guide.
-
-Anyway, I have no strong feeling about this, just wanted to get this of
-my chest.
-
-Ciao, Thorsten
