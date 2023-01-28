@@ -2,31 +2,45 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E646C38142
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 00:14:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0242C38142
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 00:32:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbjA1AO4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 19:14:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34262 "EHLO
+        id S233092AbjA1Acy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Jan 2023 19:32:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231962AbjA1AOn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 19:14:43 -0500
-Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 460047B7A4;
-        Fri, 27 Jan 2023 16:14:40 -0800 (PST)
-Date:   Sat, 28 Jan 2023 00:14:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1674864878;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+        with ESMTP id S229495AbjA1Acx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 19:32:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 762C110D3
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jan 2023 16:32:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674865923;
+        h=from:from:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=AGaeFUGsY+6rt83U5mh2TKehFjF1vFRLmfOY7UCFQ/I=;
-        b=pNhbow7uuLKcjf8GjIlH4ZXZVFW+eGn1TQv6s84utXqrl5IMaqY0MLjFWh+RPOCyb8ix/m
-        t/xU3YchLxx9v6anaCF0TsOqK3YFH9+e1fUV3Gao6b4JXfJrZqFPEpWdet4D0vLvfsmi3l
-        JZoapCY84ZSz8/qDRs6AmgJQp0ei5c4=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Oliver Upton <oliver.upton@linux.dev>
-To:     Gavin Shan <gshan@redhat.com>
+        bh=UFSxdYO5nDtftBiB4L6W7S5MGdfu2Qx9OX4YoB+ycGk=;
+        b=TvSPMktIY3vm6ZobVbNJJz59f9W1qyuh9hTMXM4ib8Qds9ZTBHNSRmV0BvoNtGlaUNpr5u
+        I7NsS5+RJzc3bOrveUiJLje/bdVjZMQNxAOLzzvQGaliX2Gic+5CG6mLXTvHWN+5uQJmGh
+        +cjRrjZYIVXu2uxE88D5G2k1zes3X3I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-435-vEU1w1AuP9u29RJkzCLK-A-1; Fri, 27 Jan 2023 19:18:16 -0500
+X-MC-Unique: vEU1w1AuP9u29RJkzCLK-A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A839858F0E;
+        Sat, 28 Jan 2023 00:18:15 +0000 (UTC)
+Received: from [10.64.54.64] (vpn2-54-64.bne.redhat.com [10.64.54.64])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E0A67492C18;
+        Sat, 28 Jan 2023 00:18:07 +0000 (UTC)
+Reply-To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH v4 1/4] KVM: arm64: Include kvm_mmu.h from vgic.h
+To:     Oliver Upton <oliver.upton@linux.dev>
 Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu,
@@ -36,40 +50,52 @@ Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
         seanjc@google.com, isaku.yamahata@intel.com, ricarkol@google.com,
         eric.auger@redhat.com, renzhengeek@gmail.com, reijiw@google.com,
         shan.gavin@gmail.com
-Subject: Re: [PATCH v4 1/4] KVM: arm64: Include kvm_mmu.h from vgic.h
-Message-ID: <Y9Ro6IEjPVeQfmUQ@google.com>
 References: <20230127235150.17025-1-gshan@redhat.com>
- <20230127235150.17025-2-gshan@redhat.com>
+ <20230127235150.17025-2-gshan@redhat.com> <Y9Ro6IEjPVeQfmUQ@google.com>
+From:   Gavin Shan <gshan@redhat.com>
+Message-ID: <be359c63-fbbb-0ced-d023-0df9dc6b3527@redhat.com>
+Date:   Sat, 28 Jan 2023 11:18:05 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230127235150.17025-2-gshan@redhat.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <Y9Ro6IEjPVeQfmUQ@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 28, 2023 at 07:51:47AM +0800, Gavin Shan wrote:
-> We need a unified helper in 'kvm/vgic/vgic.h' to write guest memory. In
-> the helper, the check of no-running-vcpu context for dirty ring will be
-> applied. kvm_write_guest_lock(), defined in 'include/asm/kvm_mmu.h', is
-> going to be dereferenced by the unified helper.
-> 
-> Include 'include/asm/kvm_mmu.h' to 'kvm/vgic/vgic.h' to avoid including
-> the former header file when the later one is needed. With the change,
-> the duplicate inclusions of 'include/asm/kvm_mmu.h' are removed.
-> 
-> No functional change intended.
-> 
-> Suggested-by: Oliver Upton <oliver.upton@linux.dev>
+Hi Oliver,
 
-No, I did not suggest for you to do this. I had suggested you just
-include asm/kvm_mmu.h from the vgic header, not to go and remove it from
-all the files that include vgic.h.
+On 1/28/23 11:14 AM, Oliver Upton wrote:
+> On Sat, Jan 28, 2023 at 07:51:47AM +0800, Gavin Shan wrote:
+>> We need a unified helper in 'kvm/vgic/vgic.h' to write guest memory. In
+>> the helper, the check of no-running-vcpu context for dirty ring will be
+>> applied. kvm_write_guest_lock(), defined in 'include/asm/kvm_mmu.h', is
+>> going to be dereferenced by the unified helper.
+>>
+>> Include 'include/asm/kvm_mmu.h' to 'kvm/vgic/vgic.h' to avoid including
+>> the former header file when the later one is needed. With the change,
+>> the duplicate inclusions of 'include/asm/kvm_mmu.h' are removed.
+>>
+>> No functional change intended.
+>>
+>> Suggested-by: Oliver Upton <oliver.upton@linux.dev>
+> 
+> No, I did not suggest for you to do this. I had suggested you just
+> include asm/kvm_mmu.h from the vgic header, not to go and remove it from
+> all the files that include vgic.h.
+> 
+> Who cares if kvm_mmu.h gets included twice? Include guards exist for this
+> exact reason.
+> 
 
-Who cares if kvm_mmu.h gets included twice? Include guards exist for this
-exact reason.
+Ok, I misundertood your suggestion. Could you drop PATCH[v4 1/4] and include
+'kvm_mmu.h' to 'vgic.h'? Otherwise, I need to respin for v5. Please let me
+know your preference.
 
--- 
 Thanks,
-Oliver
+Gavin
+
