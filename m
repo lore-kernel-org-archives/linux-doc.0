@@ -2,168 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8187CC636CB
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 10:49:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5526C38142
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 12:03:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234306AbjA1Ks7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Jan 2023 05:48:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51328 "EHLO
+        id S234003AbjA1MDi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Jan 2023 07:03:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234320AbjA1Ksy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 05:48:54 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F9837963E;
-        Sat, 28 Jan 2023 02:48:38 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C60C360B49;
-        Sat, 28 Jan 2023 10:48:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F057DC433D2;
-        Sat, 28 Jan 2023 10:48:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674902917;
-        bh=Y432cQgFP5F34pSdT8J5cN2U4/Abh03N/7/nnZFsfgA=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=ucQIwNrYn1j82n5kEO9WaLijY1byLMow61bm47krLw9/rm4ppKVrlbLz6phB9zNbS
-         qYY9lfErpOzRey8+JWhrlP2K20ge8aTXRGAB1RaAXSma5mb3gsVcM7JjsMlaYHRq6p
-         5Sc6Wb+I4Y9+t6nEP7exbyKAI00PmKAmlmdPi+RpRtLkxQxgwEsoweOc60InbgtjXH
-         FqvZ8MvQZkaZTFpjHfucUR24TwuTg8tFdRbslI7LaInKzs0Rwp3ur5+5MyfOIl4uaR
-         6DEA3qekp8dP3oIUZTw+yBhAfVg6biPer6tOhWjPLMuQk2/uOpgUZPcQmhGK5/Sihz
-         AcjSu+HZd6TdA==
-From:   Mark Brown <broonie@kernel.org>
-To:     linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Jens Axboe <axboe@kernel.dk>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Karsten Keil <isdn@linux-pingi.de>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        =?utf-8?q?J=C3=A9r=C3=B4me_Glisse?= <jglisse@redhat.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Len Brown <len.brown@intel.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Evgeniy Polyakov <zbr@ioremap.net>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>, alsa-devel@alsa-project.org,
-        coresight@lists.linaro.org, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, isdn4linux@listserv.isdn4linux.de,
-        keyrings@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-sgx@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org, live-patching@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        target-devel@vger.kernel.org, linux-mm@kvack.org,
-        openrisc@lists.librecores.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-xtensa@linux-xtensa.org, linuxppc-dev@lists.ozlabs.org,
-        x86@kernel.org
-In-Reply-To: <20230127064005.1558-1-rdunlap@infradead.org>
-References: <20230127064005.1558-1-rdunlap@infradead.org>
-Subject: Re: (subset) [PATCH 00/35] Documentation: correct lots of spelling
- errors (series 1)
-Message-Id: <167490289567.2145989.15703368734300500078.b4-ty@kernel.org>
-Date:   Sat, 28 Jan 2023 10:48:15 +0000
+        with ESMTP id S233973AbjA1MDh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 07:03:37 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6002578AF6;
+        Sat, 28 Jan 2023 04:03:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674907415; x=1706443415;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g0nYUyAl0keLEWY5bIHOgRjp4TZCidbtA0BM2hVWcKk=;
+  b=U76kHGUIDiTpqcLKu5zGJtdcSl5xR+L8Nh1BAjZllsy0kRC8vYYRpCpR
+   M8dstdLciebtLkV4D/w9FAq69BREHQcVZDh8H75vDNqgMUQ1AHBfC9wxS
+   X45jSNiLSPicokZrUf5tPk9dRM/+ozRZkNza6Dx8Ce2UFERaemzjlkyhY
+   pPkCRYYhyXdkMWIgfR3rJc1SdEl9CIl6i7biqxgMgoV7SPzZoJOWkMzdu
+   CGET0d/Gnu6gXQPlRpOqpAOLFUpnWnGWwdVDi5fUlUsObxn/V+kijNO5H
+   A1y9GWk2ZM4IWmzGf+apG3c6YvHBEoRTyatlSB074tVpstm5WQy5RcmTI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="354593396"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
+   d="scan'208";a="354593396"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 04:03:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="656917222"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
+   d="scan'208";a="656917222"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 28 Jan 2023 04:03:28 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pLjvb-0000cn-1O;
+        Sat, 28 Jan 2023 12:03:27 +0000
+Date:   Sat, 28 Jan 2023 20:03:23 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+        oleg@redhat.com, avagin@gmail.com, luto@kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore
+ support for SUD
+Message-ID: <202301281932.AtpbMlh9-lkp@intel.com>
+References: <20230126190645.18341-2-gregory.price@memverge.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230126190645.18341-2-gregory.price@memverge.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 26 Jan 2023 22:39:30 -0800, Randy Dunlap wrote:
-> Correct many spelling errors in Documentation/ as reported by codespell.
-> 
-> Maintainers of specific kernel subsystems are only Cc-ed on their
-> respective patches, not the entire series. [if all goes well]
-> 
-> These patches are based on linux-next-20230125.
-> 
-> [...]
+Hi Gregory,
 
-Applied to
+Thank you for the patch! Perhaps something to improve:
 
-   broonie/spi.git for-next
+[auto build test WARNING on linus/master]
+[also build test WARNING on tip/core/entry v6.2-rc5 next-20230127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
+patch link:    https://lore.kernel.org/r/20230126190645.18341-2-gregory.price%40memverge.com
+patch subject: [PATCH v7 1/1] ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
+config: x86_64-rhel-8.3-syz (https://download.01.org/0day-ci/archive/20230128/202301281932.AtpbMlh9-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/bc68df21f98617e74a8c5368a901041f89bdb17f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Gregory-Price/ptrace-syscall_user_dispatch-checkpoint-restore-support-for-SUD/20230128-145101
+        git checkout bc68df21f98617e74a8c5368a901041f89bdb17f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/entry/
 
-[27/35] Documentation: spi: correct spelling
-        commit: 0f6d2cee58f1ff2ebf66f0bceb113d79f66ecb07
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+All warnings (new ones prefixed by >>):
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_get_config':
+   kernel/entry/syscall_user_dispatch.c:114:45: error: storage size of 'config' isn't known
+     114 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:116:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
+     116 |         if (size != sizeof(struct syscall_user_dispatch_config))
+         |                            ^~~~~~
+>> kernel/entry/syscall_user_dispatch.c:114:45: warning: unused variable 'config' [-Wunused-variable]
+     114 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_set_config':
+   kernel/entry/syscall_user_dispatch.c:137:45: error: storage size of 'config' isn't known
+     137 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:139:28: error: invalid application of 'sizeof' to incomplete type 'struct syscall_user_dispatch_config'
+     139 |         if (size != sizeof(struct syscall_user_dispatch_config))
+         |                            ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:137:45: warning: unused variable 'config' [-Wunused-variable]
+     137 |         struct syscall_user_dispatch_config config;
+         |                                             ^~~~~~
+   kernel/entry/syscall_user_dispatch.c:147:1: error: control reaches end of non-void function [-Werror=return-type]
+     147 | }
+         | ^
+   cc1: some warnings being treated as errors
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+vim +/config +114 kernel/entry/syscall_user_dispatch.c
 
-Thanks,
-Mark
+   109	
+   110	int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+   111			void __user *data)
+   112	{
+   113		struct syscall_user_dispatch *sd = &task->syscall_dispatch;
+ > 114		struct syscall_user_dispatch_config config;
+   115	
+   116		if (size != sizeof(struct syscall_user_dispatch_config))
+   117			return -EINVAL;
+   118	
+   119		if (test_syscall_work(SYSCALL_USER_DISPATCH))
+   120			config.mode = PR_SYS_DISPATCH_ON;
+   121		else
+   122			config.mode = PR_SYS_DISPATCH_OFF;
+   123	
+   124		config.offset = sd->offset;
+   125		config.len = sd->len;
+   126		config.selector = sd->selector;
+   127	
+   128		if (copy_to_user(data, &config, sizeof(config)))
+   129			return -EFAULT;
+   130	
+   131		return 0;
+   132	}
+   133	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
