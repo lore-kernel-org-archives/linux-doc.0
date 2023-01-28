@@ -2,291 +2,197 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CF6C38142
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 03:15:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BB2BC38142
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Jan 2023 05:40:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229681AbjA1DPM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Jan 2023 22:15:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52620 "EHLO
+        id S230343AbjA1Fky (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Jan 2023 00:40:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230063AbjA1DPL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Jan 2023 22:15:11 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C2D58B7BD;
-        Fri, 27 Jan 2023 19:14:30 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id z1-20020a17090a66c100b00226f05b9595so6478974pjl.0;
-        Fri, 27 Jan 2023 19:14:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8u8BLsAC7MJfW/eOLyTdr8KOt7Z/0K6Jjodb+6UVQ/A=;
-        b=XtIqWw+07w5XbTt07BtNRBl4gmsunl3w00OhRpcZQnYnSlbB+k3Z6wRvPZ9BRIbnNP
-         G4Millumt7OWvjiPpHBTyB183m3QiP6jNQCTbILBrD47SATj41fdPtuHGtkB0I9+jCdm
-         yOXxblmrZHQDTgldSeJfT92PJKJQfipgMHjPHXHK+jZHLDL7jtAtl4+0pn6s5egUKx5j
-         EO0j9zGBTOVk9eAurKO6H5usKL7oENkspgjyj09aLhnwMUtRobPGC1oK3xIxeaDRTPPV
-         QuFDGBHXwIuJajLJAu60Kgnz6ROWaUU1EftQt9sGbURGnHTgZPd0sHqiXDHOhsgUaTTb
-         S8qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8u8BLsAC7MJfW/eOLyTdr8KOt7Z/0K6Jjodb+6UVQ/A=;
-        b=oqIWZp4HpIyM9xJ73aV5Kb0sAyszk+4jOAz3REz+opDFHdICT3reb3ow6iVi/7ybBy
-         iJuDbEVxaCfLYRa9/AmjPNv/Ppjmt+VIsqzseJrOg1E4APXvQQBhd1YwGH+nhv3Yz5xB
-         L7FBdHBC6gKANvJR9DzgyUUuVQL4CW2sl9y41J+WILArvPS7frZ4oYLd+vonmQO1nRyN
-         n7/qfh2+/y5OShbrKnEMa3iu0upm2+hAYTJuqnAT6cDjOhpt1a39y1nv8RrQo7ocX6Zv
-         h5MZ/Xt9UeHFP/gR6VxiGZTrQ7EhoZFOJkz19wy6DThm4pn9rzJuPWxmVO02kiYsuD21
-         m4Tw==
-X-Gm-Message-State: AO0yUKUZK6m+kM/ZfV/sANODmabAFx3j78xxdscRrk1mgbDVZvQxTaBF
-        mOXVt+l3wwKA8xZafYQUOOY=
-X-Google-Smtp-Source: AK7set8udeHMPFfFdXDSq1UbXc0PGw6iacAtrFFlHgvlvyB2jYevrH82Oqik6UFSx5oqjIdoCOygyQ==
-X-Received: by 2002:a17:903:484:b0:196:2295:8cde with SMTP id jj4-20020a170903048400b0019622958cdemr11634770plb.56.1674875662356;
-        Fri, 27 Jan 2023 19:14:22 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-16.three.co.id. [180.214.232.16])
-        by smtp.gmail.com with ESMTPSA id j3-20020a170902690300b001948af092d0sm3550238plk.152.2023.01.27.19.14.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jan 2023 19:14:21 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 3F3AB1055A0; Sat, 28 Jan 2023 10:14:19 +0700 (WIB)
-Date:   Sat, 28 Jan 2023 10:14:19 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
+        with ESMTP id S229966AbjA1Fkx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Jan 2023 00:40:53 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ABAC78AE0;
+        Fri, 27 Jan 2023 21:40:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=SzBbaHfGLue0BLG0ZS28pNI9ec6feh3/lxH8oAhpLQM=; b=crfJxagdDslxsuVCg8Cc+0tQeD
+        qFqHc/VQbUZJJsRmnmQGQbqjBXx+M+chsoVSQ0gkDF6k7pHpY5s8ioMRcJUGMfAk9m8EyvScX9/W9
+        I/Wj7jMyFiijIgeaORojAuQLU4UFsLljdFJp0Hz1L7YID/VV+imN65Y7S/ttp/9WrRUHV5JpAL65a
+        Mm2kPGyXWdhtgrV5vxE43DCQ7efKrEVKYBQ95XOf3Y6rDd6XRZv/nv0KyjRXP69VovUjcR27rufLk
+        J4jTB3h+wrCjmNGLA9B18+6KAgwoDqRygqjiKCLFZyQt3E6PDmFg44BTuDxM+LRKKa/rQz8NbL33c
+        3p/KHRTw==;
+Received: from [2601:1c2:d00:6a60::9526]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pLdxF-00HG2T-JN; Sat, 28 Jan 2023 05:40:45 +0000
+Message-ID: <25089707-b037-4cce-367b-819ddd239b17@infradead.org>
+Date:   Fri, 27 Jan 2023 21:40:41 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2] docs: add workload-tracing document to admin-guide
+Content-Language: en-US
 To:     Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net
 Cc:     sshefali021@gmail.com, kstewart@linuxfoundation.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: add workload-tracing document to admin-guide
-Message-ID: <Y9STCwt2FnYf4/X4@debian.me>
 References: <20230127234616.55137-1-skhan@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="2GGYwLuvcBLp9AwQ"
-Content-Disposition: inline
+From:   Randy Dunlap <rdunlap@infradead.org>
 In-Reply-To: <20230127234616.55137-1-skhan@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi--
 
---2GGYwLuvcBLp9AwQ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/27/23 15:46, Shuah Khan wrote:
+> Add a new section to the admin-guide with information of interest to
+> application developers and system integrators doing analysis of the
+> Linux kernel for safety critical applications.
+> 
+> This section will contain documents supporting analysis of kernel
+> interactions with applications, and key kernel subsystems expectations.
+> 
+> Add a new workload-tracing document to this new section.
+> 
+> Signed-off-by: Shefali Sharma <sshefali021@gmail.com>
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+> Changes since v1:
+> - Addressed review comments on v1 on long lines, rst syntax, license
+> 
+>  Documentation/admin-guide/index.rst           |  11 +
+>  .../admin-guide/workload-tracing.rst          | 591 ++++++++++++++++++
+>  2 files changed, 602 insertions(+)
+>  create mode 100644 Documentation/admin-guide/workload-tracing.rst
+> 
 
-On Fri, Jan 27, 2023 at 04:46:16PM -0700, Shuah Khan wrote:
-> +strace tool can be used to trace system calls made by a process and sign=
-als
-> +it receives. a process to the perf, stress-ng, paxtest workloads. System
-
-"... to trace system calls made by a process (which can be perf, stress-ng,
-paxtest workloads, or neither)."
-
-> +Before we can get started we will have to get our system ready. We assume
-
-"Before we can get started the system must be prepared first."
-
-> +Browsing kernel sources ::
-
-"To browse kernel sources, you will need:"
-
-> +Workload overview
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/Documentation/admin-guide/workload-tracing.rst b/Documentation/admin-guide/workload-tracing.rst
+> new file mode 100644
+> index 000000000000..43753f3ea915
+> --- /dev/null
+> +++ b/Documentation/admin-guide/workload-tracing.rst
+> @@ -0,0 +1,591 @@
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
 > +
-> +We used strace to trace perf bench, stress-ng and paxtest workloads to
 
-"In this section, we use strace to trace ..."
 
-> +show how to analyze a workload and identify Linux subsystems used by
-> +these workloads. We hope this process can be applied to trace workload(s=
-).
-> +We will go over the workloads first.
-
-"This process can also be applied to trace other workloads."
-
+> +What is perf and how do we use it?
+> +====================================
 > +
-> +perf bench (all) workload:
-> +--------------------------
+> +Perf is an analysis tool based on Linux 2.6+ systems, which abstracts the
+> +CPU hardware difference in performance measurement in Linux, and provides
+> +a simple command line interface. Perf is based on the perf_events interface
+> +exported by the kernel. It is very useful for profiling the system and
+> +finding performance bottlenecks in an application.
 > +
-> <snipped>
+> +If you haven't already checkout the Linux mainline repository, you can do
+
+                          checked out
+
+> +so and then build kernel and perf tool: ::
 > +
-> +Stress-ng netdev stressor workload:
-> +-----------------------------------
+> +  git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux
+> +  cd linux
+> +  make -j3 all
+> +  cd tools/perf
+> +  make
 > +
-> <snipped>
+> +Note: The perf command can be built without building the kernel in the
+> +repo and can be run on older kernels. However matching the kernel and
+
+   preferably "repository"
+
+> +perf revisions gives more accurate information on the subsystem usage.
 > +
-> +paxtest kiddie workload:
-> +------------------------
-> +
-> <snipped>
-
-Drop trailing colon from these subsection texts.
-
-> +We used the =E2=80=9C-c=E2=80=9D option to gather fine grained informati=
-on.
-
-```
-The basic usage is strace <command>. To run verbose tracing, specify -v
-to strace. To generate the report, specify -c option.
-```
-
-> +Now let=E2=80=99s look at `cscope <https://cscope.sourceforge.net/>`_, a=
- command
-> +line tool for browsing C, C++ or Java code-bases. We can use it to find
-> +all the references to a symbol, global definitions, functions called by a
-> +function, functions calling a function, text strings, regular expression
-> +patterns, files including a file.
-> +
-> +We can use cscope to find which system call belongs to which subsystem.
-> +This way we can find the kernel subsystems used by a process when it is
-> +executed. To use it navigate to the source code directory. Here we are
-> +analyzing the kernel source tree.
-
-I guess "you" is better fit for the wording above?
-
-> +We used perf stat and perf bench options. For a detailed information on =
-the
+> +We used perf stat and perf bench options. For a detailed information on the
 > +perf tool, run perf -h.
-
-"In this section, we highlight stat and bench options. For help on other
-options, see perf -h."
-
-> +**perf bench all** command runs the following benchmarks: ::
-
-Either don't markup that command or inline it (``perf bench all``).
-Also, use bullet list for benchmarking list below.
-
-> +
-> +  sched/messaging
-> +  sched/pipe
-> +  syscall/basic
-> +  mem/memcpy
-> +  mem/memset
 > +
 
-> +The netdev stressor starts N workers that exercise various netdevice ioc=
-tl
-> +commands across all the available network devices. The following ioctls =
-are
-> +exercised: ::
-> +
-> +  SIOCGIFCONF, SIOCGIFINDEX, SIOCGIFNAME, SIOCGIFFLAGS
-> +  SIOCGIFADDR, SIOCGIFNETMASK, SIOCGIFMETRIC, SIOCGIFMTU
-> +  SIOCGIFHWADDR, SIOCGIFMAP, SIOCGIFTXQLEN
 
-Again, use bullet list instead.
+Fix table line below:
 
-> +
-> +The following command runs the stressor: ::
-> +
-> +  stress-ng --netdev 1 -t 60 --metrics command.
-
-Simply end the sentence with double colon to make the code block above.
-
-> +
-> +We can use the perf record command to record the events and information
-> +associated with a process. This command records the profiling data in the
-> +perf.data file in the same directory.
-> +
-> +Using the following commands you can record the events associated with t=
-he
-> +netdev stressor, view the generated report perf.data and annotate the to
-> +see the statistics of each instruction of the program. ::
-
-"... view the generated report and statistics::"
-
-> +
-> +  perf record stress-ng --netdev 1 -t 60 --metrics command.
-> +  perf report
-> +  perf annotate
-> +
-> +What is paxtest and how do we use it?
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +paxtest is a program that tests buffer overflows in the kernel. It tests
-> +kernel enforcements over memory usage. Generally, execution in some memo=
-ry
-> +segments makes buffer overflows possible. It runs a set of programs that
-> +attempt to subvert memory usage. It is used as a regression test suite f=
-or
-> +PaX, and will be useful to test other memory protection patches for the
-> +kernel.
-> +
-> +paxtest provides kiddie and blackhat modes. paxtest kiddie mode runs in
-> +normal mode, whereas blackhat mode tries to get around the protection of
-> +the kernel testing for vulnerabilities. We focus on the kiddie mode here
-> +and combine "paxtest kiddie" run with "perf record" to collect CPU stack
-> +traces for the paxtest kiddie run to see which function is calling other
-> +functions in the performance profile. Then the "dwarf" (DWARF's CFI - Ca=
-ll
-> +Frame Information) mode can be used to unwind the stack. The resulting
-> +report can be viewed in call-graph format as follows: ::
-> +
-
-"... The resulting reported can be viewed in dwarf call-graph format by::"
-
-> +  perf record --call-graph dwarf paxtest kiddie
-> +  perf report --stdio
-> +
-> +Tracing workloads
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Now that we understand the workloads, let's start tracing them.
-
-What are the workloads? I don't see any definition here.
-
-> +
-> +Tracing perf bench all workload
+> +Tracing paxtest kiddie workload
 > +-------------------------------
 > +
-> +Run the following command to trace perf bench all workload: ::
+> +Run the following command to trace paxtest kiddie workload: ::
 > +
-> + strace -c perf bench all
+> + strace -c paxtest kiddie
 > +
 > +**System Calls made by the workload:**
-
-What about third level heading (with tilde underline)?
-
 > +
-> +The following table shows you the system calls, number of times the syst=
-em
+> +The following table shows you the system calls, number of times the system
 > +call was invoked, and the Linux subsystem they fall under.
-
-"Below table is the list of syscalls, with number of times each is invoked,
-and the corresponding subsystem:"
-
-> +**System Calls made by the workload:**
 > +
-> +The following table shows you the system calls, number of times the syst=
-em
-> +call was invoked, and the Linux subsystem they fall under.
-
-Same here.
-
-> +**System Calls made by the workload:**
+> ++-------------------+-----------+-----------------+----------------------+
+> +| System Call       | # calls   | Linux Subsystem | System Call (API)    |
+> ++===================+===========+=================+======================+
+> +| read              | 3         | Filesystem      | sys_read()           |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| write             | 11        | Filesystem      | sys_write()          |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| close             | 41        | Filesystem      | sys_close()          |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| stat              | 24        | Filesystem      | sys_stat()           |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| fstat             | 2         | Filesystem      | sys_fstat()          |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| pread64           | 6         | Filesystem      | sys_pread64()        |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| access	    | 1         | Filesystem      | sys_access()         |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| pipe              | 1         | Filesystem      | sys_pipe()           |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| dup2              | 24        | Filesystem      | sys_dup2()           |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| execve            | 1         | Filesystem      | sys_execve()         |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| fcntl             | 26        | Filesystem      | sys_fcntl()          |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| openat            | 14        | Filesystem      | sys_openat()         |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| rt_sigaction      | 7         | Signal          | sys_rt_sigaction()   |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| rt_sigreturn      | 38        | Signal          | sys_rt_sigreturn()   |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| clone             | 38        | Process Mgmt.   | sys_clone()          |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| wait4             | 44        | Time            | sys_wait4()          |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| mmap              | 7         | Memory Mgmt.    | sys_mmap()           |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| mprotect          | 3         | Memory Mgmt.    | sys_mprotect()       |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| munmap            | 1         | Memory Mgmt.    | sys_munmap()         |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| brk               | 3         | Memory Mgmt.    | sys_brk()            |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| getpid            | 1         | Process Mgmt.   | sys_getpid()         |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| getuid            | 1         | Process Mgmt.   | sys_getuid()         |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| getgid            | 1         | Process Mgmt.   | sys_getgid()         |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| geteuid           | 2         | Process Mgmt.   | sys_geteuid()        |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| getegid           | 1         | Process Mgmt.   | sys_getegid()        |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| getppid           | 1         | Process Mgmt.   | sys_getppid()        |
+> ++-------------------+-----------+-----------------+----------------------+
+> +| arch_prctl        | 2         | Process Mgmt.   | sys_arch_prctl()     |
+> ++-------------------+-----------+-----------------+----------------------+
 > +
-> +The following table shows you the system calls, number of times the syst=
-em
-> +call was invoked, and the Linux subsystem they fall under.
+> +Conclusion
+> +==========
+> +
+> +This document is intended to be used as a guide on how to gather fine
+> +grained information on the resources in use by workloads using strace.
 
-Again, same here.
-
-But I guess the syscall tables are from the example workload (YMMV)?
+fine-grained
 
 Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---2GGYwLuvcBLp9AwQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY9STBwAKCRD2uYlJVVFO
-o6B8AP4mAhhKYriVYwPkOMh5/IteqZY9IaNF466YzL6rAzlFlwD/UU6/B3UycHpi
-yJHCpeWI1ZTkyyE+niAJeyocQfQgTQY=
-=+7Hg
------END PGP SIGNATURE-----
-
---2GGYwLuvcBLp9AwQ--
+-- 
+~Randy
