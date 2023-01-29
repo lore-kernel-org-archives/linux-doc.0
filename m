@@ -2,120 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8123EC61D97
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Jan 2023 15:14:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A42C636CC
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Jan 2023 15:22:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232009AbjA2POr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 Jan 2023 10:14:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50938 "EHLO
+        id S232759AbjA2PWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 29 Jan 2023 10:22:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229999AbjA2POq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Jan 2023 10:14:46 -0500
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F381C587;
-        Sun, 29 Jan 2023 07:14:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1675005279; bh=Xkk2wNMvCc6Xw7jVSI8Ne2p6gqEgoFqQ1RMVFA8w0Yw=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=sh/NfCDI9eCn9BPMAgRPaidw6AV/PvMbIvmkJlt2FluBL6d08DyfkOYQkGt6jcEeQ
-         4n7/mHBo3/lQu4cyJwGr/oK9TgL0v4/QMChmsqKF4/48rBI9aaOzVNnMUy2FpGyPwW
-         MIMg5aAzrZn4xkUBLWKXwq8fluA/BDr7bvVuuan2ckdUU2iAR6N6zwiIper6oOgNgL
-         12YqfKWexdgvMZmuIQHYQcBbNkE/56ic52Wxm4tOMu91BwiF/ryYHFJgZEF1ux+7Ke
-         dDI71NNRZQaCY2hiu61sT3qHPc2wVLKKNe8+CJD4xAMELwPnubIQJdsfYPyFalht/K
-         lm2trhMJYhsTA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from probook ([95.223.44.193]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MuUj2-1oUjmv2KAM-00rUtE; Sun, 29
- Jan 2023 16:14:39 +0100
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
+        with ESMTP id S229549AbjA2PWI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Jan 2023 10:22:08 -0500
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99A021ABD0;
+        Sun, 29 Jan 2023 07:22:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=CKXudx6D8ghx+FrwdKjLTeAENff6ZhcvHr24bvecLjE=;
+  b=pCBslvixOo73tPhSVfWo5vjIpWA6xTkxcP6hR7xtD1Ch0D6KZkIEHBwj
+   JdiPkXzk2Alk8lXWbwrEAfOFKA9SQ8ZwPn8ewMlzj9ufXQdQ/B1Qz14r1
+   DpqNxJenLsczNAVJovcfxnG4fXTJIaeDHn3BSu9zlAaGMtiDC9UPlo04U
+   w=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.97,256,1669071600"; 
+   d="scan'208";a="46283717"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 16:22:03 +0100
+Date:   Sun, 29 Jan 2023 16:22:03 +0100 (CET)
+From:   Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To:     =?ISO-8859-15?Q?Jonathan_Neusch=E4fer?= <j.neuschaefer@gmx.net>
+cc:     linux-doc@vger.kernel.org, Julia Lawall <Julia.Lawall@inria.fr>,
         Nicolas Palix <nicolas.palix@imag.fr>,
         Jonathan Corbet <corbet@lwn.net>, cocci@inria.fr,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: coccinelle: Escape --options to fix Sphinx output
-Date:   Sun, 29 Jan 2023 16:14:08 +0100
-Message-Id: <20230129151408.1525324-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.39.0
+Subject: Re: [PATCH] Documentation: coccinelle: Escape --options to fix Sphinx
+ output
+In-Reply-To: <20230129151408.1525324-1-j.neuschaefer@gmx.net>
+Message-ID: <alpine.DEB.2.22.394.2301291621350.2852@hadrien>
+References: <20230129151408.1525324-1-j.neuschaefer@gmx.net>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:uFBiIphmXEeRlB5va60ud01KyrW18ZmJLRIIc6nBb6esVmlpr6p
- JZaPv0QxjZtJVFkj7PEPH/zF6GGDNhx3jucFh5vm7g6QGRo909p7YAj0d2sLBOCfs8ggd0u
- LQIC4lwvlGgRnA/otQNn9JZXQlJwila2brqU/T1Q/a2JP93Sq5AmhPacdgreGg7Fl5yGZ8y
- eVcL0sKMRsY+jWd6YNFAA==
-UI-OutboundReport: notjunk:1;M01:P0:h+JDJ6+TucY=;Zm25VJ/b7OpIGuDIL1u9y3y+QEs
- uKB/BnXtj6JNNyOKpHrtyCHz5a1wPIvrQO2zjjkj+hvCkQss+xjM1ItwXJYB0pXAHQA9RNPzo
- 8mKD8aMur5PWpIa15J2FKYnXd7jdTjZ2eit+YKXzwx1Z0gREhPZnk3+vsKzEe+IpG7LDUblAM
- GMEOPNuIDF5QaGkWa8YkVN4d7Ymq4oHaH7p+EJSa5sa8sA19SmGJ5fxDvA12lYb+sWmSJ92Ls
- 7uQN/QRwi7x0iMm3N4Ryye4f/oa//bMg0J/oxl7wlAdzNk+ufPlK9Jge5rutf7LogEfGxKU0I
- zF4AVAwMG7um7GchGt2MFDSAb8Ej21otZ6FNNKHsTOpBBGFWACBOidh7TMew3okWmBKQA4IQ/
- xwMyUCTAMZPPIK4OC/jl3lO7ewqc7Dw+OHd76ml4A50t0QjOzcJtQs6E5AMrso/KuwJV5/qeG
- alpwYKCKkixH52/cXihYol4JGgZiKJPyD03rsJH3v4wH3tt5L+zMLO3SqsvGAQzE0UQqgjY/7
- jAhRUa/P8g1DZ/uvOGZTJ1yyJDbqMXO2us/YkFDa/QjDazHh286QmlS4/hmyKaNF2CamuJa+s
- Y2MDFcsjMdFdyPIg9C662sPv/0x5XSBPrmVBjchjpgpavOdDMuGQlP3CQ2OZHsYCE9aYk+j07
- pf5Fapzt+ke4gRYSjjwU5m2gM19XhhFornmxGVwh5wLpGewV6BqLlFLCilNJ+fPNsMsg/jF1o
- 9g/579AHkZ//GtbmstXOXzDOly6pv6rlVTVXNJsif3GJinb1iBJgaZpVTCsV43yC2GiOCRtfD
- lH9Ykb0HsdrzbEbhXhi+C7Lk1zao3U1aBQyDBJHzxnIER2Gxl1NZnPmdMPpd19KN9Pdy3G1Wr
- ZEn/E4oHkpuA5VCTfxUD1jtt5ufgPLgssPU+G1T5dcvOtjPKB88QSVSY8M5X5if5P6iQIY3Q1
- wxZFz+gjwqUF12iprgPTnpN6GB4=
+Content-Type: multipart/mixed; boundary="8323329-1914809095-1675005724=:2852"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Without such escaping, -- is rendered as =E2=80=93 (en dash).
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- Documentation/dev-tools/coccinelle.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+--8323329-1914809095-1675005724=:2852
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-to=
-ols/coccinelle.rst
-index d9976069ed126..535ce126fb4fa 100644
-=2D-- a/Documentation/dev-tools/coccinelle.rst
-+++ b/Documentation/dev-tools/coccinelle.rst
-@@ -219,7 +219,7 @@ instance::
-     cat cocci.err
 
- You can use SPFLAGS to add debugging flags; for instance you may want to
--add both --profile --show-trying to SPFLAGS when debugging. For example
-+add both ``--profile --show-trying`` to SPFLAGS when debugging. For examp=
-le
- you may want to use::
 
-     rm -f err.log
-@@ -248,7 +248,7 @@ variables for .cocciconfig is as follows:
+On Sun, 29 Jan 2023, Jonathan Neuschäfer wrote:
 
- - Your current user's home directory is processed first
- - Your directory from which spatch is called is processed next
-=2D- The directory provided with the --dir option is processed last, if us=
-ed
-+- The directory provided with the ``--dir`` option is processed last, if =
-used
+> Without such escaping, -- is rendered as – (en dash).
+>
+> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
 
- Since coccicheck runs through make, it naturally runs from the kernel
- proper dir; as such the second rule above would be implied for picking up=
- a
-@@ -265,8 +265,8 @@ The kernel coccicheck script has::
-     fi
+Thanks.
 
- KBUILD_EXTMOD is set when an explicit target with M=3D is used. For both =
-cases
--the spatch --dir argument is used, as such third rule applies when whethe=
-r M=3D
--is used or not, and when M=3D is used the target directory can have its o=
-wn
-+the spatch ``--dir`` argument is used, as such third rule applies when wh=
-ether
-+M=3D is used or not, and when M=3D is used the target directory can have =
-its own
- .cocciconfig file. When M=3D is not passed as an argument to coccicheck t=
-he
- target directory is the same as the directory from where spatch was calle=
-d.
+Acked-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-=2D-
-2.39.0
-
+> ---
+>  Documentation/dev-tools/coccinelle.rst | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+> index d9976069ed126..535ce126fb4fa 100644
+> --- a/Documentation/dev-tools/coccinelle.rst
+> +++ b/Documentation/dev-tools/coccinelle.rst
+> @@ -219,7 +219,7 @@ instance::
+>      cat cocci.err
+>
+>  You can use SPFLAGS to add debugging flags; for instance you may want to
+> -add both --profile --show-trying to SPFLAGS when debugging. For example
+> +add both ``--profile --show-trying`` to SPFLAGS when debugging. For example
+>  you may want to use::
+>
+>      rm -f err.log
+> @@ -248,7 +248,7 @@ variables for .cocciconfig is as follows:
+>
+>  - Your current user's home directory is processed first
+>  - Your directory from which spatch is called is processed next
+> -- The directory provided with the --dir option is processed last, if used
+> +- The directory provided with the ``--dir`` option is processed last, if used
+>
+>  Since coccicheck runs through make, it naturally runs from the kernel
+>  proper dir; as such the second rule above would be implied for picking up a
+> @@ -265,8 +265,8 @@ The kernel coccicheck script has::
+>      fi
+>
+>  KBUILD_EXTMOD is set when an explicit target with M= is used. For both cases
+> -the spatch --dir argument is used, as such third rule applies when whether M=
+> -is used or not, and when M= is used the target directory can have its own
+> +the spatch ``--dir`` argument is used, as such third rule applies when whether
+> +M= is used or not, and when M= is used the target directory can have its own
+>  .cocciconfig file. When M= is not passed as an argument to coccicheck the
+>  target directory is the same as the directory from where spatch was called.
+>
+> --
+> 2.39.0
+>
+>
+--8323329-1914809095-1675005724=:2852--
