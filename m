@@ -2,215 +2,506 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF865C636D0
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Jan 2023 23:11:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4546C61DA4
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Jan 2023 23:11:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235321AbjA2XLF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 Jan 2023 18:11:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50312 "EHLO
+        id S235240AbjA2XLE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 29 Jan 2023 18:11:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235201AbjA2XLD (ORCPT
+        with ESMTP id S235148AbjA2XLD (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Jan 2023 18:11:03 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D5451ABED;
-        Sun, 29 Jan 2023 15:11:00 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAFF01ADC1;
+        Sun, 29 Jan 2023 15:10:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Sender:Reply-To:Content-ID:Content-Description;
-        bh=Q12Y5QY2RHdOdj2O/7X6A5JVjbRKxpcv3Q7sikmYOrE=; b=bA4cKVggoDWmlybjfhWX24yU1q
-        a1QaO766kjKLJmJ2/iMIFkHBcMX3mPrmmkBmHkhk3lN33+hnnAEHrtkO2BZdYCktSa0MdQgOj0nQc
-        Go/L0veXY53vU3Hg4j5wOow9mF8cWuGOwopv4ggrvveByQS8BQE/YxRJdWdcQx7SZKpO3zuHa0f15
-        s1WOEq3w4ct2zgBHqK9jRSZ2/Q7At8i5maEg+yNon+kSsA7gKcq2ETlkAWoEx+9KbCi5boujUHwuq
-        C+AWT9wwX1Dq1xVOPiAryN3wR2eRYF1p852Fgoy3UU4o9jIEd/zFyDTxAAqUWBSrqgNrQRW6LN2Kx
-        T9FmvG1g==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+        :Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=/PJ/XxDYnr0Vr0KrPaECQtmCxxakt2A8iHz8jVHmKTw=; b=GXuJxDJyrPPzjInmF/6YYKS6Nt
+        722qOgTqqvydS8P/yGykQxz2h0a/AGQ3Y72HbgXpDnCEZjVEYs2FJHrS+gRtRkU3X8rpzhDNt4IGE
+        1OeTeM24RirBGrsAwecK6w/DzP0gaOvgsFdiL+JeRfA4p/xrRWxQSE7K5XM2CdQjsCKdnbcELq+YQ
+        zA26v+2DcjRITmrkaBXS33142WCg7UHHyZam/BgCWT6v/7bYEazYABQBwSH0zTszBTXDWf2QeGn8t
+        0EvC5jn6j8Xa18ovJ6eZ/QdxETF7S03tbZ81pHY7ZXK2Ltw1eJ25sGryHoYSi1tTAQZ0zsXLwstBm
+        QRdUx25g==;
 Received: from [2601:1c2:d00:6a60::9526] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pMGp9-0020M2-Cl; Sun, 29 Jan 2023 23:10:59 +0000
+        id 1pMGp6-0020M2-FM; Sun, 29 Jan 2023 23:10:56 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Josh Triplett <josh@joshtriplett.org>, rcu@vger.kernel.org
-Subject: [PATCH 5/9] Documentation: RCU: correct spelling
-Date:   Sun, 29 Jan 2023 15:10:49 -0800
-Message-Id: <20230129231053.20863-6-rdunlap@infradead.org>
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH 1/9] Documentation: admin-guide: correct spelling
+Date:   Sun, 29 Jan 2023 15:10:45 -0800
+Message-Id: <20230129231053.20863-2-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230129231053.20863-1-rdunlap@infradead.org>
 References: <20230129231053.20863-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/RCU/ as reported
+Correct spelling problems for Documentation/admin-guide/ as reported
 by codespell.
-
-Note: in RTFP.txt, there are other misspellings that are left as is
-since they were used that way in email Subject: lines or in LWN.net
-articles. [preemptable, Preemptable, synchonisation]
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Cc: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Frederic Weisbecker <frederic@kernel.org>
-Cc: Neeraj Upadhyay <quic_neeraju@quicinc.com>
-Cc: Josh Triplett <josh@joshtriplett.org>
-Cc: rcu@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Zefan Li <lizefan.x@bytedance.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: cgroups@vger.kernel.org
+Cc: Alasdair Kergon <agk@redhat.com>
+Cc: Mike Snitzer <snitzer@kernel.org>
+Cc: dm-devel@redhat.com
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-mm@kvack.org
 ---
- .../Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst |    6 +++---
- .../Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst        |    2 +-
- .../RTFP.txt                                                   |   10 +++++-----
- .../UP.rst                                                     |    4 ++--
- .../lockdep.rst                                                |    2 +-
- .../torture.rst                                                |    4 ++--
- 6 files changed, 14 insertions(+), 14 deletions(-)
+ Documentation/admin-guide/bcache.rst                       |    2 +-
+ Documentation/admin-guide/cgroup-v1/blkio-controller.rst   |    2 +-
+ Documentation/admin-guide/cgroup-v2.rst                    |   10 +++++-----
+ Documentation/admin-guide/cifs/usage.rst                   |    4 ++--
+ Documentation/admin-guide/device-mapper/cache-policies.rst |    2 +-
+ Documentation/admin-guide/device-mapper/dm-ebs.rst         |    2 +-
+ Documentation/admin-guide/device-mapper/dm-zoned.rst       |    2 +-
+ Documentation/admin-guide/device-mapper/unstriped.rst      |   10 +++++-----
+ Documentation/admin-guide/dynamic-debug-howto.rst          |    2 +-
+ Documentation/admin-guide/gpio/gpio-sim.rst                |    2 +-
+ Documentation/admin-guide/hw-vuln/mds.rst                  |    4 ++--
+ Documentation/admin-guide/kernel-parameters.txt            |    8 ++++----
+ Documentation/admin-guide/laptops/thinkpad-acpi.rst        |    2 +-
+ Documentation/admin-guide/md.rst                           |    2 +-
+ Documentation/admin-guide/media/bttv.rst                   |    2 +-
+ Documentation/admin-guide/media/building.rst               |    2 +-
+ Documentation/admin-guide/media/si476x.rst                 |    2 +-
+ Documentation/admin-guide/media/vivid.rst                  |    2 +-
+ Documentation/admin-guide/mm/hugetlbpage.rst               |    2 +-
+ Documentation/admin-guide/mm/numa_memory_policy.rst        |    4 ++--
+ Documentation/admin-guide/perf/hns3-pmu.rst                |    2 +-
+ Documentation/admin-guide/pm/amd-pstate.rst                |    2 +-
+ Documentation/admin-guide/spkguide.txt                     |    4 ++--
+ Documentation/admin-guide/sysctl/vm.rst                    |    4 ++--
+ Documentation/admin-guide/sysrq.rst                        |    2 +-
+ 25 files changed, 41 insertions(+), 41 deletions(-)
 
-diff -- a/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst b/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
---- a/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
-+++ b/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
-@@ -277,7 +277,7 @@ the following access functions:
+diff -- a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -624,7 +624,7 @@ and is an example of this type.
+ Limits
+ ------
  
- Again, only one request in a given batch need actually carry out a
- grace-period operation, which means there must be an efficient way to
--identify which of many concurrent reqeusts will initiate the grace
-+identify which of many concurrent requests will initiate the grace
- period, and that there be an efficient way for the remaining requests to
- wait for that grace period to complete. However, that is the topic of
- the next section.
-@@ -405,7 +405,7 @@ Use of Workqueues
- In earlier implementations, the task requesting the expedited grace
- period also drove it to completion. This straightforward approach had
- the disadvantage of needing to account for POSIX signals sent to user
--tasks, so more recent implemementations use the Linux kernel's
-+tasks, so more recent implementations use the Linux kernel's
- workqueues (see Documentation/core-api/workqueue.rst).
+-A child can only consume upto the configured amount of the resource.
++A child can only consume up to the configured amount of the resource.
+ Limits can be over-committed - the sum of the limits of children can
+ exceed the amount of resource available to the parent.
  
- The requesting task still does counter snapshotting and funnel-lock
-@@ -465,7 +465,7 @@ corresponding disadvantage that workqueu
- initialized, which does not happen until some time after the scheduler
- spawns the first task. Given that there are parts of the kernel that
- really do want to execute grace periods during this mid-boot “dead
--zone”, expedited grace periods must do something else during thie time.
-+zone”, expedited grace periods must do something else during this time.
+@@ -642,11 +642,11 @@ on an IO device and is an example of thi
+ Protections
+ -----------
  
- What they do is to fall back to the old practice of requiring that the
- requesting task drive the expedited grace period, as was the case before
-diff -- a/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst b/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
---- a/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
-+++ b/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
-@@ -168,7 +168,7 @@ an ``atomic_add_return()`` of zero) to d
- +-----------------------------------------------------------------------+
+-A cgroup is protected upto the configured amount of the resource
++A cgroup is protected up to the configured amount of the resource
+ as long as the usages of all its ancestors are under their
+ protected levels.  Protections can be hard guarantees or best effort
+ soft boundaries.  Protections can also be over-committed in which case
+-only upto the amount available to the parent is protected among
++only up to the amount available to the parent is protected among
+ children.
  
- The approach must be extended to handle one final case, that of waking a
--task blocked in ``synchronize_rcu()``. This task might be affinitied to
-+task blocked in ``synchronize_rcu()``. This task might be affined to
- a CPU that is not yet aware that the grace period has ended, and thus
- might not yet be subject to the grace period's memory ordering.
- Therefore, there is an ``smp_mb()`` after the return from
-diff -- a/Documentation/RCU/lockdep.rst b/Documentation/RCU/lockdep.rst
---- a/Documentation/RCU/lockdep.rst
-+++ b/Documentation/RCU/lockdep.rst
-@@ -65,7 +65,7 @@ checking of rcu_dereference() primitives
- 	rcu_access_pointer(p):
- 		Return the value of the pointer and omit all barriers,
- 		but retain the compiler constraints that prevent duplicating
--		or coalescsing.  This is useful when testing the
-+		or coalescing.  This is useful when testing the
- 		value of the pointer itself, for example, against NULL.
+ Protections are in the range [0, max] and defaults to 0, which is
+@@ -1079,7 +1079,7 @@ All time durations are in microseconds.
  
- The rcu_dereference_check() check expression can be any boolean
-diff -- a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
---- a/Documentation/RCU/RTFP.txt
-+++ b/Documentation/RCU/RTFP.txt
-@@ -201,7 +201,7 @@ work looked at debugging uses of RCU [Se
- In 2012, Josh Triplett received his Ph.D. with his dissertation
- covering RCU-protected resizable hash tables and the relationship
- between memory barriers and read-side traversal order:  If the updater
--is making changes in the opposite direction from the read-side traveral
-+is making changes in the opposite direction from the read-side traversal
- order, the updater need only execute a memory-barrier instruction,
- but if in the same direction, the updater needs to wait for a grace
- period between the individual updates [JoshTriplettPhD].  Also in 2012,
-@@ -1245,7 +1245,7 @@ Oregon Health and Sciences University"
- [Viewed September 5, 2005]"
- ,annotation={
- 	First posting showing how RCU can be safely adapted for
--	preemptable RCU read side critical sections.
-+	preemptible RCU read side critical sections.
- }
- }
+ 	  $MAX $PERIOD
  
-@@ -1888,7 +1888,7 @@ Revised:
- \url{https://lore.kernel.org/r/20070910183004.GA3299@linux.vnet.ibm.com}
- [Viewed October 25, 2007]"
- ,annotation={
--	Final patch for preemptable RCU to -rt.  (Later patches were
-+	Final patch for preemptible RCU to -rt.  (Later patches were
- 	to mainline, eventually incorporated.)
- }
- }
-@@ -2275,7 +2275,7 @@ lot of {Linux} into your technology!!!"
- \url{https://lore.kernel.org/r/20090724001429.GA17374@linux.vnet.ibm.com}
- [Viewed August 15, 2009]"
- ,annotation={
--	First posting of simple and fast preemptable RCU.
-+	First posting of simple and fast preemptible RCU.
- }
- }
+-	which indicates that the group may consume upto $MAX in each
++	which indicates that the group may consume up to $MAX in each
+ 	$PERIOD duration.  "max" for $MAX indicates no limit.  If only
+ 	one number is written, $MAX is updated.
  
-@@ -2639,7 +2639,7 @@ lot of {Linux} into your technology!!!"
- 	RCU-protected hash tables, barriers vs. read-side traversal order.
- 	.
- 	If the updater is making changes in the opposite direction from
--	the read-side traveral order, the updater need only execute a
-+	the read-side traversal order, the updater need only execute a
- 	memory-barrier instruction, but if in the same direction, the
- 	updater needs to wait for a grace period between the individual
- 	updates.
-diff -- a/Documentation/RCU/torture.rst b/Documentation/RCU/torture.rst
---- a/Documentation/RCU/torture.rst
-+++ b/Documentation/RCU/torture.rst
-@@ -216,7 +216,7 @@ Kernel boot arguments can also be suppli
- rcutorture's module parameters.  For example, to test a change to RCU's
- CPU stall-warning code, use "--bootargs 'rcutorture.stall_cpu=30'".
- This will of course result in the scripting reporting a failure, namely
--the resuling RCU CPU stall warning.  As noted above, reducing memory may
-+the resulting RCU CPU stall warning.  As noted above, reducing memory may
- require disabling rcutorture's callback-flooding tests::
+@@ -2289,7 +2289,7 @@ Cpuset Interface Files
+ 	For a valid partition root with the sibling cpu exclusivity
+ 	rule enabled, changes made to "cpuset.cpus" that violate the
+ 	exclusivity rule will invalidate the partition as well as its
+-	sibiling partitions with conflicting cpuset.cpus values. So
++	sibling partitions with conflicting cpuset.cpus values. So
+ 	care must be taking in changing "cpuset.cpus".
  
- 	kvm.sh --cpus 448 --configs '56*TREE04' --memory 128M \
-@@ -370,5 +370,5 @@ You can also re-run a previous remote ru
- 		tools/testing/selftests/rcutorture/res/2022.11.03-11.26.28-remote \
- 		--duration 24h
+ 	A valid non-root parent partition may distribute out all its CPUs
+diff -- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+--- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
++++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+@@ -1488,7 +1488,7 @@ Example of command to set keyboard langu
+ Text corresponding to keyboard layout to be set in sysfs are: be(Belgian),
+ cz(Czech), da(Danish), de(German), en(English), es(Spain), et(Estonian),
+ fr(French), fr-ch(French(Switzerland)), hu(Hungarian), it(Italy), jp (Japan),
+-nl(Dutch), nn(Norway), pl(Polish), pt(portugese), sl(Slovenian), sv(Sweden),
++nl(Dutch), nn(Norway), pl(Polish), pt(portuguese), sl(Slovenian), sv(Sweden),
+ tr(Turkey)
  
--In this case, most of the kvm-again.sh parmeters may be supplied following
-+In this case, most of the kvm-again.sh parameters may be supplied following
- the pathname of the old run-results directory.
-diff -- a/Documentation/RCU/UP.rst b/Documentation/RCU/UP.rst
---- a/Documentation/RCU/UP.rst
-+++ b/Documentation/RCU/UP.rst
-@@ -107,7 +107,7 @@ UP systems, including PREEMPT SMP builds
+ WWAN Antenna type
+diff -- a/Documentation/admin-guide/md.rst b/Documentation/admin-guide/md.rst
+--- a/Documentation/admin-guide/md.rst
++++ b/Documentation/admin-guide/md.rst
+@@ -317,7 +317,7 @@ All md devices contain:
+      suspended (not supported yet)
+          All IO requests will block. The array can be reconfigured.
  
- Quick Quiz #3:
- 	Why can't synchronize_rcu() return immediately on UP systems running
--	preemptable RCU?
-+	preemptible RCU?
+-         Writing this, if accepted, will block until array is quiessent
++         Writing this, if accepted, will block until array is quiescent
  
- .. _answer_quick_quiz_up:
+      readonly
+          no resync can happen.  no superblocks get written.
+diff -- a/Documentation/admin-guide/cgroup-v1/blkio-controller.rst b/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
+--- a/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
++++ b/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
+@@ -106,7 +106,7 @@ Proportional weight policy files
+           see Documentation/block/bfq-iosched.rst.
  
-@@ -143,7 +143,7 @@ Answer to Quick Quiz #2:
+   blkio.bfq.weight_device
+-          Specifes per cgroup per device weights, overriding the default group
++          Specifies per cgroup per device weights, overriding the default group
+           weight. For more details, see Documentation/block/bfq-iosched.rst.
  
- Answer to Quick Quiz #3:
- 	Why can't synchronize_rcu() return immediately on UP systems
--	running preemptable RCU?
-+	running preemptible RCU?
+ 	  Following is the format::
+diff -- a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
+--- a/Documentation/admin-guide/pm/amd-pstate.rst
++++ b/Documentation/admin-guide/pm/amd-pstate.rst
+@@ -403,7 +403,7 @@ Unit Tests for amd-pstate
  
- 	Because some other task might have been preempted in the middle
- 	of an RCU read-side critical section.  If synchronize_rcu()
+  * We can introduce more functional or performance tests to align the result together, it will benefit power and performance scale optimization.
+ 
+-1. Test case decriptions
++1. Test case descriptions
+ 
+     1). Basic tests
+ 
+diff -- a/Documentation/admin-guide/spkguide.txt b/Documentation/admin-guide/spkguide.txt
+--- a/Documentation/admin-guide/spkguide.txt
++++ b/Documentation/admin-guide/spkguide.txt
+@@ -1105,8 +1105,8 @@ speakup load
+ Alternatively, you can add the above line to your file
+ ~/.bashrc or ~/.bash_profile.
+ 
+-If your system administrator ran himself the script, all the users will be able
+-to change from English to the language choosed by root and do directly
++If your system administrator himself ran the script, all the users will be able
++to change from English to the language chosen by root and do directly
+ speakupconf load (or add this to the ~/.bashrc or
+ ~/.bash_profile file). If there are several languages to handle, the
+ administrator (or every user) will have to run the first steps until speakupconf
+diff -- a/Documentation/admin-guide/device-mapper/cache-policies.rst b/Documentation/admin-guide/device-mapper/cache-policies.rst
+--- a/Documentation/admin-guide/device-mapper/cache-policies.rst
++++ b/Documentation/admin-guide/device-mapper/cache-policies.rst
+@@ -70,7 +70,7 @@ the entries (each hotspot block covers a
+ cache block).
+ 
+ All this means smq uses ~25bytes per cache block.  Still a lot of
+-memory, but a substantial improvement nontheless.
++memory, but a substantial improvement nonetheless.
+ 
+ Level balancing
+ ^^^^^^^^^^^^^^^
+diff -- a/Documentation/admin-guide/device-mapper/dm-ebs.rst b/Documentation/admin-guide/device-mapper/dm-ebs.rst
+--- a/Documentation/admin-guide/device-mapper/dm-ebs.rst
++++ b/Documentation/admin-guide/device-mapper/dm-ebs.rst
+@@ -31,7 +31,7 @@ Mandatory parameters:
+ 
+ Optional parameter:
+ 
+-    <underyling sectors>:
++    <underlying sectors>:
+         Number of sectors defining the logical block size of <dev path>.
+         2^N supported, e.g. 8 = emulate 8 sectors of 512 bytes = 4KiB.
+         If not provided, the logical block size of <dev path> will be used.
+diff -- a/Documentation/admin-guide/device-mapper/dm-zoned.rst b/Documentation/admin-guide/device-mapper/dm-zoned.rst
+--- a/Documentation/admin-guide/device-mapper/dm-zoned.rst
++++ b/Documentation/admin-guide/device-mapper/dm-zoned.rst
+@@ -46,7 +46,7 @@ just like conventional zones.
+ The zones of the device(s) are separated into 2 types:
+ 
+ 1) Metadata zones: these are conventional zones used to store metadata.
+-Metadata zones are not reported as useable capacity to the user.
++Metadata zones are not reported as usable capacity to the user.
+ 
+ 2) Data zones: all remaining zones, the vast majority of which will be
+ sequential zones used exclusively to store user data. The conventional
+diff -- a/Documentation/admin-guide/device-mapper/unstriped.rst b/Documentation/admin-guide/device-mapper/unstriped.rst
+--- a/Documentation/admin-guide/device-mapper/unstriped.rst
++++ b/Documentation/admin-guide/device-mapper/unstriped.rst
+@@ -35,7 +35,7 @@ An example of undoing an existing dm-str
+ 
+ This small bash script will setup 4 loop devices and use the existing
+ striped target to combine the 4 devices into one.  It then will use
+-the unstriped target ontop of the striped device to access the
++the unstriped target on top of the striped device to access the
+ individual backing loop devices.  We write data to the newly exposed
+ unstriped devices and verify the data written matches the correct
+ underlying device on the striped array::
+@@ -110,8 +110,8 @@ to get a 92% reduction in read latency u
+ Example dmsetup usage
+ =====================
+ 
+-unstriped ontop of Intel NVMe device that has 2 cores
+------------------------------------------------------
++unstriped on top of Intel NVMe device that has 2 cores
++------------------------------------------------------
+ 
+ ::
+ 
+@@ -124,8 +124,8 @@ respectively::
+   /dev/mapper/nvmset0
+   /dev/mapper/nvmset1
+ 
+-unstriped ontop of striped with 4 drives using 128K chunk size
+---------------------------------------------------------------
++unstriped on top of striped with 4 drives using 128K chunk size
++---------------------------------------------------------------
+ 
+ ::
+ 
+diff -- a/Documentation/admin-guide/hw-vuln/mds.rst b/Documentation/admin-guide/hw-vuln/mds.rst
+--- a/Documentation/admin-guide/hw-vuln/mds.rst
++++ b/Documentation/admin-guide/hw-vuln/mds.rst
+@@ -64,8 +64,8 @@ architecture section: :ref:`Documentatio
+ Attack scenarios
+ ----------------
+ 
+-Attacks against the MDS vulnerabilities can be mounted from malicious non
+-priviledged user space applications running on hosts or guest. Malicious
++Attacks against the MDS vulnerabilities can be mounted from malicious non-
++privileged user space applications running on hosts or guest. Malicious
+ guest OSes can obviously mount attacks as well.
+ 
+ Contrary to other speculation based vulnerabilities the MDS vulnerability
+diff -- a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -356,7 +356,7 @@ The lowmem_reserve_ratio is an array. Yo
+ 
+ But, these values are not used directly. The kernel calculates # of protection
+ pages for each zones from them. These are shown as array of protection pages
+-in /proc/zoneinfo like followings. (This is an example of x86-64 box).
++in /proc/zoneinfo like the following. (This is an example of x86-64 box).
+ Each zone has an array of protection pages like this::
+ 
+   Node 0, zone      DMA
+@@ -433,7 +433,7 @@ a 2bit error in a memory module) is dete
+ that cannot be handled by the kernel. In some cases (like the page
+ still having a valid copy on disk) the kernel will handle the failure
+ transparently without affecting any applications. But if there is
+-no other uptodate copy of the data it will kill to prevent any data
++no other up-to-date copy of the data it will kill to prevent any data
+ corruptions from propagating.
+ 
+ 1: Kill all processes that have the corrupted and not reloadable page mapped
+diff -- a/Documentation/admin-guide/bcache.rst b/Documentation/admin-guide/bcache.rst
+--- a/Documentation/admin-guide/bcache.rst
++++ b/Documentation/admin-guide/bcache.rst
+@@ -204,7 +204,7 @@ For example::
+ This should present your unmodified backing device data in /dev/loop0
+ 
+ If your cache is in writethrough mode, then you can safely discard the
+-cache device without loosing data.
++cache device without losing data.
+ 
+ 
+ E) Wiping a cache device
+diff -- a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
+--- a/Documentation/admin-guide/sysrq.rst
++++ b/Documentation/admin-guide/sysrq.rst
+@@ -138,7 +138,7 @@ Command	    Function
+ ``v``	    Forcefully restores framebuffer console
+ ``v``	    Causes ETM buffer dump [ARM-specific]
+ 
+-``w``	    Dumps tasks that are in uninterruptable (blocked) state.
++``w``	    Dumps tasks that are in uninterruptible (blocked) state.
+ 
+ ``x``	    Used by xmon interface on ppc/powerpc platforms.
+             Show global PMU Registers on sparc64.
+diff -- a/Documentation/admin-guide/cifs/usage.rst b/Documentation/admin-guide/cifs/usage.rst
+--- a/Documentation/admin-guide/cifs/usage.rst
++++ b/Documentation/admin-guide/cifs/usage.rst
+@@ -399,7 +399,7 @@ A partial list of the supported mount op
+   sep
+ 		if first mount option (after the -o), overrides
+ 		the comma as the separator between the mount
+-		parms. e.g.::
++		parameters. e.g.::
+ 
+ 			-o user=myname,password=mypassword,domain=mydom
+ 
+@@ -765,7 +765,7 @@ cifsFYI			If set to non-zero value, addi
+ 			Some debugging statements are not compiled into the
+ 			cifs kernel unless CONFIG_CIFS_DEBUG2 is enabled in the
+ 			kernel configuration. cifsFYI may be set to one or
+-			nore of the following flags (7 sets them all)::
++			more of the following flags (7 sets them all)::
+ 
+ 			  +-----------------------------------------------+------+
+ 			  | log cifs informational messages		  | 0x01 |
+diff -- a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -330,7 +330,7 @@ Examples
+ 
+   // boot-args example, with newlines and comments for readability
+   Kernel command line: ...
+-    // see whats going on in dyndbg=value processing
++    // see what's going on in dyndbg=value processing
+     dynamic_debug.verbose=3
+     // enable pr_debugs in the btrfs module (can be builtin or loadable)
+     btrfs.dyndbg="+p"
+diff -- a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
+--- a/Documentation/admin-guide/mm/hugetlbpage.rst
++++ b/Documentation/admin-guide/mm/hugetlbpage.rst
+@@ -86,7 +86,7 @@ by increasing or decreasing the value of
+ 
+ Note: When the feature of freeing unused vmemmap pages associated with each
+ hugetlb page is enabled, we can fail to free the huge pages triggered by
+-the user when ths system is under memory pressure.  Please try again later.
++the user when the system is under memory pressure.  Please try again later.
+ 
+ Pages that are used as huge pages are reserved inside the kernel and cannot
+ be used for other purposes.  Huge pages cannot be swapped out under
+diff -- a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
+--- a/Documentation/admin-guide/mm/numa_memory_policy.rst
++++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
+@@ -246,7 +246,7 @@ MPOL_INTERLEAVED
+ 	interleaved system default policy works in this mode.
+ 
+ MPOL_PREFERRED_MANY
+-	This mode specifices that the allocation should be preferrably
++	This mode specifies that the allocation should be preferably
+ 	satisfied from the nodemask specified in the policy. If there is
+ 	a memory pressure on all nodes in the nodemask, the allocation
+ 	can fall back to all existing numa nodes. This is effectively
+@@ -360,7 +360,7 @@ and NUMA nodes.  "Usage" here means one
+ 2) examination of the policy to determine the policy mode and associated node
+    or node lists, if any, for page allocation.  This is considered a "hot
+    path".  Note that for MPOL_BIND, the "usage" extends across the entire
+-   allocation process, which may sleep during page reclaimation, because the
++   allocation process, which may sleep during page reclamation, because the
+    BIND policy nodemask is used, by reference, to filter ineligible nodes.
+ 
+ We can avoid taking an extra reference during the usages listed above as
+diff -- a/Documentation/admin-guide/gpio/gpio-sim.rst b/Documentation/admin-guide/gpio/gpio-sim.rst
+--- a/Documentation/admin-guide/gpio/gpio-sim.rst
++++ b/Documentation/admin-guide/gpio/gpio-sim.rst
+@@ -123,7 +123,7 @@ Each simulated GPIO chip creates a separ
+ directory for each exposed line
+ (e.g. ``/sys/devices/platform/gpio-sim.X/gpiochipY/``). The name of each group
+ is of the form: ``'sim_gpioX'`` where X is the offset of the line. Inside each
+-group there are two attibutes:
++group there are two attributes:
+ 
+     ``pull`` - allows to read and set the current simulated pull setting for
+                every line, when writing the value must be one of: ``'pull-up'``,
+diff -- a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -676,7 +676,7 @@
+ 			Sets the size of kernel per-numa memory area for
+ 			contiguous memory allocations. A value of 0 disables
+ 			per-numa CMA altogether. And If this option is not
+-			specificed, the default value is 0.
++			specified, the default value is 0.
+ 			With per-numa CMA enabled, DMA users on node nid will
+ 			first try to allocate buffer from the pernuma area
+ 			which is located in node nid, if the allocation fails,
+@@ -946,7 +946,7 @@
+ 			driver code when a CPU writes to (or reads from) a
+ 			random memory location. Note that there exists a class
+ 			of memory corruptions problems caused by buggy H/W or
+-			F/W or by drivers badly programing DMA (basically when
++			F/W or by drivers badly programming DMA (basically when
+ 			memory is written at bus level and the CPU MMU is
+ 			bypassed) which are not detectable by
+ 			CONFIG_DEBUG_PAGEALLOC, hence this option will not help
+@@ -1732,7 +1732,7 @@
+ 			boot-time allocation of gigantic hugepages is skipped.
+ 
+ 	hugetlb_free_vmemmap=
+-			[KNL] Reguires CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
++			[KNL] Requires CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+ 			enabled.
+ 			Control if HugeTLB Vmemmap Optimization (HVO) is enabled.
+ 			Allows heavy hugetlb users to free up some more
+@@ -3693,7 +3693,7 @@
+ 			implementation; requires CONFIG_GENERIC_IDLE_POLL_SETUP
+ 			to be effective. This is useful on platforms where the
+ 			sleep(SH) or wfi(ARM,ARM64) instructions do not work
+-			correctly or when doing power measurements to evalute
++			correctly or when doing power measurements to evaluate
+ 			the impact of the sleep instructions. This is also
+ 			useful when using JTAG debugger.
+ 
+diff -- a/Documentation/admin-guide/perf/hns3-pmu.rst b/Documentation/admin-guide/perf/hns3-pmu.rst
+--- a/Documentation/admin-guide/perf/hns3-pmu.rst
++++ b/Documentation/admin-guide/perf/hns3-pmu.rst
+@@ -53,7 +53,7 @@ two events have same value of bits 0~15
+ event pair. And the bit 16 of config indicates getting counter 0 or
+ counter 1 of hardware event.
+ 
+-After getting two values of event pair in usersapce, the formula of
++After getting two values of event pair in userspace, the formula of
+ computation to calculate real performance data is:::
+ 
+   counter 0 / counter 1
+diff -- a/Documentation/admin-guide/media/bttv.rst b/Documentation/admin-guide/media/bttv.rst
+--- a/Documentation/admin-guide/media/bttv.rst
++++ b/Documentation/admin-guide/media/bttv.rst
+@@ -909,7 +909,7 @@ DE hat diverse Treiber fuer diese Modell
+   - TVPhone98 (Bt878)
+   - AVerTV und TVCapture98 w/VCR (Bt 878)
+   - AVerTVStudio und TVPhone98 w/VCR (Bt878)
+-  - AVerTV GO Serie (Kein SVideo Input)
++  - AVerTV GO Series (Kein SVideo Input)
+   - AVerTV98 (BT-878 chip)
+   - AVerTV98 mit Fernbedienung (BT-878 chip)
+   - AVerTV/FM98 (BT-878 chip)
+diff -- a/Documentation/admin-guide/media/building.rst b/Documentation/admin-guide/media/building.rst
+--- a/Documentation/admin-guide/media/building.rst
++++ b/Documentation/admin-guide/media/building.rst
+@@ -137,7 +137,7 @@ The ``LIRC user interface`` option adds
+ from remote controllers.
+ 
+ The ``Support for eBPF programs attached to lirc devices`` option allows
+-the usage of special programs (called eBPF) that would allow aplications
++the usage of special programs (called eBPF) that would allow applications
+ to add extra remote controller decoding functionality to the Linux Kernel.
+ 
+ The ``Remote controller decoders`` option allows selecting the
+diff -- a/Documentation/admin-guide/media/si476x.rst b/Documentation/admin-guide/media/si476x.rst
+--- a/Documentation/admin-guide/media/si476x.rst
++++ b/Documentation/admin-guide/media/si476x.rst
+@@ -142,7 +142,7 @@ The drivers exposes following files:
+ 				  indicator
+   0x18		 lassi		  Signed Low side adjacent Channel
+ 				  Strength indicator
+-  0x19		 hassi		  ditto fpr High side
++  0x19		 hassi		  ditto for High side
+   0x20		 mult		  Multipath indicator
+   0x21		 dev		  Frequency deviation
+   0x24		 assi		  Adjacent channel SSI
+diff -- a/Documentation/admin-guide/media/vivid.rst b/Documentation/admin-guide/media/vivid.rst
+--- a/Documentation/admin-guide/media/vivid.rst
++++ b/Documentation/admin-guide/media/vivid.rst
+@@ -580,7 +580,7 @@ Metadata Capture
+ ----------------
+ 
+ The Metadata capture generates UVC format metadata. The PTS and SCR are
+-transmitted based on the values set in vivid contols.
++transmitted based on the values set in vivid controls.
+ 
+ The Metadata device will only work for the Webcam input, it will give
+ back an error for all other inputs.
