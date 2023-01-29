@@ -2,92 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31016C636CB
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Jan 2023 12:01:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 509E6C61D97
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Jan 2023 15:04:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230412AbjA2L7k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 Jan 2023 06:59:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56498 "EHLO
+        id S234912AbjA2PEp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 29 Jan 2023 10:04:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbjA2L7i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Jan 2023 06:59:38 -0500
+        with ESMTP id S234449AbjA2PEn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Jan 2023 10:04:43 -0500
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 292D21A4A7;
-        Sun, 29 Jan 2023 03:59:36 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 283B61E9E9;
+        Sun, 29 Jan 2023 07:04:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1674993565; bh=dsYA3TJFoKxRXCyOmwr6lbeTv9iP7lBwN1Z82eU3mBE=;
+        t=1675004677; bh=4jrPQunuxuiB0eXyNSnLg5DAL4du4RKWiXJDWj48ScQ=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=Mgr8rUWoNDXTxMZhQ+9BnfLs1XhOD/7GNsKxCWWXsnZi8QYWWt6xnoT8XpdFtnzjM
-         wdND8adrg/LH6/TcyDILhU26jQIz7IKQ1KwSZrkUI9Qq/mjMP01ig2o946xAq41DmQ
-         xD9ao13Iwc+PwbV5wCNTVLZNLqH2xvanIk1H1dcbsi48HQSfKu734FsFVXZDNhUtu1
-         UpHK1ONXxW5lTwVaUM35kykMRZkjf2uFl+bd/wOsLlkXotDG7AqTv+uMOXqWgsnApw
-         SM4bD6jWMqyE+Bnie04trUS4rdO9sP1xGdAkK6ghnMYp5DV0o3xus7/3FQdfYNPbFI
-         zCd8Nd/65XaJQ==
+        b=ret9eSyrY4ldDebnL0lUtrtE/S7uFAmoF2LlozbctRQ6GyXLwbiM5tusM/9w0iG6G
+         pkahQ+a+wFat97al5vekNz9ixdOBarMF+PGuR57+/ypfddrhjONZXiiPY8SV6NEpzz
+         yRWRTMRDmirz5iW6PUxoJcOEIEQZjlROzFQETL+cfU93R7kcb+2zOUjkEaEYsfAc9F
+         Sawo/SYJtR30ZUiJ0laDjDbqg6IBshFeTNliLsJ0ReuJ9jpQPhVreP7QNuFF4+fOww
+         xxRnIBjxffqYi9yz6Q/EhxXunaj3F9gpMHyG8vHmYa5/D9bJoaj9YyDHdxrI+RVLZn
+         4E6wKimSEPmKg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from probook ([95.223.44.193]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MYNJq-1p8IaU3vAw-00VMyl; Sun, 29
- Jan 2023 12:59:24 +0100
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MA7GM-1pWcZD1dVK-00BcTh; Sun, 29
+ Jan 2023 16:04:37 +0100
 From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To:     linux-doc@vger.kernel.org
 Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] dma-buf: Add "dma-buf" to title of documentation
-Date:   Sun, 29 Jan 2023 12:59:17 +0100
-Message-Id: <20230129115917.1229529-1-j.neuschaefer@gmx.net>
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts: kernel-doc: Remove workaround for @param... syntax
+Date:   Sun, 29 Jan 2023 16:04:35 +0100
+Message-Id: <20230129150435.1510400-1-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:oi5JlNYNUWp/c7+muHI4kjvbKTuF7k4nnmPz0F0CEVayxmY3pvC
- Wb8boStiLvOC2QrclCRf8hl1M0OO0hLMItz0N9D6u8oQ2kSXEl2+Mxn18usJIiQYLmazR4L
- vcy6MRZ0uK8bSGr490VkZrYD3rGBLOZcwPz5FKuLTMapfHtmXBgEevzzmSG4zFn/iImQcX3
- 87ZqC7McaihczOjLb6XPQ==
-UI-OutboundReport: notjunk:1;M01:P0:huz1cX/hXdw=;NCwhynrk+L8Fjw8o9/ouSpJiPBi
- +JinvjApiOya4DA70vc1hjj5tfjP79zPjCkwOAloe/Xg4e7UB/XXw5gV1Czbzve9DXNXmZbug
- vj3IgR0PMLgjBGsUEb1yChibSyJl3ewT9cgWi2m2ROmTEzSWEjU5LhoX5HlE0bJ3Oi4k75vER
- P2qEPgfuU78o5vyW/4GaniG10vLljm/5PmwHvuPAHdWb+YRz+veZq41FK3rDpbsb1DOzfbSX4
- oSPeNmqjPGurYB+Bred3J9KNEzcLraLOngyfOgxqYtm1ae7M2p+OGPq0CX989GOoP8t+WZ6QV
- oJi9Nn2JxllNI5DY4SZ9rNA7CcDFevPm2rzKaTpikEp2mbP/VFjVDg2Vre0MoASzMSCiVhTkm
- 4TwTzYkboI9UHSM+q0eNKneyQ7W0VNDBFwec9kpCokp7A12btvWMqUZsNCuwzRLbw9/Tq1U/5
- ZqIZF0VZUScbKs2tPVSaBvT6EMh2avVPGDI5Yk0/EGqQKD7deOwSoQzEmmtOcavVxc9D1QYKF
- nvojhqaUTaWlmn+gb50QStfEws/CVPhKlvz3XPYWT6aj31V1lnS4ZyX4Nk79QO6j1NkhHh0aY
- CnIu4cdiPb5E5N09JqAfaVN8YglXkmfqcrKBxkW+IObE9iBxX5d5YAWfmF4jaBrZEqrzPQ2QK
- PuDRz3zxbqm+ChFyetKMX/mZjgf/1li6bSQ3/vDOZyBeWCLAHGVxdSsNdZKsW0xVU9bxj5dXr
- MGCDEMKvgE7y5q9FAX4hl2SA85hMa9f4DqOXCLicVp39PVEj/yVySl2a5uaLGdqsnl240Nx3X
- WtIvmMnCORLzFmhAekHRLuCy0P5FflN4x6Jl7E8/pyJJoM/skf9wN+6nh9r9iWdEnwGrmRT1A
- 9JVECEv6Y6lhGwh5C9RydAosTcOOh3NP826+SLIhfxmNXBgub3kvBJMnGho1O3eWDLwOyzFMl
- aoWMSvvIweuVsytdLYgQDkxKhlc=
+X-Provags-ID: V03:K1:9vZVQ0xybHF13EjRMUHbJl3XT9TEgx/ZUcDRfFJSFOnRWZuSYu3
+ ggnTIE/TmhdsLD3ovH6TRkIHnYBl9K6UKaEyZ2yscnpgJI7XLd0ZqrNLBD0ZSuIPay1xxOf
+ lwa4WuQIq3A67ShTWcQNydwbD6MZkfkNC4q8sQOGBu61BtTrYZvfckz9b1BiJju/1fKAvqK
+ bt48BOsciEbWE2jgsdTJA==
+UI-OutboundReport: notjunk:1;M01:P0:X07j5CW3+E4=;gwAtE4sDFy2xg/jUx29Rdar6Txy
+ /kNXmCr9NwkdAHuuBMPhQR3mhPl27T3oRHkhRBcY6WoN+Hcm/eJ55pId3tqS7+nOTWIrYkLup
+ +ZuM60sVKKdMjgC4yjfmDdbyvrkqq5tH/PoMdNhzWA7/+xOxYRb4S6v+3V/km5YBI5OjaNArh
+ CorSuHIHjTFgZ8wby5Fl8V1VgBeVGqwY3SrJTbyXx4dYsefFiUCDGLBvifG9fBTk35eA+WeZG
+ q2bqx1TjV3RcKUv6Ue5AC6UUOGBjSKlHr1LTes55CMuXFudNtpTGqkpuqPYLxQksPc92zkeLT
+ 5X3MDEzVXZjCbAeJ0FMGgNX9jbpToNGD6YC8PPKeYTRmDgAI69TWzx5FHW3FshFOollVm9QrO
+ mG/UyfwzQOU6gTlR4e3uJ8kx5pgX+NH12TBuOzlw/g4QTT0NLG2R+ZdQQCkUElY5dt35v/TC3
+ KPR70g8Ht6yuCDxmaNU2lKjrhKQMxg77UDT0KTReS2Tt444AYGUoh/1/o93hiGZgSV6jLXiDl
+ Jkobhvd7YPT7pHXOm1VBX3fUYc+4R1HvbD0Pn0TmNxFTS0XVYufzTnFs0L1W1VHy6bt9ldJMa
+ 4FQ+MKcOT7hkE/bUkuX69zFSMcEN+5swrHWhEt9aZHyPSvDO4yXdDkcrSY58J5kIlzS1vawRp
+ FSieVzmbhc+4Ips2KIhhiy4dE0K02kPlG5Q1fcJUNscf1iR/frzsEImCxLglIahVkGZzJ+ObG
+ 5iReV3imLjC8T/YKzISdw0Fd3Rdj/sNgmFn/fXstxbwBQtPL5jwH5BehakuOEXEbeM31ZDiQ5
+ +1P9mRnh1gBa/CGPJp0KxFJ1CUBp3wRws1rjPkfAFmF/+F3tzdWi4X2eEybfbT+B1/KQdjwuT
+ vhz103rJgR4X6lPaMOmsHD0YP5TC5iof19X53zR1rji5DzIOgSTyj4dXMqy9lZcnfOoMMj++D
+ kvi54/9bSv9bNSRmdJLoureyES0=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To make it easier to find the dma-buf documentation when looking through
-tables-of-contents etc., put the name "dma-buf" in the title.
+Commit 43756e347f21 ("scripts/kernel-doc: Add support for named variable
+macro arguments") improved how named variable macro arguments are
+handled, and changed how they are documented in kerneldoc comments
+from "@param...", to "@param", deprecating the old syntax.
+
+All users of the old syntax have since been converted, so this commit
+finally removes support for it.
+
+The output of "make htmldocs" is the same with and without this commit.
 
 Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
 =2D--
- Documentation/driver-api/dma-buf.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/kernel-doc | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-a=
-pi/dma-buf.rst
-index 622b8156d2127..61b6f42ed0f18 100644
-=2D-- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -1,5 +1,5 @@
--Buffer Sharing and Synchronization
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Buffer Sharing and Synchronization (dma-buf)
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 54b0893cae666..5cf38abdaf9da 100755
+=2D-- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -2079,17 +2079,6 @@ sub process_name($$) {
+ sub process_body($$) {
+     my $file =3D shift;
 
- The dma-buf subsystem provides the framework for sharing buffers for
- hardware (DMA) access across multiple device drivers and subsystems, and
+-    # Until all named variable macro parameters are
+-    # documented using the bare name (`x`) rather than with
+-    # dots (`x...`), strip the dots:
+-    if ($section =3D~ /\w\.\.\.$/) {
+-	$section =3D~ s/\.\.\.$//;
+-
+-	if ($verbose) {
+-	    emit_warning("${file}:$.", "Variable macro arguments should be docum=
+ented without dots\n");
+-	}
+-    }
+-
+     if ($state =3D=3D STATE_BODY_WITH_BLANK_LINE && /^\s*\*\s?\S/) {
+ 	dump_section($file, $section, $contents);
+ 	$section =3D $section_default;
 =2D-
 2.39.0
 
