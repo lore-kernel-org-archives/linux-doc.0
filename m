@@ -2,103 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 509E6C61D97
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Jan 2023 15:04:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8123EC61D97
+	for <linux-doc@archiver.kernel.org>; Sun, 29 Jan 2023 15:14:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234912AbjA2PEp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 Jan 2023 10:04:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48164 "EHLO
+        id S232009AbjA2POr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 29 Jan 2023 10:14:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234449AbjA2PEn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Jan 2023 10:04:43 -0500
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 283B61E9E9;
-        Sun, 29 Jan 2023 07:04:41 -0800 (PST)
+        with ESMTP id S229999AbjA2POq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Jan 2023 10:14:46 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F381C587;
+        Sun, 29 Jan 2023 07:14:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1675004677; bh=4jrPQunuxuiB0eXyNSnLg5DAL4du4RKWiXJDWj48ScQ=;
+        t=1675005279; bh=Xkk2wNMvCc6Xw7jVSI8Ne2p6gqEgoFqQ1RMVFA8w0Yw=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=ret9eSyrY4ldDebnL0lUtrtE/S7uFAmoF2LlozbctRQ6GyXLwbiM5tusM/9w0iG6G
-         pkahQ+a+wFat97al5vekNz9ixdOBarMF+PGuR57+/ypfddrhjONZXiiPY8SV6NEpzz
-         yRWRTMRDmirz5iW6PUxoJcOEIEQZjlROzFQETL+cfU93R7kcb+2zOUjkEaEYsfAc9F
-         Sawo/SYJtR30ZUiJ0laDjDbqg6IBshFeTNliLsJ0ReuJ9jpQPhVreP7QNuFF4+fOww
-         xxRnIBjxffqYi9yz6Q/EhxXunaj3F9gpMHyG8vHmYa5/D9bJoaj9YyDHdxrI+RVLZn
-         4E6wKimSEPmKg==
+        b=sh/NfCDI9eCn9BPMAgRPaidw6AV/PvMbIvmkJlt2FluBL6d08DyfkOYQkGt6jcEeQ
+         4n7/mHBo3/lQu4cyJwGr/oK9TgL0v4/QMChmsqKF4/48rBI9aaOzVNnMUy2FpGyPwW
+         MIMg5aAzrZn4xkUBLWKXwq8fluA/BDr7bvVuuan2ckdUU2iAR6N6zwiIper6oOgNgL
+         12YqfKWexdgvMZmuIQHYQcBbNkE/56ic52Wxm4tOMu91BwiF/ryYHFJgZEF1ux+7Ke
+         dDI71NNRZQaCY2hiu61sT3qHPc2wVLKKNe8+CJD4xAMELwPnubIQJdsfYPyFalht/K
+         lm2trhMJYhsTA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from probook ([95.223.44.193]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MA7GM-1pWcZD1dVK-00BcTh; Sun, 29
- Jan 2023 16:04:37 +0100
+Received: from probook ([95.223.44.193]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MuUj2-1oUjmv2KAM-00rUtE; Sun, 29
+ Jan 2023 16:14:39 +0100
 From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To:     linux-doc@vger.kernel.org
 Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH] scripts: kernel-doc: Remove workaround for @param... syntax
-Date:   Sun, 29 Jan 2023 16:04:35 +0100
-Message-Id: <20230129150435.1510400-1-j.neuschaefer@gmx.net>
+        Julia Lawall <Julia.Lawall@inria.fr>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Jonathan Corbet <corbet@lwn.net>, cocci@inria.fr,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: coccinelle: Escape --options to fix Sphinx output
+Date:   Sun, 29 Jan 2023 16:14:08 +0100
+Message-Id: <20230129151408.1525324-1-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:9vZVQ0xybHF13EjRMUHbJl3XT9TEgx/ZUcDRfFJSFOnRWZuSYu3
- ggnTIE/TmhdsLD3ovH6TRkIHnYBl9K6UKaEyZ2yscnpgJI7XLd0ZqrNLBD0ZSuIPay1xxOf
- lwa4WuQIq3A67ShTWcQNydwbD6MZkfkNC4q8sQOGBu61BtTrYZvfckz9b1BiJju/1fKAvqK
- bt48BOsciEbWE2jgsdTJA==
-UI-OutboundReport: notjunk:1;M01:P0:X07j5CW3+E4=;gwAtE4sDFy2xg/jUx29Rdar6Txy
- /kNXmCr9NwkdAHuuBMPhQR3mhPl27T3oRHkhRBcY6WoN+Hcm/eJ55pId3tqS7+nOTWIrYkLup
- +ZuM60sVKKdMjgC4yjfmDdbyvrkqq5tH/PoMdNhzWA7/+xOxYRb4S6v+3V/km5YBI5OjaNArh
- CorSuHIHjTFgZ8wby5Fl8V1VgBeVGqwY3SrJTbyXx4dYsefFiUCDGLBvifG9fBTk35eA+WeZG
- q2bqx1TjV3RcKUv6Ue5AC6UUOGBjSKlHr1LTes55CMuXFudNtpTGqkpuqPYLxQksPc92zkeLT
- 5X3MDEzVXZjCbAeJ0FMGgNX9jbpToNGD6YC8PPKeYTRmDgAI69TWzx5FHW3FshFOollVm9QrO
- mG/UyfwzQOU6gTlR4e3uJ8kx5pgX+NH12TBuOzlw/g4QTT0NLG2R+ZdQQCkUElY5dt35v/TC3
- KPR70g8Ht6yuCDxmaNU2lKjrhKQMxg77UDT0KTReS2Tt444AYGUoh/1/o93hiGZgSV6jLXiDl
- Jkobhvd7YPT7pHXOm1VBX3fUYc+4R1HvbD0Pn0TmNxFTS0XVYufzTnFs0L1W1VHy6bt9ldJMa
- 4FQ+MKcOT7hkE/bUkuX69zFSMcEN+5swrHWhEt9aZHyPSvDO4yXdDkcrSY58J5kIlzS1vawRp
- FSieVzmbhc+4Ips2KIhhiy4dE0K02kPlG5Q1fcJUNscf1iR/frzsEImCxLglIahVkGZzJ+ObG
- 5iReV3imLjC8T/YKzISdw0Fd3Rdj/sNgmFn/fXstxbwBQtPL5jwH5BehakuOEXEbeM31ZDiQ5
- +1P9mRnh1gBa/CGPJp0KxFJ1CUBp3wRws1rjPkfAFmF/+F3tzdWi4X2eEybfbT+B1/KQdjwuT
- vhz103rJgR4X6lPaMOmsHD0YP5TC5iof19X53zR1rji5DzIOgSTyj4dXMqy9lZcnfOoMMj++D
- kvi54/9bSv9bNSRmdJLoureyES0=
+X-Provags-ID: V03:K1:uFBiIphmXEeRlB5va60ud01KyrW18ZmJLRIIc6nBb6esVmlpr6p
+ JZaPv0QxjZtJVFkj7PEPH/zF6GGDNhx3jucFh5vm7g6QGRo909p7YAj0d2sLBOCfs8ggd0u
+ LQIC4lwvlGgRnA/otQNn9JZXQlJwila2brqU/T1Q/a2JP93Sq5AmhPacdgreGg7Fl5yGZ8y
+ eVcL0sKMRsY+jWd6YNFAA==
+UI-OutboundReport: notjunk:1;M01:P0:h+JDJ6+TucY=;Zm25VJ/b7OpIGuDIL1u9y3y+QEs
+ uKB/BnXtj6JNNyOKpHrtyCHz5a1wPIvrQO2zjjkj+hvCkQss+xjM1ItwXJYB0pXAHQA9RNPzo
+ 8mKD8aMur5PWpIa15J2FKYnXd7jdTjZ2eit+YKXzwx1Z0gREhPZnk3+vsKzEe+IpG7LDUblAM
+ GMEOPNuIDF5QaGkWa8YkVN4d7Ymq4oHaH7p+EJSa5sa8sA19SmGJ5fxDvA12lYb+sWmSJ92Ls
+ 7uQN/QRwi7x0iMm3N4Ryye4f/oa//bMg0J/oxl7wlAdzNk+ufPlK9Jge5rutf7LogEfGxKU0I
+ zF4AVAwMG7um7GchGt2MFDSAb8Ej21otZ6FNNKHsTOpBBGFWACBOidh7TMew3okWmBKQA4IQ/
+ xwMyUCTAMZPPIK4OC/jl3lO7ewqc7Dw+OHd76ml4A50t0QjOzcJtQs6E5AMrso/KuwJV5/qeG
+ alpwYKCKkixH52/cXihYol4JGgZiKJPyD03rsJH3v4wH3tt5L+zMLO3SqsvGAQzE0UQqgjY/7
+ jAhRUa/P8g1DZ/uvOGZTJ1yyJDbqMXO2us/YkFDa/QjDazHh286QmlS4/hmyKaNF2CamuJa+s
+ Y2MDFcsjMdFdyPIg9C662sPv/0x5XSBPrmVBjchjpgpavOdDMuGQlP3CQ2OZHsYCE9aYk+j07
+ pf5Fapzt+ke4gRYSjjwU5m2gM19XhhFornmxGVwh5wLpGewV6BqLlFLCilNJ+fPNsMsg/jF1o
+ 9g/579AHkZ//GtbmstXOXzDOly6pv6rlVTVXNJsif3GJinb1iBJgaZpVTCsV43yC2GiOCRtfD
+ lH9Ykb0HsdrzbEbhXhi+C7Lk1zao3U1aBQyDBJHzxnIER2Gxl1NZnPmdMPpd19KN9Pdy3G1Wr
+ ZEn/E4oHkpuA5VCTfxUD1jtt5ufgPLgssPU+G1T5dcvOtjPKB88QSVSY8M5X5if5P6iQIY3Q1
+ wxZFz+gjwqUF12iprgPTnpN6GB4=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 43756e347f21 ("scripts/kernel-doc: Add support for named variable
-macro arguments") improved how named variable macro arguments are
-handled, and changed how they are documented in kerneldoc comments
-from "@param...", to "@param", deprecating the old syntax.
-
-All users of the old syntax have since been converted, so this commit
-finally removes support for it.
-
-The output of "make htmldocs" is the same with and without this commit.
+Without such escaping, -- is rendered as =E2=80=93 (en dash).
 
 Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
 =2D--
- scripts/kernel-doc | 11 -----------
- 1 file changed, 11 deletions(-)
+ Documentation/dev-tools/coccinelle.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 54b0893cae666..5cf38abdaf9da 100755
-=2D-- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -2079,17 +2079,6 @@ sub process_name($$) {
- sub process_body($$) {
-     my $file =3D shift;
+diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-to=
+ols/coccinelle.rst
+index d9976069ed126..535ce126fb4fa 100644
+=2D-- a/Documentation/dev-tools/coccinelle.rst
++++ b/Documentation/dev-tools/coccinelle.rst
+@@ -219,7 +219,7 @@ instance::
+     cat cocci.err
 
--    # Until all named variable macro parameters are
--    # documented using the bare name (`x`) rather than with
--    # dots (`x...`), strip the dots:
--    if ($section =3D~ /\w\.\.\.$/) {
--	$section =3D~ s/\.\.\.$//;
--
--	if ($verbose) {
--	    emit_warning("${file}:$.", "Variable macro arguments should be docum=
-ented without dots\n");
--	}
--    }
--
-     if ($state =3D=3D STATE_BODY_WITH_BLANK_LINE && /^\s*\*\s?\S/) {
- 	dump_section($file, $section, $contents);
- 	$section =3D $section_default;
+ You can use SPFLAGS to add debugging flags; for instance you may want to
+-add both --profile --show-trying to SPFLAGS when debugging. For example
++add both ``--profile --show-trying`` to SPFLAGS when debugging. For examp=
+le
+ you may want to use::
+
+     rm -f err.log
+@@ -248,7 +248,7 @@ variables for .cocciconfig is as follows:
+
+ - Your current user's home directory is processed first
+ - Your directory from which spatch is called is processed next
+=2D- The directory provided with the --dir option is processed last, if us=
+ed
++- The directory provided with the ``--dir`` option is processed last, if =
+used
+
+ Since coccicheck runs through make, it naturally runs from the kernel
+ proper dir; as such the second rule above would be implied for picking up=
+ a
+@@ -265,8 +265,8 @@ The kernel coccicheck script has::
+     fi
+
+ KBUILD_EXTMOD is set when an explicit target with M=3D is used. For both =
+cases
+-the spatch --dir argument is used, as such third rule applies when whethe=
+r M=3D
+-is used or not, and when M=3D is used the target directory can have its o=
+wn
++the spatch ``--dir`` argument is used, as such third rule applies when wh=
+ether
++M=3D is used or not, and when M=3D is used the target directory can have =
+its own
+ .cocciconfig file. When M=3D is not passed as an argument to coccicheck t=
+he
+ target directory is the same as the directory from where spatch was calle=
+d.
+
 =2D-
 2.39.0
 
