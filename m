@@ -2,52 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C701DC54EAA
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 18:23:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E995C54EED
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 18:23:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237501AbjA3SXT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 13:23:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56552 "EHLO
+        id S237514AbjA3SXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 13:23:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237710AbjA3SXR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 13:23:17 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B23943D92D
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:22:47 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id v23so12553747plo.1
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:22:47 -0800 (PST)
+        with ESMTP id S237585AbjA3SXS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 13:23:18 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A54F2457C5
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:22:49 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id h9so3938636plf.9
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:22:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ventanamicro.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RI22LbgqWNEv5UzlC1sMyx9FAhRay6n0zSuBGUPx4y8=;
-        b=BhBgNdAagLBMY28KLLQVlINvG4nk9njtI1Kcv6Kc6G4unrUh5ZBfAiC7Lpl4kL/oid
-         VDvBZKFG0hhODY3zyhSXF+XhlTt/EUH/jno/EQzcbiel2IIfdD7Yq9hcKEsrWGrtDDnl
-         IhlcJ9kMY38C9J/f8hKOie7R4xXQGv3awE55RbchEXJ+fXxivwdh2Lt+l4vxKylTmKpy
-         1xw/VH9Uf9Hcq3V19EydNCcS+rOdwktXHoEhUbTKFGn+IztCYGPJerQWAD1SVwl5L79F
-         EkQTKchOFkt7NCdKqjqKE18wU5IctSbeX4yek5KhgtqVNj2sY4/3V9fmmLf7pNdCPHdi
-         kXWw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H7KlC1E/qchNA2FeI/jtSOoGuHWoLpY70PQmwt3/hBY=;
+        b=UAEtEYB4sxc8KHHENJmXhvAQAx2IpZSpMetPcln5se48nk/nwrzG6OCr8vrvlOUK4R
+         Q+wYu1Ei9STWCCcjnVi0yf8DJySBsWU4urpY0FXpxBrXWGscireaG+r2UxmjnzPvg2IL
+         LxJ0jAlYtFZ2uAx70DH9AUiRgf4N/2VZIKisxxdLNHogJxvEDSHwnESsH5fIRX9kLuQH
+         BSxZoAcbStJwMc5BV5sYkpWhZJcbX2j9cI28SyWWheLy+onRcrtMd6fX6MzSNd7mf+3V
+         X4QmOiVfdgskQjJPOvOk4K9vQRx+ifGBs1R8C9y9NTsQKp25glwE7MQEAxzFO3dGX8kC
+         Qw0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RI22LbgqWNEv5UzlC1sMyx9FAhRay6n0zSuBGUPx4y8=;
-        b=ygW04+8ZtHsU07p/p6eqcLom5v+oYFngzneN1tufR2osKwmoBclVIPJ2BjC3IC/GFj
-         a7ERqB0Qjb/lNBhYpPwUXw+l8rn4II2IV1pd4DC7pZwk/OUyaP9GAP1lsShZoooB4czH
-         BLK6OYkwZv0sLJK0bqzc6Bx2Hg78LqS2G21N3AguZvVnqRlcqm8emyg7Ox+Fk3JEunqk
-         J9G5CQhxcyKuu2OteGIgG2ko32CFztgWj1WOL8QvdK15SkB6HADtSjHl9wOa23sikrTE
-         jYvH4VxHdC1k04Chf3nqKFnjCOJNzTCxUV9xKgpFiTqRwEFOaukzzN3yRbB2sSdF656z
-         ZGdQ==
-X-Gm-Message-State: AO0yUKW8MvNZWNTleqQSN1X4f8aRJGE/7JUSwH8F+2FUG6moTN/kwX7w
-        BoPx1Fc009Vtl8zV4MkFs6v1ow==
-X-Google-Smtp-Source: AK7set/c3VAC3ZT2NOToGmYgKr82uNdFAR1hLwjGxiq3XJF5GQQbK6Orcm8br2dBNQTap/jO+cH1ag==
-X-Received: by 2002:a05:6a20:c19a:b0:b8:4cc9:16d9 with SMTP id bg26-20020a056a20c19a00b000b84cc916d9mr18529672pzb.46.1675102954299;
-        Mon, 30 Jan 2023 10:22:34 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=H7KlC1E/qchNA2FeI/jtSOoGuHWoLpY70PQmwt3/hBY=;
+        b=Y0Plew+XeltIigaoMdIQIinLM3Yw8uDlbk5QacbYusTBEjq5Mxs/Jcp6CGh+6/87d2
+         GVm6tPOK36Q34jM3XRl1VQeo5qFUy8Nn+Uol42dvJ2463ACABnaB1Mi4jy5IW6Jx6PvE
+         TsHRPp4nuBJ39N+mAloz+eSfMDgMGCRCuBXM2QLxAKYz1/TVRgavOFMJjEV0xw1Aq6+H
+         mCO5WerNdKH8J572culTl0042gNho7OCuRf73wVvhn5/n6kcKY9lJYRW4tdPCBYybnI0
+         A0y+UHiu59ILxUROa6HMueocXQcLD2t9U7jIVtrceaRsb3RFBCMswj8GhmlgKBjK8u+S
+         AE+Q==
+X-Gm-Message-State: AO0yUKUisvkPMpio10MWwyMSuWGNYfAWXI2fL1r5lZp1XVTjWFYLlzSk
+        yzbCja0cELtElck78gB+YGoOXw==
+X-Google-Smtp-Source: AK7set9BFSU/mcgDE8X3OMCmuvOsHIDDbHvxpRXfPUvGLXJNQQEIIvYdvRJRPOqM+/blvkVNGf+CvA==
+X-Received: by 2002:a05:6a20:441f:b0:ae:47a6:e6d9 with SMTP id ce31-20020a056a20441f00b000ae47a6e6d9mr13097359pzb.6.1675102958616;
+        Mon, 30 Jan 2023 10:22:38 -0800 (PST)
 Received: from kerodipc.Dlink ([49.206.9.96])
-        by smtp.gmail.com with ESMTPSA id j193-20020a638bca000000b00478162d9923sm7000291pge.13.2023.01.30.10.22.29
+        by smtp.gmail.com with ESMTPSA id j193-20020a638bca000000b00478162d9923sm7000291pge.13.2023.01.30.10.22.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 10:22:33 -0800 (PST)
+        Mon, 30 Jan 2023 10:22:38 -0800 (PST)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
@@ -62,110 +63,86 @@ Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
         Anup Patel <apatel@ventanamicro.com>,
         Andrew Jones <ajones@ventanamicro.com>,
         Atish Patra <atishp@rivosinc.com>,
-        Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH 00/24] Add basic ACPI support for RISC-V
-Date:   Mon, 30 Jan 2023 23:52:01 +0530
-Message-Id: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
+        Jisheng Zhang <jszhang@kernel.org>
+Subject: [PATCH 01/24] riscv: move sbi_init() earlier before jump_label_init()
+Date:   Mon, 30 Jan 2023 23:52:02 +0530
+Message-Id: <20230130182225.2471414-2-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.38.0
+In-Reply-To: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
+References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch series enables the basic ACPI infrastructure for RISC-V.
-Supporting external interrupt controllers is in progress and hence it is
-tested using polling based HVC SBI console and RAM disk.
+From: Jisheng Zhang <jszhang@kernel.org>
 
-The series depends on Anup's IPI improvement series.
-https://github.com/avpatel/linux/commits/riscv_ipi_imp_v17
+We call jump_label_init() in setup_arch() is to use static key
+mechanism earlier, but riscv jump label relies on the sbi functions,
+If we enable static key before sbi_init(), the code path looks like:
+  static_branch_enable()
+    ..
+      arch_jump_label_transform()
+        patch_text_nosync()
+          flush_icache_range()
+            flush_icache_all()
+              sbi_remote_fence_i() for CONFIG_RISCV_SBI case
+                __sbi_rfence()
 
-These changes are available at
-https://github.com/vlsunil/linux/commits/acpi_b1_us_review_ipi17
+Since sbi isn't initialized, so NULL deference! Here is a typical
+panic log:
 
-Testing:
-1) Build Qemu with ACPI support using below branch
-https://github.com/vlsunil/qemu/tree/acpi_b1_us_review
+[    0.000000] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+[    0.000000] Oops [#1]
+[    0.000000] Modules linked in:
+[    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.18.0-rc7+ #79
+[    0.000000] Hardware name: riscv-virtio,qemu (DT)
+[    0.000000] epc : 0x0
+[    0.000000]  ra : sbi_remote_fence_i+0x1e/0x26
+[    0.000000] epc : 0000000000000000 ra : ffffffff80005826 sp : ffffffff80c03d50
+[    0.000000]  gp : ffffffff80ca6178 tp : ffffffff80c0ad80 t0 : 6200000000000000
+[    0.000000]  t1 : 0000000000000000 t2 : 62203a6b746e6972 s0 : ffffffff80c03d60
+[    0.000000]  s1 : ffffffff80001af6 a0 : 0000000000000000 a1 : 0000000000000000
+[    0.000000]  a2 : 0000000000000000 a3 : 0000000000000000 a4 : 0000000000000000
+[    0.000000]  a5 : 0000000000000000 a6 : 0000000000000000 a7 : 0000000000080200
+[    0.000000]  s2 : ffffffff808b3e48 s3 : ffffffff808bf698 s4 : ffffffff80cb2818
+[    0.000000]  s5 : 0000000000000001 s6 : ffffffff80c9c345 s7 : ffffffff80895aa0
+[    0.000000]  s8 : 0000000000000001 s9 : 000000000000007f s10: 0000000000000000
+[    0.000000]  s11: 0000000000000000 t3 : ffffffff80824d08 t4 : 0000000000000022
+[    0.000000]  t5 : 000000000000003d t6 : 0000000000000000
+[    0.000000] status: 0000000000000100 badaddr: 0000000000000000 cause: 000000000000000c
+[    0.000000] ---[ end trace 0000000000000000 ]---
+[    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
+[    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill the idle task! ]---
 
-2) Build EDK2 as per instructions in
-https://github.com/vlsunil/riscv-uefi-edk2-docs/wiki/RISC-V-Qemu-Virt-support
+Fix this issue by moving sbi_init() earlier before jump_label_init()
 
-3) Build Linux after enabling SBI HVC and SBI earlycon
-CONFIG_RISCV_SBI_V01=y
-CONFIG_SERIAL_EARLYCON_RISCV_SBI=y
-CONFIG_HVC_RISCV_SBI=y
+Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+---
+ arch/riscv/kernel/setup.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-4) Build buildroot.
-
-Run with below command.
-qemu-system-riscv64   -nographic \
--drive file=Build/RiscVVirtQemu/RELEASE_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1 \
--machine virt,acpi=on -smp 16 -m 2G \
--kernel arch/riscv/boot/Image \
--initrd buildroot/output/images/rootfs.cpio \
--append "root=/dev/ram ro console=hvc0 earlycon=sbi"
-
-Jisheng Zhang (1):
-  riscv: move sbi_init() earlier before jump_label_init()
-
-Sunil V L (23):
-  ACPICA: MADT: Add RISC-V INTC interrupt controller
-  ACPICA: Add structure definitions for RISC-V RHCT
-  RISC-V: ACPI: Add empty headers to enable ACPI core
-  RISC-V: ACPI: Add basic functions to build ACPI core
-  RISC-V: ACPI: Add PCI functions to build ACPI core
-  RISC-V: ACPI: Enable ACPI build infrastructure
-  ACPI: Enable ACPI_PROCESSOR for RISC-V
-  ACPI: OSL: Make should_use_kmap() 0 for RISC-V.
-  ACPI: processor_core: RISC-V: Enable mapping processor to the hartid
-  RISC-V: ACPI: irqchip/riscv-intc: Add ACPI support
-  RISC-V: ACPI: smpboot: Create wrapper smp_setup()
-  RISC-V: ACPI: smpboot: Add ACPI support in smp_setup()
-  RISC-V: ACPI: smpboot: Add function to retrieve the hartid
-  clocksource/timer-riscv: Refactor riscv_timer_init_dt()
-  RISC-V: ACPI: clocksource/timer-riscv: Add ACPI support
-  ACPI: RISC-V: drivers/acpi: Add RHCT related code
-  RISC-V: ACPI: time.c: Add ACPI support for time_init()
-  RISC-V: ACPI: cpufeature: Add ACPI support in riscv_fill_hwcap()
-  RISC-V: ACPI: cpu: Enable cpuinfo for ACPI systems
-  RISC-V: ACPI: Add ACPI initialization in setup_arch()
-  RISC-V: ACPI: Enable ACPI in defconfig
-  MAINTAINERS: Add entry for drivers/acpi/riscv
-  Documentation/kernel-parameters.txt: Add RISC-V for ACPI parameter
-
- .../admin-guide/kernel-parameters.txt         |   6 +-
- MAINTAINERS                                   |   7 +
- arch/riscv/Kconfig                            |   5 +
- arch/riscv/configs/defconfig                  |   4 +
- arch/riscv/include/asm/acenv.h                |  17 ++
- arch/riscv/include/asm/acpi.h                 |  87 +++++++++
- arch/riscv/include/asm/cpu.h                  |   9 +
- arch/riscv/kernel/Makefile                    |   3 +
- arch/riscv/kernel/acpi.c                      | 178 ++++++++++++++++++
- arch/riscv/kernel/cpu.c                       |  36 +++-
- arch/riscv/kernel/cpufeature.c                |  45 ++++-
- arch/riscv/kernel/pci.c                       | 173 +++++++++++++++++
- arch/riscv/kernel/setup.c                     |  21 ++-
- arch/riscv/kernel/smpboot.c                   |  99 +++++++++-
- arch/riscv/kernel/time.c                      |  25 ++-
- drivers/acpi/Kconfig                          |   2 +-
- drivers/acpi/Makefile                         |   2 +
- drivers/acpi/osl.c                            |   2 +-
- drivers/acpi/processor_core.c                 |  28 +++
- drivers/acpi/riscv/Makefile                   |   2 +
- drivers/acpi/riscv/rhct.c                     |  93 +++++++++
- drivers/clocksource/timer-riscv.c             |  88 ++++-----
- drivers/irqchip/irq-riscv-intc.c              |  79 ++++++--
- include/acpi/actbl2.h                         |  69 ++++++-
- 24 files changed, 994 insertions(+), 86 deletions(-)
- create mode 100644 arch/riscv/include/asm/acenv.h
- create mode 100644 arch/riscv/include/asm/acpi.h
- create mode 100644 arch/riscv/include/asm/cpu.h
- create mode 100644 arch/riscv/kernel/acpi.c
- create mode 100644 arch/riscv/kernel/pci.c
- create mode 100644 drivers/acpi/riscv/Makefile
- create mode 100644 drivers/acpi/riscv/rhct.c
-
+diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+index 86acd690d529..4335f08ffaf2 100644
+--- a/arch/riscv/kernel/setup.c
++++ b/arch/riscv/kernel/setup.c
+@@ -270,6 +270,7 @@ void __init setup_arch(char **cmdline_p)
+ 	*cmdline_p = boot_command_line;
+ 
+ 	early_ioremap_setup();
++	sbi_init();
+ 	jump_label_init();
+ 	parse_early_param();
+ 
+@@ -287,7 +288,6 @@ void __init setup_arch(char **cmdline_p)
+ 	misc_mem_init();
+ 
+ 	init_resources();
+-	sbi_init();
+ 
+ #ifdef CONFIG_KASAN
+ 	kasan_init();
 -- 
 2.38.0
 
