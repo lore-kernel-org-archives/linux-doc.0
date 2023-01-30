@@ -2,95 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21DD9C54EED
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 16:29:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CC8C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 17:03:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236837AbjA3Q3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 11:29:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34216 "EHLO
+        id S236120AbjA3RDa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 12:03:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237494AbjA3Q3c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 11:29:32 -0500
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD2493F2A0;
-        Mon, 30 Jan 2023 08:29:27 -0800 (PST)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 90050240008;
-        Mon, 30 Jan 2023 16:29:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1675096165;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=ttbkmJmfqMZ8rvI1K8Fpp/EYFmvyqrJCorPDwJm4m78=;
-        b=RQfeahdOmqvClK8WcknKv+Vf5vhB11258ZbUQF0vuna0+IElaueM7GcIXzYgNRlWwth91t
-        ryakmqmpmgbVkKMZfn+QthR3wAHnMO0HG2LtHtriYi2WRdi/0IYSpb6JlXrA9LFXujG1Wn
-        KUhaGH8R3FKIGE8fNg3NQoG7Si2THyF04GXVlAJ64hlNABMXwTYVJwcw6q5PzaC18Fan3E
-        iwU+jYgIAgdhZj4YDkGInEDg53M2ffBYb8C80Bcb5WimtWD6pxVgAieoU5vvs8kINiZc2T
-        dUod2aevqFQByjZa/0vRhYRoNI+XbTcciRVmtvhe/8c8dHYNgBlMZ+Yny48DQw==
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH RESEND] ALSA: doc: Fix PCM interface section typos
-Date:   Mon, 30 Jan 2023 17:29:24 +0100
-Message-Id: <20230130162924.119389-1-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S230073AbjA3RD3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 12:03:29 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A727A5D2;
+        Mon, 30 Jan 2023 09:03:28 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CAE36611E6;
+        Mon, 30 Jan 2023 17:03:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A355C433D2;
+        Mon, 30 Jan 2023 17:03:26 +0000 (UTC)
+Date:   Mon, 30 Jan 2023 12:03:24 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Stefan Roesch <shr@devkernel.io>
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [RESEND RFC PATCH v1 07/20] mm: add tracepoints to ksm
+Message-ID: <20230130120324.24928c7a@gandalf.local.home>
+In-Reply-To: <20230123173748.1734238-8-shr@devkernel.io>
+References: <20230123173748.1734238-1-shr@devkernel.io>
+        <20230123173748.1734238-8-shr@devkernel.io>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix two mistakes in the PCM interface section:
-1/ Members of the snd_pcm_hardware structure are channels_{min,max}
-   and not channel_{min,max} (mind the 's').
-2/ Another sentence is incomplete as the reference to one structure
-   member (period_bytes_max) is missing.
+On Mon, 23 Jan 2023 09:37:35 -0800
+Stefan Roesch <shr@devkernel.io> wrote:
 
-There is no relevant 'Fixes:' tag to apply as both typos predate the
-Git era.
+> This adds the following tracepoints to ksm:
+> - start / stop scan
+> - ksm enter / exit
+> - merge a page
+> - merge a page with ksm
+> - remove a page
+> - remove a rmap item
+> 
+> Signed-off-by: Stefan Roesch <shr@devkernel.io>
+> ---
+>  MAINTAINERS                |   1 +
+>  include/trace/events/ksm.h | 257 +++++++++++++++++++++++++++++++++++++
+>  mm/ksm.c                   |  20 ++-
+>  3 files changed, 276 insertions(+), 2 deletions(-)
+>  create mode 100644 include/trace/events/ksm.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 123216b76534..990a28bdc263 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13482,6 +13482,7 @@ F:	include/linux/memory_hotplug.h
+>  F:	include/linux/mm.h
+>  F:	include/linux/mmzone.h
+>  F:	include/linux/pagewalk.h
+> +F:	include/trace/events/ksm.h
+>  F:	mm/
+>  F:	tools/testing/selftests/vm/
+>  
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
+Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-Hello, I wrote and sent this patch in 2019 but I likely only Cc'd Jon
-and the doc ML, which might have not been enough, so just in case, here
-is a resend.
-Link: https://lore.kernel.org/linux-doc/20190829145512.3752-1-miquel.raynal@bootlin.com/
-
- .../sound/kernel-api/writing-an-alsa-driver.rst        | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-index 07a620c5ca74..5c9523b7d55c 100644
---- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-+++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-@@ -1720,16 +1720,16 @@ Typically, you'll have a hardware descriptor as below:
- -  ``rate_min`` and ``rate_max`` define the minimum and maximum sample
-    rate. This should correspond somehow to ``rates`` bits.
- 
---  ``channel_min`` and ``channel_max`` define, as you might already
-+-  ``channels_min`` and ``channels_max`` define, as you might already
-    expected, the minimum and maximum number of channels.
- 
- -  ``buffer_bytes_max`` defines the maximum buffer size in
-    bytes. There is no ``buffer_bytes_min`` field, since it can be
-    calculated from the minimum period size and the minimum number of
--   periods. Meanwhile, ``period_bytes_min`` and define the minimum and
--   maximum size of the period in bytes. ``periods_max`` and
--   ``periods_min`` define the maximum and minimum number of periods in
--   the buffer.
-+   periods. Meanwhile, ``period_bytes_min`` and ``period_bytes_max``
-+   define the minimum and maximum size of the period in bytes.
-+   ``periods_max`` and ``periods_min`` define the maximum and minimum
-+   number of periods in the buffer.
- 
-    The “period” is a term that corresponds to a fragment in the OSS
-    world. The period defines the size at which a PCM interrupt is
--- 
-2.34.1
-
+-- Steve
