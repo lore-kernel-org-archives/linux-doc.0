@@ -2,104 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF75BC54EAA
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 10:07:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B850C54EED
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 10:15:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236139AbjA3KHt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 05:07:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43242 "EHLO
+        id S236171AbjA3KPS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 05:15:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236231AbjA3KHn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 05:07:43 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F29B1A970;
-        Mon, 30 Jan 2023 02:07:40 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EC65DB80EBC;
-        Mon, 30 Jan 2023 10:07:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3606C433EF;
-        Mon, 30 Jan 2023 10:07:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675073257;
-        bh=duVMDImvFZfvYQ61d29Y76cm/zyFTulxj66PhFIobTE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AQYD90FqpWweSvwLoaIvtqwqCmD8WdvPWlprWogqp0f780P3a9vn67kv1IuuZBnaC
-         LYLg7Mxb3iBcjV+0ihYcrbLHY3COv6VRrqPfQiqq5hWUsfnpDfeIxygfr/6xQkuyS1
-         TMzx+hCci74yQbtoL5EsGGFrfpByq3QBDe7TUAIyxtizNGhCvBSHT21Ek+9eQqDxBv
-         oPDqeOvezfq7Udo2V/Iz5qL/jQSLUh+BsQF2gifeYlO+OsI0IdKL0haZFtXLIFlfCG
-         0HAEp43Knqqn3Zm6II+ii5D8rsYWfWcvV9e86CNylFbipAyfliS8GnlsbzL6MnrNDp
-         tj4rWoM/wGDcA==
-Date:   Mon, 30 Jan 2023 12:07:23 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 18/35] Documentation: mm: correct spelling
-Message-ID: <Y9eW27IbyTWxut7D@kernel.org>
-References: <20230127064005.1558-1-rdunlap@infradead.org>
- <20230127064005.1558-19-rdunlap@infradead.org>
+        with ESMTP id S233899AbjA3KPQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 05:15:16 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA2F5252;
+        Mon, 30 Jan 2023 02:15:15 -0800 (PST)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30U6LBr4028583;
+        Mon, 30 Jan 2023 10:15:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : reply-to : references : mime-version :
+ content-type : in-reply-to; s=qcppdkim1;
+ bh=FQ25Ocj9mmDa26Q4Qbvq4/AjPwDuTjYyZW7kxiBvCw4=;
+ b=BZi8IdZDbX5hx6pjZrgv/HIi1W23MKVBMB0rmvPOzvHxatgRF61leNff6FStpwl9emy0
+ va3LN1khxdjFM4WEEzq82Nc2zSuoU1XD9RlgUuQ7jrJSst3oTHR5WUJIpJUEsIldq4+D
+ ZFd9ONjt69t9qYre5l9DmPMUJqoZoIBu+Z5hYP47hD/dr7PVnDImaD506x4AvEyH6Wu8
+ QgummUH5FKBwl7slhEmTxcN8+5E21YnSpbOIW3XmpM+gp4eDcTdhjvKEQClt88987UqQ
+ /zNhxclZ27zUV89K5/Ten0g0cZdzM2RWQccXqduoLeEHdZfWNxp5Qd73QmUjTqPc6FhP Mg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncvvu36p9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 30 Jan 2023 10:15:00 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30UAEx3E005764
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 30 Jan 2023 10:14:59 GMT
+Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 30 Jan
+ 2023 02:14:51 -0800
+Date:   Mon, 30 Jan 2023 15:44:45 +0530
+From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v9 12/27] gunyah: rsc_mgr: Add RPC for sharing memory
+Message-ID: <20230130101445.GB332@quicinc.com>
+Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+ <20230120224627.4053418-13-quic_eberman@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230127064005.1558-19-rdunlap@infradead.org>
+In-Reply-To: <20230120224627.4053418-13-quic_eberman@quicinc.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: QKEya6Z32GHI_o5Kft3PK1XLQziwReYd
+X-Proofpoint-ORIG-GUID: QKEya6Z32GHI_o5Kft3PK1XLQziwReYd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-30_10,2023-01-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=802 suspectscore=0 spamscore=0 mlxscore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2301300098
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 10:39:48PM -0800, Randy Dunlap wrote:
-> Correct spelling problems for Documentation/mm/ as reported
-> by codespell.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jérôme Glisse <jglisse@redhat.com>
-> Cc: Naoya Horiguchi <naoya.horiguchi@nec.com>
-> Cc: Miaohe Lin <linmiaohe@huawei.com>
-> Cc: linux-mm@kvack.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/mm/hmm.rst      |    4 ++--
->  Documentation/mm/hwpoison.rst |    2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+* Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:11]:
 
-Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+> +static int gh_rm_mem_lend_common(struct gh_rm *rm, u32 message_id, struct gh_rm_mem_parcel *p)
+> +{
+> +	size_t msg_size = 0, initial_n_mem_entries = p->n_mem_entries;
+> +	void *msg;
+> +	__le32 *resp;
+> +	struct gh_mem_share_req_header *req_header;
+> +	struct gh_mem_share_req_acl_section *acl_section;
+> +	struct gh_mem_share_req_mem_section *mem_section;
+> +	u32 *mem_attr_section;
+> +	size_t resp_size;
+> +	int ret;
+> +
+> +	if (!p->acl_entries || !p->n_acl_entries || !p->mem_entries || !p->n_mem_entries ||
+> +	    p->n_acl_entries > U8_MAX || p->mem_handle != GH_MEM_HANDLE_INVAL)
+> +		return -EINVAL;
+> +
+> +	if (initial_n_mem_entries > GH_RM_MAX_MEM_ENTRIES)
+> +		initial_n_mem_entries = GH_RM_MAX_MEM_ENTRIES;
+> +
+> +	/* The format of the message goes:
+> +	 * request header
+> +	 * ACL entries (which VMs get what kind of access to this memory parcel)
+> +	 * Memory entries (list of memory regions to share)
+> +	 * Memory attributes (currently unused, we'll hard-code the size to 0)
+> +	 */
+> +	msg_size += sizeof(struct gh_mem_share_req_header);
+> +	msg_size += offsetof(struct gh_mem_share_req_acl_section, entries[p->n_acl_entries]);
+> +	msg_size += offsetof(struct gh_mem_share_req_mem_section, entries[initial_n_mem_entries]);
+> +	msg_size += sizeof(u32); /* for memory attributes, currently unused */
+> +
+> +	msg = kzalloc(msg_size, GFP_KERNEL);
+> +	if (!msg)
+> +		return -ENOMEM;
+> +
+> +	ret = gh_rm_platform_pre_mem_share(rm, p);
 
-> 
-> diff -- a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
-> --- a/Documentation/mm/hmm.rst
-> +++ b/Documentation/mm/hmm.rst
-> @@ -416,10 +416,10 @@ can be used to make a memory range inacc
->  
->  This replaces all mappings for pages in the given range with special swap
->  entries. Any attempt to access the swap entry results in a fault which is
-> -resovled by replacing the entry with the original mapping. A driver gets
-> +resolved by replacing the entry with the original mapping. A driver gets
->  notified that the mapping has been changed by MMU notifiers, after which point
->  it will no longer have exclusive access to the page. Exclusive access is
-> -guranteed to last until the driver drops the page lock and page reference, at
-> +guaranteed to last until the driver drops the page lock and page reference, at
->  which point any CPU faults on the page may proceed as described.
->  
->  Memory cgroup (memcg) and rss accounting
-> diff -- a/Documentation/mm/hwpoison.rst b/Documentation/mm/hwpoison.rst
-> --- a/Documentation/mm/hwpoison.rst
-> +++ b/Documentation/mm/hwpoison.rst
-> @@ -50,7 +50,7 @@ of applications. KVM support requires a
->  For the KVM use there was need for a new signal type so that
->  KVM can inject the machine check into the guest with the proper
->  address. This in theory allows other applications to handle
-> -memory failures too. The expection is that near all applications
-> +memory failures too. The expectation is that near all applications
->  won't do that, but some very specialized ones might.
->  
->  Failure recovery modes
+Hmm ..I think gh_rm_platform_pre_mem_share() is not yet defined as of this
+patch, so you probably want this in a later patch.
 
--- 
-Sincerely yours,
-Mike.
+> +	if (ret) {
+> +		kfree(msg);
+> +		return ret;
+> +	}
+> +
