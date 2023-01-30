@@ -2,188 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC453C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 10:01:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF75BC54EAA
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 10:07:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236184AbjA3KB1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 05:01:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37202 "EHLO
+        id S236139AbjA3KHt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 05:07:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234005AbjA3KB0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 05:01:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F80D2716;
-        Mon, 30 Jan 2023 02:01:25 -0800 (PST)
+        with ESMTP id S236231AbjA3KHn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 05:07:43 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F29B1A970;
+        Mon, 30 Jan 2023 02:07:40 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9B64960F19;
-        Mon, 30 Jan 2023 10:01:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D98F4C433D2;
-        Mon, 30 Jan 2023 10:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1675072884;
-        bh=o4dqwsRXEnWX6zVfh/4HE2Z0WTuD083NeZjgbIqzrOg=;
+        by ams.source.kernel.org (Postfix) with ESMTPS id EC65DB80EBC;
+        Mon, 30 Jan 2023 10:07:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3606C433EF;
+        Mon, 30 Jan 2023 10:07:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675073257;
+        bh=duVMDImvFZfvYQ61d29Y76cm/zyFTulxj66PhFIobTE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SsxUv9ALlxr1+btx1VMsLmDXaeHRixyoG6l4HT4SP89eEXSaquKGXjt69Wurw+0Fd
-         SokJY8XgP5jjIF1nU0Rxg3zRVLZMM3S4OcUt2RbGsSjse81kG2m/Pi/xEcNsJWWpl0
-         TuwaUgufjL348Sq1b8R3tU60akMoA03yL6Y7iags=
-Date:   Mon, 30 Jan 2023 11:01:20 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v9 04/27] virt: gunyah: Add hypercalls to identify Gunyah
-Message-ID: <Y9eVcHM9nZZ/4ZSh@kroah.com>
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-5-quic_eberman@quicinc.com>
+        b=AQYD90FqpWweSvwLoaIvtqwqCmD8WdvPWlprWogqp0f780P3a9vn67kv1IuuZBnaC
+         LYLg7Mxb3iBcjV+0ihYcrbLHY3COv6VRrqPfQiqq5hWUsfnpDfeIxygfr/6xQkuyS1
+         TMzx+hCci74yQbtoL5EsGGFrfpByq3QBDe7TUAIyxtizNGhCvBSHT21Ek+9eQqDxBv
+         oPDqeOvezfq7Udo2V/Iz5qL/jQSLUh+BsQF2gifeYlO+OsI0IdKL0haZFtXLIFlfCG
+         0HAEp43Knqqn3Zm6II+ii5D8rsYWfWcvV9e86CNylFbipAyfliS8GnlsbzL6MnrNDp
+         tj4rWoM/wGDcA==
+Date:   Mon, 30 Jan 2023 12:07:23 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 18/35] Documentation: mm: correct spelling
+Message-ID: <Y9eW27IbyTWxut7D@kernel.org>
+References: <20230127064005.1558-1-rdunlap@infradead.org>
+ <20230127064005.1558-19-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230120224627.4053418-5-quic_eberman@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230127064005.1558-19-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 02:46:03PM -0800, Elliot Berman wrote:
-> Add hypercalls to identify when Linux is running a virtual machine under
-> Gunyah.
+On Thu, Jan 26, 2023 at 10:39:48PM -0800, Randy Dunlap wrote:
+> Correct spelling problems for Documentation/mm/ as reported
+> by codespell.
 > 
-> There are two calls to help identify Gunyah:
-> 
-> 1. gh_hypercall_get_uid() returns a UID when running under a Gunyah
->    hypervisor.
-> 2. gh_hypercall_hyp_identify() returns build information and a set of
->    feature flags that are supported by Gunyah.
-> 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jérôme Glisse <jglisse@redhat.com>
+> Cc: Naoya Horiguchi <naoya.horiguchi@nec.com>
+> Cc: Miaohe Lin <linmiaohe@huawei.com>
+> Cc: linux-mm@kvack.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
 > ---
->  MAINTAINERS                          |  2 +
->  arch/arm64/Kbuild                    |  1 +
->  arch/arm64/gunyah/Makefile           |  3 ++
->  arch/arm64/gunyah/gunyah_hypercall.c | 75 ++++++++++++++++++++++++++++
->  drivers/virt/Kconfig                 |  2 +
->  drivers/virt/gunyah/Kconfig          | 14 ++++++
->  include/linux/gunyah.h               | 33 ++++++++++++
->  7 files changed, 130 insertions(+)
->  create mode 100644 arch/arm64/gunyah/Makefile
->  create mode 100644 arch/arm64/gunyah/gunyah_hypercall.c
->  create mode 100644 drivers/virt/gunyah/Kconfig
+>  Documentation/mm/hmm.rst      |    4 ++--
+>  Documentation/mm/hwpoison.rst |    2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+
+Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f1e07e39b2f5..fe19e71efc6d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9048,6 +9048,8 @@ L:	linux-arm-msm@vger.kernel.org
->  S:	Supported
->  F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
->  F:	Documentation/virt/gunyah/
-> +F:	arch/arm64/gunyah/
-> +F:	drivers/virt/gunyah/
->  F:	include/linux/gunyah.h
+> diff -- a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
+> --- a/Documentation/mm/hmm.rst
+> +++ b/Documentation/mm/hmm.rst
+> @@ -416,10 +416,10 @@ can be used to make a memory range inacc
 >  
->  HABANALABS PCI DRIVER
-> diff --git a/arch/arm64/Kbuild b/arch/arm64/Kbuild
-> index 5bfbf7d79c99..e4847ba0e3c9 100644
-> --- a/arch/arm64/Kbuild
-> +++ b/arch/arm64/Kbuild
-> @@ -3,6 +3,7 @@ obj-y			+= kernel/ mm/ net/
->  obj-$(CONFIG_KVM)	+= kvm/
->  obj-$(CONFIG_XEN)	+= xen/
->  obj-$(subst m,y,$(CONFIG_HYPERV))	+= hyperv/
-> +obj-$(CONFIG_GUNYAH)	+= gunyah/
->  obj-$(CONFIG_CRYPTO)	+= crypto/
+>  This replaces all mappings for pages in the given range with special swap
+>  entries. Any attempt to access the swap entry results in a fault which is
+> -resovled by replacing the entry with the original mapping. A driver gets
+> +resolved by replacing the entry with the original mapping. A driver gets
+>  notified that the mapping has been changed by MMU notifiers, after which point
+>  it will no longer have exclusive access to the page. Exclusive access is
+> -guranteed to last until the driver drops the page lock and page reference, at
+> +guaranteed to last until the driver drops the page lock and page reference, at
+>  which point any CPU faults on the page may proceed as described.
 >  
->  # for cleaning
-> diff --git a/arch/arm64/gunyah/Makefile b/arch/arm64/gunyah/Makefile
-> new file mode 100644
-> index 000000000000..84f1e38cafb1
-> --- /dev/null
-> +++ b/arch/arm64/gunyah/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +obj-$(CONFIG_GUNYAH) += gunyah_hypercall.o
-> diff --git a/arch/arm64/gunyah/gunyah_hypercall.c b/arch/arm64/gunyah/gunyah_hypercall.c
-> new file mode 100644
-> index 000000000000..ffed4b71641f
-> --- /dev/null
-> +++ b/arch/arm64/gunyah/gunyah_hypercall.c
-> @@ -0,0 +1,75 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include <linux/arm-smccc.h>
-> +#include <linux/module.h>
-> +#include <linux/gunyah.h>
-> +
-> +static const uint32_t gunyah_known_uuids[][4] = {
+>  Memory cgroup (memcg) and rss accounting
+> diff -- a/Documentation/mm/hwpoison.rst b/Documentation/mm/hwpoison.rst
+> --- a/Documentation/mm/hwpoison.rst
+> +++ b/Documentation/mm/hwpoison.rst
+> @@ -50,7 +50,7 @@ of applications. KVM support requires a
+>  For the KVM use there was need for a new signal type so that
+>  KVM can inject the machine check into the guest with the proper
+>  address. This in theory allows other applications to handle
+> -memory failures too. The expection is that near all applications
+> +memory failures too. The expectation is that near all applications
+>  won't do that, but some very specialized ones might.
+>  
+>  Failure recovery modes
 
-uint32_t is not a kernel type, please use sane ones, like u32.
-
-> +	{0x19bd54bd, 0x0b37571b, 0x946f609b, 0x54539de6}, /* QC_HYP (Qualcomm's build) */
-> +	{0x673d5f14, 0x9265ce36, 0xa4535fdb, 0xc1d58fcd}, /* GUNYAH (open source build) */
-
-And why not use the kernel uuid type here?  Why create your own?
-
-> +};
-> +
-> +#define GH_HYPERCALL_HYP_IDENTIFY		GH_HYPERCALL(0x0000)
-> +
-> +/**
-> + * gh_hypercall_get_uid() - Returns a UID when running under a Gunyah hypervisor
-> + * @uid: An array of 4 u32's (u32 uid[4];)
-> + *
-> + * Caller should compare the resulting UID to a list of known Gunyah UIDs to
-> + * confirm that Linux is running as a guest of Gunyah.
-> + */
-> +void gh_hypercall_get_uid(u32 uid[4])
-> +{
-> +	struct arm_smccc_res res;
-> +	u32 uid[4];
-
-How does this work when you have a local variable the same name as the
-parameter to the function?  What shadows what and how?  The compiler
-didn't complain about this?
-
-> +	int i;
-> +
-> +	arm_smccc_1_1_hvc(ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID, &res);
-> +
-> +	uid[0] = lower_32_bits(res.a0);
-> +	uid[1] = lower_32_bits(res.a1);
-> +	uid[2] = lower_32_bits(res.a2);
-> +	uid[3] = lower_32_bits(res.a3);
-> +
-> +	for (i = 0; i < ARRAY_SIZE(gunyah_known_uuids); i++)
-> +		if (!memcmp(uid, gunyah_known_uuids[i], sizeof(uid)))
-> +			break;
-> +
-> +	return i != ARRAY_SIZE(gunyah_known_uuids);
-
-How can a function that returns void actually return anything?
-
-This obviously was never compiled.  I'm stopping here in my review.
-
-greg k-h
+-- 
+Sincerely yours,
+Mike.
