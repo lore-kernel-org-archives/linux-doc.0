@@ -2,118 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E7EC61DA4
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 23:47:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A656AC61DA4
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 23:52:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229580AbjA3Xrn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 18:47:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33702 "EHLO
+        id S230515AbjA3Xwf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 18:52:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjA3Xrm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 18:47:42 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 544A32B63F;
-        Mon, 30 Jan 2023 15:47:42 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S230494AbjA3Xwe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 18:52:34 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF2772B28A;
+        Mon, 30 Jan 2023 15:52:32 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E047E61302;
-        Mon, 30 Jan 2023 23:47:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33320C433EF;
-        Mon, 30 Jan 2023 23:47:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675122461;
-        bh=WoJeIgf/JQZhJHXDszCWgkHNzPbweY0aWYQ3iEPGhBI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QULFyBjTeeC1392caZNLBFUYEO05aNmt2qcr6HCpbQfJG2gU2FkCDLwIgYUjz18Q8
-         uChNcDCAt0lr57gFu+1jkgxml6xL7DE7LuDBWkog8j9Ivc837sGCjv0UpTOD5Snbp0
-         d8cxiAZHD24140/A9KBZxYbySlCqpCOnpFU+MgQbb1/Hfd02VQ1hxYoZ164EuA5e5E
-         1Tp/4WdqExpa5XLCnjzmcjtOSaA5WERxcbf1ShyECo1MsVWtSlNJMVpVRagSxdlT1h
-         7AQVsg2bu2pbk9IVx2gu4xU1FPlwj1iYAS/8j5MckNHeBucgBCo0GJ8Q4JoCNDywGU
-         ffrSlyJINLfRQ==
-Date:   Mon, 30 Jan 2023 23:47:35 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH 22/24] RISC-V: ACPI: Enable ACPI in defconfig
-Message-ID: <Y9hXF8RpNawkuTEN@spud>
-References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
- <20230130182225.2471414-23-sunilvl@ventanamicro.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 84D886E2;
+        Mon, 30 Jan 2023 23:52:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 84D886E2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1675122751; bh=6cM/5l8yxa9TBrASucAMh3wX/O29p+Di+yDhLyRd/+U=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=aywlhFlQfze9crdMnaM2QoYgsrl4orc1gjt4b4xbYodqNrOQVHztPxR4oO7gSr+Nm
+         GWs4pCX4ZjBBrpZuKdBftiK2XtONfVIx7FjVCgyTT1nu42cbcnkccLJoL6YJloSJna
+         DTd0OZm9Gitx0aXi7cB0sHhUv1NxAwDofOPm0U+UDMkP9ZSwGg9obgyS/nEyA19R2u
+         mnG5FPZ7PAA9lOA2i6dFQYcFFwvambsorf7gofGzibgtfbZQjVeA10MoWZBmkAW9LR
+         hSj/R6zXhZ4iXK6MmJ0N/aEA4/JuQRBfaeGgs4uFCzzFlV3gEBknDb0A7p9m3IUhPN
+         1xk2396uPexfA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Shuah Khan <skhan@linuxfoundation.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     sshefali021@gmail.com, kstewart@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v2] docs: add workload-tracing document to admin-guide
+In-Reply-To: <021776e6-b37f-0a2e-41e0-5c09f9582c57@linuxfoundation.org>
+References: <20230127234616.55137-1-skhan@linuxfoundation.org>
+ <f48e8dab-2a68-88d2-7917-f8f34a39e322@leemhuis.info>
+ <021776e6-b37f-0a2e-41e0-5c09f9582c57@linuxfoundation.org>
+Date:   Mon, 30 Jan 2023 16:52:30 -0700
+Message-ID: <87o7qf4m2p.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="zg0/95MUBwMtXXq2"
-Content-Disposition: inline
-In-Reply-To: <20230130182225.2471414-23-sunilvl@ventanamicro.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Shuah Khan <skhan@linuxfoundation.org> writes:
 
---zg0/95MUBwMtXXq2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 1/28/23 01:35, Thorsten Leemhuis wrote:
+>> Adding another section that doesn't seem to a be a good fit feels a bit
+>> like "making things worse than better".  So wouldn't this maybe be a
+>> good opportunity to create a totally new top-level section for
+>> application developers and system integrators, even if it's tiny for
+>> now? The audience is likely big enough to justify that -- and the topics
+>> are likely different enough, too (of course sometimes there will be
+>> overlap, as always). Any maybe it will help to bring other stuff over
+>> from admin guide that is more targeted for application developers and
+>> system integrators, which will help to get more structure into the
+>> admin-guide.
+>> 
+>
+> I like the idea of creating a new top-level section for application developers
+> and system integrators. I foresee this section growing and also we can look
+> at other documents that are a good fit under this category and move them over.
+>
+> Jon, Thoughts on this.
 
-Hey Sunil,
+The fit with the admin guide caught my attention as well, but I didn't
+immediately have a better place to suggest.  I am somewhat resistant to
+creating another top-level directory; I really want to have *fewer* of
+them.  I certainly don't want to create one for a single document.  My
+inclination would be to leave it where it is for now; we can always
+revisit this if it turns out we have a lot of material that justifies a
+new book.
 
-Two quick comments while I think of them..
+Thanks,
 
-On Mon, Jan 30, 2023 at 11:52:23PM +0530, Sunil V L wrote:
-> RISC-V: ACPI: Enable ACPI in defconfig
-
-btw, about half of this series redundantly puts "ACPI:" or "RISC-V:
-ACPI:" into $subject. None of commits that mention ACPI after the last :
-should mention ACPI in the prefix IMO, it's just noise.
-
-For example, this one should be something like:
-RISC-V: enable ACPI in defconfig
-
-> Add support to build ACPI subsystem in defconfig.
->=20
-> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> ---
->  arch/riscv/configs/defconfig | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-> index 128dcf4c0814..8ce06fb0dde8 100644
-> --- a/arch/riscv/configs/defconfig
-> +++ b/arch/riscv/configs/defconfig
-> @@ -218,3 +218,7 @@ CONFIG_RCU_EQS_DEBUG=3Dy
->  # CONFIG_FTRACE is not set
->  # CONFIG_RUNTIME_TESTING_MENU is not set
->  CONFIG_MEMTEST=3Dy
-> +CONFIG_ARCH_SUPPORTS_ACPI=3Dy
-
-This needs to go into the arch Kconfig file, where it will be selected.
-Check what arm64 does if you are not sure what I mean.
-
-Hopefully I'll get a chance to look at the rest of this this week
-sometime,
-Conor.
-
-
---zg0/95MUBwMtXXq2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY9hXFwAKCRB4tDGHoIJi
-0jz5AP9T0B2MgLSmPbYSg1QODDZGfojq049zs7BQd+8I5h0xMQEAg7Tq0HANXXSF
-/wo06urL3IrFIJh1toI0j0c616zj5Q8=
-=lM2h
------END PGP SIGNATURE-----
-
---zg0/95MUBwMtXXq2--
+jon
