@@ -2,131 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3876BC636D3
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 19:11:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9FB0C636D4
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 19:45:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237784AbjA3TLx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 14:11:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43138 "EHLO
+        id S238201AbjA3TpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 14:45:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236693AbjA3TLw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 14:11:52 -0500
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5930313D61;
-        Mon, 30 Jan 2023 11:11:48 -0800 (PST)
-Received: by mail-ej1-f41.google.com with SMTP id kt14so34822095ejc.3;
-        Mon, 30 Jan 2023 11:11:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eU65rRYM52Gc5N9gkV6nZZxQJLE3/bOxD/7FlWwA6u4=;
-        b=pHaTVlx5yrjQK1EqEUb+qTVX3jJ87y0PTPwKSR1fuQuYGvdu9txYFauFQYaQ0V+ImT
-         OxNeYK2BpvdPbY8ivcBcKZelLk3tPqNfZwvT4F4qgTMSr6LN/fFuorCHqurNCLRP0dPX
-         WyPf06od6Q6/2Z2jL5pWK2ZUhFq4hVMpBf69OW+gTUy5BTaY2TwWKaYDwN8bFOB3vVCt
-         u7zOKPlbO7JMkKh4ApjCdGevE4TpFfzSOvf33095AHagOIYv6fArEr7Zdf9PP4azUPlb
-         LRFcpaGb9Il+PkbcTYRUqwihmRPg3QeJlD8k9zaRR2qa/WWeasGX7CPo49eqikjRz923
-         oAow==
-X-Gm-Message-State: AO0yUKXH0mMifVZ7nQsVEx6AKxLuOqy2V8MTFqO0jiPCgmNBZT/R1oRV
-        swtC05SSOxftkyJyNJ5vE75nRSQ9uiRX3+7GpcE=
-X-Google-Smtp-Source: AK7set+Xu6B/4xzytt/Jz5draCvC7NhSMfDYO18XJfe49e1baxtM0KT9xIySxJqmB0gOmJA1MuBhQ/KrwoQqqYxa/7A=
-X-Received: by 2002:a17:906:1dcd:b0:87f:575a:9b67 with SMTP id
- v13-20020a1709061dcd00b0087f575a9b67mr2806864ejh.274.1675105906763; Mon, 30
- Jan 2023 11:11:46 -0800 (PST)
+        with ESMTP id S233828AbjA3TpV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 14:45:21 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5068C163;
+        Mon, 30 Jan 2023 11:45:20 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 679EEB8168D;
+        Mon, 30 Jan 2023 19:45:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D1ACC4339E;
+        Mon, 30 Jan 2023 19:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675107918;
+        bh=52J5/EqGhJ3KiKyV/iLX4Xpcfv1lkJzb5jsBfV0Gup0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ib7QLhO+fxZOwPJNUB43bjppstdngCG6rh1dMFX67vm2xHc902j+AYYpWI5OeiscI
+         XBWDhLNM89oTYcJdVrzRg9BQaJPftYV155LeF6KKMGgQ1DTzjemBG1aWlN/ozVo81+
+         AkEn38XP8uxtQltmDvV+DbSx54i2XNNd4V/OKl6e041o1o7miISG1rkHgZ9mK1XCbu
+         iNHhpP0dwKjn2VXk4SnMrKIkKkfkf7gE6i/Mvkagwq062VCP9lHbkgIu4FjD9MwRh+
+         Uaen15pskfu7saWpQi7QEbp4NCQdMeXMah2NZ/IksjtPc8YzAlBYPpxpJl398Q6w/N
+         ol1HdFQMqd+ZQ==
+Received: by mail-lf1-f45.google.com with SMTP id br9so20725616lfb.4;
+        Mon, 30 Jan 2023 11:45:17 -0800 (PST)
+X-Gm-Message-State: AFqh2koS8OaK59he3THjPwhz496ITerhpGIJV9iHV7JS08FpRufdQgaN
+        qS9kbWrYjJEGJu73dKZ+czFt6Nv+hUXG/SQiBWw=
+X-Google-Smtp-Source: AMrXdXuJOo7Pbv6iG6Moq7Ekn6wEAfrVjI/RQUFeuIXgnRtOAymLGgvgkwj6Zk11Ct0HYyEHh/eJJ8bCCHgUjjNms4Q=
+X-Received: by 2002:ac2:4c4a:0:b0:4cc:a1e3:c04b with SMTP id
+ o10-20020ac24c4a000000b004cca1e3c04bmr3476130lfk.15.1675107915984; Mon, 30
+ Jan 2023 11:45:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
-In-Reply-To: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 30 Jan 2023 20:11:35 +0100
-Message-ID: <CAJZ5v0g218rmTM+ra-vP6qcj7OFzDSBwd4ei9H2fPjhuFsXXrA@mail.gmail.com>
-Subject: Re: [PATCH 00/24] Add basic ACPI support for RISC-V
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>
+References: <20230129231053.20863-1-rdunlap@infradead.org> <20230129231053.20863-3-rdunlap@infradead.org>
+In-Reply-To: <20230129231053.20863-3-rdunlap@infradead.org>
+From:   Song Liu <song@kernel.org>
+Date:   Mon, 30 Jan 2023 11:45:03 -0800
+X-Gmail-Original-Message-ID: <CAPhsuW6GgFyF8AwJeZDTdtKfvDw2gRwPyQKii7Sgx-XqvtAcrw@mail.gmail.com>
+Message-ID: <CAPhsuW6GgFyF8AwJeZDTdtKfvDw2gRwPyQKii7Sgx-XqvtAcrw@mail.gmail.com>
+Subject: Re: [PATCH 2/9] Documentation: driver-api: correct spelling
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, nvdimm@lists.linux.dev,
+        Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+        linux-raid@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 7:22 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
+On Sun, Jan 29, 2023 at 3:11 PM Randy Dunlap <rdunlap@infradead.org> wrote:
 >
-> This patch series enables the basic ACPI infrastructure for RISC-V.
-> Supporting external interrupt controllers is in progress and hence it is
-> tested using polling based HVC SBI console and RAM disk.
+> Correct spelling problems for Documentation/driver-api/ as reported
+> by codespell.
 >
-> The series depends on Anup's IPI improvement series.
-> https://github.com/avpatel/linux/commits/riscv_ipi_imp_v17
->
-> These changes are available at
-> https://github.com/vlsunil/linux/commits/acpi_b1_us_review_ipi17
->
-> Testing:
-> 1) Build Qemu with ACPI support using below branch
-> https://github.com/vlsunil/qemu/tree/acpi_b1_us_review
->
-> 2) Build EDK2 as per instructions in
-> https://github.com/vlsunil/riscv-uefi-edk2-docs/wiki/RISC-V-Qemu-Virt-support
->
-> 3) Build Linux after enabling SBI HVC and SBI earlycon
-> CONFIG_RISCV_SBI_V01=y
-> CONFIG_SERIAL_EARLYCON_RISCV_SBI=y
-> CONFIG_HVC_RISCV_SBI=y
->
-> 4) Build buildroot.
->
-> Run with below command.
-> qemu-system-riscv64   -nographic \
-> -drive file=Build/RiscVVirtQemu/RELEASE_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1 \
-> -machine virt,acpi=on -smp 16 -m 2G \
-> -kernel arch/riscv/boot/Image \
-> -initrd buildroot/output/images/rootfs.cpio \
-> -append "root=/dev/ram ro console=hvc0 earlycon=sbi"
->
-> Jisheng Zhang (1):
->   riscv: move sbi_init() earlier before jump_label_init()
->
-> Sunil V L (23):
->   ACPICA: MADT: Add RISC-V INTC interrupt controller
->   ACPICA: Add structure definitions for RISC-V RHCT
->   RISC-V: ACPI: Add empty headers to enable ACPI core
->   RISC-V: ACPI: Add basic functions to build ACPI core
->   RISC-V: ACPI: Add PCI functions to build ACPI core
->   RISC-V: ACPI: Enable ACPI build infrastructure
->   ACPI: Enable ACPI_PROCESSOR for RISC-V
->   ACPI: OSL: Make should_use_kmap() 0 for RISC-V.
->   ACPI: processor_core: RISC-V: Enable mapping processor to the hartid
->   RISC-V: ACPI: irqchip/riscv-intc: Add ACPI support
->   RISC-V: ACPI: smpboot: Create wrapper smp_setup()
->   RISC-V: ACPI: smpboot: Add ACPI support in smp_setup()
->   RISC-V: ACPI: smpboot: Add function to retrieve the hartid
->   clocksource/timer-riscv: Refactor riscv_timer_init_dt()
->   RISC-V: ACPI: clocksource/timer-riscv: Add ACPI support
->   ACPI: RISC-V: drivers/acpi: Add RHCT related code
->   RISC-V: ACPI: time.c: Add ACPI support for time_init()
->   RISC-V: ACPI: cpufeature: Add ACPI support in riscv_fill_hwcap()
->   RISC-V: ACPI: cpu: Enable cpuinfo for ACPI systems
->   RISC-V: ACPI: Add ACPI initialization in setup_arch()
->   RISC-V: ACPI: Enable ACPI in defconfig
->   MAINTAINERS: Add entry for drivers/acpi/riscv
->   Documentation/kernel-parameters.txt: Add RISC-V for ACPI parameter
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Vishal Verma <vishal.l.verma@intel.com>
+> Cc: Dave Jiang <dave.jiang@intel.com>
+> Cc: nvdimm@lists.linux.dev
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: dmaengine@vger.kernel.org
+> Cc: Song Liu <song@kernel.org>
+> Cc: linux-raid@vger.kernel.org
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-usb@vger.kernel.org
+> ---
+[...]
+>  Documentation/driver-api/md/md-cluster.rst            |    2 +-
+>  Documentation/driver-api/md/raid5-cache.rst           |    2 +-
 
-The series looks fine to me from the ACPI perspective, so please feel
-free to add
+For md bits:
+Acked-by: Song Liu <song@kernel.org>
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-
-to it and route it via RISC-V.
-
-Thanks!
+[...]
