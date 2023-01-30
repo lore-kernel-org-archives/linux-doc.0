@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24107C636CB
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 18:24:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3780C54EED
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 18:24:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238033AbjA3SYC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 13:24:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57126 "EHLO
+        id S238133AbjA3SYT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 13:24:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237919AbjA3SXq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 13:23:46 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AE4525E02
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:12 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id m13so643942plx.13
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:12 -0800 (PST)
+        with ESMTP id S238036AbjA3SXz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 13:23:55 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7732E38B60
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:17 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id 5so12555905plo.3
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ventanamicro.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tPNO/SxCaad+QHrUHg1W5XYbXIP+iBGVf1xglNrkc7w=;
-        b=WAt9qxmLcMCzx3x9infWfLlyTRY7lQwbLQgH+mqXQo8DaInODomPFYDru14it+/rwL
-         FKOjU3kGSGvjRCJYGNq2J3I07ZEnZ2Bph7Cb19sB1kEq1iHguj5rtG6WsoXH3ZD7TYZN
-         Ls5e3cWuM0m3oJ0jAOuLWK/MdCpxiTs0N/t0Izo9LfJy+vGfhYn87Vrttba7ZDWMziE/
-         A08N/tccmOYsLazLRWGMy8dyvGbcOWNX9dDkplIHbZ2N65daS8oRYxkaa404MTl8Exiw
-         wpa6wUWNjRjFB4qsp0OXBmuBLPbZxKyUhU+EuhlYJBnfoixeacW/CA9qkRNTfKQxDHfo
-         1lpQ==
+        bh=Civb8WSgZLaGjy3GsEK+VfCJoO5XDczMEZxaUDDoy9s=;
+        b=PSgeKdehYrE+PafjRwikFSIdgqSVP/6Dwf+FS0bio9ay+kO8Iq/DP55UzLxJ/0teml
+         mvq507l+RrqXXtGjCegq0g7TLBJjmbSWhdM5dgwY0v649xk++pdojRYRpi6srgODCEX8
+         Uo9mPJiNfw2KG4leBHKApLZ0vCIAGbEaAh8W/xor1x+Q+a1Lfuh10l47pj75siTlDsbn
+         eb7CTrsgaQM3o3V7ixmkkhz+3jXqGMGxOBTq3bjtqGeqQ2LRHByk7Bu5QeGzR6FsK4b9
+         YFzRilzo9k2a2ZEB3Su60FmyHlwt8/pzExTf+irfPULv2+5xGuGMe/aasN/pJ2aP1S95
+         itrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tPNO/SxCaad+QHrUHg1W5XYbXIP+iBGVf1xglNrkc7w=;
-        b=1VcTLDPvMGiicv8giRDwrUpQWkx4qZIVYhHM02axMIM/nHqs516/4mtfLk0khQ5cfI
-         lX54ipVYV8bEommazXhJ28CAD7C0r0eRdE3fxiVuCC/sZY2t5cO0XNWYRJIpUia2Uz1i
-         1Qxg7SfKqygMIomKaiG3m+qWvq68T2vDvYXkAgbld2gDBrQhxRZibihYv/OSVCUBKEUp
-         tmQ6g+e81Ug9l/zp1Z2qcth3pI24PA23BgfYWNcp5f70ItbaGv2I6iEiCcVrtS9jo4H4
-         nmGGlPplqFMEiN5tmU31bud0yEdsMuwRwlmGPAtrzBh/XxY31Whbw4tH7Wt7v59IKLGS
-         YvYg==
-X-Gm-Message-State: AO0yUKUAFeCVkDMDJXBCvWUbqQi0upuwxC8QLFa0HcHAVkdkZf3VR2Sv
-        t+i+aHtyngUvre7rIuRW9eroYw==
-X-Google-Smtp-Source: AK7set+8WSMVCSxjvJ7pcIybsaePEVFCKPT/8u2wMLIFDS/YpCiIenEFMsDbeymxOLvTs+dp4pi/rw==
-X-Received: by 2002:a17:90b:20a:b0:22c:147d:137f with SMTP id fy10-20020a17090b020a00b0022c147d137fmr20585364pjb.17.1675102991516;
-        Mon, 30 Jan 2023 10:23:11 -0800 (PST)
+        bh=Civb8WSgZLaGjy3GsEK+VfCJoO5XDczMEZxaUDDoy9s=;
+        b=3PL4wBqo4vc8XyXEmzfFFqqPSX3/Xf1xq7xMwVAhwgt+XxOXefZR9E2AqE7UtoiGtz
+         HXf+pBPXaUmK9ES7Zb5xjd1DVC7qT6KmV8LSkqpvNWYUxTrpgCgpBuHQERH97d2wJUfJ
+         o4Pu4xUp/jusA+RJ3et1E7cHvl9O1sHz7OOd3FMilfROHabZd2ydE0BcGpyRcSkeiNsC
+         Uj3zgM8MgBn7ctVts9TYUTtUnfJa241q/O9rGMI/RxYTYMGr22ZF3nZ98Gl8S1/b78b6
+         J2JgCjwZThHIQ5GDYvi/ZHHZ8QQakdPHn2Cwm2SKYJmotHMi6iA5y+dIFZPgcboNUSGx
+         MHXw==
+X-Gm-Message-State: AO0yUKXJ2HtOpvV4fyxipnyHwzm1b183HFEwAnUoj4Xpjk1CpASjnUqt
+        TqxooX9FODOp4YEaii6nzrOymw==
+X-Google-Smtp-Source: AK7set9oTDzJ0fET5I+XJ+M/whs8igubsgt819w38WChwLx4JRHaYMGFAZJAVm6ZNdmVCQgnm72BVg==
+X-Received: by 2002:a17:90b:3e81:b0:22c:b70d:45fb with SMTP id rj1-20020a17090b3e8100b0022cb70d45fbmr3191564pjb.23.1675102995734;
+        Mon, 30 Jan 2023 10:23:15 -0800 (PST)
 Received: from kerodipc.Dlink ([49.206.9.96])
-        by smtp.gmail.com with ESMTPSA id j193-20020a638bca000000b00478162d9923sm7000291pge.13.2023.01.30.10.23.06
+        by smtp.gmail.com with ESMTPSA id j193-20020a638bca000000b00478162d9923sm7000291pge.13.2023.01.30.10.23.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 10:23:10 -0800 (PST)
+        Mon, 30 Jan 2023 10:23:15 -0800 (PST)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
@@ -64,9 +64,9 @@ Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
         Andrew Jones <ajones@ventanamicro.com>,
         Atish Patra <atishp@rivosinc.com>,
         Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH 08/24] ACPI: Enable ACPI_PROCESSOR for RISC-V
-Date:   Mon, 30 Jan 2023 23:52:09 +0530
-Message-Id: <20230130182225.2471414-9-sunilvl@ventanamicro.com>
+Subject: [PATCH 09/24] ACPI: OSL: Make should_use_kmap() 0 for RISC-V.
+Date:   Mon, 30 Jan 2023 23:52:10 +0530
+Message-Id: <20230130182225.2471414-10-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
 References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
@@ -76,27 +76,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The ACPI processor driver is not currently enabled for RISC-V.
-Enable it
+Without this, if the tables are larger than 4K,
+acpi_map() will fail.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 ---
- drivers/acpi/Kconfig | 2 +-
+ drivers/acpi/osl.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-index ccbeab9500ec..b44ac8e55b54 100644
---- a/drivers/acpi/Kconfig
-+++ b/drivers/acpi/Kconfig
-@@ -281,7 +281,7 @@ config ACPI_CPPC_LIB
+diff --git a/drivers/acpi/osl.c b/drivers/acpi/osl.c
+index 3269a888fb7a..f725813d0cce 100644
+--- a/drivers/acpi/osl.c
++++ b/drivers/acpi/osl.c
+@@ -276,7 +276,7 @@ acpi_map_lookup_virt(void __iomem *virt, acpi_size size)
+ 	return NULL;
+ }
  
- config ACPI_PROCESSOR
- 	tristate "Processor"
--	depends on X86 || IA64 || ARM64 || LOONGARCH
-+	depends on X86 || IA64 || ARM64 || LOONGARCH || RISCV
- 	select ACPI_PROCESSOR_IDLE
- 	select ACPI_CPU_FREQ_PSS if X86 || IA64 || LOONGARCH
- 	select THERMAL
+-#if defined(CONFIG_IA64) || defined(CONFIG_ARM64)
++#if defined(CONFIG_IA64) || defined(CONFIG_ARM64) || defined(CONFIG_RISCV)
+ /* ioremap will take care of cache attributes */
+ #define should_use_kmap(pfn)   0
+ #else
 -- 
 2.38.0
 
