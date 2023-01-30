@@ -2,136 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B850C54EED
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 10:15:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83D9CC61DA4
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 10:59:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236171AbjA3KPS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 05:15:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48452 "EHLO
+        id S236401AbjA3K7v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 05:59:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233899AbjA3KPQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 05:15:16 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA2F5252;
-        Mon, 30 Jan 2023 02:15:15 -0800 (PST)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30U6LBr4028583;
-        Mon, 30 Jan 2023 10:15:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : reply-to : references : mime-version :
- content-type : in-reply-to; s=qcppdkim1;
- bh=FQ25Ocj9mmDa26Q4Qbvq4/AjPwDuTjYyZW7kxiBvCw4=;
- b=BZi8IdZDbX5hx6pjZrgv/HIi1W23MKVBMB0rmvPOzvHxatgRF61leNff6FStpwl9emy0
- va3LN1khxdjFM4WEEzq82Nc2zSuoU1XD9RlgUuQ7jrJSst3oTHR5WUJIpJUEsIldq4+D
- ZFd9ONjt69t9qYre5l9DmPMUJqoZoIBu+Z5hYP47hD/dr7PVnDImaD506x4AvEyH6Wu8
- QgummUH5FKBwl7slhEmTxcN8+5E21YnSpbOIW3XmpM+gp4eDcTdhjvKEQClt88987UqQ
- /zNhxclZ27zUV89K5/Ten0g0cZdzM2RWQccXqduoLeEHdZfWNxp5Qd73QmUjTqPc6FhP Mg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncvvu36p9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 30 Jan 2023 10:15:00 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30UAEx3E005764
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 30 Jan 2023 10:14:59 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 30 Jan
- 2023 02:14:51 -0800
-Date:   Mon, 30 Jan 2023 15:44:45 +0530
-From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S236276AbjA3K7r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 05:59:47 -0500
+Received: from polaris.svanheule.net (polaris.svanheule.net [IPv6:2a00:c98:2060:a004:1::200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B9A216318
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 02:59:46 -0800 (PST)
+Received: from vanadium.ugent.be (vanadium.ugent.be [157.193.99.61])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sander@svanheule.net)
+        by polaris.svanheule.net (Postfix) with ESMTPSA id CFD31374C99;
+        Mon, 30 Jan 2023 11:59:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+        s=mail1707; t=1675076384;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=U1Ys43pCbQ47P6jE4khaS6ODOc8bcDkfqNdijwTb2hE=;
+        b=3EI+iUbrpNLzheskeLDNNEE4YLkOUF3NcXPXUDMKIiRBjUxPmYvBRGGhH5gPyL/alC7EZ+
+        0D9L2sCDXIw+x6VEusgemZxiUeB2A6irBKb1K23mgiHL06Ub7YXAIKE+z9At31GaGslm78
+        vaLCLrf0Z+/IBDaB0YY0I/KuSlDNhZG5oRw/YnXTIeQPFmgeYoMKcLufWzm/UyBqEHaMUI
+        otTV8Xx+1j3T1FS2KxiCcgePfpGXKoE+nhlXOiRgEgmr1vlDWWWYj+uth6rNgUrDB0BjPi
+        8xNnmbKYWYHHepw2rYeh4oAwR51OtXMymPzNKXav+PTysmiPTRQ6+bR6ZwkXEA==
+Message-ID: <f854183545a6ff55235c9f2264af97c1a7f530c3.camel@svanheule.net>
+Subject: Re: [PATCH v7 11/11] dt-bindings: net: dsa: qca8k: add LEDs
+ definition example
+From:   Sander Vanheule <sander@svanheule.net>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v9 12/27] gunyah: rsc_mgr: Add RPC for sharing memory
-Message-ID: <20230130101445.GB332@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-13-quic_eberman@quicinc.com>
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Date:   Mon, 30 Jan 2023 11:59:42 +0100
+In-Reply-To: <Y9bs53a9zyqEU9Xw@lunn.ch>
+References: <20221214235438.30271-1-ansuelsmth@gmail.com>
+         <20221214235438.30271-12-ansuelsmth@gmail.com>
+         <20221220173958.GA784285-robh@kernel.org> <Y6JDOFmcEQ3FjFKq@lunn.ch>
+         <Y6JkXnp0/lF4p0N1@lunn.ch> <63a30221.050a0220.16e5f.653a@mx.google.com>
+         <c609a7f865ab48f858adafdd9c1014dda8ec82d6.camel@svanheule.net>
+         <Y9bs53a9zyqEU9Xw@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-In-Reply-To: <20230120224627.4053418-13-quic_eberman@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: QKEya6Z32GHI_o5Kft3PK1XLQziwReYd
-X-Proofpoint-ORIG-GUID: QKEya6Z32GHI_o5Kft3PK1XLQziwReYd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-30_10,2023-01-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- mlxlogscore=802 suspectscore=0 spamscore=0 mlxscore=0 phishscore=0
- clxscore=1015 lowpriorityscore=0 priorityscore=1501 bulkscore=0
- adultscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2301300098
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:11]:
+SGkgQW5kcmV3LAoKT24gU3VuLCAyMDIzLTAxLTI5IGF0IDIzOjAyICswMTAwLCBBbmRyZXcgTHVu
+biB3cm90ZToKPiA+ID4gVGhpcyBpcyBhbiBleGFtcGxlIG9mIHRoZSBkdCBpbXBsZW1lbnRlZCBv
+biBhIHJlYWwgZGV2aWNlLgo+ID4gPiAKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqBtZGlvIHsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgI2FkZHJlc3MtY2VsbHMgPSA8MT47Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCNzaXplLWNlbGxzID0gPDA+Owo+ID4gPiAKPiA+
+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcGh5X3Bv
+cnQxOiBwaHlAMCB7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZWcgPSA8MD47Cj4gPiA+IAo+ID4gPiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+bGVkcyB7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgI2FkZHJlc3MtY2VsbHMgPSA8MT47
+Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgI3NpemUtY2VsbHMgPSA8MD47Cj4gPiBbLi4u
+XQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgfTsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgfTsKPiA+IFsuLi5dCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgfTsKPiA+ID4gCj4gPiA+IEluIHRoZSBmb2xsb3dpbmcgaW1wbGVtZW50YXRpb24u
+IEVhY2ggcG9ydCBoYXZlIDIgbGVkcyBhdHRhY2hlZCAob3V0IG9mCj4gPiA+IDMpIG9uZSB3aGl0
+ZSBhbmQgb25lIGFtYmVyLiBUaGUgZHJpdmVyIHBhcnNlIHRoZSByZWcgYW5kIGNhbGN1bGF0ZSB0
+aGUKPiA+ID4gb2Zmc2V0IHRvIHNldCB0aGUgY29ycmVjdCBvcHRpb24gd2l0aCB0aGUgcmVncyBi
+eSBhbHNvIGNoZWNraW5nIHRoZSBwaHkKPiA+ID4gbnVtYmVyLgo+ID4gCj4gPiBXaXRoIHN3aXRj
+aCBzaWxpY29uIGFsbG93aW5nIHVzZXIgY29udHJvbCBvZiB0aGUgTEVEcywgdmVuZG9ycyBjYW4g
+KGFuZAo+ID4gd2lsbCkKPiA+IHVzZSB0aGUgc3dpdGNoJ3MgTEVEIHBlcmlwaGVyYWwgdG8gZHJp
+dmUgb3RoZXIgTEVEcyAob3Igd29yc2UpLiBFLmcuIG9uIGEKPiA+IENpc2NvCj4gPiBTRzIyMC0y
+NiBzd2l0Y2gsIHVzaW5nIGEgUmVhbHRlayBSVEw4MzgyIFNvQywgdGhlIExFRHMgYXNzb2NpYXRl
+ZCB3aXRoIHNvbWUKPiA+IHVudXNlZCBzd2l0Y2ggcG9ydHMgYXJlIHVzZWQgdG8gZGlzcGxheSBh
+IGdsb2JhbCBkZXZpY2Ugc3RhdHVzLiBNeSBjb25jZXJuCj4gPiBoZXJlCj4gPiBpcyB0aGF0IG9u
+ZSB3b3VsZCBoYXZlIHRvIHNwZWNpZnkgc3dpdGNoIHBvcnRzLCB0aGF0IGFyZW4ndCBjb25uZWN0
+ZWQgdG8KPiA+IGFueXRoaW5nLCBqdXN0IHRvIGRlc2NyaWJlIHRob3NlIG5vbi1ldGhlcm5ldCBM
+RURzLgo+IAo+IE5vdGUgdGhhdCB0aGUgYmluZGluZyBpcyBhZGRpbmcgcHJvcGVydGllcyB0byB0
+aGUgUEhZIG5vZGVzLCBub3QgdGhlCj4gc3dpdGNoIHBvcnQgbm9kZXMuIElzIHRoaXMgaG93IHRo
+ZSBSVEw4MzgyIHdvcmtzPyBNYXJ2ZWxsIFN3aXRjaGVzCj4gaGF2ZSBMRUQgcmVnaXN0ZXJzIHdo
+aWNoIGFyZSBub3QgaW4gdGhlIFBIWSByZWdpc3RlciBzcGFjZS4KClRoYW5rcyBmb3IgdGhlIHF1
+aWNrIGNsYXJpZmljYXRpb24uIEJlY2F1c2UgeW91IG1lbnRpb24gdGhpcywgSSByZWFsaXNlZCB0
+aGF0CnRoZSBSVEw4MzgyJ3MgTEVEIGNvbnRyb2xsZXIgaXMgYWN0dWFsbHkgbm90IGluIHRoZSBQ
+SFlzLiBUaGVzZSBTb0NzIHVzZQpleHRlcm5hbCBQSFlzLCB3aGljaCBtYXkgaGF2ZSB0aGVpciBv
+d24sIGluZGVwZW5kZW50LCBMRUQgY29udHJvbGxlcnMuIEZvcgpleGFtcGxlIHRoZSBSVEw4MjEy
+RCBbMV0uCgpbMV0KaHR0cHM6Ly9kYXRhc2hlZXQubGNzYy5jb20vbGNzYy8yMjAzMjUyMjUzX1Jl
+YWx0ZWstU2VtaWNvbi1SVEw4MjE4RC1DR19DMjkwMTg5OC5wZGYKCj4gCj4gQnV0IHRoZSBwb2lu
+dCBpcywgdGhlIFBIWXMgd2lsbCBwcm9iZSBpZiBsaXN0ZWQuIFRoZXkgZG9uJ3QgaGF2ZSB0bwo+
+IGhhdmUgYSBNQUMgcG9pbnRpbmcgdG8gdGhlbSB3aXRoIGEgcGhhbmRsZS4gU28gdGhlIHBoeWRl
+diB3aWxsIGV4aXN0LAo+IGFuZCB0aGF0IHNob3VsZCBiZSBlbm91Z2ggdG8gZ2V0IHRoZSBMRUQg
+Y2xhc3MgZGV2aWNlIHJlZ2lzdGVyZWQuIElmCj4gdGhlcmUgaXMgYmFzaWMgb24vb2ZmIHN1cHBv
+cnQsIHRoYXQgc2hvdWxkIGJlIGVub3VnaCBmb3IgeW91IHRvIGF0dGFjaAo+IHRoZSBNb3JzZSBj
+b2RlIHBhbmljIHRyaWdnZXIsIHRoZSBoZWFydGJlYXQgaGFuZGxlciwgb3IgYW55IG90aGVyIExF
+RAo+IHRyaWdnZXIuCgpPSywgdGhpcyBtYWtlcyBzZW5zZSBmb3IgKGV4dGVybmFsKSBQSFlzIHdo
+aWNoIG5lZWQgdG8gYmUgcHJvYmVkIGFueXdheSB0byBoYXZlCmFjY2VzcyB0byB0aGUgTEVEcy4K
+Ckxvb2tpbmcgYXQgdGhlIFJUTDgyMTJEJ3MgZGF0YXNoZWV0IChUYWJsZSAxMSwgcC4gMjQpLCBp
+dCBhcHBlYXJzIHRvIGJlIHBvc3NpYmxlCnRvIGFzc2lnbiBhbiBMRUQgdG8gYW55IG9mIHRoZSBl
+aWdodCBQSFlzLiBQZXJoYXBzIHRvIGFsbG93IG1vcmUgZnJlZWRvbSBpbiB0aGUKYm9hcmQgbGF5
+b3V0LiBNYXliZSBJJ20ganVzdCBub3Qgc2VlaW5nIGl0LCBidXQgSSBkb24ndCB0aGluayB0aGUg
+ZXhhbXBsZSB3aXRoCmFuICdsZWRzJyBub2RlIHVuZGVyIGEgUEhZIGNvbnRhaW5zIGVub3VnaCBp
+bmZvcm1hdGlvbiB0byBwZXJmb3JtIHN1Y2ggYSBub24tCnRyaXZpYWwgbWFwcGluZy4gT24gdGhl
+IG90aGVyIGhhbmQsIEknbSBub3Qgc3VyZSB3aGVyZSBlbHNlIHRoYXQgaW5mbyBtaWdodCBnby4K
+TWF5YmUgYSAndHJpZ2dlci1zb3VyY2VzJyBwcm9wZXJ0eSBjcm9zcy1yZWZlcmVuY2luZyBhbm90
+aGVyIFBIWSBpbiB0aGUgc2FtZQpwYWNrYWdlPwoKQmVzdCwKU2FuZGVyCg==
 
-> +static int gh_rm_mem_lend_common(struct gh_rm *rm, u32 message_id, struct gh_rm_mem_parcel *p)
-> +{
-> +	size_t msg_size = 0, initial_n_mem_entries = p->n_mem_entries;
-> +	void *msg;
-> +	__le32 *resp;
-> +	struct gh_mem_share_req_header *req_header;
-> +	struct gh_mem_share_req_acl_section *acl_section;
-> +	struct gh_mem_share_req_mem_section *mem_section;
-> +	u32 *mem_attr_section;
-> +	size_t resp_size;
-> +	int ret;
-> +
-> +	if (!p->acl_entries || !p->n_acl_entries || !p->mem_entries || !p->n_mem_entries ||
-> +	    p->n_acl_entries > U8_MAX || p->mem_handle != GH_MEM_HANDLE_INVAL)
-> +		return -EINVAL;
-> +
-> +	if (initial_n_mem_entries > GH_RM_MAX_MEM_ENTRIES)
-> +		initial_n_mem_entries = GH_RM_MAX_MEM_ENTRIES;
-> +
-> +	/* The format of the message goes:
-> +	 * request header
-> +	 * ACL entries (which VMs get what kind of access to this memory parcel)
-> +	 * Memory entries (list of memory regions to share)
-> +	 * Memory attributes (currently unused, we'll hard-code the size to 0)
-> +	 */
-> +	msg_size += sizeof(struct gh_mem_share_req_header);
-> +	msg_size += offsetof(struct gh_mem_share_req_acl_section, entries[p->n_acl_entries]);
-> +	msg_size += offsetof(struct gh_mem_share_req_mem_section, entries[initial_n_mem_entries]);
-> +	msg_size += sizeof(u32); /* for memory attributes, currently unused */
-> +
-> +	msg = kzalloc(msg_size, GFP_KERNEL);
-> +	if (!msg)
-> +		return -ENOMEM;
-> +
-> +	ret = gh_rm_platform_pre_mem_share(rm, p);
-
-Hmm ..I think gh_rm_platform_pre_mem_share() is not yet defined as of this
-patch, so you probably want this in a later patch.
-
-> +	if (ret) {
-> +		kfree(msg);
-> +		return ret;
-> +	}
-> +
