@@ -2,94 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9FB0C636D4
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 19:45:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0214C54EAA
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 20:05:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238201AbjA3TpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 14:45:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38432 "EHLO
+        id S235960AbjA3UFi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 15:05:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233828AbjA3TpV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 14:45:21 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5068C163;
-        Mon, 30 Jan 2023 11:45:20 -0800 (PST)
+        with ESMTP id S235333AbjA3UFh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 15:05:37 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5357D4741A;
+        Mon, 30 Jan 2023 12:05:36 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 679EEB8168D;
-        Mon, 30 Jan 2023 19:45:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D1ACC4339E;
-        Mon, 30 Jan 2023 19:45:18 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E2B0160F83;
+        Mon, 30 Jan 2023 20:05:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F13CCC433EF;
+        Mon, 30 Jan 2023 20:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675107918;
-        bh=52J5/EqGhJ3KiKyV/iLX4Xpcfv1lkJzb5jsBfV0Gup0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ib7QLhO+fxZOwPJNUB43bjppstdngCG6rh1dMFX67vm2xHc902j+AYYpWI5OeiscI
-         XBWDhLNM89oTYcJdVrzRg9BQaJPftYV155LeF6KKMGgQ1DTzjemBG1aWlN/ozVo81+
-         AkEn38XP8uxtQltmDvV+DbSx54i2XNNd4V/OKl6e041o1o7miISG1rkHgZ9mK1XCbu
-         iNHhpP0dwKjn2VXk4SnMrKIkKkfkf7gE6i/Mvkagwq062VCP9lHbkgIu4FjD9MwRh+
-         Uaen15pskfu7saWpQi7QEbp4NCQdMeXMah2NZ/IksjtPc8YzAlBYPpxpJl398Q6w/N
-         ol1HdFQMqd+ZQ==
-Received: by mail-lf1-f45.google.com with SMTP id br9so20725616lfb.4;
-        Mon, 30 Jan 2023 11:45:17 -0800 (PST)
-X-Gm-Message-State: AFqh2koS8OaK59he3THjPwhz496ITerhpGIJV9iHV7JS08FpRufdQgaN
-        qS9kbWrYjJEGJu73dKZ+czFt6Nv+hUXG/SQiBWw=
-X-Google-Smtp-Source: AMrXdXuJOo7Pbv6iG6Moq7Ekn6wEAfrVjI/RQUFeuIXgnRtOAymLGgvgkwj6Zk11Ct0HYyEHh/eJJ8bCCHgUjjNms4Q=
-X-Received: by 2002:ac2:4c4a:0:b0:4cc:a1e3:c04b with SMTP id
- o10-20020ac24c4a000000b004cca1e3c04bmr3476130lfk.15.1675107915984; Mon, 30
- Jan 2023 11:45:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20230129231053.20863-1-rdunlap@infradead.org> <20230129231053.20863-3-rdunlap@infradead.org>
-In-Reply-To: <20230129231053.20863-3-rdunlap@infradead.org>
-From:   Song Liu <song@kernel.org>
-Date:   Mon, 30 Jan 2023 11:45:03 -0800
-X-Gmail-Original-Message-ID: <CAPhsuW6GgFyF8AwJeZDTdtKfvDw2gRwPyQKii7Sgx-XqvtAcrw@mail.gmail.com>
-Message-ID: <CAPhsuW6GgFyF8AwJeZDTdtKfvDw2gRwPyQKii7Sgx-XqvtAcrw@mail.gmail.com>
-Subject: Re: [PATCH 2/9] Documentation: driver-api: correct spelling
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org,
+        s=k20201202; t=1675109135;
+        bh=MtoKF5tZ9iw5pxdAn2dB010tie1kooHia/5OXhX6ePo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=YSKb46qnUFdgt0PQi7Is8QTjxGxVU9CAgxO+Ftw/zXo7qSWtKyQ75shjsUaf/KhEH
+         eWzlz28w1euAaTiHKm65bphCmsW5GD7RVxayLUQM511tg964dAIE4uPX/yfEftm2wO
+         +DwSAVRbXoSVeVLDTY4312eqKZu0ix5weH1/q24eDi8sv+fgkjNPlQaWpMMtssbjJh
+         aO5bXpzdTuW2QP51k00wN/jcpzE3nO696WC9mI6jvVqomysgmEVrSQ7qs9Mk4ygpwd
+         HWhNDOBEhXQZpScKxhkheQR0LR3JE0pOHC+vAQ5myb/Dc7GhpFGqLcsg4XO6bwQM7f
+         4ZUvVczy5Tkng==
+Date:   Mon, 30 Jan 2023 20:19:29 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Matti Vaittinen <mazziesaccount@gmail.com>
+Cc:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+        "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
+        linux-iio <linux-iio@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>, nvdimm@lists.linux.dev,
-        Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
-        linux-raid@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: ROHM ALS, integration time
+Message-ID: <20230130201929.52c93ee5@jic23-huawei>
+In-Reply-To: <0e0d45b7-e582-82b2-9bac-1f70f9dad9f7@gmail.com>
+References: <65c7c45a-c953-e418-f640-9e46841151a1@gmail.com>
+        <20230130130231.000013b6@Huawei.com>
+        <9b3dcc7a-a0f8-38ee-4381-d330004d436f@fi.rohmeurope.com>
+        <20230130171218.00007802@Huawei.com>
+        <0e0d45b7-e582-82b2-9bac-1f70f9dad9f7@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 29, 2023 at 3:11 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Correct spelling problems for Documentation/driver-api/ as reported
-> by codespell.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Vishal Verma <vishal.l.verma@intel.com>
-> Cc: Dave Jiang <dave.jiang@intel.com>
-> Cc: nvdimm@lists.linux.dev
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: dmaengine@vger.kernel.org
-> Cc: Song Liu <song@kernel.org>
-> Cc: linux-raid@vger.kernel.org
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-usb@vger.kernel.org
-> ---
-[...]
->  Documentation/driver-api/md/md-cluster.rst            |    2 +-
->  Documentation/driver-api/md/raid5-cache.rst           |    2 +-
+On Mon, 30 Jan 2023 20:19:07 +0200
+Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 
-For md bits:
-Acked-by: Song Liu <song@kernel.org>
+> On 1/30/23 19:12, Jonathan Cameron wrote:
+> > On Mon, 30 Jan 2023 13:42:27 +0000
+> > "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com> wrote:
+> >   
+> >> On 1/30/23 15:02, Jonathan Cameron wrote:  
+> >>> On Mon, 30 Jan 2023 14:04:53 +0200
+> >>> Matti Vaittinen <mazziesaccount@gmail.com> wrote:  
+> >> For an occasional contributor like me it could be helpful if the defines
+> >> like IIO_INTENSITY, IIO_LIGHT had documentation in headers explaining
+> >> for example the units. Maybe also some words about the
+> >> IIO_CHAN_INFO_INT_TIME and IIO_CHAN_INFO_SCALE as well ;) I guess I can
+> >> cook some doc - but only for couple of defines which I have discussed
+> >> with you this far. Do you think such comment docs would be welcome -
+> >> even if they covered only couple of defines? Maybe others would continue
+> >> from that.  
+> > 
+> > I'd worry about the Docs disagreeing with the ABI docs
+> > in Documentation/ABI/testing/sysfs-bus-iio
+> > which needs to be the 'one true source' of this stuff.  
+> 
+> Oh, right. It might've been just me - but I did overlook this golden 
+> documentation. I did actually land on this document but didn't really 
+> pay the required attention. I guess I allowed the kernel version in the 
+> page to distract me thinking it is some sort of 'history' stuff.
+> 
+> What would have been enough (even for me) would've been a short 
+> description of a define - and then the link to a entry which corresponds 
+> the define in this document. Something along the lines:
+> 
+> /**
+>   * iio_chan_type - Types of channel
+>   *
+>   * Please find the detailed documentation for reported values from the
+>   * Documentation/ABI/testing/sysfs-bus-iio. Pointer to correct keyword
+>   * in documentation is mentioned at the channel define description
+>   * below.
+>   *
+>   * IIO_INTENSITY:	Channel for unitless intensity.
+>   *			Doc keyword: in_intensityY_raw			
+>   *
+>   * IIO_LIGHT:		Channel for visible light intensity in lux
+>   * 			Doc keyword: in_illuminance_raw
+>   */
+> 
+> I have a feeling that this would already have helped me. Nevertheless, I 
+> would not mind seeing docs also for the iio_chan_info_enum values - but 
+> linking to the correct spot in sysfs-bus-iio might not be as easy.
+> 
+> Anyays, Thanks for the help once again :)
 
-[...]
+Both the kernel-doc for this header and the ABI docs end up in
+the kernel html docs.  I wonder if a link is possible...
+https://docs.kernel.org/driver-api/iio/core.html#industrial-i-o-devices
+would have the iio_chan_type docs I think if there were any.
+https://docs.kernel.org/admin-guide/abi-testing.html?highlight=abi#abi-sys-iio-devicex-in-intensityy-raw 
+is the matching ABI doc. 
+
+Mauro, Jon, other docs system experts...
+
+I couldn't immediately find a way to link to a specific ABI docs entry,
+is there a means to do it from kernel-doc in a header?
+
+Thanks,
+
+Jonathan
+
+
+> 
+> Yours,
+> 	-- Matti
+> 
+
