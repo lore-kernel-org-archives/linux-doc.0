@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84012C54EED
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 18:25:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA979C636D3
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 18:25:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236705AbjA3SZL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 13:25:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57940 "EHLO
+        id S237393AbjA3SZN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 13:25:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238095AbjA3SYA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 13:24:00 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFBC445F40
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:29 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id b24-20020a17090a551800b0022beefa7a23so16360659pji.5
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:29 -0800 (PST)
+        with ESMTP id S238007AbjA3SYd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 13:24:33 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 952B9DBD4
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:39 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id e10-20020a17090a630a00b0022bedd66e6dso16396321pjj.1
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ventanamicro.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2V4bEO8aGCUnvICkvYFTtflr32JlbC6lkp0g+wowtbM=;
-        b=lk2FS4bi5tXkC1KwlB7IR9frYJNCQB46zRuLBebN5lBJ8cN3scRheCqCzNq02LquDZ
-         T7s0yo1+o/et+QSWknYJCYgYVrAhIpx0Q9RFeIJULyKKzgmtGBS8BkeM/vl6wKvrBMjp
-         mUvQzp6EXvFNRLO9+5Kiu1elg30zaPMBmDpWZO2NqlSDLjfGA8M/9cZI0DQaxiOgClDj
-         0kOWsS7nvZZg3rIfS/7ZgCLiyEXy42cw6D20wqCpo9xvkn4YN9s2Y8p41QXLbbX33pYG
-         yt0yEkzirf4so3ujS3owGMIcP4HQ2+eRccoCcxPRQaOr8cvUU/UP8Tzs1QvpGKrSAhji
-         ekYQ==
+        bh=RoNsoxjlD8YqMSH0pVqFEhvuCFLj9XoDBF5p4r2NIfw=;
+        b=iDP9c7ApKkeB+Xt1IY5/R1iq7FKDBdju6Gcvu0MaOJbVMwIYqvi+FcQp3Rhci/cc5J
+         KoQD04jyy6VO99ZWoK4TcBtQinWwKlBtUXVq3L7bE9PuU/ZVfJG9ZCmXLl+WB4X4i4VW
+         BQpf68cV9//tP+mZrgsx+74mDrgOxMSmF+WLXD/OqoqKebupmq+dwbG9DqtQJs/RxbTS
+         8jSuMpnxiU8ENHw7dfJQKKAbDN77oYx8eR8SpY8zpqyoTO6+8cAjE6RwhM5HRoLPSZFa
+         LiT0HjazTXTYtwFYqfZkPowj9WignKTXYrWH5vPlbv3ghQ6swvcBM1zRLcTrjOuNKGfX
+         v3rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2V4bEO8aGCUnvICkvYFTtflr32JlbC6lkp0g+wowtbM=;
-        b=lfGmcZatHMa47K2GIR5C1IZHkHbFzYS/unRaNReJyV4BAnJSQVq1hRa3N4JS3eNVtU
-         AyU+aJmLPwCgsc1b7Ozm83gL9yOjlIkF+YsD5CdjH7xw+AZyOf9gIOs/Q7JAiP/gVYXQ
-         7qkbQeD/eULPJDKYra7gAnCi1DMTNjXro5VjqMRHagNo+Lh391Ldh4xoF6h0OIcjzo9+
-         nQJUaNmrJf3C4Hpm9C9aNVtjhrvcwvGqoO4n1IoSi3sKRles2zFW1dDg9DYkLQXmj00n
-         QcKz0fFnZKAybnqthCofIe8Ek5JNIdMo6owzUx9Bzl09e5/EzSMkcMffqViwYh8YM+b1
-         ZYTg==
-X-Gm-Message-State: AO0yUKUHz+eBY1ERKkQgfMM9l3bZD7b3sFkuOxFpWHT7Pj+4afqdow5K
-        qFo2h154wIxw3F+xBvld5L6jIw==
-X-Google-Smtp-Source: AK7set/tX5Xt8agYBu/KLyJy+OnSgmLrgEYtXB6QpcbJp9X24yqEp94vp4kVKhN3pU5/ZWvnJCibGA==
-X-Received: by 2002:a05:6a20:8e19:b0:bc:db54:27d7 with SMTP id y25-20020a056a208e1900b000bcdb5427d7mr5597928pzj.59.1675103009111;
-        Mon, 30 Jan 2023 10:23:29 -0800 (PST)
+        bh=RoNsoxjlD8YqMSH0pVqFEhvuCFLj9XoDBF5p4r2NIfw=;
+        b=cB8jbZ7mwfDJ4rMeqCTAI5f2PzK1EDAMuJhzcYpa0y89wqs0JrlBMu5HWSkzoGGzpp
+         t0IVuTL+48ARXH0N7QAwbb5jWUhuKZrbZTJjmLDfqU4hzQvivtDEqnQ1quzZJoFiGtBE
+         w2NyTOQac96ALMVa2X5gTqT5zO3/0rpmnkVciJMtpb+S3INEWu4i7Lg/9BbBX6ARMlu3
+         nxcm6sgKq8Bu3cYsOzeDv3R6VvdATaKE/ELsZrvotgoijZoaPtVx/mvjSDsE6UM7VWZf
+         6bMwpcsaKACGHF4rvkasiyBqF0/t7bRy2FX9YwNO+399+6LSnNfyhvt86DyELb1+gcdn
+         j8mg==
+X-Gm-Message-State: AFqh2kqmaVu5qwmyxsnHFeq584WxUXeLjdWw22W5X+K09snI08UpZVNp
+        fV9Z+j4LHn8/fuQoRJCCiqNhIw==
+X-Google-Smtp-Source: AMrXdXsri6EFFpQDUL2InJo9z3j/bCDEJMfcZoHWyztBdQ136ASsttq8Z8Ti99sjosyysKb91k/I5w==
+X-Received: by 2002:a05:6a20:8f02:b0:af:c871:bf4b with SMTP id b2-20020a056a208f0200b000afc871bf4bmr70215553pzk.26.1675103018053;
+        Mon, 30 Jan 2023 10:23:38 -0800 (PST)
 Received: from kerodipc.Dlink ([49.206.9.96])
-        by smtp.gmail.com with ESMTPSA id j193-20020a638bca000000b00478162d9923sm7000291pge.13.2023.01.30.10.23.24
+        by smtp.gmail.com with ESMTPSA id j193-20020a638bca000000b00478162d9923sm7000291pge.13.2023.01.30.10.23.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 10:23:28 -0800 (PST)
+        Mon, 30 Jan 2023 10:23:37 -0800 (PST)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
@@ -64,9 +64,9 @@ Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
         Andrew Jones <ajones@ventanamicro.com>,
         Atish Patra <atishp@rivosinc.com>,
         Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH 12/24] RISC-V: ACPI: smpboot: Create wrapper smp_setup()
-Date:   Mon, 30 Jan 2023 23:52:13 +0530
-Message-Id: <20230130182225.2471414-13-sunilvl@ventanamicro.com>
+Subject: [PATCH 14/24] RISC-V: ACPI: smpboot: Add function to retrieve the hartid
+Date:   Mon, 30 Jan 2023 23:52:15 +0530
+Message-Id: <20230130182225.2471414-15-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
 References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
@@ -76,40 +76,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-smp_setup() currently assumes DT based platforms. To enable ACPI,
-first make this as a wrapper function and move existing code to
-a separate DT specific function.
+hartid is in RINTC structuire in MADT table. Instead of parsing
+the ACPI table every time we need for a cpu, cache it and provide
+a function to read it.
+
+This is similar to acpi_get_madt_gicc() in arm64.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 ---
- arch/riscv/kernel/smpboot.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ arch/riscv/include/asm/acpi.h | 14 +++++++++++++-
+ arch/riscv/kernel/smpboot.c   | 21 +++++++++++++++++++++
+ 2 files changed, 34 insertions(+), 1 deletion(-)
 
-diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
-index 00b53913d4c6..26214ddefaa4 100644
---- a/arch/riscv/kernel/smpboot.c
-+++ b/arch/riscv/kernel/smpboot.c
-@@ -70,7 +70,7 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
- 	}
- }
+diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+index d1f1e53ec657..69a880b7257a 100644
+--- a/arch/riscv/include/asm/acpi.h
++++ b/arch/riscv/include/asm/acpi.h
+@@ -65,6 +65,18 @@ int acpi_numa_get_nid(unsigned int cpu);
+ static inline int acpi_numa_get_nid(unsigned int cpu) { return NUMA_NO_NODE; }
+ #endif /* CONFIG_ACPI_NUMA */
  
--void __init setup_smp(void)
-+static void __init of_parse_and_init_cpus(void)
- {
- 	struct device_node *dn;
- 	unsigned long hart;
-@@ -116,6 +116,11 @@ void __init setup_smp(void)
- 	}
- }
- 
-+void __init setup_smp(void)
+-#endif
++struct acpi_madt_rintc *acpi_get_madt_rintc(int cpu);
++struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
++static inline u32 get_acpi_id_for_cpu(int cpu)
 +{
-+	of_parse_and_init_cpus();
++	return	acpi_cpu_get_madt_rintc(cpu)->uid;
++}
++#else
++static inline u32 get_acpi_id_for_cpu(int cpu)
++{
++	return -1;
 +}
 +
- static int start_secondary_cpu(int cpu, struct task_struct *tidle)
- {
- 	if (cpu_ops[cpu]->cpu_start)
++#endif /* CONFIG_ACPI */
+ 
+ #endif /*_ASM_ACPI_H*/
+diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
+index e48cf88d0bc1..3a8b7a9eb5ac 100644
+--- a/arch/riscv/kernel/smpboot.c
++++ b/arch/riscv/kernel/smpboot.c
+@@ -73,6 +73,25 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
+ 
+ #ifdef CONFIG_ACPI
+ static unsigned int cpu_count = 1;
++static unsigned int intc_count;
++static struct acpi_madt_rintc cpu_madt_rintc[NR_CPUS];
++
++struct acpi_madt_rintc *acpi_get_madt_rintc(int cpu)
++{
++	return &cpu_madt_rintc[cpu];
++}
++
++struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu)
++{
++	int i;
++
++	for (i = 0; i < NR_CPUS; i++) {
++		if (riscv_hartid_to_cpuid(cpu_madt_rintc[i].hart_id) == cpu)
++			return &cpu_madt_rintc[i];
++	}
++	return NULL;
++}
++EXPORT_SYMBOL_GPL(acpi_cpu_get_madt_rintc);
+ 
+ static int __init
+ acpi_parse_rintc(union acpi_subtable_headers *header,
+@@ -92,6 +111,8 @@ acpi_parse_rintc(union acpi_subtable_headers *header,
+ 	hart = processor->hart_id;
+ 	if (hart < 0)
+ 		return 0;
++
++	cpu_madt_rintc[intc_count++] = *processor;
+ 	if (hart == cpuid_to_hartid_map(0)) {
+ 		BUG_ON(found_boot_cpu);
+ 		found_boot_cpu = 1;
 -- 
 2.38.0
 
