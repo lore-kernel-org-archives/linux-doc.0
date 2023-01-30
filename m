@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AE7CC61D97
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A011AC54EED
 	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 18:26:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235960AbjA3S0k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S238216AbjA3S0k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 30 Jan 2023 13:26:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57892 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238081AbjA3S0J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 13:26:09 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6400A46D6E
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:24:24 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id c10-20020a17090a1d0a00b0022e63a94799so1472122pjd.2
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:24:24 -0800 (PST)
+        with ESMTP id S238093AbjA3S0Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 13:26:16 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDCB34740E
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:24:25 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id v23so12559100plo.1
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:24:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ventanamicro.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vkGE01Mpgd0zQdA3GENSlYo9eU6sEMItLJR0OaGMyjQ=;
-        b=jbIhshr5uVfA86th0bcTdtMzr9oS1VyqbMLYF5ZGlBRXNpHrcs8DWHf/D9IgTeFh1F
-         Y5e11T4Vvtref1QDKQ+XiHXojUg0e+i+S38peWV4Apx94P0NKRcB0DAmJRk0RrJle8Fm
-         3awc1GpI7w1j7MnnGL3ciDCIf90r85C3QXXXCK0L3ojt2238HEnvWEsLTfjYhakRe3hG
-         wbMlKcmEJuWJHEPilJoudPQPRUa6ARXhJ98TEnIkJtu3FyXxlmD89cMv78BzfLFR5kYy
-         Qc3rHv2CCGYsIixWXWQgdM+5g+FKaEJDGviWmeoLzOH5zJk9RSqhHAdf13vmHvrp3x82
-         1r5Q==
+        bh=0GmsS1bMG3vhs9nYaH5ehvEVh7IMrCbQji3r9uemxws=;
+        b=FdQa5Nr8gTa9dhRoHNHv6DLl9MMrt0b8LGra3FlgdVR0HXDLToZe7M4Vw8FA842bxO
+         ANogiCr8CkEluK5rksyrobBwZAKJ8A7G98bpLiz8xri62Tumhak9vvXobe/T1z4+dIij
+         Jlqnftn2IXrjlaveSNTGwhALA2SpVI2d8kvV9HY86Y4JMm+idqkTZW4FJJkA1grLa2sm
+         x0PYL9hJD9yklIp6Iu+3fct8g4Ub4r9NHKkc2cqYsfctvGHE+Vyr3INej/nu/6q7BWpl
+         03u7GIFOwrw/uDqPq7+wghYTYt8n5mYmkRz3QQNQr2axPeRxPYEMQorPSn4SyB0vyC3z
+         ggHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vkGE01Mpgd0zQdA3GENSlYo9eU6sEMItLJR0OaGMyjQ=;
-        b=L/+3B0WQpTuP8qeH55opR3AuQzRTxG2eaRGT2GtwKPqPPXm5Hd/b34tXTRoxoOfStJ
-         tX4H6h3iKZzhp7ygAfg+KLd8uTPnLUxmm5Q1ZSKlBUaGBvrZ1Sa0NLWrqs71Ha9xmb4o
-         btCJj3/HrgIPoLeF7YYwRJV45gBoEw5vFP1bRdhS2oPXyOhxe8PROah6sgnKW3I0dk3x
-         yzsFU6Ff/SFXA3uaDSt0g0nHae0vzpwygKHKFIUYEiHLgxjf4kcgzqVVNrMpAEU5sbFg
-         G7h2qsyQUSKtR9Nd1C/yX+7VUD/R5YoZF4IaG0oYV9UVjvP0YO0AdaE792jfbPwBaDZu
-         X3sg==
-X-Gm-Message-State: AO0yUKUrPvfrsPFsqgy/1RasGDheMV0+BUSwySDV+yt8ugTe0T1+JQl8
-        KUhKnPXclJod80HX89va7mx/xg==
-X-Google-Smtp-Source: AK7set9Pnqr1BTxPCJQr0H6gTIG5Wj6YCKgECl1AdrucdYZkfWDBH80CoQiA1a+eIyoZ5cYvuPNGpQ==
-X-Received: by 2002:a17:90b:3909:b0:22e:5ffa:2a34 with SMTP id ob9-20020a17090b390900b0022e5ffa2a34mr1813190pjb.36.1675103055398;
-        Mon, 30 Jan 2023 10:24:15 -0800 (PST)
+        bh=0GmsS1bMG3vhs9nYaH5ehvEVh7IMrCbQji3r9uemxws=;
+        b=jLyahoKNdz37+AOJaEnon0vpX4nOew0NeZf3xIxGVhW7nLyu8C3uhw4VdRv2Dkcgd9
+         kkmiPQ5l4++gkYY+2nS0b3wdLGuTUReFZh/HMpkuDGO7wf76tfUBAOesxz1p169s9k2D
+         U5JirZmtGaFxfQi0Meo739oqUG7hQAtGUCTk0ZBdPr/u9VT13mZgWxdDECP+DFX4wfCE
+         zgD02fUU3TK9aeIzAACoMuNiZca0nXwFLqU/p0d7M8tkIV53YOy2e3YAoQnak44hB+jg
+         pA+NtvLbzcntE7ICl9AH8BohFh2C89RmdwLYojPzvQ3s9OutifWSY0ZyKx2MlR/mK7kf
+         I9rQ==
+X-Gm-Message-State: AO0yUKVNfhH5feGaFXWxLUGLZQTe59X2K5hs1cwcismwnf+E4e2VU/Wi
+        feygARcvbuSJ5JOeI7mCCRsmNQ==
+X-Google-Smtp-Source: AK7set/NaUdxXOXi68TuA9LtTnJuAZDAOVCnERp8kT07lTkCp48tqSeuSCZp3ML1m7atqGjopshDlQ==
+X-Received: by 2002:a05:6a20:841f:b0:be:7d46:e5 with SMTP id c31-20020a056a20841f00b000be7d4600e5mr4161873pzd.56.1675103059928;
+        Mon, 30 Jan 2023 10:24:19 -0800 (PST)
 Received: from kerodipc.Dlink ([49.206.9.96])
-        by smtp.gmail.com with ESMTPSA id j193-20020a638bca000000b00478162d9923sm7000291pge.13.2023.01.30.10.24.10
+        by smtp.gmail.com with ESMTPSA id j193-20020a638bca000000b00478162d9923sm7000291pge.13.2023.01.30.10.24.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 10:24:14 -0800 (PST)
+        Mon, 30 Jan 2023 10:24:19 -0800 (PST)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
@@ -64,9 +64,9 @@ Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
         Andrew Jones <ajones@ventanamicro.com>,
         Atish Patra <atishp@rivosinc.com>,
         Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH 22/24] RISC-V: ACPI: Enable ACPI in defconfig
-Date:   Mon, 30 Jan 2023 23:52:23 +0530
-Message-Id: <20230130182225.2471414-23-sunilvl@ventanamicro.com>
+Subject: [PATCH 23/24] MAINTAINERS: Add entry for drivers/acpi/riscv
+Date:   Mon, 30 Jan 2023 23:52:24 +0530
+Message-Id: <20230130182225.2471414-24-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
 References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
@@ -76,25 +76,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support to build ACPI subsystem in defconfig.
+ACPI defines few RISC-V specific tables which need
+parsing code added in drivers/acpi/riscv. Add maintainer
+entries for this newly created folder.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 ---
- arch/riscv/configs/defconfig | 4 ++++
- 1 file changed, 4 insertions(+)
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-index 128dcf4c0814..8ce06fb0dde8 100644
---- a/arch/riscv/configs/defconfig
-+++ b/arch/riscv/configs/defconfig
-@@ -218,3 +218,7 @@ CONFIG_RCU_EQS_DEBUG=y
- # CONFIG_FTRACE is not set
- # CONFIG_RUNTIME_TESTING_MENU is not set
- CONFIG_MEMTEST=y
-+CONFIG_ARCH_SUPPORTS_ACPI=y
-+CONFIG_ACPI=y
-+CONFIG_ACPI_MCFG=y
-+# CONFIG_PCI_QUIRKS is not set
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8a5c25c20d00..b14ceb917a81 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -450,6 +450,13 @@ S:	Orphan
+ F:	drivers/platform/x86/wmi.c
+ F:	include/uapi/linux/wmi.h
+ 
++ACPI FOR RISC-V (ACPI/riscv)
++M:	Sunil V L <sunilvl@ventanamicro.com>
++L:	linux-acpi@vger.kernel.org
++L:	linux-riscv@lists.infradead.org
++S:	Maintained
++F:	drivers/acpi/riscv
++
+ ACRN HYPERVISOR SERVICE MODULE
+ M:	Fei Li <fei1.li@intel.com>
+ L:	acrn-dev@lists.projectacrn.org (subscribers-only)
 -- 
 2.38.0
 
