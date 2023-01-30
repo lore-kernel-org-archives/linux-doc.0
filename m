@@ -2,142 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F18EC636D3
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 21:46:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B4FDC636CD
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 21:52:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231530AbjA3Vqt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 16:46:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38430 "EHLO
+        id S229868AbjA3VwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 16:52:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231513AbjA3Vqr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 16:46:47 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38DA4996D;
-        Mon, 30 Jan 2023 13:46:44 -0800 (PST)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30UKxEiv005232;
-        Mon, 30 Jan 2023 21:46:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=s/98MwVcL38UIsZzsytvTp8dsTQvjFf4DXmZcFk5S+U=;
- b=PmX3xWP98oz/HCRjxw+iBKIzjsXsKHyuxf+dOjonidaMDRaqEY6a2Yf7wscHb2cdXpCc
- dU6Lu4Bxac9vCBepnbO+YkfRPV9HOMAbmV6e2ia9iJtMZdpnmJV4jI2dvBpjxF/k/Zev
- /aZjwQZFm59oCBJryguzzAwp1D12gbs7AHRAYDQdl9YVL71ROBeIhtr7YvD+y8rAkn1j
- YPQaTzuyZ1Uae55A71kC/fRvjfxmfbcs4cIvNvM0Yrw2/aJQ7jNuckiIrkS2B4QGKtjY
- z3dyBu/Fb+XXDMlyLy97ZzIeZmU5XIzkbxfCl/mU9WGHQH86MU7OtwuPoi/lfG5sy9Ol ng== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncut2n2fq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 30 Jan 2023 21:46:33 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30ULkV8W017131
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 30 Jan 2023 21:46:31 GMT
-Received: from [10.134.67.48] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 30 Jan
- 2023 13:46:31 -0800
-Message-ID: <c64ee823-33bd-1b89-0f17-4e73901ab40d@quicinc.com>
-Date:   Mon, 30 Jan 2023 13:46:30 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v9 13/27] gunyah: vm_mgr: Add/remove user memory regions
-Content-Language: en-US
-To:     Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        with ESMTP id S229694AbjA3VwZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 16:52:25 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2CC2234C3;
+        Mon, 30 Jan 2023 13:52:23 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E920611C3;
+        Mon, 30 Jan 2023 21:52:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F7CBC433A1;
+        Mon, 30 Jan 2023 21:52:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675115542;
+        bh=IM+1lYgPR9x1qxqsXW7YPLG/jy8uVwJ9GsUMvJwTEeE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=D0UHh/bjU+VEMh6OXcy07pjTLUIynHLCNlM5AfyDduq4Zk4TlmvmQVLpla85FkFgM
+         ygmU4rbbUfzKQ2y7o5rgyzqEC6c0d5R58akc+SWFxqL/dud1SN373keVIJa3CLAj1+
+         FE6Q8iypSgIGeeekJieD4T4mdg40vIIidnLg4M/LzQYKLOm4rEUgokiPQC0FDYKo32
+         l/7HXajpuqdGSENJ9ON28WTBnZU1qi4etVEas6ml8MRGy+0mQ6JPpR/S9v78GJMTGm
+         FvBNg7sYh2IrMkIfEI0406gf0c2wJ2yvDlOBDS2SXkXv+EVI2ADQrYTd7+SnRgO8SX
+         dz1cRf17HAvsg==
+Date:   Mon, 30 Jan 2023 13:52:21 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Paolo Abeni <pabeni@redhat.com>
+Cc:     Saeed Mahameed <saeed@kernel.org>, netdev@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-14-quic_eberman@quicinc.com>
- <20230125133424.GA332@quicinc.com>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <20230125133424.GA332@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+        "David S. Miller" <davem@davemloft.net>,
+        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Daniel Borkmann <daniel@iogearbox.net>
+Subject: Re: [PATCH net-next v2 0/3] net: introduce rps_default_mask
+Message-ID: <20230130135221.3deeed6c@kernel.org>
+In-Reply-To: <6758c48d926845ae323a68fb4649fb982e2321c4.camel@redhat.com>
+References: <cover.1604055792.git.pabeni@redhat.com>
+        <20201102145447.0074f272@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+        <86c37d881a93d5690faf20de3bccceca1493fd74.camel@redhat.com>
+        <20201103085245.3397defa@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+        <79c58e6cf23196b73887b20802daebd59fe89476.camel@redhat.com>
+        <20201104114226.250a4e85@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <6758c48d926845ae323a68fb4649fb982e2321c4.camel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: fqnEkPeUjsUKnmNLhO8oAmGwD9z7K8UP
-X-Proofpoint-ORIG-GUID: fqnEkPeUjsUKnmNLhO8oAmGwD9z7K8UP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-30_17,2023-01-30_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
- phishscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0
- suspectscore=0 mlxlogscore=722 impostorscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301300201
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 30 Jan 2023 10:25:34 +0100 Paolo Abeni wrote:
+> Let me try for a moment to revive this old thread.
+> 
+> Tha series proposed a new sysctl know to implement a global/default rps
+> mask applying to all the network devices as a way to simplify some RT
+> setups. It has been rejected as the required task is doable in user-
+> space.
+> 
+> Currently the orchestration infrastructure does that, setting the per
+> device, per queue rps mask and CPU isolation.
+> 
+> The above leads to a side problem: when there are lot of netns/devices
+> with several queues, even a reasonably optimized user-space solution
+> takes a relevant amount of time to traverse the relevant sysfs dirs and
+> do I/O on them. Overall the additional time required is very
+> measurable, easily ranging in seconds.
+> 
+> The default_rps_mask would basically kill that overhead.
+> 
+> Is the above a suitable use case?
 
-
-On 1/25/2023 5:34 AM, Srivatsa Vaddagiri wrote:
-> * Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:12]:
-> 
->> +	/* Check for overlap */
->> +	list_for_each_entry(tmp_mapping, &ghvm->memory_mappings, list) {
->> +		if (!((mapping->guest_phys_addr + (mapping->npages << PAGE_SHIFT) <=
->> +			tmp_mapping->guest_phys_addr) ||
->> +			(mapping->guest_phys_addr >=
->> +			tmp_mapping->guest_phys_addr + (tmp_mapping->npages << PAGE_SHIFT)))) {
->> +			ret = -EEXIST;
->> +			goto unlock;
->> +		}
->> +	}
->> +
->> +	list_add(&mapping->list, &ghvm->memory_mappings);
-> 
-> I think the potential race condition described last time is still possible. Pls
-> check.
-> 
->> +unlock:
->> +	mutex_unlock(&ghvm->mm_lock);
->> +	if (ret)
->> +		goto free_mapping;
->> +
->> +	mapping->pages = kcalloc(mapping->npages, sizeof(*mapping->pages), GFP_KERNEL);
->> +	if (!mapping->pages) {
->> +		ret = -ENOMEM;
->> +		goto reclaim;
-> 
-> Same comment as last time. Can you check this error path? We seem to call
-> unpin_user_page() in this path, which is not correct.
-> 
->> +	}
->> +
->> +	pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
->> +					FOLL_WRITE | FOLL_LONGTERM, mapping->pages);
->> +	if (pinned < 0) {
->> +		ret = pinned;
->> +		goto reclaim;
-> 
-> Same comment as above.
-> 
-
-Caught the race condition you are describing between adding and removing 
-the memory parcels. Should be fixed for v10.
-
-- Elliot
+Alright, thanks for trying the user space fix.
