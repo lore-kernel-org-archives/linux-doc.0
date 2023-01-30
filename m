@@ -2,86 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E208C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 14:28:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B514C54EED
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 15:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237770AbjA3O2x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 09:28:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48478 "EHLO
+        id S235634AbjA3PwT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 10:52:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237728AbjA3O2c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 09:28:32 -0500
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B75B5442CA;
-        Mon, 30 Jan 2023 06:27:03 -0800 (PST)
-Received: by mail-qt1-f176.google.com with SMTP id z5so514347qtn.8;
-        Mon, 30 Jan 2023 06:27:03 -0800 (PST)
+        with ESMTP id S231936AbjA3PwS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 10:52:18 -0500
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DFF9172F;
+        Mon, 30 Jan 2023 07:52:14 -0800 (PST)
+Received: by mail-ej1-f53.google.com with SMTP id m2so32559927ejb.8;
+        Mon, 30 Jan 2023 07:52:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DI0OWYWxDuCCMVlTXbTdUmFISDd8LaAEgR9Nv/pUMPc=;
-        b=Y+GyUC3fnLKWYmPKVmHCk14mFFFx7Netaam4sDSauAhHddKZru/QLv1WgUupnYvSJh
-         Ldxvun4n2qhdmcrj7KZSGUaRxBDW6iDaD0cUxjj/W+oDwf4rFGkM9SHXA/tZHUObd2yc
-         RTo9DsiyeLggZsV8ShX7pDE7eQBO3yhUk3MK0ifPlxMXDnNTWzTYC0WlcqL1fxsskmav
-         W18W0CPR5uevCbKLBk3X+dAvzmyp+jqYxZH/NnkpX+8+HeX0PlJtYC7zcyfKZGHzXyVF
-         jh9NQ6bAl1PdYHcn+Wy6ing+4dawuZlhgjDyrJSldAHEEJJIg+/HblZPnmpa7jeZAPHx
-         W3wg==
-X-Gm-Message-State: AO0yUKVmMpvUK3eB+bLj/5nAeiPwZo5/1un6G49xoRa5Mp1HT/R0XVIM
-        VXXO31kpmr916W4EoY0EK7LYt7cJMf2HVA==
-X-Google-Smtp-Source: AK7set/gU41NfMbANQQ7hbaIkgmqEAoMoPJ2eb5mD1rAPBAW8yDYPDKGnRv9ptOcedvkyTGplFeDJg==
-X-Received: by 2002:ac8:5ccf:0:b0:3b8:6aaf:acfe with SMTP id s15-20020ac85ccf000000b003b86aafacfemr4622485qta.38.1675088822640;
-        Mon, 30 Jan 2023 06:27:02 -0800 (PST)
-Received: from maniforge ([24.1.27.177])
-        by smtp.gmail.com with ESMTPSA id a19-20020ac844b3000000b003b63d181cd3sm8071543qto.70.2023.01.30.06.27.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 06:27:02 -0800 (PST)
-Date:   Mon, 30 Jan 2023 08:26:59 -0600
-From:   David Vernet <void@manifault.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Andrii Nakryiko <andrii@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>, bpf@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 04/35] Documentation: bpf: correct spelling
-Message-ID: <Y9fTs88hb84+TFLn@maniforge>
-References: <20230127064005.1558-1-rdunlap@infradead.org>
- <20230127064005.1558-5-rdunlap@infradead.org>
- <Y9fTJLNVc5i2/XV5@maniforge>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cBwjnk18irD2gYHr6RSTL8oiNSvKOVuusoOh34SmgAc=;
+        b=AML9uhFgfI79wmX3x8KTAa12hHOwjoEdaX6VimHtsLVtAwAZATN0X7WlxFdtnOKB1H
+         ldcahFJT/pH4nGIg1OyJA9Ju6vhuxSaqPVf/zNsxF1Miu3s3gozIEYDOtxR3t5D15GAN
+         fsrGCkmCFvudhK+UeRGiXOAWxWDIcaPHqsNaGrhsEL5jGFQAYFMjjKCpM3JizF+S+jSp
+         lCw2bIol0AWruSxRFE0uz1kOK9bv6elF20GSHwLgctckSrZDZp7fF2KmueMi/kKHa8LM
+         GB4aLs0TKgYYivvMtgOffJFdyH55Jy49c6aco07atp/GETAOMVcpXhkNes+ydRAvqTDu
+         FdSQ==
+X-Gm-Message-State: AFqh2krfP8lVWGOV+VNzPxqaE/9luNiqXAypwwbS0bmngJ7RDk4wi3e9
+        5TeS5lQMIOf02LT42Nza3UqvCiSqS3qYs2QmwRTmuR6a
+X-Google-Smtp-Source: AMrXdXu6GDWZV9lCohQER6b63rBHweFDQKwZc7orpDimzIW5qgv0HClbhF+U2d3rjBCDP6Kc6K74BeEWyW1QM/Y9yJA=
+X-Received: by 2002:a17:906:70d2:b0:844:44e0:1c4e with SMTP id
+ g18-20020a17090670d200b0084444e01c4emr8712988ejk.291.1675093933118; Mon, 30
+ Jan 2023 07:52:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9fTJLNVc5i2/XV5@maniforge>
-User-Agent: Mutt/2.2.9 (2022-11-12)
+References: <20230127064005.1558-1-rdunlap@infradead.org> <20230127064005.1558-10-rdunlap@infradead.org>
+In-Reply-To: <20230127064005.1558-10-rdunlap@infradead.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 30 Jan 2023 16:52:01 +0100
+Message-ID: <CAJZ5v0h9_P7wke=KC2=nsLFmQmjh_0Fxao6WeKKnbOSdU_v-NQ@mail.gmail.com>
+Subject: Re: [PATCH 09/35] Documentation: firmware-guide/acpi: correct spelling
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 08:24:36AM -0600, David Vernet wrote:
-> On Thu, Jan 26, 2023 at 10:39:34PM -0800, Randy Dunlap wrote:
-> > Correct spelling problems for Documentation/bpf/ as reported
-> > by codespell.
-> > 
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: Andrii Nakryiko <andrii@kernel.org>
-> > Cc: Alexei Starovoitov <ast@kernel.org>
-> > Cc: Daniel Borkmann <daniel@iogearbox.net>
-> > Cc: bpf@vger.kernel.org
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: linux-doc@vger.kernel.org
-> > ---
-> >  Documentation/bpf/libbpf/libbpf_naming_convention.rst |    6 +++---
-> >  Documentation/bpf/map_xskmap.rst                      |    2 +-
-> >  Documentation/bpf/ringbuf.rst                         |    4 ++--
-> >  Documentation/bpf/verifier.rst                        |    2 +-
-> >  4 files changed, 7 insertions(+), 7 deletions(-)
-> > 
-> > diff -- a/Documentation/bpf/libbpf/libbpf_naming_convention.rst b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-> > --- a/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-> > +++ b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
+On Fri, Jan 27, 2023 at 7:40 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Correct spelling problems for Documentation/firmware-guide/ as reported
+> by codespell.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: linux-acpi@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/firmware-guide/acpi/acpi-lid.rst  |    2 +-
+>  Documentation/firmware-guide/acpi/namespace.rst |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff -- a/Documentation/firmware-guide/acpi/acpi-lid.rst b/Documentation/firmware-guide/acpi/acpi-lid.rst
+> --- a/Documentation/firmware-guide/acpi/acpi-lid.rst
+> +++ b/Documentation/firmware-guide/acpi/acpi-lid.rst
+> @@ -34,7 +34,7 @@ state upon the last _LID evaluation. The
+>  _LID control method is evaluated during the runtime, the problem is its
+>  initial returning value. When the AML tables implement this control method
+>  with cached value, the initial returning value is likely not reliable.
+> -There are platforms always retun "closed" as initial lid state.
+> +There are platforms always return "closed" as initial lid state.
+>
+>  Restrictions of the lid state change notifications
+>  ==================================================
+> diff -- a/Documentation/firmware-guide/acpi/namespace.rst b/Documentation/firmware-guide/acpi/namespace.rst
+> --- a/Documentation/firmware-guide/acpi/namespace.rst
+> +++ b/Documentation/firmware-guide/acpi/namespace.rst
+> @@ -31,7 +31,7 @@ Description Table).  The XSDT always poi
+>  Description Table) using its first entry, the data within the FADT
+>  includes various fixed-length entries that describe fixed ACPI features
+>  of the hardware.  The FADT contains a pointer to the DSDT
+> -(Differentiated System Descripition Table).  The XSDT also contains
+> +(Differentiated System Description Table).  The XSDT also contains
+>  entries pointing to possibly multiple SSDTs (Secondary System
+>  Description Table).
 
-[...]
-
-Ah, please disregard, I missed that Alexei had already merged this.
-Thanks for the cleanup.
+Applied as 6.3 material, thanks!
