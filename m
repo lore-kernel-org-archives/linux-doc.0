@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3780C54EED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA2A7C61D97
 	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 18:24:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238133AbjA3SYT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 13:24:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57676 "EHLO
+        id S237983AbjA3SYU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 13:24:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238036AbjA3SXz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 13:23:55 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7732E38B60
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:17 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id 5so12555905plo.3
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:17 -0800 (PST)
+        with ESMTP id S238050AbjA3SX4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 13:23:56 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9AEE30B16
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:20 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id m11so11913600pji.0
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 10:23:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ventanamicro.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Civb8WSgZLaGjy3GsEK+VfCJoO5XDczMEZxaUDDoy9s=;
-        b=PSgeKdehYrE+PafjRwikFSIdgqSVP/6Dwf+FS0bio9ay+kO8Iq/DP55UzLxJ/0teml
-         mvq507l+RrqXXtGjCegq0g7TLBJjmbSWhdM5dgwY0v649xk++pdojRYRpi6srgODCEX8
-         Uo9mPJiNfw2KG4leBHKApLZ0vCIAGbEaAh8W/xor1x+Q+a1Lfuh10l47pj75siTlDsbn
-         eb7CTrsgaQM3o3V7ixmkkhz+3jXqGMGxOBTq3bjtqGeqQ2LRHByk7Bu5QeGzR6FsK4b9
-         YFzRilzo9k2a2ZEB3Su60FmyHlwt8/pzExTf+irfPULv2+5xGuGMe/aasN/pJ2aP1S95
-         itrg==
+        bh=USVS3mywTvdLvSTJeGXikExLlXPpzcs14a2ZRggZ7wY=;
+        b=AdzPUrbp24xrj0FAMDk5+9RcVSjZCso58BavKvUv8Y2Jv3EBQs5Tt0/nPExBhQxEPI
+         j1Ik71BoJYr9yc3WpMmfgQ24R7V4dmBuWpXBIo3eGXjF4q7GziPZ/dui+mh0CyZyuHvm
+         eppGpPrLfUiliaq4Tkv0jgfObfdOkbx9KN4jdMMYleuS3fqZS1d61qS2s25o6BIth0Sh
+         cmtfpu8dJcz8pmxvK+S5DqQKX/c9I0Hayd5E7TlqjRKz2eIdmONgZbi5uObiinByYY2S
+         FGXOHytfliaegYVhWjoHeGGIm+SJdYaXtUrnp5p8EdDnHKzCdKJG66bYpTCn93ACKM9n
+         QA2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Civb8WSgZLaGjy3GsEK+VfCJoO5XDczMEZxaUDDoy9s=;
-        b=3PL4wBqo4vc8XyXEmzfFFqqPSX3/Xf1xq7xMwVAhwgt+XxOXefZR9E2AqE7UtoiGtz
-         HXf+pBPXaUmK9ES7Zb5xjd1DVC7qT6KmV8LSkqpvNWYUxTrpgCgpBuHQERH97d2wJUfJ
-         o4Pu4xUp/jusA+RJ3et1E7cHvl9O1sHz7OOd3FMilfROHabZd2ydE0BcGpyRcSkeiNsC
-         Uj3zgM8MgBn7ctVts9TYUTtUnfJa241q/O9rGMI/RxYTYMGr22ZF3nZ98Gl8S1/b78b6
-         J2JgCjwZThHIQ5GDYvi/ZHHZ8QQakdPHn2Cwm2SKYJmotHMi6iA5y+dIFZPgcboNUSGx
-         MHXw==
-X-Gm-Message-State: AO0yUKXJ2HtOpvV4fyxipnyHwzm1b183HFEwAnUoj4Xpjk1CpASjnUqt
-        TqxooX9FODOp4YEaii6nzrOymw==
-X-Google-Smtp-Source: AK7set9oTDzJ0fET5I+XJ+M/whs8igubsgt819w38WChwLx4JRHaYMGFAZJAVm6ZNdmVCQgnm72BVg==
-X-Received: by 2002:a17:90b:3e81:b0:22c:b70d:45fb with SMTP id rj1-20020a17090b3e8100b0022cb70d45fbmr3191564pjb.23.1675102995734;
-        Mon, 30 Jan 2023 10:23:15 -0800 (PST)
+        bh=USVS3mywTvdLvSTJeGXikExLlXPpzcs14a2ZRggZ7wY=;
+        b=W6O+SHz99AUWOGf17N+Vf7jCVA8gxu+esj7PEOoAMrRnq9sw3MNM6r1LV7IKbgSZgo
+         PlJfaUre5/AOnekG22egEifPYyIdISrxQSO/pJdeiJWeG+9c2JfjSwa+0Gac89XTF219
+         SSWhjUDTz9aJGumPoXjzcX1lFPTvNEXWy8H7StoNV2ZS36WPK4Q7hqeYVtJT6ll9RUCo
+         tS37Cjf+h26gxAstZPRE29iojqDPii5hckMHQvt7JVkEr4lBd2CPO0Qxg5ZBJpnUJrnE
+         stivOyf0eulrGEfvLXmoxzewVmVZaOLozkxSpxNXTkGW9su1Wt0Sw74ZNjChp9ywYVuv
+         Gi5A==
+X-Gm-Message-State: AO0yUKUHJ6Tm0PweHW9yxM1SDuylMP1rtMK3IfJaGavhEr26O95Io8sU
+        pjIxUjDkd4NrLFm7G9EkduBOlg==
+X-Google-Smtp-Source: AK7set/iIY4N9lMJIQuuLqIcFatEy8RspvzQ7ycNCuigstyEk6Y9hWi2TzCwIFuNa78QmQWe8UUyAQ==
+X-Received: by 2002:a17:902:d4c3:b0:196:49a9:bf26 with SMTP id o3-20020a170902d4c300b0019649a9bf26mr20839616plg.15.1675103000228;
+        Mon, 30 Jan 2023 10:23:20 -0800 (PST)
 Received: from kerodipc.Dlink ([49.206.9.96])
-        by smtp.gmail.com with ESMTPSA id j193-20020a638bca000000b00478162d9923sm7000291pge.13.2023.01.30.10.23.11
+        by smtp.gmail.com with ESMTPSA id j193-20020a638bca000000b00478162d9923sm7000291pge.13.2023.01.30.10.23.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 10:23:15 -0800 (PST)
+        Mon, 30 Jan 2023 10:23:19 -0800 (PST)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
@@ -64,9 +64,9 @@ Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
         Andrew Jones <ajones@ventanamicro.com>,
         Atish Patra <atishp@rivosinc.com>,
         Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH 09/24] ACPI: OSL: Make should_use_kmap() 0 for RISC-V.
-Date:   Mon, 30 Jan 2023 23:52:10 +0530
-Message-Id: <20230130182225.2471414-10-sunilvl@ventanamicro.com>
+Subject: [PATCH 10/24] ACPI: processor_core: RISC-V: Enable mapping processor to the hartid
+Date:   Mon, 30 Jan 2023 23:52:11 +0530
+Message-Id: <20230130182225.2471414-11-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
 References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
@@ -76,27 +76,77 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Without this, if the tables are larger than 4K,
-acpi_map() will fail.
+processor_core needs arch specific functions to map the ACPI ID
+to the physical ID. In RISC-V platforms, hartid is the physical id
+and RINTC structure in MADT provides this mapping. Add arch specific
+function to get this mapping from RINTC.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 ---
- drivers/acpi/osl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/riscv/include/asm/acpi.h |  3 +++
+ drivers/acpi/processor_core.c | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
 
-diff --git a/drivers/acpi/osl.c b/drivers/acpi/osl.c
-index 3269a888fb7a..f725813d0cce 100644
---- a/drivers/acpi/osl.c
-+++ b/drivers/acpi/osl.c
-@@ -276,7 +276,7 @@ acpi_map_lookup_virt(void __iomem *virt, acpi_size size)
- 	return NULL;
+diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+index 8b9babaf3f25..c5cb9f96d404 100644
+--- a/arch/riscv/include/asm/acpi.h
++++ b/arch/riscv/include/asm/acpi.h
+@@ -15,6 +15,9 @@
+ /* Basic configuration for ACPI */
+ #ifdef CONFIG_ACPI
+ 
++typedef u64 phys_cpuid_t;
++#define PHYS_CPUID_INVALID INVALID_HARTID
++
+ /* ACPI table mapping after acpi_permanent_mmap is set */
+ void *acpi_os_ioremap(acpi_physical_address phys, acpi_size size);
+ #define acpi_os_ioremap acpi_os_ioremap
+diff --git a/drivers/acpi/processor_core.c b/drivers/acpi/processor_core.c
+index 2ac48cda5b20..889f495b3481 100644
+--- a/drivers/acpi/processor_core.c
++++ b/drivers/acpi/processor_core.c
+@@ -106,6 +106,31 @@ static int map_gicc_mpidr(struct acpi_subtable_header *entry,
+ 	return -EINVAL;
  }
  
--#if defined(CONFIG_IA64) || defined(CONFIG_ARM64)
-+#if defined(CONFIG_IA64) || defined(CONFIG_ARM64) || defined(CONFIG_RISCV)
- /* ioremap will take care of cache attributes */
- #define should_use_kmap(pfn)   0
- #else
++/*
++ * Retrieve the RISC-V hartid for the processor
++ */
++static int map_rintc_hartid(struct acpi_subtable_header *entry,
++		int device_declaration, u32 acpi_id, phys_cpuid_t *hartid)
++{
++	struct acpi_madt_rintc *rintc =
++	    container_of(entry, struct acpi_madt_rintc, header);
++
++	if (!(rintc->flags & ACPI_MADT_ENABLED))
++		return -ENODEV;
++
++	/* device_declaration means Device object in DSDT, in the
++	 * RISC-V, logical processors are required to
++	 * have a Processor Device object in the DSDT, so we should
++	 * check device_declaration here
++	 */
++	if (device_declaration && (rintc->uid == acpi_id)) {
++		*hartid = rintc->hart_id;
++		return 0;
++	}
++
++	return -EINVAL;
++}
++
+ static phys_cpuid_t map_madt_entry(struct acpi_table_madt *madt,
+ 				   int type, u32 acpi_id)
+ {
+@@ -136,6 +161,9 @@ static phys_cpuid_t map_madt_entry(struct acpi_table_madt *madt,
+ 		} else if (header->type == ACPI_MADT_TYPE_GENERIC_INTERRUPT) {
+ 			if (!map_gicc_mpidr(header, type, acpi_id, &phys_id))
+ 				break;
++		} else if (header->type == ACPI_MADT_TYPE_RINTC) {
++			if (!map_rintc_hartid(header, type, acpi_id, &phys_id))
++				break;
+ 		}
+ 		entry += header->length;
+ 	}
 -- 
 2.38.0
 
