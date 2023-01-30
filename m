@@ -2,83 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34DA7C05027
-	for <linux-doc@archiver.kernel.org>; Sun, 29 Jan 2023 23:57:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE32CC05027
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 00:39:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230247AbjA2X5q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 Jan 2023 18:57:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36580 "EHLO
+        id S229769AbjA3AjS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 29 Jan 2023 19:39:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbjA2X5p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Jan 2023 18:57:45 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E00AD5BB5
-        for <linux-doc@vger.kernel.org>; Sun, 29 Jan 2023 15:57:44 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 66ACDB80DD1
-        for <linux-doc@vger.kernel.org>; Sun, 29 Jan 2023 23:57:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82BC4C433EF;
-        Sun, 29 Jan 2023 23:57:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675036662;
-        bh=3M9RArcAY8Mxrx+FHI+PUewWDlb3iuK8seiKci0ECWM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=qm9FRuxQ6sxYlf1KDnfQEGQOGs2WgOGusRMvN2n5z6LRAgy4OtJpbGS52ldJIWaXS
-         WgCOzME0mhJrUlIDFiZeZrJyo+mafekXCF5rfuX0J8K6IxB1tlHZEtuJQ+z5/gLQqV
-         Koy5HXYl3AI0rbgXqqRw5YmJHT9w1brG9mytpvWRL+k9dZDfj8iG4KYZiI9lKDad2e
-         tPgcQ/LdwjJ1FX0kNV9bn4j6H/O7MH3PV+9WC32+Ks9AoVcqV/ZMzCbvkDspSBdJgx
-         PgpEYhP1tcHGnM4aUBpou1LL1HX1m1R5Le7zNgmw7UEgciLKsVXTFNCFRg11fmees/
-         db14HMtt2dTww==
-From:   Conor Dooley <conor@kernel.org>
-To:     palmer@dabbelt.com
-Cc:     conor@kernel.org, Conor Dooley <conor.dooley@microchip.com>,
-        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, kernel test robot <lkp@intel.com>
-Subject: [PATCH] Documentation: riscv: fix insufficient list item indent
-Date:   Sun, 29 Jan 2023 23:57:01 +0000
-Message-Id: <20230129235701.2393241-1-conor@kernel.org>
-X-Mailer: git-send-email 2.39.1
+        with ESMTP id S229476AbjA3AjR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Jan 2023 19:39:17 -0500
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5DD51CF41;
+        Sun, 29 Jan 2023 16:39:16 -0800 (PST)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-1442977d77dso13255205fac.6;
+        Sun, 29 Jan 2023 16:39:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eQdDfBq+vMF/O7FM4LZuZL7r34CL6O59Wnl755Km6vU=;
+        b=l8ipMy4pGRnmFzWMy34EV5s6qCA0dnFvcV1WLPYwuDAQ+YddGB2zNSOgkvAXkoB7oO
+         9d2foK6XKFbc6GuRwa/zyw0na72IN6jphiv+6326y4Xqz8O+zqcKc2GQfaZIEwoXbySs
+         /7jIwYIcxFSAZ1SfEYlJid5m8TgqZebvd5EL+rBP1EMmqmpm11wYF9vMyPnf83WJ6hgt
+         MT2lBXCjNyTjer5or8HnMWmHhu1m/8WaezQNUzciD4MPwZPEtZruOWIroEXso48NAN3/
+         xmr/eBGIT51nD4iKCctsTk6+gzOOtfACyWv0GVQ0rFcuFJ9cYptmEGT/UfOwWQMDVarV
+         cL1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eQdDfBq+vMF/O7FM4LZuZL7r34CL6O59Wnl755Km6vU=;
+        b=0raitiX0cxhaERlnzuQ/ZSQBskdM/vR6qhE869tIaT9f2UuRxoaONWmoF4iM7lYiW/
+         Mf4qwU/ktKGS+zmyk0U0oueBD5PnZvI3or3/f+OjP69aZq4Ra35GOy5z49JpStu6kKNM
+         HmRs4xSOrRsRimmrp9dPTEHR/87Lbnq1VzRjasyDpvcce7HLj1ahRze3gDQqJmLXJHWU
+         QGUSrljfPvrFPb0xre09wuBBaV24uxxrwZwnndgXU/ieflSxagJtXE7GeFoQhRa2y8gc
+         a9gP6NWWmXbawg/KY7nmBbnSCGOKqX2iKsxv3aA47+noP4O5EZCjlzK6q2LXMrjIUFno
+         tSzg==
+X-Gm-Message-State: AO0yUKWPTq2tw8SJw5K4i9ejX4uj0VOr8RGVVuAXfIkuGcFzETjwXF4B
+        Svxg/BAmwo7v+tSJ3fud62w=
+X-Google-Smtp-Source: AK7set8m5admbPwz4sasitoVVR4miMIKzg4X7vK3ORG1mDwTWn0RYkMMpJR4KaFUvGXHSI58z1ReRw==
+X-Received: by 2002:a05:6870:7014:b0:15b:b523:3299 with SMTP id u20-20020a056870701400b0015bb5233299mr3432682oae.28.1675039155910;
+        Sun, 29 Jan 2023 16:39:15 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x8-20020a056870e38800b00144e18d8525sm4608589oad.25.2023.01.29.16.39.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Jan 2023 16:39:15 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sun, 29 Jan 2023 16:39:13 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH 3/9] Documentation: hwmon: correct spelling
+Message-ID: <20230130003913.GA384090@roeck-us.net>
+References: <20230129231053.20863-1-rdunlap@infradead.org>
+ <20230129231053.20863-4-rdunlap@infradead.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1497; i=conor.dooley@microchip.com; h=from:subject; bh=/JT1iPSOFYOqM725NwkI9fejoWCY457nSjP9BGE5Es0=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDMnX2Y9/VPyWIZ75b2Z0tGDTXA/7G9/3zJeaf+7EeRvVPpH2 3rUaHaUsDGIcDLJiiiyJt/tapNb/cdnh3PMWZg4rE8gQBi5OAZgIXyvDf+eH4jrzZu387hKqZbZrRZ rzx0Mrnv53VHzzfDv/TFfPoMsM//P5IndMucvSuH1nVvqiF/8/6zbN/Oq1semG/olVm6b+3cYGAA==
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230129231053.20863-4-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Conor Dooley <conor.dooley@microchip.com>
+On Sun, Jan 29, 2023 at 03:10:47PM -0800, Randy Dunlap wrote:
+> Correct spelling problems for Documentation/hwmon/ as reported
+> by codespell.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Jean Delvare <jdelvare@suse.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: linux-hwmon@vger.kernel.org
 
-When adding the ISA string ordering rules, I didn't sufficiently indent
-one of the list items.
+Applied to hwmon-next.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Fixes: f07b2b3f9d47 ("Documentation: riscv: add a section about ISA string ordering in /proc/cpuinfo")
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
- Documentation/riscv/uabi.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
-index 2ebec4c52230..8960fac42c40 100644
---- a/Documentation/riscv/uabi.rst
-+++ b/Documentation/riscv/uabi.rst
-@@ -21,10 +21,10 @@ so for our purposes the following rules apply:
-    single-letter extensions and before any higher-privileged extensions.
- 
- #. For additional standard extensions, the first letter following the 'Z'
--  conventionally indicates the most closely related alphabetical
--  extension category. If multiple 'Z' extensions are named, they will be ordered
--  first by category, in canonical order, as listed above, then alphabetically
--  within a category.
-+   conventionally indicates the most closely related alphabetical
-+   extension category. If multiple 'Z' extensions are named, they will be
-+   ordered first by category, in canonical order, as listed above, then
-+   alphabetically within a category.
- 
- #. Standard supervisor-level extensions (starting with 'S') will be listed
-    after standard unprivileged extensions.  If multiple supervisor-level
--- 
-2.39.1
-
+Thanks,
+Guenter
