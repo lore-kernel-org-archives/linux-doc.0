@@ -2,212 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35DEEC54EAA
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 08:32:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F084C54EAA
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 08:54:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235082AbjA3Ic3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 03:32:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53290 "EHLO
+        id S235858AbjA3Iyb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 03:54:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231196AbjA3Ic3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 03:32:29 -0500
+        with ESMTP id S234978AbjA3Iya (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 03:54:30 -0500
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E21A17CE8;
-        Mon, 30 Jan 2023 00:32:28 -0800 (PST)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30U7IIDP003187;
-        Mon, 30 Jan 2023 08:32:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=aklttRLYnOL4mEWNN06Pn8vhOUGDV3tAYkPqoDtLnK4=;
- b=EAiqnc+vZsNzc2t1mkKIM9bff8oDit3Wxx6fDs02n+TnPo/ZPmdDWegwrd6x0NPKo6mf
- ShmwWyElPwQyt1BjLHExbm3csxjhOqVe/BXN7XIk++Mh9QM6IZnXMB1rkDQkRgN21BA6
- SUgorBIc3G2elIhsEJDK6DZhSKkCVHDwqAqmDPweoWOXcWd/L5JUuWcXFxcfKksuy+YX
- 9CJbHn9z7lEcbQaieE/FqLolRi6PFnj8qdN5oyfyucGINc72Heb/Rxup1+LDtiOa8JHl
- 4XWtQj1qgkX+jegRwoLC5b4DdjgugUQyfCaWWZTvGHfVXMjs1YMeQqt144+2mIvgjoib WA== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncs2x3kdb-1
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B7577DA3;
+        Mon, 30 Jan 2023 00:54:29 -0800 (PST)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30U4mJkp019976;
+        Mon, 30 Jan 2023 08:54:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : reply-to : references : mime-version :
+ content-type : in-reply-to; s=qcppdkim1;
+ bh=OlA92o5gOGaNjtD2eEvU1jdJTaTRmV/rUevgrh/YtbY=;
+ b=X71m282pGhqAK4HSBoW7lf3I34BM2Q69yp5OHSONPs36btabYdbFm1D3MPf5ipwJPZ6a
+ JyVIBuxty53MC4OPfb+NhvbKUfPm1E7PZlgYtN9LvtjakJZiTtkUbuyWHnwFbhtBpAQ4
+ IfEs61zCw98dgzE6ZGh5h8bWE7qDaB0z4XJ+3Pec4rY9RbRunyJiu9ViDsEdPMYNDAox
+ BTNNrwHlW1k4WQBZQIrDvaBScRJjI3ugv+C8SKEfz7aBqM8E0VhhIUcm+8nq+gozkY3Z
+ sucx9/arusLhwThNDO9mNNW/0Wt0Vw7Ic0PSGjqvr8Ay5+COiqZrd+hYNZnwJz0J6nkt OQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncua8udk6-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 30 Jan 2023 08:32:13 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30U8WClR004211
+        Mon, 30 Jan 2023 08:54:11 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30U8sA2o025310
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 30 Jan 2023 08:32:12 GMT
-Received: from [10.216.24.235] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+        Mon, 30 Jan 2023 08:54:10 GMT
+Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 30 Jan
- 2023 00:32:09 -0800
-Message-ID: <7ef34bc2-f8ef-72e1-b97e-7c274b671550@quicinc.com>
-Date:   Mon, 30 Jan 2023 14:02:05 +0530
+ 2023 00:54:03 -0800
+Date:   Mon, 30 Jan 2023 14:23:59 +0530
+From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v9 14/27] gunyah: vm_mgr: Add ioctls to support basic
+ non-proxy VM boot
+Message-ID: <20230130085359.GC4169015@quicinc.com>
+Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+ <20230120224627.4053418-15-quic_eberman@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v4 1/2] dt-bindings: ramoops: Inherit reserve memory
- property
-Content-Language: en-US
-To:     Rob Herring <robh+dt@kernel.org>
-CC:     <linux-hardening@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Tony Luck <tony.luck@intel.com>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <1674835252-31954-1-git-send-email-quic_mojha@quicinc.com>
- <CAL_JsqK_wuOwJS=dSkSdYs10kE1S3gmtHVU31wkxkP5wT39qqg@mail.gmail.com>
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <CAL_JsqK_wuOwJS=dSkSdYs10kE1S3gmtHVU31wkxkP5wT39qqg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+In-Reply-To: <20230120224627.4053418-15-quic_eberman@quicinc.com>
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: pOXZtEvFmXLIP-klEZnneORLnWzn-iZX
-X-Proofpoint-GUID: pOXZtEvFmXLIP-klEZnneORLnWzn-iZX
+X-Proofpoint-GUID: sh86p9gSCoJaJhdPgk9trdqNIHJSMXWr
+X-Proofpoint-ORIG-GUID: sh86p9gSCoJaJhdPgk9trdqNIHJSMXWr
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-30_07,2023-01-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=999 impostorscore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 spamscore=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
+ lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 impostorscore=0 mlxscore=0 priorityscore=1501 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301300080
+ definitions=main-2301300084
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+* Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:13]:
+
+> +static int gh_vm_start(struct gunyah_vm *ghvm)
+> +{
+> +	struct gunyah_vm_memory_mapping *mapping;
+> +	u64 dtb_offset;
+> +	u32 mem_handle;
+> +	int ret;
+> +
+> +	down_write(&ghvm->status_lock);
+> +	if (ghvm->vm_status != GH_RM_VM_STATUS_NO_STATE) {
+> +		up_write(&ghvm->status_lock);
+> +		return 0;
+
+return -EINVAL in this case.
+
+Additionally check if its already GH_RM_VM_STATUS_READY and return 0 in that
+case.
+
+[snip]
 
 
-On 1/28/2023 1:35 AM, Rob Herring wrote:
-> On Fri, Jan 27, 2023 at 10:01 AM Mukesh Ojha <quic_mojha@quicinc.com> wrote:
->>
->> The reserved memory region for ramoops is assumed to be at a
->> fixed and known location when read from the devicetree. This
->> is not desirable in an environment where it is preferred the
->> region to be dynamically allocated at runtime, as opposed to
->> being fixed at compile time.
-> 
-> I don't see how this can work. How do you find the region after
-> rebooting? Or this is only used for the current boot? If so, provide a
-> userspace interface to configure it (or the existing module params).
-> 
+> +	mem_handle = mapping->parcel.mem_handle;
+> +	dtb_offset = ghvm->dtb_config.gpa - mapping->guest_phys_addr;
+> +
+> +	ret = gh_rm_vm_configure(ghvm->rm, ghvm->vmid, ghvm->auth, mem_handle,
+> +				0, 0, dtb_offset, ghvm->dtb_config.size);
 
-Client can do of_reserved_mem_lookup() on this ramoops node to get 
-region addresses and it is for regular boots and it is not for
-current boot.
+Default value of auth is 0 (GH_RM_VM_AUTH_NONE). Is that what you wanted here?
+Perhaps initialize default value of auth to be GH_RM_VM_AUTH_QCOM_PIL_ELF?
 
-Basically, here we are trying to support system which does not 
-completely support warm reset(content could be inconsistent across 
-boots) and has their own mechanism to dump ramoops region on crash.
-
-Also, If it is required, to override the existing ramoops region of 
-current boot(from static to dynamic), would provide user space interface 
-as well.
-
-> The addition of 'size' type regions was primarily for large carveouts
-> that needed to be allocated before anything else. ramoops is not that.
-> It's 10s or 100s of KB at most.
-
-I agree..
-
-Is this the only issue ?
-
-I thought if it is inheriting reserve-memory binding, it can be used if 
-it is not breaking anything what ramoops already supports..
-you can have a look at 2/2 patch.
-
-
--Mukesh
-
-> 
-> 
->> So, update the ramoops binding by inheriting some reserve memory
->> property to allocate the ramoops region dynamically.
->>
->> Cc: Kees Cook <keescook@chromium.org>
->> Cc: Tony Luck <tony.luck@intel.com>
->> Cc: Guilherme G. Piccoli <gpiccoli@igalia.com>
->> Cc: Rob Herring <robh+dt@kernel.org>
->> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
->> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
->> ---
->> Changes in v4:
->>   - Addressed comment made by Krzysztof on ramoops node name.
->>
->> Changes in v3:
->>   - Fixed yaml error and updated commit text as per comment.
->>
->> Change in v2:
->>    - Added this patch as per changes going to be done in patch 3/3
->>
->>   .../bindings/reserved-memory/ramoops.yaml          | 34 ++++++++++++++++++++--
->>   1 file changed, 32 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
->> index 0391871..8741626 100644
->> --- a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
->> +++ b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
->> @@ -10,7 +10,8 @@ description: |
->>     ramoops provides persistent RAM storage for oops and panics, so they can be
->>     recovered after a reboot. This is a child-node of "/reserved-memory", and
->>     is named "ramoops" after the backend, rather than "pstore" which is the
->> -  subsystem.
->> +  subsystem. This region can be reserved both statically or dynamically by
->> +  using appropriate property in device tree.
->>
->>     Parts of this storage may be set aside for other persistent log buffers, such
->>     as kernel log messages, or for optional ECC error-correction data.  The total
->> @@ -112,7 +113,13 @@ unevaluatedProperties: false
->>
->>   required:
->>     - compatible
->> -  - reg
->> +
->> +oneOf:
->> +  - required:
->> +      - reg
->> +
->> +  - required:
->> +      - size
->>
->>   anyOf:
->>     - required: [record-size]
->> @@ -142,3 +149,26 @@ examples:
->>               };
->>           };
->>       };
->> +
->> +  - |
->> +    / {
-> 
-> You can't have multiple root node examples. Check the example dts, the
-> examples will be merged together.
-
-Sure, will remove this..
-
-> 
->> +        compatible = "foo";
->> +        model = "foo";
->> +        #address-cells = <1>;
->> +        #size-cells = <1>;
->> +
->> +        reserved-memory {
->> +            #address-cells = <1>;
->> +            #size-cells = <1>;
->> +            ranges;
->> +
->> +            ramoops_region: ramoops {
->> +                compatible = "ramoops";
->> +                alloc-ranges = <0x00000000 0xffffffff>;
->> +                size = <0x0 0x10000>;       /* 64kB */
->> +                console-size = <0x8000>;    /* 32kB */
->> +                record-size = <0x400>;      /*  1kB */
->> +                ecc-size = <16>;
->> +            };
->> +        };
->> +    };
->> --
->> 2.7.4
->>
