@@ -2,101 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBD40C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 13:49:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50515C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 14:19:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231186AbjA3NtO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 08:49:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57398 "EHLO
+        id S237611AbjA3OTR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 09:19:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230340AbjA3NtN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 08:49:13 -0500
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B2437556;
-        Mon, 30 Jan 2023 05:49:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=Uz0rS13sZn6W3GLJhzVYyYt2P+D5LMPg6daHnApH/qI=; b=I/Gl7Mypfh2GbCGKvoqfKnf/mO
-        Dk3R7Jf2jJyuPmjVvG32uHeO6huTbQoxXATic6aFd9j+35JBv1eHmiqOWB5PkzJI6z9dpS5R5wkJY
-        ILKJUFVCzokxOkSiXLPsKXtOQYkXQid2WqF7Ek5QctA5WG/YJr/iehghN7qeRu/h2ErI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1pMUWh-003Zvv-Ej; Mon, 30 Jan 2023 14:48:51 +0100
-Date:   Mon, 30 Jan 2023 14:48:51 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Sander Vanheule <sander@svanheule.net>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH v7 11/11] dt-bindings: net: dsa: qca8k: add LEDs
- definition example
-Message-ID: <Y9fKwzMyHK7kRjei@lunn.ch>
-References: <20221214235438.30271-1-ansuelsmth@gmail.com>
- <20221214235438.30271-12-ansuelsmth@gmail.com>
- <20221220173958.GA784285-robh@kernel.org>
- <Y6JDOFmcEQ3FjFKq@lunn.ch>
- <Y6JkXnp0/lF4p0N1@lunn.ch>
- <63a30221.050a0220.16e5f.653a@mx.google.com>
- <c609a7f865ab48f858adafdd9c1014dda8ec82d6.camel@svanheule.net>
- <Y9bs53a9zyqEU9Xw@lunn.ch>
- <f854183545a6ff55235c9f2264af97c1a7f530c3.camel@svanheule.net>
+        with ESMTP id S237624AbjA3OSl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 09:18:41 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04BE33EC72;
+        Mon, 30 Jan 2023 06:17:49 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 072326108B;
+        Mon, 30 Jan 2023 14:17:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD977C433EF;
+        Mon, 30 Jan 2023 14:17:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1675088262;
+        bh=5ZzNBh+M2CSjwwOyKvU5MEoLDHOU97ObdPOPhIcH/hc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=skDIB2JRgubCbyo7Xnyu6ACeSFk4kcqfRPra1ye3JAOm2lBlrA9eLVwlD21K5w34B
+         9mlWcZ0BTA+dQfRwxw70iVSPbvyhDYv5ITBV1NLPz5GaQh8cz25Pr3bK5oy5KfU5wZ
+         JwIZ6sE6nzw9swKEoa9whga71Ql24GPAVZt/6Ngc=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     stable@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        patches@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Eric Biggers <ebiggers@google.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        tangmeng <tangmeng@uniontech.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-doc@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.15 139/204] panic: Introduce warn_limit
+Date:   Mon, 30 Jan 2023 14:51:44 +0100
+Message-Id: <20230130134322.658787288@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230130134316.327556078@linuxfoundation.org>
+References: <20230130134316.327556078@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f854183545a6ff55235c9f2264af97c1a7f530c3.camel@svanheule.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Thanks for the quick clarification. Because you mention this, I realised that
-> the RTL8382's LED controller is actually not in the PHYs. These SoCs use
-> external PHYs, which may have their own, independent, LED controllers. For
-> example the RTL8212D [1].
-> 
-> [1]
-> https://datasheet.lcsc.com/lcsc/2203252253_Realtek-Semicon-RTL8218D-CG_C2901898.pdf
-> 
-> > 
-> > But the point is, the PHYs will probe if listed. They don't have to
-> > have a MAC pointing to them with a phandle. So the phydev will exist,
-> > and that should be enough to get the LED class device registered. If
-> > there is basic on/off support, that should be enough for you to attach
-> > the Morse code panic trigger, the heartbeat handler, or any other LED
-> > trigger.
-> 
-> OK, this makes sense for (external) PHYs which need to be probed anyway to have
-> access to the LEDs.
-> 
-> Looking at the RTL8212D's datasheet (Table 11, p. 24), it appears to be possible
-> to assign an LED to any of the eight PHYs. Perhaps to allow more freedom in the
-> board layout. Maybe I'm just not seeing it, but I don't think the example with
-> an 'leds' node under a PHY contains enough information to perform such a non-
-> trivial mapping. On the other hand, I'm not sure where else that info might go.
+From: Kees Cook <keescook@chromium.org>
 
-The binding is defining all the generic properties need for generic
-PHY LED. For most PHYs, it is probably sufficient. However, there is
-nothing stopping you from adding PHY specific properties. So for
-example, for each PHY LED you could have a property which maps it to
-a LED00-LED35.
+commit 9fc9e278a5c0b708eeffaf47d6eb0c82aa74ed78 upstream.
 
-So propose a binding for the RTL8218D with whatever extra properties
-you think are needed, and it will be reviewed in the normal way.
+Like oops_limit, add warn_limit for limiting the number of warnings when
+panic_on_warn is not set.
 
-    Andrew
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Eric Biggers <ebiggers@google.com>
+Cc: Huang Ying <ying.huang@intel.com>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: tangmeng <tangmeng@uniontech.com>
+Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-doc@vger.kernel.org
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Link: https://lore.kernel.org/r/20221117234328.594699-5-keescook@chromium.org
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 10 ++++++++++
+ kernel/panic.c                              | 14 ++++++++++++++
+ 2 files changed, 24 insertions(+)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index d6f1d3892e71..48b91c485c99 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1494,6 +1494,16 @@ entry will default to 2 instead of 0.
+ 2 Unprivileged calls to ``bpf()`` are disabled
+ = =============================================================
+ 
++
++warn_limit
++==========
++
++Number of kernel warnings after which the kernel should panic when
++``panic_on_warn`` is not set. Setting this to 0 disables checking
++the warning count. Setting this to 1 has the same effect as setting
++``panic_on_warn=1``. The default value is 0.
++
++
+ watchdog
+ ========
+ 
+diff --git a/kernel/panic.c b/kernel/panic.c
+index bf0324941e43..604d7ad77042 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -57,6 +57,7 @@ bool crash_kexec_post_notifiers;
+ int panic_on_warn __read_mostly;
+ unsigned long panic_on_taint;
+ bool panic_on_taint_nousertaint = false;
++static unsigned int warn_limit __read_mostly;
+ 
+ int panic_timeout = CONFIG_PANIC_TIMEOUT;
+ EXPORT_SYMBOL_GPL(panic_timeout);
+@@ -86,6 +87,13 @@ static struct ctl_table kern_panic_table[] = {
+ 		.extra2         = SYSCTL_ONE,
+ 	},
+ #endif
++	{
++		.procname       = "warn_limit",
++		.data           = &warn_limit,
++		.maxlen         = sizeof(warn_limit),
++		.mode           = 0644,
++		.proc_handler   = proc_douintvec,
++	},
+ 	{ }
+ };
+ 
+@@ -195,8 +203,14 @@ static void panic_print_sys_info(void)
+ 
+ void check_panic_on_warn(const char *origin)
+ {
++	static atomic_t warn_count = ATOMIC_INIT(0);
++
+ 	if (panic_on_warn)
+ 		panic("%s: panic_on_warn set ...\n", origin);
++
++	if (atomic_inc_return(&warn_count) >= READ_ONCE(warn_limit) && warn_limit)
++		panic("%s: system warned too often (kernel.warn_limit is %d)",
++		      origin, warn_limit);
+ }
+ 
+ /**
+-- 
+2.39.0
+
+
+
