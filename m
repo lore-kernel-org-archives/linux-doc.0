@@ -2,116 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F80C636D0
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 14:26:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 139F3C54EAA
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 14:26:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237611AbjA3O0F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 09:26:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41714 "EHLO
+        id S237717AbjA3O0q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 09:26:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237616AbjA3OZv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 09:25:51 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 393343D0A1;
-        Mon, 30 Jan 2023 06:24:28 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 41D8561014;
-        Mon, 30 Jan 2023 14:24:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6155C433EF;
-        Mon, 30 Jan 2023 14:24:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1675088659;
-        bh=3G0ZZUBImsFjr7o0+Tgf9yPFPvSyb49WohDTm+KJ2kw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Og0Io5FBfb6all2GWxv64N5UoM1lB+ROeP1/2MFClySWjXkTHYUCbxzolU3OlcENv
-         AsF1IFjbAmXqVAtmyn3JUzL4NTUMdSUzc83cDs6nl2y4H3e0aUboirD7kSoSAbAhPS
-         ComH3NCKRsALQneOA+x9nUddCPGamLNuK2SKvaAw=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        patches@lists.linux.dev, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Huang Ying <ying.huang@intel.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10 093/143] exit: Allow oops_limit to be disabled
-Date:   Mon, 30 Jan 2023 14:52:30 +0100
-Message-Id: <20230130134310.716144510@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230130134306.862721518@linuxfoundation.org>
-References: <20230130134306.862721518@linuxfoundation.org>
-User-Agent: quilt/0.67
+        with ESMTP id S237488AbjA3O01 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 09:26:27 -0500
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 442B840BEF;
+        Mon, 30 Jan 2023 06:25:08 -0800 (PST)
+Received: by mail-vs1-f48.google.com with SMTP id y8so12664585vsq.0;
+        Mon, 30 Jan 2023 06:25:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/EoK2PPnsf9bafcuD3921ajoctS38QF0C7+TFlgrRio=;
+        b=WTiL63muTSPhzf/htiNhZVTeHC9+w4912ydaVgQePyi9kCy2UdVDA/GdAUOD1nM/w0
+         9LmbekFlyJcGvaMrjFVew4xbUBe1+zoFk3BW2b3BRAL164HXjWT+59EJmb0KQ9DS1Oti
+         4zMJpuaYmAlavZ8RT6pZKT7xvT/cqRVb04pJhLEdDlDf8jvTD2EJUC0B4TbTN8PyZWlA
+         EmDKXEhLGMlZG2ab55N7knBcTPGLhZs7jaw+niG1rtqph9pq2yEwAW0Ep9qzgYeX1k/s
+         wYxlVjWz+AxCBo/jSiqoXHMs/Atm5HwYhB38UKyCxJm09/zFh1h8y5JnYGFuk22oox6L
+         W+xA==
+X-Gm-Message-State: AO0yUKUn1U08uMbHDssAZ5erFopc0H4r3VCeVmTjUheZ9Z+DjFZvGpU9
+        sq4Nl4Eqb8eLfLbPQ/B8OO+0d2aP2iv0qQ==
+X-Google-Smtp-Source: AK7set/+lX1Ckygn7G8bMwSVfHbUm1uNzPTyY/G2PzWCaOMCfyxOEAS9304qsXeB7Qkv2NwshzeuPQ==
+X-Received: by 2002:a67:c293:0:b0:3ef:9cd7:eca4 with SMTP id k19-20020a67c293000000b003ef9cd7eca4mr4594028vsj.18.1675088679705;
+        Mon, 30 Jan 2023 06:24:39 -0800 (PST)
+Received: from maniforge ([24.1.27.177])
+        by smtp.gmail.com with ESMTPSA id m186-20020a37bcc3000000b007068b49b8absm8099922qkf.62.2023.01.30.06.24.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 06:24:39 -0800 (PST)
+Date:   Mon, 30 Jan 2023 08:24:36 -0600
+From:   David Vernet <void@manifault.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Andrii Nakryiko <andrii@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>, bpf@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 04/35] Documentation: bpf: correct spelling
+Message-ID: <Y9fTJLNVc5i2/XV5@maniforge>
+References: <20230127064005.1558-1-rdunlap@infradead.org>
+ <20230127064005.1558-5-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230127064005.1558-5-rdunlap@infradead.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Kees Cook <keescook@chromium.org>
+On Thu, Jan 26, 2023 at 10:39:34PM -0800, Randy Dunlap wrote:
+> Correct spelling problems for Documentation/bpf/ as reported
+> by codespell.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Andrii Nakryiko <andrii@kernel.org>
+> Cc: Alexei Starovoitov <ast@kernel.org>
+> Cc: Daniel Borkmann <daniel@iogearbox.net>
+> Cc: bpf@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/bpf/libbpf/libbpf_naming_convention.rst |    6 +++---
+>  Documentation/bpf/map_xskmap.rst                      |    2 +-
+>  Documentation/bpf/ringbuf.rst                         |    4 ++--
+>  Documentation/bpf/verifier.rst                        |    2 +-
+>  4 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff -- a/Documentation/bpf/libbpf/libbpf_naming_convention.rst b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
+> --- a/Documentation/bpf/libbpf/libbpf_naming_convention.rst
+> +++ b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
+> @@ -83,8 +83,8 @@ This prevents from accidentally exportin
+>  to be a part of ABI what, in turn, improves both libbpf developer- and
+>  user-experiences.
+>  
+> -ABI versionning
+> ----------------
+> +ABI versioning
+> +--------------
+>  
+>  To make future ABI extensions possible libbpf ABI is versioned.
+>  Versioning is implemented by ``libbpf.map`` version script that is
+> @@ -148,7 +148,7 @@ API documentation convention
+>  The libbpf API is documented via comments above definitions in
+>  header files. These comments can be rendered by doxygen and sphinx
+>  for well organized html output. This section describes the
+> -convention in which these comments should be formated.
+> +convention in which these comments should be formatted.
+>  
+>  Here is an example from btf.h:
+>  
+> diff -- a/Documentation/bpf/map_xskmap.rst b/Documentation/bpf/map_xskmap.rst
+> --- a/Documentation/bpf/map_xskmap.rst
+> +++ b/Documentation/bpf/map_xskmap.rst
+> @@ -178,7 +178,7 @@ The following code snippet shows how to
+>  
+>  For an example on how create AF_XDP sockets, please see the AF_XDP-example and
+>  AF_XDP-forwarding programs in the `bpf-examples`_ directory in the `libxdp`_ repository.
+> -For a detailed explaination of the AF_XDP interface please see:
+> +For a detailed explanation of the AF_XDP interface please see:
+>  
+>  - `libxdp-readme`_.
+>  - `AF_XDP`_ kernel documentation.
+> diff -- a/Documentation/bpf/ringbuf.rst b/Documentation/bpf/ringbuf.rst
+> --- a/Documentation/bpf/ringbuf.rst
+> +++ b/Documentation/bpf/ringbuf.rst
+> @@ -124,7 +124,7 @@ buffer.  Currently 4 are supported:
+>  
+>  - ``BPF_RB_AVAIL_DATA`` returns amount of unconsumed data in ring buffer;
+>  - ``BPF_RB_RING_SIZE`` returns the size of ring buffer;
+> -- ``BPF_RB_CONS_POS``/``BPF_RB_PROD_POS`` returns current logical possition
+> +- ``BPF_RB_CONS_POS``/``BPF_RB_PROD_POS`` returns current logical position
+>    of consumer/producer, respectively.
+>  
+>  Returned values are momentarily snapshots of ring buffer state and could be
+> @@ -146,7 +146,7 @@ Design and Implementation
+>  This reserve/commit schema allows a natural way for multiple producers, either
+>  on different CPUs or even on the same CPU/in the same BPF program, to reserve
+>  independent records and work with them without blocking other producers. This
+> -means that if BPF program was interruped by another BPF program sharing the
+> +means that if BPF program was interrupted by another BPF program sharing the
 
-commit de92f65719cd672f4b48397540b9f9eff67eca40 upstream.
+While you're here, could you please also fix this:
 
-In preparation for keeping oops_limit logic in sync with warn_limit,
-have oops_limit == 0 disable checking the Oops counter.
+s/if BPF program/if a BPF program
 
-Cc: Jann Horn <jannh@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Eric Biggers <ebiggers@google.com>
-Cc: Huang Ying <ying.huang@intel.com>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Eric Biggers <ebiggers@google.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/admin-guide/sysctl/kernel.rst | 5 +++--
- kernel/exit.c                               | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+>  same ring buffer, they will both get a record reserved (provided there is
+>  enough space left) and can work with it and submit it independently. This
+>  applies to NMI context as well, except that due to using a spinlock during
+> diff -- a/Documentation/bpf/verifier.rst b/Documentation/bpf/verifier.rst
+> --- a/Documentation/bpf/verifier.rst
+> +++ b/Documentation/bpf/verifier.rst
+> @@ -192,7 +192,7 @@ checked and found to be non-NULL, all co
+>  As well as range-checking, the tracked information is also used for enforcing
+>  alignment of pointer accesses.  For instance, on most systems the packet pointer
+>  is 2 bytes after a 4-byte alignment.  If a program adds 14 bytes to that to jump
+> -over the Ethernet header, then reads IHL and addes (IHL * 4), the resulting
+> +over the Ethernet header, then reads IHL and adds (IHL * 4), the resulting
+>  pointer will have a variable offset known to be 4n+2 for some n, so adding the 2
+>  bytes (NET_IP_ALIGN) gives a 4-byte alignment and so word-sized accesses through
+>  that pointer are safe.
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index cd9247b48fc7..470262c08858 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -667,8 +667,9 @@ oops_limit
- ==========
- 
- Number of kernel oopses after which the kernel should panic when
--``panic_on_oops`` is not set. Setting this to 0 or 1 has the same effect
--as setting ``panic_on_oops=1``.
-+``panic_on_oops`` is not set. Setting this to 0 disables checking
-+the count. Setting this to  1 has the same effect as setting
-+``panic_on_oops=1``. The default value is 10000.
- 
- 
- osrelease, ostype & version
-diff --git a/kernel/exit.c b/kernel/exit.c
-index b519abee2c54..8c820aa7b9c5 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -927,7 +927,7 @@ void __noreturn make_task_dead(int signr)
- 	 * To make sure this can't happen, place an upper bound on how often the
- 	 * kernel may oops without panic().
- 	 */
--	if (atomic_inc_return(&oops_count) >= READ_ONCE(oops_limit))
-+	if (atomic_inc_return(&oops_count) >= READ_ONCE(oops_limit) && oops_limit)
- 		panic("Oopsed too often (kernel.oops_limit is %d)", oops_limit);
- 
- 	do_exit(signr);
--- 
-2.39.0
-
-
-
+Otherwise, LGTM. I'll wait to add stamp until the v2 sent to bpf-next
+instead of bpf.
