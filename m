@@ -2,230 +2,142 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E2C3C54EED
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 05:25:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF9E5C54EED
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 05:26:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235622AbjA3FZF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 00:25:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57134 "EHLO
+        id S235642AbjA3F0p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 00:26:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229815AbjA3FZD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 00:25:03 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63AD1ABD9;
-        Sun, 29 Jan 2023 21:24:59 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7151760E9B;
-        Mon, 30 Jan 2023 05:24:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8B62C433D2;
-        Mon, 30 Jan 2023 05:24:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675056298;
-        bh=6uMxXU94yhabkf9onzpToNr+qnadDqgPKnObNlZcFJ4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Ke1MDE64OaAlob3NnNJxsveYs3ePR7L1SfWuVZB3+Bj18fQq2FxgOYM3naBF4xhPw
-         gdMRbN+7H4WniiSa6IFiU/fzuXhRrEZWP/cPDfRtQxPbm63lSfWATuDQWVbA6sCdzP
-         MMEau9VqRr7egyNNZQXGoPxAf5OAFrsfQG5+QQ+iVXlFEqBledHx/JtPIStaIl15O5
-         dnPub/lWIoOFD5jmiXd7GGYEpdCKzDcGvuXnSj3QdkOWhTUrNUVnXHmTkFJZ/FzaYq
-         /ViXlbCM+ro4kQ7ueXvaCmlTyrLk+8I5t5M2qgSDj4zZOy/sQnxqy29JdS2+BRkuHL
-         TAvyxekNyw/yg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 6C9055C0326; Sun, 29 Jan 2023 21:24:58 -0800 (PST)
-Date:   Sun, 29 Jan 2023 21:24:58 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Josh Triplett <josh@joshtriplett.org>, rcu@vger.kernel.org
-Subject: Re: [PATCH 5/9] Documentation: RCU: correct spelling
-Message-ID: <20230130052458.GQ2948950@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20230129231053.20863-1-rdunlap@infradead.org>
- <20230129231053.20863-6-rdunlap@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230129231053.20863-6-rdunlap@infradead.org>
+        with ESMTP id S235666AbjA3F0l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 00:26:41 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09CFA23DA1
+        for <linux-doc@vger.kernel.org>; Sun, 29 Jan 2023 21:26:35 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id k15-20020a5b0a0f000000b007eba3f8e3baso11780589ybq.4
+        for <linux-doc@vger.kernel.org>; Sun, 29 Jan 2023 21:26:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=b/vIkIPl5nRj/3hPy3c/U0PXxxrhFi67btaNOzIv4hA=;
+        b=D7SxTMVpdE8OPU4Q8lhHRcsgMpDnY1lwmr2KK3l7i/bP6j+o5A3rsWdRpR2th82Tw7
+         3Na5KNK1Stogf6axURA9XxIaCe3/IFgJehhOLeBTGm9/p382ok+02Xo2ovXAwG+kGbvD
+         BmYmXY5hlLXG+XKrP7NNkk58y3fUL7ev3IABImxVQG/7/RdSHdFyuSpnpPb537H0OIPo
+         ixo6e9FQ/K1A5UG1StdJkIVOHUhcREtuoRy1Ik+eIze4N8mllpTjrSq6abcsckZ7nOZ/
+         sLroSxpo5sn2CdacRJ1G0xOA8ivhouUqU9Hqwci7GILS79bIuTqIG+D9QA2CHtpK2oXX
+         ScUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b/vIkIPl5nRj/3hPy3c/U0PXxxrhFi67btaNOzIv4hA=;
+        b=2RMFAzFOhIpotvRTHTiBoWaviApvlfIvx8+cuDe/BeOu4fJ7y1j/oaL0flFF8fgKkD
+         9OaN0k7WySyJouJUs02Tm9BW3+YfX5PsDXv4gz7tZzz6ZYJ+VBvZ1JkYwKe2cFpwGSJ8
+         SzK/iaMAucDBr/ig8qN+tNOBWBG9bgDQq6GyhtefEInlRrwt+GJYLXwV8oI3aBC6qMmo
+         uGpgK34vuOK8qxLb6Bs+XgBEw4h34GLk1+fWGVL/TI9ZZN5u+9qYXOi4qH9FsRuHk+Pq
+         VmrVSWrYhf46HDrbfgHKb8vlwayuUpAVy9+r0rHkeEW1SQDok9qpPPce/V4i0O35TEw4
+         OiUw==
+X-Gm-Message-State: AO0yUKUHtDdvyV1EdoeCj58rmNfz3/Z8xpvjhj+AmyYAvre7+Sm8HVnV
+        NojbMisHQwlsXVoXRGnJwatZbARdQ3RmHHhDnw==
+X-Google-Smtp-Source: AK7set+JlXdd4+lvDMPsWLbQWxCgCdL1TWQEwkw9Zl36rvKxocVcw2BCVuEm0lbxbrZEdORCPWSOnhc/TSAGSF3Dag==
+X-Received: from ackerleytng-cloudtop-sg.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:b30])
+ (user=ackerleytng job=sendgmr) by 2002:a81:77d6:0:b0:506:348b:88a2 with SMTP
+ id s205-20020a8177d6000000b00506348b88a2mr3119463ywc.400.1675056394197; Sun,
+ 29 Jan 2023 21:26:34 -0800 (PST)
+Date:   Mon, 30 Jan 2023 05:26:29 +0000
+In-Reply-To: <20221202061347.1070246-2-chao.p.peng@linux.intel.com> (message
+ from Chao Peng on Fri,  2 Dec 2022 14:13:39 +0800)
+Mime-Version: 1.0
+Message-ID: <diqzzga0fv96.fsf@ackerleytng-cloudtop-sg.c.googlers.com>
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        pbonzini@redhat.com, corbet@lwn.net, seanjc@google.com,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, arnd@arndb.de, naoya.horiguchi@nec.com,
+        linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
+        akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
+        steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
+        vannapurve@google.com, yu.c.zhang@linux.intel.com,
+        chao.p.peng@linux.intel.com, kirill.shutemov@linux.intel.com,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com, qperret@google.com,
+        tabba@google.com, michael.roth@amd.com, mhocko@suse.com,
+        wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 29, 2023 at 03:10:49PM -0800, Randy Dunlap wrote:
-> Correct spelling problems for Documentation/RCU/ as reported
-> by codespell.
-> 
-> Note: in RTFP.txt, there are other misspellings that are left as is
-> since they were used that way in email Subject: lines or in LWN.net
-> articles. [preemptable, Preemptable, synchonisation]
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> Cc: Frederic Weisbecker <frederic@kernel.org>
-> Cc: Neeraj Upadhyay <quic_neeraju@quicinc.com>
-> Cc: Josh Triplett <josh@joshtriplett.org>
-> Cc: rcu@vger.kernel.org
 
-Queued despite affinitied being a perfectly cromulent word.  ;-)
+> +static int restrictedmem_getattr(struct user_namespace *mnt_userns,
+> +				 const struct path *path, struct kstat *stat,
+> +				 u32 request_mask, unsigned int query_flags)
+> +{
+> +	struct inode *inode = d_inode(path->dentry);
+> +	struct restrictedmem_data *data = inode->i_mapping->private_data;
+> +	struct file *memfd = data->memfd;
+> +
+> +	return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
+> +					     request_mask, query_flags);
 
-Thank you!
+Instead of calling shmem's getattr() with path, we should be using the
+the memfd's path.
 
-							Thanx, Paul
+Otherwise, shmem's getattr() will use restrictedmem's inode instead of
+shmem's inode. The private fields will be of the wrong type, and the
+host will crash when shmem_is_huge() does SHMEM_SB(inode->i_sb)->huge),
+since inode->i_sb->s_fs_info is NULL for the restrictedmem's superblock.
 
-> ---
->  .../Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst |    6 +++---
->  .../Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst        |    2 +-
->  .../RTFP.txt                                                   |   10 +++++-----
->  .../UP.rst                                                     |    4 ++--
->  .../lockdep.rst                                                |    2 +-
->  .../torture.rst                                                |    4 ++--
->  6 files changed, 14 insertions(+), 14 deletions(-)
-> 
-> diff -- a/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst b/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
-> --- a/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
-> +++ b/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
-> @@ -277,7 +277,7 @@ the following access functions:
->  
->  Again, only one request in a given batch need actually carry out a
->  grace-period operation, which means there must be an efficient way to
-> -identify which of many concurrent reqeusts will initiate the grace
-> +identify which of many concurrent requests will initiate the grace
->  period, and that there be an efficient way for the remaining requests to
->  wait for that grace period to complete. However, that is the topic of
->  the next section.
-> @@ -405,7 +405,7 @@ Use of Workqueues
->  In earlier implementations, the task requesting the expedited grace
->  period also drove it to completion. This straightforward approach had
->  the disadvantage of needing to account for POSIX signals sent to user
-> -tasks, so more recent implemementations use the Linux kernel's
-> +tasks, so more recent implementations use the Linux kernel's
->  workqueues (see Documentation/core-api/workqueue.rst).
->  
->  The requesting task still does counter snapshotting and funnel-lock
-> @@ -465,7 +465,7 @@ corresponding disadvantage that workqueu
->  initialized, which does not happen until some time after the scheduler
->  spawns the first task. Given that there are parts of the kernel that
->  really do want to execute grace periods during this mid-boot “dead
-> -zone”, expedited grace periods must do something else during thie time.
-> +zone”, expedited grace periods must do something else during this time.
->  
->  What they do is to fall back to the old practice of requiring that the
->  requesting task drive the expedited grace period, as was the case before
-> diff -- a/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst b/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
-> --- a/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
-> +++ b/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
-> @@ -168,7 +168,7 @@ an ``atomic_add_return()`` of zero) to d
->  +-----------------------------------------------------------------------+
->  
->  The approach must be extended to handle one final case, that of waking a
-> -task blocked in ``synchronize_rcu()``. This task might be affinitied to
-> +task blocked in ``synchronize_rcu()``. This task might be affined to
->  a CPU that is not yet aware that the grace period has ended, and thus
->  might not yet be subject to the grace period's memory ordering.
->  Therefore, there is an ``smp_mb()`` after the return from
-> diff -- a/Documentation/RCU/lockdep.rst b/Documentation/RCU/lockdep.rst
-> --- a/Documentation/RCU/lockdep.rst
-> +++ b/Documentation/RCU/lockdep.rst
-> @@ -65,7 +65,7 @@ checking of rcu_dereference() primitives
->  	rcu_access_pointer(p):
->  		Return the value of the pointer and omit all barriers,
->  		but retain the compiler constraints that prevent duplicating
-> -		or coalescsing.  This is useful when testing the
-> +		or coalescing.  This is useful when testing the
->  		value of the pointer itself, for example, against NULL.
->  
->  The rcu_dereference_check() check expression can be any boolean
-> diff -- a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
-> --- a/Documentation/RCU/RTFP.txt
-> +++ b/Documentation/RCU/RTFP.txt
-> @@ -201,7 +201,7 @@ work looked at debugging uses of RCU [Se
->  In 2012, Josh Triplett received his Ph.D. with his dissertation
->  covering RCU-protected resizable hash tables and the relationship
->  between memory barriers and read-side traversal order:  If the updater
-> -is making changes in the opposite direction from the read-side traveral
-> +is making changes in the opposite direction from the read-side traversal
->  order, the updater need only execute a memory-barrier instruction,
->  but if in the same direction, the updater needs to wait for a grace
->  period between the individual updates [JoshTriplettPhD].  Also in 2012,
-> @@ -1245,7 +1245,7 @@ Oregon Health and Sciences University"
->  [Viewed September 5, 2005]"
->  ,annotation={
->  	First posting showing how RCU can be safely adapted for
-> -	preemptable RCU read side critical sections.
-> +	preemptible RCU read side critical sections.
->  }
->  }
->  
-> @@ -1888,7 +1888,7 @@ Revised:
->  \url{https://lore.kernel.org/r/20070910183004.GA3299@linux.vnet.ibm.com}
->  [Viewed October 25, 2007]"
->  ,annotation={
-> -	Final patch for preemptable RCU to -rt.  (Later patches were
-> +	Final patch for preemptible RCU to -rt.  (Later patches were
->  	to mainline, eventually incorporated.)
->  }
->  }
-> @@ -2275,7 +2275,7 @@ lot of {Linux} into your technology!!!"
->  \url{https://lore.kernel.org/r/20090724001429.GA17374@linux.vnet.ibm.com}
->  [Viewed August 15, 2009]"
->  ,annotation={
-> -	First posting of simple and fast preemptable RCU.
-> +	First posting of simple and fast preemptible RCU.
->  }
->  }
->  
-> @@ -2639,7 +2639,7 @@ lot of {Linux} into your technology!!!"
->  	RCU-protected hash tables, barriers vs. read-side traversal order.
->  	.
->  	If the updater is making changes in the opposite direction from
-> -	the read-side traveral order, the updater need only execute a
-> +	the read-side traversal order, the updater need only execute a
->  	memory-barrier instruction, but if in the same direction, the
->  	updater needs to wait for a grace period between the individual
->  	updates.
-> diff -- a/Documentation/RCU/torture.rst b/Documentation/RCU/torture.rst
-> --- a/Documentation/RCU/torture.rst
-> +++ b/Documentation/RCU/torture.rst
-> @@ -216,7 +216,7 @@ Kernel boot arguments can also be suppli
->  rcutorture's module parameters.  For example, to test a change to RCU's
->  CPU stall-warning code, use "--bootargs 'rcutorture.stall_cpu=30'".
->  This will of course result in the scripting reporting a failure, namely
-> -the resuling RCU CPU stall warning.  As noted above, reducing memory may
-> +the resulting RCU CPU stall warning.  As noted above, reducing memory may
->  require disabling rcutorture's callback-flooding tests::
->  
->  	kvm.sh --cpus 448 --configs '56*TREE04' --memory 128M \
-> @@ -370,5 +370,5 @@ You can also re-run a previous remote ru
->  		tools/testing/selftests/rcutorture/res/2022.11.03-11.26.28-remote \
->  		--duration 24h
->  
-> -In this case, most of the kvm-again.sh parmeters may be supplied following
-> +In this case, most of the kvm-again.sh parameters may be supplied following
->  the pathname of the old run-results directory.
-> diff -- a/Documentation/RCU/UP.rst b/Documentation/RCU/UP.rst
-> --- a/Documentation/RCU/UP.rst
-> +++ b/Documentation/RCU/UP.rst
-> @@ -107,7 +107,7 @@ UP systems, including PREEMPT SMP builds
->  
->  Quick Quiz #3:
->  	Why can't synchronize_rcu() return immediately on UP systems running
-> -	preemptable RCU?
-> +	preemptible RCU?
->  
->  .. _answer_quick_quiz_up:
->  
-> @@ -143,7 +143,7 @@ Answer to Quick Quiz #2:
->  
->  Answer to Quick Quiz #3:
->  	Why can't synchronize_rcu() return immediately on UP systems
-> -	running preemptable RCU?
-> +	running preemptible RCU?
->  
->  	Because some other task might have been preempted in the middle
->  	of an RCU read-side critical section.  If synchronize_rcu()
+Here's the patch:
+
+diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+index 37191cd9eed1..06b72d593bd8 100644
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -84,7 +84,7 @@ static int restrictedmem_getattr(struct user_namespace  
+*mnt_userns,
+  	struct restrictedmem *rm = inode->i_mapping->private_data;
+  	struct file *memfd = rm->memfd;
+
+-	return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
++	return memfd->f_inode->i_op->getattr(mnt_userns, &memfd->f_path, stat,
+  					     request_mask, query_flags);
+  }
+
+> +}
+> +
+> +static int restrictedmem_setattr(struct user_namespace *mnt_userns,
+> +				 struct dentry *dentry, struct iattr *attr)
+> +{
+> +	struct inode *inode = d_inode(dentry);
+> +	struct restrictedmem_data *data = inode->i_mapping->private_data;
+> +	struct file *memfd = data->memfd;
+> +	int ret;
+> +
+> +	if (attr->ia_valid & ATTR_SIZE) {
+> +		if (memfd->f_inode->i_size)
+> +			return -EPERM;
+> +
+> +		if (!PAGE_ALIGNED(attr->ia_size))
+> +			return -EINVAL;
+> +	}
+> +
+> +	ret = memfd->f_inode->i_op->setattr(mnt_userns,
+> +					    file_dentry(memfd), attr);
+> +	return ret;
+> +}
+> +
+> +static const struct inode_operations restrictedmem_iops = {
+> +	.getattr = restrictedmem_getattr,
+> +	.setattr = restrictedmem_setattr,
+> +};
