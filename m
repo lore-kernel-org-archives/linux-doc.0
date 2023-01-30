@@ -2,84 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE32CC05027
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 00:39:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A824AC05027
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 02:01:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229769AbjA3AjS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 Jan 2023 19:39:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41740 "EHLO
+        id S230206AbjA3CBB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 29 Jan 2023 21:01:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbjA3AjR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Jan 2023 19:39:17 -0500
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5DD51CF41;
-        Sun, 29 Jan 2023 16:39:16 -0800 (PST)
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-1442977d77dso13255205fac.6;
-        Sun, 29 Jan 2023 16:39:16 -0800 (PST)
+        with ESMTP id S229476AbjA3CA7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 Jan 2023 21:00:59 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1C761C59C;
+        Sun, 29 Jan 2023 18:00:56 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id e10so6628358pgc.9;
+        Sun, 29 Jan 2023 18:00:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eQdDfBq+vMF/O7FM4LZuZL7r34CL6O59Wnl755Km6vU=;
-        b=l8ipMy4pGRnmFzWMy34EV5s6qCA0dnFvcV1WLPYwuDAQ+YddGB2zNSOgkvAXkoB7oO
-         9d2foK6XKFbc6GuRwa/zyw0na72IN6jphiv+6326y4Xqz8O+zqcKc2GQfaZIEwoXbySs
-         /7jIwYIcxFSAZ1SfEYlJid5m8TgqZebvd5EL+rBP1EMmqmpm11wYF9vMyPnf83WJ6hgt
-         MT2lBXCjNyTjer5or8HnMWmHhu1m/8WaezQNUzciD4MPwZPEtZruOWIroEXso48NAN3/
-         xmr/eBGIT51nD4iKCctsTk6+gzOOtfACyWv0GVQ0rFcuFJ9cYptmEGT/UfOwWQMDVarV
-         cL1A==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8kDOke4LN7w6fpBsUtOXo8T0Zvp1z998++I9bqEffZY=;
+        b=mS5KkcO7nR0TP6WHwPu9Nm1d00AEizhWsYErnNqbAlVIBAnQzHDgll8fIgxQ/fv2dl
+         EbFiq5YBUycRKvtCPeAfPEFHccpC1b/IPAKpX/nizqtR5yCpddO0Ie9KG8zoOmu0nYgq
+         loaudRNi/uIfMujdiAgAzzU5DRcNE0iurLhMdu38Hrk8KBzIwb2QSdYEjpuqPzUXydZx
+         PD2+f8S5gClkR1qY3gKF2yoUj++p+V2gjz2tfDG/MJ+JpUORJa8BcXodIBytkVKBWdnf
+         2MCxI8dviae0v+hzi2OwMVjIp3Y6h9KIVyIPBySagKSAiRZmX3CpwZsRhTiz/WYxzCAY
+         pNxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eQdDfBq+vMF/O7FM4LZuZL7r34CL6O59Wnl755Km6vU=;
-        b=0raitiX0cxhaERlnzuQ/ZSQBskdM/vR6qhE869tIaT9f2UuRxoaONWmoF4iM7lYiW/
-         Mf4qwU/ktKGS+zmyk0U0oueBD5PnZvI3or3/f+OjP69aZq4Ra35GOy5z49JpStu6kKNM
-         HmRs4xSOrRsRimmrp9dPTEHR/87Lbnq1VzRjasyDpvcce7HLj1ahRze3gDQqJmLXJHWU
-         QGUSrljfPvrFPb0xre09wuBBaV24uxxrwZwnndgXU/ieflSxagJtXE7GeFoQhRa2y8gc
-         a9gP6NWWmXbawg/KY7nmBbnSCGOKqX2iKsxv3aA47+noP4O5EZCjlzK6q2LXMrjIUFno
-         tSzg==
-X-Gm-Message-State: AO0yUKWPTq2tw8SJw5K4i9ejX4uj0VOr8RGVVuAXfIkuGcFzETjwXF4B
-        Svxg/BAmwo7v+tSJ3fud62w=
-X-Google-Smtp-Source: AK7set8m5admbPwz4sasitoVVR4miMIKzg4X7vK3ORG1mDwTWn0RYkMMpJR4KaFUvGXHSI58z1ReRw==
-X-Received: by 2002:a05:6870:7014:b0:15b:b523:3299 with SMTP id u20-20020a056870701400b0015bb5233299mr3432682oae.28.1675039155910;
-        Sun, 29 Jan 2023 16:39:15 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x8-20020a056870e38800b00144e18d8525sm4608589oad.25.2023.01.29.16.39.14
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8kDOke4LN7w6fpBsUtOXo8T0Zvp1z998++I9bqEffZY=;
+        b=hkRZvibpnTg0XYeSD3is2PUQzeq3XkQOdbbV3ZftcWzH3DEblCr4a4BLQ7OtWnVAq6
+         aez830mOTB1lrQYYOV/KUz23PhRJOY4kZIEu69Ig4XJs2OQvf8VRnmAR3kN6DYjblw4o
+         7vXM4RMcl1zRv/Qb9+c8nkmcn1pR/29DoS0cWVkYlyXT9c8dUpPtKAHxJQsPTqt6q0cX
+         zG8OJKYRCvohKNAoDhbqxzJjzcEBpd3tSfmbcv5NOsSfhF6om27sAGUacTOA2cYN8clB
+         QoG78msGKqPWjfNBJkCmOSRQ+LaUogHnfylNvd81f6E37E8IXF2ji8uZzMXztUWLAF7K
+         8O3Q==
+X-Gm-Message-State: AO0yUKUTd2us8zB1x9Tgw+pCti2uLzKplZ2OQsdaoF4ct4lZmD0tMoyB
+        9LgwtE/sXkwi8OeFpiZeetrvM3ITt1E=
+X-Google-Smtp-Source: AK7set8QmFISUvk/cmZd+I0vBk9Qx+kmhNcsXx4nKJIiH75seIIq9S4BwtNRaEmkNUti/Gz0eYaBkA==
+X-Received: by 2002:aa7:8fb8:0:b0:593:8539:beea with SMTP id t56-20020aa78fb8000000b005938539beeamr7179445pfs.3.1675044055901;
+        Sun, 29 Jan 2023 18:00:55 -0800 (PST)
+Received: from debian.me (subs28-116-206-12-34.three.co.id. [116.206.12.34])
+        by smtp.gmail.com with ESMTPSA id 26-20020aa7915a000000b0058d99337381sm6312608pfi.172.2023.01.29.18.00.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jan 2023 16:39:15 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Sun, 29 Jan 2023 16:39:13 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH 3/9] Documentation: hwmon: correct spelling
-Message-ID: <20230130003913.GA384090@roeck-us.net>
-References: <20230129231053.20863-1-rdunlap@infradead.org>
- <20230129231053.20863-4-rdunlap@infradead.org>
+        Sun, 29 Jan 2023 18:00:54 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 9D84610555F; Mon, 30 Jan 2023 09:00:45 +0700 (WIB)
+Date:   Mon, 30 Jan 2023 09:00:42 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        linux-doc@vger.kernel.org
+Cc:     Julia Lawall <Julia.Lawall@inria.fr>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Jonathan Corbet <corbet@lwn.net>, cocci@inria.fr,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: coccinelle: Escape --options to fix
+ Sphinx output
+Message-ID: <Y9ckylqsgCDsZ/RQ@debian.me>
+References: <20230129151408.1525324-1-j.neuschaefer@gmx.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ZjUcdI54Zb96UmuA"
 Content-Disposition: inline
-In-Reply-To: <20230129231053.20863-4-rdunlap@infradead.org>
+In-Reply-To: <20230129151408.1525324-1-j.neuschaefer@gmx.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 29, 2023 at 03:10:47PM -0800, Randy Dunlap wrote:
-> Correct spelling problems for Documentation/hwmon/ as reported
-> by codespell.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Jean Delvare <jdelvare@suse.com>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: linux-hwmon@vger.kernel.org
 
-Applied to hwmon-next.
+--ZjUcdI54Zb96UmuA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Guenter
+On Sun, Jan 29, 2023 at 04:14:08PM +0100, Jonathan Neusch=C3=A4fer wrote:
+> Without such escaping, -- is rendered as =E2=80=93 (en dash).
+
+Well, the diff below is not what escaping means (to escape dashes is to
+prepend each of them with a backslash, i.e. \-\-)
+
+>=20
+> Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+> ---
+>  Documentation/dev-tools/coccinelle.rst | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-t=
+ools/coccinelle.rst
+> index d9976069ed126..535ce126fb4fa 100644
+> --- a/Documentation/dev-tools/coccinelle.rst
+> +++ b/Documentation/dev-tools/coccinelle.rst
+> @@ -219,7 +219,7 @@ instance::
+>      cat cocci.err
+>=20
+>  You can use SPFLAGS to add debugging flags; for instance you may want to
+> -add both --profile --show-trying to SPFLAGS when debugging. For example
+> +add both ``--profile --show-trying`` to SPFLAGS when debugging. For exam=
+ple
+>  you may want to use::
+>=20
+>      rm -f err.log
+> @@ -248,7 +248,7 @@ variables for .cocciconfig is as follows:
+>=20
+>  - Your current user's home directory is processed first
+>  - Your directory from which spatch is called is processed next
+> -- The directory provided with the --dir option is processed last, if used
+> +- The directory provided with the ``--dir`` option is processed last, if=
+ used
+>=20
+>  Since coccicheck runs through make, it naturally runs from the kernel
+>  proper dir; as such the second rule above would be implied for picking u=
+p a
+> @@ -265,8 +265,8 @@ The kernel coccicheck script has::
+>      fi
+>=20
+>  KBUILD_EXTMOD is set when an explicit target with M=3D is used. For both=
+ cases
+> -the spatch --dir argument is used, as such third rule applies when wheth=
+er M=3D
+> -is used or not, and when M=3D is used the target directory can have its =
+own
+> +the spatch ``--dir`` argument is used, as such third rule applies when w=
+hether
+> +M=3D is used or not, and when M=3D is used the target directory can have=
+ its own
+>  .cocciconfig file. When M=3D is not passed as an argument to coccicheck =
+the
+>  target directory is the same as the directory from where spatch was call=
+ed.
+>=20
+=20
+You inline (wrap within inline code markup) these option keywords to match
+other keywords.
+
+Regardless, LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--ZjUcdI54Zb96UmuA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY9ckqwAKCRD2uYlJVVFO
+oyiBAP0aa1/RSNCNahSW+EK6BW1iHcAY44D1wW6DUsAm/3Bo4gD9Gwm7Ygsfm5Rh
+01WKHlO/JZInQUNJr0U7/2mlfSvJFgg=
+=4V+F
+-----END PGP SIGNATURE-----
+
+--ZjUcdI54Zb96UmuA--
