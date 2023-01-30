@@ -2,112 +2,223 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E5EC54EAA
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 23:30:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 774D4C54EAA
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 23:38:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230204AbjA3XaS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 18:30:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52348 "EHLO
+        id S229607AbjA3Xiy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 18:38:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229495AbjA3XaR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 18:30:17 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835FF29E10
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 15:30:13 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id j4so2165462iog.8
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 15:30:13 -0800 (PST)
+        with ESMTP id S229519AbjA3Xix (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 18:38:53 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9488E22DCE
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 15:38:51 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id a3so6020926wrt.6
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 15:38:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1nynTv2Ukmore8oJy9kp+YA0Zu6nVdeunqSuZlsLFu4=;
-        b=IihrPV91c0txs5z5kc9WvcNMFOFdzExEY9PtT9Xawn3cICGDXVnqxwuQDoXJwSca51
-         M6LRLiBn9Nwa9qTLeJyiyzZ4qiziMDXBH2mmxADPHG3XTJdjavj1QAcIy6HWvTIPB/eh
-         paFeDxYdkHV28EcJiI70rcS3NxJY5NNW19dyA=
+        d=jrtc27.com; s=gmail.jrtc27.user;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c0D2OAkoPSuqGKjYfRL/XBDXMIK40xEQA3Iqq9uVH7g=;
+        b=WNM+LzlDInSIM5aAM0uVfSzBnlnhI/kYDKYv5CNfmyIolHk9byTBwn8hNONJ458Cay
+         bZ9Jh/qgcbj8wXhylJWvOFPtm06jFcgcdKZktxHVThzvXSr6mMLV3vk5Xt3p9C20khjb
+         KUS/jzF3LNa/VAZMBQWpJBNOPWQYqdXyzPmzEivpTUaKthQkq4Zv6vN3gKjC30bAId0e
+         q+YN1i3wGluxuqNaCbYHi2JLfL0Oju/PdPt0vbeRiJYdkTgB1qvRK+BwBee/O2HcAFTr
+         u3wqgWnn6DVfyIuCib0tK2Cs56yqZYtBKsBSODr4CKIDAb6TxrLnWo6+oxDGlKIl1Rcm
+         DaCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1nynTv2Ukmore8oJy9kp+YA0Zu6nVdeunqSuZlsLFu4=;
-        b=yxLE+RXxNSPYcs76IixFfADjV6g3UwqpGt9heDDkdp0sEzrFrR2gVyzIZjIOoexBrK
-         hvO5x1v7MJMv7w9WaPv/RiSA9DtaMQUvzd10EEmcgjcC9imLW3aBqlxEA+pVc3wiDdry
-         v/0iKUurBis9dn4asColEc5hYWq6FhxjIkoWdk9VdMiuE335Bc5+M8mms/FP6pPcOxAW
-         LQn4yJlGDJNKeC1uSWYAsg7eVrNMlM1MhgyrjesAErxc5sPSGD7uvSy1rZXKNYnAgSly
-         EcVA0Uo+55UCKWTzARYsD6dZ8NHAM11BFgzAeC4wHnUIfMDjwPhVTOEEgbSB4lyZ5qra
-         O90Q==
-X-Gm-Message-State: AO0yUKUXidSqBY4uptRYBabSAeRzksJurqAlTo+DicQbhqM5oioWzUjJ
-        71b5NUq60BqxqBljEl8RkjLHPg==
-X-Google-Smtp-Source: AK7set+Ka7jWFMTaHswsuPRZzqYl8P0nsaklr15XgXcATVEP11vHn9J9rdDkVExRCdnRcbC/xyDn9g==
-X-Received: by 2002:a05:6602:88f:b0:719:6a2:99d8 with SMTP id f15-20020a056602088f00b0071906a299d8mr1515994ioz.0.1675121412814;
-        Mon, 30 Jan 2023 15:30:12 -0800 (PST)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id g1-20020a5ec741000000b0071dc7b4d0c7sm1098260iop.6.2023.01.30.15.30.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jan 2023 15:30:12 -0800 (PST)
-Message-ID: <021776e6-b37f-0a2e-41e0-5c09f9582c57@linuxfoundation.org>
-Date:   Mon, 30 Jan 2023 16:30:11 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2] docs: add workload-tracing document to admin-guide
-Content-Language: en-US
-To:     Thorsten Leemhuis <linux@leemhuis.info>, corbet@lwn.net
-Cc:     sshefali021@gmail.com, kstewart@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20230127234616.55137-1-skhan@linuxfoundation.org>
- <f48e8dab-2a68-88d2-7917-f8f34a39e322@leemhuis.info>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <f48e8dab-2a68-88d2-7917-f8f34a39e322@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=c0D2OAkoPSuqGKjYfRL/XBDXMIK40xEQA3Iqq9uVH7g=;
+        b=H2F2I8MGV8ruTb23kFTpBo5gvW+Nwja1uSFaLIUisPV4DxUYqPqxyGOEyv16En/s9P
+         4rsKe0zSmy6Bw/ulpY3lG5T0syndNpYAWxIL222i/9e4W/FpomUt1VhynYIh/8kwZtSD
+         ZxrBjZ/Cezm6+fL4pHl5u4wDuHVxNoRUEuC6Zv3GBUZvcqEky7NT5opvPrZ2M85H3a3d
+         bG6ovWHNl/ELYE7iA/uxcLCv+OtxOjOi5/W/VN2Xyfw25c6OaSDde5lhxWFTuwEtcKWX
+         KAizl6IuN/R0m/WUazLua7HhILwPcH/eE43UFBS4wqqvRHIvoq0EJwGNKLFvRIKxtC5U
+         y9ww==
+X-Gm-Message-State: AO0yUKWY5TMs/jqB6TdyBzAOUu58s85Tb99UpxX7n75855sfMrmYRZxb
+        /RAhes/9YAFrRU8/erhmy34mRw==
+X-Google-Smtp-Source: AK7set+th+iU4+VT+YyfX3TofjLEq/2pqNCe2nCL1a5FI7ePffNwYAI1KUnTm18azN07is2Is689Tg==
+X-Received: by 2002:adf:e702:0:b0:2bf:b765:7a13 with SMTP id c2-20020adfe702000000b002bfb7657a13mr1001880wrm.5.1675121930175;
+        Mon, 30 Jan 2023 15:38:50 -0800 (PST)
+Received: from smtpclient.apple (global-5-143.n-2.net.cam.ac.uk. [131.111.5.143])
+        by smtp.gmail.com with ESMTPSA id o6-20020adfe806000000b002bdf8dd6a8bsm12909713wrm.80.2023.01.30.15.38.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 30 Jan 2023 15:38:49 -0800 (PST)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
+Subject: Re: [PATCH 11/24] RISC-V: ACPI: irqchip/riscv-intc: Add ACPI support
+From:   Jessica Clarke <jrtc27@jrtc27.com>
+In-Reply-To: <20230130182225.2471414-12-sunilvl@ventanamicro.com>
+Date:   Mon, 30 Jan 2023 23:38:49 +0000
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <apatel@ventanamicro.com>,
+        linux-doc@vger.kernel.org, Atish Patra <atishp@rivosinc.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-acpi@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Andrew Jones <ajones@ventanamicro.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <AFDD5897-27A3-4418-B08B-9650B543692D@jrtc27.com>
+References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
+ <20230130182225.2471414-12-sunilvl@ventanamicro.com>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.1)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/28/23 01:35, Thorsten Leemhuis wrote:
-> Lo! One small quick question.
-> 
-> On 28.01.23 00:46, Shuah Khan wrote:
->> Add a new section to the admin-guide with information of interest to
->> application developers and system integrators doing analysis of the
->> Linux kernel for safety critical applications.
-> 
-> That intro made my mind go "neither 'application developers' or 'system
-> integrators' are admins, so why is this added to the 'admin guide' then?"
-> 
+On 30 Jan 2023, at 18:22, Sunil V L <sunilvl@ventanamicro.com> wrote:
+>=20
+> Add support for initializing the RISC-V INTC driver on ACPI based
+> platforms.
+>=20
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> ---
+> drivers/irqchip/irq-riscv-intc.c | 79 +++++++++++++++++++++++++++-----
+> 1 file changed, 67 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/irqchip/irq-riscv-intc.c =
+b/drivers/irqchip/irq-riscv-intc.c
+> index f229e3e66387..044ec92fcba7 100644
+> --- a/drivers/irqchip/irq-riscv-intc.c
+> +++ b/drivers/irqchip/irq-riscv-intc.c
+> @@ -6,6 +6,7 @@
+>  */
+>=20
+> #define pr_fmt(fmt) "riscv-intc: " fmt
+> +#include <linux/acpi.h>
+> #include <linux/atomic.h>
+> #include <linux/bits.h>
+> #include <linux/cpu.h>
+> @@ -112,6 +113,30 @@ static struct fwnode_handle =
+*riscv_intc_hwnode(void)
+> 	return intc_domain->fwnode;
+> }
+>=20
+> +static int __init riscv_intc_init_common(struct fwnode_handle *fn)
+> +{
+> +	int rc;
+> +
+> +	intc_domain =3D irq_domain_create_linear(fn, BITS_PER_LONG,
+> +					       &riscv_intc_domain_ops, =
+NULL);
+> +	if (!intc_domain) {
+> +		pr_err("unable to add IRQ domain\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	rc =3D set_handle_irq(&riscv_intc_irq);
+> +	if (rc) {
+> +		pr_err("failed to set irq handler\n");
+> +		return rc;
+> +	}
+> +
+> +	riscv_set_intc_hwnode_fn(riscv_intc_hwnode);
+> +
+> +	pr_info("%d local interrupts mapped\n", BITS_PER_LONG);
+> +
+> +	return 0;
+> +}
+> +
+> static int __init riscv_intc_init(struct device_node *node,
+> 				  struct device_node *parent)
+> {
+> @@ -133,24 +158,54 @@ static int __init riscv_intc_init(struct =
+device_node *node,
+> 	if (riscv_hartid_to_cpuid(hartid) !=3D smp_processor_id())
+> 		return 0;
+>=20
+> -	intc_domain =3D irq_domain_add_linear(node, BITS_PER_LONG,
+> -					    &riscv_intc_domain_ops, =
+NULL);
+> -	if (!intc_domain) {
+> -		pr_err("unable to add IRQ domain\n");
+> -		return -ENXIO;
+> -	}
+> -
+> -	rc =3D set_handle_irq(&riscv_intc_irq);
+> +	rc =3D riscv_intc_init_common(of_node_to_fwnode(node));
+> 	if (rc) {
+> -		pr_err("failed to set irq handler\n");
+> +		pr_err("failed to initialize INTC\n");
+> 		return rc;
+> 	}
+>=20
+> -	riscv_set_intc_hwnode_fn(riscv_intc_hwnode);
+> +	return 0;
+> +}
+>=20
+> -	pr_info("%d local interrupts mapped\n", BITS_PER_LONG);
+> +IRQCHIP_DECLARE(riscv, "riscv,cpu-intc", riscv_intc_init);
+> +
+> +#ifdef CONFIG_ACPI
+> +
+> +static int __init
+> +riscv_intc_acpi_init(union acpi_subtable_headers *header,
+> +		     const unsigned long end)
+> +{
+> +	int rc;
+> +	struct fwnode_handle *fn;
+> +	struct acpi_madt_rintc *rintc;
+> +
+> +	rintc =3D (struct acpi_madt_rintc *)header;
+> +
+> +	/*
+> +	 * The ACPI MADT will have one INTC for each CPU (or HART)
+> +	 * so riscv_intc_acpi_init() function will be called once
+> +	 * for each INTC. We only need to do INTC initialization
+> +	 * for the INTC belonging to the boot CPU (or boot HART).
+> +	 */
+> +	if (riscv_hartid_to_cpuid(rintc->hart_id) !=3D =
+smp_processor_id())
+> +		return 0;
 
-I see what you are saying.
+Why are we carrying forward this mess to ACPI? The DT bindings are
+awful and a complete pain to deal with, as evidenced by how both Linux
+and FreeBSD have to go out of their way to do special things to only
+look at one of the many copies of the same thing.
 
-> That made me look up the into for the admin guide, which is
-> ```
-> The Linux kernel user’s and administrator’s guide
-> 
-> The following is a collection of user-oriented documents that have been
-> added to the kernel over time. There is, as yet, little overall order or
-> organization here — this material was not written to be a single,
-> coherent document! With luck things will improve quickly over time.
-> ```
-> 
-> Adding another section that doesn't seem to a be a good fit feels a bit
-> like "making things worse than better".  So wouldn't this maybe be a
-> good opportunity to create a totally new top-level section for
-> application developers and system integrators, even if it's tiny for
-> now? The audience is likely big enough to justify that -- and the topics
-> are likely different enough, too (of course sometimes there will be
-> overlap, as always). Any maybe it will help to bring other stuff over
-> from admin guide that is more targeted for application developers and
-> system integrators, which will help to get more structure into the
-> admin-guide.
-> 
+Jess
 
-I like the idea of creating a new top-level section for application developers
-and system integrators. I foresee this section growing and also we can look
-at other documents that are a good fit under this category and move them over.
+> +
+> +	fn =3D irq_domain_alloc_named_fwnode("RISCV-INTC");
+> +	WARN_ON(fn =3D=3D NULL);
+> +	if (!fn) {
+> +		pr_err("unable to allocate INTC FW node\n");
+> +		return -1;
+> +	}
+> +
+> +	rc =3D riscv_intc_init_common(fn);
+> +	if (rc) {
+> +		pr_err("failed to initialize INTC\n");
+> +		return rc;
+> +	}
+>=20
+> 	return 0;
+> }
+>=20
+> -IRQCHIP_DECLARE(riscv, "riscv,cpu-intc", riscv_intc_init);
+> +IRQCHIP_ACPI_DECLARE(riscv_intc, ACPI_MADT_TYPE_RINTC,
+> +		     NULL, 1, riscv_intc_acpi_init);
+> +#endif
+> --=20
+> 2.38.0
+>=20
+>=20
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
-Jon, Thoughts on this.
-
-thanks,
--- Shuah
