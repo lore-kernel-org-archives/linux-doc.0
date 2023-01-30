@@ -2,92 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B514C54EED
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 15:52:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AACFDC54EED
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 16:20:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235634AbjA3PwT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 10:52:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34494 "EHLO
+        id S236058AbjA3QUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 11:20:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231936AbjA3PwS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 10:52:18 -0500
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DFF9172F;
-        Mon, 30 Jan 2023 07:52:14 -0800 (PST)
-Received: by mail-ej1-f53.google.com with SMTP id m2so32559927ejb.8;
-        Mon, 30 Jan 2023 07:52:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cBwjnk18irD2gYHr6RSTL8oiNSvKOVuusoOh34SmgAc=;
-        b=AML9uhFgfI79wmX3x8KTAa12hHOwjoEdaX6VimHtsLVtAwAZATN0X7WlxFdtnOKB1H
-         ldcahFJT/pH4nGIg1OyJA9Ju6vhuxSaqPVf/zNsxF1Miu3s3gozIEYDOtxR3t5D15GAN
-         fsrGCkmCFvudhK+UeRGiXOAWxWDIcaPHqsNaGrhsEL5jGFQAYFMjjKCpM3JizF+S+jSp
-         lCw2bIol0AWruSxRFE0uz1kOK9bv6elF20GSHwLgctckSrZDZp7fF2KmueMi/kKHa8LM
-         GB4aLs0TKgYYivvMtgOffJFdyH55Jy49c6aco07atp/GETAOMVcpXhkNes+ydRAvqTDu
-         FdSQ==
-X-Gm-Message-State: AFqh2krfP8lVWGOV+VNzPxqaE/9luNiqXAypwwbS0bmngJ7RDk4wi3e9
-        5TeS5lQMIOf02LT42Nza3UqvCiSqS3qYs2QmwRTmuR6a
-X-Google-Smtp-Source: AMrXdXu6GDWZV9lCohQER6b63rBHweFDQKwZc7orpDimzIW5qgv0HClbhF+U2d3rjBCDP6Kc6K74BeEWyW1QM/Y9yJA=
-X-Received: by 2002:a17:906:70d2:b0:844:44e0:1c4e with SMTP id
- g18-20020a17090670d200b0084444e01c4emr8712988ejk.291.1675093933118; Mon, 30
- Jan 2023 07:52:13 -0800 (PST)
+        with ESMTP id S236151AbjA3QUc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 11:20:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA8C7A5FF
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 08:19:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675095584;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dmuBGSidG6Nmq8f4XvQIj/jUDJBk2y6tQZ7DvgUNy9c=;
+        b=CHtksrmrgs88cZF2kys1kS0mN9S5PA071dA8XqZuFIBaZ2X1TQLlqwlXHACR3JxQCOVpGj
+        8/gnVfW9qGTa8YP/wNpUFPGdpbvfBGebJnKgfm5nO5iHFe6OnQY7P/yX7pd91jDq43lcz0
+        3yCBQ5rCIjBIbfjEkA0kWdDWDk5YT6M=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-654-DEhApBaDMHCSOB8Gy1IjMA-1; Mon, 30 Jan 2023 11:19:41 -0500
+X-MC-Unique: DEhApBaDMHCSOB8Gy1IjMA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3590382C96A;
+        Mon, 30 Jan 2023 16:19:40 +0000 (UTC)
+Received: from [10.18.17.153] (dhcp-17-153.bos.redhat.com [10.18.17.153])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6ACEF492B05;
+        Mon, 30 Jan 2023 16:19:40 +0000 (UTC)
+Message-ID: <a48ce53c-5510-b779-c42d-b2e7367a442e@redhat.com>
+Date:   Mon, 30 Jan 2023 11:19:40 -0500
 MIME-Version: 1.0
-References: <20230127064005.1558-1-rdunlap@infradead.org> <20230127064005.1558-10-rdunlap@infradead.org>
-In-Reply-To: <20230127064005.1558-10-rdunlap@infradead.org>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 30 Jan 2023 16:52:01 +0100
-Message-ID: <CAJZ5v0h9_P7wke=KC2=nsLFmQmjh_0Fxao6WeKKnbOSdU_v-NQ@mail.gmail.com>
-Subject: Re: [PATCH 09/35] Documentation: firmware-guide/acpi: correct spelling
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] doc: locktorture fix
+Content-Language: en-US
+To:     Antonio Paolillo <antonio.paolillo@huawei.com>,
+        peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        boqun.feng@gmail.com, corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20230130125538.20359-1-antonio.paolillo@huawei.com>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20230130125538.20359-1-antonio.paolillo@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 27, 2023 at 7:40 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Correct spelling problems for Documentation/firmware-guide/ as reported
-> by codespell.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: linux-acpi@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/firmware-guide/acpi/acpi-lid.rst  |    2 +-
->  Documentation/firmware-guide/acpi/namespace.rst |    2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff -- a/Documentation/firmware-guide/acpi/acpi-lid.rst b/Documentation/firmware-guide/acpi/acpi-lid.rst
-> --- a/Documentation/firmware-guide/acpi/acpi-lid.rst
-> +++ b/Documentation/firmware-guide/acpi/acpi-lid.rst
-> @@ -34,7 +34,7 @@ state upon the last _LID evaluation. The
->  _LID control method is evaluated during the runtime, the problem is its
->  initial returning value. When the AML tables implement this control method
->  with cached value, the initial returning value is likely not reliable.
-> -There are platforms always retun "closed" as initial lid state.
-> +There are platforms always return "closed" as initial lid state.
->
->  Restrictions of the lid state change notifications
->  ==================================================
-> diff -- a/Documentation/firmware-guide/acpi/namespace.rst b/Documentation/firmware-guide/acpi/namespace.rst
-> --- a/Documentation/firmware-guide/acpi/namespace.rst
-> +++ b/Documentation/firmware-guide/acpi/namespace.rst
-> @@ -31,7 +31,7 @@ Description Table).  The XSDT always poi
->  Description Table) using its first entry, the data within the FADT
->  includes various fixed-length entries that describe fixed ACPI features
->  of the hardware.  The FADT contains a pointer to the DSDT
-> -(Differentiated System Descripition Table).  The XSDT also contains
-> +(Differentiated System Description Table).  The XSDT also contains
->  entries pointing to possibly multiple SSDTs (Secondary System
->  Description Table).
 
-Applied as 6.3 material, thanks!
+On 1/30/23 07:55, Antonio Paolillo wrote:
+> The actual build option for rtmutex lock is `CONFIG_RT_MUTEXES`, not
+> `CONFIG_RT_MUTEX`.
+>
+> Signed-off-by: Antonio Paolillo <antonio.paolillo@huawei.com>
+> ---
+>   Documentation/locking/locktorture.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/locking/locktorture.rst b/Documentation/locking/locktorture.rst
+> index dfaf9fc883f4..3f7b44e2c070 100644
+> --- a/Documentation/locking/locktorture.rst
+> +++ b/Documentation/locking/locktorture.rst
+> @@ -67,7 +67,7 @@ torture_type
+>   
+>   		     - "rtmutex_lock":
+>   				rtmutex_lock() and rtmutex_unlock() pairs.
+> -				Kernel must have CONFIG_RT_MUTEX=y.
+> +				Kernel must have CONFIG_RT_MUTEXES=y.
+>   
+>   		     - "rwsem_lock":
+>   				read/write down() and up() semaphore pairs.
+Acked-by: Waiman Long <longman@redhat.com>
+
