@@ -2,186 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7291C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 09:05:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31162C54EAA
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Jan 2023 09:30:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235951AbjA3JFw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 04:05:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46730 "EHLO
+        id S235494AbjA3Jak (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 04:30:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235919AbjA3JFv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 04:05:51 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 345242D17E;
-        Mon, 30 Jan 2023 01:05:46 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id f34so17918643lfv.10;
-        Mon, 30 Jan 2023 01:05:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tLCAXpHbS1+35cXDsfgnrrYIidUGSDznuqt+LFz2Kpo=;
-        b=B93D20grY8ixaFD84MbroYvYkrqlmHstoeTfuwxzoODbajqVlY28+EUIJCnZGL3eYM
-         huRAq630DBO8DkJI6595oYyicBYF8Eh6mS7+ouJG9r8dRrx1F2dTzgzT5l8HC/kMFk2W
-         69UrEapRmtkfe2j99vXYup/YdMx/nETF3d8JZtB5JUWs8NRF4R+0buMXfZJF0H3d4UwX
-         GWvIv+fXLsdjY5al0DWqmYPhyI2V476WdgxwZR52vVQLF2MjC5zwXpXrKg8KZ7833KDb
-         fDFTg02zuDc0vXqkRjXHuJpaRRkd15yy405valAeKVNxY4E5lIsPKwRP89yJ4gz6tGz0
-         Nquw==
+        with ESMTP id S236669AbjA3J36 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 04:29:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4027D31E29
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 01:26:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675070741;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=LZuPrOqnF+C8depmt/jN3f7zksAKoJMpdivybnIZgog=;
+        b=f6qDC3X9a5/rPzlMFtN1NiSqHOYNxptz5WOsjUR8Ohq9cW8RvaLHkeam5Y/a9QrXGMy9GD
+        VhKVh9Ghzcjf+a4BQ2W/+DQuVgWNi45zqBBv+d/DL9aoxashVkpzyCJshoKKG3scu4Dd0O
+        UOZdMGm5GbD10PS9DbYRXaKkYJKoINw=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-348-h1LsR3Q3PISE34a6varsEw-1; Mon, 30 Jan 2023 04:25:40 -0500
+X-MC-Unique: h1LsR3Q3PISE34a6varsEw-1
+Received: by mail-qk1-f197.google.com with SMTP id q21-20020a05620a0d9500b0070572ccdbf9so6800020qkl.10
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jan 2023 01:25:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tLCAXpHbS1+35cXDsfgnrrYIidUGSDznuqt+LFz2Kpo=;
-        b=QmLkkuJxrX142BouRiXeyjbATfGvTuxSTcizPpiyrCpUJpKTj+86r7n4Uqrtsohvgj
-         J0WMJH8SilYtke5kTZnymgmcaMihU7P5GTxTIUedQxszvPdugQzqNr0eU7kvGs6USgMa
-         iKU/LLJTM+XRYfwpgsYOttsQTw0wZRllmr3j5KwSJ6wuL8TH99IJU6QHXwqOZFyf7PQu
-         oeKSC47jgm4k4Teu6yErmCzxe2lEXwrP93180X7PitWKFEn5OvUrbSsmdJqA1oMC6Fer
-         AcPxL+qIULjfDnCs3SPTIq4OxWhtUbnmLkRF3jq0CjgEBDNzUwkiOUD0d6L1WFuD91ZF
-         FMAQ==
-X-Gm-Message-State: AFqh2kr9rJhyHzkYhmtXpZPXjjIHL6zCVp9yIbxGw4BFi17/ziJCBMkK
-        PMGg7ryQFzLabKfjcaAGK2icwbEg3rk6NW9lqnFmz+ra+IMl2w==
-X-Google-Smtp-Source: AMrXdXt3tKUbF9CKwfmvskIYVhEVt8Sq7L1zFIeZ/3VPbZhmSyZMbTOSjYPcurdivSyy8lMZuEV1XCFm5QAX+7vvXp0=
-X-Received: by 2002:a19:ae09:0:b0:4b5:2830:8998 with SMTP id
- f9-20020a19ae09000000b004b528308998mr2860087lfc.267.1675069544247; Mon, 30
- Jan 2023 01:05:44 -0800 (PST)
-MIME-Version: 1.0
-References: <Y9Tm1FiKBPKA2Tcx@localhost.localdomain>
-In-Reply-To: <Y9Tm1FiKBPKA2Tcx@localhost.localdomain>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Mon, 30 Jan 2023 17:05:07 +0800
-Message-ID: <CAJy-Am=qNEDUMi-K679a+uAZgegWmAgQS5_wKtbXX1ecX=ai4Q@mail.gmail.com>
-Subject: Re: [PATCH] Doc/damon: fix the data path error
-To:     Hui Su <suhui_kernel@163.com>
-Cc:     sj@kernel.org, corbet@lwn.net, alexs@kernel.org,
-        siyanteng@loongson.cn, rppt@kernel.org, bobwxc@email.cn,
-        damon@lists.linux.dev, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LZuPrOqnF+C8depmt/jN3f7zksAKoJMpdivybnIZgog=;
+        b=H3UOsIMqw/8PYT/waUPj6hz6B5ZYIWtx8NchmoYj6J8k+piQpxuwb+qUJFUE+DZ3WK
+         N8Xpd0uvy9B2Ka8cvx0uE9A3Ea1o7PbE6OAzyjTMhx8UpR353IxUWGXSx6VGpAKJw0kR
+         CTt16cvLllgIJTS489GNDo9FszHGh9DDE6D82BLeW5bt708Y0rFSR5jY0xwUWRICAn46
+         UrO57XIv7k+mdlGHuHuuuGl+gmJBYDZojJVdn/+s6AMdTczQJVBt2RZm2UCVHr10K1ob
+         HQjTeMvRB+CswX5Fae2N/mEh90RBgSpyEvOCYJZTVQFTsC23DFINxha6a/Ms/lFY+b8W
+         aBPQ==
+X-Gm-Message-State: AO0yUKVQVfONpxnxSC0VI3xFH9LvnJMY0fI5TaMcL4GwZpzWJ3oi/p/g
+        NZIGQIe/eWKlGhUlLqcsXv9auNO7GBkeaaYWKQdpZScpxI8FhmzpnNbMN5YSCTpKeLI6lM1Sp49
+        GdAveG2BbB+41ghzRyLM6
+X-Received: by 2002:a05:622a:181d:b0:3b8:2e8b:d8af with SMTP id t29-20020a05622a181d00b003b82e8bd8afmr15551765qtc.55.1675070739705;
+        Mon, 30 Jan 2023 01:25:39 -0800 (PST)
+X-Google-Smtp-Source: AK7set+sOy41UT/ZDZMZ+wD1t8Z2kvoWXElgYvFvcoYAAmKffuSNPDnxwXj7d39+hiX6c43hfutP+w==
+X-Received: by 2002:a05:622a:181d:b0:3b8:2e8b:d8af with SMTP id t29-20020a05622a181d00b003b82e8bd8afmr15551748qtc.55.1675070739417;
+        Mon, 30 Jan 2023 01:25:39 -0800 (PST)
+Received: from gerbillo.redhat.com (146-241-113-28.dyn.eolo.it. [146.241.113.28])
+        by smtp.gmail.com with ESMTPSA id em7-20020a05622a438700b003b646123691sm7596192qtb.31.2023.01.30.01.25.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 01:25:38 -0800 (PST)
+Message-ID: <6758c48d926845ae323a68fb4649fb982e2321c4.camel@redhat.com>
+Subject: Re: [PATCH net-next v2 0/3] net: introduce rps_default_mask
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Saeed Mahameed <saeed@kernel.org>, netdev@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Daniel Borkmann <daniel@iogearbox.net>
+Date:   Mon, 30 Jan 2023 10:25:34 +0100
+In-Reply-To: <20201104114226.250a4e85@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+References: <cover.1604055792.git.pabeni@redhat.com>
+                <20201102145447.0074f272@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+         <86c37d881a93d5690faf20de3bccceca1493fd74.camel@redhat.com>
+            <20201103085245.3397defa@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+         <79c58e6cf23196b73887b20802daebd59fe89476.camel@redhat.com>
+         <20201104114226.250a4e85@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alexsshi@kernel.org>
+Hi all,
 
-On Sat, Jan 28, 2023 at 5:12 PM Hui Su <suhui_kernel@163.com> wrote:
->
-> %s/modules/module/
->
-> Signed-off-by: Hui Su <suhui_kernel@163.com>
-> ---
->  Documentation/admin-guide/mm/damon/lru_sort.rst               | 4 ++--
->  Documentation/admin-guide/mm/damon/reclaim.rst                | 4 ++--
->  .../translations/zh_CN/admin-guide/mm/damon/reclaim.rst       | 4 ++--
->  3 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentat=
-ion/admin-guide/mm/damon/lru_sort.rst
-> index c09cace80651..7b0775d281b4 100644
-> --- a/Documentation/admin-guide/mm/damon/lru_sort.rst
-> +++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
-> @@ -54,7 +54,7 @@ that is built with ``CONFIG_DAMON_LRU_SORT=3Dy``.
->  To let sysadmins enable or disable it and tune for the given system,
->  DAMON_LRU_SORT utilizes module parameters.  That is, you can put
->  ``damon_lru_sort.<parameter>=3D<value>`` on the kernel boot command line=
- or write
-> -proper values to ``/sys/modules/damon_lru_sort/parameters/<parameter>`` =
-files.
-> +proper values to ``/sys/module/damon_lru_sort/parameters/<parameter>`` f=
-iles.
->
->  Below are the description of each parameter.
->
-> @@ -283,7 +283,7 @@ doesn't make progress and therefore the free memory r=
-ate becomes lower than
->  20%, it asks DAMON_LRU_SORT to do nothing again, so that we can fall bac=
-k to
->  the LRU-list based page granularity reclamation. ::
->
-> -    # cd /sys/modules/damon_lru_sort/parameters
-> +    # cd /sys/module/damon_lru_sort/parameters
->      # echo 500 > hot_thres_access_freq
->      # echo 120000000 > cold_min_age
->      # echo 10 > quota_ms
-> diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentati=
-on/admin-guide/mm/damon/reclaim.rst
-> index 4f1479a11e63..d2ccd9c21b9a 100644
-> --- a/Documentation/admin-guide/mm/damon/reclaim.rst
-> +++ b/Documentation/admin-guide/mm/damon/reclaim.rst
-> @@ -46,7 +46,7 @@ that is built with ``CONFIG_DAMON_RECLAIM=3Dy``.
->  To let sysadmins enable or disable it and tune for the given system,
->  DAMON_RECLAIM utilizes module parameters.  That is, you can put
->  ``damon_reclaim.<parameter>=3D<value>`` on the kernel boot command line =
-or write
-> -proper values to ``/sys/modules/damon_reclaim/parameters/<parameter>`` f=
-iles.
-> +proper values to ``/sys/module/damon_reclaim/parameters/<parameter>`` fi=
-les.
->
->  Below are the description of each parameter.
->
-> @@ -251,7 +251,7 @@ therefore the free memory rate becomes lower than 20%=
-, it asks DAMON_RECLAIM to
->  do nothing again, so that we can fall back to the LRU-list based page
->  granularity reclamation. ::
->
-> -    # cd /sys/modules/damon_reclaim/parameters
-> +    # cd /sys/module/damon_reclaim/parameters
->      # echo 30000000 > min_age
->      # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
->      # echo 1000 > quota_reset_interval_ms
-> diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclai=
-m.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-> index c976f3e33ffd..d15a2f20bb11 100644
-> --- a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-> +++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-> @@ -45,7 +45,7 @@ DAMON_RECLAIM=E6=89=BE=E5=88=B0=E5=9C=A8=E7=89=B9=E5=AE=
-=9A=E6=97=B6=E9=97=B4=E5=86=85=E6=B2=A1=E6=9C=89=E8=A2=AB=E8=AE=BF=E9=97=AE=
-=E7=9A=84=E5=86=85=E5=AD=98=E5=8C=BA=E5=9F=9F=E5=B9=B6=E5=88=86=E9=A1=B5=E3=
-=80=82
->
->  =E4=B8=BA=E4=BA=86=E8=AE=A9=E7=B3=BB=E7=BB=9F=E7=AE=A1=E7=90=86=E5=91=98=
-=E5=90=AF=E7=94=A8=E6=88=96=E7=A6=81=E7=94=A8=E5=AE=83=EF=BC=8C=E5=B9=B6=E4=
-=B8=BA=E7=BB=99=E5=AE=9A=E7=9A=84=E7=B3=BB=E7=BB=9F=E8=BF=9B=E8=A1=8C=E8=B0=
-=83=E6=95=B4=EF=BC=8CDAMON_RECLAIM=E5=88=A9=E7=94=A8=E4=BA=86=E6=A8=A1=E5=
-=9D=97=E5=8F=82=E6=95=B0=E3=80=82=E4=B9=9F=E5=B0=B1
->  =E6=98=AF=E8=AF=B4=EF=BC=8C=E4=BD=A0=E5=8F=AF=E4=BB=A5=E6=8A=8A ``damon_=
-reclaim.<parameter>=3D<value>`` =E6=94=BE=E5=9C=A8=E5=86=85=E6=A0=B8=E5=90=
-=AF=E5=8A=A8=E5=91=BD=E4=BB=A4=E8=A1=8C=E4=B8=8A=EF=BC=8C=E6=88=96=E8=80=85=
-=E6=8A=8A
-> -=E9=80=82=E5=BD=93=E7=9A=84=E5=80=BC=E5=86=99=E5=85=A5 ``/sys/modules/da=
-mon_reclaim/parameters/<parameter>`` =E6=96=87=E4=BB=B6=E3=80=82
-> +=E9=80=82=E5=BD=93=E7=9A=84=E5=80=BC=E5=86=99=E5=85=A5 ``/sys/module/dam=
-on_reclaim/parameters/<parameter>`` =E6=96=87=E4=BB=B6=E3=80=82
->
->  =E6=B3=A8=E6=84=8F=EF=BC=8C=E9=99=A4 ``=E5=90=AF=E7=94=A8`` =E5=A4=96=E7=
-=9A=84=E5=8F=82=E6=95=B0=E5=80=BC=E5=8F=AA=E5=9C=A8DAMON_RECLAIM=E5=90=AF=
-=E5=8A=A8=E6=97=B6=E5=BA=94=E7=94=A8=E3=80=82=E5=9B=A0=E6=AD=A4=EF=BC=8C=E5=
-=A6=82=E6=9E=9C=E4=BD=A0=E6=83=B3=E5=9C=A8=E8=BF=90=E8=A1=8C=E6=97=B6=E5=BA=
-=94=E7=94=A8=E6=96=B0
->  =E7=9A=84=E5=8F=82=E6=95=B0=E5=80=BC=EF=BC=8C=E8=80=8CDAMON_RECLAIM=E5=
-=B7=B2=E7=BB=8F=E8=A2=AB=E5=90=AF=E7=94=A8=EF=BC=8C=E4=BD=A0=E5=BA=94=E8=AF=
-=A5=E9=80=9A=E8=BF=87 ``=E5=90=AF=E7=94=A8`` =E7=9A=84=E5=8F=82=E6=95=B0=E6=
-=96=87=E4=BB=B6=E7=A6=81=E7=94=A8=E5=92=8C=E9=87=8D=E6=96=B0=E5=90=AF=E7=94=
-=A8=E5=AE=83=E3=80=82
-> @@ -218,7 +218,7 @@ nr_quota_exceeds
->  =E5=B0=B1=E5=BC=80=E5=A7=8B=E7=9C=9F=E6=AD=A3=E7=9A=84=E5=B7=A5=E4=BD=9C=
-=E3=80=82=E5=A6=82=E6=9E=9CDAMON_RECLAIM=E6=B2=A1=E6=9C=89=E5=8F=96=E5=BE=
-=97=E8=BF=9B=E5=B1=95=EF=BC=8C=E5=9B=A0=E6=AD=A4=E7=A9=BA=E9=97=B2=E5=86=85=
-=E5=AD=98=E7=8E=87=E4=BD=8E=E4=BA=8E20%=EF=BC=8C=E5=AE=83=E4=BC=9A=E8=A6=81=
-=E6=B1=82
->  DAMON_RECLAIM=E5=86=8D=E6=AC=A1=E4=BB=80=E4=B9=88=E9=83=BD=E4=B8=8D=E5=
-=81=9A=EF=BC=8C=E8=BF=99=E6=A0=B7=E6=88=91=E4=BB=AC=E5=B0=B1=E5=8F=AF=E4=BB=
-=A5=E9=80=80=E5=9B=9E=E5=88=B0=E5=9F=BA=E4=BA=8ELRU=E5=88=97=E8=A1=A8=E7=9A=
-=84=E9=A1=B5=E9=9D=A2=E7=B2=92=E5=BA=A6=E5=9B=9E=E6=94=B6=E4=BA=86::
->
-> -    # cd /sys/modules/damon_reclaim/parameters
-> +    # cd /sys/module/damon_reclaim/parameters
->      # echo 30000000 > min_age
->      # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
->      # echo 1000 > quota_reset_interval_ms
-> --
-> 2.34.1
->
+On Wed, 2020-11-04 at 12:42 -0700, Jakub Kicinski wrote:
+> On Wed, 04 Nov 2020 18:36:08 +0100 Paolo Abeni wrote:
+> > On Tue, 2020-11-03 at 08:52 -0800, Jakub Kicinski wrote:
+> > > On Tue, 03 Nov 2020 16:22:07 +0100 Paolo Abeni wrote: =20
+> > > > The relevant use case is an host running containers (with the relat=
+ed
+> > > > orchestration tools) in a RT environment. Virtual devices (veths, o=
+vs
+> > > > ports, etc.) are created by the orchestration tools at run-time.
+> > > > Critical processes are allowed to send packets/generate outgoing
+> > > > network traffic - but any interrupt is moved away from the related
+> > > > cores, so that usual incoming network traffic processing does not
+> > > > happen there.
+> > > >=20
+> > > > Still an xmit operation on a virtual devices may be transmitted via=
+ ovs
+> > > > or veth, with the relevant forwarding operation happening in a soft=
+irq
+> > > > on the same CPU originating the packet.=20
+> > > >=20
+> > > > RPS is configured (even) on such virtual devices to move away the
+> > > > forwarding from the relevant CPUs.
+> > > >=20
+> > > > As Saeed noted, such configuration could be possibly performed via =
+some
+> > > > user-space daemon monitoring network devices and network namespaces
+> > > > creation. That will be anyway prone to some race: the orchestation =
+tool
+> > > > may create and enable the netns and virtual devices before the daem=
+on
+> > > > has properly set the RPS mask.
+> > > >=20
+> > > > In the latter scenario some packet forwarding could still slip in t=
+he
+> > > > relevant CPU, causing measurable latency. In all non RT scenarios t=
+he
+> > > > above will be likely irrelevant, but in the RT context that is not
+> > > > acceptable - e.g. it causes in real environments latency above the
+> > > > defined limits, while the proposed patches avoid the issue.
+> > > >=20
+> > > > Do you see any other simple way to avoid the above race?
+> > > >=20
+> > > > Please let me know if the above answers your doubts, =20
+> > >=20
+> > > Thanks, that makes it clearer now.
+> > >=20
+> > > Depending on how RT-aware your container management is it may or may =
+not
+> > > be the right place to configure this, as it creates the veth interfac=
+e.
+> > > Presumably it's the container management which does the placement of
+> > > the tasks to cores, why is it not setting other attributes, like RPS?=
+ =20
+> >=20
+> > The container orchestration is quite complex, and I'm unsure isolation
+> > and networking configuration are performed (or can be performed) by the
+> > same precess (without an heavy refactor).
+> >=20
+> > On the flip hand, the global rps mask knob looked quite
+> > straightforward to me.
+>=20
+> I understand, but I can't shake the feeling this is a hack.
+>=20
+> Whatever sets the CPU isolation should take care of the RPS settings.
+
+Let me try for a moment to revive this old thread.
+
+Tha series proposed a new sysctl know to implement a global/default rps
+mask applying to all the network devices as a way to simplify some RT
+setups. It has been rejected as the required task is doable in user-
+space.
+
+Currently the orchestration infrastructure does that, setting the per
+device, per queue rps mask and CPU isolation.
+
+The above leads to a side problem: when there are lot of netns/devices
+with several queues, even a reasonably optimized user-space solution
+takes a relevant amount of time to traverse the relevant sysfs dirs and
+do I/O on them. Overall the additional time required is very
+measurable, easily ranging in seconds.
+
+The default_rps_mask would basically kill that overhead.
+
+Is the above a suitable use case?
+
+Thanks,
+
+Paolo
+
