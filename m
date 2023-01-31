@@ -2,75 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DC89C38142
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 18:59:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A199C38142
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 19:18:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231950AbjAaS7M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 13:59:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48604 "EHLO
+        id S230138AbjAaTSL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 14:18:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231591AbjAaS7L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 13:59:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 844637DA7
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 10:58:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675191507;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=l7tzX0t5tlba4d+0kGCy928BmXovYy5bml6WiFdiF8A=;
-        b=Lp0Q90/Cyw07cnOeMJpo5rJgF5d/7h9hKfGG66Wkqxoz5yEa/NW0vr4BwMRgqU1HrO6FT5
-        j71kYdpVBKf1wg/rBfyTgmebIc31HW/0nBtG86H+2h/KqtMgJTgZv9RHSnXFAZ4HpEZ3X0
-        Lp9W3XvkMpDmDpvtxz5pOLH3X/rcZCQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-175-zUUhR5-gOUue7ht0ZQS1Rw-1; Tue, 31 Jan 2023 13:58:09 -0500
-X-MC-Unique: zUUhR5-gOUue7ht0ZQS1Rw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S229875AbjAaTSK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 14:18:10 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3576CCA06
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 11:18:08 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99652299E76C;
-        Tue, 31 Jan 2023 18:58:08 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (ovpn-194-65.brq.redhat.com [10.40.194.65])
-        by smtp.corp.redhat.com (Postfix) with SMTP id E67E7175A2;
-        Tue, 31 Jan 2023 18:58:05 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Tue, 31 Jan 2023 19:58:06 +0100 (CET)
-Date:   Tue, 31 Jan 2023 19:58:02 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Gregory Price <gourry.memverge@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        avagin@gmail.com, peterz@infradead.org, luto@kernel.org,
-        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
-        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v8 1/1] ptrace,syscall_user_dispatch: checkpoint/restore
- support for SUD
-Message-ID: <20230131185802.GA7999@redhat.com>
-References: <20230131144458.1980891-1-gregory.price@memverge.com>
- <20230131144458.1980891-2-gregory.price@memverge.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id CDC9DB81E62
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 19:18:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC2BC433EF;
+        Tue, 31 Jan 2023 19:18:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675192685;
+        bh=cZwQsj7zCuN/ZBXASMD3jGsWx6jEe3RSZwBQzz++cD4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lwXGvPxNLt3YynD5LnEctavL5Ptrr97YgRKfJQhspTo0lSEVqgkgRjqcZGSmNeClZ
+         cG+mXAgFrgeoAHDOoFZQ3Mvm4Wn3HDCoKSfmvLk55tpkUvnNPU9jEUZfI+20gtUUEM
+         nNXw1J9kHPYTR9cfqY7qkCSeLsaEfs4qqtZOcX6v6KdZ9JUcVus9AO8yclD6rCRnFT
+         vED0nZMMDryNhELQsNrvKdth7EQQRcVGZOslHBn0uKiY36xC6M64aqtEsMm7TjAviC
+         riQX+RNhMKPp0RPAjdUB5n8VY08YV/WyBZFf1ZaGmKU/0AolriyWhNCbXqpICeIg3C
+         76/gvs/9xpCsg==
+Date:   Tue, 31 Jan 2023 19:18:01 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     palmer@dabbelt.com, Conor Dooley <conor.dooley@microchip.com>,
+        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] Documentation: riscv: fix insufficient list item indent
+Message-ID: <Y9lpaRqUEB2YbLyG@spud>
+References: <20230129235701.2393241-1-conor@kernel.org>
+ <Y9c0EU5epWCeoPB8@debian.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="KfleKO/dpQtTBG2W"
 Content-Disposition: inline
-In-Reply-To: <20230131144458.1980891-2-gregory.price@memverge.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+In-Reply-To: <Y9c0EU5epWCeoPB8@debian.me>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/31, Gregory Price wrote:
->
-> Implement ptrace getter/setter interface for syscall user dispatch.
->
-> These prctl settings are presently write-only, making it impossible to
-> implement transparent checkpoint/restore via software like CRIU.
->
-> 'on_dispatch' field is not exposed because it is a kernel-internal
-> only field that cannot be 'true' when returning to userland.
->
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
 
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+--KfleKO/dpQtTBG2W
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jan 30, 2023 at 10:05:53AM +0700, Bagas Sanjaya wrote:
+> On Sun, Jan 29, 2023 at 11:57:01PM +0000, Conor Dooley wrote:
+> > From: Conor Dooley <conor.dooley@microchip.com>
+> >=20
+> > When adding the ISA string ordering rules, I didn't sufficiently indent
+> > one of the list items.
+> >=20
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Fixes: f07b2b3f9d47 ("Documentation: riscv: add a section about ISA str=
+ing ordering in /proc/cpuinfo")
+> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+>=20
+> Seems like you forget to add link to the report:
+>=20
+> Link: https://lore.kernel.org/linux-doc/202301300743.bp7Dpazv-lkp@intel.c=
+om/
+
+No, I didn't forget actually. I just didn't think it added any useful
+information. No harm having it though I suppose, but I'll not resend to
+add it.
+
+Thanks,
+Conor.
+
+
+--KfleKO/dpQtTBG2W
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY9lpaQAKCRB4tDGHoIJi
+0ih/AQC+TeHV/3+1O+NNsjnBzkujEaNpT2VXVNV6Q1vv1d1HewEAhlYO/6QyCe0s
+ax/fDL8w/9YdvqqAmdR8GMrsOMqsrwg=
+=v+t0
+-----END PGP SIGNATURE-----
+
+--KfleKO/dpQtTBG2W--
