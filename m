@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE94FC636D3
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 02:34:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 520B1C636D7
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 02:34:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229961AbjAaCeK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 21:34:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50490 "EHLO
+        id S229966AbjAaCeL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 21:34:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbjAaCeF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 21:34:05 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6795D2E0D1;
-        Mon, 30 Jan 2023 18:34:01 -0800 (PST)
+        with ESMTP id S229964AbjAaCeG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 21:34:06 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68F653609C;
+        Mon, 30 Jan 2023 18:34:00 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CAE0B6137C;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 575CA61234;
         Tue, 31 Jan 2023 02:34:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0520C433A7;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 671C3C4339E;
         Tue, 31 Jan 2023 02:33:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675132440;
-        bh=KggMQEsmSl8PR2yfZlThOc/TNq4x7jnDsNjBWH9GRbc=;
+        s=k20201202; t=1675132439;
+        bh=cY+HZdRNd8OIFxn9pJrtYSKQIVlqBCGFUCPGH3foy94=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pH4dqKDxuJme6bfamp0WzAFDwp3axD8/IJ20aTs/gkWkbAmPfdeApOu61jl/cuqtH
-         MpCScbIE1gcsgh1U+9eD3GDIOtqyuVaegvTaFp+8YZLH0PDAakq/1b0HQ1I8XTljgP
-         kanlJdEwPHTUH6VqftjHIxlht59acSLZuspu+ODx4JAc3/5NEO/T7H5wKWFC4bjxt0
-         mDsd2crxFrJ9stBE7gpP1Yfzpn/uAnYG1Op5t37OxFXT8QKI/yrwSJO/tz50ge52Dn
-         1lrBsizJNFrnQYCKoJppqNFMfMO6oz8cYXDH1DsVJUJMcFfsc8SwBaSFS30AeD8mC5
-         OYIVuYI/X+RMw==
+        b=CjfPuBHwTuqtpoB9GAI/vMzB5lkVAS0OMLsavjb6xwnE8BJq4LXQzNBNrMwQqp8xk
+         imYa8MUTBPDrUHertK9AdPOjWQqwCslkv9ldujC9Nnu4AWpr8McSTc1//8LhFTeFh6
+         vaqk5A4D9nxQR2yTFm08dmChcNrhqIoGLOuA1qQyWCJYM70gOaU4VVk5F9YS8skwJ7
+         JqddfBe9+JNBsErRyB4ebvEpcRhUr5A8laTqoGY5Kdz9bFn8ANd5OfxWRIQA9lsUQW
+         LVJ61ldeUWIgmnT3OhjU8yBgjIiVn7lU5H2m7ERt1mZJJmMWo4ffA3avUoZ6w5iQa0
+         UuMMYyba9GnWg==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
         sdf@google.com, linux-doc@vger.kernel.org,
         Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next v2 02/14] tools: ynl: move the cli and netlink code around
-Date:   Mon, 30 Jan 2023 18:33:42 -0800
-Message-Id: <20230131023354.1732677-3-kuba@kernel.org>
+Subject: [PATCH net-next v2 01/14] tools: ynl-gen: prevent do / dump reordering
+Date:   Mon, 30 Jan 2023 18:33:41 -0800
+Message-Id: <20230131023354.1732677-2-kuba@kernel.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230131023354.1732677-1-kuba@kernel.org>
 References: <20230131023354.1732677-1-kuba@kernel.org>
@@ -48,55 +48,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move the CLI code out of samples/ and the library part
-of it into tools/net/ynl/lib/. This way we can start
-sharing some code with the code gen.
-
-Initially I thought that code gen is too C-specific to
-share anything but basic stuff like calculating values
-for enums can easily be shared.
+An earlier fix tried to address generated code jumping around
+one code-gen run to another. Turns out dict()s are already
+ordered since Python 3.7, the problem is that we iterate over
+operation modes using a set(). Sets are unordered in Python.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- tools/net/ynl/{samples => }/cli.py    | 2 +-
- tools/net/ynl/lib/__init__.py         | 5 +++++
- tools/net/ynl/{samples => lib}/ynl.py | 0
- 3 files changed, 6 insertions(+), 1 deletion(-)
- rename tools/net/ynl/{samples => }/cli.py (97%)
- create mode 100644 tools/net/ynl/lib/__init__.py
- rename tools/net/ynl/{samples => lib}/ynl.py (100%)
+ tools/net/ynl/ynl-gen-c.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/net/ynl/samples/cli.py b/tools/net/ynl/cli.py
-similarity index 97%
-rename from tools/net/ynl/samples/cli.py
-rename to tools/net/ynl/cli.py
-index b27159c70710..5c4eb5a68514 100755
---- a/tools/net/ynl/samples/cli.py
-+++ b/tools/net/ynl/cli.py
-@@ -6,7 +6,7 @@ import json
- import pprint
- import time
+diff --git a/tools/net/ynl/ynl-gen-c.py b/tools/net/ynl/ynl-gen-c.py
+index 1aa872e582ab..e5002d420961 100755
+--- a/tools/net/ynl/ynl-gen-c.py
++++ b/tools/net/ynl/ynl-gen-c.py
+@@ -933,7 +933,7 @@ import yaml
+             if attr_set_name != op['attribute-set']:
+                 raise Exception('For a global policy all ops must use the same set')
  
--from ynl import YnlFamily
-+from lib import YnlFamily
+-            for op_mode in {'do', 'dump'}:
++            for op_mode in ['do', 'dump']:
+                 if op_mode in op:
+                     global_set.update(op[op_mode].get('request', []))
  
+@@ -2244,7 +2244,7 @@ _C_KW = {
  
- def main():
-diff --git a/tools/net/ynl/lib/__init__.py b/tools/net/ynl/lib/__init__.py
-new file mode 100644
-index 000000000000..0a6102758ebe
---- /dev/null
-+++ b/tools/net/ynl/lib/__init__.py
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: BSD-3-Clause
-+
-+from .ynl import YnlFamily
-+
-+__all__ = ["YnlFamily"]
-diff --git a/tools/net/ynl/samples/ynl.py b/tools/net/ynl/lib/ynl.py
-similarity index 100%
-rename from tools/net/ynl/samples/ynl.py
-rename to tools/net/ynl/lib/ynl.py
+             for op_name, op in parsed.ops.items():
+                 if parsed.kernel_policy in {'per-op', 'split'}:
+-                    for op_mode in {'do', 'dump'}:
++                    for op_mode in ['do', 'dump']:
+                         if op_mode in op and 'request' in op[op_mode]:
+                             cw.p(f"/* {op.enum_name} - {op_mode} */")
+                             ri = RenderInfo(cw, parsed, args.mode, op, op_name, op_mode)
 -- 
 2.39.1
 
