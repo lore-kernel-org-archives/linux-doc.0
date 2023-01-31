@@ -2,89 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8067BC38142
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 15:11:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02480C636CC
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 15:13:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232971AbjAaPK7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 10:10:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
+        id S232904AbjAaPN4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 10:13:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233692AbjAaPKi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 10:10:38 -0500
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CDCA53E77;
-        Tue, 31 Jan 2023 07:08:43 -0800 (PST)
-Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-1631b928691so19648453fac.11;
-        Tue, 31 Jan 2023 07:08:43 -0800 (PST)
+        with ESMTP id S232862AbjAaPNh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 10:13:37 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C94577CF
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 07:11:33 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id n13so3562798wmr.4
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 07:11:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tc5Kvp0umQS2+cFz/6CoiaZuikDRmqi00WdsNv9qzeM=;
-        b=RFbALft+O8FOTZ6dBGJ+XXGD0PT4vCYMATFMiWsAfqgDWgSBMwQf//bFkGd4kwVRGp
-         svXtnuKsZPUz6WYFo6DP7L3r8AC7Gd/6nHbt3+6hkxN65jozJa14KK4aPeGq9tb7WXSN
-         lasKuvBYrrplr+nhJL42VS8X6hEzJLKnyJq7cfC/Gneam7+19vf+fGB7pWBtHWZ00AW0
-         mcLIQAKJrnQpqWdkRQweEIURvLKutv/ZwsNGNtMIVaHgvvGiMpWz/5Pqcwu7xoblrUoo
-         sgb2sm1XJSnPV9zaL12EhuqeNtQ0reXZ/Ek8l3+cmTFPcEuB97yc2VNwjBoI4mw5GTdt
-         5UGA==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZDRV3dTpr/I1IdlDAhOzkzQeE2U7A9MUv4OTs7C9Ic0=;
+        b=fdRNuWwOmD2J8LwVwU9LdwIRGl6NUPNr9RjKhhxb/oVEbmG9OehBPDVzdQa5s66Si1
+         objENa14PROVzi3XlYOwtO82hNuIcp82QvpcPRmyE9PnKvTtMUvxdddUsrtYdXxxb7og
+         bLq94hLu66Es1S+gIJcgdrrE+XUltHjWSreVCW3vOXjJ9JofFGvbwi26hYxyMISWFbVM
+         dKPMxnwRTyke/KeD7oHAvfKyrnNGO/TscGyYoR/d/67FK+l809KkMkUFiWjKZfBiv0NT
+         gDa9mYuLOu/JJDYAhiJOYPLI6pQ2c/MV3Sh7+r71Y9WBwb2jhE/vDAnAOPcjsj9Pv0JE
+         AVPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tc5Kvp0umQS2+cFz/6CoiaZuikDRmqi00WdsNv9qzeM=;
-        b=ALyVQHnrcRdDUcty+IKZ9lJbueKyytNoaS09cM6jetfeXFPVfHB9QknJVdzUh/xTJZ
-         F8DjJx12lTEy7GrONU4RAj5OU+a111u+OoHeUKgQ/q7Fl4T8LHHTs9nQgHTA+HVita4g
-         CxbzfgnHew44jUFRb0Aixq+T2Ln49wep/bmfF4JZfa9T241qnrOV6s6BCVm15hnLyYrh
-         Ns6K7qPHCIPnYyl0M8vHxaH+F9XOIJBKgntOQHTTWy6bcSSEN4FuYcZJrx12XPC2aN6H
-         IBwMUJx0qahEJ3r2sk8AasKvlYhj45Tiu4X/5ADvz4tQKt9ilfaYyYzkWHlzQRfyAzsn
-         rV0Q==
-X-Gm-Message-State: AO0yUKWXqudFSVZdPiE8oFJ2MLNpIQDEd0LNfrAXBO1YMtMk2nRQTI2/
-        9SS/XIk2PXTuJZz1JI/zMHW1FKTxrRE=
-X-Google-Smtp-Source: AK7set9A/kk3t6DfM37h61mZmJqtmBN4LFXqhOlPw5VuWGO7oM4LE9C8DoZatsTrczMjFjzTHabLxg==
-X-Received: by 2002:a05:6870:ea87:b0:163:b347:22f7 with SMTP id s7-20020a056870ea8700b00163b34722f7mr4414849oap.28.1675177664747;
-        Tue, 31 Jan 2023 07:07:44 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id c17-20020a056870479100b0014fd25bd3b5sm6697779oaq.0.2023.01.31.07.07.43
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZDRV3dTpr/I1IdlDAhOzkzQeE2U7A9MUv4OTs7C9Ic0=;
+        b=hPfr9HV72biKRUJ1djHf4/UghsUP8t2H8vF3modNan1WLWMqBfQiFs3vrN9YYRUhm+
+         XiqkmkIwiGjOdbzxsbraVX6yIUwtBuDRanqdgCzZO6BICdyv6DWaV27ys5GSe4RG2+FN
+         zglbectVWvBXfNOTuF3YIsz5BLTvOezDJ7OZDmgPDp9USBUN17KUhhEvJS6LX7GVl3Ie
+         wka6Kyz47uRiZ60vvK4Cxf/L+ajRX6oHNxDChXymlHFSoh53TsHw8gr1wtR2HwV3Ul3L
+         yJmZCnY9Cvfo24QbzszPudcngsTziZ2Rv5iTYNWtYsRkOxpP7ATf3n/DCPT/ng8txPtH
+         8zDQ==
+X-Gm-Message-State: AO0yUKXD6rsEzsJmKrJXb6OMm6dkYbchPCLURUpgsNsmS9jaPUttqfgA
+        /qFJdZ/ghtv1RekG6oW0XhxPjw==
+X-Google-Smtp-Source: AK7set/2iizYZSQzebD1MVfEgv6lMNJzzvCce0t08tWnm7LHavMfZ8xs0/vr+y315lraYo4rANMjYg==
+X-Received: by 2002:a05:600c:a14:b0:3dd:97d6:8f2a with SMTP id z20-20020a05600c0a1400b003dd97d68f2amr2027264wmp.33.1675177884047;
+        Tue, 31 Jan 2023 07:11:24 -0800 (PST)
+Received: from alex-rivos.ba.rivosinc.com (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr. [2.7.42.160])
+        by smtp.gmail.com with ESMTPSA id t1-20020a05600c41c100b003dc47d458cdsm10651305wmh.15.2023.01.31.07.11.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Jan 2023 07:07:44 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Tue, 31 Jan 2023 07:07:43 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Aleksa Savic <savicaleksa83@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, Jack Doan <me@jackdoan.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for
- Aquacomputer Poweradjust 3
-Message-ID: <20230131150743.GA3592045@roeck-us.net>
-References: <20230131101210.8095-1-savicaleksa83@gmail.com>
+        Tue, 31 Jan 2023 07:11:23 -0800 (PST)
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <conor@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v4 0/1] riscv: Allow to downgrade paging mode from the command line
+Date:   Tue, 31 Jan 2023 16:11:14 +0100
+Message-Id: <20230131151115.1972740-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230131101210.8095-1-savicaleksa83@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 31, 2023 at 11:12:09AM +0100, Aleksa Savic wrote:
-> Extend aquacomputer_d5next driver to expose the temp sensor of the
-> Aquacomputer Poweradjust 3 fan controller, which communicates
-> through a proprietary USB HID protocol.
-> 
-> The Poweradjust 3 is not currently known to expose firmware version
-> and serial number, so don't create debugfs entries if their values
-> can't be retrieved.
-> 
-> Tested by a user on Github [1].
-> 
-> [1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/issues/57
-> 
-> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
+This new version gets rid of the limitation that prevented KASAN kernels
+to use the newly introduced parameters.
 
-Applied to hwmon-next.
+While looking into KASLR, I fell onto commit aacd149b6238 ("arm64: head:
+avoid relocating the kernel twice for KASLR"): it allows to use the fdt
+functions very early in the boot process with KASAN enabled by simply
+compiling a new version of those functions without instrumentation.
 
-Thanks,
-Guenter
+I had to change the handling of the command line parsing to make the
+code self-contained in kernel/pi/cmd_early.c to avoid calling too many
+__pi prefixed functions from outside this file.
+
+I'll use this approach like arm64 to handle the extraction of the random
+seedi from the device tree for KASLR.
+
+@Ard: I copied the "pi" name but I have to admit I don't know what it
+means.
+
+Alexandre Ghiti (1):
+  riscv: Allow to downgrade paging mode from the command line
+
+ .../admin-guide/kernel-parameters.txt         |  5 +-
+ arch/riscv/kernel/Makefile                    |  2 +
+ arch/riscv/kernel/pi/Makefile                 | 34 ++++++++++++
+ arch/riscv/kernel/pi/cmdline_early.c          | 52 +++++++++++++++++++
+ arch/riscv/lib/memcpy.S                       |  2 +
+ arch/riscv/lib/memmove.S                      |  2 +
+ arch/riscv/mm/init.c                          | 36 ++++++++++---
+ 7 files changed, 126 insertions(+), 7 deletions(-)
+ create mode 100644 arch/riscv/kernel/pi/Makefile
+ create mode 100644 arch/riscv/kernel/pi/cmdline_early.c
+
+-- 
+2.37.2
+
