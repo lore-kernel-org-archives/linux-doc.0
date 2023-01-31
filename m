@@ -2,356 +2,538 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94B4CC636D3
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 13:45:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60495C636D7
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 14:01:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232364AbjAaNph (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 08:45:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56316 "EHLO
+        id S232471AbjAaOB2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 09:01:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232344AbjAaNpf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 08:45:35 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2070.outbound.protection.outlook.com [40.107.220.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23AAF269F;
-        Tue, 31 Jan 2023 05:45:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ITB6hgLkZFfgdtfSy/LMjXv69VrPt8FDt1v+lx6lnKUrZYGHz0JgG6CTHqZm3Rdd6bVtzctG3GVvxMXUGbwZi/EwwBxvWn0uJpryQLMFH/MZyrt7hjW5HY2UVoHmH3me9HzkN36+H9xR13dPeBZvBn/VUP/IXwjtgNyQbJuIAfWkJD08RfGE6lxt6SayKJU4IkfYfMLh5mnsjs3dGpxvU615hv7YGIrt0i8FxxUkvhqhy0zg9BC+3Zccpl2oVQWeah1B9ge9b5nNj8gN32x521x5dnxPMdY/HuEMx25adAOE1hSkYHgkXOoP96/qad5uI4J1AWKq3Ai4Kp/XEM77MA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nccBz8KxqZozH7rewRRfIA7ohOl0tqXWxI9KsrmD1ls=;
- b=i0z/rZOd5SL/SPRoOThO2FiZ0stcGZ1SeAlB8RkApsbXF0xbYNnMNVeOaS95QkQVNc/aGSF2693zifDK0BJRkPy/JwQ32xzWC8SUINTZnYFe//FZdSijQpc/Qr0Fosd5o3hNUGdTt7xpF3u71i8QBjfGdEukQz01ASwjPMN3OSL91HxcVSg9kv0XFm6FZzV39KArgO7SnHBRL4uOEUWbxWqAAOslHZEkJ+6cE2VMACo2BXvP8wSV2KBzcMmnf3emP1G9E+Ao4eLDb1wXRYYLtDd7mdkKINn0H8V25Gqmw5OsJyVUgq9G59U/rISrufjJxLjEAdGGacmHTGQmySd+dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nccBz8KxqZozH7rewRRfIA7ohOl0tqXWxI9KsrmD1ls=;
- b=lDLVwdwcKcehviZtaebJrOGqYd8UUVySzYKowawIVihseSUfi3lYcsQWDD5wtcaC2g5uPw12Cap7sBOKi+MNxm0fsNv9ovjC56+7ABVpK5zEsZ9UVOsErg4nQnqzNoZgta4IzR96ni1xJnp7L3NzG9u94hxUETXb5u8OZ1XyMlY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by CH0PR12MB5281.namprd12.prod.outlook.com (2603:10b6:610:d4::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Tue, 31 Jan
- 2023 13:45:31 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::a59e:bafb:f202:313c]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::a59e:bafb:f202:313c%7]) with mapi id 15.20.6043.036; Tue, 31 Jan 2023
- 13:45:30 +0000
-Message-ID: <661a55c4-5703-ef84-728a-229997737416@amd.com>
-Date:   Tue, 31 Jan 2023 07:45:27 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v4 5/6] cpufreq: amd_pstate: Add guided mode control
- support via sysfs
-Content-Language: en-US
-To:     Wyes Karny <wyes.karny@amd.com>,
-        Rafael J Wysocki <rafael@kernel.org>,
-        Huang Rui <ray.huang@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>, Perry.Yuan@amd.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
-        santosh.shukla@amd.com, Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Ananth Narayan <ananth.narayan@amd.com>,
-        gautham.shenoy@amd.com, Tor Vic <torvic9@mailbox.org>
-References: <20230131052141.96475-1-wyes.karny@amd.com>
- <20230131052141.96475-6-wyes.karny@amd.com>
-From:   Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20230131052141.96475-6-wyes.karny@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1P222CA0016.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:22c::8) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+        with ESMTP id S232479AbjAaOBW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 09:01:22 -0500
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F730460BA;
+        Tue, 31 Jan 2023 06:00:54 -0800 (PST)
+Received: from mail02.huawei.com (unknown [172.18.147.227])
+        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4P5mhP1RlLz9xFmy;
+        Tue, 31 Jan 2023 21:52:37 +0800 (CST)
+Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
+        by APP1 (Coremail) with SMTP id LxC2BwAHjQjyHtlj0zLhAA--.10979S2;
+        Tue, 31 Jan 2023 15:00:31 +0100 (CET)
+Message-ID: <d62907da62b5e0b25c9d7bd4b3119a3d1827bd29.camel@huaweicloud.com>
+Subject: Re: [RFC PATCH v9 13/16] ipe: enable support for fs-verity as a
+ trust provider
+From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
+To:     Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net,
+        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
+        agk@redhat.com, snitzer@kernel.org, eparis@redhat.com,
+        paul@paul-moore.com
+Cc:     linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Date:   Tue, 31 Jan 2023 15:00:08 +0100
+In-Reply-To: <1675119451-23180-14-git-send-email-wufan@linux.microsoft.com>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+         <1675119451-23180-14-git-send-email-wufan@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CH0PR12MB5281:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20300c41-d4f5-42bb-0b9e-08db03916ad3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ri5Aq0rscDRaIUwdt9BLKtiQzU5VXNVQzotIPF+5Q6Tg0VY2jf7xGALY7OPEUltEFvDOH3IQR3Kq3HSCi/Vnolfh4V/s78jQEyNEiHMVhYldsRXzbbY8yVvh9yDXIuNq0SeQwmad1Au1uJ7cQ1jBf4xv4mblVGqwOd/HlJxFJQKZYtG0bEo2lyMR4mg8LNAQlFpiwog/MCwKoGhn/V+RrX+L9ZouWxYO4w03qkhwgcp5zD3ayBMARKA7EcG6xwhI/Cd/R+6vWEEQQ59FGMnreMXauD1qeEkTpf2sq5wHx1VryY/apCsLPqOZ715j6unKycXCj/u6/pROdCBvE7jOvdR/p9FoaKXjNRH5gHq2bMC71xHX+hySSXCw1T52biV7QhtZdOTRHKjcjU50oB+usVB2yb/cc7WRb3VJlZev0Yr1p6NmngxrDJUwbbBJ0QZrZuDdJj+1b+Dskj3M9bPFl97d0kvPM1y60sSHjHDRIAXtUrJa+jehKpE6289r/UKiUcE9+vg8f2mDba+gslBAwKJfw70jR3OxMEbrwEOQfs2ZXcSAIHlgSB5OAYwcyC0ON9wUX100HigP487NfbOYJa0f790rhVi9RcEjdhKOLEFFkvlluGY4kYHlQzbBS+XjekeF3lwC1XYQ8UEUkjMNrfuQWd1A7iszT6ohzBgRP8WaqHaljliRnwljWYcrWSYeb2TIT13PRNfXJ6cze7xl4vVdldwFVIRg/T6Uw4fTQuw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(376002)(366004)(396003)(39860400002)(346002)(451199018)(8676002)(66556008)(66476007)(66946007)(2616005)(83380400001)(316002)(6636002)(110136005)(6506007)(478600001)(6666004)(6486002)(53546011)(54906003)(6512007)(186003)(36756003)(38100700002)(86362001)(31686004)(7416002)(2906002)(44832011)(31696002)(4326008)(5660300002)(8936002)(41300700001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dzZwemhSdVU3NXY5RTNkSE84ajUyMzRJOTlHRGNsYldYLzNSVjFCVTNabktS?=
- =?utf-8?B?QzhmVDdqUWd0Ykk3NmtLVEYrVG1aL2VlalNNb0l0cUNHYjA3UFBrYy9FeHRw?=
- =?utf-8?B?RE5WeUs4SWZiVGhoUFNRemVNMjRtNWUxSnRiMkJNMUtiL0k0Q0wrRVdKVHJo?=
- =?utf-8?B?TXVIRHEzTHZOZUhOTUZkNEZ1NE1WWDFENlZsM3pkN2FwbWNFWi9kQnpUTmVU?=
- =?utf-8?B?bUNzYXZxWHdzWUdyRk1BV3ZiMTV4U25selZvZUs2dUJ4azFKWk1qbDg2b1Zw?=
- =?utf-8?B?VW81cnR3czkxVDF5KzluRnBBcWgwK0NNNzFEaFBNYmxYcUZacEM0N1F4d0FB?=
- =?utf-8?B?MnQ5cXl6M2NBV1RQT1R6bnkvWUlLdGtGbDJib29xd3ovNWxjclRQa3JKWXBC?=
- =?utf-8?B?aFNSeUNCNFE1UkZJaGlYRlJFTUFNZXh4K2taeTRqaVZnTWllb3VnQ0FhMUVh?=
- =?utf-8?B?VWRZVS9FUDBlL1VLRERBSEZDMDQ2S2IwcTJCemlWMHJXQStrZUJpY0RmeWQx?=
- =?utf-8?B?QjZYMWNPZ0ZvUHVyU0dKNlRDcjNvdDgrRVc2bjdBbnlmUzBJMGtjM2ZxTVI1?=
- =?utf-8?B?Qm9OaEIrc3ZmMDlrZkxobEFyeXhlMlZSUE43ckNFelo5L1ZXbTVKNlZYbTF2?=
- =?utf-8?B?WStPbmt5MmVNN0RQRWZDTmlSNTFTUkE0Zms0ZEltd1VBSHhSeGRINVpqUGRF?=
- =?utf-8?B?VHN1c0lzaDNqZUt4SEhEZGNOY2MxWm1LcmVUMzhJd3E3Sm5XODc5OXJqOEVh?=
- =?utf-8?B?TkJWeHEyQjAxZS93S3AwMkl6QXJIbkZYNEd2dnJKZmpjc2lKZ3dUNTgwdGZ4?=
- =?utf-8?B?MHZiZm91Wks0emZ4NTNPUHB0M1lVL0JTcHNNbHNBUk44eW53Y2RBa0Zidjh3?=
- =?utf-8?B?cm4wUlEzMmJ3b2FldDRGSTlGY1hhS3pHaitza0JLb0dJS2pKclB0Q2hoekNo?=
- =?utf-8?B?TGxrZUMvZHdtWWFOOTJhbVhTNDNuUURNZUg5R1BJcnd0OW5tYmxNVDFmNFhU?=
- =?utf-8?B?a2p0alBuaExzUysyRDZReHZHSzdRWUhhTE0rMzNQSDNlZ1UzSW5MQ0xxaXVw?=
- =?utf-8?B?WitGMkoremsvN2FlZ3NCKzdOcXYyMlRFdTJXY0w1VkZ1dHo5OGFJSFg2bUly?=
- =?utf-8?B?UHBZcm15Q0ljL2dzMkYzVHRkWERVWk03MkVtbUoyWGdWaHJ6QWJoRVdpcU4z?=
- =?utf-8?B?Y0R1bjVPL1hqdS9zQldzcVd0MEZ0M3ZMbGZOZVAxdlhGblk1b2FleEdvbGkx?=
- =?utf-8?B?akk2ZkxuVzlSaHV5VUlTRWRsdXlyeldwY3hPcDJsOFY1OFIyc2Y5VGVZbjNI?=
- =?utf-8?B?NEMyWVhYQllSaWIrWHRmZkFsVldrQldtRHRVdHBScVNTMXlPd1ArUVFvaUlu?=
- =?utf-8?B?b3dUekE5UmpZRnFnZDhFMjhseFVZWjNSZjNtY2NzendOV0pMU1d4ak5oTUhl?=
- =?utf-8?B?eWNpRzBKcDJSR1FuMVNPK3hoR0dINFpRV3VmVlBvSHlVb1hoVHhZekdZQTA4?=
- =?utf-8?B?aHNUdEtKWWtIZ3VuWXhidWozc0p5eTNYalhYYjREMWhFRUt1bUlwdkJrN1FO?=
- =?utf-8?B?MlBkc0xBSGRMZkdYWGkrMHNjZHc0cUx2M09IZzZSR211MHFXZlBCVTQ1cVRH?=
- =?utf-8?B?N1EvUG1lc21ub2VEcnFTSlRIMVNzR0JVYjdNNHhZZ3dXcmQwTjdFQy9NV2lY?=
- =?utf-8?B?SWdveFhQR013NUc5QXMrR2U5OFRoamcxN2JJRGovVTRSbG10RG9VMXN6ZXZZ?=
- =?utf-8?B?M2dvY1JLeExRVnpiZldna2VoRy9UendBaHIwaTg2VSs2N3B4WFYvd1hJN2da?=
- =?utf-8?B?dHZuR2x2N28yeTJGajJiV3RBa1BlLytYeXRiWnpDNEl0WnJ4c1hLQVNhUWtB?=
- =?utf-8?B?WjdzK1d6VmNqYm1kSDZESnhLcUNpdG4yZUltenJCVDBTSFRSNDZMQmdaUytT?=
- =?utf-8?B?bk9aVnJnM0I4dlVLMU5uaDcvYjhWakRLbDkxcjNNV2NuZm1ObHF4bDV6ZzZq?=
- =?utf-8?B?NC8zbWtRSUN3YTh6Q3VzMXZqWEMzeHlXeGNrdXVRZGMvTDlGaThzQWZmN1Rn?=
- =?utf-8?B?NFdpZHpMbmtXT0RHclRDRVdTaEFvWTJCbmh6ejEvTGljVGo1MXNERFVCM1J3?=
- =?utf-8?B?cmVURmk1ZFRlQ3Y2enJaMEl6bU9JQzdrNU55Z0Z2RE5jNHkwMWdNM1crTTg1?=
- =?utf-8?Q?41RXwyt/9U6xzJz/rftLl7IUwzTZX5vg1C6+60sz49Lo?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20300c41-d4f5-42bb-0b9e-08db03916ad3
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2023 13:45:30.2124
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yNdgBAfv6pw1zMQka+rdggjQudtK4u+QLzjJpbtNjyWohoynHPVVwvag/PocDudWPuwxQVTkuJMmFjiIr1plGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5281
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: LxC2BwAHjQjyHtlj0zLhAA--.10979S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3ZFWkWw1UuFy7Gw1ftw13Jwb_yoW8Wr1xKo
+        WSqa1xuF4jgr13Aw4F93W7AFW29wsYgw4xJF4qqrZrWF1Sq345Gw4UA3WfAF48Xr98Gr98
+        C3s2vayrZF45twn8n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUY17kC6x804xWl14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK
+        8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4
+        AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF
+        7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I
+        0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
+        rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4
+        IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY
+        0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
+        0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAI
+        cVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcV
+        CF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+        jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjxU7OJ5UUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAOBF1jj4hViAAFsq
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/30/23 23:21, Wyes Karny wrote:
-> amd_pstate driver's `status` sysfs entry helps to control the driver's
-> mode dynamically by user. After the addition of guided mode the
-> combinations of mode transitions have been increased (16 combinations).
-> Therefore optimise the amd_pstate_update_status function by implementing
-> a state transition table.
+On Mon, 2023-01-30 at 14:57 -0800, Fan Wu wrote:
+> Enable IPE policy authors to indicate trust for a singular fsverity
+> file, identified by the digest information, through "fsverity_digest"
+> and all files using fsverity's builtin signatures via
+> "fsverity_signature".
 > 
-> There are 4 states amd_pstate supports, namely: 'disable', 'passive',
-> 'active', and 'guided'.  The transition from any state to any other
-> state is possible after this change. Only if the state requested matches
-> with the current state then -EBUSY value is returned.
-
-I realized this after I finished reviewing doc patch, but you probably 
-want to explain -EBUSY return code in documentation patch too.
-
+> This enables file-level integrity claims to be expressed in IPE,
+> allowing individual files to be authorized, giving some flexibility
+> for policy authors. Such file-level claims are important to be expressed
+> for enforcing the integrity of packages, as well as address some of the
+> scalability issues in a sole dm-verity based solution (# of loop back
+> devices, etc).
 > 
-> Sysfs interface:
+> This solution cannot be done in userspace as the minimum threat that
+> IPE should mitigate is an attacker downloads malicious payload with
+> all required dependencies. These dependencies can lack the userspace
+> check, bypassing the protection entirely. A similar attack succeeds if
+> the userspace component is replaced with a version that does not
+> perform the check. As a result, this can only be done in the common
+> entry point - the kernel.
 > 
-> To disable amd_pstate driver:
->   # echo disable > /sys/devices/system/cpu/amd_pstate/status
-> 
-> To enable passive mode:
->   # echo passive > /sys/devices/system/cpu/amd_pstate/status
-> 
-> To change mode to active:
->   # echo active > /sys/devices/system/cpu/amd_pstate/status
-> 
-> To change mode to guided:
->   # echo guided > /sys/devices/system/cpu/amd_pstate/status
-> 
-> Signed-off-by: Wyes Karny <wyes.karny@amd.com>
+> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
 > ---
->   drivers/cpufreq/amd-pstate.c | 150 +++++++++++++++++++++++++----------
->   1 file changed, 108 insertions(+), 42 deletions(-)
+> v1-v6:
+>   + Not present
 > 
-> diff --git a/drivers/cpufreq/amd-pstate.c b/drivers/cpufreq/amd-pstate.c
-> index 48ab4684c3a5..6c522dec6967 100644
-> --- a/drivers/cpufreq/amd-pstate.c
-> +++ b/drivers/cpufreq/amd-pstate.c
-> @@ -65,6 +65,8 @@ static struct cpufreq_driver amd_pstate_epp_driver;
->   static int cppc_state = AMD_PSTATE_DISABLE;
->   struct kobject *amd_pstate_kobj;
->   
-> +typedef int (*cppc_mode_transition_fn)(int);
+> v7:
+>   Introduced
+> 
+> v8:
+>   * Undo squash of 08/12, 10/12 - separating drivers/md/ from security/
+>   * Use common-audit function for fsverity_signature.
+>   + Change fsverity implementation to use fsverity_get_digest
+>   + prevent unnecessary copy of fs-verity signature data, instead
+>     just check for presence of signature data.
+>   + Remove free_inode_security hook, as the digest is now acquired
+>     at runtime instead of via LSM blob.
+> 
+> v9:
+>   + Adapt to the new parser
+> ---
+>  security/ipe/Kconfig         |  11 ++++
+>  security/ipe/audit.c         |  23 +++++++
+>  security/ipe/eval.c          | 112 +++++++++++++++++++++++++++++++++++
+>  security/ipe/eval.h          |  10 ++++
+>  security/ipe/hooks.c         |  30 ++++++++++
+>  security/ipe/hooks.h         |   7 +++
+>  security/ipe/ipe.c           |  13 ++++
+>  security/ipe/ipe.h           |   3 +
+>  security/ipe/policy.h        |   3 +
+>  security/ipe/policy_parser.c |   8 +++
+>  10 files changed, 220 insertions(+)
+> 
+> diff --git a/security/ipe/Kconfig b/security/ipe/Kconfig
+> index 16e835ce61b0..dd9a066dd35a 100644
+> --- a/security/ipe/Kconfig
+> +++ b/security/ipe/Kconfig
+> @@ -32,6 +32,17 @@ config IPE_PROP_DM_VERITY
+>  
+>  	  If unsure, answer Y.
+>  
+> +config IPE_PROP_FS_VERITY
+> +	bool "Enable property for fs-verity files"
+> +	depends on FS_VERITY && FS_VERITY_BUILTIN_SIGNATURES
+> +	help
+> +	  This option enables the usage of properties "fsverity_signature"
+> +	  and "fsverity_digest". These properties evaluates to TRUE when
+> +	  a file is fsverity enabled and with a signed digest or its
+> +	  diegst matches the supplied value in the policy.
 > +
->   static inline int get_mode_idx_from_str(const char *str, size_t size)
->   {
->   	int i;
-> @@ -797,6 +799,105 @@ static ssize_t show_energy_performance_preference(
->   	return sysfs_emit(buf, "%s\n", energy_perf_strings[preference]);
->   }
->   
-> +static void amd_pstate_driver_cleanup(void)
+> +	  if unsure, answer Y.
+> +
+>  endmenu
+>  
+>  endif
+> diff --git a/security/ipe/audit.c b/security/ipe/audit.c
+> index 769ba95d9b0d..16d81645e53c 100644
+> --- a/security/ipe/audit.c
+> +++ b/security/ipe/audit.c
+> @@ -46,6 +46,11 @@ static const char *const audit_prop_names[ipe_prop_max] = {
+>  	"dmverity_signature=FALSE",
+>  	"dmverity_signature=TRUE",
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +	"fsverity_digest=",
+> +	"fsverity_signature=FALSE",
+> +	"fsverity_signature=TRUE"
+> +#endif /* CONFIG_IPE_PROP_FS_VERITY */
+>  };
+>  
+>  #ifdef CONFIG_IPE_PROP_DM_VERITY
+> @@ -64,6 +69,22 @@ static void audit_dmv_roothash(struct audit_buffer *ab, const void *rh)
+>  }
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+>  
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +/**
+> + * audit_fsv_digest - audit a digest of a fsverity file.
+> + * @ab: Supplies a poniter to the audit_buffer to append to.
+> + * @d: Supplies a pointer to the digest structure.
+> + */
+> +static void audit_fsv_digest(struct audit_buffer *ab, const void *d)
 > +{
-> +	amd_pstate_enable(false);
-> +	cppc_state = AMD_PSTATE_DISABLE;
-> +	current_pstate_driver = NULL;
+> +	ipe_digest_audit(ab, d);
 > +}
-> +
-> +static int amd_pstate_register_driver(int mode)
+> +#else
+> +static void audit_fsv_digest(struct audit_buffer *ab, const void *d)
 > +{
-> +	int ret;
+> +}
+> +#endif /* CONFIG_IPE_PROP_DM_VERITY */
 > +
-> +	if (mode == AMD_PSTATE_PASSIVE || mode == AMD_PSTATE_GUIDED)
-> +		current_pstate_driver = &amd_pstate_driver;
-> +	else if (mode == AMD_PSTATE_ACTIVE)
-> +		current_pstate_driver = &amd_pstate_epp_driver;
-> +	else
-> +		return -EINVAL;
+>  /**
+>   * audit_rule - audit an IPE policy rule approximation.
+>   * @ab: Supplies a poniter to the audit_buffer to append to.
+> @@ -79,6 +100,8 @@ static void audit_rule(struct audit_buffer *ab, const struct ipe_rule *r)
+>  		audit_log_format(ab, "%s", audit_prop_names[ptr->type]);
+>  		if (ptr->type == ipe_prop_dmv_roothash)
+>  			audit_dmv_roothash(ab, ptr->value);
+> +		if (ptr->type == ipe_prop_fsv_digest)
+> +			audit_fsv_digest(ab, ptr->value);
+>  
+>  		audit_log_format(ab, " ");
+>  	}
+> diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+> index 538af4195ba7..210d3926c0a8 100644
+> --- a/security/ipe/eval.c
+> +++ b/security/ipe/eval.c
+> @@ -81,6 +81,23 @@ static void build_ipe_bdev_ctx(struct ipe_eval_ctx *ctx, const struct inode *con
+>  }
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+>  
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +/**
+> + * build_ipe_inode_ctx - Build inode fields of an evaluation context.
+> + * @ctx: Supplies a pointer to the context to be populdated.
+> + * @ino: Supplies the inode struct of the file triggered IPE event.
+> + */
+> +static void build_ipe_inode_ctx(struct ipe_eval_ctx *ctx, const struct inode *const ino)
+> +{
+> +	ctx->ino = ino;
+> +	ctx->ipe_inode = ipe_inode(ctx->ino);
+> +}
+> +#else
+> +static void build_ipe_inode_ctx(struct ipe_eval_ctx *ctx, const struct inode *const ino)
+> +{
+> +}
+> +#endif /* CONFIG_IPE_PROP_FS_VERITY */
 > +
-> +	cppc_state = mode;
-> +	ret = cpufreq_register_driver(current_pstate_driver);
-> +	if (ret) {
-> +		amd_pstate_driver_cleanup();
-> +		return ret;
+>  /**
+>   * build_eval_ctx - Build an evaluation context.
+>   * @ctx: Supplies a pointer to the context to be populdated.
+> @@ -99,6 +116,7 @@ void build_eval_ctx(struct ipe_eval_ctx *ctx,
+>  	if (file) {
+>  		ino = d_real_inode(file->f_path.dentry);
+>  		build_ipe_bdev_ctx(ctx, ino);
+> +		build_ipe_inode_ctx(ctx, ino);
+>  	}
+>  }
+>  
+> @@ -171,6 +189,91 @@ static bool evaluate_dmv_sig_true(const struct ipe_eval_ctx *const ctx,
+>  }
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+>  
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +/**
+> + * evaluate_fsv_digest - Analyze @ctx against a fsv digest property.
+> + * @ctx: Supplies a pointer to the context being evaluated.
+> + * @p: Supplies a pointer to the property being evaluated.
+> + *
+> + * Return:
+> + * * true	- The current @ctx match the @p
+> + * * false	- The current @ctx doesn't match the @p
+> + */
+> +static bool evaluate_fsv_digest(const struct ipe_eval_ctx *const ctx,
+> +				struct ipe_prop *p)
+> +{
+> +	enum hash_algo alg;
+> +	u8 digest[FS_VERITY_MAX_DIGEST_SIZE];
+> +
+> +	if (!ctx->ino)
+> +		return false;
+> +	if (fsverity_get_digest((struct inode *)ctx->ino,
+> +				digest,
+> +				&alg)) {
+> +		return false;
 > +	}
-> +	return 0;
+> +
+> +	return ipe_digest_eval(p->value,
+> +			       digest,
+> +			       hash_digest_size[alg],
+> +			       hash_algo_name[alg]);
 > +}
 > +
-> +static int amd_pstate_unregister_driver(int dummy)
+> +/**
+> + * evaluate_fsv_sig_false - Analyze @ctx against a fsv sig false property.
+> + * @ctx: Supplies a pointer to the context being evaluated.
+> + * @p: Supplies a pointer to the property being evaluated.
+> + *
+> + * Return:
+> + * * true	- The current @ctx match the @p
+> + * * false	- The current @ctx doesn't match the @p
+> + */
+> +static bool evaluate_fsv_sig_false(const struct ipe_eval_ctx *const ctx,
+> +				   struct ipe_prop *p)
 > +{
-> +	int ret;
-> +
-> +	ret = cpufreq_unregister_driver(current_pstate_driver);
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	amd_pstate_driver_cleanup();
-> +	return 0;
+> +	return !ctx->ino ||
+> +	       !IS_VERITY(ctx->ino) ||
+> +	       !ctx->ipe_inode ||
+> +	       !ctx->ipe_inode->fs_verity_signed;
 > +}
 > +
-> +static int amd_pstate_change_mode_without_dvr_change(int mode)
+> +/**
+> + * evaluate_fsv_sig_true - Analyze @ctx against a fsv sig true property.
+> + * @ctx: Supplies a pointer to the context being evaluated.
+> + * @p: Supplies a pointer to the property being evaluated.
+> + *
+> + * Return:
+> + * * true - The current @ctx match the @p
+> + * * false - The current @ctx doesn't match the @p
+> + */
+> +static bool evaluate_fsv_sig_true(const struct ipe_eval_ctx *const ctx,
+> +				  struct ipe_prop *p)
 > +{
-> +	int cpu = 0;
-> +
-> +	cppc_state = mode;
-> +
-> +	if (boot_cpu_has(X86_FEATURE_CPPC) || cppc_state == AMD_PSTATE_ACTIVE)
-> +		return 0;
-> +
-> +	for_each_present_cpu(cpu) {
-> +		cppc_set_auto_sel(cpu, (cppc_state == AMD_PSTATE_PASSIVE) ? 0 : 1);
-> +	}
-> +
-> +	return 0;
+> +	return ctx->ino &&
+> +	       IS_VERITY(ctx->ino) &&
+> +	       ctx->ipe_inode &&
+> +	       ctx->ipe_inode->fs_verity_signed;
 > +}
-> +
-> +static int amd_pstate_change_driver_mode(int mode)
-> +{
-> +	int ret;
-> +
-> +	ret = amd_pstate_unregister_driver(0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = amd_pstate_register_driver(mode);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +/* Mode transition table */
 
-This seems to be a pointless comment to me.
+Isn't better to just define one function and prepend a ! in
+evaluate_property()?
 
-> +cppc_mode_transition_fn mode_state_machine[AMD_PSTATE_MAX][AMD_PSTATE_MAX] = {
-> +	[AMD_PSTATE_DISABLE]         = {
-> +		[AMD_PSTATE_DISABLE]     = NULL,
-> +		[AMD_PSTATE_PASSIVE]     = amd_pstate_register_driver,
-> +		[AMD_PSTATE_ACTIVE]      = amd_pstate_register_driver,
-> +		[AMD_PSTATE_GUIDED]      = amd_pstate_register_driver,
-> +	},
-> +	[AMD_PSTATE_PASSIVE]         = {
-> +		[AMD_PSTATE_DISABLE]     = amd_pstate_unregister_driver,
-> +		[AMD_PSTATE_PASSIVE]     = NULL,
-> +		[AMD_PSTATE_ACTIVE]      = amd_pstate_change_driver_mode,
-> +		[AMD_PSTATE_GUIDED]      = amd_pstate_change_mode_without_dvr_change,
-> +	},
-> +	[AMD_PSTATE_ACTIVE]          = {
-> +		[AMD_PSTATE_DISABLE]     = amd_pstate_unregister_driver,
-> +		[AMD_PSTATE_PASSIVE]     = amd_pstate_change_driver_mode,
-> +		[AMD_PSTATE_ACTIVE]      = NULL,
-> +		[AMD_PSTATE_GUIDED]      = amd_pstate_change_driver_mode,
-> +	},
-> +	[AMD_PSTATE_GUIDED]          = {
-> +		[AMD_PSTATE_DISABLE]     = amd_pstate_unregister_driver,
-> +		[AMD_PSTATE_PASSIVE]     = amd_pstate_change_mode_without_dvr_change,
-> +		[AMD_PSTATE_ACTIVE]      = amd_pstate_change_driver_mode,
-> +		[AMD_PSTATE_GUIDED]      = NULL,
-> +	},
+Not sure about the usefulness of the fsverity_signature= property as it
+is. I would at minimum allow to specify which keyring signatures are
+verified against, and ensure that the keyring has a restriction.
+
+And maybe I would call fsverity_verify_signature() directly, after
+extending it to pass the desired keyring.
+
+I would also split this patch in two, one for fsverity_digest= and one
+for fsverity_signature=.
+
+Roberto
+
+> +#else
+> +static bool evaluate_fsv_digest(const struct ipe_eval_ctx *const ctx,
+> +				struct ipe_prop *p)
+> +{
+> +	return false;
+> +}
+> +
+> +static bool evaluate_fsv_sig_false(const struct ipe_eval_ctx *const ctx,
+> +				   struct ipe_prop *p)
+> +{
+> +	return false;
+> +}
+> +
+> +static bool evaluate_fsv_sig_true(const struct ipe_eval_ctx *const ctx,
+> +				  struct ipe_prop *p)
+> +{
+> +	return false;
+> +}
+> +#endif /* CONFIG_IPE_PROP_FS_VERITY */
+> +
+>  /**
+>   * evaluate_property - Analyze @ctx against a property.
+>   * @ctx: Supplies a pointer to the context to be evaluated.
+> @@ -201,6 +304,15 @@ static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
+>  	case ipe_prop_dmv_sig_true:
+>  		eval = evaluate_dmv_sig_true(ctx, p);
+>  		break;
+> +	case ipe_prop_fsv_digest:
+> +		eval = evaluate_fsv_digest(ctx, p);
+> +		break;
+> +	case ipe_prop_fsv_sig_false:
+> +		eval = evaluate_fsv_sig_false(ctx, p);
+> +		break;
+> +	case ipe_prop_fsv_sig_true:
+> +		eval = evaluate_fsv_sig_true(ctx, p);
+> +		break;
+>  	default:
+>  		eval = false;
+>  	}
+> diff --git a/security/ipe/eval.h b/security/ipe/eval.h
+> index 4fd832c6893e..d3dce4f04cb4 100644
+> --- a/security/ipe/eval.h
+> +++ b/security/ipe/eval.h
+> @@ -26,6 +26,12 @@ struct ipe_bdev {
+>  };
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+>  
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +struct ipe_inode {
+> +	bool fs_verity_signed;
 > +};
+> +#endif /* CONFIG_IPE_PROP_FS_VERITY */
 > +
->   static ssize_t amd_pstate_show_status(char *buf)
->   {
->   	if (!current_pstate_driver)
-> @@ -805,57 +906,22 @@ static ssize_t amd_pstate_show_status(char *buf)
->   	return sysfs_emit(buf, "%s\n", amd_pstate_mode_string[cppc_state]);
->   }
->   
-> -static void amd_pstate_driver_cleanup(void)
-> -{
-> -	current_pstate_driver = NULL;
-> -}
-> -
->   static int amd_pstate_update_status(const char *buf, size_t size)
->   {
-> -	int ret;
->   	int mode_idx;
->   
-> -	if (size > 7 || size < 6)
-> +	if (size > strlen("passive") || size < strlen("active"))
->   		return -EINVAL;
-> -	mode_idx = get_mode_idx_from_str(buf, size);
->   
-> -	switch(mode_idx) {
-> -	case AMD_PSTATE_DISABLE:
-> -		if (!current_pstate_driver)
-> -			return -EINVAL;
-> -		if (cppc_state == AMD_PSTATE_ACTIVE)
-> -			return -EBUSY;
-> -		ret = cpufreq_unregister_driver(current_pstate_driver);
-> -		amd_pstate_driver_cleanup();
-> -		break;
-> -	case AMD_PSTATE_PASSIVE:
-> -		if (current_pstate_driver) {
-> -			if (current_pstate_driver == &amd_pstate_driver)
-> -				return 0;
-> -			cpufreq_unregister_driver(current_pstate_driver);
-> -			cppc_state = AMD_PSTATE_PASSIVE;
-> -			current_pstate_driver = &amd_pstate_driver;
-> -		}
-> +	mode_idx = get_mode_idx_from_str(buf, size);
->   
-> -		ret = cpufreq_register_driver(current_pstate_driver);
-> -		break;
-> -	case AMD_PSTATE_ACTIVE:
-> -		if (current_pstate_driver) {
-> -			if (current_pstate_driver == &amd_pstate_epp_driver)
-> -				return 0;
-> -			cpufreq_unregister_driver(current_pstate_driver);
-> -			current_pstate_driver = &amd_pstate_epp_driver;
-> -			cppc_state = AMD_PSTATE_ACTIVE;
-> -		}
-> +	if (mode_idx < 0 || mode_idx >= AMD_PSTATE_MAX)
-> +		return -EINVAL;
->   
-> -		ret = cpufreq_register_driver(current_pstate_driver);
-> -		break;
-> -	default:
-> -		ret = -EINVAL;
-> -		break;
-> -	}
-> +	if (mode_state_machine[cppc_state][mode_idx])
-> +		return mode_state_machine[cppc_state][mode_idx](mode_idx);
->   
-> -	return ret;
-> +	return -EBUSY;
->   }
->   
->   static ssize_t show_status(struct kobject *kobj,
+>  struct ipe_eval_ctx {
+>  	enum ipe_op_type op;
+>  
+> @@ -34,6 +40,10 @@ struct ipe_eval_ctx {
+>  #ifdef CONFIG_IPE_PROP_DM_VERITY
+>  	const struct ipe_bdev *ipe_bdev;
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +	const struct inode *ino;
+> +	const struct ipe_inode *ipe_inode;
+> +#endif /* CONFIG_IPE_PROP_FS_VERITY */
+>  };
+>  
+>  enum ipe_match {
+> diff --git a/security/ipe/hooks.c b/security/ipe/hooks.c
+> index 735375d2f858..836f08240372 100644
+> --- a/security/ipe/hooks.c
+> +++ b/security/ipe/hooks.c
+> @@ -243,3 +243,33 @@ int ipe_bdev_setsecurity(struct block_device *bdev, const char *key,
+>  	return -EOPNOTSUPP;
+>  }
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+> +
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +/**
+> + * ipe_inode_setsecurity - Sets fields of a inode security blob from @key.
+> + * @inode: The inode to source the security blob from.
+> + * @name: The name representing the information to be stored.
+> + * @value: The value to be stored.
+> + * @size: The size of @value.
+> + * @flags: unused
+> + *
+> + * Saves fsverity signature & digest into inode security blob
+> + *
+> + * Return:
+> + * * 0	- OK
+> + * * !0	- Error
+> + */
+> +int ipe_inode_setsecurity(struct inode *inode, const char *name,
+> +			  const void *value, size_t size,
+> +			  int flags)
+> +{
+> +	struct ipe_inode *inode_sec = ipe_inode(inode);
+> +
+> +	if (!strcmp(name, FS_VERITY_INODE_SEC_NAME)) {
+> +		inode_sec->fs_verity_signed = size > 0 && value;
+> +		return 0;
+> +	}
+> +
+> +	return -EOPNOTSUPP;
+> +}
+> +#endif /* CONFIG_CONFIG_IPE_PROP_FS_VERITY */
+> diff --git a/security/ipe/hooks.h b/security/ipe/hooks.h
+> index 16611a149158..654aba584a44 100644
+> --- a/security/ipe/hooks.h
+> +++ b/security/ipe/hooks.h
+> @@ -8,6 +8,7 @@
+>  #include <linux/fs.h>
+>  #include <linux/binfmts.h>
+>  #include <linux/security.h>
+> +#include <linux/fsverity.h>
+>  #include <linux/device-mapper.h>
+>  
+>  void ipe_sb_free_security(struct super_block *mnt_sb);
+> @@ -32,4 +33,10 @@ int ipe_bdev_setsecurity(struct block_device *bdev, const char *key,
+>  			 const void *value, size_t len);
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+>  
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +int ipe_inode_setsecurity(struct inode *inode, const char *name,
+> +			  const void *value, size_t size,
+> +			  int flags);
+> +#endif /* CONFIG_IPE_PROP_FS_VERITY */
+> +
+>  #endif /* IPE_HOOKS_H */
+> diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
+> index 5612cb3cf1e5..705ce9a003de 100644
+> --- a/security/ipe/ipe.c
+> +++ b/security/ipe/ipe.c
+> @@ -13,6 +13,9 @@ static struct lsm_blob_sizes ipe_blobs __lsm_ro_after_init = {
+>  #ifdef CONFIG_IPE_PROP_DM_VERITY
+>  		.lbs_bdev = sizeof(struct ipe_bdev),
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +		.lbs_inode = sizeof(struct ipe_inode),
+> +#endif /* CONFIG_IPE_PROP_FS_VERITY */
+>  };
+>  
+>  #ifdef CONFIG_IPE_PROP_DM_VERITY
+> @@ -22,6 +25,13 @@ struct ipe_bdev *ipe_bdev(struct block_device *b)
+>  }
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+>  
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +struct ipe_inode *ipe_inode(const struct inode *inode)
+> +{
+> +	return inode->i_security + ipe_blobs.lbs_inode;
+> +}
+> +#endif /* CONFIG_IPE_PROP_FS_VERITY */
+> +
+>  static struct security_hook_list ipe_hooks[] __lsm_ro_after_init = {
+>  	LSM_HOOK_INIT(sb_free_security, ipe_sb_free_security),
+>  	LSM_HOOK_INIT(bprm_check_security, ipe_bprm_check_security),
+> @@ -33,6 +43,9 @@ static struct security_hook_list ipe_hooks[] __lsm_ro_after_init = {
+>  	LSM_HOOK_INIT(bdev_free_security, ipe_bdev_free_security),
+>  	LSM_HOOK_INIT(bdev_setsecurity, ipe_bdev_setsecurity),
+>  #endif
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +	LSM_HOOK_INIT(inode_setsecurity, ipe_inode_setsecurity),
+> +#endif /* CONFIG_IPE_PROP_FS_VERITY */
+>  };
+>  
+>  /**
+> diff --git a/security/ipe/ipe.h b/security/ipe/ipe.h
+> index c2594a45b8f2..138fda645ecf 100644
+> --- a/security/ipe/ipe.h
+> +++ b/security/ipe/ipe.h
+> @@ -15,5 +15,8 @@ extern bool ipe_enabled;
+>  #ifdef CONFIG_IPE_PROP_DM_VERITY
+>  struct ipe_bdev *ipe_bdev(struct block_device *b);
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +struct ipe_inode *ipe_inode(const struct inode *inode);
+> +#endif /* CONFIG_IPE_PROP_FS_VERITY */
+>  
+>  #endif /* IPE_H */
+> diff --git a/security/ipe/policy.h b/security/ipe/policy.h
+> index 324eb76c6067..50b8f4c49bc7 100644
+> --- a/security/ipe/policy.h
+> +++ b/security/ipe/policy.h
+> @@ -31,6 +31,9 @@ enum ipe_prop_type {
+>  	ipe_prop_dmv_roothash,
+>  	ipe_prop_dmv_sig_false,
+>  	ipe_prop_dmv_sig_true,
+> +	ipe_prop_fsv_digest,
+> +	ipe_prop_fsv_sig_false,
+> +	ipe_prop_fsv_sig_true,
+>  	ipe_prop_max
+>  };
+>  
+> diff --git a/security/ipe/policy_parser.c b/security/ipe/policy_parser.c
+> index 50a6a763e842..799ee7fda974 100644
+> --- a/security/ipe/policy_parser.c
+> +++ b/security/ipe/policy_parser.c
+> @@ -273,6 +273,11 @@ static const match_table_t property_tokens = {
+>  	{ipe_prop_dmv_sig_false,	"dmverity_signature=FALSE"},
+>  	{ipe_prop_dmv_sig_true,		"dmverity_signature=TRUE"},
+>  #endif /* CONFIG_IPE_PROP_DM_VERITY */
+> +#ifdef CONFIG_IPE_PROP_FS_VERITY
+> +	{ipe_prop_fsv_digest,		"fsverity_digest=%s"},
+> +	{ipe_prop_fsv_sig_false,	"fsverity_signature=FALSE"},
+> +	{ipe_prop_fsv_sig_true,		"fsverity_signature=TRUE"},
+> +#endif /* CONFIG_IPE_PROP_FS_VERITY */
+>  	{ipe_prop_max,			NULL}
+>  };
+>  
+> @@ -304,6 +309,7 @@ int parse_property(char *t, struct ipe_rule *r)
+>  
+>  	switch (token) {
+>  	case ipe_prop_dmv_roothash:
+> +	case ipe_prop_fsv_digest:
+>  		dup = match_strdup(&args[0]);
+>  		if (!dup) {
+>  			rc = -ENOMEM;
+> @@ -315,6 +321,8 @@ int parse_property(char *t, struct ipe_rule *r)
+>  	case ipe_prop_boot_verified_true:
+>  	case ipe_prop_dmv_sig_false:
+>  	case ipe_prop_dmv_sig_true:
+> +	case ipe_prop_fsv_sig_false:
+> +	case ipe_prop_fsv_sig_true:
+>  		p->type = token;
+>  		break;
+>  	case ipe_prop_max:
 
-With one nit fixed,
-
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
