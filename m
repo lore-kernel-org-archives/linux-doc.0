@@ -2,75 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64FD3C636CC
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 19:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F79C636CC
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 19:58:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229615AbjAaT4U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 14:56:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56644 "EHLO
+        id S231612AbjAaT6z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 14:58:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbjAaT4T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 14:56:19 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC3545884;
-        Tue, 31 Jan 2023 11:56:18 -0800 (PST)
+        with ESMTP id S231446AbjAaT6y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 14:58:54 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 750A1367FF
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 11:58:53 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id F03C831A;
-        Tue, 31 Jan 2023 19:56:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F03C831A
+        by ms.lwn.net (Postfix) with ESMTPSA id 00F7431A;
+        Tue, 31 Jan 2023 19:58:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 00F7431A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1675194978; bh=rT2IqtV9+4VADb/CLkaOZH9H9wZweXHd3Q22cA1GatM=;
+        t=1675195133; bh=ZCt1IfkEzUXVywRWkQ7G+I1KBmJtF8RsZ7cPo2Ls5nY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Aa0BFMtztim0oWfX4REvx+USABOXQXdkGA4qSEeF4mp1nx1VJDp8xf5/bXfftRdcj
-         rfHEJMAPdUrg+8sHsmg6WWeRWWIslRospgMcipSN8HoL2wqeYNubal/1bzrFQ2xPng
-         4ODrA87E5mACsC2+TAS115fehloRneAG7k+GqWWuGzMKzv3pd8sC0TYMUs/C6coVlK
-         HgYw2TTnmOK2JWVCSpW+NuH1i2OhQXE2xCFAKEl6YRr/UpRbbUfSDihFzWaXyimRKO
-         kmopKZY5bKoB6BqzduCsFcT/y7kvuhkHQ52axeJh3C37ESPt/Kc3FuZCXJwLwtCGM1
-         1qRU5P6TeZKqA==
+        b=tWwb0yIYkddA8M/1FbCDM/YBn4+NVvCg7aBqZzRsKL4Utcveus+C8jzKcLP7ry9VD
+         Ie/UHDVnyimDTmF3M2YLG3EzD84l0wnkIVjBqTiAy7RNKwHyVefCwgtLbIfMP+EB7b
+         Cyuvy5NO8W0rN8BEPe9YeH/ZKVzC92OtzDTX5emSplejNqi9LQIz6Gd6tdr24hQbaX
+         K0QJlcha3FYtPotvCPO3udgkwsY6fs8BxWKlljw3i/ovSldTsffi0O8WplvhKmO4Ui
+         qGd7XcHks25myFIXyHvBluMyv5ve6rnQHjRq2VFxA/AN3bihdJkqEDkmMQ4xHaofgG
+         u5iyPTtYDaKrg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
-Cc:     Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] docs: filesystems: vfs: actualize struct
- super_operations description
-In-Reply-To: <20230131121608.177250-1-aleksandr.mikhalitsyn@canonical.com>
-References: <20230131121608.177250-1-aleksandr.mikhalitsyn@canonical.com>
-Date:   Tue, 31 Jan 2023 12:56:17 -0700
-Message-ID: <87bkme4gwu.fsf@meer.lwn.net>
+To:     Jonathan Cameron <jic23@kernel.org>,
+        Matti Vaittinen <mazziesaccount@gmail.com>
+Cc:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+        "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: ROHM ALS, integration time
+In-Reply-To: <20230130201929.52c93ee5@jic23-huawei>
+References: <65c7c45a-c953-e418-f640-9e46841151a1@gmail.com>
+ <20230130130231.000013b6@Huawei.com>
+ <9b3dcc7a-a0f8-38ee-4381-d330004d436f@fi.rohmeurope.com>
+ <20230130171218.00007802@Huawei.com>
+ <0e0d45b7-e582-82b2-9bac-1f70f9dad9f7@gmail.com>
+ <20230130201929.52c93ee5@jic23-huawei>
+Date:   Tue, 31 Jan 2023 12:58:52 -0700
+Message-ID: <877cx24gsj.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com> writes:
+Jonathan Cameron <jic23@kernel.org> writes:
 
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
-> ---
->  Documentation/filesystems/vfs.rst | 74 ++++++++++++++++++++++++-------
->  1 file changed, 59 insertions(+), 15 deletions(-)
+> Both the kernel-doc for this header and the ABI docs end up in
+> the kernel html docs.  I wonder if a link is possible...
+> https://docs.kernel.org/driver-api/iio/core.html#industrial-i-o-devices
+> would have the iio_chan_type docs I think if there were any.
+> https://docs.kernel.org/admin-guide/abi-testing.html?highlight=abi#abi-sys-iio-devicex-in-intensityy-raw 
+> is the matching ABI doc. 
+>
+> Mauro, Jon, other docs system experts...
+>
+> I couldn't immediately find a way to link to a specific ABI docs entry,
+> is there a means to do it from kernel-doc in a header?
 
-Thanks for updating this document!  That said, could I ask you, please,
-to resubmit these with a proper changelog?  I'd also suggest copying Al
-Viro, who will surely have comments on the changes you have made.
-
-> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-> index fab3bd702250..8671eafa745a 100644
-> --- a/Documentation/filesystems/vfs.rst
-> +++ b/Documentation/filesystems/vfs.rst
-> @@ -242,33 +242,42 @@ struct super_operations
->  -----------------------
->  
->  This describes how the VFS can manipulate the superblock of your
-> -filesystem.  As of kernel 2.6.22, the following members are defined:
-> +filesystem.  As of kernel 6.1, the following members are defined:
-
-Why not 6.2 while you're at it?  We might as well be as current as we
-can while we're updating things.
+It should just be possible to write out the type or function name and
+have the links generated automatically.  Have you tried just putting
+"enum iio_chan_type" into the text?  If the automarkup code doesn't pick
+it up, please let me know.
 
 Thanks,
 
