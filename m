@@ -2,49 +2,48 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C3F1C636CC
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 14:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D4A7C636CC
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 14:58:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231953AbjAaOvT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 09:51:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49126 "EHLO
+        id S232308AbjAaO63 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 09:58:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231673AbjAaOvR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 09:51:17 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B21B9F8;
-        Tue, 31 Jan 2023 06:51:16 -0800 (PST)
+        with ESMTP id S232304AbjAaO6N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 09:58:13 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 630E615CBF;
+        Tue, 31 Jan 2023 06:57:58 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4F93C61489;
-        Tue, 31 Jan 2023 14:51:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBD6C433EF;
-        Tue, 31 Jan 2023 14:51:13 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 12174B81D38;
+        Tue, 31 Jan 2023 14:57:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DC5DC433EF;
+        Tue, 31 Jan 2023 14:57:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675176675;
-        bh=15Wd5z/jRz6pb0WwzR3mt++1qGm62uG95hzl9q3OQQU=;
+        s=k20201202; t=1675177075;
+        bh=xY2imQ/4jVR/SklTLINW5s0+AQ0x+kTf64hP7eo+Tr8=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ODIXiCluZuZlRcoUd4L8EKp+rl/sNBdzAWfcuyTZHqg066Nd2sK8gr40KV+OZVNJE
-         8uP7h3qaHbets5ek09039BDswiEYgLRIl8OtgUAyTgJOZX3SJ5sywTUOGLWyQ4xtRN
-         6QK3Ou5wyp3spv4GhxGxvX7hQtgDOxh0g6vHvofjIbFCvY+eqai83p0jOa+lyXo5BC
-         H1gdiLuv0M0IdGMQtkb1hwrA03BqjiByJy9SZvfnOojdqCVT6z5Z/jW8xIYqsdlYJv
-         ow993QS1xtES3kaSY5dJ7PkIFpXkk5ybfe3n0lNq7oLRxHFWW3FqmU4EYCFt4QYKH1
-         HCImaLm/9Omgg==
-Date:   Tue, 31 Jan 2023 15:51:10 +0100
+        b=MGzBcSja4/aGrarJgv1xthxH7End6L0Qnnwl/ijNXHO0BisZ5Hqky3HnCbSyzg0J6
+         v8aiv7RBj0ZqY0J0nJWLa25dYiwrFE37Qwd6pzAXD6TosrVbRWF/g1E43Rjw5q4z2A
+         /POxDnFPwBqPzGDWYnKjVO1rXl9qLytS4K5jJruZYbxjhZmzHbSnt/vdXmzoFiLbtV
+         QexrbM6E0J8vQ90kMP201to2etgN+7EvuUlTkEtXwIg2lViiN5lFyJtcnOalIrVeKG
+         hiNekdsJcEbhKTSxE4ay8sc67L3uz1AneUMP8As+XOsVqMARwlwL4l7SJne1Chq+qF
+         P+sKcrln0cYOw==
+Date:   Tue, 31 Jan 2023 15:57:51 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Guenter Roeck <linux@roeck-us.net>, SeongJae Park <sj@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/8] Docs/hwmon/index: Add missing SPDX License
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/8] Docs/input/index: Add missing SPDX License
  Identifier
-Message-ID: <20230131155110.032ec4a6@coco.lan>
-In-Reply-To: <87k0124vd9.fsf@meer.lwn.net>
+Message-ID: <20230131155751.4dcb0885@coco.lan>
+In-Reply-To: <20230122213650.187710-6-sj@kernel.org>
 References: <20230122213650.187710-1-sj@kernel.org>
-        <20230122213650.187710-5-sj@kernel.org>
-        <20230131034404.GA837158@roeck-us.net>
-        <87k0124vd9.fsf@meer.lwn.net>
+        <20230122213650.187710-6-sj@kernel.org>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,35 +52,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 31 Jan 2023 07:44:02 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Em Sun, 22 Jan 2023 21:36:47 +0000
+SeongJae Park <sj@kernel.org> escreveu:
 
-> Guenter Roeck <linux@roeck-us.net> writes:
+> Add missing SPDX License Identifier for input documentation index file.
 > 
-> > On Sun, Jan 22, 2023 at 09:36:46PM +0000, SeongJae Park wrote:  
-> >> Add missing SPDX License Identifier for hwmon documentation index file.
-> >>   
-> >
-> > I do not feel comfortable accepting this change without confirmation
-> > that changing the license from <none> to an explicit <GPL v2.0> is
-> > legally acceptable.  
+> Signed-off-by: SeongJae Park <sj@kernel.org>
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+
+> ---
+>  Documentation/input/index.rst | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> As with many of these, this file was initially added by Mauro (added to
-> CC).  Mauro, can you confirm that GPLv2 was your intention for these
-> index.rst files?  That would clear the path for a lot of these patches.
+> diff --git a/Documentation/input/index.rst b/Documentation/input/index.rst
+> index 35581cd18e91..d60bf9cfe005 100644
+> --- a/Documentation/input/index.rst
+> +++ b/Documentation/input/index.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+>  ===================
+>  Input Documentation
+>  ===================
 
-Yes, that's the intend. Feel free to add either:
 
-	Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-Or
-	Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-to Documentation/*/index.rst files I wrote that might have missing:
-
-	.. SPDX-License-Identifier: GPL-2.0
-
-on the top of it.
 
 Thanks,
 Mauro
