@@ -2,129 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32272C38142
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 12:18:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B568C38142
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 12:42:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231151AbjAaMSs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 07:18:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38374 "EHLO
+        id S231405AbjAaMmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 07:42:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231679AbjAaMSf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 07:18:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5786F460B3
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 04:17:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675167464;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=0xKlxpkUZRo2mPicdjcp1VlQPa8+dcAbG4ZeEJrymiQ=;
-        b=UWb42KNSY48B46V1kyvhV27kMAc4nZ595D9LQe5taP+PgDaO7D2er9ZyFJg8lJyWo7wZ4X
-        5mOj/2dJgpltXjVIKsJnQ3FXKTm1H5HvxEnHLEOHfYFqMC0T1iI91q7O57dK159erG2GTw
-        FlMg/urmObm75CH3hgxbWUFAnOLelYQ=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-551-NQFG_oQDPASBrUl9a8Xz9w-1; Tue, 31 Jan 2023 07:17:43 -0500
-X-MC-Unique: NQFG_oQDPASBrUl9a8Xz9w-1
-Received: by mail-ua1-f71.google.com with SMTP id p44-20020a9f382f000000b0060ae73237b3so5658178uad.14
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 04:17:43 -0800 (PST)
+        with ESMTP id S229661AbjAaMmX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 07:42:23 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 320FF59F8;
+        Tue, 31 Jan 2023 04:42:23 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id jh15so5873289plb.8;
+        Tue, 31 Jan 2023 04:42:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yVPlqWdyzakqT8A0oiBlN6ELSaA4FijmFZ/f8hBpSb0=;
+        b=XNjSuciVozPlCMf5ihdSXuioYZPON6d+ZFbO1IfiSBrGttMPr5hyxsABsNk7bxuk+A
+         Rld4u0v8FcZYDzsz+Vusi90Dmj+5hUv+9buwFU92ikWhQ8x4on2alV2a5cHEJDbG3As8
+         mhfv1ZyzY2cmgw1IWdW1MbtzrgKqZ1usAILviUaxHnmPsuS2xJhx5Ep8kk90xgmv38TF
+         DhrrFv6MNBTPMlG4XuEm7MudCDrMOEwgOl6RSWGmQxQfVy2t0d2Lct3xySX66H1n7MZJ
+         TaobB772CSK6XCZHXRv6Hcf7NHJDsF+Qrazg6ZCJn8QKagX3RwS6YVU3Pbf4ZgIUn9qT
+         uG2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0xKlxpkUZRo2mPicdjcp1VlQPa8+dcAbG4ZeEJrymiQ=;
-        b=iFnWCOwHiB9Jqzminrxvd+g1ZZaZWoVTqbPoVHnYxEeTfYMnQmIFxCg2NBadOnWFEt
-         GIaFRMh8iEPr1vIY6E04g5jfNR2j8eMeA5JHOvwvnMVvvpBt26+Z/HgwA9cGHy8kR72E
-         JMG0cr2L3WPQ0eiLuOYV4GYJgtlqUKZFJSd7k4GPieHygHVdbfShMZ2/9f3G4kCkoEcO
-         tdNmEZyEtsFkBmLiZ/F1T3EVkYVc8pzX+rhnKGkMp8XQGxwn9aEA00De+fu0LHRjsxKP
-         z2AkKT1q4mqOLHAQVSc8lC8ss6CbH6d2rdet0qu860NG7DV+G4r7ymKygWhp0ZG5kJvL
-         1cTQ==
-X-Gm-Message-State: AO0yUKW8W0l2LvT9gKUuwgPgT5YNLVmZxs26P2cwVFIf/YAkl1cHxxfN
-        EVzBRV7ADSaPPEsTLL/s7GmlUmEL+TC9QpCJ+GeKxkcYxQfvEal18zB4Es7GvLZFHygEKg5ZxkH
-        rYEezVu3hunT+5w2jMHEH
-X-Received: by 2002:a67:c119:0:b0:3ea:99cb:c3e with SMTP id d25-20020a67c119000000b003ea99cb0c3emr2996488vsj.2.1675167462886;
-        Tue, 31 Jan 2023 04:17:42 -0800 (PST)
-X-Google-Smtp-Source: AK7set/3cWf1zFQSzSaXyTvYZFmhtrofj2WcZS5Lru0KQCl9i0U0TOY96Lm9fQ3ijteXPFUn2WOINw==
-X-Received: by 2002:a67:c119:0:b0:3ea:99cb:c3e with SMTP id d25-20020a67c119000000b003ea99cb0c3emr2996457vsj.2.1675167462612;
-        Tue, 31 Jan 2023 04:17:42 -0800 (PST)
-Received: from gerbillo.redhat.com (146-241-113-28.dyn.eolo.it. [146.241.113.28])
-        by smtp.gmail.com with ESMTPSA id 10-20020a370b0a000000b007203bbbbb31sm3325683qkl.47.2023.01.31.04.17.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Jan 2023 04:17:42 -0800 (PST)
-Message-ID: <865b04949b69c3470ecb3fa5f93005e4c5a9e86e.camel@redhat.com>
-Subject: Re: [PATCH 0/9] Documentation: correct lots of spelling errors
- (series 2)
-From:   Paolo Abeni <pabeni@redhat.com>
-To:     patchwork-bot+netdevbpf@kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, tj@kernel.org, lizefan.x@bytedance.com,
-        hannes@cmpxchg.org, cgroups@vger.kernel.org, agk@redhat.com,
-        snitzer@kernel.org, dm-devel@redhat.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-mm@kvack.org,
-        dan.j.williams@intel.com, vishal.l.verma@intel.com,
-        dave.jiang@intel.com, nvdimm@lists.linux.dev, vkoul@kernel.org,
-        dmaengine@vger.kernel.org, song@kernel.org,
-        linux-raid@vger.kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, jdelvare@suse.com, linux@roeck-us.net,
-        linux-hwmon@vger.kernel.org, jiri@nvidia.com, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, netdev@vger.kernel.org,
-        paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
-        josh@joshtriplett.org, rcu@vger.kernel.org, jejb@linux.ibm.com,
-        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-        sparclinux@vger.kernel.org
-Date:   Tue, 31 Jan 2023 13:17:35 +0100
-In-Reply-To: <167516701747.19012.10728935395396675001.git-patchwork-notify@kernel.org>
-References: <20230129231053.20863-1-rdunlap@infradead.org>
-         <167516701747.19012.10728935395396675001.git-patchwork-notify@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yVPlqWdyzakqT8A0oiBlN6ELSaA4FijmFZ/f8hBpSb0=;
+        b=vaUgTeBeicxJe0NEXLL/sJycCIBK+d0nCqAWjI2bRaHDl8sLLw8SVic+NmUtOYV0/3
+         aA5s/cxSW/nfXMaVe+nJeDX8FZfpQoQdBE5B42rzSmFi91DHKxoYbntJO7HSyOJl1hM2
+         WW3key+6oYgq4g3cNZbUyFVStbzXRTqM4cAdGrHVnAkntTj8eAMssGD2nFoCh/ZKnMA3
+         q2WHXS0IzK58XRL7S6WsR73YoIayCj33pn/sk4XPMYDulQTHDcjIPBgOwL3UVpm80QF5
+         TXE26icnrImheNUyaF6pozIUsA6XTeiz4/uk6MoJvvF+YvFdYFzn5gckgtSfU2/n9ff7
+         3CKg==
+X-Gm-Message-State: AO0yUKVV4gAVsomM52J1yy9dvucrI6/daXa6oiZVe/sRfiDaFsKDr4F9
+        TliwyOs5iwiSC0exeee+TOw=
+X-Google-Smtp-Source: AK7set9LJLOYk1jCM9i+2oLYrMZvin4DbigkZZE5RXUHNhyJVfOknN7WGNZT0ELlQhpHLXkZzNDp3Q==
+X-Received: by 2002:a17:902:da92:b0:196:7df6:2d38 with SMTP id j18-20020a170902da9200b001967df62d38mr9687039plx.7.1675168942642;
+        Tue, 31 Jan 2023 04:42:22 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-4.three.co.id. [180.214.232.4])
+        by smtp.gmail.com with ESMTPSA id t19-20020a1709028c9300b001965f761e6dsm6949475plo.182.2023.01.31.04.42.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Jan 2023 04:42:22 -0800 (PST)
+Message-ID: <65c16136-025a-f2f0-402f-a341f3da2723@gmail.com>
+Date:   Tue, 31 Jan 2023 19:42:15 +0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v4 6/6] Documentation: amd_pstate: Update amd_pstate
+ status sysfs for guided
+Content-Language: en-US
+To:     Wyes Karny <wyes.karny@amd.com>,
+        Rafael J Wysocki <rafael@kernel.org>,
+        Huang Rui <ray.huang@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Mario.Limonciello@amd.com, Perry.Yuan@amd.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, santosh.shukla@amd.com,
+        Len Brown <lenb@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Ananth Narayan <ananth.narayan@amd.com>,
+        gautham.shenoy@amd.com, Tor Vic <torvic9@mailbox.org>
+References: <20230131052141.96475-1-wyes.karny@amd.com>
+ <20230131052141.96475-7-wyes.karny@amd.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230131052141.96475-7-wyes.karny@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2023-01-31 at 12:10 +0000, patchwork-bot+netdevbpf@kernel.org
-wrote:
-> Hello:
->=20
-> This patch was applied to netdev/net-next.git (master)
-> by Paolo Abeni <pabeni@redhat.com>:
->=20
-> On Sun, 29 Jan 2023 15:10:44 -0800 you wrote:
-> > Maintainers of specific kernel subsystems are only Cc-ed on their
-> > respective patches, not the entire series. [if all goes well]
-> >=20
-> > These patches are based on linux-next-20230127.
-> >=20
-> >=20
-> >  [PATCH 1/9] Documentation: admin-guide: correct spelling
-> >  [PATCH 2/9] Documentation: driver-api: correct spelling
-> >  [PATCH 3/9] Documentation: hwmon: correct spelling
-> >  [PATCH 4/9] Documentation: networking: correct spelling
-> >  [PATCH 5/9] Documentation: RCU: correct spelling
-> >  [PATCH 6/9] Documentation: scsi/ChangeLog*: correct spelling
-> >  [PATCH 7/9] Documentation: scsi: correct spelling
-> >  [PATCH 8/9] Documentation: sparc: correct spelling
-> >  [PATCH 9/9] Documentation: userspace-api: correct spelling
-> >=20
-> > [...]
->=20
-> Here is the summary with links:
->   - [4/9] Documentation: networking: correct spelling
->     https://git.kernel.org/netdev/net-next/c/a266ef69b890
->=20
-> You are awesome, thank you!
+On 1/31/23 12:21, Wyes Karny wrote:
+> diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
+> index 5304adf2fc2f..56a3d11f51a5 100644
+> --- a/Documentation/admin-guide/pm/amd-pstate.rst
+> +++ b/Documentation/admin-guide/pm/amd-pstate.rst
+> @@ -303,13 +303,18 @@ efficiency frequency management method on AMD processors.
+>  AMD Pstate Driver Operation Modes
+>  =================================
+>  
+> -``amd_pstate`` CPPC has two operation modes: CPPC Autonomous(active) mode and
+> -CPPC non-autonomous(passive) mode.
+> -active mode and passive mode can be chosen by different kernel parameters.
+> -When in Autonomous mode, CPPC ignores requests done in the Desired Performance
+> -Target register and takes into account only the values set to the Minimum requested
+> -performance, Maximum requested performance, and Energy Performance Preference
+> -registers. When Autonomous is disabled, it only considers the Desired Performance Target.
+> +``amd_pstate`` CPPC has 3 operation modes: autonomous (active) mode,
+> +non-autonomous (passive) mode and guided autonomous (guided) mode.
+> +Active/passive/guided mode can be chosen by different kernel parameters.
+> +
+> +- In autonomous mode, platform ignores the desired performance level request
+> +  and takes into account only the values set to the minimum, maximum and energy
+> +  performance preference registers.
+> +- In non-autonomous mode, platform gets desired performance level
+> +  from OS directly through Desired Performance Register.
+> +- In guided-autonomous mode, platform sets operating performance level
+> +  autonomously according to the current workload and within the limits set by
+> +  OS through min and max performance registers.
+>  
+>  Active Mode
+>  ------------
+> @@ -338,6 +343,15 @@ to the Performance Reduction Tolerance register. Above the nominal performance l
+>  processor must provide at least nominal performance requested and go higher if current
+>  operating conditions allow.
+>  
+> +Guided Mode
+> +-----------
+> +
+> +``amd_pstate=guided``
+> +
+> +If ``amd_pstate=guided`` is passed to kernel command line option then this mode
+> +is activated.  In this mode, driver requests minimum and maximum performance
+> +level and the platform autonomously selects a performance level in this range
+> +and appropriate to the current workload.
+>  
+>  User Space Interface in ``sysfs``
+>  =================================
+> @@ -358,6 +372,9 @@ control its functionality at the system level.  They are located in the
+>  	"passive"
+>  		The driver is functional and in the ``passive mode``
+>  
+> +        "guided"
+> +                The driver is functional and in the ``guided mode``
+> +
+>  	"disable"
+>  		The driver is unregistered and not functional now.
+>  
 
-That is just a bot glitch. I actually applied only patch 4/9 to the
-net-next tree. I hope this is not too much scarying/confusing.
+LGTM, thanks!
 
-Thanks,
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Paolo
+-- 
+An old man doll... just what I always wanted! - Clara
 
