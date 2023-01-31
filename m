@@ -2,196 +2,319 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7742DC38142
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 13:12:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD9ECC38142
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 13:22:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231555AbjAaNMk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 08:12:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48900 "EHLO
+        id S231964AbjAaNWv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 08:22:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229953AbjAaNMi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 08:12:38 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2051.outbound.protection.outlook.com [40.107.237.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 987CD4F857;
-        Tue, 31 Jan 2023 05:12:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AOto/HA1Ril96+exzklGfx/ZDRvTttZttNBN+Xfut9Jrztj99AzG6FJ6QCtpkEqKGKXAgBsynT+S5UySmR2SIBMxWG297XQR78zmj1y0hd3I/36WIk+0lGV8Ib6uRIwnRNzr8pK4qv/nvlXHSCWVhShWZ8OV5lKapxH4GRIpvaQI4JbayizX6upnmfy9gx515dXkaWgLAkV9KrUY3hb/pYIJ7kP6LIiVXD5dMEO65deX1vTtzozXbbewyeAMb5shRtwLfC78XbJXdyYlyE9G3GDmxqHqfUOsTmNH2/89oY2LI/lUyim6AB9BzYy2yq0k2/XThcAZpA0QPqZm3Xmcyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zKykKRghwUAS68w3awqtk2Zld9/IzJaBWTw+CpFv7T8=;
- b=R77Rs8MkozCmnOIf9v266rNs0Gswht5oAnl7o6zhslNDHdMuXbi6T2hzJQhFtKD+niLpQIvSX2NqyqQ1w7yCXyc47qZMKJIChCyxbLRdF83Wa79NtTpLekTv/ErrhkxXS3urOvFTTjtdV8yWabGn3OQfnfIsA4kZfPD5p394A3ck/ssNdFDgl1XPbIV2ddgCr3Mj9PliUAL+np0O/69QoA0yUj3RCBZ1KH/f/2aetc0gQhXjdWQzh3D1GVJRRFv9VsnwemTecj1ugHObRu9AfZ++2QjFiBEcgokwMB3X/uygFDrvlfQmWvGVSUapWI7W5BiObsHbBtGQgNad7wzJYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zKykKRghwUAS68w3awqtk2Zld9/IzJaBWTw+CpFv7T8=;
- b=TXRIVVLu0dn9e7BaPqCCXQyQD3dw4bfglkZZ+nIZgt/VaH3DmAEPmtaCDXJHyuhOJGofYl1y4CUJUSYZ8nAa1hMlJCHQ1oJ/lOT/rvEfERQDA7Kcnoe1tQqIg5rzA0uxuoe9GoGxBhMHs61BZyO41EuUKXLcYVmG5ll/VJFWdMo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by PH7PR12MB7329.namprd12.prod.outlook.com (2603:10b6:510:20c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Tue, 31 Jan
- 2023 13:12:15 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::a59e:bafb:f202:313c]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::a59e:bafb:f202:313c%7]) with mapi id 15.20.6043.036; Tue, 31 Jan 2023
- 13:12:15 +0000
-Message-ID: <e632c739-6bfa-9725-7e9f-980d433dde00@amd.com>
-Date:   Tue, 31 Jan 2023 07:12:12 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v4 6/6] Documentation: amd_pstate: Update amd_pstate
- status sysfs for guided
-Content-Language: en-US
-To:     Wyes Karny <wyes.karny@amd.com>,
-        Rafael J Wysocki <rafael@kernel.org>,
-        Huang Rui <ray.huang@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>, Perry.Yuan@amd.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
-        santosh.shukla@amd.com, Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Ananth Narayan <ananth.narayan@amd.com>,
-        gautham.shenoy@amd.com, Tor Vic <torvic9@mailbox.org>
-References: <20230131052141.96475-1-wyes.karny@amd.com>
- <20230131052141.96475-7-wyes.karny@amd.com>
-From:   Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20230131052141.96475-7-wyes.karny@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DS7PR03CA0336.namprd03.prod.outlook.com
- (2603:10b6:8:55::20) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+        with ESMTP id S231585AbjAaNWu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 08:22:50 -0500
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3258810DD;
+        Tue, 31 Jan 2023 05:22:47 -0800 (PST)
+Received: from mail02.huawei.com (unknown [172.18.147.227])
+        by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4P5lrb6snhz9v7ZH;
+        Tue, 31 Jan 2023 21:14:39 +0800 (CST)
+Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
+        by APP1 (Coremail) with SMTP id LxC2BwAnqQQDFtlj3RPhAA--.10866S2;
+        Tue, 31 Jan 2023 14:22:23 +0100 (CET)
+Message-ID: <4f029a41d80d883d9b4729cbc85211955c9efe8e.camel@huaweicloud.com>
+Subject: Re: [RFC PATCH v9 10/16] dm-verity: consume root hash digest and
+ signature data via LSM hook
+From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
+To:     Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net,
+        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
+        agk@redhat.com, snitzer@kernel.org, eparis@redhat.com,
+        paul@paul-moore.com
+Cc:     linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Date:   Tue, 31 Jan 2023 14:22:01 +0100
+In-Reply-To: <1675119451-23180-11-git-send-email-wufan@linux.microsoft.com>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+         <1675119451-23180-11-git-send-email-wufan@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|PH7PR12MB7329:EE_
-X-MS-Office365-Filtering-Correlation-Id: e01d193b-fbfd-432b-2904-08db038cc5a9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uykWLym+0fQm0idERb9VYuoVxyokO47chdfwZT8PT+g3R4lAADkn3hH76xkJ/xclSiUnZaeR/LkQWR8u8HSBMmnLYyKy8mrzSad5VYbdeQb7VtzPqfFcm1vnJhposKvWPFvkzfNE56wt/AEw7v3kL6u5YUXsX76yV2gcrDjU4gHdxU+V7pkCr/QJJUZVhCMhb3rUUiv5Qiu2Y3FvNRppa1vvh1M/iy46FIGE8AIRnwYWvnwLp/gG7lkQqO5VDn7tmCdggc0VwigprfsTYZOg2LwYAxn5fDF2WxBJCvqC71uq0ZbprrYEgGrw/uFvwJMYBWEGztbBH5tz04oJkE+6f6AJCk1DFCLRmFasTtydIRXaoeyc8SenAJL7n5jsgEfZRS8q+A567dMkXCeTHy89Rl1pVuT/ycGpLsg/yS8G6jFVfo8ThQNJeIFFejYpnRV6MDpy94Kmb3LI4aSZqeyx/PrucpSDDwjOoVcfx+WKdJSvDbuZ+lNh57Y5NwpfQZ7QtKpgK+8LSk9RkiFllS+PxCbJKYOJQba+Dmr+L+F0Nlqy/Y42/i5vahV4gYQAnByZYMVoJwMxa4ZWLQ5CnbjWZJ4RBd7M27FVD3/XZbGmqujKTYdv0sHTviUKK1ObzhcrrsaxUY/Kz5MsMOYw6Tv1KHuZssdTME/DvQYcQRaWjdtEGzjT+u47oTfzMrSTliAIVMy6MoXw7sU/9eb9gr0ESdgYbptiuQKP13Kh6J3TeSw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(136003)(39860400002)(366004)(376002)(396003)(451199018)(31686004)(83380400001)(66946007)(66556008)(66476007)(8676002)(2616005)(38100700002)(41300700001)(6506007)(53546011)(6512007)(186003)(6666004)(8936002)(4326008)(86362001)(316002)(31696002)(6486002)(7416002)(36756003)(44832011)(15650500001)(110136005)(6636002)(2906002)(478600001)(54906003)(5660300002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWdjY01jVk5xdnBSOWNjR0lDM3V0SEhkbVk0bXltVHNmbkI0K1Iwa1JlWVJj?=
- =?utf-8?B?L0g3L0xicjNHZllncTZ6OXZ5bFVaOTRvcVZjWjkwS0orTGdtalZVUjdYS3Nk?=
- =?utf-8?B?a1NpcDh2bFg0aVltVUlDaE5vbnhWRUQrelU2ZFBrbDNoRkl0VFhBOUxsT0dJ?=
- =?utf-8?B?MUNnWjljS2cxbEltYzloak5KQWRjM3pNZjRJYzdqZzBQbUNuMFg3T293djV5?=
- =?utf-8?B?emtxWGoxeHJzd3h5b0FzYlZsMTd6YVRvNllRU2F6bElxNGpZWkNYK2Nmc3JI?=
- =?utf-8?B?VVkzaFR0U2o3TS9PWFU0VnlzK2lhVDRCbVVkYTIybXhVN09nMmtxRDFKdEU2?=
- =?utf-8?B?dFdJWWxzcExPL0d2eGJiR1hpckdVUzcwTjJ4RDR2dGlFUUZWMzNIamw0Z0h6?=
- =?utf-8?B?aytVZGFxSExyRzFhR0RlcjhFM2J4N05xNWxYV0RoK2lPT1pQbG4yYkhlRDAw?=
- =?utf-8?B?OThoS0JDaWg4ZWxUWEEyMVFSNk5mVDNtSnJtSjZkcTU2Y1NBdklsMDFZTjM4?=
- =?utf-8?B?NVJtbUR6ZzNHUHlzMkRuSW03ci9rNGIzSGtFUXRLSEk2R0cvUmFpSWl2ZmVE?=
- =?utf-8?B?K2ZKaFQ2V2c1dEp0S0FzSkJHUU8rZTR3ZGVSZk5nNWg4TjREU0M1bGtIVVox?=
- =?utf-8?B?cjZsa1ZPeDVoTHJIK09vc0pHUjRod0N1WlNZY1QyV0M5NUk3Y3dYZ21sbDZm?=
- =?utf-8?B?NXk5Ym9xNEFYWitBd1N0U0JIZjFMeHduVGJoOWFRTi80Qk9qRzJjb1Jad1Rx?=
- =?utf-8?B?dGNHbGUvREVVTU41NUpvcldiRUFyTGMzamZ6N3pWdExaWWRsM2xVV0NNNk55?=
- =?utf-8?B?Y1I0cEc3K1k1bTBIREVkdk9mRDlvQVFTQ2piYUNNR0p6SEFMaS81QkNjblNo?=
- =?utf-8?B?K1lrdEFjbm95L0s4VXFTd25RNjMvRjMxYXRBWlQ0b0RaY204aStHZTJnbEVz?=
- =?utf-8?B?M0lPODhNc280aUIySDg3bURwT0I0V2VUMUlVcUxHTEdRaDVibWhOZC9OV3FQ?=
- =?utf-8?B?ZzBmTlN3Um9pM1dMV3M0d05LcURqWFo3Q255WlRHWTkxNjVyN0kyZmFmTkFH?=
- =?utf-8?B?TGJqcmNsbW9SSzByL2pXN1U1dEVLVFAzeWE4dU5CRVFBU1NBaTZGWlkvUHQ5?=
- =?utf-8?B?OTdpNXhLc1lWNk9YL3FvYW9jQzVmQVUrRExJMzg4cUpvWGpVZGtlak83N0R2?=
- =?utf-8?B?UmM2d2V4R290VXB4M3NjN2RDUUpKUnpmN0V2RUo5a2F2b1Btai9jMVdSd01S?=
- =?utf-8?B?eGFpZ3R0U1dWUWovOUFKOG8ra3ZwS29hV0NnU1FMT25UcHpvKzROTUozQ05l?=
- =?utf-8?B?T0lBZ2p3dmQvM1VaTHJ5WUdXOTJyMHBWaEgwQmtCOWxQSk4zL0xJSEIvUC9E?=
- =?utf-8?B?Wmd1ek1yOXE5NUhubjYzRnBQR2cyRWxpSDViZ09qc0NmWTVjV3dsc2JkSzF0?=
- =?utf-8?B?Ky9zZmhpMmZjN05DTS9DNFNGWVdZazhMcUFnNlZuVXEwWmdlcnB6TVQ0UUo3?=
- =?utf-8?B?ajE4UEZyMUI1bVloWUVFN0F2Y0pWcW9PemphUEV1S1VpWld2STVzd2xRQVYx?=
- =?utf-8?B?K1lDQjRpME1lNlpGRFRPZ25NNDdXTDh0WC80QTRqNS9iOGdjd052Y3hLSGpC?=
- =?utf-8?B?YU1WVC9xVkh4Q0kxK1Z3TzZldSt2d2tjL1dRQVpxOWhsQ1drQkkyNEp2bURV?=
- =?utf-8?B?eWU5am5UM2N3VUxJLy9CVGpLWE5YQTRjYVg5b0VUT3MwVEQrSytFZDJIYjZq?=
- =?utf-8?B?bGJiVWx5NnBFRU1qNzRhSUxObUQwZ2t4Z2U5TFoxR0tzck5scnZqamN0ZjJG?=
- =?utf-8?B?UnQ5blBzMlFMZmtFbmFoeHd5aDJkdnQ2czVXNWhpclQxTWg3NGZoS3ExYWJ6?=
- =?utf-8?B?WExrQWhOblNlamFQYkJTRndkQ2Q2N29zbW1IV0tQengzYi8rbDBWOFZFSHhH?=
- =?utf-8?B?ZTdmdjAzVjlHcld4Sm5pdzE0SHZYODRTc2tNN2tLbiszTndRZjdvazJCNnBY?=
- =?utf-8?B?bXNnRTl4aGFJSndBaTlIU0ZjNHhGQnB4OUdZVVBaaDlNYUZoV0JCSHdIaDNS?=
- =?utf-8?B?MjRSL1lLMGV0eGxkUEVnZklqT29wVTBQMThhL0V4YzJ1eHJhT2Yyc3dSblpP?=
- =?utf-8?B?dlFMczNDQnhidGgyWSs2MkMrNy9NMDRTWE94OW9lMUJEdjR2QTZ4MzVyRnVN?=
- =?utf-8?Q?SHUz49+oPN67j5BO4RyT5xSQ1dorbrlpPKzHpyjKqEwg?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e01d193b-fbfd-432b-2904-08db038cc5a9
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2023 13:12:15.1257
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zc25ih5q6JGPL4MYzYeW+zRFc4XtpktSlhYmKTTdRS14Vf59Sx5Fz65LMkGrhD4pDuu5+GWWCjbC6rpfESQB5Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7329
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: LxC2BwAnqQQDFtlj3RPhAA--.10866S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3WrW5KF1xuw43XrWUCF1Utrb_yoWfGw4UpF
+        Wq9Fy5KrW5JF47G3WxAF129F4Yy340kry7Kry29w18uF1ktw10q3yvyrW7ZrWxAr97JFyI
+        gFs7Gr45ur1qy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+        AFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+        Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI
+        7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+        Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY
+        6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
+        AIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
+        aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07UZ18PUUUUU=
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAOBF1jj4RYzQAAso
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/30/23 23:21, Wyes Karny wrote:
-> Update amd_pstate status sysfs for guided mode.
+On Mon, 2023-01-30 at 14:57 -0800, Fan Wu wrote:
+> From: Deven Bowers <deven.desai@linux.microsoft.com>
 > 
-> Signed-off-by: Wyes Karny <wyes.karny@amd.com>
-> ---
->   Documentation/admin-guide/pm/amd-pstate.rst | 31 ++++++++++++++++-----
->   1 file changed, 24 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-> index 5304adf2fc2f..56a3d11f51a5 100644
-> --- a/Documentation/admin-guide/pm/amd-pstate.rst
-> +++ b/Documentation/admin-guide/pm/amd-pstate.rst
-> @@ -303,13 +303,18 @@ efficiency frequency management method on AMD processors.
->   AMD Pstate Driver Operation Modes
->   =================================
->   
-> -``amd_pstate`` CPPC has two operation modes: CPPC Autonomous(active) mode and
-> -CPPC non-autonomous(passive) mode.
-> -active mode and passive mode can be chosen by different kernel parameters.
-> -When in Autonomous mode, CPPC ignores requests done in the Desired Performance
-> -Target register and takes into account only the values set to the Minimum requested
-> -performance, Maximum requested performance, and Energy Performance Preference
-> -registers. When Autonomous is disabled, it only considers the Desired Performance Target.
-> +``amd_pstate`` CPPC has 3 operation modes: autonomous (active) mode,
-> +non-autonomous (passive) mode and guided autonomous (guided) mode.
-> +Active/passive/guided mode can be chosen by different kernel parameters.
-> +
-> +- In autonomous mode, platform ignores the desired performance level request
-> +  and takes into account only the values set to the minimum, maximum and energy
-> +  performance preference registers.
-> +- In non-autonomous mode, platform gets desired performance level
-> +  from OS directly through Desired Performance Register.
-> +- In guided-autonomous mode, platform sets operating performance level
-> +  autonomously according to the current workload and within the limits set by
-> +  OS through min and max performance registers.
->   
->   Active Mode
->   ------------
-> @@ -338,6 +343,15 @@ to the Performance Reduction Tolerance register. Above the nominal performance l
->   processor must provide at least nominal performance requested and go higher if current
->   operating conditions allow.
->   
-> +Guided Mode
-> +-----------
-> +
-> +``amd_pstate=guided``
-> +
-> +If ``amd_pstate=guided`` is passed to kernel command line option then this mode
-> +is activated.  In this mode, driver requests minimum and maximum performance
-> +level and the platform autonomously selects a performance level in this range
-> +and appropriate to the current workload.
->   
->   User Space Interface in ``sysfs``
->   =================================
-> @@ -358,6 +372,9 @@ control its functionality at the system level.  They are located in the
->   	"passive"
->   		The driver is functional and in the ``passive mode``
->   
-> +        "guided"
-> +                The driver is functional and in the ``guided mode``
-> +
->   	"disable"
->   		The driver is unregistered and not functional now.
->   
+> dm-verity provides a strong guarantee of a block device's integrity. As
+> a generic way to check the integrity of a block device, it provides
+> those integrity guarantees to its higher layers, including the filesystem
+> level.
 
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+I think you could reuse most of is_trusted_verity_target(), in
+particular dm_verity_get_root_digest().
+
+And probably, the previous patch is not necessary.
+
+Roberto
+
+> An LSM that control access to a resource on the system based on the
+> available integrity claims can use this transitive property of
+> dm-verity, by querying the underlying block_device of a particular
+> file.
+> 
+> The digest and signature information need to be stored in the block
+> device to fulfill the next requirement of authorization via LSM policy.
+> This will enable the LSM  to perform revocation of devices that are still
+> mounted, prohibiting execution of files that are no longer authorized
+> by the LSM in question.
+> 
+> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> ---
+> v2:
+>   + No Changes
+> 
+> v3:
+>   + No changes
+> 
+> v4:
+>   + No changes
+> 
+> v5:
+>   + No changes
+> 
+> v6:
+>   + Fix an improper cleanup that can result in
+>     a leak
+> 
+> v7:
+>   + Squash patch 08/12, 10/12 to [11/16]
+>   + Use part0 for block_device, to retrieve the block_device, when
+>     calling security_bdev_setsecurity
+> 
+> v8:
+>   + Undo squash of 08/12, 10/12 - separating drivers/md/ from
+>     security/ & block/
+>   + Use common-audit function for dmverity_signature.
+>   + Change implementation for storing the dm-verity digest to use the
+>     newly introduced dm_verity_digest structure introduced in patch
+>     14/20.
+>   + Create new structure, dm_verity_digest, containing digest algorithm,
+>     size, and digest itself to pass to the LSM layer. V7 was missing the
+>     algorithm.
+>   + Create an associated public header containing this new structure and
+>     the key values for the LSM hook, specific to dm-verity.
+>   + Additional information added to commit, discussing the layering of
+>     the changes and how the information passed will be used.
+> 
+> v9:
+>   + No changes
+> ---
+>  drivers/md/dm-verity-target.c     | 25 +++++++++++++++++++++++--
+>  drivers/md/dm-verity-verify-sig.c | 16 +++++++++++++---
+>  drivers/md/dm-verity-verify-sig.h | 10 ++++++----
+>  include/linux/dm-verity.h         | 19 +++++++++++++++++++
+>  4 files changed, 61 insertions(+), 9 deletions(-)
+>  create mode 100644 include/linux/dm-verity.h
+> 
+> diff --git a/drivers/md/dm-verity-target.c b/drivers/md/dm-verity-target.c
+> index ccf5b852fbf7..afea61eed4ec 100644
+> --- a/drivers/md/dm-verity-target.c
+> +++ b/drivers/md/dm-verity-target.c
+> @@ -13,6 +13,7 @@
+>   * access behavior.
+>   */
+>  
+> +#include "dm-core.h"
+>  #include "dm-verity.h"
+>  #include "dm-verity-fec.h"
+>  #include "dm-verity-verify-sig.h"
+> @@ -21,6 +22,9 @@
+>  #include <linux/scatterlist.h>
+>  #include <linux/string.h>
+>  #include <linux/jump_label.h>
+> +#include <linux/security.h>
+> +#include <linux/dm-verity.h>
+> +#include <crypto/hash_info.h>
+>  
+>  #define DM_MSG_PREFIX			"verity"
+>  
+> @@ -1169,6 +1173,8 @@ static int verity_ctr(struct dm_target *ti, unsigned argc, char **argv)
+>  	sector_t hash_position;
+>  	char dummy;
+>  	char *root_hash_digest_to_validate;
+> +	struct block_device *bdev;
+> +	struct dm_verity_digest root_digest;
+>  
+>  	v = kzalloc(sizeof(struct dm_verity), GFP_KERNEL);
+>  	if (!v) {
+> @@ -1211,6 +1217,13 @@ static int verity_ctr(struct dm_target *ti, unsigned argc, char **argv)
+>  	}
+>  	v->version = num;
+>  
+> +	bdev = dm_table_get_md(ti->table)->disk->part0;
+> +	if (!bdev) {
+> +		ti->error = "Mapped device lookup failed";
+> +		r = -ENOMEM;
+> +		goto bad;
+> +	}
+> +
+>  	r = dm_get_device(ti, argv[1], FMODE_READ, &v->data_dev);
+>  	if (r) {
+>  		ti->error = "Data device lookup failed";
+> @@ -1343,7 +1356,7 @@ static int verity_ctr(struct dm_target *ti, unsigned argc, char **argv)
+>  	}
+>  
+>  	/* Root hash signature is  a optional parameter*/
+> -	r = verity_verify_root_hash(root_hash_digest_to_validate,
+> +	r = verity_verify_root_hash(bdev, root_hash_digest_to_validate,
+>  				    strlen(root_hash_digest_to_validate),
+>  				    verify_args.sig,
+>  				    verify_args.sig_size);
+> @@ -1428,12 +1441,20 @@ static int verity_ctr(struct dm_target *ti, unsigned argc, char **argv)
+>  	ti->per_io_data_size = roundup(ti->per_io_data_size,
+>  				       __alignof__(struct dm_verity_io));
+>  
+> +	root_digest.digest = v->root_digest;
+> +	root_digest.digest_len = v->digest_size;
+> +	root_digest.algo = v->alg_name;
+> +
+> +	r = security_bdev_setsecurity(bdev, DM_VERITY_ROOTHASH_SEC_NAME, &root_digest,
+> +				      sizeof(root_digest));
+> +	if (r)
+> +		goto bad;
+> +
+>  	verity_verify_sig_opts_cleanup(&verify_args);
+>  
+>  	return 0;
+>  
+>  bad:
+> -
+>  	verity_verify_sig_opts_cleanup(&verify_args);
+>  	verity_dtr(ti);
+>  
+> diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
+> index db61a1f43ae9..5a73b91157d5 100644
+> --- a/drivers/md/dm-verity-verify-sig.c
+> +++ b/drivers/md/dm-verity-verify-sig.c
+> @@ -9,6 +9,9 @@
+>  #include <linux/verification.h>
+>  #include <keys/user-type.h>
+>  #include <linux/module.h>
+> +#include <linux/security.h>
+> +#include <linux/dm-verity.h>
+> +#include "dm-core.h"
+>  #include "dm-verity.h"
+>  #include "dm-verity-verify-sig.h"
+>  
+> @@ -97,14 +100,17 @@ int verity_verify_sig_parse_opt_args(struct dm_arg_set *as,
+>   * verify_verify_roothash - Verify the root hash of the verity hash device
+>   *			     using builtin trusted keys.
+>   *
+> + * @bdev: block_device representing the device-mapper created block device.
+> + *	  Used by the security hook, to set information about the block_device.
+>   * @root_hash: For verity, the roothash/data to be verified.
+>   * @root_hash_len: Size of the roothash/data to be verified.
+>   * @sig_data: The trusted signature that verifies the roothash/data.
+>   * @sig_len: Size of the signature.
+>   *
+>   */
+> -int verity_verify_root_hash(const void *root_hash, size_t root_hash_len,
+> -			    const void *sig_data, size_t sig_len)
+> +int verity_verify_root_hash(struct block_device *bdev, const void *root_hash,
+> +			    size_t root_hash_len, const void *sig_data,
+> +			    size_t sig_len)
+>  {
+>  	int ret;
+>  
+> @@ -126,8 +132,12 @@ int verity_verify_root_hash(const void *root_hash, size_t root_hash_len,
+>  				NULL,
+>  #endif
+>  				VERIFYING_UNSPECIFIED_SIGNATURE, NULL, NULL);
+> +	if (ret)
+> +		return ret;
+>  
+> -	return ret;
+> +	return security_bdev_setsecurity(bdev,
+> +					 DM_VERITY_SIGNATURE_SEC_NAME,
+> +					 sig_data, sig_len);
+>  }
+>  
+>  void verity_verify_sig_opts_cleanup(struct dm_verity_sig_opts *sig_opts)
+> diff --git a/drivers/md/dm-verity-verify-sig.h b/drivers/md/dm-verity-verify-sig.h
+> index 3987c7141f79..31692fff92e4 100644
+> --- a/drivers/md/dm-verity-verify-sig.h
+> +++ b/drivers/md/dm-verity-verify-sig.h
+> @@ -20,8 +20,9 @@ struct dm_verity_sig_opts {
+>  
+>  #define DM_VERITY_ROOT_HASH_VERIFICATION_OPTS 2
+>  
+> -int verity_verify_root_hash(const void *data, size_t data_len,
+> -			    const void *sig_data, size_t sig_len);
+> +int verity_verify_root_hash(struct block_device *bdev, const void *data,
+> +			    size_t data_len, const void *sig_data,
+> +			    size_t sig_len);
+>  bool verity_verify_is_sig_opt_arg(const char *arg_name);
+>  
+>  int verity_verify_sig_parse_opt_args(struct dm_arg_set *as, struct dm_verity *v,
+> @@ -34,8 +35,9 @@ void verity_verify_sig_opts_cleanup(struct dm_verity_sig_opts *sig_opts);
+>  
+>  #define DM_VERITY_ROOT_HASH_VERIFICATION_OPTS 0
+>  
+> -static inline int verity_verify_root_hash(const void *data, size_t data_len,
+> -					  const void *sig_data, size_t sig_len)
+> +int verity_verify_root_hash(struct block_device *bdev, const void *data,
+> +			    size_t data_len, const void *sig_data,
+> +			    size_t sig_len)
+>  {
+>  	return 0;
+>  }
+> diff --git a/include/linux/dm-verity.h b/include/linux/dm-verity.h
+> new file mode 100644
+> index 000000000000..bb0413d55d72
+> --- /dev/null
+> +++ b/include/linux/dm-verity.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef _LINUX_DM_VERITY_H
+> +#define _LINUX_DM_VERITY_H
+> +
+> +#include <linux/types.h>
+> +#include <crypto/hash_info.h>
+> +#include <linux/device-mapper.h>
+> +
+> +struct dm_verity_digest {
+> +	const char *algo;
+> +	const u8 *digest;
+> +	size_t digest_len;
+> +};
+> +
+> +#define DM_VERITY_SIGNATURE_SEC_NAME DM_NAME	".verity-signature"
+> +#define DM_VERITY_ROOTHASH_SEC_NAME  DM_NAME	".verity-roothash"
+> +
+> +#endif /* _LINUX_DM_VERITY_H */
+
