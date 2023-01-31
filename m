@@ -2,383 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE92C38142
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 14:42:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ADFAC636D3
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 14:44:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231707AbjAaOmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 09:42:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40814 "EHLO
+        id S229468AbjAaOoG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 09:44:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231723AbjAaOmn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 09:42:43 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295CD4E513;
-        Tue, 31 Jan 2023 06:42:40 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S230239AbjAaOoF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 09:44:05 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5E2426B6;
+        Tue, 31 Jan 2023 06:44:03 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9C134B81CE3;
-        Tue, 31 Jan 2023 14:42:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81245C433EF;
-        Tue, 31 Jan 2023 14:42:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675176157;
-        bh=xo0XfQEBGUn7tJDASw7xd+ynPvHY4wSjZm8sVyCBFCI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KA1H6byLK98UIQ3k3oX2usRM/NHECqoRq6foPQdeaKQIJbkkHiFCv6UPaI0zzVbrv
-         HRf6EQJyWeHXEzlNJOFv5GztlBnqVldIF/MdHYvQ5YVhSYe0XdeoAwxPsscsDNsbmE
-         TQAaKte3i5SBBW6K87PXJsCnBiMqqs0varV0be45yAL9c3XrHXXXdMCDNhjLEPHT/+
-         Onf9YTskmo2r39dLNWxqG8WBcKLbHwePiThoBy9oFB7yfnIxVObRM4GI2nUkmL7D4N
-         46hGF9SKfJLVlZLXbhY8Z3Ob8VQCaal1kv8mJ77nLezlVa2fRpywToMhmyfEldZMUJ
-         KVu3RDI6QWldw==
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v2 2/2] docs/mm: remove useless markup
-Date:   Tue, 31 Jan 2023 16:42:20 +0200
-Message-Id: <20230131144220.822989-3-rppt@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230131144220.822989-1-rppt@kernel.org>
-References: <20230131144220.822989-1-rppt@kernel.org>
+        by ms.lwn.net (Postfix) with ESMTPSA id 40B0931A;
+        Tue, 31 Jan 2023 14:44:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 40B0931A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1675176243; bh=YGDUrA0SeI/jYdHuqlL0Cq1bXb1f+5JCiqVd4m41wqg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=sFJM10Dd+tnCZXi+eqigfUPgHL+dC0hSBp/T4TTtkww66BM+/uoIIIhqwkok9e3pK
+         GKcmOAdca5EWLnrRpmykUyOqkQf4J5giswFGJ2xgiilm7/Z4iyTZR6QaIFp91G2A0V
+         tqpbVSMdRsmHPfaM2GGF94n4yibnZ0zo6J27Oh/EIo0qUDplSulF8Rv3jL2MnR+wKu
+         IwCnXW8bKz3NMOnTSQTOJ7s+Da27gC+4qzAQA47/khyvxNCEy4h47/AdBL0JAejM+A
+         1TmB30QVzgaLxfswmtUqEdGACc9MhT6Qmm2fNUZhd0OQByy+1lkxbKmo1lY9tNerhL
+         1KOTRUP5I7g3Q==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Guenter Roeck <linux@roeck-us.net>, SeongJae Park <sj@kernel.org>
+Cc:     Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 4/8] Docs/hwmon/index: Add missing SPDX License
+ Identifier
+In-Reply-To: <20230131034404.GA837158@roeck-us.net>
+References: <20230122213650.187710-1-sj@kernel.org>
+ <20230122213650.187710-5-sj@kernel.org>
+ <20230131034404.GA837158@roeck-us.net>
+Date:   Tue, 31 Jan 2023 07:44:02 -0700
+Message-ID: <87k0124vd9.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Guenter Roeck <linux@roeck-us.net> writes:
 
-It is enough to use a file name to cross-reference another rst document.
+> On Sun, Jan 22, 2023 at 09:36:46PM +0000, SeongJae Park wrote:
+>> Add missing SPDX License Identifier for hwmon documentation index file.
+>> 
+>
+> I do not feel comfortable accepting this change without confirmation
+> that changing the license from <none> to an explicit <GPL v2.0> is
+> legally acceptable.
 
-Jon says:
-  The right things will happen in the HTML output, readers of the
-  plain-text will know immediately where to go, and we don't have to add
-  the label clutter.
+As with many of these, this file was initially added by Mauro (added to
+CC).  Mauro, can you confirm that GPLv2 was your intention for these
+index.rst files?  That would clear the path for a lot of these patches.
 
-Drop reference markup and unnecessary labels and use plain file names.
+Thanks,
 
-Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
----
- Documentation/mm/active_mm.rst             | 2 --
- Documentation/mm/arch_pgtable_helpers.rst  | 2 --
- Documentation/mm/balance.rst               | 2 --
- Documentation/mm/free_page_reporting.rst   | 2 --
- Documentation/mm/frontswap.rst             | 2 --
- Documentation/mm/highmem.rst               | 2 --
- Documentation/mm/hmm.rst                   | 4 +---
- Documentation/mm/hugetlbfs_reserv.rst      | 4 +---
- Documentation/mm/hwpoison.rst              | 2 --
- Documentation/mm/ksm.rst                   | 4 +---
- Documentation/mm/memory-model.rst          | 2 --
- Documentation/mm/mmu_notifier.rst          | 2 --
- Documentation/mm/numa.rst                  | 4 +---
- Documentation/mm/page_frags.rst            | 2 --
- Documentation/mm/page_migration.rst        | 6 ++----
- Documentation/mm/page_owner.rst            | 2 --
- Documentation/mm/page_table_check.rst      | 2 --
- Documentation/mm/remap_file_pages.rst      | 2 --
- Documentation/mm/slub.rst                  | 2 --
- Documentation/mm/split_page_table_lock.rst | 2 --
- Documentation/mm/transhuge.rst             | 2 --
- Documentation/mm/unevictable-lru.rst       | 2 --
- Documentation/mm/z3fold.rst                | 2 --
- Documentation/mm/zsmalloc.rst              | 2 --
- 24 files changed, 6 insertions(+), 54 deletions(-)
-
-diff --git a/Documentation/mm/active_mm.rst b/Documentation/mm/active_mm.rst
-index 6f8269c284ed..45d89f8fb3a8 100644
---- a/Documentation/mm/active_mm.rst
-+++ b/Documentation/mm/active_mm.rst
-@@ -1,5 +1,3 @@
--.. _active_mm:
--
- =========
- Active MM
- =========
-diff --git a/Documentation/mm/arch_pgtable_helpers.rst b/Documentation/mm/arch_pgtable_helpers.rst
-index fd2a19df884e..30d9a09f01f4 100644
---- a/Documentation/mm/arch_pgtable_helpers.rst
-+++ b/Documentation/mm/arch_pgtable_helpers.rst
-@@ -1,7 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--.. _arch_page_table_helpers:
--
- ===============================
- Architecture Page Table Helpers
- ===============================
-diff --git a/Documentation/mm/balance.rst b/Documentation/mm/balance.rst
-index 6a1fadf3e173..6cd0127154ac 100644
---- a/Documentation/mm/balance.rst
-+++ b/Documentation/mm/balance.rst
-@@ -1,5 +1,3 @@
--.. _balance:
--
- ================
- Memory Balancing
- ================
-diff --git a/Documentation/mm/free_page_reporting.rst b/Documentation/mm/free_page_reporting.rst
-index 8c05e62d8b2b..1468f71c261f 100644
---- a/Documentation/mm/free_page_reporting.rst
-+++ b/Documentation/mm/free_page_reporting.rst
-@@ -1,5 +1,3 @@
--.. _free_page_reporting:
--
- =====================
- Free Page Reporting
- =====================
-diff --git a/Documentation/mm/frontswap.rst b/Documentation/mm/frontswap.rst
-index feecc5e24477..c892412988af 100644
---- a/Documentation/mm/frontswap.rst
-+++ b/Documentation/mm/frontswap.rst
-@@ -1,5 +1,3 @@
--.. _frontswap:
--
- =========
- Frontswap
- =========
-diff --git a/Documentation/mm/highmem.rst b/Documentation/mm/highmem.rst
-index 0f731d9196b0..bb3f90e195fa 100644
---- a/Documentation/mm/highmem.rst
-+++ b/Documentation/mm/highmem.rst
-@@ -1,5 +1,3 @@
--.. _highmem:
--
- ====================
- High Memory Handling
- ====================
-diff --git a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
-index f2a59ed82ed3..9aa512c3a12c 100644
---- a/Documentation/mm/hmm.rst
-+++ b/Documentation/mm/hmm.rst
-@@ -1,5 +1,3 @@
--.. _hmm:
--
- =====================================
- Heterogeneous Memory Management (HMM)
- =====================================
-@@ -304,7 +302,7 @@ devm_memunmap_pages(), and devm_release_mem_region() when the resources can
- be tied to a ``struct device``.
- 
- The overall migration steps are similar to migrating NUMA pages within system
--memory (see :ref:`Page migration <page_migration>`) but the steps are split
-+memory (see Documentation/mm/page_migration.rst) but the steps are split
- between device driver specific code and shared common code:
- 
- 1. ``mmap_read_lock()``
-diff --git a/Documentation/mm/hugetlbfs_reserv.rst b/Documentation/mm/hugetlbfs_reserv.rst
-index f143954e0d05..05a44760da32 100644
---- a/Documentation/mm/hugetlbfs_reserv.rst
-+++ b/Documentation/mm/hugetlbfs_reserv.rst
-@@ -1,5 +1,3 @@
--.. _hugetlbfs_reserve:
--
- =====================
- Hugetlbfs Reservation
- =====================
-@@ -7,7 +5,7 @@ Hugetlbfs Reservation
- Overview
- ========
- 
--Huge pages as described at :ref:`hugetlbpage` are typically
-+Huge pages as described at Documentation/mm/hugetlbpage.rst are typically
- preallocated for application use.  These huge pages are instantiated in a
- task's address space at page fault time if the VMA indicates huge pages are
- to be used.  If no huge page exists at page fault time, the task is sent
-diff --git a/Documentation/mm/hwpoison.rst b/Documentation/mm/hwpoison.rst
-index b9d5253c1305..ba48a441feed 100644
---- a/Documentation/mm/hwpoison.rst
-+++ b/Documentation/mm/hwpoison.rst
-@@ -1,5 +1,3 @@
--.. hwpoison:
--
- ========
- hwpoison
- ========
-diff --git a/Documentation/mm/ksm.rst b/Documentation/mm/ksm.rst
-index f83cfbc12f4c..2806e3e4a10e 100644
---- a/Documentation/mm/ksm.rst
-+++ b/Documentation/mm/ksm.rst
-@@ -1,5 +1,3 @@
--.. _ksm:
--
- =======================
- Kernel Samepage Merging
- =======================
-@@ -8,7 +6,7 @@ KSM is a memory-saving de-duplication feature, enabled by CONFIG_KSM=y,
- added to the Linux kernel in 2.6.32.  See ``mm/ksm.c`` for its implementation,
- and http://lwn.net/Articles/306704/ and https://lwn.net/Articles/330589/
- 
--The userspace interface of KSM is described in :ref:`Documentation/admin-guide/mm/ksm.rst <admin_guide_ksm>`
-+The userspace interface of KSM is described in Documentation/admin-guide/mm/ksm.rst
- 
- Design
- ======
-diff --git a/Documentation/mm/memory-model.rst b/Documentation/mm/memory-model.rst
-index 3779e562dc76..5f3eafbbc520 100644
---- a/Documentation/mm/memory-model.rst
-+++ b/Documentation/mm/memory-model.rst
-@@ -1,7 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--.. _physical_memory_model:
--
- =====================
- Physical Memory Model
- =====================
-diff --git a/Documentation/mm/mmu_notifier.rst b/Documentation/mm/mmu_notifier.rst
-index df5d7777fc6b..c687bea4922f 100644
---- a/Documentation/mm/mmu_notifier.rst
-+++ b/Documentation/mm/mmu_notifier.rst
-@@ -1,5 +1,3 @@
--.. _mmu_notifier:
--
- When do you need to notify inside page table lock ?
- ===================================================
- 
-diff --git a/Documentation/mm/numa.rst b/Documentation/mm/numa.rst
-index 99fdeca917ca..04648d26ffd1 100644
---- a/Documentation/mm/numa.rst
-+++ b/Documentation/mm/numa.rst
-@@ -1,5 +1,3 @@
--.. _numa:
--
- Started Nov 1999 by Kanoj Sarcar <kanoj@sgi.com>
- 
- =============
-@@ -110,7 +108,7 @@ to improve NUMA locality using various CPU affinity command line interfaces,
- such as taskset(1) and numactl(1), and program interfaces such as
- sched_setaffinity(2).  Further, one can modify the kernel's default local
- allocation behavior using Linux NUMA memory policy. [see
--:ref:`Documentation/admin-guide/mm/numa_memory_policy.rst <numa_memory_policy>`].
-+Documentation/admin-guide/mm/numa_memory_policy.rst].
- 
- System administrators can restrict the CPUs and nodes' memories that a non-
- privileged user can specify in the scheduling or NUMA commands and functions
-diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
-index 7d6f9385d129..a81617e688a8 100644
---- a/Documentation/mm/page_frags.rst
-+++ b/Documentation/mm/page_frags.rst
-@@ -1,5 +1,3 @@
--.. _page_frags:
--
- ==============
- Page fragments
- ==============
-diff --git a/Documentation/mm/page_migration.rst b/Documentation/mm/page_migration.rst
-index 11493bad7112..313dce18893e 100644
---- a/Documentation/mm/page_migration.rst
-+++ b/Documentation/mm/page_migration.rst
-@@ -1,5 +1,3 @@
--.. _page_migration:
--
- ==============
- Page migration
- ==============
-@@ -9,8 +7,8 @@ nodes in a NUMA system while the process is running. This means that the
- virtual addresses that the process sees do not change. However, the
- system rearranges the physical location of those pages.
- 
--Also see :ref:`Heterogeneous Memory Management (HMM) <hmm>`
--for migrating pages to or from device private memory.
-+Also see Documentation/mm/hmm.rst for migrating pages to or from device
-+private memory.
- 
- The main intent of page migration is to reduce the latency of memory accesses
- by moving pages near to the processor where the process accessing that memory
-diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
-index 127514955a5e..fc8b5f2ef173 100644
---- a/Documentation/mm/page_owner.rst
-+++ b/Documentation/mm/page_owner.rst
-@@ -1,5 +1,3 @@
--.. _page_owner:
--
- ==================================================
- page owner: Tracking about who allocated each page
- ==================================================
-diff --git a/Documentation/mm/page_table_check.rst b/Documentation/mm/page_table_check.rst
-index 1a09472f10a3..cfd8f4117cf3 100644
---- a/Documentation/mm/page_table_check.rst
-+++ b/Documentation/mm/page_table_check.rst
-@@ -1,7 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--.. _page_table_check:
--
- ================
- Page Table Check
- ================
-diff --git a/Documentation/mm/remap_file_pages.rst b/Documentation/mm/remap_file_pages.rst
-index 7bef6718e3a9..297091ce257c 100644
---- a/Documentation/mm/remap_file_pages.rst
-+++ b/Documentation/mm/remap_file_pages.rst
-@@ -1,5 +1,3 @@
--.. _remap_file_pages:
--
- ==============================
- remap_file_pages() system call
- ==============================
-diff --git a/Documentation/mm/slub.rst b/Documentation/mm/slub.rst
-index 7f652216dabe..fa01cdfd7d3a 100644
---- a/Documentation/mm/slub.rst
-+++ b/Documentation/mm/slub.rst
-@@ -1,5 +1,3 @@
--.. _slub:
--
- ==========================
- Short users guide for SLUB
- ==========================
-diff --git a/Documentation/mm/split_page_table_lock.rst b/Documentation/mm/split_page_table_lock.rst
-index c08919662704..50ee0dfc95be 100644
---- a/Documentation/mm/split_page_table_lock.rst
-+++ b/Documentation/mm/split_page_table_lock.rst
-@@ -1,5 +1,3 @@
--.. _split_page_table_lock:
--
- =====================
- Split page table lock
- =====================
-diff --git a/Documentation/mm/transhuge.rst b/Documentation/mm/transhuge.rst
-index ec3dc5b04226..9d924b651c61 100644
---- a/Documentation/mm/transhuge.rst
-+++ b/Documentation/mm/transhuge.rst
-@@ -1,5 +1,3 @@
--.. _transhuge:
--
- ============================
- Transparent Hugepage Support
- ============================
-diff --git a/Documentation/mm/unevictable-lru.rst b/Documentation/mm/unevictable-lru.rst
-index 4a0e158aa9ce..b5dc98cd1ba8 100644
---- a/Documentation/mm/unevictable-lru.rst
-+++ b/Documentation/mm/unevictable-lru.rst
-@@ -1,5 +1,3 @@
--.. _unevictable_lru:
--
- ==============================
- Unevictable LRU Infrastructure
- ==============================
-diff --git a/Documentation/mm/z3fold.rst b/Documentation/mm/z3fold.rst
-index 224e3c61d686..25b5935d06c7 100644
---- a/Documentation/mm/z3fold.rst
-+++ b/Documentation/mm/z3fold.rst
-@@ -1,5 +1,3 @@
--.. _z3fold:
--
- ======
- z3fold
- ======
-diff --git a/Documentation/mm/zsmalloc.rst b/Documentation/mm/zsmalloc.rst
-index 6e79893d6132..24616a7c115a 100644
---- a/Documentation/mm/zsmalloc.rst
-+++ b/Documentation/mm/zsmalloc.rst
-@@ -1,5 +1,3 @@
--.. _zsmalloc:
--
- ========
- zsmalloc
- ========
--- 
-2.35.1
-
+jon
