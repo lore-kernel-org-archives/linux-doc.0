@@ -2,111 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFDAEC38142
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 19:20:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44C85C636CC
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 19:25:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231835AbjAaTUf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 14:20:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36432 "EHLO
+        id S231305AbjAaTZD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 14:25:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231478AbjAaTU1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 14:20:27 -0500
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A74599A7
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 11:20:16 -0800 (PST)
-Received: by mail-il1-x12d.google.com with SMTP id i17so6787175ils.11
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 11:20:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5E0WkKSlwMnkSQam2K3hwAbOWLDxhrQDjQkwQIk6UGI=;
-        b=C2RXPodxbAjGP9NOH0qoHVRffXo9Nwg19A5X8bgvah5RjCclVxYDZyTeWJHNO5xvE0
-         xBv3WZbNKLizKvyS8VfePoZytlLTIZNkVrYO4J63nOwRJtI0wJJxwsqBxNn6TvFlBF0Z
-         /n1kRKUjDEmItPG7UbkeoKKGZj1VDLPVyyEE8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5E0WkKSlwMnkSQam2K3hwAbOWLDxhrQDjQkwQIk6UGI=;
-        b=ZwK6VsaIwYijnhB8EnGZucE7Prov8RK/u80c6W6IRKe0DPqWqBy/b/rnRTJThjUE5w
-         Sq/4dXCZaSqAy5NqWgJLX8yNewQ4FEnGkoDzuHVtlLqhyzruEudYGbNltVzSUnkLE6Q1
-         hMHz/2Bh/VX5JNwkQ29JcKy9OfvS1nLpif3jkTzDRrGr8OJrK0dw4eZSKnpeOTXTBpdj
-         H/XKRSm6osOy4dcghjfFjwYOvoww5kAt5emNKp4Pm7nGOZw+YdpoI9iu5EnY27md1BL+
-         LRiDF/tYfsegxkyZDF0/afprPCErM1+xWuu8CrokQs5S3FoR8FHe3POuvXrK+yB9yNaL
-         ZqRQ==
-X-Gm-Message-State: AO0yUKV0a/B93u4xv1g/TCEcxYpbNbVcXGhEIufP4UFylASLA5wUJA9r
-        q/sXJyBj43D5fqXISB+ZL/C4dA==
-X-Google-Smtp-Source: AK7set8siwIO4FaKPC7+dFQb1GCIBMBKs+WowGEQeuNvAcOtEmsAGVYIjeTiVl721VXKW5e0mms6EA==
-X-Received: by 2002:a05:6e02:1d05:b0:310:cc70:a152 with SMTP id i5-20020a056e021d0500b00310cc70a152mr5682741ila.2.1675192815542;
-        Tue, 31 Jan 2023 11:20:15 -0800 (PST)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id s8-20020a02cc88000000b003aa9ddab101sm3438287jap.19.2023.01.31.11.20.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Jan 2023 11:20:14 -0800 (PST)
-Message-ID: <53f52975-98d0-dbb3-9781-0366143f2dd0@linuxfoundation.org>
-Date:   Tue, 31 Jan 2023 12:20:13 -0700
+        with ESMTP id S230324AbjAaTZB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 14:25:01 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C12A91C31A;
+        Tue, 31 Jan 2023 11:25:00 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 54277616C2;
+        Tue, 31 Jan 2023 19:25:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCDE9C433D2;
+        Tue, 31 Jan 2023 19:24:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675193099;
+        bh=Usq/qChe2TB94lautIipeNYeRg/tKGhE2z4UOGHJcX0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XKgqHeEnxvJYKo4a0AOCwbNQJqX/0a+666YQLKyzsHnSruZvclUbmL92Lj3V8dy9y
+         wNCZN84wYg8RzExJ948+qiqzp2fAPFJzGxxDEDPpIVIGQQTPqx2KDRWWHdJr+nonDE
+         Z7QGiBEzetzq5mbRpNUVKPFGf0vnNMswwqmsufvg7bWrEpbu0Dc1CSfMuUcoBdzU4a
+         uuRBMZgshu9LNKl0mG2ozX+2gGt35kVJCrbLn70bnZl+D667D48ZuZf/fPBvCi6bb4
+         UCTr5b0c1Xq2ILDxuq6HGKPLLFSoFXf3ZPt+5Sx+0RSgK531DaRxoeeImSpSHP+wwe
+         CKRv9fnl5QppA==
+Date:   Tue, 31 Jan 2023 19:24:55 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Ard Biesheuvel <ardb@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 0/1] riscv: Allow to downgrade paging mode from the
+ command line
+Message-ID: <Y9lrB+RUBk1Njhaq@spud>
+References: <20230131151115.1972740-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2] docs: add workload-tracing document to admin-guide
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     sshefali021@gmail.com, kstewart@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20230127234616.55137-1-skhan@linuxfoundation.org>
- <f48e8dab-2a68-88d2-7917-f8f34a39e322@leemhuis.info>
- <021776e6-b37f-0a2e-41e0-5c09f9582c57@linuxfoundation.org>
- <87o7qf4m2p.fsf@meer.lwn.net>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <87o7qf4m2p.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="caGKd7o6+JAz/98x"
+Content-Disposition: inline
+In-Reply-To: <20230131151115.1972740-1-alexghiti@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/30/23 16:52, Jonathan Corbet wrote:
-> Shuah Khan <skhan@linuxfoundation.org> writes:
-> 
->> On 1/28/23 01:35, Thorsten Leemhuis wrote:
->>> Adding another section that doesn't seem to a be a good fit feels a bit
->>> like "making things worse than better".  So wouldn't this maybe be a
->>> good opportunity to create a totally new top-level section for
->>> application developers and system integrators, even if it's tiny for
->>> now? The audience is likely big enough to justify that -- and the topics
->>> are likely different enough, too (of course sometimes there will be
->>> overlap, as always). Any maybe it will help to bring other stuff over
->>> from admin guide that is more targeted for application developers and
->>> system integrators, which will help to get more structure into the
->>> admin-guide.
->>>
->>
->> I like the idea of creating a new top-level section for application developers
->> and system integrators. I foresee this section growing and also we can look
->> at other documents that are a good fit under this category and move them over.
->>
->> Jon, Thoughts on this.
-> 
-> The fit with the admin guide caught my attention as well, but I didn't
-> immediately have a better place to suggest.  I am somewhat resistant to
-> creating another top-level directory; I really want to have *fewer* of
-> them.  I certainly don't want to create one for a single document.  My
-> inclination would be to leave it where it is for now; we can always
-> revisit this if it turns out we have a lot of material that justifies a
-> new book.
-> 
 
-Makes perfect sense. I didn't want to suggest a new top level for the same
-reasons. For now I will send v3 keeping it in the same location.
+--caGKd7o6+JAz/98x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I will take a pass at the existing documents under admin-guide and in other
-places to see if others could be grouped under a top-level as suggested by
-Thorsten
+Hey Alex,
 
-thanks,
--- Shuah
+On Tue, Jan 31, 2023 at 04:11:14PM +0100, Alexandre Ghiti wrote:
+> This new version gets rid of the limitation that prevented KASAN kernels
+> to use the newly introduced parameters.
+
+What's the base commit for this version?
+Fails to apply for me on top of for-next, fixes, rc1, and linux-next :/
+I also tried it on top of your KASAN series, but no luck there either!
+
+Thanks,
+Conor.
+
+> While looking into KASLR, I fell onto commit aacd149b6238 ("arm64: head:
+> avoid relocating the kernel twice for KASLR"): it allows to use the fdt
+> functions very early in the boot process with KASAN enabled by simply
+> compiling a new version of those functions without instrumentation.
+>=20
+> I had to change the handling of the command line parsing to make the
+> code self-contained in kernel/pi/cmd_early.c to avoid calling too many
+> __pi prefixed functions from outside this file.
+>=20
+> I'll use this approach like arm64 to handle the extraction of the random
+> seedi from the device tree for KASLR.
+>=20
+> @Ard: I copied the "pi" name but I have to admit I don't know what it
+> means.
+>=20
+> Alexandre Ghiti (1):
+>   riscv: Allow to downgrade paging mode from the command line
+>=20
+>  .../admin-guide/kernel-parameters.txt         |  5 +-
+>  arch/riscv/kernel/Makefile                    |  2 +
+>  arch/riscv/kernel/pi/Makefile                 | 34 ++++++++++++
+>  arch/riscv/kernel/pi/cmdline_early.c          | 52 +++++++++++++++++++
+>  arch/riscv/lib/memcpy.S                       |  2 +
+>  arch/riscv/lib/memmove.S                      |  2 +
+>  arch/riscv/mm/init.c                          | 36 ++++++++++---
+>  7 files changed, 126 insertions(+), 7 deletions(-)
+>  create mode 100644 arch/riscv/kernel/pi/Makefile
+>  create mode 100644 arch/riscv/kernel/pi/cmdline_early.c
+>=20
+> --=20
+> 2.37.2
+>=20
+
+--caGKd7o6+JAz/98x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY9lrBwAKCRB4tDGHoIJi
+0gfGAQCENcv+3hKs/6TXI0FLA0kreZMihuI32sRzt84sGUGHIQEA/uU1ZjoXVe2E
+ZyLE2YYl1Osh/cmRboDUYwy3r6oGNQE=
+=/x1y
+-----END PGP SIGNATURE-----
+
+--caGKd7o6+JAz/98x--
