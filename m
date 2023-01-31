@@ -2,228 +2,1003 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73F83C38142
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 10:38:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F7EFC636CC
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 10:50:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231404AbjAaKiE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 05:38:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59106 "EHLO
+        id S230014AbjAaKug (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 05:50:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230390AbjAaKiD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 05:38:03 -0500
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050:0:465::101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 232F15588;
-        Tue, 31 Jan 2023 02:38:00 -0800 (PST)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4P5hMk2chvz9sbx;
-        Tue, 31 Jan 2023 11:37:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1675161474;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ccoXHsjUFcEconN3tjLNAPxuR8ELntH/GW6UVoGSst0=;
-        b=eXcY7hjQ4atu6j4P2+0I1haVspuB9FCh+vtA369JcZvFqnnB2PDUpZh8luNdaGojHiAwl6
-        qVCs0cLZ030n8RGLsmXEA9ONROKWJYPwP7aujkOGeVagRRPfyGLEXuqRJkK6KAeSkjE0Ix
-        FfpPY0+81ODk3/X4Esm7CGL9lW5zmG1BhthlXBY8KpviZE6eD0gWe6/EGvFGNJcYfKzBLo
-        QsEyVpbHE+oWoXrYRSYB30dG0f5BlJMxdf7tXGJJL0ttErfKlTeXTtSOea1XoWbm0Feai8
-        +kY0WA9OK1Q6eMdittruIO88ZW0zzkqOZ3B7CW6NaM4zyvigxf6BOX8MvpzKaQ==
-Date:   Tue, 31 Jan 2023 11:37:51 +0100 (CET)
-From:   torvic9@mailbox.org
-To:     Wyes Karny <wyes.karny@amd.com>,
-        Rafael J Wysocki <rafael@kernel.org>,
-        Huang Rui <ray.huang@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mario.Limonciello@amd.com, Perry.Yuan@amd.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
-        santosh.shukla@amd.com, Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Ananth Narayan <ananth.narayan@amd.com>, gautham.shenoy@amd.com
-Message-ID: <1501106335.274.1675161471528@office.mailbox.org>
-In-Reply-To: <20230131052141.96475-1-wyes.karny@amd.com>
-References: <20230131052141.96475-1-wyes.karny@amd.com>
-Subject: Re: [PATCH v4 0/6] amd_pstate: Add guided autonomous mode support
+        with ESMTP id S229518AbjAaKuf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 05:50:35 -0500
+X-Greylist: delayed 188 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 31 Jan 2023 02:50:31 PST
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8BE218B2D;
+        Tue, 31 Jan 2023 02:50:31 -0800 (PST)
+Received: from mail02.huawei.com (unknown [172.18.147.227])
+        by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4P5hSv5BPGz9xFGW;
+        Tue, 31 Jan 2023 18:42:23 +0800 (CST)
+Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
+        by APP2 (Coremail) with SMTP id GxC2BwBHGmFS8thjEYreAA--.10533S2;
+        Tue, 31 Jan 2023 11:50:07 +0100 (CET)
+Message-ID: <255c119de8f8665b88c411d981762fddc0fe7eaa.camel@huaweicloud.com>
+Subject: Re: [RFC PATCH v9 05/16] ipe: add userspace interface
+From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
+To:     Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net,
+        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
+        agk@redhat.com, snitzer@kernel.org, eparis@redhat.com,
+        paul@paul-moore.com
+Cc:     linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Date:   Tue, 31 Jan 2023 11:49:44 +0100
+In-Reply-To: <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+         <1675119451-23180-6-git-send-email-wufan@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-MBO-RS-ID: 17a36ad1b76bcf2434f
-X-MBO-RS-META: fjapb9oida6usfhjqsyay73et9psnyzw
+X-CM-TRANSID: GxC2BwBHGmFS8thjEYreAA--.10533S2
+X-Coremail-Antispam: 1UD129KBjvAXoWfCw1xGFWkJFyDCw1kJr1kKrg_yoW8KFWruo
+        WfXwsIkF1Yvry3ArW8CF4xGrW7ua9Yqws7JrZ0qrW3CF9rta4DWrZrGa15Xa18uF1rtr1r
+        G3s2va4rXr47Jwn5n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUYj7kC6x804xWl14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK
+        8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4
+        AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF
+        7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I
+        0E14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+        Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI
+        7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+        Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY
+        6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
+        AIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
+        aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU13rcDUUUUU==
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAOBF1jj4hQUgABsx
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-> Wyes Karny <wyes.karny@amd.com> hat am 31.01.2023 05:21 GMT geschrieben:
+On Mon, 2023-01-30 at 14:57 -0800, Fan Wu wrote:
+> From: Deven Bowers <deven.desai@linux.microsoft.com>
 > 
+> As is typical with LSMs, IPE uses securityfs as its interface with
+> userspace. for a complete list of the interfaces and the respective
+> inputs/outputs, please see the documentation under
+> admin-guide/LSM/ipe.rst
+> 
+> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> 
+> ---
+> v2:
+>   + Split evaluation loop, access control hooks,
+>     and evaluation loop from policy parser and userspace
+>     interface to pass mailing list character limit
+> 
+> v3:
+>   + Move policy load and activation audit event to 03/12
+>   + Fix a potential panic when a policy failed to load.
+>   + use pr_warn for a failure to parse instead of an
+>     audit record
+>   + Remove comments from headers
+>   + Add lockdep assertions to ipe_update_active_policy and
+>     ipe_activate_policy
+>   + Fix up warnings with checkpatch --strict
+>   + Use file_ns_capable for CAP_MAC_ADMIN for securityfs
+>     nodes.
+>   + Use memdup_user instead of kzalloc+simple_write_to_buffer.
+>   + Remove strict_parse command line parameter, as it is added
+>     by the sysctl command line.
+>   + Prefix extern variables with ipe_
+> 
+> v4:
+>   + Remove securityfs to reverse-dependency
+>   + Add SHA1 reverse dependency.
+>   + Add versioning scheme for IPE properties, and associated
+>     interface to query the versioning scheme.
+>   + Cause a parser to always return an error on unknown syntax.
+>   + Remove strict_parse option
+>   + Change active_policy interface from sysctl, to securityfs,
+>     and change scheme.
+> 
+> v5:
+>   + Cause an error if a default action is not defined for each
+>     operaiton.
+>   + Minor function renames
+> 
+> v6:
+>   + No changes
+> 
+> v7:
+>   + Propogating changes to support the new ipe_context structure in the
+>     evaluation loop.
+> 
+>   + Further split the parser and userspace interface changes into
+>     separate commits.
+> 
+>   + "raw" was renamed to "pkcs7" and made read only
+>   + "raw"'s write functionality (update a policy) moved to "update"
+>   + introduced "version", "policy_name" nodes.
+>   + "content" renamed to "policy"
+>   + changes to allow the compiled-in policy to be treated
+>     identical to deployed-after-the-fact policies.
+> 
+> v8:
+>   + Prevent securityfs initialization if the LSM is disabled
+> 
+> v9:
+>   + Switch to securityfs_recursive_remove for policy folder deletion
+> ---
+>  security/ipe/Makefile    |   2 +
+>  security/ipe/fs.c        | 101 +++++++++
+>  security/ipe/fs.h        |  17 ++
+>  security/ipe/ipe.c       |   3 +
+>  security/ipe/ipe.h       |   2 +
+>  security/ipe/policy.c    | 135 ++++++++++++
+>  security/ipe/policy.h    |   7 +
+>  security/ipe/policy_fs.c | 459 +++++++++++++++++++++++++++++++++++++++
+>  8 files changed, 726 insertions(+)
+>  create mode 100644 security/ipe/fs.c
+>  create mode 100644 security/ipe/fs.h
+>  create mode 100644 security/ipe/policy_fs.c
+> 
+> diff --git a/security/ipe/Makefile b/security/ipe/Makefile
+> index d7f2870d7c09..8602d71250b4 100644
+> --- a/security/ipe/Makefile
+> +++ b/security/ipe/Makefile
+> @@ -7,7 +7,9 @@
 >  
-> From ACPI spec[1] below 3 modes for CPPC can be defined:
-> 1. Non autonomous: OS scaling governor specifies operating frequency/
->    performance level through `Desired Performance` register and platform
-> follows that.
-> 2. Guided autonomous: OS scaling governor specifies min and max
->    frequencies/ performance levels through `Minimum Performance` and
-> `Maximum Performance` register, and platform can autonomously select an
-> operating frequency in this range.
-> 3. Fully autonomous: OS only hints (via EPP) to platform for the required
->    energy performance preference for the workload and platform autonomously
-> scales the frequency.
-> 
-> Currently (1) is supported by amd_pstate as passive mode, and (3) is
-> implemented by EPP support[2]. This change is to support (2).
-> 
-> In guided autonomous mode the min_perf is based on the input from the
-> scaling governor. For example, in case of schedutil this value depends
-> on the current utilization. And max_perf is set to max capacity.
-> 
-> To activate guided auto mode ``amd_pstate=guided`` command line
-> parameter has to be passed in the kernel.
-> 
-> Below are the results (normalized) of benchmarks with this patch:
-> System: Genoa 96C 192T
-> Kernel: 6.2.0-rc2 + EPP v11 + patch
-> Scaling governor: schedutil
-> 
-> ================ dbench comparisons ================
-> dbench result comparison:
-> Here results are throughput (MB/s)
-> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->     1	   1.00 (0.00 pct)	   1.01 (1.00 pct)	   1.02 (2.00 pct)
->     2	   1.07 (0.00 pct)	   1.06 (-0.93 pct)	   1.07 (0.00 pct)
->     4	   1.68 (0.00 pct)	   1.70 (1.19 pct)	   1.72 (2.38 pct)
->     8	   2.61 (0.00 pct)	   2.68 (2.68 pct)	   2.76 (5.74 pct)
->    16	   4.16 (0.00 pct)	   4.24 (1.92 pct)	   4.53 (8.89 pct)
->    32	   5.98 (0.00 pct)	   6.17 (3.17 pct)	   7.30 (22.07 pct)
->    64	   8.67 (0.00 pct)	   8.99 (3.69 pct)	  10.71 (23.52 pct)
->   128	  11.98 (0.00 pct)	  12.52 (4.50 pct)	  14.67 (22.45 pct)
->   256	  15.73 (0.00 pct)	  16.13 (2.54 pct)	  17.81 (13.22 pct)
->   512	  15.77 (0.00 pct)	  16.32 (3.48 pct)	  16.39 (3.93 pct)
-> dbench power comparison:
-> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->     1	   1.00 (0.00 pct)	   1.00 (0.00 pct)	   1.04 (4.00 pct)
->     2	   0.99 (0.00 pct)	   0.97 (-2.02 pct)	   1.02 (3.03 pct)
->     4	   0.98 (0.00 pct)	   0.98 (0.00 pct)	   1.02 (4.08 pct)
->     8	   0.98 (0.00 pct)	   0.99 (1.02 pct)	   1.02 (4.08 pct)
->    16	   0.99 (0.00 pct)	   1.00 (1.01 pct)	   1.04 (5.05 pct)
->    32	   1.02 (0.00 pct)	   1.02 (0.00 pct)	   1.07 (4.90 pct)
->    64	   1.05 (0.00 pct)	   1.05 (0.00 pct)	   1.11 (5.71 pct)
->   128	   1.08 (0.00 pct)	   1.08 (0.00 pct)	   1.15 (6.48 pct)
->   256	   1.12 (0.00 pct)	   1.12 (0.00 pct)	   1.20 (7.14 pct)
->   512	   1.18 (0.00 pct)	   1.17 (-0.84 pct)	   1.26 (6.77 pct)
-> 
-> ================ git-source comparisons ================
-> git-source result comparison:
-> Here results are throughput (compilations per 1000 sec)
-> Threads:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->   192	   1.00 (0.00 pct)	   0.93 (-7.00 pct)	   1.00 (0.00 pct)
-> git-source power comparison:
-> Threads:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->   192	   1.00 (0.00 pct)	   1.00 (0.00 pct)	   0.96 (-4.00 pct)
-> 
-> ================ kernbench comparisons ================
-> kernbench result comparison:
-> Here results are throughput (compilations per 1000 sec)
-> Load:	   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
-> 32	   1.00 (0.00 pct)	   1.01 (1.00 pct)	   1.02 (2.00 pct)
-> 48	   1.26 (0.00 pct)	   1.28 (1.58 pct)	   1.25 (-0.79 pct)
-> 64	   1.39 (0.00 pct)	   1.47 (5.75 pct)	   1.43 (2.87 pct)
-> 96	   1.48 (0.00 pct)	   1.50 (1.35 pct)	   1.49 (0.67 pct)
-> 128	   1.29 (0.00 pct)	   1.32 (2.32 pct)	   1.33 (3.10 pct)
-> 192	   1.17 (0.00 pct)	   1.20 (2.56 pct)	   1.21 (3.41 pct)
-> 256	   1.17 (0.00 pct)	   1.18 (0.85 pct)	   1.20 (2.56 pct)
-> 384	   1.16 (0.00 pct)	   1.17 (0.86 pct)	   1.21 (4.31 pct)
-> kernbench power comparison:
-> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->    32	   1.00 (0.00 pct)	   0.97 (-3.00 pct)	   1.00 (0.00 pct)
->    48	   0.87 (0.00 pct)	   0.81 (-6.89 pct)	   0.88 (1.14 pct)
->    64	   0.81 (0.00 pct)	   0.73 (-9.87 pct)	   0.77 (-4.93 pct)
->    96	   0.75 (0.00 pct)	   0.74 (-1.33 pct)	   0.75 (0.00 pct)
->   128	   0.83 (0.00 pct)	   0.79 (-4.81 pct)	   0.83 (0.00 pct)
->   192	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
->   256	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
->   384	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
-> 
-> ================ tbench comparisons ================
-> tbench result comparison:
-> Here results are throughput (MB/s)
-> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->     1	   1.00 (0.00 pct)	   0.70 (-30.00 pct)	   1.37 (37.00 pct)
->     2	   2.64 (0.00 pct)	   1.39 (-47.34 pct)	   2.70 (2.27 pct)
->     4	   4.89 (0.00 pct)	   2.75 (-43.76 pct)	   5.28 (7.97 pct)
->     8	   9.46 (0.00 pct)	   5.42 (-42.70 pct)	  10.22 (8.03 pct)
->    16	  19.05 (0.00 pct)	  10.42 (-45.30 pct)	  19.94 (4.67 pct)
->    32	  37.50 (0.00 pct)	  20.23 (-46.05 pct)	  36.87 (-1.68 pct)
->    64	  61.24 (0.00 pct)	  43.08 (-29.65 pct)	  62.96 (2.80 pct)
->   128	  67.16 (0.00 pct)	  69.08 (2.85 pct)	  67.34 (0.26 pct)
->   256	 154.59 (0.00 pct)	 162.33 (5.00 pct)	 156.78 (1.41 pct)
->   512	 154.02 (0.00 pct)	 156.74 (1.76 pct)	 153.48 (-0.35 pct)
-> tbench power comparison:
-> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->     1	   1.00 (0.00 pct)	   0.97 (-3.00 pct)	   1.08 (8.00 pct)
->     2	   1.04 (0.00 pct)	   0.97 (-6.73 pct)	   1.11 (6.73 pct)
->     4	   1.12 (0.00 pct)	   0.99 (-11.60 pct)	   1.18 (5.35 pct)
->     8	   1.25 (0.00 pct)	   1.04 (-16.80 pct)	   1.31 (4.80 pct)
->    16	   1.53 (0.00 pct)	   1.13 (-26.14 pct)	   1.58 (3.26 pct)
->    32	   2.01 (0.00 pct)	   1.36 (-32.33 pct)	   2.03 (0.99 pct)
->    64	   2.58 (0.00 pct)	   2.14 (-17.05 pct)	   2.61 (1.16 pct)
->   128	   2.80 (0.00 pct)	   2.81 (0.35 pct)	   2.81 (0.35 pct)
->   256	   3.39 (0.00 pct)	   3.43 (1.17 pct)	   3.42 (0.88 pct)
->   512	   3.44 (0.00 pct)	   3.44 (0.00 pct)	   3.44 (0.00 pct)
-> 
-> Note: this series is based on top of EPP v11 [3] series
+>  obj-$(CONFIG_SECURITY_IPE) += \
+>  	eval.o \
+> +	fs.o \
+>  	hooks.o \
+>  	ipe.o \
+>  	policy.o \
+> +	policy_fs.o \
+>  	policy_parser.o \
+> diff --git a/security/ipe/fs.c b/security/ipe/fs.c
+> new file mode 100644
+> index 000000000000..9f6a4867bec2
+> --- /dev/null
+> +++ b/security/ipe/fs.c
+> @@ -0,0 +1,101 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) Microsoft Corporation. All rights reserved.
+> + */
+> +#include "ipe.h"
+> +#include "fs.h"
+> +#include "policy.h"
+> +
+> +#include <linux/dcache.h>
+> +#include <linux/security.h>
+> +
+> +static struct dentry *np __ro_after_init;
+> +static struct dentry *root __ro_after_init;
+> +struct dentry *policy_root __ro_after_init;
+> +
+> +/**
+> + * new_policy - Write handler for the securityfs node, "ipe/new_policy".
+> + * @f: Supplies a file structure representing the securityfs node.
+> + * @data: Suppleis a buffer passed to the write syscall.
 
-Hi Wyes,
+Typo: Suppleis.
 
-Can you rebase this patchset onto the newest EPP v12 series [1] ?
+> + * @len: Supplies the length of @data.
+> + * @offset: unused.
+> + *
+> + * Return:
+> + * * >0	- Success, Length of buffer written
+> + * * <0	- Error
+> + */
+> +static ssize_t new_policy(struct file *f, const char __user *data,
+> +			  size_t len, loff_t *offset)
+> +{
+> +	int rc = 0;
+> +	char *copy = NULL;
+> +	struct ipe_policy *p = NULL;
+> +
+> +	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
+> +		return -EPERM;
+> +
+> +	copy = memdup_user_nul(data, len);
+> +	if (IS_ERR(copy)) {
+> +		rc = PTR_ERR(copy);
+> +		goto err;
+> +	}
+> +
+> +	p = ipe_new_policy(NULL, 0, copy, len);
+> +	if (IS_ERR(p)) {
+> +		rc = PTR_ERR(p);
+> +		goto err;
+> +	}
+> +
+> +	rc = ipe_new_policyfs_node(p);
+> +	if (rc)
+> +		goto err;
 
-[1] https://lore.kernel.org/linux-pm/20230131090016.3970625-1-perry.yuan@amd.com/
+Uhm, don't you need to do cleanup of allocated memory or revert the
+actions of ipe_new_policy()?
 
-Cheers,
-Tor Vic
+> +
+> +err:
+> +	return (rc < 0) ? rc : len;
+> +}
+> +
+> +static const struct file_operations np_fops = {
+> +	.write = new_policy,
+> +};
+> +
+> +/**
+> + * ipe_init_securityfs - Initialize IPE's securityfs tree at fsinit.
+> + *
+> + * Return:
+> + * * !0	- Error
+> + * * 0	- OK
+> + */
+> +static int __init ipe_init_securityfs(void)
+> +{
+> +	int rc = 0;
+> +
+> +	if (!ipe_enabled)
+> +		return -EOPNOTSUPP;
+> +
+> +	root = securityfs_create_dir("ipe", NULL);
+> +	if (IS_ERR(root)) {
+> +		rc = PTR_ERR(root);
+> +		goto err;
+> +	}
+> +
+> +	np = securityfs_create_file("new_policy", 0200, root, NULL, &np_fops);
+> +	if (IS_ERR(np)) {
+> +		rc = PTR_ERR(np);
+> +		goto err;
+> +	}
+> +
+> +	policy_root = securityfs_create_dir("policies", root);
+> +	if (IS_ERR(policy_root)) {
+> +		rc = PTR_ERR(policy_root);
+> +		goto err;
+> +	}
+> +
+> +	return 0;
+> +err:
+> +	securityfs_remove(np);
+> +	securityfs_remove(root);
+> +	securityfs_remove(policy_root);
+> +	return rc;
+> +}
+> +
+> +fs_initcall(ipe_init_securityfs);
+> diff --git a/security/ipe/fs.h b/security/ipe/fs.h
+> new file mode 100644
+> index 000000000000..fa105d9d6fc5
+> --- /dev/null
+> +++ b/security/ipe/fs.h
+> @@ -0,0 +1,17 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) Microsoft Corporation. All rights reserved.
+> + */
+> +
+> +#ifndef IPE_FS_H
+> +#define IPE_FS_H
+> +
+> +#include "policy.h"
+> +
+> +extern struct dentry *policy_root __ro_after_init;
+> +
+> +void ipe_soft_del_policyfs(struct ipe_policy *p);
+> +int ipe_new_policyfs_node(struct ipe_policy *p);
+> +void ipe_del_policyfs_node(struct ipe_policy *p);
+> +
+> +#endif /* IPE_FS_H */
+> diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
+> index 551c6d90ac11..bef923026b50 100644
+> --- a/security/ipe/ipe.c
+> +++ b/security/ipe/ipe.c
+> @@ -5,6 +5,8 @@
+>  
+>  #include "ipe.h"
+>  
+> +bool ipe_enabled;
+> +
+>  static struct lsm_blob_sizes ipe_blobs __lsm_ro_after_init = {
+>  };
+>  
+> @@ -30,6 +32,7 @@ static int __init ipe_init(void)
+>  	int rc = 0;
+>  
+>  	security_add_hooks(ipe_hooks, ARRAY_SIZE(ipe_hooks), "ipe");
+> +	ipe_enabled = true;
+>  
+>  	return rc;
+>  }
+> diff --git a/security/ipe/ipe.h b/security/ipe/ipe.h
+> index ee7ec3f3b55d..43cc132ed048 100644
+> --- a/security/ipe/ipe.h
+> +++ b/security/ipe/ipe.h
+> @@ -10,4 +10,6 @@
+>  
+>  #include <linux/lsm_hooks.h>
+>  
+> +extern bool ipe_enabled;
+> +
+>  #endif /* IPE_H */
+> diff --git a/security/ipe/policy.c b/security/ipe/policy.c
+> index 772d876b1087..a5e9c6e5691b 100644
+> --- a/security/ipe/policy.c
+> +++ b/security/ipe/policy.c
+> @@ -4,12 +4,39 @@
+>   */
+>  
+>  #include "ipe.h"
+> +#include "eval.h"
+> +#include "fs.h"
+>  #include "policy.h"
+>  #include "policy_parser.h"
+>  #include "digest.h"
+>  
+>  #include <linux/verification.h>
+>  
+> +/* lock for synchronizing writers across ipe policy */
+> +DEFINE_SPINLOCK(ipe_policy_lock);
+> +
+> +/**
+> + * ver_to_u64 - Convert an internal ipe_policy_version to a u64.
+> + * @p: Policy to extract the version from.
+> + *
+> + * Bits (LSB is index 0):
+> + *	[48,32] -> Major
+> + *	[32,16] -> Minor
+> + *	[16, 0] -> Revision
+> + *
+> + * Return: u64 version of the embedded version structure.
+> + */
+> +static inline u64 ver_to_u64(const struct ipe_policy *const p)
+> +{
+> +	u64 r = 0;
+> +
+> +	r = (((u64)p->parsed->version.major) << 32)
+> +	  | (((u64)p->parsed->version.minor) << 16)
+> +	  | ((u64)(p->parsed->version.rev));
+> +
+> +	return r;
+> +}
+> +
+>  /**
+>   * ipe_free_policy - Deallocate a given IPE policy.
+>   * @p: Supplies the policy to free.
+> @@ -21,6 +48,7 @@ void ipe_free_policy(struct ipe_policy *p)
+>  	if (IS_ERR_OR_NULL(p))
+>  		return;
+>  
+> +	ipe_del_policyfs_node(p);
+>  	free_parsed_policy(p->parsed);
+>  	if (!p->pkcs7)
+>  		kfree(p->text);
+> @@ -39,6 +67,70 @@ static int set_pkcs7_data(void *ctx, const void *data, size_t len,
+>  	return 0;
+>  }
+>  
+> +/**
+> + * ipe_update_policy - parse a new policy and replace @old with it.
+> + * @addr: Supplies a pointer to the i_private for saving policy.
+> + * @text: Supplies a pointer to the plain text policy.
+> + * @textlen: Supplies the length of @text.
+> + * @pkcs7: Supplies a pointer to a buffer containing a pkcs7 message.
+> + * @pkcs7len: Supplies the length of @pkcs7len.
+> + *
+> + * @text/@textlen is mutually exclusive with @pkcs7/@pkcs7len - see
+> + * ipe_new_policy.
+> + *
+> + * Return:
+> + * * !IS_ERR	- OK
+> + * * -ENOENT	- Policy doesn't exist
+> + * * -EINVAL	- New policy is invalid
+> + */
+> +struct ipe_policy *ipe_update_policy(struct ipe_policy __rcu **addr,
+> +				     const char *text, size_t textlen,
+> +				     const char *pkcs7, size_t pkcs7len)
+> +{
+> +	int rc = 0;
+> +	struct ipe_policy *old, *new;
+> +
+> +	old = ipe_get_policy_rcu(*addr);
+> +	if (!old) {
+> +		rc = -ENOENT;
+> +		goto err;
+> +	}
+> +
+> +	new = ipe_new_policy(text, textlen, pkcs7, pkcs7len);
+> +	if (IS_ERR(new)) {
+> +		rc = PTR_ERR(new);
+> +		goto err;
+> +	}
+> +
+> +	if (strcmp(new->parsed->name, old->parsed->name)) {
+> +		rc = -EINVAL;
+> +		goto err;
+> +	}
+> +
+> +	if (ver_to_u64(old) > ver_to_u64(new)) {
+> +		rc = -EINVAL;
+> +		goto err;
+> +	}
+> +
+> +	if (ipe_is_policy_active(old)) {
+> +		spin_lock(&ipe_policy_lock);
+> +		rcu_assign_pointer(ipe_active_policy, new);
+> +		spin_unlock(&ipe_policy_lock);
+> +		synchronize_rcu();
+> +	}
+> +
+> +	rcu_assign_pointer(*addr, new);
+> +
+> +	swap(new->policyfs, old->policyfs);
+> +	ipe_free_policy(old);
+> +
+> +	goto out;
+> +err:
+> +	ipe_free_policy(new);
+> +out:
+> +	return (rc < 0) ? ERR_PTR(rc) : new;
+> +}
 
-> 
-> Change log:
-> 
-> v3 -> v4:
-> - Fixed active mode low frequency issue reported by Peter Jung and Tor Vic
-> - Documentation modification suggested by Bagas Sanjaya
-> 
-> v2 -> v3:
-> - Addressed review comments form Mario.
-> - Picked up RB tag from Mario.
-> - Rebase on top of EPP v11 [3].
-> 
-> v1 -> v2:
-> - Fix issue with shared mem systems.
-> - Rebase on top of EPP series.
-> 
-> [1]: https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
-> [2]: https://lore.kernel.org/lkml/20221110175847.3098728-1-Perry.Yuan@amd.com/
-> [3]: https://lore.kernel.org/linux-pm/20230118075210.447418-1-perry.yuan@amd.com/
-> 
-> Wyes Karny (6):
->   acpi: cppc: Add min and max perf reg writing support
->   acpi: cppc: Add auto select register read/write support
->   cpufreq: amd_pstate: Add guided autonomous mode
->   Documentation: amd_pstate: Move amd_pstate param to alphabetical order
->   cpufreq: amd_pstate: Add guided mode control support via sysfs
->   Documentation: amd_pstate: Update amd_pstate status sysfs for guided
-> 
->  .../admin-guide/kernel-parameters.txt         |  41 ++--
->  Documentation/admin-guide/pm/amd-pstate.rst   |  31 ++-
->  drivers/acpi/cppc_acpi.c                      | 121 +++++++++++-
->  drivers/cpufreq/amd-pstate.c                  | 184 +++++++++++++-----
->  include/acpi/cppc_acpi.h                      |  11 ++
->  include/linux/amd-pstate.h                    |   2 +
->  6 files changed, 309 insertions(+), 81 deletions(-)
-> 
-> -- 
-> 2.34.1
+I would like more to see all the functions managing the policy
+together. If the patch is too long, you could further split by adding
+the helpers (that don't directly deal with the policy) in a separate
+patch.
+
+Here you would simply instantiate dirs/files in securityfs and call the
+existing functions previously introduced.
+
+Roberto
+
+> +
+>  /**
+>   * ipe_new_policy - Allocate and parse an ipe_policy structure.
+>   *
+> @@ -117,3 +209,46 @@ struct ipe_policy *ipe_get_policy_rcu(struct ipe_policy __rcu *p)
+>  
+>  	return rv;
+>  }
+> +
+> +/**
+> + * ipe_set_active_pol - Make @p the active policy.
+> + * @p: Supplies a pointer to the policy to make active.
+> + */
+> +int ipe_set_active_pol(const struct ipe_policy *p)
+> +{
+> +	int rc = 0;
+> +	struct ipe_policy *ap = NULL;
+> +
+> +	ap = ipe_get_policy_rcu(ipe_active_policy);
+> +	if (ap && ver_to_u64(ap) > ver_to_u64(p)) {
+> +		rc = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	spin_lock(&ipe_policy_lock);
+> +	rcu_assign_pointer(ipe_active_policy, p);
+> +	spin_unlock(&ipe_policy_lock);
+> +	synchronize_rcu();
+> +
+> +out:
+> +	return rc;
+> +}
+> +
+> +/**
+> + * ipe_is_policy_active - Determine wehther @p is the active policy.
+> + * @p: Supplies a pointer to the policy to check.
+> + *
+> + * Return:
+> + * * true	- @p is the active policy
+> + * * false	- @p is not the active policy
+> + */
+> +bool ipe_is_policy_active(const struct ipe_policy *p)
+> +{
+> +	bool rv;
+> +
+> +	rcu_read_lock();
+> +	rv = rcu_access_pointer(ipe_active_policy) == p;
+> +	rcu_read_unlock();
+> +
+> +	return rv;
+> +}
+> diff --git a/security/ipe/policy.h b/security/ipe/policy.h
+> index 967d816cd5cd..0cb42b6f246e 100644
+> --- a/security/ipe/policy.h
+> +++ b/security/ipe/policy.h
+> @@ -70,11 +70,18 @@ struct ipe_policy {
+>  	size_t		textlen;
+>  
+>  	struct ipe_parsed_policy *parsed;
+> +
+> +	struct dentry *policyfs;
+>  };
+>  
+>  struct ipe_policy *ipe_new_policy(const char *text, size_t textlen,
+>  				  const char *pkcs7, size_t pkcs7len);
+>  void ipe_free_policy(struct ipe_policy *pol);
+>  struct ipe_policy *ipe_get_policy_rcu(struct ipe_policy __rcu *p);
+> +struct ipe_policy *ipe_update_policy(struct ipe_policy **addr, const char *text,
+> +				     size_t textlen, const char *pkcs7,
+> +				     size_t pkcs7len);
+> +int ipe_set_active_pol(const struct ipe_policy *p);
+> +bool ipe_is_policy_active(const struct ipe_policy *p);
+>  
+>  #endif /* IPE_POLICY_H */
+> diff --git a/security/ipe/policy_fs.c b/security/ipe/policy_fs.c
+> new file mode 100644
+> index 000000000000..72759cc8938d
+> --- /dev/null
+> +++ b/security/ipe/policy_fs.c
+> @@ -0,0 +1,459 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) Microsoft Corporation. All rights reserved.
+> + */
+> +#include "ipe.h"
+> +#include "policy.h"
+> +#include "fs.h"
+> +
+> +#include <linux/fs.h>
+> +#include <linux/namei.h>
+> +#include <linux/types.h>
+> +#include <linux/dcache.h>
+> +#include <linux/security.h>
+> +
+> +#define MAX_VERSION_SIZE ARRAY_SIZE("65535.65535.65535")
+> +
+> +/**
+> + * find_policy - return a policy pointer saved in i_private of a dentry.
+> + * @f: Securityfs object that contains a link to the dentry containing the
+> + *     policy structure.
+> + *
+> + * Return: Always-Valid Address Pointer
+> + */
+> +static inline struct ipe_policy __rcu **find_policy(struct file *f)
+> +{
+> +	struct dentry *link;
+> +
+> +	link = d_inode(f->f_path.dentry)->i_private;
+> +
+> +	return (struct ipe_policy __rcu **)&(d_inode(link)->i_private);
+> +}
+> +
+> +/**
+> + * ipefs_file - defines a file in securityfs.
+> + */
+> +struct ipefs_file {
+> +	const char	*name;
+> +	umode_t		access;
+> +	const struct	file_operations *fops;
+> +};
+> +
+> +/**
+> + * read_pkcs7 - Read handler for "ipe/policies/$name/pkcs7".
+> + * @f: Supplies a file structure representing the securityfs node.
+> + * @data: Suppleis a buffer passed to the write syscall.
+> + * @len: Supplies the length of @data.
+> + * @offset: unused.
+> + *
+> + * @data will be populated with the pkcs7 blob representing the policy
+> + * on success. If the policy is unsigned (like the boot policy), this
+> + * will return -ENOENT.
+> + *
+> + * Return:
+> + * * >0	- Success, Length of buffer written
+> + * * <0	- Error
+> + */
+> +static ssize_t read_pkcs7(struct file *f, char __user *data,
+> +			  size_t len, loff_t *offset)
+> +{
+> +	int rc = 0;
+> +	struct ipe_policy *p = NULL;
+> +
+> +	p = ipe_get_policy_rcu(*find_policy(f));
+> +	if (!p)
+> +		return -ENOENT;
+> +
+> +	if (!p->pkcs7) {
+> +		rc = -ENOENT;
+> +		goto out;
+> +	}
+> +
+> +	rc = simple_read_from_buffer(data, len, offset, p->pkcs7, p->pkcs7len);
+> +
+> +out:
+> +	return rc;
+> +}
+> +
+> +/**
+> + * read_policy - Read handler for "ipe/policies/$name/policy".
+> + * @f: Supplies a file structure representing the securityfs node.
+> + * @data: Suppleis a buffer passed to the write syscall.
+> + * @len: Supplies the length of @data.
+> + * @offset: unused.
+> + *
+> + * @data will be populated with the plain-text version of the policy
+> + * on success.
+> + *
+> + * Return:
+> + * * >0	- Success, Length of buffer written
+> + * * <0	- Error
+> + */
+> +static ssize_t read_policy(struct file *f, char __user *data,
+> +			   size_t len, loff_t *offset)
+> +{
+> +	int rc = 0;
+> +	struct ipe_policy *p = NULL;
+> +
+> +	p = ipe_get_policy_rcu(*find_policy(f));
+> +	if (!p)
+> +		return -ENOENT;
+> +
+> +	rc = simple_read_from_buffer(data, len, offset, p->text, p->textlen);
+> +
+> +	return rc;
+> +}
+> +
+> +/**
+> + * read_name: Read handler for "ipe/policies/$name/name".
+> + * @f: Supplies a file structure representing the securityfs node.
+> + * @data: Suppleis a buffer passed to the write syscall.
+> + * @len: Supplies the length of @data.
+> + * @offset: unused.
+> + *
+> + * @data will be populated with the policy_name attribute on success.
+> + *
+> + * Return:
+> + * * >0	- Success, Length of buffer written
+> + * * <0	- Error
+> + */
+> +static ssize_t read_name(struct file *f, char __user *data,
+> +			 size_t len, loff_t *offset)
+> +{
+> +	int rc = 0;
+> +	struct ipe_policy *p = NULL;
+> +
+> +	p = ipe_get_policy_rcu(*find_policy(f));
+> +	if (!p)
+> +		return -ENOENT;
+> +
+> +	rc = simple_read_from_buffer(data, len, offset, p->parsed->name,
+> +				     strlen(p->parsed->name));
+> +
+> +	return rc;
+> +}
+> +
+> +/**
+> + * read_version - Read handler for "ipe/policies/$name/version".
+> + * @f: Supplies a file structure representing the securityfs node.
+> + * @data: Suppleis a buffer passed to the write syscall.
+> + * @len: Supplies the length of @data.
+> + * @offset: unused.
+> + *
+> + * @data will be populated with the version string on success.
+> + *
+> + * Return:
+> + * * >0	- Success, Length of buffer written
+> + * * <0	- Error
+> + */
+> +static ssize_t read_version(struct file *f, char __user *data,
+> +			    size_t len, loff_t *offset)
+> +{
+> +	ssize_t rc = 0;
+> +	size_t bufsize = 0;
+> +	struct ipe_policy *p = NULL;
+> +	char buffer[MAX_VERSION_SIZE] = { 0 };
+> +
+> +	p = ipe_get_policy_rcu(*find_policy(f));
+> +	if (!p)
+> +		return -ENOENT;
+> +
+> +	bufsize = scnprintf(buffer, ARRAY_SIZE(buffer), "%hu.%hu.%hu",
+> +			    p->parsed->version.major, p->parsed->version.minor,
+> +			    p->parsed->version.rev);
+> +
+> +	rc = simple_read_from_buffer(data, len, offset, buffer, bufsize);
+> +
+> +	return rc;
+> +}
+> +
+> +/**
+> + * setactive - Write handler for "ipe/policies/$name/active".
+> + * @f: Supplies a file structure representing the securityfs node.
+> + * @data: Supplies a buffer passed to the write syscall.
+> + * @len: Supplies the length of @data.
+> + * @offset: unused.
+> + *
+> + * Return:
+> + * * >0	- Success, Length of buffer written
+> + * * <0	- Error
+> + */
+> +static ssize_t setactive(struct file *f, const char __user *data,
+> +			 size_t len, loff_t *offset)
+> +{
+> +	int rc = 0;
+> +	bool value = false;
+> +	struct ipe_policy *p = NULL;
+> +
+> +	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
+> +		return -EPERM;
+> +
+> +	rc = kstrtobool_from_user(data, len, &value);
+> +	if (rc)
+> +		goto out;
+> +
+> +	if (!value) {
+> +		rc = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	p = ipe_get_policy_rcu(*find_policy(f));
+> +	if (!p) {
+> +		rc = -ENOENT;
+> +		goto out;
+> +	}
+> +
+> +	rc = ipe_set_active_pol(p);
+> +
+> +out:
+> +	return (rc < 0) ? rc : len;
+> +}
+> +
+> +/**
+> + * getactive - Read handler for "ipe/policies/$name/active".
+> + * @f: Supplies a file structure representing the securityfs node.
+> + * @data: Suppleis a buffer passed to the write syscall.
+> + * @len: Supplies the length of @data.
+> + * @offset: unused.
+> + *
+> + * @data will be populated with the 1 or 0 depending on if the
+> + * corresponding policy is active.
+> + *
+> + * Return:
+> + * * >0	- Success, Length of buffer written
+> + * * <0	- Error
+> + */
+> +static ssize_t getactive(struct file *f, char __user *data,
+> +			 size_t len, loff_t *offset)
+> +{
+> +	int rc = 0;
+> +	const char *str;
+> +	struct ipe_policy *p = NULL;
+> +
+> +	p = ipe_get_policy_rcu(*find_policy(f));
+> +	if (!p) {
+> +		rc = -ENOENT;
+> +		goto out;
+> +	}
+> +
+> +	str = ipe_is_policy_active(p) ? "1" : "0";
+> +	rc = simple_read_from_buffer(data, len, offset, str, 1);
+> +
+> +out:
+> +	return rc;
+> +}
+> +
+> +/**
+> + * update_policy - Write handler for "ipe/policies/$name/update".
+> + * @f: Supplies a file structure representing the securityfs node.
+> + * @data: Supplies a buffer passed to the write syscall.
+> + * @len: Supplies the length of @data.
+> + * @offset: unused.
+> + *
+> + * On success this updates the policy represented by $name,
+> + * in-place.
+> + *
+> + * Return:
+> + * * >0	- Success, Length of buffer written
+> + * * <0	- Error
+> + */
+> +static ssize_t update_policy(struct file *f, const char __user *data,
+> +			     size_t len, loff_t *offset)
+> +{
+> +	int rc = 0;
+> +	char *copy = NULL;
+> +	struct inode *ino = NULL;
+> +	struct ipe_policy *new = NULL;
+> +	struct ipe_policy __rcu **addr = NULL;
+> +
+> +	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
+> +		return -EPERM;
+> +
+> +	copy = memdup_user(data, len);
+> +	if (IS_ERR(copy)) {
+> +		rc = PTR_ERR(copy);
+> +		goto err;
+> +	}
+> +
+> +	ino = d_inode(f->f_path.dentry->d_parent);
+> +	inode_lock(ino);
+> +	addr = find_policy(f);
+> +	new = ipe_update_policy(addr, NULL, 0, copy, len);
+> +	inode_unlock(ino);
+> +	synchronize_rcu();
+> +	if (IS_ERR(new)) {
+> +		rc = PTR_ERR(new);
+> +		goto err;
+> +	}
+> +
+> +	kfree(copy);
+> +	return len;
+> +err:
+> +	kfree(copy);
+> +	return rc;
+> +}
+> +
+> +/**
+> + * delete_policy - write handler for  "ipe/policies/$name/delete".
+> + * @f: Supplies a file structure representing the securityfs node.
+> + * @data: Supplies a buffer passed to the write syscall.
+> + * @len: Supplies the length of @data.
+> + * @offset: unused.
+> + *
+> + * On success this deletes the policy represented by $name.
+> + *
+> + * Return:
+> + * * >0	- Success, Length of buffer written
+> + * * <0	- Error
+> + */
+> +static ssize_t delete_policy(struct file *f, const char __user *data,
+> +			     size_t len, loff_t *offset)
+> +{
+> +	int rc = 0;
+> +	bool value = false;
+> +	struct ipe_policy *p = NULL;
+> +
+> +	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
+> +		return -EPERM;
+> +
+> +	rc = kstrtobool_from_user(data, len, &value);
+> +	if (rc)
+> +		goto out;
+> +
+> +	if (!value) {
+> +		rc = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	p = ipe_get_policy_rcu(*find_policy(f));
+> +	if (!p) {
+> +		rc = -ENOENT;
+> +		goto out;
+> +	}
+> +
+> +	if (ipe_is_policy_active(p)) {
+> +		rc = -EPERM;
+> +		goto out;
+> +	}
+> +
+> +	ipe_free_policy(p);
+> +out:
+> +	return (rc < 0) ? rc : len;
+> +}
+> +
+> +static const struct file_operations content_fops = {
+> +	.read = read_policy,
+> +};
+> +
+> +static const struct file_operations pkcs7_fops = {
+> +	.read = read_pkcs7,
+> +};
+> +
+> +static const struct file_operations name_fops = {
+> +	.read = read_name,
+> +};
+> +
+> +static const struct file_operations ver_fops = {
+> +	.read = read_version,
+> +};
+> +
+> +static const struct file_operations active_fops = {
+> +	.write = setactive,
+> +	.read = getactive,
+> +};
+> +
+> +static const struct file_operations update_fops = {
+> +	.write = update_policy,
+> +};
+> +
+> +static const struct file_operations delete_fops = {
+> +	.write = delete_policy,
+> +};
+> +
+> +/**
+> + * policy_subdir - files under a policy subdirectory
+> + */
+> +static const struct ipefs_file policy_subdir[] = {
+> +	{ "pkcs7", 0444, &pkcs7_fops },
+> +	{ "policy", 0444, &content_fops },
+> +	{ "name", 0444, &name_fops },
+> +	{ "version", 0444, &ver_fops },
+> +	{ "active", 0600, &active_fops },
+> +	{ "update", 0200, &update_fops },
+> +	{ "delete", 0200, &delete_fops },
+> +};
+> +
+> +/**
+> + * soft_del_policyfs - soft delete a policyfs node.
+> + * @p: Supplies a ipe_policy associated with the node to delete.
+> + *
+> + * This deletes the i_private field of a policyfs node.
+> + */
+> +static void soft_del_policyfs(struct ipe_policy *p)
+> +{
+> +	struct inode *ino = NULL;
+> +	struct ipe_policy __rcu **addr = NULL;
+> +
+> +	ino = d_inode(p->policyfs);
+> +	addr = (struct ipe_policy __rcu **)&ino->i_private;
+> +
+> +	inode_lock(ino);
+> +	rcu_assign_pointer(*addr, NULL);
+> +	inode_unlock(ino);
+> +	synchronize_rcu();
+> +}
+> +
+> +/**
+> + * ipe_del_policyfs_node - Delete a securityfs entry for @p.
+> + * @p: Supplies a pointer to the policy to delete a securityfs entry for.
+> + */
+> +void ipe_del_policyfs_node(struct ipe_policy *p)
+> +{
+> +	if (IS_ERR_OR_NULL(p->policyfs))
+> +		return;
+> +
+> +	soft_del_policyfs(p);
+> +	securityfs_recursive_remove(p->policyfs);
+> +}
+> +
+> +/**
+> + * ipe_new_policyfs_node - Create a securityfs entry for @p.
+> + * @p: Supplies a pointer to the policy to create a securityfs entry for.
+> + *
+> + * Return:
+> + * * 0	- OK
+> + * * !0	- Error
+> + */
+> +int ipe_new_policyfs_node(struct ipe_policy *p)
+> +{
+> +	int rc = 0;
+> +	size_t i = 0;
+> +	struct dentry *d = NULL;
+> +	struct ipe_policy **addr = NULL;
+> +	const struct ipefs_file *f = NULL;
+> +
+> +	p->policyfs = securityfs_create_dir(p->parsed->name, policy_root);
+> +	if (IS_ERR(p->policyfs)) {
+> +		rc = PTR_ERR(p->policyfs);
+> +		goto err;
+> +	}
+> +
+> +	addr = (struct ipe_policy **)&(d_inode(p->policyfs)->i_private);
+> +	*addr = p;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(policy_subdir); ++i) {
+> +		f = &policy_subdir[i];
+> +
+> +		d = securityfs_create_file(f->name, f->access, p->policyfs, p->policyfs,
+> +					   f->fops);
+> +		if (IS_ERR(d)) {
+> +			rc = PTR_ERR(d);
+> +			goto err;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +err:
+> +	ipe_del_policyfs_node(p);
+> +	return rc;
+> +}
+
