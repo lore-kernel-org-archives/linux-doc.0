@@ -2,292 +2,228 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD1A6C636CD
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 10:13:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73F83C38142
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 10:38:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229686AbjAaKNT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 05:13:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41722 "EHLO
+        id S231404AbjAaKiE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 05:38:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbjAaKNS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 05:13:18 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A714E13D55;
-        Tue, 31 Jan 2023 02:13:14 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id qw12so24180653ejc.2;
-        Tue, 31 Jan 2023 02:13:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nc9Z5j9MkGMkB7mJzT9wGvl3LY8/Qix/mZ9EpxY13UU=;
-        b=pTV4aNcJs3yHVeIu0uZ+oEGW0BTDG33Bh8K+yllcVBsxr+7IYKQrsWGxtsCXdmRRGE
-         108S2mvuyKLZAnF5zT0u1IY+Nfri3aGDYwgr87VWrT5aGv7c8lizJgEjO0G8nt1DDgPG
-         WcwiGtJnWKW7dLrPon82l0yZP67BmT46ZiHhzIETbNCFs4bauU1IgHnIeIPQEbbyOyB3
-         N/X6TctSnf4ci/DSQtgFpMBZUBjtbXZPAFVuPADht0+gCYr/BuWjvRjYSNzZSALXhqPv
-         w+KRY6lm85x+oZb7TmeX9rcj1RrQe3fnH6zTStMdqyGoRmRjWdcAc6+ie1leztVAqj1/
-         kFEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Nc9Z5j9MkGMkB7mJzT9wGvl3LY8/Qix/mZ9EpxY13UU=;
-        b=hW2qAr2LcOgGfD3CI7iBJzKAXT7tb3W2rceKzuQ4Y+VM3LKhgHmFQejF0eCxRruEmJ
-         wEq9SZf4E7fUAih8g0mdf10aOQgFxlhepssNNU2LBWeSvclLZiQ0O/Xj290eonQsoCzJ
-         tzM+LoKu/DMRRkc1tNIF6F+i7cyUd+Uvd+uXIKzJm5f5R5SsrfXYJC7oTssif7ug7nEY
-         y7mVseCGL8GnBdovB+fS3Jpsxa9i4nfWGShVF+iS6YkHgr2eYmOEOKg1l57h8O5L0hDE
-         LduLPiCDghoMmO2t4DT6KoxEziAZaOsYSq3ek4li1k+ZPM+1vmlgMNgBfYfQSH2MEqgo
-         7wow==
-X-Gm-Message-State: AO0yUKWTtU0tFogZRt1q5levk2CDA/8+dmra8/viEv6AOVBXXbNnP8xa
-        aa1hSwMFV9Gxpk093nbMHiZuFJnI5BFLIg==
-X-Google-Smtp-Source: AK7set9l9y2O0Zw2wmoy1z1pL6IehAj88HMjNCapftlhZTtdc5HqDCHJ7LYSUarXyNkXqmvl5CxjCg==
-X-Received: by 2002:a17:906:cf89:b0:878:790b:b7db with SMTP id um9-20020a170906cf8900b00878790bb7dbmr17879915ejb.70.1675159992813;
-        Tue, 31 Jan 2023 02:13:12 -0800 (PST)
-Received: from fedora.. ([87.116.164.178])
-        by smtp.gmail.com with ESMTPSA id c12-20020a170906340c00b0088aadc18b69sm1844695ejb.101.2023.01.31.02.13.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Jan 2023 02:13:10 -0800 (PST)
-From:   Aleksa Savic <savicaleksa83@gmail.com>
-To:     linux-hwmon@vger.kernel.org
-Cc:     Aleksa Savic <savicaleksa83@gmail.com>,
-        Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (aquacomputer_d5next) Add support for Aquacomputer Poweradjust 3
-Date:   Tue, 31 Jan 2023 11:12:09 +0100
-Message-Id: <20230131101210.8095-1-savicaleksa83@gmail.com>
-X-Mailer: git-send-email 2.39.1
+        with ESMTP id S230390AbjAaKiD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 05:38:03 -0500
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050:0:465::101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 232F15588;
+        Tue, 31 Jan 2023 02:38:00 -0800 (PST)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4P5hMk2chvz9sbx;
+        Tue, 31 Jan 2023 11:37:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1675161474;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ccoXHsjUFcEconN3tjLNAPxuR8ELntH/GW6UVoGSst0=;
+        b=eXcY7hjQ4atu6j4P2+0I1haVspuB9FCh+vtA369JcZvFqnnB2PDUpZh8luNdaGojHiAwl6
+        qVCs0cLZ030n8RGLsmXEA9ONROKWJYPwP7aujkOGeVagRRPfyGLEXuqRJkK6KAeSkjE0Ix
+        FfpPY0+81ODk3/X4Esm7CGL9lW5zmG1BhthlXBY8KpviZE6eD0gWe6/EGvFGNJcYfKzBLo
+        QsEyVpbHE+oWoXrYRSYB30dG0f5BlJMxdf7tXGJJL0ttErfKlTeXTtSOea1XoWbm0Feai8
+        +kY0WA9OK1Q6eMdittruIO88ZW0zzkqOZ3B7CW6NaM4zyvigxf6BOX8MvpzKaQ==
+Date:   Tue, 31 Jan 2023 11:37:51 +0100 (CET)
+From:   torvic9@mailbox.org
+To:     Wyes Karny <wyes.karny@amd.com>,
+        Rafael J Wysocki <rafael@kernel.org>,
+        Huang Rui <ray.huang@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Mario.Limonciello@amd.com, Perry.Yuan@amd.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
+        santosh.shukla@amd.com, Len Brown <lenb@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Ananth Narayan <ananth.narayan@amd.com>, gautham.shenoy@amd.com
+Message-ID: <1501106335.274.1675161471528@office.mailbox.org>
+In-Reply-To: <20230131052141.96475-1-wyes.karny@amd.com>
+References: <20230131052141.96475-1-wyes.karny@amd.com>
+Subject: Re: [PATCH v4 0/6] amd_pstate: Add guided autonomous mode support
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-MBO-RS-ID: 17a36ad1b76bcf2434f
+X-MBO-RS-META: fjapb9oida6usfhjqsyay73et9psnyzw
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend aquacomputer_d5next driver to expose the temp sensor of the
-Aquacomputer Poweradjust 3 fan controller, which communicates
-through a proprietary USB HID protocol.
 
-The Poweradjust 3 is not currently known to expose firmware version
-and serial number, so don't create debugfs entries if their values
-can't be retrieved.
+> Wyes Karny <wyes.karny@amd.com> hat am 31.01.2023 05:21 GMT geschrieben:
+> 
+>  
+> From ACPI spec[1] below 3 modes for CPPC can be defined:
+> 1. Non autonomous: OS scaling governor specifies operating frequency/
+>    performance level through `Desired Performance` register and platform
+> follows that.
+> 2. Guided autonomous: OS scaling governor specifies min and max
+>    frequencies/ performance levels through `Minimum Performance` and
+> `Maximum Performance` register, and platform can autonomously select an
+> operating frequency in this range.
+> 3. Fully autonomous: OS only hints (via EPP) to platform for the required
+>    energy performance preference for the workload and platform autonomously
+> scales the frequency.
+> 
+> Currently (1) is supported by amd_pstate as passive mode, and (3) is
+> implemented by EPP support[2]. This change is to support (2).
+> 
+> In guided autonomous mode the min_perf is based on the input from the
+> scaling governor. For example, in case of schedutil this value depends
+> on the current utilization. And max_perf is set to max capacity.
+> 
+> To activate guided auto mode ``amd_pstate=guided`` command line
+> parameter has to be passed in the kernel.
+> 
+> Below are the results (normalized) of benchmarks with this patch:
+> System: Genoa 96C 192T
+> Kernel: 6.2.0-rc2 + EPP v11 + patch
+> Scaling governor: schedutil
+> 
+> ================ dbench comparisons ================
+> dbench result comparison:
+> Here results are throughput (MB/s)
+> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+>     1	   1.00 (0.00 pct)	   1.01 (1.00 pct)	   1.02 (2.00 pct)
+>     2	   1.07 (0.00 pct)	   1.06 (-0.93 pct)	   1.07 (0.00 pct)
+>     4	   1.68 (0.00 pct)	   1.70 (1.19 pct)	   1.72 (2.38 pct)
+>     8	   2.61 (0.00 pct)	   2.68 (2.68 pct)	   2.76 (5.74 pct)
+>    16	   4.16 (0.00 pct)	   4.24 (1.92 pct)	   4.53 (8.89 pct)
+>    32	   5.98 (0.00 pct)	   6.17 (3.17 pct)	   7.30 (22.07 pct)
+>    64	   8.67 (0.00 pct)	   8.99 (3.69 pct)	  10.71 (23.52 pct)
+>   128	  11.98 (0.00 pct)	  12.52 (4.50 pct)	  14.67 (22.45 pct)
+>   256	  15.73 (0.00 pct)	  16.13 (2.54 pct)	  17.81 (13.22 pct)
+>   512	  15.77 (0.00 pct)	  16.32 (3.48 pct)	  16.39 (3.93 pct)
+> dbench power comparison:
+> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+>     1	   1.00 (0.00 pct)	   1.00 (0.00 pct)	   1.04 (4.00 pct)
+>     2	   0.99 (0.00 pct)	   0.97 (-2.02 pct)	   1.02 (3.03 pct)
+>     4	   0.98 (0.00 pct)	   0.98 (0.00 pct)	   1.02 (4.08 pct)
+>     8	   0.98 (0.00 pct)	   0.99 (1.02 pct)	   1.02 (4.08 pct)
+>    16	   0.99 (0.00 pct)	   1.00 (1.01 pct)	   1.04 (5.05 pct)
+>    32	   1.02 (0.00 pct)	   1.02 (0.00 pct)	   1.07 (4.90 pct)
+>    64	   1.05 (0.00 pct)	   1.05 (0.00 pct)	   1.11 (5.71 pct)
+>   128	   1.08 (0.00 pct)	   1.08 (0.00 pct)	   1.15 (6.48 pct)
+>   256	   1.12 (0.00 pct)	   1.12 (0.00 pct)	   1.20 (7.14 pct)
+>   512	   1.18 (0.00 pct)	   1.17 (-0.84 pct)	   1.26 (6.77 pct)
+> 
+> ================ git-source comparisons ================
+> git-source result comparison:
+> Here results are throughput (compilations per 1000 sec)
+> Threads:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+>   192	   1.00 (0.00 pct)	   0.93 (-7.00 pct)	   1.00 (0.00 pct)
+> git-source power comparison:
+> Threads:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+>   192	   1.00 (0.00 pct)	   1.00 (0.00 pct)	   0.96 (-4.00 pct)
+> 
+> ================ kernbench comparisons ================
+> kernbench result comparison:
+> Here results are throughput (compilations per 1000 sec)
+> Load:	   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+> 32	   1.00 (0.00 pct)	   1.01 (1.00 pct)	   1.02 (2.00 pct)
+> 48	   1.26 (0.00 pct)	   1.28 (1.58 pct)	   1.25 (-0.79 pct)
+> 64	   1.39 (0.00 pct)	   1.47 (5.75 pct)	   1.43 (2.87 pct)
+> 96	   1.48 (0.00 pct)	   1.50 (1.35 pct)	   1.49 (0.67 pct)
+> 128	   1.29 (0.00 pct)	   1.32 (2.32 pct)	   1.33 (3.10 pct)
+> 192	   1.17 (0.00 pct)	   1.20 (2.56 pct)	   1.21 (3.41 pct)
+> 256	   1.17 (0.00 pct)	   1.18 (0.85 pct)	   1.20 (2.56 pct)
+> 384	   1.16 (0.00 pct)	   1.17 (0.86 pct)	   1.21 (4.31 pct)
+> kernbench power comparison:
+> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+>    32	   1.00 (0.00 pct)	   0.97 (-3.00 pct)	   1.00 (0.00 pct)
+>    48	   0.87 (0.00 pct)	   0.81 (-6.89 pct)	   0.88 (1.14 pct)
+>    64	   0.81 (0.00 pct)	   0.73 (-9.87 pct)	   0.77 (-4.93 pct)
+>    96	   0.75 (0.00 pct)	   0.74 (-1.33 pct)	   0.75 (0.00 pct)
+>   128	   0.83 (0.00 pct)	   0.79 (-4.81 pct)	   0.83 (0.00 pct)
+>   192	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
+>   256	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
+>   384	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
+> 
+> ================ tbench comparisons ================
+> tbench result comparison:
+> Here results are throughput (MB/s)
+> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+>     1	   1.00 (0.00 pct)	   0.70 (-30.00 pct)	   1.37 (37.00 pct)
+>     2	   2.64 (0.00 pct)	   1.39 (-47.34 pct)	   2.70 (2.27 pct)
+>     4	   4.89 (0.00 pct)	   2.75 (-43.76 pct)	   5.28 (7.97 pct)
+>     8	   9.46 (0.00 pct)	   5.42 (-42.70 pct)	  10.22 (8.03 pct)
+>    16	  19.05 (0.00 pct)	  10.42 (-45.30 pct)	  19.94 (4.67 pct)
+>    32	  37.50 (0.00 pct)	  20.23 (-46.05 pct)	  36.87 (-1.68 pct)
+>    64	  61.24 (0.00 pct)	  43.08 (-29.65 pct)	  62.96 (2.80 pct)
+>   128	  67.16 (0.00 pct)	  69.08 (2.85 pct)	  67.34 (0.26 pct)
+>   256	 154.59 (0.00 pct)	 162.33 (5.00 pct)	 156.78 (1.41 pct)
+>   512	 154.02 (0.00 pct)	 156.74 (1.76 pct)	 153.48 (-0.35 pct)
+> tbench power comparison:
+> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+>     1	   1.00 (0.00 pct)	   0.97 (-3.00 pct)	   1.08 (8.00 pct)
+>     2	   1.04 (0.00 pct)	   0.97 (-6.73 pct)	   1.11 (6.73 pct)
+>     4	   1.12 (0.00 pct)	   0.99 (-11.60 pct)	   1.18 (5.35 pct)
+>     8	   1.25 (0.00 pct)	   1.04 (-16.80 pct)	   1.31 (4.80 pct)
+>    16	   1.53 (0.00 pct)	   1.13 (-26.14 pct)	   1.58 (3.26 pct)
+>    32	   2.01 (0.00 pct)	   1.36 (-32.33 pct)	   2.03 (0.99 pct)
+>    64	   2.58 (0.00 pct)	   2.14 (-17.05 pct)	   2.61 (1.16 pct)
+>   128	   2.80 (0.00 pct)	   2.81 (0.35 pct)	   2.81 (0.35 pct)
+>   256	   3.39 (0.00 pct)	   3.43 (1.17 pct)	   3.42 (0.88 pct)
+>   512	   3.44 (0.00 pct)	   3.44 (0.00 pct)	   3.44 (0.00 pct)
+> 
+> Note: this series is based on top of EPP v11 [3] series
 
-Tested by a user on Github [1].
+Hi Wyes,
 
-[1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/issues/57
+Can you rebase this patchset onto the newest EPP v12 series [1] ?
 
-Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
----
- Documentation/hwmon/aquacomputer_d5next.rst |  3 +
- drivers/hwmon/aquacomputer_d5next.c         | 88 +++++++++++++++++++--
- 2 files changed, 84 insertions(+), 7 deletions(-)
+[1] https://lore.kernel.org/linux-pm/20230131090016.3970625-1-perry.yuan@amd.com/
 
-diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
-index 3f7880fb8116..527bcd3edda9 100644
---- a/Documentation/hwmon/aquacomputer_d5next.rst
-+++ b/Documentation/hwmon/aquacomputer_d5next.rst
-@@ -12,6 +12,7 @@ Supported devices:
- * Aquacomputer Octo fan controller
- * Aquacomputer Quadro fan controller
- * Aquacomputer High Flow Next sensor
-+* Aquacomputer Poweradjust 3 fan controller
- 
- Author: Aleksa Savic
- 
-@@ -53,6 +54,8 @@ The High Flow Next exposes +5V voltages, water quality, conductivity and flow re
- A temperature sensor can be connected to it, in which case it provides its reading
- and an estimation of the dissipated/absorbed power in the liquid cooling loop.
- 
-+The Poweradjust 3 controller exposes a single external temperature sensor.
-+
- Depending on the device, not all sysfs and debugfs entries will be available.
- Writing to virtual temperature sensors is not currently supported.
- 
-diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-index c1b885240ddf..2945b630b4a0 100644
---- a/drivers/hwmon/aquacomputer_d5next.c
-+++ b/drivers/hwmon/aquacomputer_d5next.c
-@@ -4,7 +4,8 @@
-  * Quadro, High Flow Next, Aquaero)
-  *
-  * Aquacomputer devices send HID reports (with ID 0x01) every second to report
-- * sensor values.
-+ * sensor values, except for devices that communicate through the
-+ * legacy way (currently, Poweradjust 3).
-  *
-  * Copyright 2021 Aleksa Savic <savicaleksa83@gmail.com>
-  * Copyright 2022 Jack Doan <me@jackdoan.com>
-@@ -28,8 +29,9 @@
- #define USB_PRODUCT_ID_FARBWERK360	0xf010
- #define USB_PRODUCT_ID_OCTO		0xf011
- #define USB_PRODUCT_ID_HIGHFLOWNEXT	0xf012
-+#define USB_PRODUCT_ID_POWERADJUST3	0xf0bd
- 
--enum kinds { d5next, farbwerk, farbwerk360, octo, quadro, highflownext, aquaero };
-+enum kinds { d5next, farbwerk, farbwerk360, octo, quadro, highflownext, aquaero, poweradjust3 };
- 
- static const char *const aqc_device_names[] = {
- 	[d5next] = "d5next",
-@@ -38,7 +40,8 @@ static const char *const aqc_device_names[] = {
- 	[octo] = "octo",
- 	[quadro] = "quadro",
- 	[highflownext] = "highflownext",
--	[aquaero] = "aquaero"
-+	[aquaero] = "aquaero",
-+	[poweradjust3] = "poweradjust3"
- };
- 
- #define DRIVER_NAME			"aquacomputer_d5next"
-@@ -59,6 +62,9 @@ static u8 secondary_ctrl_report[] = {
- 	0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x34, 0xC6
- };
- 
-+/* Report IDs for legacy devices */
-+#define POWERADJUST3_STATUS_REPORT_ID	0x03
-+
- /* Info, sensor sizes and offsets for most Aquacomputer devices */
- #define AQC_SERIAL_START		0x3
- #define AQC_FIRMWARE_VERSION		0xD
-@@ -176,6 +182,13 @@ static u16 quadro_ctrl_fan_offsets[] = { 0x37, 0x8c, 0xe1, 0x136 }; /* Fan speed
- #define HIGHFLOWNEXT_5V_VOLTAGE		97
- #define HIGHFLOWNEXT_5V_VOLTAGE_USB	99
- 
-+/* Specs of the Poweradjust 3 */
-+#define POWERADJUST3_NUM_SENSORS	1
-+#define POWERADJUST3_SENSOR_REPORT_SIZE	0x32
-+
-+/* Sensor report offsets for the Poweradjust 3 */
-+#define POWERADJUST3_SENSOR_START	0x03
-+
- /* Labels for D5 Next */
- static const char *const label_d5next_temp[] = {
- 	"Coolant temp"
-@@ -326,6 +339,11 @@ static const char *const label_highflownext_voltage[] = {
- 	"+5V USB voltage"
- };
- 
-+/* Labels for Poweradjust 3 */
-+static const char *const label_poweradjust3_temp_sensors[] = {
-+	"External sensor"
-+};
-+
- struct aqc_fan_structure_offsets {
- 	u8 voltage;
- 	u8 curr;
-@@ -357,6 +375,8 @@ struct aqc_data {
- 	enum kinds kind;
- 	const char *name;
- 
-+	int status_report_id;	/* Used for legacy devices, report is stored in buffer */
-+
- 	int buffer_size;
- 	u8 *buffer;
- 	int checksum_start;
-@@ -615,14 +635,49 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
- 	return 0;
- }
- 
-+/* Read device sensors by manually requesting the sensor report (legacy way) */
-+static int aqc_legacy_read(struct aqc_data *priv)
-+{
-+	int ret, i, sensor_value;
-+
-+	mutex_lock(&priv->mutex);
-+
-+	memset(priv->buffer, 0x00, priv->buffer_size);
-+	ret = hid_hw_raw_request(priv->hdev, priv->status_report_id, priv->buffer,
-+				 priv->buffer_size, HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
-+	if (ret < 0)
-+		goto unlock_and_return;
-+
-+	/* Temperature sensor readings */
-+	for (i = 0; i < priv->num_temp_sensors; i++) {
-+		sensor_value = get_unaligned_le16(priv->buffer + priv->temp_sensor_start_offset +
-+						  i * AQC_SENSOR_SIZE);
-+		priv->temp_input[i] = sensor_value * 10;
-+	}
-+
-+	priv->updated = jiffies;
-+
-+unlock_and_return:
-+	mutex_unlock(&priv->mutex);
-+	return ret;
-+}
-+
- static int aqc_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
- 		    int channel, long *val)
- {
- 	int ret;
- 	struct aqc_data *priv = dev_get_drvdata(dev);
- 
--	if (time_after(jiffies, priv->updated + STATUS_UPDATE_INTERVAL))
--		return -ENODATA;
-+	if (time_after(jiffies, priv->updated + STATUS_UPDATE_INTERVAL)) {
-+		if (priv->status_report_id != 0) {
-+			/* Legacy devices require manual reads */
-+			ret = aqc_legacy_read(priv);
-+			if (ret < 0)
-+				return -ENODATA;
-+		} else {
-+			return -ENODATA;
-+		}
-+	}
- 
- 	switch (type) {
- 	case hwmon_temp:
-@@ -1014,9 +1069,13 @@ static void aqc_debugfs_init(struct aqc_data *priv)
- 		  dev_name(&priv->hdev->dev));
- 
- 	priv->debugfs = debugfs_create_dir(name, NULL);
--	debugfs_create_file("serial_number", 0444, priv->debugfs, priv, &serial_number_fops);
--	debugfs_create_file("firmware_version", 0444, priv->debugfs, priv, &firmware_version_fops);
- 
-+	if (priv->serial_number_start_offset != 0)
-+		debugfs_create_file("serial_number", 0444, priv->debugfs, priv,
-+				    &serial_number_fops);
-+	if (priv->firmware_version_offset != 0)
-+		debugfs_create_file("firmware_version", 0444, priv->debugfs, priv,
-+				    &firmware_version_fops);
- 	if (priv->power_cycle_count_offset != 0)
- 		debugfs_create_file("power_cycles", 0444, priv->debugfs, priv, &power_cycles_fops);
- }
-@@ -1214,6 +1273,17 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		priv->power_label = label_highflownext_power;
- 		priv->voltage_label = label_highflownext_voltage;
- 		break;
-+	case USB_PRODUCT_ID_POWERADJUST3:
-+		priv->kind = poweradjust3;
-+
-+		priv->num_fans = 0;
-+
-+		priv->num_temp_sensors = POWERADJUST3_NUM_SENSORS;
-+		priv->temp_sensor_start_offset = POWERADJUST3_SENSOR_START;
-+		priv->buffer_size = POWERADJUST3_SENSOR_REPORT_SIZE;
-+
-+		priv->temp_label = label_poweradjust3_temp_sensors;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -1225,6 +1295,9 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 
- 		priv->fan_structure = &aqc_aquaero_fan_structure;
- 		break;
-+	case poweradjust3:
-+		priv->status_report_id = POWERADJUST3_STATUS_REPORT_ID;
-+		break;
- 	default:
- 		priv->serial_number_start_offset = AQC_SERIAL_START;
- 		priv->firmware_version_offset = AQC_FIRMWARE_VERSION;
-@@ -1287,6 +1360,7 @@ static const struct hid_device_id aqc_table[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_OCTO) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_QUADRO) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_HIGHFLOWNEXT) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_POWERADJUST3) },
- 	{ }
- };
- 
--- 
-2.39.1
+Cheers,
+Tor Vic
 
+> 
+> Change log:
+> 
+> v3 -> v4:
+> - Fixed active mode low frequency issue reported by Peter Jung and Tor Vic
+> - Documentation modification suggested by Bagas Sanjaya
+> 
+> v2 -> v3:
+> - Addressed review comments form Mario.
+> - Picked up RB tag from Mario.
+> - Rebase on top of EPP v11 [3].
+> 
+> v1 -> v2:
+> - Fix issue with shared mem systems.
+> - Rebase on top of EPP series.
+> 
+> [1]: https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
+> [2]: https://lore.kernel.org/lkml/20221110175847.3098728-1-Perry.Yuan@amd.com/
+> [3]: https://lore.kernel.org/linux-pm/20230118075210.447418-1-perry.yuan@amd.com/
+> 
+> Wyes Karny (6):
+>   acpi: cppc: Add min and max perf reg writing support
+>   acpi: cppc: Add auto select register read/write support
+>   cpufreq: amd_pstate: Add guided autonomous mode
+>   Documentation: amd_pstate: Move amd_pstate param to alphabetical order
+>   cpufreq: amd_pstate: Add guided mode control support via sysfs
+>   Documentation: amd_pstate: Update amd_pstate status sysfs for guided
+> 
+>  .../admin-guide/kernel-parameters.txt         |  41 ++--
+>  Documentation/admin-guide/pm/amd-pstate.rst   |  31 ++-
+>  drivers/acpi/cppc_acpi.c                      | 121 +++++++++++-
+>  drivers/cpufreq/amd-pstate.c                  | 184 +++++++++++++-----
+>  include/acpi/cppc_acpi.h                      |  11 ++
+>  include/linux/amd-pstate.h                    |   2 +
+>  6 files changed, 309 insertions(+), 81 deletions(-)
+> 
+> -- 
+> 2.34.1
