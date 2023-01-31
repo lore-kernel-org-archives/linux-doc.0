@@ -2,95 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BD13C38142
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 15:06:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8067BC38142
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 15:11:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233019AbjAaPGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 10:06:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36708 "EHLO
+        id S232971AbjAaPK7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 10:10:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233023AbjAaPG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 10:06:27 -0500
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68ED9539A7;
-        Tue, 31 Jan 2023 07:03:42 -0800 (PST)
-Received: by mail-ot1-x32b.google.com with SMTP id v24-20020a05683011d800b0068bdd29b160so1071076otq.13;
-        Tue, 31 Jan 2023 07:03:42 -0800 (PST)
+        with ESMTP id S233692AbjAaPKi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 10:10:38 -0500
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CDCA53E77;
+        Tue, 31 Jan 2023 07:08:43 -0800 (PST)
+Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-1631b928691so19648453fac.11;
+        Tue, 31 Jan 2023 07:08:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EsnDPQM4B0QKOQ6uYZT1z5VR6q1vjdQ5vLL7x8NaaD4=;
-        b=Xpq2kQptQht2RH7BxsFGtMCYL2ip5WMVlqOa/K89moYZkrzjSpazUIwQSl7vVhBz4W
-         yCaGemw9AQjR90Spg2K4+V+9Alekp+nDQ4SmPo7Ak4vSOv/HqHc8s3pyttxLNF+Wp6a0
-         Di6A94ytQU29+MTeNu5G6N+OGn88ZW9mChc+3aTLXLWSBB0EWeYuU/GETx2h263bfKGQ
-         eKXtnfrGSW0YNHqy5oY2KneFbmm7aNfPjEOO9/lRXoA+RfKNC518hgEXQn8Kzqh36Tae
-         nd+9sHZbCTica68sIXECUQGPRxywWV1JxeiJZUulXfSToHP9+UMhuMnmRwZlawJHLC70
-         6GKA==
+        bh=Tc5Kvp0umQS2+cFz/6CoiaZuikDRmqi00WdsNv9qzeM=;
+        b=RFbALft+O8FOTZ6dBGJ+XXGD0PT4vCYMATFMiWsAfqgDWgSBMwQf//bFkGd4kwVRGp
+         svXtnuKsZPUz6WYFo6DP7L3r8AC7Gd/6nHbt3+6hkxN65jozJa14KK4aPeGq9tb7WXSN
+         lasKuvBYrrplr+nhJL42VS8X6hEzJLKnyJq7cfC/Gneam7+19vf+fGB7pWBtHWZ00AW0
+         mcLIQAKJrnQpqWdkRQweEIURvLKutv/ZwsNGNtMIVaHgvvGiMpWz/5Pqcwu7xoblrUoo
+         sgb2sm1XJSnPV9zaL12EhuqeNtQ0reXZ/Ek8l3+cmTFPcEuB97yc2VNwjBoI4mw5GTdt
+         5UGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EsnDPQM4B0QKOQ6uYZT1z5VR6q1vjdQ5vLL7x8NaaD4=;
-        b=mGfXXEYg1Ksva7QutSVPEpnICBvr/UzycRmjgDEDQd3L/88zGKUHO7ELnJBDJLlMBE
-         ypaxSmSVS9VQRv0FJLgzh5QeLMej7DANK9PKQ6g/BtyrY55B9UHeAWrAhgTv2d0xsKkT
-         N/Pwo2L9i5Mt8DZwrOnLfq3H1D6oyfBDW2tYOhNwvHDj8RATPoWynM5TP8d/aRrULUpB
-         ThGVU3Zr57oACWHRt85NMfPPPiFhbe9jxRTMcmhOgajx3FkPsvd61dgJ1z2iZt7nZZ0s
-         4czwfQBNBBjV5bWOuAypLISf+CpX59JMRGhJ/H1ITiquPz/V5nM0WZ4yp3oCbta6Z4L+
-         S3Iw==
-X-Gm-Message-State: AO0yUKXw+xba1x01fzcVH3fu0EZm9OqP/ycjLltIGfcuzZ97kNzWIcw5
-        LryG18NdA3Q1WWeFi7I4CCo=
-X-Google-Smtp-Source: AK7set8NCDNMemSi5MBtRJlA5xcY1coTxXR2AN3JhWwcH5EDNPI/P3gDYJFtH5WfjyNSxePBqlHWfA==
-X-Received: by 2002:a9d:1b4b:0:b0:68a:bc9d:f245 with SMTP id l69-20020a9d1b4b000000b0068abc9df245mr10041725otl.6.1675177323141;
-        Tue, 31 Jan 2023 07:02:03 -0800 (PST)
+        bh=Tc5Kvp0umQS2+cFz/6CoiaZuikDRmqi00WdsNv9qzeM=;
+        b=ALyVQHnrcRdDUcty+IKZ9lJbueKyytNoaS09cM6jetfeXFPVfHB9QknJVdzUh/xTJZ
+         F8DjJx12lTEy7GrONU4RAj5OU+a111u+OoHeUKgQ/q7Fl4T8LHHTs9nQgHTA+HVita4g
+         CxbzfgnHew44jUFRb0Aixq+T2Ln49wep/bmfF4JZfa9T241qnrOV6s6BCVm15hnLyYrh
+         Ns6K7qPHCIPnYyl0M8vHxaH+F9XOIJBKgntOQHTTWy6bcSSEN4FuYcZJrx12XPC2aN6H
+         IBwMUJx0qahEJ3r2sk8AasKvlYhj45Tiu4X/5ADvz4tQKt9ilfaYyYzkWHlzQRfyAzsn
+         rV0Q==
+X-Gm-Message-State: AO0yUKWXqudFSVZdPiE8oFJ2MLNpIQDEd0LNfrAXBO1YMtMk2nRQTI2/
+        9SS/XIk2PXTuJZz1JI/zMHW1FKTxrRE=
+X-Google-Smtp-Source: AK7set9A/kk3t6DfM37h61mZmJqtmBN4LFXqhOlPw5VuWGO7oM4LE9C8DoZatsTrczMjFjzTHabLxg==
+X-Received: by 2002:a05:6870:ea87:b0:163:b347:22f7 with SMTP id s7-20020a056870ea8700b00163b34722f7mr4414849oap.28.1675177664747;
+        Tue, 31 Jan 2023 07:07:44 -0800 (PST)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id r6-20020a056830134600b0068bb36e8c22sm5101249otq.39.2023.01.31.07.02.02
+        by smtp.gmail.com with ESMTPSA id c17-20020a056870479100b0014fd25bd3b5sm6697779oaq.0.2023.01.31.07.07.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Jan 2023 07:02:02 -0800 (PST)
+        Tue, 31 Jan 2023 07:07:44 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Tue, 31 Jan 2023 07:02:01 -0800
+Date:   Tue, 31 Jan 2023 07:07:43 -0800
 From:   Guenter Roeck <linux@roeck-us.net>
-To:     SeongJae Park <sj@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jean Delvare <jdelvare@suse.com>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+To:     Aleksa Savic <savicaleksa83@gmail.com>
+Cc:     linux-hwmon@vger.kernel.org, Jack Doan <me@jackdoan.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/8] Docs/hwmon/index: Add missing SPDX License
- Identifier
-Message-ID: <20230131150201.GA3591412@roeck-us.net>
-References: <20230122213650.187710-1-sj@kernel.org>
- <20230122213650.187710-5-sj@kernel.org>
+Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for
+ Aquacomputer Poweradjust 3
+Message-ID: <20230131150743.GA3592045@roeck-us.net>
+References: <20230131101210.8095-1-savicaleksa83@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230122213650.187710-5-sj@kernel.org>
+In-Reply-To: <20230131101210.8095-1-savicaleksa83@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 22, 2023 at 09:36:46PM +0000, SeongJae Park wrote:
-> Add missing SPDX License Identifier for hwmon documentation index file.
+On Tue, Jan 31, 2023 at 11:12:09AM +0100, Aleksa Savic wrote:
+> Extend aquacomputer_d5next driver to expose the temp sensor of the
+> Aquacomputer Poweradjust 3 fan controller, which communicates
+> through a proprietary USB HID protocol.
 > 
-> Signed-off-by: SeongJae Park <sj@kernel.org>
-> Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> The Poweradjust 3 is not currently known to expose firmware version
+> and serial number, so don't create debugfs entries if their values
+> can't be retrieved.
+> 
+> Tested by a user on Github [1].
+> 
+> [1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/issues/57
+> 
+> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
 
 Applied to hwmon-next.
 
 Thanks,
 Guenter
-
-> ---
->  Documentation/hwmon/index.rst | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index c2b3c1a822dd..2186d732654f 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -1,3 +1,5 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
->  ===================
->  Hardware Monitoring
->  ===================
