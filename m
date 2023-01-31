@@ -2,547 +2,320 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBDE1C636D3
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 15:50:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD509C38142
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 16:00:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233464AbjAaPug (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 10:50:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58394 "EHLO
+        id S233401AbjAaQAO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 11:00:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233462AbjAaPuf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 10:50:35 -0500
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD1DC25287;
-        Tue, 31 Jan 2023 07:50:31 -0800 (PST)
-Received: from mail02.huawei.com (unknown [172.18.147.229])
-        by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4P5q710dNZz9xGYd;
-        Tue, 31 Jan 2023 23:42:21 +0800 (CST)
-Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
-        by APP2 (Coremail) with SMTP id GxC2BwDnvGOiONljTIjfAA--.49040S2;
-        Tue, 31 Jan 2023 16:50:07 +0100 (CET)
-Message-ID: <061df661004a06ef1e8790d48157c7ba4ecfc009.camel@huaweicloud.com>
-Subject: Re: [RFC PATCH v9 03/16] ipe: add evaluation loop and introduce
- 'boot_verified' as a trust provider
-From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
-To:     Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net,
-        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
-        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
-        agk@redhat.com, snitzer@kernel.org, eparis@redhat.com,
-        paul@paul-moore.com
-Cc:     linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, linux-audit@redhat.com,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Date:   Tue, 31 Jan 2023 16:49:44 +0100
-In-Reply-To: <1675119451-23180-4-git-send-email-wufan@linux.microsoft.com>
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
-         <1675119451-23180-4-git-send-email-wufan@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        with ESMTP id S231292AbjAaQAK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 11:00:10 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D68C04614F
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 08:00:05 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id ml19so19411887ejb.0
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 08:00:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ah9+k0w/nRIiVTPPZXwqr7trAB5DOfdEEINSad8SRrU=;
+        b=QETQKU1/4codq3BX8Ei4sqqHEH2UlgFz3UkYFpIbZ7tyFWw31mKriW4Fj4DQKfLSj9
+         Ou4hBSaynTzNKEBNiEyCPAu+kAMDoTogzahhNHXCSbEyEoO7MNcmK5GvjOyE5qV54ITd
+         8vVbkr+iMXR0Ixf1313ozfDfseEEb1KZWqSEjkROePeOHMQhOJKhhBlOzdWGHyu/9QfW
+         ZKnHBvJrQx9QxMBCjqMIvENgqbdc4KTJPWnfgTpIO8wjyhvnR6DG5vHwj66npXhffojg
+         4a2XwUUlzVZp6Q52rnAyLTyJsfZ3pj/yA3XYIQGhZF46JGwpjCzp19ntkNvivtpkbGYR
+         tH6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ah9+k0w/nRIiVTPPZXwqr7trAB5DOfdEEINSad8SRrU=;
+        b=yJq4rjCE0K+3WEJaNe6xA5aMDOQNrGojSR4mtoLFrfl9zKP0LdilXK5ZYj8+zCZ50Z
+         mNbF1U2RdrL1+mT/q633c9kg7fw/gAeW9vATOTnoh+OfaAMIE+idv3pnUKznw5xdkQrb
+         yLn3DGXaQEbogq5KaLws2uDlAp3l5Z6p+kmlm3FkRT4IymsXZTqskBs8PvZgk/9H+M6e
+         mgCWoAZyHW7O5AKcwk3v/ydfEWTLWdmVBNpyLamKrgLLDVt9lunik00EDeYLDhE1vYBp
+         3S3olzhLKHUnOB2qBMRx+rd1IIZfJVVwOmbIyGECQ49EPhHuIMk2GaKaXHW25pd69MU3
+         spUg==
+X-Gm-Message-State: AFqh2kollHMAzwx5ORDoI8gbhvGgbi4vfEP3OdbabbxEPUIR9Gs9fG2B
+        pyEjstHDX3hSHuFqVAuEwvWtFQ==
+X-Google-Smtp-Source: AMrXdXtQ7r8FAsvfnYrhUCCVQRLR9gnkLUCTmWYwkWRritatTQf+Nm+8d7KhCm9coKYyHk9QUx0v/Q==
+X-Received: by 2002:a17:907:a2cb:b0:871:dd2:4af0 with SMTP id re11-20020a170907a2cb00b008710dd24af0mr65022425ejc.26.1675180804341;
+        Tue, 31 Jan 2023 08:00:04 -0800 (PST)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id g18-20020a170906595200b00888d593ce76sm3252074ejr.72.2023.01.31.08.00.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Jan 2023 08:00:03 -0800 (PST)
+Date:   Tue, 31 Jan 2023 17:00:02 +0100
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     alejandro.lucero-palau@amd.com
+Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
+        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, habetsm.xilinx@gmail.com,
+        ecree.xilinx@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
+        jiri@nvidia.com
+Subject: Re: [PATCH v4 net-next 1/8] sfc: add devlink support for ef100
+Message-ID: <Y9k7Ap4Irby7vnWg@nanopsycho>
+References: <20230131145822.36208-1-alejandro.lucero-palau@amd.com>
+ <20230131145822.36208-2-alejandro.lucero-palau@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: GxC2BwDnvGOiONljTIjfAA--.49040S2
-X-Coremail-Antispam: 1UD129KBjvAXoW3CFy7WrWkKr1UCF1UJF4xJFb_yoW8GFykto
-        WfXa13uF4xtry3CrWj9a17AFW7Wa9Ygw4kJFZ0qrZrJFn2v34UKw1kAa1UXF45uF1rJr15
-        K3s7ZayrZF45t3Z5n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUY17kC6x804xWl14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK
-        8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4
-        AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF
-        7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I
-        0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
-        rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4
-        IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY
-        0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
-        0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAI
-        cVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcV
-        CF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2
-        jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjxU7OJ5UUUUU
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAOBF1jj4hYgAABsr
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230131145822.36208-2-alejandro.lucero-palau@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2023-01-30 at 14:57 -0800, Fan Wu wrote:
-> From: Deven Bowers <deven.desai@linux.microsoft.com>
+Tue, Jan 31, 2023 at 03:58:15PM CET, alejandro.lucero-palau@amd.com wrote:
+>From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+>
+>Basic devlink infrastructure support.
+>
+>Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+>---
+> drivers/net/ethernet/sfc/Kconfig        |  1 +
+> drivers/net/ethernet/sfc/Makefile       |  3 +-
+> drivers/net/ethernet/sfc/ef100_netdev.c | 12 +++++
+> drivers/net/ethernet/sfc/ef100_nic.c    |  3 +-
+> drivers/net/ethernet/sfc/efx_devlink.c  | 71 +++++++++++++++++++++++++
+> drivers/net/ethernet/sfc/efx_devlink.h  | 22 ++++++++
+> drivers/net/ethernet/sfc/net_driver.h   |  2 +
+> 7 files changed, 111 insertions(+), 3 deletions(-)
+> create mode 100644 drivers/net/ethernet/sfc/efx_devlink.c
+> create mode 100644 drivers/net/ethernet/sfc/efx_devlink.h
+>
+>diff --git a/drivers/net/ethernet/sfc/Kconfig b/drivers/net/ethernet/sfc/Kconfig
+>index 0950e6b0508f..4af36ba8906b 100644
+>--- a/drivers/net/ethernet/sfc/Kconfig
+>+++ b/drivers/net/ethernet/sfc/Kconfig
+>@@ -22,6 +22,7 @@ config SFC
+> 	depends on PTP_1588_CLOCK_OPTIONAL
+> 	select MDIO
+> 	select CRC32
+>+	select NET_DEVLINK
+> 	help
+> 	  This driver supports 10/40-gigabit Ethernet cards based on
+> 	  the Solarflare SFC9100-family controllers.
+>diff --git a/drivers/net/ethernet/sfc/Makefile b/drivers/net/ethernet/sfc/Makefile
+>index 712a48d00069..55b9c73cd8ef 100644
+>--- a/drivers/net/ethernet/sfc/Makefile
+>+++ b/drivers/net/ethernet/sfc/Makefile
+>@@ -6,7 +6,8 @@ sfc-y			+= efx.o efx_common.o efx_channels.o nic.o \
+> 			   mcdi.o mcdi_port.o mcdi_port_common.o \
+> 			   mcdi_functions.o mcdi_filters.o mcdi_mon.o \
+> 			   ef100.o ef100_nic.o ef100_netdev.o \
+>-			   ef100_ethtool.o ef100_rx.o ef100_tx.o
+>+			   ef100_ethtool.o ef100_rx.o ef100_tx.o \
+>+			   efx_devlink.o
+> sfc-$(CONFIG_SFC_MTD)	+= mtd.o
+> sfc-$(CONFIG_SFC_SRIOV)	+= sriov.o ef10_sriov.o ef100_sriov.o ef100_rep.o \
+>                            mae.o tc.o tc_bindings.o tc_counters.o
+>diff --git a/drivers/net/ethernet/sfc/ef100_netdev.c b/drivers/net/ethernet/sfc/ef100_netdev.c
+>index ddcc325ed570..b10a226f4a07 100644
+>--- a/drivers/net/ethernet/sfc/ef100_netdev.c
+>+++ b/drivers/net/ethernet/sfc/ef100_netdev.c
+>@@ -24,6 +24,7 @@
+> #include "rx_common.h"
+> #include "ef100_sriov.h"
+> #include "tc_bindings.h"
+>+#include "efx_devlink.h"
 > 
-> IPE must have a centralized function to evaluate incoming callers
-> against IPE's policy. This iteration of the policy against the rules
-> for that specific caller is known as the evaluation loop.
+> static void ef100_update_name(struct efx_nic *efx)
+> {
+>@@ -332,6 +333,8 @@ void ef100_remove_netdev(struct efx_probe_data *probe_data)
+> 		efx_ef100_pci_sriov_disable(efx, true);
+> #endif
+> 
+>+	/* devlink lock */
+>+	efx_fini_devlink_start(efx);
+> 	ef100_unregister_netdev(efx);
+> 
+> #ifdef CONFIG_SFC_SRIOV
+>@@ -345,6 +348,9 @@ void ef100_remove_netdev(struct efx_probe_data *probe_data)
+> 	kfree(efx->phy_data);
+> 	efx->phy_data = NULL;
+> 
+>+	/* devlink unlock */
+>+	efx_fini_devlink(efx);
+>+
+> 	free_netdev(efx->net_dev);
+> 	efx->net_dev = NULL;
+> 	efx->state = STATE_PROBED;
+>@@ -405,6 +411,10 @@ int ef100_probe_netdev(struct efx_probe_data *probe_data)
+> 	/* Don't fail init if RSS setup doesn't work. */
+> 	efx_mcdi_push_default_indir_table(efx, efx->n_rx_channels);
+> 
+>+	/* devlink creation, registration and lock */
+>+	if (efx_probe_devlink(efx))
 
-Not sure if you check the properties at every access.
+Use variable to store the return value and check that in if.
 
-From my previous comments (also for previous versions of the patches)
-you could evaluate the property once, by calling the respective
-functions in the other subsystems.
 
-Then, you reserve space in the security blob for inodes and superblocks
-to cache the decision. The format could be a policy sequence number, to
-ensure that the cache is valid only for the current policy, and a bit
-for every hook you enforce.
+>+		pci_info(efx->pci_dev, "devlink registration failed");
+>+
+> 	rc = ef100_register_netdev(efx);
+> 	if (rc)
+> 		goto fail;
+>@@ -424,5 +434,7 @@ int ef100_probe_netdev(struct efx_probe_data *probe_data)
+> 	}
+> 
+> fail:
+>+	/* devlink unlock */
+>+	efx_probe_devlink_done(efx);
+> 	return rc;
+> }
+>diff --git a/drivers/net/ethernet/sfc/ef100_nic.c b/drivers/net/ethernet/sfc/ef100_nic.c
+>index ad686c671ab8..e4aacb4ec666 100644
+>--- a/drivers/net/ethernet/sfc/ef100_nic.c
+>+++ b/drivers/net/ethernet/sfc/ef100_nic.c
+>@@ -1120,11 +1120,10 @@ int ef100_probe_netdev_pf(struct efx_nic *efx)
+> 		return rc;
+> 
+> 	rc = efx_ef100_get_base_mport(efx);
+>-	if (rc) {
+>+	if (rc)
+> 		netif_warn(efx, probe, net_dev,
+> 			   "Failed to probe base mport rc %d; representors will not function\n",
+> 			   rc);
+>-	}
 
-Also, currently you rely on the fact that the properties you defined
-are immutable and the immutability is guaranteed by the other
-subsystems, so no write can occur.
+I don't see how this hunk is related to this patch. Please remove.
 
-But if you remove this limitation, the immutability is not guaranteed
-anymore by the other subsystems (for example if a file is in an ext4
-filesystem), the LSM needs to take extra care to ensure that the
-properties are still verified. This would be required for example if
-IPE is used in conjuction with DIGLIM.
 
-In my opinion, IPE value would increase if the generic enforcement
-mechanism is property-agnostic.
+> 
+> 	rc = efx_init_tc(efx);
+> 	if (rc) {
+>diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
+>new file mode 100644
+>index 000000000000..fab06aaa4b8a
+>--- /dev/null
+>+++ b/drivers/net/ethernet/sfc/efx_devlink.c
+>@@ -0,0 +1,71 @@
+>+// SPDX-License-Identifier: GPL-2.0-only
+>+/****************************************************************************
+>+ * Driver for AMD network controllers and boards
+>+ * Copyright (C) 2023, Advanced Micro Devices, Inc.
+>+ *
+>+ * This program is free software; you can redistribute it and/or modify it
+>+ * under the terms of the GNU General Public License version 2 as published
+>+ * by the Free Software Foundation, incorporated herein by reference.
+>+ */
+>+
+>+#include <linux/rtc.h>
+>+#include "net_driver.h"
+>+#include "ef100_nic.h"
+>+#include "efx_devlink.h"
+>+#include "nic.h"
+>+#include "mcdi.h"
+>+#include "mcdi_functions.h"
+>+#include "mcdi_pcol.h"
+>+
+>+struct efx_devlink {
+>+	struct efx_nic *efx;
+>+};
+>+
+>+static const struct devlink_ops sfc_devlink_ops = {
+>+};
+>+
+>+void efx_fini_devlink_start(struct efx_nic *efx)
+>+{
+>+	if (efx->devlink)
+>+		devl_lock(efx->devlink);
+>+}
+>+
+>+void efx_fini_devlink(struct efx_nic *efx)
+>+{
+>+	if (efx->devlink) {
+>+		devl_unregister(efx->devlink);
+>+		devl_unlock(efx->devlink);
+>+		devlink_free(efx->devlink);
+>+		efx->devlink = NULL;
+>+	}
+>+}
+>+
+>+int efx_probe_devlink(struct efx_nic *efx)
+>+{
+>+	struct efx_devlink *devlink_private;
+>+
+>+	if (efx->type->is_vf)
+>+		return 0;
+>+
+>+	efx->devlink = devlink_alloc(&sfc_devlink_ops,
+>+				     sizeof(struct efx_devlink),
+>+				     &efx->pci_dev->dev);
+>+	if (!efx->devlink)
+>+		return -ENOMEM;
+>+
+>+	devl_lock(efx->devlink);
+>+	devlink_private = devlink_priv(efx->devlink);
+>+	devlink_private->efx = efx;
+>+
+>+	devl_register(efx->devlink);
+>+
+>+	return 0;
+>+}
+>+
+>+void efx_probe_devlink_done(struct efx_nic *efx)
+>+{
+>+	if (!efx->devlink)
+>+		return;
+>+
+>+	devl_unlock(efx->devlink);
+>+}
+>diff --git a/drivers/net/ethernet/sfc/efx_devlink.h b/drivers/net/ethernet/sfc/efx_devlink.h
+>new file mode 100644
+>index 000000000000..55d0d8aeca1e
+>--- /dev/null
+>+++ b/drivers/net/ethernet/sfc/efx_devlink.h
+>@@ -0,0 +1,22 @@
+>+/* SPDX-License-Identifier: GPL-2.0-only */
+>+/****************************************************************************
+>+ * Driver for AMD network controllers and boards
+>+ * Copyright (C) 2023, Advanced Micro Devices, Inc.
+>+ *
+>+ * This program is free software; you can redistribute it and/or modify it
+>+ * under the terms of the GNU General Public License version 2 as published
+>+ * by the Free Software Foundation, incorporated herein by reference.
+>+ */
+>+
+>+#ifndef _EFX_DEVLINK_H
+>+#define _EFX_DEVLINK_H
+>+
+>+#include "net_driver.h"
+>+#include <net/devlink.h>
+>+
+>+int efx_probe_devlink(struct efx_nic *efx);
+>+void efx_probe_devlink_done(struct efx_nic *efx);
+>+void efx_fini_devlink_start(struct efx_nic *efx);
+>+void efx_fini_devlink(struct efx_nic *efx);
 
-Roberto
+Odd naming... Just saying.
 
-> In addition, IPE is designed to provide system level trust guarantees,
-> this usually implies that trust starts from bootup with a hardware root
-> of trust, which validates the bootloader. After this, the bootloader
-> verifies the kernel and the initramfs.
-> 
-> As there's no currently supported integrity method for initramfs, and
-> it's typically already verified by the bootloader, introduce a property
-> that causes the first superblock to have an execution to be "pinned",
-> which is typically initramfs.
-> 
-> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> 
-> ---
-> v2:
->   + Split evaluation loop, access control hooks,
->     and evaluation loop from policy parser and userspace
->     interface to pass mailing list character limit
-> 
-> v3:
->   + Move ipe_load_properties to patch 04.
->   + Remove useless 0-initializations
->   + Prefix extern variables with ipe_
->   + Remove kernel module parameters, as these are
->     exposed through sysctls.
->   + Add more prose to the IPE base config option
->     help text.
->   + Use GFP_KERNEL for audit_log_start.
->   + Remove unnecessary caching system.
->   + Remove comments from headers
->   + Use rcu_access_pointer for rcu-pointer null check
->   + Remove usage of reqprot; use prot only.
->   + Move policy load and activation audit event to 03/12
-> 
-> v4:
->   + Remove sysctls in favor of securityfs nodes
->   + Re-add kernel module parameters, as these are now
->     exposed through securityfs.
->   + Refactor property audit loop to a separate function.
-> 
-> v5:
->   + fix minor grammatical errors
->   + do not group rule by curly-brace in audit record,
->     reconstruct the exact rule.
-> 
-> v6:
->   + No changes
-> 
-> v7:
->   + Further split lsm creation into a separate commit from the
->     evaluation loop and audit system, for easier review.
-> 
->   + Propogating changes to support the new ipe_context structure in the
->     evaluation loop.
-> 
-> v8:
->   + Remove ipe_hook enumeration; hooks can be correlated via syscall
->     record.
-> 
-> v9:
->   + Remove ipe_context related code and simplify the evaluation loop.
->   + Merge the evaluation loop commit with the boot_verified commit.
-> ---
->  security/ipe/Makefile        |   1 +
->  security/ipe/eval.c          | 180 +++++++++++++++++++++++++++++++++++
->  security/ipe/eval.h          |  28 ++++++
->  security/ipe/hooks.c         |  25 +++++
->  security/ipe/hooks.h         |  14 +++
->  security/ipe/ipe.c           |   1 +
->  security/ipe/policy.c        |  20 ++++
->  security/ipe/policy.h        |   3 +
->  security/ipe/policy_parser.c |   8 +-
->  9 files changed, 279 insertions(+), 1 deletion(-)
->  create mode 100644 security/ipe/eval.c
->  create mode 100644 security/ipe/eval.h
->  create mode 100644 security/ipe/hooks.c
->  create mode 100644 security/ipe/hooks.h
-> 
-> diff --git a/security/ipe/Makefile b/security/ipe/Makefile
-> index 16bbe80991f1..d7f2870d7c09 100644
-> --- a/security/ipe/Makefile
-> +++ b/security/ipe/Makefile
-> @@ -6,6 +6,7 @@
->  #
->  
->  obj-$(CONFIG_SECURITY_IPE) += \
-> +	eval.o \
->  	hooks.o \
->  	ipe.o \
->  	policy.o \
-> diff --git a/security/ipe/eval.c b/security/ipe/eval.c
-> new file mode 100644
-> index 000000000000..48b5104a3463
-> --- /dev/null
-> +++ b/security/ipe/eval.c
-> @@ -0,0 +1,180 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) Microsoft Corporation. All rights reserved.
-> + */
-> +
-> +#include "ipe.h"
-> +#include "eval.h"
-> +#include "hooks.h"
-> +#include "policy.h"
-> +
-> +#include <linux/fs.h>
-> +#include <linux/types.h>
-> +#include <linux/slab.h>
-> +#include <linux/file.h>
-> +#include <linux/sched.h>
-> +#include <linux/rcupdate.h>
-> +#include <linux/spinlock.h>
-> +
-> +struct ipe_policy __rcu *ipe_active_policy;
-> +
-> +static struct super_block *pinned_sb;
-> +static DEFINE_SPINLOCK(pin_lock);
-> +#define FILE_SUPERBLOCK(f) ((f)->f_path.mnt->mnt_sb)
-> +
-> +/**
-> + * pin_sb - Pin the underlying superblock of @f, marking it as trusted.
-> + * @f: Supplies a file structure to source the super_block from.
-> + */
-> +static void pin_sb(const struct file *f)
-> +{
-> +	if (!f)
-> +		return;
-> +	spin_lock(&pin_lock);
-> +	if (pinned_sb)
-> +		goto out;
-> +	pinned_sb = FILE_SUPERBLOCK(f);
-> +out:
-> +	spin_unlock(&pin_lock);
-> +}
-> +
-> +/**
-> + * from_pinned - Determine whether @f is source from the pinned super_block.
-> + * @f: Supplies a file structure to check against the pinned super_block.
-> + *
-> + * Return:
-> + * * true	- @f is sourced from the pinned super_block
-> + * * false	- @f is not sourced from the pinned super_block
-> + */
-> +static bool from_pinned(const struct file *f)
-> +{
-> +	bool rv;
-> +
-> +	if (!f)
-> +		return false;
-> +	spin_lock(&pin_lock);
-> +	rv = !IS_ERR_OR_NULL(pinned_sb) && pinned_sb == FILE_SUPERBLOCK(f);
-> +	spin_unlock(&pin_lock);
-> +	return rv;
-> +}
-> +
-> +/**
-> + * build_eval_ctx - Build an evaluation context.
-> + * @ctx: Supplies a pointer to the context to be populdated.
-> + * @file: Supplies a pointer to the file to associated with the evaluation.
-> + * @op: Supplies the IPE policy operation associated with the evaluation.
-> + */
-> +void build_eval_ctx(struct ipe_eval_ctx *ctx,
-> +		    const struct file *file,
-> +		    enum ipe_op_type op)
-> +{
-> +	ctx->file = file;
-> +	ctx->op = op;
-> +	ctx->from_init_sb = from_pinned(file);
-> +}
-> +
-> +/**
-> + * evaluate_property - Analyze @ctx against a property.
-> + * @ctx: Supplies a pointer to the context to be evaluated.
-> + * @p: Supplies a pointer to the property to be evaluated.
-> + *
-> + * Return:
-> + * * true	- The current @ctx match the @p
-> + * * false	- The current @ctx doesn't match the @p
-> + */
-> +static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
-> +			      struct ipe_prop *p)
-> +{
-> +	bool eval = false;
-> +
-> +	switch (p->type) {
-> +	case ipe_prop_boot_verified_false:
-> +		eval = !ctx->from_init_sb;
-> +		break;
-> +	case ipe_prop_boot_verified_true:
-> +		eval = ctx->from_init_sb;
-> +		break;
-> +	default:
-> +		eval = false;
-> +	}
-> +
-> +	return eval;
-> +}
-> +
-> +/**
-> + * ipe_evaluate_event - Analyze @ctx against the current active policy.
-> + * @ctx: Supplies a pointer to the context to be evaluated.
-> + *
-> + * This is the loop where all policy evaluation happens against IPE policy.
-> + *
-> + * Return:
-> + * * 0		- OK
-> + * * -EACCES	- @ctx did not pass evaluation.
-> + * * !0		- Error
-> + */
-> +int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
-> +{
-> +	int rc = 0;
-> +	bool match = false;
-> +	enum ipe_action_type action;
-> +	struct ipe_policy *pol = NULL;
-> +	const struct ipe_rule *rule = NULL;
-> +	const struct ipe_op_table *rules = NULL;
-> +	struct ipe_prop *prop = NULL;
-> +
-> +	if (ctx->op == ipe_op_exec)
-> +		pin_sb(ctx->file);
-> +
-> +	pol = ipe_get_policy_rcu(ipe_active_policy);
-> +	if (!pol)
-> +		goto out;
-> +
-> +	if (ctx->op == ipe_op_max) {
-> +		action = pol->parsed->global_default_action;
-> +		goto eval;
-> +	}
-> +
-> +	rules = &pol->parsed->rules[ctx->op];
-> +
-> +	list_for_each_entry(rule, &rules->rules, next) {
-> +		match = true;
-> +
-> +		list_for_each_entry(prop, &rule->props, next)
-> +			match = match && evaluate_property(ctx, prop);
-> +
-> +		if (match)
-> +			break;
-> +	}
-> +
-> +	if (match)
-> +		action = rule->action;
-> +	else if (rules->default_action != ipe_action_max)
-> +		action = rules->default_action;
-> +	else
-> +		action = pol->parsed->global_default_action;
-> +
-> +eval:
-> +	if (action == ipe_action_deny)
-> +		rc = -EACCES;
-> +
-> +out:
-> +	return rc;
-> +}
-> +
-> +/**
-> + * ipe_invalidate_pinned_sb - invalidte the ipe pinned super_block.
-> + * @mnt_sb: super_block to check against the pinned super_block.
-> + *
-> + * This function is called a super_block like the initramfs's is freed,
-> + * if the super_block is currently pinned by ipe it will be invalided,
-> + * so ipe won't consider the block device is boot verified afterward.
-> + */
-> +void ipe_invalidate_pinned_sb(const struct super_block *mnt_sb)
-> +{
-> +	spin_lock(&pin_lock);
-> +
-> +	if (!IS_ERR_OR_NULL(pinned_sb) && mnt_sb == pinned_sb)
-> +		pinned_sb = ERR_PTR(-EIO);
-> +
-> +	spin_unlock(&pin_lock);
-> +}
-> diff --git a/security/ipe/eval.h b/security/ipe/eval.h
-> new file mode 100644
-> index 000000000000..887797438b9b
-> --- /dev/null
-> +++ b/security/ipe/eval.h
-> @@ -0,0 +1,28 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) Microsoft Corporation. All rights reserved.
-> + */
-> +
-> +#ifndef IPE_EVAL_H
-> +#define IPE_EVAL_H
-> +
-> +#include <linux/file.h>
-> +#include <linux/types.h>
-> +
-> +#include "hooks.h"
-> +#include "policy.h"
-> +
-> +extern struct ipe_policy __rcu *ipe_active_policy;
-> +
-> +struct ipe_eval_ctx {
-> +	enum ipe_op_type op;
-> +
-> +	const struct file *file;
-> +	bool from_init_sb;
-> +};
-> +
-> +void build_eval_ctx(struct ipe_eval_ctx *ctx, const struct file *file, enum ipe_op_type op);
-> +int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx);
-> +void ipe_invalidate_pinned_sb(const struct super_block *mnt_sb);
-> +
-> +#endif /* IPE_EVAL_H */
-> diff --git a/security/ipe/hooks.c b/security/ipe/hooks.c
-> new file mode 100644
-> index 000000000000..335b773c7ae1
-> --- /dev/null
-> +++ b/security/ipe/hooks.c
-> @@ -0,0 +1,25 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) Microsoft Corporation. All rights reserved.
-> + */
-> +
-> +#include "ipe.h"
-> +#include "hooks.h"
-> +#include "eval.h"
-> +
-> +#include <linux/fs.h>
-> +#include <linux/types.h>
-> +#include <linux/binfmts.h>
-> +#include <linux/mman.h>
-> +
-> +/**
-> + * ipe_sb_free_security - ipe security hook function for super_block.
-> + * @mnt_sb: Supplies a pointer to a super_block is about to be freed.
-> + *
-> + * IPE does not have any structures with mnt_sb, but uses this hook to
-> + * invalidate a pinned super_block.
-> + */
-> +void ipe_sb_free_security(struct super_block *mnt_sb)
-> +{
-> +	ipe_invalidate_pinned_sb(mnt_sb);
-> +}
-> diff --git a/security/ipe/hooks.h b/security/ipe/hooks.h
-> new file mode 100644
-> index 000000000000..30fe455389bf
-> --- /dev/null
-> +++ b/security/ipe/hooks.h
-> @@ -0,0 +1,14 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) Microsoft Corporation. All rights reserved.
-> + */
-> +#ifndef IPE_HOOKS_H
-> +#define IPE_HOOKS_H
-> +
-> +#include <linux/fs.h>
-> +#include <linux/binfmts.h>
-> +#include <linux/security.h>
-> +
-> +void ipe_sb_free_security(struct super_block *mnt_sb);
-> +
-> +#endif /* IPE_HOOKS_H */
-> diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
-> index 9ed3bf4dcc04..551c6d90ac11 100644
-> --- a/security/ipe/ipe.c
-> +++ b/security/ipe/ipe.c
-> @@ -9,6 +9,7 @@ static struct lsm_blob_sizes ipe_blobs __lsm_ro_after_init = {
->  };
->  
->  static struct security_hook_list ipe_hooks[] __lsm_ro_after_init = {
-> +	LSM_HOOK_INIT(sb_free_security, ipe_sb_free_security),
->  };
->  
->  /**
-> diff --git a/security/ipe/policy.c b/security/ipe/policy.c
-> index e446f4b84152..772d876b1087 100644
-> --- a/security/ipe/policy.c
-> +++ b/security/ipe/policy.c
-> @@ -97,3 +97,23 @@ struct ipe_policy *ipe_new_policy(const char *text, size_t textlen,
->  err:
->  	return ERR_PTR(rc);
->  }
-> +
-> +/**
-> + * ipe_get_policy_rcu - Dereference a rcu-protected policy pointer.
-> + *
-> + * @p: rcu-protected pointer to a policy.
-> + *
-> + * Not safe to call on IS_ERR.
-> + *
-> + * Return: the value of @p
-> + */
-> +struct ipe_policy *ipe_get_policy_rcu(struct ipe_policy __rcu *p)
-> +{
-> +	struct ipe_policy *rv = NULL;
-> +
-> +	rcu_read_lock();
-> +	rv = rcu_dereference(p);
-> +	rcu_read_unlock();
-> +
-> +	return rv;
-> +}
-> diff --git a/security/ipe/policy.h b/security/ipe/policy.h
-> index 6af2d9a811ec..967d816cd5cd 100644
-> --- a/security/ipe/policy.h
-> +++ b/security/ipe/policy.h
-> @@ -26,6 +26,8 @@ enum ipe_action_type {
->  };
->  
->  enum ipe_prop_type {
-> +	ipe_prop_boot_verified_false,
-> +	ipe_prop_boot_verified_true,
->  	ipe_prop_max
->  };
->  
-> @@ -73,5 +75,6 @@ struct ipe_policy {
->  struct ipe_policy *ipe_new_policy(const char *text, size_t textlen,
->  				  const char *pkcs7, size_t pkcs7len);
->  void ipe_free_policy(struct ipe_policy *pol);
-> +struct ipe_policy *ipe_get_policy_rcu(struct ipe_policy __rcu *p);
->  
->  #endif /* IPE_POLICY_H */
-> diff --git a/security/ipe/policy_parser.c b/security/ipe/policy_parser.c
-> index c7ba0e865366..7efafc482e46 100644
-> --- a/security/ipe/policy_parser.c
-> +++ b/security/ipe/policy_parser.c
-> @@ -265,7 +265,9 @@ static enum ipe_action_type parse_action(char *t)
->  }
->  
->  static const match_table_t property_tokens = {
-> -	{ipe_prop_max,					NULL}
-> +	{ipe_prop_boot_verified_false,	"boot_verified=FALSE"},
-> +	{ipe_prop_boot_verified_true,	"boot_verified=TRUE"},
-> +	{ipe_prop_max,			NULL}
->  };
->  
->  /**
-> @@ -295,6 +297,10 @@ int parse_property(char *t, struct ipe_rule *r)
->  	token = match_token(t, property_tokens, args);
->  
->  	switch (token) {
-> +	case ipe_prop_boot_verified_false:
-> +	case ipe_prop_boot_verified_true:
-> +		p->type = token;
-> +		break;
->  	case ipe_prop_max:
->  	default:
->  		rc = -EBADMSG;
 
+>+
+>+#endif	/* _EFX_DEVLINK_H */
+>diff --git a/drivers/net/ethernet/sfc/net_driver.h b/drivers/net/ethernet/sfc/net_driver.h
+>index 3b49e216768b..d036641dc043 100644
+>--- a/drivers/net/ethernet/sfc/net_driver.h
+>+++ b/drivers/net/ethernet/sfc/net_driver.h
+>@@ -994,6 +994,7 @@ enum efx_xdp_tx_queues_mode {
+>  *      xdp_rxq_info structures?
+>  * @netdev_notifier: Netdevice notifier.
+>  * @tc: state for TC offload (EF100).
+>+ * @devlink: reference to devlink structure owned by this device
+>  * @mem_bar: The BAR that is mapped into membase.
+>  * @reg_base: Offset from the start of the bar to the function control window.
+>  * @monitor_work: Hardware monitor workitem
+>@@ -1179,6 +1180,7 @@ struct efx_nic {
+> 	struct notifier_block netdev_notifier;
+> 	struct efx_tc_state *tc;
+> 
+>+	struct devlink *devlink;
+> 	unsigned int mem_bar;
+> 	u32 reg_base;
+> 
+>-- 
+>2.17.1
+>
