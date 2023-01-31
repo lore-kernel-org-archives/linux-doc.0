@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C46C636D6
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 02:34:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59984C6379F
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 02:34:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230072AbjAaCel (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Jan 2023 21:34:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50714 "EHLO
+        id S230053AbjAaCem (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Jan 2023 21:34:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230238AbjAaCeS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 21:34:18 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D7C303DE;
-        Mon, 30 Jan 2023 18:34:06 -0800 (PST)
+        with ESMTP id S230075AbjAaCeU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Jan 2023 21:34:20 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5404F366AB;
+        Mon, 30 Jan 2023 18:34:07 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 841C4B8190E;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A1EC561234;
+        Tue, 31 Jan 2023 02:34:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FFD3C433B4;
         Tue, 31 Jan 2023 02:34:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3001C433EF;
-        Tue, 31 Jan 2023 02:34:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675132444;
-        bh=tGb81Ui669yq+FO9Xi0mcdWvM+2ed3UhiiK0sigu4pY=;
+        s=k20201202; t=1675132446;
+        bh=eBarguq2Ue2KIYg17NIXjPPlUytqZ/y2FxdtwAIL3X0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EaEi3tNTqsk28GkqbY1qlEu0T3e2rSofTygZ0E6GUDIQzDvLxGlNzpvfnE6gmeUVZ
-         9D75q6QKzNGMIu2EADFXRs+14DRu4ykA5xcPvzeTFj1p3T7/t/ED4BPvcR2VCMVQOz
-         4m0tPhm4qEA6MPSeIa3fd3Sfh5WZnlWEEJZ/ZGX2v/c1CyTYyiy1rEJrnWPTdZQpSl
-         pcj9N0bsTF9AXkizPySU61Q4W8jIth+Rh1VZv4sQTPy0+a8CEy57ONehADI//aIoMp
-         RsplprlFlwSeI+n6dpjNoSAE62qBx7wPCPPfbzGLPsFjOfcFqcNRIsPc/eR3aJAGWc
-         pmpa2Mvr6zNIg==
+        b=B8K7GqCmX4RA7Kl/9PGvFhhxXYOCk2yoF0x2fMdAwMvdP1ZJ8v9WddFLl7AKv6oyO
+         a0IUbB5Shy1GP6TXzwUMiOEFwkbnPDHByRsa5dWy0MKvOL5+SRnDtJx3GoSsUqNZTy
+         A8jOWxFtU3oH79NwGI3wEGvyHK+hUq1+K1fvORRQgAY//L8xqwdyAamT4KTfuBOZdR
+         /OFYWCYsPp1pWx+0adyv2oYxxAz6Cso/DCequCb9GMAG1gzx1BtyZE+oj4WM6t/hFn
+         q0ZABj8j5SlurT2bvijM1tSIlqzuI17pDs058SABlLsZ7I5IUJWTCDmFo5a51EWase
+         BbXMyS3MqH1YA==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
         sdf@google.com, linux-doc@vger.kernel.org,
         Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next v2 09/14] tools: ynl: use operation names from spec on the CLI
-Date:   Mon, 30 Jan 2023 18:33:49 -0800
-Message-Id: <20230131023354.1732677-10-kuba@kernel.org>
+Subject: [PATCH net-next v2 12/14] netlink: specs: add partial specification for ethtool
+Date:   Mon, 30 Jan 2023 18:33:52 -0800
+Message-Id: <20230131023354.1732677-13-kuba@kernel.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230131023354.1732677-1-kuba@kernel.org>
 References: <20230131023354.1732677-1-kuba@kernel.org>
@@ -48,58 +48,480 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When I wrote the first version of the Python code I was quite
-excited that we can generate class methods directly from the
-spec. Unfortunately we need to use valid identifiers for method
-names (specifically no dashes are allowed). Don't reuse those
-names on the CLI, it's much more natural to use the operation
-names exactly as listed in the spec.
+Ethtool is one of the most actively developed families.
+With the changes to the CLI it should be possible to use
+the YNL based code for easy prototyping and development.
+Add a partial family definition. I've tested the string
+set and rings. I don't have any MAC Merge implementation
+to test with, but I added the definition for it, anyway,
+because it's last. New commands can simply be added at
+the end without having to worry about manually providing
+IDs / values.
 
-Instead of:
-  ./cli --do rings_get
-use:
-  ./cli --do rings-get
+Set (with notification support - None is the response,
+the data is from the notification):
+
+$ sudo ./tools/net/ynl/cli.py \
+    --spec Documentation/netlink/specs/ethtool.yaml \
+    --do rings-set \
+    --json '{"header":{"dev-name":"enp0s31f6"}, "rx":129}' \
+    --subscribe monitor
+None
+[{'msg': {'header': {'dev-index': 2, 'dev-name': 'enp0s31f6'},
+          'rx': 136,
+          'rx-max': 4096,
+          'tx': 256,
+          'tx-max': 4096,
+          'tx-push': 0},
+  'name': 'rings-ntf'}]
+
+Do / dump (yes, the kernel requires that even for dump and even
+if empty - the "header" nest must be there):
+
+$ ./tools/net/ynl/cli.py \
+    --spec Documentation/netlink/specs/ethtool.yaml \
+    --do rings-get \
+    --json '{"header":{"dev-index": 2}}'
+{'header': {'dev-index': 2, 'dev-name': 'enp0s31f6'},
+ 'rx': 136,
+ 'rx-max': 4096,
+ 'tx': 256,
+ 'tx-max': 4096,
+ 'tx-push': 0}
+
+$ ./tools/net/ynl/cli.py \
+    --spec Documentation/netlink/specs/ethtool.yaml \
+    --dump rings-get \
+    --json '{"header":{}}'
+[{'header': {'dev-index': 2, 'dev-name': 'enp0s31f6'},
+  'rx': 136,
+  'rx-max': 4096,
+  'tx': 256,
+  'tx-max': 4096,
+  'tx-push': 0},
+ {'header': {'dev-index': 3, 'dev-name': 'wlp0s20f3'}, 'tx-push': 0},
+ {'header': {'dev-index': 19, 'dev-name': 'enp58s0u1u1'},
+  'rx': 100,
+  'rx-max': 4096,
+  'tx-push': 0}]
+
+And error reporting:
+
+$ ./tools/net/ynl/cli.py \
+    --spec Documentation/netlink/specs/ethtool.yaml \
+    --dump rings-get \
+    --json '{"header":{"flags":5}}'
+Netlink error: Invalid argument
+nl_len = 68 (52) nl_flags = 0x300 nl_type = 2
+	error: -22	extack: {'msg': 'reserved bit set',
+	                         'bad-attr-offs': 24,
+				 'bad-attr': '.header.flags'}
+None
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- tools/net/ynl/cli.py     | 9 +++++----
- tools/net/ynl/lib/ynl.py | 6 ++++++
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ Documentation/netlink/specs/ethtool.yaml | 392 +++++++++++++++++++++++
+ 1 file changed, 392 insertions(+)
+ create mode 100644 Documentation/netlink/specs/ethtool.yaml
 
-diff --git a/tools/net/ynl/cli.py b/tools/net/ynl/cli.py
-index 5c4eb5a68514..05d1f4069ce1 100755
---- a/tools/net/ynl/cli.py
-+++ b/tools/net/ynl/cli.py
-@@ -32,10 +32,11 @@ from lib import YnlFamily
-     if args.sleep:
-         time.sleep(args.sleep)
- 
--    if args.do or args.dump:
--        method = getattr(ynl, args.do if args.do else args.dump)
--
--        reply = method(attrs, dump=bool(args.dump))
-+    if args.do:
-+        reply = ynl.do(args.do, attrs)
-+        pprint.PrettyPrinter().pprint(reply)
-+    if args.dump:
-+        reply = ynl.dump(args.dump, attrs)
-         pprint.PrettyPrinter().pprint(reply)
- 
-     if args.ntf:
-diff --git a/tools/net/ynl/lib/ynl.py b/tools/net/ynl/lib/ynl.py
-index 2ff3e6dbdbf6..1c7411ee04dc 100644
---- a/tools/net/ynl/lib/ynl.py
-+++ b/tools/net/ynl/lib/ynl.py
-@@ -520,3 +520,9 @@ genl_family_name_to_id = None
-         if not dump and len(rsp) == 1:
-             return rsp[0]
-         return rsp
+diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
+new file mode 100644
+index 000000000000..82f4e6f8ddd3
+--- /dev/null
++++ b/Documentation/netlink/specs/ethtool.yaml
+@@ -0,0 +1,392 @@
++name: ethtool
 +
-+    def do(self, method, vals):
-+        return self._op(method, vals)
++protocol: genetlink-legacy
 +
-+    def dump(self, method, vals):
-+        return self._op(method, vals, dump=True)
++doc: Partial family for Ethtool Netlink.
++
++attribute-sets:
++  -
++    name: header
++    attributes:
++      -
++        name: dev-index
++        type: u32
++        value: 1
++      -
++        name: dev-name
++        type: string
++      -
++        name: flags
++        type: u32
++
++  -
++    name: bitset-bit
++    attributes:
++      -
++        name: index
++        type: u32
++        value: 1
++      -
++        name: name
++        type: string
++      -
++        name: value
++        type: flag
++  -
++    name: bitset-bits
++    attributes:
++      -
++        name: bit
++        type: nest
++        nested-attributes: bitset-bit
++        value: 1
++  -
++    name: bitset
++    attributes:
++      -
++        name: nomask
++        type: flag
++        value: 1
++      -
++        name: size
++        type: u32
++      -
++        name: bits
++        type: nest
++        nested-attributes: bitset-bits
++
++  -
++    name: string
++    attributes:
++      -
++        name: index
++        type: u32
++        value: 1
++      -
++        name: value
++        type: string
++  -
++    name: strings
++    attributes:
++      -
++        name: string
++        type: nest
++        value: 1
++        multi-attr: true
++        nested-attributes: string
++  -
++    name: stringset
++    attributes:
++      -
++        name: id
++        type: u32
++        value: 1
++      -
++        name: count
++        type: u32
++      -
++        name: strings
++        type: nest
++        multi-attr: true
++        nested-attributes: strings
++  -
++    name: stringsets
++    attributes:
++      -
++        name: stringset
++        type: nest
++        multi-attr: true
++        value: 1
++        nested-attributes: stringset
++  -
++    name: strset
++    attributes:
++      -
++        name: header
++        value: 1
++        type: nest
++        nested-attributes: header
++      -
++        name: stringsets
++        type: nest
++        nested-attributes: stringsets
++      -
++        name: counts-only
++        type: flag
++
++  -
++    name: privflags
++    attributes:
++      -
++        name: header
++        value: 1
++        type: nest
++        nested-attributes: header
++      -
++        name: flags
++        type: nest
++        nested-attributes: bitset
++
++  -
++    name: rings
++    attributes:
++      -
++        name: header
++        value: 1
++        type: nest
++        nested-attributes: header
++      -
++        name: rx-max
++        type: u32
++      -
++        name: rx-mini-max
++        type: u32
++      -
++        name: rx-jumbo-max
++        type: u32
++      -
++        name: tx-max
++        type: u32
++      -
++        name: rx
++        type: u32
++      -
++        name: rx-mini
++        type: u32
++      -
++        name: rx-jumbo
++        type: u32
++      -
++        name: tx
++        type: u32
++      -
++        name: rx-buf-len
++        type: u32
++      -
++        name: tcp-data-split
++        type: u8
++      -
++        name: cqe-size
++        type: u32
++      -
++        name: tx-push
++        type: u8
++
++  -
++    name: mm-stat
++    attributes:
++      -
++        name: pad
++        value: 1
++        type: pad
++      -
++        name: reassembly-errors
++        type: u64
++      -
++        name: smd-errors
++        type: u64
++      -
++        name: reassembly-ok
++        type: u64
++      -
++        name: rx-frag-count
++        type: u64
++      -
++        name: tx-frag-count
++        type: u64
++      -
++        name: hold-count
++        type: u64
++  -
++    name: mm
++    attributes:
++      -
++        name: header
++        value: 1
++        type: nest
++        nested-attributes: header
++      -
++        name: pmac-enabled
++        type: u8
++      -
++        name: tx-enabled
++        type: u8
++      -
++        name: tx-active
++        type: u8
++      -
++        name: tx-min-frag-size
++        type: u32
++      -
++        name: tx-min-frag-size
++        type: u32
++      -
++        name: verify-enabled
++        type: u8
++      -
++        name: verify-status
++        type: u8
++      -
++        name: verify-time
++        type: u32
++      -
++        name: max-verify-time
++        type: u32
++      -
++        name: stats
++        type: nest
++        nested-attributes: mm-stat
++
++operations:
++  enum-model: directional
++  list:
++    -
++      name: strset-get
++      doc: Get string set from the kernel.
++
++      attribute-set: strset
++
++      do: &strset-get-op
++        request:
++          value: 1
++          attributes:
++            - header
++            - stringsets
++            - counts-only
++        reply:
++          value: 1
++          attributes:
++            - header
++            - stringsets
++      dump: *strset-get-op
++
++    # TODO: fill in the requests in between
++
++    -
++      name: privflags-get
++      doc: Get device private flags.
++
++      attribute-set: privflags
++
++      do: &privflag-get-op
++        request:
++          value: 13
++          attributes:
++            - header
++        reply:
++          value: 14
++          attributes:
++            - header
++            - flags
++      dump: *privflag-get-op
++    -
++      name: privflags-set
++      doc: Set device private flags.
++
++      attribute-set: privflags
++
++      do:
++        request:
++          attributes:
++            - header
++            - flags
++    -
++      name: privflags-ntf
++      doc: Notification for change in device private flags.
++      notify: privflags-get
++
++    -
++      name: rings-get
++      doc: Get ring params.
++
++      attribute-set: rings
++
++      do: &ring-get-op
++        request:
++          attributes:
++            - header
++        reply:
++          attributes:
++            - header
++            - rx-max
++            - rx-mini-max
++            - rx-jumbo-max
++            - tx-max
++            - rx
++            - rx-mini
++            - rx-jumbo
++            - tx
++            - rx-buf-len
++            - tcp-data-split
++            - cqe-size
++            - tx-push
++      dump: *ring-get-op
++    -
++      name: rings-set
++      doc: Set ring params.
++
++      attribute-set: rings
++
++      do:
++        request:
++          attributes:
++            - header
++            - rx
++            - rx-mini
++            - rx-jumbo
++            - tx
++            - rx-buf-len
++            - tcp-data-split
++            - cqe-size
++            - tx-push
++    -
++      name: rings-ntf
++      doc: Notification for change in ring params.
++      notify: rings-get
++
++    # TODO: fill in the requests in between
++
++    -
++      name: mm-get
++      doc: Get MAC Merge configuration and state
++
++      attribute-set: mm
++
++      do: &mm-get-op
++        request:
++          value: 42
++          attributes:
++            - header
++        reply:
++          value: 42
++          attributes:
++            - header
++            - pmac-enabled
++            - tx-enabled
++            - tx-active
++            - tx-min-frag-size
++            - rx-min-frag-size
++            - verify-enabled
++            - verify-time
++            - max-verify-time
++            - stats
++      dump: *mm-get-op
++    -
++      name: mm-set
++      doc: Set MAC Merge configuration
++
++      attribute-set: mm
++
++      do:
++        request:
++          attributes:
++            - header
++            - verify-enabled
++            - verify-time
++            - tx-enabled
++            - pmac-enabled
++            - tx-min-frag-size
++    -
++      name: mm-ntf
++      doc: Notification for change in MAC Merge configuration.
++      notify: mm-get
 -- 
 2.39.1
 
