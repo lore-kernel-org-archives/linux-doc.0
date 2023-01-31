@@ -2,75 +2,70 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F79C636CC
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 19:58:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F0EC636CD
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 20:29:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231612AbjAaT6z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 14:58:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58400 "EHLO
+        id S230443AbjAaU3S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 15:29:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231446AbjAaT6y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 14:58:54 -0500
+        with ESMTP id S229903AbjAaU3R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 15:29:17 -0500
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 750A1367FF
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 11:58:53 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64DFACC2E;
+        Tue, 31 Jan 2023 12:29:17 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 00F7431A;
-        Tue, 31 Jan 2023 19:58:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 00F7431A
+        by ms.lwn.net (Postfix) with ESMTPSA id F00BC31A;
+        Tue, 31 Jan 2023 20:29:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F00BC31A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1675195133; bh=ZCt1IfkEzUXVywRWkQ7G+I1KBmJtF8RsZ7cPo2Ls5nY=;
+        t=1675196957; bh=v2veY8IvTtdByySn4YeSTgH3lspjXeFUWSbuvpCo+Lg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=tWwb0yIYkddA8M/1FbCDM/YBn4+NVvCg7aBqZzRsKL4Utcveus+C8jzKcLP7ry9VD
-         Ie/UHDVnyimDTmF3M2YLG3EzD84l0wnkIVjBqTiAy7RNKwHyVefCwgtLbIfMP+EB7b
-         Cyuvy5NO8W0rN8BEPe9YeH/ZKVzC92OtzDTX5emSplejNqi9LQIz6Gd6tdr24hQbaX
-         K0QJlcha3FYtPotvCPO3udgkwsY6fs8BxWKlljw3i/ovSldTsffi0O8WplvhKmO4Ui
-         qGd7XcHks25myFIXyHvBluMyv5ve6rnQHjRq2VFxA/AN3bihdJkqEDkmMQ4xHaofgG
-         u5iyPTtYDaKrg==
+        b=eWmH4wvaioDw7Y+VvVi+nuGLUWkt3vOJAunTZaRFyvrG1A40GcfNocymw2Ot7orcY
+         VVDBTWkhj32i8CISC3RoBf27kj4fDSLKHtHu04R2noKzqAHIxsWqYAemkwW7pzgpJb
+         qWHmZ9jbUHQPsJV31m8UF75XrUYXcgwYFUQSfEWCSHlnfJ6hWaiwC6OGQHgYDy32oP
+         FShR2XIaHsUXUjASU2ewxnFe/3NgmZwnAdzc1Ns/MdFpx1/ofKXnoDnEQsYJk1RGHb
+         BsJaWSbak8erV7e4APd7PQ7g2K8V96Z4UAR7Z3HvElyrnDf+S0yx1P1iS1n557y7/q
+         squoNwdPL1lZw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jonathan Cameron <jic23@kernel.org>,
-        Matti Vaittinen <mazziesaccount@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: ROHM ALS, integration time
-In-Reply-To: <20230130201929.52c93ee5@jic23-huawei>
-References: <65c7c45a-c953-e418-f640-9e46841151a1@gmail.com>
- <20230130130231.000013b6@Huawei.com>
- <9b3dcc7a-a0f8-38ee-4381-d330004d436f@fi.rohmeurope.com>
- <20230130171218.00007802@Huawei.com>
- <0e0d45b7-e582-82b2-9bac-1f70f9dad9f7@gmail.com>
- <20230130201929.52c93ee5@jic23-huawei>
-Date:   Tue, 31 Jan 2023 12:58:52 -0700
-Message-ID: <877cx24gsj.fsf@meer.lwn.net>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 0/2] docs/mm: remove useless markup
+In-Reply-To: <20230131144220.822989-1-rppt@kernel.org>
+References: <20230131144220.822989-1-rppt@kernel.org>
+Date:   Tue, 31 Jan 2023 13:29:16 -0700
+Message-ID: <87357q4fdv.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Cameron <jic23@kernel.org> writes:
+Mike Rapoport <rppt@kernel.org> writes:
 
-> Both the kernel-doc for this header and the ABI docs end up in
-> the kernel html docs.  I wonder if a link is possible...
-> https://docs.kernel.org/driver-api/iio/core.html#industrial-i-o-devices
-> would have the iio_chan_type docs I think if there were any.
-> https://docs.kernel.org/admin-guide/abi-testing.html?highlight=abi#abi-sys-iio-devicex-in-intensityy-raw 
-> is the matching ABI doc. 
+> From: "Mike Rapoport (IBM)" <rppt@kernel.org>
 >
-> Mauro, Jon, other docs system experts...
+> Hi,
 >
-> I couldn't immediately find a way to link to a specific ABI docs entry,
-> is there a means to do it from kernel-doc in a header?
+> Following Jon's gripe about top-of-file labels [1], I went ahead and
+> updated admin-guide/mm and mm docs to use file names instead of labels for
+> document cross-referencing.
+>
+> [1] https://lore.kernel.org/all/87r0vh9n17.fsf@meer.lwn.net
 
-It should just be possible to write out the type or function name and
-have the links generated automatically.  Have you tried just putting
-"enum iio_chan_type" into the text?  If the automarkup code doesn't pick
-it up, please let me know.
+This is a nice cleanup and I want to apply it, but it adds some
+warnings:
+
+> Documentation/mm/physical_memory.rst:61: WARNING: undefined label: page_migration
+> Documentation/mm/physical_memory.rst:61: WARNING: undefined label: admin_guide_memory_hotplug
+> Documentation/translations/zh_CN/mm/hmm.rst:251: WARNING: undefined label: page_migration
+> Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst:18: WARNING: undefined label: hugetlbpage
+> Documentation/translations/zh_CN/mm/numa.rst:76: WARNING: undefined label: numa_memory_policy
+
+It looks like a few references didn't get fixed?
 
 Thanks,
 
