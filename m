@@ -2,135 +2,223 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4FA0C636CD
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 08:47:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA17AC38142
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 08:52:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231934AbjAaIrI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 03:47:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32812 "EHLO
+        id S231718AbjAaIwa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 03:52:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230286AbjAaIqw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 03:46:52 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E9D34B89A
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 00:42:42 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id d3so14322369plr.10
-        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 00:42:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ARSqzITLXBgBgKXOXaBzTznpHHClJvtQ0GMIZieUXhk=;
-        b=NG4bXOsXt/J3qkvlabr4QEliZMMvxYhxRDdDb7ES2Lri3vzuL69Aci/0/UtE9kd9Zt
-         nFDzUetjHjHybSdI7eNAKYgx5bq0GTqgvKh9C2Ox6xlQc1qwp8m39TtEf166CRFItG2R
-         N/iuvJwOJAlDky3OuCjHT2/MFSpP5DDXIm+KVF/KFQlyNggkekRJqX4c6sEalbQOWP5l
-         n7VvTJ0yisYwsUtrVs8nIcHTONLxSdH/o6qRo2u1kxwLaahB8THkyOfbv9RJW0TiwHz+
-         1hFxlexNIyyJzoK6n88BHTz4/tLJo9wYPRWPOUVh95MG+XVunx52UmSCJP86KEeDANAl
-         7OBg==
+        with ESMTP id S231953AbjAaIvt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 03:51:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F9AA4673F
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 00:47:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675154796;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RT0be17qJU4YrT6BGLBw4plPJpfNOohspNBXSp02x6k=;
+        b=ZjPvGmXoEJ1q42g+wXyRRyXG1MaIDQTkN/9FxPTcweVSOn8GONDG+0+tCJG1tMHj5vM9hy
+        9AWcofyWKBC4/Fxi6+NKgnGqJdwvZioP+BOQBqqOw403GW9fQ43oE3zSojB03RGZbVugRR
+        pemGgL+dM3iupWfc0SMwAIsoY/g3NmI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-547-G8ta8lu1M9Sv8tkDwv8sMw-1; Tue, 31 Jan 2023 03:46:31 -0500
+X-MC-Unique: G8ta8lu1M9Sv8tkDwv8sMw-1
+Received: by mail-wm1-f71.google.com with SMTP id j24-20020a05600c1c1800b003dc4480f7bdso5920473wms.5
+        for <linux-doc@vger.kernel.org>; Tue, 31 Jan 2023 00:46:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ARSqzITLXBgBgKXOXaBzTznpHHClJvtQ0GMIZieUXhk=;
-        b=gk0dO7hiY2D1ZzKljInEqo186GDURqkXz08xU5kDIWNdRAUTCCr5tqA90vkF/01yZV
-         AqfUZUhpgR1prVsahRZ3ho4YoQ55NGDDfK4uX7uZb2ReL8wh90MmpCZ2+1Lbn+gQkxWd
-         F2TkuhY27nNRzIauPz/xVViogT8rrGOMy574NGJP/xCmCIwTB8X6WTa+pmba/a8jcxFj
-         qz13BDomkBDxDxGm3MpflvyarO8Gg67wo/jSi1eooGLQhiSKxap0HNDG/u+pcSMLvq+2
-         TkKqciTTNOFGs9or5B6KJogD2WlolOcLDmAH1k+yU/U/4C9KQbjDqn0QEfYxpcLl+ocO
-         SMbw==
-X-Gm-Message-State: AFqh2krr+s9S7i19T2jzU57lbbBR3pMY/vVop52eAfHdOueO1MK2mnOD
-        mDi9I/EP90m2GFwiFy481aXcpA==
-X-Google-Smtp-Source: AMrXdXvDWtXgsitMeIdZoasXXSOSj70rH/aFeCaP2XDbmUOEeY0dvlFfKQ/myV1EU79OkGFGBNzrAQ==
-X-Received: by 2002:a05:6a20:6698:b0:b8:701f:1d04 with SMTP id o24-20020a056a20669800b000b8701f1d04mr53756232pzh.11.1675154556416;
-        Tue, 31 Jan 2023 00:42:36 -0800 (PST)
-Received: from sunil-laptop ([49.206.9.96])
-        by smtp.gmail.com with ESMTPSA id z19-20020a62d113000000b0058bacd6c4e8sm1005959pfg.207.2023.01.31.00.42.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Jan 2023 00:42:17 -0800 (PST)
-Date:   Tue, 31 Jan 2023 14:11:57 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH 22/24] RISC-V: ACPI: Enable ACPI in defconfig
-Message-ID: <Y9jUVZRUigLqoIKT@sunil-laptop>
-References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
- <20230130182225.2471414-23-sunilvl@ventanamicro.com>
- <Y9hXF8RpNawkuTEN@spud>
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RT0be17qJU4YrT6BGLBw4plPJpfNOohspNBXSp02x6k=;
+        b=a7ViJv/0z3ENB9Qgh6pb4ihi3oCMgnYYDamYZI8Zr/vcWRNJKYmr5/lEEB1YziSaqM
+         ua9AVZO0dRHgEDXc9OVL86d8uxIn4kTqbR16O6wrKFjdn9QVveCpQmj0oLEysIsSbyIY
+         lkKsIHSuZb3U5TqWRI1UFWazWwJxCJP2KCD2LQ1YphgZJyxtkD4TmSfWtVgw6w2B77ai
+         9ca6QI1ZMV1Rx3LzDDHuxEhbp13EpvyztPxeAsMk05ttnbWwhDEBBH2SHc/qH3s9B2mC
+         ZkC+Xjk6BvneEbcB6fbhKpV0Gxvegp/a/PZkj4doOw2n8qL3q+65u8JqursWFXFfeKfH
+         cJlg==
+X-Gm-Message-State: AO0yUKV+CLwa2eW8eARf4HwM0ZgsJlV7FqtzDCgorJXn6TI4uCW5IN8R
+        Ck8dryPeXSvr0Jsy47fAengqyqPoINBbgTeq/cjttArm4CAjqd4sQVbIcLVXoBuLuolfawugN8R
+        AlgLNKaolsXNm/h/uTml3
+X-Received: by 2002:a05:600c:350a:b0:3dd:1c45:a36d with SMTP id h10-20020a05600c350a00b003dd1c45a36dmr2228076wmq.27.1675154790682;
+        Tue, 31 Jan 2023 00:46:30 -0800 (PST)
+X-Google-Smtp-Source: AK7set8QpCOBeSom0P3EMkkVT3iDxdmU57NVBunEGbit/G8Vzfu/HJ8buwXfm2TF7WWfzUVYQ1crOw==
+X-Received: by 2002:a05:600c:350a:b0:3dd:1c45:a36d with SMTP id h10-20020a05600c350a00b003dd1c45a36dmr2228038wmq.27.1675154790214;
+        Tue, 31 Jan 2023 00:46:30 -0800 (PST)
+Received: from ?IPV6:2003:d8:2f0a:ca00:f74f:2017:1617:3ec3? (p200300d82f0aca00f74f201716173ec3.dip0.t-ipconnect.de. [2003:d8:2f0a:ca00:f74f:2017:1617:3ec3])
+        by smtp.gmail.com with ESMTPSA id o16-20020a05600c379000b003dc49e0132asm9751166wmr.1.2023.01.31.00.46.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Jan 2023 00:46:29 -0800 (PST)
+Message-ID: <0e29a2d0-08d8-bcd6-ff26-4bea0e4037b0@redhat.com>
+Date:   Tue, 31 Jan 2023 09:46:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9hXF8RpNawkuTEN@spud>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 18/39] mm: Handle faultless write upgrades for shstk
+Content-Language: en-US
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-19-rick.p.edgecombe@intel.com>
+ <7f63d13d-7940-afb6-8b25-26fdf3804e00@redhat.com>
+ <50cf64932507ba60639eca28692e7df285bcc0a7.camel@intel.com>
+ <1327c608-1473-af4f-d962-c24f04f3952c@redhat.com>
+ <8c3820ae1448de4baffe7c476b4b5d9ba0a309ff.camel@intel.com>
+ <4d224020-f26f-60a4-c7ab-721a024c7a6d@redhat.com>
+ <dd06b54291ad5721da392a42f2d8e5636301ffef.camel@intel.com>
+ <899d8f3baaf45b896cf335dec2143cd0969a2d8a.camel@intel.com>
+ <ad7d94dd-f0aa-bf21-38c3-58ef1e9e46dc@redhat.com>
+ <27b141c06c37da78afca7214ec7efeaf730162d9.camel@intel.com>
+ <f4b62ed9-21a9-4b23-567e-51b339a643ac@redhat.com>
+ <6a38779c1539c2bcfeb6bc8251ed04aa9b06802e.camel@intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <6a38779c1539c2bcfeb6bc8251ed04aa9b06802e.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Conor,
-On Mon, Jan 30, 2023 at 11:47:35PM +0000, Conor Dooley wrote:
-> Hey Sunil,
+On 28.01.23 01:51, Edgecombe, Rick P wrote:
+> On Fri, 2023-01-27 at 17:12 +0100, David Hildenbrand wrote:
+>> On 26.01.23 21:19, Edgecombe, Rick P wrote:
+>>> On Thu, 2023-01-26 at 09:46 +0100, David Hildenbrand wrote:
+>>>> On 26.01.23 01:59, Edgecombe, Rick P wrote:
+>>>>> On Wed, 2023-01-25 at 10:43 -0800, Rick Edgecombe wrote:
+>>>>>> Thanks for your comments and ideas here, I'll give the:
+>>>>>> pte_t pte_mkwrite(struct vm_area_struct *vma, pte_t pte)
+>>>>>> ...solution a try.
+>>>>>
+>>>>> Well, it turns out there are some pte_mkwrite() callers in
+>>>>> other
+>>>>> arch's
+>>>>> that operate on kernel memory and don't have a VMA. So it
+>>>>> needed a
+>>>>> new
+>>>>
+>>>> Why not pass in NULL as VMA then and document the semantics? The
+>>>> less
+>>>> similarly named but slightly different functions, the better :)
+>>>
+>>> Hmm. The x86 and generic versions should probably have the same
+>>> semantics, so then if you pass a NULL, it would do a regular
+>>> pte_mkwrite() I guess?
+>>>
+>>> I see another benefit of requiring the vma argument, such that raw
+>>> pte_mkwrite()s are less likely to appear in core MM code. But I
+>>> think
+>>> the NULL is awkward because it's not obvious, to me at least, what
+>>> the
+>>> implications of that should be.
+>>>
+>>> So it will be confusing to read in the NULL cases for the other
+>>> archs.
+>>> We also have some warnings to catch miss cases in the PTE tear down
+>>> code, so the scenario of new code accidentally marking shadow stack
+>>> PTEs as writable is not totally unchecked.
+>>>
+>>> The three functions that do slightly different things are:
+>>>
+>>> pte_mkwrite():
+>>> Makes a PTE conventionally writable, only takes a PTE. Very clear
+>>> that
+>>> it is a low level helper and what it does.
+>>>
+>>> maybe_mkwrite():
+>>> Might make a PTE writable if the VMA allows it.
+>>>
+>>> pte_mkwrite_vma():
+>>> Makes a PTE writable in a specific way depending on the VMA
+>>>
+>>> I wonder if the name pte_mkwrite_vma() is maybe just not clear
+>>> enough.
+>>> It takes a VMA, yes, but what does it do with it?
+>>>
+>>> What if it was called pte_mkwrite_type() instead? Some arch's have
+>>> additional types of writable memory and this function creates them.
+>>> Of
+>>> course they also have the normal type of writable memory, and
+>>> pte_mkwrite() creates that like usual. Doesn't it seem more
+>>> readable?
+>>
+>> The issue is, the more variants we provide the easier it is to make
+>> mistakes and introduce new buggy code.
+>>
+>> It's tempting to simply use pte_mkwrite() and call it a day, where
+>> people actually should use pte_mkwrite_vma().
+>>
+>> Then, they at least have to investigate what to do about the second
+>> VMA
+>> parameter.
 > 
-> Two quick comments while I think of them..
-> 
+> Ok, I'll give it a spin. So far it looks ok. The downside is the giant
+> tree-wide pte_mkwrite() signature change, but once that is over with
+> there are other advantages. Like getting rid of maybe_mkwrite()'s
+> awareness of shadow stack so the logic is more centralized. Please let
+> me know if you don't feel comfortable with a suggested-by credit tag.
 
-Sure. Thank you!
+Sure ...
 
-> On Mon, Jan 30, 2023 at 11:52:23PM +0530, Sunil V L wrote:
-> > RISC-V: ACPI: Enable ACPI in defconfig
-> 
-> btw, about half of this series redundantly puts "ACPI:" or "RISC-V:
-> ACPI:" into $subject. None of commits that mention ACPI after the last :
-> should mention ACPI in the prefix IMO, it's just noise.
-> 
-> For example, this one should be something like:
-> RISC-V: enable ACPI in defconfig
-> 
+but I reconsidered :)
 
-I agree. Will update in the next version. I added ACPI in begining so that
-I could quickly identify them along with other patches in my branch.
+Maybe there is a cleaner way to do it and avoid the "NULL" argument.
 
-> > Add support to build ACPI subsystem in defconfig.
-> > 
-> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > ---
-> >  arch/riscv/configs/defconfig | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-> > index 128dcf4c0814..8ce06fb0dde8 100644
-> > --- a/arch/riscv/configs/defconfig
-> > +++ b/arch/riscv/configs/defconfig
-> > @@ -218,3 +218,7 @@ CONFIG_RCU_EQS_DEBUG=y
-> >  # CONFIG_FTRACE is not set
-> >  # CONFIG_RUNTIME_TESTING_MENU is not set
-> >  CONFIG_MEMTEST=y
-> > +CONFIG_ARCH_SUPPORTS_ACPI=y
-> 
-> This needs to go into the arch Kconfig file, where it will be selected.
-> Check what arm64 does if you are not sure what I mean.
-> 
+What about having (while you're going over everything already):
 
-Yes, I have added in "[PATCH 07/24] RISC-V: ACPI: Enable ACPI build
-infrastructure". But forgot to remove here. Thanks!. Will update it when
-I send next revision.
+pte_mkwrite(pte, vma)
+pte_mkwrite_kernel(pte)
 
-> Hopefully I'll get a chance to look at the rest of this this week
-> sometime,
-> Conor.
-> 
+The latter would only be used in that arch code where we're working on 
+kernel pgtables. We already have pte_offset_kernel() and 
+pte_alloc_kernel_track(), so it's not too weird.
 
-Thanks!
-Sunil
+-- 
+Thanks,
 
+David / dhildenb
 
