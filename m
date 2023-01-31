@@ -2,105 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66985C38142
-	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 08:10:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BEE4C38142
+	for <linux-doc@archiver.kernel.org>; Tue, 31 Jan 2023 08:37:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230110AbjAaIKs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 03:10:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34396 "EHLO
+        id S231600AbjAaIhF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 03:37:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229909AbjAaIKr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 03:10:47 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8927E2CFF7;
-        Tue, 31 Jan 2023 00:10:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675152646; x=1706688646;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=SZg+ATBpQouuriYsZdGoO7xxdxxxXNbSQpPCmxzri1E=;
-  b=OORWhdbu8nx1AVDDNlBL6+b+x/kXzRd2jN3Jbt903W1swyuPRw8uLaWW
-   EgJWCGUw/vaHFYYq9xSNRPi8k28qq3MfrJRNXGqaL7VfZEMsNyOZx/og4
-   m7OATk3aDPqU0OFL8DPbpIRobrfBgk/bP6DZ25pr1OGg1BqturCX4/edv
-   UGEaGqRzKXamM1RbTViqDMSdd97GZde9U1er86WWSo3GujvWZ4BmRm2LG
-   37Y7dvi9OqWLj4CBvHxDEq1Wi03dBeSxI9XomzPDKZhW3dNi9zbJwbMDQ
-   bAymg8XaFO38MW9v4pCfv6C2Ip/L7I+PU2FdwLUb0HQH6OBCAB8Ayitgp
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="326442606"
-X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="326442606"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 00:10:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="838282611"
-X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="838282611"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 31 Jan 2023 00:10:43 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pMlj1-0004IE-0p;
-        Tue, 31 Jan 2023 08:10:43 +0000
-Date:   Tue, 31 Jan 2023 16:10:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>
-Subject: Re: [PATCH 1/2] docs/admin-guide/mm: remove useless markup
-Message-ID: <202301311643.qUUNW7oe-lkp@intel.com>
-References: <20230129075018.207678-2-rppt@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230129075018.207678-2-rppt@kernel.org>
+        with ESMTP id S231534AbjAaIgs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 03:36:48 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C9D547431;
+        Tue, 31 Jan 2023 00:36:07 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 39C872031A;
+        Tue, 31 Jan 2023 08:36:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1675154163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=BlijzaJZHgjXQCkupBtgz374LBFS0tcYfWZdWnEAn3o=;
+        b=ZXRGu+RaiZSPwRbRYbLrgYa+4XRWH4W4PpVoi4TyBwz/UIVi+iWbVrYSoRe6VUkfxl+AVq
+        cWTHPhEoz9S/ayzY+99gck+r7cE/eJy2mHbsuL5D0ap20jVts69GdIbPjbNfCRMnAvmEe8
+        0drU+JlwYj7k10jonGWqd6PpFihmMDQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1675154163;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=BlijzaJZHgjXQCkupBtgz374LBFS0tcYfWZdWnEAn3o=;
+        b=lAWuTRrV69OCXNHA2N9EU3J5d8Q9i1PbwgoZ1RoYzRZGFqDhHS0k/QzGBsYKhG8JRPTE/J
+        rUEw1BdI0vIgJfAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ECFCD13585;
+        Tue, 31 Jan 2023 08:36:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id H2wpOfLS2GP8GgAAMHmgww
+        (envelope-from <tiwai@suse.de>); Tue, 31 Jan 2023 08:36:02 +0000
+Date:   Tue, 31 Jan 2023 09:36:02 +0100
+Message-ID: <87o7qfp0ct.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, alsa-devel@alsa-project.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] ALSA: doc: Fix PCM interface section typos
+In-Reply-To: <20230130162924.119389-1-miquel.raynal@bootlin.com>
+References: <20230130162924.119389-1-miquel.raynal@bootlin.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mike,
+On Mon, 30 Jan 2023 17:29:24 +0100,
+Miquel Raynal wrote:
+> 
+> Fix two mistakes in the PCM interface section:
+> 1/ Members of the snd_pcm_hardware structure are channels_{min,max}
+>    and not channel_{min,max} (mind the 's').
+> 2/ Another sentence is incomplete as the reference to one structure
+>    member (period_bytes_max) is missing.
+> 
+> There is no relevant 'Fixes:' tag to apply as both typos predate the
+> Git era.
+> 
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+> 
+> Hello, I wrote and sent this patch in 2019 but I likely only Cc'd Jon
+> and the doc ML, which might have not been enough, so just in case, here
+> is a resend.
+> Link: https://lore.kernel.org/linux-doc/20190829145512.3752-1-miquel.raynal@bootlin.com/
 
-Thank you for the patch! Perhaps something to improve:
+Thanks, applied now.
 
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v6.2-rc6]
-[cannot apply to akpm-mm/mm-everything next-20230131]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Rapoport/docs-admin-guide-mm-remove-useless-markup/20230129-155123
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20230129075018.207678-2-rppt%40kernel.org
-patch subject: [PATCH 1/2] docs/admin-guide/mm: remove useless markup
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/2e25559918a12ca208ce26ac82fc538d05dde591
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mike-Rapoport/docs-admin-guide-mm-remove-useless-markup/20230129-155123
-        git checkout 2e25559918a12ca208ce26ac82fc538d05dde591
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/mm/physical_memory.rst:61: WARNING: undefined label: admin_guide_memory_hotplug (if the link has no caption the label must precede a section header)
->> Documentation/translations/zh_CN/admin-guide/mm/index.rst:24: WARNING: undefined label: mm_concepts (if the link has no caption the label must precede a section header)
->> Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst:18: WARNING: undefined label: hugetlbpage (if the link has no caption the label must precede a section header)
->> Documentation/translations/zh_CN/mm/numa.rst:76: WARNING: undefined label: numa_memory_policy (if the link has no caption the label must precede a section header)
-
-vim +24 Documentation/translations/zh_CN/admin-guide/mm/index.rst
-
-72e1bfd1b8e9d7 xu xin 2022-03-10  23  
-72e1bfd1b8e9d7 xu xin 2022-03-10 @24  Linux内存管理有它自己的术语，如果你还不熟悉它，请考虑阅读下面参考：
-72e1bfd1b8e9d7 xu xin 2022-03-10  25  :ref:`Documentation/admin-guide/mm/concepts.rst <mm_concepts>`.
-72e1bfd1b8e9d7 xu xin 2022-03-10  26  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Takashi
