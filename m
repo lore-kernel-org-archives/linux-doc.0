@@ -2,306 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4826AC05027
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 04:24:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF6DC05027
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 04:40:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229992AbjBAEYJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 23:24:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39282 "EHLO
+        id S229991AbjBAEkX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 Jan 2023 23:40:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229615AbjBAEYH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 23:24:07 -0500
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1279C38641;
-        Tue, 31 Jan 2023 20:24:05 -0800 (PST)
-Received: from mail02.huawei.com (unknown [172.30.67.169])
-        by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4P681q2G67z4f3jJF;
-        Wed,  1 Feb 2023 12:23:59 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.124.27])
-        by APP4 (Coremail) with SMTP id gCh0CgD3rLBf6dljLNYlCw--.26190S4;
-        Wed, 01 Feb 2023 12:24:01 +0800 (CST)
-From:   Hou Tao <houtao@huaweicloud.com>
-To:     linux-block@vger.kernel.org
-Cc:     Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-Subject: [PATCH] blk-ioprio: Introduce promote-to-rt policy
-Date:   Wed,  1 Feb 2023 12:52:27 +0800
-Message-Id: <20230201045227.2203123-1-houtao@huaweicloud.com>
-X-Mailer: git-send-email 2.29.2
+        with ESMTP id S229911AbjBAEkW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 23:40:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18304FAFD;
+        Tue, 31 Jan 2023 20:40:20 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 275C560E74;
+        Wed,  1 Feb 2023 04:40:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7FFF7C433EF;
+        Wed,  1 Feb 2023 04:40:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675226419;
+        bh=UlwjBzoJAPWYMQ72VAdrat0KEYevosv0d+OwcKc0Q0U=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=bmg0aBg+kX8y9BPmS/Y3Ts9JlEpRhRkiSIJDD/XasvIQYGGfBd7/TCKqW1BfnMKqo
+         LhsF72pd0mAvFJrgA8Uzp/l6ngVSGctK5U9SQouMxfMtOlrl8SAfpPGnfXug/W4Mgm
+         bTi0JanzqhZ3cUxhvTGE6OTMQfd6qNTpJvm/amoOeZTmz3yVXIQBmiAJJ91p9QzANE
+         bf/xhrcfFT68ebGkspV2qECD5fO1nWwMhQJyoNtvVZ4UutKRWbHTf2OYAYIMr3hxeD
+         Z66/rj548PzeON/XuR1Qx/Pn2ZGPnFDsG/Qh6TE6zJx3LnZm7jz8OMOopxD0Tj2PY2
+         VpurZp/9k5pNg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 60E07C04E36;
+        Wed,  1 Feb 2023 04:40:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgD3rLBf6dljLNYlCw--.26190S4
-X-Coremail-Antispam: 1UD129KBjvJXoW3GF1ftF4UWrW3Zw1ruFW3Jrb_yoWfJrWfpF
-        4fArZxCF9YqF1xtrnrXa18Xryrtw4fAw4UJF43GFWF9w1jvw1vgw10yrn7XFyfArWDXrZ8
-        JrZ8JrWUuF1UAr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-        0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-        0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IY
-        c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
-        026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
-        0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0x
-        vE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
-        jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UWE__UUUUU=
-X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
-X-CFilter-Loop: Reflected
+Subject: Re: [PATCH net-next v2 00/14] tools: ynl: more docs and basic ethtool
+ support
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167522641938.28256.15256621461698900503.git-patchwork-notify@kernel.org>
+Date:   Wed, 01 Feb 2023 04:40:19 +0000
+References: <20230131023354.1732677-1-kuba@kernel.org>
+In-Reply-To: <20230131023354.1732677-1-kuba@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, sdf@google.com, linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Hou Tao <houtao1@huawei.com>
+Hello:
 
-Since commit a78418e6a04c ("block: Always initialize bio IO priority on
-submit"), bio->bi_ioprio will never be IOPRIO_CLASS_NONE when calling
-blkcg_set_ioprio(), so there will be no way to promote the io-priority
-of one cgroup to IOPRIO_CLASS_RT, because bi_ioprio will always be
-greater than or equals to IOPRIO_CLASS_RT.
+This series was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-It seems possible to call blkcg_set_ioprio() first then try to
-initialize bi_ioprio later in bio_set_ioprio(), but this doesn't work
-for bio in which bi_ioprio is already initialized (e.g., direct-io), so
-introduce a new ioprio policy to promote the iopriority of bio to
-IOPRIO_CLASS_RT if the ioprio is not already RT.
+On Mon, 30 Jan 2023 18:33:40 -0800 you wrote:
+> I got discouraged from supporting ethtool in specs, because
+> generating the user space C code seems a little tricky.
+> The messages are ID'ed in a "directional" way (to and from
+> kernel are separate ID "spaces"). There is value, however,
+> in having the spec and being able to for example use it
+> in Python.
+> 
+> [...]
 
-To distinguish between the demotion policy and the promotion policy,
-use a bit in upper 16-bits of the policy to accomplish that and handle
-the bit accordingly in blkcg_set_ioprio().
+Here is the summary with links:
+  - [net-next,v2,01/14] tools: ynl-gen: prevent do / dump reordering
+    https://git.kernel.org/netdev/net-next/c/eaf317e7d2bb
+  - [net-next,v2,02/14] tools: ynl: move the cli and netlink code around
+    https://git.kernel.org/netdev/net-next/c/4e4480e89c47
+  - [net-next,v2,03/14] tools: ynl: add an object hierarchy to represent parsed spec
+    https://git.kernel.org/netdev/net-next/c/3aacf8281336
+  - [net-next,v2,04/14] tools: ynl: use the common YAML loading and validation code
+    https://git.kernel.org/netdev/net-next/c/30a5c6c8104f
+  - [net-next,v2,05/14] tools: ynl: add support for types needed by ethtool
+    https://git.kernel.org/netdev/net-next/c/19b64b48a33e
+  - [net-next,v2,06/14] tools: ynl: support directional enum-model in CLI
+    https://git.kernel.org/netdev/net-next/c/fd0616d34274
+  - [net-next,v2,07/14] tools: ynl: support multi-attr
+    https://git.kernel.org/netdev/net-next/c/90256f3f8093
+  - [net-next,v2,08/14] tools: ynl: support pretty printing bad attribute names
+    https://git.kernel.org/netdev/net-next/c/4cd2796f3f8d
+  - [net-next,v2,09/14] tools: ynl: use operation names from spec on the CLI
+    https://git.kernel.org/netdev/net-next/c/8dfec0a88868
+  - [net-next,v2,10/14] tools: ynl: load jsonschema on demand
+    https://git.kernel.org/netdev/net-next/c/5c6674f6eb52
+  - [net-next,v2,11/14] netlink: specs: finish up operation enum-models
+    https://git.kernel.org/netdev/net-next/c/8403bf044530
+  - [net-next,v2,12/14] netlink: specs: add partial specification for ethtool
+    https://git.kernel.org/netdev/net-next/c/b784db7ae840
+  - [net-next,v2,13/14] docs: netlink: add a starting guide for working with specs
+    https://git.kernel.org/netdev/net-next/c/01e47a372268
+  - [net-next,v2,14/14] tools: net: use python3 explicitly
+    https://git.kernel.org/netdev/net-next/c/981cbcb030d9
 
-Signed-off-by: Hou Tao <houtao1@huawei.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 38 ++++++----
- block/blk-ioprio.c                      | 94 +++++++++++++++++--------
- 2 files changed, 92 insertions(+), 40 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index c8ae7c897f14..e0b9f73ef62a 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2038,17 +2038,27 @@ that attribute:
- 	Change the I/O priority class of all requests into IDLE, the lowest
- 	I/O priority class.
- 
-+  promote-to-rt
-+	For requests that have I/O priority class BE or that have I/O priority
-+        class IDLE, change it into RT. Do not modify the I/O priority class
-+        of requests that have priority class RT.
-+
- The following numerical values are associated with the I/O priority policies:
- 
--+-------------+---+
--| no-change   | 0 |
--+-------------+---+
--| none-to-rt  | 1 |
--+-------------+---+
--| rt-to-be    | 2 |
--+-------------+---+
--| all-to-idle | 3 |
--+-------------+---+
-+
-++---------------+---------+-----+
-+| policy        | inst    | num |
-++---------------+---------+-----+
-+| no-change     | demote  | 0   |
-++---------------+---------+-----+
-+| none-to-rt    | demote  | 1   |
-++---------------+---------+-----+
-+| rt-to-be      | demote  | 2   |
-++---------------+---------+-----+
-+| idle          | demote  | 3   |
-++---------------+---------+-----+
-+| promote-to-rt | promote | 1   |
-++---------------+---------+-----+
- 
- The numerical value that corresponds to each I/O priority class is as follows:
- 
-@@ -2064,9 +2074,13 @@ The numerical value that corresponds to each I/O priority class is as follows:
- 
- The algorithm to set the I/O priority class for a request is as follows:
- 
--- Translate the I/O priority class policy into a number.
--- Change the request I/O priority class into the maximum of the I/O priority
--  class policy number and the numerical I/O priority class.
-+-- Translate the I/O priority class policy into an instruction and a number
-+-- If the instruction is demotion, change the request I/O priority class
-+-  into the maximum of the I/O priority class policy number and the numerical
-+-  I/O priority class.
-+-- If the instruction is promotion, change the request I/O priority class
-+-  into the minimum of the I/O priority class policy number and the numerical
-+-  I/O priority class.
- 
- PID
- ---
-diff --git a/block/blk-ioprio.c b/block/blk-ioprio.c
-index 8bb6b8eba4ce..0d400bee9c72 100644
---- a/block/blk-ioprio.c
-+++ b/block/blk-ioprio.c
-@@ -20,6 +20,13 @@
- #include "blk-ioprio.h"
- #include "blk-rq-qos.h"
- 
-+/*
-+ * Upper 16-bits are reserved for special flags.
-+ *
-+ * @IOPRIO_POL_PROMOTION: Promote bi_ioprio instead of demote it.
-+ */
-+#define IOPRIO_POL_PROMOTION (1U << 17)
-+
- /**
-  * enum prio_policy - I/O priority class policy.
-  * @POLICY_NO_CHANGE: (default) do not modify the I/O priority class.
-@@ -27,21 +34,30 @@
-  * @POLICY_RESTRICT_TO_BE: modify IOPRIO_CLASS_NONE and IOPRIO_CLASS_RT into
-  *		IOPRIO_CLASS_BE.
-  * @POLICY_ALL_TO_IDLE: change the I/O priority class into IOPRIO_CLASS_IDLE.
-- *
-+ * @POLICY_PROMOTE_TO_RT: modify IOPRIO_CLASS_NONE and IOPRIO_CLASS_BE into
-+ * 		IOPRIO_CLASS_RT.
-  * See also <linux/ioprio.h>.
-  */
- enum prio_policy {
--	POLICY_NO_CHANGE	= 0,
--	POLICY_NONE_TO_RT	= 1,
--	POLICY_RESTRICT_TO_BE	= 2,
--	POLICY_ALL_TO_IDLE	= 3,
-+	POLICY_NO_CHANGE	= IOPRIO_CLASS_NONE,
-+	POLICY_NONE_TO_RT	= IOPRIO_CLASS_RT,
-+	POLICY_RESTRICT_TO_BE	= IOPRIO_CLASS_BE,
-+	POLICY_ALL_TO_IDLE	= IOPRIO_CLASS_IDLE,
-+	POLICY_PROMOTE_TO_RT	= IOPRIO_CLASS_RT | IOPRIO_POL_PROMOTION,
-+};
-+
-+struct ioprio_policy_tuple {
-+	const char *name;
-+	enum prio_policy policy;
- };
- 
--static const char *policy_name[] = {
--	[POLICY_NO_CHANGE]	= "no-change",
--	[POLICY_NONE_TO_RT]	= "none-to-rt",
--	[POLICY_RESTRICT_TO_BE]	= "restrict-to-be",
--	[POLICY_ALL_TO_IDLE]	= "idle",
-+/* ioprio_alloc_cpd() needs POLICY_NO_CHANGE to be the first policy */
-+static const struct ioprio_policy_tuple ioprio_policies[] = {
-+	{ "no-change",		POLICY_NO_CHANGE },
-+	{ "none-to-rt",		POLICY_NONE_TO_RT },
-+	{ "restrict-to-be",	POLICY_RESTRICT_TO_BE },
-+	{ "idle",		POLICY_ALL_TO_IDLE },
-+	{ "promote-to-rt",	POLICY_PROMOTE_TO_RT }
- };
- 
- static struct blkcg_policy ioprio_policy;
-@@ -57,11 +73,11 @@ struct ioprio_blkg {
- /**
-  * struct ioprio_blkcg - Per cgroup data.
-  * @cpd: blkcg_policy_data structure.
-- * @prio_policy: One of the IOPRIO_CLASS_* values. See also <linux/ioprio.h>.
-+ * @ioprio: Policy name and definition.
-  */
- struct ioprio_blkcg {
- 	struct blkcg_policy_data cpd;
--	enum prio_policy	 prio_policy;
-+	const struct ioprio_policy_tuple *ioprio;
- };
- 
- static inline struct ioprio_blkg *pd_to_ioprio(struct blkg_policy_data *pd)
-@@ -95,23 +111,35 @@ static int ioprio_show_prio_policy(struct seq_file *sf, void *v)
- {
- 	struct ioprio_blkcg *blkcg = ioprio_blkcg_from_css(seq_css(sf));
- 
--	seq_printf(sf, "%s\n", policy_name[blkcg->prio_policy]);
-+	seq_printf(sf, "%s\n", blkcg->ioprio->name);
- 	return 0;
- }
- 
-+static const struct ioprio_policy_tuple *ioprio_match_policy(const char *buf)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(ioprio_policies); i++) {
-+		if (sysfs_streq(ioprio_policies[i].name, buf))
-+			return &ioprio_policies[i];
-+	}
-+
-+	return NULL;
-+}
-+
- static ssize_t ioprio_set_prio_policy(struct kernfs_open_file *of, char *buf,
- 				      size_t nbytes, loff_t off)
- {
- 	struct ioprio_blkcg *blkcg = ioprio_blkcg_from_css(of_css(of));
--	int ret;
-+	const struct ioprio_policy_tuple *ioprio;
- 
- 	if (off != 0)
- 		return -EIO;
- 	/* kernfs_fop_write_iter() terminates 'buf' with '\0'. */
--	ret = sysfs_match_string(policy_name, buf);
--	if (ret < 0)
--		return ret;
--	blkcg->prio_policy = ret;
-+	ioprio = ioprio_match_policy(buf);
-+	if (!ioprio)
-+		return -EINVAL;
-+	blkcg->ioprio = ioprio;
- 	return nbytes;
- }
- 
-@@ -141,7 +169,7 @@ static struct blkcg_policy_data *ioprio_alloc_cpd(gfp_t gfp)
- 	blkcg = kzalloc(sizeof(*blkcg), gfp);
- 	if (!blkcg)
- 		return NULL;
--	blkcg->prio_policy = POLICY_NO_CHANGE;
-+	blkcg->ioprio = &ioprio_policies[0];
- 	return &blkcg->cpd;
- }
- 
-@@ -186,20 +214,30 @@ void blkcg_set_ioprio(struct bio *bio)
- 	struct ioprio_blkcg *blkcg = ioprio_blkcg_from_bio(bio);
- 	u16 prio;
- 
--	if (!blkcg || blkcg->prio_policy == POLICY_NO_CHANGE)
-+	if (!blkcg || blkcg->ioprio->policy == POLICY_NO_CHANGE)
- 		return;
- 
-+	WARN_ON_ONCE(bio->bi_ioprio == IOPRIO_CLASS_NONE);
-+
- 	/*
- 	 * Except for IOPRIO_CLASS_NONE, higher I/O priority numbers
--	 * correspond to a lower priority. Hence, the max_t() below selects
--	 * the lower priority of bi_ioprio and the cgroup I/O priority class.
--	 * If the bio I/O priority equals IOPRIO_CLASS_NONE, the cgroup I/O
--	 * priority is assigned to the bio.
-+	 * correspond to a lower priority.
-+	 *
-+	 * When IOPRIO_POL_PROMOTION is enabled, the min_t() below selects
-+	 * the higher priority of bi_ioprio and the cgroup I/O priority class,
-+	 * otherwise the lower priority is selected.
- 	 */
--	prio = max_t(u16, bio->bi_ioprio,
--			IOPRIO_PRIO_VALUE(blkcg->prio_policy, 0));
--	if (prio > bio->bi_ioprio)
--		bio->bi_ioprio = prio;
-+	if (blkcg->ioprio->policy & IOPRIO_POL_PROMOTION) {
-+		prio = min_t(u16, bio->bi_ioprio,
-+				IOPRIO_PRIO_VALUE(blkcg->ioprio->policy, 0));
-+		if (prio < bio->bi_ioprio)
-+			bio->bi_ioprio = prio;
-+	} else {
-+		prio = max_t(u16, bio->bi_ioprio,
-+				IOPRIO_PRIO_VALUE(blkcg->ioprio->policy, 0));
-+		if (prio > bio->bi_ioprio)
-+			bio->bi_ioprio = prio;
-+	}
- }
- 
- void blk_ioprio_exit(struct gendisk *disk)
+You are awesome, thank you!
 -- 
-2.29.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
