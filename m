@@ -2,118 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AF27C636D3
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 23:41:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C4C0C63797
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 23:50:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229729AbjBAXlq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Feb 2023 18:41:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58810 "EHLO
+        id S229774AbjBAXuf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Feb 2023 18:50:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229640AbjBAXlp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 18:41:45 -0500
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B2175DC36;
-        Wed,  1 Feb 2023 15:41:43 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0ADD2739;
-        Wed,  1 Feb 2023 23:41:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0ADD2739
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1675294902; bh=rRz1X/7SrI7swcn1nO8bgO/CfZmEmLtebmoOOoByqaU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=VR2L4QU0GxufyWH0UkAmjWkdaNnGBRCvMJdq3e0STRXb5NQ+roEelUcyf9edGPSfA
-         rycL0x/HDELG4NHkJEDr2hZy0bfMbn9qMloDq6kR2LuZjvGCTCqYevWBAyUVpheRF7
-         1CDmtesQy9WM30PSKrwxGIj7H1zWhrQbh5hkM//aJdL7LtWi+jOKQj7v25T+dd3R3p
-         M7fyjEdwgm8a/knSdNAoWofyPdIfig1crbGP6tMiJvAGAlSDZ1UpFFKcC4wXZTRzBE
-         3G1M0VqM7pNsTFKvAbPwe+z4TqmHGYk2biELVVcNsXj44TyPCXe+V9yovgZeC7BkeG
-         u4kY0vu6TJlHQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     sshefali021@gmail.com, kstewart@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] docs: add workload-tracing document to admin-guide
-In-Reply-To: <Y9nkqhAS6EW2Lu8Z@debian.me>
-References: <20230131221105.39216-1-skhan@linuxfoundation.org>
- <Y9nkqhAS6EW2Lu8Z@debian.me>
-Date:   Wed, 01 Feb 2023 16:41:41 -0700
-Message-ID: <875yclx8ay.fsf@meer.lwn.net>
+        with ESMTP id S229630AbjBAXue (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 18:50:34 -0500
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 13B3566019;
+        Wed,  1 Feb 2023 15:50:32 -0800 (PST)
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+        id BDF7320B74F7; Wed,  1 Feb 2023 15:50:31 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BDF7320B74F7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1675295431;
+        bh=6yV0Cqoz9tn6IGL+ncMwaFz1B8gSu5804ZHGEFQr3s8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=S+HHLvneBOs983jxPXwKxG8Ph2gbl7utcF2Ufz7EqEkyzRxi0uNZ2Uhi2TPlunsH7
+         1ieS+micucycavE6sDwdVEvun7q+gYVslSwV+HeWCv03Dt8ExY773zBQ3H5YxsIWJw
+         7P7Hi30gEWl27nR9L6yS+TK4iPeuqcoOsLLO0oLU=
+Date:   Wed, 1 Feb 2023 15:50:31 -0800
+From:   Fan Wu <wufan@linux.microsoft.com>
+To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v9 13/16] ipe: enable support for fs-verity as a
+ trust provider
+Message-ID: <20230201235031.GC9075@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-14-git-send-email-wufan@linux.microsoft.com>
+ <d62907da62b5e0b25c9d7bd4b3119a3d1827bd29.camel@huaweicloud.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d62907da62b5e0b25c9d7bd4b3119a3d1827bd29.camel@huaweicloud.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On Tue, Jan 31, 2023 at 03:00:08PM +0100, Roberto Sassu wrote:
+> On Mon, 2023-01-30 at 14:57 -0800, Fan Wu wrote:
+> > +/**
+> > + * evaluate_fsv_sig_false - Analyze @ctx against a fsv sig false property.
+> > + * @ctx: Supplies a pointer to the context being evaluated.
+> > + * @p: Supplies a pointer to the property being evaluated.
+> > + *
+> > + * Return:
+> > + * * true	- The current @ctx match the @p
+> > + * * false	- The current @ctx doesn't match the @p
+> > + */
+> > +static bool evaluate_fsv_sig_false(const struct ipe_eval_ctx *const ctx,
+> > +				   struct ipe_prop *p)
+> > +{
+> > +	return !ctx->ino ||
+> > +	       !IS_VERITY(ctx->ino) ||
+> > +	       !ctx->ipe_inode ||
+> > +	       !ctx->ipe_inode->fs_verity_signed;
+> > +}
+> > +
+> > +/**
+> > + * evaluate_fsv_sig_true - Analyze @ctx against a fsv sig true property.
+> > + * @ctx: Supplies a pointer to the context being evaluated.
+> > + * @p: Supplies a pointer to the property being evaluated.
+> > + *
+> > + * Return:
+> > + * * true - The current @ctx match the @p
+> > + * * false - The current @ctx doesn't match the @p
+> > + */
+> > +static bool evaluate_fsv_sig_true(const struct ipe_eval_ctx *const ctx,
+> > +				  struct ipe_prop *p)
+> > +{
+> > +	return ctx->ino &&
+> > +	       IS_VERITY(ctx->ino) &&
+> > +	       ctx->ipe_inode &&
+> > +	       ctx->ipe_inode->fs_verity_signed;
+> > +}
+> 
+> Isn't better to just define one function and prepend a ! in
+> evaluate_property()?
+Yes that's a better way to do it, I will take this idea.
 
-> On Tue, Jan 31, 2023 at 03:11:05PM -0700, Shuah Khan wrote:
->> Add a new section to the admin-guide with information of interest to
->> application developers and system integrators doing analysis of the
->> Linux kernel for safety critical applications.
->> 
->> This section will contain documents supporting analysis of kernel
->> interactions with applications, and key kernel subsystems expectations.
->> 
->> Add a new workload-tracing document to this new section.
->> 
->> Signed-off-by: Shefali Sharma <sshefali021@gmail.com>
->> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
->> ---
->> Changes since v2: Addressed review comments on v2
->
-> I think you haven't addressed my comments there [1], so I have to
-> write the improv:
+> 
+> Not sure about the usefulness of the fsverity_signature= property as it
+> is. I would at minimum allow to specify which keyring signatures are
+> verified against, and ensure that the keyring has a restriction.
+> 
+> And maybe I would call fsverity_verify_signature() directly, after
+> extending it to pass the desired keyring.
+> 
+Thanks for the suggestion.
+For the initial version we only have the fsverity_signature property
+to enable the policy can make decision based on the existence of the
+signature. In the future we plan to add more properties to leverage
+the remaining signature information so we can have the restrictions
+you mentioned.
 
-Bagas, could you *please* stop this?
+-Fan
 
-> diff --git a/Documentation/admin-guide/workload-tracing.rst b/Documentation/admin-guide/workload-tracing.rst
-> index 5fad64b4ebd66f..ac60ff9dec8f0e 100644
-> --- a/Documentation/admin-guide/workload-tracing.rst
-> +++ b/Documentation/admin-guide/workload-tracing.rst
-> @@ -27,10 +27,10 @@ Methodology
->  ===========
->  
->  `strace <https://man7.org/linux/man-pages/man1/strace.1.html>`_ is a
-> -diagnostic, instructional, and debugging tool and can be used to discover
-> -the system resources in use by a workload. Once we discover and understand
-> -the workload needs, we can focus on them to avoid regressions and use it
-> -to evaluate safety considerations. We use strace tool to trace workloads.
-> +diagnostic, instructional, and debugging tool and can be used to
-> +discover the system resources in use by a workload by tracing it. Once
-> +we discover and understand the workload needs, we can focus on them to
-> +avoid regressions and use it to evaluate safety considerations.
-
-Do you realize how long it takes to look at this kind of stuff to decide
-whether it is an "improv" or not?  In this case, it decidedly is not,
-but somebody has to spend a bunch of time to try to figure out what you
-were doing.
-
->  This method of tracing using strace tells us the system calls invoked by
->  the workload and doesn't include all the system calls that can be invoked
-> @@ -43,7 +43,7 @@ outlined here will trace and find all possible code paths. The completeness
->  of the system usage information depends on the completeness of coverage of a
->  workload.
->  
-> -The goal is tracing a workload on a system running a default kernel without
-> +The goal is to trace workloads on a system running a default kernel without
->  requiring custom kernel installs.
-
-Why do you think that these sorts of trivial changes are worth the
-trouble?
-
-I have asked you numerous times to please stop harassing our
-contributors.  I am asking yet again.  We have no need for a
-self-appointed officer to police documentation patches; you are simply
-adding impedance to a process that people already find difficult to
-navigate.
-
-If you want to help the kernel project, we welcome you, but you need to
-find a way to actually *help*.  As I have asked before, please stop
-worrying about what others are doing and focus on making positive
-contributions yourself.
-
-Thank you.
-
-jon
+> I would also split this patch in two, one for fsverity_digest= and one
+> for fsverity_signature=.
+> 
+> Roberto
