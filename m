@@ -2,139 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 286C9C636D4
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 23:28:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AF27C636D3
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 23:41:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbjBAX2v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Feb 2023 18:28:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54076 "EHLO
+        id S229729AbjBAXlq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Feb 2023 18:41:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230195AbjBAX2v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 18:28:51 -0500
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD991205D;
-        Wed,  1 Feb 2023 15:28:49 -0800 (PST)
-Received: by mail-lj1-x22c.google.com with SMTP id d8so162615ljq.9;
-        Wed, 01 Feb 2023 15:28:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1TJGIvRrjUyr/9IaggmaLPZelXPwdqIaj19FFw1HR84=;
-        b=cfmC9qCNz6NafgTKqfctc3/FV1eJol6vi1JPQgIAXKAdYE/TO61FpTE7RaIFztDcBw
-         X7dAEh/5GBCZ7Z/CMNG59rPZ1AlwQkQD4v56erQiNDlchRnP5LKmPQkWCp1sXRdb1Gcn
-         Zf1tuQHwYsAmruGPXjofX98Cs3szAfaclKirr4GQ+SqA8g3cXK0YWwoXZUbpCQHXbw0B
-         RmFCZclxe0RqH8SJnISlXfV7tpv5z3+eMHBBOUKq1dYK+TZAKjHnSpYNHXbMi3UYS1LU
-         CWrb3jQnk5bYf/4WMqJ3UPIvY63YOPSG4I/CsbEdfXXeX91rCWE5oNdFxEu/vGUyx14r
-         vK4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1TJGIvRrjUyr/9IaggmaLPZelXPwdqIaj19FFw1HR84=;
-        b=SUC3i6G63EGWqgGH+h2i3Ega4nWF9Q7SJlyUOT3SfUw2ubZmVM2iCZ/H+lRbwKs79x
-         dmPk8oNruLTBFAAx8k6QkhChKrLUH+3s0Md8Em+zQ4LyAtO2mRGwGSLLXV8p762u7GkS
-         RhPbSDem4fgoX9h4nSaH9hlIWyDiNDE7Q74lBcxYZmUHv/oMzExBR/QWuunWQnKM0GAb
-         X+v2+dXaNNS9q0K+K2NUPzmwiigvnzgor4Hm3Tm53cdAFoO6lsKDzNtUnAWIsYRvdP5d
-         MFy9/r4iXhj1AkGHcYLpDTp5OmrWNnrBanibHck8VsNbae9twkSSGspWb1rZf8E6SER+
-         v/OA==
-X-Gm-Message-State: AO0yUKUJ/FWPsTYdZgvcxAK4kahn0YSO7RjrfMwxLkve8OO0X6MBtYzt
-        UoEefQMha1kSQ8WBPwKQ7FkWFogwG1LIfBjLOkc=
-X-Google-Smtp-Source: AK7set9igR3QIgrtrWCvjA166/G4Bk0ijI+kCf7WjSnT+JQn8Ah14oogcJFxL9Gpoujs/RLjO/RtYvYjgH2FrdE8N+g=
-X-Received: by 2002:a2e:5717:0:b0:290:4fce:f881 with SMTP id
- l23-20020a2e5717000000b002904fcef881mr606608ljb.126.1675294127194; Wed, 01
- Feb 2023 15:28:47 -0800 (PST)
+        with ESMTP id S229640AbjBAXlp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 18:41:45 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B2175DC36;
+        Wed,  1 Feb 2023 15:41:43 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0ADD2739;
+        Wed,  1 Feb 2023 23:41:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0ADD2739
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1675294902; bh=rRz1X/7SrI7swcn1nO8bgO/CfZmEmLtebmoOOoByqaU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=VR2L4QU0GxufyWH0UkAmjWkdaNnGBRCvMJdq3e0STRXb5NQ+roEelUcyf9edGPSfA
+         rycL0x/HDELG4NHkJEDr2hZy0bfMbn9qMloDq6kR2LuZjvGCTCqYevWBAyUVpheRF7
+         1CDmtesQy9WM30PSKrwxGIj7H1zWhrQbh5hkM//aJdL7LtWi+jOKQj7v25T+dd3R3p
+         M7fyjEdwgm8a/knSdNAoWofyPdIfig1crbGP6tMiJvAGAlSDZ1UpFFKcC4wXZTRzBE
+         3G1M0VqM7pNsTFKvAbPwe+z4TqmHGYk2biELVVcNsXj44TyPCXe+V9yovgZeC7BkeG
+         u4kY0vu6TJlHQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc:     sshefali021@gmail.com, kstewart@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] docs: add workload-tracing document to admin-guide
+In-Reply-To: <Y9nkqhAS6EW2Lu8Z@debian.me>
+References: <20230131221105.39216-1-skhan@linuxfoundation.org>
+ <Y9nkqhAS6EW2Lu8Z@debian.me>
+Date:   Wed, 01 Feb 2023 16:41:41 -0700
+Message-ID: <875yclx8ay.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20230201192509.4124319-1-ndesaulniers@google.com>
-In-Reply-To: <20230201192509.4124319-1-ndesaulniers@google.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 2 Feb 2023 00:28:10 +0100
-Message-ID: <CA+icZUVFjpZBL-kNJFkU+-L_23DuErcFKMhsquNmMSwFS+eEWA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/llvm: add Chimera Linux, Google and Meta datacenters
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Bill Wendling <morbo@google.com>,
-        Yonghong Song <yhs@fb.com>,
-        Daniel Kolesa <q66@chimera-linux.org>,
-        Chris Mason <clm@meta.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 1, 2023 at 8:47 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
+
+> On Tue, Jan 31, 2023 at 03:11:05PM -0700, Shuah Khan wrote:
+>> Add a new section to the admin-guide with information of interest to
+>> application developers and system integrators doing analysis of the
+>> Linux kernel for safety critical applications.
+>> 
+>> This section will contain documents supporting analysis of kernel
+>> interactions with applications, and key kernel subsystems expectations.
+>> 
+>> Add a new workload-tracing document to this new section.
+>> 
+>> Signed-off-by: Shefali Sharma <sshefali021@gmail.com>
+>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+>> ---
+>> Changes since v2: Addressed review comments on v2
 >
-> Chimera Linux is a Linux distribution from 2021 that builds its kernels
-> with Clang.
->
-> Google transitioned its data center fleet to run Clang built kernels in
-> 2021, and Meta did so as well in 2022.  Meta talked about this at LPC
-> 2022 at a talk titled Kernel Live Patching at Scale.
->
-> These were important milestones for building the kernel with Clang.
-> Making note of them helps improve confidence in the project.
->
-> Signed-off-by: Yonghong Song <yhs@fb.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> Cc: Daniel Kolesa <q66@chimera-linux.org>
-> Cc: Chris Mason <clm@meta.com>
-> ---
->  Documentation/kbuild/llvm.rst | 15 +++++++++------
->  1 file changed, 9 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index 6b2bac8e9ce0..6a37ab903e45 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -15,12 +15,15 @@ such as GCC and binutils. Ongoing work has allowed for `Clang
->  <https://clang.llvm.org/>`_ and `LLVM <https://llvm.org/>`_ utilities to be
->  used as viable substitutes. Distributions such as `Android
->  <https://www.android.com/>`_, `ChromeOS
-> -<https://www.chromium.org/chromium-os>`_, and `OpenMandriva
-> -<https://www.openmandriva.org/>`_ use Clang built kernels.  `LLVM is a
-> -collection of toolchain components implemented in terms of C++ objects
-> -<https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM that
-> -supports C and the GNU C extensions required by the kernel, and is pronounced
-> -"klang," not "see-lang."
-> +https://www.chromium.org/chromium-os>`_, `OpenMandriva
-> +<https://www.openmandriva.org/>`_, and `Chimera Linux
-> +<https://chimera-linux.org/>`_ use Clang built kernels. Google's and Meta's
-> +datacenter fleets also run kernels built with Clang.
-> +
-> +`LLVM is a collection of toolchain components implemented in terms of C++
-> +objects <https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM
-> +that supports C and the GNU C extensions required by the kernel, and is
-> +pronounced "klang," not "see-lang."
->
+> I think you haven't addressed my comments there [1], so I have to
+> write the improv:
 
-Nick thanks for the patch!
+Bagas, could you *please* stop this?
 
-My ex-colleague Bernd Helmle corrected me - it's not "See-Lang" it's
-"Klang" and encouraged me to work on ClangBuiltLinux.
+> diff --git a/Documentation/admin-guide/workload-tracing.rst b/Documentation/admin-guide/workload-tracing.rst
+> index 5fad64b4ebd66f..ac60ff9dec8f0e 100644
+> --- a/Documentation/admin-guide/workload-tracing.rst
+> +++ b/Documentation/admin-guide/workload-tracing.rst
+> @@ -27,10 +27,10 @@ Methodology
+>  ===========
+>  
+>  `strace <https://man7.org/linux/man-pages/man1/strace.1.html>`_ is a
+> -diagnostic, instructional, and debugging tool and can be used to discover
+> -the system resources in use by a workload. Once we discover and understand
+> -the workload needs, we can focus on them to avoid regressions and use it
+> -to evaluate safety considerations. We use strace tool to trace workloads.
+> +diagnostic, instructional, and debugging tool and can be used to
+> +discover the system resources in use by a workload by tracing it. Once
+> +we discover and understand the workload needs, we can focus on them to
+> +avoid regressions and use it to evaluate safety considerations.
 
-"Klang" means German tone, sound, etc. like vocal tone.
+Do you realize how long it takes to look at this kind of stuff to decide
+whether it is an "improv" or not?  In this case, it decidedly is not,
+but somebody has to spend a bunch of time to try to figure out what you
+were doing.
 
-That "sounds" nice (shrillness):
-clangor (AE) / clangour (BE) - schriller Klang (DE)
+>  This method of tracing using strace tells us the system calls invoked by
+>  the workload and doesn't include all the system calls that can be invoked
+> @@ -43,7 +43,7 @@ outlined here will trace and find all possible code paths. The completeness
+>  of the system usage information depends on the completeness of coverage of a
+>  workload.
+>  
+> -The goal is tracing a workload on a system running a default kernel without
+> +The goal is to trace workloads on a system running a default kernel without
+>  requiring custom kernel installs.
 
-For Bernd:
+Why do you think that these sorts of trivial changes are worth the
+trouble?
 
-Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
+I have asked you numerous times to please stop harassing our
+contributors.  I am asking yet again.  We have no need for a
+self-appointed officer to police documentation patches; you are simply
+adding impedance to a process that people already find difficult to
+navigate.
 
-BR,
--Sedat-
+If you want to help the kernel project, we welcome you, but you need to
+find a way to actually *help*.  As I have asked before, please stop
+worrying about what others are doing and focus on making positive
+contributions yourself.
 
-[1] https://dict.leo.org/englisch-deutsch/Klang
+Thank you.
 
->  Clang
->  -----
-> --
-> 2.39.1.456.gfc5497dd1b-goog
->
+jon
