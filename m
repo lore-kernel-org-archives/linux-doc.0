@@ -2,199 +2,451 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C3EC05027
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 09:08:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AC89C636D6
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 09:09:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231761AbjBAJIc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Feb 2023 04:08:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33910 "EHLO
+        id S230032AbjBAJJV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Feb 2023 04:09:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231790AbjBAJIY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 04:08:24 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC19562252;
-        Wed,  1 Feb 2023 01:07:53 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id ha3-20020a17090af3c300b00230222051a6so1343180pjb.2;
-        Wed, 01 Feb 2023 01:07:53 -0800 (PST)
+        with ESMTP id S231726AbjBAJJT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 04:09:19 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A9BB38641
+        for <linux-doc@vger.kernel.org>; Wed,  1 Feb 2023 01:08:45 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id t7so8242743wrp.5
+        for <linux-doc@vger.kernel.org>; Wed, 01 Feb 2023 01:08:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VyDJoRO+eavlOXGc4Q5SqoZUyZeya7RZ/BUKNVX/+dM=;
-        b=n2kJU8RU6IvD/ch8vvXg1MhGLeamnUTDDdUpFRbfmE/2i6Ns4J1BaSL67JvbV163yV
-         WLDUX8LreB1zUVzjU5huvP/DhUdx0OlMmaXyLeIqjQ20kONQkXYsh0nT6objM+1J9L9p
-         TsXk8BbhOP4NR7MvpmjdH/b7f/HZLcE3nSk5xD196RrOLQcd9SoYhGIZQQ/PRx6gdqv+
-         0JYWD1DjJul12kanXB2l9mLvaSkxRdWlMHuy6g5+8EfbeVNCEJVz9KpaScfTG6zbLTd+
-         J8xEigI1i6MGnIcts/aAzTCezN5DIBtI1pbH7OcvOgofhi3tK4yNrr6W0Gh1TYgnTjTu
-         WB+w==
+        bh=CJYwJDKmCVh8t6et+qevBP93NhjETNWIkHOFSC0i81g=;
+        b=TnzG6wJ6vP/UN99ciaCBtml9aRNFuPqPN50jYXy7fCQWsCO37lYsx24r2eqRlMW/Jb
+         od1JWanXRnymhsKruFXxIM17tQPP4ekeCQvhUqBqRc01oL1WIlSRFNWoDNcTTffSZSvZ
+         npn00B4e/kz971CYxaIFH5imCsTg2NtiZH7kJsFHJomQaTe87biJMHiynxbwqewVz8QE
+         5lTv/yrqZDbjshGAP6GzrOXN6gILK1U974pVB+OU9uEe+21vI+tvMfjbvfEmy8wMvIhl
+         +fnXvPE5W27xFzgR5im6osjT5hWsZXiStPSRtLO1nhaAgLgF3+bkxNE5RisnFb9+8o65
+         CD8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VyDJoRO+eavlOXGc4Q5SqoZUyZeya7RZ/BUKNVX/+dM=;
-        b=u+dL6zkycS5Vtt+rObBfs1ezkJeLTlyR/n8scL+kEwWZknsRzhKZkp01wHBMgYjCUI
-         kB1wTy+R1QpYG3OdVVtuoa/W5spai2tS94/S35xZ3E7BuWUDrdRz28NNwdiEAiK5xhB8
-         LDoYjlIqgVG3hOFiXpLGFnIyLPcVJvi1atn9YfG3BKDZJ34bedl9iouVOJMGlDMtkz23
-         dq+sAkDbD81ojmHe/wh6sNjBNr0r8AHwNkzJ7e++XoYmA+kqSuvVIJ4vP1CMN6SsU92M
-         JBLzWlYLNVT6sHhcvss4ZtK7XVHqw+U77LoGgUPJMpJ8biG+pRTY6CEXBAyKqNRdlwvY
-         Dbig==
-X-Gm-Message-State: AO0yUKU1NDSW6dMtSlcQEmW1eW1tj5qlbEBIE3YCPaVZXGI51uTSpHnX
-        POEFrxGvNWNXoQpx083IKhI=
-X-Google-Smtp-Source: AK7set9sYNzoDhM3lbLZDZLS4ZpRhW4FYff6fKjTlS1Ej2P5it/rfKiNfSxJmx6GlLRjg3DcvPuFyQ==
-X-Received: by 2002:a17:90b:3812:b0:22c:24c0:7106 with SMTP id mq18-20020a17090b381200b0022c24c07106mr1447738pjb.21.1675242472898;
-        Wed, 01 Feb 2023 01:07:52 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-18.three.co.id. [180.214.232.18])
-        by smtp.gmail.com with ESMTPSA id e16-20020a633710000000b004efe1f24522sm1050777pga.23.2023.02.01.01.07.52
+        bh=CJYwJDKmCVh8t6et+qevBP93NhjETNWIkHOFSC0i81g=;
+        b=GIEwKu7GkuHgiaF/EuxT8vHRYGz2TCcVdjL0lgUbtfru+Gr05532p2dIvqhIGbu8U1
+         JW1FLLtAqL995WUXsljYQ2Vxbjf/54XbTOZ9dDPjiBSOp/pXsLLg76hcuLeqgvTgnjZv
+         gSmnXmxqJlfXqJug1HQruAtD5Dysa97L2rMYIBKW5fYkyC/3VvzPO9HIvBV3MdV9rsiD
+         +nrIAXOB0Sq3iFjWQB3JyYPb0SI7+02bQFg7LXkvtMXKU/Vx5n1IMFDr/X36hMix7VZi
+         VxCW338sw/N2Hg44QstH26iWDJAd7GCB+XcaQVGd9Vc9OyipcKH0a1V1WeF2tqYU4LXN
+         9Qwg==
+X-Gm-Message-State: AO0yUKWuLLS4mVrZlw4s0Zm8DPD9ce3S2KBieL8OkErt+pPAz4NF0HKt
+        4n1zbOagr9/G6X0v4CdiVp0R+w==
+X-Google-Smtp-Source: AK7set/ZjYZA0QEElgk0g06dFAKqOJzCYncu7OO8jKUw6AKtRc63kRshQEaa3+8i4IjOad3YcRxH2w==
+X-Received: by 2002:adf:e64c:0:b0:2bf:d0b4:2ccf with SMTP id b12-20020adfe64c000000b002bfd0b42ccfmr1695035wrn.37.1675242520953;
+        Wed, 01 Feb 2023 01:08:40 -0800 (PST)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id p17-20020a05600c05d100b003dc521f336esm1093902wmd.14.2023.02.01.01.08.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Feb 2023 01:07:52 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id BEAED104F9E; Wed,  1 Feb 2023 16:07:48 +0700 (WIB)
-Date:   Wed, 1 Feb 2023 16:07:48 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Hou Tao <houtao@huaweicloud.com>, linux-block@vger.kernel.org
-Cc:     Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-Subject: Re: [PATCH] blk-ioprio: Introduce promote-to-rt policy
-Message-ID: <Y9or5PkdXj/D94fR@debian.me>
-References: <20230201045227.2203123-1-houtao@huaweicloud.com>
+        Wed, 01 Feb 2023 01:08:40 -0800 (PST)
+Date:   Wed, 1 Feb 2023 10:08:39 +0100
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
+Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-net-drivers (AMD-Xilinx)" <linux-net-drivers@amd.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "habetsm.xilinx@gmail.com" <habetsm.xilinx@gmail.com>,
+        "ecree.xilinx@gmail.com" <ecree.xilinx@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "jiri@nvidia.com" <jiri@nvidia.com>
+Subject: Re: [PATCH v4 net-next 5/8] sfc: add devlink port support for ef100
+Message-ID: <Y9osFz6wWtxPqp49@nanopsycho>
+References: <20230131145822.36208-1-alejandro.lucero-palau@amd.com>
+ <20230131145822.36208-6-alejandro.lucero-palau@amd.com>
+ <Y9k921b19TF6KDPE@nanopsycho>
+ <abdae94d-10f6-4a31-4131-916606c60363@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OS7Ho6/EPKDu6yfb"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230201045227.2203123-1-houtao@huaweicloud.com>
+In-Reply-To: <abdae94d-10f6-4a31-4131-916606c60363@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Wed, Feb 01, 2023 at 10:03:10AM CET, alejandro.lucero-palau@amd.com wrote:
+>
+>
+>On 1/31/23 16:12, Jiri Pirko wrote:
+>> Tue, Jan 31, 2023 at 03:58:19PM CET, alejandro.lucero-palau@amd.com <mailto:alejandro.lucero-palau@amd.com> wrote:
+>>> From: Alejandro Lucero <alejandro.lucero-palau@amd.com <mailto:alejandro.lucero-palau@amd.com>>
+>>>
+>>> Using the data when enumerating mports, create devlink ports just before
+>>> netdevs are registered and remove those devlink ports after netdev has
+>>> been unregistered.
+>>>
+>>> Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com <mailto:alejandro.lucero-palau@amd.com>>
+>>> ---
+>>> drivers/net/ethernet/sfc/ef100_netdev.c | 9 +++
+>>> drivers/net/ethernet/sfc/ef100_rep.c | 22 ++++++
+>>> drivers/net/ethernet/sfc/ef100_rep.h | 7 ++
+>>> drivers/net/ethernet/sfc/efx_devlink.c | 97 +++++++++++++++++++++++++
+>>> drivers/net/ethernet/sfc/efx_devlink.h | 6 ++
+>>> drivers/net/ethernet/sfc/mae.h | 2 +
+>>> drivers/net/ethernet/sfc/net_driver.h | 2 +
+>>> 7 files changed, 145 insertions(+)
+>>>
+>>> diff --git a/drivers/net/ethernet/sfc/ef100_netdev.c b/drivers/net/ethernet/sfc/ef100_netdev.c
+>>> index b10a226f4a07..36774b55d413 100644
+>>> --- a/drivers/net/ethernet/sfc/ef100_netdev.c
+>>> +++ b/drivers/net/ethernet/sfc/ef100_netdev.c
+>>> @@ -335,7 +335,9 @@ void ef100_remove_netdev(struct efx_probe_data *probe_data)
+>>>
+>>> /* devlink lock */
+>>> efx_fini_devlink_start(efx);
+>>> +
+>> Does not seem related to the patch.
+>>
+>>
+>>
+>>> ef100_unregister_netdev(efx);
+>>> + ef100_pf_unset_devlink_port(efx);
+>>>
+>>> #ifdef CONFIG_SFC_SRIOV
+>>> efx_fini_tc(efx);
+>>> @@ -423,6 +425,8 @@ int ef100_probe_netdev(struct efx_probe_data *probe_data)
+>>> rc = ef100_probe_netdev_pf(efx);
+>>> if (rc)
+>>> goto fail;
+>>> +
+>>> + ef100_pf_set_devlink_port(efx);
+>>> }
+>>>
+>>> efx->netdev_notifier.notifier_call = ef100_netdev_event;
+>>> @@ -433,7 +437,12 @@ int ef100_probe_netdev(struct efx_probe_data *probe_data)
+>>> goto fail;
+>>> }
+>>>
+>>> + /* devlink unlock */
+>>> + efx_probe_devlink_done(efx);
+>>> + return rc;
+>>> fail:
+>>> + /* remove devlink port if does exist */
+>>> + ef100_pf_unset_devlink_port(efx);
+>>> /* devlink unlock */
+>>> efx_probe_devlink_done(efx);
+>>> return rc;
+>>> diff --git a/drivers/net/ethernet/sfc/ef100_rep.c b/drivers/net/ethernet/sfc/ef100_rep.c
+>>> index 9cd1a3ac67e0..6b5bc5d6955d 100644
+>>> --- a/drivers/net/ethernet/sfc/ef100_rep.c
+>>> +++ b/drivers/net/ethernet/sfc/ef100_rep.c
+>>> @@ -16,6 +16,7 @@
+>>> #include "mae.h"
+>>> #include "rx_common.h"
+>>> #include "tc_bindings.h"
+>>> +#include "efx_devlink.h"
+>>>
+>>> #define EFX_EF100_REP_DRIVER "efx_ef100_rep"
+>>>
+>>> @@ -297,6 +298,7 @@ int efx_ef100_vfrep_create(struct efx_nic *efx, unsigned int i)
+>>> i, rc);
+>>> goto fail1;
+>>> }
+>>> + ef100_rep_set_devlink_port(efv);
+>>> rc = register_netdev(efv->net_dev);
+>>> if (rc) {
+>>> pci_err(efx->pci_dev,
+>>> @@ -308,6 +310,7 @@ int efx_ef100_vfrep_create(struct efx_nic *efx, unsigned int i)
+>>> efv->net_dev->name);
+>>> return 0;
+>>> fail2:
+>>> + ef100_rep_unset_devlink_port(efv);
+>>> efx_ef100_deconfigure_rep(efv);
+>>> fail1:
+>>> efx_ef100_rep_destroy_netdev(efv);
+>>> @@ -323,6 +326,7 @@ void efx_ef100_vfrep_destroy(struct efx_nic *efx, struct efx_rep *efv)
+>>> return;
+>>> netif_dbg(efx, drv, rep_dev, "Removing VF representor\n");
+>>> unregister_netdev(rep_dev);
+>>> + ef100_rep_unset_devlink_port(efv);
+>>> efx_ef100_deconfigure_rep(efv);
+>>> efx_ef100_rep_destroy_netdev(efv);
+>>> }
+>>> @@ -339,6 +343,24 @@ void efx_ef100_fini_vfreps(struct efx_nic *efx)
+>>> efx_ef100_vfrep_destroy(efx, efv);
+>>> }
+>>>
+>>> +static bool ef100_mport_is_pcie_vnic(struct mae_mport_desc *mport_desc)
+>>> +{
+>>> + return mport_desc->mport_type == MAE_MPORT_DESC_MPORT_TYPE_VNIC &&
+>>> + mport_desc->vnic_client_type == MAE_MPORT_DESC_VNIC_CLIENT_TYPE_FUNCTION;
+>>> +}
+>>> +
+>>> +bool ef100_mport_on_local_intf(struct efx_nic *efx,
+>>> + struct mae_mport_desc *mport_desc)
+>>> +{
+>>> + struct ef100_nic_data *nic_data = efx->nic_data;
+>>> + bool pcie_func;
+>>> +
+>>> + pcie_func = ef100_mport_is_pcie_vnic(mport_desc);
+>>> +
+>>> + return nic_data->have_local_intf && pcie_func &&
+>>> + mport_desc->interface_idx == nic_data->local_mae_intf;
+>>> +}
+>>> +
+>>> void efx_ef100_init_reps(struct efx_nic *efx)
+>>> {
+>>> struct ef100_nic_data *nic_data = efx->nic_data;
+>>> diff --git a/drivers/net/ethernet/sfc/ef100_rep.h b/drivers/net/ethernet/sfc/ef100_rep.h
+>>> index 328ac0cbb532..ae6add4b0855 100644
+>>> --- a/drivers/net/ethernet/sfc/ef100_rep.h
+>>> +++ b/drivers/net/ethernet/sfc/ef100_rep.h
+>>> @@ -22,6 +22,8 @@ struct efx_rep_sw_stats {
+>>> atomic64_t rx_dropped, tx_errors;
+>>> };
+>>>
+>>> +struct devlink_port;
+>>> +
+>>> /**
+>>> * struct efx_rep - Private data for an Efx representor
+>>> *
+>>> @@ -39,6 +41,7 @@ struct efx_rep_sw_stats {
+>>> * @rx_lock: protects @rx_list
+>>> * @napi: NAPI control structure
+>>> * @stats: software traffic counters for netdev stats
+>>> + * @dl_port: devlink port associated to this netdev representor
+>>> */
+>>> struct efx_rep {
+>>> struct efx_nic *parent;
+>>> @@ -54,6 +57,7 @@ struct efx_rep {
+>>> spinlock_t rx_lock;
+>>> struct napi_struct napi;
+>>> struct efx_rep_sw_stats stats;
+>>> + struct devlink_port *dl_port;
+>>> };
+>>>
+>>> int efx_ef100_vfrep_create(struct efx_nic *efx, unsigned int i);
+>>> @@ -69,4 +73,7 @@ struct efx_rep *efx_ef100_find_rep_by_mport(struct efx_nic *efx, u16 mport);
+>>> extern const struct net_device_ops efx_ef100_rep_netdev_ops;
+>>> void efx_ef100_init_reps(struct efx_nic *efx);
+>>> void efx_ef100_fini_reps(struct efx_nic *efx);
+>>> +struct mae_mport_desc;
+>>> +bool ef100_mport_on_local_intf(struct efx_nic *efx,
+>>> + struct mae_mport_desc *mport_desc);
+>>> #endif /* EF100_REP_H */
+>>> diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
+>>> index ff5adfe3905e..b1637eb372ad 100644
+>>> --- a/drivers/net/ethernet/sfc/efx_devlink.c
+>>> +++ b/drivers/net/ethernet/sfc/efx_devlink.c
+>>> @@ -16,11 +16,48 @@
+>>> #include "mcdi.h"
+>>> #include "mcdi_functions.h"
+>>> #include "mcdi_pcol.h"
+>>> +#include "mae.h"
+>>> +#include "ef100_rep.h"
+>>>
+>>> struct efx_devlink {
+>>> struct efx_nic *efx;
+>>> };
+>>>
+>>> +static void efx_devlink_del_port(struct devlink_port *dl_port)
+>>> +{
+>>> + if (!dl_port)
+>>> + return;
+>>> + devl_port_unregister(dl_port);
+>>> +}
+>>> +
+>>> +static int efx_devlink_add_port(struct efx_nic *efx,
+>>> + struct mae_mport_desc *mport)
+>>> +{
+>>> + bool external = false;
+>>> +
+>>> + if (!ef100_mport_on_local_intf(efx, mport))
+>>> + external = true;
+>>> +
+>>> + switch (mport->mport_type) {
+>>> + case MAE_MPORT_DESC_MPORT_TYPE_VNIC:
+>>> + if (mport->vf_idx != MAE_MPORT_DESC_VF_IDX_NULL)
+>>> + devlink_port_attrs_pci_vf_set(&mport->dl_port, 0, mport->pf_idx,
+>>> + mport->vf_idx,
+>>> + external);
+>>> + else
+>>> + devlink_port_attrs_pci_pf_set(&mport->dl_port, 0, mport->pf_idx,
+>>> + external);
+>>> + break;
+>>> + default:
+>>> + /* MAE_MPORT_DESC_MPORT_ALIAS and UNDEFINED */
+>>> + return 0;
+>>> + }
+>>> +
+>>> + mport->dl_port.index = mport->mport_id;
+>>> +
+>>> + return devl_port_register(efx->devlink, &mport->dl_port, mport->mport_id);
+>>> +}
+>>> +
+>>> static int efx_devlink_info_nvram_partition(struct efx_nic *efx,
+>>> struct devlink_info_req *req,
+>>> unsigned int partition_type,
+>>> @@ -428,6 +465,66 @@ static const struct devlink_ops sfc_devlink_ops = {
+>>> .info_get = efx_devlink_info_get,
+>>> };
+>>>
+>>> +static struct devlink_port *ef100_set_devlink_port(struct efx_nic *efx, u32 idx)
+>>> +{
+>>> + struct mae_mport_desc *mport;
+>>> + u32 id;
+>>> +
+>>> + if (efx_mae_lookup_mport(efx, idx, &id)) {
+>>> + /* This should not happen. */
+>>> + if (idx == MAE_MPORT_DESC_VF_IDX_NULL)
+>>> + pci_warn(efx->pci_dev, "No mport ID found for PF.\n");
+>>> + else
+>>> + pci_warn(efx->pci_dev, "No mport ID found for VF %u.\n",
+>>> + idx);
+>>> + return NULL;
+>>> + }
+>>> +
+>>> + mport = efx_mae_get_mport(efx, id);
+>>> + if (!mport) {
+>>> + /* This should not happen. */
+>> Should not happen? WARN_ON?
+>
+>It makes sense.
+>
+>I will change it.
+>
+>>
+>>> + if (idx == MAE_MPORT_DESC_VF_IDX_NULL)
+>>> + pci_warn(efx->pci_dev, "No mport found for PF.\n");
+>>> + else
+>>> + pci_warn(efx->pci_dev, "No mport found for VF %u.\n",
+>>> + idx);
+>>> + return NULL;
+>>> + }
+>>> +
+>>> + if (efx_devlink_add_port(efx, mport)) {
+>> Store the return value into variable please.
+>>
+>
+>OK
+>
+>>> + if (idx == MAE_MPORT_DESC_VF_IDX_NULL)
+>>> + pci_warn(efx->pci_dev,
+>>> + "devlink port creation for PF failed.\n");
+>>> + else
+>>> + pci_warn(efx->pci_dev,
+>>> + "devlink_port creationg for VF %u failed.\n",
+>>> + idx);
+>>> + return NULL;
+>>> + }
+>>> +
+>>> + return &mport->dl_port;
+>>> +}
+>>> +
+>>> +void ef100_rep_set_devlink_port(struct efx_rep *efv)
+>>> +{
+>>> + efv->dl_port = ef100_set_devlink_port(efv->parent, efv->idx);
+>>> +}
+>>> +
+>>> +void ef100_pf_set_devlink_port(struct efx_nic *efx)
+>>> +{
+>>> + efx->dl_port = ef100_set_devlink_port(efx, MAE_MPORT_DESC_VF_IDX_NULL);
+>>> +}
+>>> +
+>>> +void ef100_rep_unset_devlink_port(struct efx_rep *efv)
+>>> +{
+>>> + efx_devlink_del_port(efv->dl_port);
+>>> +}
+>>> +
+>>> +void ef100_pf_unset_devlink_port(struct efx_nic *efx)
+>>> +{
+>>> + efx_devlink_del_port(efx->dl_port);
+>>> +}
+>>> +
+>>> void efx_fini_devlink_start(struct efx_nic *efx)
+>>> {
+>>> if (efx->devlink)
+>>> diff --git a/drivers/net/ethernet/sfc/efx_devlink.h b/drivers/net/ethernet/sfc/efx_devlink.h
+>>> index 8bcd077d8d8d..d453a180c44c 100644
+>>> --- a/drivers/net/ethernet/sfc/efx_devlink.h
+>>> +++ b/drivers/net/ethernet/sfc/efx_devlink.h
+>>> @@ -36,4 +36,10 @@ void efx_probe_devlink_done(struct efx_nic *efx);
+>>> void efx_fini_devlink_start(struct efx_nic *efx);
+>>> void efx_fini_devlink(struct efx_nic *efx);
+>>>
+>>> +struct efx_rep;
+>>> +
+>>> +void ef100_pf_set_devlink_port(struct efx_nic *efx);
+>>> +void ef100_rep_set_devlink_port(struct efx_rep *efv);
+>>> +void ef100_pf_unset_devlink_port(struct efx_nic *efx);
+>>> +void ef100_rep_unset_devlink_port(struct efx_rep *efv);
+>>> #endif /* _EFX_DEVLINK_H */
+>>> diff --git a/drivers/net/ethernet/sfc/mae.h b/drivers/net/ethernet/sfc/mae.h
+>>> index d9adeafc0654..e1b7967132ad 100644
+>>> --- a/drivers/net/ethernet/sfc/mae.h
+>>> +++ b/drivers/net/ethernet/sfc/mae.h
+>>> @@ -13,6 +13,7 @@
+>>> #define EF100_MAE_H
+>>> /* MCDI interface for the ef100 Match-Action Engine */
+>>>
+>>> +#include <net/devlink.h>
+>>> #include "net_driver.h"
+>>> #include "tc.h"
+>>> #include "mcdi_pcol.h" /* needed for various MC_CMD_MAE_*_NULL defines */
+>>> @@ -44,6 +45,7 @@ struct mae_mport_desc {
+>>> };
+>>> struct rhash_head linkage;
+>>> struct efx_rep *efv;
+>>> + struct devlink_port dl_port;
+>> This is quite odd to store the devlink port struct in something called
+>> "match action engine"... Why don't you put it to struct efx_nic
+>> directly? Much more suitable.
+>>
+>
+>Well, it is not called just mae but mae_mport_desc. And mae ports are 
+>obviously related to devlink ports.
+>
+>We need to keep mae ports, and not always a mae port/devlink port will 
+>be related to an efx_nic structure.
+>
+>If I'm not wrong, devlink was created because not everything in today's 
+>networking devices can map smoothly to kernel networking structures, not 
+>because kernel implementation is lacking such representation but because 
+>it does not make sense semantically. Of course, efx_nic is not a generic kernel
+>one, but again, we could need devlink ports but not such driver's struct.
 
---OS7Ho6/EPKDu6yfb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Okay, that's fair.
 
-On Wed, Feb 01, 2023 at 12:52:27PM +0800, Hou Tao wrote:
->  The following numerical values are associated with the I/O priority poli=
-cies:
-> =20
-> -+-------------+---+
-> -| no-change   | 0 |
-> -+-------------+---+
-> -| none-to-rt  | 1 |
-> -+-------------+---+
-> -| rt-to-be    | 2 |
-> -+-------------+---+
-> -| all-to-idle | 3 |
-> -+-------------+---+
-> +
-> ++---------------+---------+-----+
-> +| policy        | inst    | num |
-> ++---------------+---------+-----+
-> +| no-change     | demote  | 0   |
-> ++---------------+---------+-----+
-> +| none-to-rt    | demote  | 1   |
-> ++---------------+---------+-----+
-> +| rt-to-be      | demote  | 2   |
-> ++---------------+---------+-----+
-> +| idle          | demote  | 3   |
-> ++---------------+---------+-----+
-> +| promote-to-rt | promote | 1   |
-> ++---------------+---------+-----+
-> =20
 
-The first row should have been header row:
-
----- >8 ----
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-=
-guide/cgroup-v2.rst
-index e0b9f73ef62a9e..55f9b579716564 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2048,7 +2048,7 @@ The following numerical values are associated with th=
-e I/O priority policies:
-=20
- +---------------+---------+-----+
- | policy        | inst    | num |
--+---------------+---------+-----+
-++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-+=3D=3D=3D=3D=3D+
- | no-change     | demote  | 0   |
- +---------------+---------+-----+
- | none-to-rt    | demote  | 1   |
-
-> @@ -2064,9 +2074,13 @@ The numerical value that corresponds to each I/O p=
-riority class is as follows:
-> =20
->  The algorithm to set the I/O priority class for a request is as follows:
-> =20
-> -- Translate the I/O priority class policy into a number.
-> -- Change the request I/O priority class into the maximum of the I/O prio=
-rity
-> -  class policy number and the numerical I/O priority class.
-> +-- Translate the I/O priority class policy into an instruction and a num=
-ber
-> +-- If the instruction is demotion, change the request I/O priority class
-> +-  into the maximum of the I/O priority class policy number and the nume=
-rical
-> +-  I/O priority class.
-> +-- If the instruction is promotion, change the request I/O priority class
-> +-  into the minimum of the I/O priority class policy number and the nume=
-rical
-> +-  I/O priority class.
-> =20
-
-Remove the excessive bullet list marker or the list above become paragraph
-instead:
-
----- >8 ----
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-=
-guide/cgroup-v2.rst
-index 55f9b579716564..c3f16386c47bdf 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2074,12 +2074,12 @@ The numerical value that corresponds to each I/O pr=
-iority class is as follows:
-=20
- The algorithm to set the I/O priority class for a request is as follows:
-=20
---- Translate the I/O priority class policy into an instruction and a number
---- If the instruction is demotion, change the request I/O priority class
---  into the maximum of the I/O priority class policy number and the numeri=
-cal
---  I/O priority class.
---- If the instruction is promotion, change the request I/O priority class
---  into the minimum of the I/O priority class policy number and the numeri=
-cal
-+- Translate the I/O priority class policy into an instruction-number pair.
-+- If the instruction is demotion, change the request I/O priority class
-+  into the maximum of the I/O priority class policy number and the numeric=
-al
-+  I/O priority class.
-+- If the instruction is promotion, change the request I/O priority class
-+  into the minimum of the I/O priority class policy number and the numeric=
-al
- -  I/O priority class.
-=20
- PID
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---OS7Ho6/EPKDu6yfb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY9or3wAKCRD2uYlJVVFO
-o58vAQD9CxSaIpA4AdTyvw0fuMNPOIuLSy4uqbVbnlwCHskJ8AD+IKwJnyzxD6Z5
-kesBn69iDFNMECytC+QbcW0GkzPXZw0=
-=iRGq
------END PGP SIGNATURE-----
-
---OS7Ho6/EPKDu6yfb--
+>
+>>> };
+>>>
+>>> int efx_mae_enumerate_mports(struct efx_nic *efx);
+>>> diff --git a/drivers/net/ethernet/sfc/net_driver.h b/drivers/net/ethernet/sfc/net_driver.h
+>>> index bc9efbfb3d6b..fcd51d3992fa 100644
+>>> --- a/drivers/net/ethernet/sfc/net_driver.h
+>>> +++ b/drivers/net/ethernet/sfc/net_driver.h
+>>> @@ -998,6 +998,7 @@ struct efx_mae;
+>>> * @netdev_notifier: Netdevice notifier.
+>>> * @tc: state for TC offload (EF100).
+>>> * @devlink: reference to devlink structure owned by this device
+>>> + * @dl_port: devlink port associated with the PF
+>>> * @mem_bar: The BAR that is mapped into membase.
+>>> * @reg_base: Offset from the start of the bar to the function control window.
+>>> * @monitor_work: Hardware monitor workitem
+>>> @@ -1185,6 +1186,7 @@ struct efx_nic {
+>>> struct efx_tc_state *tc;
+>>>
+>>> struct devlink *devlink;
+>>> + struct devlink_port *dl_port;
+>>> unsigned int mem_bar;
+>>> u32 reg_base;
+>>>
+>>> -- 
+>>> 2.17.1
+>>>
+>
+>
+>
