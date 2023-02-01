@@ -2,118 +2,259 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 926BBC636D4
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 05:55:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5C49C63797
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 06:59:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229819AbjBAFzS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Feb 2023 00:55:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41090 "EHLO
+        id S231546AbjBAG7L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Feb 2023 01:59:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229743AbjBAFzR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 00:55:17 -0500
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BEF7A24B;
-        Tue, 31 Jan 2023 21:55:16 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id mf7so29445973ejc.6;
-        Tue, 31 Jan 2023 21:55:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4S+H5SYc0nIdzMynDkQ9HqKI/ognTOvTuBLyhVNPH+U=;
-        b=MLlcGRhcqMEGtS3Dzadm3gAu5izBe+Jdl2wD1MJy5blaxWCuNY8rImFzS2gx9T/mgp
-         1HrvkPuWo9NEBDlobGaJ65b/jRIH2MFgUtEcHXW1TmgHw90qYsbfMNhcvJDu7hPwEJ1s
-         BK5h2jcicotkhgGQxAxVC0h3047QLjyb2J63ieO1nXBXzdljpVIaO0lBgugWA6wceAWR
-         fBCiNNrSPavpuen72kcRpEBZqpzlxPJeC/13/kprMVLpqgtjRHhEVAyxAUAUXodXz0o0
-         F7F8m7jbuYNo5SiNK01EDcWKgTF2vz55sK3gMhYNREMiPa3zP2Xv7YKNyqAxMvBA1wmu
-         RyLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4S+H5SYc0nIdzMynDkQ9HqKI/ognTOvTuBLyhVNPH+U=;
-        b=11ZbpCgh+Y+hVg4keXFLce7CaGddyJ0vGHY4uCGxtLxb+mFyGSlSxBjvnWJEmI3PIV
-         vR5r7B1igpYlO+D0HkUToxSSBF19gTP6Xe4vhkAZdzfL6NH30MQNwZPW1OEFoVzGJRR9
-         ej7ZJnb0zGcRPvcntar9xkQSJcS2fwL04+Ff0e4TsLa6aTspbjz+RQF+I0PODhpFcSX3
-         Ikf1HkgR2KZu01I1NpxmZxWLZgGD7mA+E2vpMngYD3AIpK2tw3bTJ/GK1Uo57kJ5d4/7
-         FYmPclgWacEWe6m1oQ8lUl9qBNQcLpZsmdwpSVbljerq+zYcSo30alXrJJIB53Ue6F/B
-         mCpQ==
-X-Gm-Message-State: AO0yUKWDMlgs/ppCxK7isVNo3abnyyn+84X+ckoBZRjBoCa2eA5dPDAq
-        Hf3zJR01kA/V1A2Bb2fNHks=
-X-Google-Smtp-Source: AK7set+lnrNdOuhoBKrNuNPjh3BZ67UDGiyEX9iF6J9/8hbZo3BuzDlIgiz+lH3kjdKQlks35F+TEw==
-X-Received: by 2002:a17:907:362:b0:88d:697d:a3d2 with SMTP id rs2-20020a170907036200b0088d697da3d2mr1056793ejb.54.1675230915001;
-        Tue, 31 Jan 2023 21:55:15 -0800 (PST)
-Received: from ?IPV6:2001:14ba:16f3:4a00::4? (dc75zzyyyyyyyyyyyyycy-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::4])
-        by smtp.gmail.com with ESMTPSA id 21-20020a170906311500b0087045ae5935sm9479248ejx.1.2023.01.31.21.55.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Jan 2023 21:55:14 -0800 (PST)
-Message-ID: <1e93f48b-57b8-f55a-8e49-9cebfeaca32a@gmail.com>
-Date:   Wed, 1 Feb 2023 07:55:13 +0200
+        with ESMTP id S231671AbjBAG6t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 01:58:49 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2051.outbound.protection.outlook.com [40.107.223.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F7783C19;
+        Tue, 31 Jan 2023 22:58:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lRsYgpSmpQJqFuPITjr+rz6PeLg3+7L0M+fOca6z7lsbnsV+twck6w40bDOGG2pzf2Q4/9x2/N9vMHTc3dJ8M32YEIuOe+klEG2mRETFaRjg0oU/HizTUAvFYJ2Z0JJZ9onQ82Ie3syvYvvnL/XoLMnCAe6YLTXYYzJMRu62Nb/7vJ4Fm79mE0HPUOVWVc8PZlXYsR2xTHhkyjluZGZoFIZeykoTbuLtnrUmnmQ48jZccmiEVcN464tk5ZLAoqFsMxqXoz9drHn+Ep9LXUc87yfX6H+QwL1KNMS3kYDc4dl/uG1ST74hwsh/4gZQA3MGqa5JDepCmIk0osLBsb6rKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AehbTQ2DArCaQU3TfzmWFSynk1AFGfsQpnZNtBQ7c+k=;
+ b=F9m/DwGjVis6FANQ1ctLe0yRALCdUn5wRxfvH1gW85z+vYgrqkMFpngi5CnUS/QjneLjNvqkV+mfVW6yiGkcH4yNwct8wh/U95kpo8sv6wkovgeOmlw4ugD7n9E0TfU1Y+qfURegpd8/4XA6H9X110+4XWkPCWyZ2zxjFENMxkOOA/yBf1fozGYebucMwrUC5XELXnDvuvR/XIfnVPtfqHpIzc2ChEtjvTZBdhd+v+aJ7X5kLp2C8JujdTWQDthDUlVmAMNcW5qKcBdgFmprQjZuA9UY3bdULLWcdOeY9XSdCdUYnCgUy0KISLEz6VEJYXwhjALFKJbQ8K69y1Cx8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AehbTQ2DArCaQU3TfzmWFSynk1AFGfsQpnZNtBQ7c+k=;
+ b=ge7VKm+ZazD6vIyqD8ZKzGNl6ZJLkg7rdNvUOR8A1Hjb017T065Ptf9jku4arCCfVVv+sV8aUIv+ivKZkq/KrFmittqO5OyFp+xYmJEGhNLAe+I6aq8GDApCYA2XEUt9uaxQx0MI6MX8NcJeRukWxs9Vfi5hxkmrqOpS0SDAjuY=
+Received: from DS7PR03CA0117.namprd03.prod.outlook.com (2603:10b6:5:3b7::32)
+ by CY8PR12MB7291.namprd12.prod.outlook.com (2603:10b6:930:54::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Wed, 1 Feb
+ 2023 06:58:43 +0000
+Received: from DS1PEPF0000E65D.namprd02.prod.outlook.com
+ (2603:10b6:5:3b7:cafe::b8) by DS7PR03CA0117.outlook.office365.com
+ (2603:10b6:5:3b7::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38 via Frontend
+ Transport; Wed, 1 Feb 2023 06:58:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF0000E65D.mail.protection.outlook.com (10.167.18.75) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6064.21 via Frontend Transport; Wed, 1 Feb 2023 06:58:43 +0000
+Received: from beas.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 1 Feb
+ 2023 00:58:37 -0600
+From:   Wyes Karny <wyes.karny@amd.com>
+To:     Rafael J Wysocki <rafael@kernel.org>,
+        Huang Rui <ray.huang@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        <Mario.Limonciello@amd.com>, <Perry.Yuan@amd.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+        <santosh.shukla@amd.com>, Len Brown <lenb@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Ananth Narayan <ananth.narayan@amd.com>,
+        <gautham.shenoy@amd.com>, Tor Vic <torvic9@mailbox.org>,
+        Wyes Karny <wyes.karny@amd.com>
+Subject: [PATCH v5 0/6] amd_pstate: Add guided autonomous mode support
+Date:   Wed, 1 Feb 2023 06:58:17 +0000
+Message-ID: <20230201065823.189828-1-wyes.karny@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US, en-GB
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Jonathan Cameron <jic23@kernel.org>
-Cc:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org
-References: <65c7c45a-c953-e418-f640-9e46841151a1@gmail.com>
- <20230130130231.000013b6@Huawei.com>
- <9b3dcc7a-a0f8-38ee-4381-d330004d436f@fi.rohmeurope.com>
- <20230130171218.00007802@Huawei.com>
- <0e0d45b7-e582-82b2-9bac-1f70f9dad9f7@gmail.com>
- <20230130201929.52c93ee5@jic23-huawei> <877cx24gsj.fsf@meer.lwn.net>
-From:   Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: ROHM ALS, integration time
-In-Reply-To: <877cx24gsj.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E65D:EE_|CY8PR12MB7291:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f71f3eb-553c-44b3-02cd-08db0421c1c5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fWJIfx0bxpE5y40soW4x4zuoWC51JOjeAQgrfsvOGwnWWo0VNYqKLon4WOXSUSQ/F+WF3EvXGtXxCg1H7Hr4RqbNrrq0M3CYndOCcNK2wjwUL4xd+YN5lYNwkx66xV2Gq894ALV6IhG9JtRbqAJg01bj6TgBcFiH7IsEeJr++PmTUsnXm6NzumTg07x5BOlpco7d5gIUAzMV5l0dZMI8RL5P7uxOHllaf7VWTj18g2l1hpoM/gU5BdoYgMPOKYMbgRskEw8JQv1saoJRyPUEQpHZNEqRIrT3rtOFMW9KiYSEAPjZvhGcc8H6J+V91i3xe8LcHK29R8AtHWy63awbtakwsWUmvGdML+OfDtUsrRFYmZAkUxlwYvHh5AFShiSgy9WR1IUW0eEIpiqI3aidKtbr0xCv5Z64WRuOdSSSnwzqr6YIaEYNJjaz36ReHjx5OLi0ImPkiLBFNq9ONIcRM2wXtlnUvNTVmrlgaoKXo4Y3IvqOfNYSKskTzb1DSc+NYRDDIk2pS5zyBgYRpyKvL/867PElQ6rgFriiaaSFfneI1bfhfsP72Oij6ysLxTjaWkUgY2QRrRzML6EhgxyyB4SoRqD4ptkbEWEsESr5ORiLNzRuD7LcjHVawP4BOkYwz0hz3z1/sFQDG04Pcgu5CljP6AcatifmeV1bGCGZP9lyC4MIHqR5awSi4lwI0auWohUm4ji4Psj4d4FeEyHFf9r+MCFLZPaINneJuiXxeaxDr1sjx3/Ja0gnApFjgPE/bnDjp6jrLinTkTBIv/zp4uhiJUC101OFX1++DvV43qXeHTqs8Z+1/1tlCaAAdp2C
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(396003)(136003)(346002)(376002)(451199018)(40470700004)(36840700001)(46966006)(2906002)(82740400003)(36860700001)(356005)(186003)(26005)(81166007)(6636002)(16526019)(316002)(40460700003)(6666004)(110136005)(54906003)(478600001)(70206006)(36756003)(86362001)(82310400005)(40480700001)(2616005)(966005)(8936002)(8676002)(4326008)(70586007)(7696005)(1076003)(47076005)(41300700001)(44832011)(7416002)(83380400001)(336012)(5660300002)(426003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2023 06:58:43.3621
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f71f3eb-553c-44b3-02cd-08db0421c1c5
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E65D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7291
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/31/23 21:58, Jonathan Corbet wrote:
-> Jonathan Cameron <jic23@kernel.org> writes:
-> 
->> Both the kernel-doc for this header and the ABI docs end up in
->> the kernel html docs.  I wonder if a link is possible...
->> https://docs.kernel.org/driver-api/iio/core.html#industrial-i-o-devices
->> would have the iio_chan_type docs I think if there were any.
->> https://docs.kernel.org/admin-guide/abi-testing.html?highlight=abi#abi-sys-iio-devicex-in-intensityy-raw
->> is the matching ABI doc.
->>
->> Mauro, Jon, other docs system experts...
->>
->> I couldn't immediately find a way to link to a specific ABI docs entry,
->> is there a means to do it from kernel-doc in a header?
-> 
-> It should just be possible to write out the type or function name and
-> have the links generated automatically.  Have you tried just putting
-> "enum iio_chan_type" into the text?  If the automarkup code doesn't pick
-> it up, please let me know.
+From ACPI spec[1] below 3 modes for CPPC can be defined:
+1. Non autonomous: OS scaling governor specifies operating frequency/
+   performance level through `Desired Performance` register and platform
+follows that.
+2. Guided autonomous: OS scaling governor specifies min and max
+   frequencies/ performance levels through `Minimum Performance` and
+`Maximum Performance` register, and platform can autonomously select an
+operating frequency in this range.
+3. Fully autonomous: OS only hints (via EPP) to platform for the required
+   energy performance preference for the workload and platform autonomously
+scales the frequency.
 
-As far as I understand - the problem here is that we would like to have 
-a link from the enum/definition doc to a specific place in the ABI 
-document. The ABI document does not have the enum / define / function 
-"link _target_". (I think adding the enum/function name in the ABI doc 
-would generate link from ABI doc to enum/function doc - which would be 
-helpful - but in this case we would like to have a link to opposite 
-direction. From function/enum doc to specific position in a (sysfs) ABI 
-documentation. Please, bear with me if this was what your suggestion 
-should achieve. I'd just like to ensure we are ton a same page with this.)
+Currently (1) is supported by amd_pstate as passive mode, and (3) is
+implemented by EPP support[2]. This change is to support (2).
 
-Yours,
-	--Matti
+In guided autonomous mode the min_perf is based on the input from the
+scaling governor. For example, in case of schedutil this value depends
+on the current utilization. And max_perf is set to max capacity.
+
+To activate guided auto mode ``amd_pstate=guided`` command line
+parameter has to be passed in the kernel.
+
+Below are the results (normalized) of benchmarks with this patch:
+System: Genoa 96C 192T
+Kernel: 6.2.0-rc2 + EPP v12 + patch
+Scaling governor: schedutil
+
+================ dbench comparisons ================
+dbench result comparison:
+Here results are throughput (MB/s)
+Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+    1	   1.00 (0.00 pct)	   1.01 (1.00 pct)	   1.02 (2.00 pct)
+    2	   1.07 (0.00 pct)	   1.06 (-0.93 pct)	   1.07 (0.00 pct)
+    4	   1.68 (0.00 pct)	   1.70 (1.19 pct)	   1.72 (2.38 pct)
+    8	   2.61 (0.00 pct)	   2.68 (2.68 pct)	   2.76 (5.74 pct)
+   16	   4.16 (0.00 pct)	   4.24 (1.92 pct)	   4.53 (8.89 pct)
+   32	   5.98 (0.00 pct)	   6.17 (3.17 pct)	   7.30 (22.07 pct)
+   64	   8.67 (0.00 pct)	   8.99 (3.69 pct)	  10.71 (23.52 pct)
+  128	  11.98 (0.00 pct)	  12.52 (4.50 pct)	  14.67 (22.45 pct)
+  256	  15.73 (0.00 pct)	  16.13 (2.54 pct)	  17.81 (13.22 pct)
+  512	  15.77 (0.00 pct)	  16.32 (3.48 pct)	  16.39 (3.93 pct)
+dbench power comparison:
+Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+    1	   1.00 (0.00 pct)	   1.00 (0.00 pct)	   1.04 (4.00 pct)
+    2	   0.99 (0.00 pct)	   0.97 (-2.02 pct)	   1.02 (3.03 pct)
+    4	   0.98 (0.00 pct)	   0.98 (0.00 pct)	   1.02 (4.08 pct)
+    8	   0.98 (0.00 pct)	   0.99 (1.02 pct)	   1.02 (4.08 pct)
+   16	   0.99 (0.00 pct)	   1.00 (1.01 pct)	   1.04 (5.05 pct)
+   32	   1.02 (0.00 pct)	   1.02 (0.00 pct)	   1.07 (4.90 pct)
+   64	   1.05 (0.00 pct)	   1.05 (0.00 pct)	   1.11 (5.71 pct)
+  128	   1.08 (0.00 pct)	   1.08 (0.00 pct)	   1.15 (6.48 pct)
+  256	   1.12 (0.00 pct)	   1.12 (0.00 pct)	   1.20 (7.14 pct)
+  512	   1.18 (0.00 pct)	   1.17 (-0.84 pct)	   1.26 (6.77 pct)
+
+================ git-source comparisons ================
+git-source result comparison:
+Here results are throughput (compilations per 1000 sec)
+Threads:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+  192	   1.00 (0.00 pct)	   0.93 (-7.00 pct)	   1.00 (0.00 pct)
+git-source power comparison:
+Threads:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+  192	   1.00 (0.00 pct)	   1.00 (0.00 pct)	   0.96 (-4.00 pct)
+
+================ kernbench comparisons ================
+kernbench result comparison:
+Here results are throughput (compilations per 1000 sec)
+Load:	   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+32	   1.00 (0.00 pct)	   1.01 (1.00 pct)	   1.02 (2.00 pct)
+48	   1.26 (0.00 pct)	   1.28 (1.58 pct)	   1.25 (-0.79 pct)
+64	   1.39 (0.00 pct)	   1.47 (5.75 pct)	   1.43 (2.87 pct)
+96	   1.48 (0.00 pct)	   1.50 (1.35 pct)	   1.49 (0.67 pct)
+128	   1.29 (0.00 pct)	   1.32 (2.32 pct)	   1.33 (3.10 pct)
+192	   1.17 (0.00 pct)	   1.20 (2.56 pct)	   1.21 (3.41 pct)
+256	   1.17 (0.00 pct)	   1.18 (0.85 pct)	   1.20 (2.56 pct)
+384	   1.16 (0.00 pct)	   1.17 (0.86 pct)	   1.21 (4.31 pct)
+kernbench power comparison:
+Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+   32	   1.00 (0.00 pct)	   0.97 (-3.00 pct)	   1.00 (0.00 pct)
+   48	   0.87 (0.00 pct)	   0.81 (-6.89 pct)	   0.88 (1.14 pct)
+   64	   0.81 (0.00 pct)	   0.73 (-9.87 pct)	   0.77 (-4.93 pct)
+   96	   0.75 (0.00 pct)	   0.74 (-1.33 pct)	   0.75 (0.00 pct)
+  128	   0.83 (0.00 pct)	   0.79 (-4.81 pct)	   0.83 (0.00 pct)
+  192	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
+  256	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
+  384	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
+
+================ tbench comparisons ================
+tbench result comparison:
+Here results are throughput (MB/s)
+Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+    1	   1.00 (0.00 pct)	   0.70 (-30.00 pct)	   1.37 (37.00 pct)
+    2	   2.64 (0.00 pct)	   1.39 (-47.34 pct)	   2.70 (2.27 pct)
+    4	   4.89 (0.00 pct)	   2.75 (-43.76 pct)	   5.28 (7.97 pct)
+    8	   9.46 (0.00 pct)	   5.42 (-42.70 pct)	  10.22 (8.03 pct)
+   16	  19.05 (0.00 pct)	  10.42 (-45.30 pct)	  19.94 (4.67 pct)
+   32	  37.50 (0.00 pct)	  20.23 (-46.05 pct)	  36.87 (-1.68 pct)
+   64	  61.24 (0.00 pct)	  43.08 (-29.65 pct)	  62.96 (2.80 pct)
+  128	  67.16 (0.00 pct)	  69.08 (2.85 pct)	  67.34 (0.26 pct)
+  256	 154.59 (0.00 pct)	 162.33 (5.00 pct)	 156.78 (1.41 pct)
+  512	 154.02 (0.00 pct)	 156.74 (1.76 pct)	 153.48 (-0.35 pct)
+tbench power comparison:
+Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+    1	   1.00 (0.00 pct)	   0.97 (-3.00 pct)	   1.08 (8.00 pct)
+    2	   1.04 (0.00 pct)	   0.97 (-6.73 pct)	   1.11 (6.73 pct)
+    4	   1.12 (0.00 pct)	   0.99 (-11.60 pct)	   1.18 (5.35 pct)
+    8	   1.25 (0.00 pct)	   1.04 (-16.80 pct)	   1.31 (4.80 pct)
+   16	   1.53 (0.00 pct)	   1.13 (-26.14 pct)	   1.58 (3.26 pct)
+   32	   2.01 (0.00 pct)	   1.36 (-32.33 pct)	   2.03 (0.99 pct)
+   64	   2.58 (0.00 pct)	   2.14 (-17.05 pct)	   2.61 (1.16 pct)
+  128	   2.80 (0.00 pct)	   2.81 (0.35 pct)	   2.81 (0.35 pct)
+  256	   3.39 (0.00 pct)	   3.43 (1.17 pct)	   3.42 (0.88 pct)
+  512	   3.44 (0.00 pct)	   3.44 (0.00 pct)	   3.44 (0.00 pct)
+
+Note: this series is based on top of EPP v12 [3] series
+
+Change log:
+
+v4 -> v5:
+- Rebased on top of EPP v12 series
+- Addressed comments form Mario regarding documentation
+- Picked up RB flags from Mario and Bagas Sanjaya
+
+v3 -> v4:
+- Fixed active mode low frequency issue reported by Peter Jung and Tor Vic
+- Documentation modification suggested by Bagas Sanjaya
+
+v2 -> v3:
+- Addressed review comments form Mario.
+- Picked up RB tag from Mario.
+- Rebase on top of EPP v11 [3].
+
+v1 -> v2:
+- Fix issue with shared mem systems.
+- Rebase on top of EPP series.
+
+[1]: https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
+[2]: https://lore.kernel.org/lkml/20221110175847.3098728-1-Perry.Yuan@amd.com/
+[3]: https://lore.kernel.org/linux-pm/20230131090016.3970625-1-perry.yuan@amd.com/
+
+Wyes Karny (6):
+  acpi: cppc: Add min and max perf reg writing support
+  acpi: cppc: Add auto select register read/write support
+  cpufreq: amd_pstate: Add guided autonomous mode
+  Documentation: amd_pstate: Move amd_pstate param to alphabetical order
+  cpufreq: amd_pstate: Add guided mode control support via sysfs
+  Documentation: amd_pstate: Update amd_pstate status sysfs for guided
+
+ .../admin-guide/kernel-parameters.txt         |  41 ++--
+ Documentation/admin-guide/pm/amd-pstate.rst   |  34 +++-
+ drivers/acpi/cppc_acpi.c                      | 121 +++++++++++-
+ drivers/cpufreq/amd-pstate.c                  | 183 +++++++++++++-----
+ include/acpi/cppc_acpi.h                      |  11 ++
+ include/linux/amd-pstate.h                    |   2 +
+ 6 files changed, 311 insertions(+), 81 deletions(-)
 
 -- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
+2.34.1
 
