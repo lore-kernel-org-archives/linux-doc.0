@@ -2,103 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF6DC05027
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 04:40:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 926BBC636D4
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 05:55:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229991AbjBAEkX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 Jan 2023 23:40:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44996 "EHLO
+        id S229819AbjBAFzS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Feb 2023 00:55:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229911AbjBAEkW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 Jan 2023 23:40:22 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18304FAFD;
-        Tue, 31 Jan 2023 20:40:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 275C560E74;
-        Wed,  1 Feb 2023 04:40:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7FFF7C433EF;
-        Wed,  1 Feb 2023 04:40:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675226419;
-        bh=UlwjBzoJAPWYMQ72VAdrat0KEYevosv0d+OwcKc0Q0U=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=bmg0aBg+kX8y9BPmS/Y3Ts9JlEpRhRkiSIJDD/XasvIQYGGfBd7/TCKqW1BfnMKqo
-         LhsF72pd0mAvFJrgA8Uzp/l6ngVSGctK5U9SQouMxfMtOlrl8SAfpPGnfXug/W4Mgm
-         bTi0JanzqhZ3cUxhvTGE6OTMQfd6qNTpJvm/amoOeZTmz3yVXIQBmiAJJ91p9QzANE
-         bf/xhrcfFT68ebGkspV2qECD5fO1nWwMhQJyoNtvVZ4UutKRWbHTf2OYAYIMr3hxeD
-         Z66/rj548PzeON/XuR1Qx/Pn2ZGPnFDsG/Qh6TE6zJx3LnZm7jz8OMOopxD0Tj2PY2
-         VpurZp/9k5pNg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 60E07C04E36;
-        Wed,  1 Feb 2023 04:40:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229743AbjBAFzR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 00:55:17 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BEF7A24B;
+        Tue, 31 Jan 2023 21:55:16 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id mf7so29445973ejc.6;
+        Tue, 31 Jan 2023 21:55:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4S+H5SYc0nIdzMynDkQ9HqKI/ognTOvTuBLyhVNPH+U=;
+        b=MLlcGRhcqMEGtS3Dzadm3gAu5izBe+Jdl2wD1MJy5blaxWCuNY8rImFzS2gx9T/mgp
+         1HrvkPuWo9NEBDlobGaJ65b/jRIH2MFgUtEcHXW1TmgHw90qYsbfMNhcvJDu7hPwEJ1s
+         BK5h2jcicotkhgGQxAxVC0h3047QLjyb2J63ieO1nXBXzdljpVIaO0lBgugWA6wceAWR
+         fBCiNNrSPavpuen72kcRpEBZqpzlxPJeC/13/kprMVLpqgtjRHhEVAyxAUAUXodXz0o0
+         F7F8m7jbuYNo5SiNK01EDcWKgTF2vz55sK3gMhYNREMiPa3zP2Xv7YKNyqAxMvBA1wmu
+         RyLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4S+H5SYc0nIdzMynDkQ9HqKI/ognTOvTuBLyhVNPH+U=;
+        b=11ZbpCgh+Y+hVg4keXFLce7CaGddyJ0vGHY4uCGxtLxb+mFyGSlSxBjvnWJEmI3PIV
+         vR5r7B1igpYlO+D0HkUToxSSBF19gTP6Xe4vhkAZdzfL6NH30MQNwZPW1OEFoVzGJRR9
+         ej7ZJnb0zGcRPvcntar9xkQSJcS2fwL04+Ff0e4TsLa6aTspbjz+RQF+I0PODhpFcSX3
+         Ikf1HkgR2KZu01I1NpxmZxWLZgGD7mA+E2vpMngYD3AIpK2tw3bTJ/GK1Uo57kJ5d4/7
+         FYmPclgWacEWe6m1oQ8lUl9qBNQcLpZsmdwpSVbljerq+zYcSo30alXrJJIB53Ue6F/B
+         mCpQ==
+X-Gm-Message-State: AO0yUKWDMlgs/ppCxK7isVNo3abnyyn+84X+ckoBZRjBoCa2eA5dPDAq
+        Hf3zJR01kA/V1A2Bb2fNHks=
+X-Google-Smtp-Source: AK7set+lnrNdOuhoBKrNuNPjh3BZ67UDGiyEX9iF6J9/8hbZo3BuzDlIgiz+lH3kjdKQlks35F+TEw==
+X-Received: by 2002:a17:907:362:b0:88d:697d:a3d2 with SMTP id rs2-20020a170907036200b0088d697da3d2mr1056793ejb.54.1675230915001;
+        Tue, 31 Jan 2023 21:55:15 -0800 (PST)
+Received: from ?IPV6:2001:14ba:16f3:4a00::4? (dc75zzyyyyyyyyyyyyycy-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::4])
+        by smtp.gmail.com with ESMTPSA id 21-20020a170906311500b0087045ae5935sm9479248ejx.1.2023.01.31.21.55.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Jan 2023 21:55:14 -0800 (PST)
+Message-ID: <1e93f48b-57b8-f55a-8e49-9cebfeaca32a@gmail.com>
+Date:   Wed, 1 Feb 2023 07:55:13 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2 00/14] tools: ynl: more docs and basic ethtool
- support
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167522641938.28256.15256621461698900503.git-patchwork-notify@kernel.org>
-Date:   Wed, 01 Feb 2023 04:40:19 +0000
-References: <20230131023354.1732677-1-kuba@kernel.org>
-In-Reply-To: <20230131023354.1732677-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, sdf@google.com, linux-doc@vger.kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Content-Language: en-US, en-GB
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Cameron <jic23@kernel.org>
+Cc:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+        "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-doc@vger.kernel.org
+References: <65c7c45a-c953-e418-f640-9e46841151a1@gmail.com>
+ <20230130130231.000013b6@Huawei.com>
+ <9b3dcc7a-a0f8-38ee-4381-d330004d436f@fi.rohmeurope.com>
+ <20230130171218.00007802@Huawei.com>
+ <0e0d45b7-e582-82b2-9bac-1f70f9dad9f7@gmail.com>
+ <20230130201929.52c93ee5@jic23-huawei> <877cx24gsj.fsf@meer.lwn.net>
+From:   Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: Re: ROHM ALS, integration time
+In-Reply-To: <877cx24gsj.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
-
-This series was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Mon, 30 Jan 2023 18:33:40 -0800 you wrote:
-> I got discouraged from supporting ethtool in specs, because
-> generating the user space C code seems a little tricky.
-> The messages are ID'ed in a "directional" way (to and from
-> kernel are separate ID "spaces"). There is value, however,
-> in having the spec and being able to for example use it
-> in Python.
+On 1/31/23 21:58, Jonathan Corbet wrote:
+> Jonathan Cameron <jic23@kernel.org> writes:
 > 
-> [...]
+>> Both the kernel-doc for this header and the ABI docs end up in
+>> the kernel html docs.  I wonder if a link is possible...
+>> https://docs.kernel.org/driver-api/iio/core.html#industrial-i-o-devices
+>> would have the iio_chan_type docs I think if there were any.
+>> https://docs.kernel.org/admin-guide/abi-testing.html?highlight=abi#abi-sys-iio-devicex-in-intensityy-raw
+>> is the matching ABI doc.
+>>
+>> Mauro, Jon, other docs system experts...
+>>
+>> I couldn't immediately find a way to link to a specific ABI docs entry,
+>> is there a means to do it from kernel-doc in a header?
+> 
+> It should just be possible to write out the type or function name and
+> have the links generated automatically.  Have you tried just putting
+> "enum iio_chan_type" into the text?  If the automarkup code doesn't pick
+> it up, please let me know.
 
-Here is the summary with links:
-  - [net-next,v2,01/14] tools: ynl-gen: prevent do / dump reordering
-    https://git.kernel.org/netdev/net-next/c/eaf317e7d2bb
-  - [net-next,v2,02/14] tools: ynl: move the cli and netlink code around
-    https://git.kernel.org/netdev/net-next/c/4e4480e89c47
-  - [net-next,v2,03/14] tools: ynl: add an object hierarchy to represent parsed spec
-    https://git.kernel.org/netdev/net-next/c/3aacf8281336
-  - [net-next,v2,04/14] tools: ynl: use the common YAML loading and validation code
-    https://git.kernel.org/netdev/net-next/c/30a5c6c8104f
-  - [net-next,v2,05/14] tools: ynl: add support for types needed by ethtool
-    https://git.kernel.org/netdev/net-next/c/19b64b48a33e
-  - [net-next,v2,06/14] tools: ynl: support directional enum-model in CLI
-    https://git.kernel.org/netdev/net-next/c/fd0616d34274
-  - [net-next,v2,07/14] tools: ynl: support multi-attr
-    https://git.kernel.org/netdev/net-next/c/90256f3f8093
-  - [net-next,v2,08/14] tools: ynl: support pretty printing bad attribute names
-    https://git.kernel.org/netdev/net-next/c/4cd2796f3f8d
-  - [net-next,v2,09/14] tools: ynl: use operation names from spec on the CLI
-    https://git.kernel.org/netdev/net-next/c/8dfec0a88868
-  - [net-next,v2,10/14] tools: ynl: load jsonschema on demand
-    https://git.kernel.org/netdev/net-next/c/5c6674f6eb52
-  - [net-next,v2,11/14] netlink: specs: finish up operation enum-models
-    https://git.kernel.org/netdev/net-next/c/8403bf044530
-  - [net-next,v2,12/14] netlink: specs: add partial specification for ethtool
-    https://git.kernel.org/netdev/net-next/c/b784db7ae840
-  - [net-next,v2,13/14] docs: netlink: add a starting guide for working with specs
-    https://git.kernel.org/netdev/net-next/c/01e47a372268
-  - [net-next,v2,14/14] tools: net: use python3 explicitly
-    https://git.kernel.org/netdev/net-next/c/981cbcb030d9
+As far as I understand - the problem here is that we would like to have 
+a link from the enum/definition doc to a specific place in the ABI 
+document. The ABI document does not have the enum / define / function 
+"link _target_". (I think adding the enum/function name in the ABI doc 
+would generate link from ABI doc to enum/function doc - which would be 
+helpful - but in this case we would like to have a link to opposite 
+direction. From function/enum doc to specific position in a (sysfs) ABI 
+documentation. Please, bear with me if this was what your suggestion 
+should achieve. I'd just like to ensure we are ton a same page with this.)
 
-You are awesome, thank you!
+Yours,
+	--Matti
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
 
+~~ When things go utterly wrong vim users can always type :help! ~~
 
