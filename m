@@ -2,278 +2,297 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C58C05027
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 08:10:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C71FC05027
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 08:49:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231895AbjBAIKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Feb 2023 03:10:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57456 "EHLO
+        id S230285AbjBAIt6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Feb 2023 03:49:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbjBAIKk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 03:10:40 -0500
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA7DA4A1D3;
-        Wed,  1 Feb 2023 00:10:38 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id p26so37726923ejx.13;
-        Wed, 01 Feb 2023 00:10:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sAw/2Lb4WEMKODNRpea0RgUuW7spEUL/UcL2ikpdsPM=;
-        b=hypU2ywqUPnhOFmO53k3vWMtaI3TZk9w/pAiV2phxid8BLcmhkZuK41q9GCZhvKV4U
-         4FAOXwwT1jJ8UXX7p9DBkJ6FiBkXRkRgMRGUVbmqizXWe1WW/yJxWJG49X3dwnUb3y6g
-         oDsp1vtU4rMVLRJV+Cg2QfEpBiQeivDtiRBzQA0L6Ks/OAa8NjlK4BUv1jQ8DEtELsDk
-         tlnIDtN+/JKx1I1e3XEblB03aMsxjz6GYdutVfrTzF5am6rYxqnU1LA/lA7yj0QVQqu+
-         YjP65yHGatxQtbF3C7VAGtHlIK+cJk9MwDVHTDLDYMYnUtrlbzTBJagHwxfnhSJwUNjH
-         CE+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sAw/2Lb4WEMKODNRpea0RgUuW7spEUL/UcL2ikpdsPM=;
-        b=5C1mygzeZ10f+9szz1TTYhDYzQtzKQiZvfLUOAzBixK/b0JAVVGhERAv2xR86tK1zk
-         xJku5VO+KuJ00AgUnXcZwk1KQ9VrfVZrOxy7ts6M1rQ9q5uPUdyukR7blbLvVHpzXeoH
-         vSVZNvSyDYR1qRbHJY1OWmQOAqbNHzAbBFL0lNbMtuLbv9tBk9uRQMAQDZqsX2aL8nze
-         F3Uuc11ley9xGmuzcD/O/ABxf79BdDeJ5Zmlqzr0qMRz7X76DY6iNsWpgWE1VJo1d5HE
-         S+T01X7isWjMvKcN7kOGsgNGXVDFzRdyDVRtpFBCaeCF3/DboUw3fn4IVdizCTq6/58j
-         l/lg==
-X-Gm-Message-State: AO0yUKUAnbEw5V4HrpawwD3D1ZoiIV2Ux4kA3bIq/c9mLXweuRifT0yR
-        0qSu7Vw0geNIqPdaxYFmAN5QvwRWAWWk/ox9owUreLRe
-X-Google-Smtp-Source: AK7set+9h23A/qVuAHRJqdAxWAXuK7e3mK/l4CvEdFLsZLVp6YEZc8fcyuPeZ7PdWPEF2EwqPFPsM2fTVnMzSM05ZfA=
-X-Received: by 2002:a17:906:2c53:b0:83d:2544:a11 with SMTP id
- f19-20020a1709062c5300b0083d25440a11mr387344ejh.226.1675239037037; Wed, 01
- Feb 2023 00:10:37 -0800 (PST)
+        with ESMTP id S231589AbjBAIt5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 03:49:57 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2045.outbound.protection.outlook.com [40.107.243.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABA4A51419;
+        Wed,  1 Feb 2023 00:49:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KH6U2Jz8G/Zdg9123IvIVvWFfcpH5cDnC5F77GZ6+CG6tNrZ6akbeAjX4TB7iWIizYO+Hr1wulbk2Au4Nz4KA8PpRcOMgMMqCbZkZciHXJS/KaiZaaytsnJFONArmuDDbbPxKAIfyLKNdAOmqaAaBMptjqIz6TQMHX+W5GLMUygdlR2UGCFzfuTr2FI3Q2ZT4G8dIhEn2erW83cSMEgX6Z5O6sgHHGZe2MCBGRlYR3Wc9DQmCfPL5p0wWegb9aMvC628312VU8TjR9OZlPmKekX8h+d8H6SzRDYznmSDVcIb5HsmLFInDelbJ6YACEC8ZD+DgUFfCepnJ/ubIWOpsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jSgrJCPsvswxzVVM1d06XgJxO4hukYwXIivL0JmErnI=;
+ b=ILRephbd5rVNhdrqDHuJAHxjovsr2o/OS7MX+mevnxQDyJOfwHKASpxEtBYxkt+6wmOA6369GEneNPtg0NvczlMD1aouEPfqultbukI0ED5i9SdY6ns9xnZ2okHs67ehmEhj5weGKnotrEwnAPpgRihpnSQSAnfa4oP3KUXR8NA1nDB1ZX6Vq+BZfQkvE+vdYHehC0Xy8Zl4EidoevqBMcDgGlghG5zDPqmosaDRRiPKJaOfq1h3HHNeR9opXHrrnLZ2jsRpq4FPniSV+4gfs5R97PpMA81H8z40lwDMm2ngqnBtocw6Qc8iVVQp7ISwb+Y0OAwkOV31Kx2z9jzNFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jSgrJCPsvswxzVVM1d06XgJxO4hukYwXIivL0JmErnI=;
+ b=2E6gB7bbQzs89Mj6dxn7mJTHgo92wXd2OBMj5BDqoXaPsuktYGgl8ylTZ9YpLTRigaE0bCzubPUfVTHWEhCBHb4Ef1VSRuxqgv4+wY1xb2FkYx+aw5qQDYKsDCTMGF0Xj44Q6BGyt/3KurWJ2XVyG3RN2N+mYzOn9ySVObTiOyk=
+Received: from DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22)
+ by DM4PR12MB7768.namprd12.prod.outlook.com (2603:10b6:8:102::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Wed, 1 Feb
+ 2023 08:49:52 +0000
+Received: from DM6PR12MB4202.namprd12.prod.outlook.com
+ ([fe80::33a7:54d4:2de0:3939]) by DM6PR12MB4202.namprd12.prod.outlook.com
+ ([fe80::33a7:54d4:2de0:3939%9]) with mapi id 15.20.6064.024; Wed, 1 Feb 2023
+ 08:49:52 +0000
+From:   "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
+To:     Jiri Pirko <jiri@resnulli.us>,
+        "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-net-drivers (AMD-Xilinx)" <linux-net-drivers@amd.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "habetsm.xilinx@gmail.com" <habetsm.xilinx@gmail.com>,
+        "ecree.xilinx@gmail.com" <ecree.xilinx@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "jiri@nvidia.com" <jiri@nvidia.com>
+Subject: Re: [PATCH v4 net-next 1/8] sfc: add devlink support for ef100
+Thread-Topic: [PATCH v4 net-next 1/8] sfc: add devlink support for ef100
+Thread-Index: AQHZNYSBh/JsP0BdakCrDM8wasEKMK64rx4AgAEZgAA=
+Date:   Wed, 1 Feb 2023 08:49:52 +0000
+Message-ID: <44b02ac4-0f64-beb3-3af0-6b628e839620@amd.com>
+References: <20230131145822.36208-1-alejandro.lucero-palau@amd.com>
+ <20230131145822.36208-2-alejandro.lucero-palau@amd.com>
+ <Y9k7Ap4Irby7vnWg@nanopsycho>
+Accept-Language: en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/16.69.23010700
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR12MB4202:EE_|DM4PR12MB7768:EE_
+x-ms-office365-filtering-correlation-id: 458bda89-12ca-43e6-36d1-08db04314894
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: G0WKYZkNuvqv2EGILaUL2rzDdslknEqRZ5h6Y1LgvglrYkcVVCUAdIs17F4gr6LjVgimIxVU+b+YLNWOpZKfPkKDmquqqPLePWXaNmp70y4dYd/Y0n8oavjPUb3nEvGuV/bMPZZ8yAMocMf8Esh73xSayo6LVZHjA3ifBgp+kVn7cEmZ3yyNcRFxz0x0bF68nd4pFaS37TlC9aR9bGpbTwN0xhGZiwtFadLe8w5tUO9CICyu/4GlettRl2PR7ITucq4GdDNjJOiIEmh4ZTSntflzsbSyE/7cY/0irtygiIeg6cjKuAd8ZklxZP2dHEzbX5CW9xgeFr7wgE4tpLU4Oi2Jf9ITpAqNoFbT4piPz3s8Fte4ifWhrt7uMVDHpzdZIFhdVL/JVeIEu2C3we0HxYEMg0d8UO86g+aceeOZ+TrxHujxaNWz91Hxc8OFLpsjvv2d4eIJgIYclds1s09I4I6wtLRGSdjkqiaUeO6DG7Z80HZMwsjRHtNcwNJ0+Oyt9SF00gntM2sYpqNfX0AQZLFssNmAkVFpSIvYNGUr9GB4uNiBNeFkkQ3Y66u2vPTXAm4hB3sHtwDa7LKBxwWSW38NkhhtDE+2WuDaH2DHGvuIKRYdDAQh2UtE2YC4ouGocHgop74DEBwn2c4Jpsy8jCM0FKoYy8eID86s599bU/goCZukwTDkTV19huHtSqGjqXbuzVfdVgGSkOIcWjV4hzpWIb5wySbsUHkOp+1c41aPTyO5ibYwDZnYi0eZjzIp
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(396003)(346002)(136003)(376002)(39860400002)(451199018)(31696002)(31686004)(2906002)(5660300002)(38100700002)(8676002)(4326008)(8936002)(478600001)(36756003)(7416002)(186003)(6486002)(53546011)(6506007)(2616005)(6512007)(26005)(71200400001)(86362001)(41300700001)(38070700005)(91956017)(83380400001)(66446008)(76116006)(66476007)(66556008)(64756008)(66946007)(122000001)(316002)(110136005)(54906003)(2004002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bldENkN2QVpZNTVIS0o1aExKclhvOFRsYnNpQi8rZllyd1NXemRzeEV4T05X?=
+ =?utf-8?B?L1N5dEtUSUJIcVBYZTI3VGtzRjRwQy9tZjgzdW9BeVd1YjAwY3Z1K0dIWTVu?=
+ =?utf-8?B?aFJqYkQ0SUVzdXYyZStNWW5JNmxNYVdvMlZ6WVhSNElCSHE4T0RiY2h2bFRV?=
+ =?utf-8?B?SWpXVldVaSt2QmpOaVkwRXdWc2dPOE9uR2N4ZXNTYTU3Q1A3NnhjQUtsYVE3?=
+ =?utf-8?B?eXZOUGttaHRHMC95dXFLd1VyNEFXVlA1d01wa0hwd05CRDBtdFdmUDNSdWdv?=
+ =?utf-8?B?MGlqWUdVK2p1a1JaczZaZXBjZ2N1MnlKa3IzM1VQTEN6a2JORlFGOE9kbUFL?=
+ =?utf-8?B?KzBzeGdRaG9qY3Z3ZDR5OGZFZzdBTDFCSWhHd1poMFdtTUJYZUFEeHhlUW9n?=
+ =?utf-8?B?QUp1MWk4ZnF1ZjRPWnA4SDByd3FsOUtyZTY5ME1GUm5TdGQwUUE3MGdYT25r?=
+ =?utf-8?B?TVI1K3dtUHloZ05PUGpHWDNTZEZWZTFKS0tNQmt0c245OEVZMFptWFVqaTBJ?=
+ =?utf-8?B?SmVWKzhNSlQyMFJWQjRTWnhhazhYMU1BOXdYT29HUzZJc2trcmxKSVU4cUhW?=
+ =?utf-8?B?dzdGTWdPVTgyRGNmbmM5dXZSdTY1bmJRNTFpdXVrbHNOd0hFclhlTjY5MHIr?=
+ =?utf-8?B?b1JMNHpuemJsbkE1VzJPbklZU3VWUVNpMG16Vm5RSDNSditlSnNIbGxkZ0pi?=
+ =?utf-8?B?MGR0VkNWMnJWMkF6QWVpUENNcnYrS1lvNGVWbGdUQk9hZUJuS2ovUE5TNXZu?=
+ =?utf-8?B?eFhJdmFUclRmUFMxRnFKdWFpS2gyNUVZem5XU1djT2RwKzNXd2FLRG02M3or?=
+ =?utf-8?B?Y0NpT1Nza2g2T1BWSU1VdFp1dHpTSzZSeWsxK2FJVFV5NWtUdWpCS1IySzlT?=
+ =?utf-8?B?Qk5rNFkzaXdBKzVodU5uSGM3a241MHdqdDJuNFFWa1hlUFc4c3RWSTNBTDNF?=
+ =?utf-8?B?aXo4NjZlMTdlUWRwYlB0bGRxQ3hCd1BJNmpqU01oam5tUlplMWR3Wk85SmM4?=
+ =?utf-8?B?b2xpeVVJdStJa2FRTk9zcTVERWZESTk0SGp6SUZ1c25LWFhSRFA4aHoyZFlH?=
+ =?utf-8?B?cHVxZ1NvMU90Rk5pTVZaZThmLyt2eWsrd2hBekN0bld0SXl4QWdYN21mdlVQ?=
+ =?utf-8?B?RlFCaTg0ZzdHZksvTjFIbExaVC9mUGx5dFQyTWd3R2JwOTFpa3BJdTdMYmRS?=
+ =?utf-8?B?NnFrNlZ2SW1vanVzMEZ1dFRyVjFxR01QaXUwWGpXNEl1MXpSeFhWZytCU0Z2?=
+ =?utf-8?B?bEZFRFFrUmUwRHMvbVJGdjlOdWRBWDlsZXBWV3cvWktwSTdmSEtNTURjRFg3?=
+ =?utf-8?B?eUpCRXJ0bTVCMW8vVkYvWmloZUNBeE4wVE5FS1N6dThIakMxaXZpbWpoakM5?=
+ =?utf-8?B?OERPeC9nQjNqYVZNMjlGR3RCYzZVYzI1UUQvWTBlZ0pMbERKbXFrNGVXZ0hM?=
+ =?utf-8?B?bmtiUjFQZC8vMGRHZlJPWVlzUit5bVdhTGxOTWs2OXZsV1ZlWEZlRHdCcnB4?=
+ =?utf-8?B?S2dEMWs5dkF1ZVA0UFllWUFld0puT2xGNy8vMFFIUThhUXFlUEJWVXhVZmgw?=
+ =?utf-8?B?MytPaW8wZ25pYitFV0pBcHFzRTIvV2laYVp4RzJobStjcHZEcmcrSVpLTWR1?=
+ =?utf-8?B?Qk1PYjRTTURxZDBpb2paWXV5QW5ZZURqdTVXeXlvU2RYT2h3U2VlaHJOSUxn?=
+ =?utf-8?B?RVNJM0Z5ak1vb1ZmbU40WXJWeUt4NzhhYjBZY1Y1TitOWXlvTnZSWHhqd2pQ?=
+ =?utf-8?B?UWlHSkpERHBPL2k2ci9zWko1blQrZ2Z5YmhZL3EyYXRnR0JNbUJvZU5aMmRK?=
+ =?utf-8?B?ajhkclE1cER2bStFRHdFR0VLdXBnbW1EWVJKc04vdlBacFpWbkRsYkFBTWI0?=
+ =?utf-8?B?eTJCYUo4UFlqaEsyOENJRGhETlliMy9waWh0Y2tYNjdyNGlUdVkvMFNPTGd4?=
+ =?utf-8?B?VmRVS29CYVdsNDBCWUpqYXJOUE16SXRvS2dCYmxOT0c0SzNCeXBCMkd2Ritt?=
+ =?utf-8?B?ejdlS2pUWTFETHNPdS9jaHNGcmlRNmc3UlJaUTlPWmpSMjBJbTlLQk1tQWhW?=
+ =?utf-8?B?dWdCdlEyTFM2dXUwUHlYckdzc1Q3dTdnQ0JCVGxaSG1tNnRMRUwzK09JdTBW?=
+ =?utf-8?Q?TKHLKYmuwY3AYUogXe1c/6Fvb?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6CE84B0DE0B11E41966152657350E56F@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20230118061256.2689-1-dakr@redhat.com> <20230118061256.2689-6-dakr@redhat.com>
- <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com> <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
- <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com> <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
- <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com> <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
- <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com> <bc523c5c-efe6-1a7f-b49a-e0867dc1413d@redhat.com>
- <15fb0179-c7c5-8a64-ed08-841189919f5e@redhat.com> <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
-In-Reply-To: <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
-From:   Dave Airlie <airlied@gmail.com>
-Date:   Wed, 1 Feb 2023 18:10:24 +1000
-Message-ID: <CAPM=9txON8VCb3H7vDY_DOgtUg2Ad3mBvYVxgSMyZ1noOu-rBQ@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi interfaces
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Danilo Krummrich <dakr@redhat.com>,
-        Matthew Brost <matthew.brost@intel.com>, daniel@ffwll.ch,
-        corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mripard@kernel.org, bskeggs@redhat.com, jason@jlekstrand.net,
-        nouveau@lists.freedesktop.org, airlied@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4202.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 458bda89-12ca-43e6-36d1-08db04314894
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Feb 2023 08:49:52.0326
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ecP8M6MfV96lt9S+EGM4Ta6FXqScwJaSgFjQ8LTddZ0beZnrEhQhKeU41mgreAvo9lG3zpevG5FMd2qXiNhwTQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7768
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 30 Jan 2023 at 23:02, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
->
-> Am 29.01.23 um 19:46 schrieb Danilo Krummrich:
-> > On 1/27/23 22:09, Danilo Krummrich wrote:
-> >> On 1/27/23 16:17, Christian K=C3=B6nig wrote:
-> >>> Am 27.01.23 um 15:44 schrieb Danilo Krummrich:
-> >>>> [SNIP]
-> >>>>>>>
-> >>>>>>> What you want is one component for tracking the VA allocations
-> >>>>>>> (drm_mm based) and a different component/interface for tracking
-> >>>>>>> the VA mappings (probably rb tree based).
-> >>>>>>
-> >>>>>> That's what the GPUVA manager is doing. There are gpuva_regions
-> >>>>>> which correspond to VA allocations and gpuvas which represent the
-> >>>>>> mappings. Both are tracked separately (currently both with a
-> >>>>>> separate drm_mm, though). However, the GPUVA manager needs to
-> >>>>>> take regions into account when dealing with mappings to make sure
-> >>>>>> the GPUVA manager doesn't propose drivers to merge over region
-> >>>>>> boundaries. Speaking from userspace PoV, the kernel wouldn't
-> >>>>>> merge mappings from different VKBuffer objects even if they're
-> >>>>>> virtually and physically contiguous.
-> >>>>>
-> >>>>> That are two completely different things and shouldn't be handled
-> >>>>> in a single component.
-> >>>>
-> >>>> They are different things, but they're related in a way that for
-> >>>> handling the mappings (in particular merging and sparse) the GPUVA
-> >>>> manager needs to know the VA allocation (or region) boundaries.
-> >>>>
-> >>>> I have the feeling there might be a misunderstanding. Userspace is
-> >>>> in charge to actually allocate a portion of VA space and manage it.
-> >>>> The GPUVA manager just needs to know about those VA space
-> >>>> allocations and hence keeps track of them.
-> >>>>
-> >>>> The GPUVA manager is not meant to be an allocator in the sense of
-> >>>> finding and providing a hole for a given request.
-> >>>>
-> >>>> Maybe the non-ideal choice of using drm_mm was implying something
-> >>>> else.
-> >>>
-> >>> Uff, well long story short that doesn't even remotely match the
-> >>> requirements. This way the GPUVA manager won't be usable for a whole
-> >>> bunch of use cases.
-> >>>
-> >>> What we have are mappings which say X needs to point to Y with this
-> >>> and hw dependent flags.
-> >>>
-> >>> The whole idea of having ranges is not going to fly. Neither with
-> >>> AMD GPUs and I strongly think not with Intels XA either.
-> >>
-> >> A range in the sense of the GPUVA manager simply represents a VA
-> >> space allocation (which in case of Nouveau is taken in userspace).
-> >> Userspace allocates the portion of VA space and lets the kernel know
-> >> about it. The current implementation needs that for the named
-> >> reasons. So, I think there is no reason why this would work with one
-> >> GPU, but not with another. It's just part of the design choice of the
-> >> manager.
-> >>
-> >> And I'm absolutely happy to discuss the details of the manager
-> >> implementation though.
-> >>
-> >>>
-> >>>>> We should probably talk about the design of the GPUVA manager once
-> >>>>> more when this should be applicable to all GPU drivers.
-> >>>>
-> >>>> That's what I try to figure out with this RFC, how to make it
-> >>>> appicable for all GPU drivers, so I'm happy to discuss this. :-)
-> >>>
-> >>> Yeah, that was really good idea :) That proposal here is really far
-> >>> away from the actual requirements.
-> >>>
-> >>
-> >> And those are the ones I'm looking for. Do you mind sharing the
-> >> requirements for amdgpu in particular?
-> >>
-> >>>>>> For sparse residency the kernel also needs to know the region
-> >>>>>> boundaries to make sure that it keeps sparse mappings around.
-> >>>>>
-> >>>>> What?
-> >>>>
-> >>>> When userspace creates a new VKBuffer with the
-> >>>> VK_BUFFER_CREATE_SPARSE_BINDING_BIT the kernel may need to create
-> >>>> sparse mappings in order to ensure that using this buffer without
-> >>>> any memory backed mappings doesn't fault the GPU.
-> >>>>
-> >>>> Currently, the implementation does this the following way:
-> >>>>
-> >>>> 1. Userspace creates a new VKBuffer and hence allocates a portion
-> >>>> of the VA space for it. It calls into the kernel indicating the new
-> >>>> VA space region and the fact that the region is sparse.
-> >>>>
-> >>>> 2. The kernel picks up the region and stores it in the GPUVA
-> >>>> manager, the driver creates the corresponding sparse mappings /
-> >>>> page table entries.
-> >>>>
-> >>>> 3. Userspace might ask the driver to create a couple of memory
-> >>>> backed mappings for this particular VA region. The GPUVA manager
-> >>>> stores the mapping parameters, the driver creates the corresponding
-> >>>> page table entries.
-> >>>>
-> >>>> 4. Userspace might ask to unmap all the memory backed mappings from
-> >>>> this particular VA region. The GPUVA manager removes the mapping
-> >>>> parameters, the driver cleans up the corresponding page table
-> >>>> entries. However, the driver also needs to re-create the sparse
-> >>>> mappings, since it's a sparse buffer, hence it needs to know the
-> >>>> boundaries of the region it needs to create the sparse mappings in.
-> >>>
-> >>> Again, this is not how things are working. First of all the kernel
-> >>> absolutely should *NOT* know about those regions.
-> >>>
-> >>> What we have inside the kernel is the information what happens if an
-> >>> address X is accessed. On AMD HW this can be:
-> >>>
-> >>> 1. Route to the PCIe bus because the mapped BO is stored in system
-> >>> memory.
-> >>> 2. Route to the internal MC because the mapped BO is stored in local
-> >>> memory.
-> >>> 3. Route to other GPUs in the same hive.
-> >>> 4. Route to some doorbell to kick of other work.
-> >>> ...
-> >>> x. Ignore write, return 0 on reads (this is what is used for sparse
-> >>> mappings).
-> >>> x+1. Trigger a recoverable page fault. This is used for things like
-> >>> SVA.
-> >>> x+2. Trigger a non-recoverable page fault. This is used for things
-> >>> like unmapped regions where access is illegal.
-> >>>
-> >>> All this is plus some hw specific caching flags.
-> >>>
-> >>> When Vulkan allocates a sparse VKBuffer what should happen is the
-> >>> following:
-> >>>
-> >>> 1. The Vulkan driver somehow figures out a VA region A..B for the
-> >>> buffer. This can be in userspace (libdrm_amdgpu) or kernel (drm_mm),
-> >>> but essentially is currently driver specific.
-> >>
-> >> Right, for Nouveau we have this in userspace as well.
-> >>
-> >>>
-> >>> 2. The kernel gets a request to map the VA range A..B as sparse,
-> >>> meaning that it updates the page tables from A..B with the sparse
-> >>> setting.
-> >>>
-> >>> 3. User space asks kernel to map a couple of memory backings at
-> >>> location A+1, A+10, A+15 etc....
-> >>>
-> >>> 4. The VKBuffer is de-allocated, userspace asks kernel to update
-> >>> region A..B to not map anything (usually triggers a non-recoverable
-> >>> fault).
-> >>
-> >> Until here this seems to be identical to what I'm doing.
-> >>
-> >> It'd be interesting to know how amdgpu handles everything that
-> >> potentially happens between your 3) and 4). More specifically, how
-> >> are the page tables changed when memory backed mappings are mapped on
-> >> a sparse range? What happens when the memory backed mappings are
-> >> unmapped, but the VKBuffer isn't de-allocated, and hence sparse
-> >> mappings need to be re-deployed?
-> >>
-> >> Let's assume the sparse VKBuffer (and hence the VA space allocation)
-> >> is pretty large. In Nouveau the corresponding PTEs would have a
-> >> rather huge page size to cover this. Now, if small memory backed
-> >> mappings are mapped to this huge sparse buffer, in Nouveau we'd
-> >> allocate a new PT with a corresponding smaller page size overlaying
-> >> the sparse mappings PTEs.
-> >>
-> >> How would this look like in amdgpu?
-> >>
-> >>>
-> >>> When you want to unify this between hw drivers I strongly suggest to
-> >>> completely start from scratch once more.
-> >>>
-> >
-> > I just took some time digging into amdgpu and, surprisingly, aside
-> > from the gpuva_regions it seems like amdgpu basically does exactly the
-> > same as I do in the GPU VA manager. As explained, those region
-> > boundaries are needed for merging only and, depending on the driver,
-> > might be useful for sparse mappings.
-> >
-> > For drivers that don't intend to merge at all and (somehow) are
-> > capable of dealing with sparse regions without knowing the sparse
-> > region's boundaries, it'd be easy to make those gpuva_regions optional.
->
-> Yeah, but this then defeats the approach of having the same hw
-> independent interface/implementation for all drivers.
-
-I think you are running a few steps ahead here. The plan isn't to have
-an independent interface, it's to provide a set of routines and
-tracking that will be consistent across drivers, so that all drivers
-once using them will operate in mostly the same fashion with respect
-to GPU VA tracking and VA/BO lifetimes. Already in the tree we have
-amdgpu and freedreno which I think end up operating slightly different
-around lifetimes. I'd like to save future driver writers the effort of
-dealing with those decisions and this should drive their user api
-design so to enable vulkan sparse bindings.
-
-Now if merging is a feature that makes sense to one driver maybe it
-makes sense to all, however there may be reasons amdgpu gets away
-without merging that other drivers might not benefit from, there might
-also be a benefit to amdgpu from merging that you haven't looked at
-yet, so I think we could leave merging as an optional extra driver
-knob here. The userspace API should operate the same, it would just be
-the gpu pagetables that would end up different sizes.
-
-Dave.
+DQoNCk9uIDEvMzEvMjMgMTY6MDAsIEppcmkgUGlya28gd3JvdGU6DQo+IFR1ZSwgSmFuIDMxLCAy
+MDIzIGF0IDAzOjU4OjE1UE0gQ0VULCBhbGVqYW5kcm8ubHVjZXJvLXBhbGF1QGFtZC5jb20gPG1h
+aWx0bzphbGVqYW5kcm8ubHVjZXJvLXBhbGF1QGFtZC5jb20+IHdyb3RlOg0KPj4gRnJvbTogQWxl
+amFuZHJvIEx1Y2VybyA8YWxlamFuZHJvLmx1Y2Vyby1wYWxhdUBhbWQuY29tIDxtYWlsdG86YWxl
+amFuZHJvLmx1Y2Vyby1wYWxhdUBhbWQuY29tPj4NCj4+DQo+PiBCYXNpYyBkZXZsaW5rIGluZnJh
+c3RydWN0dXJlIHN1cHBvcnQuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogQWxlamFuZHJvIEx1Y2Vy
+byA8YWxlamFuZHJvLmx1Y2Vyby1wYWxhdUBhbWQuY29tIDxtYWlsdG86YWxlamFuZHJvLmx1Y2Vy
+by1wYWxhdUBhbWQuY29tPj4NCj4+IC0tLQ0KPj4gZHJpdmVycy9uZXQvZXRoZXJuZXQvc2ZjL0tj
+b25maWcgfCAxICsNCj4+IGRyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9NYWtlZmlsZSB8IDMgKy0N
+Cj4+IGRyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9lZjEwMF9uZXRkZXYuYyB8IDEyICsrKysrDQo+
+PiBkcml2ZXJzL25ldC9ldGhlcm5ldC9zZmMvZWYxMDBfbmljLmMgfCAzICstDQo+PiBkcml2ZXJz
+L25ldC9ldGhlcm5ldC9zZmMvZWZ4X2RldmxpbmsuYyB8IDcxICsrKysrKysrKysrKysrKysrKysr
+KysrKysNCj4+IGRyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9lZnhfZGV2bGluay5oIHwgMjIgKysr
+KysrKysNCj4+IGRyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9uZXRfZHJpdmVyLmggfCAyICsNCj4+
+IDcgZmlsZXMgY2hhbmdlZCwgMTExIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+PiBj
+cmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9uZXQvZXRoZXJuZXQvc2ZjL2VmeF9kZXZsaW5rLmMN
+Cj4+IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL25ldC9ldGhlcm5ldC9zZmMvZWZ4X2Rldmxp
+bmsuaA0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC9ldGhlcm5ldC9zZmMvS2NvbmZp
+ZyBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9LY29uZmlnDQo+PiBpbmRleCAwOTUwZTZiMDUw
+OGYuLjRhZjM2YmE4OTA2YiAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L3Nm
+Yy9LY29uZmlnDQo+PiArKysgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9zZmMvS2NvbmZpZw0KPj4g
+QEAgLTIyLDYgKzIyLDcgQEAgY29uZmlnIFNGQw0KPj4gZGVwZW5kcyBvbiBQVFBfMTU4OF9DTE9D
+S19PUFRJT05BTA0KPj4gc2VsZWN0IE1ESU8NCj4+IHNlbGVjdCBDUkMzMg0KPj4gKyBzZWxlY3Qg
+TkVUX0RFVkxJTksNCj4+IGhlbHANCj4+IFRoaXMgZHJpdmVyIHN1cHBvcnRzIDEwLzQwLWdpZ2Fi
+aXQgRXRoZXJuZXQgY2FyZHMgYmFzZWQgb24NCj4+IHRoZSBTb2xhcmZsYXJlIFNGQzkxMDAtZmFt
+aWx5IGNvbnRyb2xsZXJzLg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L3Nm
+Yy9NYWtlZmlsZSBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9NYWtlZmlsZQ0KPj4gaW5kZXgg
+NzEyYTQ4ZDAwMDY5Li41NWI5YzczY2Q4ZWYgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL25ldC9l
+dGhlcm5ldC9zZmMvTWFrZWZpbGUNCj4+ICsrKyBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9N
+YWtlZmlsZQ0KPj4gQEAgLTYsNyArNiw4IEBAIHNmYy15ICs9IGVmeC5vIGVmeF9jb21tb24ubyBl
+ZnhfY2hhbm5lbHMubyBuaWMubyBcDQo+PiBtY2RpLm8gbWNkaV9wb3J0Lm8gbWNkaV9wb3J0X2Nv
+bW1vbi5vIFwNCj4+IG1jZGlfZnVuY3Rpb25zLm8gbWNkaV9maWx0ZXJzLm8gbWNkaV9tb24ubyBc
+DQo+PiBlZjEwMC5vIGVmMTAwX25pYy5vIGVmMTAwX25ldGRldi5vIFwNCj4+IC0gZWYxMDBfZXRo
+dG9vbC5vIGVmMTAwX3J4Lm8gZWYxMDBfdHgubw0KPj4gKyBlZjEwMF9ldGh0b29sLm8gZWYxMDBf
+cngubyBlZjEwMF90eC5vIFwNCj4+ICsgZWZ4X2Rldmxpbmsubw0KPj4gc2ZjLSQoQ09ORklHX1NG
+Q19NVEQpICs9IG10ZC5vDQo+PiBzZmMtJChDT05GSUdfU0ZDX1NSSU9WKSArPSBzcmlvdi5vIGVm
+MTBfc3Jpb3YubyBlZjEwMF9zcmlvdi5vIGVmMTAwX3JlcC5vIFwNCj4+IG1hZS5vIHRjLm8gdGNf
+YmluZGluZ3MubyB0Y19jb3VudGVycy5vDQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQvZXRo
+ZXJuZXQvc2ZjL2VmMTAwX25ldGRldi5jIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvc2ZjL2VmMTAw
+X25ldGRldi5jDQo+PiBpbmRleCBkZGNjMzI1ZWQ1NzAuLmIxMGEyMjZmNGEwNyAxMDA2NDQNCj4+
+IC0tLSBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9lZjEwMF9uZXRkZXYuYw0KPj4gKysrIGIv
+ZHJpdmVycy9uZXQvZXRoZXJuZXQvc2ZjL2VmMTAwX25ldGRldi5jDQo+PiBAQCAtMjQsNiArMjQs
+NyBAQA0KPj4gI2luY2x1ZGUgInJ4X2NvbW1vbi5oIg0KPj4gI2luY2x1ZGUgImVmMTAwX3NyaW92
+LmgiDQo+PiAjaW5jbHVkZSAidGNfYmluZGluZ3MuaCINCj4+ICsjaW5jbHVkZSAiZWZ4X2Rldmxp
+bmsuaCINCj4+DQo+PiBzdGF0aWMgdm9pZCBlZjEwMF91cGRhdGVfbmFtZShzdHJ1Y3QgZWZ4X25p
+YyAqZWZ4KQ0KPj4gew0KPj4gQEAgLTMzMiw2ICszMzMsOCBAQCB2b2lkIGVmMTAwX3JlbW92ZV9u
+ZXRkZXYoc3RydWN0IGVmeF9wcm9iZV9kYXRhICpwcm9iZV9kYXRhKQ0KPj4gZWZ4X2VmMTAwX3Bj
+aV9zcmlvdl9kaXNhYmxlKGVmeCwgdHJ1ZSk7DQo+PiAjZW5kaWYNCj4+DQo+PiArIC8qIGRldmxp
+bmsgbG9jayAqLw0KPj4gKyBlZnhfZmluaV9kZXZsaW5rX3N0YXJ0KGVmeCk7DQo+PiBlZjEwMF91
+bnJlZ2lzdGVyX25ldGRldihlZngpOw0KPj4NCj4+ICNpZmRlZiBDT05GSUdfU0ZDX1NSSU9WDQo+
+PiBAQCAtMzQ1LDYgKzM0OCw5IEBAIHZvaWQgZWYxMDBfcmVtb3ZlX25ldGRldihzdHJ1Y3QgZWZ4
+X3Byb2JlX2RhdGEgKnByb2JlX2RhdGEpDQo+PiBrZnJlZShlZngtPnBoeV9kYXRhKTsNCj4+IGVm
+eC0+cGh5X2RhdGEgPSBOVUxMOw0KPj4NCj4+ICsgLyogZGV2bGluayB1bmxvY2sgKi8NCj4+ICsg
+ZWZ4X2ZpbmlfZGV2bGluayhlZngpOw0KPj4gKw0KPj4gZnJlZV9uZXRkZXYoZWZ4LT5uZXRfZGV2
+KTsNCj4+IGVmeC0+bmV0X2RldiA9IE5VTEw7DQo+PiBlZngtPnN0YXRlID0gU1RBVEVfUFJPQkVE
+Ow0KPj4gQEAgLTQwNSw2ICs0MTEsMTAgQEAgaW50IGVmMTAwX3Byb2JlX25ldGRldihzdHJ1Y3Qg
+ZWZ4X3Byb2JlX2RhdGEgKnByb2JlX2RhdGEpDQo+PiAvKiBEb24ndCBmYWlsIGluaXQgaWYgUlNT
+IHNldHVwIGRvZXNuJ3Qgd29yay4gKi8NCj4+IGVmeF9tY2RpX3B1c2hfZGVmYXVsdF9pbmRpcl90
+YWJsZShlZngsIGVmeC0+bl9yeF9jaGFubmVscyk7DQo+Pg0KPj4gKyAvKiBkZXZsaW5rIGNyZWF0
+aW9uLCByZWdpc3RyYXRpb24gYW5kIGxvY2sgKi8NCj4+ICsgaWYgKGVmeF9wcm9iZV9kZXZsaW5r
+KGVmeCkpDQo+IFVzZSB2YXJpYWJsZSB0byBzdG9yZSB0aGUgcmV0dXJuIHZhbHVlIGFuZCBjaGVj
+ayB0aGF0IGluIGlmLg0KPg0KDQpJJ2xsIGRvLg0KDQo+PiArIHBjaV9pbmZvKGVmeC0+cGNpX2Rl
+diwgImRldmxpbmsgcmVnaXN0cmF0aW9uIGZhaWxlZCIpOw0KPj4gKw0KPj4gcmMgPSBlZjEwMF9y
+ZWdpc3Rlcl9uZXRkZXYoZWZ4KTsNCj4+IGlmIChyYykNCj4+IGdvdG8gZmFpbDsNCj4+IEBAIC00
+MjQsNSArNDM0LDcgQEAgaW50IGVmMTAwX3Byb2JlX25ldGRldihzdHJ1Y3QgZWZ4X3Byb2JlX2Rh
+dGEgKnByb2JlX2RhdGEpDQo+PiB9DQo+Pg0KPj4gZmFpbDoNCj4+ICsgLyogZGV2bGluayB1bmxv
+Y2sgKi8NCj4+ICsgZWZ4X3Byb2JlX2RldmxpbmtfZG9uZShlZngpOw0KPj4gcmV0dXJuIHJjOw0K
+Pj4gfQ0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9lZjEwMF9uaWMu
+YyBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9lZjEwMF9uaWMuYw0KPj4gaW5kZXggYWQ2ODZj
+NjcxYWI4Li5lNGFhY2I0ZWM2NjYgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL25ldC9ldGhlcm5l
+dC9zZmMvZWYxMDBfbmljLmMNCj4+ICsrKyBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9lZjEw
+MF9uaWMuYw0KPj4gQEAgLTExMjAsMTEgKzExMjAsMTAgQEAgaW50IGVmMTAwX3Byb2JlX25ldGRl
+dl9wZihzdHJ1Y3QgZWZ4X25pYyAqZWZ4KQ0KPj4gcmV0dXJuIHJjOw0KPj4NCj4+IHJjID0gZWZ4
+X2VmMTAwX2dldF9iYXNlX21wb3J0KGVmeCk7DQo+PiAtIGlmIChyYykgew0KPj4gKyBpZiAocmMp
+DQo+PiBuZXRpZl93YXJuKGVmeCwgcHJvYmUsIG5ldF9kZXYsDQo+PiAiRmFpbGVkIHRvIHByb2Jl
+IGJhc2UgbXBvcnQgcmMgJWQ7IHJlcHJlc2VudG9ycyB3aWxsIG5vdCBmdW5jdGlvblxuIiwNCj4+
+IHJjKTsNCj4+IC0gfQ0KPiBJIGRvbid0IHNlZSBob3cgdGhpcyBodW5rIGlzIHJlbGF0ZWQgdG8g
+dGhpcyBwYXRjaC4gUGxlYXNlIHJlbW92ZS4NCj4NCj4NCg0KUnVubmluZyBjaGVja3BhdGNoIG9u
+IHRoaXMgc3BlY2lmaWMgcGF0Y2ggdHJpZ2dlcmVkIGEgd2FybmluZyBhYm91dCB0aGUgDQpuZXRp
+Zl93YXJuIHJlcXVpcmluZyBicmFja2V0cy4NCg0KSXQgaXMgdHJ1ZSBpdCBpcyBub3QgcmVsYXRl
+ZCB0byB0aGUgcGF0Y2ggaXRzZWxmLCBzbyBJJ2xsIHJlbW92ZSBpdC4NCg0KPj4gcmMgPSBlZnhf
+aW5pdF90YyhlZngpOw0KPj4gaWYgKHJjKSB7DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQv
+ZXRoZXJuZXQvc2ZjL2VmeF9kZXZsaW5rLmMgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9zZmMvZWZ4
+X2RldmxpbmsuYw0KPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4+IGluZGV4IDAwMDAwMDAwMDAw
+MC4uZmFiMDZhYWE0YjhhDQo+PiAtLS0gL2Rldi9udWxsDQo+PiArKysgYi9kcml2ZXJzL25ldC9l
+dGhlcm5ldC9zZmMvZWZ4X2RldmxpbmsuYw0KPj4gQEAgLTAsMCArMSw3MSBAQA0KPj4gKy8vIFNQ
+RFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9ubHkNCj4+ICsvKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKg0KPj4gKyAqIERyaXZlciBmb3IgQU1EIG5ldHdvcmsgY29udHJvbGxlcnMgYW5kIGJvYXJk
+cw0KPj4gKyAqIENvcHlyaWdodCAoQykgMjAyMywgQWR2YW5jZWQgTWljcm8gRGV2aWNlcywgSW5j
+Lg0KPj4gKyAqDQo+PiArICogVGhpcyBwcm9ncmFtIGlzIGZyZWUgc29mdHdhcmU7IHlvdSBjYW4g
+cmVkaXN0cmlidXRlIGl0IGFuZC9vciBtb2RpZnkgaXQNCj4+ICsgKiB1bmRlciB0aGUgdGVybXMg
+b2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIHZlcnNpb24gMiBhcyBwdWJsaXNoZWQN
+Cj4+ICsgKiBieSB0aGUgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uLCBpbmNvcnBvcmF0ZWQgaGVy
+ZWluIGJ5IHJlZmVyZW5jZS4NCj4+ICsgKi8NCj4+ICsNCj4+ICsjaW5jbHVkZSA8bGludXgvcnRj
+Lmg+DQo+PiArI2luY2x1ZGUgIm5ldF9kcml2ZXIuaCINCj4+ICsjaW5jbHVkZSAiZWYxMDBfbmlj
+LmgiDQo+PiArI2luY2x1ZGUgImVmeF9kZXZsaW5rLmgiDQo+PiArI2luY2x1ZGUgIm5pYy5oIg0K
+Pj4gKyNpbmNsdWRlICJtY2RpLmgiDQo+PiArI2luY2x1ZGUgIm1jZGlfZnVuY3Rpb25zLmgiDQo+
+PiArI2luY2x1ZGUgIm1jZGlfcGNvbC5oIg0KPj4gKw0KPj4gK3N0cnVjdCBlZnhfZGV2bGluayB7
+DQo+PiArIHN0cnVjdCBlZnhfbmljICplZng7DQo+PiArfTsNCj4+ICsNCj4+ICtzdGF0aWMgY29u
+c3Qgc3RydWN0IGRldmxpbmtfb3BzIHNmY19kZXZsaW5rX29wcyA9IHsNCj4+ICt9Ow0KPj4gKw0K
+Pj4gK3ZvaWQgZWZ4X2ZpbmlfZGV2bGlua19zdGFydChzdHJ1Y3QgZWZ4X25pYyAqZWZ4KQ0KPj4g
+K3sNCj4+ICsgaWYgKGVmeC0+ZGV2bGluaykNCj4+ICsgZGV2bF9sb2NrKGVmeC0+ZGV2bGluayk7
+DQo+PiArfQ0KPj4gKw0KPj4gK3ZvaWQgZWZ4X2ZpbmlfZGV2bGluayhzdHJ1Y3QgZWZ4X25pYyAq
+ZWZ4KQ0KPj4gK3sNCj4+ICsgaWYgKGVmeC0+ZGV2bGluaykgew0KPj4gKyBkZXZsX3VucmVnaXN0
+ZXIoZWZ4LT5kZXZsaW5rKTsNCj4+ICsgZGV2bF91bmxvY2soZWZ4LT5kZXZsaW5rKTsNCj4+ICsg
+ZGV2bGlua19mcmVlKGVmeC0+ZGV2bGluayk7DQo+PiArIGVmeC0+ZGV2bGluayA9IE5VTEw7DQo+
+PiArIH0NCj4+ICt9DQo+PiArDQo+PiAraW50IGVmeF9wcm9iZV9kZXZsaW5rKHN0cnVjdCBlZnhf
+bmljICplZngpDQo+PiArew0KPj4gKyBzdHJ1Y3QgZWZ4X2RldmxpbmsgKmRldmxpbmtfcHJpdmF0
+ZTsNCj4+ICsNCj4+ICsgaWYgKGVmeC0+dHlwZS0+aXNfdmYpDQo+PiArIHJldHVybiAwOw0KPj4g
+Kw0KPj4gKyBlZngtPmRldmxpbmsgPSBkZXZsaW5rX2FsbG9jKCZzZmNfZGV2bGlua19vcHMsDQo+
+PiArIHNpemVvZihzdHJ1Y3QgZWZ4X2RldmxpbmspLA0KPj4gKyAmZWZ4LT5wY2lfZGV2LT5kZXYp
+Ow0KPj4gKyBpZiAoIWVmeC0+ZGV2bGluaykNCj4+ICsgcmV0dXJuIC1FTk9NRU07DQo+PiArDQo+
+PiArIGRldmxfbG9jayhlZngtPmRldmxpbmspOw0KPj4gKyBkZXZsaW5rX3ByaXZhdGUgPSBkZXZs
+aW5rX3ByaXYoZWZ4LT5kZXZsaW5rKTsNCj4+ICsgZGV2bGlua19wcml2YXRlLT5lZnggPSBlZng7
+DQo+PiArDQo+PiArIGRldmxfcmVnaXN0ZXIoZWZ4LT5kZXZsaW5rKTsNCj4+ICsNCj4+ICsgcmV0
+dXJuIDA7DQo+PiArfQ0KPj4gKw0KPj4gK3ZvaWQgZWZ4X3Byb2JlX2RldmxpbmtfZG9uZShzdHJ1
+Y3QgZWZ4X25pYyAqZWZ4KQ0KPj4gK3sNCj4+ICsgaWYgKCFlZngtPmRldmxpbmspDQo+PiArIHJl
+dHVybjsNCj4+ICsNCj4+ICsgZGV2bF91bmxvY2soZWZ4LT5kZXZsaW5rKTsNCj4+ICt9DQo+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQvZXRoZXJuZXQvc2ZjL2VmeF9kZXZsaW5rLmggYi9kcml2
+ZXJzL25ldC9ldGhlcm5ldC9zZmMvZWZ4X2RldmxpbmsuaA0KPj4gbmV3IGZpbGUgbW9kZSAxMDA2
+NDQNCj4+IGluZGV4IDAwMDAwMDAwMDAwMC4uNTVkMGQ4YWVjYTFlDQo+PiAtLS0gL2Rldi9udWxs
+DQo+PiArKysgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9zZmMvZWZ4X2RldmxpbmsuaA0KPj4gQEAg
+LTAsMCArMSwyMiBAQA0KPj4gKy8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9u
+bHkgKi8NCj4+ICsvKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKg0KPj4gKyAqIERyaXZlciBmb3IgQU1EIG5l
+dHdvcmsgY29udHJvbGxlcnMgYW5kIGJvYXJkcw0KPj4gKyAqIENvcHlyaWdodCAoQykgMjAyMywg
+QWR2YW5jZWQgTWljcm8gRGV2aWNlcywgSW5jLg0KPj4gKyAqDQo+PiArICogVGhpcyBwcm9ncmFt
+IGlzIGZyZWUgc29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vciBtb2RpZnkg
+aXQNCj4+ICsgKiB1bmRlciB0aGUgdGVybXMgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNl
+bnNlIHZlcnNpb24gMiBhcyBwdWJsaXNoZWQNCj4+ICsgKiBieSB0aGUgRnJlZSBTb2Z0d2FyZSBG
+b3VuZGF0aW9uLCBpbmNvcnBvcmF0ZWQgaGVyZWluIGJ5IHJlZmVyZW5jZS4NCj4+ICsgKi8NCj4+
+ICsNCj4+ICsjaWZuZGVmIF9FRlhfREVWTElOS19IDQo+PiArI2RlZmluZSBfRUZYX0RFVkxJTktf
+SA0KPj4gKw0KPj4gKyNpbmNsdWRlICJuZXRfZHJpdmVyLmgiDQo+PiArI2luY2x1ZGUgPG5ldC9k
+ZXZsaW5rLmg+DQo+PiArDQo+PiAraW50IGVmeF9wcm9iZV9kZXZsaW5rKHN0cnVjdCBlZnhfbmlj
+ICplZngpOw0KPj4gK3ZvaWQgZWZ4X3Byb2JlX2RldmxpbmtfZG9uZShzdHJ1Y3QgZWZ4X25pYyAq
+ZWZ4KTsNCj4+ICt2b2lkIGVmeF9maW5pX2Rldmxpbmtfc3RhcnQoc3RydWN0IGVmeF9uaWMgKmVm
+eCk7DQo+PiArdm9pZCBlZnhfZmluaV9kZXZsaW5rKHN0cnVjdCBlZnhfbmljICplZngpOw0KPiBP
+ZGQgbmFtaW5nLi4uIEp1c3Qgc2F5aW5nLg0KPg0KDQpUaGlzIGlzIGR1ZSB0byB0aGUgcmVjb21t
+ZW5kZWQvcmVxdWlyZWQgZGV2bGluayBsb2NrL3VubG9jayBkdXJpbmcgDQpkcml2ZXIgaW5pdGlh
+bGl6YXRpb24vcmVtb3ZhbC4NCg0KSSB0aGluayBpdCBpcyBiZXR0ZXIgdG8ga2VlcCB0aGUgbG9j
+ay91bmxvY2sgaW5zaWRlIHRoZSBzcGVjaWZpYyBkcml2ZXIgDQpkZXZsaW5rIGNvZGUsIGFuZCB0
+aGUgZnVuY3Rpb25zIG5hbWluZyByZWZsZWN0cyBhIHRpbWUgd2luZG93IHdoZW4gDQpkZXZsaW5r
+IHJlbGF0ZWQvZGVwZW5kZW50IHByb2Nlc3NpbmcgaXMgYmVpbmcgZG9uZS4NCg0KSSdtIG5vdCBh
+Z2FpbnN0IGNoYW5naW5nIHRoaXMsIG1heWJlIGFkZGluZyB0aGUgbG9jay91bmxvY2sgc3VmZml4
+IHdvdWxkIA0KYmUgcHJlZmVyYWJsZT86DQoNCmludCBlZnhfcHJvYmVfZGV2bGlua19hbmRfbG9j
+ayhzdHJ1Y3QgZWZ4X25pYyAqZWZ4KTsNCnZvaWQgZWZ4X3Byb2JlX2RldmxpbmtfdW5sb2NrKHN0
+cnVjdCBlZnhfbmljICplZngpOw0Kdm9pZCBlZnhfZmluaV9kZXZsaW5rX2xvY2soc3RydWN0IGVm
+eF9uaWMgKmVmeCk7DQp2b2lkIGVmeF9maW5pX2RldmxpbmtfYW5kX3VubG9jayhzdHJ1Y3QgZWZ4
+X25pYyAqZWZ4KTsNCg0KPj4gKw0KPj4gKyNlbmRpZiAvKiBfRUZYX0RFVkxJTktfSCAqLw0KPj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9uZXRfZHJpdmVyLmggYi9kcml2
+ZXJzL25ldC9ldGhlcm5ldC9zZmMvbmV0X2RyaXZlci5oDQo+PiBpbmRleCAzYjQ5ZTIxNjc2OGIu
+LmQwMzY2NDFkYzA0MyAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9u
+ZXRfZHJpdmVyLmgNCj4+ICsrKyBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L3NmYy9uZXRfZHJpdmVy
+LmgNCj4+IEBAIC05OTQsNiArOTk0LDcgQEAgZW51bSBlZnhfeGRwX3R4X3F1ZXVlc19tb2RlIHsN
+Cj4+ICogeGRwX3J4cV9pbmZvIHN0cnVjdHVyZXM/DQo+PiAqIEBuZXRkZXZfbm90aWZpZXI6IE5l
+dGRldmljZSBub3RpZmllci4NCj4+ICogQHRjOiBzdGF0ZSBmb3IgVEMgb2ZmbG9hZCAoRUYxMDAp
+Lg0KPj4gKyAqIEBkZXZsaW5rOiByZWZlcmVuY2UgdG8gZGV2bGluayBzdHJ1Y3R1cmUgb3duZWQg
+YnkgdGhpcyBkZXZpY2UNCj4+ICogQG1lbV9iYXI6IFRoZSBCQVIgdGhhdCBpcyBtYXBwZWQgaW50
+byBtZW1iYXNlLg0KPj4gKiBAcmVnX2Jhc2U6IE9mZnNldCBmcm9tIHRoZSBzdGFydCBvZiB0aGUg
+YmFyIHRvIHRoZSBmdW5jdGlvbiBjb250cm9sIHdpbmRvdy4NCj4+ICogQG1vbml0b3Jfd29yazog
+SGFyZHdhcmUgbW9uaXRvciB3b3JraXRlbQ0KPj4gQEAgLTExNzksNiArMTE4MCw3IEBAIHN0cnVj
+dCBlZnhfbmljIHsNCj4+IHN0cnVjdCBub3RpZmllcl9ibG9jayBuZXRkZXZfbm90aWZpZXI7DQo+
+PiBzdHJ1Y3QgZWZ4X3RjX3N0YXRlICp0YzsNCj4+DQo+PiArIHN0cnVjdCBkZXZsaW5rICpkZXZs
+aW5rOw0KPj4gdW5zaWduZWQgaW50IG1lbV9iYXI7DQo+PiB1MzIgcmVnX2Jhc2U7DQo+Pg0KPj4g
+LS0gDQo+PiAyLjE3LjENCj4+DQoNCg0KDQo=
