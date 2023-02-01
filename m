@@ -2,106 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA303C38142
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 19:15:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64F92C636D4
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 19:23:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230208AbjBATPv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Feb 2023 14:15:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40210 "EHLO
+        id S231376AbjBATX1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Feb 2023 14:23:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229630AbjBATPv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 14:15:51 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CF8265EFC;
-        Wed,  1 Feb 2023 11:15:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675278950; x=1706814950;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qUn91Yoz8Yg2m3couikOrAFCjGFevfgvmBr+dnLp7Bs=;
-  b=CURC4Q5c9t4ADAxVrc6cQR6hij6psznMtw/w2vnY8hBD7HnxNEDc3+AP
-   shJ8eFyQEjdjtMn199Nz1/UaX9h8ChylFji6KdkrxhDL0DUXOA1D75IQe
-   MgZb5WqyZUAAhAHorXiUsCZaCVNNa5wt/qtG3DSURmWqVbi195QqWMqbK
-   PsH+1F0+VAFWsDBv9yzf5cpOYzzXgCmpZiw0GbWgZV+DIl1o/f8H8NTVn
-   xSymyXx/Fc8NKZt5tEVKRGaBtBsfzYD9GwtctYBnOq+2ju3Di5DDX6mcc
-   yhAQQFNgeS/7f/o0tKYSj3/gFqOnX3/ZJelWojWo+Gipq5BASifz/c98F
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="329539240"
-X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="329539240"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 11:15:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="733694309"
-X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="733694309"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Feb 2023 11:15:46 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pNIa9-0005jv-1z;
-        Wed, 01 Feb 2023 19:15:45 +0000
-Date:   Thu, 2 Feb 2023 03:15:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     alejandro.lucero-palau@amd.com, netdev@vger.kernel.org,
-        linux-net-drivers@amd.com
-Cc:     oe-kbuild-all@lists.linux.dev, davem@davemloft.net,
-        kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
-        habetsm.xilinx@gmail.com, ecree.xilinx@gmail.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net, jiri@nvidia.com,
-        Alejandro Lucero <alejandro.lucero-palau@amd.com>
-Subject: Re: [PATCH v4 net-next 7/8] sfc: add support for devlink
- port_function_hw_addr_get in ef100
-Message-ID: <202302020326.IUUr19ny-lkp@intel.com>
-References: <20230131145822.36208-8-alejandro.lucero-palau@amd.com>
+        with ESMTP id S232110AbjBATXO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 14:23:14 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50A19761C9;
+        Wed,  1 Feb 2023 11:23:11 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0D42DB8228D;
+        Wed,  1 Feb 2023 19:23:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B44F9C433EF;
+        Wed,  1 Feb 2023 19:23:07 +0000 (UTC)
+Date:   Wed, 1 Feb 2023 14:23:05 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        linux-trace-devel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2 1/6] rtla/osnoise: Add helper functions to manipulate
+ osnoise/options
+Message-ID: <20230201142305.4920f893@gandalf.local.home>
+In-Reply-To: <930c4ef71c7bcb1158d2a8cad905f4de425b8d1e.1675181734.git.bristot@kernel.org>
+References: <cover.1675181734.git.bristot@kernel.org>
+        <930c4ef71c7bcb1158d2a8cad905f4de425b8d1e.1675181734.git.bristot@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230131145822.36208-8-alejandro.lucero-palau@amd.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Tue, 31 Jan 2023 17:30:02 +0100
+Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
 
-Thank you for the patch! Yet something to improve:
+> Add some helper functions to read and set the on/off osnoise/options.
+> No usage in this patch.
+> 
+> In preparation for hwnoise tool.
 
-[auto build test ERROR on net-next/master]
+Honestly, I don't see why patches 1-5 isn't a single patch. It's not that
+big of a change, and everything in 1-5 is to do what 5 does. Breaking it up
+this fine grain isn't helpful in reviewing, as I found that I had to apply
+1-5 and then do a diff from where I started to make sense of any of it.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230131-230245
-patch link:    https://lore.kernel.org/r/20230131145822.36208-8-alejandro.lucero-palau%40amd.com
-patch subject: [PATCH v4 net-next 7/8] sfc: add support for devlink port_function_hw_addr_get in ef100
-config: ia64-randconfig-c031-20230129 (https://download.01.org/0day-ci/archive/20230202/202302020326.IUUr19ny-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/11c7bb1c959cd61c59ee9a12872d4e5afd4352c9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230131-230245
-        git checkout 11c7bb1c959cd61c59ee9a12872d4e5afd4352c9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash
+-- Steve
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
-
-   ia64-linux-ld: drivers/net/ethernet/sfc/ef100_nic.o: in function `ef100_remove':
-   ef100_nic.c:(.text+0x2f02): undefined reference to `efx_ef100_fini_reps'
-   ia64-linux-ld: ef100_nic.c:(.text+0x2f12): undefined reference to `efx_fini_mae'
-   ia64-linux-ld: drivers/net/ethernet/sfc/efx_devlink.o: in function `ef100_set_devlink_port':
-   efx_devlink.c:(.text+0x32): undefined reference to `efx_mae_lookup_mport'
-   ia64-linux-ld: efx_devlink.c:(.text+0x72): undefined reference to `efx_mae_get_mport'
-   ia64-linux-ld: efx_devlink.c:(.text+0xa2): undefined reference to `ef100_mport_on_local_intf'
-   ia64-linux-ld: drivers/net/ethernet/sfc/efx_devlink.o: in function `efx_devlink_port_addr_get':
->> efx_devlink.c:(.text+0x212): undefined reference to `ef100_mport_on_local_intf'
->> ia64-linux-ld: efx_devlink.c:(.text+0x2c2): undefined reference to `ef100_mport_is_vf'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> 
+> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+> Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> ---
+>
