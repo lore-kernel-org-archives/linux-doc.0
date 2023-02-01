@@ -2,102 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DC4FC05027
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 14:58:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 839AAC05027
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 16:16:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbjBAO6f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Feb 2023 09:58:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33376 "EHLO
+        id S230095AbjBAQQw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Feb 2023 11:16:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbjBAO6f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 09:58:35 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0724365EF9;
-        Wed,  1 Feb 2023 06:58:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675263514; x=1706799514;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=y7lIjMgMVtPV5bm6OW/RddCvD8S3NDjqYUBxTdcVV5w=;
-  b=oAvhkJPyBeNkg0NeDeSoM5sy5dWFGsgjREPE2c5Dvvzae7hh/R/GMwb4
-   rqcpeY4II0Y160K1bJkG5aVfI0995bo2aKQo1+qK5BSUMOXUqHRfuk16N
-   EJGwClD9BLDmnDyaP/RTEbBL2PNbTB1Ddk5B7QlS66R8MRBzz2VdIV+0/
-   HcigVnI1iYEhGrHhRIAD+wxNeDhMv8vhuCW238T9V2EhCjYJOnbU81g3I
-   cot1e5aWj0MD29QsTFKHHVJzseSo30565Av4sEdzm+HvF6UWdMIUedSIa
-   IH1HyvQJ5ArVlmc2raNrsjf8NKkyEVIXA87XqkBekJv9H/zRmDKHZ9+hR
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="308502812"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="308502812"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 06:58:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="910343874"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="910343874"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Feb 2023 06:58:30 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pNEZB-0005Vw-2Y;
-        Wed, 01 Feb 2023 14:58:29 +0000
-Date:   Wed, 1 Feb 2023 22:57:43 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     alejandro.lucero-palau@amd.com, netdev@vger.kernel.org,
-        linux-net-drivers@amd.com
-Cc:     oe-kbuild-all@lists.linux.dev, davem@davemloft.net,
-        kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
-        habetsm.xilinx@gmail.com, ecree.xilinx@gmail.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net, jiri@nvidia.com,
-        Alejandro Lucero <alejandro.lucero-palau@amd.com>
-Subject: Re: [PATCH v4 net-next 5/8] sfc: add devlink port support for ef100
-Message-ID: <202302012256.duJZ1JQ7-lkp@intel.com>
-References: <20230131145822.36208-6-alejandro.lucero-palau@amd.com>
+        with ESMTP id S229816AbjBAQQv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 11:16:51 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D5016B3;
+        Wed,  1 Feb 2023 08:16:50 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BA0844B3;
+        Wed,  1 Feb 2023 08:17:32 -0800 (PST)
+Received: from [10.34.100.128] (pierre123.nice.arm.com [10.34.100.128])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D3833F64C;
+        Wed,  1 Feb 2023 08:16:48 -0800 (PST)
+Message-ID: <66cfa719-6055-a521-6146-f629b7d0e446@arm.com>
+Date:   Wed, 1 Feb 2023 17:16:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230131145822.36208-6-alejandro.lucero-palau@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3] sched/topology: Remove EM_MAX_COMPLEXITY limit
+Content-Language: en-US
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Ionela.Voinescu@arm.com, qperret@google.com,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>
+References: <20221121094336.3250917-1-pierre.gondois@arm.com>
+ <81d99fba-ce38-a9a4-4b80-aa3e2cc6f3c6@arm.com>
+From:   Pierre Gondois <pierre.gondois@arm.com>
+In-Reply-To: <81d99fba-ce38-a9a4-4b80-aa3e2cc6f3c6@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hello Peter,
+Please let me know if there are additional modifications required,
+Regards,
+Pierre
 
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on net-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230131-230245
-patch link:    https://lore.kernel.org/r/20230131145822.36208-6-alejandro.lucero-palau%40amd.com
-patch subject: [PATCH v4 net-next 5/8] sfc: add devlink port support for ef100
-config: ia64-randconfig-c031-20230129 (https://download.01.org/0day-ci/archive/20230201/202302012256.duJZ1JQ7-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b74c06500aff0021c9aaa6edf390252c3e5de2cf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review alejandro-lucero-palau-amd-com/sfc-add-devlink-support-for-ef100/20230131-230245
-        git checkout b74c06500aff0021c9aaa6edf390252c3e5de2cf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   ia64-linux-ld: drivers/net/ethernet/sfc/ef100_nic.o: in function `ef100_remove':
-   ef100_nic.c:(.text+0x2e82): undefined reference to `efx_ef100_fini_reps'
-   ia64-linux-ld: ef100_nic.c:(.text+0x2e92): undefined reference to `efx_fini_mae'
-   ia64-linux-ld: drivers/net/ethernet/sfc/efx_devlink.o: in function `ef100_set_devlink_port':
->> efx_devlink.c:(.text+0x32): undefined reference to `efx_mae_lookup_mport'
->> ia64-linux-ld: efx_devlink.c:(.text+0x72): undefined reference to `efx_mae_get_mport'
->> ia64-linux-ld: efx_devlink.c:(.text+0xa2): undefined reference to `ef100_mport_on_local_intf'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+On 11/30/22 18:11, Dietmar Eggemann wrote:
+> On 21/11/2022 10:43, Pierre Gondois wrote:
+>> From: Pierre Gondois <Pierre.Gondois@arm.com>
+> 
+> [...]
+> 
+>> Signed-off-by: Pierre Gondois <Pierre.Gondois@arm.com>
+>> Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
+>> ---
+>>
+>> Notes:
+>>      v2:
+>>       - Fix complexity computation in the commit message. [Dietmar]
+>>       - Use correct/latest function names. [Ionela]
+>>       - Added Rb from Lukasz.
+>>      v3:
+>>       - Keep paragraph 6.3 in sched-energy.rst with just a reference to
+>>         EM_MAX_NUM_CPUS, reference EM_MAX_NUM_CPUS in the commit message.
+>>         [Dietmar]
+> 
+> Reviewed-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
