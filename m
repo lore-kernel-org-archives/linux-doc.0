@@ -2,243 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1E8DC05027
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 17:46:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F265BC05027
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 18:04:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230000AbjBARqC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Feb 2023 12:46:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39092 "EHLO
+        id S231513AbjBASEp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Feb 2023 13:04:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjBARqC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 12:46:02 -0500
+        with ESMTP id S231644AbjBASEm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 13:04:42 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79DF27DBF2
-        for <linux-doc@vger.kernel.org>; Wed,  1 Feb 2023 09:45:04 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAD6F5356C
+        for <linux-doc@vger.kernel.org>; Wed,  1 Feb 2023 10:03:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675273503;
+        s=mimecast20190719; t=1675274636;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=UnFcxjROyyHWCwIAZDqaqY0Iq1ZK0gA+pssv8VO2Ju0=;
-        b=KRuQx1xBPs0cB3T/XC/qf2wBuxHeWFUOJjgiuvlUaMry04IcRdMK0dqwm5akxkZho5zhht
-        vAxIZrmhgM5pD2DZP6wGlT1ss1i1qzpqiBJiYfG4cHVwS0IplAWxLqcsGOc7ybq7P7EuKU
-        ak49Rk8IFnaOJxw69MRnyq46WCHz3vE=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NHqnRVrVGsH0s7BP5ODEjlWZFmtlmfotNCTTEzO/Y1o=;
+        b=DIBoJ6+80ovzVRxNc4PwCfUoztxTdNK6j596B59r5PD0Umz9nemKxn9TKynhO6DktUJDsT
+        4BOM6VebW2SSf/iksi7EPB2xWNBz1Blc2kMNI1LJnRIuDwpoVpAbkV048MznuesVE/EQI7
+        zoWp1s9XuyXyVHdW+uGloKFOrUAhQTk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-604-vbCO64L5Nv2bxoyj5av6ag-1; Wed, 01 Feb 2023 12:45:02 -0500
-X-MC-Unique: vbCO64L5Nv2bxoyj5av6ag-1
-Received: by mail-ej1-f70.google.com with SMTP id z2-20020a1709060be200b0088b579825f9so5305969ejg.18
-        for <linux-doc@vger.kernel.org>; Wed, 01 Feb 2023 09:45:01 -0800 (PST)
+ us-mta-194-7MGS8arXNqC2GgaU8KzMjA-1; Wed, 01 Feb 2023 13:03:53 -0500
+X-MC-Unique: 7MGS8arXNqC2GgaU8KzMjA-1
+Received: by mail-wm1-f71.google.com with SMTP id o5-20020a05600c4fc500b003db0b3230efso1477090wmq.9
+        for <linux-doc@vger.kernel.org>; Wed, 01 Feb 2023 10:03:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UnFcxjROyyHWCwIAZDqaqY0Iq1ZK0gA+pssv8VO2Ju0=;
-        b=dmwsQvGy6GCIAVHLoSxi8cR5mCV5+0annbhw+2R66M1cGNh6CwbKxuVVxqUew50UH+
-         eEAhUv73phB6QLEvXXWN3gLaLSnQX2JhWNXO5Cn3Ld6kT/6t5gP/0Vy0EJjG0bzwJVGV
-         HipGtoi7QNEELZSv/Ts8qZT3wV9VKgAuL54EE5JervGl3gVoWAMURGirx0fGBctEWPKv
-         VLDynBYqgK3ACp3INZ6Bbyx3oDfuV92Wc23UoUcRiIycye2Dzq77nw4WSsdQVu+uqjSk
-         7xa6dyxH+xI0+ffkVt/p7lagC8/GRytn9pGrabgvA0HVZa4yrMWeh+mj2xKLdOFXIWgj
-         Addg==
-X-Gm-Message-State: AO0yUKWnMY/tND7g0JGopsB+NTIi0bBktNmm96rBBK4cxlSGi0ajMInf
-        SPJAYlv5tYnCFpv6hpN22wpwVQIr56gSgVqd3ao6jcUz9kYDKYpoUX4LYdJb2tPkzSrVPR+3xDj
-        /fcpM5eztxrFAnxTwPnR7
-X-Received: by 2002:a17:906:1659:b0:88c:bc3e:de46 with SMTP id n25-20020a170906165900b0088cbc3ede46mr3304006ejd.34.1675273500882;
-        Wed, 01 Feb 2023 09:45:00 -0800 (PST)
-X-Google-Smtp-Source: AK7set/KqtE6h4GRwWHZNEK6grwN4jouLe6UUuMNIiP529laS3s+okzhvFXzgQVyOXgAcfolsg1HGw==
-X-Received: by 2002:a17:906:1659:b0:88c:bc3e:de46 with SMTP id n25-20020a170906165900b0088cbc3ede46mr3303991ejd.34.1675273500533;
-        Wed, 01 Feb 2023 09:45:00 -0800 (PST)
-Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
-        by smtp.gmail.com with ESMTPSA id os25-20020a170906af7900b008874c903ec5sm5763744ejb.43.2023.02.01.09.44.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Feb 2023 09:45:00 -0800 (PST)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id ED1E69729EC; Wed,  1 Feb 2023 18:44:58 +0100 (CET)
-From:   =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>
-Cc:     David Vernet <void@manifault.com>,
-        Jesper Dangaard Brouer <brouer@redhat.com>,
-        =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [RFC PATCH v3] Documentation/bpf: Document API stability expectations for kfuncs
-Date:   Wed,  1 Feb 2023 18:44:48 +0100
-Message-Id: <20230201174449.94650-1-toke@redhat.com>
-X-Mailer: git-send-email 2.39.1
+        bh=NHqnRVrVGsH0s7BP5ODEjlWZFmtlmfotNCTTEzO/Y1o=;
+        b=BG1eIVu6LvLIdVgwO392TfglAW9z0b0JmGXFpnjcnKZO6B1MdYQYn96o1VrOzOPNxc
+         MJzlJBYD27Obm2IyVkJubkEkA2wNyIGNh8gX8YIibQhaf0aolAOG0O9raotBewXTVvqZ
+         ed1FMG/oOSviREFFpae0rs97DW/9PG2TK9EJH0PTlT5LXBYj2C8eNN5S4K2wwp48uTes
+         8leQeVbqAYmvYFccqxv/w6KOZvCjidPBhxeni47kJVSifbCt0l0v0EzyjzrIvVXNDuSk
+         8zcznw+xGxHveSg5qNeeFk8oc46+ch/vPSUGjMpbo8oCvrpQYsWQHIMLdnkx/EIMnO/x
+         vorg==
+X-Gm-Message-State: AO0yUKXiWQA7aVjlSFwVPOB+rRbRGwf2O3+eYZM1sYKpwgUfwSxHAGOP
+        nGOyH1e/Ic3Wvb2IN+bOZO2g6MzbJfe/Id3MCZLjpTre9gvxD2DSHP469TcWaE9lnPV7EMYwotR
+        4/3MFq/o4jQhjmOugJ1Ok
+X-Received: by 2002:a05:600c:4e53:b0:3dc:5390:6499 with SMTP id e19-20020a05600c4e5300b003dc53906499mr2951543wmq.1.1675274632546;
+        Wed, 01 Feb 2023 10:03:52 -0800 (PST)
+X-Google-Smtp-Source: AK7set8RWgxHAxxme3PCml6Vw4YQkL/Vp0Q30f/GZD4RoMNh8TWXDsQ+OvBtB+e0X6QNaxXSFYW6iA==
+X-Received: by 2002:a05:600c:4e53:b0:3dc:5390:6499 with SMTP id e19-20020a05600c4e5300b003dc53906499mr2951490wmq.1.1675274632249;
+        Wed, 01 Feb 2023 10:03:52 -0800 (PST)
+Received: from ?IPV6:2003:cb:c705:3100:e20e:4ace:6f25:6a79? (p200300cbc7053100e20e4ace6f256a79.dip0.t-ipconnect.de. [2003:cb:c705:3100:e20e:4ace:6f25:6a79])
+        by smtp.gmail.com with ESMTPSA id p11-20020a1c544b000000b003dc4fd6e624sm2570630wmi.19.2023.02.01.10.03.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Feb 2023 10:03:51 -0800 (PST)
+Message-ID: <fb8446af-fd87-5609-05bf-5064615c7918@redhat.com>
+Date:   Wed, 1 Feb 2023 19:03:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 18/39] mm: Handle faultless write upgrades for shstk
+Content-Language: en-US
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-19-rick.p.edgecombe@intel.com>
+ <7f63d13d-7940-afb6-8b25-26fdf3804e00@redhat.com>
+ <50cf64932507ba60639eca28692e7df285bcc0a7.camel@intel.com>
+ <1327c608-1473-af4f-d962-c24f04f3952c@redhat.com>
+ <8c3820ae1448de4baffe7c476b4b5d9ba0a309ff.camel@intel.com>
+ <4d224020-f26f-60a4-c7ab-721a024c7a6d@redhat.com>
+ <dd06b54291ad5721da392a42f2d8e5636301ffef.camel@intel.com>
+ <899d8f3baaf45b896cf335dec2143cd0969a2d8a.camel@intel.com>
+ <ad7d94dd-f0aa-bf21-38c3-58ef1e9e46dc@redhat.com>
+ <27b141c06c37da78afca7214ec7efeaf730162d9.camel@intel.com>
+ <f4b62ed9-21a9-4b23-567e-51b339a643ac@redhat.com>
+ <6a38779c1539c2bcfeb6bc8251ed04aa9b06802e.camel@intel.com>
+ <0e29a2d0-08d8-bcd6-ff26-4bea0e4037b0@redhat.com>
+ <f337d3b0e401c210b67a6465bf35f66f6a46fc3d.camel@intel.com>
+ <a4857ccd-1d5f-2169-40bc-e7a75a0c896f@redhat.com>
+ <f55d9563c432db15f8a768381103abe8e986a42b.camel@intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <f55d9563c432db15f8a768381103abe8e986a42b.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Following up on the discussion at the BPF office hours (and subsequent
-discussion), this patch adds a description of API stability expectations
-for kfuncs. The goal here is to manage user expectations about what kind of
-stability can be expected for kfuncs exposed by the kernel.
+On 01.02.23 18:32, Edgecombe, Rick P wrote:
+> On Wed, 2023-02-01 at 10:03 +0100, David Hildenbrand wrote:
+>>>
+>>> The other problem is that one of NULL passers is not for kernel
+>>> memory.
+>>> huge_pte_mkwrite() calls pte_mkwrite(). Shadow stack memory can't
+>>> be
+>>> created with MAP_HUGETLB, so it is not needed. Using
+>>> pte_mkwrite_kernel() would look weird in this case, but making
+>>> huge_pte_mkwrite() take a VMA would be for no reason. Maybe making
+>>> huge_pte_mkwrite() take a VMA is the better of those two options.
+>>> Or
+>>> keep the NULL semantics...  Any thoughts?
+>>
+>> Well, the reason would be consistency. From a core-mm point of view
+>> it
+>> makes sense to handle this all consistency, even if the single user
+>> (x86) wouldn't strictly require it right now.
+>>
+>> I'd just pass in the VMA and call it a day :)
+> 
+> Ok, I'll give it a spin.
 
-Since the traditional BPF helpers are basically considered frozen at this
-point, kfuncs will be the way all new functionality will be exposed to BPF
-going forward. This makes it important to document their stability
-guarantees, especially since the perception up until now has been that
-kfuncs should always be considered "unstable" in the sense of "may go away
-or change at any time". Which in turn makes some users reluctant to use
-them because they don't want to rely on functionality that may be removed
-in future kernel versions.
+It would be good to get more opinions on that, but I'm afraid we won't 
+get more deep down in this thread :)
 
-This patch adds a section to the kfuncs documentation outlining how we as a
-community think about kfunc stability. The description is a bit vague and
-wishy-washy at times, but since there does not seem to be consensus to
-commit to any kind of hard stability guarantees at this point, I feat this
-is the best we can do.
-
-I put this topic on the agenda again for tomorrow's office hours, but
-wanted to send this out ahead of time, to give people a chance to read it
-and think about whether it makes sense or if there's a better approach.
-
-Previous discussion:
-https://lore.kernel.org/r/20230117212731.442859-1-toke@redhat.com
-
-v3:
-- Drop the KF_STABLE tag and instead try to describe kfunc stability
-  expectations in general terms. Keep the notion of deprecated kfuncs.
-v2:
-- Incorporate Daniel's changes
-
-Signed-off-by: Toke Høiland-Jørgensen <toke@redhat.com>
----
- Documentation/bpf/kfuncs.rst | 88 +++++++++++++++++++++++++++++++++---
- 1 file changed, 82 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
-index 9fd7fb539f85..6885a64ce0ff 100644
---- a/Documentation/bpf/kfuncs.rst
-+++ b/Documentation/bpf/kfuncs.rst
-@@ -7,9 +7,9 @@ BPF Kernel Functions (kfuncs)
- 
- BPF Kernel Functions or more commonly known as kfuncs are functions in the Linux
- kernel which are exposed for use by BPF programs. Unlike normal BPF helpers,
--kfuncs do not have a stable interface and can change from one kernel release to
--another. Hence, BPF programs need to be updated in response to changes in the
--kernel.
-+kfuncs by default do not have a stable interface and can change from one kernel
-+release to another. Hence, BPF programs may need to be updated in response to
-+changes in the kernel. See :ref:`BPF_kfunc_stability`.
- 
- 2. Defining a kfunc
- ===================
-@@ -223,14 +223,90 @@ type. An example is shown below::
-         }
-         late_initcall(init_subsystem);
- 
--3. Core kfuncs
-+
-+.. _BPF_kfunc_stability:
-+
-+3. API (in)stability of kfuncs
-+==============================
-+
-+By default, kfuncs exported to BPF programs are considered a kernel-internal
-+interface that can change between kernel versions. This means that BPF programs
-+using kfuncs may need to adapt to changes between kernel versions. In the
-+extreme case that could also include removal of a kfunc. In other words, kfuncs
-+are _not_ part of the kernel UAPI! Rather, these kfuncs can be thought of as
-+being similar to internal kernel API functions exported using the
-+``EXPORT_SYMBOL_GPL`` macro.
-+
-+While kfuncs are similar to internal kernel API functions, they differ in that
-+most consumers of kfuncs (i.e., BPF programs) are not part of the kernel source
-+tree. This means that callers of a kfunc cannot generally be changed at the same
-+time as the kfunc itself, which is otherwise standard practice in the kernel
-+tree. For this reason, the BPF community has to strike a balance between being
-+able to move the kernel forward without being locked into a rigid exported API,
-+and avoiding breaking BPF consumers of the functions. This is a technical
-+trade-off that will be judged on a case-by-case basis. The following points are
-+an attempt to capture the things that will be taken into account when making a
-+decision on whether to change or remove a kfunc:
-+
-+1. When a patch adding a new kfunc is merged into the kernel tree, that will
-+   make the kfunc available to a wider audience than during its development,
-+   subjecting it to additional scrutiny. This may reveal limitations in the API
-+   that was not apparent during development. As such, a newly added kfunc may
-+   change in the period immediately after it was first merged into the kernel.
-+
-+2. The BPF community will make every reasonable effort to keep kfuncs around as
-+   long as they continue to be useful to real-world BPF applications, and don't
-+   have any unforeseen API issues or limitations.
-+
-+3. Should the need arise to change a kfunc that is still in active use by BPF
-+   applications, that kfunc will go through a deprecation procedure as outlined
-+   below.
-+
-+The procedural description above is deliberately vague, as the decision on
-+whether to change it will ultimately be a judgement call made by the BPF
-+maintainers. However, feedback from users of a kfunc is an important input to
-+this decision, as it helps maintainers determine to what extent a given kfunc is
-+in use. For this reason, the BPF community encourages users to provide such
-+feedback (including pointing out problems with a given kfunc).
-+
-+In addition to the guidelines outlined above, the kernel subsystems exposing
-+functionality via kfuncs may have their own guidelines. These will be documented
-+by that subsystem as part of the documentation of the functionality exposed to
-+BPF.
-+
-+3.1 Deprecation of kfuncs
-+-------------------------
-+
-+As described above, the community will make every reasonable effort to keep
-+useful kfuncs available through future kernel versions. However, it may happen
-+that the kernel development moves in a direction so that the API exposed by a
-+given kfunc becomes a barrier to further development.
-+
-+A kfunc that is slated for removal can be marked as *deprecated* using the
-+``KF_DEPRECATED`` tag. Once a kfunc is marked as deprecated, the following
-+procedure will be followed for removal:
-+
-+1. A deprecated kfunc will be kept in the kernel for a period of time after it
-+   was first marked as deprecated. This time period will be chosen on a
-+   case-by-case basis, based on how widespread the use of the kfunc is, how long
-+   it has been in the kernel, and how hard it is to move to alternatives.
-+
-+2. Deprecated functions will be documented in the kernel docs along with their
-+   remaining lifespan and including a recommendation for new functionality that
-+   can replace the usage of the deprecated function (or an explanation for why
-+   no such replacement exists).
-+
-+3. After the deprecation period, the kfunc will be removed. After this happens,
-+   BPF programs calling the kfunc will be rejected by the verifier.
-+
-+4. Core kfuncs
- ==============
- 
- The BPF subsystem provides a number of "core" kfuncs that are potentially
- applicable to a wide variety of different possible use cases and programs.
- Those kfuncs are documented here.
- 
--3.1 struct task_struct * kfuncs
-+4.1 struct task_struct * kfuncs
- -------------------------------
- 
- There are a number of kfuncs that allow ``struct task_struct *`` objects to be
-@@ -306,7 +382,7 @@ Here is an example of it being used:
- 		return 0;
- 	}
- 
--3.2 struct cgroup * kfuncs
-+4.2 struct cgroup * kfuncs
- --------------------------
- 
- ``struct cgroup *`` objects also have acquire and release functions:
 -- 
-2.39.1
+Thanks,
+
+David / dhildenb
 
