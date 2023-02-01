@@ -2,182 +2,278 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7BA6C38142
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 07:04:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C58C05027
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 08:10:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231709AbjBAHEB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Feb 2023 02:04:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46246 "EHLO
+        id S231895AbjBAIKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Feb 2023 03:10:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231634AbjBAHDz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 02:03:55 -0500
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2076.outbound.protection.outlook.com [40.107.223.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEB343402C;
-        Tue, 31 Jan 2023 23:03:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Pfl0x402Cr18ChPko+xDFsUMXE0HtedtfaPdu9iV5kVicGhaD7yMo/6+CwqPsTOeIbT47d2IRboRPsKK+5e5b/bAr945kiRQm/Zs9wSVujQ4h0BsEM+7O/0CBSGuyHQ65W5tw1XbHvtUtM1agniYeGHLO+5EEkdIi5WubkJTMptRD5iql9KXtwmNde421np6pjerL46mHNy0eIR6QwOwF/vgxWTRmYuNP+QYKZoa1/r+e3q8reWpZ4nnZl8x+jB0pkup+CLllqDTqvBz+imDaFhK1smSieDlk8Wqu/Nl6z8UKI4ySK8tgi3jAyYKPTsawIdQGmwv6RkkOr9uPh3zNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4n0RpfNBZd6GB8zi6rx8maW2j8088D2LzBQWffsVsrM=;
- b=LT+Fah+I4t5dezmOO3K/iZDNMpiq8xiSe7CNYfsfRTg6KX30LwMXyrR2/4NidRdLq5hrR7/w4Xt4JHqzvcPLiwZKFAvRJnZ+KWJbMrCCMpjZaPrXzl99GLYLSybaI8TEW9Yy9wgY2iG9sMh1wcaU+njv/V5vC0s0Q6jebdA3WjBJj6ZZv26KviXCAdlkmpljz22Akxb9Ovf7Xi5zoJimna2JboD6imVPWLMZpE9e3o1ic7L4qahQoWqk/N0+h+gRO47cLnKPQVMhuRWOrCxv04/XeuFsxxr9xDKznhU47rfm36ruZURXqkmVCS5aOOcf1hRdgRBAZnTzbNWo6vgKyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4n0RpfNBZd6GB8zi6rx8maW2j8088D2LzBQWffsVsrM=;
- b=lvEEiUCX4Hm0MsRUY0Jv5WdvuJ9+7u+tT6h9bwSm0JHbwoPiqYCr4cwVEWsAfWI5flBltinkMg1ZX5O5JPNLxTUwsJN50eB9VSK8OJXWo0a9vvIv7BH5IGtjBAj+fsWkJtVdeDps7X2mMfvu2+z4gFS10tRQEnVcApJeFXhfZs8=
-Received: from MW4PR03CA0144.namprd03.prod.outlook.com (2603:10b6:303:8c::29)
- by MN2PR12MB4422.namprd12.prod.outlook.com (2603:10b6:208:265::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Wed, 1 Feb
- 2023 07:02:56 +0000
-Received: from CO1NAM11FT046.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8c:cafe::8c) by MW4PR03CA0144.outlook.office365.com
- (2603:10b6:303:8c::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38 via Frontend
- Transport; Wed, 1 Feb 2023 07:02:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT046.mail.protection.outlook.com (10.13.174.203) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6064.24 via Frontend Transport; Wed, 1 Feb 2023 07:02:55 +0000
-Received: from beas.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 1 Feb
- 2023 01:02:50 -0600
-From:   Wyes Karny <wyes.karny@amd.com>
-To:     Rafael J Wysocki <rafael@kernel.org>,
-        Huang Rui <ray.huang@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        <Mario.Limonciello@amd.com>, <Perry.Yuan@amd.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
-        <santosh.shukla@amd.com>, Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Ananth Narayan <ananth.narayan@amd.com>,
-        <gautham.shenoy@amd.com>, Tor Vic <torvic9@mailbox.org>,
-        Wyes Karny <wyes.karny@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v5 6/6] Documentation: amd_pstate: Update amd_pstate status sysfs for guided
-Date:   Wed, 1 Feb 2023 06:58:23 +0000
-Message-ID: <20230201065823.189828-7-wyes.karny@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230201065823.189828-1-wyes.karny@amd.com>
-References: <20230201065823.189828-1-wyes.karny@amd.com>
+        with ESMTP id S229665AbjBAIKk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 03:10:40 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA7DA4A1D3;
+        Wed,  1 Feb 2023 00:10:38 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id p26so37726923ejx.13;
+        Wed, 01 Feb 2023 00:10:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sAw/2Lb4WEMKODNRpea0RgUuW7spEUL/UcL2ikpdsPM=;
+        b=hypU2ywqUPnhOFmO53k3vWMtaI3TZk9w/pAiV2phxid8BLcmhkZuK41q9GCZhvKV4U
+         4FAOXwwT1jJ8UXX7p9DBkJ6FiBkXRkRgMRGUVbmqizXWe1WW/yJxWJG49X3dwnUb3y6g
+         oDsp1vtU4rMVLRJV+Cg2QfEpBiQeivDtiRBzQA0L6Ks/OAa8NjlK4BUv1jQ8DEtELsDk
+         tlnIDtN+/JKx1I1e3XEblB03aMsxjz6GYdutVfrTzF5am6rYxqnU1LA/lA7yj0QVQqu+
+         YjP65yHGatxQtbF3C7VAGtHlIK+cJk9MwDVHTDLDYMYnUtrlbzTBJagHwxfnhSJwUNjH
+         CE+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sAw/2Lb4WEMKODNRpea0RgUuW7spEUL/UcL2ikpdsPM=;
+        b=5C1mygzeZ10f+9szz1TTYhDYzQtzKQiZvfLUOAzBixK/b0JAVVGhERAv2xR86tK1zk
+         xJku5VO+KuJ00AgUnXcZwk1KQ9VrfVZrOxy7ts6M1rQ9q5uPUdyukR7blbLvVHpzXeoH
+         vSVZNvSyDYR1qRbHJY1OWmQOAqbNHzAbBFL0lNbMtuLbv9tBk9uRQMAQDZqsX2aL8nze
+         F3Uuc11ley9xGmuzcD/O/ABxf79BdDeJ5Zmlqzr0qMRz7X76DY6iNsWpgWE1VJo1d5HE
+         S+T01X7isWjMvKcN7kOGsgNGXVDFzRdyDVRtpFBCaeCF3/DboUw3fn4IVdizCTq6/58j
+         l/lg==
+X-Gm-Message-State: AO0yUKUAnbEw5V4HrpawwD3D1ZoiIV2Ux4kA3bIq/c9mLXweuRifT0yR
+        0qSu7Vw0geNIqPdaxYFmAN5QvwRWAWWk/ox9owUreLRe
+X-Google-Smtp-Source: AK7set+9h23A/qVuAHRJqdAxWAXuK7e3mK/l4CvEdFLsZLVp6YEZc8fcyuPeZ7PdWPEF2EwqPFPsM2fTVnMzSM05ZfA=
+X-Received: by 2002:a17:906:2c53:b0:83d:2544:a11 with SMTP id
+ f19-20020a1709062c5300b0083d25440a11mr387344ejh.226.1675239037037; Wed, 01
+ Feb 2023 00:10:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT046:EE_|MN2PR12MB4422:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb48b480-35bf-4177-1d04-08db0422585a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: p/y9/ewF6g2ESQmcxRXNjCgudOUmhaxGVChGkK+Xx1rhCL9sD4UbSFAmql/X3GaZqCZReabLPeQlM+DxYxomBs7+eEEoLAnHDpeglwpgctoxffHbWUjgmdaWNgLLfhfF6N3Ra++uP0OW9BZ9YoeQe9xVhu8PM8JcTzC5DKFRJz6vz5wpnkC0po3bQL0K/dAL63+rn7J5D9AGixPL0U8MtpaBnhb6LwW+1gtbAnGp/NutldyncwZOl1I8wjBjMwOjpCzhzdvblvzs/1Vg1C0fIQ3dpW5WK3kv7b/GVbyULcg49rLkmXAS3bXMUtuJZmUvdjSPSdu6CpmNSYEZdgzsStCk2m1whAJZDzWrVpvYONt9CGve/2N1xjyj6M87MQEFAKjynXKx+mvTqTlpUsfOUy/bCtLvYZn7kJ6D/VEK0X6VXJOnFMLwPK8hfYe9tpg2aScxkpMNPPRhL/sNd/JhPSBtEgO0Aa/WuOSkTlKKg9im+0TvvW3UvtT/JG/QM/yCzrv/4A4hnf2VMbR4/WWo9Bu2XlFCIs6tjp7VpKqa5tQvpoDo9rHBiIfld1JIimbZa6MUnXA0c33+ZHVJLVlL+7c1pixnZ68Uj1nbUW0odr9vC4AjgYdHuctZowDcu3CuO345hg5IMNap7L4riR9uEElBfD1kh5RV1OkK+GrAJS52FmhgaFOR6rarRiCRgtxjmvozIwos0K5YTgwjHB3pdw3qWHKdxsc+skXaL7PtLsc=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(396003)(39860400002)(376002)(136003)(346002)(451199018)(40470700004)(46966006)(36840700001)(2906002)(8936002)(15650500001)(8676002)(4326008)(44832011)(336012)(478600001)(36756003)(6666004)(426003)(186003)(40460700003)(5660300002)(16526019)(7696005)(47076005)(26005)(2616005)(7416002)(1076003)(40480700001)(86362001)(82310400005)(41300700001)(356005)(83380400001)(70586007)(70206006)(82740400003)(316002)(36860700001)(81166007)(54906003)(6636002)(110136005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2023 07:02:55.9350
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb48b480-35bf-4177-1d04-08db0422585a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT046.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4422
+References: <20230118061256.2689-1-dakr@redhat.com> <20230118061256.2689-6-dakr@redhat.com>
+ <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com> <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
+ <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com> <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
+ <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com> <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
+ <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com> <bc523c5c-efe6-1a7f-b49a-e0867dc1413d@redhat.com>
+ <15fb0179-c7c5-8a64-ed08-841189919f5e@redhat.com> <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
+In-Reply-To: <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
+From:   Dave Airlie <airlied@gmail.com>
+Date:   Wed, 1 Feb 2023 18:10:24 +1000
+Message-ID: <CAPM=9txON8VCb3H7vDY_DOgtUg2Ad3mBvYVxgSMyZ1noOu-rBQ@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi interfaces
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Danilo Krummrich <dakr@redhat.com>,
+        Matthew Brost <matthew.brost@intel.com>, daniel@ffwll.ch,
+        corbet@lwn.net, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mripard@kernel.org, bskeggs@redhat.com, jason@jlekstrand.net,
+        nouveau@lists.freedesktop.org, airlied@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update amd_pstate status sysfs for guided mode.
+On Mon, 30 Jan 2023 at 23:02, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+>
+> Am 29.01.23 um 19:46 schrieb Danilo Krummrich:
+> > On 1/27/23 22:09, Danilo Krummrich wrote:
+> >> On 1/27/23 16:17, Christian K=C3=B6nig wrote:
+> >>> Am 27.01.23 um 15:44 schrieb Danilo Krummrich:
+> >>>> [SNIP]
+> >>>>>>>
+> >>>>>>> What you want is one component for tracking the VA allocations
+> >>>>>>> (drm_mm based) and a different component/interface for tracking
+> >>>>>>> the VA mappings (probably rb tree based).
+> >>>>>>
+> >>>>>> That's what the GPUVA manager is doing. There are gpuva_regions
+> >>>>>> which correspond to VA allocations and gpuvas which represent the
+> >>>>>> mappings. Both are tracked separately (currently both with a
+> >>>>>> separate drm_mm, though). However, the GPUVA manager needs to
+> >>>>>> take regions into account when dealing with mappings to make sure
+> >>>>>> the GPUVA manager doesn't propose drivers to merge over region
+> >>>>>> boundaries. Speaking from userspace PoV, the kernel wouldn't
+> >>>>>> merge mappings from different VKBuffer objects even if they're
+> >>>>>> virtually and physically contiguous.
+> >>>>>
+> >>>>> That are two completely different things and shouldn't be handled
+> >>>>> in a single component.
+> >>>>
+> >>>> They are different things, but they're related in a way that for
+> >>>> handling the mappings (in particular merging and sparse) the GPUVA
+> >>>> manager needs to know the VA allocation (or region) boundaries.
+> >>>>
+> >>>> I have the feeling there might be a misunderstanding. Userspace is
+> >>>> in charge to actually allocate a portion of VA space and manage it.
+> >>>> The GPUVA manager just needs to know about those VA space
+> >>>> allocations and hence keeps track of them.
+> >>>>
+> >>>> The GPUVA manager is not meant to be an allocator in the sense of
+> >>>> finding and providing a hole for a given request.
+> >>>>
+> >>>> Maybe the non-ideal choice of using drm_mm was implying something
+> >>>> else.
+> >>>
+> >>> Uff, well long story short that doesn't even remotely match the
+> >>> requirements. This way the GPUVA manager won't be usable for a whole
+> >>> bunch of use cases.
+> >>>
+> >>> What we have are mappings which say X needs to point to Y with this
+> >>> and hw dependent flags.
+> >>>
+> >>> The whole idea of having ranges is not going to fly. Neither with
+> >>> AMD GPUs and I strongly think not with Intels XA either.
+> >>
+> >> A range in the sense of the GPUVA manager simply represents a VA
+> >> space allocation (which in case of Nouveau is taken in userspace).
+> >> Userspace allocates the portion of VA space and lets the kernel know
+> >> about it. The current implementation needs that for the named
+> >> reasons. So, I think there is no reason why this would work with one
+> >> GPU, but not with another. It's just part of the design choice of the
+> >> manager.
+> >>
+> >> And I'm absolutely happy to discuss the details of the manager
+> >> implementation though.
+> >>
+> >>>
+> >>>>> We should probably talk about the design of the GPUVA manager once
+> >>>>> more when this should be applicable to all GPU drivers.
+> >>>>
+> >>>> That's what I try to figure out with this RFC, how to make it
+> >>>> appicable for all GPU drivers, so I'm happy to discuss this. :-)
+> >>>
+> >>> Yeah, that was really good idea :) That proposal here is really far
+> >>> away from the actual requirements.
+> >>>
+> >>
+> >> And those are the ones I'm looking for. Do you mind sharing the
+> >> requirements for amdgpu in particular?
+> >>
+> >>>>>> For sparse residency the kernel also needs to know the region
+> >>>>>> boundaries to make sure that it keeps sparse mappings around.
+> >>>>>
+> >>>>> What?
+> >>>>
+> >>>> When userspace creates a new VKBuffer with the
+> >>>> VK_BUFFER_CREATE_SPARSE_BINDING_BIT the kernel may need to create
+> >>>> sparse mappings in order to ensure that using this buffer without
+> >>>> any memory backed mappings doesn't fault the GPU.
+> >>>>
+> >>>> Currently, the implementation does this the following way:
+> >>>>
+> >>>> 1. Userspace creates a new VKBuffer and hence allocates a portion
+> >>>> of the VA space for it. It calls into the kernel indicating the new
+> >>>> VA space region and the fact that the region is sparse.
+> >>>>
+> >>>> 2. The kernel picks up the region and stores it in the GPUVA
+> >>>> manager, the driver creates the corresponding sparse mappings /
+> >>>> page table entries.
+> >>>>
+> >>>> 3. Userspace might ask the driver to create a couple of memory
+> >>>> backed mappings for this particular VA region. The GPUVA manager
+> >>>> stores the mapping parameters, the driver creates the corresponding
+> >>>> page table entries.
+> >>>>
+> >>>> 4. Userspace might ask to unmap all the memory backed mappings from
+> >>>> this particular VA region. The GPUVA manager removes the mapping
+> >>>> parameters, the driver cleans up the corresponding page table
+> >>>> entries. However, the driver also needs to re-create the sparse
+> >>>> mappings, since it's a sparse buffer, hence it needs to know the
+> >>>> boundaries of the region it needs to create the sparse mappings in.
+> >>>
+> >>> Again, this is not how things are working. First of all the kernel
+> >>> absolutely should *NOT* know about those regions.
+> >>>
+> >>> What we have inside the kernel is the information what happens if an
+> >>> address X is accessed. On AMD HW this can be:
+> >>>
+> >>> 1. Route to the PCIe bus because the mapped BO is stored in system
+> >>> memory.
+> >>> 2. Route to the internal MC because the mapped BO is stored in local
+> >>> memory.
+> >>> 3. Route to other GPUs in the same hive.
+> >>> 4. Route to some doorbell to kick of other work.
+> >>> ...
+> >>> x. Ignore write, return 0 on reads (this is what is used for sparse
+> >>> mappings).
+> >>> x+1. Trigger a recoverable page fault. This is used for things like
+> >>> SVA.
+> >>> x+2. Trigger a non-recoverable page fault. This is used for things
+> >>> like unmapped regions where access is illegal.
+> >>>
+> >>> All this is plus some hw specific caching flags.
+> >>>
+> >>> When Vulkan allocates a sparse VKBuffer what should happen is the
+> >>> following:
+> >>>
+> >>> 1. The Vulkan driver somehow figures out a VA region A..B for the
+> >>> buffer. This can be in userspace (libdrm_amdgpu) or kernel (drm_mm),
+> >>> but essentially is currently driver specific.
+> >>
+> >> Right, for Nouveau we have this in userspace as well.
+> >>
+> >>>
+> >>> 2. The kernel gets a request to map the VA range A..B as sparse,
+> >>> meaning that it updates the page tables from A..B with the sparse
+> >>> setting.
+> >>>
+> >>> 3. User space asks kernel to map a couple of memory backings at
+> >>> location A+1, A+10, A+15 etc....
+> >>>
+> >>> 4. The VKBuffer is de-allocated, userspace asks kernel to update
+> >>> region A..B to not map anything (usually triggers a non-recoverable
+> >>> fault).
+> >>
+> >> Until here this seems to be identical to what I'm doing.
+> >>
+> >> It'd be interesting to know how amdgpu handles everything that
+> >> potentially happens between your 3) and 4). More specifically, how
+> >> are the page tables changed when memory backed mappings are mapped on
+> >> a sparse range? What happens when the memory backed mappings are
+> >> unmapped, but the VKBuffer isn't de-allocated, and hence sparse
+> >> mappings need to be re-deployed?
+> >>
+> >> Let's assume the sparse VKBuffer (and hence the VA space allocation)
+> >> is pretty large. In Nouveau the corresponding PTEs would have a
+> >> rather huge page size to cover this. Now, if small memory backed
+> >> mappings are mapped to this huge sparse buffer, in Nouveau we'd
+> >> allocate a new PT with a corresponding smaller page size overlaying
+> >> the sparse mappings PTEs.
+> >>
+> >> How would this look like in amdgpu?
+> >>
+> >>>
+> >>> When you want to unify this between hw drivers I strongly suggest to
+> >>> completely start from scratch once more.
+> >>>
+> >
+> > I just took some time digging into amdgpu and, surprisingly, aside
+> > from the gpuva_regions it seems like amdgpu basically does exactly the
+> > same as I do in the GPU VA manager. As explained, those region
+> > boundaries are needed for merging only and, depending on the driver,
+> > might be useful for sparse mappings.
+> >
+> > For drivers that don't intend to merge at all and (somehow) are
+> > capable of dealing with sparse regions without knowing the sparse
+> > region's boundaries, it'd be easy to make those gpuva_regions optional.
+>
+> Yeah, but this then defeats the approach of having the same hw
+> independent interface/implementation for all drivers.
 
-Signed-off-by: Wyes Karny <wyes.karny@amd.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
----
- Documentation/admin-guide/pm/amd-pstate.rst | 34 ++++++++++++++++-----
- 1 file changed, 27 insertions(+), 7 deletions(-)
+I think you are running a few steps ahead here. The plan isn't to have
+an independent interface, it's to provide a set of routines and
+tracking that will be consistent across drivers, so that all drivers
+once using them will operate in mostly the same fashion with respect
+to GPU VA tracking and VA/BO lifetimes. Already in the tree we have
+amdgpu and freedreno which I think end up operating slightly different
+around lifetimes. I'd like to save future driver writers the effort of
+dealing with those decisions and this should drive their user api
+design so to enable vulkan sparse bindings.
 
-diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-index 5304adf2fc2f..17fafe5d6625 100644
---- a/Documentation/admin-guide/pm/amd-pstate.rst
-+++ b/Documentation/admin-guide/pm/amd-pstate.rst
-@@ -303,13 +303,18 @@ efficiency frequency management method on AMD processors.
- AMD Pstate Driver Operation Modes
- =================================
- 
--``amd_pstate`` CPPC has two operation modes: CPPC Autonomous(active) mode and
--CPPC non-autonomous(passive) mode.
--active mode and passive mode can be chosen by different kernel parameters.
--When in Autonomous mode, CPPC ignores requests done in the Desired Performance
--Target register and takes into account only the values set to the Minimum requested
--performance, Maximum requested performance, and Energy Performance Preference
--registers. When Autonomous is disabled, it only considers the Desired Performance Target.
-+``amd_pstate`` CPPC has 3 operation modes: autonomous (active) mode,
-+non-autonomous (passive) mode and guided autonomous (guided) mode.
-+Active/passive/guided mode can be chosen by different kernel parameters.
-+
-+- In autonomous mode, platform ignores the desired performance level request
-+  and takes into account only the values set to the minimum, maximum and energy
-+  performance preference registers.
-+- In non-autonomous mode, platform gets desired performance level
-+  from OS directly through Desired Performance Register.
-+- In guided-autonomous mode, platform sets operating performance level
-+  autonomously according to the current workload and within the limits set by
-+  OS through min and max performance registers.
- 
- Active Mode
- ------------
-@@ -338,6 +343,15 @@ to the Performance Reduction Tolerance register. Above the nominal performance l
- processor must provide at least nominal performance requested and go higher if current
- operating conditions allow.
- 
-+Guided Mode
-+-----------
-+
-+``amd_pstate=guided``
-+
-+If ``amd_pstate=guided`` is passed to kernel command line option then this mode
-+is activated.  In this mode, driver requests minimum and maximum performance
-+level and the platform autonomously selects a performance level in this range
-+and appropriate to the current workload.
- 
- User Space Interface in ``sysfs``
- =================================
-@@ -358,6 +372,9 @@ control its functionality at the system level.  They are located in the
- 	"passive"
- 		The driver is functional and in the ``passive mode``
- 
-+	"guided"
-+		The driver is functional and in the ``guided mode``
-+
- 	"disable"
- 		The driver is unregistered and not functional now.
- 
-@@ -368,6 +385,9 @@ control its functionality at the system level.  They are located in the
-         to the operation mode represented by that string - or to be
-         unregistered in the "disable" case.
- 
-+Note: If someone tries to change the state to same state, which is currently
-+active in the driver, then this will return -EBUSY error.
-+
- ``cpupower`` tool support for ``amd-pstate``
- ===============================================
- 
--- 
-2.34.1
+Now if merging is a feature that makes sense to one driver maybe it
+makes sense to all, however there may be reasons amdgpu gets away
+without merging that other drivers might not benefit from, there might
+also be a benefit to amdgpu from merging that you haven't looked at
+yet, so I think we could leave merging as an optional extra driver
+knob here. The userspace API should operate the same, it would just be
+the gpu pagetables that would end up different sizes.
 
+Dave.
