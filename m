@@ -2,110 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E47A3C05027
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 18:16:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B33DCC38142
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Feb 2023 18:18:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbjBASQG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Feb 2023 13:16:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54788 "EHLO
+        id S230231AbjBASSb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Feb 2023 13:18:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbjBASQF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 13:16:05 -0500
-X-Greylist: delayed 93820 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 01 Feb 2023 10:16:03 PST
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58E5B10254;
-        Wed,  1 Feb 2023 10:16:03 -0800 (PST)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        with ESMTP id S229454AbjBASSa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Feb 2023 13:18:30 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1F979202;
+        Wed,  1 Feb 2023 10:18:29 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4P6VTp3jWPz9sjr;
-        Wed,  1 Feb 2023 19:15:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1675275358;
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5E9B91EC0426;
+        Wed,  1 Feb 2023 19:18:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1675275507;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=JTa13PkDyAD5Fq00WCKRPhtlL382Rc6MKBWbBS0vN8U=;
-        b=anz+I5B7rcrJv6dHk6f+Fs58QbKAObnFuF75K65qNfjem6PEjB+mNYe/dcg68Ja1i+0i7g
-        2Ae2MrMs5rNwhGssVKgAFEn0nDCmc5yOW8CD9ALtr1WsvaA56amvrw6VRPp88At7UvTjZy
-        zfLO0xkxaAmidwXgW2TwbGMCANkM0bKG6SUBeNnS96StLfB2C455j0mD/POXukDKtULvuy
-        h+X5NAQX1uBNKgJ39aCyMKb9vTC7e1bBpBFkL1DPtaJ9CCVivGpciiLzqDL3VkJ2tfd19A
-        dO6S+oUsf/XQhiGKpx9rWfGUy8AZpdM87yJWqL6wzIPyk8p9CP3BLIrSSzZT5g==
-Message-ID: <dfacbc3f-beb3-73f3-7e44-f3d919839d7f@mailbox.org>
-Date:   Wed, 1 Feb 2023 18:15:47 +0000
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=8lNIJZw8YAjz68Gmod7C/9Iqybxq0zMLq+7ven4Sl20=;
+        b=rd8PcoO7dO1r26AupmZg9g2ssXOh16XmgZxt/TK8TJJH1OgIhu6/lH9wA76S90K+LFMgrT
+        VwL+SfBepqKw9QXHKIn8c8TrClQs2hVh5cG0JKZkdOcWtTcGFyqq5wtvF+I2lLA/DXUdq0
+        EWJtkZg5vKanMrt4rPUJyPH7YgHYHgI=
+Date:   Wed, 1 Feb 2023 19:18:22 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v5 06/39] x86/fpu: Add helper for modifying xstate
+Message-ID: <Y9qs7iMmk3MYmfhL@zn.tnic>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-7-rick.p.edgecombe@intel.com>
+ <Y9pGfsiG9am4HoTZ@zn.tnic>
+ <095e9694a682fc47ebedd34fddb660319549d6bb.camel@intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 0/6] amd_pstate: Add guided autonomous mode support
-Content-Language: en-US
-To:     Wyes Karny <wyes.karny@amd.com>
-Cc:     Rafael J Wysocki <rafael@kernel.org>,
-        Huang Rui <ray.huang@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mario.Limonciello@amd.com, Perry.Yuan@amd.com,
-        Ananth Narayan <ananth.narayan@amd.com>,
-        gautham.shenoy@amd.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>, santosh.shukla@amd.com,
-        Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@suse.de>
-References: <20230119115017.10188-1-wyes.karny@amd.com>
- <8c09f806-b00d-515b-bd1d-2f433e44b1a4@mailbox.org>
- <20230131053427.cdpg5zaqyxf7ou2f@beas>
-From:   Tor Vic <torvic9@mailbox.org>
-In-Reply-To: <20230131053427.cdpg5zaqyxf7ou2f@beas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: ws53a61rg81hufw5idcjtd9gi7bxwzf5
-X-MBO-RS-ID: 9827835aedd8814a521
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <095e9694a682fc47ebedd34fddb660319549d6bb.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 31.01.23 05:34, Wyes Karny wrote:
-> Hi Tor Vic,
+On Wed, Feb 01, 2023 at 05:31:50PM +0000, Edgecombe, Rick P wrote:
+> On Wed, 2023-02-01 at 12:01 +0100, Borislav Petkov wrote:
+> > On Thu, Jan 19, 2023 at 01:22:44PM -0800, Rick Edgecombe wrote:
+> > > +void fpregs_lock_and_load(void)
+> > > +{
+> > > +     /*
+> > > +      * fpregs_lock() only disables preemption (mostly). So
+> > > modifying state
+> > > +      * in an interrupt could screw up some in progress fpregs
+> > > operation,
+> > > +      * but appear to work. Warn about it.
+> > 
+> > I don't like comments where it sounds like we don't know what we're
+> > doing. "Appear to work"?
 > 
-> On 24 Jan 20:40, Tor Vic wrote:
-> --------------------------------->8-----------------------------
->>
->> The "active" mode seems to be broken here on a Zen2 3900X running Linux 6.1.
->> Frequency remains stuck at minimum which is +-500 MHz.
-> 
-> I've fixed this in v4.
-> 
->>
->> Some queries of the new /sys devices lead to I/O error:
->>
->>    # LANG=C cat /sys/devices/system/cpu/cpufreq/policy0/amd_pstate_*
->>    166
->>    cat:
->> /sys/devices/system/cpu/cpufreq/policy0/amd_pstate_lowest_nonlinear_freq:
->> Input/output error
->>    cat: /sys/devices/system/cpu/cpufreq/policy0/amd_pstate_max_freq:
->> Input/output error
->>
-> This issue I'm not able to reproduce. Is this issue seen with only EPP
-> patches also?
-> Could you please check if this issue still there with v4?
+> I can change it. This patch started with the observation that modifying
+> xstate from the kernel had been gotten wrong a couple times in the
+> past, so that is what this is referencing. Since then, the fancy
+> automatic solution got boiled down to this helper and a couple
+> warnings.
 
-No, it's gone. Could have been a mismerge, I'm sorry.
+Yeah, but that comment right now reads like: modifying in interrupt
+context can corrupt fpregs and you should not do it but it kinda works,
+by chance. Thus encouraging people to keep doing that.
 
-> 
-> Thanks,
-> Wyes
+I guess "but appear to work" can go and then it is fine.
 
-Thank you!
+Thx.
 
-> 
->> The "guided" mode seems to work fine with no stuck frequency, but also
->> produces I/O error on some /sys files.
->>
->> I haven't tested "passive".
->>
->> Cheers,
->>
->> Tor Vic
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
