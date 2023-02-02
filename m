@@ -2,82 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE9B5C05027
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 11:25:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0441C05027
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 11:50:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229616AbjBBLZa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 06:25:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52538 "EHLO
+        id S231371AbjBBLud (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 06:50:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229988AbjBBLZ3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 06:25:29 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A19DA89FAE
-        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 03:25:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675337128; x=1706873128;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zzd0OIl1HJ9HK3jFZp8jfcJOuNpH1CHnQ5eANp05oxo=;
-  b=jHMB95IKyFruhJJ+L3DUSfdZWfY+CBkUTC7lRHueFYyhdIx2rnHr41E0
-   J6Lur2XOgc2kTtvWbGIeUvm1RJ4J2kmVoCDnriCfNgYPodcodtxjqXSyd
-   vxEBwtugqA93aYdYzot4I4G7BFuP8FwXdjHcsVnthvqQ1JPdxx3adsn4n
-   I+zVM0+dw6qkZuqYkW2iJQGaMOgCfMWqzMBL0zAftLyZbIQ9dxSVIus3n
-   P3AUhSwW0q1/OfV18a0py5rultexws0c+7KS8aA9Z1w4CETXVGh+OV/r0
-   j8goNR9nAmP1MeEtNcWk46yJfty9hGGPuRj5uvL0uwCHL5s/7LFubAr97
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="308071901"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="308071901"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 03:25:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="754029003"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="754029003"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 02 Feb 2023 03:25:27 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pNXiY-0006Sa-1T;
-        Thu, 02 Feb 2023 11:25:26 +0000
-Date:   Thu, 2 Feb 2023 19:25:15 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Johan Jonker <jbx6244@gmail.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Heiko Stuebner <heiko@sntech.de>, linux-doc@vger.kernel.org
-Subject: [linux-next:master 9850/10104] htmldocs: Warning:
- Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file
- that doesn't exist:
- Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-Message-ID: <202302021922.2jYZjgaX-lkp@intel.com>
+        with ESMTP id S230233AbjBBLuc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 06:50:32 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9F3369512
+        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 03:50:30 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id ud5so5215684ejc.4
+        for <linux-doc@vger.kernel.org>; Thu, 02 Feb 2023 03:50:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ND1arZiFmIyuwqmmqgllEbqeW/LIGBOpqueXupfrldI=;
+        b=fLRj6EUBlXyV8CpgC7FaIUyzoreXMDERT3p4vDwMkk/DkNZ6bkpfGx1sUIW/d1tAIG
+         R8K3sOTnY1BrC6Hg3+7o+lBdsVlcJdVlDOu54NKnmdAQFgm78z/sAkXhSigYOAEbXhqS
+         lHv/4TMM27++HjWcAw4cNCC+ELN5hdvBHGBRHOyAQ9r8XXdo0U46D1hb0RqM6Pvw3iXb
+         db13LB1Z0TZCW2w18HxjktL1xSHMgb7wlsnoWl6kn8ZmVOUHG/QwYGjaoSlcVh/fkHbX
+         MjWUe05RfA2ZGcjD7weEJwq+Tj+joC4dmkcm1Z9DegE2x2Rs4HXcNJ5GcGYPWPbCk5l3
+         jiWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ND1arZiFmIyuwqmmqgllEbqeW/LIGBOpqueXupfrldI=;
+        b=QRXuWlMCDxWWyvJyIEX/4tYoRAIZJuBd8cZywEkI7oByHQludlfdQMaRwezoRefKbI
+         437bhACrqcqceimI5GegFwY0dHJ/vbC7GWQPx4826aTOap0yqFYIa/mBvP2jV6Hn9kIf
+         E4K0had72vyKzHuSH4uVJGro7yzfw32+ddR9spTq//EBw7C3SPYcv6HPphTxGSJVcvR4
+         IiaXXtM9CIOeCphwjm1BBba+oDmagvbfIzr3fUGTMg8CB/LC7IFLAkT027S246aZJBjj
+         DYldIBTfaOHoLJ15JlkppKM0HP5gwqJzKOmSTuNk2eoKTpwtvek7BxJPZy6yuOuFnJvO
+         ZZvg==
+X-Gm-Message-State: AO0yUKX6aVk9fNBSeF7HYcCGP56hKFDJUSqwzf9NyKpXkuMRC+2iBgPW
+        JfDPDkwdfiu+fuYZyzybzvUt0w==
+X-Google-Smtp-Source: AK7set/UTpKwyh+r7H14WFAawBMfGZisVlMbX07fmyg5uGPJK2bOSsTlz+aJdlIXm+Iv19YJl95GrQ==
+X-Received: by 2002:a17:906:94cb:b0:879:ec1a:4ac with SMTP id d11-20020a17090694cb00b00879ec1a04acmr5245642ejy.76.1675338629160;
+        Thu, 02 Feb 2023 03:50:29 -0800 (PST)
+Received: from localhost ([86.61.181.4])
+        by smtp.gmail.com with ESMTPSA id jr23-20020a170906515700b0086f4b8f9e42sm11508126ejc.65.2023.02.02.03.50.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Feb 2023 03:50:28 -0800 (PST)
+Date:   Thu, 2 Feb 2023 12:50:27 +0100
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     alejandro.lucero-palau@amd.com
+Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
+        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, habetsm.xilinx@gmail.com,
+        ecree.xilinx@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
+        jiri@nvidia.com
+Subject: Re: [PATCH v5 net-next 1/8] sfc: add devlink support for ef100
+Message-ID: <Y9ujg6LhLHbP5XcU@nanopsycho>
+References: <20230202111423.56831-1-alejandro.lucero-palau@amd.com>
+ <20230202111423.56831-2-alejandro.lucero-palau@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230202111423.56831-2-alejandro.lucero-palau@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ea4dabbb4ad7eb52632a2ca0b8f89f0ea7c55dcf
-commit: 0f48b0ed356d8868f62f7c6814fc2edcd70d1816 [9850/10104] dt-bindings: phy: rename phy-rockchip-inno-usb2.yaml
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=0f48b0ed356d8868f62f7c6814fc2edcd70d1816
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 0f48b0ed356d8868f62f7c6814fc2edcd70d1816
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Thu, Feb 02, 2023 at 12:14:16PM CET, alejandro.lucero-palau@amd.com wrote:
+>From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+>
+>Basic devlink infrastructure support.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Btw, you should use imperative mood in the patch description to tell the
+codebase what to do. Nevermind :)
 
-All warnings (new ones prefixed by >>):
+>
+>Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
 
->> Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Reviewed-by: Jiri Pirko <jiri@nvidia.com>
