@@ -2,220 +2,192 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8DAAC05027
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 11:54:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0D0C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 11:56:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230094AbjBBLyG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 06:54:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42344 "EHLO
+        id S229881AbjBBL4D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 06:56:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbjBBLyF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 06:54:05 -0500
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2049.outbound.protection.outlook.com [40.107.96.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F106A7099D;
-        Thu,  2 Feb 2023 03:54:03 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mm8vyBUxkmnYngmBRSZBgfldVz0/RwCb+2urj2JT4nhPfsOY3T3CSjIMhePQfMgzPFUmE4u47cgwNUJnwCZgemm+BsoeW0LsMNrXvJ3/75AXiIRwTm/3gHYOH17hw0A8DXFSeI39yLBeHyBvCTp4hvVdbyY+izd+JH5YNbutHiKqo9UCQqn4zkF1bBHgVG8pbDN/s2KZPVqIp6o9kdYXooRjP8blHfKSWdjwdxybVG1q9XGpArEHLyLwvlPgHz3QfsdG86g3Jh8NoF++eT/bIP9nmODdMZQebJDiJqO4VeM3vyIaXPfItDn4e8sfScVA3J7i3oiRMEa2kud4gpvE+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sd1++6eH4bibxHvS2TgmZTSEGZnGndGrqiBvt7ElW8o=;
- b=Jano7tyMsbOkOm8aW9hWci5fuZ7Jj8lgY1jo2jb6XXjEn1Jw/vCysIgVnF+A0lQ0O1JHQkpB0erjQ59ScZWMHNi5hri8Xbf3UxuY09nwaQ5E299w8shFtz/vSNF9NHqMfFZGN1F9ZmqGrFE6U9+bucIx1ETDU/CIfo9cUBhOwv3FU0ENR9t0P/nLag56Hkk8MA/tG7LdcrLzgXOxZ0XMWZ3egB5KlN+5H54Y/RtPXg6nqjy1bhV4R7Z99TGYvEQmB3F/x7o89x6ffKxc0gwuHZQ90IE968XFg7cIUUOafrgjcsGy+Shnx+vt6ct63v4zc4Mf/NUxCEaXcPUz76DP6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sd1++6eH4bibxHvS2TgmZTSEGZnGndGrqiBvt7ElW8o=;
- b=izURMIZ6FXHySnOFKKSGAQSXz11quC7UCGXIjwSbAwT+qkpyey6pTaAIzLAPjtxV+cTA3AY3iX3Vp+JXZyHlrZAus97U+Ngln6f7zyJAcyspqoBCS28NF+OnVSJXHMytTu1G2PQFaIwTe1QaaIcFbGm8f40doP5IDgEc6mymdYI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
- by SA1PR12MB8162.namprd12.prod.outlook.com (2603:10b6:806:33a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Thu, 2 Feb
- 2023 11:54:00 +0000
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::500a:d02f:5ceb:4221]) by BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::500a:d02f:5ceb:4221%7]) with mapi id 15.20.6043.030; Thu, 2 Feb 2023
- 11:54:00 +0000
-Message-ID: <a1c526e0-0df7-12cb-c5a1-06e9cd0d876b@amd.com>
-Date:   Thu, 2 Feb 2023 12:53:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Nouveau] [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi
- interfaces
-Content-Language: en-US
-To:     Dave Airlie <airlied@gmail.com>
-Cc:     Danilo Krummrich <dakr@redhat.com>,
-        Matthew Brost <matthew.brost@intel.com>, daniel@ffwll.ch,
-        corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mripard@kernel.org, bskeggs@redhat.com, jason@jlekstrand.net,
-        nouveau@lists.freedesktop.org, airlied@redhat.com
-References: <20230118061256.2689-1-dakr@redhat.com>
- <20230118061256.2689-6-dakr@redhat.com>
- <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com>
- <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
- <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com>
- <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
- <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com>
- <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
- <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
- <bc523c5c-efe6-1a7f-b49a-e0867dc1413d@redhat.com>
- <15fb0179-c7c5-8a64-ed08-841189919f5e@redhat.com>
- <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
- <CAPM=9txON8VCb3H7vDY_DOgtUg2Ad3mBvYVxgSMyZ1noOu-rBQ@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAPM=9txON8VCb3H7vDY_DOgtUg2Ad3mBvYVxgSMyZ1noOu-rBQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0103.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a9::16) To BYAPR12MB3589.namprd12.prod.outlook.com
- (2603:10b6:a03:df::29)
+        with ESMTP id S229774AbjBBL4C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 06:56:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 824BF8C425
+        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 03:55:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675338913;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xr+KgTIiqQ2KJxTX1uZ4GJF1dZDc2A5QOOlR6eCGPY0=;
+        b=hnOsNRLGJ9RGFJPZQVu25yg8oPBeev9mTUZhdiOf6xT7YHwjnerUVedETy6CH7oWdhnSUU
+        VqBjtq80S96rnja+x+b4zK5G7XYsumIkOCgWNAo0lYQllI/B66Bh8fv344fM6Gue5dRvwu
+        zuptIdmg3hHWyc5fOHW80+xOc8v+G8A=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-317-q9MqQ4PsOneGJGzxjZkCXw-1; Thu, 02 Feb 2023 06:55:12 -0500
+X-MC-Unique: q9MqQ4PsOneGJGzxjZkCXw-1
+Received: by mail-ej1-f70.google.com with SMTP id qn8-20020a170907210800b0088eda544bd6so1393770ejb.11
+        for <linux-doc@vger.kernel.org>; Thu, 02 Feb 2023 03:55:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xr+KgTIiqQ2KJxTX1uZ4GJF1dZDc2A5QOOlR6eCGPY0=;
+        b=Eo0CTlIHjCr+MWWxWgbDYStWD+QLAGnXg6+KKRlHatn/mNKR8CGEx8yt24xxlddqMY
+         ItGZ51P5vXScUC/WFoIKjy4HXSUFfPk6TL9Nz0Cz1bJWsuxOC4+EttL8LtjpwJDTHYsH
+         MIQkSqeMywUsapuxJ704cMw1gqKiiE9lYCcHHUrPzG22rFZ+9sNDHP25o4T9Avq1wO+u
+         7PGoXCyxR9s6rT6ktCe0kpadt+P++8sn/Ld3vrVBPa91FEEXwJ8PhI8ERSp0XMFM2ur3
+         2LgLuP76Q2sprDRBjpa3SuLl2eIBRk29NzsmB9yVcZEtcBEARTDi6jKMi/eaONRh1P3p
+         jYSw==
+X-Gm-Message-State: AO0yUKVUR74XWsSicrlFFJlAHI7HjTKIleTNd80OMyq/EyalI/9rZ41j
+        75SjuxoT3GPxF+4nKSy+/ncIPP1OoAne44zEYbGQmiBoHOc59hlPh2vl0I5vsKaT7BbZq+UPpKk
+        RugHFhvwAZrE3sjicdlqN
+X-Received: by 2002:a17:906:9ca:b0:872:14ea:1a7b with SMTP id r10-20020a17090609ca00b0087214ea1a7bmr6565682eje.13.1675338911254;
+        Thu, 02 Feb 2023 03:55:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set9vc2HLfUBQGoATYgpGp0RJ3bg0WzgEcFeMjSYRa5m++mRiEsjdUktA8bNS1IMqitmOJDML0Q==
+X-Received: by 2002:a17:906:9ca:b0:872:14ea:1a7b with SMTP id r10-20020a17090609ca00b0087214ea1a7bmr6565633eje.13.1675338910554;
+        Thu, 02 Feb 2023 03:55:10 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id bu14-20020a170906a14e00b0088991314edesm5740656ejb.7.2023.02.02.03.55.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Feb 2023 03:55:10 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 96235972BEC; Thu,  2 Feb 2023 12:55:08 +0100 (CET)
+From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     David Vernet <void@manifault.com>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jesper Dangaard Brouer <brouer@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH v3] Documentation/bpf: Document API stability
+ expectations for kfuncs
+In-Reply-To: <Y9tJY3ayftdowRVS@maniforge>
+References: <20230201174449.94650-1-toke@redhat.com>
+ <Y9tJY3ayftdowRVS@maniforge>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date:   Thu, 02 Feb 2023 12:55:08 +0100
+Message-ID: <875yckth7n.fsf@toke.dk>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:EE_|SA1PR12MB8162:EE_
-X-MS-Office365-Filtering-Correlation-Id: 448a0337-5161-438a-d52a-08db05142c39
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S6Bj/m2+OtYEBE2brnQL5lu3Z1fSMxTXNOKNwjXgVrazPr9w8kpLab0oqA5AcJMGK1xZdNQ8kLvMN1EQHwVas7eahKOYvAe69DuiZ1mU14Emj1GXAeIQgbP+Oap6PpbOrgb3Racgd1hyOlxa+ZVLAGHkgIeaD1rOKfOouZRKT6mTPWRudIqLroBl+LnekfAGpoWHXVVXeT9m8YDKli6wfRhw7hRp7wrbEAIg67h164t1TiHHdqBwQwlaEavaow62vcZDSeIzfWIEJ5uUTO99qYSpL28yWMCGEE5UGBcUa9Ah703M/TA3zrgepdoDdbbKfggE9t/kmjfZ3gQEvSd9v048rTkWKeXr/lYyayqJfC/H62NLrefiLul0mLfsgXJhb31wRN8nxBYrskWIJeyeFCwRSO5L6L/1z8vw73mMhJo+Gh5qolscr7sR+pDIsqurTYONouyQqeFoINTsvz+JyJF8rphsAWaB6+b615b0r0DjV9DrdEfiFcMGBfJuQrfKiERCeKsuPh8QExnsk/2dCl3fgFx55JnJ1LGW92c7mmS7dhOl2+1n9WlDhjC+KYVT/1iKA5Xj2YEUk0kK0sb0o+8VOQgxXfoivnZZJfcHApZKNaeQHuju1U1+cgf2jvuN3bBinqk890m8PgX+Hq+Vn3mA42JL21vlb9qQZIWp2o78CkpnEI2nJ4DZVNw+oYhGPK6rtnvud2ufnKMQjnUB60A9/CCOt/hAAw/xwtsMTGc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3589.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(366004)(396003)(346002)(39860400002)(376002)(451199018)(31686004)(83380400001)(66556008)(8676002)(2616005)(66946007)(6916009)(66899018)(41300700001)(38100700002)(66476007)(26005)(6512007)(4326008)(186003)(2906002)(8936002)(6666004)(316002)(31696002)(86362001)(6506007)(6486002)(478600001)(7416002)(54906003)(5660300002)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NFU5eUcxTGJZRk5SSFhNN3VpQlU0d0ZUdlRibmpubkVLMXhuZiszNkEwcTFR?=
- =?utf-8?B?SXVFS3ZjUmswNDVBUDBTTEFKb0RQeDJlek1XM3J2UXp4YVhHanFXZ1pqN3Mx?=
- =?utf-8?B?SDZibFd0ODFmc1dUcXB4dTlGckNxd1hBeFhzSjBzQ2dXRlg1V2xjRVJpbHcz?=
- =?utf-8?B?RHNrdmR6NmNCSVVKSElMU3pQa3hjazdMN3dYQXFIQldZVjZtN20wUHpxdVpY?=
- =?utf-8?B?eEFWQlkwVjVzdEc1Y2x6R3VZSzlKZGFDLzdZNFlSSHFtQ1hlWUhoNnYxSjlq?=
- =?utf-8?B?c1MzYUpQTzh3L2NTWjcvV296VHp0T3RobUNiVlI1aUJFZEhqU25BSElHdWhP?=
- =?utf-8?B?STNHMVExRW1RZlVsK1ZlNGovSEt3bG5KZm12eUlaemNnSWxxREZ6T3dqNHhl?=
- =?utf-8?B?UkphWThHT1lSSkVFRkY5bjF2RnZXYVQ4bHVvb3o4NWVkcW15QzBsRGVDWEFh?=
- =?utf-8?B?amtKU3g0RnRhT24vRkhjNW8yUS9EYzROZFEzRklyWTBqelV6TnlBTXJ3RVhz?=
- =?utf-8?B?bmRiNGVTT0pTWUx5TDRaOXVubUhXVy8xV2NDaGVyQlh2YkpzN2JwVmNiU0Uv?=
- =?utf-8?B?OHR6QXhES1RpemYyTlVlWnFZNGpDV2RDaEs5YjNrdENXeEN6SGZlWk15WkVD?=
- =?utf-8?B?NlR2VTRCL1RUV1FxYnVZUy9JYVBYUTBFb2pYZVkwdHpCTmY2WWRCQ1I5YUo1?=
- =?utf-8?B?NXcrR1JwRFptbGRmZ3Q3cURHNUg1anVwZTZSZEJEV1Bra0lTZCsvdjNITTlE?=
- =?utf-8?B?ZnZwQzFSWDZTUy9XQy81YlZpSUwvSmsxTjBjTnk0ZGNuVGN2Y0dBNU51WVJR?=
- =?utf-8?B?V3k2NUFoODdwOFdsTnNpTXUxczRNL2lNUUNma0JKZUt6Sm5vc09FMnFYNTJF?=
- =?utf-8?B?dDhXNDB2ek93QUtLQis0ekJKdXRFcTloUkM2Y2EyVzRjUGFqOEN3akxSVDJG?=
- =?utf-8?B?ZkhrSlNHMVFYNVpYV0tMVDZrYjIwNU5WVEdTYjFoekRPTVIyU0ZPL1gwNHVu?=
- =?utf-8?B?dTRZeDgxL2Foem5VeU11alFHTDNreWsxM3lpK3gxK3MxQjN3ejdRTUNkaTJS?=
- =?utf-8?B?K2F0T2NKdXgxVC9rQ1NrMUJHZjJBdFJTN2RsaGZQVU9BSWgxbFp5ajMxSW95?=
- =?utf-8?B?clFCK0FQSWpTTjZhS1dCMFpXWUhUODVDcGlsMEdxM0lGYUMvOHVReDR1NFpZ?=
- =?utf-8?B?bUVDb3ZGcGUvRUdoMWcxOE5DWnRoaXhjQnJ0NXBHUytlWUJDTVZhcUwwUmo4?=
- =?utf-8?B?UUM3N0o2UWxTZkRJbXkxUklTMUE3OTBQZGg4eDRQQ2hyWFNMeTFML2JiUTRt?=
- =?utf-8?B?bDl3SGFMTUFBSm5tQUthcnJ2NTcrQkI0VnVoaEdDSFBpUFJ3UTlPYWRSSW16?=
- =?utf-8?B?MzcyRm45dXJpU3BLZXR2Nm56MXEyOFlNUEFQN1U0Vm5PVHBBSGF0Qi9Xcnhw?=
- =?utf-8?B?WnZwS3JBWERrQU1wbTBla20zbzVwRm11SkdaTlNMZlJZZUNmQnVvaFFLc2No?=
- =?utf-8?B?dDZ5OXdZaTNLZEhROFBWK1ZqZHp0a0Y2N1FLeGV2dGwyTmNDUlhBdngvaGgw?=
- =?utf-8?B?dEJ5V3JkSXcwdTJ0U20zTUg1dXN3K2tvMmZIdzFaanlWM25Sby9nc3UzdnJj?=
- =?utf-8?B?OFMrWTdlS3RDZVRrZnBCWmUvVmFDWWN5WkIzOGxQL3BaWWluM1M0ejhKK2l2?=
- =?utf-8?B?OWhtUzdkVGdybTFpVGswSnFyN3h1ZWlIOWMyVnVhSldDYnorV3c5V0JmZlNk?=
- =?utf-8?B?czVNZ003ODl6SlNMYkxNWFZBWWplVWQ4eUpBNUg4ZVpJcktOdHhTcEZXWUo4?=
- =?utf-8?B?SVJVRU9oV0gzMWc5Wm82T2RiWmhSRkVxTHJNZ3JvOEM2ZU5JV21SSURhbjBP?=
- =?utf-8?B?dVNmejFtN09iNHkvZmJSTlhOZ2trTGlLRjBZYmFOQlZpV0RZSG4wQ2p3MXBT?=
- =?utf-8?B?dnJURWJjdm5IczFsdjJFL3BFZ2xXbDlKUFJsRzdYTUNORGVJVkFXc1JIQStI?=
- =?utf-8?B?VzN6MTNtbExwQ1pvVlVuaTlueUF2WU51RnFIblFyS3lGVUFQTlB1cHBycEVi?=
- =?utf-8?B?QmpWRXViTkJ6MFAyUUJGWHpZaXJRa2M0K0M2NDFCZEp3dFM4VEE1SjQ3MmQ1?=
- =?utf-8?Q?ArUZVskLkqaJJg6fkEEkXHqcR?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 448a0337-5161-438a-d52a-08db05142c39
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2023 11:54:00.5341
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SDmMtEju6G7euwvr5RuolJcBNV/bWOOa0BYWv48BJMj/5PED03xUVB2qhGDskMMP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8162
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 01.02.23 um 09:10 schrieb Dave Airlie:
-> [SNIP]
->>> For drivers that don't intend to merge at all and (somehow) are
->>> capable of dealing with sparse regions without knowing the sparse
->>> region's boundaries, it'd be easy to make those gpuva_regions optional.
->> Yeah, but this then defeats the approach of having the same hw
->> independent interface/implementation for all drivers.
-> I think you are running a few steps ahead here. The plan isn't to have
-> an independent interface, it's to provide a set of routines and
-> tracking that will be consistent across drivers, so that all drivers
-> once using them will operate in mostly the same fashion with respect
-> to GPU VA tracking and VA/BO lifetimes. Already in the tree we have
-> amdgpu and freedreno which I think end up operating slightly different
-> around lifetimes. I'd like to save future driver writers the effort of
-> dealing with those decisions and this should drive their user api
-> design so to enable vulkan sparse bindings.
+David Vernet <void@manifault.com> writes:
 
-Ok in this case I'm pretty sure this is *NOT* a good idea.
-
-See this means that we define the UAPI implicitly by saying to drivers 
-to use a common framework for their VM implementation which then results 
-in behavior A,B,C,D....
-
-If a driver strides away from this common framework because it has 
-different requirements based on how his hw work you certainly get 
-different behavior again (and you have tons of hw specific requirements 
-in here).
-
-What we should do instead if we want to have some common handling among 
-drivers (which I totally agree on makes sense) then we should define the 
-UAPI explicitly.
-
-For example we could have a DRM_IOCTL_GPU_VM which takes both driver 
-independent as well as driver dependent information and then has the 
-documented behavior:
-a) VAs do (or don't) vanish automatically when the GEM handle is closed.
-b) GEM BOs do (or don't) get an additional reference for each VM they 
-are used in.
-c) Can handle some common use cases driver independent (BO mappings, 
-readonly, writeonly, sparse etc...).
-d) Has a well defined behavior when the operation is executed async. 
-E.g. in/out fences.
-e) Can still handle hw specific stuff like (for example) trap on access 
-etc....
-...
-
-Especially d is what Bas and I have pretty much already created a 
-prototype for the amdgpu specific IOCTL for, but essentially this is 
-completely driver independent and actually the more complex stuff. 
-Compared to that common lifetime of BOs is just nice to have.
-
-I strongly think we should concentrate on getting this right as well.
-
-> Now if merging is a feature that makes sense to one driver maybe it
-> makes sense to all, however there may be reasons amdgpu gets away
-> without merging that other drivers might not benefit from, there might
-> also be a benefit to amdgpu from merging that you haven't looked at
-> yet, so I think we could leave merging as an optional extra driver
-> knob here. The userspace API should operate the same, it would just be
-> the gpu pagetables that would end up different sizes.
-
-Yeah, agree completely. The point is that we should not have complexity 
-inside the kernel which is not necessarily needed in the kernel.
-
-So merging or not is something we have gone back and forth for amdgpu, 
-one the one hand it reduces the memory footprint of the housekeeping 
-overhead on the other hand it makes the handling more complex, error 
-prone and use a few more CPU cycles.
-
-For amdgpu merging is mostly beneficial when you can get rid of a whole 
-page tables layer in the hierarchy, but for this you need to merge at 
-least 2MiB or 1GiB together. And since that case doesn't happen that 
-often we stopped doing it.
-
-But for my understanding why you need the ranges for the merging? Isn't 
-it sufficient to check that the mappings have the same type, flags, BO, 
-whatever backing them?
-
-Regards,
-Christian.
-
-
+> On Wed, Feb 01, 2023 at 06:44:48PM +0100, Toke H=C3=B8iland-J=C3=B8rgense=
+n wrote:
+>> Following up on the discussion at the BPF office hours (and subsequent
+>> discussion), this patch adds a description of API stability expectations
+>> for kfuncs. The goal here is to manage user expectations about what kind=
+ of
+>> stability can be expected for kfuncs exposed by the kernel.
+>>=20
+>> Since the traditional BPF helpers are basically considered frozen at this
+>> point, kfuncs will be the way all new functionality will be exposed to B=
+PF
+>> going forward. This makes it important to document their stability
+>> guarantees, especially since the perception up until now has been that
+>> kfuncs should always be considered "unstable" in the sense of "may go aw=
+ay
+>> or change at any time". Which in turn makes some users reluctant to use
+>> them because they don't want to rely on functionality that may be removed
+>> in future kernel versions.
+>>=20
+>> This patch adds a section to the kfuncs documentation outlining how we a=
+s a
+>> community think about kfunc stability. The description is a bit vague and
+>> wishy-washy at times, but since there does not seem to be consensus to
+>> commit to any kind of hard stability guarantees at this point, I feat th=
+is
+>> is the best we can do.
+>>=20
+>> I put this topic on the agenda again for tomorrow's office hours, but
+>> wanted to send this out ahead of time, to give people a chance to read it
+>> and think about whether it makes sense or if there's a better approach.
+>>=20
+>> Previous discussion:
+>> https://lore.kernel.org/r/20230117212731.442859-1-toke@redhat.com
 >
-> Dave.
+> Again, thanks a lot for writing this down and getting a real / tangible
+> conversation started.
+
+You're welcome! Just a few quick notes on one or two points below, we
+can continue the discussion at the office hours:
+
+[..]
+
+> While I certainly understand the sentiment, I personally don't think I'd
+> describe this as the BPF community striking a balance in a way that
+> differs from EXPORT_SYMBOL_GPL. At the end of the day, as Alexei said in
+> [0], BPF APIs must never be a reason to block a change elsewhere in the
+> kernel.
+>
+> [0]: https://lore.kernel.org/bpf/20230119043247.tktxsztjcr3ckbby@MacBook-=
+Pro-6.local/
+
+"Block" is not the same as "delay", though. If we wanted, we *could*
+commit to a stronger guarantee, via the deprecation procedure. E.g.,
+"kfuncs will never go away without first being marked as deprecated for
+at least X kernel releases". Yes, this will add some friction to
+development, but as long as this is stated up-front, subsystems could
+make an informed choice when choosing whether to expose something via a
+kfunc.
+
+I don't think this is necessarily a bad idea, either, it would enforce
+some discipline and make people think deeply about the API when exposing
+something. Just like people do today when adding new UAPI, but without
+the *indefinite* stability guarantees (i.e, mistakes can be fixed,
+eventually).
+
+[...]
+
+> To that point, I would argue that a kfunc's stability guarantees are
+> truly exactly the same as for any EXPORT_SYMBOL_GPL symbol. The only
+> differences between the two are that:
+>
+> a) In some ways it's quite a bit easier to support kfunc stability
+>    thanks to CO-RE.
+>
+> b) It's more difficult to gauge how widely used a kfunc is in comparison
+>    to an EXPORT_SYMBOL_GPL consumer due to the fact that (at this point,
+>    far) fewer BPF programs are upstreamed in comparison to modules.
+>
+> Unfortunately, the fact that most BPF programs live outside the tree is
+> irrelevant to any obligation the kernel might have to accommodate
+> them.
+
+I don't really think it's true that it's exactly the same as for
+EXPORT_SYMBOL_GPL. For BPF programs, we *do* care about out-of-tree
+users, and we want to provide them reasonable stability guarantees, and
+functionality being actively used is a signal we do take into account
+when deciding whether to change a kfunc. Whereas with EXPORT_SYMBOL_GPL,
+people are told in no uncertain terms to go away if they complain about
+a symbol change that impacts an out-of-tree module.
+
+> It would be great if we upstreamed more BPF programs, in which case it
+> would be easier to change them when kfuncs change, and the signal of
+> how widely used a kfunc is would be stronger and more self-evident.
+> Perhaps it's worth calling that out as part of this doc as well well?
+
+I don't think this is really feasible. As just one example, this would
+imply that all the different BPF-enabled Kubernetes CNIs (Cilium, etc)
+should live in the kernel tree, and subsystem authors should go in and
+update their kfunc calls if they change on the kernel side. That's
+hardly realistic? :)
+
+-Toke
 
