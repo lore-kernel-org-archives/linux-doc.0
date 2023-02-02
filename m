@@ -2,93 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66385C636D3
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 21:28:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A4FAC61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 21:37:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229974AbjBBV2x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 16:28:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38964 "EHLO
+        id S229915AbjBBVhy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 16:37:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbjBBV2w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 16:28:52 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E1AD2712;
-        Thu,  2 Feb 2023 13:28:51 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E2FFCB82877;
-        Thu,  2 Feb 2023 21:28:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C54CC433EF;
-        Thu,  2 Feb 2023 21:28:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675373328;
-        bh=gD76h/gyjU/IEyZAlO8ggqYtCIKdxOpVuYEk+LVtfLA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lhxQOwrzjuhuZgPa/wsprZbhc1HcFAMJAQznHqM/4nhkbD5tn7bzZbLq9QVQgDWmQ
-         Q2IQZT1xjLuWQ6G+A4ay5vRbHzZ8CGNX1QRESaj/YockHJ/aSjBqhq3FOnPT+OvAuF
-         SfFNtDsFVfXufwrpYqZ58HnHe1RgP4UzZX+LCWgCz+9Rl9HMtlpoEBj1WptssmV0X4
-         ZvpPW6A3SZgEhHlK+qp0P4xswq82YbGJdbxHQmcr/Fd2gDMDPCm9k72h+LmcnMpHgC
-         C5o3h+NBxJJ+EddKEq7nt871VnHh+KJ/OXMBwBTXlib2Bo6dMBkGt4+4i2VrNjOxB5
-         xXCeLYE+9kCxg==
-Date:   Thu, 2 Feb 2023 22:28:45 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 11/35 v2] Documentation: i2c: correct spelling
-Message-ID: <Y9wrDdgxIfig0oI6@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <20230128192109.31127-1-rdunlap@infradead.org>
+        with ESMTP id S232854AbjBBVhx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 16:37:53 -0500
+X-Greylist: delayed 554 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 02 Feb 2023 13:37:47 PST
+Received: from mail.ciens.ucv.ve (mail.ciens.ucv.ve [190.169.94.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E0D48349E
+        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 13:37:46 -0800 (PST)
+Received: from mail.ciencias.ucv.ve (localhost [127.0.0.1])
+        by mail.ciens.ucv.ve (Postfix) with ESMTP id 3D4FEC06D2
+        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 17:28:23 -0400 (-04)
+Authentication-Results: mail.ciencias.ucv.ve (amavisd-new);
+        dkim=pass (1024-bit key) reason="pass (just generated, assumed good)"
+        header.d=ciens.ucv.ve
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ciens.ucv.ve; h=
+        reply-to:date:date:from:from:to:subject:subject
+        :content-description:content-transfer-encoding:mime-version
+        :content-type:content-type; s=dkim; t=1675373302; x=1676237303;
+         bh=5dTE6KOUTfcEKIzg/seQt4xQNhrccYResOR3vqodP1Q=; b=Z3o9tmxGdDwT
+        sZU8wB2dQ4SRqS0u5RYp32tMIlFXwbEcqeJbSeA2u1zdD1LQQ35Y7z5zE8ZH218E
+        R0Makli2EGec90SmRLjQetGmErtwzdLu/Pgl6AvRyRSK1i1A++wuNLkekPwm04AV
+        ltYd/mdyve2WLIsUS+SsSTfQxt13geg=
+X-Virus-Scanned: Debian amavisd-new at mail.ciencias.ucv.ve
+Received: from mail.ciens.ucv.ve ([127.0.0.1])
+        by mail.ciencias.ucv.ve (mail.ciencias.ucv.ve [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id QbntK7seaCae for <linux-doc@vger.kernel.org>;
+        Thu,  2 Feb 2023 17:28:22 -0400 (-04)
+Received: from [192.168.0.131] (unknown [157.254.225.112])
+        by mail.ciens.ucv.ve (Postfix) with ESMTPSA id 1362AC06C4
+        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 17:28:15 -0400 (-04)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Ry8rmYqXFx5IKjnv"
-Content-Disposition: inline
-In-Reply-To: <20230128192109.31127-1-rdunlap@infradead.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: HAllO...
+To:     linux-doc@vger.kernel.org
+From:   alejandra.camacho@ciens.ucv.ve
+Date:   Thu, 02 Feb 2023 13:28:06 -0800
+Reply-To: Illuminaten-Tempel@caixasecured.com
+Message-Id: <20230202212823.3D4FEC06D2@mail.ciens.ucv.ve>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---Ry8rmYqXFx5IKjnv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Jan 28, 2023 at 11:21:09AM -0800, Randy Dunlap wrote:
-> Correct spelling problems for Documentation/i2c/ as reported
-> by codespell.
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Wolfram Sang <wsa@kernel.org>
-> Cc: linux-i2c@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-
-Applied to for-current, thanks!
-
-
---Ry8rmYqXFx5IKjnv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPcKw0ACgkQFA3kzBSg
-KbaJfA/+ISwT2HWCfhlBQFio0akiVzuO/hbI4/POprccdxryZ2zYDb22SUfw6T6Y
-n869I0qWY7dIQU4Ckmu3tp9rPk87kicwk0HuVgIdaybmu6wMNlphp7Y2lPgPTYFU
-1+LMAwz+yN6/Lkp+oHOuMSYvHpCYkoKE1fLas4Eo4w4DJ23ieeI/sd6YRhpYKrSq
-y8//qjo49rBZd/rH1maFYYst3hb2rEJjpQeplkSIgdcRP/TVDGJzc0pfa8CLeB3J
-/fm5z9RbvyEEqggKFUKIBmyQzkCa9JFY14XsX9rkxryKqbi/xzJjuaUVNSwMjvTG
-6UpGSsPrWARXZCStICABUjnb8P0hxr1lZq9Qc4US8lQSn5EICLQgnDS0WvGENGdD
-APLbV44qMrSPlrdsAn9xNyl2V0iSJZYKc/78+dZQoQsQCe9u5xVXv6ALyi2Y9QPi
-4DMEMs5vTKjzkv6+U3B3TKoZkrPKjDZuKIUpmqmRfzh5l39bHvas92eToXWDLjC9
-A29+gWmLs+mfBm+TPdDR6cK0dOkzeVfZpaSQec50VREh7HZkmvj4Fm7jSOjVaaVX
-wo8q5PbOePhWOd5wYRETWd+FceqRUVSxI0O+Zr2VpNCkAJePWsHm4Ru+Tjl2QJtv
-xY/AMe5P78QieEfaB+lGCYkOAsndyFNAjpzR9caY18tDjQFM5QM=
-=ZLeQ
------END PGP SIGNATURE-----
-
---Ry8rmYqXFx5IKjnv--
+ Hallo .... Gr=FC=DFe von den gro=DFen Illuminaten, m=F6chten Sie sich der =
+gro=DFen Illuminati-Bruderschaft anschlie=DFen und im Leben reich und ber=
+=FChmt werden und die Summe von 5 Millionen Dollar ohne Menschenopfer erhal=
+ten, antworten Sie heute bei Interesse schnell mit Ja, damit ich es Ihnen s=
+agen kann  die Schritte und Verfahren jetzt, wenn Sie interessiert sind, Wh=
+atsApp mich jetzt; +4917629575254
+https://wa.link/m86gx1
