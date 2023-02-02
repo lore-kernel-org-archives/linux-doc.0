@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73D94C64EC5
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 05:29:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B41C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 05:45:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231382AbjBBF3J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 00:29:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58132 "EHLO
+        id S231485AbjBBFph (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 00:45:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231936AbjBBF2Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 00:28:25 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8563020D32;
-        Wed,  1 Feb 2023 21:28:09 -0800 (PST)
+        with ESMTP id S230508AbjBBFpf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 00:45:35 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F6A37B46;
+        Wed,  1 Feb 2023 21:45:27 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8B092B824BD;
-        Thu,  2 Feb 2023 05:28:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD25FC4339C;
-        Thu,  2 Feb 2023 05:28:06 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AB5BD61783;
+        Thu,  2 Feb 2023 05:45:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04CC1C433D2;
+        Thu,  2 Feb 2023 05:45:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675315687;
-        bh=nv2Qqlsj2+1OK7qBLFpDl9kvNBYUdDR2EUyByUiFUks=;
+        s=k20201202; t=1675316726;
+        bh=gTyWdbMQBkC6bj2L7uRC+LIn00TYkfea/W2V8Ev9Cfw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PDOyv9HyEEEm1mMma7zFwWbZkwzMocq6zarb2i37VNulT7a3osKH4xFUVY03G0uE1
-         G9Bwmbvnz5RC4xs3/JXAKDPjHyL8XyQlHwUOfYaY2O7EeS2FYUCn0LqwDkgDfwLfnE
-         s3sda8oybqsTfOSmSaMbXMtcGUfRgWiqyCXHn/z4P+pF49eE3+iYY3FTgmah4dJ+47
-         //ln2un/CRFL1KDmQJmrY5Tdsts1oSbjNOnJvq7gT10MuzQl2+ZQoBSddMjS6KhSBN
-         EW8r43JO3kEgOgmrmkMwrVmOCjrFGBsIt984oYH9qZmUl3imiZo/eL2Aa3O1lCu2dV
-         HZ4Q10lxbQi0w==
+        b=SXBa8TdiOhzgbCB7WRvrT5ADcJIuaKB97mPE95Zc7EPVXvPq+wcLlbwa4s8opZRnP
+         BRL8M7CLTUpwAKPtU3NuqTMjplzmn9RGqxVEb7RrGv7JsMT6DFngJgKVscCwITjxBi
+         U2QbvmFVihP+Lh9okXkpQy4Zy675b+hLY85XKIuoBIsFHBrK/2rX0nAj+lbjTOWFHI
+         TrGby2TffvqjR/RF6FDnMLvOmpPYXWn/Z/bgxoYeh5UnAhMOTXP+CAoqq3m0122cit
+         28Id6Z4mnSOzjct6pk3h2G2vKvR+nidq/zs6DuzuSzFJ+PLPW/NIOCXRW5CwQLlwGF
+         /YCtWwuVD4TEQ==
 From:   Eric Biggers <ebiggers@kernel.org>
 To:     stable@vger.kernel.org
 Cc:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
@@ -47,12 +47,12 @@ Cc:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
         Eric Biggers <ebiggers@google.com>,
         Huang Ying <ying.huang@intel.com>,
         Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org
-Subject: [PATCH 4.19 11/16] exit: Allow oops_limit to be disabled
-Date:   Wed,  1 Feb 2023 21:25:59 -0800
-Message-Id: <20230202052604.179184-12-ebiggers@kernel.org>
+Subject: [PATCH 4.14 11/16] exit: Allow oops_limit to be disabled
+Date:   Wed,  1 Feb 2023 21:44:01 -0800
+Message-Id: <20230202054406.221721-12-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230202052604.179184-1-ebiggers@kernel.org>
-References: <20230202052604.179184-1-ebiggers@kernel.org>
+In-Reply-To: <20230202054406.221721-1-ebiggers@kernel.org>
+References: <20230202054406.221721-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -84,10 +84,10 @@ Signed-off-by: Eric Biggers <ebiggers@google.com>
  2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/sysctl/kernel.txt b/Documentation/sysctl/kernel.txt
-index fd65f4e651d55..e1d375df4f286 100644
+index 7b04c616c5901..b6124a4475fb7 100644
 --- a/Documentation/sysctl/kernel.txt
 +++ b/Documentation/sysctl/kernel.txt
-@@ -559,8 +559,9 @@ scanned for a given scan.
+@@ -519,8 +519,9 @@ scanned for a given scan.
  oops_limit:
  
  Number of kernel oopses after which the kernel should panic when
@@ -100,10 +100,10 @@ index fd65f4e651d55..e1d375df4f286 100644
  ==============================================================
  
 diff --git a/kernel/exit.c b/kernel/exit.c
-index 5cd8a34257650..b2f0aaf6bee78 100644
+index 138b110bf83a1..73103e008a627 100644
 --- a/kernel/exit.c
 +++ b/kernel/exit.c
-@@ -986,7 +986,7 @@ void __noreturn make_task_dead(int signr)
+@@ -984,7 +984,7 @@ void __noreturn make_task_dead(int signr)
  	 * To make sure this can't happen, place an upper bound on how often the
  	 * kernel may oops without panic().
  	 */
