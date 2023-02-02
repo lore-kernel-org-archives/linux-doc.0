@@ -2,116 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C891C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 09:34:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E09B1C6379F
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 09:52:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232340AbjBBJeD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 04:34:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42166 "EHLO
+        id S230003AbjBBJwt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 04:52:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232129AbjBBJd6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 04:33:58 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B48DB449E;
-        Thu,  2 Feb 2023 01:33:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675330412; x=1706866412;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aIiyDgv/qmZGr3jDNkPYzcbCICg4MgEqP2BLjAJlMts=;
-  b=QpoIQv+gp7esr1mFlbLmilipLrH1mQY8ByD9BrnCwCWYFP6KCYWff4fe
-   Pjx64K8Pp6oYAfMv/+kelzayPXgDSd2lP7vXg22c906Msr4hiY+KDI3bh
-   uB1YK69rXR4j4A6UKlUfRGfIhnqrtGC3GDdwGE9L+iD3ueF6UZGihK8Mn
-   f/SXE7G0ECXq0LFnaqiWbLuz95FwXn0ZiLlmnLVhxdnFj3cVpyR0YLfyM
-   OUCoz3Ql+UIx1V+9Qv0ORF20iCdEGFS/0hSI+X8+H6+kV1R0ooaEtzRA2
-   T+thDmmB0Q0da0wNySIPmgYA2yLr58hEIzbfeurEuScXNdqzxCgrMyY1d
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="308742904"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="308742904"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 01:33:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="697626494"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="697626494"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 02 Feb 2023 01:33:27 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pNVy6-0006O0-0g;
-        Thu, 02 Feb 2023 09:33:22 +0000
-Date:   Thu, 2 Feb 2023 17:32:40 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Bill Wendling <morbo@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Yonghong Song <yhs@fb.com>,
-        Daniel Kolesa <q66@chimera-linux.org>,
-        Chris Mason <chris.mason@fusionio.com>
-Subject: Re: [PATCH] Documentation/llvm: add Chimera Linux, Google and Meta
- datacenters
-Message-ID: <202302021759.syE8waoZ-lkp@intel.com>
-References: <20230201192509.4124319-1-ndesaulniers@google.com>
+        with ESMTP id S229595AbjBBJws (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 04:52:48 -0500
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F23AE6;
+        Thu,  2 Feb 2023 01:52:46 -0800 (PST)
+Received: from mail02.huawei.com (unknown [172.18.147.228])
+        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4P6v542HL0z9xGYW;
+        Thu,  2 Feb 2023 17:44:24 +0800 (CST)
+Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
+        by APP1 (Coremail) with SMTP id LxC2BwDXVwPJh9tj+jnpAA--.15060S2;
+        Thu, 02 Feb 2023 10:52:21 +0100 (CET)
+Message-ID: <6ddfa7344d01b21a93d3909af9dac0ae5e2a79ee.camel@huaweicloud.com>
+Subject: Re: [RFC PATCH v9 13/16] ipe: enable support for fs-verity as a
+ trust provider
+From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
+To:     Fan Wu <wufan@linux.microsoft.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Date:   Thu, 02 Feb 2023 10:51:56 +0100
+In-Reply-To: <20230201235031.GC9075@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+         <1675119451-23180-14-git-send-email-wufan@linux.microsoft.com>
+         <d62907da62b5e0b25c9d7bd4b3119a3d1827bd29.camel@huaweicloud.com>
+         <20230201235031.GC9075@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230201192509.4124319-1-ndesaulniers@google.com>
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: LxC2BwDXVwPJh9tj+jnpAA--.15060S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZF1Dtry3CFyxuFWkCr4fAFb_yoW5JryfpF
+        WFkF48KrZ0qF17KF10y3W8Xw1akrWxKay7urn8uwn7Was5Zr9rtr1IyFWUWFn8CFy8ZryY
+        qF42yF15Z3s8AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+        AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
+        64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+        8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE
+        2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+        xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
+        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UZ18PUUUUU=
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAQBF1jj4hv0wAAsQ
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nick,
+On Wed, 2023-02-01 at 15:50 -0800, Fan Wu wrote:
+> On Tue, Jan 31, 2023 at 03:00:08PM +0100, Roberto Sassu wrote:
+> > On Mon, 2023-01-30 at 14:57 -0800, Fan Wu wrote:
+> > > +/**
+> > > + * evaluate_fsv_sig_false - Analyze @ctx against a fsv sig false property.
+> > > + * @ctx: Supplies a pointer to the context being evaluated.
+> > > + * @p: Supplies a pointer to the property being evaluated.
+> > > + *
+> > > + * Return:
+> > > + * * true	- The current @ctx match the @p
+> > > + * * false	- The current @ctx doesn't match the @p
+> > > + */
+> > > +static bool evaluate_fsv_sig_false(const struct ipe_eval_ctx *const ctx,
+> > > +				   struct ipe_prop *p)
+> > > +{
+> > > +	return !ctx->ino ||
+> > > +	       !IS_VERITY(ctx->ino) ||
+> > > +	       !ctx->ipe_inode ||
+> > > +	       !ctx->ipe_inode->fs_verity_signed;
+> > > +}
+> > > +
+> > > +/**
+> > > + * evaluate_fsv_sig_true - Analyze @ctx against a fsv sig true property.
+> > > + * @ctx: Supplies a pointer to the context being evaluated.
+> > > + * @p: Supplies a pointer to the property being evaluated.
+> > > + *
+> > > + * Return:
+> > > + * * true - The current @ctx match the @p
+> > > + * * false - The current @ctx doesn't match the @p
+> > > + */
+> > > +static bool evaluate_fsv_sig_true(const struct ipe_eval_ctx *const ctx,
+> > > +				  struct ipe_prop *p)
+> > > +{
+> > > +	return ctx->ino &&
+> > > +	       IS_VERITY(ctx->ino) &&
+> > > +	       ctx->ipe_inode &&
+> > > +	       ctx->ipe_inode->fs_verity_signed;
+> > > +}
+> > 
+> > Isn't better to just define one function and prepend a ! in
+> > evaluate_property()?
+> Yes that's a better way to do it, I will take this idea.
+> 
+> > Not sure about the usefulness of the fsverity_signature= property as it
+> > is. I would at minimum allow to specify which keyring signatures are
+> > verified against, and ensure that the keyring has a restriction.
+> > 
+> > And maybe I would call fsverity_verify_signature() directly, after
+> > extending it to pass the desired keyring.
+> > 
+> Thanks for the suggestion.
+> For the initial version we only have the fsverity_signature property
+> to enable the policy can make decision based on the existence of the
+> signature. In the future we plan to add more properties to leverage
+> the remaining signature information so we can have the restrictions
+> you mentioned.
 
-I love your patch! Perhaps something to improve:
+Uhm, these boolean properties feel like something is missing. In my
+opinion, one cannot accept just any signature, but should be able to
+specify the approved signers.
 
-[auto build test WARNING on masahiroy-kbuild/for-next]
-[also build test WARNING on masahiroy-kbuild/fixes linus/master v6.2-rc6 next-20230202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Roberto
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Desaulniers/Documentation-llvm-add-Chimera-Linux-Google-and-Meta-datacenters/20230202-032729
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20230201192509.4124319-1-ndesaulniers%40google.com
-patch subject: [PATCH] Documentation/llvm: add Chimera Linux, Google and Meta datacenters
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/fb73005aa3c6a4052e30f0f0dc2c608bafd8acce
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nick-Desaulniers/Documentation-llvm-add-Chimera-Linux-Google-and-Meta-datacenters/20230202-032729
-        git checkout fb73005aa3c6a4052e30f0f0dc2c608bafd8acce
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+> -Fan
+> 
+> > I would also split this patch in two, one for fsverity_digest= and one
+> > for fsverity_signature=.
+> > 
+> > Roberto
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/kbuild/llvm.rst:13: WARNING: Unknown target name: "chromeos https://www.chromium.org/chromium-os>".
-
-vim +13 Documentation/kbuild/llvm.rst
-
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26  12  
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26 @13  The Linux kernel has always traditionally been compiled with GNU toolchains
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26  14  such as GCC and binutils. Ongoing work has allowed for `Clang
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26  15  <https://clang.llvm.org/>`_ and `LLVM <https://llvm.org/>`_ utilities to be
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26  16  used as viable substitutes. Distributions such as `Android
-fcf1b6a35c16ac5 Nick Desaulniers 2020-02-26  17  <https://www.android.com/>`_, `ChromeOS
-fb73005aa3c6a40 Nick Desaulniers 2023-02-01  18  https://www.chromium.org/chromium-os>`_, `OpenMandriva
-fb73005aa3c6a40 Nick Desaulniers 2023-02-01  19  <https://www.openmandriva.org/>`_, and `Chimera Linux
-fb73005aa3c6a40 Nick Desaulniers 2023-02-01  20  <https://chimera-linux.org/>`_ use Clang built kernels. Google's and Meta's
-fb73005aa3c6a40 Nick Desaulniers 2023-02-01  21  datacenter fleets also run kernels built with Clang.
-fb73005aa3c6a40 Nick Desaulniers 2023-02-01  22  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
