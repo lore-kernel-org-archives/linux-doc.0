@@ -2,133 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9AB8C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 18:06:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CF3C05027
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 18:09:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232019AbjBBSF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 13:05:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47528 "EHLO
+        id S230017AbjBBSJI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 13:09:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230372AbjBBSF6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 13:05:58 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05ED76F700
-        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 10:05:55 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id g138-20020a25db90000000b0080c27bde887so2406450ybf.18
-        for <linux-doc@vger.kernel.org>; Thu, 02 Feb 2023 10:05:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pcrdwdxm3GaoayBnAN0D1xU3wF7llh/DmYJIvd7/CSs=;
-        b=mzUE3hQUlTgZW+KoG/RsOuhs2zwW1QN1QpRvovVnEF9IN2laZNI+3boFOK/RoKamBV
-         Ik3TENNNFksJOyFwovOwFRrUJ/C/ArP78Rq3buhwWQByumqUSbokOCoVWrY0yREvU/aP
-         MopjTY6vlzHrnmtXmSaIAJEafRfIbORNX7iTr1GXFRn5wcxE5ehAvfAeEeMSAUdK7tg+
-         sE5VR9pQ5OPdUO4z3B7h/R2lJL7IvOM3BpQSxY9B7CZdJTk8N7+UQFj/AJSinav5Zy81
-         Z4+rtFznfMaTktQ2u/R8sn6a0/9R6HqqTH3psEJKlcyoKRZUgbNU2kkgS/YnC2J9oOd+
-         FBGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pcrdwdxm3GaoayBnAN0D1xU3wF7llh/DmYJIvd7/CSs=;
-        b=uNcUoN4RORX57e9fh4bmm/JlFEAmKcQid8e/TCaPR0yZsTgP+Nep4FWR50iExVwd4y
-         mztsrq9yZwNzQfYrzzBuITQfk3lV+anyaR3JaEF8ntQO8JPErggvgpHrWDZ7DgN/DHoY
-         +Ci33RzyPhGr/A8n6DxO5CZSJRT9jXOVMOWg0wA4MHpsAohpNX/MTpvIXWRRr0O3d031
-         2Kenragxwi1dKmki59bHxCwRT/C+fGGd4zTJmelOKE50InDm6m61ICmU//10aIVgCnpx
-         xhve4Hf1JE/0pWDZ0TRrDHJUC2tOAMXXCT6RSkCFK0rbG3XdMDRWbO2r4shgqzVgSpx6
-         w2uQ==
-X-Gm-Message-State: AO0yUKUlRUo9Qb4k6O1Ax0v6HJ/juOhEPZf85/njxAd/I4Pj3QxMGikv
-        GFNsoTqohUcYk0gTRRIbOr/YzX0eKVdwqcpW0l8=
-X-Google-Smtp-Source: AK7set9MnxxlJeWO4CaZjVHGtPtPKCQhta0jpl3+E87wBf9g+u8F6ZpwMKBXdb24b/9R/88Os7Gf6mOLLMdzToqto5Y=
-X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:15c:2d1:203:6989:8074:882f:1b03])
- (user=ndesaulniers job=sendgmr) by 2002:a05:6902:1801:b0:7c8:3b5:b58d with
- SMTP id cf1-20020a056902180100b007c803b5b58dmr1053700ybb.494.1675361154937;
- Thu, 02 Feb 2023 10:05:54 -0800 (PST)
-Date:   Thu,  2 Feb 2023 10:05:48 -0800
-In-Reply-To: <202302021759.syE8waoZ-lkp@intel.com>
-Mime-Version: 1.0
-References: <202302021759.syE8waoZ-lkp@intel.com>
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1675361148; l=2471;
- i=ndesaulniers@google.com; s=20220923; h=from:subject; bh=1znbSDzr7hZkfxh9QWcbuf6FrYA2adf+h8XbmU+08m8=;
- b=iFY7n4mMPyovBg+3CK51+G1hMOc0LKIuvX7lW/a+IEZTQWbLGmXirNYWH5oelsG9pgTMvNZI/cL1
- ZwOw0DmCCxOprJENMrlBxlOfc8QFh7HD/W9cTqGqfACAK2gmfd0L
-X-Mailer: git-send-email 2.39.1.519.gcb327c4b5f-goog
-Message-ID: <20230202180548.229213-1-ndesaulniers@google.com>
-Subject: [PATCH v2] Documentation/llvm: add Chimera Linux, Google and Meta datacenters
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Bill Wendling <morbo@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Yonghong Song <yhs@fb.com>,
-        Daniel Kolesa <q66@chimera-linux.org>,
-        Chris Mason <clm@meta.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229881AbjBBSJH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 13:09:07 -0500
+X-Greylist: delayed 162751 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 02 Feb 2023 10:09:06 PST
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33DF0E3A6;
+        Thu,  2 Feb 2023 10:09:06 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 48D347DE;
+        Thu,  2 Feb 2023 18:09:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 48D347DE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1675361345; bh=2+a4mZYwqT3vzf0UQzfkcA5CdDxOuo7YvzN9jr8nkig=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=gY7ULbf3et5D4Qc/CNx/w7sCxqXxX6fR0sNacSV7nefpdle702hp6si3iizN6qwiE
+         uEIY7Q78a9h2RN4xfonCmMXE/H1WHGv23zZbRY3a8TD9z3xCs5/ly7iH92i4XVhMfk
+         m1+3SrM+pmOm5qUcXvYL8szbXDpSICOPir4Ff+tNZ80bHoZS0uhfOu3aabBosNVFfP
+         7pgupe9C5u4Sz6v8uZtM64S9OiXXXwx07OTa5szwYHdV6XxaRnf+mq/MpKQwaSbzh0
+         jfCb5rfx6sWATpmne99lGmlwL/b8o+ggGmLTspO1j2VtBWLoL4M3uxU9erIgFeIYC3
+         b3TsgnsFP3UgQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-mm@kvack.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, nvdimm@lists.linux.dev,
+        Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+        Song Liu <song@kernel.org>, linux-raid@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-hwmon@vger.kernel.org, Jiri Pirko <jiri@nvidia.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Josh Triplett <josh@joshtriplett.org>, rcu@vger.kernel.org,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH 0/9] Documentation: correct lots of spelling errors
+ (series 2)
+In-Reply-To: <20230129231053.20863-1-rdunlap@infradead.org>
+References: <20230129231053.20863-1-rdunlap@infradead.org>
+Date:   Thu, 02 Feb 2023 11:09:04 -0700
+Message-ID: <875yckvt1b.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Chimera Linux is a Linux distribution from 2021 that builds its kernels
-with Clang.
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-Google transitioned its data center fleet to run Clang built kernels in
-2021, and Meta did so as well in 2022.  Meta talked about this at LPC
-2022 at a talk titled Kernel Live Patching at Scale.
+> Maintainers of specific kernel subsystems are only Cc-ed on their
+> respective patches, not the entire series. [if all goes well]
+>
+> These patches are based on linux-next-20230127.
 
-These were important milestones for building the kernel with Clang.
-Making note of them helps improve confidence in the project.
+So I've applied a bunch of these
 
-Reviewed-by: Tom Rix <trix@redhat.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
-Co-developed-by: Yonghong Song <yhs@fb.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Cc: Daniel Kolesa <q66@chimera-linux.org>
-Cc: Chris Mason <clm@meta.com>
----
-For Bernd Helmle!
+>  [PATCH 1/9] Documentation: admin-guide: correct spelling
+>  [PATCH 2/9] Documentation: driver-api: correct spelling
 
-Changes v1 -> v2:
-* pick up RB tags.
-* switch signed-off-by to co-developed-by, as per Nathan.
-* restore `<` I dropped accidentally in v1, as per kernel test robot.
+applied
 
- Documentation/kbuild/llvm.rst | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+>  [PATCH 3/9] Documentation: hwmon: correct spelling
+>  [PATCH 4/9] Documentation: networking: correct spelling
+>  [PATCH 5/9] Documentation: RCU: correct spelling
 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index 6b2bac8e9ce0..bfb51685073c 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -15,12 +15,15 @@ such as GCC and binutils. Ongoing work has allowed for `Clang
- <https://clang.llvm.org/>`_ and `LLVM <https://llvm.org/>`_ utilities to be
- used as viable substitutes. Distributions such as `Android
- <https://www.android.com/>`_, `ChromeOS
--<https://www.chromium.org/chromium-os>`_, and `OpenMandriva
--<https://www.openmandriva.org/>`_ use Clang built kernels.  `LLVM is a
--collection of toolchain components implemented in terms of C++ objects
--<https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM that
--supports C and the GNU C extensions required by the kernel, and is pronounced
--"klang," not "see-lang."
-+<https://www.chromium.org/chromium-os>`_, `OpenMandriva
-+<https://www.openmandriva.org/>`_, and `Chimera Linux
-+<https://chimera-linux.org/>`_ use Clang built kernels. Google's and Meta's
-+datacenter fleets also run kernels built with Clang.
-+
-+`LLVM is a collection of toolchain components implemented in terms of C++
-+objects <https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM
-+that supports C and the GNU C extensions required by the kernel, and is
-+pronounced "klang," not "see-lang."
- 
- Clang
- -----
--- 
-2.39.1.519.gcb327c4b5f-goog
+These have been taken up elsewhere
 
+>  [PATCH 6/9] Documentation: scsi/ChangeLog*: correct spelling
+>  [PATCH 7/9] Documentation: scsi: correct spelling
+
+I've left these for the SCSI folks for now.  Do we *really* want to be
+fixing spelling in ChangeLog files from almost 20 years ago?
+
+>  [PATCH 8/9] Documentation: sparc: correct spelling
+>  [PATCH 9/9] Documentation: userspace-api: correct spelling
+
+Applied.
+
+Thanks,
+
+jon
