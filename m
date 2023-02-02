@@ -2,100 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5EEC61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 08:22:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D27E1C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 08:52:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231726AbjBBIWS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 03:22:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39540 "EHLO
+        id S230218AbjBBIwu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 03:52:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231665AbjBBIWR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 03:22:17 -0500
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B0DE834BB;
-        Thu,  2 Feb 2023 00:22:13 -0800 (PST)
-Received: from mail02.huawei.com (unknown [172.18.147.229])
-        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4P6s4b6HpTz9xFrR;
-        Thu,  2 Feb 2023 16:13:51 +0800 (CST)
-Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
-        by APP2 (Coremail) with SMTP id GxC2BwBHE1qQcttjhtrmAA--.14473S2;
-        Thu, 02 Feb 2023 09:21:48 +0100 (CET)
-Message-ID: <903062f7b2e2709ae0e4416545ffadd91c132676.camel@huaweicloud.com>
-Subject: Re: [RFC PATCH v9 10/16] dm-verity: consume root hash digest and
- signature data via LSM hook
-From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
-To:     Fan Wu <wufan@linux.microsoft.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, linux-audit@redhat.com,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Date:   Thu, 02 Feb 2023 09:21:24 +0100
-In-Reply-To: <20230201232639.GB9075@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
-         <1675119451-23180-11-git-send-email-wufan@linux.microsoft.com>
-         <4f029a41d80d883d9b4729cbc85211955c9efe8e.camel@huaweicloud.com>
-         <20230201232639.GB9075@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        with ESMTP id S229495AbjBBIwt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 03:52:49 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6199C728CB;
+        Thu,  2 Feb 2023 00:52:48 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id eq11so1230695edb.6;
+        Thu, 02 Feb 2023 00:52:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=c8imLw2zIVWzUCeb3dVLIiXTws1/ABjEcX/MBA0oxEY=;
+        b=D+4XykdwgR7Lu3xxweEqF4Qa7YM6l4oU79BeTagKMPvBMwBaLSuliZlP/zeV7a8KtD
+         PWcj+PZnhTsCbZEOz+WZGFXzh19Yki+5c5jQdt7BOsduQxFhp3uV0I4s14IVddJYhpBX
+         On3mtBpYEBUBj6kUg9WK90DP2EUT/u1t4k/paJOzbfYr7vP0pFvq7eYqpo4mC3f/T4jc
+         cIw6LCW527FET9NxQYj0CJoF02Bj1lsWJtNTIwfpn8GWQw+frgp6m0zXQrx7fOndKfsU
+         +sj7/d02LO7CG6qy7duAQofgh+txUodeWAM8B8n19gEtgo1GFh15wBIDtqGvopRFWpFd
+         72zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8imLw2zIVWzUCeb3dVLIiXTws1/ABjEcX/MBA0oxEY=;
+        b=zNEl1LrmU0q+5JwuSWbipBpPKkgfjH2qpZqhqbwEhoScaeLay+OrC8QC0nzBSw3aTs
+         oqxKH0XRNuVVr4vyRbx2JG4CIRJz6BDI3grGYOl4gH+yOmQzDjRd2jcCgJ+Y0ZCQFM6O
+         c1yRz8muuLonZSIr+tQzrZ+6dZCzfDCDVf96rBombmr3yDOdvj5Qcx2vMt0lHbXuak8k
+         NR9iySKMwJHEK8pcwdn4vEwuEXiHwYI0a3fCu1AQR3dzPnpwbzS1tD79+A2MNztD8mjm
+         UMT/Kdt4pmQUhzDL5nQPSjptjZAHc7mXKv+vYmckAZQMN5qMmBq5FIJ11o/4mkYK8b1Q
+         WCLw==
+X-Gm-Message-State: AO0yUKXHlNqCS0B1GoUxXBfEnVMoPmlvX2jJlfit9c3Kld9HhUgGJcSu
+        AVvQXGAKfVUGY0EAe9iZ0so=
+X-Google-Smtp-Source: AK7set+diYGImVByaftiJ+HnGv/h78+1zmxYj8/MSsTakNiE75ydMcHB/z1RpmV7age6TNgBcmLPbA==
+X-Received: by 2002:a50:d088:0:b0:4a2:3d3d:a3d9 with SMTP id v8-20020a50d088000000b004a23d3da3d9mr4652114edd.2.1675327966763;
+        Thu, 02 Feb 2023 00:52:46 -0800 (PST)
+Received: from gvm01 (net-5-89-66-224.cust.vodafonedsl.it. [5.89.66.224])
+        by smtp.gmail.com with ESMTPSA id a6-20020aa7cf06000000b004a23558f01fsm6889204edy.43.2023.02.02.00.52.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Feb 2023 00:52:46 -0800 (PST)
+Date:   Thu, 2 Feb 2023 09:52:46 +0100
+From:   Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
+        sbhatta@marvell.com, linux-doc@vger.kernel.org,
+        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
+        gal@nvidia.com, gustavoars@kernel.org, bagasdotme@gmail.com
+Subject: [PATCH v5 ethtool-next 0/1] add support for PLCA RS
+Message-ID: <cover.1675327734.git.piergiorgio.beruto@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: GxC2BwBHE1qQcttjhtrmAA--.14473S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw4ftFW5tw1fXF4DKr4xtFb_yoW8JF4xpF
-        1UWayYgrn5KasrGrnaya1fArWIkrWYv343Xr15Xw18CF98ur1IvF1FkFW5Za9F9r95C3WF
-        vFW0qa47Zwn8A3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-        AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
-        64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-        8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE
-        2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-        xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
-        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UZ18PUUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAQBF1jj4huJgABsl
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2023-02-01 at 15:26 -0800, Fan Wu wrote:
-> On Tue, Jan 31, 2023 at 02:22:01PM +0100, Roberto Sassu wrote:
-> > On Mon, 2023-01-30 at 14:57 -0800, Fan Wu wrote:
-> > > From: Deven Bowers <deven.desai@linux.microsoft.com>
-> > > 
-> > > dm-verity provides a strong guarantee of a block device's integrity. As
-> > > a generic way to check the integrity of a block device, it provides
-> > > those integrity guarantees to its higher layers, including the filesystem
-> > > level.
-> > 
-> > I think you could reuse most of is_trusted_verity_target(), in
-> > particular dm_verity_get_root_digest().
-> > 
-> > And probably, the previous patch is not necessary.
-> > 
-> > Roberto
-> > 
-> Thanks for the info. This function seems could be used to get the roothash
-> but for saving the signature we still need the hook function in the previous
-> patch.
+Add support for the IEEE802.3cg-2019 Clause 148 PLCA Reconciliation
+Sublayer. Add get/set configuration and get status functions.
+Additionally, shows PLCA capabilities and status when invoked
+without arguments.
 
-Uhm, look at the LoadPin case. It does not need to temporarily store
-the root digest in a security blob. It evaluates it directly.
+Piergiorgio Beruto (1):
+  add support for IEEE 802.3cg-2019 Clause 148
 
-Well, ok, dm_verity_loadpin_is_bdev_trusted() looks for trusted digests
-in the dm_verity_loadpin_trusted_root_digests list. So, something
-equivalent needs to be made for IPE (or you just get the digest).
-However, I find not introducing new hooks and evaluating the
-information directly more efficient.
+ Makefile.am        |   1 +
+ ethtool.8.in       |  83 ++++++++++++-
+ ethtool.c          |  21 ++++
+ netlink/extapi.h   |   6 +
+ netlink/plca.c     | 296 +++++++++++++++++++++++++++++++++++++++++++++
+ netlink/settings.c |  82 ++++++++++++-
+ 6 files changed, 486 insertions(+), 3 deletions(-)
+ create mode 100644 netlink/plca.c
 
-Roberto
+-- 
+2.37.4
 
