@@ -2,147 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE2CC05027
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 15:03:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D2AC05027
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 15:08:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231661AbjBBPDl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 10:03:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44148 "EHLO
+        id S231725AbjBBPIt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 10:08:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229972AbjBBPDk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 10:03:40 -0500
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B1BE1715E;
-        Thu,  2 Feb 2023 07:03:15 -0800 (PST)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-163bd802238so2805495fac.1;
-        Thu, 02 Feb 2023 07:03:15 -0800 (PST)
+        with ESMTP id S232315AbjBBPIg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 10:08:36 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98643EB60
+        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 07:08:05 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id m7so1980993wru.8
+        for <linux-doc@vger.kernel.org>; Thu, 02 Feb 2023 07:08:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=aYJ2N8WEHs5GTVFeSbPZHq4ulIlep5wwgIPvf0xRpx0=;
+        b=emNEyF3xnXXJeUYNxx4wyhSDQsXeD7Sk7CkJ2QxZyKKtgxNaMEHAGYJOT2KelT2+gr
+         vV2FkylDdDdrf5043yzEiNHi4T5MRroRPEo1cTUPo1JEoqm9O40uVrrrJW5hgje1VXQ6
+         0/c5nriNGy/cjH/hC1wtc5l0CjVTLad2xhYhrvygdv55HP0eblbie7V7tfL38JDdLzqU
+         fyMpG8LsIlthgQcsQ1hPgsgOPHoMR1qqAxdJrVRK5sValp3HgypcwDXSvkrqQL+V7UGh
+         QjoBYblpYxqTzZsD+mv2a8u2R9Fxs/1wEqcEphvu0v4m6tzYCYdKEWuzCAxMIonwB9kp
+         AM6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yOafWoNIBGU3Q76qlhkVuk+ht5BzMZtDb+TwP4LrI+s=;
-        b=7SxN6CsChFi5CsO8BdujQhNA/maxiN0bWxxXhoWdm5A6m7yQlMHyBtpBPTDKt5RtZB
-         GxO3XulvBXey/LiZakCjF5UgHjDQL3MxMhzeCDJl2+qgCwVoUXiC/l6HGEpuocw8pSKL
-         ZRL2mkLBjDBw5MVj+5xB4bjZW2GzsTRu7foHfGBz0pzYWJhxaRoGuLeHu0voWnA+IOow
-         2NwgNOi6wVerN4nl8x5yKvPRiof1UBDPtFJ4dSoCRAi5TmWcD0o+UpKUMFuhqvXfWPsY
-         yRs7U0IzCyr04h+BGAgpJTnjOxp9P79qOBMp8NW7GNvVDSartGam4huphLKdEseQ5JvL
-         nq+g==
-X-Gm-Message-State: AO0yUKUUt45JuYS2f4r/EmiRbsZ9QORZ5bxUVV0fcioOWI4HZPkB21hb
-        n4PsE5d14T9TNJRYd+uYFbsA3kcnGuW50Q==
-X-Google-Smtp-Source: AK7set/jqRpSpKwOVgmd0hRVvLflEu/ZJ53kNj+Z0g73c5pb0/FJd/Mx0loSgB+vzVz/aKrqVxiwDg==
-X-Received: by 2002:a05:6870:d184:b0:163:88f7:d947 with SMTP id a4-20020a056870d18400b0016388f7d947mr3037186oac.43.1675350169477;
-        Thu, 02 Feb 2023 07:02:49 -0800 (PST)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id o4-20020a05620a0d4400b006ea7f9d8644sm14344458qkl.96.2023.02.02.07.02.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Feb 2023 07:02:49 -0800 (PST)
-Received: by mail-yb1-f172.google.com with SMTP id 74so2238008ybl.12;
-        Thu, 02 Feb 2023 07:02:49 -0800 (PST)
-X-Received: by 2002:a25:fc1c:0:b0:80b:8602:f3fe with SMTP id
- v28-20020a25fc1c000000b0080b8602f3femr916791ybd.36.1675349832295; Thu, 02 Feb
- 2023 06:57:12 -0800 (PST)
+        bh=aYJ2N8WEHs5GTVFeSbPZHq4ulIlep5wwgIPvf0xRpx0=;
+        b=QAaivTmKg+m3ELOSBAfp5CyzgY9HZwP9z8UWYffcW5MGmOhvZYUKPSRTlw61RB38PF
+         fk7+lh0gqkU4V2rR0WvinCuq6LGHB6e34A4Xg38de3BWT5ibM0PX6fwTBDEqgEheeQTO
+         YWnuGCoGM4McUY6OOJHXVxVN9RXrtaNW58c8ROltaY898ElatehKitSpIG/upF7980h0
+         ZekAJnvp0eI6dpE5VjpgkJvQea8ChhLZi2pnyK9VCreMggKzyZf3Orb1rnSVDAueS28N
+         dBSK/rKSZZqjIsvisc8iOCU2EgfbHTxok0Jk2fdQXsRzAcqeG6iCElueLo1w9gK1keRS
+         h0Cw==
+X-Gm-Message-State: AO0yUKXT6D28HGlP/B0RZfMbx4gSNKpdK81YjiYWCQdWrfnkEl8gMrAU
+        Vlrov5uVcuxKqKzjins13wqJgTmPeXOUxXWG+hapDg==
+X-Google-Smtp-Source: AK7set+XEkvriksqDV6S8qdBAREdpP7cT4xADg8EhSkS/3ETeDAmV4wBFCCd91Ps9riFQGmny878Fyz+jPXTTIINCVc=
+X-Received: by 2002:adf:ffcb:0:b0:2bf:e95c:9918 with SMTP id
+ x11-20020adfffcb000000b002bfe95c9918mr219059wrs.330.1675350482003; Thu, 02
+ Feb 2023 07:08:02 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1674584626.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1674584626.git.geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 2 Feb 2023 15:57:00 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWhY9OtW2Pa+LmY0qOvbxLiuyNYEQr5WnPgO1xD=5M1AQ@mail.gmail.com>
-Message-ID: <CAMuHMdWhY9OtW2Pa+LmY0qOvbxLiuyNYEQr5WnPgO1xD=5M1AQ@mail.gmail.com>
-Subject: Re: [PATCH treewide v2 0/9] phy: Add devm_of_phy_optional_get() helper
-To:     Vinod Koul <vkoul@kernel.org>
+References: <20230131151115.1972740-1-alexghiti@rivosinc.com> <Y9lrB+RUBk1Njhaq@spud>
+In-Reply-To: <Y9lrB+RUBk1Njhaq@spud>
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+Date:   Thu, 2 Feb 2023 16:07:50 +0100
+Message-ID: <CAHVXubh+DgdgXZ-hHk5rxmQkXSBdk1AvTr3dvT80L5YXQZF=sw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/1] riscv: Allow to downgrade paging mode from the
+ command line
+To:     Conor Dooley <conor@kernel.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Siddharth Vadapalli <s-vadapalli@ti.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-phy@lists.infradead.org, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        Marc Kleine-Budde <mkl@pengutronix.de>
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Ard Biesheuvel <ardb@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vinod,
+Hi Conor,
 
-On Tue, Jan 24, 2023 at 7:37 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> While there exist several optional_get() PHY helper functions, there is
-> no optional variant of devm_of_phy_get(), leading to several drivers
-> implementing this theirselves, sometimes in buggy ways.
+On Tue, Jan 31, 2023 at 8:25 PM Conor Dooley <conor@kernel.org> wrote:
 >
-> Hence this series, after two cleanup patches, introduces a
-> devm_of_phy_optional_get() helper(), and converts existing users of
-> devm_of_phy_get() where appropriate.
+> Hey Alex,
 >
-> Changes compared to v1[1]:
->   - Incorporate "[PATCH v2 1/9] phy: Remove unused phy_optional_get()",
->     as it touches the same documentation,
->   - New patch "[PATCH v2 2/9] doc: phy: Document devm_of_phy_get()",
->   - Print an error message in case of failure, as requested by RobH,
->   - Update Documentation,
->   - Clarify removed checks for -ENODEV and -ENOSYS,
->   - Remove error printing in case of real failures from callers,
->   - Rebase am65-cpsw change on top of commit 854617f52ab42418 ("net:
->     ethernet: ti: am65-cpsw: Handle -EPROBE_DEFER for Serdes PHY") in
->     net-next (next-20230123 and later),
->   - Add Reviewed-by, Acked-by.
+> On Tue, Jan 31, 2023 at 04:11:14PM +0100, Alexandre Ghiti wrote:
+> > This new version gets rid of the limitation that prevented KASAN kernels
+> > to use the newly introduced parameters.
 >
-> Most of this series been compile-tested only, but the new helper itself
-> has been tested with a new user[2].
+> What's the base commit for this version?
+> Fails to apply for me on top of for-next, fixes, rc1, and linux-next :/
+> I also tried it on top of your KASAN series, but no luck there either!
 
-Are you happy with this?  This series (at least patch 3) is a dependency
-for [2], and in [3] you said you could apply it and create an immutable
-branch.
+Really sorry about that, that's the second time it happens, I'll
+improve my workflow: I'll include the base-commit sha1/tag + a link to
+all needed-but-not-yet-upstreamed patches.
 
-Thanks!
+Thanks for your time,
 
-> [1] "[PATCH treewide 0/7] phy: Add devm_of_phy_optional_get() helper"
->     https://lore.kernel.org/r/cover.1674036164.git.geert+renesas@glider.be
-> [2] "[PATCH 12/12] can: rcar_canfd: Add transceiver support"
->     https://lore.kernel.org/r/e825b50a843ffe40e33f34e4d858c07c1b2ff259.1674499048.git.geert+renesas@glider.be
-
-[3] https://lore.kernel.org/all/Y8kmG+jB%2Fs7stebA@matsya
+Alex
 
 >
-> Geert Uytterhoeven (9):
->   phy: Remove unused phy_optional_get()
->   doc: phy: Document devm_of_phy_get()
->   phy: Add devm_of_phy_optional_get() helper
->   net: fman: memac: Convert to devm_of_phy_optional_get()
->   net: lan966x: Convert to devm_of_phy_optional_get()
->   net: ethernet: ti: am65-cpsw: Convert to devm_of_phy_optional_get()
->   PCI: tegra: Convert to devm_of_phy_optional_get()
->   usb: host: ehci-exynos: Convert to devm_of_phy_optional_get()
->   usb: host: ohci-exynos: Convert to devm_of_phy_optional_get()
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Thanks,
+> Conor.
+>
+> > While looking into KASLR, I fell onto commit aacd149b6238 ("arm64: head:
+> > avoid relocating the kernel twice for KASLR"): it allows to use the fdt
+> > functions very early in the boot process with KASAN enabled by simply
+> > compiling a new version of those functions without instrumentation.
+> >
+> > I had to change the handling of the command line parsing to make the
+> > code self-contained in kernel/pi/cmd_early.c to avoid calling too many
+> > __pi prefixed functions from outside this file.
+> >
+> > I'll use this approach like arm64 to handle the extraction of the random
+> > seedi from the device tree for KASLR.
+> >
+> > @Ard: I copied the "pi" name but I have to admit I don't know what it
+> > means.
+> >
+> > Alexandre Ghiti (1):
+> >   riscv: Allow to downgrade paging mode from the command line
+> >
+> >  .../admin-guide/kernel-parameters.txt         |  5 +-
+> >  arch/riscv/kernel/Makefile                    |  2 +
+> >  arch/riscv/kernel/pi/Makefile                 | 34 ++++++++++++
+> >  arch/riscv/kernel/pi/cmdline_early.c          | 52 +++++++++++++++++++
+> >  arch/riscv/lib/memcpy.S                       |  2 +
+> >  arch/riscv/lib/memmove.S                      |  2 +
+> >  arch/riscv/mm/init.c                          | 36 ++++++++++---
+> >  7 files changed, 126 insertions(+), 7 deletions(-)
+> >  create mode 100644 arch/riscv/kernel/pi/Makefile
+> >  create mode 100644 arch/riscv/kernel/pi/cmdline_early.c
+> >
+> > --
+> > 2.37.2
+> >
