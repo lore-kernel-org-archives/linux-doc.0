@@ -2,130 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77D7CC636D4
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 10:00:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11430C636D3
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 11:07:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231520AbjBBKAS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 05:00:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41390 "EHLO
+        id S230174AbjBBLHN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 06:07:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232512AbjBBKAK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 05:00:10 -0500
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B468B8936A
-        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 01:59:57 -0800 (PST)
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com [209.85.128.200])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 12B5E442FB
-        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 09:46:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1675331215;
-        bh=j6zWA0cmeZq/Pdujw3e8IyUapMEhl5TgQN8H+c5DyTY=;
-        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-         To:Cc:Content-Type;
-        b=GTwdiPbSuSaJMT5L0j2KMlY3lcYYOfdk0g0HHFzHp7uoknkeZ7xc81THDSXctGTst
-         DIMdDM7BLU33V2o16thXOWjI5xJKNPd400bSA051mAHwkN1aEg2+MqNr+tdR/Tx3mj
-         tBLbdoFib9rIGEjljP5fhNFapcdPmoC1yq2qYlOXiwuWIr/TUbhEI77h6D2vdX7H8B
-         TE+FYPYqDv7C2rpHy60fSzvDz0wLdbY6t9QWSp1NgjkR1VhoTQfJkc5vQ+TynoqMFm
-         6Q/71NXleyahCl6CmS0pxKuQfg6vF2OgKjAig0ZakmEMfnFPyAdgNSgKEpx2hwAgh9
-         ex/zNMiI4um7g==
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-514bf89d3cfso15023717b3.21
-        for <linux-doc@vger.kernel.org>; Thu, 02 Feb 2023 01:46:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j6zWA0cmeZq/Pdujw3e8IyUapMEhl5TgQN8H+c5DyTY=;
-        b=n8M6HX7lx2xPHYIJDHw5w9y3GtparhJhcjwsjbF944iVruPHATEuI0iMoeR/NUjXTL
-         OIhzf8pmiENrTN90k6DretUroHHko+XxXGk/ARF6u2rMEZc7ee2iHgphVHz32hNrmHjY
-         jt4P2d9V8DDhNIm81kody1EIQOtrnechlumjsc+S0f0WGK8cAglIwZCFJ1FaYE6cqR9m
-         rG/bC9p/lPKqR1D12Hq/b/x+52lAvTZJN3oEXwDR+6HQ046+BBNZ7VuBpg3pVzlWFOK9
-         KQ+fEtz9+kHQyT/q5cC7JRCBIGuRiGQktUnT//VVuT/Jf9w94zxTTpJT0ZgKBM44UpSJ
-         ETjA==
-X-Gm-Message-State: AO0yUKWpPxlRuiYKYeXew/yX/n3mLqz36/UT37V+sExijDNuB8TcWFvw
-        t0UPPk6n79ByVTyk858cn/VjocdV3vh8xP3q4I31MgVop/lpvbT11xpMHoGWKBcp0QTGabLL93h
-        GMGlva1atdTqoZ8qT2CLa1mYLdW0KtVABc6wwlthvZcQQ29JxvJOWBA==
-X-Received: by 2002:a81:70c2:0:b0:506:6e1a:9b0 with SMTP id l185-20020a8170c2000000b005066e1a09b0mr631036ywc.277.1675331214115;
-        Thu, 02 Feb 2023 01:46:54 -0800 (PST)
-X-Google-Smtp-Source: AK7set93ZODHHCCQG04l+loQG6KBDQem1oCQB9qjfFasFJzVoB868hVcGOuxhSj0em1uOkSPuerV1TPOuLKFLpPe8Gc=
-X-Received: by 2002:a81:70c2:0:b0:506:6e1a:9b0 with SMTP id
- l185-20020a8170c2000000b005066e1a09b0mr631035ywc.277.1675331213915; Thu, 02
- Feb 2023 01:46:53 -0800 (PST)
+        with ESMTP id S229935AbjBBLHM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 06:07:12 -0500
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AAFF19F2F;
+        Thu,  2 Feb 2023 03:06:40 -0800 (PST)
+Received: from mail02.huawei.com (unknown [172.30.67.143])
+        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4P6wXx17xLz4f3kKj;
+        Thu,  2 Feb 2023 18:50:09 +0800 (CST)
+Received: from [10.174.176.117] (unknown [10.174.176.117])
+        by APP2 (Coremail) with SMTP id Syh0CgBXSOZfldtjVrZKCw--.49617S2;
+        Thu, 02 Feb 2023 18:50:11 +0800 (CST)
+Subject: Re: [PATCH] blk-ioprio: Introduce promote-to-rt policy
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-block@vger.kernel.org
+Cc:     Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, houtao1@huawei.com
+References: <20230201045227.2203123-1-houtao@huaweicloud.com>
+ <Y9or5PkdXj/D94fR@debian.me>
+From:   Hou Tao <houtao@huaweicloud.com>
+Message-ID: <336ed542-6b73-0f69-a4ee-4119e73ddb1d@huaweicloud.com>
+Date:   Thu, 2 Feb 2023 18:50:07 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20230131121608.177250-1-aleksandr.mikhalitsyn@canonical.com>
- <87bkme4gwu.fsf@meer.lwn.net> <CAEivzxfxkWtYP4bqFrmD__3M9WpJNZjTJNx9wp4WQ0_LoGKT6g@mail.gmail.com>
- <Y9tJPn0a/O27SBuJ@sol.localdomain>
-In-Reply-To: <Y9tJPn0a/O27SBuJ@sol.localdomain>
-From:   Aleksandr Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
-Date:   Thu, 2 Feb 2023 10:46:42 +0100
-Message-ID: <CAEivzxdLUy6CKaQg7Go6P892xgQxi_CEk2M4A3TdVA644DSLqg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs: filesystems: vfs: actualize struct
- super_operations description
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <Y9or5PkdXj/D94fR@debian.me>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-CM-TRANSID: Syh0CgBXSOZfldtjVrZKCw--.49617S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxWw1fCry3XFWxGFWxKw17ZFb_yoWrGw1UpF
+        s3AFWxW3Z7Xr15Kr17Jw4qqryxt34rKw47tFsrKFy09w1DAr1DXr1UXr18WFyxArW8Xw45
+        XrZIyr1kCr1jvr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+        0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+        Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
+        e2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+        Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
+        6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+        kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE
+        14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
+        9x07UWE__UUUUU=
+X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 2, 2023 at 6:25 AM Eric Biggers <ebiggers@kernel.org> wrote:
+Hi,
+
+On 2/1/2023 5:07 PM, Bagas Sanjaya wrote:
+> On Wed, Feb 01, 2023 at 12:52:27PM +0800, Hou Tao wrote:
+>>  The following numerical values are associated with the I/O priority policies:
+>>  
+>> -+-------------+---+
+>> -| no-change   | 0 |
+>> -+-------------+---+
+>> -| none-to-rt  | 1 |
+>> -+-------------+---+
+>> -| rt-to-be    | 2 |
+>> -+-------------+---+
+>> -| all-to-idle | 3 |
+>> -+-------------+---+
+>> +
+>> ++---------------+---------+-----+
+>> +| policy        | inst    | num |
+>> ++---------------+---------+-----+
+>> +| no-change     | demote  | 0   |
+>> ++---------------+---------+-----+
+>> +| none-to-rt    | demote  | 1   |
+>> ++---------------+---------+-----+
+>> +| rt-to-be      | demote  | 2   |
+>> ++---------------+---------+-----+
+>> +| idle          | demote  | 3   |
+>> ++---------------+---------+-----+
+>> +| promote-to-rt | promote | 1   |
+>> ++---------------+---------+-----+
+>>  
+> The first row should have been header row:
 >
-> On Tue, Jan 31, 2023 at 10:12:42PM +0100, Aleksandr Mikhalitsyn wrote:
-> > On Tue, Jan 31, 2023 at 8:56 PM Jonathan Corbet <corbet@lwn.net> wrote:
-> > >
-> > > Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com> writes:
-> > >
-> > > > Cc: linux-fsdevel@vger.kernel.org
-> > > > Cc: linux-doc@vger.kernel.org
-> > > > Signed-off-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
-> > > > ---
-> > > >  Documentation/filesystems/vfs.rst | 74 ++++++++++++++++++++++++-------
-> > > >  1 file changed, 59 insertions(+), 15 deletions(-)
-> > >
-> > > Thanks for updating this document!  That said, could I ask you, please,
-> > > to resubmit these with a proper changelog?  I'd also suggest copying Al
-> > > Viro, who will surely have comments on the changes you have made.
-> >
-> > Hi, Jonathan!
-> >
-> > Sure. Have done and of course I've to add Al Viro to CC, but forgot to do that,
-> > cause scripts/get_maintainer.pl have didn't remind me (-:
-> >
-> > >
-> > > > diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-> > > > index fab3bd702250..8671eafa745a 100644
-> > > > --- a/Documentation/filesystems/vfs.rst
-> > > > +++ b/Documentation/filesystems/vfs.rst
-> > > > @@ -242,33 +242,42 @@ struct super_operations
-> > > >  -----------------------
-> > > >
-> > > >  This describes how the VFS can manipulate the superblock of your
-> > > > -filesystem.  As of kernel 2.6.22, the following members are defined:
-> > > > +filesystem.  As of kernel 6.1, the following members are defined:
-> > >
-> > > Why not 6.2 while you're at it?  We might as well be as current as we
-> > > can while we're updating things.
-> >
-> > I'm on 6.2, but for some reason decided to put 6.1. Will fix it :)
-> >
+> ---- >8 ----
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index e0b9f73ef62a9e..55f9b579716564 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -2048,7 +2048,7 @@ The following numerical values are associated with the I/O priority policies:
+>  
+>  +---------------+---------+-----+
+>  | policy        | inst    | num |
+> -+---------------+---------+-----+
+> ++===============+=========+=====+
+>  | no-change     | demote  | 0   |
+>  +---------------+---------+-----+
+>  | none-to-rt    | demote  | 1   |
 >
-> It would be better to just remove the version number.  Whenever documentation
-> says something like "as of vX.Y.Z", people usually forget to update the version
-> number when updating the documentation.  So then we end up in the situation
-> where the documentation actually describes the latest kernel version, but it
-> claims to be describing an extremely old kernel version.
-
-Hi, Eric!
-
-Agree. Will remove version specifiers in the next resend after Al
-Viro's and other folks reviews. :)
-
-Kind regards,
-Alex
-
+>> @@ -2064,9 +2074,13 @@ The numerical value that corresponds to each I/O priority class is as follows:
+>>  
+>>  The algorithm to set the I/O priority class for a request is as follows:
+>>  
+>> -- Translate the I/O priority class policy into a number.
+>> -- Change the request I/O priority class into the maximum of the I/O priority
+>> -  class policy number and the numerical I/O priority class.
+>> +-- Translate the I/O priority class policy into an instruction and a number
+>> +-- If the instruction is demotion, change the request I/O priority class
+>> +-  into the maximum of the I/O priority class policy number and the numerical
+>> +-  I/O priority class.
+>> +-- If the instruction is promotion, change the request I/O priority class
+>> +-  into the minimum of the I/O priority class policy number and the numerical
+>> +-  I/O priority class.
+>>  
+> Remove the excessive bullet list marker or the list above become paragraph
+> instead:
 >
-> - Eric
+> ---- >8 ----
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 55f9b579716564..c3f16386c47bdf 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -2074,12 +2074,12 @@ The numerical value that corresponds to each I/O priority class is as follows:
+>  
+>  The algorithm to set the I/O priority class for a request is as follows:
+>  
+> --- Translate the I/O priority class policy into an instruction and a number
+> --- If the instruction is demotion, change the request I/O priority class
+> --  into the maximum of the I/O priority class policy number and the numerical
+> --  I/O priority class.
+> --- If the instruction is promotion, change the request I/O priority class
+> --  into the minimum of the I/O priority class policy number and the numerical
+> +- Translate the I/O priority class policy into an instruction-number pair.
+> +- If the instruction is demotion, change the request I/O priority class
+> +  into the maximum of the I/O priority class policy number and the numerical
+> +  I/O priority class.
+> +- If the instruction is promotion, change the request I/O priority class
+> +  into the minimum of the I/O priority class policy number and the numerical
+>  -  I/O priority class.
+>  
+>  PID
+>
+> Thanks.
+Thanks for your comments. Will fix in v2.
+>
+
