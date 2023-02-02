@@ -2,105 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF23DC05027
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 15:09:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CB11C05027
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 15:13:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232557AbjBBPJu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 10:09:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52316 "EHLO
+        id S232014AbjBBPNx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 10:13:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231956AbjBBPJr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 10:09:47 -0500
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B1FB88CC8
-        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 07:09:04 -0800 (PST)
-Received: by mail-qt1-x82b.google.com with SMTP id cr22so2087460qtb.10
-        for <linux-doc@vger.kernel.org>; Thu, 02 Feb 2023 07:09:04 -0800 (PST)
+        with ESMTP id S232217AbjBBPNu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 10:13:50 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F251043A
+        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 07:13:47 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id n13so1648432wmr.4
+        for <linux-doc@vger.kernel.org>; Thu, 02 Feb 2023 07:13:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2E9zn+ToMChqAJjV6ZutpFgHJwReTtRL04XKbEEuVxs=;
-        b=D49Pub0oFsmtKDM+i0yPx5so8Ey3zPdGciQUAqRywZib+NU6H7wy/1YeZxnSSJ900T
-         4VlJ8WBppvk/tgpBZI2WF/NTs+72iuBZhDamCm8/kkdFDmhX4QVCQRWiosDors4rb9Sg
-         TLM5pGFd53nuEIkcDqCPeJ3klihOCtUuW0c+g=
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=A/2NI3lAioM2OTclBfdU2ZsaZSzkr/eN0mg0uuV+D60=;
+        b=nsupH4Fi24wLtGHU5Dbw4Jh3WG9CfW4pqq9a1sHGB+javoh5dxGAuWRLXXNzMGzwqT
+         FkCjcYVdn7SurKbB3MyukDy4UPGxC7UCLFNO20dWx6WpT77dqvpad0DF0YE886ADJHGz
+         Mie3V4w/bfN7uj5pBVwGzyC/csxHJW08xkX1/r/QAEuU7bhkgd0c5RpuRslddtxDh2tw
+         PNu4UqbA8M74OCpLBBLPq3SB3pVpExbt//65NUw2WBMsx5/lbO8FS2DBFsI0mtY5iZvN
+         A2dmCG/Fzma51At3XYpS4wvWj8m8IKh6YEWilwPcyqx2jYqKawgnsgIz4d7oxvrt0moS
+         bRTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2E9zn+ToMChqAJjV6ZutpFgHJwReTtRL04XKbEEuVxs=;
-        b=Jt6CVHHop/AO8ntyL3j0bS8gzGiw3XDr/Fq+VMrA04RKZ5diyuKBKmXFiMJK0/QRop
-         4ySVKuheePUYh4HGTV1hJKuH9cKqCvsEuJz1TzYA3FzMyrwN20f1d7PQ1WaSGEbkzqVw
-         L48AcHrgTR6mBAkE0LdUxZDfIjNoASwJRksz2EnEISDcx+ddViFRjD5eUda47Ak3Zmp0
-         /gEaolEhJ0yR02QQdw9DoY6vMUlv4jRqLIzOjku4w9jbeLL/v0lLBMQnJ1AtqfznG6vF
-         IBVffChW80BpLCgIDYgUmb9xZIe7z15aByHsf+KwtyLg4atZyEZVkNkqwxKBl+UGIA35
-         0/bw==
-X-Gm-Message-State: AO0yUKU86EbhLDSGZ5/m8I98DlU5FaHlICJxBf3/uxEnN3yDmtoBlkV6
-        EsyjNnXjuC4oEodno1A8ZDnEAg==
-X-Google-Smtp-Source: AK7set8aPKmpgGjXY3zfRDCd5eMrn6Kx/DhIpyqMfqTzahBlYTampPz0k3hZtc5+Tdob1MQmTWPEbA==
-X-Received: by 2002:a05:622a:1998:b0:3b8:3a7c:d204 with SMTP id u24-20020a05622a199800b003b83a7cd204mr12152621qtc.58.1675350538326;
-        Thu, 02 Feb 2023 07:08:58 -0800 (PST)
-Received: from nitro.local (bras-base-mtrlpq5031w-grc-30-209-226-106-7.dsl.bell.ca. [209.226.106.7])
-        by smtp.gmail.com with ESMTPSA id u15-20020a37ab0f000000b007049f19c736sm1521378qke.7.2023.02.02.07.08.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Feb 2023 07:08:57 -0800 (PST)
-Date:   Thu, 2 Feb 2023 10:08:56 -0500
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v1] docs: describe how to quickly build Linux
-Message-ID: <20230202150856.lchr76nqih3vdul6@nitro.local>
-References: <fabdb45fa44db2531f0dbe5e88545c49dfb87040.1675252073.git.linux@leemhuis.info>
- <1f217c94-b90f-359a-2142-0d3ae5d84fc6@leemhuis.info>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A/2NI3lAioM2OTclBfdU2ZsaZSzkr/eN0mg0uuV+D60=;
+        b=e1wBrxZA3yx9lHeragqdAaZxns27u3/K4VhJwcTkcA1qo5UePNltZUAsFRfkwWUfS8
+         Act3IUdzX24YixIqbx6AQ1u0lWsBei1aA8TxTTKt3HAOO7ufffNt29DK9dkInfaRjqbE
+         rmxTeYROoAtUfKVFr5dDCaCt4gtASfMsXDOCRVhROn9rzwBOXsNTAyMdsHkriR0akXdX
+         fHM1ADn81exOhzx1Ku51F8t6uPn2/EkFD7Gu1ywmxLA6rGsW9VMSFRRcJTjHmCFd/JUN
+         RXmEUnoGNQNPPSuJ7KGw5DrVJPkCSXdpGLlsgnoN0dUlI/xmaOyfMYoW9zDN/0rjHt+B
+         X2Fg==
+X-Gm-Message-State: AO0yUKXhHW0YCC+gmRRtSdoaHR6vXMH4KlEHDwuezfKuqfIGKb17uo8T
+        3ufWVePhr1FW11e138yVxZkm6/NDR0uVEjmZLiY26g==
+X-Google-Smtp-Source: AK7set+MR2UlC0HbNr/VBNUEc7Jc4dECbiMtMqU/kkRfKYcOE9yxeXWjbrfQfbAwZ/2UVZX6EZPD0mSApe0wXb9kOQk=
+X-Received: by 2002:a05:600c:3c90:b0:3dd:1b76:2f8c with SMTP id
+ bg16-20020a05600c3c9000b003dd1b762f8cmr205549wmb.5.1675350826411; Thu, 02 Feb
+ 2023 07:13:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1f217c94-b90f-359a-2142-0d3ae5d84fc6@leemhuis.info>
+References: <20230131151115.1972740-1-alexghiti@rivosinc.com>
+ <Y9lrB+RUBk1Njhaq@spud> <CAHVXubh+DgdgXZ-hHk5rxmQkXSBdk1AvTr3dvT80L5YXQZF=sw@mail.gmail.com>
+In-Reply-To: <CAHVXubh+DgdgXZ-hHk5rxmQkXSBdk1AvTr3dvT80L5YXQZF=sw@mail.gmail.com>
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+Date:   Thu, 2 Feb 2023 16:13:35 +0100
+Message-ID: <CAHVXubjeSMvfTPnvrnYRupOGx6+vUvUGfRS3piTeo=TH2cHKNg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/1] riscv: Allow to downgrade paging mode from the
+ command line
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Ard Biesheuvel <ardb@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 02, 2023 at 12:15:36PM +0100, Linux kernel regression tracking (Thorsten Leemhuis) wrote:
-> Then I tried creating a shallow clone like this:
-> 
-> git clone
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> --depth 1 -b v6.1
-> git remote set-branches --add origin master
-> git fetch --all --shallow-exclude=v6.1
-> git remote add -t linux-6.1.y linux-stable
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-> git fetch --all --shallow-exclude=v6.1
-> 
-> This took only roundabout 2 minutes and downloads & stores ~512 MByte
-> data (without checkout).
+On Thu, Feb 2, 2023 at 4:07 PM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
+>
+> Hi Conor,
+>
+> On Tue, Jan 31, 2023 at 8:25 PM Conor Dooley <conor@kernel.org> wrote:
+> >
+> > Hey Alex,
+> >
+> > On Tue, Jan 31, 2023 at 04:11:14PM +0100, Alexandre Ghiti wrote:
+> > > This new version gets rid of the limitation that prevented KASAN kernels
+> > > to use the newly introduced parameters.
+> >
+> > What's the base commit for this version?
 
-Can we also include the option of just downloading the tarball, if it's a
-released version? That's the fastest and most lightweight option 100% of the
-time. :)
+And to answer your question: this patch applies nicely on top of
+v6.2-rc6 + my KASAN patchset
+(https://patchwork.kernel.org/project/linux-riscv/list/?series=715388)
 
-> Not totally sure, but the shallow clone somehow feels more appropriate
-> for the use case (reminder, there is a "quickly" in the document title),
-> even if such a clone is less flexible (e.g. users have to manually add
-> stable branches they are interested it; and they need to be careful when
-> using git fetch).
-> 
-> That's why I now strongly consider using the shallow clone method by
-> default in v2 of this text. Or does that also create a lot of load on
-> the servers? Or are there other strong reason why using a shallow clone
-> might be a bad idea for this use case?
-
-As I mentioned elsewhere, this is only a problem when it's done in batch mode
-by CI systems. A full clone uses pregenerated pack files and is very cheap,
-because it's effectively a sendfile operation. A shallow clone requires
-generating a brand new pack, compressing it, and then keeping it around in
-memory for the duration of the clone process. Not a big deal when a few humans
-here and there do it, but when 50 CI nodes do it all at once, it effectively
-becomes a DDoS. :)
-
--K
+> > Fails to apply for me on top of for-next, fixes, rc1, and linux-next :/
+> > I also tried it on top of your KASAN series, but no luck there either!
+>
+> Really sorry about that, that's the second time it happens, I'll
+> improve my workflow: I'll include the base-commit sha1/tag + a link to
+> all needed-but-not-yet-upstreamed patches.
+>
+> Thanks for your time,
+>
+> Alex
+>
+> >
+> > Thanks,
+> > Conor.
+> >
+> > > While looking into KASLR, I fell onto commit aacd149b6238 ("arm64: head:
+> > > avoid relocating the kernel twice for KASLR"): it allows to use the fdt
+> > > functions very early in the boot process with KASAN enabled by simply
+> > > compiling a new version of those functions without instrumentation.
+> > >
+> > > I had to change the handling of the command line parsing to make the
+> > > code self-contained in kernel/pi/cmd_early.c to avoid calling too many
+> > > __pi prefixed functions from outside this file.
+> > >
+> > > I'll use this approach like arm64 to handle the extraction of the random
+> > > seedi from the device tree for KASLR.
+> > >
+> > > @Ard: I copied the "pi" name but I have to admit I don't know what it
+> > > means.
+> > >
+> > > Alexandre Ghiti (1):
+> > >   riscv: Allow to downgrade paging mode from the command line
+> > >
+> > >  .../admin-guide/kernel-parameters.txt         |  5 +-
+> > >  arch/riscv/kernel/Makefile                    |  2 +
+> > >  arch/riscv/kernel/pi/Makefile                 | 34 ++++++++++++
+> > >  arch/riscv/kernel/pi/cmdline_early.c          | 52 +++++++++++++++++++
+> > >  arch/riscv/lib/memcpy.S                       |  2 +
+> > >  arch/riscv/lib/memmove.S                      |  2 +
+> > >  arch/riscv/mm/init.c                          | 36 ++++++++++---
+> > >  7 files changed, 126 insertions(+), 7 deletions(-)
+> > >  create mode 100644 arch/riscv/kernel/pi/Makefile
+> > >  create mode 100644 arch/riscv/kernel/pi/cmdline_early.c
+> > >
+> > > --
+> > > 2.37.2
+> > >
