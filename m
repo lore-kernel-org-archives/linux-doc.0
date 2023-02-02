@@ -2,155 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22498C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 21:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58070C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 22:36:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232768AbjBBVsE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 16:48:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47180 "EHLO
+        id S232453AbjBBWgC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 17:36:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233090AbjBBVrs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 16:47:48 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2070.outbound.protection.outlook.com [40.107.92.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A5366A313;
-        Thu,  2 Feb 2023 13:47:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HDMAh42Vp6xpjchYl/prMtl9S2d1bU6nNOcAjIenKP06kh7iqD0X8uABLnUBOz3S1o91GLutYxLL2EM3nk+ayM9PX7EBPCrIEN44EGR6eVZ/wxaJb0xMgqhTMRMWv2fqffQB66+njPrO/FA8pVs9/kQKvHfWHa+9J2sZvznPUT7NE81kfG01scOYh6nYkD96nDLZNFC5/Et5Ki3QGR/bQo2o22CMsvWcWfo603LXcP7czfGekqluQXviftfHqDYNPwc2noCHVfSWhrIkC892yvuRQiI+IpeIaC4/2t3aT3kekB0/Xy+4giNCCnFBe7ZXp4couhV8DSe5E1qiHZhuuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5lbQnT64KQPvkuOiU+KLSzU7ho039kXH4xuvrICmMgc=;
- b=af0xT8JQaunrZGFcDI8VlW8uyKj8GbMCg/dnEfjj4f1piaaCMEF6aSZwgjGV9MXd+X5kcqtOoiqZFhq6S89T3JNXTygWxDXEHjVOOT1V6TYqKqwwS/a+lwdHoCdMqJ5KyNgzeAR1JEB0XYEyxWBI+Uha0dNT7sYW8vwytA4gBkQwk1D/ShDie+E6gbSEYUQX4zIT2r15E4i3HTo+4pY+I5lPOj7wneCaQcDQXd6NsAH+b97d+etgeVmNBdDWDpd9j3Z2vFilB5BcPKnRVkQ0JcNWdp7kXG9cF5KRkIyUYk7bjnhxa3s8+OgZwBb9ENllEivZZ0ikp4GBSpcN2avSGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=zytor.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5lbQnT64KQPvkuOiU+KLSzU7ho039kXH4xuvrICmMgc=;
- b=tErftWnYaNo060vGkCtXViR+ThnokInVwUl4T/k7fR0TRGo2Ca1LSKB5oIAqsuTINYMfoIT+ER9GfyNJ4vXDdBm53QBCBywFOYkd0SeRft+7DcvqiMEt2yh2p7L8CemzECTtRL2ykPql2L4H95H1qfFP1HN96+oL48rGIkarDHY=
-Received: from MW2PR2101CA0013.namprd21.prod.outlook.com (2603:10b6:302:1::26)
- by PH8PR12MB6891.namprd12.prod.outlook.com (2603:10b6:510:1cb::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.25; Thu, 2 Feb
- 2023 21:47:40 +0000
-Received: from CO1PEPF00001A60.namprd05.prod.outlook.com
- (2603:10b6:302:1:cafe::6e) by MW2PR2101CA0013.outlook.office365.com
- (2603:10b6:302:1::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.4 via Frontend
- Transport; Thu, 2 Feb 2023 21:47:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF00001A60.mail.protection.outlook.com (10.167.241.7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6064.21 via Frontend Transport; Thu, 2 Feb 2023 21:47:39 +0000
-Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 2 Feb
- 2023 15:47:38 -0600
-Subject: [RFC v2 PATCH 7/7] x86/resctrl: Add debug files when mounted with
- debug option
-From:   Babu Moger <babu.moger@amd.com>
-To:     <fenghua.yu@intel.com>, <reinette.chatre@intel.com>
-CC:     <babu.moger@amd.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-        <bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-        <hpa@zytor.com>, <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <eranian@google.com>,
-        <peternewman@google.com>
-Date:   Thu, 2 Feb 2023 15:47:37 -0600
-Message-ID: <167537445777.647488.12333202522131465679.stgit@bmoger-ubuntu>
-In-Reply-To: <167537433143.647488.9641864719195184123.stgit@bmoger-ubuntu>
-References: <167537433143.647488.9641864719195184123.stgit@bmoger-ubuntu>
-User-Agent: StGit/1.1.dev103+g5369f4c
+        with ESMTP id S230198AbjBBWgC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 17:36:02 -0500
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A3169B2B;
+        Thu,  2 Feb 2023 14:36:00 -0800 (PST)
+Received: by mail-qt1-f170.google.com with SMTP id h24so3779409qtr.0;
+        Thu, 02 Feb 2023 14:36:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H1RWtgYPbEvmI/EJRqa0d+Xhxai9DiYB+ycehXpxkH0=;
+        b=t+FlqvpE602P1yRXG3UQjv8lwKREfnnbinBAe/SvlOLVo1jFMIEbuTPvB6LvbgrL75
+         J+rKEEzrAYb/IK3Nwb8VJaAMAt0BpbYMcj7DaEvni5s5y2PVMvor5TAzHFVPbt49/r5u
+         v/1QCMixRpXkbUqkvUJZWkwovRfKg/JjZFu5xofXl13fle+zdvn9dykfS8G1qgEnkkEI
+         xyNLgjIcc0HdpH+6JqedQd7Qi/q7Cv2Z0HNa3vNqpDvQ7E1IE07enNvQFwZ+oU1fuWxI
+         T5JKuYqHOcuw2eMUzggqyoiLzdszn/GFdl2PfGmm6P+14fptaBGY4MFE9C6eUUYKWMns
+         M5yA==
+X-Gm-Message-State: AO0yUKWdNT6QeS8ku7vJv73DshahmNUaCuLwgdXqn01j0kx0KlGz+goo
+        MxAfJTL54Z/i0veXPMIdjHgbYMBPGbB6slcf
+X-Google-Smtp-Source: AK7set9ObD4PUAAhc/hm82X4nvhTIe1K9k7Y8grUQ4drlluCf0MCvUAa9S5FmR5UyIFgxjUsGKyUcQ==
+X-Received: by 2002:a05:622a:44c:b0:3b8:26a7:d608 with SMTP id o12-20020a05622a044c00b003b826a7d608mr15700878qtx.19.1675377359511;
+        Thu, 02 Feb 2023 14:35:59 -0800 (PST)
+Received: from localhost ([2620:10d:c091:480::1:9cc7])
+        by smtp.gmail.com with ESMTPSA id cx4-20020a05620a51c400b0071d2cd07560sm546276qkb.124.2023.02.02.14.35.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Feb 2023 14:35:59 -0800 (PST)
+From:   David Vernet <void@manifault.com>
+To:     bpf@vger.kernel.org
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@meta.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@meta.com, toke@redhat.com, brouer@redhat.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: [PATCH bpf-next v2 0/1] Document kfunc lifecycle / stability expectations
+Date:   Thu,  2 Feb 2023 16:35:56 -0600
+Message-Id: <20230202223557.744110-1-void@manifault.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF00001A60:EE_|PH8PR12MB6891:EE_
-X-MS-Office365-Filtering-Correlation-Id: ddb0c058-55f1-4fde-c252-08db05671b54
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yoR4CUaAHVQELfevWWeOF1Z6bU0t9UAL0t/66a4wQjU5lLUwfpfZA0ii6sdF/RR8bIipUVDnGCwVm8kmOPzfh54z99nI88qWO1agZRvZO5etzlG3VOspdUMvosK0zQLz5YYGOYgcGAqOxAOblLAJ1vP3gdehBH2s8dkkqP/0sS+CnyA5imzfrO8Qc74lcKChZb2YXZZDn0CaxMl2h34leJyHdte0DbA++R9eLus5GINZX0HqNkVYnv0ub1ZbOa872anHdEvmwlJmDM23iwmvLfjPG4rFhWAfaPUUvID4715KrAaLv6ikFTwsK1Qkh2ScADGNieL3BHEd800CsjPQnxwMyEzsDeLanzA5Bl0cqZ9FVm7cFsNyBRlQQRPPKCPNetUXkf57/wGFwfFVy4c/Dlzh3GGlBm7IIda3xOrkbp5yrLC1OKA2XBoHjhsxR5/GvpgKD9apr+1g0y5SJMb8JayXzu9ZfTDQziWeD1nIoPfpaJZkFnf7R3228ysiUtC9hsshBePx7yarwuk2WnZGhXm+kVNR7dyrzHWR6ZllE21b9jnm+xcwjCi+yOtz5O9xVRB3JiRIyWE9T4t59cay5IsV2r5Rl7e3QI2eUrDvykSPlCerVlj1mLbhPpbaUzFgIxGFTTfM93zrbdN+bmeXfpsk2tZQZl5ZsCfHb8hUwFtE2W77fhTHqzyON/7Y3A16YvKm9FHWxfkSFZ+pKrJKcS4T+xzuo7P2P1xKHOLesG21g6IH7llO3AAy2U6DizTG
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(7916004)(346002)(39860400002)(396003)(136003)(376002)(451199018)(36840700001)(40470700004)(46966006)(83380400001)(26005)(82740400003)(103116003)(40460700003)(81166007)(86362001)(40480700001)(36860700001)(336012)(186003)(82310400005)(426003)(356005)(33716001)(47076005)(9686003)(16526019)(478600001)(316002)(54906003)(16576012)(110136005)(70586007)(41300700001)(5660300002)(4326008)(8936002)(7416002)(2906002)(44832011)(8676002)(70206006)(71626013)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2023 21:47:39.9960
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ddb0c058-55f1-4fde-c252-08db05671b54
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF00001A60.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6891
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the debug files to the resctrl hierarchy.=0A=
-=0A=
-Signed-off-by: Babu Moger <babu.moger@amd.com>=0A=
----=0A=
- arch/x86/kernel/cpu/resctrl/rdtgroup.c |   27 +++++++++++++++++++++++++++=
-=0A=
- 1 file changed, 27 insertions(+)=0A=
-=0A=
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/r=
-esctrl/rdtgroup.c=0A=
-index c35d91b04de6..b7c72b011264 100644=0A=
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c=0A=
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c=0A=
-@@ -2398,6 +2398,31 @@ static int mkdir_mondata_all(struct kernfs_node *par=
-ent_kn,=0A=
- 			     struct rdtgroup *prgrp,=0A=
- 			     struct kernfs_node **mon_data_kn);=0A=
- =0A=
-+void resctrl_add_debug_file(struct kernfs_node *parent_kn,=0A=
-+			    const char *config, unsigned long fflags,=0A=
-+			    bool debug)=0A=
-+{=0A=
-+	struct rftype *rft;=0A=
-+=0A=
-+	rft =3D rdtgroup_get_rftype_by_name(config);=0A=
-+	if (debug && rft) {=0A=
-+		rft->fflags |=3D fflags;=0A=
-+		rdtgroup_add_file(parent_kn, rft);=0A=
-+	} else if (rft) {=0A=
-+		rft->fflags &=3D ~fflags;=0A=
-+		kernfs_remove_by_name(parent_kn, config);=0A=
-+	}=0A=
-+}=0A=
-+=0A=
-+static void resctrl_add_debug_files(bool debug)=0A=
-+{=0A=
-+	resctrl_add_debug_file(rdtgroup_default.kn, "rmid",=0A=
-+			       RFTYPE_BASE, debug);=0A=
-+	resctrl_add_debug_file(rdtgroup_default.kn, "closid",=0A=
-+			       RFTYPE_BASE_CTRL, debug);=0A=
-+	kernfs_activate(rdtgroup_default.kn);=0A=
-+}=0A=
-+=0A=
- static int rdt_enable_ctx(struct rdt_fs_context *ctx)=0A=
- {=0A=
- 	int ret =3D 0;=0A=
-@@ -2411,6 +2436,8 @@ static int rdt_enable_ctx(struct rdt_fs_context *ctx)=
-=0A=
- 	if (!ret && ctx->enable_mba_mbps)=0A=
- 		ret =3D set_mba_sc(true);=0A=
- =0A=
-+	resctrl_add_debug_files(ctx->debug);=0A=
-+=0A=
- 	return ret;=0A=
- }=0A=
- =0A=
-=0A=
+This is the v2 of the proposal for documenting BPF kfunc lifecycle and
+stability. v1 of this proposal can be found in [0]. As [0] indicates,
+Toke has also provided several RFC proposals, the most recent of which
+is can be found in [1].
+
+Much of this proposal is based on Toke's prior patches on this topic,
+and group discussions at BPF office hours. Anyone who participated
+in either prior proposals for kfunc lifecycle / stability documentation,
+or in BPF office-hour discussions, may feel free to submit
+Co-developed-by tags in place of Acked-by, Reviewed-by, etc.
+
+Changelog
+---------
+v1 -> v2:
+- Move some of the main points of the arguments around. v1 underscored
+  quite strongly that kfuncs don't have _any_ stability guarantees.
+  While true, it may scare away users who misinterpret the implications
+  of that to mean that things will change wildly and at any time.
+  Reframe the general flow of the section to still be clear that no
+  stability is guaranteed, but front-load the content that clarifies why
+  this isn't necessarily something to be afraid of (Toke, Daniel, and
+  others).
+- Add a paragraph explaining that out-of-tree BPF programs that use
+  kfuncs are relevant to discussions surrounding whether kfuncs should
+  be modified or removed. While the onus is on kfunc users to explicitly
+  engage with the upstream community to let them know which kfuncs
+  they're using and why they're useful, the added paragraph also makes
+  it clear that the BPF community will in turn participate in upstream
+  discussions to ensure that such users aren't equated with out-of-tree
+  module users and outright ignored. Also make it clear that our hope is
+  that BPF programs will be upstreamed on a more regular basis (Toke,
+  Daniel, and others).
+- Remove patches that add KF_DEPRECATED flag to <linux/btf.h>. They'll
+  remain in the documentation for now, and will be merged at a later
+  time when it's actually a useful signal for developers (Alexei).
+
+[0]: https://lore.kernel.org/all/20230202163056.658641-1-void@manifault.com/
+[1]: https://lore.kernel.org/all/20230201174449.94650-1-toke@redhat.com/
+
+David Vernet (1):
+  bpf/docs: Document kfunc lifecycle / stability expectations
+
+ Documentation/bpf/kfuncs.rst | 139 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 134 insertions(+), 5 deletions(-)
+
+-- 
+2.39.0
 
