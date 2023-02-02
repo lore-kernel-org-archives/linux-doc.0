@@ -2,179 +2,216 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADC76C05027
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 11:15:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33DC2C05027
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 11:16:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231895AbjBBLPY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 06:15:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45872 "EHLO
+        id S230259AbjBBLQG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 06:16:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232050AbjBBLPR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 06:15:17 -0500
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2046.outbound.protection.outlook.com [40.107.93.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A249988F03;
-        Thu,  2 Feb 2023 03:15:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=myNNQ0VpU36mkHn3fpQ8lGD8UoX6ONQrMy0Y8YGnbIYon32HqkqUaMp8njXMNjuYXxFVSJOLSEzK5HiGl+wY9N5efvXp7Xtj4KYQG0f5V490P9qFclR0xLc50cN6GQkyxy19V07BZnkAvcSRHosR9z24oLzu+tRgS4PKVetbaCtSnG2cty68Gq3kUMNXcOebXcRzs2tTg32UMUr7xJCVnaJM+sj68txbSRdHDUknFiM/TUo5/k1H95NW8QMygvlg2Nk10xSrGQoxzjtEIfiOmsARP8IrnNzNArjMiF6Ixq+UBtSW9U2x1iXFqVYexX7+XEid0NtzW5v/Gq3tRiU5Pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=acNbMERP3xlO4dRwJJVNEAYHmydxVq0wWOl0XGDB6gU=;
- b=TJHA/iOMFnp+cV9z7yx+OaipZ33H5/vF/kr3LkE9hVNb9+hG93cPkOy+8XV4IiT79LmN4jXMFhtl5AfdhcSdOjUfp7ItML5ur+tWKmLMi7i4+CcY3NslpHv6S0k15nlv+fi7+0dBKGJ4SsZn9QT6fPp2/bgfcFYm2TjWUjJDOUIVhTXjR3d2ohmKBNndPZffzS8dpK1v0djjKVJVDvnARyZ4NTH+dEKMeZS7boEfL8CIMq0/9yAs2hKjTNE/LYl1O5Gmkti8ULhdTwcuCZQoPbDc4xUXZtFFrVdl/qUVvT/6o9cGUTRctfWQ+ymRhOs7usKuW1Fz/OQeD4OHjqMcEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=acNbMERP3xlO4dRwJJVNEAYHmydxVq0wWOl0XGDB6gU=;
- b=t5J0DpP2xTOBaDek0OOGCTsHFvKihl6Y7OaWtcBHCHQsPQWftrXIToqTuO0KWAH7kqtJApqY/S/PGS9Fk+pibjKtoMmuSttoPb5r3rsFyGO60cIjjvvKK54qBUSPz8aqRN71Ov0K+RUVr8ihBItXTJl2vmCzaAH3E6LyQrmd1HA=
-Received: from MW4PR03CA0154.namprd03.prod.outlook.com (2603:10b6:303:8d::9)
- by PH7PR12MB8056.namprd12.prod.outlook.com (2603:10b6:510:269::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.22; Thu, 2 Feb
- 2023 11:15:05 +0000
-Received: from CO1NAM11FT050.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8d:cafe::7f) by MW4PR03CA0154.outlook.office365.com
- (2603:10b6:303:8d::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.27 via Frontend
- Transport; Thu, 2 Feb 2023 11:15:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT050.mail.protection.outlook.com (10.13.174.79) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6064.28 via Frontend Transport; Thu, 2 Feb 2023 11:15:05 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 2 Feb
- 2023 05:15:00 -0600
-Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34 via Frontend Transport; Thu, 2 Feb 2023 05:14:58 -0600
-From:   <alejandro.lucero-palau@amd.com>
-To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
-CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <edumazet@google.com>, <habetsm.xilinx@gmail.com>,
-        <ecree.xilinx@gmail.com>, <linux-doc@vger.kernel.org>,
-        <corbet@lwn.net>, <jiri@nvidia.com>,
-        "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
-Subject: [PATCH v5 net-next 8/8] sfc: add support for devlink port_function_hw_addr_set in ef100
-Date:   Thu, 2 Feb 2023 11:14:23 +0000
-Message-ID: <20230202111423.56831-9-alejandro.lucero-palau@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230202111423.56831-1-alejandro.lucero-palau@amd.com>
-References: <20230202111423.56831-1-alejandro.lucero-palau@amd.com>
+        with ESMTP id S230156AbjBBLPq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 06:15:46 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5217C8AC02;
+        Thu,  2 Feb 2023 03:15:42 -0800 (PST)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pNXZ3-00021x-GU; Thu, 02 Feb 2023 12:15:37 +0100
+Message-ID: <1f217c94-b90f-359a-2142-0d3ae5d84fc6@leemhuis.info>
+Date:   Thu, 2 Feb 2023 12:15:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT050:EE_|PH7PR12MB8056:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9bd15047-5280-4a6c-fd0e-08db050ebc9c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kmsJRPZQUtGKxf9pmTHBEIIlfKEE0GyU1y8z3pMNvg2ffyeVPxVroBEm9RvlaH/o0Ep5z77RKUeAdn8W6hLjGaRYllF+KGVxrj5UNNhbKHYHL95ZPzAVo3CePW7fEftvwyCC3KHiNFdeiVGYdDDkb+oSsei/8PPpPcIttNZEUMv/BGCjq9fBaLAXWabsf46hZRhQlmnOVDToMQB2MsBrd3jSaEdukJZyHo4AcvjDj2jo3DFVhyHz6UkSLVksVrHJRIYS2xad8LLv39cwW0d9Pmyhi5mwDtd9zHEOYCQZuw/eBQWnQ+qhCo9i4+RiTXJg3mzOUhlDeVQtSlbxDbyBsHYio/0d6Tz2iNPBrLhmWyzUk72q0N0h9X1QCIVBQTlCG9d2nSXBPV3r+2xndPM2H7qPyI8sToZO+9xpYgwe3op3MWTXmgdnC+eDuTLYdPqI7TtEKOglQrpbS98WgRx18qHQT5pI/CtqfhBs5mSb3hImkCLSqaw0uf/uvvvWuvIvmIKfOAGMsLbaI1JFgVMCTLFDg88Pay7GE/bjtBsR0gOQh1w3wFBOecA8BNZuO4wc8wfZH3/M1dohU2NelEeYik1cy2qE0tJ0qgTUIJFzgSwnulZe3B1ck7GegAZC7K9hqiz6kgN43RXK63j73+VL3haMCLr5Vxg7Dw4+OjO1kECrP8uvaKEEODHjJ+s2csN9vsR3KQ+qc16GjuhA/7m7anuSnbCtsG7rsUrKyQFscHg=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(136003)(39860400002)(346002)(451199018)(40470700004)(36840700001)(46966006)(8676002)(110136005)(54906003)(2906002)(40480700001)(478600001)(6636002)(316002)(2876002)(40460700003)(41300700001)(8936002)(4326008)(70206006)(5660300002)(70586007)(7416002)(86362001)(81166007)(356005)(36756003)(82310400005)(47076005)(186003)(2616005)(26005)(336012)(82740400003)(6666004)(426003)(36860700001)(1076003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2023 11:15:05.2955
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bd15047-5280-4a6c-fd0e-08db050ebc9c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT050.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8056
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v1] docs: describe how to quickly build Linux
+Content-Language: en-US, de-DE
+From:   "Linux kernel regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        regressions@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>
+References: <fabdb45fa44db2531f0dbe5e88545c49dfb87040.1675252073.git.linux@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <fabdb45fa44db2531f0dbe5e88545c49dfb87040.1675252073.git.linux@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1675336542;93058089;
+X-HE-SMSGID: 1pNXZ3-00021x-GU
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+[adding Konstantin and Greg to the list of recipients]
 
-Using the builtin client handle id infrastructure, this patch adds
-support for setting the mac address linked to mports in ef100. This
-implies to execute an MCDI command for giving the address to the
-firmware for the specific devlink port.
+On 01.02.23 12:52, Thorsten Leemhuis wrote:
+> Add a text explaining how to quickly build a kernel, as that's something
+> users will often have to do when they want to report an issue or test
+> proposed fixes. This is a huge and frightening task for quite a few
+> users these days, as many rely on pre-compiled kernels and have never
+> built their own. They find help on quite a few websites explaining the
+> process in various ways, but those howtos often omit important details
+> or make things too hard for the 'quickly build just for testing' case
+> that 'localmodconfig' is really useful for. Hence give users something
+> at hand to guide them, as that makes it easier for them to help with
+> testing, debugging, and fixing the kernel.
 
-Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
----
- drivers/net/ethernet/sfc/efx_devlink.c | 50 ++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+Side note: after feedback on social media I'll likely switch to a title
+like "how to quickly configure & build a trimmed-down Linux kernel", as
+some people from the current title assumed this would be about things
+like ccache. I'll also likely will switch to using a localversion file
+in the buildroot instead of modifying the EXTRAVERSION in the top-level
+makefile (but I haven't actually tried it yet).
 
-diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
-index c44547b9894e..bcb8543b43ba 100644
---- a/drivers/net/ethernet/sfc/efx_devlink.c
-+++ b/drivers/net/ethernet/sfc/efx_devlink.c
-@@ -110,6 +110,55 @@ static int efx_devlink_port_addr_get(struct devlink_port *port, u8 *hw_addr,
- 	return rc;
- }
- 
-+static int efx_devlink_port_addr_set(struct devlink_port *port,
-+				     const u8 *hw_addr, int hw_addr_len,
-+				     struct netlink_ext_ack *extack)
-+{
-+	MCDI_DECLARE_BUF(inbuf, MC_CMD_SET_CLIENT_MAC_ADDRESSES_IN_LEN(1));
-+	struct efx_devlink *devlink = devlink_priv(port->devlink);
-+	struct mae_mport_desc *mport_desc;
-+	efx_qword_t pciefn;
-+	u32 client_id;
-+	int rc;
-+
-+	mport_desc = container_of(port, struct mae_mport_desc, dl_port);
-+
-+	if (!ef100_mport_is_vf(mport_desc)) {
-+		NL_SET_ERR_MSG_FMT(extack,
-+				   "port mac change not allowed (mport: %u)",
-+				   mport_desc->mport_id);
-+		return -EPERM;
-+	}
-+
-+	EFX_POPULATE_QWORD_3(pciefn,
-+			     PCIE_FUNCTION_PF, PCIE_FUNCTION_PF_NULL,
-+			     PCIE_FUNCTION_VF, mport_desc->vf_idx,
-+			     PCIE_FUNCTION_INTF, PCIE_INTERFACE_CALLER);
-+
-+	rc = efx_ef100_lookup_client_id(devlink->efx, pciefn, &client_id);
-+	if (rc) {
-+		NL_SET_ERR_MSG_FMT(extack,
-+				   "No internal client_ID for port (mport: %u)",
-+				   mport_desc->mport_id);
-+		return rc;
-+	}
-+
-+	MCDI_SET_DWORD(inbuf, SET_CLIENT_MAC_ADDRESSES_IN_CLIENT_HANDLE,
-+		       client_id);
-+
-+	ether_addr_copy(MCDI_PTR(inbuf, SET_CLIENT_MAC_ADDRESSES_IN_MAC_ADDRS),
-+			hw_addr);
-+
-+	rc = efx_mcdi_rpc(devlink->efx, MC_CMD_SET_CLIENT_MAC_ADDRESSES, inbuf,
-+			  sizeof(inbuf), NULL, 0, NULL);
-+	if (rc)
-+		NL_SET_ERR_MSG_FMT(extack,
-+				   "sfc MC_CMD_SET_CLIENT_MAC_ADDRESSES mcdi error (mport: %u)",
-+				   mport_desc->mport_id);
-+
-+	return rc;
-+}
-+
- #endif
- 
- static int efx_devlink_info_nvram_partition(struct efx_nic *efx,
-@@ -574,6 +623,7 @@ static const struct devlink_ops sfc_devlink_ops = {
- 	.info_get			= efx_devlink_info_get,
- #ifdef CONFIG_SFC_SRIOV
- 	.port_function_hw_addr_get	= efx_devlink_port_addr_get,
-+	.port_function_hw_addr_set	= efx_devlink_port_addr_set,
- #endif
- };
- 
--- 
-2.17.1
+> [...]
+>
+> The text currently describes two approaches to retrieve Linux' sources
+> using git: the regular clone with linux-stable as a remote and a shallow
+> clone with just one branch from linux-stable. The shallow clone approach
+> is a little bit more tricky to describe and handle, but downloads way
+> less data – and thus is a lot quicker, unless you have a really really
+> quick link to the internet (which in some parts of the world is hard to
+> come by). That's why I wonder if the text should switch to making the
+> shallow clone with selected stable branches the default. What do you
+> think, dear reader?
+
+So, I looked into what Greg suggested (e.g.
+https://kernel.org/best-way-to-do-linux-clones-for-your-ci.html and
+https://www.kernel.org/cloning-linux-from-a-bundle.html
+). Assuming users have a up2date git (afaics 2.38+) I could use commands
+like this in my text:
+
+curl -L
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/clone.bundle
+-o ~/linux/linux-stable.git.bundle
+git clone --bundle-uri=linux-stable.git.bundle
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+~/linux/sources
+rm ~/linux/linix-stable.git.bundle
+
+This took roundabout 16 minutes with my 100 Mbit cable internet
+connection (~9 min for the download, 7 for the clone [the machine used
+is somewhat old]) and downloads & stores ~4,5 GByte data (without checkout).
+
+[side note: using
+"--bundle-uri=https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/clone.bundle"
+does not work (due to the redirect? whatever) -- but that might be
+unwise anyway in case the download is interrupted]
+
+
+Then I tried creating a shallow clone like this:
+
+git clone
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+--depth 1 -b v6.1
+git remote set-branches --add origin master
+git fetch --all --shallow-exclude=v6.1
+git remote add -t linux-6.1.y linux-stable
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+git fetch --all --shallow-exclude=v6.1
+
+This took only roundabout 2 minutes and downloads & stores ~512 MByte
+data (without checkout).
+
+
+Not totally sure, but the shallow clone somehow feels more appropriate
+for the use case (reminder, there is a "quickly" in the document title),
+even if such a clone is less flexible (e.g. users have to manually add
+stable branches they are interested it; and they need to be careful when
+using git fetch).
+
+That's why I now strongly consider using the shallow clone method by
+default in v2 of this text. Or does that also create a lot of load on
+the servers? Or are there other strong reason why using a shallow clone
+might be a bad idea for this use case?
+
+Ciao, Thorsten
+
+> [...]
+> +.. _sources_sbs:
+> +
+> + * Retrieve the sources of the Linux version you intend to build; then change
+> +   into the directory holding them, as all further commands in this guide are
+> +   meant to be executed from there.
+> +
+> +   If you plan to only build one particular kernel version, download its source
+> +   archive from https://kernel.org; afterwards extract its content to '~/linux/'
+> +   and change into the directory created during extraction.
+> +
+> +   In most other situations your best choice is to fetch the sources using git::
+> +
+> +          git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git \
+> +            ~/linux/sources
+> +          cd ~/linux/sources/
+> +
+> +   Now you can check out any mainline release with a command like
+> +   ``git checkout --detach v6.1``; pre-release like v6.2-rc2 work, too.
+> +   Specifying 'origin/master' will hand you the latest mainline code, which is
+> +   automatically checked out by the above 'git clone […]' command.
+> +
+> +   In case you want to build a stable or longterm kernel, run this, too::
+> +
+> +          git remote add linux-stable \
+> +            https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+> +          git fetch --all
+> +
+> +   Afterwards you can use a command like ``git checkout --detach v6.1.5`` to
+> +   access any such release.
+> +
+> +   This flexibility comes at a cost, as cloning the sources like this will
+> +   download quite a bit of data: roundabout 2,5 Gigabyte for mainline and 1,8
+> +   for stable/longterm releases as of early 2022. See the reference section for
+> +   a somewhat more complicated approach which is also using git, but downloads
+> +   only slightly more data than downloading a compressed tarball would.
+> +
+> +   [:ref:`details<sources>`]
+> +
+> [...]
+> +
+> +.. _sources:
+> +
+> +Download the sources
+> +--------------------
+> +
+> +  *Retrieve the sources of the Linux version you intend to build.*
+> +  [:ref:`...<sources_sbs>`]
+> +
+> +Fetching the complete stable git repository as explained in the step-by-step
+> +guide above is easy and offers the most flexibility, but also downloads quite a
+> +bit of data (more than 4 Gigabyte as of late 2022). If you want something
+> +lighter, you instead might want to create a 'shallow clone' that omits some of
+> +the history and only contains stable series you are interested in::
+> +
+> +       git clone --no-checkout \
+> +         https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git \
+> +         --depth 1 -b v6.0 ~/linux/sources/
+> +       cd ~/linux/sources/
+> +       git remote set-branches --add origin master
+> +       git remote add -t linux-6.1.y linux-stable \
+> +         https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+> +       git fetch --all --shallow-exclude=v6.0
+> +
+> +The initial command creates a clone with the sources of just Linux v6.0; this
+> +downloads just a little more data than retrieving a xz-compressed tarball of
+> +that version would (~230 vs 204 Megabyte); afterwards the master branch is added
+> +to the list of tracked branches, which allows you to retrieve anything state of
+> +mainline since Linux 6.0 was released. The linux-stable repository is then added
+> +as a remote which just tracks the linux-6.1.y branch. In early 2022 as of Linux
+> +v6.2-rc4 the last two steps downloaded ~95 and ~2 Megabyte.
+> +
+> +With this tree you can check out the latest mainline code using ``git checkout
+> +--detach origin/master``. All versions and individual changes released between
+> +6.0 and the latest 6.1.y version are at hand, too -- this tree thus also allows
+> +you to bisect a problem introduced in that range.
+> +
+> +Later run above 'git fetch [...]' command again, when you want to retrieve the
+> +latest mainline codebase or access 6.1.y versions released in between. If you
+> +want to switch to a release from a newer stable series (say Linux v6.2.y), you
+> +first need to add its remote branch with a command like ``git remote
+> +set-branches --add linux-stable linux-6.2.y``; once you run 'git fetch [...]'
+> +again you'll be able to check out versions from that series.
+> +
+> +[:ref:`back to step-by-step guide <sources_sbs>`]
+> +
 
