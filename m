@@ -2,271 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4021C05027
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 16:31:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5516CC61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 16:37:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232158AbjBBQbM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 11:31:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42296 "EHLO
+        id S230373AbjBBQh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 11:37:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231916AbjBBQbK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 11:31:10 -0500
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 554C862789;
-        Thu,  2 Feb 2023 08:31:06 -0800 (PST)
-Received: by mail-qt1-f178.google.com with SMTP id cr22so2418906qtb.10;
-        Thu, 02 Feb 2023 08:31:06 -0800 (PST)
+        with ESMTP id S231707AbjBBQh1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 11:37:27 -0500
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 327506ACAD;
+        Thu,  2 Feb 2023 08:37:25 -0800 (PST)
+Received: by mail-qt1-f170.google.com with SMTP id c2so2470856qtw.5;
+        Thu, 02 Feb 2023 08:37:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xAzqbHE+iWrsUYd8xYPAq/NyJVv2xNEV+Y51Rz1mxl0=;
-        b=foH4Q/ep6DPxQB5l6AU94G67mu/LNDa1jrM9wP6oddKtQyBl/WJU3VRizvpY5bYsxG
-         aUk8Ag1Js7bvOwmyoM/eUAX56ljG50QEqzJSLR0EdBfcR6ZpRZt+nDUHSj18bPv6Nhgz
-         ERKNGz3TBv6BFJTn0WAHdaD7dcX8/+dLvygAWsLHXTyyQ6wPUBxnnwSa1QCzdMROOvHc
-         DGL0xNc6LoNvqO6UeLe7TcvNQtBLUNQ26XYclfo3kExOsIOlJm5Lo7MWIiC1jKrbL58G
-         ykyBYVXwqiFvlzANVgE8TNKSGZmLTFzM4YARh6+WLq8AP76Ri69h7LSWLMi6MOzLJPIk
-         f90g==
-X-Gm-Message-State: AO0yUKVuznwdQDHIFrsSv0IB9fKxk+Qebce43IGq1kp4nWTf5qrj7L78
-        6AIkFiC/XyMzXzWoU0yDwVuVcWYQD+bEV8Q8
-X-Google-Smtp-Source: AK7set89nLuw97bQ9C4nlkqFm5e6dFyP37rWPzhkipOrmHcJ18YL5ogxSsFCiDN+YIk5t1+/0TcVrA==
-X-Received: by 2002:ac8:7f16:0:b0:3b8:6a20:675e with SMTP id f22-20020ac87f16000000b003b86a20675emr13031700qtk.29.1675355464915;
-        Thu, 02 Feb 2023 08:31:04 -0800 (PST)
-Received: from localhost ([24.1.27.177])
-        by smtp.gmail.com with ESMTPSA id z15-20020ac8430f000000b003b646a99aa6sm7484055qtm.77.2023.02.02.08.31.04
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zZcMZtX0EcrnZWfZ+/LmjRHXr0PdSo84F4e6GziTzqs=;
+        b=AWYqHcgzqxO5ebANia5/Cn+jymsaZwCR+XGYIYTIm+fv05IEEOu21WimGHbwKDvY21
+         mDWsntjP2q9TTfG/zRvXA0nbhGCvUO4oEkBpRcVStc1eqntYFDmcVRFfaA14SHnjNigC
+         k+8hkmAzLa1EOjXUchgQu8YRA3bAlffUSevxcjfln2tpO5bbRfoX7bE2FBic/Bt/VzwR
+         oW700eJHzFHvmOoUYNdyiWGbGhWn0OHyw5lIO0BVvsjJuA7Gg7tpgTWbQzQWvI+8w17v
+         AsdIILEY9DeaC+GqiXjRy9eK0I/hx5ITAcbXHx7YJ3y41cfb36VuC+5uUUrEMzvXudd7
+         5gnw==
+X-Gm-Message-State: AO0yUKX95BWsn07igF/zUYIUebDK0Fx8EaoVlIDnIWovkU2itkWFocUk
+        ECAmfj8OymEuFr/HHKJSSjP09f29zLjGiOeB
+X-Google-Smtp-Source: AK7set+6zZfInvXTRPt5yHf2IXZGocXEZhfejwDDyitrpBIueWTVph19PgBMcotaifge5E1TFUlZJw==
+X-Received: by 2002:a05:622a:211:b0:3b6:4175:5308 with SMTP id b17-20020a05622a021100b003b641755308mr4540882qtx.54.1675355844119;
+        Thu, 02 Feb 2023 08:37:24 -0800 (PST)
+Received: from maniforge ([24.1.27.177])
+        by smtp.gmail.com with ESMTPSA id b4-20020a378004000000b0070736988c10sm14532379qkd.110.2023.02.02.08.37.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Feb 2023 08:31:04 -0800 (PST)
+        Thu, 02 Feb 2023 08:37:23 -0800 (PST)
+Date:   Thu, 2 Feb 2023 10:37:20 -0600
 From:   David Vernet <void@manifault.com>
-To:     bpf@vger.kernel.org
-Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        martin.lau@linux.dev, song@kernel.org, yhs@meta.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
-        haoluo@google.com, jolsa@kernel.org, linux-kernel@vger.kernel.org,
-        kernel-team@meta.com, toke@redhat.com, brouer@redhat.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: [PATCH bpf-next 1/3] bpf/docs: Document kfunc lifecycle / stability expectations
-Date:   Thu,  2 Feb 2023 10:30:54 -0600
-Message-Id: <20230202163056.658641-2-void@manifault.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230202163056.658641-1-void@manifault.com>
-References: <20230202163056.658641-1-void@manifault.com>
+To:     Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jesper Dangaard Brouer <brouer@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH v3] Documentation/bpf: Document API stability
+ expectations for kfuncs
+Message-ID: <Y9vmwDzb0jhjpEyk@maniforge>
+References: <20230201174449.94650-1-toke@redhat.com>
+ <Y9tJY3ayftdowRVS@maniforge>
+ <875yckth7n.fsf@toke.dk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <875yckth7n.fsf@toke.dk>
+User-Agent: Mutt/2.2.9 (2022-11-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-BPF kernel <-> kernel API stability has been discussed at length over
-the last several weeks and months. Now that we've largely aligned over
-kfuncs being the way forward, and BPF helpers being considered frozen,
-it's time to document the expectations for kfunc lifecycles and
-stability so that everyone (BPF users, kfunc developers, and
-maintainers) are all aligned, and have a crystal-clear understanding of
-the expectations surrounding kfuncs.
+On Thu, Feb 02, 2023 at 12:55:08PM +0100, Toke Høiland-Jørgensen wrote:
+> David Vernet <void@manifault.com> writes:
+> 
+> > On Wed, Feb 01, 2023 at 06:44:48PM +0100, Toke Høiland-Jørgensen wrote:
+> >> Following up on the discussion at the BPF office hours (and subsequent
+> >> discussion), this patch adds a description of API stability expectations
+> >> for kfuncs. The goal here is to manage user expectations about what kind of
+> >> stability can be expected for kfuncs exposed by the kernel.
+> >> 
+> >> Since the traditional BPF helpers are basically considered frozen at this
+> >> point, kfuncs will be the way all new functionality will be exposed to BPF
+> >> going forward. This makes it important to document their stability
+> >> guarantees, especially since the perception up until now has been that
+> >> kfuncs should always be considered "unstable" in the sense of "may go away
+> >> or change at any time". Which in turn makes some users reluctant to use
+> >> them because they don't want to rely on functionality that may be removed
+> >> in future kernel versions.
+> >> 
+> >> This patch adds a section to the kfuncs documentation outlining how we as a
+> >> community think about kfunc stability. The description is a bit vague and
+> >> wishy-washy at times, but since there does not seem to be consensus to
+> >> commit to any kind of hard stability guarantees at this point, I feat this
+> >> is the best we can do.
+> >> 
+> >> I put this topic on the agenda again for tomorrow's office hours, but
+> >> wanted to send this out ahead of time, to give people a chance to read it
+> >> and think about whether it makes sense or if there's a better approach.
+> >> 
+> >> Previous discussion:
+> >> https://lore.kernel.org/r/20230117212731.442859-1-toke@redhat.com
+> >
+> > Again, thanks a lot for writing this down and getting a real / tangible
+> > conversation started.
+> 
+> You're welcome! Just a few quick notes on one or two points below, we
+> can continue the discussion at the office hours:
 
-To do that, this patch adds that documentation to the main kfuncs
-documentation page via a new 'kfunc lifecycle expectations' section. The
-patch describes how decisions are made in the kernel regarding whether
-to include, keep, deprecate, or change / remove a kfunc. As described
-very overtly in the patch itself, but likely worth highlighting here:
+Hey Toke,
 
-"kfunc stability" does not mean, nor ever will mean, "BPF APIs may block
-development elsewhere in the kernel".
+Sounds good, I just read over your notes / points and am happy to
+discuss more in office hours as you suggested. Just wanted to give you a
+heads up well that just I sent out a proposal which you can read in [0].
 
-Rather, the intention and expectation is for kfuncs to be treated like
-EXPORT_SYMBOL_GPL symbols in the kernel. The goal is for kfuncs to be a
-safe and valuable option for maintainers and kfunc developers to extend
-the kernel, without tying anyone's hands, or imposing any kind of
-restrictions on maintainers in the same way that UAPI changes do.
+[0]: https://lore.kernel.org/all/20230202163056.658641-1-void@manifault.com/
 
-In addition to the 'kfunc lifecycle expectations' section, this patch
-also adds documentation for a new KF_DEPRECATED kfunc flag which kfunc
-authors or maintainers can choose to add to kfuncs if and when they
-decide to deprecate them. Note that as described in the patch itself, a
-kfunc need not be deprecated before being changed or removed -- this
-flag is simply provided as an available deprecation mechanism for those
-that want to provide a deprecation story / timeline to their users.
-When necessary, kfuncs may be changed or removed to accommodate changes
-elsewhere in the kernel without any deprecation at all.
+I know it's short notice (sorry about that, did my best to get it all
+ready as soon as possible before office hours), but if you happen to
+have time to read over it before we meet that would be great. If not, no
+worries, I can just tell you the gist of what I'm proposing when we talk
+in office hours in half an hour.
 
-A subsequent patch will add KF_DEPRECATED to <linux/btf.h>.
-
-Signed-off-by: David Vernet <void@manifault.com>
----
- Documentation/bpf/kfuncs.rst | 125 +++++++++++++++++++++++++++++++++--
- 1 file changed, 120 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
-index 0bd07b39c2a4..e8452868827e 100644
---- a/Documentation/bpf/kfuncs.rst
-+++ b/Documentation/bpf/kfuncs.rst
-@@ -13,7 +13,7 @@ BPF Kernel Functions or more commonly known as kfuncs are functions in the Linux
- kernel which are exposed for use by BPF programs. Unlike normal BPF helpers,
- kfuncs do not have a stable interface and can change from one kernel release to
- another. Hence, BPF programs need to be updated in response to changes in the
--kernel.
-+kernel. See :ref:`BPF_kfunc_lifecycle_expectations` for more information.
- 
- 2. Defining a kfunc
- ===================
-@@ -238,6 +238,32 @@ single argument which must be a trusted argument or a MEM_RCU pointer.
- The argument may have reference count of 0 and the kfunc must take this
- into consideration.
- 
-+.. _KF_deprecated_flag:
-+
-+2.4.9 KF_DEPRECATED flag
-+------------------------
-+
-+The KF_DEPRECATED flag is used for kfuncs which are expected to be changed or
-+removed in a subsequent kernel release. Deprecated kfuncs may be removed at any
-+time, though if possible (and when applicable), developers are encouraged to
-+provide users with a deprecation window to ease the burden of migrating off of
-+the kfunc.
-+
-+A kfunc that is marked with KF_DEPRECATED should also have any relevant
-+information captured in its kernel doc. Such information typically includes the
-+kfunc's expected remaining lifespan, a recommendation for new functionality
-+that can replace it if any is available, and possibly a rationale for why it is
-+being removed.
-+
-+Note that while on some occasions, a KF_DEPRECATED kfunc may continue to be
-+supported and have its KF_DEPRECATED flag removed, it is likely to be far more
-+difficult to remove a KF_DEPRECATED flag after it's been added than it is to
-+prevent it from being added in the first place. As described in
-+:ref:`BPF_kfunc_lifecycle_expectations`, users that rely on specific kfuncs are
-+highly encouraged to make their use-cases known as early as possible, and
-+participate in upstream discussions regarding whether to keep, change,
-+deprecate, or remove those kfuncs if and when such discussions occur.
-+
- 2.5 Registering the kfuncs
- --------------------------
- 
-@@ -304,14 +330,103 @@ In order to accommodate such requirements, the verifier will enforce strict
- PTR_TO_BTF_ID type matching if two types have the exact same name, with one
- being suffixed with ``___init``.
- 
--3. Core kfuncs
-+.. _BPF_kfunc_lifecycle_expectations:
-+
-+3. kfunc lifecycle expectations
-+===============================
-+
-+Just as with kernel symbols exported with EXPORT_SYMBOL_GPL, kfuncs could be
-+changed at any time by a maintainer of the subsystem they're defined in when
-+deemed necessary. However, like any other change to the kernel, maintainers
-+will not change or remove a kfunc without having some justification. Whether or
-+not they'll choose to change a kfunc will ultimately depend on a variety of
-+factors, such as how widely used the kfunc is, how long the kfunc has been in
-+the kernel, whether an alternative kfunc exists, what the norm is in terms of
-+stability for the subsystem in question, and of course what the technical cost
-+is of continuing to support the kfunc.
-+
-+There are several implications of this:
-+
-+a) A kfunc will never have any hard stability guarantees. BPF APIs cannot and
-+   will not ever hard-block a change in the kernel purely for stability
-+   reasons. In other words, kfuncs have the exact same stability guarantees as
-+   any other kernel API, such as those provided by EXPORT_SYMBOL_GPL, though
-+   with perhaps less burden than EXPORT_SYMBOL_GPL changes thanks to BPF CO-RE.
-+
-+   That being said, kfuncs are features that are meant to solve problems and
-+   provide value to users. The decision of whether to change or remove a kfunc
-+   is a multivariate technical decision that is made on a case-by-case basis,
-+   and which is informed by data points such as those mentioned above. It is
-+   expected that a kfunc being removed or changed with no warning will not be a
-+   common occurrence or take place without sound justification, but it is a
-+   possibility that must be accepted if one is to use kfuncs.
-+
-+b) kfuncs that are widely used or have been in the kernel for a long time will
-+   be more difficult to justify being changed or removed by a maintainer. Said
-+   in a different way, kfuncs that are known to have a lot of users and provide
-+   significant value provide stronger incentives for maintainers to invest the
-+   time and complexity in supporting them. It is therefore important for
-+   developers using kfuncs in their BPF programs to demonstrate how and why
-+   those kfuncs are being used, and to participate in discussions regarding
-+   those kfuncs when they occur upstream.
-+
-+c) Because many BPF programs are not upstreamed as part of the kernel tree, it
-+   is often not possible to change them in-place when a kfunc changes, as it is
-+   for e.g. an upstreamed module being updated in place when an
-+   EXPORT_SYMBOL_GPL symbol is changed. Distributions that bundle BPF programs
-+   that use kfuncs must therefore ensure that those BPF programs are linking
-+   against the kfuncs that are supported by the kernel version being used for
-+   any given release. Additionally, BPF developers are encouraged to upstream
-+   their BPF programs so they can enjoy the same benefits as upstreamed
-+   modules, and avoid code churn.
-+
-+3.1 kfunc deprecation
-+---------------------
-+
-+As described above, while sometimes a maintainer may find that a kfunc must be
-+changed or removed immediately to accommodate some changes in their subsystem,
-+other kfuncs may be able to accommodate a longer and more measured deprecation
-+process. For example, if a new kfunc comes along which provides superior
-+functionality to an existing kfunc, the existing kfunc may be deprecated for
-+some period of time to allow users to migrate their BPF programs to use the new
-+one. Or, if a kfunc has no known users, a decision may be made to remove the
-+kfunc (without providing an alternative API) after some deprecation period
-+period so as to provide users with a window to notify the kfunc maintainer if
-+it turns out that the kfunc is actually being used.
-+
-+kfuncs being deprecated (rather than changed or removed with no warning) is
-+expected to be the common case, and as described in :ref:`KF_deprecated_flag`,
-+the kfunc framework provides the KF_DEPRECATED flag to kfunc developers to
-+signal to users that a kfunc has been deprecated. Once a kfunc has been marked
-+with KF_DEPRECATED, the following procedure is followed for removal:
-+
-+1. Any relevant information for deprecated kfuncs is documented in the kfunc's
-+   kernel docs. This documentation will typically include the kfunc's expected
-+   remaining lifespan,  a recommendation for new functionality that can replace
-+   the usage of the deprecated function (or an explanation as to why no such
-+   replacement exists), etc.
-+
-+2. The deprecated kfunc is kept in the kernel for some period of time after it
-+   was first marked as deprecated. This time period will be chosen on a
-+   case-by-case basis, and will typically depend on how widespread the use of
-+   the kfunc is, how long it has been in the kernel, and how hard it is to move
-+   to alternatives. This deprecation time period is "best effort", and as
-+   described :ref:`above<BPF_kfunc_lifecycle_expectations>`, circumstances may
-+   sometimes dictate that the kfunc be removed before the full intended
-+   deprecation period has elapsed.
-+
-+3. After the deprecation period, or sometimes earlier if necessary, the kfunc
-+   will be removed. At this point, BPF programs calling the kfunc will be
-+   rejected by the verifier.
-+
-+4. Core kfuncs
- ==============
- 
- The BPF subsystem provides a number of "core" kfuncs that are potentially
- applicable to a wide variety of different possible use cases and programs.
- Those kfuncs are documented here.
- 
--3.1 struct task_struct * kfuncs
-+4.1 struct task_struct * kfuncs
- -------------------------------
- 
- There are a number of kfuncs that allow ``struct task_struct *`` objects to be
-@@ -387,7 +502,7 @@ Here is an example of it being used:
- 		return 0;
- 	}
- 
--3.2 struct cgroup * kfuncs
-+4.2 struct cgroup * kfuncs
- --------------------------
- 
- ``struct cgroup *`` objects also have acquire and release functions:
-@@ -502,7 +617,7 @@ the verifier. bpf_cgroup_ancestor() can be used as follows:
- 		return 0;
- 	}
- 
--3.3 struct cpumask * kfuncs
-+4.3 struct cpumask * kfuncs
- ---------------------------
- 
- BPF provides a set of kfuncs that can be used to query, allocate, mutate, and
--- 
-2.39.0
-
+Thanks,
+David
