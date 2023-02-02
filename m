@@ -2,117 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B91CC636D7
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 20:23:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1414C05027
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 21:21:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232355AbjBBUXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 15:23:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58848 "EHLO
+        id S232494AbjBBVVd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 16:21:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232353AbjBBUXS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 15:23:18 -0500
-Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02CB96B34E;
-        Thu,  2 Feb 2023 12:23:17 -0800 (PST)
-Received: from [127.0.0.1] ([73.223.250.219])
-        (authenticated bits=0)
-        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 312KLhl02116280
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-        Thu, 2 Feb 2023 12:21:43 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 312KLhl02116280
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2023010601; t=1675369310;
-        bh=dXToUAE7pJaQg5q02/GLa3Mz5KxM6AhfOCiviB9LkQ0=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=UFfeQLpd1CqaHNn2oWCKbjD/Ifu3loYs//M/YBH4IzNZ5zM+uQu+ca+o7wZeN5w3F
-         DsbUdz66y666X/uc3jG3vgwkg5rRf6GtVkLag+fJE2MvpK5A0UNEmO1M3fnQXeE1Lo
-         Fnl4Ppvdj9DkLLQ/AJYxM7e3cAS5zRrO/+4y12Pny3EZtxFITNqL4C9j1UlDEGI9HH
-         V7hreJiSU/iR392Npg1nWQoPfZXJyKUx9354wvJDSamVNEibIAyoENMY/UFznsWzLs
-         NKi29eZOby3JTQ76f7S8MgceIaH2aMGDaJX/L7Onx4h96zynB+LoMD69Q9XjMUGe2n
-         iFW315XTSuLfQ==
-Date:   Thu, 02 Feb 2023 12:21:41 -0800
-From:   "H. Peter Anvin" <hpa@zytor.com>
-To:     Peter Zijlstra <peterz@infradead.org>,
-        torvalds@linux-foundation.org
-CC:     corbet@lwn.net, will@kernel.org, peterz@infradead.org,
-        boqun.feng@gmail.com, mark.rutland@arm.com,
-        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
-        cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-        linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v2 01/10] cyrpto/b128ops: Remove struct u128
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20230202152655.250913242@infradead.org>
-References: <20230202145030.223740842@infradead.org> <20230202152655.250913242@infradead.org>
-Message-ID: <6B45ADCF-4E3C-4D01-92AB-87BFF6BEE744@zytor.com>
+        with ESMTP id S232011AbjBBVVd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 16:21:33 -0500
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42E306DB1B;
+        Thu,  2 Feb 2023 13:21:32 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id gr7so9861274ejb.5;
+        Thu, 02 Feb 2023 13:21:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gSyJPeHxN6glqF50Jf3a9ZSuNsTot5DI62NEtSRA9us=;
+        b=FsXdaugBi4veiEDNI7QHXEDaFz4OdEee/wHMOYm7CfGKxtza2J57Rv6BWlIBupunrY
+         TTUKMoN6JAhAkohHlVCZgIDuGvo/1+XUBvS7ClBOv/i52MtPiDyzQfLXdzFNtmwhLmv9
+         r7vITFgimeudrBKgiBQJCcOGOs3NOtkePG2hU02COwtMVaE6CSPfOeSBHI3CSh/rEMVg
+         fkZhuPOBr34EB+tj23ZLHsnVUQ+pFvLyfaKGd9wgOmOE5iRGZ2G8fjuLvtq8jr4V2pzY
+         HZNXrd2TO2lO5QNX0xJmBFG99S2lDRChbyO6WWodrAwLOS2NCpNkaXE40+9el6w7JESE
+         Rh5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gSyJPeHxN6glqF50Jf3a9ZSuNsTot5DI62NEtSRA9us=;
+        b=VdPclpnTdyJ9ZAoPkXZBEfdfQUYYlQ3uG2YNyJQr0yW54KiBKVOp0/dzipZPm10JS2
+         +eyvJpjDJwJwLxT2Tls9W2fYtOnDmyq3Hm/V2FYl1pUYXpCSOz1wdLqWUmubqItnzlio
+         WHxjd/oXLvDVrlgHgqYaw7Mhs2n3U3p5jINka8E2UnZe2LxzAXzXEQmwJKyz9kNwhKRJ
+         Y25WsRkZfVwofclcNWgmTiR7gDFIhSV/qxxYagIz2gldQnYCePtuB+aQ6WZhtqVtz8wK
+         b1fXOiFJ3DNnW2M0ftbw07m8/tppqYX8ckEbQvyJY3ybpkGEQdNThNARUkzBwI4jwXYl
+         0vGw==
+X-Gm-Message-State: AO0yUKVWFpJNXLtYtP2RZyemnCHFZP/Yzj+6JzMIRAEinDEpsqtCNC7C
+        QgLroYMq9dH9nbRS1CCxjImZ5NR7x6+P3x3n3DA=
+X-Google-Smtp-Source: AK7set/97qq3TZuGbibfCSy2G7vqNMrsQUGT0EAEq0g81eyVrVysCCP5tqXMHKoqJxk8y4oRfJRNEabmzbjQ/1DBY3w=
+X-Received: by 2002:a17:906:fc20:b0:86e:429b:6a20 with SMTP id
+ ov32-20020a170906fc2000b0086e429b6a20mr2277052ejb.247.1675372890547; Thu, 02
+ Feb 2023 13:21:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20230202163056.658641-1-void@manifault.com> <20230202163056.658641-3-void@manifault.com>
+In-Reply-To: <20230202163056.658641-3-void@manifault.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Thu, 2 Feb 2023 13:21:19 -0800
+Message-ID: <CAADnVQJjmnEpXWL8-SAPt5zYXnFYeF8-wXXpA9shOhqUXNPw=g@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 2/3] bpf: Add KF_DEPRECATED kfunc flag
+To:     David Vernet <void@manifault.com>
+Cc:     bpf <bpf@vger.kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@meta.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Team <kernel-team@meta.com>,
+        =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
+        Jesper Dangaard Brouer <brouer@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On February 2, 2023 6:50:31 AM PST, Peter Zijlstra <peterz@infradead=2Eorg>=
- wrote:
->Per git-grep u128_xor() and its related struct u128 are unused except
->to implement {be,le}128_xor()=2E Remove them to free up the namespace=2E
+On Thu, Feb 2, 2023 at 8:31 AM David Vernet <void@manifault.com> wrote:
 >
->Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead=2Eorg>
->---
-> include/crypto/b128ops=2Eh |   14 +++-----------
-> 1 file changed, 3 insertions(+), 11 deletions(-)
+> Now that we have our kfunc lifecycle expectations clearly documented,
+> and that KF_DEPRECATED is documented as an optional method for kfunc
+> developers and maintainers to provide a deprecation story to BPF users,
+> we need to actually implement the flag.
 >
->--- a/include/crypto/b128ops=2Eh
->+++ b/include/crypto/b128ops=2Eh
->@@ -50,10 +50,6 @@
-> #include <linux/types=2Eh>
->=20
-> typedef struct {
->-	u64 a, b;
->-} u128;
->-
->-typedef struct {
-> 	__be64 a, b;
-> } be128;
->=20
->@@ -61,20 +57,16 @@ typedef struct {
-> 	__le64 b, a;
-> } le128;
->=20
->-static inline void u128_xor(u128 *r, const u128 *p, const u128 *q)
->+static inline void be128_xor(be128 *r, const be128 *p, const be128 *q)
-> {
-> 	r->a =3D p->a ^ q->a;
-> 	r->b =3D p->b ^ q->b;
-> }
->=20
->-static inline void be128_xor(be128 *r, const be128 *p, const be128 *q)
->-{
->-	u128_xor((u128 *)r, (u128 *)p, (u128 *)q);
->-}
->-
-> static inline void le128_xor(le128 *r, const le128 *p, const le128 *q)
-> {
->-	u128_xor((u128 *)r, (u128 *)p, (u128 *)q);
->+	r->a =3D p->a ^ q->a;
->+	r->b =3D p->b ^ q->b;
-> }
->=20
-> #endif /* _CRYPTO_B128OPS_H */
+> This patch adds KF_DEPRECATED, and updates the verifier to issue a
+> verifier log message if a deprecated kfunc is called. Currently, a BPF
+> program either has to fail to verify, or be loaded with log level 2 in
+> order to see the message. We could eventually enhance this to always
+> be logged regardless of log level or verification status, or we could
+> instead emit a warning to dmesg. This seems like the least controversial
+> option for now.
 >
+> A subsequent patch will add a selftest that verifies this behavior.
 >
+> Signed-off-by: David Vernet <void@manifault.com>
+> ---
+>  include/linux/btf.h   | 1 +
+>  kernel/bpf/verifier.c | 8 ++++++++
+>  2 files changed, 9 insertions(+)
+>
+> diff --git a/include/linux/btf.h b/include/linux/btf.h
+> index 49e0fe6d8274..a0ea788ee9b0 100644
+> --- a/include/linux/btf.h
+> +++ b/include/linux/btf.h
+> @@ -71,6 +71,7 @@
+>  #define KF_SLEEPABLE    (1 << 5) /* kfunc may sleep */
+>  #define KF_DESTRUCTIVE  (1 << 6) /* kfunc performs destructive actions */
+>  #define KF_RCU          (1 << 7) /* kfunc only takes rcu pointer arguments */
+> +#define KF_DEPRECATED   (1 << 8) /* kfunc is slated to be removed or deprecated */
+>
+>  /*
+>   * Tag marking a kernel function as a kfunc. This is meant to minimize the
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> index 4cc0e70ee71e..22adcf24f9e1 100644
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
+> @@ -8511,6 +8511,11 @@ static bool is_kfunc_rcu(struct bpf_kfunc_call_arg_meta *meta)
+>         return meta->kfunc_flags & KF_RCU;
+>  }
+>
+> +static bool is_kfunc_deprecated(const struct bpf_kfunc_call_arg_meta *meta)
+> +{
+> +       return meta->kfunc_flags & KF_DEPRECATED;
+> +}
+> +
+>  static bool is_kfunc_arg_kptr_get(struct bpf_kfunc_call_arg_meta *meta, int arg)
+>  {
+>         return arg == 0 && (meta->kfunc_flags & KF_KPTR_GET);
+> @@ -9646,6 +9651,9 @@ static int check_kfunc_call(struct bpf_verifier_env *env, struct bpf_insn *insn,
+>                         mark_btf_func_reg_size(env, regno, t->size);
+>         }
+>
+> +       if (is_kfunc_deprecated(&meta))
+> +               verbose(env, "calling deprecated kfunc %s\n", func_name);
+> +
 
-Can we centralize these ordered types, too?
+Since prog will successfully load, no one will notice this message.
+
+I think we can skip patches 2 and 3 for now.
