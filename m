@@ -2,94 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C9EC05027
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 16:20:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8F9C05027
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 16:31:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232636AbjBBQUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 11:20:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57928 "EHLO
+        id S230372AbjBBQbJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 11:31:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232693AbjBBQUC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 11:20:02 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D9A6B357;
-        Thu,  2 Feb 2023 08:20:01 -0800 (PST)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pNbdz-0001bp-Tc; Thu, 02 Feb 2023 16:36:59 +0100
-Message-ID: <ee3a168f-66e3-14a3-3890-90dc5c8153d1@leemhuis.info>
-Date:   Thu, 2 Feb 2023 16:36:59 +0100
+        with ESMTP id S229595AbjBBQbJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 11:31:09 -0500
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43B261D7F;
+        Thu,  2 Feb 2023 08:31:04 -0800 (PST)
+Received: by mail-qt1-f179.google.com with SMTP id w3so2439681qts.7;
+        Thu, 02 Feb 2023 08:31:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m+MUUS/4z4ueE6F3pvqkDWo76t810rF7C4WYLJ9AavQ=;
+        b=eJFrJFL5yaSevbbd5mxK92ceN84dvXtb6nBPuI2LwoqHLsnMPh0j/guIHeQ1bFo/YB
+         FMa46jTIyZqXjtDqr2vdj8xTLB9HrVQO9cE7N3XAxPQx1zNR0vL2Vf3761yIFAsOT3vM
+         EEg2Vvh9/UfZ1IqYVnimJ8oUEzYRK5+Wz31ELtBHQzfHtEQtVuJToJQ5X9FzgLTsflmN
+         8kdU5qRcfjJYwOOX+jLeXn+Zuqc4L1+VrEPD/4QiCIhQ1rnz8o7X+jo+a4rXa8FMtA72
+         0P5LK2fQjhC7HXU0SarlGv1h29farwwrlrPGphz7NPc09d6rUPU2AZ4ltQMHHkMzv+ZC
+         hznw==
+X-Gm-Message-State: AO0yUKXCg9Mgiz0kw0mg0Rmfjd3v2G4YNfaOh2IoV2CFw24Hmi4pgeaV
+        Z40q3fw1ej9uhEZ0/MHRQsxVzrO7OkzdsyUN
+X-Google-Smtp-Source: AK7set8pPfzhuGzONBg5A/x7sj1wMDH8Ug5RSliF4jnj0uliOG1ubg0t2xBRgbkWYsy2IRfjN4GzHA==
+X-Received: by 2002:ac8:7d88:0:b0:3b9:a3e3:4d33 with SMTP id c8-20020ac87d88000000b003b9a3e34d33mr13289367qtd.12.1675355463426;
+        Thu, 02 Feb 2023 08:31:03 -0800 (PST)
+Received: from localhost ([24.1.27.177])
+        by smtp.gmail.com with ESMTPSA id b25-20020ac844d9000000b003b82cb8748dsm11539311qto.96.2023.02.02.08.31.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Feb 2023 08:31:02 -0800 (PST)
+From:   David Vernet <void@manifault.com>
+To:     bpf@vger.kernel.org
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@meta.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@meta.com, toke@redhat.com, brouer@redhat.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: [PATCH bpf-next 0/3] Document kfunc lifecycle / stability expectations
+Date:   Thu,  2 Feb 2023 10:30:53 -0600
+Message-Id: <20230202163056.658641-1-void@manifault.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US, de-DE
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux regressions mailing list <regressions@lists.linux.dev>
-References: <fabdb45fa44db2531f0dbe5e88545c49dfb87040.1675252073.git.linux@leemhuis.info>
- <1f217c94-b90f-359a-2142-0d3ae5d84fc6@leemhuis.info>
- <20230202150856.lchr76nqih3vdul6@nitro.local>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v1] docs: describe how to quickly build Linux
-In-Reply-To: <20230202150856.lchr76nqih3vdul6@nitro.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1675354801;116bfef1;
-X-HE-SMSGID: 1pNbdz-0001bp-Tc
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02.02.23 16:08, Konstantin Ryabitsev wrote:
-> On Thu, Feb 02, 2023 at 12:15:36PM +0100, Linux kernel regression tracking (Thorsten Leemhuis) wrote:
->> Then I tried creating a shallow clone like this:
->>
->> git clone
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->> --depth 1 -b v6.1
->> git remote set-branches --add origin master
->> git fetch --all --shallow-exclude=v6.1
->> git remote add -t linux-6.1.y linux-stable
->> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
->> git fetch --all --shallow-exclude=v6.1
->>
->> This took only roundabout 2 minutes and downloads & stores ~512 MByte
->> data (without checkout).
-> 
-> Can we also include the option of just downloading the tarball, if it's a
-> released version? That's the fastest and most lightweight option 100% of the
-> time. :)
+BPF kernel <-> kernel API stability has been discussed at length over
+the last several weeks and months. Now that we've largely aligned over
+kfuncs being the way forward, and BPF helpers being considered frozen,
+it's time to document the expectations for kfunc lifecycles and
+stability so that everyone (BPF users, kfunc developers, and
+maintainers) are all aligned, and have a crystal-clear understanding of
+the expectations surrounding kfuncs.
 
-Don't worry, that was in there and will stay in there:
+This patch set adds that documentation to the main kfuncs documentation
+page via a new 'kfunc lifecycle expectations' section. The documentation
+describes how decisions are made in the kernel regarding whether to
+include, keep, deprecate, or change / remove a kfunc. As described very
+overtly in the patch set itself, but likely worth highlighting here:
 
-+   If you plan to only build one particular kernel version, download
-its source
-+   archive from https://kernel.org; afterwards extract its content to
-'~/linux/'
-+   and change into the directory created during extraction.
->> Not totally sure, but the shallow clone somehow feels more appropriate
->> for the use case (reminder, there is a "quickly" in the document title),
->> even if such a clone is less flexible (e.g. users have to manually add
->> stable branches they are interested it; and they need to be careful when
->> using git fetch).
->>
->> That's why I now strongly consider using the shallow clone method by
->> default in v2 of this text. Or does that also create a lot of load on
->> the servers? Or are there other strong reason why using a shallow clone
->> might be a bad idea for this use case?
-> 
-> As I mentioned elsewhere, this is only a problem when it's done in batch mode
-> by CI systems. A full clone uses pregenerated pack files and is very cheap,
-> because it's effectively a sendfile operation. A shallow clone requires
-> generating a brand new pack, compressing it, and then keeping it around in
-> memory for the duration of the clone process. Not a big deal when a few humans
-> here and there do it, but when 50 CI nodes do it all at once, it effectively
-> becomes a DDoS. :)
+"kfunc stability" does not mean, nor ever will mean, "BPF APIs may block
+development elsewhere in the kernel".
 
-Thx again for your insights, much appreciated.
+Rather, the intention and expectation is for kfuncs to be treated like
+EXPORT_SYMBOL_GPL symbols in the kernel. The goal is for kfuncs to be a
+safe and valuable option for maintainers and kfunc developers to extend
+the kernel, without tying anyone's hands, or imposing any kind of
+restrictions on maintainers in the same way that UAPI changes do.
 
-Ciao, Thorsten
+Note that other proposals for this documentation have been made as well.
+Toke has proposed several iterations to this doc, with the latest being
+[0].
+
+[0]: https://lore.kernel.org/all/20230201174449.94650-1-toke@redhat.com/
+
+David Vernet (3):
+  bpf/docs: Document kfunc lifecycle / stability expectations
+  bpf: Add KF_DEPRECATED kfunc flag
+  selftests/bpf: Add a selftest for the KF_DEPRECATED kfunc flag
+
+ Documentation/bpf/kfuncs.rst                  | 125 +++++++++++++++++-
+ include/linux/btf.h                           |   1 +
+ kernel/bpf/verifier.c                         |   8 ++
+ net/bpf/test_run.c                            |   5 +
+ .../selftests/bpf/prog_tests/kfunc_call.c     |   2 +
+ .../selftests/bpf/progs/kfunc_call_test.c     |  10 ++
+ 6 files changed, 146 insertions(+), 5 deletions(-)
+
+-- 
+2.39.0
+
