@@ -2,71 +2,46 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D077C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 19:39:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B91CC636D7
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 20:23:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232778AbjBBTji (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 14:39:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60742 "EHLO
+        id S232355AbjBBUXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 15:23:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232287AbjBBTjh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 14:39:37 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 784D836FED
-        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 11:39:32 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id v17so4550574lfd.7
-        for <linux-doc@vger.kernel.org>; Thu, 02 Feb 2023 11:39:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JmnIaySd7zoAM6xF2ibXT8yo+UTOpvQnMVr9b5O/7+w=;
-        b=ca1h9KkMFNsKgO7Ao0NeYlaifxp7NzGcaaakgNFyQLMxBSXDHTcSanf/uonLuKRR18
-         lO7gVsm341hb9Nhg1BLsB8gPuvWRYHLOlq9HV87cUF6Vj8wjTPtsHShRpe/Vd30GyM78
-         DjJAMh6ZqNcvDd+rLB79O+fNMlUiqjmmCA6so=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JmnIaySd7zoAM6xF2ibXT8yo+UTOpvQnMVr9b5O/7+w=;
-        b=s95yfqFFQ3zqa3dmiMxI+7KRTZ05/WF3nDu1RWQT4H3yGJdC6sRbBeYc0JpcPTMUuM
-         LHZ6PGqLyXKoDXcCWcq8Zt6AEzDYZNh5BHQVxPtdB0CFazfRE374mJCn+KBHU4XsrHwV
-         r5DyseZZCBfSMFuVS93uYaEJM0XpalAoy7HAhqLaKK0wrhNBQEaCWenFnpX/fJOw8gtx
-         DkRJy5br/dkVpOpqB+qV09v08TiBMRSUuxCqmBGptPQbBNZKoFasxEUTlWfnAGnodxRm
-         F1fltsE87VNKDyMO8rUg+8vwQ8PtrOskXollTnnFetEs1k9m9fuvMic47ShaSu/nBnbe
-         jU3g==
-X-Gm-Message-State: AO0yUKX8POsYQOeFattjhqiTD+fw0vQt/BNe7aPoKGf7a93PgIJeF+zp
-        pEoRJ1iptP/I8t1rkyASRUig8A8KtFHxqFsnJ9Q=
-X-Google-Smtp-Source: AK7set9pAC5y9+HKvZEJQ7uD6yRRA36VFKb1R1S49agdpcKTlfoiuIzsF9fiHVATSp5CWT8gLvY+sA==
-X-Received: by 2002:ac2:522f:0:b0:4b5:9138:145b with SMTP id i15-20020ac2522f000000b004b59138145bmr1782488lfl.14.1675366770454;
-        Thu, 02 Feb 2023 11:39:30 -0800 (PST)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
-        by smtp.gmail.com with ESMTPSA id a6-20020a19ca06000000b004d57d1c6ee7sm25450lfg.248.2023.02.02.11.39.29
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Feb 2023 11:39:30 -0800 (PST)
-Received: by mail-lj1-f171.google.com with SMTP id o5so3050373ljj.1
-        for <linux-doc@vger.kernel.org>; Thu, 02 Feb 2023 11:39:29 -0800 (PST)
-X-Received: by 2002:a17:906:f109:b0:882:e1b7:a90b with SMTP id
- gv9-20020a170906f10900b00882e1b7a90bmr2112186ejb.187.1675366759217; Thu, 02
- Feb 2023 11:39:19 -0800 (PST)
-MIME-Version: 1.0
-References: <20230202145030.223740842@infradead.org>
-In-Reply-To: <20230202145030.223740842@infradead.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 2 Feb 2023 11:39:02 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiF6y7CwR1P5_73aK2f=x=RZjwgh3sgeO3Mczv4XcDc8g@mail.gmail.com>
-Message-ID: <CAHk-=wiF6y7CwR1P5_73aK2f=x=RZjwgh3sgeO3Mczv4XcDc8g@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] Introduce cmpxchg128() -- aka. the demise of cmpxchg_double()
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     corbet@lwn.net, will@kernel.org, boqun.feng@gmail.com,
-        mark.rutland@arm.com, catalin.marinas@arm.com, dennis@kernel.org,
-        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        with ESMTP id S232353AbjBBUXS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 15:23:18 -0500
+Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02CB96B34E;
+        Thu,  2 Feb 2023 12:23:17 -0800 (PST)
+Received: from [127.0.0.1] ([73.223.250.219])
+        (authenticated bits=0)
+        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 312KLhl02116280
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Thu, 2 Feb 2023 12:21:43 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 312KLhl02116280
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2023010601; t=1675369310;
+        bh=dXToUAE7pJaQg5q02/GLa3Mz5KxM6AhfOCiviB9LkQ0=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+        b=UFfeQLpd1CqaHNn2oWCKbjD/Ifu3loYs//M/YBH4IzNZ5zM+uQu+ca+o7wZeN5w3F
+         DsbUdz66y666X/uc3jG3vgwkg5rRf6GtVkLag+fJE2MvpK5A0UNEmO1M3fnQXeE1Lo
+         Fnl4Ppvdj9DkLLQ/AJYxM7e3cAS5zRrO/+4y12Pny3EZtxFITNqL4C9j1UlDEGI9HH
+         V7hreJiSU/iR392Npg1nWQoPfZXJyKUx9354wvJDSamVNEibIAyoENMY/UFznsWzLs
+         NKi29eZOby3JTQ76f7S8MgceIaH2aMGDaJX/L7Onx4h96zynB+LoMD69Q9XjMUGe2n
+         iFW315XTSuLfQ==
+Date:   Thu, 02 Feb 2023 12:21:41 -0800
+From:   "H. Peter Anvin" <hpa@zytor.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        torvalds@linux-foundation.org
+CC:     corbet@lwn.net, will@kernel.org, peterz@infradead.org,
+        boqun.feng@gmail.com, mark.rutland@arm.com,
+        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
+        cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
         agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
         svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        joro@8bytes.org, suravee.suthikulpanit@amd.com,
         robin.murphy@arm.com, dwmw2@infradead.org,
         baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
         Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
@@ -77,20 +52,67 @@ Cc:     corbet@lwn.net, will@kernel.org, boqun.feng@gmail.com,
         linux-mm@kvack.org, linux-s390@vger.kernel.org,
         iommu@lists.linux.dev, linux-arch@vger.kernel.org,
         linux-crypto@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 01/10] cyrpto/b128ops: Remove struct u128
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20230202152655.250913242@infradead.org>
+References: <20230202145030.223740842@infradead.org> <20230202152655.250913242@infradead.org>
+Message-ID: <6B45ADCF-4E3C-4D01-92AB-87BFF6BEE744@zytor.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 2, 2023 at 7:29 AM Peter Zijlstra <peterz@infradead.org> wrote:
+On February 2, 2023 6:50:31 AM PST, Peter Zijlstra <peterz@infradead=2Eorg>=
+ wrote:
+>Per git-grep u128_xor() and its related struct u128 are unused except
+>to implement {be,le}128_xor()=2E Remove them to free up the namespace=2E
 >
->  - fixed up the inline asm to use 'u128 *' mem argument so the compiler knows
->    how wide the modification is.
->  - reworked the percpu thing to use union based type-punning instead of
->    _Generic() based casts.
+>Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead=2Eorg>
+>---
+> include/crypto/b128ops=2Eh |   14 +++-----------
+> 1 file changed, 3 insertions(+), 11 deletions(-)
+>
+>--- a/include/crypto/b128ops=2Eh
+>+++ b/include/crypto/b128ops=2Eh
+>@@ -50,10 +50,6 @@
+> #include <linux/types=2Eh>
+>=20
+> typedef struct {
+>-	u64 a, b;
+>-} u128;
+>-
+>-typedef struct {
+> 	__be64 a, b;
+> } be128;
+>=20
+>@@ -61,20 +57,16 @@ typedef struct {
+> 	__le64 b, a;
+> } le128;
+>=20
+>-static inline void u128_xor(u128 *r, const u128 *p, const u128 *q)
+>+static inline void be128_xor(be128 *r, const be128 *p, const be128 *q)
+> {
+> 	r->a =3D p->a ^ q->a;
+> 	r->b =3D p->b ^ q->b;
+> }
+>=20
+>-static inline void be128_xor(be128 *r, const be128 *p, const be128 *q)
+>-{
+>-	u128_xor((u128 *)r, (u128 *)p, (u128 *)q);
+>-}
+>-
+> static inline void le128_xor(le128 *r, const le128 *p, const le128 *q)
+> {
+>-	u128_xor((u128 *)r, (u128 *)p, (u128 *)q);
+>+	r->a =3D p->a ^ q->a;
+>+	r->b =3D p->b ^ q->b;
+> }
+>=20
+> #endif /* _CRYPTO_B128OPS_H */
+>
+>
 
-Looks lovely to me. This removed all my concerns (except for the
-testing one, but all the patches looked nice and clean to me, so
-clearly it must be perfect).
-
-                Linus
+Can we centralize these ordered types, too?
