@@ -2,83 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05442C05027
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 18:34:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E9FC636D3
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 18:35:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232868AbjBBSef (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 13:34:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39972 "EHLO
+        id S232240AbjBBSfi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 13:35:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232923AbjBBSeS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 13:34:18 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A7863D915;
-        Thu,  2 Feb 2023 10:33:38 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6E7C6739;
-        Thu,  2 Feb 2023 18:31:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6E7C6739
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1675362712; bh=hdydmmkBqh0Na2y8VTc6XM8uE86BFrI4xn8wgbkIkA8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=U+nq+gnJTyKCCDAnWQh4j4g5XXxRmaXWjXAyBaIixrGKBhye/Sb0pnk+Vbwr2DQZt
-         cSAxyAXIGnIwM1biTqvOkSnJ/Swj6wwNc3TGtIYvbom+qgvwKdnNOWyI0OEfUlv80V
-         2I1Rb5GdYR+eGiAR3kq3qZIQimXswc6NDgCEcbeGbr0JU2KXAjmSkr0LcRntHnE6pA
-         HKP8JP/aRv37vZ4HPp4rDRBcE7aCNJgfGYr5Jm8+a0kTpN2zxED9BqJG8i2xf/7deL
-         bN4M2Em0gcNOKXl++EPx87Xo3GfOc4d2CunZZUF2amMo2cW8pQJIooEsyvrvFxryhG
-         I3DYY413T6H8w==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH v2] printk: Document that CONFIG_BOOT_PRINTK_DELAY
- required for boot_delay=
-In-Reply-To: <20230126225420.1320276-1-helgaas@kernel.org>
-References: <20230126225420.1320276-1-helgaas@kernel.org>
-Date:   Thu, 02 Feb 2023 11:31:51 -0700
-Message-ID: <87wn4zvrzc.fsf@meer.lwn.net>
+        with ESMTP id S233288AbjBBSfc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 13:35:32 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0811EC15A;
+        Thu,  2 Feb 2023 10:35:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=k90MIssqyam+q/fNqVWcdWv6u/roh3dY62Y5GGa0m3Q=; b=Ft0/UsXxcr5hj4gqLIpY8Ysilb
+        B8QOeuXrktyjajavKoE7RjNIiAds31D2IFowNxouTzytlk6Lh/QpeSxyz9L4nFlEYO2uCctLcnzBj
+        z7tq2zTXyYaa48UMnRvkYQk4QmxMsGB8t6+j2JB6LwAMdQFvlI93boSPh5mdpSwZSWviVqMyDUFE3
+        WGKVgPWdtLA/Sm/oS2SYPgL37SfwXeQ4zT1k+oDQp9jIvAcrMp8wZv+oUzUs07Ubqf42BzCy5MnDR
+        M6nXaXJif3CSPfJ32CKVQBapoTzjadXnu7VgZbP5gLj14ow8jiV4NvS2BIT8lkXnN6fu1BCTTC1JE
+        c+Ccrcxw==;
+Received: from [2601:1c2:d00:6a60::9526]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pNeOf-00Gxdl-15; Thu, 02 Feb 2023 18:33:21 +0000
+Message-ID: <a2c560bb-3b5c-ca56-c5c2-93081999281d@infradead.org>
+Date:   Thu, 2 Feb 2023 10:33:17 -0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 0/9] Documentation: correct lots of spelling errors
+ (series 2)
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-mm@kvack.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, nvdimm@lists.linux.dev,
+        Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+        Song Liu <song@kernel.org>, linux-raid@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-hwmon@vger.kernel.org, Jiri Pirko <jiri@nvidia.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Josh Triplett <josh@joshtriplett.org>, rcu@vger.kernel.org,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, sparclinux@vger.kernel.org
+References: <20230129231053.20863-1-rdunlap@infradead.org>
+ <875yckvt1b.fsf@meer.lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <875yckvt1b.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bjorn Helgaas <helgaas@kernel.org> writes:
 
-> From: Bjorn Helgaas <bhelgaas@google.com>
->
-> Document the fact that CONFIG_BOOT_PRINTK_DELAY must be enabled for the
-> "boot_delay" kernel parameter to work.  Also mention that "lpj=" may be
-> necessary.
->
-> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> ---
-> Changes from v1 (https://lore.kernel.org/all/20230123180440.901793-1-helgaas@kernel.org/):
-> - Clarify use of "lpj=".  Reword consequences of delay larger than 10000.
->
->  Documentation/admin-guide/kernel-parameters.txt | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 6cfa6e3996cf..814e58487239 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -480,8 +480,10 @@
->  			See Documentation/block/cmdline-partition.rst
->  
->  	boot_delay=	Milliseconds to delay each printk during boot.
-> -			Values larger than 10 seconds (10000) are changed to
-> -			no delay (0).
-> +			Only works if CONFIG_BOOT_PRINTK_DELAY is enabled,
-> +			and you may also have to specify "lpj=".  Boot_delay
-> +			values larger than 10 seconds (10000) are assumed
-> +			erroneous and ignored.
->  			Format: integer
 
-Applied, thanks.
+On 2/2/23 10:09, Jonathan Corbet wrote:
+> Randy Dunlap <rdunlap@infradead.org> writes:
+> 
+>> Maintainers of specific kernel subsystems are only Cc-ed on their
+>> respective patches, not the entire series. [if all goes well]
+>>
+>> These patches are based on linux-next-20230127.
+> 
+> So I've applied a bunch of these
+> 
 
-jon
+>>  [PATCH 6/9] Documentation: scsi/ChangeLog*: correct spelling
+>>  [PATCH 7/9] Documentation: scsi: correct spelling
+> 
+> I've left these for the SCSI folks for now.  Do we *really* want to be
+> fixing spelling in ChangeLog files from almost 20 years ago?
+
+That's why I made it a separate patch -- so the SCSI folks can decide that...
+
+-- 
+~Randy
