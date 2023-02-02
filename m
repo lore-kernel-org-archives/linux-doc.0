@@ -2,134 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D669C05027
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 09:25:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D05AC61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 09:28:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232374AbjBBJZ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 04:25:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36044 "EHLO
+        id S231207AbjBBJ2c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 04:28:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232439AbjBBJZJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 04:25:09 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3E066F70A;
-        Thu,  2 Feb 2023 01:25:00 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id h16so1050649wrz.12;
-        Thu, 02 Feb 2023 01:25:00 -0800 (PST)
+        with ESMTP id S231478AbjBBJ21 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 04:28:27 -0500
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91A2816309;
+        Thu,  2 Feb 2023 01:28:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yhMM04GmsiAnyNDTn9vje/fUm/yTcbn2+Xc7peVV29I=;
-        b=pFZ+YKIFB83mmfNjjNRa3J67dKflj83n5RPkYmVxDGKh3C739XIs8elwYn+ympmrNn
-         ZaDoPxeZF+mfPEOLbPrM9N9nsTmz/fdYIQzNpUAg2BZNFoUZRthcWnG3liQuNCYUoo2z
-         IsEnCcKabye7FUXrriNZjek2FaJcGLbAO6DzP9H2DsVGNpbnjwJE5+GcA5V7DjJFsuHa
-         hciJIRqax/7bDVNC9N1hP/i7s6AM0zBwrd/pdEGIAhGTsVWsLoUIJMbGFquNYCBobFqs
-         z3fj1oecYBpEs1ierVItPGdnWe9rlscu41pD5zu2rFAPIe5OGuktf9yM1ir0Jt3VzY+2
-         a0HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yhMM04GmsiAnyNDTn9vje/fUm/yTcbn2+Xc7peVV29I=;
-        b=UnBYzH7iDEQ4lEA7ywp7idyNTOCqKGnPcGfj7r9KyaEMphbtoJUyZ7P8sUw4EpJ3O/
-         +Y2NtTzdHc/AT1GzwE98e+nw+gRYiuJWVOWt44JxlmP6D8pzivqFrehrrzlP/1nwUpiz
-         geWXSQyC/7Fa3gwBx2gjBenlknlkqUuRiQ6yNyDX6HTNpMuYUizuadWNjIV15GL7LyXh
-         Nr3WJfs9EtDJZA3mUrdzUlOOAbCUKypCtWGpdpRcEdF/t/i4dZCnRRH0u2BMNC8qkhMA
-         5//K4AtXU8RJPF3F+5TSRVmRmTVQH7QyI4zTQCvQpGRLMIU/NK5xfjp0OS3Leveukb8N
-         sKUA==
-X-Gm-Message-State: AO0yUKVKotddNlp9NaHQHiWLnHnUZP3+Qi8O6nxhkZ80y/tpJOBsGLFX
-        Iq/ZakNbEYz55nupAeyjjBbd0sUxPpo=
-X-Google-Smtp-Source: AK7set/d5mxwH//BvN4l6jgAFiyILrJZbZTMSRSg3GHIn3ZnyZWLi2YKblROV7QIAUaank8ww1OTdg==
-X-Received: by 2002:adf:f452:0:b0:2bf:ddf6:5063 with SMTP id f18-20020adff452000000b002bfddf65063mr5042339wrp.35.1675329899181;
-        Thu, 02 Feb 2023 01:24:59 -0800 (PST)
-Received: from gmail.com ([81.168.73.77])
-        by smtp.gmail.com with ESMTPSA id t8-20020a5d6908000000b002bc7e5a1171sm19699558wru.116.2023.02.02.01.24.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Feb 2023 01:24:58 -0800 (PST)
-Date:   Thu, 2 Feb 2023 09:24:56 +0000
-From:   Martin Habets <habetsm.xilinx@gmail.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Jiri Pirko <jiri@resnulli.us>,
-        "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-net-drivers (AMD-Xilinx)" <linux-net-drivers@amd.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "ecree.xilinx@gmail.com" <ecree.xilinx@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "jiri@nvidia.com" <jiri@nvidia.com>
-Subject: Re: [PATCH v4 net-next 1/8] sfc: add devlink support for ef100
-Message-ID: <Y9uA8Vk430k+ezTt@gmail.com>
-Mail-Followup-To: Jakub Kicinski <kuba@kernel.org>,
-        Jiri Pirko <jiri@resnulli.us>,
-        "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-net-drivers (AMD-Xilinx)" <linux-net-drivers@amd.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "ecree.xilinx@gmail.com" <ecree.xilinx@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "jiri@nvidia.com" <jiri@nvidia.com>
-References: <20230131145822.36208-1-alejandro.lucero-palau@amd.com>
- <20230131145822.36208-2-alejandro.lucero-palau@amd.com>
- <Y9k7Ap4Irby7vnWg@nanopsycho>
- <44b02ac4-0f64-beb3-3af0-6b628e839620@amd.com>
- <Y9or1SWlasbNIJpp@nanopsycho>
- <20230201110148.0ddd3a0b@kernel.org>
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1675330102; x=1706866102;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=La3wj2SGvz7TU9s+j9pQj9x3EPVU8m3Fuv9USC0qvtA=;
+  b=h1kAJDfNhz0qd6EBkWwKviGFF3z33EIQwfmpG8Oq2fAubzyBYQdKfkk3
+   KnfTYNvVmOufWe/goEV138FFsaRFWCSqQKGHt2CvL3mNrbbE8y/YGFCTl
+   8tKATc0q8zW+rzi0gj9CXk+heVtRdRw63i/hGgpWEqQNKnUYVyKrwMbwu
+   Y=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 02 Feb 2023 01:28:17 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.45.79.139])
+  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 01:28:17 -0800
+Received: from hu-mojha-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Thu, 2 Feb 2023 01:28:14 -0800
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+To:     <linux-hardening@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+CC:     <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <corbet@lwn.net>,
+        Mukesh Ojha <quic_mojha@quicinc.com>
+Subject: [PATCH v5 1/2] dt-bindings: ramoops: Add support to get the region dynamically
+Date:   Thu, 2 Feb 2023 14:58:00 +0530
+Message-ID: <1675330081-15029-1-git-send-email-quic_mojha@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230201110148.0ddd3a0b@kernel.org>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 01, 2023 at 11:01:48AM -0800, Jakub Kicinski wrote:
-> On Wed, 1 Feb 2023 10:07:33 +0100 Jiri Pirko wrote:
-> > >This is due to the recommended/required devlink lock/unlock during 
-> > >driver initialization/removal.
-> > >
-> > >I think it is better to keep the lock/unlock inside the specific driver 
-> > >devlink code, and the functions naming reflects a time window when 
-> > >devlink related/dependent processing is being done.
-> > >
-> > >I'm not against changing this, maybe adding the lock/unlock suffix would 
-> > >be preferable?:
-> > >
-> > >int efx_probe_devlink_and_lock(struct efx_nic *efx);
-> > >void efx_probe_devlink_unlock(struct efx_nic *efx);
-> > >void efx_fini_devlink_lock(struct efx_nic *efx);
-> > >void efx_fini_devlink_and_unlock(struct efx_nic *efx);  
-> > 
-> > Sounds better. Thanks!
-> 
-> FWIW I'd just take the devl lock in the main driver code.
-> devlink should be viewed as a layer between bus and driver rather 
-> than as another subsystem the driver registers with. Otherwise reloads
-> and port creation get awkward.
+The reserved memory region for ramoops is assumed to be at a
+fixed and known location when read from the devicetree. This
+is not desirable in an environment where it is preferred the
+region to be dynamically allocated at runtime, as opposed to
+being fixed at compile time.
 
-I see it a bit differently. For me devlink is another subsystem, it even is
-an optional subsystem.
-At the moment we don't support devlink port for VFs. If needed we'll add that
-at some point, but likely only for newer NICs.
-Do you think vDPA and RDMA devices will ever register with devlink?
-At the moment I don't see devlink port ever applying to our older hardware,
-like our sfn8000 or X2 cards. I do think devlink info and other commands
-could apply more generally.
+So, update the ramoops binding by using some reserve memory
+property to allocate the ramoops region dynamically.
 
-There definitely is a need to evolve to another layer between bus and
-devices, and devlink can be used to administer that. But that does not
-imply the reverse, that all devices register as devlink devices.
-For security we would want to limit some operations (such as port creation)
-to specific devlink instance(s). For example, normally we would not want a
-tennant VM to flash new firmware that applies to the whole NIC.
-I hope this makes sense.
+Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+---
+Changes in v5:
+ - Updated the commit description.
+ - Removed example from yaml file.
 
-Martin
+Changes in v4:
+ - Addressed comment made by Krzysztof on ramoops node name.
+
+Changes in v3:
+ - Fixed yaml error and updated commit text as per comment.
+
+Change in v2:
+  - Added this patch as per changes going to be done in patch 3/3
+
+ .../devicetree/bindings/reserved-memory/ramoops.yaml          | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
+index 0391871..51b6003 100644
+--- a/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
++++ b/Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
+@@ -10,7 +10,8 @@ description: |
+   ramoops provides persistent RAM storage for oops and panics, so they can be
+   recovered after a reboot. This is a child-node of "/reserved-memory", and
+   is named "ramoops" after the backend, rather than "pstore" which is the
+-  subsystem.
++  subsystem. This region can be reserved both statically or dynamically by
++  using appropriate property in device tree.
+ 
+   Parts of this storage may be set aside for other persistent log buffers, such
+   as kernel log messages, or for optional ECC error-correction data.  The total
+@@ -112,7 +113,13 @@ unevaluatedProperties: false
+ 
+ required:
+   - compatible
+-  - reg
++
++oneOf:
++  - required:
++      - reg
++
++  - required:
++      - size
+ 
+ anyOf:
+   - required: [record-size]
+-- 
+2.7.4
+
