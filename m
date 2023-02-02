@@ -2,95 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E0B4C05027
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 17:44:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CD54C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Feb 2023 18:02:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbjBBRoF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 12:44:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35730 "EHLO
+        id S232147AbjBBSCo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 13:02:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231635AbjBBRoE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 12:44:04 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FB33A24C;
-        Thu,  2 Feb 2023 09:44:04 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S232439AbjBBSCa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 13:02:30 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B66C4751AD;
+        Thu,  2 Feb 2023 10:02:12 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C9A11B826AB;
-        Thu,  2 Feb 2023 17:44:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF4AFC433EF;
-        Thu,  2 Feb 2023 17:44:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675359841;
-        bh=bTHe0fthr5z/2TZ1dF0QoAeyJtSX1h6WBuxBggSfbIs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=V+yFUjFJxQXKnT70M63SL579RjE23M5Z/uqS3uBPvLITMpAxPaFx7j2wZgbUFkb7Q
-         swIOXs/Yjn04Tp8+wIK/BR07ohSLbSF+FPNsxK7DXqekDZjTSMI5r3NFoFKpgVqWvF
-         2cQqnuJxZQMHox2y4y7a3um0bjSSdlu44aWE9w87XlXedmBMJawiclkmPdrlXdR2Fi
-         AZsUdn9nZzuF/K9IAG20haIBQkqdB0LC9O2PSeO6kmvK0QRhTsaE/fJ/rOlulWgOyB
-         6WcoCYO07RahW45ZN1HJYWNSGNaoRmk2iI3C4E0Mlj/Pdch1vlM2e/oW3YEvwRZezn
-         BYYN2f5gdikBA==
-Date:   Thu, 2 Feb 2023 09:43:59 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Martin Habets <habetsm.xilinx@gmail.com>
-Cc:     Jiri Pirko <jiri@resnulli.us>,
-        "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-net-drivers (AMD-Xilinx)" <linux-net-drivers@amd.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "ecree.xilinx@gmail.com" <ecree.xilinx@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "jiri@nvidia.com" <jiri@nvidia.com>
-Subject: Re: [PATCH v4 net-next 1/8] sfc: add devlink support for ef100
-Message-ID: <20230202094359.7a79ee6d@kernel.org>
-In-Reply-To: <Y9uA8Vk430k+ezTt@gmail.com>
-References: <20230131145822.36208-1-alejandro.lucero-palau@amd.com>
-        <20230131145822.36208-2-alejandro.lucero-palau@amd.com>
-        <Y9k7Ap4Irby7vnWg@nanopsycho>
-        <44b02ac4-0f64-beb3-3af0-6b628e839620@amd.com>
-        <Y9or1SWlasbNIJpp@nanopsycho>
-        <20230201110148.0ddd3a0b@kernel.org>
-        <Y9uA8Vk430k+ezTt@gmail.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 3D4A87DE;
+        Thu,  2 Feb 2023 18:02:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3D4A87DE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1675360932; bh=foQ1/0HwCNQSpMC2ZhJON6OX1wyhGGFLINaHnphz3mQ=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=kJbd0F2rWnluPzLgK38TMaqiIycpVlQWVPBxv1Ywm6Iy3i8ABcGXnwWj/VtHUyGXu
+         TJJDRYuZiiaPKwc7O/ldvE1/aerbMkVu42adh0LD4ub4MR18FloBX9uSDPEm/6+Agm
+         4CWfaYGafUqqIdFHDLbr6eoeEzoJgvPmzb0HDwH9BL2cT0Nw0KuPLf9keCwHw5k/SH
+         DDj2GgsZ1o+/r9V1mFT7GBBjv2K67z03FoEz1UY7/izsPxHSjeVTQ0hzLNMGWk0Emq
+         c1fXgOxS4gRZZHoFkTBh9Yd31cXHfl4F1fb8qR74Xrl7qTrj5amsNpULEy135z99CY
+         y7R01tI/HjX/Q==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     chinwen.chang@mediatek.com, andrew.yang@mediatek.com,
+        Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-mm@kvack.org
+Subject: Re: [PATCH] mm/doc: Replace isolate_lru_page with folio_isolate_lru
+In-Reply-To: <20230131062853.28449-1-Kuan-Ying.Lee@mediatek.com>
+References: <20230131062853.28449-1-Kuan-Ying.Lee@mediatek.com>
+Date:   Thu, 02 Feb 2023 11:02:11 -0700
+Message-ID: <87a61wvtcs.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2 Feb 2023 09:24:56 +0000 Martin Habets wrote:
-> > FWIW I'd just take the devl lock in the main driver code.
-> > devlink should be viewed as a layer between bus and driver rather 
-> > than as another subsystem the driver registers with. Otherwise reloads
-> > and port creation get awkward.  
-> 
-> I see it a bit differently. For me devlink is another subsystem, it even is
-> an optional subsystem.
-> At the moment we don't support devlink port for VFs. If needed we'll add that
-> at some point, but likely only for newer NICs.
+Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com> writes:
 
-That's fine. I believe the structure I suggest is the easiest one 
-to get right, but it's not a hard requirement.
+> Since we introduce folio, replace isolate_lru_page() with
+> folio_isolate_lru().
+>
+> Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+> ---
+>  Documentation/mm/page_migration.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-> Do you think vDPA and RDMA devices will ever register with devlink?
+This seems like a good patch to copy to linux-mm - done now.
 
-Good question, I can't speak for the entire project but personally 
-I have little interest in interfaces to proprietary world, 
-so I hope not.
+The patch perhaps is a closer match to what's in linux-next, but it
+seems that, if we're going to update this document, we should reflect
+the use folios throughout?
 
-> At the moment I don't see devlink port ever applying to our older hardware,
-> like our sfn8000 or X2 cards. I do think devlink info and other commands
-> could apply more generally.
-> 
-> There definitely is a need to evolve to another layer between bus and
-> devices, and devlink can be used to administer that. But that does not
-> imply the reverse, that all devices register as devlink devices.
-> For security we would want to limit some operations (such as port creation)
-> to specific devlink instance(s). For example, normally we would not want a
-> tennant VM to flash new firmware that applies to the whole NIC.
-> I hope this makes sense.
+Thanks,
 
+jon
+
+> diff --git a/Documentation/mm/page_migration.rst b/Documentation/mm/page_migration.rst
+> index 11493bad7112..1f8cc175d770 100644
+> --- a/Documentation/mm/page_migration.rst
+> +++ b/Documentation/mm/page_migration.rst
+> @@ -69,8 +69,8 @@ In kernel use of migrate_pages()
+>  
+>     Lists of pages to be migrated are generated by scanning over
+>     pages and moving them into lists. This is done by
+> -   calling isolate_lru_page().
+> -   Calling isolate_lru_page() increases the references to the page
+> +   calling folio_isolate_lru().
+> +   Calling folio_isolate_lru() increases the references to the page
+>     so that it cannot vanish while the page migration occurs.
+>     It also prevents the swapper or other scans from encountering
+>     the page.
+> @@ -89,7 +89,7 @@ How migrate_pages() works
+>  
+>  migrate_pages() does several passes over its list of pages. A page is moved
+>  if all references to a page are removable at the time. The page has
+> -already been removed from the LRU via isolate_lru_page() and the refcount
+> +already been removed from the LRU via folio_isolate_lru() and the refcount
+>  is increased so that the page cannot be freed while page migration occurs.
+>  
+>  Steps:
+> -- 
+> 2.18.0
