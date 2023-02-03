@@ -2,270 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03467C61DA4
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 17:02:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B873C636D4
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 17:04:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232295AbjBCRCU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Feb 2023 12:02:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50282 "EHLO
+        id S231493AbjBCREF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Feb 2023 12:04:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232100AbjBCRCT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 12:02:19 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4CED2100;
-        Fri,  3 Feb 2023 09:02:17 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2AFDE1474;
-        Fri,  3 Feb 2023 09:02:59 -0800 (PST)
-Received: from FVFF77S0Q05N (unknown [10.57.90.37])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1443B3F71E;
-        Fri,  3 Feb 2023 09:02:10 -0800 (PST)
-Date:   Fri, 3 Feb 2023 17:02:08 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
-        boqun.feng@gmail.com, catalin.marinas@arm.com, dennis@kernel.org,
-        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-        linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v2 05/10] percpu: Wire up cmpxchg128
-Message-ID: <Y90+EINA9QRb+IlK@FVFF77S0Q05N>
-References: <20230202145030.223740842@infradead.org>
- <20230202152655.494373332@infradead.org>
+        with ESMTP id S230492AbjBCREE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 12:04:04 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D5DA9D064;
+        Fri,  3 Feb 2023 09:04:03 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id bk15so17067494ejb.9;
+        Fri, 03 Feb 2023 09:04:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P/LjMUcO/7qQ2hMePRsCGULrFrcm1c2xAKqFZPdsOxA=;
+        b=IdtS0xpkdZcV/dCIHF/zIRZARlplqr+h2NcnmvP6g3J/XW+HYJ1WChWO6v6E6QF0Zg
+         8vLe9h+QZNPLefmNKlZjMrT/tpKatDKW7WJlHgfPAtt1u85/BzkWAoQCAbZDLRwCyGFT
+         sOiQHmpsvHbWzm6rkJLZe9VasDEnXAHagL5hKwsWB6GcpLZnEf2zyjuMqkpd908vffZ0
+         3qxoO77ys+ZRwu9EYZUqGHO870cMYqmXVGQwpz+9fZDX1pNYSVpNBZ0eD9aNmrC2/Xt/
+         8fM/qarZxJyArhzkiG5AloicplOkHsTDxYgaJH/O0X/LA50PDJB6ccrklv6wifnvJ3bv
+         1Ftw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P/LjMUcO/7qQ2hMePRsCGULrFrcm1c2xAKqFZPdsOxA=;
+        b=aLaqpW5O58Osbphhm1NCJRzqLkp2p25lczrH9unVDVOdd9ZnS97N60Jyn/K1sP01bQ
+         dRYTc4jGDtcScz546Ufs7yL5KurLSfXk/SGscF0YhP2ojLl1CXUwLz7bRYhwCoOgzVxY
+         mxuIG/aOzRYmn3CpMGqF9vhp6YMrGHKIVX6TywFjdAsF3N5Dq5ykqOlSL652paDX+HHC
+         mxQNyUV35bawEyZ0Gb9LyXxHMPJ15JVXh/9kvG51CuOJZ3QCcD3g95TzoYjkVayOpxS0
+         N+0Pzjc81+Czno5tKu3eJDVj6XLbbYe9ofUISu5iZcZF7PkBlqPz2dMQ/Tzw//g/To1K
+         VfRA==
+X-Gm-Message-State: AO0yUKVK4nYVlfXTr+tyBrtUsmbZdceOR7cq6rhiJtj0oAsiDph9I4QK
+        hBXZKbdiMognIUvZEs2zZUprjYtENuBok5GzERw=
+X-Google-Smtp-Source: AK7set/oeQHjWqQzeSutGXWIq4zs9g9eQYfk2WM7WXjHyVv4ZJx5YXbQfyJr2cXcopgoJYlgxTtBXHXnV6kAbZ7Q25M=
+X-Received: by 2002:a17:906:6d13:b0:878:786e:8c39 with SMTP id
+ m19-20020a1709066d1300b00878786e8c39mr3383054ejr.105.1675443842009; Fri, 03
+ Feb 2023 09:04:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230202152655.494373332@infradead.org>
+References: <20230203155727.793518-1-void@manifault.com> <20230203155727.793518-2-void@manifault.com>
+In-Reply-To: <20230203155727.793518-2-void@manifault.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Fri, 3 Feb 2023 09:03:50 -0800
+Message-ID: <CAADnVQ+Xx-rkhe-B0qC=SuZAjEP-RQ_=dm3SyXuasnRcNc30uw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3] bpf/docs: Document kfunc lifecycle /
+ stability expectations
+To:     David Vernet <void@manifault.com>
+Cc:     bpf <bpf@vger.kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@meta.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Team <kernel-team@meta.com>,
+        =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jesper Dangaard Brouer <brouer@redhat.com>,
+        bagasdotme@gmail.com, Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 02, 2023 at 03:50:35PM +0100, Peter Zijlstra wrote:
-> In order to replace cmpxchg_double() with the newly minted
-> cmpxchg128() family of functions, wire it up in this_cpu_cmpxchg().
-> 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  arch/arm64/include/asm/percpu.h |   21 +++++++++++++++
->  arch/s390/include/asm/percpu.h  |   17 ++++++++++++
->  arch/x86/include/asm/percpu.h   |   56 ++++++++++++++++++++++++++++++++++++++++
->  include/asm-generic/percpu.h    |    8 +++++
->  include/linux/percpu-defs.h     |   20 ++++++++++++--
->  5 files changed, 120 insertions(+), 2 deletions(-)
+On Fri, Feb 3, 2023 at 7:57 AM David Vernet <void@manifault.com> wrote:
+>
+> BPF kernel <-> kernel API stability has been discussed at length over
+> the last several weeks and months. Now that we've largely aligned over
+> kfuncs being the way forward, and BPF helpers being considered
+> functionally frozen, it's time to document the expectations for kfunc
+> lifecycles and stability so that everyone (BPF users, kfunc developers,
+> and maintainers) are all aligned, and have a crystal-clear understanding
+> of the expectations surrounding kfuncs.
+>
+> To do that, this patch adds that documentation to the main kfuncs
+> documentation page via a new 'kfunc lifecycle expectations' section. The
+> patch describes how decisions are made in the kernel regarding whether
+> to include, keep, deprecate, or change / remove a kfunc. As described
+> very overtly in the patch itself, but likely worth highlighting here:
+>
+> "kfunc stability" does not mean, nor ever will mean, "BPF APIs may block
+> development elsewhere in the kernel".
+>
+> Rather, the intention and expectation is for kfuncs to be treated like
+> EXPORT_SYMBOL_GPL symbols in the kernel. The goal is for kfuncs to be a
+> safe and valuable option for maintainers and kfunc developers to extend
+> the kernel, without tying anyone's hands, or imposing any kind of
+> restrictions on maintainers in the same way that UAPI changes do.
+>
+> In addition to the 'kfunc lifecycle expectations' section, this patch
+> also adds documentation for a new KF_DEPRECATED kfunc flag which kfunc
+> authors or maintainers can choose to add to kfuncs if and when they
+> decide to deprecate them. Note that as described in the patch itself, a
+> kfunc need not be deprecated before being changed or removed -- this
+> flag is simply provided as an available deprecation mechanism for those
+> that want to provide a deprecation story / timeline to their users.
+> When necessary, kfuncs may be changed or removed to accommodate changes
+> elsewhere in the kernel without any deprecation at all.
+>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Co-developed-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat.com>
+> Signed-off-by: David Vernet <void@manifault.com>
 
-For arm64:
-
-Acked-by: Mark Rutland <mark.rutland@arm.com>
-
-Mark.
-
-> 
-> --- a/arch/arm64/include/asm/percpu.h
-> +++ b/arch/arm64/include/asm/percpu.h
-> @@ -140,6 +140,10 @@ PERCPU_RET_OP(add, add, ldadd)
->   * re-enabling preemption for preemptible kernels, but doing that in a way
->   * which builds inside a module would mean messing directly with the preempt
->   * count. If you do this, peterz and tglx will hunt you down.
-> + *
-> + * Not to mention it'll break the actual preemption model for missing a
-> + * preemption point when TIF_NEED_RESCHED gets set while preemption is
-> + * disabled.
->   */
->  #define this_cpu_cmpxchg_double_8(ptr1, ptr2, o1, o2, n1, n2)		\
->  ({									\
-> @@ -240,6 +244,23 @@ PERCPU_RET_OP(add, add, ldadd)
->  #define this_cpu_cmpxchg_8(pcp, o, n)	\
->  	_pcp_protect_return(cmpxchg_relaxed, pcp, o, n)
->  
-> +#define this_cpu_cmpxchg_16(pcp, o, n)					\
-> +({									\
-> +	typedef typeof(pcp) pcp_op_T__;					\
-> +	union {								\
-> +		pcp_op_T__ pot;						\
-> +		u128 val;						\
-> +	} old__, new__, ret__;						\
-> +	pcp_op_T__ *ptr__;						\
-> +	old__.pot = o;							\
-> +	new__.pot = n;							\
-> +	preempt_disable_notrace();					\
-> +	ptr__ = raw_cpu_ptr(&(pcp));					\
-> +	ret__.val = cmpxchg128_local((void *)ptr__, old__.val, new__.val); \
-> +	preempt_enable_notrace();					\
-> +	ret__.pot;							\
-> +})
-> +
->  #ifdef __KVM_NVHE_HYPERVISOR__
->  extern unsigned long __hyp_per_cpu_offset(unsigned int cpu);
->  #define __per_cpu_offset
-> --- a/arch/s390/include/asm/percpu.h
-> +++ b/arch/s390/include/asm/percpu.h
-> @@ -148,6 +148,23 @@
->  #define this_cpu_cmpxchg_4(pcp, oval, nval) arch_this_cpu_cmpxchg(pcp, oval, nval)
->  #define this_cpu_cmpxchg_8(pcp, oval, nval) arch_this_cpu_cmpxchg(pcp, oval, nval)
->  
-> +#define this_cpu_cmpxchg_16(pcp, oval, nval)				\
-> +({									\
-> +	typedef typeof(pcp) pcp_op_T__;					\
-> +	union {								\
-> +		pcp_op_T__ pot;						\
-> +		u128 val;						\
-> +	} old__, new__, ret__;						\
-> +	pcp_op_T__ *ptr__;						\
-> +	old__.pot = oval;						\
-> +	new__.pot = nval;						\
-> +	preempt_disable_notrace();					\
-> +	ptr__ = raw_cpu_ptr(&(pcp));					\
-> +	ret__.val = cmpxchg128((void *)ptr__, old__.val, new__.val);	\
-> +	preempt_enable_notrace();					\
-> +	ret__.pot;							\
-> +})
-> +
->  #define arch_this_cpu_xchg(pcp, nval)					\
->  ({									\
->  	typeof(pcp) *ptr__;						\
-> --- a/arch/x86/include/asm/percpu.h
-> +++ b/arch/x86/include/asm/percpu.h
-> @@ -210,6 +210,62 @@ do {									\
->  	(typeof(_var))(unsigned long) pco_old__;			\
->  })
->  
-> +#if defined(CONFIG_X86_32) && defined(CONFIG_X86_CMPXCHG64)
-> +#define percpu_cmpxchg64_op(size, qual, _var, _oval, _nval)		\
-> +({									\
-> +	union {								\
-> +		typeof(_var) var;					\
-> +		struct {						\
-> +			u32 low, high;					\
-> +		};							\
-> +	} old__, new__;							\
-> +									\
-> +	old__.var = _oval;						\
-> +	new__.var = _nval;						\
-> +									\
-> +	asm qual ("cmpxchg8b " __percpu_arg([var])			\
-> +		  : [var] "+m" (_var),					\
-> +		    "+a" (old__.low),					\
-> +		    "+d" (old__.high)					\
-> +		  : "b" (new__.low),					\
-> +		    "c" (new__.high)					\
-> +		  : "memory");						\
-> +									\
-> +	old__.var;							\
-> +})
-> +
-> +#define raw_cpu_cmpxchg_8(pcp, oval, nval)	percpu_cmpxchg64_op(8,         , pcp, oval, nval)
-> +#define this_cpu_cmpxchg_8(pcp, oval, nval)	percpu_cmpxchg64_op(8, volatile, pcp, oval, nval)
-> +#endif
-> +
-> +#ifdef CONFIG_X86_64
-> +#define percpu_cmpxchg128_op(size, qual, _var, _oval, _nval)		\
-> +({									\
-> +	union {								\
-> +		typeof(_var) var;					\
-> +		struct {						\
-> +			u64 low, high;					\
-> +		};							\
-> +	} old__, new__;							\
-> +									\
-> +	old__.var = _oval;						\
-> +	new__.var = _nval;						\
-> +									\
-> +	asm qual ("cmpxchg16b " __percpu_arg([var])			\
-> +		  : [var] "+m" (_var),					\
-> +		    "+a" (old__.low),					\
-> +		    "+d" (old__.high)					\
-> +		  : "b" (new__.low),					\
-> +		    "c" (new__.high)					\
-> +		  : "memory");						\
-> +									\
-> +	old__.var;							\
-> +})
-> +
-> +#define raw_cpu_cmpxchg_16(pcp, oval, nval)	percpu_cmpxchg128_op(16,         , pcp, oval, nval)
-> +#define this_cpu_cmpxchg_16(pcp, oval, nval)	percpu_cmpxchg128_op(16, volatile, pcp, oval, nval)
-> +#endif
-> +
->  /*
->   * this_cpu_read() makes gcc load the percpu variable every time it is
->   * accessed while this_cpu_read_stable() allows the value to be cached.
-> --- a/include/asm-generic/percpu.h
-> +++ b/include/asm-generic/percpu.h
-> @@ -298,6 +298,10 @@ do {									\
->  #define raw_cpu_cmpxchg_8(pcp, oval, nval) \
->  	raw_cpu_generic_cmpxchg(pcp, oval, nval)
->  #endif
-> +#ifndef raw_cpu_cmpxchg_16
-> +#define raw_cpu_cmpxchg_16(pcp, oval, nval) \
-> +	raw_cpu_generic_cmpxchg(pcp, oval, nval)
-> +#endif
->  
->  #ifndef raw_cpu_cmpxchg_double_1
->  #define raw_cpu_cmpxchg_double_1(pcp1, pcp2, oval1, oval2, nval1, nval2) \
-> @@ -423,6 +427,10 @@ do {									\
->  #define this_cpu_cmpxchg_8(pcp, oval, nval) \
->  	this_cpu_generic_cmpxchg(pcp, oval, nval)
->  #endif
-> +#ifndef this_cpu_cmpxchg_16
-> +#define this_cpu_cmpxchg_16(pcp, oval, nval) \
-> +	this_cpu_generic_cmpxchg(pcp, oval, nval)
-> +#endif
->  
->  #ifndef this_cpu_cmpxchg_double_1
->  #define this_cpu_cmpxchg_double_1(pcp1, pcp2, oval1, oval2, nval1, nval2) \
-> --- a/include/linux/percpu-defs.h
-> +++ b/include/linux/percpu-defs.h
-> @@ -343,6 +343,22 @@ static inline void __this_cpu_preempt_ch
->  	pscr2_ret__;							\
->  })
->  
-> +#define __pcpu_size16_call_return2(stem, variable, ...)			\
-> +({									\
-> +	typeof(variable) pscr2_ret__;					\
-> +	__verify_pcpu_ptr(&(variable));					\
-> +	switch(sizeof(variable)) {					\
-> +	case 1: pscr2_ret__ = stem##1(variable, __VA_ARGS__); break;	\
-> +	case 2: pscr2_ret__ = stem##2(variable, __VA_ARGS__); break;	\
-> +	case 4: pscr2_ret__ = stem##4(variable, __VA_ARGS__); break;	\
-> +	case 8: pscr2_ret__ = stem##8(variable, __VA_ARGS__); break;	\
-> +	case 16: pscr2_ret__ = stem##16(variable, __VA_ARGS__); break;	\
-> +	default:							\
-> +		__bad_size_call_parameter(); break;			\
-> +	}								\
-> +	pscr2_ret__;							\
-> +})
-> +
->  /*
->   * Special handling for cmpxchg_double.  cmpxchg_double is passed two
->   * percpu variables.  The first has to be aligned to a double word
-> @@ -425,7 +441,7 @@ do {									\
->  #define raw_cpu_add_return(pcp, val)	__pcpu_size_call_return2(raw_cpu_add_return_, pcp, val)
->  #define raw_cpu_xchg(pcp, nval)		__pcpu_size_call_return2(raw_cpu_xchg_, pcp, nval)
->  #define raw_cpu_cmpxchg(pcp, oval, nval) \
-> -	__pcpu_size_call_return2(raw_cpu_cmpxchg_, pcp, oval, nval)
-> +	__pcpu_size16_call_return2(raw_cpu_cmpxchg_, pcp, oval, nval)
->  #define raw_cpu_cmpxchg_double(pcp1, pcp2, oval1, oval2, nval1, nval2) \
->  	__pcpu_double_call_return_bool(raw_cpu_cmpxchg_double_, pcp1, pcp2, oval1, oval2, nval1, nval2)
->  
-> @@ -512,7 +528,7 @@ do {									\
->  #define this_cpu_add_return(pcp, val)	__pcpu_size_call_return2(this_cpu_add_return_, pcp, val)
->  #define this_cpu_xchg(pcp, nval)	__pcpu_size_call_return2(this_cpu_xchg_, pcp, nval)
->  #define this_cpu_cmpxchg(pcp, oval, nval) \
-> -	__pcpu_size_call_return2(this_cpu_cmpxchg_, pcp, oval, nval)
-> +	__pcpu_size16_call_return2(this_cpu_cmpxchg_, pcp, oval, nval)
->  #define this_cpu_cmpxchg_double(pcp1, pcp2, oval1, oval2, nval1, nval2) \
->  	__pcpu_double_call_return_bool(this_cpu_cmpxchg_double_, pcp1, pcp2, oval1, oval2, nval1, nval2)
->  
-> 
-> 
+David, Toke,
+Thanks a lot for writing it down.
+It certainly captures the main points.
+Applied.
