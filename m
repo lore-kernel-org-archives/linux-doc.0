@@ -2,186 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7927EC636D3
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 00:03:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F757C64EC3
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 00:28:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233400AbjBCADy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 19:03:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41864 "EHLO
+        id S233197AbjBCA2R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 19:28:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233161AbjBCADx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 19:03:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A721F7AB6
-        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 16:03:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675382579;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jyfxrc/7ZPKLF/u6Ruw0WD2VULIfdrJX3Yw+Mo2r3IQ=;
-        b=erIFwdSTjQ504glmn+LHJ97CFB7gE5cIJrj42rns6LWHss4RyQyIXsL1j3IIAaw2s9EnDA
-        Lpv+GYIwB8DQAEJ7jaNrwevA0piL0xtHAALutpfz7QUkBIziVM4bf+rgP+i67IJTrqTBFt
-        /zoKx7Dzfgg4nu0LOUF2zcN1+9/ekfg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-301-3LZy8jTDPhu_JdFuReqUrA-1; Thu, 02 Feb 2023 19:02:58 -0500
-X-MC-Unique: 3LZy8jTDPhu_JdFuReqUrA-1
-Received: by mail-ed1-f71.google.com with SMTP id d21-20020aa7c1d5000000b004a6e1efa7d0so2210137edp.19
-        for <linux-doc@vger.kernel.org>; Thu, 02 Feb 2023 16:02:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jyfxrc/7ZPKLF/u6Ruw0WD2VULIfdrJX3Yw+Mo2r3IQ=;
-        b=X3FM13YB1RBEHnfFPpkUiSNe8CJB9DyzDm8xlXmaBNFUD0RgtF69QYntQVNU+GDp90
-         16uxpqOV9uJrEuexci1psRz9tWu3oQu3sKB77cUmErLfrm9+PHflj2jCiYr5QbjjysL0
-         P3oXaJKz4aNEu7GAV7PmgWbFDg00s3+08JPvjnd6tp9fkTXdLjTGRmBnk2duEYs045/p
-         Zl/VGYdwsd6CcyxqdfJCsnsaHGZLOaSMLYr8UNE+ttA1Os4XmrIcDSAdYRmB0QTelwKz
-         WcsP3/igjShgexzleDi8pJ4FFwVVUznjyCpXSTjhekWVBtqoJkj/vm+7+Funf7okHpRU
-         ugUw==
-X-Gm-Message-State: AO0yUKUNGrcvASSWhqGz+L+EK+c8xI0itbWxLgKd9VbIQ6UbHB7b7cRH
-        wvgQy4ix7N0CpLMsSJTwC4D4SG5dx/Y4qKX5XuOfm6uQQky/nRZ3W2/2/QCm5fYdlFTOay23Y6Y
-        gtlMeGPUfv5KZvZfA7CzL
-X-Received: by 2002:a17:906:c5b:b0:883:be32:cd33 with SMTP id t27-20020a1709060c5b00b00883be32cd33mr8973431ejf.35.1675382577129;
-        Thu, 02 Feb 2023 16:02:57 -0800 (PST)
-X-Google-Smtp-Source: AK7set838NtnsCYnhKppwOgz3AzxWNHBsWqmLSxldhZI0SEnURw3TDrqImN+olXPAlZ6WWiP8gmGgg==
-X-Received: by 2002:a17:906:c5b:b0:883:be32:cd33 with SMTP id t27-20020a1709060c5b00b00883be32cd33mr8973402ejf.35.1675382576789;
-        Thu, 02 Feb 2023 16:02:56 -0800 (PST)
-Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
-        by smtp.gmail.com with ESMTPSA id ox4-20020a170907100400b008874c903ec5sm501498ejb.43.2023.02.02.16.02.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Feb 2023 16:02:56 -0800 (PST)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id EDBED972DBC; Fri,  3 Feb 2023 01:02:54 +0100 (CET)
-From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Daniel Borkmann <daniel@iogearbox.net>
-Cc:     David Vernet <void@manifault.com>, bpf <bpf@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@meta.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kernel Team <kernel-team@meta.com>,
-        Jesper Dangaard Brouer <brouer@redhat.com>,
+        with ESMTP id S233048AbjBCA2P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 19:28:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EADC52528A;
+        Thu,  2 Feb 2023 16:28:09 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 21CA461D46;
+        Fri,  3 Feb 2023 00:28:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03144C4339B;
+        Fri,  3 Feb 2023 00:28:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675384088;
+        bh=nv2Qqlsj2+1OK7qBLFpDl9kvNBYUdDR2EUyByUiFUks=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=CK0Y9GFBarZo+QE/MpjKoc6nwE1u+TwqkwRsKmMBRQTuHVnfXvoYHF3iWMH4a3dXU
+         dTQGC2Az98UWAZXa0BCXAC90Kz79lz1fFUHN6FfJBOdZV7Lha4sZrl5ohN9tJ7Mtf5
+         SJO1jfsDrapqEAoNr8lkDuo1CLRcbpWbmVO2cvaXvxeXfESaQFeYcNoIsgq4OSrNce
+         hRWBOrrssSrhCKn42tgGNJaiDb0FOC5Jr1U0roN+1kh5dmxJsZCK7P0TY/Nw0Lg2yl
+         PQxEJVWt88cZMckrCRz2/++gk3YqtNLx0sIc7a+J/C1cRHo4AHONDxlKDS4H/QZm09
+         V9+vibCzFA+gQ==
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     stable@vger.kernel.org
+Cc:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+        Kees Cook <keescook@chromium.org>,
+        SeongJae Park <sj@kernel.org>,
+        Seth Jenkins <sethjenkins@google.com>,
+        Jann Horn <jannh@google.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH bpf-next 2/3] bpf: Add KF_DEPRECATED kfunc flag
-In-Reply-To: <CAADnVQJeaU=F9uym9RctfODHbeV-TTK8DiQFTFm_R=N+qF6gYA@mail.gmail.com>
-References: <20230202163056.658641-1-void@manifault.com>
- <20230202163056.658641-3-void@manifault.com>
- <CAADnVQJjmnEpXWL8-SAPt5zYXnFYeF8-wXXpA9shOhqUXNPw=g@mail.gmail.com>
- <Y9wq1Fy8sgpGB+pe@maniforge>
- <1ea9adb3-851c-0c04-1655-07d9f3b7f3b0@iogearbox.net>
- <CAADnVQJeaU=F9uym9RctfODHbeV-TTK8DiQFTFm_R=N+qF6gYA@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date:   Fri, 03 Feb 2023 01:02:54 +0100
-Message-ID: <87ilgjehu9.fsf@toke.dk>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Eric Biggers <ebiggers@google.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org
+Subject: [PATCH 4.19 v2 10/15] exit: Allow oops_limit to be disabled
+Date:   Thu,  2 Feb 2023 16:27:12 -0800
+Message-Id: <20230203002717.49198-11-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230203002717.49198-1-ebiggers@kernel.org>
+References: <20230203002717.49198-1-ebiggers@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+From: Kees Cook <keescook@chromium.org>
 
-> On Thu, Feb 2, 2023 at 3:11 PM Daniel Borkmann <daniel@iogearbox.net> wrote:
->>
->> On 2/2/23 10:27 PM, David Vernet wrote:
->> > On Thu, Feb 02, 2023 at 01:21:19PM -0800, Alexei Starovoitov wrote:
->> >> On Thu, Feb 2, 2023 at 8:31 AM David Vernet <void@manifault.com> wrote:
->> >>>
->> >>> Now that we have our kfunc lifecycle expectations clearly documented,
->> >>> and that KF_DEPRECATED is documented as an optional method for kfunc
->> >>> developers and maintainers to provide a deprecation story to BPF users,
->> >>> we need to actually implement the flag.
->> >>>
->> >>> This patch adds KF_DEPRECATED, and updates the verifier to issue a
->> >>> verifier log message if a deprecated kfunc is called. Currently, a BPF
->> >>> program either has to fail to verify, or be loaded with log level 2 in
->> >>> order to see the message. We could eventually enhance this to always
->> >>> be logged regardless of log level or verification status, or we could
->> >>> instead emit a warning to dmesg. This seems like the least controversial
->> >>> option for now.
->> >>>
->> >>> A subsequent patch will add a selftest that verifies this behavior.
->> >>>
->> >>> Signed-off-by: David Vernet <void@manifault.com>
->> >>> ---
->> >>>   include/linux/btf.h   | 1 +
->> >>>   kernel/bpf/verifier.c | 8 ++++++++
->> >>>   2 files changed, 9 insertions(+)
->> >>>
->> >>> diff --git a/include/linux/btf.h b/include/linux/btf.h
->> >>> index 49e0fe6d8274..a0ea788ee9b0 100644
->> >>> --- a/include/linux/btf.h
->> >>> +++ b/include/linux/btf.h
->> >>> @@ -71,6 +71,7 @@
->> >>>   #define KF_SLEEPABLE    (1 << 5) /* kfunc may sleep */
->> >>>   #define KF_DESTRUCTIVE  (1 << 6) /* kfunc performs destructive actions */
->> >>>   #define KF_RCU          (1 << 7) /* kfunc only takes rcu pointer arguments */
->> >>> +#define KF_DEPRECATED   (1 << 8) /* kfunc is slated to be removed or deprecated */
->> >>>
->> >>>   /*
->> >>>    * Tag marking a kernel function as a kfunc. This is meant to minimize the
->> >>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
->> >>> index 4cc0e70ee71e..22adcf24f9e1 100644
->> >>> --- a/kernel/bpf/verifier.c
->> >>> +++ b/kernel/bpf/verifier.c
->> >>> @@ -8511,6 +8511,11 @@ static bool is_kfunc_rcu(struct bpf_kfunc_call_arg_meta *meta)
->> >>>          return meta->kfunc_flags & KF_RCU;
->> >>>   }
->> >>>
->> >>> +static bool is_kfunc_deprecated(const struct bpf_kfunc_call_arg_meta *meta)
->> >>> +{
->> >>> +       return meta->kfunc_flags & KF_DEPRECATED;
->> >>> +}
->> >>> +
->> >>>   static bool is_kfunc_arg_kptr_get(struct bpf_kfunc_call_arg_meta *meta, int arg)
->> >>>   {
->> >>>          return arg == 0 && (meta->kfunc_flags & KF_KPTR_GET);
->> >>> @@ -9646,6 +9651,9 @@ static int check_kfunc_call(struct bpf_verifier_env *env, struct bpf_insn *insn,
->> >>>                          mark_btf_func_reg_size(env, regno, t->size);
->> >>>          }
->> >>>
->> >>> +       if (is_kfunc_deprecated(&meta))
->> >>> +               verbose(env, "calling deprecated kfunc %s\n", func_name);
->> >>> +
->> >>
->> >> Since prog will successfully load, no one will notice this message.
->> >>
->> >> I think we can skip patches 2 and 3 for now.
->>
->> +1, the KF_DEPRECATED could probably for the time being just mentioned
->> in doc.
->>
->> > I can leave them out of the v2 version of the patch set, but the reason
->> > I included them here is because I thought it would be odd to document
->> > KF_DEPRECATED without actually upstreaming it. Agreed that it is
->> > essentially 0 signal in its current form. Hopefully it could be expanded
->> > soon to be louder and more noticeable by not relying on the env log,
->> > which is wiped if the verifier passes, but that's separate from whether
->> > KF_DEPRECATED in general is the API that we want to provide kfunc
->> > developers (in which case at least 2 and 3 would add that in a
->> > non-controversial form).
->>
->> This ideally needs some form of prog load flag which would error upon
->> use of kfuncs with deprecation tag, such that tools probing kernel for
->> feature availability can notice.
->
-> Interesting idea.
-> By default we can reject loading progs that try to use KF_DEPRECATED,
-> but still allow it with explicit load flag.
+commit de92f65719cd672f4b48397540b9f9eff67eca40 upstream.
 
-If we reject by default then adding the deprecation flag would break
-applications just as much as just removing the kfunc, which would kinda
-defeat the purpose of having the flag in the first place, wouldn't it? :)
+In preparation for keeping oops_limit logic in sync with warn_limit,
+have oops_limit == 0 disable checking the Oops counter.
 
--Toke
+Cc: Jann Horn <jannh@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Eric Biggers <ebiggers@google.com>
+Cc: Huang Ying <ying.huang@intel.com>
+Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ Documentation/sysctl/kernel.txt | 5 +++--
+ kernel/exit.c                   | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/sysctl/kernel.txt b/Documentation/sysctl/kernel.txt
+index fd65f4e651d55..e1d375df4f286 100644
+--- a/Documentation/sysctl/kernel.txt
++++ b/Documentation/sysctl/kernel.txt
+@@ -559,8 +559,9 @@ scanned for a given scan.
+ oops_limit:
+ 
+ Number of kernel oopses after which the kernel should panic when
+-``panic_on_oops`` is not set. Setting this to 0 or 1 has the same effect
+-as setting ``panic_on_oops=1``.
++``panic_on_oops`` is not set. Setting this to 0 disables checking
++the count. Setting this to  1 has the same effect as setting
++``panic_on_oops=1``. The default value is 10000.
+ 
+ ==============================================================
+ 
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 5cd8a34257650..b2f0aaf6bee78 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -986,7 +986,7 @@ void __noreturn make_task_dead(int signr)
+ 	 * To make sure this can't happen, place an upper bound on how often the
+ 	 * kernel may oops without panic().
+ 	 */
+-	if (atomic_inc_return(&oops_count) >= READ_ONCE(oops_limit))
++	if (atomic_inc_return(&oops_count) >= READ_ONCE(oops_limit) && oops_limit)
+ 		panic("Oopsed too often (kernel.oops_limit is %d)", oops_limit);
+ 
+ 	do_exit(signr);
+-- 
+2.39.1
 
