@@ -2,187 +2,303 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10B36C61DA4
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 16:45:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78C61C636D6
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 16:53:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233089AbjBCQpq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Feb 2023 11:45:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36306 "EHLO
+        id S233383AbjBCQxQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Feb 2023 11:53:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230309AbjBCQpp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 11:45:45 -0500
-Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com [IPv6:2620:100:9001:583::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1019E6ACA0;
-        Fri,  3 Feb 2023 08:45:41 -0800 (PST)
-Received: from pps.filterd (m0122333.ppops.net [127.0.0.1])
-        by mx0a-00190b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 313DFwBj029549;
-        Fri, 3 Feb 2023 16:45:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=li99j8KUXV7sp8YgQ+hZE5WbX/5DbHPcVWqBJmiKMeI=;
- b=I+3G2FuWGaPP/5AK+BESeRdbHJA6Jrzf6K+aA976kOiWVoZqaP8nj+zMN593ADyMSDOZ
- 2qgnr1nB1IXfxZWJUH98EyKl0DBj6lMc/38v6pZW2znUSfmFa/3cia4mHdkmIeGJKacH
- KHUJNv73FGwfKYKsgkSNpegwenKegFCDxns4CRb1AGP1d86JoNU4yvHr0nJd3+17IabQ
- O3CP2Pg9MaA2wdzngN6rWeBQyVxZmP2bw2wOqAJDMajo3niF7UDIGXIFj3r7PpK15LNz
- NshRzQcgFNxZ0jw8hA2e9+RF911QbTnn+pUmaD5hTFJai42+f63KI2ZI8XvV83k85pTb 8A== 
-Received: from prod-mail-ppoint6 (prod-mail-ppoint6.akamai.com [184.51.33.61] (may be forged))
-        by mx0a-00190b01.pphosted.com (PPS) with ESMTPS id 3nh303m3da-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 03 Feb 2023 16:45:35 +0000
-Received: from pps.filterd (prod-mail-ppoint6.akamai.com [127.0.0.1])
-        by prod-mail-ppoint6.akamai.com (8.17.1.19/8.17.1.19) with ESMTP id 313DTBxA016751;
-        Fri, 3 Feb 2023 11:45:34 -0500
-Received: from prod-mail-relay11.akamai.com ([172.27.118.250])
-        by prod-mail-ppoint6.akamai.com (PPS) with ESMTP id 3neyyge51g-1;
-        Fri, 03 Feb 2023 11:45:34 -0500
-Received: from [172.19.32.122] (bos-lpa4700a.bos01.corp.akamai.com [172.19.32.122])
-        by prod-mail-relay11.akamai.com (Postfix) with ESMTP id C454D30558;
-        Fri,  3 Feb 2023 16:45:33 +0000 (GMT)
-Message-ID: <04311d93-7cb4-bf0b-dfa7-162a38b42583@akamai.com>
-Date:   Fri, 3 Feb 2023 11:45:33 -0500
+        with ESMTP id S233020AbjBCQxP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 11:53:15 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C5332768B;
+        Fri,  3 Feb 2023 08:53:13 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0CD93C14;
+        Fri,  3 Feb 2023 08:53:55 -0800 (PST)
+Received: from FVFF77S0Q05N (unknown [10.57.90.37])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF3D43F71E;
+        Fri,  3 Feb 2023 08:53:06 -0800 (PST)
+Date:   Fri, 3 Feb 2023 16:52:59 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
+        boqun.feng@gmail.com, catalin.marinas@arm.com, dennis@kernel.org,
+        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+        linux-crypto@vger.kernel.org
+Subject: Re: [PATCH v2 03/10] arch: Introduce
+ arch_{,try_}_cmpxchg128{,_local}()
+Message-ID: <Y90763uF/cHqiOYN@FVFF77S0Q05N>
+References: <20230202145030.223740842@infradead.org>
+ <20230202152655.373335780@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 3/3] dyndbg: add source filename to prefix
-Content-Language: en-US
-To:     =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
-        Jim Cromie <jim.cromie@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20221223-dyndbg-filename-v1-0-cbf8543009a1@weissschuh.net>
- <20221223-dyndbg-filename-v1-3-cbf8543009a1@weissschuh.net>
-From:   Jason Baron <jbaron@akamai.com>
-In-Reply-To: <20221223-dyndbg-filename-v1-3-cbf8543009a1@weissschuh.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-03_15,2023-02-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0
- mlxlogscore=999 phishscore=0 adultscore=0 malwarescore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302030152
-X-Proofpoint-ORIG-GUID: A9g6yo08fzAe71Mbvzb8okEDCBNbFWB6
-X-Proofpoint-GUID: A9g6yo08fzAe71Mbvzb8okEDCBNbFWB6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-03_15,2023-02-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0 phishscore=0
- clxscore=1011 mlxscore=0 bulkscore=0 impostorscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302030153
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230202152655.373335780@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thomas,
-
-Thanks for this series, this series is fine with me:
-Acked-by: Jason Baron <jbaron@akamai.com>
-
-Your comment about making the output more relatable to the control file 
-made me think if we should try and make the logged output look more like 
-the control file:
-
-# cat /proc/dynamic_debug/control
-# filename:lineno [module]function flags format
-
-So for your example, I think that would look like:
-
-[   71.802212] lib/test_dynamic_debug.c:103 do_cats: test_dd: doing 
-categories
-[   71.802227] lib/test_dynamic_debug.c:123 do_levels: doing levels
-
-But even if we think it looks better, there maybe too many dependencies 
-on the current output format...
-
-Thanks,
-
--Jason
-
-On 1/29/23 9:01 PM, Thomas Weißschuh wrote:
-> Printing the line number without the file is of limited usefulness.
+On Thu, Feb 02, 2023 at 03:50:33PM +0100, Peter Zijlstra wrote:
+> For all architectures that currently support cmpxchg_double()
+> implement the cmpxchg128() family of functions that is basically the
+> same but with a saner interface.
 > 
-> Knowing the filename also makes it also easier to relate the logged
-> information to the controlfile.
-> 
-> Example:
-> 
->      # modprobe test_dynamic_debug
->      # echo 'file test_dynamic_debug.c =pfsl' > /proc/dynamic_debug/control
->      # echo 1 > /sys/module/test_dynamic_debug/parameters/do_prints
->      # dmesg | tail -2
->      [   71.802212] do_cats:lib/test_dynamic_debug.c:103: test_dd: doing categories
->      [   71.802227] do_levels:lib/test_dynamic_debug.c:123: test_dd: doing levels
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+For arm64:
+
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+
+Mark.
+
 > ---
->   Documentation/admin-guide/dynamic-debug-howto.rst | 5 +++--
->   include/linux/dynamic_debug.h                     | 4 +++-
->   lib/dynamic_debug.c                               | 4 ++++
->   3 files changed, 10 insertions(+), 3 deletions(-)
+>  arch/arm64/include/asm/atomic_ll_sc.h |   41 +++++++++++++++++++++++++
+>  arch/arm64/include/asm/atomic_lse.h   |   31 +++++++++++++++++++
+>  arch/arm64/include/asm/cmpxchg.h      |   26 ++++++++++++++++
+>  arch/s390/include/asm/cmpxchg.h       |   14 ++++++++
+>  arch/x86/include/asm/cmpxchg_32.h     |    3 +
+>  arch/x86/include/asm/cmpxchg_64.h     |   55 +++++++++++++++++++++++++++++++++-
+>  6 files changed, 168 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> index faa22f77847a..f9fa8163fba6 100644
-> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -216,13 +216,14 @@ The flags are::
->     t    Include thread ID, or <intr>
->     m    Include module name
->     f    Include the function name
-> +  s    Include the source file name
->     l    Include line number
->   
->   For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
->   the ``p`` flag has meaning, other flags are ignored.
->   
-> -Note the regexp ``^[-+=][flmpt_]+$`` matches a flags specification.
-> -To clear all flags at once, use ``=_`` or ``-flmpt``.
-> +Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
-> +To clear all flags at once, use ``=_`` or ``-fslmpt``.
->   
->   
->   Debug messages during Boot Process
-> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-> index 41682278d2e8..0c77105d583c 100644
-> --- a/include/linux/dynamic_debug.h
-> +++ b/include/linux/dynamic_debug.h
-> @@ -37,10 +37,12 @@ struct _ddebug {
->   #define _DPRINTK_FLAGS_INCL_FUNCNAME	(1<<2)
->   #define _DPRINTK_FLAGS_INCL_LINENO	(1<<3)
->   #define _DPRINTK_FLAGS_INCL_TID		(1<<4)
-> +#define _DPRINTK_FLAGS_INCL_SOURCENAME	(1<<5)
->   
->   #define _DPRINTK_FLAGS_INCL_ANY		\
->   	(_DPRINTK_FLAGS_INCL_MODNAME | _DPRINTK_FLAGS_INCL_FUNCNAME |\
-> -	 _DPRINTK_FLAGS_INCL_LINENO  | _DPRINTK_FLAGS_INCL_TID)
-> +	 _DPRINTK_FLAGS_INCL_LINENO  | _DPRINTK_FLAGS_INCL_TID |\
-> +	 _DPRINTK_FLAGS_INCL_SOURCENAME)
->   
->   #if defined DEBUG
->   #define _DPRINTK_FLAGS_DEFAULT _DPRINTK_FLAGS_PRINT
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index e96ea427d8af..fa7418e35197 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -92,6 +92,7 @@ static const struct { unsigned flag:8; char opt_char; } opt_array[] = {
->   	{ _DPRINTK_FLAGS_PRINT, 'p' },
->   	{ _DPRINTK_FLAGS_INCL_MODNAME, 'm' },
->   	{ _DPRINTK_FLAGS_INCL_FUNCNAME, 'f' },
-> +	{ _DPRINTK_FLAGS_INCL_SOURCENAME, 's' },
->   	{ _DPRINTK_FLAGS_INCL_LINENO, 'l' },
->   	{ _DPRINTK_FLAGS_INCL_TID, 't' },
->   	{ _DPRINTK_FLAGS_NONE, '_' },
-> @@ -836,6 +837,9 @@ static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
->   	if (desc->flags & _DPRINTK_FLAGS_INCL_FUNCNAME)
->   		pos += snprintf(buf + pos, remaining(pos), "%s:",
->   				desc->function);
-> +	if (desc->flags & _DPRINTK_FLAGS_INCL_SOURCENAME)
-> +		pos += snprintf(buf + pos, remaining(pos), "%s:",
-> +				trim_prefix(desc->filename));
->   	if (desc->flags & _DPRINTK_FLAGS_INCL_LINENO)
->   		pos += snprintf(buf + pos, remaining(pos), "%d:",
->   				desc->lineno);
+> --- a/arch/arm64/include/asm/atomic_ll_sc.h
+> +++ b/arch/arm64/include/asm/atomic_ll_sc.h
+> @@ -326,6 +326,47 @@ __CMPXCHG_DBL(   ,        ,  ,         )
+>  __CMPXCHG_DBL(_mb, dmb ish, l, "memory")
+>  
+>  #undef __CMPXCHG_DBL
+> +
+> +union __u128_halves {
+> +	u128 full;
+> +	struct {
+> +		u64 low, high;
+> +	};
+> +};
+> +
+> +#define __CMPXCHG128(name, mb, rel, cl...)                             \
+> +static __always_inline u128						\
+> +__ll_sc__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)	\
+> +{									\
+> +	union __u128_halves r, o = { .full = (old) },			\
+> +			       n = { .full = (new) };			\
+> +       unsigned int tmp;                                               \
+> +									\
+> +	asm volatile("// __cmpxchg128" #name "\n"			\
+> +       "       prfm    pstl1strm, %[v]\n"                              \
+> +       "1:     ldxp    %[rl], %[rh], %[v]\n"                           \
+> +       "       cmp     %[rl], %[ol]\n"                                 \
+> +       "       ccmp    %[rh], %[oh], 0, eq\n"                          \
+> +       "       b.ne    2f\n"                                           \
+> +       "       st" #rel "xp    %w[tmp], %[nl], %[nh], %[v]\n"          \
+> +       "       cbnz    %w[tmp], 1b\n"                                  \
+> +	"	" #mb "\n"						\
+> +	"2:"								\
+> +       : [v] "+Q" (*(u128 *)ptr),                                      \
+> +         [rl] "=&r" (r.low), [rh] "=&r" (r.high),                      \
+> +         [tmp] "=&r" (tmp)                                             \
+> +       : [ol] "r" (o.low), [oh] "r" (o.high),                          \
+> +         [nl] "r" (n.low), [nh] "r" (n.high)                           \
+> +       : "cc", ##cl);                                                  \
+> +									\
+> +	return r.full;							\
+> +}
+> +
+> +__CMPXCHG128(   ,        ,  )
+> +__CMPXCHG128(_mb, dmb ish, l, "memory")
+> +
+> +#undef __CMPXCHG128
+> +
+>  #undef K
+>  
+>  #endif	/* __ASM_ATOMIC_LL_SC_H */
+> --- a/arch/arm64/include/asm/atomic_lse.h
+> +++ b/arch/arm64/include/asm/atomic_lse.h
+> @@ -324,4 +324,35 @@ __CMPXCHG_DBL(_mb, al, "memory")
+>  
+>  #undef __CMPXCHG_DBL
+>  
+> +#define __CMPXCHG128(name, mb, cl...)					\
+> +static __always_inline u128						\
+> +__lse__cmpxchg128##name(volatile u128 *ptr, u128 old, u128 new)		\
+> +{									\
+> +	union __u128_halves r, o = { .full = (old) },			\
+> +			       n = { .full = (new) };			\
+> +	register unsigned long x0 asm ("x0") = o.low;			\
+> +	register unsigned long x1 asm ("x1") = o.high;			\
+> +	register unsigned long x2 asm ("x2") = n.low;			\
+> +	register unsigned long x3 asm ("x3") = n.high;			\
+> +	register unsigned long x4 asm ("x4") = (unsigned long)ptr;	\
+> +									\
+> +	asm volatile(							\
+> +	__LSE_PREAMBLE							\
+> +	"	casp" #mb "\t%[old1], %[old2], %[new1], %[new2], %[v]\n"\
+> +	: [old1] "+&r" (x0), [old2] "+&r" (x1),				\
+> +	  [v] "+Q" (*(u128 *)ptr)					\
+> +	: [new1] "r" (x2), [new2] "r" (x3), [ptr] "r" (x4),		\
+> +	  [oldval1] "r" (o.low), [oldval2] "r" (o.high)			\
+> +	: cl);								\
+> +									\
+> +	r.low = x0; r.high = x1;					\
+> +									\
+> +	return r.full;							\
+> +}
+> +
+> +__CMPXCHG128(   ,   )
+> +__CMPXCHG128(_mb, al, "memory")
+> +
+> +#undef __CMPXCHG128
+> +
+>  #endif	/* __ASM_ATOMIC_LSE_H */
+> --- a/arch/arm64/include/asm/cmpxchg.h
+> +++ b/arch/arm64/include/asm/cmpxchg.h
+> @@ -147,6 +147,19 @@ __CMPXCHG_DBL(_mb)
+>  
+>  #undef __CMPXCHG_DBL
+>  
+> +#define __CMPXCHG128(name)						\
+> +static inline u128 __cmpxchg128##name(volatile u128 *ptr,		\
+> +				      u128 old, u128 new)		\
+> +{									\
+> +	return __lse_ll_sc_body(_cmpxchg128##name,			\
+> +				ptr, old, new);				\
+> +}
+> +
+> +__CMPXCHG128(   )
+> +__CMPXCHG128(_mb)
+> +
+> +#undef __CMPXCHG128
+> +
+>  #define __CMPXCHG_GEN(sfx)						\
+>  static __always_inline unsigned long __cmpxchg##sfx(volatile void *ptr,	\
+>  					   unsigned long old,		\
+> @@ -229,6 +242,19 @@ __CMPXCHG_GEN(_mb)
+>  	__ret;									\
+>  })
+>  
+> +/* cmpxchg128 */
+> +#define system_has_cmpxchg128()		1
+> +
+> +#define arch_cmpxchg128(ptr, o, n)						\
+> +({										\
+> +	__cmpxchg128_mb((ptr), (o), (n));					\
+> +})
+> +
+> +#define arch_cmpxchg128_local(ptr, o, n)					\
+> +({										\
+> +	__cmpxchg128((ptr), (o), (n));						\
+> +})
+> +
+>  #define __CMPWAIT_CASE(w, sfx, sz)					\
+>  static inline void __cmpwait_case_##sz(volatile void *ptr,		\
+>  				       unsigned long val)		\
+> --- a/arch/s390/include/asm/cmpxchg.h
+> +++ b/arch/s390/include/asm/cmpxchg.h
+> @@ -201,4 +201,18 @@ static __always_inline int __cmpxchg_dou
+>  			 (unsigned long)(n1), (unsigned long)(n2));	\
+>  })
+>  
+> +#define system_has_cmpxchg128()		1
+> +
+> +static __always_inline u128 arch_cmpxchg128(volatile u128 *ptr, u128 old, u128 new)
+> +{
+> +	asm volatile(
+> +		"	cdsg	%[old],%[new],%[ptr]\n"
+> +		: [old] "+d" (old), [ptr] "+QS" (*ptr)
+> +		: [new] "d" (new)
+> +		: "memory", "cc");
+> +	return old;
+> +}
+> +
+> +#define arch_cmpxchg128		arch_cmpxchg128
+> +
+>  #endif /* __ASM_CMPXCHG_H */
+> --- a/arch/x86/include/asm/cmpxchg_32.h
+> +++ b/arch/x86/include/asm/cmpxchg_32.h
+> @@ -103,6 +103,7 @@ static inline bool __try_cmpxchg64(volat
+>  
+>  #endif
+>  
+> -#define system_has_cmpxchg_double() boot_cpu_has(X86_FEATURE_CX8)
+> +#define system_has_cmpxchg_double()	boot_cpu_has(X86_FEATURE_CX8)
+> +#define system_has_cmpxchg64()		boot_cpu_has(X86_FEATURE_CX8)
+>  
+>  #endif /* _ASM_X86_CMPXCHG_32_H */
+> --- a/arch/x86/include/asm/cmpxchg_64.h
+> +++ b/arch/x86/include/asm/cmpxchg_64.h
+> @@ -20,6 +20,59 @@
+>  	arch_try_cmpxchg((ptr), (po), (n));				\
+>  })
+>  
+> -#define system_has_cmpxchg_double() boot_cpu_has(X86_FEATURE_CX16)
+> +union __u128_halves {
+> +	u128 full;
+> +	struct {
+> +		u64 low, high;
+> +	};
+> +};
+> +
+> +static __always_inline u128 arch_cmpxchg128(volatile u128 *ptr, u128 old, u128 new)
+> +{
+> +	union __u128_halves o = { .full = old, }, n = { .full = new, };
+> +
+> +	asm volatile(LOCK_PREFIX "cmpxchg16b %[ptr]"
+> +		     : [ptr] "+m" (*ptr),
+> +		       "+a" (o.low), "+d" (o.high)
+> +		     : "b" (n.low), "c" (n.high)
+> +		     : "memory");
+> +
+> +	return o.full;
+> +}
+> +
+> +static __always_inline u128 arch_cmpxchg128_local(volatile u128 *ptr, u128 old, u128 new)
+> +{
+> +	union __u128_halves o = { .full = old, }, n = { .full = new, };
+> +
+> +	asm volatile("cmpxchg16b %[ptr]"
+> +		     : [ptr] "+m" (*ptr),
+> +		       "+a" (o.low), "+d" (o.high)
+> +		     : "b" (n.low), "c" (n.high)
+> +		     : "memory");
+> +
+> +	return o.full;
+> +}
+> +
+> +static __always_inline bool arch_try_cmpxchg128(volatile u128 *ptr, u128 *old, u128 new)
+> +{
+> +	union __u128_halves o = { .full = *old, }, n = { .full = new, };
+> +	bool ret;
+> +
+> +	asm volatile(LOCK_PREFIX "cmpxchg16b %[ptr]"
+> +		     CC_SET(e)
+> +		     : CC_OUT(e) (ret),
+> +		       [ptr] "+m" (*ptr),
+> +		       "+a" (o.low), "+d" (o.high)
+> +		     : "b" (n.low), "c" (n.high)
+> +		     : "memory");
+> +
+> +	if (unlikely(!ret))
+> +		*old = o.full;
+> +
+> +	return likely(ret);
+> +}
+> +
+> +#define system_has_cmpxchg_double()	boot_cpu_has(X86_FEATURE_CX16)
+> +#define system_has_cmpxchg128()		boot_cpu_has(X86_FEATURE_CX16)
+>  
+>  #endif /* _ASM_X86_CMPXCHG_64_H */
+> 
 > 
