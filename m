@@ -2,71 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 769C5C636CC
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 03:38:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A204CC636CC
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 04:29:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231438AbjBCDi6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 22:38:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55768 "EHLO
+        id S231426AbjBCE3t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 23:29:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbjBCDi5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 22:38:57 -0500
-Received: from formenos.hmeau.com (167-179-156-38.a7b39c.syd.nbn.aussiebb.net [167.179.156.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8E1EF94;
-        Thu,  2 Feb 2023 19:38:54 -0800 (PST)
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-        by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-        id 1pNmt8-0070dc-T8; Fri, 03 Feb 2023 11:37:23 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 03 Feb 2023 11:37:22 +0800
-Date:   Fri, 3 Feb 2023 11:37:22 +0800
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
-        boqun.feng@gmail.com, mark.rutland@arm.com,
-        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
-        cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        davem@davemloft.net, penberg@kernel.org, rientjes@google.com,
-        iamjoonsoo.kim@lge.com, Andrew Morton <akpm@linux-foundation.org>,
-        vbabka@suse.cz, roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-        linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v2 02/10] types: Introduce [us]128
-Message-ID: <Y9yBcu6ThKC7tVdt@gondor.apana.org.au>
-References: <20230202145030.223740842@infradead.org>
- <20230202152655.313053173@infradead.org>
+        with ESMTP id S230372AbjBCE3s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 23:29:48 -0500
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C70410FA
+        for <linux-doc@vger.kernel.org>; Thu,  2 Feb 2023 20:29:46 -0800 (PST)
+Received: by mail-pg1-x52c.google.com with SMTP id a23so2842570pga.13
+        for <linux-doc@vger.kernel.org>; Thu, 02 Feb 2023 20:29:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9VZUD5Y+UYw+BivbwlFE9Qxeo/ryuws1421TWcWdDj4=;
+        b=tMLvVZ2wXJFrBRvacFOwlpa+4cRu9uGLj7R9fKNwQu0eujffwqCHw6H0pMM8sCmdMX
+         kYCwXW1yylJjF6wA6FrmDiszwmGcKkAbVCNQ8f/v+qp+ewqEdtDTmgmdVe2AK3ZGwSIP
+         tbEV2Kh2CFj55Ls8bhI7G0NvR7pqA8x6nSVM0iAxCd92uedz9oK8FUPjNVOVnNj4z+Ev
+         wrUUclW5XeDGLhfC0b5kfnK8HPuyfMSQL20w84p2o/SppXhguifwza/xl1xixMFjo8Qb
+         GX8savX6Wd664xYv5/bALUpJQYNRZ8F2WeQfErnW+yFMBN08mVIpTKGh4leN8oSX3cTl
+         xhcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9VZUD5Y+UYw+BivbwlFE9Qxeo/ryuws1421TWcWdDj4=;
+        b=YrWPls8cj3xh1d7jxeFWDTNQKTJh9ffl/8p/kjzfVsUDj2AQcdW56zTUHx/c5QrDcH
+         zUagc44SjePPpJUjz7IuSrurH9YlB2w5BL1ywJXTHoMv65fShP/CD1gzCX18yvRjimY5
+         53OzHJSbjrme/V2nGwFmAJh+kcNIW4egG/jjxcdZtHzDZydRjajj6k1GTEYsMiDOobJv
+         uMdIt0zr+dOZb4nqGymj/JzIR/QkE8qrWqnxOkF0e3PT/Nztkwmq1xyOLZed5f4Hy/My
+         an6z9TD/RPjmJW9fYRC/WNTxt77g3rqvBB3IJpYGrrSWeK+eFWA9Cs04hF8VL7a26P6q
+         4vzQ==
+X-Gm-Message-State: AO0yUKWAKopfNuFBVtBliC9ZQWL1/3U6XNKTUN//q4ZYUP1FKsCrHgMJ
+        v6tdinrsSN40InI1Ka+kPKqybrNoUsOzk/0qJJZ5WB8vPPfRsK7W8ns=
+X-Google-Smtp-Source: AK7set9Zq3iyUjiTnuoKmw8LRoyEVz/YCQjg17RifWaQsgD62XPfUR4YeRamPg7ZxzxGR+cRqWcNG4CY625jzzM8tOw=
+X-Received: by 2002:a05:6a00:2bc:b0:58d:9be8:7209 with SMTP id
+ q28-20020a056a0002bc00b0058d9be87209mr2149409pfs.47.1675398585857; Thu, 02
+ Feb 2023 20:29:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230202152655.313053173@infradead.org>
+References: <87o7qu5al3.fsf@meer.lwn.net> <CAO2JNKW9pL5097qdte1N4F=RSnRJtcnpaDf__ROJAFfHitooYQ@mail.gmail.com>
+ <fa426691-c76a-8ab0-4975-6edacc9cb247@gmail.com> <8735855j4p.fsf@meer.lwn.net>
+ <1c9bb0dc-7efd-c664-043a-5c0453739166@gmail.com>
+In-Reply-To: <1c9bb0dc-7efd-c664-043a-5c0453739166@gmail.com>
+From:   Sadiya Kazi <sadiyakazi@google.com>
+Date:   Fri, 3 Feb 2023 09:59:34 +0530
+Message-ID: <CAO2JNKVMe2YzWiqosR+fVcuPPVWmqgbK0HLFD5OUp=v_u8APRg@mail.gmail.com>
+Subject: Re: [PATCH RFC] docs: Add more information to the HTML sidebar
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        David Gow <davidgow@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 02, 2023 at 03:50:32PM +0100, Peter Zijlstra wrote:
-> Introduce [us]128 (when available). Unlike [us]64, ensure they are
-> always naturally aligned.
-> 
-> This also enables 128bit wide atomics (which require natural
-> alignment) such as cmpxchg128().
-> 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  include/linux/types.h      |    5 +++++
->  include/uapi/linux/types.h |    4 ++++
->  2 files changed, 9 insertions(+)
+On Fri, Feb 3, 2023 at 8:07 AM Akira Yokosawa <akiyks@gmail.com> wrote:
+>
+> On Fri, 20 Jan 2023 08:19:02 -0700, Jonathan Corbet wrote:
+> > Akira Yokosawa <akiyks@gmail.com> writes:
+> >
+> >>>> Thoughts?  Is this headed in the right direction?  This view of the TOC
+> >>>> is readily available from Sphinx; if we want something else it's going
+> >>>> to be rather more work.
+> >>
+> >> I think this looks like the right direction. But how far do you want to
+> >> mimic RTD's sidebar???
+> >
+> > Well ... that is kind of my question for all of the folks who are
+> > unhappy with the current sidebar.  What would you like to see there?
+> >
+> > Things like sidebar width, whether bullets are used (I'd deliberately
+> > taken them out as excess noise), which text is which color, etc. are all
+> > just CSS; we can paint that shed any color we like.  The harder part is
+> > deciding which information we want to have there in the first place.  So
+> > ... is the set of links shown in the new sidebar close to what we
+> > want...  too much stuff?  Something missing?
+>
+> Seeing no response from anyone so far, I feel like I need to express
+> my personal view. As you might already be well aware of, I love the
+> site navigation of RTD both on large screens and small (narrow) screens.
+>
+(+1) to this. I too prefer the site navigation of RTD over Alabaster.
 
-Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
+> On *what* should be in the sidebar, I don't see anything missing
+> give or take the toctree depth.
+>
+> To my eyes, there is two deficiencies with the alabaster theme in site
+> navigation.
+>
+>   - Even with this RFC patch amended with the diff I suggested in
+>     https://lore.kernel.org/linux-doc/6b2e496f-d7f6-abea-6bbd-4b12fea76a68@gmail.com/,
+>     there remain "Where am I???" moments when jumping to a different page.
+>     In such jumps, alabaster's sidebar always reset to top with the
+>     main pane. RTD's sidebar keeps its position so there is no such
+>     moment.
+>
+>   - On small/narrow screens, alabaster's sidebar is pushed downward
+>     to the bottom of the page. This means you typically need three
+>     steps to see where you are when jumping to another page:
+>
+>       1) Jump to another page.
+>       2) Scroll to the bottom.
+>       3) See where you are.
+>
+>     With RTD, you don't need to scroll to the bottom. Sidebar is there
+>     behind an icon at the top-left which is often used as "menu" icon.
+>
+>       1) Jump to another page.
+>       2) Open sidebar and it tells you where you are.
+>
+Adding to what Akira says, what I really would like to see is a TOC in the
+sidebar that shows all parts, with the current part expanded at all times.
+For instance, the sidebar should expand and appear as follows when
+I click the KUnit documentation's main index page:
+
+KUnit - Linux Kernel Unit Testing
+      Getting Started
+      KUnit Architecture
+      Run tests with KUnit
+      Introduction
+      Unit Testing
+
+When the 'Introduction' item is  selected, the toc in the sidebar should get
+updated as follows:
+
+KUnit - Linux Kernel Unit Testing
+Getting Started
+KUnit Architecture
+Run tests with KUnit
+Introduction
+    Features
+    Prerequisites
+Unit Testing
+
+Currently, only the second-level headings exhibit the above behaviour,
+as seen here:
+https://static.lwn.net/kerneldoc/dev-tools/index.html
+
+Applying this to third-level headings, which are significant in KUnit
+docs, would be helpful.
+It will make it easier for us to always know where we are
+on this website because it displays the parent, sibling, and child
+nodes of the current
+page.
+
+> I don't know if alabaster can be managed to behave similar to RTD
+> with a reasonable effort.
+>
+>         Thanks, Akira
+>
+>
+> >
+> > Thanks,
+> >
+> > jon
 
 Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Sadiya
