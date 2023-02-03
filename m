@@ -2,168 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33CA5C61DA4
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 10:22:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10202C61DA4
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 10:30:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233222AbjBCKWW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Feb 2023 05:22:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44196 "EHLO
+        id S233711AbjBCKa1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Feb 2023 05:30:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233312AbjBCKWU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 05:22:20 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A9A79E9EE;
-        Fri,  3 Feb 2023 02:22:03 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AC3EB61ECA;
-        Fri,  3 Feb 2023 10:22:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C13DC433EF;
-        Fri,  3 Feb 2023 10:22:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1675419721;
-        bh=jBFjdJ+skMO1X+9Pq1XRDIeS+fLuG21AqHE6/bwiGio=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=u1qDtoif0mdP5PtaHl+lAjVoZeVGsYvxOzIMQfp+r84UVPlTITpLEiEK7UE+uNcwZ
-         fTiChaT2xC0NaOUgCJVhpkFxzFuTm38p56AeUKI3qgT8Mto3V/vwWWW7YMNbtqtEmz
-         gCiKPz3sOxv0FBPokzhjTxcrEb3NvQXpO3zlXqUs=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        patches@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        tangmeng <tangmeng@uniontech.com>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-doc@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>
-Subject: [PATCH 4.19 75/80] panic: Introduce warn_limit
-Date:   Fri,  3 Feb 2023 11:13:09 +0100
-Message-Id: <20230203101018.448672035@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230203101015.263854890@linuxfoundation.org>
-References: <20230203101015.263854890@linuxfoundation.org>
-User-Agent: quilt/0.67
+        with ESMTP id S233828AbjBCKaB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 05:30:01 -0500
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70272113F2;
+        Fri,  3 Feb 2023 02:29:17 -0800 (PST)
+Received: by mail-qt1-x82e.google.com with SMTP id c2so4912265qtw.5;
+        Fri, 03 Feb 2023 02:29:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OONFnhP6I7zS1Y45r5yPBZWg15dDNXvDl8f/Zu5HTcU=;
+        b=Wp23sLXNjAl0bxpO8bSwKoLWp94GH/+zDoeayrEvKX1eTQYMuEIfgZtAzpyiC8V/w3
+         ZDOd6uUAEHXCTLp7XkFQ2mcMOx+KnIqqK3vQqAcpw+E78ss+cj8eWglD9zyRB0CBc6sT
+         Q9dXxU12rI5V6b/Z1u4J9kEj5ResUSl0Q0xAG6F7Y0aQ4AbrIABQiqiAeKQU6XjuLBn1
+         T+kkZRme/8bip+OGa1IWt1/hjRNOKnhOt8Ntw3Jf78bv8Z0PsqSQfP8zAy0tWHaXJVJx
+         5KVYnMfsKVCGDn//a3yHJ0axYYI0bQWYXeoQYAmnP86y5wBPNtB0jFxSlQa3cj3Jv3Ok
+         LmjQ==
+X-Gm-Message-State: AO0yUKVdmdQwLCRH8f+Pd3QI36j1SwGcRGNmqOOz3mP5feSESim9wIEY
+        ubvRbA68/cl6kr36tqTzlQtyPVo9BKh2WA==
+X-Google-Smtp-Source: AK7set+5y6WlzlnaaWHFL9VgmZh50b+SAvZ7gYg/TkeZ8tI9v1LmT2BnSF8v/TPWEX0O72SNJgZC/A==
+X-Received: by 2002:a05:622a:14ca:b0:3b8:1d89:e01b with SMTP id u10-20020a05622a14ca00b003b81d89e01bmr18325326qtx.23.1675420095800;
+        Fri, 03 Feb 2023 02:28:15 -0800 (PST)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id dt23-20020a05620a479700b0071a49ac0e05sm1489828qkb.111.2023.02.03.02.28.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Feb 2023 02:28:15 -0800 (PST)
+Received: by mail-yb1-f180.google.com with SMTP id a1so5675459ybj.9;
+        Fri, 03 Feb 2023 02:28:15 -0800 (PST)
+X-Received: by 2002:a25:820a:0:b0:7d5:b884:3617 with SMTP id
+ q10-20020a25820a000000b007d5b8843617mr1035225ybk.380.1675420094927; Fri, 03
+ Feb 2023 02:28:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230203101624.474611-1-tudor.ambarus@linaro.org>
+In-Reply-To: <20230203101624.474611-1-tudor.ambarus@linaro.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 3 Feb 2023 11:28:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVeDbTGLBAk5QWGQGf=o6g25t341FjGTmNsHw0_sDOceg@mail.gmail.com>
+Message-ID: <CAMuHMdVeDbTGLBAk5QWGQGf=o6g25t341FjGTmNsHw0_sDOceg@mail.gmail.com>
+Subject: Re: [PATCH] tree-wide: trivial: s/ a SPI/ an SPI/
+To:     Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc:     trivial@kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-gpio@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-mips@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-wireless@vger.kernel.org, chrome-platform@lists.linux.dev,
+        linux-rtc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Kees Cook <keescook@chromium.org>
+Hi Tudor,
 
-commit 9fc9e278a5c0b708eeffaf47d6eb0c82aa74ed78 upstream.
+On Fri, Feb 3, 2023 at 11:17 AM Tudor Ambarus <tudor.ambarus@linaro.org> wrote:
+> The deciding factor for when a/an should be used is the sound
+> that begins the word which follows these indefinite articles,
+> rather than the letter which does. Use "an SPI" (SPI begins
+> with the consonant letter S, but the S is pronounced with its
+> letter name, "es.").
 
-Like oops_limit, add warn_limit for limiting the number of warnings when
-panic_on_warn is not set.
+While I agree with your pronunciation, I believe the SPI maintainer
+(which you forgot to CC) pronounces it in James Bond-style, i.e. rhymes
+with "spy" ;-)
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Eric Biggers <ebiggers@google.com>
-Cc: Huang Ying <ying.huang@intel.com>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: tangmeng <tangmeng@uniontech.com>
-Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-doc@vger.kernel.org
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/r/20221117234328.594699-5-keescook@chromium.org
-Signed-off-by: Eric Biggers <ebiggers@google.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/sysctl/kernel.txt |   10 ++++++++++
- kernel/panic.c                  |   27 +++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
+Gr{oetje,eeting}s,
 
---- a/Documentation/sysctl/kernel.txt
-+++ b/Documentation/sysctl/kernel.txt
-@@ -97,6 +97,7 @@ show up in /proc/sys/kernel:
- - threads-max
- - unprivileged_bpf_disabled
- - unknown_nmi_panic
-+- warn_limit
- - watchdog
- - watchdog_thresh
- - version
-@@ -1114,6 +1115,15 @@ example.  If a system hangs up, try pres
- 
- ==============================================================
- 
-+warn_limit:
-+
-+Number of kernel warnings after which the kernel should panic when
-+``panic_on_warn`` is not set. Setting this to 0 disables checking
-+the warning count. Setting this to 1 has the same effect as setting
-+``panic_on_warn=1``. The default value is 0.
-+
-+==============================================================
-+
- watchdog:
- 
- This parameter can be used to disable or enable the soft lockup detector
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -42,6 +42,7 @@ static int pause_on_oops_flag;
- static DEFINE_SPINLOCK(pause_on_oops_lock);
- bool crash_kexec_post_notifiers;
- int panic_on_warn __read_mostly;
-+static unsigned int warn_limit __read_mostly;
- 
- int panic_timeout = CONFIG_PANIC_TIMEOUT;
- EXPORT_SYMBOL_GPL(panic_timeout);
-@@ -50,6 +51,26 @@ ATOMIC_NOTIFIER_HEAD(panic_notifier_list
- 
- EXPORT_SYMBOL(panic_notifier_list);
- 
-+#ifdef CONFIG_SYSCTL
-+static struct ctl_table kern_panic_table[] = {
-+	{
-+		.procname       = "warn_limit",
-+		.data           = &warn_limit,
-+		.maxlen         = sizeof(warn_limit),
-+		.mode           = 0644,
-+		.proc_handler   = proc_douintvec,
-+	},
-+	{ }
-+};
-+
-+static __init int kernel_panic_sysctls_init(void)
-+{
-+	register_sysctl_init("kernel", kern_panic_table);
-+	return 0;
-+}
-+late_initcall(kernel_panic_sysctls_init);
-+#endif
-+
- static long no_blink(int state)
- {
- 	return 0;
-@@ -127,8 +148,14 @@ EXPORT_SYMBOL(nmi_panic);
- 
- void check_panic_on_warn(const char *origin)
- {
-+	static atomic_t warn_count = ATOMIC_INIT(0);
-+
- 	if (panic_on_warn)
- 		panic("%s: panic_on_warn set ...\n", origin);
-+
-+	if (atomic_inc_return(&warn_count) >= READ_ONCE(warn_limit) && warn_limit)
-+		panic("%s: system warned too often (kernel.warn_limit is %d)",
-+		      origin, warn_limit);
- }
- 
- /**
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
