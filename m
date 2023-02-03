@@ -2,137 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96781C63797
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 08:11:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAAD8C636D6
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 08:23:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232678AbjBCIL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Feb 2023 03:11:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49624 "EHLO
+        id S232979AbjBCIXa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Feb 2023 03:23:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232545AbjBCIKw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 03:10:52 -0500
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E507EBB9B;
-        Fri,  3 Feb 2023 00:10:09 -0800 (PST)
-Received: by mail-oi1-f174.google.com with SMTP id c15so3375919oic.8;
-        Fri, 03 Feb 2023 00:10:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kDxWR290mL61G5r22X9+N8Kd9HuPTjlQvTYHZMCubL4=;
-        b=3eDzzWTiVP1aYFzPvZd8gKqPSx+KLtHm0PKZeHp3NYuZJ+wTXr0R/tTlic1v+1wjQJ
-         Bfxp+jWw9ENk3ZIW3W5zLK0hpYpBZndRhkl5yh1AqqjaNTzxFP8vhrlkt5uzwZvYLFLj
-         rwd8pSc+ZwpDai3zuCpzTgSzaWguZ8gssHfNcW7m9uPkhnuQ5rkdH+3SZAX0S+sORfij
-         gwERmBL1q08YRKqq2TxJcYK0x5ZnjiKYW/gWsWZBQc7qV277g13EkKh/nBToEADED7rD
-         8T5zp7F8ug454zLx1jFQGF3MLyCMMpsoD3H90e+v7408nD/ZM9mI4o0l6EOVKwMVt07/
-         dU/g==
-X-Gm-Message-State: AO0yUKWiIn9oW1g7jpOEe0Cc3ANQyb9cWsWoH+VpAvvN09Kn/6nWdop2
-        /4EyHH8/eBmAaBTpKRFcesTAIR6giUUjSQ==
-X-Google-Smtp-Source: AK7set9OnnbUpKR2KW2u/fmuxsyJ48mxJX3thUsf4xqf7oPnWAZMhOZ987ucA0ujE5juIfy+gaYgWg==
-X-Received: by 2002:a05:6808:10c1:b0:35a:7043:ee4d with SMTP id s1-20020a05680810c100b0035a7043ee4dmr5791990ois.0.1675411809101;
-        Fri, 03 Feb 2023 00:10:09 -0800 (PST)
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com. [209.85.210.54])
-        by smtp.gmail.com with ESMTPSA id bk30-20020a0568081a1e00b0037880fdb1f6sm584350oib.24.2023.02.03.00.10.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Feb 2023 00:10:08 -0800 (PST)
-Received: by mail-ot1-f54.google.com with SMTP id n25-20020a9d7119000000b0068bd8c1e836so1148749otj.3;
-        Fri, 03 Feb 2023 00:10:08 -0800 (PST)
-X-Received: by 2002:a25:ada1:0:b0:839:c329:be37 with SMTP id
- z33-20020a25ada1000000b00839c329be37mr1030442ybi.89.1675411484019; Fri, 03
- Feb 2023 00:04:44 -0800 (PST)
+        with ESMTP id S232877AbjBCIXG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 03:23:06 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A6389B701;
+        Fri,  3 Feb 2023 00:21:43 -0800 (PST)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3135HX2b017013;
+        Fri, 3 Feb 2023 08:20:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=vGCDi8mazy8C2ArRV8P4USNLAvgRgQFuyX5QpQr8bXI=;
+ b=JD7lBvVRfUiWpb7ra75gvs1SS70jJvuY17QPkdPaoCY5hA5ywIc9Vz/XpmADZWJG5ikf
+ 1cmjisa80G2Rd6aIJABY/F+CiF5L+TSmb+h/XBtiLuxwl3kpWb+0BnPCIiKdJOcc+Dke
+ t4+fuoRRGiAQpwbnxGF15qlH5BqpYLD4/44BYVeW5Jc5Cs1lhZl92u+R8k2cVviND4WF
+ IYp6bTbCCKcRH+ueS+PZwUJcSYiEboKCBkfSOv6v7vkKOQb/T5t5mYkxr9Y08ZMz3qRR
+ FHBPXTG4zJmMOHrGaRRQMhdzjoTmqyNBSZ28pw80zWmYvz2i+zVnBesyW2t71c9uV26U 0w== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ngahqtme9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 03 Feb 2023 08:20:42 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3138Kfnh013369
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 3 Feb 2023 08:20:41 GMT
+Received: from [10.216.62.140] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 3 Feb 2023
+ 00:20:37 -0800
+Message-ID: <d2af0b0c-718a-a625-3630-05631d0e310c@quicinc.com>
+Date:   Fri, 3 Feb 2023 13:50:34 +0530
 MIME-Version: 1.0
-References: <cover.1674584626.git.geert+renesas@glider.be> <3d612c95031cf5c6d5af4ec35f40121288a2c1c6.1674584626.git.geert+renesas@glider.be>
- <Y9ybPmWub43JpMUb@matsya>
-In-Reply-To: <Y9ybPmWub43JpMUb@matsya>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 3 Feb 2023 09:04:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVJo3aRLh4BCSvOrX+4KMNC=WoQCHMzdiWOmdjSSESxbg@mail.gmail.com>
-Message-ID: <CAMuHMdVJo3aRLh4BCSvOrX+4KMNC=WoQCHMzdiWOmdjSSESxbg@mail.gmail.com>
-Subject: Re: [PATCH v2 6/9] net: ethernet: ti: am65-cpsw: Convert to devm_of_phy_optional_get()
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Siddharth Vadapalli <s-vadapalli@ti.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-phy@lists.infradead.org, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v5 1/2] dt-bindings: ramoops: Add support to get the
+ region dynamically
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>
+CC:     <linux-hardening@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <krzysztof.kozlowski+dt@linaro.org>,
+        <corbet@lwn.net>
+References: <1675330081-15029-1-git-send-email-quic_mojha@quicinc.com>
+ <20230202235916.GA2931100-robh@kernel.org>
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <20230202235916.GA2931100-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: m_x_UGIBt3jvA9wc_qwpE2Y9If-Y-5vC
+X-Proofpoint-GUID: m_x_UGIBt3jvA9wc_qwpE2Y9If-Y-5vC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-03_04,2023-02-02_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxscore=0
+ impostorscore=0 phishscore=0 bulkscore=0 priorityscore=1501
+ mlxlogscore=747 malwarescore=0 adultscore=0 suspectscore=0
+ lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302030076
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vinod,
 
-On Fri, Feb 3, 2023 at 6:27 AM Vinod Koul <vkoul@kernel.org> wrote:
-> On 24-01-23, 19:37, Geert Uytterhoeven wrote:
-> > Use the new devm_of_phy_optional_get() helper instead of open-coding the
-> > same operation.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > v2:
-> >   - Rebase on top of commit 854617f52ab42418 ("net: ethernet: ti:
-> >     am65-cpsw: Handle -EPROBE_DEFER for Serdes PHY") in net-next
-> >     (next-20230123 and later).
->
-> I was trying to apply this on rc1, so ofcourse this fails for me? How do
-> we resolve this?
->
-> I can skip this patch, provide a tag for this to be pulled into -net
-> tree
 
-Thanks, that's one option.
-The other option is to postpone this patch, and apply it after v6.3-rc1.
+On 2/3/2023 5:29 AM, Rob Herring wrote:
+> On Thu, Feb 02, 2023 at 02:58:00PM +0530, Mukesh Ojha wrote:
+>> The reserved memory region for ramoops is assumed to be at a
+>> fixed and known location when read from the devicetree. This
+>> is not desirable in an environment where it is preferred the
+>> region to be dynamically allocated at runtime, as opposed to
+>> being fixed at compile time.
+>>
+>> So, update the ramoops binding by using some reserve memory
+>> property to allocate the ramoops region dynamically.
+> 
+> Sorry, but I still don't think this belongs in DT as I commented on v4
+Do you mean, we should not even document this here ? or are you against 
+the size property mentioned in this patch.
 
-Thanks!
-
-> > --- a/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-> > +++ b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-> > @@ -1460,11 +1460,9 @@ static int am65_cpsw_init_serdes_phy(struct device *dev, struct device_node *por
-> >       struct phy *phy;
-> >       int ret;
-> >
-> > -     phy = devm_of_phy_get(dev, port_np, name);
-> > -     if (PTR_ERR(phy) == -ENODEV)
-> > -             return 0;
-> > -     if (IS_ERR(phy))
-> > -             return PTR_ERR(phy);
-> > +     phy = devm_of_phy_optional_get(dev, port_np, name);
-> > +     if (IS_ERR_OR_NULL(phy))
-> > +             return PTR_ERR_OR_ZERO(phy);
-> >
-> >       /* Serdes PHY exists. Store it. */
-> >       port->slave.serdes_phy = phy;
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-Mukesh
