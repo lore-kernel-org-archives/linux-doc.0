@@ -2,155 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DABD5C61DA4
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 09:37:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DF19C61DA4
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 09:45:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232159AbjBCJh5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Feb 2023 04:37:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56912 "EHLO
+        id S229698AbjBCJpF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Feb 2023 04:45:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232119AbjBCJhx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 04:37:53 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5882B9B6F7;
-        Fri,  3 Feb 2023 01:37:33 -0800 (PST)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3139FqZp016986;
-        Fri, 3 Feb 2023 09:37:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : reply-to : references : mime-version :
- content-type : in-reply-to; s=qcppdkim1;
- bh=DkWeRsx6m2sDvLrRz65hCVeFQnCd0Ddk5CBoHHoxEAU=;
- b=Ay/vxQ2b3wXqQLlZVTlHow64iviS4TOx1BHyZwRnocLP9J8sJLU8Bixp2b1SseWZPJLD
- GGP/k3hzqxZFONf907GZmlCO9cOpLh+Z5UZCzlTBXOIoxEgQmh42wcqz+1ZApYJ1WeX6
- TUMcnkD17ALjxQJ/9bsBvVgDp6tEt6nW6g8+2QcNu+8pQlHSck0nAUkWr8HDEmnEEgL2
- hMpyr5Cdhske/0YLAYpl7tY1M1l0fEthjHbQ+ZTChuT7hQWieQMMZ0JjPGAIbwDND8sY
- dzMLDg7MUUjbYdjFC4V96X3+rifc7UVJZOy27u0KmLUN3wCVzGeLo0wNLLC/bdjpxsvv JQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ngahqtsgm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 03 Feb 2023 09:37:16 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3139bE7P011923
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 3 Feb 2023 09:37:14 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 3 Feb 2023
- 01:37:08 -0800
-Date:   Fri, 3 Feb 2023 15:07:04 +0530
-From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v9 21/27] gunyah: vm_mgr: Add framework to add VM
- Functions
-Message-ID: <20230203093704.GC332@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-22-quic_eberman@quicinc.com>
+        with ESMTP id S233120AbjBCJox (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 04:44:53 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 562A59AFDE;
+        Fri,  3 Feb 2023 01:44:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675417476; x=1706953476;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=/tdpS1Qw1gaKBHKKO9C6ohbaeZRzAMBlN/mzMNnDRL4=;
+  b=jinbuvO4WpmCmygFTEZocpFN9P9c3hw3mcNHB6lCeS/JTm1fCxZm7zIr
+   DUHBhyHCK9T21HB4C/IpZOsB3C6JmB+abssY5+5SoUi9YCU6RoxJP+7ho
+   SeDxssAIvk2uPnKy1KigQXXWil19pXqdruadWeeBz047i9ivrVyoP4YlF
+   qtJo8hJVr0tkwlp/1+30VUZ1ZWLrdMNDdZdqyOD+VZS7x86hKeuBFZirK
+   eeedPwgiAr+Aa/XmNdcItD1kX6mD+aeuCYt66gnLuHnYQNWtM6q4BaIPA
+   5elNu8mq09+4VL1kTKn/HQF6aKMmrk6k0U+/G0GqvsvLziCRB58PjcCtB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="326401556"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
+   d="scan'208";a="326401556"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 01:44:14 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="643210452"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
+   d="scan'208";a="643210452"
+Received: from cciobanu-mobl.ger.corp.intel.com (HELO localhost) ([10.252.35.96])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 01:44:11 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: [PATCH v1] docs: describe how to quickly build Linux
+In-Reply-To: <ee3a168f-66e3-14a3-3890-90dc5c8153d1@leemhuis.info>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <fabdb45fa44db2531f0dbe5e88545c49dfb87040.1675252073.git.linux@leemhuis.info>
+ <1f217c94-b90f-359a-2142-0d3ae5d84fc6@leemhuis.info>
+ <20230202150856.lchr76nqih3vdul6@nitro.local>
+ <ee3a168f-66e3-14a3-3890-90dc5c8153d1@leemhuis.info>
+Date:   Fri, 03 Feb 2023 11:44:08 +0200
+Message-ID: <877cwz13tj.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-In-Reply-To: <20230120224627.4053418-22-quic_eberman@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: dC_-8lVFVfsmcQqToeSBM2k1hEzN59H3
-X-Proofpoint-GUID: dC_-8lVFVfsmcQqToeSBM2k1hEzN59H3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-03_05,2023-02-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- impostorscore=0 phishscore=0 bulkscore=0 priorityscore=1501
- mlxlogscore=999 malwarescore=0 adultscore=0 suspectscore=0
- lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302030087
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:20]:
+On Thu, 02 Feb 2023, Thorsten Leemhuis <linux@leemhuis.info> wrote:
+> On 02.02.23 16:08, Konstantin Ryabitsev wrote:
+>> On Thu, Feb 02, 2023 at 12:15:36PM +0100, Linux kernel regression tracking (Thorsten Leemhuis) wrote:
+>>> Then I tried creating a shallow clone like this:
+>>>
+>>> git clone
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+>>> --depth 1 -b v6.1
+>>> git remote set-branches --add origin master
+>>> git fetch --all --shallow-exclude=v6.1
+>>> git remote add -t linux-6.1.y linux-stable
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+>>> git fetch --all --shallow-exclude=v6.1
+>>>
+>>> This took only roundabout 2 minutes and downloads & stores ~512 MByte
+>>> data (without checkout).
+>> 
+>> Can we also include the option of just downloading the tarball, if it's a
+>> released version? That's the fastest and most lightweight option 100% of the
+>> time. :)
+>
+> Don't worry, that was in there and will stay in there:
+>
+> +   If you plan to only build one particular kernel version, download
+> its source
+> +   archive from https://kernel.org; afterwards extract its content to
+> '~/linux/'
+> +   and change into the directory created during extraction.
 
-> +static struct gunyah_vm_function_driver *__find_function(const char name[GUNYAH_FUNCTION_NAME_SIZE])
-> +	__must_hold(functions_lock)
-> +{
-> +	struct gunyah_vm_function_driver *iter, *drv = NULL;
-> +
-> +	list_for_each_entry(iter, &functions, list) {
-> +		if (!strncmp(iter->name, name, GUNYAH_FUNCTION_NAME_SIZE)) {
-> +			drv = iter;
-> +			break;
-> +		}
-> +	}
+The trouble is, if this is for someone who needs to try kernels for
+debugging, a typical idea is to ask them to revert something or apply a
+patch. All the guides for that will be 'git revert' and 'git am'. Bisect
+is right up there on the list too. And then they'll first grab a tarball
+and fail, then do a shallow copy and fail, and then finally get a full
+one... :p
 
-Not sure how much of a hot path this is going to sit in. I can imagine VM boot
-to be in fast path for some cases (VMs spawned on usecase boundaries - I think
-some VMs like in Amazon firecracker boot in fraction of a second). This
-indirection could cost that a bit (linear search + strcmp for the right
-function). IMHO a direct interface (ex: ADD_IOEVENTFD) will be more efficient.
+BR,
+Jani.
 
-> +void gunyah_vm_function_unregister(struct gunyah_vm_function_driver *drv)
-> +{
-> +	struct gunyah_vm_function *f, *iter;
-> +
-> +	mutex_lock(&functions_lock);
-> +	list_for_each_entry_safe(f, iter, &drv->instances, drv_list)
-> +		gh_vm_remove_function(f);
-> +	list_del(&drv->list);
-> +	mutex_unlock(&functions_lock);
 
-This seems to allow essential functions to be unregistered while there are still
-active users. For example, it would allow ioeventfd or irqfd module to be
-unloaded while there are VMs depending on it. I think it would be better if we
-allow module unload (aka function_unregister) only after dependent VMs are stopped.
+>>> Not totally sure, but the shallow clone somehow feels more appropriate
+>>> for the use case (reminder, there is a "quickly" in the document title),
+>>> even if such a clone is less flexible (e.g. users have to manually add
+>>> stable branches they are interested it; and they need to be careful when
+>>> using git fetch).
+>>>
+>>> That's why I now strongly consider using the shallow clone method by
+>>> default in v2 of this text. Or does that also create a lot of load on
+>>> the servers? Or are there other strong reason why using a shallow clone
+>>> might be a bad idea for this use case?
+>> 
+>> As I mentioned elsewhere, this is only a problem when it's done in batch mode
+>> by CI systems. A full clone uses pregenerated pack files and is very cheap,
+>> because it's effectively a sendfile operation. A shallow clone requires
+>> generating a brand new pack, compressing it, and then keeping it around in
+>> memory for the duration of the clone process. Not a big deal when a few humans
+>> here and there do it, but when 50 CI nodes do it all at once, it effectively
+>> becomes a DDoS. :)
+>
+> Thx again for your insights, much appreciated.
+>
+> Ciao, Thorsten
 
-> +static long gh_vm_rm_function(struct gunyah_vm *ghvm, struct gh_vm_function *fn)
-> +{
-> +	long r = 0;
-> +	struct gunyah_vm_function *f, *iter;
-> +
-> +	r = mutex_lock_interruptible(&functions_lock);
-> +	if (r)
-> +		return r;
-> +
-> +	list_for_each_entry_safe(f, iter, &ghvm->functions, vm_list) {
-> +		if (!memcmp(&f->fn, fn, sizeof(*fn)))
-> +			gh_vm_remove_function(f);
-> +	}
-> +
-
-I think we should return some error (for ioctl atleast) if given function was
-not found.
-
-> +struct gh_vm_function {
-> +	char name[GUNYAH_FUNCTION_NAME_SIZE];
-> +	union {
-> +		char data[GUNYAH_FUNCTION_MAX_ARG_SIZE];
-> +	};
-
-Can you find a way to optimize this memory/time usage? For example, in case of
-ioevents we strictly need 28 bytes, but end up consuming 1kB.
-Also we end up comparing 1024 bytes during REMOVE_FUNCTION when strictly 28
-bytes or fewer bytes comparison was required in case of ioeventfd.
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
