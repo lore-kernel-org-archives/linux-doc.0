@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 492E0C64EC3
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 00:28:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3374AC64EC5
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 00:35:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233260AbjBCA2W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 19:28:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54558 "EHLO
+        id S233197AbjBCAfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 19:35:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233179AbjBCA2Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 19:28:16 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4808F5957C;
-        Thu,  2 Feb 2023 16:28:13 -0800 (PST)
+        with ESMTP id S230432AbjBCAfe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 19:35:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F016A65EEA;
+        Thu,  2 Feb 2023 16:35:31 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D25D9B828D3;
-        Fri,  3 Feb 2023 00:28:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E26E4C433A0;
-        Fri,  3 Feb 2023 00:28:09 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A668AB828BF;
+        Fri,  3 Feb 2023 00:35:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7080C433D2;
+        Fri,  3 Feb 2023 00:35:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675384090;
-        bh=wDzo53Dl0UDwP01U6Ffmf8hrLpT0FCIt+byjVDuB7aY=;
+        s=k20201202; t=1675384529;
+        bh=yLIP0xVEX1f7nCjSlc4iuL265LW+GAg4/ELnRAuM/P4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XUqDnwbBweoECDuUEqj0BesHFC74KJgLi/pjWmtYMybTl1bK7tEkLOGXUiqClZ1BU
-         QOtlGoF9Jq+d4m9S9IPN00+L7wIsucDH6DTBJfQ5fiMX2s9XSEEaZjsKCAJWhXVSaC
-         XFiG/aii3oZ7FiAKTetmAD4yEWYZPXRvesJH9gJCmkZlpvcOXft/oq2uzPho/gqAqn
-         KI6Elm2Fntx+0TY2YLDPMxjcr2GjSDGONEZZ8ktF0OAdtwE9rn+G4AZI7Z3ZV6vceA
-         8Kw3ObMAgGcOrvtB4enDZOOqWn75pU/F1cA104+VMkiTXarY3t9GFwL4rZrfWpLBZJ
-         KU/O8Xbc5OCZA==
+        b=E99aAofi/WnzrEV8cawRG9n1rrgzh54bF0bbM9JXj3Y/Z7o2ShwYy5wCr0lh6z4cG
+         rx0r5Ku/NcnivdSl4ECfQNFW3JezjjKcv3QQD14QeIVT56ggfsPq0a69U80ykiNC1q
+         cPe6NVJDNSCHckPsqOX8kI3fByFtW2ZKnof3SYXeQWuVwLidazIsaeNGvrH0TqkMdg
+         MpsqWOBHu3CRCxEvCxPMzvLVA8QXHNRxx55oagR4LRCKbJZzQuoaIeHHYwwdYHFqES
+         6LVxtY2m2MEiNh8LKPwUYIPgYZf249w+fu1GOLceGGzYPqzUzRgNBD/nm9qTdpAkea
+         ERpzYMNq3T5hA==
 From:   Eric Biggers <ebiggers@kernel.org>
 To:     stable@vger.kernel.org
 Cc:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
@@ -52,12 +52,12 @@ Cc:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
         Tiezhu Yang <yangtiezhu@loongson.cn>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         linux-doc@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 4.19 v2 12/15] panic: Introduce warn_limit
-Date:   Thu,  2 Feb 2023 16:27:14 -0800
-Message-Id: <20230203002717.49198-13-ebiggers@kernel.org>
+Subject: [PATCH 4.14 v2 12/15] panic: Introduce warn_limit
+Date:   Thu,  2 Feb 2023 16:33:51 -0800
+Message-Id: <20230203003354.85691-13-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230203002717.49198-1-ebiggers@kernel.org>
-References: <20230203002717.49198-1-ebiggers@kernel.org>
+In-Reply-To: <20230203003354.85691-1-ebiggers@kernel.org>
+References: <20230203003354.85691-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -93,10 +93,10 @@ Signed-off-by: Eric Biggers <ebiggers@google.com>
  2 files changed, 37 insertions(+)
 
 diff --git a/Documentation/sysctl/kernel.txt b/Documentation/sysctl/kernel.txt
-index e1d375df4f286..c8d3dbda3c1e2 100644
+index b6124a4475fb7..fefffc8e6ac5c 100644
 --- a/Documentation/sysctl/kernel.txt
 +++ b/Documentation/sysctl/kernel.txt
-@@ -97,6 +97,7 @@ show up in /proc/sys/kernel:
+@@ -94,6 +94,7 @@ show up in /proc/sys/kernel:
  - threads-max
  - unprivileged_bpf_disabled
  - unknown_nmi_panic
@@ -104,7 +104,7 @@ index e1d375df4f286..c8d3dbda3c1e2 100644
  - watchdog
  - watchdog_thresh
  - version
-@@ -1114,6 +1115,15 @@ example.  If a system hangs up, try pressing the NMI switch.
+@@ -1072,6 +1073,15 @@ example.  If a system hangs up, try pressing the NMI switch.
  
  ==============================================================
  
@@ -121,10 +121,10 @@ index e1d375df4f286..c8d3dbda3c1e2 100644
  
  This parameter can be used to disable or enable the soft lockup detector
 diff --git a/kernel/panic.c b/kernel/panic.c
-index 08b8adc55b2bf..d1a5360262f04 100644
+index 8e3460e985904..bfe6e4c5cd0e7 100644
 --- a/kernel/panic.c
 +++ b/kernel/panic.c
-@@ -42,6 +42,7 @@ static int pause_on_oops_flag;
+@@ -39,6 +39,7 @@ static int pause_on_oops_flag;
  static DEFINE_SPINLOCK(pause_on_oops_lock);
  bool crash_kexec_post_notifiers;
  int panic_on_warn __read_mostly;
@@ -132,7 +132,7 @@ index 08b8adc55b2bf..d1a5360262f04 100644
  
  int panic_timeout = CONFIG_PANIC_TIMEOUT;
  EXPORT_SYMBOL_GPL(panic_timeout);
-@@ -50,6 +51,26 @@ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
+@@ -47,6 +48,26 @@ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
  
  EXPORT_SYMBOL(panic_notifier_list);
  
@@ -159,7 +159,7 @@ index 08b8adc55b2bf..d1a5360262f04 100644
  static long no_blink(int state)
  {
  	return 0;
-@@ -127,8 +148,14 @@ EXPORT_SYMBOL(nmi_panic);
+@@ -124,8 +145,14 @@ EXPORT_SYMBOL(nmi_panic);
  
  void check_panic_on_warn(const char *origin)
  {
