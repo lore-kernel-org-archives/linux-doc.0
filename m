@@ -2,119 +2,163 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D56EC05027
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 17:56:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89F0EC6379F
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 19:09:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231614AbjBCR4n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Feb 2023 12:56:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35344 "EHLO
+        id S233411AbjBCTJY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Feb 2023 14:09:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231216AbjBCR4l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 12:56:41 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9C381CF79;
-        Fri,  3 Feb 2023 09:56:40 -0800 (PST)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 313HHJMs007086;
-        Fri, 3 Feb 2023 17:56:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : reply-to : references : mime-version :
- content-type : in-reply-to; s=qcppdkim1;
- bh=02KT45rBrJ4pSEsR3ymDPFQ/Q7yUORWGKR/1Ihcy3i4=;
- b=e4cO3uJrTp5d/ejqFs1JvXhj4LKJmY5O0vG00Tgm6+2Vw1xawi8YCt7wlmsTP8CI2wpj
- upnDtkJ/ej5lKhAwPiuaMqXUYCX3k4Ityo2wucgdOFg+cB+gkvHrmSL1T2DiYHToEZyu
- 31mw4pkbzTpOZSnGGl7qzjYKRWKuP4MluYxGqXJvQAFDaYlvzfeCK7jRCv8bidiXP46d
- iyz47O5VsXP/TFzFKFgCmRL7VKh4nsHOFpEJj7tn4uA7WI0J+ZJ6y5zH0guxlzZJbQCN
- Dhgln3gVP8zMBSn5w9k8JhCXBr7caZekN5HfD0EknVah06WKyJeLnf1xOGQXvSAGb9Vl Kg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ngns2j7f8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 03 Feb 2023 17:56:27 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 313HuQta025792
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 3 Feb 2023 17:56:26 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 3 Feb 2023
- 09:56:19 -0800
-Date:   Fri, 3 Feb 2023 23:26:16 +0530
-From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        with ESMTP id S231614AbjBCTJX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 14:09:23 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DD47EA;
+        Fri,  3 Feb 2023 11:09:22 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C593D1EC04E2;
+        Fri,  3 Feb 2023 20:09:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1675451360;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=LXY2XoEteH+dNqMW7AfnSnTBOxxYLXAUN7HmaIMxBkM=;
+        b=N8WcH7X0tVKglRYLqZtDwZoK8S+1l2pz7CtwpUyF9jIHUhxEgOvmxEiarZF7XyQmhxIttC
+        4RpkcwEUAfMrKVn+FwZuu3wBPI67biMbhwYr4g060noTNhZ0fBz+HtT1rvxDsfYWg32T7n
+        b/qJbY+RUHNvJw2Y50jVoYs5SSZFBig=
+Date:   Fri, 3 Feb 2023 20:09:15 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v9 21/27] gunyah: vm_mgr: Add framework to add VM
- Functions
-Message-ID: <20230203175616.GD332@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-22-quic_eberman@quicinc.com>
- <20230203093704.GC332@quicinc.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v5 07/39] x86: Add user control-protection fault handler
+Message-ID: <Y91b2x8pSFtmB+w6@zn.tnic>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-8-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230203093704.GC332@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: YpG8-ONnZ_wPj4MJJBKvgU-vb4mH8Op8
-X-Proofpoint-ORIG-GUID: YpG8-ONnZ_wPj4MJJBKvgU-vb4mH8Op8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-03_17,2023-02-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
- spamscore=0 malwarescore=0 priorityscore=1501 suspectscore=0 mlxscore=0
- adultscore=0 mlxlogscore=881 impostorscore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302030164
+In-Reply-To: <20230119212317.8324-8-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Srivatsa Vaddagiri <quic_svaddagi@quicinc.com> [2023-02-03 15:07:14]:
+On Thu, Jan 19, 2023 at 01:22:45PM -0800, Rick Edgecombe wrote:
+> Subject: Re: [PATCH v5 07/39] x86: Add user control-protection fault handler
 
-> * Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:20]:
+Subject: x86/shstk: Add...
+
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> > +static struct gunyah_vm_function_driver *__find_function(const char name[GUNYAH_FUNCTION_NAME_SIZE])
-> > +	__must_hold(functions_lock)
-> > +{
-> > +	struct gunyah_vm_function_driver *iter, *drv = NULL;
-> > +
-> > +	list_for_each_entry(iter, &functions, list) {
-> > +		if (!strncmp(iter->name, name, GUNYAH_FUNCTION_NAME_SIZE)) {
-> > +			drv = iter;
-> > +			break;
-> > +		}
-> > +	}
-> 
-> Not sure how much of a hot path this is going to sit in. I can imagine VM boot
-> to be in fast path for some cases (VMs spawned on usecase boundaries - I think
-> some VMs like in Amazon firecracker boot in fraction of a second). This
-> indirection could cost that a bit (linear search + strcmp for the right
-> function). IMHO a direct interface (ex: ADD_IOEVENTFD) will be more efficient.
+> A control-protection fault is triggered when a control-flow transfer
+> attempt violates Shadow Stack or Indirect Branch Tracking constraints.
+> For example, the return address for a RET instruction differs from the copy
+> on the shadow stack.
 
-At the minimum, I think you can make iter->name an enum, which will make the
-search faster.
+...
 
--vatsa
+> diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
+> new file mode 100644
+> index 000000000000..33d7d119be26
+> --- /dev/null
+> +++ b/arch/x86/kernel/cet.c
+> @@ -0,0 +1,152 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/ptrace.h>
+> +#include <asm/bugs.h>
+> +#include <asm/traps.h>
+> +
+> +enum cp_error_code {
+> +	CP_EC        = (1 << 15) - 1,
 
+That looks like a mask, so
+
+	CP_EC_MASK
+
+I guess.
+
+> +
+> +	CP_RET       = 1,
+> +	CP_IRET      = 2,
+> +	CP_ENDBR     = 3,
+> +	CP_RSTRORSSP = 4,
+> +	CP_SETSSBSY  = 5,
+> +
+> +	CP_ENCL	     = 1 << 15,
+> +};
+
+...
+
+> +static void do_user_cp_fault(struct pt_regs *regs, unsigned long error_code)
+> +{
+> +	struct task_struct *tsk;
+> +	unsigned long ssp;
+> +
+> +	/*
+> +	 * An exception was just taken from userspace. Since interrupts are disabled
+> +	 * here, no scheduling should have messed with the registers yet and they
+> +	 * will be whatever is live in userspace. So read the SSP before enabling
+> +	 * interrupts so locking the fpregs to do it later is not required.
+> +	 */
+> +	rdmsrl(MSR_IA32_PL3_SSP, ssp);
+> +
+> +	cond_local_irq_enable(regs);
+> +
+> +	tsk = current;
+
+Hmm, should you read current before you enable interrupts? Not that it
+changes from under us...
+
+> +	tsk->thread.error_code = error_code;
+> +	tsk->thread.trap_nr = X86_TRAP_CP;
+> +
+> +	/* Ratelimit to prevent log spamming. */
+> +	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
+> +	    __ratelimit(&cpf_rate)) {
+> +		pr_emerg("%s[%d] control protection ip:%lx sp:%lx ssp:%lx error:%lx(%s)%s",
+> +			 tsk->comm, task_pid_nr(tsk),
+> +			 regs->ip, regs->sp, ssp, error_code,
+> +			 cp_err_string(error_code),
+> +			 error_code & CP_ENCL ? " in enclave" : "");
+> +		print_vma_addr(KERN_CONT " in ", regs->ip);
+> +		pr_cont("\n");
+> +	}
+> +
+> +	force_sig_fault(SIGSEGV, SEGV_CPERR, (void __user *)0);
+> +	cond_local_irq_disable(regs);
+> +}
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
