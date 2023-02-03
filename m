@@ -2,351 +2,213 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01224C61DA4
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 15:27:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17E7EC636D7
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 15:37:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233134AbjBCP1e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Feb 2023 10:27:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41410 "EHLO
+        id S231889AbjBCPh5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Feb 2023 10:37:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233571AbjBCP1Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 10:27:16 -0500
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D98A1A6403;
-        Fri,  3 Feb 2023 07:26:51 -0800 (PST)
-Received: by mail-ot1-x335.google.com with SMTP id r34-20020a05683044a200b0068d4a8a8d2dso1434443otv.12;
-        Fri, 03 Feb 2023 07:26:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=d1v3N93K+wFvh1o9fHYZEbm4yYTFQVCIycI7xJBRS6I=;
-        b=pntJ5U19/et9QhQvRV5mqbEkerlSa9CDs7/oYR6bHIj/r3UnKPW83xnpcuAqLmvk86
-         TlI7H5LQgl260jxJpn3VC03nobN/hH3FK9ky1luSkSUuWdtvlLZSLDlR34iMyTfuqK93
-         PFYEuZnCL6fyucJrK/gkxszI3VE1pWhKTXzhhHhgPb34sBNkvUgXAT8L8quc8TIylbbi
-         dyDpQFxbgBfzMY13Zs+9YOB3miCGsmPW0xlljN9lG9nja5obDNhYe6dS409UCMqa27sn
-         Ga0l9lvDsjy7bcFukdrAj42uxko6lBaWnuIRVX0kdmbZKIuBxmo6rawipa7Dc7/6pjKV
-         nGtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d1v3N93K+wFvh1o9fHYZEbm4yYTFQVCIycI7xJBRS6I=;
-        b=lT30tU/8ySW/Wf4dtZuvB8acW4TjYbf2vwZco4R7ylwaPnrdTZZHyEw3JzTrv+WSye
-         NCIlGPP5FXCdvvHHlV3QNwprtp36aLNph/ITZusagBGBbLGn9i0TkURXzbCAsQj+2gWW
-         ovr5zSkqvnPBmsNlOnvb7Ki11NJLoe4bXPCIv3p19y+iByLMUmBt/tV62UbeYq8mdPKR
-         leAn14e1k8+eLDtddtFYutYrAjggFM16aHztt1xQsrdZzhiiEoNBLPIl1bFFVsONGiQN
-         +wEJxCgQh1DeJrZJUp0q1jItCC+NkCCkoRyjEM2ug4LzQ6j/JfLPB7jkLfUfwtccVdyn
-         NX+w==
-X-Gm-Message-State: AO0yUKVmvHlw3IGA8bnDnEs/Le9B3/07jpqcpcbL50PvzLf984atNGec
-        G9w3JhWtWi05jNzzRMXG8W8=
-X-Google-Smtp-Source: AK7set+KZrdn2sRUTofSvbCxwPBvOilh1CxxgiIcSiBOYluQOBjYX9mHC3sPNnlrfbHy0df9RZo8pQ==
-X-Received: by 2002:a05:6830:708:b0:68b:d889:8b78 with SMTP id y8-20020a056830070800b0068bd8898b78mr5584336ots.32.1675438010991;
-        Fri, 03 Feb 2023 07:26:50 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id g37-20020a05683030a500b00684e4d974e6sm1215945ots.24.2023.02.03.07.26.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Feb 2023 07:26:50 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 3 Feb 2023 07:26:48 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Aleksa Savic <savicaleksa83@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, Jack Doan <me@jackdoan.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for
- Aquacomputer Aquastream Ultimate
-Message-ID: <20230203152648.GA2506913@roeck-us.net>
-References: <20230203120324.579808-1-savicaleksa83@gmail.com>
+        with ESMTP id S233010AbjBCPhz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 10:37:55 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74EBB6EDCA;
+        Fri,  3 Feb 2023 07:37:53 -0800 (PST)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 313FOGq2007962;
+        Fri, 3 Feb 2023 15:37:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=wJPy5gnQQgp5DWijqh1cR/GZtnWuAVWAz/2QL+MNjPE=;
+ b=VOZb5kX225l4AaPDHjqZuMPrpwTGxhw4Kzr1+f5z/4HUaxYf+aLXPTQkYVCNa9DVVGNH
+ MfvAAptMZht5nPRqJ+7gPG+COvFfA8jTU2vKsIeamPnHk37KCtan/Uyw459Wbles/NvR
+ 3Diulm3pArzRGt+S7aOKgb3fO+MzNelogQQHu5Nc9kNWFnBpWEyESlpfvgQt+UWkv4r5
+ 0ekeygL1x60gAM4w1fD5ryBtyCXBzf7zZDNf4UXISQVO6QeZu9OtdEdxUwUK6UDKy+3X
+ nqL+f+KzhyzwS7VuAQCMesX386rGWYLlL51hOfBK44wfsNWZ4UFgE9k/NMaub+LLC2Iu 6g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nh4vqgb4m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 03 Feb 2023 15:37:47 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 313FQv66019759;
+        Fri, 3 Feb 2023 15:37:47 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nh4vqgb3h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 03 Feb 2023 15:37:47 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+        by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 313DpObg024026;
+        Fri, 3 Feb 2023 15:32:45 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+        by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3ncvuqwe4e-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 03 Feb 2023 15:32:45 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+        by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 313FWfAE50004278
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 3 Feb 2023 15:32:41 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A112C20043;
+        Fri,  3 Feb 2023 15:32:41 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 52FF12004B;
+        Fri,  3 Feb 2023 15:32:41 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown [9.171.195.237])
+        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Fri,  3 Feb 2023 15:32:41 +0000 (GMT)
+Message-ID: <e96b3c20055105af9ba76f0abefeb5a236023f37.camel@linux.ibm.com>
+Subject: Re: [PATCH v6 10/14] KVM: s390: Refactor absolute vm mem_op function
+From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To:     Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+Date:   Fri, 03 Feb 2023 16:32:41 +0100
+In-Reply-To: <f1b28707-c525-7cd1-64d5-6717bac5d711@linux.ibm.com>
+References: <20230125212608.1860251-1-scgl@linux.ibm.com>
+         <20230125212608.1860251-11-scgl@linux.ibm.com>
+         <f1b28707-c525-7cd1-64d5-6717bac5d711@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230203120324.579808-1-savicaleksa83@gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 54Gn0kQUnlQTHXPWzLe1AGFCY_plwiBj
+X-Proofpoint-ORIG-GUID: 1dQmxI_NRK3cY9hLoGNOL_62IpZVv4AJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-03_15,2023-02-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ clxscore=1015 impostorscore=0 malwarescore=0 mlxlogscore=920
+ suspectscore=0 adultscore=0 mlxscore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302030139
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 03, 2023 at 01:03:24PM +0100, Aleksa Savic wrote:
-> Extend aquacomputer_d5next driver to expose various hardware sensors of the
-> Aquacomputer Aquastream Ultimate watercooling pump, which communicates
-> through a proprietary USB HID protocol.
-> 
-> Coolant temp and external temp sensor readings are available, along with
-> speed, power, voltage and current of both the pump and optionally connected
-> fan. It also exposes pressure and flow speed readings.
-> 
-> Additionally, serial number and firmware version are exposed through
-> debugfs.
-> 
-> Tested by a user on Github [1].
-> 
-> [1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/issues/50
-> 
-> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
+On Fri, 2023-02-03 at 15:48 +0100, Janosch Frank wrote:
+> On 1/25/23 22:26, Janis Schoetterl-Glausch wrote:
+> > Remove code duplication with regards to the CHECK_ONLY flag.
+> > Decrease the number of indents.
+> > No functional change indented.
+> >=20
+> > Suggested-by: Janosch Frank <frankja@linux.ibm.com>
+> > Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> > ---
+> >=20
+> >=20
+> > Cosmetic only, can be dropped.
+> >=20
+> >=20
+> >   arch/s390/kvm/kvm-s390.c | 43 ++++++++++++++++-----------------------=
+-
+> >   1 file changed, 17 insertions(+), 26 deletions(-)
+> >=20
+> > diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
+> > index 588cf70dc81e..cfd09cb43ef6 100644
+> > --- a/arch/s390/kvm/kvm-s390.c
+> > +++ b/arch/s390/kvm/kvm-s390.c
+> > @@ -2794,6 +2794,7 @@ static void *mem_op_alloc_buf(struct kvm_s390_mem=
+_op *mop)
+> >   static int kvm_s390_vm_mem_op_abs(struct kvm *kvm, struct kvm_s390_me=
+m_op *mop)
+> >   {
+> >   	void __user *uaddr =3D (void __user *)mop->buf;
+> > +	enum gacc_mode acc_mode;
+> >   	void *tmpbuf =3D NULL;
+> >   	int r, srcu_idx;
+> >  =20
+> > @@ -2813,33 +2814,23 @@ static int kvm_s390_vm_mem_op_abs(struct kvm *k=
+vm, struct kvm_s390_mem_op *mop)
+> >   		goto out_unlock;
+> >   	}
+> >  =20
+> > -	switch (mop->op) {
+> > -	case KVM_S390_MEMOP_ABSOLUTE_READ: {
+> > -		if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
+> > -			r =3D check_gpa_range(kvm, mop->gaddr, mop->size, GACC_FETCH, mop->=
+key);
+> > -		} else {
+> > -			r =3D access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
+> > -						      mop->size, GACC_FETCH, mop->key);
+> > -			if (r =3D=3D 0) {
+> > -				if (copy_to_user(uaddr, tmpbuf, mop->size))
+> > -					r =3D -EFAULT;
+> > -			}
+> > -		}
+> > -		break;
+> > -	}
+> > -	case KVM_S390_MEMOP_ABSOLUTE_WRITE: {
+> > -		if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
+> > -			r =3D check_gpa_range(kvm, mop->gaddr, mop->size, GACC_STORE, mop->=
+key);
+> > -		} else {
+> > -			if (copy_from_user(tmpbuf, uaddr, mop->size)) {
+> > -				r =3D -EFAULT;
+> > -				break;
+> > -			}
+> > -			r =3D access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
+> > -						      mop->size, GACC_STORE, mop->key);
+> > +	acc_mode =3D mop->op =3D=3D KVM_S390_MEMOP_ABSOLUTE_READ ? GACC_FETCH=
+ : GACC_STORE;
+>=20
+> Would the line be too long if that variable would be initialized where=
+=20
+> it's defined?
 
-Applied.
+Just fits at 100 columns. Want me to move it?
 
-Thanks,
-Guenter
+>=20
+> > +	if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
+> > +		r =3D check_gpa_range(kvm, mop->gaddr, mop->size, acc_mode, mop->key=
+);
+>=20
+> We should early return i.e. goto out_unlock.
+>=20
+> IMHO else if, else patterns should either be switches (testing the same=
+=20
+> variable) or kept as short as possible / be avoided.
+>=20
+> > +	} else if (acc_mode =3D=3D GACC_FETCH) {
+> > +		r =3D access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
+> > +					      mop->size, GACC_FETCH, mop->key);
+>=20
+> I'd guess it's personal taste whether you use GACC_FETCH or access_mode=
+=20
+> but if you don't use it here then we can remove the variable all=20
+> together, no?
 
-> ---
->  Documentation/hwmon/aquacomputer_d5next.rst |   5 +
->  drivers/hwmon/aquacomputer_d5next.c         | 126 +++++++++++++++++++-
->  2 files changed, 125 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
-> index 527bcd3edda9..7d0d015b1a52 100644
-> --- a/Documentation/hwmon/aquacomputer_d5next.rst
-> +++ b/Documentation/hwmon/aquacomputer_d5next.rst
-> @@ -12,6 +12,7 @@ Supported devices:
->  * Aquacomputer Octo fan controller
->  * Aquacomputer Quadro fan controller
->  * Aquacomputer High Flow Next sensor
-> +* Aquacomputer Aquastream Ultimate watercooling pump
->  * Aquacomputer Poweradjust 3 fan controller
->  
->  Author: Aleksa Savic
-> @@ -54,6 +55,10 @@ The High Flow Next exposes +5V voltages, water quality, conductivity and flow re
->  A temperature sensor can be connected to it, in which case it provides its reading
->  and an estimation of the dissipated/absorbed power in the liquid cooling loop.
->  
-> +The Aquastream Ultimate pump exposes coolant temp and an external temp sensor, along
-> +with speed, power, voltage and current of both the pump and optionally connected fan.
-> +It also exposes pressure and flow speed readings.
-> +
->  The Poweradjust 3 controller exposes a single external temperature sensor.
->  
->  Depending on the device, not all sysfs and debugfs entries will be available.
-> diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-> index 2945b630b4a0..12682a610ce7 100644
-> --- a/drivers/hwmon/aquacomputer_d5next.c
-> +++ b/drivers/hwmon/aquacomputer_d5next.c
-> @@ -1,7 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
->   * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk, Farbwerk 360, Octo,
-> - * Quadro, High Flow Next, Aquaero)
-> + * Quadro, High Flow Next, Aquaero, Aquastream Ultimate)
->   *
->   * Aquacomputer devices send HID reports (with ID 0x01) every second to report
->   * sensor values, except for devices that communicate through the
-> @@ -29,9 +29,13 @@
->  #define USB_PRODUCT_ID_FARBWERK360	0xf010
->  #define USB_PRODUCT_ID_OCTO		0xf011
->  #define USB_PRODUCT_ID_HIGHFLOWNEXT	0xf012
-> +#define USB_PRODUCT_ID_AQUASTREAMULT	0xf00b
->  #define USB_PRODUCT_ID_POWERADJUST3	0xf0bd
->  
-> -enum kinds { d5next, farbwerk, farbwerk360, octo, quadro, highflownext, aquaero, poweradjust3 };
-> +enum kinds {
-> +	d5next, farbwerk, farbwerk360, octo, quadro,
-> +	highflownext, aquaero, poweradjust3, aquastreamult
-> +};
->  
->  static const char *const aqc_device_names[] = {
->  	[d5next] = "d5next",
-> @@ -41,6 +45,7 @@ static const char *const aqc_device_names[] = {
->  	[quadro] = "quadro",
->  	[highflownext] = "highflownext",
->  	[aquaero] = "aquaero",
-> +	[aquastreamult] = "aquastreamultimate",
->  	[poweradjust3] = "poweradjust3"
->  };
->  
-> @@ -117,6 +122,26 @@ static u16 d5next_sensor_fan_offsets[] = { D5NEXT_PUMP_OFFSET, D5NEXT_FAN_OFFSET
->  #define D5NEXT_TEMP_CTRL_OFFSET		0x2D	/* Temperature sensor offsets location */
->  static u16 d5next_ctrl_fan_offsets[] = { 0x97, 0x42 };	/* Pump and fan speed (from 0-100%) */
->  
-> +/* Specs of the Aquastream Ultimate pump */
-> +/* Pump does not follow the standard structure, so only consider the fan */
-> +#define AQUASTREAMULT_NUM_FANS		1
-> +#define AQUASTREAMULT_NUM_SENSORS	2
-> +
-> +/* Sensor report offsets for the Aquastream Ultimate pump */
-> +#define AQUASTREAMULT_SENSOR_START		0x2D
-> +#define AQUASTREAMULT_PUMP_OFFSET		0x51
-> +#define AQUASTREAMULT_PUMP_VOLTAGE		0x3D
-> +#define AQUASTREAMULT_PUMP_CURRENT		0x53
-> +#define AQUASTREAMULT_PUMP_POWER		0x55
-> +#define AQUASTREAMULT_FAN_OFFSET		0x41
-> +#define AQUASTREAMULT_PRESSURE_OFFSET		0x57
-> +#define AQUASTREAMULT_FLOW_SENSOR_OFFSET	0x37
-> +#define AQUASTREAMULT_FAN_VOLTAGE_OFFSET	0x02
-> +#define AQUASTREAMULT_FAN_CURRENT_OFFSET	0x00
-> +#define AQUASTREAMULT_FAN_POWER_OFFSET		0x04
-> +#define AQUASTREAMULT_FAN_SPEED_OFFSET		0x06
-> +static u16 aquastreamult_sensor_fan_offsets[] = { AQUASTREAMULT_FAN_OFFSET };
-> +
->  /* Spec and sensor report offset for the Farbwerk RGB controller */
->  #define FARBWERK_NUM_SENSORS		4
->  #define FARBWERK_SENSOR_START		0x2f
-> @@ -339,6 +364,34 @@ static const char *const label_highflownext_voltage[] = {
->  	"+5V USB voltage"
->  };
->  
-> +/* Labels for Aquastream Ultimate */
-> +static const char *const label_aquastreamult_temp[] = {
-> +	"Coolant temp",
-> +	"External temp"
-> +};
-> +
-> +static const char *const label_aquastreamult_speeds[] = {
-> +	"Fan speed",
-> +	"Pump speed",
-> +	"Pressure [mbar]",
-> +	"Flow speed [dL/h]"
-> +};
-> +
-> +static const char *const label_aquastreamult_power[] = {
-> +	"Fan power",
-> +	"Pump power"
-> +};
-> +
-> +static const char *const label_aquastreamult_voltages[] = {
-> +	"Fan voltage",
-> +	"Pump voltage"
-> +};
-> +
-> +static const char *const label_aquastreamult_current[] = {
-> +	"Fan current",
-> +	"Pump current"
-> +};
-> +
->  /* Labels for Poweradjust 3 */
->  static const char *const label_poweradjust3_temp_sensors[] = {
->  	"External sensor"
-> @@ -359,7 +412,15 @@ static struct aqc_fan_structure_offsets aqc_aquaero_fan_structure = {
->  	.speed = AQUAERO_FAN_SPEED_OFFSET
->  };
->  
-> -/* Fan structure offsets for all devices except Aquaero */
-> +/* Fan structure offsets for Aquastream Ultimate */
-> +static struct aqc_fan_structure_offsets aqc_aquastreamult_fan_structure = {
-> +	.voltage = AQUASTREAMULT_FAN_VOLTAGE_OFFSET,
-> +	.curr = AQUASTREAMULT_FAN_CURRENT_OFFSET,
-> +	.power = AQUASTREAMULT_FAN_POWER_OFFSET,
-> +	.speed = AQUASTREAMULT_FAN_SPEED_OFFSET
-> +};
-> +
-> +/* Fan structure offsets for all devices except those above */
->  static struct aqc_fan_structure_offsets aqc_general_fan_structure = {
->  	.voltage = AQC_FAN_VOLTAGE_OFFSET,
->  	.curr = AQC_FAN_CURRENT_OFFSET,
-> @@ -565,6 +626,14 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
->  		case hwmon_fan_input:
->  		case hwmon_fan_label:
->  			switch (priv->kind) {
-> +			case aquastreamult:
-> +				/*
-> +				 * Special case to support pump RPM, fan RPM,
-> +				 * pressure and flow sensor
-> +				 */
-> +				if (channel < 4)
-> +					return 0444;
-> +				break;
->  			case highflownext:
->  				/* Special case to support flow sensor, water quality
->  				 * and conductivity
-> @@ -595,6 +664,11 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
->  		break;
->  	case hwmon_power:
->  		switch (priv->kind) {
-> +		case aquastreamult:
-> +			/* Special case to support pump and fan power */
-> +			if (channel < 2)
-> +				return 0444;
-> +			break;
->  		case highflownext:
->  			/* Special case to support one power sensor */
->  			if (channel == 0)
-> @@ -607,8 +681,17 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
->  		}
->  		break;
->  	case hwmon_curr:
-> -		if (channel < priv->num_fans)
-> -			return 0444;
-> +		switch (priv->kind) {
-> +		case aquastreamult:
-> +			/* Special case to support pump and fan current */
-> +			if (channel < 2)
-> +				return 0444;
-> +			break;
-> +		default:
-> +			if (channel < priv->num_fans)
-> +				return 0444;
-> +			break;
-> +		}
->  		break;
->  	case hwmon_in:
->  		switch (priv->kind) {
-> @@ -617,6 +700,7 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
->  			if (channel < priv->num_fans + 2)
->  				return 0444;
->  			break;
-> +		case aquastreamult:
->  		case highflownext:
->  			/* Special case to support two voltage sensors */
->  			if (channel < 2)
-> @@ -1001,6 +1085,17 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
->  			i++;
->  		}
->  		break;
-> +	case aquastreamult:
-> +		priv->speed_input[1] = get_unaligned_be16(data + AQUASTREAMULT_PUMP_OFFSET);
-> +		priv->speed_input[2] = get_unaligned_be16(data + AQUASTREAMULT_PRESSURE_OFFSET);
-> +		priv->speed_input[3] = get_unaligned_be16(data + AQUASTREAMULT_FLOW_SENSOR_OFFSET);
-> +
-> +		priv->power_input[1] = get_unaligned_be16(data + AQUASTREAMULT_PUMP_POWER) * 10000;
-> +
-> +		priv->voltage_input[1] = get_unaligned_be16(data + AQUASTREAMULT_PUMP_VOLTAGE) * 10;
-> +
-> +		priv->current_input[1] = get_unaligned_be16(data + AQUASTREAMULT_PUMP_CURRENT);
-> +		break;
->  	case d5next:
->  		priv->voltage_input[2] = get_unaligned_be16(data + D5NEXT_5V_VOLTAGE) * 10;
->  		priv->voltage_input[3] = get_unaligned_be16(data + D5NEXT_12V_VOLTAGE) * 10;
-> @@ -1273,6 +1368,21 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  		priv->power_label = label_highflownext_power;
->  		priv->voltage_label = label_highflownext_voltage;
->  		break;
-> +	case USB_PRODUCT_ID_AQUASTREAMULT:
-> +		priv->kind = aquastreamult;
-> +
-> +		priv->num_fans = AQUASTREAMULT_NUM_FANS;
-> +		priv->fan_sensor_offsets = aquastreamult_sensor_fan_offsets;
-> +
-> +		priv->num_temp_sensors = AQUASTREAMULT_NUM_SENSORS;
-> +		priv->temp_sensor_start_offset = AQUASTREAMULT_SENSOR_START;
-> +
-> +		priv->temp_label = label_aquastreamult_temp;
-> +		priv->speed_label = label_aquastreamult_speeds;
-> +		priv->power_label = label_aquastreamult_power;
-> +		priv->voltage_label = label_aquastreamult_voltages;
-> +		priv->current_label = label_aquastreamult_current;
-> +		break;
->  	case USB_PRODUCT_ID_POWERADJUST3:
->  		priv->kind = poweradjust3;
->  
-> @@ -1302,7 +1412,10 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  		priv->serial_number_start_offset = AQC_SERIAL_START;
->  		priv->firmware_version_offset = AQC_FIRMWARE_VERSION;
->  
-> -		priv->fan_structure = &aqc_general_fan_structure;
-> +		if (priv->kind == aquastreamult)
-> +			priv->fan_structure = &aqc_aquastreamult_fan_structure;
-> +		else
-> +			priv->fan_structure = &aqc_general_fan_structure;
->  		break;
->  	}
->  
-> @@ -1360,6 +1473,7 @@ static const struct hid_device_id aqc_table[] = {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_OCTO) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_QUADRO) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_HIGHFLOWNEXT) },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_AQUASTREAMULT) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_POWERADJUST3) },
->  	{ }
->  };
+Yeah, I think I did replace it, but then undid it.
+Probably just because it is a bit more explicit.
+It's used in check_gpa_range, so no, unless you want to dump the expression
+directly in there.
+>=20
+> > +		if (r)
+> > +			goto out_unlock;
+> > +		if (copy_to_user(uaddr, tmpbuf, mop->size))
+> > +			r =3D -EFAULT;
+> > +	} else {
+> > +		if (copy_from_user(tmpbuf, uaddr, mop->size)) {
+> > +			r =3D -EFAULT;
+> > +			goto out_unlock;
+> >   		}
+> > -		break;
+> > -	}
+> > +		r =3D access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
+> > +					      mop->size, GACC_STORE, mop->key);
+> >   	}
+> >  =20
+> >   out_unlock:
+>=20
+
