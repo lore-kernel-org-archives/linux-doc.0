@@ -2,132 +2,267 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADC56C61DA4
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 01:48:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CEDEC61DA4
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Feb 2023 02:14:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230217AbjBCBsd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Feb 2023 20:48:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36198 "EHLO
+        id S229554AbjBCCOw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Feb 2023 21:14:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230021AbjBCBsd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 20:48:33 -0500
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2B7D885FF;
-        Thu,  2 Feb 2023 17:48:30 -0800 (PST)
-Received: from mail02.huawei.com (unknown [172.30.67.143])
-        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4P7JTP2M99z4f3p0S;
-        Fri,  3 Feb 2023 09:48:25 +0800 (CST)
-Received: from [10.174.176.117] (unknown [10.174.176.117])
-        by APP2 (Coremail) with SMTP id Syh0CgAnFuTnZ9xjCTNxCw--.41037S2;
-        Fri, 03 Feb 2023 09:48:27 +0800 (CST)
-Subject: Re: [PATCH] blk-ioprio: Introduce promote-to-rt policy
-To:     Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org
-Cc:     Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>,
-        cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-References: <20230201045227.2203123-1-houtao@huaweicloud.com>
- <8c068af3-7199-11cf-5c69-a523c7c22d9a@acm.org>
- <4f7dcb3e-2d5a-cae3-0e1c-a82bcc3d2217@huaweicloud.com>
- <b6b3c498-e90b-7d1f-6ad5-a31334e433ae@acm.org>
-From:   Hou Tao <houtao@huaweicloud.com>
-Message-ID: <beb7782e-72a4-c350-3750-23a767c88753@huaweicloud.com>
-Date:   Fri, 3 Feb 2023 09:48:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        with ESMTP id S232056AbjBCCOv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Feb 2023 21:14:51 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A93289341;
+        Thu,  2 Feb 2023 18:14:19 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id jh15so3872321plb.8;
+        Thu, 02 Feb 2023 18:14:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TKAQRjTFaXWS77vgv6q0ZfLRZHBfHqYPvWhJ5n/8Urw=;
+        b=HStmIgqnezSrhFQAflZ152q7o549fqXxmFhj1JKRzJbReJI9NQxcE0ZcfFX8qFv06+
+         /d//M9szyKOznSHB7vCeEy5Bjtb00oCIyoSB1sM0tfLP+HCGgxsrOEnQD5x3sHDSV0Rh
+         zENMfY969UISFeTDv88iAewVZooooFsqs53LB7pV6nYSsNAeizhiMJ9fgzaS3k3zJcen
+         m1wquPLBwGwF55vtVtrIrCpUEaXGWfyYjguWdV5Ukfxy5/8U83oBT6P0EJcNZV981ieM
+         ev9y8jNJfO+VtCeb7XeTfFpLGjr+GyaxzqJtwe3Bi0Rltuo6g1/w5TXnF0dauXw5CVBE
+         I+gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TKAQRjTFaXWS77vgv6q0ZfLRZHBfHqYPvWhJ5n/8Urw=;
+        b=1V9In1KXGVabN3a9dxLQq+xV1/VysVOX1GaJ+avIbX6RLiEdz1BlUHrAgpYX7822cI
+         S+Yk3Iz2SloIQyzzTvanEfpacRjVvWOmaIiIgk3lvW4Zt22U308xqUD5s0fIAJ7OU52e
+         ZIgTC2QVwP0ydEB1UXX3sqmdfGsW+D5oxRmYnLlTRoe28oxPpEglTj+snUxG0LnEVcZw
+         IvXAwpykbgsjr/BcpGwAf6FSmtaeaLesn5tm2kVVJJzBxeNiRNuP9kNWrVLVSaQ64Bpq
+         bg6YkQmjM40EAF+IN9bzoAVw1ml2OSdaLWK1vuojf988INqv7roq/WlcUaztrpKrwgZa
+         ALOw==
+X-Gm-Message-State: AO0yUKV/yGXNXZ2WEksBTkMh15xmF1BcpdVZc/vxTF58heqdiEkjKz7B
+        W8fQfyyAG7rGirqNK6lg6IY=
+X-Google-Smtp-Source: AK7set830bqUqT4sOcIBCoelkdwbIhhp7J9OP66CNDgnAiEZgxZ9sVYgeDX7KWgXo/0v+ZjvIW4EFA==
+X-Received: by 2002:a17:90b:1bc7:b0:225:a226:9fbb with SMTP id oa7-20020a17090b1bc700b00225a2269fbbmr8462096pjb.39.1675390457708;
+        Thu, 02 Feb 2023 18:14:17 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-10.three.co.id. [180.214.232.10])
+        by smtp.gmail.com with ESMTPSA id ij14-20020a17090af80e00b0020a11217682sm534653pjb.27.2023.02.02.18.14.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Feb 2023 18:14:17 -0800 (PST)
+Message-ID: <cb4c5572-baff-6c0c-5aba-d2867664c682@gmail.com>
+Date:   Fri, 3 Feb 2023 09:14:11 +0700
 MIME-Version: 1.0
-In-Reply-To: <b6b3c498-e90b-7d1f-6ad5-a31334e433ae@acm.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH bpf-next v2] bpf/docs: Document kfunc lifecycle /
+ stability expectations
 Content-Language: en-US
-X-CM-TRANSID: Syh0CgAnFuTnZ9xjCTNxCw--.41037S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCr1UWF15XrW7tw4rAr13urg_yoW5AF4kpF
-        4kCFyDArZ0qry8Jr1vq3W8urW8t3y3J3WUJF1FqF95ua1xtwnYgr4IqFn2gFyfGr4kXFnx
-        Xw4UJrW8uFy5Aw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-        0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-        Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
-        e2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
-        Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
-        6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
-        kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE
-        14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
-        9x07UWE__UUUUU=
-X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
-X-CFilter-Loop: Reflected
+To:     David Vernet <void@manifault.com>, bpf@vger.kernel.org
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@meta.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@meta.com, toke@redhat.com, brouer@redhat.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+References: <20230202223557.744110-1-void@manifault.com>
+ <20230202223557.744110-2-void@manifault.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230202223557.744110-2-void@manifault.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bart,
+On 2/3/23 05:35, David Vernet wrote:
+> diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
+> index 0bd07b39c2a4..4135f3111b67 100644
+> --- a/Documentation/bpf/kfuncs.rst
+> +++ b/Documentation/bpf/kfuncs.rst
+> @@ -13,7 +13,7 @@ BPF Kernel Functions or more commonly known as kfuncs are functions in the Linux
+>  kernel which are exposed for use by BPF programs. Unlike normal BPF helpers,
+>  kfuncs do not have a stable interface and can change from one kernel release to
+>  another. Hence, BPF programs need to be updated in response to changes in the
+> -kernel.
+> +kernel. See :ref:`BPF_kfunc_lifecycle_expectations` for more information.
+>  
+>  2. Defining a kfunc
+>  ===================
+> @@ -238,6 +238,32 @@ single argument which must be a trusted argument or a MEM_RCU pointer.
+>  The argument may have reference count of 0 and the kfunc must take this
+>  into consideration.
+>  
+> +.. _KF_deprecated_flag:
+> +
+> +2.4.9 KF_DEPRECATED flag
+> +------------------------
+> +
+> +The KF_DEPRECATED flag is used for kfuncs which are expected to be changed or
+> +removed in a subsequent kernel release. Deprecated kfuncs may be removed at any
+> +time, though if possible (and when applicable), developers are encouraged to
+> +provide users with a deprecation window to ease the burden of migrating off of
+> +the kfunc.
+> +
+> +A kfunc that is marked with KF_DEPRECATED should also have any relevant
+> +information captured in its kernel doc. Such information typically includes the
+> +kfunc's expected remaining lifespan, a recommendation for new functionality
+> +that can replace it if any is available, and possibly a rationale for why it is
+> +being removed.
+> +
+> +Note that while on some occasions, a KF_DEPRECATED kfunc may continue to be
+> +supported and have its KF_DEPRECATED flag removed, it is likely to be far more
+> +difficult to remove a KF_DEPRECATED flag after it's been added than it is to
+> +prevent it from being added in the first place. As described in
+> +:ref:`BPF_kfunc_lifecycle_expectations`, users that rely on specific kfuncs are
+> +highly encouraged to make their use-cases known as early as possible, and
+> +participate in upstream discussions regarding whether to keep, change,
+> +deprecate, or remove those kfuncs if and when such discussions occur.
+> +
+>  2.5 Registering the kfuncs
+>  --------------------------
+>  
+> @@ -304,14 +330,116 @@ In order to accommodate such requirements, the verifier will enforce strict
+>  PTR_TO_BTF_ID type matching if two types have the exact same name, with one
+>  being suffixed with ``___init``.
+>  
+> -3. Core kfuncs
+> +.. _BPF_kfunc_lifecycle_expectations:
+> +
+> +3. kfunc lifecycle expectations
+> +===============================
+> +
+> +kfuncs provide a kernel <-> kernel API, and thus are not bound by any of the
+> +strict stability restrictions associated with kernel <-> user UAPIs. Instead,
+> +they're modeled more similarly to EXPORT_SYMBOL_GPL, and can therefore be
+> +modified or removed by a maintainer of the subsystem they're defined in when
+> +it's deemed necessary.
+> +
+> +Like any other change to the kernel, maintainers will not change or remove a
+> +kfunc without having a reasonable justification.  Whether or not they'll choose
+> +to change a kfunc will ultimately depend on a variety of factors, such as how
+> +widely used the kfunc is, how long the kfunc has been in the kernel, whether an
+> +alternative kfunc exists, what the norm is in terms of stability for the
+> +subsystem in question, and of course what the technical cost is of continuing
+> +to support the kfunc.
+> +
+> +There are several implications of this:
+> +
+> +a) kfuncs that are widely used or have been in the kernel for a long time will
+> +   be more difficult to justify being changed or removed by a maintainer. Said
+> +   in a different way, kfuncs that are known to have a lot of users and provide
+> +   significant value provide stronger incentives for maintainers to invest the
+> +   time and complexity in supporting them. It is therefore important for
+> +   developers that are using kfuncs in their BPF programs to communicate and
+> +   explain how and why those kfuncs are being used, and to participate in
+> +   discussions regarding those kfuncs when they occur upstream.
+> +
+> +b) Because many BPF programs are not upstreamed as part of the kernel tree, it
+> +   is often not possible to change them in-place when a kfunc changes, as it is
+> +   for e.g. an upstreamed driver being updated in place when an
+> +   EXPORT_SYMBOL_GPL symbol is changed. Distributions that bundle BPF programs
+> +   that use kfuncs must therefore ensure that those BPF programs are linking
+> +   against the kfuncs that are supported by the kernel version being used for
+> +   any given release. Additionally, BPF developers are encouraged to upstream
+> +   their BPF programs so they can enjoy the same benefits as upstreamed
+> +   modules, and avoid code churn.
+> +
+> +   On the other hand, while the hope is that it will become the norm to
+> +   upstream BPF programs, the reality is that most BPF programs are still
+> +   out-of-tree. This means that users with out-of-tree BPF programs that use
+> +   kfuncs should be considered relevant to discussions and decisions around
+> +   modifying and removing kfuncs, despite that not being the norm for
+> +   out-of-tree kernel modules. The BPF community will take an active role in
+> +   participating in upstream discussions when necessary to ensure that the
+> +   perspectives of such users are taken into account.
+> +
+> +c) A kfunc will never have any hard stability guarantees. BPF APIs cannot and
+> +   will not ever hard-block a change in the kernel purely for stability
+> +   reasons. In other words, kfuncs have the same stability guarantees as any
+> +   other kernel API, such as those provided by EXPORT_SYMBOL_GPL, though with
+> +   perhaps less burden than EXPORT_SYMBOL_GPL changes thanks to BPF CO-RE.
+> +
+> +   That being said, kfuncs are features that are meant to solve problems and
+> +   provide value to users. The decision of whether to change or remove a kfunc
+> +   is a multivariate technical decision that is made on a case-by-case basis,
+> +   and which is informed by data points such as those mentioned above. It is
+> +   expected that a kfunc being removed or changed with no warning will not be a
+> +   common occurrence or take place without sound justification, but it is a
+> +   possibility that must be accepted if one is to use kfuncs.
+> +
+> +3.1 kfunc deprecation
+> +---------------------
+> +
+> +As described above, while sometimes a maintainer may find that a kfunc must be
+> +changed or removed immediately to accommodate some changes in their subsystem,
+> +other kfuncs may be able to accommodate a longer and more measured deprecation
+> +process. For example, if a new kfunc comes along which provides superior
+> +functionality to an existing kfunc, the existing kfunc may be deprecated for
+> +some period of time to allow users to migrate their BPF programs to use the new
+> +one. Or, if a kfunc has no known users, a decision may be made to remove the
+> +kfunc (without providing an alternative API) after some deprecation period
+> +period so as to provide users with a window to notify the kfunc maintainer if
+> +it turns out that the kfunc is actually being used.
+> +
+> +kfuncs being deprecated (rather than changed or removed with no warning) is
+> +expected to be the common case, and as described in :ref:`KF_deprecated_flag`,
+> +the kfunc framework provides the KF_DEPRECATED flag to kfunc developers to
+> +signal to users that a kfunc has been deprecated. Once a kfunc has been marked
+> +with KF_DEPRECATED, the following procedure is followed for removal:
+> +
+> +1. Any relevant information for deprecated kfuncs is documented in the kfunc's
+> +   kernel docs. This documentation will typically include the kfunc's expected
+> +   remaining lifespan,  a recommendation for new functionality that can replace
+> +   the usage of the deprecated function (or an explanation as to why no such
+> +   replacement exists), etc.
+> +
+> +2. The deprecated kfunc is kept in the kernel for some period of time after it
+> +   was first marked as deprecated. This time period will be chosen on a
+> +   case-by-case basis, and will typically depend on how widespread the use of
+> +   the kfunc is, how long it has been in the kernel, and how hard it is to move
+> +   to alternatives. This deprecation time period is "best effort", and as
+> +   described :ref:`above<BPF_kfunc_lifecycle_expectations>`, circumstances may
+> +   sometimes dictate that the kfunc be removed before the full intended
+> +   deprecation period has elapsed.
+> +
+> +3. After the deprecation period, or sometimes earlier if necessary, the kfunc
+> +   will be removed. At this point, BPF programs calling the kfunc will be
+> +   rejected by the verifier.
+> +
+> +4. Core kfuncs
+>  ==============
+>  
+>  The BPF subsystem provides a number of "core" kfuncs that are potentially
+>  applicable to a wide variety of different possible use cases and programs.
+>  Those kfuncs are documented here.
+>  
+> -3.1 struct task_struct * kfuncs
+> +4.1 struct task_struct * kfuncs
+>  -------------------------------
+>  
+>  There are a number of kfuncs that allow ``struct task_struct *`` objects to be
+> @@ -387,7 +515,7 @@ Here is an example of it being used:
+>  		return 0;
+>  	}
+>  
+> -3.2 struct cgroup * kfuncs
+> +4.2 struct cgroup * kfuncs
+>  --------------------------
+>  
+>  ``struct cgroup *`` objects also have acquire and release functions:
+> @@ -502,7 +630,7 @@ the verifier. bpf_cgroup_ancestor() can be used as follows:
+>  		return 0;
+>  	}
+>  
+> -3.3 struct cpumask * kfuncs
+> +4.3 struct cpumask * kfuncs
+>  ---------------------------
+>  
+>  BPF provides a set of kfuncs that can be used to query, allocate, mutate, and
 
-On 2/3/2023 2:05 AM, Bart Van Assche wrote:
-> On 2/2/23 03:09, Hou Tao wrote:
->> Hi,
->>
->> On 2/2/2023 1:33 AM, Bart Van Assche wrote:
->>> On 1/31/23 20:52, Hou Tao wrote:
->>>>    /**
->>>>     * enum prio_policy - I/O priority class policy.
->>>>     * @POLICY_NO_CHANGE: (default) do not modify the I/O priority class.
->>>> @@ -27,21 +34,30 @@
->>>>     * @POLICY_RESTRICT_TO_BE: modify IOPRIO_CLASS_NONE and IOPRIO_CLASS_RT
->>>> into
->>>>     *        IOPRIO_CLASS_BE.
->>>>     * @POLICY_ALL_TO_IDLE: change the I/O priority class into
->>>> IOPRIO_CLASS_IDLE.
->>>> - *
->>>> + * @POLICY_PROMOTE_TO_RT: modify IOPRIO_CLASS_NONE and IOPRIO_CLASS_BE into
->>>> + *         IOPRIO_CLASS_RT.
->>>>     * See also <linux/ioprio.h>.
->>>>     */
->>>>    enum prio_policy {
->>>> -    POLICY_NO_CHANGE    = 0,
->>>> -    POLICY_NONE_TO_RT    = 1,
->>>> -    POLICY_RESTRICT_TO_BE    = 2,
->>>> -    POLICY_ALL_TO_IDLE    = 3,
->>>> +    POLICY_NO_CHANGE    = IOPRIO_CLASS_NONE,
->>>> +    POLICY_NONE_TO_RT    = IOPRIO_CLASS_RT,
->>>> +    POLICY_RESTRICT_TO_BE    = IOPRIO_CLASS_BE,
->>>> +    POLICY_ALL_TO_IDLE    = IOPRIO_CLASS_IDLE,
->>>> +    POLICY_PROMOTE_TO_RT    = IOPRIO_CLASS_RT | IOPRIO_POL_PROMOTION,
->>>> +};
->>>
->>> The above change complicates the ioprio code. Additionally, I'm concerned that
->>> it makes the ioprio code slower. Has it been considered to keep the numerical
->>> values for the existing policies, to assign the number 4 to
->>> POLICY_PROMOTE_TO_RT and to use a lookup-array in blkcg_set_ioprio() to
->>> convert the policy number into an IOPRIO_CLASS value?
->> For the slowness, do you meaning the extra dereference of blkcg->ioprio->policy
->> when policy is no-change or the handle of IOPRIO_POL_PROMOTION in
->> blkcg_set_ioprio()? It seems other functions (e.g., ioprio_show_prio_policy()
->> and ioprio_set_prio_policy()) are not on the hot path. Using a lookup array in
->> blkcg_set_ioprio() to do the conversion will also be OK, although it will
->> introduce an extra lookup each time when policy is not no-change. I don't have
->> strong preference. If you are OK with lookup array in blkcg_set_ioprio(), will
->> do it in v2.
->
-> Hi Hou,
->
-> I prefer the lookup array because with the lookup array approach the
-> IOPRIO_POL_PROMOTION constant is no longer needed and because I expect that
-> this will result in code that is easier to read. Additionally, the lookup
-> array will be small so the compiler may be clever enough to optimize it away.
-I don't get it on how to remove IOPRIO_POL_PROMOTION when calculating the final
-ioprio for bio. IOPRIO_POL_PROMOTION is not used for IOPRIO_CLASS values but
-used to determinate on how to calculate the final ioprio for bio: choosing the
-maximum or minimum between blkcg ioprio and original bio bi_ioprio.
->
-> Thanks,
->
-> Bart.
->
->
-> .
+LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+-- 
+An old man doll... just what I always wanted! - Clara
 
