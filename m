@@ -2,99 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 798EBC61DA4
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Feb 2023 00:05:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3ECC61DA4
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Feb 2023 00:20:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229869AbjBDAFd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Feb 2023 19:05:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55794 "EHLO
+        id S232237AbjBDAUV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Feb 2023 19:20:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbjBDAFc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 19:05:32 -0500
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EC4E78AFC;
-        Fri,  3 Feb 2023 16:05:31 -0800 (PST)
-Received: by mail-yb1-xb2b.google.com with SMTP id x139so8192517ybe.13;
-        Fri, 03 Feb 2023 16:05:31 -0800 (PST)
+        with ESMTP id S231526AbjBDAUU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 19:20:20 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F21384B7E
+        for <linux-doc@vger.kernel.org>; Fri,  3 Feb 2023 16:20:20 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id o16-20020a17090ad25000b00230759a8c06so3471907pjw.2
+        for <linux-doc@vger.kernel.org>; Fri, 03 Feb 2023 16:20:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NWXwDNOya4kdsdCh7pC4XQ4wSo7oNJQdGNPn7Cg8eek=;
-        b=p01UnsMGEc02PpErdtDhWQLXS9kGGzbxM0OZzFIQzvdBJuszoOAOgAbxH5LyMSS8IZ
-         s4JAnmv2Sfa6OiqwjP39NYz81pf4TehcTP17pG2dAqTVcqX5UNw8BD/TPXuKQpuoB5GR
-         TOqnHsThisS1jvVOOhbb0y0prhJ5exGyjY5BSSsuNmtNi25v9mROJzdrAv69BoJ0NOSM
-         C0ktjQeaugKkw92z/BQ2Lsz/X1EX3pIqQZedEbqc6lx7wwM4paAlBAs1L437K8w5TB1Y
-         eYI3NU5j5iE4ZgsBlv5HezY+M+YjJ+kUWQHqu4VfKpIy02I1cnU1oinSWT/I+krrSf0e
-         Z2Bw==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5zz0zROETrzNavRI3gp8WWblblMRWZB7wupQXhHwefs=;
+        b=oJvj8A2JSbjeQY118AFm4dWbW96MZlcLmtF8XcmiS84Uqnj3SSHmlb00dTdkU5iyrp
+         /bE7I12QrZ8tuBMRzWhb++4l4VcYoVVQRXfrLgR1k11b3BVh/x2eeRpfG8KKOBV2l73D
+         oQULQ8Mzobmh9+VC3fHG9F000Hh7odeF7EGBkqh8V/CdRAwQzct1n6dzaWPzidJMsE3b
+         03dvCXf9F+0BhfvG362T51eqcXDDGuy0Uy8COtKAfqsVXUyQX0iGem/vh/edNXAi6IaE
+         Ora52APvM7nMvCIObWtVS4jipm6uCqlp8Kik4OJsyBqCeg4tl/zPxlAs15IXKCyut8Ri
+         eg3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NWXwDNOya4kdsdCh7pC4XQ4wSo7oNJQdGNPn7Cg8eek=;
-        b=LINVapFPg4iQk7USzFz5dqFONGVmHT7Go9x3226SxCjRmkFglcuua4t6Y/2IcOW2xN
-         m+kXAJ/Igl3EIcPNsswYVXu/FA4qQoYB8w63OjonTqBEFoHAEkDoTcLCX2i2CN3yhN3c
-         P2dpkA4dpjwR1zxAp4GqwEjkgE225cCYwvI4B1jyBvodKB/PncvHAwbs9BvGwmAHTufF
-         +gj9wi0ncBTBsEjdvgf3mblz3qQfB0qiB0m9vaBdErnbk5ONJzLLu9MG9olAEVFF8A9u
-         3t+0d87xaX4r4QZqTPmnLOyPIdBuqOh/5m7TMCBi8Xwxb/dbDt51g+IXygimC8PccMoS
-         DhIA==
-X-Gm-Message-State: AO0yUKVF4BbAUFmOplnMTjEP6xyJ7eaO5Vfr2JhNmwfQFsfWk6L4aSGt
-        brCcFVIdkzV01emrQOUOumrIcLZWRS/i1x4llrV9IngGRVxp2S+w
-X-Google-Smtp-Source: AK7set9dIro31EPZI9q8PtMD4viwjFAOxk2nHBAGaxtZCXS1jKTjuGzI8+AY55Wf3vd8Jr54nYGcL8gwY/nb7BKlEo0=
-X-Received: by 2002:a05:6902:34b:b0:878:2679:8700 with SMTP id
- e11-20020a056902034b00b0087826798700mr231743ybs.328.1675469130436; Fri, 03
- Feb 2023 16:05:30 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5zz0zROETrzNavRI3gp8WWblblMRWZB7wupQXhHwefs=;
+        b=c3p+f9SB1FCdYBNnu+R378w4nBlvbp9X3EvYY7gN3QiBVDrFnkoF9QfyGLscN7d80Y
+         uBkys5dATD8pnF65x7OGz9iXayGArinaNlniUGrlsGPvdH2Z2g/dFaCQ7XkqZW5W7jmF
+         scWRwPL5z6HFjxdExShIz9HQj8pQgcBelADtWAtLJyorkyjz799NHIGSrjnBFQt5F9Aq
+         LSkiLDoA9oUn03aCXS7HpmNV11aFD+P8TQEBgkIQEbKaWrpCxBcwTu30/vyKDoGRESLX
+         tDicpe1AF5jeRSO8GF2YEySenz/epv9jum1ChcZsXJASFNcm1FDz8vExo3/YC8bHamZX
+         UgWQ==
+X-Gm-Message-State: AO0yUKUIJAc0DJdZoXRUIgai6lkaHH5OFIe4RPFMQ3anTjY0FoMbHKAR
+        bcRqFasqexEk2RJsEbm5hcI=
+X-Google-Smtp-Source: AK7set8bZ8vNa59k/Ise85yGZYsVkeRe40DmF4bh6zzTm7Uyvmf8fKbXXL94MsrfTabKakqlj97WOQ==
+X-Received: by 2002:a17:902:d482:b0:194:997d:7735 with SMTP id c2-20020a170902d48200b00194997d7735mr15241934plg.48.1675470019297;
+        Fri, 03 Feb 2023 16:20:19 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id ja17-20020a170902efd100b00196629652efsm2166969plb.286.2023.02.03.16.20.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Feb 2023 16:20:18 -0800 (PST)
+Message-ID: <0749ec79-4375-e44e-f2b6-8f0a8bfa9ad9@gmail.com>
+Date:   Sat, 4 Feb 2023 09:20:13 +0900
 MIME-Version: 1.0
-References: <20230127165728.119507-1-carlos.bilbao@amd.com> <87pmaqskf1.fsf@meer.lwn.net>
-In-Reply-To: <87pmaqskf1.fsf@meer.lwn.net>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 4 Feb 2023 01:05:19 +0100
-Message-ID: <CANiq72=gpzQyh1ExGbBWWNdgH-mTATdG5F600jKD1=NLLCn7wg@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2] docs: Integrate rustdoc into Rust documentation
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH RFC V2] docs: Add more information to the HTML sidebar
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org,
-        jani.nikula@linux.intel.com, rdunlap@infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        konstantin@linuxfoundation.org, bilbao@vt.edu
-Content-Type: text/plain; charset="UTF-8"
+Cc:     David Gow <davidgow@google.com>,
+        Sadiya Kazi <sadiyakazi@google.com>, linux-doc@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <87bkmas5vc.fsf@meer.lwn.net> <877cwys3g6.fsf@meer.lwn.net>
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <877cwys3g6.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 3, 2023 at 6:55 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> - I dumped my Fedora toolchain and did the curl|bash ritual to set up
->   the proper versions with rustup.  It would be nice to have some better
->   documentation on how to do that ... *how* to install bindgen may not
->   be obvious to all users.  It also failed until I installed lld
->   separately.
+On Fri, 03 Feb 2023 17:02:17 -0700, Jonathan Corbet wrote:
+> Jonathan Corbet <corbet@lwn.net> writes:
+> 
+>> As before, the results can be seen at:
+>>
+>>   https://static.lwn.net/kerneldoc/
+> 
+> What's there now reflects a couple of tweaks beyond the patch I sent.
+> 
+> Hopefully I've addressed some of the concerns...  One thing I really
+> don't like about the auto-positioning sidebar, though, is that it pushes
+> the "The Linux Kernel" heading off-screen.  For somebody following a
+> link into the docs from elsewhere, that could be a bit confusing.
 
-Are you referring to the Quick Start guide? I am asking because the
-guide has a one-line command ready for copy-paste to install
-`bindgen`, so I guess you mean something else (?). It also notes that
-there are standalone installers available (if you don't want `rustup`)
--- I will change the URL to point directly to the page with the
-installers, though, since that should help.
+That's the same in RTD. So this might be a point you hate RTD, I guess.
 
-The script behind `make rustavailable` is getting a bunch of
-improvements (and tests) in an ongoing patch series -- I will check
-the `lld` issue for v2 too. If you don't mind it, I will Cc you then,
-in case you could give it a try and confirm it helped.
+But I see a major problem on small/narrow screens.
+The sidebar is now kept at the top, and by clicking/tapping a link in the
+TOC, I can't jump to the section I want to see.
 
-Thanks!
+Sorry, but this is not usable at all.
 
-> I'd really like to see a solution that (1) doesn't kill the docs build
-> process if the tool versions are wrong, and (2) doesn't force the
-> creation of a kernel configuration.  What are our chances of getting
-> there?
+>                                                                    I
+> know vaguely how to fix it with CSS, but getting such things right
+> always require a fair amount of dinking around and I can't do that now.
 
-It may be quite involved, since a few artifacts from the normal build
-would be needed [1]. Since some things in the build system will likely
-change anyway, it is probably best to come back to this after that.
-What do you think, Carlos? Or would you like to give it a try?
+;-) ;-) ;-)
 
-[1] https://lore.kernel.org/linux-doc/CANiq72mC+WzOxhZVtEvnsFYzuBPkd51=TYXK01ztcTZ-CAcUiw@mail.gmail.com/
+        Thanks, Akira
 
-Cheers,
-Miguel
+> 
+> jon
