@@ -2,101 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B08C6C05027
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Feb 2023 00:02:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 798EBC61DA4
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Feb 2023 00:05:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232127AbjBDACY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Feb 2023 19:02:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54856 "EHLO
+        id S229869AbjBDAFd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Feb 2023 19:05:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbjBDACX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 19:02:23 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21EC5528E
-        for <linux-doc@vger.kernel.org>; Fri,  3 Feb 2023 16:02:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=0xXfW3gV0mkB2WFK7xCVBhaY7sb3gr3ChI1338rm/zA=; b=qc2jQse4DxEWZY+KZ623jq0RYA
-        i56MbKXWh5k8CesLV8ba95B1zGzyVdJ2nrGlzDqU5PBL4FT58R5odGRte4ChqkrRrF/hG200CPItb
-        77jaRbF9nDSPC8dtBNcACEWKOnq7YqRC9gpaQ3pzerxwoK3ul/FuZJgIDGLxBgUn8lK1FbJCWQ3mG
-        gPURLq/SIzHwT/WlNavEAg9vJosPXg5NfjBU7JsVxW1TUp597U604v0ARDmmlxoS82RTn13O81fiY
-        WMB5j75RUYpuldy/Mpj/OkiJFlYZPKZXqjwVbHsqrybT1r5L7A67TJa1ek5YVFhJz40vYYNqthRkE
-        F57veRbg==;
-Received: from [2601:1c2:d00:6a60::9526]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pO60a-0044ib-IE; Sat, 04 Feb 2023 00:02:20 +0000
-Message-ID: <c75c8304-88ce-cb7a-3800-fa3ce83a3421@infradead.org>
-Date:   Fri, 3 Feb 2023 16:02:19 -0800
+        with ESMTP id S229626AbjBDAFc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Feb 2023 19:05:32 -0500
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EC4E78AFC;
+        Fri,  3 Feb 2023 16:05:31 -0800 (PST)
+Received: by mail-yb1-xb2b.google.com with SMTP id x139so8192517ybe.13;
+        Fri, 03 Feb 2023 16:05:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NWXwDNOya4kdsdCh7pC4XQ4wSo7oNJQdGNPn7Cg8eek=;
+        b=p01UnsMGEc02PpErdtDhWQLXS9kGGzbxM0OZzFIQzvdBJuszoOAOgAbxH5LyMSS8IZ
+         s4JAnmv2Sfa6OiqwjP39NYz81pf4TehcTP17pG2dAqTVcqX5UNw8BD/TPXuKQpuoB5GR
+         TOqnHsThisS1jvVOOhbb0y0prhJ5exGyjY5BSSsuNmtNi25v9mROJzdrAv69BoJ0NOSM
+         C0ktjQeaugKkw92z/BQ2Lsz/X1EX3pIqQZedEbqc6lx7wwM4paAlBAs1L437K8w5TB1Y
+         eYI3NU5j5iE4ZgsBlv5HezY+M+YjJ+kUWQHqu4VfKpIy02I1cnU1oinSWT/I+krrSf0e
+         Z2Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NWXwDNOya4kdsdCh7pC4XQ4wSo7oNJQdGNPn7Cg8eek=;
+        b=LINVapFPg4iQk7USzFz5dqFONGVmHT7Go9x3226SxCjRmkFglcuua4t6Y/2IcOW2xN
+         m+kXAJ/Igl3EIcPNsswYVXu/FA4qQoYB8w63OjonTqBEFoHAEkDoTcLCX2i2CN3yhN3c
+         P2dpkA4dpjwR1zxAp4GqwEjkgE225cCYwvI4B1jyBvodKB/PncvHAwbs9BvGwmAHTufF
+         +gj9wi0ncBTBsEjdvgf3mblz3qQfB0qiB0m9vaBdErnbk5ONJzLLu9MG9olAEVFF8A9u
+         3t+0d87xaX4r4QZqTPmnLOyPIdBuqOh/5m7TMCBi8Xwxb/dbDt51g+IXygimC8PccMoS
+         DhIA==
+X-Gm-Message-State: AO0yUKVF4BbAUFmOplnMTjEP6xyJ7eaO5Vfr2JhNmwfQFsfWk6L4aSGt
+        brCcFVIdkzV01emrQOUOumrIcLZWRS/i1x4llrV9IngGRVxp2S+w
+X-Google-Smtp-Source: AK7set9dIro31EPZI9q8PtMD4viwjFAOxk2nHBAGaxtZCXS1jKTjuGzI8+AY55Wf3vd8Jr54nYGcL8gwY/nb7BKlEo0=
+X-Received: by 2002:a05:6902:34b:b0:878:2679:8700 with SMTP id
+ e11-20020a056902034b00b0087826798700mr231743ybs.328.1675469130436; Fri, 03
+ Feb 2023 16:05:30 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RFC V2] docs: Add more information to the HTML sidebar
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     David Gow <davidgow@google.com>,
-        Sadiya Kazi <sadiyakazi@google.com>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <87bkmas5vc.fsf@meer.lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87bkmas5vc.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230127165728.119507-1-carlos.bilbao@amd.com> <87pmaqskf1.fsf@meer.lwn.net>
+In-Reply-To: <87pmaqskf1.fsf@meer.lwn.net>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sat, 4 Feb 2023 01:05:19 +0100
+Message-ID: <CANiq72=gpzQyh1ExGbBWWNdgH-mTATdG5F600jKD1=NLLCn7wg@mail.gmail.com>
+Subject: Re: [PATCH v6 0/2] docs: Integrate rustdoc into Rust documentation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org,
+        jani.nikula@linux.intel.com, rdunlap@infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        konstantin@linuxfoundation.org, bilbao@vt.edu
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jonathan,
+On Fri, Feb 3, 2023 at 6:55 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> - I dumped my Fedora toolchain and did the curl|bash ritual to set up
+>   the proper versions with rustup.  It would be nice to have some better
+>   documentation on how to do that ... *how* to install bindgen may not
+>   be obvious to all users.  It also failed until I installed lld
+>   separately.
 
-On 2/3/23 15:09, Jonathan Corbet wrote:
-> Add a new sidebar template that creates a more RTD-like "fisheye" view of
-> the current place in the document hierarchy.  It is far from ideal, but
-> some readers may find it better for navigating through the documentation as
-> a whole.
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
-> Sorry it took so long to get back to this...$EXCUSES plus trying to get
-> ready for the merge window.
-> 
-> This version includes the suggestions Akira sent around a couple of
-> weeks ago.  I've also the sidebar TOC go one level deeper when
-> appropriate.
-> 
-> There's a bit of JavaScript that attempts to scroll the sidebar
-> appropriately.  It's far from perfect but, hopefully an improvement.  It
-> could be made better, but I've managed to remain blissfully ignorant of
-> JavaScript over the years, so it's slow going.  It would sure be nice if
-> somebody who is better at that stuff could jump in.
-> 
-> I think the contents of the sidebar could be improved too, but that's
-> probably a bigger job.
-> 
-> As before, the results can be seen at:
-> 
->   https://static.lwn.net/kerneldoc/
+Are you referring to the Quick Start guide? I am asking because the
+guide has a one-line command ready for copy-paste to install
+`bindgen`, so I guess you mean something else (?). It also notes that
+there are standalone installers available (if you don't want `rustup`)
+-- I will change the URL to point directly to the page with the
+installers, though, since that should help.
 
-I haven't been following this saga closely but this is looking good to me.
-Thanks.
+The script behind `make rustavailable` is getting a bunch of
+improvements (and tests) in an ongoing patch series -- I will check
+the `lld` issue for v2 too. If you don't mind it, I will Cc you then,
+in case you could give it a try and confirm it helped.
 
-Nit: it says that it's for kernel 6.2.0-rc2-6.2.0-rc2+.
-Is that expected?
+Thanks!
 
-Another question: if I'm deep into the menu tree, is there a way (link) to get
-back to the top level?  Other than editing the URL, that is.
+> I'd really like to see a solution that (1) doesn't kill the docs build
+> process if the tool versions are wrong, and (2) doesn't force the
+> creation of a kernel configuration.  What are our chances of getting
+> there?
 
+It may be quite involved, since a few artifacts from the normal build
+would be needed [1]. Since some things in the build system will likely
+change anyway, it is probably best to come back to this after that.
+What do you think, Carlos? Or would you like to give it a try?
 
-> This probably isn't going to get a lot further before the merge window.
-> So I ask: is this sufficiently better that it should go into 6.3?  
+[1] https://lore.kernel.org/linux-doc/CANiq72mC+WzOxhZVtEvnsFYzuBPkd51=TYXK01ztcTZ-CAcUiw@mail.gmail.com/
 
-I'll let the others answer that one.
-
->  Documentation/conf.py                         |  5 +++--
->  Documentation/sphinx-static/custom.css        | 20 ++++++++++++++++++-
->  .../sphinx/templates/kernel-toc.html          | 11 ++++++++++
->  3 files changed, 33 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/sphinx/templates/kernel-toc.html
-
--- 
-~Randy
+Cheers,
+Miguel
