@@ -2,187 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E6C3C61DA4
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Feb 2023 14:49:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7810C636CC
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Feb 2023 21:39:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232760AbjBDOt2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Feb 2023 09:49:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47360 "EHLO
+        id S230019AbjBDVjd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Feb 2023 16:39:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229617AbjBDOt2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Feb 2023 09:49:28 -0500
-Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881F511653;
-        Sat,  4 Feb 2023 06:49:26 -0800 (PST)
-Date:   Sat, 4 Feb 2023 08:49:11 -0600 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1675522164;
-        bh=+iTHfkfAqDhl9s1HhmjZ+Y7a963hdigzz6u9+d6JjAQ=;
-        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-        b=K/uDBxsX4KOWULg4aUe5C21x7zd7bF/UNsofGRKx6jVVFVRHG2/xJDAgLcmkAa9FE
-         kN9oH40DEKixX04L86t3Tfk6gwaB5Peh6QHFbd85kW57Jmr7xz30Dkxa+lQtzmL6pe
-         1bVX8y761MOkcRmHAumBtSbGCHHu2yP5IgMAzI08=
-From:   linux@weissschuh.net
-To:     Jason Baron <jbaron@akamai.com>
-Cc:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Jim Cromie <jim.cromie@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Message-ID: <c0b009e8-0b12-4605-83fa-ceb3cb27922f@weissschuh.net>
-In-Reply-To: <04311d93-7cb4-bf0b-dfa7-162a38b42583@akamai.com>
-References: <20221223-dyndbg-filename-v1-0-cbf8543009a1@weissschuh.net> <20221223-dyndbg-filename-v1-3-cbf8543009a1@weissschuh.net> <04311d93-7cb4-bf0b-dfa7-162a38b42583@akamai.com>
-Subject: Re: [PATCH 3/3] dyndbg: add source filename to prefix
+        with ESMTP id S232417AbjBDVjb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Feb 2023 16:39:31 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCC129156
+        for <linux-doc@vger.kernel.org>; Sat,  4 Feb 2023 13:39:29 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A31622E0;
+        Sat,  4 Feb 2023 21:39:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A31622E0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1675546768; bh=mfEkRPM0yLF2Hb1VVxQaaCJ2BeE4ES2UuSiJkSU7HqM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=N5Qt3brNEvMYoO5/77qohhQmBJyWqv2FwobrxMs4LT3p9AJREyXqE5dYVSSfNsux2
+         b1qq9UtgoX5LULNDCByop9LuuBrtkytJzszpVv0yQiWpjKwX1WtgGjmYoc0g26UCpE
+         UsnVgw2gJ+z6oc4kzfCDi0GNqChMu19P6Rh01vS103VuXbRWt3SQAigeqmgxBR7FtV
+         027SMmh3YwGmrphjoYtIBtkiUfXXt4kZxU9hhxXtC3RA4VpUflLVKT9udGen1BAeAO
+         cgt8dKqkPXF0h2IMzwvKTslkLtyHsCnpjIhaAtqlSHgelr9NH1XmBpcJ/cfc1lKaS5
+         dpLXw8dNuPMyw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     David Gow <davidgow@google.com>,
+        Sadiya Kazi <sadiyakazi@google.com>, linux-doc@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH RFC V2] docs: Add more information to the HTML sidebar
+In-Reply-To: <cb0d683b-8abd-ecb1-389d-c45550e7bbf3@gmail.com>
+References: <87bkmas5vc.fsf@meer.lwn.net> <877cwys3g6.fsf@meer.lwn.net>
+ <0749ec79-4375-e44e-f2b6-8f0a8bfa9ad9@gmail.com>
+ <cb0d683b-8abd-ecb1-389d-c45550e7bbf3@gmail.com>
+Date:   Sat, 04 Feb 2023 14:39:27 -0700
+Message-ID: <87357lrtyo.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <c0b009e8-0b12-4605-83fa-ceb3cb27922f@weissschuh.net>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jason,
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-
-Feb 3, 2023 10:45:49 Jason Baron <jbaron@akamai.com>:
-
-> Hi Thomas,
+>> But I see a major problem on small/narrow screens.
+>> The sidebar is now kept at the top, and by clicking/tapping a link in the
+>> TOC, I can't jump to the section I want to see.
+>> 
+>> Sorry, but this is not usable at all.
 >
-> Thanks for this series, this series is fine with me:
-> Acked-by: Jason Baron <jbaron@akamai.com>
-
-Thanks!
-
-> Your comment about making the output more relatable to the control file m=
-ade me think if we should try and make the logged output look more like the=
- control file:
+> To be clear, I meant "on small/narrow screens".
+> On normal PC screens, this resolves the issues I mentioned earlier.
 >
-> # cat /proc/dynamic_debug/control
-> # filename:lineno [module]function flags format
->
-> So for your example, I think that would look like:
->
-> [=C2=A0=C2=A0 71.802212] lib/test_dynamic_debug.c:103 do_cats: test_dd: d=
-oing categories
-> [=C2=A0=C2=A0 71.802227] lib/test_dynamic_debug.c:123 do_levels: doing le=
-vels
->
-> But even if we think it looks better, there maybe too many dependencies o=
-n the current output format...
+> So I'm OK with this goes into v6.3. Maybe add a note on small screen
+> devices in the Changelog.
 
-I agree on both points.
+I see what you're saying.
 
-An alternative could be a new flag that prints the
-full format from the control file.
-The control file even has a format header that
-tools could use to parse out the fields, making it
-extensible.
+The best solution to this, I guess, would be to hide the contents menu
+behind an icon in the small-screen view.  Doable, I'll try to find some
+time to make that happen.
 
-Not sure it's worth it though.
-And it should be in addition to this series in my
-opinion.
+> BTW, I very much like the way LWN's site navigation behaves on small
+> screen devices. LWN is designed to be accessible without hierarchical
+> structure of documents, which is the opposite of how kernel documentation
+> is managed based on the nested TOC entries.
 
-Thomas
+Yeah, but for the kernel documentation the hierarchy is the only
+structure we have.  Making less of a mess out of it has been a many-year
+project, got a long way to go...
 
-> Thanks,
->
-> -Jason
->
-> On 1/29/23 9:01 PM, Thomas Wei=C3=9Fschuh wrote:
->> Printing the line number without the file is of limited usefulness.
->> Knowing the filename also makes it also easier to relate the logged
->> information to the controlfile.
->> Example:
->> =C2=A0=C2=A0=C2=A0=C2=A0 # modprobe test_dynamic_debug
->> =C2=A0=C2=A0=C2=A0=C2=A0 # echo 'file test_dynamic_debug.c =3Dpfsl' > /p=
-roc/dynamic_debug/control
->> =C2=A0=C2=A0=C2=A0=C2=A0 # echo 1 > /sys/module/test_dynamic_debug/param=
-eters/do_prints
->> =C2=A0=C2=A0=C2=A0=C2=A0 # dmesg | tail -2
->> =C2=A0=C2=A0=C2=A0=C2=A0 [=C2=A0=C2=A0 71.802212] do_cats:lib/test_dynam=
-ic_debug.c:103: test_dd: doing categories
->> =C2=A0=C2=A0=C2=A0=C2=A0 [=C2=A0=C2=A0 71.802227] do_levels:lib/test_dyn=
-amic_debug.c:123: test_dd: doing levels
->> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
->> ---
->> =C2=A0 Documentation/admin-guide/dynamic-debug-howto.rst | 5 +++--
->> =C2=A0 include/linux/dynamic_debug.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 4 +++-
->> =C2=A0 lib/dynamic_debug.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4 ++++
->> =C2=A0 3 files changed, 10 insertions(+), 3 deletions(-)
->> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documen=
-tation/admin-guide/dynamic-debug-howto.rst
->> index faa22f77847a..f9fa8163fba6 100644
->> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
->> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
->> @@ -216,13 +216,14 @@ The flags are::
->> =C2=A0=C2=A0=C2=A0 t=C2=A0=C2=A0=C2=A0 Include thread ID, or <intr>
->> =C2=A0=C2=A0=C2=A0 m=C2=A0=C2=A0=C2=A0 Include module name
->> =C2=A0=C2=A0=C2=A0 f=C2=A0=C2=A0=C2=A0 Include the function name
->> +=C2=A0 s=C2=A0=C2=A0=C2=A0 Include the source file name
->> =C2=A0=C2=A0=C2=A0 l=C2=A0=C2=A0=C2=A0 Include line number
->> =C2=A0=C2=A0=C2=A0 For ``print_hex_dump_debug()`` and ``print_hex_dump_b=
-ytes()``, only
->> =C2=A0 the ``p`` flag has meaning, other flags are ignored.
->> =C2=A0 -Note the regexp ``^[-+=3D][flmpt_]+$`` matches a flags specifica=
-tion.
->> -To clear all flags at once, use ``=3D_`` or ``-flmpt``.
->> +Note the regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specification.
->> +To clear all flags at once, use ``=3D_`` or ``-fslmpt``.
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Debug messages during Boot Process
->> diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug=
-.h
->> index 41682278d2e8..0c77105d583c 100644
->> --- a/include/linux/dynamic_debug.h
->> +++ b/include/linux/dynamic_debug.h
->> @@ -37,10 +37,12 @@ struct _ddebug {
->> =C2=A0 #define _DPRINTK_FLAGS_INCL_FUNCNAME=C2=A0 (1<<2)
->> =C2=A0 #define _DPRINTK_FLAGS_INCL_LINENO=C2=A0=C2=A0=C2=A0 (1<<3)
->> =C2=A0 #define _DPRINTK_FLAGS_INCL_TID=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 (1<<4)
->> +#define _DPRINTK_FLAGS_INCL_SOURCENAME (1<<5)
->> =C2=A0=C2=A0=C2=A0 #define _DPRINTK_FLAGS_INCL_ANY=C2=A0=C2=A0=C2=A0=C2=
-=A0 \
->> =C2=A0=C2=A0=C2=A0 (_DPRINTK_FLAGS_INCL_MODNAME | _DPRINTK_FLAGS_INCL_FU=
-NCNAME |\
->> -=C2=A0=C2=A0=C2=A0 _DPRINTK_FLAGS_INCL_LINENO=C2=A0 | _DPRINTK_FLAGS_IN=
-CL_TID)
->> +=C2=A0=C2=A0=C2=A0 _DPRINTK_FLAGS_INCL_LINENO=C2=A0 | _DPRINTK_FLAGS_IN=
-CL_TID |\
->> +=C2=A0=C2=A0=C2=A0 _DPRINTK_FLAGS_INCL_SOURCENAME)
->> =C2=A0=C2=A0=C2=A0 #if defined DEBUG
->> =C2=A0 #define _DPRINTK_FLAGS_DEFAULT _DPRINTK_FLAGS_PRINT
->> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
->> index e96ea427d8af..fa7418e35197 100644
->> --- a/lib/dynamic_debug.c
->> +++ b/lib/dynamic_debug.c
->> @@ -92,6 +92,7 @@ static const struct { unsigned flag:8; char opt_char; =
-} opt_array[] =3D {
->> =C2=A0=C2=A0=C2=A0 { _DPRINTK_FLAGS_PRINT, 'p' },
->> =C2=A0=C2=A0=C2=A0 { _DPRINTK_FLAGS_INCL_MODNAME, 'm' },
->> =C2=A0=C2=A0=C2=A0 { _DPRINTK_FLAGS_INCL_FUNCNAME, 'f' },
->> +=C2=A0=C2=A0 { _DPRINTK_FLAGS_INCL_SOURCENAME, 's' },
->> =C2=A0=C2=A0=C2=A0 { _DPRINTK_FLAGS_INCL_LINENO, 'l' },
->> =C2=A0=C2=A0=C2=A0 { _DPRINTK_FLAGS_INCL_TID, 't' },
->> =C2=A0=C2=A0=C2=A0 { _DPRINTK_FLAGS_NONE, '_' },
->> @@ -836,6 +837,9 @@ static char *__dynamic_emit_prefix(const struct _dde=
-bug *desc, char *buf)
->> =C2=A0=C2=A0=C2=A0 if (desc->flags & _DPRINTK_FLAGS_INCL_FUNCNAME)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pos +=3D snprintf(buf + pos, =
-remaining(pos), "%s:",
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 desc->function);
->> +=C2=A0=C2=A0 if (desc->flags & _DPRINTK_FLAGS_INCL_SOURCENAME)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pos +=3D snprintf(buf + pos, remai=
-ning(pos), "%s:",
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 trim_prefix(desc->filename));
->> =C2=A0=C2=A0=C2=A0 if (desc->flags & _DPRINTK_FLAGS_INCL_LINENO)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pos +=3D snprintf(buf + pos, =
-remaining(pos), "%d:",
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 desc->lineno);
->>
+Thanks,
 
+jon
