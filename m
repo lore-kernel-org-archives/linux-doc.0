@@ -2,118 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0D6CC61DA4
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Feb 2023 07:34:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB61C636CC
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Feb 2023 09:38:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229877AbjBDHeG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Feb 2023 02:34:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40440 "EHLO
+        id S229746AbjBDJio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Feb 2023 04:38:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229592AbjBDHeF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Feb 2023 02:34:05 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31FD4618F
-        for <linux-doc@vger.kernel.org>; Fri,  3 Feb 2023 23:34:03 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id t17so5244134pfj.0
-        for <linux-doc@vger.kernel.org>; Fri, 03 Feb 2023 23:34:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C2yxF4uy+nsmjqh4OsgWP9Zt7ELJWpmUqx9zqYoQPx8=;
-        b=VzwwFCm7Y68LF9IbYNw9r4rg8XWbJe9KzlzaJv1plhrEb4L0gzAN/aoB0o6aSzBgYs
-         MV43l1P4JAGTJwAcodOha+C9AtsVHJNPikEQJfkcG8p5shYVZhWpffAiVyfzUHW+ljwB
-         guQXEGQ9JCquC+fLccLrXKsclr0ovyRuopd4YW+USTjOlqKfdvzg9zJ5FAqA8v7Tfj16
-         /vUSmzAu4BvptzXw4Zx1IcEP6jJKEGScm9hjbVWUHVQKpqD3HgqEUuhvpv8xQdI6iDkS
-         AbDEsX73/yzmHNpTTAqyz3HZgX+4u3jtOkdcBY0v3pPbqA2tvsP5fYUOPzul2g3qQa+t
-         sNEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C2yxF4uy+nsmjqh4OsgWP9Zt7ELJWpmUqx9zqYoQPx8=;
-        b=451PmwTl30cDzaY3tLQgzsRvkeyEXxMQ/3NkF+1ehXzToBALMk30Nz3zc29cw4E+fa
-         qxsx+T8Xgf0nwQa8RHxCZsHuI4WEhnoK3bOJdK1UpPWC2YoJRq5qhGgez5IrMpYy2vEb
-         9uVQtn22ht04BQNLfcidJ9bosl/BFhag4RGxrPY33BPABbGeolpRkyK6nxLlhz8JlU4g
-         /OB62lkCowrRA3yGoyI9KNCv9QX9guLH7POPi1dxWWC+SbyxmnESP5bJJCAAgqZVpXri
-         fG3MNwZykof2kbTOeOsYAwfz7QBo6iKfGr3dMB++kiGOBPCOHyUKIFKzyOaW8nmUIbK6
-         p1yA==
-X-Gm-Message-State: AO0yUKWn0m2YlhRDl07mKc01meXwiJBWORrP5DTga6ZBovxCnyLaIdFD
-        WJlCh1DrG1xrF+E/iqfFOg6s5Tc7UGE=
-X-Google-Smtp-Source: AK7set+t6IyqWTVHFLZpiM4+CdDlPmUag8beT6pZDL4/odNfU1x/D4tKqaHU/HduWIgPIAcUESgREA==
-X-Received: by 2002:a05:6a00:124d:b0:592:fc9f:8ae5 with SMTP id u13-20020a056a00124d00b00592fc9f8ae5mr14239372pfi.23.1675496042607;
-        Fri, 03 Feb 2023 23:34:02 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id b14-20020aa7870e000000b00593bc1bee3dsm3033947pfo.88.2023.02.03.23.34.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Feb 2023 23:34:02 -0800 (PST)
-Message-ID: <cb0d683b-8abd-ecb1-389d-c45550e7bbf3@gmail.com>
-Date:   Sat, 4 Feb 2023 16:33:59 +0900
+        with ESMTP id S230187AbjBDJin (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Feb 2023 04:38:43 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA9E937B61;
+        Sat,  4 Feb 2023 01:38:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675503521; x=1707039521;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xiZgZsJuCpjgiD0NAzlWJRA/pLfimPXAWyzZBVVrg9s=;
+  b=H0/MsDob6pWXRddi8YbVXkLE1PlHkngvtKsaIe4adKx6yegyBa4f43ip
+   zN57ecqXO16N+iNyypgS2GX7f5uAegaqZSITh5ZBf/3aGtY5Mr7/q+5ag
+   yvgUIISnJYcuqGiIiPU05944/cOMhYss4rwZIVVsnaJjrQSEYg0lu6vC0
+   nd7r6CdJK8FrYvpblMgCAmb5a3QCtWaYSHxURFvR9xnriUxKksB6mOCF8
+   VarMxb/m1Vj+eGA3WktHbukHCSqqSqRBkIMYyzZp8/przuu2+M6+k99vZ
+   88WvV6AfxCKs5IWlUjKmrqrsSiD8Oh6TB4OTf9r6iLVutuV8ZV+B8amhL
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="309266346"
+X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
+   d="scan'208";a="309266346"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 01:38:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="659366483"
+X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
+   d="scan'208";a="659366483"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 04 Feb 2023 01:38:39 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pOF0I-0001Ce-2S;
+        Sat, 04 Feb 2023 09:38:38 +0000
+Date:   Sat, 4 Feb 2023 17:38:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Alexandre Courbot <acourbot@chromium.org>
+Cc:     oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        linux-doc@vger.kernel.org
+Subject: [jsarha:topic/cros-sof-v4.19 1264/6555] spdxcheck:
+ Documentation/media/uapi/mediactl/media-ioc-request-alloc.rst: 1:39 Invalid
+ License ID: GFDL-1.1-or-later
+Message-ID: <202302041705.9KpNOrLD-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH RFC V2] docs: Add more information to the HTML sidebar
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     David Gow <davidgow@google.com>,
-        Sadiya Kazi <sadiyakazi@google.com>, linux-doc@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <87bkmas5vc.fsf@meer.lwn.net> <877cwys3g6.fsf@meer.lwn.net>
- <0749ec79-4375-e44e-f2b6-8f0a8bfa9ad9@gmail.com>
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <0749ec79-4375-e44e-f2b6-8f0a8bfa9ad9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Date: Sat, 4 Feb 2023 09:20:13 +0900, Akira Yokosawa wrote:
-> On Fri, 03 Feb 2023 17:02:17 -0700, Jonathan Corbet wrote:
->> Jonathan Corbet <corbet@lwn.net> writes:
->>
->>> As before, the results can be seen at:
->>>
->>>   https://static.lwn.net/kerneldoc/
->>
->> What's there now reflects a couple of tweaks beyond the patch I sent.
->>
->> Hopefully I've addressed some of the concerns...  One thing I really
->> don't like about the auto-positioning sidebar, though, is that it pushes
->> the "The Linux Kernel" heading off-screen.  For somebody following a
->> link into the docs from elsewhere, that could be a bit confusing.
-> 
-> That's the same in RTD. So this might be a point you hate RTD, I guess.
-> 
-> But I see a major problem on small/narrow screens.
-> The sidebar is now kept at the top, and by clicking/tapping a link in the
-> TOC, I can't jump to the section I want to see.
-> 
-> Sorry, but this is not usable at all.
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: fafd43c288ef4de7f385fde1dd59e45aec303d45 [1264/6555] UPSTREAM: media: Documentation: v4l: document request API
+reproduce:
+        scripts/spdxcheck.py
 
-To be clear, I meant "on small/narrow screens".
-On normal PC screens, this resolves the issues I mentioned earlier.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-So I'm OK with this goes into v6.3. Maybe add a note on small screen
-devices in the Changelog.
+spdxcheck warnings: (new ones prefixed by >>)
+   include/dt-bindings/reset/amlogic,meson-axg-reset.h: 9:41 Invalid License ID: BSD
+>> Documentation/media/uapi/mediactl/media-ioc-request-alloc.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/media-request-ioc-queue.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/media-request-ioc-reinit.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/request-api.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/request-func-close.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/request-func-ioctl.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/request-func-poll.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
 
-BTW, I very much like the way LWN's site navigation behaves on small
-screen devices. LWN is designed to be accessible without hierarchical
-structure of documents, which is the opposite of how kernel documentation
-is managed based on the nested TOC entries.
-
-        Thanks, Akira
-
-> 
->>                                                                    I
->> know vaguely how to fix it with CSS, but getting such things right
->> always require a fair amount of dinking around and I can't do that now.
-> 
-> ;-) ;-) ;-)
-> 
->         Thanks, Akira
-> 
->>
->> jon
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
