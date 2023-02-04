@@ -2,82 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB61C636CC
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Feb 2023 09:38:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05086C636CC
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Feb 2023 10:38:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbjBDJio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Feb 2023 04:38:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38882 "EHLO
+        id S232557AbjBDKiH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Feb 2023 05:38:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230187AbjBDJin (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Feb 2023 04:38:43 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA9E937B61;
-        Sat,  4 Feb 2023 01:38:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675503521; x=1707039521;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xiZgZsJuCpjgiD0NAzlWJRA/pLfimPXAWyzZBVVrg9s=;
-  b=H0/MsDob6pWXRddi8YbVXkLE1PlHkngvtKsaIe4adKx6yegyBa4f43ip
-   zN57ecqXO16N+iNyypgS2GX7f5uAegaqZSITh5ZBf/3aGtY5Mr7/q+5ag
-   yvgUIISnJYcuqGiIiPU05944/cOMhYss4rwZIVVsnaJjrQSEYg0lu6vC0
-   nd7r6CdJK8FrYvpblMgCAmb5a3QCtWaYSHxURFvR9xnriUxKksB6mOCF8
-   VarMxb/m1Vj+eGA3WktHbukHCSqqSqRBkIMYyzZp8/przuu2+M6+k99vZ
-   88WvV6AfxCKs5IWlUjKmrqrsSiD8Oh6TB4OTf9r6iLVutuV8ZV+B8amhL
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="309266346"
-X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="309266346"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 01:38:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="659366483"
-X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="659366483"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 04 Feb 2023 01:38:39 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pOF0I-0001Ce-2S;
-        Sat, 04 Feb 2023 09:38:38 +0000
-Date:   Sat, 4 Feb 2023 17:38:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        linux-doc@vger.kernel.org
-Subject: [jsarha:topic/cros-sof-v4.19 1264/6555] spdxcheck:
- Documentation/media/uapi/mediactl/media-ioc-request-alloc.rst: 1:39 Invalid
- License ID: GFDL-1.1-or-later
-Message-ID: <202302041705.9KpNOrLD-lkp@intel.com>
+        with ESMTP id S230139AbjBDKiG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Feb 2023 05:38:06 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E5584EC5;
+        Sat,  4 Feb 2023 02:38:04 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4AA7A1EC06C0;
+        Sat,  4 Feb 2023 11:38:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1675507083;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=5JyAU/JLXXFTtWRREUsOU6epWY/XYVNcnOAGJNFiKwQ=;
+        b=KfT0Mprsz3GxEPCAHwdg1TWJdHhDGdprVbR1LinIpkwcnWj7jDEX1DKTHH+u78Piqgl1Hx
+        amVRkuP4FWCjAxkPyivEHudk+yPMYUX/52dgOi4wIoog5yCgYHAU80iTBlhSGQ7LLjjQlA
+        wL++YKYAZeBiZt7LZf4JQ7+tBM7fhtY=
+Date:   Sat, 4 Feb 2023 11:37:58 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v5 07/39] x86: Add user control-protection fault handler
+Message-ID: <Y941hjKMMUA+KB0p@zn.tnic>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-8-rick.p.edgecombe@intel.com>
+ <Y91b2x8pSFtmB+w6@zn.tnic>
+ <393a03d063dee5831af93ca67636df75a76481c3.camel@intel.com>
+ <Y91kFGVFe6QlHKmi@zn.tnic>
+ <828f1b3154227c06ac1787961016464a4c116cc2.camel@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <828f1b3154227c06ac1787961016464a4c116cc2.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
-head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
-commit: fafd43c288ef4de7f385fde1dd59e45aec303d45 [1264/6555] UPSTREAM: media: Documentation: v4l: document request API
-reproduce:
-        scripts/spdxcheck.py
+On Fri, Feb 03, 2023 at 11:01:42PM +0000, Edgecombe, Rick P wrote:
+> Since this path is only for exceptions coming from userspace, I think
+> it should be valid either way. It can't be during a task switch.
+> I can swap the lines if it looks odd, but unless I'm wrong about the
+> 'current' validity I think it's negligibly better as is because it is
+> preemptible for as long as possible.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-spdxcheck warnings: (new ones prefixed by >>)
-   include/dt-bindings/reset/amlogic,meson-axg-reset.h: 9:41 Invalid License ID: BSD
->> Documentation/media/uapi/mediactl/media-ioc-request-alloc.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/media-request-ioc-queue.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/media-request-ioc-reinit.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/request-api.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/request-func-close.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/request-func-ioctl.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
->> Documentation/media/uapi/mediactl/request-func-poll.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+Nah, all good. I was confused here. Sorry for the noise.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
