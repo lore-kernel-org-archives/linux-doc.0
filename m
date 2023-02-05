@@ -2,75 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD476C63797
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Feb 2023 16:37:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2233C636CC
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Feb 2023 20:42:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbjBEQhz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Feb 2023 11:37:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60202 "EHLO
+        id S229547AbjBEUmH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Feb 2023 15:42:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbjBEQhy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Feb 2023 11:37:54 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A78E49761;
-        Sun,  5 Feb 2023 08:37:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=Yo+Urvm0rLhJa9/3W2rPd0P2fF2XsXMjt2+zqWRanrg=; b=i4Cedtf6ZLST1rbXf+b4xMBXqA
-        kAQ6Rv7ukeU+KrF5ygkHmz09lfxdboNfdRZ6i9YxvN20YStbkBkfkuG1504+TxrsEyDf6WNZ+/tJY
-        yya+ZRuupWF9bvdDByGcJQX0UOuMY3uawVTIrsSAZwjkeMeuXtily8RrwqKalrwrt4wRs6DVx4Lzs
-        AoZRdLZWnMHNmhnwiTqx/fhMGLNbJn1zXAPkr0cksLSGLI/k+rKkf7GHcoowOx1DDrYah1Z2HLjkx
-        CAqMZkEAGX9vAb3tzfTuHjVDfg4oMsiG6FcGsjw6wEEu8AvnuP+xDpLe+uEdDGBcGaFrtd+xtM882
-        YcCewJBg==;
-Received: from [2601:1c2:d00:6a60::9526] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pOi1Y-006ZDo-TU; Sun, 05 Feb 2023 16:37:53 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v2] parisc: update kbuild doc. aliases for parisc64
-Date:   Sun,  5 Feb 2023 08:37:52 -0800
-Message-Id: <20230205163752.2535-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.39.1
+        with ESMTP id S229379AbjBEUmG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Feb 2023 15:42:06 -0500
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B5118B35;
+        Sun,  5 Feb 2023 12:42:05 -0800 (PST)
+Received: by mail-qt1-x82e.google.com with SMTP id f10so10936475qtv.1;
+        Sun, 05 Feb 2023 12:42:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=baJmWUdmXVxM+m9C4fBDKrI1jWXWeqNSvEzKDmMn6/M=;
+        b=SSMkxH8xCWttzweeETBFl/UCMnZpy5mKzOFrOqGq8bC0gR0ny3UpATXov8Y5mTan4Q
+         9p+Yafup31xdVV6I7G52LPaIj7ByN8WiHl79X8ZymX9R8MtIl9euWb0rtmM7gGXegFJw
+         KLsfeJusNmHPIunW5AKlIPpUwpeVMBjDqV0D+A9EGKazJ7F9ERSdr3+dZFnUCirZ4Lge
+         PhZZjAtlyNZu+ErqbODBMlpqu69NuOPuyBV4V+PtXZXIaDBWd4bkpM3VNMZKat0PuaH9
+         Ajp/pwWPwLrLwHstHT7H7b3bvGbidkcwksQRvI2xvLoqYSVq0HAhGphgt6pcnehRVyJ3
+         6Hvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=baJmWUdmXVxM+m9C4fBDKrI1jWXWeqNSvEzKDmMn6/M=;
+        b=2RTZlsi9/XVEzdWKtVC0NJ8HPJwvgLk4UJ3s7PWqZcvy3LWLLpYk4I649djXXIaY7I
+         WSOegboHxwTg10JDo7ZJRvyyaNmlHSnzX2NopkAI+ZG+g1SqpB2DHmT7ptcBpjNEl13J
+         x+gXD+bi78rXxyXVLZEkxOqEmB1kUL0GyujqX5Qk+6pdCdiKW0JkQJjsATpQlMST2H2n
+         cBqZPxFc6gNkHIf4LNYg/MFNlr8GzSLUdEXIy9AgF2j3VqmNUQp6WkE2/VWhB5vPytXM
+         Ey838Lx1DVEy1v0rOV20RfENZAgtQbAhzZRGJ3nN9WZmPJMb+nT7ebepWT9AMpx2dE4+
+         wABA==
+X-Gm-Message-State: AO0yUKVbfD+Mq/DAKbdvC4LuuXMTGjk0rxNNVIl7oLtQmqeKmzis7vXW
+        cEzGH9lehdoc28DpYzWio80=
+X-Google-Smtp-Source: AK7set/UDuxsSLYZ5O17sdxwiyzq0qjEQT1oXqV2fBG7niXHLPSfrcFUIkUFMq13ygxznuWHKSrqUQ==
+X-Received: by 2002:ac8:7f8e:0:b0:3a9:81f0:d8e9 with SMTP id z14-20020ac87f8e000000b003a981f0d8e9mr31582595qtj.68.1675629724567;
+        Sun, 05 Feb 2023 12:42:04 -0800 (PST)
+Received: from localhost ([2600:1700:65a0:ab60:a80b:31f2:24c8:7c9a])
+        by smtp.gmail.com with ESMTPSA id i9-20020ac813c9000000b003b86d3ca969sm5815755qtj.51.2023.02.05.12.42.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Feb 2023 12:42:04 -0800 (PST)
+Date:   Sun, 5 Feb 2023 12:42:03 -0800
+From:   Cong Wang <xiyou.wangcong@gmail.com>
+To:     David Vernet <void@manifault.com>
+Cc:     bpf@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net,
+        andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
+        yhs@meta.com, john.fastabend@gmail.com, kpsingh@kernel.org,
+        sdf@google.com, haoluo@google.com, jolsa@kernel.org,
+        linux-kernel@vger.kernel.org, kernel-team@meta.com,
+        toke@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        brouer@redhat.com, bagasdotme@gmail.com, linux-api@vger.kernel.org
+Subject: Re: [PATCH bpf-next v3] bpf/docs: Document kfunc lifecycle /
+ stability expectations
+Message-ID: <Y+AUm8cikB6m978j@pop-os.localdomain>
+References: <20230203155727.793518-1-void@manifault.com>
+ <20230203155727.793518-2-void@manifault.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230203155727.793518-2-void@manifault.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ARCH=parisc64 is now supported for 64-bit parisc builds, so add
-this alias to the kbuild.rst documentation.
+On Fri, Feb 03, 2023 at 09:57:27AM -0600, David Vernet wrote:
+> BPF kernel <-> kernel API stability has been discussed at length over
+> the last several weeks and months. Now that we've largely aligned over
+> kfuncs being the way forward, and BPF helpers being considered
+> functionally frozen, it's time to document the expectations for kfunc
+> lifecycles and stability so that everyone (BPF users, kfunc developers,
+> and maintainers) are all aligned, and have a crystal-clear understanding
+> of the expectations surrounding kfuncs.
+> 
+> To do that, this patch adds that documentation to the main kfuncs
+> documentation page via a new 'kfunc lifecycle expectations' section. The
+> patch describes how decisions are made in the kernel regarding whether
+> to include, keep, deprecate, or change / remove a kfunc. As described
+> very overtly in the patch itself, but likely worth highlighting here:
+> 
+> "kfunc stability" does not mean, nor ever will mean, "BPF APIs may block
+> development elsewhere in the kernel".
+> 
+> Rather, the intention and expectation is for kfuncs to be treated like
+> EXPORT_SYMBOL_GPL symbols in the kernel. The goal is for kfuncs to be a
+> safe and valuable option for maintainers and kfunc developers to extend
+> the kernel, without tying anyone's hands, or imposing any kind of
+> restrictions on maintainers in the same way that UAPI changes do.
 
-Fixes: 3dcfb729b5f4 ("parisc: Make CONFIG_64BIT available for ARCH=parisc64 only")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: linux-parisc@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
-v2: drop "parisc for 32 bit" part since "parisc" is not an alias
+I think they are still different, kernel modules are still considered as
+a part of kernel development, while eBPF code is not that supposed to be
+kernel development, at least much further. Treating them alike is
+misleading, IMHO.
 
- Documentation/kbuild/kbuild.rst |    1 +
- 1 file changed, 1 insertion(+)
+> 
+> In addition to the 'kfunc lifecycle expectations' section, this patch
+> also adds documentation for a new KF_DEPRECATED kfunc flag which kfunc
+> authors or maintainers can choose to add to kfuncs if and when they
+> decide to deprecate them. Note that as described in the patch itself, a
+> kfunc need not be deprecated before being changed or removed -- this
+> flag is simply provided as an available deprecation mechanism for those
+> that want to provide a deprecation story / timeline to their users.
+> When necessary, kfuncs may be changed or removed to accommodate changes
+> elsewhere in the kernel without any deprecation at all.
 
-diff -- a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -160,6 +160,7 @@ directory name found in the arch/ direct
- But some architectures such as x86 and sparc have aliases.
- 
- - x86: i386 for 32 bit, x86_64 for 64 bit
-+- parisc: parisc64 for 64 bit
- - sh: sh for 32 bit, sh64 for 64 bit
- - sparc: sparc32 for 32 bit, sparc64 for 64 bit
- 
+This fundamentally contradicts with Compile-Once-Run-Everywhere
+https://facebookmicrosites.github.io/bpf/blog/2020/02/19/bpf-portability-and-co-re.html
+Could you add some clarification for this too? Especically how we could
+respect CO-RE meanwhile deprecating kfuncs?
+
+BTW, not related to compatibility, but still kfuncs related confusion,
+it also contradicts with Documentation/bpf/bpf_design_QA.rst:
+
+"
+Q: Can BPF functionality such as new program or map types, new
+helpers, etc be added out of kernel module code?
+
+A: NO.
+"
+
+The conntrack kfuncs like bpf_skb_ct_alloc() reside in a kernel module.
+
+Thanks!
