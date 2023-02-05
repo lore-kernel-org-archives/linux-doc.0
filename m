@@ -2,137 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5204DC636CD
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Feb 2023 07:17:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6510FC636CC
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Feb 2023 13:20:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229447AbjBEHRM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Feb 2023 02:17:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54050 "EHLO
+        id S229571AbjBENUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Feb 2023 08:20:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbjBEHRM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Feb 2023 02:17:12 -0500
-Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7020F1DB8E;
-        Sat,  4 Feb 2023 23:17:10 -0800 (PST)
-Received: from mail02.huawei.com (unknown [172.30.67.143])
-        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4P8ggg0HDDz4f3pG6;
-        Sun,  5 Feb 2023 15:17:03 +0800 (CST)
-Received: from [10.174.176.117] (unknown [10.174.176.117])
-        by APP2 (Coremail) with SMTP id Syh0CgBHOObtV99jCvL6Cw--.47221S2;
-        Sun, 05 Feb 2023 15:17:05 +0800 (CST)
-Subject: Re: [PATCH] blk-ioprio: Introduce promote-to-rt policy
-To:     Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org
-Cc:     Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>,
-        cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-References: <20230201045227.2203123-1-houtao@huaweicloud.com>
- <a2d8d491-7410-2dd8-cc11-a0519e2025b6@acm.org>
-From:   Hou Tao <houtao@huaweicloud.com>
-Message-ID: <933b39ce-888b-e799-2f49-661356ac50fd@huaweicloud.com>
-Date:   Sun, 5 Feb 2023 15:17:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        with ESMTP id S229457AbjBENUa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Feb 2023 08:20:30 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46417206BF;
+        Sun,  5 Feb 2023 05:20:29 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BFD0960BB9;
+        Sun,  5 Feb 2023 13:20:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ABE0C4339C;
+        Sun,  5 Feb 2023 13:20:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675603228;
+        bh=7mGBs/jrz5JwGpuB1eeglNge0UoUZ/Gcw//0fLt1KrM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=FaaNAH1TYNDFgzrEdsCziIGXQv8yQAHNvzHEjif1jZmR+WLev/O8mNHofzW5kAxCI
+         GtR0YQHd8WiyfRg7q7NJPC68RFmL45vSGbKXKgrqbmnfZQyDJ9fGaclM/ey0V7t/+x
+         xFlK1NBlchyJS9GrJnSlxg707bV6eCMv0kvI1PO3tACENB1feKSaN+RlPVTmpyVHa0
+         C9lU31D6AJnNztMkLqJwxTLE7V+es970tu2O6DiLlCeRPwbTlslQ6X4jMt2QScZhl3
+         YtQR77W+FH9aM13B9coaKRuk5eHqISbfjZkFNg8QZKqPDJ8r2dORK/xsU97jzXqUOO
+         lm0vhblnMcUuQ==
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-142b72a728fso12213899fac.9;
+        Sun, 05 Feb 2023 05:20:28 -0800 (PST)
+X-Gm-Message-State: AO0yUKUcBlM0tgc/YnTxxeA3+MKywECEHs3pVABvoBDFT9V3jvhVTb8X
+        RRjct4ubsnAtoURb35x6OGLXkktARN4MuVOV2Cc=
+X-Google-Smtp-Source: AK7set/8HKtdSwGS+vytjIC+DRUGXDOIz0/AlE5nM1ImDHLLzbR8vytijxUxwvv/4CjqPJXPH506OWBnDxH7ge7+Z70=
+X-Received: by 2002:a05:6871:151:b0:163:a45a:9e41 with SMTP id
+ z17-20020a056871015100b00163a45a9e41mr969412oab.194.1675603227451; Sun, 05
+ Feb 2023 05:20:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <a2d8d491-7410-2dd8-cc11-a0519e2025b6@acm.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: Syh0CgBHOObtV99jCvL6Cw--.47221S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxuFy8ZFWkZr1rArW5trW5Jrb_yoW5ur1kpF
-        4fJF9xCFykXF1ftF17Jw1UXry8tryfKa1UJFnFgFy8ur1UZr1qvr1jgry0gFyxArWkXr45
-        XrW3AryDuF15ZrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvab4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-        0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-        6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-        Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
-        e2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
-        Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
-        6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
-        kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv
-        67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyT
-        uYvjxUOyCJDUUUU
-X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
-X-CFilter-Loop: Reflected
+References: <20230205010425.11932-1-rdunlap@infradead.org>
+In-Reply-To: <20230205010425.11932-1-rdunlap@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 5 Feb 2023 22:19:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ0-i_CciUELv+G9imYL-JA1LLiqRYYbj_N0jJZ2Ro-Mw@mail.gmail.com>
+Message-ID: <CAK7LNAQ0-i_CciUELv+G9imYL-JA1LLiqRYYbj_N0jJZ2Ro-Mw@mail.gmail.com>
+Subject: Re: [PATCH] parisc: update kbuild doc. aliases for parisc64
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Sun, Feb 5, 2023 at 10:04 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> ARCH=parisc64 is now supported for 64-bit parisc builds, so add
+> this alias to the kbuild.rst documentation.
+>
+> Fixes: 3dcfb729b5f4 ("parisc: Make CONFIG_64BIT available for ARCH=parisc64 only")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: linux-parisc@vger.kernel.org
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/kbuild/kbuild.rst |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff -- a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -160,6 +160,7 @@ directory name found in the arch/ direct
+>  But some architectures such as x86 and sparc have aliases.
+>
+>  - x86: i386 for 32 bit, x86_64 for 64 bit
+> +- parisc: parisc for 32 bit, parisc64 for 64 bit
 
-On 2/4/2023 3:51 AM, Bart Van Assche wrote:
-> On 1/31/23 20:52, Hou Tao wrote:
->> diff --git a/Documentation/admin-guide/cgroup-v2.rst
->> b/Documentation/admin-guide/cgroup-v2.rst
->> index c8ae7c897f14..e0b9f73ef62a 100644
->> --- a/Documentation/admin-guide/cgroup-v2.rst
->> +++ b/Documentation/admin-guide/cgroup-v2.rst
->> @@ -2038,17 +2038,27 @@ that attribute:
->>       Change the I/O priority class of all requests into IDLE, the lowest
->>       I/O priority class.
->>   +  promote-to-rt
->> +    For requests that have I/O priority class BE or that have I/O priority
->> +        class IDLE, change it into RT. Do not modify the I/O priority class
->> +        of requests that have priority class RT.
->
-> Please document whether or not this policy modifies the I/O priority
-> (IOPRIO_PRIO_DATA()). Do you agree that the I/O priority should be preserved
-> when promoting from BE to RT and that only the I/O priority class should be
-> modified for such promotions?
-I don't think it is a good idea to keep priority data for BE and IDLE class,
-else after the override of bi_ioprio, a priority with IDLE class and high
-priority data (e.g., 0) will have higher priority than BE class with low
-priority data (e.g., 7). So maybe we should assign the lowest priority data to
-the promoted io priority.
->
->>   The following numerical values are associated with the I/O priority policies:
->>   -+-------------+---+
->> -| no-change   | 0 |
->> -+-------------+---+
->> -| none-to-rt  | 1 |
->> -+-------------+---+
->> -| rt-to-be    | 2 |
->> -+-------------+---+
->> -| all-to-idle | 3 |
->> -+-------------+---+
->> +
->> ++---------------+---------+-----+
->> +| policy        | inst    | num |
->> ++---------------+---------+-----+
->> +| no-change     | demote  | 0   |
->> ++---------------+---------+-----+
->> +| none-to-rt    | demote  | 1   |
->> ++---------------+---------+-----+
->> +| rt-to-be      | demote  | 2   |
->> ++---------------+---------+-----+
->> +| idle          | demote  | 3   |
->> ++---------------+---------+-----+
->> +| promote-to-rt | promote | 1   |
->> ++---------------+---------+-----+
->
-> I prefer that this table is not modified. The numerical values associated with
-> policies only matters for none-to-rt, rt-to-be and all-to-idle but not for
-> promote-to-rt. So I don't think that it is necessary to mention a numerical
-> value for the promote-to-rt policy. Additionally, "none-to-rt" is not a policy
-> that demotes the I/O priority but a policy that may promote the I/O priority.
-Yes, this is no need to associate a number with promote-rt policy. Will fix in
-v2. "none-to-rt" may promote io priority when the priority if NONE, although for
-now bi_ioprio will never be NONE when blkcg_set_ioprio() is called.
->
->> +-- If the instruction is promotion, change the request I/O priority class
->> +-  into the minimum of the I/O priority class policy number and the numerical
->> +-  I/O priority class.
->
-> Using the minimum value seems wrong to me because that will change
-> IOPRIO_VALUE(IOPRIO_CLASS_RT, 1) into IOPRIO_VALUE(IOPRIO_CLASS_RT, 0).
-Yes, you are right. Will fix in v2.
->
-> Thanks,
->
-> Bart.
 
+
+
+'parisc' is not an alias since it matches the arch/parisc/
+directory, is it?
+
+
+
+
+>  - sh: sh for 32 bit, sh64 for 64 bit
+>  - sparc: sparc32 for 32 bit, sparc64 for 64 bit
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
