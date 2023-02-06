@@ -2,118 +2,703 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D12BC636D3
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 15:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A214C636D3
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 15:44:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231338AbjBFPnE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Feb 2023 10:43:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46554 "EHLO
+        id S229822AbjBFPoG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Feb 2023 10:44:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230340AbjBFPmp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 10:42:45 -0500
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5D37227B1
-        for <linux-doc@vger.kernel.org>; Mon,  6 Feb 2023 07:41:48 -0800 (PST)
-Received: by mail-il1-x131.google.com with SMTP id z17so1593854ilm.7
-        for <linux-doc@vger.kernel.org>; Mon, 06 Feb 2023 07:41:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ya1iSK0PwE6HxUwFfuaJF4yxZVg4nHtKlcACKsLmRGU=;
-        b=W/YkJki6ZwlXviPJ614uzFdt2BX/wHzE5Skxgb38EnN1zNcf707VfP+vq4SIYuFXiu
-         LiXSzWangkaoiF4lXCarJh274pb36EjTfBBLjteO2eaVrqT3Mm6+UgHx8Wa6DPCrUuge
-         RHhjM55RBX3kjlSfltd6h5n7Q0hOQYnkzXEgdMzMXyn2GoUV/AKfXbqdnXWhZKLdnESp
-         eOHjve0t0fskr5APXwdt8xUGfyhUOx1rWxU6jCKCle6aFXSHTpD4CryrZJcns3EH0Pbh
-         8mCV5jjmwQcYqVjjRfTm3lv79Ijng+S6AoxJdzESt32cONgkf5olvcsWK4xiQCJsIsSe
-         n5ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ya1iSK0PwE6HxUwFfuaJF4yxZVg4nHtKlcACKsLmRGU=;
-        b=dVCetqm3SagqlsiaDT9rpQw+m9Boq0DAI08bcmEWmEHki7n749miaqm4ePa3SmBmwO
-         qDozdX7IgXtqAkGn58YWQL6h/T2T2zFfn2LJpJqOpTfJuJVNjefiFvejJvfQ0Cz9zPl+
-         ZxWWfDngfc6cpAIbnJFe9nH1y5OV19XrXr6atehMy+4GkllFDfYrq4EX+vPrSBSZnWJX
-         M2pigqAYXeo7AwP3ETEri6i/Ot+UEj6wBA3rLuupyY0ctOm6T8Ou8LjPjv9uO4aR24e4
-         AvhQIc5eqgnPluQ2oDF3hL1a5TgK5/L62ccIVbi835AlamScoI3exLjT46Tn2mujoiFQ
-         V0aw==
-X-Gm-Message-State: AO0yUKW0ZbGMFiN6X21IXnPAxRYKJMlm7dkzXGC4lhGJA1dGbyoJ8R3F
-        QOPzGMeyWn/+3AIOS69oQt1Xfw==
-X-Google-Smtp-Source: AK7set9xFUDytMkMm3RWCn615aTLybOLKq1Z55Oif0udR87hG69FUrkkSit5QKSJolKqkiDJt7eRKw==
-X-Received: by 2002:a05:6e02:1a44:b0:313:d748:8f78 with SMTP id u4-20020a056e021a4400b00313d7488f78mr782710ilv.18.1675698072954;
-        Mon, 06 Feb 2023 07:41:12 -0800 (PST)
-Received: from [172.22.22.4] ([98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id o10-20020a02c6aa000000b0038a3b8aaf11sm3547972jan.37.2023.02.06.07.41.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Feb 2023 07:41:12 -0800 (PST)
-Message-ID: <4a584563-1fb7-22fa-5e16-e0cf5e88b76b@linaro.org>
-Date:   Mon, 6 Feb 2023 09:41:11 -0600
+        with ESMTP id S229792AbjBFPns (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 10:43:48 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656BE2BF2C;
+        Mon,  6 Feb 2023 07:43:12 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 316DiBgk030034;
+        Mon, 6 Feb 2023 15:42:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=oCOUMiH/QyVuYxAprDmeqK1e+evLnZql3HvTqMymCKI=;
+ b=RoES1AC2m23nOU3632qZTCqumbVl219Bq5AQXJMJmXA+AiD+P+rUJD6Ij85lGwtM1kLa
+ flMRnDwZmA1lGK136PHH31sMngUDpOBCNQRqM6LWfa+lu0u7Zbmrew3xAW1SiLpyvs+L
+ rYUUCA+zl41DKO8IJyVZ3eBn4/w0eLwTX//WYCvaZBueTrzP9O6IunqYy05w5+LI8E/j
+ Zb9i990vEpD4BkWi+oDA3HwWR4RKsmuFVK0Jt4B1JQfsb5nl/E3+TADGVdZCkSKiptcq
+ u6lnWJvkXsrXtVy2a1572CQF5YzOrAgWp2ItOs+/3lywL48GpOmfHJxgpGHlUdgi4eXP 1w== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nheb0v012-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 06 Feb 2023 15:42:18 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 316FgHDO026120
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 6 Feb 2023 15:42:17 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Mon, 6 Feb 2023 07:42:16 -0800
+From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
+To:     <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <dri-devel@lists.freedesktop.org>
+CC:     <jacek.lawrynowicz@linux.intel.com>,
+        <stanislaw.gruszka@linux.intel.com>, <quic_pkanojiy@quicinc.com>,
+        <quic_carlv@quicinc.com>, <quic_ajitpals@quicinc.com>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH v2 3/8] accel/qaic: Add MHI controller
+Date:   Mon, 6 Feb 2023 08:41:40 -0700
+Message-ID: <1675698105-19025-4-git-send-email-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
+References: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v9 10/27] gunyah: rsc_mgr: Add VM lifecycle RPC
-Content-Language: en-US
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>
-Cc:     Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-11-quic_eberman@quicinc.com>
- <4db1c760-10d9-3a22-106a-dda141dd5381@linaro.org>
-From:   Alex Elder <elder@linaro.org>
-In-Reply-To: <4db1c760-10d9-3a22-106a-dda141dd5381@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: JB6OhUXDF2GnujN7tzw4uKD5YaFfdvWM
+X-Proofpoint-GUID: JB6OhUXDF2GnujN7tzw4uKD5YaFfdvWM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 adultscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302060135
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/2/23 6:46 AM, Srinivas Kandagatla wrote:
->> +    ret = gh_rm_call(rm, message_id, &req_payload, 
->> sizeof(req_payload), &resp, &resp_size);
->> +    if (!ret && resp_size) {
-> 
-> Am struggling to understand these type of checks in success case, when a 
-> command is not expecting any response why are we checking for response 
-> here, This sounds like a bug in either RM or hypervisor.
-> 
-> Or Is this something that happens due to some firmware behaviour?
-> Could you elobrate on this.
+An AIC100 device contains a MHI interface with a number of different
+channels for controlling different aspects of the device.  The MHI
+controller works with the MHI bus to enable and drive that interface.
 
-What I think you're talking about is error checking even when
-it's very clear something "can't happen."  It's a pattern I've
-seen in Qualcomm downstream code, and I believe sometimes it
-is done as "best practice" to avoid warnings from security scans.
-(I might be wrong about this though.)
+AIC100 uses the BHI protocol in PBL to load SBL.  The MHI controller
+expects the sbl to be located at /lib/firmware/qcom/aic100/sbl.bin and
+expects the MHI bus to manage the process of loading and sending SBL to
+the device.
 
-I think your underlying point though is that we can just assume
-success means "truly successful," so there's no reason to do any
-additional sanity checks.  We *assume* the hardware is doing the
-correct thing (if it's not, we might as well assume it does
-*nothing* right).
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+---
+ drivers/accel/qaic/mhi_controller.c | 576 ++++++++++++++++++++++++++++++++++++
+ drivers/accel/qaic/mhi_controller.h |  19 ++
+ 2 files changed, 595 insertions(+)
+ create mode 100644 drivers/accel/qaic/mhi_controller.c
+ create mode 100644 drivers/accel/qaic/mhi_controller.h
 
-So as a very general statement, I think all checks of this type
-should go away (and I think Srini would agree).
+diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
+new file mode 100644
+index 0000000..984428c
+--- /dev/null
++++ b/drivers/accel/qaic/mhi_controller.c
+@@ -0,0 +1,576 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++/* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
++/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
++
++#include <linux/delay.h>
++#include <linux/err.h>
++#include <linux/memblock.h>
++#include <linux/mhi.h>
++#include <linux/moduleparam.h>
++#include <linux/pci.h>
++#include <linux/sizes.h>
++
++#include "mhi_controller.h"
++#include "qaic.h"
++
++#define MAX_RESET_TIME_SEC 25
++
++static unsigned int mhi_timeout = 2000; /* 2 sec default */
++module_param(mhi_timeout, uint, 0600);
++
++static struct mhi_channel_config aic100_channels[] = {
++	{
++		.name = "QAIC_LOOPBACK",
++		.num = 0,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_LOOPBACK",
++		.num = 1,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_SAHARA",
++		.num = 2,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_SBL,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_SAHARA",
++		.num = 3,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_SBL,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_DIAG",
++		.num = 4,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_DIAG",
++		.num = 5,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_SSR",
++		.num = 6,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_SSR",
++		.num = 7,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_QDSS",
++		.num = 8,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_QDSS",
++		.num = 9,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_CONTROL",
++		.num = 10,
++		.num_elements = 128,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_CONTROL",
++		.num = 11,
++		.num_elements = 128,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_LOGGING",
++		.num = 12,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_SBL,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_LOGGING",
++		.num = 13,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_SBL,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_STATUS",
++		.num = 14,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_STATUS",
++		.num = 15,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_TELEMETRY",
++		.num = 16,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_TELEMETRY",
++		.num = 17,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_DEBUG",
++		.num = 18,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_DEBUG",
++		.num = 19,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.name = "QAIC_TIMESYNC",
++		.num = 20,
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_TO_DEVICE,
++		.ee_mask = MHI_CH_EE_SBL | MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++	{
++		.num = 21,
++		.name = "QAIC_TIMESYNC",
++		.num_elements = 32,
++		.local_elements = 0,
++		.event_ring = 0,
++		.dir = DMA_FROM_DEVICE,
++		.ee_mask = MHI_CH_EE_SBL | MHI_CH_EE_AMSS,
++		.pollcfg = 0,
++		.doorbell = MHI_DB_BRST_DISABLE,
++		.lpm_notify = false,
++		.offload_channel = false,
++		.doorbell_mode_switch = false,
++		.auto_queue = false,
++		.wake_capable = false,
++	},
++};
++
++static struct mhi_event_config aic100_events[] = {
++	{
++		.num_elements = 32,
++		.irq_moderation_ms = 0,
++		.irq = 0,
++		.channel = U32_MAX,
++		.priority = 1,
++		.mode = MHI_DB_BRST_DISABLE,
++		.data_type = MHI_ER_CTRL,
++		.hardware_event = false,
++		.client_managed = false,
++		.offload_channel = false,
++	},
++};
++
++static struct mhi_controller_config aic100_config = {
++	.max_channels = 128,
++	.timeout_ms = 0, /* controlled by mhi_timeout */
++	.buf_len = 0,
++	.num_channels = ARRAY_SIZE(aic100_channels),
++	.ch_cfg = aic100_channels,
++	.num_events = ARRAY_SIZE(aic100_events),
++	.event_cfg = aic100_events,
++	.use_bounce_buf = false,
++	.m2_no_db = false,
++};
++
++static int mhi_read_reg(struct mhi_controller *mhi_cntl, void __iomem *addr, u32 *out)
++{
++	u32 tmp = readl_relaxed(addr);
++
++	if (tmp == U32_MAX)
++		return -EIO;
++
++	*out = tmp;
++
++	return 0;
++}
++
++static void mhi_write_reg(struct mhi_controller *mhi_cntl, void __iomem *addr,
++			  u32 val)
++{
++	writel_relaxed(val, addr);
++}
++
++static int mhi_runtime_get(struct mhi_controller *mhi_cntl)
++{
++	return 0;
++}
++
++static void mhi_runtime_put(struct mhi_controller *mhi_cntl)
++{
++}
++
++static void mhi_status_cb(struct mhi_controller *mhi_cntl, enum mhi_callback reason)
++{
++	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(mhi_cntl->cntrl_dev));
++
++	/* this event occurs in atomic context */
++	if (reason == MHI_CB_FATAL_ERROR)
++		pci_err(qdev->pdev, "Fatal error received from device.  Attempting to recover\n");
++	/* this event occurs in non-atomic context */
++	if (reason == MHI_CB_SYS_ERROR && !qdev->in_reset)
++		qaic_dev_reset_clean_local_state(qdev, true);
++}
++
++static int mhi_reset_and_async_power_up(struct mhi_controller *mhi_cntl)
++{
++	char time_sec = 1;
++	int current_ee;
++	int ret;
++
++	/* Reset the device to bring the device in PBL EE */
++	mhi_soc_reset(mhi_cntl);
++
++	/*
++	 * Keep checking the execution environment(EE) after every 1 second
++	 * interval.
++	 */
++	do {
++		msleep(1000);
++		current_ee = mhi_get_exec_env(mhi_cntl);
++	} while (current_ee != MHI_EE_PBL && time_sec++ <= MAX_RESET_TIME_SEC);
++
++	/* If the device is in PBL EE retry power up */
++	if (current_ee == MHI_EE_PBL)
++		ret = mhi_async_power_up(mhi_cntl);
++	else
++		ret = -EIO;
++
++	return ret;
++}
++
++struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev,
++						    void __iomem *mhi_bar,
++						    int mhi_irq)
++{
++	struct mhi_controller *mhi_cntl;
++	int ret;
++
++	mhi_cntl = kzalloc(sizeof(*mhi_cntl), GFP_KERNEL);
++	if (!mhi_cntl)
++		return ERR_PTR(-ENOMEM);
++
++	mhi_cntl->cntrl_dev = &pci_dev->dev;
++
++	/*
++	 * Covers the entire possible physical ram region.  Remote side is
++	 * going to calculate a size of this range, so subtract 1 to prevent
++	 * rollover.
++	 */
++	mhi_cntl->iova_start = 0;
++	mhi_cntl->iova_stop = PHYS_ADDR_MAX - 1;
++
++	mhi_cntl->status_cb = mhi_status_cb;
++	mhi_cntl->runtime_get = mhi_runtime_get;
++	mhi_cntl->runtime_put = mhi_runtime_put;
++	mhi_cntl->read_reg = mhi_read_reg;
++	mhi_cntl->write_reg = mhi_write_reg;
++	mhi_cntl->regs = mhi_bar;
++	mhi_cntl->reg_len = SZ_4K;
++	mhi_cntl->nr_irqs = 1;
++	mhi_cntl->irq = kmalloc(sizeof(*mhi_cntl->irq), GFP_KERNEL);
++
++	if (!mhi_cntl->irq) {
++		ret = -ENOMEM;
++		goto fail_irq;
++	}
++
++	mhi_cntl->irq[0] = mhi_irq;
++
++	mhi_cntl->fw_image = "qcom/aic100/sbl.bin";
++
++	/* use latest configured timeout */
++	aic100_config.timeout_ms = mhi_timeout;
++	ret = mhi_register_controller(mhi_cntl, &aic100_config);
++	if (ret) {
++		pci_err(pci_dev, "mhi_register_controller failed %d\n", ret);
++		goto register_fail;
++	}
++
++	ret = mhi_prepare_for_power_up(mhi_cntl);
++	if (ret) {
++		pci_err(pci_dev, "mhi_prepare_for_power_up failed %d\n", ret);
++		goto prepare_power_up_fail;
++	}
++
++	ret = mhi_async_power_up(mhi_cntl);
++	/*
++	 * If EIO is returned it is possible that device is in SBL EE, which is
++	 * undesired. SOC reset the device and try to power up again.
++	 */
++	if (ret == -EIO && MHI_EE_SBL == mhi_get_exec_env(mhi_cntl)) {
++		pci_err(pci_dev, "Device is not expected to be SBL EE. SOC resetting the device to put it in PBL EE and again trying mhi async power up. Error %d\n",
++			ret);
++		ret = mhi_reset_and_async_power_up(mhi_cntl);
++	}
++
++	if (ret) {
++		pci_err(pci_dev, "mhi_async_power_up failed %d\n", ret);
++		goto power_up_fail;
++	}
++
++	return mhi_cntl;
++
++power_up_fail:
++	mhi_unprepare_after_power_down(mhi_cntl);
++prepare_power_up_fail:
++	mhi_unregister_controller(mhi_cntl);
++register_fail:
++	kfree(mhi_cntl->irq);
++fail_irq:
++	kfree(mhi_cntl);
++	return ERR_PTR(ret);
++}
++
++void qaic_mhi_free_controller(struct mhi_controller *mhi_cntl, bool link_up)
++{
++	mhi_power_down(mhi_cntl, link_up);
++	mhi_unprepare_after_power_down(mhi_cntl);
++	mhi_unregister_controller(mhi_cntl);
++	kfree(mhi_cntl->irq);
++	kfree(mhi_cntl);
++}
++
++void qaic_mhi_start_reset(struct mhi_controller *mhi_cntl)
++{
++	mhi_power_down(mhi_cntl, true);
++}
++
++void qaic_mhi_reset_done(struct mhi_controller *mhi_cntl)
++{
++	struct pci_dev *pci_dev = container_of(mhi_cntl->cntrl_dev,
++					       struct pci_dev, dev);
++	int ret;
++
++	ret = mhi_async_power_up(mhi_cntl);
++	if (ret)
++		pci_err(pci_dev, "mhi_async_power_up failed after reset %d\n", ret);
++}
+diff --git a/drivers/accel/qaic/mhi_controller.h b/drivers/accel/qaic/mhi_controller.h
+new file mode 100644
+index 0000000..12197bb
+--- /dev/null
++++ b/drivers/accel/qaic/mhi_controller.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0-only
++ *
++ * Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#ifndef MHICONTROLLERQAIC_H_
++#define MHICONTROLLERQAIC_H_
++
++struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev,
++						    void __iomem *mhi_bar,
++						    int mhi_irq);
++
++void qaic_mhi_free_controller(struct mhi_controller *mhi_cntl, bool link_up);
++
++void qaic_mhi_start_reset(struct mhi_controller *mhi_cntl);
++void qaic_mhi_reset_done(struct mhi_controller *mhi_cntl);
++
++#endif /* MHICONTROLLERQAIC_H_ */
+-- 
+2.7.4
 
-					-Alex
