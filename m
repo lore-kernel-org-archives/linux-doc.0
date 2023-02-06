@@ -2,144 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2AF9C636D4
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Feb 2023 21:55:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 778CCC636CC
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 01:08:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229646AbjBEVza (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Feb 2023 16:55:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42028 "EHLO
+        id S229490AbjBFBIH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Feb 2023 20:08:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjBEVza (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Feb 2023 16:55:30 -0500
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E71441817F;
-        Sun,  5 Feb 2023 13:55:28 -0800 (PST)
-Received: by mail-qv1-f51.google.com with SMTP id mm5so1759240qvb.12;
-        Sun, 05 Feb 2023 13:55:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sd8GC4S22QIGy6feHXloJMiVPEVvynjDdix1hqFzPBQ=;
-        b=FBPRfps8T2YhacRgXSQbPDYzv20vRSufktKfPZMrGnRkACFBqj5si2gODM69mQtePW
-         iETPZbJENpiDqNpgXxoc7x8Lfx1MBe5VhzOXaF6MwarBbVgwJN1Nz6Dq7+i6OedbGvJy
-         jvgyVhIXwDqxZPrJesujS8JAekc1/5CRqsCNQpBA4WG52ZqsnJWos4mt1hbgqdvzmJVz
-         NkT4K8BrR7m7Xi6KFnY6fqU6Ade+gUmAFGIFX5Q0FnNdWx/bJxsL1FqyeqbdBjty+U4v
-         Mr2nlvNDfErMKjmNjBaMHg3yv3siingu03n7TfK/f0Pkb1Bx6ZGMsKkk0klhqtDS5drL
-         MPbw==
-X-Gm-Message-State: AO0yUKVpKCHsDZh+RnrarZKgqi/POjpeDOywUJKCOuvv5LtY5eUFLZ0f
-        gJ5WXcLoxKxEhQ6/y9AMDhRoNAd+v/sR4W+B
-X-Google-Smtp-Source: AK7set9i/PApkfhWFCZNLKgGP+t0zfCW5GxPpLn/Ps+2pE/hqkK7fO1lRr69WHxpSZX83VXjWeBYcw==
-X-Received: by 2002:a0c:c48f:0:b0:53c:e0cb:67ad with SMTP id u15-20020a0cc48f000000b0053ce0cb67admr20628431qvi.43.1675634127869;
-        Sun, 05 Feb 2023 13:55:27 -0800 (PST)
-Received: from maniforge.lan ([2620:10d:c091:480::1:8625])
-        by smtp.gmail.com with ESMTPSA id b16-20020a05620a04f000b00705cef9b84asm6023118qkh.131.2023.02.05.13.55.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Feb 2023 13:55:27 -0800 (PST)
-Date:   Sun, 5 Feb 2023 15:55:29 -0600
-From:   David Vernet <void@manifault.com>
-To:     Cong Wang <xiyou.wangcong@gmail.com>
-Cc:     bpf@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net,
-        andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
-        yhs@meta.com, john.fastabend@gmail.com, kpsingh@kernel.org,
-        sdf@google.com, haoluo@google.com, jolsa@kernel.org,
-        linux-kernel@vger.kernel.org, kernel-team@meta.com,
-        toke@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        brouer@redhat.com, bagasdotme@gmail.com, linux-api@vger.kernel.org
-Subject: Re: [PATCH bpf-next v3] bpf/docs: Document kfunc lifecycle /
- stability expectations
-Message-ID: <Y+Al0QKpeTK2XGyV@maniforge.lan>
-References: <20230203155727.793518-1-void@manifault.com>
- <20230203155727.793518-2-void@manifault.com>
- <Y+AUm8cikB6m978j@pop-os.localdomain>
+        with ESMTP id S229488AbjBFBIG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Feb 2023 20:08:06 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6181CDF4;
+        Sun,  5 Feb 2023 17:08:05 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7312060C4D;
+        Mon,  6 Feb 2023 01:08:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D781AC433D2;
+        Mon,  6 Feb 2023 01:08:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675645684;
+        bh=XyBLgfQK6ge4EhdCnRlXceT5yEg/NKnPwHNtxHUH0+o=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TFp/nNwV67HIdFc5vi8rwNLOpB0TJQOS9Z1aAEQk/ywmRw5oWzuETG7y0eeUCCt9D
+         y2jTHN1SPxkaHlNnE5REHYMqcNuF1TyWkgez/DcNJ4lpBiWWlAJglq5QdbuLLIOHC5
+         MdIuF/8k9HYFVpQLRbQ+8Kxj8DZ9t7ONoeKlvMnwpiBxc/+PU3YR97c0sSshrq8jz1
+         fDeb52qd0fYrUJn4ut941v8DgvSOG5InuaQA+RgVoMiyLyEPyumEskJ9OtKZrRKAoO
+         vDwvwkg+u6gX2ZOMDcGcqcdWubdsKDhvqNyNUiZA3ievQ7PlC2hmgrNf6GcdLMvJz9
+         ymV7fu+ecAmZg==
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-15f97c478a8so13428750fac.13;
+        Sun, 05 Feb 2023 17:08:04 -0800 (PST)
+X-Gm-Message-State: AO0yUKXY0Jm0nxyXWB+i+oU4vCuCvx6uAv3c5KOUY3z9c9vlRZiMaPV3
+        iLVt1EyWCaY5KpZwXyYS3ByAhWd0tOtsmv4dn74=
+X-Google-Smtp-Source: AK7set8xoNkkqvVBNjBk9EbvclUMut0KpNh/NqPcJOx0XYTEkZbTCC+vIzJ2aYHACMV0LfSIms6VOVMi0gK5faJxh+M=
+X-Received: by 2002:a05:6870:110f:b0:160:3296:a9b9 with SMTP id
+ 15-20020a056870110f00b001603296a9b9mr1494289oaf.287.1675645684087; Sun, 05
+ Feb 2023 17:08:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+AUm8cikB6m978j@pop-os.localdomain>
-User-Agent: Mutt/2.2.9 (2022-11-12)
+References: <20230205163752.2535-1-rdunlap@infradead.org>
+In-Reply-To: <20230205163752.2535-1-rdunlap@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 6 Feb 2023 10:07:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASGAk3sAaK0bDiTMdWR2ocRcRs8UBLekRddv0mizQKxqg@mail.gmail.com>
+Message-ID: <CAK7LNASGAk3sAaK0bDiTMdWR2ocRcRs8UBLekRddv0mizQKxqg@mail.gmail.com>
+Subject: Re: [PATCH v2] parisc: update kbuild doc. aliases for parisc64
+To:     Randy Dunlap <rdunlap@infradead.org>, Helge Deller <deller@gmx.de>
+Cc:     linux-kernel@vger.kernel.org,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        linux-parisc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 05, 2023 at 12:42:03PM -0800, Cong Wang wrote:
-> On Fri, Feb 03, 2023 at 09:57:27AM -0600, David Vernet wrote:
-> > BPF kernel <-> kernel API stability has been discussed at length over
-> > the last several weeks and months. Now that we've largely aligned over
-> > kfuncs being the way forward, and BPF helpers being considered
-> > functionally frozen, it's time to document the expectations for kfunc
-> > lifecycles and stability so that everyone (BPF users, kfunc developers,
-> > and maintainers) are all aligned, and have a crystal-clear understanding
-> > of the expectations surrounding kfuncs.
-> > 
-> > To do that, this patch adds that documentation to the main kfuncs
-> > documentation page via a new 'kfunc lifecycle expectations' section. The
-> > patch describes how decisions are made in the kernel regarding whether
-> > to include, keep, deprecate, or change / remove a kfunc. As described
-> > very overtly in the patch itself, but likely worth highlighting here:
-> > 
-> > "kfunc stability" does not mean, nor ever will mean, "BPF APIs may block
-> > development elsewhere in the kernel".
-> > 
-> > Rather, the intention and expectation is for kfuncs to be treated like
-> > EXPORT_SYMBOL_GPL symbols in the kernel. The goal is for kfuncs to be a
-> > safe and valuable option for maintainers and kfunc developers to extend
-> > the kernel, without tying anyone's hands, or imposing any kind of
-> > restrictions on maintainers in the same way that UAPI changes do.
-> 
-> I think they are still different, kernel modules are still considered as
-> a part of kernel development, while eBPF code is not that supposed to be
-> kernel development, at least much further. Treating them alike is
-> misleading, IMHO.
+On Mon, Feb 6, 2023 at 1:37 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> ARCH=parisc64 is now supported for 64-bit parisc builds, so add
+> this alias to the kbuild.rst documentation.
+>
+> Fixes: 3dcfb729b5f4 ("parisc: Make CONFIG_64BIT available for ARCH=parisc64 only")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: linux-parisc@vger.kernel.org
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+> v2: drop "parisc for 32 bit" part since "parisc" is not an alias
+>
+>  Documentation/kbuild/kbuild.rst |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff -- a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -160,6 +160,7 @@ directory name found in the arch/ direct
+>  But some architectures such as x86 and sparc have aliases.
+>
+>  - x86: i386 for 32 bit, x86_64 for 64 bit
+> +- parisc: parisc64 for 64 bit
+>  - sh: sh for 32 bit, sh64 for 64 bit
+>  - sparc: sparc32 for 32 bit, sparc64 for 64 bit
+>
 
-I'm not following. How is a BPF program not kernel development?
 
-> > 
-> > In addition to the 'kfunc lifecycle expectations' section, this patch
-> > also adds documentation for a new KF_DEPRECATED kfunc flag which kfunc
-> > authors or maintainers can choose to add to kfuncs if and when they
-> > decide to deprecate them. Note that as described in the patch itself, a
-> > kfunc need not be deprecated before being changed or removed -- this
-> > flag is simply provided as an available deprecation mechanism for those
-> > that want to provide a deprecation story / timeline to their users.
-> > When necessary, kfuncs may be changed or removed to accommodate changes
-> > elsewhere in the kernel without any deprecation at all.
-> 
-> This fundamentally contradicts with Compile-Once-Run-Everywhere
-> https://facebookmicrosites.github.io/bpf/blog/2020/02/19/bpf-portability-and-co-re.html
 
-Sorry, but again, I'm not following your point. What exactly about this
-"fundamentally contradicts" with CO-RE? Please elaborate if you're going
-to claim that something is a fundamental contradiction.
 
-> Could you add some clarification for this too? Especically how we could
-> respect CO-RE meanwhile deprecating kfuncs?
+If Helge will pick this up, please feel free to add
 
-I don't know what you mean by "respecting CO-RE". You can compile a BPF
-program that calls a kfunc and invoke it on differents, as long as
-whatever kernel you're running on provides that kfunc with the same BTF
-encoding. This is no different than e.g. accessing a struct element on
-two kernel versions.
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Also, CO-RE doesn't provide any ironclad guarantees either. If you
-access a struct element in a BPF program, and then a kernel version
-removes that element from the struct, that BPF program will fail to load
-on that kernel.
 
-> BTW, not related to compatibility, but still kfuncs related confusion,
-> it also contradicts with Documentation/bpf/bpf_design_QA.rst:
-> 
-> "
-> Q: Can BPF functionality such as new program or map types, new
-> helpers, etc be added out of kernel module code?
-> 
-> A: NO.
 
-Agreed, we should improve the QA to mention that you can load kfuncs
-from a module -- thanks for pointing that out!
 
-> "
-> 
-> The conntrack kfuncs like bpf_skb_ct_alloc() reside in a kernel module.
-> 
-> Thanks!
+
+-- 
+Best Regards
+Masahiro Yamada
