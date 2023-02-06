@@ -2,52 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30883C636D4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 20:15:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96083C636D3
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 20:15:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230184AbjBFUPT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Feb 2023 15:15:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50140 "EHLO
+        id S230224AbjBFUPg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Feb 2023 15:15:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229822AbjBFUPS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 15:15:18 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA1F71E9E0
-        for <linux-doc@vger.kernel.org>; Mon,  6 Feb 2023 12:15:15 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id ge21-20020a17090b0e1500b002308aac5b5eso6522418pjb.4
-        for <linux-doc@vger.kernel.org>; Mon, 06 Feb 2023 12:15:15 -0800 (PST)
+        with ESMTP id S230057AbjBFUPa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 15:15:30 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 068BA1F906
+        for <linux-doc@vger.kernel.org>; Mon,  6 Feb 2023 12:15:27 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id g13so8613048ple.10
+        for <linux-doc@vger.kernel.org>; Mon, 06 Feb 2023 12:15:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MxVFygB+s6JhMTYYGUwxJSOFTRuFYcBJHXW1ILzDh4s=;
-        b=dE/VgE4aiAPBGl3Wx3OM4FAd+oDs1q+MILDu2tmzY7z0mFl5OEXDRMVxfXg36LlJR4
-         O37G+Sc9qsM73DZ6nVYZtk0JZjLjeCKvw508klbl6ceZfF/4+s0Xo1D3IzwG7DR30VZk
-         sUOhCVVQY+C9X7zCHFCJVXNAvdaEPzVap90KA4Tx8rQ7acUt6zG2EPRvFgMW+u/twjhs
-         JSNaoNn+nD0Oq2dkRB3C17Xjqz3FibkAfDEe6jG4HXEtn+wcMnYsEX2yzjnRhPfoJQMp
-         gbYbcnxByjshQW9jsnB0IGo7JlzYKzHY3DiGIDVU0QMyGNGWztrFxwVigcUvyHNg4rGX
-         Tj7g==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NQY/ewono7eyJVzIAIVhUKj+GHApr931zg2+4gRqdDM=;
+        b=0EhBKOOJcz9jUXs2WdevqyEvuR6iVGwzmFgp1Hv7Tjj0tjWL8PWkEUtyU/ckx/rloA
+         e4lIKA2K7ZHqKkz00PzOrQOfrugp7S21VPpdDzogAbbwgR9Dd8uebzGvsE8+6SDTVNFH
+         /QeQ8J4euDm7tiLzDN4ly3jtKRQNRV0JvocmRuQsgLmYr2UrJTl/hDfUq0BkisMBl+lN
+         10iBjLz9SQBvzfluNbZ4i8XHiAJ59p+fHX27Dj67ZYuYv3BLUkVU6KS1erw8uPELLWGA
+         6Bie4cMfw75oQMjHK9RtXmBq6X9Liko/Hf6hWfuGx/iLye7L4qUprGtnHys66md5NHoX
+         lu3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MxVFygB+s6JhMTYYGUwxJSOFTRuFYcBJHXW1ILzDh4s=;
-        b=FufDX3nKhY7Pc3j9TO+X8u/TcScsG46qn4T94SY7sftkdNCKUxl1mURtye+hs1lyUS
-         85CWi7m2kLV9setwEiT7VO7K7blt3Qie2QA9GUJyLGuMa3GkPo3/K6vvK4MIybwDDTvh
-         PGiDmiOVysQGvWBcoeYRBK/4ANr4om+KZ+ETgsCZzXHa9a/2tGZixISN0uMnyVknzZF5
-         VtEgxniVSbRFbOHVrhkxsu86PI2fF7v/1XJzB9XWarZ+IRwBFofKrr6Nk5/H2+BjiCBF
-         irrGckcwZOzfBPzmEbYdbVqpE2jRl4XTuyYHWKc5+E4bKkFCuTG1lX/9y9YZg4gN1NF+
-         6toA==
-X-Gm-Message-State: AO0yUKWXmKdd19DQEa6+PRQ99op4CmrJUTjzGp5HTK9SmT7EkZkpNtxX
-        VwfiGm/BJ/jNU6yzu/vvrF6MJg==
-X-Google-Smtp-Source: AK7set97KVIZp2KqBRd3V9YN6e2IalxIwrU2sjpVKl1CrB2R7mS0EHe5J+f4YiuXO1YRqBuyZB8O/A==
-X-Received: by 2002:a05:6a20:e413:b0:c0:c905:7b23 with SMTP id nh19-20020a056a20e41300b000c0c9057b23mr290481pzb.48.1675714515334;
-        Mon, 06 Feb 2023 12:15:15 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NQY/ewono7eyJVzIAIVhUKj+GHApr931zg2+4gRqdDM=;
+        b=3Syd4wxSxp7AkiFUOAMPspRwv+yXMG8KFH8GlrOfBHx8UbyU5lG6OEz3NdOTYv5cz4
+         Q7ZDM42mpCtWbJH0MUN977Tli6sEhe+ly39EY0KHEtoHH3gDT1f3xagSQfnFmwfVxgiq
+         NfOy0PW4FzHOXo3+VR2ayIkXvxW0jmy7d6RFsppotCTRn/tCupqpP0EjT3e7cUp9h5j7
+         Gyew+aKsL4l4KEWY0CySEAw/8tjsbl6Lq/Zsg4xRiJw3DIuSOxtsfSetsKnObXvUM35O
+         c6Rypnd2UCa2mJiOJebzBokhpAWyWisL9AH8FEl5CIgVybJTYst7LyHlMQv3Grf2KSil
+         7lzg==
+X-Gm-Message-State: AO0yUKWk8YaWN1YHZORZy17fBBDebLyo3WBWgvE98zfnAK3puBYEYIoU
+        h65fAOwCntsraeANIMiPwXVMBA==
+X-Google-Smtp-Source: AK7set99lLQ4BVN/k6fBT3UsGI+53df57kc0Bvwei0tHQPb8hAP+F7xZTmU66VcBztxtN+pWGQd9RQ==
+X-Received: by 2002:a05:6a20:12c9:b0:af:98cd:7df1 with SMTP id v9-20020a056a2012c900b000af98cd7df1mr579279pzg.24.1675714526377;
+        Mon, 06 Feb 2023 12:15:26 -0800 (PST)
 Received: from evan.ba.rivosinc.com ([66.220.2.162])
-        by smtp.gmail.com with ESMTPSA id k10-20020a63ab4a000000b004df4fbb9823sm6425079pgp.68.2023.02.06.12.15.13
+        by smtp.gmail.com with ESMTPSA id k10-20020a63ab4a000000b004df4fbb9823sm6425079pgp.68.2023.02.06.12.15.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Feb 2023 12:15:14 -0800 (PST)
+        Mon, 06 Feb 2023 12:15:25 -0800 (PST)
 From:   Evan Green <evan@rivosinc.com>
 To:     Palmer Dabbelt <palmer@rivosinc.com>
 Cc:     Conor Dooley <conor@kernel.org>, vineetg@rivosinc.com,
@@ -60,80 +61,41 @@ Cc:     Conor Dooley <conor@kernel.org>, vineetg@rivosinc.com,
         Arnd Bergmann <arnd@arndb.de>,
         Atish Patra <atishp@rivosinc.com>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
         Celeste Liu <coelacanthus@outlook.com>,
         Conor Dooley <conor.dooley@microchip.com>,
         Dao Lu <daolu@rivosinc.com>, Guo Ren <guoren@kernel.org>,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Jisheng Zhang <jszhang@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
-        Qinglin Pan <panqinglin2020@iscas.ac.cn>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ruizhe Pan <c141028@gmail.com>, Shuah Khan <shuah@kernel.org>,
+        Ruizhe Pan <c141028@gmail.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
         Tobias Klauser <tklauser@distanz.ch>,
-        Tsukasa OI <research_trasio@irq.a4lg.com>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        devicetree@vger.kernel.org, dram <dramforever@live.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: [PATCH v2 0/6] RISC-V Hardware Probing User Interface
-Date:   Mon,  6 Feb 2023 12:14:49 -0800
-Message-Id: <20230206201455.1790329-1-evan@rivosinc.com>
+        linux-riscv@lists.infradead.org
+Subject: [PATCH v2 2/6] RISC-V: Add a syscall for HW probing
+Date:   Mon,  6 Feb 2023 12:14:51 -0800
+Message-Id: <20230206201455.1790329-3-evan@rivosinc.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230206201455.1790329-1-evan@rivosinc.com>
+References: <20230206201455.1790329-1-evan@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+We don't have enough space for these all in ELF_HWCAP{,2} and there's no
+system call that quite does this, so let's just provide an arch-specific
+one to probe for hardware capabilities.  This currently just provides
+m{arch,imp,vendor}id, but with the key-value pairs we can pass more in
+the future.
 
-These are very much up for discussion, as it's a pretty big new user
-interface and it's quite a bit different from how we've historically
-done things: this isn't just providing an ISA string to userspace, this
-has its own format for providing information to userspace.
+Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Evan Green <evan@rivosinc.com>
 
-There's been a bunch of off-list discussions about this, including at
-Plumbers.  The original plan was to do something involving providing an
-ISA string to userspace, but ISA strings just aren't sufficient for a
-stable ABI any more: in order to parse an ISA string users need the
-version of the specifications that the string is written to, the version
-of each extension (sometimes at a finer granularity than the RISC-V
-releases/versions encode), and the expected use case for the ISA string
-(ie, is it a U-mode or M-mode string).  That's a lot of complexity to
-try and keep ABI compatible and it's probably going to continue to grow,
-as even if there's no more complexity in the specifications we'll have
-to deal with the various ISA string parsing oddities that end up all
-over userspace.
-
-Instead this patch set takes a very different approach and provides a set
-of key/value pairs that encode various bits about the system.  The big
-advantage here is that we can clearly define what these mean so we can
-ensure ABI stability, but it also allows us to encode information that's
-unlikely to ever appear in an ISA string (see the misaligned access
-performance, for example).  The resulting interface looks a lot like
-what arm64 and x86 do, and will hopefully fit well into something like
-ACPI in the future.
-
-The actual user interface is a syscall.  I'm not really sure that's the
-right way to go about this, but it makes for flexible prototying.
-Various other approaches have been talked about like making HWCAP2 a
-pointer, having a VDSO routine, or exposing this via sysfs.  Those seem
-like generally reasonable approaches, but I've yet to figure out a way
-to get the general case working without a syscall as that's the only way
-I've come up with to deal with the heterogenous CPU case.  Happy to hear
-if someone has a better idea, though, as I don't really want to add a
-syscall if we can avoid it.
-
-An example series in glibc exposing this syscall and using it in an
-ifunc selector for memcpy can be found at [1].
-
-[1] https://public-inbox.org/libc-alpha/20230206194819.1679472-1-evan@rivosinc.com/T/#t
+---
 
 Changes in v2:
  - Changed the interface to look more like poll(). Rather than supplying
@@ -152,53 +114,339 @@ Changes in v2:
    will only want to act on a feature if it's supported on all CPUs, and
    it's a headache to dynamically allocate an array of all 1s, not to
    mention a waste to have the kernel loop over all of the offline bits.
- - Fixed logic error in if(of_property_read_string...) that caused crash
- - Include cpufeature.h in cpufeature.h to avoid undeclared variable
-   warning.
- - Added a _MASK define
- - Fix random checkpatch complaints
- - Updated the selftests to the new API and added some more.
- - Fixed indentation, comments in .S, and general checkpatch complaints.
 
-Evan Green (4):
-  RISC-V: Move struct riscv_cpuinfo to new header
-  RISC-V: Add a syscall for HW probing
-  RISC-V: hwprobe: Support probing of misaligned access performance
-  selftests: Test the new RISC-V hwprobe interface
 
-Palmer Dabbelt (2):
-  RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
-  dt-bindings: Add RISC-V misaligned access performance
-
- .../devicetree/bindings/riscv/cpus.yaml       |  15 ++
- Documentation/riscv/hwprobe.rst               |  66 ++++++
- Documentation/riscv/index.rst                 |   1 +
- arch/riscv/include/asm/cpufeature.h           |  23 +++
- arch/riscv/include/asm/hwprobe.h              |  13 ++
- arch/riscv/include/asm/smp.h                  |   9 +
- arch/riscv/include/asm/syscall.h              |   3 +
- arch/riscv/include/uapi/asm/hwprobe.h         |  35 ++++
- arch/riscv/include/uapi/asm/unistd.h          |   8 +
- arch/riscv/kernel/cpu.c                       |  11 +-
- arch/riscv/kernel/cpufeature.c                |  31 ++-
- arch/riscv/kernel/sys_riscv.c                 | 192 +++++++++++++++++-
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/riscv/Makefile        |  58 ++++++
- .../testing/selftests/riscv/hwprobe/Makefile  |  10 +
- .../testing/selftests/riscv/hwprobe/hwprobe.c |  89 ++++++++
- .../selftests/riscv/hwprobe/sys_hwprobe.S     |  12 ++
- tools/testing/selftests/riscv/libc.S          |  46 +++++
- 18 files changed, 613 insertions(+), 10 deletions(-)
+---
+ Documentation/riscv/hwprobe.rst       |  37 +++++++
+ Documentation/riscv/index.rst         |   1 +
+ arch/riscv/include/asm/hwprobe.h      |  13 +++
+ arch/riscv/include/asm/syscall.h      |   3 +
+ arch/riscv/include/uapi/asm/hwprobe.h |  25 +++++
+ arch/riscv/include/uapi/asm/unistd.h  |   8 ++
+ arch/riscv/kernel/cpu.c               |   3 +-
+ arch/riscv/kernel/sys_riscv.c         | 146 +++++++++++++++++++++++++-
+ 8 files changed, 234 insertions(+), 2 deletions(-)
  create mode 100644 Documentation/riscv/hwprobe.rst
- create mode 100644 arch/riscv/include/asm/cpufeature.h
  create mode 100644 arch/riscv/include/asm/hwprobe.h
  create mode 100644 arch/riscv/include/uapi/asm/hwprobe.h
- create mode 100644 tools/testing/selftests/riscv/Makefile
- create mode 100644 tools/testing/selftests/riscv/hwprobe/Makefile
- create mode 100644 tools/testing/selftests/riscv/hwprobe/hwprobe.c
- create mode 100644 tools/testing/selftests/riscv/hwprobe/sys_hwprobe.S
- create mode 100644 tools/testing/selftests/riscv/libc.S
 
+diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
+new file mode 100644
+index 000000000000..97771090e972
+--- /dev/null
++++ b/Documentation/riscv/hwprobe.rst
+@@ -0,0 +1,37 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++RISC-V Hardware Probing Interface
++---------------------------------
++
++The RISC-V hardware probing interface is based around a single syscall, which
++is defined in <asm/hwprobe.h>::
++
++    struct riscv_hwprobe {
++        __s64 key;
++        __u64 value;
++    };
++
++    long sys_riscv_hwprobe(struct riscv_hwprobe *pairs, size_t pair_count,
++                           size_t cpu_count, cpu_set_t *cpus,
++                           unsigned long flags);
++
++The arguments are split into three groups: an array of key-value pairs, a CPU
++set, and some flags.  The key-value pairs are supplied with a count.  Userspace
++must prepopulate the key field for each element, and the kernel will fill in the
++value if the key is recognized.  If a key is unknown to the kernel, its key
++field will be cleared to -1, and its value set to 0.  The CPU set is defined by
++CPU_SET(3), the indicated features will be supported on all CPUs in the set.
++Usermode can supply NULL for cpus and 0 for cpu_count as a shortcut for all
++online CPUs. There are currently no flags, this value must be zero for future
++compatibility.
++
++On success 0 is returned, on failure a negative error code is returned.
++
++The following keys are defined:
++
++* :RISCV_HWPROBE_KEY_MVENDORID:: Contains the value of :mvendorid:, as per the
++  ISA specifications.
++* :RISCV_HWPROBE_KEY_MARCHID:: Contains the value of :marchid:, as per the ISA
++  specifications.
++* :RISCV_HWPROBE_KEY_MIMPLID:: Contains the value of :mimplid:, as per the ISA
++  specifications.
+diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
+index 2e5b18fbb145..175a91db0200 100644
+--- a/Documentation/riscv/index.rst
++++ b/Documentation/riscv/index.rst
+@@ -7,6 +7,7 @@ RISC-V architecture
+ 
+     boot-image-header
+     vm-layout
++    hwprobe
+     patch-acceptance
+     uabi
+ 
+diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
+new file mode 100644
+index 000000000000..08d1c3bdd78a
+--- /dev/null
++++ b/arch/riscv/include/asm/hwprobe.h
+@@ -0,0 +1,13 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++ * Copyright 2022 Rivos, Inc
++ */
++
++#ifndef _ASM_HWPROBE_H
++#define _ASM_HWPROBE_H
++
++#include <uapi/asm/hwprobe.h>
++
++#define RISCV_HWPROBE_MAX_KEY 2
++
++#endif
+diff --git a/arch/riscv/include/asm/syscall.h b/arch/riscv/include/asm/syscall.h
+index 384a63b86420..78a6302ef711 100644
+--- a/arch/riscv/include/asm/syscall.h
++++ b/arch/riscv/include/asm/syscall.h
+@@ -75,4 +75,7 @@ static inline int syscall_get_arch(struct task_struct *task)
+ }
+ 
+ asmlinkage long sys_riscv_flush_icache(uintptr_t, uintptr_t, uintptr_t);
++
++asmlinkage long sys_riscv_hwprobe(uintptr_t, uintptr_t, uintptr_t, uintptr_t,
++				  uintptr_t, uintptr_t);
+ #endif	/* _ASM_RISCV_SYSCALL_H */
+diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+new file mode 100644
+index 000000000000..591802047460
+--- /dev/null
++++ b/arch/riscv/include/uapi/asm/hwprobe.h
+@@ -0,0 +1,25 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++ * Copyright 2022 Rivos, Inc
++ */
++
++#ifndef _UAPI_ASM_HWPROBE_H
++#define _UAPI_ASM_HWPROBE_H
++
++#include <linux/types.h>
++
++/*
++ * Interface for probing hardware capabilities from userspace, see
++ * Documentation/riscv/hwprobe.rst for more information.
++ */
++struct riscv_hwprobe {
++	__s64 key;
++	__u64 value;
++};
++
++#define RISCV_HWPROBE_KEY_MVENDORID	0
++#define RISCV_HWPROBE_KEY_MARCHID	1
++#define RISCV_HWPROBE_KEY_MIMPID	2
++/* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
++
++#endif
+diff --git a/arch/riscv/include/uapi/asm/unistd.h b/arch/riscv/include/uapi/asm/unistd.h
+index 73d7cdd2ec49..37d47302322a 100644
+--- a/arch/riscv/include/uapi/asm/unistd.h
++++ b/arch/riscv/include/uapi/asm/unistd.h
+@@ -43,3 +43,11 @@
+ #define __NR_riscv_flush_icache (__NR_arch_specific_syscall + 15)
+ #endif
+ __SYSCALL(__NR_riscv_flush_icache, sys_riscv_flush_icache)
++
++/*
++ * Allows userspace to probe
++ */
++#ifndef __NR_riscv_hwprobe
++#define __NR_riscv_hwprobe (__NR_arch_specific_syscall + 14)
++#endif
++__SYSCALL(__NR_riscv_hwprobe, sys_riscv_hwprobe)
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index 684e5419d37d..d0fb3567cc3d 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -4,15 +4,16 @@
+  */
+ 
+ #include <linux/cpu.h>
++#include <linux/cpuhotplug.h>
+ #include <linux/init.h>
+ #include <linux/seq_file.h>
+ #include <linux/of.h>
+ #include <asm/cpufeature.h>
+ #include <asm/csr.h>
+ #include <asm/hwcap.h>
++#include <asm/pgtable.h>
+ #include <asm/sbi.h>
+ #include <asm/smp.h>
+-#include <asm/pgtable.h>
+ 
+ /*
+  * Returns the hart ID of the given device tree node, or -ENODEV if the node
+diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
+index 5d3f2fbeb33c..868a12384f5a 100644
+--- a/arch/riscv/kernel/sys_riscv.c
++++ b/arch/riscv/kernel/sys_riscv.c
+@@ -6,8 +6,11 @@
+  */
+ 
+ #include <linux/syscalls.h>
+-#include <asm/unistd.h>
+ #include <asm/cacheflush.h>
++#include <asm/cpufeature.h>
++#include <asm/hwprobe.h>
++#include <asm/uaccess.h>
++#include <asm/unistd.h>
+ #include <asm-generic/mman-common.h>
+ 
+ static long riscv_sys_mmap(unsigned long addr, unsigned long len,
+@@ -69,3 +72,144 @@ SYSCALL_DEFINE3(riscv_flush_icache, uintptr_t, start, uintptr_t, end,
+ 
+ 	return 0;
+ }
++
++/*
++ * The hwprobe interface, for allowing userspace to probe to see which features
++ * are supported by the hardware.  See Documentation/riscv/hwprobe.rst for more
++ * details.
++ */
++static int set_hwprobe(struct riscv_hwprobe __user *pair, u64 val)
++{
++	long ret;
++
++	ret = put_user(val, &pair->value);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++
++static long hwprobe_mid(struct riscv_hwprobe __user *pair, size_t key,
++			cpumask_t *cpus)
++{
++	long cpu, id;
++	bool first, valid;
++
++	first = true;
++	valid = false;
++	for_each_cpu(cpu, cpus) {
++		struct riscv_cpuinfo *ci = per_cpu_ptr(&riscv_cpuinfo, cpu);
++		long cpu_id;
++
++		switch (key) {
++		case RISCV_HWPROBE_KEY_MVENDORID:
++			cpu_id = ci->mvendorid;
++			break;
++		case RISCV_HWPROBE_KEY_MIMPID:
++			cpu_id = ci->mimpid;
++			break;
++		case RISCV_HWPROBE_KEY_MARCHID:
++			cpu_id = ci->marchid;
++			break;
++		}
++
++		if (first) {
++			id = cpu_id;
++			valid = true;
++		}
++
++		if (id != cpu_id)
++			valid = false;
++	}
++
++	/*
++	 * put_user() returns 0 on success, so use 1 to indicate it wasn't
++	 * called and we should skip having incremented the output.
++	 */
++	if (!valid)
++		return 1;
++
++	return set_hwprobe(pair, id);
++}
++
++static
++long do_riscv_hwprobe(struct riscv_hwprobe __user *pairs, long pair_count,
++		      long cpu_count, unsigned long __user *cpus_user,
++		      unsigned long flags)
++{
++	size_t out;
++	s64 key;
++	long ret;
++	struct cpumask cpus;
++
++	/* Check the reserved flags. */
++	if (flags != 0)
++		return -EINVAL;
++
++	/*
++	 * The only supported values must be the same on all CPUs. Allow
++	 * userspace to specify NULL and 0 as a shortcut to all online CPUs.
++	 */
++	cpumask_clear(&cpus);
++	if ((cpu_count == 0) && (cpus_user == NULL)) {
++		cpumask_copy(&cpus, cpu_online_mask);
++	} else {
++		if (cpu_count > cpumask_size())
++			cpu_count = cpumask_size();
++		ret = copy_from_user(&cpus, cpus_user, cpu_count);
++		if (!ret)
++			return -EFAULT;
++
++		/*
++		 * Userspace must provide at least one online CPU, without that there's
++		 * no way to define what is supported.
++		 */
++		cpumask_and(&cpus, &cpus, cpu_online_mask);
++		if (cpumask_empty(&cpus))
++			return -EINVAL;
++	}
++
++	for (out = 0; out < pair_count; out++, pairs++) {
++		long ret;
++
++		if (get_user(key, &pairs->key))
++			return -EFAULT;
++
++		switch (key) {
++		case RISCV_HWPROBE_KEY_MVENDORID:
++		case RISCV_HWPROBE_KEY_MARCHID:
++		case RISCV_HWPROBE_KEY_MIMPID:
++			ret = hwprobe_mid(pairs, key, &cpus);
++			break;
++
++		/*
++		 * For forward compatibility, unknown keys don't fail the whole
++		 * call, but get their element key set to -1 and value set to 0
++		 * indicating they're unrecognized.
++		 */
++		default:
++			ret = put_user(-1, &pairs->key);
++			if (ret < 0)
++				return ret;
++
++			ret = set_hwprobe(pairs, 0);
++			if (ret)
++				return ret;
++
++			break;
++		}
++
++		if (ret < 0)
++			return ret;
++	}
++
++	return 0;
++
++}
++
++SYSCALL_DEFINE5(riscv_hwprobe, uintptr_t, pairs, uintptr_t, pair_count,
++		uintptr_t, cpu_count, uintptr_t, cpus, uintptr_t, flags)
++{
++	return do_riscv_hwprobe((void __user *)pairs, pair_count, cpu_count,
++				(void __user *)cpus, flags);
++}
 -- 
 2.25.1
 
