@@ -2,115 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F99DC63797
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 11:24:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B6B4C05027
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 12:00:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229952AbjBFLYy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Feb 2023 06:24:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41536 "EHLO
+        id S229657AbjBFMAh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Feb 2023 07:00:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229875AbjBFLYx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 06:24:53 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA56272A4;
-        Mon,  6 Feb 2023 03:24:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=6p5UcUVJMB6FcC7LDxPnes2LOQaJUS8z6IEOS3X783s=; b=Ea7S5G84aDpNMvL/Suxi9XIvmP
-        C3d8gqapGDHgOfKkaP3NfNlfpuswBdZ+/65aPGo8Ipfi4ygRk8xZ7E1lb+BYSVGzxaS2sN48Bj+uV
-        7EcpbhbKtu3+Vy6v0rx38wmRy2zhh9BHTpbWgMb6B1VUojynlRhGLZwyBBeJ97ZTbSyUL+nN/9cdA
-        g3KAlOkdL6bK9I8Ru0c8Xd4so95LlWcA9jGTKHdvLf99ddC9qSvsG4IxnKgYDCF/ShOfXC3/ZQNuz
-        +ltBvaSkLaaFq/cirv5PAA/Jvc9EmJp6O0MLa9hEeS1tkPMdnYzaGXwcTfJ4KZOOty5sepN3i9T7J
-        b/03MOXw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pOzbS-00Gi9E-Dh; Mon, 06 Feb 2023 11:24:06 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C110E30013F;
-        Mon,  6 Feb 2023 12:24:00 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 8C4252CFF4E16; Mon,  6 Feb 2023 12:24:00 +0100 (CET)
-Date:   Mon, 6 Feb 2023 12:24:00 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>, dennis@kernel.org,
-        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
-        Heiko Carstens <hca@linux.ibm.com>, gor@linux.ibm.com,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        borntraeger@linux.ibm.com, Sven Schnelle <svens@linux.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <joro@8bytes.org>,
-        suravee.suthikulpanit@amd.com, Robin Murphy <robin.murphy@arm.com>,
-        dwmw2@infradead.org, Baolu Lu <baolu.lu@linux.intel.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v2 05/10] percpu: Wire up cmpxchg128
-Message-ID: <Y+DjULnIxcPU/rtp@hirez.programming.kicks-ass.net>
-References: <20230202145030.223740842@infradead.org>
- <20230202152655.494373332@infradead.org>
- <24007667-1ff3-4c86-9c17-a361c3f9f072@app.fastmail.com>
+        with ESMTP id S229502AbjBFMAd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 07:00:33 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48CFE12F28;
+        Mon,  6 Feb 2023 04:00:32 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id ba1so6061706wrb.5;
+        Mon, 06 Feb 2023 04:00:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OXIJO9fqX0/0Oi7czvNdityyIiS9SUbgNGdknS3wTOo=;
+        b=dH217lg8N89Mqn2cQB8kM9xXVI1u1UpAmXhovfb0BxyYbQGxhsh4N6sNKN/WLviwAu
+         p4lJYAxnE9VWFYwLjX2dVvPuBsf6B2KFntinHSFxEkTpjJsSlsiKVomIlGKYP6qdXG+c
+         /QRiAyoy24s3ViYbiAj9TzE6f+mn7s/hua/sAwuxe85cP/qTT4+EC2EQOoWC4gU0Pmqu
+         OF4+5YUObGQgVn74LGjlVdVbJBOKUFbwUPGx5BmHCs2bHuvReB4ijL6ud3t+2yC3G7yU
+         T3iOG39/Qsb0tVAa6I5LGiryIK5XgMQhZmrGShJmmLXxHJMUlVIrShQEhAeHvfH1n5dZ
+         mH9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OXIJO9fqX0/0Oi7czvNdityyIiS9SUbgNGdknS3wTOo=;
+        b=Lxh1PF092r5BoCw6d/bBlEafofoDz71Gklb+JoppRLU4von8QaPxuuAsOLc/tecsyd
+         /rOJQm2szcxRn5sL5Ei/Ae/o6ocndaTod1MIVNDytcWUNyLp86YDvObkQz7Ob5rz2Qe+
+         3ohlj8hdCQXYRobDQ1/1+nNrTw8ye/dlT7xUNnXaaOXwNFEVe6uY6oxLDVcMgbSeBNnV
+         PTCZn+pCoYypcaoO0+E3khTdgkhaWuYh/BC8yvioaUhFFtOkHRxJMM9xpah3Z71EvMml
+         Bhm6WQ6ltDuxmgKscQLrBFX2aWwaL/+ZQVN4HA6oSt2GsjRBWH4rSLr7aBw6lzUEv8lp
+         CXWA==
+X-Gm-Message-State: AO0yUKU0N3+aTXAGxNpA+gMsTvE0rFfyDLr/rdFzqxpYsRXbI7bEfSAC
+        8IstzmgRvz1gVWPuBWgyMsk=
+X-Google-Smtp-Source: AK7set+/VGsrQ72kSq4lDohUDJph/RPl5pOdU8s1PNKR9uVVcxf9v/28mEUYpFOuF/NEZtmUetOlVQ==
+X-Received: by 2002:a05:6000:3:b0:2c3:e7a7:3886 with SMTP id h3-20020a056000000300b002c3e7a73886mr3645951wrx.5.1675684830817;
+        Mon, 06 Feb 2023 04:00:30 -0800 (PST)
+Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
+        by smtp.gmail.com with ESMTPSA id o2-20020a05600002c200b002bde537721dsm8912829wry.20.2023.02.06.04.00.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Feb 2023 04:00:30 -0800 (PST)
+Subject: Re: [PATCH v5 net-next 1/8] sfc: add devlink support for ef100
+To:     alejandro.lucero-palau@amd.com, netdev@vger.kernel.org,
+        linux-net-drivers@amd.com
+Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, habetsm.xilinx@gmail.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net, jiri@nvidia.com
+References: <20230202111423.56831-1-alejandro.lucero-palau@amd.com>
+ <20230202111423.56831-2-alejandro.lucero-palau@amd.com>
+From:   Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <66a5d1bc-2220-4298-b166-b41f17508599@gmail.com>
+Date:   Mon, 6 Feb 2023 12:00:29 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <24007667-1ff3-4c86-9c17-a361c3f9f072@app.fastmail.com>
+In-Reply-To: <20230202111423.56831-2-alejandro.lucero-palau@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 03, 2023 at 06:25:04PM +0100, Arnd Bergmann wrote:
-> On Thu, Feb 2, 2023, at 15:50, Peter Zijlstra wrote:
-> > In order to replace cmpxchg_double() with the newly minted
-> > cmpxchg128() family of functions, wire it up in this_cpu_cmpxchg().
-> >
-> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+On 02/02/2023 11:14, alejandro.lucero-palau@amd.com wrote:
+> From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
 > 
-> I commented on this in the previous version but never got any
-> reply from you:
+> Basic devlink infrastructure support.
 > 
-> https://lore.kernel.org/all/1d88ba9f-5541-4b67-9cc8-a361eef36547@app.fastmail.com/
-
-Sorry, seem to have missed that :/
-
-> Unless I have misunderstood what you are doing, my concerns are
-> still the same:
-> 
-> >  #define this_cpu_cmpxchg(pcp, oval, nval) \
-> > -	__pcpu_size_call_return2(this_cpu_cmpxchg_, pcp, oval, nval)
-> > +	__pcpu_size16_call_return2(this_cpu_cmpxchg_, pcp, oval, nval)
-> >  #define this_cpu_cmpxchg_double(pcp1, pcp2, oval1, oval2, nval1, 
-> > nval2) \
-> >  	__pcpu_double_call_return_bool(this_cpu_cmpxchg_double_, pcp1, pcp2, 
-> > oval1, oval2, nval1, nval2)
-> 
-> Having a variable-length this_cpu_cmpxchg() that turns into cmpxchg128()
-> and cmpxchg64() even on CPUs where this traps (!X86_FEATURE_CX16) seems
-> like a bad design to me.
-> 
-> I would much prefer fixed-length this_cpu_cmpxchg64()/this_cpu_cmpxchg128()
-> calls that never trap but fall back to the generic version on CPUs that
-> are lacking the atomics.
-
-You're thinking acidental usage etc..? Lemme see what I can do.
+> Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+...
+> diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
+> new file mode 100644
+> index 000000000000..933e60876a93
+> --- /dev/null
+> +++ b/drivers/net/ethernet/sfc/efx_devlink.c
+> @@ -0,0 +1,71 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/****************************************************************************
+> + * Driver for AMD network controllers and boards
+> + * Copyright (C) 2023, Advanced Micro Devices, Inc.
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms of the GNU General Public License version 2 as published
+> + * by the Free Software Foundation, incorporated herein by reference.
+> + */
+> +
+> +#include <linux/rtc.h>
+> +#include "net_driver.h"
+> +#include "ef100_nic.h"
+> +#include "efx_devlink.h"
+> +#include "nic.h"
+> +#include "mcdi.h"
+> +#include "mcdi_functions.h"
+> +#include "mcdi_pcol.h"
+nit: as far as I can tell, most of these includes aren't used until
+ the next patch (rtc, mcdi*, possibly *nic too) and should thus only
+ be added there.  If you're respinning anyway, may as well fix it.
