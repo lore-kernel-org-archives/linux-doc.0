@@ -2,110 +2,73 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA2B4C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 14:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03763C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 14:03:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229625AbjBFODE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Feb 2023 09:03:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45888 "EHLO
+        id S229588AbjBFODU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Feb 2023 09:03:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230230AbjBFOCu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 09:02:50 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C92035597;
-        Mon,  6 Feb 2023 06:02:47 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id ba1so6396964wrb.5;
-        Mon, 06 Feb 2023 06:02:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mWtgR15Dd2RZZwx7STJllW1tQKQ2lefgplDZNMM6hTY=;
-        b=eNZNwiPYIOkrhxXbQF2Xmoh6IXdHBNp0xT/QIMHzA3OcKtI4qdyoh72Md9PtLhUbGR
-         CeuknzIo4FUez/GoIGukJMWY5OidHHAwUWzgThv0swBi4SVGw6y4dmDUDIvCNmROEXjP
-         cqixWc6ZHIBDbREQ/w6zmJ+u6SRQAOhhdgX5JDcBzzxny9QFsbaQ6X9PEC9xeCdlxzd+
-         h5NZAWalezr6O/6Hb5pdqGBybtQS8wfVU5v/yRg239pzGorzVuZUZQ414DNk87g/jNoc
-         sL1CunWCqmBg+f/VOJ/2LG/Mkd8iRENnZToCYeJCx+4PsBrMPHD6z113/LY+PnYIBpWK
-         Twww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mWtgR15Dd2RZZwx7STJllW1tQKQ2lefgplDZNMM6hTY=;
-        b=WCs4cylrZcGaKG6a7po7PpH76wPcdMws9kK9887Z1S50b/esebxewm4vcFMCZgfW22
-         igif3YYwq9lWImwAjgq54ZTq+bAKKQPXcwXHI6TCpHKrB8jsqvOo0CpN9K6Sq8G0cON5
-         769o6k5OwZEujQwxeCUikiy/Ao7cwdLMV/gU8WAR2FZKeKGfSEO96Uh90dkMgIqqZPCZ
-         +DaIFH23FbdyRHujfjvmNslfFfi1DtSvCcT4i7cM7Zo5Vh73wW6pf4qya3EMGIyEeaiL
-         YDDiPGeDovA4WeUzteq/kKzn1gEEwhtJgaQ7Hd7gJ4dEDoRG8FmnAxwoyrWhnf8WHr/k
-         TrSg==
-X-Gm-Message-State: AO0yUKUoC/JzEC0YxvvpVQwYOT6PLzFF8vNiTRkv+ORsm0YO/E2b0pF1
-        yOjfvwoIhIlzwZdhzw3D+54=
-X-Google-Smtp-Source: AK7set92dHcmph1gDr0bNzk+nW3rAUt5DHbswTESGObH4RWxk/Y/SzSkbu4RXtV65Z4X56DB+Ha0QA==
-X-Received: by 2002:a05:6000:10c2:b0:2c3:dd96:d5f2 with SMTP id b2-20020a05600010c200b002c3dd96d5f2mr7872109wrx.35.1675692166371;
-        Mon, 06 Feb 2023 06:02:46 -0800 (PST)
-Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
-        by smtp.gmail.com with ESMTPSA id a4-20020a5d5084000000b002c3db0eec5fsm7207993wrt.62.2023.02.06.06.02.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Feb 2023 06:02:45 -0800 (PST)
-Subject: Re: [PATCH v5 net-next 5/8] sfc: add devlink port support for ef100
-To:     alejandro.lucero-palau@amd.com, netdev@vger.kernel.org,
-        linux-net-drivers@amd.com
-Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, habetsm.xilinx@gmail.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net, jiri@nvidia.com
-References: <20230202111423.56831-1-alejandro.lucero-palau@amd.com>
- <20230202111423.56831-6-alejandro.lucero-palau@amd.com>
-From:   Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <a2be6feb-609a-5af4-123a-750a24104e47@gmail.com>
-Date:   Mon, 6 Feb 2023 14:02:45 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        with ESMTP id S230110AbjBFODL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 09:03:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15F9929E04
+        for <linux-doc@vger.kernel.org>; Mon,  6 Feb 2023 06:01:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675692112;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WkZbQDy++TbR+nJjGfW1Qx+BDYAbmOjoD8BAG4wJE1E=;
+        b=bOc9ioZJqwV5EHAkwQfnGOIzd8tSALRiIguQuswDlkT2SdUx1+aT1FsEv497ldFy+im2bG
+        2LNIxzIlFhNHkVqyi61plU2koqaiRy4UXQLmyG6hgnnzBycmPTpjDyF6Ydw0dH0a6jPfho
+        rLFxkhQpx7unUfnAjraCMZnRmeXqK/c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-94-SVQkEjvgOEGJJsWVuEzg7A-1; Mon, 06 Feb 2023 09:01:49 -0500
+X-MC-Unique: SVQkEjvgOEGJJsWVuEzg7A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D06D1281724D;
+        Mon,  6 Feb 2023 14:01:41 +0000 (UTC)
+Received: from plouf.local (ovpn-192-160.brq.redhat.com [10.40.192.160])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 92BAB2166B29;
+        Mon,  6 Feb 2023 14:01:40 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+In-Reply-To: <20230127064005.1558-11-rdunlap@infradead.org>
+References: <20230127064005.1558-1-rdunlap@infradead.org>
+ <20230127064005.1558-11-rdunlap@infradead.org>
+Subject: Re: (subset) [PATCH 10/35] Documentation: hid: correct spelling
+Message-Id: <167569210023.2843115.12634410926456959304.b4-ty@redhat.com>
+Date:   Mon, 06 Feb 2023 15:01:40 +0100
 MIME-Version: 1.0
-In-Reply-To: <20230202111423.56831-6-alejandro.lucero-palau@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/02/2023 11:14, alejandro.lucero-palau@amd.com wrote:
-> From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+On Thu, 26 Jan 2023 22:39:40 -0800, Randy Dunlap wrote:
+> Correct spelling problems for Documentation/hid/ as reported
+> by codespell.
 > 
-> Using the data when enumerating mports, create devlink ports just before
-> netdevs are registered and remove those devlink ports after netdev has
-> been unregistered.
 > 
-> Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-...
-> @@ -297,6 +298,7 @@ int efx_ef100_vfrep_create(struct efx_nic *efx, unsigned int i)
->  			i, rc);
->  		goto fail1;
->  	}
-> +	ef100_rep_set_devlink_port(efv);
->  	rc = register_netdev(efv->net_dev);
->  	if (rc) {
->  		pci_err(efx->pci_dev,
-> @@ -308,6 +310,7 @@ int efx_ef100_vfrep_create(struct efx_nic *efx, unsigned int i)
->  		efv->net_dev->name);
->  	return 0;
->  fail2:
-> +	ef100_rep_unset_devlink_port(efv);
->  	efx_ef100_deconfigure_rep(efv);
->  fail1:
->  	efx_ef100_rep_destroy_netdev(efv);
-> @@ -323,6 +326,7 @@ void efx_ef100_vfrep_destroy(struct efx_nic *efx, struct efx_rep *efv)
->  		return;
->  	netif_dbg(efx, drv, rep_dev, "Removing VF representor\n");
->  	unregister_netdev(rep_dev);
-> +	ef100_rep_unset_devlink_port(efv);
->  	efx_ef100_deconfigure_rep(efv);
->  	efx_ef100_rep_destroy_netdev(efv);
->  }
 
-Would it make sense to move these calls into
- efx_ef100_[de]configure_rep()?  It's responsible for other
- MAE/m-port related stuff (and is also common with remote reps
- when they arrive).
+Applied to hid/hid.git (for-6.3/hid-bpf), thanks!
+
+[10/35] Documentation: hid: correct spelling
+        https://git.kernel.org/hid/hid/c/2f7f4efb9411
+
+Cheers,
+-- 
+Benjamin Tissoires <benjamin.tissoires@redhat.com>
+
