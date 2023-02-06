@@ -2,61 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38A8FC636D3
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 16:46:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05661C636D4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 16:46:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230285AbjBFQqT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Feb 2023 11:46:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52550 "EHLO
+        id S230260AbjBFQq0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Feb 2023 11:46:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbjBFQqR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 11:46:17 -0500
+        with ESMTP id S230372AbjBFQqV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 11:46:21 -0500
 Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7C9E25E2A;
-        Mon,  6 Feb 2023 08:46:16 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03D8B28D16;
+        Mon,  6 Feb 2023 08:46:20 -0800 (PST)
 Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 316GiX3Y011204;
-        Mon, 6 Feb 2023 16:46:12 GMT
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 316GiWr0011121;
+        Mon, 6 Feb 2023 16:46:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=6ZKGTGisiG1NUcLFCh1Mfp6s/BU1778FXmqAZc03Oco=;
- b=IrBnjAHvCsakX9yGJiMIr/GwOkEgkfKx1r4rJUXpD+/L8Dwv3hgOTSZCIDqask+4rAm/
- Clml5yKP7tIbyMCol2aLppHsbZ7BrVCKPDEDeRyLnrAWF5lCGn1xZ9eB3Q7EjjEzryCG
- 5AtC/cXiKwhWnKgeWMT68NvSW+SD28OIx7hjdAt+T06DcyJUoYr+MD1NrAzbNd3EVDmZ
- CphgOxR1Vugs+3O+ui7Twunu6RTgaALe6AIyFJd1ahutVEFnzVagmpbo7WXZILowz6yN
- YevJYP/QiORiyQolRJPIdkQieSIGZZenBCufXHkocmzYeCpp/opmhNIfe7Sac995eD+C vQ== 
+ bh=RRnhPwXIY5/2buECw/ItU1dkcga38TUwkiSdZL+H9U8=;
+ b=UszWp4+3lWCUTEfd7jGd3yRJ1CIphcLkjHPf9kYpPFZJE9+nuIHHF8QiumEvgpuQNZ8s
+ 7EdVOYGURFgZ+5+TmgEsSN05qW6MGbW7X+2KFUBKd9KQ8EIkvkZ1XRn7/VQMhnBVMN7I
+ qJ7h33wckVl3EuGMRjIy4/uZnsKhYVMAGhdtwvGLqVGNxNwUK2vTyCdS3tm8gc8GBhx5
+ Q3B4za2g1Q9AEgINwxPf7SSTfUy3OmUw5+Eg2StKFMnw+9dnhbvFsfGuVujzyEeoW/eh
+ 3D0xLempSAfh097+aDq6ymahZQqb93MdoDYqTlXGqFZNi97F3eVjB0x/Um1go+pkqnZa +A== 
 Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk51mgp6n-1
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk51mgp9c-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Feb 2023 16:46:12 +0000
+        Mon, 06 Feb 2023 16:46:16 +0000
 Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 316GiWBq011125;
-        Mon, 6 Feb 2023 16:46:11 GMT
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 316GinYn012203;
+        Mon, 6 Feb 2023 16:46:15 GMT
 Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk51mgp5p-1
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk51mgp81-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Feb 2023 16:46:11 +0000
+        Mon, 06 Feb 2023 16:46:15 +0000
 Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3160HbkX023711;
-        Mon, 6 Feb 2023 16:46:09 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-        by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3nhf06tmsv-1
+        by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 315NZgGx023824;
+        Mon, 6 Feb 2023 16:46:13 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+        by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3nhf06tmsy-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Feb 2023 16:46:08 +0000
+        Mon, 06 Feb 2023 16:46:13 +0000
 Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-        by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 316Gk5i952560284
+        by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 316Gk9OR42992042
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 6 Feb 2023 16:46:05 GMT
+        Mon, 6 Feb 2023 16:46:09 GMT
 Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 52BF020040;
-        Mon,  6 Feb 2023 16:46:05 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 8D8C620040;
+        Mon,  6 Feb 2023 16:46:09 +0000 (GMT)
 Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D563F20043;
-        Mon,  6 Feb 2023 16:46:04 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 1E2B92004B;
+        Mon,  6 Feb 2023 16:46:09 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
         by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Mon,  6 Feb 2023 16:46:04 +0000 (GMT)
+        Mon,  6 Feb 2023 16:46:09 +0000 (GMT)
 From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
 To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
         Janosch Frank <frankja@linux.ibm.com>,
@@ -73,22 +73,22 @@ Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
         Shuah Khan <shuah@kernel.org>,
         Sven Schnelle <svens@linux.ibm.com>,
         Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v7 02/14] KVM: s390: selftest: memop: Replace macros by functions
-Date:   Mon,  6 Feb 2023 17:45:50 +0100
-Message-Id: <20230206164602.138068-3-scgl@linux.ibm.com>
+Subject: [PATCH v7 10/14] KVM: s390: Refactor absolute vm mem_op function
+Date:   Mon,  6 Feb 2023 17:45:58 +0100
+Message-Id: <20230206164602.138068-11-scgl@linux.ibm.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230206164602.138068-1-scgl@linux.ibm.com>
 References: <20230206164602.138068-1-scgl@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _NwVI0_C46PXwMces2IpmRDTmyO7LbHB
-X-Proofpoint-ORIG-GUID: pOILngav9fNyYGZC5wGg8ge7lqYTV09B
+X-Proofpoint-GUID: fKgO01PJ7SQyAf6yd0WpMeEOGQrshbpV
+X-Proofpoint-ORIG-GUID: O79jXpr-GRaavHwbJZR6T2ZpGRPclzm_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- mlxlogscore=999 spamscore=0 adultscore=0 phishscore=0 impostorscore=0
+ mlxlogscore=977 spamscore=0 adultscore=0 phishscore=0 impostorscore=0
  lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
  clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2302060144
@@ -96,161 +96,85 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Replace the DEFAULT_* test helpers by functions, as they don't
-need the extra flexibility.
+Remove code duplication with regards to the CHECK_ONLY flag.
+Decrease the number of indents.
+No functional change indented.
 
+Suggested-by: Janosch Frank <frankja@linux.ibm.com>
 Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- tools/testing/selftests/kvm/s390x/memop.c | 82 +++++++++++------------
- 1 file changed, 39 insertions(+), 43 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/selftests/kvm/s390x/memop.c
-index 9c05d1205114..df1c726294b2 100644
---- a/tools/testing/selftests/kvm/s390x/memop.c
-+++ b/tools/testing/selftests/kvm/s390x/memop.c
-@@ -48,6 +48,8 @@ struct mop_desc {
- 	uint8_t key;
- };
- 
-+const uint8_t NO_KEY = 0xff;
-+
- static struct kvm_s390_mem_op ksmo_from_desc(const struct mop_desc *desc)
+
+Cosmetic only, can be dropped
+
+
+ arch/s390/kvm/kvm-s390.c | 43 +++++++++++++++++-----------------------
+ 1 file changed, 18 insertions(+), 25 deletions(-)
+
+diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
+index 707967a296f1..1f94b18f1cb5 100644
+--- a/arch/s390/kvm/kvm-s390.c
++++ b/arch/s390/kvm/kvm-s390.c
+@@ -2782,6 +2782,7 @@ static int mem_op_validate_common(struct kvm_s390_mem_op *mop, u64 supported_fla
+ static int kvm_s390_vm_mem_op_abs(struct kvm *kvm, struct kvm_s390_mem_op *mop)
  {
- 	struct kvm_s390_mem_op ksmo = {
-@@ -85,7 +87,7 @@ static struct kvm_s390_mem_op ksmo_from_desc(const struct mop_desc *desc)
- 		ksmo.flags |= KVM_S390_MEMOP_F_INJECT_EXCEPTION;
- 	if (desc->_set_flags)
- 		ksmo.flags = desc->set_flags;
--	if (desc->f_key) {
-+	if (desc->f_key && desc->key != NO_KEY) {
- 		ksmo.flags |= KVM_S390_MEMOP_F_SKEY_PROTECTION;
- 		ksmo.key = desc->key;
+ 	void __user *uaddr = (void __user *)mop->buf;
++	enum gacc_mode acc_mode;
+ 	void *tmpbuf = NULL;
+ 	int r, srcu_idx;
+ 
+@@ -2803,33 +2804,25 @@ static int kvm_s390_vm_mem_op_abs(struct kvm *kvm, struct kvm_s390_mem_op *mop)
+ 		goto out_unlock;
  	}
-@@ -268,34 +270,28 @@ static void prepare_mem12(void)
- #define ASSERT_MEM_EQ(p1, p2, size) \
- 	TEST_ASSERT(!memcmp(p1, p2, size), "Memory contents do not match!")
  
--#define DEFAULT_WRITE_READ(copy_cpu, mop_cpu, mop_target_p, size, ...)		\
--({										\
--	struct test_info __copy_cpu = (copy_cpu), __mop_cpu = (mop_cpu);	\
--	enum mop_target __target = (mop_target_p);				\
--	uint32_t __size = (size);						\
--										\
--	prepare_mem12();							\
--	CHECK_N_DO(MOP, __mop_cpu, __target, WRITE, mem1, __size,		\
--			GADDR_V(mem1), ##__VA_ARGS__);				\
--	HOST_SYNC(__copy_cpu, STAGE_COPIED);					\
--	CHECK_N_DO(MOP, __mop_cpu, __target, READ, mem2, __size,		\
--			GADDR_V(mem2), ##__VA_ARGS__);				\
--	ASSERT_MEM_EQ(mem1, mem2, __size);					\
--})
-+static void default_write_read(struct test_info copy_cpu, struct test_info mop_cpu,
-+			       enum mop_target mop_target, uint32_t size, uint8_t key)
-+{
-+	prepare_mem12();
-+	CHECK_N_DO(MOP, mop_cpu, mop_target, WRITE, mem1, size,
-+		   GADDR_V(mem1), KEY(key));
-+	HOST_SYNC(copy_cpu, STAGE_COPIED);
-+	CHECK_N_DO(MOP, mop_cpu, mop_target, READ, mem2, size,
-+		   GADDR_V(mem2), KEY(key));
-+	ASSERT_MEM_EQ(mem1, mem2, size);
-+}
+-	switch (mop->op) {
+-	case KVM_S390_MEMOP_ABSOLUTE_READ: {
+-		if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
+-			r = check_gpa_range(kvm, mop->gaddr, mop->size, GACC_FETCH, mop->key);
+-		} else {
+-			r = access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
+-						      mop->size, GACC_FETCH, mop->key);
+-			if (r == 0) {
+-				if (copy_to_user(uaddr, tmpbuf, mop->size))
+-					r = -EFAULT;
+-			}
+-		}
+-		break;
++	acc_mode = mop->op == KVM_S390_MEMOP_ABSOLUTE_READ ? GACC_FETCH : GACC_STORE;
++	if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
++		r = check_gpa_range(kvm, mop->gaddr, mop->size, acc_mode, mop->key);
++		goto out_unlock;
+ 	}
+-	case KVM_S390_MEMOP_ABSOLUTE_WRITE: {
+-		if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
+-			r = check_gpa_range(kvm, mop->gaddr, mop->size, GACC_STORE, mop->key);
+-		} else {
+-			if (copy_from_user(tmpbuf, uaddr, mop->size)) {
+-				r = -EFAULT;
+-				break;
+-			}
+-			r = access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
+-						      mop->size, GACC_STORE, mop->key);
++	if (acc_mode == GACC_FETCH) {
++		r = access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
++					      mop->size, GACC_FETCH, mop->key);
++		if (r)
++			goto out_unlock;
++		if (copy_to_user(uaddr, tmpbuf, mop->size))
++			r = -EFAULT;
++	} else {
++		if (copy_from_user(tmpbuf, uaddr, mop->size)) {
++			r = -EFAULT;
++			goto out_unlock;
+ 		}
+-		break;
+-	}
++		r = access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
++					      mop->size, GACC_STORE, mop->key);
+ 	}
  
--#define DEFAULT_READ(copy_cpu, mop_cpu, mop_target_p, size, ...)		\
--({										\
--	struct test_info __copy_cpu = (copy_cpu), __mop_cpu = (mop_cpu);	\
--	enum mop_target __target = (mop_target_p);				\
--	uint32_t __size = (size);						\
--										\
--	prepare_mem12();							\
--	CHECK_N_DO(MOP, __mop_cpu, __target, WRITE, mem1, __size,		\
--			GADDR_V(mem1));						\
--	HOST_SYNC(__copy_cpu, STAGE_COPIED);					\
--	CHECK_N_DO(MOP, __mop_cpu, __target, READ, mem2, __size, ##__VA_ARGS__);\
--	ASSERT_MEM_EQ(mem1, mem2, __size);					\
--})
-+static void default_read(struct test_info copy_cpu, struct test_info mop_cpu,
-+			 enum mop_target mop_target, uint32_t size, uint8_t key)
-+{
-+	prepare_mem12();
-+	CHECK_N_DO(MOP, mop_cpu, mop_target, WRITE, mem1, size, GADDR_V(mem1));
-+	HOST_SYNC(copy_cpu, STAGE_COPIED);
-+	CHECK_N_DO(MOP, mop_cpu, mop_target, READ, mem2, size,
-+		   GADDR_V(mem2), KEY(key));
-+	ASSERT_MEM_EQ(mem1, mem2, size);
-+}
- 
- static void guest_copy(void)
- {
-@@ -310,7 +306,7 @@ static void test_copy(void)
- 
- 	HOST_SYNC(t.vcpu, STAGE_INITED);
- 
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, t.size);
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, t.size, NO_KEY);
- 
- 	kvm_vm_free(t.kvm_vm);
- }
-@@ -357,26 +353,26 @@ static void test_copy_key(void)
- 	HOST_SYNC(t.vcpu, STAGE_SKEYS_SET);
- 
- 	/* vm, no key */
--	DEFAULT_WRITE_READ(t.vcpu, t.vm, ABSOLUTE, t.size);
-+	default_write_read(t.vcpu, t.vm, ABSOLUTE, t.size, NO_KEY);
- 
- 	/* vm/vcpu, machting key or key 0 */
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, t.size, KEY(0));
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, t.size, KEY(9));
--	DEFAULT_WRITE_READ(t.vcpu, t.vm, ABSOLUTE, t.size, KEY(0));
--	DEFAULT_WRITE_READ(t.vcpu, t.vm, ABSOLUTE, t.size, KEY(9));
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, t.size, 0);
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, t.size, 9);
-+	default_write_read(t.vcpu, t.vm, ABSOLUTE, t.size, 0);
-+	default_write_read(t.vcpu, t.vm, ABSOLUTE, t.size, 9);
- 	/*
- 	 * There used to be different code paths for key handling depending on
- 	 * if the region crossed a page boundary.
- 	 * There currently are not, but the more tests the merrier.
- 	 */
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, 1, KEY(0));
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, 1, KEY(9));
--	DEFAULT_WRITE_READ(t.vcpu, t.vm, ABSOLUTE, 1, KEY(0));
--	DEFAULT_WRITE_READ(t.vcpu, t.vm, ABSOLUTE, 1, KEY(9));
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, 1, 0);
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, 1, 9);
-+	default_write_read(t.vcpu, t.vm, ABSOLUTE, 1, 0);
-+	default_write_read(t.vcpu, t.vm, ABSOLUTE, 1, 9);
- 
- 	/* vm/vcpu, mismatching keys on read, but no fetch protection */
--	DEFAULT_READ(t.vcpu, t.vcpu, LOGICAL, t.size, GADDR_V(mem2), KEY(2));
--	DEFAULT_READ(t.vcpu, t.vm, ABSOLUTE, t.size, GADDR_V(mem1), KEY(2));
-+	default_read(t.vcpu, t.vcpu, LOGICAL, t.size, 2);
-+	default_read(t.vcpu, t.vm, ABSOLUTE, t.size, 2);
- 
- 	kvm_vm_free(t.kvm_vm);
- }
-@@ -409,7 +405,7 @@ static void test_copy_key_storage_prot_override(void)
- 	HOST_SYNC(t.vcpu, STAGE_SKEYS_SET);
- 
- 	/* vcpu, mismatching keys, storage protection override in effect */
--	DEFAULT_WRITE_READ(t.vcpu, t.vcpu, LOGICAL, t.size, KEY(2));
-+	default_write_read(t.vcpu, t.vcpu, LOGICAL, t.size, 2);
- 
- 	kvm_vm_free(t.kvm_vm);
- }
-@@ -422,8 +418,8 @@ static void test_copy_key_fetch_prot(void)
- 	HOST_SYNC(t.vcpu, STAGE_SKEYS_SET);
- 
- 	/* vm/vcpu, matching key, fetch protection in effect */
--	DEFAULT_READ(t.vcpu, t.vcpu, LOGICAL, t.size, GADDR_V(mem2), KEY(9));
--	DEFAULT_READ(t.vcpu, t.vm, ABSOLUTE, t.size, GADDR_V(mem2), KEY(9));
-+	default_read(t.vcpu, t.vcpu, LOGICAL, t.size, 9);
-+	default_read(t.vcpu, t.vm, ABSOLUTE, t.size, 9);
- 
- 	kvm_vm_free(t.kvm_vm);
- }
+ out_unlock:
 -- 
 2.37.2
 
