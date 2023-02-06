@@ -2,196 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A242DC05027
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 11:22:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F99DC63797
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 11:24:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbjBFLWc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Feb 2023 06:22:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39964 "EHLO
+        id S229952AbjBFLYy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Feb 2023 06:24:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjBFLWb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 06:22:31 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F2D99ECB
-        for <linux-doc@vger.kernel.org>; Mon,  6 Feb 2023 03:22:30 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id g13so6957008ple.10
-        for <linux-doc@vger.kernel.org>; Mon, 06 Feb 2023 03:22:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TxhmEL2QKzuA2KnvKWZKNha852YtFmdnaDf+I/zJ96Y=;
-        b=SS+vVwCoRiy0t41HnEbXrVayX3JOebYGLH6NycOBhTZQuqyZMvUHMvLGIRXNv6SZHt
-         sE12LX9h0HOSPlcUpEHdG5PnpsWsZi3UEdodNvpVgFsLkrZG53o8Nd3aogv9zzi30QaG
-         cmEBOD1FIw6Gx7D5ZYiVrPfwG+thPSy5NvQo5dfI+s395xCUUAD+pewsCQ64IePhh0A3
-         VKMJrWlZNqGAjXkIfDkxoykfSMKiHdyHPECNL8zczHieOAlVAbowKBGp9HBYZp1YBKmr
-         iCSB6+IB1iN/etVYHgTWs7j0zhP0gtM7EOTWuAJZaJXouE7sUT3zS5u5Es1qOTr0Tm6S
-         mqLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TxhmEL2QKzuA2KnvKWZKNha852YtFmdnaDf+I/zJ96Y=;
-        b=2V8p3Er6IzpZJ9nFfR61wrA4/aUS6yXfG0YbexhsMWXdG0VHeEYV1b57D12hIByGF2
-         I2QSjUY0DT1fB0hjrnTmIbYk/pYr8lOrn7+lhaP1IraE5c0yCqTMRNQNmuIPRhwzQUhl
-         tKPqz2As2cRBF52FfIZYd1t5hKwtWIjNAOKznW1odvA3mNh1o0wKoPRb0+41z92/ikVc
-         fQK0DlKerXxCMnp9SQfP8GWmqBYNseRRjPMDohaxp/9LoRKnI7P7pMemAwQQFbI7O1Rq
-         uc/z3MYLwloJv2pEQAiVYn6uX+P6DeUXSJeSWje/bBIBLE4kq4+7P5ChhWyl0/edbx3A
-         CwKg==
-X-Gm-Message-State: AO0yUKW1GcKaZxQGzPRzP0v52HqDu6eiNG/QkAHvy7n5oSNtF9CPuCTQ
-        2qBlUfB9ydWm2oXtYlSd1IoP54obQO/kLJczdKxxSA==
-X-Google-Smtp-Source: AK7set+/stD4n2SGB11esf3lDtXhChZtJl1NjgqiFWXur6tuX8MQg1Pj989cU0ecIXNUb/0RPh9o3Wb+lLNPVCquCEY=
-X-Received: by 2002:a17:903:186:b0:199:985:a594 with SMTP id
- z6-20020a170903018600b001990985a594mr972000plg.6.1675682549425; Mon, 06 Feb
- 2023 03:22:29 -0800 (PST)
+        with ESMTP id S229875AbjBFLYx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 06:24:53 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA56272A4;
+        Mon,  6 Feb 2023 03:24:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=6p5UcUVJMB6FcC7LDxPnes2LOQaJUS8z6IEOS3X783s=; b=Ea7S5G84aDpNMvL/Suxi9XIvmP
+        C3d8gqapGDHgOfKkaP3NfNlfpuswBdZ+/65aPGo8Ipfi4ygRk8xZ7E1lb+BYSVGzxaS2sN48Bj+uV
+        7EcpbhbKtu3+Vy6v0rx38wmRy2zhh9BHTpbWgMb6B1VUojynlRhGLZwyBBeJ97ZTbSyUL+nN/9cdA
+        g3KAlOkdL6bK9I8Ru0c8Xd4so95LlWcA9jGTKHdvLf99ddC9qSvsG4IxnKgYDCF/ShOfXC3/ZQNuz
+        +ltBvaSkLaaFq/cirv5PAA/Jvc9EmJp6O0MLa9hEeS1tkPMdnYzaGXwcTfJ4KZOOty5sepN3i9T7J
+        b/03MOXw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pOzbS-00Gi9E-Dh; Mon, 06 Feb 2023 11:24:06 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C110E30013F;
+        Mon,  6 Feb 2023 12:24:00 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 8C4252CFF4E16; Mon,  6 Feb 2023 12:24:00 +0100 (CET)
+Date:   Mon, 6 Feb 2023 12:24:00 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>, dennis@kernel.org,
+        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
+        Heiko Carstens <hca@linux.ibm.com>, gor@linux.ibm.com,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        borntraeger@linux.ibm.com, Sven Schnelle <svens@linux.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <joro@8bytes.org>,
+        suravee.suthikulpanit@amd.com, Robin Murphy <robin.murphy@arm.com>,
+        dwmw2@infradead.org, Baolu Lu <baolu.lu@linux.intel.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-crypto@vger.kernel.org
+Subject: Re: [PATCH v2 05/10] percpu: Wire up cmpxchg128
+Message-ID: <Y+DjULnIxcPU/rtp@hirez.programming.kicks-ass.net>
+References: <20230202145030.223740842@infradead.org>
+ <20230202152655.494373332@infradead.org>
+ <24007667-1ff3-4c86-9c17-a361c3f9f072@app.fastmail.com>
 MIME-Version: 1.0
-References: <87bkmas5vc.fsf@meer.lwn.net>
-In-Reply-To: <87bkmas5vc.fsf@meer.lwn.net>
-From:   Sadiya Kazi <sadiyakazi@google.com>
-Date:   Mon, 6 Feb 2023 16:52:18 +0530
-Message-ID: <CAO2JNKUVHivGN558S17K-iKOEVjqQQ__6Yo=tOhuakuFHQKDcw@mail.gmail.com>
-Subject: Re: [PATCH RFC V2] docs: Add more information to the HTML sidebar
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, David Gow <davidgow@google.com>,
-        Akira Yokosawa <akiyks@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <24007667-1ff3-4c86-9c17-a361c3f9f072@app.fastmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 4, 2023 at 4:40 AM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Add a new sidebar template that creates a more RTD-like "fisheye" view of
-> the current place in the document hierarchy.  It is far from ideal, but
-> some readers may find it better for navigating through the documentation as
-> a whole.
->
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
-> Sorry it took so long to get back to this...$EXCUSES plus trying to get
-> ready for the merge window.
->
-> This version includes the suggestions Akira sent around a couple of
-> weeks ago.  I've also the sidebar TOC go one level deeper when
-> appropriate.
->
-> There's a bit of JavaScript that attempts to scroll the sidebar
-> appropriately.  It's far from perfect but, hopefully an improvement.  It
-> could be made better, but I've managed to remain blissfully ignorant of
-> JavaScript over the years, so it's slow going.  It would sure be nice if
-> somebody who is better at that stuff could jump in.
->
-> I think the contents of the sidebar could be improved too, but that's
-> probably a bigger job.
->
-> As before, the results can be seen at:
->
->   https://static.lwn.net/kerneldoc/
->
-> This probably isn't going to get a lot further before the merge window.
-> So I ask: is this sufficiently better that it should go into 6.3?
+On Fri, Feb 03, 2023 at 06:25:04PM +0100, Arnd Bergmann wrote:
+> On Thu, Feb 2, 2023, at 15:50, Peter Zijlstra wrote:
+> > In order to replace cmpxchg_double() with the newly minted
+> > cmpxchg128() family of functions, wire it up in this_cpu_cmpxchg().
+> >
+> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> 
+> I commented on this in the previous version but never got any
+> reply from you:
+> 
+> https://lore.kernel.org/all/1d88ba9f-5541-4b67-9cc8-a361eef36547@app.fastmail.com/
 
-Thank you very much, Jon. This version looks better than the previous one
-and resolves the "Where am I?" problem. As David suggested, the font size
-for the third-level nested heading in the sidebar should be increased;
-otherwise, it
-is good to go for 6.3.
+Sorry, seem to have missed that :/
 
-Regards,
-Sadiya
+> Unless I have misunderstood what you are doing, my concerns are
+> still the same:
+> 
+> >  #define this_cpu_cmpxchg(pcp, oval, nval) \
+> > -	__pcpu_size_call_return2(this_cpu_cmpxchg_, pcp, oval, nval)
+> > +	__pcpu_size16_call_return2(this_cpu_cmpxchg_, pcp, oval, nval)
+> >  #define this_cpu_cmpxchg_double(pcp1, pcp2, oval1, oval2, nval1, 
+> > nval2) \
+> >  	__pcpu_double_call_return_bool(this_cpu_cmpxchg_double_, pcp1, pcp2, 
+> > oval1, oval2, nval1, nval2)
+> 
+> Having a variable-length this_cpu_cmpxchg() that turns into cmpxchg128()
+> and cmpxchg64() even on CPUs where this traps (!X86_FEATURE_CX16) seems
+> like a bad design to me.
+> 
+> I would much prefer fixed-length this_cpu_cmpxchg64()/this_cpu_cmpxchg128()
+> calls that never trap but fall back to the generic version on CPUs that
+> are lacking the atomics.
 
-
-
->
->  Documentation/conf.py                         |  5 +++--
->  Documentation/sphinx-static/custom.css        | 20 ++++++++++++++++++-
->  .../sphinx/templates/kernel-toc.html          | 11 ++++++++++
->  3 files changed, 33 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/sphinx/templates/kernel-toc.html
->
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index d927737e3c10..6c8ccf3095ac 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -153,7 +153,7 @@ else:
->      math_renderer = 'mathjax'
->
->  # Add any paths that contain templates here, relative to this directory.
-> -templates_path = ['_templates']
-> +templates_path = ['sphinx/templates']
->
->  # The suffix(es) of source filenames.
->  # You can specify multiple suffix as a list of string:
-> @@ -328,6 +328,7 @@ if  html_theme == 'alabaster':
->          'description': get_cline_version(),
->          'page_width': '65em',
->          'sidebar_width': '15em',
-> +        'fixed_sidebar': 'true',
->          'font_size': 'inherit',
->          'font_family': 'serif',
->      }
-> @@ -345,7 +346,7 @@ html_use_smartypants = False
->
->  # Custom sidebar templates, maps document names to template names.
->  # Note that the RTD theme ignores this
-> -html_sidebars = { '**': ['searchbox.html', 'localtoc.html', 'sourcelink.html']}
-> +html_sidebars = { '**': ['searchbox.html', 'kernel-toc.html', 'sourcelink.html']}
->
->  # about.html is available for alabaster theme. Add it at the front.
->  if html_theme == 'alabaster':
-> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-> index 45a624fdcf2c..17cc0abeb0a7 100644
-> --- a/Documentation/sphinx-static/custom.css
-> +++ b/Documentation/sphinx-static/custom.css
-> @@ -11,7 +11,9 @@ div.body h3 { font-size: 130%; }
->  /* Tighten up the layout slightly */
->  div.body { padding: 0 15px 0 10px; }
->  div.sphinxsidebarwrapper { padding: 1em 0.4em; }
-> -div.sphinxsidebar { font-size: inherit; }
-> +div.sphinxsidebar { font-size: inherit;
-> +                   max-height: 100%;
-> +                   overflow-y: auto; }
->  /* Tweak document margins and don't force width */
->  div.document {
->      margin: 20px 10px 0 10px;
-> @@ -27,3 +29,19 @@ dl.function, dl.struct, dl.enum { margin-top: 2em; background-color: #ecf0f3; }
->  dl.function dt { margin-left: 10em; text-indent: -10em; }
->  dt.sig-object { font-size: larger; }
->  div.kernelindent { margin-left: 2em; margin-right: 4em; }
-> +
-> +/*
-> + * Tweaks for our local TOC
-> + */
-> +div.kerneltoc li.toctree-l1 { font-size: smaller;
-> +               text-indent: -1em;
-> +               margin-left: 1em; }
-> +div.kerneltoc li.current {font-weight: bold; }
-> +div.kerneltoc li.toctree-l2,li.toctree-l3 { font-size: smaller;
-> +               text-indent: -1em;
-> +               margin-left: 2em;
-> +               list-style-type: none;
-> +             }
-> +div.kerneltoc li.current ul { margin-left: 0; }
-> +div.kerneltoc { background-color: #eeeeee; }
-> +div.kerneltoc li.current ul { background-color: white; }
-> diff --git a/Documentation/sphinx/templates/kernel-toc.html b/Documentation/sphinx/templates/kernel-toc.html
-> new file mode 100644
-> index 000000000000..020a174a8139
-> --- /dev/null
-> +++ b/Documentation/sphinx/templates/kernel-toc.html
-> @@ -0,0 +1,11 @@
-> +{# Create a local TOC the kernel way #}
-> +<p>
-> +<h3>Contents</h3>
-> +<div class="kerneltoc" id="kerneltoc">
-> +{{ toctree(maxdepth=3) }}
-> +</div>
-> +{# hacky script to try to position the left column #}
-> +<script type="text/javascript"> <!--
-> +  var sbar = document.getElementsByClassName("sphinxsidebar")[0];
-> +  sbar.scrollTop = document.getElementsByClassName("current")[0].offsetTop;
-> +  --> </script>
-> --
-> 2.39.1
->
+You're thinking acidental usage etc..? Lemme see what I can do.
