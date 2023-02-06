@@ -2,273 +2,500 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF53C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 22:47:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 328DFC05027
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 23:24:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbjBFWr6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Feb 2023 17:47:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58764 "EHLO
+        id S229565AbjBFXYN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Feb 2023 18:24:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbjBFWr5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 17:47:57 -0500
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EAA9FF28
-        for <linux-doc@vger.kernel.org>; Mon,  6 Feb 2023 14:47:52 -0800 (PST)
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com [209.85.167.72])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id DA7DD4253A
-        for <linux-doc@vger.kernel.org>; Mon,  6 Feb 2023 22:47:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1675723670;
-        bh=VjsfREu60pLZr44v0XyMe9ovUs6l2w2CeUG5BdUJPho=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=TsGHYHpXCgbYmIR8YDCwkU0SCYNRKh63eNSPbBDn8Y2lqV8wmuZGOrKhDXhDQTZSk
-         ohTmV7CONpoftvWB2tm18eiK71B9VxxKW8wR9a+7iVwdE8xGVDQrjuTP1we2fxIN65
-         C7yu7gf/qRTycOiKq17m8qn0TnjkbHgmZ7NJU+Q51Wf+Vdf+aMDFyRD5w2bBVeqrjv
-         lbkG7RCcld02vYeo2+Bob4uVazlM0YkU6VB+suK7dtO2iTNgZWCOWjVatps4rQM8Jz
-         AUhdPG56J0ahg0WPTKUV0A3o08xzUsixVhHAnqX4cL6507rZaR7GJipRt7b5txorj1
-         DmjqFlYryh+fQ==
-Received: by mail-lf1-f72.google.com with SMTP id u13-20020a056512128d00b004b53d7241f6so5379516lfs.4
-        for <linux-doc@vger.kernel.org>; Mon, 06 Feb 2023 14:47:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VjsfREu60pLZr44v0XyMe9ovUs6l2w2CeUG5BdUJPho=;
-        b=BtkIcNtZTNyYsRMpgG9YJZNP1aSNcf9/eaFc8Uxx5yvfPGv9jwBIlSN3NCCe4DUDKm
-         YohTgWDvYIwCGaCf5tkoJgm6MWeqyXgV//0BC5ZmcBKQvgCrsB5zTsCKeDCYcNyeuaLO
-         rEVBBb1T12Oosbi+pXIMCi7+V30wWGzRwtlNvzKDIlptNnD+Ko3G0Tk58Yz3jH1VZ0sC
-         jLU4q3EnyTg+LyNNWZgS5J0YMCau8aRTJDYg/OCdmmLJlptbvZPBmj4sIxM0JWjn7WCb
-         odlFakZttYJnUSjHgpqclHZmm/okkXgm+SsjzAin6wcT1IjopLqpLFkaBTmXgOlmVvkM
-         Ulzg==
-X-Gm-Message-State: AO0yUKUvGbwLc8EmxRDLP0ZIX1SA9bbWx78307qaap21xb4SCo7mU1nR
-        ZuVENRNi1bCB753T4nsqzb1222Q2I/bhK8xEl/ag+MOREG/n1ZOs47qIBzeBYNm/2lumJU1OxlH
-        byoSJZ2XugsWcWPKFZZkve9c53Z4DTK9ygy2atw==
-X-Received: by 2002:a05:600c:13c8:b0:3da:28a9:a900 with SMTP id e8-20020a05600c13c800b003da28a9a900mr1079150wmg.41.1675723658703;
-        Mon, 06 Feb 2023 14:47:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set9KRf5TMwnWQSrwLboAv4ZBKRqxffZC1AlZvTLHy48L5l3G8wf2kaChO6RGlC9xmflDOxLzFQ==
-X-Received: by 2002:a05:600c:13c8:b0:3da:28a9:a900 with SMTP id e8-20020a05600c13c800b003da28a9a900mr1079114wmg.41.1675723658250;
-        Mon, 06 Feb 2023 14:47:38 -0800 (PST)
-Received: from [192.168.123.94] (ip-088-152-145-137.um26.pools.vodafone-ip.de. [88.152.145.137])
-        by smtp.gmail.com with ESMTPSA id l16-20020a1c7910000000b003dc1d668866sm16727320wme.10.2023.02.06.14.47.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Feb 2023 14:47:37 -0800 (PST)
-Message-ID: <de7fec14-7c43-6584-db72-b4c3a9f1423a@canonical.com>
-Date:   Mon, 6 Feb 2023 23:47:35 +0100
+        with ESMTP id S229743AbjBFXYL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 18:24:11 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 388F92410D;
+        Mon,  6 Feb 2023 15:24:04 -0800 (PST)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 316MFN3k025014;
+        Mon, 6 Feb 2023 23:23:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=QG2dMxZzBM6QsdgC2fSbW6enqLXOdr3MgM8XMsQYx58=;
+ b=NnHAi6mtA2NPwACApQa8JGJ5x1mzXhKSY1xsAIA0hlvj9RHcf+VZpxu/tDk+HrFUXxrZ
+ wHquMGvCtPS2Non24FvfaEXeBVRym+uQK+AQxbqA5XycHKXx3POz+t1PRxrfSmkcIlxy
+ NV8KXVcwip7ypY5CeCprLdNfPgIKWPdXxuTx2kP8w7bjQb4NG8RWJqybttwKpdJ0jlv2
+ jLitzKVAu2FFJZ3fz0VhHLybuznUTXRsJAaCguJWBpRbzv62Qc+gKXb/NtNMqDX3p8Ns
+ H/5FZC6QEQcM1LIEm6U8e1PJhtciE17vUxMcE2AmNJ1MlB+k4LluYjtD691GgN0zJEkp gQ== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nhfkactf7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 06 Feb 2023 23:23:44 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 316NNhjc006329
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 6 Feb 2023 23:23:43 GMT
+Received: from [10.134.67.48] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 6 Feb 2023
+ 15:23:42 -0800
+Message-ID: <deff204d-600a-9606-4f77-85779830f2be@quicinc.com>
+Date:   Mon, 6 Feb 2023 15:23:42 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 0/6] RISC-V Hardware Probing User Interface
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v9 13/27] gunyah: vm_mgr: Add/remove user memory regions
 Content-Language: en-US
-To:     Evan Green <evan@rivosinc.com>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jisheng Zhang <jszhang@kernel.org>, linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Qinglin Pan <panqinglin2020@iscas.ac.cn>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        Tsukasa OI <research_trasio@irq.a4lg.com>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>
+CC:     Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Vineet Gupta <vineetg@rivosinc.com>,
-        Mark Brown <broonie@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Ruizhe Pan <c141028@gmail.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        linux-kselftest@vger.kernel.org, slewis@rivosinc.com,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Conor Dooley <conor@kernel.org>, dram <dramforever@live.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Guo Ren <guoren@kernel.org>, Dao Lu <daolu@rivosinc.com>,
-        Jessica Clarke <jrtc27@jrtc27.com>
-References: <20230206201455.1790329-1-evan@rivosinc.com>
- <212CC1BD-31FF-4B8B-B05D-89C5245EE8A7@jrtc27.com>
-From:   Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-In-Reply-To: <212CC1BD-31FF-4B8B-B05D-89C5245EE8A7@jrtc27.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+ <20230120224627.4053418-14-quic_eberman@quicinc.com>
+ <36950638-6aae-f115-86e5-97606a5d67fe@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <36950638-6aae-f115-86e5-97606a5d67fe@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: QbH9SP6itugUeJrU30b9WIznnMy87A-Z
+X-Proofpoint-GUID: QbH9SP6itugUeJrU30b9WIznnMy87A-Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ impostorscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0
+ adultscore=0 suspectscore=0 spamscore=0 bulkscore=0 clxscore=1015
+ mlxscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302060202
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/6/23 22:11, Jessica Clarke wrote:
-> On 6 Feb 2023, at 20:14, Evan Green <evan@rivosinc.com> wrote:
+
+
+On 2/6/2023 8:12 AM, Srinivas Kandagatla wrote:
+> 
+> 
+> On 20/01/2023 22:46, Elliot Berman wrote:
+>> When launching a virtual machine, Gunyah userspace allocates memory for
+>> the guest and informs Gunyah about these memory regions through
+>> SET_USER_MEMORY_REGION ioctl.
 >>
+>> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+>> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>> ---
+>>   drivers/virt/gunyah/Makefile    |   2 +-
+>>   drivers/virt/gunyah/vm_mgr.c    |  46 +++++++
+>>   drivers/virt/gunyah/vm_mgr.h    |  28 +++-
+>>   drivers/virt/gunyah/vm_mgr_mm.c | 223 ++++++++++++++++++++++++++++++++
+>>   include/uapi/linux/gunyah.h     |  22 ++++
+>>   5 files changed, 319 insertions(+), 2 deletions(-)
+>>   create mode 100644 drivers/virt/gunyah/vm_mgr_mm.c
 >>
->> These are very much up for discussion, as it's a pretty big new user
->> interface and it's quite a bit different from how we've historically
->> done things: this isn't just providing an ISA string to userspace, this
->> has its own format for providing information to userspace.
->>
->> There's been a bunch of off-list discussions about this, including at
->> Plumbers.  The original plan was to do something involving providing an
->> ISA string to userspace, but ISA strings just aren't sufficient for a
->> stable ABI any more: in order to parse an ISA string users need the
->> version of the specifications that the string is written to, the version
->> of each extension (sometimes at a finer granularity than the RISC-V
->> releases/versions encode), and the expected use case for the ISA string
->> (ie, is it a U-mode or M-mode string).  That's a lot of complexity to
->> try and keep ABI compatible and it's probably going to continue to grow,
->> as even if there's no more complexity in the specifications we'll have
->> to deal with the various ISA string parsing oddities that end up all
->> over userspace.
->>
->> Instead this patch set takes a very different approach and provides a set
->> of key/value pairs that encode various bits about the system.  The big
->> advantage here is that we can clearly define what these mean so we can
->> ensure ABI stability, but it also allows us to encode information that's
->> unlikely to ever appear in an ISA string (see the misaligned access
->> performance, for example).  The resulting interface looks a lot like
->> what arm64 and x86 do, and will hopefully fit well into something like
->> ACPI in the future.
->>
->> The actual user interface is a syscall.  I'm not really sure that's the
->> right way to go about this, but it makes for flexible prototying.
->> Various other approaches have been talked about like making HWCAP2 a
->> pointer, having a VDSO routine, or exposing this via sysfs.  Those seem
->> like generally reasonable approaches, but I've yet to figure out a way
->> to get the general case working without a syscall as that's the only way
->> I've come up with to deal with the heterogenous CPU case.  Happy to hear
->> if someone has a better idea, though, as I don't really want to add a
->> syscall if we can avoid it.
+>> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+>> index 03951cf82023..ff8bc4925392 100644
+>> --- a/drivers/virt/gunyah/Makefile
+>> +++ b/drivers/virt/gunyah/Makefile
+>> @@ -2,5 +2,5 @@
+>>   obj-$(CONFIG_GUNYAH) += gunyah.o
+>> -gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
+>> +gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
+>>   obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
+>> diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+>> index 0864dbd77e28..b847fde63333 100644
+>> --- a/drivers/virt/gunyah/vm_mgr.c
+>> +++ b/drivers/virt/gunyah/vm_mgr.c
+>> @@ -35,14 +35,55 @@ static __must_check struct gunyah_vm 
+>> *gunyah_vm_alloc(struct gh_rm_rpc *rm)
+>>       ghvm->vmid = vmid;
+>>       ghvm->rm = rm;
+>> +    mutex_init(&ghvm->mm_lock);
+>> +    INIT_LIST_HEAD(&ghvm->memory_mappings);
+>> +
+>>       return ghvm;
+>>   }
+>>   static long gh_vm_ioctl(struct file *filp, unsigned int cmd, 
+>> unsigned long arg)
+>>   {
+>> +    struct gunyah_vm *ghvm = filp->private_data;
+>> +    void __user *argp = (void __user *)arg;
+>>       long r;
+>>       switch (cmd) {
+>> +    case GH_VM_SET_USER_MEM_REGION: {
+>> +        struct gunyah_vm_memory_mapping *mapping;
+>> +        struct gh_userspace_memory_region region;
+>> +
+>> +        r = -EFAULT;
+>> +        if (copy_from_user(&region, argp, sizeof(region)))
+>> +            break;
+> Why not be explict about the error codes, do something like.
+> 
+> if (copy_from_user(&region, argp, sizeof(region)))
+>      return -EFAULT;
+> 
+> 
+> setting r value everytime before starting any code is making the code 
+> more reader unfriendly.
+> 
+> 
 
-Operating systems tend to reschedule threads moving them between harts. 
-New threads may be created by processes at any time.
+Done.
 
-It is not clear to me what information the syscall shall convey in the 
-heterogeneous case. I see the following alternatives:
 
-* The syscall describes the current hart.
-* The syscall provides individual properties of all harts.
-* The syscall provides a set of properties that is valid for any hart on 
-which the thread might be scheduled.
-* The syscall provides a set of properties that is valid for any hart 
-that any thread of the current process might be scheduled to.
+>> +
+>> +        r = -EINVAL;
+>> +        /* All other flag bits are reserved for future use */
+>> +        if (region.flags & ~(GH_MEM_ALLOW_READ | GH_MEM_ALLOW_WRITE | 
+>> GH_MEM_ALLOW_EXEC |
+>> +            GH_MEM_LENT))
+>> +            break;
+>> +
+>> +
+>> +        if (region.memory_size) {
+> 
+> This behaviour allocating memory in presense of valid memory_size and 
+> finding memory in cases of zero size needs to be described properly in 
+> the uapi so that the users are aware of this.
+> 
 
-Describing only the current hart would not be helpful as the thread 
-might be rescheduled to a hart with a smaller set of available extensions.
+This behavior is described in "Document Gunyah VM Manager": 
+https://lore.kernel.org/all/20230120224627.4053418-20-quic_eberman@quicinc.com/
 
-Describing the properties of all harts would not be helpful if the 
-thread has no control to which hart it is scheduled.
+>> +            r = 0;
+>> +            mapping = gh_vm_mem_mapping_alloc(ghvm, &region);
+>> +            if (IS_ERR(mapping)) {
+>> +                r = PTR_ERR(mapping);
+>> +                break;
+>> +            }
+>> +        } else {
+>> +            mapping = gh_vm_mem_mapping_find(ghvm, region.label);
+>> +            if (IS_ERR(mapping)) {
+>> +                r = PTR_ERR(mapping);
+>> +                break;
+>> +            }
+>> +            r = 0;
+>> +            if (!mapping)
+>> +                break;
+>> +            gh_vm_mem_mapping_reclaim(ghvm, mapping);
+>> +            kfree(mapping);
+>> +        }
+>> +        break;
+>> +    }
+>>       default:
+>>           r = -ENOTTY;
+>>           break;
+>> @@ -54,7 +95,12 @@ static long gh_vm_ioctl(struct file *filp, unsigned 
+>> int cmd, unsigned long arg)
+>>   static int gh_vm_release(struct inode *inode, struct file *filp)
+>>   {
+>>       struct gunyah_vm *ghvm = filp->private_data;
+>> +    struct gunyah_vm_memory_mapping *mapping, *tmp;
+> Locking?
+>> +    list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, 
+>> list) {
+>> +        gh_vm_mem_mapping_reclaim(ghvm, mapping);
+>> +        kfree(mapping);
+>> +    }
+>>       put_gh_rm(ghvm->rm);
+>>       kfree(ghvm);
+>>       return 0;
+>> diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+>> index e47f34de7f9e..6b38bf780f76 100644
+>> --- a/drivers/virt/gunyah/vm_mgr.h
+>> +++ b/drivers/virt/gunyah/vm_mgr.h
+>> @@ -7,14 +7,40 @@
+>>   #define _GH_PRIV_VM_MGR_H
+>>   #include <linux/gunyah_rsc_mgr.h>
+>> +#include <linux/list.h>
+>> +#include <linux/miscdevice.h>
+>> +#include <linux/mutex.h>
+>>   #include <uapi/linux/gunyah.h>
+>>   long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, 
+>> unsigned long arg);
+>> +enum gunyah_vm_mem_share_type {
+>> +    VM_MEM_SHARE,
+>> +    VM_MEM_LEND,
+>> +};
+>> +
+>> +struct gunyah_vm_memory_mapping {
+>> +    struct list_head list;
+>> +    enum gunyah_vm_mem_share_type share_type;
+>> +    struct gh_rm_mem_parcel parcel;
+>> +
+>> +    __u64 guest_phys_addr;
+>> +    struct page **pages;
+>> +    unsigned long npages;
+>> +};
+>> +
+>>   struct gunyah_vm {
+>>       u16 vmid;
+>> -    struct gh_rm_rpc *rm;
+>> +    struct gh_rm *rm;
+>> +
+>> +    struct mutex mm_lock;
+>> +    struct list_head memory_mappings;
+>>   };
+>> +struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_alloc(struct 
+>> gunyah_vm *ghvm,
+>> +                            struct gh_userspace_memory_region *region);
+>> +void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct 
+>> gunyah_vm_memory_mapping *mapping);
+>> +struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct 
+>> gunyah_vm *ghvm, u32 label);
+>> +
+>>   #endif
+>> diff --git a/drivers/virt/gunyah/vm_mgr_mm.c 
+>> b/drivers/virt/gunyah/vm_mgr_mm.c
+>> new file mode 100644
+>> index 000000000000..f2dbdb4ee8ab
+>> --- /dev/null
+>> +++ b/drivers/virt/gunyah/vm_mgr_mm.c
+>> @@ -0,0 +1,223 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>> + */
+>> +
+>> +#define pr_fmt(fmt) "gh_vm_mgr: " fmt
+>> +
+>> +#include <linux/gunyah_rsc_mgr.h>
+>> +#include <linux/mm.h>
+>> +
+>> +#include <uapi/linux/gunyah.h>
+>> +
+>> +#include "vm_mgr.h"
+>> +
+>> +static inline bool page_contiguous(phys_addr_t p, phys_addr_t t)
+>> +{
+>> +    return t - p == PAGE_SIZE;
+>> +}
+>> +
+>> +static struct gunyah_vm_memory_mapping 
+>> *__gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label)
+>> +{
+>> +    struct gunyah_vm_memory_mapping *mapping;
+>> +
+>> +
+> only one line.
 
-Processes that don't control scheduling would most benefit from a 
-guaranteed set of properties valid for all threads of the process.
+Done.
 
-Processes that take control of scheduling would probably want 
-information about all harts.
+>> +    list_for_each_entry(mapping, &ghvm->memory_mappings, list)
+>> +        if (mapping->parcel.label == label)
+>> +            return mapping;
+>> +
+>> +    return NULL;
+>> +}
+>> +
+>> +void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct 
+>> gunyah_vm_memory_mapping *mapping)
+>> +{
+>> +    int i, ret = 0;
+>> +
+>> +    if (mapping->parcel.mem_handle != GH_MEM_HANDLE_INVAL) {
+>> +        ret = gh_rm_mem_reclaim(ghvm->rm, &mapping->parcel);
+>> +        if (ret)
+>> +            pr_warn("Failed to reclaim memory parcel for label %d: 
+>> %d\n",
+>> +                mapping->parcel.label, ret);
+>> +    }
+>> +
+>> +    if (!ret)
+>> +        for (i = 0; i < mapping->npages; i++)
+>> +            unpin_user_page(mapping->pages[i]);
+>> +
+>> +    kfree(mapping->pages);
+>> +    kfree(mapping->parcel.acl_entries);
+>> +    kfree(mapping->parcel.mem_entries);
+>> +
+>> +    mutex_lock(&ghvm->mm_lock);
+>> +    list_del(&mapping->list);
+>> +    mutex_unlock(&ghvm->mm_lock);
+>> +}
+>> +
+>> +struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct 
+>> gunyah_vm *ghvm, u32 label)
+>> +{
+>> +    struct gunyah_vm_memory_mapping *mapping;
+>> +    int ret;
+>> +
+>> +    ret = mutex_lock_interruptible(&ghvm->mm_lock);
+>> +    if (ret)
+>> +        return ERR_PTR(ret);
+>> +    mapping = __gh_vm_mem_mapping_find(ghvm, label);
+>> +    mutex_unlock(&ghvm->mm_lock);
+>> +    return mapping ? : ERR_PTR(-ENODEV);
+>> +}
+>> +
+>> +struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_alloc(struct 
+>> gunyah_vm *ghvm,
+>> +                            struct gh_userspace_memory_region *region)
+>> +{
+> Is this a static functoin or an exported symbol?
+> 
 
-Best regards
+Neither, it's used in vm_mgr.c.
 
-Heinrich
+>> +    phys_addr_t curr_page, prev_page;
+>> +    struct gunyah_vm_memory_mapping *mapping, *tmp_mapping;
+>> +    struct gh_rm_mem_entry *mem_entries;
+>> +    int i, j, pinned, ret = 0;
+>> +    struct gh_rm_mem_parcel *parcel;
+>> +    size_t entry_size;
+>> +    u16 vmid; > +
+> Reverse christmas tree to sor local variables would be nice.
+> 
+
+Done, and checked throughout the series as well.
+
+>> +    if (!region->memory_size || !PAGE_ALIGNED(region->memory_size) ||
+>> +        !PAGE_ALIGNED(region->userspace_addr))
+> Even this alignment needs some documentation.
+> 
+
+Documented now.
+
+> Or why not just let the user only pass number of pages instead of size?
+> 
+> 
+
+KVM, Nitro enclaves, and ACRN all give size directly and not as # of pages.
+
+>> +        return ERR_PTR(-EINVAL);
+>> +
+>> +    if (!gh_api_has_feature(GH_API_FEATURE_MEMEXTENT))
+>> +        return ERR_PTR(-EOPNOTSUPP);
+> 
+> We should proabably move this as very first check while handling this 
+> IOCTL.
+> 
+
+Done.
 
 > 
-> Please work with https://github.com/riscv-non-isa/riscv-c-api-doc as
-> it’s crucial we have a portable standard interface for applications to
-> query this information that works on OSes other than Linux. This can be
-> backed by whatever you want, whether a syscall, magic VDSO thing,
-> sysfs, etc, but it’s key that the exposed interface outside of libc is
-> not Linux-specific otherwise we’re going to get fragmentation in this
-> space.
+>> +
+>> +    ret = mutex_lock_interruptible(&ghvm->mm_lock);
+>> +    if (ret)
+>> +        return ERR_PTR(ret);
+>> +    mapping = __gh_vm_mem_mapping_find(ghvm, region->label);
 > 
-> I would encourage figuring out the right shape for the exposed
-> interface first before continuing to refine details of how that
-> information gets communicated between the kernel and libc.
+> so label is unique and userspace proabably aware of this?
+> Can we have more than one userspace doing this? and if so how can it 
+> ensure that each label is unique?
 > 
-> Jess
+
+The label is unique and userspace is aware of this. One userspace owns 
+the VM FD.
+
 > 
->> An example series in glibc exposing this syscall and using it in an
->> ifunc selector for memcpy can be found at [1].
->>
->> [1] https://public-inbox.org/libc-alpha/20230206194819.1679472-1-evan@rivosinc.com/T/#t
->>
->> Changes in v2:
->> - Changed the interface to look more like poll(). Rather than supplying
->>    key_offset and getting back an array of values with numerically
->>    contiguous keys, have the user pre-fill the key members of the array,
->>    and the kernel will fill in the corresponding values. For any key it
->>    doesn't recognize, it will set the key of that element to -1. This
->>    allows usermode to quickly ask for exactly the elements it cares
->>    about, and not get bogged down in a back and forth about newer keys
->>    that older kernels might not recognize. In other words, the kernel
->>    can communicate that it doesn't recognize some of the keys while
->>    still providing the data for the keys it does know.
->> - Added a shortcut to the cpuset parameters that if a size of 0 and
->>    NULL is provided for the CPU set, the kernel will use a cpu mask of
->>    all online CPUs. This is convenient because I suspect most callers
->>    will only want to act on a feature if it's supported on all CPUs, and
->>    it's a headache to dynamically allocate an array of all 1s, not to
->>    mention a waste to have the kernel loop over all of the offline bits.
->> - Fixed logic error in if(of_property_read_string...) that caused crash
->> - Include cpufeature.h in cpufeature.h to avoid undeclared variable
->>    warning.
->> - Added a _MASK define
->> - Fix random checkpatch complaints
->> - Updated the selftests to the new API and added some more.
->> - Fixed indentation, comments in .S, and general checkpatch complaints.
->>
->> Evan Green (4):
->>   RISC-V: Move struct riscv_cpuinfo to new header
->>   RISC-V: Add a syscall for HW probing
->>   RISC-V: hwprobe: Support probing of misaligned access performance
->>   selftests: Test the new RISC-V hwprobe interface
->>
->> Palmer Dabbelt (2):
->>   RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
->>   dt-bindings: Add RISC-V misaligned access performance
->>
->> .../devicetree/bindings/riscv/cpus.yaml       |  15 ++
->> Documentation/riscv/hwprobe.rst               |  66 ++++++
->> Documentation/riscv/index.rst                 |   1 +
->> arch/riscv/include/asm/cpufeature.h           |  23 +++
->> arch/riscv/include/asm/hwprobe.h              |  13 ++
->> arch/riscv/include/asm/smp.h                  |   9 +
->> arch/riscv/include/asm/syscall.h              |   3 +
->> arch/riscv/include/uapi/asm/hwprobe.h         |  35 ++++
->> arch/riscv/include/uapi/asm/unistd.h          |   8 +
->> arch/riscv/kernel/cpu.c                       |  11 +-
->> arch/riscv/kernel/cpufeature.c                |  31 ++-
->> arch/riscv/kernel/sys_riscv.c                 | 192 +++++++++++++++++-
->> tools/testing/selftests/Makefile              |   1 +
->> tools/testing/selftests/riscv/Makefile        |  58 ++++++
->> .../testing/selftests/riscv/hwprobe/Makefile  |  10 +
->> .../testing/selftests/riscv/hwprobe/hwprobe.c |  89 ++++++++
->> .../selftests/riscv/hwprobe/sys_hwprobe.S     |  12 ++
->> tools/testing/selftests/riscv/libc.S          |  46 +++++
->> 18 files changed, 613 insertions(+), 10 deletions(-)
->> create mode 100644 Documentation/riscv/hwprobe.rst
->> create mode 100644 arch/riscv/include/asm/cpufeature.h
->> create mode 100644 arch/riscv/include/asm/hwprobe.h
->> create mode 100644 arch/riscv/include/uapi/asm/hwprobe.h
->> create mode 100644 tools/testing/selftests/riscv/Makefile
->> create mode 100644 tools/testing/selftests/riscv/hwprobe/Makefile
->> create mode 100644 tools/testing/selftests/riscv/hwprobe/hwprobe.c
->> create mode 100644 tools/testing/selftests/riscv/hwprobe/sys_hwprobe.S
->> create mode 100644 tools/testing/selftests/riscv/libc.S
->>
->> -- 
->> 2.25.1
->>
->>
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>> +    if (mapping) {
+>> +        mutex_unlock(&ghvm->mm_lock);
+>> +        return ERR_PTR(-EEXIST);
+>> +    }
+>> +
+>> +    mapping = kzalloc(sizeof(*mapping), GFP_KERNEL);
+>> +    if (!mapping) {
+>> +        ret = -ENOMEM;
+>> +        goto unlock;
+>> +    }
+>> +
+>> +    mapping->parcel.label = region->label;
 > 
+>> +    mapping->guest_phys_addr = region->guest_phys_addr;
+>> +    mapping->npages = region->memory_size >> PAGE_SHIFT;
+>> +    parcel = &mapping->parcel;
+>> +    parcel->mem_handle = GH_MEM_HANDLE_INVAL; /* to be filled later 
+>> by mem_share/mem_lend */
+>> +    parcel->mem_type = GH_RM_MEM_TYPE_NORMAL;
+>> +
+>> +    /* Check for overlap */
+>> +    list_for_each_entry(tmp_mapping, &ghvm->memory_mappings, list) {
+>> +        if (!((mapping->guest_phys_addr + (mapping->npages << 
+>> PAGE_SHIFT) <=
+>> +            tmp_mapping->guest_phys_addr) ||
+>> +            (mapping->guest_phys_addr >=
+>> +            tmp_mapping->guest_phys_addr + (tmp_mapping->npages << 
+>> PAGE_SHIFT)))) {
+>> +            ret = -EEXIST;
+>> +            goto unlock;
+>> +        }
+>> +    }
+> This looks like we will loop every mappign for each allocation giving us 
+> an O(n), How frequent and how many max mappings can be there in the system?
+> 
+
+In all our use cases so far, only a few (max 3) mappings are used. 
+Gunyah and Linux would be similarly bounded by heap-based memory 
+constraints when adding more memory mappings if you don't hit U32_MAX first.
+
+This could be reworked into a rb tree, but I thought it better to use a 
+simpler list-based implementation since it was easier to review and 
+benefits are not seen when only a few mappings used.
+
+[snip]
+
+>> --- a/include/uapi/linux/gunyah.h
+>> +++ b/include/uapi/linux/gunyah.h
+>> @@ -20,4 +20,26 @@
+>>    */
+>>   #define GH_CREATE_VM            _IO(GH_IOCTL_TYPE, 0x0) /* Returns a 
+>> Gunyah VM fd */
+>> +/*
+>> + * ioctls for VM fds
+>> + */
+>> +struct gh_userspace_memory_region {
+> 
+> This struct needs some kernedoc.
+> 
+
+Done, as well for the other UAPI structs added later in the series.
+
+
+>> +    __u32 label;
+> 
+>> +#define GH_MEM_ALLOW_READ    (1UL << 0)
+>> +#define GH_MEM_ALLOW_WRITE    (1UL << 1)
+>> +#define GH_MEM_ALLOW_EXEC    (1UL << 2)
+>> +/*
+>> + * The guest will be lent the memory instead of shared.
+>> + * In other words, the guest has exclusive access to the memory 
+>> region and the host loses access.
+>> + */
+>> +#define GH_MEM_LENT        (1UL << 3)
+>> +    __u32 flags;
+>> +    __u64 guest_phys_addr;
+>> +    __u64 memory_size;
+> if we are only expecting pages, this should probably be make explict by 
+> using nr_pages instead of size
+> 
+>> +    __u64 userspace_addr;
+>> +};
+>> +
+>> +#define GH_VM_SET_USER_MEM_REGION    _IOW(GH_IOCTL_TYPE, 0x1, \
+>> +                        struct gh_userspace_memory_region)
+>> +
+>>   #endif
