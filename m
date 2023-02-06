@@ -2,159 +2,363 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B46F6C636D4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 18:42:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2026CC05027
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 19:21:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229930AbjBFSmR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Feb 2023 13:42:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54896 "EHLO
+        id S229656AbjBFTVp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Feb 2023 14:21:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjBFSmQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 13:42:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16956273D
-        for <linux-doc@vger.kernel.org>; Mon,  6 Feb 2023 10:41:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675708887;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=mV7wu48lUfeS3GU07IXyzbGWRiDs4lMjYJhBoJBL7dQ=;
-        b=GRzj6Qgw29zOkVEJcN9HSVhRPFvkcq8MjD2iNkDET0B7nQ61uOwz/cJPr6EWkDBQdRkarT
-        Qcft7vmmKkLxhsITPMIKrxrrjwM6gMOezbI3gkX3DOWy80Kn/jBFsCfxIC1jUlqwYyGC1w
-        yK7mVTFaQ7XuqS9Tm9sIdraLYSQS3hw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-154-S4BoJ0BJO3CapLoKeW03rQ-1; Mon, 06 Feb 2023 13:41:26 -0500
-X-MC-Unique: S4BoJ0BJO3CapLoKeW03rQ-1
-Received: by mail-ed1-f70.google.com with SMTP id en20-20020a056402529400b004a26ef05c34so8291795edb.16
-        for <linux-doc@vger.kernel.org>; Mon, 06 Feb 2023 10:41:26 -0800 (PST)
+        with ESMTP id S229570AbjBFTVo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 14:21:44 -0500
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 773A92D50;
+        Mon,  6 Feb 2023 11:21:42 -0800 (PST)
+Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-16346330067so16415102fac.3;
+        Mon, 06 Feb 2023 11:21:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9RcQNWEAGo4rCPRb+FymAOQTZG8tA1+sRsBGGBHaQ/k=;
+        b=ivBjCxUCsXvXx++L4wdKXppEg3RkaC9kV+bQdJ+dEcF/SDawuW+f/70E0f+yTOy26I
+         UudIkpxyz1qknl8TWOp1N3aD8K4viCA+aRAGrm4Eyr1+8HVVHtgQUwv3ZYjy4ZDa4qwN
+         9qcPq4OklJRxbYVExE+9Oe87lTNDFjyM8NXrGBWvfgTgz0BssMdtIwsAoMfUtfL/MdwN
+         nAz+k4VmoxIo66VUWCo9UKaeJjq/Fr8g/J5JpjuB+Jb4VU4a3pD+A+d3F+VuVq8suju9
+         EM6CsIyzALfdt86gGGFVZsBJpdFRZjndSELliofy43G3X+VWQfIu6wpSAarYoUlgYG1d
+         zdQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mV7wu48lUfeS3GU07IXyzbGWRiDs4lMjYJhBoJBL7dQ=;
-        b=mMDv0VRU+n8t4Y4bqJl+8kUhYlDJarqcVeju9XMkUGRO5gZn6uYgZHpmuTBrTOAxTD
-         yHzKit7RH6eThKRN3aiCtBBFASxtqp5awkmbTdY3gtdwJHmr4d40/cZWZLJQp972OVQr
-         edla50tFOthGb6N6DLMZcD0JQcuQtjFymxT5yOBN3oDpk2Yd44IDkPz1gFlmTL3yM7QU
-         EeIO/U0zYmaPEamjUo59uwsTv+oj7XnOvtf7iBlcLekuqO8u9Wxi9J8RfNs0WQvu8N4u
-         3VpsOsW8W8sHQQGbgSXwvuYBZJ/hhx3rDhRapjTWXjcK3CRS7eAVfHtCr48prg+NPaTm
-         74fQ==
-X-Gm-Message-State: AO0yUKUwf7QWPU42ILf3rF09W6hJR1G4568Ns2iNLwBXh3xt7jIRtHvK
-        wLPCK6DLZlVtv82e+a8mefr+tkpfgYNXHyJSFNo4l4Rge9Vu+JvugQPXOqNpPoWhAJrVF58MPEJ
-        /iAiEg3fWyEPYTgAvVeW9
-X-Received: by 2002:a17:906:1dc8:b0:878:8237:7abb with SMTP id v8-20020a1709061dc800b0087882377abbmr383407ejh.35.1675708885089;
-        Mon, 06 Feb 2023 10:41:25 -0800 (PST)
-X-Google-Smtp-Source: AK7set9FFg9WxyaDxE9MX9rbZD0l91/5bcmXcVyXebsSOuym8lZQpDrI3Bo83tXHjG/CiZX7/gEa+A==
-X-Received: by 2002:a17:906:1dc8:b0:878:8237:7abb with SMTP id v8-20020a1709061dc800b0087882377abbmr383390ejh.35.1675708884883;
-        Mon, 06 Feb 2023 10:41:24 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id bu18-20020a170906a15200b0088351ea808bsm5750226ejb.46.2023.02.06.10.41.23
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9RcQNWEAGo4rCPRb+FymAOQTZG8tA1+sRsBGGBHaQ/k=;
+        b=DwEBV5lJqhdikA16dCQtWdPM66YdPG41+azopDjkoA4tGo3veV0vcsYrp4fX8GJImB
+         mpzwDCPmiUN3Dn1FJ+toNQf9EUcU4M2UTMWrpOhSblSrVolrQewYFXHHBILZtt7oCt1m
+         s1eovVH+BX1M0bTdMxHnldkHhka2p0KezZpQg8qYf74BaMppcrbLJlRZnEU2oOEANwH6
+         WzjmZkdS1xLUT0AeBh7P8SWC+f4fuUggY49wLJFYswynzYFcf6atP2tZqBjx1g+zG/LQ
+         xm1hym6deZiGnzwphulpStMJrLRUc4JcWdAFqPB/KAbVbiVUHPx84ieMuQOIu/cyuhQ6
+         5avg==
+X-Gm-Message-State: AO0yUKW8omA1yllQc2rBflnLXDJ2Pc+/Wau9Eq1A/W3CJUckm3HMSAB0
+        Ab/08DlMAE+egwYoX7U5NjcDBYo852A=
+X-Google-Smtp-Source: AK7set9USFHPqPUjMEHiF65ojyRmFMOV+Ay7FCcGv88llLoLl9+JQ1fhtAjsBuMfqKEo9l7MuV3apw==
+X-Received: by 2002:a05:6870:b14d:b0:163:9196:83bd with SMTP id a13-20020a056870b14d00b00163919683bdmr10648792oal.37.1675711301761;
+        Mon, 06 Feb 2023 11:21:41 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id du45-20020a0568703a2d00b0016a310dc4a9sm2527062oab.9.2023.02.06.11.21.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Feb 2023 10:41:24 -0800 (PST)
-Message-ID: <4439c44b-cbd0-7160-da3d-e78f6aeeec77@redhat.com>
-Date:   Mon, 6 Feb 2023 19:20:52 +0100
+        Mon, 06 Feb 2023 11:21:41 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <7580df6b-e97f-0036-8f7f-63acde8cd42a@roeck-us.net>
+Date:   Mon, 6 Feb 2023 11:21:38 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [Nouveau] [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi
- interfaces
+ Thunderbird/102.4.2
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Dave Airlie <airlied@gmail.com>
-Cc:     Matthew Brost <matthew.brost@intel.com>, daniel@ffwll.ch,
-        corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mripard@kernel.org, bskeggs@redhat.com, jason@jlekstrand.net,
-        nouveau@lists.freedesktop.org, airlied@redhat.com
-References: <20230118061256.2689-1-dakr@redhat.com>
- <20230118061256.2689-6-dakr@redhat.com>
- <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com>
- <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
- <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com>
- <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
- <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com>
- <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
- <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
- <bc523c5c-efe6-1a7f-b49a-e0867dc1413d@redhat.com>
- <15fb0179-c7c5-8a64-ed08-841189919f5e@redhat.com>
- <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
- <CAPM=9txON8VCb3H7vDY_DOgtUg2Ad3mBvYVxgSMyZ1noOu-rBQ@mail.gmail.com>
- <a1c526e0-0df7-12cb-c5a1-06e9cd0d876b@amd.com>
- <3f935a7e-fede-2bad-c029-4a3af850c9b5@redhat.com>
- <95d0631b-545c-ea4d-7439-75422e9a9120@amd.com>
- <67958920-c5bb-a0f5-2306-e3ae4fdbaeb3@redhat.com>
- <c0635ff3-027f-bcd7-afbc-46f4e62d3651@amd.com>
-From:   Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <c0635ff3-027f-bcd7-afbc-46f4e62d3651@amd.com>
+To:     Hal Feng <hal.feng@starfivetech.com>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+        linux-kernel@vger.kernel.org
+References: <20230103013145.9570-1-hal.feng@starfivetech.com>
+ <20230103013145.9570-3-hal.feng@starfivetech.com>
+ <20230103221017.GA217155@roeck-us.net>
+ <ddb197c3-9c77-c8c2-1d41-1691de05847e@starfivetech.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v1 2/4] hwmon: (sfctemp) Add StarFive JH71x0 temperature
+ sensor
+In-Reply-To: <ddb197c3-9c77-c8c2-1d41-1691de05847e@starfivetech.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/6/23 17:14, Christian König wrote:
-> Concentrating this discussion on a very big misunderstanding first.
+On 2/6/23 09:12, Hal Feng wrote:
+> On Tue, 3 Jan 2023 14:10:17 -0800, Guenter Roeck wrote:
+>> On Tue, Jan 03, 2023 at 09:31:43AM +0800, Hal Feng wrote:
+>>> From: Emil Renner Berthing <kernel@esmil.dk>
+>>>
+>>> Register definitions and conversion constants based on sfctemp driver by
+>>> Samin in the StarFive 5.10 kernel.
+>>>
+>>> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+>>> Co-developed-by: Samin Guo <samin.guo@starfivetech.com>
+>>> Signed-off-by: Samin Guo <samin.guo@starfivetech.com>
+>>> Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+>>
+>> This is obviously version 4 of the previous patch series,
+>> with various enhancements. Please do not "sell" that as
+>> v1 of a new patch series. Submit it as next version,
+>> and provide a change log.
 > 
-> Am 06.02.23 um 14:27 schrieb Danilo Krummrich:
->> [SNIP]
->> My understanding is that userspace is fully responsible on the parts 
->> of the GPU VA space it owns. This means that userspace needs to take 
->> care to *not* ask the kernel to modify mappings that are in use 
->> currently.
+> Sorry to reply too late. I will resend this series as v4 tomorrow.
 > 
-> This is a completely wrong assumption! Take a look at what games like 
-> Forza Horizzon are doing.
+>>
+>>> ---
+>>>   Documentation/hwmon/index.rst   |   1 +
+>>>   Documentation/hwmon/sfctemp.rst |  33 +++
+>>>   MAINTAINERS                     |   8 +
+>>>   drivers/hwmon/Kconfig           |  10 +
+>>>   drivers/hwmon/Makefile          |   1 +
+>>>   drivers/hwmon/sfctemp.c         | 350 ++++++++++++++++++++++++++++++++
+>>>   6 files changed, 403 insertions(+)
+>>>   create mode 100644 Documentation/hwmon/sfctemp.rst
+>>>   create mode 100644 drivers/hwmon/sfctemp.c
+>>>
+>>> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+>>> index c1d11cf13eef..f7ede608b6e3 100644
+>>> --- a/Documentation/hwmon/index.rst
+>>> +++ b/Documentation/hwmon/index.rst
+>>> @@ -179,6 +179,7 @@ Hardware Monitoring Kernel Drivers
+>>>      sch5627
+>>>      sch5636
+>>>      scpi-hwmon
+>>> +   sfctemp
+>>>      sht15
+>>>      sht21
+>>>      sht3x
+>>> diff --git a/Documentation/hwmon/sfctemp.rst b/Documentation/hwmon/sfctemp.rst
+>>> new file mode 100644
+>>> index 000000000000..9fbd5bb1f356
+>>> --- /dev/null
+>>> +++ b/Documentation/hwmon/sfctemp.rst
+>>> @@ -0,0 +1,33 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0
+>>> +
+>>> +Kernel driver sfctemp
+>>> +=====================
+>>> +
+>>> +Supported chips:
+>>> + - StarFive JH7100
+>>> + - StarFive JH7110
+>>> +
+>>> +Authors:
+>>> + - Emil Renner Berthing <kernel@esmil.dk>
+>>> +
+>>> +Description
+>>> +-----------
+>>> +
+>>> +This driver adds support for reading the built-in temperature sensor on the
+>>> +JH7100 and JH7110 RISC-V SoCs by StarFive Technology Co. Ltd.
+>>> +
+>>> +``sysfs`` interface
+>>> +-------------------
+>>> +
+>>> +The temperature sensor can be enabled, disabled and queried via the standard
+>>> +hwmon interface in sysfs under ``/sys/class/hwmon/hwmonX`` for some value of
+>>> +``X``:
+>>> +
+>>> +================ ==== =============================================
+>>> +Name             Perm Description
+>>> +================ ==== =============================================
+>>> +temp1_enable     RW   Enable or disable temperature sensor.
+>>> +                      Automatically enabled by the driver,
+>>> +                      but may be disabled to save power.
+>>> +temp1_input      RO   Temperature reading in milli-degrees Celsius.
+>>> +================ ==== =============================================
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index 85e8f83161d7..ab3cd5827b26 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -18661,6 +18661,14 @@ L:	netdev@vger.kernel.org
+>>>   S:	Supported
+>>>   F:	drivers/net/ethernet/sfc/
+>>>   
+>>> +SFCTEMP HWMON DRIVER
+>>> +M:	Emil Renner Berthing <kernel@esmil.dk>
+>>> +L:	linux-hwmon@vger.kernel.org
+>>> +S:	Maintained
+>>> +F:	Documentation/devicetree/bindings/hwmon/starfive,jh71x0-temp.yaml
+>>> +F:	Documentation/hwmon/sfctemp.rst
+>>> +F:	drivers/hwmon/sfctemp.c
+>>> +
+>>>   SFF/SFP/SFP+ MODULE SUPPORT
+>>>   M:	Russell King <linux@armlinux.org.uk>
+>>>   L:	netdev@vger.kernel.org
+>>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+>>> index 7ac3daaf59ce..c6bbfcca3a14 100644
+>>> --- a/drivers/hwmon/Kconfig
+>>> +++ b/drivers/hwmon/Kconfig
+>>> @@ -1910,6 +1910,16 @@ config SENSORS_STTS751
+>>>   	  This driver can also be built as a module. If so, the module
+>>>   	  will be called stts751.
+>>>   
+>>> +config SENSORS_SFCTEMP
+>>> +	tristate "Starfive JH71x0 temperature sensor"
+>>> +	depends on SOC_STARFIVE || COMPILE_TEST
+>>> +	help
+>>> +	  If you say yes here you get support for temperature sensor
+>>> +	  on the Starfive JH71x0 SoCs.
+>>> +
+>>> +	  This driver can also be built as a module.  If so, the module
+>>> +	  will be called sfctemp.
+>>> +
+>>>   config SENSORS_SMM665
+>>>   	tristate "Summit Microelectronics SMM665"
+>>>   	depends on I2C
+>>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+>>> index 11d076cad8a2..5a4a02c5535c 100644
+>>> --- a/drivers/hwmon/Makefile
+>>> +++ b/drivers/hwmon/Makefile
+>>> @@ -179,6 +179,7 @@ obj-$(CONFIG_SENSORS_SBRMI)	+= sbrmi.o
+>>>   obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
+>>>   obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
+>>>   obj-$(CONFIG_SENSORS_SCH5636)	+= sch5636.o
+>>> +obj-$(CONFIG_SENSORS_SFCTEMP)	+= sfctemp.o
+>>>   obj-$(CONFIG_SENSORS_SL28CPLD)	+= sl28cpld-hwmon.o
+>>>   obj-$(CONFIG_SENSORS_SHT15)	+= sht15.o
+>>>   obj-$(CONFIG_SENSORS_SHT21)	+= sht21.o
+>>> diff --git a/drivers/hwmon/sfctemp.c b/drivers/hwmon/sfctemp.c
+>>> new file mode 100644
+>>> index 000000000000..e56716ad9587
+>>> --- /dev/null
+>>> +++ b/drivers/hwmon/sfctemp.c
+>>> @@ -0,0 +1,350 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * Copyright (C) 2021 Emil Renner Berthing <kernel@esmil.dk>
+>>> + * Copyright (C) 2021 Samin Guo <samin.guo@starfivetech.com>
+>>> + */
+>>> +#include <linux/clk.h>
+>>> +#include <linux/completion.h>
+>>> +#include <linux/delay.h>
+>>> +#include <linux/hwmon.h>
+>>> +#include <linux/interrupt.h>
+>>> +#include <linux/io.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/mutex.h>
+>>> +#include <linux/of.h>
+>>> +#include <linux/platform_device.h>
+>>> +#include <linux/reset.h>
+>>> +
+>>> +/*
+>>> + * TempSensor reset. The RSTN can be de-asserted once the analog core has
+>>> + * powered up. Trst(min 100ns)
+>>> + * 0:reset  1:de-assert
+>>> + */
+>>> +#define SFCTEMP_RSTN	BIT(0)
+>>
+>> Missing include of linux/bits.h
 > 
-> Basically that game allocates a very big sparse area and fills it with 
-> pages from BOs while shaders are accessing it. And yes, as far as I know 
-> this is completely valid behavior.
-
-I also think this is valid behavior. That's not the problem I'm trying 
-to describe. In this case userspace modifies the VA space 
-*intentionally* while shaders are accessing it, because it knows that 
-the shaders can deal with reading 0s.
-
-Just to have it all in place, the example I gave was:
-  - two virtually contiguous buffers A and B
-  - binding 1 mapped to A with BO offset 0
-  - binding 2 mapped to B with BO offset length(A)
-
-What I did not mention both A and B aren't sparse buffers in this 
-example, although it probably doesn't matter too much.
-
-Since the conditions to do so are given, we merge binding 1 and binding 
-2 right at the time when binding 2 is requested. To do so a driver might 
-unmap binding 1 for a very short period of time (e.g. to (re-)map the 
-freshly merged binding with a different page size if possible).
-
- From userspace perspective buffer A is ready to use before applying 
-binding 2 to buffer B, hence it would be illegal to touch binding 1 
-again when userspace asks the kernel to map binding 2 to buffer B.
-
-Besides that I think there is no point in merging between buffers anyway 
-because we'd end up splitting such a merged mapping anyway later on when 
-one of the two buffers is destroyed.
-
-Also, I think the same applies to sparse buffers as well, a mapping 
-within A isn't expected to be re-mapped just because something is mapped 
-to B.
-
-However, in this context I start wondering if re-mapping in the context 
-of merge and split is allowed at all, even within the same sparse buffer 
-(and even with a separate page table for sparse mappings as described in 
-my last mail; shaders would never fault).
-
+> Will add it. Thanks.
 > 
-> So you need to be able to handle this case anyway and the approach with 
-> the regions won't help you at all preventing that.
+>>
+>>> +
+>>> +/*
+>>> + * TempSensor analog core power down. The analog core will be powered up
+>>> + * Tpu(min 50us) after PD is de-asserted. RSTN should be held low until the
+>>> + * analog core is powered up.
+>>> + * 0:power up  1:power down
+>>> + */
+>>> +#define SFCTEMP_PD	BIT(1)
+>>> +
+>>> +/*
+>>> + * TempSensor start conversion enable.
+>>> + * 0:disable  1:enable
+>>> + */
+>>> +#define SFCTEMP_RUN	BIT(2)
+>>> +
+>>> +/*
+>>> + * TempSensor conversion value output.
+>>> + * Temp(C)=DOUT*Y/4094 - K
+>>> + */
+>>> +#define SFCTEMP_DOUT_POS	16
+>>> +#define SFCTEMP_DOUT_MSK	GENMASK(27, 16)
+>>> +
+>>> +/* DOUT to Celcius conversion constants */
+>>> +#define SFCTEMP_Y1000	237500L
+>>> +#define SFCTEMP_Z	4094L
+>>> +#define SFCTEMP_K1000	81100L
+>>> +
+>>> +struct sfctemp {
+>>> +	/* serialize access to hardware register and enabled below */
+>>> +	struct mutex lock;
+>>> +	struct completion conversion_done;
+>>> +	void __iomem *regs;
+>>> +	struct clk *clk_sense;
+>>> +	struct clk *clk_bus;
+>>> +	struct reset_control *rst_sense;
+>>> +	struct reset_control *rst_bus;
+>>> +	bool enabled;
+>>> +};
+>>> +
+>>> +static irqreturn_t sfctemp_isr(int irq, void *data)
+>>> +{
+>>> +	struct sfctemp *sfctemp = data;
+>>> +
+>>> +	complete(&sfctemp->conversion_done);
+>>> +	return IRQ_HANDLED;
+>>> +}
+>>> +
+>>> +static void sfctemp_power_up(struct sfctemp *sfctemp)
+>>> +{
+>>> +	/* make sure we're powered down first */
+>>> +	writel(SFCTEMP_PD, sfctemp->regs);
+>>> +	udelay(1);
+>>> +
+>>> +	writel(0, sfctemp->regs);
+>>> +	/* wait t_pu(50us) + t_rst(100ns) */
+>>> +	usleep_range(60, 200);
+>>> +
+>>> +	/* de-assert reset */
+>>> +	writel(SFCTEMP_RSTN, sfctemp->regs);
+>>> +	udelay(1); /* wait t_su(500ps) */
+>>> +}
+>>> +
+>>> +static void sfctemp_power_down(struct sfctemp *sfctemp)
+>>> +{
+>>> +	writel(SFCTEMP_PD, sfctemp->regs);
+>>> +}
+>>> +
+>>> +static void sfctemp_run_single(struct sfctemp *sfctemp)
+>>> +{
+>>> +	writel(SFCTEMP_RSTN | SFCTEMP_RUN, sfctemp->regs);
+>>> +	udelay(1);
+>>> +	writel(SFCTEMP_RSTN, sfctemp->regs);
+>>
+>> The datasheet (or, rather, programming manual) does not appear
+>> to be public, so I have to guess here.
+>>
+>> The code suggests that running a single conversion may be a choice,
+>> not a requirement. If it is indeed a choice, the reasoning needs to be
+>> explained since it adds a lot of complexity and dependencies to the
+>> driver (for example, interrupt support is only mandatory or even needed
+>> due to this choice). It also adds a significant delay to temperature
+>> read operations, which may have practical impact on thermal control
+>> software.
+>>
+>> If the chip only supports single temperature readings, that needs to be
+>> explained as well (and why SFCTEMP_RUN has to be reset in that case).
 > 
-> Regards,
-> Christian.
+> The chip supports continuous conversion. When you set SFCTEMP_RUN, the
+> temperature raw data will be generated all the time. However, it will
+> also generate interrupts all the time when the conversion is finished,
+> because of the hardware limitation. So in this driver, we just support
+> the single conversion.
 > 
+
+Sorry, I don't follow the logic. The interrupt is, for all practical
+purposes, useless because there are no limits and exceeding any such
+limits is therefore not supported. The only reason to have and enable
+to interrupt is because continuous mode is disabled.
+
+The code could be simplified a lot if interrupt support would be
+dropped and continuous mode would be enabled.
+
+Guenter
+
+> Thank you for your feedback.
+> 
+> Best regards,
+> Hal
 
