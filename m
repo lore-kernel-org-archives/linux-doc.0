@@ -2,163 +2,254 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80AB4C636D3
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 20:31:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98824C636D3
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 21:11:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229906AbjBFUbv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Feb 2023 15:31:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36394 "EHLO
+        id S229654AbjBFVLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Feb 2023 16:11:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229796AbjBFUbu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 15:31:50 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7F8E2A994
-        for <linux-doc@vger.kernel.org>; Mon,  6 Feb 2023 12:31:49 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id g6so3635725wrv.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Feb 2023 12:31:49 -0800 (PST)
+        with ESMTP id S229500AbjBFVLr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 16:11:47 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D6D383DC
+        for <linux-doc@vger.kernel.org>; Mon,  6 Feb 2023 13:11:46 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id d14so11698958wrr.9
+        for <linux-doc@vger.kernel.org>; Mon, 06 Feb 2023 13:11:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oZGz/N+EtXFXjo58DVRXfyilGfBoD8ZSIHd32aC9uAk=;
-        b=qVt6X7nK5L2aTBX3NzPXLdYxXaSBBHgcjYvq/eApTtZpLMf0tbHtNtxsMtBhw4MDwB
-         divgFaZ6p21uIshKb24RzsHyyEcddqk7v07w1X+O98zHJ0qlHMNyzT8X/y9qQEdTL2uS
-         GCGB+sIAmVoK0OhrgRs5OnwHHiMesOtiDpGLHWihKB1TIqkih2A2mH3gxY0vPItVoYYx
-         9UoDjMHsrdrKZxoyqD8GEnOVHac79oOhoeSBazUbXzL9EPaynRy8YPdSjVdoFxYp3XX5
-         4pWalI8IsrdBwHvjCCP2upLsXOsRJUE4JEy1nKh6C4gFIv7S35BY1gf1LAxAUc8AqXOl
-         XZ0g==
+        d=jrtc27.com; s=gmail.jrtc27.user;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rC86KoAvXpv+8wZFzH+REYSTORb7w+ZYErKX8Nx95k4=;
+        b=aSVunq7LHPF7onCKmJhaCmW36uSCjAfmH491zyI3iOAEpcl2DjyoIWNSiSzrpS6xTN
+         upTQqioc+CftRH4JrFM+YnVw1Fygwo+S/Bmeqrn+FExwLMXGhbighCEImkB3LbEHfxB3
+         pPZEdv3WoqjTjdS4qov4cnpM7+NBDQNjWuCMv5+UH3CEDixCf7Lt6Xjcbj1Mzs/OZvKR
+         NIrWVWjKbBThOFzik29zXn6n1X6BbSxVcjsS+gIYopq+4F5xkjuGoi/EaJf8uHQ77hTV
+         DNFFo8Khah5P/qRfg9uC1+q9FUEOXdBpUgPFZDZUYtrmH9uDxG67PQD0Cf4Aw0YX5lEO
+         5g8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oZGz/N+EtXFXjo58DVRXfyilGfBoD8ZSIHd32aC9uAk=;
-        b=7CIleq1nDkYzxxH0v0JWZL5SUIbTQPMdAnC9QJOK7fBj94zZU1DmZPS2FIHzuW94VD
-         dKJbsmwK6KUQ++1RRx2Ejz1Uo3uCSvbCcRASzW3J5p0NSFy10sdnT6VZjQItLpHqu25z
-         SgBtKb+Ex6kDaSes1BFaljAS+EJW5kEubjTBn/aZRogprsXv8+v4LhueVO8F6Ur4IzUk
-         Hl+7U5Lrck6fJ3fFKN8l71AV1sOw9QjNiSM+OmEb5DRhwQXEqi89SWbsYE0pdT6sxRMd
-         qKzCjS3pcrkupI/dwKYhpEy81mTX6RztBhKfo1vxzl8zGVZXKBIK98Jjw5CE6Zlz/QiI
-         d2+Q==
-X-Gm-Message-State: AO0yUKWmf+452XEBNXio5/3CJi8gyBh3VeQwVWl3YFZPPVl+FhhK4mpD
-        CN/Xe2J1ntp+hh3aMIWgl050nQ==
-X-Google-Smtp-Source: AK7set+FP1+I2Mhte/do++ECfuJE/LYx7mWnb91D5rDmAmd2fBjyJ11Jm+SPnGKVt2AkedbMQyBJPA==
-X-Received: by 2002:adf:f288:0:b0:2bd:e87c:e831 with SMTP id k8-20020adff288000000b002bde87ce831mr200596wro.69.1675715508181;
-        Mon, 06 Feb 2023 12:31:48 -0800 (PST)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id q12-20020adfdfcc000000b002c3ec35f360sm2356622wrn.56.2023.02.06.12.31.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Feb 2023 12:31:47 -0800 (PST)
-Message-ID: <81a5c400-e671-fab3-732a-d615fa4242b3@linaro.org>
-Date:   Mon, 6 Feb 2023 20:31:46 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v5 00/21] nvmem: core: introduce NVMEM layouts
-Content-Language: en-US
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Michael Walle <michael@walle.cc>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Dan Carpenter <error27@gmail.com>
-References: <20221206200740.3567551-1-michael@walle.cc>
- <20230103163902.218cb5c7@xps-13>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20230103163902.218cb5c7@xps-13>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rC86KoAvXpv+8wZFzH+REYSTORb7w+ZYErKX8Nx95k4=;
+        b=R5lmBjZYWs/smP3Pa/VA7m4ipZ63/6csFdO3FMkLnaG/+I8xPs+yD2WwvOamCS3Dbj
+         pdvqyIQeD4ElLlZ5FhwKIKFlUSyFrATWtZmZH32Lzcz9Mz4HlxZTEVaW0h+LcyTZE4iX
+         /YYDq6kmkl60dILqDaZ8Wqfsgjgf5CI83DS0Wd77OASiWx3DUk8lzP1o77V+H9U1ii3E
+         0aPuIypjIY5gM8l3QRXBhfffojC/G4O2/e8psKnaYSdZqbHFe5sKlTnvF1NYpNvntafS
+         SpoWH99z47YsGGpumF13+XDqTKAaIMcRHq5frW7VjPTbL0feeWvyusWeiICOUFkzwyL1
+         ff3g==
+X-Gm-Message-State: AO0yUKU66JzC0RJTMuqnmMtKT08x3h0Qc67ncCFS10CzWt1hrQkrtUZu
+        x90L8hSKYMBEqpkTbPb3q7wdiQ==
+X-Google-Smtp-Source: AK7set+qn6JxHyM5CZ+BNMLpM0YVwl27RX//R4K9ijKxYLiMqPu6rBJSBm8bbDpbDwvYPgV3Q3MdRQ==
+X-Received: by 2002:a05:6000:1378:b0:2c3:f00c:ebb5 with SMTP id q24-20020a056000137800b002c3f00cebb5mr269377wrz.47.1675717904648;
+        Mon, 06 Feb 2023 13:11:44 -0800 (PST)
+Received: from smtpclient.apple (global-5-143.n-2.net.cam.ac.uk. [131.111.5.143])
+        by smtp.gmail.com with ESMTPSA id j5-20020a5d5645000000b002c3efee2f4bsm1530879wrw.80.2023.02.06.13.11.43
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 Feb 2023 13:11:44 -0800 (PST)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
+Subject: Re: [PATCH v2 0/6] RISC-V Hardware Probing User Interface
+From:   Jessica Clarke <jrtc27@jrtc27.com>
+In-Reply-To: <20230206201455.1790329-1-evan@rivosinc.com>
+Date:   Mon, 6 Feb 2023 21:11:42 +0000
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jisheng Zhang <jszhang@kernel.org>, linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Qinglin Pan <panqinglin2020@iscas.ac.cn>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        Tsukasa OI <research_trasio@irq.a4lg.com>,
+        Tobias Klauser <tklauser@distanz.ch>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Vineet Gupta <vineetg@rivosinc.com>,
+        Mark Brown <broonie@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Ruizhe Pan <c141028@gmail.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        linux-kselftest@vger.kernel.org, slewis@rivosinc.com,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Conor Dooley <conor@kernel.org>, dram <dramforever@live.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Guo Ren <guoren@kernel.org>, Dao Lu <daolu@rivosinc.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <212CC1BD-31FF-4B8B-B05D-89C5245EE8A7@jrtc27.com>
+References: <20230206201455.1790329-1-evan@rivosinc.com>
+To:     Evan Green <evan@rivosinc.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.1)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Michael/Miquel,
+On 6 Feb 2023, at 20:14, Evan Green <evan@rivosinc.com> wrote:
+>=20
+>=20
+> These are very much up for discussion, as it's a pretty big new user
+> interface and it's quite a bit different from how we've historically
+> done things: this isn't just providing an ISA string to userspace, =
+this
+> has its own format for providing information to userspace.
+>=20
+> There's been a bunch of off-list discussions about this, including at
+> Plumbers.  The original plan was to do something involving providing =
+an
+> ISA string to userspace, but ISA strings just aren't sufficient for a
+> stable ABI any more: in order to parse an ISA string users need the
+> version of the specifications that the string is written to, the =
+version
+> of each extension (sometimes at a finer granularity than the RISC-V
+> releases/versions encode), and the expected use case for the ISA =
+string
+> (ie, is it a U-mode or M-mode string).  That's a lot of complexity to
+> try and keep ABI compatible and it's probably going to continue to =
+grow,
+> as even if there's no more complexity in the specifications we'll have
+> to deal with the various ISA string parsing oddities that end up all
+> over userspace.
+>=20
+> Instead this patch set takes a very different approach and provides a =
+set
+> of key/value pairs that encode various bits about the system.  The big
+> advantage here is that we can clearly define what these mean so we can
+> ensure ABI stability, but it also allows us to encode information =
+that's
+> unlikely to ever appear in an ISA string (see the misaligned access
+> performance, for example).  The resulting interface looks a lot like
+> what arm64 and x86 do, and will hopefully fit well into something like
+> ACPI in the future.
+>=20
+> The actual user interface is a syscall.  I'm not really sure that's =
+the
+> right way to go about this, but it makes for flexible prototying.
+> Various other approaches have been talked about like making HWCAP2 a
+> pointer, having a VDSO routine, or exposing this via sysfs.  Those =
+seem
+> like generally reasonable approaches, but I've yet to figure out a way
+> to get the general case working without a syscall as that's the only =
+way
+> I've come up with to deal with the heterogenous CPU case.  Happy to =
+hear
+> if someone has a better idea, though, as I don't really want to add a
+> syscall if we can avoid it.
 
-I had to revert Layout patches due to comments from Greg about Making 
-the layouts as built-in rather than modules, he is not ready to merge 
-them as it is.
+Please work with https://github.com/riscv-non-isa/riscv-c-api-doc as
+it=E2=80=99s crucial we have a portable standard interface for =
+applications to
+query this information that works on OSes other than Linux. This can be
+backed by whatever you want, whether a syscall, magic VDSO thing,
+sysfs, etc, but it=E2=80=99s key that the exposed interface outside of =
+libc is
+not Linux-specific otherwise we=E2=80=99re going to get fragmentation in =
+this
+space.
 
-His original comment,
+I would encourage figuring out the right shape for the exposed
+interface first before continuing to refine details of how that
+information gets communicated between the kernel and libc.
 
-"Why are we going back to "custom-built" kernel configurations?  Why can
-this not be a loadable module?  Distros are now forced to enable these
-layout and all kernels will have this dead code in the tree without any
-choice in the matter?
+Jess
 
-That's not ok, these need to be auto-loaded based on the hardware
-representation like any other kernel module.  You can't force them to be
-always present, sorry.
-"
+> An example series in glibc exposing this syscall and using it in an
+> ifunc selector for memcpy can be found at [1].
+>=20
+> [1] =
+https://public-inbox.org/libc-alpha/20230206194819.1679472-1-evan@rivosinc=
+.com/T/#t
+>=20
+> Changes in v2:
+> - Changed the interface to look more like poll(). Rather than =
+supplying
+>   key_offset and getting back an array of values with numerically
+>   contiguous keys, have the user pre-fill the key members of the =
+array,
+>   and the kernel will fill in the corresponding values. For any key it
+>   doesn't recognize, it will set the key of that element to -1. This
+>   allows usermode to quickly ask for exactly the elements it cares
+>   about, and not get bogged down in a back and forth about newer keys
+>   that older kernels might not recognize. In other words, the kernel
+>   can communicate that it doesn't recognize some of the keys while
+>   still providing the data for the keys it does know.
+> - Added a shortcut to the cpuset parameters that if a size of 0 and
+>   NULL is provided for the CPU set, the kernel will use a cpu mask of
+>   all online CPUs. This is convenient because I suspect most callers
+>   will only want to act on a feature if it's supported on all CPUs, =
+and
+>   it's a headache to dynamically allocate an array of all 1s, not to
+>   mention a waste to have the kernel loop over all of the offline =
+bits.
+> - Fixed logic error in if(of_property_read_string...) that caused =
+crash
+> - Include cpufeature.h in cpufeature.h to avoid undeclared variable
+>   warning.
+> - Added a _MASK define
+> - Fix random checkpatch complaints
+> - Updated the selftests to the new API and added some more.
+> - Fixed indentation, comments in .S, and general checkpatch =
+complaints.
+>=20
+> Evan Green (4):
+>  RISC-V: Move struct riscv_cpuinfo to new header
+>  RISC-V: Add a syscall for HW probing
+>  RISC-V: hwprobe: Support probing of misaligned access performance
+>  selftests: Test the new RISC-V hwprobe interface
+>=20
+> Palmer Dabbelt (2):
+>  RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
+>  dt-bindings: Add RISC-V misaligned access performance
+>=20
+> .../devicetree/bindings/riscv/cpus.yaml       |  15 ++
+> Documentation/riscv/hwprobe.rst               |  66 ++++++
+> Documentation/riscv/index.rst                 |   1 +
+> arch/riscv/include/asm/cpufeature.h           |  23 +++
+> arch/riscv/include/asm/hwprobe.h              |  13 ++
+> arch/riscv/include/asm/smp.h                  |   9 +
+> arch/riscv/include/asm/syscall.h              |   3 +
+> arch/riscv/include/uapi/asm/hwprobe.h         |  35 ++++
+> arch/riscv/include/uapi/asm/unistd.h          |   8 +
+> arch/riscv/kernel/cpu.c                       |  11 +-
+> arch/riscv/kernel/cpufeature.c                |  31 ++-
+> arch/riscv/kernel/sys_riscv.c                 | 192 +++++++++++++++++-
+> tools/testing/selftests/Makefile              |   1 +
+> tools/testing/selftests/riscv/Makefile        |  58 ++++++
+> .../testing/selftests/riscv/hwprobe/Makefile  |  10 +
+> .../testing/selftests/riscv/hwprobe/hwprobe.c |  89 ++++++++
+> .../selftests/riscv/hwprobe/sys_hwprobe.S     |  12 ++
+> tools/testing/selftests/riscv/libc.S          |  46 +++++
+> 18 files changed, 613 insertions(+), 10 deletions(-)
+> create mode 100644 Documentation/riscv/hwprobe.rst
+> create mode 100644 arch/riscv/include/asm/cpufeature.h
+> create mode 100644 arch/riscv/include/asm/hwprobe.h
+> create mode 100644 arch/riscv/include/uapi/asm/hwprobe.h
+> create mode 100644 tools/testing/selftests/riscv/Makefile
+> create mode 100644 tools/testing/selftests/riscv/hwprobe/Makefile
+> create mode 100644 tools/testing/selftests/riscv/hwprobe/hwprobe.c
+> create mode 100644 tools/testing/selftests/riscv/hwprobe/sys_hwprobe.S
+> create mode 100644 tools/testing/selftests/riscv/libc.S
+>=20
+> --=20
+> 2.25.1
+>=20
+>=20
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
-I have applied most of the patches except
-
-nvmem: core: introduce NVMEM layouts
-nvmem: core: add per-cell post processing
-nvmem: core: allow to modify a cell before adding it
-nvmem: imx-ocotp: replace global post processing with layouts
-nvmem: cell: drop global cell_post_process
-nvmem: core: provide own priv pointer in post process callback
-nvmem: layouts: add sl28vpd layout
-MAINTAINERS: add myself as sl28vpd nvmem layout driver
-nvmem: layouts: Add ONIE tlv layout driver
-MAINTAINERS: Add myself as ONIE tlv NVMEM layout maintainer
-nvmem: core: return -ENOENT if nvmem cell is not found
-nvmem: layouts: Fix spelling mistake "platforn" -> "platform"
-dt-bindings: nvmem: Fix spelling mistake "platforn" -> "platform"
-nvmem: core: fix nvmem_layout_get_match_data()
-
-Please rebase your patches on top of nvmem-next once layouts are 
-converted to loadable modules.
-
-thanks,
-srini
-
-
-
-On 03/01/2023 15:39, Miquel Raynal wrote:
-> Hi Srinivas,
-> 
-> michael@walle.cc wrote on Tue,  6 Dec 2022 21:07:19 +0100:
-> 
->> This is now the third attempt to fetch the MAC addresses from the VPD
->> for the Kontron sl28 boards. Previous discussions can be found here:
->> https://lore.kernel.org/lkml/20211228142549.1275412-1-michael@walle.cc/
->>
->>
->> NVMEM cells are typically added by board code or by the devicetree. But
->> as the cells get more complex, there is (valid) push back from the
->> devicetree maintainers to not put that handling in the devicetree.
->>
->> Therefore, introduce NVMEM layouts. They operate on the NVMEM device and
->> can add cells during runtime. That way it is possible to add more complex
->> cells than it is possible right now with the offset/length/bits
->> description in the device tree. For example, you can have post processing
->> for individual cells (think of endian swapping, or ethernet offset
->> handling).
->>
->> The imx-ocotp driver is the only user of the global post processing hook,
->> convert it to nvmem layouts and drop the global post pocessing hook.
->>
->> For now, the layouts are selected by the device tree. But the idea is
->> that also board files or other drivers could set a layout. Although no
->> code for that exists yet.
->>
->> Thanks to Miquel, the device tree bindings are already approved and merged.
->>
->> NVMEM layouts as modules?
->> While possible in principle, it doesn't make any sense because the NVMEM
->> core can't be compiled as a module. The layouts needs to be available at
->> probe time. (That is also the reason why they get registered with
->> subsys_initcall().) So if the NVMEM core would be a module, the layouts
->> could be modules, too.
-> 
-> I believe this series still applies even though -rc1 (and -rc2) are out
-> now, may we know if you consider merging it anytime soon or if there
-> are still discrepancies in the implementation you would like to
-> discuss? Otherwise I would really like to see this laying in -next a
-> few weeks before being sent out to Linus, just in case.
-> 
-> Thanks,
-> Miquèl
