@@ -2,89 +2,197 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE394C636D4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 16:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 409A3C05027
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Feb 2023 16:46:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230050AbjBFQb7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Feb 2023 11:31:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44260 "EHLO
+        id S229797AbjBFQqS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Feb 2023 11:46:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229588AbjBFQb6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 11:31:58 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB5AFCA3E;
-        Mon,  6 Feb 2023 08:31:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=STKGoMxckYgPErYVx6yFdSgSELSlqbOgHBPVdzHyyLs=; b=lnerxUi6lBbiYf2Y+UUhZbBPmJ
-        +X6wfgD18WcGyRK12K1LGi+4u2IcH3COxGSJxKyTO3WhCyxZpFOTgyh7DkWwHA5SP9c7HFmRqz+sr
-        prKxyMjd04dQ3MEnxDDqxcayOv+Wl8S54nGC3kQrkERKkDKxj8ir0u4aOvOaULqs1aLf/+3z9+9Yn
-        FwyzCmM1YY3u1iVzvYXjALBg4F2LzqmvdtuPVvf8yxxhqVfVcTqFep+9sH73Pz+gVc4K2pKSv6a/b
-        jvI1L8ldjX3siYx1CmI75FUrOA7K8r3lamLJCGiQJCQvPzOGqUqhmZnCGJ9rZjwBLZ9kqRLhsPIEE
-        bDik9Tsg==;
-Received: from [2601:1c2:d00:6a60::9526]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pP4P6-009KzI-Gj; Mon, 06 Feb 2023 16:31:40 +0000
-Message-ID: <e76610ec-2efa-4333-1f6d-6072c1412d24@infradead.org>
-Date:   Mon, 6 Feb 2023 08:31:38 -0800
+        with ESMTP id S229486AbjBFQqR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 11:46:17 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A430B1D93F;
+        Mon,  6 Feb 2023 08:46:16 -0800 (PST)
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 316GiWHv011119;
+        Mon, 6 Feb 2023 16:46:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=mF6uLi36NVaZQCnWTlKj8Q1UqzIyWeZV5mmdHA3tnLM=;
+ b=jep6UZQHkhn0sWpqlTG7BizZK1zTUrQNkSfchIFbHDpnqVppDVFR3z0ZQGU4EJ8UzlFh
+ W7nHmOV228RUrwRwDcWuECCgFHOvClgyBlxmZW4SIZTBlj6x3WnNU9+wbHcIeZcsTIUX
+ 87g5Qqdaw9eEQ3QmChLsQXZ3o5JkMaUdqvTOhIqOIEkJnSV88tbI4dwvHvrNCacOqw3h
+ iMEqxOCfL/4QX638Za0MVZxlrKX4tYk+bekH47ImleQvdxCYcths+ovJQNbCPSn4lyXV
+ JK+b9ZUgQbDUbyYSeJ+0/6eJmV1ybHidTyVyMMbLSxnwt2kWSbJ9rdJ2JQWS3llaKEp/ aQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk51mgp6h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 06 Feb 2023 16:46:11 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 316Ginbp012183;
+        Mon, 6 Feb 2023 16:46:11 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nk51mgp5h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 06 Feb 2023 16:46:11 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+        by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 316Dpt40006266;
+        Mon, 6 Feb 2023 16:46:08 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+        by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3nhf06hva4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 06 Feb 2023 16:46:08 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 316Gk4Yr49611194
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 6 Feb 2023 16:46:04 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CA1E620040;
+        Mon,  6 Feb 2023 16:46:04 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 580B42004B;
+        Mon,  6 Feb 2023 16:46:04 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Mon,  6 Feb 2023 16:46:04 +0000 (GMT)
+From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v7 01/14] KVM: s390: selftest: memop: Pass mop_desc via pointer
+Date:   Mon,  6 Feb 2023 17:45:49 +0100
+Message-Id: <20230206164602.138068-2-scgl@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230206164602.138068-1-scgl@linux.ibm.com>
+References: <20230206164602.138068-1-scgl@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] Documentation: kvm: Correct spelling
-Content-Language: en-US
-To:     Deming Wang <wangdeming@inspur.com>, pbonzini@redhat.com,
-        corbet@lwn.net
-Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230206091120.1618-1-wangdeming@inspur.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230206091120.1618-1-wangdeming@inspur.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: p34xorXUtHmVc0v_kgcq9v2bIRigLn6Y
+X-Proofpoint-ORIG-GUID: qRK9dQoWYFPQc8cx6IOQUYunZI7KKSwx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 spamscore=0 adultscore=0 phishscore=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302060144
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+The struct is quite large, so this seems nicer.
 
-On 2/6/23 01:11, Deming Wang wrote:
-> We shuold use the replace thie.
-> 
-> Signed-off-by: Deming Wang <wangdeming@inspur.com>
-> ---
->  Documentation/virt/kvm/api.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 1b1f721e3fd9..4e164d449906 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -8193,7 +8193,7 @@ the KVM_XEN_ATTR_TYPE_RUNSTATE_UPDATE_FLAG attribute in the KVM_XEN_SET_ATTR
->  and KVM_XEN_GET_ATTR ioctls. This controls whether KVM will set the
->  XEN_RUNSTATE_UPDATE flag in guest memory mapped vcpu_runstate_info during
->  updates of the runstate information. Note that versions of KVM which support
-> -the RUNSTATE feature above, but not thie RUNSTATE_UPDATE_FLAG feature, will
-> +the RUNSTATE feature above, but not the RUNSTATE_UPDATE_FLAG feature, will
->  always set the XEN_RUNSTATE_UPDATE flag when updating the guest structure,
->  which is perhaps counterintuitive. When this flag is advertised, KVM will
->  behave more correctly, not using the XEN_RUNSTATE_UPDATE flag until/unless
+Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+---
+ tools/testing/selftests/kvm/s390x/memop.c | 44 +++++++++++------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
 
-How about these in the same file?
-
-api.rst:581: virutal ==> virtual
-api.rst:2725: excution ==> execution
-api.rst:5207: asynchonous ==> asynchronous
-api.rst:5666: thats ==> that's  [should just be "that"]
-api.rst:7420: priveleged ==> privileged
-api.rst:7838: compatibilty ==> compatibility
-api.rst:8241: implmented ==> implemented
-
-and this one:
-halt-polling.rst:17: dependant ==> dependent
-
-and there are more in the subdirectories there.
-
+diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/selftests/kvm/s390x/memop.c
+index 3fd81e58f40c..9c05d1205114 100644
+--- a/tools/testing/selftests/kvm/s390x/memop.c
++++ b/tools/testing/selftests/kvm/s390x/memop.c
+@@ -48,53 +48,53 @@ struct mop_desc {
+ 	uint8_t key;
+ };
+ 
+-static struct kvm_s390_mem_op ksmo_from_desc(struct mop_desc desc)
++static struct kvm_s390_mem_op ksmo_from_desc(const struct mop_desc *desc)
+ {
+ 	struct kvm_s390_mem_op ksmo = {
+-		.gaddr = (uintptr_t)desc.gaddr,
+-		.size = desc.size,
+-		.buf = ((uintptr_t)desc.buf),
++		.gaddr = (uintptr_t)desc->gaddr,
++		.size = desc->size,
++		.buf = ((uintptr_t)desc->buf),
+ 		.reserved = "ignored_ignored_ignored_ignored"
+ 	};
+ 
+-	switch (desc.target) {
++	switch (desc->target) {
+ 	case LOGICAL:
+-		if (desc.mode == READ)
++		if (desc->mode == READ)
+ 			ksmo.op = KVM_S390_MEMOP_LOGICAL_READ;
+-		if (desc.mode == WRITE)
++		if (desc->mode == WRITE)
+ 			ksmo.op = KVM_S390_MEMOP_LOGICAL_WRITE;
+ 		break;
+ 	case SIDA:
+-		if (desc.mode == READ)
++		if (desc->mode == READ)
+ 			ksmo.op = KVM_S390_MEMOP_SIDA_READ;
+-		if (desc.mode == WRITE)
++		if (desc->mode == WRITE)
+ 			ksmo.op = KVM_S390_MEMOP_SIDA_WRITE;
+ 		break;
+ 	case ABSOLUTE:
+-		if (desc.mode == READ)
++		if (desc->mode == READ)
+ 			ksmo.op = KVM_S390_MEMOP_ABSOLUTE_READ;
+-		if (desc.mode == WRITE)
++		if (desc->mode == WRITE)
+ 			ksmo.op = KVM_S390_MEMOP_ABSOLUTE_WRITE;
+ 		break;
+ 	case INVALID:
+ 		ksmo.op = -1;
+ 	}
+-	if (desc.f_check)
++	if (desc->f_check)
+ 		ksmo.flags |= KVM_S390_MEMOP_F_CHECK_ONLY;
+-	if (desc.f_inject)
++	if (desc->f_inject)
+ 		ksmo.flags |= KVM_S390_MEMOP_F_INJECT_EXCEPTION;
+-	if (desc._set_flags)
+-		ksmo.flags = desc.set_flags;
+-	if (desc.f_key) {
++	if (desc->_set_flags)
++		ksmo.flags = desc->set_flags;
++	if (desc->f_key) {
+ 		ksmo.flags |= KVM_S390_MEMOP_F_SKEY_PROTECTION;
+-		ksmo.key = desc.key;
++		ksmo.key = desc->key;
+ 	}
+-	if (desc._ar)
+-		ksmo.ar = desc.ar;
++	if (desc->_ar)
++		ksmo.ar = desc->ar;
+ 	else
+ 		ksmo.ar = 0;
+-	if (desc._sida_offset)
+-		ksmo.sida_offset = desc.sida_offset;
++	if (desc->_sida_offset)
++		ksmo.sida_offset = desc->sida_offset;
+ 
+ 	return ksmo;
+ }
+@@ -183,7 +183,7 @@ static int err_memop_ioctl(struct test_info info, struct kvm_s390_mem_op *ksmo)
+ 		else								\
+ 			__desc.gaddr = __desc.gaddr_v;				\
+ 	}									\
+-	__ksmo = ksmo_from_desc(__desc);					\
++	__ksmo = ksmo_from_desc(&__desc);					\
+ 	print_memop(__info.vcpu, &__ksmo);					\
+ 	err##memop_ioctl(__info, &__ksmo);					\
+ })
 -- 
-~Randy
+2.37.2
+
