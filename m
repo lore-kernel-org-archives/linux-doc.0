@@ -2,654 +2,217 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC598C636CC
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 16:42:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 482DBC636D3
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 17:24:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231500AbjBGQms (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 11:42:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60234 "EHLO
+        id S230301AbjBGRYM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 12:24:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231535AbjBGQmq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 11:42:46 -0500
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C1B7D8C;
-        Tue,  7 Feb 2023 08:42:43 -0800 (PST)
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 317GVsBN037208;
-        Tue, 7 Feb 2023 16:42:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=1gtzw2cMC2SgTg/4+moouwNPGvK3vqstmZbDa/uhd/8=;
- b=jKKo80xK2ApGlLO8e3OsCkTg2yzLq9IUP4w2yaenUDZJaJKq3bmUUWDMl5hZgnhsoThg
- DiErJ1p/ZtdjMmCDYvXw/9YiR6eoIaPEHucgsa8Iql2GzYQEG8B+R64NRhvaqr/mVe9S
- vp7IIeq1oXrOKRg4J4orCwAJtftBfmHEIlInV5FCzFn3fTSE+B5tmpDKE2yH0pFACBip
- pYnqVXIL2C0FES9D32Q0GeoQe/4j8IYLiWsvZxyJNPirnIy9kOG9ZQ6eGA2/bOS+NCnh
- Y9+x9SFGHY18E0KTIczudjrCBqnnkLlTBSLCAvZe0I1TkPtkpznqz2oMAO/C9CPVYnXz 4A== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkt8drch2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Feb 2023 16:42:38 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317GWVGV039040;
-        Tue, 7 Feb 2023 16:42:37 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkt8drcg2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Feb 2023 16:42:37 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-        by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 316L8Dtj011173;
-        Tue, 7 Feb 2023 16:42:35 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-        by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3nhf06tqa2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Feb 2023 16:42:35 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-        by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 317GgWsq25821910
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 7 Feb 2023 16:42:32 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 09B6620043;
-        Tue,  7 Feb 2023 16:42:32 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8119120040;
-        Tue,  7 Feb 2023 16:42:31 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Tue,  7 Feb 2023 16:42:31 +0000 (GMT)
-From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Subject: [PATCH v8 14/14] KVM: s390: selftest: memop: Add cmpxchg tests
-Date:   Tue,  7 Feb 2023 17:42:25 +0100
-Message-Id: <20230207164225.2114706-1-scgl@linux.ibm.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <f3ee2ae4-a2b4-4dc0-832d-43e5223ad862@linux.ibm.com>
-References: <f3ee2ae4-a2b4-4dc0-832d-43e5223ad862@linux.ibm.com>
+        with ESMTP id S229447AbjBGRYK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 12:24:10 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2072.outbound.protection.outlook.com [40.107.243.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7D86125B8;
+        Tue,  7 Feb 2023 09:24:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TQGEFG3kLCsRfVES6agOccNgBviy6ISR0AajJgHfoy41I9RalacOqnmTaAe/1PillmjxjgVOV7/gkoOSmaGraCrsAqfRLvx2RrKxCWI6j5reeMPGf4efQhdIFlAEe2+wEIIFWaFkYvyk1xunmimTwni3dfvPEEuteT2t1LtcBqCOMizT4UPcSu1VeNxwvQz+85RdFHkExMVu06DSNJVMxCBQ3hJXPBvWpUc8r5z9nusGS5iTAXWvqcrnLpDKB7K8yBJbanTeHRtRa3+RmR71tORzeMgqmV+UqOdcXAGetYC06Dv+ZgNfZ3dfBWhCSEvjW+ObG+EvAs4GmbG8P0TiOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x7q1nMUJdkyFFSk1322Vyp3CL7krT/q3GbrwqxFgnd0=;
+ b=iICoMiCCP6xJJZnL7VikOdc1bestBPM5BLY4iBjx0w/8q/CGZaU/NFZH/lIo5VL0BHfBA1EjGuXL2q13Uhfj51J+X/oTtmTzkMwBIIKV9cIZAoQF/4tE/CquV3/CA4LN6U6cSH5+VMi53CRPZmzw90Qobx6w6HPQKsKQ176s7zFohSx9/FAiLSF3xn8TkWmo6ZqHIWHWzOhP8SiN+5OdYTEYL5p+rFqg/r7haeYEU7RQHbvMNHyowSdw3o8Usjui0CiocQZwzWhe8vnRD/rmeSB6DX16rhcUuwCe56El4gXVrSEJqoEWOOvQ9WvdzD5JbUiotnhXA7FQhhmEd9Zedw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x7q1nMUJdkyFFSk1322Vyp3CL7krT/q3GbrwqxFgnd0=;
+ b=cltEF9/KDmJa7qxdiFRxiNKIsKBmbPxplWGa+KgBqeEZ1WU+GCe5Qn9+LC+N0+Lbi3AkSFOxnnMAT6rzW12jZGcZqd6Ai6Vs9l37NnRSUCgXGz0DIXtZqiAAEx2hj1hnAky/xBhSzaDmJEu9GL7vxvyJ+rrvh133sHyc1yIlGPQ=
+Received: from DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22)
+ by DM4PR12MB8558.namprd12.prod.outlook.com (2603:10b6:8:187::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.34; Tue, 7 Feb
+ 2023 17:24:05 +0000
+Received: from DM6PR12MB4202.namprd12.prod.outlook.com
+ ([fe80::33a7:54d4:2de0:3939]) by DM6PR12MB4202.namprd12.prod.outlook.com
+ ([fe80::33a7:54d4:2de0:3939%9]) with mapi id 15.20.6064.036; Tue, 7 Feb 2023
+ 17:24:05 +0000
+From:   "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
+To:     "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>,
+        Jiri Pirko <jiri@resnulli.us>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-net-drivers (AMD-Xilinx)" <linux-net-drivers@amd.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "habetsm.xilinx@gmail.com" <habetsm.xilinx@gmail.com>,
+        "ecree.xilinx@gmail.com" <ecree.xilinx@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "jiri@nvidia.com" <jiri@nvidia.com>
+Subject: Re: [PATCH v5 net-next 2/8] sfc: add devlink info support for ef100
+Thread-Topic: [PATCH v5 net-next 2/8] sfc: add devlink info support for ef100
+Thread-Index: AQHZNveRaZV2migBBki/Fbor0TTGVq67jUyAgAgJY4CAAAS0gIAAA0yAgAAlLwA=
+Date:   Tue, 7 Feb 2023 17:24:05 +0000
+Message-ID: <DM6PR12MB4202E78CB7CB3BE13817B782C1DB9@DM6PR12MB4202.namprd12.prod.outlook.com>
+References: <20230202111423.56831-1-alejandro.lucero-palau@amd.com>
+ <20230202111423.56831-3-alejandro.lucero-palau@amd.com>
+ <Y9ulUQyScL3xUDKZ@nanopsycho>
+ <DM6PR12MB4202DC0B50437D82E28EAAC2C1DB9@DM6PR12MB4202.namprd12.prod.outlook.com>
+ <Y+JnH+ecdTGgYqAf@nanopsycho>
+ <DM6PR12MB42026D97627495DC2FF2A346C1DB9@DM6PR12MB4202.namprd12.prod.outlook.com>
+In-Reply-To: <DM6PR12MB42026D97627495DC2FF2A346C1DB9@DM6PR12MB4202.namprd12.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+x-ms-exchange-imapappendstamp: DM6PR12MB4909.namprd12.prod.outlook.com
+ (15.20.6086.009)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR12MB4202:EE_|DM4PR12MB8558:EE_
+x-ms-office365-filtering-correlation-id: dc46b1d8-74b8-4e3c-0bff-08db09301d08
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: eVgEvp3uy3CY14tmMo35u/SOwTJy6d2xTrRCjDEmTdtAVyMjlH99Vy5g8vuw/yFX7TVk7NYglzAfkU+F4VZTK60GtMaGjjl5I99GFoRoRgMJr3/eXpTs9sOydIf7sDrODji8k8tVPNnz5phCsgxQj90OcS2XGWjFCrbWDPvdtQyAz5+yW7PH3uhleZrgRlmPPT9enPrsrwXgk3f9uBnaOhgu7rUc8pgm7CuZsGkOAbrnTkXSuFxuGRYVYAz8SGPnikFs9hy7n44V/Nm3iFdM6fFnVS0D7Mw2s2eP48v5KVNfiq44qmc2zIE0HBQRVwlT3dNmoBrFVd9c/GJT/ZvkUELwqtV/tHBhRl56p7if+/cdgyCktrDkNQLbOceKa2gnxsj9NIJkrjDUZNrq5M1jYLYap7nwP2LSSh7rtnghFLeyk+ppwJlxC7xFyKnbs+Vv5wMZvDoRxNPFfzhNk7WFmQ5vqEcFwze14I+vmqer9fnmFWWmbYAjGgY/TG2fuCJVD0IZwTAuRDieVXu9kEdC5wujT4gc/JnNtQUDgd/Pd05OWh3yMiZszOxe9r9nbTNsn5BX0u7z+pACxL5O7KpWh/ujIEgouJfeyHgKZ18PnxdZyCUgE6e2lnd2SAosbsU8xX8VVKUIDMbbdQ8JMhhTjm03tBGSVkEwS7pPL9MS1SM3XsxZJyd49jYvMlG9pxdffPfyxQIVKjrcsO8OQy1zkLDx+5Nb38A6raX+BYy2AUhDpkM3CdCBbzuSttRfpxqo
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(136003)(39860400002)(366004)(376002)(396003)(451199018)(64756008)(66446008)(66476007)(55016003)(53546011)(478600001)(6506007)(8676002)(26005)(9686003)(186003)(4326008)(2940100002)(76116006)(110136005)(66556008)(66946007)(316002)(7696005)(122000001)(38070700005)(54906003)(71200400001)(38100700002)(33656002)(83380400001)(7416002)(5660300002)(8936002)(52536014)(41300700001)(2906002)(65966003)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VU5XUzlpTU4yN1paOERQMHR4ck42VzdiS25VWm55bnhSK09YQkRlRWhuOGhT?=
+ =?utf-8?B?QWZVZDcwbVZ2Z0g0L3ppUFFxYWVUaWwvL2JGanhUYnMybGhTNUdHRTlwTmdI?=
+ =?utf-8?B?eDdRZUZES1N4VUhqN0h4aWo4Mkx0Tzk5RDByOFZtYU9oaVVmMmN4bVArTUdv?=
+ =?utf-8?B?NVVJU3lVZWt2SEU4SXFYajEwNXF5ZnBKWGdYc1h3QmpQajNCU0wxeDFRbTRM?=
+ =?utf-8?B?UGVSQ0Zmc3Q5LzB4eUJMUUdNdENnSy9KUnRTd3JNQ1g1cFYvazJwbG9zajhK?=
+ =?utf-8?B?QlROWGRyanp5bGxMQ3ZaZXV4enkzR3c3UU93R3VEbVQxTTYxTjVlRU84ajhS?=
+ =?utf-8?B?WGFabER3bzc0TjMzdjc0UEdWUm9ycUx3aXBoOHd1TmhLdzFLZDhSOFZRbG1U?=
+ =?utf-8?B?b0NKSHFQZlNwZkxSSWkxekl1dURma1BZei9UVGdsdElMUXVMS1BVSHMxZDZT?=
+ =?utf-8?B?bGVaS1EwdmwzRWNSUUFMS2hZdzRXZUlCUXllYlE5UnNISlFTb3Q3TVN2UVlO?=
+ =?utf-8?B?TGc5UUttOWJzT05sQXVFVzVqTklXOEtUcGYzQ2lRSm9yNmRWeG4xZFAvZ244?=
+ =?utf-8?B?TjlET0tpYmZZcmtoQ0ZFdXo4RzZjZ3A0SkpWeS9PRmFBQ1c4emRPMkdTTFZs?=
+ =?utf-8?B?K2FqTnNQcHEyK1hXNXlUdjA4VkVjR0NLS1VUQjVtR0xvQVgvQVRzcHhkQUtn?=
+ =?utf-8?B?aUxRS3ludFQ2ZFp1SkFpN09COFJOOEpFVFI4aEdiVW5aY0tGZXVSRkNWcE9Q?=
+ =?utf-8?B?elFXZWpXVDlQMkY5ckxjMUVXYUlVd1VwNWJkK0pDRDZCRmtWREZGeGdURjBI?=
+ =?utf-8?B?Qk1nSTUvNEZVUTZhQ3hqcXhNaS8rWWxlMGh0QkFqa1EyVWYyNlN4NGNBS1A0?=
+ =?utf-8?B?UENGWDlUdFNDZGtaQW1HaTVsNEtWWmx5WkJaUEYrYU41amQ0eWw2TVZCOTY0?=
+ =?utf-8?B?eTVwRi9MUmV4Y3podDJrM0NQYkZqcE5RNnl3Q2taSklBOVUwS3RtVStSZEZy?=
+ =?utf-8?B?WUdOeEZqY0xEaVhueEhkeTl6YTYwRDJTVjg5QjNnRnVWelMzaEZnSW1YdGg5?=
+ =?utf-8?B?RmxtQWlDeGRtT21YdnEyNDJaQjlrL2h2ZmJXVVpzam5LQ0hCY1k0K0RtZ1RV?=
+ =?utf-8?B?ZmxjZ2FISFJpcU4ySzRVK09wTmx3TXJHcjNOaVZNNm1odmlRR3FlTEppUVJM?=
+ =?utf-8?B?OENJbkxIQ01US1BLWFdrcVFOamYvL0FhOG9iTkVHRHlMS2dBMjdZbW51Syts?=
+ =?utf-8?B?S1dYdmp3Wk44eE1tNjFJV3lPcUJBRW8xaUp5V3lyT0pHRzJ3eUc1NDJhUVYz?=
+ =?utf-8?B?czBGWURYZ3c3MEU1NThpUUhWcCs4RnBCYkZwZnRQUTZHZ0ROVURGR1c4NEpk?=
+ =?utf-8?B?Q1Y0Q1BlSG1TWk5KZnlaa2R2b0tLUDJZNFZpdktFZmluQkZ0Y2RVc2tmMlAr?=
+ =?utf-8?B?eHpySzl1bm5wVzIzWDRoaTVjdHhmcHh2aHdIOUhUd1NUNTAyRzQvTmlmbHhi?=
+ =?utf-8?B?SkNpTnVJbUlOZHdrRGVQMW52MjRLbExUNmpZUGVZVGhEa2UvYUljOEtVUi9l?=
+ =?utf-8?B?azBWVXI4d1F4RGtIazlZclFWaGhLVTZPN29kekRBeWhkV2VGeXhCelp6TTlN?=
+ =?utf-8?B?MUZFekVNVkxrSGhzbEJTT0ZmNEJEU2xoaU9HNWpFZVNuUWRFcFFQVzZSUm9K?=
+ =?utf-8?B?VEEvaDRDK05uWi9tZHpmWkEwbC9Xc05VTy8zaTl6UFRzQ3l2V0ZhWUJTaklw?=
+ =?utf-8?B?a3B6YzFnOS9xNDdCZ00vaFE0MGd3ZkNSRm92eXZsdCtRdWRGckJhMkJQeFN2?=
+ =?utf-8?B?cTNnK2NZMTFJbjZHQURPV1BGQ3E0QVYvK0Zrc2ZlWU5XYXJodFFTR3ZKV2JT?=
+ =?utf-8?B?SHo3NWxqTGtXbVQ5emdVUTJPTER5YmtWRnUwMXFwUXdKalNJUmVhTlVYZUF6?=
+ =?utf-8?B?SUllVVhhbVNtTlVMakoxZUdqMTVYT3krWmNWdnRFZkthdzQyMWhCd3FnSjdX?=
+ =?utf-8?B?eGMwemZMZ2FuNm52NUdJM3IwY2swcTNKT0FENWpyc1VzRjcrOVdPQTlVci9R?=
+ =?utf-8?B?N2JLT01RVWxZWW16T0xxNkdyOGtDSGJvWFdBdDJodFV1ZTRxc1cyVk1aL0M3?=
+ =?utf-8?Q?stK0=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <516C5E8FAEA59542BEF6A295BFAE1BDE@amdcloud.onmicrosoft.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 4n9FuU3Sc_aDxSMHqNTyN4aqBFHaMiY7
-X-Proofpoint-ORIG-GUID: cFEyo1eBX_owOlG_B9R3TQN4VgWqtM7o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-07_08,2023-02-06_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 priorityscore=1501 mlxscore=0 phishscore=0
- bulkscore=0 clxscore=1015 mlxlogscore=999 impostorscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302070147
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4202.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc46b1d8-74b8-4e3c-0bff-08db09301d08
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2023 17:24:05.2579
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 16UloqCWE1LkzyF6lTMvRjCpInRR/0itVK5eo39bt0USBKYWNylvQgkArKSa0fyrBi1dAuEm4huY3gUWy0AUyQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8558
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Test successful exchange, unsuccessful exchange, storage key protection
-and invalid arguments.
-
-Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Acked-by: Janosch Frank <frankja@linux.ibm.com>
----
- tools/testing/selftests/kvm/s390x/memop.c | 407 +++++++++++++++++++++-
- 1 file changed, 392 insertions(+), 15 deletions(-)
-
-diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/selftests/kvm/s390x/memop.c
-index c5fec84ef3c2..8e4b94d7b8dd 100644
---- a/tools/testing/selftests/kvm/s390x/memop.c
-+++ b/tools/testing/selftests/kvm/s390x/memop.c
-@@ -9,6 +9,7 @@
- #include <stdlib.h>
- #include <string.h>
- #include <sys/ioctl.h>
-+#include <pthread.h>
- 
- #include <linux/bits.h>
- 
-@@ -26,6 +27,7 @@ enum mop_target {
- enum mop_access_mode {
- 	READ,
- 	WRITE,
-+	CMPXCHG,
- };
- 
- struct mop_desc {
-@@ -44,13 +46,16 @@ struct mop_desc {
- 	enum mop_access_mode mode;
- 	void *buf;
- 	uint32_t sida_offset;
-+	void *old;
-+	uint8_t old_value[16];
-+	bool *cmpxchg_success;
- 	uint8_t ar;
- 	uint8_t key;
- };
- 
- const uint8_t NO_KEY = 0xff;
- 
--static struct kvm_s390_mem_op ksmo_from_desc(const struct mop_desc *desc)
-+static struct kvm_s390_mem_op ksmo_from_desc(struct mop_desc *desc)
- {
- 	struct kvm_s390_mem_op ksmo = {
- 		.gaddr = (uintptr_t)desc->gaddr,
-@@ -77,6 +82,11 @@ static struct kvm_s390_mem_op ksmo_from_desc(const struct mop_desc *desc)
- 			ksmo.op = KVM_S390_MEMOP_ABSOLUTE_READ;
- 		if (desc->mode == WRITE)
- 			ksmo.op = KVM_S390_MEMOP_ABSOLUTE_WRITE;
-+		if (desc->mode == CMPXCHG) {
-+			ksmo.op = KVM_S390_MEMOP_ABSOLUTE_CMPXCHG;
-+			ksmo.old_addr = (uint64_t)desc->old;
-+			memcpy(desc->old_value, desc->old, desc->size);
-+		}
- 		break;
- 	case INVALID:
- 		ksmo.op = -1;
-@@ -135,9 +145,13 @@ static void print_memop(struct kvm_vcpu *vcpu, const struct kvm_s390_mem_op *ksm
- 	case KVM_S390_MEMOP_ABSOLUTE_WRITE:
- 		printf("ABSOLUTE, WRITE, ");
- 		break;
-+	case KVM_S390_MEMOP_ABSOLUTE_CMPXCHG:
-+		printf("ABSOLUTE, CMPXCHG, ");
-+		break;
- 	}
--	printf("gaddr=%llu, size=%u, buf=%llu, ar=%u, key=%u",
--	       ksmo->gaddr, ksmo->size, ksmo->buf, ksmo->ar, ksmo->key);
-+	printf("gaddr=%llu, size=%u, buf=%llu, ar=%u, key=%u, old_addr=%llx",
-+	       ksmo->gaddr, ksmo->size, ksmo->buf, ksmo->ar, ksmo->key,
-+	       ksmo->old_addr);
- 	if (ksmo->flags & KVM_S390_MEMOP_F_CHECK_ONLY)
- 		printf(", CHECK_ONLY");
- 	if (ksmo->flags & KVM_S390_MEMOP_F_INJECT_EXCEPTION)
-@@ -147,24 +161,30 @@ static void print_memop(struct kvm_vcpu *vcpu, const struct kvm_s390_mem_op *ksm
- 	puts(")");
- }
- 
--static void memop_ioctl(struct test_info info, struct kvm_s390_mem_op *ksmo)
-+static int err_memop_ioctl(struct test_info info, struct kvm_s390_mem_op *ksmo,
-+			   struct mop_desc *desc)
- {
- 	struct kvm_vcpu *vcpu = info.vcpu;
- 
- 	if (!vcpu)
--		vm_ioctl(info.vm, KVM_S390_MEM_OP, ksmo);
-+		return __vm_ioctl(info.vm, KVM_S390_MEM_OP, ksmo);
- 	else
--		vcpu_ioctl(vcpu, KVM_S390_MEM_OP, ksmo);
-+		return __vcpu_ioctl(vcpu, KVM_S390_MEM_OP, ksmo);
- }
- 
--static int err_memop_ioctl(struct test_info info, struct kvm_s390_mem_op *ksmo)
-+static void memop_ioctl(struct test_info info, struct kvm_s390_mem_op *ksmo,
-+			struct mop_desc *desc)
- {
--	struct kvm_vcpu *vcpu = info.vcpu;
-+	int r;
- 
--	if (!vcpu)
--		return __vm_ioctl(info.vm, KVM_S390_MEM_OP, ksmo);
--	else
--		return __vcpu_ioctl(vcpu, KVM_S390_MEM_OP, ksmo);
-+	r = err_memop_ioctl(info, ksmo, desc);
-+	if (ksmo->op == KVM_S390_MEMOP_ABSOLUTE_CMPXCHG) {
-+		if (desc->cmpxchg_success) {
-+			int diff = memcmp(desc->old_value, desc->old, desc->size);
-+			*desc->cmpxchg_success = !diff;
-+		}
-+	}
-+	TEST_ASSERT(!r, __KVM_IOCTL_ERROR("KVM_S390_MEM_OP", r));
- }
- 
- #define MEMOP(err, info_p, mop_target_p, access_mode_p, buf_p, size_p, ...)	\
-@@ -187,7 +207,7 @@ static int err_memop_ioctl(struct test_info info, struct kvm_s390_mem_op *ksmo)
- 	}									\
- 	__ksmo = ksmo_from_desc(&__desc);					\
- 	print_memop(__info.vcpu, &__ksmo);					\
--	err##memop_ioctl(__info, &__ksmo);					\
-+	err##memop_ioctl(__info, &__ksmo, &__desc);				\
- })
- 
- #define MOP(...) MEMOP(, __VA_ARGS__)
-@@ -201,6 +221,8 @@ static int err_memop_ioctl(struct test_info info, struct kvm_s390_mem_op *ksmo)
- #define AR(a) ._ar = 1, .ar = (a)
- #define KEY(a) .f_key = 1, .key = (a)
- #define INJECT .f_inject = 1
-+#define CMPXCHG_OLD(o) .old = (o)
-+#define CMPXCHG_SUCCESS(s) .cmpxchg_success = (s)
- 
- #define CHECK_N_DO(f, ...) ({ f(__VA_ARGS__, CHECK_ONLY); f(__VA_ARGS__); })
- 
-@@ -210,8 +232,8 @@ static int err_memop_ioctl(struct test_info info, struct kvm_s390_mem_op *ksmo)
- #define CR0_FETCH_PROTECTION_OVERRIDE	(1UL << (63 - 38))
- #define CR0_STORAGE_PROTECTION_OVERRIDE	(1UL << (63 - 39))
- 
--static uint8_t mem1[65536];
--static uint8_t mem2[65536];
-+static uint8_t __aligned(PAGE_SIZE) mem1[65536];
-+static uint8_t __aligned(PAGE_SIZE) mem2[65536];
- 
- struct test_default {
- 	struct kvm_vm *kvm_vm;
-@@ -243,6 +265,8 @@ enum stage {
- 	STAGE_SKEYS_SET,
- 	/* Guest copied memory (locations up to test case) */
- 	STAGE_COPIED,
-+	/* End of guest code reached */
-+	STAGE_DONE,
- };
- 
- #define HOST_SYNC(info_p, stage)					\
-@@ -254,6 +278,9 @@ enum stage {
- 									\
- 	vcpu_run(__vcpu);						\
- 	get_ucall(__vcpu, &uc);						\
-+	if (uc.cmd == UCALL_ABORT) {					\
-+		REPORT_GUEST_ASSERT_2(uc, "hints: %lu, %lu");		\
-+	}								\
- 	ASSERT_EQ(uc.cmd, UCALL_SYNC);					\
- 	ASSERT_EQ(uc.args[1], __stage);					\
- })									\
-@@ -293,6 +320,44 @@ static void default_read(struct test_info copy_cpu, struct test_info mop_cpu,
- 	ASSERT_MEM_EQ(mem1, mem2, size);
- }
- 
-+static void default_cmpxchg(struct test_default *test, uint8_t key)
-+{
-+	for (int size = 1; size <= 16; size *= 2) {
-+		for (int offset = 0; offset < 16; offset += size) {
-+			uint8_t __aligned(16) new[16] = {};
-+			uint8_t __aligned(16) old[16];
-+			bool succ;
-+
-+			prepare_mem12();
-+			default_write_read(test->vcpu, test->vcpu, LOGICAL, 16, NO_KEY);
-+
-+			memcpy(&old, mem1, 16);
-+			MOP(test->vm, ABSOLUTE, CMPXCHG, new + offset,
-+			    size, GADDR_V(mem1 + offset),
-+			    CMPXCHG_OLD(old + offset),
-+			    CMPXCHG_SUCCESS(&succ), KEY(key));
-+			HOST_SYNC(test->vcpu, STAGE_COPIED);
-+			MOP(test->vm, ABSOLUTE, READ, mem2, 16, GADDR_V(mem2));
-+			TEST_ASSERT(succ, "exchange of values should succeed");
-+			memcpy(mem1 + offset, new + offset, size);
-+			ASSERT_MEM_EQ(mem1, mem2, 16);
-+
-+			memcpy(&old, mem1, 16);
-+			new[offset]++;
-+			old[offset]++;
-+			MOP(test->vm, ABSOLUTE, CMPXCHG, new + offset,
-+			    size, GADDR_V(mem1 + offset),
-+			    CMPXCHG_OLD(old + offset),
-+			    CMPXCHG_SUCCESS(&succ), KEY(key));
-+			HOST_SYNC(test->vcpu, STAGE_COPIED);
-+			MOP(test->vm, ABSOLUTE, READ, mem2, 16, GADDR_V(mem2));
-+			TEST_ASSERT(!succ, "exchange of values should not succeed");
-+			ASSERT_MEM_EQ(mem1, mem2, 16);
-+			ASSERT_MEM_EQ(&old, mem1, 16);
-+		}
-+	}
-+}
-+
- static void guest_copy(void)
- {
- 	GUEST_SYNC(STAGE_INITED);
-@@ -377,6 +442,248 @@ static void test_copy_key(void)
- 	kvm_vm_free(t.kvm_vm);
- }
- 
-+static void test_cmpxchg_key(void)
-+{
-+	struct test_default t = test_default_init(guest_copy_key);
-+
-+	HOST_SYNC(t.vcpu, STAGE_SKEYS_SET);
-+
-+	default_cmpxchg(&t, NO_KEY);
-+	default_cmpxchg(&t, 0);
-+	default_cmpxchg(&t, 9);
-+
-+	kvm_vm_free(t.kvm_vm);
-+}
-+
-+static __uint128_t cut_to_size(int size, __uint128_t val)
-+{
-+	switch (size) {
-+	case 1:
-+		return (uint8_t)val;
-+	case 2:
-+		return (uint16_t)val;
-+	case 4:
-+		return (uint32_t)val;
-+	case 8:
-+		return (uint64_t)val;
-+	case 16:
-+		return val;
-+	}
-+	GUEST_ASSERT_1(false, "Invalid size");
-+	return 0;
-+}
-+
-+static bool popcount_eq(__uint128_t a, __uint128_t b)
-+{
-+	unsigned int count_a, count_b;
-+
-+	count_a = __builtin_popcountl((uint64_t)(a >> 64)) +
-+		  __builtin_popcountl((uint64_t)a);
-+	count_b = __builtin_popcountl((uint64_t)(b >> 64)) +
-+		  __builtin_popcountl((uint64_t)b);
-+	return count_a == count_b;
-+}
-+
-+static __uint128_t rotate(int size, __uint128_t val, int amount)
-+{
-+	unsigned int bits = size * 8;
-+
-+	amount = (amount + bits) % bits;
-+	val = cut_to_size(size, val);
-+	return (val << (bits - amount)) | (val >> amount);
-+}
-+
-+const unsigned int max_block = 16;
-+
-+static void choose_block(bool guest, int i, int *size, int *offset)
-+{
-+	unsigned int rand;
-+
-+	rand = i;
-+	if (guest) {
-+		rand = rand * 19 + 11;
-+		*size = 1 << ((rand % 3) + 2);
-+		rand = rand * 19 + 11;
-+		*offset = (rand % max_block) & ~(*size - 1);
-+	} else {
-+		rand = rand * 17 + 5;
-+		*size = 1 << (rand % 5);
-+		rand = rand * 17 + 5;
-+		*offset = (rand % max_block) & ~(*size - 1);
-+	}
-+}
-+
-+static __uint128_t permutate_bits(bool guest, int i, int size, __uint128_t old)
-+{
-+	unsigned int rand;
-+	int amount;
-+	bool swap;
-+
-+	rand = i;
-+	rand = rand * 3 + 1;
-+	if (guest)
-+		rand = rand * 3 + 1;
-+	swap = rand % 2 == 0;
-+	if (swap) {
-+		int i, j;
-+		__uint128_t new;
-+		uint8_t byte0, byte1;
-+
-+		rand = rand * 3 + 1;
-+		i = rand % size;
-+		rand = rand * 3 + 1;
-+		j = rand % size;
-+		if (i == j)
-+			return old;
-+		new = rotate(16, old, i * 8);
-+		byte0 = new & 0xff;
-+		new &= ~0xff;
-+		new = rotate(16, new, -i * 8);
-+		new = rotate(16, new, j * 8);
-+		byte1 = new & 0xff;
-+		new = (new & ~0xff) | byte0;
-+		new = rotate(16, new, -j * 8);
-+		new = rotate(16, new, i * 8);
-+		new = new | byte1;
-+		new = rotate(16, new, -i * 8);
-+		return new;
-+	}
-+	rand = rand * 3 + 1;
-+	amount = rand % (size * 8);
-+	return rotate(size, old, amount);
-+}
-+
-+static bool _cmpxchg(int size, void *target, __uint128_t *old_addr, __uint128_t new)
-+{
-+	bool ret;
-+
-+	switch (size) {
-+	case 4: {
-+			uint32_t old = *old_addr;
-+
-+			asm volatile ("cs %[old],%[new],%[address]"
-+			    : [old] "+d" (old),
-+			      [address] "+Q" (*(uint32_t *)(target))
-+			    : [new] "d" ((uint32_t)new)
-+			    : "cc"
-+			);
-+			ret = old == (uint32_t)*old_addr;
-+			*old_addr = old;
-+			return ret;
-+		}
-+	case 8: {
-+			uint64_t old = *old_addr;
-+
-+			asm volatile ("csg %[old],%[new],%[address]"
-+			    : [old] "+d" (old),
-+			      [address] "+Q" (*(uint64_t *)(target))
-+			    : [new] "d" ((uint64_t)new)
-+			    : "cc"
-+			);
-+			ret = old == (uint64_t)*old_addr;
-+			*old_addr = old;
-+			return ret;
-+		}
-+	case 16: {
-+			__uint128_t old = *old_addr;
-+
-+			asm volatile ("cdsg %[old],%[new],%[address]"
-+			    : [old] "+d" (old),
-+			      [address] "+Q" (*(__uint128_t *)(target))
-+			    : [new] "d" (new)
-+			    : "cc"
-+			);
-+			ret = old == *old_addr;
-+			*old_addr = old;
-+			return ret;
-+		}
-+	}
-+	GUEST_ASSERT_1(false, "Invalid size");
-+	return 0;
-+}
-+
-+const unsigned int cmpxchg_iter_outer = 100, cmpxchg_iter_inner = 10000;
-+
-+static void guest_cmpxchg_key(void)
-+{
-+	int size, offset;
-+	__uint128_t old, new;
-+
-+	set_storage_key_range(mem1, max_block, 0x10);
-+	set_storage_key_range(mem2, max_block, 0x10);
-+	GUEST_SYNC(STAGE_SKEYS_SET);
-+
-+	for (int i = 0; i < cmpxchg_iter_outer; i++) {
-+		do {
-+			old = 1;
-+		} while (!_cmpxchg(16, mem1, &old, 0));
-+		for (int j = 0; j < cmpxchg_iter_inner; j++) {
-+			choose_block(true, i + j, &size, &offset);
-+			do {
-+				new = permutate_bits(true, i + j, size, old);
-+			} while (!_cmpxchg(size, mem2 + offset, &old, new));
-+		}
-+	}
-+
-+	GUEST_SYNC(STAGE_DONE);
-+}
-+
-+static void *run_guest(void *data)
-+{
-+	struct test_info *info = data;
-+
-+	HOST_SYNC(*info, STAGE_DONE);
-+	return NULL;
-+}
-+
-+static char *quad_to_char(__uint128_t *quad, int size)
-+{
-+	return ((char *)quad) + (sizeof(*quad) - size);
-+}
-+
-+static void test_cmpxchg_key_concurrent(void)
-+{
-+	struct test_default t = test_default_init(guest_cmpxchg_key);
-+	int size, offset;
-+	__uint128_t old, new;
-+	bool success;
-+	pthread_t thread;
-+
-+	HOST_SYNC(t.vcpu, STAGE_SKEYS_SET);
-+	prepare_mem12();
-+	MOP(t.vcpu, LOGICAL, WRITE, mem1, max_block, GADDR_V(mem2));
-+	pthread_create(&thread, NULL, run_guest, &t.vcpu);
-+
-+	for (int i = 0; i < cmpxchg_iter_outer; i++) {
-+		do {
-+			old = 0;
-+			new = 1;
-+			MOP(t.vm, ABSOLUTE, CMPXCHG, &new,
-+			    sizeof(new), GADDR_V(mem1),
-+			    CMPXCHG_OLD(&old),
-+			    CMPXCHG_SUCCESS(&success), KEY(1));
-+		} while (!success);
-+		for (int j = 0; j < cmpxchg_iter_inner; j++) {
-+			choose_block(false, i + j, &size, &offset);
-+			do {
-+				new = permutate_bits(false, i + j, size, old);
-+				MOP(t.vm, ABSOLUTE, CMPXCHG, quad_to_char(&new, size),
-+				    size, GADDR_V(mem2 + offset),
-+				    CMPXCHG_OLD(quad_to_char(&old, size)),
-+				    CMPXCHG_SUCCESS(&success), KEY(1));
-+			} while (!success);
-+		}
-+	}
-+
-+	pthread_join(thread, NULL);
-+
-+	MOP(t.vcpu, LOGICAL, READ, mem2, max_block, GADDR_V(mem2));
-+	TEST_ASSERT(popcount_eq(*(__uint128_t *)mem1, *(__uint128_t *)mem2),
-+		    "Must retain number of set bits");
-+
-+	kvm_vm_free(t.kvm_vm);
-+}
-+
- static void guest_copy_key_fetch_prot(void)
- {
- 	/*
-@@ -457,6 +764,24 @@ static void test_errors_key(void)
- 	kvm_vm_free(t.kvm_vm);
- }
- 
-+static void test_errors_cmpxchg_key(void)
-+{
-+	struct test_default t = test_default_init(guest_copy_key_fetch_prot);
-+	int i;
-+
-+	HOST_SYNC(t.vcpu, STAGE_INITED);
-+	HOST_SYNC(t.vcpu, STAGE_SKEYS_SET);
-+
-+	for (i = 1; i <= 16; i *= 2) {
-+		__uint128_t old = 0;
-+
-+		ERR_PROT_MOP(t.vm, ABSOLUTE, CMPXCHG, mem2, i, GADDR_V(mem2),
-+			     CMPXCHG_OLD(&old), KEY(2));
-+	}
-+
-+	kvm_vm_free(t.kvm_vm);
-+}
-+
- static void test_termination(void)
- {
- 	struct test_default t = test_default_init(guest_error_key);
-@@ -692,6 +1017,38 @@ static void test_errors(void)
- 	kvm_vm_free(t.kvm_vm);
- }
- 
-+static void test_errors_cmpxchg(void)
-+{
-+	struct test_default t = test_default_init(guest_idle);
-+	__uint128_t old;
-+	int rv, i, power = 1;
-+
-+	HOST_SYNC(t.vcpu, STAGE_INITED);
-+
-+	for (i = 0; i < 32; i++) {
-+		if (i == power) {
-+			power *= 2;
-+			continue;
-+		}
-+		rv = ERR_MOP(t.vm, ABSOLUTE, CMPXCHG, mem1, i, GADDR_V(mem1),
-+			     CMPXCHG_OLD(&old));
-+		TEST_ASSERT(rv == -1 && errno == EINVAL,
-+			    "ioctl allows bad size for cmpxchg");
-+	}
-+	for (i = 1; i <= 16; i *= 2) {
-+		rv = ERR_MOP(t.vm, ABSOLUTE, CMPXCHG, mem1, i, GADDR((void *)~0xfffUL),
-+			     CMPXCHG_OLD(&old));
-+		TEST_ASSERT(rv > 0, "ioctl allows bad guest address for cmpxchg");
-+	}
-+	for (i = 2; i <= 16; i *= 2) {
-+		rv = ERR_MOP(t.vm, ABSOLUTE, CMPXCHG, mem1, i, GADDR_V(mem1 + 1),
-+			     CMPXCHG_OLD(&old));
-+		TEST_ASSERT(rv == -1 && errno == EINVAL,
-+			    "ioctl allows bad alignment for cmpxchg");
-+	}
-+
-+	kvm_vm_free(t.kvm_vm);
-+}
- 
- int main(int argc, char *argv[])
- {
-@@ -720,6 +1077,16 @@ int main(int argc, char *argv[])
- 			.test = test_copy_key,
- 			.requirements_met = extension_cap > 0,
- 		},
-+		{
-+			.name = "cmpxchg with storage keys",
-+			.test = test_cmpxchg_key,
-+			.requirements_met = extension_cap & 0x2,
-+		},
-+		{
-+			.name = "concurrently cmpxchg with storage keys",
-+			.test = test_cmpxchg_key_concurrent,
-+			.requirements_met = extension_cap & 0x2,
-+		},
- 		{
- 			.name = "copy with key storage protection override",
- 			.test = test_copy_key_storage_prot_override,
-@@ -740,6 +1107,16 @@ int main(int argc, char *argv[])
- 			.test = test_errors_key,
- 			.requirements_met = extension_cap > 0,
- 		},
-+		{
-+			.name = "error checks for cmpxchg with key",
-+			.test = test_errors_cmpxchg_key,
-+			.requirements_met = extension_cap & 0x2,
-+		},
-+		{
-+			.name = "error checks for cmpxchg",
-+			.test = test_errors_cmpxchg,
-+			.requirements_met = extension_cap & 0x2,
-+		},
- 		{
- 			.name = "termination",
- 			.test = test_termination,
--- 
-2.37.2
-
+DQpPbiAyLzcvMjMgMTU6MTAsIEx1Y2VybyBQYWxhdSwgQWxlamFuZHJvIHdyb3RlOg0KPiBPbiAy
+LzcvMjMgMTQ6NTgsIEppcmkgUGlya28gd3JvdGU6DQo+PiBUdWUsIEZlYiAwNywgMjAyMyBhdCAw
+Mzo0Mjo0NVBNIENFVCwgYWxlamFuZHJvLmx1Y2Vyby1wYWxhdUBhbWQuY29tIHdyb3RlOg0KPj4+
+IE9uIDIvMi8yMyAxMTo1OCwgSmlyaSBQaXJrbyB3cm90ZToNCj4+Pj4gVGh1LCBGZWIgMDIsIDIw
+MjMgYXQgMTI6MTQ6MTdQTSBDRVQsIGFsZWphbmRyby5sdWNlcm8tcGFsYXVAYW1kLmNvbSB3cm90
+ZToNCj4+Pj4+IEZyb206IEFsZWphbmRybyBMdWNlcm8gPGFsZWphbmRyby5sdWNlcm8tcGFsYXVA
+YW1kLmNvbT4NCj4+Pj4+DQo+Pj4+PiBTdXBwb3J0IGZvciBkZXZsaW5rIGluZm8gY29tbWFuZC4N
+Cj4+Pj4gWW91IGFyZSBxdWl0ZSBicmllZiBmb3IgY291cGxlIGh1bmRyZWQgbGluZSBwYXRjaC4g
+Q2FyZSB0byBzaGVkIHNvbWUNCj4+Pj4gbW9yZSBkZXRhaWxzIGZvciB0aGUgcmVhZGVyPyBBbHNv
+LCB1c2UgaW1wZXJhdGl2ZSBtb29kIChhcHBsaWVzIHRvIHRoZQ0KPj4+PiByZXN0IG9mIHRoZSBw
+YXRoZXMpDQo+Pj4+DQo+Pj4+IFsuLi5dDQo+Pj4+DQo+Pj4gT0suIEknbGwgYmUgbW9yZSB0YWxr
+YXRpdmUgYW5kIGltcGVyYXRpdmUgaGVyZS4NCj4+Pg0KPj4+Pj4gK3N0YXRpYyBpbnQgZWZ4X2Rl
+dmxpbmtfaW5mb19nZXQoc3RydWN0IGRldmxpbmsgKmRldmxpbmssDQo+Pj4+PiArCQkJCXN0cnVj
+dCBkZXZsaW5rX2luZm9fcmVxICpyZXEsDQo+Pj4+PiArCQkJCXN0cnVjdCBuZXRsaW5rX2V4dF9h
+Y2sgKmV4dGFjaykNCj4+Pj4+ICt7DQo+Pj4+PiArCXN0cnVjdCBlZnhfZGV2bGluayAqZGV2bGlu
+a19wcml2YXRlID0gZGV2bGlua19wcml2KGRldmxpbmspOw0KPj4+Pj4gKwlzdHJ1Y3QgZWZ4X25p
+YyAqZWZ4ID0gZGV2bGlua19wcml2YXRlLT5lZng7DQo+Pj4+PiArCWNoYXIgbXNnW05FVExJTktf
+TUFYX0ZNVE1TR19MRU5dOw0KPj4+Pj4gKwlpbnQgZXJyb3JzX3JlcG9ydGVkID0gMDsNCj4+Pj4+
+ICsJaW50IHJjOw0KPj4+Pj4gKw0KPj4+Pj4gKwkvKiBTZXZlcmFsIGRpZmZlcmVudCBNQ0RJIGNv
+bW1hbmRzIGFyZSB1c2VkLiBXZSByZXBvcnQgZmlyc3QgZXJyb3INCj4+Pj4+ICsJICogdGhyb3Vn
+aCBleHRhY2sgYWxvbmcgd2l0aCB0b3RhbCBudW1iZXIgb2YgZXJyb3JzLiBTcGVjaWZpYyBlcnJv
+cg0KPj4+Pj4gKwkgKiBpbmZvcm1hdGlvbiB2aWEgc3lzdGVtIG1lc3NhZ2VzLg0KPj4+Pj4gKwkg
+Ki8NCj4+Pj4+ICsJcmMgPSBlZnhfZGV2bGlua19pbmZvX2JvYXJkX2NmZyhlZngsIHJlcSk7DQo+
+Pj4+PiArCWlmIChyYykgew0KPj4+Pj4gKwkJc3ByaW50Zihtc2csICJHZXR0aW5nIGJvYXJkIGlu
+Zm8gZmFpbGVkIik7DQo+Pj4+PiArCQllcnJvcnNfcmVwb3J0ZWQrKzsNCj4+Pj4+ICsJfQ0KPj4+
+Pj4gKwlyYyA9IGVmeF9kZXZsaW5rX2luZm9fc3RvcmVkX3ZlcnNpb25zKGVmeCwgcmVxKTsNCj4+
+Pj4+ICsJaWYgKHJjKSB7DQo+Pj4+PiArCQlpZiAoIWVycm9yc19yZXBvcnRlZCkNCj4+Pj4+ICsJ
+CQlzcHJpbnRmKG1zZywgIkdldHRpbmcgc3RvcmVkIHZlcnNpb25zIGZhaWxlZCIpOw0KPj4+Pj4g
+KwkJZXJyb3JzX3JlcG9ydGVkICs9IHJjOw0KPj4+Pj4gKwl9DQo+Pj4+PiArCXJjID0gZWZ4X2Rl
+dmxpbmtfaW5mb19ydW5uaW5nX3ZlcnNpb25zKGVmeCwgcmVxKTsNCj4+Pj4+ICsJaWYgKHJjKSB7
+DQo+Pj4+PiArCQlpZiAoIWVycm9yc19yZXBvcnRlZCkNCj4+Pj4+ICsJCQlzcHJpbnRmKG1zZywg
+IkdldHRpbmcgYm9hcmQgaW5mbyBmYWlsZWQiKTsNCj4+Pj4+ICsJCWVycm9yc19yZXBvcnRlZCsr
+Ow0KPj4+PiBVbmRlciB3aGljaCBjaXJjdW1zdGFuY2VzIGFueSBvZiB0aGUgZXJyb3JzIGFib3Zl
+IGhhcHBlbj8gSXMgaXQgYSBjb21tb24NCj4+Pj4gdGhpbmc/IE9yIGlzIGl0IHJlc3VsdCBvZiBz
+b21lIGZhdGFsIGV2ZW50Pw0KPj4+IFRoZXkgYXJlIG5vdCBjb21tb24gYXQgYWxsLiBJZiBhbnkg
+b2YgdGhvc2UgaGFwcGVuLCBpdCBpcyBhIGJhZCBzaWduLA0KPj4+IGFuZCBpdCBpcyBtb3JlIHRo
+YW4gbGlrZWx5IHRoZXJlIGFyZSBtb3JlIHRoYW4gb25lIGJlY2F1c2Ugc29tZXRoaW5nIGlzDQo+
+Pj4gbm90IHdvcmtpbmcgcHJvcGVybHkuIFRoYXQgaXMgdGhlIHJlYXNvbiBJIG9ubHkgcmVwb3J0
+IGZpcnN0IGVycm9yIGZvdW5kDQo+Pj4gcGx1cyB0aGUgdG90YWwgbnVtYmVyIG9mIGVycm9ycyBk
+ZXRlY3RlZC4NCj4+Pg0KPj4+DQo+Pj4+IFlvdSB0cmVhdCBpdCBsaWtlIGl0IGlzIHF1aXRlIGNv
+bW1vbiwgd2hpY2ggc2VlbXMgdmVyeSBvZGQgdG8gbWUuDQo+Pj4+IElmIHRoZXkgYXJlIHJhcmUs
+IGp1c3QgcmV0dXJuIGVycm9yIHJpZ2h0IGF3YXkgdG8gdGhlIGNhbGxlci4NCj4+PiBXZWxsLCB0
+aGF0IGlzIGRvbmUgbm93LiBBbmQgYXMgSSBzYXksIEknbSBub3QgcmVwb3J0aW5nIGFsbCBidXQg
+anVzdCB0aGUNCj4+PiBmaXJzdCBvbmUsIG1haW5seSBiZWNhdXNlIHRoZSBidWZmZXIgbGltaXRh
+dGlvbiB3aXRoIE5FVExJTktfTUFYX0ZNVE1TR19MRU4uDQo+Pj4NCj4+PiBJZiBlcnJvcnMgdHJp
+Z2dlciwgYSBtb3JlIGNvbXBsZXRlIGluZm9ybWF0aW9uIHdpbGwgYXBwZWFyIGluIHN5c3RlbQ0K
+Pj4+IG1lc3NhZ2VzLCBzbyB0aGF0IGlzIHRoZSByZWFzb24gd2l0aDoNCj4+Pg0KPj4+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE5MX1NFVF9FUlJfTVNHX0ZNVChleHRhY2ssDQo+Pj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAiJXMuICVkIHRvdGFsIGVycm9ycy4gQ2hlY2sgc3lzdGVtIG1lc3NhZ2VzIiwN
+Cj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIG1zZywgZXJyb3JzX3JlcG9ydGVkKTsNCj4+Pg0KPj4+IEkgZ3Vlc3Mg
+eW91IGFyZSBjb25jZXJuZWQgd2l0aCB0aGUgZXh0YWNrIHJlcG9ydCBiZWluZyBvdmVyd2hlbG1l
+ZCwgYnV0DQo+Pj4gSSBkbyBub3QgdGhpbmsgdGhhdCBpcyB0aGUgY2FzZS4NCj4+IE5vLCBJJ20g
+d29uZGVyaW5nIHdoeSB5b3UganVzdCBkb24ndCBwdXQgZXJyb3IgbWVzc2FnZSBpbnRvIGV4YWNr
+IGFuZA0KPj4gcmV0dXJuIC1FU09NRUVSUk9SIHJpZ2h0IGF3YXkuDQo+IFdlbGwsIEkgdGhvdWdo
+dCB0aGUgaWRlYSB3YXMgdG8gZ2l2ZSBtb3JlIGluZm9ybWF0aW9uIHRvIHVzZXIgc3BhY2UNCj4g
+YWJvdXQgdGhlIHByb2JsZW0uDQo+DQo+IFByZXZpb3VzIHBhdGNoc2V0cyB3ZXJlIG5vdCByZXBv
+cnRpbmcgYW55IGVycm9yIG5vciBlcnJvciBpbmZvcm1hdGlvbg0KPiB0aHJvdWdoIGV4dGFjay4g
+Tm93IHdlIGhhdmUgYm90aC4NCg0KDQpKdXN0IHRyeWluZyB0byBtYWtlIG1vcmUgc2Vuc2Ugb2Yg
+dGhpcy4NCg0KQmVjYXVzZSB0aGF0IGxpbWl0IHdpdGggTkVUTElOS19NQVhfRk1UTVNHX0xFTiwg
+d2hhdCBJIHRoaW5rIGlzIGJpZyANCmVub3VnaCwgc29tZSBjb250cm9sIG5lZWRzIHRvIGJlIHRh
+a2VuIGFib3V0IHdoYXQgdG8gcmVwb3J0LiBJdCBjb3VsZCBiZSANCmp1c3QgdG8gd3JpdGUgdGhl
+IGJ1ZmZlciB3aXRoIHRoZSBsYXN0IGVycm9yIGFuZCByZXBvcnQgdGhhdCBsYXN0IG9uZSANCm9u
+bHksIHdpdGggbm8gbmVlZCBvZiBrZWVwaW5nIHRvdGFsIGVycm9ycyBjb3VudC4gQnV0IEkgZmVs
+dCBvbmNlIHdlIA0KaGFuZGxlIGFueSBlcnJvciwgcmVwb3J0aW5nIHRoYXQgZXh0cmEgaW5mbyBh
+Ym91dCB0aGUgdG90YWwgZXJyb3JzIA0KZGV0ZWN0ZWQgc2hvdWxkIG5vdCBiZSBhIHByb2JsZW0g
+YXQgYWxsLCBldmVuIGlmIGl0IGlzIGFuIHVubGlrZWx5IA0Kc2l0dWF0aW9uLg0KDQpCVFcsIEkg
+c2FpZCB3ZSB3ZXJlIHJlcG9ydGluZyBib3RoLCB0aGUgZXJyb3IgYW5kIHRoZSBleHRhY2sgZXJy
+b3IgDQptZXNzYWdlLCBidXQgSSd2ZSByZWFsaXplZCB0aGUgZnVuY3Rpb24gd2FzIG5vdCByZXR1
+cm5pbmcgYW55IGVycm9yIGJ1dCANCmFsd2F5cyAwLCBzbyBJJ2xsIGZpeCB0aGF0Lg0KDQoNCj4+
+Pj4+ICsJfQ0KPj4+Pj4gKw0KPj4+Pj4gKwlpZiAoZXJyb3JzX3JlcG9ydGVkKQ0KPj4+Pj4gKwkJ
+TkxfU0VUX0VSUl9NU0dfRk1UKGV4dGFjaywNCj4+Pj4+ICsJCQkJICAgIiVzLiAlZCB0b3RhbCBl
+cnJvcnMuIENoZWNrIHN5c3RlbSBtZXNzYWdlcyIsDQo+Pj4+PiArCQkJCSAgIG1zZywgZXJyb3Jz
+X3JlcG9ydGVkKTsNCj4+Pj4+ICsJcmV0dXJuIDA7DQo+Pj4+PiArfQ0KPj4+Pj4gKw0KPj4+Pj4g
+c3RhdGljIGNvbnN0IHN0cnVjdCBkZXZsaW5rX29wcyBzZmNfZGV2bGlua19vcHMgPSB7DQo+Pj4+
+PiArCS5pbmZvX2dldAkJCT0gZWZ4X2RldmxpbmtfaW5mb19nZXQsDQo+Pj4+PiB9Ow0KPj4+PiBb
+Li4uXQ0K
