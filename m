@@ -2,60 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BA55C636CC
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 17:41:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F006CC636D4
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 18:43:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230168AbjBGRlu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 12:41:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45504 "EHLO
+        id S230421AbjBGSny (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 13:43:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231783AbjBGRlt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 12:41:49 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C126B473;
-        Tue,  7 Feb 2023 09:41:48 -0800 (PST)
+        with ESMTP id S230445AbjBGSnx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 13:43:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06221E1D5;
+        Tue,  7 Feb 2023 10:43:51 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 26CDAB81A5F;
-        Tue,  7 Feb 2023 17:41:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8F0BC433D2;
-        Tue,  7 Feb 2023 17:41:44 +0000 (UTC)
-Date:   Tue, 7 Feb 2023 12:41:42 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        oe-kbuild-all@lists.linux.dev,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] tracing/histogram: Wrap remaining shell snippets in
- code blocks
-Message-ID: <20230207124142.17337fe0@gandalf.local.home>
-In-Reply-To: <7370dc9a-8a14-4c38-028e-f44cd099dbaf@gmail.com>
-References: <202301290253.LU5yIxcJ-lkp@intel.com>
-        <20230129031402.47420-1-bagasdotme@gmail.com>
-        <871qn8vsro.fsf@meer.lwn.net>
-        <7370dc9a-8a14-4c38-028e-f44cd099dbaf@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 856E1B81AB2;
+        Tue,  7 Feb 2023 18:43:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14D06C433D2;
+        Tue,  7 Feb 2023 18:43:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675795429;
+        bh=z46LV0K67pYt+9sG+8XPfphcBy3wjoS4vl+j+OOVUvk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=icQIS6QVs3SIYrh/ewyBWxOXyRdTzSi5iQLtHvNEjG7lvYhQ+DvHhk+3KEs5qU2sU
+         TMTqOav5kG8GY5JR22dKb78qqMAt/Bg2JYkWEyM+MGuclGw0hQvMcVEtbzsmiJlItD
+         IEGaquWuCLNILvUo5685guZahlOFm7IGWB2GaIQ6/vE/h0SUH8mRyEHQMupAISjrjW
+         fnVVq+bZn0SaHzKt6ZHA6LtwE38N/APEa35C82I5WgacjEtf/+fE+N1kuSQDae5KOg
+         NbPJHolFeXjK9+XKnt9280QC9hb68ZWPxwLnKvG03l5612lhbMN4Z8sBFUzc9BZ9vj
+         q3xPIHrd6PLJg==
+Date:   Tue, 7 Feb 2023 10:43:45 -0800
+From:   Lee Jones <lee@kernel.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Devarsh Thakkar <devarsht@ti.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
+        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Russell King <linux@armlinux.org.uk>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alexander Aring <alex.aring@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Arend van Spriel <aspriel@gmail.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
+        Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Subject: Re: [PATCH v3 06/12] gpiolib: split linux/gpio/driver.h out of
+ linux/gpio.h
+Message-ID: <Y+Kb4Ql+I7/Abm48@google.com>
+References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
+ <20230207142952.51844-7-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230207142952.51844-7-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 3 Feb 2023 16:19:41 +0700
-Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+On Tue, 07 Feb 2023, Andy Shevchenko wrote:
 
-> On 2/3/23 01:14, Jonathan Corbet wrote:
-> > So this is a good cleanup and I'd like to apply it, but it doesn't come
-> > close to applying to docs-next.  Which tree did you do this against?
-> >   
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> for-next branch (linux-trace tree).
+> Almost all gpio drivers include linux/gpio/driver.h, and other
+> files should not rely on includes from this header.
 > 
+> Remove the indirect include from here and include the correct
+> headers directly from where they are used.
+> 
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  arch/arm/mach-omap1/irq.c                              | 1 +
+>  arch/arm/mach-orion5x/board-rd88f5182.c                | 1 +
+>  arch/arm/mach-s3c/s3c64xx.c                            | 1 +
+>  arch/arm/mach-sa1100/assabet.c                         | 1 +
+>  arch/arm/plat-orion/gpio.c                             | 1 +
+>  drivers/net/wireless/broadcom/brcm80211/brcmsmac/led.c | 1 +
+>  include/linux/gpio.h                                   | 2 --
+>  include/linux/mfd/ucb1x00.h                            | 1 +
 
-I'll add this to my tree. Thanks!
+Acked-by: Lee Jones <lee@kernel.org>
 
--- Steve
+>  8 files changed, 7 insertions(+), 2 deletions(-)
+
+-- 
+Lee Jones [李琼斯]
