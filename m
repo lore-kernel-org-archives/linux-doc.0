@@ -2,94 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36FBBC636CC
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 20:04:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8302C64EC4
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 20:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbjBGUEP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 15:04:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55738 "EHLO
+        id S229648AbjBGUxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 15:53:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbjBGUEO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 15:04:14 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F12AF40E6;
-        Tue,  7 Feb 2023 12:04:12 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4AA1DB81A5F;
-        Tue,  7 Feb 2023 20:04:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C2DEC433D2;
-        Tue,  7 Feb 2023 20:04:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675800250;
-        bh=spXGcRITlzZsmIWoKS2TkuRS9qUvnB+x6JOvZgMMNAI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=dh+K6viW+dMGv7YSc1JLJQ7NGvcSdn8F83DZ65YOr4ZVMl+b2wb98yvx/apg28E/q
-         Z2JMCt60I6aosfJeBbDYx92mz0MtKBYPfKUMkM+ECDihLgeWPoccwm0ictb50QEpHd
-         r6rOvsusiF7D1ddX+6xUsylzBstAbU2wHyFIZu5OJ1Nf4QR0VVUWObI/qLc6d9xOCc
-         Mthooe17N5LjdB6VfrO+ZsSQaAoXIWdXNLjzsX9mM+MwYr2nysOeC8Sr8+KqbDOfVq
-         8wCKhE6lMjsQDTxD4N6zBd28ukeC9pOc4Xmjtm25YKH30jZu+2tXW6nnFqip1ey4qB
-         7cJxvP5SJR5pA==
-Message-ID: <af58737f-1d0f-06f3-be68-8b5cae284cf0@kernel.org>
-Date:   Tue, 7 Feb 2023 21:04:03 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH V2 1/6] rtla/osnoise: Add helper functions to manipulate
- osnoise/options
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        linux-trace-devel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1675181734.git.bristot@kernel.org>
- <930c4ef71c7bcb1158d2a8cad905f4de425b8d1e.1675181734.git.bristot@kernel.org>
- <20230201142305.4920f893@gandalf.local.home>
-Content-Language: en-US
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <20230201142305.4920f893@gandalf.local.home>
+        with ESMTP id S229441AbjBGUxQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 15:53:16 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57E253B652;
+        Tue,  7 Feb 2023 12:53:15 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id c13so4137518ejz.1;
+        Tue, 07 Feb 2023 12:53:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YfKELKMAnQFkkEbZHEYEZttNxlmjlMVEh0XNdBoEsjw=;
+        b=e1mwDgXaY5E6n859Lh8E/kA9NZHYyP0k8s2hCe1rVhBqfHpVx2nL0YTe0MZ/wz2muP
+         sYRVk2PWCxOlDfKJiEYlUoBZl1Ac9dgZlGQUxRRsfo+TJ4hBpI5bJ6GGFt/iv7yZpRuV
+         QJwv/W3L55N3/gC0OcYRYriT9MeJNabif8VtIjcuEG+Uk72Ib/UpIy3A4Wl21UycyGeV
+         khphF77pzIvpuuNw3it4HAM5Bhbv+J+/cXG7jY1bIIVSkuk0pymjT4CR2+CXdZ7aILGi
+         +dV8eymgVbI7VDVjM4FRnhr/cX1PTT27Ux51VwSTwf6Ea8dAeAkQ/9jIrMwF1hoVs8mR
+         tT/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YfKELKMAnQFkkEbZHEYEZttNxlmjlMVEh0XNdBoEsjw=;
+        b=Il/dbBq2ROQMePEn958QJ/AYzTSyxoFhLxtHhGZZERGNALdM2WOn9Qva81c5+PYOG5
+         zxK5Bh7qX+GWT4Y0hTTlQDub/L6ThCFATuDLvO25vnYGqPDPG9Jpmr9V6BkTHga5NZO9
+         InsjahmordlUkbT/4PEIAbyAMZ3fv/yK553eA5R69Qpl6XI5aDXgY1WhSpdcwqkxiEDq
+         rzi6mxGaPKLTh/z5Uz1x/kRBe++Icrwt61JUsBbxLEk3YF2WlnJp65DoddC8PpNNEP21
+         KLDugsz6D//7O+BQx8xkW2XQaLKGW9AsdJ/xr2cizqD5e6QUVS6/EbVFL09sGmyvb9U6
+         kYAQ==
+X-Gm-Message-State: AO0yUKUQvHUScV233RfBdtvmquU9qt8+2z4/+C+D6avkJL0INX65jnxH
+        Ts4dTXAJ0z9xLwlxo/d/yKY=
+X-Google-Smtp-Source: AK7set8gSzfFyLFzaRMOX6lLIPCjFSzze6dgA1JenhwCC1vYAs7beQOSSrNlWqOlog2SIUGPkEcD0g==
+X-Received: by 2002:a17:906:bc54:b0:8aa:d923:faf0 with SMTP id s20-20020a170906bc5400b008aad923faf0mr104030ejv.10.1675803193728;
+        Tue, 07 Feb 2023 12:53:13 -0800 (PST)
+Received: from localhost ([2001:b07:5d37:537d:cd23:cd6e:ae14:44fe])
+        by smtp.gmail.com with ESMTPSA id g4-20020a170906348400b007add62dafbasm7323912ejb.157.2023.02.07.12.53.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Feb 2023 12:53:13 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date:   Tue, 07 Feb 2023 20:53:09 +0000
+Message-Id: <CQCMNHG923N3.3991UZTUP9WFA@vincent-arch>
+From:   "Vincenzo Palazzo" <vincenzopalazzodev@gmail.com>
+To:     "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
+        "Linus Walleij" <linus.walleij@linaro.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        "Bartosz Golaszewski" <bartosz.golaszewski@linaro.org>,
+        "Tony Lindgren" <tony@atomide.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+        "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        "Devarsh Thakkar" <devarsht@ti.com>,
+        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+        "Stefan Schmidt" <stefan@datenfreihafen.org>,
+        "Miquel Raynal" <miquel.raynal@bootlin.com>,
+        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-doc-tw-discuss@lists.sourceforge.net>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-omap@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
+        <linux-m68k@lists.linux-m68k.org>, <linuxppc-dev@lists.ozlabs.org>,
+        <linux-sh@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-wpan@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-wireless@vger.kernel.org>,
+        <brcm80211-dev-list.pdl@broadcom.com>,
+        <SHA-cyfmac-dev-list@infineon.com>, <linux-arch@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+Cc:     "Bartosz Golaszewski" <brgl@bgdev.pl>,
+        "Jonathan Corbet" <corbet@lwn.net>, "Alex Shi" <alexs@kernel.org>,
+        "Yanteng Si" <siyanteng@loongson.cn>,
+        "Hu Haowen" <src.res@email.cn>,
+        "Russell King" <linux@armlinux.org.uk>,
+        "Aaro Koskinen" <aaro.koskinen@iki.fi>,
+        "Janusz Krzysztofik" <jmkrzyszt@gmail.com>,
+        "Andrew Lunn" <andrew@lunn.ch>,
+        "Sebastian Hesselbarth" <sebastian.hesselbarth@gmail.com>,
+        "Gregory Clement" <gregory.clement@bootlin.com>,
+        "Alim Akhtar" <alim.akhtar@samsung.com>,
+        "Nicholas Piggin" <npiggin@gmail.com>,
+        "Yoshinori Sato" <ysato@users.sourceforge.jp>,
+        "Rich Felker" <dalias@libc.org>,
+        "Mun Yew Tham" <mun.yew.tham@intel.com>,
+        "Keerthy" <j-keerthy@ti.com>,
+        "Mika Westerberg" <mika.westerberg@linux.intel.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        "Alexander Aring" <alex.aring@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric Dumazet" <edumazet@google.com>,
+        "Jakub Kicinski" <kuba@kernel.org>,
+        "Paolo Abeni" <pabeni@redhat.com>,
+        "Arend van Spriel" <aspriel@gmail.com>,
+        "Franky Lin" <franky.lin@broadcom.com>,
+        "Hante Meuleman" <hante.meuleman@broadcom.com>,
+        "Kalle Valo" <kvalo@kernel.org>, "Qiang Zhao" <qiang.zhao@nxp.com>,
+        "Li Yang" <leoyang.li@nxp.com>, "Lee Jones" <lee@kernel.org>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Frank Rowand" <frowand.list@gmail.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>
+Subject: Re: [PATCH v3 01/12] gpiolib: remove empty asm/gpio.h files
+References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
+ <20230207142952.51844-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230207142952.51844-2-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/1/23 20:23, Steven Rostedt wrote:
-> On Tue, 31 Jan 2023 17:30:02 +0100
-> Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
-> 
->> Add some helper functions to read and set the on/off osnoise/options.
->> No usage in this patch.
->>
->> In preparation for hwnoise tool.
-> 
-> Honestly, I don't see why patches 1-5 isn't a single patch. It's not that
-> big of a change, and everything in 1-5 is to do what 5 does. Breaking it up
-> this fine grain isn't helpful in reviewing, as I found that I had to apply
-> 1-5 and then do a diff from where I started to make sense of any of it.
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The arm and sh versions of this file are identical to the generic
+> versions and can just be removed.
+>
+> The drivers that actually use the sh3 specific version also include
+> cpu/gpio.h directly, with the exception of magicpanelr2, which is
+> easily fixed. This leaves coldfire as the only gpio driver
+> that needs something custom for gpiolib.
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Maybe what is missing is a clear:
-
-In preparation for hwnoise tool.
-
-IMHO, it is easier to understand by using small "logical" pieces in preparation
-for the "conclusion." But I see your point, and it does not hurt :-).
-
-I will reduce the number of patches.
-
--- Daniel
-> 
-> -- Steve
-> 
-> 
->>
->> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
->> Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
->> Cc: Steven Rostedt <rostedt@goodmis.org>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> ---
->>
-
+Reviewed-by: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
