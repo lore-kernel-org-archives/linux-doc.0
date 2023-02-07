@@ -2,247 +2,356 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD2DC6379F
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 10:51:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F386BC636CD
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 11:37:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231466AbjBGKvW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 05:51:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52032 "EHLO
+        id S230243AbjBGLhC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 06:37:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231822AbjBGKvR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 05:51:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A747B39CFE
-        for <linux-doc@vger.kernel.org>; Tue,  7 Feb 2023 02:50:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675767018;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gWccwJILvPfir6IoRku7EfqJmuwZVLGK2lUu+Ccdb5Y=;
-        b=TdnFfxii9B9lgwx/nZ/+UUcAfOXLweANcN+4sGHjZRIkls4EqnlG/UgoZzrUdY3HSi2iri
-        mKrGJbkAhYe7yJ7nOXUb4R4b4EyocIBFuR44qO1lQO28ggsUniSoAOOy4aljJ+WavvyydT
-        Q8FRYcuAp6SlcURckfuvBb1exzzKqQQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-21-FjzX6xeKNVOqVbkMrgklRQ-1; Tue, 07 Feb 2023 05:50:17 -0500
-X-MC-Unique: FjzX6xeKNVOqVbkMrgklRQ-1
-Received: by mail-ed1-f72.google.com with SMTP id ev18-20020a056402541200b004a621e993a8so9768412edb.13
-        for <linux-doc@vger.kernel.org>; Tue, 07 Feb 2023 02:50:17 -0800 (PST)
+        with ESMTP id S230234AbjBGLhB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 06:37:01 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6841810265
+        for <linux-doc@vger.kernel.org>; Tue,  7 Feb 2023 03:36:57 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id z13so3339330wmp.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 Feb 2023 03:36:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mdps6QBYo2EpuvJeAjXIcH3c9RsvgZrrYv9TzRjo4cg=;
+        b=PwiGU5LiVPMC55a4jM5WbxdWafNPqkDEJ6q+rPKmDoWesqzTsxe5weTgyhsUiUtJLl
+         +6TQVnSw3OPz4j92KQNzOYF3LzD+WtWoktbQFWk7+vkdCJSG6WMVx1Eu8fCGKtkD0ypZ
+         LFe6ZfTUt4lPsrszA3zzWv7k0yoYPdq3PjldNi/jPbF4Gg73S5aFSJsNXBywyDpH+ndu
+         0KVZbabl7Pxa5Zlw5E70x9iZQDmAQnRewS2XBOGurDpP0F52GKCbdJ4GqyPTm73lO7u9
+         zB51SJcBRdfgkDxZ/xf6esONMzqwIzZfYQk1qkTq6uUPsmj/43zf68ImwLF5wy+oCB1J
+         pOuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gWccwJILvPfir6IoRku7EfqJmuwZVLGK2lUu+Ccdb5Y=;
-        b=F/j3V60HozJfoCHmVkTySRr/nbNfzzE8uJ1SL4iSCgurNvhk0SnInCuvtCUyayvKOS
-         cgJR5F/HV+egorufXL3L6/it7gy4nnskMOpPJk00hiF1p0we7tVet9U4x5st+lyRMicG
-         b+WbtLl+Q/JMYF5PvwaIILHlSVG0PlUS5rd8mo8ldn/l9aseOA8KZBFY1E2cFDpy+hH2
-         0cYaB+84UKJqxFTZ+tFbC4JniKJ2Ro2Kfd34QSQnwyZfi0hei24mesze4Bkkj+rGIONW
-         W8QHzZC+5dCKlP7EqWTXr6TpPEVKG4g/GoSH6oaVTvkOZDINznBcxPs9qUddihUeW8bC
-         M/3A==
-X-Gm-Message-State: AO0yUKVzJAodl/uyp405sPW+AM/mfFozbSTKx0Scn6nGyYwAh+7Kkvo/
-        iaPIN0WZCt710/r36rYo1fCXUH6tTNRf/cR1C9x1DeyZDIbYArnMXyquyfh03LZNthTqJ5GO3en
-        y7nLZBbdHKGyhU53PQfFI
-X-Received: by 2002:a17:906:f253:b0:88f:8c13:52ba with SMTP id gy19-20020a170906f25300b0088f8c1352bamr3157344ejb.48.1675767016374;
-        Tue, 07 Feb 2023 02:50:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set9oW8U930FGBTV8niNO+uHiUUmonlSEzr9xcfkIrG51boczPSjNCISgwtjiF9d6Q0UULEduHA==
-X-Received: by 2002:a17:906:f253:b0:88f:8c13:52ba with SMTP id gy19-20020a170906f25300b0088f8c1352bamr3157328ejb.48.1675767016165;
-        Tue, 07 Feb 2023 02:50:16 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id i12-20020a170906264c00b00878769f1e6bsm6694723ejc.55.2023.02.07.02.50.14
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mdps6QBYo2EpuvJeAjXIcH3c9RsvgZrrYv9TzRjo4cg=;
+        b=Yjw6eKbTbjzzK34TIZkHaAaX9FTT0Q+Fp7Ac9274p+tpGD3OVa0CACyyqZdwltZGmN
+         DKdr+0xTK3K4wpW0/RdwLex8HLbkBBYkTvw635tSW+4aFVo1Ds7Zemap8SRFfEqg5g33
+         l0XdGDyZEnsAzJCd2Lv/jAjinJqkT/SK70wVZK3a3i+EFd6Qv6U/PhCdWbY4o802K3B4
+         RPCMYDwPe8EQl7Kp+afco+/OrW08aDuebyBgrHxnEkx/VOeNRnBFLBep7nWzUbE2W7iY
+         3w1JiX9ZB3ZKKIDUKGLPSHEybi6SyYhGTQwVzHzQ9SwU2Xb5+JzpHP7tScQM3ikp/LgZ
+         sqxQ==
+X-Gm-Message-State: AO0yUKVTYvXatkN+OGCHQAlaEdYRQ2oopsOEc81IYOdiNJyJQa6GYEk9
+        Kk1YhDkLSZDmosMUbZkQ6MVwcA==
+X-Google-Smtp-Source: AK7set9n+m4pjXErkmugtRMuy4NBW/6r4G9q7oXcQhxqaTVJO4e/w06E1QNJPt8PPg3CIPLvKxJACg==
+X-Received: by 2002:a05:600c:3093:b0:3df:fbd5:690 with SMTP id g19-20020a05600c309300b003dffbd50690mr2788705wmn.17.1675769815959;
+        Tue, 07 Feb 2023 03:36:55 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id k32-20020a05600c1ca000b003ddf2865aeasm20243816wms.41.2023.02.07.03.36.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 02:50:15 -0800 (PST)
-Message-ID: <69e87e6a-7e6a-7b8d-c877-739be9cba0a1@redhat.com>
-Date:   Tue, 7 Feb 2023 11:50:14 +0100
+        Tue, 07 Feb 2023 03:36:55 -0800 (PST)
+Message-ID: <14d57333-02bc-6294-ed20-4c882dcd0dae@linaro.org>
+Date:   Tue, 7 Feb 2023 11:36:54 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [Nouveau] [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi
- interfaces
+ Thunderbird/102.4.2
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: Re: [PATCH v9 14/27] gunyah: vm_mgr: Add ioctls to support basic
+ non-proxy VM boot
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>
+Cc:     Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+ <20230120224627.4053418-15-quic_eberman@quicinc.com>
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Dave Airlie <airlied@gmail.com>
-Cc:     Matthew Brost <matthew.brost@intel.com>, daniel@ffwll.ch,
-        corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mripard@kernel.org, bskeggs@redhat.com, jason@jlekstrand.net,
-        nouveau@lists.freedesktop.org, airlied@redhat.com
-References: <20230118061256.2689-1-dakr@redhat.com>
- <20230118061256.2689-6-dakr@redhat.com>
- <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com>
- <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
- <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com>
- <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
- <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com>
- <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
- <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
- <bc523c5c-efe6-1a7f-b49a-e0867dc1413d@redhat.com>
- <15fb0179-c7c5-8a64-ed08-841189919f5e@redhat.com>
- <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
- <CAPM=9txON8VCb3H7vDY_DOgtUg2Ad3mBvYVxgSMyZ1noOu-rBQ@mail.gmail.com>
- <a1c526e0-0df7-12cb-c5a1-06e9cd0d876b@amd.com>
- <3f935a7e-fede-2bad-c029-4a3af850c9b5@redhat.com>
- <95d0631b-545c-ea4d-7439-75422e9a9120@amd.com>
- <67958920-c5bb-a0f5-2306-e3ae4fdbaeb3@redhat.com>
- <c0635ff3-027f-bcd7-afbc-46f4e62d3651@amd.com>
- <4439c44b-cbd0-7160-da3d-e78f6aeeec77@redhat.com>
- <85548cd2-1bea-3c04-40b9-9abb03cb57b3@amd.com>
-From:   Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <85548cd2-1bea-3c04-40b9-9abb03cb57b3@amd.com>
+In-Reply-To: <20230120224627.4053418-15-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/7/23 10:35, Christian König wrote:
-> Am 06.02.23 um 19:20 schrieb Danilo Krummrich:
->> On 2/6/23 17:14, Christian König wrote:
->>> Concentrating this discussion on a very big misunderstanding first.
->>>
->>> Am 06.02.23 um 14:27 schrieb Danilo Krummrich:
->>>> [SNIP]
->>>> My understanding is that userspace is fully responsible on the parts 
->>>> of the GPU VA space it owns. This means that userspace needs to take 
->>>> care to *not* ask the kernel to modify mappings that are in use 
->>>> currently.
->>>
->>> This is a completely wrong assumption! Take a look at what games like 
->>> Forza Horizzon are doing.
->>>
->>> Basically that game allocates a very big sparse area and fills it 
->>> with pages from BOs while shaders are accessing it. And yes, as far 
->>> as I know this is completely valid behavior.
->>
->> I also think this is valid behavior. That's not the problem I'm trying 
->> to describe. In this case userspace modifies the VA space 
->> *intentionally* while shaders are accessing it, because it knows that 
->> the shaders can deal with reading 0s.
-> 
-> No, it's perfectly valid for userspace to modify the VA space even if 
-> shaders are not supposed to deal with reading 0s.
-> 
->>
->>
->> Just to have it all in place, the example I gave was:
->>  - two virtually contiguous buffers A and B
->>  - binding 1 mapped to A with BO offset 0
->>  - binding 2 mapped to B with BO offset length(A)
->>
->> What I did not mention both A and B aren't sparse buffers in this 
->> example, although it probably doesn't matter too much.
->>
->> Since the conditions to do so are given, we merge binding 1 and 
->> binding 2 right at the time when binding 2 is requested. To do so a 
->> driver might unmap binding 1 for a very short period of time (e.g. to 
->> (re-)map the freshly merged binding with a different page size if 
->> possible).
-> 
-> Nope, that's not correct handling.
 
-I agree, and that's exactly what I'm trying to say. However, I start 
-noticing that this is not correct if it happens within the same buffer 
-as well.
 
+On 20/01/2023 22:46, Elliot Berman wrote:
+> Add remaining ioctls to support non-proxy VM boot:
 > 
->>
->> From userspace perspective buffer A is ready to use before applying 
->> binding 2 to buffer B, hence it would be illegal to touch binding 1 
->> again when userspace asks the kernel to map binding 2 to buffer B.
->>
->> Besides that I think there is no point in merging between buffers 
->> anyway because we'd end up splitting such a merged mapping anyway 
->> later on when one of the two buffers is destroyed.
->>
->> Also, I think the same applies to sparse buffers as well, a mapping 
->> within A isn't expected to be re-mapped just because something is 
->> mapped to B.
->>
->> However, in this context I start wondering if re-mapping in the 
->> context of merge and split is allowed at all, even within the same 
->> sparse buffer (and even with a separate page table for sparse mappings 
->> as described in my last mail; shaders would never fault).
+>   - Gunyah Resource Manager uses the VM's devicetree to configure the
+>     virtual machine. The location of the devicetree in the guest's
+>     virtual memory can be declared via the SET_DTB_CONFIG ioctl.
+>   - Trigger start of the virtual machine with VM_START ioctl.
 > 
-> See, your assumption is that userspace/applications don't modify the VA 
-> space intentionally while the GPU is accessing it is just bluntly 
-> speaking incorrect.
+> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+>   drivers/virt/gunyah/vm_mgr.c    | 110 ++++++++++++++++++++++++++++++++
+>   drivers/virt/gunyah/vm_mgr.h    |   9 +++
+>   drivers/virt/gunyah/vm_mgr_mm.c |  24 +++++++
+>   include/uapi/linux/gunyah.h     |   8 +++
+>   4 files changed, 151 insertions(+)
 > 
+> diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+> index b847fde63333..48bd3f06fb6c 100644
+> --- a/drivers/virt/gunyah/vm_mgr.c
+> +++ b/drivers/virt/gunyah/vm_mgr.c
+> @@ -9,6 +9,7 @@
+>   #include <linux/file.h>
+>   #include <linux/gunyah_rsc_mgr.h>
+>   #include <linux/miscdevice.h>
+> +#include <linux/mm.h>
+>   #include <linux/module.h>
+>   
+>   #include <uapi/linux/gunyah.h>
+> @@ -37,10 +38,98 @@ static __must_check struct gunyah_vm *gunyah_vm_alloc(struct gh_rm_rpc *rm)
+>   
+>   	mutex_init(&ghvm->mm_lock);
+>   	INIT_LIST_HEAD(&ghvm->memory_mappings);
+> +	init_rwsem(&ghvm->status_lock);
+>   
 
-I don't assume that. The opposite is the case. My assumption is that 
-it's always OK for userspace to intentionally modify the VA space.
+using read write semaphore is really not going to make any difference in 
+this particular case.
+we have just one reader (gh_vm_ensure_started) and it mostly makes 
+synchronous call to writer (vm_start).
 
-However, I also assumed that if userspace asks for e.g. a new mapping 
-within a certain buffer it is OK for the kernel to apply further changes 
-(e.g. re-organize PTs to split or merge) to the VA space of which 
-userspace isn't aware of. At least as long as they happen within the 
-bounds of this particular buffer, but not for other buffers.
+>   	return ghvm;
+>   }
+>   
+> +static int gh_vm_start(struct gunyah_vm *ghvm)
+> +{
+> +	struct gunyah_vm_memory_mapping *mapping;
+> +	u64 dtb_offset;
+> +	u32 mem_handle;
+> +	int ret;
+> +
+> +	down_write(&ghvm->status_lock);
+> +	if (ghvm->vm_status != GH_RM_VM_STATUS_NO_STATE) {
+> +		up_write(&ghvm->status_lock);
+> +		return 0;
+> +	}
+> +
+> +	list_for_each_entry(mapping, &ghvm->memory_mappings, list) {
+> +		switch (mapping->share_type) {
+> +		case VM_MEM_LEND:
+> +			ret = gh_rm_mem_lend(ghvm->rm, &mapping->parcel);
+> +			break;
+> +		case VM_MEM_SHARE:
+> +			ret = gh_rm_mem_share(ghvm->rm, &mapping->parcel);
+> +			break;
+> +		}
 
-I think the reasoning I had in mind was that I thought if userspace asks 
-for any modification of a given portion of the VA space (that is a 
-VKBuffer) userspace must assume that until this modification (e.g. 
-re-organization of PTs) is complete reading 0s intermediately may 
-happen. This seems to be clearly wrong.
+> +		if (ret > 0)
+> +			ret = -EINVAL;
 
-> When you have a VA address which is mapped to buffer A and accessed by 
-> some GPU shaders it is perfectly valid for the application to say "map 
-> it again to the same buffer A".
-> 
-> It is also perfectly valid for an application to re-map this region to a 
-> different buffer B, it's just not defined when the access then transits 
-> from A to B. (AFAIK this is currently worked on in a new specification).
-> 
-> So when your page table updates result in the shader to intermediately 
-> get 0s in return, because you change the underlying mapping you simply 
-> have some implementation bug in Nouveau.
+why are we converting the error messages, afaiu both gh_rm_mem_lend and 
+gh_rm_mem_share return a valid error codes.
 
-Luckily that's not the case (anymore).
+> +		if (ret) {
+> +			pr_warn("Failed to %s parcel %d: %d\n",
+> +				mapping->share_type == VM_MEM_LEND ? "lend" : "share",
+> +				mapping->parcel.label,
+> +				ret);
+> +			goto err;
+> +		}
+> +	}
+> +
+> +	mapping = gh_vm_mem_mapping_find_mapping(ghvm, ghvm->dtb_config.gpa, ghvm->dtb_config.size);
+> +	if (!mapping) {
+> +		pr_warn("Failed to find the memory_handle for DTB\n");
+> +		ret = -EINVAL;
+> +		goto err;
+> +	}
+> +
+> +	mem_handle = mapping->parcel.mem_handle;
+> +	dtb_offset = ghvm->dtb_config.gpa - mapping->guest_phys_addr;
+> +
+> +	ret = gh_rm_vm_configure(ghvm->rm, ghvm->vmid, ghvm->auth, mem_handle,
+> +				0, 0, dtb_offset, ghvm->dtb_config.size);
+> +	if (ret) {
+> +		pr_warn("Failed to configure VM: %d\n", ret);
+> +		goto err;
+> +	}
+> +
+> +	ret = gh_rm_vm_init(ghvm->rm, ghvm->vmid);
+> +	if (ret) {
+> +		pr_warn("Failed to initialize VM: %d\n", ret);
+> +		goto err;
+> +	}
+> +
+> +	ret = gh_rm_vm_start(ghvm->rm, ghvm->vmid);
+> +	if (ret) {
+> +		pr_warn("Failed to start VM: %d\n", ret);
+> +		goto err;
+> +	}
+> +
+> +	ghvm->vm_status = GH_RM_VM_STATUS_READY;
+> +
+> +	up_write(&ghvm->stvm_status = atus_lock);
+> +	return ret;
+> +err:
+> +	ghvm->vm_status = GH_RM_VM_STATUS_INIT_FAILED;
+> +	up_write(&ghvm->status_lock);
+> +	return ret;
+> +}
+> +
+> +static void gh_vm_stop(struct gunyah_vm *ghvm)
+> +{
+> +	int ret;
+> +
+> +	down_write(&ghvm->status_lock);
+> +	if (ghvm->vm_status == GH_RM_VM_STATUS_READY) {
+> +		ret = gh_rm_vm_stop(ghvm->rm, ghvm->vmid);
+> +		if (ret)
+> +			pr_warn("Failed to stop VM: %d\n", ret);
+> +	}
+> +
+> +	ghvm->vm_status = GH_RM_VM_STATUS_EXITED;
+> +	up_write(&ghvm->status_lock);
+> +}
+> +
+>   static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+>   {
+>   	struct gunyah_vm *ghvm = filp->private_data;
+> @@ -84,6 +173,25 @@ static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+>   		}
+>   		break;
+>   	}
+> +	case GH_VM_SET_DTB_CONFIG: {
+> +		struct gh_vm_dtb_config dtb_config;
+> +
+> +		r = -EFAULT;
+> +		if (copy_from_user(&dtb_config, argp, sizeof(dtb_config)))
+> +			break;
+> +
+same feedback as other patches on setting error codes.
+> +		dtb_config.size = PAGE_ALIGN(dtb_config.size);
+> +		ghvm->dtb_config = dtb_config;
+> +
+> +		r = 0;
+> +		break;
+> +	}
+> +	case GH_VM_START: {
+> +		r = gh_vm_start(ghvm);
+> +		if (r)
+> +			r = -EINVAL;
+> +		break;
+> +	}
+>   	default:
+>   		r = -ENOTTY;
+>   		break;
+> @@ -97,6 +205,8 @@ static int gh_vm_release(struct inode *inode, struct file *filp)
+>   	struct gunyah_vm *ghvm = filp->private_data;
+>   	struct gunyah_vm_memory_mapping *mapping, *tmp;
+>   
+> +	gh_vm_stop(ghvm);
+> +
+>   	list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, list) {
+>   		gh_vm_mem_mapping_reclaim(ghvm, mapping);
+>   		kfree(mapping);
+> diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+> index 6b38bf780f76..5c02fb305893 100644
+> --- a/drivers/virt/gunyah/vm_mgr.h
+> +++ b/drivers/virt/gunyah/vm_mgr.h
+> @@ -10,6 +10,7 @@
+>   #include <linux/list.h>
+>   #include <linux/miscdevice.h>
+>   #include <linux/mutex.h>
+> +#include <linux/rwsem.h>
+>   
+>   #include <uapi/linux/gunyah.h>
+>   
+> @@ -34,6 +35,12 @@ struct gunyah_vm {
+>   	u16 vmid;
+>   	struct gh_rm *rm;
+>   
+> +	enum gh_rm_vm_auth_mechanism auth;
+> +	struct gh_vm_dtb_config dtb_config;
+> +
+> +	enum gh_rm_vm_status vm_status;
+> +	struct rw_semaphore status_lock;
+> +
+>   	struct mutex mm_lock;
+>   	struct list_head memory_mappings;
+>   };
+> @@ -42,5 +49,7 @@ struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_alloc(struct gunyah_vm *ghvm,
+>   							struct gh_userspace_memory_region *region);
+>   void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct gunyah_vm_memory_mapping *mapping);
+>   struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label);
+> +struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find_mapping(struct gunyah_vm *ghvm,
+> +								u64 gpa, u32 size);
+>   
+>   #endif
+> diff --git a/drivers/virt/gunyah/vm_mgr_mm.c b/drivers/virt/gunyah/vm_mgr_mm.c
+> index f2dbdb4ee8ab..7fcb9f8a29bf 100644
+> --- a/drivers/virt/gunyah/vm_mgr_mm.c
+> +++ b/drivers/virt/gunyah/vm_mgr_mm.c
+> @@ -53,6 +53,30 @@ void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct gunyah_vm_memory_m
+>   	mutex_unlock(&ghvm->mm_lock);
+>   }
+>   
+> +struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find_mapping(struct gunyah_vm *ghvm,
+> +								u64 gpa, u32 size)
+> +{
+> +	struct gunyah_vm_memory_mapping *mapping = NULL;
+> +	int ret;
+> +
+> +	ret = mutex_lock_interruptible(&ghvm->mm_lock);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	list_for_each_entry(mapping, &ghvm->memory_mappings, list) {
+> +		if (gpa >= mapping->guest_phys_addr &&
+> +			(gpa + size <= mapping->guest_phys_addr +
+> +			(mapping->npages << PAGE_SHIFT))) {
+> +			goto unlock;
+> +		}
+> +	}
+> +
+> +	mapping = NULL;
+> +unlock:
+> +	mutex_unlock(&ghvm->mm_lock);
+> +	return mapping;
+> +}
+> +
+>   struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label)
+>   {
+>   	struct gunyah_vm_memory_mapping *mapping;
+> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+> index 574f33b198d0..36359ad2175e 100644
+> --- a/include/uapi/linux/gunyah.h
+> +++ b/include/uapi/linux/gunyah.h
+> @@ -42,4 +42,12 @@ struct gh_userspace_memory_region {
+>   #define GH_VM_SET_USER_MEM_REGION	_IOW(GH_IOCTL_TYPE, 0x1, \
+>   						struct gh_userspace_memory_region)
+>   
+> +struct gh_vm_dtb_config {
+> +	__u64 gpa;
 
-> 
-> I don't know how Nvidia hw handles this, and yes it's quite complicated 
-> on AMD hw as well because our TLBs are not really made for this use 
-> case, but I'm 100% sure that this is possible since it is still part of 
-> some of the specifications (mostly Vulkan I think).
-> 
-> To sum it up as far as I can see by giving the regions to the kernel is 
-> not something you would want for Nouveau either.
+need kernedoc, what is gpa?
 
-If, as it turns out, it's also not allowed to do what I described above 
-within the same VKBuffer, I agree the bounds aren't needed for merging.
-
-However, I still don't see why we would want to merge over buffer 
-boundaries, because ultimately we'll end up splitting such a merged 
-mapping later on anyway once one of the buffers is destroyed.
-
-Also, as explained in one of the previous mails in nouveau we can have 
-separate PTs for sparse mappings with large page sizes and separate PTs 
-for memory backed mappings with smaller page sizes overlaying them. 
-Hence, I need to track a single sparse mapping per buffer spanning the 
-whole buffer (which I do with a region) and the actual memory backed 
-mappings within the same range.
-
-Now, this might or might not be unique for Nvidia hardware. If nouveau 
-would be the only potential user, plus we don't care about potentially 
-merging mappings over buffer boundaries and hence producing foreseeable 
-splits of those merged mappings, we could get rid of regions entirely.
-
-> 
-> Regards,
-> Christian.
-> 
-> 
->>
->>>
->>> So you need to be able to handle this case anyway and the approach 
->>> with the regions won't help you at all preventing that.
->>>
->>> Regards,
->>> Christian.
->>>
->>
-> 
-
+> +	__u64 size;
+> +};
+> +#define GH_VM_SET_DTB_CONFIG	_IOW(GH_IOCTL_TYPE, 0x2, struct gh_vm_dtb_config)
+> +
+> +#define GH_VM_START		_IO(GH_IOCTL_TYPE, 0x3)
+> +
+>   #endif
