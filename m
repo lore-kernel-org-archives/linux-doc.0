@@ -2,111 +2,240 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E564DC636D4
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 07:51:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2685CC636CD
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 09:35:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbjBGHvw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 02:51:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36560 "EHLO
+        id S231407AbjBGJfX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 04:35:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230156AbjBGHvu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 02:51:50 -0500
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88D43C2B;
-        Mon,  6 Feb 2023 23:51:47 -0800 (PST)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by fd01.gateway.ufhost.com (Postfix) with ESMTP id C180C24E361;
-        Tue,  7 Feb 2023 15:51:45 +0800 (CST)
-Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Feb
- 2023 15:51:45 +0800
-Received: from [192.168.125.110] (183.27.96.33) by EXMBX172.cuchost.com
- (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Feb
- 2023 15:51:44 +0800
-Message-ID: <3ad0e2e9-137b-2c70-1abd-73875b491355@starfivetech.com>
-Date:   Tue, 7 Feb 2023 15:51:43 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v1 0/4] Temperature sensor support for StarFive JH7110
- RISC-V SoC
+        with ESMTP id S231126AbjBGJfW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 04:35:22 -0500
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2060.outbound.protection.outlook.com [40.107.244.60])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C028A10407;
+        Tue,  7 Feb 2023 01:35:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D3VvUVtW4Ovi4Boi/pY6NUw1/2k6tFhsqYnM6VcGm8rctL1yTHKyhJIy+9IcuJkJC75Mg7QhGoDfKhr86/bVfTYI/j+Nl/HU+tEFpZX0WK+s6MwyKwyGQtLlzK0XKPoD6ANBCSmrrux1I0GuyvlztZTlVCjOJLq8rt7OdGstJeOZ57SkHTm+zY7RsymlXfJVTUB+zLou1prqWoFCwfmOnnVviUeuZ/fViwX9iRTdQ2drizg02cIT+KlYlQxCbrv389nmJ2Z1z4gKCmWsP9WdQw+EAxZyxI28DrQRZV8NQPdScjXlqSX3VX+0YsdxiEealbAzSmVdj7yvPSexPpq07g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BH0dWdb1HZS/LXhptnjHXHhJ6H6BPZ61QEIRZ1lVCWk=;
+ b=HGy2U7R37QIqO+5oKvaW9lkSZPTigR6saEwEp7Gkf38TAyBJ4cmM1TUfnT9q3XFdPNdtayZIbUSgKanIn6RrCV+0w0AkvNmULTsXxBYl4KeIxHA6PGTLJSCSPLhiee9NAWBIi1EWgjvhWlSsHDz1P/8JtE8xqTOKbsXbsyES5opzo8dGCzQdkqLbUQjLzyhw0+7Pg4E1frx5BxLIcCjTyN0ZQ4u2oq/sZxF0knkwu03uiEqMJJIFianyvF5HJHaXtaJptLSdXtklYslpkk7/xrrtnHTu67J+8BaNuR9P0h6iyp2WL1OAeD7IiWCE/Vb7sSQMLU1HmkITc9oBSPBjrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BH0dWdb1HZS/LXhptnjHXHhJ6H6BPZ61QEIRZ1lVCWk=;
+ b=wiR0xB9ikhoVGgAhWPopBHOquJq9fPG+f5s0iqEy/TE1WM5eQiOJxz8Q8Z9uZt1dq6Hi8KZgiI6onWcME5sbdMZxeb+YJBGpFQXj7kWdU6QRcATzLDQShc2zNIMWeLOnvau7Fy/nWOn+ZyfFFY0uK/U93uGjrgxkWF535VQr7Ps=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH7PR12MB5710.namprd12.prod.outlook.com (2603:10b6:510:1e1::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.36; Tue, 7 Feb
+ 2023 09:35:17 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6064.032; Tue, 7 Feb 2023
+ 09:35:17 +0000
+Message-ID: <85548cd2-1bea-3c04-40b9-9abb03cb57b3@amd.com>
+Date:   Tue, 7 Feb 2023 10:35:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [Nouveau] [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi
+ interfaces
 Content-Language: en-US
-From:   Hal Feng <hal.feng@starfivetech.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-CC:     <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Conor Dooley <conor@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-        <linux-kernel@vger.kernel.org>
-References: <20230103013145.9570-1-hal.feng@starfivetech.com>
- <20230103015601.GB313835@roeck-us.net>
- <2286c916-c54c-bdda-b1d9-b704813b6fec@starfivetech.com>
-In-Reply-To: <2286c916-c54c-bdda-b1d9-b704813b6fec@starfivetech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [183.27.96.33]
-X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX172.cuchost.com
- (172.16.6.92)
-X-YovoleRuleAgent: yovoleflag
+To:     Danilo Krummrich <dakr@redhat.com>, Dave Airlie <airlied@gmail.com>
+Cc:     Matthew Brost <matthew.brost@intel.com>, daniel@ffwll.ch,
+        corbet@lwn.net, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mripard@kernel.org, bskeggs@redhat.com, jason@jlekstrand.net,
+        nouveau@lists.freedesktop.org, airlied@redhat.com
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <20230118061256.2689-6-dakr@redhat.com>
+ <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com>
+ <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
+ <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com>
+ <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
+ <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com>
+ <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
+ <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
+ <bc523c5c-efe6-1a7f-b49a-e0867dc1413d@redhat.com>
+ <15fb0179-c7c5-8a64-ed08-841189919f5e@redhat.com>
+ <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
+ <CAPM=9txON8VCb3H7vDY_DOgtUg2Ad3mBvYVxgSMyZ1noOu-rBQ@mail.gmail.com>
+ <a1c526e0-0df7-12cb-c5a1-06e9cd0d876b@amd.com>
+ <3f935a7e-fede-2bad-c029-4a3af850c9b5@redhat.com>
+ <95d0631b-545c-ea4d-7439-75422e9a9120@amd.com>
+ <67958920-c5bb-a0f5-2306-e3ae4fdbaeb3@redhat.com>
+ <c0635ff3-027f-bcd7-afbc-46f4e62d3651@amd.com>
+ <4439c44b-cbd0-7160-da3d-e78f6aeeec77@redhat.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <4439c44b-cbd0-7160-da3d-e78f6aeeec77@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0012.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:15::17) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB5710:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86d2b0ca-ffb4-401e-0773-08db08ee9f72
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WusxZSQ9s5da6K3mIfBTr1Z8pBKcqNQVbcQ1bXRkIduGUGhBh+ZKSXarjnSmQYzKbpbdvC6KVLlVn8ARNwbAN2uARy3BO5Aw0DPxQKTIUin+WplpMfxXlbMmyLLHMhu5zZ/r63vXOkkdWHSCU44xSEbS2T8vHpBCjSPvCv3uDveO1cyCRI+PnaAVaqk8lCdTrg1XFsoAX74Zr29Trf/pmbTyyG32r22IUpdZJ6UjgLQfDDh93TojOWRJESQzIr+sTwTqvSe7nbV4ZB5hGd6jzpDEy4DzPplZgtXVmDcGBPotoM6F8OTZs7KZc1OeB1knrX7KtaiK+bcWeIbhpsgfVeUQkapW2HQYUN06yinbCo3mgBjyMXy+r2ur3qUj0am88Goi/3AFdi73I602OJfbE2LF0aOmHGiC7Xf9p/ZOzmBYTAR7E5AEPqGYR7zRDfjvTpajVwQ0Zq8UlQ2bc8Qtxilee23kwslmCZd/i6VamRsG38Z5mJQr01U2pBeIM7Uooslx7Srwy/8Ky96H5e6fNxuGcn4IB+OwuMLHuq3pjl3l+bcOKQ6ORzv0VzhcWrIwcyTZJR35DSYf24RTEeq/KE+eF7rZK+SmGHfyJ+ZBVpF8A3YniR1pXgYgnsD168oDURPpRaKSKfAKCsTS7h6UOVdGRMMMuA20glB+CrEsms8hvjqfVLi3LHbf6gUy39Yaqzf1A9b/MD3SO/buhJkaZbJqtN+GtD48FXWBHQgFKTA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(396003)(376002)(39860400002)(346002)(366004)(451199018)(4326008)(66946007)(66556008)(66476007)(110136005)(8676002)(83380400001)(316002)(66899018)(2616005)(66574015)(478600001)(186003)(6486002)(6512007)(6666004)(26005)(6506007)(53546011)(7416002)(5660300002)(41300700001)(8936002)(2906002)(36756003)(31686004)(86362001)(31696002)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXdUNWpMdVlUbUpXVTR0MnN6STNzaHB4UFNoM05Kc1JrcDlkTC9wZ2c3cEVw?=
+ =?utf-8?B?cXU2T1dUWjFORk9LTVZnbm05LzZtVEFkSWF1S0g0bGN5R1dRMktPakh0R1Uw?=
+ =?utf-8?B?dlhhM0JUOU96MHphNFJxbFcxZ1JWVEZYVFk5NHM1ajNIRnZ0N01KODY2Z2hQ?=
+ =?utf-8?B?MWxPZDBCc0lRSFBtUXlvcnFhMmdtMWNXQ280V2hiaDd5cWlJVGhuMldvRmlL?=
+ =?utf-8?B?K1ZmL3ZERXJKWHcyUlFUU2U1cTJFV2ZiQXdzS3k4bFBtbnY2QXdwR2lnZnpB?=
+ =?utf-8?B?MXIzRy81bFlTTXBPeksxeTdSK3gwSW5iWkNsVVZHU1JvL1NjSlRjZWVXOFoz?=
+ =?utf-8?B?aUxPZWhCUktlU1hjeStyWUI0eEgySGxvV2xhVmZocEIzbUNxdVc2R0VFSEJj?=
+ =?utf-8?B?dVQrcWhxU01OcE4vUlZPZHZmUmdZM3NJYjlKdjhzTkU4VTZENjd5NVo4YlBY?=
+ =?utf-8?B?TE1OdnBHeTNwZDk0SFd1RzJqdm5RMmhTamZPeUpRSy9ua0wrWVI4cnZkRGsw?=
+ =?utf-8?B?bjYrbStxUXd2YlhEUm5DWldPNGdxeWt1TjFpT0tKMCtXSXlMdm1OeEZzMGt1?=
+ =?utf-8?B?S3d4c3RUZ2xURDNmb3RZaXNTRGlpS3VkNFRTaGxKZkFhTDZFQ21CNXpRSjRl?=
+ =?utf-8?B?NmpacHVsMDFsUTdJZFpDcFREeGpxSlhwK201NWpxRUxlOWQxNm91WUpFT0RW?=
+ =?utf-8?B?WjVKeW00YUJ1dFNKdDEzcWd0Y3pjaWE4azNEVGU1S2liSHN0SExDbk1vRmJa?=
+ =?utf-8?B?N0NYWjRlMnpRRXgzOFhPNm5xS2p5S1J3N2ttODJVVzhnQnpSVEVycllCbS9F?=
+ =?utf-8?B?M3cvMXphUGd1blNOTDI0dHVhVWRteDBwcHZ4Vzh0TlVKdWhadGdXVlFGY1B5?=
+ =?utf-8?B?WE5hcVpkMXIxeWtmWU5xdEpoczRodlBSTEVydzN2RStiMHJpNmtMa1RXUWNT?=
+ =?utf-8?B?MlY4RXg4eVpTd2c4VDQwK05uUVlTV1BoS2xjNzdoTzkzWFNCZWF2cEJVMnpw?=
+ =?utf-8?B?bEFNRTVxRW1scXU4K3FUay9wSERrY1lmenZPNUFDU3hwMDJHdlVnNmdoUTh6?=
+ =?utf-8?B?SWJ6MU5YZnNNd1RxUE5jeFJia1E3aEt3V2RUUUthUlF2bWI4VWdvMVZSRDd0?=
+ =?utf-8?B?TmhOM3NsS3JRV3NqeXFhWHo1NmxnQWJHZWtid0o3bFEyL3lveHRoUEs4bmxi?=
+ =?utf-8?B?bk1CclZJTCt1UU1xV3JSQWtpajE4dlJFWEZoRWRYZzJyRHVkNFBORVNEeWxx?=
+ =?utf-8?B?QkpZSWF0WFB3aUxQclJCT1VUOXFpT2dvWHFzV1l4LytvSHNWVmNXbkdJU2ZW?=
+ =?utf-8?B?UTN6OVl5aklHbm5IWXFyYm1jaE5hTDdzS2JvakNtb2V2QVJFMVhzbWJoNjRE?=
+ =?utf-8?B?YVZvY3F3SWNua0t6RDhWRFBmSUdNMFpnVWt4Qi9uV25nZ3FraW4rNmhRWHFy?=
+ =?utf-8?B?Vmc3RG4xZWNrVkNBcTZSQXZRMjRjNmpNZUtFQVlTNm1IaU5rLzB0NkVZeEV1?=
+ =?utf-8?B?UjU2VUt4MTNYaEZlckJzN25xNlU4eGZDWWw1K1JnQStLOXFvWUE1ZlpwblY5?=
+ =?utf-8?B?eDJ3bTFNZk5PN3ErWWtWS05LZkFtbGJjS0d0eEhhTmRrVjU5bGtMUGdYWWNx?=
+ =?utf-8?B?RzZteWF6WS9hMG9CMkFiWkUrSUtQMGRSM29YVUZXWjhGL3VSYWtqa243dTNy?=
+ =?utf-8?B?d0prNS9TeHY5UWt6ZWNrUTBqUFJVOC9rcEM1SjJuSng0WmczcUk5UDFpWUVv?=
+ =?utf-8?B?MDdiMGxiT2dEaG9GUmwwV1dYWXNtbmxhRE8zZ1dpYmZvNUZIRWYyNFpqZCsx?=
+ =?utf-8?B?akM5WERRcGUzUlBCa2pxYThndTlTTk1VUEdScXJMWW9FL0dyeFk1N2FVaXpE?=
+ =?utf-8?B?cFF4MHJxYS83b2tZYnpuY0t3cGpnVUk4MXc5dUUyTjRZS2Y2QkVnV1F5SVlm?=
+ =?utf-8?B?RmM1dFArREQ0bGVjTDdoK29YZ1psOWNBcU5yUDA3OHBIL1kvQjZQL0tEcG9u?=
+ =?utf-8?B?T3FPbkxDZTJkaEFwWEUvME1oN095QWIrcEtMaWFja2xaRlBhMW5KNERQOWpI?=
+ =?utf-8?B?NHJIKzFzaWRYYjZMay9sdmhmbm44djZMOUZ6Zy8vZENlbGlybkUvNnJhdWJ2?=
+ =?utf-8?Q?97/YjX97433L3q9fKfOwDZl00?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86d2b0ca-ffb4-401e-0773-08db08ee9f72
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2023 09:35:17.5064
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PLiiAFMYdJaVWzv64FWHdCM3CnxhoMQsNAW4Bo4yhjmy83suY9V+Bs3M0oe2XisI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5710
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 6 Jan 2023 09:11:53 +0800, Hal Feng wrote:
-> On Mon, 2 Jan 2023 17:56:01 -0800, Guenter Roeck wrote:
-> > On Tue, Jan 03, 2023 at 09:31:41AM +0800, Hal Feng wrote:
-> > > This patch series adds temperature sensor support for StarFive JH7110 SoC.
-> > > The last two patches depend on series [1].
-> > > 
-> > > [1]: https://lore.kernel.org/all/20221220011247.35560-1-hal.feng@starfivetech.com/
-> > > 
-> > > Emil Renner Berthing (4):
-> > >   dt-bindings: hwmon: Add starfive,jh71x0-temp
-> > >   hwmon: (sfctemp) Add StarFive JH71x0 temperature sensor
-> > >   riscv: dts: starfive: jh7110: Add temperature sensor node
-> > >   riscv: dts: starfive: visionfive-2: Add thermal-zones
-> > > 
-> > 
-> > The hardware monitoring driver is obviously either the same
-> > or derived from the previous series at
-> > https://patchwork.kernel.org/project/linux-hwmon/list/?series=&submitter=&state=*&q=starfive
-> > 
-> > Why is this not submitted as v4 of the original series ?
-> > What has changed, and what is the rationale for (re-)submitting
-> > it as v1 ?
-> 
-> Sorry for the late reply. I feel sorry to say that I didn't know
-> the submitting history of this patch series and Emil forgot to
-> tell me maybe. After comparing with the previous series, I find
-> the changes between this one and the previous one can be concluded
-> as below.
-> 
-> Change log:
-> - Added support for StarFive JH7110 SoC besides JH7100.
-> - Added clock and reset support in dt-bindings and driver.
-> - Added two patches for adding nodes in JH7110 and VisionFive 2 dts
->   which were being reviewed.
-> 
-> Thank you for your kindly reminding. I will resend this patch
-> series as version 4 and add the change log.
+Am 06.02.23 um 19:20 schrieb Danilo Krummrich:
+> On 2/6/23 17:14, Christian König wrote:
+>> Concentrating this discussion on a very big misunderstanding first.
+>>
+>> Am 06.02.23 um 14:27 schrieb Danilo Krummrich:
+>>> [SNIP]
+>>> My understanding is that userspace is fully responsible on the parts 
+>>> of the GPU VA space it owns. This means that userspace needs to take 
+>>> care to *not* ask the kernel to modify mappings that are in use 
+>>> currently.
+>>
+>> This is a completely wrong assumption! Take a look at what games like 
+>> Forza Horizzon are doing.
+>>
+>> Basically that game allocates a very big sparse area and fills it 
+>> with pages from BOs while shaders are accessing it. And yes, as far 
+>> as I know this is completely valid behavior.
+>
+> I also think this is valid behavior. That's not the problem I'm trying 
+> to describe. In this case userspace modifies the VA space 
+> *intentionally* while shaders are accessing it, because it knows that 
+> the shaders can deal with reading 0s.
 
-I have resent this series as v4 [1]. Even though there are some issues
-need to be discussed with Guenter, I wanna resend this series in advance
-so that the v4 can be mostly synchronized with the latest patches [2] [3]
-from Emil. The new change will be added in the v5.
+No, it's perfectly valid for userspace to modify the VA space even if 
+shaders are not supposed to deal with reading 0s.
 
-[1] https://lore.kernel.org/all/20230207072314.62040-1-hal.feng@starfivetech.com/
-[2] https://github.com/esmil/linux/commit/8c7f2f00105384390ee02d745b6ccb6637e28d25
-[3] https://github.com/esmil/linux/commit/d04731cf0dc0462bc76afbadf95366ff0edbe642
+>
+>
+> Just to have it all in place, the example I gave was:
+>  - two virtually contiguous buffers A and B
+>  - binding 1 mapped to A with BO offset 0
+>  - binding 2 mapped to B with BO offset length(A)
+>
+> What I did not mention both A and B aren't sparse buffers in this 
+> example, although it probably doesn't matter too much.
+>
+> Since the conditions to do so are given, we merge binding 1 and 
+> binding 2 right at the time when binding 2 is requested. To do so a 
+> driver might unmap binding 1 for a very short period of time (e.g. to 
+> (re-)map the freshly merged binding with a different page size if 
+> possible).
 
-Best regards,
-Hal
+Nope, that's not correct handling.
+
+>
+> From userspace perspective buffer A is ready to use before applying 
+> binding 2 to buffer B, hence it would be illegal to touch binding 1 
+> again when userspace asks the kernel to map binding 2 to buffer B.
+>
+> Besides that I think there is no point in merging between buffers 
+> anyway because we'd end up splitting such a merged mapping anyway 
+> later on when one of the two buffers is destroyed.
+>
+> Also, I think the same applies to sparse buffers as well, a mapping 
+> within A isn't expected to be re-mapped just because something is 
+> mapped to B.
+>
+> However, in this context I start wondering if re-mapping in the 
+> context of merge and split is allowed at all, even within the same 
+> sparse buffer (and even with a separate page table for sparse mappings 
+> as described in my last mail; shaders would never fault).
+
+See, your assumption is that userspace/applications don't modify the VA 
+space intentionally while the GPU is accessing it is just bluntly 
+speaking incorrect.
+
+When you have a VA address which is mapped to buffer A and accessed by 
+some GPU shaders it is perfectly valid for the application to say "map 
+it again to the same buffer A".
+
+It is also perfectly valid for an application to re-map this region to a 
+different buffer B, it's just not defined when the access then transits 
+from A to B. (AFAIK this is currently worked on in a new specification).
+
+So when your page table updates result in the shader to intermediately 
+get 0s in return, because you change the underlying mapping you simply 
+have some implementation bug in Nouveau.
+
+I don't know how Nvidia hw handles this, and yes it's quite complicated 
+on AMD hw as well because our TLBs are not really made for this use 
+case, but I'm 100% sure that this is possible since it is still part of 
+some of the specifications (mostly Vulkan I think).
+
+To sum it up as far as I can see by giving the regions to the kernel is 
+not something you would want for Nouveau either.
+
+Regards,
+Christian.
+
+
+>
+>>
+>> So you need to be able to handle this case anyway and the approach 
+>> with the regions won't help you at all preventing that.
+>>
+>> Regards,
+>> Christian.
+>>
+>
+
