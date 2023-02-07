@@ -2,184 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B486C6379F
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 13:22:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC86C636CC
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 14:20:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231823AbjBGNWy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 08:22:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44728 "EHLO
+        id S232383AbjBGOUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 09:20:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231128AbjBGNWx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 08:22:53 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3C0DB767;
-        Tue,  7 Feb 2023 05:22:52 -0800 (PST)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 317DMMSS024107;
-        Tue, 7 Feb 2023 13:22:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=lTzwb3wPD/ahzgNvLMmcdWpvrliagOkCOoHNCzUnFRs=;
- b=B5fXnb8A4/5najHwGW0QH2YdrL83LmWrisYQuVqZnmct5QE5D2zh35FURWvDiarGaA1M
- 7/YtW2AX0Ny4gOVPu8UampIFlIx6QEw3mahJQroDtGzkmZKVv/9l3fzE73RqLqMos6rP
- NCvcgeb5GIPl3dSYfJZApiruVHsXa7c/ApdoZMK4r369WeEx785jklUUXg0kVtQobm1N
- Wzo7QvSA1IbaAwiw1oE6LDOnV/ODsGJkiUYwbBak4ziJG7MNB1AaZrFAH6DkzIbmhQ3R
- J8NXDHsxJ5zALaVPAf5DkK56FL8wdfo+mVNz6+PT/ZNRuJ35Mrm7ljHgBZQVgCfxrkk1 Yg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkqfj807b-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Feb 2023 13:22:49 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 317DMhmc024516;
-        Tue, 7 Feb 2023 13:22:49 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nkqfj806k-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Feb 2023 13:22:49 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 317BjfKR001926;
-        Tue, 7 Feb 2023 13:22:47 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-        by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3nhf06kmqq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Feb 2023 13:22:46 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 317DMhVt53084434
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 7 Feb 2023 13:22:43 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 38BF52004B;
-        Tue,  7 Feb 2023 13:22:43 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 636A120043;
-        Tue,  7 Feb 2023 13:22:42 +0000 (GMT)
-Received: from [9.171.52.227] (unknown [9.171.52.227])
-        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Tue,  7 Feb 2023 13:22:42 +0000 (GMT)
-Message-ID: <30435adc-e86f-c96c-3795-bea6bca65c16@linux.ibm.com>
-Date:   Tue, 7 Feb 2023 14:22:42 +0100
+        with ESMTP id S232367AbjBGOUA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 09:20:00 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F00B36093
+        for <linux-doc@vger.kernel.org>; Tue,  7 Feb 2023 06:19:58 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id x9so7669192eds.12
+        for <linux-doc@vger.kernel.org>; Tue, 07 Feb 2023 06:19:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ncddaZZzsCJCjKrAiWzC5f6YjHdCJZJ4++SOQQ4JbMo=;
+        b=oQbzvmK0cLGzJH5QVQnHx+5mc3P4weM+Unh0JOo3FPep2+qVVVRF48gdNUfALDg7PD
+         SEV/Y6mGiEnMysUaB/eiudjd5i5WJZvGi7xk2JiPRQSYvjINQfmKu2PVh1kyQcV46qBo
+         oF9vu0XqUT9hT4rDkmxURs6G6RKsJfBYkms0BlLNw28WHk2XPFYHK7o3ePkMH05V8q5k
+         OFu9WeumQqfA80v903ZqampsI5jUomJKVu5eCJV+dLrWxxbQ4XW21V+mYi63Jg2vP/6W
+         N8pH1oZZkwQD0ucjFFFUuR4rCffowbHb2B1v8IFwenGj8API65NSCetlIqVLYSPLe83g
+         uxFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ncddaZZzsCJCjKrAiWzC5f6YjHdCJZJ4++SOQQ4JbMo=;
+        b=udXd8tztau1c4YqO1FgBACa2TDUu5LOjTyUAgXGcs71FgRQU67rQ78uxUzz06TeEfz
+         IZbsHSpUdx7dQIECR+SGJmXIdYUy3/18x1nB4Y4wURvdRpXAo7W4OOqFY/BvQGMRnPzg
+         /SHMY41khTX+9IjVy0FrdTg+wwziEf4TlsFerIEyrieRjhKqDktf1MKGnKaQwQQxzcI9
+         NkIK1fq7YYnVytNGlzn58o4uBsuvVw7qhRuTaHmAOzy1MHIuLHKPzaUtOte0oZU1n5E1
+         vQtXnqkQhwkO+H8vgfDTCMM3yJ1gOXys5PlZI6uAdgyRbmmBDNkIKQ0ScpIdesLpd/4N
+         kvEg==
+X-Gm-Message-State: AO0yUKX1w68Tshw07aUCq4VaKSz9+hycsQGm4e5yVfQHcndCA7ooMW/2
+        gbcPNvGTSHKDLphjFOk7baI8hQ==
+X-Google-Smtp-Source: AK7set946nsuL321n2/lGqU9eRrqJ9mkSYOuw4VJXij8dCzC+Yqa8ZC2PRnYkxlJF2tt1ThwIoShxQ==
+X-Received: by 2002:a50:d741:0:b0:4a2:3d2e:6502 with SMTP id i1-20020a50d741000000b004a23d2e6502mr3970815edj.4.1675779597008;
+        Tue, 07 Feb 2023 06:19:57 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id fd8-20020a056402388800b004a245350e0fsm6526428edb.36.2023.02.07.06.19.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Feb 2023 06:19:56 -0800 (PST)
+Message-ID: <73ab93b9-be0b-2fc0-81ee-49b4f5780e3e@linaro.org>
+Date:   Tue, 7 Feb 2023 14:19:54 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v7 10/14] KVM: s390: Refactor absolute vm mem_op function
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v9 27/27] virt: gunyah: Add ioeventfd
 Content-Language: en-US
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Thomas Huth <thuth@redhat.com>
-References: <20230206164602.138068-1-scgl@linux.ibm.com>
- <20230206164602.138068-11-scgl@linux.ibm.com>
-From:   Janosch Frank <frankja@linux.ibm.com>
-In-Reply-To: <20230206164602.138068-11-scgl@linux.ibm.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+ <20230120224627.4053418-28-quic_eberman@quicinc.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20230120224627.4053418-28-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: bQ1obWv9uEwb0uJecL-8SBd-L_0GWt0T
-X-Proofpoint-GUID: Zf3yjCv-G_ao0ginpF6j-jRf5NrU_ewg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-07_05,2023-02-06_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
- malwarescore=0 lowpriorityscore=0 mlxlogscore=884 priorityscore=1501
- impostorscore=0 clxscore=1015 phishscore=0 spamscore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302070116
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/6/23 17:45, Janis Schoetterl-Glausch wrote:
-> Remove code duplication with regards to the CHECK_ONLY flag.
-> Decrease the number of indents.
-> No functional change indented.
+
+
+On 20/01/2023 22:46, Elliot Berman wrote:
+> Allow userspace to attach an ioeventfd to an mmio address within the guest.
 > 
-> Suggested-by: Janosch Frank <frankja@linux.ibm.com>
-> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 > ---
-> 
+>   Documentation/virt/gunyah/vm-manager.rst |  21 +++++
+>   drivers/virt/gunyah/Kconfig              |   9 ++
+>   drivers/virt/gunyah/Makefile             |   1 +
+>   drivers/virt/gunyah/gunyah_ioeventfd.c   | 109 +++++++++++++++++++++++
+>   include/uapi/linux/gunyah.h              |  10 +++
+>   5 files changed, 150 insertions(+)
+>   create mode 100644 drivers/virt/gunyah/gunyah_ioeventfd.c
 
-Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+> +MODULE_LICENSE("GPL");
+> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+> index a947f0317ca9..3cc387f0831a 100644
+> --- a/include/uapi/linux/gunyah.h
+> +++ b/include/uapi/linux/gunyah.h
+> @@ -65,11 +65,21 @@ struct gh_fn_irqfd_arg {
+>   	__u32 flags;
+>   };
+>   
+> +struct gh_fn_ioeventfd_arg {
+> +	__u64 datamatch;
+> +	__u64 addr;        /* legal mmio address */
+> +	__u32 len;         /* 1, 2, 4, or 8 bytes; or 0 to ignore length */
+> +	__s32 fd;
+> +#define GH_IOEVENTFD_DATAMATCH		(1UL << 0)
+> +	__u32 flags;
 
-> 
-> Cosmetic only, can be dropped
-> 
-> 
->   arch/s390/kvm/kvm-s390.c | 43 +++++++++++++++++-----------------------
->   1 file changed, 18 insertions(+), 25 deletions(-)
-> 
-> diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
-> index 707967a296f1..1f94b18f1cb5 100644
-> --- a/arch/s390/kvm/kvm-s390.c
-> +++ b/arch/s390/kvm/kvm-s390.c
-> @@ -2782,6 +2782,7 @@ static int mem_op_validate_common(struct kvm_s390_mem_op *mop, u64 supported_fla
->   static int kvm_s390_vm_mem_op_abs(struct kvm *kvm, struct kvm_s390_mem_op *mop)
->   {
->   	void __user *uaddr = (void __user *)mop->buf;
-> +	enum gacc_mode acc_mode;
->   	void *tmpbuf = NULL;
->   	int r, srcu_idx;
->   
-> @@ -2803,33 +2804,25 @@ static int kvm_s390_vm_mem_op_abs(struct kvm *kvm, struct kvm_s390_mem_op *mop)
->   		goto out_unlock;
->   	}
->   
-> -	switch (mop->op) {
-> -	case KVM_S390_MEMOP_ABSOLUTE_READ: {
-> -		if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
-> -			r = check_gpa_range(kvm, mop->gaddr, mop->size, GACC_FETCH, mop->key);
-> -		} else {
-> -			r = access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
-> -						      mop->size, GACC_FETCH, mop->key);
-> -			if (r == 0) {
-> -				if (copy_to_user(uaddr, tmpbuf, mop->size))
-> -					r = -EFAULT;
-> -			}
-> -		}
-> -		break;
-> +	acc_mode = mop->op == KVM_S390_MEMOP_ABSOLUTE_READ ? GACC_FETCH : GACC_STORE;
-> +	if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
-> +		r = check_gpa_range(kvm, mop->gaddr, mop->size, acc_mode, mop->key);
-> +		goto out_unlock;
->   	}
-> -	case KVM_S390_MEMOP_ABSOLUTE_WRITE: {
-> -		if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
-> -			r = check_gpa_range(kvm, mop->gaddr, mop->size, GACC_STORE, mop->key);
-> -		} else {
-> -			if (copy_from_user(tmpbuf, uaddr, mop->size)) {
-> -				r = -EFAULT;
-> -				break;
-> -			}
-> -			r = access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
-> -						      mop->size, GACC_STORE, mop->key);
-> +	if (acc_mode == GACC_FETCH) {
-> +		r = access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
-> +					      mop->size, GACC_FETCH, mop->key);
-> +		if (r)
-> +			goto out_unlock;
-> +		if (copy_to_user(uaddr, tmpbuf, mop->size))
-> +			r = -EFAULT;
-> +	} else {
-> +		if (copy_from_user(tmpbuf, uaddr, mop->size)) {
-> +			r = -EFAULT;
-> +			goto out_unlock;
->   		}
-> -		break;
-> -	}
-> +		r = access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
-> +					      mop->size, GACC_STORE, mop->key);
->   	}
->   
->   out_unlock:
+This is not naturally aligned, consider adding a reserved __u32 field to 
+be able to make this compatible with both 32 and 64 bit machines.
 
+I see few other uapi structures that suffer exact same issue.
+
+--srini
+
+> +};
+> +
+>   struct gh_vm_function {
+>   	char name[GUNYAH_FUNCTION_NAME_SIZE];
+>   	union {
+>   		struct gh_fn_vcpu_arg vcpu;
+>   		struct gh_fn_irqfd_arg irqfd;
+> +		struct gh_fn_ioeventfd_arg ioeventfd;
+>   		char data[GUNYAH_FUNCTION_MAX_ARG_SIZE];
+>   	};
+>   };
