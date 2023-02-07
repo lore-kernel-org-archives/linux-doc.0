@@ -2,113 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63A4DC05027
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 03:08:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 540ECC636D3
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 03:59:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229479AbjBGDIg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Feb 2023 22:08:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57358 "EHLO
+        id S229483AbjBGD7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Feb 2023 22:59:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjBGDIg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 22:08:36 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F182C13DFA
-        for <linux-doc@vger.kernel.org>; Mon,  6 Feb 2023 19:08:33 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id t19so2407826pfe.2
-        for <linux-doc@vger.kernel.org>; Mon, 06 Feb 2023 19:08:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=O0BgRaIdDVwuxmfjftfuf/I8A6WeZY63To7Q/ndCtPg=;
-        b=Ohgjb4E35j1jx63kLJfkAh4MWQfNoFmz/c4H8/v91ZOL+23j/54OPmWOMbCM5iRW3e
-         j0YELHHY5CVq+WQCJ9Rja1TqPjfWjHCu+if9jAE1b6P2BDtVQyqUGk47rWLCMxaFJNRe
-         S0WYPUOn6Kz7iUXI58YF/VILycR+r7hHFF4lC4/c6nGBQhJxz88TsIvAoVdrweOGPh8g
-         hzvS06g/Uc7i+q2bNbyDEQ26Q4d9YzU09CttFlFutbUtlPcQxTornRwhRncispJl3oGa
-         UN4Blyw/TX6ITd5kEVL3TGL+h1PU4WIPL9N9mpl1IIinROiL2IB1UGNWC2LXwywXvC8g
-         Db4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O0BgRaIdDVwuxmfjftfuf/I8A6WeZY63To7Q/ndCtPg=;
-        b=RuzosNlM2HL5CANU+cRH9/vU+his9O5itQPjM/WqJ/rrIFJxCGdgFJ5lNc1VhzKKer
-         oAhUon1nKnEApEFWmf1UM9RbaGoJ1i/uaSiGlkdOLQOBjmbWt6TppVM48MYxDMQib6Af
-         J8uZG0+ZHUfHgsPlus1ayAe0m3vY2CfR0MCyLVmeE7ipc107JK03cOFS5Hlm7OZpviDM
-         bV48p7bBsZt52BmJGulxoU1NZgWJZqS+DRSOlBv7PvFcSsiSHrbacef6ZyoSJiKlOCb9
-         Vg0pBAXW/Z3ITbqccD+RD5ayjvmpQyetW+v1aLB7iKeziJouTNQDN0b+6+Q/NzF3uET0
-         CJJQ==
-X-Gm-Message-State: AO0yUKUC1PL9AgS6A4Jja/UXF7x0GYcLE1iax+9oUlackh/4rYhmQG9N
-        bHgP6S6xWsYW+2SfKRhRcUU=
-X-Google-Smtp-Source: AK7set/xOAHhNbBc3MCAh/nckb9iEvWw9tqO19a8NTkx4i3/igxk5/GPJx1HJuwl94TTAZKkrp7/AQ==
-X-Received: by 2002:aa7:9603:0:b0:593:ced5:d9d with SMTP id q3-20020aa79603000000b00593ced50d9dmr1829735pfg.10.1675739313372;
-        Mon, 06 Feb 2023 19:08:33 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id f14-20020a056a00228e00b0058d54960eccsm7891747pfe.151.2023.02.06.19.08.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Feb 2023 19:08:32 -0800 (PST)
-Message-ID: <0846f6d7-1345-1d46-dae5-4b1b0430b205@gmail.com>
-Date:   Tue, 7 Feb 2023 12:08:28 +0900
+        with ESMTP id S229479AbjBGD7r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Feb 2023 22:59:47 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C744D9;
+        Mon,  6 Feb 2023 19:59:46 -0800 (PST)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3171jXGm032028;
+        Tue, 7 Feb 2023 03:59:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=dKn000mqdgebyRGCvfqjvl5A8oSOiVLU+kcFkvL/tUY=;
+ b=Cd3uXutbcWGTk80js5BaciQ9aVnWR4/4d9Trx/GredhvIw3cAx+83MVuLUVLqVLVCRUr
+ XE2h3pLA+iuxNhkVXQP7ZFHc6iClHHjn65J/Pj7IsdiT+Nkkc/9D+d6jQXSYW4BawF7T
+ Ym9e33Q8EZg8noVyGkBCd4PUVZed/w3vEM4YWGKuUzsmGPbqxJm08kEJmDMLUq1fUS+M
+ OheQ7zGbkOMKTn0c7FQ+S3iMH2JP5PlPulh7jMYylcZ34BR2iOc+rZ2AhsB2qzusobNP
+ T2oSkQMcsf+2ecO6ytZpmN6eBAQ6zMmPoLmekX3+Wm6Vl7fTYpYkRhvdNm99GWKJupw4 jQ== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nkd8m07kj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 07 Feb 2023 03:59:32 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3173xV8X018175
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 7 Feb 2023 03:59:31 GMT
+Received: from [10.134.67.48] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 6 Feb 2023
+ 19:59:30 -0800
+Message-ID: <5b4b0c3b-0d1f-5f6c-d541-744c9a7173f8@quicinc.com>
+Date:   Mon, 6 Feb 2023 19:59:30 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3] docs: improve the HTML sidebar/TOC
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     David Gow <davidgow@google.com>,
-        Sadiya Kazi <sadiyakazi@google.com>, linux-doc@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <87h6vyr3r9.fsf@meer.lwn.net>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v9 23/27] virt: gunyah: Add IO handlers
 Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87h6vyr3r9.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
+To:     Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+ <20230120224627.4053418-24-quic_eberman@quicinc.com>
+ <20230206104637.GG332@quicinc.com>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <20230206104637.GG332@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: T8Z4B15NOY4HQUe04TE_v83na-vCu4_y
+X-Proofpoint-ORIG-GUID: T8Z4B15NOY4HQUe04TE_v83na-vCu4_y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1015 bulkscore=0 malwarescore=0 spamscore=0 mlxlogscore=912
+ adultscore=0 priorityscore=1501 phishscore=0 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302070035
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
 
-On Mon, 06 Feb 2023 12:30:02 -0700, Jonathan Corbet wrote:
-> Add a new sidebar template that creates a more RTD-like "fisheye" view of
-> the current place in the document hierarchy.  It is far from ideal, but
-> some readers may find it better for navigating through the documentation as
-> a whole.
-> 
-> Add some CSS trickery as well to make the table of contents less intrusive
-> when viewing the pages on a small screen.
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
-> Changes this time are almost entirely in the small-screen view; I've
-> added some CSS trickery to hide the TOC by default so it doesn't get
-> between readers and what they actually want to see.  I'm sure it could
-> be done more elegantly, but my fluency with CSS ... does not afford much
-> elegance ...
-> 
-> Once again, the results are at:
-> 
->   https://static.lwn.net/kerneldoc/
 
-It took a few seconds for me to figure out the TOC entries are hidden
-behind the "[Show]". Yes, this works reasonably well.
-
-Thank you for your efforts.
-
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-
-        Thanks, Akira 
-
+On 2/6/2023 2:46 AM, Srivatsa Vaddagiri wrote:
+> * Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:22]:
 > 
-> This is as far as this work is likely to get before the merge window; in
-> the absence of screams, I'll drop it into linux-next in the near future.
+>> +static inline bool gh_vm_io_handler_matches(struct gunyah_vm_io_handler *io_hdlr, u64 addr,
+>> +						u64 len, u64 data)
+>> +{
+>> +	u64 mask = BIT_ULL(io_hdlr->len * BITS_PER_BYTE) - 1;
+>> +
+>> +	if (io_hdlr->addr != addr)
 > 
->  Documentation/conf.py                         |  5 +-
->  Documentation/sphinx-static/custom.css        | 48 ++++++++++++++++++-
->  .../sphinx/templates/kernel-toc.html          | 15 ++++++
->  3 files changed, 65 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/sphinx/templates/kernel-toc.html
+> Isn't this test redundant (given that caller would have performed same test)?
 > 
 
+Done.
+
+>> +		return false;
+>> +
+>> +	if (!io_hdlr->datamatch)
+>> +		return true;
+>> +
+>> +	if (io_hdlr->len != len)
+>> +		return false;
+>> +
+>> +	return (data & mask) == (io_hdlr->data & mask);
+>> +}
+>> +
+>> +static struct gunyah_vm_io_handler *gh_vm_mgr_find_io_hdlr(struct gunyah_vm *ghvm, u64 addr,
+>> +								u64 len, u64 data)
+>> +{
+>> +	struct gunyah_vm_io_handler *io_hdlr = NULL;
+>> +	struct rb_node *root = NULL;
+>> +
+>> +	root = ghvm->mmio_handler_root.rb_node;
+>> +	while (root) {
+>> +		io_hdlr = rb_entry(root, struct gunyah_vm_io_handler, node);
+>> +		if (addr < io_hdlr->addr)
+>> +			root = root->rb_left;
+>> +		else if (addr > io_hdlr->addr)
+>> +			root = root->rb_right;
+>> +		else if (gh_vm_io_handler_matches(io_hdlr, addr, len, data))
+> 
+> In case of handler not matching, don't we need to modify root?
+> Otherwise we can be stuck in infinite loop here AFAICS.
+> 
+
+Done.
+
+>> +			return io_hdlr;
+>> +	}
+>> +	return NULL;
+>> +}
+> 
+> // snip
+> 
+>> +int gh_vm_mgr_add_io_handler(struct gunyah_vm *ghvm, struct gunyah_vm_io_handler *io_hdlr)
+>> +{
+>> +	struct rb_node **root, *parent = NULL;
+>> +
+>> +	if (io_hdlr->datamatch &&
+>> +		(!io_hdlr->len || io_hdlr->len > (sizeof(io_hdlr->data) * BITS_PER_BYTE)))
+>> +		return -EINVAL;
+>> +
+>> +	root = &ghvm->mmio_handler_root.rb_node;
+>> +	while (*root) {
+>> +		struct gunyah_vm_io_handler *curr = rb_entry(*root, struct gunyah_vm_io_handler,
+>> +								node);
+>> +
+>> +		parent = *root;
+>> +		if (io_hdlr->addr < curr->addr)
+>> +			root = &((*root)->rb_left);
+>> +		else if (io_hdlr->addr > curr->addr)
+>> +			root = &((*root)->rb_right);
+>> +		else
+> 
+> We should allow two io_handlers on the same addr, but with different data
+> matches I think.
+> 
+
+Done.
+
+>> +			return -EEXIST;
+>> +	}
+>> +
+>> +	rb_link_node(&io_hdlr->node, parent, root);
+>> +	rb_insert_color(&io_hdlr->node, &ghvm->mmio_handler_root);
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(gh_vm_mgr_add_io_handler);
