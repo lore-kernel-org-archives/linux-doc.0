@@ -2,117 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E735C6379F
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 23:16:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 362A9C64EC5
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 23:52:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229728AbjBGXQs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 18:16:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57566 "EHLO
+        id S229512AbjBGXwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 18:52:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229674AbjBGXQr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 18:16:47 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01926F6;
-        Tue,  7 Feb 2023 15:16:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675811806; x=1707347806;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=STI6p7MWc4YADHC7iNdmUKpnTsVLSGk6u5h6DbhqFKA=;
-  b=kSJUV6rwGwGhAFS2JFI5RWhSZN2VtcOxNziFSYBWNZfE37DTuYDFM2wQ
-   X9040yObYMTmv4MwI+jVkG52WU0chMtQFhzfamAiaZAyihiAkgT/7dore
-   4xTuPnKfc0rLY3s7cGDprMnbCVApoacczZmDezOjaI6iyUo78vQpdPVuL
-   695SuFFPOZPOqI6TPnxLkRXKptnQMn5KV7xJhfPPmdvEGJhSZzCQfPfJa
-   Lae2Hdf9+8ORTH2sd21tWxjJR8+F5+SyxcDJvtAMGmkziN+akGV5043mC
-   C+dHfrt41J1pGk004JAmOT7+E6OT+TwIdXUm+elKKwaM/31KoxsX7T4Wn
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="415875354"
-X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="415875354"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 15:16:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="790978634"
-X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
-   d="scan'208";a="790978634"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 07 Feb 2023 15:16:39 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pPXCZ-0003yH-0G;
-        Tue, 07 Feb 2023 23:16:39 +0000
-Date:   Wed, 8 Feb 2023 07:16:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Evan Green <evan@rivosinc.com>,
-        Palmer Dabbelt <palmer@rivosinc.com>
-Cc:     oe-kbuild-all@lists.linux.dev, Conor Dooley <conor@kernel.org>,
-        vineetg@rivosinc.com, heiko@sntech.de, slewis@rivosinc.com,
-        Evan Green <evan@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Atish Patra <atishp@rivosinc.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Dao Lu <daolu@rivosinc.com>, Guo Ren <guoren@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ruizhe Pan <c141028@gmail.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 2/6] RISC-V: Add a syscall for HW probing
-Message-ID: <202302080600.xT7BtKan-lkp@intel.com>
-References: <20230206201455.1790329-3-evan@rivosinc.com>
+        with ESMTP id S229500AbjBGXwq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 18:52:46 -0500
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AD5022DE56;
+        Tue,  7 Feb 2023 15:52:43 -0800 (PST)
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+        id 176D020C7E3B; Tue,  7 Feb 2023 15:52:43 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 176D020C7E3B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1675813963;
+        bh=bN+LfT2jCsmdfpuG53FeQKLA8B080GGv4HrkY+14DXQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hSfonHypMPNXA/gQOAT23RUpooup3G7+qibjblfPVtx6A1CKJWe3gizG59dykFgCp
+         YZqOCVC1arTMI5pL3NStHy3tE1QO8YQMlWNJGnDgL355x/w6sgpO0tkgu8YIRLPlzi
+         yoxiJL98QkkTB+6GGAMiog/8Qevkz8CRvtEUpSI0=
+Date:   Tue, 7 Feb 2023 15:52:43 -0800
+From:   Fan Wu <wufan@linux.microsoft.com>
+To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v9 10/16] dm-verity: consume root hash digest and
+ signature data via LSM hook
+Message-ID: <20230207235243.GA5107@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-11-git-send-email-wufan@linux.microsoft.com>
+ <4f029a41d80d883d9b4729cbc85211955c9efe8e.camel@huaweicloud.com>
+ <20230201232639.GB9075@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <903062f7b2e2709ae0e4416545ffadd91c132676.camel@huaweicloud.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230206201455.1790329-3-evan@rivosinc.com>
+In-Reply-To: <903062f7b2e2709ae0e4416545ffadd91c132676.camel@huaweicloud.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Evan,
+On Thu, Feb 02, 2023 at 09:21:24AM +0100, Roberto Sassu wrote:
+> On Wed, 2023-02-01 at 15:26 -0800, Fan Wu wrote:
+> > On Tue, Jan 31, 2023 at 02:22:01PM +0100, Roberto Sassu wrote:
+> > > On Mon, 2023-01-30 at 14:57 -0800, Fan Wu wrote:
+> > > > From: Deven Bowers <deven.desai@linux.microsoft.com>
+> > > > 
+> > > > dm-verity provides a strong guarantee of a block device's integrity. As
+> > > > a generic way to check the integrity of a block device, it provides
+> > > > those integrity guarantees to its higher layers, including the filesystem
+> > > > level.
+> > > 
+> > > I think you could reuse most of is_trusted_verity_target(), in
+> > > particular dm_verity_get_root_digest().
+> > > 
+> > > And probably, the previous patch is not necessary.
+> > > 
+> > > Roberto
+> > > 
+> > Thanks for the info. This function seems could be used to get the roothash
+> > but for saving the signature we still need the hook function in the previous
+> > patch.
+> 
+> Uhm, look at the LoadPin case. It does not need to temporarily store
+> the root digest in a security blob. It evaluates it directly.
+> 
+> Well, ok, dm_verity_loadpin_is_bdev_trusted() looks for trusted digests
+> in the dm_verity_loadpin_trusted_root_digests list. So, something
+> equivalent needs to be made for IPE (or you just get the digest).
+> However, I find not introducing new hooks and evaluating the
+> information directly more efficient.
+> 
+> Roberto
 
-Thank you for the patch! Perhaps something to improve:
+Thanks for the input. I did a deeper dive into the source code and did some
+experiements, my conclusion is the hook is still the preferred way for us.
 
-[auto build test WARNING on shuah-kselftest/next]
-[also build test WARNING on shuah-kselftest/fixes robh/for-next soc/for-next linus/master v6.2-rc7 next-20230207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+For the root digest part, dm_verity_loadpin_is_bdev_trusted is able to query
+the root digest is because the root digest is saved in struct dm_verity.
+Specifically it will call dm_verity_get_root_digest to kmemdup the digest.
+If every binary execution will trigger a kmemdup to copy a digest,
+the overhead will be noticeable. 
+Using a hook can let us copy the root digest exactly once when
+the block device is created and free the copied digest when 
+the block device is unmounted. 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Evan-Green/RISC-V-Move-struct-riscv_cpuinfo-to-new-header/20230207-041746
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20230206201455.1790329-3-evan%40rivosinc.com
-patch subject: [PATCH v2 2/6] RISC-V: Add a syscall for HW probing
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/4a91a9ca5d81029b702e6e74c8f2015cf50af0ae
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Evan-Green/RISC-V-Move-struct-riscv_cpuinfo-to-new-header/20230207-041746
-        git checkout 4a91a9ca5d81029b702e6e74c8f2015cf50af0ae
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+For the signature, it is currently an optional parameter and it is not
+saved in struct dm_verity. But even if we let struct dm_verity saves
+the signature it will still have the kmemdup problem above. 
+So using the hook will be the cleanest way.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/riscv/hwprobe.rst:33: WARNING: Field list ends without a blank line; unexpected unindent.
-
-vim +33 Documentation/riscv/hwprobe.rst
-
-    31	
-    32	* :RISCV_HWPROBE_KEY_MVENDORID:: Contains the value of :mvendorid:, as per the
-  > 33	  ISA specifications.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+-Fan
