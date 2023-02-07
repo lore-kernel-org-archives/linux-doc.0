@@ -2,143 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ACA0C636CC
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 06:28:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA08C636CC
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 06:32:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230176AbjBGG2I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 01:28:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45398 "EHLO
+        id S229535AbjBGGc3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 01:32:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229598AbjBGG2H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 01:28:07 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A5F1E07C;
-        Mon,  6 Feb 2023 22:28:06 -0800 (PST)
+        with ESMTP id S229865AbjBGGc1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 01:32:27 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C56F193EA;
+        Mon,  6 Feb 2023 22:32:25 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 266D8611C2;
-        Tue,  7 Feb 2023 06:28:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 008D4C433EF;
-        Tue,  7 Feb 2023 06:28:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1675751285;
-        bh=q6+JO5SgcW0OGdoQpvaWVdWIHi0K42+g3a4YBgTne9w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=f6ZRXTaAThOfnlQ3usRHWgaU7mLM8FMz4WKGbnYLQ/DWelOqCUUL/8SFq2AxMcQdW
-         4fltfxCPrlSIRiI4r1Ju6QdgWybnAITM4teSY42rYgVHwSXoTyb1IqDKYip4LF9/Wx
-         yTyPu7IRdiyvKVXDbOEaGnWz6LpMMXIBEfnFdnCM=
-Date:   Tue, 7 Feb 2023 07:28:02 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Michael Walle <michael@walle.cc>,
+        by sin.source.kernel.org (Postfix) with ESMTPS id 1B3AACE1C78;
+        Tue,  7 Feb 2023 06:32:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A06F5C433D2;
+        Tue,  7 Feb 2023 06:32:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675751542;
+        bh=BM31iNLFopS5FV6b55CPDvqToJbz28aRbpAuedR3Wg0=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+        b=PaGOfHg8GAh6cLctTj+gwXlACn71B6RQGviIMwip2g/oq7XsohntDT9cHKQLfn0OU
+         ZsWEARVAVvOxE3lZ7MeDaExdM1B9gfE0+mdMugyt9zDF+daBT5sNsBQER1o2ljJ0t1
+         iycJPdO62eaWALdOvzCeayx4TICusi6vEbbIRprTM8JV5X0QlnwyC/tbI/4EQ9wHdl
+         +e9gldY2f4bmCX3vpWmMF4hqkeIFqQQvHGt8I4nwtSP8WJ0Qqo0MI9g751FujEkjiH
+         v/XUIdIVUNa58m+9jG5U6nWlLf3x5TduQodDtfYkLvfYgY3kpe8aQmWlGRiUBxf7t7
+         4tqErvkByrhAQ==
+Date:   Tue, 07 Feb 2023 06:32:18 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Evan Green <evan@rivosinc.com>
+CC:     Palmer Dabbelt <palmer@rivosinc.com>, vineetg@rivosinc.com,
+        heiko@sntech.de, slewis@rivosinc.com,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Atish Patra <atishp@rivosinc.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Dao Lu <daolu@rivosinc.com>, Guo Ren <guoren@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ruizhe Pan <c141028@gmail.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tobias Klauser <tklauser@distanz.ch>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v5 00/21] nvmem: core: introduce NVMEM layouts
-Message-ID: <Y+HvcqAiH+n8WUkg@kroah.com>
-References: <20221206200740.3567551-1-michael@walle.cc>
- <20230103163902.218cb5c7@xps-13>
- <81a5c400-e671-fab3-732a-d615fa4242b3@linaro.org>
- <20230206234713.7cf2f722@xps-13>
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2 2/6] RISC-V: Add a syscall for HW probing
+User-Agent: K-9 Mail for Android
+In-Reply-To: <Y+HsE397cY4HF+5K@kroah.com>
+References: <20230206201455.1790329-1-evan@rivosinc.com> <20230206201455.1790329-3-evan@rivosinc.com> <Y+HsE397cY4HF+5K@kroah.com>
+Message-ID: <C3C21677-5250-4120-9A4F-24945C1EE51B@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230206234713.7cf2f722@xps-13>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 06, 2023 at 11:47:13PM +0100, Miquel Raynal wrote:
-> Hi Srinivas,
-> 
-> + Greg
-> 
-> srinivas.kandagatla@linaro.org wrote on Mon, 6 Feb 2023 20:31:46 +0000:
-> 
-> > Hi Michael/Miquel,
-> > 
-> > I had to revert Layout patches due to comments from Greg about Making the layouts as built-in rather than modules, he is not ready to merge them as it is.
-> 
-> Ok this is the second time I see something similar happening:
-> - maintainer or maintainers group doing the review/apply job and
->   sending to "upper" maintainer
-> - upper maintainer refusing for a "questionable" reason at this stage.
+Hey Evan, Greg,
 
-Only the second time?  You've gotten lucky then :)
 
-This happens all the time based on experience levels of reviewers and
-just the very nature of how this whole process works.  It's nothing
-unusual and is good overall for the health of the project.  In other
-words, this is a a feature, not a bug.
+On 7 February 2023 06:13:39 GMT, Greg KH <gregkh@linuxfoundation=2Eorg> wr=
+ote:
+>On Mon, Feb 06, 2023 at 12:14:51PM -0800, Evan Green wrote:
+>> We don't have enough space for these all in ELF_HWCAP{,2} and there's n=
+o
+>> system call that quite does this, so let's just provide an arch-specifi=
+c
+>> one to probe for hardware capabilities=2E  This currently just provides
+>> m{arch,imp,vendor}id, but with the key-value pairs we can pass more in
+>> the future=2E
+>
+>Ick, this is exactly what sysfs is designed to export in a sane way=2E
+>Why not just use that instead?  The "key" would be the filename, and the
+>value the value read from the filename=2E  If the key is not present, the
+>file is not present and it's obvious what is happening, no fancy parsing
+>and ABI issues at all=2E
 
-> I am not saying the review is incorrect or anything. I'm just wondering
-> whether, for the second time, I am facing a fair situation, either
-> myself as a contributor or the intermediate maintainer who's being kind
-> of bypassed.
-> 
-> What I mean is: the review process has happened. Nothing was hidden,
-> this series has started leaving on the mailing lists more than two
-> years ago. The contribution process which has been in place for many
-> years asks the contributors to send new versions when the review
-> process leads to comments, which we did. Once the series has been
-> "accepted" it is expected that this series will be pulled during the
-> next merge window. If there is something else to fix, there are 6 to 8
-> long weeks where contributors' fixes are welcome. Why not letting us the
-> opportunity to use them? Why, for the second time, I am facing an
-> extremely urgent situation where I have to cancel all my commitments
-> just because a random comment has been made on a series which has been
-> standing still for months?
+https://lore=2Ekernel=2Eorg/linux-riscv/20221201160614=2Expomlqq2fzpzfmcm@=
+kamzik/
 
-There's no need to cancel anything, there are no deadlines in kernel
-development and I am not asking for any sort of rush whatsoever.
+This is the sysfs interface that I mentioned drew
+suggested on the v1=2E
+I think it fits ~perfectly with what Greg is suggesting too=2E
 
-So relax, take a week or two off (or month), and come back with an
-updated patch series when you are ready.  And feel free to cc: me on it
-if you want my reviews (as I objected to these patches as-is) so that we
-don't end up in the same situation (where one maintainer accepted
-something, but the maintainer they sent it to rejected it.)
-
-Again, there's no rush, and this is totally normal.
-
-> What I would expect instead, is a discussion on the cover letter of the
-> series where Michael explained why he did no choose to use modules in
-> the first place. If it appears that for some reason it is best to
-> enable NVMEM layouts as modules, we will send a timely series on top
-> of the current one to enable that particular case.
-
-Why not rework the existing series to handle this and not require
-"fixups" at the end of the series?  We don't normally create bugs and
-then fix them up in the same patch set, as you know, so this shouldn't
-be treated any differently.
-
-> > >> NVMEM layouts as modules?
-> > >> While possible in principle, it doesn't make any sense because the NVMEM
-> > >> core can't be compiled as a module. The layouts needs to be available at
-> > >> probe time. (That is also the reason why they get registered with
-> > >> subsys_initcall().) So if the NVMEM core would be a module, the layouts
-> > >> could be modules, too.
-> 
-> I know Michael is busy after the FOSDEM and so am I, so, Greg, would
-> you accept to take the PR as it is, participate to the discussion and
-> wait for an update?
-
-Kernel development doesn't work on "PR" :)
-
-And no, I can't take these, as I don't agree with them, and I totally
-imagine others will object for the same reason I did (and then they
-would object to me, as the patches would be in my tree, as I am then
-responsible for them.)
-
-So send an updated version whenever you have the chance.  Again, there's
-no rush, deadline, or anything else here.  Code is accepted when it is
-ready and correct, not anytime earlier.
-
-thanks,
-
-greg k-h
+>
+>Bonus is that you will also properly document all valid key/value pairs
+>in Documentation/ABI/ when you do this, so it reinforces what the code
+>should be doing correctly=2E
+>
+>thanks,
+>
+>greg k-h
