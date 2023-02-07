@@ -2,158 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C413C6379F
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 21:32:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60D3BC6379F
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 21:49:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbjBGVcL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 16:32:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40286 "EHLO
+        id S229663AbjBGVtE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 16:49:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjBGVcK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 16:32:10 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8351A8694;
-        Tue,  7 Feb 2023 13:32:08 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id m2so17115731plg.4;
-        Tue, 07 Feb 2023 13:32:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cTC6wNmhItyMEElEpGFXa8WJ3XfORro4b70rdsps6o0=;
-        b=GuPF+8GjCJo3Bv/FSUkP7V624DONZsgKRAdIrvRl2YyIiW7XhBxcLRwW8Dbo0WHo4/
-         gWeBXiyd23u0JU/wn+dRPdA5GR3Arl6vuCtBwP4eLMHcMJntKln0jv/gQTivZoVGNy+L
-         x1nk4o6lG7MxEj41ozS4hZTUa5kSmxJlczPFlhIY0Bev07KN3nsbYPWxgw04YqgRHXgM
-         H1SJ9hnQNC6ymPwNiVfY2mJd0IFIMBAoGPlSP60M4+yIi6PNbW/2sgS38IoIq7PcwoUg
-         h8Z1h5rI9akxItHMnNGQXqodMNTJCgkbn2Kl7ltL4NcRryTi+Ef6iT52cHPCW2iMqAVh
-         7OFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cTC6wNmhItyMEElEpGFXa8WJ3XfORro4b70rdsps6o0=;
-        b=YUj/rYH2IZfkY1oREg+uLs3mPpYUymlQyuGCq99MgKV2d97Q4XhULIfB5qbOnH7BrA
-         Z2wylqkCdkVt0tiDsPazZ2KrE1Si/vqCkCJHWnv8q08saanxco1QNHclYN/Q1AMNbOa7
-         g01e/QwqRi7ptaxXyTbtHBJFA9jL7fa5MSnhzGUVqSBsAyJWXG3YHdQRsWKNRYS4U+Hy
-         /pVoKk+MoByTIV8W0re1T117qCcNLuh3votTgckDS0ErxIPIiKa0HsW5j1XgksM6HudK
-         f0H1pUSMeytIxqwgomS837izpigKBjytTqJb3g0D+QooI3n9/XtmLqnKNqBZSF3mGCvR
-         El+A==
-X-Gm-Message-State: AO0yUKXnN2hBrHZlgkvGluZL+ngGJbKH3KGz80fmmawzMDu+KoZBklof
-        ojBQ1HxnkA2AbQmTyXjwlzk=
-X-Google-Smtp-Source: AK7set8S733/lSzocO4PhiGH97JuaxlIu1uyBJfIu/+7WmPOF35HnmMyyKLJccnN1cXH8ZQnKFrByA==
-X-Received: by 2002:a17:903:244f:b0:199:30a6:3756 with SMTP id l15-20020a170903244f00b0019930a63756mr3394795pls.18.1675805527758;
-        Tue, 07 Feb 2023 13:32:07 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:c930:81ab:3aec:b9cb])
-        by smtp.gmail.com with ESMTPSA id k5-20020a170902760500b00192d3e7eb8fsm9333284pll.252.2023.02.07.13.32.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 13:32:06 -0800 (PST)
-Date:   Tue, 7 Feb 2023 13:32:01 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Devarsh Thakkar <devarsht@ti.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
-        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Russell King <linux@armlinux.org.uk>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Arend van Spriel <aspriel@gmail.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Subject: Re: [PATCH v3 04/12] gpiolib: remove gpio_set_debounce
-Message-ID: <Y+LDUTfKgHEJHNXB@google.com>
-References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
- <20230207142952.51844-5-andriy.shevchenko@linux.intel.com>
+        with ESMTP id S229509AbjBGVtD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 16:49:03 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA24A9EF4;
+        Tue,  7 Feb 2023 13:49:02 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 84138B819B5;
+        Tue,  7 Feb 2023 21:49:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F68BC433EF;
+        Tue,  7 Feb 2023 21:48:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675806540;
+        bh=AJYL5kPWDIdLpgMxWaeB6NQXY96/NzStEDIpyzX5zn4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WUUyiK3XVirgB/9lBJEQZAvQU3nFG122w7HYlCTSpApdZaeR2Rpkf/QHCKt3FOJcu
+         QPo2zZRlZf+FrybIiYhQ9ztRwKcRYC5SyiDtt9CIZlNVaRYdA7TFa6JMV30T65xMWH
+         zeBRsdKFa1H1YBiGbTVJAe+nGNB7ZXZ8IM9MMk7qynjZIrSUN2472KJTvmdBE3R4Yj
+         3AmMHtfvPrb2urdU1iyL3M36qcOCP6hLZR2B5fHK0oJw9wzFbDHJrO+p5bErDzU7wO
+         WcU9bPVIOKPE1oC3n0s8nsfGiBVCLL76uc5qQGlz/G8ZoKD51dOchY5ATS1hbgAWdC
+         tRUwqPhCj2Lsg==
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        linux-trace-devel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH V3 0/2] rtla: Add hwnoise tool
+Date:   Tue,  7 Feb 2023 22:48:49 +0100
+Message-Id: <cover.1675805361.git.bristot@kernel.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230207142952.51844-5-andriy.shevchenko@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 07, 2023 at 04:29:44PM +0200, Andy Shevchenko wrote:
-> @@ -1010,14 +1009,21 @@ static int ads7846_setup_pendown(struct spi_device *spi,
->  		}
->  
->  		ts->gpio_pendown = pdata->gpio_pendown;
-> -
-> -		if (pdata->gpio_pendown_debounce)
-> -			gpio_set_debounce(pdata->gpio_pendown,
-> -					  pdata->gpio_pendown_debounce);
+This series present a new tool inside rtla. It is named hwnoise.
 
-Can we please change only this to:
+hwnoise dispatches the osnoise tracer and displays a summary of the noise.
+The difference is that it runs the tracer with the OSNOISE_IRQ_DISABLE
+option set, thus only allowing only hardware-related noise, resulting in
+a simplified output. hwnoise has the same features of osnoise.
 
-			gpiod_set_debounce(gpio_to_desc(pdata->gpio_pendown),
-					   pdata->gpio_pendown_debounce);
+An example of the tool's output:
 
-and not change anything else (i.e. drop the changes below)?
+ # rtla hwnoise -c 1-5 -T 1 -d 10m -q
+                                           Hardware-related Noise
+ duration:   0 00:10:00 | time is in us
+ CPU Period       Runtime        Noise  % CPU Aval   Max Noise   Max Single          HW          NMI
+   1 #599       599000000          138    99.99997           3            3           4           74
+   2 #599       599000000           85    99.99998           3            3           4           75
+   3 #599       599000000           86    99.99998           4            3           6           75
+   4 #599       599000000           81    99.99998           4            4           2           75
+   5 #599       599000000           85    99.99998           2            2           2           75
 
->  	} else {
-> -		dev_err(&spi->dev, "no get_pendown_state nor gpio_pendown?\n");
-> -		return -EINVAL;
-> +		struct gpio_desc *desc;
-> +
-> +		desc = devm_gpiod_get(&spi->dev, "pendown", GPIOD_IN);
-> +		if (IS_ERR(desc)) {
-> +			dev_err(&spi->dev, "no get_pendown_state nor gpio_pendown?\n");
-> +			return PTR_ERR(desc);
-> +		}
-> +		gpiod_set_consumer_name(desc, "ads7846_pendown");
-> +
-> +		ts->gpio_pendown = desc_to_gpio(desc);
->  	}
-> +	if (pdata->gpio_pendown_debounce)
-> +		gpiod_set_debounce(gpio_to_desc(ts->gpio_pendown),
-> +				   pdata->gpio_pendown_debounce);
->  
->  	return 0;
+Changes from v2:
+  Consolidate patches 1/5 into a single one (Steven)
+  Change the osnoise option macro to code (Steven)
+Changes from v1:
+  Add rtla-hwnoise to the rtla documentation index
+	(kernel test robot/Bagas Sanjaya)
 
-Thanks.
+Daniel Bristot de Oliveira (2):
+  rtla: Add hwnoise tool
+  Documentation/rtla: Add hwnoise man page
+
+ Documentation/tools/rtla/index.rst        |   1 +
+ Documentation/tools/rtla/rtla-hwnoise.rst | 107 ++++++++++++++++++++
+ tools/tracing/rtla/Makefile               |   2 +
+ tools/tracing/rtla/src/osnoise.c          | 117 ++++++++++++++++++++++
+ tools/tracing/rtla/src/osnoise.h          |   7 ++
+ tools/tracing/rtla/src/osnoise_top.c      |  84 +++++++++++++---
+ tools/tracing/rtla/src/rtla.c             |   4 +
+ 7 files changed, 306 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/tools/rtla/rtla-hwnoise.rst
 
 -- 
-Dmitry
+2.38.1
+
