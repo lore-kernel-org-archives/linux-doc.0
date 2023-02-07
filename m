@@ -2,356 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F386BC636CD
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 11:37:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C06D7C636CC
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 11:45:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230243AbjBGLhC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 06:37:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54504 "EHLO
+        id S231414AbjBGLpa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 06:45:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230234AbjBGLhB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 06:37:01 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6841810265
-        for <linux-doc@vger.kernel.org>; Tue,  7 Feb 2023 03:36:57 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id z13so3339330wmp.2
-        for <linux-doc@vger.kernel.org>; Tue, 07 Feb 2023 03:36:57 -0800 (PST)
+        with ESMTP id S230361AbjBGLp3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 06:45:29 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C521359A
+        for <linux-doc@vger.kernel.org>; Tue,  7 Feb 2023 03:45:01 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id y1so13283390wru.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 Feb 2023 03:45:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mdps6QBYo2EpuvJeAjXIcH3c9RsvgZrrYv9TzRjo4cg=;
-        b=PwiGU5LiVPMC55a4jM5WbxdWafNPqkDEJ6q+rPKmDoWesqzTsxe5weTgyhsUiUtJLl
-         +6TQVnSw3OPz4j92KQNzOYF3LzD+WtWoktbQFWk7+vkdCJSG6WMVx1Eu8fCGKtkD0ypZ
-         LFe6ZfTUt4lPsrszA3zzWv7k0yoYPdq3PjldNi/jPbF4Gg73S5aFSJsNXBywyDpH+ndu
-         0KVZbabl7Pxa5Zlw5E70x9iZQDmAQnRewS2XBOGurDpP0F52GKCbdJ4GqyPTm73lO7u9
-         zB51SJcBRdfgkDxZ/xf6esONMzqwIzZfYQk1qkTq6uUPsmj/43zf68ImwLF5wy+oCB1J
-         pOuw==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mVX+TpCcMgKWMfF13P/1xSiJxqs3IaOghijzEHBL02Q=;
+        b=fYH4Tu1PRIpBrT723Ad22c6A/AvDvTrQ4qKhcvZB4vpnDMvYvOQC4xqK+a/6WCT167
+         B8G93OOLfOH1XHpy/fII60QMD5Z052LjibbHbFHZxBsZ2AslzyBfZKaj1Sbg3NptXb1A
+         MDy4ECTuUHzbpTnOOYkno6p4U0wB6I6gMjCpkyXW9MPL3nFxBPJ9l1McIpE0PgKmrAYA
+         qXYRjQXvUBA87LrOu1+vI0ePubeSDvjBgXYW6dTUoSYtb4a7qJLdCc1EYKHiMhCcOFXI
+         kah8nXhEMPS2vw0A5t07Cyo5NbCSGD0tgYgwZhSCZTw/ldha2ENB1pW3N5ARKrL7AkX1
+         da+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mdps6QBYo2EpuvJeAjXIcH3c9RsvgZrrYv9TzRjo4cg=;
-        b=Yjw6eKbTbjzzK34TIZkHaAaX9FTT0Q+Fp7Ac9274p+tpGD3OVa0CACyyqZdwltZGmN
-         DKdr+0xTK3K4wpW0/RdwLex8HLbkBBYkTvw635tSW+4aFVo1Ds7Zemap8SRFfEqg5g33
-         l0XdGDyZEnsAzJCd2Lv/jAjinJqkT/SK70wVZK3a3i+EFd6Qv6U/PhCdWbY4o802K3B4
-         RPCMYDwPe8EQl7Kp+afco+/OrW08aDuebyBgrHxnEkx/VOeNRnBFLBep7nWzUbE2W7iY
-         3w1JiX9ZB3ZKKIDUKGLPSHEybi6SyYhGTQwVzHzQ9SwU2Xb5+JzpHP7tScQM3ikp/LgZ
-         sqxQ==
-X-Gm-Message-State: AO0yUKVTYvXatkN+OGCHQAlaEdYRQ2oopsOEc81IYOdiNJyJQa6GYEk9
-        Kk1YhDkLSZDmosMUbZkQ6MVwcA==
-X-Google-Smtp-Source: AK7set9n+m4pjXErkmugtRMuy4NBW/6r4G9q7oXcQhxqaTVJO4e/w06E1QNJPt8PPg3CIPLvKxJACg==
-X-Received: by 2002:a05:600c:3093:b0:3df:fbd5:690 with SMTP id g19-20020a05600c309300b003dffbd50690mr2788705wmn.17.1675769815959;
-        Tue, 07 Feb 2023 03:36:55 -0800 (PST)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id k32-20020a05600c1ca000b003ddf2865aeasm20243816wms.41.2023.02.07.03.36.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 03:36:55 -0800 (PST)
-Message-ID: <14d57333-02bc-6294-ed20-4c882dcd0dae@linaro.org>
-Date:   Tue, 7 Feb 2023 11:36:54 +0000
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mVX+TpCcMgKWMfF13P/1xSiJxqs3IaOghijzEHBL02Q=;
+        b=0nmDEgoD7HylQ/1s2rU3Hmvp5h2AqfuhSvWA1h8NVK7ch/Uu+XS1T8bnBIRw8T2Ppd
+         AXBdtzdYgmgeTOW9A3Fygf8GvQxKsKL44JnC6XpxW9GasnuxJAUeChTetTWx+9U/87gn
+         qHfJAhle3MqYS5XhH/BxWy4swPmyO/XbLnd3JcA0/RHlbWO8Xcbd7CjqZTIrpyU++tYZ
+         WX+8vPtOD+9ZAHC7NgwJL+QHtO7TT43kXCL+fDSJMWxDxYfh7i97lCXPQCjXnnzNDEZb
+         i5JEYFu7wui3pGw9ywO/t4de5PRk2j4fktgqtXX2ttO8GVM1LidCxuYmvOIynTwVZj3t
+         LSvQ==
+X-Gm-Message-State: AO0yUKW7AQVjLMpvycxq4EI/Us/y64QmmXNOO2fhSbsfcMrvzb+BqnbE
+        sbXQ2VetZO+S0clVi3XjUkV+GdbS6j81/Lwx
+X-Google-Smtp-Source: AK7set+Ez1H2zbNuov8yNoBE/j9lun0UQrkKfNkULRyHIbcUAacyqoj0sPI3nVN6xF1nHw4KYHMZIw==
+X-Received: by 2002:a05:6000:4d:b0:2bf:b506:e0eb with SMTP id k13-20020a056000004d00b002bfb506e0ebmr2026077wrx.51.1675770299988;
+        Tue, 07 Feb 2023 03:44:59 -0800 (PST)
+Received: from usaari01.cust.communityfibre.co.uk ([2a02:6b6a:b566:0:c04f:2463:c151:8b87])
+        by smtp.gmail.com with ESMTPSA id i14-20020a0560001ace00b002bfb8f829eesm11726612wry.71.2023.02.07.03.44.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Feb 2023 03:44:59 -0800 (PST)
+From:   Usama Arif <usama.arif@bytedance.com>
+To:     songmuchun@bytedance.com
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, fam.zheng@bytedance.com,
+        liangma@liangbit.com, Usama Arif <usama.arif@bytedance.com>
+Subject: [PATCH] docs: mm: Fix number of base pages for 1GB HugeTLB
+Date:   Tue,  7 Feb 2023 11:44:56 +0000
+Message-Id: <20230207114456.2304801-1-usama.arif@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: Re: [PATCH v9 14/27] gunyah: vm_mgr: Add ioctls to support basic
- non-proxy VM boot
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>
-Cc:     Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-15-quic_eberman@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <20230120224627.4053418-15-quic_eberman@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+1GB HugeTLB page consists of 262144 base pages.
 
+Signed-off-by: Usama Arif <usama.arif@bytedance.com>
+---
+ Documentation/mm/vmemmap_dedup.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-On 20/01/2023 22:46, Elliot Berman wrote:
-> Add remaining ioctls to support non-proxy VM boot:
-> 
->   - Gunyah Resource Manager uses the VM's devicetree to configure the
->     virtual machine. The location of the devicetree in the guest's
->     virtual memory can be declared via the SET_DTB_CONFIG ioctl.
->   - Trigger start of the virtual machine with VM_START ioctl.
-> 
-> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->   drivers/virt/gunyah/vm_mgr.c    | 110 ++++++++++++++++++++++++++++++++
->   drivers/virt/gunyah/vm_mgr.h    |   9 +++
->   drivers/virt/gunyah/vm_mgr_mm.c |  24 +++++++
->   include/uapi/linux/gunyah.h     |   8 +++
->   4 files changed, 151 insertions(+)
-> 
-> diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
-> index b847fde63333..48bd3f06fb6c 100644
-> --- a/drivers/virt/gunyah/vm_mgr.c
-> +++ b/drivers/virt/gunyah/vm_mgr.c
-> @@ -9,6 +9,7 @@
->   #include <linux/file.h>
->   #include <linux/gunyah_rsc_mgr.h>
->   #include <linux/miscdevice.h>
-> +#include <linux/mm.h>
->   #include <linux/module.h>
->   
->   #include <uapi/linux/gunyah.h>
-> @@ -37,10 +38,98 @@ static __must_check struct gunyah_vm *gunyah_vm_alloc(struct gh_rm_rpc *rm)
->   
->   	mutex_init(&ghvm->mm_lock);
->   	INIT_LIST_HEAD(&ghvm->memory_mappings);
-> +	init_rwsem(&ghvm->status_lock);
->   
+diff --git a/Documentation/mm/vmemmap_dedup.rst b/Documentation/mm/vmemmap_dedup.rst
+index a4b12ff906c4..689a6907c70b 100644
+--- a/Documentation/mm/vmemmap_dedup.rst
++++ b/Documentation/mm/vmemmap_dedup.rst
+@@ -1,3 +1,4 @@
++
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+ =========================================
+@@ -17,7 +18,7 @@ HugeTLB pages consist of multiple base page size pages and is supported by many
+ architectures. See Documentation/admin-guide/mm/hugetlbpage.rst for more
+ details. On the x86-64 architecture, HugeTLB pages of size 2MB and 1GB are
+ currently supported. Since the base page size on x86 is 4KB, a 2MB HugeTLB page
+-consists of 512 base pages and a 1GB HugeTLB page consists of 4096 base pages.
++consists of 512 base pages and a 1GB HugeTLB page consists of 262144 base pages.
+ For each base page, there is a corresponding ``struct page``.
+ 
+ Within the HugeTLB subsystem, only the first 4 ``struct page`` are used to
+-- 
+2.25.1
 
-using read write semaphore is really not going to make any difference in 
-this particular case.
-we have just one reader (gh_vm_ensure_started) and it mostly makes 
-synchronous call to writer (vm_start).
-
->   	return ghvm;
->   }
->   
-> +static int gh_vm_start(struct gunyah_vm *ghvm)
-> +{
-> +	struct gunyah_vm_memory_mapping *mapping;
-> +	u64 dtb_offset;
-> +	u32 mem_handle;
-> +	int ret;
-> +
-> +	down_write(&ghvm->status_lock);
-> +	if (ghvm->vm_status != GH_RM_VM_STATUS_NO_STATE) {
-> +		up_write(&ghvm->status_lock);
-> +		return 0;
-> +	}
-> +
-> +	list_for_each_entry(mapping, &ghvm->memory_mappings, list) {
-> +		switch (mapping->share_type) {
-> +		case VM_MEM_LEND:
-> +			ret = gh_rm_mem_lend(ghvm->rm, &mapping->parcel);
-> +			break;
-> +		case VM_MEM_SHARE:
-> +			ret = gh_rm_mem_share(ghvm->rm, &mapping->parcel);
-> +			break;
-> +		}
-
-> +		if (ret > 0)
-> +			ret = -EINVAL;
-
-why are we converting the error messages, afaiu both gh_rm_mem_lend and 
-gh_rm_mem_share return a valid error codes.
-
-> +		if (ret) {
-> +			pr_warn("Failed to %s parcel %d: %d\n",
-> +				mapping->share_type == VM_MEM_LEND ? "lend" : "share",
-> +				mapping->parcel.label,
-> +				ret);
-> +			goto err;
-> +		}
-> +	}
-> +
-> +	mapping = gh_vm_mem_mapping_find_mapping(ghvm, ghvm->dtb_config.gpa, ghvm->dtb_config.size);
-> +	if (!mapping) {
-> +		pr_warn("Failed to find the memory_handle for DTB\n");
-> +		ret = -EINVAL;
-> +		goto err;
-> +	}
-> +
-> +	mem_handle = mapping->parcel.mem_handle;
-> +	dtb_offset = ghvm->dtb_config.gpa - mapping->guest_phys_addr;
-> +
-> +	ret = gh_rm_vm_configure(ghvm->rm, ghvm->vmid, ghvm->auth, mem_handle,
-> +				0, 0, dtb_offset, ghvm->dtb_config.size);
-> +	if (ret) {
-> +		pr_warn("Failed to configure VM: %d\n", ret);
-> +		goto err;
-> +	}
-> +
-> +	ret = gh_rm_vm_init(ghvm->rm, ghvm->vmid);
-> +	if (ret) {
-> +		pr_warn("Failed to initialize VM: %d\n", ret);
-> +		goto err;
-> +	}
-> +
-> +	ret = gh_rm_vm_start(ghvm->rm, ghvm->vmid);
-> +	if (ret) {
-> +		pr_warn("Failed to start VM: %d\n", ret);
-> +		goto err;
-> +	}
-> +
-> +	ghvm->vm_status = GH_RM_VM_STATUS_READY;
-> +
-> +	up_write(&ghvm->stvm_status = atus_lock);
-> +	return ret;
-> +err:
-> +	ghvm->vm_status = GH_RM_VM_STATUS_INIT_FAILED;
-> +	up_write(&ghvm->status_lock);
-> +	return ret;
-> +}
-> +
-> +static void gh_vm_stop(struct gunyah_vm *ghvm)
-> +{
-> +	int ret;
-> +
-> +	down_write(&ghvm->status_lock);
-> +	if (ghvm->vm_status == GH_RM_VM_STATUS_READY) {
-> +		ret = gh_rm_vm_stop(ghvm->rm, ghvm->vmid);
-> +		if (ret)
-> +			pr_warn("Failed to stop VM: %d\n", ret);
-> +	}
-> +
-> +	ghvm->vm_status = GH_RM_VM_STATUS_EXITED;
-> +	up_write(&ghvm->status_lock);
-> +}
-> +
->   static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->   {
->   	struct gunyah_vm *ghvm = filp->private_data;
-> @@ -84,6 +173,25 @@ static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->   		}
->   		break;
->   	}
-> +	case GH_VM_SET_DTB_CONFIG: {
-> +		struct gh_vm_dtb_config dtb_config;
-> +
-> +		r = -EFAULT;
-> +		if (copy_from_user(&dtb_config, argp, sizeof(dtb_config)))
-> +			break;
-> +
-same feedback as other patches on setting error codes.
-> +		dtb_config.size = PAGE_ALIGN(dtb_config.size);
-> +		ghvm->dtb_config = dtb_config;
-> +
-> +		r = 0;
-> +		break;
-> +	}
-> +	case GH_VM_START: {
-> +		r = gh_vm_start(ghvm);
-> +		if (r)
-> +			r = -EINVAL;
-> +		break;
-> +	}
->   	default:
->   		r = -ENOTTY;
->   		break;
-> @@ -97,6 +205,8 @@ static int gh_vm_release(struct inode *inode, struct file *filp)
->   	struct gunyah_vm *ghvm = filp->private_data;
->   	struct gunyah_vm_memory_mapping *mapping, *tmp;
->   
-> +	gh_vm_stop(ghvm);
-> +
->   	list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, list) {
->   		gh_vm_mem_mapping_reclaim(ghvm, mapping);
->   		kfree(mapping);
-> diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
-> index 6b38bf780f76..5c02fb305893 100644
-> --- a/drivers/virt/gunyah/vm_mgr.h
-> +++ b/drivers/virt/gunyah/vm_mgr.h
-> @@ -10,6 +10,7 @@
->   #include <linux/list.h>
->   #include <linux/miscdevice.h>
->   #include <linux/mutex.h>
-> +#include <linux/rwsem.h>
->   
->   #include <uapi/linux/gunyah.h>
->   
-> @@ -34,6 +35,12 @@ struct gunyah_vm {
->   	u16 vmid;
->   	struct gh_rm *rm;
->   
-> +	enum gh_rm_vm_auth_mechanism auth;
-> +	struct gh_vm_dtb_config dtb_config;
-> +
-> +	enum gh_rm_vm_status vm_status;
-> +	struct rw_semaphore status_lock;
-> +
->   	struct mutex mm_lock;
->   	struct list_head memory_mappings;
->   };
-> @@ -42,5 +49,7 @@ struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_alloc(struct gunyah_vm *ghvm,
->   							struct gh_userspace_memory_region *region);
->   void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct gunyah_vm_memory_mapping *mapping);
->   struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label);
-> +struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find_mapping(struct gunyah_vm *ghvm,
-> +								u64 gpa, u32 size);
->   
->   #endif
-> diff --git a/drivers/virt/gunyah/vm_mgr_mm.c b/drivers/virt/gunyah/vm_mgr_mm.c
-> index f2dbdb4ee8ab..7fcb9f8a29bf 100644
-> --- a/drivers/virt/gunyah/vm_mgr_mm.c
-> +++ b/drivers/virt/gunyah/vm_mgr_mm.c
-> @@ -53,6 +53,30 @@ void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct gunyah_vm_memory_m
->   	mutex_unlock(&ghvm->mm_lock);
->   }
->   
-> +struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find_mapping(struct gunyah_vm *ghvm,
-> +								u64 gpa, u32 size)
-> +{
-> +	struct gunyah_vm_memory_mapping *mapping = NULL;
-> +	int ret;
-> +
-> +	ret = mutex_lock_interruptible(&ghvm->mm_lock);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	list_for_each_entry(mapping, &ghvm->memory_mappings, list) {
-> +		if (gpa >= mapping->guest_phys_addr &&
-> +			(gpa + size <= mapping->guest_phys_addr +
-> +			(mapping->npages << PAGE_SHIFT))) {
-> +			goto unlock;
-> +		}
-> +	}
-> +
-> +	mapping = NULL;
-> +unlock:
-> +	mutex_unlock(&ghvm->mm_lock);
-> +	return mapping;
-> +}
-> +
->   struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label)
->   {
->   	struct gunyah_vm_memory_mapping *mapping;
-> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
-> index 574f33b198d0..36359ad2175e 100644
-> --- a/include/uapi/linux/gunyah.h
-> +++ b/include/uapi/linux/gunyah.h
-> @@ -42,4 +42,12 @@ struct gh_userspace_memory_region {
->   #define GH_VM_SET_USER_MEM_REGION	_IOW(GH_IOCTL_TYPE, 0x1, \
->   						struct gh_userspace_memory_region)
->   
-> +struct gh_vm_dtb_config {
-> +	__u64 gpa;
-
-need kernedoc, what is gpa?
-
-> +	__u64 size;
-> +};
-> +#define GH_VM_SET_DTB_CONFIG	_IOW(GH_IOCTL_TYPE, 0x2, struct gh_vm_dtb_config)
-> +
-> +#define GH_VM_START		_IO(GH_IOCTL_TYPE, 0x3)
-> +
->   #endif
