@@ -2,179 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 128AFC636CD
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 14:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC46AC64ED8
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 14:55:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231613AbjBGOoR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 09:44:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56982 "EHLO
+        id S231864AbjBGOzm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 09:55:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231602AbjBGOnx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 09:43:53 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E971612F25
-        for <linux-doc@vger.kernel.org>; Tue,  7 Feb 2023 06:43:16 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id l37-20020a05600c1d2500b003dfe46a9801so10159874wms.0
-        for <linux-doc@vger.kernel.org>; Tue, 07 Feb 2023 06:43:16 -0800 (PST)
+        with ESMTP id S232043AbjBGOzk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 09:55:40 -0500
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 872BC10425
+        for <linux-doc@vger.kernel.org>; Tue,  7 Feb 2023 06:55:36 -0800 (PST)
+Received: by mail-yb1-xb2b.google.com with SMTP id d189so10749215ybc.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Feb 2023 06:55:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9eJcdK33kbMuH5ai6iARWjcmTl9tVJH21z5yGLcInUU=;
-        b=UmfVVlx/ec2e2TXm9nQZS1e+zH7HH7qFD+ddEwhe5DwqYg4jQobWm9RgiIPyFmo3m0
-         OIoOzBxo2gw8kVXBhOgDZRyksHsXsC9urdtJ+PxvOCmh1jzoW1UycacPUumjLNRto4RA
-         gPFGvn1xb4uMTMie6dKOxF5drUo34owcecAXZMurZOdze6RUsjowP1+ZbgM6MUkIu6XF
-         XY15EUSDhULDaRGyn1MYg7B7gw164na7Glt3B7uaPLphYBUwbk6TSC37RyNowPZFIrXj
-         645JfxQOV1tsN3ou8f7VUquWB95MgfvjbyqXf6nDdrB3T8xD30PXeUpe1PwoERfGWFOB
-         7CQg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kpS3HgKPmEogc2Gw9AlFJQlCzGdEEgzV3gaAp0/AV2s=;
+        b=waPM8nbRluE35gGhrnOOlYCVoqMbSzXI/bIeppE9bSuFFI+RZAzc6Kl5AasZ9otGI4
+         OBcaMb89VmJlQA1BqQM9ko3ab0J+4Uob3evLCOBCdMRAvfPWqBlGowOBUJ6rCj1/Vw5l
+         XsdeMKH6QAcOLrAjl8BW/dfg2o5OtyicTpibLycC02L1REZwkd+Y7rbkJkOqOlSQv3La
+         cTVllcV5wizPEPJZkmwzpovhOVse1MS8EUFEA5YXboPA/Yu4/bznLdms8azWGLg7n+wf
+         jmU54a3NqzhTvcksWe8Tw1hVTpGGhzzkCQdkP6PiJjo5P+u9SwIiWyDKskkWkkK6MrhL
+         sNOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9eJcdK33kbMuH5ai6iARWjcmTl9tVJH21z5yGLcInUU=;
-        b=UpMQnqinjVJgJiNX0Jazjz39S7TtYjrxRltR5kx9mCsTBa0WU/pFxFVFccn8x3XnDT
-         CfZLjpP91n3//auAUXHx1lmx4Fc3sW50oCL/+jHTZUdG8eQIu5E7uLEHBLZ7/vlzd1iR
-         J76wHKDS/O0Raxt7rSWWqFCZ/KBDHsasr8w4DFSDaVHjxZBzTE+5slWbI0ZIsG/QPj1Q
-         3oaNqBvhgwteBE58oUxG2gwJxjqZXKHPCyyviVT96ZyFxFvEMG7AV5gvdocXN7VjXfFD
-         IRWJ7L/PsTgzotWZeNSuHXJ8sd7R2BD5tPllSPjVCGBKalBheFLChT5pkBWqzxRQofG6
-         +OXg==
-X-Gm-Message-State: AO0yUKWByNWNMkberCj0LZTZlDZsUWDgQ0qIHv8IRK7XTgjeyrDs5sqF
-        be9/CyBq+6MDZfXMlOlcj+9grA==
-X-Google-Smtp-Source: AK7set84RHq3tiHrHR4tEwQ8xJ5n+3oh/OsmVDE7KLrRmI17T7U2C9R6e2cWWeZbLP5J6BciOQZgmQ==
-X-Received: by 2002:a05:600c:1613:b0:3df:b5ae:5289 with SMTP id m19-20020a05600c161300b003dfb5ae5289mr3275850wmn.8.1675780995526;
-        Tue, 07 Feb 2023 06:43:15 -0800 (PST)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id n2-20020a05600c3b8200b003dfe659f9b1sm2575467wms.3.2023.02.07.06.43.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 06:43:14 -0800 (PST)
-Message-ID: <8b03eafd-8d8e-6e80-2b88-0e186f3ab392@linaro.org>
-Date:   Tue, 7 Feb 2023 14:43:13 +0000
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kpS3HgKPmEogc2Gw9AlFJQlCzGdEEgzV3gaAp0/AV2s=;
+        b=NT7oI2dyLSTaB4UNDb7nBN5H20XPwbqQ6KEfK6UmmJLo+hEs0mlikhi8fj0AlSLtq+
+         X1mYkwtznVXSdgJMq5IVuqbBSMFYDbJTGUEWarQAweARXk/qTSGuORxn2Y97vdi66WhB
+         wBFUy9HPYV03a3+O04bU95KNymJM2R45wuYJVn5zDTBeWGbEU6f0cdS40yDQQuurlRII
+         AqB/PPiRiLA65Jgo9pqL9lswC19maF5MWNqBueVY1OkAv01hM68Wd8AyKW7MkMWaQHuO
+         alvqFh1pmDiTp2alkFmcISK4MKoWflIBWgHatMUessi0asELZvF3S2kJxHvIYYXav0B3
+         vX1w==
+X-Gm-Message-State: AO0yUKVpicYUEZCqadesPHyctMz3nJSyPJlBQCJYWPjcrTgTkNoN+KFn
+        1UAK7TEkdAKLKlW5QSY45Sa/tYyA6zmo7sslKGifSQ==
+X-Google-Smtp-Source: AK7set+FPiZG8Q0bqmAM+3oI4VA9/UkIXmLGvn2kwzKpYMs61nqxRIkPG0TtYZXh9iAdflkTtIBPO8Shde99ziPoa9c=
+X-Received: by 2002:a5b:150:0:b0:88f:92ec:4292 with SMTP id
+ c16-20020a5b0150000000b0088f92ec4292mr401234ybp.460.1675781735294; Tue, 07
+ Feb 2023 06:55:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v9 24/27] virt: gunyah: Add proxy-scheduled vCPUs
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
-Cc:     Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com> <20230207142952.51844-7-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230207142952.51844-7-andriy.shevchenko@linux.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 7 Feb 2023 15:55:23 +0100
+Message-ID: <CACRpkdaPgjDijPjCdinWy5_Rd8g3idv-8K=YPTv5iTfJKFuJfw@mail.gmail.com>
+Subject: Re: [PATCH v3 06/12] gpiolib: split linux/gpio/driver.h out of linux/gpio.h
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Devarsh Thakkar <devarsht@ti.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
+        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Russell King <linux@armlinux.org.uk>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alexander Aring <alex.aring@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Arend van Spriel <aspriel@gmail.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
+        Li Yang <leoyang.li@nxp.com>, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-25-quic_eberman@quicinc.com>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20230120224627.4053418-25-quic_eberman@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Frank Rowand <frowand.list@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Feb 7, 2023 at 3:29 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> Almost all gpio drivers include linux/gpio/driver.h, and other
+> files should not rely on includes from this header.
+>
+> Remove the indirect include from here and include the correct
+> headers directly from where they are used.
+>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Make sure you push this to the kernel.org build servers (zeroday builds),
+I think this patch needs to hit some more files, in my tests with a similar
+patch at least these:
+
+diff --git a/drivers/hte/hte-tegra194-test.c b/drivers/hte/hte-tegra194-test.c
+index 5d776a185bd6..79eb866558d3 100644
+--- a/drivers/hte/hte-tegra194-test.c
++++ b/drivers/hte/hte-tegra194-test.c
+@@ -6,10 +6,11 @@
+  */
+
+ #include <linux/err.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/interrupt.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/timer.h>
+ #include <linux/platform_device.h>
+ #include <linux/workqueue.h>
 
 
-On 20/01/2023 22:46, Elliot Berman wrote:
-> Gunyah allows host virtual machines to schedule guest virtual machines
-> and handle their MMIO accesses. vCPUs are presented to the host as a
-> Gunyah resource and represented to userspace as a Gunyah VM function.
-> 
-> Creating the vcpu VM function will create a file descriptor that:
->   - can run an ioctl: GH_VCPU_RUN to schedule the guest vCPU until the
->     next interrupt occurs on the host or when the guest vCPU can no
->     longer be run.
->   - can be mmap'd to share a gh_vcpu_run structure which can look up the
->     reason why GH_VCPU_RUN returned and provide return values for MMIO
->     access.
-> 
-> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->   Documentation/virt/gunyah/vm-manager.rst |  30 +-
->   arch/arm64/gunyah/gunyah_hypercall.c     |  28 ++
->   drivers/virt/gunyah/Kconfig              |  11 +
->   drivers/virt/gunyah/Makefile             |   2 +
->   drivers/virt/gunyah/gunyah_vcpu.c        | 358 +++++++++++++++++++++++
->   drivers/virt/gunyah/vm_mgr.c             |  25 ++
->   drivers/virt/gunyah/vm_mgr.h             |   1 +
->   include/linux/gunyah.h                   |   7 +
->   include/uapi/linux/gunyah.h              |  30 ++
->   9 files changed, 490 insertions(+), 2 deletions(-)
->   create mode 100644 drivers/virt/gunyah/gunyah_vcpu.c
-> 
-...
+diff --git a/arch/arm/mach-pxa/viper-pcmcia.c b/arch/arm/mach-pxa/viper-pcmcia.c
+index 26599dcc49b3..2c7af4ed57d5 100644
+--- a/arch/arm/mach-pxa/viper-pcmcia.c
++++ b/arch/arm/mach-pxa/viper-pcmcia.c
+@@ -19,6 +19,7 @@
+ #include <linux/errno.h>
+ #include <linux/interrupt.h>
+ #include <linux/platform_device.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/gpio.h>
 
+ #include <pcmcia/ss.h>
 
-> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
-> index ec8da6fde045..b4afb11f538a 100644
-> --- a/include/uapi/linux/gunyah.h
-> +++ b/include/uapi/linux/gunyah.h
-> @@ -53,9 +53,14 @@ struct gh_vm_dtb_config {
->   #define GUNYAH_FUNCTION_NAME_SIZE		32
->   #define GUNYAH_FUNCTION_MAX_ARG_SIZE		1024
->   
-> +struct gh_fn_vcpu_arg {
-> +	__u32 vcpu_id;
-> +};
-> +
->   struct gh_vm_function {
->   	char name[GUNYAH_FUNCTION_NAME_SIZE];
->   	union {
-> +		struct gh_device_vcpu_arg vcpu;
->   		char data[GUNYAH_FUNCTION_MAX_ARG_SIZE];
->   	};
->   };
-> @@ -63,4 +68,29 @@ struct gh_vm_function {
->   #define GH_VM_ADD_FUNCTION	_IOW(GH_IOCTL_TYPE, 0x4, struct gh_vm_function)
->   #define GH_VM_REMOVE_FUNCTION	_IOW(GH_IOCTL_TYPE, 0x7, struct gh_vm_function)
->   
-> +/* for GH_VCPU_RUN, returned by mmap(vcpu_fd, offset=0) */
-> +struct gh_vcpu_run {
-this looks unused, I dont see any reference to this.
-
-> +	/* in */
-> +	__u8 immediate_exit;
-> +	__u8 padding1[7];
-> +
-> +	/* out */
-> +#define GH_VM_EXIT_UNKNOWN            0
-> +#define GH_VM_EXIT_MMIO               1
-> +	__u32 exit_reason;
-
-If this is ment to go in any of the ioctl arguments then this suffers 
-same issue of padding.
-
-> +
-> +	union {
-> +		/* GH_VM_EXIT_MMIO */
-> +		struct {
-> +			__u64 phys_addr;
-> +			__u8  data[8];
-> +			__u32 len;
-> +			__u8  is_write;
-> +		} mmio;
-> +	};
-> +};
-> +
-> +#define GH_VCPU_RUN		_IO(GH_IOCTL_TYPE, 0x5)
-> +#define GH_VCPU_MMAP_SIZE	_IO(GH_IOCTL_TYPE, 0x6)
-> +
->   #endif
+Yours,
+Linus Walleij
