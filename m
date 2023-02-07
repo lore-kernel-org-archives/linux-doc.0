@@ -2,92 +2,270 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C06D7C636CC
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 11:45:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 705ECC636CD
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Feb 2023 11:52:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231414AbjBGLpa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 06:45:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33412 "EHLO
+        id S231178AbjBGLw1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 06:52:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230361AbjBGLp3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 06:45:29 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C521359A
-        for <linux-doc@vger.kernel.org>; Tue,  7 Feb 2023 03:45:01 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id y1so13283390wru.2
-        for <linux-doc@vger.kernel.org>; Tue, 07 Feb 2023 03:45:01 -0800 (PST)
+        with ESMTP id S230284AbjBGLwY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 06:52:24 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8143B10437
+        for <linux-doc@vger.kernel.org>; Tue,  7 Feb 2023 03:52:18 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id az4-20020a05600c600400b003dff767a1f1so5967512wmb.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 Feb 2023 03:52:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mVX+TpCcMgKWMfF13P/1xSiJxqs3IaOghijzEHBL02Q=;
-        b=fYH4Tu1PRIpBrT723Ad22c6A/AvDvTrQ4qKhcvZB4vpnDMvYvOQC4xqK+a/6WCT167
-         B8G93OOLfOH1XHpy/fII60QMD5Z052LjibbHbFHZxBsZ2AslzyBfZKaj1Sbg3NptXb1A
-         MDy4ECTuUHzbpTnOOYkno6p4U0wB6I6gMjCpkyXW9MPL3nFxBPJ9l1McIpE0PgKmrAYA
-         qXYRjQXvUBA87LrOu1+vI0ePubeSDvjBgXYW6dTUoSYtb4a7qJLdCc1EYKHiMhCcOFXI
-         kah8nXhEMPS2vw0A5t07Cyo5NbCSGD0tgYgwZhSCZTw/ldha2ENB1pW3N5ARKrL7AkX1
-         da+A==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OyoJuN/6LU3Bboa6HrWF3emMpW6LTbAHeVxTuS0iulE=;
+        b=Ig8uQoIrkun5jDQks/bjYIm398HK0JtL2EoEb20gkk3DdrUD9GQPNoDfZl1U/tFbwS
+         EsKlwLAfmMO/9uSzPpZ+N/qtFCa1BzFOfJkXOSOV035mUdfeQISUktLTz1ysBRBvB0hL
+         bElZDQBRG6IYUmQWVmi6PrqckVCpfdqe1VeMwa2K4pfMv49UAZCviGyefK8lXrf7c0oO
+         putGhrNmHkCECzfsPL1yzp8737Z90bChBboZE0xurqvtxYXG71Y9y5P7rWbxEEfRNUXp
+         PMmepsm+vZJVH8IuaWKjewC7ANJlOoryBvUFtZre2QQ4in1o0HWKMKcb8M9kWh/cbu/l
+         2kVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mVX+TpCcMgKWMfF13P/1xSiJxqs3IaOghijzEHBL02Q=;
-        b=0nmDEgoD7HylQ/1s2rU3Hmvp5h2AqfuhSvWA1h8NVK7ch/Uu+XS1T8bnBIRw8T2Ppd
-         AXBdtzdYgmgeTOW9A3Fygf8GvQxKsKL44JnC6XpxW9GasnuxJAUeChTetTWx+9U/87gn
-         qHfJAhle3MqYS5XhH/BxWy4swPmyO/XbLnd3JcA0/RHlbWO8Xcbd7CjqZTIrpyU++tYZ
-         WX+8vPtOD+9ZAHC7NgwJL+QHtO7TT43kXCL+fDSJMWxDxYfh7i97lCXPQCjXnnzNDEZb
-         i5JEYFu7wui3pGw9ywO/t4de5PRk2j4fktgqtXX2ttO8GVM1LidCxuYmvOIynTwVZj3t
-         LSvQ==
-X-Gm-Message-State: AO0yUKW7AQVjLMpvycxq4EI/Us/y64QmmXNOO2fhSbsfcMrvzb+BqnbE
-        sbXQ2VetZO+S0clVi3XjUkV+GdbS6j81/Lwx
-X-Google-Smtp-Source: AK7set+Ez1H2zbNuov8yNoBE/j9lun0UQrkKfNkULRyHIbcUAacyqoj0sPI3nVN6xF1nHw4KYHMZIw==
-X-Received: by 2002:a05:6000:4d:b0:2bf:b506:e0eb with SMTP id k13-20020a056000004d00b002bfb506e0ebmr2026077wrx.51.1675770299988;
-        Tue, 07 Feb 2023 03:44:59 -0800 (PST)
-Received: from usaari01.cust.communityfibre.co.uk ([2a02:6b6a:b566:0:c04f:2463:c151:8b87])
-        by smtp.gmail.com with ESMTPSA id i14-20020a0560001ace00b002bfb8f829eesm11726612wry.71.2023.02.07.03.44.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 03:44:59 -0800 (PST)
-From:   Usama Arif <usama.arif@bytedance.com>
-To:     songmuchun@bytedance.com
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, fam.zheng@bytedance.com,
-        liangma@liangbit.com, Usama Arif <usama.arif@bytedance.com>
-Subject: [PATCH] docs: mm: Fix number of base pages for 1GB HugeTLB
-Date:   Tue,  7 Feb 2023 11:44:56 +0000
-Message-Id: <20230207114456.2304801-1-usama.arif@bytedance.com>
-X-Mailer: git-send-email 2.25.1
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OyoJuN/6LU3Bboa6HrWF3emMpW6LTbAHeVxTuS0iulE=;
+        b=mYY51WKz83PGo7GDPiBwtONo45m94pn5pwG4JcwwbruHxKhZN0o2OjiscakH1Rq2L3
+         wJz5ZcXv5qckBd4wnhfsQfTqVFyG6F1fiW6L1Xl5i5HOowOuup3idpaLrpoomhHjuoPA
+         i5a/2XEaF3G5Vy1KE7Ka4Qx4Y5Xz8SspeupyDXWAx0HVJFlse4DL4fChF++59PJuAQq5
+         Mhdr/YPJ8LeF6+CRC219XRhAqkU4fnJ4zig0kstbXAME2j8eieAVXjMD+4Sf2njaKtCr
+         Ly/4RHV2jjJUhp/sgMcfnOl96AkGskD8sMl1cNoteijbGGSdD4KKo2rNSpUx1Da1nFor
+         BdHQ==
+X-Gm-Message-State: AO0yUKV5RBnCuZO3GPl4hc11ONMLNUiBhcXPDCzjJeQJ+Nj9gp5kK1I6
+        Jg4UvMY8ONSHR5TymZAkRU39FQ==
+X-Google-Smtp-Source: AK7set+/NwX/2lFSlvGu/dXJP5TvtrUro6T9ufWwsOf3l8ph0CDdLl12H4gi8ebvNgTm4vUAMEXSsQ==
+X-Received: by 2002:a05:600c:3287:b0:3d9:e5f9:984c with SMTP id t7-20020a05600c328700b003d9e5f9984cmr3639286wmp.2.1675770737120;
+        Tue, 07 Feb 2023 03:52:17 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id n9-20020a05600c3b8900b003d9aa76dc6asm20035922wms.0.2023.02.07.03.52.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Feb 2023 03:52:16 -0800 (PST)
+Message-ID: <5564746d-2221-8c3e-0c81-b320716ad114@linaro.org>
+Date:   Tue, 7 Feb 2023 11:52:15 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v9 18/27] firmware: qcom_scm: Register Gunyah platform ops
+Content-Language: en-US
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Alex Elder <elder@linaro.org>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+ <20230120224627.4053418-19-quic_eberman@quicinc.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20230120224627.4053418-19-quic_eberman@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-1GB HugeTLB page consists of 262144 base pages.
 
-Signed-off-by: Usama Arif <usama.arif@bytedance.com>
----
- Documentation/mm/vmemmap_dedup.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/mm/vmemmap_dedup.rst b/Documentation/mm/vmemmap_dedup.rst
-index a4b12ff906c4..689a6907c70b 100644
---- a/Documentation/mm/vmemmap_dedup.rst
-+++ b/Documentation/mm/vmemmap_dedup.rst
-@@ -1,3 +1,4 @@
-+
- .. SPDX-License-Identifier: GPL-2.0
- 
- =========================================
-@@ -17,7 +18,7 @@ HugeTLB pages consist of multiple base page size pages and is supported by many
- architectures. See Documentation/admin-guide/mm/hugetlbpage.rst for more
- details. On the x86-64 architecture, HugeTLB pages of size 2MB and 1GB are
- currently supported. Since the base page size on x86 is 4KB, a 2MB HugeTLB page
--consists of 512 base pages and a 1GB HugeTLB page consists of 4096 base pages.
-+consists of 512 base pages and a 1GB HugeTLB page consists of 262144 base pages.
- For each base page, there is a corresponding ``struct page``.
- 
- Within the HugeTLB subsystem, only the first 4 ``struct page`` are used to
--- 
-2.25.1
+On 20/01/2023 22:46, Elliot Berman wrote:
+> Qualcomm platforms have a firmware entity which performs access control
+> to physical pages. Dynamically started Gunyah virtual machines use the
+> QCOM_SCM_RM_MANAGED_VMID for access. Linux thus needs to assign access
+> to the memory used by guest VMs. Gunyah doesn't do this operation for us
+> since it is the current VM (typically VMID_HLOS) delegating the access
+> and not Gunyah itself. Use the Gunyah platform ops to achieve this so
+> that only Qualcomm platforms attempt to make the needed SCM calls.
+> 
+> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+>   drivers/firmware/Kconfig    |   2 +
+>   drivers/firmware/qcom_scm.c | 100 ++++++++++++++++++++++++++++++++++++
+>   2 files changed, 102 insertions(+)
+> 
+> diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+> index b59e3041fd62..b888068ff6f2 100644
+> --- a/drivers/firmware/Kconfig
+> +++ b/drivers/firmware/Kconfig
+> @@ -214,6 +214,8 @@ config MTK_ADSP_IPC
+>   
+>   config QCOM_SCM
+>   	tristate
+> +	select VIRT_DRIVERS
+> +	select GUNYAH_PLATFORM_HOOKS
 
+So far SCM usage has been as library of functions to talk to Secure 
+world, now why is this selecting GUNYAH, it should be other way round.
+
+
+>   
+>   config QCOM_SCM_DOWNLOAD_MODE_DEFAULT
+>   	bool "Qualcomm download mode enabled by default"
+> diff --git a/drivers/firmware/qcom_scm.c b/drivers/firmware/qcom_scm.c
+> index 92763dce6477..20a1434087eb 100644
+> --- a/drivers/firmware/qcom_scm.c
+> +++ b/drivers/firmware/qcom_scm.c
+> @@ -17,6 +17,7 @@
+>   #include <linux/clk.h>
+>   #include <linux/reset-controller.h>
+>   #include <linux/arm-smccc.h>
+> +#include <linux/gunyah_rsc_mgr.h>
+>   
+>   #include "qcom_scm.h"
+>   
+> @@ -27,6 +28,9 @@ module_param(download_mode, bool, 0);
+>   #define SCM_HAS_IFACE_CLK	BIT(1)
+>   #define SCM_HAS_BUS_CLK		BIT(2)
+>   
+> +#define QCOM_SCM_RM_MANAGED_VMID	0x3A
+> +#define QCOM_SCM_MAX_MANAGED_VMID	0x3F
+> +
+>   struct qcom_scm {
+>   	struct device *dev;
+>   	struct clk *core_clk;
+> @@ -1292,6 +1296,99 @@ int qcom_scm_lmh_dcvsh(u32 payload_fn, u32 payload_reg, u32 payload_val,
+>   }
+>   EXPORT_SYMBOL(qcom_scm_lmh_dcvsh);
+>   
+> +static int qcom_scm_gh_rm_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
+why can't this be an exported function like other scm interfaces?
+
+We do not need a redirection here tbh.
+
+That will also remove the need of gunyah_platform_hooks.c altogether, 
+and you could call scm functions directly.
+Correct me if this is not the case.
+
+
+
+> +{
+> +	struct qcom_scm_vmperm *new_perms;
+> +	u64 src, src_cpy;
+> +	int ret = 0, i, n;
+> +	u16 vmid;
+> +
+> +	new_perms = kcalloc(mem_parcel->n_acl_entries, sizeof(*new_perms), GFP_KERNEL);
+> +	if (!new_perms)
+> +		return -ENOMEM;
+> +
+> +	for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+> +		vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+> +		if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+> +			new_perms[n].vmid = vmid;
+> +		else
+> +			new_perms[n].vmid = QCOM_SCM_RM_MANAGED_VMID;
+> +		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_X)
+> +			new_perms[n].perm |= QCOM_SCM_PERM_EXEC;
+> +		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_W)
+> +			new_perms[n].perm |= QCOM_SCM_PERM_WRITE;
+> +		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_R)
+> +			new_perms[n].perm |= QCOM_SCM_PERM_READ;
+> +	}
+> +
+> +	src = (1ull << QCOM_SCM_VMID_HLOS);
+> +
+> +	for (i = 0; i < mem_parcel->n_mem_entries; i++) {
+> +		src_cpy = src;
+> +		ret = qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
+> +						le64_to_cpu(mem_parcel->mem_entries[i].size),
+> +						&src_cpy, new_perms, mem_parcel->n_acl_entries);
+> +		if (ret) {
+> +			src = 0;
+> +			for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+> +				vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+> +				if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+> +					src |= (1ull << vmid);
+> +				else
+> +					src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
+> +			}
+> +
+> +			new_perms[0].vmid = QCOM_SCM_VMID_HLOS;
+> +
+> +			for (i--; i >= 0; i--) {
+> +				src_cpy = src;
+> +				ret = qcom_scm_assign_mem(
+> +						le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
+> +						le64_to_cpu(mem_parcel->mem_entries[i].size),
+> +						&src_cpy, new_perms, 1);
+> +				WARN_ON_ONCE(ret);
+> +			}
+> +			break;
+> +		}
+> +	}
+> +
+> +	kfree(new_perms);
+> +	return ret;
+> +}
+> +
+> +static int qcom_scm_gh_rm_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
+> +{
+> +	struct qcom_scm_vmperm new_perms;
+> +	u64 src = 0;
+> +	int ret = 0, i, n;
+> +	u16 vmid;
+> +
+> +	new_perms.vmid = QCOM_SCM_VMID_HLOS;
+> +	new_perms.perm = QCOM_SCM_PERM_EXEC | QCOM_SCM_PERM_WRITE | QCOM_SCM_PERM_READ;
+> +
+> +	for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+> +		vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+> +		if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+> +			src |= (1ull << vmid);
+> +		else
+> +			src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
+> +	}
+> +
+> +	for (i = 0; i < mem_parcel->n_mem_entries; i++) {
+> +		ret = qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
+> +						le64_to_cpu(mem_parcel->mem_entries[i].size),
+> +						&src, &new_perms, 1);
+> +		WARN_ON_ONCE(ret);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static struct gunyah_rm_platform_ops qcom_scm_gh_rm_platform_ops = {
+> +	.pre_mem_share = qcom_scm_gh_rm_pre_mem_share,
+> +	.post_mem_reclaim = qcom_scm_gh_rm_post_mem_reclaim,
+> +};
+> +
+>   static int qcom_scm_find_dload_address(struct device *dev, u64 *addr)
+>   {
+>   	struct device_node *tcsr;
+> @@ -1414,6 +1511,9 @@ static int qcom_scm_probe(struct platform_device *pdev)
+>   	if (download_mode)
+>   		qcom_scm_set_download_mode(true);
+>   
+> +	if (gh_rm_register_platform_ops(&qcom_scm_gh_rm_platform_ops))
+> +		dev_warn(__scm->dev, "Gunyah RM platform ops were already registered\n");
+> +
+>   	return 0;
+>   }
+>   
