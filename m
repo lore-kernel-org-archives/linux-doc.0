@@ -2,44 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C73AC74A5B
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 17:35:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15FBCC64ED9
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 17:35:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231985AbjBHRfZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Feb 2023 12:35:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40284 "EHLO
+        id S230421AbjBHRf0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Feb 2023 12:35:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232063AbjBHReV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 12:34:21 -0500
+        with ESMTP id S231912AbjBHReF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 12:34:05 -0500
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12AC6518C6;
-        Wed,  8 Feb 2023 09:34:07 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E26F485B7;
+        Wed,  8 Feb 2023 09:34:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675877648; x=1707413648;
+  t=1675877642; x=1707413642;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=8Loz5frdfBtc0l4PlP9rbgkvfnulxYbRlKr/4QRrkgw=;
-  b=eFi8ChfT7++4L/EX4oeubArrcxrVDFm+apkv0gcgMX3ZzQBTdTgRBm3+
-   WcmmR8N5WOvyymDDzrXnCB7ZiwW+ebAQNX7uMvMtKtKINcZISmmJm/pg8
-   6fBMSvCW5nZqNn3It7FZrVu/4jN8/c5JnKoJUGuvh3Akxm7VRrmEXxhDk
-   BCzdzYxAathBeU7G4q8rUlDEAnVjLJw0q9Cl63pUuNdi5/COlISrvh2q8
-   F9iXs+iH+G9wJmX3LShCfSsoC7QZKv2/fOqfTDQxeW9K+uLxrQ1S3+eTt
-   RUXNG21KG3IsjaeSVxqWH/j1nKDXuURNOknXZm6rV1JCVWlX7pEOz7NQT
+  bh=4IQLDrOahYJ8lFlzrwNEYRM9qJTE1X0tQcaYGhsJEHc=;
+  b=G2Ko6LLEX419EYXpdWaN8RhlyDnSogCqqhneGWnR2JAwN2RFyqDNHUDI
+   rN1ajcGYE5yfWTt6trWdCVWJm28p3xUt1m0UBsEjsElQw3NJfoDXbaTpT
+   w0zI3lhnm2+j6yUlWucFcTZ345Hh6o1MJpOzb1WXVDPb0gQPgsrncN6j6
+   GlzouI9RtGDe+qv280oaHs/fRMoI9HLhgnuA6D+aK5IOfYVKq7boyu4Zz
+   by00KfscW3lKUEvpUVH7SOfU9HzS168qOVBtfWT/RPqVLlNHNCHpImf7I
+   AQR2TlKJvvFWDFLulGgORzUDErVCruG+g+ORPef1JRE9RcJNtyrf5jhhD
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="310225405"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="310225303"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="310225405"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 09:33:28 -0800
+   d="scan'208";a="310225303"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 09:33:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="660703928"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="697722979"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="660703928"
+   d="scan'208";a="697722979"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga007.jf.intel.com with ESMTP; 08 Feb 2023 09:33:22 -0800
+  by orsmga008.jf.intel.com with ESMTP; 08 Feb 2023 09:33:15 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id F316D37D; Wed,  8 Feb 2023 19:33:47 +0200 (EET)
+        id 9FC47210; Wed,  8 Feb 2023 19:33:47 +0200 (EET)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -103,124 +103,59 @@ Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
         Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
         Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH v4 08/18] gpiolib: remove gpio_set_debounce()
-Date:   Wed,  8 Feb 2023 19:33:33 +0200
-Message-Id: <20230208173343.37582-9-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v4 03/18] hte: tegra-194: Use proper includes
+Date:   Wed,  8 Feb 2023 19:33:28 +0200
+Message-Id: <20230208173343.37582-4-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com>
 References: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Linus Walleij <linus.walleij@linaro.org>
 
-gpio_set_debounce() only has a single user, which is trivially
-converted to gpiod_set_debounce().
+The test driver uses the gpiod consumer API so include the right
+<linux/gpio/consumer.h> header. This may cause a problem with
+struct of_device_id being implcitly pulled in by the legacy
+header <linux/gpio.h> so include <linux/mod_devicetable.h>
+explicitly as well.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+While at it, drop explicit moduleparam.h (it's included with module.h)
+and sort the headers.
+
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- Documentation/driver-api/gpio/legacy.rst               |  2 --
- .../translations/zh_CN/driver-api/gpio/legacy.rst      |  1 -
- Documentation/translations/zh_TW/gpio.txt              |  1 -
- drivers/input/touchscreen/ads7846.c                    |  5 +++--
- include/linux/gpio.h                                   | 10 ----------
- 5 files changed, 3 insertions(+), 16 deletions(-)
+ drivers/hte/hte-tegra194-test.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/driver-api/gpio/legacy.rst
-index a0559d93efd1..e0306e78e34b 100644
---- a/Documentation/driver-api/gpio/legacy.rst
-+++ b/Documentation/driver-api/gpio/legacy.rst
-@@ -238,8 +238,6 @@ setup or driver probe/teardown code, so this is an easy constraint.)::
-         ## 	gpio_free_array()
+diff --git a/drivers/hte/hte-tegra194-test.c b/drivers/hte/hte-tegra194-test.c
+index 5d776a185bd6..358d4a10c6a1 100644
+--- a/drivers/hte/hte-tegra194-test.c
++++ b/drivers/hte/hte-tegra194-test.c
+@@ -6,14 +6,14 @@
+  */
  
-                 gpio_free()
--                gpio_set_debounce()
--
- 
- 
- Claiming and Releasing GPIOs
-diff --git a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-index 74fa473bb504..dee2a0517c1c 100644
---- a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-+++ b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-@@ -219,7 +219,6 @@ GPIO 值的命令需要等待其信息排到队首才发送命令，再获得其
-         ## 	gpio_free_array()
- 
-                 gpio_free()
--                gpio_set_debounce()
- 
- 
- 
-diff --git a/Documentation/translations/zh_TW/gpio.txt b/Documentation/translations/zh_TW/gpio.txt
-index 1b986bbb0909..dc608358d90a 100644
---- a/Documentation/translations/zh_TW/gpio.txt
-+++ b/Documentation/translations/zh_TW/gpio.txt
-@@ -226,7 +226,6 @@ GPIO 值的命令需要等待其信息排到隊首才發送命令，再獲得其
- ## 	gpio_free_array()
- 
- 	gpio_free()
--	gpio_set_debounce()
- 
- 
- 
-diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index 17f11bce8113..bb1058b1e7fd 100644
---- a/drivers/input/touchscreen/ads7846.c
-+++ b/drivers/input/touchscreen/ads7846.c
-@@ -27,6 +27,7 @@
- #include <linux/of.h>
- #include <linux/of_gpio.h>
- #include <linux/of_device.h>
+ #include <linux/err.h>
+-#include <linux/module.h>
+-#include <linux/moduleparam.h>
 +#include <linux/gpio/consumer.h>
- #include <linux/gpio.h>
- #include <linux/spi/spi.h>
- #include <linux/spi/ads7846.h>
-@@ -1012,8 +1013,8 @@ static int ads7846_setup_pendown(struct spi_device *spi,
- 		ts->gpio_pendown = pdata->gpio_pendown;
++#include <linux/hte.h>
+ #include <linux/interrupt.h>
+-#include <linux/gpio.h>
+-#include <linux/timer.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
+ #include <linux/platform_device.h>
++#include <linux/timer.h>
+ #include <linux/workqueue.h>
+-#include <linux/hte.h>
  
- 		if (pdata->gpio_pendown_debounce)
--			gpio_set_debounce(pdata->gpio_pendown,
--					  pdata->gpio_pendown_debounce);
-+			gpiod_set_debounce(gpio_to_desc(ts->gpio_pendown),
-+					   pdata->gpio_pendown_debounce);
- 	} else {
- 		dev_err(&spi->dev, "no get_pendown_state nor gpio_pendown?\n");
- 		return -EINVAL;
-diff --git a/include/linux/gpio.h b/include/linux/gpio.h
-index d5ce78e2bdd9..fc56733e8514 100644
---- a/include/linux/gpio.h
-+++ b/include/linux/gpio.h
-@@ -100,11 +100,6 @@ static inline int gpio_direction_output(unsigned gpio, int value)
- 	return gpiod_direction_output_raw(gpio_to_desc(gpio), value);
- }
- 
--static inline int gpio_set_debounce(unsigned gpio, unsigned debounce)
--{
--	return gpiod_set_debounce(gpio_to_desc(gpio), debounce);
--}
--
- static inline int gpio_get_value_cansleep(unsigned gpio)
- {
- 	return gpiod_get_raw_value_cansleep(gpio_to_desc(gpio));
-@@ -214,11 +209,6 @@ static inline int gpio_direction_output(unsigned gpio, int value)
- 	return -ENOSYS;
- }
- 
--static inline int gpio_set_debounce(unsigned gpio, unsigned debounce)
--{
--	return -ENOSYS;
--}
--
- static inline int gpio_get_value(unsigned gpio)
- {
- 	/* GPIO can never have been requested or set as {in,out}put */
+ /*
+  * This sample HTE GPIO test driver demonstrates HTE API usage by enabling
 -- 
 2.39.1
 
