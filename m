@@ -2,139 +2,160 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C42C5C6379F
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 13:46:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40373C05027
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 13:58:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230482AbjBHNpi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Feb 2023 08:45:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45076 "EHLO
+        id S229724AbjBHN62 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Feb 2023 08:58:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231378AbjBHNpK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 08:45:10 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D0A23B3F6;
-        Wed,  8 Feb 2023 05:45:05 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id j1so12548713pjd.0;
-        Wed, 08 Feb 2023 05:45:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=alfJUZBV+BrVmvoYfSmGRjxyktkbme4Dc/pX5IUBNAo=;
-        b=qOV7ysnAAE47VMzfW+KW7uRQ3waC/E8XmADC10hm4irUlpgyQ7W9iYPxZ4ELgAqlhT
-         LjIlmiu2gGIqass/jeVRMyvjNwUEv+WV5tdMSo2zQLMRN2vxuod8wxnC6nkM3y/R+I+h
-         K8aFy5z+AEHJZW5D7ypP7nruC1fDjCbfW2Ce/nkXTsnVFsJ86n5MCU4QSDWSSK+YQC1V
-         eR7xjDBpbTf+S+YnpbqpO3YFtt4f2FioYXoa7qazR595af1e5Vo1MyyVHSzK9M+3XQCB
-         tZ+YpRzE0Ktq/8lxY6zE8zSXlnjcecUsfEcPZIpiBBxPwscyLA9a8qvnWbtq6WFjvcKS
-         imlw==
+        with ESMTP id S230203AbjBHN61 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 08:58:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69FE26B4
+        for <linux-doc@vger.kernel.org>; Wed,  8 Feb 2023 05:57:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675864659;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=p5aosny6w3YdBpadvgyzuejegoLFL3ZhCzD6Izl4BgM=;
+        b=d751NOEQ5421+4HwAPw5gUyBkgEb/Ga0ZtX7U4b8ACfukibQG0nmziv8AdE1SVgYfi5sLh
+        UdRmLFcyaDETFuD9lzUtTcEhJPoy8iG5JjQT4Lj+hi1k3h0d6ELhJcHm/Q6Nk56W5eIXQJ
+        yZ8mz+V21rfWrVutr7XQz5/bwBF3DrQ=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-488-oxgtZJlhNOiE3ZNwKGKXiQ-1; Wed, 08 Feb 2023 08:57:38 -0500
+X-MC-Unique: oxgtZJlhNOiE3ZNwKGKXiQ-1
+Received: by mail-ed1-f72.google.com with SMTP id j10-20020a05640211ca00b0049e385d5830so12561008edw.22
+        for <linux-doc@vger.kernel.org>; Wed, 08 Feb 2023 05:57:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=alfJUZBV+BrVmvoYfSmGRjxyktkbme4Dc/pX5IUBNAo=;
-        b=MnsJNTX4TAfzXIsKsS8jskLfOat+iq7B4ctpS7Y5HTVMmIsEwvUtwbAYCCcF4ULn49
-         Cxr02jSixQqdaLJA87mUEzMc1dn+hKyANKB5wV00IxH4UZsZ+hKSR4PELSN20Pmi+WdR
-         OKtwLdk3HWzoEtKkSkGgLJpLKjZ3iC7ADCu84etPwVQLs+lxNHg1LcB3ZfHWmVIQN4Z/
-         /fnZhS1UlaxkuiQZnW5RmbWohBjcWG6fiVFkRXTXAXXYEav4gK2ZKL5mGSAmpPFPdPTY
-         SCyp1u5gcdHo3p6UqD9ddiS70EIjEucAuWfJxqA7t5+fW2ReVTMBLDHoqkDG0WsR0DSj
-         Iftw==
-X-Gm-Message-State: AO0yUKUar6sEBP2fYdnzmHDa4OTNoshCZtlHsBw/6zc078ajSUEvke9S
-        scA/bnD/3e+uT9EHfInIb1o=
-X-Google-Smtp-Source: AK7set+sPEOSedwTYT2y4bNUQKcEXNgoZqhXS89DjZ61bh7BdhGz84e05koI5bATzWm0v/BjRJNztQ==
-X-Received: by 2002:a17:903:120b:b0:194:58c7:ab79 with SMTP id l11-20020a170903120b00b0019458c7ab79mr9146382plh.63.1675863904496;
-        Wed, 08 Feb 2023 05:45:04 -0800 (PST)
-Received: from localhost ([2400:8902::f03c:93ff:fe27:642a])
-        by smtp.gmail.com with ESMTPSA id jc10-20020a17090325ca00b00199190b00efsm6056928plb.97.2023.02.08.05.44.55
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p5aosny6w3YdBpadvgyzuejegoLFL3ZhCzD6Izl4BgM=;
+        b=jKI0ejAeKmayYAzGV+ZR5nMNHWfsV7VzUEbhu82Mhv4SaGCPBckZj5sdQNRPvSiuhR
+         Hjw2HIB5xnMJClJM7YRL8E7nOIayvbg2G/ZEEtphTg8d7/x7pdjyBKhNf0TwY2gHv54Q
+         SybJ5VpAmLRkpGeTxmRQW+vzBiipxuzfZ67yyTMmJNfPz61zQUficZZJCLirZI0KZIvZ
+         Te6PDg9Bv5UH4uObbSVz3xt0G8d0zNhNfUe+fEHRYux1qT06bcR6lQpkmyeTj/2kKeaM
+         bEijK6DK8NQuEMAdjc2cJqtxhvv+ME98GEWoU7r5A60Bj2j4PO847GR2iomh/DZ2d0/j
+         DQRw==
+X-Gm-Message-State: AO0yUKWX1sHxp8PNgOZAHvz/ZSDTcXmGW32UcQVKjNQA8vwZAnx1CXL1
+        OJZD1ipMS5qjGy4jmz+K7gTzz77P3vc0r6vkCqKsFuOofiCBaERi1rJ7Ku0gFnhTxePwvafZZcc
+        X7czrbxVgsAy5w0wZ1pH6
+X-Received: by 2002:a17:906:86d6:b0:885:9ce9:dc79 with SMTP id j22-20020a17090686d600b008859ce9dc79mr7676717ejy.77.1675864656738;
+        Wed, 08 Feb 2023 05:57:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set/OsYCCrD5wS7PnZkD4zPKmJ7Y8Ux5rWCJg2puXsbJ3a5kZV/qASPCQFV2p/KV0Tckb6rwxAQ==
+X-Received: by 2002:a17:906:86d6:b0:885:9ce9:dc79 with SMTP id j22-20020a17090686d600b008859ce9dc79mr7676677ejy.77.1675864656179;
+        Wed, 08 Feb 2023 05:57:36 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id r5-20020a170906a20500b008710789d85fsm8395580ejy.156.2023.02.08.05.57.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Feb 2023 05:45:02 -0800 (PST)
-Date:   Wed, 8 Feb 2023 13:44:49 +0000
-From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
-        boqun.feng@gmail.com, mark.rutland@arm.com,
-        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
-        cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v2 09/10] arch: Remove cmpxchg_double
-Message-ID: <Y+OnUXkKcT2Y7Yiq@localhost>
-References: <20230202145030.223740842@infradead.org>
- <20230202152655.746130134@infradead.org>
+        Wed, 08 Feb 2023 05:57:35 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 49CB19735B5; Wed,  8 Feb 2023 14:57:34 +0100 (CET)
+From:   =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>
+Cc:     =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH bpf-next v2] bpf/docs: Update design QA to be consistent with kfunc lifecycle docs
+Date:   Wed,  8 Feb 2023 14:57:30 +0100
+Message-Id: <20230208135731.268638-1-toke@redhat.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230202152655.746130134@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 02, 2023 at 03:50:39PM +0100, Peter Zijlstra wrote:
-> No moar users, remove the monster.
-> 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  Documentation/core-api/this_cpu_ops.rst    |    2 -
->  arch/arm64/include/asm/atomic_ll_sc.h      |   33 ----------------
->  arch/arm64/include/asm/atomic_lse.h        |   36 ------------------
->  arch/arm64/include/asm/cmpxchg.h           |   46 -----------------------
->  arch/arm64/include/asm/percpu.h            |   10 -----
->  arch/s390/include/asm/cmpxchg.h            |   34 -----------------
->  arch/s390/include/asm/percpu.h             |   18 ---------
->  arch/x86/include/asm/cmpxchg.h             |   25 ------------
->  arch/x86/include/asm/cmpxchg_32.h          |    1 
->  arch/x86/include/asm/cmpxchg_64.h          |    1 
->  arch/x86/include/asm/percpu.h              |   41 --------------------
->  include/asm-generic/percpu.h               |   58 -----------------------------
->  include/linux/atomic/atomic-instrumented.h |   17 --------
->  include/linux/percpu-defs.h                |   38 -------------------
->  scripts/atomic/gen-atomic-instrumented.sh  |   17 ++------
->  15 files changed, 6 insertions(+), 371 deletions(-)
-> 
-> --- a/arch/x86/include/asm/cmpxchg.h
-> +++ b/arch/x86/include/asm/cmpxchg.h
-> --- a/arch/x86/include/asm/percpu.h
-> +++ b/arch/x86/include/asm/percpu.h
-> @@ -385,30 +368,6 @@ do {									\
->  #define this_cpu_add_return_8(pcp, val)		percpu_add_return_op(8, volatile, pcp, val)
->  #define this_cpu_xchg_8(pcp, nval)		percpu_xchg_op(8, volatile, pcp, nval)
->  #define this_cpu_cmpxchg_8(pcp, oval, nval)	percpu_cmpxchg_op(8, volatile, pcp, oval, nval)
-> -
-> -/*
-> - * Pretty complex macro to generate cmpxchg16 instruction.  The instruction
-> - * is not supported on early AMD64 processors so we must be able to emulate
-> - * it in software.  The address used in the cmpxchg16 instruction must be
-> - * aligned to a 16 byte boundary.
-> - */
-> -#define percpu_cmpxchg16b_double(pcp1, pcp2, o1, o2, n1, n2)		\
-> -({									\
-> -	bool __ret;							\
-> -	typeof(pcp1) __o1 = (o1), __n1 = (n1);				\
-> -	typeof(pcp2) __o2 = (o2), __n2 = (n2);				\
-> -	alternative_io("leaq %P1,%%rsi\n\tcall this_cpu_cmpxchg16b_emu\n\t", \
+Cong pointed out that there are some inconsistencies between the BPF design
+QA and the lifecycle expectations documentation we added for kfuncs. Let's
+update the QA file to be consistent with the kfunc docs, and add references
+where it makes sense. Also document that modules may export kfuncs now.
 
-I guess now arch/x86/lib/cmpxchg*b_emu.S could be dropped too?
+v2:
+- Fix repeated word (s/defined defined/defined/)
 
-> -		       "cmpxchg16b " __percpu_arg(1) "\n\tsetz %0\n\t",	\
-> -		       X86_FEATURE_CX16,				\
-> -		       ASM_OUTPUT2("=a" (__ret), "+m" (pcp1),		\
-> -				   "+m" (pcp2), "+d" (__o2)),		\
-> -		       "b" (__n1), "c" (__n2), "a" (__o1) : "rsi");	\
-> -	__ret;								\
-> -})
-> -
-> -#define raw_cpu_cmpxchg_double_8	percpu_cmpxchg16b_double
-> -#define this_cpu_cmpxchg_double_8	percpu_cmpxchg16b_double
-> -
->  #endif
+Reported-by: Cong Wang <xiyou.wangcong@gmail.com>
+Signed-off-by: Toke Høiland-Jørgensen <toke@redhat.com>
+---
+ Documentation/bpf/bpf_design_QA.rst | 25 ++++++++++++++++++-------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/bpf/bpf_design_QA.rst b/Documentation/bpf/bpf_design_QA.rst
+index cec2371173d7..4d3135187e0c 100644
+--- a/Documentation/bpf/bpf_design_QA.rst
++++ b/Documentation/bpf/bpf_design_QA.rst
+@@ -208,6 +208,10 @@ data structures and compile with kernel internal headers. Both of these
+ kernel internals are subject to change and can break with newer kernels
+ such that the program needs to be adapted accordingly.
+ 
++New BPF functionality is generally added through the use of kfuncs instead of
++new helpers. Kfuncs are not considered part of the stable API, but has their own
++lifecycle expectations as described in :ref:`BPF_kfunc_lifecycle_expectations`.
++
+ Q: Are tracepoints part of the stable ABI?
+ ------------------------------------------
+ A: NO. Tracepoints are tied to internal implementation details hence they are
+@@ -236,8 +240,8 @@ A: NO. Classic BPF programs are converted into extend BPF instructions.
+ 
+ Q: Can BPF call arbitrary kernel functions?
+ -------------------------------------------
+-A: NO. BPF programs can only call a set of helper functions which
+-is defined for every program type.
++A: NO. BPF programs can only call specific functions exposed as BPF helpers or
++kfuncs. The set of available functions is defined for every program type.
+ 
+ Q: Can BPF overwrite arbitrary kernel memory?
+ ---------------------------------------------
+@@ -263,7 +267,12 @@ Q: New functionality via kernel modules?
+ Q: Can BPF functionality such as new program or map types, new
+ helpers, etc be added out of kernel module code?
+ 
+-A: NO.
++A: Yes, through kfuncs and kptrs
++
++The core BPF functionality such as program types, maps and helpers cannot be
++added to by modules. However, modules can expose functionality to BPF programs
++by exporting kfuncs (which may return pointers to module-internal data
++structures as kptrs).
+ 
+ Q: Directly calling kernel function is an ABI?
+ ----------------------------------------------
+@@ -278,7 +287,8 @@ kernel functions have already been used by other kernel tcp
+ cc (congestion-control) implementations.  If any of these kernel
+ functions has changed, both the in-tree and out-of-tree kernel tcp cc
+ implementations have to be changed.  The same goes for the bpf
+-programs and they have to be adjusted accordingly.
++programs and they have to be adjusted accordingly. See
++:ref:`BPF_kfunc_lifecycle_expectations` for details.
+ 
+ Q: Attaching to arbitrary kernel functions is an ABI?
+ -----------------------------------------------------
+@@ -340,6 +350,7 @@ compatibility for these features?
+ 
+ A: NO.
+ 
+-Unlike map value types, there are no stability guarantees for this case. The
+-whole API to work with allocated objects and any support for special fields
+-inside them is unstable (since it is exposed through kfuncs).
++Unlike map value types, the API to work with allocated objects and any support
++for special fields inside them is exposed through kfuncs, and thus has the same
++lifecycle expectations as the kfuncs themselves. See
++:ref:`BPF_kfunc_lifecycle_expectations` for details.
+-- 
+2.39.1
+
