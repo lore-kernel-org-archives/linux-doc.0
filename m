@@ -2,102 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C562C05027
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 13:45:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C42C5C6379F
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 13:46:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230073AbjBHNoe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Feb 2023 08:44:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43970 "EHLO
+        id S230482AbjBHNpi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Feb 2023 08:45:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbjBHNoB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 08:44:01 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF9CB3E0BC;
-        Wed,  8 Feb 2023 05:43:47 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 670021F8B4;
-        Wed,  8 Feb 2023 13:43:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1675863826; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WXjM/s4PhtaTVW4aiVsTAUAHDUvK2wieBkKbPD6AkWk=;
-        b=2D010aeo1gILwXKexBL/H6YeET0ts/vT4M7BCnWuKvynMFw5ep7OJ0Xa25MaH/hW5tWE1+
-        xa+9zp/k13p2fvffFznXRS+HNe8kUteOBo0xNsodoVXkiaeo4cU3FYezFAf/GWmkQtOF8Z
-        UIhQ36DDm0ysHsF12At4bZ6c/bpL/hI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1675863826;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WXjM/s4PhtaTVW4aiVsTAUAHDUvK2wieBkKbPD6AkWk=;
-        b=HYuwSpnsyaTUN5uRxgrezcT+Rs0EYLoKxKybHs0UMdQxjwcVFJPGjarxi1zBkQ9ciulsX7
-        2Ek8luOYzvi3URBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 56F441358A;
-        Wed,  8 Feb 2023 13:43:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id Jq0bFRKn42OaDgAAMHmgww
-        (envelope-from <jack@suse.cz>); Wed, 08 Feb 2023 13:43:46 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-        id A287EA06D5; Wed,  8 Feb 2023 14:43:45 +0100 (CET)
-Date:   Wed, 8 Feb 2023 14:43:45 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     Bart Van Assche <bvanassche@acm.org>
-Cc:     Hou Tao <houtao@huaweicloud.com>, linux-block@vger.kernel.org,
-        Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>,
-        cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-Subject: Re: [PATCH] blk-ioprio: Introduce promote-to-rt policy
-Message-ID: <20230208134345.77bdep3kzp52haxu@quack3>
-References: <20230201045227.2203123-1-houtao@huaweicloud.com>
- <8c068af3-7199-11cf-5c69-a523c7c22d9a@acm.org>
- <4f7dcb3e-2d5a-cae3-0e1c-a82bcc3d2217@huaweicloud.com>
- <b6b3c498-e90b-7d1f-6ad5-a31334e433ae@acm.org>
- <beb7782e-72a4-c350-3750-23a767c88753@huaweicloud.com>
- <aedc240d-7c9e-248a-52d2-c9775f3e8ca1@acm.org>
+        with ESMTP id S231378AbjBHNpK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 08:45:10 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D0A23B3F6;
+        Wed,  8 Feb 2023 05:45:05 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id j1so12548713pjd.0;
+        Wed, 08 Feb 2023 05:45:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=alfJUZBV+BrVmvoYfSmGRjxyktkbme4Dc/pX5IUBNAo=;
+        b=qOV7ysnAAE47VMzfW+KW7uRQ3waC/E8XmADC10hm4irUlpgyQ7W9iYPxZ4ELgAqlhT
+         LjIlmiu2gGIqass/jeVRMyvjNwUEv+WV5tdMSo2zQLMRN2vxuod8wxnC6nkM3y/R+I+h
+         K8aFy5z+AEHJZW5D7ypP7nruC1fDjCbfW2Ce/nkXTsnVFsJ86n5MCU4QSDWSSK+YQC1V
+         eR7xjDBpbTf+S+YnpbqpO3YFtt4f2FioYXoa7qazR595af1e5Vo1MyyVHSzK9M+3XQCB
+         tZ+YpRzE0Ktq/8lxY6zE8zSXlnjcecUsfEcPZIpiBBxPwscyLA9a8qvnWbtq6WFjvcKS
+         imlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=alfJUZBV+BrVmvoYfSmGRjxyktkbme4Dc/pX5IUBNAo=;
+        b=MnsJNTX4TAfzXIsKsS8jskLfOat+iq7B4ctpS7Y5HTVMmIsEwvUtwbAYCCcF4ULn49
+         Cxr02jSixQqdaLJA87mUEzMc1dn+hKyANKB5wV00IxH4UZsZ+hKSR4PELSN20Pmi+WdR
+         OKtwLdk3HWzoEtKkSkGgLJpLKjZ3iC7ADCu84etPwVQLs+lxNHg1LcB3ZfHWmVIQN4Z/
+         /fnZhS1UlaxkuiQZnW5RmbWohBjcWG6fiVFkRXTXAXXYEav4gK2ZKL5mGSAmpPFPdPTY
+         SCyp1u5gcdHo3p6UqD9ddiS70EIjEucAuWfJxqA7t5+fW2ReVTMBLDHoqkDG0WsR0DSj
+         Iftw==
+X-Gm-Message-State: AO0yUKUar6sEBP2fYdnzmHDa4OTNoshCZtlHsBw/6zc078ajSUEvke9S
+        scA/bnD/3e+uT9EHfInIb1o=
+X-Google-Smtp-Source: AK7set+sPEOSedwTYT2y4bNUQKcEXNgoZqhXS89DjZ61bh7BdhGz84e05koI5bATzWm0v/BjRJNztQ==
+X-Received: by 2002:a17:903:120b:b0:194:58c7:ab79 with SMTP id l11-20020a170903120b00b0019458c7ab79mr9146382plh.63.1675863904496;
+        Wed, 08 Feb 2023 05:45:04 -0800 (PST)
+Received: from localhost ([2400:8902::f03c:93ff:fe27:642a])
+        by smtp.gmail.com with ESMTPSA id jc10-20020a17090325ca00b00199190b00efsm6056928plb.97.2023.02.08.05.44.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Feb 2023 05:45:02 -0800 (PST)
+Date:   Wed, 8 Feb 2023 13:44:49 +0000
+From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
+        boqun.feng@gmail.com, mark.rutland@arm.com,
+        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
+        cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH v2 09/10] arch: Remove cmpxchg_double
+Message-ID: <Y+OnUXkKcT2Y7Yiq@localhost>
+References: <20230202145030.223740842@infradead.org>
+ <20230202152655.746130134@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aedc240d-7c9e-248a-52d2-c9775f3e8ca1@acm.org>
+In-Reply-To: <20230202152655.746130134@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 03-02-23 11:45:32, Bart Van Assche wrote:
-> On 2/2/23 17:48, Hou Tao wrote:
-> > I don't get it on how to remove IOPRIO_POL_PROMOTION when calculating the final
-> > ioprio for bio. IOPRIO_POL_PROMOTION is not used for IOPRIO_CLASS values but
-> > used to determinate on how to calculate the final ioprio for bio: choosing the
-> > maximum or minimum between blkcg ioprio and original bio bi_ioprio.
+On Thu, Feb 02, 2023 at 03:50:39PM +0100, Peter Zijlstra wrote:
+> No moar users, remove the monster.
 > 
-> Do the block layer code changes shown below implement the functionality
-> that you need?
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> ---
+>  Documentation/core-api/this_cpu_ops.rst    |    2 -
+>  arch/arm64/include/asm/atomic_ll_sc.h      |   33 ----------------
+>  arch/arm64/include/asm/atomic_lse.h        |   36 ------------------
+>  arch/arm64/include/asm/cmpxchg.h           |   46 -----------------------
+>  arch/arm64/include/asm/percpu.h            |   10 -----
+>  arch/s390/include/asm/cmpxchg.h            |   34 -----------------
+>  arch/s390/include/asm/percpu.h             |   18 ---------
+>  arch/x86/include/asm/cmpxchg.h             |   25 ------------
+>  arch/x86/include/asm/cmpxchg_32.h          |    1 
+>  arch/x86/include/asm/cmpxchg_64.h          |    1 
+>  arch/x86/include/asm/percpu.h              |   41 --------------------
+>  include/asm-generic/percpu.h               |   58 -----------------------------
+>  include/linux/atomic/atomic-instrumented.h |   17 --------
+>  include/linux/percpu-defs.h                |   38 -------------------
+>  scripts/atomic/gen-atomic-instrumented.sh  |   17 ++------
+>  15 files changed, 6 insertions(+), 371 deletions(-)
+> 
+> --- a/arch/x86/include/asm/cmpxchg.h
+> +++ b/arch/x86/include/asm/cmpxchg.h
+> --- a/arch/x86/include/asm/percpu.h
+> +++ b/arch/x86/include/asm/percpu.h
+> @@ -385,30 +368,6 @@ do {									\
+>  #define this_cpu_add_return_8(pcp, val)		percpu_add_return_op(8, volatile, pcp, val)
+>  #define this_cpu_xchg_8(pcp, nval)		percpu_xchg_op(8, volatile, pcp, nval)
+>  #define this_cpu_cmpxchg_8(pcp, oval, nval)	percpu_cmpxchg_op(8, volatile, pcp, oval, nval)
+> -
+> -/*
+> - * Pretty complex macro to generate cmpxchg16 instruction.  The instruction
+> - * is not supported on early AMD64 processors so we must be able to emulate
+> - * it in software.  The address used in the cmpxchg16 instruction must be
+> - * aligned to a 16 byte boundary.
+> - */
+> -#define percpu_cmpxchg16b_double(pcp1, pcp2, o1, o2, n1, n2)		\
+> -({									\
+> -	bool __ret;							\
+> -	typeof(pcp1) __o1 = (o1), __n1 = (n1);				\
+> -	typeof(pcp2) __o2 = (o2), __n2 = (n2);				\
+> -	alternative_io("leaq %P1,%%rsi\n\tcall this_cpu_cmpxchg16b_emu\n\t", \
 
-Just one question guys: So with my a78418e6a04c ("block: Always initialize
-bio IO priority on submit") none-to-rt policy became effectively a noop as
-Hou properly noticed. Are we aware of any users that were broken by this?
-Shouldn't we rather fix the code so that none-to-rt starts to operate
-correctly again? Or maybe change the none-to-rt meaning to be actually
-promote-to-rt?
+I guess now arch/x86/lib/cmpxchg*b_emu.S could be dropped too?
 
-I have to admit I'm wondering a bit what was the intended usecase behind
-the introduction of none-to-rt policy. Can someone elaborate? promote-to-rt 
-makes some sense to me - we have a priviledged cgroup we want to provide
-low latency access to IO but none-to-rt just does not make much sense to
-me...
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> -		       "cmpxchg16b " __percpu_arg(1) "\n\tsetz %0\n\t",	\
+> -		       X86_FEATURE_CX16,				\
+> -		       ASM_OUTPUT2("=a" (__ret), "+m" (pcp1),		\
+> -				   "+m" (pcp2), "+d" (__o2)),		\
+> -		       "b" (__n1), "c" (__n2), "a" (__o1) : "rsi");	\
+> -	__ret;								\
+> -})
+> -
+> -#define raw_cpu_cmpxchg_double_8	percpu_cmpxchg16b_double
+> -#define this_cpu_cmpxchg_double_8	percpu_cmpxchg16b_double
+> -
+>  #endif
