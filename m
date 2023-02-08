@@ -2,81 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A83C636CC
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 14:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 265C5C636D7
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 14:52:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231429AbjBHOkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Feb 2023 09:40:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50290 "EHLO
+        id S231586AbjBHOv6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Feb 2023 09:51:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231407AbjBHOkT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 09:40:19 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DC6524C9D
-        for <linux-doc@vger.kernel.org>; Wed,  8 Feb 2023 06:40:18 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id p9so5763026ejj.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Feb 2023 06:40:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=s9SqKFTGfsUhK0VGlIsx60gznbUo1PU0OFbxtN+0yhY=;
-        b=jlgyWpaKF22lnEWRYaSMF+UNOB3z0G1RMdUbmlRI+Sn+XY7EcL2OaAXMRtthMX0cGA
-         VcfB5lzzmIVNPdBYBoMGkDDarSXgB05dS39oTh3whI2tVG2moG3YBcbyvzOANJc3YYWs
-         ZYPzZH+qVHzYuZtHwjVRcGrBvHR8meM3Xk1HCy2l0ltsqqN9VjLm9fvdd6FR2bEDrR/K
-         OiFg/G3RkI5an3wnecmurwZg3szYm8hS8lRv+N0R72MFFcz2qiyRW0Zcdv7g9fJva6LF
-         NLwEQNCbzhoFWxd2UmK0JHzTH1gH0LCg4rQ1TCu262/HIY1FvTuAPT2ZmvqlmbwxqQEX
-         Vmhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s9SqKFTGfsUhK0VGlIsx60gznbUo1PU0OFbxtN+0yhY=;
-        b=s+7Rnf5YnPaSXX0qE37sVG7i/QVqcCTIHp0U7z+KA1RaKZQwEMTrpu6LcY36MwLK65
-         JC8s46pLWyLP3HvqGtocJFxezvq93SXanmK1L6jVvqKLx2B/JRGWFHhKTL2pNqHwWlmD
-         IojIgsTEidsF4k2d0bexEtV9/RYV6+K3xMHGcrd3ynziyuT11cvZW+pFtFRq4mefWXvr
-         JquAM/oOiEPYyRssq8UvaEI3hlPT2o8OIHrHlFgJzYyp4CyNTI8yVEd2hodywTWtWQJ5
-         1kqQQydYqWxrP4SLi8ulldlxl1rn1IeloNY0UW+tFXI6be6iOC5Ql674df58GngJfni5
-         HSSQ==
-X-Gm-Message-State: AO0yUKUX56CKEU7NcA1BQq+VTVJ4lwGzdufobWD/+iSH3rb31yl0VeWK
-        jgaaG9pGU0e9NUpJKDUAPWuDmg==
-X-Google-Smtp-Source: AK7set/0gSIA4pnaYhxPIic71u2qEnu5SyAeHnJiEtpWOHAq/G7JK0KqaH8e6Q582tOxHN4nPJPDsA==
-X-Received: by 2002:a17:906:8d0e:b0:8ae:30bb:a12c with SMTP id rv14-20020a1709068d0e00b008ae30bba12cmr2281175ejc.28.1675867217938;
-        Wed, 08 Feb 2023 06:40:17 -0800 (PST)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id fp3-20020a1709069e0300b008aea5e0938esm654244ejc.183.2023.02.08.06.40.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Feb 2023 06:40:17 -0800 (PST)
-Date:   Wed, 8 Feb 2023 15:40:16 +0100
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     alejandro.lucero-palau@amd.com
-Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, habetsm.xilinx@gmail.com,
-        ecree.xilinx@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
-        jiri@nvidia.com
-Subject: Re: [PATCH v6 net-next 8/8] sfc: add support for devlink
- port_function_hw_addr_set in ef100
-Message-ID: <Y+O0UE2Drm3iyZE/@nanopsycho>
-References: <20230208142519.31192-1-alejandro.lucero-palau@amd.com>
- <20230208142519.31192-9-alejandro.lucero-palau@amd.com>
+        with ESMTP id S231256AbjBHOvx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 09:51:53 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F345C15B;
+        Wed,  8 Feb 2023 06:51:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675867913; x=1707403913;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3P68b0TVOlpRiURRNLVvw64Yo8IjZVFB+vqzhU4qIC8=;
+  b=N4m5Epe6+urLldVT+ALcBfv7cRHHaaacs8NI6i86a+/bMg7up1jRQul3
+   K2cXc9lMW+EVI7gkHMN61O28/BPPihQ+YbJgorsIhnSvftSYEVyRGkTfC
+   ZCix5FuXDdTfOSIHY5zTGRSuFjnR2TX4Vs5YCran3+jezZ8FTp7t4rYKZ
+   6icmnw5U8T8SVX3MHd8g1iPkGC8Wj0VXJlpSy+Xa5KAOUw8qCEuswgy9k
+   wrzatSM7BmFrjHXRGa784JlNOErghFYOjQ2SdnyyhN+QNMlBGc0NG1WgY
+   cRm7XE/vO320D5kl4GsxEcmF06ICIIT+o0t2yeXOac4WWy+cbdT7IJDdY
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="313454189"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
+   d="scan'208";a="313454189"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 06:51:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="841199018"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
+   d="scan'208";a="841199018"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga005.jf.intel.com with ESMTP; 08 Feb 2023 06:51:44 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pPlnR-004ANT-0z;
+        Wed, 08 Feb 2023 16:51:41 +0200
+Date:   Wed, 8 Feb 2023 16:51:41 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
+        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v3 06/12] gpiolib: split linux/gpio/driver.h out of
+ linux/gpio.h
+Message-ID: <Y+O2/dVDcvnXByc+@smile.fi.intel.com>
+References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
+ <20230207142952.51844-7-andriy.shevchenko@linux.intel.com>
+ <CACRpkdaPgjDijPjCdinWy5_Rd8g3idv-8K=YPTv5iTfJKFuJfw@mail.gmail.com>
+ <Y+LWyc4rqCVq5hEi@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230208142519.31192-9-alejandro.lucero-palau@amd.com>
+In-Reply-To: <Y+LWyc4rqCVq5hEi@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wed, Feb 08, 2023 at 03:25:19PM CET, alejandro.lucero-palau@amd.com wrote:
->From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
->
->Using the builtin client handle id infrastructure, add support for
->setting the mac address linked to mports in ef100. This implies to
->execute an MCDI command for giving the address to the firmware for
->the specific devlink port.
->
->Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+On Wed, Feb 08, 2023 at 12:55:06AM +0200, Andy Shevchenko wrote:
+> On Tue, Feb 07, 2023 at 03:55:23PM +0100, Linus Walleij wrote:
+> > On Tue, Feb 7, 2023 at 3:29 PM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > 
+> > > From: Arnd Bergmann <arnd@arndb.de>
+> > >
+> > > Almost all gpio drivers include linux/gpio/driver.h, and other
+> > > files should not rely on includes from this header.
+> > >
+> > > Remove the indirect include from here and include the correct
+> > > headers directly from where they are used.
+> 
+> ...
+> 
+> > Make sure you push this to the kernel.org build servers (zeroday builds),
+> 
+> Of course, that is the purpose of publishing this before the release (so we
+> will have some TODO list that eventually this can be applied for v6.4-rc1).
+> 
+> > I think this patch needs to hit some more files, in my tests with a similar
+> > patch at least these:
+> 
+> Right. I forgot to also incorporate your stuff into this series.
+> Do you have anything that I can take as is?
 
-Reviewed-by: Jiri Pirko <jiri@nvidia.com>
+I'm going to incorporate the following:
+
+	gpio: Make the legacy <linux/gpio.h> consumer-only
+	ARM: s3c24xx: Use the right include
+	ARM: orion/gpio: Use the right include
+	hte: tegra-194: Use proper includes
+	pcmcia: pxa2xx_viper: Include dependency
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
