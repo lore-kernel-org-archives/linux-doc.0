@@ -2,383 +2,310 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 427E6C64EC4
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 21:05:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFA32C636D3
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 21:27:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231879AbjBHVFc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Feb 2023 16:05:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40194 "EHLO
+        id S231391AbjBHV1K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Feb 2023 16:27:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232437AbjBHVEz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 16:04:55 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC12A3EFF7;
-        Wed,  8 Feb 2023 13:04:32 -0800 (PST)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 318KqmFc015146;
-        Wed, 8 Feb 2023 21:04:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=k/v7mdhNryfqOSlWbSwdWTE1Ww7OClm6nR+hdGhYcsA=;
- b=ltW2AiLFrFxcCn1OyGR4b4mUOpcmmsnwTb77idm3/tLYS3/ps1lFa/LyENrGV+6Sc2X1
- +a4EYhXH/c+4WeuMURscUJVqI06zfuQ64yEeXZKyd8VIMGRGh2R4VkEG3/S3vmdeCe2D
- gFpuWznn6MX7tx1VTaUNXGQj3Q/+8lU0quS7c6z9whUpJiOleveGA37dzSw3MvWRGWcg
- kV7qD5/FKzeg2Lc3OZHYvjkid9RJlP8MQvL3DtYse+UwJbuFuZn55VjJxjRD/DRCXG1V
- 0C8mXTEcQXb3XbuFUHcAkFbGuR4JtRlw99zLCs4uKyA3uiz/quxLG714hfgz4wPhFUIs 4Q== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nmg9eger8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 08 Feb 2023 21:04:18 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 318L4HEv014338
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 8 Feb 2023 21:04:17 GMT
-Received: from [10.134.67.48] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 8 Feb 2023
- 13:04:17 -0800
-Message-ID: <6f214b5a-80da-23c5-6b46-6f75a173a004@quicinc.com>
-Date:   Wed, 8 Feb 2023 13:04:16 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v9 14/27] gunyah: vm_mgr: Add ioctls to support basic
- non-proxy VM boot
-Content-Language: en-US
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>
-CC:     Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        with ESMTP id S229953AbjBHV1J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 16:27:09 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06521C7DB;
+        Wed,  8 Feb 2023 13:27:05 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 512D7B81F05;
+        Wed,  8 Feb 2023 21:27:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C98E0C433D2;
+        Wed,  8 Feb 2023 21:26:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675891622;
+        bh=oI7y/FZhevEdPWTxEZ3gltCzaLhYnX3pa+zhqi7lojU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kvUV+QOoPcofq6JRXv3o5N3Ym1RXQNN1T/FLKfz+9De+6hKU2UZ4BfURPanxoURAh
+         /8XMjpDLGHJyG0c5gxbYCq4iuvzcIaV20GeASVA5vIFaVvSjC+8lXNov9n2jAym2Um
+         KyE2+KGwAAwstbZdDTlLMcKdwe19eSR7BmYHRb3vILrvk6ZGu0KuzwunctXPPNeL52
+         IRhkHPJ5vkDwcyjfrCZSBQmdfn030NM4GOC6VntaI415hL7yuY3SbDar9fyzg6iWzM
+         J+0wxmO0HOc41xm69u+6BC9Y1hPDve7nu6UQ695jU2E9rYVr1zi7jX4kp5fFYdjlIN
+         W/Asq6vZDNo/g==
+Date:   Wed, 8 Feb 2023 21:26:57 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-15-quic_eberman@quicinc.com>
- <14d57333-02bc-6294-ed20-4c882dcd0dae@linaro.org>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <14d57333-02bc-6294-ed20-4c882dcd0dae@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: rEONG9HT338ZzKG4ZVM-Lz0AkwSKmOyL
-X-Proofpoint-ORIG-GUID: rEONG9HT338ZzKG4ZVM-Lz0AkwSKmOyL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-08_09,2023-02-08_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
- malwarescore=0 impostorscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
- priorityscore=1501 clxscore=1015 lowpriorityscore=0 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302080178
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH 06/24] RISC-V: ACPI: Add PCI functions to build ACPI core
+Message-ID: <Y+QToXO2kYQ2ipdz@spud>
+References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
+ <20230130182225.2471414-7-sunilvl@ventanamicro.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="pAMvRf+LG3lTC78u"
+Content-Disposition: inline
+In-Reply-To: <20230130182225.2471414-7-sunilvl@ventanamicro.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--pAMvRf+LG3lTC78u
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2/7/2023 3:36 AM, Srinivas Kandagatla wrote:
-> 
-> 
-> On 20/01/2023 22:46, Elliot Berman wrote:
->> Add remaining ioctls to support non-proxy VM boot:
->>
->>   - Gunyah Resource Manager uses the VM's devicetree to configure the
->>     virtual machine. The location of the devicetree in the guest's
->>     virtual memory can be declared via the SET_DTB_CONFIG ioctl.
->>   - Trigger start of the virtual machine with VM_START ioctl.
->>
->> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
->> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
->> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->> ---
->>   drivers/virt/gunyah/vm_mgr.c    | 110 ++++++++++++++++++++++++++++++++
->>   drivers/virt/gunyah/vm_mgr.h    |   9 +++
->>   drivers/virt/gunyah/vm_mgr_mm.c |  24 +++++++
->>   include/uapi/linux/gunyah.h     |   8 +++
->>   4 files changed, 151 insertions(+)
->>
->> diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
->> index b847fde63333..48bd3f06fb6c 100644
->> --- a/drivers/virt/gunyah/vm_mgr.c
->> +++ b/drivers/virt/gunyah/vm_mgr.c
->> @@ -9,6 +9,7 @@
->>   #include <linux/file.h>
->>   #include <linux/gunyah_rsc_mgr.h>
->>   #include <linux/miscdevice.h>
->> +#include <linux/mm.h>
->>   #include <linux/module.h>
->>   #include <uapi/linux/gunyah.h>
->> @@ -37,10 +38,98 @@ static __must_check struct gunyah_vm 
->> *gunyah_vm_alloc(struct gh_rm_rpc *rm)
->>       mutex_init(&ghvm->mm_lock);
->>       INIT_LIST_HEAD(&ghvm->memory_mappings);
->> +    init_rwsem(&ghvm->status_lock);
-> 
-> using read write semaphore is really not going to make any difference in 
-> this particular case.
-> we have just one reader (gh_vm_ensure_started) and it mostly makes 
-> synchronous call to writer (vm_start).
-> 
+On Mon, Jan 30, 2023 at 11:52:07PM +0530, Sunil V L wrote:
+> When CONFIG_PCI is enabled, ACPI core expects few arch
+> functions related to PCI. Add those functions so that
+> ACPI core gets build. These are levraged from arm64.
+>=20
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> ---
+>  arch/riscv/kernel/Makefile |   1 +
+>  arch/riscv/kernel/pci.c    | 173 +++++++++++++++++++++++++++++++++++++
+>  2 files changed, 174 insertions(+)
+>  create mode 100644 arch/riscv/kernel/pci.c
 
-When launching multiple vCPUs, the threads might be racing to ensure the 
-VM is started. The typical case is that VM is running and we would have 
-bad performance if all the vCPUs needed to sequentially check that the 
-VM is indeed running before they're scheduled. rwsem can allow all the 
-threads to check if VM is running simultaneously and only one thread to 
-start the VM if it wasn't running.
+> diff --git a/arch/riscv/kernel/pci.c b/arch/riscv/kernel/pci.c
+> new file mode 100644
+> index 000000000000..3388af3a67a0
+> --- /dev/null
+> +++ b/arch/riscv/kernel/pci.c
+> @@ -0,0 +1,173 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Code borrowed from ARM64
+> + *
+> + * Copyright (C) 2003 Anton Blanchard <anton@au.ibm.com>, IBM
+> + * Copyright (C) 2014 ARM Ltd.
+> + * Copyright (C) 2022-2023 Ventana Micro System Inc.
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/init.h>
+> +#include <linux/io.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mm.h>
+> +#include <linux/pci.h>
+> +#include <linux/pci-acpi.h>
+> +#include <linux/pci-ecam.h>
+> +
+> +#ifdef CONFIG_ACPI
 
->>       return ghvm;
->>   }
->> +static int gh_vm_start(struct gunyah_vm *ghvm)
->> +{
->> +    struct gunyah_vm_memory_mapping *mapping;
->> +    u64 dtb_offset;
->> +    u32 mem_handle;
->> +    int ret;
->> +
->> +    down_write(&ghvm->status_lock);
->> +    if (ghvm->vm_status != GH_RM_VM_STATUS_NO_STATE) {
->> +        up_write(&ghvm->status_lock);
->> +        return 0;
->> +    }
->> +
->> +    list_for_each_entry(mapping, &ghvm->memory_mappings, list) {
->> +        switch (mapping->share_type) {
->> +        case VM_MEM_LEND:
->> +            ret = gh_rm_mem_lend(ghvm->rm, &mapping->parcel);
->> +            break;
->> +        case VM_MEM_SHARE:
->> +            ret = gh_rm_mem_share(ghvm->rm, &mapping->parcel);
->> +            break;
->> +        }
-> 
->> +        if (ret > 0)
->> +            ret = -EINVAL;
-> 
-> why are we converting the error messages, afaiu both gh_rm_mem_lend and 
-> gh_rm_mem_share return a valid error codes.
-> 
+Quickly checking against ARM64, they do not wrap the read/write
+functions in this ifdef, so why do we need to do so?
 
-Removed.
+> +/*
+> + * raw_pci_read/write - Platform-specific PCI config space access.
+> + */
+> +int raw_pci_read(unsigned int domain, unsigned int bus,
+> +		  unsigned int devfn, int reg, int len, u32 *val)
+> +{
+> +	struct pci_bus *b =3D pci_find_bus(domain, bus);
+> +
+> +	if (!b)
+> +		return PCIBIOS_DEVICE_NOT_FOUND;
+> +	return b->ops->read(b, devfn, reg, len, val);
 
->> +        if (ret) {
->> +            pr_warn("Failed to %s parcel %d: %d\n",
->> +                mapping->share_type == VM_MEM_LEND ? "lend" : "share",
->> +                mapping->parcel.label,
->> +                ret);
->> +            goto err;
->> +        }
->> +    }
->> +
->> +    mapping = gh_vm_mem_mapping_find_mapping(ghvm, 
->> ghvm->dtb_config.gpa, ghvm->dtb_config.size);
->> +    if (!mapping) {
->> +        pr_warn("Failed to find the memory_handle for DTB\n");
->> +        ret = -EINVAL;
->> +        goto err;
->> +    }
->> +
->> +    mem_handle = mapping->parcel.mem_handle;
->> +    dtb_offset = ghvm->dtb_config.gpa - mapping->guest_phys_addr;
->> +
->> +    ret = gh_rm_vm_configure(ghvm->rm, ghvm->vmid, ghvm->auth, 
->> mem_handle,
->> +                0, 0, dtb_offset, ghvm->dtb_config.size);
->> +    if (ret) {
->> +        pr_warn("Failed to configure VM: %d\n", ret);
->> +        goto err;
->> +    }
->> +
->> +    ret = gh_rm_vm_init(ghvm->rm, ghvm->vmid);
->> +    if (ret) {
->> +        pr_warn("Failed to initialize VM: %d\n", ret);
->> +        goto err;
->> +    }
->> +
->> +    ret = gh_rm_vm_start(ghvm->rm, ghvm->vmid);
->> +    if (ret) {
->> +        pr_warn("Failed to start VM: %d\n", ret);
->> +        goto err;
->> +    }
->> +
->> +    ghvm->vm_status = GH_RM_VM_STATUS_READY;
->> +
->> +    up_write(&ghvm->stvm_status = atus_lock);
->> +    return ret;
->> +err:
->> +    ghvm->vm_status = GH_RM_VM_STATUS_INIT_FAILED;
->> +    up_write(&ghvm->status_lock);
->> +    return ret;
->> +}
->> +
->> +static void gh_vm_stop(struct gunyah_vm *ghvm)
->> +{
->> +    int ret;
->> +
->> +    down_write(&ghvm->status_lock);
->> +    if (ghvm->vm_status == GH_RM_VM_STATUS_READY) {
->> +        ret = gh_rm_vm_stop(ghvm->rm, ghvm->vmid);
->> +        if (ret)
->> +            pr_warn("Failed to stop VM: %d\n", ret);
->> +    }
->> +
->> +    ghvm->vm_status = GH_RM_VM_STATUS_EXITED;
->> +    up_write(&ghvm->status_lock);
->> +}
->> +
->>   static long gh_vm_ioctl(struct file *filp, unsigned int cmd, 
->> unsigned long arg)
->>   {
->>       struct gunyah_vm *ghvm = filp->private_data;
->> @@ -84,6 +173,25 @@ static long gh_vm_ioctl(struct file *filp, 
->> unsigned int cmd, unsigned long arg)
->>           }
->>           break;
->>       }
->> +    case GH_VM_SET_DTB_CONFIG: {
->> +        struct gh_vm_dtb_config dtb_config;
->> +
->> +        r = -EFAULT;
->> +        if (copy_from_user(&dtb_config, argp, sizeof(dtb_config)))
->> +            break;
->> +
-> same feedback as other patches on setting error codes.
->> +        dtb_config.size = PAGE_ALIGN(dtb_config.size);
->> +        ghvm->dtb_config = dtb_config;
->> +
->> +        r = 0;
->> +        break;
->> +    }
->> +    case GH_VM_START: {
->> +        r = gh_vm_start(ghvm);
->> +        if (r)
->> +            r = -EINVAL;
->> +        break;
->> +    }
->>       default:
->>           r = -ENOTTY;
->>           break;
->> @@ -97,6 +205,8 @@ static int gh_vm_release(struct inode *inode, 
->> struct file *filp)
->>       struct gunyah_vm *ghvm = filp->private_data;
->>       struct gunyah_vm_memory_mapping *mapping, *tmp;
->> +    gh_vm_stop(ghvm);
->> +
->>       list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, 
->> list) {
->>           gh_vm_mem_mapping_reclaim(ghvm, mapping);
->>           kfree(mapping);
->> diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
->> index 6b38bf780f76..5c02fb305893 100644
->> --- a/drivers/virt/gunyah/vm_mgr.h
->> +++ b/drivers/virt/gunyah/vm_mgr.h
->> @@ -10,6 +10,7 @@
->>   #include <linux/list.h>
->>   #include <linux/miscdevice.h>
->>   #include <linux/mutex.h>
->> +#include <linux/rwsem.h>
->>   #include <uapi/linux/gunyah.h>
->> @@ -34,6 +35,12 @@ struct gunyah_vm {
->>       u16 vmid;
->>       struct gh_rm *rm;
->> +    enum gh_rm_vm_auth_mechanism auth;
->> +    struct gh_vm_dtb_config dtb_config;
->> +
->> +    enum gh_rm_vm_status vm_status;
->> +    struct rw_semaphore status_lock;
->> +
->>       struct mutex mm_lock;
->>       struct list_head memory_mappings;
->>   };
->> @@ -42,5 +49,7 @@ struct gunyah_vm_memory_mapping 
->> *gh_vm_mem_mapping_alloc(struct gunyah_vm *ghvm,
->>                               struct gh_userspace_memory_region *region);
->>   void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct 
->> gunyah_vm_memory_mapping *mapping);
->>   struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct 
->> gunyah_vm *ghvm, u32 label);
->> +struct gunyah_vm_memory_mapping 
->> *gh_vm_mem_mapping_find_mapping(struct gunyah_vm *ghvm,
->> +                                u64 gpa, u32 size);
->>   #endif
->> diff --git a/drivers/virt/gunyah/vm_mgr_mm.c 
->> b/drivers/virt/gunyah/vm_mgr_mm.c
->> index f2dbdb4ee8ab..7fcb9f8a29bf 100644
->> --- a/drivers/virt/gunyah/vm_mgr_mm.c
->> +++ b/drivers/virt/gunyah/vm_mgr_mm.c
->> @@ -53,6 +53,30 @@ void gh_vm_mem_mapping_reclaim(struct gunyah_vm 
->> *ghvm, struct gunyah_vm_memory_m
->>       mutex_unlock(&ghvm->mm_lock);
->>   }
->> +struct gunyah_vm_memory_mapping 
->> *gh_vm_mem_mapping_find_mapping(struct gunyah_vm *ghvm,
->> +                                u64 gpa, u32 size)
->> +{
->> +    struct gunyah_vm_memory_mapping *mapping = NULL;
->> +    int ret;
->> +
->> +    ret = mutex_lock_interruptible(&ghvm->mm_lock);
->> +    if (ret)
->> +        return ERR_PTR(ret);
->> +
->> +    list_for_each_entry(mapping, &ghvm->memory_mappings, list) {
->> +        if (gpa >= mapping->guest_phys_addr &&
->> +            (gpa + size <= mapping->guest_phys_addr +
->> +            (mapping->npages << PAGE_SHIFT))) {
->> +            goto unlock;
->> +        }
->> +    }
->> +
->> +    mapping = NULL;
->> +unlock:
->> +    mutex_unlock(&ghvm->mm_lock);
->> +    return mapping;
->> +}
->> +
->>   struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct 
->> gunyah_vm *ghvm, u32 label)
->>   {
->>       struct gunyah_vm_memory_mapping *mapping;
->> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
->> index 574f33b198d0..36359ad2175e 100644
->> --- a/include/uapi/linux/gunyah.h
->> +++ b/include/uapi/linux/gunyah.h
->> @@ -42,4 +42,12 @@ struct gh_userspace_memory_region {
->>   #define GH_VM_SET_USER_MEM_REGION    _IOW(GH_IOCTL_TYPE, 0x1, \
->>                           struct gh_userspace_memory_region)
->> +struct gh_vm_dtb_config {
->> +    __u64 gpa;
-> 
-> need kernedoc, what is gpa?
-> 
+A newline before the return would be appreciated by my eyes :)
 
-Added. It's the address of the VM's devicetree in guest memory.
+> +}
+> +
+> +int raw_pci_write(unsigned int domain, unsigned int bus,
+> +		unsigned int devfn, int reg, int len, u32 val)
 
->> +    __u64 size;
->> +};
->> +#define GH_VM_SET_DTB_CONFIG    _IOW(GH_IOCTL_TYPE, 0x2, struct 
->> gh_vm_dtb_config)
->> +
->> +#define GH_VM_START        _IO(GH_IOCTL_TYPE, 0x3)
->> +
->>   #endif
+Also, both read and write functions here appear to have incorrect
+alignment on the second lines.
+
+> +{
+> +	struct pci_bus *b =3D pci_find_bus(domain, bus);
+> +
+> +	if (!b)
+> +		return PCIBIOS_DEVICE_NOT_FOUND;
+> +	return b->ops->write(b, devfn, reg, len, val);
+> +}
+> +
+> +
+
+Extra newline here too, looks to be exactly where you deleted the numa
+stuff from arm64 ;)
+
+> +struct acpi_pci_generic_root_info {
+> +	struct acpi_pci_root_info	common;
+> +	struct pci_config_window	*cfg;	/* config space mapping */
+> +};
+> +
+> +int acpi_pci_bus_find_domain_nr(struct pci_bus *bus)
+> +{
+> +	struct pci_config_window *cfg =3D bus->sysdata;
+> +	struct acpi_device *adev =3D to_acpi_device(cfg->parent);
+> +	struct acpi_pci_root *root =3D acpi_driver_data(adev);
+> +
+> +	return root->segment;
+> +}
+> +
+> +static int pci_acpi_root_prepare_resources(struct acpi_pci_root_info *ci)
+
+Rhetorical question perhaps, but what does "ci" mean?
+
+> +{
+> +	struct resource_entry *entry, *tmp;
+> +	int status;
+> +
+> +	status =3D acpi_pci_probe_root_resources(ci);
+> +	resource_list_for_each_entry_safe(entry, tmp, &ci->resources) {
+> +		if (!(entry->res->flags & IORESOURCE_WINDOW))
+> +			resource_list_destroy_entry(entry);
+> +	}
+> +	return status;
+
+Perhaps that extra newline from above could migrate down to the line
+above the return here.
+
+> +}
+> +
+> +/*
+> + * Lookup the bus range for the domain in MCFG, and set up config space
+> + * mapping.
+> + */
+> +static struct pci_config_window *
+> +pci_acpi_setup_ecam_mapping(struct acpi_pci_root *root)
+
+This all fits on 1 line.
+
+> +{
+> +	struct device *dev =3D &root->device->dev;
+> +	struct resource *bus_res =3D &root->secondary;
+> +	u16 seg =3D root->segment;
+> +	const struct pci_ecam_ops *ecam_ops;
+> +	struct resource cfgres;
+> +	struct acpi_device *adev;
+> +	struct pci_config_window *cfg;
+> +	int ret;
+> +
+> +	ret =3D pci_mcfg_lookup(root, &cfgres, &ecam_ops);
+> +	if (ret) {
+> +		dev_err(dev, "%04x:%pR ECAM region not found\n", seg, bus_res);
+> +		return NULL;
+> +	}
+> +
+> +	adev =3D acpi_resource_consumer(&cfgres);
+> +	if (adev)
+> +		dev_info(dev, "ECAM area %pR reserved by %s\n", &cfgres,
+> +			 dev_name(&adev->dev));
+> +	else
+> +		dev_warn(dev, FW_BUG "ECAM area %pR not reserved in ACPI namespace\n",
+> +			 &cfgres);
+> +
+> +	cfg =3D pci_ecam_create(dev, &cfgres, bus_res, ecam_ops);
+> +	if (IS_ERR(cfg)) {
+> +		dev_err(dev, "%04x:%pR error %ld mapping ECAM\n", seg, bus_res,
+> +			PTR_ERR(cfg));
+> +		return NULL;
+> +	}
+> +
+> +	return cfg;
+> +}
+> +
+> +/* release_info: free resources allocated by init_info */
+
+The fact that you haven't picked a consistent comment style for this
+functions really bothers my OCD. Yes, it may be copy-paste from arm64,
+but since this is "new code" I don't think there's harm in at least
+*starting* with something that looks cohesive.
+
+> +static void pci_acpi_generic_release_info(struct acpi_pci_root_info *ci)
+> +{
+> +	struct acpi_pci_generic_root_info *ri;
+> +
+> +	ri =3D container_of(ci, struct acpi_pci_generic_root_info, common);
+> +	pci_ecam_free(ri->cfg);
+> +	kfree(ci->ops);
+> +	kfree(ri);
+> +}
+> +
+> +
+
+Extra newline here.
+
+> +/* Interface called from ACPI code to setup PCI host controller */
+> +struct pci_bus *pci_acpi_scan_root(struct acpi_pci_root *root)
+> +{
+> +	struct acpi_pci_generic_root_info *ri;
+> +	struct pci_bus *bus, *child;
+> +	struct acpi_pci_root_ops *root_ops;
+> +	struct pci_host_bridge *host;
+> +
+> +	ri =3D kzalloc(sizeof(*ri), GFP_KERNEL);
+> +	if (!ri)
+> +		return NULL;
+> +
+> +	root_ops =3D kzalloc(sizeof(*root_ops), GFP_KERNEL);
+> +	if (!root_ops) {
+> +		kfree(ri);
+> +		return NULL;
+> +	}
+> +
+> +	ri->cfg =3D pci_acpi_setup_ecam_mapping(root);
+> +	if (!ri->cfg) {
+> +		kfree(ri);
+> +		kfree(root_ops);
+> +		return NULL;
+> +	}
+> +
+> +	root_ops->release_info =3D pci_acpi_generic_release_info;
+> +	root_ops->prepare_resources =3D pci_acpi_root_prepare_resources;
+> +	root_ops->pci_ops =3D (struct pci_ops *)&ri->cfg->ops->pci_ops;
+> +	bus =3D acpi_pci_root_create(root, root_ops, &ri->common, ri->cfg);
+> +	if (!bus)
+> +		return NULL;
+> +
+> +	/* If we must preserve the resource configuration, claim now */
+> +	host =3D pci_find_host_bridge(bus);
+> +	if (host->preserve_config)
+> +		pci_bus_claim_resources(bus);
+> +
+> +	/*
+> +	 * Assign whatever was left unassigned. If we didn't claim above,
+> +	 * this will reassign everything.
+> +	 */
+> +	pci_assign_unassigned_root_bus_resources(bus);
+> +
+> +	list_for_each_entry(child, &bus->children, node)
+> +		pcie_bus_configure_settings(child);
+> +
+> +	return bus;
+> +}
+
+Anyways, this does look to be "leveraged from arm64" as you say and I
+only had minor nits to comment about...
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Cheers,
+Conor.
+
+
+--pAMvRf+LG3lTC78u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY+QToQAKCRB4tDGHoIJi
+0olNAP9lp3WE8VCFaQckxPUKRtzrtdzfJ3ELelGbTEBAtUvOxgD+N9unferlze1j
+9CtTXW5bLgdHZbiLIlkSAugaqVc7uwE=
+=cnvy
+-----END PGP SIGNATURE-----
+
+--pAMvRf+LG3lTC78u--
