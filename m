@@ -2,289 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7979FC636D4
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 15:17:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99680C05027
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 15:24:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231187AbjBHPRG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Feb 2023 10:17:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47046 "EHLO
+        id S231488AbjBHPYo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Feb 2023 10:24:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231733AbjBHPRE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 10:17:04 -0500
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 940EE458B6;
-        Wed,  8 Feb 2023 07:16:56 -0800 (PST)
-Received: by mail-oi1-x230.google.com with SMTP id n132so1249820oih.7;
-        Wed, 08 Feb 2023 07:16:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=H+RbRXOLUU6+UZO7OoxhjMctOLam4crQMBnQ9AxC4ac=;
-        b=IJle+7Lzi186mRM0YgYzOHlQNJfUpw3j7vc7/YKoCXmPu1swuXA5v6qmLL/8/fXa2g
-         51p4pRdsrjDXRYGRjXR7uMb5mbqTJ39KYgW4S01FHEhXGq3qsYR7gEwlDsBFisYgD7hd
-         sn2n6kcQmji5WfkxAWbDHdXZOudOoef4uNIhagSvu0rY3ZgsTrzSK+2mZzgJ9omt1wHR
-         hI/K7MnSoPt6oYFXtd8fFGFY60I029q/OyornHUNw9cIOtv6r1qyXk/xs4SBG1/eUJdB
-         N6YQQAl/YJi/FsDApTqNhl2Yc62TW0bTj6gR59INlKMtFhxlC6aiT7vs7RP6q9GuSacS
-         NAxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H+RbRXOLUU6+UZO7OoxhjMctOLam4crQMBnQ9AxC4ac=;
-        b=UvZ3wTdC6GT117mtuRYUj1fhHnHOJkS+PAoSP0zXRbTubrfmumuGO2YLD3HEX4BWKZ
-         44+L+DyA9OOrOYM4b6TRinPzMtVZ3scc9FQI/j6mS2Hf2XWZpXYveH3V04k+AkF/QcGl
-         nh2wZ1+oONZRLDiOFB07+0IC5pd5eLbJhmq05A++Xu0f6PA3wcYTrOV+/slCxW3LtVOQ
-         Wxk2X8GgHgWVr2C3AHVFIdmhKFSir+5oU1QaWnZuH4h86nCFP8yf5t2V4oQ/jFF7uEqT
-         +pRQ/+WDTViJIbga3EzXTpB/i+7BO7MLnUufdvOy70wUbeM1NzalLHsU+RCp+iC/rp5k
-         hLEg==
-X-Gm-Message-State: AO0yUKWQs0wE0UwaoMrag928pXzH/iQBY+0jCnk0KNgqkYhNd182cdXo
-        CHUs+JpenBsT1xhWCTTuYvw=
-X-Google-Smtp-Source: AK7set+b0jDaR/fYF5qTzuvaY9VOyOaSc96/Pf0oBUGKKFCRgrtJTqb0bfjJBZU7biaoWk9GBvOSQA==
-X-Received: by 2002:aca:210a:0:b0:37a:fa7d:972e with SMTP id 10-20020aca210a000000b0037afa7d972emr3461129oiz.41.1675869415900;
-        Wed, 08 Feb 2023 07:16:55 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p11-20020a9d744b000000b00684c5211c58sm8134637otk.60.2023.02.08.07.16.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Feb 2023 07:16:55 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <7c375ccf-509a-aea3-62a3-d4f43d6b6c8a@roeck-us.net>
-Date:   Wed, 8 Feb 2023 07:16:52 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
+        with ESMTP id S231473AbjBHPYm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 10:24:42 -0500
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2076.outbound.protection.outlook.com [40.107.93.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB00943910;
+        Wed,  8 Feb 2023 07:24:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N/hrs9fxhKbBh1Tc9GPZEjTud3BuVCI4UconWSVrWMr5Kq66IxuoZrTRpDrG8EMd6vuJH+QB+b1uQnjVvsyS9XUg1RCzbsZfIAiB5VCp+xoLoh9LPmT664hQlHX4VOe6EX4M8+AwiG4sEWKgRX7GYdxtI8WRb0ZXR22g+TZKOvzNwUyQr3IZACV9/18Ap5suE6JESXDBZ7pjjkXS6oPz3GHEccDmJDkTGJRZS3Q1YMah1UuvGhQOUJHc4wdhWVGYkeIe5XE4SYcJ0/lxqt4vBEdkI3VMs5IEk9w1Lcp6pHBpkPtEo41vrPbU71mJRuOuugF8VNj0qT4Q+s7VChZYYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Fke028GyB2xHQKk+aRVashlH1ySX0/ug7tVEM6Wf3yU=;
+ b=g2mK9m4uXW8LRcNct+zbNvRh+OQoYCK3rG0H9YZT3QoJHfDridV1XwVe4TE+OG+i8W9+GZxlWEGBVlzhO2Ym5D5Vzj7Q+jT34pcMyVOpnTSIFzkikPkgI9flgcfXWIBRSZpqJba+pik3vmla4IJ1jtDhHd/HbWUHZz5osviTszcOXTD6qLEs9wsrQZlUUKnj54TrLYdPAgz8ND5NVo2fXmx9ro9W853UiBqUQOJ6J1eJsW0sDWGdSlLx+lM1rmVfa+z2oggQSJpHtqfU312HF1yg5Oz0dMTOqo110O8OxZ9VyMHhf+TnqwBzuvtXLM9sbVtlBsO9/VeKsOidpFdhkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fke028GyB2xHQKk+aRVashlH1ySX0/ug7tVEM6Wf3yU=;
+ b=WrV1TZZqql1ncPfgFWhkcmD0tJQVBxbgfZJwcZQkej0B3jw8R9+hOAUNo88dC5VzdSmcLLeNhgWuOfjS52lS7GWmCQjAO244yXZLa+0TX2bnERgqPTpym8tsd85XiS+UklpAeYQfMI5Spg+/IFFhKlo1WpXJhw7/CEpW88ZLppM=
+Received: from DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22)
+ by BY5PR12MB4918.namprd12.prod.outlook.com (2603:10b6:a03:1df::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.36; Wed, 8 Feb
+ 2023 15:24:39 +0000
+Received: from DM6PR12MB4202.namprd12.prod.outlook.com
+ ([fe80::33a7:54d4:2de0:3939]) by DM6PR12MB4202.namprd12.prod.outlook.com
+ ([fe80::33a7:54d4:2de0:3939%9]) with mapi id 15.20.6064.036; Wed, 8 Feb 2023
+ 15:24:39 +0000
+From:   "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
+To:     Jiri Pirko <jiri@resnulli.us>,
+        "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-net-drivers (AMD-Xilinx)" <linux-net-drivers@amd.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "habetsm.xilinx@gmail.com" <habetsm.xilinx@gmail.com>,
+        "ecree.xilinx@gmail.com" <ecree.xilinx@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "jiri@nvidia.com" <jiri@nvidia.com>
+Subject: Re: [PATCH v6 net-next 2/8] sfc: add devlink info support for ef100
+Thread-Topic: [PATCH v6 net-next 2/8] sfc: add devlink info support for ef100
+Thread-Index: AQHZO8k2arH7LrGh5UafCo1ruvtaz67FHpaAgAAMqIA=
+Date:   Wed, 8 Feb 2023 15:24:39 +0000
+Message-ID: <DM6PR12MB4202FE90A833282B28053DF7C1D89@DM6PR12MB4202.namprd12.prod.outlook.com>
+References: <20230208142519.31192-1-alejandro.lucero-palau@amd.com>
+ <20230208142519.31192-3-alejandro.lucero-palau@amd.com>
+ <Y+O0A5Bk/zWur76J@nanopsycho>
+In-Reply-To: <Y+O0A5Bk/zWur76J@nanopsycho>
+Accept-Language: en-US
 Content-Language: en-US
-To:     Hal Feng <hal.feng@starfivetech.com>
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Conor Dooley <conor@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-        linux-kernel@vger.kernel.org
-References: <20230103013145.9570-1-hal.feng@starfivetech.com>
- <20230103013145.9570-3-hal.feng@starfivetech.com>
- <20230103221017.GA217155@roeck-us.net>
- <ddb197c3-9c77-c8c2-1d41-1691de05847e@starfivetech.com>
- <7580df6b-e97f-0036-8f7f-63acde8cd42a@roeck-us.net>
- <629e070a-5138-8754-e86c-3458ae5d7a16@starfivetech.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v1 2/4] hwmon: (sfctemp) Add StarFive JH71x0 temperature
- sensor
-In-Reply-To: <629e070a-5138-8754-e86c-3458ae5d7a16@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+x-ms-exchange-imapappendstamp: DM6PR12MB4909.namprd12.prod.outlook.com
+ (15.20.6086.009)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR12MB4202:EE_|BY5PR12MB4918:EE_
+x-ms-office365-filtering-correlation-id: 4b232e64-04ee-4d2b-4974-08db09e89823
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: oye6sAdistDCkJsGOgE4xOzdMiauxWMZUesKOWF8+ikgVEPJktlAEEKcUgGCtaRR3eN2UoVvq5b9eieNM+e7BX4QFQI4Tsz2LFQmCj8jB/YBlbi0pp/xbUroW43gdu2ejRMbq33w2P+7k28LJyLkpdBwdN8ccNw8X+llOF808bYcgRvY6Q7P6lct32422lufRDsGZWU3ODiKf47klfb4pksJwu4WiMAlxtkzuhQwU7wxBJv2H59D6Z9ZiKKW6qbGUx1gObZkUAhR1givWORf5WRFxWwRaaW2n9AzZYefEZP1jfnWHNRyHbZcLrSB9Ca02qFa0bQdPxzKCVmZEeyOWhmJJEi9mmqhRkhy9qPN7E4uvQkHAlk+T6+O7AJOTWkrVVLB6vzekkl1AZFrsiIj2jZQZyq9K5+Yb3twVIi5iYVKpEaADF11erBqv0zH6B9CZgGc6PuF94OXaT/AodzUt+22uGFYWIesdF6REdy+QjS4RXDnWQF6qmnMgRNb+UlWs1M0GrKCooJ5li+R8NhIiAbpqyhlVHTQv5Yw4/YGwohu0HqwTAV6e80EMUVvn2ytsFmAqhduQAHMRd/E/Pnls96Iv2/Vocaa6VR16lT1V7NKprI0LP4+OAqBu0Zb5GUTFkoq6zVetlmnaHOuGTD+nyfv42LQFacpNdGE7MpLJ27VqHncEqouQ4zqVaumyJmPi+tEtgtoKGmpYJMolKwnkzXptXh+0fnz0l94i8fEBibD7alPs9B9X/rxhC9M+i9z
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(39860400002)(346002)(376002)(136003)(366004)(451199018)(5660300002)(7416002)(2906002)(83380400001)(55016003)(38100700002)(76116006)(38070700005)(8676002)(122000001)(4326008)(66946007)(54906003)(6636002)(110136005)(66476007)(52536014)(8936002)(33656002)(64756008)(66446008)(66556008)(41300700001)(186003)(53546011)(6506007)(71200400001)(9686003)(26005)(316002)(7696005)(478600001)(65966003)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QmRLSXNGbXhrcTQrdVByNS8vMDdNc3RkdzdUSDRYSGpWUSt0Y0RWdHpGOUdR?=
+ =?utf-8?B?cmpuZVVNY2d6cncxMnNWazdRdjY5TVpsKzBRb0xhZk5DcmpZYzd5RG5BUVB6?=
+ =?utf-8?B?Rmp3Uzkwa1dLdmdjallFbjhYcDc1ZmZhV2JveXFNU0dNTWdBYk1MVzZyZ05V?=
+ =?utf-8?B?WnVWcytMMURCelp3b0Z2bmJTVUg2MGtIUVJySTQ5dDRhMjZ3NERHazN4NUc1?=
+ =?utf-8?B?eXM3Y0s3L283MWNYZFN2ZVVxRFVUZ1R6YStCRHA4OXlhV2JpUHpVa0NKdXZC?=
+ =?utf-8?B?QWhZYWNOOENpdXFDOVcwZDFCNVNsNllTZzNnRnQ5N1h0ayt0N0tlVmpKNk1F?=
+ =?utf-8?B?eG5tTllleGVQcEpOYVZ6bExoajMvTHI2eGJBeFN5cFROcGI0QkFOU1AvNEhq?=
+ =?utf-8?B?WVB2VnlWdTdHSEpvcXR1YmhPU2QxTzNyQUpjWUZEWmU5WC9pOGhVY3hYZGFy?=
+ =?utf-8?B?NlZBWGRKT3JVUENXN2N2RFAvY3NNWVNycTltSlRZNW5rbUZKa0dwckhJWG9w?=
+ =?utf-8?B?SjJ3Y2czUkkwYk5VcDU0dXF5Q1ZDdWJrZ3VZTjFkNS9EVktINDNVRE8xUzNC?=
+ =?utf-8?B?T1NCZjlOcXNaUUFBaTMxcmFxWVZIYUxPR2hZUFZ5YURVUXRaLzBBLzA2cFlQ?=
+ =?utf-8?B?ZGluM3Y0ZDVsZkhQUGp6Sm5STHBjOUI0RVdwRGFUUnlqMHV5dTJrVjQ3TTBB?=
+ =?utf-8?B?VzVUaEczSE1MVHR0SUJCNTNEcDB3cHFhUnAyT0NqQ2Q3QnRyNDBxbE9pTFJ3?=
+ =?utf-8?B?NnI5ZGRtRjFyS2N5NStVVG5YdDhNR3h4dkRJMEJ1SURtNFpKUmU2d3ZxNDkv?=
+ =?utf-8?B?cEVaWXE2WnJxQlQyWmNiclUyNUREeEk1eTc4YmhFcVd5Ky9RRUVYdFdlZDNz?=
+ =?utf-8?B?dTltOFEycG1KdFJyWVR6bVZ4VUx2KzRLa1JnNGhhMHprd2tZNC9MYVZxbVAw?=
+ =?utf-8?B?TU5wNDFTWExkdURYY3dEZzdyWlJ1cVNjVVNjK1ZyTEJJSGkyT2xORk5CY1Fr?=
+ =?utf-8?B?K002dmtSK1U3dzJ1Q1FWNU8ydzlNdlF4alFWeG5UaWIrSkgvTm12b0lXc1NR?=
+ =?utf-8?B?TUNpVmxWeVBycCtxRDRSNjBLQldMWkQzVFp0VDc4SktSQnU0MEVtcG5GME5q?=
+ =?utf-8?B?STlSQ1BRTlJPYjkxYnlVUTgvMklsQ1ZTRDJoQitsNVBvQkNESFdEd3lGWTZr?=
+ =?utf-8?B?Vzd0ZXV0NUxwZW5LNGd2Tkc1MDBJSFVJT3l0YXcxMTAxeFRBUGJkL3lreVBE?=
+ =?utf-8?B?ZE9CQXZkT1JrRHd3NGZuaTFvS1NFSXJqTkhSMVZwOStTaWRaUVVYZDBUYVlZ?=
+ =?utf-8?B?ZjhlVml3ajFHbUhqU2VsNWpMWDFSeW16UnlNb2U4Mkk1ZDI1M0MwcHd1NEox?=
+ =?utf-8?B?a1pFUVkyeG4rQm5jVVJJa1g3ai85Qy9xM3NrSnVnZW5sWU5RWms4cUxiYWJm?=
+ =?utf-8?B?R2tZRktlTDdTaEd0Wi8xVDNmWUpVTWFLYU4remhCdURKdFd4b1lwaHJjMktR?=
+ =?utf-8?B?ZzQ1Ylg1bDd0NUIwVW5Vc3ZyYTQwZFBXZS9qa2JWUEpJNTBVRXVqZ3hTdjRE?=
+ =?utf-8?B?K3hkOXU1eGZnTlNRYUdrVGRRalNZb3lYUjBwZWNqU1RtTHVmWDR6dVVBRFdh?=
+ =?utf-8?B?L3M3ZmFkOVRnR2M1NzJheHN2Vm9zK2hGZDlvZkV1bUk2WlJWMjJERmNCSGVY?=
+ =?utf-8?B?MHdZSUprVzMwUXFKWkNWbThOcjJjUmhaQ1dYeis5djFaclliSkNkakp4aThv?=
+ =?utf-8?B?UllZRmEzVS9JRU40QjVrL1RTSXQ0cWtud0h0ckcxWWRUcVlMQkVGUHRMZHZr?=
+ =?utf-8?B?cmFpbVJ2MzhaQTg3NzhhbFdzMDgyTm5OZFd3Y0d4QW1YZkZ3c3dJNEdTMXBI?=
+ =?utf-8?B?YU5Ia2dDOHlwcnBoTTUrRk9Qc3VScUlqNGJuRFRTSEpSM1lYaUFyMThWTEF4?=
+ =?utf-8?B?bllTUXdsTVVtcEtpN3JnQVRmRVp5MUk2SDR0YkxKOHVOMllCTlhsd1A2U2FN?=
+ =?utf-8?B?YnZSYTRVa1pDZkxGcldSRVJQUmh2d2NvM2ZXR3ErdDJMSytMcUlKMFhFZk5K?=
+ =?utf-8?B?ZTltYWx0ZnNVbFZDUnRPQXF5SFhDT3VhL2p6Z1FRdVpBU1N3Z3hRT0tSc0RU?=
+ =?utf-8?Q?vWTI=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F6FE2B14791D1D448420738E642B384E@amdcloud.onmicrosoft.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4202.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b232e64-04ee-4d2b-4974-08db09e89823
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Feb 2023 15:24:39.2100
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: IffcuoVaao8R/XcpbF6pGVYbg2OT8vvXTcYA4ufClJ2ba1X7yt/d8btU+sVZmISrpX6Gon/xfpCkglhp8DX4BQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4918
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/8/23 04:40, Hal Feng wrote:
-> On Mon, 6 Feb 2023 11:21:38 -0800, Guenter Roeck wrote:
->> On 2/6/23 09:12, Hal Feng wrote:
->>> On Tue, 3 Jan 2023 14:10:17 -0800, Guenter Roeck wrote:
->>>> On Tue, Jan 03, 2023 at 09:31:43AM +0800, Hal Feng wrote:
-> [...]
->>>>> diff --git a/drivers/hwmon/sfctemp.c b/drivers/hwmon/sfctemp.c
->>>>> new file mode 100644
->>>>> index 000000000000..e56716ad9587
->>>>> --- /dev/null
->>>>> +++ b/drivers/hwmon/sfctemp.c
->>>>> @@ -0,0 +1,350 @@
->>>>> +// SPDX-License-Identifier: GPL-2.0
->>>>> +/*
->>>>> + * Copyright (C) 2021 Emil Renner Berthing <kernel@esmil.dk>
->>>>> + * Copyright (C) 2021 Samin Guo <samin.guo@starfivetech.com>
->>>>> + */
->>>>> +#include <linux/clk.h>
->>>>> +#include <linux/completion.h>
->>>>> +#include <linux/delay.h>
->>>>> +#include <linux/hwmon.h>
->>>>> +#include <linux/interrupt.h>
->>>>> +#include <linux/io.h>
->>>>> +#include <linux/module.h>
->>>>> +#include <linux/mutex.h>
->>>>> +#include <linux/of.h>
->>>>> +#include <linux/platform_device.h>
->>>>> +#include <linux/reset.h>
->>>>> +
->>>>> +/*
->>>>> + * TempSensor reset. The RSTN can be de-asserted once the analog core has
->>>>> + * powered up. Trst(min 100ns)
->>>>> + * 0:reset  1:de-assert
->>>>> + */
->>>>> +#define SFCTEMP_RSTN    BIT(0)
->>>>
->>>> Missing include of linux/bits.h
->>>
->>> Will add it. Thanks.
->>>
->>>>
->>>>> +
->>>>> +/*
->>>>> + * TempSensor analog core power down. The analog core will be powered up
->>>>> + * Tpu(min 50us) after PD is de-asserted. RSTN should be held low until the
->>>>> + * analog core is powered up.
->>>>> + * 0:power up  1:power down
->>>>> + */
->>>>> +#define SFCTEMP_PD    BIT(1)
->>>>> +
->>>>> +/*
->>>>> + * TempSensor start conversion enable.
->>>>> + * 0:disable  1:enable
->>>>> + */
->>>>> +#define SFCTEMP_RUN    BIT(2)
->>>>> +
->>>>> +/*
->>>>> + * TempSensor conversion value output.
->>>>> + * Temp(C)=DOUT*Y/4094 - K
->>>>> + */
->>>>> +#define SFCTEMP_DOUT_POS    16
->>>>> +#define SFCTEMP_DOUT_MSK    GENMASK(27, 16)
->>>>> +
->>>>> +/* DOUT to Celcius conversion constants */
->>>>> +#define SFCTEMP_Y1000    237500L
->>>>> +#define SFCTEMP_Z    4094L
->>>>> +#define SFCTEMP_K1000    81100L
->>>>> +
->>>>> +struct sfctemp {
->>>>> +    /* serialize access to hardware register and enabled below */
->>>>> +    struct mutex lock;
->>>>> +    struct completion conversion_done;
->>>>> +    void __iomem *regs;
->>>>> +    struct clk *clk_sense;
->>>>> +    struct clk *clk_bus;
->>>>> +    struct reset_control *rst_sense;
->>>>> +    struct reset_control *rst_bus;
->>>>> +    bool enabled;
->>>>> +};
->>>>> +
->>>>> +static irqreturn_t sfctemp_isr(int irq, void *data)
->>>>> +{
->>>>> +    struct sfctemp *sfctemp = data;
->>>>> +
->>>>> +    complete(&sfctemp->conversion_done);
->>>>> +    return IRQ_HANDLED;
->>>>> +}
->>>>> +
->>>>> +static void sfctemp_power_up(struct sfctemp *sfctemp)
->>>>> +{
->>>>> +    /* make sure we're powered down first */
->>>>> +    writel(SFCTEMP_PD, sfctemp->regs);
->>>>> +    udelay(1);
->>>>> +
->>>>> +    writel(0, sfctemp->regs);
->>>>> +    /* wait t_pu(50us) + t_rst(100ns) */
->>>>> +    usleep_range(60, 200);
->>>>> +
->>>>> +    /* de-assert reset */
->>>>> +    writel(SFCTEMP_RSTN, sfctemp->regs);
->>>>> +    udelay(1); /* wait t_su(500ps) */
->>>>> +}
->>>>> +
->>>>> +static void sfctemp_power_down(struct sfctemp *sfctemp)
->>>>> +{
->>>>> +    writel(SFCTEMP_PD, sfctemp->regs);
->>>>> +}
->>>>> +
->>>>> +static void sfctemp_run_single(struct sfctemp *sfctemp)
->>>>> +{
->>>>> +    writel(SFCTEMP_RSTN | SFCTEMP_RUN, sfctemp->regs);
->>>>> +    udelay(1);
->>>>> +    writel(SFCTEMP_RSTN, sfctemp->regs);
->>>>
->>>> The datasheet (or, rather, programming manual) does not appear
->>>> to be public, so I have to guess here.
->>>>
->>>> The code suggests that running a single conversion may be a choice,
->>>> not a requirement. If it is indeed a choice, the reasoning needs to be
->>>> explained since it adds a lot of complexity and dependencies to the
->>>> driver (for example, interrupt support is only mandatory or even needed
->>>> due to this choice). It also adds a significant delay to temperature
->>>> read operations, which may have practical impact on thermal control
->>>> software.
->>>>
->>>> If the chip only supports single temperature readings, that needs to be
->>>> explained as well (and why SFCTEMP_RUN has to be reset in that case).
->>>
->>> The chip supports continuous conversion. When you set SFCTEMP_RUN, the
->>> temperature raw data will be generated all the time. However, it will
->>> also generate interrupts all the time when the conversion is finished,
->>> because of the hardware limitation. So in this driver, we just support
->>> the single conversion.
->>>
->>
->> Sorry, I don't follow the logic. The interrupt is, for all practical
->> purposes, useless because there are no limits and exceeding any such
->> limits is therefore not supported. The only reason to have and enable
->> to interrupt is because continuous mode is disabled.
->>
->> The code could be simplified a lot if interrupt support would be
->> dropped and continuous mode would be enabled.
-> 
-> If we enable continuous mode, which means SFCTEMP_RUN remains asserted,
-> the conversion finished interrupt will be raised after each sample
-> time (8.192 ms). Within a few minutes, a lot of interrupts are raised,
-> as showed below.
-> 
-> # cat /proc/interrupts
->             CPU0       CPU1       CPU2       CPU3
->    1:          0          0          0          0  SiFive PLIC   1 Edge      ccache_ecc
->    2:          1          0          0          0  SiFive PLIC   3 Edge      ccache_ecc
->    3:          1          0          0          0  SiFive PLIC   4 Edge      ccache_ecc
->    4:          0          0          0          0  SiFive PLIC   2 Edge      ccache_ecc
->    5:       1116       1670        411       1466  RISC-V INTC   5 Edge      riscv-timer
->    6:      32093          0          0          0  SiFive PLIC  81 Edge      120e0000.temperature-sensor
->   10:       1233          0          0          0  SiFive PLIC  32 Edge      ttyS0
-> IPI0:       117         62        123        117  Rescheduling interrupts
-> IPI1:       278        353        105        273  Function call interrupts
-> IPI2:         0          0          0          0  CPU stop interrupts
-> IPI3:         0          0          0          0  CPU stop (for crash dump) interrupts
-> IPI4:         0          0          0          0  IRQ work interrupts
-> IPI5:         0          0          0          0  Timer broadcast interrupts
-> 
-> If we enable continuous mode and drop the interrupt support in the
-> driver, the kernel will not know the interrupts but a lot of interrupts
-> are still raised in hardware. Can we do such like that?
-
-Why not ? It just stays raised. That happens a lot.
-
-> Without the interrupt support, the temperature we read may be the value
-> generated in the last cycle.
-
-That would be highly unusual and should be documented.
-
-
-> 
-> I think the temperature has its value only when we read it, so we start
-
-"may be" ? "I think" ? That means you don't know ? Maybe test it, or ask
-the chip designers.
-
-> conversion only when we read the temperature. Further more, it will
-> consume more power if we enable continuous mode.
-> 
-
-Usually that is not a concern, much less so than delaying each reader.
-
-Ultimately, sure, you can do whatever you want. I'll still accept the driver.
-I do expect you to explain your reasons (all of them) in the driver, though.
-
-If you don't _know_ if the temperature is updated in continuous mode,
-please state exactly that in the comments. Also explain how much power
-is saved by not running in continuous mode. I don't want anyone to come
-back later on and change the code because they don't know the reasons
-why it doesn't use continuous mode.
-
-Thanks,
-Guenter
-
-> Best regards,
-> Hal
-
+DQpPbiAyLzgvMjMgMTQ6MzgsIEppcmkgUGlya28gd3JvdGU6DQo+IFdlZCwgRmViIDA4LCAyMDIz
+IGF0IDAzOjI1OjEzUE0gQ0VULCBhbGVqYW5kcm8ubHVjZXJvLXBhbGF1QGFtZC5jb20gd3JvdGU6
+DQo+PiBGcm9tOiBBbGVqYW5kcm8gTHVjZXJvIDxhbGVqYW5kcm8ubHVjZXJvLXBhbGF1QGFtZC5j
+b20+DQo+IFsuLl0NCj4NCj4NCj4+ICtzdGF0aWMgaW50IGVmeF9kZXZsaW5rX2luZm9fZ2V0KHN0
+cnVjdCBkZXZsaW5rICpkZXZsaW5rLA0KPj4gKwkJCQlzdHJ1Y3QgZGV2bGlua19pbmZvX3JlcSAq
+cmVxLA0KPj4gKwkJCQlzdHJ1Y3QgbmV0bGlua19leHRfYWNrICpleHRhY2spDQo+PiArew0KPj4g
+KwlzdHJ1Y3QgZWZ4X2RldmxpbmsgKmRldmxpbmtfcHJpdmF0ZSA9IGRldmxpbmtfcHJpdihkZXZs
+aW5rKTsNCj4+ICsJc3RydWN0IGVmeF9uaWMgKmVmeCA9IGRldmxpbmtfcHJpdmF0ZS0+ZWZ4Ow0K
+Pj4gKwlpbnQgcmM7DQo+PiArDQo+PiArCS8qIFNldmVyYWwgZGlmZmVyZW50IE1DREkgY29tbWFu
+ZHMgYXJlIHVzZWQuIFdlIHJlcG9ydCBmaXJzdCBlcnJvcg0KPj4gKwkgKiB0aHJvdWdoIGV4dGFj
+ayBhbG9uZyB3aXRoIHRvdGFsIG51bWJlciBvZiBlcnJvcnMuIFNwZWNpZmljIGVycm9yDQo+PiAr
+CSAqIGluZm9ybWF0aW9uIHZpYSBzeXN0ZW0gbWVzc2FnZXMuDQo+IEkgdGhpbmsgeW91IGZvcmdv
+dCB0byByZW1vdmUgdGhpcyBjb21tZW50Lg0KPg0KPiBXaXRoIHRoaXMgbml0IGZpeGVkLCBmcmVl
+IGZyZWUgdG8gYWRkOg0KPiBSZXZpZXdlZC1ieTogSmlyaSBQaXJrbyA8amlyaUBudmlkaWEuY29t
+Pg0KPg0KDQpJJ2xsIGRvLg0KDQpUaGFua3MNCg0KPg0KPj4gKwkgKi8NCj4+ICsJcmMgPSBlZnhf
+ZGV2bGlua19pbmZvX2JvYXJkX2NmZyhlZngsIHJlcSk7DQo+PiArCWlmIChyYykgew0KPj4gKwkJ
+TkxfU0VUX0VSUl9NU0dfTU9EKGV4dGFjaywgIkdldHRpbmcgYm9hcmQgaW5mbyBmYWlsZWQiKTsN
+Cj4+ICsJCXJldHVybiByYzsNCj4+ICsJfQ0KPj4gKwlyYyA9IGVmeF9kZXZsaW5rX2luZm9fc3Rv
+cmVkX3ZlcnNpb25zKGVmeCwgcmVxKTsNCj4+ICsJaWYgKHJjKSB7DQo+PiArCQlOTF9TRVRfRVJS
+X01TR19NT0QoZXh0YWNrLCAiR2V0dGluZyBzdG9yZWQgdmVyc2lvbnMgZmFpbGVkIik7DQo+PiAr
+CQlyZXR1cm4gcmM7DQo+PiArCX0NCj4+ICsJcmMgPSBlZnhfZGV2bGlua19pbmZvX3J1bm5pbmdf
+dmVyc2lvbnMoZWZ4LCByZXEpOw0KPj4gKwlpZiAocmMpIHsNCj4+ICsJCU5MX1NFVF9FUlJfTVNH
+X01PRChleHRhY2ssICJHZXR0aW5nIHJ1bm5pbmcgdmVyc2lvbnMgZmFpbGVkIik7DQo+PiArCQly
+ZXR1cm4gcmM7DQo+PiArCX0NCj4+ICsNCj4+ICsJcmV0dXJuIDA7DQo+PiArfQ0KPj4gKyNlbmRp
+Zg0KPiBbLi5dDQo+DQo=
