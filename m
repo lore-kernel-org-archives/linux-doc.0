@@ -2,115 +2,296 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B61C636D6
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 00:31:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA9AC636CC
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 01:07:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229906AbjBHAbG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Feb 2023 19:31:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54428 "EHLO
+        id S229623AbjBHBHV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Feb 2023 20:07:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbjBHAbF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 19:31:05 -0500
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2CFC93AAC;
-        Tue,  7 Feb 2023 16:31:04 -0800 (PST)
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id 91E3120C7E38; Tue,  7 Feb 2023 16:31:03 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 91E3120C7E38
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1675816263;
-        bh=LeJteH6AJ9Cbyv23AKIZT9Zr5jPTl5CR5NBjrB7jEH0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bs+VMgppVphlNRwXazqjLvcderqyiIoxWf+J92+m0ALQDuvgh/o/nhk1BNWcBQsPh
-         gz0C3u2HuwTEnY5P1iqMjO1CzkD/+HiRK+CfRh+GX6szjyKALHkQS/5Vqjg1EHw7/2
-         kMQ7Bn9LNIzaQRwZ/K5EZ4sZYQKeFDqpGmC9IVrc=
-Date:   Tue, 7 Feb 2023 16:31:03 -0800
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, linux-audit@redhat.com,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v9 00/16] Integrity Policy Enforcement LSM (IPE)
-Message-ID: <20230208003103.GC5107@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <033335b26f6becdc3dc0325ef926efd94fcc4dda.camel@huaweicloud.com>
- <20230201004852.GB30104@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <7dc9963c563d0b55bb35109be012e355eef13882.camel@huaweicloud.com>
+        with ESMTP id S229525AbjBHBHU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Feb 2023 20:07:20 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDDDA2C67E;
+        Tue,  7 Feb 2023 17:07:18 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 317NxCih016065;
+        Wed, 8 Feb 2023 01:06:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=A/rUYM7Oy2gqIk2+4nucnYXjlkyZyJwm07fM+yH74bw=;
+ b=Nia7wKTo3rOuq+4tzTl1MYUVWArR711UjFbPVAhVTtNK32mdlkDWgAASWSQ9X4MUlGce
+ LYCeQSO6F07xBoK43xjWywO2Nnr9vQ2jP9dkdRVw+VCS4U/LiwaxNWi4qrC2rVyifIOW
+ ZvK67IUZYw5TknGs9DlqsOYNpkne9Msktq7djw/4tHuhENx1jF2R63uiLoGKCLCf0t/p
+ 89AGCayZe7UpSoCp4QNnrxOCsfzQBuwaKCf5a+RBYMVGhx039EFpPGXLcCDjqMgbIoIb
+ lo23F/KhQfr97Um62jVPQj0LkUsqtx+zqHxlPRJA5Inm5C1NUWR1x4PtMkMorjL7hW2U zw== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nkeny2qhh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 08 Feb 2023 01:06:58 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31816vrA011215
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 8 Feb 2023 01:06:57 GMT
+Received: from [10.134.67.48] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 7 Feb 2023
+ 17:06:57 -0800
+Message-ID: <f862ff1a-d363-894e-eedf-e33dde6ebf34@quicinc.com>
+Date:   Tue, 7 Feb 2023 17:06:56 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7dc9963c563d0b55bb35109be012e355eef13882.camel@huaweicloud.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v9 18/27] firmware: qcom_scm: Register Gunyah platform ops
+Content-Language: en-US
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Alex Elder <elder@linaro.org>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+ <20230120224627.4053418-19-quic_eberman@quicinc.com>
+ <5564746d-2221-8c3e-0c81-b320716ad114@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <5564746d-2221-8c3e-0c81-b320716ad114@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: YGZHJBdOSvu19cF_7VjgrvQHYmGGwXHs
+X-Proofpoint-ORIG-GUID: YGZHJBdOSvu19cF_7VjgrvQHYmGGwXHs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-07_15,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
+ clxscore=1015 phishscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
+ impostorscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302080009
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 02, 2023 at 11:48:18AM +0100, Roberto Sassu wrote:
-> On Tue, 2023-01-31 at 16:48 -0800, Fan Wu wrote:
-> > On Tue, Jan 31, 2023 at 03:22:05PM +0100, Roberto Sassu wrote:
-> > > On Mon, 2023-01-30 at 14:57 -0800, Fan Wu wrote:
-> > > > IPE has two known gaps:
-> > > > 
-> > > > 1. IPE cannot verify the integrity of anonymous executable memory, such as
-> > > >   the trampolines created by gcc closures and libffi (<3.4.2), or JIT'd code.
-> > > >   Unfortunately, as this is dynamically generated code, there is no way
-> > > >   for IPE to ensure the integrity of this code to form a trust basis. In all
-> > > >   cases, the return result for these operations will be whatever the admin
-> > > >   configures the DEFAULT action for "EXECUTE".
-> > > 
-> > > I think it would be useful to handle special cases, for example you
-> > > could allow a process that created a file with memfd to use it, at the
-> > > condition that nobody else writes it.
-> > > 
-> > > This would be required during the boot, otherwise services could fail
-> > > to start (depending on the policy).
-> > > 
-> > Thanks for the suggestion. I agree with your opinion and I think supporting
-> > memfd is possible but restricting read/write needs more hooks. We would like
-> > to avoid adding more complexity to this initial posting as necessary. 
-> > We will consider this as a future work and will post follow-on patches
-> > in the future.
-> 
-> Ok, maybe it is necessary to specify better the scope of IPE, why the
-> current implementation can be considered as complete.
-> 
-> If we say, IPE can only allow/deny operations on system components with
-> immutable security properties, clearly memfd as a component cannot
-> fullfill this goal due to the non-immutability. This would apply to any
-> component allowing modifications.
-> 
-> How to address this? What is the immutable property then?
-> 
-> In the case of memfd, intuitively, a useful property for integrity
-> could be for example that the content can be accessed/modified by only
-> one process. No other (possibly malicious) processes can tamper with
-> that file.
-> 
-> So, it is true, to make this property immutable more hooks are needed.
-> But should it be something that IPE does? Or it should be done by an
-> external component (another LSM) that does the enforcement and reports
-> to IPE that the property is true? Theoretically (with a proper policy),
-> existing LSMs could be used for that purpose too.
-> 
-> I would say more the second, it should not be IPE job, so that IPE can
-> exclusively focus on evaluating properties, not making sure that the
-> properties are immutable.
-> 
-> Roberto
-> 
-I think the issue here is not about the scope of IPE but the use cases
-of IPE. 
 
-We use IPE on fixed-function devices, which are completely locked down.
-In our system, IPE denies all anonymous memory execution so memfd will
-not work on our system.
 
-Therefore, to make memfd useable with IPE we must add more properties.
+On 2/7/2023 3:52 AM, Srinivas Kandagatla wrote:
+> 
+> 
+> On 20/01/2023 22:46, Elliot Berman wrote:
+>> Qualcomm platforms have a firmware entity which performs access control
+>> to physical pages. Dynamically started Gunyah virtual machines use the
+>> QCOM_SCM_RM_MANAGED_VMID for access. Linux thus needs to assign access
+>> to the memory used by guest VMs. Gunyah doesn't do this operation for us
+>> since it is the current VM (typically VMID_HLOS) delegating the access
+>> and not Gunyah itself. Use the Gunyah platform ops to achieve this so
+>> that only Qualcomm platforms attempt to make the needed SCM calls.
+>>
+>> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+>> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>> ---
+>>   drivers/firmware/Kconfig    |   2 +
+>>   drivers/firmware/qcom_scm.c | 100 ++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 102 insertions(+)
+>>
+>> diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+>> index b59e3041fd62..b888068ff6f2 100644
+>> --- a/drivers/firmware/Kconfig
+>> +++ b/drivers/firmware/Kconfig
+>> @@ -214,6 +214,8 @@ config MTK_ADSP_IPC
+>>   config QCOM_SCM
+>>       tristate
+>> +    select VIRT_DRIVERS
+>> +    select GUNYAH_PLATFORM_HOOKS
+> 
+> So far SCM usage has been as library of functions to talk to Secure 
+> world, now why is this selecting GUNYAH, it should be other way round.
+> 
 
--Fan
+Gunyah runs on platforms other than Qualcomm hardware (QEMU is real, 
+existing example). The SCM calls needed on Qualcomm platforms aren't 
+needed/available on QEMU and would error out there.
+
+I tried avoiding the "select" and even "depends on", but I was facing 
+issues when QCOM_SCM=y and GUNYAH=m. When this happens, 
+GUNYAH_PLATFORM_HOOKS should be =y, and the only way I could figure out 
+to ensure that happens was by selecting it from QCOM_SCM.
+
+> 
+>>   config QCOM_SCM_DOWNLOAD_MODE_DEFAULT
+>>       bool "Qualcomm download mode enabled by default"
+>> diff --git a/drivers/firmware/qcom_scm.c b/drivers/firmware/qcom_scm.c
+>> index 92763dce6477..20a1434087eb 100644
+>> --- a/drivers/firmware/qcom_scm.c
+>> +++ b/drivers/firmware/qcom_scm.c
+>> @@ -17,6 +17,7 @@
+>>   #include <linux/clk.h>
+>>   #include <linux/reset-controller.h>
+>>   #include <linux/arm-smccc.h>
+>> +#include <linux/gunyah_rsc_mgr.h>
+>>   #include "qcom_scm.h"
+>> @@ -27,6 +28,9 @@ module_param(download_mode, bool, 0);
+>>   #define SCM_HAS_IFACE_CLK    BIT(1)
+>>   #define SCM_HAS_BUS_CLK        BIT(2)
+>> +#define QCOM_SCM_RM_MANAGED_VMID    0x3A
+>> +#define QCOM_SCM_MAX_MANAGED_VMID    0x3F
+>> +
+>>   struct qcom_scm {
+>>       struct device *dev;
+>>       struct clk *core_clk;
+>> @@ -1292,6 +1296,99 @@ int qcom_scm_lmh_dcvsh(u32 payload_fn, u32 
+>> payload_reg, u32 payload_val,
+>>   }
+>>   EXPORT_SYMBOL(qcom_scm_lmh_dcvsh);
+>> +static int qcom_scm_gh_rm_pre_mem_share(struct gh_rm *rm, struct 
+>> gh_rm_mem_parcel *mem_parcel)
+> why can't this be an exported function like other scm interfaces?
+> 
+> We do not need a redirection here tbh.
+> 
+> That will also remove the need of gunyah_platform_hooks.c altogether, 
+> and you could call scm functions directly.
+> Correct me if this is not the case.
+> 
+> 
+
+Same as above comment about running on QEMU.
+
+Thanks,
+Elliot
+
+> 
+>> +{
+>> +    struct qcom_scm_vmperm *new_perms;
+>> +    u64 src, src_cpy;
+>> +    int ret = 0, i, n;
+>> +    u16 vmid;
+>> +
+>> +    new_perms = kcalloc(mem_parcel->n_acl_entries, 
+>> sizeof(*new_perms), GFP_KERNEL);
+>> +    if (!new_perms)
+>> +        return -ENOMEM;
+>> +
+>> +    for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+>> +        vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+>> +        if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+>> +            new_perms[n].vmid = vmid;
+>> +        else
+>> +            new_perms[n].vmid = QCOM_SCM_RM_MANAGED_VMID;
+>> +        if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_X)
+>> +            new_perms[n].perm |= QCOM_SCM_PERM_EXEC;
+>> +        if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_W)
+>> +            new_perms[n].perm |= QCOM_SCM_PERM_WRITE;
+>> +        if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_R)
+>> +            new_perms[n].perm |= QCOM_SCM_PERM_READ;
+>> +    }
+>> +
+>> +    src = (1ull << QCOM_SCM_VMID_HLOS);
+>> +
+>> +    for (i = 0; i < mem_parcel->n_mem_entries; i++) {
+>> +        src_cpy = src;
+>> +        ret = 
+>> qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
+>> +                        le64_to_cpu(mem_parcel->mem_entries[i].size),
+>> +                        &src_cpy, new_perms, mem_parcel->n_acl_entries);
+>> +        if (ret) {
+>> +            src = 0;
+>> +            for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+>> +                vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+>> +                if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+>> +                    src |= (1ull << vmid);
+>> +                else
+>> +                    src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
+>> +            }
+>> +
+>> +            new_perms[0].vmid = QCOM_SCM_VMID_HLOS;
+>> +
+>> +            for (i--; i >= 0; i--) {
+>> +                src_cpy = src;
+>> +                ret = qcom_scm_assign_mem(
+>> +                        
+>> le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
+>> +                        le64_to_cpu(mem_parcel->mem_entries[i].size),
+>> +                        &src_cpy, new_perms, 1);
+>> +                WARN_ON_ONCE(ret);
+>> +            }
+>> +            break;
+>> +        }
+>> +    }
+>> +
+>> +    kfree(new_perms);
+>> +    return ret;
+>> +}
+>> +
+>> +static int qcom_scm_gh_rm_post_mem_reclaim(struct gh_rm *rm, struct 
+>> gh_rm_mem_parcel *mem_parcel)
+>> +{
+>> +    struct qcom_scm_vmperm new_perms;
+>> +    u64 src = 0;
+>> +    int ret = 0, i, n;
+>> +    u16 vmid;
+>> +
+>> +    new_perms.vmid = QCOM_SCM_VMID_HLOS;
+>> +    new_perms.perm = QCOM_SCM_PERM_EXEC | QCOM_SCM_PERM_WRITE | 
+>> QCOM_SCM_PERM_READ;
+>> +
+>> +    for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+>> +        vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+>> +        if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+>> +            src |= (1ull << vmid);
+>> +        else
+>> +            src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
+>> +    }
+>> +
+>> +    for (i = 0; i < mem_parcel->n_mem_entries; i++) {
+>> +        ret = 
+>> qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
+>> +                        le64_to_cpu(mem_parcel->mem_entries[i].size),
+>> +                        &src, &new_perms, 1);
+>> +        WARN_ON_ONCE(ret);
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +static struct gunyah_rm_platform_ops qcom_scm_gh_rm_platform_ops = {
+>> +    .pre_mem_share = qcom_scm_gh_rm_pre_mem_share,
+>> +    .post_mem_reclaim = qcom_scm_gh_rm_post_mem_reclaim,
+>> +};
+>> +
+>>   static int qcom_scm_find_dload_address(struct device *dev, u64 *addr)
+>>   {
+>>       struct device_node *tcsr;
+>> @@ -1414,6 +1511,9 @@ static int qcom_scm_probe(struct platform_device 
+>> *pdev)
+>>       if (download_mode)
+>>           qcom_scm_set_download_mode(true);
+>> +    if (gh_rm_register_platform_ops(&qcom_scm_gh_rm_platform_ops))
+>> +        dev_warn(__scm->dev, "Gunyah RM platform ops were already 
+>> registered\n");
+>> +
+>>       return 0;
+>>   }
