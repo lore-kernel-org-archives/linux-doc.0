@@ -2,122 +2,155 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A24DC05027
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 14:55:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D67B3C636CC
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 15:16:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231668AbjBHOzk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Feb 2023 09:55:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33534 "EHLO
+        id S229953AbjBHPQB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Feb 2023 10:16:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231635AbjBHOzh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 09:55:37 -0500
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C89144B76F
-        for <linux-doc@vger.kernel.org>; Wed,  8 Feb 2023 06:55:31 -0800 (PST)
-Received: by mail-yb1-xb2c.google.com with SMTP id x4so22374795ybp.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Feb 2023 06:55:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=C9FYaHZff0n04HIlu0pgHp/yoYQMAR6EN4kK+A76acU=;
-        b=IIUuXKjbtNG+brYJkm3mEz/Fq2Pb+VqZxm9M/D7mrcI0D62GgsPuJzrGVbt3bjOgAe
-         FKHgjDRBffBmgUhp+Zqa3GhW+SJYVkyXIOx4UZjGR/NTZwRH+8Ec9dhaymaPJYoDF/ul
-         uhZIWfEjC/tNp17EsrH4ckdmUbeyIs5G5o9m7zp+yGzEj3sRZGfW5ns8qaXo3UmiN25P
-         jXTHx/9TXUF8ZpeVstcTHKPqER+clJey1/KPBN1LViaw99zwQggNemG7kwAykjT9Ya89
-         TEAScCGhuWQAgdfnh+kSg3K5nsReT9OKxs5o5HSi74s3waAxRJs36+1uPauU5VDw9KHc
-         l0FQ==
+        with ESMTP id S230445AbjBHPQA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 10:16:00 -0500
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 490E13755F;
+        Wed,  8 Feb 2023 07:15:54 -0800 (PST)
+Received: by mail-qt1-f178.google.com with SMTP id g8so20992427qtq.13;
+        Wed, 08 Feb 2023 07:15:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=C9FYaHZff0n04HIlu0pgHp/yoYQMAR6EN4kK+A76acU=;
-        b=LDIU/56c/sMJE0mhtVD1ACoq5FrNlSHSU721z+fiGaKoItmmRRg3I55PaOAw/nZZWd
-         ZgJClXcCYgklgQD8XpZJVZwcW/k9gg3nJ5ii52A8wJj6fN6D+6ot+zyqEU/mSNZ1LdCe
-         +w1M67byaXmzWMBLiVbRRqVxbcCynrEuC9V7NXs5w0Z83bZ5Q2T03AmLCYeFbdhR2rvZ
-         ZYoimgXnkfOy76yknca4lUBvUN5HxB2E+gygioV5EcVsY84kHCdSIIMCHAdgL7Z1RZfo
-         io7m6TcjpzaTsfhVftS+y89zCKZAvxsPo0MwDX7eTWMTssYi/DNnDdGaYxixSmgGYT4v
-         o+Qg==
-X-Gm-Message-State: AO0yUKW2gMrDJ8HvcfZmq3dp6iE26j4S8AZVPxncSg2PLgfd495klm8e
-        d7bBIWdt67KUcUqwUPOJZAQnkrOtgjt9p3c5hzo4zA==
-X-Google-Smtp-Source: AK7set9QWN7XZu0/Jygke0mZWpl6dDT6sBRDV263lswVqW9oVhi8Kruq1x//EDsHd+Bda51X+66lj6ea/+9i3ige8Q4=
-X-Received: by 2002:a5b:6c5:0:b0:88f:946:bd98 with SMTP id r5-20020a5b06c5000000b0088f0946bd98mr1003903ybq.24.1675868130850;
- Wed, 08 Feb 2023 06:55:30 -0800 (PST)
+        bh=dcJLQCCe3yJED6vbPd8upyFSXYvLwaouZO6wzGHTQ9I=;
+        b=PzotW+x+/qKJqcAwk0B5rNj3qTenCHcU22LTAWmAlYDinnKCnCQW4NRi2mmkzPSu1s
+         VSJyazMmRkz37FxCFTgP7O953mkZ5LoV2CjVxaU4Y66Euy0DhHX1lg8ywGPO79PC4M77
+         o8ryPqT07Gt7iZrFDOEGXiTs7V76wsLGqzvBrZTBBIaFcTTf5enOljNTRHg6JQL8QWNl
+         LuBH981CG/nvVuvHHevejPd2Am5+dUwJI5rrRZ36ImfGbiFh+7+WmLOzaGfGDvfwWbzy
+         xP2Kzk+l7ZLSfFhC7A8esX7QmHaVzriscunTjnFM54r6vGyLDDN0d/QrZ93/9jKxdyGE
+         fm1Q==
+X-Gm-Message-State: AO0yUKWt8d8IbhqykHC+2DR62fqybLcUjcXAdxT6rlYYpaBxoMKXlPjX
+        dKLPdAwKUhW0QV5+tOlngN4=
+X-Google-Smtp-Source: AK7set8KmrFfGjjd0rstfTtiq1xaqf7c/sLY8AKiSUZFeqohqafEmiDQ2rk2BPuusx5AHjljx/wSJg==
+X-Received: by 2002:ac8:5f4e:0:b0:3b0:b9a4:a20f with SMTP id y14-20020ac85f4e000000b003b0b9a4a20fmr14386596qta.4.1675869352973;
+        Wed, 08 Feb 2023 07:15:52 -0800 (PST)
+Received: from maniforge.lan ([24.1.27.177])
+        by smtp.gmail.com with ESMTPSA id bj5-20020a05620a190500b00733ab1b8045sm6061264qkb.106.2023.02.08.07.15.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Feb 2023 07:15:52 -0800 (PST)
+Date:   Wed, 8 Feb 2023 09:15:56 -0600
+From:   David Vernet <void@manifault.com>
+To:     Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v2] bpf/docs: Update design QA to be consistent
+ with kfunc lifecycle docs
+Message-ID: <Y+O8rJ3TGwl6FnVK@maniforge.lan>
+References: <20230208135731.268638-1-toke@redhat.com>
 MIME-Version: 1.0
-References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
- <20230207142952.51844-7-andriy.shevchenko@linux.intel.com>
- <CACRpkdaPgjDijPjCdinWy5_Rd8g3idv-8K=YPTv5iTfJKFuJfw@mail.gmail.com>
- <Y+LWyc4rqCVq5hEi@smile.fi.intel.com> <Y+O2/dVDcvnXByc+@smile.fi.intel.com>
-In-Reply-To: <Y+O2/dVDcvnXByc+@smile.fi.intel.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 8 Feb 2023 15:55:19 +0100
-Message-ID: <CACRpkdacHyxPKg=Dw4xdpOPZUMMNsFAuVRuSo1093E_j4a+W-Q@mail.gmail.com>
-Subject: Re: [PATCH v3 06/12] gpiolib: split linux/gpio/driver.h out of linux/gpio.h
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
-        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230208135731.268638-1-toke@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 8, 2023 at 3:51 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> On Wed, Feb 08, 2023 at 12:55:06AM +0200, Andy Shevchenko wrote:
-> > On Tue, Feb 07, 2023 at 03:55:23PM +0100, Linus Walleij wrote:
-> > > On Tue, Feb 7, 2023 at 3:29 PM Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > >
-> > > > From: Arnd Bergmann <arnd@arndb.de>
-> > > >
-> > > > Almost all gpio drivers include linux/gpio/driver.h, and other
-> > > > files should not rely on includes from this header.
-> > > >
-> > > > Remove the indirect include from here and include the correct
-> > > > headers directly from where they are used.
-> >
-> > ...
-> >
-> > > Make sure you push this to the kernel.org build servers (zeroday builds),
-> >
-> > Of course, that is the purpose of publishing this before the release (so we
-> > will have some TODO list that eventually this can be applied for v6.4-rc1).
-> >
-> > > I think this patch needs to hit some more files, in my tests with a similar
-> > > patch at least these:
-> >
-> > Right. I forgot to also incorporate your stuff into this series.
-> > Do you have anything that I can take as is?
->
-> I'm going to incorporate the following:
->
->         gpio: Make the legacy <linux/gpio.h> consumer-only
->         ARM: s3c24xx: Use the right include
->         ARM: orion/gpio: Use the right include
->         hte: tegra-194: Use proper includes
->         pcmcia: pxa2xx_viper: Include dependency
+On Wed, Feb 08, 2023 at 02:57:30PM +0100, Toke Høiland-Jørgensen wrote:
+> Cong pointed out that there are some inconsistencies between the BPF design
+> QA and the lifecycle expectations documentation we added for kfuncs. Let's
+> update the QA file to be consistent with the kfunc docs, and add references
+> where it makes sense. Also document that modules may export kfuncs now.
+> 
+> v2:
+> - Fix repeated word (s/defined defined/defined/)
+> 
+> Reported-by: Cong Wang <xiyou.wangcong@gmail.com>
+> Signed-off-by: Toke Høiland-Jørgensen <toke@redhat.com>
 
-Excellent, thanks. I don't care about being credited, just want things
-to go smooth so you run into less snags.
+Thanks for fixing this. LGTM modulo one small grammar nit.
 
-Yours,
-Linus Walleij
+Acked-by: David Vernet <void@manifault.com>
+
+> ---
+>  Documentation/bpf/bpf_design_QA.rst | 25 ++++++++++++++++++-------
+>  1 file changed, 18 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/bpf/bpf_design_QA.rst b/Documentation/bpf/bpf_design_QA.rst
+> index cec2371173d7..4d3135187e0c 100644
+> --- a/Documentation/bpf/bpf_design_QA.rst
+> +++ b/Documentation/bpf/bpf_design_QA.rst
+> @@ -208,6 +208,10 @@ data structures and compile with kernel internal headers. Both of these
+>  kernel internals are subject to change and can break with newer kernels
+>  such that the program needs to be adapted accordingly.
+>  
+> +New BPF functionality is generally added through the use of kfuncs instead of
+> +new helpers. Kfuncs are not considered part of the stable API, but has their own
+
+s/but has/and have
+
+> +lifecycle expectations as described in :ref:`BPF_kfunc_lifecycle_expectations`.
+> +
+>  Q: Are tracepoints part of the stable ABI?
+>  ------------------------------------------
+>  A: NO. Tracepoints are tied to internal implementation details hence they are
+> @@ -236,8 +240,8 @@ A: NO. Classic BPF programs are converted into extend BPF instructions.
+>  
+>  Q: Can BPF call arbitrary kernel functions?
+>  -------------------------------------------
+> -A: NO. BPF programs can only call a set of helper functions which
+> -is defined for every program type.
+> +A: NO. BPF programs can only call specific functions exposed as BPF helpers or
+> +kfuncs. The set of available functions is defined for every program type.
+>  
+>  Q: Can BPF overwrite arbitrary kernel memory?
+>  ---------------------------------------------
+> @@ -263,7 +267,12 @@ Q: New functionality via kernel modules?
+>  Q: Can BPF functionality such as new program or map types, new
+>  helpers, etc be added out of kernel module code?
+>  
+> -A: NO.
+> +A: Yes, through kfuncs and kptrs
+> +
+> +The core BPF functionality such as program types, maps and helpers cannot be
+> +added to by modules. However, modules can expose functionality to BPF programs
+> +by exporting kfuncs (which may return pointers to module-internal data
+> +structures as kptrs).
+>  
+>  Q: Directly calling kernel function is an ABI?
+>  ----------------------------------------------
+> @@ -278,7 +287,8 @@ kernel functions have already been used by other kernel tcp
+>  cc (congestion-control) implementations.  If any of these kernel
+>  functions has changed, both the in-tree and out-of-tree kernel tcp cc
+>  implementations have to be changed.  The same goes for the bpf
+> -programs and they have to be adjusted accordingly.
+> +programs and they have to be adjusted accordingly. See
+> +:ref:`BPF_kfunc_lifecycle_expectations` for details.
+>  
+>  Q: Attaching to arbitrary kernel functions is an ABI?
+>  -----------------------------------------------------
+> @@ -340,6 +350,7 @@ compatibility for these features?
+>  
+>  A: NO.
+>  
+> -Unlike map value types, there are no stability guarantees for this case. The
+> -whole API to work with allocated objects and any support for special fields
+> -inside them is unstable (since it is exposed through kfuncs).
+> +Unlike map value types, the API to work with allocated objects and any support
+> +for special fields inside them is exposed through kfuncs, and thus has the same
+> +lifecycle expectations as the kfuncs themselves. See
+> +:ref:`BPF_kfunc_lifecycle_expectations` for details.
+> -- 
+> 2.39.1
+> 
