@@ -2,240 +2,444 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FB2CC05027
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 12:40:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86767C636D7
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 13:32:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbjBHMkz convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Feb 2023 07:40:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41000 "EHLO
+        id S231387AbjBHNcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Feb 2023 08:32:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjBHMkw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 07:40:52 -0500
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A28F41095;
-        Wed,  8 Feb 2023 04:40:48 -0800 (PST)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-        by fd01.gateway.ufhost.com (Postfix) with ESMTP id DB5A124E2F8;
-        Wed,  8 Feb 2023 20:40:44 +0800 (CST)
-Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 8 Feb
- 2023 20:40:44 +0800
-Received: from [192.168.125.110] (183.27.96.33) by EXMBX172.cuchost.com
- (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 8 Feb
- 2023 20:40:43 +0800
-Message-ID: <629e070a-5138-8754-e86c-3458ae5d7a16@starfivetech.com>
-Date:   Wed, 8 Feb 2023 20:40:43 +0800
+        with ESMTP id S231389AbjBHNcF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 08:32:05 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07FCECC34;
+        Wed,  8 Feb 2023 05:31:56 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id w5so9219058plg.8;
+        Wed, 08 Feb 2023 05:31:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FrvfwK6Li1OWjx1b8GzWQx8K77xDp8ENwfyOeSPd9eE=;
+        b=EM/WtZyy7zF0pIYe4L99sunsP8XxZM/eO8poIB7i3sHk3ST0tgKLmhLI7jStQKKYmV
+         7kES7ZGgDg2hKoTZHO3GhBvjKRw0M4IecBt0tAGUJlf5qehtYIx8ic6nA6h835tI5ciK
+         lLHW1h0SKwUdcaztW0X/Tkb2BowdVj1rgPXcRfd4aijmFE+WmjCYHncgGCWSKreqNTaK
+         mFUGUGDbGrunZCHjDRg8HVyWcswfmWn23REVDlyAjfdOaXXsP8LJWSdQrYWBeOb4JY/V
+         JrGlXjWIRynlRTYfXOxDr1Ptrmicg5nFtQtyQ0Qnc+WDrfqBlwH1Qzz9tg+/RnAcuPoV
+         Hmfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FrvfwK6Li1OWjx1b8GzWQx8K77xDp8ENwfyOeSPd9eE=;
+        b=HLGUjbA4tGcf9Pj/gRoRY2IrFYr0A2aHHVXCjCZdbZPLbvhsfiwjvuRSYy3M4PaZuQ
+         WeRxNW0ROwzniPIAkuonmsm81NYxf5WATDrvXHJupDNHZnQsZB5w7qXCWfRzhJso3Su/
+         SX+FF7xho/R3BBUScX7g2YvKQL5Qgctwrj+Zqrs3mA0LUn7MsBFfARVjwSPiNPflQ4km
+         NWW4YN61+154dhmvae+YtrFQE4GeQcp3H9JxrKnFSKAjmhknof+XQPD3AZAbFoBW9g0Q
+         VYEEzNcCB9/4jhiAcoAnvDb+Eeh8BSubzYqRmHJHkwcUGDa1YmhSxjpsYbjTfVIXESC0
+         TSJg==
+X-Gm-Message-State: AO0yUKWjyvRXfI3jsQh/a5JUMfTjNhtE8bEmUIJKzzXDfmrqtQrXlaR0
+        w8fOO9ThVQEsJGWlnsvRXCE=
+X-Google-Smtp-Source: AK7set/UB2qWM4G8zM/I+P0mGi9JRaNyfns6YOWg+uoNSSdSGLCy3SU1veAnml0rqFU7wPROKhBsgg==
+X-Received: by 2002:a17:902:f548:b0:199:2f53:4d95 with SMTP id h8-20020a170902f54800b001992f534d95mr7725526plf.50.1675863115434;
+        Wed, 08 Feb 2023 05:31:55 -0800 (PST)
+Received: from localhost ([2400:8902::f03c:93ff:fe27:642a])
+        by smtp.gmail.com with ESMTPSA id 6-20020a170902c24600b00189c62eac37sm3576960plg.32.2023.02.08.05.31.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Feb 2023 05:31:53 -0800 (PST)
+Date:   Wed, 8 Feb 2023 13:31:39 +0000
+From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     torvalds@linux-foundation.org, corbet@lwn.net, will@kernel.org,
+        boqun.feng@gmail.com, mark.rutland@arm.com,
+        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
+        cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH v2 08/10] slub: Replace cmpxchg_double()
+Message-ID: <Y+OkOxpOnRYcI3DS@localhost>
+References: <20230202145030.223740842@infradead.org>
+ <20230202152655.684926740@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v1 2/4] hwmon: (sfctemp) Add StarFive JH71x0 temperature
- sensor
-Content-Language: en-US
-To:     Guenter Roeck <linux@roeck-us.net>
-CC:     <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Conor Dooley <conor@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-        <linux-kernel@vger.kernel.org>
-References: <20230103013145.9570-1-hal.feng@starfivetech.com>
- <20230103013145.9570-3-hal.feng@starfivetech.com>
- <20230103221017.GA217155@roeck-us.net>
- <ddb197c3-9c77-c8c2-1d41-1691de05847e@starfivetech.com>
- <7580df6b-e97f-0036-8f7f-63acde8cd42a@roeck-us.net>
-From:   Hal Feng <hal.feng@starfivetech.com>
-In-Reply-To: <7580df6b-e97f-0036-8f7f-63acde8cd42a@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [183.27.96.33]
-X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX172.cuchost.com
- (172.16.6.92)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230202152655.684926740@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 6 Feb 2023 11:21:38 -0800, Guenter Roeck wrote:
-> On 2/6/23 09:12, Hal Feng wrote:
->> On Tue, 3 Jan 2023 14:10:17 -0800, Guenter Roeck wrote:
->>> On Tue, Jan 03, 2023 at 09:31:43AM +0800, Hal Feng wrote:
-[...]
->>>> diff --git a/drivers/hwmon/sfctemp.c b/drivers/hwmon/sfctemp.c
->>>> new file mode 100644
->>>> index 000000000000..e56716ad9587
->>>> --- /dev/null
->>>> +++ b/drivers/hwmon/sfctemp.c
->>>> @@ -0,0 +1,350 @@
->>>> +// SPDX-License-Identifier: GPL-2.0
->>>> +/*
->>>> + * Copyright (C) 2021 Emil Renner Berthing <kernel@esmil.dk>
->>>> + * Copyright (C) 2021 Samin Guo <samin.guo@starfivetech.com>
->>>> + */
->>>> +#include <linux/clk.h>
->>>> +#include <linux/completion.h>
->>>> +#include <linux/delay.h>
->>>> +#include <linux/hwmon.h>
->>>> +#include <linux/interrupt.h>
->>>> +#include <linux/io.h>
->>>> +#include <linux/module.h>
->>>> +#include <linux/mutex.h>
->>>> +#include <linux/of.h>
->>>> +#include <linux/platform_device.h>
->>>> +#include <linux/reset.h>
->>>> +
->>>> +/*
->>>> + * TempSensor reset. The RSTN can be de-asserted once the analog core has
->>>> + * powered up. Trst(min 100ns)
->>>> + * 0:reset  1:de-assert
->>>> + */
->>>> +#define SFCTEMP_RSTN    BIT(0)
->>>
->>> Missing include of linux/bits.h
->>
->> Will add it. Thanks.
->>
->>>
->>>> +
->>>> +/*
->>>> + * TempSensor analog core power down. The analog core will be powered up
->>>> + * Tpu(min 50us) after PD is de-asserted. RSTN should be held low until the
->>>> + * analog core is powered up.
->>>> + * 0:power up  1:power down
->>>> + */
->>>> +#define SFCTEMP_PD    BIT(1)
->>>> +
->>>> +/*
->>>> + * TempSensor start conversion enable.
->>>> + * 0:disable  1:enable
->>>> + */
->>>> +#define SFCTEMP_RUN    BIT(2)
->>>> +
->>>> +/*
->>>> + * TempSensor conversion value output.
->>>> + * Temp(C)=DOUT*Y/4094 - K
->>>> + */
->>>> +#define SFCTEMP_DOUT_POS    16
->>>> +#define SFCTEMP_DOUT_MSK    GENMASK(27, 16)
->>>> +
->>>> +/* DOUT to Celcius conversion constants */
->>>> +#define SFCTEMP_Y1000    237500L
->>>> +#define SFCTEMP_Z    4094L
->>>> +#define SFCTEMP_K1000    81100L
->>>> +
->>>> +struct sfctemp {
->>>> +    /* serialize access to hardware register and enabled below */
->>>> +    struct mutex lock;
->>>> +    struct completion conversion_done;
->>>> +    void __iomem *regs;
->>>> +    struct clk *clk_sense;
->>>> +    struct clk *clk_bus;
->>>> +    struct reset_control *rst_sense;
->>>> +    struct reset_control *rst_bus;
->>>> +    bool enabled;
->>>> +};
->>>> +
->>>> +static irqreturn_t sfctemp_isr(int irq, void *data)
->>>> +{
->>>> +    struct sfctemp *sfctemp = data;
->>>> +
->>>> +    complete(&sfctemp->conversion_done);
->>>> +    return IRQ_HANDLED;
->>>> +}
->>>> +
->>>> +static void sfctemp_power_up(struct sfctemp *sfctemp)
->>>> +{
->>>> +    /* make sure we're powered down first */
->>>> +    writel(SFCTEMP_PD, sfctemp->regs);
->>>> +    udelay(1);
->>>> +
->>>> +    writel(0, sfctemp->regs);
->>>> +    /* wait t_pu(50us) + t_rst(100ns) */
->>>> +    usleep_range(60, 200);
->>>> +
->>>> +    /* de-assert reset */
->>>> +    writel(SFCTEMP_RSTN, sfctemp->regs);
->>>> +    udelay(1); /* wait t_su(500ps) */
->>>> +}
->>>> +
->>>> +static void sfctemp_power_down(struct sfctemp *sfctemp)
->>>> +{
->>>> +    writel(SFCTEMP_PD, sfctemp->regs);
->>>> +}
->>>> +
->>>> +static void sfctemp_run_single(struct sfctemp *sfctemp)
->>>> +{
->>>> +    writel(SFCTEMP_RSTN | SFCTEMP_RUN, sfctemp->regs);
->>>> +    udelay(1);
->>>> +    writel(SFCTEMP_RSTN, sfctemp->regs);
->>>
->>> The datasheet (or, rather, programming manual) does not appear
->>> to be public, so I have to guess here.
->>>
->>> The code suggests that running a single conversion may be a choice,
->>> not a requirement. If it is indeed a choice, the reasoning needs to be
->>> explained since it adds a lot of complexity and dependencies to the
->>> driver (for example, interrupt support is only mandatory or even needed
->>> due to this choice). It also adds a significant delay to temperature
->>> read operations, which may have practical impact on thermal control
->>> software.
->>>
->>> If the chip only supports single temperature readings, that needs to be
->>> explained as well (and why SFCTEMP_RUN has to be reset in that case).
->>
->> The chip supports continuous conversion. When you set SFCTEMP_RUN, the
->> temperature raw data will be generated all the time. However, it will
->> also generate interrupts all the time when the conversion is finished,
->> because of the hardware limitation. So in this driver, we just support
->> the single conversion.
->>
+On Thu, Feb 02, 2023 at 03:50:38PM +0100, Peter Zijlstra wrote:
 > 
-> Sorry, I don't follow the logic. The interrupt is, for all practical
-> purposes, useless because there are no limits and exceeding any such
-> limits is therefore not supported. The only reason to have and enable
-> to interrupt is because continuous mode is disabled.
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> Acked-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  include/linux/slub_def.h |   12 ++-
+>  mm/slab.h                |   45 +++++++++++++-
+>  mm/slub.c                |  142 ++++++++++++++++++++++++++++-------------------
+>  3 files changed, 135 insertions(+), 64 deletions(-)
 > 
-> The code could be simplified a lot if interrupt support would be
-> dropped and continuous mode would be enabled.
+> --- a/include/linux/slub_def.h
+> +++ b/include/linux/slub_def.h
+> @@ -39,7 +39,8 @@ enum stat_item {
+>  	CPU_PARTIAL_FREE,	/* Refill cpu partial on free */
+>  	CPU_PARTIAL_NODE,	/* Refill cpu partial from node partial */
+>  	CPU_PARTIAL_DRAIN,	/* Drain cpu partial to node partial */
+> -	NR_SLUB_STAT_ITEMS };
+> +	NR_SLUB_STAT_ITEMS
+> +};
+>  
+>  #ifndef CONFIG_SLUB_TINY
+>  /*
+> @@ -47,8 +48,13 @@ enum stat_item {
+>   * with this_cpu_cmpxchg_double() alignment requirements.
+>   */
+>  struct kmem_cache_cpu {
+> -	void **freelist;	/* Pointer to next available object */
+> -	unsigned long tid;	/* Globally unique transaction id */
+> +	union {
+> +		struct {
+> +			void **freelist;	/* Pointer to next available object */
+> +			unsigned long tid;	/* Globally unique transaction id */
+> +		};
+> +		freelist_aba_t freelist_tid;
+> +	};
+>  	struct slab *slab;	/* The slab from which we are allocating */
+>  #ifdef CONFIG_SLUB_CPU_PARTIAL
+>  	struct slab *partial;	/* Partially allocated frozen slabs */
+> --- a/mm/slab.h
+> +++ b/mm/slab.h
+> @@ -5,6 +5,34 @@
+>   * Internal slab definitions
+>   */
+>  
+> +/*
+> + * Freelist pointer and counter to cmpxchg together, avoids the typical ABA
+> + * problems with cmpxchg of just a pointer.
+> + */
+> +typedef union {
+> +	struct {
+> +		void *freelist;
+> +		unsigned long counter;
+> +	};
+> +#ifdef CONFIG_64BIT
+> +	u128 full;
+> +#else
+> +	u64 full;
+> +#endif
+> +} freelist_aba_t;
+> +
+> +#ifdef CONFIG_64BIT
+> +# ifdef system_has_cmpxchg128
+> +# define system_has_freelist_aba()	system_has_cmpxchg128()
+> +# define try_cmpxchg_freelist		try_cmpxchg128
+> +# endif
+> +#else /* CONFIG_64BIT */
+> +# ifdef system_has_cmpxchg64
+> +# define system_has_freelist_aba()	system_has_cmpxchg64()
+> +# define try_cmpxchg_freelist		try_cmpxchg64
+> +# endif
+> +#endif /* CONFIG_64BIT */
+> +
+>  /* Reuses the bits in struct page */
+>  struct slab {
+>  	unsigned long __page_flags;
+> @@ -37,14 +65,21 @@ struct slab {
+>  #endif
+>  			};
+>  			/* Double-word boundary */
+> -			void *freelist;		/* first free object */
+>  			union {
+> -				unsigned long counters;
+>  				struct {
+> -					unsigned inuse:16;
+> -					unsigned objects:15;
+> -					unsigned frozen:1;
+> +					void *freelist;		/* first free object */
+> +					union {
+> +						unsigned long counters;
+> +						struct {
+> +							unsigned inuse:16;
+> +							unsigned objects:15;
+> +							unsigned frozen:1;
+> +						};
+> +					};
+>  				};
+> +#ifdef system_has_freelist_aba
+> +				freelist_aba_t freelist_counter;
+> +#endif
+>  			};
+>  		};
+>  		struct rcu_head rcu_head;
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -292,7 +292,13 @@ static inline bool kmem_cache_has_cpu_pa
+>  /* Poison object */
+>  #define __OBJECT_POISON		((slab_flags_t __force)0x80000000U)
+>  /* Use cmpxchg_double */
+> +
+> +#if defined(system_has_freelist_aba) && \
+> +    defined(CONFIG_HAVE_ALIGNED_STRUCT_PAGE)
+>  #define __CMPXCHG_DOUBLE	((slab_flags_t __force)0x40000000U)
+> +#else
+> +#define __CMPXCHG_DOUBLE	((slab_flags_t __force)0U)
+> +#endif
+>  
+>  /*
+>   * Tracking user of a slab.
+> @@ -512,6 +518,43 @@ static __always_inline void slab_unlock(
+>  	__bit_spin_unlock(PG_locked, &page->flags);
+>  }
+>  
+> +static inline bool
+> +__update_freelist_fast(struct slab *slab,
+> +		      void *freelist_old, unsigned long counters_old,
+> +		      void *freelist_new, unsigned long counters_new)
+> +{
+> +
+> +	bool ret = false;
+> +
+> +#ifdef system_has_freelist_aba
+> +	freelist_aba_t old = { .freelist = freelist_old, .counter = counters_old };
+> +	freelist_aba_t new = { .freelist = freelist_new, .counter = counters_new };
+> +
+> +	ret = try_cmpxchg_freelist(&slab->freelist_counter.full, &old.full, new.full);
+> +#endif /* system_has_freelist_aba */
+> +
+> +	return ret;
+> +}
+> +
+> +static inline bool
+> +__update_freelist_slow(struct slab *slab,
+> +		      void *freelist_old, unsigned long counters_old,
+> +		      void *freelist_new, unsigned long counters_new)
+> +{
+> +	bool ret = false;
+> +
+> +	slab_lock(slab);
+> +	if (slab->freelist == freelist_old &&
+> +	    slab->counters == counters_old) {
+> +		slab->freelist = freelist_new;
+> +		slab->counters = counters_new;
+> +		ret = true;
+> +	}
+> +	slab_unlock(slab);
+> +
+> +	return ret;
+> +}
+> +
+>  /*
+>   * Interrupts must be disabled (for the fallback code to work right), typically
+>   * by an _irqsave() lock variant. On PREEMPT_RT the preempt_disable(), which is
+> @@ -519,33 +562,25 @@ static __always_inline void slab_unlock(
+>   * allocation/ free operation in hardirq context. Therefore nothing can
+>   * interrupt the operation.
+>   */
+> -static inline bool __cmpxchg_double_slab(struct kmem_cache *s, struct slab *slab,
+> +static inline bool __slab_update_freelist(struct kmem_cache *s, struct slab *slab,
+>  		void *freelist_old, unsigned long counters_old,
+>  		void *freelist_new, unsigned long counters_new,
+>  		const char *n)
+>  {
+> +	bool ret;
+> +
+>  	if (USE_LOCKLESS_FAST_PATH())
+>  		lockdep_assert_irqs_disabled();
+> -#if defined(CONFIG_HAVE_CMPXCHG_DOUBLE) && \
+> -    defined(CONFIG_HAVE_ALIGNED_STRUCT_PAGE)
+> +
+>  	if (s->flags & __CMPXCHG_DOUBLE) {
+> -		if (cmpxchg_double(&slab->freelist, &slab->counters,
+> -				   freelist_old, counters_old,
+> -				   freelist_new, counters_new))
+> -			return true;
+> -	} else
+> -#endif
+> -	{
+> -		slab_lock(slab);
+> -		if (slab->freelist == freelist_old &&
+> -					slab->counters == counters_old) {
+> -			slab->freelist = freelist_new;
+> -			slab->counters = counters_new;
+> -			slab_unlock(slab);
+> -			return true;
+> -		}
+> -		slab_unlock(slab);
+> +		ret = __update_freelist_fast(slab, freelist_old, counters_old,
+> +				            freelist_new, counters_new);
+> +	} else {
+> +		ret = __update_freelist_slow(slab, freelist_old, counters_old,
+> +				            freelist_new, counters_new);
+>  	}
+> +	if (likely(ret))
+> +		return true;
+>  
+>  	cpu_relax();
+>  	stat(s, CMPXCHG_DOUBLE_FAIL);
+> @@ -557,36 +592,26 @@ static inline bool __cmpxchg_double_slab
+>  	return false;
+>  }
+>  
+> -static inline bool cmpxchg_double_slab(struct kmem_cache *s, struct slab *slab,
+> +static inline bool slab_update_freelist(struct kmem_cache *s, struct slab *slab,
+>  		void *freelist_old, unsigned long counters_old,
+>  		void *freelist_new, unsigned long counters_new,
+>  		const char *n)
+>  {
+> -#if defined(CONFIG_HAVE_CMPXCHG_DOUBLE) && \
+> -    defined(CONFIG_HAVE_ALIGNED_STRUCT_PAGE)
+> +	bool ret;
+> +
+>  	if (s->flags & __CMPXCHG_DOUBLE) {
+> -		if (cmpxchg_double(&slab->freelist, &slab->counters,
+> -				   freelist_old, counters_old,
+> -				   freelist_new, counters_new))
+> -			return true;
+> -	} else
+> -#endif
+> -	{
+> +		ret = __update_freelist_fast(slab, freelist_old, counters_old,
+> +				            freelist_new, counters_new);
+> +	} else {
+>  		unsigned long flags;
+>  
+>  		local_irq_save(flags);
+> -		slab_lock(slab);
+> -		if (slab->freelist == freelist_old &&
+> -					slab->counters == counters_old) {
+> -			slab->freelist = freelist_new;
+> -			slab->counters = counters_new;
+> -			slab_unlock(slab);
+> -			local_irq_restore(flags);
+> -			return true;
+> -		}
+> -		slab_unlock(slab);
+> +		ret = __update_freelist_slow(slab, freelist_old, counters_old,
+> +				            freelist_new, counters_new);
+>  		local_irq_restore(flags);
+>  	}
+> +	if (likely(ret))
+> +		return true;
+>  
+>  	cpu_relax();
+>  	stat(s, CMPXCHG_DOUBLE_FAIL);
+> @@ -2229,7 +2254,7 @@ static inline void *acquire_slab(struct
+>  	VM_BUG_ON(new.frozen);
+>  	new.frozen = 1;
+>  
+> -	if (!__cmpxchg_double_slab(s, slab,
+> +	if (!__slab_update_freelist(s, slab,
+>  			freelist, counters,
+>  			new.freelist, new.counters,
+>  			"acquire_slab"))
+> @@ -2555,7 +2580,7 @@ static void deactivate_slab(struct kmem_
+>  	}
+>  
+>  
+> -	if (!cmpxchg_double_slab(s, slab,
+> +	if (!slab_update_freelist(s, slab,
+>  				old.freelist, old.counters,
+>  				new.freelist, new.counters,
+>  				"unfreezing slab")) {
+> @@ -2612,7 +2637,7 @@ static void __unfreeze_partials(struct k
+>  
+>  			new.frozen = 0;
+>  
+> -		} while (!__cmpxchg_double_slab(s, slab,
+> +		} while (!__slab_update_freelist(s, slab,
+>  				old.freelist, old.counters,
+>  				new.freelist, new.counters,
+>  				"unfreezing slab"));
+> @@ -3009,6 +3034,18 @@ static inline bool pfmemalloc_match(stru
+>  }
+>  
+>  #ifndef CONFIG_SLUB_TINY
+> +static inline bool
+> +__update_cpu_freelist_fast(struct kmem_cache *s,
+> +			   void *freelist_old, void *freelist_new,
+> +			   unsigned long tid)
+> +{
+> +	freelist_aba_t old = { .freelist = freelist_old, .counter = tid };
+> +	freelist_aba_t new = { .freelist = freelist_new, .counter = next_tid(tid) };
+> +
+> +	return this_cpu_cmpxchg(s->cpu_slab->freelist_tid.full,
+> +				old.full, new.full) == old.full;
+> +}
+> +
+>  /*
+>   * Check the slab->freelist and either transfer the freelist to the
+>   * per cpu freelist or deactivate the slab.
+> @@ -3035,7 +3072,7 @@ static inline void *get_freelist(struct
+>  		new.inuse = slab->objects;
+>  		new.frozen = freelist != NULL;
+>  
+> -	} while (!__cmpxchg_double_slab(s, slab,
+> +	} while (!__slab_update_freelist(s, slab,
+>  		freelist, counters,
+>  		NULL, new.counters,
+>  		"get_freelist"));
+> @@ -3360,11 +3397,7 @@ static __always_inline void *__slab_allo
+>  		 * against code executing on this cpu *not* from access by
+>  		 * other cpus.
+>  		 */
+> -		if (unlikely(!this_cpu_cmpxchg_double(
+> -				s->cpu_slab->freelist, s->cpu_slab->tid,
+> -				object, tid,
+> -				next_object, next_tid(tid)))) {
+> -
+> +		if (unlikely(!__update_cpu_freelist_fast(s, object, next_object, tid))) {
+>  			note_cmpxchg_failure("slab_alloc", s, tid);
+>  			goto redo;
+>  		}
+> @@ -3632,7 +3665,7 @@ static void __slab_free(struct kmem_cach
+>  			}
+>  		}
+>  
+> -	} while (!cmpxchg_double_slab(s, slab,
+> +	} while (!slab_update_freelist(s, slab,
+>  		prior, counters,
+>  		head, new.counters,
+>  		"__slab_free"));
+> @@ -3737,11 +3770,7 @@ static __always_inline void do_slab_free
+>  
+>  		set_freepointer(s, tail_obj, freelist);
+>  
+> -		if (unlikely(!this_cpu_cmpxchg_double(
+> -				s->cpu_slab->freelist, s->cpu_slab->tid,
+> -				freelist, tid,
+> -				head, next_tid(tid)))) {
+> -
+> +		if (unlikely(!__update_cpu_freelist_fast(s, freelist, head, tid))) {
+>  			note_cmpxchg_failure("slab_free", s, tid);
+>  			goto redo;
+>  		}
+> @@ -4505,11 +4534,12 @@ static int kmem_cache_open(struct kmem_c
+>  		}
+>  	}
+>  
+> -#if defined(CONFIG_HAVE_CMPXCHG_DOUBLE) && \
+> +#if defined(system_has_freelist_aba) && \
+>      defined(CONFIG_HAVE_ALIGNED_STRUCT_PAGE)
+> -	if (system_has_cmpxchg_double() && (s->flags & SLAB_NO_CMPXCHG) == 0)
+> +	if (system_has_freelist_aba() && !(s->flags & SLAB_NO_CMPXCHG)) {
+>  		/* Enable fast mode */
+>  		s->flags |= __CMPXCHG_DOUBLE;
+> +	}
+>  #endif
+>  
+>  	/*
 
-If we enable continuous mode, which means SFCTEMP_RUN remains asserted,
-the conversion finished interrupt will be raised after each sample
-time (8.192 ms). Within a few minutes, a lot of interrupts are raised,
-as showed below.
+Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 
-# cat /proc/interrupts
-           CPU0       CPU1       CPU2       CPU3       
-  1:          0          0          0          0  SiFive PLIC   1 Edge      ccache_ecc
-  2:          1          0          0          0  SiFive PLIC   3 Edge      ccache_ecc
-  3:          1          0          0          0  SiFive PLIC   4 Edge      ccache_ecc
-  4:          0          0          0          0  SiFive PLIC   2 Edge      ccache_ecc
-  5:       1116       1670        411       1466  RISC-V INTC   5 Edge      riscv-timer
-  6:      32093          0          0          0  SiFive PLIC  81 Edge      120e0000.temperature-sensor
- 10:       1233          0          0          0  SiFive PLIC  32 Edge      ttyS0
-IPI0:       117         62        123        117  Rescheduling interrupts
-IPI1:       278        353        105        273  Function call interrupts
-IPI2:         0          0          0          0  CPU stop interrupts
-IPI3:         0          0          0          0  CPU stop (for crash dump) interrupts
-IPI4:         0          0          0          0  IRQ work interrupts
-IPI5:         0          0          0          0  Timer broadcast interrupts
-
-If we enable continuous mode and drop the interrupt support in the
-driver, the kernel will not know the interrupts but a lot of interrupts
-are still raised in hardware. Can we do such like that?
-Without the interrupt support, the temperature we read may be the value
-generated in the last cycle.
-
-I think the temperature has its value only when we read it, so we start
-conversion only when we read the temperature. Further more, it will
-consume more power if we enable continuous mode.
-
-Best regards,
-Hal
+Thanks!
