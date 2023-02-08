@@ -2,190 +2,240 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB09C05027
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 12:24:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FB2CC05027
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 12:40:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229515AbjBHMY0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Feb 2023 07:24:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59946 "EHLO
+        id S230040AbjBHMkz convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Feb 2023 07:40:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230335AbjBHMYZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 07:24:25 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FC576196;
-        Wed,  8 Feb 2023 04:24:24 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id r8so19062699pls.2;
-        Wed, 08 Feb 2023 04:24:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Eww0bGHARNDro+m4qM4alVSDjm0iyW4r5Bw76JD/1d0=;
-        b=UwDzNnVKuF/8eUzNV/aymL9+YcldSIDvjEKmYPNChw9tl/cW29Zad264smZsYHW8Qe
-         3K+A+0a2pom4OZZbxKrjZjNutSB5FHodxpuAzzRchE6kaJcQ+5/lupwMD0s9d0crb4Sa
-         E2m54aLLmCbokqcbW9FYc9zQr3zWZnOqTWppeVRy7ISY2XtRs4xPRjU02s++w/HKJlFl
-         kg04wIBDr54WQd38+rYVn2umHbHARWKII1ybL4idTSuoiziEp1hZqzFvsUqhl59swDNr
-         Yi7r6xIUpqFdwY449R217+sVKup3An5sYZWWhbEK3lIoH3KXY5u5fLczWnZjy4KAyIPb
-         6UgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Eww0bGHARNDro+m4qM4alVSDjm0iyW4r5Bw76JD/1d0=;
-        b=FjzxwuIWI+X52Nuap3dhGGh/vwfwuRrfBzK/su18xW7CFjI1MJ4jKhRRRuCd2Z+3lw
-         zL6DOtpoOKwdaCZTO7hKovU1Ay+z+6DUOvJVsk7AhZ/HahxMJ8sQlUzMx+mBa+b2KCYb
-         KAQpGfGxmUwWDDDt73gB1lUMSmkN/x8NeE9ubBiBwp5W5jIKv7/S8ikFO9IHWfS57rlB
-         W/Sx9NBZ32sLNNoHmog2GFTxWToapXLjl9HLmkrvmPQe6wQregd9nmrJJMJhnIe5T50M
-         PQn4gHuRS2vKwPRDYKl4NVC6snL0H3KJFB10jbSftpiYYCd9glH9rZGHh76Pi7mkFTFW
-         rSKA==
-X-Gm-Message-State: AO0yUKU+Qorcaz27nxD8dK2sfh5hecgixfeIGyyQ+cR+eyxqCXAKWVbN
-        uWEfqrGxQzT2BlaHaeUTbpM=
-X-Google-Smtp-Source: AK7set/EW3iOkejUiaBMrPtlYGHcnCsU5yA10F1vOHdYEM6oZRjOqRVew+hXFhEI9WsmU30z7oOHew==
-X-Received: by 2002:a05:6a21:38c8:b0:be:bf28:b7da with SMTP id yk8-20020a056a2138c800b000bebf28b7damr5858337pzb.20.1675859063311;
-        Wed, 08 Feb 2023 04:24:23 -0800 (PST)
-Received: from localhost ([192.55.54.55])
-        by smtp.gmail.com with ESMTPSA id p22-20020aa78616000000b0058d9b68042fsm1546476pfn.14.2023.02.08.04.24.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Feb 2023 04:24:22 -0800 (PST)
-Date:   Wed, 8 Feb 2023 04:24:21 -0800
-From:   Isaku Yamahata <isaku.yamahata@gmail.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Isaku Yamahata <isaku.yamahata@gmail.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <20230208122421.GA4175971@ls.amr.corp.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com>
- <20230119111308.GC2976263@ls.amr.corp.intel.com>
- <Y8lg1G2lRIrI/hld@google.com>
- <20230119223704.GD2976263@ls.amr.corp.intel.com>
- <Y880FiYF7YCtsw/i@google.com>
+        with ESMTP id S229509AbjBHMkw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 07:40:52 -0500
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A28F41095;
+        Wed,  8 Feb 2023 04:40:48 -0800 (PST)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id DB5A124E2F8;
+        Wed,  8 Feb 2023 20:40:44 +0800 (CST)
+Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 8 Feb
+ 2023 20:40:44 +0800
+Received: from [192.168.125.110] (183.27.96.33) by EXMBX172.cuchost.com
+ (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 8 Feb
+ 2023 20:40:43 +0800
+Message-ID: <629e070a-5138-8754-e86c-3458ae5d7a16@starfivetech.com>
+Date:   Wed, 8 Feb 2023 20:40:43 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y880FiYF7YCtsw/i@google.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v1 2/4] hwmon: (sfctemp) Add StarFive JH71x0 temperature
+ sensor
+Content-Language: en-US
+To:     Guenter Roeck <linux@roeck-us.net>
+CC:     <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+        <linux-kernel@vger.kernel.org>
+References: <20230103013145.9570-1-hal.feng@starfivetech.com>
+ <20230103013145.9570-3-hal.feng@starfivetech.com>
+ <20230103221017.GA217155@roeck-us.net>
+ <ddb197c3-9c77-c8c2-1d41-1691de05847e@starfivetech.com>
+ <7580df6b-e97f-0036-8f7f-63acde8cd42a@roeck-us.net>
+From:   Hal Feng <hal.feng@starfivetech.com>
+In-Reply-To: <7580df6b-e97f-0036-8f7f-63acde8cd42a@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [183.27.96.33]
+X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX172.cuchost.com
+ (172.16.6.92)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 01:27:50AM +0000,
-Sean Christopherson <seanjc@google.com> wrote:
-
-> On Thu, Jan 19, 2023, Isaku Yamahata wrote:
-> > On Thu, Jan 19, 2023 at 03:25:08PM +0000,
-> > Sean Christopherson <seanjc@google.com> wrote:
-> > 
-> > > On Thu, Jan 19, 2023, Isaku Yamahata wrote:
-> > > > On Sat, Jan 14, 2023 at 12:37:59AM +0000,
-> > > > Sean Christopherson <seanjc@google.com> wrote:
-> > > > 
-> > > > > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > > > > This patch series implements KVM guest private memory for confidential
-> > > > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
-> > > > > > TDX-protected guest memory, machine check can happen which can further
-> > > > > > crash the running host system, this is terrible for multi-tenant
-> > > > > > configurations. The host accesses include those from KVM userspace like
-> > > > > > QEMU. This series addresses KVM userspace induced crash by introducing
-> > > > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
-> > > > > > via a fd-based approach, but it can never access the guest memory
-> > > > > > content.
-> > > > > > 
-> > > > > > The patch series touches both core mm and KVM code. I appreciate
-> > > > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> > > > > > reviews are always welcome.
-> > > > > >   - 01: mm change, target for mm tree
-> > > > > >   - 02-09: KVM change, target for KVM tree
-> > > > > 
-> > > > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
-> > > > > is available here:
-> > > > > 
-> > > > >   git@github.com:sean-jc/linux.git x86/upm_base_support
-> > > > > 
-> > > > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
-> > > > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-> > > > > a WIP.
-> > > > > 
-> > > > > As for next steps, can you (handwaving all of the TDX folks) take a look at what
-> > > > > I pushed and see if there's anything horrifically broken, and that it still works
-> > > > > for TDX?
-> > > > > 
-> > > > > Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
-> > > > > (and I mean that).
-> > > > > 
-> > > > > On my side, the two things on my mind are (a) tests and (b) downstream dependencies
-> > > > > (SEV and TDX).  For tests, I want to build a lists of tests that are required for
-> > > > > merging so that the criteria for merging are clear, and so that if the list is large
-> > > > > (haven't thought much yet), the work of writing and running tests can be distributed.
-> > > > > 
-> > > > > Regarding downstream dependencies, before this lands, I want to pull in all the
-> > > > > TDX and SNP series and see how everything fits together.  Specifically, I want to
-> > > > > make sure that we don't end up with a uAPI that necessitates ugly code, and that we
-> > > > > don't miss an opportunity to make things simpler.  The patches in the SNP series to
-> > > > > add "legacy" SEV support for UPM in particular made me slightly rethink some minor
-> > > > > details.  Nothing remotely major, but something that needs attention since it'll
-> > > > > be uAPI.
-> > > > 
-> > > > Although I'm still debuging with TDX KVM, I needed the following.
-> > > > kvm_faultin_pfn() is called without mmu_lock held.  the race to change
-> > > > private/shared is handled by mmu_seq.  Maybe dedicated function only for
-> > > > kvm_faultin_pfn().
-> > > 
-> > > Gah, you're not on the other thread where this was discussed[*].  Simply deleting
-> > > the lockdep assertion is safe, for guest types that rely on the attributes to
-> > > define shared vs. private, KVM rechecks the attributes under the protection of
-> > > mmu_seq.
-> > > 
-> > > I'll get a fixed version pushed out today.
-> > > 
-> > > [*] https://lore.kernel.org/all/Y8gpl+LwSuSgBFks@google.com
-> > 
-> > Now I have tdx kvm working. I've uploaded at the followings.
-> > It's rebased to v6.2-rc3.
-> >         git@github.com:yamahata/linux.git tdx/upm
-> >         git@github.com:yamahata/qemu.git tdx/upm
+On Mon, 6 Feb 2023 11:21:38 -0800, Guenter Roeck wrote:
+> On 2/6/23 09:12, Hal Feng wrote:
+>> On Tue, 3 Jan 2023 14:10:17 -0800, Guenter Roeck wrote:
+>>> On Tue, Jan 03, 2023 at 09:31:43AM +0800, Hal Feng wrote:
+[...]
+>>>> diff --git a/drivers/hwmon/sfctemp.c b/drivers/hwmon/sfctemp.c
+>>>> new file mode 100644
+>>>> index 000000000000..e56716ad9587
+>>>> --- /dev/null
+>>>> +++ b/drivers/hwmon/sfctemp.c
+>>>> @@ -0,0 +1,350 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>> +/*
+>>>> + * Copyright (C) 2021 Emil Renner Berthing <kernel@esmil.dk>
+>>>> + * Copyright (C) 2021 Samin Guo <samin.guo@starfivetech.com>
+>>>> + */
+>>>> +#include <linux/clk.h>
+>>>> +#include <linux/completion.h>
+>>>> +#include <linux/delay.h>
+>>>> +#include <linux/hwmon.h>
+>>>> +#include <linux/interrupt.h>
+>>>> +#include <linux/io.h>
+>>>> +#include <linux/module.h>
+>>>> +#include <linux/mutex.h>
+>>>> +#include <linux/of.h>
+>>>> +#include <linux/platform_device.h>
+>>>> +#include <linux/reset.h>
+>>>> +
+>>>> +/*
+>>>> + * TempSensor reset. The RSTN can be de-asserted once the analog core has
+>>>> + * powered up. Trst(min 100ns)
+>>>> + * 0:reset  1:de-assert
+>>>> + */
+>>>> +#define SFCTEMP_RSTN    BIT(0)
+>>>
+>>> Missing include of linux/bits.h
+>>
+>> Will add it. Thanks.
+>>
+>>>
+>>>> +
+>>>> +/*
+>>>> + * TempSensor analog core power down. The analog core will be powered up
+>>>> + * Tpu(min 50us) after PD is de-asserted. RSTN should be held low until the
+>>>> + * analog core is powered up.
+>>>> + * 0:power up  1:power down
+>>>> + */
+>>>> +#define SFCTEMP_PD    BIT(1)
+>>>> +
+>>>> +/*
+>>>> + * TempSensor start conversion enable.
+>>>> + * 0:disable  1:enable
+>>>> + */
+>>>> +#define SFCTEMP_RUN    BIT(2)
+>>>> +
+>>>> +/*
+>>>> + * TempSensor conversion value output.
+>>>> + * Temp(C)=DOUT*Y/4094 - K
+>>>> + */
+>>>> +#define SFCTEMP_DOUT_POS    16
+>>>> +#define SFCTEMP_DOUT_MSK    GENMASK(27, 16)
+>>>> +
+>>>> +/* DOUT to Celcius conversion constants */
+>>>> +#define SFCTEMP_Y1000    237500L
+>>>> +#define SFCTEMP_Z    4094L
+>>>> +#define SFCTEMP_K1000    81100L
+>>>> +
+>>>> +struct sfctemp {
+>>>> +    /* serialize access to hardware register and enabled below */
+>>>> +    struct mutex lock;
+>>>> +    struct completion conversion_done;
+>>>> +    void __iomem *regs;
+>>>> +    struct clk *clk_sense;
+>>>> +    struct clk *clk_bus;
+>>>> +    struct reset_control *rst_sense;
+>>>> +    struct reset_control *rst_bus;
+>>>> +    bool enabled;
+>>>> +};
+>>>> +
+>>>> +static irqreturn_t sfctemp_isr(int irq, void *data)
+>>>> +{
+>>>> +    struct sfctemp *sfctemp = data;
+>>>> +
+>>>> +    complete(&sfctemp->conversion_done);
+>>>> +    return IRQ_HANDLED;
+>>>> +}
+>>>> +
+>>>> +static void sfctemp_power_up(struct sfctemp *sfctemp)
+>>>> +{
+>>>> +    /* make sure we're powered down first */
+>>>> +    writel(SFCTEMP_PD, sfctemp->regs);
+>>>> +    udelay(1);
+>>>> +
+>>>> +    writel(0, sfctemp->regs);
+>>>> +    /* wait t_pu(50us) + t_rst(100ns) */
+>>>> +    usleep_range(60, 200);
+>>>> +
+>>>> +    /* de-assert reset */
+>>>> +    writel(SFCTEMP_RSTN, sfctemp->regs);
+>>>> +    udelay(1); /* wait t_su(500ps) */
+>>>> +}
+>>>> +
+>>>> +static void sfctemp_power_down(struct sfctemp *sfctemp)
+>>>> +{
+>>>> +    writel(SFCTEMP_PD, sfctemp->regs);
+>>>> +}
+>>>> +
+>>>> +static void sfctemp_run_single(struct sfctemp *sfctemp)
+>>>> +{
+>>>> +    writel(SFCTEMP_RSTN | SFCTEMP_RUN, sfctemp->regs);
+>>>> +    udelay(1);
+>>>> +    writel(SFCTEMP_RSTN, sfctemp->regs);
+>>>
+>>> The datasheet (or, rather, programming manual) does not appear
+>>> to be public, so I have to guess here.
+>>>
+>>> The code suggests that running a single conversion may be a choice,
+>>> not a requirement. If it is indeed a choice, the reasoning needs to be
+>>> explained since it adds a lot of complexity and dependencies to the
+>>> driver (for example, interrupt support is only mandatory or even needed
+>>> due to this choice). It also adds a significant delay to temperature
+>>> read operations, which may have practical impact on thermal control
+>>> software.
+>>>
+>>> If the chip only supports single temperature readings, that needs to be
+>>> explained as well (and why SFCTEMP_RUN has to be reset in that case).
+>>
+>> The chip supports continuous conversion. When you set SFCTEMP_RUN, the
+>> temperature raw data will be generated all the time. However, it will
+>> also generate interrupts all the time when the conversion is finished,
+>> because of the hardware limitation. So in this driver, we just support
+>> the single conversion.
+>>
 > 
-> And I finally got a working, building version updated and pushed out (again to):
+> Sorry, I don't follow the logic. The interrupt is, for all practical
+> purposes, useless because there are no limits and exceeding any such
+> limits is therefore not supported. The only reason to have and enable
+> to interrupt is because continuous mode is disabled.
 > 
->   git@github.com:sean-jc/linux.git x86/upm_base_support
-> 
+> The code could be simplified a lot if interrupt support would be
+> dropped and continuous mode would be enabled.
 
-Ok, I rebased TDX part to the updated branch.
-        git@github.com:yamahata/linux.git tdx/upm
-        git@github.com:yamahata/qemu.git tdx/upm
+If we enable continuous mode, which means SFCTEMP_RUN remains asserted,
+the conversion finished interrupt will be raised after each sample
+time (8.192 ms). Within a few minutes, a lot of interrupts are raised,
+as showed below.
 
-Now it's v6.2-rc7 based.
-qemu needs more patches to avoid registering memory slot for SMM. 
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+# cat /proc/interrupts
+           CPU0       CPU1       CPU2       CPU3       
+  1:          0          0          0          0  SiFive PLIC   1 Edge      ccache_ecc
+  2:          1          0          0          0  SiFive PLIC   3 Edge      ccache_ecc
+  3:          1          0          0          0  SiFive PLIC   4 Edge      ccache_ecc
+  4:          0          0          0          0  SiFive PLIC   2 Edge      ccache_ecc
+  5:       1116       1670        411       1466  RISC-V INTC   5 Edge      riscv-timer
+  6:      32093          0          0          0  SiFive PLIC  81 Edge      120e0000.temperature-sensor
+ 10:       1233          0          0          0  SiFive PLIC  32 Edge      ttyS0
+IPI0:       117         62        123        117  Rescheduling interrupts
+IPI1:       278        353        105        273  Function call interrupts
+IPI2:         0          0          0          0  CPU stop interrupts
+IPI3:         0          0          0          0  CPU stop (for crash dump) interrupts
+IPI4:         0          0          0          0  IRQ work interrupts
+IPI5:         0          0          0          0  Timer broadcast interrupts
+
+If we enable continuous mode and drop the interrupt support in the
+driver, the kernel will not know the interrupts but a lot of interrupts
+are still raised in hardware. Can we do such like that?
+Without the interrupt support, the temperature we read may be the value
+generated in the last cycle.
+
+I think the temperature has its value only when we read it, so we start
+conversion only when we read the temperature. Further more, it will
+consume more power if we enable continuous mode.
+
+Best regards,
+Hal
