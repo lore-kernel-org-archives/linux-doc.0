@@ -2,85 +2,254 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7CDC636D3
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 22:01:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC9E4C05027
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Feb 2023 22:10:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232143AbjBHWBo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Feb 2023 17:01:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36148 "EHLO
+        id S232340AbjBHWKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Feb 2023 17:10:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230244AbjBHWBn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 17:01:43 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1296D298CC;
-        Wed,  8 Feb 2023 14:01:43 -0800 (PST)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 318LmeE8014287;
-        Wed, 8 Feb 2023 22:01:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=YkgNf9iry4aylU4hrKdkjVjQ81dnafBgimpOfjve4JY=;
- b=Tz+t4XEpzaeag4JVfGi6wj2hC9v0IkrXr37pluvLMToNorCUNbvzwSQiOjNpukVPR1fq
- K5RZ2c7W49LtFEuojT/BtzLcMwirpqIzRPQI8Nde+fsmuTAFkmIPYdkfXQLVN1kf+TY3
- QVH890JfdTaLYinI2JLLxPRVB54G2E8Lu0S9Md/QhZUPqBBTeApbQhYz1S7uG2Abgklg
- TalvjSbYGtlGnVlJRkA4Prt9EOk2xo0hvH8Z6eGAjuGHerTiae4BPw3voJdqWEJRTnIb
- V0Ol4/yieNtJ3645ZXsgE4SLC0vAIr+QiFUm0b2hZCh9rmWlrXCHu3hJ8jzD3FVNJOZ8 8Q== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nm7g1t1pv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 08 Feb 2023 22:01:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 318M1AI9008107
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 8 Feb 2023 22:01:10 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 8 Feb 2023
- 14:01:09 -0800
-Message-ID: <d1074659-8b6a-0756-9cd6-23a9ddc604d8@quicinc.com>
-Date:   Wed, 8 Feb 2023 15:01:08 -0700
+        with ESMTP id S232284AbjBHWKW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 17:10:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB2531E34;
+        Wed,  8 Feb 2023 14:10:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C7FCA612DF;
+        Wed,  8 Feb 2023 22:10:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1521AC433D2;
+        Wed,  8 Feb 2023 22:10:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675894220;
+        bh=XVxjVUrRTJMXekRe8IZaijGwGSF2ZmqoQLEohJud26E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jFLRdU1oPEPaTBobg0kMQ3XiQfJjz+jfF8+6uIqJro3fQbM2JuiAoNJsVE1OzzODQ
+         kb72fmJRHtI4mE2/wv+kQZ6ALpuIXyKYOXdubDZ75by/lvy0H7r9JBlvLRPrdSDAIY
+         jb5FWhTayc6ogQ9reLsU6PrMosSevsh/9PWxObeEm068DdohrmZ3AfMGQ9EWEF9fQV
+         teiR6pXveERO0S6U5iQmI9RPuyNOhTBiWdpdx3rS9xjtZGXqexOQqwsRyjU4ScYetd
+         dbpBxl6ZUC0yZYQ0boy0YYZ76t1Eua9XLM2SDqZ9tlkunPIqD9v81BQOa7Ym0q06Zw
+         uytPz1fsX9AOw==
+Date:   Wed, 8 Feb 2023 22:10:14 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <apatel@ventanamicro.com>,
+        linux-doc@vger.kernel.org, Atish Patra <atishp@rivosinc.com>,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-riscv@lists.infradead.org,
+        Andrew Jones <ajones@ventanamicro.com>
+Subject: Re: [PATCH 13/24] RISC-V: ACPI: smpboot: Add ACPI support in
+ smp_setup()
+Message-ID: <Y+Qdxg8LBs5mbl4+@spud>
+References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
+ <20230130182225.2471414-14-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 0/8] QAIC accel driver
-Content-Language: en-US
-From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
-To:     <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
-        <dri-devel@lists.freedesktop.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <quic_ajitpals@quicinc.com>, <quic_pkanojiy@quicinc.com>,
-        <stanislaw.gruszka@linux.intel.com>, <quic_carlv@quicinc.com>,
-        <jacek.lawrynowicz@linux.intel.com>
-References: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
-In-Reply-To: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: NCWFP8HWWzVHgrMqt7-M_GmFG2zzN2iV
-X-Proofpoint-ORIG-GUID: NCWFP8HWWzVHgrMqt7-M_GmFG2zzN2iV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-08_09,2023-02-08_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 impostorscore=0
- mlxlogscore=780 spamscore=0 bulkscore=0 mlxscore=0 phishscore=0
- priorityscore=1501 suspectscore=0 clxscore=1015 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302080186
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="mo18E0oC3+AOVGLw"
+Content-Disposition: inline
+In-Reply-To: <20230130182225.2471414-14-sunilvl@ventanamicro.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/6/2023 8:41 AM, Jeffrey Hugo wrote:
-> Regarding the open userspace (see the documentation patch), the UMD and
-> compiler are a week or so away from being posted in the indicated repos.
-> Just need to polish some documentation.
 
-An update to this, the compiler is now live on github at the link 
-specified in the documentation patch.
+--mo18E0oC3+AOVGLw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--Jeff
+On Mon, Jan 30, 2023 at 11:52:14PM +0530, Sunil V L wrote:
+> Add function to parse the RINTC structure in
+> the MADT table and create the required initializations to
+> enable SMP boot on ACPI based platforms.
+>=20
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> ---
+>  arch/riscv/include/asm/acpi.h |  7 ++++
+>  arch/riscv/kernel/smpboot.c   | 73 ++++++++++++++++++++++++++++++++++-
+>  2 files changed, 79 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> index c5cb9f96d404..d1f1e53ec657 100644
+> --- a/arch/riscv/include/asm/acpi.h
+> +++ b/arch/riscv/include/asm/acpi.h
+> @@ -58,6 +58,13 @@ static inline bool acpi_has_cpu_in_madt(void)
+>  }
+> =20
+>  static inline void arch_fix_phys_package_id(int num, u32 slot) { }
+> +
+> +#ifdef CONFIG_ACPI_NUMA
+> +int acpi_numa_get_nid(unsigned int cpu);
+> +#else
+> +static inline int acpi_numa_get_nid(unsigned int cpu) { return NUMA_NO_N=
+ODE; }
+> +#endif /* CONFIG_ACPI_NUMA */
+> +
+>  #endif
+> =20
+>  #endif /*_ASM_ACPI_H*/
+> diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
+> index 26214ddefaa4..e48cf88d0bc1 100644
+> --- a/arch/riscv/kernel/smpboot.c
+> +++ b/arch/riscv/kernel/smpboot.c
+> @@ -8,6 +8,7 @@
+>   * Copyright (C) 2017 SiFive
+>   */
+> =20
+> +#include <linux/acpi.h>
+>  #include <linux/arch_topology.h>
+>  #include <linux/module.h>
+>  #include <linux/init.h>
+> @@ -70,6 +71,73 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
+>  	}
+>  }
+> =20
+> +#ifdef CONFIG_ACPI
+> +static unsigned int cpu_count =3D 1;
+> +
+> +static int __init
+> +acpi_parse_rintc(union acpi_subtable_headers *header,
+> +			     const unsigned long end)
+
+This all fits on one line. And also avoids the checkpatch complaint from
+what you have currently done...
+
+> +{
+> +	unsigned long hart;
+> +	bool found_boot_cpu =3D false;
+> +
+> +	struct acpi_madt_rintc *processor;
+> +
+> +	processor =3D (struct acpi_madt_rintc *)header;
+
+Why not combine the above two lines?
+
+> +	/* RINTC entry which has !ACPI_MADT_ENABLED is not enabled so skip */
+
+This comment is a bit -ENOPARSE. Please reword it in a way that is
+understandable to mere mortals like myself.
+
+> +	if (!(processor->flags & ACPI_MADT_ENABLED))
+> +		return 0;
+> +
+> +	hart =3D processor->hart_id;
+> +	if (hart < 0)
+> +		return 0;
+
+Newline here please
+
+> +	if (hart =3D=3D cpuid_to_hartid_map(0)) {
+> +		BUG_ON(found_boot_cpu);
+> +		found_boot_cpu =3D 1;
+
+This is a bool, why not assign a bool value to it so it looks more
+intentional? I know this is copied from the dt code, but that should
+really be on too IMO.
+
+> +		early_map_cpu_to_node(0, acpi_numa_get_nid(cpu_count));
+> +		return 0;
+> +	}
+
+And a newline here too...
+
+> +	if (cpu_count >=3D NR_CPUS) {
+> +		pr_warn("Invalid cpuid [%d] for hartid [%lu]\n",
+> +			cpu_count, hart);
+> +		return 0;
+> +	}
+> +
+> +	cpuid_to_hartid_map(cpu_count) =3D hart;
+> +	early_map_cpu_to_node(cpu_count, acpi_numa_get_nid(cpu_count));
+> +	cpu_count++;
+
+=2E..and also here please!
+
+> +	return 0;
+> +}
+> +
+> +static void __init acpi_parse_and_init_cpus(void)
+> +{
+> +	int cpuid;
+> +
+> +	cpu_set_ops(0);
+
+While I'm at it suggesting newline additions, adding them before
+comments would be great too.
+
+> +	/*
+> +	 * do a walk of MADT to determine how many CPUs
+> +	 * we have including disabled CPUs, and get information
+> +	 * we need for SMP init.
+> +	 */
+> +	acpi_table_parse_madt(ACPI_MADT_TYPE_RINTC,
+> +				      acpi_parse_rintc, 0);
+> +
+> +	/*
+> +	 * NUMA - TODO
+> +	 */
+
+TODO before merging, or TODO at some indeterminate point in the future?
+
+Anyways, this is all nits & this largely seem to resemble the dt code,
+so with the nits fixed (and an s/ACPI: // in $subject):
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Cheers,
+Conor.
+
+> +	for (cpuid =3D 1; cpuid < nr_cpu_ids; cpuid++) {
+> +		if (cpuid_to_hartid_map(cpuid) !=3D INVALID_HARTID) {
+> +			cpu_set_ops(cpuid);
+> +			set_cpu_possible(cpuid, true);
+> +		}
+> +	}
+> +}
+> +#else
+> +#define acpi_parse_and_init_cpus(...)	do { } while (0)
+> +#endif
+> +
+>  static void __init of_parse_and_init_cpus(void)
+>  {
+>  	struct device_node *dn;
+> @@ -118,7 +186,10 @@ static void __init of_parse_and_init_cpus(void)
+> =20
+>  void __init setup_smp(void)
+>  {
+> -	of_parse_and_init_cpus();
+> +	if (acpi_disabled)
+> +		of_parse_and_init_cpus();
+> +	else
+> +		acpi_parse_and_init_cpus();
+>  }
+> =20
+>  static int start_secondary_cpu(int cpu, struct task_struct *tidle)
+> --=20
+> 2.38.0
+>=20
+>=20
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+--mo18E0oC3+AOVGLw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY+QdxgAKCRB4tDGHoIJi
+0mYzAQCje2xPmfoUKUo3YwQThJBacTIIFH5J2oMBl6ngBZ+FdwD/SLgyM6yOKUw6
+o1k5955yH/LsIcrq+z5XQy71gq8yRQ8=
+=K1kC
+-----END PGP SIGNATURE-----
+
+--mo18E0oC3+AOVGLw--
