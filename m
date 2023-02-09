@@ -2,118 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0F1EC61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 09:22:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6BD5C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 09:24:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbjBIJWE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 04:22:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52814 "EHLO
+        id S229596AbjBIJYb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 04:24:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230119AbjBIJVq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 04:21:46 -0500
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C3C6779E
-        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 01:20:44 -0800 (PST)
-Received: by mail-pg1-x529.google.com with SMTP id r18so1141167pgr.12
-        for <linux-doc@vger.kernel.org>; Thu, 09 Feb 2023 01:20:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NlaRWpA7tL71Df6i/q0sFCfUUbbYhsY1iDx/MO4gzLY=;
-        b=TFuGzkmfgtQiVx340LL54zjOakAXM3YsZJT8IYUXZ4AxfzSnje1Joq13S4J68tnmgJ
-         rat/LDFvFIYyXL9H5AV4J9ZCty7RHcfelJbGDRt7O0/dj0otCEBEVo1Emmrr+ff8eYdf
-         PoMDW0+1KcAb+ML2/andm4TaLatf3HgtXGh8jfIPO95VwP4cr4QSN7ZAIEwU3Aqrc5qC
-         E78Ko+LkqxfTadFSHh0Yg9iXoiZYyoSTs7wyE1L898WqmgfttxiQzdh00JdvAZ/kzN3V
-         erXpIJRCtACl7OEph3e94rSnb/trH4Ru6XH2tjUt0NGzLK1AsAxU2nvWzcGgP10iHvjJ
-         j0Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NlaRWpA7tL71Df6i/q0sFCfUUbbYhsY1iDx/MO4gzLY=;
-        b=da97dIyF0JxcVd8Y0AUqAllpeR77p9Yh2izjo70eGUcmOeVEWLCkAD3L8tjRy/trBw
-         1B9tnpte+jPVONwxTVlFlcLMS3TNv7cqiZTC7f0n29nwgARtP8lyJVABXhm7fOh4Gud6
-         /uZpvn0TD9uJ3b+uNi/glPmYruMOTdIj218uPvLtZtgSal5YPXjQPjB/tTXLbvZiKPhJ
-         S/841hYK/opcmZ4mx1kAEd0/ev+bmQbBhFWzDtGL8UHiV6SIJE9W3DI0Vez9YUoHxJGA
-         5xkhune727g6jE3Sj15d9jD57IXNEDhGI+bSEp8Gs30z/jM1NnrxKAHlvhEDCkzrKb62
-         o8nw==
-X-Gm-Message-State: AO0yUKXVskcBV5ISi3e5qZm7Um5POgHtKdhhee/btH6kljPmBaJMekUE
-        f4tbhzBVTLjZRqNF0UlvYQ+94CT6h92shn2Sif/dzw==
-X-Google-Smtp-Source: AK7set+2f9vXIotOMaKv8GeSca304NiFCBOvh/ziF3kJSv0qMNrCGabOh/sgDJDRbTW5Ep2lLylsZsIrFX/llJTS47o=
-X-Received: by 2002:a63:9206:0:b0:4d9:66d4:d05 with SMTP id
- o6-20020a639206000000b004d966d40d05mr2149570pgd.44.1675934441322; Thu, 09 Feb
- 2023 01:20:41 -0800 (PST)
+        with ESMTP id S230255AbjBIJYL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 04:24:11 -0500
+Received: from mr85p00im-zteg06023901.me.com (mr85p00im-zteg06023901.me.com [17.58.23.192])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F8E75EFAA
+        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 01:24:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+        t=1675934301; bh=l5/w8qzS8eROrSTSdYL3TF863UssIMOFYBR22gS7cAY=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version;
+        b=SbAzunJ6FLU016F/cc/EjMNDH/P8jyPB+PyhVT4GTts7KQwLycRHDYA+ptWx45CiP
+         gUVOUg3pM0d7mDkMOM3YQZGPjjpLQPk9UZEIs4IeBmsx2lWTQ2TZcR9xmVSu3r2whZ
+         p/B3CR2yy+Ut6WG2PaaiotK7Vn+qAXjeU6veSqHfvPcM1ajN1tD7geHvASdAel+urX
+         vmbSlwpNI9DLxulWrCzbjSyQPm9q+m5FjNWFnXsyRFTYRxrlzgdMPdWRHVnLobNf+6
+         zS8D0mvwv0OR/toDJsk7bOqA5l0jL1yElQ1Ogq6Vb6cvTu0jfsaxslU8T58J113qe1
+         poYcwtMXsFudg==
+Received: from localhost (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
+        by mr85p00im-zteg06023901.me.com (Postfix) with ESMTPSA id D40EE6E0EC8;
+        Thu,  9 Feb 2023 09:18:20 +0000 (UTC)
+From:   Alain Volmat <avolmat@me.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-pm@vger.kernel.org,
+        linux-clk@vger.kernel.org, Alain Volmat <avolmat@me.com>
+Subject: [PATCH 03/11] irqchip/st: remove stih415/stih416 and stid127 platforms support
+Date:   Thu,  9 Feb 2023 10:16:51 +0100
+Message-Id: <20230209091659.1409-4-avolmat@me.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230209091659.1409-1-avolmat@me.com>
+References: <20230209091659.1409-1-avolmat@me.com>
 MIME-Version: 1.0
-References: <20230209071400.31476-1-rdunlap@infradead.org> <20230209071400.31476-17-rdunlap@infradead.org>
-In-Reply-To: <20230209071400.31476-17-rdunlap@infradead.org>
-From:   Vincent Guittot <vincent.guittot@linaro.org>
-Date:   Thu, 9 Feb 2023 10:20:30 +0100
-Message-ID: <CAKfTPtC5gV3VF7S_BEJ9ndYnGwGuCRvYrKJTABSLHneYZVZvmQ@mail.gmail.com>
-Subject: Re: [PATCH 16/24] Documentation: scheduler: correct spelling
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Mukesh Ojha <quic_mojha@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: pz0XQy9R-Ydn-oBIWTvKFNEJ-fXGsuFC
+X-Proofpoint-ORIG-GUID: pz0XQy9R-Ydn-oBIWTvKFNEJ-fXGsuFC
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 phishscore=0 adultscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2302090088
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 9 Feb 2023 at 08:14, Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Correct spelling problems for Documentation/scheduler/ as reported
-> by codespell.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Juri Lelli <juri.lelli@redhat.com>
-> Cc: Vincent Guittot <vincent.guittot@linaro.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Reviewed-by: Mukesh Ojha <quic_mojha@quicinc.com>
+Remove support for the already no more supported stih415 and stih416
+platforms.  Remove as well the stid127 platform which never made it
+up to the kernel.
 
-Acked-by: Vincent Guittot <vincent.guittot@linaro.org>
+Signed-off-by: Alain Volmat <avolmat@me.com>
+---
+ drivers/irqchip/irq-st.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-> ---
->  Documentation/scheduler/sched-bwc.rst    |    2 +-
->  Documentation/scheduler/sched-energy.rst |    4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff -- a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
-> --- a/Documentation/scheduler/sched-bwc.rst
-> +++ b/Documentation/scheduler/sched-bwc.rst
-> @@ -186,7 +186,7 @@ average usage, albeit over a longer time
->  also limits the burst ability to no more than 1ms per cpu.  This provides
->  better more predictable user experience for highly threaded applications with
->  small quota limits on high core count machines. It also eliminates the
-> -propensity to throttle these applications while simultanously using less than
-> +propensity to throttle these applications while simultaneously using less than
->  quota amounts of cpu. Another way to say this, is that by allowing the unused
->  portion of a slice to remain valid across periods we have decreased the
->  possibility of wastefully expiring quota on cpu-local silos that don't need a
-> diff -- a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
-> --- a/Documentation/scheduler/sched-energy.rst
-> +++ b/Documentation/scheduler/sched-energy.rst
-> @@ -82,7 +82,7 @@ through the arch_scale_cpu_capacity() ca
->  The rest of platform knowledge used by EAS is directly read from the Energy
->  Model (EM) framework. The EM of a platform is composed of a power cost table
->  per 'performance domain' in the system (see Documentation/power/energy-model.rst
-> -for futher details about performance domains).
-> +for further details about performance domains).
->
->  The scheduler manages references to the EM objects in the topology code when the
->  scheduling domains are built, or re-built. For each root domain (rd), the
-> @@ -281,7 +281,7 @@ mechanism called 'over-utilization'.
->  From a general standpoint, the use-cases where EAS can help the most are those
->  involving a light/medium CPU utilization. Whenever long CPU-bound tasks are
->  being run, they will require all of the available CPU capacity, and there isn't
-> -much that can be done by the scheduler to save energy without severly harming
-> +much that can be done by the scheduler to save energy without severely harming
->  throughput. In order to avoid hurting performance with EAS, CPUs are flagged as
->  'over-utilized' as soon as they are used at more than 80% of their compute
->  capacity. As long as no CPUs are over-utilized in a root domain, load balancing
+diff --git a/drivers/irqchip/irq-st.c b/drivers/irqchip/irq-st.c
+index 1b83512b29c6..819a12297b58 100644
+--- a/drivers/irqchip/irq-st.c
++++ b/drivers/irqchip/irq-st.c
+@@ -15,10 +15,7 @@
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+ 
+-#define STIH415_SYSCFG_642		0x0a8
+-#define STIH416_SYSCFG_7543		0x87c
+ #define STIH407_SYSCFG_5102		0x198
+-#define STID127_SYSCFG_734		0x088
+ 
+ #define ST_A9_IRQ_MASK			0x001FFFFF
+ #define ST_A9_IRQ_MAX_CHANS		2
+@@ -44,22 +41,10 @@ struct st_irq_syscfg {
+ };
+ 
+ static const struct of_device_id st_irq_syscfg_match[] = {
+-	{
+-		.compatible = "st,stih415-irq-syscfg",
+-		.data = (void *)STIH415_SYSCFG_642,
+-	},
+-	{
+-		.compatible = "st,stih416-irq-syscfg",
+-		.data = (void *)STIH416_SYSCFG_7543,
+-	},
+ 	{
+ 		.compatible = "st,stih407-irq-syscfg",
+ 		.data = (void *)STIH407_SYSCFG_5102,
+ 	},
+-	{
+-		.compatible = "st,stid127-irq-syscfg",
+-		.data = (void *)STID127_SYSCFG_734,
+-	},
+ 	{}
+ };
+ 
+-- 
+2.34.1
+
