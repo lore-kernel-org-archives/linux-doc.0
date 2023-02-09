@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A14FC636D4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 09:19:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF0A7C05027
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 09:19:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230096AbjBIJTu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 04:19:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53826 "EHLO
+        id S230167AbjBIJTv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 04:19:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230039AbjBIJTO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 04:19:14 -0500
-Received: from mr85p00im-zteg06023901.me.com (mr85p00im-zteg06023901.me.com [17.58.23.192])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 846356278E
-        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 01:19:02 -0800 (PST)
+        with ESMTP id S230064AbjBIJTU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 04:19:20 -0500
+Received: from mr85p00im-zteg06021901.me.com (mr85p00im-zteg06021901.me.com [17.58.23.194])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D790F5EFB4
+        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 01:19:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
-        t=1675934342; bh=vRkQEzM2+9/tGet/QZk1zb8qFTBGI28OrtCRk+zgfWM=;
+        t=1675934349; bh=DUltBeSQib27mTpQ0LQ3TLKQqhLhZZMnbOjDd3/GZrM=;
         h=From:To:Subject:Date:Message-Id:MIME-Version;
-        b=ZLcArdtuxHGtGcK5K9/XT3ysC3aVs8v+ADY0ltkJByc6/h2D3t1luQNSzMrcbNZNG
-         Uq0Z6UQgasjTSvi9Fb9rYlUSl1Y6TKLj5ypuNZDHbwbTf5BSQk1BIr2n6MqvrxYZP+
-         a+8BLwQXMGa6go0xKgTWNGzNevCeS8aa89488ZLekPzPlHp6+FDdeG0HU0mYD7fxDV
-         3H9giQGTeosV1wCsdCimj9xjVeRFFaApQ2lpuIG8mLyj61TepRVfF5unYMByfWxVPf
-         JAaRt4MICsf9Mm/7bOshKrWS6ALJQcSKuoIIq1ew7mqm2uNqog1tjNW6dn7ToBLZIu
-         H6svtTqIwIBvQ==
+        b=QEtNx70FnVYayIvHdFkNZl7jGNeKYED0YmFIJ4quODIv6bGV5uRnzHVVx8t761gKt
+         nbif4MjZtu2au4Uhvou5uKcMTRfQEhaOHeJK2hrWKbzfe7OkQzXhKoIC9W/+g0cY4M
+         XfeDoP+GMWaeeY0Wo0hWXKaji64lz+1eE50uennTK3XSQu3MZbg9UjfsSFfMsCShAk
+         wTKlpIm3AgGyNkjosWUCy1A8FPaB/R74EQhSWg8ftA7uVHVnCjfFMXaSHSp4QC0dZB
+         xTfLKV+H6L3SKllSJ9EdG4UXmtbCABWiSCOsED/L012ok4mReqnYC2icJ341mJhdZ/
+         G3H7rRo/WRwwg==
 Received: from localhost (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
-        by mr85p00im-zteg06023901.me.com (Postfix) with ESMTPSA id 5621F6E0E87;
-        Thu,  9 Feb 2023 09:19:01 +0000 (UTC)
+        by mr85p00im-zteg06021901.me.com (Postfix) with ESMTPSA id 5222B740F86;
+        Thu,  9 Feb 2023 09:19:08 +0000 (UTC)
 From:   Alain Volmat <avolmat@me.com>
 To:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -53,247 +53,50 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-stm32@st-md-mailman.stormreply.com, linux-pm@vger.kernel.org,
         linux-clk@vger.kernel.org, Alain Volmat <avolmat@me.com>
-Subject: [PATCH 06/11] thermal/drivers/st: remove syscfg based driver
-Date:   Thu,  9 Feb 2023 10:16:54 +0100
-Message-Id: <20230209091659.1409-7-avolmat@me.com>
+Subject: [PATCH 08/11] dt-bindings: net: dwmac: sti: remove stih415/sti416/stid127
+Date:   Thu,  9 Feb 2023 10:16:56 +0100
+Message-Id: <20230209091659.1409-9-avolmat@me.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230209091659.1409-1-avolmat@me.com>
 References: <20230209091659.1409-1-avolmat@me.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: Mn4I-VDnLPHh3iky93NBkjJ0LUkZWiua
-X-Proofpoint-GUID: Mn4I-VDnLPHh3iky93NBkjJ0LUkZWiua
+X-Proofpoint-ORIG-GUID: whstFxbSkOc06pbJYDNEpWvhfqS-wG34
+X-Proofpoint-GUID: whstFxbSkOc06pbJYDNEpWvhfqS-wG34
 X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
  =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.11.62.513.0000000_definitions?=
  =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2021-12-02?=
  =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
- suspectscore=0 clxscore=1015 mlxscore=0 malwarescore=0 spamscore=0
- phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 spamscore=0
+ mlxlogscore=999 adultscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2302090088
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The syscfg based thermal driver is only supporting STiH415
-STiH416 and STiD127 platforms which are all no more supported.
-We can thus safely remove this driver since the remaining STi
-platform STiH407/STiH410 and STiH418 are all using the memmap
-based thermal driver.
+Remove compatible for stih415/stih416 and stid127 which are
+no more supported.
 
 Signed-off-by: Alain Volmat <avolmat@me.com>
 ---
- drivers/thermal/st/Kconfig             |   4 -
- drivers/thermal/st/Makefile            |   1 -
- drivers/thermal/st/st_thermal_syscfg.c | 174 -------------------------
- 3 files changed, 179 deletions(-)
- delete mode 100644 drivers/thermal/st/st_thermal_syscfg.c
+ Documentation/devicetree/bindings/net/sti-dwmac.txt | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/thermal/st/Kconfig b/drivers/thermal/st/Kconfig
-index 58ece381956b..ecbdf4ef00f4 100644
---- a/drivers/thermal/st/Kconfig
-+++ b/drivers/thermal/st/Kconfig
-@@ -8,10 +8,6 @@ config ST_THERMAL
- 	help
- 	  Support for thermal sensors on STMicroelectronics STi series of SoCs.
+diff --git a/Documentation/devicetree/bindings/net/sti-dwmac.txt b/Documentation/devicetree/bindings/net/sti-dwmac.txt
+index 062c5174add3..42cd075456ab 100644
+--- a/Documentation/devicetree/bindings/net/sti-dwmac.txt
++++ b/Documentation/devicetree/bindings/net/sti-dwmac.txt
+@@ -7,8 +7,7 @@ and what is needed on STi platforms to program the stmmac glue logic.
+ The device node has following properties.
  
--config ST_THERMAL_SYSCFG
--	select ST_THERMAL
--	tristate "STi series syscfg register access based thermal sensors"
--
- config ST_THERMAL_MEMMAP
- 	select ST_THERMAL
- 	tristate "STi series memory mapped access based thermal sensors"
-diff --git a/drivers/thermal/st/Makefile b/drivers/thermal/st/Makefile
-index c4cfa3c4a660..9bb0342b77f4 100644
---- a/drivers/thermal/st/Makefile
-+++ b/drivers/thermal/st/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-$(CONFIG_ST_THERMAL)		:= st_thermal.o
--obj-$(CONFIG_ST_THERMAL_SYSCFG)		+= st_thermal_syscfg.o
- obj-$(CONFIG_ST_THERMAL_MEMMAP)		+= st_thermal_memmap.o
- obj-$(CONFIG_STM32_THERMAL)		+= stm_thermal.o
-diff --git a/drivers/thermal/st/st_thermal_syscfg.c b/drivers/thermal/st/st_thermal_syscfg.c
-deleted file mode 100644
-index 94efecf35cf8..000000000000
---- a/drivers/thermal/st/st_thermal_syscfg.c
-+++ /dev/null
-@@ -1,174 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * ST Thermal Sensor Driver for syscfg based sensors.
-- * Author: Ajit Pal Singh <ajitpal.singh@st.com>
-- *
-- * Copyright (C) 2003-2014 STMicroelectronics (R&D) Limited
-- */
--
--#include <linux/of.h>
--#include <linux/module.h>
--#include <linux/mfd/syscon.h>
--
--#include "st_thermal.h"
--
--/* STiH415 */
--#define STIH415_SYSCFG_FRONT(num)		((num - 100) * 4)
--#define STIH415_SAS_THSENS_CONF			STIH415_SYSCFG_FRONT(178)
--#define STIH415_SAS_THSENS_STATUS		STIH415_SYSCFG_FRONT(198)
--#define STIH415_SYSCFG_MPE(num)			((num - 600) * 4)
--#define STIH415_MPE_THSENS_CONF			STIH415_SYSCFG_MPE(607)
--#define STIH415_MPE_THSENS_STATUS		STIH415_SYSCFG_MPE(667)
--
--/* STiH416 */
--#define STIH416_SYSCFG_FRONT(num)		((num - 1000) * 4)
--#define STIH416_SAS_THSENS_CONF			STIH416_SYSCFG_FRONT(1552)
--#define STIH416_SAS_THSENS_STATUS1		STIH416_SYSCFG_FRONT(1554)
--#define STIH416_SAS_THSENS_STATUS2		STIH416_SYSCFG_FRONT(1594)
--
--/* STiD127 */
--#define STID127_SYSCFG_CPU(num)			((num - 700) * 4)
--#define STID127_THSENS_CONF			STID127_SYSCFG_CPU(743)
--#define STID127_THSENS_STATUS			STID127_SYSCFG_CPU(767)
--
--static const struct reg_field st_415sas_regfields[MAX_REGFIELDS] = {
--	[TEMP_PWR] = REG_FIELD(STIH415_SAS_THSENS_CONF,   9,  9),
--	[DCORRECT] = REG_FIELD(STIH415_SAS_THSENS_CONF,   4,  8),
--	[OVERFLOW] = REG_FIELD(STIH415_SAS_THSENS_STATUS, 8,  8),
--	[DATA] 	   = REG_FIELD(STIH415_SAS_THSENS_STATUS, 10, 16),
--};
--
--static const struct reg_field st_415mpe_regfields[MAX_REGFIELDS] = {
--	[TEMP_PWR] = REG_FIELD(STIH415_MPE_THSENS_CONF,   8,  8),
--	[DCORRECT] = REG_FIELD(STIH415_MPE_THSENS_CONF,   3,  7),
--	[OVERFLOW] = REG_FIELD(STIH415_MPE_THSENS_STATUS, 9,  9),
--	[DATA]     = REG_FIELD(STIH415_MPE_THSENS_STATUS, 11, 18),
--};
--
--static const struct reg_field st_416sas_regfields[MAX_REGFIELDS] = {
--	[TEMP_PWR] = REG_FIELD(STIH416_SAS_THSENS_CONF,    9,  9),
--	[DCORRECT] = REG_FIELD(STIH416_SAS_THSENS_CONF,    4,  8),
--	[OVERFLOW] = REG_FIELD(STIH416_SAS_THSENS_STATUS1, 8,  8),
--	[DATA]     = REG_FIELD(STIH416_SAS_THSENS_STATUS2, 10, 16),
--};
--
--static const struct reg_field st_127_regfields[MAX_REGFIELDS] = {
--	[TEMP_PWR] = REG_FIELD(STID127_THSENS_CONF,   7,  7),
--	[DCORRECT] = REG_FIELD(STID127_THSENS_CONF,   2,  6),
--	[OVERFLOW] = REG_FIELD(STID127_THSENS_STATUS, 9,  9),
--	[DATA]     = REG_FIELD(STID127_THSENS_STATUS, 11, 18),
--};
--
--/* Private OPs for System Configuration Register based thermal sensors */
--static int st_syscfg_power_ctrl(struct st_thermal_sensor *sensor,
--				enum st_thermal_power_state power_state)
--{
--	return regmap_field_write(sensor->pwr, power_state);
--}
--
--static int st_syscfg_alloc_regfields(struct st_thermal_sensor *sensor)
--{
--	struct device *dev = sensor->dev;
--
--	sensor->pwr = devm_regmap_field_alloc(dev, sensor->regmap,
--					sensor->cdata->reg_fields[TEMP_PWR]);
--
--	if (IS_ERR(sensor->pwr)) {
--		dev_err(dev, "failed to alloc syscfg regfields\n");
--		return PTR_ERR(sensor->pwr);
--	}
--
--	return 0;
--}
--
--static int st_syscfg_regmap_init(struct st_thermal_sensor *sensor)
--{
--	sensor->regmap =
--		syscon_regmap_lookup_by_compatible(sensor->cdata->sys_compat);
--	if (IS_ERR(sensor->regmap)) {
--		dev_err(sensor->dev, "failed to find syscfg regmap\n");
--		return PTR_ERR(sensor->regmap);
--	}
--
--	return 0;
--}
--
--static const struct st_thermal_sensor_ops st_syscfg_sensor_ops = {
--	.power_ctrl		= st_syscfg_power_ctrl,
--	.alloc_regfields	= st_syscfg_alloc_regfields,
--	.regmap_init		= st_syscfg_regmap_init,
--};
--
--/* Compatible device data for stih415 sas thermal sensor */
--static const struct st_thermal_compat_data st_415sas_cdata = {
--	.sys_compat		= "st,stih415-front-syscfg",
--	.reg_fields		= st_415sas_regfields,
--	.ops			= &st_syscfg_sensor_ops,
--	.calibration_val	= 16,
--	.temp_adjust_val	= 20,
--	.crit_temp		= 120,
--};
--
--/* Compatible device data for stih415 mpe thermal sensor */
--static const struct st_thermal_compat_data st_415mpe_cdata = {
--	.sys_compat		= "st,stih415-system-syscfg",
--	.reg_fields		= st_415mpe_regfields,
--	.ops			= &st_syscfg_sensor_ops,
--	.calibration_val	= 16,
--	.temp_adjust_val	= -103,
--	.crit_temp		= 120,
--};
--
--/* Compatible device data for stih416 sas thermal sensor */
--static const struct st_thermal_compat_data st_416sas_cdata = {
--	.sys_compat		= "st,stih416-front-syscfg",
--	.reg_fields		= st_416sas_regfields,
--	.ops			= &st_syscfg_sensor_ops,
--	.calibration_val	= 16,
--	.temp_adjust_val	= 20,
--	.crit_temp		= 120,
--};
--
--/* Compatible device data for stid127 thermal sensor */
--static const struct st_thermal_compat_data st_127_cdata = {
--	.sys_compat		= "st,stid127-cpu-syscfg",
--	.reg_fields		= st_127_regfields,
--	.ops			= &st_syscfg_sensor_ops,
--	.calibration_val	= 8,
--	.temp_adjust_val	= -103,
--	.crit_temp		= 120,
--};
--
--static const struct of_device_id st_syscfg_thermal_of_match[] = {
--	{ .compatible = "st,stih415-sas-thermal", .data = &st_415sas_cdata },
--	{ .compatible = "st,stih415-mpe-thermal", .data = &st_415mpe_cdata },
--	{ .compatible = "st,stih416-sas-thermal", .data = &st_416sas_cdata },
--	{ .compatible = "st,stid127-thermal",     .data = &st_127_cdata },
--	{ /* sentinel */ }
--};
--MODULE_DEVICE_TABLE(of, st_syscfg_thermal_of_match);
--
--static int st_syscfg_probe(struct platform_device *pdev)
--{
--	return st_thermal_register(pdev, st_syscfg_thermal_of_match);
--}
--
--static int st_syscfg_remove(struct platform_device *pdev)
--{
--	return st_thermal_unregister(pdev);
--}
--
--static struct platform_driver st_syscfg_thermal_driver = {
--	.driver = {
--		.name	= "st_syscfg_thermal",
--		.pm     = &st_thermal_pm_ops,
--		.of_match_table =  st_syscfg_thermal_of_match,
--	},
--	.probe		= st_syscfg_probe,
--	.remove		= st_syscfg_remove,
--};
--module_platform_driver(st_syscfg_thermal_driver);
--
--MODULE_AUTHOR("STMicroelectronics (R&D) Limited <ajitpal.singh@st.com>");
--MODULE_DESCRIPTION("STMicroelectronics STi SoC Thermal Sensor Driver");
--MODULE_LICENSE("GPL v2");
+ Required properties:
+- - compatible	: Can be "st,stih415-dwmac", "st,stih416-dwmac",
+-   "st,stih407-dwmac", "st,stid127-dwmac".
++ - compatible	: "st,stih407-dwmac"
+  - st,syscon : Should be phandle/offset pair. The phandle to the syscon node which
+    encompases the glue register, and the offset of the control register.
+  - st,gmac_en: this is to enable the gmac into a dedicated sysctl control
 -- 
 2.34.1
 
