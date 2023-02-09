@@ -2,95 +2,187 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BF6BC05027
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 14:32:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13F82C636D6
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 14:41:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbjBIObs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 09:31:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54236 "EHLO
+        id S230122AbjBIOlX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 09:41:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230507AbjBIObW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 09:31:22 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA335C49C;
-        Thu,  9 Feb 2023 06:31:21 -0800 (PST)
+        with ESMTP id S229910AbjBIOlW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 09:41:22 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82944EB58;
+        Thu,  9 Feb 2023 06:41:21 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CD27961AA2;
-        Thu,  9 Feb 2023 14:31:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAA0EC4339B;
-        Thu,  9 Feb 2023 14:31:16 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 15881B82186;
+        Thu,  9 Feb 2023 14:41:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E462EC433EF;
+        Thu,  9 Feb 2023 14:41:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675953080;
-        bh=zAwLjTfHZkA4Un8Wr96bawLWi9udk66aSBO3uZqtYAo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VG5jFqXowBO4k3HxzeJWpfut2l0emYLJiIhkuZRgIavsBSTDTP8w9UHu5bMOwz6az
-         KDhpEkzdmx8AzjN6VDm3d79kkWwGfKZ3zv15VslgJvIfWn3BckIIPOx26HRHPWsb7+
-         JUSX7XenJnIUONq8rg7BC9rIb1aNamgywSg1Qtdtz4ZccT/Q+XGmD8xK8Rvo7PWZxM
-         DZc+yN0yeqppujKqn3ectEj7YYmTNaWjfKoVbeZVsHfGgs9xz7l8BkQUfJC0oKeLG1
-         no+cx8P3SwCP4tVqMjsVHdGRKJyNTjEFUN5PvJ3xy81FNkix+uaId+dWBihVWuzVgt
-         ZNhw/sUJ5xMDQ==
-Date:   Thu, 9 Feb 2023 16:31:07 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        chinwen.chang@mediatek.com, andrew.yang@mediatek.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-mm@kvack.org
-Subject: Re: [PATCH] mm/doc: Replace isolate_lru_page with folio_isolate_lru
-Message-ID: <Y+UDq2DYJJSA3L60@kernel.org>
-References: <20230131062853.28449-1-Kuan-Ying.Lee@mediatek.com>
- <87a61wvtcs.fsf@meer.lwn.net>
- <Y+Twr+g8PPL3uKhL@kernel.org>
- <Y+T78Wzeg3BgwiuY@casper.infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+T78Wzeg3BgwiuY@casper.infradead.org>
+        s=k20201202; t=1675953678;
+        bh=TZ5nyh/Nz50g4Ou5F8th8cMJcRG25BNPZLtFN7x2xjI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=pu76DWdLkYzQE4D2cP0ZWJoo2y3ROVjnMDorXBkWR8B6ATdHFA257whhlSlz/AhHA
+         b2cJ4XWmTYB+ZmVYFv9aVr/+r/yjTgvEIqQTZHysD5C2MkIqTw6N8cMn3MHXOCxW6a
+         iFA51/QtcqndrrFScWobLMkChiOonDL8tkTf94HRhHXaQX9BeKHl7xZsAyr5fhrIpm
+         s40oKdIgZhgoVOoVTtLLvQEiBWAhm4ZidNZqUyLwpX0Lh8Ejw98F55rSWMgl99tkRi
+         MFG1/Ba5jDfjo4HmeQvAABpbET3+GWAngv9w3xZlzuoltr8FzvbvAenfvMbNZW3d1o
+         Q8EBt8SxRoNGQ==
+Date:   Thu, 9 Feb 2023 23:41:13 +0900
+From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        linux-trace-kernel@vger.kernel.org,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Mukesh Ojha <quic_mojha@quicinc.com>
+Subject: Re: [PATCH 21/24] Documentation: trace: correct spelling
+Message-Id: <20230209234113.47c44d04f81204a692f387d3@kernel.org>
+In-Reply-To: <20230209071400.31476-22-rdunlap@infradead.org>
+References: <20230209071400.31476-1-rdunlap@infradead.org>
+        <20230209071400.31476-22-rdunlap@infradead.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 09, 2023 at 01:58:09PM +0000, Matthew Wilcox wrote:
-> On Thu, Feb 09, 2023 at 03:10:07PM +0200, Mike Rapoport wrote:
-> > On Thu, Feb 02, 2023 at 11:02:11AM -0700, Jonathan Corbet wrote:
-> > > Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com> writes:
-> > > 
-> > > > Since we introduce folio, replace isolate_lru_page() with
-> > > > folio_isolate_lru().
-> > > >
-> > > > Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-> > > > ---
-> > > >  Documentation/mm/page_migration.rst | 6 +++---
-> > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > 
-> > > This seems like a good patch to copy to linux-mm - done now.
-> > > 
-> > > The patch perhaps is a closer match to what's in linux-next, but it
-> > > seems that, if we're going to update this document, we should reflect
-> > > the use folios throughout?
-> > 
-> > Most of the current users of migrate_pages() still use isolate_lru_page()
-> > so I think that updating page_migration.rst to folios is premature.
-> > But when we do the update it also should include the translations.
+On Wed,  8 Feb 2023 23:13:57 -0800
+Randy Dunlap <rdunlap@infradead.org> wrote:
+
+> Correct spelling problems for Documentation/trace/ as reported
+> by codespell.
 > 
-> It's a slim majority -- 9 of isolate_lru_pages() and 7 of
-> folio_isolate_lru().  I don't think that changing the documentation is
-> premature; we should document the functions we want people to use.
-> I'd be surprised if isolate_lru_pages() still existed in six months.
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
+> Cc: linux-trace-kernel@vger.kernel.org
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Cc: coresight@lists.linaro.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Reviewed-by: Mukesh Ojha <quic_mojha@quicinc.com>
+> Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com> # for coresight
 
-That's a bit of a problem when documentation describes how things are done
-rather than how to do them, but I don't have a strong feeling about
-updating the docs while we are still in the transition period or postponing
-it until e.g. isolate_lru_page() is gone.
+Looks good to me.
 
-But in any case, this should be much more comprehensive update rather than
-replacing two occurrences out of three in a single file.
+Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+Thanks,
+
+> ---
+>  Documentation/trace/coresight/coresight-etm4x-reference.rst |    2 +-
+>  Documentation/trace/events.rst                              |    6 +++---
+>  Documentation/trace/fprobe.rst                              |    2 +-
+>  Documentation/trace/ftrace-uses.rst                         |    2 +-
+>  Documentation/trace/hwlat_detector.rst                      |    2 +-
+>  Documentation/trace/uprobetracer.rst                        |    2 +-
+>  7 files changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff -- a/Documentation/trace/coresight/coresight-etm4x-reference.rst b/Documentation/trace/coresight/coresight-etm4x-reference.rst
+> --- a/Documentation/trace/coresight/coresight-etm4x-reference.rst
+> +++ b/Documentation/trace/coresight/coresight-etm4x-reference.rst
+> @@ -675,7 +675,7 @@ Bit assignments shown below:-
+>      reconstructed using only conditional branches.
+>  
+>      There is currently no support in Perf for supplying modified binaries to the decoder, so this
+> -    feature is only inteded to be used for debugging purposes or with a 3rd party tool.
+> +    feature is only intended to be used for debugging purposes or with a 3rd party tool.
+>  
+>      Choosing this option will result in a significant increase in the amount of trace generated -
+>      possible danger of overflows, or fewer instructions covered. Note, that this option also
+> diff -- a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+> --- a/Documentation/trace/events.rst
+> +++ b/Documentation/trace/events.rst
+> @@ -903,7 +903,7 @@ functions can be used.
+>  
+>  To create a kprobe event, an empty or partially empty kprobe event
+>  should first be created using kprobe_event_gen_cmd_start().  The name
+> -of the event and the probe location should be specfied along with one
+> +of the event and the probe location should be specified along with one
+>  or args each representing a probe field should be supplied to this
+>  function.  Before calling kprobe_event_gen_cmd_start(), the user
+>  should create and initialize a dynevent_cmd object using
+> @@ -983,7 +983,7 @@ The basic idea is simple and amounts to
+>  layer that can be used to generate trace event commands.  The
+>  generated command strings can then be passed to the command-parsing
+>  and event creation code that already exists in the trace event
+> -subystem for creating the corresponding trace events.
+> +subsystem for creating the corresponding trace events.
+>  
+>  In a nutshell, the way it works is that the higher-level interface
+>  code creates a struct dynevent_cmd object, then uses a couple
+> @@ -1056,7 +1056,7 @@ to add an operator between the pair (her
+>  appended onto the end of the arg pair (here ';').
+>  
+>  There's also a dynevent_str_add() function that can be used to simply
+> -add a string as-is, with no spaces, delimeters, or arg check.
+> +add a string as-is, with no spaces, delimiters, or arg check.
+>  
+>  Any number of dynevent_*_add() calls can be made to build up the string
+>  (until its length surpasses cmd->maxlen).  When all the arguments have
+> diff -- a/Documentation/trace/fprobe.rst b/Documentation/trace/fprobe.rst
+> --- a/Documentation/trace/fprobe.rst
+> +++ b/Documentation/trace/fprobe.rst
+> @@ -111,7 +111,7 @@ saved at function entry and passed to ex
+>          the instruction pointer of @regs may be different from the @entry_ip
+>          in the entry_handler. If you need traced instruction pointer, you need
+>          to use @entry_ip. On the other hand, in the exit_handler, the instruction
+> -        pointer of @regs is set to the currect return address.
+> +        pointer of @regs is set to the correct return address.
+>  
+>  Share the callbacks with kprobes
+>  ================================
+> diff -- a/Documentation/trace/ftrace-uses.rst b/Documentation/trace/ftrace-uses.rst
+> --- a/Documentation/trace/ftrace-uses.rst
+> +++ b/Documentation/trace/ftrace-uses.rst
+> @@ -193,7 +193,7 @@ FTRACE_OPS_FL_RECURSION
+>  	Not, if this flag is set, then the callback will always be called
+>  	with preemption disabled. If it is not set, then it is possible
+>  	(but not guaranteed) that the callback will be called in
+> -	preemptable context.
+> +	preemptible context.
+>  
+>  FTRACE_OPS_FL_IPMODIFY
+>  	Requires FTRACE_OPS_FL_SAVE_REGS set. If the callback is to "hijack"
+> diff -- a/Documentation/trace/hwlat_detector.rst b/Documentation/trace/hwlat_detector.rst
+> --- a/Documentation/trace/hwlat_detector.rst
+> +++ b/Documentation/trace/hwlat_detector.rst
+> @@ -14,7 +14,7 @@ originally written for use by the "RT" p
+>  kernel is highly latency sensitive.
+>  
+>  SMIs are not serviced by the Linux kernel, which means that it does not
+> -even know that they are occuring. SMIs are instead set up by BIOS code
+> +even know that they are occurring. SMIs are instead set up by BIOS code
+>  and are serviced by BIOS code, usually for "critical" events such as
+>  management of thermal sensors and fans. Sometimes though, SMIs are used for
+>  other tasks and those tasks can spend an inordinate amount of time in the
+> diff -- a/Documentation/trace/uprobetracer.rst b/Documentation/trace/uprobetracer.rst
+> --- a/Documentation/trace/uprobetracer.rst
+> +++ b/Documentation/trace/uprobetracer.rst
+> @@ -55,7 +55,7 @@ Synopsis of uprobe_tracer
+>  
+>    (\*1) only for return probe.
+>    (\*2) this is useful for fetching a field of data structures.
+> -  (\*3) Unlike kprobe event, "u" prefix will just be ignored, becuse uprobe
+> +  (\*3) Unlike kprobe event, "u" prefix will just be ignored, because uprobe
+>          events can access only user-space memory.
+>  
+>  Types
+
 
 -- 
-Sincerely yours,
-Mike.
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
