@@ -2,114 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD7A2C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 21:54:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEB5AC05027
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 22:21:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229819AbjBIVyx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 16:54:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45952 "EHLO
+        id S229746AbjBIWV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 17:21:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230005AbjBIVyv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 16:54:51 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E5416312D;
-        Thu,  9 Feb 2023 13:54:50 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id ED00DB816DD;
-        Thu,  9 Feb 2023 21:54:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CA4CC433D2;
-        Thu,  9 Feb 2023 21:54:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675979687;
-        bh=jRismUHOyVxVBabYaWn4wT8Nrr82S/bxWlRxPdH4hO4=;
+        with ESMTP id S230206AbjBIWV4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 17:21:56 -0500
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 17EC331E01;
+        Thu,  9 Feb 2023 14:21:54 -0800 (PST)
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+        id 89F6A20C8AF3; Thu,  9 Feb 2023 14:21:53 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 89F6A20C8AF3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1675981313;
+        bh=RUdC5B9WQx/P13jBYCe9d9UCa08CXDooaF6pn5xM0XU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R1NVK4lpV5VB6E2sgPr/s/cSKIEm2oUyhlAyffmdhJiJQJ0YjGJcPDGmGpjDbHmXW
-         HRJGhBBdW1Iia4hzMLl5bU2BE+rwlOa7E/M2USCNji8LBCIfWhiNC9ujBSojlHcDaJ
-         tM5XaPqnzeqFJC5LzDSzvvZliOzPc3yMNUN8XB1Hb8YrUgpJUU1QVPNMy03EppKxDZ
-         qPz4BoCynp/MOMccqOOUXKAhftwYEvE3shOtSoLdoc8XK7U8rRNVlCRfSLMsz3u0nB
-         6tv8EvcJ6RaAAY4rnDasoNvXcbprzoPJwijhU0enTk+csnSekIiA2cH9c1+xSD0Vbq
-         3VS4mfUuoLP0g==
-Date:   Thu, 9 Feb 2023 21:54:42 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH 23/24] MAINTAINERS: Add entry for drivers/acpi/riscv
-Message-ID: <Y+Vroj6CmrL4I9lN@spud>
-References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
- <20230130182225.2471414-24-sunilvl@ventanamicro.com>
+        b=ACCtgB1V7Pj9HpbZCzfkwRaa8mEyqbQ0An9AlLvmPyHKDFnGuWFzikGMzAkAnnOnV
+         6un5wxDChEKMJoG7iGI7AGL8y3IjmRdgvalSdG1Nt3mQ4jy/DFmmUFx2did+hj91Sf
+         +O7rYKknS0EHfFnT9Mu+AfuLB7ZENeKJWbKO5+wU=
+Date:   Thu, 9 Feb 2023 14:21:53 -0800
+From:   Fan Wu <wufan@linux.microsoft.com>
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
+        snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v9 12/16] fsverity: consume builtin signature via LSM
+ hook
+Message-ID: <20230209222153.GA6647@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-13-git-send-email-wufan@linux.microsoft.com>
+ <Y+Ro2Uor21d/Gfqc@sol.localdomain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="V5lUTQp9r2xga7S0"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230130182225.2471414-24-sunilvl@ventanamicro.com>
+In-Reply-To: <Y+Ro2Uor21d/Gfqc@sol.localdomain>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Feb 08, 2023 at 07:30:33PM -0800, Eric Biggers wrote:
+> So disregarding the fact that using the fsverity builtin signatures still seems
+> like a bad idea to me, here's a few comments on the diff itself:
+> 
+Thanks for the review. I have verified the headers are indeed unnecessary,
+I will remove them in the next version.
 
---V5lUTQp9r2xga7S0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Mon, Jan 30, 2023 at 02:57:27PM -0800, Fan Wu wrote:
+> > diff --git a/fs/verity/open.c b/fs/verity/open.c
+> > index 81ff94442f7b..7e6fa52c0e9c 100644
+> > --- a/fs/verity/open.c
+> > +++ b/fs/verity/open.c
+> > @@ -7,7 +7,9 @@
+> >  
+> >  #include "fsverity_private.h"
+> >  
+> > +#include <linux/security.h>
+> >  #include <linux/slab.h>
+> > +#include <crypto/public_key.h>
+> 
+> There's no need to include <crypto/public_key.h>.
+> 
+> >  
+> > +	if (err) {
+> > +		fsverity_err(inode, "Error %d verifying signature", err);
+> > +		goto out;
+> > +	}
+> 
+> The above error message is unnecessary because fsverity_verify_signature()
+> already prints an error message on failure.
+> 
+> > +
+> > +	err = security_inode_setsecurity(inode, FS_VERITY_INODE_SEC_NAME, desc->signature,
+> > +					 le32_to_cpu(desc->sig_size), 0);
+> 
+> This runs even if CONFIG_FS_VERITY_BUILTIN_SIGNATURES is disabled.  Is that
+> really the right behavior?
+> 
+Yes the hook call should better depend on a KCONFIG. After second thought I think it
+should depend on CONFIG_IPE_PROP_FS_VERITY, which also indirectly introduces the
+dependency on CONFIG_FS_VERITY_BUILTIN_SIGNATURES.
 
-On Mon, Jan 30, 2023 at 11:52:24PM +0530, Sunil V L wrote:
-> ACPI defines few RISC-V specific tables which need
-> parsing code added in drivers/acpi/riscv. Add maintainer
-> entries for this newly created folder.
->=20
-> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> ---
->  MAINTAINERS | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8a5c25c20d00..b14ceb917a81 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -450,6 +450,13 @@ S:	Orphan
->  F:	drivers/platform/x86/wmi.c
->  F:	include/uapi/linux/wmi.h
-> =20
-> +ACPI FOR RISC-V (ACPI/riscv)
-> +M:	Sunil V L <sunilvl@ventanamicro.com>
-> +L:	linux-acpi@vger.kernel.org
-> +L:	linux-riscv@lists.infradead.org
-> +S:	Maintained
+Currently security_inode_setsecurity only allows one LSM to save data with a given name.
+In our case IPE will be the only LSM that saves the signature.
 
-Supported, no?
+I will update this part in the next version.
 
-> +F:	drivers/acpi/riscv
-> +
->  ACRN HYPERVISOR SERVICE MODULE
->  M:	Fei Li <fei1.li@intel.com>
->  L:	acrn-dev@lists.projectacrn.org (subscribers-only)
-> --=20
-> 2.38.0
->=20
+> Also a nit: please stick to the preferred line length of 80 characters.
+> See Documentation/process/coding-style.rst
+> 
+> > diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+> > index 143a530a8008..5d7b9496f9c4 100644
+> > --- a/fs/verity/signature.c
+> > +++ b/fs/verity/signature.c
+> > @@ -9,6 +9,7 @@
+> >  
+> >  #include <linux/cred.h>
+> >  #include <linux/key.h>
+> > +#include <linux/security.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/verification.h>
+> 
+> This change is unnecessary.
+> 
+> > diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
+> > index 40f14e5fed9d..29e9888287ba 100644
+> > --- a/include/linux/fsverity.h
+> > +++ b/include/linux/fsverity.h
+> > @@ -254,4 +254,6 @@ static inline bool fsverity_active(const struct inode *inode)
+> >  	return fsverity_get_info(inode) != NULL;
+> >  }
+> >  
+> > +#define FS_VERITY_INODE_SEC_NAME "fsverity.inode-info"
+> 
+> "inode-info" is very vague.  Shouldn't it be named "builtin-sig" or something?
+> 
+> - Eric
 
---V5lUTQp9r2xga7S0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY+VroQAKCRB4tDGHoIJi
-0hKrAP9++kwugl7SFcTtfhGUxoAGynIdNXhyQA747zCm8InMJgEA//0+dz0BbQmI
-3S1VtaoE6iBUoXd7Qq+7iHfGORrEogM=
-=gQ/m
------END PGP SIGNATURE-----
-
---V5lUTQp9r2xga7S0--
+I agree this name works better, I will change it to "fsverity.builtin-sig".
+-Fan
