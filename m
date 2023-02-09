@@ -2,161 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3CC5C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:25:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 556DBC05027
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 08:56:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229788AbjBIHZw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 02:25:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
+        id S229574AbjBII4K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 03:56:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229664AbjBIHZv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:25:51 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2397B4A1E7;
-        Wed,  8 Feb 2023 23:25:34 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id f16-20020a17090a9b1000b0023058bbd7b2so1510230pjp.0;
-        Wed, 08 Feb 2023 23:25:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rmVDDhkBD33dRebxUB6WkABikP1v8rHGLOz9oy+lzOw=;
-        b=Qqsr8VuFj/cb61lWwBfIJiwftaSsXtTbIODDj9kMRlVfS2CUTcXAcnkVENwaHeFXCc
-         eXeZ9Y66+6ildCk3obb8k3r83H0DWVz4TJzYVPAXagF7GXjgZ3GxGOCw/EF1i0/rp5IN
-         pgGJSBfHppwSSxlu/WOaFOQm7D96GzMtKBjclGwqHDQYZ8V5NNbTw5oahMvkY62J4Bcv
-         xvuULTn8M1jB7ooQLdS2tItxTCRS2SNix0Lv5msweEF06EcK/+YQoovw+ALLc950AbCO
-         dNuYMGg/puoIQ39KxeNIBvRe2lqaJj+1rlej0C5Dhe4aDgkWXgpDufZzv1pwpPPiB1NX
-         cjLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rmVDDhkBD33dRebxUB6WkABikP1v8rHGLOz9oy+lzOw=;
-        b=fHXlptSQsRUIKjFOT0E54fTp1M+fvo+LmopMDezQsQHAn6O3yItgPd6wha0MAtwNfJ
-         x/l9YYNkKXSuGmCE1RZSsBDBnXOFT7kAkZNsqbk43WbGeCRz253O+M9bb/xW1tnENivI
-         1HJOwn1i9ZX9vT8fPO2T/SKFiS5sYLBB4RkHOT9V2HW5ECBZKOgWxzpAhOKhjnLxHROL
-         epm5IGwUv518/FakgSCJEESeUhecWtzSVn3pNHy9sAToKeK4G5uO97NFvWcfYJGi0YuD
-         E6kcc7GHWGPqUmDTtJThXgq+XjZcVvAtFlErpICSAhSXRgYwqBhh8BsHE+tuaBNz1bow
-         dumQ==
-X-Gm-Message-State: AO0yUKXgkW/Sozgb++k19n79YWzZq5yPISWh2L0SC+g1QeRJGC6rpyod
-        BE1Cw23FZZKuorxonuRCDl4=
-X-Google-Smtp-Source: AK7set81TKZAFzmOrFzSNHYZptbc1qRIgjmsCDass4PkbAdTYVS+WfbfkwETMnLWvQHYBCaWiFrNHA==
-X-Received: by 2002:a17:902:f2c9:b0:19a:6098:103a with SMTP id h9-20020a170902f2c900b0019a6098103amr325179plc.23.1675927531617;
-        Wed, 08 Feb 2023 23:25:31 -0800 (PST)
-Received: from localhost ([192.55.54.55])
-        by smtp.gmail.com with ESMTPSA id n20-20020a170902d0d400b0019948184c33sm664782pln.243.2023.02.08.23.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Feb 2023 23:25:30 -0800 (PST)
-Date:   Wed, 8 Feb 2023 23:25:29 -0800
-From:   Isaku Yamahata <isaku.yamahata@gmail.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com, isaku.yamahata@gmail.com
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-Message-ID: <20230209072529.GB4175971@ls.amr.corp.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+        with ESMTP id S229817AbjBII4I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 03:56:08 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7013D552AC;
+        Thu,  9 Feb 2023 00:56:05 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 1CBAD5C4DC;
+        Thu,  9 Feb 2023 08:56:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1675932964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qVb6PkykPlUvG7xHNit73rZeHDsaX88KM/DKTpLOLzM=;
+        b=ozIiNshfbavMHirWt6F0todfWfiwm5JzUcNGRJfJO6x7U3QlhVdFKzeE0SKMy7NgFn0sdk
+        CzCbBbHwDWzsR4CWbg6JW41sJRihHnrmc/XiMjrs2AeKMux5Czui0ZIp00I2Brj0f3Jqhf
+        kJdt48plef1rlG/ixTCbhVBo9TwGUsc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1675932964;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qVb6PkykPlUvG7xHNit73rZeHDsaX88KM/DKTpLOLzM=;
+        b=TZTv1A2de4VTakAmG2o3Qzgf+4POcX0jgAbEfKGWqrktO53TQ1QmvEpzZxGxPQM8CT05lE
+        scVPWbKyrkT8eLAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0EA4C1339E;
+        Thu,  9 Feb 2023 08:56:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id ad2JAyS15GNLHgAAMHmgww
+        (envelope-from <jack@suse.cz>); Thu, 09 Feb 2023 08:56:04 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+        id 6D016A06D8; Thu,  9 Feb 2023 09:56:03 +0100 (CET)
+Date:   Thu, 9 Feb 2023 09:56:03 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     Jan Kara <jack@suse.cz>, Hou Tao <houtao@huaweicloud.com>,
+        linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, houtao1@huawei.com
+Subject: Re: [PATCH] blk-ioprio: Introduce promote-to-rt policy
+Message-ID: <20230209085603.dzqfcc3pp4hacqlz@quack3>
+References: <20230201045227.2203123-1-houtao@huaweicloud.com>
+ <8c068af3-7199-11cf-5c69-a523c7c22d9a@acm.org>
+ <4f7dcb3e-2d5a-cae3-0e1c-a82bcc3d2217@huaweicloud.com>
+ <b6b3c498-e90b-7d1f-6ad5-a31334e433ae@acm.org>
+ <beb7782e-72a4-c350-3750-23a767c88753@huaweicloud.com>
+ <aedc240d-7c9e-248a-52d2-c9775f3e8ca1@acm.org>
+ <20230208134345.77bdep3kzp52haxu@quack3>
+ <7fcd4c38-ccbe-6411-e424-a57595ad9c0b@acm.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+In-Reply-To: <7fcd4c38-ccbe-6411-e424-a57595ad9c0b@acm.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 02:13:40PM +0800,
-Chao Peng <chao.p.peng@linux.intel.com> wrote:
+On Wed 08-02-23 09:53:41, Bart Van Assche wrote:
+> On 2/8/23 05:43, Jan Kara wrote:
+> > On Fri 03-02-23 11:45:32, Bart Van Assche wrote:
+> > > On 2/2/23 17:48, Hou Tao wrote:
+> > > > I don't get it on how to remove IOPRIO_POL_PROMOTION when calculating the final
+> > > > ioprio for bio. IOPRIO_POL_PROMOTION is not used for IOPRIO_CLASS values but
+> > > > used to determinate on how to calculate the final ioprio for bio: choosing the
+> > > > maximum or minimum between blkcg ioprio and original bio bi_ioprio.
+> > > 
+> > > Do the block layer code changes shown below implement the functionality
+> > > that you need?
+> > 
+> > Just one question guys: So with my a78418e6a04c ("block: Always initialize
+> > bio IO priority on submit") none-to-rt policy became effectively a noop as
+> > Hou properly noticed. Are we aware of any users that were broken by this?
+> > Shouldn't we rather fix the code so that none-to-rt starts to operate
+> > correctly again? Or maybe change the none-to-rt meaning to be actually
+> > promote-to-rt?
+> > 
+> > I have to admit I'm wondering a bit what was the intended usecase behind
+> > the introduction of none-to-rt policy. Can someone elaborate? promote-to-rt
+> > makes some sense to me - we have a priviledged cgroup we want to provide
+> > low latency access to IO but none-to-rt just does not make much sense to
+> > me...
+> 
+> Hi Jan,
+> 
+> The test results I shared some time ago show that IOPRIO_CLASS_NONE was the
+> default I/O priority two years ago (see also https://lore.kernel.org/linux-block/20210927220328.1410161-5-bvanassche@acm.org/).
+> The none-to-rt policy increases the priority of bio's that have not been
+> assigned an I/O priority to RT. Does this answer your question?
 
-> +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> +					   struct kvm_memory_attributes *attrs)
-> +{
-> +	gfn_t start, end;
-> +	unsigned long i;
-> +	void *entry;
-> +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
-> +
-> +	/* flags is currently not used. */
-> +	if (attrs->flags)
-> +		return -EINVAL;
-> +	if (attrs->attributes & ~supported_attrs)
-> +		return -EINVAL;
-> +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
-> +		return -EINVAL;
-> +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
-> +		return -EINVAL;
-> +
-> +	start = attrs->address >> PAGE_SHIFT;
-> +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-> +
-> +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
-> +
-> +	mutex_lock(&kvm->lock);
-> +	for (i = start; i < end; i++)
-> +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> +				    GFP_KERNEL_ACCOUNT)))
-> +			break;
-> +	mutex_unlock(&kvm->lock);
-> +
-> +	attrs->address = i << PAGE_SHIFT;
-> +	attrs->size = (end - i) << PAGE_SHIFT;
-> +
-> +	return 0;
-> +}
-> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
-> +
+Not quite. I know that historically we didn't set bio I/O priority in some
+paths (but we did set it in other paths such as some (but not all) direct
+IO implementations). But that was exactly a mess because how none-to-rt
+actually behaved depended on the exact details of the kernel internal IO
+path.  So my question is: Was none-to-rt actually just a misnomer and the
+intended behavior was "always override to RT"? Or what was exactly the
+expectation around when IO priority is not set and should be overridden?
 
-If memslot isn't private, it should return error if private attribute is set.
-Something like following check is needed.
+How should it interact with AIO submissions with IOCB_FLAG_IOPRIO? How
+should it interact with task having its IO priority modified with
+ioprio_set(2)? And what if task has its normal scheduling priority modified
+but that translates into different IO priority (which happens in
+__get_task_ioprio())?
 
-+       if (attrs->flags & KVM_MEM_PRIVATE) {
-+               /* non-private memory slot doesn't allow KVM_MEM_PRIVATE */
-+               for (i = 0; i < kvm_arch_nr_memslot_as_ids(kvm); i++) {
-+                       struct kvm_memslot_iter iter;
-+                       struct kvm_memslots *slots;
-+
-+                       slots = __kvm_memslots(kvm, i);
-+                       kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
-+                               if (!kvm_slot_can_be_private(iter.slot)) {
-+                                       mutex_unlock(&kvm->slots_lock);
-+                                       return -EINVAL;
-+                               }
-+                       }
-+               }
-+       }
-+
+So I think that none-to-rt is just poorly defined and if we can just get
+rid of it (or redefine to promote-to-rt), that would be good. But maybe I'm
+missing some intended usecase...
 
-
+								Honza
 -- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
