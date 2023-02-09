@@ -2,39 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2606C64ED6
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A874C636D4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229868AbjBIHOZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 02:14:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48790 "EHLO
+        id S229473AbjBIHO0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 02:14:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbjBIHON (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:13 -0500
+        with ESMTP id S229605AbjBIHOO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:14 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80E9C7D83;
-        Wed,  8 Feb 2023 23:14:12 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E0E441B57;
+        Wed,  8 Feb 2023 23:14:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=huJh30wXrIqcWBSOL1vocAnzpHcHtfTmbim5FCg9IpA=; b=lJq7j5YqUET9eJdZtTqrFsznU/
-        vdsyOfi0DwS+OyPkwegVlr0r2aVGUySL2cgWdHWQcXIgV2bxWZsI4k6/rqxCEmchsuZDMzg9+Mrzo
-        ZsGToekOMizRfRpRwQmGqTWbw8i1/hcJweEG7j60Ts3CDqnzQoKp4SDk2NaE9jNHa1YbMGzeZEAid
-        fh089bDEfcFfl3ihYr4X+xYdIpcVHSJ1YN/MBbWOgsniy6FLIQIxsBzxUgn7ebtGq7Pk3JeznnuNb
-        9Z5F6GXDCjVzp5SNvSYE+MlgcgbYN09uaryu8j6LhHBVZjjhFPsf1Yeg5OhbgucCb35+L+KOd2VTs
-        +XjvU/CA==;
+        bh=RYo/EQQ1egA2iZvGckezR1l+gcipaQNMwSxKiMmzRqU=; b=VxwpDNHtPRR/iBAkJ8q0RXA4Ti
+        aIhno8DVR7555c9vxaGsUDC7WwXkgPF3DcSvWNnidL6GSzj8ISYNao9jdOcjQBeMA9FQ7i0Z9EoSR
+        m1scgpVQLRgQx6rRkOGpC2LETrn7R5+pMFx5Y5q55Ne2kcTmcii7Qj8prjFtBKK9Yh0kg0XPJKxXx
+        JDWmxqSLwwT97Ghd2a1k8SC4RUBJrOkl2lPAfcw6ZqWbDGJwT8FO5bD/w4fhYS5aGEFIYZv3+qwuj
+        2hA+zpDOitcB+FkkNHFR2a8OJyPUh8teoAs0YJuE/+OGUx2oyQLVRrNvIikMm/WcUZVYCUAa8oscQ
+        z3nDRS2w==;
 Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pQ18G-000LPt-3V; Thu, 09 Feb 2023 07:14:12 +0000
+        id 1pQ18G-000LPt-Sf; Thu, 09 Feb 2023 07:14:12 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        linux-trace-kernel@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 18/24] Documentation: timers: correct spelling
-Date:   Wed,  8 Feb 2023 23:13:54 -0800
-Message-Id: <20230209071400.31476-19-rdunlap@infradead.org>
+Subject: [PATCH 20/24] Documentation: trace/rv: correct spelling
+Date:   Wed,  8 Feb 2023 23:13:56 -0800
+Message-Id: <20230209071400.31476-21-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
 References: <20230209071400.31476-1-rdunlap@infradead.org>
@@ -44,26 +47,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/timers/ as reported
+Correct spelling problems for Documentation/trace/rv/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc: linux-trace-kernel@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 ---
- Documentation/timers/hrtimers.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/trace/rv/runtime-verification.rst             |    2 +-
 
-diff -- a/Documentation/timers/hrtimers.rst b/Documentation/timers/hrtimers.rst
---- a/Documentation/timers/hrtimers.rst
-+++ b/Documentation/timers/hrtimers.rst
-@@ -148,7 +148,7 @@ a given clock has - be it low-res, high-
- hrtimers - testing and verification
- -----------------------------------
+diff -- a/Documentation/trace/rv/runtime-verification.rst b/Documentation/trace/rv/runtime-verification.rst
+--- a/Documentation/trace/rv/runtime-verification.rst
++++ b/Documentation/trace/rv/runtime-verification.rst
+@@ -31,7 +31,7 @@ In Linux terms, the runtime verification
+ *RV monitor* abstraction. A *RV monitor* includes a reference model of the
+ system, a set of instances of the monitor (per-cpu monitor, per-task monitor,
+ and so on), and the helper functions that glue the monitor to the system via
+-trace, as depicted bellow::
++trace, as depicted below::
  
--We used the high-resolution clock subsystem ontop of hrtimers to verify
-+We used the high-resolution clock subsystem on top of hrtimers to verify
- the hrtimer implementation details in praxis, and we also ran the posix
- timer tests in order to ensure specification compliance. We also ran
- tests on low-resolution clocks.
+  Linux   +---- RV Monitor ----------------------------------+ Formal
+   Realm  |                                                  |  Realm
