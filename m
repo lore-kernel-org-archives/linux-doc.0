@@ -2,222 +2,200 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7BCBC61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 11:43:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74A63C05027
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 11:54:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230390AbjBILnR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 06:43:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52296 "EHLO
+        id S229777AbjBILyL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 06:54:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230403AbjBILmx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 06:42:53 -0500
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on20601.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eae::601])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1674A6E885;
-        Thu,  9 Feb 2023 03:31:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fZR2Q2RnFbagGyX5YCVSuYN30uU2QVj2mWzqzF5iSq8uUW4IjVxQiHyAyTq7G1UzVoXSYPPxzav5rPK+A4Mh/ITs44ZbIND1iglV/Cg9CtdWk+nP/UsjDrgoohEvcUIMmfCvtrsW9ucUohJUA0pWFevFgGhwwWVOdCbCnS4peIwdf7yWFMTblKG7opUofqjD3ItN4LtFEupsbhcuUAUZ1AMVI/tFG5udQR1aveVu0sPTMcu03/+N9HJ34lha2T9ov4b9RWIDVjyfLtL/76S0EoeMztbaZ0FSEAssaqhjE9mO1JtKZe0aTEEciu4sp+FjobNEClMHCepK60e0W5WEEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wv/h9yMF1V7f8yQyo1ITCHbCwWDrmyWqYtd76E8ToHE=;
- b=AIikFwk0FSPqlx9eirUO/VY0izD2abhKoCtO6eTgvLeZsmuUWXiz/oBCDhsQ8OKvxZO3q4+HWcM1jYnSUKpge1nvJY06EjhtqK2FVRH9FTe4o7VvSzNqEKGScXyRbT/5u/vcbjZMLhyQ/mNAkI7d2lVf0apkCwLfeBpoucv7z+/C+D9n26w+kFsvkBxmszX2mQaaecnF79j89QyRf4G3gd9yrVOlFThTAUCsFoXT5DNW+fOBJ/xQ7uOnm6/v6pXmzKu/FMjXGdFMGiOGXq0ZxEPZjFRWSZ3HKsHc7ITWKn6Rw+nNrP5boOPCpNb4oeQGu487Zq6v0jc/e3FMMeyPiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wv/h9yMF1V7f8yQyo1ITCHbCwWDrmyWqYtd76E8ToHE=;
- b=eQ0M/s3sSwbTRQo7lwAn1wirtgYUKwYHdG9hv5MqPxAKIOM3ghMiRZFlyENi13CRosgmdxel+Y/abR18bLp8vVLJ4GTQhrVRKsq3d1pXszWtE5MJHqDS4AUPTMjslA6cATz6aqoENg178ZRXt1GWouS1eHT11vTdPK/uRwAHRQDBWEgvgPS1fRJTJ8R3+ZhILSMwY9qZaV3J8k2rVaQ3NiJlloZoeYOVPYGnaDBDICcAs9mtOXi11VJyBuAtzfl5WrC6QpUvQTgXczW/tWZE3YiKYXeYbAUV2CmymMNLkWCig9KYP/dH2O60W5NjrYY9K3w0bbq704WtoDJXbDbRvQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com (2603:10b6:208:3a0::7)
- by DM4PR12MB5245.namprd12.prod.outlook.com (2603:10b6:5:398::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.17; Thu, 9 Feb
- 2023 11:30:03 +0000
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::735c:fa9:2043:279a]) by IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::735c:fa9:2043:279a%4]) with mapi id 15.20.6086.019; Thu, 9 Feb 2023
- 11:30:03 +0000
-Message-ID: <e9772188-2b52-d7f4-0540-9e9402155285@nvidia.com>
-Date:   Thu, 9 Feb 2023 16:59:24 +0530
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v4 03/18] hte: tegra-194: Use proper includes
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Vincenzo Palazzo <vincenzopalazzodev@gmail.com>,
-        Devarsh Thakkar <devarsht@ti.com>,
-        Michael Walle <michael@walle.cc>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Russell King <linux@armlinux.org.uk>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Arend van Spriel <aspriel@gmail.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-References: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com>
- <20230208173343.37582-4-andriy.shevchenko@linux.intel.com>
-Content-Language: en-US
-X-Nvconfidentiality: public
-From:   Dipen Patel <dipenp@nvidia.com>
-In-Reply-To: <20230208173343.37582-4-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MAXPR01CA0095.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:5d::13) To IA1PR12MB6604.namprd12.prod.outlook.com
- (2603:10b6:208:3a0::7)
+        with ESMTP id S229915AbjBILxj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 06:53:39 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AC6068AD4
+        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 03:41:08 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id 16so1111762pfo.8
+        for <linux-doc@vger.kernel.org>; Thu, 09 Feb 2023 03:41:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yProl2BDwB5rM572Fbs59r3WL3B/5I59AVOYb+PuqHI=;
+        b=KV/bOyz4S4KezQKKFVQaOOMbqOITttsXwy8iRe3FKzile+YMvQpsXjlrBt+eVKkIhA
+         CllK54eqi+PV6eu/AEMwJMumk6EFiWmxtny2ybtbu/UOjns1koYHTZu1asp9C6lFsbQy
+         WAhbQ6aqAIc4FpwbNIn1PlqSKdxo77osYJSDg1qZya+yEZubtT6zceSRDDH33l/Ri1yy
+         YJyoEi/fg2vZJrRaDDIdYw51bT+f7JtWrqmntTTHlQUb0tNiRrurlXah2Qo/nJ/34GBY
+         ZH4XsxYRhOyMWJy8WpweYPbg4q2oPvS3k5LwN8EGVTGsP6NJA46xcoNAM9SaNdDR00M4
+         zkzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yProl2BDwB5rM572Fbs59r3WL3B/5I59AVOYb+PuqHI=;
+        b=dhNcFv5KHht6HhE5yxx4ytCEVlJffVH91M/EGu/vdjjJQLqi2D3FVzUOpysL+iWyvt
+         SnvAxEdHQc0aphLOkLvwOPVonsqCrJp+9laMbDNK0w9wkGTLtLkwi9NmkSv5BJ0y9ldI
+         Tlxoo7T19ktIu5Qy+N4zAtusRajnaUZ9GBQAdB6gXxSj4D0vkBHQoEBE+2M0BB9/TvJg
+         telnj7eZhw/0zhtQ2hwyw3lqhsgegYtvOeFNzncZYzHKMWnbanDoDS93OFtUNeTScc8F
+         Z87/A2jLt2LoLKX+QiN4drpJktnkG52DX+VU1ALopQ7pE4SjS97OkBLdwrR6RAPb0hEM
+         lnjg==
+X-Gm-Message-State: AO0yUKW/oNE4XVooDFA3xCQ668ByeJP2PFaLZzDHspigU1wiiXYeEcuu
+        XyTMxpHpcdxTKu4YbzZsVK2epR7fEaJvIr12ghGPYA==
+X-Google-Smtp-Source: AK7set/plM8/DX1Q4MYjtoJGIq6qokxZinH6ULU+y7Qbmu93F1XvNHH+br2ZXCpqQjFfdJKMazyGqra/KUg2lQRnsNk=
+X-Received: by 2002:a62:2503:0:b0:5a8:494a:e498 with SMTP id
+ l3-20020a622503000000b005a8494ae498mr913346pfl.51.1675942867561; Thu, 09 Feb
+ 2023 03:41:07 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6604:EE_|DM4PR12MB5245:EE_
-X-MS-Office365-Filtering-Correlation-Id: d27b7497-fb1c-4a3f-af5e-08db0a90fc2c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kJ0ZjfD7taWEJFCo/vx/mTiyAEC2X1B5VCXMLNd1n7I7puu1EUNOPjfMWSzzQb+upc5gf4sayt5uSBAaOua0+lRtCJof0QqjE+OdLxV9ZI2LwKQwOwjKWqh0rw1+BjFmHUWwltOzUMtJ7TvcZ0TJlJfbgG1dNbaQ/FjVpDJ1UFupHN/bpzXp3aWy5iFQF+8yge3ZFseeiJbtQSfImgB61mkjCUK7haZZuKEkXwiQvWSwuWxn/GkoFt7bNUWWMZNEFBCZuDBa5qjEhlk6ndB6o7BKmVuCyzeodyWFqqODQ7DB51pCWN4LJ1Zi6lKqv5gVy2d73VuGe1JMNbk0GUPlWk58Xf3JApo+tBPGCCod9nwzDquDWDUgwIEl80JT6sfMb890EY1Fr35FIQH2pSZYQ5zrFpjEbVUmO/9UrT/y39U1tsQYneP3XpJIHWx+gIuG1u0q+5RTJoffEJ0R3DvYAbbJpFx2EF8sYcitlHUtqk+/CO3MezgmhuOSENdz2PiSj7P9brVdLqMgbD3YHflxi2cWrODBwMhUDWepfTczH3adY0SG5EZLOk6E8Exdx7cURwziwuOQ2r/RXljuyEP0Y5uM8mzQ+TrjhK/H2EWU9wBuTo+hVNXayNt4F92ZTJe+6TrPN8Zgy/0kNK+jYwOMgHTU65PPQmOxNstZ1h3RW3tjFZFUa50ct8m53fVmmnb8up4ySdK4vTmZ9admV0/REWKly8QwbGJteMS6VZYnkAIDfeZGM4oMclXRYlyeM5gU
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6604.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(366004)(136003)(346002)(39860400002)(451199018)(31686004)(7366002)(36756003)(31696002)(86362001)(2906002)(921005)(7416002)(5660300002)(8936002)(41300700001)(38100700002)(83380400001)(7406005)(66476007)(6486002)(478600001)(6512007)(316002)(4326008)(53546011)(186003)(26005)(66556008)(6666004)(66946007)(54906003)(6506007)(2616005)(110136005)(8676002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MkxVbHQ4NE9zeUc3VSs2Qmd5M1VuZXRLYlltcGtEbDc4NlVIb3l4MEhMZmR2?=
- =?utf-8?B?Q3hRQXpCZTVXMis1RjlPRFBNUnB4emI2LzZBOHpQNE45YmxRQUJ3MThnRzRk?=
- =?utf-8?B?UEVDa0xFdnJWdzBVSTFOY0NGN0VFM3Fic3ZoYkpaMExMVkpWU0FCaUVUT2Jp?=
- =?utf-8?B?VlFDaVM4MkhhNjZtYnhGcDN3K1E3ZEhPdWF2b0VkWkdxYlh1VnVMVTR4RUtZ?=
- =?utf-8?B?QWxpYmRMWXJieGpaRG5nWkFYTnkzMXJRWVVYTzk2RGxqcUdPeFlrSkJsQ3ZJ?=
- =?utf-8?B?Y3ZqVUwwa0ViZEd4ZHRJbXVlVHJBblZ0RUJHeWk1Y2VuV1l6R0ZkMjNDQ285?=
- =?utf-8?B?RXJ2ZDJFOGJiQVNrVGphVG14YmVOWC82YTgrT3FKWGdVZURGbjNmdDRYK3pW?=
- =?utf-8?B?RUZ6Q3ZwLzdVRUVLcHBMU29OM0kvRXhvYjMwZDlNRUJveFZGK2VDRmZEbU50?=
- =?utf-8?B?TVZ3b1doREt1bkNIQ0J6eHBVVlFGSisvU2lYVmpucmVzSllTSmFiUUdzeFZm?=
- =?utf-8?B?OGZwc2U3S3lRL3ZSS0xvMFNwRVlLT2xRUjU4eFVGSXRiN1g0TU5LY1BVNEt5?=
- =?utf-8?B?L3I1dUtkM1BNRFJnY0Qyc2lUMm1oUG1EUlprZ1BBaGYzZWtLTngwUGZUMzFT?=
- =?utf-8?B?MW0wUFh3Uit4aFM2M3cxTnJkZER4aTRENFFXejBwdm5mdGpOU2pBVWpvTUZr?=
- =?utf-8?B?RFFBdWMvZjdkSWo1QnZSSWlRUlBwaENqb09zQ0QxdGtZcFBDcVhhZWxwY1A3?=
- =?utf-8?B?REdORWtmOTdJcjFNcVdQOG1EdW1zM1hiL01ybFJqSG1vRjUyYmU3UEljSkJC?=
- =?utf-8?B?UEtreXkrUXBubnltVnpObjQ4enZNMG5nZWVNWGF2NFNOVzRTVnMxS0NvU0h6?=
- =?utf-8?B?MlJqZkZudENxMm9CbFJwU0FCWjRXTTU5Q21iQ3lzR1ZuWHpUMTFOLzJXeVdZ?=
- =?utf-8?B?T2RCeHBYaHU2amhVcDF6YlNkd1pQRHF5SHVkNnhVZUxPWEdUV2c2djdHMFJM?=
- =?utf-8?B?RW1lWjRiTDRNUno4MjVzbXB1Nk1nYjhKVXZCNmhGUGpQR0NkZmFrS2NOWmJ4?=
- =?utf-8?B?UWIzdTF1dzZqMVFkSXliN3hKNFlZOEdpMXNHa21qbGsvZ1dWU1QvZ1JTV0tz?=
- =?utf-8?B?WHhscVY0SUZ1cE41NU5abnM2SVJMSGE2YnVYWjRUQnQ5QkJoYjNxS3dnUHVL?=
- =?utf-8?B?MXBFSVF4aDdpRDhsbTYzcjZ0SWFlYjhZTTNaYlRldHZSSmhJVm91eXNqb0Ry?=
- =?utf-8?B?SGMzN0s1UmMxS3RsOWpIQjJDcmtJdW5FTVBNNU1KUnQ5czBDRXBvOXZ2Qk4v?=
- =?utf-8?B?N1NpVy95Rjd1SS8yamZnVy9paDNqU0puV3hQdHVZNlFONXdrS0s3TlhpTW50?=
- =?utf-8?B?dm4rNnpZS2pBbGIxc2swMnNvMFZkd3RYRE1ZdDJMNDNVZUIrZ00zRkoxUU92?=
- =?utf-8?B?bVJGWXk1ZUEyVk1wd1B1TktNeEtLUUhmWGtMT05qd0ZlUFZMcHc2aDBFbVJz?=
- =?utf-8?B?YkVESHg0NlNCZTlpWXVzaUxOeW9LeE9JTytqN1pBck5NOE5oa3NZUHU4UUM0?=
- =?utf-8?B?Nmg4eSsrVUVraGdlbXJEbWJIZkkwanJQYS9WRmwva2ZYMWFzUWFINmx2TzZG?=
- =?utf-8?B?eit1YkMrWmtpblNaLzJiZDgvTU5OcXorcThFVDVkcGcrcUdKUVpMdFJvTU51?=
- =?utf-8?B?VzRJTGk5L0V6YXhydFRjbElCM0JyTC9OaDNvUXUzN3h2bTlvaENKQWFnUEdm?=
- =?utf-8?B?YXZSZzZlWHROZ1gzVHlHSENmOG5RSkJXSXRTdHNuRWpUUE5iVy91Q2VTUjlR?=
- =?utf-8?B?NlhMZzY4cVZWdWpXUGE2bEROWjRaTzE1ZXhkQ0pvSVM0Yk5EU2xWWlhNanlU?=
- =?utf-8?B?VDFMeE5ZMEtuOW5oM0UrOWdjS1JxTnp1SDJJSElyN3VIL0pvcDRMV0pNSktO?=
- =?utf-8?B?R3ZFQ2s5TVo2RzV2WkR5cGVTVCt6bU14ZHhqb2U3bjk4aHhOaGVNMjlXTmFh?=
- =?utf-8?B?ZS81K3F5dEc1VnlMNWZWZS9BT0xEaHhVN01WZFNiMWJzODJ1NVFDUWQ0ZDJq?=
- =?utf-8?B?cTMyTzJZWGxKY3ltM1p2VzdBbllPWWxvbE1ZRFBIM2E2TCtCRXhRZzJXelR3?=
- =?utf-8?Q?yx6R0t4siwkpyC+r0gwCmnBXz?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d27b7497-fb1c-4a3f-af5e-08db0a90fc2c
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6604.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2023 11:30:03.1060
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RgnVePRshhtNyI7EK3hV10yfvYWwoy6r/JMJaW3kBxatpvWgvTplrf0ZPqjDP0Il5grE/15H1h9RyChK1nEEDA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5245
+References: <20230209071400.31476-1-rdunlap@infradead.org> <20230209071400.31476-22-rdunlap@infradead.org>
+In-Reply-To: <20230209071400.31476-22-rdunlap@infradead.org>
+From:   Mike Leach <mike.leach@linaro.org>
+Date:   Thu, 9 Feb 2023 11:40:55 +0000
+Message-ID: <CAJ9a7VjJCK8SPzYv0_doJ0aG-Q_NX2=HTyJcBynOduueUNas_A@mail.gmail.com>
+Subject: Re: [PATCH 21/24] Documentation: trace: correct spelling
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        linux-trace-kernel@vger.kernel.org,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Mukesh Ojha <quic_mojha@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/8/23 11:03 PM, Andy Shevchenko wrote:
-> From: Linus Walleij <linus.walleij@linaro.org>
-> 
-> The test driver uses the gpiod consumer API so include the right
-> <linux/gpio/consumer.h> header. This may cause a problem with
-> struct of_device_id being implcitly pulled in by the legacy
-> header <linux/gpio.h> so include <linux/mod_devicetable.h>
-> explicitly as well.
-> 
-> While at it, drop explicit moduleparam.h (it's included with module.h)
-> and sort the headers.
-> 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed by: Mike Leach <mike.leach@linaro.org>
+
+On Thu, 9 Feb 2023 at 07:14, Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Correct spelling problems for Documentation/trace/ as reported
+> by codespell.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
+> Cc: linux-trace-kernel@vger.kernel.org
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Cc: coresight@lists.linaro.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Reviewed-by: Mukesh Ojha <quic_mojha@quicinc.com>
+> Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com> # for coresight
 > ---
->  drivers/hte/hte-tegra194-test.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/hte/hte-tegra194-test.c b/drivers/hte/hte-tegra194-test.c
-> index 5d776a185bd6..358d4a10c6a1 100644
-> --- a/drivers/hte/hte-tegra194-test.c
-> +++ b/drivers/hte/hte-tegra194-test.c
-> @@ -6,14 +6,14 @@
->   */
->  
->  #include <linux/err.h>
-> -#include <linux/module.h>
-> -#include <linux/moduleparam.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/hte.h>
->  #include <linux/interrupt.h>
-> -#include <linux/gpio.h>
-> -#include <linux/timer.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
->  #include <linux/platform_device.h>
-> +#include <linux/timer.h>
->  #include <linux/workqueue.h>
-> -#include <linux/hte.h>
->  
->  /*
->   * This sample HTE GPIO test driver demonstrates HTE API usage by enabling
-Acked-by: Dipen Patel <dipenp@nvidia.com>
+>  Documentation/trace/coresight/coresight-etm4x-reference.rst |    2 +-
+>  Documentation/trace/events.rst                              |    6 +++---
+>  Documentation/trace/fprobe.rst                              |    2 +-
+>  Documentation/trace/ftrace-uses.rst                         |    2 +-
+>  Documentation/trace/hwlat_detector.rst                      |    2 +-
+>  Documentation/trace/uprobetracer.rst                        |    2 +-
+>  7 files changed, 9 insertions(+), 9 deletions(-)
+>
+> diff -- a/Documentation/trace/coresight/coresight-etm4x-reference.rst b/Documentation/trace/coresight/coresight-etm4x-reference.rst
+> --- a/Documentation/trace/coresight/coresight-etm4x-reference.rst
+> +++ b/Documentation/trace/coresight/coresight-etm4x-reference.rst
+> @@ -675,7 +675,7 @@ Bit assignments shown below:-
+>      reconstructed using only conditional branches.
+>
+>      There is currently no support in Perf for supplying modified binaries to the decoder, so this
+> -    feature is only inteded to be used for debugging purposes or with a 3rd party tool.
+> +    feature is only intended to be used for debugging purposes or with a 3rd party tool.
+>
+>      Choosing this option will result in a significant increase in the amount of trace generated -
+>      possible danger of overflows, or fewer instructions covered. Note, that this option also
+> diff -- a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+> --- a/Documentation/trace/events.rst
+> +++ b/Documentation/trace/events.rst
+> @@ -903,7 +903,7 @@ functions can be used.
+>
+>  To create a kprobe event, an empty or partially empty kprobe event
+>  should first be created using kprobe_event_gen_cmd_start().  The name
+> -of the event and the probe location should be specfied along with one
+> +of the event and the probe location should be specified along with one
+>  or args each representing a probe field should be supplied to this
+>  function.  Before calling kprobe_event_gen_cmd_start(), the user
+>  should create and initialize a dynevent_cmd object using
+> @@ -983,7 +983,7 @@ The basic idea is simple and amounts to
+>  layer that can be used to generate trace event commands.  The
+>  generated command strings can then be passed to the command-parsing
+>  and event creation code that already exists in the trace event
+> -subystem for creating the corresponding trace events.
+> +subsystem for creating the corresponding trace events.
+>
+>  In a nutshell, the way it works is that the higher-level interface
+>  code creates a struct dynevent_cmd object, then uses a couple
+> @@ -1056,7 +1056,7 @@ to add an operator between the pair (her
+>  appended onto the end of the arg pair (here ';').
+>
+>  There's also a dynevent_str_add() function that can be used to simply
+> -add a string as-is, with no spaces, delimeters, or arg check.
+> +add a string as-is, with no spaces, delimiters, or arg check.
+>
+>  Any number of dynevent_*_add() calls can be made to build up the string
+>  (until its length surpasses cmd->maxlen).  When all the arguments have
+> diff -- a/Documentation/trace/fprobe.rst b/Documentation/trace/fprobe.rst
+> --- a/Documentation/trace/fprobe.rst
+> +++ b/Documentation/trace/fprobe.rst
+> @@ -111,7 +111,7 @@ saved at function entry and passed to ex
+>          the instruction pointer of @regs may be different from the @entry_ip
+>          in the entry_handler. If you need traced instruction pointer, you need
+>          to use @entry_ip. On the other hand, in the exit_handler, the instruction
+> -        pointer of @regs is set to the currect return address.
+> +        pointer of @regs is set to the correct return address.
+>
+>  Share the callbacks with kprobes
+>  ================================
+> diff -- a/Documentation/trace/ftrace-uses.rst b/Documentation/trace/ftrace-uses.rst
+> --- a/Documentation/trace/ftrace-uses.rst
+> +++ b/Documentation/trace/ftrace-uses.rst
+> @@ -193,7 +193,7 @@ FTRACE_OPS_FL_RECURSION
+>         Not, if this flag is set, then the callback will always be called
+>         with preemption disabled. If it is not set, then it is possible
+>         (but not guaranteed) that the callback will be called in
+> -       preemptable context.
+> +       preemptible context.
+>
+>  FTRACE_OPS_FL_IPMODIFY
+>         Requires FTRACE_OPS_FL_SAVE_REGS set. If the callback is to "hijack"
+> diff -- a/Documentation/trace/hwlat_detector.rst b/Documentation/trace/hwlat_detector.rst
+> --- a/Documentation/trace/hwlat_detector.rst
+> +++ b/Documentation/trace/hwlat_detector.rst
+> @@ -14,7 +14,7 @@ originally written for use by the "RT" p
+>  kernel is highly latency sensitive.
+>
+>  SMIs are not serviced by the Linux kernel, which means that it does not
+> -even know that they are occuring. SMIs are instead set up by BIOS code
+> +even know that they are occurring. SMIs are instead set up by BIOS code
+>  and are serviced by BIOS code, usually for "critical" events such as
+>  management of thermal sensors and fans. Sometimes though, SMIs are used for
+>  other tasks and those tasks can spend an inordinate amount of time in the
+> diff -- a/Documentation/trace/uprobetracer.rst b/Documentation/trace/uprobetracer.rst
+> --- a/Documentation/trace/uprobetracer.rst
+> +++ b/Documentation/trace/uprobetracer.rst
+> @@ -55,7 +55,7 @@ Synopsis of uprobe_tracer
+>
+>    (\*1) only for return probe.
+>    (\*2) this is useful for fetching a field of data structures.
+> -  (\*3) Unlike kprobe event, "u" prefix will just be ignored, becuse uprobe
+> +  (\*3) Unlike kprobe event, "u" prefix will just be ignored, because uprobe
+>          events can access only user-space memory.
+>
+>  Types
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+
+
+
+-- 
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
