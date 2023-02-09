@@ -2,158 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E09D2C05027
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 09:40:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD708C636D7
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 10:40:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbjBIJkH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 04:40:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43874 "EHLO
+        id S229517AbjBIKkx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 05:40:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbjBIJkG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 04:40:06 -0500
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E843E171A;
-        Thu,  9 Feb 2023 01:40:04 -0800 (PST)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3199HVrD002242;
-        Thu, 9 Feb 2023 10:38:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=Ol2FAil1EFrxD0YCoc4RaKOOMiU4+0QQ6K3rmBBavMY=;
- b=zS8kOrt2KVewz+s3mnOTmo7LU9Cc3ORYz7IBRYT5OTjObo1pyepsY+qE5HXkKKN66gpG
- zziMaf9H7EmROzlrcyjB0I/xViLvFeWfY0cF8425FsZYoM9nFJAJX2fEaDPmtS/Gyvvt
- ygEnpE96nP1nW3A6JaIGJmXFtnNXCmlCuPgLFYG+AYuMX+O4UU0oi0e8PfMtjQHqLffQ
- 0NFpsXsAIv4nFggJogS6uMTO44x4AaNU8fit5z0y6zKZavsSTVjeqSaHilzCnUWgR/Df
- V3NqFFGOR/JrE9YP4YSbYw41TTjdH+tR6aDFUumn17mklQS7fkLD1sxaTZSpAwowrWL+ dw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3nhdcg18v0-1
+        with ESMTP id S229479AbjBIKkw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 05:40:52 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B8651B303;
+        Thu,  9 Feb 2023 02:40:39 -0800 (PST)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 319AdRaS027930;
+        Thu, 9 Feb 2023 10:40:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : reply-to : references : mime-version :
+ content-type : in-reply-to; s=qcppdkim1;
+ bh=6t5H1NBBwfJ8HcZ4Okmv8djxDGNqAbuq+Tstxx356Gw=;
+ b=pfW6x1wyQzJVXIxR1b3dM+GU/QsQsjbfg8VrYYsQ7sLQplmQ7KESWSXeX4WvD45Ddc7E
+ G0MQEeAi37hGNQ+9l2S969vqtkOtZBFCTd4dJOxks3LbZk6/mHJZzxnKs7fvaQPSogbF
+ GaPZzXprmJiF3drcE31DUdgOXxgEy3sVQT63uRhEuAbN+4Eet53QvS12BEjp0AqImRu8
+ gfK4tf9SRyqefGT3Y4mlP/1A423pjZ8D5NOTVFax7vVQFzNw1LbYVdwub/UkPKXba5il
+ w2o9DOMVyQg4OER4kcwRtnDVrX4FVDkHHAeqLwVH6rM5+ODZTZpuFYhPG0SPCublbyZ3 zQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nm8x1ub5h-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 09 Feb 2023 10:38:23 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1C17210002A;
-        Thu,  9 Feb 2023 10:38:19 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EF17D210F8F;
-        Thu,  9 Feb 2023 10:38:18 +0100 (CET)
-Received: from [10.201.21.26] (10.201.21.26) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 9 Feb
- 2023 10:38:16 +0100
-Message-ID: <c1d361d1-1599-230c-3609-88cd9f455114@foss.st.com>
-Date:   Thu, 9 Feb 2023 10:38:15 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 02/11] ARM: sti: removal of stih415/stih416 related
- entries
-Content-Language: en-US
-To:     Alain Volmat <avolmat@me.com>, Jonathan Corbet <corbet@lwn.net>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Thu, 09 Feb 2023 10:40:08 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 319Ae7lB026875
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 9 Feb 2023 10:40:07 GMT
+Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 9 Feb 2023
+ 02:39:59 -0800
+Date:   Thu, 9 Feb 2023 16:09:55 +0530
+From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Will Deacon" <will@kernel.org>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
         Marc Zyngier <maz@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Eric Dumazet" <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        "Zhang Rui" <rui.zhang@intel.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-pm@vger.kernel.org>, <linux-clk@vger.kernel.org>
-References: <20230209091659.1409-1-avolmat@me.com>
- <20230209091659.1409-3-avolmat@me.com>
-From:   Patrice CHOTARD <patrice.chotard@foss.st.com>
-In-Reply-To: <20230209091659.1409-3-avolmat@me.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.21.26]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v9 24/27] virt: gunyah: Add proxy-scheduled vCPUs
+Message-ID: <20230209103955.GJ332@quicinc.com>
+Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
+ <20230120224627.4053418-25-quic_eberman@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+In-Reply-To: <20230120224627.4053418-25-quic_eberman@quicinc.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: gFfwHQ0MUSkxHXqstvqoV2olKdGb1RHa
+X-Proofpoint-ORIG-GUID: gFfwHQ0MUSkxHXqstvqoV2olKdGb1RHa
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-09_05,2023-02-08_02,2022-06-22_01
+ definitions=2023-02-09_08,2023-02-08_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ mlxscore=0 suspectscore=0 malwarescore=0 mlxlogscore=970
+ lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0
+ priorityscore=1501 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302090101
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+* Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:23]:
 
+> +static void gh_handle_mmio_return(struct gunyah_vcpu *vcpu, u64 *state)
+> +{
+> +	if (!vcpu->vcpu_run->mmio.is_write)
+> +		memcpy(&state[0], vcpu->vcpu_run->mmio.data, vcpu->vcpu_run->mmio.len);
 
-On 2/9/23 10:16, Alain Volmat wrote:
-> ST's STiH415 and STiH416 platforms have already been removed since
-> a while.  Remove some remaining bits within the mach-sti.
-> 
-> Signed-off-by: Alain Volmat <avolmat@me.com>
-> ---
->  arch/arm/mach-sti/Kconfig    | 20 +-------------------
->  arch/arm/mach-sti/board-dt.c |  2 --
->  2 files changed, 1 insertion(+), 21 deletions(-)
-> 
-> diff --git a/arch/arm/mach-sti/Kconfig b/arch/arm/mach-sti/Kconfig
-> index b2d45cf10a3c..609957dead98 100644
-> --- a/arch/arm/mach-sti/Kconfig
-> +++ b/arch/arm/mach-sti/Kconfig
-> @@ -19,31 +19,13 @@ menuconfig ARCH_STI
->  	select PL310_ERRATA_769419 if CACHE_L2X0
->  	select RESET_CONTROLLER
->  	help
-> -	  Include support for STMicroelectronics' STiH415/416, STiH407/10 and
-> +	  Include support for STMicroelectronics' STiH407/10 and
->  	  STiH418 family SoCs using the Device Tree for discovery.  More
->  	  information can be found in Documentation/arm/sti/ and
->  	  Documentation/devicetree.
->  
->  if ARCH_STI
->  
-> -config SOC_STIH415
-> -	bool "STiH415 STMicroelectronics Consumer Electronics family"
-> -	default y
-> -	help
-> -	  This enables support for STMicroelectronics Digital Consumer
-> -	  Electronics family StiH415 parts, primarily targeted at set-top-box
-> -	  and other digital audio/video applications using Flattned Device
-> -	  Trees.
-> -
-> -config SOC_STIH416
-> -	bool "STiH416 STMicroelectronics Consumer Electronics family"
-> -	default y
-> -	help
-> -	  This enables support for STMicroelectronics Digital Consumer
-> -	  Electronics family StiH416 parts, primarily targeted at set-top-box
-> -	  and other digital audio/video applications using Flattened Device
-> -	  Trees.
-> -
->  config SOC_STIH407
->  	bool "STiH407 STMicroelectronics Consumer Electronics family"
->  	default y
-> diff --git a/arch/arm/mach-sti/board-dt.c b/arch/arm/mach-sti/board-dt.c
-> index ffecbf29646f..8c313f07bd02 100644
-> --- a/arch/arm/mach-sti/board-dt.c
-> +++ b/arch/arm/mach-sti/board-dt.c
-> @@ -12,8 +12,6 @@
->  #include "smp.h"
->  
->  static const char *const stih41x_dt_match[] __initconst = {
-> -	"st,stih415",
-> -	"st,stih416",
->  	"st,stih407",
->  	"st,stih410",
->  	"st,stih418",
+Would be good to do a bound check on length of memcpy I think (in case 
+vcpu_run_resp->state_data[1] is wrong for example).
 
-Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
+> +
+> +	vcpu->handle_mmio = false;
+> +	vcpu->vcpu_run->exit_reason = GH_VM_EXIT_UNKNOWN;
+> +}
+> +
 
-Thanks
-Patrice
+// snip
+
+> +static int gh_vcpu_run(struct gunyah_vcpu *vcpu)
+> +{
+> +	struct gh_hypercall_vcpu_run_resp vcpu_run_resp;
+> +	u64 state_data[3] = { 0 };
+> +	int ret = 0;
+> +
+> +	ret = gh_vm_ensure_started(vcpu->ghvm);
+> +	if (ret)
+> +		return ret;
+
+Can we move this to VM_START ioctl and avoid this check in fast path? In case VM
+is not started, then I think gh_hypercall_vcpu_run() will fail which can catch
+erroneous use of VCPU_RUN w/o a preceding VM_START. Alternately we could use a
+flag in vcpu struct to check for this case (similar to test for vcpu->rsc
+below).
+
+// snip
+
+> +			case GH_VCPU_STATE_EXPECTS_WAKEUP:
+> +			case GH_VCPU_STATE_POWERED_OFF:
+> +				ret = wait_for_completion_interruptible(&vcpu->ready);
+
+I think we should end this wait in case immediate_exit is set as well.
+
+> +static vm_fault_t gh_vcpu_fault(struct vm_fault *vmf)
+> +{
+> +	struct gunyah_vcpu *vcpu = vmf->vma->vm_file->private_data;
+> +	struct page *page = NULL;
+> +
+> +	if (vmf->pgoff == 0)
+> +		page = virt_to_page(vcpu->vcpu_run);
+> +
+> +	get_page(page);
+
+We should avoid get_page in case page is NULL.
+
+> +	vmf->page = page;
+> +	return 0;
+> +}
+> +
+> +static void gunyah_vcpu_unpopulate(struct gunyah_vm_resource_ticket *ticket,
+> +				   struct gunyah_resource *ghrsc)
+> +{
+> +	struct gunyah_vcpu *vcpu = container_of(ticket, struct gunyah_vcpu, ticket);
+> +
+> +	vcpu->vcpu_run->immediate_exit = true;
+
+We should poke the vcpu thread as well so that it can notice this.
+Otherwise it can continue to be in gh_hypercall_vcpu_run() or
+wait_for_completion_interruptible() for longer time to come.
+
+> +	mutex_lock(&vcpu->run_lock);
+> +	free_irq(vcpu->rsc->irq, vcpu);
+> +	vcpu->rsc = NULL;
+> +	mutex_unlock(&vcpu->run_lock);
+> +}
+> +
+> +static long gunyah_vcpu_bind(struct gunyah_vm_function *f)
+> +{
+> +	struct gunyah_vcpu *vcpu;
+> +	char name[MAX_VCPU_NAME];
+> +	struct file *file;
+> +	struct page *page;
+> +	int fd;
+> +	long r;
+> +
+> +	if (!gh_api_has_feature(GH_API_FEATURE_VCPU))
+
+We should test for this feature before registering the function? What's
+the point in registering a function otherwise if it can't do its work!
+
