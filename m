@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C4EFC05027
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 09:30:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21DEEC05027
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 09:32:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbjBIJaz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 04:30:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37200 "EHLO
+        id S230194AbjBIJcQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 04:32:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230184AbjBIJay (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 04:30:54 -0500
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70B395EFBA
-        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 01:30:51 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id f47-20020a05600c492f00b003dc584a7b7eso3397705wmp.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Feb 2023 01:30:51 -0800 (PST)
+        with ESMTP id S230207AbjBIJcO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 04:32:14 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 613C8611C6
+        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 01:32:09 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id j29-20020a05600c1c1d00b003dc52fed235so1032847wms.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Feb 2023 01:32:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=5S2tEZY/+Gh2ONdU3efg4qsNBAC+f01To+72RyrqQtk=;
-        b=SuYFJ/yKQ6P6blJ1jUuFke6n5OanTxNfGPYPa81DzdLkC3craqq6JtmUTBBNj7eYxX
-         tnOfr6SRj61kqFevdnRO4Vdkc6iEWQ2Rhn8G1ThorKe9Ew5BVUN/VLuex9uoZ7vin77o
-         DXsOG9uVqf7agpnf+naq928Qu5x+wFG+Dr4ZF+RYhoJitxLPV1kOoZYmlhOMaRHz6h9V
-         np4l/RbW/71gbOo+UcSfr/cgueEtszAv4/CdpJLz7ZfK+ydoUsbbuNve7EGWcfUCq5yK
-         px1PEko5/Jx8KaDN5wqlYrzr9OZgSUXpv/5+wVbByQkpUT3qfbFL0kt2ffDMzZ7DchQI
-         y9Mw==
+        bh=FM/LdjIE+BK9yrqTkrCHMJMpaRv/ioCSi0KOvlCQF0M=;
+        b=Ab5Rk0IPhDRT3p3+6b6/XqYQFBMnsyXnqWcyU3Fc0ETszZm8HjzAVBZXr76NL6ysc+
+         nVTzZ0DXhRS/Vwg16kt0lkoCZjVyppxM2jLitI+Yd8yh60POFC7m7CTrhYT3Z279M5AI
+         DLJ+YVVvVOWKSoCrxitDL3cDY9IM4RgMwNja8G0tuOzUWDhEPGL227pvIpsgmJPgJvIk
+         +ZaCGMxQKRWv7lzvZsSDUUHO2NxahRLY82QF5caZMgG659Nsx1Qjwh3tDC1tI3W2A593
+         6YrG5ESGvUvi8bj8Y7Yy1xvhUO9ESfwU/sB3p3NVR2ADTxj6vh+cTamvKgwRhCYZZ7n3
+         E3Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5S2tEZY/+Gh2ONdU3efg4qsNBAC+f01To+72RyrqQtk=;
-        b=HJsKMwCWIWLJfSxmLmMvyYVYDe13af+qMRQYC4tahp4EuY7tUg0eYSzV6XiG39VlS/
-         IlShRTMYpQ/Ot0m/qnoUjeiGEnYagFBj4swvmw4QMCrEOdFRtW0HDKar0Ti06uzP3beI
-         TmQGTgFUt76Ueuf85eeec4M11sMfaThGtEOXCnTmXTkr4RK7AF7RekEtn6EHL5Y5saP5
-         5GuV008fz0LvjXomFXWTXpDDyZkNM7u3cN4KWYBRydMiOziwhW/+pHnSFW0G37NPQake
-         9dWfCwqj2zzqwhGFZef7/BjmQ3Em3wjOfT8MBC+n8/huP7wA2F814yItqtfiVU8vGfvj
-         9G0w==
-X-Gm-Message-State: AO0yUKU8761hGpPfiJQA+n6EspJx0irRlx1KyX1ifV4cMY8Tfj5Gjh0w
-        Bg+Lq7MtHtm0YdseavrzrRefbA==
-X-Google-Smtp-Source: AK7set/MlBPwn91apQp4haw/POYdIlQZOEUXPjg95MyNta9JNaTilJd1y0F3YvYTPBWaRho7alLDQw==
-X-Received: by 2002:a05:600c:2a08:b0:3db:1d7e:c429 with SMTP id w8-20020a05600c2a0800b003db1d7ec429mr8968183wme.40.1675935049972;
-        Thu, 09 Feb 2023 01:30:49 -0800 (PST)
+        bh=FM/LdjIE+BK9yrqTkrCHMJMpaRv/ioCSi0KOvlCQF0M=;
+        b=0kNtpbLkkZbf4fQB9i8EL6QSBt/yMy7Qyr2DT1gn2gH1gpTt958yFJxOaZtXLM70Sq
+         u14vIF5BMyfIVbB2gQy9N6zso33uBV5Ss7boRrC4OCsAdwHNoj44A/0NFWoIxWGtNk+/
+         S4d16VFA8eQ2exHrCestkrbAB/enZy6X3U6DVPs3GNH0J25vT3oRnvV3qt0ScZibOe/a
+         pE7O74GxHxiTEjIi++AdFq1HdfHJ0X5GNR0gQv126DlERtPSscBYASwvjSqX0p50HIJd
+         w+g9Ww26DubzuhEeQOL4Zk6+5T3GaDUfjUVlY1uz0dgCGTu0YoN6kDhLQtIatyrt/Xe8
+         bkWQ==
+X-Gm-Message-State: AO0yUKURuUboEY7h1TuDoWr93hFpFBEesQ11S9y44z2F/NYI1rNNcB+3
+        lrFMJaZ+X4plBA/GNO8BqQiV8Q==
+X-Google-Smtp-Source: AK7set/bb5JZ/smFZZcz/mFj0FHilPsYO6yLjt7ARyOcT3vLv3AYvtmm5BO7UJGXBKpMQrZgcE65gQ==
+X-Received: by 2002:a05:600c:4386:b0:3df:94c3:4725 with SMTP id e6-20020a05600c438600b003df94c34725mr9409250wmn.38.1675935127999;
+        Thu, 09 Feb 2023 01:32:07 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id b18-20020a05600c4e1200b003e00c453447sm4477965wmq.48.2023.02.09.01.30.47
+        by smtp.gmail.com with ESMTPSA id o19-20020a05600c4fd300b003dc59d6f2f8sm1302911wmq.17.2023.02.09.01.32.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Feb 2023 01:30:49 -0800 (PST)
-Message-ID: <1732069d-5a0f-550e-6182-3d4c205ea25c@linaro.org>
-Date:   Thu, 9 Feb 2023 10:30:46 +0100
+        Thu, 09 Feb 2023 01:32:07 -0800 (PST)
+Message-ID: <a7bbc64d-1b16-490a-5424-4a2f08aba111@linaro.org>
+Date:   Thu, 9 Feb 2023 10:32:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 08/11] dt-bindings: net: dwmac: sti: remove
- stih415/sti416/stid127
+Subject: Re: [PATCH 09/11] dt-bindings: reset: remove stih415/stih416 reset
+ bindings
 Content-Language: en-US
 To:     Alain Volmat <avolmat@me.com>, Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
@@ -85,9 +85,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com, linux-pm@vger.kernel.org,
         linux-clk@vger.kernel.org
 References: <20230209091659.1409-1-avolmat@me.com>
- <20230209091659.1409-9-avolmat@me.com>
+ <20230209091659.1409-10-avolmat@me.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230209091659.1409-9-avolmat@me.com>
+In-Reply-To: <20230209091659.1409-10-avolmat@me.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -95,11 +95,21 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 09/02/2023 10:16, Alain Volmat wrote:
-> Remove compatible for stih415/stih416 and stid127 which are
-> no more supported.
+> Remove the stih415 and stih416 reset dt-bindings since those
+> two platforms are no more supported.
+
+Subject: drop second/last, redundant "bindings". The "dt-bindings"
+prefix is already stating that these are bindings.
+
+This applies to your other patches as well.
+
 > 
 > Signed-off-by: Alain Volmat <avolmat@me.com>
 > ---
+>  include/dt-bindings/reset/stih415-resets.h | 28 ------------
+>  include/dt-bindings/reset/stih416-resets.h | 52 ----------------------
+>  2 files changed, 80 deletions(-)
+>  delete mode 100644 include/dt-bindings/reset/stih415-resets.h
 
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
