@@ -2,114 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E52DCC636D3
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 02:02:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31572C636D3
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 03:31:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230450AbjBICCq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Feb 2023 21:02:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40804 "EHLO
+        id S231879AbjBIDbS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Feb 2023 22:31:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231408AbjBICCo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 21:02:44 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5733A25B90;
-        Wed,  8 Feb 2023 18:02:42 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id n20-20020a17090aab9400b00229ca6a4636so4704002pjq.0;
-        Wed, 08 Feb 2023 18:02:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u2fxHLSSkjd2gBaPqrUy06GUa2igJ/NteR1ux0m4AxU=;
-        b=KSZcawBfCEusNKjw99nBJeFxw3WPMe/KyOvtBZHVw5YW/DTxS6OLbUYvCS9G+NJm70
-         mwgK2m1MawIVypnUZSDUL5ooqvX52HCw/iNnfQQ2NrYDFp17s5cefLMKgElAeaTRx+sp
-         34ow9t+FxCzDAY45HPR2ZmcrMkvlLb3U+kBbCB7BCJ4R4thiesJpD8m4jOFb7eVEpwco
-         OuhFsoBFDczXU7GgZXfthXym73ci9xTGv2qmpQEA7iP6eRQyH0YwAawADGmtTkZcuNFR
-         N3Bc1NihCdIx6KGnCjfglcwV8++p5wDsF6ZgZrQWqf5g+enspmMwQi8qeh/a5sq6eYVu
-         KuIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u2fxHLSSkjd2gBaPqrUy06GUa2igJ/NteR1ux0m4AxU=;
-        b=GBTQRZ4he9upUP1Gs/4CfCkiiUplyglLHn5P1vqWdfv4EdATrKBVGSPPChMntKsGBD
-         zYWr5hclOrPbo8V50BE2aAtSOIzeIaicvKp4PAphnlPFRfuUsKIm46i//yGp8sx6DnyU
-         fnDnhCzeya7XsWioW9YeWeGSVuw9Qq0FFiIoR7nC66GNvJ6zIsC4ECTLc5hzqRQkYuza
-         e+yh+EsW88PZEiEb4NnkyEA4hkVKcgxhMyMdpiB8wJHFidYIU8/nLP9xP4b+GhqfY3ir
-         oLeQuZKRWr2XZXLOtcrqeIOLLaTi5SkLD/0J89a1Vls9O7yX2dHBszl7pvSx7hj4YWTP
-         psvw==
-X-Gm-Message-State: AO0yUKUS48ZleHjrQwUAPuIycEvdhuiuCTEadOjUxk0bGwqFzFR1D8ZP
-        wv7ZG8gwDjdcVNctk1nA/7O6AN4YT7n+Ng==
-X-Google-Smtp-Source: AK7set9boXIbPx56DkwTV7WOExTM1A9N8lAUSIGwpgu/SuCa/+u3NsWnrbYVHr/7FAqfK6RznLu3/g==
-X-Received: by 2002:a17:902:b48a:b0:198:adc4:22a2 with SMTP id y10-20020a170902b48a00b00198adc422a2mr3075077plr.29.1675908161514;
-        Wed, 08 Feb 2023 18:02:41 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-72.three.co.id. [180.214.232.72])
-        by smtp.gmail.com with ESMTPSA id d2-20020a170902654200b0019919b7e5b1sm126062pln.168.2023.02.08.18.02.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Feb 2023 18:02:40 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id D50B81056B3; Thu,  9 Feb 2023 09:02:37 +0700 (WIB)
-Date:   Thu, 9 Feb 2023 09:02:37 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Sunil V L <sunilvl@ventanamicro.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH 24/24] Documentation/kernel-parameters.txt: Add RISC-V
- for ACPI parameter
-Message-ID: <Y+RUPcCgH48XdbBB@debian.me>
-References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
- <20230130182225.2471414-25-sunilvl@ventanamicro.com>
+        with ESMTP id S232318AbjBIDak (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Feb 2023 22:30:40 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C13E04E;
+        Wed,  8 Feb 2023 19:30:37 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B9E096187E;
+        Thu,  9 Feb 2023 03:30:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 811C9C433EF;
+        Thu,  9 Feb 2023 03:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675913436;
+        bh=DbojSuLwxvxHTVD5904kFFvTdY99TONLdsOPCTQ9EhM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FA0VUJj7ytZLpiHkeewSZwqz9dEmgx0S3pifki8Zcpk9++H3Dqe+ArXeU9EurEFys
+         ncnXUbFFqyS9VkC+E8xoFZquwJXy9AVKuAwPwv3ga2wiJWXdWpzFj1p3Xjqo20tInp
+         QZfUyf7VMb2de0AVoGcS9d6TwcYYx4KlLDxzLck5lO4Gm+r41WiAU2NazDYBvoHoFw
+         SYHH4IYpw9aQvAdWes6uALQdiP83QzMgGmH+TMupJAVoK2V4dPWN3PVi7ixp4oeUJO
+         N05xOagdxelzguO4h2Ct5mt2kfIXcBqgA4Ke6UiB4SM6vCbypBiN/Mmptr3UWmlD8k
+         gSiecvIQEJMkw==
+Date:   Wed, 8 Feb 2023 19:30:33 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Fan Wu <wufan@linux.microsoft.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
+        snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v9 12/16] fsverity: consume builtin signature via LSM
+ hook
+Message-ID: <Y+Ro2Uor21d/Gfqc@sol.localdomain>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-13-git-send-email-wufan@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="cG9EA2l6QrebhrXH"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230130182225.2471414-25-sunilvl@ventanamicro.com>
+In-Reply-To: <1675119451-23180-13-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+So disregarding the fact that using the fsverity builtin signatures still seems
+like a bad idea to me, here's a few comments on the diff itself:
 
---cG9EA2l6QrebhrXH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jan 30, 2023 at 02:57:27PM -0800, Fan Wu wrote:
+> diff --git a/fs/verity/open.c b/fs/verity/open.c
+> index 81ff94442f7b..7e6fa52c0e9c 100644
+> --- a/fs/verity/open.c
+> +++ b/fs/verity/open.c
+> @@ -7,7 +7,9 @@
+>  
+>  #include "fsverity_private.h"
+>  
+> +#include <linux/security.h>
+>  #include <linux/slab.h>
+> +#include <crypto/public_key.h>
 
-On Mon, Jan 30, 2023 at 11:52:25PM +0530, Sunil V L wrote:
->  			For ARM64, ONLY "acpi=3Doff", "acpi=3Don" or "acpi=3Dforce"
->  			are available
-> +			For RISC-V, ONLY "acpi=3Doff", "acpi=3Don" or "acpi=3Dforce"
-> +			are available
-> =20
+There's no need to include <crypto/public_key.h>.
 
-Something repetitive here. What about "For ARM64 and RISC-V, the
-available options are only "acpi=3Doff", "acpi=3Don", and "acpi=3Dforce""?
+>  
+>  static struct kmem_cache *fsverity_info_cachep;
+>  
+> @@ -146,7 +148,7 @@ static int compute_file_digest(struct fsverity_hash_alg *hash_alg,
+>   * appended signature), and check the signature if present.  The
+>   * fsverity_descriptor must have already undergone basic validation.
+>   */
+> -struct fsverity_info *fsverity_create_info(const struct inode *inode,
+> +struct fsverity_info *fsverity_create_info(struct inode *inode,
+>  					   struct fsverity_descriptor *desc)
+>  {
+>  	struct fsverity_info *vi;
+> @@ -182,6 +184,15 @@ struct fsverity_info *fsverity_create_info(const struct inode *inode,
+>  
+>  	err = fsverity_verify_signature(vi, desc->signature,
+>  					le32_to_cpu(desc->sig_size));
+> +	if (err) {
+> +		fsverity_err(inode, "Error %d verifying signature", err);
+> +		goto out;
+> +	}
 
-Thanks.
+The above error message is unnecessary because fsverity_verify_signature()
+already prints an error message on failure.
 
---=20
-An old man doll... just what I always wanted! - Clara
+> +
+> +	err = security_inode_setsecurity(inode, FS_VERITY_INODE_SEC_NAME, desc->signature,
+> +					 le32_to_cpu(desc->sig_size), 0);
 
---cG9EA2l6QrebhrXH
-Content-Type: application/pgp-signature; name="signature.asc"
+This runs even if CONFIG_FS_VERITY_BUILTIN_SIGNATURES is disabled.  Is that
+really the right behavior?
 
------BEGIN PGP SIGNATURE-----
+Also a nit: please stick to the preferred line length of 80 characters.
+See Documentation/process/coding-style.rst
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY+RUOQAKCRD2uYlJVVFO
-o+9EAQC8GivmfHn93hRgfCI68JrrUjUfdRGd1PEo48XaFxXfpwEA4gk7qbFhwMKz
-RYZmDaevf6DABr9JSuIpV2NrsUIsTwI=
-=LwV8
------END PGP SIGNATURE-----
+> diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+> index 143a530a8008..5d7b9496f9c4 100644
+> --- a/fs/verity/signature.c
+> +++ b/fs/verity/signature.c
+> @@ -9,6 +9,7 @@
+>  
+>  #include <linux/cred.h>
+>  #include <linux/key.h>
+> +#include <linux/security.h>
+>  #include <linux/slab.h>
+>  #include <linux/verification.h>
 
---cG9EA2l6QrebhrXH--
+This change is unnecessary.
+
+> diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
+> index 40f14e5fed9d..29e9888287ba 100644
+> --- a/include/linux/fsverity.h
+> +++ b/include/linux/fsverity.h
+> @@ -254,4 +254,6 @@ static inline bool fsverity_active(const struct inode *inode)
+>  	return fsverity_get_info(inode) != NULL;
+>  }
+>  
+> +#define FS_VERITY_INODE_SEC_NAME "fsverity.inode-info"
+
+"inode-info" is very vague.  Shouldn't it be named "builtin-sig" or something?
+
+- Eric
