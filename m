@@ -2,132 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC2B3C6379F
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3CC5C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:25:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbjBIHOl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 02:14:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49010 "EHLO
+        id S229788AbjBIHZw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 02:25:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229843AbjBIHOY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:24 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D116642DF6;
-        Wed,  8 Feb 2023 23:14:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=RabzW2onkbK88Jry4X6k/vy1HM1YZdyLqoiuOttw51A=; b=pJW8clQJwRLY/bHwrH/Ezqzg6e
-        h5cnsuGKZ4IPj4Vp1ZsXIUFM26VWrhvYgnnGeAhwLdQ5Em80sqb1ts94RuqsB8qQYpEcVSfsmzm7s
-        VnKZFKx7n+yLjTcYDKEhMtnr3aZE01LJZMkVGvrCfm57B1UZg3thxWwSzQlfgq7MMe4ghAt7l6FiY
-        61xUomNc3E+MBOju/tnMOFOQ2HwIkiIaFfHVKOhNNtEEnrKPag00tDRWP7MtQsRosMUh+QpdbkWaM
-        LvrLzsT1iW6UWL87h39pW4UnZAUJtXgLcMgRngAhSB/31POwVHwt15sc2N/xOS3c5YTg3jA1DHgYh
-        9gZYc2kw==;
-Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pQ18I-000LPt-Ar; Thu, 09 Feb 2023 07:14:14 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>, linux-sgx@vger.kernel.org,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
+        with ESMTP id S229664AbjBIHZv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:25:51 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2397B4A1E7;
+        Wed,  8 Feb 2023 23:25:34 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id f16-20020a17090a9b1000b0023058bbd7b2so1510230pjp.0;
+        Wed, 08 Feb 2023 23:25:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rmVDDhkBD33dRebxUB6WkABikP1v8rHGLOz9oy+lzOw=;
+        b=Qqsr8VuFj/cb61lWwBfIJiwftaSsXtTbIODDj9kMRlVfS2CUTcXAcnkVENwaHeFXCc
+         eXeZ9Y66+6ildCk3obb8k3r83H0DWVz4TJzYVPAXagF7GXjgZ3GxGOCw/EF1i0/rp5IN
+         pgGJSBfHppwSSxlu/WOaFOQm7D96GzMtKBjclGwqHDQYZ8V5NNbTw5oahMvkY62J4Bcv
+         xvuULTn8M1jB7ooQLdS2tItxTCRS2SNix0Lv5msweEF06EcK/+YQoovw+ALLc950AbCO
+         dNuYMGg/puoIQ39KxeNIBvRe2lqaJj+1rlej0C5Dhe4aDgkWXgpDufZzv1pwpPPiB1NX
+         cjLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rmVDDhkBD33dRebxUB6WkABikP1v8rHGLOz9oy+lzOw=;
+        b=fHXlptSQsRUIKjFOT0E54fTp1M+fvo+LmopMDezQsQHAn6O3yItgPd6wha0MAtwNfJ
+         x/l9YYNkKXSuGmCE1RZSsBDBnXOFT7kAkZNsqbk43WbGeCRz253O+M9bb/xW1tnENivI
+         1HJOwn1i9ZX9vT8fPO2T/SKFiS5sYLBB4RkHOT9V2HW5ECBZKOgWxzpAhOKhjnLxHROL
+         epm5IGwUv518/FakgSCJEESeUhecWtzSVn3pNHy9sAToKeK4G5uO97NFvWcfYJGi0YuD
+         E6kcc7GHWGPqUmDTtJThXgq+XjZcVvAtFlErpICSAhSXRgYwqBhh8BsHE+tuaBNz1bow
+         dumQ==
+X-Gm-Message-State: AO0yUKXgkW/Sozgb++k19n79YWzZq5yPISWh2L0SC+g1QeRJGC6rpyod
+        BE1Cw23FZZKuorxonuRCDl4=
+X-Google-Smtp-Source: AK7set81TKZAFzmOrFzSNHYZptbc1qRIgjmsCDass4PkbAdTYVS+WfbfkwETMnLWvQHYBCaWiFrNHA==
+X-Received: by 2002:a17:902:f2c9:b0:19a:6098:103a with SMTP id h9-20020a170902f2c900b0019a6098103amr325179plc.23.1675927531617;
+        Wed, 08 Feb 2023 23:25:31 -0800 (PST)
+Received: from localhost ([192.55.54.55])
+        by smtp.gmail.com with ESMTPSA id n20-20020a170902d0d400b0019948184c33sm664782pln.243.2023.02.08.23.25.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Feb 2023 23:25:30 -0800 (PST)
+Date:   Wed, 8 Feb 2023 23:25:29 -0800
+From:   Isaku Yamahata <isaku.yamahata@gmail.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 23/24] Documentation: x86: correct spelling
-Date:   Wed,  8 Feb 2023 23:13:59 -0800
-Message-Id: <20230209071400.31476-24-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
-References: <20230209071400.31476-1-rdunlap@infradead.org>
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com, isaku.yamahata@gmail.com
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+Message-ID: <20230209072529.GB4175971@ls.amr.corp.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/x86/ as reported
-by codespell.
+On Fri, Dec 02, 2022 at 02:13:40PM +0800,
+Chao Peng <chao.p.peng@linux.intel.com> wrote:
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: linux-sgx@vger.kernel.org
-Cc: Fenghua Yu <fenghua.yu@intel.com>
-Cc: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/x86/boot.rst    |    2 +-
- Documentation/x86/buslock.rst |    2 +-
- Documentation/x86/mds.rst     |    2 +-
- Documentation/x86/resctrl.rst |    2 +-
- Documentation/x86/sgx.rst     |    2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+> +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> +					   struct kvm_memory_attributes *attrs)
+> +{
+> +	gfn_t start, end;
+> +	unsigned long i;
+> +	void *entry;
+> +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
+> +
+> +	/* flags is currently not used. */
+> +	if (attrs->flags)
+> +		return -EINVAL;
+> +	if (attrs->attributes & ~supported_attrs)
+> +		return -EINVAL;
+> +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
+> +		return -EINVAL;
+> +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
+> +		return -EINVAL;
+> +
+> +	start = attrs->address >> PAGE_SHIFT;
+> +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
+> +
+> +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+> +
+> +	mutex_lock(&kvm->lock);
+> +	for (i = start; i < end; i++)
+> +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> +				    GFP_KERNEL_ACCOUNT)))
+> +			break;
+> +	mutex_unlock(&kvm->lock);
+> +
+> +	attrs->address = i << PAGE_SHIFT;
+> +	attrs->size = (end - i) << PAGE_SHIFT;
+> +
+> +	return 0;
+> +}
+> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+> +
 
-diff -- a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
---- a/Documentation/x86/boot.rst
-+++ b/Documentation/x86/boot.rst
-@@ -1105,7 +1105,7 @@ The kernel command line should not be lo
- code, nor should it be located in high memory.
- 
- 
--Sample Boot Configuartion
-+Sample Boot Configuration
- =========================
- 
- As a sample configuration, assume the following layout of the real
-diff -- a/Documentation/x86/buslock.rst b/Documentation/x86/buslock.rst
---- a/Documentation/x86/buslock.rst
-+++ b/Documentation/x86/buslock.rst
-@@ -32,7 +32,7 @@ mechanisms to detect split locks and bus
- --------------------------------------
- 
- Beginning with the Tremont Atom CPU split lock operations may raise an
--Alignment Check (#AC) exception when a split lock operation is attemped.
-+Alignment Check (#AC) exception when a split lock operation is attempted.
- 
- #DB exception for bus lock detection
- ------------------------------------
-diff -- a/Documentation/x86/mds.rst b/Documentation/x86/mds.rst
---- a/Documentation/x86/mds.rst
-+++ b/Documentation/x86/mds.rst
-@@ -60,7 +60,7 @@ needed for exploiting MDS requires:
-    data
- 
- The existence of such a construct in the kernel cannot be excluded with
--100% certainty, but the complexity involved makes it extremly unlikely.
-+100% certainty, but the complexity involved makes it extremely unlikely.
- 
- There is one exception, which is untrusted BPF. The functionality of
- untrusted BPF is limited, but it needs to be thoroughly investigated
-diff -- a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
---- a/Documentation/x86/resctrl.rst
-+++ b/Documentation/x86/resctrl.rst
-@@ -487,7 +487,7 @@ this would be dependent on number of cor
-    depending on # of threads:
- 
- For the same SKU in #1, a 'single thread, with 10% bandwidth' and '4
--thread, with 10% bandwidth' can consume upto 10GBps and 40GBps although
-+thread, with 10% bandwidth' can consume up to 10GBps and 40GBps although
- they have same percentage bandwidth of 10%. This is simply because as
- threads start using more cores in an rdtgroup, the actual bandwidth may
- increase or vary although user specified bandwidth percentage is same.
-diff -- a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
---- a/Documentation/x86/sgx.rst
-+++ b/Documentation/x86/sgx.rst
-@@ -245,7 +245,7 @@ SGX will likely become unusable because
- limited. However, while this may be fatal to SGX, the rest of the kernel
- is unlikely to be impacted and should continue to work.
- 
--As a result, when this happpens, user should stop running any new
-+As a result, when this happens, the user should stop running any new
- SGX workloads, (or just any new workloads), and migrate all valuable
- workloads. Although a machine reboot can recover all EPC memory, the bug
- should be reported to Linux developers.
+If memslot isn't private, it should return error if private attribute is set.
+Something like following check is needed.
+
++       if (attrs->flags & KVM_MEM_PRIVATE) {
++               /* non-private memory slot doesn't allow KVM_MEM_PRIVATE */
++               for (i = 0; i < kvm_arch_nr_memslot_as_ids(kvm); i++) {
++                       struct kvm_memslot_iter iter;
++                       struct kvm_memslots *slots;
++
++                       slots = __kvm_memslots(kvm, i);
++                       kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
++                               if (!kvm_slot_can_be_private(iter.slot)) {
++                                       mutex_unlock(&kvm->slots_lock);
++                                       return -EINVAL;
++                               }
++                       }
++               }
++       }
++
+
+
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
