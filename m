@@ -2,120 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F57DC05027
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 14:09:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27878C05027
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 14:20:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229669AbjBIOI6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 09:08:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38204 "EHLO
+        id S230341AbjBIOUw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 09:20:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229761AbjBIOI5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 09:08:57 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFB215DC0D;
-        Thu,  9 Feb 2023 06:08:46 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 732E81EC06C0;
-        Thu,  9 Feb 2023 15:08:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1675951725;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=Xou1RB46SDCgtcotYrQGJuKVYx7el1N56OECne0l+5Q=;
-        b=DlH5Jenzb+b48eoxSOSc/kjrv112GJSGTCU9Q9mdQSdRgxeL9ZhklF4x+j5/OTdI/oVPtQ
-        gX3ifob7NPiXXNoUJ964/uOTG2j1sf1Uv5GUecaxLhjXHdOMjeNW9hFjFGQdJrjlMpY0au
-        M8VjkBac09LEvoBcFVh9jkVrgJ/GBuE=
-Date:   Thu, 9 Feb 2023 15:08:39 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v5 11/39] x86/mm: Update pte_modify for _PAGE_COW
-Message-ID: <Y+T+ZxydCZS1Yjmz@zn.tnic>
-References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119212317.8324-12-rick.p.edgecombe@intel.com>
+        with ESMTP id S230336AbjBIOUv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 09:20:51 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17CC85ACDC
+        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 06:20:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675952445; x=1707488445;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1aIgKfi7FLPmyt9vn44k+K91rfKCHW0+3TG1PtwWhkE=;
+  b=ROcG6EXGcgqK+SpZBsVmdmRPDyhxuXK++RT71BN5X3LYuKOBxIV9wa13
+   9TpjmT91+TjqyWY6UZRIoGnXAghlvZWnFw2xpGi4M73Dd50wPKuI9SDNq
+   A2g4mu3byn5LkhYPY8o2CoS6Zl7bKae5qxjG3SU69OOeQxoQnu3XjsIcA
+   gkBJuhN0Y2i4r4QNca+wxClMeGv6xuMG0IcF+5H0SIYS+XeByXycecgOa
+   OLv2KTLWToU8p2XpAZj8U6x9h8AUyZu9mMF35PyPJutUA6Vosz6m0gv6W
+   Sa7aTx4X5jyYI8K2gqWrD+sXrtDKzXEfvmCZWo66GVDP13gbOK6SMvvbb
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="416337850"
+X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
+   d="scan'208";a="416337850"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 06:20:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="617586064"
+X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
+   d="scan'208";a="617586064"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 09 Feb 2023 06:20:43 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pQ7n0-000578-2r;
+        Thu, 09 Feb 2023 14:20:42 +0000
+Date:   Thu, 9 Feb 2023 22:20:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
+Subject: [linux-next:master 11330/11577] spdxcheck:
+ Documentation/sphinx/templates/kernel-toc.html: 1:36 Invalid token: #}
+Message-ID: <202302092211.54EYDhYH-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119212317.8324-12-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 01:22:49PM -0800, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> 
-> The Write=0,Dirty=1 PTE has been used to indicate copy-on-write pages.
-> However, newer x86 processors also regard a Write=0,Dirty=1 PTE as a
-> shadow stack page. In order to separate the two, the software-defined
-> _PAGE_DIRTY is changed to _PAGE_COW for the copy-on-write case, and
-> pte_*() are updated to do this.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   20f513df926fac0594a3b65f79d856bd64251861
+commit: c404f5d4f0993e9d75a4de5a91280e9cb2419281 [11330/11577] docs: Add more information to the HTML sidebar
+reproduce:
+        scripts/spdxcheck.py
 
-"In order to separate the two, change the software-defined ..."
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302092211.54EYDhYH-lkp@intel.com/
 
-From section "2) Describe your changes" in
-Documentation/process/submitting-patches.rst:
-
-"Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
-instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
-to do frotz", as if you are giving orders to the codebase to change
-its behaviour."
-
-> +static inline pte_t __pte_mkdirty(pte_t pte, bool soft)
-> +{
-> +	pteval_t dirty = _PAGE_DIRTY;
-> +
-> +	if (soft)
-> +		dirty |= _PAGE_SOFT_DIRTY;
-> +
-> +	return pte_set_flags(pte, dirty);
-> +}
-
-Dunno, do you even need that __pte_mkdirty() helper?
-
-AFAIU, pte_mkdirty() will always set _PAGE_SOFT_DIRTY too so whatever
-the __pte_mkdirty() thing needs to do, you can simply do it by foot in
-the two callsites.
-
-And this way you won't have the confusion: should I use pte_mkdirty() or
-__pte_mkdirty()?
-
-Ditto for the pmd variants.
-
-Otherwise, this is starting to make more sense now.
-
-Thx.
+spdxcheck warnings: (new ones prefixed by >>)
+>> Documentation/sphinx/templates/kernel-toc.html: 1:36 Invalid token: #}
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
