@@ -2,43 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51280C61DA4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1F06C636D4
 	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229837AbjBIHOW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S229483AbjBIHOW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 9 Feb 2023 02:14:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48758 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjBIHOM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:12 -0500
+        with ESMTP id S229766AbjBIHOL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:11 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B899CA24A;
-        Wed,  8 Feb 2023 23:14:11 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA5283C28;
+        Wed,  8 Feb 2023 23:14:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=r8hE41Mkp5EbgMrksb3KX7Dta0yeg7VtidU0DErrk9U=; b=SSwLatKOiislYacsoo/Qi3JMlm
-        b47ynisAwSrwGZYUASI66PxrUlyXGIC+yTFVomaUau58oZFIBo8jpLh1nKCHpGG1hzYaKwBa1fm5V
-        MGzmE4oBMeEqrdn5s5zpFUd8r4fPoJzBc5Ip5AwXp99OeI1O5RmT/VlSbt0BYAksgp45OfAwRygNx
-        i/pzyJ1nycNY+Xw/zZ/bZ4J0UyKubduraexKOGpFEp+Z26FQ29A6BoKJCASscbE4D41ElbfTj4DLm
-        CFJF1BTGKjk9PTmvQUBILAJfIGvPULY2mO3cn6qHTxry4AKsGjQ6XNrMZ74qioxOvAb4QQpypQ9Ag
-        iioQY5nQ==;
+        bh=UtsHETgm9NdBjm7zsfWKEYsqPPKnOaDFPcTAJNtRmaw=; b=YAx/Dbsfg5N7XldJBq++JeNUyi
+        CyTRbziiwzQzn+7Dw4TlAixoqnEKxGT0U885GsnWMl+MFydbkyBQ3GAE6lzRXLpyos51tvGrg51xq
+        a8QDhEdKBcmDIGxJ/vaFNKpjXE+Lzu8eQVB9mjfi6PAwx+U4/QfYLtF7sg2PumtPLdMBrCvkwNIRs
+        1XSoyWu0b2xLsuPRuNSQH/a7p6DcfSYwevw5qEiXH3F0mfmfVZzcT4ipO0CnrRzxKm5Pd0YHtjQaQ
+        gVtidF7DUKw0vy0PcnL/8PAhvv9q00EkYIDbhf4gsp9ZuKEea0S7HSblNw5eE9Hgzb9pbJFZm6LVz
+        TZqQD/tw==;
 Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pQ18F-000LPt-A5; Thu, 09 Feb 2023 07:14:11 +0000
+        id 1pQ18B-000LPt-Ls; Thu, 09 Feb 2023 07:14:07 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Mukesh Ojha <quic_mojha@quicinc.com>
-Subject: [PATCH 16/24] Documentation: scheduler: correct spelling
-Date:   Wed,  8 Feb 2023 23:13:52 -0800
-Message-Id: <20230209071400.31476-17-rdunlap@infradead.org>
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 07/24] Documentation: input: correct spelling
+Date:   Wed,  8 Feb 2023 23:13:43 -0800
+Message-Id: <20230209071400.31476-8-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
 References: <20230209071400.31476-1-rdunlap@infradead.org>
@@ -48,52 +46,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/scheduler/ as reported
+Correct spelling problems for Documentation/input/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-input@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Reviewed-by: Mukesh Ojha <quic_mojha@quicinc.com>
 ---
- Documentation/scheduler/sched-bwc.rst    |    2 +-
- Documentation/scheduler/sched-energy.rst |    4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/input/devices/iforce-protocol.rst |    2 +-
+ Documentation/input/multi-touch-protocol.rst    |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff -- a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
---- a/Documentation/scheduler/sched-bwc.rst
-+++ b/Documentation/scheduler/sched-bwc.rst
-@@ -186,7 +186,7 @@ average usage, albeit over a longer time
- also limits the burst ability to no more than 1ms per cpu.  This provides
- better more predictable user experience for highly threaded applications with
- small quota limits on high core count machines. It also eliminates the
--propensity to throttle these applications while simultanously using less than
-+propensity to throttle these applications while simultaneously using less than
- quota amounts of cpu. Another way to say this, is that by allowing the unused
- portion of a slice to remain valid across periods we have decreased the
- possibility of wastefully expiring quota on cpu-local silos that don't need a
-diff -- a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
---- a/Documentation/scheduler/sched-energy.rst
-+++ b/Documentation/scheduler/sched-energy.rst
-@@ -82,7 +82,7 @@ through the arch_scale_cpu_capacity() ca
- The rest of platform knowledge used by EAS is directly read from the Energy
- Model (EM) framework. The EM of a platform is composed of a power cost table
- per 'performance domain' in the system (see Documentation/power/energy-model.rst
--for futher details about performance domains).
-+for further details about performance domains).
+diff -- a/Documentation/input/devices/iforce-protocol.rst b/Documentation/input/devices/iforce-protocol.rst
+--- a/Documentation/input/devices/iforce-protocol.rst
++++ b/Documentation/input/devices/iforce-protocol.rst
+@@ -49,7 +49,7 @@ OP DATA
+ == ====
  
- The scheduler manages references to the EM objects in the topology code when the
- scheduling domains are built, or re-built. For each root domain (rd), the
-@@ -281,7 +281,7 @@ mechanism called 'over-utilization'.
- From a general standpoint, the use-cases where EAS can help the most are those
- involving a light/medium CPU utilization. Whenever long CPU-bound tasks are
- being run, they will require all of the available CPU capacity, and there isn't
--much that can be done by the scheduler to save energy without severly harming
-+much that can be done by the scheduler to save energy without severely harming
- throughput. In order to avoid hurting performance with EAS, CPUs are flagged as
- 'over-utilized' as soon as they are used at more than 80% of their compute
- capacity. As long as no CPUs are over-utilized in a root domain, load balancing
+ The 2B, LEN and CS fields have disappeared, probably because USB handles
+-frames and data corruption is handled or unsignificant.
++frames and data corruption is handled or insignificant.
+ 
+ First, I describe effects that are sent by the device to the computer
+ 
+diff -- a/Documentation/input/multi-touch-protocol.rst b/Documentation/input/multi-touch-protocol.rst
+--- a/Documentation/input/multi-touch-protocol.rst
++++ b/Documentation/input/multi-touch-protocol.rst
+@@ -383,7 +383,7 @@ Finger Tracking
+ ---------------
+ 
+ The process of finger tracking, i.e., to assign a unique trackingID to each
+-initiated contact on the surface, is a Euclidian Bipartite Matching
++initiated contact on the surface, is a Euclidean Bipartite Matching
+ problem.  At each event synchronization, the set of actual contacts is
+ matched to the set of contacts from the previous synchronization. A full
+ implementation can be found in [#f3]_.
