@@ -2,122 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0086CC636D3
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 19:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73FB9C6379F
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 20:13:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229579AbjBITXk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 14:23:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52108 "EHLO
+        id S229589AbjBIUN2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 15:13:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbjBITXj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 14:23:39 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C5069510
-        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 11:23:38 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 23589B822DA
-        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 19:23:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4407CC433EF;
-        Thu,  9 Feb 2023 19:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675970615;
-        bh=8oKjQb7UvA2dnSjjDyKkYFbpCevv7bM6gElrLzvNX+I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WOF7TOqjVrHjt0/rghX/DQiWPIdQz7HtTsdRA/etmLeE4QhDn5F4uqZVWlCYzDxix
-         tYQDaRvEd5CnswPjuw75ni2JrjmC3LjiO/sJS1vMkks4EqDdfY6wkIbwvEl+GLM2BQ
-         XRWfXYlz7RgTkLYukUGJmTvtjnFVgaTc9agFasASaFhpffutwWCXNhE+jw3h/uTzqL
-         RNsWOPQYI2R3FbRfy2t6gGhdVfIT/VM9hdsDsZFiLUYp3Sq8kxumC+5NlPOxnS7xY0
-         KywH96xKIWmJ+bxAOxf/9qBlgi71oNVdNAd8PdgFwOXWxKO1weaXjhvDVna80EtKsa
-         h1z86wgYVCmPQ==
-Date:   Thu, 9 Feb 2023 19:23:31 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     bagasdotme@gmail.com, Conor Dooley <conor.dooley@microchip.com>,
-        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, lkp@intel.com
-Subject: Re: [PATCH] Documentation: riscv: fix insufficient list item indent
-Message-ID: <Y+VIM8YGSPdSnC/9@spud>
-References: <Y9c0EU5epWCeoPB8@debian.me>
- <mhng-4defd1c9-ee2a-4f95-89f9-7c47ee6b97e9@palmer-ri-x1c9a>
+        with ESMTP id S229537AbjBIUN1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 15:13:27 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8591E2D171;
+        Thu,  9 Feb 2023 12:13:26 -0800 (PST)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 319K2GAk015494;
+        Thu, 9 Feb 2023 20:13:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=vcJjJdk6QEX8L6WsXwfTpKjSPrRPcFjdQt2YkY9eoko=;
+ b=LokNXZptfpDFziM/NpqWppV32MINQ4fMvfjKavWNWYr+XiDMDKPYqgI0Idz1Vq0SSi7b
+ 4IO9XsttsxOBVulJagvWqhaUhKbYRcUEVKpg4A7P0UMtXxyUjyi+zq8XGE6ue3sjtouV
+ 9s1GwYSa4QUlm7WcqGCz7MBT3vhZ4PXF/ZS3N18QS5jSg7gq+iX9vn9Ozam/anNy5vYO
+ Is5+/Yh/hrQkluUCqvSo33pxPY6XH4dENUcJxZRfNHOs8t9tzfOb8sVoAZryNMxrxRne
+ 7VlTDJiATEwTOrQf2JkRs5ufKVL0YOf1+mWGSG7aeWSJbjwmxYMXP0RinUbM8gwoeZhj 4g== 
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nn7h1rkmk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 09 Feb 2023 20:13:22 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+        by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 319E2mij005567;
+        Thu, 9 Feb 2023 20:13:20 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+        by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3nhf06mqk8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 09 Feb 2023 20:13:20 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 319KDHs525887082
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 9 Feb 2023 20:13:17 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 012E520043;
+        Thu,  9 Feb 2023 20:13:17 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7B2D120040;
+        Thu,  9 Feb 2023 20:13:16 +0000 (GMT)
+Received: from osiris (unknown [9.179.10.102])
+        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+        Thu,  9 Feb 2023 20:13:16 +0000 (GMT)
+Date:   Thu, 9 Feb 2023 21:13:14 +0100
+From:   Heiko Carstens <hca@linux.ibm.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        linux-s390@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 15/24] Documentation: s390: correct spelling
+Message-ID: <Y+VT2o85uX3D1M2J@osiris>
+References: <20230209071400.31476-1-rdunlap@infradead.org>
+ <20230209071400.31476-16-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="7E4blo3e7oJmGJRT"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <mhng-4defd1c9-ee2a-4f95-89f9-7c47ee6b97e9@palmer-ri-x1c9a>
+In-Reply-To: <20230209071400.31476-16-rdunlap@infradead.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: BshR2xYXG0EXcDiuKKPCNJaI3Ow8LsdG
+X-Proofpoint-GUID: BshR2xYXG0EXcDiuKKPCNJaI3Ow8LsdG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-09_15,2023-02-09_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ lowpriorityscore=0 impostorscore=0 mlxscore=0 malwarescore=0 spamscore=0
+ phishscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=484 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302090186
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Feb 08, 2023 at 11:13:51PM -0800, Randy Dunlap wrote:
+> Correct spelling problems for Documentation/s390/ as reported
+> by codespell.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Heiko Carstens <hca@linux.ibm.com>
+> Cc: Vasily Gorbik <gor@linux.ibm.com>
+> Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+> Cc: linux-s390@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Acked-by: Heiko Carstens <hca@linux.ibm.com>
+> ---
+>  Documentation/s390/pci.rst      |    4 ++--
+>  Documentation/s390/vfio-ccw.rst |    2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 
---7E4blo3e7oJmGJRT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Feb 09, 2023 at 10:48:58AM -0800, Palmer Dabbelt wrote:
-> On Sun, 29 Jan 2023 19:05:53 PST (-0800), bagasdotme@gmail.com wrote:
-> > On Sun, Jan 29, 2023 at 11:57:01PM +0000, Conor Dooley wrote:
-> > > From: Conor Dooley <conor.dooley@microchip.com>
-> > >=20
-> > > When adding the ISA string ordering rules, I didn't sufficiently inde=
-nt
-> > > one of the list items.
-> > >=20
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Fixes: f07b2b3f9d47 ("Documentation: riscv: add a section about ISA s=
-tring ordering in /proc/cpuinfo")
-> > > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> >=20
-> > Seems like you forget to add link to the report:
-> >=20
-> > Link: https://lore.kernel.org/linux-doc/202301300743.bp7Dpazv-lkp@intel=
-=2Ecom/
->=20
-> Is that the normal way to do it?  I've only been adding the Reported-by l=
-ike
-> the bot suggests, but I guess it's kind of nice information to have the b=
-ug
-> report as well.  From looking at git history it's kind of a mix.
-
-IMO it totally depends on whether there is something useful in the
-thread on lore. I see no point adding the links if they're just a
-regurgitation of something conveyed in a commit message.
-
-But then again, I don't bother adding a lore link to patchsets I apply
-either. I'm in the Torvald's camp of only using those tags to link to
-things containing "actual new information". There was a discussion of
-that a while back, see [1] & [2] if you care, although it was largely
-born out of frustration at links added by maintainers to original
-submissions, not subjectively redundant bot emails.
-
-Following that logic, I didn't bother adding one here, just as I
-wouldn't for a compilation error if I included it in the commit log.
-
-We've probably spent more time typing emails about it than the issue
-warrants, but that's par for the course I suppose!
-
-1 - https://lore.kernel.org/all/CAHk-=3Dwj9zKJGA_6SJOMPiQEoYke6cKX-FV3X_5zN=
-XOcFJX1kOQ@mail.gmail.com/
-2 - https://lore.kernel.org/all/CAHk-=3DwgzRUT1fBpuz3xcN+YdsX0SxqOzHWRtj0Re=
-HpUBb5TKbA@mail.gmail.com/
-> Maybe the bot should suggest this in the bug report, right next to the ot=
-her
-> tag?
-
-Iff the bot knows its own message-id before sending, I think that could
-be nice to have. Does Intel's mail system may support that?
-
---7E4blo3e7oJmGJRT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY+VIMwAKCRB4tDGHoIJi
-0kmUAQCr6gl3VleuT5BxyI/QolsSwAriP57dhMtlCrQv+kR3qAEA9x6vjaiPCb9a
-wJpkj4/NrkMjviSq920DpL2disnq/wE=
-=vnL0
------END PGP SIGNATURE-----
-
---7E4blo3e7oJmGJRT--
+Applied, thanks.
