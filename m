@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FADEC6379F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 323A7C64EC5
 	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229604AbjBIHOP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 02:14:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48726 "EHLO
+        id S229723AbjBIHOQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 02:14:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbjBIHOK (ORCPT
+        with ESMTP id S229699AbjBIHOK (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:10 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F2C1B33C;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBFEA12058;
         Wed,  8 Feb 2023 23:14:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=ne9BZXE2iGM8OzEUId4GcMH1B4GCk5QE1QnyEU0ZMDY=; b=Gnu931rUugqu6/NTy96e4cSCb3
-        YMPfyooaHOAUgFp2TnsirmkhX4rtEbdKrfewKNx1cnlLYCehfbOc9rSYcVTJTAkB3zXuXfkpMFO/c
-        +QbVHWMs5e2kq8xc7DyTdNV1mM2dnSGs5Oua2etemHzKoCVzIwNUZ1SUlRbu4Xou4+f6So4bLMynB
-        GE28fgtIFXNhXmNMBZoOj0ptK/DcpORE3poIdIrEE76JMeobIljmWeD67pj3GiHoHdgH9WkVpC/00
-        PQSlm4vi5Q65OIzZdOpfIABFn8OVhuPjWZm5vMDlxw9PiRJmXr6pPrt+6euJsGLGQW4/FMz5bUR1s
-        5W4QgASA==;
+        bh=jAPdZaY08ApP5wpKc5wbP9xffqxrD4KVnLMqX+CgGzc=; b=oBLI/7Y68swPrmNTkIPY9XP8ga
+        jky8+/4mKTMDibkw5cWxMkPAdqUukhvunlsqUbhl7+eckH47YDvY4C/XkXbU2xgJkfX+wmI+eKkxJ
+        w2PWt+XTvxpNwgzdQBqQSiq9LlEtZ9aODb9fJ/LY7nxNE2jb1RuDrgtN6mVckdcYltEdYPNLVWImq
+        5Z+vSg9xbzCuGdBTOMK9GmGpoHPOBqmgyRreBOdgePKTfwgoO5hoyRw9RHYOwdZ32Wwwde3eOJ/ZV
+        NsxFq/FB4klr7RoL9uOvhdZ5E9981oz02E7G6MPyiqQ6EPBAXdyGJgs2A4WF7/zEP3DlWjBZ3RzQK
+        qpX4wqsQ==;
 Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pQ18A-000LPt-Bf; Thu, 09 Feb 2023 07:14:06 +0000
+        id 1pQ18C-000LPt-Ed; Thu, 09 Feb 2023 07:14:08 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        linux-crypto@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Mukesh Ojha <quic_mojha@quicinc.com>
-Subject: [PATCH 03/24] Documentation: core-api: correct spelling
-Date:   Wed,  8 Feb 2023 23:13:39 -0800
-Message-Id: <20230209071400.31476-4-rdunlap@infradead.org>
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>, live-patching@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 09/24] Documentation: livepatch: correct spelling
+Date:   Wed,  8 Feb 2023 23:13:45 -0800
+Message-Id: <20230209071400.31476-10-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
 References: <20230209071400.31476-1-rdunlap@infradead.org>
@@ -47,43 +47,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/core-api/ as reported
+Correct spelling problems for Documentation/livepatch/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Vladimir Oltean <olteanv@gmail.com>
-Cc: netdev@vger.kernel.org
-Cc: Steffen Klassert <steffen.klassert@secunet.com>
-Cc: Daniel Jordan <daniel.m.jordan@oracle.com>
-Cc: linux-crypto@vger.kernel.org
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Miroslav Benes <mbenes@suse.cz>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: live-patching@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Reviewed-by: Mukesh Ojha <quic_mojha@quicinc.com>
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 ---
- Documentation/core-api/packing.rst |    2 +-
- Documentation/core-api/padata.rst  |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/livepatch/reliable-stacktrace.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff -- a/Documentation/core-api/packing.rst b/Documentation/core-api/packing.rst
---- a/Documentation/core-api/packing.rst
-+++ b/Documentation/core-api/packing.rst
-@@ -161,6 +161,6 @@ xxx_packing() that calls it using the pr
+diff -- a/Documentation/livepatch/reliable-stacktrace.rst b/Documentation/livepatch/reliable-stacktrace.rst
+--- a/Documentation/livepatch/reliable-stacktrace.rst
++++ b/Documentation/livepatch/reliable-stacktrace.rst
+@@ -40,7 +40,7 @@ Principally, the reliable stacktrace fun
+ .. note::
+    In some cases it is legitimate to omit specific functions from the trace,
+    but all other functions must be reported. These cases are described in
+-   futher detail below.
++   further detail below.
  
- The packing() function returns an int-encoded error code, which protects the
- programmer against incorrect API use.  The errors are not expected to occur
--durring runtime, therefore it is reasonable for xxx_packing() to return void
-+during runtime, therefore it is reasonable for xxx_packing() to return void
- and simply swallow those errors. Optionally it can dump stack or print the
- error description.
-diff -- a/Documentation/core-api/padata.rst b/Documentation/core-api/padata.rst
---- a/Documentation/core-api/padata.rst
-+++ b/Documentation/core-api/padata.rst
-@@ -42,7 +42,7 @@ padata_shells associated with it, each a
- Modifying cpumasks
- ------------------
- 
--The CPUs used to run jobs can be changed in two ways, programatically with
-+The CPUs used to run jobs can be changed in two ways, programmatically with
- padata_set_cpumask() or via sysfs.  The former is defined::
- 
-     int padata_set_cpumask(struct padata_instance *pinst, int cpumask_type,
+ Secondly, the reliable stacktrace function must be robust to cases where
+ the stack or other unwind state is corrupt or otherwise unreliable. The
