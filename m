@@ -2,75 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A04C0C05027
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 11:58:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA1E1C05027
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 13:10:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230423AbjBIL6d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 06:58:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58830 "EHLO
+        id S229586AbjBINKh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 08:10:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229592AbjBIL4b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 06:56:31 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6085D170F;
-        Thu,  9 Feb 2023 03:47:06 -0800 (PST)
+        with ESMTP id S229834AbjBINKg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 08:10:36 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4501D93F0;
+        Thu,  9 Feb 2023 05:10:27 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7DDA361A11;
-        Thu,  9 Feb 2023 11:47:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06194C433EF;
-        Thu,  9 Feb 2023 11:47:00 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 7BC4DCE249E;
+        Thu,  9 Feb 2023 13:10:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE6DC433D2;
+        Thu,  9 Feb 2023 13:10:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675943225;
-        bh=/cmWTKP+ZzUuyI0iSgBBz7tpFTNu/+ueErc+Sk9xR1w=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=RMalBmRtOmbCtWIDvIP3YC/FYnD9v0SfWBhVdLZKngqRjqgOzusV+RRkRgBcsInK/
-         L9XGROLwtPYqP2R9hGa9yNVjKPKgLIg2wadGpvbpzZUIaNPdrSu/QIzPp7xTXffYVo
-         6+ctepGtM1QK7mOTsC+qA/wy6ylllYQfHiJB6Y+voR5YoxyRAoX1a8xmvFrla/NIRg
-         EjhP2ouWi6MJFHqwaaqB9pVUod8j4xSQg2dKcviUB8qDSaaYJxiO+4NcXmYnfIlybe
-         BANoUdWiac+B+BZnHf94/JWizWVP/4+NmiAfMZSRYUQiVa1+9y1ibtrIcznA6RHgTf
-         nRuhtg8ge29TA==
-Message-ID: <f51b1a5b-cb61-2ab8-7ca4-9b81a4f43fc6@kernel.org>
-Date:   Thu, 9 Feb 2023 12:46:58 +0100
+        s=k20201202; t=1675948222;
+        bh=4SUmqquqGXJoK6fqr+/rMnpLfSjMEDdKWErLzFfQiqw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IbxJAcxIY5aZSy8WxcV0uALiZbcIvWCMEUPDCaMmQmTjiQVyI8lF/94iQfqQkdCZM
+         PZdv9ca/F5KivfuWiigTuT1SG4/YCVTOKKrjerMnwjdv13ix9huD/Qek9w27t8GKxv
+         /0flF45ld1/3Dwvmb59C8wusQ0kkPeVcdiTwazc73m56FwcDU+91btuUha2TNEBd17
+         sIBgdMUx69bJVjv8jLvPynF3Q0q+WWsdyDNFUw9M4nydY7VZwZ9zLcAjARLixKOl+k
+         V9YQTg4QS7b+ll5deXaGt/mqSV2Tb1PLjcJkpxxw7BJ7Md1ZxYhttiprhhMKhtEUId
+         DBKpdSpSELI1Q==
+Date:   Thu, 9 Feb 2023 15:10:07 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        chinwen.chang@mediatek.com, andrew.yang@mediatek.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-mm@kvack.org
+Subject: Re: [PATCH] mm/doc: Replace isolate_lru_page with folio_isolate_lru
+Message-ID: <Y+Twr+g8PPL3uKhL@kernel.org>
+References: <20230131062853.28449-1-Kuan-Ying.Lee@mediatek.com>
+ <87a61wvtcs.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 21/24] Documentation: trace: correct spelling
-Content-Language: en-US
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-trace-kernel@vger.kernel.org,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Mukesh Ojha <quic_mojha@quicinc.com>
-References: <20230209071400.31476-1-rdunlap@infradead.org>
- <20230209071400.31476-22-rdunlap@infradead.org>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <20230209071400.31476-22-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87a61wvtcs.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/9/23 08:13, Randy Dunlap wrote:
-> --- a/Documentation/trace/hwlat_detector.rst
-> +++ b/Documentation/trace/hwlat_detector.rst
-> @@ -14,7 +14,7 @@ originally written for use by the "RT" p
->  kernel is highly latency sensitive.
->  
->  SMIs are not serviced by the Linux kernel, which means that it does not
-> -even know that they are occuring. SMIs are instead set up by BIOS code
-> +even know that they are occurring. SMIs are instead set up by BIOS code
->  and are serviced by BIOS code, usually for "critical" events such as
->  management of thermal sensors and fans. Sometimes though, SMIs are used for
->  other tasks and those tasks can spend an inordinate amount of time in the
+On Thu, Feb 02, 2023 at 11:02:11AM -0700, Jonathan Corbet wrote:
+> Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com> writes:
+> 
+> > Since we introduce folio, replace isolate_lru_page() with
+> > folio_isolate_lru().
+> >
+> > Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+> > ---
+> >  Documentation/mm/page_migration.rst | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> This seems like a good patch to copy to linux-mm - done now.
+> 
+> The patch perhaps is a closer match to what's in linux-next, but it
+> seems that, if we're going to update this document, we should reflect
+> the use folios throughout?
 
-Acked-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+Most of the current users of migrate_pages() still use isolate_lru_page()
+so I think that updating page_migration.rst to folios is premature.
+But when we do the update it also should include the translations.
+ 
+> Thanks,
+> 
+> jon
+> 
+> > diff --git a/Documentation/mm/page_migration.rst b/Documentation/mm/page_migration.rst
+> > index 11493bad7112..1f8cc175d770 100644
+> > --- a/Documentation/mm/page_migration.rst
+> > +++ b/Documentation/mm/page_migration.rst
+> > @@ -69,8 +69,8 @@ In kernel use of migrate_pages()
+> >  
+> >     Lists of pages to be migrated are generated by scanning over
+> >     pages and moving them into lists. This is done by
+> > -   calling isolate_lru_page().
+> > -   Calling isolate_lru_page() increases the references to the page
+> > +   calling folio_isolate_lru().
+> > +   Calling folio_isolate_lru() increases the references to the page
+> >     so that it cannot vanish while the page migration occurs.
+> >     It also prevents the swapper or other scans from encountering
+> >     the page.
+> > @@ -89,7 +89,7 @@ How migrate_pages() works
+> >  
+> >  migrate_pages() does several passes over its list of pages. A page is moved
+> >  if all references to a page are removable at the time. The page has
+> > -already been removed from the LRU via isolate_lru_page() and the refcount
+> > +already been removed from the LRU via folio_isolate_lru() and the refcount
+> >  is increased so that the page cannot be freed while page migration occurs.
+> >  
+> >  Steps:
+> > -- 
+> > 2.18.0
+> 
 
-Thanks!
--- Daniel
+-- 
+Sincerely yours,
+Mike.
