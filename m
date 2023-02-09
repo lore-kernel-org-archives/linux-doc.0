@@ -2,248 +2,256 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB9EEC636D7
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 16:17:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD3ECC64EC4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 16:56:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230002AbjBIQR4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 11:17:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35170 "EHLO
+        id S229608AbjBIQ4m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 11:56:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229973AbjBIQRx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 11:17:53 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCBC746BA;
-        Thu,  9 Feb 2023 08:17:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675959471; x=1707495471;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=a/E7KSmtv3G539B0tt8tIVjLISlpbH9X9w1Ki9UW8Zk=;
-  b=di7yWCOgvPbsTmyXpdESVGzEY8C13Vv1hQonW5jqaqqIvAM5TJ7GNqVP
-   58Q5LDvj/h9s1TesUpOPj36quXCN1TnlHIaEZv4MknYlOE/n3XvscHj9z
-   lumS9FV/Z9GKh6bE1ekok9pRJnH9H8mfU51YuCpDU+dm5RpA5soPEuI5k
-   UblFEBOUyofegmye1VT8LNIa1EN2a7d5AFMIG6rYOuCwI1qHqRn1IUWD5
-   uzPZ7aDe97wyS8SndaKk090sME+40AEAfK0znT9hp1ODTAElpz9gxZNlO
-   UcrRmbLCG8XEvVqdmILm6HAxJpLb/hJGJoHd7MM6M160L8UMKidIpFZYZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="416370166"
-X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="416370166"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 08:17:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="669628646"
-X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="669628646"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 09 Feb 2023 08:17:48 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pQ9cK-0005AC-08;
-        Thu, 09 Feb 2023 16:17:48 +0000
-Date:   Fri, 10 Feb 2023 00:17:42 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-can@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        alsa-devel@alsa-project.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 20f513df926fac0594a3b65f79d856bd64251861
-Message-ID: <63e51ca6.38vYfMSoflHo1I8c%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229873AbjBIQ4l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 11:56:41 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8D47643E5
+        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 08:56:37 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id v18-20020a17090ae99200b00230f079dcd9so6185087pjy.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Feb 2023 08:56:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O1B0P7kRw0A7INu1hUkCmO2swChbGm7ak1r7O2nw4cg=;
+        b=akGeJBJYTsZpfLpuwHKiDhUMrQmm8DSQi1b5UQd4YNoJMaxQ1z3+Ds1rMzKquS0XNM
+         b77gjLHEkKB1vEyyjBmLbv11nFDzM4Y2ZPa8yGpzRRpC5vzX0noLZB+gc5AM+L/5XdhQ
+         Z1JcU+eieX0oEtZ5GJrLI+8cNAi6/5geW4qvJ2lbmpWl9Hn6HAWw1cWfoKxWZy+ZAZkA
+         TopR1N7Wos7UvMinYLkG9d8DxsLV9Ynu3utVnuDzoygYS1uLERX5NohGwcglMOuQaGwY
+         bnjIiEgbcG/fCh/G+OME0R/CCCkm1Lpojr00P2hGxZR2vCdfR9Hs1g98rjNo60DMTnOb
+         KCLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O1B0P7kRw0A7INu1hUkCmO2swChbGm7ak1r7O2nw4cg=;
+        b=1jCI+ixrIOe01ckaR7zKU0Hpno5fEi3QaTC+GChKsUVwzx1QJcDTal6hptK4ZezzL1
+         il8DvD6x8+0WddoXGBUwMYSpDyptmnx+dvBmuZxGHhNBMMmA6jZFxFb55ZM304dPH3iT
+         /sf9Ac/LG9LYm/vS23bsCE4aWE22BSbn0csiPG/MQtZeSzW25OQziT+F2pG48ut9CxNL
+         fxeH13tIs2oihfxlYqGRPKryLuj+7tfRU128JIlY+DmnpaXZHiTN7nBJQIT6ZR8zKi5m
+         a8440JueHwQApBRHgGWPmjhhqmHfMSSC4RP5Vlnh9oeUNP90zoQ/5equVD/nlqyobI4U
+         pYog==
+X-Gm-Message-State: AO0yUKXmEmHkouG4AySzuHyeiqMJcNahKDiQ+afdphrJNwQL4NtH5ZuT
+        65zbd5gzOl4zgMAHVexrj4jtrA==
+X-Google-Smtp-Source: AK7set+IFIC9LYMc/R+5eflMD1UV/9SFCKBMosB4sENh4YTE84tfbEm6BKrtA0yTtNBZBE2Hh+IVNg==
+X-Received: by 2002:a05:6a21:1105:b0:bc:7bdd:551b with SMTP id oh5-20020a056a21110500b000bc7bdd551bmr9708617pzb.45.1675961796995;
+        Thu, 09 Feb 2023 08:56:36 -0800 (PST)
+Received: from localhost ([135.180.226.51])
+        by smtp.gmail.com with ESMTPSA id bt19-20020a632913000000b004dea53e52desm1544467pgb.27.2023.02.09.08.56.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Feb 2023 08:56:36 -0800 (PST)
+Date:   Thu, 09 Feb 2023 08:56:36 -0800 (PST)
+X-Google-Original-Date: Thu, 09 Feb 2023 08:56:33 PST (-0800)
+Subject:     Re: [PATCH v2 0/6] RISC-V Hardware Probing User Interface
+In-Reply-To: <de7fec14-7c43-6584-db72-b4c3a9f1423a@canonical.com>
+CC:     evan@rivosinc.com, heiko@sntech.de, jszhang@kernel.org,
+        linux-doc@vger.kernel.org, catalin.marinas@arm.com,
+        abrestic@rivosinc.com, Atish Patra <atishp@rivosinc.com>,
+        robh+dt@kernel.org, Conor Dooley <conor.dooley@microchip.com>,
+        coelacanthus@outlook.com, krzysztof.kozlowski+dt@linaro.org,
+        panqinglin2020@iscas.ac.cn, bagasdotme@gmail.com, shuah@kernel.org,
+        linux-riscv@lists.infradead.org, corbet@lwn.net,
+        xianting.tian@linux.alibaba.com, research_trasio@irq.a4lg.com,
+        tklauser@distanz.ch, ajones@ventanamicro.com,
+        devicetree@vger.kernel.org, aou@eecs.berkeley.edu,
+        Arnd Bergmann <arnd@arndb.de>,
+        Vineet Gupta <vineetg@rivosinc.com>, broonie@kernel.org,
+        Paul Walmsley <paul.walmsley@sifive.com>, c141028@gmail.com,
+        apatel@ventanamicro.com, linux-kselftest@vger.kernel.org,
+        slewis@rivosinc.com, rdunlap@infradead.org,
+        linux-kernel@vger.kernel.org, Conor Dooley <conor@kernel.org>,
+        dramforever@live.com, guoren@kernel.org, daolu@rivosinc.com,
+        jrtc27@jrtc27.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     heinrich.schuchardt@canonical.com
+Message-ID: <mhng-3155d460-77a4-4edb-8e26-db4447bce07e@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 20f513df926fac0594a3b65f79d856bd64251861  Add linux-next specific files for 20230209
+On Mon, 06 Feb 2023 14:47:35 PST (-0800), heinrich.schuchardt@canonical.com wrote:
+> On 2/6/23 22:11, Jessica Clarke wrote:
+>> On 6 Feb 2023, at 20:14, Evan Green <evan@rivosinc.com> wrote:
+>>>
+>>>
+>>> These are very much up for discussion, as it's a pretty big new user
+>>> interface and it's quite a bit different from how we've historically
+>>> done things: this isn't just providing an ISA string to userspace, this
+>>> has its own format for providing information to userspace.
+>>>
+>>> There's been a bunch of off-list discussions about this, including at
+>>> Plumbers.  The original plan was to do something involving providing an
+>>> ISA string to userspace, but ISA strings just aren't sufficient for a
+>>> stable ABI any more: in order to parse an ISA string users need the
+>>> version of the specifications that the string is written to, the version
+>>> of each extension (sometimes at a finer granularity than the RISC-V
+>>> releases/versions encode), and the expected use case for the ISA string
+>>> (ie, is it a U-mode or M-mode string).  That's a lot of complexity to
+>>> try and keep ABI compatible and it's probably going to continue to grow,
+>>> as even if there's no more complexity in the specifications we'll have
+>>> to deal with the various ISA string parsing oddities that end up all
+>>> over userspace.
+>>>
+>>> Instead this patch set takes a very different approach and provides a set
+>>> of key/value pairs that encode various bits about the system.  The big
+>>> advantage here is that we can clearly define what these mean so we can
+>>> ensure ABI stability, but it also allows us to encode information that's
+>>> unlikely to ever appear in an ISA string (see the misaligned access
+>>> performance, for example).  The resulting interface looks a lot like
+>>> what arm64 and x86 do, and will hopefully fit well into something like
+>>> ACPI in the future.
+>>>
+>>> The actual user interface is a syscall.  I'm not really sure that's the
+>>> right way to go about this, but it makes for flexible prototying.
+>>> Various other approaches have been talked about like making HWCAP2 a
+>>> pointer, having a VDSO routine, or exposing this via sysfs.  Those seem
+>>> like generally reasonable approaches, but I've yet to figure out a way
+>>> to get the general case working without a syscall as that's the only way
+>>> I've come up with to deal with the heterogenous CPU case.  Happy to hear
+>>> if someone has a better idea, though, as I don't really want to add a
+>>> syscall if we can avoid it.
+>
+> Operating systems tend to reschedule threads moving them between harts.
+> New threads may be created by processes at any time.
+>
+> It is not clear to me what information the syscall shall convey in the
+> heterogeneous case. I see the following alternatives:
+>
+> * The syscall describes the current hart.
+> * The syscall provides individual properties of all harts.
+> * The syscall provides a set of properties that is valid for any hart on
+> which the thread might be scheduled.
+> * The syscall provides a set of properties that is valid for any hart
+> that any thread of the current process might be scheduled to.
+>
+> Describing only the current hart would not be helpful as the thread
+> might be rescheduled to a hart with a smaller set of available extensions.
+>
+> Describing the properties of all harts would not be helpful if the
+> thread has no control to which hart it is scheduled.
+>
+> Processes that don't control scheduling would most benefit from a
+> guaranteed set of properties valid for all threads of the process.
+>
+> Processes that take control of scheduling would probably want
+> information about all harts.
 
-Error/Warning reports:
+There's a cpu_set_t argument.  We tried to answer this via the 
+Documentation patch.  It's just the single sentence
 
-https://lore.kernel.org/oe-kbuild-all/202301302110.mEtNwkBD-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301310939.TAgCOEZb-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302061911.C7xvHX9v-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302062224.ByzeTXh1-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302092211.54EYDhYH-lkp@intel.com
+    The CPU set is defined by CPU_SET(3), the indicated features will be 
+    supported on all CPUs in the set.
 
-Error/Warning: (recently discovered and may have been fixed)
+so maybe it needs beefing up...  Do you mind commenting on the doc diff, 
+if you've got any ideas as to how to word it better?  That way anyone 
+else reviewing the docs will see too.
 
-Documentation/sphinx/templates/kernel-toc.html: 1:36 Invalid token: #}
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-FAILED: load BTF from vmlinux: No data available
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hubbub.c:1011:6: warning: no previous prototype for 'hubbub31_init' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_hubbub.c:948:6: warning: no previous prototype for 'hubbub32_init' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_hubp.c:158:6: warning: no previous prototype for 'hubp32_init' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:62:18: warning: variable 'cursor_bpp' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1296:32: warning: variable 'result_write_min_hblank' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:280:42: warning: variable 'ds_port' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training.c:1586:38: warning: variable 'result' set but not used [-Wunused-but-set-variable]
-drivers/net/can/dev/bittiming.c:145:24: error: too many arguments to function 'can_calc_bittiming'
-ftrace-ops.c:(.init.text+0x2c3): undefined reference to `__udivdi3'
-libbpf: failed to find '.BTF' ELF section in vmlinux
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/tty/serial/8250/8250_dfl.c:63 dfl_uart_get_params() error: uninitialized symbol 'clk_freq'.
-drivers/tty/serial/8250/8250_dfl.c:69 dfl_uart_get_params() error: uninitialized symbol 'fifo_len'.
-drivers/tty/serial/8250/8250_dfl.c:90 dfl_uart_get_params() error: uninitialized symbol 'reg_layout'.
-drivers/usb/gadget/composite.c:2082:33: sparse: sparse: restricted __le16 degrades to integer
-drivers/usb/gadget/function/uvc_configfs.c:537:2-8: preceding lock on line 528
-drivers/usb/gadget/udc/renesas_usbf.c:2284:37: sparse:    left side has type unsigned short
-drivers/usb/gadget/udc/renesas_usbf.c:2284:37: sparse:    right side has type restricted __le16
-drivers/usb/gadget/udc/renesas_usbf.c:2284:37: sparse: sparse: invalid assignment: |=
-drivers/usb/gadget/udc/renesas_usbf.c:2325:31: sparse: sparse: restricted __le16 degrades to integer
-drivers/usb/host/xhci-plat.c:371 xhci_generic_plat_probe() error: we previously assumed 'sysdev' could be null (see line 361)
-sound/firewire/amdtp-stream.c:1187 process_rx_packets() error: uninitialized symbol 'curr_cycle_time'.
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- alpha-randconfig-s043-20230209
-|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm-randconfig-r046-20230209
-|   `-- drivers-net-can-dev-bittiming.c:error:too-many-arguments-to-function-can_calc_bittiming
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn31-dcn31_hubbub.c:warning:no-previous-prototype-for-hubbub31_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubbub.c:warning:no-previous-prototype-for-hubbub32_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubp.c:warning:no-previous-prototype-for-hubp32_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- csky-randconfig-m041-20230209
-|   |-- drivers-usb-host-xhci-plat.c-xhci_generic_plat_probe()-error:we-previously-assumed-sysdev-could-be-null-(see-line-)
-|   `-- sound-firewire-amdtp-stream.c-process_rx_packets()-error:uninitialized-symbol-curr_cycle_time-.
-|-- i386-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn31-dcn31_hubbub.c:warning:no-previous-prototype-for-hubbub31_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubbub.c:warning:no-previous-prototype-for-hubbub32_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubp.c:warning:no-previous-prototype-for-hubp32_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|   `-- ftrace-ops.c:(.init.text):undefined-reference-to-__udivdi3
-|-- i386-randconfig-m021
-|   `-- kernel-trace-trace_events_synth.c-trace_event_raw_event_synth()-warn:inconsistent-indenting
-|-- ia64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- microblaze-randconfig-r013-20230209
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|-- mips-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- nios2-randconfig-c031-20230209
-clang_recent_errors
-`-- s390-randconfig-r022-20230209
-    `-- ERROR:devm_platform_ioremap_resource-drivers-dma-idma64.ko-undefined
-
-elapsed time: 725m
-
-configs tested: 75
-configs skipped: 4
-
-gcc tested configs:
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                            allnoconfig
-arc                                 defconfig
-alpha                               defconfig
-i386                                defconfig
-s390                             allmodconfig
-s390                                defconfig
-i386                          randconfig-a001
-i386                          randconfig-a003
-s390                             allyesconfig
-x86_64                        randconfig-a004
-i386                             allyesconfig
-x86_64                        randconfig-a002
-x86_64                              defconfig
-arm                                 defconfig
-arm                           u8500_defconfig
-i386                          randconfig-a005
-nios2                               defconfig
-powerpc                           allnoconfig
-x86_64                          rhel-8.3-func
-powerpc                          allmodconfig
-x86_64                        randconfig-a013
-x86_64                    rhel-8.3-kselftests
-x86_64                               rhel-8.3
-x86_64                           rhel-8.3-bpf
-parisc                generic-64bit_defconfig
-x86_64                        randconfig-a006
-mips                             allyesconfig
-riscv             nommu_k210_sdcard_defconfig
-x86_64                           rhel-8.3-syz
-powerpc                  storcenter_defconfig
-sh                               allmodconfig
-powerpc                      pcm030_defconfig
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-arc                  randconfig-r043-20230209
-ia64                             allmodconfig
-arm                  randconfig-r046-20230209
-x86_64                        randconfig-a011
-m68k                             allmodconfig
-x86_64                        randconfig-a015
-alpha                            allyesconfig
-x86_64                           allyesconfig
-m68k                             allyesconfig
-arm                              allyesconfig
-arc                              allyesconfig
-arm64                            allyesconfig
-i386                          randconfig-a014
-sh                   sh7724_generic_defconfig
-sh                        edosk7760_defconfig
-sh                        sh7785lcr_defconfig
-xtensa                          iss_defconfig
-sh                          landisk_defconfig
-sh                         microdev_defconfig
-mips                         cobalt_defconfig
-sh                          rsk7269_defconfig
-
-clang tested configs:
-x86_64                          rhel-8.3-rust
-i386                          randconfig-a002
-i386                          randconfig-a006
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-i386                          randconfig-a004
-x86_64                        randconfig-a016
-x86_64                        randconfig-a003
-hexagon              randconfig-r041-20230209
-hexagon              randconfig-r045-20230209
-x86_64                        randconfig-a012
-s390                 randconfig-r044-20230209
-x86_64                        randconfig-a014
-riscv                randconfig-r042-20230209
-i386                          randconfig-a013
-powerpc                   bluestone_defconfig
-mips                      pic32mzda_defconfig
-powerpc                      ppc64e_defconfig
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> Best regards
+>
+> Heinrich
+>
+>>
+>> Please work with https://github.com/riscv-non-isa/riscv-c-api-doc as
+>> it’s crucial we have a portable standard interface for applications to
+>> query this information that works on OSes other than Linux. This can be
+>> backed by whatever you want, whether a syscall, magic VDSO thing,
+>> sysfs, etc, but it’s key that the exposed interface outside of libc is
+>> not Linux-specific otherwise we’re going to get fragmentation in this
+>> space.
+>>
+>> I would encourage figuring out the right shape for the exposed
+>> interface first before continuing to refine details of how that
+>> information gets communicated between the kernel and libc.
+>>
+>> Jess
+>>
+>>> An example series in glibc exposing this syscall and using it in an
+>>> ifunc selector for memcpy can be found at [1].
+>>>
+>>> [1] https://public-inbox.org/libc-alpha/20230206194819.1679472-1-evan@rivosinc.com/T/#t
+>>>
+>>> Changes in v2:
+>>> - Changed the interface to look more like poll(). Rather than supplying
+>>>    key_offset and getting back an array of values with numerically
+>>>    contiguous keys, have the user pre-fill the key members of the array,
+>>>    and the kernel will fill in the corresponding values. For any key it
+>>>    doesn't recognize, it will set the key of that element to -1. This
+>>>    allows usermode to quickly ask for exactly the elements it cares
+>>>    about, and not get bogged down in a back and forth about newer keys
+>>>    that older kernels might not recognize. In other words, the kernel
+>>>    can communicate that it doesn't recognize some of the keys while
+>>>    still providing the data for the keys it does know.
+>>> - Added a shortcut to the cpuset parameters that if a size of 0 and
+>>>    NULL is provided for the CPU set, the kernel will use a cpu mask of
+>>>    all online CPUs. This is convenient because I suspect most callers
+>>>    will only want to act on a feature if it's supported on all CPUs, and
+>>>    it's a headache to dynamically allocate an array of all 1s, not to
+>>>    mention a waste to have the kernel loop over all of the offline bits.
+>>> - Fixed logic error in if(of_property_read_string...) that caused crash
+>>> - Include cpufeature.h in cpufeature.h to avoid undeclared variable
+>>>    warning.
+>>> - Added a _MASK define
+>>> - Fix random checkpatch complaints
+>>> - Updated the selftests to the new API and added some more.
+>>> - Fixed indentation, comments in .S, and general checkpatch complaints.
+>>>
+>>> Evan Green (4):
+>>>   RISC-V: Move struct riscv_cpuinfo to new header
+>>>   RISC-V: Add a syscall for HW probing
+>>>   RISC-V: hwprobe: Support probing of misaligned access performance
+>>>   selftests: Test the new RISC-V hwprobe interface
+>>>
+>>> Palmer Dabbelt (2):
+>>>   RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
+>>>   dt-bindings: Add RISC-V misaligned access performance
+>>>
+>>> .../devicetree/bindings/riscv/cpus.yaml       |  15 ++
+>>> Documentation/riscv/hwprobe.rst               |  66 ++++++
+>>> Documentation/riscv/index.rst                 |   1 +
+>>> arch/riscv/include/asm/cpufeature.h           |  23 +++
+>>> arch/riscv/include/asm/hwprobe.h              |  13 ++
+>>> arch/riscv/include/asm/smp.h                  |   9 +
+>>> arch/riscv/include/asm/syscall.h              |   3 +
+>>> arch/riscv/include/uapi/asm/hwprobe.h         |  35 ++++
+>>> arch/riscv/include/uapi/asm/unistd.h          |   8 +
+>>> arch/riscv/kernel/cpu.c                       |  11 +-
+>>> arch/riscv/kernel/cpufeature.c                |  31 ++-
+>>> arch/riscv/kernel/sys_riscv.c                 | 192 +++++++++++++++++-
+>>> tools/testing/selftests/Makefile              |   1 +
+>>> tools/testing/selftests/riscv/Makefile        |  58 ++++++
+>>> .../testing/selftests/riscv/hwprobe/Makefile  |  10 +
+>>> .../testing/selftests/riscv/hwprobe/hwprobe.c |  89 ++++++++
+>>> .../selftests/riscv/hwprobe/sys_hwprobe.S     |  12 ++
+>>> tools/testing/selftests/riscv/libc.S          |  46 +++++
+>>> 18 files changed, 613 insertions(+), 10 deletions(-)
+>>> create mode 100644 Documentation/riscv/hwprobe.rst
+>>> create mode 100644 arch/riscv/include/asm/cpufeature.h
+>>> create mode 100644 arch/riscv/include/asm/hwprobe.h
+>>> create mode 100644 arch/riscv/include/uapi/asm/hwprobe.h
+>>> create mode 100644 tools/testing/selftests/riscv/Makefile
+>>> create mode 100644 tools/testing/selftests/riscv/hwprobe/Makefile
+>>> create mode 100644 tools/testing/selftests/riscv/hwprobe/hwprobe.c
+>>> create mode 100644 tools/testing/selftests/riscv/hwprobe/sys_hwprobe.S
+>>> create mode 100644 tools/testing/selftests/riscv/libc.S
+>>>
+>>> --
+>>> 2.25.1
+>>>
+>>>
+>>> _______________________________________________
+>>> linux-riscv mailing list
+>>> linux-riscv@lists.infradead.org
+>>> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>>
