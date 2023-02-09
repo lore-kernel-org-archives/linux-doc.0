@@ -2,40 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A9AAC64EC5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F7AC636D7
 	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229847AbjBIHOY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S229863AbjBIHOY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 9 Feb 2023 02:14:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48742 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229761AbjBIHOL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:11 -0500
+        with ESMTP id S229801AbjBIHON (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:13 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86DDC402CD;
-        Wed,  8 Feb 2023 23:14:09 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC2693EFF9;
+        Wed,  8 Feb 2023 23:14:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=DZse1eO7oh50AhzLCdDhk7R2KKKuFFm0FSMJlqDIjNo=; b=FaLQ42M4IGdTWYvmzCAOHEBE0e
-        5tyzmf6E21PNOPHpBkjqbMp4BmpOWb3KOD1rZ8KAqER/qjChwOhC7ZTer/0iBQ38ARTBurG8qom8E
-        O3o/CEtui+sK03MrZhODX2mhyGgsc+gFn/8WbeHERXqxPxJD03GieKTFPBMTsFO7DARyin17xcfoO
-        E9XYjFTFpgQ570uO6uEB3weO34Yt0p67jb2elAskDyGMc1y2f19CnuuuMPF8UVh+jEBaM0eaa70vO
-        apIKYb5MMaGDJdEPgOei4Xc8gTqR86I+37ldXcZuk2xDCRgCPtYfzqRQPshMBt1YSPxipTGshxGnP
-        eKR1f1xQ==;
+        bh=p2B+Zdq4U49rLYu84/NTGAjEl2MB0ddOAhuj34qTL7c=; b=aP5v4lCpy3z/oH1tdkSZMR2eae
+        KZivTs6+Vn5Kov0r5ZaV8ZnJk3NLPEFSt369nOHQL4sD8LGB8rAsvgQhoTz8vNKJbKrvyNjP52q0K
+        lZBWhVl3azxlBolsQ/rcUsRQ7WvlEOZvzVurySVocPK8b2YxokZIOggeUvbaMcMVgUMf+0UoIh27Q
+        INkGsP7fQ5XPd6+0i2ZzSqOPmI+hlePGGIT0zQGIOfvqPKY8BSzR+ADeclF4dIYEKLLRerVCx9ugd
+        PcgDLty32/d1pPLvYvReRuUBdCCW/hCsmFnkMv4vTLVpTOu3MDHlmrsZOCqhUQOQDI9b03CHy0NpL
+        adHTBJ0Q==;
 Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pQ18C-000LPt-QP; Thu, 09 Feb 2023 07:14:08 +0000
+        id 1pQ18G-000LPt-FX; Thu, 09 Feb 2023 07:14:12 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-trace-devel@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 10/24] Documentation: locking: correct spelling
-Date:   Wed,  8 Feb 2023 23:13:46 -0800
-Message-Id: <20230209071400.31476-11-rdunlap@infradead.org>
+Subject: [PATCH 19/24] Documentation: tools/rtla: correct spelling
+Date:   Wed,  8 Feb 2023 23:13:55 -0800
+Message-Id: <20230209071400.31476-20-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
 References: <20230209071400.31476-1-rdunlap@infradead.org>
@@ -45,76 +46,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/locking/ as reported
+Correct spelling problems for Documentation/tools/rtla/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Will Deacon <will@kernel.org>
+Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-trace-devel@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
+Acked-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 ---
- Documentation/locking/lockdep-design.rst  |    4 ++--
- Documentation/locking/locktorture.rst     |    2 +-
- Documentation/locking/locktypes.rst       |    2 +-
- Documentation/locking/preempt-locking.rst |    2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ Documentation/tools/rtla/rtla-timerlat-top.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff -- a/Documentation/locking/lockdep-design.rst b/Documentation/locking/lockdep-design.rst
---- a/Documentation/locking/lockdep-design.rst
-+++ b/Documentation/locking/lockdep-design.rst
-@@ -29,7 +29,7 @@ the validator will shoot a splat if inco
- A lock-class's behavior is constructed by its instances collectively:
- when the first instance of a lock-class is used after bootup the class
- gets registered, then all (subsequent) instances will be mapped to the
--class and hence their usages and dependecies will contribute to those of
-+class and hence their usages and dependencies will contribute to those of
- the class. A lock-class does not go away when a lock instance does, but
- it can be removed if the memory space of the lock class (static or
- dynamic) is reclaimed, this happens for example when a module is
-@@ -105,7 +105,7 @@ exact case is for the lock as of the rep
-   +--------------+-------------+--------------+
+diff -- a/Documentation/tools/rtla/rtla-timerlat-top.rst b/Documentation/tools/rtla/rtla-timerlat-top.rst
+--- a/Documentation/tools/rtla/rtla-timerlat-top.rst
++++ b/Documentation/tools/rtla/rtla-timerlat-top.rst
+@@ -128,7 +128,7 @@ and then when the *timerlat* thread was
+ then be used as the starting point of a more fine-grained analysis.
  
- The character '-' suggests irq is disabled because if otherwise the
--charactor '?' would have been shown instead. Similar deduction can be
-+character '?' would have been shown instead. Similar deduction can be
- applied for '+' too.
- 
- Unused locks (e.g., mutexes) cannot be part of the cause of an error.
-diff -- a/Documentation/locking/locktorture.rst b/Documentation/locking/locktorture.rst
---- a/Documentation/locking/locktorture.rst
-+++ b/Documentation/locking/locktorture.rst
-@@ -113,7 +113,7 @@ stutter
- 		  without pausing.
- 
- shuffle_interval
--		  The number of seconds to keep the test threads affinitied
-+		  The number of seconds to keep the test threads affined
- 		  to a particular subset of the CPUs, defaults to 3 seconds.
- 		  Used in conjunction with test_no_idle_hz.
- 
-diff -- a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
---- a/Documentation/locking/locktypes.rst
-+++ b/Documentation/locking/locktypes.rst
-@@ -500,7 +500,7 @@ caveats also apply to bit spinlocks.
- Some bit spinlocks are replaced with regular spinlock_t for PREEMPT_RT
- using conditional (#ifdef'ed) code changes at the usage site.  In contrast,
- usage-site changes are not needed for the spinlock_t substitution.
--Instead, conditionals in header files and the core locking implemementation
-+Instead, conditionals in header files and the core locking implementation
- enable the compiler to do the substitution transparently.
- 
- 
-diff -- a/Documentation/locking/preempt-locking.rst b/Documentation/locking/preempt-locking.rst
---- a/Documentation/locking/preempt-locking.rst
-+++ b/Documentation/locking/preempt-locking.rst
-@@ -114,7 +114,7 @@ critical variables.  Another example::
- 
- 	int buf[NR_CPUS];
- 	set_cpu_val(buf);
--	if (buf[smp_processor_id()] == -1) printf(KERN_INFO "wee!\n");
-+	if (buf[smp_processor_id()] == -1) printf(KERN_INFO "whee!\n");
- 	spin_lock(&buf_lock);
- 	/* ... */
+ Note that **rtla timerlat** was dispatched without changing *timerlat* tracer
+-threads' priority. That is generally not needed because these threads hava
++threads' priority. That is generally not needed because these threads have
+ priority *FIFO:95* by default, which is a common priority used by real-time
+ kernel developers to analyze scheduling delays.
  
