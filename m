@@ -2,98 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73FB9C6379F
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 20:13:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F527C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 20:29:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbjBIUN2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 15:13:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57516 "EHLO
+        id S229615AbjBIU3w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 15:29:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbjBIUN1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 15:13:27 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8591E2D171;
-        Thu,  9 Feb 2023 12:13:26 -0800 (PST)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 319K2GAk015494;
-        Thu, 9 Feb 2023 20:13:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=vcJjJdk6QEX8L6WsXwfTpKjSPrRPcFjdQt2YkY9eoko=;
- b=LokNXZptfpDFziM/NpqWppV32MINQ4fMvfjKavWNWYr+XiDMDKPYqgI0Idz1Vq0SSi7b
- 4IO9XsttsxOBVulJagvWqhaUhKbYRcUEVKpg4A7P0UMtXxyUjyi+zq8XGE6ue3sjtouV
- 9s1GwYSa4QUlm7WcqGCz7MBT3vhZ4PXF/ZS3N18QS5jSg7gq+iX9vn9Ozam/anNy5vYO
- Is5+/Yh/hrQkluUCqvSo33pxPY6XH4dENUcJxZRfNHOs8t9tzfOb8sVoAZryNMxrxRne
- 7VlTDJiATEwTOrQf2JkRs5ufKVL0YOf1+mWGSG7aeWSJbjwmxYMXP0RinUbM8gwoeZhj 4g== 
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nn7h1rkmk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 09 Feb 2023 20:13:22 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
-        by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 319E2mij005567;
-        Thu, 9 Feb 2023 20:13:20 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-        by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3nhf06mqk8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 09 Feb 2023 20:13:20 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 319KDHs525887082
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 9 Feb 2023 20:13:17 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 012E520043;
-        Thu,  9 Feb 2023 20:13:17 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7B2D120040;
-        Thu,  9 Feb 2023 20:13:16 +0000 (GMT)
-Received: from osiris (unknown [9.179.10.102])
-        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-        Thu,  9 Feb 2023 20:13:16 +0000 (GMT)
-Date:   Thu, 9 Feb 2023 21:13:14 +0100
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        linux-s390@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 15/24] Documentation: s390: correct spelling
-Message-ID: <Y+VT2o85uX3D1M2J@osiris>
-References: <20230209071400.31476-1-rdunlap@infradead.org>
- <20230209071400.31476-16-rdunlap@infradead.org>
+        with ESMTP id S229997AbjBIU3v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 15:29:51 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF4B60E48;
+        Thu,  9 Feb 2023 12:29:50 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id r18so2314036wmq.5;
+        Thu, 09 Feb 2023 12:29:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UPNm/W8PxgUL4xA1OhKhmSLOAIkT0NcEWitFuUcmvyc=;
+        b=a7jCGjxK1TaQ77zgVNdaka8cXhi13O0lXMRvjtPkN+vs4AFnlasSrf+xqSJBq3u+L+
+         7U8/lzl2266P1sDVqe279149XZeKK/BiInJNIzOdeGij1tPGeTqCh+ZADzqFNqrLkEAC
+         W7MblnEj7EABNPfUP4qv2Xsch3FSQTydYX1aiKPwcAYOkbU44aSCI90EIsGs4Tv+1GTt
+         nvhnhPRgZO1wsM4S68IAhIXhAvSg69B+d3snDMyyz6k7h5xXNxZ+gAPqapfB4AnW+t/1
+         jxviJEviLqCCDGc4X5t/mz0vguppWIqnP9OX2z/P4TAG74uJQlBi5wx+zet1TXoZ2AdT
+         rFPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UPNm/W8PxgUL4xA1OhKhmSLOAIkT0NcEWitFuUcmvyc=;
+        b=IQ/DOgoLt1zpaBqgaeIpZ2Qs+spNLUG8KrIrMBkwpGazG1IMRz82nZ17vtbsz6ITgV
+         CouwuyZGhgh5DXaU8167yH7PKzmrNlfQFAw0+Hf9iN57Th7v21EejP+F7ujjSDEa6OYk
+         ROoqsAEvJIBR6l4WjV5uVJZv2OwOUHspVe5QgX3ODn7PyXxXys/oMr04RPf/HNXdGJjv
+         l25HyvTyvjRXv/wWZ8sW0F65idQccJbHyKpJ0UQuQULOCE55wLmMUXaGQOf3BGjW0qsy
+         o5wwbkZaz8s24zZOzIzL4n6yjS6uhL/cc0iUQ1l7m/PVz3y/9+Ki5JV7Tbngf3iDhBLl
+         CJQw==
+X-Gm-Message-State: AO0yUKX6XxsvgzizZsKxHzF5/J0Lif/xc3YSk4qzFIBM/sFO0P94ECwe
+        lGawjzZVOjNZlplLzSI1HuS/CmsmCVJZNgXF5jk=
+X-Google-Smtp-Source: AK7set8njhHhob1wZuTEaL4q0IK6UrzYb8Xm6VLSwMy3bPjJqee8WncwiAspTPyeEeorDchMroBvoM9L0gHqjLmsj/s=
+X-Received: by 2002:a05:600c:45c6:b0:3da:fef7:218 with SMTP id
+ s6-20020a05600c45c600b003dafef70218mr660225wmo.94.1675974588963; Thu, 09 Feb
+ 2023 12:29:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230209071400.31476-16-rdunlap@infradead.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: BshR2xYXG0EXcDiuKKPCNJaI3Ow8LsdG
-X-Proofpoint-GUID: BshR2xYXG0EXcDiuKKPCNJaI3Ow8LsdG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-09_15,2023-02-09_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 impostorscore=0 mlxscore=0 malwarescore=0 spamscore=0
- phishscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=484 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302090186
+References: <20230131144458.1980891-1-gregory.price@memverge.com> <20230131144458.1980891-2-gregory.price@memverge.com>
+In-Reply-To: <20230131144458.1980891-2-gregory.price@memverge.com>
+From:   Andrei Vagin <avagin@gmail.com>
+Date:   Thu, 9 Feb 2023 12:29:37 -0800
+Message-ID: <CANaxB-zzbyQmj=o8tkRAgS6hCXr4JTuQTDMEsC5pj88JTgrLfg@mail.gmail.com>
+Subject: Re: [PATCH v8 1/1] ptrace,syscall_user_dispatch: checkpoint/restore
+ support for SUD
+To:     Gregory Price <gourry.memverge@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        oleg@redhat.com, peterz@infradead.org, luto@kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 08, 2023 at 11:13:51PM -0800, Randy Dunlap wrote:
-> Correct spelling problems for Documentation/s390/ as reported
-> by codespell.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Heiko Carstens <hca@linux.ibm.com>
-> Cc: Vasily Gorbik <gor@linux.ibm.com>
-> Cc: Alexander Gordeev <agordeev@linux.ibm.com>
-> Cc: linux-s390@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Acked-by: Heiko Carstens <hca@linux.ibm.com>
-> ---
->  Documentation/s390/pci.rst      |    4 ++--
->  Documentation/s390/vfio-ccw.rst |    2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+On Tue, Jan 31, 2023 at 7:30 AM Gregory Price <gourry.memverge@gmail.com> wrote:
+>
+> Implement ptrace getter/setter interface for syscall user dispatch.
+>
+> These prctl settings are presently write-only, making it impossible to
+> implement transparent checkpoint/restore via software like CRIU.
+>
+> 'on_dispatch' field is not exposed because it is a kernel-internal
+> only field that cannot be 'true' when returning to userland.
+>
 
-Applied, thanks.
+Acked-by: Andrei Vagin <avagin@gmail.com>
+
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
+
+<snip>
+
+> diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
+> index 195ae64a8c87..6d2f3b86f932 100644
+> --- a/include/uapi/linux/ptrace.h
+> +++ b/include/uapi/linux/ptrace.h
+> @@ -112,6 +112,15 @@ struct ptrace_rseq_configuration {
+>         __u32 pad;
+>  };
+>
+> +#define PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG 0x4210
+> +#define PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG 0x4211
+> +struct syscall_user_dispatch_config {
+
+nit: all structures in this header have the ptrace prefix. I think it
+is better to add it to this one too.
+
+> +       __u64 mode;
+> +       __s8 *selector;
+> +       __u64 offset;
+> +       __u64 len;
+> +};
+> +
+>  /*
+>   * These values are stored in task->ptrace_message
+>   * by ptrace_stop to describe the current syscall-stop.
