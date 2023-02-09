@@ -2,115 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE04C636D3
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 19:09:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B95A7C636D6
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 19:20:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229563AbjBITJk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 14:09:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42072 "EHLO
+        id S230050AbjBITUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 14:20:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbjBITJj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 14:09:39 -0500
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27F79658F6;
-        Thu,  9 Feb 2023 11:09:37 -0800 (PST)
-Received: by mail-pl1-f180.google.com with SMTP id u9so3936943plr.9;
-        Thu, 09 Feb 2023 11:09:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=03jnNn8D8Zd31Z8vK5q3T/UQbdP/Vod7or8RrPZ1S6g=;
-        b=xRROc2r07tsoL1eDQm7RaIOlFyYGNocmlEK1pie6GJxSFOAzT+HG/vTghej6w8HuMn
-         G1JJ6BVUdhU3CqClALRwxmQiS4LK/3BdOfmpM5fRStOBqiaJpK5ubL0X5oXHz5mMLmjP
-         SndGYYzVPlzW4M3MrpzaDqk2Vw1kXIZIE9QH98AfVGkxD9T1bY+L9npL/ebNcv9ntZ4k
-         AjHjHX4nJofhJ/dEWmO07tUVdzx4vxYZmn0bnY8qKKaaA6+YANtA3JzlUn+skL1PrCW1
-         lPruQ+Fqhh8K59I6vazK+C6TYdZPrDDKSoWYDT+mm5fxonZ3DhTXMy8gKjXJMbRu84WF
-         k2EA==
-X-Gm-Message-State: AO0yUKUalmO9lv3wTRCdCJG2izYSsmuAsb8GnOKE2x7bWEMzlGspPcjr
-        Qzs89fN9yjrNWQ080vpmHMCKreVLrhM=
-X-Google-Smtp-Source: AK7set9V8EYWT/iJLRXzBb9vqHUdZJNLRLMQ+tsi+3G8JKvcD91PpjY19v5/M1blxF+vYQ5PeyuYcw==
-X-Received: by 2002:a05:6a21:6716:b0:bc:6e88:7f58 with SMTP id wh22-20020a056a21671600b000bc6e887f58mr9158372pzb.51.1675969776553;
-        Thu, 09 Feb 2023 11:09:36 -0800 (PST)
-Received: from ?IPV6:2620:15c:211:201:15f5:48f5:6861:f3f6? ([2620:15c:211:201:15f5:48f5:6861:f3f6])
-        by smtp.gmail.com with ESMTPSA id g9-20020a633749000000b004db367c10b0sm1614705pgn.46.2023.02.09.11.09.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Feb 2023 11:09:35 -0800 (PST)
-Message-ID: <55a065e7-7d86-d58f-15ba-c631a427843e@acm.org>
-Date:   Thu, 9 Feb 2023 11:09:33 -0800
+        with ESMTP id S229772AbjBITUS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 14:20:18 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC3AB458A1;
+        Thu,  9 Feb 2023 11:20:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 476CD61BA0;
+        Thu,  9 Feb 2023 19:20:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27BDCC4339C;
+        Thu,  9 Feb 2023 19:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675970415;
+        bh=x39PRc/T046lvvssIPKrbvAhJnKd48hEXRslXo6G51Q=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=GzFX5MPfuSPK29Lom5JhsbHaaPcgjVVf1YkoJfatDQvxT5JmnDvRrVYrsiJRGiXTK
+         L2Pe4kmbM4k/370TpVO1iWj1l5UpsBTyojfgcZice2Ge5QrYw5xcSt9xvsFixlggAT
+         01IJkraGTY4i3MaiKeoiBoklVgJwQqvr8lALW54YozE9TnHdqgC77AbXHHlGtEUH5k
+         ig1KK8mmIgy5hjL/Rpehj3X6amPuwwYe2gV1NClvixj/EL1PV6LanqN4qivaSBtGmy
+         kUJp6CL33PK925drX8e4s92T8z+AfPtOpzjgRBJhQgT1lwJzPyb+0i9jP/jaKTJysf
+         dSNNcCw/cXYbQ==
+From:   SeongJae Park <sj@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        damon@lists.linux.dev, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] Docs/admin-guide/mm/damon/usage: add DAMON debugfs interface deprecation notice
+Date:   Thu,  9 Feb 2023 19:20:07 +0000
+Message-Id: <20230209192009.7885-2-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230209192009.7885-1-sj@kernel.org>
+References: <20230209192009.7885-1-sj@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] blk-ioprio: Introduce promote-to-rt policy
-Content-Language: en-US
-To:     Jan Kara <jack@suse.cz>
-Cc:     Hou Tao <houtao@huaweicloud.com>, linux-block@vger.kernel.org,
-        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-References: <20230201045227.2203123-1-houtao@huaweicloud.com>
- <8c068af3-7199-11cf-5c69-a523c7c22d9a@acm.org>
- <4f7dcb3e-2d5a-cae3-0e1c-a82bcc3d2217@huaweicloud.com>
- <b6b3c498-e90b-7d1f-6ad5-a31334e433ae@acm.org>
- <beb7782e-72a4-c350-3750-23a767c88753@huaweicloud.com>
- <aedc240d-7c9e-248a-52d2-c9775f3e8ca1@acm.org>
- <20230208134345.77bdep3kzp52haxu@quack3>
- <7fcd4c38-ccbe-6411-e424-a57595ad9c0b@acm.org>
- <20230209085603.dzqfcc3pp4hacqlz@quack3>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20230209085603.dzqfcc3pp4hacqlz@quack3>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/9/23 00:56, Jan Kara wrote:
-> On Wed 08-02-23 09:53:41, Bart Van Assche wrote:
->> The test results I shared some time ago show that IOPRIO_CLASS_NONE was the
->> default I/O priority two years ago (see also https://lore.kernel.org/linux-block/20210927220328.1410161-5-bvanassche@acm.org/).
->> The none-to-rt policy increases the priority of bio's that have not been
->> assigned an I/O priority to RT. Does this answer your question?
-> 
-> Not quite. I know that historically we didn't set bio I/O priority in some
-> paths (but we did set it in other paths such as some (but not all) direct
-> IO implementations). But that was exactly a mess because how none-to-rt
-> actually behaved depended on the exact details of the kernel internal IO
-> path.  So my question is: Was none-to-rt actually just a misnomer and the
-> intended behavior was "always override to RT"? Or what was exactly the
-> expectation around when IO priority is not set and should be overridden?
-> 
-> How should it interact with AIO submissions with IOCB_FLAG_IOPRIO? How
-> should it interact with task having its IO priority modified with
-> ioprio_set(2)? And what if task has its normal scheduling priority modified
-> but that translates into different IO priority (which happens in
-> __get_task_ioprio())?
-> 
-> So I think that none-to-rt is just poorly defined and if we can just get
-> rid of it (or redefine to promote-to-rt), that would be good. But maybe I'm
-> missing some intended usecase...
+DAMON debugfs interface has announced to be deprecated after >v5.15 LTS
+kernel is released.  And, v6.1.y has announced to be an LTS[1].
 
-Hi Jan,
+Though the announcement was there for a while, some people might not
+noticed that so far.  Also, some users could depend on it and have
+problems at  movng to the alternative (DAMON sysfs interface).
 
-We have no plans to use the ioprio_set() system call since it only 
-affects foreground I/O and not page cache writeback.
+For such cases, note DAMON debugfs interface as deprecated, and contacts
+to ask helps on the document.
 
-While Android supports io_uring, there are no plans to support libaio in 
-the Android C library (Bionic).
+[1] https://git.kernel.org/pub/scm/docs/kernel/website.git/commit/?id=332e9121320bc7461b2d3a79665caf153e51732c
 
-Regarding __get_task_ioprio(), I haven't found any code in that function 
-that derives an I/O priority from the scheduling priority. Did I perhaps 
-overlook something?
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/admin-guide/mm/damon/usage.rst | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-Until recently "none-to-rt" meant "if no I/O priority has been assigned 
-to a task, use IOPRIO_CLASS_RT". Promoting the I/O priority to 
-IOPRIO_CLASS_RT works for us. I'm fine with changing the meaning of 
-"none-to-rt" into promoting the I/O priority class to RT. Introducing 
-"promote-to-rt" as a synonym of "none-to-rt" is also fine with me.
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index 9237d6a25897..9b823fec974d 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -25,10 +25,12 @@ DAMON provides below interfaces for different users.
+   interface provides only simple :ref:`statistics <damos_stats>` for the
+   monitoring results.  For detailed monitoring results, DAMON provides a
+   :ref:`tracepoint <tracepoint>`.
+-- *debugfs interface.*
++- *debugfs interface. (DEPRECATED!)*
+   :ref:`This <debugfs_interface>` is almost identical to :ref:`sysfs interface
+-  <sysfs_interface>`.  This will be removed after next LTS kernel is released,
+-  so users should move to the :ref:`sysfs interface <sysfs_interface>`.
++  <sysfs_interface>`.  This is deprecated, so users should move to the
++  :ref:`sysfs interface <sysfs_interface>`.  If you depend on this and cannot
++  move, please report your usecase to damon@lists.linux.dev and
++  linux-mm@kvack.org.
+ - *Kernel Space Programming Interface.*
+   :doc:`This </mm/damon/api>` is for kernel space programmers.  Using this,
+   users can utilize every feature of DAMON most flexibly and efficiently by
+@@ -487,13 +489,17 @@ the files as above.  Above is only for an example.
+ 
+ .. _debugfs_interface:
+ 
+-debugfs Interface
+-=================
++debugfs Interface (DEPRECATED!)
++===============================
+ 
+ .. note::
+ 
+-  DAMON debugfs interface will be removed after next LTS kernel is released, so
+-  users should move to the :ref:`sysfs interface <sysfs_interface>`.
++  THIS IS DEPRECATED!
++
++  DAMON debugfs interface is deprecated, so users should move to the
++  :ref:`sysfs interface <sysfs_interface>`.  If you depend on this and cannot
++  move, please report your usecase to damon@lists.linux.dev and
++  linux-mm@kvack.org.
+ 
+ DAMON exports eight files, ``attrs``, ``target_ids``, ``init_regions``,
+ ``schemes``, ``monitor_on``, ``kdamond_pid``, ``mk_contexts`` and
+-- 
+2.25.1
 
-Thanks,
-
-Bart.
