@@ -2,42 +2,39 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C0A4C636D4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C13A7C6379F
 	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbjBIHO2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 02:14:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49008 "EHLO
+        id S229892AbjBIHO3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 02:14:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229743AbjBIHOR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:17 -0500
+        with ESMTP id S229817AbjBIHOS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:18 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E4E941B59;
-        Wed,  8 Feb 2023 23:14:13 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B8DE42DC3;
+        Wed,  8 Feb 2023 23:14:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=6J6Vi0RCPyxDfoC5MKQ9vw5ZM3fRcONntqTYKAAIxtY=; b=MvwvEZsirKM/I/dyhH+WFKvr4+
-        FViBVyHS9zq6J3Klexs+0Hy3zOcjD6WezsmmhPNWeOagMsjtKQ6B4LRUm0exZbzPjh0MXoicb2R1p
-        E3gQWIwuQjhjg0EnbJYH+BCK70jQmC4uda2dZ8QtfPMXiI0LqL7KjjTxnFFbv4ybr+1RpXNMR72eX
-        mKccsJXVvDb/33c5pzdsIAsflLVXG3N3bIKiEb5kT6nXzNJGgQ/9r1l3kG1THPkkK71fXCACyJFG5
-        5RIHfDVLWGDEaIiCF/7Xu00VHJatsjcsfuVOAuNIexKuw1k5AvVPnJJ268/OfO1UNd1w13ld83qHK
-        so4B4ouQ==;
+        bh=cA6T2rGcZFPoEfN/pA7j1nNyVL8luA41tT+PQdfQNSw=; b=glspwakfg3lVrv7o1+tlR7eeA4
+        JHP/FJCIsFLaz7ws31ySywQprT4jfKVzHeiWiYNeOa/vIkU7pwOJW0xgWPWYo/ksT5Y0myoTYw5ka
+        iYXigYRy2KXtgf3glib3drPeuAG7jEP8uwmiWZehV3NzUJkTllE1eR7kbu1Fh7u63ReWDGz0BCHqV
+        B7qc5ZjnqbNnUtdCTpMEAqbh48uowp4OZqFBSZHXFt49xqtawnqIBVsxtBv5QcXlyTgZfLCk7TMzR
+        wOjok9j+I4OzEj7vLQK6YulbPg8vElaAntn/TQFLMvO2oBdBELYfnhKG9Ip3uJzPv+3ykWjNwtKE+
+        iRha6Jag==;
 Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pQ18D-000LPt-Lt; Thu, 09 Feb 2023 07:14:09 +0000
+        id 1pQ18H-000LPt-QH; Thu, 09 Feb 2023 07:14:13 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        openrisc@lists.librecores.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 12/24] Documentation: openrisc: correct spelling
-Date:   Wed,  8 Feb 2023 23:13:48 -0800
-Message-Id: <20230209071400.31476-13-rdunlap@infradead.org>
+        Evgeniy Polyakov <zbr@ioremap.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 22/24] Documentation: w1: correct spelling
+Date:   Wed,  8 Feb 2023 23:13:58 -0800
+Message-Id: <20230209071400.31476-23-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
 References: <20230209071400.31476-1-rdunlap@infradead.org>
@@ -47,38 +44,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/openrisc/ as reported
+Correct spelling problems for Documentation/w1/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonas Bonn <jonas@southpole.se>
-Cc: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
-Cc: Stafford Horne <shorne@gmail.com>
-Cc: openrisc@lists.librecores.org
+Cc: Evgeniy Polyakov <zbr@ioremap.net>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 ---
- Documentation/openrisc/openrisc_port.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/w1/w1-netlink.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff -- a/Documentation/openrisc/openrisc_port.rst b/Documentation/openrisc/openrisc_port.rst
---- a/Documentation/openrisc/openrisc_port.rst
-+++ b/Documentation/openrisc/openrisc_port.rst
-@@ -106,7 +106,7 @@ History
- 	a much improved version with changes all around.
+diff -- a/Documentation/w1/w1-netlink.rst b/Documentation/w1/w1-netlink.rst
+--- a/Documentation/w1/w1-netlink.rst
++++ b/Documentation/w1/w1-netlink.rst
+@@ -66,7 +66,7 @@ Each connector message can include one o
+ zero or more attached w1_netlink_cmd messages.
  
- 10-04-2004	Matjaz Breskvar (phoenix@bsemi.com)
--	alot of bugfixes all over.
-+	a lot of bugfixes all over.
- 	ethernet support, functional http and telnet servers.
- 	running many standard linux apps.
- 
-@@ -114,7 +114,7 @@ History
- 	port to 2.6.x
- 
- 30-11-2004	Matjaz Breskvar (phoenix@bsemi.com)
--	lots of bugfixes and enhancments.
-+	lots of bugfixes and enhancements.
- 	added opencores framebuffer driver.
- 
- 09-10-2010    Jonas Bonn (jonas@southpole.se)
+ For event messages there are no w1_netlink_cmd embedded structures,
+-only connector header and w1_netlink_msg strucutre with "len" field
++only connector header and w1_netlink_msg structure with "len" field
+ being zero and filled type (one of event types) and id:
+ either 8 bytes of slave unique id in host order,
+ or master's id, which is assigned to bus master device
