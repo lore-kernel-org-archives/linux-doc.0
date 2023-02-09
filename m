@@ -2,41 +2,40 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1F06C636D4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A9AAC64EC5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbjBIHOW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 02:14:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48744 "EHLO
+        id S229847AbjBIHOY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 02:14:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229766AbjBIHOL (ORCPT
+        with ESMTP id S229761AbjBIHOL (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:11 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA5283C28;
-        Wed,  8 Feb 2023 23:14:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86DDC402CD;
+        Wed,  8 Feb 2023 23:14:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=UtsHETgm9NdBjm7zsfWKEYsqPPKnOaDFPcTAJNtRmaw=; b=YAx/Dbsfg5N7XldJBq++JeNUyi
-        CyTRbziiwzQzn+7Dw4TlAixoqnEKxGT0U885GsnWMl+MFydbkyBQ3GAE6lzRXLpyos51tvGrg51xq
-        a8QDhEdKBcmDIGxJ/vaFNKpjXE+Lzu8eQVB9mjfi6PAwx+U4/QfYLtF7sg2PumtPLdMBrCvkwNIRs
-        1XSoyWu0b2xLsuPRuNSQH/a7p6DcfSYwevw5qEiXH3F0mfmfVZzcT4ipO0CnrRzxKm5Pd0YHtjQaQ
-        gVtidF7DUKw0vy0PcnL/8PAhvv9q00EkYIDbhf4gsp9ZuKEea0S7HSblNw5eE9Hgzb9pbJFZm6LVz
-        TZqQD/tw==;
+        bh=DZse1eO7oh50AhzLCdDhk7R2KKKuFFm0FSMJlqDIjNo=; b=FaLQ42M4IGdTWYvmzCAOHEBE0e
+        5tyzmf6E21PNOPHpBkjqbMp4BmpOWb3KOD1rZ8KAqER/qjChwOhC7ZTer/0iBQ38ARTBurG8qom8E
+        O3o/CEtui+sK03MrZhODX2mhyGgsc+gFn/8WbeHERXqxPxJD03GieKTFPBMTsFO7DARyin17xcfoO
+        E9XYjFTFpgQ570uO6uEB3weO34Yt0p67jb2elAskDyGMc1y2f19CnuuuMPF8UVh+jEBaM0eaa70vO
+        apIKYb5MMaGDJdEPgOei4Xc8gTqR86I+37ldXcZuk2xDCRgCPtYfzqRQPshMBt1YSPxipTGshxGnP
+        eKR1f1xQ==;
 Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pQ18B-000LPt-Ls; Thu, 09 Feb 2023 07:14:07 +0000
+        id 1pQ18C-000LPt-QP; Thu, 09 Feb 2023 07:14:08 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 07/24] Documentation: input: correct spelling
-Date:   Wed,  8 Feb 2023 23:13:43 -0800
-Message-Id: <20230209071400.31476-8-rdunlap@infradead.org>
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 10/24] Documentation: locking: correct spelling
+Date:   Wed,  8 Feb 2023 23:13:46 -0800
+Message-Id: <20230209071400.31476-11-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
 References: <20230209071400.31476-1-rdunlap@infradead.org>
@@ -46,41 +45,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/input/ as reported
+Correct spelling problems for Documentation/locking/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Henrik Rydberg <rydberg@bitmath.org>
-Cc: linux-input@vger.kernel.org
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Will Deacon <will@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 ---
- Documentation/input/devices/iforce-protocol.rst |    2 +-
- Documentation/input/multi-touch-protocol.rst    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/locking/lockdep-design.rst  |    4 ++--
+ Documentation/locking/locktorture.rst     |    2 +-
+ Documentation/locking/locktypes.rst       |    2 +-
+ Documentation/locking/preempt-locking.rst |    2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-diff -- a/Documentation/input/devices/iforce-protocol.rst b/Documentation/input/devices/iforce-protocol.rst
---- a/Documentation/input/devices/iforce-protocol.rst
-+++ b/Documentation/input/devices/iforce-protocol.rst
-@@ -49,7 +49,7 @@ OP DATA
- == ====
+diff -- a/Documentation/locking/lockdep-design.rst b/Documentation/locking/lockdep-design.rst
+--- a/Documentation/locking/lockdep-design.rst
++++ b/Documentation/locking/lockdep-design.rst
+@@ -29,7 +29,7 @@ the validator will shoot a splat if inco
+ A lock-class's behavior is constructed by its instances collectively:
+ when the first instance of a lock-class is used after bootup the class
+ gets registered, then all (subsequent) instances will be mapped to the
+-class and hence their usages and dependecies will contribute to those of
++class and hence their usages and dependencies will contribute to those of
+ the class. A lock-class does not go away when a lock instance does, but
+ it can be removed if the memory space of the lock class (static or
+ dynamic) is reclaimed, this happens for example when a module is
+@@ -105,7 +105,7 @@ exact case is for the lock as of the rep
+   +--------------+-------------+--------------+
  
- The 2B, LEN and CS fields have disappeared, probably because USB handles
--frames and data corruption is handled or unsignificant.
-+frames and data corruption is handled or insignificant.
+ The character '-' suggests irq is disabled because if otherwise the
+-charactor '?' would have been shown instead. Similar deduction can be
++character '?' would have been shown instead. Similar deduction can be
+ applied for '+' too.
  
- First, I describe effects that are sent by the device to the computer
+ Unused locks (e.g., mutexes) cannot be part of the cause of an error.
+diff -- a/Documentation/locking/locktorture.rst b/Documentation/locking/locktorture.rst
+--- a/Documentation/locking/locktorture.rst
++++ b/Documentation/locking/locktorture.rst
+@@ -113,7 +113,7 @@ stutter
+ 		  without pausing.
  
-diff -- a/Documentation/input/multi-touch-protocol.rst b/Documentation/input/multi-touch-protocol.rst
---- a/Documentation/input/multi-touch-protocol.rst
-+++ b/Documentation/input/multi-touch-protocol.rst
-@@ -383,7 +383,7 @@ Finger Tracking
- ---------------
+ shuffle_interval
+-		  The number of seconds to keep the test threads affinitied
++		  The number of seconds to keep the test threads affined
+ 		  to a particular subset of the CPUs, defaults to 3 seconds.
+ 		  Used in conjunction with test_no_idle_hz.
  
- The process of finger tracking, i.e., to assign a unique trackingID to each
--initiated contact on the surface, is a Euclidian Bipartite Matching
-+initiated contact on the surface, is a Euclidean Bipartite Matching
- problem.  At each event synchronization, the set of actual contacts is
- matched to the set of contacts from the previous synchronization. A full
- implementation can be found in [#f3]_.
+diff -- a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
+--- a/Documentation/locking/locktypes.rst
++++ b/Documentation/locking/locktypes.rst
+@@ -500,7 +500,7 @@ caveats also apply to bit spinlocks.
+ Some bit spinlocks are replaced with regular spinlock_t for PREEMPT_RT
+ using conditional (#ifdef'ed) code changes at the usage site.  In contrast,
+ usage-site changes are not needed for the spinlock_t substitution.
+-Instead, conditionals in header files and the core locking implemementation
++Instead, conditionals in header files and the core locking implementation
+ enable the compiler to do the substitution transparently.
+ 
+ 
+diff -- a/Documentation/locking/preempt-locking.rst b/Documentation/locking/preempt-locking.rst
+--- a/Documentation/locking/preempt-locking.rst
++++ b/Documentation/locking/preempt-locking.rst
+@@ -114,7 +114,7 @@ critical variables.  Another example::
+ 
+ 	int buf[NR_CPUS];
+ 	set_cpu_val(buf);
+-	if (buf[smp_processor_id()] == -1) printf(KERN_INFO "wee!\n");
++	if (buf[smp_processor_id()] == -1) printf(KERN_INFO "whee!\n");
+ 	spin_lock(&buf_lock);
+ 	/* ... */
+ 
