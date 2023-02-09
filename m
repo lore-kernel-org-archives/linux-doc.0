@@ -2,40 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57CF4C64ED6
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51280C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229836AbjBIHOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 02:14:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48752 "EHLO
+        id S229837AbjBIHOW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 02:14:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229768AbjBIHOM (ORCPT
+        with ESMTP id S229450AbjBIHOM (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:12 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D2A6EBE;
-        Wed,  8 Feb 2023 23:14:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B899CA24A;
+        Wed,  8 Feb 2023 23:14:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=CA1Cigbjbo5d5kU+L4D/OrisiUcoKP764Ad5A2j0x8s=; b=Dm1hm2+kdEmlKk3JkeaE5X9Xgk
-        uw8iG1Vp8WcSNPNrD+dOUJf/JF1g/a7XIrsukaoKO7vUnvewjbo+dtzl45K9lBqSJh7PeBRpYDnGD
-        IDjMvdk0MbECzgfqzXY3q5pIekTRqMPSlYzkxR90pO6Em9ylNFlVj8wRZiE6Xd4eCLHIF9xiFGdLj
-        1Ia0ogXNT2OpwjuTrf6ILyKZqhNpM1oeQ27jQM12h+KwQVgC5tDdwi/szlRjPtZe+A6qGES6WDEhn
-        J2LO1LTF0Tb/88zIu248FErA70egefYouiBj91bQB0mIfUAGj18PtKFwgPRk54zu/EGD7IkcQYpVy
-        cfFB2WLg==;
+        bh=r8hE41Mkp5EbgMrksb3KX7Dta0yeg7VtidU0DErrk9U=; b=SSwLatKOiislYacsoo/Qi3JMlm
+        b47ynisAwSrwGZYUASI66PxrUlyXGIC+yTFVomaUau58oZFIBo8jpLh1nKCHpGG1hzYaKwBa1fm5V
+        MGzmE4oBMeEqrdn5s5zpFUd8r4fPoJzBc5Ip5AwXp99OeI1O5RmT/VlSbt0BYAksgp45OfAwRygNx
+        i/pzyJ1nycNY+Xw/zZ/bZ4J0UyKubduraexKOGpFEp+Z26FQ29A6BoKJCASscbE4D41ElbfTj4DLm
+        CFJF1BTGKjk9PTmvQUBILAJfIGvPULY2mO3cn6qHTxry4AKsGjQ6XNrMZ74qioxOvAb4QQpypQ9Ag
+        iioQY5nQ==;
 Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pQ18E-000LPt-Ev; Thu, 09 Feb 2023 07:14:10 +0000
+        id 1pQ18F-000LPt-A5; Thu, 09 Feb 2023 07:14:11 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev@lists.ozlabs.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 14/24] Documentation: powerpc: correct spelling
-Date:   Wed,  8 Feb 2023 23:13:50 -0800
-Message-Id: <20230209071400.31476-15-rdunlap@infradead.org>
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Mukesh Ojha <quic_mojha@quicinc.com>
+Subject: [PATCH 16/24] Documentation: scheduler: correct spelling
+Date:   Wed,  8 Feb 2023 23:13:52 -0800
+Message-Id: <20230209071400.31476-17-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
 References: <20230209071400.31476-1-rdunlap@infradead.org>
@@ -45,80 +48,52 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/powerpc/ as reported
+Correct spelling problems for Documentation/scheduler/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: linuxppc-dev@lists.ozlabs.org
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
+Reviewed-by: Mukesh Ojha <quic_mojha@quicinc.com>
 ---
- Documentation/powerpc/kasan.txt       |    2 +-
- Documentation/powerpc/papr_hcalls.rst |    2 +-
- Documentation/powerpc/qe_firmware.rst |    4 ++--
- Documentation/powerpc/vas-api.rst     |    4 ++--
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ Documentation/scheduler/sched-bwc.rst    |    2 +-
+ Documentation/scheduler/sched-energy.rst |    4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff -- a/Documentation/powerpc/kasan.txt b/Documentation/powerpc/kasan.txt
---- a/Documentation/powerpc/kasan.txt
-+++ b/Documentation/powerpc/kasan.txt
-@@ -40,7 +40,7 @@ checks can be delayed until after the MM
- instrument any code that runs with translations off after booting. This is the
- current approach.
+diff -- a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
+--- a/Documentation/scheduler/sched-bwc.rst
++++ b/Documentation/scheduler/sched-bwc.rst
+@@ -186,7 +186,7 @@ average usage, albeit over a longer time
+ also limits the burst ability to no more than 1ms per cpu.  This provides
+ better more predictable user experience for highly threaded applications with
+ small quota limits on high core count machines. It also eliminates the
+-propensity to throttle these applications while simultanously using less than
++propensity to throttle these applications while simultaneously using less than
+ quota amounts of cpu. Another way to say this, is that by allowing the unused
+ portion of a slice to remain valid across periods we have decreased the
+ possibility of wastefully expiring quota on cpu-local silos that don't need a
+diff -- a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
+--- a/Documentation/scheduler/sched-energy.rst
++++ b/Documentation/scheduler/sched-energy.rst
+@@ -82,7 +82,7 @@ through the arch_scale_cpu_capacity() ca
+ The rest of platform knowledge used by EAS is directly read from the Energy
+ Model (EM) framework. The EM of a platform is composed of a power cost table
+ per 'performance domain' in the system (see Documentation/power/energy-model.rst
+-for futher details about performance domains).
++for further details about performance domains).
  
--To avoid this limitiation, the KASAN shadow would have to be placed inside the
-+To avoid this limitation, the KASAN shadow would have to be placed inside the
- linear mapping, using the same high-bits trick we use for the rest of the linear
- mapping. This is tricky:
- 
-diff -- a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
---- a/Documentation/powerpc/papr_hcalls.rst
-+++ b/Documentation/powerpc/papr_hcalls.rst
-@@ -22,7 +22,7 @@ privileged operations. Currently there a
- On PPC64 arch a guest kernel running on top of a PAPR hypervisor is called
- a *pSeries guest*. A pseries guest runs in a supervisor mode (HV=0) and must
- issue hypercalls to the hypervisor whenever it needs to perform an action
--that is hypervisor priviledged [3]_ or for other services managed by the
-+that is hypervisor privileged [3]_ or for other services managed by the
- hypervisor.
- 
- Hence a Hypercall (hcall) is essentially a request by the pseries guest
-diff -- a/Documentation/powerpc/qe_firmware.rst b/Documentation/powerpc/qe_firmware.rst
---- a/Documentation/powerpc/qe_firmware.rst
-+++ b/Documentation/powerpc/qe_firmware.rst
-@@ -232,11 +232,11 @@ For example, to match the 8323, revision
- 'extended_modes' is a bitfield that defines special functionality which has an
- impact on the device drivers.  Each bit has its own impact and has special
- instructions for the driver associated with it.  This field is stored in
--the QE library and available to any driver that calles qe_get_firmware_info().
-+the QE library and available to any driver that calls qe_get_firmware_info().
- 
- 'vtraps' is an array of 8 words that contain virtual trap values for each
- virtual traps.  As with 'extended_modes', this field is stored in the QE
--library and available to any driver that calles qe_get_firmware_info().
-+library and available to any driver that calls qe_get_firmware_info().
- 
- 'microcode' (type: struct qe_microcode):
- 	For each RISC processor there is one 'microcode' structure.  The first
-diff -- a/Documentation/powerpc/vas-api.rst b/Documentation/powerpc/vas-api.rst
---- a/Documentation/powerpc/vas-api.rst
-+++ b/Documentation/powerpc/vas-api.rst
-@@ -46,7 +46,7 @@ request queue into the application's vir
- The application can then submit one or more requests to the engine by
- using copy/paste instructions and pasting the CRBs to the virtual address
- (aka paste_address) returned by mmap(). User space can close the
--established connection or send window by closing the file descriptior
-+established connection or send window by closing the file descriptor
- (close(fd)) or upon the process exit.
- 
- Note that applications can send several requests with the same window or
-@@ -240,7 +240,7 @@ issued. This signal returns with the fol
- 	siginfo.si_signo = SIGSEGV;
- 	siginfo.si_errno = EFAULT;
- 	siginfo.si_code = SEGV_MAPERR;
--	siginfo.si_addr = CSB adress;
-+	siginfo.si_addr = CSB address;
- 
- In the case of multi-thread applications, NX send windows can be shared
- across all threads. For example, a child thread can open a send window,
+ The scheduler manages references to the EM objects in the topology code when the
+ scheduling domains are built, or re-built. For each root domain (rd), the
+@@ -281,7 +281,7 @@ mechanism called 'over-utilization'.
+ From a general standpoint, the use-cases where EAS can help the most are those
+ involving a light/medium CPU utilization. Whenever long CPU-bound tasks are
+ being run, they will require all of the available CPU capacity, and there isn't
+-much that can be done by the scheduler to save energy without severly harming
++much that can be done by the scheduler to save energy without severely harming
+ throughput. In order to avoid hurting performance with EAS, CPUs are flagged as
+ 'over-utilized' as soon as they are used at more than 80% of their compute
+ capacity. As long as no CPUs are over-utilized in a root domain, load balancing
