@@ -2,84 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A938C636D7
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F67CC636D4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229537AbjBIHOR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 02:14:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48732 "EHLO
+        id S229823AbjBIHOS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 02:14:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbjBIHOL (ORCPT
+        with ESMTP id S229752AbjBIHOL (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:11 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB903F2A6;
-        Wed,  8 Feb 2023 23:14:09 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8439E402CF;
+        Wed,  8 Feb 2023 23:14:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=vjMkg0CsA3ExXEoe5XfBRbE22936dlfCDtp+3PswdVo=; b=QbzRNOC00aWT5TTnDAt32AspMk
-        Xh2RaKOQGmibuyYQwYiw91oYafMcsuB1A477+7BtSXJVD9koIcERj/bWGKUmr0tzgMzNmB7tPXOhT
-        5sKgRK/FzVw9c9KaJYnL32i4whxpsLmHqAsqSFOrql4F4DMbj6aZmqQzNniBnVHYWw1Q5iqcWSxVL
-        Lv18a0oQHOxKSb/CwsRUZ6ew1yZ4CDLaUTnODMoaJgljYXkRyZ8BvhwekNmk4e9mokyUU9KrrKkWy
-        0pLZorJG7plzIHRBPdLyFwElgTn6Ph2xe3xL6/C85wnLIlDXbV05vnYywbp+6Y6T05YElA+uc6xpZ
-        afyABTVw==;
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Sender:Reply-To:Content-ID:Content-Description;
+        bh=ULw3sckinKKppuRGsiGPFR4ONylssWz+r5Auww6bSiY=; b=MIgelBQRHVsLSO+P0kpuc95xb7
+        F1n1xF6tUkyFaDiHV8X9gbkFZKGRoyLhKqctJlscylgMxQJ6dK/FpZ/C6miQmg1RTU6fw3DbqBnqn
+        thjFubVzj1riGcCXvZlwZCEOy5Zrzq/5dXS6uQIFvqjbNNtL381IWbBsJ/w4FWwea8Te2QeVCEZ9i
+        InbwPg/UOJ6QDHeIFyG4T+yuTYs2C2vyAKZnS+J+zSThG9G9HUCHzRqmm5OO0m++Qq6PDhHNpxl2k
+        VQ5ZWZFvVzYapH3ILOMRA+RWaBlMJIbTiCHfCZlkqPEof8cx5en03dj9NerK+04fIM9xGAWlxkryM
+        XiHubcJA==;
 Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pQ18C-000LPt-15; Thu, 09 Feb 2023 07:14:08 +0000
+        id 1pQ18E-000LPt-3h; Thu, 09 Feb 2023 07:14:10 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Karsten Keil <isdn@linux-pingi.de>, netdev@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 08/24] Documentation: isdn: correct spelling
-Date:   Wed,  8 Feb 2023 23:13:44 -0800
-Message-Id: <20230209071400.31476-9-rdunlap@infradead.org>
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        linux-pci@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 13/24] Documentation: PCI: correct spelling
+Date:   Wed,  8 Feb 2023 23:13:49 -0800
+Message-Id: <20230209071400.31476-14-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
 References: <20230209071400.31476-1-rdunlap@infradead.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/isdn/ as reported
+Correct spelling problems for Documentation/PCI/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Karsten Keil <isdn@linux-pingi.de>
-Cc: netdev@vger.kernel.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: linux-pci@vger.kernel.org
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Acked-by: Jakub Kicinski <kuba@kernel.org>
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- Documentation/isdn/interface_capi.rst |    2 +-
- Documentation/isdn/m_isdn.rst         |    2 +-
+ Documentation/PCI/endpoint/pci-vntb-howto.rst |    2 +-
+ Documentation/PCI/msi-howto.rst               |    2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff -- a/Documentation/isdn/interface_capi.rst b/Documentation/isdn/interface_capi.rst
---- a/Documentation/isdn/interface_capi.rst
-+++ b/Documentation/isdn/interface_capi.rst
-@@ -323,7 +323,7 @@ If the lowest bit of showcapimsgs is set
- application up and down events.
+diff -- a/Documentation/PCI/endpoint/pci-vntb-howto.rst b/Documentation/PCI/endpoint/pci-vntb-howto.rst
+--- a/Documentation/PCI/endpoint/pci-vntb-howto.rst
++++ b/Documentation/PCI/endpoint/pci-vntb-howto.rst
+@@ -103,7 +103,7 @@ A sample configuration for NTB function
+ 	# echo 1 > functions/pci_epf_vntb/func1/pci_epf_vntb.0/num_mws
+ 	# echo 0x100000 > functions/pci_epf_vntb/func1/pci_epf_vntb.0/mw1
  
- In addition, every registered CAPI controller has an associated traceflag
--parameter controlling how CAPI messages sent from and to tha controller are
-+parameter controlling how CAPI messages sent from and to the controller are
- logged. The traceflag parameter is initialized with the value of the
- showcapimsgs parameter when the controller is registered, but can later be
- changed via the MANUFACTURER_REQ command KCAPI_CMD_TRACE.
-diff -- a/Documentation/isdn/m_isdn.rst b/Documentation/isdn/m_isdn.rst
---- a/Documentation/isdn/m_isdn.rst
-+++ b/Documentation/isdn/m_isdn.rst
-@@ -3,7 +3,7 @@ mISDN Driver
- ============
+-A sample configuration for virtual NTB driver for virutal PCI bus::
++A sample configuration for virtual NTB driver for virtual PCI bus::
  
- mISDN is a new modular ISDN driver, in the long term it should replace
--the old I4L driver architecture for passiv ISDN cards.
-+the old I4L driver architecture for passive ISDN cards.
- It was designed to allow a broad range of applications and interfaces
- but only have the basic function in kernel, the interface to the user
- space is based on sockets with a own address family AF_ISDN.
+ 	# echo 0x1957 > functions/pci_epf_vntb/func1/pci_epf_vntb.0/vntb_vid
+ 	# echo 0x080A > functions/pci_epf_vntb/func1/pci_epf_vntb.0/vntb_pid
+diff -- a/Documentation/PCI/msi-howto.rst b/Documentation/PCI/msi-howto.rst
+--- a/Documentation/PCI/msi-howto.rst
++++ b/Documentation/PCI/msi-howto.rst
+@@ -290,7 +290,7 @@ PCI_IRQ_MSI or PCI_IRQ_MSIX flags.
+ List of device drivers MSI(-X) APIs
+ ===================================
+ 
+-The PCI/MSI subystem has a dedicated C file for its exported device driver
++The PCI/MSI subsystem has a dedicated C file for its exported device driver
+ APIs — `drivers/pci/msi/api.c`. The following functions are exported:
+ 
+ .. kernel-doc:: drivers/pci/msi/api.c
