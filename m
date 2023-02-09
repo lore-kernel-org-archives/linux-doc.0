@@ -2,163 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD61AC636D7
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 09:20:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0F1EC61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 09:22:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230317AbjBIJUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 04:20:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52852 "EHLO
+        id S230207AbjBIJWE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 04:22:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230236AbjBIJTq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 04:19:46 -0500
-Received: from mr85p00im-zteg06021501.me.com (mr85p00im-zteg06021501.me.com [17.58.23.183])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1E69611F0
-        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 01:19:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
-        t=1675934358; bh=SZhlB5Amphohnu89nA8T+9EvfjDSfEbmKX2qUghxvcs=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version;
-        b=o/NxLQ9PU1l9X2sTMiXYxKhsPVmuzHGBO9PUsOvwhybe6UaP3w5cBwtG4Zdsj1UEh
-         N95VLTGsgxOg5d+OLa1AF9ChzM4EYIltiU99YPlgqCcEpojXv2bE3I3sXw9N2VlXkx
-         lEvu2MqlCqSNulpnjZvUm8HBJW1R5k2gKvmTSVaDOXNn/K2FWUqCaRpbIeihtVlAVc
-         bdEoU4cx3ZZutCWfUme4wy3t5yKPE8MlpWC+/KKeVimmtCzf9Q37gr2Bp5fHSZYWbb
-         Pg/W84KNZoKWpUAlpaKOmP/kU+Aih71SROAeduaqG184O+t7TI5E+jh/RqI/z9W+fc
-         WdZHNkF4+XPCA==
-Received: from localhost (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
-        by mr85p00im-zteg06021501.me.com (Postfix) with ESMTPSA id 255E927945ED;
-        Thu,  9 Feb 2023 09:19:18 +0000 (UTC)
-From:   Alain Volmat <avolmat@me.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, netdev@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com, linux-pm@vger.kernel.org,
-        linux-clk@vger.kernel.org, Alain Volmat <avolmat@me.com>
-Subject: [PATCH 11/11] ARM: debug: removal of STiH415/STiH416 related debug uart
-Date:   Thu,  9 Feb 2023 10:16:59 +0100
-Message-Id: <20230209091659.1409-12-avolmat@me.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230209091659.1409-1-avolmat@me.com>
-References: <20230209091659.1409-1-avolmat@me.com>
+        with ESMTP id S230119AbjBIJVq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 04:21:46 -0500
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C3C6779E
+        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 01:20:44 -0800 (PST)
+Received: by mail-pg1-x529.google.com with SMTP id r18so1141167pgr.12
+        for <linux-doc@vger.kernel.org>; Thu, 09 Feb 2023 01:20:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NlaRWpA7tL71Df6i/q0sFCfUUbbYhsY1iDx/MO4gzLY=;
+        b=TFuGzkmfgtQiVx340LL54zjOakAXM3YsZJT8IYUXZ4AxfzSnje1Joq13S4J68tnmgJ
+         rat/LDFvFIYyXL9H5AV4J9ZCty7RHcfelJbGDRt7O0/dj0otCEBEVo1Emmrr+ff8eYdf
+         PoMDW0+1KcAb+ML2/andm4TaLatf3HgtXGh8jfIPO95VwP4cr4QSN7ZAIEwU3Aqrc5qC
+         E78Ko+LkqxfTadFSHh0Yg9iXoiZYyoSTs7wyE1L898WqmgfttxiQzdh00JdvAZ/kzN3V
+         erXpIJRCtACl7OEph3e94rSnb/trH4Ru6XH2tjUt0NGzLK1AsAxU2nvWzcGgP10iHvjJ
+         j0Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NlaRWpA7tL71Df6i/q0sFCfUUbbYhsY1iDx/MO4gzLY=;
+        b=da97dIyF0JxcVd8Y0AUqAllpeR77p9Yh2izjo70eGUcmOeVEWLCkAD3L8tjRy/trBw
+         1B9tnpte+jPVONwxTVlFlcLMS3TNv7cqiZTC7f0n29nwgARtP8lyJVABXhm7fOh4Gud6
+         /uZpvn0TD9uJ3b+uNi/glPmYruMOTdIj218uPvLtZtgSal5YPXjQPjB/tTXLbvZiKPhJ
+         S/841hYK/opcmZ4mx1kAEd0/ev+bmQbBhFWzDtGL8UHiV6SIJE9W3DI0Vez9YUoHxJGA
+         5xkhune727g6jE3Sj15d9jD57IXNEDhGI+bSEp8Gs30z/jM1NnrxKAHlvhEDCkzrKb62
+         o8nw==
+X-Gm-Message-State: AO0yUKXVskcBV5ISi3e5qZm7Um5POgHtKdhhee/btH6kljPmBaJMekUE
+        f4tbhzBVTLjZRqNF0UlvYQ+94CT6h92shn2Sif/dzw==
+X-Google-Smtp-Source: AK7set+2f9vXIotOMaKv8GeSca304NiFCBOvh/ziF3kJSv0qMNrCGabOh/sgDJDRbTW5Ep2lLylsZsIrFX/llJTS47o=
+X-Received: by 2002:a63:9206:0:b0:4d9:66d4:d05 with SMTP id
+ o6-20020a639206000000b004d966d40d05mr2149570pgd.44.1675934441322; Thu, 09 Feb
+ 2023 01:20:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 8Huc_KYpmbvx0eZVYoyHvKSEhimig7mi
-X-Proofpoint-ORIG-GUID: 8Huc_KYpmbvx0eZVYoyHvKSEhimig7mi
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0
- mlxlogscore=999 phishscore=0 adultscore=0 bulkscore=0 spamscore=0
- clxscore=1015 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2209130000 definitions=main-2302090088
+References: <20230209071400.31476-1-rdunlap@infradead.org> <20230209071400.31476-17-rdunlap@infradead.org>
+In-Reply-To: <20230209071400.31476-17-rdunlap@infradead.org>
+From:   Vincent Guittot <vincent.guittot@linaro.org>
+Date:   Thu, 9 Feb 2023 10:20:30 +0100
+Message-ID: <CAKfTPtC5gV3VF7S_BEJ9ndYnGwGuCRvYrKJTABSLHneYZVZvmQ@mail.gmail.com>
+Subject: Re: [PATCH 16/24] Documentation: scheduler: correct spelling
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Mukesh Ojha <quic_mojha@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove the entries related to the debug uart addresses for
-platforms STiH415 and STiH416 which are no more supported.
+On Thu, 9 Feb 2023 at 08:14, Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Correct spelling problems for Documentation/scheduler/ as reported
+> by codespell.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Vincent Guittot <vincent.guittot@linaro.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Reviewed-by: Mukesh Ojha <quic_mojha@quicinc.com>
 
-Signed-off-by: Alain Volmat <avolmat@me.com>
----
- arch/arm/Kconfig.debug | 28 ----------------------------
- 1 file changed, 28 deletions(-)
+Acked-by: Vincent Guittot <vincent.guittot@linaro.org>
 
-diff --git a/arch/arm/Kconfig.debug b/arch/arm/Kconfig.debug
-index c345775f035b..e7307eeb2abb 100644
---- a/arch/arm/Kconfig.debug
-+++ b/arch/arm/Kconfig.debug
-@@ -1205,26 +1205,6 @@ choice
- 		  Say Y here if you want kernel low-level debugging support
- 		  on ST SPEAr13xx based platforms.
- 
--	config DEBUG_STIH41X_ASC2
--		bool "Use StiH415/416 ASC2 UART for low-level debug"
--		depends on ARCH_STI
--		help
--		  Say Y here if you want kernel low-level debugging support
--		  on STiH415/416 based platforms like b2000, which has
--		  default UART wired up to ASC2.
--
--		  If unsure, say N.
--
--	config DEBUG_STIH41X_SBC_ASC1
--		bool "Use StiH415/416 SBC ASC1 UART for low-level debug"
--		depends on ARCH_STI
--		help
--		  Say Y here if you want kernel low-level debugging support
--		  on STiH415/416 based platforms like b2020. which has
--		  default UART wired up to SBC ASC1.
--
--		  If unsure, say N.
--
- 	config DEBUG_STIH418_SBC_ASC0
- 		bool "Use StiH418 SBC ASC0 UART for low-level debug"
- 		depends on ARCH_STI
-@@ -1597,8 +1577,6 @@ config DEBUG_LL_INCLUDE
- 	default "debug/renesas-scif.S" if DEBUG_RMOBILE_SCIFA4
- 	default "debug/s3c24xx.S" if DEBUG_S3C24XX_UART || DEBUG_S3C64XX_UART
- 	default "debug/s5pv210.S" if DEBUG_S5PV210_UART
--	default "debug/sti.S" if DEBUG_STIH41X_ASC2
--	default "debug/sti.S" if DEBUG_STIH41X_SBC_ASC1
- 	default "debug/sti.S" if DEBUG_STIH418_SBC_ASC0
- 	default "debug/stm32.S" if DEBUG_STM32_UART
- 	default "debug/tegra.S" if DEBUG_TEGRA_UART
-@@ -1728,9 +1706,7 @@ config DEBUG_UART_PHYS
- 	default 0xfc00c000 if DEBUG_AT91_SAMA5D4_USART3
- 	default 0xfcb00000 if DEBUG_HI3620_UART
- 	default 0xfd883000 if DEBUG_ALPINE_UART0
--	default 0xfe531000 if DEBUG_STIH41X_SBC_ASC1
- 	default 0xfe800000 if ARCH_IOP32X
--	default 0xfed32000 if DEBUG_STIH41X_ASC2
- 	default 0xff690000 if DEBUG_RK32_UART2
- 	default 0xffc02000 if DEBUG_SOCFPGA_UART0
- 	default 0xffc02100 if DEBUG_SOCFPGA_ARRIA10_UART1
-@@ -1759,7 +1735,6 @@ config DEBUG_UART_PHYS
- 		DEBUG_BCM63XX_UART || DEBUG_ASM9260_UART || \
- 		DEBUG_DIGICOLOR_UA0 || \
- 		DEBUG_AT91_UART || DEBUG_STM32_UART || \
--		DEBUG_STIH41X_ASC2 || DEBUG_STIH41X_SBC_ASC1 || \
- 		DEBUG_STIH418_SBC_ASC0
- 
- config DEBUG_UART_VIRT
-@@ -1827,9 +1802,7 @@ config DEBUG_UART_VIRT
- 	default 0xfcfe8600 if DEBUG_BCM63XX_UART
- 	default 0xfd000000 if DEBUG_SPEAR3XX || DEBUG_SPEAR13XX
- 	default 0xfd064200 if DEBUG_AT91_LAN966_FLEXCOM
--	default 0xfd531000 if DEBUG_STIH41X_SBC_ASC1
- 	default 0xfd883000 if DEBUG_ALPINE_UART0
--	default 0xfdd32000 if DEBUG_STIH41X_ASC2
- 	default 0xfe010000 if STM32MP1_DEBUG_UART
- 	default 0xfe017000 if DEBUG_MMP_UART2
- 	default 0xfe018000 if DEBUG_MMP_UART3
-@@ -1871,7 +1844,6 @@ config DEBUG_UART_VIRT
- 		DEBUG_BCM63XX_UART || DEBUG_ASM9260_UART || \
- 		DEBUG_DIGICOLOR_UA0 || \
- 		DEBUG_AT91_UART || DEBUG_STM32_UART || \
--		DEBUG_STIH41X_ASC2 || DEBUG_STIH41X_SBC_ASC1 || \
- 		DEBUG_STIH418_SBC_ASC0
- 
- config DEBUG_UART_8250_SHIFT
--- 
-2.34.1
-
+> ---
+>  Documentation/scheduler/sched-bwc.rst    |    2 +-
+>  Documentation/scheduler/sched-energy.rst |    4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff -- a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
+> --- a/Documentation/scheduler/sched-bwc.rst
+> +++ b/Documentation/scheduler/sched-bwc.rst
+> @@ -186,7 +186,7 @@ average usage, albeit over a longer time
+>  also limits the burst ability to no more than 1ms per cpu.  This provides
+>  better more predictable user experience for highly threaded applications with
+>  small quota limits on high core count machines. It also eliminates the
+> -propensity to throttle these applications while simultanously using less than
+> +propensity to throttle these applications while simultaneously using less than
+>  quota amounts of cpu. Another way to say this, is that by allowing the unused
+>  portion of a slice to remain valid across periods we have decreased the
+>  possibility of wastefully expiring quota on cpu-local silos that don't need a
+> diff -- a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
+> --- a/Documentation/scheduler/sched-energy.rst
+> +++ b/Documentation/scheduler/sched-energy.rst
+> @@ -82,7 +82,7 @@ through the arch_scale_cpu_capacity() ca
+>  The rest of platform knowledge used by EAS is directly read from the Energy
+>  Model (EM) framework. The EM of a platform is composed of a power cost table
+>  per 'performance domain' in the system (see Documentation/power/energy-model.rst
+> -for futher details about performance domains).
+> +for further details about performance domains).
+>
+>  The scheduler manages references to the EM objects in the topology code when the
+>  scheduling domains are built, or re-built. For each root domain (rd), the
+> @@ -281,7 +281,7 @@ mechanism called 'over-utilization'.
+>  From a general standpoint, the use-cases where EAS can help the most are those
+>  involving a light/medium CPU utilization. Whenever long CPU-bound tasks are
+>  being run, they will require all of the available CPU capacity, and there isn't
+> -much that can be done by the scheduler to save energy without severly harming
+> +much that can be done by the scheduler to save energy without severely harming
+>  throughput. In order to avoid hurting performance with EAS, CPUs are flagged as
+>  'over-utilized' as soon as they are used at more than 80% of their compute
+>  capacity. As long as no CPUs are over-utilized in a root domain, load balancing
