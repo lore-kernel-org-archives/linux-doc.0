@@ -2,62 +2,64 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD6C1C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 18:49:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 976E0C636D6
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 18:49:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229457AbjBIStA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 13:49:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54108 "EHLO
+        id S229707AbjBIStB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 13:49:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjBISs7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 13:48:59 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C14929413
-        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 10:48:58 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id iz19so2516943plb.13
-        for <linux-doc@vger.kernel.org>; Thu, 09 Feb 2023 10:48:58 -0800 (PST)
+        with ESMTP id S229449AbjBIStA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 13:49:00 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5777F59E7B
+        for <linux-doc@vger.kernel.org>; Thu,  9 Feb 2023 10:48:59 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id y4so1968146pfe.4
+        for <linux-doc@vger.kernel.org>; Thu, 09 Feb 2023 10:48:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:to:from:cc
          :in-reply-to:subject:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5ZIc/r7bYzuMIOjUvK2RHyGmiHZMKzy4Jer4EZvR+SI=;
-        b=kzE5FfjwdBdIF/eeWlIsvAAck4G0O8J9DNcHqjkgNi66nqzhoJmKNtopyWw+sCQkO2
-         o8ZnkPJRfwecnoJTc7bytUPqfju8U/eTB+fqHWmWh3ys3MQoabstp4ZVzm8Vk5ClL0yf
-         F2uJEerQTOKROdhsTiVEE3+Ejg+RFcbGgW0bYz878jpvkzWoOVNnI+f9m8iHyiRvuCfj
-         7E2U37xlGl+RCM46tHAjbH/y7WVk+gCFt5DDwvJI//1JP/9OxO1G7AzCE6ltviuf3Lfe
-         jp1rGa2JkrUSuId9kW/cF/WNKD/+FEn5sXvDnbYf4C++C7XKv5yGXgsFJIbKKaA0qb4m
-         zkHw==
+        bh=jBCCRT/9+pLKu5FymkoHc9xf4Gc9hpzzFtrQnNwvTxw=;
+        b=bKF5d5Nd8lyHPOWWI1AwfhtshWiysfT7QgeZlxRG/tNrLtNbT2neFQwDH4LoqWpldT
+         +CbG8L2bzmr0hfZ8gavYm2gU3AWV4Oz+K5vZA/JcGJh760dQpCMnNNYJO1c5lIT2TZj9
+         xtMd6E8wyOvler1mJnGXghGbzu7HpGyKgAcctGAz/+MmyOycRlyCkzDPp3ZvUZJLZy3j
+         rd8Q2mcXIffUDGpm/H8Lw/ExWODfC/8w+00KTreqJidGP4srGgEMTeju68DRk44aLOZZ
+         zoJUCFicRoyniTDTrgujH1Wwq98xBVJsn8WaS6TNUTXU4Zu2BBMVMUYsRnZuwIvHXIs9
+         7esA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:to:from:cc
          :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5ZIc/r7bYzuMIOjUvK2RHyGmiHZMKzy4Jer4EZvR+SI=;
-        b=bxGAfgloO7R28fnq6IrGnGjna/u2Zj+o1Ihq/voA+WoVZrIajnS7pNmb6q42tvQeDa
-         OzM/csTeuOVvQCaFhfnDZuFF2/rbrttVswyVl/Bt8e9E6905F0/aT/ed4zBWxbINkw5i
-         uA2x5+jd8cTXVRu7QRrv+77NghGTmou9X5g4GLN9L8uD6KSl7HbtYQH9sIs4fNEtzSTa
-         DkZ/QEz8sP3rdkDOdfoWL0S/aKpTp8MAW/rWopZFzwg/NqpD4SZ+IXwH90+s3fK2/igi
-         6mhLcqz61VImOSKLJNBbMJNYr5nnmEcMD+xXQ5E74M2HrYPwk34rjD9SWE64QNtJDVmK
-         Jzvg==
-X-Gm-Message-State: AO0yUKWQifW6ESwJqyYGME6/JT+RGo0p3czfkVRCUqTFGpTZDM97rpfi
-        W6xB07eh/YZM8/PJaD9hSHhv9/oFUI6vBvLK
-X-Google-Smtp-Source: AK7set+kgwcYaWGpVCyc3+lgy7B5U35kA772efRGUmYujP80e5RphXKdpXTlBvyQNcCjSTtpuB/RRQ==
-X-Received: by 2002:a17:90b:4f43:b0:22c:69e:3f23 with SMTP id pj3-20020a17090b4f4300b0022c069e3f23mr14163118pjb.12.1675968537389;
-        Thu, 09 Feb 2023 10:48:57 -0800 (PST)
+        bh=jBCCRT/9+pLKu5FymkoHc9xf4Gc9hpzzFtrQnNwvTxw=;
+        b=FPrmtNXY18GLk5SQEZ2gP6+UIXW7d2uKmEva4PCH+cEHVKcdqWo73jBx2UHfEvY7Zr
+         t3JeL1vAzpzzjjv5lVAg9PX/pEcdoYKN0sGJeqG+jrcHEL3OsTUij0MRnkhF+HPqne68
+         +FMjV6Kc1PD/L71Dci0oLOSC0LFVLKnlKBJkQHJ5o7nw1h3y+eEgqcr50VYGrNcFCKwg
+         fmxXRCW8mDsvuDfgYnbZsvu0Mhp5VQSJWuRj79CyD+fNliDQdx4REnlKHfzPZnCTj3Lg
+         /8spzjvX87pMU9GtGo+noAo/UaKMs7IeyruA52bbrvZKxeycQiZgL6FXY4mEokDzalGX
+         CzVA==
+X-Gm-Message-State: AO0yUKVtGwrH5fDFT3A3OoRCnuYdmNmbf2ryDZdQYxyznuy5Fc6LVoqI
+        iUqWvZ190B585CPtoK6aA+ajgQ==
+X-Google-Smtp-Source: AK7set+8uRYm02PUJG2CI1RNNKf0Dv8QTlWW8X4JW7B0f5RBh37dYdguHZpdEr6DnQO8aegWmvmpXg==
+X-Received: by 2002:a62:164b:0:b0:5a8:5247:2593 with SMTP id 72-20020a62164b000000b005a852472593mr3046770pfw.28.1675968538638;
+        Thu, 09 Feb 2023 10:48:58 -0800 (PST)
 Received: from localhost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id gn24-20020a17090ac79800b0023114357761sm1691949pjb.40.2023.02.09.10.48.56
+        by smtp.gmail.com with ESMTPSA id n12-20020aa78a4c000000b005a7e9d0c419sm1767046pfa.58.2023.02.09.10.48.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Feb 2023 10:48:56 -0800 (PST)
-Date:   Thu, 09 Feb 2023 10:48:56 -0800 (PST)
-X-Google-Original-Date: Thu, 09 Feb 2023 10:44:59 PST (-0800)
+        Thu, 09 Feb 2023 10:48:58 -0800 (PST)
+Date:   Thu, 09 Feb 2023 10:48:58 -0800 (PST)
+X-Google-Original-Date: Thu, 09 Feb 2023 10:46:25 PST (-0800)
 Subject:     Re: [PATCH] Documentation: riscv: fix insufficient list item indent
-In-Reply-To: <Y+JnLkFlZ7ACW7A+@wendy>
-CC:     Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net, lkp@intel.com
+In-Reply-To: <Y9c0EU5epWCeoPB8@debian.me>
+CC:     Conor Dooley <conor@kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, lkp@intel.com
 From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     Conor Dooley <conor.dooley@microchip.com>
-Message-ID: <mhng-aea2bf4a-210a-4645-a475-4ee232d42ec8@palmer-ri-x1c9a>
+To:     bagasdotme@gmail.com
+Message-ID: <mhng-4defd1c9-ee2a-4f95-89f9-7c47ee6b97e9@palmer-ri-x1c9a>
 Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
@@ -65,17 +67,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 07 Feb 2023 06:58:54 PST (-0800), Conor Dooley wrote:
-> Hey Palmer,
->
-> If you do end up having WiFi could you pick this up so that the
-> regressions report thingy stops whining at me?
-
-Sorry I forgot about this one, it's on for-next.
-
->
-> Thanks!
->
+On Sun, 29 Jan 2023 19:05:53 PST (-0800), bagasdotme@gmail.com wrote:
 > On Sun, Jan 29, 2023 at 11:57:01PM +0000, Conor Dooley wrote:
 >> From: Conor Dooley <conor.dooley@microchip.com>
 >> 
@@ -85,6 +77,18 @@ Sorry I forgot about this one, it's on for-next.
 >> Reported-by: kernel test robot <lkp@intel.com>
 >> Fixes: f07b2b3f9d47 ("Documentation: riscv: add a section about ISA string ordering in /proc/cpuinfo")
 >> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+>
+> Seems like you forget to add link to the report:
+>
+> Link: https://lore.kernel.org/linux-doc/202301300743.bp7Dpazv-lkp@intel.com/
+
+Is that the normal way to do it?  I've only been adding the Reported-by 
+like the bot suggests, but I guess it's kind of nice information to have 
+the bug report as well.  From looking at git history it's kind of a mix.
+
+Maybe the bot should suggest this in the bug report, right next to the other
+tag?
+
 >> ---
 >>  Documentation/riscv/uabi.rst | 8 ++++----
 >>  1 file changed, 4 insertions(+), 4 deletions(-)
@@ -108,12 +112,10 @@ Sorry I forgot about this one, it's on for-next.
 >>  
 >>  #. Standard supervisor-level extensions (starting with 'S') will be listed
 >>     after standard unprivileged extensions.  If multiple supervisor-level
->> -- 
->> 2.39.1
->> 
->> 
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
->> 
+>
+> The warning is fixed, thanks!
+>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>
+> -- 
+> An old man doll... just what I always wanted! - Clara
