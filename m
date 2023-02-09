@@ -2,73 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A874C636D4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5274CC64EC5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Feb 2023 07:14:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229473AbjBIHO0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 02:14:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48850 "EHLO
+        id S229881AbjBIHO1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Feb 2023 02:14:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbjBIHOO (ORCPT
+        with ESMTP id S229803AbjBIHOO (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 02:14:14 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E0E441B57;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E58341B61;
         Wed,  8 Feb 2023 23:14:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=RYo/EQQ1egA2iZvGckezR1l+gcipaQNMwSxKiMmzRqU=; b=VxwpDNHtPRR/iBAkJ8q0RXA4Ti
-        aIhno8DVR7555c9vxaGsUDC7WwXkgPF3DcSvWNnidL6GSzj8ISYNao9jdOcjQBeMA9FQ7i0Z9EoSR
-        m1scgpVQLRgQx6rRkOGpC2LETrn7R5+pMFx5Y5q55Ne2kcTmcii7Qj8prjFtBKK9Yh0kg0XPJKxXx
-        JDWmxqSLwwT97Ghd2a1k8SC4RUBJrOkl2lPAfcw6ZqWbDGJwT8FO5bD/w4fhYS5aGEFIYZv3+qwuj
-        2hA+zpDOitcB+FkkNHFR2a8OJyPUh8teoAs0YJuE/+OGUx2oyQLVRrNvIikMm/WcUZVYCUAa8oscQ
-        z3nDRS2w==;
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Sender:Reply-To:Content-ID:Content-Description;
+        bh=TTmkJjzB/TzFwK04yvO6w8l63tjIRq3L6xbfwHjafmc=; b=yGy1xEGMcpzfokEtQwYZJdxqhH
+        eR82M7nyyNdk1Ik5YUa3W70jsXfhJmoic5R1yOK0jtSE8SgGZFhkCQeUYz3TD5xrpiA+zKW+SVVYp
+        SF8hMfdW4SYMrVoUJ0asNnemzhQ1dGfWOUDd3M0JEfSOxcJUJwfunNmApwbW6YUbcEpNe5y+zKXwq
+        NkF6rKoefOqeL21CdJUTYJwlsg1f0x5DJoXMoO/Zb7pBWLArgVb6RbHCr+uG3dPI/+SPAv3dhkua/
+        zUpNLRfKy72qEBmL5wKpH4CN+NFruPSLhGE3n53j5nzOlXQo4S04V29gU/G29sfF5bImtnH7pVjgj
+        F58TXoKg==;
 Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pQ18G-000LPt-Sf; Thu, 09 Feb 2023 07:14:12 +0000
+        id 1pQ18D-000LPt-8k; Thu, 09 Feb 2023 07:14:09 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        linux-trace-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 20/24] Documentation: trace/rv: correct spelling
-Date:   Wed,  8 Feb 2023 23:13:56 -0800
-Message-Id: <20230209071400.31476-21-rdunlap@infradead.org>
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>
+Subject: [PATCH 11/24] Documentation: mm: correct spelling
+Date:   Wed,  8 Feb 2023 23:13:47 -0800
+Message-Id: <20230209071400.31476-12-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
 References: <20230209071400.31476-1-rdunlap@infradead.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct spelling problems for Documentation/trace/rv/ as reported
+Correct spelling problems for Documentation/mm/ as reported
 by codespell.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc: linux-trace-kernel@vger.kernel.org
+Cc: Jérôme Glisse <jglisse@redhat.com>
+Cc: Naoya Horiguchi <naoya.horiguchi@nec.com>
+Cc: Miaohe Lin <linmiaohe@huawei.com>
+Cc: linux-mm@kvack.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
+Reviewed-by: Naoya Horiguchi <naoya.horiguchi@nec.com>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
 ---
- Documentation/trace/rv/runtime-verification.rst             |    2 +-
+ Documentation/mm/hmm.rst      |    4 ++--
+ Documentation/mm/hwpoison.rst |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff -- a/Documentation/trace/rv/runtime-verification.rst b/Documentation/trace/rv/runtime-verification.rst
---- a/Documentation/trace/rv/runtime-verification.rst
-+++ b/Documentation/trace/rv/runtime-verification.rst
-@@ -31,7 +31,7 @@ In Linux terms, the runtime verification
- *RV monitor* abstraction. A *RV monitor* includes a reference model of the
- system, a set of instances of the monitor (per-cpu monitor, per-task monitor,
- and so on), and the helper functions that glue the monitor to the system via
--trace, as depicted bellow::
-+trace, as depicted below::
+diff -- a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
+--- a/Documentation/mm/hmm.rst
++++ b/Documentation/mm/hmm.rst
+@@ -416,10 +416,10 @@ can be used to make a memory range inacc
  
-  Linux   +---- RV Monitor ----------------------------------+ Formal
-   Realm  |                                                  |  Realm
+ This replaces all mappings for pages in the given range with special swap
+ entries. Any attempt to access the swap entry results in a fault which is
+-resovled by replacing the entry with the original mapping. A driver gets
++resolved by replacing the entry with the original mapping. A driver gets
+ notified that the mapping has been changed by MMU notifiers, after which point
+ it will no longer have exclusive access to the page. Exclusive access is
+-guranteed to last until the driver drops the page lock and page reference, at
++guaranteed to last until the driver drops the page lock and page reference, at
+ which point any CPU faults on the page may proceed as described.
+ 
+ Memory cgroup (memcg) and rss accounting
+diff -- a/Documentation/mm/hwpoison.rst b/Documentation/mm/hwpoison.rst
+--- a/Documentation/mm/hwpoison.rst
++++ b/Documentation/mm/hwpoison.rst
+@@ -50,7 +50,7 @@ of applications. KVM support requires a
+ For the KVM use there was need for a new signal type so that
+ KVM can inject the machine check into the guest with the proper
+ address. This in theory allows other applications to handle
+-memory failures too. The expection is that near all applications
++memory failures too. The expectation is that near all applications
+ won't do that, but some very specialized ones might.
+ 
+ Failure recovery modes
