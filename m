@@ -2,146 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2CFEC05027
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 21:50:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90879C636D4
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 21:50:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233589AbjBJVur (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 16:50:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33768 "EHLO
+        id S233642AbjBJVuu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 16:50:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233005AbjBJVuq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 16:50:46 -0500
+        with ESMTP id S233430AbjBJVuu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 16:50:50 -0500
 Received: from 66-220-144-178.mail-mxout.facebook.com (66-220-144-178.mail-mxout.facebook.com [66.220.144.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CF003E0A1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 13:50:45 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D197660D4D
+        for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 13:50:49 -0800 (PST)
 Received: by dev0134.prn3.facebook.com (Postfix, from userid 425415)
-        id 62D1E6BFC2C0; Fri, 10 Feb 2023 13:50:33 -0800 (PST)
+        id 803B06BFC2D3; Fri, 10 Feb 2023 13:50:33 -0800 (PST)
 From:   Stefan Roesch <shr@devkernel.io>
 To:     kernel-team@fb.com
 Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
         mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
         linux-doc@vger.kernel.org, akpm@linux-foundation.org
-Subject: [RFC PATCH v2 00/19] mm: process/cgroup ksm support
-Date:   Fri, 10 Feb 2023 13:50:04 -0800
-Message-Id: <20230210215023.2740545-1-shr@devkernel.io>
+Subject: [RFC PATCH v2 07/19] mm: split off pages_volatile function
+Date:   Fri, 10 Feb 2023 13:50:11 -0800
+Message-Id: <20230210215023.2740545-8-shr@devkernel.io>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230210215023.2740545-1-shr@devkernel.io>
+References: <20230210215023.2740545-1-shr@devkernel.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-So far KSM can only be enabled by calling madvise for memory regions. Wha=
-t is
-required to enable KSM for more workloads is to enable / disable it at th=
-e
-process / cgroup level.
+This splits off the pages_volatile function. The next patch will use
+this function.
 
-Use case:
-The madvise call is not available in the programming language. An example=
- for
-this are programs with forked workloads using a garbage collected languag=
-e without
-pointers. In such a language madvise cannot be made available.
+Signed-off-by: Stefan Roesch <shr@devkernel.io>
+---
+ mm/ksm.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-In addition the addresses of objects get moved around as they are garbage
-collected. KSM sharing needs to be enabled "from the outside" for these t=
-ype of
-workloads.
-
-Experiments with using UKSM have shown a capacity increase of around 20%.
-
-
-1. New options for prctl system command
-This patch series adds two new options to the prctl system call. The firs=
-t
-one allows to enable KSM at the process level and the second one to query=
- the
-setting.
-
-The setting will be inherited by child processes.
-
-With the above setting, KSM can be enabled for the seed process of a cgro=
-up
-and all processes in the cgroup will inherit the setting.
-
-2. Changes to KSM processing
-When KSM is enabled at the process level, the KSM code will iterate over =
-all
-the VMA's and enable KSM for the eligible VMA's.
-
-When forking a process that has KSM enabled, the setting will be inherite=
-d by
-the new child process.
-
-In addition when KSM is disabled for a process, KSM will be disabled for =
-the
-VMA's where KSM has been enabled.
-
-3. Add general_profit metric
-The general_profit metric of KSM is specified in the documentation, but n=
-ot
-calculated. This adds the general profit metric to /sys/kernel/debug/mm/k=
-sm.
-
-4. Add more metrics to ksm_stat
-This adds the process profit and ksm type metric to /proc/<pid>/ksm_stat.
-
-5. Add more tests to ksm_tests
-This adds an option to specify the merge type to the ksm_tests. This allo=
-ws to
-test madvise and prctl KSM. It also adds a new option to query if prctl K=
-SM has
-been enabled. It adds a fork test to verify that the KSM process setting =
-is
-inherited by client processes.
-
-
-Changes:
-- V2:
-  - Added use cases to the cover letter
-  - Removed the tracing patch from the patch series and posted it as an
-    individual patch
-  - Refreshed repo
-
-
-
-Stefan Roesch (19):
-  mm: add new flag to enable ksm per process
-  mm: add flag to __ksm_enter
-  mm: add flag to __ksm_exit call
-  mm: invoke madvise for all vmas in scan_get_next_rmap_item
-  mm: support disabling of ksm for a process
-  mm: add new prctl option to get and set ksm for a process
-  mm: split off pages_volatile function
-  mm: expose general_profit metric
-  docs: document general_profit sysfs knob
-  mm: calculate ksm process profit metric
-  mm: add ksm_merge_type() function
-  mm: expose ksm process profit metric in ksm_stat
-  mm: expose ksm merge type in ksm_stat
-  docs: document new procfs ksm knobs
-  tools: add new prctl flags to prctl in tools dir
-  selftests/vm: add KSM prctl merge test
-  selftests/vm: add KSM get merge type test
-  selftests/vm: add KSM fork test
-  selftests/vm: add two functions for debugging merge outcome
-
- Documentation/ABI/testing/sysfs-kernel-mm-ksm |   8 +
- Documentation/admin-guide/mm/ksm.rst          |   8 +-
- fs/proc/base.c                                |   5 +
- include/linux/ksm.h                           |  19 +-
- include/linux/sched/coredump.h                |   1 +
- include/uapi/linux/prctl.h                    |   2 +
- kernel/sys.c                                  |  29 ++
- mm/ksm.c                                      | 114 +++++++-
- tools/include/uapi/linux/prctl.h              |   2 +
- tools/testing/selftests/mm/Makefile           |   3 +-
- tools/testing/selftests/mm/ksm_tests.c        | 254 +++++++++++++++---
- 11 files changed, 389 insertions(+), 56 deletions(-)
-
-
-base-commit: 234a68e24b120b98875a8b6e17a9dead277be16a
+diff --git a/mm/ksm.c b/mm/ksm.c
+index 23d6944f78ad..7f3b28b7536e 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -3271,8 +3271,7 @@ static ssize_t pages_unshared_show(struct kobject *=
+kobj,
+ }
+ KSM_ATTR_RO(pages_unshared);
+=20
+-static ssize_t pages_volatile_show(struct kobject *kobj,
+-				   struct kobj_attribute *attr, char *buf)
++static long pages_volatile(void)
+ {
+ 	long ksm_pages_volatile;
+=20
+@@ -3284,7 +3283,14 @@ static ssize_t pages_volatile_show(struct kobject =
+*kobj,
+ 	 */
+ 	if (ksm_pages_volatile < 0)
+ 		ksm_pages_volatile =3D 0;
+-	return sysfs_emit(buf, "%ld\n", ksm_pages_volatile);
++
++	return ksm_pages_volatile;
++}
++
++static ssize_t pages_volatile_show(struct kobject *kobj,
++				   struct kobj_attribute *attr, char *buf)
++{
++	return sysfs_emit(buf, "%ld\n", pages_volatile());
+ }
+ KSM_ATTR_RO(pages_volatile);
+=20
 --=20
 2.30.2
 
