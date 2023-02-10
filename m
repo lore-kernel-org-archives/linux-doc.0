@@ -2,295 +2,300 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72AEAC636D3
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 11:38:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF7FEC05027
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 11:50:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232192AbjBJLiS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 06:38:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49178 "EHLO
+        id S231846AbjBJLuR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 06:50:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232177AbjBJLiR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 06:38:17 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3146472DC2;
-        Fri, 10 Feb 2023 03:38:15 -0800 (PST)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pQRjE-0005l1-Q8; Fri, 10 Feb 2023 12:38:08 +0100
-Message-ID: <66fc12cd-65b6-0831-89a8-57636453883b@leemhuis.info>
-Date:   Fri, 10 Feb 2023 12:38:07 +0100
-MIME-Version: 1.0
+        with ESMTP id S231877AbjBJLuQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 06:50:16 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2089.outbound.protection.outlook.com [40.107.223.89])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8CB47071F;
+        Fri, 10 Feb 2023 03:50:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eQzl41vGomYn/B7ItNa5nVoXs3IxULtQP4kOA9+Y9+O0woLfX1y/fTXvJeXuximyCnH7aPAhFdZxm3xhjHae+9Q/leFiJEHbiQONK0LhbbMBmqepdIBT4e6RQ+e7MRnHLu3zlNmaGcz9r39Qxex22vQz7Iu/HOAdT7eww0O39SJnlxXz7mU7RaJap5VeIef9NkqLMZXJIwbvJR9WW7zTCCiAnK9BrjpE/HPBFucBDJyJEk/YUxpFS9r4/sK/spMBUA2Ikj0HSPtj5x4IIMNAmHzsIt0s1NGMGJIcssXZWVpMtXZTlhLDFQT1g8CT73Z9PnegpdLOk7xlLsDGahxHFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G6pdfoTrkaFkEUD/Q8Lu04SLdSw6OnC3nMrDj/ddnKY=;
+ b=B97TrS4N4GBG7PIDYg5jNWz9wwiV43hZb7mYJ6JBEvzHqaWRXaW/WlViyMaU16HoKxevvdDD/tB1TO8aDqLwMBoDxa2InxcsZQS6mUgrWgRJo1nDGERW0jBhPvrrQK4sYvGppd+fEHRaOrQ6ysRnhe8pdOSXqA1ZvxMJsKG7DPAH6RQcj9LORmsMywt5vNGJNSOevzKlDKbnxefrj9933c+zKcg7AEqhcBbDoGJzP9fLnFDgzxSeU8YkkNWXU5BtqHjyQ3Q3O+bjI/lwlweyOgCO73OQ7ozTm9jOsaCJ/M1QgyMUt1HX/DQm4gVap4rz1a/Nh5X7jgSXFsN/aFD65A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G6pdfoTrkaFkEUD/Q8Lu04SLdSw6OnC3nMrDj/ddnKY=;
+ b=nYLDJzkUwnthGgoKk8ItmD0JLMp1Yum/QzzUTHj38SDpxZLSM0L/AV1yFZGZGD8swQdnmAHx5X/B6hCBfn1XKv74jGt51IpQljdyGLZoGhcYfTkcdFVyIeIkXGRMnexuvSNhDPZkJYOZTkGGn41PGULN3FAoSKkywPiQgoAlmik=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MW4PR12MB6875.namprd12.prod.outlook.com (2603:10b6:303:209::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.19; Fri, 10 Feb
+ 2023 11:50:10 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6086.019; Fri, 10 Feb 2023
+ 11:50:10 +0000
+Message-ID: <28eeb2f9-76e5-2a74-8adb-183f00900da1@amd.com>
+Date:   Fri, 10 Feb 2023 12:50:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v1] docs: describe how to quickly build Linux
-Content-Language: en-US, de-DE
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+Subject: Re: [Nouveau] [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi
+ interfaces
+Content-Language: en-US
+To:     Danilo Krummrich <dakr@redhat.com>, Dave Airlie <airlied@gmail.com>
+Cc:     Matthew Brost <matthew.brost@intel.com>, daniel@ffwll.ch,
+        corbet@lwn.net, dri-devel@lists.freedesktop.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-References: <fabdb45fa44db2531f0dbe5e88545c49dfb87040.1675252073.git.linux@leemhuis.info>
- <1f217c94-b90f-359a-2142-0d3ae5d84fc6@leemhuis.info>
-In-Reply-To: <1f217c94-b90f-359a-2142-0d3ae5d84fc6@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
+        mripard@kernel.org, bskeggs@redhat.com, jason@jlekstrand.net,
+        nouveau@lists.freedesktop.org, airlied@redhat.com
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com>
+ <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
+ <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com>
+ <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
+ <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com>
+ <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
+ <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
+ <bc523c5c-efe6-1a7f-b49a-e0867dc1413d@redhat.com>
+ <15fb0179-c7c5-8a64-ed08-841189919f5e@redhat.com>
+ <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
+ <CAPM=9txON8VCb3H7vDY_DOgtUg2Ad3mBvYVxgSMyZ1noOu-rBQ@mail.gmail.com>
+ <a1c526e0-0df7-12cb-c5a1-06e9cd0d876b@amd.com>
+ <3f935a7e-fede-2bad-c029-4a3af850c9b5@redhat.com>
+ <95d0631b-545c-ea4d-7439-75422e9a9120@amd.com>
+ <67958920-c5bb-a0f5-2306-e3ae4fdbaeb3@redhat.com>
+ <c0635ff3-027f-bcd7-afbc-46f4e62d3651@amd.com>
+ <4439c44b-cbd0-7160-da3d-e78f6aeeec77@redhat.com>
+ <85548cd2-1bea-3c04-40b9-9abb03cb57b3@amd.com>
+ <69e87e6a-7e6a-7b8d-c877-739be9cba0a1@redhat.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <69e87e6a-7e6a-7b8d-c877-739be9cba0a1@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1676029095;3d0088ce;
-X-HE-SMSGID: 1pQRjE-0005l1-Q8
+X-ClientProxiedBy: FR0P281CA0139.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:96::14) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MW4PR12MB6875:EE_
+X-MS-Office365-Filtering-Correlation-Id: 229e439d-e8c1-43a7-8358-08db0b5cf649
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ttn7eRKEU1MxnFKMX8vrNB0UMwgv9Oh49V5LV+Bp1m9N+J+N7BCxdfeBXeNpqwitBPRmo23qmlPBe/xqmCsZkFbEWfZDQrs5Q7gl/ilm5PJH9i4WWLIyyb4yxJg7SQ24FwB9VqMizD3hZ2vY23OvYLqewUvH2brxbk4DBK12flaT1ThePM5e7eU39A+JZFRZi8pw8NHAteiMSQpwx2jYxtAUMftJY8i5A+UylWJtoTGTH6vYfGLTZLOcwGuzaeGOQ/akxMHQ7LJZwx2J9bAiFucpquj/YOPoRrHKOHeK4KMR4koYY5H55OSr30Mbr5rUZtzm32dc6SQBfn7i5VtagbJkNWUujxCLaZui59QeJ2+R48BfYx8ooCPKGyoSEsHmZnO5Mq7jH3Bt0qlKynaK5N5ERurtKheyD+4Q15MVVZuM726bWyeusRULHScrqGngtMLn4lQEHRjcq0Ypz/MsMDeYJTqGRu8QjTt4yyAWNUi5RF7JQnO/7rlXJJueKeKk55yVk9waZMukOidPMkz9Uhm0hccMxzFtH5nFbHvDaOxbkODqQBhab3oBeswuZG/OR1GzAHmo+y1rwxAvqNt7Roq9P54RxnjlmpIjvcbJd6Hq7JD6/iZa9dmMlZ5uOi2f1GigR6hj/zjZXeg0ISsJhDcvxtRE095yuJK90zznOPNw3w9lZYQiGl9VK/3+tdEHEpeirFb3CPVZE3oYAfexA36X7wvguH+sOkqcdSmNe7o=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(136003)(39860400002)(376002)(396003)(346002)(451199018)(38100700002)(5660300002)(36756003)(41300700001)(31696002)(31686004)(86362001)(2616005)(2906002)(83380400001)(66574015)(186003)(8936002)(7416002)(110136005)(6506007)(6512007)(53546011)(6666004)(316002)(66556008)(478600001)(6486002)(4326008)(8676002)(66476007)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Sjgxa2tkbG5ERDBPMys0bFpTcnVITG1Rcm1PcFhzUVp5QWN6V3I2QjBLWHBB?=
+ =?utf-8?B?NTV0ekRza3kxSXlDWTFzOEZleSs2b21tZzZLSU9jMHREMmRIaGpIWjM3OWZF?=
+ =?utf-8?B?UUJ6R0xudWl5SHZPeTVkN2NzS2hZbEErRmtCWGkwdXZURlZ2OUdLTVR2eWp3?=
+ =?utf-8?B?RFV6K2hGSzNwRnRZcmhJU1lJUGJVTkdDdFU2cC9EaFdLclBid1l6TXZmcFNM?=
+ =?utf-8?B?b1kzQXkwRGNrQ210VUhGOGZDSkRNNVBIQmlzazFHOHBJbDkwd3ZFUXc1c1Ns?=
+ =?utf-8?B?L2p0YUJtcVZHWWMwVGF4cnRkclpLejJRbmZVcS9mQ0hHekF6dWcvSHl2dFRn?=
+ =?utf-8?B?OU9Wc2lTZ3V6Y0k3YlhlR2VQcFBYTTBxWUZPbldXd0hDdk43KzdHTlhZNVlV?=
+ =?utf-8?B?K2dpd3g3WlhjSHBycmh1YXIzZ3NLWW9NTkRidFlGU1lGaEZGcWJQaHV4L09F?=
+ =?utf-8?B?OXM2dHMrbDcrNGI3S0tBYXVaaEtMNzk5eEc2OW9qMTFZeFlNaTNaVm5LSVlI?=
+ =?utf-8?B?Qy82SU1jQ29OdWNta3E3YkRhd21wZmxDZGtWWVZJdHMrKy9JSUIyU2RrUGFN?=
+ =?utf-8?B?TlZkZkZaNzNCeHZUcVFNR2kvZTVsNzhmc2p5TnhreG9UbkN4anNlcEJkQlpW?=
+ =?utf-8?B?WVNjNTVLdG5MeDdDM0phU3kxZzJHNHpZWWRsMzJvZDBjM2FUdnUzYmoySmZj?=
+ =?utf-8?B?T0ZGdHZjak9jdWt1Q3NlNVJkbVcwMDRFZ25US1dId0NGNTVTWm1QbWhSMG5Y?=
+ =?utf-8?B?cjN5bTI3ZEE2UTByZHdUUXU1cmw3TFU0RlBkZm0yYWw3amVvdzlhYXFXeUo0?=
+ =?utf-8?B?dDQzSDhGREZuYXFrb0orRm12NTViVk1CRVFHVmZxODh5S0ZuSnhMNUxKekxz?=
+ =?utf-8?B?ZS9KVythdG1OenZkZ0NwdjI4dFcxc2J2Rks0VFJJNCtpejZJc1k5QlBEVTA3?=
+ =?utf-8?B?dzVXeGVtazJmM1BUa08wSWNyMU83bVNSUmFGRzZOeVNMVm82TjZ2anFTdzN4?=
+ =?utf-8?B?YytaNjBoRXhrY1R6UUpkWWRaUnFYeS85NndxRnF2ejQ0MzdUWlA1OUlaVU1v?=
+ =?utf-8?B?SkxaY1VpQ2JRSEtoOEdpRGZtemRMdTZwdW9pSHhXbzlFMkxYMXFqdHpvYXBn?=
+ =?utf-8?B?TUNFUkxBM09aY3Y3dzAvQ3VUclVpN2xhV094dmNvbDcrZ1FlMExXbUdMS094?=
+ =?utf-8?B?OWdXQXpIUzA5RzVYTGVUbWRGZzNCbnJjVWQrdEtiNERhMUd2ZjFSMUtzeUtQ?=
+ =?utf-8?B?L05TYmMza0NaaEt1RlVJQndkdm92dittYTQwZHUrejhPSDlZSXNkb3paSFhG?=
+ =?utf-8?B?N1dldUc4eVNTSUlMNHNPR29hQ09hOVNRcTlHcGZ6VThobzF6ayszTnNZMW5n?=
+ =?utf-8?B?V3ZlT0thakcvYTArdkRNaU5LOFZDdXVIOE5TVjVBQWJ4Vmc3UU9Zc3FuZjN3?=
+ =?utf-8?B?WXkyY01nM211Q1dtcTBCOVduZjFPbjFvY1NqSklCcVlZZ0VjRnp2d0VxcDMy?=
+ =?utf-8?B?UW9ncDJGY3plclV3SkREMm9hWDFuZ3FNK3Nld053eUZyenl6VHR3Mk44eU1r?=
+ =?utf-8?B?NmRkR2drUU4yQXpia2ljajZtd3pXVjRIWWw3Y1ZOaXJVSUtjREI5Y0x0UHkz?=
+ =?utf-8?B?eUpsSy84OTlrYWp0RVd1V2tKSGJBZ1BvcllLb0N2NWo4Z2JseVdOOXBLQkZO?=
+ =?utf-8?B?c1d0NnVDOXVER3JQRjJhamVjcFkzanFIY04vTHlkUDBWeUtJTnRzeEwreXph?=
+ =?utf-8?B?M2EvMm5ML0Y3YWdkQytRUEdnNzJvYXhiMW1RakxQVVJiN2tTL0d5YWF5TlNZ?=
+ =?utf-8?B?VU5aZzRPSVFUSVdYYlBKcnlWeE1LT1FPbExQRFY5TG5mM3M4aGRXNGVLMDNn?=
+ =?utf-8?B?SXh2NEovZFQraVUwT3A3OTJ4MUtOa1M2bXZUbDlkUWo5M25iajZraFhnaHdI?=
+ =?utf-8?B?aXRWVlNEdHV6cVFwMm5PSlRtUlFXYjZpaVVicGEwTjZhbzAwV1NOWFBhZmlY?=
+ =?utf-8?B?Y1RLZHhRU09EUGJ2OGhPOTNtU09XU1FYcUpkelprbGxsZEJNZ2NYbjhuUERz?=
+ =?utf-8?B?WFgzeWVSbHJUTlAxUlhUOGJFR2FKWE1VSklSRjJLMC9UcTJkWm1LL2FhWFU3?=
+ =?utf-8?B?ZVFaMzl1cFdMV2l6THEzdkpvQ3JGWXFsenRhTGdzbVljMUdFRWh3NDhZOXFi?=
+ =?utf-8?Q?gcDo4Y3EdQ1bm5tfnp0APK5fp8PltcUIu+fHwLlKfNGn?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 229e439d-e8c1-43a7-8358-08db0b5cf649
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2023 11:50:10.1372
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BxKxAb/B8vg0U4MLa8jPfyNLpji8bnqV8kw5phZe73Ko/tGoC5s/4+OBfvlX2ezB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6875
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quick update, in case anyone wants an early look at the reworked
-sections that likely will soon be posted as part of a v2:
 
-On 02.02.23 12:15, Linux kernel regression tracking (Thorsten Leemhuis)
-wrote:
-> [adding Konstantin and Greg to the list of recipients]
-> 
-> On 01.02.23 12:52, Thorsten Leemhuis wrote:
->> Add a text explaining how to quickly build a kernel, as that's something
->> users will often have to do when they want to report an issue or test
->> proposed fixes. This is a huge and frightening task for quite a few
->> users these days, as many rely on pre-compiled kernels and have never
->> built their own. They find help on quite a few websites explaining the
->> process in various ways, but those howtos often omit important details
->> or make things too hard for the 'quickly build just for testing' case
->> that 'localmodconfig' is really useful for. Hence give users something
->> at hand to guide them, as that makes it easier for them to help with
->> testing, debugging, and fixing the kernel.
-> 
-> Side note: after feedback on social media I'll likely switch to a title
-> like "how to quickly configure & build a trimmed-down Linux kernel", as
-> some people from the current title assumed this would be about things
-> like ccache.
 
-I for now settled for "How to quickly build a trimmed Linux kernel". I
-wonder if "adapt" or "attuned" might be better than "trimmed". I'd
-appreciate any input from native speakers here.
-
-> I'll also likely will switch to using a localversion file
-> in the buildroot instead of modifying the EXTRAVERSION in the top-level
-> makefile (but I haven't actually tried it yet).
-
-The section in the step by step guide now reads:
-
-```
- * If you patched your kernel or already have a kernel of the same
-version installed, better tag the one you are about to build by
-extending its release name::
-
-     echo "-proposed_fix" > ~/linux/build/localversion
-
-   If you build Linux 6.2-rc4 and later execute ``uname -r`` while
-running that kernel, it will print '6.2-rc4-proposed_fix'.
-```
-
->> [...]
+Am 07.02.23 um 11:50 schrieb Danilo Krummrich:
+> On 2/7/23 10:35, Christian König wrote:
+[SNIP]
+>>>
+>>> Just to have it all in place, the example I gave was:
+>>>  - two virtually contiguous buffers A and B
+>>>  - binding 1 mapped to A with BO offset 0
+>>>  - binding 2 mapped to B with BO offset length(A)
+>>>
+>>> What I did not mention both A and B aren't sparse buffers in this 
+>>> example, although it probably doesn't matter too much.
+>>>
+>>> Since the conditions to do so are given, we merge binding 1 and 
+>>> binding 2 right at the time when binding 2 is requested. To do so a 
+>>> driver might unmap binding 1 for a very short period of time (e.g. 
+>>> to (re-)map the freshly merged binding with a different page size if 
+>>> possible).
 >>
->> The text currently describes two approaches to retrieve Linux' sources
->> using git: the regular clone with linux-stable as a remote and a shallow
->> clone with just one branch from linux-stable. [...]
+>> Nope, that's not correct handling.
 >
-> [...]>
-> That's why I now strongly consider using the shallow clone method by
-> default in v2 of this text.
+> I agree, and that's exactly what I'm trying to say. However, I start 
+> noticing that this is not correct if it happens within the same buffer 
+> as well.
 
-TWIMC, I went down that route and took a bit of back and forth to figure
-out a good approach.
+Yes, exactly that's my point.
 
-The segment in the step-by-step guide now looks like this:
+>
+>>
+>>>
+>>> From userspace perspective buffer A is ready to use before applying 
+>>> binding 2 to buffer B, hence it would be illegal to touch binding 1 
+>>> again when userspace asks the kernel to map binding 2 to buffer B.
+>>>
+>>> Besides that I think there is no point in merging between buffers 
+>>> anyway because we'd end up splitting such a merged mapping anyway 
+>>> later on when one of the two buffers is destroyed.
+>>>
+>>> Also, I think the same applies to sparse buffers as well, a mapping 
+>>> within A isn't expected to be re-mapped just because something is 
+>>> mapped to B.
+>>>
+>>> However, in this context I start wondering if re-mapping in the 
+>>> context of merge and split is allowed at all, even within the same 
+>>> sparse buffer (and even with a separate page table for sparse 
+>>> mappings as described in my last mail; shaders would never fault).
+>>
+>> See, your assumption is that userspace/applications don't modify the 
+>> VA space intentionally while the GPU is accessing it is just bluntly 
+>> speaking incorrect.
+>>
+>
+> I don't assume that. The opposite is the case. My assumption is that 
+> it's always OK for userspace to intentionally modify the VA space.
+>
+> However, I also assumed that if userspace asks for e.g. a new mapping 
+> within a certain buffer it is OK for the kernel to apply further 
+> changes (e.g. re-organize PTs to split or merge) to the VA space of 
+> which userspace isn't aware of. At least as long as they happen within 
+> the bounds of this particular buffer, but not for other buffers.
 
-```
- * Retrieve the sources of the Linux version you intend to build; then
-change into the directory holding them, as all further commands in this
-guide are meant to be executed from there.
+Well when this somehow affects shaders which accesses other parts of the 
+buffer at the same time then that won't work.
 
-   *[Note, the following paragraphs describe how to retrieve the sources
-by partially cloning the Linux stable repository. The reference section
-explains two alternatives to such a 'shallow clone': packaged archives
-and a full clone. Use the latter, if downloading a lot of data does not
-bother you, as that will avoid some quirks of shallow clones the
-reference section explains.]*
+> I think the reasoning I had in mind was that I thought if userspace 
+> asks for any modification of a given portion of the VA space (that is 
+> a VKBuffer) userspace must assume that until this modification (e.g. 
+> re-organization of PTs) is complete reading 0s intermediately may 
+> happen. This seems to be clearly wrong.
+>
+>> When you have a VA address which is mapped to buffer A and accessed 
+>> by some GPU shaders it is perfectly valid for the application to say 
+>> "map it again to the same buffer A".
+>>
+>> It is also perfectly valid for an application to re-map this region 
+>> to a different buffer B, it's just not defined when the access then 
+>> transits from A to B. (AFAIK this is currently worked on in a new 
+>> specification).
+>>
+>> So when your page table updates result in the shader to 
+>> intermediately get 0s in return, because you change the underlying 
+>> mapping you simply have some implementation bug in Nouveau.
+>
+> Luckily that's not the case (anymore).
+>
+>>
+>> I don't know how Nvidia hw handles this, and yes it's quite 
+>> complicated on AMD hw as well because our TLBs are not really made 
+>> for this use case, but I'm 100% sure that this is possible since it 
+>> is still part of some of the specifications (mostly Vulkan I think).
+>>
+>> To sum it up as far as I can see by giving the regions to the kernel 
+>> is not something you would want for Nouveau either.
+>
+> If, as it turns out, it's also not allowed to do what I described 
+> above within the same VKBuffer, I agree the bounds aren't needed for 
+> merging.
+>
+> However, I still don't see why we would want to merge over buffer 
+> boundaries, because ultimately we'll end up splitting such a merged 
+> mapping later on anyway once one of the buffers is destroyed.
 
-   Execute the following command to retrieve a fresh mainline codebase::
+Well the key point is all approaches have some pros and cons.
 
-     git clone --no-checkput --depth 1 -b master \
-       https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git\
-       ~/linux/sources/
-     cd ~/linux/sources/
+If we merge and decide to only do that inside certain boundaries then 
+those boundaries needs to be provided and checked against. This burns 
+quite some CPU cycles
 
-   If you want to access recent mainline releases and pre-releases,
-deepen you clone's history to the oldest version you are interested in::
+If we just merge what we can we might have extra page table updates 
+which cost time and could result in undesired side effects.
 
-     git fetch --shallow-exclude=v6.1
+If we don't merge at all we have additional housekeeping for the 
+mappings and maybe hw restrictions.
 
-   In case you want to access a stable/longterm release (say v6.1.5),
-simply add the branch holding that series; afterwards fetch the history
-up to the mainline version that started the series (v6.1) or is older::
+> Also, as explained in one of the previous mails in nouveau we can have 
+> separate PTs for sparse mappings with large page sizes and separate 
+> PTs for memory backed mappings with smaller page sizes overlaying 
+> them. Hence, I need to track a single sparse mapping per buffer 
+> spanning the whole buffer (which I do with a region) and the actual 
+> memory backed mappings within the same range.
+>
+> Now, this might or might not be unique for Nvidia hardware. If nouveau 
+> would be the only potential user, plus we don't care about potentially 
+> merging mappings over buffer boundaries and hence producing 
+> foreseeable splits of those merged mappings, we could get rid of 
+> regions entirely.
 
-     git remote set-branches --add origin linux-6.1.y
-     git fetch --shallow-exclude=v6.1
+This sounds similar to what AMD hw used to have up until gfx8 (I think), 
+basically sparse resources where defined through a separate mechanism to 
+the address resolution of the page tables. I won't rule out that other 
+hardware has similar approaches.
 
-   Now check out the code you are interested in. If you just performed
-the initial clone, you will be able to check out a fresh mainline
-codebase ('origin/master') -- it is ideal for checking whether
-developers already addressed an issue you face::
+On the other hand when you have separate page tables for address 
+translation and sparse handling then why not instantiate two separate VM 
+manager instances for them?
 
-      git checkout --detach origin/master
+Regards,
+Christian.
 
-   If you deepened your clone, you instead of 'origin/master' can
-specify the version you deepened to; any later releases like 'v6.2' or
-pre-release like 'v6.3-rc1' will work, too. Stable or longterm versions
-like 'v6.1.5' work just the same, if you added the appropriate
-stable/longterm branches as described.
+>
+>>
+>> Regards,
+>> Christian.
+>>
+>>
+>>>
+>>>>
+>>>> So you need to be able to handle this case anyway and the approach 
+>>>> with the regions won't help you at all preventing that.
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>
+>>
+>
 
-```
-
-
-The corresponding segment in the reference section got somewhat long and
-now looks like this:
-
-
-```
-Download the sources
---------------------
-
-  *Retrieve the sources of the Linux version you intend to build.*
-  [:ref:`...<sources_sbs>`]
-
-The step-by-step guide outlines how to retrieve Linux' sources using a
-shallow git clone. There is more to tell about this method and two
-alternate ways worth describing: packaged archives and a full git clone.
-And the aspects 'wouldn't it be wiser to use a proper pre-release than
-the latest mainline code' and 'how to get an even fresher mainline
-codebase' need elaboration, too.
-
-Unexpected aspects of shallow clones
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The step-by-step guide uses a shallow clone, as it's the best solution
-for most of this document's target audience. There are a few quirks of
-this approach worth mentioning:
-
- * This document in most places uses 'git fetch' with
-'--shallow-exclude=' to specify the tag of the earliest version you care
-about. You alternatively can use the parameter '--shallow-since=' to
-specify an absolute (say '2023-07-15') or relative ('12 months') date to
-define the depth of the history you want to download.
-
- * When running 'git fetch', remember to always specify the oldest
-version or time you care about as shown in the step-by-step guide.
-Otherwise you'll risk downloading nearly the entire git history, which
-will consume quite a bit of time and bandwidth while also stressing the
-servers.
-
-   Note, you don't have to use the same version/date all the time, but
-when you start using a different one git will deepen or flatten the
-history to the specified point. That allows you to retrieve versions you
-initially thought you did not need -- or it will discard the sources of
-older versions, when you want to free up some disk space. The latter
-will happen automatically when using '--shallow-since=' with a relative
-date.
-
- * Be warned, when deepening the history you might encounter an error
-like 'fatal: error in object: unshallow
-1234567890abcdef1234567890abcdef12345678'. In that case run ``git repack
--d`` and try again.
-
- * In case you want to revert changes from a certain version (say Linux
-6.3) or perform a bisection ending on it (v6.2..v6.3), better tell 'git
-fetch' to retrieve objects up to three versions earlier (e.g. 6.0):
-``git describe`` will then be able to describe most commits just like it
-would in a full tree.
-
-Downloading the sources using a packages archive
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-People new to compiling Linux often assume downloading an archive via
-the front-page of https://kernel.org is the best approach to retrieve
-Linux' sources. It actually can be, if you are certain to build just one
-particular kernel version without changing any code. Thing is: you might
-be sure this will be the case, but in practice it then often will turn
-out to be a wrong assumption.
-
-That's because when reporting or debugging an issue developers will
-often ask to give an earlier or later version a try. They also might
-suggest temporarily undoing a commit with 'git revert …' or provide
-various patches to try. Sometimes reporters will also be asked to use
-'git bisect' to find the change causing a problem. These things rely on
-git or are a lot easier and quicker to handle with it.
-
-Additionally, a shallow clone also doesn't add much overhead: when git
-is creating one for just the latest mainline codebase it retrieves only
-a little more data than downloading a packaged archive would.
-
-A shallow clone therefore is often the better choice. If you
-nevertheless want to use a packaged source archive, download one via
-kernel.org; afterwards extract its content to '~/linux/' and change to
-the directory created during extraction. The rest of the step-by-step
-guide will work just fine, apart from things that rely on git -- but
-this mainly concerns the section on successive builds of other versions.
-
-Downloading the sources using a full git clone
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If downloading and storing a lot of data (~4,4 Gigabyte as of early
-2023) is nothing that bothers you, instead of a shallow clone perform a
-full git clone instead. They are a little easier to handle and will have
-the complete development history at hand at any time::
-
-	curl -L
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/clone.bundle
--o ~/linux/linux-stable.git.bundle
-	git clone clone.bundle ~/linux/sources/
-	rm ~/linux/linux-stable.git.bundle
-	cd ~/linux/sources/
-	git remote set-url origin
-	https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-	git fetch --all
-	git checkout --detach origin/master
-
-
-Proper pre-releases (RCs) vs. latest mainline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-When cloning the sources using git and checking out origin/master, you
-often will retrieve a codebase that is somewhere between the latest and
-the next release or pre-release. This almost always is the code you want
-when giving mainline a shot: pre-releases like v6.1-rc5 are in no way
-special, as they don't get any significant extra testing before being
-published.
-
-There is one exception: you might want to stick to the latest mainline
-release (say v6.1) before its successor's first pre-release (v6.2-rc1)
-is out. That's because compiler errors and other problems are more
-likely to occur during this time, as mainline then is in its 'merge
-window': a usually two week long phase, in which the bulk of the changes
-for the next release is merged.
-
-Avoiding the mainline lag
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The explanations for both the shallow clone and the full clone both
-retrieve the code from the Linux stable git repository. That makes
-things simpler for this document's audience, as it allows easy access to
-both mainline and stable/longterm releases. This approach has just one
-downside:
-
-Changes merged into the mainline repository are only synced to the
-master branch of the Linux stable repository  every few hours. This lag
-most of the time is not something to worry about; but in case you really
-need the latest code, just add the mainline repo as additional remote
-and checkout the code from there::
-
-	git remote add mainline
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-	git fetch --all
-	git checkout --detach mainline/master
-```
-
-Ciao, Thorsten
