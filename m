@@ -2,89 +2,147 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D113C636CD
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 13:55:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A458AC636D4
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 13:57:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232075AbjBJNzK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 08:55:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40292 "EHLO
+        id S231902AbjBJN5X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 08:57:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232116AbjBJNzJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 08:55:09 -0500
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B661560D4F
-        for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 05:55:07 -0800 (PST)
-Received: by mail-qt1-x833.google.com with SMTP id g18so5721170qtb.6
-        for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 05:55:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1XIPHxCMD5tFxCkQNamP1KwgZXhCO9JHa2zZcUYu+zE=;
-        b=VNcwhXzklTCDhx2S86opLFevpUQrSXsNC7sI++lkeosdSuacvHF4EvNMIPrUVcmLE1
-         ypJKr8JzEzAy57MLSz/EZH7+C7uCM+nJmskifqnbM7DCEmskPOnabBlRxkK5gtPJ0OQt
-         BEOuhg04dExP0J0eYFixdeZx4sQjcYYvx6Dd4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1XIPHxCMD5tFxCkQNamP1KwgZXhCO9JHa2zZcUYu+zE=;
-        b=PtIic/1g2KLJdrS5VgKCJ4at8OQLrmztadRGNZuZqb8xMtKSbR2VY4dovP30IX/fG7
-         yTWUkb0FfT6EpJKLx1ubHmtPArUstymuiOP69D+/za6QPxW5vtvZdCFFsKw+DsOqK/SU
-         BBRQfNIvoL8zzMo192dSzvueJzku+QTlhGaevhuMIKb6T5fXLAEDhsiCPZ59KJO9UT/1
-         w7Cli8kvyjiftqOCqURaq70RCORnLlizu8P1Chnj3nJMrmvQ4lGsYoQwLLe6l25qseN8
-         1oXgKMVsbewyZv2u8xcR5McHVUYMrZK88U8Z4+LpcvH2Il8jZVhPMLGKBPU7F9BaSIlP
-         wG3w==
-X-Gm-Message-State: AO0yUKXuSjWt+pAx/XXc5cPZJVp/D7azLzWZLjHIdjxidjJx48WYWAwR
-        rZejzpOVZSmkeJdr8YAzKPX/AA==
-X-Google-Smtp-Source: AK7set+iuUVYVYSZfmqGNHWnygiBBmIGdActv8aFlM3YnnhwYp9+961GSvD8pgsm7nxBy5K7wkLKkw==
-X-Received: by 2002:a05:622a:5cb:b0:3b8:6814:ea20 with SMTP id d11-20020a05622a05cb00b003b86814ea20mr26686495qtb.67.1676037306852;
-        Fri, 10 Feb 2023 05:55:06 -0800 (PST)
-Received: from nitro.local (bras-base-mtrlpq5031w-grc-30-209-226-106-7.dsl.bell.ca. [209.226.106.7])
-        by smtp.gmail.com with ESMTPSA id c26-20020ac84e1a000000b003a5c6ad428asm3281450qtw.92.2023.02.10.05.55.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 05:55:06 -0800 (PST)
-Date:   Fri, 10 Feb 2023 08:55:04 -0500
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v1] docs: describe how to quickly build Linux
-Message-ID: <20230210135504.jg7tmqhdmhfwdz5t@nitro.local>
-References: <fabdb45fa44db2531f0dbe5e88545c49dfb87040.1675252073.git.linux@leemhuis.info>
- <1f217c94-b90f-359a-2142-0d3ae5d84fc6@leemhuis.info>
- <66fc12cd-65b6-0831-89a8-57636453883b@leemhuis.info>
+        with ESMTP id S232361AbjBJN5L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 08:57:11 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A87475AB07;
+        Fri, 10 Feb 2023 05:57:09 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 17A0E1EC0745;
+        Fri, 10 Feb 2023 14:57:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1676037428;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=6j9AGvbK6QZWswMMubEra1MMawrAyneStMphrQrJwmw=;
+        b=O4uH+MLv7Ria1BC4GVqbfWA4aby5n4GH2XEDD5iM4lZ7HO0vP4Q3rJEaUQl8i3CUuiSh+8
+        6SCz9zFm3WgmTyaPZc1ZXwfHK/2vVZaklhrkdPJzRWJi6uaMFjrZs0psEHPsFX+e5vjN3m
+        /KqBzgzV3KubqqXyj0vPv7Q8Y05f240=
+Date:   Fri, 10 Feb 2023 14:57:03 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v5 11/39] x86/mm: Update pte_modify for _PAGE_COW
+Message-ID: <Y+ZNL4o57lCrmwpb@zn.tnic>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-12-rick.p.edgecombe@intel.com>
+ <Y+T+ZxydCZS1Yjmz@zn.tnic>
+ <49d20fcd197e85e8475f5170db78780f06396cc0.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <66fc12cd-65b6-0831-89a8-57636453883b@leemhuis.info>
+In-Reply-To: <49d20fcd197e85e8475f5170db78780f06396cc0.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 12:38:07PM +0100, Thorsten Leemhuis wrote:
-> Downloading the sources using a full git clone
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> If downloading and storing a lot of data (~4,4 Gigabyte as of early
-> 2023) is nothing that bothers you, instead of a shallow clone perform a
-> full git clone instead.
+On Thu, Feb 09, 2023 at 05:09:15PM +0000, Edgecombe, Rick P wrote:
+> What do you think, can we leave it or give it a new name? Maybe
+> pte_set_dirty() to be more like the x86-only pte_set_flags() family of
+> functions?
 
-As a minor segue, we know we can dramatically reduce the size of the stable
-repo (and the stable clone.bundle) if we drop all branches and tags for old
-EOL releases and move them to a separate repo (e.g. stable-eol.git).
+I'd do this (ontop of yours, not built, not tested, etc). It is short
+and sweet:
 
-I have suggested this in the past, but it's not a trivial change:
+pte_mkdirty() set both dirty flags
+pte_modifl() sets only _PAGE_DIRTY
 
-- it requires a fair amount of git work
-- it may disrupt some of the build infra around the world still building EOL
-  kernels (for whatever reason)
+No special helpers to lookup what they do, no nothing. Plain and simple.
 
-In my preliminary tests, we easily dropped the size from 4GB to under 3GB.
+---
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index 7942eff2af50..8ba37380966c 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -392,19 +392,10 @@ static inline pte_t pte_mkexec(pte_t pte)
+ 	return pte_clear_flags(pte, _PAGE_NX);
+ }
+ 
+-static inline pte_t __pte_mkdirty(pte_t pte, bool soft)
+-{
+-	pteval_t dirty = _PAGE_DIRTY;
+-
+-	if (soft)
+-		dirty |= _PAGE_SOFT_DIRTY;
+-
+-	return pte_set_flags(pte, dirty);
+-}
+-
++/* Set _PAGE_SOFT_DIRTY for shadow stack pages. */
+ static inline pte_t pte_mkdirty(pte_t pte)
+ {
+-	return __pte_mkdirty(pte, true);
++	return pte_set_flags(pte, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
+ }
+ 
+ static inline pte_t pte_mkyoung(pte_t pte)
+@@ -749,14 +740,8 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
+ 
+ 	pte_result = __pte(val);
+ 
+-	/*
+-	 * Dirty bit is not preserved above so it can be done
+-	 * in a special way for the shadow stack case, where it
+-	 * may need to set _PAGE_COW. __pte_mkdirty() will do this in
+-	 * the case of shadow stack.
+-	 */
+ 	if (pte_dirty(pte))
+-		pte_result = __pte_mkdirty(pte_result, false);
++		pte_result = pte_set_flags(pte_result, _PAGE_DIRTY);
+ 
+ 	return pte_result;
+ }
 
--K
+
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
