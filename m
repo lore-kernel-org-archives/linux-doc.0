@@ -2,152 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2FA8C05027
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 08:53:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A2AAC636CD
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 09:05:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231592AbjBJIxd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 03:53:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54350 "EHLO
+        id S231858AbjBJJFN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 04:05:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231623AbjBJIxd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 03:53:33 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D945E22DC9;
-        Fri, 10 Feb 2023 00:53:31 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id f23-20020a05600c491700b003dff4480a17so5089299wmp.1;
-        Fri, 10 Feb 2023 00:53:31 -0800 (PST)
+        with ESMTP id S231567AbjBJJEy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 04:04:54 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C03EA12846
+        for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 01:04:25 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id m14so4305497wrg.13
+        for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 01:04:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5YouWUSyGDs79r1PakCCDL8yJjJshem2HAyPWj13v98=;
-        b=o4uFStJlsCCrgGP4w3uQme5dTX1jgxPWXafcLov/6CALK1pGeQv9xgjR5x+9+xqsAZ
-         PwsNLEd74yikBInVku/tCgzmhrCqTXQCgS1dya9rFjHhIxMikQ21s8ShDutZw6dt9qi6
-         4qeZ7dUoOFKoKeLL9T0zRkfR7XcGb9/6tybB+pATdcZ1Xxi/pTidf5csiutiehUJgJvD
-         WQ2SwSghe+P1snHzhPhCSenROiVveJ8ZWtLOOmr9Tth0wzuHPehKbYEc/HOofiK1rKo7
-         Z77XG0osk8Di54d596NVFE/ntP82bguVsY3Sdv8wA7fxHPoNkYdZzG81klE9naHXfDaq
-         4gHg==
+        d=linaro.org; s=google;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=K7VIxGHRdprRV/LqkHIT4VXtM2nS0UlK2A3+S/yfPzU=;
+        b=ruHL2ggkOLZrj/A1ju7AHyTWEpcP61OVgpgRcz6Ynbv3U4ENy0MTGWzkmzDKT0FKa+
+         kxwheHnLfTF19VQElv5b7C1kTerLXF/Sm9dn8flXSppWr4feiaBjnIUZKoFuS3sq+aeG
+         rTLF9/sYd300Yo+5rZHVLSIgWopIqp+Bib9SXMRFD+AxVmDzLKc5jP5o0blmC9/xXJ68
+         H1y9bzuV045QH/lUvvffzQrH4bcqNX6nNfbco4wRboCCzBMKaV4X2OvFG+FlXVfgQ5O1
+         hSuRClDFUoh8MethGF6L1kH1HmskaeVE64M+bpEuqtFF3Dn2UZYAtw+RNdd+ONTY+db4
+         UZng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5YouWUSyGDs79r1PakCCDL8yJjJshem2HAyPWj13v98=;
-        b=iNrRULamssVHQdKTcC7T91fPUdlr8JwPYMAP0lCVw4JBJQfoJdXeVt0mj6RFw93kX8
-         gdNeNPFSq+sZNYev8dZPin03Lp5wh0kZCUOPNzA1okTrsPkPFcZ/74Aa1jS02DR5gz+C
-         FCLAa73QS0vU3RXJNgzaPHOR8MHWMHElwEaJOHFTSVj3a303sQlbKxPnTIKJTJHUoaqX
-         KD9dsKqSulRLgFaitvXfcy+8C6we1Wqvoj6GPUPhj/HaJpH0N+wcSdtpcBlpczGkQff7
-         mNz7wcw/faMZBnIKQnJXKRhie4OKIvugMIg8UQIjkNNAKlNihygC7Ow9ZgZ43KY2B/Yg
-         j1oA==
-X-Gm-Message-State: AO0yUKUcNzIz1UxFZjDcakzDOgiwUty1XkvnkLgh6jG72Z5FUAhw+Ezx
-        IuaSomfrAZrhn4Uv6vu3Wxc=
-X-Google-Smtp-Source: AK7set+jPe+frWC+MQkhF3AQ1yLatU+WxwsIhruhJ0p0DfMRqJH2ulJPriomKE4LdZ4rofT2kNt+tg==
-X-Received: by 2002:a05:600c:1e8a:b0:3df:e57d:f4ba with SMTP id be10-20020a05600c1e8a00b003dfe57df4bamr15320821wmb.7.1676019210527;
-        Fri, 10 Feb 2023 00:53:30 -0800 (PST)
-Received: from gmail.com ([81.168.73.77])
-        by smtp.gmail.com with ESMTPSA id w19-20020a05600c475300b003e11f280b8bsm1541894wmo.44.2023.02.10.00.53.29
+        bh=K7VIxGHRdprRV/LqkHIT4VXtM2nS0UlK2A3+S/yfPzU=;
+        b=i6R4Aik9r9cGAPRLiK1nhK31itwoD8nGD9H/8aICJKWKKjQ9VlZUR9O0HrfKuyMvPn
+         wgjS81R01Atxqgeo2+jB2Hh+RsM7g0pve6GqRusRtFsj+mgORhW8EHlMbUanx6RDHJmk
+         8xJcUZ170vDn112M00HsSc3q1L2YkH7L2TpFKZ71IamhT12axPD4oDeBwk7ZFpoxtXe1
+         Ox5C9FO99Tay2KXG+RkZTSzrJo5J8ZXqVpW0+wf80roddEMcGMz+qnqjVTpPqOGnUYH0
+         6IbQZquM4gAlIl9+uGpxA7n/+6e40jJIEnrHvzNQReeBNKDgiuWj1S1Z893k3eRDTxS7
+         OCLg==
+X-Gm-Message-State: AO0yUKW8xfhgiTcZ55X4sCL9w7/PbfTHcW8Kh3+q71eCODlqTir4xAbM
+        df3ebWu1SuYS6hPgAs7MCSwpBQ==
+X-Google-Smtp-Source: AK7set83noZf3enDbMTsBZDwxEicf2PTn9Yq7G9YrGZxZuCfxXPH0i2MIcZmQZROagL9Bdp3MbW7bg==
+X-Received: by 2002:adf:f708:0:b0:2c5:3cd6:4fdf with SMTP id r8-20020adff708000000b002c53cd64fdfmr4285892wrp.39.1676019864173;
+        Fri, 10 Feb 2023 01:04:24 -0800 (PST)
+Received: from linaro.org (wifi-eduroam-trans.univ-tlse3.fr. [195.220.58.237])
+        by smtp.gmail.com with ESMTPSA id c13-20020adfef4d000000b002c3db0eec5fsm3075177wrp.62.2023.02.10.01.04.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 00:53:30 -0800 (PST)
-Date:   Fri, 10 Feb 2023 08:53:28 +0000
-From:   Martin Habets <habetsm.xilinx@gmail.com>
-To:     alejandro.lucero-palau@amd.com
-Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, ecree.xilinx@gmail.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net, jiri@nvidia.com
-Subject: Re: [PATCH v6 net-next 8/8] sfc: add support for devlink
- port_function_hw_addr_set in ef100
-Message-ID: <Y+YGCN59uCVWaH4m@gmail.com>
-Mail-Followup-To: alejandro.lucero-palau@amd.com, netdev@vger.kernel.org,
-        linux-net-drivers@amd.com, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, edumazet@google.com, ecree.xilinx@gmail.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net, jiri@nvidia.com
-References: <20230208142519.31192-1-alejandro.lucero-palau@amd.com>
- <20230208142519.31192-9-alejandro.lucero-palau@amd.com>
+        Fri, 10 Feb 2023 01:04:23 -0800 (PST)
+Date:   Fri, 10 Feb 2023 10:04:20 +0100
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+To:     Alain Volmat <avolmat@me.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-pm@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH 00/11] ARM: removal of STiH415/STiH416 remainings bits
+Message-ID: <20230210090420.GB175687@linaro.org>
+References: <20230209091659.1409-1-avolmat@me.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230208142519.31192-9-alejandro.lucero-palau@amd.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230209091659.1409-1-avolmat@me.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 08, 2023 at 02:25:19PM +0000, alejandro.lucero-palau@amd.com wrote:
-> From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-> 
-> Using the builtin client handle id infrastructure, add support for
-> setting the mac address linked to mports in ef100. This implies to
-> execute an MCDI command for giving the address to the firmware for
-> the specific devlink port.
-> 
-> Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+On Thu, Feb 09, 2023 at 10:16:48AM +0100, Alain Volmat wrote:
+> Most of code in order to support STiH415 and STiH416 have already
+> been removed from the kernel in 2016, however few bits are still
+> remainings.
+> This serie removes the last pieces of support for STiH415, STiH416
+> and STiD127.
 
-Acked-by: Martin Habets <habetsm.xilinx@gmail.com>
+How would like to have the patches applied ?
 
-> ---
->  drivers/net/ethernet/sfc/efx_devlink.c | 42 ++++++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
-> 
-> diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
-> index 68d04c2176d3..9fc2fe862303 100644
-> --- a/drivers/net/ethernet/sfc/efx_devlink.c
-> +++ b/drivers/net/ethernet/sfc/efx_devlink.c
-> @@ -103,6 +103,47 @@ static int efx_devlink_port_addr_get(struct devlink_port *port, u8 *hw_addr,
->  	return rc;
->  }
->  
-> +static int efx_devlink_port_addr_set(struct devlink_port *port,
-> +				     const u8 *hw_addr, int hw_addr_len,
-> +				     struct netlink_ext_ack *extack)
-> +{
-> +	MCDI_DECLARE_BUF(inbuf, MC_CMD_SET_CLIENT_MAC_ADDRESSES_IN_LEN(1));
-> +	struct efx_devlink *devlink = devlink_priv(port->devlink);
-> +	struct mae_mport_desc *mport_desc;
-> +	efx_qword_t pciefn;
-> +	u32 client_id;
-> +	int rc;
-> +
-> +	mport_desc = container_of(port, struct mae_mport_desc, dl_port);
-> +
-> +	if (!ef100_mport_is_vf(mport_desc)) {
-> +		NL_SET_ERR_MSG_MOD(extack, "Port MAC change not allowed");
-> +		return -EPERM;
-> +	}
-> +
-> +	EFX_POPULATE_QWORD_3(pciefn,
-> +			     PCIE_FUNCTION_PF, PCIE_FUNCTION_PF_NULL,
-> +			     PCIE_FUNCTION_VF, mport_desc->vf_idx,
-> +			     PCIE_FUNCTION_INTF, PCIE_INTERFACE_CALLER);
-> +
-> +	rc = efx_ef100_lookup_client_id(devlink->efx, pciefn, &client_id);
-> +	if (rc) {
-> +		NL_SET_ERR_MSG_MOD(extack, "No internal client_ID");
-> +		return rc;
-> +	}
-> +
-> +	MCDI_SET_DWORD(inbuf, SET_CLIENT_MAC_ADDRESSES_IN_CLIENT_HANDLE,
-> +		       client_id);
-> +
-> +	ether_addr_copy(MCDI_PTR(inbuf, SET_CLIENT_MAC_ADDRESSES_IN_MAC_ADDRS),
-> +			hw_addr);
-> +
-> +	rc = efx_mcdi_rpc(devlink->efx, MC_CMD_SET_CLIENT_MAC_ADDRESSES, inbuf,
-> +			  sizeof(inbuf), NULL, 0, NULL);
-> +
-> +	return rc;
-> +}
-> +
->  static int efx_devlink_info_nvram_partition(struct efx_nic *efx,
->  					    struct devlink_info_req *req,
->  					    unsigned int partition_type,
-> @@ -557,6 +598,7 @@ static const struct devlink_ops sfc_devlink_ops = {
->  #ifdef CONFIG_SFC_SRIOV
->  	.info_get			= efx_devlink_info_get,
->  	.port_function_hw_addr_get	= efx_devlink_port_addr_get,
-> +	.port_function_hw_addr_set	= efx_devlink_port_addr_set,
->  #endif
->  };
->  
-> -- 
-> 2.17.1
+Ack from the different maintainers or each maintainer apply the relevant patches ?
+
+Thanks
+  -- Daniel
+
+-- 
+
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
