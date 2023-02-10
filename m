@@ -2,132 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9092CC636CD
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 06:50:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 513F6C636CD
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 06:54:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231173AbjBJGuM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 01:50:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35630 "EHLO
+        id S231232AbjBJGyt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 01:54:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230140AbjBJGuL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 01:50:11 -0500
+        with ESMTP id S230161AbjBJGys (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 01:54:48 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6529738EA0;
-        Thu,  9 Feb 2023 22:50:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF3BD20064;
+        Thu,  9 Feb 2023 22:54:47 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F0526B823E4;
-        Fri, 10 Feb 2023 06:50:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D39CC433EF;
-        Fri, 10 Feb 2023 06:50:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1676011807;
-        bh=1txZm5lg17YUDHiL2gJL4ttB0KOec/UkSQZjiSaGozk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1fQVp2uwd4DZixE0rN7i1vvD8AH0xmbAzOTjZ+9As6NClYrQTG2IH8hTP9+pD0jFL
-         MeCgmiFfkFQZRfc3F/CrXt5F9E87q3V2YjHVYAVTeVFcyfd6Rkj1vcDqFPnpup+sA9
-         qMKNtWs5DXEZ9IPsLwjxvuTmqjnKzsz0RB0qisSI=
-Date:   Fri, 10 Feb 2023 07:50:04 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Evan Green <evan@rivosinc.com>
-Cc:     Conor Dooley <conor@kernel.org>,
-        Palmer Dabbelt <palmer@rivosinc.com>, vineetg@rivosinc.com,
-        heiko@sntech.de, slewis@rivosinc.com,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Atish Patra <atishp@rivosinc.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Dao Lu <daolu@rivosinc.com>, Guo Ren <guoren@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ruizhe Pan <c141028@gmail.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Tobias Klauser <tklauser@distanz.ch>,
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8A70DB823F3;
+        Fri, 10 Feb 2023 06:54:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E85EFC433EF;
+        Fri, 10 Feb 2023 06:54:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1676012085;
+        bh=09gUWptY/BbuIMzWbqSjyJe1S02IFSMhcohNYddSSgE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=HSjTpTzHZoFbipoV+LpZdBskzS/ag4uT/3oIszVu/2F4J6ovVwdhbhvM7ZWZcNhnf
+         71p5YVrmag22+n4US6k+AKoVfrFd6m4VNYkD+/UZEcDlbW/t6ACJCnJgEOUf3V7qiL
+         pO4yHMrftBz3KSgbYVmnn+hWKl0L62j73X05vtBsf3v7+6EV1NvXwMPHtHi85Y2jrN
+         ru/O3Bf5vplzMRPzY3tz4wtPhm88zw1uAF7cy8eb2gt6R1/fO7Mjt65UpbT2oAzse6
+         N+cGe9UED6Nnz89BlkwjfHIpW5oWivWZSNoTYh60vdl2OVleV/wLWkbaGd/umoeUhE
+         2Vny6amTJCmSg==
+Date:   Thu, 9 Feb 2023 22:54:42 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Alain Volmat <avolmat@me.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 2/6] RISC-V: Add a syscall for HW probing
-Message-ID: <Y+XpHNqnHyDEXbAj@kroah.com>
-References: <20230206201455.1790329-1-evan@rivosinc.com>
- <20230206201455.1790329-3-evan@rivosinc.com>
- <Y+HsE397cY4HF+5K@kroah.com>
- <C3C21677-5250-4120-9A4F-24945C1EE51B@kernel.org>
- <CALs-HsvuX-Uj5g9c6vvUp=MaUpdcPdpwwQCsxzjoXpqS+3LEsA@mail.gmail.com>
- <Y+UpqHstcMahbadE@kroah.com>
- <CALs-HssV0=fcDKtUN_3S8T+_Qtq+6qCiNbfQU9SXicsh2KFt4w@mail.gmail.com>
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-pm@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH 07/11] net: ethernet: stmmac: dwmac-sti: remove
+ stih415/stih416/stid127
+Message-ID: <20230209225442.2b11878e@kernel.org>
+In-Reply-To: <20230209091659.1409-8-avolmat@me.com>
+References: <20230209091659.1409-1-avolmat@me.com>
+        <20230209091659.1409-8-avolmat@me.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALs-HssV0=fcDKtUN_3S8T+_Qtq+6qCiNbfQU9SXicsh2KFt4w@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 09, 2023 at 10:41:51AM -0800, Evan Green wrote:
-> On Thu, Feb 9, 2023 at 9:13 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Thu, Feb 09, 2023 at 09:09:16AM -0800, Evan Green wrote:
-> > > On Mon, Feb 6, 2023 at 10:32 PM Conor Dooley <conor@kernel.org> wrote:
-> > > >
-> > > > Hey Evan, Greg,
-> > > >
-> > > >
-> > > > On 7 February 2023 06:13:39 GMT, Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > > >On Mon, Feb 06, 2023 at 12:14:51PM -0800, Evan Green wrote:
-> > > > >> We don't have enough space for these all in ELF_HWCAP{,2} and there's no
-> > > > >> system call that quite does this, so let's just provide an arch-specific
-> > > > >> one to probe for hardware capabilities.  This currently just provides
-> > > > >> m{arch,imp,vendor}id, but with the key-value pairs we can pass more in
-> > > > >> the future.
-> > > > >
-> > > > >Ick, this is exactly what sysfs is designed to export in a sane way.
-> > > > >Why not just use that instead?  The "key" would be the filename, and the
-> > > > >value the value read from the filename.  If the key is not present, the
-> > > > >file is not present and it's obvious what is happening, no fancy parsing
-> > > > >and ABI issues at all.
-> > > >
-> > > > https://lore.kernel.org/linux-riscv/20221201160614.xpomlqq2fzpzfmcm@kamzik/
-> > > >
-> > > > This is the sysfs interface that I mentioned drew
-> > > > suggested on the v1.
-> > > > I think it fits ~perfectly with what Greg is suggesting too.
-> > >
-> > > Whoops, I'll admit I missed that comment when I reviewed the feedback
-> > > from v1. I spent some time thinking about sysfs. The problem is this
-> > > interface will be needed in places like very early program startup. If
-> > > we're trying to use this in places like the ifunc selector to decide
-> > > which memcpy to use, having to go open and read a fistful of files is
-> > > going to be complex that early, and rough on performance.
-> >
-> > How is it going to be any different on "performance" than a syscall?  Or
-> > complex?  It should be almost identical overall as this is all in-ram
-> > and not any real I/o is happening.  You are limited only by the speed of
-> > your cpu.
+On Thu,  9 Feb 2023 10:16:55 +0100 Alain Volmat wrote:
+> Remove no more supported platforms (stih415/stih416 and stid127)
 > 
-> At best sysfs is 1 syscall per key, whereas this version of the
-> interface lets you query all the keys you're interested in with a
-> single syscall. With the
-> proposed vdso version, we'd be down to ~0 syscalls for most queries.
-> The complexity aspect is mostly a reference to having to do a bunch of
-> open/read/parse/close operations at a time when mem* operations are
-> still being set up. Since this is something that may get run on every
-> program invocation, it seems worth it to be able to get fast and
-> simple queries even if it's a slightly separated interface.
+> Signed-off-by: Alain Volmat <avolmat@me.com>
 
-I'd be interested in the real benchmark numbers and seeing the userspace
-and kernel code before arguing this too much.
+No idea who's gonna take these, but FWIW:
 
-Again, ignoring the lessons of the past is generally considered an
-unwise decision, but hey, you do you, it's something that you are going
-to have to maintain for 40+ years going forward, not me :)
-
-good luck!
-
-greg k-h
+Acked-by: Jakub Kicinski <kuba@kernel.org>
