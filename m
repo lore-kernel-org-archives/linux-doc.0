@@ -2,110 +2,142 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 772CDC636D4
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 06:54:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98D70C636CD
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 07:25:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231313AbjBJGyx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 01:54:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39174 "EHLO
+        id S231205AbjBJHZN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 02:25:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231267AbjBJGyv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 01:54:51 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D19B20064;
-        Thu,  9 Feb 2023 22:54:51 -0800 (PST)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31A4ksLA024712;
-        Fri, 10 Feb 2023 06:54:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : reply-to : references : mime-version :
- content-type : in-reply-to; s=qcppdkim1;
- bh=IPKsikILGiKtIOXLCRM6M9vTPDt+OJ5Hn8C5Py/YUMk=;
- b=KexBYyMi3ObszOScLNvmgkPzNm229UoK1jk0o3bnCzkxBTh9nSmL593wU98ExNkNWds4
- uZb0izCuG2qOKV1KpDqwqsENU0VIyL5a0MEBsyT12lJMWZTEW1yEGL90MCd5PLQWlqOT
- kGf3iLLFjMH4w57yvTB+eIHWb/NpmeCJntEqLnLdPjNWqITtbUX5tlMXVl5ALQGb0lMM
- wMhoPAPhbvAx5P/VSTTo+uGg7Qz+vaRbm7CGaUBRS1VAoiszH9aocICAv2V3aLc9HvZU
- Yvh0OS7gm1mCuTj5P5F2FFN0nDNAxLS/0Pw9PaSafIPjsu8OmU7cMAz2F8xNqQhh6RjU UQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nn0uka3h1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 10 Feb 2023 06:54:37 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31A6saqg009498
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 10 Feb 2023 06:54:36 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 9 Feb 2023
- 22:54:29 -0800
-Date:   Fri, 10 Feb 2023 12:24:24 +0530
-From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v9 24/27] virt: gunyah: Add proxy-scheduled vCPUs
-Message-ID: <20230210065424.GK332@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com>
- <20230120224627.4053418-25-quic_eberman@quicinc.com>
- <20230209103955.GJ332@quicinc.com>
+        with ESMTP id S230470AbjBJHZM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 02:25:12 -0500
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C86C2474C7;
+        Thu,  9 Feb 2023 23:25:11 -0800 (PST)
+Received: by mail-pj1-x1043.google.com with SMTP id f15-20020a17090ac28f00b00230a32f0c9eso4700659pjt.4;
+        Thu, 09 Feb 2023 23:25:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hwa0TcxW2V9hamSEUdvEiLW9tA4QAzrfiZncOZPEgjc=;
+        b=BLrkNPoP2qUG0jFQV7QSta//HY76OpK0SLT7Pq3rwauvDtDhWZAg9LwQUne1Ik6ut7
+         VNGM684n3ztiGOOByeNwhXOrIkcHjf8HEioOc3hueB3K+MqCSfPDWQGKIMzPg1XoVvcg
+         x5Hxa7G+kTJwTnmG1XtaoYjo7tQg7ofxYuqGa1K1htcqFf0llMoVH3wqUdw9Ee35MyW8
+         CiwBBesKIMWG4BkLHSG6865bcZFRwD9xtxNgjI+hXsfgvWiHnIW9UfibsCVClz30wVK5
+         kXKemToAoxnIZcEEqa7ddUTdkeFqvLerNa0lnG4Yb6VlTc+V5rKTKbiEucDxvRK2z8Dq
+         EdDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hwa0TcxW2V9hamSEUdvEiLW9tA4QAzrfiZncOZPEgjc=;
+        b=24EYiVXE6LUSm9u+1T+Ot2sgFmEnE/wJIoNR38h9v50jGspjPy36xD+shmWLew43kf
+         NN5IIRz2R/YdsqwyrfRCJV5Zb1HV7xb5p8TKjxeMlnLABI4nWv67Zi7vmi0oRmgX0zDM
+         dLTVTHsF9+egN6hYp2GrgZIyGgdOUTlPBBmJREsU3Pp126IJR2K74WZD4kHYiU6+JkbU
+         DPteDio16ctEb/68BVSyNB/OC7LMblnBal/7D/usW7TKkjd4ec5tlzJ0AKQcXhM99Z8r
+         pC1k1INrGS0L4Mh8XeQtk9uTOY6E8LZRbzchTrvLc5ihX/YUHptik2ebN2E4n+tPACV6
+         1VVQ==
+X-Gm-Message-State: AO0yUKU7Nvf2jKg6FbTKEaGUVakEsNnqQdwXU8dWyhb5O7lZY5+ozTGy
+        RNq8Hmw68A1VUtjcFHmiz6uzbtOKEP8E
+X-Google-Smtp-Source: AK7set/ZuRAUkFUwKfJqYpDqUN2NahhOsm2ZrXOw6x4n0SFGPyOLZ/5IrM8RcnrsbETSP7y8Ft1apQ==
+X-Received: by 2002:a17:903:4111:b0:199:19af:c4f5 with SMTP id r17-20020a170903411100b0019919afc4f5mr11620609pld.32.1676013911072;
+        Thu, 09 Feb 2023 23:25:11 -0800 (PST)
+Received: from fedora.mshome.net ([172.56.184.138])
+        by smtp.gmail.com with ESMTPSA id k22-20020a170902761600b00196217f1219sm2705658pll.70.2023.02.09.23.25.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Feb 2023 23:25:10 -0800 (PST)
+From:   Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, oleg@redhat.com, avagin@gmail.com,
+        peterz@infradead.org, luto@kernel.org, krisman@collabora.com,
+        tglx@linutronix.de, corbet@lwn.net, shuah@kernel.org,
+        Gregory Price <gregory.price@memverge.com>
+Subject: [PATCH v9 0/1] Checkpoint Support for Syscall User Dispatch
+Date:   Fri, 10 Feb 2023 02:25:02 -0500
+Message-Id: <20230210072503.1808-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-In-Reply-To: <20230209103955.GJ332@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: iiX5OxnzuUHk_xCJivKsrZH5vp15QV8m
-X-Proofpoint-ORIG-GUID: iiX5OxnzuUHk_xCJivKsrZH5vp15QV8m
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-10_03,2023-02-09_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
- mlxlogscore=794 priorityscore=1501 adultscore=0 bulkscore=0
- impostorscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302100059
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Srivatsa Vaddagiri <quic_svaddagi@quicinc.com> [2023-02-09 16:10:06]:
+v9: tglx feedback
+    whitespace
+    documentation of ptrace struct
+    shorten struct name
+    helper function for set_syscall_user_dispatch
+    use task variant of set/clear_syscall_work 
+    use task variant of test_syscall_work in getter
+    selftest
 
-> * Elliot Berman <quic_eberman@quicinc.com> [2023-01-20 14:46:23]:
-> 
-> > +static void gh_handle_mmio_return(struct gunyah_vcpu *vcpu, u64 *state)
-> > +{
-> > +	if (!vcpu->vcpu_run->mmio.is_write)
-> > +		memcpy(&state[0], vcpu->vcpu_run->mmio.data, vcpu->vcpu_run->mmio.len);
-> 
-> Would be good to do a bound check on length of memcpy I think (in case 
-> vcpu_run_resp->state_data[1] is wrong for example).
+v8: fix include issue   Reported-by: kernel test robot <lkp@intel.com>
+    summary:
+    +++ b/kernel/entry/syscall_user_dispatch.c
+    + include <linux/ptrace.h>
 
-Sorry I meant to comment that for the other memcpy you had!
+v7: drop ptrace suspend flag, not required
+    hanging unreferenced variable
+                whitespace
 
-+               memcpy(vcpu->vcpu_run->mmio.data, &vcpu_run_resp->state_data[2],
-+                       vcpu_run_resp->state_data[1]);
+v6: drop fs/proc/array update, it's not needed
+    drop on_dispatch field exposure in config structure, it's not
+    checkpoint relevant.
+    (Thank you for the reviews Oleg and Andrei)
 
+v5: automated test for !defined(GENERIC_ENTRY) failed, fix fs/proc
+    use ifdef for GENERIC_ENTRY || TIF_SYSCALL_USER_DISPATCH
+    note: syscall user dispatch is not presently supported for
+          non-generic entry, but could be implemented. question is
+          whether the TIF_ define should be carved out now or then
+
+v4: Whitespace
+    s/CHECKPOINT_RESTART/CHECKPOINT_RESUME
+    check test_syscall_work(SYSCALL_USER_DISPATCH) to determine if it's
+    turned on or not in fs/proc/array and getter interface
+
+v3: Kernel test robot static function fix
+    Whitespace nitpicks
+
+v2: Implements the getter/setter interface in ptrace rather than prctl
+
+Syscall user dispatch makes it possible to cleanly intercept system
+calls from user-land.  However, most transparent checkpoint software
+presently leverages some combination of ptrace and system call
+injection to place software in a ready-to-checkpoint state.
+
+If Syscall User Dispatch is enabled at the time of being quiesced,
+injected system calls will subsequently be interposed upon and
+dispatched to the task's signal handler.
+
+Patch summary:
+- Implement a getter interface for Syscall User Dispatch config info.
+  To resume successfully, the checkpoint/resume software has to
+  save and restore this information.  Presently this configuration
+  is write-only, with no way for C/R software to save it.
+
+  This was done in ptrace because syscall user dispatch is not part of
+  uapi. The syscall_user_dispatch_config structure was added to the
+  ptrace exports.
+
+
+Gregory Price (1):
+  ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
+
+ .../admin-guide/syscall-user-dispatch.rst     |  5 +-
+ include/linux/syscall_user_dispatch.h         | 18 +++++
+ include/uapi/linux/ptrace.h                   | 29 +++++++
+ kernel/entry/syscall_user_dispatch.c          | 63 +++++++++++++--
+ kernel/ptrace.c                               |  9 +++
+ tools/testing/selftests/ptrace/.gitignore     |  1 +
+ tools/testing/selftests/ptrace/Makefile       |  2 +-
+ tools/testing/selftests/ptrace/get_set_sud.c  | 80 +++++++++++++++++++
+ 8 files changed, 197 insertions(+), 10 deletions(-)
+ create mode 100644 tools/testing/selftests/ptrace/get_set_sud.c
+
+-- 
+2.39.1
 
