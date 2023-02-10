@@ -2,122 +2,149 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 983A9C636CD
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 04:58:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2359C636CD
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 06:48:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230425AbjBJE63 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Feb 2023 23:58:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46118 "EHLO
+        id S230286AbjBJGs2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 01:48:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230231AbjBJE62 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Feb 2023 23:58:28 -0500
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2053.outbound.protection.outlook.com [40.107.93.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 581482F783;
-        Thu,  9 Feb 2023 20:58:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cFG1MKSphuLkif4b4ZUH2sOp40FbxqrYz39/HhZGRmRWHUMyYkexAYYhjYaP7cz/Q4ddwhDuy9zqtqNNxMWX0zzCDKX13wzqRmHV/YGMSMmK9MMxuszC+/IqfCcEnZ2cGryqIri0WSyZC5PyjeicSlq06do7sI6d+lNOlxaWJBr0SOPzmHdSm8ns6y4qNB+ZaZbaYY7EfOUrXa489iUQeLNuO9oBzRY/XInC5uUS0lb8oyYOzfdnGvFiSzuqd+IBh9yRdlhQIDnXOy1hdlz3zJipCZags4Ex6VsnU86lk5wS8uYeVjhBjMTrsW4MfUE7ODQTDOc6U6iykUwh0HKlGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jJnTL4erVwsF2HP40iwReEsEY+8wLkUeZ7c5iGIB0lI=;
- b=DN9Hhx6W9PMrKad/pCfvbYCKShWbC0wLUi5ciobq7lK2Si+CXmC2ggKUfwCVg5GY4yuHHP1+3iiux6NtFzqvtL9PLAsrtjdOyGYnLZr9ZAxMcCh+BwFZSa/jhCQOdlO6RHxAn8zbPoTe7klCu4q0BM+Lr8pyZKtAteI+m4EdVTlJyhYp7RvwiI6/Qdkzck6MtXLeyFmZ9Yzspad0Ug3UyiqESJ28t4zIK0UXowrlj17m+X6U9OxwQm6pMkHCkeR+KQpa8cW3CNN+tqp9rHX5IpN11emd3lH0vmncq+BLjjIUgVk8QqJx+6a8gwgqFKoYUJLBCocxw1u/2OstWu3zBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jJnTL4erVwsF2HP40iwReEsEY+8wLkUeZ7c5iGIB0lI=;
- b=OFZuXiINOeQ8wCqn6vWX70awlN2t5AfNnnv0YDaaKveC5mAC8XYC83fPM1W0gBD2lJdnGMKjEoAMNOBhQ1TSYGlkx3FrDzANFiI5IyLUqOkFt4RsN2GyJ3vyux1jm/LaYnQpovGyITbsplvPVDTai8WQKwFDRFtrYVRMe5DA2v4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by IA1PR17MB6073.namprd17.prod.outlook.com (2603:10b6:208:3af::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.19; Fri, 10 Feb
- 2023 04:58:24 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660%3]) with mapi id 15.20.6086.019; Fri, 10 Feb 2023
- 04:58:23 +0000
-Date:   Thu, 9 Feb 2023 20:27:51 -0500
-From:   Gregory Price <gregory.price@memverge.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        oleg@redhat.com, avagin@gmail.com, peterz@infradead.org,
-        luto@kernel.org, krisman@collabora.com, corbet@lwn.net,
-        shuah@kernel.org
-Subject: Re: [PATCH v8 1/1] ptrace,syscall_user_dispatch: checkpoint/restore
- support for SUD
-Message-ID: <Y+Wdl6D41jSdhK9J@memverge.com>
-References: <20230131144458.1980891-1-gregory.price@memverge.com>
- <20230131144458.1980891-2-gregory.price@memverge.com>
- <87edqy1jzf.ffs@tglx>
- <87bkm21jxa.ffs@tglx>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87bkm21jxa.ffs@tglx>
-X-ClientProxiedBy: BYAPR06CA0039.namprd06.prod.outlook.com
- (2603:10b6:a03:14b::16) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+        with ESMTP id S230140AbjBJGs1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 01:48:27 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE9A138EA0;
+        Thu,  9 Feb 2023 22:48:25 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 2D5F1CE2755;
+        Fri, 10 Feb 2023 06:48:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E180C433D2;
+        Fri, 10 Feb 2023 06:48:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1676011702;
+        bh=b6Oc5ZzVG7nkvmdk4QiD1WgVKwZk2maRbTIji6Y1fRs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=E/mNkwkhzmWnBepo6lLnMq2Hy8LeFdqTjsvG9JKYOHiE3I/OTk2GACwE/E1kBhDwQ
+         SsexiB9LjVzuhFVNyP232bjlM6QwapGkfcBJ6shtGvQWoQIQb/oyi1re+7V5Rinbrx
+         4PZpgtZNXiGKHAaG4ZW91ELrOP7LaTvQkDp4gW0w=
+Date:   Fri, 10 Feb 2023 07:48:18 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jessica Clarke <jrtc27@jrtc27.com>
+Cc:     Evan Green <evan@rivosinc.com>, Conor Dooley <conor@kernel.org>,
+        Palmer Dabbelt <palmer@rivosinc.com>,
+        Vineet Gupta <vineetg@rivosinc.com>,
+        Heiko Stuebner <heiko@sntech.de>, slewis@rivosinc.com,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Atish Patra <atishp@rivosinc.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Dao Lu <daolu@rivosinc.com>, Guo Ren <guoren@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ruizhe Pan <c141028@gmail.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tobias Klauser <tklauser@distanz.ch>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2 2/6] RISC-V: Add a syscall for HW probing
+Message-ID: <Y+Xosn6Zbbcqn3ge@kroah.com>
+References: <20230206201455.1790329-1-evan@rivosinc.com>
+ <20230206201455.1790329-3-evan@rivosinc.com>
+ <Y+HsE397cY4HF+5K@kroah.com>
+ <C3C21677-5250-4120-9A4F-24945C1EE51B@kernel.org>
+ <CALs-HsvuX-Uj5g9c6vvUp=MaUpdcPdpwwQCsxzjoXpqS+3LEsA@mail.gmail.com>
+ <Y+UpqHstcMahbadE@kroah.com>
+ <F4C20D57-912B-489F-A262-51EAEE79F41D@jrtc27.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|IA1PR17MB6073:EE_
-X-MS-Office365-Filtering-Correlation-Id: 80664179-0d10-467c-3f41-08db0b237001
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VDMDgKwfeERld9RGtSeg3ZlfvzE8lkzRSL0OY83ULc9IcATPVxg28Y9Jl2aBwxjOceVQGCgUH2rSAteJvEBIiXrpsCfmw2QwvDB5Nmse6tb8AZcXy0MaXGWaJO3T8xGQyOmvKdK8GA/y1hMPyXfii/oX3Lo7hiWjps6WEMdyPJ8wEDnmemFQYbxSva9bkef+xFBIOzhtRbpV7b/yw48ZsPWRVctKZJv4AyaF9HmaVh7eV07sGJk8xwuV8a21LVZ7RZ03SUZffpTNWLdZtETTJFrS+bxyZdp45z7YKQXQ4K5CLPPXjbRYXgrnCLe5z+k/qySPzGYsT4TMjcCUlmBwobVjXO8i66QW+nX1IvJpqHqwa7zaxeBo+/+nD/dmTrqa9yGb36wg8RJmfxjRsHSlEfdPFjf+Q6dLA1/wAFOVfsX4b7uSmDO49+v+Sxk9lT+sDGqzcnxDm6+Or0nGC7s2z20EvDkIpEC3qzQNT3DMNSGq0X2FwbFhzhBEVD5utcnBhuYUYean6OxuCZFBkiR+LjxaCalYkPSiM7A2AisUald7XpCX7K265ayWEm6LRBgBopJSeBm1HDQqov7gK35KiT3oGP41QDiLNYDEcOQeonRv4wQd9Ej1ofuI+4XQD7z92Tz37SuCOP8wHbuXU4XUsjWAx+VJypZ1/CCYlnq5yym/fph09ggPlp1L3qtxCoGv
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR17MB3121.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(136003)(346002)(39840400004)(376002)(396003)(451199018)(36756003)(558084003)(83380400001)(38100700002)(186003)(6512007)(26005)(6666004)(478600001)(2906002)(316002)(6486002)(6506007)(7416002)(41300700001)(5660300002)(8936002)(86362001)(44832011)(2616005)(66556008)(66946007)(66476007)(8676002)(4326008)(6916009)(67856001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mzSPMzcfwbgzHg/IBXaoWH9JxQ1MBhXiivH5yqODzHeUxUbSJGtZRot872Tr?=
- =?us-ascii?Q?928ieD2un8uKPA9UPD0se6bQ4TaJleKFCq7H5xNcA0RtxABGK4yQMj3qbHew?=
- =?us-ascii?Q?lGMb5DkQuXjMxYeQZIgszIUDCsTpGf25n6ZJICU8erBd/9nvvixVo78N2XrS?=
- =?us-ascii?Q?sVmSkkEeigAirwT1bB7E8dNcvwFMJaJGHBUwUwqIezoBMdRgKPgMVM+NjMfM?=
- =?us-ascii?Q?kq1SJa7R70yPdQ2Kx8IZKSsoa+oBOpf40KV71Wt5ODYW1whu5niisxMC+rZh?=
- =?us-ascii?Q?+26uIWGlc2WaHlhVlWZQrKXnLGUD83BuN1dU3QCOEYVgpCO/NJEfNXxaYkwG?=
- =?us-ascii?Q?29CRbqAWPGUu9Hg2mVTF9a07aGwsDjY4FTrI9eiQVopk7yme7WHZmwl4FjcM?=
- =?us-ascii?Q?SExqHZNdPKrGq3XmvTtP+tqdm5G+xVe1oaSyvQSP3y8pZKnOADaL2Ykg1y4B?=
- =?us-ascii?Q?AjWnKK3zxcqNSoZE/qsA8DXychVBDBAywmlwrjKk/0tEaSy8N8fIDrPHuNFz?=
- =?us-ascii?Q?J5eTPNdxLxJMQApNSMTR2+Ti18zUEoTIEpHA9hCqXPj1EBb3VFiORiKU2fc1?=
- =?us-ascii?Q?9uCiI3LRfttZSWzGCLv6MrABRtpdPpP5+VpkSni5DG0mx211U6qBQMnF4prI?=
- =?us-ascii?Q?eoIinHwxcbWo+iyIdHI2/LlQeP3TUVltUHqFyfTN/0fZz0Ly1H1SiFTjt7Pa?=
- =?us-ascii?Q?YLLNpj2gq2fZqgTJ6kT01uL6VYWFpZBiRPvW00KyFbb6iUQ1XNZldPSd+WoL?=
- =?us-ascii?Q?wkCftgaw41Py56W1VvVNA8APozz7QpaitqYPfkil2punaMCfFmfBXPJyYcH+?=
- =?us-ascii?Q?3jPk7UJsmQHHmdcbb82qwUf1cwU6njugT0xXQ1GYAps8WVm+hzoUZKQwwATk?=
- =?us-ascii?Q?asn6B9iDV7r8yX44ONShjI+w3wjBJgarWUDGxgKtYpWCuJT1BfrpXxRSji/W?=
- =?us-ascii?Q?L4ixtxO4E/iatlJST6poP+x6+SptM3Efh0oqFxFP4/z+V7QZZNkU1mypCewh?=
- =?us-ascii?Q?5ByNE8luh0mo4iU5435hHvdUdWTKWnrGbOoK4x+hHP6IrfswuRofGo0OuhwT?=
- =?us-ascii?Q?l44WPjYzcVsbmhZmfedqfu+AkzuNSWgNArcAO4t3ABN8WDRPAXhISukC7P42?=
- =?us-ascii?Q?Fn3pdr8fMNm6dbRuIQ6enBKClFyMrAhvcgZioX+athhcO2kp4RnAgI74oYPo?=
- =?us-ascii?Q?b7++AFcPQezTPGfcogNKdgHXHItLWJzb8Ck7JGNhbyqeEJ2mwJghS7M3h25t?=
- =?us-ascii?Q?OxiRxQK9q8C5fbH5C2q4F55aO0XTvy0KhYwFAnW/1/XzNB5mjwDLAGkJ539m?=
- =?us-ascii?Q?oIYD9ScCCQRRG7S7tslr359ySJTM72dOs02d2vbGmK8jUd6cJsFgTVOhPWYr?=
- =?us-ascii?Q?F2BpBcVkIpdQzx4pnEmSlbrXr5FafVba4v3P9wqLv4LuS++dq/O5nbnAALDF?=
- =?us-ascii?Q?mDOKS8GVK+tzFq7nMqPKGkCtMmYe1jmv4oXMOFT6qezczVHmp20MkGbz9gUT?=
- =?us-ascii?Q?qLklMogAbk7L13hxwmgytg9Mk7mTmt7C8om0hPadij8/T59zpTHT1PTQC37V?=
- =?us-ascii?Q?DzeG7MNRWZKN7Z6/cKPi6pTLgwZBPNTWdGQV5K8hChISYCixOJoVXq/40q0Z?=
- =?us-ascii?Q?gQ=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80664179-0d10-467c-3f41-08db0b237001
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2023 04:58:23.5510
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ie6qbxcC46uC+ipn/gkwr5ZTMPjXu2VHDRBnGRKFkRiB98kUdB9cc4db5uNhef+o/BPmPsTWVVEVeyqzeWmkCylhJk0QQPqxvnPsDOvKKE0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR17MB6073
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <F4C20D57-912B-489F-A262-51EAEE79F41D@jrtc27.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 12:46:41AM +0100, Thomas Gleixner wrote:
-> On Fri, Feb 10 2023 at 00:45, Thomas Gleixner wrote:
-> > I'm neither impressed by this patch nor by the reviews.
+On Thu, Feb 09, 2023 at 05:22:09PM +0000, Jessica Clarke wrote:
+> On 9 Feb 2023, at 17:13, Greg KH <gregkh@linuxfoundation.org> wrote:
+> > On Thu, Feb 09, 2023 at 09:09:16AM -0800, Evan Green wrote:
+> >> On Mon, Feb 6, 2023 at 10:32 PM Conor Dooley <conor@kernel.org> wrote:
+> >>> 
+> >>> Hey Evan, Greg,
+> >>> 
+> >>> 
+> >>> On 7 February 2023 06:13:39 GMT, Greg KH <gregkh@linuxfoundation.org> wrote:
+> >>>> On Mon, Feb 06, 2023 at 12:14:51PM -0800, Evan Green wrote:
+> >>>>> We don't have enough space for these all in ELF_HWCAP{,2} and there's no
+> >>>>> system call that quite does this, so let's just provide an arch-specific
+> >>>>> one to probe for hardware capabilities.  This currently just provides
+> >>>>> m{arch,imp,vendor}id, but with the key-value pairs we can pass more in
+> >>>>> the future.
+> >>>> 
+> >>>> Ick, this is exactly what sysfs is designed to export in a sane way.
+> >>>> Why not just use that instead?  The "key" would be the filename, and the
+> >>>> value the value read from the filename.  If the key is not present, the
+> >>>> file is not present and it's obvious what is happening, no fancy parsing
+> >>>> and ABI issues at all.
+> >>> 
+> >>> https://lore.kernel.org/linux-riscv/20221201160614.xpomlqq2fzpzfmcm@kamzik/
+> >>> 
+> >>> This is the sysfs interface that I mentioned drew
+> >>> suggested on the v1.
+> >>> I think it fits ~perfectly with what Greg is suggesting too.
+> >> 
+> >> Whoops, I'll admit I missed that comment when I reviewed the feedback
+> >> from v1. I spent some time thinking about sysfs. The problem is this
+> >> interface will be needed in places like very early program startup. If
+> >> we're trying to use this in places like the ifunc selector to decide
+> >> which memcpy to use, having to go open and read a fistful of files is
+> >> going to be complex that early, and rough on performance.
+> > 
+> > How is it going to be any different on "performance" than a syscall?  Or
+> > complex?  It should be almost identical overall as this is all in-ram
+> > and not any real I/o is happening.  You are limited only by the speed of
+> > your cpu.
+> > 
+> >> Really this is data that would go great in the aux vector, except
+> >> there's probably too much of it to justify preparing and copying into
+> >> every new process. You could point the aux vector into a vDSO data
+> >> area. This has the advantage of great performance and no syscall, but
+> >> has the disadvantages of making that data ABI, and requiring it all to
+> >> be known up front (eg the kernel can't compute any answers on the
+> >> fly).
+> >> 
+> >> After discussions with Palmer, my plan for the next version is to move
+> >> this into a vDSO function plus a syscall. Private vDSO data will be
+> >> prepped with common answers for the "all CPUs" case, avoiding the need
+> >> for a syscall in most cases and making this fast. Since the data is
+> >> hidden behind the vdso function, it's not ABI, which is a plus. Then
+> >> the vdso function can fall back to the syscall for cases with exotic
+> >> CPU masks or keys that are unknown/expensive to compute at runtime.
+> > 
+> > I still think that's wrong, as you are wanting a set of key/values here,
+> > which is exactly what sysfs is designed for.
 > 
-> I just noticed that this is V8. I'm truly impressed now.
+> But this needs to be a RISC-V standard interface that can be programmed
+> against, not something tied to highly Linux-specific things like sysfs.
+> You’re free to implement that interface with sysfs, but exposing that
+> as *the* interface to use would be terrible for portability.
 
-I'll address your feedback, thank you for the review :]
+A vdso and a new kernel syscall is also a highly Linux-specific thing,
+so I do not understand the objection here at all.  You're going to have
+to wrap all of this up in some sort of common userspace library code
+anyway, and that will have to handle all of the different operating
+system implementations.
+
+Also, frankly, I don't care about non-Linux implementations, so that
+isn't a valid argument here :)
+
+thanks,
+
+greg k-h
