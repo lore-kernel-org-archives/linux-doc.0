@@ -2,101 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 714ACC636D4
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 18:46:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4498C636D4
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 21:07:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232558AbjBJSqn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 13:46:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38964 "EHLO
+        id S233511AbjBJVHd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 16:07:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233202AbjBJSqj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 13:46:39 -0500
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4557D3DA;
-        Fri, 10 Feb 2023 10:46:38 -0800 (PST)
-Received: by mail-ot1-x32e.google.com with SMTP id 70-20020a9d084c000000b0068bccf754f1so1806178oty.7;
-        Fri, 10 Feb 2023 10:46:38 -0800 (PST)
+        with ESMTP id S233425AbjBJVHc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 16:07:32 -0500
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF0D7CCA9
+        for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 13:07:32 -0800 (PST)
+Received: by mail-qt1-x834.google.com with SMTP id g8so7286953qtq.13
+        for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 13:07:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linuxfoundation.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iUlqb+3iXXfUE/FtNTwardLG1byHcjeEmEXkZMeCbkQ=;
-        b=ZcfcSMyWh/mAJd3LS255hXso8SlulM0qCYlf9Ezodpu1CNUpgaoJgptkreUgpTv+q+
-         6JM5c7CuV5qZl0dSU9fBnJvpJzR2XvAqr94HmSEhNVZ/BVO+H38+4DYTKUG3ld/7B7y5
-         6ofTzX7FpkvRnqilU3p4h7aGSrZvE0NlXtuUXq7zkUWHTqdCzkxjQqykJxKXRROU7yEs
-         Nx7/4i0BJz33MapvEZqBsehhwxnNHfbaXyVEc9Y1keUaauR7nxxVleagC+OSnQQ9Oak4
-         CocANXAGpNrPVCCBI2sQfkUOAd/gN4rlTxE7tJMpSwRcjoj0IF0SKzRiAgB+LlWPUG7W
-         Pjeg==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V8uBq1ZauDk7QYH9jbR4OgSbivcLQSOg6mx25pZOGUA=;
+        b=h5+vogX+yVY1368kGDybI1xNnLGCQvGWlDcQ98ck2YVr6Sm0HNNdhdKsptyX9xWtiu
+         ZZevfmvPemHKVXeYYBaiciYgZevaeExd27dpmfoeoaRftyFJgA1IcISDC+PmZqx8ijGP
+         VDmQ3pt1PE1dfHdkrriv5DlfG4yt3cmvRTj94=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iUlqb+3iXXfUE/FtNTwardLG1byHcjeEmEXkZMeCbkQ=;
-        b=AkmjkCWAE5tcxYMwLTU9ARO2e6FLSKKu3rZIPBBvj1QxfJqA2trhXRxqkDhWt7+xkg
-         g6y1tjQ9y7e0ZXfHSpdNA668PWgSlLw4jAciEKFvFSMTIWzUjLD8k24c7zk/Y/+YTWNW
-         U8JEonL6gp7ON/D1E/5S69kkgW1u2J7VtgTQoLVhRGyxkhtbUlHcduJxznoSSeNcwa/g
-         wL2O6hCUCHM1d0qf0jgNZFONW4Dd9HJJW1KKImr8wjbVuZAOSuJs8MOfD151e2q5iA4h
-         JLFWjM9lVARBGAhDyWVAVxhM/CmVwYUYFiY275jR8HJQQrh8o6FOqIRwaufJCVCJPs6Q
-         qzIQ==
-X-Gm-Message-State: AO0yUKULmZKlGLJm6NbGiD1b3D9FRWgZRi4jRp8BV5DEDLtzsTXWXeMV
-        pzci3V7QYSOBWazQKcKi9wkU9ml6LY0=
-X-Google-Smtp-Source: AK7set/6WDjb0Ac8FyBvdHvYVEnN4JHixBgCqM+nFi/eMM4fSBpF45E0195TXdlRGCEsxx/DghyJvw==
-X-Received: by 2002:a9d:64c2:0:b0:68b:e391:324d with SMTP id n2-20020a9d64c2000000b0068be391324dmr8417383otl.0.1676054797334;
-        Fri, 10 Feb 2023 10:46:37 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x14-20020a9d628e000000b006863ccbf067sm2254944otk.74.2023.02.10.10.46.36
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V8uBq1ZauDk7QYH9jbR4OgSbivcLQSOg6mx25pZOGUA=;
+        b=cuTJpD+qTSoKSFttHrxzJKGmnHu/x2CfbIL+3S+JVoxfxhA0GfTAs6RPllgn+T7ACK
+         +OPkE7EvYqo+VsVyCTh87SkqV7oxpBxDlCPUJTHew1V2mpX/rrkugGegOmzETv1PdMgi
+         pOi0CRBeLxcGrfhANFUhElUPSLoJNiInoSZvjyCQHCjRljyuonogLbeTzONDT3VeR0KC
+         F0rozlr7uQpERz5T//3O6Svj7uQ7+ZD64hKiFolfua+vSJt2T3BtF9JzCO6KuquJ4iA6
+         OUl1bP3eaQzYq7kszmWLaHite+/n6VYEpl5/iVSdInhq7E8oEIijzv0VWBL2UNlirTgI
+         rurA==
+X-Gm-Message-State: AO0yUKVmZW7fKK1E5EQXrhMrPBG5kk0kSuOfOdd0ddA86hxINlKSajvF
+        1IKK+fj46BWNGH3N79nD5AhC7Q==
+X-Google-Smtp-Source: AK7set9bqw4f3N9X7w+83larwtCUiNA29Ni5P5++h6aVoFLLp70sK1gVioWYL3Ab/XoPTAgQi30hUw==
+X-Received: by 2002:a05:622a:12:b0:3bb:801b:c3cc with SMTP id x18-20020a05622a001200b003bb801bc3ccmr14832431qtw.1.1676063251116;
+        Fri, 10 Feb 2023 13:07:31 -0800 (PST)
+Received: from nitro.local (bras-base-mtrlpq5031w-grc-30-209-226-106-7.dsl.bell.ca. [209.226.106.7])
+        by smtp.gmail.com with ESMTPSA id q185-20020ae9dcc2000000b0073a37f5d496sm20112qkf.128.2023.02.10.13.07.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 10:46:36 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 10 Feb 2023 10:46:35 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Jerry Hoemann <jerry.hoemann@hpe.com>
-Cc:     corbet@lwn.net, linux-watchdog@vger.kernel.org,
-        wim@linux-watchdog.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] Documentation/watchdog/hpwdt: Fix Format
-Message-ID: <20230210184635.GC3670524@roeck-us.net>
-References: <20230210184247.221134-1-jerry.hoemann@hpe.com>
- <20230210184247.221134-3-jerry.hoemann@hpe.com>
+        Fri, 10 Feb 2023 13:07:30 -0800 (PST)
+Date:   Fri, 10 Feb 2023 16:07:28 -0500
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "elana.copperman@mobileye.com" <elana.copperman@mobileye.com>
+Subject: Re: Removing the deprecated htmldocs for good?
+Message-ID: <20230210210728.5zontxigmtqippta@nitro.local>
+References: <CAKXUXMw-Tg7WcfVHaWZ-sK+WFnedL+S-jA_UnsdTR=HFwxAXSw@mail.gmail.com>
+ <87wnjm9iba.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230210184247.221134-3-jerry.hoemann@hpe.com>
+In-Reply-To: <87wnjm9iba.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 11:42:47AM -0700, Jerry Hoemann wrote:
-> Add list format so that compiled documentation looks like it was
-> intended to.
+On Thu, Dec 30, 2021 at 09:19:21AM -0700, Jonathan Corbet wrote:
+> > While scanning through the internet for kernel documentation, I
+> > stumbled upon the old deprecated htmldocs under
+> > https://www.kernel.org/doc/htmldocs/. I see that on
+> > https://www.kernel.org/doc/, we already point out that 'htmldocs -
+> > Kernel Documentation in docbook format (deprecated).' is deprecated.
+> > If I am not mistaken, all the content from htmldocs has now been
+> > transformed into .rst and has potentially evolved further and hence
+> > all relevant information should also already be available somewhere in
+> > https://www.kernel.org/doc/html/latest/.
+> >
+> > Is it now time to delete the content under
+> > https://www.kernel.org/doc/htmldocs/ for good?
 > 
-> Signed-off-by: Jerry Hoemann <jerry.hoemann@hpe.com>
+> I think that time may have come, yes; perhaps just have it redirect to
+> https://www.kernel.org/doc/html/latest/ instead?
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+I'm going through my backlog (of which I have lots) and I finally got around
+to making this change. Requesting https://www.kernel.org/doc/htmldocs/ should
+now send you to the archives site, and it's gone from the listing in
+www.kernel.org/doc.
 
-> ---
->  Documentation/watchdog/hpwdt.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/watchdog/hpwdt.rst b/Documentation/watchdog/hpwdt.rst
-> index c972fc2a3d0b..5eab5dfec042 100644
-> --- a/Documentation/watchdog/hpwdt.rst
-> +++ b/Documentation/watchdog/hpwdt.rst
-> @@ -63,9 +63,9 @@ Last reviewed: 08/20/2018
->   and loop forever.  This is generally not what a watchdog user wants.
->  
->   For those wishing to learn more please see:
-> -	Documentation/admin-guide/kdump/kdump.rst
-> -	Documentation/admin-guide/kernel-parameters.txt (panic=)
-> -	Your Linux Distribution specific documentation.
-> +	- Documentation/admin-guide/kdump/kdump.rst
-> +	- Documentation/admin-guide/kernel-parameters.txt (panic=)
-> +	- Your Linux Distribution specific documentation.
->  
->   If the hpwdt does not receive the NMI associated with an expiring timer,
->   the iLO will proceed to reset the system at timeout if the timer hasn't
-> -- 
-> 2.39.1
-> 
+-K
