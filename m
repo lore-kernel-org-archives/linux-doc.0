@@ -2,103 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9A6AC636CD
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 18:28:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DB2FC636D7
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 18:34:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232755AbjBJS2s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 13:28:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55584 "EHLO
+        id S233086AbjBJSeK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 13:34:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232505AbjBJS2s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 13:28:48 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C786C7C7;
-        Fri, 10 Feb 2023 10:28:47 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C20FD61D97;
-        Fri, 10 Feb 2023 18:28:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD29C433D2;
-        Fri, 10 Feb 2023 18:28:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676053726;
-        bh=fbAYtfNLMbGbjUSgWi/1MAsAL/DE+XtVmcxlU54pMLs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bDwVvvVA4Qv04UEwvUWpz+KojtDDV5sIbMQovFCSuUQbJBvJqfqSyqy4Me9RNfi8Q
-         6UHIKyaIhm3bgYB3MHtPiAvNcJ/CdOPw4Z7YaEG0aFcAEUPvp868jYwKXQxw5vDncA
-         WQBUHXPcy30tqAdqxOZa/1xmKeWWaqKf9RqRhmJsKPTo1l6sJEKU20Bfr2VpMIW3vc
-         bDo7u5lnWfkO8tPlAw2tFxHCFZDtxyjaHbK+1tfhMbwv4fz2afBqF26QvkWihm19fQ
-         hFHxy5T+i26uZYHgPrrn+RafnZWwy5WrbOI64vVvrPKgu6AYwvaN3FUXwZPfkKn7EO
-         EVhuI3noRzKbg==
-From:   SeongJae Park <sj@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        damon@lists.linux.dev, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2 0/3] mm/damon: deprecate DAMON debugfs interface
-Date:   Fri, 10 Feb 2023 18:28:43 +0000
-Message-Id: <20230210182843.83527-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230210044838.63723-1-sj@kernel.org>
-References: 
+        with ESMTP id S233005AbjBJSeJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 13:34:09 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAA2E6C7C8
+        for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 10:34:06 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id o18so5945074wrj.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 10:34:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=itUHF+gJAOR68gNrNXTOhv2YTwp1LN4BGzGEfAiI2PA=;
+        b=OaHJvANNeMAGzvf2uYI2xzLCi6qVzIoIMRJNUMUHlzvdQB4946tyfjwuc64G0AuREt
+         YuNu/sR7FoiaVytT1wVaU5lS9eCpEu+2qZzqFTXe8g0PKYQ8cn7vuhmv1w2DLp6+rjPA
+         VwOA/5nkkyxSNWkLJwLwBdi4zTMzi2yWNOmuPS3e0bp1oXuv0KGwifRBRdkJDANIcHba
+         R3SJAVIxCBohLDCUmxIZjPJ21/NShmd2frAAkS2VIIGuJGHBcjEwfjIq9x3inxKTiZ9g
+         VG+SmLQxhW1N+uckd3zByXCY+rK10AxGZ+y40dNt15bf8dXcveDzkzi962Xg7HQX+XtT
+         EisA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=itUHF+gJAOR68gNrNXTOhv2YTwp1LN4BGzGEfAiI2PA=;
+        b=Joh5GrrPRdiezJzCsD1TUhmioJWpcUalH6D2MpU/F3wndT08dK3YqeJBRKfLl9dD7E
+         pqoUM6G7nqbIkydxDniu1aAt7SWW61jgtV3vxZcEL9jodgnGulygzr59wRdBrVwDneNq
+         E2XOc9QjRUVZNjdyAaoIQl1bBWjZE/fVMJ9Z6RS+dl9UlqyZKPBR2tzPvwSc/fTHEqsJ
+         +lobMnph1/kL2Onrzfz5f8Z7p2dnjIDHvXPiERzW1/LZiTLgi/DYAd4K5pyUOkX42lqO
+         zdwkqICBEWlF0sgPOb7/xcwp4k3few34tit4GM8Ukmd8EI6U+rLEgedXCK/IYUVxXyl1
+         P0hA==
+X-Gm-Message-State: AO0yUKULOr9O/8kqFisED3t64UeXk75gY9DFRklsVl7Efc6CPOu2GeAa
+        I/+MSLZmYHGZIJXvJlwGVHqbrg==
+X-Google-Smtp-Source: AK7set+sfAI5v+pm+Ta+c+I585wZnYR7ZKSMkHtr+epDPjtPngGn8hHOvj4Pt1bfuGTly/qfkXFNSg==
+X-Received: by 2002:adf:f80c:0:b0:2c3:cdcd:f0b3 with SMTP id s12-20020adff80c000000b002c3cdcdf0b3mr13276955wrp.9.1676054045329;
+        Fri, 10 Feb 2023 10:34:05 -0800 (PST)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id i12-20020a5d438c000000b002c512f56859sm4135084wrq.70.2023.02.10.10.34.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Feb 2023 10:34:04 -0800 (PST)
+Message-ID: <8f557084-e185-6bf5-ab2b-4e1ebf4fc516@linaro.org>
+Date:   Fri, 10 Feb 2023 19:34:02 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 06/11] thermal/drivers/st: remove syscfg based driver
+Content-Language: en-US
+To:     Alain Volmat <avolmat@me.com>, Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-pm@vger.kernel.org,
+        linux-clk@vger.kernel.org
+References: <20230209091659.1409-1-avolmat@me.com>
+ <20230209091659.1409-7-avolmat@me.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20230209091659.1409-7-avolmat@me.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 10 Feb 2023 04:48:35 +0000 SeongJae Park <sj@kernel.org> wrote:
+On 09/02/2023 10:16, Alain Volmat wrote:
+> The syscfg based thermal driver is only supporting STiH415
+> STiH416 and STiD127 platforms which are all no more supported.
+> We can thus safely remove this driver since the remaining STi
+> platform STiH407/STiH410 and STiH418 are all using the memmap
+> based thermal driver.
+> 
+> Signed-off-by: Alain Volmat <avolmat@me.com>
+> ---
 
-> Changes from v1
-> (https://lore.kernel.org/damon/20230209192009.7885-1-sj@kernel.org/)
-> - Split DAMON debugfs file open warning message (Randy Dunlap)
+Applied, thanks
 
-I usually sent this kind of update for after-merged-into-mm-unstable tree
-patches individusally as fixup, but this time I sent whole patchset as a new
-version, because I was out of my mind.
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-For someone who may prefer the usual for-fixup individual patch, attaching the
-version below.
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
-
-Thanks,
-SJ
-
-================================= 8< ==========================================
-From: SeongJae Park <sj@kernel.org>
-Date: Fri, 10 Feb 2023 04:37:19 +0000
-Subject: [PATCH mm-unstable] mm/damon/dbgfs: break too long deprecation
- warning message
-
-DAMON debugfs interface deprecation message, which is introduced by
-commit 234a68e24b12 ("mm/damon/dbgfs: print DAMON debugfs interface
-deprecation message") of mm-unstable, is too long.  Break down into
-multiple strings for better code readability.
-
-Fixes: 234a68e24b12 ("mm/damon/dbgfs: print DAMON debugfs interface deprecation message") # mm-unstable
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- mm/damon/dbgfs.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
-index e551a20b35e3..124f0f8c97b7 100644
---- a/mm/damon/dbgfs.c
-+++ b/mm/damon/dbgfs.c
-@@ -22,7 +22,10 @@ static DEFINE_MUTEX(damon_dbgfs_lock);
-
- static void damon_dbgfs_warn_deprecation(void)
- {
--       pr_warn_once("DAMON debugfs interface is deprecated, so users should move to the sysfs interface (DAMON_SYSFS).  If you depend on this and cannot move, please report your usecase to damon@lists.linux.dev and linux-mm@kvack.org.\n");
-+       pr_warn_once("DAMON debugfs interface is deprecated, "
-+                    "so users should move to DAMON_SYSFS. If you cannot, "
-+                    "please report your usecase to damon@lists.linux.dev and "
-+                    "linux-mm@kvack.org.\n");
- }
-
- /*
---
-2.25.1
