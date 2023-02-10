@@ -2,28 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90879C636D4
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 21:50:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B2C1C636D7
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 21:50:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233642AbjBJVuu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 16:50:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33804 "EHLO
+        id S233430AbjBJVuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 16:50:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233430AbjBJVuu (ORCPT
+        with ESMTP id S233594AbjBJVuu (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 16:50:50 -0500
 Received: from 66-220-144-178.mail-mxout.facebook.com (66-220-144-178.mail-mxout.facebook.com [66.220.144.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D197660D4D
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF0553D09C
         for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 13:50:49 -0800 (PST)
 Received: by dev0134.prn3.facebook.com (Postfix, from userid 425415)
-        id 803B06BFC2D3; Fri, 10 Feb 2023 13:50:33 -0800 (PST)
+        id 69CB96BFC2C7; Fri, 10 Feb 2023 13:50:33 -0800 (PST)
 From:   Stefan Roesch <shr@devkernel.io>
 To:     kernel-team@fb.com
 Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
         mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
         linux-doc@vger.kernel.org, akpm@linux-foundation.org
-Subject: [RFC PATCH v2 07/19] mm: split off pages_volatile function
-Date:   Fri, 10 Feb 2023 13:50:11 -0800
-Message-Id: <20230210215023.2740545-8-shr@devkernel.io>
+Subject: [RFC PATCH v2 02/19] mm: add flag to __ksm_enter
+Date:   Fri, 10 Feb 2023 13:50:06 -0800
+Message-Id: <20230210215023.2740545-3-shr@devkernel.io>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230210215023.2740545-1-shr@devkernel.io>
 References: <20230210215023.2740545-1-shr@devkernel.io>
@@ -33,46 +33,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This splits off the pages_volatile function. The next patch will use
-this function.
+This change adds the flag parameter to __ksm_enter. This allows to
+distinguish if ksm was called by prctl or madvise.
 
 Signed-off-by: Stefan Roesch <shr@devkernel.io>
 ---
- mm/ksm.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ include/linux/ksm.h | 6 ++++--
+ mm/ksm.c            | 9 +++++----
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
+diff --git a/include/linux/ksm.h b/include/linux/ksm.h
+index 7e232ba59b86..50e6b56092f3 100644
+--- a/include/linux/ksm.h
++++ b/include/linux/ksm.h
+@@ -18,13 +18,15 @@
+ #ifdef CONFIG_KSM
+ int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
+ 		unsigned long end, int advice, unsigned long *vm_flags);
+-int __ksm_enter(struct mm_struct *mm);
+ void __ksm_exit(struct mm_struct *mm);
++int __ksm_enter(struct mm_struct *mm, int flag);
+=20
+ static inline int ksm_fork(struct mm_struct *mm, struct mm_struct *oldmm=
+)
+ {
++	if (test_bit(MMF_VM_MERGE_ANY, &oldmm->flags))
++		return __ksm_enter(mm, MMF_VM_MERGE_ANY);
+ 	if (test_bit(MMF_VM_MERGEABLE, &oldmm->flags))
+-		return __ksm_enter(mm);
++		return __ksm_enter(mm, MMF_VM_MERGEABLE);
+ 	return 0;
+ }
+=20
 diff --git a/mm/ksm.c b/mm/ksm.c
-index 23d6944f78ad..7f3b28b7536e 100644
+index 56808e3bfd19..afc0980592af 100644
 --- a/mm/ksm.c
 +++ b/mm/ksm.c
-@@ -3271,8 +3271,7 @@ static ssize_t pages_unshared_show(struct kobject *=
-kobj,
- }
- KSM_ATTR_RO(pages_unshared);
+@@ -2595,8 +2595,9 @@ int ksm_madvise(struct vm_area_struct *vma, unsigne=
+d long start,
+ 			return 0;
+ #endif
 =20
--static ssize_t pages_volatile_show(struct kobject *kobj,
--				   struct kobj_attribute *attr, char *buf)
-+static long pages_volatile(void)
+-		if (!test_bit(MMF_VM_MERGEABLE, &mm->flags)) {
+-			err =3D __ksm_enter(mm);
++		if (!test_bit(MMF_VM_MERGEABLE, &mm->flags) &&
++		    !test_bit(MMF_VM_MERGE_ANY, &mm->flags)) {
++			err =3D __ksm_enter(mm, MMF_VM_MERGEABLE);
+ 			if (err)
+ 				return err;
+ 		}
+@@ -2622,7 +2623,7 @@ int ksm_madvise(struct vm_area_struct *vma, unsigne=
+d long start,
+ }
+ EXPORT_SYMBOL_GPL(ksm_madvise);
+=20
+-int __ksm_enter(struct mm_struct *mm)
++int __ksm_enter(struct mm_struct *mm, int flag)
  {
- 	long ksm_pages_volatile;
+ 	struct ksm_mm_slot *mm_slot;
+ 	struct mm_slot *slot;
+@@ -2655,7 +2656,7 @@ int __ksm_enter(struct mm_struct *mm)
+ 		list_add_tail(&slot->mm_node, &ksm_scan.mm_slot->slot.mm_node);
+ 	spin_unlock(&ksm_mmlist_lock);
 =20
-@@ -3284,7 +3283,14 @@ static ssize_t pages_volatile_show(struct kobject =
-*kobj,
- 	 */
- 	if (ksm_pages_volatile < 0)
- 		ksm_pages_volatile =3D 0;
--	return sysfs_emit(buf, "%ld\n", ksm_pages_volatile);
-+
-+	return ksm_pages_volatile;
-+}
-+
-+static ssize_t pages_volatile_show(struct kobject *kobj,
-+				   struct kobj_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "%ld\n", pages_volatile());
- }
- KSM_ATTR_RO(pages_volatile);
+-	set_bit(MMF_VM_MERGEABLE, &mm->flags);
++	set_bit(flag, &mm->flags);
+ 	mmgrab(mm);
 =20
+ 	if (needs_wakeup)
 --=20
 2.30.2
 
