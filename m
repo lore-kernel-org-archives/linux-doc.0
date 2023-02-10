@@ -2,28 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DD9C636D4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5A0BC05027
 	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 21:50:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233922AbjBJVu5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 16:50:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33866 "EHLO
+        id S233594AbjBJVu6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 16:50:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233594AbjBJVu4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 16:50:56 -0500
+        with ESMTP id S233767AbjBJVu5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 16:50:57 -0500
 Received: from 66-220-144-178.mail-mxout.facebook.com (66-220-144-178.mail-mxout.facebook.com [66.220.144.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D60963D09C
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF6316566F
         for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 13:50:55 -0800 (PST)
 Received: by dev0134.prn3.facebook.com (Postfix, from userid 425415)
-        id 656676BFC2C2; Fri, 10 Feb 2023 13:50:33 -0800 (PST)
+        id 776656BFC2CF; Fri, 10 Feb 2023 13:50:33 -0800 (PST)
 From:   Stefan Roesch <shr@devkernel.io>
 To:     kernel-team@fb.com
 Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
         mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
         linux-doc@vger.kernel.org, akpm@linux-foundation.org
-Subject: [RFC PATCH v2 01/19] mm: add new flag to enable ksm per process
-Date:   Fri, 10 Feb 2023 13:50:05 -0800
-Message-Id: <20230210215023.2740545-2-shr@devkernel.io>
+Subject: [RFC PATCH v2 05/19] mm: support disabling of ksm for a process
+Date:   Fri, 10 Feb 2023 13:50:09 -0800
+Message-Id: <20230210215023.2740545-6-shr@devkernel.io>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230210215023.2740545-1-shr@devkernel.io>
 References: <20230210215023.2740545-1-shr@devkernel.io>
@@ -33,26 +33,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This introduces the new flag MMF_VM_MERGE_ANY flag. When this flag is
-set, kernel samepage merging (ksm) gets enabled for all vma's of a
-process.
+This adds the ability to disable ksm for a process if ksm has been
+enabled for the process.
 
 Signed-off-by: Stefan Roesch <shr@devkernel.io>
 ---
- include/linux/sched/coredump.h | 1 +
- 1 file changed, 1 insertion(+)
+ mm/ksm.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/sched/coredump.h b/include/linux/sched/coredum=
-p.h
-index 0e17ae7fbfd3..0ee96ea7a0e9 100644
---- a/include/linux/sched/coredump.h
-+++ b/include/linux/sched/coredump.h
-@@ -90,4 +90,5 @@ static inline int get_dumpable(struct mm_struct *mm)
- #define MMF_INIT_MASK		(MMF_DUMPABLE_MASK | MMF_DUMP_FILTER_MASK |\
- 				 MMF_DISABLE_THP_MASK | MMF_HAS_MDWE_MASK)
+diff --git a/mm/ksm.c b/mm/ksm.c
+index efd8d3804de3..23d6944f78ad 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -2690,6 +2690,27 @@ int __ksm_enter(struct mm_struct *mm, int flag)
+ 	return 0;
+ }
 =20
-+#define MMF_VM_MERGE_ANY	29
- #endif /* _LINUX_SCHED_COREDUMP_H */
++static void unmerge_vmas(struct mm_struct *mm)
++{
++	struct vm_area_struct *vma;
++	struct vma_iterator vmi;
++
++	vma_iter_init(&vmi, mm, 0);
++
++	mmap_read_lock(mm);
++	for_each_vma(vmi, vma) {
++		if (vma->vm_flags & VM_MERGEABLE) {
++			unsigned long flags =3D vma->vm_flags;
++
++			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_UNMERGEABLE, &f=
+lags))
++				continue;
++
++			vm_flags_clear(vma, VM_MERGEABLE);
++		}
++	}
++	mmap_read_unlock(mm);
++}
++
+ void __ksm_exit(struct mm_struct *mm, int flag)
+ {
+ 	struct ksm_mm_slot *mm_slot;
+@@ -2697,8 +2718,10 @@ void __ksm_exit(struct mm_struct *mm, int flag)
+ 	int easy_to_free =3D 0;
+=20
+ 	if (!(current->flags & PF_EXITING) && flag =3D=3D MMF_VM_MERGE_ANY &&
+-	    test_bit(MMF_VM_MERGE_ANY, &mm->flags))
++		test_bit(MMF_VM_MERGE_ANY, &mm->flags)) {
+ 		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
++		unmerge_vmas(mm);
++	}
+=20
+ 	/*
+ 	 * This process is exiting: if it's straightforward (as is the
 --=20
 2.30.2
 
