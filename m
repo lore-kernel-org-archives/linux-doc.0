@@ -2,98 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0941C6379F
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 23:21:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93EF4C636D4
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 23:23:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbjBJXV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 18:21:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33390 "EHLO
+        id S229675AbjBJXX6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 18:23:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229668AbjBJXVz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 18:21:55 -0500
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C8860193D0;
-        Fri, 10 Feb 2023 15:21:54 -0800 (PST)
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id 0D21520C8B19; Fri, 10 Feb 2023 15:21:54 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0D21520C8B19
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1676071314;
-        bh=i2lp2ziiFIPNiUwou6ICbYjzt9rpgm+8uoeH+6Tjq14=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=g710bbkpK51xjvJHJGmow+Fo5edKRRAgTo+QwsHzaank4bxcVSAeeGsqdn1oWpbTo
-         7DVryIkmJ5VTN9TLjgGnxqj0i1Uq+gUjsnTDRaf7H8xwci0S7dOJwYkfBIwdMKw7H4
-         KofNpLaIUBMktQ5IplKE8C7Gi/LqrPF8KHBKGhCA=
-Date:   Fri, 10 Feb 2023 15:21:54 -0800
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, linux-audit@redhat.com,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [RFC PATCH v9 03/16] ipe: add evaluation loop and introduce
- 'boot_verified' as a trust provider
-Message-ID: <20230210232154.GA17962@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-4-git-send-email-wufan@linux.microsoft.com>
- <061df661004a06ef1e8790d48157c7ba4ecfc009.camel@huaweicloud.com>
+        with ESMTP id S229584AbjBJXX5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 18:23:57 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E3C3213C;
+        Fri, 10 Feb 2023 15:23:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=AP2TD6OwnYFB37LieArEw/htbLdqYVrISvpIX8EBFdg=; b=X65Rd1uAmhiuyDSNLjQpJsDEsQ
+        G4bh0XGxOtNAXgbjackcfpqShmCCJWH2iUhpKKi+AhoKk5NW3Z07078WWbo6XqkrQmv+C9Y/2/Vbq
+        zqb4pwIWQT+QtYrheWc2EO0a8ZhtC4AeRJ1qYLoZxkytQMA7JVQVy2tC3H/aTcmZ6CF9e+WghTBtr
+        9COe7U3W9+OwzqltMWY+fVDy5oQrG9+DBMTw03CVs/DCpguYzRYKkRBuXM+AGwbxwtnNBNtRJKGX5
+        hb5c+GOElZZBfVBrRuFeLWmwFYKqelp8TK99Fb4U5MUqHE1cj9TElbsa2nqSua0Oedn4zbBXwFlpA
+        iwabePWw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pQcjv-003XoO-Ev; Fri, 10 Feb 2023 23:23:35 +0000
+Date:   Fri, 10 Feb 2023 23:23:35 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Stefan Roesch <shr@devkernel.io>
+Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org
+Subject: Re: [RFC PATCH v2 00/19] mm: process/cgroup ksm support
+Message-ID: <Y+bR99Ca+7SObeQo@casper.infradead.org>
+References: <20230210215023.2740545-1-shr@devkernel.io>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <061df661004a06ef1e8790d48157c7ba4ecfc009.camel@huaweicloud.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20230210215023.2740545-1-shr@devkernel.io>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 31, 2023 at 04:49:44PM +0100, Roberto Sassu wrote:
-> On Mon, 2023-01-30 at 14:57 -0800, Fan Wu wrote:
-> > From: Deven Bowers <deven.desai@linux.microsoft.com>
-> > 
-> > IPE must have a centralized function to evaluate incoming callers
-> > against IPE's policy. This iteration of the policy against the rules
-> > for that specific caller is known as the evaluation loop.
+On Fri, Feb 10, 2023 at 01:50:04PM -0800, Stefan Roesch wrote:
+> So far KSM can only be enabled by calling madvise for memory regions. What is
+> required to enable KSM for more workloads is to enable / disable it at the
+> process / cgroup level.
 > 
-> Not sure if you check the properties at every access.
+> Use case:
+> The madvise call is not available in the programming language. An example for
+> this are programs with forked workloads using a garbage collected language without
+> pointers. In such a language madvise cannot be made available.
 > 
-> >From my previous comments (also for previous versions of the patches)
-> you could evaluate the property once, by calling the respective
-> functions in the other subsystems.
-> 
-> Then, you reserve space in the security blob for inodes and superblocks
-> to cache the decision. The format could be a policy sequence number, to
-> ensure that the cache is valid only for the current policy, and a bit
-> for every hook you enforce.
+> In addition the addresses of objects get moved around as they are garbage
+> collected. KSM sharing needs to be enabled "from the outside" for these type of
+> workloads.
 
-Thanks for raising this idea. I agree that if the property evaluation
-leads to a performance issue, it will be better to cache the evaluation
-result. But for this version, all the property evaluations are simple,
-so it is just as fast as accessing a cache. Also, for the initial
-version we prefer to keep the patch as minimal as possible. 
-
-If the policy evolved to be super complex and the evaluation becomes
-a bottleneck, cache support will absolutely be the right way we will go.
--Fan
-
-> 
-> Also, currently you rely on the fact that the properties you defined
-> are immutable and the immutability is guaranteed by the other
-> subsystems, so no write can occur.
-> 
-> But if you remove this limitation, the immutability is not guaranteed
-> anymore by the other subsystems (for example if a file is in an ext4
-> filesystem), the LSM needs to take extra care to ensure that the
-> properties are still verified. This would be required for example if
-> IPE is used in conjuction with DIGLIM.
-> 
-> In my opinion, IPE value would increase if the generic enforcement
-> mechanism is property-agnostic.
-> 
-> Roberto
-> 
+Don't you have source code to the interpreter for this mysterious
+language?  Usually that would be where we put calls to madvise()
