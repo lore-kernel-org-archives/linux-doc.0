@@ -2,28 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5A0BC05027
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 21:50:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BDBFC64ED8
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 21:50:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233594AbjBJVu6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S233767AbjBJVu6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 10 Feb 2023 16:50:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33884 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233767AbjBJVu5 (ORCPT
+        with ESMTP id S233789AbjBJVu5 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 16:50:57 -0500
 Received: from 66-220-144-178.mail-mxout.facebook.com (66-220-144-178.mail-mxout.facebook.com [66.220.144.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF6316566F
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF7286BABA
         for <linux-doc@vger.kernel.org>; Fri, 10 Feb 2023 13:50:55 -0800 (PST)
 Received: by dev0134.prn3.facebook.com (Postfix, from userid 425415)
-        id 776656BFC2CF; Fri, 10 Feb 2023 13:50:33 -0800 (PST)
+        id 72D2E6BFC2CB; Fri, 10 Feb 2023 13:50:33 -0800 (PST)
 From:   Stefan Roesch <shr@devkernel.io>
 To:     kernel-team@fb.com
 Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
         mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
         linux-doc@vger.kernel.org, akpm@linux-foundation.org
-Subject: [RFC PATCH v2 05/19] mm: support disabling of ksm for a process
-Date:   Fri, 10 Feb 2023 13:50:09 -0800
-Message-Id: <20230210215023.2740545-6-shr@devkernel.io>
+Subject: [RFC PATCH v2 04/19] mm: invoke madvise for all vmas in scan_get_next_rmap_item
+Date:   Fri, 10 Feb 2023 13:50:08 -0800
+Message-Id: <20230210215023.2740545-5-shr@devkernel.io>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230210215023.2740545-1-shr@devkernel.io>
 References: <20230210215023.2740545-1-shr@devkernel.io>
@@ -33,59 +33,79 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds the ability to disable ksm for a process if ksm has been
-enabled for the process.
+If the new flag MMF_VM_MERGE_ANY has been set for a process, iterate
+over all the vmas and enable ksm if possible. For the vmas that can be
+ksm enabled this is only done once.
 
 Signed-off-by: Stefan Roesch <shr@devkernel.io>
 ---
- mm/ksm.c | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+ mm/ksm.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/mm/ksm.c b/mm/ksm.c
-index efd8d3804de3..23d6944f78ad 100644
+index 3597ae52fe7b..efd8d3804de3 100644
 --- a/mm/ksm.c
 +++ b/mm/ksm.c
-@@ -2690,6 +2690,27 @@ int __ksm_enter(struct mm_struct *mm, int flag)
- 	return 0;
+@@ -1063,6 +1063,7 @@ static int unmerge_and_remove_all_rmap_items(void)
+=20
+ 			mm_slot_free(mm_slot_cache, mm_slot);
+ 			clear_bit(MMF_VM_MERGEABLE, &mm->flags);
++			clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+ 			mmdrop(mm);
+ 		} else
+ 			spin_unlock(&ksm_mmlist_lock);
+@@ -2329,6 +2330,17 @@ static struct ksm_rmap_item *get_next_rmap_item(st=
+ruct ksm_mm_slot *mm_slot,
+ 	return rmap_item;
  }
 =20
-+static void unmerge_vmas(struct mm_struct *mm)
++static bool vma_ksm_mergeable(struct vm_area_struct *vma)
 +{
-+	struct vm_area_struct *vma;
-+	struct vma_iterator vmi;
++	if (vma->vm_flags & VM_MERGEABLE)
++		return true;
 +
-+	vma_iter_init(&vmi, mm, 0);
++	if (test_bit(MMF_VM_MERGE_ANY, &vma->vm_mm->flags))
++		return true;
 +
-+	mmap_read_lock(mm);
-+	for_each_vma(vmi, vma) {
-+		if (vma->vm_flags & VM_MERGEABLE) {
-+			unsigned long flags =3D vma->vm_flags;
-+
-+			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_UNMERGEABLE, &f=
-lags))
-+				continue;
-+
-+			vm_flags_clear(vma, VM_MERGEABLE);
-+		}
-+	}
-+	mmap_read_unlock(mm);
++	return false;
 +}
 +
- void __ksm_exit(struct mm_struct *mm, int flag)
+ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
  {
- 	struct ksm_mm_slot *mm_slot;
-@@ -2697,8 +2718,10 @@ void __ksm_exit(struct mm_struct *mm, int flag)
- 	int easy_to_free =3D 0;
+ 	struct mm_struct *mm;
+@@ -2405,8 +2417,20 @@ static struct ksm_rmap_item *scan_get_next_rmap_it=
+em(struct page **page)
+ 		goto no_vmas;
 =20
- 	if (!(current->flags & PF_EXITING) && flag =3D=3D MMF_VM_MERGE_ANY &&
--	    test_bit(MMF_VM_MERGE_ANY, &mm->flags))
-+		test_bit(MMF_VM_MERGE_ANY, &mm->flags)) {
- 		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
-+		unmerge_vmas(mm);
-+	}
+ 	for_each_vma(vmi, vma) {
+-		if (!(vma->vm_flags & VM_MERGEABLE))
++		if (!vma_ksm_mergeable(vma))
+ 			continue;
++		if (!(vma->vm_flags & VM_MERGEABLE)) {
++			unsigned long flags =3D vma->vm_flags;
++
++			/* madvise failed, use next vma */
++			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_MERGEABLE, &fla=
+gs))
++				continue;
++			/* vma, not supported as being mergeable */
++			if (!(flags & VM_MERGEABLE))
++				continue;
++
++			vm_flags_set(vma, VM_MERGEABLE);
++		}
+ 		if (ksm_scan.address < vma->vm_start)
+ 			ksm_scan.address =3D vma->vm_start;
+ 		if (!vma->anon_vma)
+@@ -2491,6 +2515,7 @@ static struct ksm_rmap_item *scan_get_next_rmap_ite=
+m(struct page **page)
 =20
- 	/*
- 	 * This process is exiting: if it's straightforward (as is the
+ 		mm_slot_free(mm_slot_cache, mm_slot);
+ 		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
++		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+ 		mmap_read_unlock(mm);
+ 		mmdrop(mm);
+ 	} else {
 --=20
 2.30.2
 
