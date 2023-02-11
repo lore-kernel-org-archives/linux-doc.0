@@ -2,60 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93EF4C636D4
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Feb 2023 23:23:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0975C05027
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Feb 2023 00:26:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229675AbjBJXX6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Feb 2023 18:23:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34482 "EHLO
+        id S229962AbjBKA0u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Feb 2023 19:26:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbjBJXX5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 18:23:57 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E3C3213C;
-        Fri, 10 Feb 2023 15:23:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=AP2TD6OwnYFB37LieArEw/htbLdqYVrISvpIX8EBFdg=; b=X65Rd1uAmhiuyDSNLjQpJsDEsQ
-        G4bh0XGxOtNAXgbjackcfpqShmCCJWH2iUhpKKi+AhoKk5NW3Z07078WWbo6XqkrQmv+C9Y/2/Vbq
-        zqb4pwIWQT+QtYrheWc2EO0a8ZhtC4AeRJ1qYLoZxkytQMA7JVQVy2tC3H/aTcmZ6CF9e+WghTBtr
-        9COe7U3W9+OwzqltMWY+fVDy5oQrG9+DBMTw03CVs/DCpguYzRYKkRBuXM+AGwbxwtnNBNtRJKGX5
-        hb5c+GOElZZBfVBrRuFeLWmwFYKqelp8TK99Fb4U5MUqHE1cj9TElbsa2nqSua0Oedn4zbBXwFlpA
-        iwabePWw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pQcjv-003XoO-Ev; Fri, 10 Feb 2023 23:23:35 +0000
-Date:   Fri, 10 Feb 2023 23:23:35 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Stefan Roesch <shr@devkernel.io>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org
-Subject: Re: [RFC PATCH v2 00/19] mm: process/cgroup ksm support
-Message-ID: <Y+bR99Ca+7SObeQo@casper.infradead.org>
-References: <20230210215023.2740545-1-shr@devkernel.io>
+        with ESMTP id S229551AbjBKA0s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Feb 2023 19:26:48 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CF908453A;
+        Fri, 10 Feb 2023 16:26:45 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BB80AB8262D;
+        Sat, 11 Feb 2023 00:26:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2C5DC4339C;
+        Sat, 11 Feb 2023 00:26:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1676075202;
+        bh=CMGfOH8/+hEus/gWlx5JPmPZBYrw3oaiLIy8CsyZeTQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=CNCe2LKlrVkOPxVU9vOMUOeRR0V54AZc+/pYq5S4sIOSZ9zrhwPeXjSKv+SRgYR34
+         Bd9BGx4xbAfFocqyBm+fqJwhT+fommNeygKoBuSA14gh89EpnEMSntM9RsNLfSQMW3
+         0sdULXBAYgebWGwlOsL1VduQoJqTdoHu8AeAdHYgjOwYTZv28YG0uQgp1O6DQK4UuC
+         gWJ2zfxOxW3W5rMJIvyPqnP8//WPiMHIHKKFjTfVvoDnu80sGyYo+JaqF9W14mO8n2
+         pICSUl6kQPDwa7hokhCVZgrJlGbAXQrOGQJbeIKq8lN+STeljLXv/CDvIAFBGs+/d+
+         kPjGmGCnMokYw==
+Date:   Fri, 10 Feb 2023 16:26:40 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Vladimir Oltean <olteanv@gmail.com>,
+        netdev@vger.kernel.org,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        linux-crypto@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Mukesh Ojha <quic_mojha@quicinc.com>
+Subject: Re: [PATCH 03/24] Documentation: core-api: correct spelling
+Message-ID: <20230210162640.09e040ad@kernel.org>
+In-Reply-To: <20230209071400.31476-4-rdunlap@infradead.org>
+References: <20230209071400.31476-1-rdunlap@infradead.org>
+        <20230209071400.31476-4-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230210215023.2740545-1-shr@devkernel.io>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 01:50:04PM -0800, Stefan Roesch wrote:
-> So far KSM can only be enabled by calling madvise for memory regions. What is
-> required to enable KSM for more workloads is to enable / disable it at the
-> process / cgroup level.
-> 
-> Use case:
-> The madvise call is not available in the programming language. An example for
-> this are programs with forked workloads using a garbage collected language without
-> pointers. In such a language madvise cannot be made available.
-> 
-> In addition the addresses of objects get moved around as they are garbage
-> collected. KSM sharing needs to be enabled "from the outside" for these type of
-> workloads.
+On Wed,  8 Feb 2023 23:13:39 -0800 Randy Dunlap wrote:
+>  Documentation/core-api/packing.rst |    2 +-
+>  Documentation/core-api/padata.rst  |    2 +-
 
-Don't you have source code to the interpreter for this mysterious
-language?  Usually that would be where we put calls to madvise()
+I think these go to different trees (crypto vs netdev)
