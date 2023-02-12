@@ -2,81 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8315AC636D4
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Feb 2023 10:20:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EA2C05027
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Feb 2023 11:50:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbjBLKUq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Feb 2023 05:20:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58674 "EHLO
+        id S229463AbjBLLua (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Feb 2023 06:50:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjBLKUp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Feb 2023 05:20:45 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB0CA5BB1;
-        Sun, 12 Feb 2023 02:20:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676197244; x=1707733244;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0dYjb/FZF1cTnvMYarDtzuImV+WjlJqATcEUQBlZZv8=;
-  b=Qe9z2TOf5WuzKuuwzWBgbvfDtgnfg/7IMBj5cHWKMZDG169FIoGxwqxn
-   WTXrHJGC8qOBr3ApYZdB5/b5HuYn+xvGuHhbzHhO7XADCxPzDuZ5X1Mw7
-   ZJMP6yc+b+D/1/Q8T8veVRfIJO0OLU/oFPGALtS64pTA5Xn/D2NiBrgJt
-   NcVrFCFrpDSV30b36LI5itnbqC5PTsvkwos28OhKZoEUKXrApKR0s7+os
-   pidAaGjUU677H6ZovR/xGStzcbvMjUn8A/m+neYqgnUNDE+iL9jV3cWGX
-   lunzGVOt3fW4EkBCGcIk3jdr3tnvYbTZ4E/hjxIueBiU9Qv0H2WlUb/YZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="332843934"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="332843934"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 02:20:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="661853694"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="661853694"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 12 Feb 2023 02:20:42 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pR9TO-0007BJ-0K;
-        Sun, 12 Feb 2023 10:20:42 +0000
-Date:   Sun, 12 Feb 2023 18:19:42 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     William Zhang <william.zhang@broadcom.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>, linux-doc@vger.kernel.org
-Subject: [broonie-spi:for-next 43/43] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/spi/brcm,bcm63xx-hsspi-peripheral-props.yaml
-Message-ID: <202302121840.GtduUT37-lkp@intel.com>
+        with ESMTP id S229449AbjBLLua (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Feb 2023 06:50:30 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E242B10241;
+        Sun, 12 Feb 2023 03:50:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=F/oUvUqcxxSsH3QTIuSHpDyRj938YvYs4yZVYvuW6Rc=; b=rmaO8vWmZ2RMO07OUH3V7ba7S8
+        P1CwTAdZQunhfRFsb2o20pzOAlNCcBth+jahyoTS0xevTa+vwncTRpg9rVHO8blya2jZbbjmlQnca
+        lk4pIV887StNb+63EpDyZaZG47FSqzQSTAUXG0raiMj0p3IsrvvzWr17tOl/dA6qRWIRBE0Wh/VaO
+        qhKEh+fo9F6kaeaEHEOl/t6zBISbcYe+taXuuCiReEgJayAy2ZBtIKkZGQWbOKVRqp7EegNcEd+VW
+        ZhvPfav/OSx8HIul7vfUkYWKNG9XWiv48YJ8hLaaT/jDNhPB0srzyLOCwG+Ekys+nqbjbEJw+4beY
+        qhPJc5Hg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pRArw-004pM7-BH; Sun, 12 Feb 2023 11:50:08 +0000
+Date:   Sun, 12 Feb 2023 11:50:08 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2] docs/mm: Physical Memory: add example of interleaving
+ nodes
+Message-ID: <Y+jScFT/qyXSPESp@casper.infradead.org>
+References: <20230212095445.1311627-1-rppt@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230212095445.1311627-1-rppt@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-head:   80323599e33f9c19287a1a3707481fb157b27052
-commit: 80323599e33f9c19287a1a3707481fb157b27052 [43/43] MAINTAINERS: Add entry for Broadcom Broadband SoC HS SPI drivers
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git/commit/?id=80323599e33f9c19287a1a3707481fb157b27052
-        git remote add broonie-spi https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git
-        git fetch --no-tags broonie-spi for-next
-        git checkout 80323599e33f9c19287a1a3707481fb157b27052
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On Sun, Feb 12, 2023 at 11:54:45AM +0200, Mike Rapoport wrote:
+> +Note, that memory banks may belong to interleaving nodes. In the example
+> +below an x86 machine has 16Gbytes or RAM in 4 memory banks, even banks
+> +belong to node 0 and odd banks belong to node 1::
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302121840.GtduUT37-lkp@intel.com/
+s/or RAM/of RAM/
 
-All warnings (new ones prefixed by >>):
+The "Note," is superfluous, you can just write:
 
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/spi/brcm,bcm63xx-hsspi-peripheral-props.yaml
+Memory banks may belong to interleaved nodes.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+And I think we prefer the newer form "GiB" for new documentation.
+
+> +
+> +  0              4G              8G             12G            16G
+> +  +-------------+ +-------------+ +-------------+ +-------------+
+> +  |    node 0   | |    node 1   | |    node 0   | |    node 1   |
+> +  +-------------+ +-------------+ +-------------+ +-------------+
+> +
+> +  0   16M      4G
+> +  +-----+-------+ +-------------+ +-------------+ +-------------+
+> +  | DMA | DMA32 | |    NORMAL   | |    NORMAL   | |    NORMAL   |
+> +  +-----+-------+ +-------------+ +-------------+ +-------------+
+> +
+> +In such case node 0 will span from 0 to 12 Gbytes and node 1 will span from
+> +4 to 16 Gbytes.
+
+s/such/this/ (and I'd use GiB again)
