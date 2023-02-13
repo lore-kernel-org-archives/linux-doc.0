@@ -2,96 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8195C636CC
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 15:29:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7892DC636D4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 15:35:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229728AbjBMP3Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 10:29:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44866 "EHLO
+        id S231190AbjBMPfg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 10:35:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230031AbjBMP3V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 10:29:21 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 537DC659E
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 07:29:20 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id f16-20020a17090a9b1000b0023058bbd7b2so12576296pjp.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 07:29:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qbx6U9Foe7itForTQRSH0M7JhXvGqxUzThvPIJqkyvQ=;
-        b=Rnl3Q3GV0vBzq01wIsrOiPoNkt2sS6amDjnqvSgMSp9EoYYFanD3kywD/bwcZgYhoQ
-         iVEdy7M8w2cPp9GB74lylljDVWceNHNSwjlUvikxU/4IjY6msLBIfUWgE7GM+DnUE5q1
-         lS0ID3bmvbUJk5Cjtw+psctgIuiIJfLunxFW/o8e0d9HBwM8cdMSU3vDRwXFi1L8M/I6
-         H4xrCraBChDTOrKb51DHZBEO7Ghu6bKHtHiXNg/2i9KwXHLKkJk4Ze2qE2BQ7smSgvnd
-         7qsLNU6V8jWQTwZ4z2gFtrWxvLPiX9Cd+rzHG9EprjgGLUcoiJqVszh/WSxJ7aCL8X34
-         7t3Q==
+        with ESMTP id S231196AbjBMPfT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 10:35:19 -0500
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66D0193EB;
+        Mon, 13 Feb 2023 07:35:09 -0800 (PST)
+Received: by mail-ej1-f46.google.com with SMTP id lu11so32877486ejb.3;
+        Mon, 13 Feb 2023 07:35:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qbx6U9Foe7itForTQRSH0M7JhXvGqxUzThvPIJqkyvQ=;
-        b=gaayWZUwNOyingqWLA9nbwWFf1KGmzIhtwCgLUaE8OYAtvMV40q+GmfDGB/7qRb3qA
-         3q0pXt5dRodBWy7GrGRgoNaJuK3FuBYkGlCzFZnq1hkFEHi6mZUtwFqB+hyVjPxcd3Sa
-         iuBcJhubFax2PH0OhDMsmFZTlGgtgkGMS18CEmbrPYlH9AozAPidWk51lvYaCXmdH1XA
-         TGelZEuxNznMuVKnNjV3pUzBTCmSxdPIlYuZ9RoQV8fLpyCtw6ImE+endJTCkd0YxAvi
-         hTxGj4lXaGdIM5OBo622TjXVcqYzYTxKYPXsM/IoXXtqdtvK7/e2Bks9yLBoUkHaJAZz
-         ulRA==
-X-Gm-Message-State: AO0yUKUNuHDWRZNds+cqmHlVDVN3r0FBoUt8I0Wl4Tz3G7cZJfxWUKCP
-        DQAdNgnk542JmL+9XSOjaoVa3g==
-X-Google-Smtp-Source: AK7set/mryfi/4lQw9+pQX73qq0JKVDVfPvKiwXT+/N3NEyBCwVEejzOlKDAEyuzTferOF+iIfbrvQ==
-X-Received: by 2002:a17:90b:3ec1:b0:22b:f208:aeed with SMTP id rm1-20020a17090b3ec100b0022bf208aeedmr27624409pjb.30.1676302159895;
-        Mon, 13 Feb 2023 07:29:19 -0800 (PST)
-Received: from sunil-laptop ([49.206.14.226])
-        by smtp.gmail.com with ESMTPSA id l21-20020a17090aec1500b00230a3b016fcsm5157808pjy.10.2023.02.13.07.29.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 07:29:19 -0800 (PST)
-Date:   Mon, 13 Feb 2023 20:59:11 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH 24/24] Documentation/kernel-parameters.txt: Add RISC-V
- for ACPI parameter
-Message-ID: <Y+pXR29U9divDWAo@sunil-laptop>
-References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
- <20230130182225.2471414-25-sunilvl@ventanamicro.com>
- <Y+RUPcCgH48XdbBB@debian.me>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8JhJdlDL6fmbS5q19tX3fu+mCrdjV4k/N8ZhnKBWWqo=;
+        b=uryIt///vhzsubPV6oEXofZhYuq53F6QF3KamMZoT+w9Lt+3jO3qw2vC1vr0Kt+e+3
+         SnlzDfhWqn10JcCH/5haVzHLHu2SM/Oas1kM93XSZMkibJxmVXYRB5Lg3xNPjDwCMvos
+         wbLhGRfrmILcdl2QCVx1MZiCiv5eSnOyLjK7FXLLJ9aPrpcGzlfjkstVY8mLHwyWomlG
+         2lnLitItY3pqmQ7iJbw9H5j0be7B+oj1sdstXJ0betVFtPtJlYAOnB3QsCoeQBlmUCAp
+         a/r/WEUgFbDb0cVGV/IqP3Sk3m4bw4u26zZlitcvUXbX5bwhg759E05xRniVNUTV+tGn
+         hg6g==
+X-Gm-Message-State: AO0yUKUc+0H5nmsxlP1RsfonFqcWJIodLyt6Pbwrcclyv+9lSQnkl6Vx
+        V5hEr6kFTWV5wjMSWE9HNUk7TWqmkV8dCUc4h1b3Mwes
+X-Google-Smtp-Source: AK7set/tr7RnF5ql64ehY94/sYYKISWF6RLnIz0lIwA5Qx9zhJKZhozIHSQ9NiF+2QIYAD0HOdAMZEQ3lo83wQneLHw=
+X-Received: by 2002:a17:906:d9d0:b0:8af:2abd:63ec with SMTP id
+ qk16-20020a170906d9d000b008af2abd63ecmr4953094ejb.5.1676302508452; Mon, 13
+ Feb 2023 07:35:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+RUPcCgH48XdbBB@debian.me>
+References: <20230213100800.28333-1-bagasdotme@gmail.com> <f6fc39d2060c964d32b6610956b66e8d3151d926.camel@linux.intel.com>
+In-Reply-To: <f6fc39d2060c964d32b6610956b66e8d3151d926.camel@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 13 Feb 2023 16:34:57 +0100
+Message-ID: <CAJZ5v0jhz-x+YU7h=kPM3ECGT6cqkSmbkHVOCavY4cOLaJhugA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Documentation fixes for thermal/bleeding-edge
+To:     srinivas pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Power Management <linux-pm@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Arjan van de Ven <arjan@linux.intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 09, 2023 at 09:02:37AM +0700, Bagas Sanjaya wrote:
-> On Mon, Jan 30, 2023 at 11:52:25PM +0530, Sunil V L wrote:
-> >  			For ARM64, ONLY "acpi=off", "acpi=on" or "acpi=force"
-> >  			are available
-> > +			For RISC-V, ONLY "acpi=off", "acpi=on" or "acpi=force"
-> > +			are available
-> >  
-> 
-> Something repetitive here. What about "For ARM64 and RISC-V, the
-> available options are only "acpi=off", "acpi=on", and "acpi=force""?
-> 
-> Thanks.
-> 
-Hi Sanjaya,
--Sunil
+On Mon, Feb 13, 2023 at 11:18 AM srinivas pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
+>
+> On Mon, 2023-02-13 at 17:07 +0700, Bagas Sanjaya wrote:
+> > Here are documentation fixes for thermal/bleeding-edge tree. The
+> > first two patches are fixes to recently reported kernel test robot
+> > reports whereas the third patch is cosmetical (formatting).
+> >
+> I am fine picking up this patchset over mine, as this series has  one
+> additional fix.
+>
+>         [thermal-bleeding-edge][PATCH] thermal: intel: powerclamp: Fix
+> warnings
 
-
+So applied, thanks!
