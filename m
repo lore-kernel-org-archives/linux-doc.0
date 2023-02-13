@@ -2,310 +2,272 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA247C636D4
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 17:26:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B215C64EC7
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 17:37:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229865AbjBMR0v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 12:26:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40696 "EHLO
+        id S229680AbjBMRhB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 12:37:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbjBMR0v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 12:26:51 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FF141CAF4
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 09:26:18 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id h16so13006118wrz.12
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 09:26:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jrtc27.com; s=gmail.jrtc27.user;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sdB4bLMRqGg5/rDPrBY4SK/ZGCvV/97ci3ClbiI2Aa4=;
-        b=D9XbGN5aNuVWSy3QJDkq8LUe5yMpGpmyv2WhEU62l9LahDBR5kxa7m33xmIUs3e8l0
-         eOLulDSyDaGI6H35gq1aRDUHlB0x8NgxlC0HonnBLWm5pbwC2kL1YNR/FjzQTyS8Kg/o
-         wVEASRy1WF96pH8Kw2BPKobF4t6+nHjdpcR/4RAaO1nvHcllnTqupIDL0pr5FFMstLyW
-         BQEU+vhZVFGVeKT4jqBz6OHY4cCox6HCFxYWv+KooAQsP7dT3L8M0zL6XJyjRIL/vmwi
-         9k+adAuqD6G5gHrHflBoJxTe+L52C9UdMzpLStnCz1agfz2UfBO9mUevAWsfn0jP09vZ
-         Ne8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sdB4bLMRqGg5/rDPrBY4SK/ZGCvV/97ci3ClbiI2Aa4=;
-        b=J1xW/FnrG6QwTDb8JIlNw63c8tBhlzPL3jMQdRSFCxiVDOH59WBJ8yg5R+eY/3vet+
-         jELwxijBssZwEeWmj1T7tBknpHtahXVhgzKDTgM2IUKigKxGi/KCEsaH6ukt/f8yU2D6
-         IrhckiirQkJ1LVjuvNOX+bDMiGOZ8zRAdfMtn/w5NeciHLMZnZ+TGXnTOS/CtwdFqqZU
-         eMSlkUOFImohPdQ+FeUxxkjDfAiEGh7E7ZUxj/nzYFpSAUO75iy6y1VmGZjfDWNIil6g
-         w6FASsaK85qZGRm4LObvgifsfu0M+TgdwwHs0VLaCzLXCsT216zRS6MD+1yuw7Z29SrC
-         YHKA==
-X-Gm-Message-State: AO0yUKU8A+rEonn2WH8MqR2LlBXzTGPm8i0OTUHydKKTsOtetFPBptUD
-        EmURvec4xXzzusBIfPJ+KUnepg==
-X-Google-Smtp-Source: AK7set8A7pJic60bSGlXIm5zn5pKPq70hzhF9X3JRd41EdaworN6smzMRFHQj3f/IA7ogP26MCQIyQ==
-X-Received: by 2002:a5d:63cc:0:b0:2c5:52f5:c63b with SMTP id c12-20020a5d63cc000000b002c552f5c63bmr4979603wrw.11.1676309174098;
-        Mon, 13 Feb 2023 09:26:14 -0800 (PST)
-Received: from smtpclient.apple (global-5-143.n-2.net.cam.ac.uk. [131.111.5.143])
-        by smtp.gmail.com with ESMTPSA id x10-20020a5d54ca000000b002bfb5ebf8cfsm10719006wrv.21.2023.02.13.09.26.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 13 Feb 2023 09:26:13 -0800 (PST)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: [PATCH 06/24] RISC-V: ACPI: Add PCI functions to build ACPI core
-From:   Jessica Clarke <jrtc27@jrtc27.com>
-In-Reply-To: <20230130182225.2471414-7-sunilvl@ventanamicro.com>
-Date:   Mon, 13 Feb 2023 17:26:13 +0000
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <apatel@ventanamicro.com>,
-        linux-doc@vger.kernel.org, Atish Patra <atishp@rivosinc.com>,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Andrew Jones <ajones@ventanamicro.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <33DF2416-0629-414D-B50E-D99CB55A83AA@jrtc27.com>
-References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
- <20230130182225.2471414-7-sunilvl@ventanamicro.com>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
+        with ESMTP id S230037AbjBMRhA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 12:37:00 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 143401F4B9;
+        Mon, 13 Feb 2023 09:36:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676309818; x=1707845818;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=1hviPUsKTFpKeIzlgNJpSRgq3s8rv3mTWjkdP5IlzXM=;
+  b=nAxiWEqhNSHAeQ2Pm8hbSVUI7XHd1Iccvo6kD4JmQ8O/wHYPzNC0QNEz
+   Zo9alpCInnAvZ+oTqhbtti1JW5p7ABppEMBq+A7mHnVS1sMkm5uYiFeuY
+   C6nxma0MJSRBiqQgVAP7AWuqpIApIexe3ENYjWhBRomfpGRhIJt6RCT9a
+   ojmMN4ELdP1WQLtl/GBDbI8/C4ad0IZOdZVDVBGH0FD8skTCX0jOiC3BY
+   Po9ysFeIqQjUdD+aB0ZCrIMYddOpFfUVdK+y1aXujz3UjY8GNX5wDeYtk
+   0oDrvQNr3cdxf9q4clDquAfNYWyC0QjIrslaprNzuQmGY7Df5EEqBXJcj
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="332256585"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="332256585"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 09:36:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="662255406"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="662255406"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 13 Feb 2023 09:36:29 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pRcke-0007ub-2n;
+        Mon, 13 Feb 2023 17:36:28 +0000
+Date:   Tue, 14 Feb 2023 01:36:19 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 09e41676e35ab06e4bce8870ea3bf1f191c3cb90
+Message-ID: <63ea7513.AYS2egZUfdd43B7s%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 30 Jan 2023, at 18:22, Sunil V L <sunilvl@ventanamicro.com> wrote:
->=20
-> When CONFIG_PCI is enabled, ACPI core expects few arch
-> functions related to PCI. Add those functions so that
-> ACPI core gets build. These are levraged from arm64.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 09e41676e35ab06e4bce8870ea3bf1f191c3cb90  Add linux-next specific files for 20230213
 
-Presumably this is pretty generic and applies to anything without x86
-weirdness. Copying all this supposedly architecture specific code
-that=E2=80=99s really generic seems like bad practice to me as an =
-outsider.
-Should this not be unifying the two in a shared location as has been
-done for other subsystems?
+Error/Warning reports:
 
-Jess
+https://lore.kernel.org/oe-kbuild-all/202301300743.bp7Dpazv-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202301302110.mEtNwkBD-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302061911.C7xvHX9v-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302062224.ByzeTXh1-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302092211.54EYDhYH-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302111601.jtY4lKrA-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302112104.g75cGHZd-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302131438.5tUJP2Sy-lkp@intel.com
 
-> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> ---
-> arch/riscv/kernel/Makefile |   1 +
-> arch/riscv/kernel/pci.c    | 173 +++++++++++++++++++++++++++++++++++++
-> 2 files changed, 174 insertions(+)
-> create mode 100644 arch/riscv/kernel/pci.c
->=20
-> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-> index f979dc8cf47d..e9d37639751d 100644
-> --- a/arch/riscv/kernel/Makefile
-> +++ b/arch/riscv/kernel/Makefile
-> @@ -92,3 +92,4 @@ obj-$(CONFIG_COMPAT)		+=3D =
-compat_signal.o
-> obj-$(CONFIG_COMPAT)		+=3D compat_vdso/
->=20
-> obj-$(CONFIG_ACPI)              +=3D acpi.o
-> +obj-$(CONFIG_PCI)               +=3D pci.o
-> diff --git a/arch/riscv/kernel/pci.c b/arch/riscv/kernel/pci.c
-> new file mode 100644
-> index 000000000000..3388af3a67a0
-> --- /dev/null
-> +++ b/arch/riscv/kernel/pci.c
-> @@ -0,0 +1,173 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Code borrowed from ARM64
-> + *
-> + * Copyright (C) 2003 Anton Blanchard <anton@au.ibm.com>, IBM
-> + * Copyright (C) 2014 ARM Ltd.
-> + * Copyright (C) 2022-2023 Ventana Micro System Inc.
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/init.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mm.h>
-> +#include <linux/pci.h>
-> +#include <linux/pci-acpi.h>
-> +#include <linux/pci-ecam.h>
-> +
-> +#ifdef CONFIG_ACPI
-> +
-> +/*
-> + * raw_pci_read/write - Platform-specific PCI config space access.
-> + */
-> +int raw_pci_read(unsigned int domain, unsigned int bus,
-> +		  unsigned int devfn, int reg, int len, u32 *val)
-> +{
-> +	struct pci_bus *b =3D pci_find_bus(domain, bus);
-> +
-> +	if (!b)
-> +		return PCIBIOS_DEVICE_NOT_FOUND;
-> +	return b->ops->read(b, devfn, reg, len, val);
-> +}
-> +
-> +int raw_pci_write(unsigned int domain, unsigned int bus,
-> +		unsigned int devfn, int reg, int len, u32 val)
-> +{
-> +	struct pci_bus *b =3D pci_find_bus(domain, bus);
-> +
-> +	if (!b)
-> +		return PCIBIOS_DEVICE_NOT_FOUND;
-> +	return b->ops->write(b, devfn, reg, len, val);
-> +}
-> +
-> +
-> +struct acpi_pci_generic_root_info {
-> +	struct acpi_pci_root_info	common;
-> +	struct pci_config_window	*cfg;	/* config space mapping =
-*/
-> +};
-> +
-> +int acpi_pci_bus_find_domain_nr(struct pci_bus *bus)
-> +{
-> +	struct pci_config_window *cfg =3D bus->sysdata;
-> +	struct acpi_device *adev =3D to_acpi_device(cfg->parent);
-> +	struct acpi_pci_root *root =3D acpi_driver_data(adev);
-> +
-> +	return root->segment;
-> +}
-> +
-> +static int pci_acpi_root_prepare_resources(struct acpi_pci_root_info =
-*ci)
-> +{
-> +	struct resource_entry *entry, *tmp;
-> +	int status;
-> +
-> +	status =3D acpi_pci_probe_root_resources(ci);
-> +	resource_list_for_each_entry_safe(entry, tmp, &ci->resources) {
-> +		if (!(entry->res->flags & IORESOURCE_WINDOW))
-> +			resource_list_destroy_entry(entry);
-> +	}
-> +	return status;
-> +}
-> +
-> +/*
-> + * Lookup the bus range for the domain in MCFG, and set up config =
-space
-> + * mapping.
-> + */
-> +static struct pci_config_window *
-> +pci_acpi_setup_ecam_mapping(struct acpi_pci_root *root)
-> +{
-> +	struct device *dev =3D &root->device->dev;
-> +	struct resource *bus_res =3D &root->secondary;
-> +	u16 seg =3D root->segment;
-> +	const struct pci_ecam_ops *ecam_ops;
-> +	struct resource cfgres;
-> +	struct acpi_device *adev;
-> +	struct pci_config_window *cfg;
-> +	int ret;
-> +
-> +	ret =3D pci_mcfg_lookup(root, &cfgres, &ecam_ops);
-> +	if (ret) {
-> +		dev_err(dev, "%04x:%pR ECAM region not found\n", seg, =
-bus_res);
-> +		return NULL;
-> +	}
-> +
-> +	adev =3D acpi_resource_consumer(&cfgres);
-> +	if (adev)
-> +		dev_info(dev, "ECAM area %pR reserved by %s\n", &cfgres,
-> +			 dev_name(&adev->dev));
-> +	else
-> +		dev_warn(dev, FW_BUG "ECAM area %pR not reserved in ACPI =
-namespace\n",
-> +			 &cfgres);
-> +
-> +	cfg =3D pci_ecam_create(dev, &cfgres, bus_res, ecam_ops);
-> +	if (IS_ERR(cfg)) {
-> +		dev_err(dev, "%04x:%pR error %ld mapping ECAM\n", seg, =
-bus_res,
-> +			PTR_ERR(cfg));
-> +		return NULL;
-> +	}
-> +
-> +	return cfg;
-> +}
-> +
-> +/* release_info: free resources allocated by init_info */
-> +static void pci_acpi_generic_release_info(struct acpi_pci_root_info =
-*ci)
-> +{
-> +	struct acpi_pci_generic_root_info *ri;
-> +
-> +	ri =3D container_of(ci, struct acpi_pci_generic_root_info, =
-common);
-> +	pci_ecam_free(ri->cfg);
-> +	kfree(ci->ops);
-> +	kfree(ri);
-> +}
-> +
-> +
-> +/* Interface called from ACPI code to setup PCI host controller */
-> +struct pci_bus *pci_acpi_scan_root(struct acpi_pci_root *root)
-> +{
-> +	struct acpi_pci_generic_root_info *ri;
-> +	struct pci_bus *bus, *child;
-> +	struct acpi_pci_root_ops *root_ops;
-> +	struct pci_host_bridge *host;
-> +
-> +	ri =3D kzalloc(sizeof(*ri), GFP_KERNEL);
-> +	if (!ri)
-> +		return NULL;
-> +
-> +	root_ops =3D kzalloc(sizeof(*root_ops), GFP_KERNEL);
-> +	if (!root_ops) {
-> +		kfree(ri);
-> +		return NULL;
-> +	}
-> +
-> +	ri->cfg =3D pci_acpi_setup_ecam_mapping(root);
-> +	if (!ri->cfg) {
-> +		kfree(ri);
-> +		kfree(root_ops);
-> +		return NULL;
-> +	}
-> +
-> +	root_ops->release_info =3D pci_acpi_generic_release_info;
-> +	root_ops->prepare_resources =3D pci_acpi_root_prepare_resources;
-> +	root_ops->pci_ops =3D (struct pci_ops *)&ri->cfg->ops->pci_ops;
-> +	bus =3D acpi_pci_root_create(root, root_ops, &ri->common, =
-ri->cfg);
-> +	if (!bus)
-> +		return NULL;
-> +
-> +	/* If we must preserve the resource configuration, claim now */
-> +	host =3D pci_find_host_bridge(bus);
-> +	if (host->preserve_config)
-> +		pci_bus_claim_resources(bus);
-> +
-> +	/*
-> +	 * Assign whatever was left unassigned. If we didn't claim =
-above,
-> +	 * this will reassign everything.
-> +	 */
-> +	pci_assign_unassigned_root_bus_resources(bus);
-> +
-> +	list_for_each_entry(child, &bus->children, node)
-> +		pcie_bus_configure_settings(child);
-> +
-> +	return bus;
-> +}
-> +
-> +#endif
-> --=20
-> 2.38.0
->=20
->=20
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Error/Warning: (recently discovered and may have been fixed)
 
+Documentation/riscv/uabi.rst:24: WARNING: Enumerated list ends without a blank line; unexpected unindent.
+Documentation/sphinx/templates/kernel-toc.html: 1:36 Invalid token: #}
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:294:6: warning: no previous prototype for 'optc3_wait_drr_doublebuffer_pending_clear' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hubbub.c:1011:6: warning: no previous prototype for 'hubbub31_init' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_hubbub.c:948:6: warning: no previous prototype for 'hubbub32_init' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_hubp.c:158:6: warning: no previous prototype for 'hubp32_init' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:62:18: warning: variable 'cursor_bpp' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1296:32: warning: variable 'result_write_min_hblank' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:280:42: warning: variable 'ds_port' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training.c:1586:38: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+ftrace-ops.c:(.init.text+0x2c3): undefined reference to `__udivdi3'
+
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+drivers/firmware/arm_scmi/bus.c:128:18-22: ERROR: reference preceded by free on line 102
+drivers/tty/serial/8250/8250_dfl.c:63 dfl_uart_get_params() error: uninitialized symbol 'clk_freq'.
+drivers/tty/serial/8250/8250_dfl.c:69 dfl_uart_get_params() error: uninitialized symbol 'fifo_len'.
+drivers/tty/serial/8250/8250_dfl.c:90 dfl_uart_get_params() error: uninitialized symbol 'reg_layout'.
+drivers/usb/gadget/composite.c:2082:33: sparse: sparse: restricted __le16 degrades to integer
+drivers/usb/gadget/function/uvc_configfs.c:545 uvcg_default_output_b_source_id_store() warn: inconsistent returns 'su_mutex'.
+pahole: .tmp_vmlinux.btf: No such file or directory
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- arm-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- arm-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn31-dcn31_hubbub.c:warning:no-previous-prototype-for-hubbub31_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubbub.c:warning:no-previous-prototype-for-hubbub32_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubp.c:warning:no-previous-prototype-for-hubp32_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- arm64-randconfig-r003-20230212
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn31-dcn31_hubbub.c:warning:no-previous-prototype-for-hubbub31_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubbub.c:warning:no-previous-prototype-for-hubbub32_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubp.c:warning:no-previous-prototype-for-hubp32_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|-- csky-randconfig-r006-20230213
+|   `-- pahole:.tmp_vmlinux.btf:No-such-file-or-directory
+|-- csky-randconfig-r021-20230213
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn31-dcn31_hubbub.c:warning:no-previous-prototype-for-hubbub31_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubbub.c:warning:no-previous-prototype-for-hubbub32_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubp.c:warning:no-previous-prototype-for-hubp32_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|   `-- ftrace-ops.c:(.init.text):undefined-reference-to-__udivdi3
+|-- i386-randconfig-m021
+clang_recent_errors
+`-- riscv-randconfig-r036-20230213
+    |-- ld.lld:error:vmlinux.a(init-main.o):(function-rcu_lock_acquire:.text):relocation-R_RISCV_HI20-out-of-range:is-not-in-references-.Ltmp0
+    `-- ld.lld:error:vmlinux.a(init-main.o):(function-rcu_lock_release:.text):relocation-R_RISCV_HI20-out-of-range:is-not-in-references-.Ltmp1
+
+elapsed time: 727m
+
+configs tested: 100
+configs skipped: 7
+
+gcc tested configs:
+alpha                            allyesconfig
+alpha                               defconfig
+arc                              allyesconfig
+arc                                 defconfig
+arc                         haps_hs_defconfig
+arc                  randconfig-r043-20230212
+arc                  randconfig-r043-20230213
+arm                              allmodconfig
+arm                              allyesconfig
+arm                         assabet_defconfig
+arm                                 defconfig
+arm                  randconfig-r046-20230212
+arm64                            allyesconfig
+arm64                               defconfig
+csky                                defconfig
+i386                             allyesconfig
+i386                              debian-10.3
+i386                                defconfig
+i386                 randconfig-a011-20230213
+i386                 randconfig-a012-20230213
+i386                 randconfig-a013-20230213
+i386                 randconfig-a014-20230213
+i386                 randconfig-a015-20230213
+i386                 randconfig-a016-20230213
+i386                          randconfig-c001
+ia64                             allmodconfig
+ia64                                defconfig
+loongarch                        allmodconfig
+loongarch                         allnoconfig
+loongarch                           defconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+m68k                         apollo_defconfig
+m68k                          atari_defconfig
+m68k                                defconfig
+mips                             allmodconfig
+mips                             allyesconfig
+mips                         cobalt_defconfig
+mips                            gpr_defconfig
+nios2                               defconfig
+parisc                              defconfig
+parisc64                            defconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+powerpc                      tqm8xx_defconfig
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                randconfig-r042-20230213
+riscv                          rv32_defconfig
+s390                             allmodconfig
+s390                             allyesconfig
+s390                                defconfig
+s390                 randconfig-r044-20230213
+sh                               allmodconfig
+sh                         microdev_defconfig
+sh                          polaris_defconfig
+sh                           se7722_defconfig
+sh                   secureedge5410_defconfig
+sparc                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                            allnoconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64               randconfig-a011-20230213
+x86_64               randconfig-a012-20230213
+x86_64               randconfig-a013-20230213
+x86_64               randconfig-a014-20230213
+x86_64               randconfig-a015-20230213
+x86_64               randconfig-a016-20230213
+x86_64                               rhel-8.3
+
+clang tested configs:
+arm                          moxart_defconfig
+arm                        neponset_defconfig
+arm                       netwinder_defconfig
+arm                  randconfig-r046-20230213
+hexagon              randconfig-r041-20230212
+hexagon              randconfig-r041-20230213
+hexagon              randconfig-r045-20230212
+hexagon              randconfig-r045-20230213
+i386                 randconfig-a001-20230213
+i386                 randconfig-a002-20230213
+i386                 randconfig-a003-20230213
+i386                 randconfig-a004-20230213
+i386                 randconfig-a005-20230213
+i386                 randconfig-a006-20230213
+mips                        maltaup_defconfig
+mips                   sb1250_swarm_defconfig
+powerpc                    ge_imp3a_defconfig
+powerpc                 mpc836x_rdk_defconfig
+riscv                randconfig-r042-20230212
+s390                             alldefconfig
+s390                 randconfig-r044-20230212
+x86_64               randconfig-a001-20230213
+x86_64               randconfig-a002-20230213
+x86_64               randconfig-a003-20230213
+x86_64               randconfig-a004-20230213
+x86_64               randconfig-a005-20230213
+x86_64               randconfig-a006-20230213
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
