@@ -2,106 +2,199 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7C52C636D7
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 05:13:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98974C636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 06:08:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbjBMFNx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 00:13:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36794 "EHLO
+        id S229489AbjBMGI3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 01:08:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjBMFNw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 00:13:52 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED228DBD2
-        for <linux-doc@vger.kernel.org>; Sun, 12 Feb 2023 21:13:51 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id f16-20020a17090a9b1000b0023058bbd7b2so11076736pjp.0
-        for <linux-doc@vger.kernel.org>; Sun, 12 Feb 2023 21:13:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1/rXlbQZUiYssX0GWdtn60fAH8aeaRBmLehOaQBY1mE=;
-        b=BczA9Dit8WldsIfP8UBgYlgc8TWJhovdzXsusWUlS+5qwERWfEecSRfNvw2jdkipTt
-         FftWA7ruHlkUk3JVzZ1R2/G95S9ueaU75uXAfKH/d+o6Wvx4A4+tsy2UkZIZma/LHypW
-         b1HtPzukBNiYeS0/OLsWF5NHpFKXqO/xMwlEYEGDKUzBZ8D91k9sx7/8fVBaxjddDALw
-         /YCfRX/nPAgzOb51JRnSuTkMLiQr0ZQA5dXciGNdnFXKrI+gu84pYpUm/ENQNd65VC1s
-         ugorSZLeiHIEBj3MNBjGdwfT2IeeGdw1kY8bm8vt05A2ZhJTkpwI5IEJNhKGy16PpfJv
-         i99Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1/rXlbQZUiYssX0GWdtn60fAH8aeaRBmLehOaQBY1mE=;
-        b=sWKP6oMFrLwKPmjsfkPJzqj4PpDINjR4agv7PDk/GomCe5HSuPXqVFN1OpLpP3P03V
-         5J4SWLxAnjTmWk6ibd6vFgqhqRwrtvKi9dI5IrYRzoaLUumNQAbucSYt7V9pjoZCPIa9
-         TQ/22wM1oq/Ds4moI1aAaX9mm4r4SfYdN1UgzkAm0UrpoUphDRtt6qI8F9T+mFrHgS9e
-         msOqxifZixATp+Clxjg6pTzm7Ne0GDBiC078tS2hN/KCNejvU76ulImSAf3ERCHkw2pU
-         fJQtatDbDwaQaP5ef2dDcSCgi4WAylqa/12nXmBpnHC1frvdz/VKFmYkBwM/TYoB/bwE
-         3aRw==
-X-Gm-Message-State: AO0yUKWCWcjh+ioy02ETKYt6AsbF3D3AmB6z3L8kH4jS3uUPpEoKaaNJ
-        ZKILQy/xqwwuxpsc1gBtKqFB7w==
-X-Google-Smtp-Source: AK7set+HBd/TKOpekO2R5ZNBdJ5nlE4W2Q0OVyhq7zVLBYibkTxtu4XeGFM4NuzAT9/O7iEzdrKiyA==
-X-Received: by 2002:a17:903:24c:b0:198:a715:d26d with SMTP id j12-20020a170903024c00b00198a715d26dmr25510023plh.8.1676265231494;
-        Sun, 12 Feb 2023 21:13:51 -0800 (PST)
-Received: from sunil-laptop ([49.206.14.226])
-        by smtp.gmail.com with ESMTPSA id e9-20020a170902784900b00198f9fa23a3sm7079601pln.287.2023.02.12.21.13.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Feb 2023 21:13:51 -0800 (PST)
-Date:   Mon, 13 Feb 2023 10:43:42 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Robert Moore <robert.moore@intel.com>,
-        acpica-devel@lists.linuxfoundation.org
-Subject: Re: [PATCH 02/24] ACPICA: MADT: Add RISC-V INTC interrupt controller
-Message-ID: <Y+nHBivfemYR2NGD@sunil-laptop>
-References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
- <20230130182225.2471414-3-sunilvl@ventanamicro.com>
- <Y+P/BDbP68vNTOao@spud>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+P/BDbP68vNTOao@spud>
+        with ESMTP id S229479AbjBMGI3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 01:08:29 -0500
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3297B26BC;
+        Sun, 12 Feb 2023 22:08:25 -0800 (PST)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4PFYml4GX0z8R047;
+        Mon, 13 Feb 2023 14:08:23 +0800 (CST)
+Received: from szxlzmapp04.zte.com.cn ([10.5.231.166])
+        by mse-fl2.zte.com.cn with SMTP id 31D6876v026860;
+        Mon, 13 Feb 2023 14:08:07 +0800 (+08)
+        (envelope-from yang.yang29@zte.com.cn)
+Received: from mapi (szxlzmapp01[null])
+        by mapi (Zmail) with MAPI id mid14;
+        Mon, 13 Feb 2023 14:08:08 +0800 (CST)
+Date:   Mon, 13 Feb 2023 14:08:08 +0800 (CST)
+X-Zmail-TransId: 2b0363e9d3c8ffffffff8d354e3d
+X-Mailer: Zmail v1.0
+Message-ID: <202302131408087983857@zte.com.cn>
+Mime-Version: 1.0
+From:   <yang.yang29@zte.com.cn>
+To:     <akpm@linux-foundation.org>, <david@redhat.com>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <yang.yang29@zte.com.cn>,
+        <wang.yong12@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHRdIGRlbGF5YWNjdDogaW1wcm92ZSB0aGUgYXZlcmFnZSBkZWxheSBwcmVjaXNpb24gb2YgZ2V0ZGVsYXkgdG9vbCB0byBtaWNyb3NlY29uZA==?=
+Content-Type: text/plain;
+        charset="UTF-8"
+X-MAIL: mse-fl2.zte.com.cn 31D6876v026860
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.250.137.novalocal with ID 63E9D3D7.002 by FangMail milter!
+X-FangMail-Envelope: 1676268503/4PFYml4GX0z8R047/63E9D3D7.002/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<yang.yang29@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 63E9D3D7.002/4PFYml4GX0z8R047
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 08, 2023 at 07:59:00PM +0000, Conor Dooley wrote:
-> On Mon, Jan 30, 2023 at 11:52:03PM +0530, Sunil V L wrote:
-> > The ECR to add RISC-V INTC interrupt controller is approved by
-> > the UEFI forum and will be availabl in the next revision of
-> 
-> nit: available
-> 
-Thanks!
+From: Wang Yong <wang.yong12@zte.com.cn>
 
-> > the ACPI specification.
-> > 
-> > This patch is not yet merged in ACPICA but a PR is raised.
-> > 
-> > ACPICA PR: https://github.com/acpica/acpica/pull/804
-> 
-> I had a quick check with git grep, and as this doesn't appear to be a
-> regular pattern in the history, so could you please make this a regular
-> Link: trailer?
-> 
-This patch should be merged in acpica repo first and then we will get
-this in standard format. Until then, it exists to allow other
-patches get reviewed. I believe by the time we get all other patches
-reviewed, acpica will have this merged.
+Improve the average delay precision of getdelay tool to microsecond.
+When using the getdelay tool, it is sometimes found that the average
+delay except CPU is not 0, but display is 0, because the precison is too
+low. For example, see delay average of SWAP below when using ZRAM.
 
-Thanks!
-Sunil
+print delayacct stats ON
+PID	32915
+CPU             count     real total  virtual total    delay total  delay average
+               339202     2793871936     9233585504        7951112          0.000ms
+IO              count    delay total  delay average
+                   41      419296904             10ms
+SWAP            count    delay total  delay average
+               242589     1045792384              0ms
+This wrong display is misleading, so improve the millisecond precision
+of the  average delay to microsecond just like CPU. Then user would
+get more accurate information of delay time.
+
+Signed-off-by: Wang Yong <wang.yong12@zte.com.cn>
+Reviewed-by: Yang Yang <yang.yang29@zte.com.cn>
+---
+ Documentation/accounting/delay-accounting.rst      | 14 ++++++-------
+ .../zh_CN/accounting/delay-accounting.rst          | 14 ++++++-------
+ tools/accounting/getdelays.c                       | 24 +++++++++++-----------
+ 3 files changed, 26 insertions(+), 26 deletions(-)
+
+diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
+index 7103b62ba6d7..c4ac482262f8 100644
+--- a/Documentation/accounting/delay-accounting.rst
++++ b/Documentation/accounting/delay-accounting.rst
+@@ -109,17 +109,17 @@ Get sum of delays, since system boot, for all pids with tgid 5::
+    CPU             count     real total  virtual total    delay total  delay average
+                        8        7000000        6872122        3382277          0.423ms
+    IO              count    delay total  delay average
+-                   0              0              0ms
++                   0              0          0.000ms
+    SWAP            count    delay total  delay average
+-                       0              0              0ms
++                       0              0          0.000ms
+    RECLAIM         count    delay total  delay average
+-                   0              0              0ms
++                   0              0          0.000ms
+    THRASHING       count    delay total  delay average
+-                       0              0              0ms
++                       0              0          0.000ms
+    COMPACT         count    delay total  delay average
+-                       0              0              0ms
+-        WPCOPY          count    delay total  delay average
+-                            0              0              0ms
++                       0              0          0.000ms
++   WPCOPY          count    delay total  delay average
++                       0              0          0.000ms
+
+ Get IO accounting for pid 1, it works only with -p::
+
+diff --git a/Documentation/translations/zh_CN/accounting/delay-accounting.rst b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+index a01dc3d5b0db..3c952fde09ff 100644
+--- a/Documentation/translations/zh_CN/accounting/delay-accounting.rst
++++ b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+@@ -92,17 +92,17 @@ getdelays命令的一般格式::
+    CPU             count     real total  virtual total    delay total  delay average
+                        8        7000000        6872122        3382277          0.423ms
+    IO              count    delay total  delay average
+-                       0              0              0ms
++                       0              0          0.000ms
+    SWAP            count    delay total  delay average
+-                       0              0              0ms
++                       0              0          0.000ms
+    RECLAIM         count    delay total  delay average
+-                       0              0              0ms
++                       0              0          0.000ms
+    THRASHING       count    delay total  delay average
+-                       0              0              0ms
++                       0              0          0.000ms
+    COMPACT         count    delay total  delay average
+-                       0              0              0ms
+-    WPCOPY          count    delay total  delay average
+-                       0              0              0ms
++                       0              0          0.000ms
++   WPCOPY          count    delay total  delay average
++                       0              0          0.000ms
+
+ 获取pid为1的IO计数，它只和-p一起使用::
+    # ./getdelays -i -p 1
+diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
+index 938dec0dfaad..89324db33be3 100644
+--- a/tools/accounting/getdelays.c
++++ b/tools/accounting/getdelays.c
+@@ -198,17 +198,17 @@ static void print_delayacct(struct taskstats *t)
+    printf("\n\nCPU   %15s%15s%15s%15s%15s\n"
+           "      %15llu%15llu%15llu%15llu%15.3fms\n"
+           "IO    %15s%15s%15s\n"
+-          "      %15llu%15llu%15llums\n"
++          "      %15llu%15llu%15.3fms\n"
+           "SWAP  %15s%15s%15s\n"
+-          "      %15llu%15llu%15llums\n"
++          "      %15llu%15llu%15.3fms\n"
+           "RECLAIM  %12s%15s%15s\n"
+-          "      %15llu%15llu%15llums\n"
++          "      %15llu%15llu%15.3fms\n"
+           "THRASHING%12s%15s%15s\n"
+-          "      %15llu%15llu%15llums\n"
++          "      %15llu%15llu%15.3fms\n"
+           "COMPACT  %12s%15s%15s\n"
+-          "      %15llu%15llu%15llums\n"
++          "      %15llu%15llu%15.3fms\n"
+           "WPCOPY   %12s%15s%15s\n"
+-          "      %15llu%15llu%15llums\n",
++          "      %15llu%15llu%15.3fms\n",
+           "count", "real total", "virtual total",
+           "delay total", "delay average",
+           (unsigned long long)t->cpu_count,
+@@ -219,27 +219,27 @@ static void print_delayacct(struct taskstats *t)
+           "count", "delay total", "delay average",
+           (unsigned long long)t->blkio_count,
+           (unsigned long long)t->blkio_delay_total,
+-          average_ms(t->blkio_delay_total, t->blkio_count),
++          average_ms((double)t->blkio_delay_total, t->blkio_count),
+           "count", "delay total", "delay average",
+           (unsigned long long)t->swapin_count,
+           (unsigned long long)t->swapin_delay_total,
+-          average_ms(t->swapin_delay_total, t->swapin_count),
++          average_ms((double)t->swapin_delay_total, t->swapin_count),
+           "count", "delay total", "delay average",
+           (unsigned long long)t->freepages_count,
+           (unsigned long long)t->freepages_delay_total,
+-          average_ms(t->freepages_delay_total, t->freepages_count),
++          average_ms((double)t->freepages_delay_total, t->freepages_count),
+           "count", "delay total", "delay average",
+           (unsigned long long)t->thrashing_count,
+           (unsigned long long)t->thrashing_delay_total,
+-          average_ms(t->thrashing_delay_total, t->thrashing_count),
++          average_ms((double)t->thrashing_delay_total, t->thrashing_count),
+           "count", "delay total", "delay average",
+           (unsigned long long)t->compact_count,
+           (unsigned long long)t->compact_delay_total,
+-          average_ms(t->compact_delay_total, t->compact_count),
++          average_ms((double)t->compact_delay_total, t->compact_count),
+           "count", "delay total", "delay average",
+           (unsigned long long)t->wpcopy_count,
+           (unsigned long long)t->wpcopy_delay_total,
+-          average_ms(t->wpcopy_delay_total, t->wpcopy_count));
++          average_ms((double)t->wpcopy_delay_total, t->wpcopy_count));
+ }
+
+ static void task_context_switch_counts(struct taskstats *t)
+--
+2.15.2
