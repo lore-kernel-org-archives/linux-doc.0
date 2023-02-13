@@ -2,255 +2,154 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31771C05027
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Feb 2023 22:40:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D118C636D7
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 04:52:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbjBLWkK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Feb 2023 17:40:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54756 "EHLO
+        id S229629AbjBMEv7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Feb 2023 23:51:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjBLWkJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Feb 2023 17:40:09 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 156E79EC8;
-        Sun, 12 Feb 2023 14:40:08 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id cq19so7918021edb.5;
-        Sun, 12 Feb 2023 14:40:08 -0800 (PST)
+        with ESMTP id S229468AbjBMEv6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Feb 2023 23:51:58 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36EED1041C
+        for <linux-doc@vger.kernel.org>; Sun, 12 Feb 2023 20:51:57 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id r3so1700908pfh.4
+        for <linux-doc@vger.kernel.org>; Sun, 12 Feb 2023 20:51:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=ventanamicro.com; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4/Grc85MiBD37njhsVZjX1/GXp5d4F7f5liqxfFI2J4=;
-        b=c9CsVnYxto3zijMk//LjW+/OjK7ut9fL6CWiGg3iOqIcc8dkD6yT5ymngGPVW6vYJA
-         Y5we7Yq0amNxkzYAmRsoLZzZ7ZkcVpNj/sEn3XzkOIWOe3ti7790APjv8cJZ4pR4A9tG
-         q1uwGavR5OLWZNnXppT2VjjBTcGbtA3/dG3halrbUj0E/2qIbidkhKeCX69xEKZLE7Ho
-         vmeJ7mhVJZAEexPvtht/FBacH5iqiPWGnfBt2JxJA90bHG2AlkX2TjdmsGh+CUFjohSG
-         glER6NXgdMiuJvgMhaoB6d7yvgVFYZie3R7GbMf++f3526bNLN4Enq8yEAuTE/pC6Vxb
-         Yo0A==
+        bh=oq7C8udiwiuM1QeRLy8ZEJLvZIfEEYFRjz7GBfZu0bQ=;
+        b=QMhVRjdrCPbJnYtCrdcYMXoB0eRpPbQcgUIRRLpkGARxwTLhnovFayqBODSFq6QhUA
+         Jkz7ZRs0x3eipK65IVp6/kBUPjp+7pXJWnZn4PflTzRFovnigq/WqNpqcYbAnH0OTKKl
+         Y1cCxSkVL38c+ZDaqpecNKpk4Ja52YgjWWLmccGomLF+oT8myAq7072SlGdKdEv7MA2x
+         Sm3mvT0SZywdO5e3p+xceR9qKnj/MfC4pHOQYWbaSN0Hwx4or67TVQP8z90XjKLYLcMf
+         xwTeNR0225m+muWQzC8/i16LrtQiomihHCzxi6uYtW78dWZVdnJEuEMeflr90h4h0mii
+         R8Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4/Grc85MiBD37njhsVZjX1/GXp5d4F7f5liqxfFI2J4=;
-        b=e413yiKO9VJnUTyhG+/jUdBdeC+H01z9GGdTaf6c1vgCtJ/GpI+WvYAI55d2CQqmJL
-         XotT/HCLqNJ1G6dbl9R53BmHSBHJ3Mde4/H+/syPMYExdYNsQ5j6zI2fwdStM028W7OJ
-         PbjMEtMDUis1NiNmrysiADaay/bUD/aazFDp8mBkbpMy40eQZ2czYQ/F3elIhOVwwZxu
-         8Pv/tMvRBSUTHdaVhAxhQ3CDEQWeNxl7WayO2ckFh+FYiWj9qqB/92xUkHFy2O35AUrG
-         Vcx2GIq3RuBfdmjqZ3HabWT3Um94PTF+RuKtFtH2vNy6Ra29zSF6oBd+YI8LxGOKtU9D
-         7c4Q==
-X-Gm-Message-State: AO0yUKUd1HTOrUQJIr9HuXj/L5w8jQ6lnejp0xDSwxTNzflWXhNe/L2n
-        8VykGlwz/2xALsVAa83wzVE=
-X-Google-Smtp-Source: AK7set/PUZm5S2F7bk6fyv0swICJyLeA2Gf9YQ7KuxWtuAFSs9dL1AS2j8wBIzXeMOs5lsxcfXzBUA==
-X-Received: by 2002:a50:950e:0:b0:4a2:3637:5be2 with SMTP id u14-20020a50950e000000b004a236375be2mr24152057eda.39.1676241605449;
-        Sun, 12 Feb 2023 14:40:05 -0800 (PST)
-Received: from gvm01 (net-5-89-66-224.cust.vodafonedsl.it. [5.89.66.224])
-        by smtp.gmail.com with ESMTPSA id y4-20020a50ce04000000b004a27046b7a7sm5820051edi.73.2023.02.12.14.40.04
+        bh=oq7C8udiwiuM1QeRLy8ZEJLvZIfEEYFRjz7GBfZu0bQ=;
+        b=Qby5YbfmUlIbX4o4FrEdGCcoVcZuWDA0JVid5pXgLWuRtAzzwWaiQmeXWawqdarzoL
+         XkMTbUjmtzL1U2FA3KQOILPk3MiOT1jtwzGmPG3LEdF89xnAIXYxY1UxT+BBJ1oOn1Oj
+         NlxWoKhH1wPQg0wY6q+h+EU3T9GGnDrrjhcTMWX7vlEONV17O/lqTx1uRuy3WKD7isI9
+         1+JFJ/dKODmCprhhdHdcl6J8KMXVcj8zNVsfH1GUJZMUd18Am1LR4LDBFqrzW1OlTG3d
+         QGHjZVe8OXuoLwLdBuHYPDqJDel1dxDUy0TjSp/QL9/fAR6/8ER18xaw0Rd3yapBti2d
+         lkZg==
+X-Gm-Message-State: AO0yUKUpssLrP6eOaLvuw3L/3Ltkz93TQoe4StMdKSK/TLeWTg4fy5UN
+        39Km1kwlAdQsNthN1R+qG7S3Gg==
+X-Google-Smtp-Source: AK7set9UVe9XBXtZnMsy5uh08YlZ09431p6siV39bLauOyCIvPcH6XKGZV41Wibdh5kV9aFz2s7djw==
+X-Received: by 2002:a62:1a8a:0:b0:593:d2ab:fdfb with SMTP id a132-20020a621a8a000000b00593d2abfdfbmr17944729pfa.13.1676263916591;
+        Sun, 12 Feb 2023 20:51:56 -0800 (PST)
+Received: from sunil-laptop ([49.206.14.226])
+        by smtp.gmail.com with ESMTPSA id y16-20020aa78050000000b0056283e2bdbdsm6865417pfm.138.2023.02.12.20.51.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Feb 2023 14:40:04 -0800 (PST)
-Date:   Sun, 12 Feb 2023 23:40:03 +0100
-From:   Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-To:     Michal Kubecek <mkubecek@suse.cz>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
-        mailhol.vincent@wanadoo.fr, sudheer.mogilappagari@intel.com,
-        sbhatta@marvell.com, linux-doc@vger.kernel.org,
-        wangjie125@huawei.com, corbet@lwn.net, lkp@intel.com,
-        gal@nvidia.com, gustavoars@kernel.org, bagasdotme@gmail.com
-Subject: Re: [PATCH v5 ethtool-next 1/1] add support for IEEE 802.3cg-2019
- Clause 148
-Message-ID: <Y+lqw1NPWdlMexNZ@gvm01>
-References: <cover.1675327734.git.piergiorgio.beruto@gmail.com>
- <d51013e0bc617651c0e6d298f47cc6b82c0ffa88.1675327734.git.piergiorgio.beruto@gmail.com>
- <20230212195723.y32z2m4j4tbt4lx6@lion.mk-sys.cz>
+        Sun, 12 Feb 2023 20:51:56 -0800 (PST)
+Date:   Mon, 13 Feb 2023 10:21:47 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH 00/24] Add basic ACPI support for RISC-V
+Message-ID: <Y+nB43zhZyTevQuH@sunil-laptop>
+References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
+ <Y+Ppv6kB1iksf+TF@spud>
+ <Y+Pu/z7dN87v3udc@spud>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230212195723.y32z2m4j4tbt4lx6@lion.mk-sys.cz>
+In-Reply-To: <Y+Pu/z7dN87v3udc@spud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 12, 2023 at 08:57:23PM +0100, Michal Kubecek wrote:
-> On Thu, Feb 02, 2023 at 09:53:15AM +0100, Piergiorgio Beruto wrote:
-> > This patch adds support for the Physical Layer Collision Avoidance
-> > Reconciliation Sublayer which was introduced in the IEEE 802.3
-> > standard by the 802.3cg working group in 2019.
-> > 
-> > The ethtool interface has been extended as follows:
-> > - show if the device supports PLCA when ethtool is invoked without FLAGS
-> >    - additionally show what PLCA version is supported
-> >    - show the current PLCA status
-> > - add FLAGS for getting and setting the PLCA configuration
-> > 
-> > Signed-off-by: Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-> 
-> Sorry for the delay, I missed the patch in the mailing list and did not
-> get it directly into my inbox. Thankfully I noticed it in patchwork.
-No worries, thanks for taking time to review this :-)
-> 
-> > ---
-> >  Makefile.am        |   1 +
-> >  ethtool.8.in       |  83 ++++++++++++-
-> >  ethtool.c          |  21 ++++
-> >  netlink/extapi.h   |   6 +
-> >  netlink/plca.c     | 296 +++++++++++++++++++++++++++++++++++++++++++++
-> >  netlink/settings.c |  82 ++++++++++++-
-> >  6 files changed, 486 insertions(+), 3 deletions(-)
-> >  create mode 100644 netlink/plca.c
-> > 
-> > diff --git a/Makefile.am b/Makefile.am
-> > index 999e7691e81c..cbc1f4f5fdf2 100644
-> > --- a/Makefile.am
-> > +++ b/Makefile.am
-> > @@ -42,6 +42,7 @@ ethtool_SOURCES += \
-> >  		  netlink/desc-ethtool.c netlink/desc-genlctrl.c \
-> >  		  netlink/module-eeprom.c netlink/module.c netlink/rss.c \
-> >  		  netlink/desc-rtnl.c netlink/cable_test.c netlink/tunnels.c \
-> > +		  netlink/plca.c \
-> >  		  uapi/linux/ethtool_netlink.h \
-> >  		  uapi/linux/netlink.h uapi/linux/genetlink.h \
-> >  		  uapi/linux/rtnetlink.h uapi/linux/if_link.h \
-> > diff --git a/ethtool.8.in b/ethtool.8.in
-> > index eaf6c55a84bf..c43c6d8b5263 100644
-> > --- a/ethtool.8.in
-> > +++ b/ethtool.8.in
-> [...]
-> > +.TP
-> > +.BI node\-cnt \ N
-> > +The node-cnt [1 .. 255] should be set after the maximum number of nodes that
-> > +can be plugged to the multi-drop network. This parameter regulates the minimum
-> > +length of the PLCA cycle. Therefore, it is only meaningful for the coordinator
-> > +node (\fBnod-id\fR = 0). Setting this parameter on a follower node has no
-> > +effect. The \fBnode\-cnt\fR parameter maps to IEEE 802.3cg-2019 clause 
-> > +30.16.1.1.3 (aPLCANodeCount).
-> > +.TP
-> > +.BI to\-tmr \ N
-> > +The TO timer parameter sets the value of the transmit opportunity timer in 
-> > +bit-times, and shall be set equal across all the nodes sharing the same
-> > +medium for PLCA to work. The default value of 32 is enough to cover a link of
-> > +roughly 50 mt. This parameter maps to  IEEE 802.3cg-2019 clause 30.16.1.1.5
-> > +(aPLCATransmitOpportunityTimer).
-> > +.TP
-> > +.BI burst\-cnt \ N
-> > +The \fBburst\-cnt\fR parameter [0 .. 255] indicates the extra number of packets
-> > +that the node is allowed to send during a single transmit opportunity.
-> > +By default, this attribute is 0, meaning that the node can send a sigle frame 
-> > +per TO. When greater than 0, the PLCA RS keeps the TO after any transmission,
-> > +waiting for the MAC to send a new frame for up to \fBburst\-tmr\fR BTs. This can
-> > +only happen a number of times per PLCA cycle up to the value of this parameter.
-> > +After that, the burst is over and the normal counting of TOs resumes.
-> > +This parameter maps to IEEE 802.3cg-2019 clause 30.16.1.1.6 (aPLCAMaxBurstCount).
-> > +.TP
-> > +.BI burst\-tmr \ N
-> > +The \fBburst\-tmr\fR parameter [0 .. 255] sets how many bit-times the PLCA RS
-> > +waits for the MAC to initiate a new transmission when \fBburst\-cnt\fR is 
-> > +greater than 0. If the MAC fails to send a new frame within this time, the burst
-> > +ends and the counting of TOs resumes. Otherwise, the new frame is sent as part
-> > +of the current burst. This parameter maps to IEEE 802.3cg-2019 clause
-> > +30.16.1.1.7 (aPLCABurstTimer). The value of \fBburst\-tmr\fR should be set
-> > +greater than the Inter-Frame-Gap (IFG) time of the MAC (plus some margin)
-> > +for PLCA burst mode to work as intended.
-> 
-> There are some trailing spaces in these paragraphs.
-Uh, sorry, thanks for noticing!
-> 
-> > +.RE
-> > +.TP
-> > +.B \-\-get\-plca\-status
-> > +Show the current PLCA status for the given interface. If \fBon\fR, the PHY is
-> > +successfully receiving or generating the BEACON signal. If \fBoff\fR, the PLCA
-> > +function is temporarily disabled and the PHY is operating in plain CSMA/CD mode.
-> >  .SH BUGS
-> >  Not supported (in part or whole) on all network drivers.
-> >  .SH AUTHOR
-> > @@ -1532,7 +1610,8 @@ Alexander Duyck,
-> >  Sucheta Chakraborty,
-> >  Jesse Brandeburg,
-> >  Ben Hutchings,
-> > -Scott Branden.
-> > +Scott Branden,
-> > +Piergiorgio Beruto.
-> >  .SH AVAILABILITY
-> >  .B ethtool
-> >  is available from
-> 
-> Do you have a strong reason to add your name here? In general, I rather
-> see lists like these as a historical relic. In this case, the list has
-> not been updated since 2017 and even before that, I'm pretty sure it is
-> only a small fraction of contributors. IMHO the git log serves the
-> purpose much better today.
-Ah, not really. I just read through the doc and finding this I
-assumed it was a list to be populated with contributors! No real
-reasons.
-> 
-> [...]
-> > diff --git a/netlink/settings.c b/netlink/settings.c
-> > index 1107082167d4..a349e270dff9 100644
-> > --- a/netlink/settings.c
-> > +++ b/netlink/settings.c
-> [...]
-> > @@ -923,7 +987,10 @@ int nl_gset(struct cmd_context *ctx)
-> >  	    netlink_cmd_check(ctx, ETHTOOL_MSG_LINKINFO_GET, true) ||
-> >  	    netlink_cmd_check(ctx, ETHTOOL_MSG_WOL_GET, true) ||
-> >  	    netlink_cmd_check(ctx, ETHTOOL_MSG_DEBUG_GET, true) ||
-> > -	    netlink_cmd_check(ctx, ETHTOOL_MSG_LINKSTATE_GET, true))
-> > +	    netlink_cmd_check(ctx, ETHTOOL_MSG_LINKSTATE_GET, true) ||
-> > +	    netlink_cmd_check(ctx, ETHTOOL_MSG_LINKSTATE_GET, true) ||
-> 
-> You accidentally duplicated the line here.
-Thanks for noticing.
-> 
-> > +	    netlink_cmd_check(ctx, ETHTOOL_MSG_PLCA_GET_CFG, true) ||
-> > +	    netlink_cmd_check(ctx, ETHTOOL_MSG_PLCA_GET_STATUS, true))
-> >  		return -EOPNOTSUPP;
-> >  
-> >  	nlctx->suppress_nlerr = 1;
-> > @@ -943,6 +1010,12 @@ int nl_gset(struct cmd_context *ctx)
-> >  	if (ret == -ENODEV)
-> >  		return ret;
-> >  
-> > +	ret = gset_request(nlctx, ETHTOOL_MSG_PLCA_GET_CFG,
-> > +			   ETHTOOL_A_PLCA_HEADER, plca_cfg_reply_cb);
-> > +
-> > +	if (ret == -ENODEV)
-> > +		return ret;
-> > +
-> >  	ret = gset_request(nlctx, ETHTOOL_MSG_DEBUG_GET, ETHTOOL_A_DEBUG_HEADER,
-> >  			   debug_reply_cb);
-> >  	if (ret == -ENODEV)
-> > @@ -950,6 +1023,13 @@ int nl_gset(struct cmd_context *ctx)
-> >  
-> >  	ret = gset_request(nlctx, ETHTOOL_MSG_LINKSTATE_GET,
-> >  			   ETHTOOL_A_LINKSTATE_HEADER, linkstate_reply_cb);
-> > +
-> > +	if (ret == -ENODEV)
-> > +		return ret;
-> > +
-> > +
-> > +	ret = gset_request(nlctx, ETHTOOL_MSG_PLCA_GET_STATUS,
-> > +			   ETHTOOL_A_PLCA_HEADER, plca_status_reply_cb);
-> >  	if (ret == -ENODEV)
-> >  		return ret;
-> 
-> Please make the whitespace consistent with existing code, i.e. no empty
-> line between gset_request() call and the test of ret and no double empty
-> line.
-Got it!
-> 
-> As I have no actual objections, I can adjust the whitespace issues here
-> and in ethtool.8.in if you would prefer to avoid v6 before moving on to
-> the MAC merge series.
-Oh, thank you! I really appreciate this.
---Piergiorgio
+Hi Conor,
 
+On Wed, Feb 08, 2023 at 06:50:39PM +0000, Conor Dooley wrote:
+> On Wed, Feb 08, 2023 at 06:28:15PM +0000, Conor Dooley wrote:
+> > Hey Sunil,
+> > 
+> > On Mon, Jan 30, 2023 at 11:52:01PM +0530, Sunil V L wrote:
+> > > This patch series enables the basic ACPI infrastructure for RISC-V.
+> > > Supporting external interrupt controllers is in progress and hence it is
+> > > tested using polling based HVC SBI console and RAM disk.
+> > > 
+> > > The series depends on Anup's IPI improvement series.
+> > > https://github.com/avpatel/linux/commits/riscv_ipi_imp_v17
+> > 
+> > In the future, please provide links to patchsets rather than "random"
+> > git trees.
+> > 
+> > > Jisheng Zhang (1):
+> > >   riscv: move sbi_init() earlier before jump_label_init()
+> >     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > 
+> > What has this patch got to do with your series? Just something that was
+> > sitting in your tree?
+> > 
+> > If you need this, it'd be ideal if you would submit *with* the R-b tags
+> > it appears to have had by v6 [1] & add the reason that you need to move
+> > it to the commit message.
+> > In Jisheng's series that was obvious, but this is a significantly larger
+> > series and it is hard to spot your reasoning for it.
 > 
-> Michal
+> Apologies, I forgot to provide the link!
+> https://lore.kernel.org/all/20220821140918.3613-1-jszhang@kernel.org/
+> 
+
+First of all, thank you very much for your detailed review!!. Will address
+your comments in the next revision of the series I am preparing to send this
+week.
+
+This patch from Jisheng is required to enable ACPI for the same reason.
+sbi_init() should be called before jump_label_init(). Otherwise, I hit a
+panic like below.
+
+[   0.000000] efi: seeding entropy pool
+ [   0.000000] sbi_remote_fence_i: Enter for cpu_mask = 0000000000000000
+ [   0.000000] Kernel panic - not syncing: __sbi_rfence is called before sbi_init!!!
+ [   0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.19.0-rc3-00079-gd3ee951eeea1-dirty #3
+ [   0.000000] Call Trace:
+ [   0.000000] [<ffffffff80005900>] dump_backtrace+0x1c/0x24
+ [   0.000000] [<ffffffff8072a83e>] show_stack+0x2c/0x38
+ [   0.000000] [<ffffffff8072fe7c>] dump_stack_lvl+0x40/0x58
+ [   0.000000] [<ffffffff8072fea8>] dump_stack+0x14/0x1c
+ [   0.000000] [<ffffffff8072ae4a>] panic+0x106/0x2c6
+ [   0.000000] [<ffffffff8072a964>] sbi_remote_fence_i+0x32/0x4a
+ [   0.000000] [<ffffffff80009c22>] flush_icache_all+0x1a/0x44
+ [   0.000000] [<ffffffff8000622a>] patch_text_nosync+0x1e/0x2a
+ [   0.000000] [<ffffffff800084da>] arch_jump_label_transform+0x48/0xd0
+ [   0.000000] [<ffffffff801013ee>] __jump_label_update+0x82/0xd4
+ [   0.000000] [<ffffffff801014bc>] jump_label_update+0x7c/0xca
+ [   0.000000] [<ffffffff80101b5c>] static_key_enable_cpuslocked+0x70/0x9c
+ [   0.000000] [<ffffffff80101b9e>] static_key_enable+0x16/0x24
+ [   0.000000] [<ffffffff80730c16>] crng_set_ready+0x18/0x20
+ [   0.000000] [<ffffffff80022f06>] execute_in_process_context+0x3e/0x92
+ [   0.000000] [<ffffffff80730dc8>] _credit_init_bits+0x9c/0x140
+ [   0.000000] [<ffffffff80827024>] add_bootloader_randomness+0x3e/0x48
+ [   0.000000] [<ffffffff8082c434>] efi_config_parse_tables+0x114/0x21c
+ [   0.000000] [<ffffffff8082dd18>] efi_init+0x11e/0x22a
+ [   0.000000] [<ffffffff80803256>] setup_arch+0xc8/0x5fa
+ [   0.000000] [<ffffffff80800716>] start_kernel+0x88/0x74e
+ [   0.000000] ---[ end Kernel panic - not syncing: __sbi_rfence is called before sbi_init!!! ]---
 
 
+Yes, I missed V6 of Jishang. Will update it. I will also use public
+patchset linkgs.
+
+Thanks!
+Sunil
