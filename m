@@ -2,106 +2,185 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A358AC636D4
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 17:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB75C636D4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 18:34:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229801AbjBMRxZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 12:53:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38972 "EHLO
+        id S229902AbjBMSeo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 13:34:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229931AbjBMRxY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 12:53:24 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B113A9D
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 09:53:23 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id e17so5437142plg.12
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 09:53:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9oVVr3kQ4dvAV/kgzEs7a/6cws3klBr48elRB1k69r0=;
-        b=LgKghyebGOh3bP8hEzFdfwGSMH1cBm60cGIsaZx4fuMF1cE9MKe95/CBSIay+QUiGs
-         K5K6RtfkTuHGEqjv71opafmVuUPM1Nft/EzzyEKVJzTBUNUKnOaRBfq5zjBK3LgJ7fVw
-         OzZi5n1ouKx3lYXXyr4Ci0lh/xE3zl88BMexkD/o8grh8QpNpfJxB67leAlRvdwdTyUP
-         taku6PTjeZisqV4wQzgbj5BhHK48ei4lFfl67jUv16Bloub9IASuBmpue9CPJbJoktbr
-         Ec8HgAJl7XpobYesmC2Bu271Eao9xSQUoxQJDVTEe1yJQKnR3QDoCJ0UisuThdBFETZZ
-         w5eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9oVVr3kQ4dvAV/kgzEs7a/6cws3klBr48elRB1k69r0=;
-        b=akXtHDciZ63Ch7NTxj6H+neI1+rwuk0Igv4df4sqgLm+0WtH68tRSRcWdhvP/bCFgn
-         jS6/nogD/2xIFVPXEqkkDJMGTfMYPROKGDZp5wlyo5B58ARAKFy69Q/aZpxLrwN6H2BL
-         Snt/q2BB8vE6L1ByCFMj2Y+HH/gnJiPReecd9HtFyrsQs8BU5PjzRIXgKMCasA4xR1mR
-         X8WmYr3k2WwaC+/7HPPfZwlvSlauRBmBh3AsZjVTNC7SU80oUTT7PgipAIZagQW8m/Vz
-         VBsGjduSCAySq4JZ7xqp1XkZUteUj02m965OHulQuoEIGySsaUIGwovw1qgB9iCJGwVo
-         9rnw==
-X-Gm-Message-State: AO0yUKVYkgBRngEc0XiuivI4Njqt9m07GqtwXR80dswWyMFYH69Grb4C
-        d2NmlyVCkKIqYMxcSRJG7bAFDQ==
-X-Google-Smtp-Source: AK7set/Qv3EVerw9Rt6XlSc5yNUHkObHYZU2J5Vc5WEa1EMKFQCvEB+ZhzHAg32cootQVX1l5sQS9Q==
-X-Received: by 2002:a17:902:c791:b0:19a:9642:dee8 with SMTP id w17-20020a170902c79100b0019a9642dee8mr5270304pla.0.1676310803091;
-        Mon, 13 Feb 2023 09:53:23 -0800 (PST)
-Received: from sunil-laptop ([49.206.14.226])
-        by smtp.gmail.com with ESMTPSA id d23-20020a170902b71700b001933b4b1a49sm7453935pls.183.2023.02.13.09.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 09:53:22 -0800 (PST)
-Date:   Mon, 13 Feb 2023 23:23:16 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH 23/24] MAINTAINERS: Add entry for drivers/acpi/riscv
-Message-ID: <Y+p5DL/c12naJotE@sunil-laptop>
-References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
- <20230130182225.2471414-24-sunilvl@ventanamicro.com>
- <Y+Vroj6CmrL4I9lN@spud>
+        with ESMTP id S229556AbjBMSen (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 13:34:43 -0500
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 276DF13DE1;
+        Mon, 13 Feb 2023 10:34:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q0UWpWPoQL6rOGXI/BD5kzrhoUwCqZMMLtT9a3XB2SGMjqg+j9csvNHg0KkO4aWMckf51Olswm8BK30hsmJlCLxQZdZW72fIYLfl1VJfsGFyJXlG6khZKfusm5vs5LzSzBQNZqAn9jisEgfgOtVlFry1m+3DPFC0DOU42Ck53FCQnK0dTFKCbiQkznv/ckjcjcPw4/Vwg4kXEQ4MUgizdwKTEIbeoXj984XoVUKHqs5o3qvhMpj4jS1jLj054AmIcWbj2QJGsHZU8KZ2JKd1PPmEEH6cuI133gWumrQt2ipFX0OYK7kJrDwoaVvdDuj2U+8gdRDywzwUZ6KmsY+tPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WhYOU+Z6QYuZ5SMqjYraB3bUKENxqeFtBkfHCuHcxqw=;
+ b=itLNhp01rU18Pbx5UPFUzO0Go9EFTRH5rgHcxNoU08ISVidATvEvv7zTEe7IAhqq9NaUVcyHRS5GuqbVYArVFJskq5LYA0dnVoUhiBSaAxqAbwET+n7wByDD+4D7ezySohAx0S0S2Wz78zypFma1vuBvTdC6rkOK7444jZUOrLo1HJWA6PiUOLcD9Vj7cc++6owGZuy3P+KFH+6WLsmKdGW8MqoRl0xCGxG53X8f+dlyWSWUsiU/TtYVHrG91vn7EQKVXcDpG/5xRJtUpRcPirqbpOKDvlrzhIf+7B05MjR/aQezyewjbUkud02brYkpxlV9C69usHWV0UXr2yrPLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WhYOU+Z6QYuZ5SMqjYraB3bUKENxqeFtBkfHCuHcxqw=;
+ b=N5syf+PdqDSfoAUyBiqrSOYW2bngpoB147ZoTtNTJXlhEDMy/44rZwhA18LzP8tnloL/2feMFdV5j+M2h++Yw0T2lKmdgPIz/pXefa6EreMe60qZWcoU6x2VjOTjrlSfMHLDnG+MVwLYCirlP3TGQF0AQjuENVIfJfCdad1HRuU=
+Received: from DM6PR08CA0025.namprd08.prod.outlook.com (2603:10b6:5:80::38) by
+ SN7PR12MB7934.namprd12.prod.outlook.com (2603:10b6:806:346::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Mon, 13 Feb
+ 2023 18:34:38 +0000
+Received: from DM6NAM11FT112.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:80:cafe::b6) by DM6PR08CA0025.outlook.office365.com
+ (2603:10b6:5:80::38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24 via Frontend
+ Transport; Mon, 13 Feb 2023 18:34:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT112.mail.protection.outlook.com (10.13.173.77) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6086.24 via Frontend Transport; Mon, 13 Feb 2023 18:34:38 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 13 Feb
+ 2023 12:34:37 -0600
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 13 Feb
+ 2023 12:34:37 -0600
+Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34 via Frontend Transport; Mon, 13 Feb 2023 12:34:36 -0600
+From:   <alejandro.lucero-palau@amd.com>
+To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
+CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <edumazet@google.com>, <habetsm.xilinx@gmail.com>,
+        <ecree.xilinx@gmail.com>, <linux-doc@vger.kernel.org>,
+        <corbet@lwn.net>, <jiri@nvidia.com>,
+        "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
+Subject: [PATCH v7 net-next 0/8] sfc: devlink support for ef100
+Date:   Mon, 13 Feb 2023 18:34:20 +0000
+Message-ID: <20230213183428.10734-1-alejandro.lucero-palau@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+Vroj6CmrL4I9lN@spud>
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT112:EE_|SN7PR12MB7934:EE_
+X-MS-Office365-Filtering-Correlation-Id: e690dbe1-d5c5-4ffd-6248-08db0df0f695
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QpwkqK3whOD6W7tk+hxDalWXXuDMpndv8kKeBMfcvbgk5TdDSomSKEv4ixvD3Yr3lyCEmBBDREfH44x6WGs5+SsTR05ZNovGY7IaNwzKmBYKx3oXDzpOmb8j8LDC+csmMihiy020LC8S712oAui2pPHnU6yyJE7fJjhLlv7zIhPpUhgwFBoE1mfu/akPYNLl9kUYH7+1YYvHs2ZSyLcbtIjTmQxnSAVP1TGRNGmraC00lyPgaV1yaYAIEuDB1GmWzB5MQ066eI5kCxtoEM+kfyevJzPoTMR8i6UaYRHVu/4HmvXSyPBaNe+t34wD7C5GY+YiMXMGp8+YQl+9oC6RP6h/60cn36BlL0QbpeLGxlEPMUAHJCW+P5ko4Tb5SjkdySqpCboR0EgSj9a9RpqGWyFPuE0Y5NV1AawI4mE9GOw9UFplRT252rgpgGsDO9VFgfuP82pX4+95fGaZVsVTGNz7vJSMprBTpBiEg+B1mxJgn3Qj+/SNMplkMSPRRJO1nf3xX/1HEl1cNhEqLKio0VQXLBEW6Zmw6LokSKU8EDEa5cBD6jku3A2klViDWgdncre5uF4RrHdLnGrXfpxaAOlTW0AeZyLPdUSKB6yOQwreer4OC4ToCPCC3wbyMEx/gxJL7oFrdEZoEMkJSeMzRTyDdx0ZpiEDQDIRTir8R2XuTgaPVojGyjLAE3t91/4JxY/ttHudAZfT9yzI7pDo/rSt3oU9iy+1UJsfsG6WKBA=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(346002)(376002)(39860400002)(136003)(396003)(451199018)(36840700001)(46966006)(40470700004)(6636002)(110136005)(54906003)(2906002)(2876002)(2616005)(426003)(47076005)(41300700001)(186003)(26005)(8676002)(70586007)(70206006)(4326008)(83380400001)(8936002)(7416002)(5660300002)(6666004)(1076003)(36860700001)(81166007)(356005)(82740400003)(86362001)(82310400005)(336012)(478600001)(316002)(40480700001)(36756003)(40460700003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2023 18:34:38.2573
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e690dbe1-d5c5-4ffd-6248-08db0df0f695
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT112.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7934
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 09, 2023 at 09:54:42PM +0000, Conor Dooley wrote:
-> On Mon, Jan 30, 2023 at 11:52:24PM +0530, Sunil V L wrote:
-> > ACPI defines few RISC-V specific tables which need
-> > parsing code added in drivers/acpi/riscv. Add maintainer
-> > entries for this newly created folder.
-> > 
-> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > ---
-> >  MAINTAINERS | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 8a5c25c20d00..b14ceb917a81 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -450,6 +450,13 @@ S:	Orphan
-> >  F:	drivers/platform/x86/wmi.c
-> >  F:	include/uapi/linux/wmi.h
-> >  
-> > +ACPI FOR RISC-V (ACPI/riscv)
-> > +M:	Sunil V L <sunilvl@ventanamicro.com>
-> > +L:	linux-acpi@vger.kernel.org
-> > +L:	linux-riscv@lists.infradead.org
-> > +S:	Maintained
-> 
-> Supported, no?
-> 
-I prefer to keep it same as ARM.
+From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+
+v7 changes:
+ - Fix Microblaze build error based on checking RTC_LIB instead of
+   SFC_SRIOV.
+
+v6 changes:
+ - add file headers at its due time
+ - fix sfc.rst warnings
+ - add sfc.rst to the index.rst file
+ - avoid microblaze build error
+ - simplify devlink info errors reported
+
+v5 changes
+ - add extack error report for devlink info
+ - Rename devlink functions stating locking
+ - Check functions return through a variable
+ - Remove unnecessary non related changes
+ - put SRIOV dependent code inside #ifdefs (is ia64 still alive?)
+
+v4 changes:
+ - Add new doc file to MAINTAINERS
+ - nvram metadata call independent of MTD config
+ - add more useful info with extack
+
+v3 changes:
+ - fix compilation warnings/errors reported by checkpatch
+
+v2 changes:
+ - splitting up devlink info from basic devlink support
+ - using devlink lock/unlock during initialization and removal
+ - fix devlink registration order
+ - splitting up efx_devlink_info_running_versions
+ - Add sfc.rst with specifics about sfc info
+ - embedding dl_port in mports
+ - using extack for error reports to user space
+
+This patchset adds devlink port support for ef100 allowing setting VFs
+mac addresses through the VF representor devlink ports.
+
+Basic devlink infrastructure is first introduced, then support for info
+command. Next changes for enumerating MAE ports which will be used for
+devlink port creation when netdevs are registered.
+
+Adding support for devlink port_function_hw_addr_get requires changes in
+the ef100 driver for getting the mac address based on a client handle.
+This allows to obtain VFs mac addresses during netdev initialization as
+well what is included in patch 6.
+
+Such client handle is used in patches 7 and 8 for getting and setting
+devlink port addresses.
+
+Alejandro Lucero (8):
+  sfc: add devlink support for ef100
+  sfc: add devlink info support for ef100
+  sfc: enumerate mports in ef100
+  sfc: add mport lookup based on driver's mport data
+  sfc: add devlink port support for ef100
+  sfc: obtain device mac address based on firmware handle for ef100
+  sfc: add support for devlink port_function_hw_addr_get in ef100
+  sfc: add support for devlink port_function_hw_addr_set in ef100
+
+ Documentation/networking/devlink/index.rst |   1 +
+ Documentation/networking/devlink/sfc.rst   |  57 ++
+ MAINTAINERS                                |   1 +
+ drivers/net/ethernet/sfc/Kconfig           |   1 +
+ drivers/net/ethernet/sfc/Makefile          |   3 +-
+ drivers/net/ethernet/sfc/ef100_netdev.c    |  30 +
+ drivers/net/ethernet/sfc/ef100_nic.c       |  93 ++-
+ drivers/net/ethernet/sfc/ef100_nic.h       |   7 +
+ drivers/net/ethernet/sfc/ef100_rep.c       |  57 +-
+ drivers/net/ethernet/sfc/ef100_rep.h       |  10 +
+ drivers/net/ethernet/sfc/efx_devlink.c     | 733 +++++++++++++++++++++
+ drivers/net/ethernet/sfc/efx_devlink.h     |  47 ++
+ drivers/net/ethernet/sfc/mae.c             | 218 +++++-
+ drivers/net/ethernet/sfc/mae.h             |  40 ++
+ drivers/net/ethernet/sfc/mcdi.c            |  72 ++
+ drivers/net/ethernet/sfc/mcdi.h            |   8 +
+ drivers/net/ethernet/sfc/net_driver.h      |   8 +
+ 17 files changed, 1361 insertions(+), 25 deletions(-)
+ create mode 100644 Documentation/networking/devlink/sfc.rst
+ create mode 100644 drivers/net/ethernet/sfc/efx_devlink.c
+ create mode 100644 drivers/net/ethernet/sfc/efx_devlink.h
+
+-- 
+2.17.1
+
