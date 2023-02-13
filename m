@@ -2,181 +2,202 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F6D6C636CC
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 18:35:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5113FC636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 18:48:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230405AbjBMSft (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 13:35:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58342 "EHLO
+        id S229814AbjBMSsg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 13:48:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230490AbjBMSfg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 13:35:36 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2085.outbound.protection.outlook.com [40.107.92.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7C6C18AB6;
-        Mon, 13 Feb 2023 10:35:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=leKQEUL7uZPld2fnleW5IqEGHJT50OOHtl9sSdPifxYfv4LIBeWzLUFkQVjUwS7G0GXI5wyYIAi75svIdeb+1NCiytUgDV9pIv+I46DRX2nuerXrBLm6LtJOLlCZIzb5ws0Ekpo1fDuCNmEzEYYR+Tsh2X5m6cXii5B0ufKCCJM1NxZrtYObvCbhR+Zkbop3gS9BOaee4omldvcp/8DBdzcmec+aeZXo/IxAdjx+B7JH6aNMrdSoglohRF3KoPttqGRaqZL22aMRAdCD2oqvcFhrbScPqG8wwSkacmEG8eJrvEvzF4EFhBgAmHAZPRRZ9W0JvJEXcKL6QTnQUuntNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pyJl17PuBsN+JZ8X3GxflYlHvOvXbOda9kqwcIUu9wM=;
- b=Xb3oQ6dCU8oDL9UvCyFZmzi4/ayXCBkrmVwXgDbQ++OfgiOhIozuR/dbU695aCN9ZR7F7VZDVIXcWxVXPhf7V+caFxOn72KPdsiH8Mkc4+ISw4er7klDqXo1c26d/OcfvWnwNk4C9bPZzihCABEBR9TCwese/Dc0ftlSbJJLhnI3jgc4xlW63WY+NOJa/4tVDOTcYTOgSAijLSV9Gau75RShiOrf+n8ffRYkUrFXcYLslvvZCDfAXQglPY5jyQ0/GPzGkCewACj85xKF7shVoY8NEuWXOTcitZEteYQvIYaVzK57lYvRRSkvbi5slUt9PoZdz4zkb/W93rnXPoReiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pyJl17PuBsN+JZ8X3GxflYlHvOvXbOda9kqwcIUu9wM=;
- b=QQB8Tk+8X3e3zu6qWjJG2T+CDpEjHUEHMG6Sx6t09iXGuV/TpnUmoVQKwbylTCJYi2TrishW14n/H6Rqi64RNet63LJ57fFVEXQURbL5Vwi+BZFGsrciRf/lVtW6cifrqpMp6nhIq+1GIVMu3rPRLUOkgft1Mh8KTy50ECRT+OY=
-Received: from DS7PR03CA0053.namprd03.prod.outlook.com (2603:10b6:5:3b5::28)
- by PH0PR12MB8097.namprd12.prod.outlook.com (2603:10b6:510:295::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Mon, 13 Feb
- 2023 18:35:28 +0000
-Received: from DM6NAM11FT071.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b5:cafe::9b) by DS7PR03CA0053.outlook.office365.com
- (2603:10b6:5:3b5::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24 via Frontend
- Transport; Mon, 13 Feb 2023 18:35:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT071.mail.protection.outlook.com (10.13.173.48) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6086.24 via Frontend Transport; Mon, 13 Feb 2023 18:35:28 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 13 Feb
- 2023 12:35:27 -0600
-Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34 via Frontend Transport; Mon, 13 Feb 2023 12:35:26 -0600
-From:   <alejandro.lucero-palau@amd.com>
-To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
-CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <edumazet@google.com>, <habetsm.xilinx@gmail.com>,
-        <ecree.xilinx@gmail.com>, <linux-doc@vger.kernel.org>,
-        <corbet@lwn.net>, <jiri@nvidia.com>,
-        "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
-Subject: [PATCH v7 net-next 8/8] sfc: add support for devlink port_function_hw_addr_set in ef100
-Date:   Mon, 13 Feb 2023 18:34:28 +0000
-Message-ID: <20230213183428.10734-9-alejandro.lucero-palau@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230213183428.10734-1-alejandro.lucero-palau@amd.com>
-References: <20230213183428.10734-1-alejandro.lucero-palau@amd.com>
+        with ESMTP id S229743AbjBMSsf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 13:48:35 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FF5B1CAED;
+        Mon, 13 Feb 2023 10:48:34 -0800 (PST)
+Date:   Mon, 13 Feb 2023 18:48:32 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1676314112;
+        h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:  content-transfer-encoding:content-transfer-encoding;
+        bh=JI3CaTz9ebX/gfzOd6IiU2Ga82Qcqi5LHVfoHQzLK48=;
+        b=vQbCdgF7wyg0FmfXtuQR8NdhgbkpaN3Xn0xj5e9xV9aaqSlllTjCvGuMSqa2DYWZgBWnPo
+        7A7Hm1Ba1wXA2fkHdqV1ufxXSBhArUhpO9/EdcRDjYdOVPBh+HPk8Vdx79fyC4KJKGmDKz
+        a/DNhIrEITWaY6vjVoTkrW8uB71fECAiZetR5VdI9XRgoFTzCPJqqpsWVkzAJFheSwDtDT
+        dDwwdOi0HSzOXyT/wqtq4UjrJF1HC4zxw8kq9eiqdr3WLfLz9J0mxlV3kzYlXfTPeZY9jD
+        ICER4UsmUNPDh6k9hpctHJ65nBFZJAGPuR3OcORdBqCz8TKczL5YEBPkG1ni4g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1676314112;
+        h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:  content-transfer-encoding:content-transfer-encoding;
+        bh=JI3CaTz9ebX/gfzOd6IiU2Ga82Qcqi5LHVfoHQzLK48=;
+        b=hSj1xePr+Aup80bYasaNa9Zq4rgWfd5+HtStKvJhDSOy//gHj06HhX9ru7AMvYxWYH0KiS
+        bi6bqdxb4QndyyAQ==
+From:   "tip-bot2 for Feng Tang" <tip-bot2@linutronix.de>
+Sender: tip-bot2@linutronix.de
+Reply-to: linux-kernel@vger.kernel.org
+To:     linux-tip-commits@vger.kernel.org
+Subject: [tip: timers/core] x86/tsc: Add option to force frequency
+ recalibration with HW timer
+Cc:     Feng Tang <feng.tang@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        <x86@kernel.org>, <linux-doc@vger.kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        linux-kernel@vger.kernel.org
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT071:EE_|PH0PR12MB8097:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92870156-4295-4de1-f81d-08db0df11459
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n+i7M+67vezAofYPZSgRtzhKjt3u0TeUp6k3gM9y8kkigtZazUaE+c9OtlnGsWL4SMHDBOw7QWuC/TtFzQhEfGFCBaK7zuAxaq0e31g0pRNbR4wHa1FV+4sZwHyudfYmARUOCVQ1pAxQLbe8fpI9d8bfYhjydA7ID2O82BmhmrfQBoUrCSl8F+2FGW0RycqPB3tlgNK529nYwH/QeL414dTnaLtyigD2XuqfPWH2VixB6XKs/L1iq9F0Z0rbDZA05xKnDloycgxkyecPoqiVAhQKQ4Rwn/P7WL2d1/8TtP0Rgf+DKLBPhASlye1SHXjdvqGUftQ1QxBytEnX9YTiXEsrHLZIdqqqFLurINTopQxU46PzWUrAxeAADC+YMWdIqKlsm7GMv0akWEoFTsu6CKIfLeBpXsFX34dJrHBID/cuJrGdm375go86luAYoPPTvAptvyBDLBekRX+E2b1Ta9jZr3Q3T+ET4EHw1Sy2vja5MtJ2bxxB2qfQFgQACE67v0VaYs3882eHjN+8b8C2z5Wr6nyTIVmNMDo4tJ4BNJXFaP6b3R/oI/+YoaZ8+h9DbZniD3RZtYOPPELvZ2CqH29bU3iKCzq+CO99QkZHfcCWigiPYYE4Zj6NsZyxW6obWV6GXA92puYF2UuD1o7ufE4XoqpF2ak/FezO6G2VbfztTKtlK9Uih0OPTLtpxFwIEwPjW1hmMGFDvGibCNQdXUwa4k2wSuBfIrwHTlfrCPM=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(396003)(346002)(376002)(39860400002)(451199018)(36840700001)(46966006)(40470700004)(186003)(26005)(1076003)(2616005)(8676002)(4326008)(478600001)(70586007)(316002)(70206006)(110136005)(54906003)(6636002)(336012)(41300700001)(426003)(47076005)(36860700001)(8936002)(5660300002)(2876002)(7416002)(2906002)(82740400003)(81166007)(82310400005)(356005)(40460700003)(86362001)(40480700001)(36756003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2023 18:35:28.1839
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92870156-4295-4de1-f81d-08db0df11459
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT071.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8097
+Message-ID: <167631411229.4906.2814222117383015670.tip-bot2@tip-bot2>
+Robot-ID: <tip-bot2@linutronix.de>
+Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+The following commit has been merged into the timers/core branch of tip:
 
-Using the builtin client handle id infrastructure, add support for
-setting the mac address linked to mports in ef100. This implies to
-execute an MCDI command for giving the address to the firmware for
-the specific devlink port.
+Commit-ID:     a7ec817d55421ac214cac9d3e5ebb65d848198dc
+Gitweb:        https://git.kernel.org/tip/a7ec817d55421ac214cac9d3e5ebb65d848198dc
+Author:        Feng Tang <feng.tang@intel.com>
+AuthorDate:    Wed, 04 Jan 2023 16:19:38 +08:00
+Committer:     Paul E. McKenney <paulmck@kernel.org>
+CommitterDate: Thu, 02 Feb 2023 14:22:52 -08:00
 
-Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-Reviewed-by: Jiri Pirko <jiri@nvidia.com>
-Acked-by: Martin Habets <habetsm.xilinx@gmail.com>
+x86/tsc: Add option to force frequency recalibration with HW timer
+
+The kernel assumes that the TSC frequency which is provided by the
+hardware / firmware via MSRs or CPUID(0x15) is correct after applying
+a few basic consistency checks. This disables the TSC recalibration
+against HPET or PM timer.
+
+As a result there is no mechanism to validate that frequency in cases
+where a firmware or hardware defect is suspected. And there was case
+that some user used atomic clock to measure the TSC frequency and
+reported an inaccuracy issue, which was later fixed in firmware.
+
+Add an option 'recalibrate' for 'tsc' kernel parameter to force the
+tsc freq recalibration with HPET or PM timer, and warn if the
+deviation from previous value is more than about 500 PPM, which
+provides a way to verify the data from hardware / firmware.
+
+There is no functional change to existing work flow.
+
+Recently there was a real-world case: "The 40ms/s divergence between
+TSC and HPET was observed on hardware that is quite recent" [1], on
+that platform the TSC frequence 1896 MHz was got from CPUID(0x15),
+and the force-reclibration with HPET/PMTIMER both calibrated out
+value of 1975 MHz, which also matched with check from software
+'chronyd', indicating it's a problem of BIOS or firmware.
+
+[Thanks tglx for helping improving the commit log]
+[ paulmck: Wordsmith Kconfig help text. ]
+
+[1]. https://lore.kernel.org/lkml/20221117230910.GI4001@paulmck-ThinkPad-P17-Gen-1/
+Signed-off-by: Feng Tang <feng.tang@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: <x86@kernel.org>
+Cc: <linux-doc@vger.kernel.org>
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- drivers/net/ethernet/sfc/efx_devlink.c | 50 ++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+ Documentation/admin-guide/kernel-parameters.txt |  4 ++-
+ arch/x86/kernel/tsc.c                           | 34 ++++++++++++++--
+ 2 files changed, 34 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
-index 1c9dc15c8618..0645c24699bf 100644
---- a/drivers/net/ethernet/sfc/efx_devlink.c
-+++ b/drivers/net/ethernet/sfc/efx_devlink.c
-@@ -109,6 +109,55 @@ static int efx_devlink_port_addr_get(struct devlink_port *port, u8 *hw_addr,
- 	return rc;
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6cfa6e3..95f0d10 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6369,6 +6369,10 @@
+ 			in situations with strict latency requirements (where
+ 			interruptions from clocksource watchdog are not
+ 			acceptable).
++			[x86] recalibrate: force recalibration against a HW timer
++			(HPET or PM timer) on systems whose TSC frequency was
++			obtained from HW or FW using either an MSR or CPUID(0x15).
++			Warn if the difference is more than 500 ppm.
+ 
+ 	tsc_early_khz=  [X86] Skip early TSC calibration and use the given
+ 			value instead. Useful when the early TSC frequency discovery
+diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+index a78e73d..92bbc4a 100644
+--- a/arch/x86/kernel/tsc.c
++++ b/arch/x86/kernel/tsc.c
+@@ -48,6 +48,8 @@ static DEFINE_STATIC_KEY_FALSE(__use_tsc);
+ 
+ int tsc_clocksource_reliable;
+ 
++static int __read_mostly tsc_force_recalibrate;
++
+ static u32 art_to_tsc_numerator;
+ static u32 art_to_tsc_denominator;
+ static u64 art_to_tsc_offset;
+@@ -303,6 +305,8 @@ static int __init tsc_setup(char *str)
+ 		mark_tsc_unstable("boot parameter");
+ 	if (!strcmp(str, "nowatchdog"))
+ 		no_tsc_watchdog = 1;
++	if (!strcmp(str, "recalibrate"))
++		tsc_force_recalibrate = 1;
+ 	return 1;
  }
  
-+static int efx_devlink_port_addr_set(struct devlink_port *port,
-+				     const u8 *hw_addr, int hw_addr_len,
-+				     struct netlink_ext_ack *extack)
-+{
-+	MCDI_DECLARE_BUF(inbuf, MC_CMD_SET_CLIENT_MAC_ADDRESSES_IN_LEN(1));
-+	struct efx_devlink *devlink = devlink_priv(port->devlink);
-+	struct mae_mport_desc *mport_desc;
-+	efx_qword_t pciefn;
-+	u32 client_id;
-+	int rc;
+@@ -1374,6 +1378,25 @@ restart:
+ 	else
+ 		freq = calc_pmtimer_ref(delta, ref_start, ref_stop);
+ 
++	/* Will hit this only if tsc_force_recalibrate has been set */
++	if (boot_cpu_has(X86_FEATURE_TSC_KNOWN_FREQ)) {
 +
-+	mport_desc = container_of(port, struct mae_mport_desc, dl_port);
++		/* Warn if the deviation exceeds 500 ppm */
++		if (abs(tsc_khz - freq) > (tsc_khz >> 11)) {
++			pr_warn("Warning: TSC freq calibrated by CPUID/MSR differs from what is calibrated by HW timer, please check with vendor!!\n");
++			pr_info("Previous calibrated TSC freq:\t %lu.%03lu MHz\n",
++				(unsigned long)tsc_khz / 1000,
++				(unsigned long)tsc_khz % 1000);
++		}
 +
-+	if (!ef100_mport_is_vf(mport_desc)) {
-+		NL_SET_ERR_MSG_FMT(extack,
-+				   "port mac change not allowed (mport: %u)",
-+				   mport_desc->mport_id);
-+		return -EPERM;
++		pr_info("TSC freq recalibrated by [%s]:\t %lu.%03lu MHz\n",
++			hpet ? "HPET" : "PM_TIMER",
++			(unsigned long)freq / 1000,
++			(unsigned long)freq % 1000);
++
++		return;
 +	}
 +
-+	EFX_POPULATE_QWORD_3(pciefn,
-+			     PCIE_FUNCTION_PF, PCIE_FUNCTION_PF_NULL,
-+			     PCIE_FUNCTION_VF, mport_desc->vf_idx,
-+			     PCIE_FUNCTION_INTF, PCIE_INTERFACE_CALLER);
-+
-+	rc = efx_ef100_lookup_client_id(devlink->efx, pciefn, &client_id);
-+	if (rc) {
-+		NL_SET_ERR_MSG_FMT(extack,
-+				   "No internal client_ID for port (mport: %u)",
-+				   mport_desc->mport_id);
-+		return rc;
+ 	/* Make sure we're within 1% */
+ 	if (abs(tsc_khz - freq) > tsc_khz/100)
+ 		goto out;
+@@ -1407,8 +1430,10 @@ static int __init init_tsc_clocksource(void)
+ 	if (!boot_cpu_has(X86_FEATURE_TSC) || !tsc_khz)
+ 		return 0;
+ 
+-	if (tsc_unstable)
+-		goto unreg;
++	if (tsc_unstable) {
++		clocksource_unregister(&clocksource_tsc_early);
++		return 0;
 +	}
-+
-+	MCDI_SET_DWORD(inbuf, SET_CLIENT_MAC_ADDRESSES_IN_CLIENT_HANDLE,
-+		       client_id);
-+
-+	ether_addr_copy(MCDI_PTR(inbuf, SET_CLIENT_MAC_ADDRESSES_IN_MAC_ADDRS),
-+			hw_addr);
-+
-+	rc = efx_mcdi_rpc(devlink->efx, MC_CMD_SET_CLIENT_MAC_ADDRESSES, inbuf,
-+			  sizeof(inbuf), NULL, 0, NULL);
-+	if (rc)
-+		NL_SET_ERR_MSG_FMT(extack,
-+				   "sfc MC_CMD_SET_CLIENT_MAC_ADDRESSES mcdi error (mport: %u)",
-+				   mport_desc->mport_id);
-+
-+	return rc;
-+}
-+
- #endif
  
- static int efx_devlink_info_nvram_partition(struct efx_nic *efx,
-@@ -569,6 +618,7 @@ static const struct devlink_ops sfc_devlink_ops = {
- 	.info_get			= efx_devlink_info_get,
- #ifdef CONFIG_SFC_SRIOV
- 	.port_function_hw_addr_get	= efx_devlink_port_addr_get,
-+	.port_function_hw_addr_set	= efx_devlink_port_addr_set,
- #endif
- };
+ 	if (boot_cpu_has(X86_FEATURE_NONSTOP_TSC_S3))
+ 		clocksource_tsc.flags |= CLOCK_SOURCE_SUSPEND_NONSTOP;
+@@ -1421,9 +1446,10 @@ static int __init init_tsc_clocksource(void)
+ 		if (boot_cpu_has(X86_FEATURE_ART))
+ 			art_related_clocksource = &clocksource_tsc;
+ 		clocksource_register_khz(&clocksource_tsc, tsc_khz);
+-unreg:
+ 		clocksource_unregister(&clocksource_tsc_early);
+-		return 0;
++
++		if (!tsc_force_recalibrate)
++			return 0;
+ 	}
  
--- 
-2.17.1
-
+ 	schedule_delayed_work(&tsc_irqwork, 0);
