@@ -2,89 +2,154 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5234FC636CC
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 22:31:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7553EC636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 23:53:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbjBMWbl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 17:31:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41970 "EHLO
+        id S229973AbjBMXxw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 18:53:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjBMWbk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 17:31:40 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 952221CF56
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 14:31:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676327499; x=1707863499;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0A55qNw5CK3qtXblWpzo2/JMgjc+NrM1185M9ypjNGY=;
-  b=mxnKaRZhq+ykA5auiu2EnW/h43IghHRlL2YLFJlAvzUAmEH4+hXbEW3h
-   XXcAJAtD1XVPXWL/ImS5qAFsrGPNK1QitrLxbA9zuGbi+SmSrI/ktBQXg
-   5HcWXJFL7rKZaISxmCWH1iL77xNBcRtynCvSkzX3jDZUfecuRAslkSGFk
-   6DxqYj1++zfZ+JRVhFnDoV32hYt4kjDgpT+bawgBMsMUxuATtYWLOZ6Dj
-   44fCSAN8w/suJodQELHdAcPI+GuUAGYCFWhSKIGRUaIMtnyuGSH4//J0n
-   hi9YriYxRCjp9+0wurtkfo/+8hrTAkllA+X3pTSEXmYSmGiscS06TRrh1
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="331019941"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="331019941"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 14:31:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="732650848"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="732650848"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 13 Feb 2023 14:31:37 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pRhMH-00083B-0r;
-        Mon, 13 Feb 2023 22:31:37 +0000
-Date:   Tue, 14 Feb 2023 06:31:29 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Rohit Visavalia <rohit.visavalia@xilinx.com>
-Cc:     oe-kbuild-all@lists.linux.dev, Michal Simek <monstr@monstr.eu>,
-        Devarsh Thakkar <devarsh.thakkar@xilinx.com>,
-        Vishal Sagar <vishal.sagar@xilinx.com>,
-        linux-doc@vger.kernel.org
-Subject: [pinchartl-media:muxed/2022.2/base 379/740] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-pix-fmt-yuv444p (if the link has no caption the label must precede a
- section header)
-Message-ID: <202302140644.eDQ9OziI-lkp@intel.com>
+        with ESMTP id S229489AbjBMXxv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 18:53:51 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCCB01A5;
+        Mon, 13 Feb 2023 15:53:46 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id e17so6429579plg.12;
+        Mon, 13 Feb 2023 15:53:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oN12p0IDxvmorHBGQ7GzjlWOyGaJlkT0wNKpNtRNPE8=;
+        b=C91FV0IHIHySQTRkb86+GocwXDr8WlYgQiYnUNZd1Ke1PWzwc0Ui3swRKoM/EMugmd
+         mtDyIYfBfzKVpqk3ZurWfE4C06NJuP7sWx9xClULK72fPaRyTgD475XUP5w0R0lmJSxg
+         fqPMDhOQ1CLyvdP8vm+bEyoR42WnbkStnrKpQAmZxWuxcmJUuRvcyRi1Rk+aqkGEy+qK
+         F0pLZENP3TbitJijIx7cS7NuofTEJwgwDOkN5GYMW48d2+LHtiHhs30rOQ3tZSv01O8e
+         FB7gFZ7JbhxL0Pno8NSgZttpMsmCG6pRRBkbmMYW6rJKC8Z6IMP2dpIC+LDTcFZNOFFC
+         kxfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oN12p0IDxvmorHBGQ7GzjlWOyGaJlkT0wNKpNtRNPE8=;
+        b=xqNZuHMNxgT99rZWQQNnw8wpOg3qzosHQmhZyYVbFtaloz/QbEWRZQyZOt/2ErBMOz
+         8t3kfPaDYJUdJ37k7GsB3xZs8f+eDrNHSM8Gv/YCTpK3WTMNZgncvKZ6rDm7W0q/IejL
+         BOSbGmo0Fh5DE4zAy+4eX5xdxrH6AYACL6+xRsXSXaiimR4EP5zS0j6c/K6Iwg2ChBLg
+         qrri3JdwhGCVRqc12fFVIguPSnyle0fENkqkDSu9yG5tUunx9JE0RGiw1rdWHUizYJHA
+         LtdG0Itct4B8WC97y5w/d7X55xveuFUsCk3o173VB3Nw33n/RL+++mGn+XNuw55gFOm6
+         YcCQ==
+X-Gm-Message-State: AO0yUKVAPg73vouIYrCh0i7evYzmSJbBHtaXlCzgo8wRh07CMSl3SbM2
+        /P1rocIvc9ugnjVxXzMxRIU=
+X-Google-Smtp-Source: AK7set/amp4VFmNZkQNRNmMa3hykvI7jc+MqhCv8WD2YyR0i7BGfBFGLnLeucu0LFmUtyzTRowTMiQ==
+X-Received: by 2002:a05:6a20:12c7:b0:c3:161a:b954 with SMTP id v7-20020a056a2012c700b000c3161ab954mr391641pzg.44.1676332425999;
+        Mon, 13 Feb 2023 15:53:45 -0800 (PST)
+Received: from localhost ([192.55.54.55])
+        by smtp.gmail.com with ESMTPSA id z20-20020aa791d4000000b0058e08796e98sm8406145pfa.196.2023.02.13.15.53.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Feb 2023 15:53:45 -0800 (PST)
+Date:   Mon, 13 Feb 2023 15:53:43 -0800
+From:   Isaku Yamahata <isaku.yamahata@gmail.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Isaku Yamahata <isaku.yamahata@gmail.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+Message-ID: <20230213235343.GC4175971@ls.amr.corp.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+ <20230209072529.GB4175971@ls.amr.corp.intel.com>
+ <Y+WRUriIoan/XChx@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <Y+WRUriIoan/XChx@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rohit,
+On Fri, Feb 10, 2023 at 12:35:30AM +0000,
+Sean Christopherson <seanjc@google.com> wrote:
 
-FYI, the error/warning still remains.
+> On Wed, Feb 08, 2023, Isaku Yamahata wrote:
+> > On Fri, Dec 02, 2022 at 02:13:40PM +0800,
+> > Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> > 
+> > > +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> > > +					   struct kvm_memory_attributes *attrs)
+> > > +{
+> > > +	gfn_t start, end;
+> > > +	unsigned long i;
+> > > +	void *entry;
+> > > +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
+> > > +
+> > > +	/* flags is currently not used. */
+> > > +	if (attrs->flags)
+> > > +		return -EINVAL;
+> > > +	if (attrs->attributes & ~supported_attrs)
+> > > +		return -EINVAL;
+> > > +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
+> > > +		return -EINVAL;
+> > > +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
+> > > +		return -EINVAL;
+> > > +
+> > > +	start = attrs->address >> PAGE_SHIFT;
+> > > +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
+> > > +
+> > > +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+> > > +
+> > > +	mutex_lock(&kvm->lock);
+> > > +	for (i = start; i < end; i++)
+> > > +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> > > +				    GFP_KERNEL_ACCOUNT)))
+> > > +			break;
+> > > +	mutex_unlock(&kvm->lock);
+> > > +
+> > > +	attrs->address = i << PAGE_SHIFT;
+> > > +	attrs->size = (end - i) << PAGE_SHIFT;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+> > > +
+> > 
+> > If memslot isn't private, it should return error if private attribute is set.
+> 
+> Why?  I'd rather keep the two things separate.  If we enforce this sort of thing
+> at KVM_SET_MEMORY_ATTRIBUTES, then we also have to enforce it at
+> KVM_SET_USER_MEMORY_REGION.
 
-tree:   git://linuxtv.org/pinchartl/media.git muxed/2022.2/base
-head:   e26621179c3b1834a1bb17e9a38e47238ac63bf5
-commit: 1d0aa998d1cfa9ca6f660f00578ce11f93ab6a42 [379/740] media: v4l: Support 3 planar YUV444P 8bpc pixel format in contiguous memory
-reproduce:
-        git remote add pinchartl-media git://linuxtv.org/pinchartl/media.git
-        git fetch --no-tags pinchartl-media muxed/2022.2/base
-        git checkout 1d0aa998d1cfa9ca6f660f00578ce11f93ab6a42
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302140644.eDQ9OziI-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-yuv444p (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/videodev2.h.rst
-
+For device assignment via shared GPA, non-private memory slot needs to be
+allowed.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Isaku Yamahata <isaku.yamahata@gmail.com>
