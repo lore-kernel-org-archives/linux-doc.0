@@ -2,86 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CFE9C636D7
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 09:47:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ACE9C636D4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 10:08:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231126AbjBMJrB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 04:47:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55780 "EHLO
+        id S230319AbjBMKIS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 05:08:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230514AbjBMJqx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 04:46:53 -0500
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E129C10410;
-        Mon, 13 Feb 2023 01:46:49 -0800 (PST)
-Received: by mail-yb1-xb35.google.com with SMTP id q4so13644733ybu.7;
-        Mon, 13 Feb 2023 01:46:49 -0800 (PST)
+        with ESMTP id S230155AbjBMKIR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 05:08:17 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3932E076;
+        Mon, 13 Feb 2023 02:08:15 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id i18so4554295pli.3;
+        Mon, 13 Feb 2023 02:08:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DBU/ezuP0GVZ71fNKByQduOfc1Jj+Dyhk2z5lN1UcHI=;
-        b=NBNUxdc/tTsxKJOc6uvnhDC66rqqxbTcmzHQHYKxiKlnyjUoKke8b8ewwvKGwzf4Su
-         nSG1DAsLuyPBut5fsyONjm7AegpbSeVD3ap5eoGrzk/fp5mNQhNqGrwBNjVStR2SRdVZ
-         SEI2b2VyAGSyt7gS3sAb6rSMTIcGyR4Jhi6hkIzgz7QEo+DoUtV1vB9DM8ohVWYJ2q+m
-         tB1EmPwjo4V0VpazP1j32PMbeHFzaPQFdcxHPeZM0U+0D+vTfTootUkiyfcKKMtZ/6ZH
-         VfwIfCjMoBOw/U1JrGsN5nFvRFj5EfuVgU6rT0hGV1ZTtYSpw7WbqqdB7vw4yVhevse/
-         +0Tw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ugRQK904zzFTwVCKbpQrAxmhP0UfgjZkfjF85IDqdqU=;
+        b=TLiPErZCC+XSJcT/ajHqEzSQxSSJ9qaeZ3vz+HQLGQ9plAKLl9fpCljXvVOWHW/cYJ
+         uOXxZB0QcqpPNvidpEUFj/XKctK3hxxb7OX9d9WbXswlCjCfTt87ueVnanF3hmt6ImRe
+         nFE+svYz9Tyrxgeyw0XRSNiH35X8tp5CYhwwFl/bw+JIGu5nMfI+ouspDXiWnU+uhPRj
+         F9zS9kDtD4FzrjT3Vs6MWSrwm1pbvtvu21tDiEEa1XPn4xQOHlyxXkLSH/RU8F9E0z3w
+         OxoPATya6N/sWskfZxq+E/xkE1wVD+jt8xdoNQ7DtxxmVX5x+EgVymtG0Ng2K1rvFhir
+         qk1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DBU/ezuP0GVZ71fNKByQduOfc1Jj+Dyhk2z5lN1UcHI=;
-        b=UEJjVTOIBVuB4WR2BR+uXFy6D27IhS027yNOaY+/uKB6Fp0clpQWoCLBAnfCE2FzyM
-         XJ26yNjANomLXXxwC1XT2eRNAypBi7hyVbcbyl5iJ1SFGOofIEIWewCdNXk22zrUmPgK
-         IwXMSdZtxJby0o5Vlfe182kLH99HvVf0aanosPzLAGHsS86Y9Rd/Fv955Us9VKow/pat
-         PsMZ1A6nVQ1BAYctUMNMqf7mwunSX9A8J0ruawxXhwRNf6eTByulL/JggDxDb4ku65Ig
-         aErSKkXqRAYBKR9IkaosFeKrgBT8z483XLyaJpfU9lFM9dj7PUoUCyV6iEiu/RiJWfYF
-         gRXg==
-X-Gm-Message-State: AO0yUKUyB0nB5YBXI//4m/3BFbhaeq7Hr1k5hbLIZEIM6mfQq8ISWseI
-        glgMY9lBEVKLfZYUPhLD/BmDZifA2rFe3O5M7Qc=
-X-Google-Smtp-Source: AK7set8PJjCEMwd12n25PFAgAl0ylUJ2NdJ5pPMq70cAwtxduPOojHj+XQ7nKVWAqmRMjVH4gSV1uUmUmyNw9SFelD0=
-X-Received: by 2002:a5b:3cb:0:b0:8e3:28a8:bb5c with SMTP id
- t11-20020a5b03cb000000b008e328a8bb5cmr1410452ybp.154.1676281609042; Mon, 13
- Feb 2023 01:46:49 -0800 (PST)
+        bh=ugRQK904zzFTwVCKbpQrAxmhP0UfgjZkfjF85IDqdqU=;
+        b=OBvk3WoGdX2PzZ9WUVXzo5WBL6ehYvKo3wN+BmTs9SvqqWAWaWW8uKF2lROaK64IGS
+         MvSm8o3ja8sbfuafRSPhoZ9Z5r1D5yC0xJpgCb3YrlcoGKICEi+W/GXcEnanNgyoakVo
+         XIW7BR9CC0Mu+QIM69+wECFJ6xlwZeZE3ksVEJsMfQRgU8uWk+IEhQBoOYTZTPNriOQW
+         o5GjpjSD9i55UwESVFEAonnNOhhnseW3ncpsDWj8wt6hPwMphHnlYHAdQtYVUJyNAIa2
+         /ku9ai3mNEBZfl9IvDPwtEcY6jmw163g/AZrSwWWRtYTNOa0hbuhtJSyzA/K6v0O4aT9
+         +1wA==
+X-Gm-Message-State: AO0yUKV8XvkpKXpqobtzGSAgnxl0L30AA92whodTddxmQqJkTCsrRgCV
+        HqqQlKA5JiNHgmm6XszPJCgBUjkFqpg=
+X-Google-Smtp-Source: AK7set9LCSXaCy37+yCxivnxCoh+yJAeR8sZp1Cjvs6PFbfMFupeDrg8jNy+S3yqXWy8FDOTXPWNEg==
+X-Received: by 2002:a17:902:b10b:b0:198:ec00:81bb with SMTP id q11-20020a170902b10b00b00198ec0081bbmr17826956plr.53.1676282895123;
+        Mon, 13 Feb 2023 02:08:15 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-93.three.co.id. [180.214.232.93])
+        by smtp.gmail.com with ESMTPSA id p11-20020a1709026b8b00b001992b8cf89bsm7824390plk.16.2023.02.13.02.08.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Feb 2023 02:08:14 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id C9D7710558B; Mon, 13 Feb 2023 17:08:10 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Power Management <linux-pm@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Arjan van de Ven <arjan@linux.intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        oe-kbuild-all@lists.linux.dev
+Subject: [PATCH 0/3] Documentation fixes for thermal/bleeding-edge
+Date:   Mon, 13 Feb 2023 17:07:58 +0700
+Message-Id: <20230213100800.28333-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230213152714.78b844f4@canb.auug.org.au> <20230213085920.19726-1-bagasdotme@gmail.com>
- <1058405569.122806.1676279498018.JavaMail.zimbra@nod.at>
-In-Reply-To: <1058405569.122806.1676279498018.JavaMail.zimbra@nod.at>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 13 Feb 2023 10:46:38 +0100
-Message-ID: <CANiq72m46N-85C+djWk6iYzWxk5fYGqfzD3wxfH+n=aD-Am46A@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: rust: Fix arch support table
-To:     Richard Weinberger <richard@nod.at>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rust for Linux Kernel <rust-for-linux@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Sergio_Gonz=C3=A1lez_Collado?= <sergio.collado@gmail.com>,
-        davidgow <davidgow@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="UTF-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=849; i=bagasdotme@gmail.com; h=from:subject; bh=iYKVollfv757SaRCcyO0xXQVSwKRN4TnoZ3u/fIdVss=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMmvuP8zXqxttd7DWjRDQ/Hic77rM7o+bP+7WnTB/VSDn8bL +vMlO0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjAR7v0M/50O/urWXvsn7q2P0ny2F2 p7ss4zt0ckPT32ppVTYuO0nxGMDI3fkm+8n3HuBf8Ef7b8B8tvZPKJPLRaq8EXFCkknJzzkhUA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 13, 2023 at 10:11 AM Richard Weinberger <richard@nod.at> wrote:
->
-> Applied to linux-um next. :-)
+Here are documentation fixes for thermal/bleeding-edge tree. The
+first two patches are fixes to recently reported kernel test robot
+reports whereas the third patch is cosmetical (formatting).
 
-Ah, I didn't notice you picked the series (I think there was no
-message) -- thanks Richard!
+Bagas Sanjaya (3):
+  Documentation: admin-guide: Add toctree entry for thermal docs
+  Documentation: powerclamp: Escape wildcard in cpumask description
+  Documentation: powerclamp: Fix numbered lists formatting
 
-Since it is still unsorted, I am taking the chance to add a "good
-first issue" for that:
-https://github.com/Rust-for-Linux/linux/issues/965
+ Documentation/admin-guide/index.rst               |  2 +-
+ Documentation/admin-guide/thermal/index.rst       |  8 ++++++++
+ .../admin-guide/thermal/intel_powerclamp.rst      | 15 +++++++++------
+ 3 files changed, 18 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/admin-guide/thermal/index.rst
 
-Cheers,
-Miguel
+
+base-commit: 1c7337f9eef60b8ce8a4b8c96d197e230d60b6b2
+-- 
+An old man doll... just what I always wanted! - Clara
+
