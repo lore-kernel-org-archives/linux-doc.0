@@ -2,101 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C0BDC636CC
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 15:54:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFA92C6379F
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 17:00:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231217AbjBMPyh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 10:54:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41434 "EHLO
+        id S229873AbjBMRAp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 12:00:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbjBMPy1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 10:54:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 461951F49C
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 07:53:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676303580;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QqQFqbt2uDKkNjjudGw6jBGBdW/uqCcypE/3jIGrizI=;
-        b=LjsiVkvGHAuRMCzYH6KCjlH6F3zd1KX4Hf1Ms6A3y1yFTJhsJXtoJFKGPqRK0RUXVz0Efc
-        w0rht2sgxHkklBZq3Y8xlXz8AfjRHS5rn6ZA085tUeEkal5gsPHIFUT7espoT1wxc7GC5B
-        VGE/X9ZHK9pqexBjEf6fWA4kbGuIU0M=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-497-O5j1Whd-OliQE7UxHAyPyg-1; Mon, 13 Feb 2023 10:52:59 -0500
-X-MC-Unique: O5j1Whd-OliQE7UxHAyPyg-1
-Received: by mail-wm1-f69.google.com with SMTP id b19-20020a05600c4e1300b003e10d3e1c23so8996220wmq.1
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 07:52:58 -0800 (PST)
+        with ESMTP id S229618AbjBMRAo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 12:00:44 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 691BC193EB
+        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 09:00:42 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id bx22so12515870pjb.3
+        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 09:00:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AOr10dVQbwIfzRH4wxSUN+tKAOUvGyW77RFxYDyWSw4=;
+        b=Xk36lugwkefIX90CnHzFXRA2f1HXASTndOD4qPGSoj03JXeST2jZYc/msSMfare3wt
+         62MADYzitn+/RB0O0f/LMln+42KaNpohSTwnAZzxcZhLRAzeFNRRls4nsVvP04A4NvPJ
+         ejJTS9PLdybPtkMBCJOQ4mYKUFcsKl7ie7DTzI+P0Osa1txj1TU51lEVUKc/SyFzzCB3
+         YJDFzOlLotAFvXr+Y7Vf3EslcJ7ir+IrynEkttlIxOMEkYLAAVMrDkJogT289hMVXwYp
+         9GaZKvWd/kSdG9pRkPq7hwHYAN6UcpBbCG1rMehOKUfH90hqcZ+ZbuxvxljTgT6ysRu1
+         7B1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QqQFqbt2uDKkNjjudGw6jBGBdW/uqCcypE/3jIGrizI=;
-        b=eD5IRVtkluKvDc5tKhR1hFwsucLh7omd9CD4S8aVJj51cE3Pp6C/0qzo5/jb/oGjG1
-         UcC/RtXHHbuwKYocvrL039omEzhSOaZ3Fgl6YqPwGd1NNB2h+pai/Y7IBBFi3NtjPXLB
-         ZaBAxnVaQZftnbq2LeIuDQdsPHgw9MbEnTpOC5SoUkPbcroWDmQV5lQMm38OVVhl3FQ1
-         NvwTJfKM7j/oGY4drDfsLmXC62neHpOvUVFu/nFv7uUTgwYEF+1aoGj2IhiBjtQ9EC5Q
-         pV+thHdF+Vg8jf7b0odmEazBvttCsjGj1FqXnf5oZw0dMpdYDZm87gCpNN4E86OAdyum
-         +z8w==
-X-Gm-Message-State: AO0yUKXvC1rzOel85pAvciAnhRaJTmeoj9qxjIMpcvus272JbWgkzEOi
-        Q0lqe7qG+4g/pGhuTlW4WkQarOEUYRJR12AiEjtBH01a6SHDhq3BERVi3WVLchOSO9nt5b2DqqV
-        K88VB0CYPeD3hhHRBRdhb
-X-Received: by 2002:a05:600c:1895:b0:3dc:4aa6:a8a9 with SMTP id x21-20020a05600c189500b003dc4aa6a8a9mr18805239wmp.7.1676303577994;
-        Mon, 13 Feb 2023 07:52:57 -0800 (PST)
-X-Google-Smtp-Source: AK7set8Q0mH/knNLxtPiAFxRQ/iZossuaA9mVcof/DvPYMRKAMR7Igz1EFOCAYiZjx9gsdCA5TQFvQ==
-X-Received: by 2002:a05:600c:1895:b0:3dc:4aa6:a8a9 with SMTP id x21-20020a05600c189500b003dc4aa6a8a9mr18805230wmp.7.1676303577736;
-        Mon, 13 Feb 2023 07:52:57 -0800 (PST)
-Received: from ?IPV6:2003:cb:c705:6d00:5870:9639:1c17:8162? (p200300cbc7056d00587096391c178162.dip0.t-ipconnect.de. [2003:cb:c705:6d00:5870:9639:1c17:8162])
-        by smtp.gmail.com with ESMTPSA id m9-20020adfe0c9000000b002c3d29d83d2sm10913857wri.63.2023.02.13.07.52.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 07:52:57 -0800 (PST)
-Message-ID: <3818e166-b4f5-6f41-8788-79be941dbf62@redhat.com>
-Date:   Mon, 13 Feb 2023 16:52:56 +0100
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AOr10dVQbwIfzRH4wxSUN+tKAOUvGyW77RFxYDyWSw4=;
+        b=pZWRToe9zQAUqVKStPELm35HI/xbRlQIO+PyCzoife+GEQ5i3wQWQ88nqaIgXC3pSx
+         OimDmIPxewIs/jEmTuUjvOtn+A8Dn+yEUDeR+tkCMwYOOJuN0CtZeXJt5KwiD5etfGIt
+         mO/atqoROvRtX3t9J8mQPilpVNDBNpoq3SNga/OszE+cjG5mL4hQGJu7a/hFkcCvLXuj
+         VNeiKnoIVeAwxY1g+86hlq/l5D7buuLm4YMiT6eR9xOFdF+0yA4uPNJWJWipS1hazLoU
+         YbfjSUgOtw6GU7ybjb0vT6it7xbkfregsGuUrT+GvNI7aVy7gv6oa7uZUjHQg/LOyA5n
+         sX8g==
+X-Gm-Message-State: AO0yUKV/Dj4DQ2EwxRF8DoKsygNvbQgwbR4tQdTR6W1Eh3N/Sf2MDTuM
+        puQG3EY7FMYlMUptdk2mGy1GXg==
+X-Google-Smtp-Source: AK7set+tXR5i3JgVKgzvBSZ6MCb2c+hLPyLbC7HBzkafBheEhsQIPS/rB1Goy5hWggPnOhYK1EIjuQ==
+X-Received: by 2002:a17:902:e313:b0:19a:a39b:a88b with SMTP id q19-20020a170902e31300b0019aa39ba88bmr2587418plc.37.1676307641914;
+        Mon, 13 Feb 2023 09:00:41 -0800 (PST)
+Received: from sunil-laptop ([49.206.14.226])
+        by smtp.gmail.com with ESMTPSA id y13-20020a170902ed4d00b00198fc0a191bsm646134plb.160.2023.02.13.09.00.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Feb 2023 09:00:41 -0800 (PST)
+Date:   Mon, 13 Feb 2023 22:30:33 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH 14/24] RISC-V: ACPI: smpboot: Add function to retrieve
+ the hartid
+Message-ID: <Y+pssW1GCMW3oZjL@sunil-laptop>
+References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
+ <20230130182225.2471414-15-sunilvl@ventanamicro.com>
+ <Y+VX8EclC1cE2fdI@spud>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3] docs/mm: Physical Memory: add example of interleaving
- nodes
-Content-Language: en-US
-To:     Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-References: <20230213154447.1631847-1-rppt@kernel.org>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230213154447.1631847-1-rppt@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y+VX8EclC1cE2fdI@spud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 13.02.23 16:44, Mike Rapoport wrote:
-> From: "Mike Rapoport (IBM)" <rppt@kernel.org>
+On Thu, Feb 09, 2023 at 08:30:40PM +0000, Conor Dooley wrote:
+> Hey Sunil, Drew,
 > 
-> Add an example of memory layout with interleaving nodes where even memory
-> banks belong to node 0 and odd memory banks belong to node 1
+> @drew, a question below that I'm sorta aiming at you...
 > 
-> Suggested-by: Michal Hocko <mhocko@kernel.org>
-> Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
-> ---
+> On Mon, Jan 30, 2023 at 11:52:15PM +0530, Sunil V L wrote:
+> > hartid is in RINTC structuire in MADT table. Instead of parsing
+> 
+> Nit: missing articles before RINTC and MADT. Also typo "structure".
+> 
+> Perhaps you'd benefit from a spell checker in your git editor.
+> 
+Okay.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+> > the ACPI table every time we need for a cpu, cache it and provide
+> > a function to read it.
+> > 
+> > This is similar to acpi_get_madt_gicc() in arm64.
+> 
+> -ENOTFOUND, do you mean acpi_cpu_get_madt_gicc()?
+>
+Yes. Will update.
 
--- 
+> > 
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > ---
+> >  arch/riscv/include/asm/acpi.h | 14 +++++++++++++-
+> >  arch/riscv/kernel/smpboot.c   | 21 +++++++++++++++++++++
+> >  2 files changed, 34 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> > index d1f1e53ec657..69a880b7257a 100644
+> > --- a/arch/riscv/include/asm/acpi.h
+> > +++ b/arch/riscv/include/asm/acpi.h
+> > @@ -65,6 +65,18 @@ int acpi_numa_get_nid(unsigned int cpu);
+> >  static inline int acpi_numa_get_nid(unsigned int cpu) { return NUMA_NO_NODE; }
+> >  #endif /* CONFIG_ACPI_NUMA */
+> >  
+> > -#endif
+> > +struct acpi_madt_rintc *acpi_get_madt_rintc(int cpu);
+> > +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
+> > +static inline u32 get_acpi_id_for_cpu(int cpu)
+> > +{
+> > +	return	acpi_cpu_get_madt_rintc(cpu)->uid;
+> > +}
+> > +#else
+> > +static inline u32 get_acpi_id_for_cpu(int cpu)
+> > +{
+> > +	return -1;
+> > +}
+> > +
+> > +#endif /* CONFIG_ACPI */
+> >  
+> >  #endif /*_ASM_ACPI_H*/
+> > diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
+> > index e48cf88d0bc1..3a8b7a9eb5ac 100644
+> > --- a/arch/riscv/kernel/smpboot.c
+> > +++ b/arch/riscv/kernel/smpboot.c
+> > @@ -73,6 +73,25 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
+> >  
+> >  #ifdef CONFIG_ACPI
+> >  static unsigned int cpu_count = 1;
+> > +static unsigned int intc_count;
+> > +static struct acpi_madt_rintc cpu_madt_rintc[NR_CPUS];
+> > +
+> > +struct acpi_madt_rintc *acpi_get_madt_rintc(int cpu)
+> > +{
+> > +	return &cpu_madt_rintc[cpu];
+> > +}
+> > +
+> > +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu)
+> > +{
+> > +	int i;
+> 
+> Since we are C11 now, you don't even need to declare this outside of the
+> loop, right?
+>
+Okay.
+ 
+> > +
+> > +	for (i = 0; i < NR_CPUS; i++) {
+> 
+> @drew, perhaps you know since you were fiddling not too long ago with
+> cpumask stuff - at what point does for_each_possible_cpu() become
+> usable?
+> I had a bit of a poke & couldn't immediately tell if it'd be okay to use
+> it here.
+>
+It should be possible. Thanks!
+ 
+> > +		if (riscv_hartid_to_cpuid(cpu_madt_rintc[i].hart_id) == cpu)
+> > +			return &cpu_madt_rintc[i];
+> > +	}
+> > +	return NULL;
+> 
+> Another nit: newline before return please :)
+>
+Sure.
+
 Thanks,
-
-David / dhildenb
-
+Sunil 
