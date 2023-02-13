@@ -2,88 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD10C636CC
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 17:13:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6784C636D4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 17:14:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230234AbjBMRNb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 12:13:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33464 "EHLO
+        id S230353AbjBMROX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 12:14:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229812AbjBMRNa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 12:13:30 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95AB61C5B4
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 09:13:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676308409; x=1707844409;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aOO10J6xTaBNmX6fAfXz+Prk9hzfMzoBr6mgZ1kDj58=;
-  b=eRS0+z5q59odmO4RWfthyoO9Z/j6eBWYdP5duCF0jrcHcG2drzXUe7Hs
-   SNLqEvfaUMf7+KR85RDxGnAFT99lKTv27Ilhg+aIX8aE+lG/K2eJpJlQx
-   vm87DjMTHRi4uTYNueWISPF4QCeADQ+4iw/FS+lt4QLGKQlXeeWLDH38M
-   KAV7XbWlI2I3wUAKVW65CncB/fiW5s7FAAlYnYPB26X2O9KD68utQAi2n
-   +JMxf7IVQuFOxP/fg05DZnZuLYlNImyV6/bNX916PJBr+Oz8VhkuoqEvx
-   /IMvDt5idh/TLPh7I3NKvGXdJh4G4pZQmgKJb5apGPIv0nSf0wC9j/C/V
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="358349176"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="358349176"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 09:13:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="699228324"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="699228324"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 13 Feb 2023 09:13:27 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pRcOM-0007td-2x;
-        Mon, 13 Feb 2023 17:13:26 +0000
-Date:   Tue, 14 Feb 2023 01:12:36 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Rohit Visavalia <rohit.visavalia@xilinx.com>
-Cc:     oe-kbuild-all@lists.linux.dev, Michal Simek <monstr@monstr.eu>,
-        Vishal Sagar <vishal.sagar@xilinx.com>,
-        linux-doc@vger.kernel.org
-Subject: [pinchartl-media:muxed/2022.2/base 356/740] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-pix-fmt-x403 (if the link has no caption the label must precede a
- section header)
-Message-ID: <202302140118.EgMYWphI-lkp@intel.com>
+        with ESMTP id S229812AbjBMROW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 12:14:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC0D61C5B4;
+        Mon, 13 Feb 2023 09:14:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 678B96120C;
+        Mon, 13 Feb 2023 17:14:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9709FC433EF;
+        Mon, 13 Feb 2023 17:14:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1676308460;
+        bh=RkBn+EgRto+hmgpE2gQsAE6PgkVzQwCEhp8Ja4WbBSs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bNVbNcAPNfcwog/A5CdIWs2f3/q0e89mJw3M/fRVwaDjYc1ZOvGrXOJuHP543sbV3
+         QDNHcRGe3tjDCCehkpIqHsA5eQCQJuyc4S/nUcFSpr+LVr4POcVa96LXRzoMlD2sV1
+         IzoUOCdb8ZBOQ0LmgJgO5KY9sIja8UyH88ezxrbWFa6gk3TmCaJLw5NwOaggKZGaep
+         53W9GDBlNqjOlo6LPT0gDvoGyGSnqS6yKhyIH6t+TjJxTvbzhHVUyVXb282TI/NMMd
+         ZDl9vWsVIo/LwzWWMxX1bCrC+W1TY17rOVBAtfH42FY30NHz/RrofpOvVqdufzC1dX
+         fqpBQj4D0tFKw==
+Date:   Mon, 13 Feb 2023 17:14:15 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH 06/24] RISC-V: ACPI: Add PCI functions to build ACPI core
+Message-ID: <Y+pv5yefi3xYfLt1@spud>
+References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
+ <20230130182225.2471414-7-sunilvl@ventanamicro.com>
+ <Y+QToXO2kYQ2ipdz@spud>
+ <Y+pV1aafHUNP6QfU@sunil-laptop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="UmPzDpczqd5I7ZHh"
 Content-Disposition: inline
+In-Reply-To: <Y+pV1aafHUNP6QfU@sunil-laptop>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rohit,
 
-FYI, the error/warning still remains.
+--UmPzDpczqd5I7ZHh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   git://linuxtv.org/pinchartl/media.git muxed/2022.2/base
-head:   e26621179c3b1834a1bb17e9a38e47238ac63bf5
-commit: 0cc5e27906b914f5c42935e6cd99e2249f403840 [356/740] media: v4l: Support 3 planar YUV 444 10bpc pixel format in contiguous memory
-reproduce:
-        git remote add pinchartl-media git://linuxtv.org/pinchartl/media.git
-        git fetch --no-tags pinchartl-media muxed/2022.2/base
-        git checkout 0cc5e27906b914f5c42935e6cd99e2249f403840
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On Mon, Feb 13, 2023 at 08:53:01PM +0530, Sunil V L wrote:
+> On Wed, Feb 08, 2023 at 09:26:57PM +0000, Conor Dooley wrote:
+> > On Mon, Jan 30, 2023 at 11:52:07PM +0530, Sunil V L wrote:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302140118.EgMYWphI-lkp@intel.com/
+> > > +/*
+> > > + * Lookup the bus range for the domain in MCFG, and set up config sp=
+ace
+> > > + * mapping.
+> > > + */
+> > > +static struct pci_config_window *
+> > > +pci_acpi_setup_ecam_mapping(struct acpi_pci_root *root)
+> >=20
+> > This all fits on 1 line.
+> >=20
+> It actually goes beyond 80 characters, right?
 
-All warnings (new ones prefixed by >>):
+100 chars is the limit :)
 
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x403 (if the link has no caption the label must precede a section header)
+--UmPzDpczqd5I7ZHh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-vim +6 Documentation/output/videodev2.h.rst
+-----BEGIN PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY+pv5wAKCRB4tDGHoIJi
+0mKhAQDrj8O8lI6jdzx/eHAiCr2CbVDULMK6x53p1/fhcJI7wAD+OWuhz8aeys1U
+u1nGrlAy/YPBtu3+qPTbE+jWT1BDJgs=
+=JgRA
+-----END PGP SIGNATURE-----
+
+--UmPzDpczqd5I7ZHh--
