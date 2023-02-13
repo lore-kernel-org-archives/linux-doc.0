@@ -2,84 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CEB5C636D4
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 17:10:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD10C636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 17:13:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230232AbjBMRKd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 12:10:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60156 "EHLO
+        id S230234AbjBMRNb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 12:13:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229802AbjBMRKc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 12:10:32 -0500
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68ABF6E98;
-        Mon, 13 Feb 2023 09:10:31 -0800 (PST)
-Received: by mail-pj1-f44.google.com with SMTP id oa11-20020a17090b1bcb00b002341a2656e5so1345255pjb.1;
-        Mon, 13 Feb 2023 09:10:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=43md4euKyTy5iM8nPRowlVg2uoHP+Bxebjf5efS9qUI=;
-        b=g0YJA9Z6OLwaKXxkv9+jL0OzyhsRtI2CVlbEs+v18X4z0riyWkYjEGQKV/SMQRyyQK
-         YO+vtEUYJlU/E6Tqn9CO/ybdaWoPe1GfK+FmU23NNZgExUJZHSMIt2rtt7NePZSv2uNr
-         CawNBHoi50oEwm/PrnyUNzKws4vGY/GHpEQAB4TfjFJ6g2xEJOS/2/eSuLZiLkjdQTbM
-         8RJvBTKi+7iNjwYENDG1Yd6vASupmORGUEH3xD1U/pySY9WIwZMk9ZOo/lTq8i82U3a4
-         4WHzdAeiHpuo1dYQm8h4fLsYd5zmBaX/bgGVLY8FYULUSMuseXnsCreMSGOSZP/ylcdA
-         D41A==
-X-Gm-Message-State: AO0yUKUc0x0z2kJTiVaTCBYWsGa8aIOscG4YYVY/qKxsbGm9LU6I8MSY
-        LDsIRIgjpumV5sK/A/7OIyo=
-X-Google-Smtp-Source: AK7set/KgUpWGxPJNFJMKEcCvMQP9cXnNVjtmIdg3Yj20tnXZ+glv0aNSL8qHN0HGIOemEANUP74Yg==
-X-Received: by 2002:a17:90b:d87:b0:234:1fa8:6589 with SMTP id bg7-20020a17090b0d8700b002341fa86589mr1103583pjb.6.1676308230508;
-        Mon, 13 Feb 2023 09:10:30 -0800 (PST)
-Received: from ?IPV6:2620:15c:211:201:dc5c:7c61:93f2:3d3d? ([2620:15c:211:201:dc5c:7c61:93f2:3d3d])
-        by smtp.gmail.com with ESMTPSA id p9-20020a17090a2d8900b00233bab35b57sm4956951pjd.29.2023.02.13.09.10.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 09:10:29 -0800 (PST)
-Message-ID: <0290f608-6ddf-ecb7-4c05-55b0f7dbfbea@acm.org>
-Date:   Mon, 13 Feb 2023 09:10:26 -0800
+        with ESMTP id S229812AbjBMRNa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 12:13:30 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95AB61C5B4
+        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 09:13:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676308409; x=1707844409;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aOO10J6xTaBNmX6fAfXz+Prk9hzfMzoBr6mgZ1kDj58=;
+  b=eRS0+z5q59odmO4RWfthyoO9Z/j6eBWYdP5duCF0jrcHcG2drzXUe7Hs
+   SNLqEvfaUMf7+KR85RDxGnAFT99lKTv27Ilhg+aIX8aE+lG/K2eJpJlQx
+   vm87DjMTHRi4uTYNueWISPF4QCeADQ+4iw/FS+lt4QLGKQlXeeWLDH38M
+   KAV7XbWlI2I3wUAKVW65CncB/fiW5s7FAAlYnYPB26X2O9KD68utQAi2n
+   +JMxf7IVQuFOxP/fg05DZnZuLYlNImyV6/bNX916PJBr+Oz8VhkuoqEvx
+   /IMvDt5idh/TLPh7I3NKvGXdJh4G4pZQmgKJb5apGPIv0nSf0wC9j/C/V
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="358349176"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="358349176"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 09:13:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="699228324"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="699228324"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 13 Feb 2023 09:13:27 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pRcOM-0007td-2x;
+        Mon, 13 Feb 2023 17:13:26 +0000
+Date:   Tue, 14 Feb 2023 01:12:36 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Rohit Visavalia <rohit.visavalia@xilinx.com>
+Cc:     oe-kbuild-all@lists.linux.dev, Michal Simek <monstr@monstr.eu>,
+        Vishal Sagar <vishal.sagar@xilinx.com>,
+        linux-doc@vger.kernel.org
+Subject: [pinchartl-media:muxed/2022.2/base 356/740] htmldocs:
+ Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
+ v4l2-pix-fmt-x403 (if the link has no caption the label must precede a
+ section header)
+Message-ID: <202302140118.EgMYWphI-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] blk-ioprio: Introduce promote-to-rt policy
-Content-Language: en-US
-To:     Hou Tao <houtao@huaweicloud.com>, Jan Kara <jack@suse.cz>
-Cc:     linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-References: <20230201045227.2203123-1-houtao@huaweicloud.com>
- <8c068af3-7199-11cf-5c69-a523c7c22d9a@acm.org>
- <4f7dcb3e-2d5a-cae3-0e1c-a82bcc3d2217@huaweicloud.com>
- <b6b3c498-e90b-7d1f-6ad5-a31334e433ae@acm.org>
- <beb7782e-72a4-c350-3750-23a767c88753@huaweicloud.com>
- <aedc240d-7c9e-248a-52d2-c9775f3e8ca1@acm.org>
- <20230208134345.77bdep3kzp52haxu@quack3>
- <7fcd4c38-ccbe-6411-e424-a57595ad9c0b@acm.org>
- <20230209085603.dzqfcc3pp4hacqlz@quack3>
- <55a065e7-7d86-d58f-15ba-c631a427843e@acm.org>
- <20230210101244.zsmtmsoo4xjx7suj@quack3>
- <48620099-0311-e752-ba3b-cbb4351cf81e@huaweicloud.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <48620099-0311-e752-ba3b-cbb4351cf81e@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/13/23 04:51, Hou Tao wrote:
-> Should I keep "none-to-rt" and make it work just like "promote-to-rt" or should
-> I just remove "none-to-rt" and add "promote-to-rt" ? I think the latter will be
-> more appropriate.
+Hi Rohit,
 
-Removing none-to-rt would break existing systems that use this policy. I 
-prefer the former solution.
+FYI, the error/warning still remains.
 
-Thanks,
+tree:   git://linuxtv.org/pinchartl/media.git muxed/2022.2/base
+head:   e26621179c3b1834a1bb17e9a38e47238ac63bf5
+commit: 0cc5e27906b914f5c42935e6cd99e2249f403840 [356/740] media: v4l: Support 3 planar YUV 444 10bpc pixel format in contiguous memory
+reproduce:
+        git remote add pinchartl-media git://linuxtv.org/pinchartl/media.git
+        git fetch --no-tags pinchartl-media muxed/2022.2/base
+        git checkout 0cc5e27906b914f5c42935e6cd99e2249f403840
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Bart.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302140118.EgMYWphI-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x403 (if the link has no caption the label must precede a section header)
+
+vim +6 Documentation/output/videodev2.h.rst
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
