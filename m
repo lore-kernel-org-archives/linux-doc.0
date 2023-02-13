@@ -2,57 +2,47 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14718C636CC
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 10:08:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F875C636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 10:15:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230488AbjBMKIW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 05:08:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43170 "EHLO
+        id S229841AbjBMKPv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 05:15:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230095AbjBMKIR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 05:08:17 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 731B9C166;
-        Mon, 13 Feb 2023 02:08:15 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id a8-20020a17090a6d8800b002336b48f653so10334738pjk.3;
-        Mon, 13 Feb 2023 02:08:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ElAU4CorO8bAZ8rKYwIlcUT8ZfpT8t881iGNYaHkIfg=;
-        b=aMC4eto4PA34P9BDSmXpGxoYzfXGmN2U/yxW4+d6JyrBmu4utFRI5V+JBHGNbbbKH/
-         cWiQEaQT8Es+nwPwMu5sWt5AH0NH10j5R9z6tNuhPPOAWmpgfAqReCqqjsfD++5pLy8h
-         x8e/WVdPGW8V6Ax4bfJEjg7BtjaRHV6IWd0oyNyYVbMTZZKA4J08wOH+uGCbVSyxWtzR
-         XJs9oUo3y/j12ywDwloWzPDsOwQD/TPP06z36CBGkokqeJ3OY+B+XtIaDbelnXCAvgy/
-         RPRKRAZiYUszUo5Wbdd32C+QKa07nu7zl95m7pjUvKEvZ7tJ+1FkbopONMgLS7F/ezp2
-         fdWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ElAU4CorO8bAZ8rKYwIlcUT8ZfpT8t881iGNYaHkIfg=;
-        b=J97EgXOxvFIBzV68Z2/68BRTOIs1HQvYmL1pGop1O+LBDaHPv7xMPMVJ4RkXCoXChW
-         gfi9JwH5nFK7/ZvPBv3NpVveFXPjgBGiijM3IWYg47tpqwodt2wo+kahYoHisM1AkXVz
-         0Rr6kLZK20JOae8Hhum3KE2ML5oaQWzmZjTJwQgPRohq48qM5b60c/Fw4Lwn0kUXGNpk
-         xrpVbnpDXpom1zaV8O7xARoTCvQ7UtrPKwxwTuk88qIYb9O9XcB+JS4Bk4ZXppVMLd9+
-         e3AIQXq6AS63dDSoSHpFTKo4FBsSqNVncXX3cC5uAjzfHyIOzCbeCcgt1OLMMEQikw0i
-         N44g==
-X-Gm-Message-State: AO0yUKUlPKZToY4sAGr4qMRD2WdLMzJbaRlpaeQ78w0L+v4D1e5LTQcB
-        1XGVTxBJj7GvjfbKyklzaBI=
-X-Google-Smtp-Source: AK7set+yN2kUpLMvpm4uaucix/KMo1xOt9agM3NWlktkI391dCm40tZOelWolIy9Xuq35E6Ijp2fQQ==
-X-Received: by 2002:a17:903:2308:b0:196:6162:1a76 with SMTP id d8-20020a170903230800b0019661621a76mr28923221plh.0.1676282894939;
-        Mon, 13 Feb 2023 02:08:14 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-93.three.co.id. [180.214.232.93])
-        by smtp.gmail.com with ESMTPSA id ji3-20020a170903324300b0019a9b73f229sm2088011plb.300.2023.02.13.02.08.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 02:08:14 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 54E3910558E; Mon, 13 Feb 2023 17:08:10 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux Documentation <linux-doc@vger.kernel.org>,
+        with ESMTP id S229477AbjBMKPv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 05:15:51 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E0201BCD;
+        Mon, 13 Feb 2023 02:15:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676283350; x=1707819350;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=8pxbrVMMBeuKldEB4rEpcQ/HEmb3Tvb3aO7aDW2woT8=;
+  b=Tyd8rORmBvqcD3RkoTn0hIROEKTWroko8+/CYJx7SqiecPL15e9jzSZr
+   afN3DKwL+oCuSa8wGa016LX3VwO+gKmva1fKkFx8FrkhHmkcfqHgQy6br
+   5knixyuxfjRNSct2VXSs55M+6Ft41emQzdtvaw/myioTD2rUaf+0q7/AL
+   Bf8OsYAYr6GDyYOPlM1IoFOjxkQS4S3sYojEDgXISynM9dRQeEP5DOeVY
+   GeBWkeE6XVNwJKZ2iUe0aEOe7j6joYgr8ov0bopIKQsHSjTJg96M2WQJ4
+   e9w7IDwFF6UHXxaYS5M037lzg0A6qUPTwKWgwn58KIakqqClNkWrpd8Mu
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="417082719"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
+   d="scan'208";a="417082719"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 02:15:48 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="668753842"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
+   d="scan'208";a="668753842"
+Received: from pranavk3-mobl.gar.corp.intel.com ([10.213.82.89])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 02:15:41 -0800
+Message-ID: <6cc45a32e92e6a261b7d497eb48ac59472c35508.camel@linux.intel.com>
+Subject: Re: [PATCH 1/3] Documentation: admin-guide: Add toctree entry for
+ thermal docs
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Power Management <linux-pm@vger.kernel.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -60,71 +50,83 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
         Amit Kucheria <amitk@kernel.org>,
         Zhang Rui <rui.zhang@intel.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
         Thorsten Leemhuis <linux@leemhuis.info>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Arjan van de Ven <arjan@linux.intel.com>,
         Jacob Pan <jacob.jun.pan@linux.intel.com>,
         oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Subject: [PATCH 1/3] Documentation: admin-guide: Add toctree entry for thermal docs
-Date:   Mon, 13 Feb 2023 17:07:59 +0700
-Message-Id: <20230213100800.28333-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230213100800.28333-1-bagasdotme@gmail.com>
+Date:   Mon, 13 Feb 2023 02:15:36 -0800
+In-Reply-To: <20230213100800.28333-2-bagasdotme@gmail.com>
 References: <20230213100800.28333-1-bagasdotme@gmail.com>
+         <20230213100800.28333-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1694; i=bagasdotme@gmail.com; h=from:subject; bh=+d0cgl/LUXYVN5X4ZZz4OWLihJeYOaWifkPF9BOwx3E=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMmveBhiq6sm2E+e55R8JDGZYdpKsWvV35ad2XjhwEP7k2sj Gq5Id5SyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiceoM/3Onrpf8v2vS3u97lKu5j7 FGaYrpVXesnxw0/yrX0btTduYz/OG9HV4guk94rU7m3J8Mu7hE2JdO+56sEJQ284wD046vZWwA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel test robot reported htmldocs warnings:
+Hi Sanjaya,
 
-Documentation/admin-guide/index.rst:62: WARNING: toctree contains reference to nonexisting document 'admin-guide/thermal'
-Documentation/admin-guide/thermal/intel_powerclamp.rst: WARNING: document isn't included in any toctree
+On Mon, 2023-02-13 at 17:07 +0700, Bagas Sanjaya wrote:
+> kernel test robot reported htmldocs warnings:
+>=20
+> Documentation/admin-guide/index.rst:62: WARNING: toctree contains
+> reference to nonexisting document 'admin-guide/thermal'
+> Documentation/admin-guide/thermal/intel_powerclamp.rst: WARNING:
+> document isn't included in any toctree
+>=20
+> Add toctree entry for thermal/ docs to fix these warnings.
+>=20
+I submitted a patch=20
+	[thermal-bleeding-edge][PATCH] thermal: intel: powerclamp: Fix
+warnings
 
-Add toctree entry for thermal/ docs to fix these warnings.
+Thanks,
+Srinivas
 
-Link: https://lore.kernel.org/linux-doc/202302121759.MmJgDTxc-lkp@intel.com/
-Fixes: 707bf8e1dfd51d ("Documentation: admin-guide: Move intel_powerclamp documentation")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/admin-guide/index.rst         | 2 +-
- Documentation/admin-guide/thermal/index.rst | 8 ++++++++
- 2 files changed, 9 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/admin-guide/thermal/index.rst
-
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index c872a8a1ddfa28..0571938ecdc868 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -116,7 +116,7 @@ configure specific aspects of kernel behavior to your liking.
-    svga
-    syscall-user-dispatch
-    sysrq
--   thermal
-+   thermal/index
-    thunderbolt
-    ufs
-    unicode
-diff --git a/Documentation/admin-guide/thermal/index.rst b/Documentation/admin-guide/thermal/index.rst
-new file mode 100644
-index 00000000000000..193b7b01a87d7e
---- /dev/null
-+++ b/Documentation/admin-guide/thermal/index.rst
-@@ -0,0 +1,8 @@
-+=================
-+Thermal Subsystem
-+=================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   intel_powerclamp
--- 
-An old man doll... just what I always wanted! - Clara
+> Link:
+> https://lore.kernel.org/linux-doc/202302121759.MmJgDTxc-lkp@intel.com/
+> Fixes: 707bf8e1dfd51d ("Documentation: admin-guide: Move
+> intel_powerclamp documentation")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+> =C2=A0Documentation/admin-guide/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 2 +-
+> =C2=A0Documentation/admin-guide/thermal/index.rst | 8 ++++++++
+> =C2=A02 files changed, 9 insertions(+), 1 deletion(-)
+> =C2=A0create mode 100644 Documentation/admin-guide/thermal/index.rst
+>=20
+> diff --git a/Documentation/admin-guide/index.rst
+> b/Documentation/admin-guide/index.rst
+> index c872a8a1ddfa28..0571938ecdc868 100644
+> --- a/Documentation/admin-guide/index.rst
+> +++ b/Documentation/admin-guide/index.rst
+> @@ -116,7 +116,7 @@ configure specific aspects of kernel behavior to
+> your liking.
+> =C2=A0=C2=A0=C2=A0 svga
+> =C2=A0=C2=A0=C2=A0 syscall-user-dispatch
+> =C2=A0=C2=A0=C2=A0 sysrq
+> -=C2=A0=C2=A0 thermal
+> +=C2=A0=C2=A0 thermal/index
+> =C2=A0=C2=A0=C2=A0 thunderbolt
+> =C2=A0=C2=A0=C2=A0 ufs
+> =C2=A0=C2=A0=C2=A0 unicode
+> diff --git a/Documentation/admin-guide/thermal/index.rst
+> b/Documentation/admin-guide/thermal/index.rst
+> new file mode 100644
+> index 00000000000000..193b7b01a87d7e
+> --- /dev/null
+> +++ b/Documentation/admin-guide/thermal/index.rst
+> @@ -0,0 +1,8 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Thermal Subsystem
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +.. toctree::
+> +=C2=A0=C2=A0 :maxdepth: 1
+> +
+> +=C2=A0=C2=A0 intel_powerclamp
 
