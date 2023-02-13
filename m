@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 957FAC636D4
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 15:27:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8195C636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Feb 2023 15:29:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230470AbjBMP16 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 10:27:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42704 "EHLO
+        id S229728AbjBMP3Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Feb 2023 10:29:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229941AbjBMP15 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 10:27:57 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B42AF8691
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 07:27:54 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id mg23so5707423pjb.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 07:27:54 -0800 (PST)
+        with ESMTP id S230031AbjBMP3V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 10:29:21 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 537DC659E
+        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 07:29:20 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id f16-20020a17090a9b1000b0023058bbd7b2so12576296pjp.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 07:29:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ventanamicro.com; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H64bCErxHeGPwaoRHUI0dfKS4AtwcUXkbh45HCez6bg=;
-        b=SYvMjLr4yDh8WyGRc0k/LjOIHPYr1cPeLUKGMw9rxER/6OkNu6qD6ShC5hQmEy7g2v
-         1sw6Sy81TOpdbyY5inbR4XBH9cTfvZQOD5mYDGeJ/RXi5thu+ZpgZNJmdI8wnq1EnPBJ
-         B3DmXn9IFnE63hLT/KZs3UUri+rp6+QP3SPuSyH8ubhS1UIX4sLXaHZZSX7WPXwgtQRT
-         o4twUj6POMJxSOxd/JgCI1a9KlJmO4d7R8s1o8a39Sfz8HWHnE4mbhG4Boi/UWFYXI7x
-         mp/kb9tJxEc7FnTFCe3kkiKoG2xB2YYoYiA8Ei5DJUXuQoW3Na32syXgDNHM2EW6CwEj
-         5VxA==
+        bh=qbx6U9Foe7itForTQRSH0M7JhXvGqxUzThvPIJqkyvQ=;
+        b=Rnl3Q3GV0vBzq01wIsrOiPoNkt2sS6amDjnqvSgMSp9EoYYFanD3kywD/bwcZgYhoQ
+         iVEdy7M8w2cPp9GB74lylljDVWceNHNSwjlUvikxU/4IjY6msLBIfUWgE7GM+DnUE5q1
+         lS0ID3bmvbUJk5Cjtw+psctgIuiIJfLunxFW/o8e0d9HBwM8cdMSU3vDRwXFi1L8M/I6
+         H4xrCraBChDTOrKb51DHZBEO7Ghu6bKHtHiXNg/2i9KwXHLKkJk4Ze2qE2BQ7smSgvnd
+         7qsLNU6V8jWQTwZ4z2gFtrWxvLPiX9Cd+rzHG9EprjgGLUcoiJqVszh/WSxJ7aCL8X34
+         7t3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H64bCErxHeGPwaoRHUI0dfKS4AtwcUXkbh45HCez6bg=;
-        b=OU9BHTr5KXd1/IF1Puimno2W+e8zB1OZt2vMs+GMuTtu+NLDzvEkXPppaQIut/F32e
-         ZSmYiNWeJqlURgoKscg/o5hWQeoGKq7Flh0+ldMeS1tyVwuRwa1y193qEVq2smNDxx7q
-         nj5C81IKJqoisqw2sDdm6sgF46pJLhL1Rjd5o3jDtnWtFudx+xOQQYhr3qFIRpKSKKQI
-         GF6DEIg2uviDzlRgKDJXvHv/4zH3bxWw5H5COrK9BT5OIUtMKDBbQ/dWqCsLu7y+Efyq
-         +h14ugF4gMszSdoH79nn3I0Q6+KiY8KUtwkX/hIxhzTrwbsQJGqGeU5k3g4ZyyTsErPz
-         8ILA==
-X-Gm-Message-State: AO0yUKVLbr3woVYKl+7e2w/oNYt7ORHzaK/4z9jHMjDs+ci6v0unPaEg
-        WhkkPEDF00Oa9wQCDAWEkk3jpQ==
-X-Google-Smtp-Source: AK7set+Umi3K9fZWNzNGTrbdJhbBEdIzCaTYmeadC2jJa0vq3VZDuZB5gM/RzsQ/hG22EUBBztLQTw==
-X-Received: by 2002:a17:903:11c3:b0:196:3ecd:c39a with SMTP id q3-20020a17090311c300b001963ecdc39amr28512081plh.43.1676302073657;
-        Mon, 13 Feb 2023 07:27:53 -0800 (PST)
+        bh=qbx6U9Foe7itForTQRSH0M7JhXvGqxUzThvPIJqkyvQ=;
+        b=gaayWZUwNOyingqWLA9nbwWFf1KGmzIhtwCgLUaE8OYAtvMV40q+GmfDGB/7qRb3qA
+         3q0pXt5dRodBWy7GrGRgoNaJuK3FuBYkGlCzFZnq1hkFEHi6mZUtwFqB+hyVjPxcd3Sa
+         iuBcJhubFax2PH0OhDMsmFZTlGgtgkGMS18CEmbrPYlH9AozAPidWk51lvYaCXmdH1XA
+         TGelZEuxNznMuVKnNjV3pUzBTCmSxdPIlYuZ9RoQV8fLpyCtw6ImE+endJTCkd0YxAvi
+         hTxGj4lXaGdIM5OBo622TjXVcqYzYTxKYPXsM/IoXXtqdtvK7/e2Bks9yLBoUkHaJAZz
+         ulRA==
+X-Gm-Message-State: AO0yUKUNuHDWRZNds+cqmHlVDVN3r0FBoUt8I0Wl4Tz3G7cZJfxWUKCP
+        DQAdNgnk542JmL+9XSOjaoVa3g==
+X-Google-Smtp-Source: AK7set/mryfi/4lQw9+pQX73qq0JKVDVfPvKiwXT+/N3NEyBCwVEejzOlKDAEyuzTferOF+iIfbrvQ==
+X-Received: by 2002:a17:90b:3ec1:b0:22b:f208:aeed with SMTP id rm1-20020a17090b3ec100b0022bf208aeedmr27624409pjb.30.1676302159895;
+        Mon, 13 Feb 2023 07:29:19 -0800 (PST)
 Received: from sunil-laptop ([49.206.14.226])
-        by smtp.gmail.com with ESMTPSA id 13-20020a170902c24d00b0019aa7d89f06sm1482224plg.30.2023.02.13.07.27.48
+        by smtp.gmail.com with ESMTPSA id l21-20020a17090aec1500b00230a3b016fcsm5157808pjy.10.2023.02.13.07.29.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 07:27:53 -0800 (PST)
-Date:   Mon, 13 Feb 2023 20:57:44 +0530
+        Mon, 13 Feb 2023 07:29:19 -0800 (PST)
+Date:   Mon, 13 Feb 2023 20:59:11 +0530
 From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Conor Dooley <conor@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
 Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
         "Rafael J . Wysocki" <rafael@kernel.org>,
@@ -59,174 +59,39 @@ Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
         Marc Zyngier <maz@kernel.org>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Anup Patel <apatel@ventanamicro.com>,
-        linux-doc@vger.kernel.org, Atish Patra <atishp@rivosinc.com>,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Andrew Jones <ajones@ventanamicro.com>
-Subject: Re: [PATCH 13/24] RISC-V: ACPI: smpboot: Add ACPI support in
- smp_setup()
-Message-ID: <Y+pW8NWaOW1gom7d@sunil-laptop>
+        Andrew Jones <ajones@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH 24/24] Documentation/kernel-parameters.txt: Add RISC-V
+ for ACPI parameter
+Message-ID: <Y+pXR29U9divDWAo@sunil-laptop>
 References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
- <20230130182225.2471414-14-sunilvl@ventanamicro.com>
- <Y+Qdxg8LBs5mbl4+@spud>
+ <20230130182225.2471414-25-sunilvl@ventanamicro.com>
+ <Y+RUPcCgH48XdbBB@debian.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y+Qdxg8LBs5mbl4+@spud>
+In-Reply-To: <Y+RUPcCgH48XdbBB@debian.me>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 08, 2023 at 10:10:14PM +0000, Conor Dooley wrote:
-> On Mon, Jan 30, 2023 at 11:52:14PM +0530, Sunil V L wrote:
-> > Add function to parse the RINTC structure in
-> > the MADT table and create the required initializations to
-> > enable SMP boot on ACPI based platforms.
-> > 
-> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > ---
-> >  arch/riscv/include/asm/acpi.h |  7 ++++
-> >  arch/riscv/kernel/smpboot.c   | 73 ++++++++++++++++++++++++++++++++++-
-> >  2 files changed, 79 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
-> > index c5cb9f96d404..d1f1e53ec657 100644
-> > --- a/arch/riscv/include/asm/acpi.h
-> > +++ b/arch/riscv/include/asm/acpi.h
-> > @@ -58,6 +58,13 @@ static inline bool acpi_has_cpu_in_madt(void)
-> >  }
+On Thu, Feb 09, 2023 at 09:02:37AM +0700, Bagas Sanjaya wrote:
+> On Mon, Jan 30, 2023 at 11:52:25PM +0530, Sunil V L wrote:
+> >  			For ARM64, ONLY "acpi=off", "acpi=on" or "acpi=force"
+> >  			are available
+> > +			For RISC-V, ONLY "acpi=off", "acpi=on" or "acpi=force"
+> > +			are available
 > >  
-> >  static inline void arch_fix_phys_package_id(int num, u32 slot) { }
-> > +
-> > +#ifdef CONFIG_ACPI_NUMA
-> > +int acpi_numa_get_nid(unsigned int cpu);
-> > +#else
-> > +static inline int acpi_numa_get_nid(unsigned int cpu) { return NUMA_NO_NODE; }
-> > +#endif /* CONFIG_ACPI_NUMA */
-> > +
-> >  #endif
-> >  
-> >  #endif /*_ASM_ACPI_H*/
-> > diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
-> > index 26214ddefaa4..e48cf88d0bc1 100644
-> > --- a/arch/riscv/kernel/smpboot.c
-> > +++ b/arch/riscv/kernel/smpboot.c
-> > @@ -8,6 +8,7 @@
-> >   * Copyright (C) 2017 SiFive
-> >   */
-> >  
-> > +#include <linux/acpi.h>
-> >  #include <linux/arch_topology.h>
-> >  #include <linux/module.h>
-> >  #include <linux/init.h>
-> > @@ -70,6 +71,73 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
-> >  	}
-> >  }
-> >  
-> > +#ifdef CONFIG_ACPI
-> > +static unsigned int cpu_count = 1;
-> > +
-> > +static int __init
-> > +acpi_parse_rintc(union acpi_subtable_headers *header,
-> > +			     const unsigned long end)
 > 
-> This all fits on one line. And also avoids the checkpatch complaint from
-> what you have currently done...
+> Something repetitive here. What about "For ARM64 and RISC-V, the
+> available options are only "acpi=off", "acpi=on", and "acpi=force""?
 > 
-Okay.
+> Thanks.
+> 
+Hi Sanjaya,
+-Sunil
 
-> > +{
-> > +	unsigned long hart;
-> > +	bool found_boot_cpu = false;
-> > +
-> > +	struct acpi_madt_rintc *processor;
-> > +
-> > +	processor = (struct acpi_madt_rintc *)header;
-> 
-> Why not combine the above two lines?
-> 
-> > +	/* RINTC entry which has !ACPI_MADT_ENABLED is not enabled so skip */
-> 
-> This comment is a bit -ENOPARSE. Please reword it in a way that is
-> understandable to mere mortals like myself.
->
-Okay, let me try :-).
- 
-> > +	if (!(processor->flags & ACPI_MADT_ENABLED))
-> > +		return 0;
-> > +
-> > +	hart = processor->hart_id;
-> > +	if (hart < 0)
-> > +		return 0;
-> 
-> Newline here please
-> 
-> > +	if (hart == cpuid_to_hartid_map(0)) {
-> > +		BUG_ON(found_boot_cpu);
-> > +		found_boot_cpu = 1;
-> 
-> This is a bool, why not assign a bool value to it so it looks more
-> intentional? I know this is copied from the dt code, but that should
-> really be on too IMO.
->
-Okay.
- 
-> > +		early_map_cpu_to_node(0, acpi_numa_get_nid(cpu_count));
-> > +		return 0;
-> > +	}
-> 
-> And a newline here too...
->
-Okay. 
-> > +	if (cpu_count >= NR_CPUS) {
-> > +		pr_warn("Invalid cpuid [%d] for hartid [%lu]\n",
-> > +			cpu_count, hart);
-> > +		return 0;
-> > +	}
-> > +
-> > +	cpuid_to_hartid_map(cpu_count) = hart;
-> > +	early_map_cpu_to_node(cpu_count, acpi_numa_get_nid(cpu_count));
-> > +	cpu_count++;
-> 
-> ...and also here please!
->
-Okay.
 
-> > +	return 0;
-> > +}
-> > +
-> > +static void __init acpi_parse_and_init_cpus(void)
-> > +{
-> > +	int cpuid;
-> > +
-> > +	cpu_set_ops(0);
-> 
-> While I'm at it suggesting newline additions, adding them before
-> comments would be great too.
->
-Okay.
- 
-> > +	/*
-> > +	 * do a walk of MADT to determine how many CPUs
-> > +	 * we have including disabled CPUs, and get information
-> > +	 * we need for SMP init.
-> > +	 */
-> > +	acpi_table_parse_madt(ACPI_MADT_TYPE_RINTC,
-> > +				      acpi_parse_rintc, 0);
-> > +
-> > +	/*
-> > +	 * NUMA - TODO
-> > +	 */
-> 
-> TODO before merging, or TODO at some indeterminate point in the future?
->
-Will remove this comment. We need to add NUMA after basic support is
-done.
- 
-> Anyways, this is all nits & this largely seem to resemble the dt code,
-> so with the nits fixed (and an s/ACPI: // in $subject):
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> 
-Thanks!
-Sunil
