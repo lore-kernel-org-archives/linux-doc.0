@@ -2,97 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C99BCC05027
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 08:52:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E49C05027
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 09:00:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232164AbjBNIwo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Feb 2023 03:52:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55120 "EHLO
+        id S231414AbjBNJA5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Feb 2023 04:00:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232177AbjBNIwm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 03:52:42 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D26C23658;
-        Tue, 14 Feb 2023 00:52:38 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 2173B21963;
-        Tue, 14 Feb 2023 08:52:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1676364757; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=FCM5fUI30hk/CWQ2CgtHO8OXcYicjnlXfEi2o9EEJgU=;
-        b=T/Cq0T41wLhDEtRbo9/P3oUnDXSjS/ZP5vtU5NKZsWcmEiJEv8lD8Fabi8f8A8HfN4UIxM
-        HEc75jRkl476RycFowuGXkA9gUqSAAebQGliI5pOu11P9aL8MaCRzFt4TZHdphjFsp67jI
-        a3EuFPBm746wYdJsL478LWzWk5euQJ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1676364757;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=FCM5fUI30hk/CWQ2CgtHO8OXcYicjnlXfEi2o9EEJgU=;
-        b=2dBOVRGS4GK4ZtQ5IRwjk/ufawSnkfTjTwXhUnGFsURa02ld52b2sLAvBZZijQ5FCLz+vx
-        uwBLWlJq4F7lz3DA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 14B6B138E3;
-        Tue, 14 Feb 2023 08:52:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id LB8EBdVL62O0NAAAMHmgww
-        (envelope-from <jack@suse.cz>); Tue, 14 Feb 2023 08:52:37 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-        id 9F851A06D8; Tue, 14 Feb 2023 09:52:36 +0100 (CET)
-Date:   Tue, 14 Feb 2023 09:52:36 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     Bart Van Assche <bvanassche@acm.org>
-Cc:     Hou Tao <houtao@huaweicloud.com>, Jan Kara <jack@suse.cz>,
-        linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-Subject: Re: [PATCH] blk-ioprio: Introduce promote-to-rt policy
-Message-ID: <20230214085236.vamd2yuflnyljyid@quack3>
-References: <b6b3c498-e90b-7d1f-6ad5-a31334e433ae@acm.org>
- <beb7782e-72a4-c350-3750-23a767c88753@huaweicloud.com>
- <aedc240d-7c9e-248a-52d2-c9775f3e8ca1@acm.org>
- <20230208134345.77bdep3kzp52haxu@quack3>
- <7fcd4c38-ccbe-6411-e424-a57595ad9c0b@acm.org>
- <20230209085603.dzqfcc3pp4hacqlz@quack3>
- <55a065e7-7d86-d58f-15ba-c631a427843e@acm.org>
- <20230210101244.zsmtmsoo4xjx7suj@quack3>
- <48620099-0311-e752-ba3b-cbb4351cf81e@huaweicloud.com>
- <0290f608-6ddf-ecb7-4c05-55b0f7dbfbea@acm.org>
+        with ESMTP id S229936AbjBNJA5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 04:00:57 -0500
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC0E91041E;
+        Tue, 14 Feb 2023 01:00:54 -0800 (PST)
+Received: by mail-lj1-f175.google.com with SMTP id m10so17592100ljp.3;
+        Tue, 14 Feb 2023 01:00:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7mNyenBvavxUdV7/ZOu+dVcpWueC+FqvBBNVPDVl8j0=;
+        b=68kX/eMafzJn+uOsn01BLKV3S47XqIMZFb2P1urljBtzJV7LcPLoueTHoIq54eHxg9
+         ga+ncMCjhWx3DeVRSeJep2SJnuyHMcZv+6XLVRnNVG4lthgx5jAHtfnINDOI6kRZAQXv
+         i4FFWgiup9v9V5FO3HoatxPB0yq1TrWl8/VTBHN0ydloFFKqNc9s+eh+psmgXhU1Agy5
+         sjgAQWDj4KP8VxaYjrizC2PoQKYW+l2XqffcuqeWQl5drM77RQGbQ39h792vHN7Hth6v
+         4pBvlHB44BU0JEx8mSOOWHl2DWekW+gV9kKoY2xhsA1epHeGUqY8/YCDs8axwliUAd69
+         yt8g==
+X-Gm-Message-State: AO0yUKW7xJLHoJODQJA/er7O1XF/AOnJ0OI4eD/LH3tUMckBBDkwMAMF
+        7h06iHF5GFzGM5ftaYAoleHcz1JFNIkkHGh1
+X-Google-Smtp-Source: AK7set8eSw4tNFT9BxU4Dd3b2xNZTcxAvxoiXhp3+rQ2//nw5NE5JHsfoe7W4EQBsIThBW+R9/v8JA==
+X-Received: by 2002:a2e:bea5:0:b0:293:4e08:1aab with SMTP id a37-20020a2ebea5000000b002934e081aabmr874279ljr.10.1676365252067;
+        Tue, 14 Feb 2023 01:00:52 -0800 (PST)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id l22-20020a2e8356000000b002934e76271asm1098736ljh.33.2023.02.14.01.00.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Feb 2023 01:00:50 -0800 (PST)
+Received: by mail-lj1-f169.google.com with SMTP id h17so17618325ljq.4;
+        Tue, 14 Feb 2023 01:00:46 -0800 (PST)
+X-Received: by 2002:a2e:9448:0:b0:293:5264:ad89 with SMTP id
+ o8-20020a2e9448000000b002935264ad89mr149587ljh.37.1676365235984; Tue, 14 Feb
+ 2023 01:00:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0290f608-6ddf-ecb7-4c05-55b0f7dbfbea@acm.org>
+References: <20230214074925.228106-1-alexghiti@rivosinc.com> <20230214074925.228106-6-alexghiti@rivosinc.com>
+In-Reply-To: <20230214074925.228106-6-alexghiti@rivosinc.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 14 Feb 2023 10:00:22 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWxgRrZqn=Ex4gSSL58gciuHp-6ye+FTR0wgw=jp=4=DA@mail.gmail.com>
+Message-ID: <CAMuHMdWxgRrZqn=Ex4gSSL58gciuHp-6ye+FTR0wgw=jp=4=DA@mail.gmail.com>
+Subject: Re: [PATCH v3 05/24] m68k: Remove COMMAND_LINE_SIZE from uapi
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 13-02-23 09:10:26, Bart Van Assche wrote:
-> On 2/13/23 04:51, Hou Tao wrote:
-> > Should I keep "none-to-rt" and make it work just like "promote-to-rt" or should
-> > I just remove "none-to-rt" and add "promote-to-rt" ? I think the latter will be
-> > more appropriate.
-> 
-> Removing none-to-rt would break existing systems that use this policy. I
-> prefer the former solution.
+On Tue, Feb 14, 2023 at 8:55 AM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
+> From: Palmer Dabbelt <palmer@rivosinc.com>
+>
+> As far as I can tell this is not used by userspace and thus should not
+> be part of the user-visible API.
+>
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 
-Agreed. I also think that keeping none-to-rt as an alias for promote-to-rt
-allows for a smoother transition. However I'm all for documenting that
-none-to-rt is deprecated and works as promote-to-rt.
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-								Honza
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
