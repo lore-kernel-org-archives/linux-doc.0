@@ -2,82 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 809E6C05027
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 14:43:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69348C61DA4
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 15:28:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233396AbjBNOnP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Feb 2023 09:43:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39534 "EHLO
+        id S229657AbjBNP2b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Feb 2023 10:28:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233413AbjBNOnP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 09:43:15 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FF7310251
-        for <linux-doc@vger.kernel.org>; Tue, 14 Feb 2023 06:43:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676385794; x=1707921794;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M615769gTPWA/NZSXaBf04s+YjWf9kY/WKFeUsmg/F4=;
-  b=ZgbsQrCaiHZVshboRZMp6HIAOxS0sqS5ZG/YgxzZru/g2NIZKqnyis2M
-   lJjy0gGOO5ZJTDeOOWJ6oaz1p813ydEbyP/5jysTFDCwSTao8y5XlYnGe
-   hika4bxschAlq34rGZwJeSHzfIRKcijuqwWXRMagk+ecVQcrhQGvxF4VG
-   WrGfqsQI+wS1D01U8NFmwSF5IxqXiozyOjKzlXK4iu9soc0xKqGDdRyf2
-   UpI2qgL0cvMtC3hFCzybqMXvgh9ASXvhgw20c+NwNhMXCVQqpr1UczjZR
-   +clT2EBJ+7kFqRYCTPn4XjULY2MaZe1S8ygFbgLemh+JEuReXTenxYTcj
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="328885637"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="328885637"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 06:43:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="812056282"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="812056282"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Feb 2023 06:43:13 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pRwWW-0008Zp-13;
-        Tue, 14 Feb 2023 14:43:12 +0000
-Date:   Tue, 14 Feb 2023 22:42:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dinh Nguyen <dinh.nguyen@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [dinguyen:for_next_hwmon_v2 3/3] htmldocs: Warning:
- Documentation/hwmon/socfpga-hwmon.rst references a file that doesn't exist:
- Documentation/devicetree/bindings/hwmon/socfpga-hwmon.yaml
-Message-ID: <202302142258.szK8ryCs-lkp@intel.com>
+        with ESMTP id S233466AbjBNP2a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 10:28:30 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538D046A1;
+        Tue, 14 Feb 2023 07:28:27 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id k3so8424070wrv.5;
+        Tue, 14 Feb 2023 07:28:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WVsl9l4EubhzJlt7TkkE/VNTIxfb0isBU8+MYISwK7w=;
+        b=DOpPNahHnC142mma4PO3XTbnIwVWtu3B/uqnxqPa27pE2sFN46MFdKJFRufGbhgDu9
+         d8HVz12d348C/Mp4UWXFnJyaOh4Vj0EVDpewFUN0FjMu+ZhCPUCi8Kf76egHC+5rUJnF
+         kpZtbaxrv4o9J99Czj+TEZdLIc0BMQic42CAkeRBR28eJD/zA94J9M+odKE4KcHqc45g
+         wTp33ngFmrHFOfzbXL8+CLz32OCsIOqEtV2Wd+mG1oR5GHObPjFShSz//Vh9GhKJeMbP
+         PHnUIukU4okvkwVQ3wgsk/IUvQomjX2pj+9qtCTvK0sA3j5OiO+7kAUlxKLvgYOL8iMd
+         KUog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WVsl9l4EubhzJlt7TkkE/VNTIxfb0isBU8+MYISwK7w=;
+        b=77ZPe1iW+N/1nEIscuOBGRYs42Dl0uz/+uP4TRJgJn1iBajWIsayLgqCwMntgxCbay
+         FF5LF6jX1o319zZYDNNC9qg+XFYcn01SdvJ6cq3D3KlqmQ0YZ0LPr1CCPMejlTrCzBwg
+         s0wC6kK0Frdur2TyfkMMCbx2G43Vv/pWB5cBgRrbkDJJGaNE7DfEuhBy8voNDpj34lZc
+         10VJWz4MAy4dhIMP64gmSQOFYpC0kovxWl6D4A/vfke8h4bOcLm0jJv77/Bts14Bfyon
+         v6YZjxkWts08iC0I25P0x6LVEBFQD5jAFQaKY3+FTKQ/GlzVfYCxBiQxOf2qz+GRllgQ
+         XHRw==
+X-Gm-Message-State: AO0yUKVLheyqza8fc2vbEHiCRkn5ygKxFtiWeCEzVLR2yqHqnvBQOPbS
+        Fd9Shf89B6nwLbyScmVYLQ0=
+X-Google-Smtp-Source: AK7set80jw3RTF6Cz9Vwt0wRQ+3xqXTUz6ETuBMbMdkNuPsoAGqJCVrUnHnE3PGmALjRi8PQPaRs1w==
+X-Received: by 2002:a5d:5226:0:b0:2c3:e993:9d7d with SMTP id i6-20020a5d5226000000b002c3e9939d7dmr2502114wra.30.1676388505927;
+        Tue, 14 Feb 2023 07:28:25 -0800 (PST)
+Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
+        by smtp.gmail.com with ESMTPSA id t15-20020a5d534f000000b002c55306f6edsm7346177wrv.54.2023.02.14.07.28.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Feb 2023 07:28:25 -0800 (PST)
+Subject: Re: [PATCH v7 net-next 2/8] sfc: add devlink info support for ef100
+To:     Leon Romanovsky <leon@kernel.org>, alejandro.lucero-palau@amd.com
+Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
+        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, habetsm.xilinx@gmail.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net, jiri@nvidia.com
+References: <20230213183428.10734-1-alejandro.lucero-palau@amd.com>
+ <20230213183428.10734-3-alejandro.lucero-palau@amd.com>
+ <Y+s6vrDLkpLRwtx3@unreal>
+From:   Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <ef18677a-74d0-87a7-5659-637e63714b15@gmail.com>
+Date:   Tue, 14 Feb 2023 15:28:24 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <Y+s6vrDLkpLRwtx3@unreal>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git for_next_hwmon_v2
-head:   2566ec4d530416db5ca072d478087bde75542fd5
-commit: 2566ec4d530416db5ca072d478087bde75542fd5 [3/3] hwmon: (socfpga) Add support fo hardware monitoring on SoCFPGA platforms
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git/commit/?id=2566ec4d530416db5ca072d478087bde75542fd5
-        git remote add dinguyen https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git
-        git fetch --no-tags dinguyen for_next_hwmon_v2
-        git checkout 2566ec4d530416db5ca072d478087bde75542fd5
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On 14/02/2023 07:39, Leon Romanovsky wrote:
+> On Mon, Feb 13, 2023 at 06:34:22PM +0000, alejandro.lucero-palau@amd.com wrote:
+>> +#ifdef CONFIG_RTC_LIB
+>> +	u64 tstamp;
+>> +#endif
+> 
+> If you are going to resubmit the series.
+> 
+> Documentation/process/coding-style.rst
+>   1140 21) Conditional Compilation
+>   1141 ---------------------------
+> ....
+>   1156 If you have a function or variable which may potentially go unused in a
+>   1157 particular configuration, and the compiler would warn about its definition
+>   1158 going unused, mark the definition as __maybe_unused rather than wrapping it in
+>   1159 a preprocessor conditional.  (However, if a function or variable *always* goes
+>   1160 unused, delete it.)
+> 
+> Thanks
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302142258.szK8ryCs-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: Documentation/hwmon/socfpga-hwmon.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/socfpga-hwmon.yaml
->> Documentation/hwmon/socfpga-hwmon.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
->> Documentation/hwmon/socfpga-hwmon.rst:3: WARNING: Title underline too short.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+FWIW, the existing code in sfc all uses the preprocessor
+ conditional approach; maybe it's better to be consistent
+ within the driver?
