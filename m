@@ -2,69 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E9B0C64EC7
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 21:28:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA300C64EC7
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 21:28:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233100AbjBNV2K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Feb 2023 16:28:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51166 "EHLO
+        id S233147AbjBNV21 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Feb 2023 16:28:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233079AbjBNV1x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 16:27:53 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2897D21968;
-        Tue, 14 Feb 2023 13:27:30 -0800 (PST)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31EK7bg0003281;
-        Tue, 14 Feb 2023 21:26:21 GMT
+        with ESMTP id S233252AbjBNV2M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 16:28:12 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38000305E5;
+        Tue, 14 Feb 2023 13:27:43 -0800 (PST)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31EIkJHP026229;
+        Tue, 14 Feb 2023 21:26:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=obyoAyuAjuu3vuNVMV1Ga1m99m6o20IntGSnJs/cUlY=;
- b=UoqG/nGvpgV6XUM2ExnjVYfVtjH1jjz6+Vq7O+mR6fvsraUd3/qkBGJ3g/u3o77Kz/Io
- u7WrrbGx+DOQW/cJArxvil9ahJs2+1R/QV9r+CPLsNgJo7DfvOX1tSAHGsU7833LfvuO
- XBi2QE0Eqz69CFeLxfPca4TP7gDgrvbAEsSZVUAk2zNJdPt8OSGAoEtQabEWBRcPk0WC
- f6KcnAzykdRHpG/g+i7h/nHxrdgZEUfgcPVzEKykxq+wdUHCyc8wqPRvmo6NHMv4tIWm
- abDp4vzBBxS/9A6YpO057qkbsD937BuzE9oxsb5WygvMxNiY8YDbdFCAag8qgfgxNtPT tg== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nr6qkhxjt-1
+ bh=7XTX0e1TwxXGq+VYRxBWfDoOgRwXEaT0/Dy/Kzxe1fQ=;
+ b=fBjjsuAZlEUFIpWE5ZvUeLhLRDyz75fSHsy7ADf2+PwJQenQ9KCaI8enFqrq0tZnV7x5
+ /ulruR+40pK6SdrQtgKvO5lMysZRICI7xJUjqsif4qh1ECUjtXvWX0vH+GIBDFFLyKkK
+ tHQOT55IHTknkqEwJrmOGjlosUr8m8SiGfWwZTggTp/AAI4Kg4ywpXqerp3BuFttjHG1
+ aIi0k5HJzEs0HcPXBYbCBUjJsfJT3I5lAiHfWnMzt7SN/3w/bBhtwRkJLN0s4t3K3aNM
+ WXfgYD7eRyLOI1/wvPtQkkfUkVUccuqcWbIzGDmWPMSIJGU4s5VQ43olNMI5dHthLy3t xQ== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nqyygtu03-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 14 Feb 2023 21:26:21 +0000
+        Tue, 14 Feb 2023 21:26:49 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31ELQKkc028958
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31ELQnJH012177
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 14 Feb 2023 21:26:20 GMT
+        Tue, 14 Feb 2023 21:26:49 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Tue, 14 Feb 2023 13:26:18 -0800
+ 15.2.986.36; Tue, 14 Feb 2023 13:26:48 -0800
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+CC:     Elliot Berman <quic_eberman@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
         Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
         Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v10 23/26] virt: gunyah: Add hypercalls for sending doorbell
-Date:   Tue, 14 Feb 2023 13:26:10 -0800
-Message-ID: <20230214212610.3327589-1-quic_eberman@quicinc.com>
+Subject: [PATCH v10 26/26] MAINTAINERS: Add Gunyah hypervisor drivers section
+Date:   Tue, 14 Feb 2023 13:26:40 -0800
+Message-ID: <20230214212640.3331636-1-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214211229.3239350-1-quic_eberman@quicinc.com>
 References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
@@ -76,87 +75,53 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: _qahj_dGRK4K2TkFP_ROOyBc7CeNTUB6
-X-Proofpoint-ORIG-GUID: _qahj_dGRK4K2TkFP_ROOyBc7CeNTUB6
+X-Proofpoint-ORIG-GUID: 88X3Qd1CaS7F1kwT5bTare4h6J3m4_xH
+X-Proofpoint-GUID: 88X3Qd1CaS7F1kwT5bTare4h6J3m4_xH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
  definitions=2023-02-14_15,2023-02-14_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- clxscore=1015 bulkscore=0 impostorscore=0 suspectscore=0
- lowpriorityscore=0 spamscore=0 priorityscore=1501 mlxscore=0 phishscore=0
- mlxlogscore=784 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ impostorscore=0 malwarescore=0 adultscore=0 mlxlogscore=938 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 spamscore=0 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2302140184
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-Gunyah doorbells allow two virtual machines to signal each other using
-interrupts. Add the hypercalls needed to assert the interrupt.
+Add myself and Prakruthi as maintainers of Gunyah hypervisor drivers.
 
+Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- arch/arm64/gunyah/gunyah_hypercall.c | 25 +++++++++++++++++++++++++
- include/linux/gunyah.h               |  3 +++
- 2 files changed, 28 insertions(+)
+ MAINTAINERS | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/arch/arm64/gunyah/gunyah_hypercall.c b/arch/arm64/gunyah/gunyah_hypercall.c
-index 260d416dd006..54e561159ac7 100644
---- a/arch/arm64/gunyah/gunyah_hypercall.c
-+++ b/arch/arm64/gunyah/gunyah_hypercall.c
-@@ -38,6 +38,8 @@ EXPORT_SYMBOL_GPL(arch_is_gunyah_guest);
- 						   fn)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 539d9359385c..fe6645099395 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8913,6 +8913,19 @@ L:	linux-efi@vger.kernel.org
+ S:	Maintained
+ F:	block/partitions/efi.*
  
- #define GH_HYPERCALL_HYP_IDENTIFY		GH_HYPERCALL(0x8000)
-+#define GH_HYPERCALL_BELL_SEND			GH_HYPERCALL(0x8012)
-+#define GH_HYPERCALL_BELL_SET_MASK		GH_HYPERCALL(0x8015)
- #define GH_HYPERCALL_MSGQ_SEND			GH_HYPERCALL(0x801B)
- #define GH_HYPERCALL_MSGQ_RECV			GH_HYPERCALL(0x801C)
- #define GH_HYPERCALL_VCPU_RUN			GH_HYPERCALL(0x8065)
-@@ -60,6 +62,29 @@ void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identi
- }
- EXPORT_SYMBOL_GPL(gh_hypercall_hyp_identify);
- 
-+enum gh_error gh_hypercall_bell_send(u64 capid, u64 new_flags, u64 *old_flags)
-+{
-+	struct arm_smccc_res res;
++GUNYAH HYPERVISOR DRIVER
++M:	Elliot Berman <quic_eberman@quicinc.com>
++M:	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
++L:	linux-arm-msm@vger.kernel.org
++S:	Supported
++F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
++F:	Documentation/virt/gunyah/
++F:	arch/arm64/gunyah/
++F:	drivers/mailbox/gunyah-msgq.c
++F:	drivers/virt/gunyah/
++F:	include/linux/gunyah*.h
++F:	samples/gunyah/
 +
-+	arm_smccc_1_1_hvc(GH_HYPERCALL_BELL_SEND, capid, new_flags, 0, &res);
-+
-+	if (res.a0 == GH_ERROR_OK)
-+		*old_flags = res.a1;
-+
-+	return res.a0;
-+}
-+EXPORT_SYMBOL_GPL(gh_hypercall_bell_send);
-+
-+enum gh_error gh_hypercall_bell_set_mask(u64 capid, u64 enable_mask, u64 ack_mask)
-+{
-+	struct arm_smccc_res res;
-+
-+	arm_smccc_1_1_hvc(GH_HYPERCALL_BELL_SET_MASK, capid, enable_mask, ack_mask, 0, &res);
-+
-+	return res.a0;
-+}
-+EXPORT_SYMBOL_GPL(gh_hypercall_bell_set_mask);
-+
- enum gh_error gh_hypercall_msgq_send(u64 capid, size_t size, uintptr_t buff, int tx_flags,
- 					bool *ready)
- {
-diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
-index c819df72d303..bfceaa7000e5 100644
---- a/include/linux/gunyah.h
-+++ b/include/linux/gunyah.h
-@@ -172,6 +172,9 @@ struct gh_hypercall_hyp_identify_resp {
- 
- void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identity);
- 
-+enum gh_error gh_hypercall_bell_send(u64 capid, u64 new_flags, u64 *old_flags);
-+enum gh_error gh_hypercall_bell_set_mask(u64 capid, u64 enable_mask, u64 ack_mask);
-+
- #define GH_HYPERCALL_MSGQ_TX_FLAGS_PUSH		BIT(0)
- 
- enum gh_error gh_hypercall_msgq_send(u64 capid, size_t size, uintptr_t buff, int tx_flags,
+ HABANALABS PCI DRIVER
+ M:	Oded Gabbay <ogabbay@kernel.org>
+ L:	dri-devel@lists.freedesktop.org
 -- 
 2.39.1
 
