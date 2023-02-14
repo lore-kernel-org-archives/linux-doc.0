@@ -2,104 +2,216 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E72DC61DA4
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 07:39:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B564C61DA4
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 07:50:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbjBNHju (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Feb 2023 02:39:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43342 "EHLO
+        id S229905AbjBNHuG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Feb 2023 02:50:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231239AbjBNHjt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 02:39:49 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEF6619F2A;
-        Mon, 13 Feb 2023 23:39:48 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 130876145E;
-        Tue, 14 Feb 2023 07:39:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B999C433D2;
-        Tue, 14 Feb 2023 07:39:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676360387;
-        bh=1ENQPyNW69vjbBA2shwFOSxlyq+MMylF+mpCTZgZ798=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WFVCTV2VIhJXWdXZQgz37nagwpHBVehOndcmirazJUlgpnWt1fY4MGzdFRQfIzdJz
-         T1PqYSMk/haLIuQnX53hTkWrpRhjCxxPS72vzclcVpRZbcKo8Idvm2HbrbPN3eKQxA
-         7CyvsE8OpKstad5I+FUJyXVWYCjkekKfgB07dGHfwoW+2EbPk3JNTyM+K/pvsZkJUs
-         n1H0xf68o7G1ezfNsg0RjYBxBvz8AWIR+Vduuv+no2+EWvHIRwYbCmo5dt1jWUvqAt
-         o36FwjOPdJn+uWD2ln9TjJaDSHn1kYh5nQeU2A7FolKYNWkTOt0GVyDDR2P6HcWodu
-         61d8le4/E1j4g==
-Date:   Tue, 14 Feb 2023 09:39:42 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     alejandro.lucero-palau@amd.com
-Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, habetsm.xilinx@gmail.com,
-        ecree.xilinx@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
-        jiri@nvidia.com
-Subject: Re: [PATCH v7 net-next 2/8] sfc: add devlink info support for ef100
-Message-ID: <Y+s6vrDLkpLRwtx3@unreal>
-References: <20230213183428.10734-1-alejandro.lucero-palau@amd.com>
- <20230213183428.10734-3-alejandro.lucero-palau@amd.com>
+        with ESMTP id S229933AbjBNHuC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 02:50:02 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DFDB1F4B9
+        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 23:49:59 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id o36so10363180wms.1
+        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 23:49:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PqFq1+4gxxgib1u5xFvkwzAigtvwrfvrRhML7sgk2og=;
+        b=x2GCdJrJM+l90TcWJRpT5oqfHATv+1Z4ENWwSL8lO0FTmae9xEroV9kkTVhTQc2FUt
+         Wn/RFDJVx9pkx44t/X9uIZr4UZIW4vPiJZhfNUqKntvRiY++QPOeqnnGXN88q7BaejNG
+         LZpXU/mq11EKyRUGofsabIrnfYBVQY+9p7ToWhxcjXgaj4F/p/KdiW5L/FjvLGXwxufA
+         OolCtUrOJT0nutQmjpFFaM0ZI5SKBeMDY3DqtuP9gPzRFIb9Qu7nHkl0WDRYNsGJe+jH
+         VUQZ3nuUW04ZXCk3DYLj+fZ4gaM6Da+RW8nKFKvSwOFcBtwGK5gdPyPno7lgeBcoz3Wn
+         0K9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PqFq1+4gxxgib1u5xFvkwzAigtvwrfvrRhML7sgk2og=;
+        b=BaYrpZLR649V2TAfwxYieMKFrLHbqi4N82c5nCvaLTTw4PcOzCSXcC5y5Z8Jz/X2OI
+         2jWZ0ePcSGp3rOKWmTl2093sLREb6MnXH3ORVv+XokecCwHE3C7P7oExMJCUYW0zaJz+
+         0/tXUyKhJK1Ijdbh3h/8fFFYQ/hmSUnSBAaiYWI5YLM4JGuVKcnzoevNako0MgqDg+BZ
+         BQ5jF5ghHFO4mBPcxGBas8Jp+1Vk98iKNJZFPNRKHVS/oSE5Wv+fc0UsS3vknBruNTQl
+         0APfG5pLT7P2gtELCs7jSnoULQYYNSdkkcN63oZ29Xc/AUfEkUGwYuPMRYLdvEb1zZUJ
+         iGWg==
+X-Gm-Message-State: AO0yUKXiIGzGlWPvH86ExQNByg0pRbNKw+24ww+kmtNF1EKqBQoz7LfT
+        FZlkW49uWu0ogmxB/Xzb3iLkLw==
+X-Google-Smtp-Source: AK7set+z/0zikHSyjJNAcM5BBv6YoI545t+rSZ9zLzt8QE7CgdhePtVTbmUNYt1JITwlvNYYlJV6Ww==
+X-Received: by 2002:a7b:cb44:0:b0:3dd:1b02:23b7 with SMTP id v4-20020a7bcb44000000b003dd1b0223b7mr1097505wmj.10.1676360998019;
+        Mon, 13 Feb 2023 23:49:58 -0800 (PST)
+Received: from alex-rivos.ba.rivosinc.com (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr. [2.7.42.160])
+        by smtp.gmail.com with ESMTPSA id g10-20020a05600c4eca00b003dec22de1b1sm17724841wmq.10.2023.02.13.23.49.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Feb 2023 23:49:57 -0800 (PST)
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch@vger.kernel.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v3 00/24] Remove COMMAND_LINE_SIZE from uapi
+Date:   Tue, 14 Feb 2023 08:49:01 +0100
+Message-Id: <20230214074925.228106-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230213183428.10734-3-alejandro.lucero-palau@amd.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 13, 2023 at 06:34:22PM +0000, alejandro.lucero-palau@amd.com wrote:
-> From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-> 
-> Add devlink info support for ef100. The information reported is obtained
-> through the MCDI interface with the specific meaning defined in new
-> documentation file.
-> 
-> Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-> Reviewed-by: Jiri Pirko <jiri@nvidia.com>
-> ---
->  Documentation/networking/devlink/index.rst |   1 +
->  Documentation/networking/devlink/sfc.rst   |  57 +++
->  MAINTAINERS                                |   1 +
->  drivers/net/ethernet/sfc/efx_devlink.c     | 459 +++++++++++++++++++++
->  drivers/net/ethernet/sfc/efx_devlink.h     |  17 +
->  drivers/net/ethernet/sfc/mcdi.c            |  72 ++++
->  drivers/net/ethernet/sfc/mcdi.h            |   3 +
->  7 files changed, 610 insertions(+)
->  create mode 100644 Documentation/networking/devlink/sfc.rst
+This all came up in the context of increasing COMMAND_LINE_SIZE in the
+RISC-V port.  In theory that's a UABI break, as COMMAND_LINE_SIZE is the
+maximum length of /proc/cmdline and userspace could staticly rely on
+that to be correct.
 
-<...>
+Usually I wouldn't mess around with changing this sort of thing, but
+PowerPC increased it with a5980d064fe2 ("powerpc: Bump COMMAND_LINE_SIZE
+to 2048").  There are also a handful of examples of COMMAND_LINE_SIZE
+increasing, but they're from before the UAPI split so I'm not quite sure
+what that means: e5a6a1c90948 ("powerpc: derive COMMAND_LINE_SIZE from
+asm-generic"), 684d2fd48e71 ("[S390] kernel: Append scpdata to kernel
+boot command line"), 22242681cff5 ("MIPS: Extend COMMAND_LINE_SIZE"),
+and 2b74b85693c7 ("sh: Derive COMMAND_LINE_SIZE from
+asm-generic/setup.h.").
 
-> +static void efx_devlink_info_running_v2(struct efx_nic *efx,
-> +					struct devlink_info_req *req,
-> +					unsigned int flags, efx_dword_t *outbuf)
-> +{
-> +	char buf[EFX_MAX_VERSION_INFO_LEN];
-> +	union {
-> +		const __le32 *dwords;
-> +		const __le16 *words;
-> +		const char *str;
-> +	} ver;
-> +	struct rtc_time build_date;
-> +	unsigned int build_id;
-> +	size_t offset;
-> +#ifdef CONFIG_RTC_LIB
-> +	u64 tstamp;
-> +#endif
+It seems to me like COMMAND_LINE_SIZE really just shouldn't have been
+part of the uapi to begin with, and userspace should be able to handle
+/proc/cmdline of whatever length it turns out to be.  I don't see any
+references to COMMAND_LINE_SIZE anywhere but Linux via a quick Google
+search, but that's not really enough to consider it unused on my end.
 
-If you are going to resubmit the series.
+The feedback on the v1 seemed to indicate that COMMAND_LINE_SIZE really
+shouldn't be part of uapi, so this now touches all the ports.  I've
+tried to split this all out and leave it bisectable, but I haven't
+tested it all that aggressively.
 
-Documentation/process/coding-style.rst
-  1140 21) Conditional Compilation
-  1141 ---------------------------
-....
-  1156 If you have a function or variable which may potentially go unused in a
-  1157 particular configuration, and the compiler would warn about its definition
-  1158 going unused, mark the definition as __maybe_unused rather than wrapping it in
-  1159 a preprocessor conditional.  (However, if a function or variable *always* goes
-  1160 unused, delete it.)
+Changes since v2 <https://lore.kernel.org/all/20221211061358.28035-1-palmer@rivosinc.com/>:
+* Fix sh, csky and ia64 builds, as reported by kernel test robot
 
-Thanks
+Changes since v1 <https://lore.kernel.org/all/20210423025545.313965-1-palmer@dabbelt.com/>:
+* Touches every arch.
+
+base-commit-tag: next-20230207
+
+Palmer Dabbelt (24):
+  alpha: Remove COMMAND_LINE_SIZE from uapi
+  arm64: Remove COMMAND_LINE_SIZE from uapi
+  arm: Remove COMMAND_LINE_SIZE from uapi
+  ia64: Remove COMMAND_LINE_SIZE from uapi
+  m68k: Remove COMMAND_LINE_SIZE from uapi
+  microblaze: Remove COMMAND_LINE_SIZE from uapi
+  mips: Remove COMMAND_LINE_SIZE from uapi
+  parisc: Remove COMMAND_LINE_SIZE from uapi
+  powerpc: Remove COMMAND_LINE_SIZE from uapi
+  sparc: Remove COMMAND_LINE_SIZE from uapi
+  xtensa: Remove COMMAND_LINE_SIZE from uapi
+  asm-generic: Remove COMMAND_LINE_SIZE from uapi
+  alpha: Remove empty <uapi/asm/setup.h>
+  arc: Remove empty <uapi/asm/setup.h>
+  m68k: Remove empty <uapi/asm/setup.h>
+  arm64: Remove empty <uapi/asm/setup.h>
+  microblaze: Remove empty <uapi/asm/setup.h>
+  sparc: Remove empty <uapi/asm/setup.h>
+  parisc: Remove empty <uapi/asm/setup.h>
+  x86: Remove empty <uapi/asm/setup.h>
+  xtensa: Remove empty <uapi/asm/setup.h>
+  powerpc: Remove empty <uapi/asm/setup.h>
+  mips: Remove empty <uapi/asm/setup.h>
+  s390: Remove empty <uapi/asm/setup.h>
+
+ .../admin-guide/kernel-parameters.rst         |  2 +-
+ arch/alpha/include/asm/setup.h                |  4 +--
+ arch/alpha/include/uapi/asm/setup.h           |  7 -----
+ arch/arc/include/asm/setup.h                  |  1 -
+ arch/arc/include/uapi/asm/setup.h             |  6 -----
+ arch/arm/include/asm/setup.h                  |  1 +
+ arch/arm/include/uapi/asm/setup.h             |  2 --
+ arch/arm64/include/asm/setup.h                |  3 ++-
+ arch/arm64/include/uapi/asm/setup.h           | 27 -------------------
+ arch/ia64/include/asm/setup.h                 | 10 +++++++
+ arch/ia64/include/uapi/asm/setup.h            |  6 ++---
+ arch/loongarch/include/asm/setup.h            |  2 +-
+ arch/m68k/include/asm/setup.h                 |  3 +--
+ arch/m68k/include/uapi/asm/setup.h            | 17 ------------
+ arch/microblaze/include/asm/setup.h           |  2 +-
+ arch/microblaze/include/uapi/asm/setup.h      | 20 --------------
+ arch/mips/include/asm/setup.h                 |  3 ++-
+ arch/mips/include/uapi/asm/setup.h            |  8 ------
+ arch/parisc/include/{uapi => }/asm/setup.h    |  0
+ arch/powerpc/include/asm/setup.h              |  2 +-
+ arch/powerpc/include/uapi/asm/setup.h         |  7 -----
+ arch/s390/include/asm/setup.h                 |  1 -
+ arch/s390/include/uapi/asm/setup.h            |  1 -
+ arch/sh/include/asm/setup.h                   |  2 +-
+ arch/sparc/include/asm/setup.h                |  6 ++++-
+ arch/sparc/include/uapi/asm/setup.h           | 16 -----------
+ arch/x86/include/asm/setup.h                  |  2 --
+ arch/x86/include/uapi/asm/setup.h             |  1 -
+ arch/xtensa/include/{uapi => }/asm/setup.h    |  0
+ include/asm-generic/Kbuild                    |  1 +
+ include/{uapi => }/asm-generic/setup.h        |  0
+ include/uapi/asm-generic/Kbuild               |  1 -
+ 32 files changed, 31 insertions(+), 133 deletions(-)
+ delete mode 100644 arch/alpha/include/uapi/asm/setup.h
+ delete mode 100644 arch/arc/include/uapi/asm/setup.h
+ delete mode 100644 arch/arm64/include/uapi/asm/setup.h
+ create mode 100644 arch/ia64/include/asm/setup.h
+ delete mode 100644 arch/m68k/include/uapi/asm/setup.h
+ delete mode 100644 arch/microblaze/include/uapi/asm/setup.h
+ delete mode 100644 arch/mips/include/uapi/asm/setup.h
+ rename arch/parisc/include/{uapi => }/asm/setup.h (100%)
+ delete mode 100644 arch/powerpc/include/uapi/asm/setup.h
+ delete mode 100644 arch/s390/include/uapi/asm/setup.h
+ delete mode 100644 arch/sparc/include/uapi/asm/setup.h
+ delete mode 100644 arch/x86/include/uapi/asm/setup.h
+ rename arch/xtensa/include/{uapi => }/asm/setup.h (100%)
+ rename include/{uapi => }/asm-generic/setup.h (100%)
+
+-- 
+2.37.2
+
