@@ -2,170 +2,783 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA1A1C64EC7
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 08:50:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73BD4C61DA4
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 08:51:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232128AbjBNIux (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Feb 2023 03:50:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52808 "EHLO
+        id S232180AbjBNIvi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Feb 2023 03:51:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232086AbjBNIus (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 03:50:48 -0500
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E12BA2366B;
-        Tue, 14 Feb 2023 00:50:35 -0800 (PST)
-Received: from [192.168.1.103] (31.173.87.80) by msexch01.omp.ru (10.188.4.12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Tue, 14 Feb
- 2023 11:50:23 +0300
-Subject: Re: [PATCH v3 10/24] sparc: Remove COMMAND_LINE_SIZE from uapi
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Vineet Gupta <vgupta@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-alpha@vger.kernel.org>,
-        <linux-snps-arc@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-ia64@vger.kernel.org>, <loongarch@lists.linux.dev>,
-        <linux-m68k@lists.linux-m68k.org>, <linux-mips@vger.kernel.org>,
-        <linux-parisc@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
-        <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-        <linux-sh@vger.kernel.org>, <sparclinux@vger.kernel.org>,
-        <linux-xtensa@linux-xtensa.org>, <linux-arch@vger.kernel.org>
-CC:     Palmer Dabbelt <palmer@rivosinc.com>
-References: <20230214074925.228106-1-alexghiti@rivosinc.com>
- <20230214074925.228106-11-alexghiti@rivosinc.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <017f0b40-8021-8b3b-24d2-c70661b6b292@omp.ru>
-Date:   Tue, 14 Feb 2023 11:50:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        with ESMTP id S232165AbjBNIvZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 03:51:25 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEDE11E5D3;
+        Tue, 14 Feb 2023 00:51:17 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id g6-20020a05600c310600b003e1f6dff952so468332wmo.1;
+        Tue, 14 Feb 2023 00:51:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o8pl+ZBuG3H1aLA2B/RcFQpmJCESYhAhHpouJD20pIA=;
+        b=JymBB6UbNeHIaz4My4ksKjZgilagsogUtakUDa7Un10OOLJNUUkPgDIDPnfGJdEA16
+         3E92Gn8MaqsK+t63Kl81TesJY7HAd+xEzJdFBlBSNhtJYpu0BElXWYKOyH5FRm/U+5F8
+         Ntoj7GVB/ubUWcBKs+4MVQHE7GJiD1dm9Wy2S3sYkk6r7oYXLW3Zv3o+LQtiToovZZzl
+         Ovj9svfaIj6qu8THzIAAeexpbjvtj32LKHUZqtHvzk11wG7IQClqnoWQlNvJJg6vH5Ge
+         AZ60M8bDM0kDe5AHadEvi7EymxTva1EKuF0MuhF6SHJJtZfGrV+StyJ/SW4cD46vjEX2
+         OCxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o8pl+ZBuG3H1aLA2B/RcFQpmJCESYhAhHpouJD20pIA=;
+        b=vJVO1S4rbmRr8rjwlkpSuSbIqss2yB1IOfEX/WYYNsbywZUBUuNzE8hgCemTuICkKR
+         VrIJRTPRsOAEhdMFShePvJ2GHVHAFqioIEH3o5/HDumdEAfTNVJkY6Wj723/JtvzOYjo
+         e+WFO5L+6NodfxlEZ77CYUpx3+xmXt0MZ8pt6o40FqT5sjX3dpS2rY9KrAOtXfTznmqP
+         w92wAW01WHIUYQ/+RkSDsJq4TKUytGboPCMVxRikJaKPcGkeGTTqrADBDSMhNPfIoxtP
+         OGeIjYnEscVB25V9SIY7DX5zY4YSKtEiDEkKV+akK3bJxRO91ux3/HaSqu+qhKkDbRk2
+         oE5Q==
+X-Gm-Message-State: AO0yUKXzGPDyjAd5tL62Yx0aHJJh+1ue64+ZqpYWLNbclwA1Xe7s0TdO
+        MC5awaEsHcRHLyyWkG0x8h0=
+X-Google-Smtp-Source: AK7set/NwhTc5ZlyZ9V0lIz3Wpd9DBCGWpgFZpo9/kuC+kRChm/TmBbGvYfTeTM6fea/8IIWa3+8+Q==
+X-Received: by 2002:a05:600c:908:b0:3e1:577:80f5 with SMTP id m8-20020a05600c090800b003e1057780f5mr1233828wmp.31.1676364676174;
+        Tue, 14 Feb 2023 00:51:16 -0800 (PST)
+Received: from gmail.com ([81.168.73.77])
+        by smtp.gmail.com with ESMTPSA id d5-20020a1c7305000000b003dc4baaedd3sm18882482wmb.37.2023.02.14.00.51.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Feb 2023 00:51:15 -0800 (PST)
+Date:   Tue, 14 Feb 2023 08:51:13 +0000
+From:   Martin Habets <habetsm.xilinx@gmail.com>
+To:     alejandro.lucero-palau@amd.com
+Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
+        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, ecree.xilinx@gmail.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net, jiri@nvidia.com
+Subject: Re: [PATCH v7 net-next 2/8] sfc: add devlink info support for ef100
+Message-ID: <Y+tLgeMBm6HE71FQ@gmail.com>
+Mail-Followup-To: alejandro.lucero-palau@amd.com, netdev@vger.kernel.org,
+        linux-net-drivers@amd.com, davem@davemloft.net, kuba@kernel.org,
+        pabeni@redhat.com, edumazet@google.com, ecree.xilinx@gmail.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net, jiri@nvidia.com
+References: <20230213183428.10734-1-alejandro.lucero-palau@amd.com>
+ <20230213183428.10734-3-alejandro.lucero-palau@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20230214074925.228106-11-alexghiti@rivosinc.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.87.80]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 02/14/2023 08:31:15
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 175500 [Feb 14 2023]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 504 504 dc137e1f9c062eb6c0671e7d509ab442ae395562
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.80 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.80 in (user) dbl.spamhaus.org}
-X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.87.80
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 02/14/2023 08:34:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 2/14/2023 6:26:00 AM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230213183428.10734-3-alejandro.lucero-palau@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/14/23 10:49 AM, Alexandre Ghiti wrote:
+On Mon, Feb 13, 2023 at 06:34:22PM +0000, alejandro.lucero-palau@amd.com wrote:
+> From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+> 
+> Add devlink info support for ef100. The information reported is obtained
+> through the MCDI interface with the specific meaning defined in new
+> documentation file.
+> 
+> Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+> Reviewed-by: Jiri Pirko <jiri@nvidia.com>
 
-> From: Palmer Dabbelt <palmer@rivosinc.com>
-> 
-> As far as I can tell this is not used by userspace and thus should not
-> be part of the user-visible API.
-> 
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Acked-by: Martin Habets <habetsm.xilinx@gmail.com>
+
 > ---
->  arch/sparc/include/asm/setup.h      | 6 +++++-
->  arch/sparc/include/uapi/asm/setup.h | 7 -------
->  2 files changed, 5 insertions(+), 8 deletions(-)
+>  Documentation/networking/devlink/index.rst |   1 +
+>  Documentation/networking/devlink/sfc.rst   |  57 +++
+>  MAINTAINERS                                |   1 +
+>  drivers/net/ethernet/sfc/efx_devlink.c     | 459 +++++++++++++++++++++
+>  drivers/net/ethernet/sfc/efx_devlink.h     |  17 +
+>  drivers/net/ethernet/sfc/mcdi.c            |  72 ++++
+>  drivers/net/ethernet/sfc/mcdi.h            |   3 +
+>  7 files changed, 610 insertions(+)
+>  create mode 100644 Documentation/networking/devlink/sfc.rst
 > 
-> diff --git a/arch/sparc/include/asm/setup.h b/arch/sparc/include/asm/setup.h
-> index 72205684e51e..d1384ed92547 100644
-> --- a/arch/sparc/include/asm/setup.h
-> +++ b/arch/sparc/include/asm/setup.h
-> @@ -7,7 +7,11 @@
+> diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
+> index fee4d3968309..b49749e2b9a6 100644
+> --- a/Documentation/networking/devlink/index.rst
+> +++ b/Documentation/networking/devlink/index.rst
+> @@ -66,3 +66,4 @@ parameters, info versions, and other features it supports.
+>     prestera
+>     iosm
+>     octeontx2
+> +   sfc
+> diff --git a/Documentation/networking/devlink/sfc.rst b/Documentation/networking/devlink/sfc.rst
+> new file mode 100644
+> index 000000000000..db64a1bd9733
+> --- /dev/null
+> +++ b/Documentation/networking/devlink/sfc.rst
+> @@ -0,0 +1,57 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===================
+> +sfc devlink support
+> +===================
+> +
+> +This document describes the devlink features implemented by the ``sfc``
+> +device driver for the ef100 device.
+> +
+> +Info versions
+> +=============
+> +
+> +The ``sfc`` driver reports the following versions
+> +
+> +.. list-table:: devlink info versions implemented
+> +   :widths: 5 5 90
+> +
+> +   * - Name
+> +     - Type
+> +     - Description
+> +   * - ``fw.mgmt.suc``
+> +     - running
+> +     - For boards where the management function is split between multiple
+> +       control units, this is the SUC control unit's firmware version.
+> +   * - ``fw.mgmt.cmc``
+> +     - running
+> +     - For boards where the management function is split between multiple
+> +       control units, this is the CMC control unit's firmware version.
+> +   * - ``fpga.rev``
+> +     - running
+> +     - FPGA design revision.
+> +   * - ``fpga.app``
+> +     - running
+> +     - Datapath programmable logic version.
+> +   * - ``fw.app``
+> +     - running
+> +     - Datapath software/microcode/firmware version.
+> +   * - ``coproc.boot``
+> +     - running
+> +     - SmartNIC application co-processor (APU) first stage boot loader version.
+> +   * - ``coproc.uboot``
+> +     - running
+> +     - SmartNIC application co-processor (APU) co-operating system loader version.
+> +   * - ``coproc.main``
+> +     - running
+> +     - SmartNIC application co-processor (APU) main operating system version.
+> +   * - ``coproc.recovery``
+> +     - running
+> +     - SmartNIC application co-processor (APU) recovery operating system version.
+> +   * - ``fw.exprom``
+> +     - running
+> +     - Expansion ROM version. For boards where the expansion ROM is split between
+> +       multiple images (e.g. PXE and UEFI), this is the specifically the PXE boot
+> +       ROM version.
+> +   * - ``fw.uefi``
+> +     - running
+> +     - UEFI driver version (No UNDI support).
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f2bd469ffae5..f375bbf3bc80 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -18937,6 +18937,7 @@ M:	Edward Cree <ecree.xilinx@gmail.com>
+>  M:	Martin Habets <habetsm.xilinx@gmail.com>
+>  L:	netdev@vger.kernel.org
+>  S:	Supported
+> +F:	Documentation/networking/devlink/sfc.rst
+>  F:	drivers/net/ethernet/sfc/
 >  
->  #include <linux/interrupt.h>
+>  SFF/SFP/SFP+ MODULE SUPPORT
+> diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
+> index 10c96a9d6f3c..11cb38be58d6 100644
+> --- a/drivers/net/ethernet/sfc/efx_devlink.c
+> +++ b/drivers/net/ethernet/sfc/efx_devlink.c
+> @@ -10,12 +10,471 @@
 >  
-> -#include <uapi/asm/setup.h>
-> +#if defined(__sparc__) && defined(__arch64__)
-
-   Mhm, I don't think these two can be #define'd simulaneously...
-
-> +# define COMMAND_LINE_SIZE 2048
-> +#else
-> +# define COMMAND_LINE_SIZE 256
+>  #include "net_driver.h"
+>  #include "efx_devlink.h"
+> +#include <linux/rtc.h>
+> +#include "mcdi.h"
+> +#include "mcdi_functions.h"
+> +#include "mcdi_pcol.h"
+>  
+>  struct efx_devlink {
+>  	struct efx_nic *efx;
+>  };
+>  
+> +static int efx_devlink_info_nvram_partition(struct efx_nic *efx,
+> +					    struct devlink_info_req *req,
+> +					    unsigned int partition_type,
+> +					    const char *version_name)
+> +{
+> +	char buf[EFX_MAX_VERSION_INFO_LEN];
+> +	u16 version[4];
+> +	int rc;
+> +
+> +	rc = efx_mcdi_nvram_metadata(efx, partition_type, NULL, version, NULL,
+> +				     0);
+> +	if (rc) {
+> +		netif_err(efx, drv, efx->net_dev, "mcdi nvram %s: failed\n",
+> +			  version_name);
+> +		return rc;
+> +	}
+> +
+> +	snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u.%u", version[0],
+> +		 version[1], version[2], version[3]);
+> +	devlink_info_version_stored_put(req, version_name, buf);
+> +
+> +	return 0;
+> +}
+> +
+> +static int efx_devlink_info_stored_versions(struct efx_nic *efx,
+> +					    struct devlink_info_req *req)
+> +{
+> +	int rc;
+> +
+> +	rc = efx_devlink_info_nvram_partition(efx, req,
+> +					      NVRAM_PARTITION_TYPE_BUNDLE,
+> +					      DEVLINK_INFO_VERSION_GENERIC_FW_BUNDLE_ID);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = efx_devlink_info_nvram_partition(efx, req,
+> +					      NVRAM_PARTITION_TYPE_MC_FIRMWARE,
+> +					      DEVLINK_INFO_VERSION_GENERIC_FW_MGMT);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = efx_devlink_info_nvram_partition(efx, req,
+> +					      NVRAM_PARTITION_TYPE_SUC_FIRMWARE,
+> +					      EFX_DEVLINK_INFO_VERSION_FW_MGMT_SUC);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = efx_devlink_info_nvram_partition(efx, req,
+> +					      NVRAM_PARTITION_TYPE_EXPANSION_ROM,
+> +					      EFX_DEVLINK_INFO_VERSION_FW_EXPROM);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = efx_devlink_info_nvram_partition(efx, req,
+> +					      NVRAM_PARTITION_TYPE_EXPANSION_UEFI,
+> +					      EFX_DEVLINK_INFO_VERSION_FW_UEFI);
+> +	return rc;
+> +}
+> +
+> +#define EFX_VER_FLAG(_f)	\
+> +	(MC_CMD_GET_VERSION_V5_OUT_ ## _f ## _PRESENT_LBN)
+> +
+> +static void efx_devlink_info_running_v2(struct efx_nic *efx,
+> +					struct devlink_info_req *req,
+> +					unsigned int flags, efx_dword_t *outbuf)
+> +{
+> +	char buf[EFX_MAX_VERSION_INFO_LEN];
+> +	union {
+> +		const __le32 *dwords;
+> +		const __le16 *words;
+> +		const char *str;
+> +	} ver;
+> +	struct rtc_time build_date;
+> +	unsigned int build_id;
+> +	size_t offset;
+> +#ifdef CONFIG_RTC_LIB
+> +	u64 tstamp;
 > +#endif
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(BOARD_EXT_INFO))) {
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%s",
+> +			 MCDI_PTR(outbuf, GET_VERSION_V2_OUT_BOARD_NAME));
+> +		devlink_info_version_fixed_put(req,
+> +					       DEVLINK_INFO_VERSION_GENERIC_BOARD_ID,
+> +					       buf);
+> +
+> +		/* Favour full board version if present (in V5 or later) */
+> +		if (~flags & BIT(EFX_VER_FLAG(BOARD_VERSION))) {
+> +			snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u",
+> +				 MCDI_DWORD(outbuf,
+> +					    GET_VERSION_V2_OUT_BOARD_REVISION));
+> +			devlink_info_version_fixed_put(req,
+> +						       DEVLINK_INFO_VERSION_GENERIC_BOARD_REV,
+> +						       buf);
+> +		}
+> +
+> +		ver.str = MCDI_PTR(outbuf, GET_VERSION_V2_OUT_BOARD_SERIAL);
+> +		if (ver.str[0])
+> +			devlink_info_board_serial_number_put(req, ver.str);
+> +	}
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(FPGA_EXT_INFO))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +						GET_VERSION_V2_OUT_FPGA_VERSION);
+> +		offset = snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u_%c%u",
+> +				  le32_to_cpu(ver.dwords[0]),
+> +				  'A' + le32_to_cpu(ver.dwords[1]),
+> +				  le32_to_cpu(ver.dwords[2]));
+> +
+> +		ver.str = MCDI_PTR(outbuf, GET_VERSION_V2_OUT_FPGA_EXTRA);
+> +		if (ver.str[0])
+> +			snprintf(&buf[offset], EFX_MAX_VERSION_INFO_LEN - offset,
+> +				 " (%s)", ver.str);
+> +
+> +		devlink_info_version_running_put(req,
+> +						 EFX_DEVLINK_INFO_VERSION_FPGA_REV,
+> +						 buf);
+> +	}
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(CMC_EXT_INFO))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +						GET_VERSION_V2_OUT_CMCFW_VERSION);
+> +		offset = snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u.%u",
+> +				  le32_to_cpu(ver.dwords[0]),
+> +				  le32_to_cpu(ver.dwords[1]),
+> +				  le32_to_cpu(ver.dwords[2]),
+> +				  le32_to_cpu(ver.dwords[3]));
+> +
+> +#ifdef CONFIG_RTC_LIB
+> +		tstamp = MCDI_QWORD(outbuf,
+> +				    GET_VERSION_V2_OUT_CMCFW_BUILD_DATE);
+> +		if (tstamp) {
+> +			rtc_time64_to_tm(tstamp, &build_date);
+> +			snprintf(&buf[offset], EFX_MAX_VERSION_INFO_LEN - offset,
+> +				 " (%ptRd)", &build_date);
+> +		}
+> +#endif
+> +
+> +		devlink_info_version_running_put(req,
+> +						 EFX_DEVLINK_INFO_VERSION_FW_MGMT_CMC,
+> +						 buf);
+> +	}
+> +
+> +	ver.words = (__le16 *)MCDI_PTR(outbuf, GET_VERSION_V2_OUT_VERSION);
+> +	offset = snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u.%u",
+> +			  le16_to_cpu(ver.words[0]), le16_to_cpu(ver.words[1]),
+> +			  le16_to_cpu(ver.words[2]), le16_to_cpu(ver.words[3]));
+> +	if (flags & BIT(EFX_VER_FLAG(MCFW_EXT_INFO))) {
+> +		build_id = MCDI_DWORD(outbuf, GET_VERSION_V2_OUT_MCFW_BUILD_ID);
+> +		snprintf(&buf[offset], EFX_MAX_VERSION_INFO_LEN - offset,
+> +			 " (%x) %s", build_id,
+> +			 MCDI_PTR(outbuf, GET_VERSION_V2_OUT_MCFW_BUILD_NAME));
+> +	}
+> +	devlink_info_version_running_put(req,
+> +					 DEVLINK_INFO_VERSION_GENERIC_FW_MGMT,
+> +					 buf);
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(SUCFW_EXT_INFO))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +						GET_VERSION_V2_OUT_SUCFW_VERSION);
+> +#ifdef CONFIG_RTC_LIB
+> +		tstamp = MCDI_QWORD(outbuf,
+> +				    GET_VERSION_V2_OUT_SUCFW_BUILD_DATE);
+> +		rtc_time64_to_tm(tstamp, &build_date);
+> +#else
+> +		memset(&build_date, 0, sizeof(build_date)
+> +#endif
+> +		build_id = MCDI_DWORD(outbuf, GET_VERSION_V2_OUT_SUCFW_CHIP_ID);
+> +
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN,
+> +			 "%u.%u.%u.%u type %x (%ptRd)",
+> +			 le32_to_cpu(ver.dwords[0]), le32_to_cpu(ver.dwords[1]),
+> +			 le32_to_cpu(ver.dwords[2]), le32_to_cpu(ver.dwords[3]),
+> +			 build_id, &build_date);
+> +
+> +		devlink_info_version_running_put(req,
+> +						 EFX_DEVLINK_INFO_VERSION_FW_MGMT_SUC,
+> +						 buf);
+> +	}
+> +}
+> +
+> +static void efx_devlink_info_running_v3(struct efx_nic *efx,
+> +					struct devlink_info_req *req,
+> +					unsigned int flags, efx_dword_t *outbuf)
+> +{
+> +	char buf[EFX_MAX_VERSION_INFO_LEN];
+> +	union {
+> +		const __le32 *dwords;
+> +		const __le16 *words;
+> +		const char *str;
+> +	} ver;
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(DATAPATH_HW_VERSION))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +						GET_VERSION_V3_OUT_DATAPATH_HW_VERSION);
+> +
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u",
+> +			 le32_to_cpu(ver.dwords[0]), le32_to_cpu(ver.dwords[1]),
+> +			 le32_to_cpu(ver.dwords[2]));
+> +
+> +		devlink_info_version_running_put(req,
+> +						 EFX_DEVLINK_INFO_VERSION_DATAPATH_HW,
+> +						 buf);
+> +	}
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(DATAPATH_FW_VERSION))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +						GET_VERSION_V3_OUT_DATAPATH_FW_VERSION);
+> +
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u",
+> +			 le32_to_cpu(ver.dwords[0]), le32_to_cpu(ver.dwords[1]),
+> +			 le32_to_cpu(ver.dwords[2]));
+> +
+> +		devlink_info_version_running_put(req,
+> +						 EFX_DEVLINK_INFO_VERSION_DATAPATH_FW,
+> +						 buf);
+> +	}
+> +}
+> +
+> +static void efx_devlink_info_running_v4(struct efx_nic *efx,
+> +					struct devlink_info_req *req,
+> +					unsigned int flags, efx_dword_t *outbuf)
+> +{
+> +	char buf[EFX_MAX_VERSION_INFO_LEN];
+> +	union {
+> +		const __le32 *dwords;
+> +		const __le16 *words;
+> +		const char *str;
+> +	} ver;
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(SOC_BOOT_VERSION))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +						GET_VERSION_V4_OUT_SOC_BOOT_VERSION);
+> +
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u.%u",
+> +			 le32_to_cpu(ver.dwords[0]), le32_to_cpu(ver.dwords[1]),
+> +			 le32_to_cpu(ver.dwords[2]),
+> +			 le32_to_cpu(ver.dwords[3]));
+> +
+> +		devlink_info_version_running_put(req,
+> +						 EFX_DEVLINK_INFO_VERSION_SOC_BOOT,
+> +						 buf);
+> +	}
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(SOC_UBOOT_VERSION))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +						GET_VERSION_V4_OUT_SOC_UBOOT_VERSION);
+> +
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u.%u",
+> +			 le32_to_cpu(ver.dwords[0]), le32_to_cpu(ver.dwords[1]),
+> +			 le32_to_cpu(ver.dwords[2]),
+> +			 le32_to_cpu(ver.dwords[3]));
+> +
+> +		devlink_info_version_running_put(req,
+> +						 EFX_DEVLINK_INFO_VERSION_SOC_UBOOT,
+> +						 buf);
+> +	}
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(SOC_MAIN_ROOTFS_VERSION))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +					GET_VERSION_V4_OUT_SOC_MAIN_ROOTFS_VERSION);
+> +
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u.%u",
+> +			 le32_to_cpu(ver.dwords[0]), le32_to_cpu(ver.dwords[1]),
+> +			 le32_to_cpu(ver.dwords[2]),
+> +			 le32_to_cpu(ver.dwords[3]));
+> +
+> +		devlink_info_version_running_put(req,
+> +						 EFX_DEVLINK_INFO_VERSION_SOC_MAIN,
+> +						 buf);
+> +	}
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(SOC_RECOVERY_BUILDROOT_VERSION))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +						GET_VERSION_V4_OUT_SOC_RECOVERY_BUILDROOT_VERSION);
+> +
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u.%u",
+> +			 le32_to_cpu(ver.dwords[0]), le32_to_cpu(ver.dwords[1]),
+> +			 le32_to_cpu(ver.dwords[2]),
+> +			 le32_to_cpu(ver.dwords[3]));
+> +
+> +		devlink_info_version_running_put(req,
+> +						 EFX_DEVLINK_INFO_VERSION_SOC_RECOVERY,
+> +						 buf);
+> +	}
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(SUCFW_VERSION)) &&
+> +	    ~flags & BIT(EFX_VER_FLAG(SUCFW_EXT_INFO))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +						GET_VERSION_V4_OUT_SUCFW_VERSION);
+> +
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u.%u",
+> +			 le32_to_cpu(ver.dwords[0]), le32_to_cpu(ver.dwords[1]),
+> +			 le32_to_cpu(ver.dwords[2]),
+> +			 le32_to_cpu(ver.dwords[3]));
+> +
+> +		devlink_info_version_running_put(req,
+> +						 EFX_DEVLINK_INFO_VERSION_FW_MGMT_SUC,
+> +						 buf);
+> +	}
+> +}
+> +
+> +static void efx_devlink_info_running_v5(struct efx_nic *efx,
+> +					struct devlink_info_req *req,
+> +					unsigned int flags, efx_dword_t *outbuf)
+> +{
+> +	char buf[EFX_MAX_VERSION_INFO_LEN];
+> +	union {
+> +		const __le32 *dwords;
+> +		const __le16 *words;
+> +		const char *str;
+> +	} ver;
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(BOARD_VERSION))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +						GET_VERSION_V5_OUT_BOARD_VERSION);
+> +
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u.%u",
+> +			 le32_to_cpu(ver.dwords[0]), le32_to_cpu(ver.dwords[1]),
+> +			 le32_to_cpu(ver.dwords[2]),
+> +			 le32_to_cpu(ver.dwords[3]));
+> +
+> +		devlink_info_version_running_put(req,
+> +						 DEVLINK_INFO_VERSION_GENERIC_BOARD_REV,
+> +						 buf);
+> +	}
+> +
+> +	if (flags & BIT(EFX_VER_FLAG(BUNDLE_VERSION))) {
+> +		ver.dwords = (__le32 *)MCDI_PTR(outbuf,
+> +						GET_VERSION_V5_OUT_BUNDLE_VERSION);
+> +
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u.%u",
+> +			 le32_to_cpu(ver.dwords[0]), le32_to_cpu(ver.dwords[1]),
+> +			 le32_to_cpu(ver.dwords[2]),
+> +			 le32_to_cpu(ver.dwords[3]));
+> +
+> +		devlink_info_version_running_put(req,
+> +						 DEVLINK_INFO_VERSION_GENERIC_FW_BUNDLE_ID,
+> +						 buf);
+> +	}
+> +}
+> +
+> +static int efx_devlink_info_running_versions(struct efx_nic *efx,
+> +					     struct devlink_info_req *req)
+> +{
+> +	MCDI_DECLARE_BUF(outbuf, MC_CMD_GET_VERSION_V5_OUT_LEN);
+> +	MCDI_DECLARE_BUF(inbuf, MC_CMD_GET_VERSION_EXT_IN_LEN);
+> +	char buf[EFX_MAX_VERSION_INFO_LEN];
+> +	union {
+> +		const __le32 *dwords;
+> +		const __le16 *words;
+> +		const char *str;
+> +	} ver;
+> +	size_t outlength;
+> +	unsigned int flags;
+> +	int rc;
+> +
+> +	rc = efx_mcdi_rpc(efx, MC_CMD_GET_VERSION, inbuf, sizeof(inbuf),
+> +			  outbuf, sizeof(outbuf), &outlength);
+> +	if (rc || outlength < MC_CMD_GET_VERSION_OUT_LEN) {
+> +		netif_err(efx, drv, efx->net_dev,
+> +			  "mcdi MC_CMD_GET_VERSION failed\n");
+> +		return rc;
+> +	}
+> +
+> +	/* Handle previous output */
+> +	if (outlength < MC_CMD_GET_VERSION_V2_OUT_LEN) {
+> +		ver.words = (__le16 *)MCDI_PTR(outbuf,
+> +					       GET_VERSION_EXT_OUT_VERSION);
+> +		snprintf(buf, EFX_MAX_VERSION_INFO_LEN, "%u.%u.%u.%u",
+> +			 le16_to_cpu(ver.words[0]),
+> +			 le16_to_cpu(ver.words[1]),
+> +			 le16_to_cpu(ver.words[2]),
+> +			 le16_to_cpu(ver.words[3]));
+> +
+> +		devlink_info_version_running_put(req,
+> +						 DEVLINK_INFO_VERSION_GENERIC_FW_MGMT,
+> +						 buf);
+> +		return 0;
+> +	}
+> +
+> +	/* Handle V2 additions */
+> +	flags = MCDI_DWORD(outbuf, GET_VERSION_V2_OUT_FLAGS);
+> +	efx_devlink_info_running_v2(efx, req, flags, outbuf);
+> +
+> +	if (outlength < MC_CMD_GET_VERSION_V3_OUT_LEN)
+> +		return 0;
+> +
+> +	/* Handle V3 additions */
+> +	efx_devlink_info_running_v3(efx, req, flags, outbuf);
+> +
+> +	if (outlength < MC_CMD_GET_VERSION_V4_OUT_LEN)
+> +		return 0;
+> +
+> +	/* Handle V4 additions */
+> +	efx_devlink_info_running_v4(efx, req, flags, outbuf);
+> +
+> +	if (outlength < MC_CMD_GET_VERSION_V5_OUT_LEN)
+> +		return 0;
+> +
+> +	/* Handle V5 additions */
+> +	efx_devlink_info_running_v5(efx, req, flags, outbuf);
+> +
+> +	return 0;
+> +}
+> +
+> +#define EFX_MAX_SERIALNUM_LEN	(ETH_ALEN * 2 + 1)
+> +
+> +static int efx_devlink_info_board_cfg(struct efx_nic *efx,
+> +				      struct devlink_info_req *req)
+> +{
+> +	char sn[EFX_MAX_SERIALNUM_LEN];
+> +	u8 mac_address[ETH_ALEN];
+> +	int rc;
+> +
+> +	rc = efx_mcdi_get_board_cfg(efx, (u8 *)mac_address, NULL, NULL);
+> +	if (!rc) {
+> +		snprintf(sn, EFX_MAX_SERIALNUM_LEN, "%pm", mac_address);
+> +		devlink_info_serial_number_put(req, sn);
+> +	}
+> +	return rc;
+> +}
+> +
+> +static int efx_devlink_info_get(struct devlink *devlink,
+> +				struct devlink_info_req *req,
+> +				struct netlink_ext_ack *extack)
+> +{
+> +	struct efx_devlink *devlink_private = devlink_priv(devlink);
+> +	struct efx_nic *efx = devlink_private->efx;
+> +	int rc;
+> +
+> +	/* Several different MCDI commands are used. We report first error
+> +	 * through extack returning at that point. Specific error
+> +	 * information via system messages.
+> +	 */
+> +	rc = efx_devlink_info_board_cfg(efx, req);
+> +	if (rc) {
+> +		NL_SET_ERR_MSG_MOD(extack, "Getting board info failed");
+> +		return rc;
+> +	}
+> +	rc = efx_devlink_info_stored_versions(efx, req);
+> +	if (rc) {
+> +		NL_SET_ERR_MSG_MOD(extack, "Getting stored versions failed");
+> +		return rc;
+> +	}
+> +	rc = efx_devlink_info_running_versions(efx, req);
+> +	if (rc) {
+> +		NL_SET_ERR_MSG_MOD(extack, "Getting running versions failed");
+> +		return rc;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct devlink_ops sfc_devlink_ops = {
+> +	.info_get			= efx_devlink_info_get,
+>  };
 >  
->  extern char reboot_command[];
+>  void efx_fini_devlink_lock(struct efx_nic *efx)
+> diff --git a/drivers/net/ethernet/sfc/efx_devlink.h b/drivers/net/ethernet/sfc/efx_devlink.h
+> index 8ff85b035e87..a5269361c3e0 100644
+> --- a/drivers/net/ethernet/sfc/efx_devlink.h
+> +++ b/drivers/net/ethernet/sfc/efx_devlink.h
+> @@ -14,6 +14,23 @@
+>  #include "net_driver.h"
+>  #include <net/devlink.h>
 >  
-> diff --git a/arch/sparc/include/uapi/asm/setup.h b/arch/sparc/include/uapi/asm/setup.h
-> index 3c208a4dd464..c3cf1b0d30b3 100644
-> --- a/arch/sparc/include/uapi/asm/setup.h
-> +++ b/arch/sparc/include/uapi/asm/setup.h
-> @@ -6,11 +6,4 @@
->  #ifndef _UAPI_SPARC_SETUP_H
->  #define _UAPI_SPARC_SETUP_H
+> +/* Custom devlink-info version object names for details that do not map to the
+> + * generic standardized names.
+> + */
+> +#define EFX_DEVLINK_INFO_VERSION_FW_MGMT_SUC	"fw.mgmt.suc"
+> +#define EFX_DEVLINK_INFO_VERSION_FW_MGMT_CMC	"fw.mgmt.cmc"
+> +#define EFX_DEVLINK_INFO_VERSION_FPGA_REV	"fpga.rev"
+> +#define EFX_DEVLINK_INFO_VERSION_DATAPATH_HW	"fpga.app"
+> +#define EFX_DEVLINK_INFO_VERSION_DATAPATH_FW	DEVLINK_INFO_VERSION_GENERIC_FW_APP
+> +#define EFX_DEVLINK_INFO_VERSION_SOC_BOOT	"coproc.boot"
+> +#define EFX_DEVLINK_INFO_VERSION_SOC_UBOOT	"coproc.uboot"
+> +#define EFX_DEVLINK_INFO_VERSION_SOC_MAIN	"coproc.main"
+> +#define EFX_DEVLINK_INFO_VERSION_SOC_RECOVERY	"coproc.recovery"
+> +#define EFX_DEVLINK_INFO_VERSION_FW_EXPROM	"fw.exprom"
+> +#define EFX_DEVLINK_INFO_VERSION_FW_UEFI	"fw.uefi"
+> +
+> +#define EFX_MAX_VERSION_INFO_LEN	64
+> +
+>  int efx_probe_devlink_and_lock(struct efx_nic *efx);
+>  void efx_probe_devlink_unlock(struct efx_nic *efx);
+>  void efx_fini_devlink_lock(struct efx_nic *efx);
+> diff --git a/drivers/net/ethernet/sfc/mcdi.c b/drivers/net/ethernet/sfc/mcdi.c
+> index af338208eae9..a7f2c31071e8 100644
+> --- a/drivers/net/ethernet/sfc/mcdi.c
+> +++ b/drivers/net/ethernet/sfc/mcdi.c
+> @@ -2175,6 +2175,78 @@ int efx_mcdi_get_privilege_mask(struct efx_nic *efx, u32 *mask)
+>  	return 0;
+>  }
 >  
-> -#if defined(__sparc__) && defined(__arch64__)
-> -# define COMMAND_LINE_SIZE 2048
-> -#else
-> -# define COMMAND_LINE_SIZE 256
-> -#endif
-> -
-> -
->  #endif /* _UAPI_SPARC_SETUP_H */
-
-MBR, Sergey
+> +int efx_mcdi_nvram_metadata(struct efx_nic *efx, unsigned int type,
+> +			    u32 *subtype, u16 version[4], char *desc,
+> +			    size_t descsize)
+> +{
+> +	MCDI_DECLARE_BUF(inbuf, MC_CMD_NVRAM_METADATA_IN_LEN);
+> +	efx_dword_t *outbuf;
+> +	size_t outlen;
+> +	u32 flags;
+> +	int rc;
+> +
+> +	outbuf = kzalloc(MC_CMD_NVRAM_METADATA_OUT_LENMAX_MCDI2, GFP_KERNEL);
+> +	if (!outbuf)
+> +		return -ENOMEM;
+> +
+> +	MCDI_SET_DWORD(inbuf, NVRAM_METADATA_IN_TYPE, type);
+> +
+> +	rc = efx_mcdi_rpc_quiet(efx, MC_CMD_NVRAM_METADATA, inbuf,
+> +				sizeof(inbuf), outbuf,
+> +				MC_CMD_NVRAM_METADATA_OUT_LENMAX_MCDI2,
+> +				&outlen);
+> +	if (rc)
+> +		goto out_free;
+> +	if (outlen < MC_CMD_NVRAM_METADATA_OUT_LENMIN) {
+> +		rc = -EIO;
+> +		goto out_free;
+> +	}
+> +
+> +	flags = MCDI_DWORD(outbuf, NVRAM_METADATA_OUT_FLAGS);
+> +
+> +	if (desc && descsize > 0) {
+> +		if (flags & BIT(MC_CMD_NVRAM_METADATA_OUT_DESCRIPTION_VALID_LBN)) {
+> +			if (descsize <=
+> +			    MC_CMD_NVRAM_METADATA_OUT_DESCRIPTION_NUM(outlen)) {
+> +				rc = -E2BIG;
+> +				goto out_free;
+> +			}
+> +
+> +			strncpy(desc,
+> +				MCDI_PTR(outbuf, NVRAM_METADATA_OUT_DESCRIPTION),
+> +				MC_CMD_NVRAM_METADATA_OUT_DESCRIPTION_NUM(outlen));
+> +			desc[MC_CMD_NVRAM_METADATA_OUT_DESCRIPTION_NUM(outlen)] = '\0';
+> +		} else {
+> +			desc[0] = '\0';
+> +		}
+> +	}
+> +
+> +	if (subtype) {
+> +		if (flags & BIT(MC_CMD_NVRAM_METADATA_OUT_SUBTYPE_VALID_LBN))
+> +			*subtype = MCDI_DWORD(outbuf, NVRAM_METADATA_OUT_SUBTYPE);
+> +		else
+> +			*subtype = 0;
+> +	}
+> +
+> +	if (version) {
+> +		if (flags & BIT(MC_CMD_NVRAM_METADATA_OUT_VERSION_VALID_LBN)) {
+> +			version[0] = MCDI_WORD(outbuf, NVRAM_METADATA_OUT_VERSION_W);
+> +			version[1] = MCDI_WORD(outbuf, NVRAM_METADATA_OUT_VERSION_X);
+> +			version[2] = MCDI_WORD(outbuf, NVRAM_METADATA_OUT_VERSION_Y);
+> +			version[3] = MCDI_WORD(outbuf, NVRAM_METADATA_OUT_VERSION_Z);
+> +		} else {
+> +			version[0] = 0;
+> +			version[1] = 0;
+> +			version[2] = 0;
+> +			version[3] = 0;
+> +		}
+> +	}
+> +
+> +out_free:
+> +	kfree(outbuf);
+> +	return rc;
+> +}
+> +
+>  #ifdef CONFIG_SFC_MTD
+>  
+>  #define EFX_MCDI_NVRAM_LEN_MAX 128
+> diff --git a/drivers/net/ethernet/sfc/mcdi.h b/drivers/net/ethernet/sfc/mcdi.h
+> index 7e35fec9da35..5cb202684858 100644
+> --- a/drivers/net/ethernet/sfc/mcdi.h
+> +++ b/drivers/net/ethernet/sfc/mcdi.h
+> @@ -378,6 +378,9 @@ int efx_mcdi_nvram_info(struct efx_nic *efx, unsigned int type,
+>  			size_t *size_out, size_t *erase_size_out,
+>  			bool *protected_out);
+>  int efx_new_mcdi_nvram_test_all(struct efx_nic *efx);
+> +int efx_mcdi_nvram_metadata(struct efx_nic *efx, unsigned int type,
+> +			    u32 *subtype, u16 version[4], char *desc,
+> +			    size_t descsize);
+>  int efx_mcdi_nvram_test_all(struct efx_nic *efx);
+>  int efx_mcdi_handle_assertion(struct efx_nic *efx);
+>  int efx_mcdi_set_id_led(struct efx_nic *efx, enum efx_led_mode mode);
+> -- 
+> 2.17.1
