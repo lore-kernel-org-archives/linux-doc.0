@@ -2,52 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE65C61DA4
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 22:01:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0775C64EC7
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 22:02:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233179AbjBNWB6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S233212AbjBNWB6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 14 Feb 2023 17:01:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51840 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233137AbjBNWB5 (ORCPT
+        with ESMTP id S233141AbjBNWB5 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 17:01:57 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26F49EB57;
-        Tue, 14 Feb 2023 14:01:52 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id f23-20020a05600c491700b003dff4480a17so1510430wmp.1;
-        Tue, 14 Feb 2023 14:01:52 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD43030B24;
+        Tue, 14 Feb 2023 14:01:53 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id bg5-20020a05600c3c8500b003e00c739ce4so144697wmb.5;
+        Tue, 14 Feb 2023 14:01:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qMXnw1VQbx8Sv6EwiMKN2CItMHbinEY7o7yRWkmdY/w=;
-        b=FXSyug5ZkRqNz85G/mIciOh6KEJc19RzIJFXXm1I21jfpEbb3bTXbqeKCsp+6Swrt6
-         pRVwPLI3K5z9PLANI39ojOhskzW2C6WqnTym9AHPyappb3ZALXfE0IFZ9Reue4Ljb1nA
-         s7v/VquL9ZYV8Gu+t1EuZonlNg17UgJuVf5wwC0GXzAy8/D2LRs4r62y304qfjvheqlR
-         s5vL2wKCrZX+2ZWIjwqJseCGsVhWMkV43gTOY3vIRHN3uOuKMVHwTr7h4nI4g1sh9a1k
-         p5YHSKdTVIXyu+etWOmOsOTa/TmuyxV4plw5RdBMZaIpbilplZ/W1kOlyi4h5S4gvKRW
-         D1EQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xM8rk8AOAbfRjfXoKyQDHMPFgTmFtxGgcgSbiV7qN7Y=;
+        b=oSMZ6mfOvLg0dWdh5AfewbBS1pXTj0PyCri7L8C7dbsDJ2Z6fqb4guvjWT3q7CZsG3
+         px/rZI1Hagkn1SvHPt4NVwUFjhdoSUI6qHRjehbfCAZF9NZBHDVHFxBRhM35G4cMTzte
+         jE46pbns7UdJaVLrdJUbUTXRIUf5ZiRbtm4M+f7NZkNvVGCWMmWbEryz4W1zBMF/4slX
+         ciR3P4ZU8v4kIHgDTq8Xh1bdv8PjJqMElF5PxVudiaTPSUP70b34F2+eHQAmbv4PWQF5
+         1K6fXqmSdor1wU3kKwMf2XF/MKetuT7CJLr8bL+W+C7HdVjysk+eUiBGwrEEH/+779fr
+         lgvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qMXnw1VQbx8Sv6EwiMKN2CItMHbinEY7o7yRWkmdY/w=;
-        b=5WNjmEf1sI1DHDTyD6jiQ7Q7pMwtL8LAZnicPERUY7Bpr+hZajbO1dKhOoMEO77Gwx
-         QLO/OCwmm8eNk3Hh2y1n1a0hLKGrDh0K2jQQMtoMDkKln8UoRDcSIOj9hWV/CFLBzPQn
-         axAcWAPZ6m4nNcAi8XJ8CBfbi47JploE7ugWf+lZoCuU0ZkRGb5Y7+R0mr5CYJdIITzP
-         Zr/OZarABTbk7WQQAIjLQjLTjh3Ws2pyDlHAOFiCGWzNsRBNX5FsbcHyg3q65N4ePPg5
-         oFM5ANjBMAfxMZtxaZ0gr1NNJf4JvMKiRnTCGtnHifeWcxIBNt0yw+mTdwj0BQMkdG38
-         JXPA==
-X-Gm-Message-State: AO0yUKXWu5K+eXsHGdNQtb81hTBNidGbi99+83WDBSmV+V/yFZmfIf3g
-        J4FEWedy2TZjVqbm5pI7upxkMiC70us=
-X-Google-Smtp-Source: AK7set/tM8s2RiEJEMN6uWf3UY9LrrDzG6rIpTwhNfcePgvPj/sWGT5FXFUz75ht5huBgV4hLdecwQ==
-X-Received: by 2002:a05:600c:539b:b0:3db:1ab:b91b with SMTP id hg27-20020a05600c539b00b003db01abb91bmr295735wmb.15.1676412110535;
-        Tue, 14 Feb 2023 14:01:50 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xM8rk8AOAbfRjfXoKyQDHMPFgTmFtxGgcgSbiV7qN7Y=;
+        b=gxe2p49OIw+LhoXqq1yQ0RUk6AEKj94c4ry0ViVzRW6rXiwVnCKnO5++5AMu1/WR11
+         Clf676azJd4AH0100GaSC2TlxJGzV8BQtgWcd95GNZecrgIdQlolw1kcqIreMqT+IoyL
+         PbDmjrHgPX11XYfUsKGHOMa/ApLxi9Tnz8pktww3RhxE/cyckv1SiMg/hqsogHtBtFBz
+         qTAmcm2lTD+JVYCfF2/4yu5I0lHNimh3u6Mh6tmuvL8z9enVxxGXS3D9rbN8xVhfNJEa
+         UTNMDOTz/e0e6XV3JJA+XdC9sR7AstZC2xfvwq3yfO1hreSy0PQeINoe0YxtUHFHLPdo
+         OiqQ==
+X-Gm-Message-State: AO0yUKXR8OnLvfmwN4F1LFG/YK1FJ8N8avLU6k+mWBI4DScNHsru2zVc
+        OvE7XVDN0ECyhOIPT3NWcu7OZM7Epw6/9g==
+X-Google-Smtp-Source: AK7set8ndCtMX8GsrLwXKjy5YXLy5mGCx5n+AUH1mEcLQfe28zp3Oz4LQCUB2G2GoyE0gBXqLjatyg==
+X-Received: by 2002:a05:600c:2b46:b0:3dc:932f:f7cb with SMTP id e6-20020a05600c2b4600b003dc932ff7cbmr255079wmf.37.1676412112169;
+        Tue, 14 Feb 2023 14:01:52 -0800 (PST)
 Received: from localhost.localdomain ([2001:9e8:20f2:3300:c2d2:a008:b022:b1e0])
-        by smtp.gmail.com with ESMTPSA id u14-20020adff88e000000b002c56046a3b5sm4033704wrp.53.2023.02.14.14.01.48
+        by smtp.gmail.com with ESMTPSA id u14-20020adff88e000000b002c56046a3b5sm4033704wrp.53.2023.02.14.14.01.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Feb 2023 14:01:49 -0800 (PST)
+        Tue, 14 Feb 2023 14:01:51 -0800 (PST)
 From:   Leonard Anderweit <leonard.anderweit@gmail.com>
 To:     linux-hwmon@vger.kernel.org
 Cc:     Aleksa Savic <savicaleksa83@gmail.com>,
@@ -56,44 +57,81 @@ Cc:     Aleksa Savic <savicaleksa83@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Leonard Anderweit <leonard.anderweit@gmail.com>
-Subject: [PATCH v2 0/6] hwmon: (aquacomputer_d5next) Add Aquacomputer Aquaero control
-Date:   Tue, 14 Feb 2023 23:02:15 +0100
-Message-Id: <20230214220221.15003-1-leonard.anderweit@gmail.com>
+Subject: [PATCH v2 2/6] hwmon: (aquacomputer_d5next) Support writing multiple control values at once
+Date:   Tue, 14 Feb 2023 23:02:17 +0100
+Message-Id: <20230214220221.15003-3-leonard.anderweit@gmail.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230214220221.15003-1-leonard.anderweit@gmail.com>
+References: <20230214220221.15003-1-leonard.anderweit@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for controlling the Aquacomputer Aquaero 5/6 fan controllers. The
-controllable settings include temperature offsets and fan PWM.
+Add new function aqc_set_ctrl_vals() to support changing multiple control
+values at once while sending only one control report.
 
-The first four patches expand the capabilities of the control system without
-changing functionality. Patches 4-6 add support for Aquaero control.
+Signed-off-by: Leonard Anderweit <leonard.anderweit@gmail.com>
+---
+ drivers/hwmon/aquacomputer_d5next.c | 29 ++++++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
-changelog:
-v2:
- - split original patch 3 into three patches to have one logical change each
- - explain why Aquaero does not need the checksum
- - improve wording of documentation
- - drop last patch with pwmX_mode
-
-Leonard Anderweit (6):
-  hwmon: (aquacomputer_d5next) Support one byte control values
-  hwmon: (aquacomputer_d5next) Support writing multiple control values
-    at once
-  hwmon: (aquacomputer_d5next) Device dependent control report settings
-  hwmon: (aquacomputer_d5next) Add infrastructure for Aquaero control
-    reports
-  hwmon: (aquacomputer_d5next) Add temperature offset control for
-    Aquaero
-  hwmon: (aquacomputer_d5next) Add fan PWM control for Aquaero
-
- Documentation/hwmon/aquacomputer_d5next.rst |   5 +-
- drivers/hwmon/aquacomputer_d5next.c         | 182 ++++++++++++++++----
- 2 files changed, 155 insertions(+), 32 deletions(-)
-
+diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
+index babfd998e70c..f0c036d38e91 100644
+--- a/drivers/hwmon/aquacomputer_d5next.c
++++ b/drivers/hwmon/aquacomputer_d5next.c
+@@ -574,9 +574,9 @@ static int aqc_get_ctrl_val(struct aqc_data *priv, int offset, long *val, int ty
+ 	return ret;
+ }
+ 
+-static int aqc_set_ctrl_val(struct aqc_data *priv, int offset, long val, int type)
++static int aqc_set_ctrl_vals(struct aqc_data *priv, int *offsets, long *vals, int *types, int len)
+ {
+-	int ret;
++	int ret, i;
+ 
+ 	mutex_lock(&priv->mutex);
+ 
+@@ -584,15 +584,17 @@ static int aqc_set_ctrl_val(struct aqc_data *priv, int offset, long val, int typ
+ 	if (ret < 0)
+ 		goto unlock_and_return;
+ 
+-	switch (type) {
+-	case AQC_BE16:
+-		put_unaligned_be16((s16)val, priv->buffer + offset);
+-		break;
+-	case AQC_8:
+-		priv->buffer[offset] = (u8)val;
+-		break;
+-	default:
+-		ret = -EINVAL;
++	for (i = 0; i < len; i++) {
++		switch (types[i]) {
++		case AQC_BE16:
++			put_unaligned_be16((s16)vals[i], priv->buffer + offsets[i]);
++			break;
++		case AQC_8:
++			priv->buffer[offsets[i]] = (u8)vals[i];
++			break;
++		default:
++			ret = -EINVAL;
++		}
+ 	}
+ 
+ 	if (ret < 0)
+@@ -605,6 +607,11 @@ static int aqc_set_ctrl_val(struct aqc_data *priv, int offset, long val, int typ
+ 	return ret;
+ }
+ 
++static int aqc_set_ctrl_val(struct aqc_data *priv, int offset, long val, int type)
++{
++	return aqc_set_ctrl_vals(priv, &offset, &val, &type, 1);
++}
++
+ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u32 attr, int channel)
+ {
+ 	const struct aqc_data *priv = data;
 -- 
 2.39.1
 
