@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AEADC05027
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 09:08:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34AD2C64EC7
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 09:09:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232134AbjBNJI1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Feb 2023 04:08:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37338 "EHLO
+        id S232321AbjBNJJi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Feb 2023 04:09:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232278AbjBNJIC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 04:08:02 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84EE42412D
-        for <linux-doc@vger.kernel.org>; Tue, 14 Feb 2023 01:07:12 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id bg5-20020a05600c3c8500b003e00c739ce4so10981597wmb.5
-        for <linux-doc@vger.kernel.org>; Tue, 14 Feb 2023 01:07:12 -0800 (PST)
+        with ESMTP id S231976AbjBNJJV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 04:09:21 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DEA024C95
+        for <linux-doc@vger.kernel.org>; Tue, 14 Feb 2023 01:08:21 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id a2so14876704wrd.6
+        for <linux-doc@vger.kernel.org>; Tue, 14 Feb 2023 01:08:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=dbfAOEl06OR99NGfEFoVS3aDlJXydx8Xm+1KWeTVt3w=;
-        b=zRquXGkMWQxsjnDEBjUSG+i3tQ4HS9mWc+qp3B0uER9rI+yxxkGNzBJJJiV3Uc7zDn
-         Q/SIl930elCR4FLEZaUlUTER5P0EKYuYi7wU57oROLtYDV50OfmdspRi97sBkypI70dP
-         po58UWXAjDuTr6rOOCXox5kdhQcDL9/ogCL3j9KU3d4ifIWTwe8unvDy8lerc6+lmod4
-         qwNxvQ7OmxQjhgo8tWmfXCNS63ob4Zt+EmuTDM6lqufmEYJtL7S+0oYcsFKtDBysZ/kW
-         iVaSdCu8rkK9JOa4zJmqTtkn2DyLcn71i/iBL0fmcxvBqvih825/Usphrecq1kQudKlb
-         ntrg==
+        bh=dJq3RRMzf3lbuS5bgQVc8NQ+nEsYjE4jNGYbXmQQw78=;
+        b=Wsp4Zlb8V2Jx4m9+tXkDNgf5Lxau03xHaG+6WGxc+G8HrcJltAE2Px1QSC5XUlVOpz
+         2Ng4jqNhjAJ4QJFwe7IYqEDhVP83rKHt0zthGOU/F+j+7d3lCfNC+HaTRTHh98F2fr7Y
+         I1aHMaHeLfbmf2lAE+TKEJNN/s8peiJT6bIUpf+6MkHhRn0aKlK4U+gulZSfiKfbW+Eu
+         wBNce34+0fI2Gh7tFdgEA0vsetKVHpBVYQ4d3RHWTRqruuVixLinnhKVyILNuRuoZPxH
+         SlDA849VfSADVOOeo3f3/Yud1fZ/0yd8ncI6fO9i/ywnDuaYO8zFs36ALYL690/jjvZv
+         Clag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dbfAOEl06OR99NGfEFoVS3aDlJXydx8Xm+1KWeTVt3w=;
-        b=GhCSx8Qu+Ur+AB6NUrHBV7cmJs6r69BjLEPtivhsJRk5nequHOgBCs8V4gbUxpLmBC
-         NvqC782c2iglhEcXnIz+GFqhv5OAv6SY6meknlT+c+jgPmXm+1L0I93Z5iDEE9zBgvyB
-         1IfP9MxAwmaHtTiv4xQ3/kO8rfaofzXBm5RDAUZmWUKBTyeUGkfBk9fn7NegsOn+p2wq
-         uclzJdhzmHkaaMjY4DzUR9uylupr862MaKMVu7P6Z8O4Xxma6f5PfcbYmJ/hqCiCgOQQ
-         IVL8BcFJ7F0XFr616lO0N+aRxg49RA7623vPnpKjgS7YYvYZEBaQ15Q65m55g7i5QeV5
-         IArg==
-X-Gm-Message-State: AO0yUKWHzNsrpgiSiWxus8rCLbPcuWo566yNZfaVF/GXQ+g4Fbb+GOTh
-        bM5kUpqEEkRJ325Mpv7BnJsCqw==
-X-Google-Smtp-Source: AK7set8Wqv9ha6dIxkwRao9Qw+uzxpAx6YT4sYvT8HUQnEonxroJL/jacmiqSmbe1Ht/5qToQDlogw==
-X-Received: by 2002:a05:600c:13c3:b0:3dc:1ad6:55fd with SMTP id e3-20020a05600c13c300b003dc1ad655fdmr1420116wmg.32.1676365630595;
-        Tue, 14 Feb 2023 01:07:10 -0800 (PST)
+        bh=dJq3RRMzf3lbuS5bgQVc8NQ+nEsYjE4jNGYbXmQQw78=;
+        b=XH5C8Fusi9mQXpIKK7wGS7F7udzhhZsD6JyD+i84uXCug0zQAPL7QVD63ebCP4ri2j
+         tBJ18nmG7gnM7U7fdY9zcQaGQfJjxmoq922+djMcBxSErN8outWkXtrVDc0s2i605Mu2
+         tOmHDk3EblCcIMrDx72yAyIYIX2wv2U2be06mT6e/1NmUXKJIAOchxCfl7e8CmXvv4ZD
+         8OrntaCru1IbCPINrrsSKSYaBGCwS3aDdpUfmaHgM00F3XTsvqheYViNK4RqEvLOIY19
+         ucI5SOrJs7agFIMhNlb1DRnKW6emCwTmWjFqAWhdVQAFe8HIEDgOuMrU14jLPrj9SVFb
+         duWg==
+X-Gm-Message-State: AO0yUKXfzbdaQLu7yVBQiujlnxQILso/DxImksg/yMTiCv4vOQkQ/+sf
+        0GefdqmHf0idslLAoDAstHVPFw==
+X-Google-Smtp-Source: AK7set9xlomseTD4h4a83sLRQq4DtapmagaqXlgE7UNo4UXcLklpQodFpnducrj9Vfa/kRz/NDHZaQ==
+X-Received: by 2002:a5d:4e01:0:b0:2c5:5a68:958 with SMTP id p1-20020a5d4e01000000b002c55a680958mr1356559wrt.33.1676365699836;
+        Tue, 14 Feb 2023 01:08:19 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76])
-        by smtp.gmail.com with ESMTPSA id c129-20020a1c3587000000b003dc1a525f22sm17268744wma.25.2023.02.14.01.07.07
+        by smtp.gmail.com with ESMTPSA id n13-20020a05600c3b8d00b003dc434900e1sm17810977wms.34.2023.02.14.01.08.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Feb 2023 01:07:10 -0800 (PST)
-Message-ID: <03a97cc1-1f8c-d412-272b-340e76858b7a@linaro.org>
-Date:   Tue, 14 Feb 2023 10:07:06 +0100
+        Tue, 14 Feb 2023 01:08:19 -0800 (PST)
+Message-ID: <f327ff48-cd50-4caa-1bea-f9906994e998@linaro.org>
+Date:   Tue, 14 Feb 2023 10:08:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH v3 01/24] alpha: Remove COMMAND_LINE_SIZE from uapi
+Subject: Re: [PATCH v3 08/24] parisc: Remove COMMAND_LINE_SIZE from uapi
 Content-Language: en-US
 To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -103,9 +103,9 @@ To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
         linux-arch@vger.kernel.org
 Cc:     Palmer Dabbelt <palmer@rivosinc.com>
 References: <20230214074925.228106-1-alexghiti@rivosinc.com>
- <20230214074925.228106-2-alexghiti@rivosinc.com>
+ <20230214074925.228106-9-alexghiti@rivosinc.com>
 From:   =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230214074925.228106-2-alexghiti@rivosinc.com>
+In-Reply-To: <20230214074925.228106-9-alexghiti@rivosinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -120,9 +120,10 @@ On 14/2/23 08:49, Alexandre Ghiti wrote:
 > 
 > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 > ---
->   arch/alpha/include/asm/setup.h      | 4 ++--
->   arch/alpha/include/uapi/asm/setup.h | 2 --
->   2 files changed, 2 insertions(+), 4 deletions(-)
+>   arch/parisc/include/asm/setup.h      | 7 +++++++
+>   arch/parisc/include/uapi/asm/setup.h | 2 --
+>   2 files changed, 7 insertions(+), 2 deletions(-)
+>   create mode 100644 arch/parisc/include/asm/setup.h
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
