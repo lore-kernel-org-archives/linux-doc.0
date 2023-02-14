@@ -2,871 +2,2275 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD6FC61DA4
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 11:11:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 746F9C61DA4
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 11:53:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232959AbjBNLLW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Feb 2023 06:11:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51858 "EHLO
+        id S229881AbjBNLxi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Feb 2023 06:53:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232411AbjBNLLC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 06:11:02 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B299026CE8;
-        Tue, 14 Feb 2023 03:10:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676373002; x=1707909002;
-  h=message-id:date:mime-version:from:subject:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=OkmPYqMA1aLhcfB0OHq3pLGqio3NnLxqtNicoiJ9V7A=;
-  b=l/TbgfsKX6k+nrVUscsIfPWSJHcOUEFJ9ykwevusYvXiY9DATzqnZIfk
-   Cz1QGrNyL24hG2Ea5GZZg+89k8nXORcOQfecoPfDtrPGwRPTpxHd9BirJ
-   xbsn3avJpG+pa5xgfcanWvkNSvfBVE69NKj+jkvwn7n6oBVea3yUuLcqO
-   NP4Xv5EYjoimpUmsjsvPnPEqkOsCHTK54tfRuSFOe+1LNnV2ZKxafhtJi
-   jq6WboQDJGKYMpFt59lapro8rHHOAfQIex4z+SbirBpnenXVz+CvUMOZs
-   sYDdqOioKY8sD0HJA80Hwx2FjEYFqYd01Qcoxf80arsSqX5zqRMmnwSMs
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="393538106"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="393538106"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 03:08:49 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="701615591"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="701615591"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.237.142.47]) ([10.237.142.47])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 03:08:46 -0800
-Message-ID: <ec878cf8-8f27-ba26-788c-e992daad7922@linux.intel.com>
-Date:   Tue, 14 Feb 2023 12:08:44 +0100
+        with ESMTP id S229795AbjBNLxh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 06:53:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DF4DB761
+        for <linux-doc@vger.kernel.org>; Tue, 14 Feb 2023 03:52:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676375572;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=yqSS5X4d78hIk2vne5OLZk+Yrgv94xCgWd93scQUWkg=;
+        b=EP2dCBtj0kJylS5F7SSINAB/122nkCBfFXK/RZLpL7bjPBf9UoMcprgliV9GtWQQVZ5IKd
+        y7laOSicY2Bw5yxvwNp0vcwQoL9AzfXIJ264jZ14pCt0lz8NzHzpfO1tirFVGB4hIeimT4
+        DcPl0M14+UCc62IKuXtUiaCyyfQ/zIQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-272-k6TQytlcMWK_yt1EjxMyWA-1; Tue, 14 Feb 2023 06:52:51 -0500
+X-MC-Unique: k6TQytlcMWK_yt1EjxMyWA-1
+Received: by mail-ej1-f69.google.com with SMTP id fy3-20020a1709069f0300b008a69400909fso9700503ejc.7
+        for <linux-doc@vger.kernel.org>; Tue, 14 Feb 2023 03:52:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yqSS5X4d78hIk2vne5OLZk+Yrgv94xCgWd93scQUWkg=;
+        b=EsB5EnLLmvvU0mdbw9m4xNZ2TCZVxY5xkZ7Br8twT0QzftsIcGiDCpNO4TZxHrxkU/
+         bUDyXAxj5USV8d0d8Yb4ymuWWFv8A2n1Ulq7bU3OoOZsMQDSTWdC3yI8/HdnzCNXoMJ1
+         jwc3eN6gVY6Acf7qvHcqnJAsCMYIBdov1RW6gNKd2QyV5+GM4cmvUrPStxVSyVmCBQa9
+         OLzlNlIc6VeMKfc3GRbqU9ZAoQpqgXqUdSXZX5sjTYHgLiDol6JSg6HiHGGARum+tkx2
+         6FW747cLTieLMveAesVbfrAhoTfb16b4Nremxpg83b4AOKVQwBywi45y37d8lDLBfbg/
+         asDQ==
+X-Gm-Message-State: AO0yUKXBPXddQ/dS9t4NgDrf0d2uPLrE5g1k4oR7M+kGbsQueYRog5gw
+        OOaq6gAj1HvGua6x1kbqK88ucVmF6zoYmK337N+knEOjl22oYyWBJP/o2FCp+7pS7gCK4ltlacX
+        DpbbMEInJ/NiyiBAXFK6M
+X-Received: by 2002:a17:906:e0d1:b0:88d:72c0:611 with SMTP id gl17-20020a170906e0d100b0088d72c00611mr2319876ejb.3.1676375568539;
+        Tue, 14 Feb 2023 03:52:48 -0800 (PST)
+X-Google-Smtp-Source: AK7set+4uprGunEnTpCZ9inVnaHGi913UQGoUr03ycj0Aud1KQ2xYu6UUA0kc0mW7gNk2WtW2e7kfQ==
+X-Received: by 2002:a17:906:e0d1:b0:88d:72c0:611 with SMTP id gl17-20020a170906e0d100b0088d72c00611mr2319837ejb.3.1676375567713;
+        Tue, 14 Feb 2023 03:52:47 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+        by smtp.gmail.com with ESMTPSA id mv9-20020a170907838900b0087bd2ebe474sm8134290ejc.208.2023.02.14.03.52.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Feb 2023 03:52:47 -0800 (PST)
+Message-ID: <6a65dcaf-cf43-1d9e-aadf-e71211729a8d@redhat.com>
+Date:   Tue, 14 Feb 2023 12:52:45 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-From:   Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: Re: [PATCH v2 1/8] accel/qaic: Add documentation for AIC100
- accelerator driver
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
-        airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
-        stanislaw.gruszka@linux.intel.com, quic_carlv@quicinc.com
-References: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
- <1675698105-19025-2-git-send-email-quic_jhugo@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH drm-next 03/14] drm: manager to keep track of GPUs VA
+ mappings
+To:     Matthew Brost <matthew.brost@intel.com>
+Cc:     daniel@ffwll.ch, airlied@redhat.com, christian.koenig@amd.com,
+        bskeggs@redhat.com, jason@jlekstrand.net, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <20230118061256.2689-4-dakr@redhat.com>
+ <Y91GQIMwjsQ3QT/M@DUT025-TGLU.fm.intel.com>
 Content-Language: en-US
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <1675698105-19025-2-git-send-email-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+From:   Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <Y91GQIMwjsQ3QT/M@DUT025-TGLU.fm.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On 06.02.2023 16:41, Jeffrey Hugo wrote:
-> The Qualcomm Cloud AI 100 (AIC100) device is an Artificial Intelligence
-> accelerator PCIe card.  It contains a number of components both in the
-> SoC and on the card which facilitate running workloads:
+On 2/3/23 18:37, Matthew Brost wrote:
+> On Wed, Jan 18, 2023 at 07:12:45AM +0100, Danilo Krummrich wrote:
+>> This adds the infrastructure for a manager implementation to keep track
+>> of GPU virtual address (VA) mappings.
+>>
+>> New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
+>> start implementing, allow userspace applications to request multiple and
+>> arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
+>> intended to serve the following purposes in this context.
+>>
+>> 1) Provide a dedicated range allocator to track GPU VA allocations and
+>>     mappings, making use of the drm_mm range allocator.
+>>
+>> 2) Generically connect GPU VA mappings to their backing buffers, in
+>>     particular DRM GEM objects.
+>>
+>> 3) Provide a common implementation to perform more complex mapping
+>>     operations on the GPU VA space. In particular splitting and merging
+>>     of GPU VA mappings, e.g. for intersecting mapping requests or partial
+>>     unmap requests.
+>>
 > 
-> QSM: management processor
-> NSPs: workload compute units
-> DMA Bridge: dedicated data mover for the workloads
-> MHI: multiplexed communication channels
-> DDR: workload storage and memory
+> Over the past week I've hacked together a PoC port of Xe to GPUVA [1], so
+> far it seems really promising. 95% of the way to being feature
+> equivalent of the current Xe VM bind implementation and have line of
+> sight to getting sparse bindings implemented on top of GPUVA too. IMO
+> this has basically everything we need for Xe with a few tweaks.
 > 
-> The Linux kernel driver for AIC100 is called "QAIC" and is located in the
-> accel subsystem.
+> I am out until 2/14 but wanted to get my thoughts / suggestions out on
+> the list before I leave.
+
+Thanks for your work on that!
+
+> 1. GPUVA post didn't support the way Xe does userptrs - a NULL GEM. I
+> believe with [2], [3], and [4] GPUVA will support NULL GEMs. Also my
+> thinking sparse binds will also have NULL GEMs, more on sparse bindings
+> below.
 > 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> ---
->  Documentation/accel/index.rst       |   1 +
->  Documentation/accel/qaic/aic100.rst | 498 ++++++++++++++++++++++++++++++++++++
->  Documentation/accel/qaic/index.rst  |  13 +
->  Documentation/accel/qaic/qaic.rst   | 169 ++++++++++++
->  4 files changed, 681 insertions(+)
->  create mode 100644 Documentation/accel/qaic/aic100.rst
->  create mode 100644 Documentation/accel/qaic/index.rst
->  create mode 100644 Documentation/accel/qaic/qaic.rst
+> 2. I agree with Christian that drm_mm probably isn't what we want to
+> base the GPUVA implementation on, rather a RB tree or Maple tree has
+> been discussed. The implementation should be fairly easy to tune once we
+> have benchmarks running so not to concerned here as we can figure this
+> out down the line.
 > 
-> diff --git a/Documentation/accel/index.rst b/Documentation/accel/index.rst
-> index 2b43c9a..e94a016 100644
-> --- a/Documentation/accel/index.rst
-> +++ b/Documentation/accel/index.rst
-> @@ -8,6 +8,7 @@ Compute Accelerators
->     :maxdepth: 1
->  
->     introduction
-> +   qaic/index
->  
->  .. only::  subproject and html
->  
-> diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
-> new file mode 100644
-> index 0000000..773aa54
-> --- /dev/null
-> +++ b/Documentation/accel/qaic/aic100.rst
-> @@ -0,0 +1,498 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +===============================
-> + Qualcomm Cloud AI 100 (AIC100)
-> +===============================
-> +
-> +Overview
-> +========
-> +
-> +The Qualcomm Cloud AI 100/AIC100 family of products (including SA9000P - part of
-> +Snapdragon Ride) are PCIe adapter cards which contain a dedicated SoC ASIC for
-> +the purpose of efficiently running Artificial Intelligence (AI) Deep Learning
-> +inference workloads.  They are AI accelerators.
+> 3. In Xe we want create xe_vm_op list which inherits from drm_gpuva_op
+> I've done this with a hack [5], I believe when we rebase we can do this
+> with a custom callback to allocate a large op size.
+> 
+> 4. I'd like add user bits to drm_gpuva_flags like I do in [6]. This is
+> similar to DMA_FENCE_FLAG_USER_BITS.
+> 
+> 5. In Xe we have VM prefetch operation which is needed for our compute
+> UMD with page faults. I'd like add prefetch type of operation like we do
+> in [7].
+> 
+> 6. In Xe we have VM unbind all mappings for a GEM IOCTL, I'd like to add
+> support to generate this operation list to GPUVA like we do in [8].
+> 
+> 7. I've thought about how Xe will implement sparse mappings (read 0,
+> writes dropped). My current thinking is a sparse mapping will be
+> represented as a drm_gpuva rather than region like in Nouveau. Making
+> regions optional to me seems likes good idea rather than forcing the
+> user of GPUVA code to create 1 large region for the manager as I
+> currently do in the Xe PoC.
+> 
+> 8. Personally I'd like the caller to own the locking for GEM drm_gpuva
+> list (drm_gpuva_link_*, drm_gpuva_unlink_* functions). In Xe we almost
+> certainly will have the GEM dma-resv lock when we touch this list so an
+> extra lock here is redundant. Also it kinda goofy that caller owns the
+> for drm_gpuva insertion / removal but not the locking for this list.
 
-There are multiple double spaces in this document like this one above.
+You really mean having the dma-resv lock aquired or have a fence on the 
+dma_resv obj?
 
-> +The PCIe interface of AIC100 is capable of PCIe Gen4 speeds over eight lanes
-> +(x8).  An individual SoC on a card can have up to 16 NSPs for running workloads.
-> +Each SoC has an A53 management CPU.  On card, there can be up to 32 GB of DDR.
-> +
-> +Multiple AIC100 cards can be hosted in a single system to scale overall
-> +performance.
-> +
-> +Hardware Description
-> +====================
-> +
-> +An AIC100 card consists of an AIC100 SoC, on-card DDR, and a set of misc
-> +peripherals (PMICs, etc).
-> +
-> +An AIC100 card can either be a PCIe HHHL form factor (a traditional PCIe card),
-> +or a Dual M.2 card.  Both use PCIe to connect to the host system.
+In Nouveau I map/unmap gpuvas in the ttm_device_funcs' move() callback. 
+I only validate() and add a dma_resv fence to GEMs of new mappings. For 
+unmap / remap operations I just take the GEMs gpuva list lock and check 
+whether the GEM is evicted currently. If it is evicted currently (and 
+hence unmapped) and I'm on a remap operation I can just do the update on 
+the GPUVA space, since latest on the next EXEC ioctl() the corresponding 
+GEM is validated and hence re-mapped correctly. If it's an unmap 
+operation I just need to remove the GPUVA, since the corresponding 
+mapping is already unmapped when it's GEM is evicted. If it's not 
+evicted I proceed as usual.
 
-Dual M.2 card? Is it a single PCB with two M.2 connectors? This requires custom
-motherboard with x4 lanes from two connectors combined as a single PCIe device, right?
+Anyway, drm_gpuva_insert() and drm_gpuva_remove() (was 
+drm_gpuva_destroy() before) do *not* implicitly add the gpuva to the 
+GEM's gpuva list anymore. Instead there is only drm_gpuva_link() and 
+drm_gpuva_unlink(), not doing any lockdep checks, but clearly 
+documenting that the caller is resposible to take care of mutual exclusion.
 
-> +As a PCIe endpoint/adapter, AIC100 uses the standard VendorID(VID)/
-> +DeviceID(DID) combination to uniquely identify itself to the host.  AIC100
-> +uses the standard Qualcomm VID (0x17cb).  All AIC100 instances use the same
-> +AIC100 DID (0xa100).
+> 
+> WRT to Christian thoughts on a common uAPI rules for VM binds, I kinda
+> like that idea but I don't think that is necessary. All of pur uAPI
+> should be close but also the GPUVA implementation should be flexible
+> enough to fit all of our needs and I think for the most part it is.
+> 
+> Let me know what everything thinks about this. It would be great if when
+> I'm back on 2/14 I can rebase the Xe port to GPUVA on another version of
+> the GPUVA code and get sparse binding support implementation. Also I'd
+> like to get GPUVA merged in the Xe repo ASAP as our VM bind code badly
+> needed to be cleaned and this was the push we needed to make this
+> happen.
 
-Maybe "SKUs" would fit better here then "instances".
+All those are great improvements and some of I will pick up for Nouveau 
+as well.
 
-> +AIC100 does not implement FLR (function level reset).
-> +
-> +AIC100 implements MSI but does not implement MSI-X.  AIC100 requires 17 MSIs to
-> +operate (1 for MHI, 16 for the DMA Bridge).
-> +
-> +As a PCIe device, AIC100 utilizes BARs to provide host interfaces to the device
-> +hardware.  AIC100 provides 3, 64-bit BARs.
-> +
-> +* The first BAR is 4K in size, and exposes the MHI interface to the host.
-> +
-> +* The second BAR is 2M in size, and exposes the DMA Bridge interface to the
-> +  host.
-> +
-> +* The third BAR is variable in size based on an individual AIC100's
-> +  configuration, but defaults to 64K.  This BAR currently has no purpose.
-> +
-> +From the host perspective, AIC100 has several key hardware components-
+Except for switching from drm_mm to maple_tree I implemented all other 
+suggestions. You can find them here: 
+https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next-fixes
 
-Typo in "components-".
+I'm just about to start moving the GPUVA Manager to use maple_tree 
+instead and plan to send a V2 by end of this week.
 
-> +* QSM (QAIC Service Manager)
-> +* NSPs (Neural Signal Processor)
-> +* DMA Bridge
-> +* DDR
-> +* MHI (Modem Host Interface)
-> +
-> +QSM
-> +---
-> +
-> +QAIC Service Manager.  This is an ARM A53 CPU that runs the primary
-> +firmware of the card and performs on-card management tasks.  It also
-> +communicates with the host via MHI.  Each AIC100 has one of
-> +these.
+- Danilo
 
-I would put description of MHI at the top because it is referenced by the QSM description.
-
-> +NSP
-> +---
-> +
-> +Neural Signal Processor.  Each AIC100 has up to 16 of these.  These are
-> +the processors that run the workloads on AIC100.  Each NSP is a Qualcomm Hexagon
-> +(Q6) DSP with HVX and HMX.  Each NSP can only run one workload at a time, but
-> +multiple NSPs may be assigned to a single workload.  Since each NSP can only run
-> +one workload, AIC100 is limited to 16 concurrent workloads.  Workload
-> +"scheduling" is under the purview of the host.  AIC100 does not automatically
-> +timeslice.
-> +
-> +DMA Bridge
-> +----------
-> +
-> +The DMA Bridge is custom DMA engine that manages the flow of data
-> +in and out of workloads.  AIC100 has one of these.  The DMA Bridge has 16
-> +channels, each consisting of a set of request/response FIFOs.  Each active
-> +workload is assigned a single DMA Bridge channel.  The DMA Bridge exposes
-> +hardware registers to manage the FIFOs (head/tail pointers), but requires host
-> +memory to store the FIFOs.
-> +
-> +DDR
-> +---
-> +
-> +AIC100 has on-card DDR.  In total, an AIC100 can have up to 32 GB of DDR.
-> +This DDR is used to store workloads, data for the workloads, and is used by the
-> +QSM for managing the device.  NSPs are granted access to sections of the DDR by
-> +the QSM.  The host does not have direct access to the DDR, and must make
-> +requests to the QSM to transfer data to the DDR.
-> +
-> +MHI
-> +---
-> +
-> +AIC100 has one MHI interface over PCIe.  MHI itself is documented at
-
-Please exand MHI acronym.
-
-> +Documentation/mhi/index.rst  MHI is the mechanism the host uses to communicate
-> +with the QSM.  Except for workload data via the DMA Bridge, all interaction with
-> +he device occurs via MHI.
-
-Typo in "he device".
-
-> +High-level Use Flow
-> +===================
-> +
-> +AIC100 is a programmable accelerator typically used for running
-> +neural networks in inferencing mode to efficiently perform AI operations.
-> +AIC100 is not intended for training neural networks.  AIC100 can be utilitized
-
-utilitized -> utilized
-
-> +for generic compute workloads.
-> +
-> +Assuming a user wants to utilize AIC100, they would follow these steps:
-> +
-> +1. Compile the workload into an ELF targeting the NSP(s)
-> +2. Make requests to the QSM to load the workload and related artifacts into the
-> +   device DDR
-> +3. Make a request to the QSM to activate the workload onto a set of idle NSPs
-> +4. Make requests to the DMA Bridge to send input data to the workload to be
-> +   processed, and other requests to receive processed output data from the
-> +   workload.
-> +5. Once the workload is no longer required, make a request to the QSM to
-> +   deactivate the workload, thus putting the NSPs back into an idle state.
-> +6. Once the workload and related artifacts are no longer needed for future
-> +   sessions, make requests to the QSM to unload the data from DDR.  This frees
-> +   the DDR to be used by other users.
-> +
-
-Please specify if this is single or multi user device.
-
-> +Boot Flow
-> +=========
-> +
-> +AIC100 uses a flashless boot flow, derived from Qualcomm MSMs.
-
-What's MSM?
-
-> +When AIC100 is first powered on, it begins executing PBL (Primary Bootloader)
-> +from ROM.  PBL enumerates the PCIe link, and initializes the BHI (Boot Host
-> +Interface) component of MHI.
-> +
-> +Using BHI, the host points PBL to the location of the SBL (Secondary Bootloader)
-> +image.  The PBL pulls the image from the host, validates it, and begins
-> +execution of SBL.
-> +
-> +SBL initializes MHI, and uses MHI to notify the host that the device has entered
-> +the SBL stage.  SBL performs a number of operations:
-> +
-> +* SBL initializes the majority of hardware (anything PBL left uninitialized),
-> +  including DDR.
-> +* SBL offloads the bootlog to the host.
-> +* SBL synchonizes timestamps with the host for future logging.
-
-synchonizes -> synchronizes
-
-> +* SBL uses the Sahara protocol to obtain the runtime firmware images from the
-> +  host.
-> +
-> +Once SBL has obtained and validated the runtime firmware, it brings the NSPs out
-> +of reset, and jumps into the QSM.
-> +
-> +The QSM uses MHI to notify the host that the device has entered the QSM stage
-> +(AMSS in MHI terms).  At this point, the AIC100 device is fully functional, and
-> +ready to process workloads.
-> +
-> +Userspace components
-> +====================
-> +
-> +Compiler
-> +--------
-> +
-> +An open compiler for AIC100 based on upstream LLVM can be found at:
-> +https://github.com/quic/software-kit-for-qualcomm-cloud-ai-100-cc
-> +
-> +Usermode Driver (UMD)
-> +---------------------
-> +
-> +An open UMD that interfaces with the qaic kernel driver can be found at:
-> +https://github.com/quic/software-kit-for-qualcomm-cloud-ai-100
-
-This repo is empty.
-
-> +
-> +Sahara loader
-> +-------------
-> +
-> +An open implementation of the Sahara protocol called kickstart can be found at:
-> +https://github.com/andersson/qdl
-> +
-> +MHI Channels
-> +============
-> +
-> +AIC100 defines a number of MHI channels for different purposes.  This is a list
-> +of the defined channels, and their uses.
-> +
-> +| QAIC_LOOPBACK
-> +| Channels 0/1
-
-A would use comma or & here.
-
-> +| Valid for AMSS
-> +| Any data sent to the device on this channel is sent back to the host.
-> +
-> +| QAIC_SAHARA
-> +| Channels 2/3
-> +| Valid for SBL
-> +| Used by SBL to obtain the runtime firmware from the host.
-> +
-> +| QAIC_DIAG
-> +| Channels 4/5
-> +| Valid for AMSS
-> +| Used to communicate with QSM via the Diag protocol.
-> +
-> +| QAIC_SSR
-> +| Channels 6/7
-> +| Valid for AMSS
-> +| Used to notify the host of subsystem restart events, and to offload SSR crashdumps.
-> +
-> +| QAIC_QDSS
-> +| Channels 8/9
-> +| Valid for AMSS
-> +| Used for the Qualcomm Debug Subsystem.
-> +
-> +| QAIC_CONTROL
-> +| Channels 10/11
-> +| Valid for AMSS
-> +| Used for the Neural Network Control (NNC) protocol.  This is the primary channel between host and QSM for managing workloads.
-> +
-> +| QAIC_LOGGING
-> +| Channels 12/13
-> +| Valid for SBL
-> +| Used by the SBL to send the bootlog to the host.
-> +
-> +| QAIC_STATUS
-> +| Channels 14/15
-> +| Valid for AMSS
-> +| Used to notify the host of Reliability, Accessability, Serviceability (RAS) events.
-
-Accessability -> Accessibility
-
-> +| QAIC_TELEMETRY
-> +| Channels 16/17
-> +| Valid for AMSS
-> +| Used to get/set power/thermal/etc attributes.
-> +
-> +| QAIC_DEBUG
-> +| Channels 18/19
-> +| Valid for AMSS
-> +| Not used.
-> +
-> +| QAIC_TIMESYNC
-> +| Channels 20/21
-> +| Valid for SBL/AMSS
-> +| Used to synchronize timestamps in the device side logs with the host time source.
-> +
-> +DMA Bridge
-> +==========
-> +
-> +Overview
-> +--------
-> +
-> +The DMA Bridge is one of the main interfaces to the host from the device
-> +(the other being MHI).  As part of activating a workload to run on NSPs, the QSM
-> +assigns that network a DMA Bridge channel.  A workload's DMA Bridge channel
-> +(DBC for short) is solely for the use of that workload and is not shared with
-> +other workloads.
-> +
-> +Each DBC is a pair of FIFOs that manage data in and out of the workload.  One
-> +FIFO is the request FIFO.  The other FIFO is the response FIFO.
-> +
-> +Each DBC contains 4 registers in hardware:
-> +
-> +* Request FIFO head pointer (offset 0x0).  Read only to the host.  Indicates the
-
-Read only _by_ the host.
-
-> +  latest item in the FIFO the device has consumed.
-> +* Request FIFO tail pointer (offset 0x4).  Read/write by the host.  Host
-> +  increments this register to add new items to the FIFO.
-> +* Response FIFO head pointer (offset 0x8).  Read/write by the host.  Indicates
-> +  the latest item in the FIFO the host has consumed.
-> +* Response FIFO tail pointer (offset 0xc).  Read only to the host.  Device
-
-Read only _by_ the host.
-
-> +  increments this register to add new items to the FIFO.
-> +
-> +The values in each register are indexes in the FIFO.  To get the location of the
-> +FIFO element pointed to by the register: FIFO base address + register * element
-> +size.
-> +
-> +DBC registers are exposed to the host via the second BAR.  Each DBC consumes
-> +0x1000 of space in the BAR.
-
-I wouldn't use hex for the sizes. 4KB seems a lot more readable.
-
-> +The actual FIFOs are backed by host memory.  When sending a request to the QSM
-> +to activate a network, the host must donate memory to be used for the FIFOs.
-> +Due to internal mapping limitations of the device, a single contigious chunk of
-
-contigious -> contiguous
-
-> +memory must be provided per DBC, which hosts both FIFOs.  The request FIFO will
-> +consume the beginning of the memory chunk, and the response FIFO will consume
-> +the end of the memory chunk.
-> +
-> +Request FIFO
-> +------------
-> +
-> +A request FIFO element has the following structure:
-> +
-> +| {
-> +|	u16 req_id;
-> +|	u8  seq_id;
-> +|	u8  pcie_dma_cmd;
-> +|	u32 reserved;
-> +|	u64 pcie_dma_source_addr;
-> +|	u64 pcie_dma_dest_addr;
-> +|	u32 pcie_dma_len;
-> +|	u32 reserved;
-> +|	u64 doorbell_addr;
-> +|	u8  doorbell_attr;
-> +|	u8  reserved;
-> +|	u16 reserved;
-> +|	u32 doorbell_data;
-> +|	u32 sem_cmd0;
-> +|	u32 sem_cmd1;
-> +|	u32 sem_cmd2;
-> +|	u32 sem_cmd3;
-> +| }
-> +
-> +Request field descriptions:
-> +
-> +| req_id- request ID.  A request FIFO element and a response FIFO element with
-> +|         the same request ID refer to the same command.
-> +
-> +| seq_id- sequence ID within a request.  Ignored by the DMA Bridge.
-> +
-> +| pcie_dma_cmd- describes the DMA element of this request.
-> +| 	Bit(7) is the force msi flag, which overrides the DMA Bridge MSI logic
-> +| 		and generates a MSI when this request is complete, and QSM
-> +| 		configures the DMA Bridge to look at this bit.
-> +| 	Bits(6:5) are reserved.
-> +| 	Bit(4) is the completion code flag, and indicates that the DMA Bridge
-> +| 		shall generate a response FIFO element when this request is
-> +| 		complete.
-> +| 	Bit(3) indicates if this request is a linked list transfer(0) or a bulk
-> +| 		transfer(1).
-> +| 	Bit(2) is reserved.
-> +| 	Bits(1:0) indicate the type of transfer.  No transfer(0), to device(1),
-> +| 		from device(2).  Value 3 is illegal.
-> +
-> +| pcie_dma_source_addr- source address for a bulk transfer, or the address of
-> +|         the linked list.
-> +
-> +| pcie_dma_dest_addr- destination address for a bulk transfer.
-> +
-> +| pcie_dma_len- length of the bulk transfer.  Note that the size of this field
-> +| 	limits transfers to 4G in size.
-> +
-> +| doorbell_addr- address of the doorbell to ring when this request is complete.
-> +
-> +| doorbell_attr- doorbell attributes.
-> +| 	Bit(7) indicates if a write to a doorbell is to occur.
-> +| 	Bits(6:2) are reserved.
-> +| 	Bits(1:0) contain the encoding of the doorbell length.  0 is 32-bit,
-> +| 		1 is 16-bit, 2 is 8-bit, 3 is reserved.  The doorbell address
-> +| 		must be naturally aligned to the specified length.
-> +
-> +| doorbell_data- data to write to the doorbell.  Only the bits corresponding to
-> +| 	the doorbell length are valid.
-> +
-> +| sem_cmdN- semaphore command.
-> +| 	Bit(31) indicates this semaphore command is enabled.
-> +| 	Bit(30) is the to-device DMA fence.  Block this request until all
-> +| 		to-device DMA transfers are complete.
-> +| 	Bit(29) is the from-device DMA fence.  Block this request until all
-> +| 		from-device DMA transfers are complete.
-> +| 	Bits(28:27) are reserved.
-> +| 	Bits(26:24) are the semaphore command.  0 is NOP.  1 is init with the
-> +| 		specified value.  2 is increment.  3 is decrement.  4 is wait
-> +| 		until the semaphore is equal to the specified value.  5 is wait
-> +| 		until the semaphore is greater or equal to the specified value.
-> +| 		6 is "P", wait until semaphore is greater than 0, then
-> +| 		decrement by 1.  7 is reserved.
-> +| 	Bit(23) is reserved.
-> +| 	Bit(22) is the semaphore sync.  0 is post sync, which means that the
-> +| 		semaphore operation is done after the DMA transfer.  1 is
-> +| 		presync, which gates the DMA transfer.  Only one presync is
-> +| 		allowed per request.
-> +| 	Bit(21) is reserved.
-> +| 	Bits(20:16) is the index of the semaphore to operate on.
-> +| 	Bits(15:12) are reserved.
-> +| 	Bits(11:0) are the semaphore value to use in operations.
-
-It seems to me like structure documentation 
-
-> +Overall, a request is processed in 4 steps:
-> +
-> +1. If specified, the presync semaphore condition must be true
-> +2. If enabled, the DMA transfer occurs
-> +3. If specified, the postsync semaphore conditions must be true
-> +4. If enabled, the doorbell is written
-> +
-> +By using the semaphores in conjunction with the workload running on the NSPs,
-> +the data pipeline can be synchronized such that the host can queue multiple
-> +requests of data for the workload to process, but the DMA Bridge will only copy
-> +the data into the memory of the workload when the workload is ready to process
-> +the next input.
-> +
-> +Response FIFO
-> +-------------
-> +
-> +Once a request is fully processed, a response FIFO element is generated if
-> +specified in pcie_dma_cmd.  The structure of a response FIFO element:
-> +
-> +| {
-> +| 	u16 req_id;
-> +| 	u16 completion_code;
-> +| }
-> +
-> +req_id- matches the req_id of the request that generated this element.
-> +
-> +completion_code- status of this request.  0 is success.  non-zero is an error.
-> +
-> +The DMA Bridge will generate a MSI to the host as a reaction to activity in the
-> +response FIFO of a DBC.  The DMA Bridge hardware has an IRQ storm mitigation
-> +algorithm, where it will only generate a MSI when the response FIFO transitions
-> +from empty to non-empty (unless force MSI is enabled and triggered).  In
-> +response to this MSI, the host is expected to drain the response FIFO, and must
-> +take care to handle any race conditions between draining the FIFO, and the
-> +device inserting elements into the FIFO.
-> +
-> +Neural Network Control (NNC) Protocol
-> +=====================================
-> +
-> +The NNC protocol is how the host makes requests to the QSM to manage workloads.
-> +It uses the QAIC_CONTROL MHI channel.
-> +
-> +Each NNC request is packaged into a message.  Each message is a series of
-> +transactions.  A passthrough type transaction can contain elements known as
-> +commands.
-> +
-> +QSM requires NNC messages be little endian encoded and the fields be naturally
-> +aligned.  Since there are 64-bit elements in some NNC messages, 64-bit alignment
-> +must be maintained.
-> +
-> +A message contains a header and then a series of transactions.  A message may be
-> +at most 4K in size from QSM to the host.  From the host to the QSM, a message
-> +can be at most 64K (maximum size of a single MHI packet), but there is a
-> +continuation feature where message N+1 can be marked as a continuation of
-> +message N.  This is used for exceedingly large DMA xfer transactions.
-> +
-> +Transaction descriptions:
-> +
-> +passthrough- Allows userspace to send an opaque payload directly to the QSM.
-> +This is used for NNC commands.  Userspace is responsible for managing
-> +the QSM message requirements in the payload
-> +
-> +dma_xfer- DMA transfer.  Describes an object that the QSM should DMA into the
-> +device via address and size tuples.
-> +
-> +activate- Activate a workload onto NSPs.  The host must provide memory to be
-> +used by the DBC.
-> +
-> +deactivate- Deactivate an active workload and return the NSPs to idle.
-> +
-> +status- Query the QSM about it's NNC implementation.  Returns the NNC version,
-> +and if CRC is used.
-> +
-> +terminate- Release a user's resources.
-> +
-> +dma_xfer_cont- Continuation of a previous DMA transfer.  If a DMA transfer
-> +cannot be specified in a single message (highly fragmented), this
-> +transaction can be used to specify more ranges.
-> +
-> +validate_partition- Query to QSM to determine if a partition identifier is
-> +valid.
-> +
-> +Each message is tagged with a user id, and a partition id.  The user id allows
-> +QSM to track resources, and release them when the user goes away (eg the process
-> +crashes).  A partition id identifies the resource partition that QSM manages,
-> +which this message applies to.
-> +
-> +Messages may have CRCs.  Messages should have CRCs applied until the QSM
-> +reports via the status transaction that CRCs are not needed.  The QSM on the
-> +SA9000P requires CRCs for black channel safing.
-> +
-> +Subsystem Restart (SSR)
-> +=======================
-> +
-> +SSR is the concept of limiting the impact of an error.  An AIC100 device may
-> +have multiple users, each with their own workload running.  If the workload of
-> +one user crashes, the fallout of that should be limited to that workload and not
-> +impact other workloads.  SSR accomplishes this.
-> +
-> +If a particular workload crashes, QSM notifies the host via the QAIC_SSR MHI
-> +channel.  This notification identifies the workload by it's assigned DBC.  A
-> +multi-stage recovery process is then used to cleanup both sides, and get the
-> +DBC/NSPs into a working state.
-> +
-> +When SSR occurs, any state in the workload is lost.  Any inputs that were in
-> +process, or queued by not yet serviced, are lost.  The loaded artifacts will
-> +remain in on-card DDR, but the host will need to re-activate the workload if
-> +it desires to recover the workload.
-> +
-> +Reliability, Accessability, Serviceability (RAS)
-
-Accessability -> Accessibility
-
-> +================================================
-> +
-> +AIC100 is expected to be deployed in server systems where RAS ideology is
-> +applied.  Simply put, RAS is the concept of detecting, classifying, and
-> +reporting errors.  While PCIe has AER (Advanced Error Reporting) which factors
-> +into RAS, AER does not allow for a device to report details about internal
-> +errors.  Therefore, AIC100 implements a custom RAS mechanism.  When a RAS event
-> +occurs, QSM will report the event with appropriate details via the QAIC_STATUS
-> +MHI channel.  A sysadmin may determine that a particular device needs
-> +additional service based on RAS reports.
-> +
-> +Telemetry
-> +=========
-> +
-> +QSM has the ability to report various physical attributes of the device, and in
-> +some cases, to allow the host to control them.  Examples include thermal limits,
-> +thermal readings, and power readings.  These items are communicated via the
-> +QAIC_TELEMETRY MHI channel
-> diff --git a/Documentation/accel/qaic/index.rst b/Documentation/accel/qaic/index.rst
-> new file mode 100644
-> index 0000000..ad19b88
-> --- /dev/null
-> +++ b/Documentation/accel/qaic/index.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=====================================
-> + accel/qaic Qualcomm Cloud AI driver
-> +=====================================
-> +
-> +The accel/qaic driver supports the Qualcomm Cloud AI machine learning
-> +accelerator cards.
-> +
-> +.. toctree::
-> +
-> +   qaic
-> +   aic100
-> diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
-> new file mode 100644
-> index 0000000..b0e7a5f
-> --- /dev/null
-> +++ b/Documentation/accel/qaic/qaic.rst
-> @@ -0,0 +1,169 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=============
-> + QAIC driver
-> +=============
-> +
-> +The QAIC driver is the Kernel Mode Driver (KMD) for the AIC100 family of AI
-> +accelerator products.
-> +
-> +Interrupts
-> +==========
-> +
-> +While the AIC100 DMA Bridge hardware implements an IRQ storm mitigation
-> +mechanism, it is still possible for an IRQ storm to occur.  A storm can happen
-> +if the workload is particularly quick, and the host is responsive.  If the host
-> +can drain the response FIFO as quickly as the device can insert elements into
-> +it, then the device will frequently transition the response FIFO from empty to
-> +non-empty and generate MSIs at a rate equilivelent to the speed of the
-
-equilivelent -> equivalent
-
-> +workload's ability to process inputs.  The lprnet (license plate reader network)
-> +workload is known to trigger this condition, and can generate in excess of 100k
-> +MSIs per second.  It has been observed that most systems cannot tolerate this
-> +for long, and will crash due to some form of watchdog due to the overhead of
-> +the interrupt controller interrupting the host CPU.
-> +
-> +To mitigate this issue, the QAIC driver implements specific IRQ handling.  When
-> +QAIC receives an IRQ, it disables that line.  This prevents the interrupt
-> +controller from interrupting the CPU.  Then AIC drains the FIFO.  Once the FIFO
-> +is drained, QAIC implements a "last chance" polling algorithm where QAIC will
-> +sleep for a time to see if the workload will generate more activity.  The IRQ
-> +line remains disabled during this time.  If no activity is detected, QAIC exits
-> +polling mode and reenables the IRQ line.
-> +
-> +This mitigation in QAIC is very effective.  The same lprnet usecase that
-> +generates 100k IRQs per second (per /proc/interrupts) is reduced to roughly 64
-> +IRQs over 5 minutes while keeping the host system stable, and having the same
-> +workload throughput performance (within run to run noise variation).
-> +
-> +
-> +Neural Network Control (NNC) Protocol
-> +=====================================
-> +
-> +The implementation of NNC is split between the KMD (QAIC) and UMD.  In general
-> +QAIC understands how to encode/decode NNC wire protocol, and elements of the
-> +protocol which require kernelspace knowledge to process (for example, mapping
-
-kernelspace is missing a space :P
-
-> +host memory to device IOVAs).  QAIC understands the structure of a message, and
-> +all of the transactions.  QAIC does not understand commands (the payload of a
-> +passthrough transaction).
-> +
-> +QAIC handles and enforces the required little endianness and 64-bit alignment,
-> +to the degree that it can.  Since QAIC does not know the contents of a
-> +passthrough transaction, it relies on the UMD to saitsfy the requirements.
-
-saitsfy -> satisfy
-
-> +The terminate transaction is of particular use to QAIC.  QAIC is not aware of
-> +the resources that are loaded onto a device since the majority of that activity
-> +occurs within NNC commands.  As a result, QAIC does not have the means to
-> +roll back userspace activity.  To ensure that a userspace client's resources
-> +are fully released in the case of a process crash, or a bug, QAIC uses the
-> +terminate command to let QSM know when a user has gone away, and the resources
-> +can be released.
-> +
-> +QSM can report a version number of the NNC protocol it supports.  This is in the
-> +form of a Major number and a Minor number.
-> +
-> +Major number updates indicate changes to the NNC protocol which impact the
-> +message format, or transactions (impacts QAIC).
-> +
-> +Minor number updates indicate changes to the NNC protocol which impact the
-> +commands (does not impact QAIC).
-> +
-> +uAPI
-> +====
-> +
-> +QAIC defines a number of driver specific IOCTLs as part of the userspace API.
-> +This section describes those APIs.
-> +
-> +DRM_IOCTL_QAIC_MANAGE:
-> +This IOCTL allows userspace to send a NNC request to the QSM.  The call will
-> +block until a response is received, or the request has timed out.
-> +
-> +DRM_IOCTL_QAIC_CREATE_BO:
-> +This IOCTL allows userspace to allocate a buffer object (BO) which can send or
-> +receive data from a workload.  The call will return a GEM handle that
-> +represents the allocated buffer.  The BO is not usable until it has been sliced
-> +(see DRM_IOCTL_QAIC_ATTACH_SLICE_BO).
-> +
-> +DRM_IOCTL_QAIC_MMAP_BO:
-> +This IOCTL allows userspace to prepare an allocated BO to be mmap'd into the
-> +userspace process.
-> +
-> +DRM_IOCTL_QAIC_ATTACH_SLICE_BO:
-> +This IOCTL allows userspace to slice a BO in preparation for sending the BO to
-> +the device.  Slicing is the operation of describing what portions of a BO get
-> +sent where to a workload.  This requires a set of DMA transfers for the DMA
-> +Bridge, and as such, locks the BO to a specific DBC.
-> +
-> +DRM_IOCTL_QAIC_EXECUTE_BO:
-> +This IOCTL allows userspace to submit a set of sliced BOs to the device.  The
-> +call is non-blocking.  Success only indicates that the BOs have been queued
-> +to the device, but does not guarantee they have been executed.
-> +
-> +DRM_IOCTL_QAIC_PARTIAL_EXECUTE_BO:
-> +This IOCTL operates like DRM_IOCTL_QAIC_EXECUTE_BO, but it allows userspace to
-> +shrink the BOs sent to the device for this specific call.  If a BO typically has
-> +N inputs, but only a subset of those is available, this IOCTL allows userspace
-> +to indicate that only the first M bytes of the BO should be sent to the device
-> +to minimize data transfer overhead.  This IOCTL dynamically recomputes the
-> +slicing, and therefore has some processing overhead before the BOs can be queued
-> +to the device.
-> +
-> +DRM_IOCTL_QAIC_WAIT_BO:
-> +This IOCTL allows userspace to determine when a particular BO has been processed
-> +by the device.  The call will block until either the BO has been processed and
-> +can be re-queued to the device, or a timeout occurs.
-> +
-> +DRM_IOCTL_QAIC_PERF_STATS_BO:
-> +This IOCTL allows userspace to collect performance statistics on the most
-> +recent execution of a BO.  This allows userspace to construct an end to end
-> +timeline of the BO processing for a performance analysis.
-> +
-> +DRM_IOCTL_QAIC_PART_DEV:
-> +This IOCTL allows userspace to request a duplicate "shadow device".  This extra
-> +accelN device is associated with a specific partition of resources on the AIC100
-> +device and can be used for limiting a process to some subset of resources.
-> +
-> +Userspace Client Isolation
-> +==========================
-> +
-> +AIC100 supports multiple clients.  Multiple DBCs can be consumed by a single
-> +client, and multiple clients can each consume one or more DBCs.  Workloads
-> +may contain sensistive information therefore only the client that owns the
-
-sensistive -> sensitive
-
-> +workload should be allowed to interface with the DBC.
-> +
-> +Clients are identified by the instance associated with their open().  A client
-> +may only use memory they allocate, and DBCs that are assigned to their
-> +workloads.  Attempts to access resources assigned to other clients will be
-> +rejected.
-> +
-> +Module parameters
-> +=================
-> +
-> +QAIC supports the following module parameters:
-> +
-> +**datapath_polling (bool)**
-> +
-> +Configures QAIC to use a polling thread for datapath events instead of relying
-> +on the device interrupts.  Useful for platforms with broken multiMSI.  Must be
-> +set at QAIC driver initialization.  Default is 0 (off).
-> +
-> +**mhi_timeout (int)**
-> +
-> +Sets the timeout value for MHI operations in milliseconds (ms).  Must be set
-> +at the time the driver detects a device.  Default is 2000 (2 seconds).
-> +
-> +**control_resp_timeout (int)**
-> +
-> +Sets the timeout value for QSM responses to NNC messages in seconds (s).  Must
-> +be set at the time the driver is sending a request to QSM.  Default is 60 (one
-> +minute).
-> +
-> +**wait_exec_default_timeout (int)**
-> +
-> +Sets the default timeout for the wait_exec ioctl in milliseconds (ms).  Must be
-> +set prior to the waic_exec ioctl call.  A value specified in the ioctl call
-> +overrides this for that call.  Default is 5000 (5 seconds).
-> +
-> +**datapath_poll_interval_us (int)**
-> +
-> +Sets the polling interval in microseconds (us) when datapath polling is active.
-> +Takes effect at the next polling interval.  Default is 100 (100 us).
-
-Cool that you are staring with the documentation :)
-I suggest running at least "checkpatch.pl --codespell" on the series as there are many spelling issue.
-
-Regards,
-Jacek
-
-
+> 
+> Matt
+> 
+> [1] https://gitlab.freedesktop.org/drm/xe/kernel/-/merge_requests/314
+> [2] https://gitlab.freedesktop.org/drm/xe/kernel/-/merge_requests/314/diffs?commit_id=2ae21d7a3f52e5eb2c105ed8ae231471274bdc36
+> [3] https://gitlab.freedesktop.org/drm/xe/kernel/-/merge_requests/314/diffs?commit_id=49fca9f5d96201f5cbd1b19c7ff17eedfac65cdc
+> [4] https://gitlab.freedesktop.org/drm/xe/kernel/-/merge_requests/314/diffs?commit_id=61fa6b1e1f10e791ae82358fa971b04421d53024
+> [5] https://gitlab.freedesktop.org/drm/xe/kernel/-/merge_requests/314/diffs?commit_id=87fc08dcf0840e794b38269fe4c6a95d088d79ec
+> [6] https://gitlab.freedesktop.org/drm/xe/kernel/-/merge_requests/314/diffs?commit_id=a4826c22f6788bc29906ffa263c1cd3c4661fa77
+> [7] https://gitlab.freedesktop.org/drm/xe/kernel/-/merge_requests/314/diffs?commit_id=f008bbb55b213868e52c7b9cda4c1bfb95af6aee
+> [8] https://gitlab.freedesktop.org/drm/xe/kernel/-/merge_requests/314/diffs?commit_id=41f4f71c05d04d2b17d988dd95369b5df2d7f681
+> 
+>> Idea-suggested-by: Dave Airlie <airlied@redhat.com>
+>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+>> ---
+>>   Documentation/gpu/drm-mm.rst    |   31 +
+>>   drivers/gpu/drm/Makefile        |    1 +
+>>   drivers/gpu/drm/drm_gem.c       |    3 +
+>>   drivers/gpu/drm/drm_gpuva_mgr.c | 1323 +++++++++++++++++++++++++++++++
+>>   include/drm/drm_drv.h           |    6 +
+>>   include/drm/drm_gem.h           |   75 ++
+>>   include/drm/drm_gpuva_mgr.h     |  527 ++++++++++++
+>>   7 files changed, 1966 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
+>>   create mode 100644 include/drm/drm_gpuva_mgr.h
+>>
+>> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+>> index a52e6f4117d6..c9f120cfe730 100644
+>> --- a/Documentation/gpu/drm-mm.rst
+>> +++ b/Documentation/gpu/drm-mm.rst
+>> @@ -466,6 +466,37 @@ DRM MM Range Allocator Function References
+>>   .. kernel-doc:: drivers/gpu/drm/drm_mm.c
+>>      :export:
+>>   
+>> +DRM GPU VA Manager
+>> +==================
+>> +
+>> +Overview
+>> +--------
+>> +
+>> +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+>> +   :doc: Overview
+>> +
+>> +Split and Merge
+>> +---------------
+>> +
+>> +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+>> +   :doc: Split and Merge
+>> +
+>> +Locking
+>> +-------
+>> +
+>> +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+>> +   :doc: Locking
+>> +
+>> +
+>> +DRM GPU VA Manager Function References
+>> +--------------------------------------
+>> +
+>> +.. kernel-doc:: include/drm/drm_gpuva_mgr.h
+>> +   :internal:
+>> +
+>> +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+>> +   :export:
+>> +
+>>   DRM Buddy Allocator
+>>   ===================
+>>   
+>> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+>> index 4fe190aee584..de2ffca3b6e4 100644
+>> --- a/drivers/gpu/drm/Makefile
+>> +++ b/drivers/gpu/drm/Makefile
+>> @@ -45,6 +45,7 @@ drm-y := \
+>>   	drm_vblank.o \
+>>   	drm_vblank_work.o \
+>>   	drm_vma_manager.o \
+>> +	drm_gpuva_mgr.o \
+>>   	drm_writeback.o
+>>   drm-$(CONFIG_DRM_LEGACY) += \
+>>   	drm_agpsupport.o \
+>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>> index 59a0bb5ebd85..65115fe88627 100644
+>> --- a/drivers/gpu/drm/drm_gem.c
+>> +++ b/drivers/gpu/drm/drm_gem.c
+>> @@ -164,6 +164,9 @@ void drm_gem_private_object_init(struct drm_device *dev,
+>>   	if (!obj->resv)
+>>   		obj->resv = &obj->_resv;
+>>   
+>> +	if (drm_core_check_feature(dev, DRIVER_GEM_GPUVA))
+>> +		drm_gem_gpuva_init(obj);
+>> +
+>>   	drm_vma_node_reset(&obj->vma_node);
+>>   	INIT_LIST_HEAD(&obj->lru_node);
+>>   }
+>> diff --git a/drivers/gpu/drm/drm_gpuva_mgr.c b/drivers/gpu/drm/drm_gpuva_mgr.c
+>> new file mode 100644
+>> index 000000000000..e665f642689d
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/drm_gpuva_mgr.c
+>> @@ -0,0 +1,1323 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (c) 2022 Red Hat.
+>> + *
+>> + * Permission is hereby granted, free of charge, to any person obtaining a
+>> + * copy of this software and associated documentation files (the "Software"),
+>> + * to deal in the Software without restriction, including without limitation
+>> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+>> + * and/or sell copies of the Software, and to permit persons to whom the
+>> + * Software is furnished to do so, subject to the following conditions:
+>> + *
+>> + * The above copyright notice and this permission notice shall be included in
+>> + * all copies or substantial portions of the Software.
+>> + *
+>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+>> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+>> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+>> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+>> + * OTHER DEALINGS IN THE SOFTWARE.
+>> + *
+>> + * Authors:
+>> + *     Danilo Krummrich <dakr@redhat.com>
+>> + *
+>> + */
+>> +
+>> +#include <drm/drm_gem.h>
+>> +#include <drm/drm_gpuva_mgr.h>
+>> +
+>> +/**
+>> + * DOC: Overview
+>> + *
+>> + * The DRM GPU VA Manager, represented by struct drm_gpuva_manager keeps track
+>> + * of a GPU's virtual address (VA) space and manages the corresponding virtual
+>> + * mappings represented by &drm_gpuva objects. It also keeps track of the
+>> + * mapping's backing &drm_gem_object buffers.
+>> + *
+>> + * &drm_gem_object buffers maintain a list (and a corresponding list lock) of
+>> + * &drm_gpuva objects representing all existent GPU VA mappings using this
+>> + * &drm_gem_object as backing buffer.
+>> + *
+>> + * A GPU VA mapping can only be created within a previously allocated
+>> + * &drm_gpuva_region, which represents a reserved portion of the GPU VA space.
+>> + * GPU VA mappings are not allowed to span over a &drm_gpuva_region's boundary.
+>> + *
+>> + * GPU VA regions can also be flagged as sparse, which allows drivers to create
+>> + * sparse mappings for a whole GPU VA region in order to support Vulkan
+>> + * 'Sparse Resources'.
+>> + *
+>> + * The GPU VA manager internally uses the &drm_mm range allocator to manage the
+>> + * &drm_gpuva mappings and the &drm_gpuva_regions within a GPU's virtual address
+>> + * space.
+>> + *
+>> + * Besides the GPU VA space regions (&drm_gpuva_region) allocated by a driver
+>> + * the &drm_gpuva_manager contains a special region representing the portion of
+>> + * VA space reserved by the kernel. This node is initialized together with the
+>> + * GPU VA manager instance and removed when the GPU VA manager is destroyed.
+>> + *
+>> + * In a typical application drivers would embed struct drm_gpuva_manager,
+>> + * struct drm_gpuva_region and struct drm_gpuva within their own driver
+>> + * specific structures, there won't be any memory allocations of it's own nor
+>> + * memory allocations of &drm_gpuva or &drm_gpuva_region entries.
+>> + */
+>> +
+>> +/**
+>> + * DOC: Split and Merge
+>> + *
+>> + * The DRM GPU VA manager also provides an algorithm implementing splitting and
+>> + * merging of existent GPU VA mappings with the ones that are requested to be
+>> + * mapped or unmapped. This feature is required by the Vulkan API to implement
+>> + * Vulkan 'Sparse Memory Bindings' - drivers UAPIs often refer to this as
+>> + * VM BIND.
+>> + *
+>> + * Drivers can call drm_gpuva_sm_map_ops_create() to obtain a list of map, unmap
+>> + * and remap operations for a given newly requested mapping. This list
+>> + * represents the set of operations to execute in order to integrate the new
+>> + * mapping cleanly into the current state of the GPU VA space.
+>> + *
+>> + * Depending on how the new GPU VA mapping intersects with the existent mappings
+>> + * of the GPU VA space the &drm_gpuva_ops contain an arbitrary amount of unmap
+>> + * operations, a maximum of two remap operations and a single map operation.
+>> + * The set of operations can also be empty if no operation is required, e.g. if
+>> + * the requested mapping already exists in the exact same way.
+>> + *
+>> + * The single map operation, if existent, represents the original map operation
+>> + * requested by the caller. Please note that this operation might be altered
+>> + * comparing it with the original map operation, e.g. because it was merged with
+>> + * an already  existent mapping. Hence, drivers must execute this map operation
+>> + * instead of the original one they passed to drm_gpuva_sm_map_ops_create().
+>> + *
+>> + * &drm_gpuva_op_unmap contains a 'keep' field, which indicates whether the
+>> + * &drm_gpuva to unmap is physically contiguous with the original mapping
+>> + * request. Optionally, if 'keep' is set, drivers may keep the actual page table
+>> + * entries for this &drm_gpuva, adding the missing page table entries only and
+>> + * update the &drm_gpuva_manager's view of things accordingly.
+>> + *
+>> + * Drivers may do the same optimization, namely delta page table updates, also
+>> + * for remap operations. This is possible since &drm_gpuva_op_remap consists of
+>> + * one unmap operation and one or two map operations, such that drivers can
+>> + * derive the page table update delta accordingly.
+>> + *
+>> + * Note that there can't be more than two existent mappings to split up, one at
+>> + * the beginning and one at the end of the new mapping, hence there is a
+>> + * maximum of two remap operations.
+>> + *
+>> + * Generally, the DRM GPU VA manager never merges mappings across the
+>> + * boundaries of &drm_gpuva_regions. This is the case since merging between
+>> + * GPU VA regions would result into unmap and map operations to be issued for
+>> + * both regions involved although the original mapping request was referred to
+>> + * one specific GPU VA region only. Since the other GPU VA region, the one not
+>> + * explicitly requested to be altered, might be in use by the GPU, we are not
+>> + * allowed to issue any map/unmap operations for this region.
+>> + *
+>> + * Note that before calling drm_gpuva_sm_map_ops_create() again with another
+>> + * mapping request it is necessary to update the &drm_gpuva_manager's view of
+>> + * the GPU VA space. The previously obtained operations must be either fully
+>> + * processed or completely abandoned.
+>> + *
+>> + * To update the &drm_gpuva_manager's view of the GPU VA space
+>> + * drm_gpuva_insert(), drm_gpuva_destroy_locked() and/or
+>> + * drm_gpuva_destroy_unlocked() should be used.
+>> + *
+>> + * Analogue to drm_gpuva_sm_map_ops_create() drm_gpuva_sm_unmap_ops_create()
+>> + * provides drivers a the list of operations to be executed in order to unmap
+>> + * a range of GPU VA space. The logic behind this functions is way simpler
+>> + * though: For all existent mappings enclosed by the given range unmap
+>> + * operations are created. For mappings which are only partically located within
+>> + * the given range, remap operations are created such that those mappings are
+>> + * split up and re-mapped partically.
+>> + *
+>> + * The following paragraph depicts the basic constellations of existent GPU VA
+>> + * mappings, a newly requested mapping and the resulting mappings as implemented
+>> + * by drm_gpuva_sm_map_ops_create()  - it doesn't cover arbitrary combinations
+>> + * of those constellations.
+>> + *
+>> + * ::
+>> + *
+>> + *	1) Existent mapping is kept.
+>> + *	----------------------------
+>> + *
+>> + *	     0     a     1
+>> + *	old: |-----------| (bo_offset=n)
+>> + *
+>> + *	     0     a     1
+>> + *	req: |-----------| (bo_offset=n)
+>> + *
+>> + *	     0     a     1
+>> + *	new: |-----------| (bo_offset=n)
+>> + *
+>> + *
+>> + *	2) Existent mapping is replaced.
+>> + *	--------------------------------
+>> + *
+>> + *	     0     a     1
+>> + *	old: |-----------| (bo_offset=n)
+>> + *
+>> + *	     0     a     1
+>> + *	req: |-----------| (bo_offset=m)
+>> + *
+>> + *	     0     a     1
+>> + *	new: |-----------| (bo_offset=m)
+>> + *
+>> + *
+>> + *	3) Existent mapping is replaced.
+>> + *	--------------------------------
+>> + *
+>> + *	     0     a     1
+>> + *	old: |-----------| (bo_offset=n)
+>> + *
+>> + *	     0     b     1
+>> + *	req: |-----------| (bo_offset=n)
+>> + *
+>> + *	     0     b     1
+>> + *	new: |-----------| (bo_offset=n)
+>> + *
+>> + *
+>> + *	4) Existent mapping is replaced.
+>> + *	--------------------------------
+>> + *
+>> + *	     0  a  1
+>> + *	old: |-----|       (bo_offset=n)
+>> + *
+>> + *	     0     a     2
+>> + *	req: |-----------| (bo_offset=n)
+>> + *
+>> + *	     0     a     2
+>> + *	new: |-----------| (bo_offset=n)
+>> + *
+>> + *	Note: We expect to see the same result for a request with a different bo
+>> + *	      and/or bo_offset.
+>> + *
+>> + *
+>> + *	5) Existent mapping is split.
+>> + *	-----------------------------
+>> + *
+>> + *	     0     a     2
+>> + *	old: |-----------| (bo_offset=n)
+>> + *
+>> + *	     0  b  1
+>> + *	req: |-----|       (bo_offset=n)
+>> + *
+>> + *	     0  b  1  a' 2
+>> + *	new: |-----|-----| (b.bo_offset=n, a.bo_offset=n+1)
+>> + *
+>> + *	Note: We expect to see the same result for a request with a different bo
+>> + *	      and/or non-contiguous bo_offset.
+>> + *
+>> + *
+>> + *	6) Existent mapping is kept.
+>> + *	----------------------------
+>> + *
+>> + *	     0     a     2
+>> + *	old: |-----------| (bo_offset=n)
+>> + *
+>> + *	     0  a  1
+>> + *	req: |-----|       (bo_offset=n)
+>> + *
+>> + *	     0     a     2
+>> + *	new: |-----------| (bo_offset=n)
+>> + *
+>> + *
+>> + *	7) Existent mapping is split.
+>> + *	-----------------------------
+>> + *
+>> + *	     0     a     2
+>> + *	old: |-----------| (bo_offset=n)
+>> + *
+>> + *	           1  b  2
+>> + *	req:       |-----| (bo_offset=m)
+>> + *
+>> + *	     0  a  1  b  2
+>> + *	new: |-----|-----| (a.bo_offset=n,b.bo_offset=m)
+>> + *
+>> + *
+>> + *	8) Existent mapping is kept.
+>> + *	----------------------------
+>> + *
+>> + *	      0     a     2
+>> + *	old: |-----------| (bo_offset=n)
+>> + *
+>> + *	           1  a  2
+>> + *	req:       |-----| (bo_offset=n+1)
+>> + *
+>> + *	     0     a     2
+>> + *	new: |-----------| (bo_offset=n)
+>> + *
+>> + *
+>> + *	9) Existent mapping is split.
+>> + *	-----------------------------
+>> + *
+>> + *	     0     a     2
+>> + *	old: |-----------|       (bo_offset=n)
+>> + *
+>> + *	           1     b     3
+>> + *	req:       |-----------| (bo_offset=m)
+>> + *
+>> + *	     0  a  1     b     3
+>> + *	new: |-----|-----------| (a.bo_offset=n,b.bo_offset=m)
+>> + *
+>> + *
+>> + *	10) Existent mapping is merged.
+>> + *	-------------------------------
+>> + *
+>> + *	     0     a     2
+>> + *	old: |-----------|       (bo_offset=n)
+>> + *
+>> + *	           1     a     3
+>> + *	req:       |-----------| (bo_offset=n+1)
+>> + *
+>> + *	     0        a        3
+>> + *	new: |-----------------| (bo_offset=n)
+>> + *
+>> + *
+>> + *	11) Existent mapping is split.
+>> + *	------------------------------
+>> + *
+>> + *	     0        a        3
+>> + *	old: |-----------------| (bo_offset=n)
+>> + *
+>> + *	           1  b  2
+>> + *	req:       |-----|       (bo_offset=m)
+>> + *
+>> + *	     0  a  1  b  2  a' 3
+>> + *	new: |-----|-----|-----| (a.bo_offset=n,b.bo_offset=m,a'.bo_offset=n+2)
+>> + *
+>> + *
+>> + *	12) Existent mapping is kept.
+>> + *	-----------------------------
+>> + *
+>> + *	     0        a        3
+>> + *	old: |-----------------| (bo_offset=n)
+>> + *
+>> + *	           1  a  2
+>> + *	req:       |-----|       (bo_offset=n+1)
+>> + *
+>> + *	     0        a        3
+>> + *	old: |-----------------| (bo_offset=n)
+>> + *
+>> + *
+>> + *	13) Existent mapping is replaced.
+>> + *	---------------------------------
+>> + *
+>> + *	           1  a  2
+>> + *	old:       |-----| (bo_offset=n)
+>> + *
+>> + *	     0     a     2
+>> + *	req: |-----------| (bo_offset=n)
+>> + *
+>> + *	     0     a     2
+>> + *	new: |-----------| (bo_offset=n)
+>> + *
+>> + *	Note: We expect to see the same result for a request with a different bo
+>> + *	      and/or non-contiguous bo_offset.
+>> + *
+>> + *
+>> + *	14) Existent mapping is replaced.
+>> + *	---------------------------------
+>> + *
+>> + *	           1  a  2
+>> + *	old:       |-----| (bo_offset=n)
+>> + *
+>> + *	     0        a       3
+>> + *	req: |----------------| (bo_offset=n)
+>> + *
+>> + *	     0        a       3
+>> + *	new: |----------------| (bo_offset=n)
+>> + *
+>> + *	Note: We expect to see the same result for a request with a different bo
+>> + *	      and/or non-contiguous bo_offset.
+>> + *
+>> + *
+>> + *	15) Existent mapping is split.
+>> + *	------------------------------
+>> + *
+>> + *	           1     a     3
+>> + *	old:       |-----------| (bo_offset=n)
+>> + *
+>> + *	     0     b     2
+>> + *	req: |-----------|       (bo_offset=m)
+>> + *
+>> + *	     0     b     2  a' 3
+>> + *	new: |-----------|-----| (b.bo_offset=m,a.bo_offset=n+2)
+>> + *
+>> + *
+>> + *	16) Existent mappings are merged.
+>> + *	---------------------------------
+>> + *
+>> + *	     0     a     1
+>> + *	old: |-----------|                        (bo_offset=n)
+>> + *
+>> + *	                            2     a     3
+>> + *	old':                       |-----------| (bo_offset=n+2)
+>> + *
+>> + *	                1     a     2
+>> + *	req:            |-----------|             (bo_offset=n+1)
+>> + *
+>> + *	                      a
+>> + *	new: |----------------------------------| (bo_offset=n)
+>> + */
+>> +
+>> +/**
+>> + * DOC: Locking
+>> + *
+>> + * Generally, the GPU VA manager does not take care of locking itself, it is
+>> + * the drivers responsibility to take care about locking. Drivers might want to
+>> + * protect the following operations: inserting, destroying and iterating
+>> + * &drm_gpuva and &drm_gpuva_region objects as well as generating split and merge
+>> + * operations.
+>> + *
+>> + * The GPU VA manager does take care of the locking of the backing
+>> + * &drm_gem_object buffers GPU VA lists though, unless the provided functions
+>> + * documentation claims otherwise.
+>> + */
+>> +
+>> +/**
+>> + * drm_gpuva_manager_init - initialize a &drm_gpuva_manager
+>> + * @mgr: pointer to the &drm_gpuva_manager to initialize
+>> + * @name: the name of the GPU VA space
+>> + * @start_offset: the start offset of the GPU VA space
+>> + * @range: the size of the GPU VA space
+>> + * @reserve_offset: the start of the kernel reserved GPU VA area
+>> + * @reserve_range: the size of the kernel reserved GPU VA area
+>> + *
+>> + * The &drm_gpuva_manager must be initialized with this function before use.
+>> + *
+>> + * Note that @mgr must be cleared to 0 before calling this function. The given
+>> + * &name is expected to be managed by the surrounding driver structures.
+>> + */
+>> +void
+>> +drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+>> +		       const char *name,
+>> +		       u64 start_offset, u64 range,
+>> +		       u64 reserve_offset, u64 reserve_range)
+>> +{
+>> +	drm_mm_init(&mgr->va_mm, start_offset, range);
+>> +	drm_mm_init(&mgr->region_mm, start_offset, range);
+>> +
+>> +	mgr->mm_start = start_offset;
+>> +	mgr->mm_range = range;
+>> +
+>> +	mgr->name = name ? name : "unknown";
+>> +
+>> +	memset(&mgr->kernel_alloc_node, 0, sizeof(struct drm_mm_node));
+>> +	mgr->kernel_alloc_node.start = reserve_offset;
+>> +	mgr->kernel_alloc_node.size = reserve_range;
+>> +	drm_mm_reserve_node(&mgr->region_mm, &mgr->kernel_alloc_node);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_manager_init);
+>> +
+>> +/**
+>> + * drm_gpuva_manager_destroy - cleanup a &drm_gpuva_manager
+>> + * @mgr: pointer to the &drm_gpuva_manager to clean up
+>> + *
+>> + * Note that it is a bug to call this function on a manager that still
+>> + * holds GPU VA mappings.
+>> + */
+>> +void
+>> +drm_gpuva_manager_destroy(struct drm_gpuva_manager *mgr)
+>> +{
+>> +	mgr->name = NULL;
+>> +	drm_mm_remove_node(&mgr->kernel_alloc_node);
+>> +	drm_mm_takedown(&mgr->va_mm);
+>> +	drm_mm_takedown(&mgr->region_mm);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_manager_destroy);
+>> +
+>> +static struct drm_gpuva_region *
+>> +drm_gpuva_in_region(struct drm_gpuva_manager *mgr, u64 addr, u64 range)
+>> +{
+>> +	struct drm_gpuva_region *reg;
+>> +
+>> +	/* Find the VA region the requested range is strictly enclosed by. */
+>> +	drm_gpuva_for_each_region_in_range(reg, mgr, addr, addr + range) {
+>> +		if (reg->node.start <= addr &&
+>> +		    reg->node.start + reg->node.size >= addr + range &&
+>> +		    &reg->node != &mgr->kernel_alloc_node)
+>> +			return reg;
+>> +	}
+>> +
+>> +	return NULL;
+>> +}
+>> +
+>> +static bool
+>> +drm_gpuva_in_any_region(struct drm_gpuva_manager *mgr, u64 addr, u64 range)
+>> +{
+>> +	return !!drm_gpuva_in_region(mgr, addr, range);
+>> +}
+>> +
+>> +/**
+>> + * drm_gpuva_insert - insert a &drm_gpuva
+>> + * @mgr: the &drm_gpuva_manager to insert the &drm_gpuva in
+>> + * @va: the &drm_gpuva to insert
+>> + * @addr: the start address of the GPU VA
+>> + * @range: the range of the GPU VA
+>> + *
+>> + * Insert a &drm_gpuva with a given address and range into a
+>> + * &drm_gpuva_manager.
+>> + *
+>> + * The function assumes the caller does not hold the &drm_gem_object's
+>> + * GPU VA list mutex.
+>> + *
+>> + * Returns: 0 on success, negative error code on failure.
+>> + */
+>> +int
+>> +drm_gpuva_insert(struct drm_gpuva_manager *mgr,
+>> +		 struct drm_gpuva *va,
+>> +		 u64 addr, u64 range)
+>> +{
+>> +	struct drm_gpuva_region *reg;
+>> +	int ret;
+>> +
+>> +	if (!va->gem.obj)
+>> +		return -EINVAL;
+>> +
+>> +	reg = drm_gpuva_in_region(mgr, addr, range);
+>> +	if (!reg)
+>> +		return -EINVAL;
+>> +
+>> +	ret = drm_mm_insert_node_in_range(&mgr->va_mm, &va->node,
+>> +					  range, 0,
+>> +					  0, addr,
+>> +					  addr + range,
+>> +					  DRM_MM_INSERT_LOW|DRM_MM_INSERT_ONCE);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	va->mgr = mgr;
+>> +	va->region = reg;
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_insert);
+>> +
+>> +/**
+>> + * drm_gpuva_link_locked - link a &drm_gpuva
+>> + * @va: the &drm_gpuva to link
+>> + *
+>> + * This adds the given &va to the GPU VA list of the &drm_gem_object it is
+>> + * associated with.
+>> + *
+>> + * The function assumes the caller already holds the &drm_gem_object's
+>> + * GPU VA list mutex.
+>> + */
+>> +void
+>> +drm_gpuva_link_locked(struct drm_gpuva *va)
+>> +{
+>> +	lockdep_assert_held(&va->gem.obj->gpuva.mutex);
+>> +	list_add_tail(&va->head, &va->gem.obj->gpuva.list);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_link_locked);
+>> +
+>> +/**
+>> + * drm_gpuva_link_unlocked - unlink a &drm_gpuva
+>> + * @va: the &drm_gpuva to unlink
+>> + *
+>> + * This adds the given &va to the GPU VA list of the &drm_gem_object it is
+>> + * associated with.
+>> + *
+>> + * The function assumes the caller does not hold the &drm_gem_object's
+>> + * GPU VA list mutex.
+>> + */
+>> +void
+>> +drm_gpuva_link_unlocked(struct drm_gpuva *va)
+>> +{
+>> +	drm_gem_gpuva_lock(va->gem.obj);
+>> +	drm_gpuva_link_locked(va);
+>> +	drm_gem_gpuva_unlock(va->gem.obj);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_link_unlocked);
+>> +
+>> +/**
+>> + * drm_gpuva_unlink_locked - unlink a &drm_gpuva
+>> + * @va: the &drm_gpuva to unlink
+>> + *
+>> + * This removes the given &va from the GPU VA list of the &drm_gem_object it is
+>> + * associated with.
+>> + *
+>> + * The function assumes the caller already holds the &drm_gem_object's
+>> + * GPU VA list mutex.
+>> + */
+>> +void
+>> +drm_gpuva_unlink_locked(struct drm_gpuva *va)
+>> +{
+>> +	lockdep_assert_held(&va->gem.obj->gpuva.mutex);
+>> +	list_del_init(&va->head);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_unlink_locked);
+>> +
+>> +/**
+>> + * drm_gpuva_unlink_unlocked - unlink a &drm_gpuva
+>> + * @va: the &drm_gpuva to unlink
+>> + *
+>> + * This removes the given &va from the GPU VA list of the &drm_gem_object it is
+>> + * associated with.
+>> + *
+>> + * The function assumes the caller does not hold the &drm_gem_object's
+>> + * GPU VA list mutex.
+>> + */
+>> +void
+>> +drm_gpuva_unlink_unlocked(struct drm_gpuva *va)
+>> +{
+>> +	drm_gem_gpuva_lock(va->gem.obj);
+>> +	drm_gpuva_unlink_locked(va);
+>> +	drm_gem_gpuva_unlock(va->gem.obj);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_unlink_unlocked);
+>> +
+>> +/**
+>> + * drm_gpuva_destroy_locked - destroy a &drm_gpuva
+>> + * @va: the &drm_gpuva to destroy
+>> + *
+>> + * This removes the given &va from GPU VA list of the &drm_gem_object it is
+>> + * associated with and removes it from the underlaying range allocator.
+>> + *
+>> + * The function assumes the caller already holds the &drm_gem_object's
+>> + * GPU VA list mutex.
+>> + */
+>> +void
+>> +drm_gpuva_destroy_locked(struct drm_gpuva *va)
+>> +{
+>> +	lockdep_assert_held(&va->gem.obj->gpuva.mutex);
+>> +
+>> +	list_del(&va->head);
+>> +	drm_mm_remove_node(&va->node);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_destroy_locked);
+>> +
+>> +/**
+>> + * drm_gpuva_destroy_unlocked - destroy a &drm_gpuva
+>> + * @va: the &drm_gpuva to destroy
+>> + *
+>> + * This removes the given &va from GPU VA list of the &drm_gem_object it is
+>> + * associated with and removes it from the underlaying range allocator.
+>> + *
+>> + * The function assumes the caller does not hold the &drm_gem_object's
+>> + * GPU VA list mutex.
+>> + */
+>> +void
+>> +drm_gpuva_destroy_unlocked(struct drm_gpuva *va)
+>> +{
+>> +	drm_gem_gpuva_lock(va->gem.obj);
+>> +	list_del(&va->head);
+>> +	drm_gem_gpuva_unlock(va->gem.obj);
+>> +
+>> +	drm_mm_remove_node(&va->node);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_destroy_unlocked);
+>> +
+>> +/**
+>> + * drm_gpuva_find - find a &drm_gpuva
+>> + * @mgr: the &drm_gpuva_manager to search in
+>> + * @addr: the &drm_gpuvas address
+>> + * @range: the &drm_gpuvas range
+>> + *
+>> + * Returns: the &drm_gpuva at a given &addr and with a given &range
+>> + */
+>> +struct drm_gpuva *
+>> +drm_gpuva_find(struct drm_gpuva_manager *mgr,
+>> +	       u64 addr, u64 range)
+>> +{
+>> +	struct drm_gpuva *va;
+>> +
+>> +	drm_gpuva_for_each_va_in_range(va, mgr, addr, range) {
+>> +		if (va->node.start == addr &&
+>> +		    va->node.size == range)
+>> +			return va;
+>> +	}
+>> +
+>> +	return NULL;
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_find);
+>> +
+>> +/**
+>> + * drm_gpuva_find_prev - find the &drm_gpuva before the given address
+>> + * @mgr: the &drm_gpuva_manager to search in
+>> + * @start: the given GPU VA's start address
+>> + *
+>> + * Find the adjacent &drm_gpuva before the GPU VA with given &start address.
+>> + *
+>> + * Note that if there is any free space between the GPU VA mappings no mapping
+>> + * is returned.
+>> + *
+>> + * Returns: a pointer to the found &drm_gpuva or NULL if none was found
+>> + */
+>> +struct drm_gpuva *
+>> +drm_gpuva_find_prev(struct drm_gpuva_manager *mgr, u64 start)
+>> +{
+>> +	struct drm_mm_node *node;
+>> +
+>> +	if (start <= mgr->mm_start ||
+>> +	    start > (mgr->mm_start + mgr->mm_range))
+>> +		return NULL;
+>> +
+>> +	node = __drm_mm_interval_first(&mgr->va_mm, start - 1, start);
+>> +	if (node == &mgr->va_mm.head_node)
+>> +		return NULL;
+>> +
+>> +	return (struct drm_gpuva *)node;
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_find_prev);
+>> +
+>> +/**
+>> + * drm_gpuva_find_next - find the &drm_gpuva after the given address
+>> + * @mgr: the &drm_gpuva_manager to search in
+>> + * @end: the given GPU VA's end address
+>> + *
+>> + * Find the adjacent &drm_gpuva after the GPU VA with given &end address.
+>> + *
+>> + * Note that if there is any free space between the GPU VA mappings no mapping
+>> + * is returned.
+>> + *
+>> + * Returns: a pointer to the found &drm_gpuva or NULL if none was found
+>> + */
+>> +struct drm_gpuva *
+>> +drm_gpuva_find_next(struct drm_gpuva_manager *mgr, u64 end)
+>> +{
+>> +	struct drm_mm_node *node;
+>> +
+>> +	if (end < mgr->mm_start ||
+>> +	    end >= (mgr->mm_start + mgr->mm_range))
+>> +		return NULL;
+>> +
+>> +	node = __drm_mm_interval_first(&mgr->va_mm, end, end + 1);
+>> +	if (node == &mgr->va_mm.head_node)
+>> +		return NULL;
+>> +
+>> +	return (struct drm_gpuva *)node;
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_find_next);
+>> +
+>> +/**
+>> + * drm_gpuva_region_insert - insert a &drm_gpuva_region
+>> + * @mgr: the &drm_gpuva_manager to insert the &drm_gpuva in
+>> + * @reg: the &drm_gpuva_region to insert
+>> + * @addr: the start address of the GPU VA
+>> + * @range: the range of the GPU VA
+>> + *
+>> + * Insert a &drm_gpuva_region with a given address and range into a
+>> + * &drm_gpuva_manager.
+>> + *
+>> + * Returns: 0 on success, negative error code on failure.
+>> + */
+>> +int
+>> +drm_gpuva_region_insert(struct drm_gpuva_manager *mgr,
+>> +			struct drm_gpuva_region *reg,
+>> +			u64 addr, u64 range)
+>> +{
+>> +	int ret;
+>> +
+>> +	ret = drm_mm_insert_node_in_range(&mgr->region_mm, &reg->node,
+>> +					  range, 0,
+>> +					  0, addr,
+>> +					  addr + range,
+>> +					  DRM_MM_INSERT_LOW|
+>> +					  DRM_MM_INSERT_ONCE);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	reg->mgr = mgr;
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_region_insert);
+>> +
+>> +/**
+>> + * drm_gpuva_region_destroy - destroy a &drm_gpuva_region
+>> + * @mgr: the &drm_gpuva_manager holding the region
+>> + * @reg: the &drm_gpuva to destroy
+>> + *
+>> + * This removes the given &reg from the underlaying range allocator.
+>> + */
+>> +void
+>> +drm_gpuva_region_destroy(struct drm_gpuva_manager *mgr,
+>> +			 struct drm_gpuva_region *reg)
+>> +{
+>> +	struct drm_gpuva *va;
+>> +
+>> +	drm_gpuva_for_each_va_in_range(va, mgr,
+>> +				       reg->node.start,
+>> +				       reg->node.size) {
+>> +		WARN(1, "GPU VA region must be empty on destroy.\n");
+>> +		return;
+>> +	}
+>> +
+>> +	if (&reg->node == &mgr->kernel_alloc_node) {
+>> +		WARN(1, "Can't destroy kernel reserved region.\n");
+>> +		return;
+>> +	}
+>> +
+>> +	drm_mm_remove_node(&reg->node);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_region_destroy);
+>> +
+>> +/**
+>> + * drm_gpuva_region_find - find a &drm_gpuva_region
+>> + * @mgr: the &drm_gpuva_manager to search in
+>> + * @addr: the &drm_gpuva_regions address
+>> + * @range: the &drm_gpuva_regions range
+>> + *
+>> + * Returns: the &drm_gpuva_region at a given &addr and with a given &range
+>> + */
+>> +struct drm_gpuva_region *
+>> +drm_gpuva_region_find(struct drm_gpuva_manager *mgr,
+>> +		      u64 addr, u64 range)
+>> +{
+>> +	struct drm_gpuva_region *reg;
+>> +
+>> +	drm_gpuva_for_each_region_in_range(reg, mgr, addr, addr + range)
+>> +		if (reg->node.start == addr &&
+>> +		    reg->node.size == range)
+>> +			return reg;
+>> +
+>> +	return NULL;
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_region_find);
+>> +
+>> +static int
+>> +gpuva_op_map_new(struct drm_gpuva_op **pop,
+>> +		 u64 addr, u64 range,
+>> +		 struct drm_gem_object *obj, u64 offset)
+>> +{
+>> +	struct drm_gpuva_op *op;
+>> +
+>> +	op = *pop = kzalloc(sizeof(*op), GFP_KERNEL);
+>> +	if (!op)
+>> +		return -ENOMEM;
+>> +
+>> +	op->op = DRM_GPUVA_OP_MAP;
+>> +	op->map.va.addr = addr;
+>> +	op->map.va.range = range;
+>> +	op->map.gem.obj = obj;
+>> +	op->map.gem.offset = offset;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int
+>> +gpuva_op_remap_new(struct drm_gpuva_op **pop,
+>> +		   struct drm_gpuva_op_map *prev,
+>> +		   struct drm_gpuva_op_map *next,
+>> +		   struct drm_gpuva_op_unmap *unmap)
+>> +{
+>> +	struct drm_gpuva_op *op;
+>> +	struct drm_gpuva_op_remap *r;
+>> +
+>> +	op = *pop = kzalloc(sizeof(*op), GFP_KERNEL);
+>> +	if (!op)
+>> +		return -ENOMEM;
+>> +
+>> +	op->op = DRM_GPUVA_OP_REMAP;
+>> +	r = &op->remap;
+>> +
+>> +	if (prev) {
+>> +		r->prev = kmemdup(prev, sizeof(*prev), GFP_KERNEL);
+>> +		if (!r->prev)
+>> +			goto err_free_op;
+>> +	}
+>> +
+>> +	if (next) {
+>> +		r->next = kmemdup(next, sizeof(*next), GFP_KERNEL);
+>> +		if (!r->next)
+>> +			goto err_free_prev;
+>> +	}
+>> +
+>> +	r->unmap = kmemdup(unmap, sizeof(*unmap), GFP_KERNEL);
+>> +	if (!r->unmap)
+>> +		goto err_free_next;
+>> +
+>> +	return 0;
+>> +
+>> +err_free_next:
+>> +	if (next)
+>> +		kfree(r->next);
+>> +err_free_prev:
+>> +	if (prev)
+>> +		kfree(r->prev);
+>> +err_free_op:
+>> +	kfree(op);
+>> +	*pop = NULL;
+>> +
+>> +	return -ENOMEM;
+>> +}
+>> +
+>> +static int
+>> +gpuva_op_unmap_new(struct drm_gpuva_op **pop,
+>> +		   struct drm_gpuva *va, bool merge)
+>> +{
+>> +	struct drm_gpuva_op *op;
+>> +
+>> +	op = *pop = kzalloc(sizeof(*op), GFP_KERNEL);
+>> +	if (!op)
+>> +		return -ENOMEM;
+>> +
+>> +	op->op = DRM_GPUVA_OP_UNMAP;
+>> +	op->unmap.va = va;
+>> +	op->unmap.keep = merge;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +#define op_map_new_to_list(_ops, _addr, _range,		\
+>> +			   _obj, _offset)		\
+>> +do {							\
+>> +	struct drm_gpuva_op *op;			\
+>> +							\
+>> +	ret = gpuva_op_map_new(&op, _addr, _range,	\
+>> +			       _obj, _offset);		\
+>> +	if (ret)					\
+>> +		goto err_free_ops;			\
+>> +							\
+>> +	list_add_tail(&op->entry, _ops);		\
+>> +} while (0)
+>> +
+>> +#define op_remap_new_to_list(_ops, _prev, _next,	\
+>> +			     _unmap)			\
+>> +do {							\
+>> +	struct drm_gpuva_op *op;			\
+>> +							\
+>> +	ret = gpuva_op_remap_new(&op, _prev, _next,	\
+>> +				 _unmap);		\
+>> +	if (ret)					\
+>> +		goto err_free_ops;			\
+>> +							\
+>> +	list_add_tail(&op->entry, _ops);		\
+>> +} while (0)
+>> +
+>> +#define op_unmap_new_to_list(_ops, _gpuva, _merge)	\
+>> +do {							\
+>> +	struct drm_gpuva_op *op;			\
+>> +							\
+>> +	ret = gpuva_op_unmap_new(&op, _gpuva, _merge);	\
+>> +	if (ret)					\
+>> +		goto err_free_ops;			\
+>> +							\
+>> +	list_add_tail(&op->entry, _ops);		\
+>> +} while (0)
+>> +
+>> +/**
+>> + * drm_gpuva_sm_map_ops_create - creates the &drm_gpuva_ops to split and merge
+>> + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+>> + * @req_addr: the start address of the new mapping
+>> + * @req_range: the range of the new mapping
+>> + * @req_obj: the &drm_gem_object to map
+>> + * @req_offset: the offset within the &drm_gem_object
+>> + *
+>> + * This function creates a list of operations to perform splitting and merging
+>> + * of existent mapping(s) with the newly requested one.
+>> + *
+>> + * The list can be iterated with &drm_gpuva_for_each_op and must be processed
+>> + * in the given order. It can contain map, unmap and remap operations, but it
+>> + * also can be empty if no operation is required, e.g. if the requested mapping
+>> + * already exists is the exact same way.
+>> + *
+>> + * There can be an arbitrary amount of unmap operations, a maximum of two remap
+>> + * operations and a single map operation. The latter one, if existent,
+>> + * represents the original map operation requested by the caller. Please note
+>> + * that the map operation might has been modified, e.g. if it was
+>> + * merged with an existent mapping.
+>> + *
+>> + * Note that before calling this function again with another mapping request it
+>> + * is necessary to update the &drm_gpuva_manager's view of the GPU VA space.
+>> + * The previously obtained operations must be either processed or abandoned.
+>> + * To update the &drm_gpuva_manager's view of the GPU VA space
+>> + * drm_gpuva_insert(), drm_gpuva_destroy_locked() and/or
+>> + * drm_gpuva_destroy_unlocked() should be used.
+>> + *
+>> + * After the caller finished processing the returned &drm_gpuva_ops, they must
+>> + * be freed with &drm_gpuva_ops_free.
+>> + *
+>> + * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+>> + */
+>> +struct drm_gpuva_ops *
+>> +drm_gpuva_sm_map_ops_create(struct drm_gpuva_manager *mgr,
+>> +			    u64 req_addr, u64 req_range,
+>> +			    struct drm_gem_object *req_obj, u64 req_offset)
+>> +{
+>> +	struct drm_gpuva_ops *ops;
+>> +	struct drm_gpuva *va, *prev = NULL;
+>> +	u64 req_end = req_addr + req_range;
+>> +	bool skip_pmerge = false, skip_nmerge = false;
+>> +	int ret;
+>> +
+>> +	if (!drm_gpuva_in_any_region(mgr, req_addr, req_range))
+>> +		return ERR_PTR(-EINVAL);
+>> +
+>> +	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+>> +	if (!ops)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	INIT_LIST_HEAD(&ops->list);
+>> +
+>> +	drm_gpuva_for_each_va_in_range(va, mgr, req_addr, req_end) {
+>> +		struct drm_gem_object *obj = va->gem.obj;
+>> +		u64 offset = va->gem.offset;
+>> +		u64 addr = va->node.start;
+>> +		u64 range = va->node.size;
+>> +		u64 end = addr + range;
+>> +
+>> +		/* Generally, we want to skip merging with potential mappings
+>> +		 * left and right of the requested one when we found a
+>> +		 * collision, since merging happens in this loop already.
+>> +		 *
+>> +		 * However, there is one exception when the requested mapping
+>> +		 * spans into a free VM area. If this is the case we might
+>> +		 * still hit the boundary of another mapping before and/or
+>> +		 * after the free VM area.
+>> +		 */
+>> +		skip_pmerge = true;
+>> +		skip_nmerge = true;
+>> +
+>> +		if (addr == req_addr) {
+>> +			bool merge = obj == req_obj &&
+>> +				     offset == req_offset;
+>> +			if (end == req_end) {
+>> +				if (merge)
+>> +					goto done;
+>> +
+>> +				op_unmap_new_to_list(&ops->list, va, false);
+>> +				break;
+>> +			}
+>> +
+>> +			if (end < req_end) {
+>> +				skip_nmerge = false;
+>> +				op_unmap_new_to_list(&ops->list, va, merge);
+>> +				goto next;
+>> +			}
+>> +
+>> +			if (end > req_end) {
+>> +				struct drm_gpuva_op_map n = {
+>> +					.va.addr = req_end,
+>> +					.va.range = range - req_range,
+>> +					.gem.obj = obj,
+>> +					.gem.offset = offset + req_range,
+>> +				};
+>> +				struct drm_gpuva_op_unmap u = { .va = va };
+>> +
+>> +				if (merge)
+>> +					goto done;
+>> +
+>> +				op_remap_new_to_list(&ops->list, NULL, &n, &u);
+>> +				break;
+>> +			}
+>> +		} else if (addr < req_addr) {
+>> +			u64 ls_range = req_addr - addr;
+>> +			struct drm_gpuva_op_map p = {
+>> +				.va.addr = addr,
+>> +				.va.range = ls_range,
+>> +				.gem.obj = obj,
+>> +				.gem.offset = offset,
+>> +			};
+>> +			struct drm_gpuva_op_unmap u = { .va = va };
+>> +			bool merge = obj == req_obj &&
+>> +				     offset + ls_range == req_offset;
+>> +
+>> +			if (end == req_end) {
+>> +				if (merge)
+>> +					goto done;
+>> +
+>> +				op_remap_new_to_list(&ops->list, &p, NULL, &u);
+>> +				break;
+>> +			}
+>> +
+>> +			if (end < req_end) {
+>> +				u64 new_addr = addr;
+>> +				u64 new_range = req_range + ls_range;
+>> +				u64 new_offset = offset;
+>> +
+>> +				/* We validated that the requested mapping is
+>> +				 * within a single VA region already.
+>> +				 * Since it overlaps the current mapping (which
+>> +				 * can't cross a VA region boundary) we can be
+>> +				 * sure that we're still within the boundaries
+>> +				 * of the same VA region after merging.
+>> +				 */
+>> +				if (merge) {
+>> +					req_offset = new_offset;
+>> +					req_addr = new_addr;
+>> +					req_range = new_range;
+>> +					op_unmap_new_to_list(&ops->list, va, true);
+>> +					goto next;
+>> +				}
+>> +
+>> +				op_remap_new_to_list(&ops->list, &p, NULL, &u);
+>> +				goto next;
+>> +			}
+>> +
+>> +			if (end > req_end) {
+>> +				struct drm_gpuva_op_map n = {
+>> +					.va.addr = req_end,
+>> +					.va.range = end - req_end,
+>> +					.gem.obj = obj,
+>> +					.gem.offset = offset + ls_range +
+>> +						      req_range,
+>> +				};
+>> +
+>> +				if (merge)
+>> +					goto done;
+>> +
+>> +				op_remap_new_to_list(&ops->list, &p, &n, &u);
+>> +				break;
+>> +			}
+>> +		} else if (addr > req_addr) {
+>> +			bool merge = obj == req_obj &&
+>> +				     offset == req_offset +
+>> +					       (addr - req_addr);
+>> +			if (!prev)
+>> +				skip_pmerge = false;
+>> +
+>> +			if (end == req_end) {
+>> +				op_unmap_new_to_list(&ops->list, va, merge);
+>> +				break;
+>> +			}
+>> +
+>> +			if (end < req_end) {
+>> +				skip_nmerge = false;
+>> +				op_unmap_new_to_list(&ops->list, va, merge);
+>> +				goto next;
+>> +			}
+>> +
+>> +			if (end > req_end) {
+>> +				struct drm_gpuva_op_map n = {
+>> +					.va.addr = req_end,
+>> +					.va.range = end - req_end,
+>> +					.gem.obj = obj,
+>> +					.gem.offset = offset + req_end - addr,
+>> +				};
+>> +				struct drm_gpuva_op_unmap u = { .va = va };
+>> +				u64 new_end = end;
+>> +				u64 new_range = new_end - req_addr;
+>> +
+>> +				/* We validated that the requested mapping is
+>> +				 * within a single VA region already.
+>> +				 * Since it overlaps the current mapping (which
+>> +				 * can't cross a VA region boundary) we can be
+>> +				 * sure that we're still within the boundaries
+>> +				 * of the same VA region after merging.
+>> +				 */
+>> +				if (merge) {
+>> +					req_end = new_end;
+>> +					req_range = new_range;
+>> +					op_unmap_new_to_list(&ops->list, va, true);
+>> +					break;
+>> +				}
+>> +
+>> +				op_remap_new_to_list(&ops->list, NULL, &n, &u);
+>> +				break;
+>> +			}
+>> +		}
+>> +next:
+>> +		prev = va;
+>> +	}
+>> +
+>> +	va = skip_pmerge ? NULL : drm_gpuva_find_prev(mgr, req_addr);
+>> +	if (va) {
+>> +		struct drm_gem_object *obj = va->gem.obj;
+>> +		u64 offset = va->gem.offset;
+>> +		u64 addr = va->node.start;
+>> +		u64 range = va->node.size;
+>> +		u64 new_offset = offset;
+>> +		u64 new_addr = addr;
+>> +		u64 new_range = req_range + range;
+>> +		bool merge = obj == req_obj &&
+>> +			     offset + range == req_offset;
+>> +
+>> +		/* Don't merge over VA region boundaries. */
+>> +		merge &= drm_gpuva_in_any_region(mgr, new_addr, new_range);
+>> +		if (merge) {
+>> +			op_unmap_new_to_list(&ops->list, va, true);
+>> +
+>> +			req_offset = new_offset;
+>> +			req_addr = new_addr;
+>> +			req_range = new_range;
+>> +		}
+>> +	}
+>> +
+>> +	va = skip_nmerge ? NULL : drm_gpuva_find_next(mgr, req_end);
+>> +	if (va) {
+>> +		struct drm_gem_object *obj = va->gem.obj;
+>> +		u64 offset = va->gem.offset;
+>> +		u64 addr = va->node.start;
+>> +		u64 range = va->node.size;
+>> +		u64 end = addr + range;
+>> +		u64 new_range = req_range + range;
+>> +		u64 new_end = end;
+>> +		bool merge = obj == req_obj &&
+>> +			     offset == req_offset + req_range;
+>> +
+>> +		/* Don't merge over VA region boundaries. */
+>> +		merge &= drm_gpuva_in_any_region(mgr, req_addr, new_range);
+>> +		if (merge) {
+>> +			op_unmap_new_to_list(&ops->list, va, true);
+>> +
+>> +			req_range = new_range;
+>> +			req_end = new_end;
+>> +		}
+>> +	}
+>> +
+>> +	op_map_new_to_list(&ops->list,
+>> +			   req_addr, req_range,
+>> +			   req_obj, req_offset);
+>> +
+>> +done:
+>> +	return ops;
+>> +
+>> +err_free_ops:
+>> +	drm_gpuva_ops_free(ops);
+>> +	return ERR_PTR(ret);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_sm_map_ops_create);
+>> +
+>> +#undef op_map_new_to_list
+>> +#undef op_remap_new_to_list
+>> +#undef op_unmap_new_to_list
+>> +
+>> +/**
+>> + * drm_gpuva_sm_unmap_ops_create - creates the &drm_gpuva_ops to split on unmap
+>> + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+>> + * @req_addr: the start address of the range to unmap
+>> + * @req_range: the range of the mappings to unmap
+>> + *
+>> + * This function creates a list of operations to perform unmapping and, if
+>> + * required, splitting of the mappings overlapping the unmap range.
+>> + *
+>> + * The list can be iterated with &drm_gpuva_for_each_op and must be processed
+>> + * in the given order. It can contain unmap and remap operations, depending on
+>> + * whether there are actual overlapping mappings to split.
+>> + *
+>> + * There can be an arbitrary amount of unmap operations and a maximum of two
+>> + * remap operations.
+>> + *
+>> + * Note that before calling this function again with another range to unmap it
+>> + * is necessary to update the &drm_gpuva_manager's view of the GPU VA space.
+>> + * The previously obtained operations must be processed or abandoned.
+>> + * To update the &drm_gpuva_manager's view of the GPU VA space
+>> + * drm_gpuva_insert(), drm_gpuva_destroy_locked() and/or
+>> + * drm_gpuva_destroy_unlocked() should be used.
+>> + *
+>> + * After the caller finished processing the returned &drm_gpuva_ops, they must
+>> + * be freed with &drm_gpuva_ops_free.
+>> + *
+>> + * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+>> + */
+>> +struct drm_gpuva_ops *
+>> +drm_gpuva_sm_unmap_ops_create(struct drm_gpuva_manager *mgr,
+>> +			      u64 req_addr, u64 req_range)
+>> +{
+>> +	struct drm_gpuva_ops *ops;
+>> +	struct drm_gpuva_op *op;
+>> +	struct drm_gpuva_op_remap *r;
+>> +	struct drm_gpuva *va;
+>> +	u64 req_end = req_addr + req_range;
+>> +	int ret;
+>> +
+>> +	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+>> +	if (!ops)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	INIT_LIST_HEAD(&ops->list);
+>> +
+>> +	drm_gpuva_for_each_va_in_range(va, mgr, req_addr, req_end) {
+>> +		struct drm_gem_object *obj = va->gem.obj;
+>> +		u64 offset = va->gem.offset;
+>> +		u64 addr = va->node.start;
+>> +		u64 range = va->node.size;
+>> +		u64 end = addr + range;
+>> +
+>> +		op = kzalloc(sizeof(*op), GFP_KERNEL);
+>> +		if (!op) {
+>> +			ret = -ENOMEM;
+>> +			goto err_free_ops;
+>> +		}
+>> +
+>> +		r = &op->remap;
+>> +
+>> +		if (addr < req_addr) {
+>> +			r->prev = kzalloc(sizeof(*r->prev), GFP_KERNEL);
+>> +			if (!r->prev) {
+>> +				ret = -ENOMEM;
+>> +				goto err_free_op;
+>> +			}
+>> +
+>> +			r->prev->va.addr = addr;
+>> +			r->prev->va.range = req_addr - addr;
+>> +			r->prev->gem.obj = obj;
+>> +			r->prev->gem.offset = offset;
+>> +		}
+>> +
+>> +		if (end > req_end) {
+>> +			r->next = kzalloc(sizeof(*r->next), GFP_KERNEL);
+>> +			if (!r->next) {
+>> +				ret = -ENOMEM;
+>> +				goto err_free_prev;
+>> +			}
+>> +
+>> +			r->next->va.addr = req_end;
+>> +			r->next->va.range = end - req_end;
+>> +			r->next->gem.obj = obj;
+>> +			r->next->gem.offset = offset + (req_end - addr);
+>> +		}
+>> +
+>> +		if (op->remap.prev || op->remap.next) {
+>> +			op->op = DRM_GPUVA_OP_REMAP;
+>> +			r->unmap = kzalloc(sizeof(*r->unmap), GFP_KERNEL);
+>> +			if (!r->unmap) {
+>> +				ret = -ENOMEM;
+>> +				goto err_free_next;
+>> +			}
+>> +
+>> +			r->unmap->va = va;
+>> +		} else {
+>> +			op->op = DRM_GPUVA_OP_UNMAP;
+>> +			op->unmap.va = va;
+>> +		}
+>> +
+>> +		list_add_tail(&op->entry, &ops->list);
+>> +	}
+>> +
+>> +	return ops;
+>> +
+>> +err_free_next:
+>> +	if (r->next)
+>> +		kfree(r->next);
+>> +err_free_prev:
+>> +	if (r->prev)
+>> +		kfree(r->prev);
+>> +err_free_op:
+>> +	kfree(op);
+>> +err_free_ops:
+>> +	drm_gpuva_ops_free(ops);
+>> +	return ERR_PTR(ret);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_sm_unmap_ops_create);
+>> +
+>> +/**
+>> + * drm_gpuva_ops_free - free the given &drm_gpuva_ops
+>> + * @ops: the &drm_gpuva_ops to free
+>> + *
+>> + * Frees the given &drm_gpuva_ops structure including all the ops associated
+>> + * with it.
+>> + */
+>> +void
+>> +drm_gpuva_ops_free(struct drm_gpuva_ops *ops)
+>> +{
+>> +	struct drm_gpuva_op *op, *next;
+>> +
+>> +	drm_gpuva_for_each_op_safe(op, next, ops) {
+>> +		list_del(&op->entry);
+>> +		if (op->op == DRM_GPUVA_OP_REMAP) {
+>> +			if (op->remap.prev)
+>> +				kfree(op->remap.prev);
+>> +
+>> +			if (op->remap.next)
+>> +				kfree(op->remap.next);
+>> +
+>> +			kfree(op->remap.unmap);
+>> +		}
+>> +		kfree(op);
+>> +	}
+>> +
+>> +	kfree(ops);
+>> +}
+>> +EXPORT_SYMBOL(drm_gpuva_ops_free);
+>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+>> index d7c521e8860f..6feacd93aca6 100644
+>> --- a/include/drm/drm_drv.h
+>> +++ b/include/drm/drm_drv.h
+>> @@ -104,6 +104,12 @@ enum drm_driver_feature {
+>>   	 * acceleration should be handled by two drivers that are connected using auxiliary bus.
+>>   	 */
+>>   	DRIVER_COMPUTE_ACCEL            = BIT(7),
+>> +	/**
+>> +	 * @DRIVER_GEM_GPUVA:
+>> +	 *
+>> +	 * Driver supports user defined GPU VA bindings for GEM objects.
+>> +	 */
+>> +	DRIVER_GEM_GPUVA		= BIT(8),
+>>   
+>>   	/* IMPORTANT: Below are all the legacy flags, add new ones above. */
+>>   
+>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+>> index 772a4adf5287..4a3679034966 100644
+>> --- a/include/drm/drm_gem.h
+>> +++ b/include/drm/drm_gem.h
+>> @@ -36,6 +36,8 @@
+>>   
+>>   #include <linux/kref.h>
+>>   #include <linux/dma-resv.h>
+>> +#include <linux/list.h>
+>> +#include <linux/mutex.h>
+>>   
+>>   #include <drm/drm_vma_manager.h>
+>>   
+>> @@ -337,6 +339,17 @@ struct drm_gem_object {
+>>   	 */
+>>   	struct dma_resv _resv;
+>>   
+>> +	/**
+>> +	 * @gpuva:
+>> +	 *
+>> +	 * Provides the list and list mutex of GPU VAs attached to this
+>> +	 * GEM object.
+>> +	 */
+>> +	struct {
+>> +		struct list_head list;
+>> +		struct mutex mutex;
+>> +	} gpuva;
+>> +
+>>   	/**
+>>   	 * @funcs:
+>>   	 *
+>> @@ -479,4 +492,66 @@ void drm_gem_lru_move_tail(struct drm_gem_lru *lru, struct drm_gem_object *obj);
+>>   unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
+>>   			       bool (*shrink)(struct drm_gem_object *obj));
+>>   
+>> +/**
+>> + * drm_gem_gpuva_init - initialize the gpuva list of a GEM object
+>> + * @obj: the &drm_gem_object
+>> + *
+>> + * This initializes the &drm_gem_object's &drm_gpuva list and the mutex
+>> + * protecting it.
+>> + *
+>> + * Calling this function is only necessary for drivers intending to support the
+>> + * &drm_driver_feature DRIVER_GEM_GPUVA.
+>> + */
+>> +static inline void drm_gem_gpuva_init(struct drm_gem_object *obj)
+>> +{
+>> +	INIT_LIST_HEAD(&obj->gpuva.list);
+>> +	mutex_init(&obj->gpuva.mutex);
+>> +}
+>> +
+>> +/**
+>> + * drm_gem_gpuva_lock - lock the GEM's gpuva list mutex
+>> + * @obj: the &drm_gem_object
+>> + *
+>> + * This unlocks the mutex protecting the &drm_gem_object's &drm_gpuva list.
+>> + */
+>> +static inline void drm_gem_gpuva_lock(struct drm_gem_object *obj)
+>> +{
+>> +	mutex_lock(&obj->gpuva.mutex);
+>> +}
+>> +
+>> +/**
+>> + * drm_gem_gpuva_unlock - unlock the GEM's gpuva list mutex
+>> + * @obj: the &drm_gem_object
+>> + *
+>> + * This unlocks the mutex protecting the &drm_gem_object's &drm_gpuva list.
+>> + */
+>> +static inline void drm_gem_gpuva_unlock(struct drm_gem_object *obj)
+>> +{
+>> +	mutex_unlock(&obj->gpuva.mutex);
+>> +}
+>> +
+>> +/**
+>> + * drm_gem_for_each_gpuva - iternator to walk over a list of gpuvas
+>> + * @entry: &drm_gpuva structure to assign to in each iteration step
+>> + * @obj: the &drm_gem_object the &drm_gpuvas to walk are associated with
+>> + *
+>> + * This iterator walks over all &drm_gpuva structures associated with the
+>> + * &drm_gpuva_manager.
+>> + */
+>> +#define drm_gem_for_each_gpuva(entry, obj) \
+>> +	list_for_each_entry(entry, &obj->gpuva.list, head)
+>> +
+>> +/**
+>> + * drm_gem_for_each_gpuva_safe - iternator to safely walk over a list of gpuvas
+>> + * @entry: &drm_gpuva structure to assign to in each iteration step
+>> + * @next: &next &drm_gpuva to store the next step
+>> + * @obj: the &drm_gem_object the &drm_gpuvas to walk are associated with
+>> + *
+>> + * This iterator walks over all &drm_gpuva structures associated with the
+>> + * &drm_gem_object. It is implemented with list_for_each_entry_safe(), hence
+>> + * it is save against removal of elements.
+>> + */
+>> +#define drm_gem_for_each_gpuva_safe(entry, next, obj) \
+>> +	list_for_each_entry_safe(entry, next, &obj->gpuva.list, head)
+>> +
+>>   #endif /* __DRM_GEM_H__ */
+>> diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
+>> new file mode 100644
+>> index 000000000000..adeb0c916e91
+>> --- /dev/null
+>> +++ b/include/drm/drm_gpuva_mgr.h
+>> @@ -0,0 +1,527 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +#ifndef __DRM_GPUVA_MGR_H__
+>> +#define __DRM_GPUVA_MGR_H__
+>> +
+>> +/*
+>> + * Copyright (c) 2022 Red Hat.
+>> + *
+>> + * Permission is hereby granted, free of charge, to any person obtaining a
+>> + * copy of this software and associated documentation files (the "Software"),
+>> + * to deal in the Software without restriction, including without limitation
+>> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+>> + * and/or sell copies of the Software, and to permit persons to whom the
+>> + * Software is furnished to do so, subject to the following conditions:
+>> + *
+>> + * The above copyright notice and this permission notice shall be included in
+>> + * all copies or substantial portions of the Software.
+>> + *
+>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+>> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+>> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+>> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+>> + * OTHER DEALINGS IN THE SOFTWARE.
+>> + */
+>> +
+>> +#include <drm/drm_mm.h>
+>> +#include <linux/mm.h>
+>> +#include <linux/rbtree.h>
+>> +#include <linux/spinlock.h>
+>> +#include <linux/types.h>
+>> +
+>> +struct drm_gpuva_region;
+>> +struct drm_gpuva;
+>> +struct drm_gpuva_ops;
+>> +
+>> +/**
+>> + * struct drm_gpuva_manager - DRM GPU VA Manager
+>> + *
+>> + * The DRM GPU VA Manager keeps track of a GPU's virtual address space by using
+>> + * the &drm_mm range allocator. Typically, this structure is embedded in bigger
+>> + * driver structures.
+>> + *
+>> + * Drivers can pass addresses and ranges in an arbitrary unit, e.g. bytes or
+>> + * pages.
+>> + *
+>> + * There should be one manager instance per GPU virtual address space.
+>> + */
+>> +struct drm_gpuva_manager {
+>> +	/**
+>> +	 * @name: the name of the DRM GPU VA space
+>> +	 */
+>> +	const char *name;
+>> +
+>> +	/**
+>> +	 * @mm_start: start of the VA space
+>> +	 */
+>> +	u64 mm_start;
+>> +
+>> +	/**
+>> +	 * @mm_range: length of the VA space
+>> +	 */
+>> +	u64 mm_range;
+>> +
+>> +	/**
+>> +	 * @region_mm: the &drm_mm range allocator to track GPU VA regions
+>> +	 */
+>> +	struct drm_mm region_mm;
+>> +
+>> +	/**
+>> +	 * @va_mm: the &drm_mm range allocator to track GPU VA mappings
+>> +	 */
+>> +	struct drm_mm va_mm;
+>> +
+>> +	/**
+>> +	 * @kernel_alloc_node:
+>> +	 *
+>> +	 * &drm_mm_node representing the address space cutout reserved for
+>> +	 * the kernel
+>> +	 */
+>> +	struct drm_mm_node kernel_alloc_node;
+>> +};
+>> +
+>> +void drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+>> +			    const char *name,
+>> +			    u64 start_offset, u64 range,
+>> +			    u64 reserve_offset, u64 reserve_range);
+>> +void drm_gpuva_manager_destroy(struct drm_gpuva_manager *mgr);
+>> +
+>> +/**
+>> + * struct drm_gpuva_region - structure to track a portion of GPU VA space
+>> + *
+>> + * This structure represents a portion of a GPUs VA space and is associated
+>> + * with a &drm_gpuva_manager. Internally it is based on a &drm_mm_node.
+>> + *
+>> + * GPU VA mappings, represented by &drm_gpuva objects, are restricted to be
+>> + * placed within a &drm_gpuva_region.
+>> + */
+>> +struct drm_gpuva_region {
+>> +	/**
+>> +	 * @node: the &drm_mm_node to track the GPU VA region
+>> +	 */
+>> +	struct drm_mm_node node;
+>> +
+>> +	/**
+>> +	 * @mgr: the &drm_gpuva_manager this object is associated with
+>> +	 */
+>> +	struct drm_gpuva_manager *mgr;
+>> +
+>> +	/**
+>> +	 * @sparse: indicates whether this region is sparse
+>> +	 */
+>> +	bool sparse;
+>> +};
+>> +
+>> +struct drm_gpuva_region *
+>> +drm_gpuva_region_find(struct drm_gpuva_manager *mgr,
+>> +		      u64 addr, u64 range);
+>> +int drm_gpuva_region_insert(struct drm_gpuva_manager *mgr,
+>> +			    struct drm_gpuva_region *reg,
+>> +			    u64 addr, u64 range);
+>> +void drm_gpuva_region_destroy(struct drm_gpuva_manager *mgr,
+>> +			      struct drm_gpuva_region *reg);
+>> +
+>> +int drm_gpuva_insert(struct drm_gpuva_manager *mgr,
+>> +		     struct drm_gpuva *va,
+>> +		     u64 addr, u64 range);
+>> +/**
+>> + * drm_gpuva_for_each_region_in_range - iternator to walk over a range of nodes
+>> + * @node__: &drm_gpuva_region structure to assign to in each iteration step
+>> + * @gpuva__: &drm_gpuva_manager structure to walk
+>> + * @start__: starting offset, the first node will overlap this
+>> + * @end__: ending offset, the last node will start before this (but may overlap)
+>> + *
+>> + * This iterator walks over all nodes in the range allocator that lie
+>> + * between @start and @end. It is implemented similarly to list_for_each(),
+>> + * but is using &drm_mm's internal interval tree to accelerate the search for
+>> + * the starting node, and hence isn't safe against removal of elements. It
+>> + * assumes that @end is within (or is the upper limit of) the &drm_gpuva_manager.
+>> + * If [@start, @end] are beyond the range of the &drm_gpuva_manager, the
+>> + * iterator may walk over the special _unallocated_ &drm_mm.head_node of the
+>> + * backing &drm_mm, and may even continue indefinitely.
+>> + */
+>> +#define drm_gpuva_for_each_region_in_range(node__, gpuva__, start__, end__) \
+>> +	for (node__ = (struct drm_gpuva_region *)__drm_mm_interval_first(&(gpuva__)->region_mm, \
+>> +									 (start__), (end__)-1); \
+>> +	     node__->node.start < (end__); \
+>> +	     node__ = (struct drm_gpuva_region *)list_next_entry(&node__->node, node_list))
+>> +
+>> +/**
+>> + * drm_gpuva_for_each_region - iternator to walk over a range of nodes
+>> + * @entry: &drm_gpuva_region structure to assign to in each iteration step
+>> + * @gpuva: &drm_gpuva_manager structure to walk
+>> + *
+>> + * This iterator walks over all &drm_gpuva_region structures associated with the
+>> + * &drm_gpuva_manager.
+>> + */
+>> +#define drm_gpuva_for_each_region(entry, gpuva) \
+>> +	list_for_each_entry(entry, drm_mm_nodes(&(gpuva)->region_mm), node.node_list)
+>> +
+>> +/**
+>> + * drm_gpuva_for_each_region_safe - iternator to safely walk over a range of
+>> + * nodes
+>> + * @entry: &drm_gpuva_region structure to assign to in each iteration step
+>> + * @next: &next &drm_gpuva_region to store the next step
+>> + * @gpuva: &drm_gpuva_manager structure to walk
+>> + *
+>> + * This iterator walks over all &drm_gpuva_region structures associated with the
+>> + * &drm_gpuva_manager. It is implemented with list_for_each_safe(), so save
+>> + * against removal of elements.
+>> + */
+>> +#define drm_gpuva_for_each_region_safe(entry, next, gpuva) \
+>> +	list_for_each_entry_safe(entry, next, drm_mm_nodes(&(gpuva)->region_mm), node.node_list)
+>> +
+>> +
+>> +/**
+>> + * enum drm_gpuva_flags - flags for struct drm_gpuva
+>> + */
+>> +enum drm_gpuva_flags {
+>> +	/**
+>> +	 * @DRM_GPUVA_SWAPPED: flag indicating that the &drm_gpuva is swapped
+>> +	 */
+>> +	DRM_GPUVA_SWAPPED = (1 << 0),
+>> +};
+>> +
+>> +/**
+>> + * struct drm_gpuva - structure to track a GPU VA mapping
+>> + *
+>> + * This structure represents a GPU VA mapping and is associated with a
+>> + * &drm_gpuva_manager. Internally it is based on a &drm_mm_node.
+>> + *
+>> + * Typically, this structure is embedded in bigger driver structures.
+>> + */
+>> +struct drm_gpuva {
+>> +	/**
+>> +	 * @node: the &drm_mm_node to track the GPU VA mapping
+>> +	 */
+>> +	struct drm_mm_node node;
+>> +
+>> +	/**
+>> +	 * @mgr: the &drm_gpuva_manager this object is associated with
+>> +	 */
+>> +	struct drm_gpuva_manager *mgr;
+>> +
+>> +	/**
+>> +	 * @region: the &drm_gpuva_region the &drm_gpuva is mapped in
+>> +	 */
+>> +	struct drm_gpuva_region *region;
+>> +
+>> +	/**
+>> +	 * @head: the &list_head to attach this object to a &drm_gem_object
+>> +	 */
+>> +	struct list_head head;
+>> +
+>> +	/**
+>> +	 * @flags: the &drm_gpuva_flags for this mapping
+>> +	 */
+>> +	enum drm_gpuva_flags flags;
+>> +
+>> +	/**
+>> +	 * @gem: structure containing the &drm_gem_object and it's offset
+>> +	 */
+>> +	struct {
+>> +		/**
+>> +		 * @offset: the offset within the &drm_gem_object
+>> +		 */
+>> +		u64 offset;
+>> +
+>> +		/**
+>> +		 * @obj: the mapped &drm_gem_object
+>> +		 */
+>> +		struct drm_gem_object *obj;
+>> +	} gem;
+>> +};
+>> +
+>> +void drm_gpuva_link_locked(struct drm_gpuva *va);
+>> +void drm_gpuva_link_unlocked(struct drm_gpuva *va);
+>> +void drm_gpuva_unlink_locked(struct drm_gpuva *va);
+>> +void drm_gpuva_unlink_unlocked(struct drm_gpuva *va);
+>> +
+>> +void drm_gpuva_destroy_locked(struct drm_gpuva *va);
+>> +void drm_gpuva_destroy_unlocked(struct drm_gpuva *va);
+>> +
+>> +struct drm_gpuva *drm_gpuva_find(struct drm_gpuva_manager *mgr,
+>> +				 u64 addr, u64 range);
+>> +struct drm_gpuva *drm_gpuva_find_prev(struct drm_gpuva_manager *mgr, u64 start);
+>> +struct drm_gpuva *drm_gpuva_find_next(struct drm_gpuva_manager *mgr, u64 end);
+>> +
+>> +/**
+>> + * drm_gpuva_swap - sets whether the backing BO of this &drm_gpuva is swapped
+>> + * @va: the &drm_gpuva to set the swap flag of
+>> + * @swap: indicates whether the &drm_gpuva is swapped
+>> + */
+>> +static inline void drm_gpuva_swap(struct drm_gpuva *va, bool swap)
+>> +{
+>> +	if (swap)
+>> +		va->flags |= DRM_GPUVA_SWAPPED;
+>> +	else
+>> +		va->flags &= ~DRM_GPUVA_SWAPPED;
+>> +}
+>> +
+>> +/**
+>> + * drm_gpuva_swapped - indicates whether the backing BO of this &drm_gpuva
+>> + * is swapped
+>> + * @va: the &drm_gpuva to check
+>> + */
+>> +static inline bool drm_gpuva_swapped(struct drm_gpuva *va)
+>> +{
+>> +	return va->flags & DRM_GPUVA_SWAPPED;
+>> +}
+>> +
+>> +/**
+>> + * drm_gpuva_for_each_va_in_range - iternator to walk over a range of nodes
+>> + * @node__: &drm_gpuva structure to assign to in each iteration step
+>> + * @gpuva__: &drm_gpuva_manager structure to walk
+>> + * @start__: starting offset, the first node will overlap this
+>> + * @end__: ending offset, the last node will start before this (but may overlap)
+>> + *
+>> + * This iterator walks over all nodes in the range allocator that lie
+>> + * between @start and @end. It is implemented similarly to list_for_each(),
+>> + * but is using &drm_mm's internal interval tree to accelerate the search for
+>> + * the starting node, and hence isn't safe against removal of elements. It
+>> + * assumes that @end is within (or is the upper limit of) the &drm_gpuva_manager.
+>> + * If [@start, @end] are beyond the range of the &drm_gpuva_manager, the
+>> + * iterator may walk over the special _unallocated_ &drm_mm.head_node of the
+>> + * backing &drm_mm, and may even continue indefinitely.
+>> + */
+>> +#define drm_gpuva_for_each_va_in_range(node__, gpuva__, start__, end__) \
+>> +	for (node__ = (struct drm_gpuva *)__drm_mm_interval_first(&(gpuva__)->va_mm, \
+>> +								  (start__), (end__)-1); \
+>> +	     node__->node.start < (end__); \
+>> +	     node__ = (struct drm_gpuva *)list_next_entry(&node__->node, node_list))
+>> +
+>> +/**
+>> + * drm_gpuva_for_each_va - iternator to walk over a range of nodes
+>> + * @entry: &drm_gpuva structure to assign to in each iteration step
+>> + * @gpuva: &drm_gpuva_manager structure to walk
+>> + *
+>> + * This iterator walks over all &drm_gpuva structures associated with the
+>> + * &drm_gpuva_manager.
+>> + */
+>> +#define drm_gpuva_for_each_va(entry, gpuva) \
+>> +	list_for_each_entry(entry, drm_mm_nodes(&(gpuva)->va_mm), node.node_list)
+>> +
+>> +/**
+>> + * drm_gpuva_for_each_va_safe - iternator to safely walk over a range of
+>> + * nodes
+>> + * @entry: &drm_gpuva structure to assign to in each iteration step
+>> + * @next: &next &drm_gpuva to store the next step
+>> + * @gpuva: &drm_gpuva_manager structure to walk
+>> + *
+>> + * This iterator walks over all &drm_gpuva structures associated with the
+>> + * &drm_gpuva_manager. It is implemented with list_for_each_safe(), so save
+>> + * against removal of elements.
+>> + */
+>> +#define drm_gpuva_for_each_va_safe(entry, next, gpuva) \
+>> +	list_for_each_entry_safe(entry, next, drm_mm_nodes(&(gpuva)->va_mm), node.node_list)
+>> +
+>> +/**
+>> + * enum drm_gpuva_op_type - GPU VA operation type
+>> + *
+>> + * Operations to alter the GPU VA mappings tracked by the &drm_gpuva_manager
+>> + * can be map, remap or unmap operations.
+>> + */
+>> +enum drm_gpuva_op_type {
+>> +	/**
+>> +	 * @DRM_GPUVA_OP_MAP: the map op type
+>> +	 */
+>> +	DRM_GPUVA_OP_MAP,
+>> +
+>> +	/**
+>> +	 * @DRM_GPUVA_OP_REMAP: the remap op type
+>> +	 */
+>> +	DRM_GPUVA_OP_REMAP,
+>> +
+>> +	/**
+>> +	 * @DRM_GPUVA_OP_UNMAP: the unmap op type
+>> +	 */
+>> +	DRM_GPUVA_OP_UNMAP,
+>> +};
+>> +
+>> +/**
+>> + * struct drm_gpuva_op_map - GPU VA map operation
+>> + *
+>> + * This structure represents a single map operation generated by the
+>> + * DRM GPU VA manager.
+>> + */
+>> +struct drm_gpuva_op_map {
+>> +	/**
+>> +	 * @va: structure containing address and range of a map
+>> +	 * operation
+>> +	 */
+>> +	struct {
+>> +		/**
+>> +		 * @addr: the base address of the new mapping
+>> +		 */
+>> +		u64 addr;
+>> +
+>> +		/**
+>> +		 * @range: the range of the new mapping
+>> +		 */
+>> +		u64 range;
+>> +	} va;
+>> +
+>> +	/**
+>> +	 * @gem: structure containing the &drm_gem_object and it's offset
+>> +	 */
+>> +	struct {
+>> +		/**
+>> +		 * @offset: the offset within the &drm_gem_object
+>> +		 */
+>> +		u64 offset;
+>> +
+>> +		/**
+>> +		 * @obj: the &drm_gem_object to map
+>> +		 */
+>> +		struct drm_gem_object *obj;
+>> +	} gem;
+>> +};
+>> +
+>> +/**
+>> + * struct drm_gpuva_op_unmap - GPU VA unmap operation
+>> + *
+>> + * This structure represents a single unmap operation generated by the
+>> + * DRM GPU VA manager.
+>> + */
+>> +struct drm_gpuva_op_unmap {
+>> +	/**
+>> +	 * @va: the &drm_gpuva to unmap
+>> +	 */
+>> +	struct drm_gpuva *va;
+>> +
+>> +	/**
+>> +	 * @keep:
+>> +	 *
+>> +	 * Indicates whether this &drm_gpuva is physically contiguous with the
+>> +	 * original mapping request.
+>> +	 *
+>> +	 * Optionally, if &keep is set, drivers may keep the actual page table
+>> +	 * mappings for this &drm_gpuva, adding the missing page table entries
+>> +	 * only and update the &drm_gpuva_manager accordingly.
+>> +	 */
+>> +	bool keep;
+>> +};
+>> +
+>> +/**
+>> + * struct drm_gpuva_op_remap - GPU VA remap operation
+>> + *
+>> + * This represents a single remap operation generated by the DRM GPU VA manager.
+>> + *
+>> + * A remap operation is generated when an existing GPU VA mmapping is split up
+>> + * by inserting a new GPU VA mapping or by partially unmapping existent
+>> + * mapping(s), hence it consists of a maximum of two map and one unmap
+>> + * operation.
+>> + *
+>> + * The @unmap operation takes care of removing the original existing mapping.
+>> + * @prev is used to remap the preceding part, @next the subsequent part.
+>> + *
+>> + * If either a new mapping's start address is aligned with the start address
+>> + * of the old mapping or the new mapping's end address is aligned with the
+>> + * end address of the old mapping, either @prev or @next is NULL.
+>> + *
+>> + * Note, the reason for a dedicated remap operation, rather than arbitrary
+>> + * unmap and map operations, is to give drivers the chance of extracting driver
+>> + * specific data for creating the new mappings from the unmap operations's
+>> + * &drm_gpuva structure which typically is embedded in larger driver specific
+>> + * structures.
+>> + */
+>> +struct drm_gpuva_op_remap {
+>> +	/**
+>> +	 * @prev: the preceding part of a split mapping
+>> +	 */
+>> +	struct drm_gpuva_op_map *prev;
+>> +
+>> +	/**
+>> +	 * @next: the subsequent part of a split mapping
+>> +	 */
+>> +	struct drm_gpuva_op_map *next;
+>> +
+>> +	/**
+>> +	 * @unmap: the unmap operation for the original existing mapping
+>> +	 */
+>> +	struct drm_gpuva_op_unmap *unmap;
+>> +};
+>> +
+>> +/**
+>> + * struct drm_gpuva_op - GPU VA operation
+>> + *
+>> + * This structure represents a single generic operation, which can be either
+>> + * map, unmap or remap.
+>> + *
+>> + * The particular type of the operation is defined by @op.
+>> + */
+>> +struct drm_gpuva_op {
+>> +	/**
+>> +	 * @entry:
+>> +	 *
+>> +	 * The &list_head used to distribute instances of this struct within
+>> +	 * &drm_gpuva_ops.
+>> +	 */
+>> +	struct list_head entry;
+>> +
+>> +	/**
+>> +	 * @op: the type of the operation
+>> +	 */
+>> +	enum drm_gpuva_op_type op;
+>> +
+>> +	union {
+>> +		/**
+>> +		 * @map: the map operation
+>> +		 */
+>> +		struct drm_gpuva_op_map map;
+>> +
+>> +		/**
+>> +		 * @unmap: the unmap operation
+>> +		 */
+>> +		struct drm_gpuva_op_unmap unmap;
+>> +
+>> +		/**
+>> +		 * @remap: the remap operation
+>> +		 */
+>> +		struct drm_gpuva_op_remap remap;
+>> +	};
+>> +};
+>> +
+>> +/**
+>> + * struct drm_gpuva_ops - wraps a list of &drm_gpuva_op
+>> + */
+>> +struct drm_gpuva_ops {
+>> +	/**
+>> +	 * @list: the &list_head
+>> +	 */
+>> +	struct list_head list;
+>> +};
+>> +
+>> +/**
+>> + * drm_gpuva_for_each_op - iterator to walk over all ops
+>> + * @op: &drm_gpuva_op to assign in each iteration step
+>> + * @ops: &drm_gpuva_ops to walk
+>> + *
+>> + * This iterator walks over all ops within a given list of operations.
+>> + */
+>> +#define drm_gpuva_for_each_op(op, ops) list_for_each_entry(op, &(ops)->list, entry)
+>> +
+>> +/**
+>> + * drm_gpuva_for_each_op_safe - iterator to safely walk over all ops
+>> + * @op: &drm_gpuva_op to assign in each iteration step
+>> + * @next: &next &drm_gpuva_op to store the next step
+>> + * @ops: &drm_gpuva_ops to walk
+>> + *
+>> + * This iterator walks over all ops within a given list of operations. It is
+>> + * implemented with list_for_each_safe(), so save against removal of elements.
+>> + */
+>> +#define drm_gpuva_for_each_op_safe(op, next, ops) \
+>> +	list_for_each_entry_safe(op, next, &(ops)->list, entry)
+>> +
+>> +struct drm_gpuva_ops *
+>> +drm_gpuva_sm_map_ops_create(struct drm_gpuva_manager *mgr,
+>> +			    u64 addr, u64 range,
+>> +			    struct drm_gem_object *obj, u64 offset);
+>> +struct drm_gpuva_ops *
+>> +drm_gpuva_sm_unmap_ops_create(struct drm_gpuva_manager *mgr,
+>> +			      u64 addr, u64 range);
+>> +void drm_gpuva_ops_free(struct drm_gpuva_ops *ops);
+>> +
+>> +#endif /* __DRM_GPUVA_MGR_H__ */
+>> -- 
+>> 2.39.0
+>>
+> 
 
