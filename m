@@ -2,98 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC35AC05027
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 04:42:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E3EC05027
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 05:14:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229720AbjBNEmZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Feb 2023 23:42:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57724 "EHLO
+        id S231448AbjBNFOl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Feb 2023 00:14:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbjBNEmY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Feb 2023 23:42:24 -0500
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1CDF1714F
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 20:42:22 -0800 (PST)
-Received: by mail-pg1-x529.google.com with SMTP id a23so9475234pga.13
-        for <linux-doc@vger.kernel.org>; Mon, 13 Feb 2023 20:42:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IytFRD13wyHkORVwldfX0cj+olMfAcIjoNBkr5UdNv4=;
-        b=CpaV4dVNUa0pCGK5PDzg426zSTmY7CxCQXGkQc/due8N9WbSNf6YnYNaaZJlzPQzRU
-         4s0iVdibYJ1vax2anrQWNpvuZAStqApzDgYGWguJpL56MKYEoQgZaI+vmNIiamU8lFDV
-         tyzEA6plQxp7DGNo3rrpCE6kEmRoWISwepZNgWnkKgHTSGrSSjYfZw8BEh9uYnOmnu1y
-         3zFRl0bQ3jXcROaXtBLT4UglIskyT4lWVFuYiMxAiHOSaik7J+HXrvgqyyWxXOa5eCoY
-         Ns5YOAcrrMGyhU6lBeuM1ckz+k2ZSKU+hls5ed89+Q3rPD5x9fgKjshULNq9RO13E66x
-         s13A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IytFRD13wyHkORVwldfX0cj+olMfAcIjoNBkr5UdNv4=;
-        b=FfBSZBm0vS1+d4p+eZBSZy/mngzc46VO//jzBffT/OYC3BH9LLTxFm2xX6jLLvuvK4
-         XHXGmORVZLT0+GuKeGX1tAC7008Hd4efgKmUkzYvgFIXB8Z2Iwuo6YSSLczka72XMkf2
-         9gJQbqDeLitJONSBp8yaZUWRlJ6lMPM8s3AIEn43k87AEZY8ZWpeD0/bpT3r4c8pUdDf
-         zVwqurHOYzI0GOHSJd3K8mKX0hSSNmfBPrJE+DobfmJ+4z2GYv3dFNDJj9KB77fIruq0
-         pYVCEVCNd7YG9gfnRBPc4hkfSXiib1G4cLptpy5Y3Ybq7D+z6hWbttSrqGVfNMm0G0lR
-         OJWA==
-X-Gm-Message-State: AO0yUKXxzp75JC4L/VWX5mBVnBBnWjVITU7LPxu1MPgWRO3Cb34touCL
-        DxCFO8/k1mJbDOmPya6XMY40SYSzXD2Taquv
-X-Google-Smtp-Source: AK7set/4s/cLnv837AHxP+fni/9CnhX3OJuvf1GQstOD0qP6CHuBqukJFcvLiwos3jjiUZAL1jHLxQ==
-X-Received: by 2002:aa7:973d:0:b0:5a8:be36:65a8 with SMTP id k29-20020aa7973d000000b005a8be3665a8mr750675pfg.27.1676349742500;
-        Mon, 13 Feb 2023 20:42:22 -0800 (PST)
-Received: from sunil-laptop ([49.206.14.226])
-        by smtp.gmail.com with ESMTPSA id i9-20020aa79089000000b0058173c4b3d1sm8285835pfa.80.2023.02.13.20.42.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 20:42:22 -0800 (PST)
-Date:   Tue, 14 Feb 2023 10:12:13 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Jessica Clarke <jrtc27@jrtc27.com>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <apatel@ventanamicro.com>,
-        linux-doc@vger.kernel.org, Atish Patra <atishp@rivosinc.com>,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Andrew Jones <ajones@ventanamicro.com>
-Subject: Re: [PATCH 06/24] RISC-V: ACPI: Add PCI functions to build ACPI core
-Message-ID: <Y+sRJVf985vXvQG/@sunil-laptop>
-References: <20230130182225.2471414-1-sunilvl@ventanamicro.com>
- <20230130182225.2471414-7-sunilvl@ventanamicro.com>
- <33DF2416-0629-414D-B50E-D99CB55A83AA@jrtc27.com>
+        with ESMTP id S229880AbjBNFOi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 00:14:38 -0500
+Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4B3530E7;
+        Mon, 13 Feb 2023 21:14:36 -0800 (PST)
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31E53wwc028877;
+        Mon, 13 Feb 2023 21:14:31 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=pfpt0220;
+ bh=9xMDpoZfipRQSFzP2NcND2Y7ZhWYtEcMQ6JEa9nmLtw=;
+ b=kXVe0cx8j3Hsx9My86bv8Ha8foeKfDuClBW1N44uFn9fJ0ViB8dUkQWhV6Hzr3ZrrORc
+ AFf3HAaR1yyErSq43Ag80OnH8uuJsAOFchM7teOVsboNzKX8LejjTobe1Ri4c9acipE2
+ 596Bi43oF+A/yJos9bCSCUsmDpv3h0sM1ZBju6dmVKlaxPpLTeM0cv6UOobm1LwZu3EK
+ MnO15Z7BI82HQ8djUkWinjkTs9VFIT9uU0g4l7eqo9vbfVq31Mq/ipQRlOb2ttjBHQuL
+ doGUoY2peJhNRk5Mz/3lLEqmXvxSJGa5wbYYiJmrufBUYrVkYmK4H+FwobVImqaoLgec zA== 
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+        by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3np98upmpb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Mon, 13 Feb 2023 21:14:31 -0800
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 13 Feb
+ 2023 21:14:29 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.42 via Frontend
+ Transport; Mon, 13 Feb 2023 21:14:29 -0800
+Received: from sburla-PowerEdge-T630.caveonetworks.com (unknown [10.106.27.217])
+        by maili.marvell.com (Postfix) with ESMTP id 779D83F707A;
+        Mon, 13 Feb 2023 21:14:29 -0800 (PST)
+From:   Veerasenareddy Burru <vburru@marvell.com>
+To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <aayarekar@marvell.com>, <sedara@marvell.com>, <sburla@marvell.com>
+CC:     <linux-doc@vger.kernel.org>,
+        Veerasenareddy Burru <vburru@marvell.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Subject: [PATCH net-next v3 3/7] octeon_ep: control mailbox for multiple PFs
+Date:   Mon, 13 Feb 2023 21:14:18 -0800
+Message-ID: <20230214051422.13705-4-vburru@marvell.com>
+X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20230214051422.13705-1-vburru@marvell.com>
+References: <20230214051422.13705-1-vburru@marvell.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <33DF2416-0629-414D-B50E-D99CB55A83AA@jrtc27.com>
+Content-Type: text/plain
+X-Proofpoint-GUID: k8xdLBEO6BulBQNNFHAEJjZthSIBvJ2Q
+X-Proofpoint-ORIG-GUID: k8xdLBEO6BulBQNNFHAEJjZthSIBvJ2Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-14_03,2023-02-13_01,2023-02-09_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 13, 2023 at 05:26:13PM +0000, Jessica Clarke wrote:
-> On 30 Jan 2023, at 18:22, Sunil V L <sunilvl@ventanamicro.com> wrote:
-> > 
-> > When CONFIG_PCI is enabled, ACPI core expects few arch
-> > functions related to PCI. Add those functions so that
-> > ACPI core gets build. These are levraged from arm64.
-> 
-> Presumably this is pretty generic and applies to anything without x86
-> weirdness. Copying all this supposedly architecture specific code
-> that’s really generic seems like bad practice to me as an outsider.
-> Should this not be unifying the two in a shared location as has been
-> done for other subsystems?
+Add control mailbox support for multiple PFs.
+Update control mbox base address calculation based on PF function link.
 
-Make sense. Let me add these functions in a common location pci-acpi.c
-for RISC-V. Other architectures can migrate to this in future.
+Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
+Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
+---
+v2 -> v3:
+ * no change
 
-Thanks,
-Sunil
+v1 -> v2:
+ * no change
+
+ .../ethernet/marvell/octeon_ep/octep_cn9k_pf.c   | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c b/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
+index f40ebac15a79..c82a1347eed8 100644
+--- a/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
++++ b/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
+@@ -13,6 +13,9 @@
+ #include "octep_main.h"
+ #include "octep_regs_cn9k_pf.h"
+ 
++#define CTRL_MBOX_MAX_PF	128
++#define CTRL_MBOX_SZ		((size_t)(0x400000 / CTRL_MBOX_MAX_PF))
++
+ /* Names of Hardware non-queue generic interrupts */
+ static char *cn93_non_ioq_msix_names[] = {
+ 	"epf_ire_rint",
+@@ -199,6 +202,8 @@ static void octep_init_config_cn93_pf(struct octep_device *oct)
+ 	struct octep_config *conf = oct->conf;
+ 	struct pci_dev *pdev = oct->pdev;
+ 	u64 val;
++	int pos;
++	u8 link = 0;
+ 
+ 	/* Read ring configuration:
+ 	 * PF ring count, number of VFs and rings per VF supported
+@@ -234,7 +239,16 @@ static void octep_init_config_cn93_pf(struct octep_device *oct)
+ 	conf->msix_cfg.ioq_msix = conf->pf_ring_cfg.active_io_rings;
+ 	conf->msix_cfg.non_ioq_msix_names = cn93_non_ioq_msix_names;
+ 
+-	conf->ctrl_mbox_cfg.barmem_addr = (void __iomem *)oct->mmio[2].hw_addr + (0x400000ull * 7);
++	pos = pci_find_ext_capability(oct->pdev, PCI_EXT_CAP_ID_SRIOV);
++	if (pos) {
++		pci_read_config_byte(oct->pdev,
++				     pos + PCI_SRIOV_FUNC_LINK,
++				     &link);
++		link = PCI_DEVFN(PCI_SLOT(oct->pdev->devfn), link);
++	}
++	conf->ctrl_mbox_cfg.barmem_addr = (void __iomem *)oct->mmio[2].hw_addr +
++					   (0x400000ull * 8) +
++					   (link * CTRL_MBOX_SZ);
+ }
+ 
+ /* Setup registers for a hardware Tx Queue  */
+-- 
+2.36.0
+
