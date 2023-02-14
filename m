@@ -2,48 +2,50 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29466C6379F
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 21:27:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE091C61DA4
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Feb 2023 21:28:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232992AbjBNV1w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Feb 2023 16:27:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51146 "EHLO
+        id S233069AbjBNV2J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Feb 2023 16:28:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233043AbjBNV1o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 16:27:44 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35E5C303F1;
-        Tue, 14 Feb 2023 13:27:21 -0800 (PST)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31EFfkIY008029;
-        Tue, 14 Feb 2023 21:25:41 GMT
+        with ESMTP id S233068AbjBNV1x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 16:27:53 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B3F303DE;
+        Tue, 14 Feb 2023 13:27:27 -0800 (PST)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31ELHW1Q029938;
+        Tue, 14 Feb 2023 21:26:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=b7G1zihIRPJyCCnYYGc4mIFQvqk2y844xfg2/C9NQv4=;
- b=DbOShkAyt3l5ADheaYdXVMiQDJHc7OZw5HI7HiZYudCHnH2cjbWJ/nxQeY1//TiEXzSb
- fqkprEIqjK4RD5Q4ZhheIDBU7zTRhLq99f6S5+Q1qzKhW5uMpjJFaDXp6hRr+bcFZM5r
- ABnQVSDVYFO/U4p5AhWczw5inZMTaZnHb9LjhlHV8zb5TLit9MhatHWU5vRmjDy8QLZ/
- Z+UItv2Y1KP9beE20445fAPfWyIolDZ6dsLiCzdRFQ/3IEFuKmjEpCfliV7NxfzCYLnm
- MV1YeXZKlxLXapWZSY2ARXieS3hEQ9sXTYpJPlK3PS0s6FSld2wR+/iSoz8wdNT3D/8O ow== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nr26u2hue-1
+ bh=RhU80bYVgcAGmGEHUFUVYEVnSRadawR0ygwxcPknuGc=;
+ b=NZGHXWRygK1Y1yvdGFwAEGphW683kowrh63VW2RRrJT3xxct9ckbGwx05j3m8yrwib9n
+ fFnRMyGRp3avAPwJ1FHlSb+jQxbzPfgTyOGQXhzst0eT/1kopBGm7hsl/icse61ioiM7
+ zI8WsouLSbz+VtUAUFvLE+PlNPwv0KBM42vyZsCKD9UA2HVXajo2+iK6GP1S25cXf4R7
+ ZQZAqpDMgpKYRF2grDWcPFWyvAQf7tmNAeaozkofuhaPaLldmoneSYk7mFsRY1sQZjWM
+ 331vdf97Yp/TH6dgaUw7u5GQzZ7qlsUZyYJN8LiM9g6JICZukpFg5S0p0VzP6CmbXlfx /Q== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nqtv0beb8-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 14 Feb 2023 21:25:40 +0000
+        Tue, 14 Feb 2023 21:26:11 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31ELPegC005625
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31ELQABC006109
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 14 Feb 2023 21:25:40 GMT
+        Tue, 14 Feb 2023 21:26:10 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Tue, 14 Feb 2023 13:25:39 -0800
+ 15.2.986.36; Tue, 14 Feb 2023 13:26:09 -0800
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Elliot Berman <quic_eberman@quicinc.com>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
 CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
@@ -56,14 +58,13 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v10 19/26] gunyah: vm_mgr: Add framework to add VM Functions
-Date:   Tue, 14 Feb 2023 13:25:30 -0800
-Message-ID: <20230214212531.3323284-1-quic_eberman@quicinc.com>
+Subject: [PATCH v10 22/26] virt: gunyah: Add proxy-scheduled vCPUs
+Date:   Tue, 14 Feb 2023 13:26:00 -0800
+Message-ID: <20230214212602.3326566-1-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214211229.3239350-1-quic_eberman@quicinc.com>
 References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
@@ -75,504 +76,756 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 8bTHOsjE0C-CGJOteESNWd9xYK6onqlk
-X-Proofpoint-ORIG-GUID: 8bTHOsjE0C-CGJOteESNWd9xYK6onqlk
+X-Proofpoint-GUID: RsouC3EGMCGHBONuwppM3KR6kWe3uxQe
+X-Proofpoint-ORIG-GUID: RsouC3EGMCGHBONuwppM3KR6kWe3uxQe
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
  definitions=2023-02-14_15,2023-02-14_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 mlxscore=0 spamscore=0 impostorscore=0 malwarescore=0
- mlxlogscore=999 clxscore=1015 lowpriorityscore=0 bulkscore=0 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2302140184
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-Introduce a framework for Gunyah userspace to install VM functions. VM
-functions are optional interfaces to the virtual machine. vCPUs,
-ioeventfs, and irqfds are examples of such VM functions and are
-implemented in subsequent patches.
+Gunyah allows host virtual machines to schedule guest virtual machines
+and handle their MMIO accesses. vCPUs are presented to the host as a
+Gunyah resource and represented to userspace as a Gunyah VM function.
 
-A generic framework is implemented instead of individual ioctls to
-create vCPUs, irqfds, etc., in order to simplify the VM manager core
-implementation and allow dynamic loading of VM function modules.
+Creating the vcpu VM function will create a file descriptor that:
+ - can run an ioctl: GH_VCPU_RUN to schedule the guest vCPU until the
+   next interrupt occurs on the host or when the guest vCPU can no
+   longer be run.
+ - can be mmap'd to share a gh_vcpu_run structure which can look up the
+   reason why GH_VCPU_RUN returned and provide return values for MMIO
+   access.
 
+Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- Documentation/virt/gunyah/vm-manager.rst |  18 ++
- drivers/virt/gunyah/vm_mgr.c             | 240 ++++++++++++++++++++++-
- drivers/virt/gunyah/vm_mgr.h             |   3 +
- include/linux/gunyah_vm_mgr.h            |  80 ++++++++
- include/uapi/linux/gunyah.h              |  17 ++
- 5 files changed, 353 insertions(+), 5 deletions(-)
- create mode 100644 include/linux/gunyah_vm_mgr.h
+ Documentation/virt/gunyah/vm-manager.rst |  30 +-
+ arch/arm64/gunyah/gunyah_hypercall.c     |  28 ++
+ drivers/virt/gunyah/Kconfig              |  11 +
+ drivers/virt/gunyah/Makefile             |   2 +
+ drivers/virt/gunyah/gunyah_vcpu.c        | 463 +++++++++++++++++++++++
+ drivers/virt/gunyah/vm_mgr.c             |   4 +
+ drivers/virt/gunyah/vm_mgr.h             |   1 +
+ include/linux/gunyah.h                   |   8 +
+ include/uapi/linux/gunyah.h              |  61 +++
+ 9 files changed, 606 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/virt/gunyah/gunyah_vcpu.c
 
 diff --git a/Documentation/virt/gunyah/vm-manager.rst b/Documentation/virt/gunyah/vm-manager.rst
-index c0126cfeadc7..5272a6e9145c 100644
+index 5272a6e9145c..662b8d6fec2a 100644
 --- a/Documentation/virt/gunyah/vm-manager.rst
 +++ b/Documentation/virt/gunyah/vm-manager.rst
-@@ -17,6 +17,24 @@ sharing userspace memory with a VM is done via the GH_VM_SET_USER_MEM_REGION
- ioctl. The VM itself is configured to use the memory region via the
- devicetree.
+@@ -5,8 +5,7 @@ Virtual Machine Manager
+ =======================
  
-+Gunyah Functions
-+================
-+
-+Components of a Gunyah VM's configuration that need kernel configuration are
-+called "functions" and are built on top of a framework. Functions are identified
-+by a string and have some argument(s) to configure them. They are typically
-+created by the `GH_VM_ADD_FUNCTION` ioctl.
-+
-+Functions typically will always do at least one of these operations:
-+
-+1. Create resource ticket(s). Resource tickets allow a function to register
-+   itself as the client for a Gunyah resource (e.g. doorbell or vCPU) and
-+   the function is given the pointer to the `struct gunyah_resource` when the
-+   VM is starting.
-+
-+2. Register IO handler(s). IO handlers allow a function to handle stage-2 faults
-+   from the virtual machine.
-+
- Sample Userspace VMM
- ====================
+ The Gunyah Virtual Machine Manager is a Linux driver to support launching
+-virtual machines using Gunyah. It presently supports launching non-proxy
+-scheduled Linux-like virtual machines.
++virtual machines using Gunyah.
  
-diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
-index fa324385ade5..e9c55e7dd1b3 100644
---- a/drivers/virt/gunyah/vm_mgr.c
-+++ b/drivers/virt/gunyah/vm_mgr.c
-@@ -6,8 +6,10 @@
- #define pr_fmt(fmt) "gh_vm_mgr: " fmt
+ Except for some basic information about the location of initial binaries,
+ most of the configuration about a Gunyah virtual machine is described in the
+@@ -122,3 +121,30 @@ GH_VM_START
+ ~~~~~~~~~~~
  
- #include <linux/anon_inodes.h>
-+#include <linux/compat.h>
- #include <linux/file.h>
- #include <linux/gunyah_rsc_mgr.h>
-+#include <linux/gunyah_vm_mgr.h>
- #include <linux/miscdevice.h>
- #include <linux/mm.h>
- #include <linux/module.h>
-@@ -16,6 +18,177 @@
+ This ioctl starts the VM.
++
++GH_VM_ADD_FUNCTION
++~~~~~~~~~~~~~~~~~~
++
++This ioctl registers a Gunyah VM function with the VM manager. The VM function
++is described with a `type` string and some arguments for that type. Typically,
++the function is added before the VM starts, but the function doesn't "operate"
++until the VM starts with GH_VM_START: e.g. vCPU ioclts will all return an error
++until the VM starts because the vCPUs don't exist until the VM is started. This
++allows the VMM to set up all the kernel functionality needed for the VM *before*
++the VM starts.
++
++The possible types are documented below:
++
++Type: "vcpu"
++^^^^^^^^^^^^
++
++::
++
++  struct gh_fn_vcpu_arg {
++	__u32 vcpu_id;
++  };
++
++The vcpu type will register with the VM Manager to expect to control
++vCPU number `vcpu_id`. It returns a file descriptor allowing interaction with
++the vCPU. See the Gunyah vCPU API description sections for interacting with
++the Gunyah vCPU file descriptors.
+diff --git a/arch/arm64/gunyah/gunyah_hypercall.c b/arch/arm64/gunyah/gunyah_hypercall.c
+index 2ca9ab098ff6..260d416dd006 100644
+--- a/arch/arm64/gunyah/gunyah_hypercall.c
++++ b/arch/arm64/gunyah/gunyah_hypercall.c
+@@ -40,6 +40,7 @@ EXPORT_SYMBOL_GPL(arch_is_gunyah_guest);
+ #define GH_HYPERCALL_HYP_IDENTIFY		GH_HYPERCALL(0x8000)
+ #define GH_HYPERCALL_MSGQ_SEND			GH_HYPERCALL(0x801B)
+ #define GH_HYPERCALL_MSGQ_RECV			GH_HYPERCALL(0x801C)
++#define GH_HYPERCALL_VCPU_RUN			GH_HYPERCALL(0x8065)
  
- #include "vm_mgr.h"
- 
-+static DEFINE_MUTEX(functions_lock);
-+static DEFINE_IDR(functions);
-+
-+int gh_vm_function_register(struct gh_vm_function *drv)
-+{
-+	int ret = 0;
-+
-+	if (!drv->bind || !drv->unbind)
-+		return -EINVAL;
-+
-+	mutex_lock(&functions_lock);
-+	if (idr_find(&functions, drv->type)) {
-+		ret = -EEXIST;
-+		goto out;
-+	}
-+
-+	INIT_LIST_HEAD(&drv->instances);
-+	ret = idr_alloc(&functions, drv, drv->type, drv->type + 1, GFP_KERNEL);
-+	if (ret > 0)
-+		ret = 0;
-+out:
-+	mutex_unlock(&functions_lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(gh_vm_function_register);
-+
-+static void gh_vm_remove_function_instance(struct gh_vm_function_instance *inst)
-+	__must_hold(functions_lock)
-+{
-+	inst->fn->unbind(inst);
-+	list_del(&inst->vm_list);
-+	list_del(&inst->fn_list);
-+	module_put(inst->fn->mod);
-+	if (inst->arg_size)
-+		kfree(inst->argp);
-+	kfree(inst);
-+}
-+
-+void gh_vm_function_unregister(struct gh_vm_function *fn)
-+{
-+	struct gh_vm_function_instance *inst, *iter;
-+
-+	mutex_lock(&functions_lock);
-+	list_for_each_entry_safe(inst, iter, &fn->instances, fn_list)
-+		gh_vm_remove_function_instance(inst);
-+	idr_remove(&functions, fn->type);
-+	mutex_unlock(&functions_lock);
-+}
-+EXPORT_SYMBOL_GPL(gh_vm_function_unregister);
-+
-+static long gh_vm_add_function(struct gh_vm *ghvm, struct gh_fn_desc *f)
-+{
-+	struct gh_vm_function_instance *inst;
-+	void __user *argp;
-+	long r = 0;
-+
-+	if (f->arg_size > GH_FN_MAX_ARG_SIZE)
-+		return -EINVAL;
-+
-+	inst = kzalloc(sizeof(*inst), GFP_KERNEL);
-+	if (!inst)
-+		return -ENOMEM;
-+
-+	inst->arg_size = f->arg_size;
-+	if (inst->arg_size) {
-+		inst->argp = kzalloc(inst->arg_size, GFP_KERNEL);
-+		if (!inst->arg) {
-+			r = -ENOMEM;
-+			goto free;
-+		}
-+
-+		argp = is_compat_task() ? compat_ptr(f->arg) : (void __user *) f->arg;
-+		if (copy_from_user(inst->argp, argp, f->arg_size)) {
-+			r = -EFAULT;
-+			goto free_arg;
-+		}
-+	} else {
-+		inst->arg = f->arg;
-+	}
-+
-+	mutex_lock(&functions_lock);
-+	inst->fn = idr_find(&functions, f->type);
-+	if (!inst->fn) {
-+		mutex_unlock(&functions_lock);
-+		r = request_module("ghfunc:%d", f->type);
-+		if (r)
-+			goto unlock_free;
-+
-+		mutex_lock(&functions_lock);
-+		inst->fn = idr_find(&functions, f->type);
-+	}
-+
-+	if (!inst->fn) {
-+		r = -ENOENT;
-+		goto unlock_free;
-+	}
-+
-+	if (!try_module_get(inst->fn->mod)) {
-+		r = -ENOENT;
-+		inst->fn = NULL;
-+		goto unlock_free;
-+	}
-+
-+	inst->ghvm = ghvm;
-+	inst->rm = ghvm->rm;
-+
-+	r = inst->fn->bind(inst);
-+	if (r < 0) {
-+		module_put(inst->fn->mod);
-+		goto unlock_free;
-+	}
-+
-+	list_add(&inst->vm_list, &ghvm->functions);
-+	list_add(&inst->fn_list, &inst->fn->instances);
-+	mutex_unlock(&functions_lock);
-+	return r;
-+unlock_free:
-+	mutex_unlock(&functions_lock);
-+free_arg:
-+	if (inst->arg_size)
-+		kfree(inst->argp);
-+free:
-+	kfree(inst);
-+	return r;
-+}
-+
-+static long gh_vm_rm_function(struct gh_vm *ghvm, struct gh_fn_desc *f)
-+{
-+	struct gh_vm_function_instance *inst, *iter;
-+	void __user *user_argp;
-+	void *argp;
-+	long r = 0;
-+
-+	r = mutex_lock_interruptible(&functions_lock);
-+	if (r)
-+		return r;
-+
-+	if (f->arg_size) {
-+		argp = kzalloc(f->arg_size, GFP_KERNEL);
-+		if (!argp) {
-+			r = -ENOMEM;
-+			goto out;
-+		}
-+
-+		user_argp = is_compat_task() ? compat_ptr(f->arg) : (void __user *) f->arg;
-+		if (copy_from_user(argp, user_argp, f->arg_size)) {
-+			r = -EFAULT;
-+			kfree(argp);
-+			goto out;
-+		}
-+
-+		list_for_each_entry_safe(inst, iter, &ghvm->functions, vm_list) {
-+			if (inst->fn->type == f->type &&
-+				f->arg_size == inst->arg_size &&
-+				!memcmp(argp, inst->argp, f->arg_size))
-+				gh_vm_remove_function_instance(inst);
-+		}
-+	} else {
-+		list_for_each_entry_safe(inst, iter, &ghvm->functions, vm_list) {
-+			if (inst->fn->type == f->type &&
-+				f->arg_size == inst->arg_size &&
-+				inst->arg == f->arg)
-+				gh_vm_remove_function_instance(inst);
-+		}
-+	}
-+
-+out:
-+	mutex_unlock(&functions_lock);
-+	return r;
-+}
-+
- static int gh_vm_rm_notification_status(struct gh_vm *ghvm, void *data)
- {
- 	struct gh_rm_vm_status_payload *payload = data;
-@@ -80,6 +253,7 @@ static void gh_vm_stop(struct gh_vm *ghvm)
- static void gh_vm_free(struct work_struct *work)
- {
- 	struct gh_vm *ghvm = container_of(work, struct gh_vm, free_work);
-+	struct gh_vm_function_instance *inst, *iiter;
- 	struct gh_vm_mem *mapping, *tmp;
- 	int ret;
- 
-@@ -90,7 +264,13 @@ static void gh_vm_free(struct work_struct *work)
- 		fallthrough;
- 	case GH_RM_VM_STATUS_INIT_FAILED:
- 	case GH_RM_VM_STATUS_LOAD:
--	case GH_RM_VM_STATUS_LOAD_FAILED:
-+	case GH_RM_VM_STATUS_EXITED:
-+		mutex_lock(&functions_lock);
-+		list_for_each_entry_safe(inst, iiter, &ghvm->functions, vm_list) {
-+			gh_vm_remove_function_instance(inst);
-+		}
-+		mutex_unlock(&functions_lock);
-+
- 		mutex_lock(&ghvm->mm_lock);
- 		list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, list) {
- 			gh_vm_mem_reclaim(ghvm, mapping);
-@@ -113,6 +293,28 @@ static void gh_vm_free(struct work_struct *work)
- 	}
+ /**
+  * gh_hypercall_hyp_identify() - Returns build information and feature flags
+@@ -89,5 +90,32 @@ enum gh_error gh_hypercall_msgq_recv(u64 capid, uintptr_t buff, size_t size, siz
  }
+ EXPORT_SYMBOL_GPL(gh_hypercall_msgq_recv);
  
-+static void _gh_vm_put(struct kref *kref)
++enum gh_error gh_hypercall_vcpu_run(u64 capid, u64 *resume_data,
++					struct gh_hypercall_vcpu_run_resp *resp)
 +{
-+	struct gh_vm *ghvm = container_of(kref, struct gh_vm, kref);
++	struct arm_smccc_1_2_regs args = {
++		.a0 = GH_HYPERCALL_VCPU_RUN,
++		.a1 = capid,
++		.a2 = resume_data[0],
++		.a3 = resume_data[1],
++		.a4 = resume_data[2],
++		/* C language says this will be implictly zero. Gunyah requires 0, so be explicit */
++		.a5 = 0,
++	};
++	struct arm_smccc_1_2_regs res;
 +
-+	/* VM will be reset and make RM calls which can interruptible sleep.
-+	 * Defer to a work so this thread can receive signal.
-+	 */
-+	schedule_work(&ghvm->free_work);
-+}
++	arm_smccc_1_2_hvc(&args, &res);
 +
-+int __must_check gh_vm_get(struct gh_vm *ghvm)
-+{
-+	return kref_get_unless_zero(&ghvm->kref);
-+}
-+EXPORT_SYMBOL_GPL(gh_vm_get);
-+
-+void gh_vm_put(struct gh_vm *ghvm)
-+{
-+	kref_put(&ghvm->kref, _gh_vm_put);
-+}
-+EXPORT_SYMBOL_GPL(gh_vm_put);
-+
- static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
- {
- 	struct gh_vm *ghvm;
-@@ -147,6 +349,8 @@ static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
- 	INIT_LIST_HEAD(&ghvm->memory_mappings);
- 	init_rwsem(&ghvm->status_lock);
- 	INIT_WORK(&ghvm->free_work, gh_vm_free);
-+	kref_init(&ghvm->kref);
-+	INIT_LIST_HEAD(&ghvm->functions);
- 	ghvm->vm_status = GH_RM_VM_STATUS_LOAD;
- 
- 	return ghvm;
-@@ -291,6 +495,35 @@ static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
- 		r = gh_vm_ensure_started(ghvm);
- 		break;
- 	}
-+	case GH_VM_ADD_FUNCTION: {
-+		struct gh_fn_desc *f;
-+
-+		f = kzalloc(sizeof(*f), GFP_KERNEL);
-+		if (!f)
-+			return -ENOMEM;
-+
-+		if (copy_from_user(f, argp, sizeof(*f)))
-+			return -EFAULT;
-+
-+		r = gh_vm_add_function(ghvm, f);
-+		if (r < 0)
-+			kfree(f);
-+		break;
++	if (res.a0 == GH_ERROR_OK) {
++		resp->state = res.a1;
++		resp->state_data[0] = res.a2;
++		resp->state_data[1] = res.a3;
++		resp->state_data[2] = res.a4;
 +	}
-+	case GH_VM_REMOVE_FUNCTION: {
-+		struct gh_fn_desc *f;
 +
-+		f = kzalloc(sizeof(*f), GFP_KERNEL);
-+		if (!f)
-+			return -ENOMEM;
++	return res.a0;
++}
++EXPORT_SYMBOL_GPL(gh_hypercall_vcpu_run);
 +
-+		if (copy_from_user(f, argp, sizeof(*f)))
-+			return -EFAULT;
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Gunyah Hypervisor Hypercalls");
+diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+index de815189dab6..4c1c6110b50e 100644
+--- a/drivers/virt/gunyah/Kconfig
++++ b/drivers/virt/gunyah/Kconfig
+@@ -15,3 +15,14 @@ config GUNYAH
+ 
+ config GUNYAH_PLATFORM_HOOKS
+ 	tristate
 +
-+		r = gh_vm_rm_function(ghvm, f);
-+		kfree(f);
-+		break;
-+	}
- 	default:
- 		r = -ENOTTY;
- 		break;
-@@ -303,10 +536,7 @@ static int gh_vm_release(struct inode *inode, struct file *filp)
- {
- 	struct gh_vm *ghvm = filp->private_data;
++config GUNYAH_VCPU
++	tristate "Runnable Gunyah vCPUs"
++	depends on GUNYAH
++	help
++	  Enable kernel support for host-scheduled vCPUs running under Gunyah.
++	  When selecting this option, userspace virtual machine managers (VMM)
++	  can schedule the guest VM's vCPUs instead of using Gunyah's scheduler.
++	  VMMs can also handle stage 2 faults of the vCPUs.
++
++	  Say Y/M here if unsure and you want to support Gunyah VMMs.
+diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+index 6b8f84dbfe0d..2d1b604a7b03 100644
+--- a/drivers/virt/gunyah/Makefile
++++ b/drivers/virt/gunyah/Makefile
+@@ -5,3 +5,5 @@ obj-$(CONFIG_GUNYAH_PLATFORM_HOOKS) += gunyah_platform_hooks.o
  
--	/* VM will be reset and make RM calls which can interruptible sleep.
--	 * Defer to a work so this thread can receive signal.
--	 */
--	schedule_work(&ghvm->free_work);
-+	gh_vm_put(ghvm);
- 	return 0;
- }
- 
-diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
-index e9cf56647cc2..4750d56c1297 100644
---- a/drivers/virt/gunyah/vm_mgr.h
-+++ b/drivers/virt/gunyah/vm_mgr.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/gunyah_rsc_mgr.h>
- #include <linux/list.h>
-+#include <linux/kref.h>
- #include <linux/miscdevice.h>
- #include <linux/mutex.h>
- #include <linux/rwsem.h>
-@@ -44,8 +45,10 @@ struct gh_vm {
- 	struct rw_semaphore status_lock;
- 
- 	struct work_struct free_work;
-+	struct kref kref;
- 	struct mutex mm_lock;
- 	struct list_head memory_mappings;
-+	struct list_head functions;
- };
- 
- int gh_vm_mem_alloc(struct gh_vm *ghvm, struct gh_userspace_memory_region *region);
-diff --git a/include/linux/gunyah_vm_mgr.h b/include/linux/gunyah_vm_mgr.h
+ gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
+ obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
++
++obj-$(CONFIG_GUNYAH_VCPU) += gunyah_vcpu.o
+diff --git a/drivers/virt/gunyah/gunyah_vcpu.c b/drivers/virt/gunyah/gunyah_vcpu.c
 new file mode 100644
-index 000000000000..f0a95af50b2e
+index 000000000000..fb1f55cb5020
 --- /dev/null
-+++ b/include/linux/gunyah_vm_mgr.h
-@@ -0,0 +1,80 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
++++ b/drivers/virt/gunyah/gunyah_vcpu.c
+@@ -0,0 +1,463 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#ifndef _GUNYAH_VM_MGR_H
-+#define _GUNYAH_VM_MGR_H
-+
-+#include <linux/compiler_types.h>
++#include <linux/anon_inodes.h>
++#include <linux/file.h>
 +#include <linux/gunyah.h>
-+#include <linux/gunyah_rsc_mgr.h>
-+#include <linux/list.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/notifier.h>
++#include <linux/gunyah_vm_mgr.h>
++#include <linux/interrupt.h>
++#include <linux/kref.h>
++#include <linux/mm.h>
++#include <linux/module.h>
++#include <linux/types.h>
++#include <linux/wait.h>
++
++#include "vm_mgr.h"
 +
 +#include <uapi/linux/gunyah.h>
 +
-+struct gh_vm;
++#define MAX_VCPU_NAME		20 /* gh-vcpu:u32_max+NUL */
 +
-+int __must_check gh_vm_get(struct gh_vm *ghvm);
-+void gh_vm_put(struct gh_vm *ghvm);
++struct gunyah_vcpu {
++	struct gh_vm_function_instance *f;
++	struct gunyah_resource *rsc;
++	struct mutex run_lock;
++	/* Track why vcpu_run left last time around. */
++	enum {
++		GH_VCPU_UNKNOWN = 0,
++		GH_VCPU_READY,
++		GH_VCPU_MMIO_READ,
++		GH_VCPU_SYSTEM_DOWN,
++	} state;
++	u8 mmio_read_len;
++	struct gh_vcpu_run *vcpu_run;
++	struct completion ready;
++	struct gh_vm *ghvm;
 +
-+struct gh_vm_function_instance;
-+struct gh_vm_function {
-+	u32 type;
-+	const char *name;
-+	struct module *mod;
-+	long (*bind)(struct gh_vm_function_instance *f);
-+	void (*unbind)(struct gh_vm_function_instance *f);
-+	struct mutex instances_lock;
-+	struct list_head instances;
++	struct notifier_block nb;
++	struct gh_vm_resource_ticket ticket;
++	struct kref kref;
 +};
++
++/* VCPU is ready to run */
++#define GH_VCPU_STATE_READY		0
++/* VCPU is sleeping until an interrupt arrives */
++#define GH_VCPU_STATE_EXPECTS_WAKEUP	1
++/* VCPU is powered off */
++#define GH_VCPU_STATE_POWERED_OFF	2
++/* VCPU is blocked in EL2 for unspecified reason */
++#define GH_VCPU_STATE_BLOCKED		3
++/* VCPU has returned for MMIO READ */
++#define GH_VCPU_ADDRSPACE_VMMIO_READ	4
++/* VCPU has returned for MMIO WRITE */
++#define GH_VCPU_ADDRSPACE_VMMIO_WRITE	5
++
++static void vcpu_release(struct kref *kref)
++{
++	struct gunyah_vcpu *vcpu = container_of(kref, struct gunyah_vcpu, kref);
++
++	free_page((unsigned long)vcpu->vcpu_run);
++	kfree(vcpu);
++}
++
++/*
++ * When hypervisor allows us to schedule vCPU again, it gives us an interrupt
++ */
++static irqreturn_t gh_vcpu_irq_handler(int irq, void *data)
++{
++	struct gunyah_vcpu *vcpu = data;
++
++	complete(&vcpu->ready);
++	return IRQ_HANDLED;
++}
++
++static bool gh_handle_mmio(struct gunyah_vcpu *vcpu,
++				struct gh_hypercall_vcpu_run_resp *vcpu_run_resp)
++{
++	int ret = 0;
++	u64 addr = vcpu_run_resp->state_data[0],
++	    len  = vcpu_run_resp->state_data[1],
++	    data = vcpu_run_resp->state_data[2];
++
++	if (vcpu_run_resp->state == GH_VCPU_ADDRSPACE_VMMIO_READ) {
++		vcpu->vcpu_run->mmio.is_write = 0;
++		/* Record that we need to give vCPU user's supplied value next gh_vcpu_run() */
++		vcpu->state = GH_VCPU_MMIO_READ;
++		vcpu->mmio_read_len = len;
++	} else { /* GH_VCPU_ADDRSPACE_VMMIO_WRITE */
++		/* Try internal handlers first */
++		ret = gh_vm_mmio_write(vcpu->f->ghvm, addr, len, data);
++		if (!ret)
++			return true;
++
++		/* Give userspace the info */
++		vcpu->vcpu_run->mmio.is_write = 1;
++		memcpy(vcpu->vcpu_run->mmio.data, &data, len);
++	}
++
++	vcpu->vcpu_run->mmio.phys_addr = addr;
++	vcpu->vcpu_run->mmio.len = len;
++	vcpu->vcpu_run->exit_reason = GH_VCPU_EXIT_MMIO;
++
++	return false;
++}
++
++static int gh_vcpu_rm_notification(struct notifier_block *nb, unsigned long action, void *data)
++{
++	struct gunyah_vcpu *vcpu = container_of(nb, struct gunyah_vcpu, nb);
++	struct gh_rm_vm_exited_payload *exit_payload = data;
++
++	if (action == GH_RM_NOTIFICATION_VM_EXITED &&
++		le16_to_cpu(exit_payload->vmid) == vcpu->ghvm->vmid)
++		complete(&vcpu->ready);
++
++	return NOTIFY_OK;
++}
++
++static inline enum gh_vm_status remap_vm_status(enum gh_rm_vm_status rm_status)
++{
++	switch (rm_status) {
++	case GH_RM_VM_STATUS_INIT_FAILED:
++		return GH_VM_STATUS_LOAD_FAILED;
++	case GH_RM_VM_STATUS_EXITED:
++		return GH_VM_STATUS_EXITED;
++	default:
++		return GH_VM_STATUS_CRASHED;
++	}
++}
 +
 +/**
-+ * struct gh_vm_function_instance - Represents one function instance
-+ * @arg_size: size of user argument
-+ * @arg: user argument to describe the function instance; arg_size is 0
-+ * @argp: pointer to user argument
-+ * @ghvm: Pointer to VM instance
-+ * @rm: Pointer to resource manager for the VM instance
-+ * @fn: The ops for the function
-+ * @data: Private data for function
-+ * @vm_list: for gh_vm's functions list
-+ * @fn_list: for gh_vm_function's instances list
++ * gh_vcpu_check_system() - Check whether VM as a whole is running
++ * @vcpu: Pointer to gunyah_vcpu
++ *
++ * Returns true if the VM is alive.
++ * Returns false if the vCPU is the VM is not alive (can only be that VM is shutting down).
 + */
-+struct gh_vm_function_instance {
-+	size_t arg_size;
-+	union {
-+		u64 arg;
-+		void *argp;
-+	};
-+	struct gh_vm *ghvm;
-+	struct gh_rm *rm;
-+	struct gh_vm_function *fn;
-+	void *data;
-+	struct list_head vm_list;
-+	struct list_head fn_list;
++static bool gh_vcpu_check_system(struct gunyah_vcpu *vcpu)
++	__must_hold(&vcpu->run_lock)
++{
++	bool ret = true;
++
++	down_read(&vcpu->ghvm->status_lock);
++	if (likely(vcpu->ghvm->vm_status == GH_RM_VM_STATUS_RUNNING))
++		goto out;
++
++	vcpu->vcpu_run->status.status = remap_vm_status(vcpu->ghvm->vm_status);
++	vcpu->vcpu_run->status.exit_info = vcpu->ghvm->exit_info;
++	vcpu->vcpu_run->exit_reason = GH_VCPU_EXIT_STATUS;
++	vcpu->state = GH_VCPU_SYSTEM_DOWN;
++	ret = false;
++out:
++	up_read(&vcpu->ghvm->status_lock);
++	return ret;
++}
++
++/**
++ * gh_vcpu_run() - Request Gunyah to begin scheduling this vCPU.
++ * @vcpu: The client descriptor that was obtained via gunyah_vcpu_alloc()
++ */
++static int gh_vcpu_run(struct gunyah_vcpu *vcpu)
++{
++	struct gh_hypercall_vcpu_run_resp vcpu_run_resp;
++	u64 state_data[3] = { 0 };
++	enum gh_error gh_error;
++	int ret = 0;
++
++	if (!vcpu->f)
++		return -ENODEV;
++
++	if (mutex_lock_interruptible(&vcpu->run_lock))
++		return -ERESTARTSYS;
++
++	if (!vcpu->rsc) {
++		ret = -ENODEV;
++		goto out;
++	}
++
++	switch (vcpu->state) {
++	case GH_VCPU_UNKNOWN:
++		if (vcpu->ghvm->vm_status != GH_RM_VM_STATUS_RUNNING) {
++			/* Check if VM is up. If VM is starting, will block until VM is fully up
++			 * since that thread does down_write.
++			 */
++			if (!gh_vcpu_check_system(vcpu))
++				goto out;
++		}
++		vcpu->state = GH_VCPU_READY;
++		break;
++	case GH_VCPU_MMIO_READ:
++		memcpy(&state_data[0], vcpu->vcpu_run->mmio.data, vcpu->mmio_read_len);
++		vcpu->state = GH_VCPU_READY;
++		break;
++	case GH_VCPU_SYSTEM_DOWN:
++		goto out;
++	default:
++		break;
++	}
++
++	while (!ret && !signal_pending(current)) {
++		if (vcpu->vcpu_run->immediate_exit) {
++			ret = -EINTR;
++			goto out;
++		}
++
++		gh_error = gh_hypercall_vcpu_run(vcpu->rsc->capid, state_data, &vcpu_run_resp);
++		if (gh_error == GH_ERROR_OK) {
++			ret = 0;
++			switch (vcpu_run_resp.state) {
++			case GH_VCPU_STATE_READY:
++				if (need_resched())
++					schedule();
++				break;
++			case GH_VCPU_STATE_POWERED_OFF:
++				/* vcpu might be off because the VM is shut down.
++				 * If so, it won't ever run again: exit back to user
++				 */
++				if (!gh_vcpu_check_system(vcpu))
++					goto out;
++				/* Otherwise, another vcpu will turn it on (e.g. by PSCI)
++				 * and hyp sends an interrupt to wake Linux up.
++				 */
++				fallthrough;
++			case GH_VCPU_STATE_EXPECTS_WAKEUP:
++				ret = wait_for_completion_interruptible(&vcpu->ready);
++				/* reinitialize completion before next hypercall. If we reinitialize
++				 * after the hypercall, interrupt may have already come before
++				 * re-initializing the completion and then end up waiting for
++				 * event that already happened.
++				 */
++				reinit_completion(&vcpu->ready);
++				/* Check system status again. Completion might've
++				 * come from gh_vcpu_rm_notification
++				 */
++				if (!ret && !gh_vcpu_check_system(vcpu))
++					goto out;
++				break;
++			case GH_VCPU_STATE_BLOCKED:
++				schedule();
++				break;
++			case GH_VCPU_ADDRSPACE_VMMIO_READ:
++			case GH_VCPU_ADDRSPACE_VMMIO_WRITE:
++				if (!gh_handle_mmio(vcpu, &vcpu_run_resp))
++					goto out;
++				break;
++			default:
++				pr_warn_ratelimited("Unknown vCPU state: %llx\n",
++							vcpu_run_resp.state);
++				schedule();
++				break;
++			}
++		} else if (gh_error == GH_ERROR_RETRY) {
++			schedule();
++			ret = 0;
++		} else
++			ret = gh_remap_error(gh_error);
++	}
++
++out:
++	mutex_unlock(&vcpu->run_lock);
++
++	if (signal_pending(current))
++		return -ERESTARTSYS;
++
++	return ret;
++}
++
++static long gh_vcpu_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
++{
++	struct gunyah_vcpu *vcpu = filp->private_data;
++	long ret = -EINVAL;
++
++	switch (cmd) {
++	case GH_VCPU_RUN:
++		ret = gh_vcpu_run(vcpu);
++		break;
++	case GH_VCPU_MMAP_SIZE:
++		ret = PAGE_SIZE;
++		break;
++	default:
++		break;
++	}
++	return ret;
++}
++
++static int gh_vcpu_release(struct inode *inode, struct file *filp)
++{
++	struct gunyah_vcpu *vcpu = filp->private_data;
++
++	gh_vm_put(vcpu->ghvm);
++	kref_put(&vcpu->kref, vcpu_release);
++	return 0;
++}
++
++static vm_fault_t gh_vcpu_fault(struct vm_fault *vmf)
++{
++	struct gunyah_vcpu *vcpu = vmf->vma->vm_file->private_data;
++	struct page *page = NULL;
++
++	if (vmf->pgoff == 0)
++		page = virt_to_page(vcpu->vcpu_run);
++
++	get_page(page);
++	vmf->page = page;
++	return 0;
++}
++
++static const struct vm_operations_struct gh_vcpu_ops = {
++	.fault = gh_vcpu_fault,
 +};
 +
-+int gh_vm_function_register(struct gh_vm_function *f);
-+void gh_vm_function_unregister(struct gh_vm_function *f);
++static int gh_vcpu_mmap(struct file *file, struct vm_area_struct *vma)
++{
++	vma->vm_ops = &gh_vcpu_ops;
++	return 0;
++}
 +
-+#define DECLARE_GUNYAH_VM_FUNCTION(_name, _type, _bind, _unbind)	\
-+	static struct gh_vm_function _name = {		\
-+		.type = _type,						\
-+		.name = __stringify(_name),				\
-+		.mod = THIS_MODULE,					\
-+		.bind = _bind,						\
-+		.unbind = _unbind,					\
-+	};								\
-+	MODULE_ALIAS("ghfunc:"__stringify(_type))
++static const struct file_operations gh_vcpu_fops = {
++	.unlocked_ioctl = gh_vcpu_ioctl,
++	.release = gh_vcpu_release,
++	.llseek = noop_llseek,
++	.mmap = gh_vcpu_mmap,
++};
 +
-+#define module_gunyah_vm_function(__gf)					\
-+	module_driver(__gf, gh_vm_function_register, gh_vm_function_unregister)
++static int gunyah_vcpu_populate(struct gh_vm_resource_ticket *ticket, struct gunyah_resource *ghrsc)
++{
++	struct gunyah_vcpu *vcpu = container_of(ticket, struct gunyah_vcpu, ticket);
++	int ret;
 +
-+#define DECLARE_GUNYAH_VM_FUNCTION_INIT(_name, _type, _bind, _unbind)	\
-+	DECLARE_GUNYAH_VM_FUNCTION(_name, _type, _bind, _unbind);	\
-+	module_gunyah_vm_function(_name)
++	mutex_lock(&vcpu->run_lock);
++	if (vcpu->rsc) {
++		ret = -1;
++		goto out;
++	}
 +
-+#endif
++	vcpu->rsc = ghrsc;
++	init_completion(&vcpu->ready);
++
++	ret = request_irq(vcpu->rsc->irq, gh_vcpu_irq_handler, IRQF_TRIGGER_RISING, "gh_vcpu",
++			vcpu);
++	if (ret)
++		pr_warn("Failed to request vcpu irq %d: %d", vcpu->rsc->irq, ret);
++
++out:
++	mutex_unlock(&vcpu->run_lock);
++	return ret;
++}
++
++static void gunyah_vcpu_unpopulate(struct gh_vm_resource_ticket *ticket,
++				   struct gunyah_resource *ghrsc)
++{
++	struct gunyah_vcpu *vcpu = container_of(ticket, struct gunyah_vcpu, ticket);
++
++	vcpu->vcpu_run->immediate_exit = true;
++	complete_all(&vcpu->ready);
++	mutex_lock(&vcpu->run_lock);
++	free_irq(vcpu->rsc->irq, vcpu);
++	vcpu->rsc = NULL;
++	mutex_unlock(&vcpu->run_lock);
++}
++
++static long gunyah_vcpu_bind(struct gh_vm_function_instance *f)
++{
++	struct gunyah_vcpu *vcpu;
++	char name[MAX_VCPU_NAME];
++	struct file *file;
++	struct page *page;
++	int fd;
++	long r;
++
++	if (!gh_api_has_feature(GH_API_FEATURE_VCPU))
++		return -EOPNOTSUPP;
++
++	if (f->arg_size)
++		return -EINVAL;
++
++	vcpu = kzalloc(sizeof(*vcpu), GFP_KERNEL);
++	if (!vcpu)
++		return -ENOMEM;
++
++	vcpu->f = f;
++	f->data = vcpu;
++	mutex_init(&vcpu->run_lock);
++	kref_init(&vcpu->kref);
++
++	page = alloc_page(GFP_KERNEL | __GFP_ZERO);
++	if (!page) {
++		r = -ENOMEM;
++		goto err_destroy_vcpu;
++	}
++	vcpu->vcpu_run = page_address(page);
++
++	vcpu->ticket.resource_type = GUNYAH_RESOURCE_TYPE_VCPU;
++	vcpu->ticket.label = f->arg;
++	vcpu->ticket.owner = THIS_MODULE;
++	vcpu->ticket.populate = gunyah_vcpu_populate;
++	vcpu->ticket.unpopulate = gunyah_vcpu_unpopulate;
++
++	r = gh_vm_add_resource_ticket(f->ghvm, &vcpu->ticket);
++	if (r)
++		goto err_destroy_page;
++
++	fd = get_unused_fd_flags(O_CLOEXEC);
++	if (fd < 0) {
++		r = fd;
++		goto err_remove_vcpu;
++	}
++
++	if (!gh_vm_get(f->ghvm)) {
++		r = -ENODEV;
++		goto err_put_fd;
++	}
++	vcpu->ghvm = f->ghvm;
++
++	vcpu->nb.notifier_call = gh_vcpu_rm_notification;
++	/* Ensure we run after the vm_mgr handles the notification and does
++	 * any necessary state changes. We wake up to check the new state.
++	 */
++	vcpu->nb.priority = -1;
++	r = gh_rm_notifier_register(f->rm, &vcpu->nb);
++	if (r)
++		goto err_put_gh_vm;
++
++	kref_get(&vcpu->kref);
++	snprintf(name, sizeof(name), "gh-vcpu:%d", vcpu->ticket.label);
++	file = anon_inode_getfile(name, &gh_vcpu_fops, vcpu, O_RDWR);
++	if (IS_ERR(file)) {
++		r = PTR_ERR(file);
++		goto err_notifier;
++	}
++
++	fd_install(fd, file);
++
++	return fd;
++err_notifier:
++	gh_rm_notifier_unregister(f->rm, &vcpu->nb);
++err_put_gh_vm:
++	gh_vm_put(vcpu->ghvm);
++err_put_fd:
++	put_unused_fd(fd);
++err_remove_vcpu:
++	gh_vm_remove_resource_ticket(f->ghvm, &vcpu->ticket);
++err_destroy_page:
++	free_page((unsigned long)vcpu->vcpu_run);
++err_destroy_vcpu:
++	kfree(vcpu);
++	return r;
++}
++
++static void gunyah_vcpu_unbind(struct gh_vm_function_instance *f)
++{
++	struct gunyah_vcpu *vcpu = f->data;
++
++	gh_rm_notifier_unregister(f->rm, &vcpu->nb);
++	gh_vm_remove_resource_ticket(vcpu->f->ghvm, &vcpu->ticket);
++	vcpu->f = NULL;
++
++	kref_put(&vcpu->kref, vcpu_release);
++}
++
++DECLARE_GUNYAH_VM_FUNCTION_INIT(vcpu, GH_FN_VCPU, gunyah_vcpu_bind, gunyah_vcpu_unbind);
++MODULE_DESCRIPTION("Gunyah vCPU Driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+index 24829db17a0d..7ec9f4c7a982 100644
+--- a/drivers/virt/gunyah/vm_mgr.c
++++ b/drivers/virt/gunyah/vm_mgr.c
+@@ -378,6 +378,10 @@ static int gh_vm_rm_notification_exited(struct gh_vm *ghvm, void *data)
+ 
+ 	down_write(&ghvm->status_lock);
+ 	ghvm->vm_status = GH_RM_VM_STATUS_EXITED;
++	ghvm->exit_info.type = le16_to_cpu(payload->exit_type);
++	ghvm->exit_info.reason_size = le32_to_cpu(payload->exit_reason_size);
++	memcpy(&ghvm->exit_info.reason, payload->exit_reason,
++		min(GH_VM_MAX_EXIT_REASON_SIZE, ghvm->exit_info.reason_size));
+ 	up_write(&ghvm->status_lock);
+ 
+ 	return NOTIFY_DONE;
+diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+index 70802cd7cbe1..5e200d9f6f06 100644
+--- a/drivers/virt/gunyah/vm_mgr.h
++++ b/drivers/virt/gunyah/vm_mgr.h
+@@ -45,6 +45,7 @@ struct gh_vm {
+ 	enum gh_rm_vm_status vm_status;
+ 	wait_queue_head_t vm_status_wait;
+ 	struct rw_semaphore status_lock;
++	struct gh_vm_exit_info exit_info;
+ 
+ 	struct work_struct free_work;
+ 	struct kref kref;
+diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
+index a06d5fa68a65..c819df72d303 100644
+--- a/include/linux/gunyah.h
++++ b/include/linux/gunyah.h
+@@ -179,4 +179,12 @@ enum gh_error gh_hypercall_msgq_send(u64 capid, size_t size, uintptr_t buff, int
+ enum gh_error gh_hypercall_msgq_recv(u64 capid, uintptr_t buff, size_t size, size_t *recv_size,
+ 					bool *ready);
+ 
++struct gh_hypercall_vcpu_run_resp {
++	u64 state;
++	u64 state_data[3];
++};
++
++enum gh_error gh_hypercall_vcpu_run(u64 capid, u64 *resume_data,
++					struct gh_hypercall_vcpu_run_resp *resp);
++
+ #endif
 diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
-index d899bba6a4c6..8df455a2a293 100644
+index 8df455a2a293..1173ff0329c2 100644
 --- a/include/uapi/linux/gunyah.h
 +++ b/include/uapi/linux/gunyah.h
-@@ -66,4 +66,21 @@ struct gh_vm_dtb_config {
+@@ -66,6 +66,12 @@ struct gh_vm_dtb_config {
  
  #define GH_VM_START		_IO(GH_IOCTL_TYPE, 0x3)
  
-+#define GH_FN_MAX_ARG_SIZE		256
-+
 +/**
-+ * struct gh_fn_desc - Arguments to create a VM function
-+ * @type: Type of the function. See GH_FN_* macro for supported types
-+ * @arg_size: Size of argument to pass to the function
-+ * @arg: Value or pointer to argument given to the function
++ * GH_FN_VCPU - create a vCPU instance to control a vCPU
++ * gh_fn_desc usage: arg_size must be 0, arg must be the vcpu's ID
 + */
-+struct gh_fn_desc {
-+	__u32 type;
-+	__u32 arg_size;
-+	__u64 arg;
++#define GH_FN_VCPU 		1
++
+ #define GH_FN_MAX_ARG_SIZE		256
+ 
+ /**
+@@ -83,4 +89,59 @@ struct gh_fn_desc {
+ #define GH_VM_ADD_FUNCTION	_IOW(GH_IOCTL_TYPE, 0x4, struct gh_fn_desc)
+ #define GH_VM_REMOVE_FUNCTION	_IOW(GH_IOCTL_TYPE, 0x7, struct gh_fn_desc)
+ 
++enum gh_vm_status {
++	GH_VM_STATUS_LOAD_FAILED	= 1,
++#define GH_VM_STATUS_LOAD_FAILED	GH_VM_STATUS_LOAD_FAILED
++	GH_VM_STATUS_EXITED		= 2,
++#define GH_VM_STATUS_EXITED		GH_VM_STATUS_EXITED
++	GH_VM_STATUS_CRASHED		= 3,
++#define GH_VM_STATUS_CRASHED		GH_VM_STATUS_CRASHED
 +};
 +
-+#define GH_VM_ADD_FUNCTION	_IOW(GH_IOCTL_TYPE, 0x4, struct gh_fn_desc)
-+#define GH_VM_REMOVE_FUNCTION	_IOW(GH_IOCTL_TYPE, 0x7, struct gh_fn_desc)
++/**
++ * Gunyah presently will send max 4 bytes of exit_reason.
++ * If that changes, this macro can be safely increased without breaking
++ * userspace so long as struct gh_vcpu_run < PAGE_SIZE.
++ */
++#define GH_VM_MAX_EXIT_REASON_SIZE	8u
++
++struct gh_vm_exit_info {
++	__u16 type;
++	__u16 reserved;
++	__u32 reason_size;
++	__u8 reason[GH_VM_MAX_EXIT_REASON_SIZE];
++};
++
++/* for GH_VCPU_RUN, returned by mmap(vcpu_fd, offset=0) */
++struct gh_vcpu_run {
++	/* in */
++	__u8 immediate_exit;
++	__u8 padding1[7];
++
++	/* out */
++#define GH_VCPU_EXIT_UNKNOWN            0
++#define GH_VCPU_EXIT_MMIO               1
++#define GH_VCPU_EXIT_STATUS             2
++	__u32 exit_reason;
++
++	union {
++		/* GH_VCPU_EXIT_MMIO */
++		struct {
++			__u64 phys_addr;
++			__u8  data[8];
++			__u32 len;
++			__u8  is_write;
++		} mmio;
++
++		/* GH_VCPU_EXIT_STATUS */
++		struct {
++			enum gh_vm_status status;
++			struct gh_vm_exit_info exit_info;
++		} status;
++	};
++};
++
++#define GH_VCPU_RUN		_IO(GH_IOCTL_TYPE, 0x5)
++#define GH_VCPU_MMAP_SIZE	_IO(GH_IOCTL_TYPE, 0x6)
 +
  #endif
 -- 
