@@ -2,203 +2,184 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93613C636D4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 13:09:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE89C636D4
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 13:53:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234110AbjBONJD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 08:09:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54926 "EHLO
+        id S229721AbjBONxT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 08:53:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233916AbjBONJB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 08:09:01 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2060.outbound.protection.outlook.com [40.107.94.60])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 422FA1B323;
-        Wed, 15 Feb 2023 05:08:47 -0800 (PST)
+        with ESMTP id S229666AbjBONxM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 08:53:12 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2070.outbound.protection.outlook.com [40.107.243.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 466EA9ECE;
+        Wed, 15 Feb 2023 05:53:10 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RLIYB+DbsHFwfkeGFJ+5s6imhi+TkkwiHX8HtowSF1yWWYYiQnwSTwvJyA3y+HCL/wSiE2qLyq8y/N7pP4GU/ltmrnzpnTXozCgCgWbJNebV17k7iLoqyZcW38qGiuAZZqLimWKHKZejOl7OR4C10xh+4Hnm0KBy4GjEw/SIocCbdI6g2MIBC+q/KIYVuXoDrXF0s3Ymyp1W9pGz0nB1pGCtFg1lrZ5NascSeNWziIheQkufc0S1L8GEqafdFaQdEo2OXYlt5JrOUXEtnCXu2lQoYcWBNZM7wfAJfiB8ZGW1rry1pgVuuNu8LbO/9DrMLKMkSu4PAFlUTscJVLq+6A==
+ b=ZLNHF/TvxwF+A4NtGZa+uQzVvm+b8Us+Wobi8UwA6knvrKZcLURfzFxybNqi+mkIb4Gfh5cd/APj8I1yQm1E/HpbFbvH0oRJz6QzjX3CYj80DIw8aRQwY23cBj2eDpEPOzC+HilqOCnHiCj+aQyWRWVnqbMwHJ4pb3dGcDqv9su0ppVV3yr3usXJUE4Neo8vxxggy9yCRzySVTlcWPo9NnZ0Y6vfVTjRvgDD4NUIbNEMLKQFrUxI17dOs/E0/q6Wu28AeZu66tFJStWsAlGrEHULDsOGBfagYGwSchwJz4VyBCVWfLBv2yRdLjsSM4qwKr/tiVkvJukY5Wi8WHgP2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4iiNWca0U2JAn90vB41ExVkooylJ029HpveQ8lMUnos=;
- b=VvvKaiGMQXOQoid28iXQr5SaqlGB/vPlGpLcNZ9GOfiKEKtFwHp/zQ3yp1FE+/YbLl2rPqBe3HinDTXo6piBn+8bkaPbyOB28YFL/YOrh1yDumWoJ3a39Er+HHbDy3L/yahquho5IDaKkqpuoGT7IbhT4AoxSpUnrVqZ5H2uEQG/rPJqKIp5nJDSLPseXG4KlrfKOi6l641vgK80lGf5qqTOYyz6ScnKvDVJo6eUM0HtVcupfZPGkh4pGfqJeWMtUls9crH9v3jQQ0WdK300RqGAq0e+/xDMJPkQESOpf30piHgxHGgbJwf7ykNhPbYwCR+UNwn2wLc9938B6QZ5ww==
+ bh=eygaEIfp/BCk0yBFZvXYTLPy4s+cXoCjjYs/5Fs/f34=;
+ b=AZPuILiHT79S0aHZuzBcTkxqyz0xSBHB6LrFEmW931xJRwBM3vvmT0wv06L1C3yIJ+5T+mCcaywsQqmYkvHDx8YWyMUiWQ2/rTERSiem9f27XZay6JYe76dPycfVxUBFDzvDE2UB6/VlxnTy7qHySHsQ+0pF1ixw6SHqvKlvmLN1RJ3jIcZ8xxBiggkffpqU/fL1+gney4Itg+OVYMMzw5X3EKBL5brzKH1+tstrkfYS+cngN/3mpbwGICRNO08K/IRHKBOXCROghPzC/jhA+HUmhWXEwGPxQsk95J2yVmIudkj9Q5LYU4xWFWcf9H8dq4lJCkbI9wSVo6kqIZMOYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4iiNWca0U2JAn90vB41ExVkooylJ029HpveQ8lMUnos=;
- b=oYfkM2v436Wx9EYerfsWho5msj/EX/AoXvtC01IrqPWU1ODSjcwAuTW5nNSP6hLBQeQO0ur//e4sxcwCOayeLjWQ4mKTxQT6FljGuO9VBSzF1wOfVB1OkEwYJKzdRojQD1ZqEeolxO/C09Rl8+hjpUgf51lJTQfxaaEtP6vaGRE=
+ bh=eygaEIfp/BCk0yBFZvXYTLPy4s+cXoCjjYs/5Fs/f34=;
+ b=kISuFyobFzrmYVJXN2N55zR4EOZQzWCcabcDrASHQjUfV0docyaaFL525/iXAhyOpGbvBcAn6yPnx0zMca14U+I8iWjE90dVZ9YDekErlMNOHoE7QngEsl78wdjnfQLleUU8Twr8XP+dk6LImrtclM50hafiRo+q0HSaQDjQeaE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) by
- CH2PR12MB5001.namprd12.prod.outlook.com (2603:10b6:610:61::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6086.19; Wed, 15 Feb 2023 13:08:44 +0000
-Received: from DM5PR12MB2504.namprd12.prod.outlook.com
- ([fe80::93f9:c1df:8ca3:fc5b]) by DM5PR12MB2504.namprd12.prod.outlook.com
- ([fe80::93f9:c1df:8ca3:fc5b%7]) with mapi id 15.20.6086.024; Wed, 15 Feb 2023
- 13:08:44 +0000
-Date:   Wed, 15 Feb 2023 21:08:17 +0800
-From:   Huang Rui <ray.huang@amd.com>
-To:     "Karny, Wyes" <Wyes.Karny@amd.com>
-Cc:     Rafael J Wysocki <rafael@kernel.org>,
+Received: from BY5PR12MB3876.namprd12.prod.outlook.com (2603:10b6:a03:1a7::26)
+ by DM6PR12MB4516.namprd12.prod.outlook.com (2603:10b6:5:2ac::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.12; Wed, 15 Feb
+ 2023 13:53:03 +0000
+Received: from BY5PR12MB3876.namprd12.prod.outlook.com
+ ([fe80::4ac9:c4f8:b0f:a863]) by BY5PR12MB3876.namprd12.prod.outlook.com
+ ([fe80::4ac9:c4f8:b0f:a863%7]) with mapi id 15.20.6086.024; Wed, 15 Feb 2023
+ 13:53:03 +0000
+Date:   Wed, 15 Feb 2023 13:52:46 +0000
+From:   Wyes Karny <wyes.karny@amd.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Power Management <linux-pm@vger.kernel.org>,
+        Linux BPF Development <bpf@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        "Limonciello, Mario" <Mario.Limonciello@amd.com>,
-        "Yuan, Perry" <Perry.Yuan@amd.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        "Shukla, Santosh" <Santosh.Shukla@amd.com>,
-        Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        "Narayan, Ananth" <Ananth.Narayan@amd.com>,
-        "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>,
-        Tor Vic <torvic9@mailbox.org>
-Subject: Re: [PATCH v6 1/6] acpi: cppc: Add min and max perf reg writing
- support
-Message-ID: <Y+zZQV+63uGnQbUA@amd.com>
-References: <20230206172157.49887-1-wyes.karny@amd.com>
- <20230206172157.49887-2-wyes.karny@amd.com>
+        Huang Rui <ray.huang@amd.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Perry Yuan <perry.yuan@amd.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 3/3] Documentation: amd-pstate: disambiguate user space
+ sections
+Message-ID: <Y+zjrjladvHd9QRS@beas>
+References: <20230215123253.41552-1-bagasdotme@gmail.com>
+ <20230215123253.41552-4-bagasdotme@gmail.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230206172157.49887-2-wyes.karny@amd.com>
-X-ClientProxiedBy: SG3P274CA0016.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::28)
- To DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19)
+In-Reply-To: <20230215123253.41552-4-bagasdotme@gmail.com>
+X-ClientProxiedBy: PN3PR01CA0025.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:97::9) To BY5PR12MB3876.namprd12.prod.outlook.com
+ (2603:10b6:a03:1a7::26)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2504:EE_|CH2PR12MB5001:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f7121bc-43db-4ccd-3a98-08db0f55c3e8
+X-MS-TrafficTypeDiagnostic: BY5PR12MB3876:EE_|DM6PR12MB4516:EE_
+X-MS-Office365-Filtering-Correlation-Id: e7dd1e6f-7bfb-4789-6b0b-08db0f5bf4e0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MGYDs3sql2U93aBswfXiuFYCZTIKQmXLgq2QN6XmRlJwx1EW34LLYqO2n+ttLWRnAmoEBujaNagz5tusCPHSfyp4h0fbEUdGP/sAuv9UgJis4DqImNb0jkoUfToeTdCL4E/zYuuXAOzbCf9a7PCdCjnS2+R67iPYftLOy4KSoGiE+2gjBM/+3tAVkzU3U5hyb4U/PHM2sxDiPZ7UOP0NWvotawDMUkDMCfhtVYcxRk1ahwKSuTsNLVMEzKliI2p9C9zu5QMjUGp/VnsoK8Hy0MNNIQ7Q4GHrP3V2KF1mLauJVdmdB/RoUugdenfo/URF9fYUUBySIgULyffgTIxF2s0VpfaB8kfdKY2hDmALxsotBUEMquP6aSum3FVn67qeE+VaD5h5SQzP0Q/rcYICj5RTTMJPkxeSM7hHXcjycW2duc5lF+lMjHmn+UJvWJcCDwiZnbr46wTsaN8md/70ACBxPRWotA8VsV7W56kQ4/+LqFYV9+AwSw7wJ8xYCov+TGaxSotTJcCacZw1xfLzT4L4tD+T6FVkdUJg61X7ruMTJl4P6gfH8gdofXmlqNPoUtSYUcAlF4f/TFVPmurOpyMuyhVv9WjiZIiyvWAmPyCDFLnLzhCPkScf1Wf3q47J1exnp+n1f1+JDNgo0hMZBA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR12MB2504.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(346002)(366004)(136003)(396003)(39860400002)(451199018)(37006003)(6666004)(2906002)(36756003)(6486002)(6862004)(6636002)(7416002)(316002)(38100700002)(41300700001)(8936002)(5660300002)(26005)(6512007)(2616005)(478600001)(54906003)(83380400001)(86362001)(66556008)(6506007)(186003)(66476007)(8676002)(4326008)(66946007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: umEm15/rLDiEJ/Ws0CWokhnW658POPFR0GGAFz71RBR7n8jDJ+65lp7LzNrS8G511TWIko/A9KfFdi0slJ2KL5134uYy6WHb6PYYQwOprprt7j9RGFru1moDtXmWQNo6/9cDxhs94c2KhBeyA2tC/UVLLJz60XnUrV2hrbaWz+5koiIk6jwhC8bbi2Ntoh2ng5PeCO8jXtm0wq/FP+/V9v+ZJ+mWIsVDoV+8xwczYk1sbSJy/RPyo4exBFJ2jpu8ovdLi9hQVcxm4QuSQc7E9qWbz3U691WYJEaVA/A8nBEr9ZGA9M57AiI3GWE4wOiBHLq6AVwSNjAHuV7V0FqJeVWaGfbBhRIl4dsgDoxjA6hz3XnVsr0BmwCZwN+BeEcdUKwK+EYKFHiwP1bt6x4jeJVXWYxQIvXJFb/xbQCkjeUskGDjh4MTlpEj/tvWdjw2w8fFBjr+i5B1A3mVOiVfbqL88zTv1GTviLLeS8nqvIPjmfCwdjsSWHxxYVgIgHIDe1HBlV6SFpK64xysefsXzkbw5fP/8jpkyzaKhA20/AGGpqVi+IAl0Q7qFSnl6zOlxvAdiMSGAu2yNyD5ofeuolX52jjQszeC+ndR1Pa7TQj9V0irucy6wz+mJzAh1glZpOfjwXC0754pTrCB9RSq8t69yFgn3yZf6J8l4w+GeGF2kKvK6b9YJUWHX6i6X5SE
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB3876.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(4636009)(366004)(136003)(39860400002)(376002)(346002)(396003)(451199018)(38100700002)(86362001)(33716001)(8676002)(6916009)(4326008)(66556008)(66476007)(66946007)(41300700001)(54906003)(316002)(7416002)(8936002)(2906002)(44832011)(5660300002)(83380400001)(6486002)(966005)(478600001)(26005)(9686003)(6512007)(186003)(6506007)(6666004)(66899018)(67856001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rLP6vonKFkkEAZsZ1E8iMRN5P+wGNIMHWKTshFtW9J8LVi1UEvVRl88RHUq/?=
- =?us-ascii?Q?u0otb0PExTofi8yAtTctICh27FjL2GkYA1Z5CnnYuNnCVGEbabl8uXFWdxz5?=
- =?us-ascii?Q?Vxba+WYA4E/styZyU28NjphVU/Tteqkc5+WwdIK8WqvRqANtuIA2AgShm0re?=
- =?us-ascii?Q?GGEBNCzgndYuJ/+fWyqoCs2Dw7owD2DMdGkGw/WLZs33Ia6vuo3rLSgcZlTp?=
- =?us-ascii?Q?WR+HSKwuHIDY5oyJ3eufN1prig/dBVO6wV5NWdILznsIAXJ/sResqVC/Tx/8?=
- =?us-ascii?Q?7yxx+CwpeuK5HXHu4SEHEWPo4UeaJ/6RHGuM+8+w4jkPD2CBK7UmrDpnWkDV?=
- =?us-ascii?Q?nO9bS2N5s1eShXaIOTNmp6BDzwJIZxZgabTs9AGXpR7MYPBjik8o7hgsnQjF?=
- =?us-ascii?Q?WiJb/XAuvM7Xq0QhWuoLj/RszaF8x1CG5kybAeRCOt+lO3+mvM5tAYn9EjJm?=
- =?us-ascii?Q?qWUehcQiLGQEKk510L15AtrXnVEI0y5dH8bLRyq+x7ykWEmVyj6t5vnmDwFz?=
- =?us-ascii?Q?7x5cO+nA1X/AbfqzYJQLjGGmpWhcp6G0EWae+Ti3MkLYpMfP0IsSbJow44JS?=
- =?us-ascii?Q?Lgn4kvu0t+AMr5x7Si3uP/GDeClVesKU5mlB+iFHO2IXUfUIEo4RCb/WBSq0?=
- =?us-ascii?Q?HpC4/B618XTzkC7Z9E2GdVPUHd4+BhcErBHHthjlSa8XY1/XbXXQCunfIBMg?=
- =?us-ascii?Q?xnRTZnbjoXz0iEZnSJZ/omO90ZmTqcwv+FMWcPfSoh6mGDS1FUNEsXRAoh8J?=
- =?us-ascii?Q?pREUVGpUTic0I5KZbc9ztXo/gLXIY9m0r4NMKGZbXFNroEVKf+y7H17fAVK2?=
- =?us-ascii?Q?nBcjr+RhOQEZ2EXXMwwzJNcY+r74SxFKy79m3Tf6BSEd35DM/X1qDBxGCGfz?=
- =?us-ascii?Q?dJdS535u8gfaPtHJ7xF5gkbktb3gGxWfZHIf1hdn9cbmgL8EbsV8EiOytp37?=
- =?us-ascii?Q?XTX67OA/IlXK05rQJEsVz9uRgxNXhO6LjjhFxQeOYL58TrTTbx8bSb6wz+KB?=
- =?us-ascii?Q?tozYd1o/eo85kzmbFGziRa9mxvA1WzRPVfziOjqPA+EYoGb/Hl6Td4JeYsJj?=
- =?us-ascii?Q?FtTwOXDrC+jB2We9cx+vJyv5mM8Xavg+gmUyfAGNv55FrXGLlyWbKIcjp2Al?=
- =?us-ascii?Q?RoIn4LnV8Yx4lTmgRtjypZLnpxUsoxrGvW/6zdSGk0+y61kqHaYF58xMimWz?=
- =?us-ascii?Q?0SX0fgbKGcz6vumZUljRDkrr4Jv9t5dRcTVNYH9JLiNvQYoAAgfFvmnfG2Hy?=
- =?us-ascii?Q?pNTA7vrkg3M4EoAObRhpZ8dc8ZzBe1MIhW3uMP7AmEuxCqwYXdjnkAR6Q3oi?=
- =?us-ascii?Q?VHAvWrN5kpQAJbXBKsgIuoIkiraZPdotWpCIDmsOKdm6HzM7C4LE5PFyphDO?=
- =?us-ascii?Q?/d57ZOph3/cS4xYy6Thm/xCkKBZr7vonAHnLUK+C/c8qMgsNQgYDlpX41563?=
- =?us-ascii?Q?kVMBwc3CSFpgVA3VPc2b6ZDvz6L9Fy150hACO1PKgSRuhmEyBBVxdQA/1jt7?=
- =?us-ascii?Q?SFtnX9pDHsdw03MaXUaO2Wjev8XWCH6mnUa9SePrIoY1fBWC3dDlMuJk8PcQ?=
- =?us-ascii?Q?wuWznrADcSvwLMvxmKo8Hde9ttB1twfJISRzHYl7?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IJeV0yOgeIQdfJCBW59NytuMocUau06Fp14zpcAqzI7IUN5x4tMLBV+DiURb?=
+ =?us-ascii?Q?QTUssPdJEooWptSmZ0tV2pxMEQ+JeZ96Pfdi+0WaVJKxjOyF2kGNc1u56uGX?=
+ =?us-ascii?Q?9rBEZlK7YPe2qsM1DRC01HBRx4owO4cRoV30+vAHzhD2b4uSUpZ+MbGQ1TUA?=
+ =?us-ascii?Q?07534YKfbxCn/zCmdVwnBl6Zj8+dAKyRE/64tOHMsPYFf4UMwJX5yZ7xhjrm?=
+ =?us-ascii?Q?IGIMUfwikZzKHXJSQWc1wV0DJKvEfI3zdqWicnoPRUufNmiVQOinz/PCvRlS?=
+ =?us-ascii?Q?nxjcMaz3HTKfpqJrMTaYGqmnlk0kJp+va14TsSSdJdN5+M1DuMF4iyGs464G?=
+ =?us-ascii?Q?XgTB/YujWSbiF2S4wegU1Q8JQc5+Y/bYW+DgUwv6iBXHkDGlR5YUxuE2vSu1?=
+ =?us-ascii?Q?gfQls3SfuEkR8Qa2JE1OoAb+ox02TT5J7q8GQhIFJlcPVfAbYqZFZOU3AgOg?=
+ =?us-ascii?Q?t8ACj0cCZSScd39KDLvffEqmYRzvjk8YqjuvZT2zWHpII64tRGXrwPsUmg68?=
+ =?us-ascii?Q?Bxp2pZV4xhJoeXU7nlNvmLic+hxu5fSR+NRnO5oV/swLuzVuTREx7+J2Yy77?=
+ =?us-ascii?Q?ZMKVSz8+bRrbPwEGT/g/jCXYFz545pBrj/3ifv4soQfaqodLpFhB4Jg/Iyto?=
+ =?us-ascii?Q?c1aNAF1p7Qt1pRfItkqGJaXXAVBup7htyQqgA2N8Ox9V1OumMIS5jwyFztcL?=
+ =?us-ascii?Q?BRVp8nWPekYaTuWdTn/3zJhwuJnzW4QDJREzzt5muTRFvqriNnopqs/pekGu?=
+ =?us-ascii?Q?IGTbrBrsQE2DYWRUNJLkODjd7MplInHhyL+CWSMWk3GDURWxkC/zI49qM9Xn?=
+ =?us-ascii?Q?vX0pkuDxh5FpiyZ5SufUk2dSwy/J9AD7ztAtfDZ4Et1ajqnm2nheA4DaUJkc?=
+ =?us-ascii?Q?41sUydHmtc8+bdrvtf9fE6VrCOWRgJz5HJoBseaxyGwLIAVMrFSqqFdyOxCM?=
+ =?us-ascii?Q?wVtd5O+1tS32fqr1vR+Zr/kJcVCYeCHu468NJsnTx94VRIyfGR3hC9UqPX8r?=
+ =?us-ascii?Q?t/YbG1oi6ul8H8is1R0YylpMn1cKLxM7CLw7juQzoG0EXeQA0t5kzuO0UrOb?=
+ =?us-ascii?Q?xPb4Ui/AbVp3bK9cb75vmFqlyQk8j2+R6O4FV1AJTcZH5swbP4rM70Tpzbat?=
+ =?us-ascii?Q?zttXNcZqJpK17s+tAo5aQItWA106NdLsx06sRTxWpFW5dhwmrUM6Tc/hmH54?=
+ =?us-ascii?Q?mv1Wdq2fLJIj9Z3wqyenmO0q8vkALeWdwAgUEjlZL3fQWr4jQQrjlfYGt3P3?=
+ =?us-ascii?Q?OVb6cESmlfnQBkToQcdJ7mrcL4dcPc/csVOjVxGHLI3EcU8mLp0C5Wn1241F?=
+ =?us-ascii?Q?+VSwdB03pnaY/iO/sC2XSXOsZ4MQ5UBMt6l+wljDijK9dXQuNIshMQVvS6ku?=
+ =?us-ascii?Q?x+dpEDMvKW5G4Ma/refMa8eDtdY94uen+cnj/FzyhzUm+wpZ2hp1A025iMgU?=
+ =?us-ascii?Q?m5FViM4LTGTSq9k5oC0EpfTXb1ADEyTGRoLibZMlL/GuuLSaes+XRNEe0UJU?=
+ =?us-ascii?Q?uptO1YFdP7ans50S0/aqSfXcHHR02itLcnFaq2Q6veyXYchaT0U8lVoZ05Ov?=
+ =?us-ascii?Q?CvcQUaqfSS27+jFGe7SNh1Mt6WSK+CHWv6OLBMZM?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f7121bc-43db-4ccd-3a98-08db0f55c3e8
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2504.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7dd1e6f-7bfb-4789-6b0b-08db0f5bf4e0
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB3876.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 13:08:43.8970
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 13:53:03.1126
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AmHWiX7pDdoD5bsIXX6kr1uDmJM5mF8Pn1uCcc3fzRcVAQD2gvatkRF2syT+bazMITIQHdLHK5AJmv1oBQvTcA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB5001
+X-MS-Exchange-CrossTenant-UserPrincipalName: BQ8hedGS5OqsQSPAz5dJh5uqPWOx+KeumV1qqZ1Zeb7YWDLICcpDt9sf5Hi8LCdlwfFqwekHvTyrqxg2KOMsuw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4516
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 07, 2023 at 01:21:52AM +0800, Karny, Wyes wrote:
-> Currently writing of min and max perf register is deferred in
-> cppc_set_perf function. In CPPC guided mode, these registers needed to
-> be written to guide the platform about min and max perf levels. Add this support
-> to make guided mode work properly on AMD shared memory systems.
+On 15 Feb 19:32, Bagas Sanjaya wrote:
+> kernel test robot reported htmldocs warning:
 > 
-> Signed-off-by: Wyes Karny <wyes.karny@amd.com>
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Documentation/admin-guide/pm/amd-pstate.rst:343: WARNING: duplicate label admin-guide/pm/amd-pstate:user space interface in ``sysfs``, other instance in Documentation/admin-guide/pm/amd-pstate.rst
+> 
+> The documentation contains two sections with the same "User Space Interface
+> in ``sysfs``" title. The first one deals with per-policy sysfs and the
+> second one is about general attributes (currently only global attributes
+> are documented).
+> 
+> Disambiguate title text of both sections to fix the warning.
+> 
+> Link: https://lore.kernel.org/linux-doc/202302151041.0SWs1RHK-lkp@intel.com/
+> Fixes: b9e6a2d47b2565 ("Documentation: amd-pstate: introduce new global sysfs attributes")
+> Reported-by: kernel test robot <lkp@intel.com>
 
-Acked-by: Huang Rui <ray.huang@amd.com>
+Reviewed-by: Wyes Karny <wyes.karny@amd.com>
 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
->  drivers/acpi/cppc_acpi.c | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
+>  Documentation/admin-guide/pm/amd-pstate.rst | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
-> index 02d83c807271..91f9ef75f7de 100644
-> --- a/drivers/acpi/cppc_acpi.c
-> +++ b/drivers/acpi/cppc_acpi.c
-> @@ -1487,7 +1487,7 @@ EXPORT_SYMBOL_GPL(cppc_set_enable);
->  int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
->  {
->  	struct cpc_desc *cpc_desc = per_cpu(cpc_desc_ptr, cpu);
-> -	struct cpc_register_resource *desired_reg;
-> +	struct cpc_register_resource *desired_reg, *min_perf_reg, *max_perf_reg;
->  	int pcc_ss_id = per_cpu(cpu_pcc_subspace_idx, cpu);
->  	struct cppc_pcc_data *pcc_ss_data = NULL;
->  	int ret = 0;
-> @@ -1498,6 +1498,8 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
->  	}
+> diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
+> index bca9a0ebee3ed8..6e5298b521b18b 100644
+> --- a/Documentation/admin-guide/pm/amd-pstate.rst
+> +++ b/Documentation/admin-guide/pm/amd-pstate.rst
+> @@ -230,8 +230,8 @@ with :c:macro:`MSR_AMD_CPPC_ENABLE` or ``cppc_set_enable``, it will respond
+>  to the request from AMD P-States.
 >  
->  	desired_reg = &cpc_desc->cpc_regs[DESIRED_PERF];
-> +	min_perf_reg = &cpc_desc->cpc_regs[MIN_PERF];
-> +	max_perf_reg = &cpc_desc->cpc_regs[MAX_PERF];
 >  
->  	/*
->  	 * This is Phase-I where we want to write to CPC registers
-> @@ -1506,7 +1508,7 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
->  	 * Since read_lock can be acquired by multiple CPUs simultaneously we
->  	 * achieve that goal here
->  	 */
-> -	if (CPC_IN_PCC(desired_reg)) {
-> +	if (CPC_IN_PCC(desired_reg) || CPC_IN_PCC(min_perf_reg) || CPC_IN_PCC(max_perf_reg)) {
->  		if (pcc_ss_id < 0) {
->  			pr_debug("Invalid pcc_ss_id\n");
->  			return -ENODEV;
-> @@ -1529,13 +1531,19 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
->  		cpc_desc->write_cmd_status = 0;
->  	}
+> -User Space Interface in ``sysfs``
+> -==================================
+> +User Space Interface in ``sysfs`` - Per-policy control
+> +======================================================
 >  
-> -	/*
-> -	 * Skip writing MIN/MAX until Linux knows how to come up with
-> -	 * useful values.
-> -	 */
->  	cpc_write(cpu, desired_reg, perf_ctrls->desired_perf);
+>  ``amd-pstate`` exposes several global attributes (files) in ``sysfs`` to
+>  control its functionality at the system level. They are located in the
+> @@ -339,8 +339,8 @@ processor must provide at least nominal performance requested and go higher if c
+>  operating conditions allow.
 >  
-> -	if (CPC_IN_PCC(desired_reg))
-> +	/**
-> +	 * Only write if min_perf and max_perf not zero. Some drivers pass zero
-> +	 * value to min and max perf, but they don't mean to set the zero value,
-> +	 * they just don't want to write to those registers.
-> +	 */
-> +	if (perf_ctrls->min_perf)
-> +		cpc_write(cpu, min_perf_reg, perf_ctrls->min_perf);
-> +	if (perf_ctrls->max_perf)
-> +		cpc_write(cpu, max_perf_reg, perf_ctrls->max_perf);
-> +
-> +	if (CPC_IN_PCC(desired_reg) || CPC_IN_PCC(min_perf_reg) || CPC_IN_PCC(max_perf_reg))
->  		up_read(&pcc_ss_data->pcc_lock);	/* END Phase-I */
->  	/*
->  	 * This is Phase-II where we transfer the ownership of PCC to Platform
-> @@ -1583,7 +1591,7 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
->  	 * case during a CMD_READ and if there are pending writes it delivers
->  	 * the write command before servicing the read command
->  	 */
-> -	if (CPC_IN_PCC(desired_reg)) {
-> +	if (CPC_IN_PCC(desired_reg) || CPC_IN_PCC(min_perf_reg) || CPC_IN_PCC(max_perf_reg)) {
->  		if (down_write_trylock(&pcc_ss_data->pcc_lock)) {/* BEGIN Phase-II */
->  			/* Update only if there are pending write commands */
->  			if (pcc_ss_data->pending_pcc_write_cmd)
+>  
+> -User Space Interface in ``sysfs``
+> -=================================
+> +User Space Interface in ``sysfs`` - General
+> +===========================================
+>  
+>  Global Attributes
+>  -----------------
 > -- 
-> 2.34.1
+> An old man doll... just what I always wanted! - Clara
 > 
+
+Thanks,
+Wyes
