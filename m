@@ -2,117 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2CC9C6379F
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 09:57:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09544C6379F
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 10:08:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233958AbjBOJ52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 04:57:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58254 "EHLO
+        id S230099AbjBOKIP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 05:08:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234099AbjBOJ5O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 04:57:14 -0500
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBD0BB9C;
-        Wed, 15 Feb 2023 01:57:11 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id E2DD25C00A6;
-        Wed, 15 Feb 2023 04:57:10 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 15 Feb 2023 04:57:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1676455030; x=1676541430; bh=nFeJxTBUgb
-        5KP8tqA7gwc+SzCIoEFi7EP1xam7CPn6o=; b=R9VV2G0tfo+W5W7Uiqf9dCwN9b
-        vsYcgDxJE703unAhmKnCEqaH71+qjJHLmgCCjaX2W4qs+pPw74ORN1PiduTiH4Qg
-        0qtvN1kHBbRgueC9lB4Wzbrh6PI7EsIfOCUrgK5lkCXX5ZYIgvowRt0KvCSIlX5P
-        OJb9XikC1JyUNFbjuWhJ0DbreEU9k+AkOoSWSrJ/hj9fQXksTPn0Tl4ZveI8yKsT
-        8wpYkBE/O75Pg2dXbGgKs24iVGfnQKYfO9YJvspbyBTHLK3kX0tHjGwCAXhqOMGG
-        mS3AfxwndT+qnrEV2CL8yCOTqYZw/iYSznp0LPE4oWUoKzdZ8wkOxPwSkkzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1676455030; x=1676541430; bh=nFeJxTBUgb5KP8tqA7gwc+SzCIoE
-        Fi7EP1xam7CPn6o=; b=E4a9qktWux3mPni6zVoGt+uu5niuAJB5bINwihUQe86n
-        PBB8NzKFY6AYNg/U8B4QcDVBQl7RsbjGslvf5JvoH6kqfM5w0MXKZQllzee5PMag
-        ml7TSzl9klsGnjE2alLtVmW8QgfygxVMfcdqyzgiE3kUHFOPh3aDs/lJbPl2CEy0
-        ghy7ghuunNr56uLJcHcu9XsxuybExcsXb+yD+vaea6qPA3biasz/CociMsEjSkoH
-        bStjSeH8rdWP2vaCZ/pBz0iKcWSfS2au+OpppLEF2df8L0gMSWf7snmodcboaFaG
-        iqCd93lU3acCUusPmWjMvh2ivBh7cDfxyeZAXXGuJA==
-X-ME-Sender: <xms:dazsY9saUYDQ2qWStjqUaF9Tw7k-YAzGvPeEWItGkuExjRvcsYW3YQ>
-    <xme:dazsY2dNg3RNnF9YYdfDm0MHwiEktN8tDX-ZLZmWFZrAdc0X5TccxE6zpD-Zx5XSu
-    b4Wko863cwMym6hfCQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeihedgtdegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:dqzsYwzXxjfjPI2WSX94sA35YSIy3j0b8V0z_hyz_ygC94BXhRqoCQ>
-    <xmx:dqzsY0PE0VAfDdGEVNZFpiCR6cVls7cEmSegAoKNymENW1yO6gvDwQ>
-    <xmx:dqzsY9-GrCPt-cfnwBr9K6FOlkpG6B_3Zagh9A0yAij5t3fna0HR7w>
-    <xmx:dqzsY9_8VetotDc0fnuqrHl8p8ckU0b-GKvBCLurvsFw-4ANZS3nSQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id E8F24B60086; Wed, 15 Feb 2023 04:57:09 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
-Mime-Version: 1.0
-Message-Id: <ded4018d-c90f-41c7-9e54-da954bdef49e@app.fastmail.com>
-In-Reply-To: <20230206201455.1790329-3-evan@rivosinc.com>
-References: <20230206201455.1790329-1-evan@rivosinc.com>
- <20230206201455.1790329-3-evan@rivosinc.com>
-Date:   Wed, 15 Feb 2023 10:56:51 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Evan Green" <evan@rivosinc.com>,
-        "Palmer Dabbelt" <palmer@rivosinc.com>
-Cc:     "Conor Dooley" <conor@kernel.org>,
-        "Vineet Gupta" <vineetg@rivosinc.com>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        slewis@rivosinc.com, "Albert Ou" <aou@eecs.berkeley.edu>,
-        "Andrew Bresticker" <abrestic@rivosinc.com>,
-        "Andrew Jones" <ajones@ventanamicro.com>,
-        "Anup Patel" <apatel@ventanamicro.com>,
-        "Atish Patra" <atishp@rivosinc.com>,
-        "Bagas Sanjaya" <bagasdotme@gmail.com>,
-        "Celeste Liu" <coelacanthus@outlook.com>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
-        "Dao Lu" <daolu@rivosinc.com>, guoren <guoren@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Palmer Dabbelt" <palmer@dabbelt.com>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        "Randy Dunlap" <rdunlap@infradead.org>,
-        "Ruizhe Pan" <c141028@gmail.com>,
-        "Sunil V L" <sunilvl@ventanamicro.com>,
-        "Tobias Klauser" <tklauser@distanz.ch>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 2/6] RISC-V: Add a syscall for HW probing
-Content-Type: text/plain
+        with ESMTP id S230456AbjBOKIO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 05:08:14 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9212F2CC5F;
+        Wed, 15 Feb 2023 02:08:12 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id d40so19978615eda.8;
+        Wed, 15 Feb 2023 02:08:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y6MCLus7og6tH4wyNJPR/gMALnQD+WF5etbQB128KZw=;
+        b=d3mwB5owrz8EKeNgg8t0aARG54UPa0BBrGXl59LsISXfpTki/raaEZKUATx1vF34Mw
+         e2DqR1iOhcYAOYDPKvq2XOOWSNEPzgy/YxsYdH49e4nkTFWXhy/0J6GhefBeHpfLZSZ8
+         p2uSTf66hDOSPpZ6Jh1Gz4gnSt6EklWCKD5r3aV2gtvqwNjl3woGUinT56yLegkgkVQU
+         cd3IQz4LZ9qB3g6x+dhv4Rb2X2A4KCOomGFCeCctMvn5b6KiPy8tyoKkTaCVgKhKlYRx
+         p8ALh6CIGqNfECOKGFoYCgEVAzqToweKpUtX7qPBOKkAedwaLwP49nqy7N0Qyx9CgTxQ
+         M09A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y6MCLus7og6tH4wyNJPR/gMALnQD+WF5etbQB128KZw=;
+        b=y4ihc1PscV5rmrWkI03CurEh2Je3r3CMtj+SFedSxev1dBfB1A0IDX0y8sk8fGzdkW
+         PMYl0SkCPhXQzPMinC9U1CkChTV2ZbdgijhviSglhR5gP6IdlXQIBPq2VRBEw31++Tvr
+         +AoamnH1TItGiqhPuhNrggSovpyZeWQBUdAtPd2a382qfQ7CONf9s98ztaXp6z8c8xg2
+         vuwCIvF5Wtgt3pXpHq/TNR+7IHMErlX/0FSPc1EXefzKEwCasB/rIhRh35aUiEWFOKzD
+         LmuZo7wGC9DNKJHH8AnJxtjSGx/8jFJ41dx8joNEZXoYhH4JIBxpx9Q3tXKFAriCRJ8A
+         7f6Q==
+X-Gm-Message-State: AO0yUKUveRCxSyZ/aHdn4oohA30oy7A82dMcKEKZkFNwO+9guz79DSch
+        EQOgbTmtUaygapqe8le7HKs=
+X-Google-Smtp-Source: AK7set+jl73xD3wOWKJkZohFLNswWW494tqPrziSN7TM8LbEHBH9mqWWUh9VybAtGt5Fs6rp5pC5Jw==
+X-Received: by 2002:a50:ec85:0:b0:4ad:66b:84a6 with SMTP id e5-20020a50ec85000000b004ad066b84a6mr1308568edr.13.1676455690998;
+        Wed, 15 Feb 2023 02:08:10 -0800 (PST)
+Received: from felia.fritz.box ([2a02:810d:2a40:1104:983e:41b3:46f3:e161])
+        by smtp.gmail.com with ESMTPSA id g21-20020a50d5d5000000b004acbecf091esm4715020edj.17.2023.02.15.02.08.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Feb 2023 02:08:10 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
+        linux-doc@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] docs/mm: Physical Memory: correct spelling in reference to CONFIG_PAGE_EXTENSION
+Date:   Wed, 15 Feb 2023 11:08:08 +0100
+Message-Id: <20230215100808.9613-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 6, 2023, at 21:14, Evan Green wrote:
-> We don't have enough space for these all in ELF_HWCAP{,2} and there's no
-> system call that quite does this, so let's just provide an arch-specific
-> one to probe for hardware capabilities.  This currently just provides
-> m{arch,imp,vendor}id, but with the key-value pairs we can pass more in
-> the future.
->
-> Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Evan Green <evan@rivosinc.com>
+Commit 5d8c5e430a63 ("docs/mm: Physical Memory: add structure, introduction
+and nodes description") slips in a minor spelling mistake for the config
+PAGE_EXTENSION.
 
-I'm not sure I understand the problem with
-AT_HWCAP. While the bits in AT_HWCAP and AT_HWCAP2
-are limited, I don't see us running out of new
-AT_* words to use for additional bits. Presumably
-the kernel would already have to know about the
-name of each supported HW feature and could assign
-a unique bit number to them.
+Correct the config name in the physical-memory documentation.
 
-      Arnd
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ Documentation/mm/physical_memory.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
+index 3f3c02aa6e6e..f9d7ea4b9dca 100644
+--- a/Documentation/mm/physical_memory.rst
++++ b/Documentation/mm/physical_memory.rst
+@@ -210,7 +210,7 @@ General
+ ``node_page_ext``
+   For UMA systems that use FLATMEM memory model the 0's node
+   ``node_page_ext`` is array of extensions of struct pages. Available only
+-  in the kernels built with ``CONFIG_PAGE_EXTENTION`` enabled.
++  in the kernels built with ``CONFIG_PAGE_EXTENSION`` enabled.
+ 
+ ``node_start_pfn``
+   The page frame number of the starting page frame in this node.
+-- 
+2.17.1
+
