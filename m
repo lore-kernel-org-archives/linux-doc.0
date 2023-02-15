@@ -2,114 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B4BC636D4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 12:22:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB8DAC636D4
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 12:33:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230195AbjBOMW0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 07:22:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44034 "EHLO
+        id S229632AbjBOMdF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 07:33:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233150AbjBOMWZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 07:22:25 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC3FA36446;
-        Wed, 15 Feb 2023 04:22:23 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8D230B8217D;
-        Wed, 15 Feb 2023 12:22:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83AACC433D2;
-        Wed, 15 Feb 2023 12:22:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676463741;
-        bh=GeSCjTFqgMCEWnnu2zVVsYJTBX5zY7VucmFUJcaJF8Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JtBEjKhBFsb8y2w9HxMp223w9f5YI2nxNwvgAuh1RY9Z6zEen7ehWAC0QNuKFjyXi
-         JvBH4Dl/3cv++thj0+lAptse19lPCQZBQkI5iBV9upwreE5KO4Mor7Z6gbKMRQ+/v3
-         whrxdC9bx1Ql85Dh3pXm+ktnupR2wWPH13dvWw8KC9Su75zrPEpvZ1o5bHjb52xRMK
-         HOh6LdPQ8t/qlFbpD2fxLLz+nXNl+BDlGLoaNAo/CkL7L03YrOQ/I5UhKDEJ8FrgMN
-         wMuy9ILMsVORtXlel1gsuaKvPStR8bRwTDDwfbpgCcNaxdN9hZQ6DWfZnwio7L3Hpy
-         Evq4ud7majwsw==
-Date:   Wed, 15 Feb 2023 14:22:16 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-net-drivers (AMD-Xilinx)" <linux-net-drivers@amd.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "habetsm.xilinx@gmail.com" <habetsm.xilinx@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "jiri@nvidia.com" <jiri@nvidia.com>
-Subject: Re: [PATCH v7 net-next 2/8] sfc: add devlink info support for ef100
-Message-ID: <Y+zOeGYK0EctinF1@unreal>
-References: <20230213183428.10734-1-alejandro.lucero-palau@amd.com>
- <20230213183428.10734-3-alejandro.lucero-palau@amd.com>
- <Y+s6vrDLkpLRwtx3@unreal>
- <ef18677a-74d0-87a7-5659-637e63714b15@gmail.com>
- <cac3fa89-50a3-6de0-796c-a215400f3710@intel.com>
- <DM6PR12MB4202CDD780F886E718159A8CC1A39@DM6PR12MB4202.namprd12.prod.outlook.com>
+        with ESMTP id S229546AbjBOMdF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 07:33:05 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B79B28841;
+        Wed, 15 Feb 2023 04:33:04 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id d8-20020a17090ad98800b002344fa17c8bso1752749pjv.5;
+        Wed, 15 Feb 2023 04:33:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RfPGdIBUWvYP18MdOLbq0gCotrm0pCwxe1TBwOkQhdo=;
+        b=QXb/nWw4b87qF8YSl8JUHd3RCoF1GX7evfWX4ne/L6YJZMVKq+BwxKQcn81ZZUA1X5
+         FWydNzPo6iaP3eurDnRSEfgYR/GP5PODttEMiN8SUyZmBWBhMjX0jwDehxn1rwPzstLS
+         bhpSauaAXPLF2RBY9x8iM/7r/b/I9eccjYex1k2ywk6EKB4S6MlROzC2joI8nK3B5xsn
+         rpkABqzRwQeFmnEfT/wqqbJp3hNgSsHt5D6Z8IpOOoLt1FloqJTwP7j6IAlYlfZbnpbL
+         WCQVpEzj3I3cDFMSwsJK7/fWPixWHDLxyryXRBVQF3z03sdD3w44E/h3bQnenj8NXYMw
+         StCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RfPGdIBUWvYP18MdOLbq0gCotrm0pCwxe1TBwOkQhdo=;
+        b=tGAPB4DWfOn/8kFdDwJA8ooHeudE2mW8OAGeaESrDLWQhlsuMmSNUo8KhSSKRi8+1A
+         LIHY1dFUNYza3/071son5LZ53aF7ddSCz2v5+EYkEt9NrE+3lqTzXbfTZgQy4my60eJk
+         LcE0v+0pQAPAWKmoUAo+vWZT0nAToK6m1yJdKxZcZRzFJVlkpOJ5rloMgIH/NfK+SxBD
+         uxGTgHEY4EhhPCg6o7K9TdkSmvSnZQz9xH9RbjGWuU3pUWcU4xFp2FYW4r3fwnnFb0hJ
+         /MSWYITmNURBbVucQt2dSAGAYAFnPpOFmhhKjAEbRVcBSMjxrayEPPllFHeD3Gt3w0Aj
+         w2ng==
+X-Gm-Message-State: AO0yUKWGS8C0WgJP7brQ+VZ8USdrT0vdJHxcufV5D8V8rJTSzpVBDy+o
+        2syzJyoY+2/RaftIF3csGlQ=
+X-Google-Smtp-Source: AK7set/dr+zE9J2Qf60cfvGWYt1fheRGnO5xCtk/WJ06lcoNPjdrbYIZrpoqwG8gM64yCg0+/o3O5w==
+X-Received: by 2002:a17:903:2803:b0:196:1c45:6fc8 with SMTP id kp3-20020a170903280300b001961c456fc8mr1801744plb.60.1676464383516;
+        Wed, 15 Feb 2023 04:33:03 -0800 (PST)
+Received: from debian.me (subs03-180-214-233-93.three.co.id. [180.214.233.93])
+        by smtp.gmail.com with ESMTPSA id jh20-20020a170903329400b0019ad6451a67sm108767plb.24.2023.02.15.04.33.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Feb 2023 04:33:03 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id BF947105177; Wed, 15 Feb 2023 19:32:58 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Power Management <linux-pm@vger.kernel.org>,
+        Linux BPF Development <bpf@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Huang Rui <ray.huang@amd.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Perry Yuan <perry.yuan@amd.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Wyes Karny <wyes.karny@amd.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        oe-kbuild-all@lists.linux.dev,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH 1/3] Documentation: hw-vuln: Wrap mitigate_smt_rsb example in literal code block
+Date:   Wed, 15 Feb 2023 19:32:51 +0700
+Message-Id: <20230215123253.41552-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230215123253.41552-1-bagasdotme@gmail.com>
+References: <20230215123253.41552-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM6PR12MB4202CDD780F886E718159A8CC1A39@DM6PR12MB4202.namprd12.prod.outlook.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1453; i=bagasdotme@gmail.com; h=from:subject; bh=NlIucDSsMzvXPzZxHVDpD0xEEtWua/CgvF9JyzYMKNk=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMlvLnwJWuIrJ6V+hMMv94SlmvfRDb/TKrprgx8H5B9K+vZ4 f/z8jlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEwknofhn4ZpT7iExeyPMeazQwzOnQ 8L3qHXJzNF3TxRr79g20RpaYb/pRNZdLcuyLPbFK+u9OycTqFZ/cfVmWckbvpP2li4aasQOwA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 15, 2023 at 08:43:21AM +0000, Lucero Palau, Alejandro wrote:
-> 
-> On 2/14/23 16:56, Alexander Lobakin wrote:
-> > From: Edward Cree <ecree.xilinx@gmail.com>
-> > Date: Tue, 14 Feb 2023 15:28:24 +0000
-> >
-> >> On 14/02/2023 07:39, Leon Romanovsky wrote:
-> >>> On Mon, Feb 13, 2023 at 06:34:22PM +0000, alejandro.lucero-palau@amd.com wrote:
-> >>>> +#ifdef CONFIG_RTC_LIB
-> >>>> +	u64 tstamp;
-> >>>> +#endif
-> >>> If you are going to resubmit the series.
-> >>>
-> >>> Documentation/process/coding-style.rst
-> >>>    1140 21) Conditional Compilation
-> >>>    1141 ---------------------------
-> >>> ....
-> >>>    1156 If you have a function or variable which may potentially go unused in a
-> >>>    1157 particular configuration, and the compiler would warn about its definition
-> >>>    1158 going unused, mark the definition as __maybe_unused rather than wrapping it in
-> >>>    1159 a preprocessor conditional.  (However, if a function or variable *always* goes
-> >>>    1160 unused, delete it.)
-> >>>
-> >>> Thanks
-> >> FWIW, the existing code in sfc all uses the preprocessor
-> >>   conditional approach; maybe it's better to be consistent
-> >>   within the driver?
-> >>
-> > When it comes to "consistency vs start doing it right" thing, I always
-> > go for the latter. This "we'll fix it all one day" moment often tends to
-> > never happen and it's applicable to any vendor or subsys. Stop doing
-> > things the discouraged way often is a good (and sometimes the only) start.
-> 
-> 
-> It is not clear to me what you prefer, if fixing this now or leaving it 
-> and fixing it later.
+Stephen Rothwell reported htmldocs warning when making htmldocs from
+Linus's Tree:
 
-He asked to fix.
+Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst:92: ERROR: Unexpected indentation.
 
-Thanks
+Fix the warning by formatting example of mitigate_smt_rsb module parameter
+as literal code block.
 
-> 
-> The first sentence in your comment suggest the latter to me. The rest of 
-> the comment suggests the fix it now.
-> 
-> Anyway, patchwork says changes requested, so I'll send v8.
-> 
-> Thanks
-> 
-> > Thanks,
-> > Olek
+Link: https://lore.kernel.org/linux-next/20230215144117.369ffb5f@canb.auug.org.au/
+Fixes: 493a2c2d23ca91 ("Documentation/hw-vuln: Add documentation for Cross-Thread Return Predictions")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst b/Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst
+index ec6e9f5bcf9e89..3593d30ccfde12 100644
+--- a/Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst
++++ b/Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst
+@@ -88,5 +88,6 @@ capability to override those interceptions, but since this is not common, the
+ mitigation that covers this path is not enabled by default.
+ 
+ The mitigation for the KVM_CAP_X86_DISABLE_EXITS capability can be turned on
+-using the boolean module parameter mitigate_smt_rsb, e.g.:
++using the boolean module parameter mitigate_smt_rsb, e.g.::
++
+         kvm.mitigate_smt_rsb=1
+-- 
+An old man doll... just what I always wanted! - Clara
+
