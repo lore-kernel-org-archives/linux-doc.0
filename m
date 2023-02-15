@@ -2,141 +2,203 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B139C6379F
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 13:05:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93613C636D4
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 13:09:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233362AbjBONFX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 08:05:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49616 "EHLO
+        id S234110AbjBONJD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 08:09:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230456AbjBONFW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 08:05:22 -0500
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBCDE36FEA;
-        Wed, 15 Feb 2023 05:05:21 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 2D40B582003;
-        Wed, 15 Feb 2023 08:05:20 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 15 Feb 2023 08:05:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1676466320; x=1676473520; bh=NzdIn9sEy/
-        TdUrl/ZdBVY4dMEk2Tnlph7NyUne+YOMM=; b=PPD6X7vdu8v5pQCFFeEkwZ+xGH
-        hQxkzIm/THMwEiH6lmaNEBYbBzt3pargJVOdi2J1QMA6KHvLC9K1XeMABvJeeUMa
-        lTPgSxuAXiTHnvnPs7+H7Vr/fKIWrN+XZApp3CpAC5yE5WgT9W327fh6++AuDJlF
-        B9gywk5zLcSwCMvFm6irNxbf5/UMEQOklyQcP+yNMbxqWsOqNEYHAAgGHFLNZqZS
-        WLgt7CmsFbv+vqD/Mh8pW6i09fttS8BnRngWkrvO1YOvB+eqJf9YBCzB8hRdQL8g
-        Zrmyq7fkrOXYnHgcPd99guxknzQGmfAMstEvWh3k4ZTVkZadU+R5weMlaG7A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1676466320; x=1676473520; bh=NzdIn9sEy/TdUrl/ZdBVY4dMEk2T
-        nlph7NyUne+YOMM=; b=Tp/P1vDtiwaXsxOOvmxonT9LDeiFaEudeIfZX0AV5xmw
-        X3ENq+2GlESFOAR7xURKTITb3Q9/bLEcQhyKkak30WygkBgQXOUwH+1TEYwAnfSW
-        VN79grgOoloKlVxQxKg9d/GE/aNuuNhUwV2IHK4xpJLpSY9XO1XpwbGHxBbR0DF/
-        IjnWEESEaF5s9xx5Zj0yYZVtiwtJOFrRCp6Vfpm8unxAKwLTF76Egia3fqB+SRTf
-        HhmCGeRY4V0PNJ2mo3ZpzkurciWsN1Fx3VZnNvLG3nNn/NwNqCwiyIzXTWlmQOpN
-        G3WAp6KoO5IxE4n9w+AW7QNxTKU5fRGQe3g4//HLhw==
-X-ME-Sender: <xms:jdjsY_Wh-8LcQ3nmLEwGZ7X-cUO_UZrmKOzBi9pl67XX_YGZ0IXNyA>
-    <xme:jdjsY3kveCSQ-Laj-6oAgDyXLkBUjq7fx_C7UYY5m4XU_HQAFhNFJiZGPFSylztsR
-    Jx6pcGWaR_WFw62yQQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeihedggeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:jdjsY7ZEvyr4y1ulYt1S1iPqX3mkImnPSdU2AD0rfL5VPKqJb7xP1w>
-    <xmx:jdjsY6Ux13tFNHeawURlV0JH7DjSnY4lgf_B232j8MtUR1dl7xMefQ>
-    <xmx:jdjsY5klmieqtEjUAp2jmIMBcwIQHQA6TF9wkqBiRc9-j4DSJjfhdQ>
-    <xmx:kNjsY5_DeMdprgdbaWkVv0vgYRqpvs9Cxn7CSU6n-WZIW-e7MJJXrA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 79450B60086; Wed, 15 Feb 2023 08:05:17 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
-Mime-Version: 1.0
-Message-Id: <f3e1585c-0d9d-4709-9b21-74a63d8cc9ac@app.fastmail.com>
-In-Reply-To: <Y+zXIgwO5wteLQZ5@shell.armlinux.org.uk>
-References: <20230214074925.228106-1-alexghiti@rivosinc.com>
- <20230214074925.228106-4-alexghiti@rivosinc.com>
- <Y+zXIgwO5wteLQZ5@shell.armlinux.org.uk>
-Date:   Wed, 15 Feb 2023 14:04:59 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Russell King" <linux@armlinux.org.uk>,
-        "Alexandre Ghiti" <alexghiti@rivosinc.com>
-Cc:     "Jonathan Corbet" <corbet@lwn.net>,
-        "Richard Henderson" <richard.henderson@linaro.org>,
-        "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
-        "Matt Turner" <mattst88@gmail.com>,
-        "Vineet Gupta" <vgupta@kernel.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        "Huacai Chen" <chenhuacai@kernel.org>,
-        "WANG Xuerui" <kernel@xen0n.name>,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        "Michal Simek" <monstr@monstr.eu>,
-        "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
-        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-        "Helge Deller" <deller@gmx.de>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        "Nicholas Piggin" <npiggin@gmail.com>,
-        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        "Palmer Dabbelt" <palmer@dabbelt.com>,
-        "Albert Ou" <aou@eecs.berkeley.edu>,
-        "Heiko Carstens" <hca@linux.ibm.com>,
-        "Vasily Gorbik" <gor@linux.ibm.com>,
-        "Alexander Gordeev" <agordeev@linux.ibm.com>,
-        "Christian Borntraeger" <borntraeger@linux.ibm.com>,
-        "Sven Schnelle" <svens@linux.ibm.com>,
-        "Yoshinori Sato" <ysato@users.sourceforge.jp>,
-        "Rich Felker" <dalias@libc.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Chris Zankel" <chris@zankel.net>,
-        "Max Filippov" <jcmvbkbc@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "Palmer Dabbelt" <palmer@rivosinc.com>
-Subject: Re: [PATCH v3 03/24] arm: Remove COMMAND_LINE_SIZE from uapi
-Content-Type: text/plain
+        with ESMTP id S233916AbjBONJB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 08:09:01 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2060.outbound.protection.outlook.com [40.107.94.60])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 422FA1B323;
+        Wed, 15 Feb 2023 05:08:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RLIYB+DbsHFwfkeGFJ+5s6imhi+TkkwiHX8HtowSF1yWWYYiQnwSTwvJyA3y+HCL/wSiE2qLyq8y/N7pP4GU/ltmrnzpnTXozCgCgWbJNebV17k7iLoqyZcW38qGiuAZZqLimWKHKZejOl7OR4C10xh+4Hnm0KBy4GjEw/SIocCbdI6g2MIBC+q/KIYVuXoDrXF0s3Ymyp1W9pGz0nB1pGCtFg1lrZ5NascSeNWziIheQkufc0S1L8GEqafdFaQdEo2OXYlt5JrOUXEtnCXu2lQoYcWBNZM7wfAJfiB8ZGW1rry1pgVuuNu8LbO/9DrMLKMkSu4PAFlUTscJVLq+6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4iiNWca0U2JAn90vB41ExVkooylJ029HpveQ8lMUnos=;
+ b=VvvKaiGMQXOQoid28iXQr5SaqlGB/vPlGpLcNZ9GOfiKEKtFwHp/zQ3yp1FE+/YbLl2rPqBe3HinDTXo6piBn+8bkaPbyOB28YFL/YOrh1yDumWoJ3a39Er+HHbDy3L/yahquho5IDaKkqpuoGT7IbhT4AoxSpUnrVqZ5H2uEQG/rPJqKIp5nJDSLPseXG4KlrfKOi6l641vgK80lGf5qqTOYyz6ScnKvDVJo6eUM0HtVcupfZPGkh4pGfqJeWMtUls9crH9v3jQQ0WdK300RqGAq0e+/xDMJPkQESOpf30piHgxHGgbJwf7ykNhPbYwCR+UNwn2wLc9938B6QZ5ww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4iiNWca0U2JAn90vB41ExVkooylJ029HpveQ8lMUnos=;
+ b=oYfkM2v436Wx9EYerfsWho5msj/EX/AoXvtC01IrqPWU1ODSjcwAuTW5nNSP6hLBQeQO0ur//e4sxcwCOayeLjWQ4mKTxQT6FljGuO9VBSzF1wOfVB1OkEwYJKzdRojQD1ZqEeolxO/C09Rl8+hjpUgf51lJTQfxaaEtP6vaGRE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) by
+ CH2PR12MB5001.namprd12.prod.outlook.com (2603:10b6:610:61::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6086.19; Wed, 15 Feb 2023 13:08:44 +0000
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::93f9:c1df:8ca3:fc5b]) by DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::93f9:c1df:8ca3:fc5b%7]) with mapi id 15.20.6086.024; Wed, 15 Feb 2023
+ 13:08:44 +0000
+Date:   Wed, 15 Feb 2023 21:08:17 +0800
+From:   Huang Rui <ray.huang@amd.com>
+To:     "Karny, Wyes" <Wyes.Karny@amd.com>
+Cc:     Rafael J Wysocki <rafael@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+        "Yuan, Perry" <Perry.Yuan@amd.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        "Shukla, Santosh" <Santosh.Shukla@amd.com>,
+        Len Brown <lenb@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "Narayan, Ananth" <Ananth.Narayan@amd.com>,
+        "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>,
+        Tor Vic <torvic9@mailbox.org>
+Subject: Re: [PATCH v6 1/6] acpi: cppc: Add min and max perf reg writing
+ support
+Message-ID: <Y+zZQV+63uGnQbUA@amd.com>
+References: <20230206172157.49887-1-wyes.karny@amd.com>
+ <20230206172157.49887-2-wyes.karny@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230206172157.49887-2-wyes.karny@amd.com>
+X-ClientProxiedBy: SG3P274CA0016.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::28)
+ To DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2504:EE_|CH2PR12MB5001:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f7121bc-43db-4ccd-3a98-08db0f55c3e8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MGYDs3sql2U93aBswfXiuFYCZTIKQmXLgq2QN6XmRlJwx1EW34LLYqO2n+ttLWRnAmoEBujaNagz5tusCPHSfyp4h0fbEUdGP/sAuv9UgJis4DqImNb0jkoUfToeTdCL4E/zYuuXAOzbCf9a7PCdCjnS2+R67iPYftLOy4KSoGiE+2gjBM/+3tAVkzU3U5hyb4U/PHM2sxDiPZ7UOP0NWvotawDMUkDMCfhtVYcxRk1ahwKSuTsNLVMEzKliI2p9C9zu5QMjUGp/VnsoK8Hy0MNNIQ7Q4GHrP3V2KF1mLauJVdmdB/RoUugdenfo/URF9fYUUBySIgULyffgTIxF2s0VpfaB8kfdKY2hDmALxsotBUEMquP6aSum3FVn67qeE+VaD5h5SQzP0Q/rcYICj5RTTMJPkxeSM7hHXcjycW2duc5lF+lMjHmn+UJvWJcCDwiZnbr46wTsaN8md/70ACBxPRWotA8VsV7W56kQ4/+LqFYV9+AwSw7wJ8xYCov+TGaxSotTJcCacZw1xfLzT4L4tD+T6FVkdUJg61X7ruMTJl4P6gfH8gdofXmlqNPoUtSYUcAlF4f/TFVPmurOpyMuyhVv9WjiZIiyvWAmPyCDFLnLzhCPkScf1Wf3q47J1exnp+n1f1+JDNgo0hMZBA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR12MB2504.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(346002)(366004)(136003)(396003)(39860400002)(451199018)(37006003)(6666004)(2906002)(36756003)(6486002)(6862004)(6636002)(7416002)(316002)(38100700002)(41300700001)(8936002)(5660300002)(26005)(6512007)(2616005)(478600001)(54906003)(83380400001)(86362001)(66556008)(6506007)(186003)(66476007)(8676002)(4326008)(66946007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rLP6vonKFkkEAZsZ1E8iMRN5P+wGNIMHWKTshFtW9J8LVi1UEvVRl88RHUq/?=
+ =?us-ascii?Q?u0otb0PExTofi8yAtTctICh27FjL2GkYA1Z5CnnYuNnCVGEbabl8uXFWdxz5?=
+ =?us-ascii?Q?Vxba+WYA4E/styZyU28NjphVU/Tteqkc5+WwdIK8WqvRqANtuIA2AgShm0re?=
+ =?us-ascii?Q?GGEBNCzgndYuJ/+fWyqoCs2Dw7owD2DMdGkGw/WLZs33Ia6vuo3rLSgcZlTp?=
+ =?us-ascii?Q?WR+HSKwuHIDY5oyJ3eufN1prig/dBVO6wV5NWdILznsIAXJ/sResqVC/Tx/8?=
+ =?us-ascii?Q?7yxx+CwpeuK5HXHu4SEHEWPo4UeaJ/6RHGuM+8+w4jkPD2CBK7UmrDpnWkDV?=
+ =?us-ascii?Q?nO9bS2N5s1eShXaIOTNmp6BDzwJIZxZgabTs9AGXpR7MYPBjik8o7hgsnQjF?=
+ =?us-ascii?Q?WiJb/XAuvM7Xq0QhWuoLj/RszaF8x1CG5kybAeRCOt+lO3+mvM5tAYn9EjJm?=
+ =?us-ascii?Q?qWUehcQiLGQEKk510L15AtrXnVEI0y5dH8bLRyq+x7ykWEmVyj6t5vnmDwFz?=
+ =?us-ascii?Q?7x5cO+nA1X/AbfqzYJQLjGGmpWhcp6G0EWae+Ti3MkLYpMfP0IsSbJow44JS?=
+ =?us-ascii?Q?Lgn4kvu0t+AMr5x7Si3uP/GDeClVesKU5mlB+iFHO2IXUfUIEo4RCb/WBSq0?=
+ =?us-ascii?Q?HpC4/B618XTzkC7Z9E2GdVPUHd4+BhcErBHHthjlSa8XY1/XbXXQCunfIBMg?=
+ =?us-ascii?Q?xnRTZnbjoXz0iEZnSJZ/omO90ZmTqcwv+FMWcPfSoh6mGDS1FUNEsXRAoh8J?=
+ =?us-ascii?Q?pREUVGpUTic0I5KZbc9ztXo/gLXIY9m0r4NMKGZbXFNroEVKf+y7H17fAVK2?=
+ =?us-ascii?Q?nBcjr+RhOQEZ2EXXMwwzJNcY+r74SxFKy79m3Tf6BSEd35DM/X1qDBxGCGfz?=
+ =?us-ascii?Q?dJdS535u8gfaPtHJ7xF5gkbktb3gGxWfZHIf1hdn9cbmgL8EbsV8EiOytp37?=
+ =?us-ascii?Q?XTX67OA/IlXK05rQJEsVz9uRgxNXhO6LjjhFxQeOYL58TrTTbx8bSb6wz+KB?=
+ =?us-ascii?Q?tozYd1o/eo85kzmbFGziRa9mxvA1WzRPVfziOjqPA+EYoGb/Hl6Td4JeYsJj?=
+ =?us-ascii?Q?FtTwOXDrC+jB2We9cx+vJyv5mM8Xavg+gmUyfAGNv55FrXGLlyWbKIcjp2Al?=
+ =?us-ascii?Q?RoIn4LnV8Yx4lTmgRtjypZLnpxUsoxrGvW/6zdSGk0+y61kqHaYF58xMimWz?=
+ =?us-ascii?Q?0SX0fgbKGcz6vumZUljRDkrr4Jv9t5dRcTVNYH9JLiNvQYoAAgfFvmnfG2Hy?=
+ =?us-ascii?Q?pNTA7vrkg3M4EoAObRhpZ8dc8ZzBe1MIhW3uMP7AmEuxCqwYXdjnkAR6Q3oi?=
+ =?us-ascii?Q?VHAvWrN5kpQAJbXBKsgIuoIkiraZPdotWpCIDmsOKdm6HzM7C4LE5PFyphDO?=
+ =?us-ascii?Q?/d57ZOph3/cS4xYy6Thm/xCkKBZr7vonAHnLUK+C/c8qMgsNQgYDlpX41563?=
+ =?us-ascii?Q?kVMBwc3CSFpgVA3VPc2b6ZDvz6L9Fy150hACO1PKgSRuhmEyBBVxdQA/1jt7?=
+ =?us-ascii?Q?SFtnX9pDHsdw03MaXUaO2Wjev8XWCH6mnUa9SePrIoY1fBWC3dDlMuJk8PcQ?=
+ =?us-ascii?Q?wuWznrADcSvwLMvxmKo8Hde9ttB1twfJISRzHYl7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f7121bc-43db-4ccd-3a98-08db0f55c3e8
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2504.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 13:08:43.8970
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AmHWiX7pDdoD5bsIXX6kr1uDmJM5mF8Pn1uCcc3fzRcVAQD2gvatkRF2syT+bazMITIQHdLHK5AJmv1oBQvTcA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB5001
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 15, 2023, at 13:59, Russell King (Oracle) wrote:
-> On Tue, Feb 14, 2023 at 08:49:04AM +0100, Alexandre Ghiti wrote:
->> From: Palmer Dabbelt <palmer@rivosinc.com>
->> 
->> As far as I can tell this is not used by userspace and thus should not
->> be part of the user-visible API.
->> 
->> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
->
-> Looks good to me. What's the merge plan for this?
+On Tue, Feb 07, 2023 at 01:21:52AM +0800, Karny, Wyes wrote:
+> Currently writing of min and max perf register is deferred in
+> cppc_set_perf function. In CPPC guided mode, these registers needed to
+> be written to guide the platform about min and max perf levels. Add this support
+> to make guided mode work properly on AMD shared memory systems.
+> 
+> Signed-off-by: Wyes Karny <wyes.karny@amd.com>
+> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 
-The easiest way is probably if I merge it through the whole
-series through the asm-generic tree. The timing is a bit
-unfortunate as we're just ahead of the merge window, so unless
-we really need this in 6.3, I'd suggest that Alexandre resend
-the series to me in two weeks with the Acks added in and I'll
-pick it up for 6.4.
+Acked-by: Huang Rui <ray.huang@amd.com>
 
-     Arnd
+> ---
+>  drivers/acpi/cppc_acpi.c | 24 ++++++++++++++++--------
+>  1 file changed, 16 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
+> index 02d83c807271..91f9ef75f7de 100644
+> --- a/drivers/acpi/cppc_acpi.c
+> +++ b/drivers/acpi/cppc_acpi.c
+> @@ -1487,7 +1487,7 @@ EXPORT_SYMBOL_GPL(cppc_set_enable);
+>  int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
+>  {
+>  	struct cpc_desc *cpc_desc = per_cpu(cpc_desc_ptr, cpu);
+> -	struct cpc_register_resource *desired_reg;
+> +	struct cpc_register_resource *desired_reg, *min_perf_reg, *max_perf_reg;
+>  	int pcc_ss_id = per_cpu(cpu_pcc_subspace_idx, cpu);
+>  	struct cppc_pcc_data *pcc_ss_data = NULL;
+>  	int ret = 0;
+> @@ -1498,6 +1498,8 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
+>  	}
+>  
+>  	desired_reg = &cpc_desc->cpc_regs[DESIRED_PERF];
+> +	min_perf_reg = &cpc_desc->cpc_regs[MIN_PERF];
+> +	max_perf_reg = &cpc_desc->cpc_regs[MAX_PERF];
+>  
+>  	/*
+>  	 * This is Phase-I where we want to write to CPC registers
+> @@ -1506,7 +1508,7 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
+>  	 * Since read_lock can be acquired by multiple CPUs simultaneously we
+>  	 * achieve that goal here
+>  	 */
+> -	if (CPC_IN_PCC(desired_reg)) {
+> +	if (CPC_IN_PCC(desired_reg) || CPC_IN_PCC(min_perf_reg) || CPC_IN_PCC(max_perf_reg)) {
+>  		if (pcc_ss_id < 0) {
+>  			pr_debug("Invalid pcc_ss_id\n");
+>  			return -ENODEV;
+> @@ -1529,13 +1531,19 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
+>  		cpc_desc->write_cmd_status = 0;
+>  	}
+>  
+> -	/*
+> -	 * Skip writing MIN/MAX until Linux knows how to come up with
+> -	 * useful values.
+> -	 */
+>  	cpc_write(cpu, desired_reg, perf_ctrls->desired_perf);
+>  
+> -	if (CPC_IN_PCC(desired_reg))
+> +	/**
+> +	 * Only write if min_perf and max_perf not zero. Some drivers pass zero
+> +	 * value to min and max perf, but they don't mean to set the zero value,
+> +	 * they just don't want to write to those registers.
+> +	 */
+> +	if (perf_ctrls->min_perf)
+> +		cpc_write(cpu, min_perf_reg, perf_ctrls->min_perf);
+> +	if (perf_ctrls->max_perf)
+> +		cpc_write(cpu, max_perf_reg, perf_ctrls->max_perf);
+> +
+> +	if (CPC_IN_PCC(desired_reg) || CPC_IN_PCC(min_perf_reg) || CPC_IN_PCC(max_perf_reg))
+>  		up_read(&pcc_ss_data->pcc_lock);	/* END Phase-I */
+>  	/*
+>  	 * This is Phase-II where we transfer the ownership of PCC to Platform
+> @@ -1583,7 +1591,7 @@ int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
+>  	 * case during a CMD_READ and if there are pending writes it delivers
+>  	 * the write command before servicing the read command
+>  	 */
+> -	if (CPC_IN_PCC(desired_reg)) {
+> +	if (CPC_IN_PCC(desired_reg) || CPC_IN_PCC(min_perf_reg) || CPC_IN_PCC(max_perf_reg)) {
+>  		if (down_write_trylock(&pcc_ss_data->pcc_lock)) {/* BEGIN Phase-II */
+>  			/* Update only if there are pending write commands */
+>  			if (pcc_ss_data->pending_pcc_write_cmd)
+> -- 
+> 2.34.1
+> 
