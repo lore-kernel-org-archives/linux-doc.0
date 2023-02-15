@@ -2,65 +2,64 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CC1BC6379F
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 09:09:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC04C6379F
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 09:10:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232022AbjBOJJ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 04:09:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55794 "EHLO
+        id S233666AbjBOJJ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 04:09:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233644AbjBOJJZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 04:09:25 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2052.outbound.protection.outlook.com [40.107.237.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8027D367C9;
-        Wed, 15 Feb 2023 01:09:23 -0800 (PST)
+        with ESMTP id S233775AbjBOJJ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 04:09:56 -0500
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2067.outbound.protection.outlook.com [40.107.237.67])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D10636FC8;
+        Wed, 15 Feb 2023 01:09:43 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oeEZeagMJG4Hd7ALfuwk5y5QdEFqcbphDDLHXJ1rTujVKa+dAcAHlY500dzoT3+Bi9sjjXNW6ewnufeJ68VsVW6n4IgDFgrF1dxrIQ9OtDFeLeQ9xJp0bOCpbub/MVPlJmmkxetkM+L8dr+vhC1HxOtxSLPOBS0krgOXcEeNgBATCBgAJ+bKNhhZyQWvI3ER+fRsuC7HeFBT+Agh8LRlheZXc8QG3Qu9ufgni329I9zpesuvN8gjVeoOuQsV+uY4g8puvEfIlWSqfTJQKxITKo/5NSmG3DW676tq8kH46E3xR8NlGnE+AMxZNt/CCz8tHRltoOuPqjx5qKpD9XDDxg==
+ b=WYTWjUwr5KIX7oRBZuk5a74YVuA/IUdm1WuyFfDxsogx+ueFHuEQ6gSoGJG9Q56qoa1fsyaGvktCDTPhjyVHETukH4C404jgrNOTAFEP7AeQBW9Q0jaVBkKQ2riRe29aW569bilRf7kok8N1t5HzK+GUY4pSq/etRcokFjU2/5qmND5mzR9uAI5UcXTwGg2QYy5snZGsL5bBv0FOsRBtlVHcthnPS6idcH37tXfcyPJhiReOUJiipK0FIh+lZ9MhsIzyz1Q0RSz534QjjCKZQTEIOyfU/m/4bDiKj9DIjYureV82qlwjPBdvpej/X6Ju1hqCYjj8ydiCA3GJ5Gwexg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ctdc6qyStytXEYamuhZtEVEBWQrivfURIzKu8q6KOYU=;
- b=LysjV/rrqXew5yJM9LVRW6+4p5iRu5m7rb1sFwPQ8DW5ZdMM/dKvw5zd2Pbq7EYijUPfcXq1ZqCS9Rfc4pack/+goqe+ZG2ivPW1RqMJF+FZBGiHTLrMWDsv2wciYRIOZq78B8AboLjUiyL2lAbuPH88IrKs/gjEXLD/4vsKo8GuCYUXXZkooFzVFZkBuOSBdCuhpWw5/nhIZuA5cJrm3hCendi90dPsrYNTDDvx1YV+XE7aVOUL+UzFsccVufsVAmoyNMdxhxXkx/umq4brBDfnhskInZ0vpVvJ5GibXlCZpKJ+R7w6sTFQikL16L/SLZIx7lpjEMcBwE0Fjo3NHQ==
+ bh=6xuBCdsjc2QZR+XxlFfbuZKXfsXAD7KDjo2zdqfbj7g=;
+ b=bd6bYvSQmnPC1ZsGRTWtxZr5essMJEa7M5wCjfA8fkP1U7jCgK6HTrRaXzV4jaViAZ+U4+Mf4Oaz7OAuP9TD26b0lhYTE03kCYjIFjjTFNxJEQGXxHKlexTYUTbBUnmGZzgWsl9lIOeksCOGM/ykQCTpxjUs4igR4BIzgGYg34AvZ2VSqTv/I8dl4HhepAkkKzhjQDApBFYkdxtEIamKDYsnvNmKVtlYgpUtUAWL4OM1XqxdgimjaSXCQKmnKlCTujrYtR8nCdWw1GgIl5dDJW99iMRZHWYInTlqriB/PCVVb9nLJ81AYzLoxPOdpr7nuSbiksBCMn9+cbfwIXxfSg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ctdc6qyStytXEYamuhZtEVEBWQrivfURIzKu8q6KOYU=;
- b=3+J3x1lmBff+UILx9f68N904ExOCOfVpNbl3rUtY3LxScMtk06Tdtll5ViQ8WhHFXPv27xdFi2ps3M3pnJlIq4uJjxhIW0GNupjfIA7u3J5AynOqoQaOOuvAiv2Mg+kVcxhqlN2SN3ue0MxCgxf1PBOCoKh+ndfcnocS8pTn+O8=
-Received: from DM6PR14CA0069.namprd14.prod.outlook.com (2603:10b6:5:18f::46)
- by SJ0PR12MB7473.namprd12.prod.outlook.com (2603:10b6:a03:48d::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26; Wed, 15 Feb
- 2023 09:09:21 +0000
-Received: from DM6NAM11FT089.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:18f:cafe::93) by DM6PR14CA0069.outlook.office365.com
- (2603:10b6:5:18f::46) with Microsoft SMTP Server (version=TLS1_2,
+ bh=6xuBCdsjc2QZR+XxlFfbuZKXfsXAD7KDjo2zdqfbj7g=;
+ b=ZVh58qKM6C+OFfGddwOIc8u76C+TTKoiwReZhYyI7TR3zfswgB2xdQggoF2rh6x/bJnWMrOseCrQdkJu4+i+7GUs0PGtL1v2+IUn9V82DZiSC+7L0AonsQ0U+AgGzOlIH7jVL5IBth+RiAawtEp8qDQ3I4okhryz+v/wKYfCc50=
+Received: from DS7PR03CA0031.namprd03.prod.outlook.com (2603:10b6:5:3b5::6) by
+ DS0PR12MB7510.namprd12.prod.outlook.com (2603:10b6:8:132::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6086.24; Wed, 15 Feb 2023 09:09:41 +0000
+Received: from DS1PEPF0000E631.namprd02.prod.outlook.com
+ (2603:10b6:5:3b5:cafe::7d) by DS7PR03CA0031.outlook.office365.com
+ (2603:10b6:5:3b5::6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26 via Frontend
- Transport; Wed, 15 Feb 2023 09:09:21 +0000
+ Transport; Wed, 15 Feb 2023 09:09:41 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DM6NAM11FT089.mail.protection.outlook.com (10.13.173.82) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6111.12 via Frontend Transport; Wed, 15 Feb 2023 09:09:20 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF0000E631.mail.protection.outlook.com (10.167.17.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6111.8 via Frontend Transport; Wed, 15 Feb 2023 09:09:41 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 15 Feb
- 2023 03:09:13 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
+ 2023 03:09:11 -0600
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 15 Feb
- 2023 01:09:00 -0800
+ 2023 03:08:55 -0600
 Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
  SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34 via Frontend Transport; Wed, 15 Feb 2023 03:08:59 -0600
+ 15.1.2375.34 via Frontend Transport; Wed, 15 Feb 2023 03:08:54 -0600
 From:   <alejandro.lucero-palau@amd.com>
 To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
 CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
@@ -68,9 +67,9 @@ CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
         <ecree.xilinx@gmail.com>, <linux-doc@vger.kernel.org>,
         <corbet@lwn.net>, <jiri@nvidia.com>,
         "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
-Subject: [PATCH v8 net-next 6/8] sfc: obtain device mac address based on firmware handle for ef100
-Date:   Wed, 15 Feb 2023 09:08:26 +0000
-Message-ID: <20230215090828.11697-7-alejandro.lucero-palau@amd.com>
+Subject: [PATCH v8 net-next 4/8] sfc: add mport lookup based on driver's mport data
+Date:   Wed, 15 Feb 2023 09:08:24 +0000
+Message-ID: <20230215090828.11697-5-alejandro.lucero-palau@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230215090828.11697-1-alejandro.lucero-palau@amd.com>
 References: <20230215090828.11697-1-alejandro.lucero-palau@amd.com>
@@ -78,158 +77,145 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT089:EE_|SJ0PR12MB7473:EE_
-X-MS-Office365-Filtering-Correlation-Id: db9b2934-1963-4ec6-0598-08db0f345311
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E631:EE_|DS0PR12MB7510:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62e267de-7c51-4e8b-b0cb-08db0f345f1d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bsAyOdM91vVioRekVCKBw2oMe3/TYHFq+f1IU73btMn7EQz+beLuiIkVajkN6GazCvmndMTHw0ZYzUyMxM8QJwY0miAqCn3MxsicT94VmzLwJveZYg3AwFr+LJSennyieYZH+hhv9fL6X9ZfD2NelI3hJM6AubW2J+1H7kJaSyFs0nDtzmLZFxkPr1UBSfefgZ4RbivKkHULsP50IvwnSYmAooW4ilkdA5Jp2PoiLgkVZAlhoyJjiPUm5CpubA0QiNXr6u3JNZXorr5nJ/mgITqo6WNJj+X/dH15fqkVhQynOZ+rtafqOyCMIhsUSOzfzxPvBaWkG6nIr52cyAJgBh+E0i7Nz5kkPwufv5Fsz51f5Bk9riKs3WToTkoxQxN9gZekFjnNAYcvoTqbHgZvQhdT0M3Wnkm5cn/3oyXGvkRexdQMBlWkrO5hmqgX9Iz08ucXmh9SF7so7x1eEWr+9kVh5OnaMmtoNMr113VMyPtwl6C63NlKf1G+AmCZCimubRnQwz/GQYh7PoS4bxjvGSqm0sFxtgoawxEbfTHcI5vg7DG8ee+GzTj5icMNvC2rZsvPCaaBUIqpTVLsnoWNvTbkkJNbauu6FM6VkN11M6V1O4LnnFcUkSBZAqu8+xvlW5PizgDpkw8e4c9PSN7Fqbh4j+gRVnSPPTsNUmcdC0ju6qIBYlGCfhMHaKXGQmFfwjNH+RVn1TZL8mVMa7I2R0kU5kM1OsSeY5m8wm4EJA8=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(376002)(136003)(396003)(346002)(39860400002)(451199018)(46966006)(36840700001)(40470700004)(110136005)(6636002)(54906003)(83380400001)(426003)(478600001)(336012)(2616005)(47076005)(1076003)(6666004)(36756003)(186003)(26005)(356005)(41300700001)(5660300002)(7416002)(86362001)(8936002)(40460700003)(40480700001)(316002)(81166007)(2906002)(70206006)(70586007)(82310400005)(82740400003)(4326008)(8676002)(36860700001)(2876002)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 80tSnYWOazvGZRXp1eyJTZu3WBwoeTiY7OeSTTmoFr+clYwLbILmBdvP+sV2IXv1zIoxyHSuNuRVDj04fxh/VmXsQAgKlmKQqlNQr+ZvTOFncCuw6ZJM25fiXEBnIdYYF+kx/Tqp3Kgw57/Ng9O58U1pr8IMW83nzpIs+SVmfN82Rn/RCbzisNH2zX8dJedCOrpDcB72U59Q2m888DZ07nkmMyMz1bRQUQ2DLF4Me2nVVdHywT5+OTF/B7U9tjx096bDpgN14dVOfi4BTCxWaRejqY4A90hStjxxMpieDLN5fm2FSDgjFZXc6CTF5uwg/tOxpu7egV+cg10UUFTfk7lVyW1kVzw7RDIeismmRClDX7qcUKH/4cirOT4uDJnEJRRgYh/GYSxdhmq1fJo3dwHqtmLm6YGzaqAWFkqZBFNaVTY22OGqMKgHvyTzQI/5FPadO3OhMmG8aN+tHkslmvoGycAibsWgPHRj9kOsxdhScb6usk3r+pAkCeKQbgmhzPche/b4rSY5xrB75R+yjBY26R2+1CN95bwvMz1AtKMfmczXZX0q3630hdufOgChP7YsFTg99wGU8WaxFYuoCu1hEHEivdyUXHp37Ak3xgVoWoQEIxd3w8lEJKzRg8V24CCbZiQkxjcb4TV4P73B/7ne/fqLqhha65Ff2ZmIX5m7G7I9bGjr23uTeaSQLTRKvIt2skm72LeFtRQxLlfIdJBp8pvFVtr0tZFE3Du14AQ=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(136003)(346002)(39860400002)(451199018)(46966006)(36840700001)(40470700004)(7416002)(82310400005)(316002)(2616005)(6666004)(6636002)(86362001)(54906003)(110136005)(478600001)(40460700003)(2906002)(70206006)(4326008)(36860700001)(5660300002)(41300700001)(8676002)(426003)(36756003)(1076003)(26005)(186003)(47076005)(336012)(40480700001)(82740400003)(70586007)(8936002)(81166007)(2876002)(83380400001)(356005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 09:09:20.8616
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 09:09:41.0773
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: db9b2934-1963-4ec6-0598-08db0f345311
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62e267de-7c51-4e8b-b0cb-08db0f345f1d
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT089.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E631.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7473
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7510
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
 
-Getting device mac address is currently based on a specific MCDI command
-only available for the PF. This patch changes the MCDI command to a
-generic one for PFs and VFs based on a client handle. This allows both
-PFs and VFs to ask for their mac address during initialization using the
-CLIENT_HANDLE_SELF.
+Obtaining mport id is based on asking the firmware about it. This is
+still needed for mport initialization itself, but once the mport data is
+now kept by the driver, further mport id request can be satisfied
+internally without firmware interaction.
 
-Moreover, the patch allows other client handles which will be used by
-the PF to ask for mac addresses linked to VFs. This is necessary for
-suporting the port_function_hw_addr_get devlink function in further
-patches.
+Previous function is just modified in name making clear the firmware
+interaction. The new function uses the old name and looks for the data
+in the mport data structure.
 
 Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
 Acked-by: Martin Habets <habetsm.xilinx@gmail.com>
 ---
- drivers/net/ethernet/sfc/ef100_netdev.c | 10 +++++++
- drivers/net/ethernet/sfc/ef100_nic.c    | 37 +++++++++++++------------
- drivers/net/ethernet/sfc/ef100_nic.h    |  2 ++
- 3 files changed, 31 insertions(+), 18 deletions(-)
+ drivers/net/ethernet/sfc/ef100_nic.c |  4 ++--
+ drivers/net/ethernet/sfc/ef100_rep.c |  5 +----
+ drivers/net/ethernet/sfc/mae.c       | 27 ++++++++++++++++++++++++++-
+ drivers/net/ethernet/sfc/mae.h       |  2 ++
+ 4 files changed, 31 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/net/ethernet/sfc/ef100_netdev.c b/drivers/net/ethernet/sfc/ef100_netdev.c
-index 368147359299..d916877b5a9a 100644
---- a/drivers/net/ethernet/sfc/ef100_netdev.c
-+++ b/drivers/net/ethernet/sfc/ef100_netdev.c
-@@ -359,6 +359,7 @@ int ef100_probe_netdev(struct efx_probe_data *probe_data)
- {
- 	struct efx_nic *efx = &probe_data->efx;
- 	struct efx_probe_data **probe_ptr;
-+	struct ef100_nic_data *nic_data;
- 	struct net_device *net_dev;
- 	int rc;
- 
-@@ -410,6 +411,15 @@ int ef100_probe_netdev(struct efx_probe_data *probe_data)
- 	/* Don't fail init if RSS setup doesn't work. */
- 	efx_mcdi_push_default_indir_table(efx, efx->n_rx_channels);
- 
-+	nic_data = efx->nic_data;
-+	rc = ef100_get_mac_address(efx, net_dev->perm_addr, CLIENT_HANDLE_SELF,
-+				   efx->type->is_vf);
-+	if (rc)
-+		return rc;
-+	/* Assign MAC address */
-+	eth_hw_addr_set(net_dev, net_dev->perm_addr);
-+	ether_addr_copy(nic_data->port_id, net_dev->perm_addr);
-+
- 	/* devlink creation, registration and lock */
- 	rc = efx_probe_devlink_and_lock(efx);
- 	if (rc)
 diff --git a/drivers/net/ethernet/sfc/ef100_nic.c b/drivers/net/ethernet/sfc/ef100_nic.c
-index aa11f0925e27..aa48c79a2149 100644
+index 07e7dca0e4f2..aa11f0925e27 100644
 --- a/drivers/net/ethernet/sfc/ef100_nic.c
 +++ b/drivers/net/ethernet/sfc/ef100_nic.c
-@@ -130,23 +130,34 @@ static void ef100_mcdi_reboot_detected(struct efx_nic *efx)
- 
- /*	MCDI calls
-  */
--static int ef100_get_mac_address(struct efx_nic *efx, u8 *mac_address)
-+int ef100_get_mac_address(struct efx_nic *efx, u8 *mac_address,
-+			  int client_handle, bool empty_ok)
- {
--	MCDI_DECLARE_BUF(outbuf, MC_CMD_GET_MAC_ADDRESSES_OUT_LEN);
-+	MCDI_DECLARE_BUF(outbuf, MC_CMD_GET_CLIENT_MAC_ADDRESSES_OUT_LEN(1));
-+	MCDI_DECLARE_BUF(inbuf, MC_CMD_GET_CLIENT_MAC_ADDRESSES_IN_LEN);
- 	size_t outlen;
- 	int rc;
- 
- 	BUILD_BUG_ON(MC_CMD_GET_MAC_ADDRESSES_IN_LEN != 0);
-+	MCDI_SET_DWORD(inbuf, GET_CLIENT_MAC_ADDRESSES_IN_CLIENT_HANDLE,
-+		       client_handle);
- 
--	rc = efx_mcdi_rpc(efx, MC_CMD_GET_MAC_ADDRESSES, NULL, 0,
--			  outbuf, sizeof(outbuf), &outlen);
-+	rc = efx_mcdi_rpc(efx, MC_CMD_GET_CLIENT_MAC_ADDRESSES, inbuf,
-+			  sizeof(inbuf), outbuf, sizeof(outbuf), &outlen);
+@@ -736,7 +736,7 @@ static int efx_ef100_get_base_mport(struct efx_nic *efx)
+ 	/* Construct mport selector for "physical network port" */
+ 	efx_mae_mport_wire(efx, &selector);
+ 	/* Look up actual mport ID */
+-	rc = efx_mae_lookup_mport(efx, selector, &id);
++	rc = efx_mae_fw_lookup_mport(efx, selector, &id);
  	if (rc)
  		return rc;
--	if (outlen < MC_CMD_GET_MAC_ADDRESSES_OUT_LEN)
--		return -EIO;
+ 	/* The ID should always fit in 16 bits, because that's how wide the
+@@ -751,7 +751,7 @@ static int efx_ef100_get_base_mport(struct efx_nic *efx)
+ 	/* Construct mport selector for "calling PF" */
+ 	efx_mae_mport_uplink(efx, &selector);
+ 	/* Look up actual mport ID */
+-	rc = efx_mae_lookup_mport(efx, selector, &id);
++	rc = efx_mae_fw_lookup_mport(efx, selector, &id);
+ 	if (rc)
+ 		return rc;
+ 	if (id >> 16)
+diff --git a/drivers/net/ethernet/sfc/ef100_rep.c b/drivers/net/ethernet/sfc/ef100_rep.c
+index ebe7b1275713..9cd1a3ac67e0 100644
+--- a/drivers/net/ethernet/sfc/ef100_rep.c
++++ b/drivers/net/ethernet/sfc/ef100_rep.c
+@@ -243,14 +243,11 @@ static struct efx_rep *efx_ef100_rep_create_netdev(struct efx_nic *efx,
+ static int efx_ef100_configure_rep(struct efx_rep *efv)
+ {
+ 	struct efx_nic *efx = efv->parent;
+-	u32 selector;
+ 	int rc;
  
--	ether_addr_copy(mac_address,
--			MCDI_PTR(outbuf, GET_MAC_ADDRESSES_OUT_MAC_ADDR_BASE));
-+	if (outlen >= MC_CMD_GET_CLIENT_MAC_ADDRESSES_OUT_LEN(1)) {
-+		ether_addr_copy(mac_address,
-+				MCDI_PTR(outbuf, GET_CLIENT_MAC_ADDRESSES_OUT_MAC_ADDRS));
-+	} else if (empty_ok) {
-+		pci_warn(efx->pci_dev,
-+			 "No MAC address provisioned for client ID %#x.\n",
-+			 client_handle);
-+		eth_zero_addr(mac_address);
-+	} else {
-+		return -ENOENT;
-+	}
+ 	efv->rx_pring_size = EFX_REP_DEFAULT_PSEUDO_RING_SIZE;
+-	/* Construct mport selector for corresponding VF */
+-	efx_mae_mport_vf(efx, efv->idx, &selector);
+ 	/* Look up actual mport ID */
+-	rc = efx_mae_lookup_mport(efx, selector, &efv->mport);
++	rc = efx_mae_lookup_mport(efx, efv->idx, &efv->mport);
+ 	if (rc)
+ 		return rc;
+ 	pci_dbg(efx->pci_dev, "VF %u has mport ID %#x\n", efv->idx, efv->mport);
+diff --git a/drivers/net/ethernet/sfc/mae.c b/drivers/net/ethernet/sfc/mae.c
+index 725a3ab31087..6321fd393fc3 100644
+--- a/drivers/net/ethernet/sfc/mae.c
++++ b/drivers/net/ethernet/sfc/mae.c
+@@ -97,7 +97,7 @@ void efx_mae_mport_mport(struct efx_nic *efx __always_unused, u32 mport_id, u32
+ }
+ 
+ /* id is really only 24 bits wide */
+-int efx_mae_lookup_mport(struct efx_nic *efx, u32 selector, u32 *id)
++int efx_mae_fw_lookup_mport(struct efx_nic *efx, u32 selector, u32 *id)
+ {
+ 	MCDI_DECLARE_BUF(outbuf, MC_CMD_MAE_MPORT_LOOKUP_OUT_LEN);
+ 	MCDI_DECLARE_BUF(inbuf, MC_CMD_MAE_MPORT_LOOKUP_IN_LEN);
+@@ -488,6 +488,31 @@ int efx_mae_free_counter(struct efx_nic *efx, struct efx_tc_counter *cnt)
  	return 0;
  }
  
-@@ -1117,13 +1128,6 @@ int ef100_probe_netdev_pf(struct efx_nic *efx)
- 	struct net_device *net_dev = efx->net_dev;
- 	int rc;
- 
--	rc = ef100_get_mac_address(efx, net_dev->perm_addr);
--	if (rc)
--		goto fail;
--	/* Assign MAC address */
--	eth_hw_addr_set(net_dev, net_dev->perm_addr);
--	memcpy(nic_data->port_id, net_dev->perm_addr, ETH_ALEN);
--
- 	if (!nic_data->grp_mae)
- 		return 0;
- 
-@@ -1163,9 +1167,6 @@ int ef100_probe_netdev_pf(struct efx_nic *efx)
- 		efx->fixed_features |= NETIF_F_HW_TC;
- 	}
- #endif
--	return 0;
--
--fail:
- 	return rc;
- }
- 
-diff --git a/drivers/net/ethernet/sfc/ef100_nic.h b/drivers/net/ethernet/sfc/ef100_nic.h
-index 496aea43c60f..e59044072333 100644
---- a/drivers/net/ethernet/sfc/ef100_nic.h
-+++ b/drivers/net/ethernet/sfc/ef100_nic.h
-@@ -92,4 +92,6 @@ int efx_ef100_init_datapath_caps(struct efx_nic *efx);
- int ef100_phy_probe(struct efx_nic *efx);
- int ef100_filter_table_probe(struct efx_nic *efx);
- 
-+int ef100_get_mac_address(struct efx_nic *efx, u8 *mac_address,
-+			  int client_handle, bool empty_ok);
- #endif	/* EFX_EF100_NIC_H */
++int efx_mae_lookup_mport(struct efx_nic *efx, u32 vf_idx, u32 *id)
++{
++	struct ef100_nic_data *nic_data = efx->nic_data;
++	struct efx_mae *mae = efx->mae;
++	struct rhashtable_iter walk;
++	struct mae_mport_desc *m;
++	int rc = -ENOENT;
++
++	rhashtable_walk_enter(&mae->mports_ht, &walk);
++	rhashtable_walk_start(&walk);
++	while ((m = rhashtable_walk_next(&walk)) != NULL) {
++		if (m->mport_type == MAE_MPORT_DESC_MPORT_TYPE_VNIC &&
++		    m->interface_idx == nic_data->local_mae_intf &&
++		    m->pf_idx == 0 &&
++		    m->vf_idx == vf_idx) {
++			*id = m->mport_id;
++			rc = 0;
++			break;
++		}
++	}
++	rhashtable_walk_stop(&walk);
++	rhashtable_walk_exit(&walk);
++	return rc;
++}
++
+ static bool efx_mae_asl_id(u32 id)
+ {
+ 	return !!(id & BIT(31));
+diff --git a/drivers/net/ethernet/sfc/mae.h b/drivers/net/ethernet/sfc/mae.h
+index daa29d2cde96..b9bf86c47cda 100644
+--- a/drivers/net/ethernet/sfc/mae.h
++++ b/drivers/net/ethernet/sfc/mae.h
+@@ -96,4 +96,6 @@ int efx_mae_delete_rule(struct efx_nic *efx, u32 id);
+ int efx_init_mae(struct efx_nic *efx);
+ void efx_fini_mae(struct efx_nic *efx);
+ void efx_mae_remove_mport(void *desc, void *arg);
++int efx_mae_fw_lookup_mport(struct efx_nic *efx, u32 selector, u32 *id);
++int efx_mae_lookup_mport(struct efx_nic *efx, u32 vf, u32 *id);
+ #endif /* EF100_MAE_H */
 -- 
 2.17.1
 
