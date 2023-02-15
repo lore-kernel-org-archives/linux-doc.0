@@ -2,130 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2DD1C678DB
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 12:33:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45EFDC636CC
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 13:00:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233174AbjBOMdI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 07:33:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49780 "EHLO
+        id S233001AbjBONAp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 08:00:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230284AbjBOMdF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 07:33:05 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 411C928841;
-        Wed, 15 Feb 2023 04:33:05 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id i18so11660778pli.3;
-        Wed, 15 Feb 2023 04:33:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eRYLFMN4nFfXhPgoEELUJ9OsPT49XxcunYWNJLqgHSE=;
-        b=WenDNGndpb/OSq3BzcF6AU3IZXn+RPN86YMLQ1QAjyzlmWKFtjKkKO2TlGZgVAYCpo
-         UAkXUeUz+Idqs0+U8qIe5aPdJLTHoopwAPoUY2CB9/2J7JKNdtZAGmSZ5KgMYG9sd1Ct
-         5YvE92DdHS95Ri6z93aJzRFBtJc/eshbltJ7LjHz5oiPaeMp/GEj/+3lOAQBFumZLU2w
-         T03SoIBlOxlx2tWBZoZYhG/hhVZ0HiiwYUY+jxmRVK7yIALJtxLH3ULmnW8RQNwKlwi2
-         KXE3BijWsSpgsFOEOGJ+xICM8nKaCvs/CHek3MVct7wyJ2fuZeKrsKmTpcTypmnt9M+/
-         E5Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eRYLFMN4nFfXhPgoEELUJ9OsPT49XxcunYWNJLqgHSE=;
-        b=v+OcgYQWVI1gwhHv4tPx4HgOXpzgV86moNFv5JM4a1+uPCataVJJTynqLdBaTz4Dvj
-         BhlE0Tb5KAVtShuazkvC/F9vlyEg2kwAaCRBuCXofpFTi/zPHcf46LKOZbF9Jfki+Hgi
-         Uu4m87yOVoUJbW+SOP4mkffAwBuVTLEd1FO6TFjWkbTehl+zY7ArgcvAgXaNF4gRi98U
-         que3mtDgkz6FWOsadZTfxSycFQ6T53fuyqBhX0c7cztLwa6HCXb7DwcpP7VYA75F+Zc3
-         tYgpwUSZjVpeSeTyTxDlzRYDCuRTXG844qdhnNkBwixVlQhgZ9PMZbibLb1lZN9G15R/
-         Dnbg==
-X-Gm-Message-State: AO0yUKUgfmk7ZDszNo6ynLDDR0Pl6usu0UQGlyKPYKvMX6j9NZbbnu1d
-        0peuRJ4/2odhb2mHJPvLekU=
-X-Google-Smtp-Source: AK7set9faJsxJ1uXq3wGy4JnDCcAdhfoq2C2lUxY6bVSO3jdVojAZu8HlLQSLCp/vIoEWCICqX7MgQ==
-X-Received: by 2002:a17:90b:3909:b0:234:13a3:6e67 with SMTP id ob9-20020a17090b390900b0023413a36e67mr2715633pjb.12.1676464384730;
-        Wed, 15 Feb 2023 04:33:04 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-93.three.co.id. [180.214.233.93])
-        by smtp.gmail.com with ESMTPSA id fv21-20020a17090b0e9500b00230b8431323sm1384004pjb.30.2023.02.15.04.33.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Feb 2023 04:33:03 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id DAECA105484; Wed, 15 Feb 2023 19:32:59 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Power Management <linux-pm@vger.kernel.org>,
-        Linux BPF Development <bpf@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Huang Rui <ray.huang@amd.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Perry Yuan <perry.yuan@amd.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Wyes Karny <wyes.karny@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        oe-kbuild-all@lists.linux.dev,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH 2/3] Documentation: bpf: Add missing line break separator in node_data struct code block
-Date:   Wed, 15 Feb 2023 19:32:52 +0700
-Message-Id: <20230215123253.41552-3-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230215123253.41552-1-bagasdotme@gmail.com>
-References: <20230215123253.41552-1-bagasdotme@gmail.com>
+        with ESMTP id S231229AbjBONAn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 08:00:43 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459D26180;
+        Wed, 15 Feb 2023 05:00:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=T80Dv/pbeHv4yQbIV1WRGowSCcOuo+FwhGVSDYirNyo=; b=typStl4V61M+0LWV6CYl45n1NF
+        m4W0eM90AoKd85qmixDcPpthnLk+b95bwsgFFcBvnssjyLxRNyWUkf38MBdHnC5hJMHQXzrAXfE4u
+        sjXI9CnPsT2tyWCtaFGJReOhVBJ7C1Ky0fJf6uDeq4qgqxhR8LjP5C0F4+mFpu0QYM/1ri8+MwHzB
+        Qf+rKkAOQgWN+tf3cp48UNgtPLftSBYrStzhBTXcXjZymQMX0JdBeGP5uBPfD69mswliqG6fC1C8X
+        g8JyK0lQvJ+nNDGbGSfSRKRlMGVdmWQAdYU5t1SmOnXYVevrwp2QWkhQ7cr4d8xZJhXA4l/PEejz+
+        YbEfXprg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60068)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1pSHNj-0006l6-Uv; Wed, 15 Feb 2023 12:59:31 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1pSHNS-0004uV-TZ; Wed, 15 Feb 2023 12:59:14 +0000
+Date:   Wed, 15 Feb 2023 12:59:14 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: [PATCH v3 03/24] arm: Remove COMMAND_LINE_SIZE from uapi
+Message-ID: <Y+zXIgwO5wteLQZ5@shell.armlinux.org.uk>
+References: <20230214074925.228106-1-alexghiti@rivosinc.com>
+ <20230214074925.228106-4-alexghiti@rivosinc.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1458; i=bagasdotme@gmail.com; h=from:subject; bh=62NwC64cjyAWhaFrYFce2C+F3brashgF6x6NuyaIXGQ=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMlvLnxJDvu8+uerssOvXIurX3etDJp9S391wButPqOtN0M+ pAiJd5SyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAivs4M/6vD4+0UbR96/M7N/mkr0l oXynWj6JXZT9Vvqzev/St1xYzhr1jpisvCG8X+nek/Zj3dkLPM62Btja/vu8uT+mN7I46sZQcA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230214074925.228106-4-alexghiti@rivosinc.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Stephen Rothwell reported htmldocs warning when merging bpf-next tree,
-which was the same warning as reported by kernel test robot:
+On Tue, Feb 14, 2023 at 08:49:04AM +0100, Alexandre Ghiti wrote:
+> From: Palmer Dabbelt <palmer@rivosinc.com>
+> 
+> As far as I can tell this is not used by userspace and thus should not
+> be part of the user-visible API.
+> 
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 
-Documentation/bpf/graph_ds_impl.rst:62: ERROR: Error in "code-block" directive:
-maximum 1 argument(s) allowed, 12 supplied.
+Looks good to me. What's the merge plan for this?
 
-The error is due to Sphinx confuses node_data struct declaration with
-code-block directive option.
+Thanks.
 
-Fix the warning by separating the code-block marker with node_data struct
-declaration.
-
-Link: https://lore.kernel.org/linux-next/20230215144505.4751d823@canb.auug.org.au/
-Link: https://lore.kernel.org/linux-doc/202302151123.wUE5FYFx-lkp@intel.com/
-Fixes: c31315c3aa0929 ("bpf, documentation: Add graph documentation for non-owning refs")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/bpf/graph_ds_impl.rst | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/bpf/graph_ds_impl.rst b/Documentation/bpf/graph_ds_impl.rst
-index 8bbf1815efe784..61274622b71d85 100644
---- a/Documentation/bpf/graph_ds_impl.rst
-+++ b/Documentation/bpf/graph_ds_impl.rst
-@@ -60,6 +60,7 @@ The new-style data structures are intrusive and are defined similarly to their
- vanilla kernel counterparts:
- 
- .. code-block:: c
-+
-         struct node_data {
-           long key;
-           long data;
 -- 
-An old man doll... just what I always wanted! - Clara
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
