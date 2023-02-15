@@ -2,149 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7584CC05027
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 00:57:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCD72C05027
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 02:09:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229803AbjBOA5b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Feb 2023 19:57:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43930 "EHLO
+        id S232312AbjBOCJd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Feb 2023 21:09:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjBOA5b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 19:57:31 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A8E2BEE3;
-        Tue, 14 Feb 2023 16:57:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=PPu6OIyOMqF/ZcmFoHtDoinYfQ4Lxp1RRxh5EWluloQ=; b=EAOEZi3/xDvaWrd4Q5sRqNuI/m
-        UqQr/xJPQyoX9lZub4J29jyxuzP8xqBMhvXLSoqbkZIT2+hWDK+BTPgoAJYfuzuLEZZqbCjjnS0Qv
-        LL+cHNo3RUCLJclC78Tgn+/iVIKbjmOE5VlDcvlUbZRlGvLYe7MHPXdjHJ4hqUf7tOZWkEtYbS0M/
-        ZbWReOC6FaGl/889SZAlJ2wJ1I7OwykMPIeozEvxtKvVfCVGwKOyLf24nNxt4Ek9IJkcfeGnFSqGf
-        2uIWqSqpf8/9ds7L66WhxTxcqV6ufzwcY5aNqrhG199BTNZAWZhU+mPXEZDzlfeaOAaNR+6YBFjlD
-        WrO0xP+g==;
-Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pS66y-0046wd-8E; Wed, 15 Feb 2023 00:57:28 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH] Documentation: front page: use recommended heading adornments
-Date:   Tue, 14 Feb 2023 16:57:26 -0800
-Message-Id: <20230215005726.27320-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.39.1
+        with ESMTP id S232464AbjBOCJc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Feb 2023 21:09:32 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EE602CC65
+        for <linux-doc@vger.kernel.org>; Tue, 14 Feb 2023 18:09:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676426971; x=1707962971;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zP4ttAblnw8iXM07HMhfyGv2UjphiHf+7sruIc6ZC00=;
+  b=XAo1PJKBYLso2/VrUI4nTFuka1GQrHpjOWTHW41VKCV8SA90zlpD3wUG
+   L9tuwekKy83aQVwyNTgjieIO+5VB8wx0bb6FYUKQJcFWG8IkJH0po9ytu
+   oCuCuoRCfgVavcsjYV8JptZ8Pm7DSBIZXQtTagjkec7DDkb9scTW4ImKE
+   5kDTPF9ccjeMetCUk3oZoB/lN8RFZ+o1+yokGpjDISfaMpVQXQ3qApnBr
+   qmk+Ky+UGJKUGdbr6vECE7xz48KJMJ9q+ut5n0+sxMrt1iJe8SsA/OD6+
+   4sMZA9X4RbIXTYiPPs7/kozv1QTf1tZ7QWu7pxukLEea4cPDmsmUFaXUg
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="329951276"
+X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; 
+   d="scan'208";a="329951276"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 18:09:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="699774245"
+X-IronPort-AV: E=Sophos;i="5.97,298,1669104000"; 
+   d="scan'208";a="699774245"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 14 Feb 2023 18:09:28 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pS7Ed-0008vQ-1N;
+        Wed, 15 Feb 2023 02:09:27 +0000
+Date:   Wed, 15 Feb 2023 10:08:37 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Perry Yuan <perry.yuan@amd.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Wyes Karny <wyes.karny@amd.com>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 9602/12724] htmldocs:
+ Documentation/admin-guide/pm/amd-pstate.rst:343: WARNING: duplicate label
+ admin-guide/pm/amd-pstate:user space interface in ``sysfs``, other instance
+ in Documentation/admin-guide/pm/amd-pstate.rst
+Message-ID: <202302151041.0SWs1RHK-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert the Documentation front page to use the heading adornments
-that are documented in doc-guide/sphinx.rst for document title and
-chapters. I.e., convert most section headings to chapters.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb
+commit: b9e6a2d47b2565eb450d3ee900fba49cc9b25cbd [9602/12724] Documentation: amd-pstate: introduce new global sysfs attributes
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=b9e6a2d47b2565eb450d3ee900fba49cc9b25cbd
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout b9e6a2d47b2565eb450d3ee900fba49cc9b25cbd
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-This leaves "Indices and tables" as a chapter entry at the same level
-as the other chapters.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302151041.0SWs1RHK-lkp@intel.com/
 
-The only visual difference from before to after is that the "Indices
-and tables" heading is smaller and has more vertical whitespace
-preceding it (although that may depend on the web browser being used).
+All warnings (new ones prefixed by >>):
 
-Fixes: 0c7b4366f1ab ("docs: Rewrite the front page")
-Fixes: bffac837f3a3 ("docs-rst: convert sh book to ReST")
-Fixes: 8e2a46a40fa7 ("docs: move remaining stuff under Documentation/*.txt to Documentation/staging")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
----
- Documentation/index.rst |   17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+>> Documentation/admin-guide/pm/amd-pstate.rst:343: WARNING: duplicate label admin-guide/pm/amd-pstate:user space interface in ``sysfs``, other instance in Documentation/admin-guide/pm/amd-pstate.rst
 
-diff -- a/Documentation/index.rst b/Documentation/index.rst
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -2,6 +2,7 @@
- 
- .. _linux_doc:
- 
-+==============================
- The Linux Kernel documentation
- ==============================
- 
-@@ -13,7 +14,7 @@ documentation are welcome; join the linu
- you want to help out.
- 
- Working with the development community
----------------------------------------
-+======================================
- 
- The essential guides for interacting with the kernel's development
- community and getting your work upstream.
-@@ -29,7 +30,7 @@ community and getting your work upstream
- 
- 
- Internal API manuals
----------------------
-+====================
- 
- Manuals for use by developers working to interface with the rest of the
- kernel.
-@@ -43,7 +44,7 @@ kernel.
-    Locking in the kernel <locking/index>
- 
- Development tools and processes
---------------------------------
-+===============================
- 
- Various other manuals with useful information for all kernel developers.
- 
-@@ -62,7 +63,7 @@ Various other manuals with useful inform
- 
- 
- User-oriented documentation
-----------------------------
-+===========================
- 
- The following manuals are written for *users* of the kernel — those who are
- trying to get it to work optimally on a given system and application
-@@ -81,7 +82,7 @@ See also: the `Linux man pages <https://
- which are kept separately from the kernel's own documentation.
- 
- Firmware-related documentation
--------------------------------
-+==============================
- The following holds information on the kernel's expectations regarding the
- platform firmwares.
- 
-@@ -93,7 +94,7 @@ platform firmwares.
- 
- 
- Architecture-specific documentation
-------------------------------------
-+===================================
- 
- .. toctree::
-    :maxdepth: 2
-@@ -102,7 +103,7 @@ Architecture-specific documentation
- 
- 
- Other documentation
---------------------
-+===================
- 
- There are several unsorted documents that don't seem to fit on other parts
- of the documentation body, or may require some adjustments and/or conversion
-@@ -115,7 +116,7 @@ to ReStructured Text format, or are simp
- 
- 
- Translations
--------------
-+============
- 
- .. toctree::
-    :maxdepth: 2
+vim +343 Documentation/admin-guide/pm/amd-pstate.rst
+
+   340	
+   341	
+   342	User Space Interface in ``sysfs``
+ > 343	=================================
+   344	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
