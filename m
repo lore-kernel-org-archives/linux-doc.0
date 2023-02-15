@@ -2,333 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EDDDC636CC
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 10:23:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAE3CC636CC
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 11:43:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234032AbjBOKXs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 05:23:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49228 "EHLO
+        id S233217AbjBOLnU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 06:43:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233982AbjBOKXq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 05:23:46 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FBF237B63
-        for <linux-doc@vger.kernel.org>; Wed, 15 Feb 2023 02:23:44 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id e17so10930329plg.12
-        for <linux-doc@vger.kernel.org>; Wed, 15 Feb 2023 02:23:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tQoLCMRrgpMqdQtXehI+d4Noij4Rs7C70l/9+OAHSdg=;
-        b=L0STun1EpiPEHohQsL325JE5xmQSY2wGtHffC6myoN37DOHB5Rp4nwcG0u3C3kJ9wl
-         4FHbb0Nx0PI9Ix3YNmOXFb4yZrtuzldsxn90dkTOBeBS0V7UdgKBCzm8nzUYeQcNcTXn
-         b/hZT2KrjKy11O7qIiViGvc3oEWihedL6uITJCu+vtfW3SQki5GjJL2l7NjLz4klCI4u
-         C2GPUKB5SisIb6t0p/uURomthD0vK4a1lWfWA5Z7VvLoHy/++ey+coEDYVmM6ZP/3rY/
-         /ENaRRW9f1nLm4xFKkQpsdwuXCGcOxRvohjmdYlM/Mo96M5zfrt4w5xfIO33xXZ4DfeX
-         juVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tQoLCMRrgpMqdQtXehI+d4Noij4Rs7C70l/9+OAHSdg=;
-        b=iMExotMuq8KEdzd0hA/2Hv5aJ1iEHKZrn76lofrc2ScCwwKG1tgrE55eEMZJzME1cP
-         FWPxRTUfAQds2MAH1vl630zTz4VtueJwzYCWKvhuCz1QUe5aqPKvdT0vkhGJIpP5AsA1
-         jkM68dxL0ItjefY/jUx4r1HkK1bc0lyF9rqPzlZ8Tq2zDEJem4lwlE1ClYdLWm4kjRV/
-         ECAFzQ4uU6z/T+xiKDNpa7ujfJWCi5G093T8pBT54xM0BRYAulGSbm6C2fTluluShwp5
-         cc0UPySg6d/OBrVq6puxx01WFjyPuykAz6k2Uy6G8nIU5k934C1gyIrQMm5lwVe0BKiv
-         QuEw==
-X-Gm-Message-State: AO0yUKUtVrp8BktF63C3M1IANNp8yJQ2RBwjhu/Qo8iF6HlJwOYEukWd
-        1heQwImt9bIlCDLCAlVTeM8=
-X-Google-Smtp-Source: AK7set9VDNezm/062jp7ZhIwXFdCMv8+cYIwVI2waOCm287WKUCwTkj/8sV8nfAzdYQ5HHODEtqOsw==
-X-Received: by 2002:a17:90b:1a92:b0:234:248c:9830 with SMTP id ng18-20020a17090b1a9200b00234248c9830mr2343816pjb.12.1676456623735;
-        Wed, 15 Feb 2023 02:23:43 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id o20-20020a17090ac09400b00233bab35b57sm1126941pjs.29.2023.02.15.02.23.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Feb 2023 02:23:43 -0800 (PST)
-Message-ID: <f242e068-2126-c67e-c894-7a1727b1d2b7@gmail.com>
-Date:   Wed, 15 Feb 2023 19:23:38 +0900
+        with ESMTP id S229927AbjBOLnT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 06:43:19 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC623A9B;
+        Wed, 15 Feb 2023 03:43:18 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 44F2A61B36;
+        Wed, 15 Feb 2023 11:43:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0C1C433EF;
+        Wed, 15 Feb 2023 11:43:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1676461397;
+        bh=8AhOsR6a6Fx83eFRNETvJhvMv8gizxyW0KwOLiToQVE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tc0VZmxB/W2+IEloWtDnfvJU6TjDu/+caGUPd+obdvUBFgIQR7LbfNx5t+R0Q2o2u
+         VdotvEkQfYMoz78nuQ8dZL2ai1b3QGXgU9oErJbQeKvn0uY3kVNWjszM/L1TBkR3lg
+         k3j00CqtpgT9q4+QRT2qTeP+k6xkOEZlpF6gYpL5dy29DtkwrlFvs62YWavTZFNb7l
+         lZKcK+rG1QxHm6p78sdTt7+YOwReHepFNhnHyWREZbzfF0HAafLr7EuSG/pZRYNO8H
+         h3KrrAgNE8JuGuvO+KBGHaSA+hzkkS8TOaQukxDglJcBzCoI8dDQsJ+v7hN5QJX/ke
+         DFrYSlcvI4cbA==
+Date:   Wed, 15 Feb 2023 13:43:13 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+Cc:     Veerasenareddy Burru <vburru@marvell.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, aayarekar@marvell.com,
+        sedara@marvell.com, sburla@marvell.com, linux-doc@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH net-next v3 1/7] octeon_ep: defer probe if firmware not
+ ready
+Message-ID: <Y+zFUUhogjJyp58e@unreal>
+References: <20230214051422.13705-1-vburru@marvell.com>
+ <20230214051422.13705-2-vburru@marvell.com>
+ <Y+vFlfakHj33DEkt@boxer>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-To:     corbet@lwn.net, rdunlap@infradead.org
-Cc:     akiyks@gmail.com, davidgow@google.com, linux-doc@vger.kernel.org,
-        sadiyakazi@google.com
-References: <874jroksgq.fsf@meer.lwn.net>
-Subject: Re: [PATCH RFC V2] docs: Add more information to the HTML sidebar
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <874jroksgq.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y+vFlfakHj33DEkt@boxer>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Tue, Feb 14, 2023 at 06:32:05PM +0100, Maciej Fijalkowski wrote:
+> On Mon, Feb 13, 2023 at 09:14:16PM -0800, Veerasenareddy Burru wrote:
+> > Defer probe if firmware is not ready for device usage.
+> > 
+> > Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
+> > Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
+> > Signed-off-by: Satananda Burla <sburla@marvell.com>
+> > ---
+> > v2 -> v3:
+> >  * fix review comments
+> >    https://lore.kernel.org/all/Y4chWyR6qTlptkTE@unreal/
+> >    - change get_fw_ready_status() to return bool
+> >    - fix the success oriented flow while looking for
+> >      PCI extended capability
+> >  
+> > v1 -> v2:
+> >  * was scheduling workqueue task to wait for firmware ready,
+> >    to probe/initialize the device.
+> >  * now, removed the workqueue task; the probe returns EPROBE_DEFER,
+> >    if firmware is not ready.
+> >  * removed device status oct->status, as it is not required with the
+> >    modified implementation.
+> > 
+> >  .../ethernet/marvell/octeon_ep/octep_main.c   | 26 +++++++++++++++++++
+> >  1 file changed, 26 insertions(+)
+> > 
+> > diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
+> > index 5a898fb88e37..5620df4c6d55 100644
+> > --- a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
+> > +++ b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
+> > @@ -1017,6 +1017,26 @@ static void octep_device_cleanup(struct octep_device *oct)
+> >  	oct->conf = NULL;
+> >  }
+> >  
+> > +static bool get_fw_ready_status(struct pci_dev *pdev)
+> > +{
+> > +	u32 pos = 0;
+> > +	u16 vsec_id;
+> > +	u8 status;
+> > +
+> > +	while ((pos = pci_find_next_ext_capability(pdev, pos,
+> > +						   PCI_EXT_CAP_ID_VNDR))) {
+> > +		pci_read_config_word(pdev, pos + 4, &vsec_id);
+> > +#define FW_STATUS_VSEC_ID  0xA3
+> > +		if (vsec_id != FW_STATUS_VSEC_ID)
+> > +			continue;
+> > +
+> > +		pci_read_config_byte(pdev, (pos + 8), &status);
+> > +		dev_info(&pdev->dev, "Firmware ready status = %u\n", status);
+> > +		return status ? true : false;
+> 
+> nit:
+> 
+> return !!status;
 
-On Tue, 14 Feb 2023 11:33:09 -0700, Jonathan Corbet wrote:
-> Randy Dunlap <rdunlap@infradead.org> writes:
->=20
->> Is there a reason that the main index's "sections" (single underline)
->> don't show up in the sidebar index?  Is that on purpose?
->> Or just a relic of them being "sections"?
->=20
-> That's just how the sidebar gets generated.  I would much rather see th=
-e
-> sections there...but if we want that, I think we'll have to implement i=
-t
-> ourselves.
+"return status;" is enough, there is no need in "!!".
 
-I'd say that the reason why you don't see sections of the main index in
-the sidebar is because the main index.rst *isn't* listed in any of
-"toctree" directives.
-
-So, if you want those "sections" in the sidebar, you need to create
-a .rst file and list it in a toctree of main index.
-
-The RTD theme has exactly the same behavior ever since commit
-0c7b4366f1ab ("docs: Rewrite the front page").
-Furthermore, as there are quite a few pages which belong to multiple
-toctrees, sidebar sometimes behaves weirdly.
-
-For example, see the sidebar at:
-
-   https://www.kernel.org/doc/html/next/process/submitting-patches.html
-                                         (built on current linux-next)
-
-You will see that the "Submitting patches ..." title is expanded
-twice in the sidebar.
-
-Don't you think this looks weird? ;-)
-
-I think the patch appended below (on top of current docs-next)
-would have been a better approach, where each .rst file is listed
-only once in the whole toctree. The refurbished part of main index
-is moved to index-frequent.rst and toctrees are replaced with
-lists of :doc: references.
-
-Per-directory indexes are listed in the main index's toctree
-below the index-frequent.
-
-I'm not saying this is "the" right approach.
-There can be many ways to accomplish the same result, I suppose.
-
-I'll submit this change as a proper patch if I can get positive
-feedback.
-
-Hope this helps.
-
-        Thanks, Akira
-
-------------------
-diff --git a/Documentation/index-frequent.rst b/Documentation/index-frequ=
-ent.rst
-new file mode 100644
-index 000000000000..5d412be69196
---- /dev/null
-+++ b/Documentation/index-frequent.rst
-@@ -0,0 +1,75 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-+Frequently Referenced Documents
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-+
-+This is a list of links to kernel documents which would help
-+(prospective) kernel developers most.
-+
-+Working with the development community
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+The essential guides for interacting with the kernel's development
-+community and getting your work upstream.
-+
-+ * process/development-process.rst
-+ * process/submitting-patches.rst
-+ * :doc:`Code of condust <process/code-of-conduct>`
-+ * maintainer/index.rst
-+ * :doc:`All development-process docs <process/index>`
-+
-+
-+Internal API manuals
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Manuals for use by developers working to interface with the rest of the
-+kernel.
-+
-+ * core-api/index.rst
-+ * driver-api/index.rst
-+ * subsystems-apis/index.rst
-+ * :doc:`Locking in the kernel <locking/index>`
-+
-+
-+Development tools and processes
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-+
-+Various other manuals with useful information for all kernel developers.=
-
-+
-+ * process/license-rules.rst
-+ * doc-guide/index.rst
-+ * dev-tools/index.rst
-+ * dev-tools/testing-overview.rst
-+ * kernel-hacking/index.rst
-+ * trace/index.rst
-+ * fault-injection/index.rst
-+ * livepatch/index.rst
-+ * rust/index.rst
-+
-+
-+User-oriented documentation
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-+
-+The following manuals are written for *users* of the kernel =E2=80=94 th=
-ose who are
-+trying to get it to work optimally on a given system and application
-+developers seeking information on the kernel's user-space APIs.
-+
-+ * admin-guide/index.rst
-+ * :doc:`The kernel build system <kbuild/index>`
-+ * admin-guide/reporting-issues.rst
-+ * :doc:`User-space tools <tools/index>`
-+ *  userspace-api/index.rst
-+
-+See also: the `Linux man pages <https://www.kernel.org/doc/man-pages/>`_=
-,
-+which are kept separately from the kernel's own documentation.
-+
-+
-+Firmware-related documentation
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-+
-+The following holds information on the kernel's expectations regarding t=
-he
-+platform firmwares.
-+
-+ * firmware-guide/index.rst
-+ * devicetree/index.rst
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index bf6aa681c960..a50681452fab 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -12,86 +12,41 @@ documents into a coherent whole.  Please note that im=
-provements to the
- documentation are welcome; join the linux-doc list at vger.kernel.org if=
-
- you want to help out.
-=20
--Working with the development community
----------------------------------------
--
--The essential guides for interacting with the kernel's development
--community and getting your work upstream.
--
- .. toctree::
--   :maxdepth: 1
--
--   process/development-process
--   process/submitting-patches
--   Code of conduct <process/code-of-conduct>
--   maintainer/index
--   All development-process docs <process/index>
-+   :maxdepth: 2
-=20
-+   index-frequent
-=20
--Internal API manuals
----------------------
-=20
--Manuals for use by developers working to interface with the rest of the
--kernel.
-+Per-subdirectory documents (referenced from above)
-+--------------------------------------------------
-=20
- .. toctree::
-    :maxdepth: 1
-=20
-+   process/index
-+   maintainer/index
-    core-api/index
-    driver-api/index
-    subsystem-apis
--   Locking in the kernel <locking/index>
--
--Development tools and processes
---------------------------------
--
--Various other manuals with useful information for all kernel developers.=
-
--
--.. toctree::
--   :maxdepth: 1
-+   locking/index
-=20
--   process/license-rules
-    doc-guide/index
-    dev-tools/index
--   dev-tools/testing-overview
-    kernel-hacking/index
-    trace/index
-    fault-injection/index
-    livepatch/index
-    rust/index
-=20
--
--User-oriented documentation
-----------------------------
--
--The following manuals are written for *users* of the kernel =E2=80=94 th=
-ose who are
--trying to get it to work optimally on a given system and application
--developers seeking information on the kernel's user-space APIs.
--
--.. toctree::
--   :maxdepth: 1
--
-    admin-guide/index
--   The kernel build system <kbuild/index>
--   admin-guide/reporting-issues.rst
--   User-space tools <tools/index>
-+   kbuild/index
-+   tools/index
-    userspace-api/index
-=20
--See also: the `Linux man pages <https://www.kernel.org/doc/man-pages/>`_=
-,
--which are kept separately from the kernel's own documentation.
--
--Firmware-related documentation
--------------------------------
--The following holds information on the kernel's expectations regarding t=
-he
--platform firmwares.
--
--.. toctree::
--   :maxdepth: 1
--
-    firmware-guide/index
-    devicetree/index
-=20
--
- Architecture-specific documentation
- -----------------------------------
-=20
-@@ -123,6 +78,6 @@ Translations
-    translations/index
-=20
- Indices and tables
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+------------------
-=20
- * :ref:`genindex`
---=20
+Thanks
