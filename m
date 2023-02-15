@@ -2,98 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D21CC64EC4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 14:57:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9365C636CC
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 14:59:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229911AbjBOO5t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 09:57:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54886 "EHLO
+        id S229989AbjBOO7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 09:59:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229922AbjBOO5r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 09:57:47 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 416A13A854
-        for <linux-doc@vger.kernel.org>; Wed, 15 Feb 2023 06:57:20 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id v6-20020a17090ad58600b00229eec90a7fso4012239pju.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Feb 2023 06:57:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=to:from:cc:content-transfer-encoding:mime-version:date:message-id
-         :subject:references:in-reply-to:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WXiyNpETkYC9z6V5qLWPf0k+7IPR5cZpgLQTFb6RXec=;
-        b=NxZSpyUi5aOKG9wEEN6Nqjpnc+7z0Wt/NwdEqoJ1ebur20lHv/oM7Ija1av6J+Kncl
-         nOm6T/oa2vCuvOGkM8tfJi3YDwcNnr1gUq/F+Uc+kNbhRuxvLcbvaApeum8euQN5+QuD
-         kIp33+3YRSVtlkZc7HllsgFABTiFlh9E6gVNhKUPQVsDNNtCHHu/+ngs1Iy2Q5lyd5pH
-         DRNrtW9+envN/knBC5rHyRxzQtWvE6lYEmg5umG07qFxHLh2dxPYNsqO7qXQPxdkAXkk
-         kO735u+cYddx2jgMHJxJIGXkLoXLncSk+fH6EGqhIxvAI9NoJohjP93Wy0WeSuWCjztf
-         D8Sw==
+        with ESMTP id S229822AbjBOO7r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 09:59:47 -0500
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B9987EF7;
+        Wed, 15 Feb 2023 06:59:45 -0800 (PST)
+Received: by mail-ed1-f50.google.com with SMTP id c1so18703439edt.4;
+        Wed, 15 Feb 2023 06:59:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:cc:content-transfer-encoding:mime-version:date:message-id
-         :subject:references:in-reply-to:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WXiyNpETkYC9z6V5qLWPf0k+7IPR5cZpgLQTFb6RXec=;
-        b=PmVQdcIjLHSFrCUMCCpdZiBmR1QsqcoMziSpxo3ryh1RIaGj1lATEraEYSCGH83JQA
-         xzA2hUngRlIpjNTIbIgJHcbGBDQIvNkYxsrUcuMyQyrKUT7125KwESoe2EA2d2D73eAJ
-         16cLfyuyQZlP29LFwk5Ia2gpAkxZvb4sgQfc/WoiV5heBw0EF7kt29J209TU1jr/cv+T
-         ODgCuSaI7+w4eJfeh0qKrM/DBvYVHAZ88wxghC52ab6F+7+yZc5fvGxd0PlFn0Wfvbxc
-         yOVWLM/OQS6WoPPqwVMhVxd7CFaQV57erWz88rYyNHTBbVzjitaYkkaIRh1TEIW5LQ6Y
-         GNiw==
-X-Gm-Message-State: AO0yUKVNPz/fuNPjblQJOtR7rxEiGktmFkgAKVVPfLlz1PXWL8iMVAZn
-        tQosKYN+rIaWa+mSN1IkrMwk8A==
-X-Google-Smtp-Source: AK7set/7P/HtTKptrN8fEWEQBq3y3lZIWLRAPkYVv5DtZxdSAAog0SbdOHfHXa5okdJFu7VPTr4zOA==
-X-Received: by 2002:a17:902:f54f:b0:199:26b1:17b3 with SMTP id h15-20020a170902f54f00b0019926b117b3mr2804547plf.28.1676473038684;
-        Wed, 15 Feb 2023 06:57:18 -0800 (PST)
-Received: from localhost ([135.180.226.51])
-        by smtp.gmail.com with ESMTPSA id iw6-20020a170903044600b0019ab6beea1esm3585233plb.87.2023.02.15.06.57.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Feb 2023 06:57:17 -0800 (PST)
-In-Reply-To: <20230104180513.1379453-1-conor@kernel.org>
-References: <20230104180513.1379453-1-conor@kernel.org>
-Subject: Re: [PATCH v1 0/2] dt-bindings: Add a cpu-capacity property for RISC-V
-Message-Id: <167647301916.19800.9191672449999836503.b4-ty@rivosinc.com>
-Date:   Wed, 15 Feb 2023 06:56:59 -0800
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BJEd3xf0w2y1UrC2QqcN8kYtS3GpAcL6pZcspWXDrFE=;
+        b=5j0VN3R3kYQ3F0nH8kV7kNTZz+SuM57VhAnM4C9Y8aE1dC2bS9vB813IaFirTkQvBP
+         6+KTcI0LwSnVuhHSWTzqUFOrs+FVWXCHySJwou3IL39e3NafjLUBvA2sms2XnaJRmjIn
+         cYiLa1kj3xXofd8j9Lz7CKbAuJDkLZyvz+rGTiOOfdVA+lE9i2nz2eCjD6D41oOjw9B8
+         umP0Z4tOvcl3FWd+xDPWphlxV9P9k6RJv45xuMbIUeqgMckLJa026NOY2TYMVp77tY1e
+         wy0N5AmJNlmTqnuUVjAhXAt5JsUm48pCFGjKLdp3IXuRQl1aP6WpPh/Ya1WSumDkbxYL
+         bmag==
+X-Gm-Message-State: AO0yUKXxU7FR1pttPXf1yP8mS2lRZv7VBJ17C3obK23F19uyoKjmTeug
+        zV4rM6gvf9zQ0q4jfXJTeGQd5kLQimN/xqeD6WI=
+X-Google-Smtp-Source: AK7set/7Sd+0n3IR1XuI2Nft/LvrCloss5wlyYLmGs5b5V96smi/VRFv26exlqom9DfKqZS4gO42m5/LKHmuJeERXRE=
+X-Received: by 2002:a50:ce42:0:b0:4ad:4c0:c4f9 with SMTP id
+ k2-20020a50ce42000000b004ad04c0c4f9mr1153565edj.3.1676473183964; Wed, 15 Feb
+ 2023 06:59:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.11.0-dev-e660e
-Cc:     Yanteng Si <siyanteng@loongson.cn>, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
-        Alex Shi <alexs@kernel.org>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>
-From:   Palmer Dabbelt <palmer@rivosinc.com>
-To:     Conor Dooley <conor@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>
+References: <20230215123253.41552-1-bagasdotme@gmail.com> <20230215123253.41552-4-bagasdotme@gmail.com>
+ <Y+zqKk1BTvIe5+5r@amd.com>
+In-Reply-To: <Y+zqKk1BTvIe5+5r@amd.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 15 Feb 2023 15:59:32 +0100
+Message-ID: <CAJZ5v0i_+rutzGF05XdEJ5e6dN6PYegX7+0FuoaGBrvizFFS=w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] Documentation: amd-pstate: disambiguate user space sections
+To:     Huang Rui <ray.huang@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Power Management <linux-pm@vger.kernel.org>,
+        Linux BPF Development <bpf@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        "Yuan, Perry" <Perry.Yuan@amd.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        "Karny, Wyes" <Wyes.Karny@amd.com>,
+        "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+        "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+        kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 4 Jan 2023 18:05:12 +0000, Conor Dooley wrote:
-> From: Conor Dooley <conor.dooley@microchip.com>
-> 
-> Hey,
-> 
-> Ever since RISC-V starting using generic arch topology code, the code
-> paths for cpu-capacity have been there but there's no binding defined to
-> actually convey the information. Defining the same property as used on
-> arm seems to be the only logical thing to do, so do it.
-> 
-> [...]
+On Wed, Feb 15, 2023 at 3:21 PM Huang Rui <ray.huang@amd.com> wrote:
+>
+> On Wed, Feb 15, 2023 at 08:32:53PM +0800, Bagas Sanjaya wrote:
+> > kernel test robot reported htmldocs warning:
+> >
+> > Documentation/admin-guide/pm/amd-pstate.rst:343: WARNING: duplicate label admin-guide/pm/amd-pstate:user space interface in ``sysfs``, other instance in Documentation/admin-guide/pm/amd-pstate.rst
+> >
+> > The documentation contains two sections with the same "User Space Interface
+> > in ``sysfs``" title. The first one deals with per-policy sysfs and the
+> > second one is about general attributes (currently only global attributes
+> > are documented).
+> >
+> > Disambiguate title text of both sections to fix the warning.
+> >
+> > Link: https://lore.kernel.org/linux-doc/202302151041.0SWs1RHK-lkp@intel.com/
+> > Fixes: b9e6a2d47b2565 ("Documentation: amd-pstate: introduce new global sysfs attributes")
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>
+> Acked-by: Huang Rui <ray.huang@amd.com>
 
-Applied, thanks!
-
-[1/2] dt-bindings: arm: move cpu-capacity to a shared loation
-      https://git.kernel.org/palmer/c/7d2078310cbf
-[2/2] dt-bindings: riscv: add a capacity-dmips-mhz cpu property
-      https://git.kernel.org/palmer/c/991994509ee9
-
-Best regards,
--- 
-Palmer Dabbelt <palmer@rivosinc.com>
+Applied as 6.3 material, thanks!
