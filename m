@@ -2,123 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CA09C636CC
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 07:45:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF899C636CC
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Feb 2023 08:04:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233105AbjBOHpk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 02:45:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33276 "EHLO
+        id S233809AbjBOIEP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 03:04:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232212AbjBOHpk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 02:45:40 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44514BB9E;
-        Tue, 14 Feb 2023 23:45:38 -0800 (PST)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pSCTt-0003nC-IK; Wed, 15 Feb 2023 08:45:33 +0100
-Message-ID: <c681b612-eda0-e8ed-8be0-ac74867bf8da@leemhuis.info>
-Date:   Wed, 15 Feb 2023 08:45:31 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Content-Language: en-US, de-DE
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        with ESMTP id S233612AbjBOIEO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 03:04:14 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98F5C34C10
+        for <linux-doc@vger.kernel.org>; Wed, 15 Feb 2023 00:04:13 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id a2so18148700wrd.6
+        for <linux-doc@vger.kernel.org>; Wed, 15 Feb 2023 00:04:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=D0PNomvRj7hf1yb3zjFxN+WA4g/LrO9vhkLpkP8esTM=;
+        b=K5P7VFpsmNGVSMEHcKncWSY2Fyox5+JfcV4KxPmF6FeGwQTOaN2s8Kr4zheVvZiokx
+         n0fiqernPCWkuLa/OdKZZevuOyiETys43P2kbQ5DA/gk3W5lMJ6uUI5RPb5iM+1mjogC
+         wFC6zERt6FxTUxWqMIQFg1g5Xst4wnqiqjJvU0CguXp1miyjtHpf9ev8cgitbRjptVca
+         EQEfxT5Tp805hQVvfb7VUSgU1WgfEocYqIIsbvEOl/udLz3j9iYsrIolw4NW191hoGlu
+         fgN4Hien2b00pSBQZLr8lOsQCTL8moYxf2ZIqwsjmBt5mkRojQWru/QZ/dtQBuKzJuR4
+         GmcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D0PNomvRj7hf1yb3zjFxN+WA4g/LrO9vhkLpkP8esTM=;
+        b=VdWkmrv75HCSymHo4HbfkJ+Ms8QUCUFbyCR41GYPMWdpv3VywzWMLfnDyxSWbCiz2X
+         OSPvTgxIQ9oCYHE6sunh4la/m9DLmP8MjEIO407pGGf0/5qRmW+vxZTMESCOUm4IlV7G
+         amthju4sc87xDiR2E9+v0Z/3TFBMjtwajKC2nmYKfKxtj0UyRY2E9AqtEtRfMDKIsVXS
+         7QubUxzzjSpFIT23udy82hcE1PDWqVhy9lT6O/WqRcQ2islBoQwVajc38Ej8URSH8ERX
+         25DXQNVLhqre3c6GUx/5eq98RpO1pezTSatZ5pga6zO1VD8RUUemcYREQWY8fr0mgrCU
+         7fmg==
+X-Gm-Message-State: AO0yUKVqzyV1BYrI8bJR38DC2+zUrXRkSs7/nRhxySdJlmOHl45ar0m5
+        bmGcMrW+8yp+MaTKbcEe70XPZA==
+X-Google-Smtp-Source: AK7set8SY/K8xTB04Sftv5CRmwP0Eb7wShb0AJguVdTk29FcDZHSC8AB5hhDs77ckn8H3ZLmnvnT2w==
+X-Received: by 2002:a05:6000:120e:b0:2c5:63df:1171 with SMTP id e14-20020a056000120e00b002c563df1171mr773187wrx.19.1676448252171;
+        Wed, 15 Feb 2023 00:04:12 -0800 (PST)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id l21-20020a05600c47d500b003db0bb81b6asm1284781wmo.1.2023.02.15.00.04.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Feb 2023 00:04:11 -0800 (PST)
+Date:   Wed, 15 Feb 2023 09:04:10 +0100
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Evan Green <evan@rivosinc.com>,
+        Palmer Dabbelt <palmer@rivosinc.com>, vineetg@rivosinc.com,
+        heiko@sntech.de, slewis@rivosinc.com,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Atish Patra <atishp@rivosinc.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Dao Lu <daolu@rivosinc.com>, Guo Ren <guoren@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ruizhe Pan <c141028@gmail.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tobias Klauser <tklauser@distanz.ch>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-References: <8cfcf069d48c1b8d7b83aafe0132f8dad0f1d0ea.1676400947.git.linux@leemhuis.info>
- <Y+xWxpuRdtuCpsO6@debian.me>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v2] docs: describe how to quickly build a trimmed kernel
-In-Reply-To: <Y+xWxpuRdtuCpsO6@debian.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1676447138;d12e6dda;
-X-HE-SMSGID: 1pSCTt-0003nC-IK
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2 2/6] RISC-V: Add a syscall for HW probing
+Message-ID: <20230215080410.65zbhimqbs2kbmod@orel>
+References: <20230206201455.1790329-1-evan@rivosinc.com>
+ <20230206201455.1790329-3-evan@rivosinc.com>
+ <Y+wedUsNEfWsKU5I@spud>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y+wedUsNEfWsKU5I@spud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thx for your feedback, much appreciated.
-
-On 15.02.23 04:51, Bagas Sanjaya wrote:
-> On Tue, Feb 14, 2023 at 07:58:09PM +0100, Thorsten Leemhuis wrote:
->> +   Execute the following command to retrieve a fresh mainline codebase::
->> +
->> +     git clone --no-checkput --depth 1 -b master \
->> +       https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git \
->> +       ~/linux/sources/
->> +     cd ~/linux/sources/
->> +
->> +   If you want to access recent mainline releases and pre-releases, deepen you
->> +   clone's history to the oldest version you are interested in::
->> +
->> +     git fetch --shallow-exclude=v6.0
+On Tue, Feb 14, 2023 at 11:51:17PM +0000, Conor Dooley wrote:
+> Hey Evan,
 > 
-> For me, another way is to use `git fetch --shallow-since="<some-date>"
+> Just as a preface, I'm reviewing this lot from a position of ignorance
+> on what glibc wants so I'll refrain from commenting on call itself.
+> I figure that since the commentary has kinda died on the sysfs front &
+> Palmer seems to be still into the syscall stuff, that we're pushing on
+> with this approach...
 
-Well, that's described in the reference section as an alternative. Did
-you miss that, or do you think that --shallow-since should be used by
-default for some reasons? If so: which?
+If I can find time (that's a big if, atm) I'd be willing to do a sysfs
+prototype just for comparison/benchmarking purposes, even if the chances
+it gets merged are low. But, time...
 
-> && git repack -a -d`.
-
-`git repack -d` (also mentioned in the reference section of the
-submitted text) seems to suffice in my (limited!) testing.
-
-> This requires knowing version release date.
-
-Which is why I (for now!) settled on using "--shallow-exclude=" by default.
-
-> If
-> you want that version, the date used should be one or two days before
-> that version's release date. Repacking is important!
-> 
-> Nevertheless, you need to go to Git ML and ask why repacking is required
-> in that case (I have tried searching threads there, but inconclusive).
-
-Yeah, I also wonder why the repacking is needed, but chose to not
-investigate... Maybe I should have, but writing that text already took
-quite some time and effort. :-/
-
->> +The make target olddefconfig and the ``yes "" |`` used when utilizing
->> +localmodconfig will set any undefined build options to their default value. This
->> +among others will disable many kernel features that were introduced after your
->> +base kernel was released.
->> +
->> +If you want to set these configurations options manually, use ``oldconfig``
->> +instead of ``olddefconfig`` or omit the ``yes "" |`` when utilizing
->> +localmodconfig. Then for each undefined configuration option you will be asked
->> +how to proceed. In case you are unsure what to answer, simply hit 'enter' to
->> +apply the default value.
-> 
-> olddefconfig and `yes "" | make localmodconfig` can produce different
-> config, since the default value for new config symbols may not be Y.
-> Often, for new drivers, the default is N.
-
-Are you sure? A `yes ""` doesn't set everything unset to Y, it afaics
-just sends an "enter" -- and then the default should be used (as
-explained in the documents reference section). Shouldn't the end result
-thus be similar? Or am I missing something?
-
->> + * Remove a stale reference to a certificate file that would cause your build to
->> +   fail::
->> +
->> +    ./scripts/config --file ~/linux/build/.config --set-str SYSTEM_TRUSTED_KEYS ''
->> +
->> +   Alternatively, download the needed certificate and make that configuration
->> +   option point to it, as `the Debian handbook explains in more detail
->> +   <https://debian-handbook.info/browse/stable/sect.kernel-compilation.html>`_ .
->> +
-> 
-> Another way is to generate the certificate yourself (see
-> Documentation/admin-guide/module-signing.rst for the instructions).
-
-Ohh, thx, yeah, I guess I should refer to that file here and in another
-place, even if it requires a lot more from the reader. :-/
-
-Ciao, Thorsten
+Thanks,
+drew
