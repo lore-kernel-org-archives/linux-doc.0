@@ -2,89 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2B3C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 11:52:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5551C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 13:30:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229805AbjBPLwK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Feb 2023 06:52:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41012 "EHLO
+        id S229513AbjBPNaG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Feb 2023 08:30:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229813AbjBPLwI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 06:52:08 -0500
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 038D54DBE0;
-        Thu, 16 Feb 2023 03:52:08 -0800 (PST)
-Received: by mail-qk1-x72f.google.com with SMTP id ow4so679099qkn.1;
-        Thu, 16 Feb 2023 03:52:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RCvmhgcYonUnPdG+esIO60ks+rKiZjYiiwI3DMsK52s=;
-        b=T5lW0Oe5LWWY1x1RHVWHCTiZOB2nu1NRfMwV888ejAzL1j3iK9mSo7R40ZaaeXLyFX
-         fb4ljprJm0bUrEmLckY4FasTG4jR91p0PRmifpNorxWLgt2WARw0vTu/oqHe//ilGBPQ
-         G2JMj62Jm9gc7ad9dX7Q1DWIgFprXQ++VqGXJ5ecBo+5zTlwGS04vrFCyBR7mjp5067A
-         XC7wzpuu42XbOlH5jaR03xjSLk0E7NRBI4JNRcXUkCscPvNJtjnbWVQjPjZRJpGxr4SM
-         spnXwX5dl06aRZ/IQY8z9HTI5Fmyqh9IAzAjiDMIQg9SiNLRH1pz59ms4y3yh2Nqcj33
-         35NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RCvmhgcYonUnPdG+esIO60ks+rKiZjYiiwI3DMsK52s=;
-        b=i/72iyEVf2GaGsmGHS/8+zL/XPb1ZAiHrSYPZ2yCF6Jk8UcQL+seHKhr1qJANWXe88
-         L73DxYTBTN+DnC34WizCae1QUz7CcHgd0hYIAI84Dmm7ZkQQx92WayELdcdqu2oJUdwJ
-         NW95jHmgBr0gd9A/hwTyaRAkDPuczXiMSHpmtLzTmeijhwLfjEfT3MeNu3zTXLY452rI
-         QhAyCN7ko1zYtwcXV0LATMgXtBam22mJer5/A0yshofMBMi3NJOgGZozKtFG9vb5oCr/
-         z5Atd0IJn4IshSE7volk8ZpR/cw96Y+LdagUeFiBurimv/Ux+X2MMceol+HD1rn2De7K
-         DmIA==
-X-Gm-Message-State: AO0yUKUsrOMYkMsSuWtJwilvvryQIeiybQ6n4LqJv6nkLBDseXoNKlKA
-        0crGeTqoFcdKDt2ojc+7jFB/D7X6iAPHPNEU7Jw=
-X-Google-Smtp-Source: AK7set+aXsvMMJp4Gx5Mm8+jG4Q8FsHa360GObRFOf3i4rr1gqxc/eCqrLEkwWhDf/L7qG9H2wYJkApdPyO8MZagj2o=
-X-Received: by 2002:a37:a89:0:b0:725:ff53:b58e with SMTP id
- 131-20020a370a89000000b00725ff53b58emr335302qkk.331.1676548327067; Thu, 16
- Feb 2023 03:52:07 -0800 (PST)
-MIME-Version: 1.0
-References: <20230216041224.4731-1-orlandoch.dev@gmail.com>
- <20230216041224.4731-3-orlandoch.dev@gmail.com> <20230216054105.nmtft5ma4hiuqwib@t-8ch.de>
-In-Reply-To: <20230216054105.nmtft5ma4hiuqwib@t-8ch.de>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 16 Feb 2023 13:51:31 +0200
-Message-ID: <CAHp75Vd+hLS7DLbaA3zZ9V_HyT-ZMkMBJbxq7aq5WiPU0fV7Zw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] HID: apple-magic-backlight: Add driver for keyboard
- backlight on internal Magic Keyboards
-To:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-Cc:     Orlando Chamberlain <orlandoch.dev@gmail.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>,
-        Aditya Garg <gargaditya08@live.com>,
-        Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229508AbjBPNaF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 08:30:05 -0500
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD82F552A6;
+        Thu, 16 Feb 2023 05:30:03 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 227DE5C00E8;
+        Thu, 16 Feb 2023 08:30:03 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Thu, 16 Feb 2023 08:30:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm3; t=1676554203; x=
+        1676640603; bh=VCwTn+DX7FOgrcyFSBKKl8KsdUvf32MRmMRF7YLkRhM=; b=B
+        sZH3c3ea5agVWQzOugGWGW7D5w0wFVgE6VuNx4xeJUYYqRfp877LWS2FekXXo6+a
+        lJFdAHXAr5jgbITO8SSbgtkTPvlb8PlDKUmltrRc53w0DtU1ku3NFmbJNH/E39uP
+        wvU/y6vw/1eq/hDtv1RuH6gr1meC+YVFPkRb5LUZ2fDobS6viyOiLVojZLIkSnMm
+        caLZ0JE5mHnKyKrTRiu1/0iQjuNUmgiGUkGiBfH7dRLpAdzHzubX6jQF00w6AqMi
+        u8H2R47OgRBSCFK+QQiJ85CDpHNNBYhLqPR7DWqHJE/Zw2BgOfSNazWNbC/u1nEI
+        VwEwIJFCbr2cOp9PI01Xg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676554203; x=
+        1676640603; bh=VCwTn+DX7FOgrcyFSBKKl8KsdUvf32MRmMRF7YLkRhM=; b=Q
+        6FGDKyxwrrW6LXonsCMsPD2K25PFqayi8xC0nLhaS+N3k2vUoJRZx3vLiqlNglVk
+        1H1LN8vu9EbFuEn8IDC4eIShG1TXmsU/hJJNU8rymWq+OqQHytiX70+ijt0lSzdC
+        ULm0e0B180iREwMOmLC1smbGsJMUY+QfwfLM1td1ggIHp4vNb2oxnEHWcmStp6mw
+        FNRtZVAgdzxaYu+LGk237T+s+b82CSmALGrZ/mOfQPEfDCpahq+cnxSOK5v1sfQh
+        /iOlpNIGblX1YBo8A0qj1JefjNIlfzoGERBbaGzjdW+U2goTnrLe5Bkb1qy1x5Jk
+        6E56DR369x/aCU7h5HFzQ==
+X-ME-Sender: <xms:2i_uY2bv-usC1z81ka94KEVxFAEV49Xxj77dVYlxA4lITAKT81BYWw>
+    <xme:2i_uY5au61qE4B5P_xJTLCuxSdLybijeeiamQGycBYM2BHFDSnsrnBktBGAEVfWSm
+    PLtzULCfwxf_Eu-VpM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeijedghedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:2i_uYw9y3HKMjHJMEVvbeMsN8wR1ZgSuy_p7I-fIxiikYWgNC5hOSg>
+    <xmx:2i_uY4p2DWN1_lgH-argnXHwdGYTdjldRPSD8ZOBch7RFa8jbJb3SA>
+    <xmx:2i_uYxo5t3Sy3Ek5-MAyb5kVaaonaFFLjmlRDfbf4LRwOM-4NnYx4A>
+    <xmx:2y_uY46hCTyh8A9QQPc9k8r4-YFgSVoEfyyC46PO2X8rwg_sHGXKjg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 454F5B60086; Thu, 16 Feb 2023 08:30:02 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
+Mime-Version: 1.0
+Message-Id: <ed5133d1-5592-4367-8919-4416be506455@app.fastmail.com>
+In-Reply-To: <6FA7F803-1B4A-418E-9368-E205F3A6CF27@jrtc27.com>
+References: <20230206201455.1790329-1-evan@rivosinc.com>
+ <20230206201455.1790329-3-evan@rivosinc.com>
+ <ded4018d-c90f-41c7-9e54-da954bdef49e@app.fastmail.com>
+ <CALs-HsuwOqR+y-GriKOiRx068bgOv3qTOpsJTaA02htiiynWmw@mail.gmail.com>
+ <6FA7F803-1B4A-418E-9368-E205F3A6CF27@jrtc27.com>
+Date:   Thu, 16 Feb 2023 14:28:19 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Jessica Clarke" <jrtc27@jrtc27.com>,
+        "Evan Green" <evan@rivosinc.com>
+Cc:     =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        linux-doc@vger.kernel.org,
+        "Andrew Bresticker" <abrestic@rivosinc.com>,
+        "Atish Patra" <atishp@rivosinc.com>,
+        "Palmer Dabbelt" <palmer@rivosinc.com>,
+        "Conor.Dooley" <conor.dooley@microchip.com>,
+        "Celeste Liu" <coelacanthus@outlook.com>, slewis@rivosinc.com,
+        "Bagas Sanjaya" <bagasdotme@gmail.com>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Tobias Klauser" <tklauser@distanz.ch>,
+        "Andrew Jones" <ajones@ventanamicro.com>,
+        "Albert Ou" <aou@eecs.berkeley.edu>,
+        "Vineet Gupta" <vineetg@rivosinc.com>,
+        "Dao Lu" <daolu@rivosinc.com>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        "Ruizhe Pan" <c141028@gmail.com>,
+        "Anup Patel" <apatel@ventanamicro.com>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Conor Dooley" <conor@kernel.org>,
+        "Palmer Dabbelt" <palmer@dabbelt.com>, guoren <guoren@kernel.org>
+Subject: Re: [PATCH v2 2/6] RISC-V: Add a syscall for HW probing
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 16, 2023 at 7:41 AM Thomas Wei=C3=9Fschuh <thomas@t-8ch.de> wro=
-te:
-> On Thu, Feb 16, 2023 at 03:12:28PM +1100, Orlando Chamberlain wrote:
+On Wed, Feb 15, 2023, at 23:43, Jessica Clarke wrote:
+> On 15 Feb 2023, at 21:14, Evan Green <evan@rivosinc.com> wrote:
+>> On Wed, Feb 15, 2023 at 1:57 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>> Palmer can probably speak to this with more authority, but my
+>> understanding about the motivation for an approach like this goes
+>> something like:
+>> * With the nature of RISC-V, we expect a lot of these types of bits
+>> and bobs, many more than we've seen with the likes of x86 and ARM.
+>
+> We=E2=80=99re already at (I think) 51 standard user-level extensions t=
+hat LLVM
+> knows about.
 
-...
+Do you have an estimate of how many of these require kernel support
+beyond identifying the extensions?
 
-> Note: Only your cover letter has the "v2" prefix.
-> Normally git format-patch should apply this properly to all patches when
-> using --reroll-count.
+>> * We also expect in some cases these values to be inconsistent across=
+ CPUs.
+>
+> That=E2=80=99s also true of some Arm SoCs.
 
-There is an option -v<X>, where <X> is a version applied to all
-patches in the lot.
+Right, but it's also something that we should not encourage, or
+need to make easy to use. On arm64, the kernel support for having
+asymmetric aarch32 mode was kept to an absolute minimum, and an
+application is expected to get the information from /proc/cpuinfo
+before pinning down a task to the correct subset of all CPUs.
 
---=20
-With Best Regards,
-Andy Shevchenko
+>> * So, a syscall with a vDSO function in front of it seemed like a
+>> good combination of speed and flexibility.
+>>=20
+>> You're certainly right that HWCAPn would work for what we're exposing
+>> today, so the question probably comes down to our relative predictions
+>> of how this data will grow.
+>
+> The other big problem is vendor extensions.
+
+My biggest concern is how this would be synchronized between the
+interfaces that are available to users. What we have on other architectu=
+res
+is a set of string identifiers in /proc/cpuinfo and a bitmask in HWCAP.
+Ideally these are added in pairs so the information available to shell
+scripts in human readers is the same that is available in the auxvec
+data.
+
+Adding a third interface with the same information or a superset
+requires more work in ensuring that each extension is available
+in exactly the right places. Ideally I think there should be only
+one table of possible CPU features so nobody has to make the
+decision about which ones are important enough to add to one
+interface or another.
+
+     Arnd
