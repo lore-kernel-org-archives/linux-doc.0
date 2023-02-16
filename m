@@ -2,118 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E712C636CC
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 02:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 171B3C636D4
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 02:45:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbjBPCcP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 21:32:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42078 "EHLO
+        id S229585AbjBPCpV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 21:45:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjBPCcO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 21:32:14 -0500
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFF4636472;
-        Wed, 15 Feb 2023 18:32:13 -0800 (PST)
-Received: by mail-oi1-f172.google.com with SMTP id bj22so416395oib.11;
-        Wed, 15 Feb 2023 18:32:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=KOuLr4scIF1NfqJ8T0M99xrYHbB7KQ22DgnSgEZbsMk=;
-        b=c4PkKwkHgI//2uC5MFjnlmtuMa7Y2BImiCAfOfbklBahuvHPM72G7NpUMN80YI2gqV
-         CayArmTfDAUadfY/x/ASQFrnjZWwt3sUhJOcUllJVTmpVrJ/k+EgXV0e0PN8mtS/jeXu
-         uZAowfhOy3Dn7Gvu27YDt5+4glkS3gXzSulmDPIDQnYRY/ClJhrWaMQW/9Fve1+ai8cE
-         QCs1Mw9n7kIwF89KIdjySd4GE6cvedl0j05yaMynt4HAqzTue3/Qsm9l8W+hhPGWMaCE
-         VEDXseR3Ovi2n65+7roMXXjCPd43FGNJA45KTPOjY81KTDZP7z6CDGMJB2K7QmMhk0IB
-         ou5A==
-X-Gm-Message-State: AO0yUKULKz/xQw+1Sj5+uALtfWxDbq8YSWKK7LkAdSeYDUoXAXt41pHJ
-        dwYjomT4hIMBECI8eE7ZOg==
-X-Google-Smtp-Source: AK7set/YKv86MiKqaVAX4xz6xbPDlGpjyc03s+rvbI5f7CRlAlu6x8dJZTXBA89nFKc+/LzMvuW88A==
-X-Received: by 2002:aca:2213:0:b0:35a:d192:9a53 with SMTP id b19-20020aca2213000000b0035ad1929a53mr1864308oic.41.1676514732936;
-        Wed, 15 Feb 2023 18:32:12 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id f9-20020a05680814c900b0037d59e90a07sm48171oiw.55.2023.02.15.18.32.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Feb 2023 18:32:12 -0800 (PST)
-Received: (nullmailer pid 1200075 invoked by uid 1000);
-        Thu, 16 Feb 2023 02:32:11 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229436AbjBPCpT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 21:45:19 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8640C3B0FB;
+        Wed, 15 Feb 2023 18:45:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676515518; x=1708051518;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qp/hNAawmpyY6w1prkcvjaNNGoou5dz75eZMF7FoGoA=;
+  b=RQ3YLuh/LjCR2TP3cmGBO3l6yixUDykx5wbBw13PWUjJWU8UbtvR7B+P
+   RoI5C8WFCdKYhAwZeyTnU2lMCF4U4oSxTXvkZGwDQhA14VNZ2BOeEM3dR
+   LAno484MOMAHHagsF8c34gc5kSkWSLC0/E96zXEaxvTfi63/o2lcH1plg
+   P/RgZVa133cVeB6ZH9sPRZjjsj6a6vXrT5i0BAH974PAd9dsMzqeFCdx6
+   odEyZ2j3iUuIwIZnPkmqnsDFCvCukdjUVi36A66PW+CBH1ttRUL6QQti/
+   y62G/jyV8BVPqM9kkmtQnwU9MypVopirkF/71Mp91CTPZvuZCxp8i+PnM
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="319660682"
+X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
+   d="scan'208";a="319660682"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 18:45:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="812795346"
+X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
+   d="scan'208";a="812795346"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 15 Feb 2023 18:45:13 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pSUGn-0009xN-0V;
+        Thu, 16 Feb 2023 02:45:13 +0000
+Date:   Thu, 16 Feb 2023 10:44:13 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Tom Lendacky <thomas.lendacky@amd.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>, linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst:92:
+ WARNING: Unexpected indentation.
+Message-ID: <202302161045.T349jkBT-lkp@intel.com>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        devicetree@vger.kernel.org, John Crispin <john@phrozen.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        netdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>, Arun.Ramadoss@microchip.com
-In-Reply-To: <20230216013230.22978-13-ansuelsmth@gmail.com>
-References: <20230216013230.22978-1-ansuelsmth@gmail.com>
- <20230216013230.22978-13-ansuelsmth@gmail.com>
-Message-Id: <167651373836.1183034.17900591036429665419.robh@kernel.org>
-Subject: Re: [PATCH v8 12/13] dt-bindings: net: phy: Document support for
- leds node
-Date:   Wed, 15 Feb 2023 20:32:11 -0600
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   033c40a89f55525139fd5b6342281b09b97d05bf
+commit: 493a2c2d23ca91afba96ac32b6cbafb54382c2a3 Documentation/hw-vuln: Add documentation for Cross-Thread Return Predictions
+date:   6 days ago
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=493a2c2d23ca91afba96ac32b6cbafb54382c2a3
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 493a2c2d23ca91afba96ac32b6cbafb54382c2a3
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-On Thu, 16 Feb 2023 02:32:29 +0100, Christian Marangi wrote:
-> Document support for leds node in phy and add an example for it.
-> Phy led will have to match led-phy pattern and should be treated as a
-> generic led.
-> 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
->  .../devicetree/bindings/net/ethernet-phy.yaml | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302161045.T349jkBT-lkp@intel.com/
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+All warnings (new ones prefixed by >>):
 
-yamllint warnings/errors:
+>> Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst:92: WARNING: Unexpected indentation.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/ethernet-phy.example.dtb: ethernet-phy@0: leds:led-phy@0:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-	'netdev' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-	'netdev' does not match '^mmc[0-9]+$'
-	'netdev' does not match '^cpu[0-9]*$'
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+vim +92 Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst
 
-doc reference errors (make refcheckdocs):
+    89	
+    90	The mitigation for the KVM_CAP_X86_DISABLE_EXITS capability can be turned on
+    91	using the boolean module parameter mitigate_smt_rsb, e.g.:
+  > 92	        kvm.mitigate_smt_rsb=1
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230216013230.22978-13-ansuelsmth@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
