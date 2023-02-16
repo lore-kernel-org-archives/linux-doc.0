@@ -2,87 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D486C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 05:50:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3393BC61DA4
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 05:57:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229788AbjBPFuV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Feb 2023 00:50:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46128 "EHLO
+        id S229460AbjBPF5d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Feb 2023 00:57:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229601AbjBPFuU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 00:50:20 -0500
+        with ESMTP id S229762AbjBPF5c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 00:57:32 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A880A27D7B;
-        Wed, 15 Feb 2023 21:50:19 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830F843934;
+        Wed, 15 Feb 2023 21:57:26 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 610EAB825CB;
-        Thu, 16 Feb 2023 05:50:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0607FC433D2;
-        Thu, 16 Feb 2023 05:50:17 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D02BCB825DC;
+        Thu, 16 Feb 2023 05:57:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19033C433D2;
+        Thu, 16 Feb 2023 05:57:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676526617;
-        bh=gAJ221uwCI4WaYxB4V6rKbAINzl+xXKN90Zc6du0RS0=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=CupDsaf/VmPUOiCb9eQuQRwOjkLeoHHhNOWjHUMBEAx0eb9TnKVWTCLPXVBgicRP9
-         +4UI4IiM2ILS3TLzoXewtG0AH7w0aID4Gs0HDzbf1Ru/fiQUlapc8mIcldqTMnaPjC
-         I6688/KXktIvrQcYGgSPIkVBsfVh6Yz1z29RInR0Al3mbuF19ILNtaFp29Ljp3Ewyb
-         zDP6I6DLuUqFCMSTU19GOwhldHpYoPDW46K5IhEv7bODa4Uww5WubPfWHxQVM0Cn8f
-         7GpNgswu6mm/5J/t3yXtlQ9JenTkIeJj4PlwsVSCAn1WgIL5KeiAaOQckDwqCfO3Er
-         uiMXNI75yqHzg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id DCE2AE21EC4;
-        Thu, 16 Feb 2023 05:50:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1676527043;
+        bh=lM/BJQ/UEKRymjvI60SIXWQIiu/eK3GL9FiNEoGW6vM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=pJhQn5P1pnIzCMiiiSWvVHS30N0Caggd75tRj4xVb3cFOY0o6zV4sbTlvcLVXnzp0
+         jj2EepxGQgsd/B0HOzQtrOxQ8frjMOBhkpqGvsmY1ZRTav4O1vuzgCpnn+sKRhNAlx
+         DrGGVkrTGwoHI93c5nKid3F+39EpXHIQilQzE+sJ+CzppnmepN4hcFhCWcGZxYTTv0
+         bgrnlkjk6GETAIF720Ibt3n3dLPufvwHu1ClN7XwIqIg0YbcKVHWwpmh6+AUXQIjOE
+         gPC4F2JySPMfMeC23U9hSVYXr7UPAeMpEsiJXMPAYq5EEzgGq2OtZJRKDNJ73NA/AW
+         8nPefSEuOyYxg==
+Date:   Wed, 15 Feb 2023 21:57:22 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     <alejandro.lucero-palau@amd.com>
+Cc:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>,
+        <davem@davemloft.net>, <pabeni@redhat.com>, <edumazet@google.com>,
+        <habetsm.xilinx@gmail.com>, <ecree.xilinx@gmail.com>,
+        <linux-doc@vger.kernel.org>, <corbet@lwn.net>, <jiri@nvidia.com>
+Subject: Re: [PATCH v8 net-next 0/8] sfc: devlink support for ef100
+Message-ID: <20230215215722.120540fe@kernel.org>
+In-Reply-To: <20230215090828.11697-1-alejandro.lucero-palau@amd.com>
+References: <20230215090828.11697-1-alejandro.lucero-palau@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3] Documentation: core-api: packing: correct spelling
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167652661689.16004.757735594376834454.git-patchwork-notify@kernel.org>
-Date:   Thu, 16 Feb 2023 05:50:16 +0000
-References: <20230215053738.11562-1-rdunlap@infradead.org>
-In-Reply-To: <20230215053738.11562-1-rdunlap@infradead.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, olteanv@gmail.com,
-        netdev@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, quic_mojha@quicinc.com,
-        daniel.m.jordan@oracle.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Tue, 14 Feb 2023 21:37:38 -0800 you wrote:
-> Correct spelling problems for Documentation/core-api/packing.rst as
-> reported by codespell.
+On Wed, 15 Feb 2023 09:08:20 +0000 alejandro.lucero-palau@amd.com wrote:
+> This patchset adds devlink port support for ef100 allowing setting VFs
+> mac addresses through the VF representor devlink ports.
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Vladimir Oltean <olteanv@gmail.com>
-> Cc: netdev@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Reviewed-by: Mukesh Ojha <quic_mojha@quicinc.com>
-> Acked-by: Daniel Jordan <daniel.m.jordan@oracle.com>
+> Basic devlink infrastructure is first introduced, then support for info
+> command. Next changes for enumerating MAE ports which will be used for
+> devlink port creation when netdevs are registered.
 > 
-> [...]
+> Adding support for devlink port_function_hw_addr_get requires changes in
+> the ef100 driver for getting the mac address based on a client handle.
+> This allows to obtain VFs mac addresses during netdev initialization as
+> well what is included in patch 6.
+> 
+> Such client handle is used in patches 7 and 8 for getting and setting
+> devlink port addresses.
 
-Here is the summary with links:
-  - [v3] Documentation: core-api: packing: correct spelling
-    https://git.kernel.org/netdev/net-next/c/1f26c8b7507c
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+LGTM
