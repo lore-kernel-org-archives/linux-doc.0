@@ -2,97 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F0CBC61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 11:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F155EC636D6
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 11:44:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229947AbjBPLU0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Feb 2023 06:20:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42470 "EHLO
+        id S229656AbjBPLoR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Feb 2023 06:44:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230371AbjBPLUZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 06:20:25 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D32B34F76;
-        Thu, 16 Feb 2023 03:20:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DD6B6B82567;
-        Thu, 16 Feb 2023 11:20:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 92368C433EF;
-        Thu, 16 Feb 2023 11:20:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676546419;
-        bh=l6MY0atF8jS0aZVBcoX9GMuGDckwA/CdbUtg9RXDs+I=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=VY8D/qNIPRE9T2T8z2cwFjZ1bfDxZxOICgsOSN5GxbBXzLgyiC1urkgqRCkfhLDx2
-         Ib++b/DX8UN4K8COJuAexQkMkj1TzXr/1W6QCJtftTV/uGxdUiw4MzItTYBz/bTlN3
-         yefPzaP/Qev04INVMWBJhb86ApcTVqlzQLILHUcKVX2Y8UjM3x4DPNKmkcZ3dD04o0
-         ILFkLO7kLCt/Lcfgnkb8v9o4qqW29flG3TrBBOc48HjVjnjrty2zRG0XSiKl370fa6
-         DQywwYczzHlC3dZ0N4Njg6sU4nepQpZ5sIvM8tiRBI9zaNbC8ElXbJ+zKZLmgx13XD
-         /XK9AqSaLhxTA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6CDF4E270C2;
-        Thu, 16 Feb 2023 11:20:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229642AbjBPLoQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 06:44:16 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A097EFE
+        for <linux-doc@vger.kernel.org>; Thu, 16 Feb 2023 03:44:14 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id lf10so4478679ejc.5
+        for <linux-doc@vger.kernel.org>; Thu, 16 Feb 2023 03:44:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xi49EHz6DZ/mw9xN54iHArfnYQdI2e0Se82zwiFKKsc=;
+        b=Zdo8aV9ikPUkSGN2CESlpPfqadoQLb8lF1rybEh/pXuyo2ybAel/s1Iwia18aXLquX
+         4x2MGvzGOwz7bnuezKD42U98Td+jKgDxbsRZAijYKmlv39C2nJQ3LX7Vbe41W7Ct0GXg
+         YNBXmXy6g+vp0ePiSs3jsf5ErPOlmXKNxjfuJD0/NG9dnKNNhV0pOTm+VVAx2h7DXWyH
+         Bvre3a1GjxDo0MSvk4Xj8r5YL7Nk43SwTzx4+2J3tYAPvIHuax3GlM8/K64+zr1WTf69
+         ZNZ0iKFjjbmyY97U6IQVK1qKQKRYgqH3hsGzyn1di+C/EI3Na/SacvBWkroV/jwactfr
+         8DwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xi49EHz6DZ/mw9xN54iHArfnYQdI2e0Se82zwiFKKsc=;
+        b=pc5O+5uQpUUUeAUJ2kaK4NGZRfE1GcgkzwKkmBnk7WBRtcpgrpO0LytmXLvZq/yXIk
+         id0NH6Aoe6Or/u6wCxYe260C/sLUerkXSTaE0Xa/O9UdC3x/trPLaA2WMlY+sA09YCER
+         CDRjZRz4GmfvkI+gBdnwnDdNtO2yVk1VCghgoxklt9MesuTWM+D89nb/hr0uwXZFkL4Q
+         ZmwmdaITDbePcB7G9jhozA0g1bogRPAx3vsiJTQQlJMg3XKok5kEy3wSp/KBwOtLGxLi
+         hgAS11MsTbgeCJD8vevEPs0xE2clzE2Qak09urh0rwjp6qefsDb5IfeFIm326qdY7fHd
+         fe1g==
+X-Gm-Message-State: AO0yUKVgLhgFBbo2s0jmc1a+oo5NYrhqtWz5Tdfve11IhNkYlOXbpi1z
+        fIrB/kNKOY8Gnb+cpQBgI9Tb2g==
+X-Google-Smtp-Source: AK7set/NakAImmWUePa800VVsPhcXpujosV2WTtofepAz4qEq0rJQ329wd+z/mdFswZDHcr70jxy2Q==
+X-Received: by 2002:a17:906:b35a:b0:8b1:4d4f:aa0a with SMTP id cd26-20020a170906b35a00b008b14d4faa0amr4158489ejb.18.1676547852788;
+        Thu, 16 Feb 2023 03:44:12 -0800 (PST)
+Received: from baylibre-ThinkPad-T14s-Gen-2i.. (247.165.185.81.rev.sfr.net. [81.185.165.247])
+        by smtp.gmail.com with ESMTPSA id k20-20020a170906a39400b008b14c5a82e7sm698153ejz.127.2023.02.16.03.44.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Feb 2023 03:44:12 -0800 (PST)
+From:   Julien Panis <jpanis@baylibre.com>
+To:     lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net
+Cc:     hdegoede@redhat.com, eric.auger@redhat.com, jgg@ziepe.ca,
+        razor@blackwall.org, suma.hegde@amd.com,
+        stephen@networkplumber.org, arnd@arndb.de,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, eblanc@baylibre.com,
+        jneanne@baylibre.com
+Subject: [PATCH v1 0/4] TI TPS6594 PMIC support (Core, ESM, PFSM)
+Date:   Thu, 16 Feb 2023 12:44:06 +0100
+Message-Id: <20230216114410.183489-1-jpanis@baylibre.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v8 net-next 0/8] sfc: devlink support for ef100
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167654641942.8610.4801746796392234945.git-patchwork-notify@kernel.org>
-Date:   Thu, 16 Feb 2023 11:20:19 +0000
-References: <20230215090828.11697-1-alejandro.lucero-palau@amd.com>
-In-Reply-To: <20230215090828.11697-1-alejandro.lucero-palau@amd.com>
-To:     Lucero@ci.codeaurora.org, Palau@ci.codeaurora.org,
-        Alejandro <alejandro.lucero-palau@amd.com>
-Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, habetsm.xilinx@gmail.com,
-        ecree.xilinx@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
-        jiri@nvidia.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+TPS6594 is a Power Management IC which provides regulators and others
+features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+PFSM (Pre-configurable Finite State Machine). The SoC and the PMIC can
+communicate through the I2C or SPI interfaces.
+TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
 
-This series was applied to netdev/net-next.git (master)
-by Paolo Abeni <pabeni@redhat.com>:
+This series adds support to TI TPS6594 PMIC and its derivatives.
 
-On Wed, 15 Feb 2023 09:08:20 +0000 you wrote:
-> From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-> 
-> v8 changes:
->  - using preprocessor conditional approach instead of ifdef for
->    fixing Microblaze build error.
-> 
-> v7 changes:
->  - Fix Microblaze build error based on checking RTC_LIB instead of
->    SFC_SRIOV.
-> 
-> [...]
+The features implemented in this series are:
+- Core (MFD I2C and SPI entry points)
+- ESM (child device)
+- PFSM (child device)
 
-Here is the summary with links:
-  - [v8,net-next,1/8] sfc: add devlink support for ef100
-    https://git.kernel.org/netdev/net-next/c/fa34a5140a8e
-  - [v8,net-next,2/8] sfc: add devlink info support for ef100
-    https://git.kernel.org/netdev/net-next/c/14743ddd2495
-  - [v8,net-next,3/8] sfc: enumerate mports in ef100
-    https://git.kernel.org/netdev/net-next/c/a6a15aca4207
-  - [v8,net-next,4/8] sfc: add mport lookup based on driver's mport data
-    https://git.kernel.org/netdev/net-next/c/5227adff37af
-  - [v8,net-next,5/8] sfc: add devlink port support for ef100
-    https://git.kernel.org/netdev/net-next/c/25414b2a64ae
-  - [v8,net-next,6/8] sfc: obtain device mac address based on firmware handle for ef100
-    https://git.kernel.org/netdev/net-next/c/7e056e2360d9
-  - [v8,net-next,7/8] sfc: add support for devlink port_function_hw_addr_get in ef100
-    https://git.kernel.org/netdev/net-next/c/fa78b01718d2
-  - [v8,net-next,8/8] sfc: add support for devlink port_function_hw_addr_set in ef100
-    https://git.kernel.org/netdev/net-next/c/3b6096c9b30b
+- Core description:
+I2C and SPI interface protocols are implemented, with and without
+the bit-integrity error detection feature (CRC mode).
+In multi-PMIC configuration, all instances share a single GPIO of
+the SoC to generate interrupt requests via their respective nINT
+output pin.
 
-You are awesome, thank you!
+- ESM description:
+This device monitors the SoC error output signal at its nERR_SOC
+input pin. In error condition, ESM toggles its nRSTOUT_SOC pin
+to reset the SoC.
+Basically, ESM driver starts ESM hardware.
+
+- PFSM description:
+Strictly speaking, PFSM is not hardware. It is a piece of code.
+PMIC integrates a state machine which manages operational modes.
+Depending on the current operational mode, some voltage domains
+remain energized while others can be off.
+PFSM driver can be used to trigger transitions between configured
+states.
+
+Others series will be submitted over the next few weeks, providing
+drivers for others child devices like GPIOs (pinctrl), RTC, and
+regulators. Board support will also be added (device trees).
+
+Julien Panis (4):
+  dt-bindings: mfd: Add DT bindings for TI TPS6594 PMIC
+  mfd: tps6594: Add driver for TI TPS6594 PMIC
+  mfd: tps6594-esm: Add driver for TI TPS6594 ESM
+  mfd: tps6594-pfsm: Add driver for TI TPS6594 PFSM
+
+ .../devicetree/bindings/mfd/ti,tps6594.yaml   |  164 +++
+ .../userspace-api/ioctl/ioctl-number.rst      |    1 +
+ drivers/mfd/Kconfig                           |   53 +
+ drivers/mfd/Makefile                          |    5 +
+ drivers/mfd/tps6594-core.c                    |  413 +++++++
+ drivers/mfd/tps6594-esm.c                     |  132 +++
+ drivers/mfd/tps6594-i2c.c                     |  240 ++++
+ drivers/mfd/tps6594-pfsm.c                    |  304 +++++
+ drivers/mfd/tps6594-spi.c                     |  125 ++
+ include/linux/mfd/tps6594.h                   | 1018 +++++++++++++++++
+ include/uapi/linux/tps6594_pfsm.h             |   45 +
+ 11 files changed, 2500 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+ create mode 100644 drivers/mfd/tps6594-core.c
+ create mode 100644 drivers/mfd/tps6594-esm.c
+ create mode 100644 drivers/mfd/tps6594-i2c.c
+ create mode 100644 drivers/mfd/tps6594-pfsm.c
+ create mode 100644 drivers/mfd/tps6594-spi.c
+ create mode 100644 include/linux/mfd/tps6594.h
+ create mode 100644 include/uapi/linux/tps6594_pfsm.h
+
+
+base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.37.3
 
