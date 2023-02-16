@@ -2,524 +2,225 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4594CC636D6
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 00:41:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07766C64ED6
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 01:36:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229686AbjBPAlp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 19:41:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39830 "EHLO
+        id S229664AbjBPBgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 20:36:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbjBPAlm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 19:41:42 -0500
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BDC4442F8
-        for <linux-doc@vger.kernel.org>; Wed, 15 Feb 2023 16:41:38 -0800 (PST)
-Received: by mail-pg1-x549.google.com with SMTP id c15-20020a63ea0f000000b004fb3ed8a500so153563pgi.10
-        for <linux-doc@vger.kernel.org>; Wed, 15 Feb 2023 16:41:38 -0800 (PST)
+        with ESMTP id S229539AbjBPBgS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 20:36:18 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86A0442DF0;
+        Wed, 15 Feb 2023 17:36:17 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id m16-20020a05600c3b1000b003dc4050c94aso432996wms.4;
+        Wed, 15 Feb 2023 17:36:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RwSw3tYb5bXq9fGeFYVzZ4Uji8t9bzNp02Nu0wqGVr8=;
-        b=a6/aZwZMKgM9Qwg+eZcRGVXefYnK2gekXci5+402C9kYjaRKvCntG9/9UB64dqHJj4
-         utKOg+syvAUy0EV4DBkBSn9lMSketoQ/IKXaOt1Z/yjVFG1HfWHMlNFXX4aNcRKANnmH
-         eAPnL1XgdbYfIT8hZYQ8fObP+OEaQS1UkFxrNAsWasJb6HEbZXTNCOF/s33NcZRZ+OQk
-         BqNQ/CyZLmfjBzr7r1oNqVmOkPA5/8tV65euXIZEud6Iazk/zMeKJDYccPllrwFkPAEO
-         ukqjTuuwoXWvGYWEq+OSuWeuT3TY7Y2Z+KS2DU57mQtp8rwmzmbo5nddYHr9bU6Se8r/
-         J7Rw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/1hkZg8A4EmBuVis3IHFGticAZdxNJl1p3OSUfGtWaA=;
+        b=dnCfzecbg9zzd6qLie831efng+VlSP8B4sOVH29D/TCpNwuLhm/6LZHbYc1GqaQMcF
+         rNs8XqIdqLxG1AoLljRHqWN0eIb5R/0Jjm4wqyBSzgn40eVw4xbVS9SLwBFgg7XWcgo4
+         EOgtwJuEKXhAWAugQEtA2zK6oJhh+AkLtXyz3ZwSEsPBilZaM0HiT6dJXoG9hwIymYN/
+         WKxPlSHnGIeWdBrjj6GEO5wEZ2epqnkh7J57oOMy+mLOIGEQjzEbYSD69snTFv0ZtzOY
+         rxxRzmYfEobPDmxhjQICBIXvtCRIHhm/LouxIKcTUz0R60MTmrzkQRq0bOPF7KVum6hL
+         /Pjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RwSw3tYb5bXq9fGeFYVzZ4Uji8t9bzNp02Nu0wqGVr8=;
-        b=XOCTNUbURlYk14lyZFb1lSRe/Az/mgI/H1AFr+7lov61+7x1e1aJexObUwYJORSYE3
-         FyjkIDTYUVZV6nsb71bx9xqhHEUD6JP29duAKkVEkUNtnODwedjaj17zLblzq6xOqCCF
-         2A/VyczMfEoBUBCGzscRcrH0rpLVjULy0IGeRx0CtU/K2VA83sIaS6IyN3/cb84Qudcy
-         lr2q2hwlhOH4arE53r7vjnU1CkCI+mWonhvTwqSTzUswjJGR7T4BmUvJnP6dJgOZwE4e
-         cF6pPy49VyhqpIT2PeRHSKP3MXM28Ti9YBkTvd3CPNo/xTxXQJ7Daa8Vwl4Oq+He5o/8
-         o61w==
-X-Gm-Message-State: AO0yUKUyNv/9KLtxk9gURbmyGjh0z3r7P7ybUts+s7e+qRmHNFzywnEg
-        8aWDfcdmAHNFeX+WDn4Gau9HapcTwg9kdIsw4Q==
-X-Google-Smtp-Source: AK7set+Z1QsboPNl7B2dUCqzJnv4n3cQF2QXtmZ8FpQ59D9VPXhoYAFz0KibJoYgA3wgebXfV3oTbIw8kSpaDzjaOg==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a17:903:2594:b0:19a:b107:bd11 with
- SMTP id jb20-20020a170903259400b0019ab107bd11mr951631plb.29.1676508097502;
- Wed, 15 Feb 2023 16:41:37 -0800 (PST)
-Date:   Thu, 16 Feb 2023 00:41:17 +0000
-In-Reply-To: <cover.1676507663.git.ackerleytng@google.com>
-Mime-Version: 1.0
-References: <cover.1676507663.git.ackerleytng@google.com>
-X-Mailer: git-send-email 2.39.1.637.g21b0678d19-goog
-Message-ID: <06098450437ba5ed2011090d95f6ccb817728710.1676507663.git.ackerleytng@google.com>
-Subject: [RFC PATCH 2/2] selftests: restrictedmem: Check hugepage-ness of
- shmem file backing restrictedmem fd
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org
-Cc:     chao.p.peng@linux.intel.com, aarcange@redhat.com,
-        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
-        bfields@fieldses.org, bp@alien8.de, corbet@lwn.net,
-        dave.hansen@intel.com, david@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, hpa@zytor.com, hughd@google.com,
-        jlayton@kernel.org, jmattson@google.com, joro@8bytes.org,
-        jun.nakajima@intel.com, kirill.shutemov@linux.intel.com,
-        linmiaohe@huawei.com, luto@kernel.org, mail@maciej.szmigiero.name,
-        mhocko@suse.com, michael.roth@amd.com, mingo@redhat.com,
-        naoya.horiguchi@nec.com, pbonzini@redhat.com, qperret@google.com,
-        rppt@kernel.org, seanjc@google.com, shuah@kernel.org,
-        steven.price@arm.com, tabba@google.com, tglx@linutronix.de,
-        vannapurve@google.com, vbabka@suse.cz, vkuznets@redhat.com,
-        wanpengli@tencent.com, wei.w.wang@intel.com, x86@kernel.org,
-        yu.c.zhang@linux.intel.com, Ackerley Tng <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/1hkZg8A4EmBuVis3IHFGticAZdxNJl1p3OSUfGtWaA=;
+        b=eKc0V0JESdTkIZti8xcCk2cMc4+yVfTZGK8MzFcGhzK2QfFIKjRL1xr3r99NwzIcJj
+         59Z08oTWkSbAdJyeA1CH/85Wh7xVc1r29c3/plH0u4nnJou+FD+9fCHfAtywtalhXAYI
+         MRTnPqDUDnMAWV/ETNdLsHi3BJn68UztptmfUnClWhyu3hcBzpTXVaCEuuxc8P3O8S6z
+         Rjmg2Zw6riP//fvqKGJsr2KZvtYYaJhrBrOWKm+iwr1bJn15SUZdgxBJ/qIRzoAPyVMp
+         PmkQj3sjPJVcv0vc3thQzH/nMdgQ5fX9Ft0f5n5c72qtYo+XvVOa0KVkvhn+Dd/hIZYy
+         NwVA==
+X-Gm-Message-State: AO0yUKVypkNEOaYVIKmFdqMGa2UDkpsdflT7j+RJVvlpwV1YQLCeOOHc
+        y7T5d/suQjdRKRuWf6KKKHY=
+X-Google-Smtp-Source: AK7set9isTHReF5LHmRJOi8vQdGmVupf6/i4hTJgHxQcb0CSAQs1J1UbLmF/OYdVZpfDhoTeL8xJ0A==
+X-Received: by 2002:a05:600c:2a08:b0:3da:fb3c:c1ab with SMTP id w8-20020a05600c2a0800b003dafb3cc1abmr3239734wme.0.1676511375775;
+        Wed, 15 Feb 2023 17:36:15 -0800 (PST)
+Received: from localhost.localdomain (93-34-91-73.ip49.fastwebnet.it. [93.34.91.73])
+        by smtp.googlemail.com with ESMTPSA id v15-20020a05600c214f00b003e1fb31fc2bsm64189wml.37.2023.02.15.17.36.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Feb 2023 17:36:15 -0800 (PST)
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Arun.Ramadoss@microchip.com
+Subject: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
+Date:   Thu, 16 Feb 2023 02:32:17 +0100
+Message-Id: <20230216013230.22978-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For memfd_restricted() calls without a userspace mount, the backing
-file should be the shmem mount in the kernel, and the size of backing
-pages should be as defined by system-wide shmem configuration.
+This is another attempt on adding this feature on LEDs, hoping this is
+the right time and someone finally notice this.
 
-If a userspace mount is provided, the size of backing pages should be
-as defined in the mount.
 
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
----
- tools/testing/selftests/Makefile              |   1 +
- .../selftests/restrictedmem/.gitignore        |   3 +
- .../testing/selftests/restrictedmem/Makefile  |  14 +
- .../testing/selftests/restrictedmem/common.c  |   9 +
- .../testing/selftests/restrictedmem/common.h  |   8 +
- .../restrictedmem_hugepage_test.c             | 344 ++++++++++++++++++
- 6 files changed, 379 insertions(+)
- create mode 100644 tools/testing/selftests/restrictedmem/.gitignore
- create mode 100644 tools/testing/selftests/restrictedmem/Makefile
- create mode 100644 tools/testing/selftests/restrictedmem/common.c
- create mode 100644 tools/testing/selftests/restrictedmem/common.h
- create mode 100644 tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
+Most of the times Switch/PHY have connected multiple LEDs that are
+controlled by HW based on some rules/event. Currently we lack any
+support for a generic way to control the HW part and normally we
+either never implement the feature or only add control for brightness
+or hw blink.
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index f07aef7c592c..44078eeefb79 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -60,6 +60,7 @@ TARGETS += pstore
- TARGETS += ptrace
- TARGETS += openat2
- TARGETS += resctrl
-+TARGETS += restrictedmem
- TARGETS += rlimits
- TARGETS += rseq
- TARGETS += rtc
-diff --git a/tools/testing/selftests/restrictedmem/.gitignore b/tools/testing/selftests/restrictedmem/.gitignore
-new file mode 100644
-index 000000000000..2581bcc8ff29
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/.gitignore
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+restrictedmem_hugepage_test
-diff --git a/tools/testing/selftests/restrictedmem/Makefile b/tools/testing/selftests/restrictedmem/Makefile
-new file mode 100644
-index 000000000000..da9665718c8a
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/Makefile
-@@ -0,0 +1,14 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+CFLAGS = $(KHDR_INCLUDES)
-+
-+TEST_GEN_PROGS += restrictedmem_hugepage_test
-+
-+include ../lib.mk
-+
-+EXTRA_CLEAN = $(OUTPUT)/common.o
-+
-+$(OUTPUT)/common.o: common.c
-+	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c -ffreestanding $< -o $@
-+
-+$(TEST_GEN_PROGS): $(OUTPUT)/common.o
-diff --git a/tools/testing/selftests/restrictedmem/common.c b/tools/testing/selftests/restrictedmem/common.c
-new file mode 100644
-index 000000000000..79b2ac98cc89
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/common.c
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <sys/syscall.h>
-+#include <unistd.h>
-+
-+int memfd_restricted(unsigned int flags, char *mount_path)
-+{
-+	return syscall(__NR_memfd_restricted, flags, mount_path);
-+}
-diff --git a/tools/testing/selftests/restrictedmem/common.h b/tools/testing/selftests/restrictedmem/common.h
-new file mode 100644
-index 000000000000..5d59edc4f23f
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/common.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef SELFTESTS_RESTRICTEDMEM_COMMON_H
-+#define SELFTESTS_RESTRICTEDMEM_COMMON_H
-+
-+int memfd_restricted(unsigned int flags, char *mount_path);
-+
-+#endif  // SELFTESTS_RESTRICTEDMEM_COMMON_H
-diff --git a/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c b/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
-new file mode 100644
-index 000000000000..0d9cf2ced754
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
-@@ -0,0 +1,344 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include "linux/limits.h"
-+#include <errno.h>
-+#include <limits.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+
-+#include "linux/restrictedmem.h"
-+
-+#include "common.h"
-+#include "../kselftest_harness.h"
-+
-+static int get_hpage_pmd_size(void)
-+{
-+	FILE *fp;
-+	char buf[100];
-+	char *ret;
-+	int size;
-+
-+	fp = fopen("/sys/kernel/mm/transparent_hugepage/hpage_pmd_size", "r");
-+	if (!fp)
-+		return -1;
-+
-+	ret = fgets(buf, 100, fp);
-+	if (ret != buf) {
-+		size = -1;
-+		goto out;
-+	}
-+
-+	if (sscanf(buf, "%d\n", &size) != 1)
-+		size = -1;
-+
-+out:
-+	fclose(fp);
-+
-+	return size;
-+}
-+
-+static bool is_valid_shmem_thp_policy(char *policy)
-+{
-+	if (strcmp(policy, "always") == 0)
-+		return true;
-+	if (strcmp(policy, "within_size") == 0)
-+		return true;
-+	if (strcmp(policy, "advise") == 0)
-+		return true;
-+	if (strcmp(policy, "never") == 0)
-+		return true;
-+	if (strcmp(policy, "deny") == 0)
-+		return true;
-+	if (strcmp(policy, "force") == 0)
-+		return true;
-+
-+	return false;
-+}
-+
-+static int get_shmem_thp_policy(char *policy)
-+{
-+	FILE *fp;
-+	char buf[100];
-+	char *left = NULL;
-+	char *right = NULL;
-+	int ret = -1;
-+
-+	fp = fopen("/sys/kernel/mm/transparent_hugepage/shmem_enabled", "r");
-+	if (!fp)
-+		return -1;
-+
-+	if (fgets(buf, 100, fp) != buf)
-+		goto out;
-+
-+	/*
-+	 * Expect shmem_enabled to be of format like "always within_size advise
-+	 * [never] deny force"
-+	 */
-+	left = memchr(buf, '[', 100);
-+	if (!left)
-+		goto out;
-+
-+	right = memchr(buf, ']', 100);
-+	if (!right)
-+		goto out;
-+
-+	memcpy(policy, left + 1, right - left - 1);
-+
-+	ret = !is_valid_shmem_thp_policy(policy);
-+
-+out:
-+	fclose(fp);
-+	return ret;
-+}
-+
-+static int set_shmem_thp_policy(char *policy)
-+{
-+	FILE *fp;
-+	size_t len = strlen(policy);
-+	int ret = -1;
-+
-+	if (!is_valid_shmem_thp_policy(policy))
-+		return ret;
-+
-+	fp = fopen("/sys/kernel/mm/transparent_hugepage/shmem_enabled", "w");
-+	if (!fp)
-+		return ret;
-+
-+	if (fwrite(policy, 1, len, fp) != len)
-+		goto out;
-+
-+	if (fwrite("\n", 1, 1, fp) != 1)
-+		goto out;
-+
-+	ret = 0;
-+
-+out:
-+	fclose(fp);
-+	return ret;
-+}
-+
-+FIXTURE(reset_shmem_enabled)
-+{
-+	/*
-+	 * Expect shmem_enabled to be one of always, within_size, advise, never,
-+	 * deny, force
-+	 */
-+	char shmem_enabled[12];
-+};
-+
-+FIXTURE_SETUP(reset_shmem_enabled)
-+{
-+	memset(self->shmem_enabled, 0, 12);
-+	ASSERT_EQ(0, get_shmem_thp_policy(self->shmem_enabled));
-+}
-+
-+FIXTURE_TEARDOWN(reset_shmem_enabled)
-+{
-+	ASSERT_EQ(0, set_shmem_thp_policy(self->shmem_enabled));
-+}
-+
-+TEST_F(reset_shmem_enabled, restrictedmem_fstat_shmem_enabled_never)
-+{
-+	int mfd = -1;
-+	struct stat stat;
-+	char *orig_shmem_enabled;
-+
-+	ASSERT_EQ(0, set_shmem_thp_policy("never"));
-+
-+	mfd = memfd_restricted(0, NULL);
-+	ASSERT_NE(-1, mfd);
-+
-+	ASSERT_EQ(0, fstat(mfd, &stat));
-+
-+	/*
-+	 * st_blksize is set based on the superblock's s_blocksize_bits. For
-+	 * shmem, this is set to PAGE_SHIFT
-+	 */
-+	ASSERT_EQ(stat.st_blksize, getpagesize());
-+
-+	close(mfd);
-+}
-+
-+TEST_F(reset_shmem_enabled, restrictedmem_fstat_shmem_enabled_always)
-+{
-+	int mfd = -1;
-+	struct stat stat;
-+	char *orig_shmem_enabled;
-+
-+	ASSERT_EQ(0, set_shmem_thp_policy("always"));
-+
-+	mfd = memfd_restricted(0, NULL);
-+	ASSERT_NE(-1, mfd);
-+
-+	ASSERT_EQ(0, fstat(mfd, &stat));
-+
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	close(mfd);
-+}
-+
-+TEST(restrictedmem_tmpfile_no_mount_path)
-+{
-+	int mfd = memfd_restricted(RMFD_TMPFILE, NULL);
-+
-+	ASSERT_EQ(-1, mfd);
-+	ASSERT_EQ(EINVAL, errno);
-+}
-+
-+TEST(restrictedmem_tmpfile_nonexistent_mount_path)
-+{
-+	int mfd = memfd_restricted(RMFD_TMPFILE,
-+				   "/nonexistent/nonexistent/nonexistent");
-+
-+	ASSERT_EQ(-1, mfd);
-+	ASSERT_EQ(ENOENT, errno);
-+}
-+
-+TEST(restrictedmem_tmpfile_not_tmpfs_mount)
-+{
-+	int mfd = memfd_restricted(RMFD_TMPFILE, "/proc");
-+
-+	ASSERT_EQ(-1, mfd);
-+	ASSERT_EQ(EINVAL, errno);
-+}
-+
-+static bool directory_exists(const char *path)
-+{
-+	struct stat sb;
-+
-+	return stat(path, &sb) == 0 && S_ISDIR(sb.st_mode);
-+}
-+
-+FIXTURE(tmpfs_hugepage_mount_path)
-+{
-+	char *mount_path;
-+};
-+
-+FIXTURE_SETUP(tmpfs_hugepage_mount_path)
-+{
-+	int ret = -1;
-+
-+	/* /tmp is an FHS-mandated world-writable directory */
-+	self->mount_path = "/tmp/restrictedmem-selftest-mnt";
-+
-+	if (!directory_exists(self->mount_path)) {
-+		ret = mkdir(self->mount_path, 0777);
-+		ASSERT_EQ(0, ret);
-+	}
-+}
-+
-+FIXTURE_TEARDOWN(tmpfs_hugepage_mount_path)
-+{
-+	int ret = -1;
-+
-+	if (!directory_exists(self->mount_path))
-+		return;
-+
-+	ret = umount2(self->mount_path, MNT_FORCE);
-+	EXPECT_EQ(0, ret);
-+	if (ret == -1 && errno == EINVAL)
-+		fprintf(stderr, "%s was not mounted\n", self->mount_path);
-+
-+	ret = rmdir(self->mount_path);
-+	ASSERT_EQ(0, ret);
-+}
-+
-+TEST_F(tmpfs_hugepage_mount_path, restrictedmem_fstat_tmpfs_huge_always)
-+{
-+	int ret = -1;
-+	int mfd = -1;
-+	struct stat stat;
-+
-+	ret = mount("name", self->mount_path, "tmpfs", 0, "huge=always");
-+	ASSERT_EQ(0, ret);
-+
-+	mfd = memfd_restricted(RMFD_TMPFILE, self->mount_path);
-+	ASSERT_NE(-1, mfd);
-+
-+	ret = fstat(mfd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	close(mfd);
-+}
-+
-+TEST_F(tmpfs_hugepage_mount_path, restrictedmem_fstat_tmpfs_huge_never)
-+{
-+	int ret = -1;
-+	int mfd = -1;
-+	struct stat stat;
-+
-+	ret = mount("name", self->mount_path, "tmpfs", 0, "huge=never");
-+	ASSERT_EQ(0, ret);
-+
-+	mfd = memfd_restricted(RMFD_TMPFILE, self->mount_path);
-+	ASSERT_NE(-1, mfd);
-+
-+	ret = fstat(mfd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, getpagesize());
-+
-+	close(mfd);
-+}
-+
-+TEST_F(tmpfs_hugepage_mount_path, restrictedmem_umount_rmdir_while_file_open)
-+{
-+	int ret = -1;
-+	int mfd = -1;
-+
-+	ret = mount("name", self->mount_path, "tmpfs", 0, "huge=always");
-+	ASSERT_EQ(0, ret);
-+
-+	mfd = memfd_restricted(RMFD_TMPFILE, self->mount_path);
-+	ASSERT_NE(-1, mfd);
-+
-+	ret = umount2(self->mount_path, MNT_FORCE);
-+	ASSERT_EQ(-1, ret);
-+	ASSERT_EQ(EBUSY, errno);
-+
-+	ret = rmdir(self->mount_path);
-+	ASSERT_EQ(-1, ret);
-+	ASSERT_EQ(EBUSY, errno);
-+
-+	close(mfd);
-+}
-+
-+TEST_F(tmpfs_hugepage_mount_path, restrictedmem_provide_mount_subdir)
-+{
-+	int ret = -1;
-+	int mfd = -1;
-+	struct stat stat;
-+	char subdir_path[PATH_MAX] = {0};
-+
-+	ret = mount("name", self->mount_path, "tmpfs", 0, "huge=always");
-+	ASSERT_EQ(0, ret);
-+
-+	snprintf(subdir_path, PATH_MAX, "%s/%s", self->mount_path, "subdir");
-+	ret = mkdir(subdir_path, 0777);
-+	ASSERT_EQ(0, ret);
-+
-+	/*
-+	 * Any subdirectory of a tmpfs mount can be provided to memfd_restricted
-+	 * as a reference to a mount
-+	 */
-+	mfd = memfd_restricted(RMFD_TMPFILE, subdir_path);
-+	ASSERT_NE(-1, mfd);
-+
-+	ret = fstat(mfd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	/*
-+	 * shmem file is created at the mount, so the subdirectory can be
-+	 * removed without issues.
-+	 */
-+	ret = rmdir(subdir_path);
-+	ASSERT_EQ(0, ret);
-+
-+	close(mfd);
-+}
-+
-+TEST_HARNESS_MAIN
+This is based on Marek idea of providing some API to cled but use a
+different implementation that in theory should be more generilized.
+
+The current idea is:
+- LED driver implement 3 API (hw_control_status/start/stop).
+  They are used to put the LED in hardware mode and to configure the
+  various trigger.
+- We have hardware triggers that are used to expose to userspace the
+  supported hardware mode and set the hardware mode on trigger
+  activation.
+- We can also have triggers that both support hardware and software mode.
+- The LED driver will declare each supported hardware blink mode and
+  communicate with the trigger all the supported blink modes that will
+  be available by sysfs.
+- A trigger will use blink_set to configure the blink mode to active
+  in hardware mode.
+- On hardware trigger activation, only the hardware mode is enabled but
+  the blink modes are not configured. The LED driver should reset any
+  link mode active by default.
+
+Each LED driver will have to declare explicit support for the offload
+trigger (or return not supported error code) as we the trigger_data that
+the LED driver will elaborate and understand what is referring to (based
+on the current active trigger).
+
+I posted a user for this new implementation that will benefit from this
+and will add a big feature to it. Currently qca8k can have up to 3 LEDs
+connected to each PHY port and we have some device that have only one of
+them connected and the default configuration won't work for that.
+
+The netdev trigger is expanded and it does now support hardware only
+triggers.
+The idea is to use hardware mode when a device_name is not defined.
+An additional sysfs entry is added to give some info about the available
+trigger modes supported in the current configuration.
+
+
+It was reported that at least 3 other switch family would benefits by
+this as they all lack support for a generic way to setup their leds and
+netdev team NACK each try to add special code to support LEDs present
+on switch in favor of a generic solution.
+
+v8:
+- Improve the documentation of the new feature
+- Rename to a more symbolic name
+- Fix some bug in netdev trigger (not using BIT())
+- Add more define for qca8k-leds driver
+- Add activity led mode
+- Drop interval support
+- Move qca8k brightness set to blocking variant (can sleep while
+  setting the mode)
+- More some function out of config define and provide variant if not
+  selected
+- Fix many bugs in the validate option in the netdev trigger
+- Add phy generic schema for leds support
+- Add additional required Documentation changes
+v7:
+- Rebase on top of net-next (for qca8k changes)
+- Fix some typo in commit description
+- Fix qca8k leds documentation warning
+- Remove RFC tag
+v6:
+- Back to RFC.
+- Drop additional trigger
+- Rework netdev trigger to support common modes used by switch and
+  hardware only triggers
+- Refresh qca8k leds logic and driver
+v5:
+- Move out of RFC. (no comments from Andrew this is the right path?)
+- Fix more spelling mistake (thx Randy)
+- Fix error reported by kernel test bot
+- Drop the additional HW_CONTROL flag. It does simplify CONFIG
+  handling and hw control should be available anyway to support
+  triggers as module.
+v4:
+- Rework implementation and drop hw_configure logic.
+  We now expand blink_set.
+- Address even more spelling mistake. (thx a lot Randy)
+- Drop blink option and use blink_set delay.
+- Rework phy-activity trigger to actually make the groups dynamic.
+v3:
+- Rework start/stop as Andrew asked.
+- Introduce more logic to permit a trigger to run in hardware mode.
+- Add additional patch with netdev hardware support.
+- Use test_bit API to check flag passed to hw_control_configure.
+- Added a new cmd to hw_control_configure to reset any active blink_mode.
+- Refactor all the patches to follow this new implementation.
+v2:
+- Fix spelling mistake (sorry)
+- Drop patch 02 "permit to declare supported offload triggers".
+  Change the logic, now the LED driver declare support for them
+  using the configure_offload with the cmd TRIGGER_SUPPORTED.
+- Rework code to follow this new implementation.
+- Update Documentation to better describe how this offload
+  implementation work.
+
+Christian Marangi (13):
+  leds: add support for hardware driven LEDs
+  leds: add function to configure hardware controlled LED
+  leds: trigger: netdev: drop NETDEV_LED_MODE_LINKUP from mode
+  leds: trigger: netdev: rename and expose NETDEV trigger enum modes
+  leds: trigger: netdev: convert device attr to macro
+  leds: trigger: netdev: add hardware control support
+  leds: trigger: netdev: use mutex instead of spinlocks
+  leds: trigger: netdev: add available mode sysfs attr
+  leds: trigger: netdev: add additional hardware only triggers
+  net: dsa: qca8k: add LEDs support
+  dt-bindings: leds: Document netdev trigger
+  dt-bindings: net: phy: Document support for leds node
+  dt-bindings: net: dsa: qca8k: add LEDs definition example
+
+ .../devicetree/bindings/leds/common.yaml      |   2 +
+ .../devicetree/bindings/net/dsa/qca8k.yaml    |  24 +
+ .../devicetree/bindings/net/ethernet-phy.yaml |  22 +
+ Documentation/leds/leds-class.rst             |  94 ++++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/led-class.c                      |  27 ++
+ drivers/leds/led-triggers.c                   |  38 ++
+ drivers/leds/trigger/ledtrig-netdev.c         | 414 ++++++++++++-----
+ drivers/net/dsa/qca/Kconfig                   |   9 +
+ drivers/net/dsa/qca/Makefile                  |   1 +
+ drivers/net/dsa/qca/qca8k-8xxx.c              |   4 +
+ drivers/net/dsa/qca/qca8k-leds.c              | 419 ++++++++++++++++++
+ drivers/net/dsa/qca/qca8k.h                   |  69 +++
+ include/linux/leds.h                          |  95 +++-
+ 14 files changed, 1126 insertions(+), 103 deletions(-)
+ create mode 100644 drivers/net/dsa/qca/qca8k-leds.c
+
 -- 
-2.39.1.637.g21b0678d19-goog
+2.38.1
 
