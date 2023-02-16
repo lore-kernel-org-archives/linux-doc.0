@@ -2,129 +2,276 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58740C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 05:14:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C12E1C636D7
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 05:41:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbjBPFOU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Feb 2023 00:14:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43490 "EHLO
+        id S229583AbjBPFlP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Feb 2023 00:41:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbjBPFOT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 00:14:19 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD2EB3E095;
-        Wed, 15 Feb 2023 21:14:18 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F28361E79;
-        Thu, 16 Feb 2023 05:14:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57DFEC433EF;
-        Thu, 16 Feb 2023 05:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676524457;
-        bh=5bN2qNXzQ4ZA0g4le+lak/ncOAC6JWfVkeV3mS7J638=;
+        with ESMTP id S229536AbjBPFlO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 00:41:14 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77A6517CD2;
+        Wed, 15 Feb 2023 21:41:11 -0800 (PST)
+Date:   Thu, 16 Feb 2023 05:41:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=t-8ch.de; s=mail;
+        t=1676526069; bh=ICRGtG9359SaAN/rDc4Md+VnU2SIcs/J7MxVLU42JTE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S6DhiGdHj1JDcPoZ1SfQW0UbLyKedojDvkeLmMsMmBwPwm5Yt9ALPyAEdUcNs/Kri
-         y0wdQjtRgesQPv1yH4KbX2jBYemiOzTpuPf+dczvYxTVGZ2quVV8mTHQhPE8aLG4e7
-         DXI8KPzfDbQEhul6FRH1xmCTTBptlv18inIYrE3lZPKsxHrObglGNVUJjYWLJw+yRh
-         qLoEV/M0+FXsR2Yyl4A/8ONxeFBM4nRHoCK+SPySEBCED0DLIe2fRJWz1w55/Uvg/l
-         XxPsCan76eLvTZglTKRcCOa4i7hQJI9KrgiS2Iu63uqvrH8MGX/DwoTfVEw+ty44Xp
-         JVI04vumpZNTw==
-Date:   Thu, 16 Feb 2023 07:13:53 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <Y+27kRxJoXlMcbtH@kernel.org>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+        b=EVmevh1UBjkgnuPL8cyJlYsFZOXbzyJZHUk5sjJZz+Og3E49NQvSIMnSuZwc+tLab
+         s86WIwibkZCETDvPZJEkC8E3ZBhvPJpUM54qh0KeOu9trOQ9GjbTL3laFBatJAOdek
+         m5KpFpCmhFJk/9gNRTBPHQxVGKyznz5HeWWrfgII=
+From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+To:     Orlando Chamberlain <orlandoch.dev@gmail.com>
+Cc:     linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>,
+        Aditya Garg <gargaditya08@live.com>,
+        Aun-Ali Zaidi <admin@kodeit.net>,
+        Kerem Karabay <kekrby@gmail.com>,
+        Andy Shevchenko <andy@infradead.org>
+Subject: Re: [PATCH 2/2] HID: apple-magic-backlight: Add driver for keyboard
+ backlight on internal Magic Keyboards
+Message-ID: <20230216054105.nmtft5ma4hiuqwib@t-8ch.de>
+References: <20230216041224.4731-1-orlandoch.dev@gmail.com>
+ <20230216041224.4731-3-orlandoch.dev@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+In-Reply-To: <20230216041224.4731-3-orlandoch.dev@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Thu, Feb 16, 2023 at 03:12:28PM +1100, Orlando Chamberlain wrote:
+> This driver adds support for the keyboard backlight on Intel T2 Macs
+> with internal Magic Keyboards (MacBookPro16,x and MacBookAir9,1)
+> 
+> Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
+> Co-developed-by: Kerem Karabay <kekrby@gmail.com>
+> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
 
-On Fri, Dec 02, 2022 at 02:13:38PM +0800, Chao Peng wrote:
-> This patch series implements KVM guest private memory for confidential
-> computing scenarios like Intel TDX[1]. If a TDX host accesses
-> TDX-protected guest memory, machine check can happen which can further
-> crash the running host system, this is terrible for multi-tenant
-> configurations. The host accesses include those from KVM userspace like
-> QEMU. This series addresses KVM userspace induced crash by introducing
-> new mm and KVM interfaces so KVM userspace can still manage guest memory
-> via a fd-based approach, but it can never access the guest memory
-> content.
+The last Signed-off-by should be yours.
+See Documentation/process/submitting-patches.rst.
 
-Sorry for jumping late.
+> ---
+>  MAINTAINERS                         |   6 ++
+>  drivers/hid/Kconfig                 |  13 +++
+>  drivers/hid/Makefile                |   1 +
+>  drivers/hid/apple-magic-backlight.c | 125 ++++++++++++++++++++++++++++
+>  4 files changed, 145 insertions(+)
+>  create mode 100644 drivers/hid/apple-magic-backlight.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fb1471cb5ed3..3319f0c3ed1e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9201,6 +9201,12 @@ F:	include/linux/pm.h
+>  F:	include/linux/suspend.h
+>  F:	kernel/power/
+>  
+> +HID APPLE MAGIC BACKLIGHT DRIVER
+> +M:	Orlando Chamberlain <orlandoch.dev@gmail.com>
+> +L:	linux-input@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/hid/apple-magic-backlight.c
+> +
+>  HID CORE LAYER
+>  M:	Jiri Kosina <jikos@kernel.org>
+>  M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index e2a5d30c8895..f4702d32ce2f 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -130,6 +130,19 @@ config HID_APPLE
+>  	Say Y here if you want support for keyboards of	Apple iBooks, PowerBooks,
+>  	MacBooks, MacBook Pros and Apple Aluminum.
+>  
+> +config HID_APPLE_MAGIC_BACKLIGHT
+> +	tristate "Apple Magic Keyboard Backlight"
+> +	depends on USB_HID
+> +	depends on LEDS_CLASS
+> +	depends on NEW_LEDS
+> +	help
+> +	Say Y here if you want support for the keyboard backlight on Macs with
+> +	the magic keyboard (MacBookPro16,x and MacBookAir9,1). Note that this
+> +	driver is not for external magic keyboards.
+> +
+> +	To compile this driver as a module, choose M here: the
+> +	module will be called apple-magic-backlight.
+> +
+>  config HID_APPLEIR
+>  	tristate "Apple infrared receiver"
+>  	depends on (USB_HID)
+> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+> index e8014c1a2f8b..5cbfe85dd31b 100644
+> --- a/drivers/hid/Makefile
+> +++ b/drivers/hid/Makefile
+> @@ -26,6 +26,7 @@ obj-$(CONFIG_HID_ACCUTOUCH)	+= hid-accutouch.o
+>  obj-$(CONFIG_HID_ALPS)		+= hid-alps.o
+>  obj-$(CONFIG_HID_ACRUX)		+= hid-axff.o
+>  obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
+> +obj-$(CONFIG_HID_APPLE_MAGIC_BACKLIGHT)	+= apple-magic-backlight.o
+>  obj-$(CONFIG_HID_APPLEIR)	+= hid-appleir.o
+>  obj-$(CONFIG_HID_CREATIVE_SB0540)	+= hid-creative-sb0540.o
+>  obj-$(CONFIG_HID_ASUS)		+= hid-asus.o
+> diff --git a/drivers/hid/apple-magic-backlight.c b/drivers/hid/apple-magic-backlight.c
+> new file mode 100644
+> index 000000000000..ed5bcf5bb599
+> --- /dev/null
+> +++ b/drivers/hid/apple-magic-backlight.c
+> @@ -0,0 +1,125 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Apple Magic Keyboard Backlight Driver
+> + *
+> + * For Intel Macs with internal Magic Keyboard (MacBookPro16,1-4 and MacBookAir9,1)
+> + *
+> + * Copyright (c) 2022 Kerem Karabay <kekrby@gmail.com>
+> + * Copyright (c) 2023 Orlando Chamberlain <orlandoch.dev@gmail.com>
+> + */
+> +
+> +#include <linux/hid.h>
+> +#include <linux/usb.h>
 
-Unless I'm missing something, hibernation will also cause an machine check
-when there is TDX-protected memory in the system. When the hibernation
-creates memory snapshot it essentially walks all physical pages and saves
-their contents, so for TDX memory this will trigger machine check, right?
- 
->  Documentation/virt/kvm/api.rst         | 125 ++++++-
->  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
->  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
->  arch/x86/include/asm/kvm_host.h        |   9 +
->  arch/x86/kvm/Kconfig                   |   3 +
->  arch/x86/kvm/mmu/mmu.c                 | 205 ++++++++++-
->  arch/x86/kvm/mmu/mmu_internal.h        |  14 +-
->  arch/x86/kvm/mmu/mmutrace.h            |   1 +
->  arch/x86/kvm/mmu/tdp_mmu.c             |   2 +-
->  arch/x86/kvm/x86.c                     |  17 +-
->  include/linux/kvm_host.h               | 103 +++++-
->  include/linux/restrictedmem.h          |  71 ++++
->  include/linux/syscalls.h               |   1 +
->  include/uapi/asm-generic/unistd.h      |   5 +-
->  include/uapi/linux/kvm.h               |  53 +++
->  include/uapi/linux/magic.h             |   1 +
->  kernel/sys_ni.c                        |   3 +
->  mm/Kconfig                             |   4 +
->  mm/Makefile                            |   1 +
->  mm/memory-failure.c                    |   3 +
->  mm/restrictedmem.c                     | 318 +++++++++++++++++
->  virt/kvm/Kconfig                       |   6 +
->  virt/kvm/kvm_main.c                    | 469 +++++++++++++++++++++----
->  23 files changed, 1323 insertions(+), 93 deletions(-)
->  create mode 100644 include/linux/restrictedmem.h
->  create mode 100644 mm/restrictedmem.c
+No need for linux/usb.h.
 
--- 
-Sincerely yours,
-Mike.
+> +#include <linux/leds.h>
+> +#include <linux/device.h>
+> +#include <linux/errno.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +#include "hid-ids.h"
+> +
+> +#define HID_USAGE_MAGIC_BL	0xff00000f
+> +
+> +#define APPLE_MAGIC_REPORT_ID_POWER 3
+> +#define APPLE_MAGIC_REPORT_ID_BRIGHTNESS 1
+> +
+> +struct apple_magic_backlight {
+> +	struct led_classdev cdev;
+> +	struct hid_device *hdev;
+> +	struct hid_report *brightness;
+> +	struct hid_report *power;
+> +};
+> +
+> +static void apple_magic_backlight_report_set(struct hid_report *rep, u16 value, u8 rate)
+> +{
+
+Could "value" be a s32? "logical_maximum" from the field is a s32,
+so there is no risk of truncation.
+
+> +	rep->field[0]->value[0] = value;
+> +	rep->field[1]->value[0] = 0x5e; /* Mimic Windows */
+> +	rep->field[1]->value[0] |= rate << 8;
+> +
+> +	hid_hw_request(rep->device, rep, HID_REQ_SET_REPORT);
+> +}
+> +
+> +static void apple_magic_backlight_set(struct apple_magic_backlight *backlight,
+> +				     int brightness, char rate)
+> +{
+> +	apple_magic_backlight_report_set(backlight->power, brightness ? 1 : 0, rate);
+> +	if (brightness)
+> +		apple_magic_backlight_report_set(backlight->brightness, brightness, rate);
+> +}
+> +
+> +static int apple_magic_backlight_led_set(struct led_classdev *led_cdev,
+> +					 enum led_brightness brightness)
+> +{
+> +	struct apple_magic_backlight *backlight = container_of(led_cdev,
+> +			struct apple_magic_backlight, cdev);
+> +
+> +	apple_magic_backlight_set(backlight, brightness, 1);
+> +	return 0;
+> +}
+> +
+> +static int apple_magic_backlight_probe(struct hid_device *hdev,
+> +				       const struct hid_device_id *id)
+> +{
+> +	struct apple_magic_backlight *backlight;
+> +	int rc;
+> +
+> +	rc = hid_parse(hdev);
+> +	if (rc)
+> +		return rc;
+> +
+> +	/*
+> +	 * Ensure this usb endpoint is for the keyboard backlight, not touchbar
+> +	 * backlight.
+> +	 */
+> +	if (!(hdev->collection && hdev->collection[0].usage == HID_USAGE_MAGIC_BL))
+> +		return -ENODEV;
+
+I don't think hdev->collection can ever be NULL.
+
+Also personally I would prefer this:
+
+!hdev->collection || hdev->collection[0].usage != HID_USAGE_MAGIC_BL
+
+Like it is done with the reports below.
+
+> +
+> +	backlight = devm_kzalloc(&hdev->dev, sizeof(*backlight), GFP_KERNEL);
+> +	if (!backlight)
+> +		return -ENOMEM;
+> +
+> +	hid_set_drvdata(hdev, backlight);
+
+Is this needed?
+
+> +
+> +	rc = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+> +	if (rc)
+> +		return rc;
+> +
+> +	backlight->brightness = hid_register_report(hdev, HID_FEATURE_REPORT,
+> +			APPLE_MAGIC_REPORT_ID_BRIGHTNESS, 0);
+> +	backlight->power = hid_register_report(hdev, HID_FEATURE_REPORT,
+> +			APPLE_MAGIC_REPORT_ID_POWER, 0);
+> +
+> +	if (!backlight->brightness || !backlight->power) {
+> +		rc = -ENODEV;
+> +		goto hw_stop;
+> +	}
+> +
+> +	backlight->hdev = hdev;
+> +	backlight->cdev.name = ":white:" LED_FUNCTION_KBD_BACKLIGHT;
+
+> +	backlight->cdev.max_brightness = backlight->brightness->field[0]->logical_maximum;
+> +	backlight->cdev.brightness_set_blocking = apple_magic_backlight_led_set;
+> +
+> +	apple_magic_backlight_set(backlight, 0, 0);
+> +
+> +	return devm_led_classdev_register(&hdev->dev, &backlight->cdev);
+> +
+> +hw_stop:
+> +	hid_hw_stop(hdev);
+> +	return rc;
+> +}
+> +
+> +static const struct hid_device_id apple_magic_backlight_hid_ids[] = {
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(hid, apple_magic_backlight_hid_ids);
+> +
+> +static struct hid_driver apple_magic_backlight_hid_driver = {
+> +	.name = "apple-magic-backlight",
+> +	.id_table = apple_magic_backlight_hid_ids,
+> +	.probe = apple_magic_backlight_probe,
+> +};
+> +module_hid_driver(apple_magic_backlight_hid_driver);
+> +
+> +MODULE_DESCRIPTION("MacBook Magic Keyboard Backlight");
+> +MODULE_AUTHOR("Orlando Chamberlain <orlandoch.dev@gmail.com>");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.39.1
+> 
+
+Note: Only your cover letter has the "v2" prefix.
+Normally git format-patch should apply this properly to all patches when
+using --reroll-count.
