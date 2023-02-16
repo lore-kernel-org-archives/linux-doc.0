@@ -2,299 +2,270 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D20C3C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 07:11:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC5E1C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 08:18:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229537AbjBPHLC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Feb 2023 02:11:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34364 "EHLO
+        id S229688AbjBPISd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Feb 2023 03:18:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjBPHLB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 02:11:01 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FCFA27D7F;
-        Wed, 15 Feb 2023 23:11:00 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id mg23so1059466pjb.0;
-        Wed, 15 Feb 2023 23:11:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JEpZD+CHsAwztPW16N+o6srsm2/QbJ/Y4/xSr2j8z+c=;
-        b=SWmokZ7pthFFaXLIWoeiGEqIJTZi2trT0tAieWxth5HIG0uD0G/ZCrrDiMz4ZDUCqS
-         EynGT6sPDzwoXpbyWkPMhtiirJW+ucjVS+GmLQ+MEqdQx7g7rqPeuTiRHPrX6tnGVmk0
-         XtrCGNM8bO4Bml1vKjgkfs4wTNy+nZKoohJ3Lnb8et5KJJ9lsfV9hcpIdp608BsehfKy
-         OdlSgjgxS6LGzkFRvO6b7/wzr0zYYJqUi4MG+3t1+dDYDsLOIPOM02jhB+msDp5a8uM+
-         4sLs+s1OOT/r6bSOk7rci8bXfQ6jVB8O1jYTbQN18hfhEN8qkI8ViPaw2V6YQR2unjk7
-         tPLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JEpZD+CHsAwztPW16N+o6srsm2/QbJ/Y4/xSr2j8z+c=;
-        b=GSzh28ubVJZWVMwYAUEm1Ds1aCqArqZsqatIc5dTJKzMexJ1gR7sOGuSrt+5riJAeL
-         WDCXXTDCEnUJ9qK9+NLkM+i5JCp9CpD89npeXegsiHPz+/gF8oVitNyiPwoMPm1bh8t6
-         kTnnbCDcqEI+uTvdtotRS5rODHRNRRDHNTmkIq8uWOzmAE7FUdDljukZI8X5FmsszUAA
-         xjY9MnhXDUPwUcaMrd8KJwtE8T+Y9V9CzveW7t746frbpGTIRCSRAhuNPD+VuvzIvLwn
-         a2kB5LULRBtRvTSUDzHLy72hQFERRHjEpAF1/C7TNgZPvfRRKO255fHWYn28PFV15wyI
-         xzgA==
-X-Gm-Message-State: AO0yUKWS292YEnVZsLwbAz7Y7+h6P8YAlC+BQ8N4Sa9/7CYRJkRynTOE
-        c0I1otxFz/aWaFIDmFHfO15BFwygzowe7g==
-X-Google-Smtp-Source: AK7set87WQ6chGHyHGTgR5zUhp6jJBXsL+kOp3nn/NOkS5VS3P45sSiOJj7m8EbP4WSQxYTeEfOx0w==
-X-Received: by 2002:a17:902:da8b:b0:19a:f02c:a05b with SMTP id j11-20020a170902da8b00b0019af02ca05bmr1087586plx.3.1676531459810;
-        Wed, 15 Feb 2023 23:10:59 -0800 (PST)
-Received: from redecorated-mbp ([202.53.32.211])
-        by smtp.gmail.com with ESMTPSA id jb6-20020a170903258600b0019a7563ff15sm531673plb.115.2023.02.15.23.10.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Feb 2023 23:10:59 -0800 (PST)
-Date:   Thu, 16 Feb 2023 18:10:50 +1100
-From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>,
-        Aditya Garg <gargaditya08@live.com>,
-        Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas@t-8ch.de>
-Subject: Re: [PATCH 2/2] HID: apple-magic-backlight: Add driver for keyboard
- backlight on internal Magic Keyboards
-Message-ID: <20230216181050.52a31247@redecorated-mbp>
-In-Reply-To: <20230216041224.4731-3-orlandoch.dev@gmail.com>
-References: <20230216041224.4731-1-orlandoch.dev@gmail.com>
-        <20230216041224.4731-3-orlandoch.dev@gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
+        with ESMTP id S229483AbjBPISc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 03:18:32 -0500
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2087.outbound.protection.outlook.com [40.107.102.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D3E526CC3;
+        Thu, 16 Feb 2023 00:18:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=djZFQ2yfp3vUXuQlLh6pDcp6ryVrxuIIHe+pK/HMvQ8ibi4jFOFZql6B5s6Ij5cC/AUazFhKodaHa2ODGcUlJN+0EHz23coHK/Smi5CaZfX9eLgr4/y1EtF8PlNCl40hCAc42SKUrJL99a+AwrPTOsOuuvuR5fnXRgaaIwtKBZxoYJ/EklVNgUDJnV1SES+da05SXnuCQUkrTuF/kkOiXoU6A2F69GowaQ/onEYOKyxeQ8dl+8H4fwx9+b4y47w5Z577jURetWc1UGsjYtjZ3VtihgXGtZ1kqPsgX+0+gFxpJP7YqZTEloBa9YGE8tEkf65cMVzr++FtAt2C+3u82g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kdxzbMR1RLITAVEUbuAu2zn2b5m8v19/BpE3vhbc5So=;
+ b=AVyaVOMm5uWvu+9fYTs9evUqYCApLAyBueMkl1na78LCIj+IyiasL2oUNawNrwgAb5KayS8tORTUPw/yO9wOh77uK/EXIAfyBn9RdbPVdKPMZxCQSJllqPxZ+b/mBT9nJAqOSYqSmOWgCNO1D6Suy5rRcET9se7RbTCdRiFvEYef6n8FLERfoB3uwtqngnLV5hJl2FkluxSNHFNvBRtMPlyGBMRtTq98SFVOuDXzbSDQEjkZKFeW8+SrHcwMyILep8VxB4Wow4ELKuhoOlJwR1VMT7XhHuzotmiRMiUMnl/q8fMmhgLso4qqs9PN8ZGwSuMmesZQxk9ZaofEvDEZ1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kdxzbMR1RLITAVEUbuAu2zn2b5m8v19/BpE3vhbc5So=;
+ b=y5LWUhfffe9FiSC9pFUNfHwPdJTqFIJv49qIGzuVlj84cd025LrSO5UeJg7iY9exlM1PlN6B4Epi/UIF6SVb3bJM6Y5e122V0VmYMMb5aIvvOwwwei9UW/1CrNVmJRqHuQQoJF6B5QVj0/VdFVbQ8JdVBhhkTwewCSzMNEjWRYg=
+Received: from BN0PR03CA0025.namprd03.prod.outlook.com (2603:10b6:408:e6::30)
+ by SA3PR12MB7808.namprd12.prod.outlook.com (2603:10b6:806:31b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Thu, 16 Feb
+ 2023 08:18:24 +0000
+Received: from BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e6:cafe::b7) by BN0PR03CA0025.outlook.office365.com
+ (2603:10b6:408:e6::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26 via Frontend
+ Transport; Thu, 16 Feb 2023 08:18:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT034.mail.protection.outlook.com (10.13.176.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6111.13 via Frontend Transport; Thu, 16 Feb 2023 08:18:23 +0000
+Received: from beas.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 16 Feb
+ 2023 02:18:18 -0600
+From:   Wyes Karny <wyes.karny@amd.com>
+To:     Rafael J Wysocki <rafael@kernel.org>,
+        Huang Rui <ray.huang@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        <Mario.Limonciello@amd.com>, <Perry.Yuan@amd.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+        <santosh.shukla@amd.com>, Len Brown <lenb@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Ananth Narayan <ananth.narayan@amd.com>,
+        <gautham.shenoy@amd.com>, Tor Vic <torvic9@mailbox.org>,
+        Russell Haley <yumpusamongus@gmail.com>,
+        Wyes Karny <wyes.karny@amd.com>
+Subject: [PATCH v7 0/6] cpufreq: amd-pstate: Add guided autonomous mode support
+Date:   Thu, 16 Feb 2023 08:17:56 +0000
+Message-ID: <20230216081802.38007-1-wyes.karny@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT034:EE_|SA3PR12MB7808:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82ba426f-4cf0-4f22-94e8-08db0ff65f4e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kYCqUQwyz9uLqabnpoHx0eMaGXEVRiaQMxTrGFTJQGsIbRWxjkmob5Tzzp6YFpd15p5CBx0Bojyfz5rjWSLGPUQpnCcQWd85nzErA0RZxUVPDogFlbqYJZ7yf4EGUQQ3or0S+2bU6lxq5x/uBuV8GdbW0BES3zXfnto7CxF3ETfPUJVdnSjhqAJDusj4+BqmfKlpW+YLttB9QHrH4Herh4SI3nEz+cGFYl6I9kt1kWNttnqqzXocBNCcg9eGZoBUdE0KPIjWs92yz8AMnGXXO36pRbZG+KednHVfFGuDtivWA6Aee/KV3dd9iu/EuaoNDJM4Qqg1wygZ83NEVpEg/bUtoTCtY82Sql0lAaHAlk4+h0P/qKjiBcXfwQbavLZF9otL1uHd5Wuot9QPLFSbhTNKQJQXx8iopknFYLgD8pvVC23+LZrR2QIbAGVnELc82XLv4X+mLqkBLQCMvuf0Fn5NobsCJAx+/i2jySq+Kafb+yomSsR48hI82ZLin8NlOK0LPyiS9OwL3yGD5X7hRTBxMg/xSn5AxO/bxjBAo7eL67qXUmfVQaQYQNcMQGYKjFBxP1Kx3rFIFR9nDbI5ZJ1JDg2OVfp1RrKHFK83mmkq73X+b4rETfkoPbzzkWu1/FFMPr7SoxyMhz00QDbH5YspJzAzsqTlkFnjExgd2FXUh0wnfi+ZfXYAozLmidlTSB6YJ+UuAMgJiKqmp5nZJR/gBDWbj9DAk49ZVSczjleyV5xFGRiqZg6Yftmf73Z8ccXU+wcfBEqKCUrS7vnIZw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(396003)(136003)(39860400002)(376002)(346002)(451199018)(36840700001)(46966006)(40470700004)(7696005)(478600001)(966005)(36860700001)(40480700001)(426003)(47076005)(83380400001)(356005)(82310400005)(86362001)(82740400003)(81166007)(6666004)(1076003)(336012)(36756003)(26005)(186003)(16526019)(40460700003)(2616005)(316002)(70586007)(70206006)(8676002)(5660300002)(7416002)(4326008)(6636002)(8936002)(54906003)(110136005)(41300700001)(44832011)(2906002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 08:18:23.7945
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82ba426f-4cf0-4f22-94e8-08db0ff65f4e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7808
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 16 Feb 2023 15:12:28 +1100
-Orlando Chamberlain <orlandoch.dev@gmail.com> wrote:
+From ACPI spec[1] below 3 modes for CPPC can be defined:
+1. Non autonomous: OS scaling governor specifies operating frequency/
+   performance level through `Desired Performance` register and platform
+follows that.
+2. Guided autonomous: OS scaling governor specifies min and max
+   frequencies/ performance levels through `Minimum Performance` and
+`Maximum Performance` register, and platform can autonomously select an
+operating frequency in this range.
+3. Fully autonomous: OS only hints (via EPP) to platform for the required
+   energy performance preference for the workload and platform autonomously
+scales the frequency.
 
-> This driver adds support for the keyboard backlight on Intel T2 Macs
-> with internal Magic Keyboards (MacBookPro16,x and MacBookAir9,1)
-> 
-> Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
-> Co-developed-by: Kerem Karabay <kekrby@gmail.com>
-> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-> ---
->  MAINTAINERS                         |   6 ++
->  drivers/hid/Kconfig                 |  13 +++
->  drivers/hid/Makefile                |   1 +
->  drivers/hid/apple-magic-backlight.c | 125
+Currently (1) is supported by amd_pstate as passive mode, and (3) is
+implemented by EPP support[2]. This change is to support (2).
 
-A general question to the hid/input folks:
+In guided autonomous mode the min_perf is based on the input from the
+scaling governor. For example, in case of schedutil this value depends
+on the current utilization. And max_perf is set to max capacity.
 
-Is it alright that this doesn't start with "hid-"? All the other
-drivers start with that so I'm not sure if its an issue. If it is, then
-I can rename it to "hid-apple-magic-backlight".
+To activate guided auto mode ``amd_pstate=guided`` command line
+parameter has to be passed in the kernel.
 
-> ++++++++++++++++++++++++++++ 4 files changed, 145 insertions(+)
->  create mode 100644 drivers/hid/apple-magic-backlight.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fb1471cb5ed3..3319f0c3ed1e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9201,6 +9201,12 @@ F:	include/linux/pm.h
->  F:	include/linux/suspend.h
->  F:	kernel/power/
->  
-> +HID APPLE MAGIC BACKLIGHT DRIVER
-> +M:	Orlando Chamberlain <orlandoch.dev@gmail.com>
-> +L:	linux-input@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/hid/apple-magic-backlight.c
-> +
->  HID CORE LAYER
->  M:	Jiri Kosina <jikos@kernel.org>
->  M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index e2a5d30c8895..f4702d32ce2f 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -130,6 +130,19 @@ config HID_APPLE
->  	Say Y here if you want support for keyboards of	Apple
-> iBooks, PowerBooks, MacBooks, MacBook Pros and Apple Aluminum.
->  
-> +config HID_APPLE_MAGIC_BACKLIGHT
-> +	tristate "Apple Magic Keyboard Backlight"
-> +	depends on USB_HID
-> +	depends on LEDS_CLASS
-> +	depends on NEW_LEDS
-> +	help
-> +	Say Y here if you want support for the keyboard backlight on
-> Macs with
-> +	the magic keyboard (MacBookPro16,x and MacBookAir9,1). Note
-> that this
-> +	driver is not for external magic keyboards.
-> +
-> +	To compile this driver as a module, choose M here: the
-> +	module will be called apple-magic-backlight.
-> +
->  config HID_APPLEIR
->  	tristate "Apple infrared receiver"
->  	depends on (USB_HID)
-> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> index e8014c1a2f8b..5cbfe85dd31b 100644
-> --- a/drivers/hid/Makefile
-> +++ b/drivers/hid/Makefile
-> @@ -26,6 +26,7 @@ obj-$(CONFIG_HID_ACCUTOUCH)	+=
-> hid-accutouch.o obj-$(CONFIG_HID_ALPS)		+= hid-alps.o
->  obj-$(CONFIG_HID_ACRUX)		+= hid-axff.o
->  obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
-> +obj-$(CONFIG_HID_APPLE_MAGIC_BACKLIGHT)	+=
-> apple-magic-backlight.o obj-$(CONFIG_HID_APPLEIR)	+=
-> hid-appleir.o obj-$(CONFIG_HID_CREATIVE_SB0540)	+=
-> hid-creative-sb0540.o obj-$(CONFIG_HID_ASUS)		+=
-> hid-asus.o diff --git a/drivers/hid/apple-magic-backlight.c
-> b/drivers/hid/apple-magic-backlight.c new file mode 100644
-> index 000000000000..ed5bcf5bb599
-> --- /dev/null
-> +++ b/drivers/hid/apple-magic-backlight.c
-> @@ -0,0 +1,125 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Apple Magic Keyboard Backlight Driver
-> + *
-> + * For Intel Macs with internal Magic Keyboard (MacBookPro16,1-4 and
-> MacBookAir9,1)
-> + *
-> + * Copyright (c) 2022 Kerem Karabay <kekrby@gmail.com>
-> + * Copyright (c) 2023 Orlando Chamberlain <orlandoch.dev@gmail.com>
-> + */
-> +
-> +#include <linux/hid.h>
-> +#include <linux/usb.h>
-> +#include <linux/leds.h>
-> +#include <linux/device.h>
-> +#include <linux/errno.h>
-> +#include <dt-bindings/leds/common.h>
-> +
-> +#include "hid-ids.h"
-> +
-> +#define HID_USAGE_MAGIC_BL	0xff00000f
-> +
-> +#define APPLE_MAGIC_REPORT_ID_POWER 3
-> +#define APPLE_MAGIC_REPORT_ID_BRIGHTNESS 1
-> +
-> +struct apple_magic_backlight {
-> +	struct led_classdev cdev;
-> +	struct hid_device *hdev;
-> +	struct hid_report *brightness;
-> +	struct hid_report *power;
-> +};
-> +
-> +static void apple_magic_backlight_report_set(struct hid_report *rep,
-> u16 value, u8 rate) +{
-> +	rep->field[0]->value[0] = value;
-> +	rep->field[1]->value[0] = 0x5e; /* Mimic Windows */
-> +	rep->field[1]->value[0] |= rate << 8;
-> +
-> +	hid_hw_request(rep->device, rep, HID_REQ_SET_REPORT);
-> +}
-> +
-> +static void apple_magic_backlight_set(struct apple_magic_backlight
-> *backlight,
-> +				     int brightness, char rate)
-> +{
-> +	apple_magic_backlight_report_set(backlight->power,
-> brightness ? 1 : 0, rate);
-> +	if (brightness)
-> +
-> apple_magic_backlight_report_set(backlight->brightness, brightness,
-> rate); +} +
-> +static int apple_magic_backlight_led_set(struct led_classdev
-> *led_cdev,
-> +					 enum led_brightness
-> brightness) +{
-> +	struct apple_magic_backlight *backlight =
-> container_of(led_cdev,
-> +			struct apple_magic_backlight, cdev);
-> +
-> +	apple_magic_backlight_set(backlight, brightness, 1);
-> +	return 0;
-> +}
-> +
-> +static int apple_magic_backlight_probe(struct hid_device *hdev,
-> +				       const struct hid_device_id
-> *id) +{
-> +	struct apple_magic_backlight *backlight;
-> +	int rc;
-> +
-> +	rc = hid_parse(hdev);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/*
-> +	 * Ensure this usb endpoint is for the keyboard backlight,
-> not touchbar
-> +	 * backlight.
-> +	 */
-> +	if (!(hdev->collection && hdev->collection[0].usage ==
-> HID_USAGE_MAGIC_BL))
-> +		return -ENODEV;
-> +
-> +	backlight = devm_kzalloc(&hdev->dev, sizeof(*backlight),
-> GFP_KERNEL);
-> +	if (!backlight)
-> +		return -ENOMEM;
-> +
-> +	hid_set_drvdata(hdev, backlight);
-> +
-> +	rc = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-> +	if (rc)
-> +		return rc;
-> +
-> +	backlight->brightness = hid_register_report(hdev,
-> HID_FEATURE_REPORT,
-> +			APPLE_MAGIC_REPORT_ID_BRIGHTNESS, 0);
-> +	backlight->power = hid_register_report(hdev,
-> HID_FEATURE_REPORT,
-> +			APPLE_MAGIC_REPORT_ID_POWER, 0);
-> +
-> +	if (!backlight->brightness || !backlight->power) {
-> +		rc = -ENODEV;
-> +		goto hw_stop;
-> +	}
-> +
-> +	backlight->hdev = hdev;
-> +	backlight->cdev.name = ":white:" LED_FUNCTION_KBD_BACKLIGHT;
-> +	backlight->cdev.max_brightness =
-> backlight->brightness->field[0]->logical_maximum;
-> +	backlight->cdev.brightness_set_blocking =
-> apple_magic_backlight_led_set; +
-> +	apple_magic_backlight_set(backlight, 0, 0);
-> +
-> +	return devm_led_classdev_register(&hdev->dev,
-> &backlight->cdev); +
-> +hw_stop:
-> +	hid_hw_stop(hdev);
-> +	return rc;
-> +}
-> +
-> +static const struct hid_device_id apple_magic_backlight_hid_ids[] = {
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-> USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(hid, apple_magic_backlight_hid_ids);
-> +
-> +static struct hid_driver apple_magic_backlight_hid_driver = {
-> +	.name = "apple-magic-backlight",
-> +	.id_table = apple_magic_backlight_hid_ids,
-> +	.probe = apple_magic_backlight_probe,
-> +};
-> +module_hid_driver(apple_magic_backlight_hid_driver);
-> +
-> +MODULE_DESCRIPTION("MacBook Magic Keyboard Backlight");
-> +MODULE_AUTHOR("Orlando Chamberlain <orlandoch.dev@gmail.com>");
-> +MODULE_LICENSE("GPL");
+Below are the results (normalized) of benchmarks with this patch:
+System: Genoa 96C 192T
+Kernel: 6.2.0-rc2 + EPP v12 + patch
+Scaling governor: schedutil
+
+================ dbench comparisons ================
+dbench result comparison:
+Here results are throughput (MB/s)
+Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+    1	   1.00 (0.00 pct)	   1.01 (1.00 pct)	   1.02 (2.00 pct)
+    2	   1.07 (0.00 pct)	   1.06 (-0.93 pct)	   1.07 (0.00 pct)
+    4	   1.68 (0.00 pct)	   1.70 (1.19 pct)	   1.72 (2.38 pct)
+    8	   2.61 (0.00 pct)	   2.68 (2.68 pct)	   2.76 (5.74 pct)
+   16	   4.16 (0.00 pct)	   4.24 (1.92 pct)	   4.53 (8.89 pct)
+   32	   5.98 (0.00 pct)	   6.17 (3.17 pct)	   7.30 (22.07 pct)
+   64	   8.67 (0.00 pct)	   8.99 (3.69 pct)	  10.71 (23.52 pct)
+  128	  11.98 (0.00 pct)	  12.52 (4.50 pct)	  14.67 (22.45 pct)
+  256	  15.73 (0.00 pct)	  16.13 (2.54 pct)	  17.81 (13.22 pct)
+  512	  15.77 (0.00 pct)	  16.32 (3.48 pct)	  16.39 (3.93 pct)
+dbench power comparison:
+Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+    1	   1.00 (0.00 pct)	   1.00 (0.00 pct)	   1.04 (4.00 pct)
+    2	   0.99 (0.00 pct)	   0.97 (-2.02 pct)	   1.02 (3.03 pct)
+    4	   0.98 (0.00 pct)	   0.98 (0.00 pct)	   1.02 (4.08 pct)
+    8	   0.98 (0.00 pct)	   0.99 (1.02 pct)	   1.02 (4.08 pct)
+   16	   0.99 (0.00 pct)	   1.00 (1.01 pct)	   1.04 (5.05 pct)
+   32	   1.02 (0.00 pct)	   1.02 (0.00 pct)	   1.07 (4.90 pct)
+   64	   1.05 (0.00 pct)	   1.05 (0.00 pct)	   1.11 (5.71 pct)
+  128	   1.08 (0.00 pct)	   1.08 (0.00 pct)	   1.15 (6.48 pct)
+  256	   1.12 (0.00 pct)	   1.12 (0.00 pct)	   1.20 (7.14 pct)
+  512	   1.18 (0.00 pct)	   1.17 (-0.84 pct)	   1.26 (6.77 pct)
+
+================ git-source comparisons ================
+git-source result comparison:
+Here results are throughput (compilations per 1000 sec)
+Threads:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+  192	   1.00 (0.00 pct)	   0.93 (-7.00 pct)	   1.00 (0.00 pct)
+git-source power comparison:
+Threads:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+  192	   1.00 (0.00 pct)	   1.00 (0.00 pct)	   0.96 (-4.00 pct)
+
+================ kernbench comparisons ================
+kernbench result comparison:
+Here results are throughput (compilations per 1000 sec)
+Load:	   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+32	   1.00 (0.00 pct)	   1.01 (1.00 pct)	   1.02 (2.00 pct)
+48	   1.26 (0.00 pct)	   1.28 (1.58 pct)	   1.25 (-0.79 pct)
+64	   1.39 (0.00 pct)	   1.47 (5.75 pct)	   1.43 (2.87 pct)
+96	   1.48 (0.00 pct)	   1.50 (1.35 pct)	   1.49 (0.67 pct)
+128	   1.29 (0.00 pct)	   1.32 (2.32 pct)	   1.33 (3.10 pct)
+192	   1.17 (0.00 pct)	   1.20 (2.56 pct)	   1.21 (3.41 pct)
+256	   1.17 (0.00 pct)	   1.18 (0.85 pct)	   1.20 (2.56 pct)
+384	   1.16 (0.00 pct)	   1.17 (0.86 pct)	   1.21 (4.31 pct)
+kernbench power comparison:
+Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+   32	   1.00 (0.00 pct)	   0.97 (-3.00 pct)	   1.00 (0.00 pct)
+   48	   0.87 (0.00 pct)	   0.81 (-6.89 pct)	   0.88 (1.14 pct)
+   64	   0.81 (0.00 pct)	   0.73 (-9.87 pct)	   0.77 (-4.93 pct)
+   96	   0.75 (0.00 pct)	   0.74 (-1.33 pct)	   0.75 (0.00 pct)
+  128	   0.83 (0.00 pct)	   0.79 (-4.81 pct)	   0.83 (0.00 pct)
+  192	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
+  256	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
+  384	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
+
+================ tbench comparisons ================
+tbench result comparison:
+Here results are throughput (MB/s)
+Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+    1	   1.00 (0.00 pct)	   0.70 (-30.00 pct)	   1.37 (37.00 pct)
+    2	   2.64 (0.00 pct)	   1.39 (-47.34 pct)	   2.70 (2.27 pct)
+    4	   4.89 (0.00 pct)	   2.75 (-43.76 pct)	   5.28 (7.97 pct)
+    8	   9.46 (0.00 pct)	   5.42 (-42.70 pct)	  10.22 (8.03 pct)
+   16	  19.05 (0.00 pct)	  10.42 (-45.30 pct)	  19.94 (4.67 pct)
+   32	  37.50 (0.00 pct)	  20.23 (-46.05 pct)	  36.87 (-1.68 pct)
+   64	  61.24 (0.00 pct)	  43.08 (-29.65 pct)	  62.96 (2.80 pct)
+  128	  67.16 (0.00 pct)	  69.08 (2.85 pct)	  67.34 (0.26 pct)
+  256	 154.59 (0.00 pct)	 162.33 (5.00 pct)	 156.78 (1.41 pct)
+  512	 154.02 (0.00 pct)	 156.74 (1.76 pct)	 153.48 (-0.35 pct)
+tbench power comparison:
+Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
+    1	   1.00 (0.00 pct)	   0.97 (-3.00 pct)	   1.08 (8.00 pct)
+    2	   1.04 (0.00 pct)	   0.97 (-6.73 pct)	   1.11 (6.73 pct)
+    4	   1.12 (0.00 pct)	   0.99 (-11.60 pct)	   1.18 (5.35 pct)
+    8	   1.25 (0.00 pct)	   1.04 (-16.80 pct)	   1.31 (4.80 pct)
+   16	   1.53 (0.00 pct)	   1.13 (-26.14 pct)	   1.58 (3.26 pct)
+   32	   2.01 (0.00 pct)	   1.36 (-32.33 pct)	   2.03 (0.99 pct)
+   64	   2.58 (0.00 pct)	   2.14 (-17.05 pct)	   2.61 (1.16 pct)
+  128	   2.80 (0.00 pct)	   2.81 (0.35 pct)	   2.81 (0.35 pct)
+  256	   3.39 (0.00 pct)	   3.43 (1.17 pct)	   3.42 (0.88 pct)
+  512	   3.44 (0.00 pct)	   3.44 (0.00 pct)	   3.44 (0.00 pct)
+
+Note: this series is based on top of EPP v12 [3] series
+
+Change log:
+
+v6 -> v7:
+- Addressed comments by Ray
+- Reorder and rebase patches
+- Pick up Ack by Ray
+
+v5 -> v6:
+- Don't return -EBUSY when changing to same mode
+
+v4 -> v5:
+- Rebased on top of EPP v12 series
+- Addressed comments form Mario regarding documentation
+- Picked up RB flags from Mario and Bagas Sanjaya
+
+v3 -> v4:
+- Fixed active mode low frequency issue reported by Peter Jung and Tor Vic
+- Documentation modification suggested by Bagas Sanjaya
+
+v2 -> v3:
+- Addressed review comments form Mario.
+- Picked up RB tag from Mario.
+- Rebase on top of EPP v11 [3].
+
+v1 -> v2:
+- Fix issue with shared mem systems.
+- Rebase on top of EPP series.
+
+[1]: https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
+[2]: https://lore.kernel.org/lkml/20221110175847.3098728-1-Perry.Yuan@amd.com/
+[3]: https://lore.kernel.org/linux-pm/20230131090016.3970625-1-perry.yuan@amd.com/
+
+Wyes Karny (6):
+  acpi: cppc: Add min and max perf reg writing support
+  acpi: cppc: Add auto select register read/write support
+  Documentation: cpufreq: amd-pstate: Move amd_pstate param to
+    alphabetical order
+  cpufreq: amd-pstate: Add guided autonomous mode
+  cpufreq: amd-pstate: Add guided mode control support via sysfs
+  Documentation: cpufreq: amd-pstate: Update amd_pstate status sysfs for
+    guided
+
+ .../admin-guide/kernel-parameters.txt         |  40 ++--
+ Documentation/admin-guide/pm/amd-pstate.rst   |  31 ++-
+ drivers/acpi/cppc_acpi.c                      | 121 +++++++++++-
+ drivers/cpufreq/amd-pstate.c                  | 177 +++++++++++++-----
+ include/acpi/cppc_acpi.h                      |  11 ++
+ include/linux/amd-pstate.h                    |   2 +
+ 6 files changed, 302 insertions(+), 80 deletions(-)
+
+-- 
+2.34.1
 
