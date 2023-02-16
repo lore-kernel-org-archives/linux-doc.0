@@ -2,171 +2,188 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D71A3C64ED9
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 18:06:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62B1DC636D7
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 18:20:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229755AbjBPSGB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Feb 2023 13:06:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44708 "EHLO
+        id S229863AbjBPSUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Feb 2023 13:20:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbjBPSGA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 13:06:00 -0500
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E034F38662;
-        Thu, 16 Feb 2023 10:05:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WtO8n1jvtISkxF4zVaCmrQX36SBUJibOvfin67kQTWyjA5ZduykV3bszNwLuR3S1EmrgBLKnv57oJ4Nv2FtVfD1OTH0+VeyWzXFdzDz/TLdFjjHL9nILskKi9FAfWRvBH5eyk51OCxf/p4rCmDUJJTyCpaU6UxZpY61y89xr7ZcNW6HuAPpA/kQlZmf8y7mXEETi28dIamiPFwdFScSUbwDwu42tZf7+igMpm75WNb2b+wA39qeFHUyAkEQ0ntsP83VJeaUKKh1BvQvevea37l6tIcZikKWpEGJ1QvgVcLw27oAW+Hk0NptWYm2DX27REZMSHcs3kHIVwPf6W1uMEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TLKeMRdAXSMLbvkvZjqoYrUzaqbB/DtPfsDvC4Q6Ovc=;
- b=J5qTxG0vD5D0mpAZMifHebodndvp76wiTA1xkD3vBU2Kdb6etwztLF+cEgugG2wOgblx0PqS7rMOpZup8uPIGifUaDOnvJSMBgy/jEYnOfdtGQH84pGFQdgowapuqzLqi0BwjELpH4qWZDMh1o50p5c1CjsweoxdGiYGLvotXgRXnjXWgA6pWYTrP0zidXoViJ+Nx5osleYdyH8lIEpE/bFe2a3T7Sge0f2vHtd/wx9QLp+6eRadAvfHGROkr5n8cblhlxGtaOw3goocejhV/Cgp+K7SJ4BcJRVHi2l6De0VsOM9QBcLsWaasv3ZNtj/k4OGRViq9svxvt9jLEPDdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TLKeMRdAXSMLbvkvZjqoYrUzaqbB/DtPfsDvC4Q6Ovc=;
- b=JqEVFW9jIhTQCMiT4meIQcLkon+iPA1atNa34W0OOmKQrujbcRsDHNBoUcJEpMp1qskJuI9r4JLo65N76t0ThNeWeZXuZkwKul32fUZH1hWT6afBe8FJ4nweoqxQkaaMPwvyN9LPxomI7zSkCGO0fbRPvNE4GkokfQcVN7hAFhY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by PH7PR12MB5856.namprd12.prod.outlook.com (2603:10b6:510:1d7::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Thu, 16 Feb
- 2023 18:05:54 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::bae9:2c2c:976e:ee97]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::bae9:2c2c:976e:ee97%6]) with mapi id 15.20.6086.023; Thu, 16 Feb 2023
- 18:05:54 +0000
-Message-ID: <15a893b3-e6d4-5bfa-85e9-1f5210173073@amd.com>
-Date:   Thu, 16 Feb 2023 12:05:51 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Reply-To: babu.moger@amd.com
-Subject: Re: [RFC v2 PATCH 0/7] x86/resctrl: Miscellaneous resctrl features
-To:     fenghua.yu@intel.com, reinette.chatre@intel.com
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, eranian@google.com,
-        peternewman@google.com
-References: <167537433143.647488.9641864719195184123.stgit@bmoger-ubuntu>
-Content-Language: en-US
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <167537433143.647488.9641864719195184123.stgit@bmoger-ubuntu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR11CA0022.namprd11.prod.outlook.com
- (2603:10b6:610:54::32) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+        with ESMTP id S229448AbjBPSUy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 13:20:54 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DB5550ADE
+        for <linux-doc@vger.kernel.org>; Thu, 16 Feb 2023 10:20:52 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id k13so2979036plg.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Feb 2023 10:20:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MgvYXC/YwJq34AMN9II76hX03Nd4KT2jWXyTADHEnv4=;
+        b=pdNcm8bSgevrSaZy31y3t4t9v1m4YYznVaEm0s/HBgp1I1aMx3aOngBEWd5qngNxDG
+         /AF60Dlr9YvAxjoM/qhbuFnaBjY/diBQAQPsSQ6uTJmZ9I+F61Ki+7BdrNK/j5A4ewhs
+         gywSqXhU1JMXs7GTmVgaASC9eC5Tp7QFdtFRZ+fPLnAB/2KmkUIUJQ2c4TWHMzPPzOq7
+         GiId2YGRBXT5KdqUrIEfj9F92Mw2gNm0gyRKsobkRFw1z1Vb2loISbb6xdLLROKcI64t
+         35sAKjUm/pS00cyYnoSffxHGr2cEeezy00q26I4DuFUSlso3FlcMiuw6Q/eCaRwuArNs
+         MQDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MgvYXC/YwJq34AMN9II76hX03Nd4KT2jWXyTADHEnv4=;
+        b=540TEKJFrmYo7wIkPRnJR7U974BfbizInjbczy3wwysIbpLSkX4/yc3/JbOqW9l9K/
+         DQwB+3glIeP5Ls5XG+Qfe6Or4Z4c1FiOBLQ8/kmM5XHNJvxjeRyvgZG38enc1ilLAAGn
+         GZRCKpbL3D9luOqSebp7KOyndTVayO3iaa+96gBDjl3pRYtrTk9YGSdVJFzBgQxU06yW
+         DEWQT3Z0C6cJOvHB6zRdm/mTauwWRR3IvUbjHfhlJEK87oIhi//AeeZmflNdpxTqR61q
+         6zjQhxxxr1+/4lhAx9jJReK93GgYd+DevK3cl25qFKP2oAG/tbIISTzmxiLnffZvBudh
+         sYJg==
+X-Gm-Message-State: AO0yUKVSxz5HlmL1K0s+exsqZcLOZb1pgULq1775OxR3XpsEchBnglFO
+        Iat8RgaeDoHPsgbdPVmrPzfJIyWqa20oRSaL
+X-Google-Smtp-Source: AK7set9ADd0lkOoShwpMoMr1ZMdv/q6YpixBWzT32AwgiQCDHW12Oh4+5ycBen8zn5TAT5BA/CaSoQ==
+X-Received: by 2002:a17:90a:35d:b0:233:c301:32c5 with SMTP id 29-20020a17090a035d00b00233c30132c5mr7904526pjf.45.1676571651833;
+        Thu, 16 Feb 2023 10:20:51 -0800 (PST)
+Received: from kerodi.Dlink ([49.206.14.226])
+        by smtp.gmail.com with ESMTPSA id n21-20020a637215000000b004dff15fc121sm1517574pgc.36.2023.02.16.10.20.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Feb 2023 10:20:51 -0800 (PST)
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Sunil V L <sunilvl@ventanamicro.com>
+Subject: [PATCH V2 00/21] Add basic ACPI support for RISC-V
+Date:   Thu, 16 Feb 2023 23:50:22 +0530
+Message-Id: <20230216182043.1946553-1-sunilvl@ventanamicro.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH7PR12MB5856:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7acd36ed-7334-42cd-b15e-08db1048724f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /GbDkWRr+Xa0B4DsW63Ta/hwlVJyLH1Ce9wnxxudB8+VKM3t0NTvPcOcUhaEHzprCQcKNTk8pxLJkW9PVuclEG0o3B37dYXGC7/zZsH7OHlcLIrJu8bmwXyxeiTIlgRGeuBXHSCCUJG9Qufk7j16/B+9dXWneYxXAgp2zWaNuxsDS2OrDJXwgBV1sy0ZGgBonZSiz+cXb1yguS36LD+dlTDF59xjGOqCtrm3oGzEoGKgHvePjFzxUM5TYj3RxmI6HCYILSIbxLADt1s+FYb35LWrsI/liYzv+rfCLerhUF3/jrsNclj4I9Zg+RGvxTHgvP74k8FnsXgwQvRznvNb74YDFxNxmi55XdDLnUm55iOMwsIr/RPApIU9ANMrKkAINJ3ecFDhfTBeiKNnhVFms1xRJhOdtGcvbPd5bYtCAJR6WbManiIYsz7/cQJSxllAzZCc4BbE5xmZcUfoftEtzHuY8q14MdIyfUclsjDLtumlsGk0YRgYmuwejalezyNnX/KTkftVIU3vlfeNY/sB5IKXCDiYiwKavnDiOXK2xKrfml+JJgCcWIrCknTj7XCG9OgfL+elMyNqBUJk4K3Vly8oWjK4b6Fqd39VJsu7B2T7Y2J1SqB120GyMH65mJveIBKuvqrHpPa69KVedsb7bhLUuM1Z2G32z+wLQdu2XmHl3xzYw+lPVPgJvraVE72MaaKVBjkmGE/ME7nT7ljmnm2eND80plf30i0NkOcJlj4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(346002)(366004)(39860400002)(396003)(376002)(451199018)(5660300002)(8936002)(2906002)(3450700001)(7416002)(66556008)(8676002)(478600001)(41300700001)(4326008)(66946007)(66476007)(316002)(36756003)(2616005)(38100700002)(83380400001)(31696002)(6486002)(6506007)(86362001)(186003)(26005)(6512007)(53546011)(6666004)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NVJoY2UzazdLaEVxaytoaldqTzNHVFBUTTl2Q1k1NldXZ2duaVBEM0dnQTd6?=
- =?utf-8?B?MFN6cThCUjM1RFgxelRoYzh5MThuTStnSXRCcEdsektvV3g5ejBrekIxRHpw?=
- =?utf-8?B?QXY3S1hma2RaMjh6VnZSRDN4ckg1VmxlaTJGaS9FTGNXUENobXRyMC9IdUh2?=
- =?utf-8?B?UGhWOGd0anAwWmROM1hwU1RXVmhZcUZiZmRpcWVDSW9JRyt5aGNxQ0N6bEZh?=
- =?utf-8?B?NjJKdlFrSlZZTll5Rms1dDhpb3FiSWcvdWxISS9lcDZ1TStTeWdvbWdUUzdo?=
- =?utf-8?B?NHJWL3ZyMHZWNndJd0xMT1I4MVlrRGpxcHlYQTkxWE16cmw2RVVtWG9GcGNS?=
- =?utf-8?B?SlYyVG10ak1JOTV6dVZ4R2I2bHh5c2YxMnFqZVVDNmpIT0dQb0dsMTFQNGli?=
- =?utf-8?B?TFkrQmNmcUt3VktXM2YzcjJWQWNsMDlLZ0tFbDlnbEdMK3RHbzkwMGhidVND?=
- =?utf-8?B?a0ZuYWU4bTdua01HMHR2dVNRY2tIRHpKSVlWd0tFektjWEhzWFlZcGpJYmoy?=
- =?utf-8?B?VWYxODRzbXloekd5aXRDcytEbzQrbkh1V3JzTFZKU2FZcFV1Q3UyYTlDQ3pm?=
- =?utf-8?B?d3dzOHBjTWxMQ3IyUVFDN0orLzdRRDlCaTZkMlcyY2RDMkdFMzN6VElhYVEz?=
- =?utf-8?B?NVVwMEh3ZVBUQU1wTkVhVjZoRlVpdWR6OVpieVR1RmMwMUhNamV6dmRncktj?=
- =?utf-8?B?ckdXOE45UXBTdzNjZkNSZnRFMnJhUkdQbHJ4YjdrYlNic2hZVjBzQjVxYU9t?=
- =?utf-8?B?b3pkbHJDWW16SnB5UVUrQ0ZQN2FKNjREaXFucW1qdTZ1MlNNUjVwYmlXVXZp?=
- =?utf-8?B?Rno3cWtsR01hSXJhTDYzMWhMS0tsRDhhYk8rVmxCNmNOR3JpVWhNZm4wMTl1?=
- =?utf-8?B?WVptMU9INEZENkQyaUNBNWxveWtua1UvbERYZERjb3RrZ1pocFJkQXFhc0lL?=
- =?utf-8?B?RlUvdnBQWUx5cE5VejZha3NET283WEpaKzZjaTdjVC80d04zS1JFSjJ5eUtL?=
- =?utf-8?B?TzFjRjI2MHBQc3J6QW5wcGhNWUF6MHQyNGc3cVlkbWVGUE1VNlpzUUd5eTVa?=
- =?utf-8?B?NmsrREtLNHdobytQWU1FLzBHZ1poeWZmSjROcS9PQlhvUFZjZ0J0dS9ja2U2?=
- =?utf-8?B?aDdNblJxa1ZQejJkZ3JvUVZoKytwSlZpVnNjc1RTbzE2UGREWkNQamVZNFUw?=
- =?utf-8?B?b2pnSDZjSFBlQjFLVUtyM0VyaGFadHlUVWs5WStzbHZjempWY3RmNXAwcVRR?=
- =?utf-8?B?YSt5a2M3TUczSnJ5MGZJS1JuUjhldUw3ZlFUR1ppU3lCeDBKdkx5RXRSLzZs?=
- =?utf-8?B?aWIzOWZaTHRyd1BHTXc4NEVETFhNbGpMRzB4VXhvQkZnWlNrYkJQS1pRaDlQ?=
- =?utf-8?B?alQ4MitGWWZGTHU3MzRFV1diWGVZVEV2d0FsOUtKVDlqQ0dkZWxUTFVHeXpq?=
- =?utf-8?B?QjdtMGM4ZTdkWk1JYlBCanowWTRTMmwyQnh2eFpxWjN4MHU5Ti82R0sxRURW?=
- =?utf-8?B?ZHRFb0FoTkVJTmVQVlRLY1pZV1RDTCtNN0VKNUc5TDFPMk1oZi9PcTRGUWs3?=
- =?utf-8?B?NlRJdGVMOSswdDNSSlpZR3RLYk51TTJhQ1hGZjExeUxub2gwbTdhcTAwTUxj?=
- =?utf-8?B?SVYvcitodnpoRDVuZGhvdlpEMUwrclVlRy81ZFl4NGVHV0Faa2plSFBFSjNz?=
- =?utf-8?B?WXFxMHBOUnJ4SXJyZnRrcm02V25RSzVtR25hekZ0N1c1YTQvc25QN2JZYTBV?=
- =?utf-8?B?eHVsSGpOZHJVSVNqcjFOTXRBbi85ZDdiVnR5ZFBDeENLSlhJZlZDamlocXpr?=
- =?utf-8?B?U2oxQ29SMkpOZ1QvbGw4K2QvUXJ6akx0ZjJSRHJPRElOT0xwV0tVbitIa1A4?=
- =?utf-8?B?aDdBMDhNdWt0NlRlaEU1cDRsdUpGaHYxT2t6N2hyWFBTeUpKOG4ybkdiTHlD?=
- =?utf-8?B?a2hiM0xyaDJ0T2h5Sm52bzNNTnFnNnFkZjcvOStONzJEd2hmYnJWV0hMcFQz?=
- =?utf-8?B?MWlwdW1ZYWp0dE1JVW5zUmcwV1liQW42UlR6VHZZUHNTTGdwOXFaRGJyenBo?=
- =?utf-8?B?NEtYVWJwMTlCcW9vVlpoRWdwdVNKbVRFU3VVa08rSnEzNkNoamd0cWZ5TFl5?=
- =?utf-8?Q?6svewE/evoIFAGT2v7TJnxyWT?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7acd36ed-7334-42cd-b15e-08db1048724f
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 18:05:54.6113
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VElG3q51nbCKUtzOPvNmG9/YqNylXGjypdvp9kV/HBsXm4tTenB9JlkT9K9h+d90
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5856
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Gentle ping. Any comments on this!
+This patch series enables the basic ACPI infrastructure for RISC-V.
+Supporting external interrupt controllers is in progress and hence it is
+tested using poll based HVC SBI console and RAM disk.
 
-Thanks
+The first patch in this series is one of the patch from Jisheng's
+series [1] which is not merged yet. This patch is required to support
+ACPI since efi_init() which gets called before sbi_init() can enable
+static branches and hits panic.
 
-Babu
+The series depends on Anup's IPI improvement series [2].
 
-On 2/2/23 15:46, Babu Moger wrote:
-> These series adds support few minor features.
-> 1. Support assigning multiple tasks to control/mon groups in one command.
-> 2. Add debug mount option for resctrl interface.
-> 3. Add RMID and CLOSID in resctrl interface when mounted with debug option.
-> 4. While doing these above changes, found that rftype flags needed some cleanup.
->    They were named inconsistently. Re-arranged them much more cleanly now.
->    Hope it can help future additions.
->
-> Code is built on top of tip branch x86/cache.
->
-> ---
-> v2: Changes since v1
->   a. Removed the changes to add the task's threads automatically. It required
->      book keeping to handle the failures and gets complicated. Removed that change
->      for now.
->   b. Added -o debug option to mount in debug mode(comment from Fenghua)
->   c. Added debug files rmid and closid. Stephane wanted to rename them more
->      generic to accommodate ARM. It kind of loses meaning if is renamed differently.
->      Kept it same for now. Will change if he feels strong about it. 
->
-> Babu Moger (7):
->       x86/resctrl: Add multiple tasks to the resctrl group at once
->       x86/resctrl: Remove few unnecessary rftype flags
->       x86/resctrl: Rename rftype flags for consistency
->       x86/resctrl: Re-arrange RFTYPE flags based on hierarchy
->       x86/resctrl: Introduce -o debug mount option
->       x86/resctrl: Display the RMID and COSID for resctrl groups
->       x86/resctrl: Add debug files when mounted with debug option
->
->
->  Documentation/x86/resctrl.rst          |  28 ++++-
->  arch/x86/kernel/cpu/resctrl/core.c     |   8 +-
->  arch/x86/kernel/cpu/resctrl/internal.h |  68 +++++++++--
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 154 +++++++++++++++++++++----
->  4 files changed, 215 insertions(+), 43 deletions(-)
->
-> --
->
+[1] https://lore.kernel.org/all/20220821140918.3613-1-jszhang@kernel.org/
+[2] https://lore.kernel.org/lkml/20230103141221.772261-7-apatel@ventanamicro.com/T/
+
+Changes since V1:
+	1) Dropped PCI changes and instead added dummy interfaces just to enable
+	   building ACPI core when CONFIG_PCI is enabled. Actual PCI changes will
+	   be added in future along with external interrupt controller support
+	   in ACPI.
+	2) Squashed couple of patches so that new code added gets built in each
+	   commit.
+	3) Fixed the missing wake_cpu code in timer refactor patch as pointed by
+	   Conor
+	4) Fixed an issue with SMP disabled.
+	5) Addressed other comments from Conor.
+	6) Updated documentation patch as per feedback from Sanjaya.
+	7) Fixed W=1 and checkpatch --strict issues.
+	8) Added ACK/RB tags
+
+These changes are available at
+https://github.com/vlsunil/linux/commits/acpi_b1_us_review_ipi17_V2
+
+Testing:
+1) Build Qemu with ACPI support using below branch
+https://github.com/vlsunil/qemu/tree/acpi_b1_us_review_V3
+
+2) Build EDK2 as per instructions in
+https://github.com/vlsunil/riscv-uefi-edk2-docs/wiki/RISC-V-Qemu-Virt-support
+
+3) Build Linux after enabling SBI HVC and SBI earlycon
+CONFIG_RISCV_SBI_V01=y
+CONFIG_SERIAL_EARLYCON_RISCV_SBI=y
+CONFIG_HVC_RISCV_SBI=y
+
+4) Build buildroot.
+
+Run with below command.
+qemu-system-riscv64   -nographic \
+-drive file=Build/RiscVVirtQemu/RELEASE_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1 \
+-machine virt,acpi -smp 16 -m 2G \
+-kernel arch/riscv/boot/Image \
+-initrd buildroot/output/images/rootfs.cpio \
+-append "root=/dev/ram ro console=hvc0 earlycon=sbi"
+
+
+Jisheng Zhang (1):
+  riscv: move sbi_init() earlier before jump_label_init()
+
+Sunil V L (20):
+  ACPICA: MADT: Add RISC-V INTC interrupt controller
+  ACPICA: Add structure definitions for RISC-V RHCT
+  RISC-V: Add support to build the ACPI core
+  ACPI: Kconfig: Enable ACPI_PROCESSOR for RISC-V
+  ACPI: OSL: Make should_use_kmap() 0 for RISC-V.
+  ACPI: processor_core: RISC-V: Enable mapping processor to the hartid
+  drivers/acpi: RISC-V: Add RHCT related code
+  RISC-V: smpboot: Create wrapper smp_setup()
+  RISC-V: smpboot: Add ACPI support in smp_setup()
+  RISC-V: ACPI: Add a function to retrieve the hartid
+  RISC-V: cpufeature: Add ACPI support in riscv_fill_hwcap()
+  RISC-V: cpu: Enable cpuinfo for ACPI systems
+  irqchip/riscv-intc: Add ACPI support
+  clocksource/timer-riscv: Refactor riscv_timer_init_dt()
+  clocksource/timer-riscv: Add ACPI support
+  RISC-V: time.c: Add ACPI support for time_init()
+  RISC-V: Add ACPI initialization in setup_arch()
+  RISC-V: Enable ACPI in defconfig
+  MAINTAINERS: Add entry for drivers/acpi/riscv
+  Documentation/kernel-parameters.txt: Add RISC-V for ACPI parameter
+
+ .../admin-guide/kernel-parameters.txt         |   8 +-
+ MAINTAINERS                                   |   7 +
+ arch/riscv/Kconfig                            |   5 +
+ arch/riscv/configs/defconfig                  |   2 +
+ arch/riscv/include/asm/acenv.h                |  11 +
+ arch/riscv/include/asm/acpi.h                 |  87 ++++++
+ arch/riscv/include/asm/cpu.h                  |   8 +
+ arch/riscv/kernel/Makefile                    |   2 +
+ arch/riscv/kernel/acpi.c                      | 248 ++++++++++++++++++
+ arch/riscv/kernel/cpu.c                       |  31 ++-
+ arch/riscv/kernel/cpufeature.c                |  41 ++-
+ arch/riscv/kernel/setup.c                     |  27 +-
+ arch/riscv/kernel/smpboot.c                   |  75 +++++-
+ arch/riscv/kernel/time.c                      |  25 +-
+ drivers/acpi/Kconfig                          |   2 +-
+ drivers/acpi/Makefile                         |   2 +
+ drivers/acpi/osl.c                            |   2 +-
+ drivers/acpi/processor_core.c                 |  29 ++
+ drivers/acpi/riscv/Makefile                   |   2 +
+ drivers/acpi/riscv/rhct.c                     |  92 +++++++
+ drivers/clocksource/timer-riscv.c             |  93 ++++---
+ drivers/irqchip/irq-riscv-intc.c              |  78 +++++-
+ include/acpi/actbl2.h                         |  68 ++++-
+ 23 files changed, 854 insertions(+), 91 deletions(-)
+ create mode 100644 arch/riscv/include/asm/acenv.h
+ create mode 100644 arch/riscv/include/asm/acpi.h
+ create mode 100644 arch/riscv/include/asm/cpu.h
+ create mode 100644 arch/riscv/kernel/acpi.c
+ create mode 100644 drivers/acpi/riscv/Makefile
+ create mode 100644 drivers/acpi/riscv/rhct.c
+
 -- 
-Thanks
-Babu Moger
+2.34.1
 
