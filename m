@@ -2,60 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C354C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 11:50:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2B3C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 11:52:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbjBPLt7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Feb 2023 06:49:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39878 "EHLO
+        id S229805AbjBPLwK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Feb 2023 06:52:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjBPLt6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 06:49:58 -0500
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F01B9C3;
-        Thu, 16 Feb 2023 03:49:57 -0800 (PST)
-Received: by mail-qt1-x82f.google.com with SMTP id v17so1757614qto.3;
-        Thu, 16 Feb 2023 03:49:57 -0800 (PST)
+        with ESMTP id S229813AbjBPLwI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 06:52:08 -0500
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 038D54DBE0;
+        Thu, 16 Feb 2023 03:52:08 -0800 (PST)
+Received: by mail-qk1-x72f.google.com with SMTP id ow4so679099qkn.1;
+        Thu, 16 Feb 2023 03:52:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vRXh53rDIPfkOghYvjcnBS1VR8mTE7eIS5ytjBUNN+Q=;
-        b=o5C/1GlDs7Nx4gq1hcPr8Z58lI3DeImupM7x2ccCT0kE/4zfs0dnziyjvwjtJpp/VU
-         CmiukAFax7sDeM7HzhbmzWT2Mmqv91KCgFwmBaGsTuOfpFYQFzPHMRm1PZNCmTd9+1Er
-         hJjISfwOkeQBpNEuJ76zsEI56lp4dJNnMh3vGpqYbRYUJKRE37Fn//2XXwoG7h4d50oL
-         jdW5HB11PTnoS5SUNb7cAZ60bdxlePR7QRQYK+dtCci3S4Tw1OY4i4MjAuTQSEISvNHA
-         cfzhrni+6qJBYWjV3vdhTOAp1vbhoixVVMnhou/FuM9qipT5fHBHgr3a+1sAF2iB1imd
-         cGvQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RCvmhgcYonUnPdG+esIO60ks+rKiZjYiiwI3DMsK52s=;
+        b=T5lW0Oe5LWWY1x1RHVWHCTiZOB2nu1NRfMwV888ejAzL1j3iK9mSo7R40ZaaeXLyFX
+         fb4ljprJm0bUrEmLckY4FasTG4jR91p0PRmifpNorxWLgt2WARw0vTu/oqHe//ilGBPQ
+         G2JMj62Jm9gc7ad9dX7Q1DWIgFprXQ++VqGXJ5ecBo+5zTlwGS04vrFCyBR7mjp5067A
+         XC7wzpuu42XbOlH5jaR03xjSLk0E7NRBI4JNRcXUkCscPvNJtjnbWVQjPjZRJpGxr4SM
+         spnXwX5dl06aRZ/IQY8z9HTI5Fmyqh9IAzAjiDMIQg9SiNLRH1pz59ms4y3yh2Nqcj33
+         35NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vRXh53rDIPfkOghYvjcnBS1VR8mTE7eIS5ytjBUNN+Q=;
-        b=pRUaUNwj2WXIVEeJ3dZJm56jSVbSrkNvAO6pGCK7DZ27TEkOKF3mLzSGYJH5zcfVg6
-         8/LfIeeJGCR2QoMtkZ4u7FcdLQkkJOmBTLtUXBfOzYdzzkhd0nM5ysFrnz7kHXpLNH7g
-         KnTZCaB/yKQNBceoEzUcBdICsr++yeLy61GMHWpn0+P5/ec0nGP4g3ucl2sGt6zRKPyh
-         jNwBnRiXolEqkBx7hBc55Hs5lF3bFtz9LUSONFfggg6yiR3ssb5bgqBFoEAAWfYWKVjM
-         tVhLGbMRlOH1opQbIql0ytykgtFJ77Aa4mru7iY9ce+NDHLTktKdIruH4pri6EC6NA9H
-         OCig==
-X-Gm-Message-State: AO0yUKX9N5cLIlkyMPBmri4uWUkDQ1ijV8xj+6R9ZkiKAY1gU3gB1KK+
-        KJY0PQFZE07dYC2QdKuLfxTZK6tkZOg55Ao6L+U=
-X-Google-Smtp-Source: AK7set+I31Cl3AIUfxzv+fEgeIfaPFm8Q3LG+x4PwzMo8O9raTMc6wGum1zrT7P6yQgByG5JenYn+VT4YdblVaHHGyk=
-X-Received: by 2002:ac8:5fd1:0:b0:3b6:82ef:2d6 with SMTP id
- k17-20020ac85fd1000000b003b682ef02d6mr639948qta.24.1676548197007; Thu, 16 Feb
- 2023 03:49:57 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RCvmhgcYonUnPdG+esIO60ks+rKiZjYiiwI3DMsK52s=;
+        b=i/72iyEVf2GaGsmGHS/8+zL/XPb1ZAiHrSYPZ2yCF6Jk8UcQL+seHKhr1qJANWXe88
+         L73DxYTBTN+DnC34WizCae1QUz7CcHgd0hYIAI84Dmm7ZkQQx92WayELdcdqu2oJUdwJ
+         NW95jHmgBr0gd9A/hwTyaRAkDPuczXiMSHpmtLzTmeijhwLfjEfT3MeNu3zTXLY452rI
+         QhAyCN7ko1zYtwcXV0LATMgXtBam22mJer5/A0yshofMBMi3NJOgGZozKtFG9vb5oCr/
+         z5Atd0IJn4IshSE7volk8ZpR/cw96Y+LdagUeFiBurimv/Ux+X2MMceol+HD1rn2De7K
+         DmIA==
+X-Gm-Message-State: AO0yUKUsrOMYkMsSuWtJwilvvryQIeiybQ6n4LqJv6nkLBDseXoNKlKA
+        0crGeTqoFcdKDt2ojc+7jFB/D7X6iAPHPNEU7Jw=
+X-Google-Smtp-Source: AK7set+aXsvMMJp4Gx5Mm8+jG4Q8FsHa360GObRFOf3i4rr1gqxc/eCqrLEkwWhDf/L7qG9H2wYJkApdPyO8MZagj2o=
+X-Received: by 2002:a37:a89:0:b0:725:ff53:b58e with SMTP id
+ 131-20020a370a89000000b00725ff53b58emr335302qkk.331.1676548327067; Thu, 16
+ Feb 2023 03:52:07 -0800 (PST)
 MIME-Version: 1.0
 References: <20230216041224.4731-1-orlandoch.dev@gmail.com>
- <20230216041224.4731-3-orlandoch.dev@gmail.com> <20230216181050.52a31247@redecorated-mbp>
-In-Reply-To: <20230216181050.52a31247@redecorated-mbp>
+ <20230216041224.4731-3-orlandoch.dev@gmail.com> <20230216054105.nmtft5ma4hiuqwib@t-8ch.de>
+In-Reply-To: <20230216054105.nmtft5ma4hiuqwib@t-8ch.de>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 16 Feb 2023 13:49:21 +0200
-Message-ID: <CAHp75VeX0j8ZX+j0i7qPe97NcyFLvhmETFCbRVYiVCFQWk8Akg@mail.gmail.com>
+Date:   Thu, 16 Feb 2023 13:51:31 +0200
+Message-ID: <CAHp75Vd+hLS7DLbaA3zZ9V_HyT-ZMkMBJbxq7aq5WiPU0fV7Zw@mail.gmail.com>
 Subject: Re: [PATCH 2/2] HID: apple-magic-backlight: Add driver for keyboard
  backlight on internal Magic Keyboards
-To:     Orlando Chamberlain <orlandoch.dev@gmail.com>
-Cc:     linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+To:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+Cc:     Orlando Chamberlain <orlandoch.dev@gmail.com>,
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -63,35 +65,26 @@ Cc:     linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Aditya Garg <gargaditya08@live.com>,
         Aun-Ali Zaidi <admin@kodeit.net>,
         Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+        Andy Shevchenko <andy@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 16, 2023 at 10:15 AM Orlando Chamberlain
-<orlandoch.dev@gmail.com> wrote:
-> On Thu, 16 Feb 2023 15:12:28 +1100
-> Orlando Chamberlain <orlandoch.dev@gmail.com> wrote:
+On Thu, Feb 16, 2023 at 7:41 AM Thomas Wei=C3=9Fschuh <thomas@t-8ch.de> wro=
+te:
+> On Thu, Feb 16, 2023 at 03:12:28PM +1100, Orlando Chamberlain wrote:
 
 ...
 
-> >  drivers/hid/apple-magic-backlight.c | 125
->
-> A general question to the hid/input folks:
->
-> Is it alright that this doesn't start with "hid-"? All the other
-> drivers start with that so I'm not sure if its an issue.
+> Note: Only your cover letter has the "v2" prefix.
+> Normally git format-patch should apply this properly to all patches when
+> using --reroll-count.
 
-What makes apple so special?
+There is an option -v<X>, where <X> is a version applied to all
+patches in the lot.
 
-> If it is, then
-> I can rename it to "hid-apple-magic-backlight".
-
-If there is a good justification of not doing that, put it into the
-commit message.
-
--- 
+--=20
 With Best Regards,
 Andy Shevchenko
