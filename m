@@ -2,233 +2,142 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD162C636CC
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 00:23:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BEAC636CC
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Feb 2023 00:41:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbjBPAXc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Feb 2023 19:23:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60828 "EHLO
+        id S229597AbjBPAld (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Feb 2023 19:41:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbjBPAX2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 19:23:28 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 906DC3B659;
-        Wed, 15 Feb 2023 16:23:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676507006; x=1708043006;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZBoSCAtz6fkkZle3VLj8Y/RmveUth+ypvnNypFuDpJs=;
-  b=cIVCy0MQB7CqTgZnQ8iNJ+eEEX+eNJTMVQH3fJ38bNb1Bc5R/hIpAdlZ
-   t7RVRuMtLl41/6fRIXd7Dn/2KBvaUteNkdHapk/pIR7XgzaKiiVNHP7fr
-   x1r3aWvcYfBe14hsOQNm2TNkZ1gw7hhTEPZdTDaYo4YIqfOkTBa10IQcs
-   nRG7UT2NV/cr97k8ukJAcQ0lOoayhlVCz13PhkdLNJe895CXmGFn03D3X
-   /5I6rhOokzXpu5dK8tOxUrVH+hQ0/Kvb3ZQa0DyN5nSMXu77x5bYVanDU
-   N0CR4LNH10yoMka6U08Txly4dCXxp9h4jBVvjhsitxS5XZ0ERRcNq0Y1y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="332899460"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="332899460"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 16:23:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="779141898"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="779141898"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Feb 2023 16:23:11 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pSS3K-0009tZ-0n;
-        Thu, 16 Feb 2023 00:23:10 +0000
-Date:   Thu, 16 Feb 2023 08:22:16 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v10 16/26] firmware: qcom_scm: Register Gunyah platform
- ops
-Message-ID: <202302160838.BTq7ertw-lkp@intel.com>
-References: <20230214212457.3319814-1-quic_eberman@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230214212457.3319814-1-quic_eberman@quicinc.com>
+        with ESMTP id S229518AbjBPAlc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Feb 2023 19:41:32 -0500
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7267F42DF0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Feb 2023 16:41:30 -0800 (PST)
+Received: by mail-pl1-x64a.google.com with SMTP id jn16-20020a170903051000b00198f5741d23so196245plb.18
+        for <linux-doc@vger.kernel.org>; Wed, 15 Feb 2023 16:41:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KyDL7aG5vadqxs1ZDVMtNmlMp6h+pTwRitO0Vsd+xXA=;
+        b=UlyGz18Rq6eKdsAzT90nvKAGzObDlWojIa+4RUu1raCFtQqRUYcy3SspX0jxdJ9rb0
+         Nw7weHMdrBLZ31wvo1gRWxGi06bUObPJDZmDnyE3qo/jMx6/HDaZTvkl6TQazEiCG569
+         utifp/LkZIaUBLsxN8fp/8hujvgldojhDyaXNaI8MeFAbY3JeVjvD0NkW2/MUJ28e42V
+         ZMWfGCIgfQWx7Q2YfH7HNWCie5aE+GUgO/fc5leiKryY6MB/sRZht4uh4VjIQkc1sgzj
+         o5tcKSvOUm3vBr0kx5kdnMHT1xneMoUIuFwr5LQO2CkBOhtS2iifTcqrX4jc6sGsYjIC
+         IkyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KyDL7aG5vadqxs1ZDVMtNmlMp6h+pTwRitO0Vsd+xXA=;
+        b=41jQ5cOkeO9H0S7CW8jNsbhOI6n5K78YLhj/DeyILEVM+IRkuKzdxDpPgviUbDpZ0A
+         rxp+BDUtZttpp5inbQdCm1imwAVRuJDayQYNzuaaiFrLAoDY5xay9qsbnD+0aWYXZ2Bx
+         uF1LlJ644Zjy2xfGXS4uR7uG8UdpvQ2QUFb5VPW9SLqqjKoMrJbDxfVh6VrxW04WH9Dv
+         tQZz5X9rVAkJrMHRzPSTBBVZoq9OlzHBEGwe9wZAnN8K2Dy6n8Va8g0T4WuPupilGbAC
+         6z1c7dnTdvQUiQNb+OQBuhstjs/wXMTCeqkrob5Ylw1LQc/xM7dxuXZsYum6dHGoiYE0
+         73yA==
+X-Gm-Message-State: AO0yUKXhwNEGq1hBrHgQ61pgVDIQMmqcyVjf3bsahBlrfCNFfi6DQMNA
+        Lmp4IwEhUm+fGG68aLhlmmPTdYay77KUq9Rqvw==
+X-Google-Smtp-Source: AK7set9ULYqZvTPKnXy7w+XwzeOZWCcMQ4uqZfm4qVlxGYvM8N3GKtC4fbQQyb++BnxdRdIQAt0St6aX14Ha/b9zJw==
+X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a63:7a1c:0:b0:4fb:ab27:fa7 with SMTP
+ id v28-20020a637a1c000000b004fbab270fa7mr637750pgc.0.1676508089776; Wed, 15
+ Feb 2023 16:41:29 -0800 (PST)
+Date:   Thu, 16 Feb 2023 00:41:15 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.39.1.637.g21b0678d19-goog
+Message-ID: <cover.1676507663.git.ackerleytng@google.com>
+Subject: [RFC PATCH 0/2] Providing mount for memfd_restricted() syscall
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, qemu-devel@nongnu.org
+Cc:     chao.p.peng@linux.intel.com, aarcange@redhat.com,
+        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
+        bfields@fieldses.org, bp@alien8.de, corbet@lwn.net,
+        dave.hansen@intel.com, david@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, hpa@zytor.com, hughd@google.com,
+        jlayton@kernel.org, jmattson@google.com, joro@8bytes.org,
+        jun.nakajima@intel.com, kirill.shutemov@linux.intel.com,
+        linmiaohe@huawei.com, luto@kernel.org, mail@maciej.szmigiero.name,
+        mhocko@suse.com, michael.roth@amd.com, mingo@redhat.com,
+        naoya.horiguchi@nec.com, pbonzini@redhat.com, qperret@google.com,
+        rppt@kernel.org, seanjc@google.com, shuah@kernel.org,
+        steven.price@arm.com, tabba@google.com, tglx@linutronix.de,
+        vannapurve@google.com, vbabka@suse.cz, vkuznets@redhat.com,
+        wanpengli@tencent.com, wei.w.wang@intel.com, x86@kernel.org,
+        yu.c.zhang@linux.intel.com, Ackerley Tng <ackerleytng@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Elliot,
+Hello,
 
-Thank you for the patch! Yet something to improve:
+This patchset builds upon the memfd_restricted() system call that has
+been discussed in the =E2=80=98KVM: mm: fd-based approach for supporting KV=
+M=E2=80=99
+patch series, at
+https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux.int=
+el.com/T/#m7e944d7892afdd1d62a03a287bd488c56e377b0c
 
-[auto build test ERROR on 3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb]
+The tree can be found at:
+https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-provide-mou=
+nt-path
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Elliot-Berman/docs-gunyah-Introduce-Gunyah-Hypervisor/20230215-055721
-base:   3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb
-patch link:    https://lore.kernel.org/r/20230214212457.3319814-1-quic_eberman%40quicinc.com
-patch subject: [PATCH v10 16/26] firmware: qcom_scm: Register Gunyah platform ops
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230216/202302160838.BTq7ertw-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/33f0c4b130c7b249a1524da8076dd12333aa7cde
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Elliot-Berman/docs-gunyah-Introduce-Gunyah-Hypervisor/20230215-055721
-        git checkout 33f0c4b130c7b249a1524da8076dd12333aa7cde
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+In this patchset, a modification to the memfd_restricted() syscall is
+proposed, which allows userspace to provide a mount, on which the file
+will be created and returned from the memfd_restricted().
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302160838.BTq7ertw-lkp@intel.com/
+Allowing userspace to provide a mount allows userspace to control
+various memory binding policies via tmpfs mount options, such as
+Transparent HugePage memory allocation policy through
+=E2=80=98huge=3Dalways/never=E2=80=99 and NUMA memory allocation policy thr=
+ough
+=E2=80=98mpol=3Dlocal/bind:*=E2=80=99.
 
-All errors (new ones prefixed by >>):
+Dependencies:
++ Sean=E2=80=99s iteration of the =E2=80=98KVM: mm: fd-based approach for s=
+upporting
+  KVM=E2=80=99 patch series at
+  https://github.com/sean-jc/linux/tree/x86/upm_base_support
++ Proposed fixes for these issues mentioned on the mailing list:
+    + https://lore.kernel.org/lkml/diqzzga0fv96.fsf@ackerleytng-cloudtop-sg=
+.c.googlers.com/
 
-   drivers/firmware/qcom_scm.c: In function 'qcom_scm_gh_rm_pre_mem_share':
->> drivers/firmware/qcom_scm.c:1335:49: error: passing argument 3 of 'qcom_scm_assign_mem' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1335 |                                                 &src_cpy, new_perms, mem_parcel->n_acl_entries);
-         |                                                 ^~~~~~~~
-         |                                                 |
-         |                                                 u64 * {aka long long unsigned int *}
-   drivers/firmware/qcom_scm.c:912:39: note: expected 'unsigned int *' but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     912 |                         unsigned int *srcvm,
-         |                         ~~~~~~~~~~~~~~^~~~~
-   In file included from include/asm-generic/bug.h:7,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from arch/m68k/include/asm/irqflags.h:6,
-                    from include/linux/irqflags.h:16,
-                    from arch/m68k/include/asm/atomic.h:6,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/firmware/qcom_scm.c:5:
-   drivers/firmware/qcom_scm.c:1353:49: error: passing argument 3 of 'qcom_scm_assign_mem' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1353 |                                                 &src_cpy, new_perms, 1));
-         |                                                 ^~~~~~~~
-         |                                                 |
-         |                                                 u64 * {aka long long unsigned int *}
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   drivers/firmware/qcom_scm.c:1350:33: note: in expansion of macro 'WARN_ON_ONCE'
-    1350 |                                 WARN_ON_ONCE(qcom_scm_assign_mem(
-         |                                 ^~~~~~~~~~~~
-   drivers/firmware/qcom_scm.c:912:39: note: expected 'unsigned int *' but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     912 |                         unsigned int *srcvm,
-         |                         ~~~~~~~~~~~~~~^~~~~
-   drivers/firmware/qcom_scm.c: In function 'qcom_scm_gh_rm_post_mem_reclaim':
-   drivers/firmware/qcom_scm.c:1385:49: error: passing argument 3 of 'qcom_scm_assign_mem' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1385 |                                                 &src_cpy, &new_perms, 1);
-         |                                                 ^~~~~~~~
-         |                                                 |
-         |                                                 u64 * {aka long long unsigned int *}
-   drivers/firmware/qcom_scm.c:912:39: note: expected 'unsigned int *' but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     912 |                         unsigned int *srcvm,
-         |                         ~~~~~~~~~~~~~~^~~~~
-   cc1: some warnings being treated as errors
+Future work/TODOs:
++ man page for the memfd_restricted() syscall
++ Support for per file Transparent HugePage allocation hints
++ Support for per file NUMA binding hints
 
+Ackerley Tng (2):
+  mm: restrictedmem: Allow userspace to specify mount_path for
+    memfd_restricted
+  selftests: restrictedmem: Check hugepage-ness of shmem file backing
+    restrictedmem fd
 
-vim +/qcom_scm_assign_mem +1335 drivers/firmware/qcom_scm.c
+ include/linux/syscalls.h                      |   2 +-
+ include/uapi/linux/restrictedmem.h            |   8 +
+ mm/restrictedmem.c                            |  63 +++-
+ tools/testing/selftests/Makefile              |   1 +
+ .../selftests/restrictedmem/.gitignore        |   3 +
+ .../testing/selftests/restrictedmem/Makefile  |  14 +
+ .../testing/selftests/restrictedmem/common.c  |   9 +
+ .../testing/selftests/restrictedmem/common.h  |   8 +
+ .../restrictedmem_hugepage_test.c             | 344 ++++++++++++++++++
+ 9 files changed, 445 insertions(+), 7 deletions(-)
+ create mode 100644 include/uapi/linux/restrictedmem.h
+ create mode 100644 tools/testing/selftests/restrictedmem/.gitignore
+ create mode 100644 tools/testing/selftests/restrictedmem/Makefile
+ create mode 100644 tools/testing/selftests/restrictedmem/common.c
+ create mode 100644 tools/testing/selftests/restrictedmem/common.h
+ create mode 100644 tools/testing/selftests/restrictedmem/restrictedmem_hug=
+epage_test.c
 
-  1303	
-  1304	static int qcom_scm_gh_rm_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
-  1305	{
-  1306		struct qcom_scm_vmperm *new_perms;
-  1307		u64 src, src_cpy;
-  1308		int ret = 0, i, n;
-  1309		u16 vmid;
-  1310	
-  1311		new_perms = kcalloc(mem_parcel->n_acl_entries, sizeof(*new_perms), GFP_KERNEL);
-  1312		if (!new_perms)
-  1313			return -ENOMEM;
-  1314	
-  1315		for (n = 0; n < mem_parcel->n_acl_entries; n++) {
-  1316			vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
-  1317			if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
-  1318				new_perms[n].vmid = vmid;
-  1319			else
-  1320				new_perms[n].vmid = QCOM_SCM_RM_MANAGED_VMID;
-  1321			if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_X)
-  1322				new_perms[n].perm |= QCOM_SCM_PERM_EXEC;
-  1323			if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_W)
-  1324				new_perms[n].perm |= QCOM_SCM_PERM_WRITE;
-  1325			if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_R)
-  1326				new_perms[n].perm |= QCOM_SCM_PERM_READ;
-  1327		}
-  1328	
-  1329		src = (1ull << QCOM_SCM_VMID_HLOS);
-  1330	
-  1331		for (i = 0; i < mem_parcel->n_mem_entries; i++) {
-  1332			src_cpy = src;
-  1333			ret = qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
-  1334							le64_to_cpu(mem_parcel->mem_entries[i].size),
-> 1335							&src_cpy, new_perms, mem_parcel->n_acl_entries);
-  1336			if (ret) {
-  1337				src = 0;
-  1338				for (n = 0; n < mem_parcel->n_acl_entries; n++) {
-  1339					vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
-  1340					if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
-  1341						src |= (1ull << vmid);
-  1342					else
-  1343						src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
-  1344				}
-  1345	
-  1346				new_perms[0].vmid = QCOM_SCM_VMID_HLOS;
-  1347	
-  1348				for (i--; i >= 0; i--) {
-  1349					src_cpy = src;
-  1350					WARN_ON_ONCE(qcom_scm_assign_mem(
-  1351							le64_to_cpu(mem_parcel->mem_entries[i].ipa_base),
-  1352							le64_to_cpu(mem_parcel->mem_entries[i].size),
-  1353							&src_cpy, new_perms, 1));
-  1354				}
-  1355				break;
-  1356			}
-  1357		}
-  1358	
-  1359		kfree(new_perms);
-  1360		return ret;
-  1361	}
-  1362	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+--
+2.39.1.637.g21b0678d19-goog
