@@ -2,293 +2,294 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22D7EC636D4
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 10:44:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8642FC636D4
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 12:10:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbjBQKob (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Feb 2023 05:44:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52782 "EHLO
+        id S229553AbjBQMKo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Feb 2023 07:10:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjBQKoa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 05:44:30 -0500
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7D685E5B7;
-        Fri, 17 Feb 2023 02:44:28 -0800 (PST)
-Received: by mail-qv1-xf30.google.com with SMTP id s17so2905817qvq.12;
-        Fri, 17 Feb 2023 02:44:28 -0800 (PST)
+        with ESMTP id S229520AbjBQMKo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 07:10:44 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3F3E63BD0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Feb 2023 04:10:41 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id h14so3726054edz.10
+        for <linux-doc@vger.kernel.org>; Fri, 17 Feb 2023 04:10:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZBI5B/ScpGx1Y+quI9uLhuVKqr0rMcjWGLusfJo/xcA=;
-        b=YgqocYyzAxusCNT/ugZqoQUUWcaFrELoF5WWmnJ368tdKwqzW7hRbhNQpbNRTCmDVB
-         LjtYcI/BmDSBWNnDTES/mAkUYdUYy72f9OXaMPYxbYSk2PoklHi0G1T59rsL4V+JtfRs
-         ahQ+6r994SLKz7sDHG6sZh6Hc/GD2HHaMFO9HfepKFco+vm8p77UBHzw9+T2kbln43qr
-         YT+Q7psGer2D/v5cA+k0rQ9RI7B81POBHC4EbvLCDvMOml+NpY4S1wpXytfrfV9Yemua
-         NiscRKmRUKQmiH49pa0w4i/Ah/7ZrjbhRkmkLNWM3aHK0XRntZY/4Ryural2LlmlZPky
-         okpg==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aB17o/jMbl0mQSIHKLDRIzmjCLvKTzoO4e8k0fo/3C4=;
+        b=Bx9FoQZKwMBR7rjygoX5aHQujxfB8WirDrwXEECPglcNNqnljEL9Rpv84LAkob4f2I
+         HmUqs4N2+5GxaFa2bTrKVptX6Udv0Lvq3qPGkuA6+6bjKY9TSspfbFz3aolnzXse/Zo4
+         P2YwBMPY9AXr3thwLPUN+p3cgambghGMmVrvaC4buZ4uHph9AF0+aKj8CNjq1hurFZn1
+         s6KhK0hKiGNO5k/uDLODBecXt8QOcwyLkDAqM/gBEDU6vb2wqRKPtjOchY8mFURKeMqn
+         gGbmBC8wZIX740/ZYPls5rU0E82/M8qKWVCZ3n6+p748T3iYZv2ZjxGi/uv4DASJHh1R
+         TBqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZBI5B/ScpGx1Y+quI9uLhuVKqr0rMcjWGLusfJo/xcA=;
-        b=S1FuSanG7Wn2ginkwKaB5A50akOHuGzT3IL8D+OerMqbn9sFy+Il3flLUvOMkKaxJD
-         kir6m2RS+H+Xrgdl4/GVtHQV886r5xef1NQ6Wvc6gP9fhAW8RFD7oFwTatkSG8m0/nFo
-         pPn1MX1Jrn+1hekevB5h8VZUme78hSEsFt3hjh3W4BtypkddA0rHbYLSCltENPRaJgKn
-         jaLAWlpoUKDx8Zka9f6Iksfnj2nUl7ijpRmVIeMYokhh6i8pJ85OMskbcl992khMQrou
-         u5oqWJGY+YFg2hrgKu1GBVNKLQwTI/jdXpmQr9O+T5eDQqGknnRvo055lP9BUegX7oUI
-         KwQA==
-X-Gm-Message-State: AO0yUKU3378Q7TmwUXo4XsUq9gdBOaS9q8FuHXcCykBzmRAR1XNwNszj
-        UtKvaEYsebAMM5bw7c9k4GWxdAW1mXFsizwHI3Q=
-X-Google-Smtp-Source: AK7set8cocnb4LsK8c/seedRLgp5VG7mygXjyxh7PpiY7+XVq5AaoMByetKr3IFeZtDhFp+sGyXpV+hdb+LwZjM1Sgk=
-X-Received: by 2002:a0c:e10a:0:b0:56e:9a71:16e3 with SMTP id
- w10-20020a0ce10a000000b0056e9a7116e3mr790014qvk.14.1676630667934; Fri, 17 Feb
- 2023 02:44:27 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aB17o/jMbl0mQSIHKLDRIzmjCLvKTzoO4e8k0fo/3C4=;
+        b=40aNEfpdOp9cn6O44Z/PvRtNAqmNC1aUcM3myGA9CFr4bKvv7ZNG3nzDNMsRf7Ie4L
+         xNkmNkKibx9z5x8bFhYYlyWIJMi/S+0NcW478wEz0J5yMvESs1cuqj9Yu9TftYVKAmre
+         s4Rzo8O/AMOrj5Ixoa1BPPX5HgGiteHlHAeEbYazzDb/iGqdZeNFWbI1J7HNc7tSo1Ll
+         ecKHQgbTGLAtIQ9m1+8B5qgnSl8Fjp3JqoV0Izce/U/mqlJkLce/rlzXqv+S1fSyuBij
+         +hvNjQLyu/SnxUwegJjJg4/dAK/SyFkv6inQq0YJW5Q2tHf1l4+/9koxE3UzmRcw+Qkq
+         v+sA==
+X-Gm-Message-State: AO0yUKVDVf6kibQEITaJq2THK5zCOlDaIjeJcjfm3s9mE3Ub/4/oV7Il
+        PLuJjBaEL4ett6qWeS1UMmV4OQ==
+X-Google-Smtp-Source: AK7set+wkleOBTUL23QSSRC2ZHsbI3GMBhC0RL6WDYUMQrmOML8P2aJ8lKZzQpe3Fj5ZVzUwLgRqdA==
+X-Received: by 2002:a17:906:230f:b0:8aa:af33:72d6 with SMTP id l15-20020a170906230f00b008aaaf3372d6mr8688731eja.45.1676635840413;
+        Fri, 17 Feb 2023 04:10:40 -0800 (PST)
+Received: from [192.168.240.121] (196.161.185.81.rev.sfr.net. [81.185.161.196])
+        by smtp.gmail.com with ESMTPSA id v20-20020a50d594000000b004ad7962d5bbsm1317811edi.42.2023.02.17.04.10.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Feb 2023 04:10:40 -0800 (PST)
+Message-ID: <4e64838c-b727-923b-b6d5-413a0681977c@baylibre.com>
+Date:   Fri, 17 Feb 2023 13:10:38 +0100
 MIME-Version: 1.0
-References: <20230217102319.3419-1-orlandoch.dev@gmail.com> <20230217102319.3419-3-orlandoch.dev@gmail.com>
-In-Reply-To: <20230217102319.3419-3-orlandoch.dev@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 17 Feb 2023 12:43:51 +0200
-Message-ID: <CAHp75Veme1WdObOG-XL=-Q8y5eGn44fzej-JCjMvovgd6XZZTA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] HID: hid-apple-magic-backlight: Add driver for
- keyboard backlight on internal Magic Keyboards
-To:     Orlando Chamberlain <orlandoch.dev@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Aditya Garg <gargaditya08@live.com>,
-        Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v1 1/4] dt-bindings: mfd: Add DT bindings for TI TPS6594
+ PMIC
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net
+Cc:     hdegoede@redhat.com, eric.auger@redhat.com, jgg@ziepe.ca,
+        razor@blackwall.org, suma.hegde@amd.com,
+        stephen@networkplumber.org, arnd@arndb.de,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, eblanc@baylibre.com,
+        jneanne@baylibre.com
+References: <20230216114410.183489-1-jpanis@baylibre.com>
+ <20230216114410.183489-2-jpanis@baylibre.com>
+ <c50503f0-dce1-a3b0-2973-8a22b5ef8bc2@linaro.org>
+Content-Language: en-US
+From:   Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <c50503f0-dce1-a3b0-2973-8a22b5ef8bc2@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 17, 2023 at 12:24 PM Orlando Chamberlain
-<orlandoch.dev@gmail.com> wrote:
->
-> This driver adds support for the keyboard backlight on Intel T2 Macs
-> with internal Magic Keyboards (MacBookPro16,x and MacBookAir9,1)
 
-LGTM,
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+On 2/17/23 10:06, Krzysztof Kozlowski wrote:
+> On 16/02/2023 12:44, Julien Panis wrote:
+>> TPS6594 is a Power Management IC which provides regulators and others
+> Subject: drop second/last, redundant "DT bindings for". The
+> "dt-bindings" prefix is already stating that these are bindings.
+>
+>
+>> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+>> PFSM (Pre-configurable Finite State Machine) managing the state of the
+>> device.
+>> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+>>
+>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+>> ---
+>>   .../devicetree/bindings/mfd/ti,tps6594.yaml   | 164 ++++++++++++++++++
+>>   1 file changed, 164 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>> new file mode 100644
+>> index 000000000000..37968d6c0420
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>> @@ -0,0 +1,164 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: TI TPS6594 Power Management Integrated Circuit
+>> +
+>> +maintainers:
+>> +  - Julien Panis <jpanis@baylibre.com>
+>> +
+>> +description: |
+>> +  TPS6594 is a Power Management IC which provides regulators and others
+>> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+>> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
+>> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - ti,tps6594
+>> +      - ti,tps6593
+>> +      - ti,lp8764x
+> Any particular choice of ordering (different than alphabetical)?
 
-> Co-developed-by: Kerem Karabay <kekrby@gmail.com>
-> Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-> Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
-> ---
-> v2->v3:
-> - remove unneeded inclusion
-> - use s32 for report value type
-> - remove unneeded null check
-> - don't set drvdata as its never used
-> - prepend "hid-" to module name
-> v1->v2:
-> - drop unneeded remove function
-> - combine set functions
-> - add missing header inclusions
-> - avoid char as argument in favour of u8
-> - handful of style/formatting fixes
-> - use standard led name ":white:kbd_backlight"
-> - rename USAGE_MAGIC_BL to HID_USAGE_MAGIC_BL
->  MAINTAINERS                             |   6 ++
->  drivers/hid/Kconfig                     |  13 +++
->  drivers/hid/Makefile                    |   1 +
->  drivers/hid/hid-apple-magic-backlight.c | 122 ++++++++++++++++++++++++
->  4 files changed, 142 insertions(+)
->  create mode 100644 drivers/hid/hid-apple-magic-backlight.c
+Thank you for the review.
+
+I chose this ordering because it emphasizes the fact that tps6593 and 
+lp8764x
+are derivatives of tps6594 : tps6593 is nearly the same (a minor feature 
+is not
+supported), and lp8764x has less resources (less bucks/LDO, and no RTC).
+
+Besides, a multi-PMIC synchronization scheme is implemented in the PMIC 
+device
+to synchronize the power state changes with other PMIC devices. This is done
+through a SPMI bus : the master PMIC is the controller device on the 
+SPMI bus,
+and the slave PMICs are the target devices on the SPMI bus. For the 5 boards
+we work on (for which device trees will be sent in another patch series):
+- tps6594 is used on 3 boards and is always master (multi-PMIC config)
+- tps6593 is used on 1 board and is master (single-PMIC config)
+- lp8764x is used on 2 boards and is always slave (multi-PMIC config)
+There might not be situations in which lp8764x would be master and tps6594
+or tps6593 would be slave.
+
+That's why I preferred this ordering.
+
+Do you think that alphabetical order would be better ?
+
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fb1471cb5ed3..3319f0c3ed1e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9201,6 +9201,12 @@ F:       include/linux/pm.h
->  F:     include/linux/suspend.h
->  F:     kernel/power/
+>> +
+>> +  reg:
+>> +    description: I2C slave address or SPI chip select number.
+>> +    maxItems: 1
+>> +
+>> +  ti,use-crc:
+>> +    type: boolean
+>> +    description: If true, use CRC for I2C and SPI interface protocols.
+> Hm, why different boards would like to enable or disable it? Why this
+> suits DT?
+
+You're right. Reading your comment, it appears to me that CRC feature is 
+not fully
+related to HW description and should not be set in DT.
+
+CRC is not 'fully' related to HW, but...
+For CRC feature as well, PMICs are synchronized (for boards with 
+multi-PMIC config).
+To use CRC mode, this feature must be requested explicitly on the master 
+PMIC
+through I2C or SPI driver, then it is enabled for the slave PMICs 
+through SPMI bus: that
+sync is performed 'automatically', without intervention from the I2C or 
+SPI driver to
+enable CRC on slave PMICs.
+As a consequence, CRC feature is enabled for all PMICs at I2C/SPI driver 
+probe,
+or it is let disabled for all PMICs. But it can't be enabled for one 
+PMIC and disabled
+for another one.
+
+This will probably rediscussed for I2C/SPI drivers, but do you think 
+that a 'use_crc'
+driver parameter would be an acceptable solution ? If so, the master 
+PMIC would have
+to be identified, so that the driver can explicitly enable CRC mode for 
+this one if
+'use_crc' is true. With this solution, some 'ti,is-master;' bool 
+property would be necessary.
+
 >
-> +HID APPLE MAGIC BACKLIGHT DRIVER
-> +M:     Orlando Chamberlain <orlandoch.dev@gmail.com>
-> +L:     linux-input@vger.kernel.org
-> +S:     Maintained
-> +F:     drivers/hid/apple-magic-backlight.c
-> +
->  HID CORE LAYER
->  M:     Jiri Kosina <jikos@kernel.org>
->  M:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index e2a5d30c8895..fe489632bfd9 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -130,6 +130,19 @@ config HID_APPLE
->         Say Y here if you want support for keyboards of Apple iBooks, PowerBooks,
->         MacBooks, MacBook Pros and Apple Aluminum.
+>> +
+>> +  system-power-controller: true
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  ti,multi-phase-id:
+>> +    description: |
+>> +      Describes buck multi-phase configuration, if any. For instance, XY id means
+>> +      that outputs of buck converters X and Y are combined in multi-phase mode.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    enum: [12, 34, 123, 1234]
+>> +
+>> +patternProperties:
+>> +  "^buck([1-5]|12|34|123|1234)-supply$":
+>> +    description: Input supply phandle for each buck.
+>> +
+>> +  "^ldo[1-4]-supply$":
+>> +    description: Input supply phandle for each ldo.
+>> +
+>> +  regulators:
+> This should go to properties, not patternProperties.
 >
-> +config HID_APPLE_MAGIC_BACKLIGHT
-> +       tristate "Apple Magic Keyboard Backlight"
-> +       depends on USB_HID
-> +       depends on LEDS_CLASS
-> +       depends on NEW_LEDS
-> +       help
-> +       Say Y here if you want support for the keyboard backlight on Macs with
-> +       the magic keyboard (MacBookPro16,x and MacBookAir9,1). Note that this
-> +       driver is not for external magic keyboards.
-> +
-> +       To compile this driver as a module, choose M here: the
-> +       module will be called hid-apple-magic-backlight.
-> +
->  config HID_APPLEIR
->         tristate "Apple infrared receiver"
->         depends on (USB_HID)
-> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> index e8014c1a2f8b..dc8df002bc86 100644
-> --- a/drivers/hid/Makefile
-> +++ b/drivers/hid/Makefile
-> @@ -26,6 +26,7 @@ obj-$(CONFIG_HID_ACCUTOUCH)   += hid-accutouch.o
->  obj-$(CONFIG_HID_ALPS)         += hid-alps.o
->  obj-$(CONFIG_HID_ACRUX)                += hid-axff.o
->  obj-$(CONFIG_HID_APPLE)                += hid-apple.o
-> +obj-$(CONFIG_HID_APPLE_MAGIC_BACKLIGHT)        += hid-apple-magic-backlight.o
->  obj-$(CONFIG_HID_APPLEIR)      += hid-appleir.o
->  obj-$(CONFIG_HID_CREATIVE_SB0540)      += hid-creative-sb0540.o
->  obj-$(CONFIG_HID_ASUS)         += hid-asus.o
-> diff --git a/drivers/hid/hid-apple-magic-backlight.c b/drivers/hid/hid-apple-magic-backlight.c
-> new file mode 100644
-> index 000000000000..210af2849e78
-> --- /dev/null
-> +++ b/drivers/hid/hid-apple-magic-backlight.c
-> @@ -0,0 +1,122 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Apple Magic Keyboard Backlight Driver
-> + *
-> + * For Intel Macs with internal Magic Keyboard (MacBookPro16,1-4 and MacBookAir9,1)
-> + *
-> + * Copyright (c) 2022 Kerem Karabay <kekrby@gmail.com>
-> + * Copyright (c) 2023 Orlando Chamberlain <orlandoch.dev@gmail.com>
-> + */
-> +
-> +#include <linux/hid.h>
-> +#include <linux/leds.h>
-> +#include <linux/device.h>
-> +#include <linux/errno.h>
-> +#include <dt-bindings/leds/common.h>
-> +
-> +#include "hid-ids.h"
-> +
-> +#define HID_USAGE_MAGIC_BL     0xff00000f
-> +
-> +#define APPLE_MAGIC_REPORT_ID_POWER 3
-> +#define APPLE_MAGIC_REPORT_ID_BRIGHTNESS 1
-> +
-> +struct apple_magic_backlight {
-> +       struct led_classdev cdev;
-> +       struct hid_device *hdev;
-> +       struct hid_report *brightness;
-> +       struct hid_report *power;
-> +};
-> +
-> +static void apple_magic_backlight_report_set(struct hid_report *rep, s32 value, u8 rate)
-> +{
-> +       rep->field[0]->value[0] = value;
-> +       rep->field[1]->value[0] = 0x5e; /* Mimic Windows */
-> +       rep->field[1]->value[0] |= rate << 8;
-> +
-> +       hid_hw_request(rep->device, rep, HID_REQ_SET_REPORT);
-> +}
-> +
-> +static void apple_magic_backlight_set(struct apple_magic_backlight *backlight,
-> +                                    int brightness, char rate)
-> +{
-> +       apple_magic_backlight_report_set(backlight->power, brightness ? 1 : 0, rate);
-> +       if (brightness)
-> +               apple_magic_backlight_report_set(backlight->brightness, brightness, rate);
-> +}
-> +
-> +static int apple_magic_backlight_led_set(struct led_classdev *led_cdev,
-> +                                        enum led_brightness brightness)
-> +{
-> +       struct apple_magic_backlight *backlight = container_of(led_cdev,
-> +                       struct apple_magic_backlight, cdev);
-> +
-> +       apple_magic_backlight_set(backlight, brightness, 1);
-> +       return 0;
-> +}
-> +
-> +static int apple_magic_backlight_probe(struct hid_device *hdev,
-> +                                      const struct hid_device_id *id)
-> +{
-> +       struct apple_magic_backlight *backlight;
-> +       int rc;
-> +
-> +       rc = hid_parse(hdev);
-> +       if (rc)
-> +               return rc;
-> +
-> +       /*
-> +        * Ensure this usb endpoint is for the keyboard backlight, not touchbar
-> +        * backlight.
-> +        */
-> +       if (hdev->collection[0].usage != HID_USAGE_MAGIC_BL)
-> +               return -ENODEV;
-> +
-> +       backlight = devm_kzalloc(&hdev->dev, sizeof(*backlight), GFP_KERNEL);
-> +       if (!backlight)
-> +               return -ENOMEM;
-> +
-> +       rc = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-> +       if (rc)
-> +               return rc;
-> +
-> +       backlight->brightness = hid_register_report(hdev, HID_FEATURE_REPORT,
-> +                       APPLE_MAGIC_REPORT_ID_BRIGHTNESS, 0);
-> +       backlight->power = hid_register_report(hdev, HID_FEATURE_REPORT,
-> +                       APPLE_MAGIC_REPORT_ID_POWER, 0);
-> +
-> +       if (!backlight->brightness || !backlight->power) {
-> +               rc = -ENODEV;
-> +               goto hw_stop;
-> +       }
-> +
-> +       backlight->hdev = hdev;
-> +       backlight->cdev.name = ":white:" LED_FUNCTION_KBD_BACKLIGHT;
-> +       backlight->cdev.max_brightness = backlight->brightness->field[0]->logical_maximum;
-> +       backlight->cdev.brightness_set_blocking = apple_magic_backlight_led_set;
-> +
-> +       apple_magic_backlight_set(backlight, 0, 0);
-> +
-> +       return devm_led_classdev_register(&hdev->dev, &backlight->cdev);
-> +
-> +hw_stop:
-> +       hid_hw_stop(hdev);
-> +       return rc;
-> +}
-> +
-> +static const struct hid_device_id apple_magic_backlight_hid_ids[] = {
-> +       { HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
-> +       { }
-> +};
-> +MODULE_DEVICE_TABLE(hid, apple_magic_backlight_hid_ids);
-> +
-> +static struct hid_driver apple_magic_backlight_hid_driver = {
-> +       .name = "hid-apple-magic-backlight",
-> +       .id_table = apple_magic_backlight_hid_ids,
-> +       .probe = apple_magic_backlight_probe,
-> +};
-> +module_hid_driver(apple_magic_backlight_hid_driver);
-> +
-> +MODULE_DESCRIPTION("MacBook Magic Keyboard Backlight");
-> +MODULE_AUTHOR("Orlando Chamberlain <orlandoch.dev@gmail.com>");
-> +MODULE_LICENSE("GPL");
-> --
-> 2.39.1
+>> +    type: object
+>> +    description: List of regulators provided by this controller.
+>> +
+>> +    patternProperties:
+>> +      "^buck([1-5]|12|34|123|1234)$":
+>> +        type: object
+>> +        $ref: /schemas/regulator/regulator.yaml#
+>> +
+>> +        unevaluatedProperties: false
+>> +
+>> +      "^ldo[1-4]$":
+>> +        type: object
+>> +        $ref: /schemas/regulator/regulator.yaml#
+>> +
+>> +        unevaluatedProperties: false
+>> +
+> You could add here - on this level - of indentation allOf:if for
+> excluding setups
+>
+> if:
+>    required:
+>      - buck12
+> then:
+>    properties:
+>      buck123: false
+>      buck1234: false
+>
+> Or, if you want to require regulator then:
+> oneOf:
+>    - required:
+>        - buck12
+>    - required:
+>        - buck123
+>    - required:
+>        - buck1234
+>
+> and anyway exclude buck34 with two above.
+
+I am not sure that we have the same understanding of the multi-phase setup.
+Maybe the description I wrote is not clear enough (?) Or I just don't 
+understand
+what you mean exactly.
+
+How would you combine outputs of bucks 3 and 4 ?
+We use 'buck34' property to mean that:
+  - buck1 output is mono-phase,
+  - buck2 output is mono-phase,
+  - buck3 and buck4 outputs are combined (i.e. multi-phases).
+This weird configuration is supported by these PMICs.
+
+Using a PMIC without using the provided regulators does not seem very 
+interesting
+indeed.
+But strictly speaking, these regulators are not required. One could use 
+some others
+resources provided by the PMIC (the Error Signal Monitor device for 
+instance).
+Besides, multi-phase mode depends on the chosen design and is not 
+required for
+all situations.
+
+>
+>> +    additionalProperties: false
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +
+>> +additionalProperties: false
+>
+>
+> Best regards,
+> Krzysztof
 >
 
-
--- 
-With Best Regards,
-Andy Shevchenko
