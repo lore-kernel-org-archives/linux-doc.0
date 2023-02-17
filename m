@@ -2,72 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98172C05027
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 19:45:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E34C8C636D6
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 22:13:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbjBQTpt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Feb 2023 14:45:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60228 "EHLO
+        id S229745AbjBQWNU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Feb 2023 17:13:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjBQTps (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 14:45:48 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D635E58E;
-        Fri, 17 Feb 2023 11:45:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=HznwluzS0ZGoZBxqPywPydMAJ7rtE7A0nySFqvQCNKU=; b=ZdlZ/53k/mtRuNZKjJ/V0nzM18
-        NQTuOZpFnJ1UXH8JSdVoqCOQuGuckB9rvIbuhwkxblJF8okMMFOe5fO3WQtWVGHG4W3e79OPKnUw9
-        26h8mXYKiump0wSLoHk8KXdAuEEfYfdBdREBp+us9n7Z2hmECRNeFVpWFIilk3vMRaxhuTJV4VZ9T
-        lyXv7TuLS4kOjbKcS11XQxqX98tEli6YJxVDyIJXKtCr4TyZCPmoqfY8Cy52o+qA3fha9fF2csXwu
-        uYYs0E1ZnYV5NnP2hf0BS+FhyAxwbVmh4Q90+i8SWHbfPPkovS3KuJi2m7fLbdfZQXf8JuGL1QyBo
-        QXdQ88XA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pT6fj-009a9i-Q7; Fri, 17 Feb 2023 19:45:31 +0000
-Date:   Fri, 17 Feb 2023 19:45:31 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Danilo Krummrich <dakr@redhat.com>
-Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
-        bskeggs@redhat.com, Liam.Howlett@oracle.com,
-        matthew.brost@intel.com, boris.brezillon@collabora.com,
-        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
-        jason@jlekstrand.net, dri-devel@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH drm-next v2 03/16] maple_tree: split up MA_STATE() macro
-Message-ID: <Y+/ZW/8WXzrkQnUT@casper.infradead.org>
-References: <20230217134422.14116-1-dakr@redhat.com>
- <20230217134422.14116-4-dakr@redhat.com>
+        with ESMTP id S229539AbjBQWNT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 17:13:19 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3456F53EEF;
+        Fri, 17 Feb 2023 14:13:18 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id e4-20020a05600c4e4400b003dc4050c94aso1939522wmq.4;
+        Fri, 17 Feb 2023 14:13:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=s8Cs+D1dNRVvU5FZhA9NdvKWxN01yyeYmicSt7fW840=;
+        b=ZtOpor/tIoioJVDeaEsupf5C46Ca+I22u8Zl620GFn4Yfyzx4z61zXzY2BzQv8fJQ4
+         YZ+a3oTwU/d5AMztC924vr8S6e7d6ZKdnMPnw1fz9PjxMhYXH1IbZyuQ0/lw4jQbw3EF
+         swOeB9owdWhyT9ISN5fLmRFuXeWL49A4KpBZxrgTgLGrYXjvBwswiQ3H0IgcOui8KqF5
+         75TR+lUllD2cRT/vNOMJjzXEP4b6qZch0blElpQpNtli9bzAcCG5DLvEZ0QY1wt7jWRq
+         e6tJ6jvqZac8igTHvxo6K0LBP649TpUyPC6NoGwB23h/LnkzisjEgG7L2kSTq4+LmWws
+         A61Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s8Cs+D1dNRVvU5FZhA9NdvKWxN01yyeYmicSt7fW840=;
+        b=1hojA0cRBf8NsT7EJ6wHSNu0aRBuQys5W26MazJoV3nBuZydQCRzIGthZe9w2Rc72w
+         zLF3nP32hmlLMhsym5A6Tb1xUpCqQP5KPwhMFa5IoU94PJ6SBaVQSaSmCanckFuLfy9T
+         zz5STCsjdu+N9IMYOV0wjQvbgPnxEl9j2jGTQxsFSBd6I9OyjzqZfyWI0C4i620QXDDN
+         0DdZ1pL7G8YJ9OmrPPI0MVvFvgK0YZHlke+u2k0XSEtNs1XFzX6Y4Pcr35yp5TJsJ2bp
+         /W29xhVBOK/F7Hx4ORidBAN5Ij8Foc8elBlptBKN3hHpko4oqylg2UkRt/FY41IWm2Uh
+         syxg==
+X-Gm-Message-State: AO0yUKWxLdcxncZ5ecvJ59QvH2UTWxs77dzZV0bh5ofMWVPHJ5I22M3P
+        R914IOi1ciOQsgmlBexpEflQvqDa3UM=
+X-Google-Smtp-Source: AK7set+qH0WimBUCqvuGrBjkIyVNTwjx96FysdQp2U2Hu7V5sBpkmHWGms50WTRGDkiqauhQIzzXsA==
+X-Received: by 2002:a05:600c:43c5:b0:3dc:557f:6129 with SMTP id f5-20020a05600c43c500b003dc557f6129mr2099290wmn.2.1676671996347;
+        Fri, 17 Feb 2023 14:13:16 -0800 (PST)
+Received: from Ansuel-xps. (93-34-91-73.ip49.fastwebnet.it. [93.34.91.73])
+        by smtp.gmail.com with ESMTPSA id n6-20020a05600c500600b003dc433355aasm6479927wmr.18.2023.02.17.14.13.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Feb 2023 14:13:15 -0800 (PST)
+Message-ID: <63effbfb.050a0220.3dc6e.3732@mx.google.com>
+X-Google-Original-Message-ID: <Y+8KOiu8UqQ2DZHR@Ansuel-xps.>
+Date:   Fri, 17 Feb 2023 06:01:46 +0100
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Arun.Ramadoss@microchip.com
+Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
+References: <20230216013230.22978-1-ansuelsmth@gmail.com>
+ <Y++PdVq+DlzdotMq@lunn.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230217134422.14116-4-dakr@redhat.com>
+In-Reply-To: <Y++PdVq+DlzdotMq@lunn.ch>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 17, 2023 at 02:44:09PM +0100, Danilo Krummrich wrote:
-> \#define SAMPLE_ITER(name, __mgr) \
-> 	struct sample_iter name = { \
-> 		.mas = __MA_STATE(&(__mgr)->mt, 0, 0),
+On Fri, Feb 17, 2023 at 03:30:13PM +0100, Andrew Lunn wrote:
+> On Thu, Feb 16, 2023 at 02:32:17AM +0100, Christian Marangi wrote:
+> > This is another attempt on adding this feature on LEDs, hoping this is
+> > the right time and someone finally notice this.
+> 
+> Hi Christian
+> 
+> Thanks for keeping working on this.
+> 
+> I want to review it, and maybe implement LED support in a PHY
+> driver. But i'm busy with reworking EEE at the moment.
+> 
+> The merge window is about to open, so patches are not going to be
+> accepted for the next two weeks. So i will take a look within that
+> time and give you feedback.
+> 
 
-This is usually called MA_STATE_INIT()
+Sure take your time happy to discuss any improvement to this.
 
-> #define sample_iter_for_each_range(it__, start__, end__) \
-> 	for ((it__).mas.index = start__, (it__).entry = mas_find(&(it__).mas, end__ - 1); \
-> 	     (it__).entry; (it__).entry = mas_find(&(it__).mas, end__ - 1))
-
-This is a bad iterator design.  It's usually best to do this:
-
-	struct sample *sample;
-	SAMPLE_ITERATOR(si, min);
-
-	sample_iter_for_each(&si, sample, max) {
-		frob(mgr, sample);
-	}
-
-I don't mind splitting apart MA_STATE_INIT from MA_STATE, and if you
-do that, we can also use it in VMA_ITERATOR.
+-- 
+	Ansuel
