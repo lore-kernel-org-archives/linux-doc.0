@@ -2,127 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB2D9C636D6
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 17:04:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDCD9C636D6
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 17:10:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229658AbjBQREL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Feb 2023 12:04:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46646 "EHLO
+        id S229460AbjBQRKT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Feb 2023 12:10:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbjBQREJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 12:04:09 -0500
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2046.outbound.protection.outlook.com [40.107.93.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55DEB68E6A;
-        Fri, 17 Feb 2023 09:04:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lgGbYAYGFFzIKW7VPrTG+4XUMzekNlx/y3+BaDCJPNo6NVi4oUbTOvFFCRTsk2XMf9JARVYNr3uayjxgnuBYZjs5g/3V/G7YK5C8Tt9JLT09YFxsBZpCtYkwlg0MCWZaImrvwDcNjBPKizdsLcIM8iX1bav+tnPBbrf5x3vUmKQpEWcmzSv2x2yqIQU9XVYsJjGE9ny647FAy27fOpIfOawxpV+zdRrNPzBmZvZX7rbJykwwlFr0hitVGMkfKKEFnCAZHi8aZmb/y0z3X36BbieBqHvic1CgyrptQeOfGO+kG5FR5l6nvjFvHBFF/nbOBKZ/I18c+3VUeK2RPkO2aA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G44D0UO7yii02OxO0FEqi0luvf40NJoOEhWWUrZnp2Y=;
- b=UX+caR/RGHpeiXBz/RtmPt6UH+FJDKUx89HXjaT+mexmw3fH0nQAbXF4eq7yXpTzE44hXSKO/usRpTo3OCKKEFPrmnn7lT57zLkltsEARoaJHe5SlJEdWYlj8zATsX44z2NyGXgZYSDtZDh3ogSELMKApzlS1izkwm1Ai2AjahiY3h/sqnYicfyNrGwZMJT40FHEVemzqyu1l3w7sadEZobgmhEWBlNhZtLUQ0SR2uw2h+EJJ5y3c23apzQnaulHbt7MNXiexGp676a+TejlVB1E2VZ/jwfnjEDu3sJaZYudfzV/H0iZDbI7EBi+T6Gi51xOmUSLaPrrQzLwMS+Dfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G44D0UO7yii02OxO0FEqi0luvf40NJoOEhWWUrZnp2Y=;
- b=DnJq2IjGVuPRkj6iL0Jzl0s+XzjKTAoI1ILWr5tNaDfuuAxZAXe8cAScmImEOjTlr1A2zzZWdPyFM2KMmQBzAy7XOxthSVs2gJRUQYytymsax9IsiZPotIScLj5QJMsuPHlCW4qxKoKYTJ4u6kNFCFsrixe0QcSEXAFirTU508Q=
-Received: from DM6PR02CA0168.namprd02.prod.outlook.com (2603:10b6:5:332::35)
- by MW4PR12MB6825.namprd12.prod.outlook.com (2603:10b6:303:20d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Fri, 17 Feb
- 2023 17:04:05 +0000
-Received: from DM6NAM11FT013.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:332:cafe::24) by DM6PR02CA0168.outlook.office365.com
- (2603:10b6:5:332::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.17 via Frontend
- Transport; Fri, 17 Feb 2023 17:04:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT013.mail.protection.outlook.com (10.13.173.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6111.17 via Frontend Transport; Fri, 17 Feb 2023 17:04:05 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 17 Feb
- 2023 11:04:04 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 17 Feb
- 2023 11:04:04 -0600
-Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
- SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34 via Frontend Transport; Fri, 17 Feb 2023 11:04:02 -0600
-From:   <alejandro.lucero-palau@amd.com>
-To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
-CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <edumazet@google.com>, <habetsm.xilinx@gmail.com>,
-        <ecree.xilinx@gmail.com>, <linux-doc@vger.kernel.org>,
-        <corbet@lwn.net>, <jiri@nvidia.com>,
-        "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
-Subject: [PATCH v2 net-next] sfc: fix ia64 builds without CONFIG_RTC_LIB
-Date:   Fri, 17 Feb 2023 17:03:48 +0000
-Message-ID: <20230217170348.7402-1-alejandro.lucero-palau@amd.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S229539AbjBQRKS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 12:10:18 -0500
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD1B46ABFF
+        for <linux-doc@vger.kernel.org>; Fri, 17 Feb 2023 09:10:17 -0800 (PST)
+Received: by mail-il1-x134.google.com with SMTP id d4so557045ilm.1
+        for <linux-doc@vger.kernel.org>; Fri, 17 Feb 2023 09:10:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=h/Qv8u6Z2KXCcaJWZ8ZA1lMk2nbjKlk3sn8x9I4oZZw=;
+        b=kPdZt0SA1LHrayAm4tv1zimTfk4DR7WJguEVMzR+evSCJnmAIXMS/bcW0IqKkOl8DW
+         5C5MXHlTZDrVDv7OV54JGTbir+dpe6Ls6E6nd5RXsUeKyMuXFWnghEe58WFpgnrufmdU
+         qwJVvJnbxv1bRih2uXj8EdJM23aSr4Vc/jPWavg5vgvVG8jDdT/HjpeYmlZTCTSHyZhF
+         zPOMEyfA53jBNVA7Up0M5g7nOolpL1p7fxLH8cZyuquVjndDLNusXecKc3fFW7EiyJ1q
+         T8A/kNl7De4i2n7UJ69itWeJP90pHMC5Ob3A1ONl7hHWL//scj7qinq1RI0XNP8zD6NK
+         dC6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h/Qv8u6Z2KXCcaJWZ8ZA1lMk2nbjKlk3sn8x9I4oZZw=;
+        b=VEAbXkOnVbc/qX3O3UPahjcicWy6g8Rj6wqlI76I4a8TxQfLKN92bYgeGHSutF+Gnf
+         /dpO1Pok1WTxMXYaa0+YrdjE3cJsqnxNvqsAKaDkJtBD3wZixQ6+tSJ1WetRtGAca4C+
+         PjD/v0Ac6t8zLnZg9L0TfsHFahbZPp0yU1FO8hNVlSXDr/kdROmDzK2upP7A7EA5zeGl
+         /DwmXm6Xql/gbVbRJrNe8y+t/d6UP7LNHhRqRlBGB3M2KxUPXDnJaliSisOHUFDz2MjF
+         cjpLPXzOn5hahXalciNZYkIvDuFv+312QnbM/8OXqgc8llUyfb6XV0nONbYlDPrcyP4x
+         ME8A==
+X-Gm-Message-State: AO0yUKXNt67yPwsPl/hwV+PXJZv7tj3dAGv1uWod+lvPTJs2zpUUx4/W
+        AvgrVfblOL0KumKW6hXVgZsdJrD37EZgTCRjS28=
+X-Google-Smtp-Source: AK7set87u6rDKzUgPwvUi1Gb4kZnuwzpMQcJMUlJKza42lDhRA2RtunaRJpyNDmOBFB4Cqr0SKBMfg==
+X-Received: by 2002:a05:6e02:1a69:b0:315:d9ba:a392 with SMTP id w9-20020a056e021a6900b00315d9baa392mr2210842ilv.17.1676653816772;
+        Fri, 17 Feb 2023 09:10:16 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:20d3:35a7:25e2:3102])
+        by smtp.gmail.com with ESMTPSA id i3-20020a056e0212c300b00313fd932425sm1508659ilm.2.2023.02.17.09.10.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Feb 2023 09:10:16 -0800 (PST)
+Date:   Fri, 17 Feb 2023 10:10:12 -0700
+From:   Ross Zwisler <zwisler@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
+Subject: broken link in bpf/bpf_devel_QA
+Message-ID: <Y++09LKx25dtR4Ow@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT013:EE_|MW4PR12MB6825:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed13a889-c942-446b-b644-08db1108f9cc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K9wPYOvYbEIov4qjh7gr9oqWKe/93dXkXOh5Q96Kse0DvPAoLw7T/KiCV4oyiyabvrG4b/gRSMul9eD8ihJzK2x+ztyP3zoh1/wx7ys1gythpDHpCG/sjOd+7iXJshLfw4ZkpWvGt7Vk+fqMtTLzmKnIBUcZwtP1qlDWgyRnWvuxlbu2VsZFBzTmTvdUYgMSYsc4z74AYaPCqV0fzzoW25/rreledFhaT4i7tqb2zu3Jl1gD1NWOw0HD9oMxp0tbD4gbLwDRqJVzlfeMQrhlYVUJCUe3fCOBXIxmfLLQBxBAWpQ7iR0Ghf2Jux1zvr9Hy37wn1yj1THGBnxCK+t5l7v6p8CoQlfHLtpaTI5o1l3VyVmMd+tysCKGpeIBdRNaEQfWF8dwWRCu5y0S8erykeHOYb209Fk3br+4hDOKO7PtXjJjnphRUsta/Lvq0hEFLkS4S4AtRD6iVkjxw06ejeKGQMagySPrVChovXO7n2GZnwNJmBksPVeShgk3gXsFq/XI9TBpzzGalAaFTlx9bmpT/SE79nJMh17bEfQNUGnqSI4CsTw3WDAqvjPliAkNon3s2QuKLk6N7KJcG4WL6EbTofn9Gq/VKu2WiVUNk99qSfNGlJteyAtXSA0Gzmy/4301wVcE+hMh6UMxWshKRew5+eybtOOdmBDHqT/AC0b+ut/ChVUOLH60qCEOUpSorIPUJpeGRdD9wxjkF9+N2HhbZ9POKkwAYoJwdP4FtIU=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(376002)(136003)(396003)(346002)(451199018)(40470700004)(46966006)(36840700001)(2906002)(82740400003)(2876002)(316002)(110136005)(54906003)(8676002)(7416002)(8936002)(6636002)(5660300002)(40460700003)(70206006)(70586007)(336012)(356005)(41300700001)(426003)(2616005)(4326008)(47076005)(86362001)(40480700001)(81166007)(82310400005)(83380400001)(36756003)(36860700001)(966005)(478600001)(186003)(1076003)(26005)(6666004)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 17:04:05.0629
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed13a889-c942-446b-b644-08db1108f9cc
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT013.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6825
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+Hi,
 
-Add an embarrasingly missed semicolon breaking kernel building
-in ia64 configs.
+I was checking out this page:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/oe-kbuild-all/202302170047.EjCPizu3-lkp@intel.com/
-Fixes: 14743ddd2495 ("sfc: add devlink info support for ef100")
-Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
----
- drivers/net/ethernet/sfc/efx_devlink.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://docs.kernel.org/bpf/bpf_devel_QA.html
 
-diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
-index d2eb6712ba35..3eb355fd4282 100644
---- a/drivers/net/ethernet/sfc/efx_devlink.c
-+++ b/drivers/net/ethernet/sfc/efx_devlink.c
-@@ -323,7 +323,7 @@ static void efx_devlink_info_running_v2(struct efx_nic *efx,
- 				    GET_VERSION_V2_OUT_SUCFW_BUILD_DATE);
- 		rtc_time64_to_tm(tstamp, &build_date);
- #else
--		memset(&build_date, 0, sizeof(build_date)
-+		memset(&build_date, 0, sizeof(build_date);
- #endif
- 		build_id = MCDI_DWORD(outbuf, GET_VERSION_V2_OUT_SUCFW_CHIP_ID);
- 
--- 
-2.17.1
+and noticed that we have two links to .rst pages that are getting converted to
+links in different ways.  This one:
 
+  See the kernels selftest `Documentation/dev-tools/kselftest.rst`_
+  document for further documentation.
+
+is getting converted to a full external link:
+
+  <p>See the kernels selftest <a class="reference external"
+  href="https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html">Documentation/dev-tools/kselftest.rst</a>
+  document for further documentation.</p>
+
+While this one:
+
+  Finally to ensure support for latest BPF Type Format features -
+  discussed in `Documentation/bpf/btf.rst`_
+
+Is left as a short local link to a nonexistent .rst page:
+
+  <p>Finally to ensure support for latest BPF Type Format features - discussed
+  in <a class="reference external"
+  href="btf.rst">Documentation/bpf/btf.rst</a> 
+
+I think this could point to either of these locations and be okay:
+
+https://www.kernel.org/doc/html/latest/bpf/btf.html
+https://docs.kernel.org/bpf/btf.html
+
+but, as it is it's showing up as a broken link.
+
+Given that the page source for these two links are basically the same:
+
+ `Documentation/dev-tools/kselftest.rst`
+ and
+ `Documentation/bpf/btf.rst`
+
+I'm guessing this is an issue with how Sphinx is generating the resulting
+html, probably because it's trying to generate a more 'local' sort link for
+the btf.rst page?
+
+Thanks,
+- Ross
