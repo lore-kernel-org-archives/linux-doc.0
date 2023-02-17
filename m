@@ -2,127 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 476B4C636D4
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 10:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 769BCC05027
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 10:24:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbjBQKWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Feb 2023 05:22:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41650 "EHLO
+        id S229768AbjBQKYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Feb 2023 05:24:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjBQKWw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 05:22:52 -0500
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2047.outbound.protection.outlook.com [40.107.243.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 403D72102;
-        Fri, 17 Feb 2023 02:22:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qn1EBxy41h14ZQOBjCaVopKp8OJWtaZGngmZR1PplmTOjlVNhsPPgFqrSlV6XWiYp0jhq6UZPcCw4AjYABoAWVCsMzsvJHhWeoheBnTT5+xk39mC4z1WZ+TFmsT5I4U/RamtWgdmERDRQ1qerH18I5IyG062U+Rt5FmNZ2L2kHOMrIca35RBoAB+x+Kv24HwprzbbrcGQo3xz/jDBd8NjUeMefjPknEadIZ0eaTisulNO5Tkb06STYR3M7/FdKU5BCYDQ29X3QUx6AIdgQTj3YFRu2u+OGxZPaNSyXvc7L/IZUaiix6LaV5/Mloaq8+Umq6j9Hi03+ynbYatX2dGPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3kocTw3bqdcCt2BPz1Tdebp/ArGqbsCl7MPy2nxTlfI=;
- b=ZbwjhThtAKzYfgt4Xjz/dzAwydFTXQZsfOOAFFXacvbrqdpdrFJ9Us8POMlB/HY3g66S9fsu3gCtOnamB7anQNEigC61tx+vUOAVj3HLpZ9Zr080bQRgqYnaIFevFh52HvprabsWrHDsovA2P3h/WtcjVyfvLIgvr4GLxqSdcA/ThUgD14kF+tcCzvypgkiOxNilpszWPZqvlsrg6zaYfSr2A5ru0eppa7fdhq0hpNusB628b6gf0r1/Lr4aSPfKg207MR5jJPsnB0mxzKk1+ER6hFEDiXxfVDLdXxDQlYoNFW1Z2Y+OawYkWUTeZ7pClq+hBnlpHFvL4phR1tlwrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3kocTw3bqdcCt2BPz1Tdebp/ArGqbsCl7MPy2nxTlfI=;
- b=h1nuDMIUXgvJAtYwdT2a+0Faf7g+IEGrjY8cDcUpSWdpP/hdA0GA+xTf++2yLZM0kYnIK/etOhXOTLj8kBEgJnLF9u49cgJN6OpysALJ4r0mcDJJr8RFT0796xc3qQAjNthtdu2cL1f4JxMmnIlNsFneeUSyEYf0LMLDyLUSdv0=
-Received: from CY5PR15CA0037.namprd15.prod.outlook.com (2603:10b6:930:1b::34)
- by PH0PR12MB8049.namprd12.prod.outlook.com (2603:10b6:510:28f::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Fri, 17 Feb
- 2023 10:22:47 +0000
-Received: from CY4PEPF0000C971.namprd02.prod.outlook.com
- (2603:10b6:930:1b:cafe::f2) by CY5PR15CA0037.outlook.office365.com
- (2603:10b6:930:1b::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.17 via Frontend
- Transport; Fri, 17 Feb 2023 10:22:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000C971.mail.protection.outlook.com (10.167.242.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6111.8 via Frontend Transport; Fri, 17 Feb 2023 10:22:47 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 17 Feb
- 2023 04:22:46 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 17 Feb
- 2023 04:22:46 -0600
-Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
- SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34 via Frontend Transport; Fri, 17 Feb 2023 04:22:44 -0600
-From:   <alejandro.lucero-palau@amd.com>
-To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
-CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <edumazet@google.com>, <habetsm.xilinx@gmail.com>,
-        <ecree.xilinx@gmail.com>, <linux-doc@vger.kernel.org>,
-        <corbet@lwn.net>, <jiri@nvidia.com>,
-        "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
-Subject: [PATCH] sfc: fix builds without CONFIG_RTC_LIB
-Date:   Fri, 17 Feb 2023 10:22:36 +0000
-Message-ID: <20230217102236.48789-1-alejandro.lucero-palau@amd.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S229534AbjBQKYD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 05:24:03 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 230D0627EE;
+        Fri, 17 Feb 2023 02:24:03 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id j6so1027319plh.1;
+        Fri, 17 Feb 2023 02:24:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uJsG7O5tTCs41MEzjTy+yVNOTt2BE6FSiradkkgB6LY=;
+        b=qRe/SGrZbP7S0qB9hiMc5M1htwbpekmT/G5x9ZA0EQu3n9VLPMX+5QJItPSWqtrBRX
+         rCm0ewMrretrkegnrYkYrIHzvRsNN0CPNgcQ9uCKORPISWhwlhJAaTq1xioliLffKeJy
+         0Cd/Gpq18fvdCsqtB9ZTsjxj5VWMdnYWV9VTBmrhWKDYdtzJAuVZcE0P9RsqoPIx02oS
+         Pz8BeK7GBmmDWSQZSpkusQWRH1v0s+RAKzcrHM+HHHzu7V+eutlJBCDw7f1SDruqNtTU
+         3Xz2eDC+V3UVd16CcUfpCNbOGQP74SQ6t4SFJylmcON6nnhR04ebKh/8nz2oB8x78ihO
+         UO1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uJsG7O5tTCs41MEzjTy+yVNOTt2BE6FSiradkkgB6LY=;
+        b=T14qo4+uKxG+YQeakYAJ2R+i6b+1Q0gp1wcL9PCRv1A3La+9DbYSqRjA2B5GIxxIDd
+         Phn1C3MCyhnsUS20UuJw5lJ4zRVDYz/ud1nOkHN4W03R5LmDZgIP3WEggcqiB0TIKZ17
+         yzlftdFAgpgJaAP+J7iuGxDbqHtRSM69PfmR3KviXamIOYETDCQyB+ggcrp40VZ3+tIh
+         A+2j+U5kloh4PKge5tjUXhnA/Y/ZfQvN9y4nq+yGOnYoKlIm1uomxUt/SAcC+WiNkvuy
+         MvX054d2AufOvY7/qiGEUAx1dUjTL82uKY3DJauU2LgA7+q05DjHRmQwOLQTxJTdOwq6
+         xPRQ==
+X-Gm-Message-State: AO0yUKWFlreUko8X067svxqAqKcLlSp85yPE8B/dKan4aGGADnWIOi0k
+        G14V0Pmshn2yM7UI2sN81rOsyor+xHDECA==
+X-Google-Smtp-Source: AK7set9vt5v4O8ePLcY+Cudv/NZc+8bmvEwJ6/BoQFq+EY+rOWj8nx1HEZHd92QgK/VGJWVdYgQzQg==
+X-Received: by 2002:a17:903:110e:b0:199:3683:5410 with SMTP id n14-20020a170903110e00b0019936835410mr422558plh.50.1676629442237;
+        Fri, 17 Feb 2023 02:24:02 -0800 (PST)
+Received: from localhost.localdomain ([202.53.32.211])
+        by smtp.gmail.com with ESMTPSA id w4-20020a1709029a8400b0019aaba5c90bsm2832538plp.84.2023.02.17.02.23.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Feb 2023 02:24:01 -0800 (PST)
+From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
+To:     linux-doc@vger.kernel.org, linux-input@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Aditya Garg <gargaditya08@live.com>,
+        Aun-Ali Zaidi <admin@kodeit.net>,
+        Kerem Karabay <kekrby@gmail.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+        Orlando Chamberlain <orlandoch.dev@gmail.com>
+Subject: [PATCH v3 0/2] Apple Magic Keyboard Backlight
+Date:   Fri, 17 Feb 2023 21:23:18 +1100
+Message-Id: <20230217102319.3419-1-orlandoch.dev@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000C971:EE_|PH0PR12MB8049:EE_
-X-MS-Office365-Filtering-Correlation-Id: b15b042b-26a2-4e38-3370-08db10d0ea37
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mDwgAtJUe+kTprPzmJi0p+58KukEV/rjWL7Gq8fzMg1xQ2QsiUktrtSwcMCGHBl2ElUcZQxL1XiKzyw3ltkw59/CTIu3mdhClVn8d9HqUhPN5zzAuh0RgMuT6BtpVdYtXk+IiLSVHsNCp2kYNdgLwuWOK3JpFP8RlM8h109ZmtsPO48Y6T0re2f435NRumqFR//DtbN0r+zz1+XaJN3k3fb5B2S1eSULXam61vW8+mfOM2lmGHJDToNzN62ebh2ihUuVI5feATRIGIdFwHOK3Iewccnr7tceJGSpLoV3s41wkdJUJccX99i3hr0bDCxMNgbapgMzSRctC/whNnE7tBZ3uVDMrdrkwSUQd/727DkczbPi+uk+Nao1YdnYAOr0HqRc/9JXbJAfpH4M99C8ZmiWUwESZ0N2zCNTtCDInUPDf2kM3QuFDeaVKI6DeKk0m/4rOUhv5kyfhRVLRtC3Spe3h3iP/B+oxqGco/PA2odnRGeCOnXOkETEURkhGHiEYAdbRqPsNkeKX+KmsrdPcM3v2SzO8JMER5n7vGuMl2WSK0X16bDy4/ZEBilBm4dn4C1/T8aT/DWMqhelPzkjMsjvmnY14wyQ/CsbHS5fSt/1alF3M2hGLoMh+IZ21ePLc1eugESZSHAZHc7GhQPokdkBhwzD34JLitw+/OVTxoL8LAIvLcZHuGLEi6EtcEoUOdYKb13yP+sB81RcgQg20MvfaWSK3SpdVrQrlLzcUmM=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(346002)(376002)(39860400002)(136003)(396003)(451199018)(40470700004)(46966006)(36840700001)(966005)(36756003)(2906002)(2876002)(336012)(86362001)(83380400001)(82310400005)(40480700001)(2616005)(47076005)(82740400003)(81166007)(356005)(40460700003)(36860700001)(8676002)(8936002)(70586007)(5660300002)(6636002)(110136005)(70206006)(54906003)(316002)(4326008)(41300700001)(7416002)(6666004)(1076003)(26005)(186003)(478600001)(426003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 10:22:47.0691
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b15b042b-26a2-4e38-3370-08db10d0ea37
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C971.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8049
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+This patchseries adds support for the internal keyboard backlight of
+Macs with Apple's "Magic" keyboard (MacBookPro16,* and MacBookAir9,1),
+and also documents what names should be used for keyboard backlight
+leds in Documentation/leds/well-known-leds.txt.
 
-Adding an embarrasing missing semicolon precluding kernel building
-in ia64 configs.
+v2->v3:
+- remove unneeded header inclusion
+- use s32 for report value type
+- remove unneeded null check
+- don't set drvdata as its never used
+- prepend "hid-" to module name
 
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/oe-kbuild-all/202302170047.EjCPizu3-lkp@intel.com/
-Fixes: 14743ddd2495 ("sfc: add devlink info support for ef100")
-Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
----
- drivers/net/ethernet/sfc/efx_devlink.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v1->v2:
+- drop unneeded remove function
+- combine set functions
+- add missing header inclusions
+- avoid char as argument in favour of u8
+- handful of style/formatting fixes
+- use standard led name ":white:kbd_backlight"
+- rename USAGE_MAGIC_BL to HID_USAGE_MAGIC_BL
+- New patch documenting preferred keyboard backlight names
 
-diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
-index d2eb6712ba35..3eb355fd4282 100644
---- a/drivers/net/ethernet/sfc/efx_devlink.c
-+++ b/drivers/net/ethernet/sfc/efx_devlink.c
-@@ -323,7 +323,7 @@ static void efx_devlink_info_running_v2(struct efx_nic *efx,
- 				    GET_VERSION_V2_OUT_SUCFW_BUILD_DATE);
- 		rtc_time64_to_tm(tstamp, &build_date);
- #else
--		memset(&build_date, 0, sizeof(build_date)
-+		memset(&build_date, 0, sizeof(build_date);
- #endif
- 		build_id = MCDI_DWORD(outbuf, GET_VERSION_V2_OUT_SUCFW_CHIP_ID);
- 
+v1: https://lore.kernel.org/linux-input/7D70F1FE-7F54-4D0A-8922-5466AA2AD364@live.com/
+v2: https://lore.kernel.org/linux-input/20230216041224.4731-1-orlandoch.dev@gmail.com/
+
+Orlando Chamberlain (2):
+  Documentation: leds: standardise keyboard backlight led names
+  HID: hid-apple-magic-backlight: Add driver for keyboard backlight on
+    internal Magic Keyboards
+
+ Documentation/leds/well-known-leds.txt  |   8 ++
+ MAINTAINERS                             |   6 ++
+ drivers/hid/Kconfig                     |  13 +++
+ drivers/hid/Makefile                    |   1 +
+ drivers/hid/hid-apple-magic-backlight.c | 122 ++++++++++++++++++++++++
+ 5 files changed, 150 insertions(+)
+ create mode 100644 drivers/hid/hid-apple-magic-backlight.c
+
 -- 
-2.17.1
+2.39.1
 
