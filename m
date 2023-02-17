@@ -2,149 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 068E5C636D4
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 09:29:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 476B4C636D4
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 10:22:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229810AbjBQJ3S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Feb 2023 04:29:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55760 "EHLO
+        id S229539AbjBQKWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Feb 2023 05:22:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbjBQJ3R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 04:29:17 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D71B838E98;
-        Fri, 17 Feb 2023 01:29:15 -0800 (PST)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pSx3H-00073H-Ii; Fri, 17 Feb 2023 10:29:11 +0100
-Message-ID: <0c76e67d-5fc5-bfdc-9960-3ef308c23794@leemhuis.info>
-Date:   Fri, 17 Feb 2023 10:29:11 +0100
+        with ESMTP id S229534AbjBQKWw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 05:22:52 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2047.outbound.protection.outlook.com [40.107.243.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 403D72102;
+        Fri, 17 Feb 2023 02:22:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qn1EBxy41h14ZQOBjCaVopKp8OJWtaZGngmZR1PplmTOjlVNhsPPgFqrSlV6XWiYp0jhq6UZPcCw4AjYABoAWVCsMzsvJHhWeoheBnTT5+xk39mC4z1WZ+TFmsT5I4U/RamtWgdmERDRQ1qerH18I5IyG062U+Rt5FmNZ2L2kHOMrIca35RBoAB+x+Kv24HwprzbbrcGQo3xz/jDBd8NjUeMefjPknEadIZ0eaTisulNO5Tkb06STYR3M7/FdKU5BCYDQ29X3QUx6AIdgQTj3YFRu2u+OGxZPaNSyXvc7L/IZUaiix6LaV5/Mloaq8+Umq6j9Hi03+ynbYatX2dGPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3kocTw3bqdcCt2BPz1Tdebp/ArGqbsCl7MPy2nxTlfI=;
+ b=ZbwjhThtAKzYfgt4Xjz/dzAwydFTXQZsfOOAFFXacvbrqdpdrFJ9Us8POMlB/HY3g66S9fsu3gCtOnamB7anQNEigC61tx+vUOAVj3HLpZ9Zr080bQRgqYnaIFevFh52HvprabsWrHDsovA2P3h/WtcjVyfvLIgvr4GLxqSdcA/ThUgD14kF+tcCzvypgkiOxNilpszWPZqvlsrg6zaYfSr2A5ru0eppa7fdhq0hpNusB628b6gf0r1/Lr4aSPfKg207MR5jJPsnB0mxzKk1+ER6hFEDiXxfVDLdXxDQlYoNFW1Z2Y+OawYkWUTeZ7pClq+hBnlpHFvL4phR1tlwrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3kocTw3bqdcCt2BPz1Tdebp/ArGqbsCl7MPy2nxTlfI=;
+ b=h1nuDMIUXgvJAtYwdT2a+0Faf7g+IEGrjY8cDcUpSWdpP/hdA0GA+xTf++2yLZM0kYnIK/etOhXOTLj8kBEgJnLF9u49cgJN6OpysALJ4r0mcDJJr8RFT0796xc3qQAjNthtdu2cL1f4JxMmnIlNsFneeUSyEYf0LMLDyLUSdv0=
+Received: from CY5PR15CA0037.namprd15.prod.outlook.com (2603:10b6:930:1b::34)
+ by PH0PR12MB8049.namprd12.prod.outlook.com (2603:10b6:510:28f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Fri, 17 Feb
+ 2023 10:22:47 +0000
+Received: from CY4PEPF0000C971.namprd02.prod.outlook.com
+ (2603:10b6:930:1b:cafe::f2) by CY5PR15CA0037.outlook.office365.com
+ (2603:10b6:930:1b::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.17 via Frontend
+ Transport; Fri, 17 Feb 2023 10:22:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000C971.mail.protection.outlook.com (10.167.242.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6111.8 via Frontend Transport; Fri, 17 Feb 2023 10:22:47 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 17 Feb
+ 2023 04:22:46 -0600
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 17 Feb
+ 2023 04:22:46 -0600
+Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
+ SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34 via Frontend Transport; Fri, 17 Feb 2023 04:22:44 -0600
+From:   <alejandro.lucero-palau@amd.com>
+To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
+CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <edumazet@google.com>, <habetsm.xilinx@gmail.com>,
+        <ecree.xilinx@gmail.com>, <linux-doc@vger.kernel.org>,
+        <corbet@lwn.net>, <jiri@nvidia.com>,
+        "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
+Subject: [PATCH] sfc: fix builds without CONFIG_RTC_LIB
+Date:   Fri, 17 Feb 2023 10:22:36 +0000
+Message-ID: <20230217102236.48789-1-alejandro.lucero-palau@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Content-Language: en-US, de-DE
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-References: <8cfcf069d48c1b8d7b83aafe0132f8dad0f1d0ea.1676400947.git.linux@leemhuis.info>
- <873575gmlb.fsf@meer.lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v2] docs: describe how to quickly build a trimmed kernel
-In-Reply-To: <873575gmlb.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1676626155;09b92619;
-X-HE-SMSGID: 1pSx3H-00073H-Ii
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000C971:EE_|PH0PR12MB8049:EE_
+X-MS-Office365-Filtering-Correlation-Id: b15b042b-26a2-4e38-3370-08db10d0ea37
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mDwgAtJUe+kTprPzmJi0p+58KukEV/rjWL7Gq8fzMg1xQ2QsiUktrtSwcMCGHBl2ElUcZQxL1XiKzyw3ltkw59/CTIu3mdhClVn8d9HqUhPN5zzAuh0RgMuT6BtpVdYtXk+IiLSVHsNCp2kYNdgLwuWOK3JpFP8RlM8h109ZmtsPO48Y6T0re2f435NRumqFR//DtbN0r+zz1+XaJN3k3fb5B2S1eSULXam61vW8+mfOM2lmGHJDToNzN62ebh2ihUuVI5feATRIGIdFwHOK3Iewccnr7tceJGSpLoV3s41wkdJUJccX99i3hr0bDCxMNgbapgMzSRctC/whNnE7tBZ3uVDMrdrkwSUQd/727DkczbPi+uk+Nao1YdnYAOr0HqRc/9JXbJAfpH4M99C8ZmiWUwESZ0N2zCNTtCDInUPDf2kM3QuFDeaVKI6DeKk0m/4rOUhv5kyfhRVLRtC3Spe3h3iP/B+oxqGco/PA2odnRGeCOnXOkETEURkhGHiEYAdbRqPsNkeKX+KmsrdPcM3v2SzO8JMER5n7vGuMl2WSK0X16bDy4/ZEBilBm4dn4C1/T8aT/DWMqhelPzkjMsjvmnY14wyQ/CsbHS5fSt/1alF3M2hGLoMh+IZ21ePLc1eugESZSHAZHc7GhQPokdkBhwzD34JLitw+/OVTxoL8LAIvLcZHuGLEi6EtcEoUOdYKb13yP+sB81RcgQg20MvfaWSK3SpdVrQrlLzcUmM=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(346002)(376002)(39860400002)(136003)(396003)(451199018)(40470700004)(46966006)(36840700001)(966005)(36756003)(2906002)(2876002)(336012)(86362001)(83380400001)(82310400005)(40480700001)(2616005)(47076005)(82740400003)(81166007)(356005)(40460700003)(36860700001)(8676002)(8936002)(70586007)(5660300002)(6636002)(110136005)(70206006)(54906003)(316002)(4326008)(41300700001)(7416002)(6666004)(1076003)(26005)(186003)(478600001)(426003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 10:22:47.0691
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b15b042b-26a2-4e38-3370-08db10d0ea37
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C971.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8049
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17.02.23 01:30, Jonathan Corbet wrote:
-> Thorsten Leemhuis <linux@leemhuis.info> writes:
-> 
->> Add a text explaining how to quickly build a kernel, as that's something
->> users will often have to do when they want to report an issue or test
->> proposed fixes. This is a huge and frightening task for quite a few
->> users these days, as many rely on pre-compiled kernels and have never
->> built their own. They find help on quite a few websites explaining the
->> process in various ways, but those howtos often omit important details
->> or make things too hard for the 'quickly build just for testing' case
->> that 'localmodconfig' is really useful for. Hence give users something
->> at hand to guide them, as that makes it easier for them to help with
->> testing, debugging, and fixing the kernel.
->>
->> To keep the complexity at bay, the document explicitly focuses on how to
->> compile the kernel on commodity distributions running on commodity
->> hardware. People that deal with less common distributions or hardware
->> will often know their way around already anyway.
-> 
-> So this seems generally good though - as is my usual style - if it were
-> mine I'd be trying to find a way to make it significantly shorter.
+From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
 
-Yeah, I know, I tend to put a lot of details in the text, as I expect
-some readers will need them (I guess I put the bar what I expect from
-readers a lot lower than many others due to my time writing for a
-mainstream computer magazine); but I hope the structure helps somewhat
-to make it easy to read for people that don't need those details.
+Adding an embarrasing missing semicolon precluding kernel building
+in ia64 configs.
 
-And I guess I sometimes use more words than needed. Happens in my first
-language already, but I guess it's even worse when writing English. :-/
+Reported-by: kernel test robot <lkp@intel.com>
+Link: https://lore.kernel.org/oe-kbuild-all/202302170047.EjCPizu3-lkp@intel.com/
+Fixes: 14743ddd2495 ("sfc: add devlink info support for ef100")
+Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+---
+ drivers/net/ethernet/sfc/efx_devlink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> I could certainly bikeshed a lot of things - I'm not convinced about the
-> whole shallow-clone business, for example - but I'll try to restrain
-> myself.
-
-Regarding the "shallow-clone business": initially I really didn't want
-to go down that route myself. But well, in my local testing I noticed
-creating a full clone took longer than compiling the localmodconfig
-kernel on my two year old laptop -- and that felt wrong given the
-"quickly" in the headline. Disclaimer: I'm only connected to the net
-through a 100 MBit line (there was never a need to upgrade); but I guess
-100 MBit in some parts of the world where people might read this text is
-still considered a lot.
-
->> The document heavily uses anchors and links to them, which makes things
->> slightly harder to read in the source form. But the intended target
->> audience is way more likely to read rendered versions of this text on
->> pages like docs.kernel.org anyway -- and there those anchors and links
->> allow easy jumps to the reference section and back, which makes the
->> document a lot easier to work with for the intended target audience.
-> 
-> I do wonder if all that back-and-forth actually makes things easier, and
-> it definitely impedes use of the RST file.  I recognize that you're
-> trying to do something a bit different here, though, and don't want to
-> get in the way of the experiment.
-
-Be warned, if it works I might do the same for "reporting issues". ;)
-But let's first see how this goes (and if we get any feedback to be able
-to tell if this experiment worked).
-
->  Given the purpose, though, I do have
-> a couple of little thoughts:
-> 
-> - Somewhere at the top of the RST file should be a prominent link to the
->   rendered version, presumably on kernel.org.  It could perhaps be in an
->   RST comment that doesn't show up in the rendered version, saying
->   "perhaps you really want to read this ----> over there".
-
-Good idea. I put this in my local draft:
-
-```
-..
-    Note: if you see this note, you are reading the text's source file. You
-    might want to switch to a rendered version, as it makes it a lot
-easier to
-    quickly look something up in the reference section and jump back to
-where you
-    left of afterwards. Find a the latest rendered version here:
-    https://docs.kernel.org/admin-guide/quickly-build-trimmed-linux.html
-
-```
-
-That link obviously will be broken until the text reached mainline, but
-I guess that can be ignored.
-
-> - Eventually we should probably make the link to this document more
->   prominent on the front page - once we've figured out what we're doing
->   there :)
-
-Will keep this in mind.
-
-> Anyway, those quibbles aside, I think we should probably just apply this
-> after the merge window.
-
-Great. With a bit of luck some reviewers might find time to provide
-feedback; maybe there are even a few "this can be written shorter" or
-"do we really need this sentence" suggestions among it.
-
-Ciao, Thorsten
-
-P.S.: I know, it's late in the cycle, but if you want to do me a favor
-it would be great if you might consider looking at or even merging the
-"docs: recommend using Link: whenever using Reported-by:" change I
-proposed, at it might make my regression tracking effort a tiny bit easier:
-https://lore.kernel.org/linux-doc/9a07ec640d809723492f8ade4f54705914e80419.1676369564.git.linux@leemhuis.info/
+diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
+index d2eb6712ba35..3eb355fd4282 100644
+--- a/drivers/net/ethernet/sfc/efx_devlink.c
++++ b/drivers/net/ethernet/sfc/efx_devlink.c
+@@ -323,7 +323,7 @@ static void efx_devlink_info_running_v2(struct efx_nic *efx,
+ 				    GET_VERSION_V2_OUT_SUCFW_BUILD_DATE);
+ 		rtc_time64_to_tm(tstamp, &build_date);
+ #else
+-		memset(&build_date, 0, sizeof(build_date)
++		memset(&build_date, 0, sizeof(build_date);
+ #endif
+ 		build_id = MCDI_DWORD(outbuf, GET_VERSION_V2_OUT_SUCFW_CHIP_ID);
+ 
+-- 
+2.17.1
 
