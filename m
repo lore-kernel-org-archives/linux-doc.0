@@ -2,149 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A810AC05027
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 19:34:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9184DC636D7
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 19:38:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbjBQTeu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Feb 2023 14:34:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55016 "EHLO
+        id S229868AbjBQTip (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Feb 2023 14:38:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbjBQTeu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 14:34:50 -0500
-X-Greylist: delayed 360 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 17 Feb 2023 11:34:48 PST
-Received: from smtp-42aa.mail.infomaniak.ch (smtp-42aa.mail.infomaniak.ch [IPv6:2001:1600:4:17::42aa])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C54D10E5
-        for <linux-doc@vger.kernel.org>; Fri, 17 Feb 2023 11:34:48 -0800 (PST)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4PJMLM2NH3zMqs7f;
-        Fri, 17 Feb 2023 20:28:43 +0100 (CET)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4PJMLL2H68zMsJB7;
-        Fri, 17 Feb 2023 20:28:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1676662123;
-        bh=6rWJ8GVJca6zWRo8F6csrP13uHwk6tysTFtyAUwm1C8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=w+yIlSGEkkU7sUYT8sXxvoeOrerT19WijkbuVip/Pb11/2ogn1156pWAFh4Y7s/Vv
-         ycpiar6Fi6RZabr4JUJV1dKsIDyB41t4y6J36UHZ2XTJ5srUIdrLaKtw+TarKFvcmq
-         ITraEom2yoafZFDRQJQsUWN+KfsXQnOKW7eWQv3E=
-Message-ID: <0e5bf1f7-47b5-382e-ae56-4556980a908b@digikod.net>
-Date:   Fri, 17 Feb 2023 20:28:41 +0100
+        with ESMTP id S229851AbjBQTio (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 14:38:44 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85EF85B76E;
+        Fri, 17 Feb 2023 11:38:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=IVvNxzJ/MYYOfgoLuHJ17dzipL9pSi1JZZiiDTevKw0=; b=j6Mg8xarwRuLOAkt6xKfjfU+GK
+        VuWVsDRwqRFW+Xenyylnnk6wTFhc1zFSnWzxWAoHU49KB4fRExFfdmsPS5RsBfviEcuPFC921uy9L
+        9Hr5l4tCsdd9Mq+L8RZF7yj/X/ZUoguJMzXh4E+DW5BZfGyC9TiwaeCw3IYOezS5GnfcDGRR7PbnR
+        w6QDZ0rv8txqYW+za0a08qmt10QZ9Bqd/tQnWEBxHjktV8S5RQJbzI15mCnADRRpLgymrltXhFjdu
+        7F4orbZyHkHAaatKo/SxKXMbWgMIeW84rfHeKuXL/DWQ8GPnYaXuMHnsnvHDCYR6pU7RasGrsMjWz
+        mNCsdhfg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pT6YZ-009Znz-3q; Fri, 17 Feb 2023 19:38:07 +0000
+Date:   Fri, 17 Feb 2023 19:38:07 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Danilo Krummrich <dakr@redhat.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, boris.brezillon@collabora.com,
+        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
+        jason@jlekstrand.net, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH drm-next v2 04/16] maple_tree: add flag MT_FLAGS_LOCK_NONE
+Message-ID: <Y+/Xn11dfdn7SfBD@casper.infradead.org>
+References: <20230217134422.14116-1-dakr@redhat.com>
+ <20230217134422.14116-5-dakr@redhat.com>
 MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH v3] landlock: Clarify documentation for the
- LANDLOCK_ACCESS_FS_REFER right
-Content-Language: en-US
-To:     =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-security-module@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-        Xiu Jianfeng <xiujianfeng@huawei.com>,
-        linux-doc@vger.kernel.org
-References: <20230216200729.12438-1-gnoack3000@gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <20230216200729.12438-1-gnoack3000@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230217134422.14116-5-dakr@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-(adding linux-doc in Cc)
-
-On 16/02/2023 21:07, Günther Noack wrote:
-> Clarify the "refer" documentation by splitting up a big paragraph of text.
+On Fri, Feb 17, 2023 at 02:44:10PM +0100, Danilo Krummrich wrote:
+> Generic components making use of the maple tree (such as the
+> DRM GPUVA Manager) delegate the responsibility of ensuring mutual
+> exclusion to their users.
 > 
-> - Call out specifically that the denial by default applies to ABI v1 as well.
-> - Turn the three additional constraints for link/rename operations
->    into bullet points, to give it more structure.
+> While such components could inherit the concept of an external lock,
+> some users might just serialize the access to the component and hence to
+> the internal maple tree.
 > 
-> Includes wording and semantics corrections by Mickaël Salaün.
+> In order to allow such use cases, add a new flag MT_FLAGS_LOCK_NONE to
+> indicate not to do any internal lockdep checks.
 
-No need to add this line, It's part of the maintainer job. ;)
+I'm really against this change.
 
-> 
-> Signed-off-by: Günther Noack <gnoack3000@gmail.com>
-> ---
->   include/uapi/linux/landlock.h | 45 +++++++++++++++++++++++------------
->   1 file changed, 30 insertions(+), 15 deletions(-)
-> 
-> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-> index f3223f96469..e549ad6360b 100644
-> --- a/include/uapi/linux/landlock.h
-> +++ b/include/uapi/linux/landlock.h
-> @@ -130,21 +130,36 @@ struct landlock_path_beneath_attr {
->    * - %LANDLOCK_ACCESS_FS_MAKE_BLOCK: Create (or rename or link) a block device.
->    * - %LANDLOCK_ACCESS_FS_MAKE_SYM: Create (or rename or link) a symbolic link.
->    * - %LANDLOCK_ACCESS_FS_REFER: Link or rename a file from or to a different
-> - *   directory (i.e. reparent a file hierarchy).  This access right is
-> - *   available since the second version of the Landlock ABI.  This is also the
-> - *   only access right which is always considered handled by any ruleset in
-> - *   such a way that reparenting a file hierarchy is always denied by default.
-> - *   To avoid privilege escalation, it is not enough to add a rule with this
-> - *   access right.  When linking or renaming a file, the destination directory
-> - *   hierarchy must also always have the same or a superset of restrictions of
-> - *   the source hierarchy.  If it is not the case, or if the domain doesn't
-> - *   handle this access right, such actions are denied by default with errno
-> - *   set to ``EXDEV``.  Linking also requires a ``LANDLOCK_ACCESS_FS_MAKE_*``
-> - *   access right on the destination directory, and renaming also requires a
-> - *   ``LANDLOCK_ACCESS_FS_REMOVE_*`` access right on the source's (file or
-> - *   directory) parent.  Otherwise, such actions are denied with errno set to
-> - *   ``EACCES``.  The ``EACCES`` errno prevails over ``EXDEV`` to let user space
-> - *   efficiently deal with an unrecoverable error.
-> + *   directory (i.e. reparent a file hierarchy).
-> + *
-> + *   This access right is available since the second version of the Landlock
-> + *   ABI.  This is also the only access right which is implicitly handled by any
-> + *   ruleset, even if the right is not specified at the time of creating the
-> + *   ruleset.  So, by default, Landlock will deny linking and reparenting files > + *   between different directories, and will only grant this right 
-when it is
-> + *   explicitly permitted for a directory by adding a rule.
-> + *
-> + *   When using the first Landlock ABI version, Landlock will always deny the
-> + *   reparenting of files between different directories.
-> + *
-> + *   In addition to the source and destination directories having the
-> + *   %LANDLOCK_ACCESS_FS_REFER access right, the attempted link or rename
+First, we really should check that users have their locking right.
+It's bitten us so many times when they get it wrong.
 
-Some of my suggestions are about style, so feel free to ignore them if 
-you think the original is better. Anyway, I'm not a native english 
-speaker either, so there are good chances I'm not correct on some 
-suggestions. What about that?:
+Second, having a lock allows us to defragment the slab cache.  The
+patches to do that haven't gone anywhere recently, but if we drop the
+requirement now, we'll never be able to compact ranges of memory that
+have slabs allocated to them.
 
-This is the only access right implicitly handled by any ruleset, even if 
-this right is not specified at ruleset creation time. Reparenting files 
-will then always be denied by default. Given that 
-%LANDLOCK_ACCESS_FS_REFER is available since the second Landlock ABI 
-version, using the first Landlock ABI version will always forbid file 
-reparenting.
-
-For these kind of link or rename actions to be possible, one or two 
-rules must explicitly allow %LANDLOCK_ACCESS_FS_REFER on the source and 
-the destination hierarchies. In addition, the following constraints must 
-be met:
-
-
-> + *   operation must meet the following constraints:
-> + *
-> + *   * The reparented file may not gain more access rights in the destination
-> + *     directory than it previously had in the source directory.  If this is
-> + *     attempted, the operation results in an ``EXDEV`` error.
-> + *
-> + *   * When linking or renaming, the ``LANDLOCK_ACCESS_FS_MAKE_*`` right for the
-> + *     respective file type must be granted for the destination directory.
-> + *     Otherwise, the operation results in an ``EACCES`` error.
-> + *
-> + *   * When renaming, the ``LANDLOCK_ACCESS_FS_REMOVE_*`` right for the
-> + *     respective file type must be granted for the source directory.  Otherwise,
-> + *     the operation results in an ``EACCES`` error.
-> + *
-> + *   If multiple requirements are not met, the ``EACCES`` error code takes
-> + *   precedence over ``EXDEV``.
->    *
->    * .. warning::
->    *
-> 
-> base-commit: ceaa837f96adb69c0df0397937cd74991d5d821a
