@@ -2,65 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9260C61DA4
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 00:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48106C636CC
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 01:20:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230138AbjBQAcB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Feb 2023 19:32:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46916 "EHLO
+        id S229934AbjBQBUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Feb 2023 20:20:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbjBQAcA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 19:32:00 -0500
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF24934022;
-        Thu, 16 Feb 2023 16:31:59 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 47C7E37F;
-        Fri, 17 Feb 2023 00:31:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 47C7E37F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1676593919; bh=t99FLisIb5DjH+kY7LLBukE/x/skG1GTEOH6ox5y8ZE=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=fR0WTullAFqX7/ussmzgrjZZ+TM99+4dlKC3eXolnKtk8n6k+V/ADpRbBrWj+ZDTc
-         yuelPRSpo/AjMK0sWIx9Xtm9UR+7hDceMFee3/mgQQwsPpYHdoqGy1faxihSJTZguE
-         +XI5MYyqAeYJ+k8eTlTijRp/RZmkmAgc+ygxk1dBzca5Bz4jRzm7kDUxcO4JlfLRsE
-         zEG+z8xG2d3w9Nbgy4PiG90MG9nX5GvxcZmNsdljcozEdxtkttN5ZDrIkvRmhhbeh2
-         MXatoHh+54OE3lGYotR2uI6k3p6h6z5kPVYyH5MpK3ECL4tEV6EvUgkm4ANPGNvudD
-         hc+d7quKC2F+Q==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jerry Hoemann <jerry.hoemann@hpe.com>, linux@roeck-us.net
-Cc:     linux-watchdog@vger.kernel.org, wim@linux-watchdog.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jerry Hoemann <jerry.hoemann@hpe.com>
-Subject: Re: [PATCH 0/2] Documentation/Watchdog/hpwdt
-In-Reply-To: <20230210184247.221134-1-jerry.hoemann@hpe.com>
-References: <20230210184247.221134-1-jerry.hoemann@hpe.com>
-Date:   Thu, 16 Feb 2023 17:31:58 -0700
-Message-ID: <87y1oxf7y9.fsf@meer.lwn.net>
+        with ESMTP id S229932AbjBQBUC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Feb 2023 20:20:02 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 436155036A
+        for <linux-doc@vger.kernel.org>; Thu, 16 Feb 2023 17:20:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676596800; x=1708132800;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=M24xcVZg2BKHXLrAWaKYJFXsGDs1ufnhMunxuSAXSdA=;
+  b=HOwELHkMCQU1R/NcyBeF2ETgHnNVfNEhJoE2tIYqbgGih5+/upa9BBKb
+   cJvPRabgu3K0VYLEWdItpO/EigEjMrIbzVEkezzFRD660n9sx/82lTxep
+   MbxJ7boLdd1V8jM9dnZxMy9/1e53w+H10JMSTcXqqpWyOYrfG8i4eNfM4
+   crn9KSKfAeioxXK0i16kjaotKHAdtmes3YiudCc5S8T/70ZE4AY8dg7/3
+   PUMOvkIqKTXTSeznvLjHTx1mB6yxQK2m8b7l+qMeS1n7fx2WR9zF9Etf+
+   bAY0BVgk6Wybl15iU8Nx8miMU4I9me7vKkbl8hKkc7LlrInZoHAi6EVai
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="312249546"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
+   d="scan'208";a="312249546"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 17:19:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="844398888"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
+   d="scan'208";a="844398888"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 16 Feb 2023 17:19:55 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pSpPm-000B0n-0m;
+        Fri, 17 Feb 2023 01:19:54 +0000
+Date:   Fri, 17 Feb 2023 09:19:29 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: [arm-platforms:kvm-arm64/timer-vm-offsets 12/17] htmldocs:
+ Documentation/virt/kvm/api.rst:5963: WARNING: Block quote ends without a
+ blank line; unexpected unindent.
+Message-ID: <202302170953.UioMK79b-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jerry Hoemann <jerry.hoemann@hpe.com> writes:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/timer-vm-offsets
+head:   c9beb39db9bf98e626b6e6abd3c313ed7967aa73
+commit: f4bc12951146425e36e4b5bbc8df2c10dd377ea1 [12/17] KVM: arm64: Document KVM_ARM_SET_CNT_OFFSETS and co
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/commit/?id=f4bc12951146425e36e4b5bbc8df2c10dd377ea1
+        git remote add arm-platforms https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git
+        git fetch --no-tags arm-platforms kvm-arm64/timer-vm-offsets
+        git checkout f4bc12951146425e36e4b5bbc8df2c10dd377ea1
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-> Two small documentation fixes.
->
-> First: Fix reference to documentation that moved.
-> Second: Update List formatting.
->
->
->
-> Jerry Hoemann (2):
->   Documentation/watchdog/hpwdt: Fix Reference
->   Documentation/watchdog/hpwdt: Fix Format
->
->  Documentation/watchdog/hpwdt.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302170953.UioMK79b-lkp@intel.com/
 
-Applied, thanks.
+All warnings (new ones prefixed by >>):
 
-jon
+>> Documentation/virt/kvm/api.rst:5963: WARNING: Block quote ends without a blank line; unexpected unindent.
+
+vim +5963 Documentation/virt/kvm/api.rst
+
+  5948	
+  5949	This capability indicates that userspace is able to apply a set of
+  5950	VM-wide offsets to the virtual and physical counters as viewed by the
+  5951	guest using the KVM_ARM_SET_CNT_OFFSETS ioctl and the following data
+  5952	structure:
+  5953	
+  5954		struct kvm_arm_counter_offsets {
+  5955			__u64 virtual_offset;
+  5956			__u64 physical_offset;
+  5957	
+  5958		#define KVM_COUNTER_SET_VOFFSET_FLAG   (1UL << 0)
+  5959		#define KVM_COUNTER_SET_POFFSET_FLAG   (1UL << 1)
+  5960	
+  5961			__u64 flags;
+  5962			__u64 reserved;
+> 5963		};
+  5964	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
