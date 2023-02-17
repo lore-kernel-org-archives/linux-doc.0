@@ -2,294 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8642FC636D4
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 12:10:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9482DC6379F
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 13:24:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbjBQMKo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Feb 2023 07:10:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47524 "EHLO
+        id S229710AbjBQNY2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Feb 2023 08:24:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjBQMKo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 07:10:44 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3F3E63BD0
-        for <linux-doc@vger.kernel.org>; Fri, 17 Feb 2023 04:10:41 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id h14so3726054edz.10
-        for <linux-doc@vger.kernel.org>; Fri, 17 Feb 2023 04:10:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aB17o/jMbl0mQSIHKLDRIzmjCLvKTzoO4e8k0fo/3C4=;
-        b=Bx9FoQZKwMBR7rjygoX5aHQujxfB8WirDrwXEECPglcNNqnljEL9Rpv84LAkob4f2I
-         HmUqs4N2+5GxaFa2bTrKVptX6Udv0Lvq3qPGkuA6+6bjKY9TSspfbFz3aolnzXse/Zo4
-         P2YwBMPY9AXr3thwLPUN+p3cgambghGMmVrvaC4buZ4uHph9AF0+aKj8CNjq1hurFZn1
-         s6KhK0hKiGNO5k/uDLODBecXt8QOcwyLkDAqM/gBEDU6vb2wqRKPtjOchY8mFURKeMqn
-         gGbmBC8wZIX740/ZYPls5rU0E82/M8qKWVCZ3n6+p748T3iYZv2ZjxGi/uv4DASJHh1R
-         TBqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aB17o/jMbl0mQSIHKLDRIzmjCLvKTzoO4e8k0fo/3C4=;
-        b=40aNEfpdOp9cn6O44Z/PvRtNAqmNC1aUcM3myGA9CFr4bKvv7ZNG3nzDNMsRf7Ie4L
-         xNkmNkKibx9z5x8bFhYYlyWIJMi/S+0NcW478wEz0J5yMvESs1cuqj9Yu9TftYVKAmre
-         s4Rzo8O/AMOrj5Ixoa1BPPX5HgGiteHlHAeEbYazzDb/iGqdZeNFWbI1J7HNc7tSo1Ll
-         ecKHQgbTGLAtIQ9m1+8B5qgnSl8Fjp3JqoV0Izce/U/mqlJkLce/rlzXqv+S1fSyuBij
-         +hvNjQLyu/SnxUwegJjJg4/dAK/SyFkv6inQq0YJW5Q2tHf1l4+/9koxE3UzmRcw+Qkq
-         v+sA==
-X-Gm-Message-State: AO0yUKVDVf6kibQEITaJq2THK5zCOlDaIjeJcjfm3s9mE3Ub/4/oV7Il
-        PLuJjBaEL4ett6qWeS1UMmV4OQ==
-X-Google-Smtp-Source: AK7set+wkleOBTUL23QSSRC2ZHsbI3GMBhC0RL6WDYUMQrmOML8P2aJ8lKZzQpe3Fj5ZVzUwLgRqdA==
-X-Received: by 2002:a17:906:230f:b0:8aa:af33:72d6 with SMTP id l15-20020a170906230f00b008aaaf3372d6mr8688731eja.45.1676635840413;
-        Fri, 17 Feb 2023 04:10:40 -0800 (PST)
-Received: from [192.168.240.121] (196.161.185.81.rev.sfr.net. [81.185.161.196])
-        by smtp.gmail.com with ESMTPSA id v20-20020a50d594000000b004ad7962d5bbsm1317811edi.42.2023.02.17.04.10.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Feb 2023 04:10:40 -0800 (PST)
-Message-ID: <4e64838c-b727-923b-b6d5-413a0681977c@baylibre.com>
-Date:   Fri, 17 Feb 2023 13:10:38 +0100
+        with ESMTP id S229436AbjBQNY1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 08:24:27 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00CDE64B1B;
+        Fri, 17 Feb 2023 05:24:24 -0800 (PST)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31H8EIhH001822;
+        Fri, 17 Feb 2023 13:24:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : reply-to : references : mime-version :
+ content-type : in-reply-to; s=qcppdkim1;
+ bh=s0uOKg5aV0ejVOsToOLWLV1+gB9lbFKlo0HhvFNJLY0=;
+ b=awb1frPf56+SCjtG83gRFh9k01yiRuPvPLMuFkLshJFq3quMInXyJVdnmE+0KY7S0EFw
+ iBW04reDqBfJqvFjEjwxjgqaMybMPffzky8LGl8U1cJlQkKPYO9oSX+d/fm9Ms2UDtvS
+ gzdG1U+VYPcd6N5sVhrImRQKxFmkczkbYDDCSZOKxGu9P5nw9dkcxfI7PXgJToPmX6pC
+ 9lw3eNzowh+6ACmRZdL7fuUDy5wVOk9B2GTkMimfWrsfXh3gUREuigIsZfuo0/+F1Hrb
+ SU2byAQQWoZl0CpoqQztKW1+19Hc6V5+4q3WTuiMzX/w7Cdyo8ya6IQiR/JwImvrp2X6 PA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nsjyw3n4n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 17 Feb 2023 13:24:07 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31HDO6gR020473
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 17 Feb 2023 13:24:06 GMT
+Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 17 Feb
+ 2023 05:23:59 -0800
+Date:   Fri, 17 Feb 2023 18:53:55 +0530
+From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+CC:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v10 19/26] gunyah: vm_mgr: Add framework to add VM
+ Functions
+Message-ID: <20230217132355.GM332@quicinc.com>
+Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212531.3323284-1-quic_eberman@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v1 1/4] dt-bindings: mfd: Add DT bindings for TI TPS6594
- PMIC
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net
-Cc:     hdegoede@redhat.com, eric.auger@redhat.com, jgg@ziepe.ca,
-        razor@blackwall.org, suma.hegde@amd.com,
-        stephen@networkplumber.org, arnd@arndb.de,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, eblanc@baylibre.com,
-        jneanne@baylibre.com
-References: <20230216114410.183489-1-jpanis@baylibre.com>
- <20230216114410.183489-2-jpanis@baylibre.com>
- <c50503f0-dce1-a3b0-2973-8a22b5ef8bc2@linaro.org>
-Content-Language: en-US
-From:   Julien Panis <jpanis@baylibre.com>
-In-Reply-To: <c50503f0-dce1-a3b0-2973-8a22b5ef8bc2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+In-Reply-To: <20230214212531.3323284-1-quic_eberman@quicinc.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: KRR_a9lcYglbWn6jsltsgy7s7niCH1GT
+X-Proofpoint-ORIG-GUID: KRR_a9lcYglbWn6jsltsgy7s7niCH1GT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-17_08,2023-02-17_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 phishscore=0 spamscore=0 clxscore=1011 mlxscore=0 bulkscore=0
+ malwarescore=0 impostorscore=0 mlxlogscore=885 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302170120
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+* Elliot Berman <quic_eberman@quicinc.com> [2023-02-14 13:25:30]:
 
-On 2/17/23 10:06, Krzysztof Kozlowski wrote:
-> On 16/02/2023 12:44, Julien Panis wrote:
->> TPS6594 is a Power Management IC which provides regulators and others
-> Subject: drop second/last, redundant "DT bindings for". The
-> "dt-bindings" prefix is already stating that these are bindings.
->
->
->> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
->> PFSM (Pre-configurable Finite State Machine) managing the state of the
->> device.
->> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
->>
->> Signed-off-by: Julien Panis <jpanis@baylibre.com>
->> ---
->>   .../devicetree/bindings/mfd/ti,tps6594.yaml   | 164 ++++++++++++++++++
->>   1 file changed, 164 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->> new file mode 100644
->> index 000000000000..37968d6c0420
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->> @@ -0,0 +1,164 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: TI TPS6594 Power Management Integrated Circuit
->> +
->> +maintainers:
->> +  - Julien Panis <jpanis@baylibre.com>
->> +
->> +description: |
->> +  TPS6594 is a Power Management IC which provides regulators and others
->> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
->> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
->> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - ti,tps6594
->> +      - ti,tps6593
->> +      - ti,lp8764x
-> Any particular choice of ordering (different than alphabetical)?
+> +static long gh_vm_add_function(struct gh_vm *ghvm, struct gh_fn_desc *f)
+> +{
+> +	struct gh_vm_function_instance *inst;
+> +	void __user *argp;
+> +	long r = 0;
+> +
+> +	if (f->arg_size > GH_FN_MAX_ARG_SIZE)
+> +		return -EINVAL;
+> +
+> +	inst = kzalloc(sizeof(*inst), GFP_KERNEL);
+> +	if (!inst)
+> +		return -ENOMEM;
+> +
+> +	inst->arg_size = f->arg_size;
+> +	if (inst->arg_size) {
+> +		inst->argp = kzalloc(inst->arg_size, GFP_KERNEL);
+> +		if (!inst->arg) {
 
-Thank you for the review.
+if (!inst->argp) ?
 
-I chose this ordering because it emphasizes the fact that tps6593 and 
-lp8764x
-are derivatives of tps6594 : tps6593 is nearly the same (a minor feature 
-is not
-supported), and lp8764x has less resources (less bucks/LDO, and no RTC).
 
-Besides, a multi-PMIC synchronization scheme is implemented in the PMIC 
-device
-to synchronize the power state changes with other PMIC devices. This is done
-through a SPMI bus : the master PMIC is the controller device on the 
-SPMI bus,
-and the slave PMICs are the target devices on the SPMI bus. For the 5 boards
-we work on (for which device trees will be sent in another patch series):
-- tps6594 is used on 3 boards and is always master (multi-PMIC config)
-- tps6593 is used on 1 board and is master (single-PMIC config)
-- lp8764x is used on 2 boards and is always slave (multi-PMIC config)
-There might not be situations in which lp8764x would be master and tps6594
-or tps6593 would be slave.
-
-That's why I preferred this ordering.
-
-Do you think that alphabetical order would be better ?
-
->
->> +
->> +  reg:
->> +    description: I2C slave address or SPI chip select number.
->> +    maxItems: 1
->> +
->> +  ti,use-crc:
->> +    type: boolean
->> +    description: If true, use CRC for I2C and SPI interface protocols.
-> Hm, why different boards would like to enable or disable it? Why this
-> suits DT?
-
-You're right. Reading your comment, it appears to me that CRC feature is 
-not fully
-related to HW description and should not be set in DT.
-
-CRC is not 'fully' related to HW, but...
-For CRC feature as well, PMICs are synchronized (for boards with 
-multi-PMIC config).
-To use CRC mode, this feature must be requested explicitly on the master 
-PMIC
-through I2C or SPI driver, then it is enabled for the slave PMICs 
-through SPMI bus: that
-sync is performed 'automatically', without intervention from the I2C or 
-SPI driver to
-enable CRC on slave PMICs.
-As a consequence, CRC feature is enabled for all PMICs at I2C/SPI driver 
-probe,
-or it is let disabled for all PMICs. But it can't be enabled for one 
-PMIC and disabled
-for another one.
-
-This will probably rediscussed for I2C/SPI drivers, but do you think 
-that a 'use_crc'
-driver parameter would be an acceptable solution ? If so, the master 
-PMIC would have
-to be identified, so that the driver can explicitly enable CRC mode for 
-this one if
-'use_crc' is true. With this solution, some 'ti,is-master;' bool 
-property would be necessary.
-
->
->> +
->> +  system-power-controller: true
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  ti,multi-phase-id:
->> +    description: |
->> +      Describes buck multi-phase configuration, if any. For instance, XY id means
->> +      that outputs of buck converters X and Y are combined in multi-phase mode.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    enum: [12, 34, 123, 1234]
->> +
->> +patternProperties:
->> +  "^buck([1-5]|12|34|123|1234)-supply$":
->> +    description: Input supply phandle for each buck.
->> +
->> +  "^ldo[1-4]-supply$":
->> +    description: Input supply phandle for each ldo.
->> +
->> +  regulators:
-> This should go to properties, not patternProperties.
->
->> +    type: object
->> +    description: List of regulators provided by this controller.
->> +
->> +    patternProperties:
->> +      "^buck([1-5]|12|34|123|1234)$":
->> +        type: object
->> +        $ref: /schemas/regulator/regulator.yaml#
->> +
->> +        unevaluatedProperties: false
->> +
->> +      "^ldo[1-4]$":
->> +        type: object
->> +        $ref: /schemas/regulator/regulator.yaml#
->> +
->> +        unevaluatedProperties: false
->> +
-> You could add here - on this level - of indentation allOf:if for
-> excluding setups
->
-> if:
->    required:
->      - buck12
-> then:
->    properties:
->      buck123: false
->      buck1234: false
->
-> Or, if you want to require regulator then:
-> oneOf:
->    - required:
->        - buck12
->    - required:
->        - buck123
->    - required:
->        - buck1234
->
-> and anyway exclude buck34 with two above.
-
-I am not sure that we have the same understanding of the multi-phase setup.
-Maybe the description I wrote is not clear enough (?) Or I just don't 
-understand
-what you mean exactly.
-
-How would you combine outputs of bucks 3 and 4 ?
-We use 'buck34' property to mean that:
-  - buck1 output is mono-phase,
-  - buck2 output is mono-phase,
-  - buck3 and buck4 outputs are combined (i.e. multi-phases).
-This weird configuration is supported by these PMICs.
-
-Using a PMIC without using the provided regulators does not seem very 
-interesting
-indeed.
-But strictly speaking, these regulators are not required. One could use 
-some others
-resources provided by the PMIC (the Error Signal Monitor device for 
-instance).
-Besides, multi-phase mode depends on the chosen design and is not 
-required for
-all situations.
-
->
->> +    additionalProperties: false
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +
->> +additionalProperties: false
->
->
-> Best regards,
-> Krzysztof
->
-
+> +			r = -ENOMEM;
+> +			goto free;
+> +		}
