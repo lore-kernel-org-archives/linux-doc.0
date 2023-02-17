@@ -2,216 +2,149 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2596C636D4
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 09:06:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 068E5C636D4
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Feb 2023 09:29:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbjBQJGR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Feb 2023 04:06:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38526 "EHLO
+        id S229810AbjBQJ3S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Feb 2023 04:29:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229725AbjBQJGP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 04:06:15 -0500
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6787E60A43
-        for <linux-doc@vger.kernel.org>; Fri, 17 Feb 2023 01:06:13 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id dn12so9462414edb.5
-        for <linux-doc@vger.kernel.org>; Fri, 17 Feb 2023 01:06:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JSIBIYecSAzgxxMW+baXFDwV8+JzmvL6P/jsbxXUIM8=;
-        b=Y2/kbJRo//tgiNv267ceDZHTRJQc2QnBbl/hTDbXCBcGUZvpafMthRihk5BXV3snif
-         cdDwQPfx9WkHfioUXRlfrNGz+jerIwUcJae2X+t80PPfeVGxjSz525CexDnpbEy9l3ur
-         iZ7J9Cy+uD7yYGVOug5xKR96sCVbBIZNKdA88bV2PSthIpSjZ0xpdZMovRKwrA/SGMsE
-         cwPQgX6mS4SKZn7BQTDj8FeWIRhFgtEXgtMZtRJiYvwPjW6gG4VjWYESNU0EFvEtUmDS
-         6tVhg3Yo43uOA3MxppWLtxEKPnwUEFiQuimIDdxdP8h0NKmSn867Vqe5Eqd23J9a4JiD
-         UlIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JSIBIYecSAzgxxMW+baXFDwV8+JzmvL6P/jsbxXUIM8=;
-        b=JGOC52y+mSOL+MoghAf701gz0Hx2EkWU3OhXz4WeKLCkOBTSrBSTOR8kLDH0rjb/tI
-         RwQPery1TX9ewxiXOissIDCSiMrFkg1Hn2MUS/btyCMTKICoD+gFEjZjMQ/klcfis9II
-         O84jvaQn/M6C/81fHQ9M8LfJ1b5k0+Eq0dGuZDajG07tG2VJkGrtuVNUmboAgL9ivljh
-         2KWvd1jBb3QzfxzVaNHkx5nSfzVrcSEXRyvOq4MUcC3G7Yya0N/YB9wiVhs+5az5HZpe
-         1lFcyiWKVeDsate3ODKy5E28fcB71nWvG5ivx2vSPtTlEEEyIhaJTzqAIBKAD2VIQVAR
-         G4xA==
-X-Gm-Message-State: AO0yUKXGZjFE2kOR918Gp9Xr3OfLxzk+ZP/H4Crzwoe4aO71fkq19vsm
-        KB3pmUMh0+wPuk/5TTWVjCGuXw==
-X-Google-Smtp-Source: AK7set9mE6QyfGJnv+24G8XcIOFFM/CXR2pndtsVwQAW5+l7mkajK1EbhdqM4iSWcJJFbpSblf6ZPQ==
-X-Received: by 2002:a17:906:e293:b0:8aa:9abe:8edd with SMTP id gg19-20020a170906e29300b008aa9abe8eddmr1718372ejb.66.1676624771844;
-        Fri, 17 Feb 2023 01:06:11 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id o1-20020a170906288100b0084cb4d37b8csm1906045ejd.141.2023.02.17.01.06.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Feb 2023 01:06:11 -0800 (PST)
-Message-ID: <c50503f0-dce1-a3b0-2973-8a22b5ef8bc2@linaro.org>
-Date:   Fri, 17 Feb 2023 10:06:09 +0100
+        with ESMTP id S229563AbjBQJ3R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 04:29:17 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D71B838E98;
+        Fri, 17 Feb 2023 01:29:15 -0800 (PST)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pSx3H-00073H-Ii; Fri, 17 Feb 2023 10:29:11 +0100
+Message-ID: <0c76e67d-5fc5-bfdc-9960-3ef308c23794@leemhuis.info>
+Date:   Fri, 17 Feb 2023 10:29:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v1 1/4] dt-bindings: mfd: Add DT bindings for TI TPS6594
- PMIC
-Content-Language: en-US
-To:     Julien Panis <jpanis@baylibre.com>, lee@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        corbet@lwn.net
-Cc:     hdegoede@redhat.com, eric.auger@redhat.com, jgg@ziepe.ca,
-        razor@blackwall.org, suma.hegde@amd.com,
-        stephen@networkplumber.org, arnd@arndb.de,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, eblanc@baylibre.com,
-        jneanne@baylibre.com
-References: <20230216114410.183489-1-jpanis@baylibre.com>
- <20230216114410.183489-2-jpanis@baylibre.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230216114410.183489-2-jpanis@baylibre.com>
+ Thunderbird/102.7.2
+Content-Language: en-US, de-DE
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        regressions@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+References: <8cfcf069d48c1b8d7b83aafe0132f8dad0f1d0ea.1676400947.git.linux@leemhuis.info>
+ <873575gmlb.fsf@meer.lwn.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v2] docs: describe how to quickly build a trimmed kernel
+In-Reply-To: <873575gmlb.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1676626155;09b92619;
+X-HE-SMSGID: 1pSx3H-00073H-Ii
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16/02/2023 12:44, Julien Panis wrote:
-> TPS6594 is a Power Management IC which provides regulators and others
-
-Subject: drop second/last, redundant "DT bindings for". The
-"dt-bindings" prefix is already stating that these are bindings.
-
-
-> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
-> PFSM (Pre-configurable Finite State Machine) managing the state of the
-> device.
-> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+On 17.02.23 01:30, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
 > 
-> Signed-off-by: Julien Panis <jpanis@baylibre.com>
-> ---
->  .../devicetree/bindings/mfd/ti,tps6594.yaml   | 164 ++++++++++++++++++
->  1 file changed, 164 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>> Add a text explaining how to quickly build a kernel, as that's something
+>> users will often have to do when they want to report an issue or test
+>> proposed fixes. This is a huge and frightening task for quite a few
+>> users these days, as many rely on pre-compiled kernels and have never
+>> built their own. They find help on quite a few websites explaining the
+>> process in various ways, but those howtos often omit important details
+>> or make things too hard for the 'quickly build just for testing' case
+>> that 'localmodconfig' is really useful for. Hence give users something
+>> at hand to guide them, as that makes it easier for them to help with
+>> testing, debugging, and fixing the kernel.
+>>
+>> To keep the complexity at bay, the document explicitly focuses on how to
+>> compile the kernel on commodity distributions running on commodity
+>> hardware. People that deal with less common distributions or hardware
+>> will often know their way around already anyway.
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
-> new file mode 100644
-> index 000000000000..37968d6c0420
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
-> @@ -0,0 +1,164 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI TPS6594 Power Management Integrated Circuit
-> +
-> +maintainers:
-> +  - Julien Panis <jpanis@baylibre.com>
-> +
-> +description: |
-> +  TPS6594 is a Power Management IC which provides regulators and others
-> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
-> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
-> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ti,tps6594
-> +      - ti,tps6593
-> +      - ti,lp8764x
+> So this seems generally good though - as is my usual style - if it were
+> mine I'd be trying to find a way to make it significantly shorter.
 
-Any particular choice of ordering (different than alphabetical)?
+Yeah, I know, I tend to put a lot of details in the text, as I expect
+some readers will need them (I guess I put the bar what I expect from
+readers a lot lower than many others due to my time writing for a
+mainstream computer magazine); but I hope the structure helps somewhat
+to make it easy to read for people that don't need those details.
 
-> +
-> +  reg:
-> +    description: I2C slave address or SPI chip select number.
-> +    maxItems: 1
-> +
-> +  ti,use-crc:
-> +    type: boolean
-> +    description: If true, use CRC for I2C and SPI interface protocols.
+And I guess I sometimes use more words than needed. Happens in my first
+language already, but I guess it's even worse when writing English. :-/
 
-Hm, why different boards would like to enable or disable it? Why this
-suits DT?
+> I could certainly bikeshed a lot of things - I'm not convinced about the
+> whole shallow-clone business, for example - but I'll try to restrain
+> myself.
 
-> +
-> +  system-power-controller: true
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  ti,multi-phase-id:
-> +    description: |
-> +      Describes buck multi-phase configuration, if any. For instance, XY id means
-> +      that outputs of buck converters X and Y are combined in multi-phase mode.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [12, 34, 123, 1234]
-> +
-> +patternProperties:
-> +  "^buck([1-5]|12|34|123|1234)-supply$":
-> +    description: Input supply phandle for each buck.
-> +
-> +  "^ldo[1-4]-supply$":
-> +    description: Input supply phandle for each ldo.
-> +
-> +  regulators:
+Regarding the "shallow-clone business": initially I really didn't want
+to go down that route myself. But well, in my local testing I noticed
+creating a full clone took longer than compiling the localmodconfig
+kernel on my two year old laptop -- and that felt wrong given the
+"quickly" in the headline. Disclaimer: I'm only connected to the net
+through a 100 MBit line (there was never a need to upgrade); but I guess
+100 MBit in some parts of the world where people might read this text is
+still considered a lot.
 
-This should go to properties, not patternProperties.
+>> The document heavily uses anchors and links to them, which makes things
+>> slightly harder to read in the source form. But the intended target
+>> audience is way more likely to read rendered versions of this text on
+>> pages like docs.kernel.org anyway -- and there those anchors and links
+>> allow easy jumps to the reference section and back, which makes the
+>> document a lot easier to work with for the intended target audience.
+> 
+> I do wonder if all that back-and-forth actually makes things easier, and
+> it definitely impedes use of the RST file.  I recognize that you're
+> trying to do something a bit different here, though, and don't want to
+> get in the way of the experiment.
 
-> +    type: object
-> +    description: List of regulators provided by this controller.
-> +
-> +    patternProperties:
-> +      "^buck([1-5]|12|34|123|1234)$":
-> +        type: object
-> +        $ref: /schemas/regulator/regulator.yaml#
-> +
-> +        unevaluatedProperties: false
-> +
-> +      "^ldo[1-4]$":
-> +        type: object
-> +        $ref: /schemas/regulator/regulator.yaml#
-> +
-> +        unevaluatedProperties: false
-> +
+Be warned, if it works I might do the same for "reporting issues". ;)
+But let's first see how this goes (and if we get any feedback to be able
+to tell if this experiment worked).
 
-You could add here - on this level - of indentation allOf:if for
-excluding setups
+>  Given the purpose, though, I do have
+> a couple of little thoughts:
+> 
+> - Somewhere at the top of the RST file should be a prominent link to the
+>   rendered version, presumably on kernel.org.  It could perhaps be in an
+>   RST comment that doesn't show up in the rendered version, saying
+>   "perhaps you really want to read this ----> over there".
 
-if:
-  required:
-    - buck12
-then:
-  properties:
-    buck123: false
-    buck1234: false
+Good idea. I put this in my local draft:
 
-Or, if you want to require regulator then:
-oneOf:
-  - required:
-      - buck12
-  - required:
-      - buck123
-  - required:
-      - buck1234
+```
+..
+    Note: if you see this note, you are reading the text's source file. You
+    might want to switch to a rendered version, as it makes it a lot
+easier to
+    quickly look something up in the reference section and jump back to
+where you
+    left of afterwards. Find a the latest rendered version here:
+    https://docs.kernel.org/admin-guide/quickly-build-trimmed-linux.html
 
-and anyway exclude buck34 with two above.
+```
 
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
+That link obviously will be broken until the text reached mainline, but
+I guess that can be ignored.
 
+> - Eventually we should probably make the link to this document more
+>   prominent on the front page - once we've figured out what we're doing
+>   there :)
 
+Will keep this in mind.
 
-Best regards,
-Krzysztof
+> Anyway, those quibbles aside, I think we should probably just apply this
+> after the merge window.
+
+Great. With a bit of luck some reviewers might find time to provide
+feedback; maybe there are even a few "this can be written shorter" or
+"do we really need this sentence" suggestions among it.
+
+Ciao, Thorsten
+
+P.S.: I know, it's late in the cycle, but if you want to do me a favor
+it would be great if you might consider looking at or even merging the
+"docs: recommend using Link: whenever using Reported-by:" change I
+proposed, at it might make my regression tracking effort a tiny bit easier:
+https://lore.kernel.org/linux-doc/9a07ec640d809723492f8ade4f54705914e80419.1676369564.git.linux@leemhuis.info/
 
