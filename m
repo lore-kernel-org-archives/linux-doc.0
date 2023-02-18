@@ -2,127 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ECF3C05027
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Feb 2023 00:56:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93769C6379F
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Feb 2023 01:06:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229723AbjBRA4k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Feb 2023 19:56:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50006 "EHLO
+        id S229808AbjBRBGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Feb 2023 20:06:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbjBRA4j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 19:56:39 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2076.outbound.protection.outlook.com [40.107.92.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A5775EC82;
-        Fri, 17 Feb 2023 16:56:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k1lRAVwbVsh5xgdsXUSxoHqAs7H2ceo7+C7bgAAspj8/nRpdb45QjbxkaERBpYpxK7fc5BLuaOUs5YuyYDgrlOT3CHc/Lb6+htKh6Hl7xNHJGbxN+pWpFwK6vJ5Kaw6DEeLtdfjQDq/GYbArqJT2hbPMef0tJgfCPd+a6Uuh5lqX+3uzHBZ+kko3undBh6NjGOgDKSTf3yR+c/Vf4ZeVA0I6UkDui0NhaVrqr+uwxbQW1iFwqRYKOabLyQsY98XKXx2F+3lIkYb+MKiVC2pBMCURE1kQnm7TkqVTOjt0Qxzf0aMyHiyGYJuCcSzIREW2Q1kgHBRrk4v4/ZqQab1Olw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XxIKg7G8vxkeaMJ020cSTH9VMHIWUuX1eDN3v3NdO9o=;
- b=bwfjUQf4epPkRHlhMZCJDPc8d7rUptMQDj30aYoLc8v0DYZ6Jll8JvWF6Lq4sZzp65gXoJOAZ68ihYjthWFCELHV2mWA7z/MkplA3zQ5g3n2u/xV5HaipPdDMWkS6b5jTxbnwruDbMTNQ7juVhfl409+haKf/7hM8Thjt5PBaFr9/PAup0TR5R/hXFat3IVgM/XqWk6KO3MjE97QJ+CITfD1uSBNHEQ8HOgcFBRu866l6SRQI/dcEU3pouMFWvEgbtDUC5wsAy5VJJXAjPfZNtWOMIh7L/85OiQYWLGyKDIHmiIQjBz3ioiJgtJHldz60DgZwTr113i3jfXcyLptIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XxIKg7G8vxkeaMJ020cSTH9VMHIWUuX1eDN3v3NdO9o=;
- b=b71BoPuMW2f5Kth4B5jH2YZm6ILD1F3wrOxShhFZDtjlMlEArc1trRJ1UroLMmjFMRUsLZ+QIe7il3XRP+0JQr8yMQF5obA3hmNMP7ZV+WvAHwHr/uaILcNh32Ca5C9MUf6BJBUIkiqShkbqwwlng+OeHe5xYfoWjYCCL7/ERc4=
-Received: from DM6PR13CA0016.namprd13.prod.outlook.com (2603:10b6:5:bc::29) by
- SA1PR12MB7320.namprd12.prod.outlook.com (2603:10b6:806:2b7::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Sat, 18 Feb
- 2023 00:56:36 +0000
-Received: from CY4PEPF0000C96A.namprd02.prod.outlook.com
- (2603:10b6:5:bc:cafe::6d) by DM6PR13CA0016.outlook.office365.com
- (2603:10b6:5:bc::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.14 via Frontend
- Transport; Sat, 18 Feb 2023 00:56:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000C96A.mail.protection.outlook.com (10.167.241.74) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6134.14 via Frontend Transport; Sat, 18 Feb 2023 00:56:35 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 17 Feb
- 2023 18:56:35 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 17 Feb
- 2023 18:56:34 -0600
-Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34 via Frontend Transport; Fri, 17 Feb 2023 18:56:33 -0600
-From:   <alejandro.lucero-palau@amd.com>
-To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
-CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <edumazet@google.com>, <habetsm.xilinx@gmail.com>,
-        <ecree.xilinx@gmail.com>, <linux-doc@vger.kernel.org>,
-        <corbet@lwn.net>, <jiri@nvidia.com>,
-        "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
-Subject: [PATCH v3 net-next] sfc: fix ia64 builds without CONFIG_RTC_LIB
-Date:   Sat, 18 Feb 2023 00:56:20 +0000
-Message-ID: <20230218005620.31221-1-alejandro.lucero-palau@amd.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S229805AbjBRBGq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Feb 2023 20:06:46 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AFF2457E9;
+        Fri, 17 Feb 2023 17:06:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676682405; x=1708218405;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yqcTpH8JDrzqr0UESTfYfiiFLiZTLM14iR9yAw77QO8=;
+  b=h5D6cVOJP2SR/51sE0pech51vpHZc0xz16vB8zTa5QaBNNJSST/Hv+yR
+   b7HPeSFyDQzHxzv1iK4G8twJyHCH6YxOJZFphMOMTxAWpDPMi3Kn5ae1k
+   kiuC7NVSTpyqcJ9Pj/uqF71v88Nlv1N4o+270v2VL1eCiI0+CbQqfXFLc
+   M4ogBkzS2oGaQe82vGAk3KWXdmzuB9pz3UdTT4aswnIYmeFOaUUBT729I
+   qKw+mYvCCScb1SgZz4oNwy+jzv6sGhW6muPLJfROGTGiaTI+D2LcBp06a
+   7GL0hwYQXCL0vIl7FP7onxVFf9ilcw4M8wgz9itrD0fxVYz9TTPJItAMa
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="394611763"
+X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
+   d="scan'208";a="394611763"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 17:06:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="734496298"
+X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
+   d="scan'208";a="734496298"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 17 Feb 2023 17:06:40 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pTBgV-000BxN-1w;
+        Sat, 18 Feb 2023 01:06:39 +0000
+Date:   Sat, 18 Feb 2023 09:05:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
+        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
+        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net
+Cc:     oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Danilo Krummrich <dakr@redhat.com>,
+        Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <202302180805.b0ab40V5-lkp@intel.com>
+References: <20230217134422.14116-6-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000C96A:EE_|SA1PR12MB7320:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef1eddca-543c-4524-f920-08db114afc38
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: usi4v++F72E2xtDQt2W7BMKK+g6CRjfYFPwUorcOyqnpdYllHGF8wr1KOLWwXUDC7RXzLcI0x+oWTuKqF/EMFgqUlubQAkZxY1bdH4s5eoYbN5/oVl8D7UCmdaz8ReqKJumTAFZoRwxs1BrVp27YF9Cp5XZiWrwGI53O+9IkIIXWTLMWxXZjF6rKEzpg70gJBrD+Vyvdbqz9dA2KORXsMut6r4RCmpLuwIFYKm/IscdE6BdJjxp3+utvVBElcuAXiZHtt8nfK90Le/E5E45AI7dyX2T45dVj48+ZM1H8qG2LRr7J35ZClngkjF9yrdPW6P7RNJwTYidBjJ3ks9foE/C7Nasaq2W/2dwcEIV0ZoXDGz829/xrcTfQd2Uz7+UKdVrD5g5MIoHg9Urb5NQHurANXIc5kjTbFIijhHIXDw5gYAKZKKFIt6D/wgAVjs1W6N8lHJYEtZwDIiKsz4Aq0VfRqD8HL2cYoxO2mzqRtERhvnIN7XKBfmsSsNa9ly6bvYOnZSN3mqyi0DScYFZ+DTLWQxyEfvvU3aByBmQbZB/bxFIUIo3gGwutdo2ucn+buEmJ4ZyYjQXfd/NQIVRhMb3rp9O/329+ZlR6zDNW1y3immkNL7yDc7cGrqvJOGq5xU4dQuWGuUrQxIjh7aMqYiMIqtddam+8GQ8XVCPZ/FOXUPNBwRO5B/7QFMM46gSqG49dOD+UNMTOCY91BgjYgDYe5GBXvr2a+VWdYu/S8Tg=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(376002)(136003)(396003)(346002)(39860400002)(451199018)(46966006)(40470700004)(36840700001)(40480700001)(2876002)(2906002)(7416002)(36860700001)(81166007)(5660300002)(336012)(40460700003)(86362001)(36756003)(186003)(426003)(6666004)(47076005)(26005)(82310400005)(966005)(82740400003)(356005)(478600001)(70586007)(8936002)(41300700001)(70206006)(54906003)(4326008)(6636002)(316002)(2616005)(8676002)(83380400001)(110136005)(1076003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2023 00:56:35.8807
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef1eddca-543c-4524-f920-08db114afc38
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C96A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7320
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230217134422.14116-6-dakr@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+Hi Danilo,
 
-Add an embarrassingly missed semicolon plus and embarrassingly missed
-parenthesis breaking kernel building in ia64 configs.
+Thank you for the patch! Perhaps something to improve:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/oe-kbuild-all/202302170047.EjCPizu3-lkp@intel.com/
-Fixes: 14743ddd2495 ("sfc: add devlink info support for ef100")
-Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
----
- drivers/net/ethernet/sfc/efx_devlink.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[auto build test WARNING on 48075a66fca613477ac1969b576a93ef5db0164f]
 
-diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
-index d2eb6712ba35..c829362ca99f 100644
---- a/drivers/net/ethernet/sfc/efx_devlink.c
-+++ b/drivers/net/ethernet/sfc/efx_devlink.c
-@@ -323,7 +323,7 @@ static void efx_devlink_info_running_v2(struct efx_nic *efx,
- 				    GET_VERSION_V2_OUT_SUCFW_BUILD_DATE);
- 		rtc_time64_to_tm(tstamp, &build_date);
- #else
--		memset(&build_date, 0, sizeof(build_date)
-+		memset(&build_date, 0, sizeof(build_date));
- #endif
- 		build_id = MCDI_DWORD(outbuf, GET_VERSION_V2_OUT_SUCFW_CHIP_ID);
- 
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230217-215101
+base:   48075a66fca613477ac1969b576a93ef5db0164f
+patch link:    https://lore.kernel.org/r/20230217134422.14116-6-dakr%40redhat.com
+patch subject: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA mappings
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230218/202302180805.b0ab40V5-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/00132cc92b6745cfd51c0d5df4c246a848f2ceaa
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230217-215101
+        git checkout 00132cc92b6745cfd51c0d5df4c246a848f2ceaa
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302180805.b0ab40V5-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_gpuva_mgr.c:1383:5: warning: no previous prototype for 'drm_gpuva_sm_step' [-Wmissing-prototypes]
+    1383 | int drm_gpuva_sm_step(struct drm_gpuva_op *__op, void *priv)
+         |     ^~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/drm_gpuva_mgr.c:529: warning: expecting prototype for drm_gpuva_remove_iter(). Prototype was for drm_gpuva_iter_remove() instead
+   drivers/gpu/drm/drm_gpuva_mgr.c:549: warning: Excess function parameter 'addr' description in 'drm_gpuva_insert'
+   drivers/gpu/drm/drm_gpuva_mgr.c:549: warning: Excess function parameter 'range' description in 'drm_gpuva_insert'
+   drivers/gpu/drm/drm_gpuva_mgr.c:765: warning: Excess function parameter 'addr' description in 'drm_gpuva_region_insert'
+   drivers/gpu/drm/drm_gpuva_mgr.c:765: warning: Excess function parameter 'range' description in 'drm_gpuva_region_insert'
+   drivers/gpu/drm/drm_gpuva_mgr.c:1345: warning: Excess function parameter 'ops' description in 'drm_gpuva_sm_unmap'
+   drivers/gpu/drm/drm_gpuva_mgr.c:1589: warning: Function parameter or member 'addr' not described in 'drm_gpuva_prefetch_ops_create'
+   drivers/gpu/drm/drm_gpuva_mgr.c:1589: warning: Function parameter or member 'range' not described in 'drm_gpuva_prefetch_ops_create'
+   drivers/gpu/drm/drm_gpuva_mgr.c:1589: warning: Excess function parameter 'req_addr' description in 'drm_gpuva_prefetch_ops_create'
+   drivers/gpu/drm/drm_gpuva_mgr.c:1589: warning: Excess function parameter 'req_range' description in 'drm_gpuva_prefetch_ops_create'
+
+
+vim +/drm_gpuva_sm_step +1383 drivers/gpu/drm/drm_gpuva_mgr.c
+
+  1382	
+> 1383	int drm_gpuva_sm_step(struct drm_gpuva_op *__op, void *priv)
+  1384	{
+  1385		struct {
+  1386			struct drm_gpuva_manager *mgr;
+  1387			struct drm_gpuva_ops *ops;
+  1388		} *args = priv;
+  1389		struct drm_gpuva_manager *mgr = args->mgr;
+  1390		struct drm_gpuva_ops *ops = args->ops;
+  1391		struct drm_gpuva_op *op;
+  1392	
+  1393		op = gpuva_op_alloc(mgr);
+  1394		if (unlikely(!op))
+  1395			goto err;
+  1396	
+  1397		memcpy(op, __op, sizeof(*op));
+  1398	
+  1399		if (op->op == DRM_GPUVA_OP_REMAP) {
+  1400			struct drm_gpuva_op_remap *__r = &__op->remap;
+  1401			struct drm_gpuva_op_remap *r = &op->remap;
+  1402	
+  1403			r->unmap = kmemdup(__r->unmap, sizeof(*r->unmap),
+  1404					   GFP_KERNEL);
+  1405			if (unlikely(!r->unmap))
+  1406				goto err_free_op;
+  1407	
+  1408			if (__r->prev) {
+  1409				r->prev = kmemdup(__r->prev, sizeof(*r->prev),
+  1410						  GFP_KERNEL);
+  1411				if (unlikely(!r->prev))
+  1412					goto err_free_unmap;
+  1413			}
+  1414	
+  1415			if (__r->next) {
+  1416				r->next = kmemdup(__r->next, sizeof(*r->next),
+  1417						  GFP_KERNEL);
+  1418				if (unlikely(!r->next))
+  1419					goto err_free_prev;
+  1420			}
+  1421		}
+  1422	
+  1423		list_add_tail(&op->entry, &ops->list);
+  1424	
+  1425		return 0;
+  1426	
+  1427	err_free_unmap:
+  1428		kfree(op->remap.unmap);
+  1429	err_free_prev:
+  1430		kfree(op->remap.prev);
+  1431	err_free_op:
+  1432		gpuva_op_free(mgr, op);
+  1433	err:
+  1434		return -ENOMEM;
+  1435	}
+  1436	
+
 -- 
-2.17.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
