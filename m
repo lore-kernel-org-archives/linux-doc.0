@@ -2,72 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74EC5C64ED6
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Feb 2023 09:08:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A54D5C6379F
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Feb 2023 21:16:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229630AbjBRJIG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Feb 2023 04:08:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51500 "EHLO
+        id S229861AbjBRVQN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Feb 2023 16:16:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229818AbjBRJIF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Feb 2023 04:08:05 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E129F12848;
-        Sat, 18 Feb 2023 01:08:01 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id a20so582826pls.2;
-        Sat, 18 Feb 2023 01:08:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eu9n2nrdBwpYt6vr5+ilnVR3utyhRNayR4OUDEusoqI=;
-        b=TYebi0piKTe4gGMWizKfPlrOLqaSw5BhsW9Chx/B1b4bZKrUGDGLSruGcs/JsIKkJR
-         vpRjnE4zaUIb5vxQO6IEdr+shHe6yfEdDEebaj7A5ZGtYEdCLO4unxelIzFHB3MKpCE/
-         /s4CpudBF5k11dSEzLrQVIq5zNCSqiPIOLG+E9TwjAVvcM8X7hif/d2AR+JRxXJzjDAg
-         WIdtT85/vMuAlvM8cAvrnUSbmnDIGyoArZspZrIacJoT2eHMDY3S9jQGlKsUfoTzcjLX
-         y8Tts7o7S2xdRR9aJYS0xZcdphJfTUm2qIunG1cwQmjmGK2V9KecdEW3HaKo2dmOQMM+
-         WK+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eu9n2nrdBwpYt6vr5+ilnVR3utyhRNayR4OUDEusoqI=;
-        b=QYvkxfZXWad8a3/2VWoTlBegaIZT2n/F03hCTxqcwM4bqtjGkU0dKdcL2K/DqKvRhQ
-         BLDNwzSrhsgPRuWt0nVb6/VnGYa57jPEySkDXNmFR78c5oBwcoNjgP+afiPgVCnm4APZ
-         MrcIsSV3kNHcxj2b/V7EqsxcCqK48aeyMFe3/UA4xS4O6OnzEDXo6j1pzRFT5fF7CZQK
-         11oqcOEcePvrJeVbQCJTANzOGV2C9DLhMklYLEvT0tsMwS+uV9vHZVKu6P7VjodZJM7Z
-         ChRM8erPhjRmSg/MBSfS1jtrKPbADdgBZJ8iv7EyM8FO+qpJViyS7+4FaMueE9sFlYem
-         0fWg==
-X-Gm-Message-State: AO0yUKUBbGVCB3CDcR7b635Qec9A3mOzoF86E47v/J5VRGW7OxWndoLG
-        dXnmNYZcbwqSiMPQLXiustwXUpmGGRgBDw==
-X-Google-Smtp-Source: AK7set+jRD/5RHeAxnLXdXZs73TtR4lQJoYTLiwrmetkUmoPnPShs0R+S1pkEaniZ93ptcqhz88IrQ==
-X-Received: by 2002:a17:903:2286:b0:19a:b427:2335 with SMTP id b6-20020a170903228600b0019ab4272335mr3769376plh.56.1676711281217;
-        Sat, 18 Feb 2023 01:08:01 -0800 (PST)
-Received: from localhost.localdomain ([202.53.32.211])
-        by smtp.gmail.com with ESMTPSA id m192-20020a633fc9000000b004faf33e2758sm3945135pga.40.2023.02.18.01.07.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Feb 2023 01:08:00 -0800 (PST)
-From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
-To:     linux-doc@vger.kernel.org, linux-input@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Aditya Garg <gargaditya08@live.com>,
-        Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
-        Orlando Chamberlain <orlandoch.dev@gmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH v4 2/2] HID: hid-apple-magic-backlight: Add driver for keyboard backlight on internal Magic Keyboards
-Date:   Sat, 18 Feb 2023 20:07:09 +1100
-Message-Id: <20230218090709.7467-3-orlandoch.dev@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230218090709.7467-1-orlandoch.dev@gmail.com>
-References: <20230218090709.7467-1-orlandoch.dev@gmail.com>
+        with ESMTP id S229864AbjBRVQI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Feb 2023 16:16:08 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA3016327;
+        Sat, 18 Feb 2023 13:15:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676754958; x=1708290958;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Eg+f7Jyu/wEAqAGui0h6Em+F7HIJYdbqfOZIHZ4d7ks=;
+  b=GtbzG9I6PRQIJw2qADZoKbxiYhFn967E5l7OItlzPuMDu4gy63LSanmR
+   ZZc5T2U88c1Slk6IhmSehv6H6rA079ANm+UbR+qsaTrALSr81l8R03iMa
+   08X36zrfj259HpGFLzohHy7Jq3MDY+7D44XwRPu9TtYg4xR1zqrFCe/QA
+   jYjGPBUglejaRRgdz8+PM0JGeTcrrydeCagK94yoTWqB3EgOnajpuJn2L
+   OtNZAOtM0aVBq8/3DlN8rC7zTU+HlspjfFk5R2LHAQ+0xL09lZyhFG9jY
+   2dH687BTQ5hLJeEr4+CJXjud/xmSKto+QVCay2kcg4I1Ctmj0AOaf+sP8
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="418427075"
+X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
+   d="scan'208";a="418427075"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 13:15:57 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="664241566"
+X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
+   d="scan'208";a="664241566"
+Received: from adityava-mobl1.amr.corp.intel.com (HELO rpedgeco-desk.amr.corp.intel.com) ([10.209.80.223])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 13:15:56 -0800
+From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
+To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com
+Cc:     rick.p.edgecombe@intel.com
+Subject: [PATCH v6 00/41] Shadow stacks for userspace
+Date:   Sat, 18 Feb 2023 13:13:52 -0800
+Message-Id: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -75,219 +78,223 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This driver adds support for the keyboard backlight on Intel T2 Macs
-with internal Magic Keyboards (MacBookPro16,x and MacBookAir9,1)
+Hi,
 
-Co-developed-by: Kerem Karabay <kekrby@gmail.com>
-Signed-off-by: Kerem Karabay <kekrby@gmail.com>
-Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
----
-v3->v4:
-- collect reviews from Andy and Thomas
-- remove now unused hdev member of apple_magic_backlight
-v2->v3:
-- remove unneeded inclusion
-- use s32 for report value type
-- remove unneeded null check
-- don't set drvdata as its never used
-- prepend "hid-" to module name
-v1->v2:
-- drop unneeded remove function
-- combine set functions
-- add missing header inclusions
-- avoid char as argument in favour of u8
-- handful of style/formatting fixes
-- use standard led name ":white:kbd_backlight"
-- rename USAGE_MAGIC_BL to HID_USAGE_MAGIC_BL
+This series implements Shadow Stacks for userspace using x86's Control-flow 
+Enforcement Technology (CET). CET consists of two related security features: 
+shadow stacks and indirect branch tracking. This series implements just the 
+shadow stack part of this feature, and just for userspace.
 
- MAINTAINERS                             |   6 ++
- drivers/hid/Kconfig                     |  13 +++
- drivers/hid/Makefile                    |   1 +
- drivers/hid/hid-apple-magic-backlight.c | 120 ++++++++++++++++++++++++
- 4 files changed, 140 insertions(+)
- create mode 100644 drivers/hid/hid-apple-magic-backlight.c
+The main use case for shadow stack is providing protection against return 
+oriented programming attacks. It works by maintaining a secondary (shadow) 
+stack using a special memory type that has protections against modification. 
+When executing a CALL instruction, the processor pushes the return address to 
+both the normal stack and to the special permission shadow stack. Upon RET, 
+the processor pops the shadow stack copy and compares it to the normal stack 
+copy. For more details, see the coverletter from v1 [0].
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fb1471cb5ed3..3319f0c3ed1e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9201,6 +9201,12 @@ F:	include/linux/pm.h
- F:	include/linux/suspend.h
- F:	kernel/power/
- 
-+HID APPLE MAGIC BACKLIGHT DRIVER
-+M:	Orlando Chamberlain <orlandoch.dev@gmail.com>
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	drivers/hid/apple-magic-backlight.c
-+
- HID CORE LAYER
- M:	Jiri Kosina <jikos@kernel.org>
- M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index e2a5d30c8895..fe489632bfd9 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -130,6 +130,19 @@ config HID_APPLE
- 	Say Y here if you want support for keyboards of	Apple iBooks, PowerBooks,
- 	MacBooks, MacBook Pros and Apple Aluminum.
- 
-+config HID_APPLE_MAGIC_BACKLIGHT
-+	tristate "Apple Magic Keyboard Backlight"
-+	depends on USB_HID
-+	depends on LEDS_CLASS
-+	depends on NEW_LEDS
-+	help
-+	Say Y here if you want support for the keyboard backlight on Macs with
-+	the magic keyboard (MacBookPro16,x and MacBookAir9,1). Note that this
-+	driver is not for external magic keyboards.
-+
-+	To compile this driver as a module, choose M here: the
-+	module will be called hid-apple-magic-backlight.
-+
- config HID_APPLEIR
- 	tristate "Apple infrared receiver"
- 	depends on (USB_HID)
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index e8014c1a2f8b..dc8df002bc86 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -26,6 +26,7 @@ obj-$(CONFIG_HID_ACCUTOUCH)	+= hid-accutouch.o
- obj-$(CONFIG_HID_ALPS)		+= hid-alps.o
- obj-$(CONFIG_HID_ACRUX)		+= hid-axff.o
- obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
-+obj-$(CONFIG_HID_APPLE_MAGIC_BACKLIGHT)	+= hid-apple-magic-backlight.o
- obj-$(CONFIG_HID_APPLEIR)	+= hid-appleir.o
- obj-$(CONFIG_HID_CREATIVE_SB0540)	+= hid-creative-sb0540.o
- obj-$(CONFIG_HID_ASUS)		+= hid-asus.o
-diff --git a/drivers/hid/hid-apple-magic-backlight.c b/drivers/hid/hid-apple-magic-backlight.c
-new file mode 100644
-index 000000000000..f0fc02ff3b2d
---- /dev/null
-+++ b/drivers/hid/hid-apple-magic-backlight.c
-@@ -0,0 +1,120 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Apple Magic Keyboard Backlight Driver
-+ *
-+ * For Intel Macs with internal Magic Keyboard (MacBookPro16,1-4 and MacBookAir9,1)
-+ *
-+ * Copyright (c) 2022 Kerem Karabay <kekrby@gmail.com>
-+ * Copyright (c) 2023 Orlando Chamberlain <orlandoch.dev@gmail.com>
-+ */
-+
-+#include <linux/hid.h>
-+#include <linux/leds.h>
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <dt-bindings/leds/common.h>
-+
-+#include "hid-ids.h"
-+
-+#define HID_USAGE_MAGIC_BL	0xff00000f
-+
-+#define APPLE_MAGIC_REPORT_ID_POWER 3
-+#define APPLE_MAGIC_REPORT_ID_BRIGHTNESS 1
-+
-+struct apple_magic_backlight {
-+	struct led_classdev cdev;
-+	struct hid_report *brightness;
-+	struct hid_report *power;
-+};
-+
-+static void apple_magic_backlight_report_set(struct hid_report *rep, s32 value, u8 rate)
-+{
-+	rep->field[0]->value[0] = value;
-+	rep->field[1]->value[0] = 0x5e; /* Mimic Windows */
-+	rep->field[1]->value[0] |= rate << 8;
-+
-+	hid_hw_request(rep->device, rep, HID_REQ_SET_REPORT);
-+}
-+
-+static void apple_magic_backlight_set(struct apple_magic_backlight *backlight,
-+				     int brightness, char rate)
-+{
-+	apple_magic_backlight_report_set(backlight->power, brightness ? 1 : 0, rate);
-+	if (brightness)
-+		apple_magic_backlight_report_set(backlight->brightness, brightness, rate);
-+}
-+
-+static int apple_magic_backlight_led_set(struct led_classdev *led_cdev,
-+					 enum led_brightness brightness)
-+{
-+	struct apple_magic_backlight *backlight = container_of(led_cdev,
-+			struct apple_magic_backlight, cdev);
-+
-+	apple_magic_backlight_set(backlight, brightness, 1);
-+	return 0;
-+}
-+
-+static int apple_magic_backlight_probe(struct hid_device *hdev,
-+				       const struct hid_device_id *id)
-+{
-+	struct apple_magic_backlight *backlight;
-+	int rc;
-+
-+	rc = hid_parse(hdev);
-+	if (rc)
-+		return rc;
-+
-+	/*
-+	 * Ensure this usb endpoint is for the keyboard backlight, not touchbar
-+	 * backlight.
-+	 */
-+	if (hdev->collection[0].usage != HID_USAGE_MAGIC_BL)
-+		return -ENODEV;
-+
-+	backlight = devm_kzalloc(&hdev->dev, sizeof(*backlight), GFP_KERNEL);
-+	if (!backlight)
-+		return -ENOMEM;
-+
-+	rc = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-+	if (rc)
-+		return rc;
-+
-+	backlight->brightness = hid_register_report(hdev, HID_FEATURE_REPORT,
-+			APPLE_MAGIC_REPORT_ID_BRIGHTNESS, 0);
-+	backlight->power = hid_register_report(hdev, HID_FEATURE_REPORT,
-+			APPLE_MAGIC_REPORT_ID_POWER, 0);
-+
-+	if (!backlight->brightness || !backlight->power) {
-+		rc = -ENODEV;
-+		goto hw_stop;
-+	}
-+
-+	backlight->cdev.name = ":white:" LED_FUNCTION_KBD_BACKLIGHT;
-+	backlight->cdev.max_brightness = backlight->brightness->field[0]->logical_maximum;
-+	backlight->cdev.brightness_set_blocking = apple_magic_backlight_led_set;
-+
-+	apple_magic_backlight_set(backlight, 0, 0);
-+
-+	return devm_led_classdev_register(&hdev->dev, &backlight->cdev);
-+
-+hw_stop:
-+	hid_hw_stop(hdev);
-+	return rc;
-+}
-+
-+static const struct hid_device_id apple_magic_backlight_hid_ids[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, apple_magic_backlight_hid_ids);
-+
-+static struct hid_driver apple_magic_backlight_hid_driver = {
-+	.name = "hid-apple-magic-backlight",
-+	.id_table = apple_magic_backlight_hid_ids,
-+	.probe = apple_magic_backlight_probe,
-+};
-+module_hid_driver(apple_magic_backlight_hid_driver);
-+
-+MODULE_DESCRIPTION("MacBook Magic Keyboard Backlight");
-+MODULE_AUTHOR("Orlando Chamberlain <orlandoch.dev@gmail.com>");
-+MODULE_LICENSE("GPL");
+The main changes in this version are the MM suggestions by David Hildenbrand
+to have pte_mkwrite() take a vma, and rename _PAGE_COW.
+The former is split over three patches:
+mm: Introduce pte_mkwrite_kernel()
+s390/mm: Introduce pmd_mkwrite_kernel()
+mm: Make pte_mkwrite() take a VMA
+
+With these changes, and an adjustment to "mm: Warn on shadow stack memory in
+wrong vma", references to "shstk" are now only in x86 arch code, hopefully
+addressing Andrew Morton's concerns. There are still a couple VM_SHADOW_STACK 
+references, which seems to be in keeping with the treatment of other
+VM_HIGH_ARCH flags. If other shadow stack implementations end up with identical
+logic, it can easily be refactored at that point.
+
+There was also some more feedback from Boris which was incorporated.
+
+I left tested-by tags in place per discussion with testers. Testers, please
+retest.
+
+Previous version [1].
+
+Thanks,
+Rick
+
+
+[0] https://lore.kernel.org/lkml/20220130211838.8382-1-rick.p.edgecombe@intel.com/
+[1] https://lore.kernel.org/lkml/20230119212317.8324-1-rick.p.edgecombe@intel.com/
+
+
+Kirill A. Shutemov (1):
+  x86: Introduce userspace API for shadow stack
+
+Mike Rapoport (1):
+  x86/shstk: Add ARCH_SHSTK_UNLOCK
+
+Rick Edgecombe (19):
+  x86/fpu: Add helper for modifying xstate
+  x86: Move control protection handler to separate file
+  mm: Introduce pte_mkwrite_kernel()
+  s390/mm: Introduce pmd_mkwrite_kernel()
+  mm: Make pte_mkwrite() take a VMA
+  x86/mm: Introduce _PAGE_SAVED_DIRTY
+  x86/mm: Start actually marking _PAGE_SAVED_DIRTY
+  x86/mm: Teach pte_mkwrite() about stack memory
+  mm: Don't allow write GUPs to shadow stack memory
+  x86/mm: Introduce MAP_ABOVE4G
+  mm: Warn on shadow stack memory in wrong vma
+  x86/mm: Warn if create Write=0,Dirty=1 with raw prot
+  x86/shstk: Introduce map_shadow_stack syscall
+  x86/shstk: Support WRSS for userspace
+  x86: Expose thread features in /proc/$PID/status
+  x86/shstk: Wire in shadow stack interface
+  selftests/x86: Add shadow stack test
+  x86/fpu: Add helper for initing features
+  x86/shstk: Add ARCH_SHSTK_STATUS
+
+Yu-cheng Yu (20):
+  Documentation/x86: Add CET shadow stack description
+  x86/shstk: Add Kconfig option for shadow stack
+  x86/cpufeatures: Add CPU feature flags for shadow stacks
+  x86/cpufeatures: Enable CET CR4 bit for shadow stack
+  x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+  x86/shstk: Add user control-protection fault handler
+  x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+  x86/mm: Move pmd_write(), pud_write() up in the file
+  x86/mm: Update ptep/pmdp_set_wrprotect() for _PAGE_SAVED_DIRTY
+  mm: Move VM_UFFD_MINOR_BIT from 37 to 38
+  mm: Introduce VM_SHADOW_STACK for shadow stack memory
+  x86/mm: Check shadow stack page fault errors
+  mm: Add guard pages around a shadow stack.
+  mm/mmap: Add shadow stack pages to memory accounting
+  mm: Re-introduce vm_flags to do_mmap()
+  x86/shstk: Add user-mode shadow stack support
+  x86/shstk: Handle thread shadow stack
+  x86/shstk: Introduce routines modifying shstk
+  x86/shstk: Handle signals for shadow stack
+  x86: Add PTRACE interface for shadow stack
+
+ Documentation/filesystems/proc.rst            |   1 +
+ Documentation/mm/arch_pgtable_helpers.rst     |   9 +-
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/shstk.rst                   | 176 +++++
+ arch/alpha/include/asm/pgtable.h              |   6 +-
+ arch/arc/include/asm/hugepage.h               |   2 +-
+ arch/arc/include/asm/pgtable-bits-arcv2.h     |   7 +-
+ arch/arm/include/asm/pgtable-3level.h         |   7 +-
+ arch/arm/include/asm/pgtable.h                |   2 +-
+ arch/arm/kernel/signal.c                      |   2 +-
+ arch/arm64/include/asm/pgtable.h              |   9 +-
+ arch/arm64/kernel/signal.c                    |   2 +-
+ arch/arm64/kernel/signal32.c                  |   2 +-
+ arch/arm64/mm/trans_pgd.c                     |   4 +-
+ arch/csky/include/asm/pgtable.h               |   2 +-
+ arch/hexagon/include/asm/pgtable.h            |   2 +-
+ arch/ia64/include/asm/pgtable.h               |   2 +-
+ arch/loongarch/include/asm/pgtable.h          |   4 +-
+ arch/m68k/include/asm/mcf_pgtable.h           |   2 +-
+ arch/m68k/include/asm/motorola_pgtable.h      |   6 +-
+ arch/m68k/include/asm/sun3_pgtable.h          |   6 +-
+ arch/microblaze/include/asm/pgtable.h         |   2 +-
+ arch/mips/include/asm/pgtable.h               |   6 +-
+ arch/nios2/include/asm/pgtable.h              |   2 +-
+ arch/openrisc/include/asm/pgtable.h           |   2 +-
+ arch/parisc/include/asm/pgtable.h             |   6 +-
+ arch/powerpc/include/asm/book3s/32/pgtable.h  |   2 +-
+ arch/powerpc/include/asm/book3s/64/pgtable.h  |   4 +-
+ arch/powerpc/include/asm/nohash/32/pgtable.h  |   2 +-
+ arch/powerpc/include/asm/nohash/32/pte-8xx.h  |   2 +-
+ arch/powerpc/include/asm/nohash/64/pgtable.h  |   2 +-
+ arch/riscv/include/asm/pgtable.h              |   6 +-
+ arch/s390/include/asm/hugetlb.h               |   4 +-
+ arch/s390/include/asm/pgtable.h               |  14 +-
+ arch/s390/mm/pageattr.c                       |   4 +-
+ arch/sh/include/asm/pgtable_32.h              |  10 +-
+ arch/sparc/include/asm/pgtable_32.h           |   2 +-
+ arch/sparc/include/asm/pgtable_64.h           |   6 +-
+ arch/sparc/kernel/signal32.c                  |   2 +-
+ arch/sparc/kernel/signal_64.c                 |   2 +-
+ arch/um/include/asm/pgtable.h                 |   2 +-
+ arch/x86/Kconfig                              |  24 +
+ arch/x86/Kconfig.assembler                    |   5 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |  16 +-
+ arch/x86/include/asm/fpu/api.h                |   9 +
+ arch/x86/include/asm/fpu/regset.h             |   7 +-
+ arch/x86/include/asm/fpu/sched.h              |   3 +-
+ arch/x86/include/asm/fpu/types.h              |  16 +-
+ arch/x86/include/asm/fpu/xstate.h             |   6 +-
+ arch/x86/include/asm/idtentry.h               |   2 +-
+ arch/x86/include/asm/mmu_context.h            |   2 +
+ arch/x86/include/asm/msr.h                    |  11 +
+ arch/x86/include/asm/pgtable.h                | 322 ++++++++-
+ arch/x86/include/asm/pgtable_types.h          |  71 +-
+ arch/x86/include/asm/processor.h              |   8 +
+ arch/x86/include/asm/shstk.h                  |  40 ++
+ arch/x86/include/asm/special_insns.h          |  13 +
+ arch/x86/include/asm/tlbflush.h               |   3 +-
+ arch/x86/include/asm/trap_pf.h                |   2 +
+ arch/x86/include/asm/traps.h                  |  12 +
+ arch/x86/include/uapi/asm/mman.h              |   4 +
+ arch/x86/include/uapi/asm/prctl.h             |  12 +
+ arch/x86/kernel/Makefile                      |   4 +
+ arch/x86/kernel/cet.c                         | 152 ++++
+ arch/x86/kernel/cpu/common.c                  |  35 +-
+ arch/x86/kernel/cpu/cpuid-deps.c              |   1 +
+ arch/x86/kernel/cpu/proc.c                    |  23 +
+ arch/x86/kernel/fpu/core.c                    |  59 +-
+ arch/x86/kernel/fpu/regset.c                  |  86 +++
+ arch/x86/kernel/fpu/xstate.c                  | 148 ++--
+ arch/x86/kernel/fpu/xstate.h                  |   6 +
+ arch/x86/kernel/idt.c                         |   2 +-
+ arch/x86/kernel/process.c                     |  18 +-
+ arch/x86/kernel/process_64.c                  |   9 +-
+ arch/x86/kernel/ptrace.c                      |  12 +
+ arch/x86/kernel/shstk.c                       | 491 +++++++++++++
+ arch/x86/kernel/signal.c                      |   1 +
+ arch/x86/kernel/signal_32.c                   |   2 +-
+ arch/x86/kernel/signal_64.c                   |   8 +-
+ arch/x86/kernel/sys_x86_64.c                  |   6 +-
+ arch/x86/kernel/traps.c                       |  87 ---
+ arch/x86/mm/fault.c                           |  38 +
+ arch/x86/mm/pat/set_memory.c                  |   4 +-
+ arch/x86/mm/pgtable.c                         |  38 +
+ arch/x86/xen/enlighten_pv.c                   |   2 +-
+ arch/x86/xen/mmu_pv.c                         |   2 +-
+ arch/x86/xen/xen-asm.S                        |   2 +-
+ arch/xtensa/include/asm/pgtable.h             |   2 +-
+ fs/aio.c                                      |   2 +-
+ fs/proc/array.c                               |   6 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/asm-generic/hugetlb.h                 |   4 +-
+ include/linux/mm.h                            |  46 +-
+ include/linux/mman.h                          |   4 +
+ include/linux/pgtable.h                       |  14 +
+ include/linux/proc_fs.h                       |   2 +
+ include/linux/syscalls.h                      |   1 +
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/asm-generic/unistd.h             |   2 +-
+ include/uapi/linux/elf.h                      |   2 +
+ ipc/shm.c                                     |   2 +-
+ kernel/sys_ni.c                               |   1 +
+ mm/debug_vm_pgtable.c                         |  16 +-
+ mm/gup.c                                      |   2 +-
+ mm/huge_memory.c                              |   7 +-
+ mm/hugetlb.c                                  |   4 +-
+ mm/memory.c                                   |   5 +-
+ mm/migrate_device.c                           |   2 +-
+ mm/mmap.c                                     |  12 +-
+ mm/mprotect.c                                 |   2 +-
+ mm/nommu.c                                    |   4 +-
+ mm/userfaultfd.c                              |   2 +-
+ mm/util.c                                     |   2 +-
+ tools/testing/selftests/x86/Makefile          |   4 +-
+ .../testing/selftests/x86/test_shadow_stack.c | 676 ++++++++++++++++++
+ 117 files changed, 2671 insertions(+), 324 deletions(-)
+ create mode 100644 Documentation/x86/shstk.rst
+ create mode 100644 arch/x86/include/asm/shstk.h
+ create mode 100644 arch/x86/kernel/cet.c
+ create mode 100644 arch/x86/kernel/shstk.c
+ create mode 100644 tools/testing/selftests/x86/test_shadow_stack.c
+
 -- 
-2.39.1
+2.17.1
 
