@@ -2,275 +2,159 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AED1EC636CC
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Feb 2023 12:08:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FDA0C636CC
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Feb 2023 13:25:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229673AbjBSMIF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Feb 2023 07:08:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37892 "EHLO
+        id S229907AbjBSNZH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Feb 2023 08:25:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbjBSMIE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Feb 2023 07:08:04 -0500
-Received: from vulcan.natalenko.name (vulcan.natalenko.name [104.207.131.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CD83B45E;
-        Sun, 19 Feb 2023 04:08:02 -0800 (PST)
-Received: from spock.localnet (unknown [83.148.33.151])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by vulcan.natalenko.name (Postfix) with ESMTPSA id 7DB121236EF0;
-        Sun, 19 Feb 2023 13:07:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=dkim-20170712; t=1676808479;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=k0uQYrDXseOdnKUU40UXg4bhZFZZLcIfSAnfKuTK3PU=;
-        b=EWEPayuOGH7VvY1bL8s4lxiz04TA1iL8Lc6W06Uxpe/fBG/tQaXi4Zqegu7WolFL0/oAMJ
-        Uangk5SKERlGYMnfcKpAO/8Um0/ENyRfBw6V4YgoQAD3eKKw+fnlR8lxtA80Uqw0Ott2do
-        GTSXKrk8PQyf752lWr+kx803t4U39gk=
-From:   Oleksandr Natalenko <oleksandr@natalenko.name>
-To:     Rafael J Wysocki <rafael@kernel.org>,
-        Huang Rui <ray.huang@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mario.Limonciello@amd.com, Perry.Yuan@amd.com,
-        Wyes Karny <wyes.karny@amd.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
-        santosh.shukla@amd.com, Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Ananth Narayan <ananth.narayan@amd.com>,
-        gautham.shenoy@amd.com, Tor Vic <torvic9@mailbox.org>,
-        Russell Haley <yumpusamongus@gmail.com>,
-        Wyes Karny <wyes.karny@amd.com>
-Subject: Re: [PATCH v7 0/6] cpufreq: amd-pstate: Add guided autonomous mode support
-Date:   Sun, 19 Feb 2023 13:07:57 +0100
-Message-ID: <5906931.lOV4Wx5bFT@natalenko.name>
-In-Reply-To: <20230216081802.38007-1-wyes.karny@amd.com>
-References: <20230216081802.38007-1-wyes.karny@amd.com>
+        with ESMTP id S229674AbjBSNZG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Feb 2023 08:25:06 -0500
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2105.outbound.protection.outlook.com [40.107.92.105])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 905C2E3B4;
+        Sun, 19 Feb 2023 05:25:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NFQj95N6QQr80EGN8lt2JW63QYJ4pHDNU+H28SMVIDUm1UFKl+VN6QOvODqKbIaDv4Qqu5xif1VmNdMiSGx3jWlaE/BY2SXE34cbJTViOOfcK/MR9aBLHb99aUU+b/E+IsrXyfxqa+BFPjdvpxCDL/egF14pnuGOhmAvESfKJT7ylsLj0s/zuNx0ApV41CzJXZkriSbS7+F6svnIvaTnRKf1cbZBS2kodGzoMPEioEgf9cwk2FGMWEYz68prhkMeyC7o7/pF0ykjDMNjppLcuJUUpeSeYqf7uI33lvb9F8+y1we9RIu1DHwjEW68C4ZwGXxMHz4FcYIpNg5GddjYew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qtNm6+yOdmrjPZHeTEUVC8rYXnLoLYsu6L613he3q+M=;
+ b=GtxT7ftHxXghm78jl9O2Paxlhub9xH/NmjZN12h0DZO2LAovxcZqr6v4lpq6qwmlw4HLne9wZVqYUwMzED1Bye42KdSE3FF2rlwngZP3qeKFWuDzhk9kpAplirm5imUVVeSoohuo0K72+aY+yaFDB6g2ELzwEA7oYixSplDFDPkrjZf9IDAHtY5lNIl6LERlelyO0XCUmcPKrm+4CHzkl6RMUzZzRsJExp8cNuAWay7KTbgGbHCHAg09Y5Dg1IoIyVP/7x6TEqcr7VE0wen4qQL4QJTYm/YlWue84mul7nd8yqpQ9xyxZaHdR09jDGZWdQhdgvdH58iuyh/B/5sNNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qtNm6+yOdmrjPZHeTEUVC8rYXnLoLYsu6L613he3q+M=;
+ b=mTQHrl/FbtNYT1kBZl6fE0z+QIX/I7wYbwvlaUhnk1/IP06Zul5XR8xqQHgYR1V6NIyPW4AG/N3K3Skf8FrEH/FdYIxY7OjJHC3GiZ6NSDlcC33ux4CVnoJAqTonlgvJhT7jVjqWu70YXgZoLV2v6iW6lklwEvjp4icVpYaqrcA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by PH7PR13MB5456.namprd13.prod.outlook.com (2603:10b6:510:131::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.17; Sun, 19 Feb
+ 2023 13:24:57 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::85f5:bdb:fb9e:294c]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::85f5:bdb:fb9e:294c%9]) with mapi id 15.20.6111.018; Sun, 19 Feb 2023
+ 13:24:57 +0000
+Date:   Sun, 19 Feb 2023 14:24:50 +0100
+From:   Simon Horman <simon.horman@corigine.com>
+To:     alejandro.lucero-palau@amd.com
+Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
+        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, habetsm.xilinx@gmail.com,
+        ecree.xilinx@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
+        jiri@nvidia.com
+Subject: Re: [PATCH v3 net-next] sfc: fix ia64 builds without CONFIG_RTC_LIB
+Message-ID: <Y/IjIlQSaX6iSmWc@corigine.com>
+References: <20230218005620.31221-1-alejandro.lucero-palau@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230218005620.31221-1-alejandro.lucero-palau@amd.com>
+X-ClientProxiedBy: AM0PR02CA0034.eurprd02.prod.outlook.com
+ (2603:10a6:208:3e::47) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|PH7PR13MB5456:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5963919d-7107-40aa-d2dd-08db127cb1d0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: K8B2ziAOP32Zl+J/dSbGS0jtyfIE194cQcj9c5yE0oASiQK+G9AUZtqYr8N3DF2HzuSLLPsZAWU2/Nwvf4MYelV6n7HEHw5SW44wxzDTW8OlCk0Bm/Y89nKl5qasDR3Y/NWWWCYeoXMC1Ed0P/6LerAtv1ow8EnD5hW7j4bGDaUFVq/PgzREVXFEeOGUq7vx9Az6lUYfRDrsaxY4gI7vG+ajnUd5uWwEkjgVZ3r2PTmsac7L0zW6EoqrqMdtrSb0QaAUmOn1hGP8+F/FOjt7sg/0YmJsavbwMGf+KreC9YVO7y9Cd6/taSDU/EvxoGlaM1IAl9FSXAS8t9+5sun583Hg6plKuV8+fm+g5z2v8jZnkxx0H5pX+tNhac0SHLWysu7ctah+bp/0cRDNg+VvCRobJAxCD0ydR1Xb6TRY5HbozsC0rFek2dT0rWQ4OWrsTfwerwd5yVZ3o8raokRJjUmXftQ26K5QNSaHwXwIh/1esynb0mOi5GT67mXfpirO2AtVi+fjYwrWSYSJt/LmgpeNxWEJ6TJA85cTFg0g6z/1Qe1cVRDq/7zwTt9SZ2/luAgSMru0smGaE4WrJ1CBDvC8fD82120Dvl6yP0dv87+1OyFYz8RcsYZULVkBPwOA
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(39830400003)(396003)(376002)(366004)(136003)(451199018)(86362001)(2906002)(44832011)(38100700002)(186003)(6486002)(966005)(6506007)(6512007)(478600001)(36756003)(66946007)(6916009)(66476007)(316002)(66556008)(8676002)(41300700001)(83380400001)(8936002)(2616005)(7416002)(4326008)(6666004)(5660300002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Mi6yK2tNKAgFU3xRTrmEPxTNlMc2ZUYXH8Lu+OIpGwc8Cr0YOOOFkQjQiDpg?=
+ =?us-ascii?Q?MfIgJdcVOxtZAH1acTyy0jutr3ZFHEOU1W6BGZ1fVHQ1ZesAl+Y54mNQA8bn?=
+ =?us-ascii?Q?PkqGXpG/Vs60ohTzz2Bf8SbDrVYCXAI+V3wZwWFazjuCoAA5lcKXaLxY/QI6?=
+ =?us-ascii?Q?1eeuG7zmNSBzJcvinm+XGPrP89vP0pxKtSwUpx3h5a1Df/+DaXiuEpMGT+r9?=
+ =?us-ascii?Q?jUnJbN+AnfqT7eDEGuyi6MUgbIuQ1MpTBHTTb3nbwoteOVsJ/Y5j9Fu+dtxw?=
+ =?us-ascii?Q?Mk+Zn/wfEuKaEp4zaVv6j4UdJjtet/P6yJQu8qQi6+PLEJA+bLNdQYWcIfPP?=
+ =?us-ascii?Q?FwZb86VvCi4Gpb6FkDFBiyOQ8iOMHyike/7eFrfvbYEoj9FNU35HkNcWvX5t?=
+ =?us-ascii?Q?yeLxE/keqodoS4Dc30hOhahfea9+id+RCEkJ8ezE4ORg7IU0V1AtOvLk/TTT?=
+ =?us-ascii?Q?tNYn8KJexAdYJpJDIp1XsTATK91CmTUMpoaAMChwptvNNpJd2Adu0Czd0Lh4?=
+ =?us-ascii?Q?LPLcOfBy90rOntU6rZPSkaQ31AGugN2tBurFMfoeDJChXDWxa2fMgF2VMbiJ?=
+ =?us-ascii?Q?lBOI6IbQCQ5WmwxnZRYBmLn7vO698HZJHB7SHB3IqQx7uhOVKDzLIJqmqM0f?=
+ =?us-ascii?Q?0RZfKSEgTsaoslp3963TV3ZmgLsBvzb/8EztxfHK8T7Lf8TDTfhdUDLdnzTD?=
+ =?us-ascii?Q?+zNDWuVDf2+Q+EFbtJDavOlL9d3Jb54wQRtXuc3KjIHu+oe9pqOs+IaaMrFP?=
+ =?us-ascii?Q?ASm+aEc8g5lIVdsFKhPxsudizJeKC1XvbDN/Dze1bSG7EXD654vj2wO6SVAe?=
+ =?us-ascii?Q?PN7ofU4fIEbZvNfNwUnl2Zw/5RwdLZP1fr4iGazqyRn9MRNpTBP17S0wg/G5?=
+ =?us-ascii?Q?WtjQFsU9nOcDOqOrHWl62QjasMlUvfSYI9TiVd8vN/3ss7VdoAX4x0SDvOSc?=
+ =?us-ascii?Q?+e40VMSj4sAr33GkSOz1Ko8IMqWi6eXpPEcNKoVgPWt6+zJ/5aFeI0rtLECt?=
+ =?us-ascii?Q?s46N0ZD/0YTYm8ZtpI+G3vfDGmMVMlBDZ4vylT3qkX3cpN73kCXFEdiTfFGc?=
+ =?us-ascii?Q?5pI1qgZavI5lnG0/ugVt+p29k2NYHct6K3YkV1B7PbciSQSm1iWzqP+cuXgB?=
+ =?us-ascii?Q?sbpm9o9ZuACBJpSFl5DFVC85pBOQ2kJMZpzy+xw7Mi6BxntidAyVsBtlRTn2?=
+ =?us-ascii?Q?5vpsqwpJho6BnwqQaSWvl9OY0N2yxJUEbnGHA2ElOMgKgSNyaGIez1KUfSBV?=
+ =?us-ascii?Q?KkEA6hilmEMYn2iqG3OxG6V6TucpeMc4A3MlZF99ArpPGZcfvqRrGfdarcoq?=
+ =?us-ascii?Q?9adxxNhVz0tNqRVTgGA4oAuMIEdDASaWcuzj0xg62dhQoPQxDo1GAHdWNor9?=
+ =?us-ascii?Q?RSQi8fXObD0XlUQOymyScpvJwlG38sBwpKvq4/ASEb6dHe2vkMxlTYlH4u4p?=
+ =?us-ascii?Q?+hYqaHxVyo9SJl+MEWMDsxsU/tPdwiJVPwDGjMa7KQSwOMAFd3zl5mNtxBR8?=
+ =?us-ascii?Q?btXYZfjvKNQQ4mp2PPyFyct2RL/KeXwoIrik68tA+S1tOLsxpWSHkpccPmbG?=
+ =?us-ascii?Q?wPnIP/e9WociERNSK+EBN/N1LqBieiz5E/gircV7/9M3O8ODdVfd6R6ahkNr?=
+ =?us-ascii?Q?OgiVyDj0L3pLapk1cI6TC+xEyinys47Nwbbwa0XVKiviqa80CktpKF1GK+XS?=
+ =?us-ascii?Q?0Mer3A=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5963919d-7107-40aa-d2dd-08db127cb1d0
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2023 13:24:57.3897
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SeLOBI5rlv4duvkMChcI1OP2ihcSKqHKhu15oTyNJA+c/CMRz0UrPvLpalcqXT/IR20uGxZKVhUEomQjeRNDLVUcSSArHa8XFNUvxOVUkrc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR13MB5456
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello.
+Hi Alejandro,
 
-On =C4=8Dtvrtek 16. =C3=BAnora 2023 9:17:56 CET Wyes Karny wrote:
-> >From ACPI spec[1] below 3 modes for CPPC can be defined:
-> 1. Non autonomous: OS scaling governor specifies operating frequency/
->    performance level through `Desired Performance` register and platform
-> follows that.
-> 2. Guided autonomous: OS scaling governor specifies min and max
->    frequencies/ performance levels through `Minimum Performance` and
-> `Maximum Performance` register, and platform can autonomously select an
-> operating frequency in this range.
-> 3. Fully autonomous: OS only hints (via EPP) to platform for the required
->    energy performance preference for the workload and platform autonomous=
-ly
-> scales the frequency.
->=20
-> Currently (1) is supported by amd_pstate as passive mode, and (3) is
-> implemented by EPP support[2]. This change is to support (2).
->=20
-> In guided autonomous mode the min_perf is based on the input from the
-> scaling governor. For example, in case of schedutil this value depends
-> on the current utilization. And max_perf is set to max capacity.
->=20
-> To activate guided auto mode ``amd_pstate=3Dguided`` command line
-> parameter has to be passed in the kernel.
->=20
-> Below are the results (normalized) of benchmarks with this patch:
-> System: Genoa 96C 192T
-> Kernel: 6.2.0-rc2 + EPP v12 + patch
-> Scaling governor: schedutil
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D dbench comparisons =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> dbench result comparison:
-> Here results are throughput (MB/s)
-> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->     1	   1.00 (0.00 pct)	   1.01 (1.00 pct)	   1.02 (2.00 pct)
->     2	   1.07 (0.00 pct)	   1.06 (-0.93 pct)	   1.07 (0.00 pct)
->     4	   1.68 (0.00 pct)	   1.70 (1.19 pct)	   1.72 (2.38 pct)
->     8	   2.61 (0.00 pct)	   2.68 (2.68 pct)	   2.76 (5.74 pct)
->    16	   4.16 (0.00 pct)	   4.24 (1.92 pct)	   4.53 (8.89 pct)
->    32	   5.98 (0.00 pct)	   6.17 (3.17 pct)	   7.30 (22.07 pct)
->    64	   8.67 (0.00 pct)	   8.99 (3.69 pct)	  10.71 (23.52 pct)
->   128	  11.98 (0.00 pct)	  12.52 (4.50 pct)	  14.67 (22.45 pct)
->   256	  15.73 (0.00 pct)	  16.13 (2.54 pct)	  17.81 (13.22 pct)
->   512	  15.77 (0.00 pct)	  16.32 (3.48 pct)	  16.39 (3.93 pct)
-> dbench power comparison:
-> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->     1	   1.00 (0.00 pct)	   1.00 (0.00 pct)	   1.04 (4.00 pct)
->     2	   0.99 (0.00 pct)	   0.97 (-2.02 pct)	   1.02 (3.03 pct)
->     4	   0.98 (0.00 pct)	   0.98 (0.00 pct)	   1.02 (4.08 pct)
->     8	   0.98 (0.00 pct)	   0.99 (1.02 pct)	   1.02 (4.08 pct)
->    16	   0.99 (0.00 pct)	   1.00 (1.01 pct)	   1.04 (5.05 pct)
->    32	   1.02 (0.00 pct)	   1.02 (0.00 pct)	   1.07 (4.90 pct)
->    64	   1.05 (0.00 pct)	   1.05 (0.00 pct)	   1.11 (5.71 pct)
->   128	   1.08 (0.00 pct)	   1.08 (0.00 pct)	   1.15 (6.48 pct)
->   256	   1.12 (0.00 pct)	   1.12 (0.00 pct)	   1.20 (7.14 pct)
->   512	   1.18 (0.00 pct)	   1.17 (-0.84 pct)	   1.26 (6.77 pct)
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D git-source comparisons =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> git-source result comparison:
-> Here results are throughput (compilations per 1000 sec)
-> Threads:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->   192	   1.00 (0.00 pct)	   0.93 (-7.00 pct)	   1.00 (0.00 pct)
-> git-source power comparison:
-> Threads:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->   192	   1.00 (0.00 pct)	   1.00 (0.00 pct)	   0.96 (-4.00 pct)
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D kernbench comparisons =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> kernbench result comparison:
-> Here results are throughput (compilations per 1000 sec)
-> Load:	   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
-> 32	   1.00 (0.00 pct)	   1.01 (1.00 pct)	   1.02 (2.00 pct)
-> 48	   1.26 (0.00 pct)	   1.28 (1.58 pct)	   1.25 (-0.79 pct)
-> 64	   1.39 (0.00 pct)	   1.47 (5.75 pct)	   1.43 (2.87 pct)
-> 96	   1.48 (0.00 pct)	   1.50 (1.35 pct)	   1.49 (0.67 pct)
-> 128	   1.29 (0.00 pct)	   1.32 (2.32 pct)	   1.33 (3.10 pct)
-> 192	   1.17 (0.00 pct)	   1.20 (2.56 pct)	   1.21 (3.41 pct)
-> 256	   1.17 (0.00 pct)	   1.18 (0.85 pct)	   1.20 (2.56 pct)
-> 384	   1.16 (0.00 pct)	   1.17 (0.86 pct)	   1.21 (4.31 pct)
-> kernbench power comparison:
-> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->    32	   1.00 (0.00 pct)	   0.97 (-3.00 pct)	   1.00 (0.00 pct)
->    48	   0.87 (0.00 pct)	   0.81 (-6.89 pct)	   0.88 (1.14 pct)
->    64	   0.81 (0.00 pct)	   0.73 (-9.87 pct)	   0.77 (-4.93 pct)
->    96	   0.75 (0.00 pct)	   0.74 (-1.33 pct)	   0.75 (0.00 pct)
->   128	   0.83 (0.00 pct)	   0.79 (-4.81 pct)	   0.83 (0.00 pct)
->   192	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
->   256	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
->   384	   0.92 (0.00 pct)	   0.88 (-4.34 pct)	   0.92 (0.00 pct)
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D tbench comparisons =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> tbench result comparison:
-> Here results are throughput (MB/s)
-> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->     1	   1.00 (0.00 pct)	   0.70 (-30.00 pct)	   1.37 (37.00 pct)
->     2	   2.64 (0.00 pct)	   1.39 (-47.34 pct)	   2.70 (2.27 pct)
->     4	   4.89 (0.00 pct)	   2.75 (-43.76 pct)	   5.28 (7.97 pct)
->     8	   9.46 (0.00 pct)	   5.42 (-42.70 pct)	  10.22 (8.03 pct)
->    16	  19.05 (0.00 pct)	  10.42 (-45.30 pct)	  19.94 (4.67 pct)
->    32	  37.50 (0.00 pct)	  20.23 (-46.05 pct)	  36.87 (-1.68 pct)
->    64	  61.24 (0.00 pct)	  43.08 (-29.65 pct)	  62.96 (2.80 pct)
->   128	  67.16 (0.00 pct)	  69.08 (2.85 pct)	  67.34 (0.26 pct)
->   256	 154.59 (0.00 pct)	 162.33 (5.00 pct)	 156.78 (1.41 pct)
->   512	 154.02 (0.00 pct)	 156.74 (1.76 pct)	 153.48 (-0.35 pct)
-> tbench power comparison:
-> Clients:   acpi-cpufreq		   amd_pst+passive	   amd_pst+guided
->     1	   1.00 (0.00 pct)	   0.97 (-3.00 pct)	   1.08 (8.00 pct)
->     2	   1.04 (0.00 pct)	   0.97 (-6.73 pct)	   1.11 (6.73 pct)
->     4	   1.12 (0.00 pct)	   0.99 (-11.60 pct)	   1.18 (5.35 pct)
->     8	   1.25 (0.00 pct)	   1.04 (-16.80 pct)	   1.31 (4.80 pct)
->    16	   1.53 (0.00 pct)	   1.13 (-26.14 pct)	   1.58 (3.26 pct)
->    32	   2.01 (0.00 pct)	   1.36 (-32.33 pct)	   2.03 (0.99 pct)
->    64	   2.58 (0.00 pct)	   2.14 (-17.05 pct)	   2.61 (1.16 pct)
->   128	   2.80 (0.00 pct)	   2.81 (0.35 pct)	   2.81 (0.35 pct)
->   256	   3.39 (0.00 pct)	   3.43 (1.17 pct)	   3.42 (0.88 pct)
->   512	   3.44 (0.00 pct)	   3.44 (0.00 pct)	   3.44 (0.00 pct)
->=20
-> Note: this series is based on top of EPP v12 [3] series
->=20
-> Change log:
->=20
-> v6 -> v7:
-> - Addressed comments by Ray
-> - Reorder and rebase patches
-> - Pick up Ack by Ray
->=20
-> v5 -> v6:
-> - Don't return -EBUSY when changing to same mode
->=20
-> v4 -> v5:
-> - Rebased on top of EPP v12 series
-> - Addressed comments form Mario regarding documentation
-> - Picked up RB flags from Mario and Bagas Sanjaya
->=20
-> v3 -> v4:
-> - Fixed active mode low frequency issue reported by Peter Jung and Tor Vic
-> - Documentation modification suggested by Bagas Sanjaya
->=20
-> v2 -> v3:
-> - Addressed review comments form Mario.
-> - Picked up RB tag from Mario.
-> - Rebase on top of EPP v11 [3].
->=20
-> v1 -> v2:
-> - Fix issue with shared mem systems.
-> - Rebase on top of EPP series.
->=20
-> [1]: https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.=
-pdf
-> [2]: https://lore.kernel.org/lkml/20221110175847.3098728-1-Perry.Yuan@amd=
-=2Ecom/
-> [3]: https://lore.kernel.org/linux-pm/20230131090016.3970625-1-perry.yuan=
-@amd.com/
->=20
-> Wyes Karny (6):
->   acpi: cppc: Add min and max perf reg writing support
->   acpi: cppc: Add auto select register read/write support
->   Documentation: cpufreq: amd-pstate: Move amd_pstate param to
->     alphabetical order
->   cpufreq: amd-pstate: Add guided autonomous mode
->   cpufreq: amd-pstate: Add guided mode control support via sysfs
->   Documentation: cpufreq: amd-pstate: Update amd_pstate status sysfs for
->     guided
->=20
->  .../admin-guide/kernel-parameters.txt         |  40 ++--
->  Documentation/admin-guide/pm/amd-pstate.rst   |  31 ++-
->  drivers/acpi/cppc_acpi.c                      | 121 +++++++++++-
->  drivers/cpufreq/amd-pstate.c                  | 177 +++++++++++++-----
->  include/acpi/cppc_acpi.h                      |  11 ++
->  include/linux/amd-pstate.h                    |   2 +
->  6 files changed, 302 insertions(+), 80 deletions(-)
+On Sat, Feb 18, 2023 at 12:56:20AM +0000, alejandro.lucero-palau@amd.com wrote:
+> From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+> 
+> Add an embarrassingly missed semicolon plus and embarrassingly missed
+> parenthesis breaking kernel building in ia64 configs.
 
-```
-$ lscpu | grep 'Model name'
-Model name:                      AMD Ryzen 9 5950X 16-Core Processor
+I think this statement is slightly misleading.
 
-$ cat /proc/cmdline
-root=3D/dev/mapper/system threadirqs io_delay=3Dnone zswap.enabled=3D0 amd_=
-pstate=3Dguided quiet
+The problem may have manifested when building for ia64 config.
+However, I don't believe that it is, strictly speaking, an ia64 issue.
+Rather, I believe the problem is build without CONFIG_RTC_LIB.
 
-$ sudo cpupower frequency-info
-analyzing CPU 0:
-driver: amd-pstate
-CPUs which run at the same hardware frequency: 0
-CPUs which need to have their frequency coordinated by software: 0
-maximum transition latency: 20.0 us
-hardware limits: 550 MHz - 5.08 GHz
-available cpufreq governors: conservative ondemand userspace powersave perf=
-ormance schedutil
-current policy: frequency should be within 550 MHz and 5.08 GHz.
-The governor "schedutil" may decide which speed to use
-within this range.
-current CPU frequency: Unable to call hardware
-current CPU frequency: 3.95 GHz (asserted by call to kernel)
-boost state support:
-Supported: yes
-Active: yes
-AMD PSTATE Highest Performance: 166. Maximum Frequency: 5.08 GHz.
-AMD PSTATE Nominal Performance: 111. Nominal Frequency: 3.40 GHz.
-AMD PSTATE Lowest Non-linear Performance: 57. Lowest Non-linear Frequency: =
-1.74 GHz.
-AMD PSTATE Lowest Performance: 19. Lowest Frequency: 550 MHz.
-```
+Some architectures select CONFIG_RTC_LIB., f.e. x86_64. But some do not.
+ia64 is one such example. arm64 is another - indeed I was able to reproduce
+the bug when building for arm64 using config based on the one at the link
+below.
 
-Tested-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+I think it would be helpful to update the patch description accordingly.
 
-Thank you.
+Code change looks good to me: I exercised builds for both ia64 and arm64.
 
-=2D-=20
-Oleksandr Natalenko (post-factum)
-
-
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/oe-kbuild-all/202302170047.EjCPizu3-lkp@intel.com/
+> Fixes: 14743ddd2495 ("sfc: add devlink info support for ef100")
+> Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+> ---
+>  drivers/net/ethernet/sfc/efx_devlink.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
+> index d2eb6712ba35..c829362ca99f 100644
+> --- a/drivers/net/ethernet/sfc/efx_devlink.c
+> +++ b/drivers/net/ethernet/sfc/efx_devlink.c
+> @@ -323,7 +323,7 @@ static void efx_devlink_info_running_v2(struct efx_nic *efx,
+>  				    GET_VERSION_V2_OUT_SUCFW_BUILD_DATE);
+>  		rtc_time64_to_tm(tstamp, &build_date);
+>  #else
+> -		memset(&build_date, 0, sizeof(build_date)
+> +		memset(&build_date, 0, sizeof(build_date));
+>  #endif
+>  		build_id = MCDI_DWORD(outbuf, GET_VERSION_V2_OUT_SUCFW_CHIP_ID);
+>  
+> -- 
+> 2.17.1
+> 
