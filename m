@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 003F1C6379F
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Feb 2023 20:39:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37C3EC677F1
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Feb 2023 20:40:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231300AbjBSUjc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Feb 2023 15:39:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40892 "EHLO
+        id S231223AbjBSUkx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Feb 2023 15:40:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231163AbjBSUjc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Feb 2023 15:39:32 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F65818ABE
-        for <linux-doc@vger.kernel.org>; Sun, 19 Feb 2023 12:39:30 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id l1so1486461plg.4
-        for <linux-doc@vger.kernel.org>; Sun, 19 Feb 2023 12:39:30 -0800 (PST)
+        with ESMTP id S231481AbjBSUkw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Feb 2023 15:40:52 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CFC418B15
+        for <linux-doc@vger.kernel.org>; Sun, 19 Feb 2023 12:40:49 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id o10-20020a17090a744a00b00233ba727724so1078699pjk.1
+        for <linux-doc@vger.kernel.org>; Sun, 19 Feb 2023 12:40:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:subject:cc
          :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=VSb9sHqoGaX0ZmNLCacxp8wGphEMlpICECfuxg/6qfo=;
-        b=bu4z3fK3Nw4HhLOx/qgH3yNXGHbhBqxOBEwd5mLyqsfX5MQUjD7h2lfuho4muVXNow
-         Nn81BNCLyl6wHaPe2rR7v7GePfrSc7J9n9IbIl92KLHp2WKLsoVcbNFhiKj7rV0xH2C+
-         9WG0yXt0ferrSb+q0i88lvD0cAA5YyVFUZ9Kw=
+        bh=lqAwlutC29lMR1tf1e4XOcfdxhypv9zb0T2DcQuJ+3c=;
+        b=MjtbsH5bW1HXHGXLRbwOKZEzdSInx4XUaJn+/0d2SKM5dw34hiBNmQU6ohqNZQA+L2
+         I1GvKT2KInRCvvo+fSO/0GUShulfgU4qQvkio0wi+hAcl/UCahGdGyhq51MgW0auKO3G
+         CJxCVe/nwu6tGjmlmFI7U6pzHUn2OY1PSCX/Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:subject:cc
          :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VSb9sHqoGaX0ZmNLCacxp8wGphEMlpICECfuxg/6qfo=;
-        b=MEGOZu7Vrf4+MO46HprnV0zJfj5Kby+jvi+2oO1V6rSgnSUm6HXqrkXMkulytS5y5Z
-         JWTSphQzwCMvIP0vuXgGhsjIBoU5EEOPelu8AfuE+6mBZSqqGRlXZ1vixePFG8JNWuxX
-         TdBpnuNJM55x52StUm3GZeqnGSssOQMWElV+ajFBudS7awa7fdCDCxoD4VuZA1YtE0lE
-         L5/no06406scUxcf8UNsNSLrjexojf9VbvaPRxLmqS1et0T3qI30VMwn/Xfl4Kn0Nngi
-         m5CPQaZK1+zPQfXg6d+jiQTJPdeD2lFno54pkkrTY5BzAfTriv5YY7fguR2NjxwD0vA6
-         7Arw==
-X-Gm-Message-State: AO0yUKX/7F4B2BeGp+TLIRi3ZdDmGVsvMECpCyV7w4F4+4cDPyHnR8QE
-        ZpjOPGMq03bN3/a860yTBi6ivQ==
-X-Google-Smtp-Source: AK7set8Z0ntrqwUzPx0nvUWdIPEe1au4xT4h8TIYhX6gENNMytmy/Bxwko3qUQliHF8keZ//uamelA==
-X-Received: by 2002:a17:903:32cf:b0:19b:441c:3913 with SMTP id i15-20020a17090332cf00b0019b441c3913mr2016208plr.44.1676839169923;
-        Sun, 19 Feb 2023 12:39:29 -0800 (PST)
+        bh=lqAwlutC29lMR1tf1e4XOcfdxhypv9zb0T2DcQuJ+3c=;
+        b=5AM5KoA2iY6mXnqUayEXwKD7NuB00vSfo44E3eUJJXZwHbncO3qxLu0SvPLNSe3b3z
+         Fk4ZPZNl8rOh86zgAAzMxvrAT9opHi0V8PUvZl/LMpBM73/Uiw4+wp6AAVX3WVxYePww
+         /RYxRIEA3A7n/XF8Q4jvnuFCHhnSYvV00P109mm33JZ4fvaD2xAOaT8ytdKW+Sr31bp7
+         It+C2BH1oQEtAmZ/y8Qs5I/sttt/2ffcejWo8yXNpmssan5ZhIvn5PboHxRzhOfNH6sc
+         jQKZiMeegf8IGUbg2d7EbP+sJLUti+9prqw/CGrZTlA9jBgXx1r9nHSQMyN+dHOH7kJC
+         FWaQ==
+X-Gm-Message-State: AO0yUKW+6qVuhoCa4opdNNbcmsgBWHk/e8J1g2JAzEkgd14a1nUIL5jK
+        DbfkfiVZVUfTxQ9H+bb9KpDenNTLruHV8XTz
+X-Google-Smtp-Source: AK7set+6pLNAI2t6KBKr2yLlrqERzrItep/TFuzpN1S5wuT33QqMqXLLIayngNvSFYR5H3F8x2mXwg==
+X-Received: by 2002:a17:903:2344:b0:19b:110d:28dc with SMTP id c4-20020a170903234400b0019b110d28dcmr2297593plh.19.1676839248654;
+        Sun, 19 Feb 2023 12:40:48 -0800 (PST)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id r6-20020a170902be0600b00199537a7466sm6345581pls.39.2023.02.19.12.39.29
+        by smtp.gmail.com with ESMTPSA id bd6-20020a170902830600b0019a723a831dsm6357706plb.158.2023.02.19.12.40.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Feb 2023 12:39:29 -0800 (PST)
-Message-ID: <63f28901.170a0220.7090.af7b@mx.google.com>
-X-Google-Original-Message-ID: <202302191238.@keescook>
-Date:   Sun, 19 Feb 2023 12:39:28 -0800
+        Sun, 19 Feb 2023 12:40:48 -0800 (PST)
+Message-ID: <63f28950.170a0220.aef42.bc00@mx.google.com>
+X-Google-Original-Message-ID: <202302191240.@keescook>
+Date:   Sun, 19 Feb 2023 12:40:47 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -76,47 +76,80 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com, linux-s390@vger.kernel.org
-Subject: Re: [PATCH v6 12/41] s390/mm: Introduce pmd_mkwrite_kernel()
+        david@redhat.com, debug@rivosinc.com, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        Michal Simek <monstr@monstr.eu>,
+        Dinh Nguyen <dinguyen@kernel.org>, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v6 13/41] mm: Make pte_mkwrite() take a VMA
 References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-13-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-14-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230218211433.26859-13-rick.p.edgecombe@intel.com>
+In-Reply-To: <20230218211433.26859-14-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 18, 2023 at 01:14:04PM -0800, Rick Edgecombe wrote:
+On Sat, Feb 18, 2023 at 01:14:05PM -0800, Rick Edgecombe wrote:
 > The x86 Control-flow Enforcement Technology (CET) feature includes a new
 > type of memory called shadow stack. This shadow stack memory has some
 > unusual properties, which requires some core mm changes to function
 > properly.
 > 
-> One of these changes is to allow for pmd_mkwrite() to create different
-> types of writable memory (the existing conventionally writable type and
-> also the new shadow stack type). Future patches will convert pmd_mkwrite()
-> to take a VMA in order to facilitate this, however there are places in the
-> kernel where pmd_mkwrite() is called outside of the context of a VMA.
-> These are for kernel memory. So create a new variant called
-> pmd_mkwrite_kernel() and switch the kernel users over to it. Have
-> pmd_mkwrite() and pmd_mkwrite_kernel() be the same for now. Future patches
-> will introduce changes to make pmd_mkwrite() take a VMA.
+> One of these unusual properties is that shadow stack memory is writable,
+> but only in limited ways. These limits are applied via a specific PTE
+> bit combination. Nevertheless, the memory is writable, and core mm code
+> will need to apply the writable permissions in the typical paths that
+> call pte_mkwrite().
 > 
-> Only do this for architectures that need it because they call pmd_mkwrite()
-> in arch code without an associated VMA. Since it will only currently be
-> used in arch code, so do not include it in arch_pgtable_helpers.rst.
+> In addition to VM_WRITE, the shadow stack VMA's will have a flag denoting
+> that they are special shadow stack flavor of writable memory. So make
+> pte_mkwrite() take a VMA, so that the x86 implementation of it can know to
+> create regular writable memory or shadow stack memory.
 > 
+> Apply the same changes for pmd_mkwrite() and huge_pte_mkwrite().
+> 
+> No functional change.
+> 
+> Cc: linux-doc@vger.kernel.org
 > Cc: linux-kernel@vger.kernel.org
+> Cc: linux-alpha@vger.kernel.org
+> Cc: linux-snps-arc@lists.infradead.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-csky@vger.kernel.org
+> Cc: linux-hexagon@vger.kernel.org
+> Cc: linux-ia64@vger.kernel.org
+> Cc: loongarch@lists.linux.dev
+> Cc: linux-m68k@lists.linux-m68k.org
+> Cc: Michal Simek <monstr@monstr.eu>
+> Cc: Dinh Nguyen <dinguyen@kernel.org>
+> Cc: linux-mips@vger.kernel.org
+> Cc: openrisc@lists.librecores.org
+> Cc: linux-parisc@vger.kernel.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: linux-riscv@lists.infradead.org
 > Cc: linux-s390@vger.kernel.org
+> Cc: linux-sh@vger.kernel.org
+> Cc: sparclinux@vger.kernel.org
+> Cc: linux-um@lists.infradead.org
+> Cc: xen-devel@lists.xenproject.org
 > Cc: linux-arch@vger.kernel.org
 > Cc: linux-mm@kvack.org
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Suggested-by: David Hildenbrand <david@redhat.com>
 > Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
-Yup, 1:1 refactor.
+I'm not an arch maintainer, but it looks like a correct tree-wide
+refactor.
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
