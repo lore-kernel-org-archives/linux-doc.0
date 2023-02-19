@@ -2,96 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95353C61DA4
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Feb 2023 14:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DD57C64ED9
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Feb 2023 20:38:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229867AbjBSOKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Feb 2023 09:10:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55158 "EHLO
+        id S231487AbjBSUik (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Feb 2023 15:38:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229781AbjBSOKE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Feb 2023 09:10:04 -0500
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 219CDD510;
-        Sun, 19 Feb 2023 06:10:03 -0800 (PST)
-Received: by mail-qk1-x72e.google.com with SMTP id w4so28593qkw.4;
-        Sun, 19 Feb 2023 06:10:03 -0800 (PST)
+        with ESMTP id S231481AbjBSUij (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Feb 2023 15:38:39 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B99A113C7
+        for <linux-doc@vger.kernel.org>; Sun, 19 Feb 2023 12:38:37 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id 7so540654pfo.13
+        for <linux-doc@vger.kernel.org>; Sun, 19 Feb 2023 12:38:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7fr2lIso7bpIUD7Ha1nqI8K+I3x8DLSNI6+bQlnGF+k=;
-        b=IX4GE9MaRsieijPWNpdzJP4LX1Q29TIa+xP+iUIR9KvBiN1zjhKHaiCNuTpGiKnTiH
-         Leb17rrsVfxr6rxPPTn9UD+4zp/93qOZnFG0Zz3MTRJVNX7B8edZ+JIn+cm9usrxfcFt
-         md1NELfQrvWYidiKR9508qDxUewGMvpQeQoHgM49swqpMSb6bZopgwli14eexUejf0J0
-         o6z1PpCy8E1ehfulj4xHoJOa2Q+EjqWZWVU480pH27rCouUPrwORvSuuqdlcd2CrIhLM
-         GPg7C6sRAoC1kgohoDymxXW4zTnkmNNbeFN+G5GUb1cxEoFacYcp/oh2Xj99/yW0/LE8
-         jN8Q==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=cNhE2FASeH5o8yi0ZLyiaK0kUF7pA0USqp0ltHH/0Fo=;
+        b=TJUJ1J2ArJiZ+C52sbA4rJUl5jkwfEU0A4lmboDWRNDWEfBXuFPkUHzTEyJZAm+S4p
+         Wge2lQiBs7TGtXwWkE0b1xhZw6outUBXabRYNKQBImrjMsw8dd8fr8oWOeq3BFAQBjtb
+         8uo983lQimMC+dk9fekE1rNd+VY9r+8q/tjI4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7fr2lIso7bpIUD7Ha1nqI8K+I3x8DLSNI6+bQlnGF+k=;
-        b=wFdqTWNN+ecrGM5g6pYwTixUQy6wcOaJetikM8bqu6i7KMjs1EqNhOrH82ewfNZfJL
-         SaRKrUo4L7l3Z+FFK2s/BN/cZDMk1RUtcI+YwqoRy+rb6NrOO5dU1YUxOVxRnn/9apqH
-         WQAfOZNS26C+xkV0vHTHns/rvNsbqeDP7mogWm+0204t7OjhHeUiOVUBMGpyRbK01BLW
-         ZejopZrjYhO8v9X0ThxW0iWebq/Y+SQrPZ1JwVxfyV8qyYkKD6YWjiwUCQMhLfV1UsX/
-         mOgkkCBIYXIxa8SAUb9j2SRloIS1rfeM/KEk8d5Fzb/zhyUQPDubtwuiUxsK+lqyXeS+
-         UpUA==
-X-Gm-Message-State: AO0yUKUCsHSBCOT+DLvcB/ZzLQ89muf0hPdvbmAmgZrHm1LVZD1XYnGZ
-        xUmib2F5yg8xCTEU4/h/8UYNC0VVM9reVavUMTM=
-X-Google-Smtp-Source: AK7set+clf2xmfexuw1XmRCmusE/KdeVHwwYxVr5A/glHe9HDYyvGTmY8ad5/pz4ykamUQVOdCKpAsgMIacdUwAEdgk=
-X-Received: by 2002:ae9:f716:0:b0:71f:b8ba:ff4c with SMTP id
- s22-20020ae9f716000000b0071fb8baff4cmr614308qkg.10.1676815802247; Sun, 19 Feb
- 2023 06:10:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20230218090709.7467-1-orlandoch.dev@gmail.com> <20230218090709.7467-3-orlandoch.dev@gmail.com>
-In-Reply-To: <20230218090709.7467-3-orlandoch.dev@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 19 Feb 2023 16:09:26 +0200
-Message-ID: <CAHp75VeF6ypA7mSYZrMsNr777f6zjEJ6nkygEc_NQe-nMhjRFQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] HID: hid-apple-magic-backlight: Add driver for
- keyboard backlight on internal Magic Keyboards
-To:     Orlando Chamberlain <orlandoch.dev@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cNhE2FASeH5o8yi0ZLyiaK0kUF7pA0USqp0ltHH/0Fo=;
+        b=XNysi5aftLPkFrOV0DJK8eApu30zU3bI9RO3YxolfKpkGd9KX+vFWqAFff/hmhYMtC
+         JY99VQCeNdA3S9OFKux5C7Iy881+uGxW8+teiBEGa5gJf3EpOWy3RziUFI3sKfkiv3ES
+         orPQBoYRug/vmxelbmjb4IBQ+x0qMuRnVpdy5UKow/mZX1GAN+rcthp2M/zZfJuVQKVe
+         itQeOfRAcoGOw4jI4rLdgstVk2dEJcYYkci1AmP83utNWcNiSblJdiLuDliS3NpGccEO
+         qZZsaSWOuY22u8+i68+WiQcbRexDMGQmpWKBPAUIhBmDUgl2T5g17XHyzHhDyGyKaeDL
+         jTBg==
+X-Gm-Message-State: AO0yUKVoXfSCwazC4/u0sY++vaHlYeUCMRKQSeQ4dljXqgCjvYSBjaSh
+        6VBLw7jq+E+otKszefro96ZgfQ==
+X-Google-Smtp-Source: AK7set/XVAl5klPqjExLu4JTPo0Bl98f24f9lS+8n7DA1eEGRV2Dh4JhkKn00B8IKrJYG+VivvI0vw==
+X-Received: by 2002:a62:1a57:0:b0:58d:d546:8012 with SMTP id a84-20020a621a57000000b0058dd5468012mr769767pfa.0.1676839116854;
+        Sun, 19 Feb 2023 12:38:36 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id p21-20020aa78615000000b005afda1496c6sm2648912pfn.31.2023.02.19.12.38.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Feb 2023 12:38:36 -0800 (PST)
+Message-ID: <63f288cc.a70a0220.5558c.3c92@mx.google.com>
+X-Google-Original-Message-ID: <202302191237.@keescook>
+Date:   Sun, 19 Feb 2023 12:38:35 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Aditya Garg <gargaditya08@live.com>,
-        Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
-        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Content-Type: text/plain; charset="UTF-8"
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com,
+        linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v6 11/41] mm: Introduce pte_mkwrite_kernel()
+References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-12-rick.p.edgecombe@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230218211433.26859-12-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 18, 2023 at 11:08 AM Orlando Chamberlain
-<orlandoch.dev@gmail.com> wrote:
->
-> This driver adds support for the keyboard backlight on Intel T2 Macs
-> with internal Magic Keyboards (MacBookPro16,x and MacBookAir9,1)
+On Sat, Feb 18, 2023 at 01:14:03PM -0800, Rick Edgecombe wrote:
+> The x86 Control-flow Enforcement Technology (CET) feature includes a new
+> type of memory called shadow stack. This shadow stack memory has some
+> unusual properties, which requires some core mm changes to function
+> properly.
+> 
+> One of these changes is to allow for pte_mkwrite() to create different
+> types of writable memory (the existing conventionally writable type and
+> also the new shadow stack type). Future patches will convert pte_mkwrite()
+> to take a VMA in order to facilitate this, however there are places in the
+> kernel where pte_mkwrite() is called outside of the context of a VMA.
+> These are for kernel memory. So create a new variant called
+> pte_mkwrite_kernel() and switch the kernel users over to it. Have
+> pte_mkwrite() and pte_mkwrite_kernel() be the same for now. Future patches
+> will introduce changes to make pte_mkwrite() take a VMA.
+> 
+> Only do this for architectures that need it because they call pte_mkwrite()
+> in arch code without an associated VMA. Since it will only currently be
+> used in arch code, so do not include it in arch_pgtable_helpers.rst.
+> 
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: xen-devel@lists.xenproject.org
+> Cc: linux-arch@vger.kernel.org
+> Cc: linux-mm@kvack.org
+> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+> Suggested-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
-...
+I think it's a little weird that it's the only PTE helper taking a vma,
+but it does seem like the right approach.
 
-> +       help
-> +       Say Y here if you want support for the keyboard backlight on Macs with
-> +       the magic keyboard (MacBookPro16,x and MacBookAir9,1). Note that this
-> +       driver is not for external magic keyboards.
-> +
-> +       To compile this driver as a module, choose M here: the
-> +       module will be called hid-apple-magic-backlight.
-
-Is it my email client or is the indentation of the help text incorrect?
-
-Hint: the text of the help should be <TAB><SPACE><SPACE> indented.
-
-I believe checkpatch.pl at least in --strict mode should complain about this.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Kees Cook
