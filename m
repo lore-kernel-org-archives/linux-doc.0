@@ -2,143 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86E07C61DA4
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Feb 2023 03:02:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4233AC61DA4
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Feb 2023 03:10:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229436AbjBSDCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Feb 2023 22:02:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55306 "EHLO
+        id S229472AbjBSDKR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Feb 2023 22:10:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjBSDCm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Feb 2023 22:02:42 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F163FF08
-        for <linux-doc@vger.kernel.org>; Sat, 18 Feb 2023 19:02:41 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id r12so921101pjm.0
-        for <linux-doc@vger.kernel.org>; Sat, 18 Feb 2023 19:02:41 -0800 (PST)
+        with ESMTP id S229441AbjBSDKQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Feb 2023 22:10:16 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325CA12BD0;
+        Sat, 18 Feb 2023 19:10:14 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id t15so1909046plg.6;
+        Sat, 18 Feb 2023 19:10:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UPkCXnTaxvibkt4SclNE8nGS6vFBnxefVLcJnF9E5cs=;
-        b=dRa7Ij1pftoiKtd21j49pFdmsjic1axCj3jSI/UEmYeJbZjhDTfW65HrnY8kPnN4cm
-         bRjAtgZTIajcTP5UQWmPkfndHnGFOdggEr1Jp9sf0iW+vSPiq65ddyeqOPeEaZn6Qxea
-         QKbhMgfBbK8Kv1lfLI4T3hh5aTbii3oY9zX66EREAXmbI6gO6ZmF6dfQo9xyxNOHZ9ba
-         TToVgUR7+WAZrwrdgSgY3Vzh8uUZQqTMXov3APi5g/Z7VuvGlO2018MK+mzRN3Bvhd8P
-         YtW+XA9zERKHEm0vpwIDGSshsR8cTq9gJAc4sfw8jI+x51MideJcPEcQhqjC6G76aEHo
-         kheQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AMxey5fgUXmuDtMw1WnDp+7u+hDJ5DMHaMqjjQ1kA6M=;
+        b=ZmmyS3WaSkXr90PdP9egZsWRomrEE3eZrrM7iwNnrdZvXXH0o/EL86j8Q4lZAX+Jka
+         nDPonioMiP/7zpr9sBFlOpr+TgS5YKkMmd0cM8XrsFDqt7Dh0Nr/yZa0g0b3BB8qgFbO
+         q52pyo4wVU+T/CyYOEoz8+2vsChOraLkGrqDsvQusDk4Oshz1QceDIVzV05g6VamPrqC
+         JlNkrOIYS5NpG7r8HPdjZbdRdP1SY75zoxhJxGZrTx7xXHbMTLpNoOHaOHoxX8OXISU8
+         YNaz3d12PSJ9cGUyHjJnh6/sZnlsK9Al1aFmtSUZzSDWbL1QB9JErKYCC0IlZaUGWzYR
+         gLWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UPkCXnTaxvibkt4SclNE8nGS6vFBnxefVLcJnF9E5cs=;
-        b=f3UYV+i3M8zFNaV9taYPCA/5t77k5ADotC5r+7MEBWcSxGE9MfFXYudz37cEt3ltCy
-         ZoVvbXJ//so3DFfyqtyz9oYzA3QuZx6bggN85JI6ZjSui1VJvCp40T5O5QMW/eXTOpIB
-         yh1B+pwXD6mAf8eVazizuAVipspXivAl6ToQtPNxCKpIkLOK3UQDjUoTM9OW042XPfDn
-         Zc6DdKM0KDA3cjdlS4f4p8AFuyogE4bQMgUsjI7ii1jzplEWzo1kcm92ataYHnHiuxBD
-         lKBHp3XZCxqW3ZcOh+22/XAXzUGdSR5hMF+vS+Ptp0IRMIF/OCMF+zuW+FXQM1N6GhhZ
-         p6Dg==
-X-Gm-Message-State: AO0yUKWPpbMZMWZoeiKpYeJvNBKFBKgftXs4PSc0qVo0AwnyNGIVO9Kc
-        YpCTyElkVjDXYJVN2m4bVLxw1P0p5+A=
-X-Google-Smtp-Source: AK7set8roL6XyS/e4Sc/f84cYtqMwlyY2OurvCsMK+iNjwyIGNi533imkq0Et01DAss5cA8m7h0SXg==
-X-Received: by 2002:a17:902:d2c3:b0:196:3db5:c08b with SMTP id n3-20020a170902d2c300b001963db5c08bmr1144883plc.69.1676775760809;
-        Sat, 18 Feb 2023 19:02:40 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AMxey5fgUXmuDtMw1WnDp+7u+hDJ5DMHaMqjjQ1kA6M=;
+        b=yTGoFvB689o87kRUOxkqn7vZGsDgFRzNcxBab9RPUe8g+lR4yH8Wgk0lqRJm/6QDkK
+         o5spRLzEkPf6PGghHFF4JCwPCbeW3ayemoR5MWPGKjdAP/SmW9CFeZwlKejhpR5HVJdV
+         hCJw5azcd3Nopeglnyp43WB855w7UTAyXf3CrpukwbZ4VnwNMGCJauNjd/mOdI0yVst3
+         hUgbliQLSzIOhGMQIVVpjRowCJ3Gt2pOzNsE+n9tWVd5gUXxDj1MfAMAB7ddVdZEXIwJ
+         zbm8cmn8ePdgWkUkBDAXcAIjhSZPr+9+sYJ9G1OyoQvOXiMLa8G2D86Lan3uk/Z3P7ra
+         7I9g==
+X-Gm-Message-State: AO0yUKVfitzOoaJdtoO4jBFIkkgNp3suQKFor7dVZidIvAAlBaojRl8E
+        b+qE3nSIs9x1Q3rQQY+q7FE=
+X-Google-Smtp-Source: AK7set+83IH+jFeIwXqmgax6iqqaYNHExJH0dGVhNcBAmDmtzQVupgTRWs8ZyFYMd+lOHH34+ZP5ZA==
+X-Received: by 2002:a17:902:f910:b0:19a:b6b1:ca82 with SMTP id kw16-20020a170902f91000b0019ab6b1ca82mr2837312plb.10.1676776213573;
+        Sat, 18 Feb 2023 19:10:13 -0800 (PST)
 Received: from debian.me (subs28-116-206-12-59.three.co.id. [116.206.12.59])
-        by smtp.gmail.com with ESMTPSA id ix10-20020a170902f80a00b00196251ca124sm5288896plb.75.2023.02.18.19.02.38
+        by smtp.gmail.com with ESMTPSA id ji9-20020a170903324900b0019aa5e0aadesm3551331plb.110.2023.02.18.19.10.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Feb 2023 19:02:39 -0800 (PST)
+        Sat, 18 Feb 2023 19:10:13 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
-        id 0DB78105AB3; Sun, 19 Feb 2023 10:02:34 +0700 (WIB)
-Date:   Sun, 19 Feb 2023 10:02:33 +0700
+        id 747F6105AB3; Sun, 19 Feb 2023 10:10:10 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Ross Zwisler <zwisler@google.com>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: broken link in bpf/bpf_devel_QA
-Message-ID: <Y/GRSd/ZfFGnGQ+4@debian.me>
-References: <Y++09LKx25dtR4Ow@google.com>
+To:     Linux BPF <bpf@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Ross Zwisler <zwisler@google.com>
+Subject: [PATCH] Documentation: bpf: Fix link to BTF doc
+Date:   Sun, 19 Feb 2023 10:09:56 +0700
+Message-Id: <20230219030956.22662-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <Y/GRSd/ZfFGnGQ+4@debian.me>
+References: <Y/GRSd/ZfFGnGQ+4@debian.me>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="sa6+KVFppydu0S1V"
-Content-Disposition: inline
-In-Reply-To: <Y++09LKx25dtR4Ow@google.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1481; i=bagasdotme@gmail.com; h=from:subject; bh=OCe9vfoq2z8zrJCalpAnmb2OUlb2m+yvHWTKun/50mg=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMkfJzM76/zQ/OvZFc1wt9Hcxekj3xLHsqcXRVteXFCMmPhv 31unjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEzEs5+RYVPJwy1udyS6X2+ddF4tUu 3ivtWZnY/rDfLtgnm/dWZ1vmb4w3t0V+SbX1y/S+qWbj394MRVO4H77yfadm59K9Ek8EhejRUA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Ross reported broken link to BTF documentation
+(Documentation/bpf/btf.rst) in Documentation/bpf/bpf_devel_QA.rst. The
+link in question is written using external link syntax, which behaves
+badly when the link target is sibling doc.
 
---sa6+KVFppydu0S1V
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix the link by replacing external link syntax with simply writing out
+the target doc.
 
-On Fri, Feb 17, 2023 at 10:10:12AM -0700, Ross Zwisler wrote:
-> Hi,
->=20
-> I was checking out this page:
->=20
-> https://docs.kernel.org/bpf/bpf_devel_QA.html
->=20
-> and noticed that we have two links to .rst pages that are getting convert=
-ed to
-> links in different ways.  This one:
->=20
->   See the kernels selftest `Documentation/dev-tools/kselftest.rst`_
->   document for further documentation.
->=20
-> is getting converted to a full external link:
->=20
->   <p>See the kernels selftest <a class=3D"reference external"
->   href=3D"https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html=
-">Documentation/dev-tools/kselftest.rst</a>
->   document for further documentation.</p>
->=20
-> While this one:
->=20
->   Finally to ensure support for latest BPF Type Format features -
->   discussed in `Documentation/bpf/btf.rst`_
->=20
-> Is left as a short local link to a nonexistent .rst page:
->=20
->   <p>Finally to ensure support for latest BPF Type Format features - disc=
-ussed
->   in <a class=3D"reference external"
->   href=3D"btf.rst">Documentation/bpf/btf.rst</a>=20
->=20
-> <snipped>...
->=20
-> Given that the page source for these two links are basically the same:
->=20
->  `Documentation/dev-tools/kselftest.rst`
->  and
->  `Documentation/bpf/btf.rst`
->=20
-> I'm guessing this is an issue with how Sphinx is generating the resulting
-> html, probably because it's trying to generate a more 'local' sort link f=
-or
-> the btf.rst page?
+Link: https://lore.kernel.org/linux-doc/Y++09LKx25dtR4Ow@google.com/
+Fixes: 6736aa793c2b5f ("selftests/bpf: Add general instructions for test execution")
+Reported-by: Ross Zwisler <zwisler@google.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/bpf/bpf_devel_QA.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I see that the issue is due to link handling when the external link
-target is actually internal link sibling (i.e. the same level as doc where
-the target is link from).
+diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
+index 03d4993eda6f05..a4c1634d18955d 100644
+--- a/Documentation/bpf/bpf_devel_QA.rst
++++ b/Documentation/bpf/bpf_devel_QA.rst
+@@ -469,7 +469,7 @@ under test should match the config file fragment in
+ tools/testing/selftests/bpf as closely as possible.
+ 
+ Finally to ensure support for latest BPF Type Format features -
+-discussed in `Documentation/bpf/btf.rst`_ - pahole version 1.16
++discussed in Documentation/bpf/btf.rst - pahole version 1.16
+ is required for kernels built with CONFIG_DEBUG_INFO_BTF=y.
+ pahole is delivered in the dwarves package or can be built
+ from source at
 
-The fix is to simply use internal link mechanism. I will send the patch
-as reply to this message shortly.
-
-Thanks.
-
---=20
+base-commit: 168de0233586fb06c5c5c56304aa9a928a09b0ba
+-- 
 An old man doll... just what I always wanted! - Clara
 
---sa6+KVFppydu0S1V
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY/GRRAAKCRD2uYlJVVFO
-o42YAP4iJhAgAoF+JdbtvT0r9QPOLty7B/1ZBVNvpMahL9nurgEApqN7tgBDmIBl
-KGx4V+M03LhtiMwLW2xzUu5WxoeOvwQ=
-=5mm3
------END PGP SIGNATURE-----
-
---sa6+KVFppydu0S1V--
