@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B478AC636D6
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 20:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B5C6C6379F
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 20:16:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232524AbjBTUOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 15:14:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60654 "EHLO
+        id S232566AbjBTUQB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 15:16:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232494AbjBTUOn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 15:14:43 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 698E21E9D2
-        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 12:14:40 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id h16so9176882edz.10
-        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 12:14:40 -0800 (PST)
+        with ESMTP id S229535AbjBTUQA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 15:16:00 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 024861F5E6
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 12:15:59 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id h32so9202591eda.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 12:15:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ventanamicro.com; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o+Wbr+1FrBDToW7AqV/H1MWMx9xByoJE7YPlqeXSlPA=;
-        b=CB1sL9McrUfqxvGvfSbcQ0++7q9NQ187eKVG3qTYAlbaTDv+M81f5Xmvn4VLxF06NC
-         FwYoGGSXpkhKPrlm8+yYT+bW8g2ZS+OUO8YumD3s3uO3y0boThFbgTldhsU+teV4uK0w
-         6xgI7oSicUWs56egbjqob3gRx3Pt4Qsvc0/C29f40CiowuZdDgQVwY+rJD7C2yJcn+Di
-         S4O2guihhLAHtW4ic9FyI5B/S5OfWnwWdBmx55f+Hj3laL+EAxNt4tdZgeQxSNnOSfQr
-         yQ4JABzFJAP56di3KZHOxrKD20KAyhoM1f2tRxmV+FbVIPqC9N9MHB61T0Ms1kTEaf58
-         uWXw==
+        bh=64v0b9wMigK7c/r93Ya8QO/swfrpWXwK/PsuhD+FDn4=;
+        b=NVZM89GiYAZYzEwCI4nIfa8QbXd+DNnr2PG59kkv6v1nsMejn/bDCCYjMo6XF3RGfg
+         IcrczEMXSrTvOKYP6gT2/3Xpw5/uGaTn9y5nKuurvkykWxI6fCm3oThETyeoSky95Wtx
+         ODu4fO/CavtyXmTanOeIAo5M4Cf0kJl5jwFNIet2iY84+bXmz+YoA0egvxWS970f0buA
+         FI/X370SWTcZEf9xB1QwlbrgbPSXpVedDsg5drq71CgkgjED2ocJ/ODruLGOuJswl0W/
+         uuv05daLFhjZS2lx2/LkaoMYAnbYtiVmcHN+DrQnm7mrSHx/C9ITHMCVFG3w2Pl1xebX
+         rqEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o+Wbr+1FrBDToW7AqV/H1MWMx9xByoJE7YPlqeXSlPA=;
-        b=g9Biq/B/36GzMq34XE8VAZYCtZVfWdoV2QbE8UEAYwGfXQC6fQTi1SLWei1JLZk9JT
-         axyPf31F68BuYEA8FOqORg1VWiH/ajc0WgkjiIqPouBQ4DML+35bv8neRmPPJutDhjb8
-         72MCdv17yT2/StXCMWUsk6Hw4JgwrMN6gZix6gMAyowI/dSkpBOZniHixcVELsStnNjz
-         aci312MzA3NwucHZbShtP/63mnLvEiwDeIR0sjaooHPUBaktU3H79Fy88VkAa2Wifjre
-         h6NYa4veOg3cOvWhjXaRy3VToW0SvpODGosQT8QqnNsK3YBDsJIkR+f0GfuY8HRAw1QJ
-         S94Q==
-X-Gm-Message-State: AO0yUKX2Wfcv1RTvSPS84hTw9nkDvFBdSckqdcLLNSHBe6assg3QZMbF
-        YxipyAtzroz3gJSFiteinjb3MCyE/tqgEKwG
-X-Google-Smtp-Source: AK7set/K/1LntFX+Snxn8HPHm4SvMNLxHvAHb57jt/6GbqwtK7GjutOMU6EZsfIt79+a0qKcQJIkjA==
-X-Received: by 2002:a17:906:2488:b0:8af:7b80:82c5 with SMTP id e8-20020a170906248800b008af7b8082c5mr7604550ejb.75.1676924078933;
-        Mon, 20 Feb 2023 12:14:38 -0800 (PST)
+        bh=64v0b9wMigK7c/r93Ya8QO/swfrpWXwK/PsuhD+FDn4=;
+        b=3F6VtaEfGDe0vdfvDq797qOLwitV+oXfA3iDhAUNuKXy1ge5BguM6/v45sWjMi+I0p
+         RhPL8H5UuwQZZreeTdb16aKJoqUP9EIGLpCWt4wMKOkTIdrdLjfii88ec01pYPIbgAbb
+         9Za1l9Biy0rUZrtyCJm3mz3bil7vKxV61UPVyiENw3G80Klj+LPTDVMGhiag0VwdLfxV
+         fIbeOQKO/jap3HiGBdm8UFQvcx3JKgRJwFSSLiTrVyN8F7zOn548JdhAz58hMKyJnfvI
+         BqO/Jhk8Zgjhb8DHvVAKXpw9eZvp+N4yxTtn8/B+94IDgNQXXyWdt2iecYGXEPlSNdX+
+         6hrA==
+X-Gm-Message-State: AO0yUKUQvlrqtNfRBs72D96+aTYpVTYDOQiNwuiDXqrFoHqjyebwg8IJ
+        qxZpOKF7WHImrZq2qgcri0sULA==
+X-Google-Smtp-Source: AK7set8EYvyS0KUGBYqhaUXbJMzPLDxhdTgj3Aa5X3d/dKS8NQ3loGJmrI55BK77rB9i9PNp/3+5vw==
+X-Received: by 2002:a17:906:3e43:b0:88a:2e57:9813 with SMTP id t3-20020a1709063e4300b0088a2e579813mr10027851eji.33.1676924157519;
+        Mon, 20 Feb 2023 12:15:57 -0800 (PST)
 Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id g16-20020a170906595000b008dd3956c2e3sm291245ejr.183.2023.02.20.12.14.38
+        by smtp.gmail.com with ESMTPSA id gj18-20020a170906e11200b008d47cd2edfbsm1608023ejb.60.2023.02.20.12.15.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 12:14:38 -0800 (PST)
-Date:   Mon, 20 Feb 2023 21:14:32 +0100
+        Mon, 20 Feb 2023 12:15:57 -0800 (PST)
+Date:   Mon, 20 Feb 2023 21:15:56 +0100
 From:   Andrew Jones <ajones@ventanamicro.com>
 To:     Sunil V L <sunilvl@ventanamicro.com>
 Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
@@ -65,57 +65,61 @@ Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
         Anup Patel <apatel@ventanamicro.com>,
         Atish Patra <atishp@rivosinc.com>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH V2 20/21] MAINTAINERS: Add entry for drivers/acpi/riscv
-Message-ID: <20230220201432.5lz7rvwqhfxa4fno@orel>
+Subject: Re: [PATCH V2 21/21] Documentation/kernel-parameters.txt: Add RISC-V
+ for ACPI parameter
+Message-ID: <20230220201556.i3dihi3oj2lwckno@orel>
 References: <20230216182043.1946553-1-sunilvl@ventanamicro.com>
- <20230216182043.1946553-21-sunilvl@ventanamicro.com>
+ <20230216182043.1946553-22-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230216182043.1946553-21-sunilvl@ventanamicro.com>
+In-Reply-To: <20230216182043.1946553-22-sunilvl@ventanamicro.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 16, 2023 at 11:50:42PM +0530, Sunil V L wrote:
-> ACPI defines few RISC-V specific tables which need
-> parsing code added in drivers/acpi/riscv. Add maintainer
-> entries for this newly created folder.
+On Thu, Feb 16, 2023 at 11:50:43PM +0530, Sunil V L wrote:
+> With ACPI support added for RISC-V, this kernel parameter is also
+> supported on RISC-V. Hence, update the documentation.
 > 
 > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 > ---
->  MAINTAINERS | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  Documentation/admin-guide/kernel-parameters.txt | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 39ff1a717625..d47212194457 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -450,6 +450,13 @@ S:	Orphan
->  F:	drivers/platform/x86/wmi.c
->  F:	include/uapi/linux/wmi.h
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 6cfa6e3996cf..b3a5a5844daa 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1,17 +1,17 @@
+> -	acpi=		[HW,ACPI,X86,ARM64]
+> +	acpi=		[HW,ACPI,X86,ARM64,RISC-V]
+>  			Advanced Configuration and Power Interface
+>  			Format: { force | on | off | strict | noirq | rsdt |
+>  				  copy_dsdt }
+>  			force -- enable ACPI if default was off
+> -			on -- enable ACPI but allow fallback to DT [arm64]
+> +			on -- enable ACPI but allow fallback to DT [arm64,riscv]
+>  			off -- disable ACPI if default was on
+>  			noirq -- do not use ACPI for IRQ routing
+>  			strict -- Be less tolerant of platforms that are not
+>  				strictly ACPI specification compliant.
+>  			rsdt -- prefer RSDT over (default) XSDT
+>  			copy_dsdt -- copy DSDT to memory
+> -			For ARM64, ONLY "acpi=off", "acpi=on" or "acpi=force"
+> -			are available
+> +			For ARM64 and RISC-V, ONLY "acpi=off", "acpi=on" or
+> +			"acpi=force" are available
 >  
-> +ACPI FOR RISC-V (ACPI/riscv)
-> +M:	Sunil V L <sunilvl@ventanamicro.com>
-> +L:	linux-acpi@vger.kernel.org
-> +L:	linux-riscv@lists.infradead.org
-> +S:	Maintained
-> +F:	drivers/acpi/riscv
-
-This section should go under the "ACPI FOR ARM64 (ACPI/arm64)"
-section to be in alphabetical order and also in a more logical
-place. Also, shouldn't this section include
-arch/riscv/kernel/acpi.c and potentially other arch/riscv/ files?
-I see arm64 doesn't, but maybe it should too.
-
-> +
->  ACRN HYPERVISOR SERVICE MODULE
->  M:	Fei Li <fei1.li@intel.com>
->  L:	acrn-dev@lists.projectacrn.org (subscribers-only)
+>  			See also Documentation/power/runtime_pm.rst, pci=noacpi
+>  
 > -- 
 > 2.34.1
 >
+
+I'd squash this into patch 18, "RISC-V: Add ACPI initialization in
+setup_arch()"
 
 Thanks,
 drew
