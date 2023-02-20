@@ -2,186 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F93BC05027
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 17:46:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 963BAC05027
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 17:46:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232437AbjBTRp7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 12:45:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39378 "EHLO
+        id S232453AbjBTRqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 12:46:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231899AbjBTRp6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 12:45:58 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D66171EBF8
-        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 09:45:55 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id g1so7447955edz.7
-        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 09:45:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0OomCsAtjgTUhc5/uWu5S1Dwt7IqLJYnfNUapR4lMKM=;
-        b=kjf/oxvGkbMEKzaGNdrHdbeiWoXva4Pk5nCrklsjeuHj2z4wb3/4uov8DAo/4LnUXy
-         TFkwKE4iJ96MsNjP9leIlb9A/gkA8q+YV571IN+BdM0KvkQ/upYwuRzTC9O2+TDaFrZJ
-         Nu5GxPoRLn1X0dgr0Y5jZktIPW8bQuAsdaX6/2t1INkSD1yzGgwLNCPt5Wl7T+t7YYUO
-         cwJIrq/WOe02m6B1RRQ/Y09nuRsrHRf8cn0LLszL5dLNC8XU0dfi8aYgquVIEQ70If+u
-         I1YKAZw18wlqUGO2slNs3Ir6H7SpE9QSy5F1Po7mxufcYGnJyWdUnNEPHYYg17xuuQPh
-         SrXA==
+        with ESMTP id S232449AbjBTRqd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 12:46:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 915831DB91
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 09:45:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676915143;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=p0Izq1sT8yQqR3StJyRIa9aUpeGU1pXLanSYRIGX2E8=;
+        b=i6Gquehn/na+E1+cR772Pwl8cY9jFWi4zwlqLIVRnaR8GgKzAsFHHCW7/H24liF1gIdOXm
+        uXEokRS5FWvCmHMyoPC4YYq+7KRyGl7dEHT4dgYRbxhLFMHGoLLyC5NRm481bqYSu9ARXi
+        GDIodAvYAgZ5O5y8M5xwmxYegVStVz0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-286-pf72fYjCM9mi08EBqNO0UA-1; Mon, 20 Feb 2023 12:45:41 -0500
+X-MC-Unique: pf72fYjCM9mi08EBqNO0UA-1
+Received: by mail-ed1-f69.google.com with SMTP id fi8-20020a056402550800b004a26cc7f6cbso2471818edb.4
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 09:45:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0OomCsAtjgTUhc5/uWu5S1Dwt7IqLJYnfNUapR4lMKM=;
-        b=RV9ekrmtt1Hye0iHWZ4qE9EQeR2QVucQn7ExCyuBIaN/4YNc9ZUiYBI6PuX288Lhfo
-         az6zE4VaS6HT1NdwcPYmxaIWcWHLTjj8fo6nUmGeJsh0RmJDOveMaw7hJpYiMBhEFsOe
-         PXwpczBXD74VwI8PIOSPAZy0r3XYPg5rHlM7grZ9/D9kKrmh/nu9XEq+0FaHnrLh+XNj
-         KD5bmpLMArZgrStJ41f0oIK2pkRt+X+Y1IfwItC2MtOYewoSOdMH5D69MDymUQekkQQa
-         /ajommpOj5sXoNN6QlY/BjuMLdCLEj00JMpnFxeZaDlFcTaPwoZZAfEZUOfftmJT2hWn
-         Afaw==
-X-Gm-Message-State: AO0yUKWtUVnCVaOCCaWRaSjOhoCdnWkBCHsUW/dBvgtKQOxZETUbV3Xh
-        rfg8np1o+Opxd2rl9poOazd9/w==
-X-Google-Smtp-Source: AK7set9OX61vxoMeLX0XmAo8W6cuM4l63PtlvtJ/WQaLpJZ8HMnk+OftyAWykxcf88wjgsFZyCTxkg==
-X-Received: by 2002:a17:906:3e43:b0:88a:2e57:9813 with SMTP id t3-20020a1709063e4300b0088a2e579813mr9571118eji.33.1676915154314;
-        Mon, 20 Feb 2023 09:45:54 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id e20-20020a1709062c1400b008bbc9115038sm3671028ejh.56.2023.02.20.09.45.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 09:45:54 -0800 (PST)
-Date:   Mon, 20 Feb 2023 18:45:53 +0100
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH V2 12/21] RISC-V: cpufeature: Add ACPI support in
- riscv_fill_hwcap()
-Message-ID: <20230220174553.pgd53ao5d7wsfrx7@orel>
-References: <20230216182043.1946553-1-sunilvl@ventanamicro.com>
- <20230216182043.1946553-13-sunilvl@ventanamicro.com>
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p0Izq1sT8yQqR3StJyRIa9aUpeGU1pXLanSYRIGX2E8=;
+        b=KOVXjHL7YCBN/vWgwXVmtnqZDEc9/uuh1Bll/izgsVUleF/kCZcRQsS7FruP/y9pHd
+         gAubCrd3m69UVY/JJ2Vzs6yuONSeZYFo5O5acfOKprR1SXswk0AEWwpaVXrsqfibQkZ/
+         4TU6Nmy8ALBN5Mf4ngk1M28e6SkIHjsKJKd1Gcy2WdQGkgc+Axm8M8yUl8lJWPzYt/Vc
+         JtEuNlYjHjYEZnAYesZ1Z0MXaOfuq4Qd91TTfN+oLhSBAbjz6d4CgmeOeSTpXmddqcel
+         cmcScMSigtW0aPnmWHrNdAYq/3wvTewxbg5T6MzUzyxtlihOn5uoX2V9wt6/F3MXBEES
+         xIPA==
+X-Gm-Message-State: AO0yUKVkUIR56GG0AO9kL9RiY1hE7By8+CpiRG4r9uEUkzL709iffDFP
+        jyNmRCfG1kCtB24F+LIQ+gdGrHgNrTLWOe7hGxH2w6WBNCmZJJtKjPjlteDGtzEwnq5NY4sZhUr
+        XndIMrd3amSGSWUp4jNyn
+X-Received: by 2002:a17:907:94c5:b0:8b1:319c:c29c with SMTP id dn5-20020a17090794c500b008b1319cc29cmr13659852ejc.70.1676915140664;
+        Mon, 20 Feb 2023 09:45:40 -0800 (PST)
+X-Google-Smtp-Source: AK7set/Ga6rG3Eq1hZqRFlC9SxeuFv04ZCxlmBzWk9HFcUACYcpXem95hxGHCYiEqsp+Ho5tDk/t+w==
+X-Received: by 2002:a17:907:94c5:b0:8b1:319c:c29c with SMTP id dn5-20020a17090794c500b008b1319cc29cmr13659833ejc.70.1676915140411;
+        Mon, 20 Feb 2023 09:45:40 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+        by smtp.gmail.com with ESMTPSA id f21-20020a170906561500b008d09b900614sm1826220ejq.80.2023.02.20.09.45.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Feb 2023 09:45:39 -0800 (PST)
+Message-ID: <e43f6acc-175d-1031-c4a2-67a6f1741866@redhat.com>
+Date:   Mon, 20 Feb 2023 18:06:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230216182043.1946553-13-sunilvl@ventanamicro.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH drm-next v2 04/16] maple_tree: add flag MT_FLAGS_LOCK_NONE
+Content-Language: en-US
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     matthew.brost@intel.com, dri-devel@lists.freedesktop.org,
+        corbet@lwn.net, nouveau@lists.freedesktop.org, ogabbay@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, boris.brezillon@collabora.com,
+        bskeggs@redhat.com, tzimmermann@suse.de, Liam.Howlett@oracle.com,
+        bagasdotme@gmail.com, christian.koenig@amd.com,
+        jason@jlekstrand.net
+References: <20230217134422.14116-1-dakr@redhat.com>
+ <20230217134422.14116-5-dakr@redhat.com>
+ <Y+/Xn11dfdn7SfBD@casper.infradead.org>
+ <3bb02ec3-4d19-9135-cabc-26ed210f7396@redhat.com>
+ <Y/ONYhyDCPEYH1ml@casper.infradead.org>
+From:   Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <Y/ONYhyDCPEYH1ml@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 16, 2023 at 11:50:34PM +0530, Sunil V L wrote:
-> On ACPI based systems, the information about the hart
-> like ISA is provided by the RISC-V Hart Capabilities Table (RHCT).
-> Enable filling up hwcap structure based on the information in RHCT.
+On 2/20/23 16:10, Matthew Wilcox wrote:
+> On Mon, Feb 20, 2023 at 03:00:59PM +0100, Danilo Krummrich wrote:
+>> On 2/17/23 20:38, Matthew Wilcox wrote:
+>>> On Fri, Feb 17, 2023 at 02:44:10PM +0100, Danilo Krummrich wrote:
+>>>> Generic components making use of the maple tree (such as the
+>>>> DRM GPUVA Manager) delegate the responsibility of ensuring mutual
+>>>> exclusion to their users.
+>>>>
+>>>> While such components could inherit the concept of an external lock,
+>>>> some users might just serialize the access to the component and hence to
+>>>> the internal maple tree.
+>>>>
+>>>> In order to allow such use cases, add a new flag MT_FLAGS_LOCK_NONE to
+>>>> indicate not to do any internal lockdep checks.
+>>>
+>>> I'm really against this change.
+>>>
+>>> First, we really should check that users have their locking right.
+>>> It's bitten us so many times when they get it wrong.
+>>
+>> In case of the DRM GPUVA manager, some users might serialize the access to
+>> the GPUVA manager and hence to it's maple tree instances, e.g. through the
+>> drm_gpu_scheduler. In such a case ensuring to hold a lock would be a bit
+>> pointless and I wouldn't really know how to "sell" this to potential users
+>> of the GPUVA manager.
 > 
-> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> ---
->  arch/riscv/kernel/cpufeature.c | 41 ++++++++++++++++++++++++++++------
->  1 file changed, 34 insertions(+), 7 deletions(-)
+> This is why we like people to use the spinlock embedded in the tree.
+> There's nothing for the user to care about.  If the access really is
+> serialised, acquiring/releasing the uncontended spinlock is a minimal
+> cost compared to all the other things that will happen while modifying
+> the tree.
+
+I think as for the users of the GPUVA manager we'd have two cases:
+
+1) Accesses to the manager (and hence the tree) are serialized, no lock 
+needed.
+
+2) Multiple operations on the tree must be locked in order to make them 
+appear atomic.
+
+In either case the embedded spinlock wouldn't be useful, we'd either 
+need an external lock or no lock at all.
+
+If there are any internal reasons why specific tree operations must be 
+mutually excluded (such as those you explain below), wouldn't it make 
+more sense to always have the internal lock and, optionally, allow users 
+to specify an external lock additionally?
+
 > 
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> index 93e45560af30..cb67d3fcbb56 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -6,12 +6,15 @@
->   * Copyright (C) 2017 SiFive
->   */
->  
-> +#include <linux/acpi.h>
->  #include <linux/bitmap.h>
->  #include <linux/ctype.h>
->  #include <linux/libfdt.h>
->  #include <linux/log2.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <asm/acpi.h>
->  #include <asm/alternative.h>
->  #include <asm/cacheflush.h>
->  #include <asm/errata_list.h>
-> @@ -93,7 +96,10 @@ void __init riscv_fill_hwcap(void)
->  	char print_str[NUM_ALPHA_EXTS + 1];
->  	int i, j, rc;
->  	unsigned long isa2hwcap[26] = {0};
-> +	struct acpi_table_header *rhct;
-> +	acpi_status status;
->  	unsigned long hartid;
-> +	unsigned int cpu;
->  
->  	isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
->  	isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
-> @@ -106,18 +112,36 @@ void __init riscv_fill_hwcap(void)
->  
->  	bitmap_zero(riscv_isa, RISCV_ISA_EXT_MAX);
->  
-> -	for_each_of_cpu_node(node) {
-> +	if (!acpi_disabled) {
-> +		status = acpi_get_table(ACPI_SIG_RHCT, 0, &rhct);
-> +		if (ACPI_FAILURE(status))
-> +			return;
-> +	}
-> +
-> +	for_each_possible_cpu(cpu) {
->  		unsigned long this_hwcap = 0;
->  		DECLARE_BITMAP(this_isa, RISCV_ISA_EXT_MAX);
->  		const char *temp;
->  
-> -		rc = riscv_of_processor_hartid(node, &hartid);
-> -		if (rc < 0)
-> -			continue;
-> +		if (acpi_disabled) {
-> +			node = of_cpu_device_node_get(cpu);
-> +			if (node) {
-> +				rc = riscv_of_processor_hartid(node, &hartid);
-> +				if (rc < 0)
-> +					continue;
+>>> Second, having a lock allows us to defragment the slab cache.  The
+>>> patches to do that haven't gone anywhere recently, but if we drop the
+>>> requirement now, we'll never be able to compact ranges of memory that
+>>> have slabs allocated to them.
+>>>
+>>
+>> Not sure if I get that, do you mind explaining a bit how this would affect
+>> other users of the maple tree, such as my use case, the GPUVA manager?
+> 
+> When we want to free a slab in order to defragment memory, we need
+> to relocate all the objects allocated within that slab.  To do that
+> for the maple tree node cache, for each node in this particular slab,
+> we'll need to walk up to the top of the tree and lock it.  We can then
+> allocate a new node from a different slab, change the parent to point
+> to the new node and drop the lock.  After an RCU delay, we can free the
+> slab and create a larger contiguous block of memory.
+> 
+> As I said, this is somewhat hypothetical in that there's no current
+> code in the tree to reclaim slabs when we're trying to defragment
+> memory.  And that's because it's hard to do.  The XArray and maple
+> tree were designed to make it possible for their slabs.
+> 
 
-This 'continue' and the one below need of_node_put() calls. Or,
-restructure to ensure that the one of_node_put() call added below
-is always called.
-
->  
-> -		if (of_property_read_string(node, "riscv,isa", &isa)) {
-> -			pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
-> -			continue;
-> +				if (of_property_read_string(node, "riscv,isa", &isa)) {
-> +					pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
-> +					continue;
-> +				}
-> +				of_node_put(node);
-> +			}
-> +		} else {
-> +			rc = acpi_get_riscv_isa(rhct, get_acpi_id_for_cpu(cpu), &isa);
-> +			if (rc < 0) {
-> +				pr_warn("Unable to get ISA for the hart - %d\n", cpu);
-> +				continue;
-> +			}
->  		}
->  
->  		temp = isa;
-> @@ -248,6 +272,9 @@ void __init riscv_fill_hwcap(void)
->  			bitmap_and(riscv_isa, riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
->  	}
->  
-> +	if (!acpi_disabled)
-> +		acpi_put_table((struct acpi_table_header *)rhct);
-> +
->  	/* We don't support systems with F but without D, so mask those out
->  	 * here. */
->  	if ((elf_hwcap & COMPAT_HWCAP_ISA_F) && !(elf_hwcap & COMPAT_HWCAP_ISA_D)) {
-> -- 
-> 2.34.1
->
-
-Thanks,
-drew
