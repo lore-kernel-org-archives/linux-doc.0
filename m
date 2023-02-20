@@ -2,189 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0E4EC636CC
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 14:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B96D8C636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 14:50:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232223AbjBTOjV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 09:39:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60042 "EHLO
+        id S232122AbjBTOu5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 09:50:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232185AbjBTOjT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 09:39:19 -0500
+        with ESMTP id S229671AbjBTOu4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 09:50:56 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A2E9A26D
-        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 06:38:32 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 033C21EFE5
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 06:50:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676903911;
+        s=mimecast20190719; t=1676904607;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=GmKQfePBNM74oyII8jIIZFFDqjkHPWvhxdC7o2iizgc=;
-        b=hlXkYNRutMU1uhGrZxnK0It/5ye6aW9rbzg7PU4YYD1TwKTw2N+LAM9iPisl9A/ciZs3h2
-        iF0RaetLT9cGjOrTZv24v8HOSOpCMylk3TwthFHjg6hzTUFz8ID75aknxLnyCT85nSV6BW
-        BC9xzYgunCvHiz7aVCDDi86PDEdclOg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=14aOzXv8/LFbctYEfZwWWmrtrURJsidYi3oSxaFz0Xw=;
+        b=fps2RL9aHJXpDc0HM//MI5bcPOIQv1V0SxEgNWsB5WBrjI/QPs6B4GeCwVLdxwELgykhID
+        1oUitli2gIyvchuKO+oFLnDXZJGjp1kTw3AmxNzc4c1XlGyuOeHssJFgdUR9ylO+n6zRfV
+        dO8DpUoPtla4YYxeZdQkVrC3BzrzLOM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-375-texTm3A4PGu61BfmToyUdA-1; Mon, 20 Feb 2023 09:38:30 -0500
-X-MC-Unique: texTm3A4PGu61BfmToyUdA-1
-Received: by mail-ed1-f72.google.com with SMTP id cf11-20020a0564020b8b00b0049ec3a108beso1820963edb.7
-        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 06:38:30 -0800 (PST)
+ us-mta-637-KOJKgUNmM4GOx_23Dr-ybw-1; Mon, 20 Feb 2023 09:49:58 -0500
+X-MC-Unique: KOJKgUNmM4GOx_23Dr-ybw-1
+Received: by mail-ed1-f71.google.com with SMTP id co14-20020a0564020c0e00b004aab4319cedso1528897edb.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 06:49:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GmKQfePBNM74oyII8jIIZFFDqjkHPWvhxdC7o2iizgc=;
-        b=wRNzmK5y7jipfV6OTvD1S7xHcM2ZM709bG2hOhTjahW1fhvv3o+/+x0Bc+55/+w3fG
-         14+punjLqHIYm10tBK8HJRdVIiWRd02WfFUJ7ZlOyVxNo4+r5qCN42tCSOBmNmc4NfEl
-         RyuBX66pvDIqr0N4CMbDXP7qeFDzrJH8wUR55hy+uAnc0MuazJdmOKvviubJSWxMl7Iw
-         bo6XfFGBu4pwUfxeCt25+YKmBrpyBS6lHn9IbQ8Cci9UfLLsB4odVgk26wKm6yMM6Kyz
-         YHk7teiPI61sQSqwfj04j2cW4/Z1d25gyTLqKGYagKWVOFHzLQD+icTfA9YHN24u2Ehn
-         FqrA==
-X-Gm-Message-State: AO0yUKV31/+Wmx5tT7Bq7StQm1mO5SiU2UPaLbXlGnBtx5xYAQfmc/1Z
-        FQVXluwTtINNMMLe+prRm8IcM8BWv9UqbZUMLiID7in9SA0WwY2pcDGbyygOmanoVZrZ5iNzVzs
-        g3PpFDYO1BDefHBP8GqfW
-X-Received: by 2002:a17:906:f289:b0:881:f2f:6633 with SMTP id gu9-20020a170906f28900b008810f2f6633mr8043850ejb.50.1676903909574;
-        Mon, 20 Feb 2023 06:38:29 -0800 (PST)
-X-Google-Smtp-Source: AK7set+xMJtKlq9dHWjhHAyEZojNoMP62Bp2lM1Yx4E5E9ujUsu4uyPFe0LjE0LZiflfnT2xQHRXVA==
-X-Received: by 2002:a17:906:f289:b0:881:f2f:6633 with SMTP id gu9-20020a170906f28900b008810f2f6633mr8043823ejb.50.1676903909289;
-        Mon, 20 Feb 2023 06:38:29 -0800 (PST)
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=14aOzXv8/LFbctYEfZwWWmrtrURJsidYi3oSxaFz0Xw=;
+        b=Z5X8HOLb8D0+KbuoKS8tDc/ih7Pkz/O2xiNDLmwxL9pm0/9E2GRVd4/+7mVoCQvfmN
+         G+8JPjH5DuxEBtyvXfgrSAFokKE680cO9vpyln63Yh+oScAAFs257pQQgducR5LD9eAf
+         yqO0WF3Hqaw2lS1pT290rJ9ZNcFRbRCQbvnL7XMncrD7vRBq0IZIb+/Wd/EDnZSzw8XE
+         ZjjPHdqCuA0OWCQmlB7dDgP4hb1MGiRu16fMlk7PA6VDIqSITu2gPSGDFbgYD/eEVvuv
+         kJAsFSuAnmQRL0z6m5C4h48mN1EwM070TkM32N0KL9Xs9DxTrItpmqmF00R0ccRdyLWf
+         Rpdw==
+X-Gm-Message-State: AO0yUKXj3WqG1VwdS/hNX+uDzq6IUUBdSN3Af9V6qp2AaLTe6u97sjjq
+        J+ZRHnHwYAjW7xpjFSwD0QT/1BwlfP9p00h3uNZzA6b/B1/q9K0MzlUw0GIsHCAxaWmpy9acwMf
+        aHqIRe7Q9ChwdBo7tmTGh
+X-Received: by 2002:a17:906:c451:b0:88b:4962:b72f with SMTP id ck17-20020a170906c45100b0088b4962b72fmr7384958ejb.20.1676904597385;
+        Mon, 20 Feb 2023 06:49:57 -0800 (PST)
+X-Google-Smtp-Source: AK7set+98u/y2Cal3np2ksbwfkOOCjcq6rtCsH8aYGEsMo5bVtK+OVJWU6UbYetsNggJNxfOhh/MAw==
+X-Received: by 2002:a17:906:c451:b0:88b:4962:b72f with SMTP id ck17-20020a170906c45100b0088b4962b72fmr7384942ejb.20.1676904597149;
+        Mon, 20 Feb 2023 06:49:57 -0800 (PST)
 Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id hz13-20020a1709072ced00b008b30e2a450csm4549530ejc.144.2023.02.20.06.38.27
+        by smtp.gmail.com with ESMTPSA id jr14-20020a170906a98e00b008af574fbfc2sm5934451ejb.33.2023.02.20.06.49.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Feb 2023 06:38:28 -0800 (PST)
-Message-ID: <3c9e368a-0ecb-fc60-dac4-f12fa23d8f60@redhat.com>
-Date:   Mon, 20 Feb 2023 14:48:34 +0100
+        Mon, 20 Feb 2023 06:49:56 -0800 (PST)
+Message-ID: <3bb02ec3-4d19-9135-cabc-26ed210f7396@redhat.com>
+Date:   Mon, 20 Feb 2023 15:00:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH drm-next v2 03/16] maple_tree: split up MA_STATE() macro
+Subject: Re: [PATCH drm-next v2 04/16] maple_tree: add flag MT_FLAGS_LOCK_NONE
 Content-Language: en-US
-To:     "Liam R. Howlett" <Liam.Howlett@Oracle.com>, airlied@gmail.com,
-        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
-        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
-        matthew.brost@intel.com, boris.brezillon@collabora.com,
-        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
-        willy@infradead.org, jason@jlekstrand.net,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     matthew.brost@intel.com, dri-devel@lists.freedesktop.org,
+        corbet@lwn.net, nouveau@lists.freedesktop.org, ogabbay@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, boris.brezillon@collabora.com,
+        bskeggs@redhat.com, tzimmermann@suse.de, Liam.Howlett@oracle.com,
+        bagasdotme@gmail.com, christian.koenig@amd.com,
+        jason@jlekstrand.net
 References: <20230217134422.14116-1-dakr@redhat.com>
- <20230217134422.14116-4-dakr@redhat.com>
- <20230217183404.jmjew5lrduts6cpo@revolver>
+ <20230217134422.14116-5-dakr@redhat.com>
+ <Y+/Xn11dfdn7SfBD@casper.infradead.org>
 From:   Danilo Krummrich <dakr@redhat.com>
 Organization: RedHat
-In-Reply-To: <20230217183404.jmjew5lrduts6cpo@revolver>
+In-Reply-To: <Y+/Xn11dfdn7SfBD@casper.infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/17/23 19:34, Liam R. Howlett wrote:
-> * Danilo Krummrich <dakr@redhat.com> [230217 08:44]:
->> Split up the MA_STATE() macro such that components using the maple tree
->> can easily inherit from struct ma_state and build custom tree walk
->> macros to hide their internals from users.
+On 2/17/23 20:38, Matthew Wilcox wrote:
+> On Fri, Feb 17, 2023 at 02:44:10PM +0100, Danilo Krummrich wrote:
+>> Generic components making use of the maple tree (such as the
+>> DRM GPUVA Manager) delegate the responsibility of ensuring mutual
+>> exclusion to their users.
 >>
->> Example:
+>> While such components could inherit the concept of an external lock,
+>> some users might just serialize the access to the component and hence to
+>> the internal maple tree.
 >>
->> struct sample_iter {
->> 	struct ma_state mas;
->> 	struct sample_mgr *mgr;
->> 	struct sample_entry *entry;
->> };
->>
->> \#define SAMPLE_ITER(name, __mgr) \
->> 	struct sample_iter name = { \
->> 		.mas = __MA_STATE(&(__mgr)->mt, 0, 0),
->> 		.mgr = __mgr,
->> 		.entry = NULL,
->> 	}
+>> In order to allow such use cases, add a new flag MT_FLAGS_LOCK_NONE to
+>> indicate not to do any internal lockdep checks.
 > 
-> I see this patch is to allow for anonymous maple states, this looks
-> good.
+> I'm really against this change.
 > 
-> I've a lengthy comment about the iterator that I'm adding here to head
-> off anyone that may copy your example below.
-> 
->>
->> \#define sample_iter_for_each_range(it__, start__, end__) \
->> 	for ((it__).mas.index = start__, (it__).entry = mas_find(&(it__).mas, end__ - 1); \
->> 	     (it__).entry; (it__).entry = mas_find(&(it__).mas, end__ - 1))
-> 
-> I see you've added something like the above in your patch set as well.
-> I'd like to point out that the index isn't the only state information
-> that needs to be altered here, and in fact, this could go very wrong.
-> 
-> The maple state has a node and an offset within that node.  If you set
-> the index to lower than the current position of your iterator and call
-> mas_find() then what happens is somewhat undefined.  I expect you will
-> get the wrong value (most likely either the current value or the very
-> next one that the iterator is already pointing to).  I believe you have
-> been using a fresh maple state for each iterator in your patches, but I
-> haven't had a deep look into your code yet.
+> First, we really should check that users have their locking right.
+> It's bitten us so many times when they get it wrong.
 
-Yes, I'm aware that I'd need to reset the whole iterator in order to 
-re-use it.
-
-Regarding the other considerations of the iterator design please see my 
-answer to Matthew.
+In case of the DRM GPUVA manager, some users might serialize the access 
+to the GPUVA manager and hence to it's maple tree instances, e.g. 
+through the drm_gpu_scheduler. In such a case ensuring to hold a lock 
+would be a bit pointless and I wouldn't really know how to "sell" this 
+to potential users of the GPUVA manager.
 
 > 
-> We have methods of resetting the iterator and set the range (mas_set()
-> and mas_set_range()) which are safe for what you are doing, but they
-> will start the walk from the root node to the index again.
+> Second, having a lock allows us to defragment the slab cache.  The
+> patches to do that haven't gone anywhere recently, but if we drop the
+> requirement now, we'll never be able to compact ranges of memory that
+> have slabs allocated to them.
 > 
-> So, if you know what you are doing is safe, then the way you have
-> written it will work, but it's worth mentioning that this could occur.
-> 
-> It is also worth pointing out that it would be much safer to use a
-> function to do the above so you get type safety.. and I was asked to add
-> this to the VMA interface by Linus [1], which is on its way upstream [2].
-> 
-> 1. https://lore.kernel.org/linux-mm/CAHk-=wg9WQXBGkNdKD2bqocnN73rDswuWsavBB7T-tekykEn_A@mail.gmail.com/
-> 2. https://lore.kernel.org/linux-mm/20230120162650.984577-1-Liam.Howlett@oracle.com/
 
-You mean having wrappers like sample_find() instead of directly using 
-mas_find()?
-
-> 
->>
->> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
->> ---
->>   include/linux/maple_tree.h | 7 +++++--
->>   1 file changed, 5 insertions(+), 2 deletions(-)
->>
->> diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
->> index e594db58a0f1..ca04c900e51a 100644
->> --- a/include/linux/maple_tree.h
->> +++ b/include/linux/maple_tree.h
->> @@ -424,8 +424,8 @@ struct ma_wr_state {
->>   #define MA_ERROR(err) \
->>   		((struct maple_enode *)(((unsigned long)err << 2) | 2UL))
->>   
->> -#define MA_STATE(name, mt, first, end)					\
->> -	struct ma_state name = {					\
->> +#define __MA_STATE(mt, first, end)					\
->> +	{								\
->>   		.tree = mt,						\
->>   		.index = first,						\
->>   		.last = end,						\
->> @@ -435,6 +435,9 @@ struct ma_wr_state {
->>   		.alloc = NULL,						\
->>   	}
->>   
->> +#define MA_STATE(name, mt, first, end)					\
->> +	struct ma_state name = __MA_STATE(mt, first, end)
->> +
->>   #define MA_WR_STATE(name, ma_state, wr_entry)				\
->>   	struct ma_wr_state name = {					\
->>   		.mas = ma_state,					\
->> -- 
->> 2.39.1
->>
-> 
+Not sure if I get that, do you mind explaining a bit how this would 
+affect other users of the maple tree, such as my use case, the GPUVA 
+manager?
 
