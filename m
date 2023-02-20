@@ -2,158 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14887C05027
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 10:36:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD9F3C636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 11:02:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230052AbjBTKgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 05:36:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56096 "EHLO
+        id S231204AbjBTLCR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 06:02:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230523AbjBTKga (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 05:36:30 -0500
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2133.outbound.protection.outlook.com [40.107.243.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DB1193FF;
-        Mon, 20 Feb 2023 02:36:29 -0800 (PST)
+        with ESMTP id S229913AbjBTLCP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 06:02:15 -0500
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2084.outbound.protection.outlook.com [40.107.220.84])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7B813DCE;
+        Mon, 20 Feb 2023 03:02:14 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KIp6E/EX7KJk7xqPYIqOIDwzgPiZ+1P4BYioljBwC3/zhSeoJ2/e0MBLoCQSpEV3CCAtaf/QkViSDNdaKzoIPGiQA6dkhBEvtwQ852WuPw8kWoT3cKEC/Rtm+NMZuq4unHZG+GeU5115+TruVSqW0oZnqe3t1aeTVam0pC5D5yncvlxr41U2ZHux8Tq0D46HpAlzPO1lNOk1SGAwrNPb1TmQUOnIPT3dI4IybwIu/s516i+LqHcOk+XYaRq85XvIlPGVCLd8KUyrM8MqR/p1EhZavYC6Hcof6HivtzaBICORKzBCfCSEBXr6/1GcBgl7nm9x1LKqjfNYD5Mz+y/N9g==
+ b=AP3KDSN0YTgElTamkfeiQ5AMZS7rJhBkWVXAQhGLny9vbXg3PyXXQOVeyN+x1D/YvVlwmSL+eMpMJ2JUGNS6qG0ZutSa/ihnMLv8BP45NS3jLvPgHc13CA1Myhln2BMsMIBsY/F1K2DEY1Vv1MzCG3DPC4f0eZnrj8fuLILkjETu/bG9fFq/KvdruYQVj3+9Z3XBBmSP0UGNSF+GsA85SA2evHeLqUL4p6Sc+Lu4hvb3qa7DVqkGEsGlyZXEASeGvVSgR7g32X+jbUTbgQaa7BQmdU4VRSuNfjl1hgRlLRNcx1gfkoPi3+WRfzgAPPju0Wl7JooTHj4HqUjNe+TtuQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TkCiAmxQWUkVd9IhlUFXCaCD709HtTEByE4WVc5LNLw=;
- b=lTOm7O/JrPJIko6iiQr/rZiJ9locas2oJdRDvpKZ428zXI6tlZGspRDt79oIM34b9JNeJP6rEK5X997K/xBL8dqp15KX/E57iIjq6e2jpELsgd1mEVOI2OVSr6uBiXOH9BQ3keg6K339gRig+Q++kYpQ8bse3+tZerXPmlPwCYDHTn3JqZ6FulML5gBTF2OVL/634IZiSoXFsc1AJCwpodAFho89JSM8KnVNnr6RwLhKOGMsghG6b2hFaJbUAX3dTT+gs6S0GWNww9Hkh41yhszdY5XhY1rcaw/erumazDsrpglT4NAq+fXDPVbg5QAPkRXOGLTEqsYL/w0lm8AU7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ bh=EW7xrii3HEtJeiSjbDaqVaf4KWtSec1OjJOb9beydWI=;
+ b=k3JBpUVq+eP52yAuUFwYgZfBnt3JSUjc3xLYV3dkJlM8oeRjwlHUQKHVbXywKe+YHwXZWSxzLEqEZNfqb64OoZ6xHFTix/yY5pTAdniUwJaMqf6B2jYvx0RzP6z9vf207YQhrG8Y00qbitnTrZtX1pXghaH596oQJZupkHaHciYKPcj45ZLdYOWBv0oZTYH1obOw3U4R9fd4LRGngrWN5JNDgBnw3FGAYjDc0rTaFgrcXXYkNPgNpWnMRxAXMKGCFQYPLgzwGjHf8Iyjw6XV9KjZ2zT5mAd4imY3LlUWquJIGiI+BIbK1bk3m7y8qFixnBcMvllfB/P24BfNKm81Bg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TkCiAmxQWUkVd9IhlUFXCaCD709HtTEByE4WVc5LNLw=;
- b=obqEJLoF41r9/wlH8lvbb6mHePMcp1jG/ORLKDYnIKRhnMCTHpksj5Q4rKNDDzkMG6B0eOkYizQAxHQYbMsefgXCGM7LP5UVHe/SXmK+nw08R7NB0WiTEBdoema9hu3VwhsIteKNVyiNmvtdWN+5EueisGysx6WGN83WicSuPcY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by MN2PR13MB4087.namprd13.prod.outlook.com (2603:10b6:208:263::16) with
+ bh=EW7xrii3HEtJeiSjbDaqVaf4KWtSec1OjJOb9beydWI=;
+ b=Sp+YJY3+izt7rz8Jw1WzMxUKrDAh5ARmRr3pzAxWMA0xwAPcpRQRg3bVab21L/bb8QqzKrcwccMrS99A3baezLuwmMLwq7wPruLmZoiDPqZIamie8dufcia46bjlbQPgGYan7qY+vaCD6ipBomXMqrreFtNO3fsPsj4aH5xaJpc=
+Received: from MW2PR2101CA0015.namprd21.prod.outlook.com (2603:10b6:302:1::28)
+ by DM8PR12MB5416.namprd12.prod.outlook.com (2603:10b6:8:28::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.20; Mon, 20 Feb
- 2023 10:36:27 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::85f5:bdb:fb9e:294c]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::85f5:bdb:fb9e:294c%9]) with mapi id 15.20.6111.019; Mon, 20 Feb 2023
- 10:36:27 +0000
-Date:   Mon, 20 Feb 2023 11:36:20 +0100
-From:   Simon Horman <simon.horman@corigine.com>
-To:     "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
-Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-net-drivers (AMD-Xilinx)" <linux-net-drivers@amd.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "habetsm.xilinx@gmail.com" <habetsm.xilinx@gmail.com>,
-        "ecree.xilinx@gmail.com" <ecree.xilinx@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "jiri@nvidia.com" <jiri@nvidia.com>
-Subject: Re: [PATCH v3 net-next] sfc: fix ia64 builds without CONFIG_RTC_LIB
-Message-ID: <Y/NNJHbIo8oTk5eO@corigine.com>
-References: <20230218005620.31221-1-alejandro.lucero-palau@amd.com>
- <Y/IjIlQSaX6iSmWc@corigine.com>
- <DM6PR12MB4202E745A9383463723518E1C1A49@DM6PR12MB4202.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM6PR12MB4202E745A9383463723518E1C1A49@DM6PR12MB4202.namprd12.prod.outlook.com>
-X-ClientProxiedBy: AS4P250CA0011.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:5df::13) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.19; Mon, 20 Feb
+ 2023 11:02:11 +0000
+Received: from CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:302:1:cafe::1) by MW2PR2101CA0015.outlook.office365.com
+ (2603:10b6:302:1::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.4 via Frontend
+ Transport; Mon, 20 Feb 2023 11:02:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT057.mail.protection.outlook.com (10.13.174.205) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6111.19 via Frontend Transport; Mon, 20 Feb 2023 11:02:10 +0000
+Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 20 Feb
+ 2023 05:01:42 -0600
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB07.amd.com
+ (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 20 Feb
+ 2023 03:01:42 -0800
+Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
+ SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34 via Frontend Transport; Mon, 20 Feb 2023 05:01:40 -0600
+From:   <alejandro.lucero-palau@amd.com>
+To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
+CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <edumazet@google.com>, <habetsm.xilinx@gmail.com>,
+        <ecree.xilinx@gmail.com>, <linux-doc@vger.kernel.org>,
+        <corbet@lwn.net>, <jiri@nvidia.com>,
+        "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
+Subject: [PATCH v4 net-next] sfc: fix builds without CONFIG_RTC_LIB
+Date:   Mon, 20 Feb 2023 11:01:33 +0000
+Message-ID: <20230220110133.29645-1-alejandro.lucero-palau@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|MN2PR13MB4087:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1ec6bfd-a9a2-4853-8427-08db132e5245
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT057:EE_|DM8PR12MB5416:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0ba1e25-a087-4f8e-ae68-08db1331ea5d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SzEnkPfD5yph6d6k/d/WIIOA9un5PexHcQJc70Zq1yXSKr9ELll1j2Xkx8Cf2fkPC1HXk5REL1zrHXcnE6XryLRxoLCvVF2FDb8NnKowfXWUdh5cZPdhgnnCZTV34hR2qU6Jn/26cOP7+VL/vrk4OOf+QrTMB5Ur2qnSChAuRwyf0YrayW658Wp2FmW2m+ABomyrNtftnHVDI8J2TCmj2rd7FxDRlmW7f6AvI8cyNUPOfHBX1b3xZbp0vxexeVDPlScey4cVlr5e+iu3QmIoKFjmkAF35l/a+rFH7FRKhVYvGI3UFmwQU6cYd4bG7udyOuBHjbSLA9f3ZfbKWtVCBRjBOArI4Tah2wp5kWAaHO6X+kdPzxxRgfDM9N0xs5Kz8Zs3o+tLDLB6/1/jDWw7cTX28BZeTG6aIVisGudZ9p5lyEDrTNtSbsQ38ppDtfSDjLz4AQvpXd/C+YVjF3/yUIyBpRUci18ohWmrRLx338XJIWnmjOT/+LZfuOuQ1XgjcVufBWHQ2VsnbH8So9VUe7SW4j2dPsz3SgLwRDP3CtBl0kf2+aHbAyAvhvafldoJfqJglFYqXTjE6lBWGSe5t4DvgaXDGUgEl6MQQ3HttYZTdRSbrijWaR3ZC3npnq4+96gCPe9MTv0YfLRKv9KFnQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(376002)(366004)(39840400004)(346002)(396003)(451199018)(38100700002)(2906002)(6512007)(186003)(41300700001)(44832011)(6666004)(6506007)(53546011)(5660300002)(7416002)(2616005)(8936002)(478600001)(316002)(6486002)(66946007)(66556008)(86362001)(66476007)(6916009)(4326008)(8676002)(36756003)(54906003)(83380400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wf4oX47A4RvDg62gYjLyFAaqJfHGYyjhrNkMA+l+oQTnfuzVSuE8dK4OtT/h?=
- =?us-ascii?Q?zR6GFBhu45nht7gmH4UcJHlE7Bh1ji394BIxMmDnVQmpeYACoRGe91zKtzrm?=
- =?us-ascii?Q?orHhjlS/aU6fQdIj8WcHuPAAgvNmE7KbTHLq/IrM51G86KqubqkVI15x01QU?=
- =?us-ascii?Q?xYh09NKvR9oa94KyL5a+C5h9UGMyBkU1/xeo24/xc6FTeEu+R/6HQScEHfCn?=
- =?us-ascii?Q?2hNJCKJfCaMfgDhUKzgex8mPFrWFR4aUAgYrYNXYFYivuJUGRsNW1rj6uRke?=
- =?us-ascii?Q?veURlLn7NWgYcK0q9qc7dtjnjtKFlu4Zs3P16R195keIIgLkULwh3VLoiuhM?=
- =?us-ascii?Q?pRAhLFftRVffKuwfQYo2fpQqojngpwgsx3L2TpjiOgwdZ+s0eBSjZ77JycwY?=
- =?us-ascii?Q?M6jMIJpgI2e8xk512cQUl/t9AwEB+rjRgBBK7iKRkwRBkB2EQFhuAzYXaE9M?=
- =?us-ascii?Q?Cq+hyi3Iyk+4u0S9DMQ6d6F+egQIcNujH+H8XEDVJrcfx/RY248RY7IxEVHJ?=
- =?us-ascii?Q?gCw9XynqGTvzG5aN2bkiufjVAhB0hiXZsuTVADn5txBWTry5voNQfLzAu07f?=
- =?us-ascii?Q?f1bIjovoHK4Av2SC84a72ke+nmkFJFROZm9xztzbzgElkuXUMXd14xetulWf?=
- =?us-ascii?Q?92o4PLJJ+Ql9QfyLG37FFC1CJ9jd1lGZakrlORg1BWYa5BKssyVAvVuleYXV?=
- =?us-ascii?Q?BROnJ5D1w4+Oj2QpneV6ukC1w9YvmMAa4FbfGBKVUmoXsMq8FwJ+7Xg0edXz?=
- =?us-ascii?Q?98YeHE/RAqc/q6Zfp1OT3hDzzDcJ2UVBLygEDJfv2IplVQLTFhaIvuLRX/QH?=
- =?us-ascii?Q?1PxZCtb20ViG05Gaxa+wlgxubuaIUzZeSVK06h6WpLwx/h2e3KR787zW4B2o?=
- =?us-ascii?Q?zF0BoY9A/YIhAz8LSJPDhNVIWdTkMTFKAw5tSYoXxrj9U3rfuseqH86k/zLh?=
- =?us-ascii?Q?KWzFPQWkPxRy21DCk44/1BM3wFTCxpu97ls9hGsbrMUx6jK7BCwmxK+uehnO?=
- =?us-ascii?Q?U5w7p+p0/pCelb0neLBD1pi8VUZoKo27sz1iqn7yglQiZKzqju9OUmjJzKmC?=
- =?us-ascii?Q?yr5zJPST+EnRt8TI3WMsAPvrVdU2kPNoWpbmaZLwniZ3HyfWAkOja6FKQBhM?=
- =?us-ascii?Q?J5GGzXoJMnF7hgM8dLzwgFoLqxanAEHH5GnzPB6b1ODZ+kFJqkyXU6h7l+av?=
- =?us-ascii?Q?mQO6oN4ghPRYEIKwsy1JUAkRqt5jOnXPkSEGi2IGOZoWAyovDaPviR7tvMDK?=
- =?us-ascii?Q?u0Z3jul+adEWHkW+aj6w9rwJxalmtCT17D4TeW7FgNv9IfoBWnpdoFNqzhbx?=
- =?us-ascii?Q?agp0ApUI/fZW7zbbTG30zOOz51DDUcvobxU0ka48C9b2+RltLvN+v2ukX+Fl?=
- =?us-ascii?Q?0AoWHhGjs9KRv6j+8U0Swat6UosJnqJ18CW6VEBULEkYkfMZXlUH6SavVpsi?=
- =?us-ascii?Q?AqPzZUGy+1TL6Q6g9ZxmiUzvL6LCVyQMcKujSsL0qQL1giD5ZJX5n/uUAr45?=
- =?us-ascii?Q?dO3gK20YtWjXYFcMB9GLYNZnXlxF+n3jFPFblZ8WrepVFbSD/gbnvA4iMywU?=
- =?us-ascii?Q?VxzIXgLcquC14+ASFmzr6kNC7HSja0mBhlCPaPZv/SRp85RWj/Jv2Gphlpf/?=
- =?us-ascii?Q?Dsg4bND/bB6sfSuPSnFdaGikzUs3YDWGRQV0QqJQVk1XwTRzqxAOutO0XTwf?=
- =?us-ascii?Q?kP/Wiw=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1ec6bfd-a9a2-4853-8427-08db132e5245
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 10:36:27.4330
+X-Microsoft-Antispam-Message-Info: k44YfcyPzgzLywtE6NxWCfSD+FVk2QS8mO+s8D8liPpNgUJ8SDiH7vj0ihwiSd/CWcXs29SWutMowJE3hq42TbMXXEozOuYQuz1X6c5dxGhO8RfXOb62bM2xS4My+Q36PrxrjNRn9IM7u4q45O1tx+01Z3SHbrGeX+W/gmfNp3XDiEw7htnaLkvhEIimnmBYb1dLOOs89Bod16WtSGVO9WVKUURyzyg1KKVaYXIgNP4gXOoDbzngvoZwCB2fw6jqP/J+kUqXUJkiq1Z1SNL1WU84JyGr8vUQhsbcHEdkZLfmdfHZ/WuELV0Aod0/fLHkAja4hj0fPKS1u+f2jaVnLRjqyKYpZLrwpbTq3ESDFN2u2jACGRSPpiu0M0BgU49Ny+YCn1iDmO4kb1MwrDFCjh76i37vQr24GwQsEYcJkGIGxoSE73+mn/PwGfMymMt3IjAl2wnhnfF8wjIevTeD/640E9y8hUquM/B2piJe4ETvzGNyaJi39XrFF7NRxx5MAm+tH9ZLSYp0WHmJyFHMeUxgdzOaxEH1kG4/yKwaEYQIz1Fds1dXJWBgNB5yGw/4h4rM7E46c3dgJGzNbZ80rQDWfqtfHtXmEUi4CTzGp+aj0vM2tWmQdb6KB/bMEPTmE94VK6oO2h8mR4AR0E7J7D5MVocN5Vf9tp3whxFEsoRGEgtwWYGtA0sShbc05O3jIbDhEuz9qPKfiV8qGfDqDwuxiyWkMwtUgHUQMxIr9fM=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(39860400002)(376002)(346002)(396003)(451199018)(40470700004)(46966006)(36840700001)(40460700003)(54906003)(70586007)(110136005)(316002)(6636002)(4326008)(41300700001)(8936002)(83380400001)(70206006)(6666004)(8676002)(2616005)(1076003)(426003)(186003)(26005)(47076005)(40480700001)(478600001)(966005)(336012)(356005)(36756003)(82310400005)(86362001)(2906002)(2876002)(82740400003)(7416002)(5660300002)(36860700001)(81166007)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 11:02:10.7818
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /GImtTxoD9YcuECYJJdgRtu4q2oHQmrMpD39LRyVU5o9JMtPPDXJHjyQZ8bwJpEvq1JQB0OR2HQyb0lpPee8QFbUEN9eQ6IEtuTYqOYnGMQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR13MB4087
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0ba1e25-a087-4f8e-ae68-08db1331ea5d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5416
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 20, 2023 at 10:27:01AM +0000, Lucero Palau, Alejandro wrote:
-> 
-> On 2/19/23 13:24, Simon Horman wrote:
-> > Hi Alejandro,
-> >
-> > On Sat, Feb 18, 2023 at 12:56:20AM +0000, alejandro.lucero-palau@amd.com wrote:
-> >> From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-> >>
-> >> Add an embarrassingly missed semicolon plus and embarrassingly missed
-> >> parenthesis breaking kernel building in ia64 configs.
-> > I think this statement is slightly misleading.
-> >
-> > The problem may have manifested when building for ia64 config.
-> > However, I don't believe that it is, strictly speaking, an ia64 issue.
-> > Rather, I believe the problem is build without CONFIG_RTC_LIB.
-> >
-> > Some architectures select CONFIG_RTC_LIB., f.e. x86_64. But some do not.
-> > ia64 is one such example. arm64 is another - indeed I was able to reproduce
-> > the bug when building for arm64 using config based on the one at the link
-> > below.
-> >
-> > I think it would be helpful to update the patch description accordingly.
-> >
-> > Code change looks good to me: I exercised builds for both ia64 and arm64.
-> >
-> Hi Simon,
-> 
-> I agree. In fact, I did not initially specify ia64 in the subject, but I 
-> got a warning suggesting maybe I should do it.
-> 
-> I guess that suggestion is likely due to adding the Reported and Link 
-> tags, but as you say, it is not describing the problem properly.
-> 
-> I will change it in v4.
-> 
-> Thanks, and thank you for testing.
+From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
 
-Likewise, thanks.
+Add an embarrassingly missed semicolon plus and embarrassingly missed
+parenthesis breaking kernel building when CONFIG_RTC_LIB is not set
+like the one reported with ia64 config.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Link: https://lore.kernel.org/oe-kbuild-all/202302170047.EjCPizu3-lkp@intel.com/
+Fixes: 14743ddd2495 ("sfc: add devlink info support for ef100")
+Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+---
+ drivers/net/ethernet/sfc/efx_devlink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
+index d2eb6712ba35..c829362ca99f 100644
+--- a/drivers/net/ethernet/sfc/efx_devlink.c
++++ b/drivers/net/ethernet/sfc/efx_devlink.c
+@@ -323,7 +323,7 @@ static void efx_devlink_info_running_v2(struct efx_nic *efx,
+ 				    GET_VERSION_V2_OUT_SUCFW_BUILD_DATE);
+ 		rtc_time64_to_tm(tstamp, &build_date);
+ #else
+-		memset(&build_date, 0, sizeof(build_date)
++		memset(&build_date, 0, sizeof(build_date));
+ #endif
+ 		build_id = MCDI_DWORD(outbuf, GET_VERSION_V2_OUT_SUCFW_CHIP_ID);
+ 
+-- 
+2.17.1
+
