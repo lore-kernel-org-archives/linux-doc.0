@@ -2,135 +2,148 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15CB4C6379F
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 11:08:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A780C636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 11:18:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbjBTLID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 06:08:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32816 "EHLO
+        id S231758AbjBTLSs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 06:18:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230040AbjBTLHm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 06:07:42 -0500
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2109.outbound.protection.outlook.com [40.107.255.109])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A789E7EE8;
-        Mon, 20 Feb 2023 03:07:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CNdwSDTM/wItOyXlf02TFA+6tD6igkHbrHI7tyLqCfRmOxE5bKqryAOxHLP/j/sTKleF08hK3gVE+a+ZmgFY230mlXNjr5bdgXezFM9ZmuvVnev6sFQMJ72z+IzXKbbFkAXxJ6MXwUvUxUPdI5lh2501b1acAnSE61G6voop4DutZjw89NjRpi3EsCs+TpdM5dA5lutFwOhZGp6AvFyLM64zVeCJDgS8arPM+wIr6s4/l8/9hXJNIfqyjzLaAB3mtsvLKyq5CIkXffkDsEwWoEi179bVnAHR/oDeAmgXGERjHE1JGgjQGwZAl9PL5QGTtYqnVKbcer83rroAmCZ6Sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kc+mo8v8tEmX1UVxuNnK+WNC2WlIeHEDqPk4EtUEh5o=;
- b=RgEzo/Ex8CFn2hSWKla6Fp7eQRtREFDifflAnothT46FazQBIn60h+pQBT7KvyqJY5e72gvJKm/L36jE9oMoBdNJ5R96/UTO+KPHZ32CHs8csjg6C+f9LU7r3fRLWSEoPt6Y+ckLAlI0jzSKtcZSDTkjZ3BUL0U3RoQoGG0K9y5FYhjz2ZH7/mHdpI9tLDlAtZZWbN3Ouu2wtS3D5BlaV+kZr0pX0kGgfWo8XPYgsTMmCWEPCm+NN6enl5/6+lJrDSiBN3+sBk6SXw9XPGp3X7aomghGl4hPingDmdaN14F2tWSjydOJq2LLP8FjQ0G77Yl0OMOK+hqV8kjQ0UISaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kc+mo8v8tEmX1UVxuNnK+WNC2WlIeHEDqPk4EtUEh5o=;
- b=ijOTxMZfnTNO7tEyz/8GfTzjeOO9XhLITxFjMoBxJdKdO7089nqmrVnhfCR85BG7FXO7lrSmEjgdeBK9521IvCfO9PhMwvvmu7qixpcyVsuU9zfSYuymTxiE4jxCVzuN76oBN6rtfEZRrvnk0FIE/xPJ5QP4JAEyCXgG9sCPHSI5yGHfVO0aI3QmdjgqHtAQ7SvL5cfYNS7/XI6/Kl874MJMAVXp/VX0GKP+W5dlYbslrNjQXQd50W/3/Ix9H8r3YazYbt6/BXy1em4A6vGs5an7GfvL+goH49M1WpFZHkUO3oE9DWwu1nlh3iI4oIRKXwBiJU+lcKjX19Knn9YS6w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SL2PR06MB3017.apcprd06.prod.outlook.com (2603:1096:100:3a::16)
- by SEYPR06MB5937.apcprd06.prod.outlook.com (2603:1096:101:d3::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.10; Mon, 20 Feb
- 2023 11:07:36 +0000
-Received: from SL2PR06MB3017.apcprd06.prod.outlook.com
- ([fe80::a700:8843:3175:1dd1]) by SL2PR06MB3017.apcprd06.prod.outlook.com
- ([fe80::a700:8843:3175:1dd1%6]) with mapi id 15.20.6134.006; Mon, 20 Feb 2023
- 11:07:36 +0000
-From:   Wu Bo <bo.wu@vivo.com>
-Cc:     Wu Bo <bo.wu@vivo.com>, "Theodore Ts'o" <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-ext4@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: ext4: modify the group desc size to 64
-Date:   Mon, 20 Feb 2023 19:06:37 +0800
-Message-Id: <20230220110637.42678-1-bo.wu@vivo.com>
-X-Mailer: git-send-email 2.35.3
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0008.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::10) To SL2PR06MB3017.apcprd06.prod.outlook.com
- (2603:1096:100:3a::16)
+        with ESMTP id S231605AbjBTLSp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 06:18:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C3C21ABE7
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 03:17:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676891835;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4EQNfPCKlm/dnqlucYMgfhMhQeV8s6OOHLtd2gYWnSc=;
+        b=f5eV9Sfbr5eRqRvVqV/ovfHcekpO2Q/V577M8avaT5ismeNOqdCWVi44Y8ZYG++qTywQ0p
+        KYs//XZIwwa8KnOZcK2MpVbaBdR+q+OGo1bXSoRZG6oBXILL+rvuipEycjtXKsQl9bSnYV
+        PfaN0gonGx9WuR0vzeFEPGp67C4DTZM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-644-KENNaDo-PmyOD6Ljo9HDsg-1; Mon, 20 Feb 2023 06:17:14 -0500
+X-MC-Unique: KENNaDo-PmyOD6Ljo9HDsg-1
+Received: by mail-wr1-f69.google.com with SMTP id b13-20020a05600003cd00b002c59b266371so353602wrg.6
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 03:17:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4EQNfPCKlm/dnqlucYMgfhMhQeV8s6OOHLtd2gYWnSc=;
+        b=VHGuAGWBcQWWeQyUEi638djxTI63vq+nN5msGtRQSbC8xmCesdxPX0SciNTbdZUgrI
+         MHlf+bFbi4jB0j3y03KUHO3FwDxkGAAugcUmOnpAg4B0SP1lPk3ov7g5zC+lfFW8vhwQ
+         6CzIVgAsN5Pt0PIB7TAwrP400JV7Rk/VLKZ793h8FwwqPVnkBmK+XidIvnJVC7yY5Tgg
+         2sSaBkB2drhLOdDv0wuAFSNIx21iEH8FuLwLfvDam0ox0eYWz8X9x/lJRhdpx+wWeuRG
+         FEhMZrH5xDqOVQjveqciWE1QzmcS9fwxJb2bi7qW0ShLEXpdgb1b/tX1NxPxEmyHrBHU
+         Ib2Q==
+X-Gm-Message-State: AO0yUKUllCI8ZwG016gVlcunF/IYZNFIfNxBGV/f1I95AmCdVYe2oXuk
+        +dJpaqmA+EuVCWXPyaret3q5VStNMv0tqj2L7dY384cACpdrmZuaH229RI2efjaYRswT0taryVz
+        sLOuRkoS99AEyKvNPwvDh
+X-Received: by 2002:a05:600c:4d89:b0:3e0:1a9:b1e0 with SMTP id v9-20020a05600c4d8900b003e001a9b1e0mr578765wmp.25.1676891833521;
+        Mon, 20 Feb 2023 03:17:13 -0800 (PST)
+X-Google-Smtp-Source: AK7set8S0E2hPJcQfDWwVBHJ827trXEDgyAecAtZgO3tsbPQgMPJ2pfBI07ijKz0qUw/7N5br62ouQ==
+X-Received: by 2002:a05:600c:4d89:b0:3e0:1a9:b1e0 with SMTP id v9-20020a05600c4d8900b003e001a9b1e0mr578749wmp.25.1676891833134;
+        Mon, 20 Feb 2023 03:17:13 -0800 (PST)
+Received: from ?IPV6:2003:cb:c705:8300:e519:4218:a8b5:5bec? (p200300cbc7058300e5194218a8b55bec.dip0.t-ipconnect.de. [2003:cb:c705:8300:e519:4218:a8b5:5bec])
+        by smtp.gmail.com with ESMTPSA id c128-20020a1c3586000000b003e21558ee9dsm331492wma.2.2023.02.20.03.17.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Feb 2023 03:17:12 -0800 (PST)
+Message-ID: <ee0ab9fa-9560-0160-f9ad-3b0ca844884c@redhat.com>
+Date:   Mon, 20 Feb 2023 12:17:09 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SL2PR06MB3017:EE_|SEYPR06MB5937:EE_
-X-MS-Office365-Filtering-Correlation-Id: e12727e6-c679-40b1-e488-08db1332ac74
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ADY6OZARFaFS4L5jitbmqpDERpbQnS6kFFmytWtU89o5HqJHRJ3dT4U6YbuozdUGe1n0BfLRIpVH04uZAG8XaTywbZBq1mca6bxozPYRolWEDrUKq11/BdpB3BVYTA0yN+bYxec10tfbZXQtkrYO5aoPe0wFgI4lqqsL9r60Uk4/iWnGA5Y5EKZta54SxGx/bxpHNzI7rIb3Uz8DgokMryXSrDV4TrhEEdx0ag3KfT8UpNzC7q1nn6J9a64H2MAR5sSNvQJadUafunLOIj2n9TuqoP6kW7LPs7i1/ETCRWNk1OZ/LnyfGbxai1+Lz/o0pgFBOAnxeJ8qFbFBodyQyGxgSm972OrUgR4fNiF8RcVSH1A2UHnI9Xd4/Qg7KNoz6xd9mpW/bR3sMvtCNbIQc99vK9xIh046lGMPIniNiqqKlcwYVxY0DmB1XM/c74t50bvtBDX7/I9oDtSf+L/BPtjGrAWBz6nEcfynTJJWukcpId2LAFk9c3D8z1pu76oSREPVLAvLQZSHI9+rmd1MzA+ufXuB8S9gtzXbdfJ13w3d7SoS+Gr5U0pidwMygkzym5LvKVhhS1ubF8rpPFPzk8fdMXh94t3o/42jQeEBS8F0rz6U3OsCOkkFT2J1L0JByYz3n/TvCwIEhAO47pVv15/mqZcT5Zjb7zHMR95/1THoEzDhE2z6pqdu81vusNeForO1hWceq/MtEoG7X2zHNoK0vCZZXN64i3xnMbj0SpE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2PR06MB3017.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(376002)(136003)(39860400002)(366004)(396003)(109986016)(451199018)(66946007)(316002)(41300700001)(83380400001)(8676002)(86362001)(66476007)(4326008)(2616005)(36756003)(5660300002)(8936002)(186003)(6512007)(26005)(66556008)(6506007)(6486002)(1076003)(52116002)(2906002)(54906003)(478600001)(38100700002)(38350700002)(266003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HD+Plzr1hQCraJQlfagjTVkxny21OZcLz1OpHU/wujummGoH6aSh9+SFOYqt?=
- =?us-ascii?Q?UUrp0omCOt06Ow1Rf0Hsar7yemuTKhBXd1ToxO5y0FQ47iKBr1otlqaK8bMi?=
- =?us-ascii?Q?dVUm++9bzoy109twnYwDPbKMU5lzhkIGODP6qGLYwvEX2RAssb/Wcd6lXlPP?=
- =?us-ascii?Q?FlSbfD4VOc7D5QCKB/IXmkMxoOtBaqFui8MAWBFmJrB1qX78dDDRs5NxwZ2L?=
- =?us-ascii?Q?ZMPFEyMr8j4JszKdPha7U4cdnItjX5M7wZM5Kl0kGDa6rdEFJg2nlvaxrux9?=
- =?us-ascii?Q?RbjdrEc/TDuVH0eF0HDM126b39i5K7xf8VLMd5TbPY0PGDsZOz7ag5JQZLqn?=
- =?us-ascii?Q?2JRKhpNQzBpjF3ZJ5GQQRFL7woEWY1kysQMfGEXZmk+FAH+kogz64iorR2no?=
- =?us-ascii?Q?+65/nLLIMchIgE6VRQNio7KQUqDtjCmif4w1wluGr+dLv+UBIAQCdY+3Q2fK?=
- =?us-ascii?Q?WupwYziTO6E4edRmvxTh60PTpIjhR4oGkPY/J3NIrXlhjRzJXt3WfcQuVXMt?=
- =?us-ascii?Q?x3X/Iz6xJQb3Wa2cEKVxyhLvxnz1I5xyuZuZcic0Wnhq1Ll8pbO9YiN6pvC4?=
- =?us-ascii?Q?vLdlBzy1v072OhiQGJQ+leAKMcLsvSd0B9VlONn9FC9IuSWdH6lAeHBdZnOi?=
- =?us-ascii?Q?qCOlXCNnOKvC2TNLLydXg9PKBvp2n6rhwPbzElxiVOyNy8LqCNpUQ1n3yTiC?=
- =?us-ascii?Q?pOUccUOYBEMTAX09ZDLBtsNxLnzEka5fMxfXLC5XfBMgHCS5Uo5DH/D5LTfB?=
- =?us-ascii?Q?dm2OwvXiafzh45N9gbbRLLJvEq/f90MfdDlHKTzhSx72M22dbVY/vliesWbJ?=
- =?us-ascii?Q?040Ey5KPAEscPxmXdODRhdFmQSZUMBzFZQPdKx78nDAzFe0GLthTgCUV5cAI?=
- =?us-ascii?Q?C7pWiG5FbqclgcDcVsiF0BjuUSD53fLg9GMRjcC3LyTaGvOHJT3tlt/xUPtm?=
- =?us-ascii?Q?GsCzwWtw5Z78AD5Lc9fP+9zfTjmpMivlMIHWqRxVPcbMfcFruRz8ykYcDX5g?=
- =?us-ascii?Q?UbVlIXw+S2MhtUXF0rMVZmmHw8Yw32a5PLWy9ygR7lN3Ctic2ALhm/1nmJd8?=
- =?us-ascii?Q?ILO40UALRe5XrcXQRzV8OSJtGHiI1wT0GAibwDROTwQigAGVfwpgoOYRzfWn?=
- =?us-ascii?Q?gc/EZodACQauzGIp4lIfRCR4UJ+n4ER/tEP0ytdgwTKaftt1ubbrvDMFDvFj?=
- =?us-ascii?Q?PrbpMlMVTkaQVGgudBho8OG2ophJeSvHNW1OKEv7Kr9rTUiwmX0/oirUYyYe?=
- =?us-ascii?Q?ZkkfzO76LH34Ysvl8V49f6iXn5XRC9csL7zOSSICFelHxuFwfCFgOVytmwsD?=
- =?us-ascii?Q?uxxlYo9UuSpxnMiPZN8rc7maqefUqogSgwg/mewZ5pPOHDCUqPJ6Rc9mNKKB?=
- =?us-ascii?Q?cFW8pmEv9yzEYd5ESX8AWwmg/C4JXbCVxhaDY0dMzRCsWO1S+p933h4pn2PN?=
- =?us-ascii?Q?KkRVR9xwTAtJvZ2ELbu4p9phEbLghbci07RnaOuKX1/QrPlgext0g0sbUqIj?=
- =?us-ascii?Q?sBaAyfIbI0MvCe+ZK/Zjpjdfy/CPeJ+ydb/iyOc2PnO1NjcijHaLGxfNhmLD?=
- =?us-ascii?Q?ogsPe8X8ko/9pinEMPB2pXOBBPI8QP49tLKpOufn?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e12727e6-c679-40b1-e488-08db1332ac74
-X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3017.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 11:07:36.7253
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kf3NarGz2Of4u5PLIOytJWFBdJdbk71Vc1zKQkXbH3IuHynkKVqfdJUw7WcGX0OdaUjpt7BNsdP2mrKbRZpe+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5937
-To:     unlisted-recipients:; (no To-header on input)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v6 11/41] mm: Introduce pte_mkwrite_kernel()
+Content-Language: en-US
+To:     Kees Cook <keescook@chromium.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        debug@rivosinc.com, linux-arm-kernel@lists.infradead.org,
+        linux-s390@vger.kernel.org, xen-devel@lists.xenproject.org
+References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-12-rick.p.edgecombe@intel.com>
+ <63f288cc.a70a0220.5558c.3c92@mx.google.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <63f288cc.a70a0220.5558c.3c92@mx.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since the default ext4 group desc size is 64 now and the size mentioned
-in this doc is 64 too. Change it to 64.
+On 19.02.23 21:38, Kees Cook wrote:
+> On Sat, Feb 18, 2023 at 01:14:03PM -0800, Rick Edgecombe wrote:
+>> The x86 Control-flow Enforcement Technology (CET) feature includes a new
+>> type of memory called shadow stack. This shadow stack memory has some
+>> unusual properties, which requires some core mm changes to function
+>> properly.
+>>
+>> One of these changes is to allow for pte_mkwrite() to create different
+>> types of writable memory (the existing conventionally writable type and
+>> also the new shadow stack type). Future patches will convert pte_mkwrite()
+>> to take a VMA in order to facilitate this, however there are places in the
+>> kernel where pte_mkwrite() is called outside of the context of a VMA.
+>> These are for kernel memory. So create a new variant called
+>> pte_mkwrite_kernel() and switch the kernel users over to it. Have
+>> pte_mkwrite() and pte_mkwrite_kernel() be the same for now. Future patches
+>> will introduce changes to make pte_mkwrite() take a VMA.
+>>
+>> Only do this for architectures that need it because they call pte_mkwrite()
+>> in arch code without an associated VMA. Since it will only currently be
+>> used in arch code, so do not include it in arch_pgtable_helpers.rst.
+>>
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> Cc: linux-s390@vger.kernel.org
+>> Cc: xen-devel@lists.xenproject.org
+>> Cc: linux-arch@vger.kernel.org
+>> Cc: linux-mm@kvack.org
+>> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+>> Suggested-by: David Hildenbrand <david@redhat.com>
+>> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> 
+> I think it's a little weird that it's the only PTE helper taking a vma,
+> but it does seem like the right approach.
 
-Signed-off-by: Wu Bo <bo.wu@vivo.com>
----
- Documentation/filesystems/ext4/blockgroup.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Right. We could pass the vm flags instead, but not sure if that really 
+improves the situation. So unless someone has a better idea, this LGTM.
 
-diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/filesystems/ext4/blockgroup.rst
-index 46d78f860623..ed5a5cac6d40 100644
---- a/Documentation/filesystems/ext4/blockgroup.rst
-+++ b/Documentation/filesystems/ext4/blockgroup.rst
-@@ -105,9 +105,9 @@ descriptors. Instead, the superblock and a single block group descriptor
- block is placed at the beginning of the first, second, and last block
- groups in a meta-block group. A meta-block group is a collection of
- block groups which can be described by a single block group descriptor
--block. Since the size of the block group descriptor structure is 32
--bytes, a meta-block group contains 32 block groups for filesystems with
--a 1KB block size, and 128 block groups for filesystems with a 4KB
-+block. Since the size of the block group descriptor structure is 64
-+bytes, a meta-block group contains 16 block groups for filesystems with
-+a 1KB block size, and 64 block groups for filesystems with a 4KB
- blocksize. Filesystems can either be created using this new block group
- descriptor layout, or existing filesystems can be resized on-line, and
- the field s_first_meta_bg in the superblock will indicate the first
 -- 
-2.35.3
+Thanks,
+
+David / dhildenb
 
