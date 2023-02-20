@@ -2,223 +2,303 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A466C636CC
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 13:26:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EABCBC05027
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 13:59:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231929AbjBTN0S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 08:26:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39146 "EHLO
+        id S232778AbjBTN7i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 08:59:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231502AbjBTN0S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 08:26:18 -0500
-Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC461ABEE;
-        Mon, 20 Feb 2023 05:26:16 -0800 (PST)
-Received: from mail02.huawei.com (unknown [172.30.67.153])
-        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4PL38d6tS0z4f3w0Y;
-        Mon, 20 Feb 2023 21:26:09 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.124.27])
-        by APP4 (Coremail) with SMTP id gCh0CgBXwLPtdPNjrs7vDw--.52497S4;
-        Mon, 20 Feb 2023 21:26:07 +0800 (CST)
-From:   Hou Tao <houtao@huaweicloud.com>
-To:     linux-block@vger.kernel.org
-Cc:     Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-Subject: [PATCH v2] blk-ioprio: Introduce promote-to-rt policy
-Date:   Mon, 20 Feb 2023 21:54:28 +0800
-Message-Id: <20230220135428.2632906-1-houtao@huaweicloud.com>
-X-Mailer: git-send-email 2.29.2
+        with ESMTP id S232698AbjBTN7U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 08:59:20 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C9CD1E9FD
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 05:59:07 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id k14-20020a05600c1c8e00b003e22107b7ccso856503wms.0
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 05:59:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+EtAssA2uIVYju8xVugRuid67munGGrBVJ6FX1hjpME=;
+        b=khhxdHwRm9hQoHObyWlrqw3km+HVAIUmpma+UktbsQI9OXZANOUS89n2MbrbpUAB0J
+         yoK14JtzI/pl9RwNZPv7Ov5xUTh9yIVKR1vsaL3MACGiPSxNYc8ocMHeq/jVFc8FT7Z9
+         UNSLpfECfZ29mN/j3Bzn7RHoJLe/FkbY08nGmzfG79wl4ahzoQkGrpjxen3xdg0ls/PM
+         s009am+2bGNE83SduuBXOM86AAk1iXRGm/fuJGl6BivLS6O/Mk87DCx1sRNWk7rCPIdP
+         FQwUi8v9rXjWlTJZwjZm2zBXKJcZwdeYYIiYoFfJoQ9b196FrXysPaFhVEz9XHwMORfa
+         1Rtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+EtAssA2uIVYju8xVugRuid67munGGrBVJ6FX1hjpME=;
+        b=ZP2HE9zdiPu5zJTAXFYktqzvB5Ii5/PGqyLp4UG7PK7p4K6q3ZmzuzCit6meIEiIEd
+         B/94qEfB+j9fJWYLp1gawyPm4sMglv6BAj/hmYtL5/FRHGi7Gm+OYk0DY1BDdmVUdCj5
+         Nst4QkjgvT1HU7eJ7T8K2f5KwsoSyQk/ZjdT7NvUIusYmv6zpyo/vXy+Q78HXjo948aW
+         /wRep+WvJJJDEVgJhUw5p60DyfUY+epns91AKmK9lQw+r9RjDLMDXg4qq2bYeHbCHihs
+         BJeGJIUzmsIURWa7GfUnq8//xbev+f4NErjq5uG7jQhn+fqWCH4eFzwmxEDtWrvM4sxV
+         KYMg==
+X-Gm-Message-State: AO0yUKX9gNu8UlNCDajtB3SlYyEwsHNrndDncMMvoFKrFkSNOIJnVXXv
+        r7/Ovq8t8Krut7DLrPetghbSsA==
+X-Google-Smtp-Source: AK7set/XaSIF32pD4KWX97DlEmTa9e6GDBUHBybnZuS1jZ546f8NlqOL6r51YzUyGlO3cqEg1XNgdg==
+X-Received: by 2002:a05:600c:13ca:b0:3df:fa96:f670 with SMTP id e10-20020a05600c13ca00b003dffa96f670mr917214wmg.22.1676901545229;
+        Mon, 20 Feb 2023 05:59:05 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id z20-20020a7bc7d4000000b003daf6e3bc2fsm1386262wmk.1.2023.02.20.05.59.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Feb 2023 05:59:04 -0800 (PST)
+Message-ID: <c8161a4c-fa45-cb9e-7211-5486ece1fc2d@linaro.org>
+Date:   Mon, 20 Feb 2023 13:59:03 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgBXwLPtdPNjrs7vDw--.52497S4
-X-Coremail-Antispam: 1UD129KBjvJXoW3GF1ftF4UWrW3uw1rJF45trb_yoWxGF4DpF
-        4fAF9xur9YqF1xJFnrJ3WkXrWrtas2yw47CFsxKFyF934UAw1q9F40yF1kWFyfA3yDXFZ8
-        XrZ8JrW8CF1Dur7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUk2b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-        0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-        Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28I
-        cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
-        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI
-        42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42
-        IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
-        87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUrR6zUUUUU
-X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: Re: [PATCH v10 07/26] mailbox: Add Gunyah message queue mailbox
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jassi Brar <jassisinghbrar@gmail.com>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212316.3309053-1-quic_eberman@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20230214212316.3309053-1-quic_eberman@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Hou Tao <houtao1@huawei.com>
 
-Since commit a78418e6a04c ("block: Always initialize bio IO priority on
-submit"), bio->bi_ioprio will never be IOPRIO_CLASS_NONE when calling
-blkcg_set_ioprio(), so there will be no way to promote the io-priority
-of one cgroup to IOPRIO_CLASS_RT, because bi_ioprio will always be
-greater than or equals to IOPRIO_CLASS_RT.
 
-It seems possible to call blkcg_set_ioprio() first then try to
-initialize bi_ioprio later in bio_set_ioprio(), but this doesn't work
-for bio in which bi_ioprio is already initialized (e.g., direct-io), so
-introduce a new ioprio policy to promote the iopriority of bio to
-IOPRIO_CLASS_RT if the ioprio is not already RT.
+On 14/02/2023 21:23, Elliot Berman wrote:
+> Gunyah message queues are a unidirectional inter-VM pipe for messages up
+> to 1024 bytes. This driver supports pairing a receiver message queue and
+> a transmitter message queue to expose a single mailbox channel.
+> 
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+>   Documentation/virt/gunyah/message-queue.rst |   8 +
+>   drivers/mailbox/Makefile                    |   2 +
+>   drivers/mailbox/gunyah-msgq.c               | 214 ++++++++++++++++++++
+>   include/linux/gunyah.h                      |  56 +++++
+>   4 files changed, 280 insertions(+)
+>   create mode 100644 drivers/mailbox/gunyah-msgq.c
+> 
+> diff --git a/Documentation/virt/gunyah/message-queue.rst b/Documentation/virt/gunyah/message-queue.rst
+> index 0667b3eb1ff9..082085e981e0 100644
+> --- a/Documentation/virt/gunyah/message-queue.rst
+> +++ b/Documentation/virt/gunyah/message-queue.rst
+> @@ -59,3 +59,11 @@ vIRQ: two TX message queues will have two vIRQs (and two capability IDs).
+>         |               |         |                 |         |               |
+>         |               |         |                 |         |               |
+>         +---------------+         +-----------------+         +---------------+
+> +
+> +Gunyah message queues are exposed as mailboxes. To create the mailbox, create
+> +a mbox_client and call `gh_msgq_init`. On receipt of the RX_READY interrupt,
+> +all messages in the RX message queue are read and pushed via the `rx_callback`
+> +of the registered mbox_client.
+> +
+> +.. kernel-doc:: drivers/mailbox/gunyah-msgq.c
+> +   :identifiers: gh_msgq_init
+> diff --git a/drivers/mailbox/Makefile b/drivers/mailbox/Makefile
+> index fc9376117111..5f929bb55e9a 100644
+> --- a/drivers/mailbox/Makefile
+> +++ b/drivers/mailbox/Makefile
+> @@ -55,6 +55,8 @@ obj-$(CONFIG_MTK_CMDQ_MBOX)	+= mtk-cmdq-mailbox.o
+>   
+>   obj-$(CONFIG_ZYNQMP_IPI_MBOX)	+= zynqmp-ipi-mailbox.o
+>   
+> +obj-$(CONFIG_GUNYAH)		+= gunyah-msgq.o
 
-So introduce a new promote-to-rt policy to achieve this. For none-to-rt
-policy, although it doesn't work now, but considering that its purpose
-was also to override the io-priority to RT and allow for a smoother
-transition, just keep it and treat it as an alias of the promote-to-rt
-policy.
+Why are we reusing CONFIG_GUNYAH Kconfig symbol for mailbox, why not 
+CONFIG_GUNYAH_MBOX?
 
-Signed-off-by: Hou Tao <houtao1@huawei.com>
----
-v2:
- * Simplify the implementation of promote-to-rt (from Bart)
- * Make none-to-rt to work again by treating it as an alias of
-   the promote-to-rt policy (from Bart & Jan)
- * fix the style of new content in cgroup-v2.rst (from Bagas)
- * set the default priority level to 4 instead of 0 for promote-to-rt
+> +
+>   obj-$(CONFIG_SUN6I_MSGBOX)	+= sun6i-msgbox.o
+>   
+>   obj-$(CONFIG_SPRD_MBOX)		+= sprd-mailbox.o
+> diff --git a/drivers/mailbox/gunyah-msgq.c b/drivers/mailbox/gunyah-msgq.c
+> new file mode 100644
+> index 000000000000..03ffaa30ce9b
+> --- /dev/null
+> +++ b/drivers/mailbox/gunyah-msgq.c
+> @@ -0,0 +1,214 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/mailbox_controller.h>
+> +#include <linux/module.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/gunyah.h>
+> +#include <linux/printk.h>
+> +#include <linux/init.h>
+> +#include <linux/slab.h>
+> +#include <linux/wait.h>
 
-v1: https://lore.kernel.org/linux-block/20230201045227.2203123-1-houtao@huaweicloud.com
+...
 
- Documentation/admin-guide/cgroup-v2.rst | 42 ++++++++++++++-----------
- block/blk-ioprio.c                      | 23 ++++++++++++--
- 2 files changed, 44 insertions(+), 21 deletions(-)
+> +/* Fired when message queue transitions from "full" to "space available" to send messages */
+> +static irqreturn_t gh_msgq_tx_irq_handler(int irq, void *data)
+> +{
+> +	struct gh_msgq *msgq = data;
+> +
+> +	mbox_chan_txdone(gh_msgq_chan(msgq), 0);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +/* Fired after sending message and hypercall told us there was more space available. */
+> +static void gh_msgq_txdone_tasklet(struct tasklet_struct *tasklet)
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 74cec76be9f2..ccfb9fdfbc16 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2021,31 +2021,33 @@ that attribute:
-   no-change
- 	Do not modify the I/O priority class.
- 
--  none-to-rt
--	For requests that do not have an I/O priority class (NONE),
--	change the I/O priority class into RT. Do not modify
--	the I/O priority class of other requests.
-+  promote-to-rt
-+	For requests that have a no-RT I/O priority class, change it into RT.
-+	Also change the priority level of these requests to 4. Do not modify
-+	the I/O priority of requests that have priority class RT.
- 
-   restrict-to-be
- 	For requests that do not have an I/O priority class or that have I/O
--	priority class RT, change it into BE. Do not modify the I/O priority
--	class of requests that have priority class IDLE.
-+	priority class RT, change it into BE. Also change the priority level
-+	of these requests to 0. Do not modify the I/O priority class of
-+	requests that have priority class IDLE.
- 
-   idle
- 	Change the I/O priority class of all requests into IDLE, the lowest
- 	I/O priority class.
- 
-+  none-to-rt
-+	Deprecated. Just an alias for promote-to-rt.
-+
- The following numerical values are associated with the I/O priority policies:
- 
--+-------------+---+
--| no-change   | 0 |
--+-------------+---+
--| none-to-rt  | 1 |
--+-------------+---+
--| rt-to-be    | 2 |
--+-------------+---+
--| all-to-idle | 3 |
--+-------------+---+
-++----------------+---+
-+| no-change      | 0 |
-++----------------+---+
-+| rt-to-be       | 2 |
-++----------------+---+
-+| all-to-idle    | 3 |
-++----------------+---+
- 
- The numerical value that corresponds to each I/O priority class is as follows:
- 
-@@ -2061,9 +2063,13 @@ The numerical value that corresponds to each I/O priority class is as follows:
- 
- The algorithm to set the I/O priority class for a request is as follows:
- 
--- Translate the I/O priority class policy into a number.
--- Change the request I/O priority class into the maximum of the I/O priority
--  class policy number and the numerical I/O priority class.
-+- If I/O priority class policy is promote-to-rt, change the request I/O
-+  priority class to IOPRIO_CLASS_RT and change the request I/O priority
-+  level to 4.
-+- If I/O priorityt class is not promote-to-rt, translate the I/O priority
-+  class policy into a number, then change the request I/O priority class
-+  into the maximum of the I/O priority class policy number and the numerical
-+  I/O priority class.
- 
- PID
- ---
-diff --git a/block/blk-ioprio.c b/block/blk-ioprio.c
-index 8bb6b8eba4ce..4eba569d4823 100644
---- a/block/blk-ioprio.c
-+++ b/block/blk-ioprio.c
-@@ -23,25 +23,28 @@
- /**
-  * enum prio_policy - I/O priority class policy.
-  * @POLICY_NO_CHANGE: (default) do not modify the I/O priority class.
-- * @POLICY_NONE_TO_RT: modify IOPRIO_CLASS_NONE into IOPRIO_CLASS_RT.
-+ * @POLICY_PROMOTE_TO_RT: modify no-IOPRIO_CLASS_RT to IOPRIO_CLASS_RT.
-  * @POLICY_RESTRICT_TO_BE: modify IOPRIO_CLASS_NONE and IOPRIO_CLASS_RT into
-  *		IOPRIO_CLASS_BE.
-  * @POLICY_ALL_TO_IDLE: change the I/O priority class into IOPRIO_CLASS_IDLE.
-+ * @POLICY_NONE_TO_RT: an alias for POLICY_PROMOTE_TO_RT.
-  *
-  * See also <linux/ioprio.h>.
-  */
- enum prio_policy {
- 	POLICY_NO_CHANGE	= 0,
--	POLICY_NONE_TO_RT	= 1,
-+	POLICY_PROMOTE_TO_RT	= 1,
- 	POLICY_RESTRICT_TO_BE	= 2,
- 	POLICY_ALL_TO_IDLE	= 3,
-+	POLICY_NONE_TO_RT	= 4,
- };
- 
- static const char *policy_name[] = {
- 	[POLICY_NO_CHANGE]	= "no-change",
--	[POLICY_NONE_TO_RT]	= "none-to-rt",
-+	[POLICY_PROMOTE_TO_RT]	= "promote-to-rt",
- 	[POLICY_RESTRICT_TO_BE]	= "restrict-to-be",
- 	[POLICY_ALL_TO_IDLE]	= "idle",
-+	[POLICY_NONE_TO_RT]	= "none-to-rt",
- };
- 
- static struct blkcg_policy ioprio_policy;
-@@ -189,6 +192,20 @@ void blkcg_set_ioprio(struct bio *bio)
- 	if (!blkcg || blkcg->prio_policy == POLICY_NO_CHANGE)
- 		return;
- 
-+	if (blkcg->prio_policy == POLICY_PROMOTE_TO_RT ||
-+	    blkcg->prio_policy == POLICY_NONE_TO_RT) {
-+		/*
-+		 * For RT threads, the default priority level is 4 because
-+		 * task_nice is 0. By promoting non-RT io-priority to RT-class
-+		 * and default level 4, those requests that are already
-+		 * RT-class but need a higher io-priority can use ioprio_set()
-+		 * to achieve this.
-+		 */
-+		if (IOPRIO_PRIO_CLASS(bio->bi_ioprio) != IOPRIO_CLASS_RT)
-+			bio->bi_ioprio = IOPRIO_PRIO_VALUE(IOPRIO_CLASS_RT, 4);
-+		return;
-+	}
-+
- 	/*
- 	 * Except for IOPRIO_CLASS_NONE, higher I/O priority numbers
- 	 * correspond to a lower priority. Hence, the max_t() below selects
--- 
-2.29.2
+Tasklets have been long deprecated, consider using workqueues in this 
+particular case.
 
+
+> +{
+> +	struct gh_msgq *msgq = container_of(tasklet, struct gh_msgq, txdone_tasklet);
+> +
+> +	mbox_chan_txdone(gh_msgq_chan(msgq), msgq->last_ret);
+> +}
+> +
+> +static int gh_msgq_send_data(struct mbox_chan *chan, void *data)
+> +{
+..
+
+> +	tasklet_schedule(&msgq->txdone_tasklet);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct mbox_chan_ops gh_msgq_ops = {
+> +	.send_data = gh_msgq_send_data,
+> +};
+> +
+> +/**
+> + * gh_msgq_init() - Initialize a Gunyah message queue with an mbox_client
+> + * @parent: optional, device parent used for the mailbox controller
+> + * @msgq: Pointer to the gh_msgq to initialize
+> + * @cl: A mailbox client to bind to the mailbox channel that the message queue creates
+> + * @tx_ghrsc: optional, the transmission side of the message queue
+> + * @rx_ghrsc: optional, the receiving side of the message queue
+> + *
+> + * At least one of tx_ghrsc and rx_ghrsc should be not NULL. Most message queue use cases come with
+> + * a pair of message queues to facilitate bidirectional communication. When tx_ghrsc is set,
+> + * the client can send messages with mbox_send_message(gh_msgq_chan(msgq), msg). When rx_ghrsc
+> + * is set, the mbox_client should register an .rx_callback() and the message queue driver will
+> + * push all available messages upon receiving the RX ready interrupt. The messages should be
+> + * consumed or copied by the client right away as the gh_msgq_rx_data will be replaced/destroyed
+> + * after the callback.
+> + *
+> + * Returns - 0 on success, negative otherwise
+> + */
+> +int gh_msgq_init(struct device *parent, struct gh_msgq *msgq, struct mbox_client *cl,
+> +		     struct gunyah_resource *tx_ghrsc, struct gunyah_resource *rx_ghrsc)
+> +{
+> +	int ret;
+> +
+> +	/* Must have at least a tx_ghrsc or rx_ghrsc and that they are the right device types */
+> +	if ((!tx_ghrsc && !rx_ghrsc) ||
+> +	    (tx_ghrsc && tx_ghrsc->type != GUNYAH_RESOURCE_TYPE_MSGQ_TX) ||
+> +	    (rx_ghrsc && rx_ghrsc->type != GUNYAH_RESOURCE_TYPE_MSGQ_RX))
+> +		return -EINVAL;
+> +
+> +	if (gh_api_version() != GUNYAH_API_V1) {
+> +		pr_err("Unrecognized gunyah version: %u. Currently supported: %d\n",
+dev_err(parent
+
+would make this more useful
+
+> +			gh_api_version(), GUNYAH_API_V1);
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	if (!gh_api_has_feature(GH_API_FEATURE_MSGQUEUE))
+> +		return -EOPNOTSUPP;
+> +
+> +	msgq->tx_ghrsc = tx_ghrsc;
+> +	msgq->rx_ghrsc = rx_ghrsc;
+> +
+> +	msgq->mbox.dev = parent;
+> +	msgq->mbox.ops = &gh_msgq_ops;
+> +	msgq->mbox.num_chans = 1;
+> +	msgq->mbox.txdone_irq = true;
+> +	msgq->mbox.chans = kcalloc(msgq->mbox.num_chans, sizeof(*msgq->mbox.chans), GFP_KERNEL);
+> +	if (!msgq->mbox.chans)
+> +		return -ENOMEM;
+> +
+> +	if (msgq->tx_ghrsc) {
+> +		ret = request_irq(msgq->tx_ghrsc->irq, gh_msgq_tx_irq_handler, 0, "gh_msgq_tx",
+> +				msgq);
+> +		if (ret)
+> +			goto err_chans;
+> +	}
+> +
+> +	if (msgq->rx_ghrsc) {
+> +		ret = request_threaded_irq(msgq->rx_ghrsc->irq, NULL, gh_msgq_rx_irq_handler,
+> +						IRQF_ONESHOT, "gh_msgq_rx", msgq);
+> +		if (ret)
+> +			goto err_tx_irq;
+> +	}
+> +
+> +	tasklet_setup(&msgq->txdone_tasklet, gh_msgq_txdone_tasklet);
+> +
+> +	ret = mbox_controller_register(&msgq->mbox);
+> +	if (ret)
+> +		goto err_rx_irq;
+> +
+> +	ret = mbox_bind_client(gh_msgq_chan(msgq), cl);
+> +	if (ret)
+> +		goto err_mbox;
+> +
+> +	return 0;
+> +err_mbox:
+> +	mbox_controller_unregister(&msgq->mbox);
+> +err_rx_irq:
+> +	if (msgq->rx_ghrsc)
+> +		free_irq(msgq->rx_ghrsc->irq, msgq);
+> +err_tx_irq:
+> +	if (msgq->tx_ghrsc)
+> +		free_irq(msgq->tx_ghrsc->irq, msgq);
+> +err_chans:
+> +	kfree(msgq->mbox.chans);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(gh_msgq_init);
+> +
+> +void gh_msgq_remove(struct gh_msgq *msgq)
+> +{
+> +	mbox_controller_unregister(&msgq->mbox);
+> +
+> +	if (msgq->rx_ghrsc)
+> +		free_irq(msgq->rx_ghrsc->irq, msgq);
+> +
+> +	if (msgq->tx_ghrsc)
+> +		free_irq(msgq->tx_ghrsc->irq, msgq);
+> +
+> +	kfree(msgq->mbox.chans);
+> +}
+> +EXPORT_SYMBOL_GPL(gh_msgq_remove);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("Gunyah Message Queue Driver");
