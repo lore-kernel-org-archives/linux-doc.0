@@ -2,128 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD9F3C636CC
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 11:02:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15CB4C6379F
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 11:08:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231204AbjBTLCR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 06:02:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56880 "EHLO
+        id S229767AbjBTLID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 06:08:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229913AbjBTLCP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 06:02:15 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2084.outbound.protection.outlook.com [40.107.220.84])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7B813DCE;
-        Mon, 20 Feb 2023 03:02:14 -0800 (PST)
+        with ESMTP id S230040AbjBTLHm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 06:07:42 -0500
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2109.outbound.protection.outlook.com [40.107.255.109])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A789E7EE8;
+        Mon, 20 Feb 2023 03:07:39 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AP3KDSN0YTgElTamkfeiQ5AMZS7rJhBkWVXAQhGLny9vbXg3PyXXQOVeyN+x1D/YvVlwmSL+eMpMJ2JUGNS6qG0ZutSa/ihnMLv8BP45NS3jLvPgHc13CA1Myhln2BMsMIBsY/F1K2DEY1Vv1MzCG3DPC4f0eZnrj8fuLILkjETu/bG9fFq/KvdruYQVj3+9Z3XBBmSP0UGNSF+GsA85SA2evHeLqUL4p6Sc+Lu4hvb3qa7DVqkGEsGlyZXEASeGvVSgR7g32X+jbUTbgQaa7BQmdU4VRSuNfjl1hgRlLRNcx1gfkoPi3+WRfzgAPPju0Wl7JooTHj4HqUjNe+TtuQ==
+ b=CNdwSDTM/wItOyXlf02TFA+6tD6igkHbrHI7tyLqCfRmOxE5bKqryAOxHLP/j/sTKleF08hK3gVE+a+ZmgFY230mlXNjr5bdgXezFM9ZmuvVnev6sFQMJ72z+IzXKbbFkAXxJ6MXwUvUxUPdI5lh2501b1acAnSE61G6voop4DutZjw89NjRpi3EsCs+TpdM5dA5lutFwOhZGp6AvFyLM64zVeCJDgS8arPM+wIr6s4/l8/9hXJNIfqyjzLaAB3mtsvLKyq5CIkXffkDsEwWoEi179bVnAHR/oDeAmgXGERjHE1JGgjQGwZAl9PL5QGTtYqnVKbcer83rroAmCZ6Sw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EW7xrii3HEtJeiSjbDaqVaf4KWtSec1OjJOb9beydWI=;
- b=k3JBpUVq+eP52yAuUFwYgZfBnt3JSUjc3xLYV3dkJlM8oeRjwlHUQKHVbXywKe+YHwXZWSxzLEqEZNfqb64OoZ6xHFTix/yY5pTAdniUwJaMqf6B2jYvx0RzP6z9vf207YQhrG8Y00qbitnTrZtX1pXghaH596oQJZupkHaHciYKPcj45ZLdYOWBv0oZTYH1obOw3U4R9fd4LRGngrWN5JNDgBnw3FGAYjDc0rTaFgrcXXYkNPgNpWnMRxAXMKGCFQYPLgzwGjHf8Iyjw6XV9KjZ2zT5mAd4imY3LlUWquJIGiI+BIbK1bk3m7y8qFixnBcMvllfB/P24BfNKm81Bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=kc+mo8v8tEmX1UVxuNnK+WNC2WlIeHEDqPk4EtUEh5o=;
+ b=RgEzo/Ex8CFn2hSWKla6Fp7eQRtREFDifflAnothT46FazQBIn60h+pQBT7KvyqJY5e72gvJKm/L36jE9oMoBdNJ5R96/UTO+KPHZ32CHs8csjg6C+f9LU7r3fRLWSEoPt6Y+ckLAlI0jzSKtcZSDTkjZ3BUL0U3RoQoGG0K9y5FYhjz2ZH7/mHdpI9tLDlAtZZWbN3Ouu2wtS3D5BlaV+kZr0pX0kGgfWo8XPYgsTMmCWEPCm+NN6enl5/6+lJrDSiBN3+sBk6SXw9XPGp3X7aomghGl4hPingDmdaN14F2tWSjydOJq2LLP8FjQ0G77Yl0OMOK+hqV8kjQ0UISaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EW7xrii3HEtJeiSjbDaqVaf4KWtSec1OjJOb9beydWI=;
- b=Sp+YJY3+izt7rz8Jw1WzMxUKrDAh5ARmRr3pzAxWMA0xwAPcpRQRg3bVab21L/bb8QqzKrcwccMrS99A3baezLuwmMLwq7wPruLmZoiDPqZIamie8dufcia46bjlbQPgGYan7qY+vaCD6ipBomXMqrreFtNO3fsPsj4aH5xaJpc=
-Received: from MW2PR2101CA0015.namprd21.prod.outlook.com (2603:10b6:302:1::28)
- by DM8PR12MB5416.namprd12.prod.outlook.com (2603:10b6:8:28::18) with
+ bh=kc+mo8v8tEmX1UVxuNnK+WNC2WlIeHEDqPk4EtUEh5o=;
+ b=ijOTxMZfnTNO7tEyz/8GfTzjeOO9XhLITxFjMoBxJdKdO7089nqmrVnhfCR85BG7FXO7lrSmEjgdeBK9521IvCfO9PhMwvvmu7qixpcyVsuU9zfSYuymTxiE4jxCVzuN76oBN6rtfEZRrvnk0FIE/xPJ5QP4JAEyCXgG9sCPHSI5yGHfVO0aI3QmdjgqHtAQ7SvL5cfYNS7/XI6/Kl874MJMAVXp/VX0GKP+W5dlYbslrNjQXQd50W/3/Ix9H8r3YazYbt6/BXy1em4A6vGs5an7GfvL+goH49M1WpFZHkUO3oE9DWwu1nlh3iI4oIRKXwBiJU+lcKjX19Knn9YS6w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SL2PR06MB3017.apcprd06.prod.outlook.com (2603:1096:100:3a::16)
+ by SEYPR06MB5937.apcprd06.prod.outlook.com (2603:1096:101:d3::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.19; Mon, 20 Feb
- 2023 11:02:11 +0000
-Received: from CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
- (2603:10b6:302:1:cafe::1) by MW2PR2101CA0015.outlook.office365.com
- (2603:10b6:302:1::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.4 via Frontend
- Transport; Mon, 20 Feb 2023 11:02:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT057.mail.protection.outlook.com (10.13.174.205) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6111.19 via Frontend Transport; Mon, 20 Feb 2023 11:02:10 +0000
-Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 20 Feb
- 2023 05:01:42 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB07.amd.com
- (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 20 Feb
- 2023 03:01:42 -0800
-Received: from xcbalucerop41x.xilinx.com (10.180.168.240) by
- SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34 via Frontend Transport; Mon, 20 Feb 2023 05:01:40 -0600
-From:   <alejandro.lucero-palau@amd.com>
-To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
-CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <edumazet@google.com>, <habetsm.xilinx@gmail.com>,
-        <ecree.xilinx@gmail.com>, <linux-doc@vger.kernel.org>,
-        <corbet@lwn.net>, <jiri@nvidia.com>,
-        "Alejandro Lucero" <alejandro.lucero-palau@amd.com>
-Subject: [PATCH v4 net-next] sfc: fix builds without CONFIG_RTC_LIB
-Date:   Mon, 20 Feb 2023 11:01:33 +0000
-Message-ID: <20230220110133.29645-1-alejandro.lucero-palau@amd.com>
-X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.10; Mon, 20 Feb
+ 2023 11:07:36 +0000
+Received: from SL2PR06MB3017.apcprd06.prod.outlook.com
+ ([fe80::a700:8843:3175:1dd1]) by SL2PR06MB3017.apcprd06.prod.outlook.com
+ ([fe80::a700:8843:3175:1dd1%6]) with mapi id 15.20.6134.006; Mon, 20 Feb 2023
+ 11:07:36 +0000
+From:   Wu Bo <bo.wu@vivo.com>
+Cc:     Wu Bo <bo.wu@vivo.com>, "Theodore Ts'o" <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-ext4@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: ext4: modify the group desc size to 64
+Date:   Mon, 20 Feb 2023 19:06:37 +0800
+Message-Id: <20230220110637.42678-1-bo.wu@vivo.com>
+X-Mailer: git-send-email 2.35.3
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-EOPAttributedMessage: 0
+X-ClientProxiedBy: SI2PR01CA0008.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::10) To SL2PR06MB3017.apcprd06.prod.outlook.com
+ (2603:1096:100:3a::16)
+MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT057:EE_|DM8PR12MB5416:EE_
-X-MS-Office365-Filtering-Correlation-Id: e0ba1e25-a087-4f8e-ae68-08db1331ea5d
+X-MS-TrafficTypeDiagnostic: SL2PR06MB3017:EE_|SEYPR06MB5937:EE_
+X-MS-Office365-Filtering-Correlation-Id: e12727e6-c679-40b1-e488-08db1332ac74
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: k44YfcyPzgzLywtE6NxWCfSD+FVk2QS8mO+s8D8liPpNgUJ8SDiH7vj0ihwiSd/CWcXs29SWutMowJE3hq42TbMXXEozOuYQuz1X6c5dxGhO8RfXOb62bM2xS4My+Q36PrxrjNRn9IM7u4q45O1tx+01Z3SHbrGeX+W/gmfNp3XDiEw7htnaLkvhEIimnmBYb1dLOOs89Bod16WtSGVO9WVKUURyzyg1KKVaYXIgNP4gXOoDbzngvoZwCB2fw6jqP/J+kUqXUJkiq1Z1SNL1WU84JyGr8vUQhsbcHEdkZLfmdfHZ/WuELV0Aod0/fLHkAja4hj0fPKS1u+f2jaVnLRjqyKYpZLrwpbTq3ESDFN2u2jACGRSPpiu0M0BgU49Ny+YCn1iDmO4kb1MwrDFCjh76i37vQr24GwQsEYcJkGIGxoSE73+mn/PwGfMymMt3IjAl2wnhnfF8wjIevTeD/640E9y8hUquM/B2piJe4ETvzGNyaJi39XrFF7NRxx5MAm+tH9ZLSYp0WHmJyFHMeUxgdzOaxEH1kG4/yKwaEYQIz1Fds1dXJWBgNB5yGw/4h4rM7E46c3dgJGzNbZ80rQDWfqtfHtXmEUi4CTzGp+aj0vM2tWmQdb6KB/bMEPTmE94VK6oO2h8mR4AR0E7J7D5MVocN5Vf9tp3whxFEsoRGEgtwWYGtA0sShbc05O3jIbDhEuz9qPKfiV8qGfDqDwuxiyWkMwtUgHUQMxIr9fM=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(39860400002)(376002)(346002)(396003)(451199018)(40470700004)(46966006)(36840700001)(40460700003)(54906003)(70586007)(110136005)(316002)(6636002)(4326008)(41300700001)(8936002)(83380400001)(70206006)(6666004)(8676002)(2616005)(1076003)(426003)(186003)(26005)(47076005)(40480700001)(478600001)(966005)(336012)(356005)(36756003)(82310400005)(86362001)(2906002)(2876002)(82740400003)(7416002)(5660300002)(36860700001)(81166007)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 11:02:10.7818
+X-Microsoft-Antispam-Message-Info: ADY6OZARFaFS4L5jitbmqpDERpbQnS6kFFmytWtU89o5HqJHRJ3dT4U6YbuozdUGe1n0BfLRIpVH04uZAG8XaTywbZBq1mca6bxozPYRolWEDrUKq11/BdpB3BVYTA0yN+bYxec10tfbZXQtkrYO5aoPe0wFgI4lqqsL9r60Uk4/iWnGA5Y5EKZta54SxGx/bxpHNzI7rIb3Uz8DgokMryXSrDV4TrhEEdx0ag3KfT8UpNzC7q1nn6J9a64H2MAR5sSNvQJadUafunLOIj2n9TuqoP6kW7LPs7i1/ETCRWNk1OZ/LnyfGbxai1+Lz/o0pgFBOAnxeJ8qFbFBodyQyGxgSm972OrUgR4fNiF8RcVSH1A2UHnI9Xd4/Qg7KNoz6xd9mpW/bR3sMvtCNbIQc99vK9xIh046lGMPIniNiqqKlcwYVxY0DmB1XM/c74t50bvtBDX7/I9oDtSf+L/BPtjGrAWBz6nEcfynTJJWukcpId2LAFk9c3D8z1pu76oSREPVLAvLQZSHI9+rmd1MzA+ufXuB8S9gtzXbdfJ13w3d7SoS+Gr5U0pidwMygkzym5LvKVhhS1ubF8rpPFPzk8fdMXh94t3o/42jQeEBS8F0rz6U3OsCOkkFT2J1L0JByYz3n/TvCwIEhAO47pVv15/mqZcT5Zjb7zHMR95/1THoEzDhE2z6pqdu81vusNeForO1hWceq/MtEoG7X2zHNoK0vCZZXN64i3xnMbj0SpE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2PR06MB3017.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(376002)(136003)(39860400002)(366004)(396003)(109986016)(451199018)(66946007)(316002)(41300700001)(83380400001)(8676002)(86362001)(66476007)(4326008)(2616005)(36756003)(5660300002)(8936002)(186003)(6512007)(26005)(66556008)(6506007)(6486002)(1076003)(52116002)(2906002)(54906003)(478600001)(38100700002)(38350700002)(266003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HD+Plzr1hQCraJQlfagjTVkxny21OZcLz1OpHU/wujummGoH6aSh9+SFOYqt?=
+ =?us-ascii?Q?UUrp0omCOt06Ow1Rf0Hsar7yemuTKhBXd1ToxO5y0FQ47iKBr1otlqaK8bMi?=
+ =?us-ascii?Q?dVUm++9bzoy109twnYwDPbKMU5lzhkIGODP6qGLYwvEX2RAssb/Wcd6lXlPP?=
+ =?us-ascii?Q?FlSbfD4VOc7D5QCKB/IXmkMxoOtBaqFui8MAWBFmJrB1qX78dDDRs5NxwZ2L?=
+ =?us-ascii?Q?ZMPFEyMr8j4JszKdPha7U4cdnItjX5M7wZM5Kl0kGDa6rdEFJg2nlvaxrux9?=
+ =?us-ascii?Q?RbjdrEc/TDuVH0eF0HDM126b39i5K7xf8VLMd5TbPY0PGDsZOz7ag5JQZLqn?=
+ =?us-ascii?Q?2JRKhpNQzBpjF3ZJ5GQQRFL7woEWY1kysQMfGEXZmk+FAH+kogz64iorR2no?=
+ =?us-ascii?Q?+65/nLLIMchIgE6VRQNio7KQUqDtjCmif4w1wluGr+dLv+UBIAQCdY+3Q2fK?=
+ =?us-ascii?Q?WupwYziTO6E4edRmvxTh60PTpIjhR4oGkPY/J3NIrXlhjRzJXt3WfcQuVXMt?=
+ =?us-ascii?Q?x3X/Iz6xJQb3Wa2cEKVxyhLvxnz1I5xyuZuZcic0Wnhq1Ll8pbO9YiN6pvC4?=
+ =?us-ascii?Q?vLdlBzy1v072OhiQGJQ+leAKMcLsvSd0B9VlONn9FC9IuSWdH6lAeHBdZnOi?=
+ =?us-ascii?Q?qCOlXCNnOKvC2TNLLydXg9PKBvp2n6rhwPbzElxiVOyNy8LqCNpUQ1n3yTiC?=
+ =?us-ascii?Q?pOUccUOYBEMTAX09ZDLBtsNxLnzEka5fMxfXLC5XfBMgHCS5Uo5DH/D5LTfB?=
+ =?us-ascii?Q?dm2OwvXiafzh45N9gbbRLLJvEq/f90MfdDlHKTzhSx72M22dbVY/vliesWbJ?=
+ =?us-ascii?Q?040Ey5KPAEscPxmXdODRhdFmQSZUMBzFZQPdKx78nDAzFe0GLthTgCUV5cAI?=
+ =?us-ascii?Q?C7pWiG5FbqclgcDcVsiF0BjuUSD53fLg9GMRjcC3LyTaGvOHJT3tlt/xUPtm?=
+ =?us-ascii?Q?GsCzwWtw5Z78AD5Lc9fP+9zfTjmpMivlMIHWqRxVPcbMfcFruRz8ykYcDX5g?=
+ =?us-ascii?Q?UbVlIXw+S2MhtUXF0rMVZmmHw8Yw32a5PLWy9ygR7lN3Ctic2ALhm/1nmJd8?=
+ =?us-ascii?Q?ILO40UALRe5XrcXQRzV8OSJtGHiI1wT0GAibwDROTwQigAGVfwpgoOYRzfWn?=
+ =?us-ascii?Q?gc/EZodACQauzGIp4lIfRCR4UJ+n4ER/tEP0ytdgwTKaftt1ubbrvDMFDvFj?=
+ =?us-ascii?Q?PrbpMlMVTkaQVGgudBho8OG2ophJeSvHNW1OKEv7Kr9rTUiwmX0/oirUYyYe?=
+ =?us-ascii?Q?ZkkfzO76LH34Ysvl8V49f6iXn5XRC9csL7zOSSICFelHxuFwfCFgOVytmwsD?=
+ =?us-ascii?Q?uxxlYo9UuSpxnMiPZN8rc7maqefUqogSgwg/mewZ5pPOHDCUqPJ6Rc9mNKKB?=
+ =?us-ascii?Q?cFW8pmEv9yzEYd5ESX8AWwmg/C4JXbCVxhaDY0dMzRCsWO1S+p933h4pn2PN?=
+ =?us-ascii?Q?KkRVR9xwTAtJvZ2ELbu4p9phEbLghbci07RnaOuKX1/QrPlgext0g0sbUqIj?=
+ =?us-ascii?Q?sBaAyfIbI0MvCe+ZK/Zjpjdfy/CPeJ+ydb/iyOc2PnO1NjcijHaLGxfNhmLD?=
+ =?us-ascii?Q?ogsPe8X8ko/9pinEMPB2pXOBBPI8QP49tLKpOufn?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e12727e6-c679-40b1-e488-08db1332ac74
+X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3017.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 11:07:36.7253
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0ba1e25-a087-4f8e-ae68-08db1331ea5d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5416
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kf3NarGz2Of4u5PLIOytJWFBdJdbk71Vc1zKQkXbH3IuHynkKVqfdJUw7WcGX0OdaUjpt7BNsdP2mrKbRZpe+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5937
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+Since the default ext4 group desc size is 64 now and the size mentioned
+in this doc is 64 too. Change it to 64.
 
-Add an embarrassingly missed semicolon plus and embarrassingly missed
-parenthesis breaking kernel building when CONFIG_RTC_LIB is not set
-like the one reported with ia64 config.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/oe-kbuild-all/202302170047.EjCPizu3-lkp@intel.com/
-Fixes: 14743ddd2495 ("sfc: add devlink info support for ef100")
-Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+Signed-off-by: Wu Bo <bo.wu@vivo.com>
 ---
- drivers/net/ethernet/sfc/efx_devlink.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/filesystems/ext4/blockgroup.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
-index d2eb6712ba35..c829362ca99f 100644
---- a/drivers/net/ethernet/sfc/efx_devlink.c
-+++ b/drivers/net/ethernet/sfc/efx_devlink.c
-@@ -323,7 +323,7 @@ static void efx_devlink_info_running_v2(struct efx_nic *efx,
- 				    GET_VERSION_V2_OUT_SUCFW_BUILD_DATE);
- 		rtc_time64_to_tm(tstamp, &build_date);
- #else
--		memset(&build_date, 0, sizeof(build_date)
-+		memset(&build_date, 0, sizeof(build_date));
- #endif
- 		build_id = MCDI_DWORD(outbuf, GET_VERSION_V2_OUT_SUCFW_CHIP_ID);
- 
+diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/filesystems/ext4/blockgroup.rst
+index 46d78f860623..ed5a5cac6d40 100644
+--- a/Documentation/filesystems/ext4/blockgroup.rst
++++ b/Documentation/filesystems/ext4/blockgroup.rst
+@@ -105,9 +105,9 @@ descriptors. Instead, the superblock and a single block group descriptor
+ block is placed at the beginning of the first, second, and last block
+ groups in a meta-block group. A meta-block group is a collection of
+ block groups which can be described by a single block group descriptor
+-block. Since the size of the block group descriptor structure is 32
+-bytes, a meta-block group contains 32 block groups for filesystems with
+-a 1KB block size, and 128 block groups for filesystems with a 4KB
++block. Since the size of the block group descriptor structure is 64
++bytes, a meta-block group contains 16 block groups for filesystems with
++a 1KB block size, and 64 block groups for filesystems with a 4KB
+ blocksize. Filesystems can either be created using this new block group
+ descriptor layout, or existing filesystems can be resized on-line, and
+ the field s_first_meta_bg in the superblock will indicate the first
 -- 
-2.17.1
+2.35.3
 
