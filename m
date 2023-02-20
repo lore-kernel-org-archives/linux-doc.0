@@ -2,89 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3369CC636D6
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 06:50:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59CABC636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 07:10:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbjBTGu4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 01:50:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60614 "EHLO
+        id S230312AbjBTHKG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 02:10:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbjBTGuz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 01:50:55 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A640AD2A;
-        Sun, 19 Feb 2023 22:50:54 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 231A7B80AD5;
-        Mon, 20 Feb 2023 06:50:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C2AC433EF;
-        Mon, 20 Feb 2023 06:50:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676875851;
-        bh=8ea/W8EPaGnZGcQn5kFoCfUqrn/UjnED2e0Ukr+lUV0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ar25jCVK8MzN7+bVdQZtDcBDGEZmSz4d5L1idXv/g3IMG9MkJNLgVG8e/aaSEsSE6
-         NBJ81vRXMyri3EtEGciviwl4KiniDa79ObM16tpGxwRjRZY7Lf5lohJPtR6p09pjsf
-         UlO70fZO9ocQ9ympyYoaYCRAZ+hEHMtfvj3p8aNeFrEXwwyxoGKg9UikMWbnWWiAlI
-         4qDjC0A93LRgT+5FfqKIAigndBOSMIn7GnKWg3NRyJbdPzCHmTKmoXqR5wVcn/I3uY
-         gUE95b4j9EoR1/d026lm0ymfIOKTHCdzn5XixoKwZSSRuZ5J0Z0lp3WbO4KGcRyGMj
-         pGavmNWjAgRCw==
-Date:   Mon, 20 Feb 2023 08:50:29 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        with ESMTP id S230329AbjBTHKF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 02:10:05 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1128165A2;
+        Sun, 19 Feb 2023 23:09:43 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id ky4so1488595plb.3;
+        Sun, 19 Feb 2023 23:09:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TueDRDm3Jji/rHVHmT68cSt/Lm9yegzVpF0ZkJ2XCVE=;
+        b=D5jAbYYcYIQNLmWo/mjCyxRjxk/jqNhpo5cw15EioA77/FMFTzzQXPeJDWJPrc24I3
+         JiVqlCoZmoVv8uarvZVqRs4kaOUT+BiQwRijDqpUeQHVQed3T5blk0FEfeHr2JmkAQCs
+         IW5idyTLxZsd1g5VxCWk0lS4ivMVXZT60aDVRlqEM2aE0MaPffQVJBxb2zO1kWUWIsNq
+         7/UZCXspkNKXFluPj/upqzP0be/Mt96qKJm9WFZ71P4Mape/HOXHlyM0p1jBbPcfbVKX
+         uMrWPQZLaNLG/+2U9huGdIRHPU++wKXJ/argjTFlv+ObYObLsmZcZa7ZqZKHe961dpDN
+         +u/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TueDRDm3Jji/rHVHmT68cSt/Lm9yegzVpF0ZkJ2XCVE=;
+        b=3eHmnSJcTIaKazoPViO7CXaZnOn+/F9ob7W6J1UJoPBoOeV/17tklXa3B0UWR3AV+e
+         iT9Fbnd/hUpC3QG+aRqxr0EZBLDTJq7qWts7vtEBQ4zQDqtiroRMQrLXOr5xuw8/zNfP
+         aFeX6xZm/qFlMFbt2TAeFHj1hVWnFCZgvH96g8haXKSjg4VJ4VQVMgsWxoyDBi22f7y0
+         YU/2wzqo6tn1mi7rSQTwTrDNM61/0ArvWLbQo9Gsi7WmMoEhIojC0Li+z+mMxeGwOKS3
+         nYV0KvZqWvf2dVI6wDSjcapKm5pioCyGht/DrH92HkSnYF50/3dbSo9M1dF65jc7mKaZ
+         /fSg==
+X-Gm-Message-State: AO0yUKX39TiXHfd5bIZ3McBeBhbldQowqG6D9TkXZuLNTKoKUWa2gqPR
+        kx1CbKVkCvdZuclxQTmrI6w=
+X-Google-Smtp-Source: AK7set8v0EAdIMPudHrzDL/rhHKJd+e20xKHgYZU6Ijetv5xgIhVs3HqXRTJBJQFwf7bfV8pmIhncQ==
+X-Received: by 2002:a17:902:e54f:b0:19a:89d4:802f with SMTP id n15-20020a170902e54f00b0019a89d4802fmr1638573plf.57.1676876982539;
+        Sun, 19 Feb 2023 23:09:42 -0800 (PST)
+Received: from redecorated-mbp ([202.53.32.211])
+        by smtp.gmail.com with ESMTPSA id x9-20020a170902820900b0019c33775574sm621846pln.198.2023.02.19.23.09.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Feb 2023 23:09:42 -0800 (PST)
+Date:   Mon, 20 Feb 2023 18:09:32 +1100
+From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com
-Subject: Re: [PATCH v6 00/41] Shadow stacks for userspace
-Message-ID: <Y/MYNRHrG61ZiAgt@kernel.org>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Aditya Garg <gargaditya08@live.com>,
+        Aun-Ali Zaidi <admin@kodeit.net>,
+        Kerem Karabay <kekrby@gmail.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas@t-8ch.de>,
+        Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <linux@weissschuh.net>
+Subject: Re: [PATCH v4 2/2] HID: hid-apple-magic-backlight: Add driver for
+ keyboard backlight on internal Magic Keyboards
+Message-ID: <20230220180932.2a7aa6b1@redecorated-mbp>
+In-Reply-To: <CAHp75VeF6ypA7mSYZrMsNr777f6zjEJ6nkygEc_NQe-nMhjRFQ@mail.gmail.com>
+References: <20230218090709.7467-1-orlandoch.dev@gmail.com>
+        <20230218090709.7467-3-orlandoch.dev@gmail.com>
+        <CAHp75VeF6ypA7mSYZrMsNr777f6zjEJ6nkygEc_NQe-nMhjRFQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 18, 2023 at 01:13:52PM -0800, Rick Edgecombe wrote:
-> Hi,
+On Sun, 19 Feb 2023 16:09:26 +0200
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+
+> On Sat, Feb 18, 2023 at 11:08 AM Orlando Chamberlain
+> <orlandoch.dev@gmail.com> wrote:
+> >
+> > This driver adds support for the keyboard backlight on Intel T2 Macs
+> > with internal Magic Keyboards (MacBookPro16,x and MacBookAir9,1)  
 > 
-> This series implements Shadow Stacks for userspace using x86's Control-flow 
-> Enforcement Technology (CET). CET consists of two related security features: 
-> shadow stacks and indirect branch tracking. This series implements just the 
-> shadow stack part of this feature, and just for userspace.
+> ...
+> 
+> > +       help
+> > +       Say Y here if you want support for the keyboard backlight
+> > on Macs with
+> > +       the magic keyboard (MacBookPro16,x and MacBookAir9,1). Note
+> > that this
+> > +       driver is not for external magic keyboards.
+> > +
+> > +       To compile this driver as a module, choose M here: the
+> > +       module will be called hid-apple-magic-backlight.  
+> 
+> Is it my email client or is the indentation of the help text
+> incorrect?
+> 
+> Hint: the text of the help should be <TAB><SPACE><SPACE> indented.
+> 
+> I believe checkpatch.pl at least in --strict mode should complain
+> about this.
 
-For the series
+Looking at the hid Kconfig, it seems like some have it as you've
+described, and some just have tab (and a few have just tab for the
+first line, and tab space space for the rest of the lines).
 
-Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
-
--- 
-Sincerely yours,
-Mike.
+checkpatch.pl --strict didn't complain about the indentation so
+hopefully it's alright as is.
