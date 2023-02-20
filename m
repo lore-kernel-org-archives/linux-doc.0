@@ -2,243 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA1B5C64EC7
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 11:25:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03E19C05027
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 11:29:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230050AbjBTLZR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 06:25:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49000 "EHLO
+        id S230145AbjBTL3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 06:29:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231610AbjBTLZJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 06:25:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17AA38A6B
-        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 03:23:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676892214;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=JGvEUYyDyInAU1qTOkUUwH1+5Pn5/FfAg09zLJh1EcU=;
-        b=LJ4z/ydlreQO2yAtfBGq5VjJCLgp297eaAHVbIuZOwUBIi2Z0QExyTv6nd/ARNoqMqdjn1
-        /zMysMRY0+wYzE6vrOvE/OCyAU5zz2zZy4+k6HBeuFrxSJpfHYMdYB4k5d6NnCqUnBPAwg
-        e5+N+BoK+DPErZpuJFnQdtZCGVRIc3E=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-435-COtPw0PnM1eikRlNkARkRA-1; Mon, 20 Feb 2023 06:23:33 -0500
-X-MC-Unique: COtPw0PnM1eikRlNkARkRA-1
-Received: by mail-wm1-f69.google.com with SMTP id m22-20020a05600c4f5600b003dffc7343c3so400557wmq.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 03:23:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JGvEUYyDyInAU1qTOkUUwH1+5Pn5/FfAg09zLJh1EcU=;
-        b=2nqqIYLZW+Ri+LHafDkOjTvA1PrEpJWaaG0irN8iyiCIETqn+YdqarIqM9etUlcthi
-         vZIdeywLvgM093HuorYJSlpcpT8qDWtdlhDcyXZaXEJACjt1T1cEL4hh7IYqzruubRmR
-         yz0aQEZqNIwR6e1QDA26yi11jnIus4bMAMpGpOPTkL+f2F94dQmvJUuWTXmnKB0WwGEH
-         h9PyKj0SF2qeEIxfjaOry21cVBucvfNLkNimS4IGVCXw1XgwzTFtWIMszXEibRXCS+wZ
-         ih34Whjn5hE9HsUV4TDWU98AUBYLsA9v4zASnh5XnjcgOcgzBGrp16uzbH5EhZxG5tKj
-         GFMQ==
-X-Gm-Message-State: AO0yUKUuXp+9IWVeew7tyLu5Rq+EK+rl0bKmRC6yWzbSSdyeTf5sKSi4
-        ZOVfPof+6XlDPLsjhWfY91FOiF2TmaJlan2xn8PovWOYiOpyuBXtXH+fSaVatBFi3tcxh97FEQA
-        VvHHHkeCu7vtAt7runB+s
-X-Received: by 2002:adf:e889:0:b0:2bf:ae19:d8e4 with SMTP id d9-20020adfe889000000b002bfae19d8e4mr1431271wrm.16.1676892211957;
-        Mon, 20 Feb 2023 03:23:31 -0800 (PST)
-X-Google-Smtp-Source: AK7set8MwtYqrZBvXsoQ9yPZN/bwu32QfvZtBFBM6ley7E2vAkMmUmM+SZmaWRHMAwPacrP/Dgjyyg==
-X-Received: by 2002:adf:e889:0:b0:2bf:ae19:d8e4 with SMTP id d9-20020adfe889000000b002bfae19d8e4mr1431211wrm.16.1676892211619;
-        Mon, 20 Feb 2023 03:23:31 -0800 (PST)
-Received: from ?IPV6:2003:cb:c705:8300:e519:4218:a8b5:5bec? (p200300cbc7058300e5194218a8b55bec.dip0.t-ipconnect.de. [2003:cb:c705:8300:e519:4218:a8b5:5bec])
-        by smtp.gmail.com with ESMTPSA id u13-20020a5d434d000000b002c55ec7f661sm154441wrr.5.2023.02.20.03.23.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Feb 2023 03:23:30 -0800 (PST)
-Message-ID: <f50daeb7-7b41-0bed-73f0-b6358169521b@redhat.com>
-Date:   Mon, 20 Feb 2023 12:23:28 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v6 13/41] mm: Make pte_mkwrite() take a VMA
-Content-Language: en-US
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        with ESMTP id S229741AbjBTL3k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 06:29:40 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8138E14E9B;
+        Mon, 20 Feb 2023 03:29:38 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="312010717"
+X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
+   d="scan'208";a="312010717"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 03:29:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="648808407"
+X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
+   d="scan'208";a="648808407"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP; 20 Feb 2023 03:29:34 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1pU4MO-009O14-0L;
+        Mon, 20 Feb 2023 13:29:32 +0200
+Date:   Mon, 20 Feb 2023 13:29:31 +0200
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Orlando Chamberlain <orlandoch.dev@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        debug@rivosinc.com
-Cc:     linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-        Michal Simek <monstr@monstr.eu>,
-        Dinh Nguyen <dinguyen@kernel.org>, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        xen-devel@lists.xenproject.org
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-14-rick.p.edgecombe@intel.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230218211433.26859-14-rick.p.edgecombe@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Aditya Garg <gargaditya08@live.com>,
+        Aun-Ali Zaidi <admin@kodeit.net>,
+        Kerem Karabay <kekrby@gmail.com>,
+        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@t-8ch.de>,
+        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH v4 2/2] HID: hid-apple-magic-backlight: Add driver for
+ keyboard backlight on internal Magic Keyboards
+Message-ID: <Y/NZm22JQKeF1+6R@smile.fi.intel.com>
+References: <20230218090709.7467-1-orlandoch.dev@gmail.com>
+ <20230218090709.7467-3-orlandoch.dev@gmail.com>
+ <CAHp75VeF6ypA7mSYZrMsNr777f6zjEJ6nkygEc_NQe-nMhjRFQ@mail.gmail.com>
+ <20230220180932.2a7aa6b1@redecorated-mbp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230220180932.2a7aa6b1@redecorated-mbp>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18.02.23 22:14, Rick Edgecombe wrote:
-> The x86 Control-flow Enforcement Technology (CET) feature includes a new
-> type of memory called shadow stack. This shadow stack memory has some
-> unusual properties, which requires some core mm changes to function
-> properly.
-> 
-> One of these unusual properties is that shadow stack memory is writable,
-> but only in limited ways. These limits are applied via a specific PTE
-> bit combination. Nevertheless, the memory is writable, and core mm code
-> will need to apply the writable permissions in the typical paths that
-> call pte_mkwrite().
-> 
-> In addition to VM_WRITE, the shadow stack VMA's will have a flag denoting
-> that they are special shadow stack flavor of writable memory. So make
-> pte_mkwrite() take a VMA, so that the x86 implementation of it can know to
-> create regular writable memory or shadow stack memory.
-> 
-> Apply the same changes for pmd_mkwrite() and huge_pte_mkwrite().
-> 
-> No functional change.
-> 
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-alpha@vger.kernel.org
-> Cc: linux-snps-arc@lists.infradead.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-csky@vger.kernel.org
-> Cc: linux-hexagon@vger.kernel.org
-> Cc: linux-ia64@vger.kernel.org
-> Cc: loongarch@lists.linux.dev
-> Cc: linux-m68k@lists.linux-m68k.org
-> Cc: Michal Simek <monstr@monstr.eu>
-> Cc: Dinh Nguyen <dinguyen@kernel.org>
-> Cc: linux-mips@vger.kernel.org
-> Cc: openrisc@lists.librecores.org
-> Cc: linux-parisc@vger.kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: linux-riscv@lists.infradead.org
-> Cc: linux-s390@vger.kernel.org
-> Cc: linux-sh@vger.kernel.org
-> Cc: sparclinux@vger.kernel.org
-> Cc: linux-um@lists.infradead.org
-> Cc: xen-devel@lists.xenproject.org
-> Cc: linux-arch@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
-> Suggested-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> 
-> ---
-> Hi Non-x86 Arch’s,
-> 
-> x86 has a feature that allows for the creation of a special type of
-> writable memory (shadow stack) that is only writable in limited specific
-> ways. Previously, changes were proposed to core MM code to teach it to
-> decide when to create normally writable memory or the special shadow stack
-> writable memory, but David Hildenbrand suggested[0] to change
-> pXX_mkwrite() to take a VMA, so awareness of shadow stack memory can be
-> moved into x86 code.
-> 
-> Since pXX_mkwrite() is defined in every arch, it requires some tree-wide
-> changes. So that is why you are seeing some patches out of a big x86
-> series pop up in your arch mailing list. There is no functional change.
-> After this refactor, the shadow stack series goes on to use the arch
-> helpers to push shadow stack memory details inside arch/x86.
-> 
-> Testing was just 0-day build testing.
-> 
-> Hopefully that is enough context. Thanks!
-> 
-> [0] https://lore.kernel.org/lkml/0e29a2d0-08d8-bcd6-ff26-4bea0e4037b0@redhat.com/#t
-> 
-> v6:
->   - New patch
-> ---
->   Documentation/mm/arch_pgtable_helpers.rst    |  9 ++++++---
->   arch/alpha/include/asm/pgtable.h             |  6 +++++-
->   arch/arc/include/asm/hugepage.h              |  2 +-
->   arch/arc/include/asm/pgtable-bits-arcv2.h    |  7 ++++++-
->   arch/arm/include/asm/pgtable-3level.h        |  7 ++++++-
->   arch/arm/include/asm/pgtable.h               |  2 +-
->   arch/arm64/include/asm/pgtable.h             |  4 ++--
->   arch/csky/include/asm/pgtable.h              |  2 +-
->   arch/hexagon/include/asm/pgtable.h           |  2 +-
->   arch/ia64/include/asm/pgtable.h              |  2 +-
->   arch/loongarch/include/asm/pgtable.h         |  4 ++--
->   arch/m68k/include/asm/mcf_pgtable.h          |  2 +-
->   arch/m68k/include/asm/motorola_pgtable.h     |  6 +++++-
->   arch/m68k/include/asm/sun3_pgtable.h         |  6 +++++-
->   arch/microblaze/include/asm/pgtable.h        |  2 +-
->   arch/mips/include/asm/pgtable.h              |  6 +++---
->   arch/nios2/include/asm/pgtable.h             |  2 +-
->   arch/openrisc/include/asm/pgtable.h          |  2 +-
->   arch/parisc/include/asm/pgtable.h            |  6 +++++-
->   arch/powerpc/include/asm/book3s/32/pgtable.h |  2 +-
->   arch/powerpc/include/asm/book3s/64/pgtable.h |  4 ++--
->   arch/powerpc/include/asm/nohash/32/pgtable.h |  2 +-
->   arch/powerpc/include/asm/nohash/32/pte-8xx.h |  2 +-
->   arch/powerpc/include/asm/nohash/64/pgtable.h |  2 +-
->   arch/riscv/include/asm/pgtable.h             |  6 +++---
->   arch/s390/include/asm/hugetlb.h              |  4 ++--
->   arch/s390/include/asm/pgtable.h              |  4 ++--
->   arch/sh/include/asm/pgtable_32.h             | 10 ++++++++--
->   arch/sparc/include/asm/pgtable_32.h          |  2 +-
->   arch/sparc/include/asm/pgtable_64.h          |  6 +++---
->   arch/um/include/asm/pgtable.h                |  2 +-
->   arch/x86/include/asm/pgtable.h               |  6 ++++--
->   arch/xtensa/include/asm/pgtable.h            |  2 +-
->   include/asm-generic/hugetlb.h                |  4 ++--
->   include/linux/mm.h                           |  2 +-
->   mm/debug_vm_pgtable.c                        | 16 ++++++++--------
->   mm/huge_memory.c                             |  6 +++---
->   mm/hugetlb.c                                 |  4 ++--
->   mm/memory.c                                  |  4 ++--
->   mm/migrate_device.c                          |  2 +-
->   mm/mprotect.c                                |  2 +-
->   mm/userfaultfd.c                             |  2 +-
->   42 files changed, 106 insertions(+), 69 deletions(-)
+On Mon, Feb 20, 2023 at 06:09:32PM +1100, Orlando Chamberlain wrote:
+> On Sun, 19 Feb 2023 16:09:26 +0200
+> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+> > On Sat, Feb 18, 2023 at 11:08 AM Orlando Chamberlain
+> > <orlandoch.dev@gmail.com> wrote:
 
-That looks painful but IMHO worth it :)
+...
 
-Acked-by: David Hildenbrand <david@redhat.com>
+> > > +       help
+> > > +       Say Y here if you want support for the keyboard backlight
+> > > on Macs with
+> > > +       the magic keyboard (MacBookPro16,x and MacBookAir9,1). Note
+> > > that this
+> > > +       driver is not for external magic keyboards.
+> > > +
+> > > +       To compile this driver as a module, choose M here: the
+> > > +       module will be called hid-apple-magic-backlight.  
+> > 
+> > Is it my email client or is the indentation of the help text
+> > incorrect?
+> > 
+> > Hint: the text of the help should be <TAB><SPACE><SPACE> indented.
+> > 
+> > I believe checkpatch.pl at least in --strict mode should complain
+> > about this.
+> 
+> Looking at the hid Kconfig, it seems like some have it as you've
+> described, and some just have tab (and a few have just tab for the
+> first line, and tab space space for the rest of the lines).
+
+Okay, I have checked in the other MUA I'm using for patch reviews and indeed
+your Kconfig indentation is broken.
+
+> checkpatch.pl --strict didn't complain about the indentation so
+> hopefully it's alright as is.
+
+No, it's not. Must be fixed.
+
+https://www.kernel.org/doc/html/latest/process/coding-style.html#kconfig-configuration-files
 
 -- 
-Thanks,
+With Best Regards,
+Andy Shevchenko
 
-David / dhildenb
 
