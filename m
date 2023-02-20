@@ -2,195 +2,223 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4772C05027
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 13:10:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A466C636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 13:26:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229991AbjBTNKS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 08:10:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54754 "EHLO
+        id S231929AbjBTN0S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 08:26:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232113AbjBTNKR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 08:10:17 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7429A1BAEA;
-        Mon, 20 Feb 2023 05:10:15 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0998660E96;
-        Mon, 20 Feb 2023 13:10:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FE0C433EF;
-        Mon, 20 Feb 2023 13:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676898614;
-        bh=2ikMx+J9iZA7Wuvdcg8nlqS+qWdzmIvw7PRlQ6iELBk=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=T2gDurMxly1kyU1CfR1+ju0rANY+X2UEvtP+NpohSyD8xNI1sQ04rUNGdm4GlevX7
-         YpOfHUSSvQOeSnhdmxrhLjpn08Fmg5idoP6+c1CNHX+TYsmOfTBYjZ1gUuPcEmHgUO
-         H2hUraT4QQUKLo7c4aKkcVDScnkaWcV6qCsZPw6reL5w+CiQ5dKpI2o5SUaOJWjMik
-         Az0ZWpX+dwwhr/WsnQuBuOuFSnwdtPZ+Y7AOmP2H9n2evDn5Ydzu4N8iiMYnIjMYLv
-         aNJBZiFJPFZLrPBcIkW+FRMzajQb2FP6h9X7tleyPhmmzVnqehQHyFtWG1WtUKm0oC
-         OrFxuAQk//5EQ==
-From:   =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: Re: [PATCH v4 1/1] riscv: Allow to downgrade paging mode from the
- command line
-In-Reply-To: <20230131151115.1972740-2-alexghiti@rivosinc.com>
-References: <20230131151115.1972740-1-alexghiti@rivosinc.com>
- <20230131151115.1972740-2-alexghiti@rivosinc.com>
-Date:   Mon, 20 Feb 2023 14:10:11 +0100
-Message-ID: <87lekslbyk.fsf@all.your.base.are.belong.to.us>
+        with ESMTP id S231502AbjBTN0S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 08:26:18 -0500
+Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC461ABEE;
+        Mon, 20 Feb 2023 05:26:16 -0800 (PST)
+Received: from mail02.huawei.com (unknown [172.30.67.153])
+        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4PL38d6tS0z4f3w0Y;
+        Mon, 20 Feb 2023 21:26:09 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.124.27])
+        by APP4 (Coremail) with SMTP id gCh0CgBXwLPtdPNjrs7vDw--.52497S4;
+        Mon, 20 Feb 2023 21:26:07 +0800 (CST)
+From:   Hou Tao <houtao@huaweicloud.com>
+To:     linux-block@vger.kernel.org
+Cc:     Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, houtao1@huawei.com
+Subject: [PATCH v2] blk-ioprio: Introduce promote-to-rt policy
+Date:   Mon, 20 Feb 2023 21:54:28 +0800
+Message-Id: <20230220135428.2632906-1-houtao@huaweicloud.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgBXwLPtdPNjrs7vDw--.52497S4
+X-Coremail-Antispam: 1UD129KBjvJXoW3GF1ftF4UWrW3uw1rJF45trb_yoWxGF4DpF
+        4fAF9xur9YqF1xJFnrJ3WkXrWrtas2yw47CFsxKFyF934UAw1q9F40yF1kWFyfA3yDXFZ8
+        XrZ8JrW8CF1Dur7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUk2b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+        0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+        Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28I
+        cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
+        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI
+        42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42
+        IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+        87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUrR6zUUUUU
+X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexandre Ghiti <alexghiti@rivosinc.com> writes:
+From: Hou Tao <houtao1@huawei.com>
 
-> Add 2 early command line parameters that allow to downgrade satp mode
-> (using the same naming as x86):
-> - "no5lvl": use a 4-level page table (down from sv57 to sv48)
-> - "no4lvl": use a 3-level page table (down from sv57/sv48 to sv39)
->
-> Note that going through the device tree to get the kernel command line
-> works with ACPI too since the efi stub creates a device tree anyway with
-> the command line.
->
-> In KASAN kernels, we can't use the libfdt that early in the boot process
-> since we are not ready to execute instrumented functions. So instead of
-> using the "generic" libfdt, we compile our own versions of those functions
-> that are not instrumented and that are prefixed so that they do not
-> conflict with the generic ones. We also need the non-instrumented versions
-> of the string functions and the prefixed versions of memcpy/memmove.
->
-> This is largely inspired by commit aacd149b6238 ("arm64: head: avoid
-> relocating the kernel twice for KASLR") from which I removed compilation
-> flags that were not relevant to RISC-V at the moment (LTO, SCS, pie).
->
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         |  5 +-
->  arch/riscv/kernel/Makefile                    |  2 +
->  arch/riscv/kernel/pi/Makefile                 | 34 ++++++++++++
->  arch/riscv/kernel/pi/cmdline_early.c          | 52 +++++++++++++++++++
->  arch/riscv/lib/memcpy.S                       |  2 +
->  arch/riscv/lib/memmove.S                      |  2 +
->  arch/riscv/mm/init.c                          | 36 ++++++++++---
->  7 files changed, 126 insertions(+), 7 deletions(-)
->  create mode 100644 arch/riscv/kernel/pi/Makefile
->  create mode 100644 arch/riscv/kernel/pi/cmdline_early.c
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index 6cfa6e3996cf..1d8fc66d2b0d 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3578,7 +3578,10 @@
->  			emulation library even if a 387 maths coprocessor
->  			is present.
->=20=20
-> -	no5lvl		[X86-64] Disable 5-level paging mode. Forces
-> +	no4lvl		[RISCV] Disable 4-level and 5-level paging modes. Forces
-> +			kernel to use 3-level paging instead.
-> +
-> +	no5lvl		[X86-64,RISCV] Disable 5-level paging mode. Forces
->  			kernel to use 4-level paging instead.
->=20=20
->  	nofsgsbase	[X86] Disables FSGSBASE instructions.
-> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-> index 4cf303a779ab..6756209f1ac6 100644
-> --- a/arch/riscv/kernel/Makefile
-> +++ b/arch/riscv/kernel/Makefile
-> @@ -89,3 +89,5 @@ obj-$(CONFIG_EFI)		+=3D efi.o
->  obj-$(CONFIG_COMPAT)		+=3D compat_syscall_table.o
->  obj-$(CONFIG_COMPAT)		+=3D compat_signal.o
->  obj-$(CONFIG_COMPAT)		+=3D compat_vdso/
-> +
-> +obj-y				+=3D pi/
-> diff --git a/arch/riscv/kernel/pi/Makefile b/arch/riscv/kernel/pi/Makefile
-> new file mode 100644
-> index 000000000000..554e936ef0b6
-> --- /dev/null
-> +++ b/arch/riscv/kernel/pi/Makefile
-> @@ -0,0 +1,34 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# This file was copied from arm64/kernel/pi/Makefile.
-> +
-> +KBUILD_CFLAGS	:=3D $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
-> +		   -Os -DDISABLE_BRANCH_PROFILING $(DISABLE_STACKLEAK_PLUGIN) \
-> +		   $(call cc-option,-mbranch-protection=3Dnone) \
-> +		   -I$(srctree)/scripts/dtc/libfdt -fno-stack-protector \
-> +		   -D__DISABLE_EXPORTS -ffreestanding \
-> +		   -fno-asynchronous-unwind-tables -fno-unwind-tables \
-> +		   $(call cc-option,-fno-addrsig)
-> +
-> +GCOV_PROFILE	:=3D n
-> +KASAN_SANITIZE	:=3D n
-> +KCSAN_SANITIZE	:=3D n
-> +UBSAN_SANITIZE	:=3D n
-> +KCOV_INSTRUMENT	:=3D n
-> +
-> +$(obj)/%.pi.o: OBJCOPYFLAGS :=3D --prefix-symbols=3D__pi_ \
-> +			       --remove-section=3D.note.gnu.property \
-> +			       --prefix-alloc-sections=3D.init
-> +$(obj)/%.pi.o: $(obj)/%.o FORCE
-> +	$(call if_changed,objcopy)
-> +
-> +$(obj)/lib-%.o: $(srctree)/lib/%.c FORCE
-> +	$(call if_changed_rule,cc_o_c)
-> +
-> +$(obj)/string.o: $(srctree)/lib/string.c FORCE
-> +	$(call if_changed_rule,cc_o_c)
-> +
-> +$(obj)/ctype.o: $(srctree)/lib/ctype.c FORCE
-> +	$(call if_changed_rule,cc_o_c)
-> +
-> +obj-y		:=3D cmdline_early.pi.o string.pi.o ctype.pi.o lib-fdt.pi.o lib-f=
-dt_ro.pi.o
-> +extra-y		:=3D $(patsubst %.pi.o,%.o,$(obj-y))
-> diff --git a/arch/riscv/kernel/pi/cmdline_early.c b/arch/riscv/kernel/pi/=
-cmdline_early.c
-> new file mode 100644
-> index 000000000000..5ae7b853fa66
-> --- /dev/null
-> +++ b/arch/riscv/kernel/pi/cmdline_early.c
-> @@ -0,0 +1,52 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +#include <linux/types.h>
-> +#include <linux/init.h>
-> +#include <linux/libfdt.h>
-> +#include <linux/string.h>
-> +#include <asm/pgtable.h>
-> +#include <asm/setup.h>
-> +
-> +static char early_cmdline[COMMAND_LINE_SIZE] __initdata;
-> +
-> +static char * __init get_early_cmdline(uintptr_t dtb_pa)
-> +{
-> +	const char *fdt_cmdline =3D NULL;
-> +	unsigned int fdt_cmdline_size =3D 0;
-> +	int chosen_node;
-> +
-> +	if (!IS_ENABLED(CONFIG_CMDLINE_FORCE)) {
-> +		chosen_node =3D fdt_path_offset((void *)dtb_pa, "/chosen");
-> +		if (chosen_node >=3D 0) {
-> +			fdt_cmdline =3D fdt_getprop((void *)dtb_pa, chosen_node,
-> +						  "bootargs", NULL);
+Since commit a78418e6a04c ("block: Always initialize bio IO priority on
+submit"), bio->bi_ioprio will never be IOPRIO_CLASS_NONE when calling
+blkcg_set_ioprio(), so there will be no way to promote the io-priority
+of one cgroup to IOPRIO_CLASS_RT, because bi_ioprio will always be
+greater than or equals to IOPRIO_CLASS_RT.
 
-Alex and I have been running some more tests, and fdt_cmdline is missing
-a NULL-check here.
+It seems possible to call blkcg_set_ioprio() first then try to
+initialize bi_ioprio later in bio_set_ioprio(), but this doesn't work
+for bio in which bi_ioprio is already initialized (e.g., direct-io), so
+introduce a new ioprio policy to promote the iopriority of bio to
+IOPRIO_CLASS_RT if the ioprio is not already RT.
 
-We'll need a v5 to fix this!
+So introduce a new promote-to-rt policy to achieve this. For none-to-rt
+policy, although it doesn't work now, but considering that its purpose
+was also to override the io-priority to RT and allow for a smoother
+transition, just keep it and treat it as an alias of the promote-to-rt
+policy.
 
+Signed-off-by: Hou Tao <houtao1@huawei.com>
+---
+v2:
+ * Simplify the implementation of promote-to-rt (from Bart)
+ * Make none-to-rt to work again by treating it as an alias of
+   the promote-to-rt policy (from Bart & Jan)
+ * fix the style of new content in cgroup-v2.rst (from Bagas)
+ * set the default priority level to 4 instead of 0 for promote-to-rt
 
-Bj=C3=B6rn
+v1: https://lore.kernel.org/linux-block/20230201045227.2203123-1-houtao@huaweicloud.com
+
+ Documentation/admin-guide/cgroup-v2.rst | 42 ++++++++++++++-----------
+ block/blk-ioprio.c                      | 23 ++++++++++++--
+ 2 files changed, 44 insertions(+), 21 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 74cec76be9f2..ccfb9fdfbc16 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2021,31 +2021,33 @@ that attribute:
+   no-change
+ 	Do not modify the I/O priority class.
+ 
+-  none-to-rt
+-	For requests that do not have an I/O priority class (NONE),
+-	change the I/O priority class into RT. Do not modify
+-	the I/O priority class of other requests.
++  promote-to-rt
++	For requests that have a no-RT I/O priority class, change it into RT.
++	Also change the priority level of these requests to 4. Do not modify
++	the I/O priority of requests that have priority class RT.
+ 
+   restrict-to-be
+ 	For requests that do not have an I/O priority class or that have I/O
+-	priority class RT, change it into BE. Do not modify the I/O priority
+-	class of requests that have priority class IDLE.
++	priority class RT, change it into BE. Also change the priority level
++	of these requests to 0. Do not modify the I/O priority class of
++	requests that have priority class IDLE.
+ 
+   idle
+ 	Change the I/O priority class of all requests into IDLE, the lowest
+ 	I/O priority class.
+ 
++  none-to-rt
++	Deprecated. Just an alias for promote-to-rt.
++
+ The following numerical values are associated with the I/O priority policies:
+ 
+-+-------------+---+
+-| no-change   | 0 |
+-+-------------+---+
+-| none-to-rt  | 1 |
+-+-------------+---+
+-| rt-to-be    | 2 |
+-+-------------+---+
+-| all-to-idle | 3 |
+-+-------------+---+
+++----------------+---+
++| no-change      | 0 |
+++----------------+---+
++| rt-to-be       | 2 |
+++----------------+---+
++| all-to-idle    | 3 |
+++----------------+---+
+ 
+ The numerical value that corresponds to each I/O priority class is as follows:
+ 
+@@ -2061,9 +2063,13 @@ The numerical value that corresponds to each I/O priority class is as follows:
+ 
+ The algorithm to set the I/O priority class for a request is as follows:
+ 
+-- Translate the I/O priority class policy into a number.
+-- Change the request I/O priority class into the maximum of the I/O priority
+-  class policy number and the numerical I/O priority class.
++- If I/O priority class policy is promote-to-rt, change the request I/O
++  priority class to IOPRIO_CLASS_RT and change the request I/O priority
++  level to 4.
++- If I/O priorityt class is not promote-to-rt, translate the I/O priority
++  class policy into a number, then change the request I/O priority class
++  into the maximum of the I/O priority class policy number and the numerical
++  I/O priority class.
+ 
+ PID
+ ---
+diff --git a/block/blk-ioprio.c b/block/blk-ioprio.c
+index 8bb6b8eba4ce..4eba569d4823 100644
+--- a/block/blk-ioprio.c
++++ b/block/blk-ioprio.c
+@@ -23,25 +23,28 @@
+ /**
+  * enum prio_policy - I/O priority class policy.
+  * @POLICY_NO_CHANGE: (default) do not modify the I/O priority class.
+- * @POLICY_NONE_TO_RT: modify IOPRIO_CLASS_NONE into IOPRIO_CLASS_RT.
++ * @POLICY_PROMOTE_TO_RT: modify no-IOPRIO_CLASS_RT to IOPRIO_CLASS_RT.
+  * @POLICY_RESTRICT_TO_BE: modify IOPRIO_CLASS_NONE and IOPRIO_CLASS_RT into
+  *		IOPRIO_CLASS_BE.
+  * @POLICY_ALL_TO_IDLE: change the I/O priority class into IOPRIO_CLASS_IDLE.
++ * @POLICY_NONE_TO_RT: an alias for POLICY_PROMOTE_TO_RT.
+  *
+  * See also <linux/ioprio.h>.
+  */
+ enum prio_policy {
+ 	POLICY_NO_CHANGE	= 0,
+-	POLICY_NONE_TO_RT	= 1,
++	POLICY_PROMOTE_TO_RT	= 1,
+ 	POLICY_RESTRICT_TO_BE	= 2,
+ 	POLICY_ALL_TO_IDLE	= 3,
++	POLICY_NONE_TO_RT	= 4,
+ };
+ 
+ static const char *policy_name[] = {
+ 	[POLICY_NO_CHANGE]	= "no-change",
+-	[POLICY_NONE_TO_RT]	= "none-to-rt",
++	[POLICY_PROMOTE_TO_RT]	= "promote-to-rt",
+ 	[POLICY_RESTRICT_TO_BE]	= "restrict-to-be",
+ 	[POLICY_ALL_TO_IDLE]	= "idle",
++	[POLICY_NONE_TO_RT]	= "none-to-rt",
+ };
+ 
+ static struct blkcg_policy ioprio_policy;
+@@ -189,6 +192,20 @@ void blkcg_set_ioprio(struct bio *bio)
+ 	if (!blkcg || blkcg->prio_policy == POLICY_NO_CHANGE)
+ 		return;
+ 
++	if (blkcg->prio_policy == POLICY_PROMOTE_TO_RT ||
++	    blkcg->prio_policy == POLICY_NONE_TO_RT) {
++		/*
++		 * For RT threads, the default priority level is 4 because
++		 * task_nice is 0. By promoting non-RT io-priority to RT-class
++		 * and default level 4, those requests that are already
++		 * RT-class but need a higher io-priority can use ioprio_set()
++		 * to achieve this.
++		 */
++		if (IOPRIO_PRIO_CLASS(bio->bi_ioprio) != IOPRIO_CLASS_RT)
++			bio->bi_ioprio = IOPRIO_PRIO_VALUE(IOPRIO_CLASS_RT, 4);
++		return;
++	}
++
+ 	/*
+ 	 * Except for IOPRIO_CLASS_NONE, higher I/O priority numbers
+ 	 * correspond to a lower priority. Hence, the max_t() below selects
+-- 
+2.29.2
+
