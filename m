@@ -2,428 +2,347 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11EC6C636CC
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 15:38:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC103C05027
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 15:44:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232250AbjBTPil (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 10:38:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36906 "EHLO
+        id S232253AbjBTPoV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 10:44:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232221AbjBTPik (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 10:38:40 -0500
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DEE1CDD8;
-        Mon, 20 Feb 2023 07:38:37 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A6D4B735;
-        Mon, 20 Feb 2023 15:38:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A6D4B735
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1676907516; bh=FN77Eocj/uWlqO6hQ9t5LTrOGHkBhoFvYZuNN+6e0Ls=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Mr0zAcUZ0CnCCNHpIA/yf/SwtXyjY1RkPIvgeY/ZSdfAGXJEC3VLrthu0uywJ5nOD
-         K5CbwLDd5qRca6tzlX34X5JdhobwTe/PzIFEFL6XV+3MKpbgeNLuM4D5qBlW7pS7Bh
-         gj6ASXtWE5E3/lICCy0KC9gYwh4WkMIA81dmxDsHmalnEYUlK1FSVDCJBFNJTdoAcb
-         7fwnAlD7RE6qZA8IPHmUrD/G2E3pIwv+rNaQ+AekL95fbv3SXCOkpo84Yh3qqZnOZz
-         fAENPD0wLUPPw+v5na6W9ewewfagXq08X9xZqqpLSN2rTTGi8wBaGJD98/A+gvJy2S
-         CtCEd0j2F6EXw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linuxfoundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] Documentation for 6.3
-Date:   Mon, 20 Feb 2023 08:38:35 -0700
-Message-ID: <87o7poe490.fsf@meer.lwn.net>
+        with ESMTP id S232156AbjBTPoV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 10:44:21 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ACCAAD17
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 07:44:18 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id eg37so2506011edb.12
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 07:44:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ntOTns2o3mkueaOYyoMQpog4LSwM0fQYGZjQHwpocu8=;
+        b=G9IPdOEPasrTQvZHJ4fZYEAKZ/kOKpRukrg1Ykhk2bz/GKWjwVekZEWYEU/8AjY3y7
+         w9x4CwRZR7kg5BbFBH4a43tVRxJJZWYW1NMNlsbjyhhazd0hRVyjBhQPb0zqNz41dkE/
+         97SNiLQiVEuBfDg2AoBNvvXgW0LeDDlA8ry1Nf6WsPyGWk8IjjUpyAWNZwq/hw05WOr/
+         83v3XZxYxyayRSi/jN3RJ/T5WoxHyLV5PWr0aNXCCFNxSsjBAzlGA5HjeQiRoYzorEsS
+         ZG+2LzDfUM0SF+c/AYSnsytawbRzMvkeWbWvCs1sdqJG0Eqzor4hnb6bQrsHf6xm8bKw
+         zblw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ntOTns2o3mkueaOYyoMQpog4LSwM0fQYGZjQHwpocu8=;
+        b=al9ZRQpXqb/sLYoVRZtQN1gYtCP6p9NkGrnsF3g7cZYOH4rixpKJx1MtQC4JD4zjj0
+         QsXmBO5QTiK32tmM5wwcq5Q2LOq54gP8DpPJr2HCwBZRzS116+nmP5PptZqWc//gIct6
+         qRnL8SZA1d6FbHK+cl8Jmit47rlBsktrxwxiNuy8KexrzhtWKXLcgMSHCbZcrkfHBXfV
+         XDgurJCu++eF2rnqmvQFM2dC8pba3bV3NvwOnDo3n4kgtnQOPpHX1HH+WjS7jtHFVF1w
+         syA+AGsoIKR5A0+Rmc4bG2gPSQYzGnUxtkx1tKG9TzcQp0zkzUSYctZjDp1goJ26+iD7
+         NUvA==
+X-Gm-Message-State: AO0yUKUfbZke6/0TXvADtdiy4eKkKt7UTEIpeW5mn+hKs2tb+FdGf0Yg
+        4cjqcC4Z+S1xP7pYCaim99Q48w==
+X-Google-Smtp-Source: AK7set+32N/kxb+gMZltXvEHg1kE6ZcZFd57rL8OO1QbG2uI7i/S3v1T9SpWgkRb6ej1XjMz81ZOtg==
+X-Received: by 2002:a17:906:1c17:b0:8b1:88aa:46da with SMTP id k23-20020a1709061c1700b008b188aa46damr10868455ejg.48.1676907856673;
+        Mon, 20 Feb 2023 07:44:16 -0800 (PST)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id jr14-20020a170906a98e00b008af574fbfc2sm5994529ejb.33.2023.02.20.07.44.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Feb 2023 07:44:16 -0800 (PST)
+Date:   Mon, 20 Feb 2023 16:44:15 +0100
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Subject: Re: [PATCH V2 04/21] RISC-V: Add support to build the ACPI core
+Message-ID: <20230220154415.u435t34q7btmwzwx@orel>
+References: <20230216182043.1946553-1-sunilvl@ventanamicro.com>
+ <20230216182043.1946553-5-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230216182043.1946553-5-sunilvl@ventanamicro.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit a33ae832bf3f2ac33e2e44b99f76130d3be848c5:
+On Thu, Feb 16, 2023 at 11:50:26PM +0530, Sunil V L wrote:
+> Enable ACPI core for RISC-V after adding architecture-specific
+> interfaces and header files required to build the ACPI core.
+> 
+> 1) Couple of header files are required unconditionally by the ACPI
+> core. Add empty acenv.h and cpu.h header files.
+> 
+> 2) If CONFIG_PCI is enabled, a few PCI related interfaces need to
+> be provided by the architecture. Define dummy interfaces for now
+> so that build succeeds. Actual implementation will be added when
+> PCI support is added for ACPI along with external interrupt
+> controller support.
+> 
+> 3) A few globals and memory mapping related functions specific
+> to the architecture need to be provided.
+> 
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+>  arch/riscv/Kconfig             |  5 +++
+>  arch/riscv/include/asm/acenv.h | 11 +++++
+>  arch/riscv/include/asm/acpi.h  | 60 +++++++++++++++++++++++++
+>  arch/riscv/include/asm/cpu.h   |  8 ++++
+>  arch/riscv/kernel/Makefile     |  2 +
+>  arch/riscv/kernel/acpi.c       | 80 ++++++++++++++++++++++++++++++++++
+>  6 files changed, 166 insertions(+)
+>  create mode 100644 arch/riscv/include/asm/acenv.h
+>  create mode 100644 arch/riscv/include/asm/acpi.h
+>  create mode 100644 arch/riscv/include/asm/cpu.h
+>  create mode 100644 arch/riscv/kernel/acpi.c
+> 
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index d153e1cd890b..3ba701b26389 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -12,6 +12,8 @@ config 32BIT
+>  
+>  config RISCV
+>  	def_bool y
+> +	select ACPI_GENERIC_GSI if ACPI
 
-  docs/conf.py: Use about.html only in sidebar of alabaster theme (2023-01-=
-11 15:06:50 -0700)
+Is it better for this to come after patch 14, "irqchip/riscv-intc:
+Add ACPI support"?
 
-are available in the Git repository at:
+> +	select ACPI_REDUCED_HARDWARE_ONLY if ACPI
+>  	select ARCH_CLOCKSOURCE_INIT
+>  	select ARCH_ENABLE_HUGEPAGE_MIGRATION if HUGETLB_PAGE && MIGRATION
+>  	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
+> @@ -598,6 +600,7 @@ config EFI_STUB
+>  config EFI
+>  	bool "UEFI runtime support"
+>  	depends on OF && !XIP_KERNEL
+> +	select ARCH_SUPPORTS_ACPI if 64BIT
+>  	select LIBFDT
+>  	select UCS2_STRING
+>  	select EFI_PARAMS_FROM_FDT
+> @@ -703,3 +706,5 @@ source "drivers/cpufreq/Kconfig"
+>  endmenu # "CPU Power Management"
+>  
+>  source "arch/riscv/kvm/Kconfig"
+> +
+> +source "drivers/acpi/Kconfig"
+> diff --git a/arch/riscv/include/asm/acenv.h b/arch/riscv/include/asm/acenv.h
+> new file mode 100644
+> index 000000000000..22123c5a4883
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/acenv.h
+> @@ -0,0 +1,11 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * RISC-V specific ACPICA environments and implementation
+> + */
+> +
+> +#ifndef _ASM_ACENV_H
+> +#define _ASM_ACENV_H
+> +
+> +/* It is required unconditionally by ACPI core */
+> +
+> +#endif /* _ASM_ACENV_H */
+> diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> new file mode 100644
+> index 000000000000..7f9dce3c39d0
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/acpi.h
+> @@ -0,0 +1,60 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + *  Copyright (C) 2013-2014, Linaro Ltd.
+> + *	Author: Al Stone <al.stone@linaro.org>
+> + *	Author: Graeme Gregory <graeme.gregory@linaro.org>
+> + *	Author: Hanjun Guo <hanjun.guo@linaro.org>
+> + *
+> + *  Copyright (C) 2021-2023, Ventana Micro Systems Inc.
+> + *	Author: Sunil V L <sunilvl@ventanamicro.com>
+> + */
+> +
+> +#ifndef _ASM_ACPI_H
+> +#define _ASM_ACPI_H
+> +
+> +/* Basic configuration for ACPI */
+> +#ifdef CONFIG_ACPI
+> +
+> +/* ACPI table mapping after acpi_permanent_mmap is set */
+> +void *acpi_os_ioremap(acpi_physical_address phys, acpi_size size);
+> +#define acpi_os_ioremap acpi_os_ioremap
+> +
+> +#define acpi_strict 1   /* No out-of-spec workarounds on RISC-V */
+> +extern int acpi_disabled;
+> +extern int acpi_noirq;
+> +extern int acpi_pci_disabled;
 
-  git://git.lwn.net/linux.git tags/docs-6.3
+need blank line here
 
-for you to fetch changes up to cc29eadef921fe52aa58f32536a93d9ea0ca3eb7:
+> +static inline void disable_acpi(void)
+> +{
+> +	acpi_disabled = 1;
+> +	acpi_pci_disabled = 1;
+> +	acpi_noirq = 1;
+> +}
+> +
+> +static inline void enable_acpi(void)
+> +{
+> +	acpi_disabled = 0;
+> +	acpi_pci_disabled = 0;
+> +	acpi_noirq = 0;
+> +}
+> +
+> +/*
+> + * The ACPI processor driver for ACPI core code needs this macro
+> + * to find out this cpu was already mapped (mapping from CPU hardware
+> + * ID to CPU logical ID) or not.
+> + */
+> +#define cpu_physical_id(cpu) cpuid_to_hartid_map(cpu)
+> +
+> +/*
+> + * Since MADT must provide at least one RINTC structure, the
+> + * CPU will be always available in MADT on RISC-V.
+> + */
+> +static inline bool acpi_has_cpu_in_madt(void)
+> +{
+> +	return true;
+> +}
+> +
+> +static inline void arch_fix_phys_package_id(int num, u32 slot) { }
+> +
+> +#endif /* CONFIG_ACPI */
+> +
+> +#endif /*_ASM_ACPI_H*/
+> diff --git a/arch/riscv/include/asm/cpu.h b/arch/riscv/include/asm/cpu.h
+> new file mode 100644
+> index 000000000000..ea1a88b3d5f2
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/cpu.h
+> @@ -0,0 +1,8 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +
+> +#ifndef _ASM_CPU_H
+> +#define _ASM_CPU_H
+> +
+> +/* It is required unconditionally by ACPI core */
+> +
+> +#endif /* _ASM_CPU_H */
+> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+> index 67f542be1bea..f979dc8cf47d 100644
+> --- a/arch/riscv/kernel/Makefile
+> +++ b/arch/riscv/kernel/Makefile
+> @@ -90,3 +90,5 @@ obj-$(CONFIG_EFI)		+= efi.o
+>  obj-$(CONFIG_COMPAT)		+= compat_syscall_table.o
+>  obj-$(CONFIG_COMPAT)		+= compat_signal.o
+>  obj-$(CONFIG_COMPAT)		+= compat_vdso/
+> +
+> +obj-$(CONFIG_ACPI)              += acpi.o
+> diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
+> new file mode 100644
+> index 000000000000..81d448c41714
+> --- /dev/null
+> +++ b/arch/riscv/kernel/acpi.c
+> @@ -0,0 +1,80 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + *  RISC-V Specific Low-Level ACPI Boot Support
+> + *
+> + *  Copyright (C) 2013-2014, Linaro Ltd.
+> + *	Author: Al Stone <al.stone@linaro.org>
+> + *	Author: Graeme Gregory <graeme.gregory@linaro.org>
+> + *	Author: Hanjun Guo <hanjun.guo@linaro.org>
+> + *	Author: Tomasz Nowicki <tomasz.nowicki@linaro.org>
+> + *	Author: Naresh Bhat <naresh.bhat@linaro.org>
+> + *
+> + *  Copyright (C) 2021-2023, Ventana Micro Systems Inc.
+> + *	Author: Sunil V L <sunilvl@ventanamicro.com>
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/io.h>
+> +#include <linux/pci.h>
+> +
+> +int acpi_noirq = 1;		/* skip ACPI IRQ initialization */
+> +int acpi_disabled = 1;
+> +EXPORT_SYMBOL(acpi_disabled);
+> +
+> +int acpi_pci_disabled = 1;	/* skip ACPI PCI scan and IRQ initialization */
+> +EXPORT_SYMBOL(acpi_pci_disabled);
+> +
+> +/*
+> + * __acpi_map_table() will be called before paging_init(), so early_ioremap()
+> + * or early_memremap() should be called here to for ACPI table mapping.
+> + */
+> +void __init __iomem *__acpi_map_table(unsigned long phys, unsigned long size)
+> +{
+> +	if (!size)
+> +		return NULL;
+> +
+> +	return early_memremap(phys, size);
+> +}
+> +
+> +void __init __acpi_unmap_table(void __iomem *map, unsigned long size)
+> +{
+> +	if (!map || !size)
+> +		return;
+> +
+> +	early_memunmap(map, size);
+> +}
+> +
+> +void *acpi_os_ioremap(acpi_physical_address phys, acpi_size size)
+> +{
+> +	return memremap(phys, size, MEMREMAP_WB);
+> +}
+> +
+> +#ifdef CONFIG_PCI
+> +
+> +/*
+> + * These interfaces are defined just to enable building ACPI core.
+> + * TODO: Update it with actual implementation when external interrupt
+> + * controller support is added in RISC-V ACPI.
+> + */
+> +int raw_pci_read(unsigned int domain, unsigned int bus, unsigned int devfn,
+> +		 int reg, int len, u32 *val)
+> +{
+> +	return PCIBIOS_DEVICE_NOT_FOUND;
+> +}
+> +
+> +int raw_pci_write(unsigned int domain, unsigned int bus, unsigned int devfn,
+> +		  int reg, int len, u32 val)
+> +{
+> +	return PCIBIOS_DEVICE_NOT_FOUND;
+> +}
+> +
+> +int acpi_pci_bus_find_domain_nr(struct pci_bus *bus)
+> +{
+> +	return -1;
+> +}
+> +
+> +struct pci_bus *pci_acpi_scan_root(struct acpi_pci_root *root)
+> +{
+> +	return NULL;
+> +}
+> +#endif	/* CONFIG_PCI */
+> -- 
+> 2.34.1
+>
 
-  Documentation/watchdog/hpwdt: Fix Format (2023-02-16 17:31:29 -0700)
+Otherwise, afaict, this is pretty consistent with how arm64 started its
+ACPI support.
 
-----------------------------------------------------------------
-It has been a moderately calm cycle for documentation; the significant
-changes include:
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
-- Some significant additions to the memory-management documentation
-
-- Some improvements to navigation in the HTML-rendered docs
-
-- A new document on workload tracing
-
-- More Spanish and Chinese translations
-
-...and the usual set of typo fixes and such.
-
-On the down-side, there is a certain amount of cross-tree fixup work
-that has created rather more than the usual number of merge conflicts,
-specifically with the ftrace, mm, mm-stable, net-next, and hwmon trees.
-They are all annoying but trivial to resolve.  If you'd rather I create
-a resolution branch after those other trees are merged, just say the
-word.
-
-----------------------------------------------------------------
-Bjorn Helgaas (1):
-      printk: Document that CONFIG_BOOT_PRINTK_DELAY required for boot_dela=
-y=3D
-
-Carlos Bilbao (4):
-      docs/sp_SP: Add process code-of-conduct.rst translation
-      docs/sp_SP: Add process kernel-enforcement-statement.rst translation
-      docs/sp_SP: Add process email-clients translation
-      docs/sp_SP: Add process magic-number translation
-
-Chen Xiao (1):
-      docs: mm/page_owner: fix spelling mistakes
-
-Conor Dooley (1):
-      Documentation: process: Document suitability of Proton Mail for kerne=
-l development
-
-Donglin Peng (1):
-      docs: ftrace: fix a issue with duplicated subtitle number
-
-Fabio Fantoni (1):
-      doc:it_IT: fix of 2 typos
-
-Federico Vaga (4):
-      doc: fix typo in botching up ioctls
-      doc:it_IT: fix typo in email-client
-      doc:it_IT: align Italian documentation
-      doc:it_IT: add translation for botching-up-ioctl.rst
-
-Hui Su (1):
-      Doc/damon: fix the data path error
-
-Jakob Koschel (1):
-      docs/scripts/gdb: add necessary make scripts_gdb step
-
-Jeffrey Hugo (1):
-      docs: accel: Fix debugfs path
-
-Jerry Hoemann (2):
-      Documentation/watchdog/hpwdt: Fix Reference
-      Documentation/watchdog/hpwdt: Fix Format
-
-Jonathan Corbet (3):
-      Merge branch 'docs-fixes' into docs-mw
-      docs: Add more information to the HTML sidebar
-      docs: Use HTML comments for the kernel-toc SPDX line
-
-Jonathan Neusch=C3=A4fer (3):
-      Documentation: coccinelle: Escape --options to fix Sphinx output
-      scripts: kernel-doc: Remove workaround for @param... syntax
-      dma-buf: Add "dma-buf" to title of documentation
-
-Jules Maselbas (1):
-      Documentation/mm: Fix typo emluation -> emulation
-
-Kees Cook (1):
-      docs: deprecated.rst: Add note about DECLARE_FLEX_ARRAY() usage
-
-Konstantin Ryabitsev (1):
-      docs: maintainer-pgp-guide: update for latest gnupg defaults
-
-Lukas Bulwahn (1):
-      docs/mm: Physical Memory: correct spelling in reference to CONFIG_PAG=
-E_EXTENSION
-
-Mike Rapoport (IBM) (4):
-      docs/mm: Physical Memory: add structure, introduction and nodes descr=
-iption
-      docs/mm: Physical Memory: remove useless markup
-      docs/mm: remove useless markup
-      docs/admin-guide/mm: remove useless markup
-
-Peter Foley (1):
-      Documentation: Avoid duplicate Kconfig inclusion
-
-Randy Dunlap (6):
-      Documentation: admin: move OOO entries in kernel-parameters.txt
-      Documentation: admin-guide: correct spelling
-      Documentation: driver-api: correct spelling
-      Documentation: sparc: correct spelling
-      Documentation: userspace-api: correct spelling
-      Documentation: core-api: padata: correct spelling
-
-Ross Zwisler (1):
-      docs: ftrace: always use canonical ftrace path
-
-SeongJae Park (3):
-      Docs/subsystem-apis: Remove '[The ]Linux' prefixes from titles of lis=
-ted documents
-      Docs/driver-api/index: Add missing SPDX License Identifier
-      Docs/sound/index: Add missing SPDX License Identifier
-
-Shuah Khan (2):
-      docs: leds: fix the following docu build warning
-      docs: add workload-tracing document to admin-guide
-
-Sohil Mehta (1):
-      x86/vsyscall: Fix documentation to reflect the default mode
-
-Wang Yong (3):
-      docs/zh_CN: fix a typo in howto
-      Documentation: x86: fix typo in x86_64/mm.rst
-      Documentation: KVM: fix typos in running-nested-guests.rst
-
-Wyes Karny (1):
-      Documentation: KVM: Update AMD memory encryption link
-
-Yang Yang (1):
-      docs: proc.rst: add softnet_stat to /proc/net table
-
-Yanteng Si (14):
-      docs/zh_CN: Update the translation of delay-accounting to 6.1-rc8
-      docs/zh_CN: Update the translation of kernel-api to 6.1-rc8
-      docs/zh_CN: Update the translation of mm-api to 6.1-rc8
-      docs/zh_CN: Update the translation of highmem to 6.1-rc8
-      docs/zh_CN: Update the translation of page_owner to 6.1-rc8
-      docs/zh_CN: Update the translation of kasan to 6.1-rc8
-      docs/zh_CN: Update the translation of testing-overview to 6.1-rc8
-      docs/zh_CN: Update the translation of reclaim to 6.1-rc8
-      docs/zh_CN: Update the translation of start to 6.1-rc8
-      docs/zh_CN: Update the translation of usage to 6.1-rc8
-      docs/zh_CN: Update the translation of ksm to 6.1-rc8
-      docs/zh_CN: Update the translation of msi-howto to 6.1-rc8
-      docs/zh_CN: Update the translation of energy-model to 6.1-rc8
-      docs/zh_CN: Add a glossary of Chinese translation terms
-
-Yoann Congal (3):
-      Documentation: kprobetrace: Fix some typos
-      Documentation: kprobetrace: Fix code block markup
-      Documentation: kprobetrace: Split paragraphs
-
-Zang Leigang (1):
-      docs/zh_CN: add damon lru_sort translation
-
- Documentation/Kconfig                              |  10 +-
- Documentation/PCI/index.rst                        |   6 +-
- Documentation/accel/introduction.rst               |   2 +-
- Documentation/admin-guide/bcache.rst               |   2 +-
- .../admin-guide/cgroup-v1/blkio-controller.rst     |   2 +-
- Documentation/admin-guide/cgroup-v2.rst            |  10 +-
- Documentation/admin-guide/cifs/usage.rst           |   4 +-
- .../admin-guide/device-mapper/cache-policies.rst   |   2 +-
- Documentation/admin-guide/device-mapper/dm-ebs.rst |   2 +-
- .../admin-guide/device-mapper/dm-zoned.rst         |   2 +-
- .../admin-guide/device-mapper/unstriped.rst        |  10 +-
- Documentation/admin-guide/dynamic-debug-howto.rst  |   2 +-
- Documentation/admin-guide/gpio/gpio-sim.rst        |   2 +-
- Documentation/admin-guide/hw-vuln/mds.rst          |   4 +-
- Documentation/admin-guide/index.rst                |  11 +
- Documentation/admin-guide/kernel-parameters.txt    | 148 ++---
- .../admin-guide/kernel-per-CPU-kthreads.rst        |   2 +-
- .../admin-guide/laptops/thinkpad-acpi.rst          |   2 +-
- Documentation/admin-guide/md.rst                   |   2 +-
- Documentation/admin-guide/media/bttv.rst           |   2 +-
- Documentation/admin-guide/media/building.rst       |   2 +-
- Documentation/admin-guide/media/si476x.rst         |   2 +-
- Documentation/admin-guide/media/vivid.rst          |   2 +-
- Documentation/admin-guide/mm/concepts.rst          |  13 +-
- Documentation/admin-guide/mm/damon/lru_sort.rst    |   4 +-
- Documentation/admin-guide/mm/damon/reclaim.rst     |   4 +-
- Documentation/admin-guide/mm/hugetlbpage.rst       |   6 +-
- .../admin-guide/mm/idle_page_tracking.rst          |   7 +-
- Documentation/admin-guide/mm/index.rst             |   3 +-
- Documentation/admin-guide/mm/ksm.rst               |   2 -
- Documentation/admin-guide/mm/memory-hotplug.rst    |   2 -
- .../admin-guide/mm/numa_memory_policy.rst          |   6 +-
- Documentation/admin-guide/mm/numaperf.rst          |   2 -
- Documentation/admin-guide/mm/pagemap.rst           |  11 +-
- Documentation/admin-guide/mm/shrinker_debugfs.rst  |   2 -
- Documentation/admin-guide/mm/soft-dirty.rst        |   2 -
- Documentation/admin-guide/mm/swap_numa.rst         |   2 -
- Documentation/admin-guide/mm/transhuge.rst         |   2 -
- Documentation/admin-guide/mm/userfaultfd.rst       |   2 -
- Documentation/admin-guide/mm/zswap.rst             |   2 -
- Documentation/admin-guide/perf/hns3-pmu.rst        |   2 +-
- Documentation/admin-guide/pm/amd-pstate.rst        |   2 +-
- Documentation/admin-guide/pm/intel_pstate.rst      |   4 +-
- Documentation/admin-guide/spkguide.txt             |   4 +-
- Documentation/admin-guide/sysctl/vm.rst            |   4 +-
- Documentation/admin-guide/sysrq.rst                |   2 +-
- Documentation/admin-guide/workload-tracing.rst     | 606 +++++++++++++++++=
-++++
- Documentation/conf.py                              |   5 +-
- Documentation/core-api/padata.rst                  |   2 +-
- Documentation/core-api/workqueue.rst               |   4 +-
- Documentation/cpu-freq/index.rst                   |   6 +-
- Documentation/crypto/index.rst                     |   6 +-
- Documentation/dev-tools/coccinelle.rst             |   8 +-
- Documentation/dev-tools/gdb-kernel-debugging.rst   |   4 +
- Documentation/driver-api/dma-buf.rst               |   6 +-
- Documentation/driver-api/dmaengine/client.rst      |   2 +-
- Documentation/driver-api/dmaengine/dmatest.rst     |   2 +-
- Documentation/driver-api/hsi.rst                   |   4 +-
- Documentation/driver-api/index.rst                 |   8 +-
- Documentation/driver-api/io-mapping.rst            |   4 +-
- Documentation/driver-api/md/md-cluster.rst         |   2 +-
- Documentation/driver-api/md/raid5-cache.rst        |   2 +-
- Documentation/driver-api/media/drivers/vidtv.rst   |   2 +-
- Documentation/driver-api/media/dtv-demux.rst       |   2 +-
- Documentation/driver-api/media/v4l2-subdev.rst     |   4 +-
- Documentation/driver-api/mei/nfc.rst               |   2 +-
- Documentation/driver-api/nfc/nfc-hci.rst           |   2 +-
- Documentation/driver-api/nvdimm/nvdimm.rst         |   2 +-
- Documentation/driver-api/nvdimm/security.rst       |   2 +-
- Documentation/driver-api/pin-control.rst           |   2 +-
- Documentation/driver-api/pldmfw/index.rst          |   2 +-
- Documentation/driver-api/serial/driver.rst         |   2 +-
- .../driver-api/surface_aggregator/ssh.rst          |   2 +-
- .../driver-api/thermal/intel_powerclamp.rst        |   2 +-
- Documentation/driver-api/usb/dwc3.rst              |   2 +-
- Documentation/driver-api/usb/usb3-debug-port.rst   |   2 +-
- Documentation/filesystems/proc.rst                 |   1 +
- Documentation/gpu/index.rst                        |   6 +-
- Documentation/hid/intel-ish-hid.rst                |   4 +-
- Documentation/hwmon/index.rst                      |   6 +-
- Documentation/input/index.rst                      |   6 +-
- Documentation/leds/index.rst                       |   1 +
- Documentation/mm/active_mm.rst                     |   2 -
- Documentation/mm/arch_pgtable_helpers.rst          |   2 -
- Documentation/mm/balance.rst                       |   2 -
- Documentation/mm/free_page_reporting.rst           |   2 -
- Documentation/mm/frontswap.rst                     |   2 -
- Documentation/mm/highmem.rst                       |   2 -
- Documentation/mm/hmm.rst                           |   4 +-
- Documentation/mm/hugetlbfs_reserv.rst              |   4 +-
- Documentation/mm/hwpoison.rst                      |   2 -
- Documentation/mm/index.rst                         |   6 +-
- Documentation/mm/ksm.rst                           |   4 +-
- Documentation/mm/memory-model.rst                  |   2 -
- Documentation/mm/mmu_notifier.rst                  |   2 -
- Documentation/mm/numa.rst                          |   6 +-
- Documentation/mm/page_frags.rst                    |   2 -
- Documentation/mm/page_migration.rst                |   6 +-
- Documentation/mm/page_owner.rst                    |   6 +-
- Documentation/mm/page_table_check.rst              |   2 -
- Documentation/mm/physical_memory.rst               | 347 ++++++++++++
- Documentation/mm/remap_file_pages.rst              |   2 -
- Documentation/mm/slub.rst                          |   2 -
- Documentation/mm/split_page_table_lock.rst         |   2 -
- Documentation/mm/transhuge.rst                     |   2 -
- Documentation/mm/unevictable-lru.rst               |   2 -
- Documentation/mm/z3fold.rst                        |   2 -
- Documentation/mm/zsmalloc.rst                      |   2 -
- .../device_drivers/ethernet/mellanox/mlx5.rst      |  92 ++--
- Documentation/peci/index.rst                       |   6 +-
- Documentation/process/botching-up-ioctls.rst       |   2 +-
- Documentation/process/deprecated.rst               |  26 +
- Documentation/process/email-clients.rst            |  20 +
- Documentation/process/maintainer-pgp-guide.rst     | 102 +---
- Documentation/scheduler/index.rst                  |   6 +-
- Documentation/scsi/index.rst                       |   6 +-
- Documentation/sound/hd-audio/notes.rst             |   6 +-
- Documentation/sound/index.rst                      |   8 +-
- Documentation/sparc/adi.rst                        |   4 +-
- Documentation/sparc/oradax/dax-hv-api.txt          |  44 +-
- Documentation/sphinx-static/custom.css             |  48 +-
- Documentation/sphinx/templates/kernel-toc.html     |  16 +
- Documentation/trace/events-msr.rst                 |   4 +-
- Documentation/trace/events-nmi.rst                 |   6 +-
- Documentation/trace/events.rst                     |  78 +--
- Documentation/trace/ftrace.rst                     |   6 +-
- Documentation/trace/histogram-design.rst           |  12 +-
- Documentation/trace/histogram.rst                  | 190 +++----
- Documentation/trace/kprobetrace.rst                |  49 +-
- Documentation/trace/mmiotrace.rst                  |  20 +-
- .../postprocess/trace-pagealloc-postprocess.pl     |   4 +-
- .../trace/postprocess/trace-vmscan-postprocess.pl  |   4 +-
- Documentation/trace/tracepoint-analysis.rst        |   8 +-
- Documentation/trace/uprobetracer.rst               |  22 +-
- Documentation/trace/user_events.rst                |  18 +-
- .../translations/it_IT/admin-guide/README.rst      |   2 +-
- .../translations/it_IT/doc-guide/kernel-doc.rst    |   2 +
- .../translations/it_IT/doc-guide/sphinx.rst        |  14 +-
- Documentation/translations/it_IT/index.rst         |  89 ++-
- .../translations/it_IT/kernel-hacking/hacking.rst  |   2 +-
- .../translations/it_IT/process/2.Process.rst       |  15 +-
- .../it_IT/process/7.AdvancedTopics.rst             |   8 +-
- .../it_IT/process/botching-up-ioctls.rst           | 249 +++++++++
- .../translations/it_IT/process/changes.rst         |  11 +
- .../translations/it_IT/process/email-clients.rst   |  69 ++-
- Documentation/translations/it_IT/process/index.rst |   1 +
- .../translations/it_IT/process/kernel-docs.rst     |   4 +-
- .../it_IT/process/maintainer-pgp-guide.rst         |   6 +-
- .../it_IT/process/submitting-patches.rst           |   2 +-
- .../translations/sp_SP/process/code-of-conduct.rst |  97 ++++
- .../translations/sp_SP/process/email-clients.rst   | 374 +++++++++++++
- Documentation/translations/sp_SP/process/index.rst |   4 +
- .../sp_SP/process/kernel-enforcement-statement.rst | 174 ++++++
- .../translations/sp_SP/process/magic-number.rst    |  90 +++
- Documentation/translations/zh_CN/PCI/msi-howto.rst |  11 +
- .../zh_CN/accounting/delay-accounting.rst          |   7 +-
- .../zh_CN/admin-guide/mm/damon/index.rst           |   1 +
- .../zh_CN/admin-guide/mm/damon/lru_sort.rst        | 263 +++++++++
- .../zh_CN/admin-guide/mm/damon/reclaim.rst         |   8 +-
- .../zh_CN/admin-guide/mm/damon/start.rst           |  12 +-
- .../zh_CN/admin-guide/mm/damon/usage.rst           |  68 ++-
- .../translations/zh_CN/admin-guide/mm/index.rst    |   2 +-
- .../translations/zh_CN/admin-guide/mm/ksm.rst      |  50 ++
- .../translations/zh_CN/core-api/kernel-api.rst     |  10 +-
- .../translations/zh_CN/core-api/mm-api.rst         |   2 +-
- .../translations/zh_CN/core-api/workqueue.rst      |   4 +-
- .../translations/zh_CN/dev-tools/kasan.rst         |  74 +--
- .../zh_CN/dev-tools/testing-overview.rst           |  27 +
- Documentation/translations/zh_CN/glossary.rst      |  36 ++
- Documentation/translations/zh_CN/index.rst         |   9 +
- Documentation/translations/zh_CN/mm/highmem.rst    |  20 +-
- Documentation/translations/zh_CN/mm/hmm.rst        |   2 +-
- .../translations/zh_CN/mm/hugetlbfs_reserv.rst     |   2 +-
- Documentation/translations/zh_CN/mm/numa.rst       |   2 +-
- Documentation/translations/zh_CN/mm/page_owner.rst |  17 +-
- .../translations/zh_CN/power/energy-model.rst      |  36 +-
- Documentation/translations/zh_CN/process/howto.rst |   2 +-
- Documentation/userspace-api/iommufd.rst            |   2 +-
- .../userspace-api/media/drivers/st-vgxy61.rst      |   2 +-
- .../media/rc/lirc-set-wideband-receiver.rst        |   2 +-
- Documentation/userspace-api/media/rc/rc-protos.rst |   2 +-
- Documentation/userspace-api/media/rc/rc-tables.rst |   2 +-
- .../userspace-api/media/v4l/dev-sliced-vbi.rst     |   2 +-
- .../media/v4l/ext-ctrls-codec-stateless.rst        |   2 +-
- .../userspace-api/media/v4l/ext-ctrls-jpeg.rst     |   2 +-
- .../userspace-api/media/v4l/hist-v4l2.rst          |   4 +-
- .../userspace-api/media/v4l/pixfmt-yuv-luma.rst    |   2 +-
- .../userspace-api/media/v4l/vidioc-cropcap.rst     |   2 +-
- Documentation/userspace-api/seccomp_filter.rst     |   2 +-
- .../userspace-api/sysfs-platform_profile.rst       |   2 +-
- Documentation/virt/index.rst                       |   6 +-
- .../virt/kvm/x86/amd-memory-encryption.rst         |   2 +-
- .../virt/kvm/x86/running-nested-guests.rst         |   2 +-
- Documentation/watchdog/hpwdt.rst                   |   8 +-
- Documentation/watchdog/index.rst                   |   6 +-
- Documentation/x86/resctrl.rst                      |  18 +-
- Documentation/x86/x86_64/mm.rst                    |   2 +-
- lib/Kconfig.debug                                  |   2 -
- scripts/kernel-doc                                 |  11 -
- 199 files changed, 3339 insertions(+), 898 deletions(-)
- create mode 100644 Documentation/admin-guide/workload-tracing.rst
- create mode 100644 Documentation/sphinx/templates/kernel-toc.html
- create mode 100644 Documentation/translations/it_IT/process/botching-up-io=
-ctls.rst
- create mode 100644 Documentation/translations/sp_SP/process/code-of-conduc=
-t.rst
- create mode 100644 Documentation/translations/sp_SP/process/email-clients.=
-rst
- create mode 100644 Documentation/translations/sp_SP/process/kernel-enforce=
-ment-statement.rst
- create mode 100644 Documentation/translations/sp_SP/process/magic-number.r=
-st
- create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/l=
-ru_sort.rst
- create mode 100644 Documentation/translations/zh_CN/glossary.rst
+Thanks,
+drew
