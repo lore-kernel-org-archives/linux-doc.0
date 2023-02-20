@@ -2,121 +2,200 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99704C05027
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 17:19:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA7DAC05027
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 17:34:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232107AbjBTRTv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 12:19:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56048 "EHLO
+        id S232427AbjBTReK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 12:34:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230329AbjBTRTv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 12:19:51 -0500
-X-Greylist: delayed 271 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 20 Feb 2023 09:19:38 PST
-Received: from mail.alarsen.net (mail.alarsen.net [144.76.18.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 126CE1EBE7;
-        Mon, 20 Feb 2023 09:19:37 -0800 (PST)
-Received: from oscar.alarsen.net (unknown [IPv6:fd8b:531:bccf:96:2813:fcf4:8062:a04f])
-        by joe.alarsen.net (Postfix) with ESMTPS id 65E47180744;
-        Mon, 20 Feb 2023 18:07:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alarsen.net; s=joe;
-        t=1676912857; bh=T2sQlFBlTIMYe9k7rCqKWiAryzwsGearmcwCGtaYoY4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cslByaZ25ANlGFLokwqOd3SNfpPAh5urnc0n2ESOEZPmwGD51IHVgiL/gMfejln8G
-         7tjnzg343Gxa3rATIByjTIwYGlrMu5tnqFaTB8xtA1w2gyb/I2ftaEn0+yz44JxYUK
-         mbjXnrANcBCVniB5+Pbunc/xeUhS2rybKAcZRiN8=
-Received: from oscar.localnet (localhost [IPv6:::1])
-        by oscar.alarsen.net (Postfix) with ESMTP id 5F03627C0364;
-        Mon, 20 Feb 2023 18:07:37 +0100 (CET)
-From:   Anders Larsen <al@alarsen.net>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     linux-fsdevel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] qnx4: credit contributors in CREDITS
-Date:   Mon, 20 Feb 2023 18:07:37 +0100
-Message-ID: <2694824.9PvXe5no7K@alarsen.net>
-In-Reply-To: <20230220170210.15677-3-lukas.bulwahn@gmail.com>
-References: <20230220170210.15677-1-lukas.bulwahn@gmail.com> <20230220170210.15677-3-lukas.bulwahn@gmail.com>
+        with ESMTP id S229869AbjBTReJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 12:34:09 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4E961BAD9
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 09:34:06 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id cq23so7302238edb.1
+        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 09:34:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=w2lPEjmPsu3LYtY8DZxk5vrralnhH+zYWV8cw/aygZg=;
+        b=oN+qyijYHJlUO7+d73fPjJC/vzJxExkcwOeC6kHPx8kPL/nHekvsr9vT/PQhWUEV+B
+         7pwRDd2qaWfGtUFPdZQvgnVyAvrHkohNcXubH+3Cb0SoQUjx0TvHyfgrqFhallZgTk64
+         zunL4GsAEJEUkKeyArSs3gtqmlRH6ZOFS6MS/g9dDEr+nZh7TuhCkIGnkmLeVFmG2qU8
+         HZehIvTKG+CID3zvhzIzoEulLZ/bZvWlGvRrrOn/IP2jw/4juroGQjWZq4GmFY3ywcUA
+         QgPB9fv0Wnprj+5psROiCuENlXNDLj53cr/c3slFOpvNXn5b/j/ti98PB71HlpKcuGE5
+         azRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w2lPEjmPsu3LYtY8DZxk5vrralnhH+zYWV8cw/aygZg=;
+        b=E93B6qC6Cp0p7OWB6mpt5gRjILvhFqUkQEpBDYNdESKg4Xp0j8QlWB7iaJ5X59UDPM
+         tTESacZ16BbsqLHcGxXl0LNBt0K7E9r4dHB+vLBA6yq4E0RV5I2EU0PGH9uXz9TGRQ7N
+         Onfo7lOd1uIIGJmZr2ZhVW0KHyc3inMSn46FpDSIHfMyTtXuTlKYXcKXnFmedmVt9AFO
+         T6zrKGTNwn8fGddNziL7h9Cin8K1QzIqlt2yb7sz0kNtzZ7A+YkxFajpmetBGQqA2Wsw
+         6EXcedMD/zOvVJHJQCurnW2zWuY5AZ1Th1gsqfKZAha8Nkw3SqpwZuKBQDKgts5RMODv
+         ToOQ==
+X-Gm-Message-State: AO0yUKVb3WcizOZrBSLq2hHySDu7OHhLty89wJ8Tqpr36yA++yMh8Rp2
+        MU3jRwS/RZECT30iuFDd059oXw==
+X-Google-Smtp-Source: AK7set9H4zV0LUVjLvSVauvnlRDsvf+acSYg6cf8q8+/u488Q6Z3MDYmkhABENzUNnf/V0vpL+34Cg==
+X-Received: by 2002:a17:907:cc97:b0:88f:13f0:4565 with SMTP id up23-20020a170907cc9700b0088f13f04565mr6809782ejc.69.1676914445228;
+        Mon, 20 Feb 2023 09:34:05 -0800 (PST)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id i10-20020a170906a28a00b008bda61ff999sm3477128ejz.130.2023.02.20.09.34.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Feb 2023 09:34:04 -0800 (PST)
+Date:   Mon, 20 Feb 2023 18:34:03 +0100
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Sunil V L <sunilvl@ventanamicro.com>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Subject: Re: [PATCH V2 11/21] RISC-V: ACPI: Add a function to retrieve the
+ hartid
+Message-ID: <20230220173403.avvggi4qhsxgismo@orel>
+References: <20230216182043.1946553-1-sunilvl@ventanamicro.com>
+ <20230216182043.1946553-12-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230216182043.1946553-12-sunilvl@ventanamicro.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday, 2023-02-20 18:02 Lukas Bulwahn wrote:
-> Replace the content of the qnx4 README file with the canonical place for
-> such information.
+On Thu, Feb 16, 2023 at 11:50:33PM +0530, Sunil V L wrote:
+> The hartid is in the RINTC structure of the MADT table. Instead of
+> parsing the ACPI table every time, cache it and provide a function
+> to read it.
 > 
-> Add the credits of the qnx4 contribution to CREDITS. As there is already a
-> QNX4 FILESYSTEM section in MAINTAINERS, it is clear who to contact and send
-> patches to.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 > ---
->  CREDITS        | 12 ++++++++++++
->  fs/qnx4/README |  9 ---------
->  2 files changed, 12 insertions(+), 9 deletions(-)
->  delete mode 100644 fs/qnx4/README
+>  arch/riscv/include/asm/acpi.h |  8 +++++
+>  arch/riscv/kernel/acpi.c      | 55 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 63 insertions(+)
 > 
-> diff --git a/CREDITS b/CREDITS
-> index 07e871d60cf0..b6c93e0a62c3 100644
-> --- a/CREDITS
-> +++ b/CREDITS
-> @@ -890,6 +890,10 @@ W: http://jdelvare.nerim.net/
->  D: Several hardware monitoring drivers
->  S: France
+> diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> index 3c3a8ac3b37a..b9d7b713fb43 100644
+> --- a/arch/riscv/include/asm/acpi.h
+> +++ b/arch/riscv/include/asm/acpi.h
+> @@ -67,6 +67,9 @@ int acpi_numa_get_nid(unsigned int cpu);
+>  static inline int acpi_numa_get_nid(unsigned int cpu) { return NUMA_NO_NODE; }
+>  #endif /* CONFIG_ACPI_NUMA */
 >  
-> +N: Frank "Jedi/Sector One" Denis
-> +E: j@pureftpd.org
-> +D: QNX4 filesystem
+> +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
 > +
->  N: Peter Denison
->  E: peterd@pnd-pc.demon.co.uk
->  W: http://www.pnd-pc.demon.co.uk/promise/
-> @@ -1263,6 +1267,10 @@ S: USA
->  N: Adam Fritzler
->  E: mid@zigamorph.net
+> +u32 get_acpi_id_for_cpu(int cpu);
+>  #else
+>  static inline int acpi_get_riscv_isa(struct acpi_table_header *table,
+>  				     unsigned int cpu, const char **isa)
+> @@ -74,6 +77,11 @@ static inline int acpi_get_riscv_isa(struct acpi_table_header *table,
+>  	return -EINVAL;
+>  }
 >  
-> +N: Richard "Scuba" A. Frowijn
-> +E: scuba@wxs.nl
-> +D: QNX4 filesystem
+> +static inline u32 get_acpi_id_for_cpu(int cpu)
+> +{
+> +	return -1;
+> +}
 > +
->  N: Fernando Fuganti
->  E: fuganti@conectiva.com.br
->  E: fuganti@netbank.com.br
-> @@ -2222,6 +2230,10 @@ D: Digiboard PC/Xe and PC/Xi, Digiboard EPCA
->  D: NUMA support, Slab allocators, Page migration
->  D: Scalability, Time subsystem
+>  #endif /* CONFIG_ACPI */
 >  
-> +N: Anders Larsen
-> +E: al@alarsen.net
-> +D: QNX4 filesystem
+>  #endif /*_ASM_ACPI_H*/
+> diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
+> index 81d448c41714..13b26c87c136 100644
+> --- a/arch/riscv/kernel/acpi.c
+> +++ b/arch/riscv/kernel/acpi.c
+> @@ -24,6 +24,61 @@ EXPORT_SYMBOL(acpi_disabled);
+>  int acpi_pci_disabled = 1;	/* skip ACPI PCI scan and IRQ initialization */
+>  EXPORT_SYMBOL(acpi_pci_disabled);
+>  
+> +static unsigned int intc_count;
+> +static struct acpi_madt_rintc cpu_madt_rintc[NR_CPUS];
 > +
->  N: Paul Laufer
->  E: paul@laufernet.com
->  D: Soundblaster driver fixes, ISAPnP quirk
-> diff --git a/fs/qnx4/README b/fs/qnx4/README
-> deleted file mode 100644
-> index 1f1e320d91da..000000000000
-> --- a/fs/qnx4/README
-> +++ /dev/null
-> @@ -1,9 +0,0 @@
-> -
-> -  This is a snapshot of the QNX4 filesystem for Linux.
-> -  Please send diffs and remarks to <al@alarsen.net> .
-> -  
-> -Credits :
-> -
-> -Richard "Scuba" A. Frowijn     <scuba@wxs.nl>
-> -Frank "Jedi/Sector One" Denis  <j@pureftpd.org>
-> -Anders Larsen                  <al@alarsen.net> (Maintainer)
+> +static int acpi_parse_madt_rintc(union acpi_subtable_headers *header, const unsigned long end)
+> +{
+> +	struct acpi_madt_rintc *rintc = (struct acpi_madt_rintc *)header;
+> +
+> +	if (!(rintc->flags & ACPI_MADT_ENABLED))
+> +		return 0;
+> +
+> +	cpu_madt_rintc[intc_count++] = *rintc;
+> +
+> +	return 0;
+> +}
+> +
+> +static int acpi_init_rintc_array(void)
+> +{
+> +	if (acpi_table_parse_madt(ACPI_MADT_TYPE_RINTC, acpi_parse_madt_rintc, 0) > 0)
+> +		return 0;
+> +
+> +	pr_info("No valid RINTC entries exist\n");
 
-Acked-By: Anders Larsen <al@alarsen.net>
+This pr_info() could be dropped or turned into a comment and the pr_err()
+below moved up here.
 
-Thx
-Anders
+> +	return -ENODEV;
+> +}
+> +
+> +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu)
+> +{
+> +	static bool rintc_init_done;
+> +	unsigned int i;
+> +
+> +	if (!rintc_init_done) {
+> +		if (acpi_init_rintc_array()) {
+> +			pr_err("Failed to initialize RINTC array\n");
+> +			return NULL;
+> +		}
+> +		rintc_init_done = true;
+> +	}
+> +
+> +	for (i = 0; i < intc_count; i++) {
+> +		if (cpu_madt_rintc[i].hart_id == cpuid_to_hartid_map(cpu))
+> +			return &cpu_madt_rintc[i];
+> +	}
 
+Maybe I'll see the reason in later patches, but it seems odd that this
+patch says we want to cache the cpuid to acpi_processor_id mapping, but
+then we cache each RINTC instead and still have to do a linear search of
+them to determine which one to use.
 
+> +
+> +	return NULL;
+> +}
+> +
+> +u32 get_acpi_id_for_cpu(int cpu)
+> +{
+> +	struct acpi_madt_rintc *rintc = acpi_cpu_get_madt_rintc(cpu);
+> +
+> +	if (!rintc)
+> +		return -1;
+> +
+> +	return  rintc->uid;
+              ^ extra blank here
+> +}
+> +
+>  /*
+>   * __acpi_map_table() will be called before paging_init(), so early_ioremap()
+>   * or early_memremap() should be called here to for ACPI table mapping.
+> -- 
+> 2.34.1
+> 
 
-
+Thanks,
+drew
