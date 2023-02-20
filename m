@@ -2,125 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E85C636CC
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 08:46:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCAC5C636CC
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Feb 2023 09:16:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231276AbjBTIqC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 03:46:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59492 "EHLO
+        id S230507AbjBTJQ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 04:16:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230508AbjBTIqC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 03:46:02 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69936C164;
-        Mon, 20 Feb 2023 00:46:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676882761; x=1708418761;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=wRQGYaheBX/3R65qusfDmCgRZiKlnsyVOKTVMzWu8mU=;
-  b=i5luY265oCVq/31UUV6ZV4MyWDJehytFgTyoKRfJ5hUNIXTiORDT2M8W
-   hntlinFB8WPopZhwpxIUCXjVOjG3i5iqFk7Tz2ApGnDCH4HPLA3A0Bol9
-   3wn3QtTdOomrulRzD4sEGo0Jg59WD1TSczIYYV3KWJvg0NFoSV4LYpL7i
-   jfnSNVmNk+2DRo+iGy5wbAeihhz7CwozvLVXepFoAo++9rKimV5G1eeeI
-   +Kyie2qA3dUpw4Ubm0NxfP7a9a7lOffsfQI3s//Hm/yZUAXxbtWNtOwQT
-   0A8AdEFgty1cBvls6t0ID0U+yAHKRUXv5MRprESHj8om6p0XQ4C78rpSn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="330068036"
-X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="330068036"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 00:46:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="664567879"
-X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="664567879"
-Received: from ubuntu.bj.intel.com ([10.238.155.108])
-  by orsmga007.jf.intel.com with ESMTP; 20 Feb 2023 00:45:58 -0800
-From:   Jun Miao <jun.miao@intel.com>
-To:     pbonzini@redhat.com, corbet@lwn.net
-Cc:     seanjc@google.com, maciej.szmigiero@oracle.com,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, jun.miao@intel.com
-Subject: [PATCH] KVM: Align the function name of kvm_swap_active_memslots()
-Date:   Mon, 20 Feb 2023 16:45:00 +0800
-Message-Id: <20230220084500.938739-1-jun.miao@intel.com>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S230459AbjBTJQY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 04:16:24 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C750D14213;
+        Mon, 20 Feb 2023 01:16:23 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31K5E9kl021780;
+        Mon, 20 Feb 2023 09:15:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : reply-to : references : mime-version :
+ content-type : in-reply-to; s=qcppdkim1;
+ bh=yKYgWoCKOuZwlZ5QhhC4HzldsRg45DBg8HPEkWxPOzY=;
+ b=JwpsKliUIUyS/PqI0DJE0ZsUUgHRq+IJsuZWMF6Wl47mby5J1gncCxfEswl8BYt45DHM
+ KX++ijho3Wzr75MIg/ZmXaaHWOfae3G6GT8Qj2TQyYWG3BosvVEeYNqhAUZKbIkfQSgx
+ 7Xwpp7dnd+n3w4yrjbrzHF5Pmwo3mhQIIxgynNOuJYJnVHgo+rZiwe3zNlS6NvBDQ2h+
+ N7/N1UzfS0EEIkLEKVi0VQAbVSIeqJlfA+Xl61zdkFptRtWKjDVixM6EutgAfoyO96uZ
+ UmnPdvR1K7R/aM3bhL2vq6wvYxi30MyI4FG2a92wEHsnOCq1YXlsqbyDh9KrKx1al6Zt Cw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ntnn04he7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 20 Feb 2023 09:15:56 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31K9FtAj029598
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 20 Feb 2023 09:15:55 GMT
+Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Mon, 20 Feb
+ 2023 01:15:48 -0800
+Date:   Mon, 20 Feb 2023 14:45:44 +0530
+From:   Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+CC:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v10 13/26] gunyah: vm_mgr: Add ioctls to support basic
+ non-proxy VM boot
+Message-ID: <20230220091544.GN332@quicinc.com>
+Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212427.3316544-1-quic_eberman@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+In-Reply-To: <20230214212427.3316544-1-quic_eberman@quicinc.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: uUN2EDoZNUiRwtHr8NyIsG4VAp1iiXuc
+X-Proofpoint-GUID: uUN2EDoZNUiRwtHr8NyIsG4VAp1iiXuc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-20_05,2023-02-17_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 impostorscore=0 spamscore=0 priorityscore=1501
+ malwarescore=0 phishscore=0 clxscore=1015 adultscore=0 mlxscore=0
+ bulkscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302200083
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The function of install_new_memslots() is replaced by kvm_swap_active_memslots().
-In order to avoid confusion, align the name in the comments which always be ignored.
+* Elliot Berman <quic_eberman@quicinc.com> [2023-02-14 13:24:26]:
 
-Fixes: a54d806688fe "KVM: Keep memslots in tree-based structures instead of array-based ones")
-Signed-off-by: Jun Miao <jun.miao@intel.com>
----
- Documentation/virt/kvm/locking.rst | 2 +-
- include/linux/kvm_host.h           | 4 ++--
- virt/kvm/kvm_main.c                | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+>  static void gh_vm_free(struct work_struct *work)
+>  {
+>  	struct gh_vm *ghvm = container_of(work, struct gh_vm, free_work);
+>  	struct gh_vm_mem *mapping, *tmp;
+>  	int ret;
+>  
+> -	mutex_lock(&ghvm->mm_lock);
+> -	list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, list) {
+> -		gh_vm_mem_reclaim(ghvm, mapping);
+> -		kfree(mapping);
+> +	switch (ghvm->vm_status) {
+> +unknown_state:
+> +	case GH_RM_VM_STATUS_RUNNING:
+> +		gh_vm_stop(ghvm);
+> +		fallthrough;
+> +	case GH_RM_VM_STATUS_INIT_FAILED:
+> +	case GH_RM_VM_STATUS_LOAD:
+> +	case GH_RM_VM_STATUS_LOAD_FAILED:
+> +		mutex_lock(&ghvm->mm_lock);
+> +		list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, list) {
+> +			gh_vm_mem_reclaim(ghvm, mapping);
+> +			kfree(mapping);
+> +		}
+> +		mutex_unlock(&ghvm->mm_lock);
+> +		fallthrough;
+> +	case GH_RM_VM_STATUS_NO_STATE:
+> +		ret = gh_rm_dealloc_vmid(ghvm->rm, ghvm->vmid);
+> +		if (ret)
+> +			pr_warn("Failed to deallocate vmid: %d\n", ret);
+> +
+> +		gh_rm_notifier_unregister(ghvm->rm, &ghvm->nb);
+> +		put_gh_rm(ghvm->rm);
+> +		kfree(ghvm);
+> +		break;
+> +	default:
+> +		pr_err("VM is unknown state: %d, assuming it's running.\n", ghvm->vm_status);
+> +		goto unknown_state;
 
-diff --git a/Documentation/virt/kvm/locking.rst b/Documentation/virt/kvm/locking.rst
-index 14c4e9fa501d..ac0e549a3ae7 100644
---- a/Documentation/virt/kvm/locking.rst
-+++ b/Documentation/virt/kvm/locking.rst
-@@ -21,7 +21,7 @@ The acquisition orders for mutexes are as follows:
- - kvm->mn_active_invalidate_count ensures that pairs of
-   invalidate_range_start() and invalidate_range_end() callbacks
-   use the same memslots array.  kvm->slots_lock and kvm->slots_arch_lock
--  are taken on the waiting side in install_new_memslots, so MMU notifiers
-+  are taken on the waiting side in kvm_swap_active_memslots, so MMU notifiers
-   must not take either kvm->slots_lock or kvm->slots_arch_lock.
- 
- For SRCU:
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 8ada23756b0e..7f8242dd2745 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -58,7 +58,7 @@
- 
- /*
-  * Bit 63 of the memslot generation number is an "update in-progress flag",
-- * e.g. is temporarily set for the duration of install_new_memslots().
-+ * e.g. is temporarily set for the duration of kvm_swap_active_memslots().
-  * This flag effectively creates a unique generation number that is used to
-  * mark cached memslot data, e.g. MMIO accesses, as potentially being stale,
-  * i.e. may (or may not) have come from the previous memslots generation.
-@@ -713,7 +713,7 @@ struct kvm {
- 	 * use by the VM. To be used under the slots_lock (above) or in a
- 	 * kvm->srcu critical section where acquiring the slots_lock would
- 	 * lead to deadlock with the synchronize_srcu in
--	 * install_new_memslots.
-+	 * kvm_swap_active_memslots.
- 	 */
- 	struct mutex slots_arch_lock;
- 	struct mm_struct *mm; /* userspace tied to this vm */
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index d255964ec331..7a4ff9fc5978 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -1298,7 +1298,7 @@ static void kvm_destroy_vm(struct kvm *kvm)
- 	 * At this point, pending calls to invalidate_range_start()
- 	 * have completed but no more MMU notifiers will run, so
- 	 * mn_active_invalidate_count may remain unbalanced.
--	 * No threads can be waiting in install_new_memslots as the
-+	 * No threads can be waiting in kvm_swap_active_memslots as the
- 	 * last reference on KVM has been dropped, but freeing
- 	 * memslots would deadlock without this manual intervention.
- 	 */
-@@ -1748,7 +1748,7 @@ static void kvm_invalidate_memslot(struct kvm *kvm,
- 	/*
- 	 * Copy the arch-specific field of the newly-installed slot back to the
- 	 * old slot as the arch data could have changed between releasing
--	 * slots_arch_lock in install_new_memslots() and re-acquiring the lock
-+	 * slots_arch_lock in kvm_swap_active_memslots() and re-acquiring the lock
- 	 * above.  Writers are required to retrieve memslots *after* acquiring
- 	 * slots_arch_lock, thus the active slot's data is guaranteed to be fresh.
- 	 */
--- 
-2.32.0
+'goto unknown_state' here leads to a infinite loop AFAICS. For example consider
+the case  where VM_START failed (due to mem_lend operation) causing VM state to
+be GH_RM_VM_STATUS_RESET. A subsequent close(vmfd) can leads to that forever
+loop.
+
+//snip
+
+
+> +static int gh_vm_start(struct gh_vm *ghvm)
+> +{
+> +	struct gh_vm_mem *mapping;
+> +	u64 dtb_offset;
+> +	u32 mem_handle;
+> +	int ret;
+> +
+> +	down_write(&ghvm->status_lock);
+> +	if (ghvm->vm_status != GH_RM_VM_STATUS_LOAD) {
+> +		up_write(&ghvm->status_lock);
+> +		return 0;
+> +	}
+> +
+> +	ghvm->vm_status = GH_RM_VM_STATUS_RESET;
+> +
+> +	list_for_each_entry(mapping, &ghvm->memory_mappings, list) {
+
+We don't seem to have the right lock here while walking the list.
 
