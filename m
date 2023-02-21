@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0526C636D7
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 19:09:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E0BBC636D7
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 19:10:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229703AbjBUTJe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 14:09:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60720 "EHLO
+        id S229672AbjBUTJ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 14:09:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229918AbjBUTJc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 14:09:32 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 292202BF30
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 11:09:30 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id m3-20020a17090ade0300b00229eec90a7fso31322pjv.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 11:09:30 -0800 (PST)
+        with ESMTP id S229950AbjBUTJu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 14:09:50 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CC09303D4
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 11:09:38 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id z10so3036373ple.6
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 11:09:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=U7/hoqMIAepRETH3jO107eIeJ+UfvD3eJMNfG127+yc=;
-        b=ML/TqptG2y+VNZ2s/uAwCExQP7/61kxgdFtDZ8nEq3wGRDEc91VdXGlefahRUf+5Ev
-         D5bFiGPuRxXvq9M/OSE55rY7CFBgzaxJVRtT9+py7Pc7cumJvItPTNJ/4BiGcKB84xKG
-         K4WRVNELN9VHiSRbrqxnlpC7ffrBBrKfm3jMVlb4b9sATIkqgm/Wx5MlTmuotddpmRXa
-         S77iJPdrZqZeC86zfBY7ahCJ+ny1Jj+utqMW8rQjIehGx2eo5QX2S6H2jSJTrwDYZDNp
-         +3znT9hpdypBkXtX+sBYzU6Yywt8GM/ynhJBMJXRPoH2gkhEYk7iOImshHWzdxTykrFN
-         BvFQ==
+        bh=Ngg8NDFZzsFlILqqXwu8UXpBsOAV4Baprs2BRNqdLJ0=;
+        b=FRaQAuEcLIi5R8B0k5soD4TzlqXCCD8xIpm8vDv1PejHFBAIH+x1Tn70DoKzgIdA29
+         u1jhu2VwxdcVAhXFFoX/6TH7my+wq3hu7nU9QgtM6yw2HV0ZFaak+mABSNAIv2Nt9DcO
+         uOH1qJ2tSXdTM6O7Y/ouRusJ8HdInJja7HVGua5j2lSuVPAedU9lCOL6WoWNzbiSah4R
+         xYFmxAswhiNF1Zeqy/XjhCFRfl1N4PEpgeMLggVHFGWvU3NzVAGGO/XjdNzZcrM2wdYu
+         Z6jp38wpp3OPylFbdSXC7mVj42OEJpVKBcWehrwWDIJYHmt02qObKqWwFTSEfpTEFvlu
+         tMEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=U7/hoqMIAepRETH3jO107eIeJ+UfvD3eJMNfG127+yc=;
-        b=U1kkNY7YFzM2NSM3+RBEXEs4dFDINqwO/J1wm0ke93nYv27/5AllyPcYePB8CI4JZn
-         p2er8kxmZzE7ceX3wR5PEoWZCiOEj93DhZa+Ug+VY/oH73hgaL4Bh23qMlxCU5BKGvVJ
-         uMKkaBKNsascxWLt+8vUEJMe7WYuvvvZBeVo+Jy4GDpB4TwoNoysrI5G1flLDCAka2rj
-         /JoifzUzQyh1ZeZuwEk6jyCaqU/K9JowxixgZl6gXwu9+PSfBvNhOIgpHnzz0lNMQdri
-         lTV6AGSnNkzvRdi9p2fZSjHsHGHdk7NdF6/zFjjlX9e6021tS9bUPVwNYdjS4zrN2LYh
-         wmeA==
-X-Gm-Message-State: AO0yUKVDmrhpmwdL3NLZtcjRSrN8eit3d6QTk3LBe0hhJiuciI8zTa0J
-        bPbLMfnx/44DePl2BTgdrXbohg==
-X-Google-Smtp-Source: AK7set982kHyTiT0GJPk7lv5utET6rOdXXqJdN+FNbr7Y9VXQETYIeB8bJZmgEP2rHoVE/dpxgWkBg==
-X-Received: by 2002:a17:902:ecc1:b0:19a:8680:ba86 with SMTP id a1-20020a170902ecc100b0019a8680ba86mr6821900plh.50.1677006569611;
-        Tue, 21 Feb 2023 11:09:29 -0800 (PST)
+        bh=Ngg8NDFZzsFlILqqXwu8UXpBsOAV4Baprs2BRNqdLJ0=;
+        b=GWdQA6JPF6V2vYCwD4lJTRu6XFptoQUe0UJeS9zA6+VksUhykROhHUSm0w/CnK3/w4
+         n61yRnX09TrRC457DDHIj7bvcJqnjwk8Qc90zIw26347b4tYLtONBabXNUaURy0WrYZp
+         of031leDC4k5diQ31s2UJUXIaTdUZTOxuajXE5y4WNyGrzqFW7bp3noY3bxADkTwb5dn
+         +jtS5atb8KUxkAzD8vuCj0DWFsZBQgQxWgutR0GPZ0FDS5wDwrVLYhwJXAkC69MajHCt
+         1i3mYE/GtUMvE8rHK0Pt8+jhPexrtL8G4QpD4yi2NPCZpNS3ijn99a0HipmQ+bPdnLEM
+         gREQ==
+X-Gm-Message-State: AO0yUKXiAArAQXzecyeFaZAUxdVsq/B3MqebycwqFFsEyB67qD3chcND
+        XrDP5LoRqlv1FAhMomRZWcWfKQ==
+X-Google-Smtp-Source: AK7set+9JyhPkEzwlrHweLrwuAKU/yz0dbdPwCbQGwgBKeOM2IKtDHtvgrtUF617GgoYGmIFS/kJLg==
+X-Received: by 2002:a17:903:22c8:b0:199:12d5:5b97 with SMTP id y8-20020a17090322c800b0019912d55b97mr7589315plg.12.1677006577820;
+        Tue, 21 Feb 2023 11:09:37 -0800 (PST)
 Received: from evan.ba.rivosinc.com ([66.220.2.162])
-        by smtp.gmail.com with ESMTPSA id b16-20020a170902b61000b0019602b2c00csm1583863pls.175.2023.02.21.11.09.28
+        by smtp.gmail.com with ESMTPSA id b16-20020a170902b61000b0019602b2c00csm1583863pls.175.2023.02.21.11.09.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 11:09:29 -0800 (PST)
+        Tue, 21 Feb 2023 11:09:37 -0800 (PST)
 From:   Evan Green <evan@rivosinc.com>
 To:     Palmer Dabbelt <palmer@rivosinc.com>
 Cc:     heiko@sntech.de, Conor Dooley <conor@kernel.org>,
@@ -56,16 +56,25 @@ Cc:     heiko@sntech.de, Conor Dooley <conor@kernel.org>,
         Evan Green <evan@rivosinc.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
         Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Anup Patel <apatel@ventanamicro.com>,
         Atish Patra <atishp@rivosinc.com>,
         Celeste Liu <coelacanthus@outlook.com>,
-        Guo Ren <guoren@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
+        Ruizhe Pan <c141028@gmail.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tsukasa OI <research_trasio@irq.a4lg.com>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-riscv@lists.infradead.org
-Subject: [PATCH v3 3/7] RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
-Date:   Tue, 21 Feb 2023 11:08:54 -0800
-Message-Id: <20230221190858.3159617-4-evan@rivosinc.com>
+Subject: [PATCH v3 5/7] RISC-V: hwprobe: Support probing of misaligned access performance
+Date:   Tue, 21 Feb 2023 11:08:56 -0800
+Message-Id: <20230221190858.3159617-6-evan@rivosinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230221190858.3159617-1-evan@rivosinc.com>
 References: <20230221190858.3159617-1-evan@rivosinc.com>
@@ -75,120 +84,246 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We have an implicit set of base behaviors that userspace depends on,
-which are mostly defined in various ISA specifications.
+This allows userspace to select various routines to use based on the
+performance of misaligned access on the target hardware.
 
 Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 Signed-off-by: Evan Green <evan@rivosinc.com>
+
 ---
 
 Changes in v3:
- - Refactored base ISA behavior probe to allow kernel probing as well,
-   in prep for vDSO data initialization.
- - Fixed doc warnings in IMA text list, use :c:macro:.
+ - Have hwprobe_misaligned return int instead of long.
+ - Constify cpumask pointer in hwprobe_misaligned()
+ - Fix warnings in _PERF_O list documentation, use :c:macro:.
+ - Move include cpufeature.h to misaligned patch.
+ - Fix documentation mismatch for RISCV_HWPROBE_KEY_CPUPERF_0 (Conor)
+ - Use for_each_possible_cpu() instead of NR_CPUS (Conor)
+ - Break early in misaligned access iteration (Conor)
+ - Increase MISALIGNED_MASK from 2 bits to 3 for possible UNSUPPORTED future
+   value (Conor)
 
- Documentation/riscv/hwprobe.rst       | 21 +++++++++++++++++++++
+Changes in v2:
+ - Fixed logic error in if(of_property_read_string...) that caused crash
+ - Include cpufeature.h in cpufeature.h to avoid undeclared variable
+   warning.
+ - Added a _MASK define
+ - Fix random checkpatch complaints
+
+ Documentation/riscv/hwprobe.rst       | 14 ++++++++++++
+ arch/riscv/include/asm/cpufeature.h   |  2 ++
  arch/riscv/include/asm/hwprobe.h      |  2 +-
- arch/riscv/include/uapi/asm/hwprobe.h |  5 +++++
- arch/riscv/kernel/sys_riscv.c         | 20 ++++++++++++++++++++
- 4 files changed, 47 insertions(+), 1 deletion(-)
+ arch/riscv/include/asm/smp.h          | 11 ++++++++++
+ arch/riscv/include/uapi/asm/hwprobe.h |  6 ++++++
+ arch/riscv/kernel/cpufeature.c        | 31 +++++++++++++++++++++++++--
+ arch/riscv/kernel/sys_riscv.c         | 27 +++++++++++++++++++++++
+ 7 files changed, 90 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
-index 88b015a2026e..9f2da414fbf8 100644
+index 9f2da414fbf8..ac6ded9eb0da 100644
 --- a/Documentation/riscv/hwprobe.rst
 +++ b/Documentation/riscv/hwprobe.rst
-@@ -37,3 +37,24 @@ The following keys are defined:
-   defined by the RISC-V privileged architecture specification.
- * :c:macro:`RISCV_HWPROBE_KEY_MIMPLID`: Contains the value of ``mimplid``, as
-   defined by the RISC-V privileged architecture specification.
-+* :c:macro:`RISCV_HWPROBE_KEY_BASE_BEHAVIOR`: A bitmask containing the base
-+  user-visible behavior that this kernel supports.  The following base user ABIs
-+  are defined:
+@@ -58,3 +58,17 @@ The following keys are defined:
+     minimumNumber/maximumNumber, not minNum/maxNum") of the RISC-V ISA manual.
+   * :c:macro:`RISCV_HWPROBE_IMA_C`: The C extension is supported, as defined
+     by version 2.2 of the RISC-V ISA manual.
++* :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
++  information about the selected set of processors.
 +
-+  * :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`: Support for rv32ima or
-+    rv64ima, as defined by version 2.2 of the user ISA and version 1.10 of the
-+    privileged ISA, with the following known exceptions (more exceptions may be
-+    added, but only if it can be demonstrated that the user ABI is not broken):
++  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNKNOWN`: The performance of misaligned
++    accesses is unknown.
++  * :c:macro:`RISCV_HWPROBE_MISALIGNED_EMULATED`: Misaligned accesses are
++    emulated via software, either in or below the kernel.  These accesses are
++    always extremely slow.
++  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned accesses are supported
++    in hardware, but are slower than the cooresponding aligned accesses
++    sequences.
++  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned accesses are supported
++    in hardware and are faster than the cooresponding aligned accesses
++    sequences.
+diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
+index 66ebaae449c8..808d5403f2ac 100644
+--- a/arch/riscv/include/asm/cpufeature.h
++++ b/arch/riscv/include/asm/cpufeature.h
+@@ -18,4 +18,6 @@ struct riscv_cpuinfo {
+ 
+ DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
+ 
++DECLARE_PER_CPU(long, misaligned_access_speed);
 +
-+    * The :fence.i: instruction cannot be directly executed by userspace
-+      programs (it may still be executed in userspace via a
-+      kernel-controlled mechanism such as the vDSO).
-+* :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_0`: A bitmask containing the extensions
-+  that are compatible with the :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`:
-+  base system behavior.
-+
-+  * :c:macro:`RISCV_HWPROBE_IMA_FD`: The F and D extensions are supported, as
-+    defined by commit cd20cee ("FMIN/FMAX now implement
-+    minimumNumber/maximumNumber, not minNum/maxNum") of the RISC-V ISA manual.
-+  * :c:macro:`RISCV_HWPROBE_IMA_C`: The C extension is supported, as defined
-+    by version 2.2 of the RISC-V ISA manual.
+ #endif
 diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-index 08d1c3bdd78a..7e52f1e1fe10 100644
+index 7e52f1e1fe10..4e45e33015bc 100644
 --- a/arch/riscv/include/asm/hwprobe.h
 +++ b/arch/riscv/include/asm/hwprobe.h
 @@ -8,6 +8,6 @@
  
  #include <uapi/asm/hwprobe.h>
  
--#define RISCV_HWPROBE_MAX_KEY 2
-+#define RISCV_HWPROBE_MAX_KEY 4
+-#define RISCV_HWPROBE_MAX_KEY 4
++#define RISCV_HWPROBE_MAX_KEY 5
  
  #endif
+diff --git a/arch/riscv/include/asm/smp.h b/arch/riscv/include/asm/smp.h
+index 3831b638ecab..4f77a64194e5 100644
+--- a/arch/riscv/include/asm/smp.h
++++ b/arch/riscv/include/asm/smp.h
+@@ -26,6 +26,17 @@ struct riscv_ipi_ops {
+  */
+ extern unsigned long __cpuid_to_hartid_map[NR_CPUS];
+ #define cpuid_to_hartid_map(cpu)    __cpuid_to_hartid_map[cpu]
++static inline long hartid_to_cpuid_map(unsigned long hartid)
++{
++	long i;
++
++	for_each_possible_cpu(i) {
++		if (cpuid_to_hartid_map(i) == hartid)
++			return i;
++	}
++
++	return -1;
++}
+ 
+ /* print IPI stats */
+ void show_ipi_stats(struct seq_file *p, int prec);
 diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 591802047460..fc5665411782 100644
+index fc5665411782..93fde30fc4a8 100644
 --- a/arch/riscv/include/uapi/asm/hwprobe.h
 +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -20,6 +20,11 @@ struct riscv_hwprobe {
- #define RISCV_HWPROBE_KEY_MVENDORID	0
- #define RISCV_HWPROBE_KEY_MARCHID	1
- #define RISCV_HWPROBE_KEY_MIMPID	2
-+#define RISCV_HWPROBE_KEY_BASE_BEHAVIOR	3
-+#define		RISCV_HWPROBE_BASE_BEHAVIOR_IMA	(1 << 0)
-+#define RISCV_HWPROBE_KEY_IMA_EXT_0	4
-+#define		RISCV_HWPROBE_IMA_FD		(1 << 0)
-+#define		RISCV_HWPROBE_IMA_C		(1 << 1)
+@@ -25,6 +25,12 @@ struct riscv_hwprobe {
+ #define RISCV_HWPROBE_KEY_IMA_EXT_0	4
+ #define		RISCV_HWPROBE_IMA_FD		(1 << 0)
+ #define		RISCV_HWPROBE_IMA_C		(1 << 1)
++#define RISCV_HWPROBE_KEY_CPUPERF_0	5
++#define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
++#define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
++#define		RISCV_HWPROBE_MISALIGNED_SLOW		(2 << 0)
++#define		RISCV_HWPROBE_MISALIGNED_FAST		(3 << 0)
++#define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
  
  #endif
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index 93e45560af30..12af6f7a2f53 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -14,8 +14,10 @@
+ #include <linux/of.h>
+ #include <asm/alternative.h>
+ #include <asm/cacheflush.h>
++#include <asm/cpufeature.h>
+ #include <asm/errata_list.h>
+ #include <asm/hwcap.h>
++#include <asm/hwprobe.h>
+ #include <asm/patch.h>
+ #include <asm/pgtable.h>
+ #include <asm/processor.h>
+@@ -32,6 +34,9 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
+ DEFINE_STATIC_KEY_ARRAY_FALSE(riscv_isa_ext_keys, RISCV_ISA_EXT_KEY_MAX);
+ EXPORT_SYMBOL(riscv_isa_ext_keys);
+ 
++/* Performance information */
++DEFINE_PER_CPU(long, misaligned_access_speed);
++
+ /**
+  * riscv_isa_extension_base() - Get base extension word
+  *
+@@ -89,11 +94,11 @@ static bool riscv_isa_extension_check(int id)
+ void __init riscv_fill_hwcap(void)
+ {
+ 	struct device_node *node;
+-	const char *isa;
++	const char *isa, *misaligned;
+ 	char print_str[NUM_ALPHA_EXTS + 1];
+ 	int i, j, rc;
+ 	unsigned long isa2hwcap[26] = {0};
+-	unsigned long hartid;
++	unsigned long hartid, cpu;
+ 
+ 	isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
+ 	isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
+@@ -246,6 +251,28 @@ void __init riscv_fill_hwcap(void)
+ 			bitmap_copy(riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
+ 		else
+ 			bitmap_and(riscv_isa, riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
++
++		/*
++		 * Check for the performance of misaligned accesses.
++		 */
++		cpu = hartid_to_cpuid_map(hartid);
++		if (cpu < 0)
++			continue;
++
++		if (!of_property_read_string(node, "riscv,misaligned-access-performance",
++					     &misaligned)) {
++			if (strcmp(misaligned, "emulated") == 0)
++				per_cpu(misaligned_access_speed, cpu) =
++					RISCV_HWPROBE_MISALIGNED_EMULATED;
++
++			if (strcmp(misaligned, "slow") == 0)
++				per_cpu(misaligned_access_speed, cpu) =
++					RISCV_HWPROBE_MISALIGNED_SLOW;
++
++			if (strcmp(misaligned, "fast") == 0)
++				per_cpu(misaligned_access_speed, cpu) =
++					RISCV_HWPROBE_MISALIGNED_FAST;
++		}
+ 	}
+ 
+ 	/* We don't support systems with F but without D, so mask those out
 diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
-index 02c2f1f7417e..f2b224550923 100644
+index f2b224550923..afc1b96d5c1a 100644
 --- a/arch/riscv/kernel/sys_riscv.c
 +++ b/arch/riscv/kernel/sys_riscv.c
-@@ -9,6 +9,7 @@
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/syscalls.h>
  #include <asm/cacheflush.h>
++#include <asm/cpufeature.h>
  #include <asm/hwprobe.h>
  #include <asm/sbi.h>
-+#include <asm/switch_to.h>
- #include <asm/uaccess.h>
- #include <asm/unistd.h>
- #include <asm-generic/mman-common.h>
-@@ -124,6 +125,25 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 	case RISCV_HWPROBE_KEY_MIMPID:
- 		hwprobe_arch_id(pair, cpus);
- 		break;
-+	/*
-+	 * The kernel already assumes that the base single-letter ISA
-+	 * extensions are supported on all harts, and only supports the
-+	 * IMA base, so just cheat a bit here and tell that to
-+	 * userspace.
-+	 */
-+	case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
-+		pair->value = RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
-+		break;
-+
-+	case RISCV_HWPROBE_KEY_IMA_EXT_0:
-+		pair->value = 0;
-+		if (has_fpu())
-+			pair->value |= RISCV_HWPROBE_IMA_FD;
-+
-+		if (elf_hwcap & RISCV_ISA_EXT_c)
-+			pair->value |= RISCV_HWPROBE_IMA_C;
-+
-+		break;
+ #include <asm/switch_to.h>
+@@ -116,6 +117,28 @@ static void hwprobe_arch_id(struct riscv_hwprobe *pair,
+ 	pair->value = id;
+ }
  
++static int hwprobe_misaligned(const struct cpumask *cpus)
++{
++	int cpu, perf = -1;
++
++	for_each_cpu(cpu, cpus) {
++		int this_perf = per_cpu(misaligned_access_speed, cpu);
++
++		if (perf == -1)
++			perf = this_perf;
++
++		if (perf != this_perf) {
++			perf = RISCV_HWPROBE_MISALIGNED_UNKNOWN;
++			break;
++		}
++	}
++
++	if (perf == -1)
++		return RISCV_HWPROBE_MISALIGNED_UNKNOWN;
++
++	return perf;
++}
++
+ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+ 			     const struct cpumask *cpus)
+ {
+@@ -145,6 +168,10 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+ 
+ 		break;
+ 
++	case RISCV_HWPROBE_KEY_CPUPERF_0:
++		pair->value = hwprobe_misaligned(cpus);
++		break;
++
  	/*
  	 * For forward compatibility, unknown keys don't fail the whole
+ 	 * call, but get their element key set to -1 and value set to 0
 -- 
 2.25.1
 
