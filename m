@@ -2,671 +2,224 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46258C636D7
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 15:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2936C636D7
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 15:18:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233032AbjBUPSQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 10:18:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39590 "EHLO
+        id S234189AbjBUPSo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 10:18:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234014AbjBUPSO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 10:18:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F032B2BD
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 07:17:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676992641;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=JuqPHb9zZ5UTv5TGpgtbDOCWEaODz0ZgYpqvelgvU6c=;
-        b=XY+DMbRHoeWw3rtd0+B2bXxn/yVk6nozfj4VOsIk0xL4NN2P5reKuBo9aEQeaKaeAxHQnj
-        a7xnGsZ8bC6p18FntGsOhNI/NAtLEV+7VY0x6VZZ/rucNKmQt8MJCT28d1Sx3xzYEjNBxK
-        PVcTxYuUsf7aLylJyxb/jIxLyqRbIA8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-573-WjV53WwsMxqeT0qqyDGyNw-1; Tue, 21 Feb 2023 10:17:07 -0500
-X-MC-Unique: WjV53WwsMxqeT0qqyDGyNw-1
-Received: by mail-ed1-f71.google.com with SMTP id en10-20020a056402528a00b004acbf564d75so5700984edb.5
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 07:16:43 -0800 (PST)
+        with ESMTP id S233537AbjBUPSn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 10:18:43 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA527A5EE
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 07:18:34 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id z8so4546202wrm.8
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 07:18:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CT7zs83p4wf2oMKA9XtjsCQskd8aaPHuMTZnSp2tQOs=;
+        b=05sOm2ZBO5VW/U7AuuugF9V39XxURb15OmHFdqm4+WcaGAD8zNkD3l1PuPJexle+AF
+         5q9HWOH9rO10kXBZjd5llDjxdAGNPow1v/7YELw4nZ44iXf969KXUN3z7WHJ5OSgDTM1
+         qIdSUqW8fbjDtcuZyosWYbqPacZbe4PivSI6cgx0Nf9Rex5ZKVMaHo0fD6l70AwLkxtX
+         B9EAL00O6nXxWN9h8E79tJrRF2DrGKJaYsPwTkIC26qBIF2G0Q8fAod0o9l+AVJtOyLk
+         LUnxzzGO8I6xkuhJeT/RfGtefTQ4h7txzwSOQG//7mmD4eyQc9tnH4HWxSG4oRNg7ov4
+         CgGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JuqPHb9zZ5UTv5TGpgtbDOCWEaODz0ZgYpqvelgvU6c=;
-        b=owNGVXOEazhd6/O+Mln6yZ7obv65VtLa4zVewfyPEIAlbQZDFGDgl1lUmFIXrpeVWu
-         EXnSyFfBeJI9O5/tJABqWpbzVkB6/uq1nrioOFNIIHyLJ0IiVFpV9KVf8110kcqv0d77
-         c+JSFQulVlHJdlA5KuHfJEXrEEs9v5bIcSnn3KsbUBY/YCQuNtoZu2TLgKe4/cq1ubtf
-         e5nMq5DQ2Jfl2zIwk1wnHMWtG+DdcFnb4izozQ/gYZp8FQuHpmomfKmBUxVBO85i7ACX
-         Ecd+b9u30pZrZd0akpQCT7Y0yEoKjUI02h1n48o/jRpH1kfNF18dsNJMBqJ1axlHylnf
-         0fjA==
-X-Gm-Message-State: AO0yUKV6dceNrCf7XrqMkqxcIpo5xtoXM8QRNhWLy/5UoN5sOq+yRqrR
-        LsCEr8hNpAoPI0IHoNDVoPtXalMMHalInz6mn3ULo6lNEpq5jnqOKjqp5ksIJhCrPjl/CPZt5xM
-        pdHH5qdrYMsIH5+GB5x4M
-X-Received: by 2002:a17:906:1912:b0:872:6bd0:d2b with SMTP id a18-20020a170906191200b008726bd00d2bmr11895336eje.45.1676992602748;
-        Tue, 21 Feb 2023 07:16:42 -0800 (PST)
-X-Google-Smtp-Source: AK7set84gm+39/qkmeMUA7Sl/R9tJ31E4LSuYXM07UxPK7sN94ycDIBGu4V0zIm/d4TFx6Jk6pHiFw==
-X-Received: by 2002:a17:906:1912:b0:872:6bd0:d2b with SMTP id a18-20020a170906191200b008726bd00d2bmr11895303eje.45.1676992602394;
-        Tue, 21 Feb 2023 07:16:42 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id qo12-20020a170907212c00b008b17eb06282sm6267034ejb.213.2023.02.21.07.16.40
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CT7zs83p4wf2oMKA9XtjsCQskd8aaPHuMTZnSp2tQOs=;
+        b=f2UKhBM9Mea2phi7hYkSr25hfB4HbLyJ9HgoQupZMyBxGj2ouoFTEteIdD3Wpl1INM
+         BEByYzgv/HD6Q9a9e81clqeac8QRdkdu7SY9ZCSNPF8T/5RBePW5Le+5j961lKoHQq6a
+         LDuQgUda0Hz1uYgWILQlusQbxy64c5AfIzLHi5OVsR2UISHB2kLPtV+yGx8Occ5Lqf0A
+         NMf4f6qBIjSggG8St+g3B86gfDrHvqyzwG8y4HlwwJlO6sSxajL0hVDoQT5ZW+aq4TiW
+         JtHGfVBdPWUxZANUQwpNnu48w3rFAD1rXRO6ezAg/ZGR845b+oYHHaQ4Jar+H6+A5mpZ
+         w2ng==
+X-Gm-Message-State: AO0yUKXH4B17itialDPSgp8B+h92PFZdTWODMcWIrQSl7vDmRQy8RUvE
+        udvMJ/gp++ogbU7wX01nK+PqrQ==
+X-Google-Smtp-Source: AK7set+hx5/iXhw87Fj1mVy7cR3vJ3w8/ZSd272JZWHgJMm2PNkLrfAgnO/fXM3Kuo6GN8OQgV6Bqw==
+X-Received: by 2002:a05:6000:1569:b0:2bf:d937:3589 with SMTP id 9-20020a056000156900b002bfd9373589mr5336294wrz.14.1676992713155;
+        Tue, 21 Feb 2023 07:18:33 -0800 (PST)
+Received: from [192.168.1.70] (125.62.71.86.rev.sfr.net. [86.71.62.125])
+        by smtp.gmail.com with ESMTPSA id d1-20020a5d4f81000000b002c5526234d2sm4312211wru.8.2023.02.21.07.18.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Feb 2023 07:16:41 -0800 (PST)
-Message-ID: <fbbc3bc7-3dd4-85cd-4b06-0dc9140d22f7@redhat.com>
-Date:   Tue, 21 Feb 2023 15:56:19 +0100
+        Tue, 21 Feb 2023 07:18:32 -0800 (PST)
+Message-ID: <633753f7-2b8a-15bb-ba55-1c5a6f2eb3f1@baylibre.com>
+Date:   Tue, 21 Feb 2023 16:18:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH drm-next v2 01/16] drm: execution context for GEM buffers
+Subject: Re: [PATCH v1 1/4] dt-bindings: mfd: Add DT bindings for TI TPS6594
+ PMIC
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        boris.brezillon@collabora.com, alexdeucher@gmail.com,
-        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-        jason@jlekstrand.net, dri-devel@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-References: <20230217134422.14116-1-dakr@redhat.com>
- <20230217134422.14116-2-dakr@redhat.com>
- <38ebd698-0619-6f02-7a7c-4349e5971b6a@amd.com>
-From:   Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <38ebd698-0619-6f02-7a7c-4349e5971b6a@amd.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net
+Cc:     hdegoede@redhat.com, eric.auger@redhat.com, jgg@ziepe.ca,
+        razor@blackwall.org, suma.hegde@amd.com,
+        stephen@networkplumber.org, arnd@arndb.de,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, eblanc@baylibre.com,
+        jneanne@baylibre.com
+References: <20230216114410.183489-1-jpanis@baylibre.com>
+ <20230216114410.183489-2-jpanis@baylibre.com>
+ <c50503f0-dce1-a3b0-2973-8a22b5ef8bc2@linaro.org>
+ <4e64838c-b727-923b-b6d5-413a0681977c@baylibre.com>
+ <8de5a3bb-a0b1-8d69-cf61-0c33f42c56f6@linaro.org>
+ <85183c04-40e3-fd97-c4ca-06795fe99e40@baylibre.com>
+ <ce5f8e9c-0e05-3391-1393-25ea8086f10c@linaro.org>
+From:   Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <ce5f8e9c-0e05-3391-1393-25ea8086f10c@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/17/23 17:00, Christian König wrote:
-> Am 17.02.23 um 14:44 schrieb Danilo Krummrich:
->> From: Christian König <christian.koenig@amd.com>
->>
->> This adds the infrastructure for an execution context for GEM buffers
->> which is similar to the existinc TTMs execbuf util and intended to 
->> replace
->> it in the long term.
->>
->> The basic functionality is that we abstracts the necessary loop to lock
->> many different GEM buffers with automated deadlock and duplicate 
->> handling.
->>
->> v2: drop xarray and use dynamic resized array instead, the locking
->>      overhead is unecessary and measureable.
-> 
-> Question for Danilo and probably others: Does Nouveau make use of the 
-> duplicate tracking at some point?
 
-I'm not iterating duplicates or do something with them explicitly. 
-However, I rely on drm_exec being able to deal with duplicates in general.
-> 
-> Background is that I only have two or three use cases for this in 
-> radeon/amdgpu and would like to make it an optional feature.
-> 
-> Going to take a look at the rest of this series next week.
-> 
-> Regards,
-> Christian.
-> 
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   Documentation/gpu/drm-mm.rst       |  12 ++
->>   drivers/gpu/drm/Kconfig            |   6 +
->>   drivers/gpu/drm/Makefile           |   2 +
->>   drivers/gpu/drm/amd/amdgpu/Kconfig |   1 +
->>   drivers/gpu/drm/drm_exec.c         | 295 +++++++++++++++++++++++++++++
->>   include/drm/drm_exec.h             | 144 ++++++++++++++
->>   6 files changed, 460 insertions(+)
->>   create mode 100644 drivers/gpu/drm/drm_exec.c
->>   create mode 100644 include/drm/drm_exec.h
->>
->> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
->> index a79fd3549ff8..a52e6f4117d6 100644
->> --- a/Documentation/gpu/drm-mm.rst
->> +++ b/Documentation/gpu/drm-mm.rst
->> @@ -493,6 +493,18 @@ DRM Sync Objects
->>   .. kernel-doc:: drivers/gpu/drm/drm_syncobj.c
->>      :export:
->> +DRM Execution context
->> +=====================
->> +
->> +.. kernel-doc:: drivers/gpu/drm/drm_exec.c
->> +   :doc: Overview
->> +
->> +.. kernel-doc:: include/drm/drm_exec.h
->> +   :internal:
->> +
->> +.. kernel-doc:: drivers/gpu/drm/drm_exec.c
->> +   :export:
->> +
->>   GPU Scheduler
->>   =============
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index f42d4c6a19f2..1573d658fbb5 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -200,6 +200,12 @@ config DRM_TTM
->>         GPU memory types. Will be enabled automatically if a device 
->> driver
->>         uses it.
->> +config DRM_EXEC
->> +    tristate
->> +    depends on DRM
->> +    help
->> +      Execution context for command submissions
->> +
->>   config DRM_BUDDY
->>       tristate
->>       depends on DRM
->> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
->> index ab4460fcd63f..d40defbb0347 100644
->> --- a/drivers/gpu/drm/Makefile
->> +++ b/drivers/gpu/drm/Makefile
->> @@ -78,6 +78,8 @@ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += 
->> drm_panel_orientation_quirks.o
->>   #
->>   # Memory-management helpers
->>   #
->> +#
->> +obj-$(CONFIG_DRM_EXEC) += drm_exec.o
->>   obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
->> diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig 
->> b/drivers/gpu/drm/amd/amdgpu/Kconfig
->> index 5341b6b242c3..279fb3bba810 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
->> +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
->> @@ -11,6 +11,7 @@ config DRM_AMDGPU
->>       select DRM_SCHED
->>       select DRM_TTM
->>       select DRM_TTM_HELPER
->> +    select DRM_EXEC
->>       select POWER_SUPPLY
->>       select HWMON
->>       select I2C
->> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
->> new file mode 100644
->> index 000000000000..ed2106c22786
->> --- /dev/null
->> +++ b/drivers/gpu/drm/drm_exec.c
->> @@ -0,0 +1,295 @@
->> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
->> +
->> +#include <drm/drm_exec.h>
->> +#include <drm/drm_gem.h>
->> +#include <linux/dma-resv.h>
->> +
->> +/**
->> + * DOC: Overview
->> + *
->> + * This component mainly abstracts the retry loop necessary for locking
->> + * multiple GEM objects while preparing hardware operations (e.g. 
->> command
->> + * submissions, page table updates etc..).
->> + *
->> + * If a contention is detected while locking a GEM object the cleanup 
->> procedure
->> + * unlocks all previously locked GEM objects and locks the contended 
->> one first
->> + * before locking any further objects.
->> + *
->> + * After an object is locked fences slots can optionally be reserved 
->> on the
->> + * dma_resv object inside the GEM object.
->> + *
->> + * A typical usage pattern should look like this::
->> + *
->> + *    struct drm_gem_object *obj;
->> + *    struct drm_exec exec;
->> + *    unsigned long index;
->> + *    int ret;
->> + *
->> + *    drm_exec_init(&exec, true);
->> + *    drm_exec_while_not_all_locked(&exec) {
->> + *        ret = drm_exec_prepare_obj(&exec, boA, 1);
->> + *        drm_exec_continue_on_contention(&exec);
->> + *        if (ret)
->> + *            goto error;
->> + *
->> + *        ret = drm_exec_lock(&exec, boB, 1);
->> + *        drm_exec_continue_on_contention(&exec);
->> + *        if (ret)
->> + *            goto error;
->> + *    }
->> + *
->> + *    drm_exec_for_each_locked_object(&exec, index, obj) {
->> + *        dma_resv_add_fence(obj->resv, fence, DMA_RESV_USAGE_READ);
->> + *        ...
->> + *    }
->> + *    drm_exec_fini(&exec);
->> + *
->> + * See struct dma_exec for more details.
->> + */
->> +
->> +/* Dummy value used to initially enter the retry loop */
->> +#define DRM_EXEC_DUMMY (void*)~0
->> +
->> +/* Initialize the drm_exec_objects container */
->> +static void drm_exec_objects_init(struct drm_exec_objects *container)
->> +{
->> +    container->objects = kmalloc(PAGE_SIZE, GFP_KERNEL);
->> +
->> +    /* If allocation here fails, just delay that till the first use */
->> +    container->max_objects = container->objects ?
->> +        PAGE_SIZE / sizeof(void *) : 0;
->> +    container->num_objects = 0;
->> +}
->> +
->> +/* Cleanup the drm_exec_objects container */
->> +static void drm_exec_objects_fini(struct drm_exec_objects *container)
->> +{
->> +    kvfree(container->objects);
->> +}
->> +
->> +/* Make sure we have enough room and add an object the container */
->> +static int drm_exec_objects_add(struct drm_exec_objects *container,
->> +                struct drm_gem_object *obj)
->> +{
->> +    if (unlikely(container->num_objects == container->max_objects)) {
->> +        size_t size = container->max_objects * sizeof(void *);
->> +        void *tmp;
->> +
->> +        tmp = kvrealloc(container->objects, size, size + PAGE_SIZE,
->> +                GFP_KERNEL);
->> +        if (!tmp)
->> +            return -ENOMEM;
->> +
->> +        container->objects = tmp;
->> +        container->max_objects += PAGE_SIZE / sizeof(void *);
->> +    }
->> +    drm_gem_object_get(obj);
->> +    container->objects[container->num_objects++] = obj;
->> +    return 0;
->> +}
->> +
->> +/* Unlock all objects and drop references */
->> +static void drm_exec_unlock_all(struct drm_exec *exec)
->> +{
->> +    struct drm_gem_object *obj;
->> +    unsigned long index;
->> +
->> +    drm_exec_for_each_duplicate_object(exec, index, obj)
->> +        drm_gem_object_put(obj);
->> +
->> +    drm_exec_for_each_locked_object(exec, index, obj) {
->> +        dma_resv_unlock(obj->resv);
->> +        drm_gem_object_put(obj);
->> +    }
->> +}
->> +
->> +/**
->> + * drm_exec_init - initialize a drm_exec object
->> + * @exec: the drm_exec object to initialize
->> + * @interruptible: if locks should be acquired interruptible
->> + *
->> + * Initialize the object and make sure that we can track locked and 
->> duplicate
->> + * objects.
->> + */
->> +void drm_exec_init(struct drm_exec *exec, bool interruptible)
->> +{
->> +    exec->interruptible = interruptible;
->> +    drm_exec_objects_init(&exec->locked);
->> +    drm_exec_objects_init(&exec->duplicates);
->> +    exec->contended = DRM_EXEC_DUMMY;
->> +}
->> +EXPORT_SYMBOL(drm_exec_init);
->> +
->> +/**
->> + * drm_exec_fini - finalize a drm_exec object
->> + * @exec: the drm_exec object to finilize
->> + *
->> + * Unlock all locked objects, drop the references to objects and free 
->> all memory
->> + * used for tracking the state.
->> + */
->> +void drm_exec_fini(struct drm_exec *exec)
->> +{
->> +    drm_exec_unlock_all(exec);
->> +    drm_exec_objects_fini(&exec->locked);
->> +    drm_exec_objects_fini(&exec->duplicates);
->> +    if (exec->contended != DRM_EXEC_DUMMY) {
->> +        drm_gem_object_put(exec->contended);
->> +        ww_acquire_fini(&exec->ticket);
->> +    }
->> +}
->> +EXPORT_SYMBOL(drm_exec_fini);
->> +
->> +/**
->> + * drm_exec_cleanup - cleanup when contention is detected
->> + * @exec: the drm_exec object to cleanup
->> + *
->> + * Cleanup the current state and return true if we should stay inside 
->> the retry
->> + * loop, false if there wasn't any contention detected and we can 
->> keep the
->> + * objects locked.
->> + */
->> +bool drm_exec_cleanup(struct drm_exec *exec)
->> +{
->> +    if (likely(!exec->contended)) {
->> +        ww_acquire_done(&exec->ticket);
->> +        return false;
->> +    }
->> +
->> +    if (likely(exec->contended == DRM_EXEC_DUMMY)) {
->> +        exec->contended = NULL;
->> +        ww_acquire_init(&exec->ticket, &reservation_ww_class);
->> +        return true;
->> +    }
->> +
->> +    drm_exec_unlock_all(exec);
->> +    exec->locked.num_objects = 0;
->> +    exec->duplicates.num_objects = 0;
->> +    return true;
->> +}
->> +EXPORT_SYMBOL(drm_exec_cleanup);
->> +
->> +/* Track the locked object in the xa and reserve fences */
->> +static int drm_exec_obj_locked(struct drm_exec_objects *container,
->> +                   struct drm_gem_object *obj,
->> +                   unsigned int num_fences)
->> +{
->> +    int ret;
->> +
->> +    if (container) {
->> +        ret = drm_exec_objects_add(container, obj);
->> +        if (ret)
->> +            return ret;
->> +    }
->> +
->> +    if (num_fences) {
->> +        ret = dma_resv_reserve_fences(obj->resv, num_fences);
->> +        if (ret)
->> +            goto error_erase;
->> +    }
->> +
->> +    return 0;
->> +
->> +error_erase:
->> +    if (container) {
->> +        --container->num_objects;
->> +        drm_gem_object_put(obj);
->> +    }
->> +    return ret;
->> +}
->> +
->> +/* Make sure the contended object is locked first */
->> +static int drm_exec_lock_contended(struct drm_exec *exec)
->> +{
->> +    struct drm_gem_object *obj = exec->contended;
->> +    int ret;
->> +
->> +    if (likely(!obj))
->> +        return 0;
->> +
->> +    if (exec->interruptible) {
->> +        ret = dma_resv_lock_slow_interruptible(obj->resv,
->> +                               &exec->ticket);
->> +        if (unlikely(ret))
->> +            goto error_dropref;
->> +    } else {
->> +        dma_resv_lock_slow(obj->resv, &exec->ticket);
->> +    }
->> +
->> +    ret = drm_exec_obj_locked(&exec->locked, obj, 0);
->> +    if (unlikely(ret))
->> +        dma_resv_unlock(obj->resv);
->> +
->> +error_dropref:
->> +    /* Always cleanup the contention so that error handling can kick 
->> in */
->> +    drm_gem_object_put(obj);
->> +    exec->contended = NULL;
->> +    return ret;
->> +}
->> +
->> +/**
->> + * drm_exec_prepare_obj - prepare a GEM object for use
->> + * @exec: the drm_exec object with the state
->> + * @obj: the GEM object to prepare
->> + * @num_fences: how many fences to reserve
->> + *
->> + * Prepare a GEM object for use by locking it and reserving fence 
->> slots. All
->> + * succesfully locked objects are put into the locked container. 
->> Duplicates
->> + * detected as well and automatically moved into the duplicates 
->> container.
->> + *
->> + * Returns: -EDEADLK if a contention is detected, -ENOMEM when memory
->> + * allocation failed and zero for success.
->> + */
->> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object 
->> *obj,
->> +             unsigned int num_fences)
->> +{
->> +    int ret;
->> +
->> +    ret = drm_exec_lock_contended(exec);
->> +    if (unlikely(ret))
->> +        return ret;
->> +
->> +    if (exec->interruptible)
->> +        ret = dma_resv_lock_interruptible(obj->resv, &exec->ticket);
->> +    else
->> +        ret = dma_resv_lock(obj->resv, &exec->ticket);
->> +
->> +    if (unlikely(ret == -EDEADLK)) {
->> +        drm_gem_object_get(obj);
->> +        exec->contended = obj;
->> +        return -EDEADLK;
->> +    }
->> +
->> +    if (unlikely(ret == -EALREADY)) {
->> +        struct drm_exec_objects *container = &exec->duplicates;
->> +
->> +        /*
->> +         * If this is the first locked GEM object it was most likely
->> +         * just contended. So don't add it to the duplicates, just
->> +         * reserve the fence slots.
->> +         */
->> +        if (exec->locked.num_objects && exec->locked.objects[0] == obj)
->> +            container = NULL;
->> +
->> +        ret = drm_exec_obj_locked(container, obj, num_fences);
->> +        if (ret)
->> +            return ret;
->> +
->> +    } else if (unlikely(ret)) {
->> +        return ret;
->> +
->> +    } else {
->> +        ret = drm_exec_obj_locked(&exec->locked, obj, num_fences);
->> +        if (ret)
->> +            goto error_unlock;
->> +    }
->> +
->> +    drm_gem_object_get(obj);
->> +    return 0;
->> +
->> +error_unlock:
->> +    dma_resv_unlock(obj->resv);
->> +    return ret;
->> +}
->> +EXPORT_SYMBOL(drm_exec_prepare_obj);
->> +
->> +MODULE_DESCRIPTION("DRM execution context");
->> +MODULE_LICENSE("Dual MIT/GPL");
->> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
->> new file mode 100644
->> index 000000000000..f73981c6292e
->> --- /dev/null
->> +++ b/include/drm/drm_exec.h
->> @@ -0,0 +1,144 @@
->> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
->> +
->> +#ifndef __DRM_EXEC_H__
->> +#define __DRM_EXEC_H__
->> +
->> +#include <linux/ww_mutex.h>
->> +
->> +struct drm_gem_object;
->> +
->> +/**
->> + * struct drm_exec_objects - Container for GEM objects in a drm_exec
->> + */
->> +struct drm_exec_objects {
->> +    unsigned int        num_objects;
->> +    unsigned int        max_objects;
->> +    struct drm_gem_object    **objects;
->> +};
->> +
->> +/**
->> + * drm_exec_objects_for_each - iterate over all the objects inside 
->> the container
->> + */
->> +#define drm_exec_objects_for_each(array, index, obj)        \
->> +    for (index = 0, obj = (array)->objects[0];        \
->> +         index < (array)->num_objects;            \
->> +         ++index, obj = (array)->objects[index])
->> +
->> +/**
->> + * struct drm_exec - Execution context
->> + */
->> +struct drm_exec {
->> +    /**
->> +     * @interruptible: If locks should be taken interruptible
->> +     */
->> +    bool            interruptible;
->> +
->> +    /**
->> +     * @ticket: WW ticket used for acquiring locks
->> +     */
->> +    struct ww_acquire_ctx    ticket;
->> +
->> +    /**
->> +     * @locked: container for the locked GEM objects
->> +     */
->> +    struct drm_exec_objects    locked;
->> +
->> +    /**
->> +     * @duplicates: container for the duplicated GEM objects
->> +     */
->> +    struct drm_exec_objects    duplicates;
->> +
->> +    /**
->> +     * @contended: contended GEM object we backet of for.
->> +     */
->> +    struct drm_gem_object    *contended;
->> +};
->> +
->> +/**
->> + * drm_exec_for_each_locked_object - iterate over all the locked objects
->> + * @exec: drm_exec object
->> + * @index: unsigned long index for the iteration
->> + * @obj: the current GEM object
->> + *
->> + * Iterate over all the locked GEM objects inside the drm_exec object.
->> + */
->> +#define drm_exec_for_each_locked_object(exec, index, obj)    \
->> +    drm_exec_objects_for_each(&(exec)->locked, index, obj)
->> +
->> +/**
->> + * drm_exec_for_each_duplicate_object - iterate over all the 
->> duplicate objects
->> + * @exec: drm_exec object
->> + * @index: unsigned long index for the iteration
->> + * @obj: the current GEM object
->> + *
->> + * Iterate over all the duplicate GEM objects inside the drm_exec 
->> object.
->> + */
->> +#define drm_exec_for_each_duplicate_object(exec, index, obj)    \
->> +    drm_exec_objects_for_each(&(exec)->duplicates, index, obj)
->> +
->> +/**
->> + * drm_exec_while_not_all_locked - loop until all GEM objects are 
->> prepared
->> + * @exec: drm_exec object
->> + *
->> + * Core functionality of the drm_exec object. Loops until all GEM 
->> objects are
->> + * prepared and no more contention exists.
->> + *
->> + * At the beginning of the loop it is guaranteed that no GEM object 
->> is locked.
->> + */
->> +#define drm_exec_while_not_all_locked(exec)    \
->> +    while (drm_exec_cleanup(exec))
->> +
->> +/**
->> + * drm_exec_continue_on_contention - continue the loop when we need 
->> to cleanup
->> + * @exec: drm_exec object
->> + *
->> + * Control flow helper to continue when a contention was detected and 
->> we need to
->> + * clean up and re-start the loop to prepare all GEM objects.
->> + */
->> +#define drm_exec_continue_on_contention(exec)        \
->> +    if (unlikely(drm_exec_is_contended(exec)))    \
->> +        continue
->> +
->> +/**
->> + * drm_exec_break_on_contention - break a subordinal loop on contention
->> + * @exec: drm_exec object
->> + *
->> + * Control flow helper to break a subordinal loop when a contention 
->> was detected
->> + * and we need to clean up and re-start the loop to prepare all GEM 
->> objects.
->> + */
->> +#define drm_exec_break_on_contention(exec)        \
->> +    if (unlikely(drm_exec_is_contended(exec)))    \
->> +        break
->> +
->> +/**
->> + * drm_exec_is_contended - check for contention
->> + * @exec: drm_exec object
->> + *
->> + * Returns true if the drm_exec object has run into some contention 
->> while
->> + * locking a GEM object and needs to clean up.
->> + */
->> +static inline bool drm_exec_is_contended(struct drm_exec *exec)
->> +{
->> +    return !!exec->contended;
->> +}
->> +
->> +/**
->> + * drm_exec_has_duplicates - check for duplicated GEM object
->> + * @exec: drm_exec object
->> + *
->> + * Return true if the drm_exec object has encountered some already 
->> locked GEM
->> + * objects while trying to lock them. This can happen if multiple GEM 
->> objects
->> + * share the same underlying resv object.
->> + */
->> +static inline bool drm_exec_has_duplicates(struct drm_exec *exec)
->> +{
->> +    return exec->duplicates.num_objects > 0;
->> +}
->> +
->> +void drm_exec_init(struct drm_exec *exec, bool interruptible);
->> +void drm_exec_fini(struct drm_exec *exec);
->> +bool drm_exec_cleanup(struct drm_exec *exec);
->> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object 
->> *obj,
->> +             unsigned int num_fences);
->> +
->> +#endif
-> 
 
+On 2/21/23 16:01, Krzysztof Kozlowski wrote:
+> On 21/02/2023 15:49, Julien Panis wrote:
+>>
+>> On 2/21/23 12:17, Krzysztof Kozlowski wrote:
+>>> On 17/02/2023 13:10, Julien Panis wrote:
+>>>> On 2/17/23 10:06, Krzysztof Kozlowski wrote:
+>>>>> On 16/02/2023 12:44, Julien Panis wrote:
+>>>>>> TPS6594 is a Power Management IC which provides regulators and others
+>>>>> Subject: drop second/last, redundant "DT bindings for". The
+>>>>> "dt-bindings" prefix is already stating that these are bindings.
+>>>>>
+>>>>>
+>>>>>> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+>>>>>> PFSM (Pre-configurable Finite State Machine) managing the state of the
+>>>>>> device.
+>>>>>> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+>>>>>>
+>>>>>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+>>>>>> ---
+>>>>>>     .../devicetree/bindings/mfd/ti,tps6594.yaml   | 164 ++++++++++++++++++
+>>>>>>     1 file changed, 164 insertions(+)
+>>>>>>     create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>>>>>>
+>>>>>> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..37968d6c0420
+>>>>>> --- /dev/null
+>>>>>> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>>>>>> @@ -0,0 +1,164 @@
+>>>>>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>>>>>> +%YAML 1.2
+>>>>>> +---
+>>>>>> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
+>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>>>> +
+>>>>>> +title: TI TPS6594 Power Management Integrated Circuit
+>>>>>> +
+>>>>>> +maintainers:
+>>>>>> +  - Julien Panis <jpanis@baylibre.com>
+>>>>>> +
+>>>>>> +description: |
+>>>>>> +  TPS6594 is a Power Management IC which provides regulators and others
+>>>>>> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+>>>>>> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
+>>>>>> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+>>>>>> +
+>>>>>> +properties:
+>>>>>> +  compatible:
+>>>>>> +    enum:
+>>>>>> +      - ti,tps6594
+>>>>>> +      - ti,tps6593
+>>>>>> +      - ti,lp8764x
+>>>>> Any particular choice of ordering (different than alphabetical)?
+>>>> Thank you for the review.
+>>>>
+>>>> I chose this ordering because it emphasizes the fact that tps6593 and
+>>>> lp8764x
+>>>> are derivatives of tps6594 : tps6593 is nearly the same (a minor feature
+>>>> is not
+>>>> supported), and lp8764x has less resources (less bucks/LDO, and no RTC).
+>>>>
+>>>> Besides, a multi-PMIC synchronization scheme is implemented in the PMIC
+>>>> device
+>>>> to synchronize the power state changes with other PMIC devices. This is done
+>>>> through a SPMI bus : the master PMIC is the controller device on the
+>>>> SPMI bus,
+>>>> and the slave PMICs are the target devices on the SPMI bus. For the 5 boards
+>>>> we work on (for which device trees will be sent in another patch series):
+>>>> - tps6594 is used on 3 boards and is always master (multi-PMIC config)
+>>>> - tps6593 is used on 1 board and is master (single-PMIC config)
+>>>> - lp8764x is used on 2 boards and is always slave (multi-PMIC config)
+>>>> There might not be situations in which lp8764x would be master and tps6594
+>>>> or tps6593 would be slave.
+>>>>
+>>>> That's why I preferred this ordering.
+>>>>
+>>>> Do you think that alphabetical order would be better ?
+>>> It's simpler (requires no knowledge about chips) and reduces the future
+>>> conflicts. It's fine to keep it also ordered like you said, although I
+>>> wonder how other people adding new compatibles here will figure it out...
+>> I will reorder it alphabetically in v2.
+>>
+>>>>>> +
+>>>>>> +  reg:
+>>>>>> +    description: I2C slave address or SPI chip select number.
+>>>>>> +    maxItems: 1
+>>>>>> +
+>>>>>> +  ti,use-crc:
+>>>>>> +    type: boolean
+>>>>>> +    description: If true, use CRC for I2C and SPI interface protocols.
+>>>>> Hm, why different boards would like to enable or disable it? Why this
+>>>>> suits DT?
+>>>> You're right. Reading your comment, it appears to me that CRC feature is
+>>>> not fully
+>>>> related to HW description and should not be set in DT.
+>>>>
+>>>> CRC is not 'fully' related to HW, but...
+>>>> For CRC feature as well, PMICs are synchronized (for boards with
+>>>> multi-PMIC config).
+>>>> To use CRC mode, this feature must be requested explicitly on the master
+>>>> PMIC
+>>>> through I2C or SPI driver, then it is enabled for the slave PMICs
+>>>> through SPMI bus: that
+>>>> sync is performed 'automatically', without intervention from the I2C or
+>>>> SPI driver to
+>>>> enable CRC on slave PMICs.
+>>>> As a consequence, CRC feature is enabled for all PMICs at I2C/SPI driver
+>>>> probe,
+>>>> or it is let disabled for all PMICs. But it can't be enabled for one
+>>>> PMIC and disabled
+>>>> for another one.
+>>>>
+>>>> This will probably rediscussed for I2C/SPI drivers, but do you think
+>>>> that a 'use_crc'
+>>>> driver parameter would be an acceptable solution ? If so, the master
+>>>> PMIC would have
+>>>> to be identified, so that the driver can explicitly enable CRC mode for
+>>>> this one if
+>>>> 'use_crc' is true. With this solution, some 'ti,is-master;' bool
+>>>> property would be necessary.
+>>> It looks the property should be only in the drivers, not in the DT.
+>> I will remove 'ti,use-crc;' property from the DT. This will be only in
+>> the driver.
+>> Do you also consider that a property such as 'ti,is-secondary-pmic;'
+>> would not be acceptable either ? From driver point of view, this
+>> primary/secondary role on SPMI bus is a 'built-in' property of the
+>> PMIC (CRC must be enabled only via primary PMIC but using the
+>> primary PMIC does not imply that CRC is necessarily used).
+> Depends, I am not sure. Are the PMICs in some kind of hierarchical
+> topology? Like one is parent of another? If not (so both are
+> parallel/equal children of SPMI bus), then some property to indicate
+> which one is the main PMIC makes sense.
+
+There is no hierarchical topology.
+So, I will consider identifying in DT which one is the main PMIC.
+
+(...)
+
+
+Julien
