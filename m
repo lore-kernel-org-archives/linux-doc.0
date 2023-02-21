@@ -2,328 +2,298 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E0BBC636D7
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 19:10:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24F40C64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 19:32:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbjBUTJ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 14:09:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32808 "EHLO
+        id S229589AbjBUTcq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 14:32:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229950AbjBUTJu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 14:09:50 -0500
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CC09303D4
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 11:09:38 -0800 (PST)
-Received: by mail-pl1-x62c.google.com with SMTP id z10so3036373ple.6
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 11:09:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ngg8NDFZzsFlILqqXwu8UXpBsOAV4Baprs2BRNqdLJ0=;
-        b=FRaQAuEcLIi5R8B0k5soD4TzlqXCCD8xIpm8vDv1PejHFBAIH+x1Tn70DoKzgIdA29
-         u1jhu2VwxdcVAhXFFoX/6TH7my+wq3hu7nU9QgtM6yw2HV0ZFaak+mABSNAIv2Nt9DcO
-         uOH1qJ2tSXdTM6O7Y/ouRusJ8HdInJja7HVGua5j2lSuVPAedU9lCOL6WoWNzbiSah4R
-         xYFmxAswhiNF1Zeqy/XjhCFRfl1N4PEpgeMLggVHFGWvU3NzVAGGO/XjdNzZcrM2wdYu
-         Z6jp38wpp3OPylFbdSXC7mVj42OEJpVKBcWehrwWDIJYHmt02qObKqWwFTSEfpTEFvlu
-         tMEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ngg8NDFZzsFlILqqXwu8UXpBsOAV4Baprs2BRNqdLJ0=;
-        b=GWdQA6JPF6V2vYCwD4lJTRu6XFptoQUe0UJeS9zA6+VksUhykROhHUSm0w/CnK3/w4
-         n61yRnX09TrRC457DDHIj7bvcJqnjwk8Qc90zIw26347b4tYLtONBabXNUaURy0WrYZp
-         of031leDC4k5diQ31s2UJUXIaTdUZTOxuajXE5y4WNyGrzqFW7bp3noY3bxADkTwb5dn
-         +jtS5atb8KUxkAzD8vuCj0DWFsZBQgQxWgutR0GPZ0FDS5wDwrVLYhwJXAkC69MajHCt
-         1i3mYE/GtUMvE8rHK0Pt8+jhPexrtL8G4QpD4yi2NPCZpNS3ijn99a0HipmQ+bPdnLEM
-         gREQ==
-X-Gm-Message-State: AO0yUKXiAArAQXzecyeFaZAUxdVsq/B3MqebycwqFFsEyB67qD3chcND
-        XrDP5LoRqlv1FAhMomRZWcWfKQ==
-X-Google-Smtp-Source: AK7set+9JyhPkEzwlrHweLrwuAKU/yz0dbdPwCbQGwgBKeOM2IKtDHtvgrtUF617GgoYGmIFS/kJLg==
-X-Received: by 2002:a17:903:22c8:b0:199:12d5:5b97 with SMTP id y8-20020a17090322c800b0019912d55b97mr7589315plg.12.1677006577820;
-        Tue, 21 Feb 2023 11:09:37 -0800 (PST)
-Received: from evan.ba.rivosinc.com ([66.220.2.162])
-        by smtp.gmail.com with ESMTPSA id b16-20020a170902b61000b0019602b2c00csm1583863pls.175.2023.02.21.11.09.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 11:09:37 -0800 (PST)
-From:   Evan Green <evan@rivosinc.com>
-To:     Palmer Dabbelt <palmer@rivosinc.com>
-Cc:     heiko@sntech.de, Conor Dooley <conor@kernel.org>,
-        slewis@rivosinc.com, vineetg@rivosinc.com,
-        Evan Green <evan@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Ruizhe Pan <c141028@gmail.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Tsukasa OI <research_trasio@irq.a4lg.com>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: [PATCH v3 5/7] RISC-V: hwprobe: Support probing of misaligned access performance
-Date:   Tue, 21 Feb 2023 11:08:56 -0800
-Message-Id: <20230221190858.3159617-6-evan@rivosinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230221190858.3159617-1-evan@rivosinc.com>
-References: <20230221190858.3159617-1-evan@rivosinc.com>
+        with ESMTP id S229441AbjBUTcp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 14:32:45 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14C7DA275;
+        Tue, 21 Feb 2023 11:32:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677007963; x=1708543963;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=oBKvYMaQGACsbz1EqLukZAAjWQY7HrpNQl9o8pOFa2k=;
+  b=LkkUO5hv+PjUE2Bd/gfRjPF5Y/F81bZDQugXplaXXLHj+8kOZlxIhlZ+
+   UfZ3ZuOkj+SHQ8POCijDZO4ixnLwd+JgkThhhcR0VWli8P3WVpBo7aGKl
+   RkIZpjWf76Xh/iQaA7oUSzamf1MNGyw7vJN+ftMBRROig25rSQ9oR5gaM
+   NyeFrMWN97ABdkFx20sQY9WKF1sfEyXUZ41/No1Jdpk5bncTMfgpN29ux
+   WJFsB12JHjxdHZ07hd6/g6unVXKtWif76favlv4B5iJXs5m+P3/j9Xqtg
+   ZyPULZy1ibWkUPt2VKEKlpo2zSnONyHPGJLVjN+UddBgP3tfK/pauKlkG
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="316453905"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="316453905"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 11:32:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="649287478"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="649287478"
+Received: from lkp-server01.sh.intel.com (HELO eac18b5d7d93) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 21 Feb 2023 11:32:38 -0800
+Received: from kbuild by eac18b5d7d93 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pUYNS-0000C1-00;
+        Tue, 21 Feb 2023 19:32:38 +0000
+Date:   Wed, 22 Feb 2023 03:32:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     platform-driver-x86@vger.kernel.org, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        linux-arch@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        bpf@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 465461cf48465b8a0a54025db5ae2b3df7a04577
+Message-ID: <63f51c3f.SKhEo/gg7HFz2Xwg%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This allows userspace to select various routines to use based on the
-performance of misaligned access on the target hardware.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 465461cf48465b8a0a54025db5ae2b3df7a04577  Add linux-next specific files for 20230221
 
-Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-Signed-off-by: Evan Green <evan@rivosinc.com>
+Error/Warning reports:
 
----
+https://lore.kernel.org/oe-kbuild-all/202302062224.ByzeTXh1-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302092211.54EYDhYH-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302111601.jtY4lKrA-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302112104.g75cGHZd-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302151041.0SWs1RHK-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302162019.2WhIRkSA-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302170355.Ljqlzucu-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302192254.EGOAcwpm-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302210350.lynWcL4t-lkp@intel.com
 
-Changes in v3:
- - Have hwprobe_misaligned return int instead of long.
- - Constify cpumask pointer in hwprobe_misaligned()
- - Fix warnings in _PERF_O list documentation, use :c:macro:.
- - Move include cpufeature.h to misaligned patch.
- - Fix documentation mismatch for RISCV_HWPROBE_KEY_CPUPERF_0 (Conor)
- - Use for_each_possible_cpu() instead of NR_CPUS (Conor)
- - Break early in misaligned access iteration (Conor)
- - Increase MISALIGNED_MASK from 2 bits to 3 for possible UNSUPPORTED future
-   value (Conor)
+Error/Warning: (recently discovered and may have been fixed)
 
-Changes in v2:
- - Fixed logic error in if(of_property_read_string...) that caused crash
- - Include cpufeature.h in cpufeature.h to avoid undeclared variable
-   warning.
- - Added a _MASK define
- - Fix random checkpatch complaints
+Documentation/admin-guide/pm/amd-pstate.rst:343: WARNING: duplicate label admin-guide/pm/amd-pstate:user space interface in ``sysfs``, other instance in Documentation/admin-guide/pm/amd-pstate.rst
+Documentation/sphinx/templates/kernel-toc.html: 1:36 Invalid token: #}
+ERROR: modpost: "__umoddi3" [fs/btrfs/btrfs.ko] undefined!
+arch/mips/include/asm/page.h:227:55: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+arch/mips/kernel/vpe.c:643:41: error: 'struct module' has no member named 'mod_mem'
+arch/riscv/net/bpf_jit_comp64.c:691:9: error: call to undeclared function 'patch_text'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:294:6: warning: no previous prototype for 'optc3_wait_drr_doublebuffer_pending_clear' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:62:18: warning: variable 'cursor_bpp' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:1199: warning: expecting prototype for dc_link_detect_connection_type(). Prototype was for link_detect_connection_type() instead
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1292:32: warning: variable 'result_write_min_hblank' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training.c:1586:38: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+fs/btrfs/volumes.c:6514: undefined reference to `__umoddi3'
+fsl-edma.c:(.text+0x104e): undefined reference to `devm_platform_ioremap_resource'
+idma64.c:(.text+0x1d76): undefined reference to `devm_platform_ioremap_resource'
+include/asm-generic/div64.h:238:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
+s390-linux-ld: fsl-edma.c:(.text+0x1174): undefined reference to `devm_platform_ioremap_resource'
+volumes.c:(.text+0x7dd4): undefined reference to `__aeabi_uldivmod'
+volumes.c:(.text+0xb65b): undefined reference to `__umoddi3'
 
- Documentation/riscv/hwprobe.rst       | 14 ++++++++++++
- arch/riscv/include/asm/cpufeature.h   |  2 ++
- arch/riscv/include/asm/hwprobe.h      |  2 +-
- arch/riscv/include/asm/smp.h          | 11 ++++++++++
- arch/riscv/include/uapi/asm/hwprobe.h |  6 ++++++
- arch/riscv/kernel/cpufeature.c        | 31 +++++++++++++++++++++++++--
- arch/riscv/kernel/sys_riscv.c         | 27 +++++++++++++++++++++++
- 7 files changed, 90 insertions(+), 3 deletions(-)
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
-index 9f2da414fbf8..ac6ded9eb0da 100644
---- a/Documentation/riscv/hwprobe.rst
-+++ b/Documentation/riscv/hwprobe.rst
-@@ -58,3 +58,17 @@ The following keys are defined:
-     minimumNumber/maximumNumber, not minNum/maxNum") of the RISC-V ISA manual.
-   * :c:macro:`RISCV_HWPROBE_IMA_C`: The C extension is supported, as defined
-     by version 2.2 of the RISC-V ISA manual.
-+* :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
-+  information about the selected set of processors.
-+
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNKNOWN`: The performance of misaligned
-+    accesses is unknown.
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_EMULATED`: Misaligned accesses are
-+    emulated via software, either in or below the kernel.  These accesses are
-+    always extremely slow.
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned accesses are supported
-+    in hardware, but are slower than the cooresponding aligned accesses
-+    sequences.
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned accesses are supported
-+    in hardware and are faster than the cooresponding aligned accesses
-+    sequences.
-diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-index 66ebaae449c8..808d5403f2ac 100644
---- a/arch/riscv/include/asm/cpufeature.h
-+++ b/arch/riscv/include/asm/cpufeature.h
-@@ -18,4 +18,6 @@ struct riscv_cpuinfo {
- 
- DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
- 
-+DECLARE_PER_CPU(long, misaligned_access_speed);
-+
- #endif
-diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-index 7e52f1e1fe10..4e45e33015bc 100644
---- a/arch/riscv/include/asm/hwprobe.h
-+++ b/arch/riscv/include/asm/hwprobe.h
-@@ -8,6 +8,6 @@
- 
- #include <uapi/asm/hwprobe.h>
- 
--#define RISCV_HWPROBE_MAX_KEY 4
-+#define RISCV_HWPROBE_MAX_KEY 5
- 
- #endif
-diff --git a/arch/riscv/include/asm/smp.h b/arch/riscv/include/asm/smp.h
-index 3831b638ecab..4f77a64194e5 100644
---- a/arch/riscv/include/asm/smp.h
-+++ b/arch/riscv/include/asm/smp.h
-@@ -26,6 +26,17 @@ struct riscv_ipi_ops {
-  */
- extern unsigned long __cpuid_to_hartid_map[NR_CPUS];
- #define cpuid_to_hartid_map(cpu)    __cpuid_to_hartid_map[cpu]
-+static inline long hartid_to_cpuid_map(unsigned long hartid)
-+{
-+	long i;
-+
-+	for_each_possible_cpu(i) {
-+		if (cpuid_to_hartid_map(i) == hartid)
-+			return i;
-+	}
-+
-+	return -1;
-+}
- 
- /* print IPI stats */
- void show_ipi_stats(struct seq_file *p, int prec);
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index fc5665411782..93fde30fc4a8 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -25,6 +25,12 @@ struct riscv_hwprobe {
- #define RISCV_HWPROBE_KEY_IMA_EXT_0	4
- #define		RISCV_HWPROBE_IMA_FD		(1 << 0)
- #define		RISCV_HWPROBE_IMA_C		(1 << 1)
-+#define RISCV_HWPROBE_KEY_CPUPERF_0	5
-+#define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
-+#define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-+#define		RISCV_HWPROBE_MISALIGNED_SLOW		(2 << 0)
-+#define		RISCV_HWPROBE_MISALIGNED_FAST		(3 << 0)
-+#define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
- /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
- 
- #endif
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 93e45560af30..12af6f7a2f53 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -14,8 +14,10 @@
- #include <linux/of.h>
- #include <asm/alternative.h>
- #include <asm/cacheflush.h>
-+#include <asm/cpufeature.h>
- #include <asm/errata_list.h>
- #include <asm/hwcap.h>
-+#include <asm/hwprobe.h>
- #include <asm/patch.h>
- #include <asm/pgtable.h>
- #include <asm/processor.h>
-@@ -32,6 +34,9 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
- DEFINE_STATIC_KEY_ARRAY_FALSE(riscv_isa_ext_keys, RISCV_ISA_EXT_KEY_MAX);
- EXPORT_SYMBOL(riscv_isa_ext_keys);
- 
-+/* Performance information */
-+DEFINE_PER_CPU(long, misaligned_access_speed);
-+
- /**
-  * riscv_isa_extension_base() - Get base extension word
-  *
-@@ -89,11 +94,11 @@ static bool riscv_isa_extension_check(int id)
- void __init riscv_fill_hwcap(void)
- {
- 	struct device_node *node;
--	const char *isa;
-+	const char *isa, *misaligned;
- 	char print_str[NUM_ALPHA_EXTS + 1];
- 	int i, j, rc;
- 	unsigned long isa2hwcap[26] = {0};
--	unsigned long hartid;
-+	unsigned long hartid, cpu;
- 
- 	isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
- 	isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
-@@ -246,6 +251,28 @@ void __init riscv_fill_hwcap(void)
- 			bitmap_copy(riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
- 		else
- 			bitmap_and(riscv_isa, riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
-+
-+		/*
-+		 * Check for the performance of misaligned accesses.
-+		 */
-+		cpu = hartid_to_cpuid_map(hartid);
-+		if (cpu < 0)
-+			continue;
-+
-+		if (!of_property_read_string(node, "riscv,misaligned-access-performance",
-+					     &misaligned)) {
-+			if (strcmp(misaligned, "emulated") == 0)
-+				per_cpu(misaligned_access_speed, cpu) =
-+					RISCV_HWPROBE_MISALIGNED_EMULATED;
-+
-+			if (strcmp(misaligned, "slow") == 0)
-+				per_cpu(misaligned_access_speed, cpu) =
-+					RISCV_HWPROBE_MISALIGNED_SLOW;
-+
-+			if (strcmp(misaligned, "fast") == 0)
-+				per_cpu(misaligned_access_speed, cpu) =
-+					RISCV_HWPROBE_MISALIGNED_FAST;
-+		}
- 	}
- 
- 	/* We don't support systems with F but without D, so mask those out
-diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
-index f2b224550923..afc1b96d5c1a 100644
---- a/arch/riscv/kernel/sys_riscv.c
-+++ b/arch/riscv/kernel/sys_riscv.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/syscalls.h>
- #include <asm/cacheflush.h>
-+#include <asm/cpufeature.h>
- #include <asm/hwprobe.h>
- #include <asm/sbi.h>
- #include <asm/switch_to.h>
-@@ -116,6 +117,28 @@ static void hwprobe_arch_id(struct riscv_hwprobe *pair,
- 	pair->value = id;
- }
- 
-+static int hwprobe_misaligned(const struct cpumask *cpus)
-+{
-+	int cpu, perf = -1;
-+
-+	for_each_cpu(cpu, cpus) {
-+		int this_perf = per_cpu(misaligned_access_speed, cpu);
-+
-+		if (perf == -1)
-+			perf = this_perf;
-+
-+		if (perf != this_perf) {
-+			perf = RISCV_HWPROBE_MISALIGNED_UNKNOWN;
-+			break;
-+		}
-+	}
-+
-+	if (perf == -1)
-+		return RISCV_HWPROBE_MISALIGNED_UNKNOWN;
-+
-+	return perf;
-+}
-+
- static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 			     const struct cpumask *cpus)
- {
-@@ -145,6 +168,10 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 
- 		break;
- 
-+	case RISCV_HWPROBE_KEY_CPUPERF_0:
-+		pair->value = hwprobe_misaligned(cpus);
-+		break;
-+
- 	/*
- 	 * For forward compatibility, unknown keys don't fail the whole
- 	 * call, but get their element key set to -1 and value set to 0
+drivers/gpu/drm/i915/display/intel_color.c:1400 intel_color_prepare_commit() warn: ignoring unreachable code.
+drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:4393 guc_init_global_schedule_policy() error: uninitialized symbol 'ret'.
+drivers/gpu/drm/i915/i915_hwmon.c:383 hwm_power_max_read() error: uninitialized symbol 'r'.
+drivers/net/ethernet/marvell/octeontx2/af/rvu_cpt.c:65 cpt_af_flt_intr_handler() error: uninitialized symbol 'eng'.
+drivers/net/ethernet/mellanox/mlx5/core/eq.c:1010 mlx5_comp_irq_get_affinity_mask() warn: iterator used outside loop: 'eq'
+drivers/platform/x86/mlx-platform.c:6013 mlxplat_mlxcpld_verify_bus_topology() error: uninitialized symbol 'shift'.
+drivers/usb/gadget/composite.c:2082:33: sparse: sparse: restricted __le16 degrades to integer
+drivers/usb/host/xhci-rcar.c:269:34: warning: unused variable 'usb_xhci_of_match' [-Wunused-const-variable]
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- alpha-randconfig-s033-20230219
+|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|   `-- include-asm-generic-div64.h:error:passing-argument-of-__div64_32-from-incompatible-pointer-type
+|-- arm-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|   `-- include-asm-generic-div64.h:error:passing-argument-of-__div64_32-from-incompatible-pointer-type
+|-- arm-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|   `-- include-asm-generic-div64.h:error:passing-argument-of-__div64_32-from-incompatible-pointer-type
+|-- arm-randconfig-r035-20230219
+|   `-- volumes.c:(.text):undefined-reference-to-__aeabi_uldivmod
+|-- arm-randconfig-s052-20230219
+|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- csky-randconfig-s041-20230219
+|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- csky-randconfig-s042-20230219
+|   |-- include-asm-generic-cmpxchg-local.h:sparse:sparse:cast-truncates-bits-from-constant-value-(-becomes-)
+|   `-- include-asm-generic-cmpxchg-local.h:sparse:sparse:cast-truncates-bits-from-constant-value-(aaa31337-becomes-)
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|   `-- volumes.c:(.text):undefined-reference-to-__umoddi3
+|-- i386-debian-10.3
+|   `-- ERROR:__umoddi3-fs-btrfs-btrfs.ko-undefined
+|-- i386-debian-10.3-func
+|   `-- ERROR:__umoddi3-fs-btrfs-btrfs.ko-undefined
+|-- i386-debian-10.3-kselftests
+|   `-- ERROR:__umoddi3-fs-btrfs-btrfs.ko-undefined
+|-- i386-debian-10.3-kunit
+clang_recent_errors
+|-- hexagon-randconfig-r005-20230220
+|   `-- drivers-usb-host-xhci-rcar.c:warning:unused-variable-usb_xhci_of_match
+|-- i386-randconfig-a013-20230220
+|   `-- ERROR:__umoddi3-fs-btrfs-btrfs.ko-undefined
+`-- riscv-randconfig-r004-20230221
+    `-- arch-riscv-net-bpf_jit_comp64.c:error:call-to-undeclared-function-patch_text-ISO-C99-and-later-do-not-support-implicit-function-declarations
+
+elapsed time: 724m
+
+configs tested: 114
+configs skipped: 7
+
+gcc tested configs:
+alpha                            allyesconfig
+alpha                               defconfig
+arc                              allyesconfig
+arc                                 defconfig
+arc                  randconfig-r043-20230219
+arc                  randconfig-r043-20230220
+arm                              allmodconfig
+arm                              allyesconfig
+arm                         axm55xx_defconfig
+arm                                 defconfig
+arm                  randconfig-r046-20230220
+arm64                            allyesconfig
+arm64                               defconfig
+csky                                defconfig
+i386                             allyesconfig
+i386                              debian-10.3
+i386                         debian-10.3-func
+i386                   debian-10.3-kselftests
+i386                        debian-10.3-kunit
+i386                          debian-10.3-kvm
+i386                                defconfig
+i386                 randconfig-a001-20230220
+i386                 randconfig-a002-20230220
+i386                 randconfig-a003-20230220
+i386                 randconfig-a004-20230220
+i386                 randconfig-a005-20230220
+i386                 randconfig-a006-20230220
+i386                          randconfig-c001
+ia64                             allmodconfig
+ia64                                defconfig
+loongarch                        allmodconfig
+loongarch                         allnoconfig
+loongarch                           defconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                        m5307c3_defconfig
+m68k                           sun3_defconfig
+mips                             allmodconfig
+mips                             allyesconfig
+mips                         cobalt_defconfig
+nios2                               defconfig
+parisc                              defconfig
+parisc64                            defconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+powerpc                     ep8248e_defconfig
+powerpc                  iss476-smp_defconfig
+powerpc                       maple_defconfig
+powerpc                      mgcoge_defconfig
+powerpc                     redwood_defconfig
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                randconfig-r042-20230219
+riscv                          rv32_defconfig
+s390                             allmodconfig
+s390                             allyesconfig
+s390                                defconfig
+s390                 randconfig-r044-20230219
+sh                               alldefconfig
+sh                               allmodconfig
+sh                        dreamcast_defconfig
+sh                          landisk_defconfig
+sh                          polaris_defconfig
+sh                          sdk7780_defconfig
+sparc                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                           alldefconfig
+x86_64                            allnoconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64               randconfig-a001-20230220
+x86_64               randconfig-a002-20230220
+x86_64               randconfig-a003-20230220
+x86_64               randconfig-a004-20230220
+x86_64               randconfig-a005-20230220
+x86_64               randconfig-a006-20230220
+x86_64                               rhel-8.3
+xtensa                              defconfig
+xtensa                    xip_kc705_defconfig
+
+clang tested configs:
+arm                         bcm2835_defconfig
+arm                         lpc32xx_defconfig
+arm                            mmp2_defconfig
+arm                        mvebu_v5_defconfig
+arm                  randconfig-r046-20230219
+arm                        spear3xx_defconfig
+hexagon              randconfig-r041-20230219
+hexagon              randconfig-r041-20230220
+hexagon              randconfig-r045-20230219
+hexagon              randconfig-r045-20230220
+i386                 randconfig-a011-20230220
+i386                 randconfig-a012-20230220
+i386                 randconfig-a013-20230220
+i386                 randconfig-a014-20230220
+i386                 randconfig-a015-20230220
+i386                 randconfig-a016-20230220
+mips                       lemote2f_defconfig
+mips                        omega2p_defconfig
+powerpc                    ge_imp3a_defconfig
+powerpc                      katmai_defconfig
+powerpc                   microwatt_defconfig
+powerpc                     skiroot_defconfig
+powerpc                      walnut_defconfig
+riscv                randconfig-r042-20230220
+s390                 randconfig-r044-20230220
+x86_64               randconfig-a011-20230220
+x86_64               randconfig-a012-20230220
+x86_64               randconfig-a013-20230220
+x86_64               randconfig-a014-20230220
+x86_64               randconfig-a015-20230220
+x86_64               randconfig-a016-20230220
+x86_64                        randconfig-k001
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
