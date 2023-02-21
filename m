@@ -2,157 +2,445 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B63C2C64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 08:49:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7DB8C6379F
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 10:46:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233790AbjBUItO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 03:49:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38566 "EHLO
+        id S232972AbjBUKqL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 05:46:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233781AbjBUItO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 03:49:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EC5A8A4C
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 00:48:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676969306;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2wre1vj5fzLAyd/5IJIMuz7JfjlppXHl7jpGjVvaTF0=;
-        b=FJYd1Ykv0mGOrVG3QKkRzAQDpLkDuWJxsZ08xIAfaRdZy5LuK1PJze/nCru7PNySbgIVsg
-        2Ri5fWvteJxGXVgdQJWsleqhk6grGg7OwBzKlJQsGc9nrOX22T/hdyeX2DCHOIht4cs2bS
-        BWYZjXv4LRx1L3BGtfxx8YNjV/dUOKE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-452-W6Pea6fnOfejcPkTyOdLTA-1; Tue, 21 Feb 2023 03:48:25 -0500
-X-MC-Unique: W6Pea6fnOfejcPkTyOdLTA-1
-Received: by mail-wm1-f70.google.com with SMTP id x18-20020a1c7c12000000b003e1e7d3cf9fso1803626wmc.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 00:48:25 -0800 (PST)
+        with ESMTP id S231755AbjBUKqK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 05:46:10 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6AA222DD
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 02:46:05 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id v3so3825738wrp.2
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 02:46:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sd64Vl/ocLQAKFinJVHc0nnXpTzTz1sxrsjUhCW8XzU=;
+        b=L9N2sMfCDxEftxrKDhPF1D+ULhkKs4Q2AAWmqm7xYVnceALrJIzy71bPm8Ez6au2Xc
+         9AAbIWDRAzGurAkO2p6OVW+rFbWjbkYf/icgXJrAYJPY79VYkbf5rQkT19zU7ISzecU5
+         XTGTUN1wx+v5rTmaZu2YFxOTqebZm5otCOmzrqhTYduAQD/FTNuxOcDQgz3i+Zvw/Hmo
+         sLiUIqIYM+q+3J6LYvVB9fAQyXlccBglUfhzrGZjYeI4l+150gPwfVnX4ts+x6vD97qX
+         dcouc+qNsXSAkVtrDlAJMSyxYBv2e2X5TrYQHQrQ5og/hGfC/hv6Qy8iy02/cp9rSIC4
+         U9ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2wre1vj5fzLAyd/5IJIMuz7JfjlppXHl7jpGjVvaTF0=;
-        b=RHY5XXHmB1kx5ZiLIh7OruK78eV8vs3TqWPLU/7qW8nR9W/G1OvsffC4+95+xFpdOc
-         FVwBZ30rYO5eBFLKDeemUeQgJUAIFiEOeI3r+d/RP7VWQBkueIuIBwG5Ebg+i/+ngvzV
-         ST29afwNHdu89cObQFpZ14FmiBFJU6k3i/ksEjxsOCjsH2R7PxMHuIkMY7/Mn7aVQy+8
-         cPDl15IaeKyNJUmZJvZMTWSP7pmRgLxndzgEvhEhZPBM5GAsix1cKM1ndyE1iXo/dsW1
-         F2zKnUhfNn+ZgDMh+xpBf7uAnoiq9V6mEa5cNud1gqWI5IRmfXejJfB2FKhM2kKZHlx+
-         fDPA==
-X-Gm-Message-State: AO0yUKVkkLJP2NzWmUcaMSzXj6l+SQqn60XCvUuPRBNy/eHlX50hTY8W
-        UjBQv+uTRHfqriXMl8pD/ioAg/muQM2Eam4X5hbNbWYtofQubaCS7AlCq6mSuU4Jv0UJrPW1Wbl
-        NMqHO+KuTGsW09u8Y91IUSgkiRQ==
-X-Received: by 2002:a1c:4c14:0:b0:3de:1d31:1042 with SMTP id z20-20020a1c4c14000000b003de1d311042mr2953123wmf.23.1676969304235;
-        Tue, 21 Feb 2023 00:48:24 -0800 (PST)
-X-Google-Smtp-Source: AK7set8y6ZGLraGaqCxBqf1wh9ujrFtZmVaM/aUNnRhTHeMZveYItWe6AvIKaGMKcmDIyF4S+3zDiA==
-X-Received: by 2002:a1c:4c14:0:b0:3de:1d31:1042 with SMTP id z20-20020a1c4c14000000b003de1d311042mr2953071wmf.23.1676969303872;
-        Tue, 21 Feb 2023 00:48:23 -0800 (PST)
-Received: from ?IPV6:2003:cb:c707:4800:aecc:dadb:40a8:ce81? (p200300cbc7074800aeccdadb40a8ce81.dip0.t-ipconnect.de. [2003:cb:c707:4800:aecc:dadb:40a8:ce81])
-        by smtp.gmail.com with ESMTPSA id p8-20020a05600c468800b003e2232d0960sm4815226wmo.23.2023.02.21.00.48.21
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sd64Vl/ocLQAKFinJVHc0nnXpTzTz1sxrsjUhCW8XzU=;
+        b=ARueZcDHTRuN1upFEeZAW2GCJcaY3igK+tsrZ5y+cL7+AN5Wjg18CowznyftiLTy7M
+         PNsguxsaStv863RQyAB+QtSxc/P6+qCA3t20EgG3gSx4/58HxuVlpBnOaJsJ+pnJ8hZ4
+         CweyKNE5/wVU9tlXezVEp7OU7TbnWumsuawVpVgK/VqGm6YRymrV8J/NDnipLvRL6ESj
+         5shW3/PWM6WKR+s7pTzjXaR73WtuWz9YLwI4dzRpdijLl6YenOPr3zQK4MXvpvBWsXeE
+         76jqet4ybxs1EsYZ5OoRLJ57CKe27OMa8xN80vR6QHQsR2bwPR3LvffYhiW84RDG5RZE
+         Freg==
+X-Gm-Message-State: AO0yUKV2lVCcK5uJVZa9TDthOE6rLnhk1uK0d+2zJdmL+06rS+aHgkry
+        gaBMrGnB8b2dleTxqIWQ2HEbUw==
+X-Google-Smtp-Source: AK7set+XHFJ83YZICxtjlFusD5HvFybIf677VpyIxQOkl2dZpiT7JLj7dxAXtacAQ+SLTQkTXaiE9w==
+X-Received: by 2002:a5d:4905:0:b0:2c6:e7f6:49af with SMTP id x5-20020a5d4905000000b002c6e7f649afmr2302205wrq.27.1676976363941;
+        Tue, 21 Feb 2023 02:46:03 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id q2-20020adff942000000b002c573778432sm7898257wrr.102.2023.02.21.02.46.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Feb 2023 00:48:23 -0800 (PST)
-Message-ID: <bed841c6-5b37-6c91-81c7-5c06788d38c4@redhat.com>
-Date:   Tue, 21 Feb 2023 09:48:21 +0100
+        Tue, 21 Feb 2023 02:46:03 -0800 (PST)
+Message-ID: <dbcfa4e9-a1ad-0f24-77bf-05934ca26bb2@linaro.org>
+Date:   Tue, 21 Feb 2023 10:46:00 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v10 10/26] gunyah: vm_mgr: Introduce basic VM Manager
 Content-Language: en-US
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        debug@rivosinc.com
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-38-rick.p.edgecombe@intel.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v6 37/41] selftests/x86: Add shadow stack test
-In-Reply-To: <20230218211433.26859-38-rick.p.edgecombe@intel.com>
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212356.3313181-1-quic_eberman@quicinc.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20230214212356.3313181-1-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18.02.23 22:14, Rick Edgecombe wrote:
-> Add a simple selftest for exercising some shadow stack behavior:
->   - map_shadow_stack syscall and pivot
->   - Faulting in shadow stack memory
->   - Handling shadow stack violations
->   - GUP of shadow stack memory
->   - mprotect() of shadow stack memory
->   - Userfaultfd on shadow stack memory
+
+
+On 14/02/2023 21:23, Elliot Berman wrote:
 > 
-> Since this test exercises a recently added syscall manually, it needs
-> to find the automatically created __NR_foo defines. Per the selftest
-> documentation, KHDR_INCLUDES can be used to help the selftest Makefile's
-> find the headers from the kernel source. This way the new selftest can
-> be built inside the kernel source tree without installing the headers
-> to the system. So also add KHDR_INCLUDES as described in the selftest
-> docs, to facilitate this.
+> Gunyah VM manager is a kernel moduel which exposes an interface to
+> Gunyah userspace to load, run, and interact with other Gunyah virtual
+> machines. The interface is a character device at /dev/gunyah.
 > 
-> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
-> Tested-by: John Allen <john.allen@amd.com>
-> Co-developed-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Add a basic VM manager driver. Upcoming patches will add more ioctls
+> into this driver.
 > 
+> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 > ---
-
-
-[...]
-
-> +bool gup_write(void *ptr)
-> +{
-> +	unsigned long val;
+>   .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+>   drivers/virt/gunyah/Makefile                  |   2 +-
+>   drivers/virt/gunyah/rsc_mgr.c                 |  37 +++++-
+>   drivers/virt/gunyah/vm_mgr.c                  | 118 ++++++++++++++++++
+>   drivers/virt/gunyah/vm_mgr.h                  |  22 ++++
+>   include/uapi/linux/gunyah.h                   |  23 ++++
+>   6 files changed, 201 insertions(+), 2 deletions(-)
+>   create mode 100644 drivers/virt/gunyah/vm_mgr.c
+>   create mode 100644 drivers/virt/gunyah/vm_mgr.h
+>   create mode 100644 include/uapi/linux/gunyah.h
+> 
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index 0a1882e296ae..2513324ae7be 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -137,6 +137,7 @@ Code  Seq#    Include File                                           Comments
+>   'F'   DD     video/sstfb.h                                           conflict!
+>   'G'   00-3F  drivers/misc/sgi-gru/grulib.h                           conflict!
+>   'G'   00-0F  xen/gntalloc.h, xen/gntdev.h                            conflict!
+> +'G'   00-0f  linux/gunyah.h                                          conflict!
+>   'H'   00-7F  linux/hiddev.h                                          conflict!
+>   'H'   00-0F  linux/hidraw.h                                          conflict!
+>   'H'   01     linux/mei.h                                             conflict!
+> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+> index de29769f2f3f..03951cf82023 100644
+> --- a/drivers/virt/gunyah/Makefile
+> +++ b/drivers/virt/gunyah/Makefile
+> @@ -2,5 +2,5 @@
+>   
+>   obj-$(CONFIG_GUNYAH) += gunyah.o
+>   
+> -gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o
+> +gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
+>   obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
+> diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
+> index 2a47139873a8..73c5a6b7cbbc 100644
+> --- a/drivers/virt/gunyah/rsc_mgr.c
+> +++ b/drivers/virt/gunyah/rsc_mgr.c
+> @@ -16,8 +16,10 @@
+>   #include <linux/completion.h>
+>   #include <linux/gunyah_rsc_mgr.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/miscdevice.h>
+>   
+>   #include "rsc_mgr.h"
+> +#include "vm_mgr.h"
+>   
+>   #define RM_RPC_API_VERSION_MASK		GENMASK(3, 0)
+>   #define RM_RPC_HEADER_WORDS_MASK	GENMASK(7, 4)
+> @@ -103,6 +105,8 @@ struct gh_rm {
+>   	struct kmem_cache *cache;
+>   	struct mutex send_lock;
+>   	struct blocking_notifier_head nh;
 > +
-> +	lseek(fd, (unsigned long)ptr, SEEK_SET);
-> +	if (write(fd, &val, sizeof(val)) < 0)
-> +		return 1;
+> +	struct miscdevice miscdev;
+>   };
+>   
+>   static struct gh_rm_connection *gh_rm_alloc_connection(__le32 msg_id, u8 type)
+> @@ -509,6 +513,21 @@ void put_gh_rm(struct gh_rm *rm)
+>   }
+>   EXPORT_SYMBOL_GPL(put_gh_rm);
+>   
+> +static long gh_dev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+> +{
+> +	struct miscdevice *miscdev = filp->private_data;
+> +	struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
+> +
+> +	return gh_dev_vm_mgr_ioctl(rm, cmd, arg);
+> +}
+> +
+> +static const struct file_operations gh_dev_fops = {
+> +	.owner		= THIS_MODULE,
+> +	.unlocked_ioctl	= gh_dev_ioctl,
+> +	.compat_ioctl	= compat_ptr_ioctl,
+> +	.llseek		= noop_llseek,
+> +};
+> +
+>   static int gh_msgq_platform_probe_direction(struct platform_device *pdev,
+>   					bool tx, int idx, struct gunyah_resource *ghrsc)
+>   {
+> @@ -567,7 +586,22 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
+>   	rm->msgq_client.rx_callback = gh_rm_msgq_rx_data;
+>   	rm->msgq_client.tx_done = gh_rm_msgq_tx_done;
+>   
+> -	return gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
+> +	ret = gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
+> +	if (ret)
+> +		goto err_cache;
+> +
+> +	rm->miscdev.name = "gunyah";
+> +	rm->miscdev.minor = MISC_DYNAMIC_MINOR;
+> +	rm->miscdev.fops = &gh_dev_fops;
+> +
+> +	ret = misc_register(&rm->miscdev);
+> +	if (ret)
+> +		goto err_msgq;
+> +
+> +	return 0;
+> +err_msgq:
+> +	mbox_free_channel(gh_msgq_chan(&rm->msgq));
+> +	gh_msgq_remove(&rm->msgq);
+>   err_cache:
+>   	kmem_cache_destroy(rm->cache);
+>   	return ret;
+> @@ -577,6 +611,7 @@ static int gh_rm_drv_remove(struct platform_device *pdev)
+>   {
+>   	struct gh_rm *rm = platform_get_drvdata(pdev);
+>   
+> +	misc_deregister(&rm->miscdev);
+>   	mbox_free_channel(gh_msgq_chan(&rm->msgq));
+>   	gh_msgq_remove(&rm->msgq);
+>   	kmem_cache_destroy(rm->cache);
+> diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+> new file mode 100644
+> index 000000000000..fd890a57172e
+> --- /dev/null
+> +++ b/drivers/virt/gunyah/vm_mgr.c
+> @@ -0,0 +1,118 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#define pr_fmt(fmt) "gh_vm_mgr: " fmt
+> +
+> +#include <linux/anon_inodes.h>
+> +#include <linux/file.h>
+> +#include <linux/gunyah_rsc_mgr.h>
+> +#include <linux/miscdevice.h>
+> +#include <linux/module.h>
+> +
+> +#include <uapi/linux/gunyah.h>
+> +
+> +#include "vm_mgr.h"
+> +
+> +static void gh_vm_free(struct work_struct *work)
+> +{
+> +	struct gh_vm *ghvm = container_of(work, struct gh_vm, free_work);
+> +	int ret;
+> +
+> +	ret = gh_rm_dealloc_vmid(ghvm->rm, ghvm->vmid);
+> +	if (ret)
+> +		pr_warn("Failed to deallocate vmid: %d\n", ret);
+> +
+> +	put_gh_rm(ghvm->rm);
+> +	kfree(ghvm);
+> +}
+> +
+> +static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
+> +{
+> +	struct gh_vm *ghvm;
+> +	int vmid;
+> +
+> +	vmid = gh_rm_alloc_vmid(rm, 0);
+> +	if (vmid < 0)
+> +		return ERR_PTR(vmid);
+> +
+> +	ghvm = kzalloc(sizeof(*ghvm), GFP_KERNEL);
+> +	if (!ghvm) {
+> +		gh_rm_dealloc_vmid(rm, vmid);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	get_gh_rm(rm);
+> +
+> +	ghvm->vmid = vmid;
+> +	ghvm->rm = rm;
+> +
+> +	INIT_WORK(&ghvm->free_work, gh_vm_free);
+> +
+> +	return ghvm;
+> +}
+> +
+> +static int gh_vm_release(struct inode *inode, struct file *filp)
+> +{
+> +	struct gh_vm *ghvm = filp->private_data;
+> +
+> +	/* VM will be reset and make RM calls which can interruptible sleep.
+> +	 * Defer to a work so this thread can receive signal.
+> +	 */
+> +	schedule_work(&ghvm->free_work);
+> +	return 0;
+> +}
+> +
+> +static const struct file_operations gh_vm_fops = {
+> +	.release = gh_vm_release,
 
-/proc/self/mem is for debug/ptrace access (FOLL_FORCE). I think you 
-might also want to add tests for ordinary GUP, checking that we fail to 
-obtain a write pin -- and call these tests "gup_ptrace_read" / 
-"gup_ptrace_write"
+> +	.compat_ioctl	= compat_ptr_ioctl,
 
-An simple approach would be to trigger a read()/write() on a file opened 
-via O_DIRECT, using the shadow stack as buffer. While the write() 
-[reading from the page] is expected to work, a read() [writing to the 
-page] has to fail.
+This line should go with the patch that adds real ioctl
+
+> +	.llseek = noop_llseek,
+> +};
+> +
+> +static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long arg)
+Not sure what is the gain of this multiple levels of redirection.
+
+How about
+
+long gh_dev_create_vm(struct gh_rm *rm, unsigned long arg)
+{
+...
+}
+
+and rsc_mgr just call it as part of its ioctl call
+
+static long gh_dev_ioctl(struct file *filp, unsigned int cmd, unsigned 
+long arg)
+{
+	struct miscdevice *miscdev = filp->private_data;
+	struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
+
+	switch (cmd) {
+	case GH_CREATE_VM:
+		return gh_dev_create_vm(rm, arg);
+	default:
+		return -ENOIOCTLCMD;
+	}
+}
 
 
--- 
-Thanks,
+> +{
+> +	struct gh_vm *ghvm;
+> +	struct file *file;
+> +	int fd, err;
+> +
+> +	/* arg reserved for future use. */
+> +	if (arg)
+> +		return -EINVAL;
 
-David / dhildenb
+The only code path I see here is via GH_CREATE_VM ioctl which obviously 
+does not take any arguments, so if you are thinking of using the 
+argument for architecture-specific VM flags.  Then this needs to be 
+properly done by making the ABI aware of this.
 
+As you mentioned zero value arg imply an "unauthenticated VM" type, but 
+this was not properly encoded in the userspace ABI. Why not make it 
+future compatible. How about adding arguments to GH_CREATE_VM and pass 
+the required information correctly.
+Note that once the ABI is accepted then you will not be able to change 
+it, other than adding a new one.
+
+> +
+> +	ghvm = gh_vm_alloc(rm);
+> +	if (IS_ERR(ghvm))
+> +		return PTR_ERR(ghvm);
+> +
+> +	fd = get_unused_fd_flags(O_CLOEXEC);
+> +	if (fd < 0) {
+> +		err = fd;
+> +		goto err_destroy_vm;
+> +	}
+> +
+> +	file = anon_inode_getfile("gunyah-vm", &gh_vm_fops, ghvm, O_RDWR);
+> +	if (IS_ERR(file)) {
+> +		err = PTR_ERR(file);
+> +		goto err_put_fd;
+> +	}
+> +
+> +	fd_install(fd, file);
+> +
+> +	return fd;
+> +
+> +err_put_fd:
+> +	put_unused_fd(fd);
+> +err_destroy_vm:
+> +	kfree(ghvm);
+> +	return err;
+> +}
+> +
+> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg)
+> +{
+> +	switch (cmd) {
+> +	case GH_CREATE_VM:
+> +		return gh_dev_ioctl_create_vm(rm, arg);
+> +	default:
+> +		return -ENOIOCTLCMD;
+> +	}
+> +}
+> diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+> new file mode 100644
+> index 000000000000..76954da706e9
+> --- /dev/null
+> +++ b/drivers/virt/gunyah/vm_mgr.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef _GH_PRIV_VM_MGR_H
+> +#define _GH_PRIV_VM_MGR_H
+> +
+> +#include <linux/gunyah_rsc_mgr.h>
+> +
+> +#include <uapi/linux/gunyah.h>
+> +
+> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg);
+> +
+> +struct gh_vm {
+> +	u16 vmid;
+> +	struct gh_rm *rm;
+> +
+> +	struct work_struct free_work;
+> +};
+> +
+> +#endif
+> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+> new file mode 100644
+> index 000000000000..10ba32d2b0a6
+> --- /dev/null
+> +++ b/include/uapi/linux/gunyah.h
+> @@ -0,0 +1,23 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef _UAPI_LINUX_GUNYAH
+> +#define _UAPI_LINUX_GUNYAH
+> +
+> +/*
+> + * Userspace interface for /dev/gunyah - gunyah based virtual machine
+> + */
+> +
+> +#include <linux/types.h>
+> +#include <linux/ioctl.h>
+> +
+> +#define GH_IOCTL_TYPE			'G'
+> +
+> +/*
+> + * ioctls for /dev/gunyah fds:
+> + */
+> +#define GH_CREATE_VM			_IO(GH_IOCTL_TYPE, 0x0) /* Returns a Gunyah VM fd */
+
+Can HLOS forcefully destroy a VM?
+If so should we have a corresponding DESTROY IOCTL?
+
+--srini
+
+> +
+> +#endif
