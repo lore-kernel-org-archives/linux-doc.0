@@ -2,131 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54427C636D7
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 21:23:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E76DC636D7
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 23:00:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbjBUVXT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 16:23:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55756 "EHLO
+        id S229712AbjBUXAv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 18:00:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjBUVXS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 16:23:18 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1A844B2;
-        Tue, 21 Feb 2023 13:23:17 -0800 (PST)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31LCZoRI015712;
-        Tue, 21 Feb 2023 21:22:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ovWj8UmzoKvy/G0pIzs9xOPymSnbtxoCS3AGeSJ+cBA=;
- b=B8a2BQDPKkCCn0rZ8h/WARjkQYZ7KyBs5mlChLOnb/5UAFUYr0owuDwTbrFvhzPF07Hy
- uslXy/WWO/1x1uhs+8TTVe9c8Qp1OgmsO2TGWpRTinJ1hFGMpohoqEbBwLb/1ELwLjYz
- dAtYCpTG/lfFkg5pBdjsFKpQlE/3IE+vbhgyIPYFYDe4IbE9R2CZ8HrEh5wLKJjiTv+C
- fqyNL779BtxhImyCFXXD9FYZbES+pf1HJt2ZODPd5zLOwQ9p+rd679hHvkRTFe2W/t5u
- JyKAJy0gbfa3xEv7kBbcAJIO8J8LbLcit+OkccnPV5fHoYmx6ZVZFDQqewgXjR9mbNeX 3A== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ntpw9rrh4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 21 Feb 2023 21:22:54 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31LLMrcZ012877
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 21 Feb 2023 21:22:53 GMT
-Received: from [10.110.71.80] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 21 Feb
- 2023 13:22:51 -0800
-Message-ID: <7aa025a1-b211-f04c-9169-236102fe27fe@quicinc.com>
-Date:   Tue, 21 Feb 2023 13:22:51 -0800
+        with ESMTP id S229569AbjBUXAv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 18:00:51 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 079D3305C1;
+        Tue, 21 Feb 2023 15:00:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677020450; x=1708556450;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9tchUmKCqrwfxq9smbWQhkojYKUlgeBExUrI3AtPhdo=;
+  b=MALcSLulvFxpH75mmC59ktPfL4kaSxQl6bbPQM+BNz/guXg7oa8yO6KL
+   3miFo8QBQ7ujko+23ZCVBfDD3xfuCgoD5hUHzXLflvMuZ7npqzH53qF3B
+   sXmEGp2O7BvMgYej/6x1yPkNBsUueueWjzLUhZap10fHkg2kO0fo3zC/Y
+   R5Z6ozfwHOuOXpwF29m0fOHEljwcZn1bXdugQ6/uZSFX0pd5l/IxE3IHw
+   qXqLrhHY2uYmPE0TesZ/j7NWY5FkUaoobKdCVKFqiFAzuKsEF/J+hWvQw
+   enDDxuNsQXNIGv+9z57nK3RlQY+gDlBdKPWbGyTktvrwfhDGeEKgYT/CO
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="320915337"
+X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
+   d="scan'208";a="320915337"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 15:00:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="673861024"
+X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
+   d="scan'208";a="673861024"
+Received: from lkp-server01.sh.intel.com (HELO eac18b5d7d93) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 21 Feb 2023 15:00:46 -0800
+Received: from kbuild by eac18b5d7d93 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pUbcr-0000K3-1I;
+        Tue, 21 Feb 2023 23:00:45 +0000
+Date:   Wed, 22 Feb 2023 07:00:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+        oleg@redhat.com, avagin@gmail.com, peterz@infradead.org,
+        luto@kernel.org, krisman@collabora.com, tglx@linutronix.de,
+        corbet@lwn.net, shuah@kernel.org,
+        Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v11 2/2] ptrace,syscall_user_dispatch: checkpoint/restore
+ support for SUD
+Message-ID: <202302220654.bRPCWovm-lkp@intel.com>
+References: <20230221201740.2236-3-gregory.price@memverge.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 15/26] gunyah: rsc_mgr: Add platform ops on
- mem_lend/mem_reclaim
-Content-Language: en-US
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alex Elder <elder@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212448.3318756-1-quic_eberman@quicinc.com>
- <963d84e8-7b91-c278-1978-4e73d73f7c6f@linaro.org>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <963d84e8-7b91-c278-1978-4e73d73f7c6f@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: BDrpy9BYGEbZnz3_yiaFgW_COdaF98o2
-X-Proofpoint-GUID: BDrpy9BYGEbZnz3_yiaFgW_COdaF98o2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-21_12,2023-02-20_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1015
- spamscore=0 adultscore=0 impostorscore=0 phishscore=0 mlxscore=0
- suspectscore=0 malwarescore=0 priorityscore=1501 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302210185
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230221201740.2236-3-gregory.price@memverge.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Gregory,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on shuah-kselftest/fixes]
+[also build test WARNING on linus/master tip/core/entry v6.2 next-20230221]
+[cannot apply to shuah-kselftest/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/syscall_user_dispatch-helper-function-to-operate-on-given-task/20230222-041959
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git fixes
+patch link:    https://lore.kernel.org/r/20230221201740.2236-3-gregory.price%40memverge.com
+patch subject: [PATCH v11 2/2] ptrace,syscall_user_dispatch: checkpoint/restore support for SUD
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230222/202302220654.bRPCWovm-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/966fb8d2744f50ac8174fe3c5d942112c13c0962
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Gregory-Price/syscall_user_dispatch-helper-function-to-operate-on-given-task/20230222-041959
+        git checkout 966fb8d2744f50ac8174fe3c5d942112c13c0962
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/entry/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302220654.bRPCWovm-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_get_config':
+>> kernel/entry/syscall_user_dispatch.c:133:27: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     133 |         config.selector = (__u64)sd->selector;
+         |                           ^
+   kernel/entry/syscall_user_dispatch.c: In function 'syscall_user_dispatch_set_config':
+>> kernel/entry/syscall_user_dispatch.c:153:54: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     153 |                                             cfg.len, (void __user*)cfg.selector);
+         |                                                      ^
 
 
-On 2/21/2023 6:51 AM, Srinivas Kandagatla wrote:
-> 
-> 
-> On 14/02/2023 21:24, Elliot Berman wrote:
-[snip]
->> +
->> +static struct gunyah_rm_platform_ops *rm_platform_ops;
->> +static DECLARE_RWSEM(rm_platform_ops_lock);
-> 
-> Why do we need this read/write lock or this global rm_platform_ops here, 
-> AFAIU, there will be only one instance of platform_ops per platform.
-> 
-> This should be a core part of the gunyah and its driver early setup, 
-> that should give us pretty much lock less behaviour.
-> 
-> We should be able to determine by Hypervisor UUID that its on Qualcomm 
-> platform or not, during early gunyah setup which should help us setup 
-> the platfrom ops accordingly.
-> 
-> This should also help cleanup some of the gunyah code that was added 
-> futher down in this patchset.
+vim +133 kernel/entry/syscall_user_dispatch.c
 
-I'm guessing the direction to take is:
+   117	
+   118	int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+   119			                     void __user *data)
+   120	{
+   121		struct syscall_user_dispatch *sd = &task->syscall_dispatch;
+   122		struct ptrace_sud_config config;
+   123		if (size != sizeof(struct ptrace_sud_config))
+   124			return -EINVAL;
+   125	
+   126		if (test_task_syscall_work(task, SYSCALL_USER_DISPATCH))
+   127			config.mode = PR_SYS_DISPATCH_ON;
+   128		else
+   129			config.mode = PR_SYS_DISPATCH_OFF;
+   130	
+   131		config.offset = sd->offset;
+   132		config.len = sd->len;
+ > 133		config.selector = (__u64)sd->selector;
+   134	
+   135		if (copy_to_user(data, &config, sizeof(config))) {
+   136			return -EFAULT;
+   137		}
+   138		return 0;
+   139	}
+   140	
+   141	int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
+   142			                     void __user *data)
+   143	{
+   144		int rc;
+   145		struct ptrace_sud_config cfg;
+   146		if (size != sizeof(struct ptrace_sud_config))
+   147			return -EINVAL;
+   148	
+   149		if (copy_from_user(&cfg, data, sizeof(cfg))) {
+   150			return -EFAULT;
+   151		}
+   152		rc = task_set_syscall_user_dispatch(task, cfg.mode, cfg.offset,
+ > 153						    cfg.len, (void __user*)cfg.selector);
 
-   config GUNYAH
-     select QCOM_SCM if ARCH_QCOM
-
-and have vm_mgr call directly into qcom_scm driver if the UID matches?
-
-We have an Android requirement to enable CONFIG_GUNYAH=y and 
-CONFIG_QCOM_SCM=m, but it wouldn't be possible with this design. The 
-platform hooks implementation allows GUNYAH and QCOM_SCM to be enabled 
-without setting lower bound of the other.
-
-- Elliot
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
