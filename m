@@ -2,471 +2,300 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF52C64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 11:07:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAD19C6379F
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 11:18:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233711AbjBULHt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 06:07:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35084 "EHLO
+        id S233991AbjBULSC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 06:18:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233993AbjBULHm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 06:07:42 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A1EF252B0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 03:07:38 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id l25so3575183wrb.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 03:07:37 -0800 (PST)
+        with ESMTP id S233959AbjBULR5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 06:17:57 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C03FF422F
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 03:17:54 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id b12so15666058edd.4
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 03:17:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=O1e3Vx4V8mQbGHFAPhyICTFHEhdaUxrP+zw0Dso00fc=;
-        b=lmjmGXf1NcQuT9X1jvcwZTm/aomvo9/2uaiEb1G9S2o+rbewUXIgbEPSvPbSTdOCXN
-         k+29Q7F4JtiUPh0J/Uc1/YXbOoRKIExrmyBok7EOEz1nzG16oWlO/6GdKfVBDVqfuwRk
-         h7KsiJzC8YdUMsmyuSi0usDymZHbDfHkqLAb2raLCDnO6CE5v1Vm7hFxcEbcqHsG1g6g
-         z69AvpvoQMcuFGY1Oxz6K4J7ZcQH9o8piQIDCq4TJeanX9DO57Gl+6kku7Q8qsYc8sRv
-         C97OVcv5YwtntZ2H569vjrh9NieTsxl7LNibjagLL17li4fJZZzwmYRaFmlMo9BlMZSv
-         sJZw==
+        bh=qJ1x6C2VKBSV6s1tMpyf73V5z12vCyZrSVBl0x7vsmo=;
+        b=voVLDUTO3rrUUGgazbeipG5F5BaOlR4var55S79FhPRMRVOYRicNRXxL0jxKebEYBX
+         x2oMswxoitxwWm1+ssikjDjtPDKv2xzWA7Jqq8Seh+vuWZ2k3iX5Uq8Ne+/iwgW0X7nO
+         3sxo1aMYGG6Kp47eDRrt8QiNl/rt2BIhF8ltxY+NtiniKDSUAUuh49BtJRCNvdFPv6lW
+         QK+C3iXbS5uoUP9iHMvMSygMqkKIclYmtRUZYwa6f9iCQQ2v4gmdIJorPjRSca71Eeau
+         CkV3NijPr+Zbd4QJhc3JqRikxnuAQxJGdCkfiwFFqvyGXtbbDMhfwDKSrke6vHt3AnOL
+         QE3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O1e3Vx4V8mQbGHFAPhyICTFHEhdaUxrP+zw0Dso00fc=;
-        b=7DBhweMKG30c9L9mP4KbAlTraogwKKsAHmyC+chi7j2xjNN2gld0orv+xPFoZSAkEF
-         VN7kAu0Zwutzv9sDitfopTKdT0KgYIhOHyO+iK4fJW2TBPUYMrnVmW9pMLc0wtz3cOo5
-         beDyg6ednVO4YW/yB+cc+KHfyBT1dU0ufICVWJc6y3BbpbiAyS4lSmgZPj1k99mUgHL6
-         k33aqVbn7fkiW3NPURZna7Sf26BfrmfyKNBpEvgMoDVs3cqez1YiacipdVYAsZz9keai
-         SaByyZhWmM8BmRpaDwCUAsPZK4r6+8tHCQzMOhG65w2N44AO6UPxnhU0CYTHKQFYBIfB
-         mBRg==
-X-Gm-Message-State: AO0yUKUhAq0qnSMJWwTG1h+SD9LA7/rG1lCH7yC66nTVg8OGKx6ffzTr
-        nZ//UWLEBnEGWKsfOf28dYeHT81KS5LpSFW2
-X-Google-Smtp-Source: AK7set/T2qlZ8wjueRjkgqZ0ZGbcdfmitFSt7Fij6ZYh5R28ti+yaOele5L0H2zdTW38qzM//xlWFA==
-X-Received: by 2002:adf:f487:0:b0:2c3:f026:907e with SMTP id l7-20020adff487000000b002c3f026907emr3596307wro.10.1676977656443;
-        Tue, 21 Feb 2023 03:07:36 -0800 (PST)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id x4-20020adfdd84000000b002c556a4f1casm3862640wrl.42.2023.02.21.03.07.34
+        bh=qJ1x6C2VKBSV6s1tMpyf73V5z12vCyZrSVBl0x7vsmo=;
+        b=6r9ZEJKZl/Xl7JSpLps5n0PHJBSOyOVVFfEJbfp6CBy/fglEQmUb0jJdNCpmxo6r8x
+         V0RwOb4EMfPUTQC8PVURHviewPWr8QVJbz/ONQS4WJ2cy71NN5cuw6S9L2B66fftNwUx
+         InipS2IKXYLAIn02gxAkMHlvo9jFGeSjrtNwvYKpoFnRFScelgG8INXl9hnq6anyCKGk
+         izhJf+0GMk1SSwog1zhvQ8SlOiP/Wj3XeNP64FOjRb51fCXp96vKYN76nvfPM3jsF4s4
+         ET/8T4xbZBIlVCHBLttaouwS1v+/wV8Tx0MfCoP0Q/uqoreCFwrMba20zfgmG++7LyFo
+         bHrQ==
+X-Gm-Message-State: AO0yUKWWZNosiwrTwRInL8ACLzb1c02LbCNDwhks1uMOklnM+Fr4hep0
+        sZ8J07lYXr37qawg3zEvg+JlPA==
+X-Google-Smtp-Source: AK7set9Jn1by8l5Y+Jgkzg/fWri+q/h674IHz2NgKw1ovTQUhbYLqJEP79ZNNiV7pTPM+TxQaR23UQ==
+X-Received: by 2002:aa7:c2c7:0:b0:4ac:d30d:c3a3 with SMTP id m7-20020aa7c2c7000000b004acd30dc3a3mr3050836edp.32.1676978273192;
+        Tue, 21 Feb 2023 03:17:53 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id g10-20020a50d5ca000000b004a21263bbaasm1329057edj.49.2023.02.21.03.17.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Feb 2023 03:07:35 -0800 (PST)
-Message-ID: <c4be9e0c-8b42-042d-60eb-d735f6d75232@linaro.org>
-Date:   Tue, 21 Feb 2023 11:07:34 +0000
+        Tue, 21 Feb 2023 03:17:52 -0800 (PST)
+Message-ID: <8de5a3bb-a0b1-8d69-cf61-0c33f42c56f6@linaro.org>
+Date:   Tue, 21 Feb 2023 12:17:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v10 11/26] gunyah: rsc_mgr: Add RPC for sharing memory
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 1/4] dt-bindings: mfd: Add DT bindings for TI TPS6594
+ PMIC
 Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212405.3314219-1-quic_eberman@quicinc.com>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20230214212405.3314219-1-quic_eberman@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To:     Julien Panis <jpanis@baylibre.com>, lee@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        corbet@lwn.net
+Cc:     hdegoede@redhat.com, eric.auger@redhat.com, jgg@ziepe.ca,
+        razor@blackwall.org, suma.hegde@amd.com,
+        stephen@networkplumber.org, arnd@arndb.de,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, eblanc@baylibre.com,
+        jneanne@baylibre.com
+References: <20230216114410.183489-1-jpanis@baylibre.com>
+ <20230216114410.183489-2-jpanis@baylibre.com>
+ <c50503f0-dce1-a3b0-2973-8a22b5ef8bc2@linaro.org>
+ <4e64838c-b727-923b-b6d5-413a0681977c@baylibre.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <4e64838c-b727-923b-b6d5-413a0681977c@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 14/02/2023 21:24, Elliot Berman wrote:
+On 17/02/2023 13:10, Julien Panis wrote:
 > 
-> Gunyah resource manager provides API to manipulate stage 2 page tables.
-> Manipulations are represented as a memory parcel. Memory parcels
-> describe a list of memory regions (intermediate physical address and
-> size), a list of new permissions for VMs, and the memory type (DDR or
-> MMIO). Memory parcels are uniquely identified by a handle allocated by
-> Gunyah. There are a few types of memory parcel sharing which Gunyah
-> supports:
+> On 2/17/23 10:06, Krzysztof Kozlowski wrote:
+>> On 16/02/2023 12:44, Julien Panis wrote:
+>>> TPS6594 is a Power Management IC which provides regulators and others
+>> Subject: drop second/last, redundant "DT bindings for". The
+>> "dt-bindings" prefix is already stating that these are bindings.
+>>
+>>
+>>> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+>>> PFSM (Pre-configurable Finite State Machine) managing the state of the
+>>> device.
+>>> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+>>>
+>>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+>>> ---
+>>>   .../devicetree/bindings/mfd/ti,tps6594.yaml   | 164 ++++++++++++++++++
+>>>   1 file changed, 164 insertions(+)
+>>>   create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>>> new file mode 100644
+>>> index 000000000000..37968d6c0420
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+>>> @@ -0,0 +1,164 @@
+>>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: TI TPS6594 Power Management Integrated Circuit
+>>> +
+>>> +maintainers:
+>>> +  - Julien Panis <jpanis@baylibre.com>
+>>> +
+>>> +description: |
+>>> +  TPS6594 is a Power Management IC which provides regulators and others
+>>> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+>>> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
+>>> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    enum:
+>>> +      - ti,tps6594
+>>> +      - ti,tps6593
+>>> +      - ti,lp8764x
+>> Any particular choice of ordering (different than alphabetical)?
 > 
->   - Sharing: the guest and host VM both have access
->   - Lending: only the guest has access; host VM loses access
->   - Donating: Permanently lent (not reclaimed even if guest shuts down)
+> Thank you for the review.
 > 
-> Memory parcels that have been shared or lent can be reclaimed by the
-> host via an additional call. The reclaim operation restores the original
-> access the host VM had to the memory parcel and removes the access to
-> other VM.
+> I chose this ordering because it emphasizes the fact that tps6593 and 
+> lp8764x
+> are derivatives of tps6594 : tps6593 is nearly the same (a minor feature 
+> is not
+> supported), and lp8764x has less resources (less bucks/LDO, and no RTC).
 > 
-> One point to note that memory parcels don't describe where in the guest
-> VM the memory parcel should reside. The guest VM must accept the memory
-> parcel either explicitly via a "gh_rm_mem_accept" call (not introduced
-> here) or be configured to accept it automatically at boot. As the guest
-> VM accepts the memory parcel, it also mentions the IPA it wants to place
-> memory parcel.
+> Besides, a multi-PMIC synchronization scheme is implemented in the PMIC 
+> device
+> to synchronize the power state changes with other PMIC devices. This is done
+> through a SPMI bus : the master PMIC is the controller device on the 
+> SPMI bus,
+> and the slave PMICs are the target devices on the SPMI bus. For the 5 boards
+> we work on (for which device trees will be sent in another patch series):
+> - tps6594 is used on 3 boards and is always master (multi-PMIC config)
+> - tps6593 is used on 1 board and is master (single-PMIC config)
+> - lp8764x is used on 2 boards and is always slave (multi-PMIC config)
+> There might not be situations in which lp8764x would be master and tps6594
+> or tps6593 would be slave.
 > 
-> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->   drivers/virt/gunyah/rsc_mgr.h     |  44 +++++++
->   drivers/virt/gunyah/rsc_mgr_rpc.c | 185 ++++++++++++++++++++++++++++++
->   include/linux/gunyah_rsc_mgr.h    |  47 ++++++++
->   3 files changed, 276 insertions(+)
+> That's why I preferred this ordering.
 > 
-> diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
-> index 7406237bc66d..9b23cefe02b0 100644
-> --- a/drivers/virt/gunyah/rsc_mgr.h
-> +++ b/drivers/virt/gunyah/rsc_mgr.h
-> @@ -74,6 +74,12 @@ struct gh_rm;
->   int gh_rm_call(struct gh_rm *rsc_mgr, u32 message_id, void *req_buff, size_t req_buff_size,
->   		void **resp_buf, size_t *resp_buff_size);
->   
-> +/* Message IDs: Memory Management */
-> +#define GH_RM_RPC_MEM_LEND			0x51000012
-> +#define GH_RM_RPC_MEM_SHARE			0x51000013
-> +#define GH_RM_RPC_MEM_RECLAIM			0x51000015
-> +#define GH_RM_RPC_MEM_APPEND			0x51000018
-> +
->   /* Message IDs: VM Management */
->   #define GH_RM_RPC_VM_ALLOC_VMID			0x56000001
->   #define GH_RM_RPC_VM_DEALLOC_VMID		0x56000002
-> @@ -90,6 +96,44 @@ struct gh_rm_vm_common_vmid_req {
->   	__le16 reserved0;
->   } __packed;
->   
-> +/* Call: MEM_LEND, MEM_SHARE */
-> +struct gh_rm_mem_share_req_header {
-> +	u8 mem_type;
-> +	u8 reserved0;
-> +#define GH_MEM_SHARE_REQ_FLAGS_APPEND		BIT(1)
-> +	u8 flags;
-> +	u8 reserved1;
-> +	__le32 label;
-> +} __packed;
-> +
-> +struct gh_rm_mem_share_req_acl_section {
-> +	__le32 n_entries;
-> +	struct gh_rm_mem_acl_entry entries[];
-> +};
-> +
-> +struct gh_rm_mem_share_req_mem_section {
-> +	__le16 n_entries;
-> +	__le16 reserved0;
-> +	struct gh_rm_mem_entry entries[];
-> +};
-> +
-> +/* Call: MEM_RELEASE */
-> +struct gh_rm_mem_release_req {
-> +	__le32 mem_handle;
-> +	u8 flags; /* currently not used */
-> +	__le16 reserved0;
-> +	u8 reserved1;
-> +} __packed;
-> +
-> +/* Call: MEM_APPEND */
-> +struct gh_rm_mem_append_req_header {
-> +	__le32 mem_handle;
-> +#define GH_MEM_APPEND_REQ_FLAGS_END	BIT(0)
-> +	u8 flags;
-> +	__le16 reserved0;
-> +	u8 reserved1;
-> +} __packed;
-> +
->   /* Call: VM_ALLOC */
->   struct gh_rm_vm_alloc_vmid_resp {
->   	__le16 vmid;
-> diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
-> index 4515cdd80106..0c83b097fec9 100644
-> --- a/drivers/virt/gunyah/rsc_mgr_rpc.c
-> +++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
-> @@ -7,6 +7,8 @@
->   
->   #include "rsc_mgr.h"
->   
-> +#define GH_RM_MAX_MEM_ENTRIES	512
-> +
->   /*
->    * Several RM calls take only a VMID as a parameter and give only standard
->    * response back. Deduplicate boilerplate code by using this common call.
-> @@ -22,6 +24,189 @@ static int gh_rm_common_vmid_call(struct gh_rm *rm, u32 message_id, u16 vmid)
->   	return gh_rm_call(rm, message_id, &req_payload, sizeof(req_payload), &resp, &resp_size);
->   }
->   
-> +static int _gh_rm_mem_append(struct gh_rm *rm, u32 mem_handle, bool end_append,
-> +			struct gh_rm_mem_entry *mem_entries, size_t n_mem_entries)
-> +{
-> +	struct gh_rm_mem_share_req_mem_section *mem_section;
-> +	struct gh_rm_mem_append_req_header *req_header;
-> +	size_t msg_size = 0, resp_size;
-> +	void *msg, *resp;
-> +	int ret;
-> +
-> +	msg_size += sizeof(struct gh_rm_mem_append_req_header);
-> +	msg_size += struct_size(mem_section, entries, n_mem_entries);
-> +
-> +	msg = kzalloc(msg_size, GFP_KERNEL);
-> +	if (!msg)
-> +		return -ENOMEM;
-> +
-> +	req_header = msg;
-> +	mem_section = (void *)req_header + sizeof(struct gh_rm_mem_append_req_header);
-> +
-> +	req_header->mem_handle = cpu_to_le32(mem_handle);
-> +	if (end_append)
-> +		req_header->flags |= GH_MEM_APPEND_REQ_FLAGS_END;
-> +
-> +	mem_section->n_entries = cpu_to_le16(n_mem_entries);
-> +	memcpy(mem_section->entries, mem_entries, sizeof(*mem_entries) * n_mem_entries);
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_MEM_APPEND, msg, msg_size, &resp, &resp_size);
+> Do you think that alphabetical order would be better ?
 
-I have seen this pattern, where we pass &resp eventhough we are not 
-expecting a response.
+It's simpler (requires no knowledge about chips) and reduces the future
+conflicts. It's fine to keep it also ordered like you said, although I
+wonder how other people adding new compatibles here will figure it out...
 
-Can we make this explicit by passing NULL. This can also help to find 
-any leaks of resp in case they are not freed by the caller.
+> 
+>>
+>>> +
+>>> +  reg:
+>>> +    description: I2C slave address or SPI chip select number.
+>>> +    maxItems: 1
+>>> +
+>>> +  ti,use-crc:
+>>> +    type: boolean
+>>> +    description: If true, use CRC for I2C and SPI interface protocols.
+>> Hm, why different boards would like to enable or disable it? Why this
+>> suits DT?
+> 
+> You're right. Reading your comment, it appears to me that CRC feature is 
+> not fully
+> related to HW description and should not be set in DT.
+> 
+> CRC is not 'fully' related to HW, but...
+> For CRC feature as well, PMICs are synchronized (for boards with 
+> multi-PMIC config).
+> To use CRC mode, this feature must be requested explicitly on the master 
+> PMIC
+> through I2C or SPI driver, then it is enabled for the slave PMICs 
+> through SPMI bus: that
+> sync is performed 'automatically', without intervention from the I2C or 
+> SPI driver to
+> enable CRC on slave PMICs.
+> As a consequence, CRC feature is enabled for all PMICs at I2C/SPI driver 
+> probe,
+> or it is let disabled for all PMICs. But it can't be enabled for one 
+> PMIC and disabled
+> for another one.
+> 
+> This will probably rediscussed for I2C/SPI drivers, but do you think 
+> that a 'use_crc'
+> driver parameter would be an acceptable solution ? If so, the master 
+> PMIC would have
+> to be identified, so that the driver can explicitly enable CRC mode for 
+> this one if
+> 'use_crc' is true. With this solution, some 'ti,is-master;' bool 
+> property would be necessary.
 
-ret = gh_rm_call(rm, GH_RM_RPC_MEM_APPEND, msg, msg_size, NULL, NULL);
+It looks the property should be only in the drivers, not in the DT.
+> 
+>>
+>>> +
+>>> +  system-power-controller: true
+>>> +
+>>> +  interrupts:
+>>> +    maxItems: 1
+>>> +
+>>> +  ti,multi-phase-id:
+>>> +    description: |
+>>> +      Describes buck multi-phase configuration, if any. For instance, XY id means
+>>> +      that outputs of buck converters X and Y are combined in multi-phase mode.
+>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>> +    enum: [12, 34, 123, 1234]
+>>> +
+>>> +patternProperties:
+>>> +  "^buck([1-5]|12|34|123|1234)-supply$":
+>>> +    description: Input supply phandle for each buck.
+>>> +
+>>> +  "^ldo[1-4]-supply$":
+>>> +    description: Input supply phandle for each ldo.
+>>> +
+>>> +  regulators:
+>> This should go to properties, not patternProperties.
+>>
+>>> +    type: object
+>>> +    description: List of regulators provided by this controller.
+>>> +
+>>> +    patternProperties:
+>>> +      "^buck([1-5]|12|34|123|1234)$":
+>>> +        type: object
+>>> +        $ref: /schemas/regulator/regulator.yaml#
+>>> +
+>>> +        unevaluatedProperties: false
+>>> +
+>>> +      "^ldo[1-4]$":
+>>> +        type: object
+>>> +        $ref: /schemas/regulator/regulator.yaml#
+>>> +
+>>> +        unevaluatedProperties: false
+>>> +
+>> You could add here - on this level - of indentation allOf:if for
+>> excluding setups
+>>
+>> if:
+>>    required:
+>>      - buck12
+>> then:
+>>    properties:
+>>      buck123: false
+>>      buck1234: false
+>>
+>> Or, if you want to require regulator then:
+>> oneOf:
+>>    - required:
+>>        - buck12
+>>    - required:
+>>        - buck123
+>>    - required:
+>>        - buck1234
+>>
+>> and anyway exclude buck34 with two above.
+> 
+> I am not sure that we have the same understanding of the multi-phase setup.
+> Maybe the description I wrote is not clear enough (?) Or I just don't 
+> understand
+> what you mean exactly.
+> 
+> How would you combine outputs of bucks 3 and 4 ?
 
-> +	kfree(msg);
-> +
-> +	return ret;
-> +}
-> +
-> +static int gh_rm_mem_append(struct gh_rm *rm, u32 mem_handle,
-> +			struct gh_rm_mem_entry *mem_entries, size_t n_mem_entries)
-> +{
-> +	bool end_append;
-> +	int ret = 0;
-> +	size_t n;
-> +
-> +	while (n_mem_entries) {
-> +		if (n_mem_entries > GH_RM_MAX_MEM_ENTRIES) {
-> +			end_append = false;
-> +			n = GH_RM_MAX_MEM_ENTRIES;
-> +		} else {
-> +			end_append = true;
-> +			n = n_mem_entries;
-> +		}
-> +
-> +		ret = _gh_rm_mem_append(rm, mem_handle, end_append, mem_entries, n);
-> +		if (ret)
-> +			break;
-> +
-> +		mem_entries += n;
-> +		n_mem_entries -= n;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int gh_rm_mem_lend_common(struct gh_rm *rm, u32 message_id, struct gh_rm_mem_parcel *p)
-> +{
-> +	size_t msg_size = 0, initial_mem_entries = p->n_mem_entries, resp_size;
-> +	struct gh_rm_mem_share_req_acl_section *acl_section;
-> +	struct gh_rm_mem_share_req_mem_section *mem_section;
-> +	struct gh_rm_mem_share_req_header *req_header;
-> +	u32 *attr_section;
-> +	__le32 *resp;
-> +	void *msg;
-> +	int ret;
-> +
-> +	if (!p->acl_entries || !p->n_acl_entries || !p->mem_entries || !p->n_mem_entries ||
-> +	    p->n_acl_entries > U8_MAX || p->mem_handle != GH_MEM_HANDLE_INVAL)
-> +		return -EINVAL;
-> +
-> +	if (initial_mem_entries > GH_RM_MAX_MEM_ENTRIES)
-> +		initial_mem_entries = GH_RM_MAX_MEM_ENTRIES;
-> +
-> +	/* The format of the message goes:
-> +	 * request header
-> +	 * ACL entries (which VMs get what kind of access to this memory parcel)
-> +	 * Memory entries (list of memory regions to share)
-> +	 * Memory attributes (currently unused, we'll hard-code the size to 0)
-> +	 */
-> +	msg_size += sizeof(struct gh_rm_mem_share_req_header);
-> +	msg_size += struct_size(acl_section, entries, p->n_acl_entries);
-> +	msg_size += struct_size(mem_section, entries, initial_mem_entries);
-> +	msg_size += sizeof(u32); /* for memory attributes, currently unused */
-> +
-> +	msg = kzalloc(msg_size, GFP_KERNEL);
-> +	if (!msg)
-> +		return -ENOMEM;
-> +
-> +	req_header = msg;
-> +	acl_section = (void *)req_header + sizeof(*req_header);
-> +	mem_section = (void *)acl_section + struct_size(acl_section, entries, p->n_acl_entries);
-> +	attr_section = (void *)mem_section + struct_size(mem_section, entries, initial_mem_entries);
-> +
-> +	req_header->mem_type = p->mem_type;
-> +	if (initial_mem_entries != p->n_mem_entries)
-> +		req_header->flags |= GH_MEM_SHARE_REQ_FLAGS_APPEND;
-> +	req_header->label = cpu_to_le32(p->label);
-> +
-> +	acl_section->n_entries = cpu_to_le32(p->n_acl_entries);
-> +	memcpy(acl_section->entries, p->acl_entries, sizeof(*(p->acl_entries)) * p->n_acl_entries);
-> +
-> +	mem_section->n_entries = cpu_to_le16(initial_mem_entries);
-> +	memcpy(mem_section->entries, p->mem_entries,
-> +		sizeof(*(p->mem_entries)) * initial_mem_entries);
-> +
-> +	/* Set n_entries for memory attribute section to 0 */
-> +	*attr_section = 0;
-> +
-> +	ret = gh_rm_call(rm, message_id, msg, msg_size, (void **)&resp, &resp_size);
-> +	kfree(msg);
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	p->mem_handle = le32_to_cpu(*resp);
-> +
-> +	if (initial_mem_entries != p->n_mem_entries) {
-> +		ret = gh_rm_mem_append(rm, p->mem_handle,
-> +					&p->mem_entries[initial_mem_entries],
-> +					p->n_mem_entries - initial_mem_entries);
-> +		if (ret) {
-> +			gh_rm_mem_reclaim(rm, p);
-> +			p->mem_handle = GH_MEM_HANDLE_INVAL;
-> +		}
-> +	}
-> +
-> +	kfree(resp);
-> +	return ret;
-> +}
-> +
-> +/**
-> + * gh_rm_mem_lend() - Lend memory to other virtual machines.
-> + * @rm: Handle to a Gunyah resource manager
-> + * @parcel: Package the memory information of the memory to be lent.
-> + *
-> + * Lending removes Linux's access to the memory while the memory parcel is lent.
-> + */
-> +int gh_rm_mem_lend(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel)
-> +{
-> +	return gh_rm_mem_lend_common(rm, GH_RM_RPC_MEM_LEND, parcel);
-> +}
-> +
-> +
-> +/**
-> + * gh_rm_mem_share() - Share memory with other virtual machines.
-> + * @rm: Handle to a Gunyah resource manager
-> + * @parcel: Package the memory information of the memory to be shared.
-> + *
-> + * Sharing keeps Linux's access to the memory while the memory parcel is shared.
-> + */
-> +int gh_rm_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel)
-> +{
-> +	return gh_rm_mem_lend_common(rm, GH_RM_RPC_MEM_SHARE, parcel);
-> +}
-> +
-> +/**
-> + * gh_rm_mem_reclaim() - Reclaim a memory parcel
-> + * @rm: Handle to a Gunyah resource manager
-> + * @parcel: Package the memory information of the memory to be reclaimed.
-> + *
-> + * RM maps the associated memory back into the stage-2 page tables of the owner VM.
-> + */
-> +int gh_rm_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel)
-> +{
-> +	struct gh_rm_mem_release_req req = {
-> +		.mem_handle = cpu_to_le32(parcel->mem_handle),
-> +	};
-> +	size_t resp_size;
-> +	void *resp;
-> +	int ret;
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_MEM_RECLAIM, &req, sizeof(req), &resp, &resp_size);
-> +	/* Do not call platform mem reclaim hooks: the reclaim didn't happen*/
-> +	if (ret)
-> +		return ret;
-> +
-how about
+No one discusses here changing this...
 
-return gh_rm_call(rm, GH_RM_RPC_MEM_RECLAIM, &req, sizeof(req), &resp, 
-&resp_size);
+> We use 'buck34' property to mean that:
+>   - buck1 output is mono-phase,
+>   - buck2 output is mono-phase,
+>   - buck3 and buck4 outputs are combined (i.e. multi-phases).
+> This weird configuration is supported by these PMICs.
+> 
+> Using a PMIC without using the provided regulators does not seem very 
+> interesting
+> indeed.
+> But strictly speaking, these regulators are not required. One could use 
+> some others
+> resources provided by the PMIC (the Error Signal Monitor device for 
+> instance).
+
+Then the first method.
+
+> Besides, multi-phase mode depends on the chosen design and is not 
+> required for
+> all situations.
+
+Sorry, I don't think it is related to the topic I proposed.
 
 
-> +	return ret;
-> +}
-> +
->   /**
->    * gh_rm_alloc_vmid() - Allocate a new VM in Gunyah. Returns the VM identifier.
->    * @rm: Handle to a Gunyah resource manager
-> diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
-> index e7bd29f8be6e..2d8b8b6cc394 100644
-> --- a/include/linux/gunyah_rsc_mgr.h
-> +++ b/include/linux/gunyah_rsc_mgr.h
-> @@ -11,6 +11,7 @@
->   #include <linux/gunyah.h>
->   
->   #define GH_VMID_INVAL	U16_MAX
-> +#define GH_MEM_HANDLE_INVAL	U32_MAX
->   
->   /* Gunyah recognizes VMID0 as an alias to the current VM's ID */
->   #define GH_VMID_SELF			0
-> @@ -54,7 +55,53 @@ struct gh_rm_vm_status_payload {
->   
->   #define GH_RM_NOTIFICATION_VM_STATUS		 0x56100008
->   
-> +struct gh_rm_mem_acl_entry {
-> +	__le16 vmid;
-> +#define GH_RM_ACL_X		BIT(0)
-> +#define GH_RM_ACL_W		BIT(1)
-> +#define GH_RM_ACL_R		BIT(2)
-> +	u8 perms;
-> +	u8 reserved;
-> +} __packed;
-> +
-> +struct gh_rm_mem_entry {
-> +	__le64 ipa_base;
-> +	__le64 size;
-> +} __packed;
-> +
-> +enum gh_rm_mem_type {
-> +	GH_RM_MEM_TYPE_NORMAL	= 0,
-> +	GH_RM_MEM_TYPE_IO	= 1,
-> +};
-> +
-> +/*
-> + * struct gh_rm_mem_parcel - Package info about memory to be lent/shared/donated/reclaimed
-> + * @mem_type: The type of memory: normal (DDR) or IO
-> + * @label: An client-specified identifier which can be used by the other VMs to identify the purpose
-> + *         of the memory parcel.
-> + * @acl_entries: An array of access control entries. Each entry specifies a VM and what access
-> + *               is allowed for the memory parcel.
-> + * @n_acl_entries: Count of the number of entries in the `acl_entries` array.
-> + * @mem_entries: An list of regions to be associated with the memory parcel. Addresses should be
-> + *               (intermediate) physical addresses from Linux's perspective.
-> + * @n_mem_entries: Count of the number of entries in the `mem_entries` array.
-> + * @mem_handle: On success, filled with memory handle that RM allocates for this memory parcel
-> + */
-> +struct gh_rm_mem_parcel {
-> +	enum gh_rm_mem_type mem_type;
-> +	u32 label;
-> +	size_t n_acl_entries;
-> +	struct gh_rm_mem_acl_entry *acl_entries;
-> +	size_t n_mem_entries;
-> +	struct gh_rm_mem_entry *mem_entries;
-> +	u32 mem_handle;
-> +};
-> +
->   /* RPC Calls */
-> +int gh_rm_mem_lend(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel);
-> +int gh_rm_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel);
-> +int gh_rm_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel);
-> +
->   int gh_rm_alloc_vmid(struct gh_rm *rm, u16 vmid);
->   int gh_rm_dealloc_vmid(struct gh_rm *rm, u16 vmid);
->   int gh_rm_vm_reset(struct gh_rm *rm, u16 vmid);
+Best regards,
+Krzysztof
+
