@@ -2,65 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FB1C636D7
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 17:27:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D338C61DA3
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 17:29:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235068AbjBUR10 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 12:27:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42878 "EHLO
+        id S233919AbjBUR3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 12:29:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234430AbjBUR1X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 12:27:23 -0500
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 595C82F783;
-        Tue, 21 Feb 2023 09:27:14 -0800 (PST)
-Received: by mail-pl1-f182.google.com with SMTP id bh1so5832983plb.11;
-        Tue, 21 Feb 2023 09:27:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0s3W4yEjy/qMzlPpLjsQNo1D3zcbdTGIukQ9oB3kUhw=;
-        b=BXT007ou1rCMWPFabIKurFPeRgGL8DGjQ9jUKn2cdhJRx1Vq4VpPEf3qk6lPQINo6m
-         Ld8Dy7cNjFU8tEj060kU7cuusu2IMzNBGqPCnyim07d4lzAP61bkG/g5R5SdoHSHtKA7
-         EUVjLFEEEB8Y3BWwsbyxsQoxCJPQky5Czs3DfvS5P9+GaZisqmsU4jefF+W04QJl4gOp
-         L3cB0bciSWh4j7G6mPGuNZpVXH0xWUwVHf8lkDdpU2bQGMYLRv4hwIk8FDfEWVj45JyK
-         PKdwm4zpidqHAwaNxz6bDfeNtzbu+tAVbUPS2/R5zSFR69SJOAZKJn5Q7IQdmkxV/MsK
-         ddbg==
-X-Gm-Message-State: AO0yUKXTPhADGP/1xThWxEecWvUfxTNK6TG2uZZqJ72bIWAHDWJJhKvd
-        XoExCPtPGcPEMNX2vH7yQgV/kXMfcPM=
-X-Google-Smtp-Source: AK7set/KbW3QmbPYt/aN+FB9IwVtksBA1hObQbi6EK0KaeukmqU0ynwIYXwcxu1uvWtgX3t0Azwz5A==
-X-Received: by 2002:a17:902:e84b:b0:19a:84db:76ed with SMTP id t11-20020a170902e84b00b0019a84db76edmr9283784plg.15.1677000433499;
-        Tue, 21 Feb 2023 09:27:13 -0800 (PST)
-Received: from ?IPV6:2620:0:1000:2514:6f67:63f5:599a:2f4c? ([2620:0:1000:2514:6f67:63f5:599a:2f4c])
-        by smtp.gmail.com with ESMTPSA id u2-20020a170902bf4200b00199136ded1dsm10165292pls.112.2023.02.21.09.27.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Feb 2023 09:27:12 -0800 (PST)
-Message-ID: <dfb154c1-ab01-ef67-f23d-bd840ff0c2fe@acm.org>
-Date:   Tue, 21 Feb 2023 09:27:09 -0800
+        with ESMTP id S233849AbjBUR3f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 12:29:35 -0500
+X-Greylist: delayed 422 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 21 Feb 2023 09:29:33 PST
+Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [IPv6:2001:1600:3:17::1909])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24FB576AC
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 09:29:32 -0800 (PST)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4PLmLr6DBBzMpr0G;
+        Tue, 21 Feb 2023 18:22:28 +0100 (CET)
+Received: from unknown by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4PLmLq6N7VzMsKtW;
+        Tue, 21 Feb 2023 18:22:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1677000148;
+        bh=34Ssu0wUZyf6eVsByeZtzrLrakIic0WB4p7uULtqblA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=AEUYdSRfygw2L6eE3xS45x2zUqXfvWe4qW9EjUhhlrAVY/DSW/lPrFUpsw3c5soKm
+         +d2wBnLQyXPZV7wmga+O+Anp/m0KGZS607aZ0ORIklaye4EBTf98GNNjYIV1ouYwXD
+         /O43IKYihGGXHEFGBOCYYAuxITRgs1deV12Z9MQI=
+Message-ID: <a75cda50-11ec-97da-7a78-20b3833a6897@digikod.net>
+Date:   Tue, 21 Feb 2023 18:22:27 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2] blk-ioprio: Introduce promote-to-rt policy
+User-Agent: 
+Subject: Re: [PATCH v4] landlock: Clarify documentation for the
+ LANDLOCK_ACCESS_FS_REFER right
 Content-Language: en-US
-To:     Hou Tao <houtao@huaweicloud.com>, linux-block@vger.kernel.org
-Cc:     Jan Kara <jack@suse.cz>, Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-References: <20230220135428.2632906-1-houtao@huaweicloud.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20230220135428.2632906-1-houtao@huaweicloud.com>
+To:     =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Moore <paul@paul-moore.com>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Xiu Jianfeng <xiujianfeng@huawei.com>
+References: <20230221165205.4231-1-gnoack3000@gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <20230221165205.4231-1-gnoack3000@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/20/23 05:54, Hou Tao wrote:
-> From: Hou Tao <houtao1@huawei.com>
+Perfect, thanks for your perseverance Günther! I've applied it to my 
+-next tree: 
+https://git.kernel.org/pub/scm/linux/kernel/git/mic/linux.git/log/?h=next
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+On 21/02/2023 17:52, Günther Noack wrote:
+> Clarify the "refer" documentation by splitting up a big paragraph of text.
+> 
+> - Call out specifically that the denial by default applies to ABI v1 as well.
+> - Turn the three additional constraints for link/rename operations
+>    into bullet points, to give it more structure.
+> 
+> Signed-off-by: Günther Noack <gnoack3000@gmail.com>
+> ---
+>   include/uapi/linux/landlock.h | 46 +++++++++++++++++++++++------------
+>   1 file changed, 31 insertions(+), 15 deletions(-)
+> 
+> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
+> index f3223f96469..81d09ef9aa5 100644
+> --- a/include/uapi/linux/landlock.h
+> +++ b/include/uapi/linux/landlock.h
+> @@ -130,21 +130,37 @@ struct landlock_path_beneath_attr {
+>    * - %LANDLOCK_ACCESS_FS_MAKE_BLOCK: Create (or rename or link) a block device.
+>    * - %LANDLOCK_ACCESS_FS_MAKE_SYM: Create (or rename or link) a symbolic link.
+>    * - %LANDLOCK_ACCESS_FS_REFER: Link or rename a file from or to a different
+> - *   directory (i.e. reparent a file hierarchy).  This access right is
+> - *   available since the second version of the Landlock ABI.  This is also the
+> - *   only access right which is always considered handled by any ruleset in
+> - *   such a way that reparenting a file hierarchy is always denied by default.
+> - *   To avoid privilege escalation, it is not enough to add a rule with this
+> - *   access right.  When linking or renaming a file, the destination directory
+> - *   hierarchy must also always have the same or a superset of restrictions of
+> - *   the source hierarchy.  If it is not the case, or if the domain doesn't
+> - *   handle this access right, such actions are denied by default with errno
+> - *   set to ``EXDEV``.  Linking also requires a ``LANDLOCK_ACCESS_FS_MAKE_*``
+> - *   access right on the destination directory, and renaming also requires a
+> - *   ``LANDLOCK_ACCESS_FS_REMOVE_*`` access right on the source's (file or
+> - *   directory) parent.  Otherwise, such actions are denied with errno set to
+> - *   ``EACCES``.  The ``EACCES`` errno prevails over ``EXDEV`` to let user space
+> - *   efficiently deal with an unrecoverable error.
+> + *   directory (i.e. reparent a file hierarchy).
+> + *
+> + *   This access right is available since the second version of the Landlock
+> + *   ABI.
+> + *
+> + *   This is the only access right which is denied by default by any ruleset,
+> + *   even if the right is not specified as handled at ruleset creation time.
+> + *   The only way to make a ruleset grant this right is to explicitly allow it
+> + *   for a specific directory by adding a matching rule to the ruleset.
+> + *
+> + *   In particular, when using the first Landlock ABI version, Landlock will
+> + *   always deny attempts to reparent files between different directories.
+> + *
+> + *   In addition to the source and destination directories having the
+> + *   %LANDLOCK_ACCESS_FS_REFER access right, the attempted link or rename
+> + *   operation must meet the following constraints:
+> + *
+> + *   * The reparented file may not gain more access rights in the destination
+> + *     directory than it previously had in the source directory.  If this is
+> + *     attempted, the operation results in an ``EXDEV`` error.
+> + *
+> + *   * When linking or renaming, the ``LANDLOCK_ACCESS_FS_MAKE_*`` right for the
+> + *     respective file type must be granted for the destination directory.
+> + *     Otherwise, the operation results in an ``EACCES`` error.
+> + *
+> + *   * When renaming, the ``LANDLOCK_ACCESS_FS_REMOVE_*`` right for the
+> + *     respective file type must be granted for the source directory.  Otherwise,
+> + *     the operation results in an ``EACCES`` error.
+> + *
+> + *   If multiple requirements are not met, the ``EACCES`` error code takes
+> + *   precedence over ``EXDEV``.
+>    *
+>    * .. warning::
+>    *
+> 
+> base-commit: c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
