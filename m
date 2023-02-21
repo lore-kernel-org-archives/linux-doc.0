@@ -2,84 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FF7EC64ED9
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 00:50:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7922EC64EC4
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 01:44:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232817AbjBUAuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Feb 2023 19:50:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37284 "EHLO
+        id S230516AbjBUBoR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Feb 2023 20:44:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232829AbjBUAuX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 19:50:23 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFEB71DB94;
-        Mon, 20 Feb 2023 16:50:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 91B55B80E64;
-        Tue, 21 Feb 2023 00:50:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4F760C4339C;
-        Tue, 21 Feb 2023 00:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676940620;
-        bh=sRCKDwlANSbWqblUv24AyfBa6MylsEILD/UBW4QL2aY=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=fTJ50VW0Ir+L1/msIhAX9LK/XfNXHyWAQ2ZX3mbiO9D0oraYWr4e7knf2u7ZFWIJz
-         ZuvLm0711VeP31Bk24PWDW0KiVsMK4Jyqz5pCeZmuVJt0Q0d1+59WWgY0sGQp3mUBd
-         b/1oJe3AkK122Vqd+Dg7wE78aMlULY75ZwyhrkfJ5U4rX/rC4Q9BYmGOZ8EIPmj8+U
-         aI8CJMkAj2OpS8AX1W1rK3enismqzm+Wu4GnIUsea79rlvXB5RGhVLzx0K5u4jNkTh
-         Y5UYiOJLz3uwTZ6meSYLUBJIMuTjNyzYNXxJ3kUxmLmhogtLwFbS/WqAiVJ3ykTBvr
-         BQ1NqDkXoeoKQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2FC54C691DE;
-        Tue, 21 Feb 2023 00:50:20 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S232546AbjBUBoQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Feb 2023 20:44:16 -0500
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1095AA5DC;
+        Mon, 20 Feb 2023 17:44:16 -0800 (PST)
+Received: by mail-oo1-f43.google.com with SMTP id e2-20020a4ac3c2000000b005246390f576so275742ooq.9;
+        Mon, 20 Feb 2023 17:44:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=obXQNPEeBPokDvGJu4er6vxOLfUSEzMaaVG25umedX0=;
+        b=PPE+2V89nP8Dvvod84xxhY5hT4FDkrM8rlR2n4jYdRKvoDdyxMOjhbe7QlXdS0hiX3
+         Hpj/AipREABdnQjwYcYU/IaX5L6BFKah7AQJ/eMDk1UC4+nIWpCzyHIn4IZL878MewK9
+         IiIS0Rf7WX7tUARGNFHaZj7ClhqzU/83vL6uXYhVfUPyux5o23EVOGcZEr2Ff46g4fh0
+         VISV0wImpP4pQjOwYYV7snZR2Jh1mUSi0dBWyrQiWmXbMdwRQ0WOjpn92dcoOOrhLwv6
+         g2lpDnoaxPkuPSjnbQKo/pcgdp51yuFNwPOZYAmiO3CNZu9ry6IDSv8j6Q+YOYHckDEg
+         DuFg==
+X-Gm-Message-State: AO0yUKVZhBFhyu7z0HLRfHgrIXRwNZSgG1lDJSUCOiVUW/EWs19v1+92
+        rimfwrAElxhiufTFCpuooA==
+X-Google-Smtp-Source: AK7set/2XaME5/HW0TjTBaTGKItdoJ57dYvFYFhKWzlH6m8BpboVf4yiMyY/tdD/QvCCZcHLrozBSw==
+X-Received: by 2002:a4a:b4c9:0:b0:524:f47f:ec1 with SMTP id g9-20020a4ab4c9000000b00524f47f0ec1mr565747ooo.8.1676943855265;
+        Mon, 20 Feb 2023 17:44:15 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id n14-20020a4a848e000000b00520339029f7sm757998oog.32.2023.02.20.17.44.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Feb 2023 17:44:14 -0800 (PST)
+Received: (nullmailer pid 784765 invoked by uid 1000);
+        Tue, 21 Feb 2023 01:44:13 -0000
+Date:   Mon, 20 Feb 2023 19:44:13 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Arun.Ramadoss@microchip.com
+Subject: Re: [PATCH v8 11/13] dt-bindings: leds: Document netdev trigger
+Message-ID: <20230221014413.GA780723-robh@kernel.org>
+References: <20230216013230.22978-1-ansuelsmth@gmail.com>
+ <20230216013230.22978-12-ansuelsmth@gmail.com>
+ <20230217230346.GA2217008-robh@kernel.org>
+ <63f0084a.df0a0220.6220b.fb5a@mx.google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 net-next] sfc: fix builds without CONFIG_RTC_LIB
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167694062019.10450.8199913841986761865.git-patchwork-notify@kernel.org>
-Date:   Tue, 21 Feb 2023 00:50:20 +0000
-References: <20230220110133.29645-1-alejandro.lucero-palau@amd.com>
-In-Reply-To: <20230220110133.29645-1-alejandro.lucero-palau@amd.com>
-To:     Lucero@ci.codeaurora.org, Palau@ci.codeaurora.org,
-        Alejandro <alejandro.lucero-palau@amd.com>
-Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, habetsm.xilinx@gmail.com,
-        ecree.xilinx@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
-        jiri@nvidia.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <63f0084a.df0a0220.6220b.fb5a@mx.google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Mon, 20 Feb 2023 11:01:33 +0000 you wrote:
-> From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
+On Fri, Feb 17, 2023 at 06:58:39AM +0100, Christian Marangi wrote:
+> On Fri, Feb 17, 2023 at 05:03:46PM -0600, Rob Herring wrote:
+> > On Thu, Feb 16, 2023 at 02:32:28AM +0100, Christian Marangi wrote:
+> > > Document the netdev trigger that makes the LED blink or turn on based on
+> > > switch/phy events or an attached network interface.
+> > 
+> > NAK. What is netdev?
 > 
-> Add an embarrassingly missed semicolon plus and embarrassingly missed
-> parenthesis breaking kernel building when CONFIG_RTC_LIB is not set
-> like the one reported with ia64 config.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link: https://lore.kernel.org/oe-kbuild-all/202302170047.EjCPizu3-lkp@intel.com/
-> Fixes: 14743ddd2495 ("sfc: add devlink info support for ef100")
-> Signed-off-by: Alejandro Lucero <alejandro.lucero-palau@amd.com>
-> 
-> [...]
+> But netdev is a trigger, nothing new. Actually it was never documented.
 
-Here is the summary with links:
-  - [v4,net-next] sfc: fix builds without CONFIG_RTC_LIB
-    https://git.kernel.org/netdev/net-next/c/5f22c3b6215d
+Okay, please state that in the commit message.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> Is the linux,default-trigger getting deprecated? 
 
+Not quite, but it shouldn't be used for anything tied to a device IMO. 
 
+Rob
