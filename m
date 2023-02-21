@@ -2,329 +2,322 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44113C636D7
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 14:49:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1EBC636D7
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 14:51:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233577AbjBUOt0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 09:49:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39676 "EHLO
+        id S234530AbjBUOv6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 09:51:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233364AbjBUOtZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 09:49:25 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 286B840E9
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 06:49:21 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id f13so17665938edz.6
-        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 06:49:21 -0800 (PST)
+        with ESMTP id S234224AbjBUOv5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 09:51:57 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A4F52A9A8
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 06:51:55 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id p26so3441800wmc.4
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 06:51:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=O2m6GeHfYXzVaSr3VckfJrn4hduzvo0x539FyIhmfDs=;
-        b=laWx5JPNYJgCQqBAnvYC1Dvh7aTIuYigy7pErJqHZIOfE62XB7z+DQr5zVO7mXAaS5
-         JlMXuxoCPfolaT1mShJr0Kzy9o7x0bArn/wen1mDDbis7ObqpVlBJOuumRJVQkVYtknD
-         gprvL2XG4pVFH/jkGcpF0tdDt1/UqbjDT6+SdZoFJ2O3jmlbhKaNkgbSrfgLjHSowK0G
-         LuQrb5se2rRdqICHQlUt5SLOCp5TtmTvih9eQcUNe2gZKs9t0eeLxQJUSGgvoZnvBkG0
-         WRw5uUH471m1FT4NmudtR8TOd6X4ndbWZyE1LziqnzpHzn+SiWAmVBmOVVe0U6OFUa0V
-         l06A==
+        bh=61MA9d9k15JKa4jamwq/NaCewXWkItPbKXWj29+Q23U=;
+        b=tPHOk8NiCCWzEeQ9W2a9xKaQ5a5S7b1bTT9FPiLZ9UP0s3svezEmWKcn+rGnzWl3T4
+         1YsqfPW++P4f3i6MYtaftu5Y4ti7JWZrOvqslvO4CAQeRFdac2C4Ff9U4JOfXKOkMgle
+         0BxxEedc6LuSO6O4w+0VO7sxjaUUaaisFRpNpa+2YqmYJOeBDusWLGCevTqudexBRAZC
+         YHNlCNxkHiyjIjTOccFe9gL6zy6XPGCUpdPf2hfmLJDqnHicpglQL9A5+vVppNQzYBON
+         7hQvVNw/LmdGaBjDxSQ2noCENNuSYqdEGwnK5kwY4AaebMnRDTdaYkGeI2Rb+z880niA
+         b7wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O2m6GeHfYXzVaSr3VckfJrn4hduzvo0x539FyIhmfDs=;
-        b=uHd0+OR7ipKBQS883rMMsEK+xfhCr7KDouP0IPvLpwKAYoouCSkxZwzYmQ1/LEFcDf
-         XvvdLSxSNPmdct9SG7NlGSTD/loKK6TRnncOHnALl8Qtx5heMBsfttGH6PzVJiOy4xrb
-         1j8GapXjQVk1Z2eoTBXte4piBfyPDxp6MADZG15I4esclWmBpcabHruJIrn0nptrvS8t
-         7n6jHUdq/YXBbNH8wmT/elq4v7EDgaFkiaA7Ei/1CGOAvTXe/tIoDsb7qRi6uFAba4Zf
-         ej6H8RK+TXrtyz7wRQZ+1O+3ksOTB/cQlBvTtD+NPt8UpGKjGDGiOah9UY7p2nz9TvCE
-         TRYQ==
-X-Gm-Message-State: AO0yUKX9/wNveLsYrT3lRjq7IZFtMTe3JoKBUL17eL0lmyuKDBQ7g+pe
-        39Y+dpHWamlLiVARSTiJNVuhTw==
-X-Google-Smtp-Source: AK7set83TDYqLloq+McepeVv6RvAXS8Xv4zUfUNaIcna2HGfOzuukEfezRsolIELB/r/xPDeDPFdzQ==
-X-Received: by 2002:a05:6402:3cb:b0:4ac:d2b4:5e37 with SMTP id t11-20020a05640203cb00b004acd2b45e37mr5640091edw.39.1676990959083;
-        Tue, 21 Feb 2023 06:49:19 -0800 (PST)
-Received: from [192.168.1.70] (125.62.71.86.rev.sfr.net. [86.71.62.125])
-        by smtp.gmail.com with ESMTPSA id y21-20020a056402359500b004ab33d52d03sm3133400edc.22.2023.02.21.06.49.17
+        bh=61MA9d9k15JKa4jamwq/NaCewXWkItPbKXWj29+Q23U=;
+        b=j22YwQUsJfNqLR38dNrW6hxwoGm7uYKtj+Jtlh2qzLegaoWSTkRvrYJo0q22qsn4IQ
+         EeZZBEfnwoNj8Yy+YmDeFQmO7PMbpqwJFADEayt4C0A4ENfMwCl9ttueJ+8iXpCs/aFk
+         fZl/iWdgVpCzZrPPfp07LiAaEyEDaYOEoeZnLjz9AIu5dJwtuC6FGyEY8RoJ0uMrFVvw
+         FjrptsBzlRQymgM8+NbVUIcsW4JCK9yqFkhOqPWaZmaH8LeYla2EwBV8sTeCIykE+v4c
+         zYO5BoeMOziVtJPZpfC7q29bTCCUwkI6r7Dv0HPtzYwfa1kj7D3w9cMMPgIt8o6+uEJe
+         WdFg==
+X-Gm-Message-State: AO0yUKXzib5AKkDl17uulsWVvTimgdwdi2bnR3tt1BbCTcLgGFegqceN
+        pD5JWiiPZv699+9cDHILkKw+1A==
+X-Google-Smtp-Source: AK7set+DfDexyIU7tTTB5DKhJPQS/uru31IREvdU34ajTjOlCMLAPBS/DfZwAwMK6eAV0n4fyNYhvg==
+X-Received: by 2002:a05:600c:2ad6:b0:3df:eb5d:fbf with SMTP id t22-20020a05600c2ad600b003dfeb5d0fbfmr3334058wme.38.1676991114055;
+        Tue, 21 Feb 2023 06:51:54 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id k39-20020a05600c1ca700b003db012d49b7sm6526818wms.2.2023.02.21.06.51.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Feb 2023 06:49:18 -0800 (PST)
-Message-ID: <85183c04-40e3-fd97-c4ca-06795fe99e40@baylibre.com>
-Date:   Tue, 21 Feb 2023 15:49:16 +0100
+        Tue, 21 Feb 2023 06:51:53 -0800 (PST)
+Message-ID: <963d84e8-7b91-c278-1978-4e73d73f7c6f@linaro.org>
+Date:   Tue, 21 Feb 2023 14:51:51 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v1 1/4] dt-bindings: mfd: Add DT bindings for TI TPS6594
- PMIC
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net
-Cc:     hdegoede@redhat.com, eric.auger@redhat.com, jgg@ziepe.ca,
-        razor@blackwall.org, suma.hegde@amd.com,
-        stephen@networkplumber.org, arnd@arndb.de,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, eblanc@baylibre.com,
-        jneanne@baylibre.com
-References: <20230216114410.183489-1-jpanis@baylibre.com>
- <20230216114410.183489-2-jpanis@baylibre.com>
- <c50503f0-dce1-a3b0-2973-8a22b5ef8bc2@linaro.org>
- <4e64838c-b727-923b-b6d5-413a0681977c@baylibre.com>
- <8de5a3bb-a0b1-8d69-cf61-0c33f42c56f6@linaro.org>
+Subject: Re: [PATCH v10 15/26] gunyah: rsc_mgr: Add platform ops on
+ mem_lend/mem_reclaim
 Content-Language: en-US
-From:   Julien Panis <jpanis@baylibre.com>
-In-Reply-To: <8de5a3bb-a0b1-8d69-cf61-0c33f42c56f6@linaro.org>
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212448.3318756-1-quic_eberman@quicinc.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20230214212448.3318756-1-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 2/21/23 12:17, Krzysztof Kozlowski wrote:
-> On 17/02/2023 13:10, Julien Panis wrote:
->> On 2/17/23 10:06, Krzysztof Kozlowski wrote:
->>> On 16/02/2023 12:44, Julien Panis wrote:
->>>> TPS6594 is a Power Management IC which provides regulators and others
->>> Subject: drop second/last, redundant "DT bindings for". The
->>> "dt-bindings" prefix is already stating that these are bindings.
->>>
->>>
->>>> features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
->>>> PFSM (Pre-configurable Finite State Machine) managing the state of the
->>>> device.
->>>> TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
->>>>
->>>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
->>>> ---
->>>>    .../devicetree/bindings/mfd/ti,tps6594.yaml   | 164 ++++++++++++++++++
->>>>    1 file changed, 164 insertions(+)
->>>>    create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->>>> new file mode 100644
->>>> index 000000000000..37968d6c0420
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
->>>> @@ -0,0 +1,164 @@
->>>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/mfd/ti,tps6594.yaml#
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: TI TPS6594 Power Management Integrated Circuit
->>>> +
->>>> +maintainers:
->>>> +  - Julien Panis <jpanis@baylibre.com>
->>>> +
->>>> +description: |
->>>> +  TPS6594 is a Power Management IC which provides regulators and others
->>>> +  features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
->>>> +  PFSM (Pre-configurable Finite State Machine) managing the state of the device.
->>>> +  TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    enum:
->>>> +      - ti,tps6594
->>>> +      - ti,tps6593
->>>> +      - ti,lp8764x
->>> Any particular choice of ordering (different than alphabetical)?
->> Thank you for the review.
->>
->> I chose this ordering because it emphasizes the fact that tps6593 and
->> lp8764x
->> are derivatives of tps6594 : tps6593 is nearly the same (a minor feature
->> is not
->> supported), and lp8764x has less resources (less bucks/LDO, and no RTC).
->>
->> Besides, a multi-PMIC synchronization scheme is implemented in the PMIC
->> device
->> to synchronize the power state changes with other PMIC devices. This is done
->> through a SPMI bus : the master PMIC is the controller device on the
->> SPMI bus,
->> and the slave PMICs are the target devices on the SPMI bus. For the 5 boards
->> we work on (for which device trees will be sent in another patch series):
->> - tps6594 is used on 3 boards and is always master (multi-PMIC config)
->> - tps6593 is used on 1 board and is master (single-PMIC config)
->> - lp8764x is used on 2 boards and is always slave (multi-PMIC config)
->> There might not be situations in which lp8764x would be master and tps6594
->> or tps6593 would be slave.
->>
->> That's why I preferred this ordering.
->>
->> Do you think that alphabetical order would be better ?
-> It's simpler (requires no knowledge about chips) and reduces the future
-> conflicts. It's fine to keep it also ordered like you said, although I
-> wonder how other people adding new compatibles here will figure it out...
+On 14/02/2023 21:24, Elliot Berman wrote:
+> 
+> On Qualcomm platforms, there is a firmware entity which controls access
+> to physical pages. In order to share memory with another VM, this entity
+> needs to be informed that the guest VM should have access to the memory.
+> 
+> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+>   drivers/virt/gunyah/Kconfig                 |  4 ++
+>   drivers/virt/gunyah/Makefile                |  1 +
+>   drivers/virt/gunyah/gunyah_platform_hooks.c | 80 +++++++++++++++++++++
+>   drivers/virt/gunyah/rsc_mgr.h               |  3 +
+>   drivers/virt/gunyah/rsc_mgr_rpc.c           | 12 +++-
+>   include/linux/gunyah_rsc_mgr.h              | 17 +++++
+>   6 files changed, 115 insertions(+), 2 deletions(-)
+>   create mode 100644 drivers/virt/gunyah/gunyah_platform_hooks.c
+> 
+> diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+> index 1a737694c333..de815189dab6 100644
+> --- a/drivers/virt/gunyah/Kconfig
+> +++ b/drivers/virt/gunyah/Kconfig
+> @@ -4,6 +4,7 @@ config GUNYAH
+>   	tristate "Gunyah Virtualization drivers"
+>   	depends on ARM64
+>   	depends on MAILBOX
+> +	select GUNYAH_PLATFORM_HOOKS
+>   	help
+>   	  The Gunyah drivers are the helper interfaces that run in a guest VM
+>   	  such as basic inter-VM IPC and signaling mechanisms, and higher level
+> @@ -11,3 +12,6 @@ config GUNYAH
+>   
+>   	  Say Y/M here to enable the drivers needed to interact in a Gunyah
+>   	  virtual environment.
+> +
+> +config GUNYAH_PLATFORM_HOOKS
+> +	tristate
+> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+> index ff8bc4925392..6b8f84dbfe0d 100644
+> --- a/drivers/virt/gunyah/Makefile
+> +++ b/drivers/virt/gunyah/Makefile
+> @@ -1,6 +1,7 @@
+>   # SPDX-License-Identifier: GPL-2.0
+>   
+>   obj-$(CONFIG_GUNYAH) += gunyah.o
+> +obj-$(CONFIG_GUNYAH_PLATFORM_HOOKS) += gunyah_platform_hooks.o
+>   
+>   gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
+>   obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
+> diff --git a/drivers/virt/gunyah/gunyah_platform_hooks.c b/drivers/virt/gunyah/gunyah_platform_hooks.c
+> new file mode 100644
+> index 000000000000..e67e2361b592
+> --- /dev/null
+> +++ b/drivers/virt/gunyah/gunyah_platform_hooks.c
+> @@ -0,0 +1,80 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/rwsem.h>
+> +#include <linux/gunyah_rsc_mgr.h>
+> +
+> +#include "rsc_mgr.h"
+> +
+> +static struct gunyah_rm_platform_ops *rm_platform_ops;
+> +static DECLARE_RWSEM(rm_platform_ops_lock);
 
-I will reorder it alphabetically in v2.
+Why do we need this read/write lock or this global rm_platform_ops here, 
+AFAIU, there will be only one instance of platform_ops per platform.
 
->
->>>> +
->>>> +  reg:
->>>> +    description: I2C slave address or SPI chip select number.
->>>> +    maxItems: 1
->>>> +
->>>> +  ti,use-crc:
->>>> +    type: boolean
->>>> +    description: If true, use CRC for I2C and SPI interface protocols.
->>> Hm, why different boards would like to enable or disable it? Why this
->>> suits DT?
->> You're right. Reading your comment, it appears to me that CRC feature is
->> not fully
->> related to HW description and should not be set in DT.
->>
->> CRC is not 'fully' related to HW, but...
->> For CRC feature as well, PMICs are synchronized (for boards with
->> multi-PMIC config).
->> To use CRC mode, this feature must be requested explicitly on the master
->> PMIC
->> through I2C or SPI driver, then it is enabled for the slave PMICs
->> through SPMI bus: that
->> sync is performed 'automatically', without intervention from the I2C or
->> SPI driver to
->> enable CRC on slave PMICs.
->> As a consequence, CRC feature is enabled for all PMICs at I2C/SPI driver
->> probe,
->> or it is let disabled for all PMICs. But it can't be enabled for one
->> PMIC and disabled
->> for another one.
->>
->> This will probably rediscussed for I2C/SPI drivers, but do you think
->> that a 'use_crc'
->> driver parameter would be an acceptable solution ? If so, the master
->> PMIC would have
->> to be identified, so that the driver can explicitly enable CRC mode for
->> this one if
->> 'use_crc' is true. With this solution, some 'ti,is-master;' bool
->> property would be necessary.
-> It looks the property should be only in the drivers, not in the DT.
+This should be a core part of the gunyah and its driver early setup, 
+that should give us pretty much lock less behaviour.
 
-I will remove 'ti,use-crc;' property from the DT. This will be only in
-the driver.
-Do you also consider that a property such as 'ti,is-secondary-pmic;'
-would not be acceptable either ? From driver point of view, this
-primary/secondary role on SPMI bus is a 'built-in' property of the
-PMIC (CRC must be enabled only via primary PMIC but using the
-primary PMIC does not imply that CRC is necessarily used).
+We should be able to determine by Hypervisor UUID that its on Qualcomm 
+platform or not, during early gunyah setup which should help us setup 
+the platfrom ops accordingly.
 
->>>> +
->>>> +  system-power-controller: true
->>>> +
->>>> +  interrupts:
->>>> +    maxItems: 1
->>>> +
->>>> +  ti,multi-phase-id:
->>>> +    description: |
->>>> +      Describes buck multi-phase configuration, if any. For instance, XY id means
->>>> +      that outputs of buck converters X and Y are combined in multi-phase mode.
->>>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>>> +    enum: [12, 34, 123, 1234]
->>>> +
->>>> +patternProperties:
->>>> +  "^buck([1-5]|12|34|123|1234)-supply$":
->>>> +    description: Input supply phandle for each buck.
->>>> +
->>>> +  "^ldo[1-4]-supply$":
->>>> +    description: Input supply phandle for each ldo.
->>>> +
->>>> +  regulators:
->>> This should go to properties, not patternProperties.
->>>
->>>> +    type: object
->>>> +    description: List of regulators provided by this controller.
->>>> +
->>>> +    patternProperties:
->>>> +      "^buck([1-5]|12|34|123|1234)$":
->>>> +        type: object
->>>> +        $ref: /schemas/regulator/regulator.yaml#
->>>> +
->>>> +        unevaluatedProperties: false
->>>> +
->>>> +      "^ldo[1-4]$":
->>>> +        type: object
->>>> +        $ref: /schemas/regulator/regulator.yaml#
->>>> +
->>>> +        unevaluatedProperties: false
->>>> +
->>> You could add here - on this level - of indentation allOf:if for
->>> excluding setups
->>>
->>> if:
->>>     required:
->>>       - buck12
->>> then:
->>>     properties:
->>>       buck123: false
->>>       buck1234: false
->>>
->>> Or, if you want to require regulator then:
->>> oneOf:
->>>     - required:
->>>         - buck12
->>>     - required:
->>>         - buck123
->>>     - required:
->>>         - buck1234
->>>
->>> and anyway exclude buck34 with two above.
->> I am not sure that we have the same understanding of the multi-phase setup.
->> Maybe the description I wrote is not clear enough (?) Or I just don't
->> understand
->> what you mean exactly.
->>
->> How would you combine outputs of bucks 3 and 4 ?
-> No one discusses here changing this...
->
->> We use 'buck34' property to mean that:
->>    - buck1 output is mono-phase,
->>    - buck2 output is mono-phase,
->>    - buck3 and buck4 outputs are combined (i.e. multi-phases).
->> This weird configuration is supported by these PMICs.
->>
->> Using a PMIC without using the provided regulators does not seem very
->> interesting
->> indeed.
->> But strictly speaking, these regulators are not required. One could use
->> some others
->> resources provided by the PMIC (the Error Signal Monitor device for
->> instance).
-> Then the first method.
+This should also help cleanup some of the gunyah code that was added 
+futher down in this patchset.
 
-OK. Regarding buck34, it might be unnecessary and could finally be
-removed in v2. If we keep it, my understanding of your suggestion is:
-allOf:
-   - if:
-        required:
-         - buck12
-     then:
-       properties:
-         buck123: false
-         buck1234: false
-   - if:
-       required:
-         - buck123
-     then:
-       properties:
-         buck34: false
-   - if:
-       required:
-         - buck1234
-      then:
-         properties:
-           buck34: false
 
->
->> Besides, multi-phase mode depends on the chosen design and is not
->> required for
->> all situations.
-> Sorry, I don't think it is related to the topic I proposed.
->
->
-> Best regards,
-> Krzysztof
->
+--srini
 
-Julien
+> +
+> +int gh_rm_platform_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
+> +{
+> +	int ret = 0;
+> +
+> +	down_read(&rm_platform_ops_lock);
+> +	if (rm_platform_ops && rm_platform_ops->pre_mem_share)
+> +		ret = rm_platform_ops->pre_mem_share(rm, mem_parcel);
+> +	up_read(&rm_platform_ops_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_platform_pre_mem_share);
+> +
+> +int gh_rm_platform_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
+> +{
+> +	int ret = 0;
+> +
+> +	down_read(&rm_platform_ops_lock);
+> +	if (rm_platform_ops && rm_platform_ops->post_mem_reclaim)
+> +		ret = rm_platform_ops->post_mem_reclaim(rm, mem_parcel);
+> +	up_read(&rm_platform_ops_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_platform_post_mem_reclaim);
+> +
+> +int gh_rm_register_platform_ops(struct gunyah_rm_platform_ops *platform_ops)
+> +{
+> +	int ret = 0;
+> +
+> +	down_write(&rm_platform_ops_lock);
+> +	if (!rm_platform_ops)
+> +		rm_platform_ops = platform_ops;
+> +	else
+> +		ret = -EEXIST;
+> +	up_write(&rm_platform_ops_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_register_platform_ops);
+> +
+> +void gh_rm_unregister_platform_ops(struct gunyah_rm_platform_ops *platform_ops)
+> +{
+> +	down_write(&rm_platform_ops_lock);
+> +	if (rm_platform_ops == platform_ops)
+> +		rm_platform_ops = NULL;
+> +	up_write(&rm_platform_ops_lock);
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_unregister_platform_ops);
+> +
+> +static void _devm_gh_rm_unregister_platform_ops(void *data)
+> +{
+> +	gh_rm_unregister_platform_ops(data);
+> +}
+> +
+> +int devm_gh_rm_register_platform_ops(struct device *dev, struct gunyah_rm_platform_ops *ops)
+> +{
+> +	int ret;
+> +
+> +	ret = gh_rm_register_platform_ops(ops);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return devm_add_action(dev, _devm_gh_rm_unregister_platform_ops, ops);
+> +}
+> +EXPORT_SYMBOL_GPL(devm_gh_rm_register_platform_ops);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("Gunyah Platform Hooks");
+> diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
+> index 9b23cefe02b0..e536169df41e 100644
+> --- a/drivers/virt/gunyah/rsc_mgr.h
+> +++ b/drivers/virt/gunyah/rsc_mgr.h
+> @@ -74,6 +74,9 @@ struct gh_rm;
+>   int gh_rm_call(struct gh_rm *rsc_mgr, u32 message_id, void *req_buff, size_t req_buff_size,
+>   		void **resp_buf, size_t *resp_buff_size);
+>   
+> +int gh_rm_platform_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
+> +int gh_rm_platform_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
+> +
+>   /* Message IDs: Memory Management */
+>   #define GH_RM_RPC_MEM_LEND			0x51000012
+>   #define GH_RM_RPC_MEM_SHARE			0x51000013
+> diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
+> index 0c83b097fec9..0b12696bf069 100644
+> --- a/drivers/virt/gunyah/rsc_mgr_rpc.c
+> +++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
+> @@ -116,6 +116,12 @@ static int gh_rm_mem_lend_common(struct gh_rm *rm, u32 message_id, struct gh_rm_
+>   	if (!msg)
+>   		return -ENOMEM;
+>   
+> +	ret = gh_rm_platform_pre_mem_share(rm, p);
+> +	if (ret) {
+> +		kfree(msg);
+> +		return ret;
+> +	}
+> +
+>   	req_header = msg;
+>   	acl_section = (void *)req_header + sizeof(*req_header);
+>   	mem_section = (void *)acl_section + struct_size(acl_section, entries, p->n_acl_entries);
+> @@ -139,8 +145,10 @@ static int gh_rm_mem_lend_common(struct gh_rm *rm, u32 message_id, struct gh_rm_
+>   	ret = gh_rm_call(rm, message_id, msg, msg_size, (void **)&resp, &resp_size);
+>   	kfree(msg);
+>   
+> -	if (ret)
+> +	if (ret) {
+> +		gh_rm_platform_post_mem_reclaim(rm, p);
+>   		return ret;
+> +	}
+>   
+>   	p->mem_handle = le32_to_cpu(*resp);
+>   
+> @@ -204,7 +212,7 @@ int gh_rm_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel)
+>   	if (ret)
+>   		return ret;
+>   
+> -	return ret;
+> +	return gh_rm_platform_post_mem_reclaim(rm, parcel);
+>   }
+>   
+>   /**
+> diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
+> index 9cffee6f9b4e..dc05d5b1e1a3 100644
+> --- a/include/linux/gunyah_rsc_mgr.h
+> +++ b/include/linux/gunyah_rsc_mgr.h
+> @@ -147,4 +147,21 @@ int gh_rm_get_hyp_resources(struct gh_rm *rm, u16 vmid,
+>   				struct gh_rm_hyp_resources **resources);
+>   int gh_rm_get_vmid(struct gh_rm *rm, u16 *vmid);
+>   
+> +struct gunyah_rm_platform_ops {
+> +	int (*pre_mem_share)(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
+> +	int (*post_mem_reclaim)(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
+> +};
+> +
+> +#if IS_ENABLED(CONFIG_GUNYAH_PLATFORM_HOOKS)
+> +int gh_rm_register_platform_ops(struct gunyah_rm_platform_ops *platform_ops);
+> +void gh_rm_unregister_platform_ops(struct gunyah_rm_platform_ops *platform_ops);
+> +int devm_gh_rm_register_platform_ops(struct device *dev, struct gunyah_rm_platform_ops *ops);
+> +#else
+> +static inline int gh_rm_register_platform_ops(struct gunyah_rm_platform_ops *platform_ops)
+> +	{ return 0; }
+> +static inline void gh_rm_unregister_platform_ops(struct gunyah_rm_platform_ops *platform_ops) { }
+> +static inline int devm_gh_rm_register_platform_ops(struct device *dev,
+> +	struct gunyah_rm_platform_ops *ops) { return 0; }
+> +#endif
+> +
+>   #endif
