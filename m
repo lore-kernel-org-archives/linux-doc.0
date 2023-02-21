@@ -2,101 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9D24C64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 16:38:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94E5FC61DA3
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 16:51:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234906AbjBUQiZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 11:38:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36038 "EHLO
+        id S233285AbjBUQvb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 11:51:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234787AbjBUQiD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 11:38:03 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD1432DE46;
-        Tue, 21 Feb 2023 08:37:40 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id s5so5586327plg.0;
-        Tue, 21 Feb 2023 08:37:40 -0800 (PST)
+        with ESMTP id S233273AbjBUQva (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 11:51:30 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63DC62A140;
+        Tue, 21 Feb 2023 08:51:29 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id l25so4753974wrb.3;
+        Tue, 21 Feb 2023 08:51:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PqDVJNwWIwNFunXvEtWTSAzOUCVvEWbOZPflEYS3dBY=;
-        b=V7Wqb5Q5j7csLQ+YeuJvsKd+kFbhRRHjX+GPXEP0Wc0CpmU2vK4TCu6jCTMzg9fjxn
-         Uj+/7bqoyR2OMrFjmxMpoZA+KbnY8u9Hy9hItNDI/EVMOABnsHYqSlMzf3nJX0/rIwzB
-         FhOYPASmRQFqT9cS91YklOMDNf/LGwsp/+fTP6Hn0K/Dh1M+ILAzNaOPXmiW9W6UUueR
-         sYMa/ZBBXn2uviNq8bUZKDD7owk5NQYzbiFB5OWHbLp4FUKs+o8ifNy9qt472KE+mTuc
-         0XHE2zo5sRqGNHL1KueXlH2hgb8L5Td7CjJjRnTNklbmcPwh+hbXh8PXTe1dxO7vLj0C
-         km7w==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=D08MB0A+qBNVeOH6aq7XN8nQRa4U2c9RkXpOy8QFNCM=;
+        b=ZQzPyzVfCM1VDrOg7jld8kTbJjJJXvVy2RJNNMM27fEwFpiO2fAQ/J44ymaTYK4QHy
+         Oa3TwEgrqDz8s6YdH5foMHs/gsnQEzUIUpScLYjFkeHNvHRWtGh4C4jeqe4ZK2+mNNUh
+         5naT5PPifD9Nj2i/tEdmGbZC5fCGiPhDw3TMs52EGgqhZt7R6DOI2l2iPYkPvOORgTrn
+         RVDwHlFi1W2LSpiV0NAtBZVv9/icrES7dVprz54xRtvlweqVhFvJkb5SRNDJiFk0GN+I
+         mYgGWIm2cvEk6nQB1qh4N67EVf6ZO5pzbEZw0SZBHinqfla75A11UQBWL/lauIGP7scC
+         FBPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PqDVJNwWIwNFunXvEtWTSAzOUCVvEWbOZPflEYS3dBY=;
-        b=DvDfeaiJM5JrZADQ6wFupfo5uEIDinYVYn9U8OR87XluLn4/H6QrElUZlem/dLyW0M
-         wWVJOx86CJtsdJmC2lEIAphOrPvdtX4VwxUmOjzRRsYfV9E7lxXBsjTuoPLSlK2fWauP
-         XJNZMy1O0SJmwgrjTkhaLAmO8iduPzsz9N31LofVBb1pwybfHjskuBrQpe4GitZ/9NHk
-         CpT0T4nRvCAYaoiSRjlAKrdFR1SMqum+C+GSfIxGiWOxXOR2UlpAi9XossN++NjaZb8u
-         xhJSpwqamRbVJ5NyVQlxm7DzT4N8EW2YgfTsIdcsqPnv8IKDFJNsvZmTZ2dBTowipfRw
-         AQGg==
-X-Gm-Message-State: AO0yUKWVv61f8V3O0KRY5MWbmF+pJG0ZOakfvNHZkIShZ2z284OVfwUd
-        xmLYRa+4JXMH3p8hqoZfkuE=
-X-Google-Smtp-Source: AK7set+FL4iaLqYNvulbE2F4fY0EVsxaZ2Q2fYgot2Ig08W5ePJxQH0cmXMqX8+UP4S9gwIM2Z5SGA==
-X-Received: by 2002:a17:902:c94f:b0:196:88b8:8616 with SMTP id i15-20020a170902c94f00b0019688b88616mr6663359pla.5.1676997459661;
-        Tue, 21 Feb 2023 08:37:39 -0800 (PST)
-Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
-        by smtp.gmail.com with ESMTPSA id bi12-20020a170902bf0c00b00194c1281ca9sm10096419plb.166.2023.02.21.08.37.37
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=D08MB0A+qBNVeOH6aq7XN8nQRa4U2c9RkXpOy8QFNCM=;
+        b=DkfK7UnRsYdltOst4Eao2z48FfteC3Q9y7zvXzdwhmJPr2YQ8vbFd6RIVlShBQ8DZg
+         xj1kLGGU5SD1Wq7MxTHwNIhO6NLqzED4rpAWqblCVezFyVZznpUBdnmNLVPk42kr1PPG
+         3mqvz9teskiYOnOMlb4CfK/CIiX6E1V1G3JvJRdgZNUmlqnBYKpRbQWpz8FLA/YG0yZ5
+         jQig1HQjIadlKZYKkcKK6hpKNwYl8YhDXnow/Q5+iUU1sAeeu6DD9UiYAsamMyD9q4V9
+         HWr1QLaeoXtbe3blBVJnmnczT2ULnzOsGkyLBRdO+18tf8xuRa3E0M/+wdDCgr+ncae2
+         TUCQ==
+X-Gm-Message-State: AO0yUKXJ+rDgHFQwZLAEYKACBuffeDolZUumrCJ3mlYduzu1rWMcr44j
+        7WkLKb2r6wiPYQSAtATyHew=
+X-Google-Smtp-Source: AK7set+V1xqMb77oQA3kb/X190XD26WIfW0xI5M2lOf3qRoxH31ILZVVkTzmFbEIjumUbN63FW/8EQ==
+X-Received: by 2002:a5d:6105:0:b0:2c5:588c:84a8 with SMTP id v5-20020a5d6105000000b002c5588c84a8mr4155968wrt.19.1676998287698;
+        Tue, 21 Feb 2023 08:51:27 -0800 (PST)
+Received: from localhost ([2a02:168:633b:1:7c09:9c3b:256e:8ba1])
+        by smtp.gmail.com with ESMTPSA id j16-20020a056000125000b002c5706f7c6dsm1937580wrx.94.2023.02.21.08.51.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 08:37:37 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Tue, 21 Feb 2023 06:37:36 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Hou Tao <houtao@huaweicloud.com>
-Cc:     linux-block@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>,
-        Jan Kara <jack@suse.cz>, Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-Subject: Re: [PATCH v2] blk-ioprio: Introduce promote-to-rt policy
-Message-ID: <Y/TzUKbsa6D7+Ui1@slm.duckdns.org>
-References: <20230220135428.2632906-1-houtao@huaweicloud.com>
+        Tue, 21 Feb 2023 08:51:27 -0800 (PST)
+Date:   Tue, 21 Feb 2023 17:51:25 +0100
+From:   =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        linux-security-module@vger.kernel.org,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Xiu Jianfeng <xiujianfeng@huawei.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] landlock: Clarify documentation for the
+ LANDLOCK_ACCESS_FS_REFER right
+Message-ID: <Y/T2jcoFcjYO8LZj@galopp>
+References: <20230216200729.12438-1-gnoack3000@gmail.com>
+ <0e5bf1f7-47b5-382e-ae56-4556980a908b@digikod.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230220135428.2632906-1-houtao@huaweicloud.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0e5bf1f7-47b5-382e-ae56-4556980a908b@digikod.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 20, 2023 at 09:54:28PM +0800, Hou Tao wrote:
-> From: Hou Tao <houtao1@huawei.com>
+On Fri, Feb 17, 2023 at 08:28:41PM +0100, Mickaël Salaün wrote:
+> On 16/02/2023 21:07, Günther Noack wrote:
+> > Clarify the "refer" documentation by splitting up a big paragraph of text.
+> > 
+> > - Call out specifically that the denial by default applies to ABI v1 as well.
+> > - Turn the three additional constraints for link/rename operations
+> >    into bullet points, to give it more structure.
+> > 
+> > Includes wording and semantics corrections by Mickaël Salaün.
 > 
-> Since commit a78418e6a04c ("block: Always initialize bio IO priority on
-> submit"), bio->bi_ioprio will never be IOPRIO_CLASS_NONE when calling
-> blkcg_set_ioprio(), so there will be no way to promote the io-priority
-> of one cgroup to IOPRIO_CLASS_RT, because bi_ioprio will always be
-> greater than or equals to IOPRIO_CLASS_RT.
-> 
-> It seems possible to call blkcg_set_ioprio() first then try to
-> initialize bi_ioprio later in bio_set_ioprio(), but this doesn't work
-> for bio in which bi_ioprio is already initialized (e.g., direct-io), so
-> introduce a new ioprio policy to promote the iopriority of bio to
-> IOPRIO_CLASS_RT if the ioprio is not already RT.
-> 
-> So introduce a new promote-to-rt policy to achieve this. For none-to-rt
-> policy, although it doesn't work now, but considering that its purpose
-> was also to override the io-priority to RT and allow for a smoother
-> transition, just keep it and treat it as an alias of the promote-to-rt
-> policy.
-> 
-> Signed-off-by: Hou Tao <houtao1@huawei.com>
+> No need to add this line, It's part of the maintainer job. ;)
 
-Acked-by: Tejun Heo <tj@kernel.org>
+OK, removed for V4.
 
-Thanks.
+> Some of my suggestions are about style, so feel free to ignore them if you
+> think the original is better. Anyway, I'm not a native english speaker
+> either, so there are good chances I'm not correct on some suggestions. What
+> about that?:
+> 
+> This is the only access right implicitly handled by any ruleset, even if
+> this right is not specified at ruleset creation time. Reparenting files will
+> then always be denied by default. Given that %LANDLOCK_ACCESS_FS_REFER is
+> available since the second Landlock ABI version, using the first Landlock
+> ABI version will always forbid file reparenting.
+> 
+> For these kind of link or rename actions to be possible, one or two rules
+> must explicitly allow %LANDLOCK_ACCESS_FS_REFER on the source and the
+> destination hierarchies. In addition, the following constraints must be met:
 
--- 
-tejun
+I reworded it again, it's meeting somewhere in the middle I hope. It
+should be a bit better now. (Sending another version.)
+
+Documentation is hard... it's difficult to find an objective best wording.
+
+–-Günther
