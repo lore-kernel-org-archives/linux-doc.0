@@ -2,226 +2,197 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D91CC6379F
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 07:50:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DC93C61DA3
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Feb 2023 08:32:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233436AbjBUHuy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 02:50:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44316 "EHLO
+        id S233716AbjBUIcD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 03:32:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233476AbjBUHux (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 02:50:53 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6984C1E29A
-        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 23:50:50 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id t13so3300813wrv.13
-        for <linux-doc@vger.kernel.org>; Mon, 20 Feb 2023 23:50:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Hjfg64gDGO7h14TEC4RS/AXyVKIdDfjATSF2lUKEAMk=;
-        b=MnJqfF8saYIdGPGzzEZegsn2Vhtv4zmyjBE0K3UA2uzL9Pd5fyWiDkZf0nqrhUxBAA
-         T+AISA+Sl3+s7/EcuvPHrI42jRxu7ag3EwRMMbfPDyx54fepvx8ILyc/79eyW2PMf0p7
-         PRIcqJv0DXCGnHaN0lLKfqu8+Ex1X34vNF4vH+Y89l39JDcHFQ8Ojvh9z+XkEYhxIQv9
-         4xhWxDJtpQ624+jpMntoSPNgOIWiiXBZ48UpYETNNCL7wawrCBjF7UIhudtt7ZwHLtJS
-         /1SwzmbJfWZJE0/SXaiL8YRltkcYPQRH54FMtoawjJj7eQJ1mmMmt/bRVUORDjiZ/SjS
-         7dMA==
+        with ESMTP id S233543AbjBUIcC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 03:32:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61A9F23852
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 00:31:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676968275;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kCboO0D4l0fCcmSpxKOmwRfVm5IgZzSNbPLhAcKwBhQ=;
+        b=YJzcZx/BYTWMyJ7vp9Ob1cUCbqQiZE6gYxhE8I/ebO0OZxILgEy3wLFuxb3CFf9+RMsdc+
+        kCDMPaSpl6zGwnwJvqJ/2u4qpf5tRlS/eBcm7qQ8JTMr38Z9T6BFfaRXGREcAGQaPejLGv
+        IyI+SLgOfWZryCjkHePs085IgCdSGUE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-225-91418ydKPyOYGVVNEApPFg-1; Tue, 21 Feb 2023 03:31:14 -0500
+X-MC-Unique: 91418ydKPyOYGVVNEApPFg-1
+Received: by mail-wm1-f70.google.com with SMTP id k26-20020a05600c0b5a00b003dfe4bae099so1588457wmr.0
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 00:31:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hjfg64gDGO7h14TEC4RS/AXyVKIdDfjATSF2lUKEAMk=;
-        b=dciXBq+4qP5lch48Q84dSKPbqfbSyF1MSQagQ8ghfJJTCwSdkx68k1+sOM/P1t9z5n
-         jKdJVshTyih44xqkq8CljATPxdJvr3x7QRoGjLK2yJVikOVcWBp+HMXQhxQdVhiAyNqQ
-         oqdRMuK1Pn5BY17JjLIwoukQdg82VZRuE8V6TB/u/NxOZt8Sb7rqb3IQ6wGsYWH4KoN+
-         LnMcfSeV5AASQqCq52Tl7H5PWXcsjmQVcNLNLLNMsFVIizBEE5/7BIv6o+thA7peKS04
-         oIbLINv2YsFaHsq0hMI3gVABSmtN0ceE23m6rcXO9C7XGbT4r2mP+rqtad2mFOHdIZe9
-         IL/A==
-X-Gm-Message-State: AO0yUKVc0opRIIFGDjgmp1JwImy9GjeA+X5wQDx/7KIOu/a8dy2iCtFb
-        AM3r8pXqO4aJgTC3ClaOHdmKTg==
-X-Google-Smtp-Source: AK7set97tfEfb+9jEmaIbBvjUjYHM1C/RcXs0xI1hR9WFaCJoLbuEO79GObcuG1M2I6FlEJKYM/nSA==
-X-Received: by 2002:adf:e242:0:b0:2c5:8c04:c6a8 with SMTP id bl2-20020adfe242000000b002c58c04c6a8mr3548223wrb.51.1676965848828;
-        Mon, 20 Feb 2023 23:50:48 -0800 (PST)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id j16-20020a056000125000b002c5706f7c6dsm711101wrx.94.2023.02.20.23.50.47
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kCboO0D4l0fCcmSpxKOmwRfVm5IgZzSNbPLhAcKwBhQ=;
+        b=WUTSi7Vce6sI3YfAi+RZibbYNZxTfai/RLR/asmXXC8YEUqSGO1C4ZakUoYNIGHTtU
+         kZsaloSMKV1aCBjib4FfsSOP1f2XzQQ55WeaWkq9OaL0XsF3KdVuFjM2O2MIOSyb54qo
+         c5qGpq9+Xc5uFdKTpQLu1ObD6kDaaItFUD6V3rVsbt3OmtIUCoOYHnW+/y6/qWHKX352
+         Vb51DpXpbvCmJO44FuAXzy7mMe+lGI/WPpzUZplnabPoyFi5/EkZJgZrfByH+nblBEGU
+         dBPJ0x1GWvxfG4ehSGeH/3cjDke5uWNAdlYKOq2iAOkpoyA75AptRdPYat/oQoKkIE47
+         PQFQ==
+X-Gm-Message-State: AO0yUKUXRe8WTwxglSRcZebZhjQ66z0f8626TuB99YZ4xeXI/39cZ3ps
+        NWD5PU2onsswWKlDG0uigZMW6O+QmYBLSbVcwA1z/vH/WfHFDVLbC0Hgk+JKXH9sn5Y6S3sjtN/
+        gy2d7j8b81QgBZZrDrtGA
+X-Received: by 2002:a05:600c:1f06:b0:3dc:3b29:7a4 with SMTP id bd6-20020a05600c1f0600b003dc3b2907a4mr3260178wmb.0.1676968273152;
+        Tue, 21 Feb 2023 00:31:13 -0800 (PST)
+X-Google-Smtp-Source: AK7set+0r8eJK1vTBbYZl8FFEvRCCuV3a2A3iN25xytv7tuI4shMZpsPvaSTp+HX4M0GCokqILTrPQ==
+X-Received: by 2002:a05:600c:1f06:b0:3dc:3b29:7a4 with SMTP id bd6-20020a05600c1f0600b003dc3b2907a4mr3260139wmb.0.1676968272718;
+        Tue, 21 Feb 2023 00:31:12 -0800 (PST)
+Received: from ?IPV6:2003:cb:c707:4800:aecc:dadb:40a8:ce81? (p200300cbc7074800aeccdadb40a8ce81.dip0.t-ipconnect.de. [2003:cb:c707:4800:aecc:dadb:40a8:ce81])
+        by smtp.gmail.com with ESMTPSA id 26-20020a05600c229a00b003dc49e0132asm3583198wmf.1.2023.02.21.00.31.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Feb 2023 23:50:48 -0800 (PST)
-Message-ID: <78f841f1-1e1a-9eb9-940d-6e11dd18d86f@linaro.org>
-Date:   Tue, 21 Feb 2023 07:50:46 +0000
+        Tue, 21 Feb 2023 00:31:12 -0800 (PST)
+Message-ID: <c2db1af6-972c-2aef-2732-d37c41c310a1@redhat.com>
+Date:   Tue, 21 Feb 2023 09:31:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v10 09/26] gunyah: rsc_mgr: Add VM lifecycle RPC
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v6 22/41] mm/mmap: Add shadow stack pages to memory
+ accounting
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-23-rick.p.edgecombe@intel.com>
+ <6ccc8d30-336a-12af-1179-5dc4eca3048d@redhat.com>
+ <8bd58778e062bb9526c905c5573a2ee20cb41eef.camel@intel.com>
 Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212343.3311875-1-quic_eberman@quicinc.com>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20230214212343.3311875-1-quic_eberman@quicinc.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <8bd58778e062bb9526c905c5573a2ee20cb41eef.camel@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 14/02/2023 21:23, Elliot Berman wrote:
+On 20.02.23 23:44, Edgecombe, Rick P wrote:
+> On Mon, 2023-02-20 at 13:58 +0100, David Hildenbrand wrote:
+>> On 18.02.23 22:14, Rick Edgecombe wrote:
+>>> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>>>
+>>> The x86 Control-flow Enforcement Technology (CET) feature includes
+>>> a new
+>>> type of memory called shadow stack. This shadow stack memory has
+>>> some
+>>> unusual properties, which requires some core mm changes to function
+>>> properly.
+>>>
+>>> Account shadow stack pages to stack memory.
+>>>
+>>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>>> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+>>> Tested-by: John Allen <john.allen@amd.com>
+>>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>>> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+>>> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+>>> Cc: Kees Cook <keescook@chromium.org>
+>>>
+>>> ---
+>>> v3:
+>>>     - Remove unneeded VM_SHADOW_STACK check in accountable_mapping()
+>>>       (Kirill)
+>>>
+>>> v2:
+>>>     - Remove is_shadow_stack_mapping() and just change it to
+>>> directly bitwise
+>>>       and VM_SHADOW_STACK.
+>>>
+>>> Yu-cheng v26:
+>>>     - Remove redundant #ifdef CONFIG_MMU.
+>>>
+>>> Yu-cheng v25:
+>>>     - Remove #ifdef CONFIG_ARCH_HAS_SHADOW_STACK for
+>>> is_shadow_stack_mapping().
+>>> ---
+>>>     mm/mmap.c | 2 ++
+>>>     1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/mm/mmap.c b/mm/mmap.c
+>>> index 425a9349e610..9f85596cce31 100644
+>>> --- a/mm/mmap.c
+>>> +++ b/mm/mmap.c
+>>> @@ -3290,6 +3290,8 @@ void vm_stat_account(struct mm_struct *mm,
+>>> vm_flags_t flags, long npages)
+>>>                 mm->exec_vm += npages;
+>>>         else if (is_stack_mapping(flags))
+>>>                 mm->stack_vm += npages;
+>>> +     else if (flags & VM_SHADOW_STACK)
+>>> +             mm->stack_vm += npages;
+>>
+>> Why not modify is_stack_mapping() ?
 > 
-> Add Gunyah Resource Manager RPC to launch an unauthenticated VM.
+> It kind of sticks out a little in this conditional, but
+> is_stack_mapping() has this comment:
+> /*
+>   * Stack area - automatically grows in one direction
+>   *
+>   * VM_GROWSUP / VM_GROWSDOWN VMAs are always private anonymous:
+>   * do_mmap() forbids all other combinations.
+>   */
 > 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->   drivers/virt/gunyah/Makefile      |   2 +-
->   drivers/virt/gunyah/rsc_mgr.h     |  45 ++++++
->   drivers/virt/gunyah/rsc_mgr_rpc.c | 226 ++++++++++++++++++++++++++++++
->   include/linux/gunyah_rsc_mgr.h    |  73 ++++++++++
->   4 files changed, 345 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
+> Shadow stack don't grow, so it doesn't quite fit. There used to be an
+> is_shadow_stack_mapping(), but it was removed because all that was
+> needed (for the time being) was the simple bitwise AND:
 > 
-> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-> index cc864ff5abbb..de29769f2f3f 100644
-> --- a/drivers/virt/gunyah/Makefile
-> +++ b/drivers/virt/gunyah/Makefile
-> @@ -2,5 +2,5 @@
->   
->   obj-$(CONFIG_GUNYAH) += gunyah.o
->   
-> -gunyah_rsc_mgr-y += rsc_mgr.o
-> +gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o
->   obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
-> diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
-> index d4e799a7526f..7406237bc66d 100644
-> --- a/drivers/virt/gunyah/rsc_mgr.h
-> +++ b/drivers/virt/gunyah/rsc_mgr.h
-> @@ -74,4 +74,49 @@ struct gh_rm;
->   int gh_rm_call(struct gh_rm *rsc_mgr, u32 message_id, void *req_buff, size_t req_buff_size,
->   		void **resp_buf, size_t *resp_buff_size);
->   
-<----------------------------
-> +/* Message IDs: VM Management */
-> +#define GH_RM_RPC_VM_ALLOC_VMID			0x56000001
-> +#define GH_RM_RPC_VM_DEALLOC_VMID		0x56000002
-> +#define GH_RM_RPC_VM_START			0x56000004
-> +#define GH_RM_RPC_VM_STOP			0x56000005
-> +#define GH_RM_RPC_VM_RESET			0x56000006
-> +#define GH_RM_RPC_VM_CONFIG_IMAGE		0x56000009
-> +#define GH_RM_RPC_VM_INIT			0x5600000B
-> +#define GH_RM_RPC_VM_GET_HYP_RESOURCES		0x56000020
-> +#define GH_RM_RPC_VM_GET_VMID			0x56000024
-> +
-> +struct gh_rm_vm_common_vmid_req {
-> +	__le16 vmid;
-> +	__le16 reserved0;
-> +} __packed;
-> +
-> +/* Call: VM_ALLOC */
-> +struct gh_rm_vm_alloc_vmid_resp {
-> +	__le16 vmid;
-> +	__le16 reserved0;
-> +} __packed;
-> +
-> +/* Call: VM_STOP */
-> +struct gh_rm_vm_stop_req {
-> +	__le16 vmid;
-> +#define GH_RM_VM_STOP_FLAG_FORCE_STOP	BIT(0)
-> +	u8 flags;
-> +	u8 reserved;
-> +#define GH_RM_VM_STOP_REASON_FORCE_STOP		3
-> +	__le32 stop_reason;
-> +} __packed;
-> +
-> +/* Call: VM_CONFIG_IMAGE */
-> +struct gh_rm_vm_config_image_req {
-> +	__le16 vmid;
-> +	__le16 auth_mech;
-> +	__le32 mem_handle;
-> +	__le64 image_offset;
-> +	__le64 image_size;
-> +	__le64 dtb_offset;
-> +	__le64 dtb_size;
-> +} __packed;
-> +
-> +/* Call: GET_HYP_RESOURCES */
-> +
--------------------------------->
+> https://lore.kernel.org/lkml/804adbac-61e6-0fd2-f726-5735fb290199@intel.com/
 
-All the above structures are very much internal to rsc_mgr_rpc.c and 
-interface to the rsc_mgr_rpc is already abstracted with function arguments
+As there is only a single user of is_stack_mapping(), I'd simply have 
+adjusted the doc of is_stack_mapping() to include shadow stacks.
 
-ex:
+-- 
+Thanks,
 
-int gh_rm_vm_configure(struct gh_rm *rm, u16 vmid, enum 
-gh_rm_vm_auth_mechanism auth_mechanism, u32 mem_handle, u64 
-image_offset, u64 image_size, u64 dtb_offset, u64 dtb_size)
+David / dhildenb
 
-So why do we need these structs and defines in header file at all?
-you should proabably consider moving them to the .c file.
-
-
->   #endif
-> diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
-> new file mode 100644
-> index 000000000000..4515cdd80106
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
-> @@ -0,0 +1,226 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include <linux/gunyah_rsc_mgr.h>
-> +
-
-Why new line here?
-
-> +#include "rsc_mgr.h"
-> +
-> +/*
-...
-
-> +int gh_rm_vm_configure(struct gh_rm *rm, u16 vmid, enum gh_rm_vm_auth_mechanism auth_mechanism,
-> +		u32 mem_handle, u64 image_offset, u64 image_size, u64 dtb_offset, u64 dtb_size)
-> +{
-> +	struct gh_rm_vm_config_image_req req_payload = { 0 };
-> +	size_t resp_size;
-> +	void *resp;
-> +
-> +	req_payload.vmid = cpu_to_le16(vmid);
-> +	req_payload.auth_mech = cpu_to_le16(auth_mechanism);
-> +	req_payload.mem_handle = cpu_to_le32(mem_handle);
-> +	req_payload.image_offset = cpu_to_le64(image_offset);
-> +	req_payload.image_size = cpu_to_le64(image_size);
-> +	req_payload.dtb_offset = cpu_to_le64(dtb_offset);
-> +	req_payload.dtb_size = cpu_to_le64(dtb_size);
-> +
-> +	return gh_rm_call(rm, GH_RM_RPC_VM_CONFIG_IMAGE, &req_payload, sizeof(req_payload),
-> +			&resp, &resp_size);
-> +}
-> +
-
---srini
