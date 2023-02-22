@@ -2,192 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D49DDC61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 11:09:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC17EC636D6
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 12:49:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230310AbjBVLJY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 06:09:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33846 "EHLO
+        id S231764AbjBVMte (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 07:49:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231707AbjBVLJO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 06:09:14 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3038940F2;
-        Wed, 22 Feb 2023 03:09:02 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id s26so28768988edw.11;
-        Wed, 22 Feb 2023 03:09:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NSCeMRo7PjxNEY8Jaw+enjYl4j/3bB4uY9gsYSHQ1VA=;
-        b=S5GmhVRjcyzYAoKeziNvoiE+80fV4VT+3K8G5vGN6a9QjPQE97S8fC7ef4Pi2BEB7y
-         r+/kToKKkK4V3ou6OYZtduwCGvwdsfH4EUET7hTr684QGHuWygVZZyKLQu8k36VUCqNP
-         Tgzo+gcDwS/i5URaje4J+ZFhv+KXjorvIVpVVqB39E0UzV9+ekKi8cwMwuofue2Zuj8/
-         +wHmJ9Aw0goCUfSElzoDbKJ+gZu6BYm6/UXyxziREyfT91znNSZp7FScbhvKaETNEJiN
-         kquZ0ktxHj4C73bthlnRIoLJw1Bh96zBj4fbC24JETYE5TpJRxNzYlxQv+VcdcrYm3wM
-         Om0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NSCeMRo7PjxNEY8Jaw+enjYl4j/3bB4uY9gsYSHQ1VA=;
-        b=NpKw0Qr7NIrQwya4lfrr1WFUWbFXOHAczkd0bVht+aKkrueV6Z+ypCiGjByM81WXcO
-         TDLtZ4W722lg3fztua24AfrqF5VoymStqYgW4CAsaYQyLzY461/wrPjmdpaXBneWZhtm
-         39kN81MhpOdyOwQkp6SJGbhHhgnzeBOLwYtxaDAe72Boq0F9c3t054Oy/7BBG1sZjsJ1
-         RLioTqA17IUZCNXFZGrSXXtOnMO6rOE4oB65Brpr4ne9m8Fo82vt6Ng1INWSEi1Xk0dc
-         NqwQMcq25/UQ5qYGU6dHVIGfImY1nAFYgvcuisOvViIP2t2/qqtcy1lHR2ZJ/a1vl1C0
-         oy5g==
-X-Gm-Message-State: AO0yUKXVHnsX1d4r9fYAbPUNWSzSDLJ5WOpFVoiwB6udztVT1z5gsV1y
-        BEiAJEbR51c43Du2D9yPPQ0cwp5a9t86cofk/nY=
-X-Google-Smtp-Source: AK7set92VtYSnl/VgVs5LgZtVGb8q5dSEXEV1i840RMD0mT/RbSv6IxD0BOcFT4z6m2f3tZ6zduKzjbHedNQT0Y2VQg=
-X-Received: by 2002:a50:9fae:0:b0:4ad:4c0:c4fb with SMTP id
- c43-20020a509fae000000b004ad04c0c4fbmr3633861edf.3.1677064140403; Wed, 22 Feb
- 2023 03:09:00 -0800 (PST)
+        with ESMTP id S231774AbjBVMtb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 07:49:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82DEC29E34
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 04:48:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1677070130;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Pwhafy9c9OVklvOu8fWr7CpmYP0sg2Cj0LDnB+q0JdQ=;
+        b=MKlzp5MMrddKyDCiClF81dnGgh2GQniJQNvATqrPORj5p0dRre24EF1thvZ8dRKzvaCbv1
+        MtpCVvJsYT5PeRxVpfsMFwHiHuuPG7O0w7sgffMIz49nGkQBEhgUzy3dCxOeNRroEqdG6J
+        kn1QHv+R7QhYMuBR3KrLOCEiWICb/Q8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-136-yC4_3_61NByzTdmNpn1GFA-1; Wed, 22 Feb 2023 07:48:44 -0500
+X-MC-Unique: yC4_3_61NByzTdmNpn1GFA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B11E73C10690;
+        Wed, 22 Feb 2023 12:48:43 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.227.52])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 24BD82026D38;
+        Wed, 22 Feb 2023 12:48:40 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Wed, 22 Feb 2023 13:48:38 +0100 (CET)
+Date:   Wed, 22 Feb 2023 13:48:35 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Gregory Price <gourry.memverge@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        avagin@gmail.com, peterz@infradead.org, luto@kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v11 2/2] ptrace,syscall_user_dispatch: checkpoint/restore
+ support for SUD
+Message-ID: <20230222124834.GA15591@redhat.com>
+References: <20230221201740.2236-1-gregory.price@memverge.com>
+ <20230221201740.2236-3-gregory.price@memverge.com>
 MIME-Version: 1.0
-References: <20230221180049.2501495-1-carlos.bilbao@amd.com> <20230221180049.2501495-2-carlos.bilbao@amd.com>
-In-Reply-To: <20230221180049.2501495-2-carlos.bilbao@amd.com>
-From:   Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-Date:   Wed, 22 Feb 2023 16:38:43 +0530
-Message-ID: <CAPDLWs99LUCQ47huoiiZmQfAsHX8Esmepu_hSCXWoqcpEoPxKQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] docs: Add relevant kernel publications to list of books
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, rlove@rlove.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230221201740.2236-3-gregory.price@memverge.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Carlos,
+On 02/21, Gregory Price wrote:
+>
+> +struct ptrace_sud_config {
+> +	__u8  mode;
+> +	__u8  pad[7];
+              ^^^^^^
+Why?
 
-On Tue, Feb 21, 2023 at 11:30 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
->
-> For the list of kernel published books, include publication covering kernel
-> debugging from August, 2022 (ISBN 978-1801075039). Also add foundational
-> book from Robert Love (ISBN 978-1449339531) and remove extra spaces.
->
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
-> ---
->  Documentation/process/kernel-docs.rst | 29 ++++++++++++++++++++++-----
->  1 file changed, 24 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-> index 1c6e2ab92f4e..ce461d981d0a 100644
-> --- a/Documentation/process/kernel-docs.rst
-> +++ b/Documentation/process/kernel-docs.rst
-> @@ -75,13 +75,31 @@ On-line docs
->  Published books
->  ---------------
->
-> +    * Title: **Linux Kernel Debugging: Leverage proven tools and advanced techniques to effectively debug Linux kernels and kernel modules**
+> +int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+> +		                     void __user *data)
+> +{
+> +	struct syscall_user_dispatch *sd = &task->syscall_dispatch;
+> +	struct ptrace_sud_config config;
+> +	if (size != sizeof(struct ptrace_sud_config))
+> +		return -EINVAL;
+
+Andrei, do we really need this check?
+
 > +
-> +      :Author: Kaiwan N. Billimoria
-> +      :Publisher: Packt Publishing Ltd
-> +      :Date: August, 2022
-> +      :Pages: 638
-> +      :ISBN: 978-1801075039
-> +      :Notes: Debugging book
+> +	if (test_task_syscall_work(task, SYSCALL_USER_DISPATCH))
+> +		config.mode = PR_SYS_DISPATCH_ON;
+> +	else
+> +		config.mode = PR_SYS_DISPATCH_OFF;
 > +
->      * Title: **Linux Kernel Programming: A Comprehensive Guide to Kernel Internals, Writing Kernel Modules, and Kernel Synchronization**
->
-> -          :Author: Kaiwan N. Billimoria
-> -          :Publisher: Packt Publishing Ltd
-> -          :Date: 2021
-> -          :Pages: 754
-> -          :ISBN: 978-1789953435
-> +      :Author: Kaiwan N. Billimoria
-> +      :Publisher: Packt Publishing Ltd
-> +      :Date: 2021
-> +      :Pages: 754
-> +      :ISBN: 978-1789953435
-> +
-> +    * Title: **Linux System Programming: Talking Directly to the Kernel and C Library**
-> +
-> +      :Author: Robert Love
-> +      :Publisher: O'Reilly Media
-> +      :Date: June, 2013
-> +      :Pages: 456
-> +      :ISBN: 978-1449339531
-> +      :Notes: Foundational book
->
->      * Title: **Linux Kernel Development, 3rd Edition**
->
-> @@ -92,6 +110,7 @@ Published books
->        :ISBN: 978-0672329463
->        :Notes: Foundational book
->
-> +
->  .. _ldd3_published:
->
->      * Title: **Linux Device Drivers, 3rd Edition**
-> --
-> 2.34.1
->
+> +	config.offset = sd->offset;
+> +	config.len = sd->len;
+> +	config.selector = (__u64)sd->selector;
 
-Thanks very much.
+As the kernel test robot reports, this is not -Wpointer-to-int-cast friendly.
+Please use uintptr_t. See for example ptrace_get_rseq_configuration(). Same
+for syscall_user_dispatch_set_config().
 
-A request to incorporate a few minor changes (I applied these small
-changes on the latest linux-next I could find):
+> +	if (copy_to_user(data, &config, sizeof(config))) {
 
-Signed-off-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
----
- Documentation/process/kernel-docs.rst | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+This leaks info in (uninitialized) config.pad[]. You can probably simply make
+config.mode __u64 as well.
 
-diff --git a/Documentation/process/kernel-docs.rst
-b/Documentation/process/kernel-docs.rst
-index 1c6e2ab92f4e..f7ecc04b509b 100644
---- a/Documentation/process/kernel-docs.rst
-+++ b/Documentation/process/kernel-docs.rst
-@@ -75,11 +75,20 @@ On-line docs
- Published books
- ---------------
+Minor, but sizeof(struct ptrace_sud_config) above vs this sizeof(config)) doesn't
+look consistent to me...
 
-+   * Title: **Linux Kernel Debugging: Leverage proven tools and
-advanced techniques to effectively debug Linux kernels and kernel
-modules**
-+
-+          :Author: Kaiwan N Billimoria
-+          :Publisher: Packt Publishing Ltd
-+          :Date: August, 2022
-+          :Pages: 638
-+          :ISBN: 978-1801075039
-+          :Notes: Debugging book
-+
-     * Title: **Linux Kernel Programming: A Comprehensive Guide to
-Kernel Internals, Writing Kernel Modules, and Kernel Synchronization**
+> +static int sys_ptrace(int request, pid_t pid, void *addr, void *data)
+> +{
+> +	return syscall(SYS_ptrace, request, pid, addr, data);
+> +}
 
--          :Author: Kaiwan N. Billimoria
-+          :Author: Kaiwan N Billimoria
-           :Publisher: Packt Publishing Ltd
--          :Date: 2021
-+          :Date: March, 2021
-           :Pages: 754
-           :ISBN: 978-1789953435
+Why can't you simply use ptrace() ?
 
--- 
-2.34.1
+Oleg.
 
-(Hope I haven't botched it).
-Also, if I may point out, the 'companion' volume to the Linux Kernel
-Programming book, covers some aspects on Linux (character) device
-drivers, and is somewhat popular.
-Moreover, the e-book / Kindle version is freely downloadable (here:
-https://packt.link/free-ebook/9781801079518, or on the Amazon Kindle
-site). Could this book be added as well?
-
-Book details:
-
-  * Title: **Linux Kernel Programming Part 2 - Char Device Drivers and
-Kernel Synchronization: Create user-kernel interfaces, work with
-peripheral I/O, and handle hardware interrupts**
-           :Author: Kaiwan N Billimoria
-           :Publisher: Packt Publishing Ltd
-          :Date: March, 2021
-           :Pages: 452
-           :ISBN: 180107951X
-
-Thanks,
-Kaiwan.
