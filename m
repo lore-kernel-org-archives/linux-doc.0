@@ -2,84 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BADD0C61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 03:11:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3425AC636D6
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 04:18:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229451AbjBVDKw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 22:10:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38162 "EHLO
+        id S230213AbjBVESb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 23:18:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231819AbjBVDKb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 22:10:31 -0500
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C510226CFE;
-        Tue, 21 Feb 2023 19:10:28 -0800 (PST)
-Received: from loongson.cn (unknown [113.200.148.30])
-        by gateway (Coremail) with SMTP id _____8Axz_+ch_VjvW4DAA--.1526S3;
-        Wed, 22 Feb 2023 11:10:20 +0800 (CST)
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxXL6Jh_VjEV84AA--.37896S2;
-        Wed, 22 Feb 2023 11:10:01 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/bpf: Fix invalid link of "Documentation/bpf/btf.rst"
-Date:   Wed, 22 Feb 2023 11:10:01 +0800
-Message-Id: <1677035401-3628-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf8CxXL6Jh_VjEV84AA--.37896S2
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjvdXoWrZw13Zr4xtF4kXryUAw4xWFg_yoWDurcEkF
-        18GFZ3Jay8JFWrKr48CrnxCFWfurWFkF1xZ3WUtr47Gw1ay398JFZxWryYka4UZr4xury7
-        KFZ7Xr93AF43tjkaLaAFLSUrUUUU1b8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
-        xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
-        g7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
-        AFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
-        6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
-        xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAa
-        w2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2
-        jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20x
-        vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s02
-        6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF
-        0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
-        c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
-        v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7I
-        U8hiSPUUUUU==
+        with ESMTP id S229493AbjBVESa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 23:18:30 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2DF14EFE;
+        Tue, 21 Feb 2023 20:18:28 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CB33B6124A;
+        Wed, 22 Feb 2023 04:18:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 329C9C433EF;
+        Wed, 22 Feb 2023 04:18:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677039507;
+        bh=L+n8+ZdeW0UM8PVgpkDcbcyIeoXR/nzZSQ8cCKDr5ww=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UvGiV4ACdrN9eDIQlUjF4cL4bdIJZOKbb/9NCLJUEk9fFZAcwn0VMjMGugEZdKTl8
+         RRv0P5aH7gaixBmX4J1ttM4bT/BYaXbJ6dWjAwvSK0I8LiHZc+YwWbaewxW2pvNuIM
+         XuPL9TLFE7hLEDkUNYMc+FgoNSSxrQiYUrNYk6TVgcuFuxHo60wzQliljICS0nX3xZ
+         4V5XftZskijdIkdIIe91+rNbZAqar6bKqFa7z6+t0FEidCiQykDmXy2sKK0mRkjFup
+         KcgxdRqZk64p1nglntgCw5NAZoxEnGXx8rVzgUnBA2IECIS30zH5wim2JJ2/h6AVgM
+         uzZ/aRxlQJHzQ==
+Date:   Tue, 21 Feb 2023 20:18:26 -0800
+From:   "Darrick J. Wong" <djwong@kernel.org>
+To:     Wu Bo <bo.wu@vivo.com>
+Cc:     Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, linux-ext4@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: ext4: modify the group desc size to 64
+Message-ID: <Y/WXkhxhJ742G4xB@magnolia>
+References: <20230222013525.14748-1-bo.wu@vivo.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230222013525.14748-1-bo.wu@vivo.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"Documentation/bpf/btf.rst" is linked to the following invalid web page:
+On Wed, Feb 22, 2023 at 09:35:24AM +0800, Wu Bo wrote:
+> Since the default ext4 group desc size is 64 now (assuming that the
+> 64-bit feature is enbled). And the size mentioned in this doc is 64 too.
+> Change it to 64.
+> 
+> Signed-off-by: Wu Bo <bo.wu@vivo.com>
 
-https://www.kernel.org/doc/html/latest/bpf/btf.rst
+32-bit blockgroup descriptors aren't that ancient of a disk format, it's
+probably helpful to mention that one should double the ratios for ^64bit
+filesystems.
 
-The correct link should be:
+Also: Not sure what went wrong with your emptyish To: line?
 
-https://www.kernel.org/doc/html/latest/bpf/btf.html
+If Ted's ok with this, then:
+Acked-by: Darrick J. Wong <djwong@kernel.org>
 
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
- Documentation/bpf/bpf_devel_QA.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+--D
 
-diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-index 03d4993..f54c328 100644
---- a/Documentation/bpf/bpf_devel_QA.rst
-+++ b/Documentation/bpf/bpf_devel_QA.rst
-@@ -690,6 +690,7 @@ when:
-    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/
- .. _Documentation/dev-tools/kselftest.rst:
-    https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
--.. _Documentation/bpf/btf.rst: btf.rst
-+.. _Documentation/bpf/btf.rst:
-+   https://www.kernel.org/doc/html/latest/bpf/btf.html
- 
- Happy BPF hacking!
--- 
-2.1.0
-
+> ---
+>  Documentation/filesystems/ext4/blockgroup.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/filesystems/ext4/blockgroup.rst
+> index 46d78f860623..ed5a5cac6d40 100644
+> --- a/Documentation/filesystems/ext4/blockgroup.rst
+> +++ b/Documentation/filesystems/ext4/blockgroup.rst
+> @@ -105,9 +105,9 @@ descriptors. Instead, the superblock and a single block group descriptor
+>  block is placed at the beginning of the first, second, and last block
+>  groups in a meta-block group. A meta-block group is a collection of
+>  block groups which can be described by a single block group descriptor
+> -block. Since the size of the block group descriptor structure is 32
+> -bytes, a meta-block group contains 32 block groups for filesystems with
+> -a 1KB block size, and 128 block groups for filesystems with a 4KB
+> +block. Since the size of the block group descriptor structure is 64
+> +bytes, a meta-block group contains 16 block groups for filesystems with
+> +a 1KB block size, and 64 block groups for filesystems with a 4KB
+>  blocksize. Filesystems can either be created using this new block group
+>  descriptor layout, or existing filesystems can be resized on-line, and
+>  the field s_first_meta_bg in the superblock will indicate the first
+> -- 
+> 2.35.3
+> 
