@@ -2,151 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54039C6379F
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 09:06:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71861C61DA4
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 09:58:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231571AbjBVJGN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 04:06:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53072 "EHLO
+        id S231349AbjBVJ6t convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 04:58:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231593AbjBVJGK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 04:06:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A8E12869
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 01:05:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677056723;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9LjUQ9O0HnvcxKh2XAsUTz7YC8LaZ/FmXdZBrCkpK+Q=;
-        b=XR9b0fi9KvAiaDE5BTpc8TIOo/qeHDi/6bFhI2uNFW5uWGqpkfgvQAMrEKbV0W/KPpWkN3
-        9IniZuquw6W2gHT+DX86O89ZNADBkd0SalosCPceq+edugj7/xobyiZfJQ2Sqvkvshwhdb
-        RzzLiGVMmu8xLawJ6umYmi7w8Q02jEQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-592-jynV7MdeMG-N5Nx_BGDeNQ-1; Wed, 22 Feb 2023 04:05:22 -0500
-X-MC-Unique: jynV7MdeMG-N5Nx_BGDeNQ-1
-Received: by mail-wr1-f69.google.com with SMTP id l4-20020a5d6d84000000b002c54aaa28dcso1357391wrs.16
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 01:05:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :content-language:references:cc:to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9LjUQ9O0HnvcxKh2XAsUTz7YC8LaZ/FmXdZBrCkpK+Q=;
-        b=cdSc6VMwJF2Gj3pwfP+x8IhHi1QWPQTkUu7YAMyEvamSTgVE26zn4fDRV97bx68Cxi
-         6oXC8cHx+shYecJMDAjj4wi/IqZ/CveLwO2eeLHzQB6TI9q6rjKnbGgAjrWXkY+nNDli
-         nP3JOxHN7i26rkFGiyMtvYZX7YWX3ab6gOLHzwV2nal3Rcd+UpMMdoB/5cC2rCuRlA+k
-         e3cZdpOsPG9+8vP1csPgv32QWdSxH8xwddzqXpDnLUQW1FQubgKySklknYMDJUY4WXis
-         TOTB1Mx2cLOdCNp1q9tx9P0XuzVgcMVZCxFBVZ8DpVKomml+DvgR6RuqNmnEqU2ZDqkl
-         PxPQ==
-X-Gm-Message-State: AO0yUKUKX1gmY4REsWpSC8f9c0lMx25sETJvYWHdpZFI3kfiNuj3vyEB
-        e7gpqSXIa310dgw35XFq8r2yUXbdY5rirof+CDF8DC44i2XqReh9zBgOzaECr+0naDeEo8ZyjeF
-        DKHpJlfdQlLxx3ty2JrmR
-X-Received: by 2002:a05:600c:80f:b0:3db:fc3:6de4 with SMTP id k15-20020a05600c080f00b003db0fc36de4mr5069696wmp.35.1677056721235;
-        Wed, 22 Feb 2023 01:05:21 -0800 (PST)
-X-Google-Smtp-Source: AK7set9SGBIryzMFukKmMVx5ow2JjCNOU/7I00r/woNcU3wsCpyUfsO529XXrVJjBQAVq81y0YSzRQ==
-X-Received: by 2002:a05:600c:80f:b0:3db:fc3:6de4 with SMTP id k15-20020a05600c080f00b003db0fc36de4mr5069668wmp.35.1677056720798;
-        Wed, 22 Feb 2023 01:05:20 -0800 (PST)
-Received: from ?IPV6:2003:cb:c704:a100:95ad:6325:131:6b1d? (p200300cbc704a10095ad632501316b1d.dip0.t-ipconnect.de. [2003:cb:c704:a100:95ad:6325:131:6b1d])
-        by smtp.gmail.com with ESMTPSA id c22-20020a7bc856000000b003e01493b136sm7194166wml.43.2023.02.22.01.05.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Feb 2023 01:05:20 -0800 (PST)
-Message-ID: <52f001ef-a409-4f33-f28f-02e806ef305a@redhat.com>
-Date:   Wed, 22 Feb 2023 10:05:18 +0100
+        with ESMTP id S231933AbjBVJ6p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 04:58:45 -0500
+X-Greylist: delayed 1034 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 22 Feb 2023 01:58:18 PST
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E9910E9;
+        Wed, 22 Feb 2023 01:58:18 -0800 (PST)
+Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay08.hostedemail.com (Postfix) with ESMTP id D58E5140ABD;
+        Wed, 22 Feb 2023 09:40:03 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf18.hostedemail.com (Postfix) with ESMTPA id 320E134;
+        Wed, 22 Feb 2023 09:39:57 +0000 (UTC)
+Message-ID: <2cf5852092ac5940b8bc6664f54bd6066fe03be2.camel@perches.com>
+Subject: Re: [PATCH v3 5/7] RISC-V: hwprobe: Support probing of misaligned
+ access performance
+From:   Joe Perches <joe@perches.com>
+To:     Evan Green <evan@rivosinc.com>,
+        Palmer Dabbelt <palmer@rivosinc.com>
+Cc:     heiko@sntech.de, Conor Dooley <conor@kernel.org>,
+        slewis@rivosinc.com, vineetg@rivosinc.com,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Ruizhe Pan <c141028@gmail.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tsukasa OI <research_trasio@irq.a4lg.com>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Date:   Wed, 22 Feb 2023 01:39:55 -0800
+In-Reply-To: <20230221190858.3159617-6-evan@rivosinc.com>
+References: <20230221190858.3159617-1-evan@rivosinc.com>
+         <20230221190858.3159617-6-evan@rivosinc.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-To:     Dave Hansen <dave.hansen@intel.com>,
-        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-15-rick.p.edgecombe@intel.com>
- <70681787-0d33-a9ed-7f2a-747be1490932@redhat.com>
- <6f19d7c7ad9f61fa8f6c9bd09d24524dbe17463f.camel@intel.com>
- <6e1201f5-da25-6040-8230-c84856221838@redhat.com>
- <273414f5-2a7c-3cc0-dc27-d07baaa5787b@intel.com>
-Content-Language: en-US
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v6 14/41] x86/mm: Introduce _PAGE_SAVED_DIRTY
-In-Reply-To: <273414f5-2a7c-3cc0-dc27-d07baaa5787b@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 320E134
+X-Stat-Signature: ybbcoyf11h49p9quu88t1dg4kuty1m1n
+X-Rspamd-Server: rspamout02
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+8kobCdGdcWhmHWOr9mPUUF3sOhp8Kwis=
+X-HE-Tag: 1677058797-751421
+X-HE-Meta: U2FsdGVkX1+UdPFDfaN1hY5zcxQ+HQPvxVKNWYfjZMmIKNJ658qKEWuywkzdpnpyRHDVQTb4ua/dzl8jHTTtRA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 21.02.23 21:13, Dave Hansen wrote:
-> On 2/21/23 00:38, David Hildenbrand wrote:> Sure, for my taste this is
-> (1) too repetitive (2) too verbose (3) to
->> specialized. But whatever x86 maintainers prefer.
-> 
-> At this point, I'm not going to be too nitpicky.  I personally think we
-> need to get _something_ merged.  We can then nitpick it to death once
-> its in the tree.
+On Tue, 2023-02-21 at 11:08 -0800, Evan Green wrote:
+> This allows userspace to select various routines to use based on the
+> performance of misaligned access on the target hardware.
+[]
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+[]
+> @@ -89,11 +94,11 @@ static bool riscv_isa_extension_check(int id)
+>  void __init riscv_fill_hwcap(void)
+>  {
+>  	struct device_node *node;
+> -	const char *isa;
+> +	const char *isa, *misaligned;
+>  	char print_str[NUM_ALPHA_EXTS + 1];
+>  	int i, j, rc;
+>  	unsigned long isa2hwcap[26] = {0};
+> -	unsigned long hartid;
+> +	unsigned long hartid, cpu;
+>  
+>  	isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
+>  	isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
+> @@ -246,6 +251,28 @@ void __init riscv_fill_hwcap(void)
+>  			bitmap_copy(riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
+>  		else
+>  			bitmap_and(riscv_isa, riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
+> +
+> +		/*
+> +		 * Check for the performance of misaligned accesses.
+> +		 */
+> +		cpu = hartid_to_cpuid_map(hartid);
+> +		if (cpu < 0)
+> +			continue;
 
-Yes, but ... do we have to rush right now?
-
-This series wasn't in -next and we're in the merge window. Is the plan 
-to still include it into this merge window?
-
-Also, I think concise patch descriptions and comments are not 
-necessarily nitpicking like "please rename that variable".
-
-> 
-> So I prefer whatever will move the set along. ;)
-
-If the plan is to merge it in the next merge window (which I suspect, 
-but I might be wrong), I suggest including it in -next fairly soonish, 
-and in the meantime, polish the remaining bits.
-
-Knowing the plan would be good ;)
-
--- 
-Thanks,
-
-David / dhildenb
+unsigned long can't be less than 0
+Likely cpu should be long not unsigned long
+It seems cpu is rather randomly either int or long.
+Perhaps standardizing on int would be better.
 
