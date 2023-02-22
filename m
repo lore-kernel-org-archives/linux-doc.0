@@ -2,170 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 800D4C61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 18:34:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5573C61DA4
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 18:39:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231820AbjBVSe4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 13:34:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39600 "EHLO
+        id S232405AbjBVSjd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 13:39:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230291AbjBVSez (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 13:34:55 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2082.outbound.protection.outlook.com [40.107.237.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D9393E60B;
-        Wed, 22 Feb 2023 10:34:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=joSGo43kl8pYjvJk9sECxXnwwgrP1hX1B7nNr2QKiSwOJccUwATQxZ3biqfBj1KsT0P0sWdWDgF5UfFZB2c7MtTWjk88zN85vZnfNXonmhWlDTNoSCabRLxcOna+Ge4NmB6sFfmVIFxMy9CTTfkqutNFeU12xuoxrWLVswKk8Yxuzk9DwbdbCEESHSpkhN7ZLWJFMtwBJhMsL0OQfAs4rdae2Cdvl0qCgeKC0PJ+fH2b61Gf1L5BufyZ65JzJOvbMakCw/JFJC7TodP8V2DhpMAx2Q0N4d3JThuIxG4I+MPlvB+4Y3wIw+gkeR00w9dCzPKwJ+Tt+PppE/Vo9Nu+Sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Dq9E29Giboj6XsmzOA7ADNWw2jvAVh402cn6kRaS3i8=;
- b=lmFJUJDyLlxhm+e5Pb6fltZe5c5JzVhLWkHoHJKXOdui31nZqUx5a+ULhNZXc0Me/OWW5+NUvni+Z0S/ghBkMcGYiIJRjmCzx4/5rBjGz8tW36fHS3FhyC2F0zwsDxbyQP1MUa0Ll/WI4qiDtLUNnxvDVi6Vaq3D2Q/J8P4fbaYdVweCY4PhPD2QhsDILF2VcWXua5FRetUPgS22k0CfI0wVGJvZrRFEuc7QFp2q/GKbE6k10nyMZ5PcVxejVjraq+DfKZUCKPPr0+nvS19xs3xztvyeu/dwMCNG0kz8ADyqVz2prlpSHPGrkGdJR8rbCcf3TM2cvaUQ3MSuUPnsUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dq9E29Giboj6XsmzOA7ADNWw2jvAVh402cn6kRaS3i8=;
- b=buJsC4n4mzUw9XGtvnZbuA29iZ6t8UZPTC8+2LKNu8HRIIcZYZVdaFa9T4X251GJCHr+fiHGK3FDwgbVJuZ9tfh3uXc+eftSrUvu4znHEVd8r7Fcsr6MktXQqvGTO+V1IiqBvGKeFO2el6xyjqNauOwJB1qjrck3R51R5D+5SPA=
-Received: from BN9PR03CA0111.namprd03.prod.outlook.com (2603:10b6:408:fd::26)
- by IA1PR12MB6258.namprd12.prod.outlook.com (2603:10b6:208:3e6::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19; Wed, 22 Feb
- 2023 18:34:52 +0000
-Received: from BN8NAM11FT071.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:fd:cafe::ac) by BN9PR03CA0111.outlook.office365.com
- (2603:10b6:408:fd::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.23 via Frontend
- Transport; Wed, 22 Feb 2023 18:34:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT071.mail.protection.outlook.com (10.13.177.92) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6134.19 via Frontend Transport; Wed, 22 Feb 2023 18:34:52 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 22 Feb
- 2023 12:34:51 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 22 Feb
- 2023 12:34:51 -0600
-Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Wed, 22 Feb 2023 12:34:50 -0600
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-To:     <corbet@lwn.net>
-CC:     <kaiwan.billimoria@gmail.com>, <rlove@rlove.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: [PATCH v2] docs: Add relevant kernel publications to list of books
-Date:   Wed, 22 Feb 2023 12:34:45 -0600
-Message-ID: <20230222183445.3127324-1-carlos.bilbao@amd.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT071:EE_|IA1PR12MB6258:EE_
-X-MS-Office365-Filtering-Correlation-Id: e54772e2-f643-4d91-51fb-08db15037c7f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2KgeBodjl4roK8aZAVaOTzpy9PVVtlvzahgjK2fnSKaOejVsqlBcvJMurFMqsl1BJRjFNN2pqiJmOiC6qpfqNI5/Dl6UGGN87edhDbJgVQxJkHXOX6vc1lnJ/TLaqnsK36BThDIKn/pI0EllWRrslygZHCEpK+uvH63DDQegIbW5wueoGIXMLfJlQKRSsottlioDuORescxfoCW678nC+T8j+8b7ZUyoUusMOZ2EngMUE/ou87rBP83i0skj84nUHAjc3Loh3KN0RaFKwqQlASqZcwI4v/mcGbwuXM5hgdtRD4h46Khk1XNnZeTnof4zOKXezY5ON+5eIEvqjsdis4jwk2sTloKdLDTYFl1CuKTuIgKbLonSsr/8C4kBVc9Z3dPQx2tIUjutep/kzCLcwTRw02PiQMG3G6j+2qgxVb9f+63+x9BoRnbVqg7CVgRjqrS7U7oCOD2oA0l0mgoZlIYJjxgDQaDAQ2jvwVomFubAQWQwbO0Qq3Ln0h/tSu8Sax0pbsL87lGPofnVfteeDBBWLTr0saYbTX3RaDUrhSDCq1OI0zYfSomqu2df7WaHD9wWky9iAOw69fVIuyND6fmq9fITpFdNFd7xREJsmmVpc3JvJgRT/qgIOKUbUTpCwQgX5WhBGAzDCyEm3t/f/MhVha34Xg7a3xXLIQh8PPYD0ppW4EBVye3UJnZzfdON8m+kasgrORjpMeIdrch7WjLi3Od3NV9/tyMkB0JeIQo=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(396003)(39860400002)(376002)(346002)(136003)(451199018)(40470700004)(46966006)(36840700001)(36756003)(40460700003)(83380400001)(426003)(47076005)(7696005)(36860700001)(1076003)(186003)(336012)(26005)(2616005)(40480700001)(478600001)(4326008)(8676002)(6916009)(86362001)(70206006)(44832011)(70586007)(2906002)(5660300002)(8936002)(41300700001)(81166007)(54906003)(82740400003)(316002)(6666004)(356005)(82310400005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 18:34:52.0548
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e54772e2-f643-4d91-51fb-08db15037c7f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT071.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6258
+        with ESMTP id S232248AbjBVSjd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 13:39:33 -0500
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17B9F2E815
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 10:39:32 -0800 (PST)
+Received: by mail-pl1-x649.google.com with SMTP id lm13-20020a170903298d00b0019a8c8a13dfso4348643plb.16
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 10:39:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1RX0usnmg54lDWkRfTdJaybq9v0ennM6mLW3m9XCSVk=;
+        b=dHlkLbxj7oVZhPWN9VK1XIGSE8j9w1WDljtOSlDVt0y057HlUP4h9F4yHngWwJPkEj
+         PQqTGNrD2PFs6kuiihbTD8ypAtiBfXtIYUC8xgr6U18lwjwCnEvxUMlfAePYGGGLI9A8
+         1Q9WU0wrrMXDWaDWm2Hvg5VrtzNmd4yZuFidDo8W4BXxwr3hGy/Av0/Nh/wxUMMfwNrx
+         zGImFPOF0jQxK93E4SD0QlQXEHMaVl7i5PS0X06BUBNKLKtRsQTmMYdfNwP78VdeVDTH
+         bMW0RQCBXgGFEA+L+of+7fo6IYkvZOtkkKi77r8ichXwD9vOQneqon/YxKD/jreYm6Da
+         D5XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1RX0usnmg54lDWkRfTdJaybq9v0ennM6mLW3m9XCSVk=;
+        b=yaF3uQJ44WZ6Iox+w55YEgtXZz9NluNlBqFGV6L5Gi7AeC+7R30vISZ8U4Y72tUTTD
+         C91J4tmpyN4dU22OvtEMYTALxoJ+bGg33G01uXFcwcF9umRc474ZJRyVqiOIgbrVSS/s
+         PyUl11LAj6KzBBntE/jSDT1Nkt6n7Xtkx3A5S/F3RQh+biUzdwAh4Zu8YGc/NJVh+uln
+         OFS+na9I8tNcSFCGblfnLvxvnZIcatl5CjveOeRyWQ4vestxw8Zq5YVQDZqbSYcKwkmt
+         1dZGhWfhmx8oKdwG6neUdX/JruDFW8A7uoMMYZTUhVI1JOmJWxVKM83BPY+IyJMHgqQk
+         wGKg==
+X-Gm-Message-State: AO0yUKVAco6/FrYoQFo5Ed2qMbWL5iSBLPMI+knQCu4kMRhoanfWau2U
+        aZ9qnRlEWdQE7U60BSmRLJ4f4dLWtTo=
+X-Google-Smtp-Source: AK7set+5dRB8iLmwnKzhs7QvBP57/KrG+2y4uCZ7f6ytg7iZfRgE8z0UbaB0ZlzERRTIoeNciM4bw5J7PfU=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a63:3e4f:0:b0:4fc:a80e:e6ec with SMTP id
+ l76-20020a633e4f000000b004fca80ee6ecmr1209989pga.5.1677091171417; Wed, 22 Feb
+ 2023 10:39:31 -0800 (PST)
+Date:   Wed, 22 Feb 2023 10:39:30 -0800
+In-Reply-To: <20230220084500.938739-1-jun.miao@intel.com>
+Mime-Version: 1.0
+References: <20230220084500.938739-1-jun.miao@intel.com>
+Message-ID: <Y/ZhYiN+oYbx6z5n@google.com>
+Subject: Re: [PATCH] KVM: Align the function name of kvm_swap_active_memslots()
+From:   Sean Christopherson <seanjc@google.com>
+To:     Jun Miao <jun.miao@intel.com>
+Cc:     pbonzini@redhat.com, corbet@lwn.net, maciej.szmigiero@oracle.com,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For the list of kernel published books, include publication covering kernel
-debugging from August, 2022 (ISBN 978-1801075039) and one from March, 2021
-on the topic of char device drivers and kernel synchronization (ISBN
-978-1801079518). Also add foundational book from Robert Love (ISBN
-978-1449339531) and remove extra spaces.
+Nit, "Align" is a confusing because it's often used to refer to indentation.  Maybe?
 
-Co-developed-by: Carlos Bilbao <carlos.bilbao@amd.com>
-Signed-off-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+   KVM: Fix comments that refer to the non-existent install_new_memslots()
 
----
+On Mon, Feb 20, 2023, Jun Miao wrote:
+> The function of install_new_memslots() is replaced by kvm_swap_active_memslots().
+> In order to avoid confusion, align the name in the comments which always be ignored.
+> 
+> Fixes: a54d806688fe "KVM: Keep memslots in tree-based structures instead of array-based ones")
+> Signed-off-by: Jun Miao <jun.miao@intel.com>
+> ---
+>  Documentation/virt/kvm/locking.rst | 2 +-
+>  include/linux/kvm_host.h           | 4 ++--
+>  virt/kvm/kvm_main.c                | 4 ++--
+>  3 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/locking.rst b/Documentation/virt/kvm/locking.rst
+> index 14c4e9fa501d..ac0e549a3ae7 100644
+> --- a/Documentation/virt/kvm/locking.rst
+> +++ b/Documentation/virt/kvm/locking.rst
+> @@ -21,7 +21,7 @@ The acquisition orders for mutexes are as follows:
+>  - kvm->mn_active_invalidate_count ensures that pairs of
+>    invalidate_range_start() and invalidate_range_end() callbacks
+>    use the same memslots array.  kvm->slots_lock and kvm->slots_arch_lock
+> -  are taken on the waiting side in install_new_memslots, so MMU notifiers
+> +  are taken on the waiting side in kvm_swap_active_memslots, so MMU notifiers
 
-Changes since v1:
+Can you send a v2 and opportunistically add () to the blurbs that don't have it?
+I.e. so these are all "kvm_swap_active_memslots()"?
 
- - Fix name of author Kaiwan N Billimoria.
- - Include other book, from 2021, also authored by Kaiwan.
- - Include Kaiwan's SoB.
-
----
- Documentation/process/kernel-docs.rst | 36 +++++++++++++++++++++++----
- 1 file changed, 31 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-index 1c6e2ab92f4e..46f927aae6eb 100644
---- a/Documentation/process/kernel-docs.rst
-+++ b/Documentation/process/kernel-docs.rst
-@@ -75,13 +75,39 @@ On-line docs
- Published books
- ---------------
- 
-+    * Title: **Linux Kernel Debugging: Leverage proven tools and advanced techniques to effectively debug Linux kernels and kernel modules**
-+
-+      :Author: Kaiwan N Billimoria
-+      :Publisher: Packt Publishing Ltd
-+      :Date: August, 2022
-+      :Pages: 638
-+      :ISBN: 978-1801075039
-+      :Notes: Debugging book
-+
-     * Title: **Linux Kernel Programming: A Comprehensive Guide to Kernel Internals, Writing Kernel Modules, and Kernel Synchronization**
- 
--          :Author: Kaiwan N. Billimoria
--          :Publisher: Packt Publishing Ltd
--          :Date: 2021
--          :Pages: 754
--          :ISBN: 978-1789953435
-+      :Author: Kaiwan N Billimoria
-+      :Publisher: Packt Publishing Ltd
-+      :Date: March, 2021
-+      :Pages: 754
-+      :ISBN: 978-1789953435
-+
-+    * Title: **Linux Kernel Programming Part 2 - Char Device Drivers and Kernel Synchronization: Create user-kernel interfaces, work with peripheral I/O, and handle hardware interrupts**
-+
-+      :Author: Kaiwan N Billimoria
-+      :Publisher: Packt Publishing Ltd
-+      :Date: March, 2021
-+      :Pages: 452
-+      :ISBN: 978-1801079518
-+
-+    * Title: **Linux System Programming: Talking Directly to the Kernel and C Library**
-+
-+      :Author: Robert Love
-+      :Publisher: O'Reilly Media
-+      :Date: June, 2013
-+      :Pages: 456
-+      :ISBN: 978-1449339531
-+      :Notes: Foundational book
- 
-     * Title: **Linux Kernel Development, 3rd Edition**
- 
--- 
-2.34.1
-
+Thanks!
