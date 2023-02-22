@@ -2,215 +2,493 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EC79C61DA3
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 00:10:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D47C61DA3
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 00:28:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbjBVAKc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 19:10:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51830 "EHLO
+        id S229451AbjBVA2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 19:28:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230225AbjBVAKa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 19:10:30 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5875D30E99;
-        Tue, 21 Feb 2023 16:10:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677024614; x=1708560614;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=+b7IXXfiO0yVGbRO1va0y8Napiu1zSAoR2TQ4jx9luQ=;
-  b=h+LCXeHxi44I5e1K+B1FT3qMX4xNlm+BDKkHiUbjBautYGW0HiJQvZSr
-   at+l9rkJ8U8AGwOiPqq9kWoJQeSBm9+3OJfxG5GXE2+9oUQLRfYE3SCAU
-   YSj2YDCiQCfGOaFZD1MtmHEkmwuYmhqSZXBctr9wG2Zapj6G/fQwLWhJ0
-   kxp3hYfu02gX8Z6SP00ITb+j6me1ds03A48GYK0yL+1L+jSvYwla50xNK
-   SdVZdppABeHRWPFDNX5xPfx2o4O48wNrFmh1flTcbJvTPLk14Lsum75QW
-   N2C9Ek4jWtJMVyF53RCnABspTTyluyXHhpQdgtxLEbCHI0YwmVwN/kE26
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="397481189"
-X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
-   d="scan'208";a="397481189"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 16:06:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="781195224"
-X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
-   d="scan'208";a="781195224"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2023 16:06:14 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 21 Feb 2023 16:06:13 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 21 Feb 2023 16:06:13 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.172)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Tue, 21 Feb 2023 16:06:13 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lmW9wwSLf5x9dZsVgd4ZBCR9uvOyX93gshkDxNyBrlYbnbfpxVwV8IUiYuNnJHkeJNyWCpc8suZiub7wBI5GRX3Vs5jSm/QZD8nJijTayFqef2ShhswlGuv+te+wWM1ET2kWiC41/84LC5B7K38bPGTQXrZ9uJtKyrzc9eFlj5zwn42GDQNSbGklwdKvE+2z6VY5vVguUjniYqY1c1Xihd1J4GGWhBdk414Spr5RqAuTjK5Xe6o4Cf/0bLvojC8HnEyFJtuhwup9p+7GclxC2qItbpx945+74bkHFuxSPCaX3RPyThfpt4P+7W49M4oowvFobZJpPgSNoPeU/OkJAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+b7IXXfiO0yVGbRO1va0y8Napiu1zSAoR2TQ4jx9luQ=;
- b=jjEpqlmYQeYsrOYzExHmiPYc7QzyUkHF9WDfQdOV4iBI3wmk64hakq12LSq3GMW0TYrdaI/kCtcwmWP2JG+R2gEuxrNU4oCzNfLgLJXIPSzoFYJ+mONLom7tTkjsVKLVQvh4K8v7vsrLYDWCjrt/yllrx5gs5cpQHQhwYQ5hy8CMQwIkXMoYKrUseD+gxF0sm/GRwr51827yg4D5adwFcWGydQAg3B0TO0mp/AgUaAZ4FmfGuhDyKcED9yFMze9c4y6mqtGBKaTPNfLBhd5dftZHjfyMe3As05ZAzVS+Ra5t+ZaeJit4BrsqsN2WhVApE+VaReCYGg/vbiHGXG1zgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY4PR11MB1383.namprd11.prod.outlook.com (2603:10b6:903:2d::13)
- by BL1PR11MB6004.namprd11.prod.outlook.com (2603:10b6:208:390::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21; Wed, 22 Feb
- 2023 00:06:10 +0000
-Received: from CY4PR11MB1383.namprd11.prod.outlook.com
- ([fe80::8a50:1507:bb1d:2f89]) by CY4PR11MB1383.namprd11.prod.outlook.com
- ([fe80::8a50:1507:bb1d:2f89%12]) with mapi id 15.20.6111.020; Wed, 22 Feb
- 2023 00:06:10 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-CC:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v6 22/41] mm/mmap: Add shadow stack pages to memory
- accounting
-Thread-Topic: [PATCH v6 22/41] mm/mmap: Add shadow stack pages to memory
- accounting
-Thread-Index: AQHZQ95AuCiA6kLAS0S/RX8WTDnCKq7XzlwAgACjmwCAAKP/AIABBTuA
-Date:   Wed, 22 Feb 2023 00:06:10 +0000
-Message-ID: <54f73dbb6a26641616e258857f3cf1275d99ef16.camel@intel.com>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
-         <20230218211433.26859-23-rick.p.edgecombe@intel.com>
-         <6ccc8d30-336a-12af-1179-5dc4eca3048d@redhat.com>
-         <8bd58778e062bb9526c905c5573a2ee20cb41eef.camel@intel.com>
-         <c2db1af6-972c-2aef-2732-d37c41c310a1@redhat.com>
-In-Reply-To: <c2db1af6-972c-2aef-2732-d37c41c310a1@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY4PR11MB1383:EE_|BL1PR11MB6004:EE_
-x-ms-office365-filtering-correlation-id: de42b7b1-7d87-4874-1ae4-08db14689a62
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: apdnUAu6yX1frxITvuoNjGu+yNEE+UEJIdW2Orjens+LNNUK1X0Pewv+4/cn86tymJYIl+FvGHfZigPoR15MgX/HQX4sKNW10EusvdL7o2wBXn1STtwrH/p/8zpTyZNH57eNmFLdxKeXJ71EkktmpIMnLn9ofECT+b8Cu0Zpk7jpJiqaRnP7usg0m2GfiQWVOmrgl0BaAD4YlOjmEElluYOozcZuKpRfh8E6QUcCyvZpch8QsM4SmaUngyqjAn5Ma3CvawEkxulZHHBVpJKFu/I2JxdTdcPtyactG21zLYi0fX0q10ik2NWCC2lDapQ0ciDazgP2XFKj/U4b3s6QOolj3GPs+P8f1uIo0kYHzNS1/NH/tTUV3mMdFUYlJ1S1m0OMqTVsrJhqfrdOokrlAp54s2Yjfj3n1BLna1/8cNKGhp2yzw5sTRYpjpJS+IlGxoJ0lZRIEsD6IoSJxUG39ukoMr3kueF9x8C1fsgNSgNkVMJV+Cg0PBHDJOez8SKxhKQWs9K07nebQHNSS0TjQsdf5M5r3RIbqu1ZIo/rBi7QAQkmUL5rlWO06/kde5gvAi2UvHswhhbvh1CJaztVy0HCjblc+bhP8DgqVfrdWQkEtfycwaOOjK8LpAYt+WpmH20tpjlx7u7cys9yIAUBbGY6ugK8D0AZ+IARxZRSjCFDzRPhGlLQIG12m+4p9Gp7ViEOJQCXDs8jpifiBfGvg38MV7nip5jF2loXI98CZKo=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1383.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(39860400002)(376002)(136003)(396003)(346002)(451199018)(2616005)(316002)(6486002)(966005)(26005)(6506007)(6512007)(38070700005)(186003)(478600001)(921005)(71200400001)(86362001)(4744005)(110136005)(7416002)(83380400001)(66556008)(66446008)(4326008)(66476007)(64756008)(91956017)(76116006)(66946007)(8936002)(8676002)(41300700001)(5660300002)(38100700002)(7406005)(82960400001)(36756003)(15650500001)(122000001)(2906002)(99106002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WDQvb3ZwVW00eWtrOXlMOC9jUHRQQlpQVkxPUEl2SlFCM241MlhxdU5RRlJI?=
- =?utf-8?B?L3pzT3d2Z0I1Qnd1VHE5YVZ1YlprV1BkdE1UdWsydGxHRGFhb1kwVFprTFEw?=
- =?utf-8?B?bDNHK2pFeVRoZGQ5YjNXeXlGd2NiMC9lY0dYclpUdUs1aUZROUlaZnpWdXNF?=
- =?utf-8?B?aUFyRTRSRzVBUG5HRjQ4M0djZzZVUjhqNmJIWkNNd0FRUEJIVTE1U1NET3ZC?=
- =?utf-8?B?ZkZzUktnQVhtV0JER1VIL0EySGJtUDdKYis4aVFWTldCaGQycDE0RHJNeEdZ?=
- =?utf-8?B?cUZYMnZaT2JJR2QzUUM3SWwvdXpWeWh0Wk41WnppVWlZRlkvZVE0UkYvSlpY?=
- =?utf-8?B?RU9pWkpiQkNPN0FCZWVaSFlVQ0FvYjY3bjE1S0VmZWk1ZTNYUkIySEJNWndr?=
- =?utf-8?B?QVFSb2QweWNFSmplV0UwZ3l1TFlxSFN3NnlwSXRUWkYzVmxPQ0tBVzhUbktU?=
- =?utf-8?B?VzRuNERIdnlhK2tOb2g4NmtIcnBuRjNPMEZ4SDdWZGpFYyt1UEROTEhNVERo?=
- =?utf-8?B?dG9mTytNNnNzY1RYcTEwMUh5eUxxWjFwWXd4RE5mMjhnbGhUakRHSWhXdnpZ?=
- =?utf-8?B?b0VEREFRYWZ3WnkyUmxycTQzT09TOHd4dmRaSGZsL0l5azZOcXd2VWlMT2dR?=
- =?utf-8?B?aGpkTFNtbG9BcUphSFNqbmxXa3ZCRFNOUjVsNW05ZW9SQ0VUcTJCVXNYN01L?=
- =?utf-8?B?aWZWalFEZ0E1NGZ4SU4xYTkxckN2d0ZYWTZUNlV5RldUbk56OHR6RVUzdVli?=
- =?utf-8?B?eHlzZVlpNzB1WHQ0TC9zRVVHcE8xeWNSL2VGWmFmTm5xUWt0VEFNVm1CNFor?=
- =?utf-8?B?NHZXUHhMN2ViS013VHRveGdxRjVZRXdrMTE4dXZ5U3JuZGtoT1ZGb1BjZUpF?=
- =?utf-8?B?ZVJ5VUVWRHcyYnM5SlZUZStXT3JXeFEvejE1elV2b3ZZYUhhSUZRM05PSVJr?=
- =?utf-8?B?aGZvU3hqdEYxNmhPT0hEN2hBUUMvR2tUZjlyTmhNN1ZudjRwb3U0ZnE4ZDFQ?=
- =?utf-8?B?TE0wRVpSSTdUYUNDL1p5N3hHbkFqa1RkbnJncjh2b3RFOU8rMEJXaXdzcU54?=
- =?utf-8?B?RkJRZVpOY0FET0N3RWovMFc3QjlkQWpudFFhYkZaclNNV2EwNGJnK0lXd29L?=
- =?utf-8?B?M1BMb2pFMk5RT1BZWk5nclI2RjRXcEVwRnRwZ0ROR041emk2MHBHTkgweUEx?=
- =?utf-8?B?RHpHdUwyQkhZV3p0bDJtZ2UrVTlDTFVrYXIvQXFBZXB4NDdaNXpnUEg0VHVL?=
- =?utf-8?B?Yi8rVnFuK1FNY2poZU5ZcXlyRjJkY3RlblhIUjZ4bzJLUWNTWVcrTU01Q0wz?=
- =?utf-8?B?MnA0cDhONEdUTHNYeXlkY3FhNlFnYWF6R0VoV2VKbVFSLytVZTVmUGMzRW8x?=
- =?utf-8?B?WDhkRXBtWmtaSWx3aW1ZaFBRZnh0cXh3akNsRDRLMVlNNTl0MHFyZ3lYZUlr?=
- =?utf-8?B?OGJ3WDVOc1ZBVGM0UXNNTGk2eTRkZElrT0RVL3JuUVJuLzdpWWY3cTdUck0v?=
- =?utf-8?B?WWp2VVV1RDIwSUQzcW1FalhBcStVcWxpZUM4eWRFa21UK2VwL0c2cnFkU1Vo?=
- =?utf-8?B?NE5zMDgzaHZxcysxZjRac3dtaXRIeFhSV1pBVFdrT0VGbEZjYzBNSklaMnIw?=
- =?utf-8?B?SWQ2akQvRmZCZWVqQkhJbnlCZzRHNTIyaUMzeEk1N1A3ZTlWUDZVOVNUWi9h?=
- =?utf-8?B?STN3OEloRGc5Tkwrd2xJT2N6ZEsrRUk5SWordVArUkh3WjB1QVZ0N200UjRM?=
- =?utf-8?B?R3VqZ2VnR2FQeW8wMWwwYm5lTVRiYzFxOXBpbEZYR0Y1cGNlWHdadkhVaDd2?=
- =?utf-8?B?SHJIdlhNQWpQd2hXS0FKTDFxMDJvRGlwYldDWWJzVU5ELzdOMEtOallCd3dE?=
- =?utf-8?B?SURxcWJVcVpNSzZBb0Y4dVpnK1NVZURqR2FacFVCSGRVdlU2NEtUNEtJQlJN?=
- =?utf-8?B?QWVnOFlCSGY5Y0I5UXB2cm1LWC9yemlWN2lZSmw0anNHSHRlNnhodTdJbWpE?=
- =?utf-8?B?UGdoZFZ1bG1WTGk1MnhheDVmbWRicnZIYVUyOXlxQldpaFVRMUg0bGpkekt1?=
- =?utf-8?B?M0FIRStLU0Jpa3ZvMXkwRjY1dWZRRzR0VnVDVEgzUFdLZHRiTUVmNjdnSVVy?=
- =?utf-8?B?WVY0d2RESXNCRkg4WUtzV20ycmN1V1VBeGtXNWwxdnVGMGdLaHZKazJFdjM0?=
- =?utf-8?Q?G6PbfIrbi+ulKZzOt2xT7Fw=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D85E8E97CFCDB84793C38948876BF3D4@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S229688AbjBVA2A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 19:28:00 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E195A4;
+        Tue, 21 Feb 2023 16:27:48 -0800 (PST)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31M0RS5p002955;
+        Wed, 22 Feb 2023 00:27:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=206/ENTYhpd8cRg/HRQOtIZa/mKOhxRJ+u795kVpeiQ=;
+ b=Zr27zCvg8JKYoGzW/fp+UXjF1KxAcQFNI0YlIbtRm3v+ZPyHrYacO4JWRx/rrm1dJLnw
+ DgKNByMMl7KpTZTe/w9nJuZB9EIiZ5ru61nn3KpMPH7WzUJMcSjTqmyqBPN5WrwtTJXX
+ MjsOa3Bm6Jj3NNkqur1zeVqa123VbKZH1vpn3t8i/C5Vz0NNGGeKHoHJpbNJa1Fw69Nn
+ m+PA2loU9kDGSS3/SX6BS+4MbLEc2+UEGGLrAgkPF4D0RVlMSQDDn5iS82bGZAbXJ/h/
+ VZLvo+x1KzHC3SUlHC89jwdGlEfaFNIVk6Yv2hkxOQKsY98hJuNqvj2buL2vQH4yyNjf AQ== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nw8gnr02j-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Feb 2023 00:27:28 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31M0RRoN025909
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Feb 2023 00:27:27 GMT
+Received: from [10.110.71.80] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 21 Feb
+ 2023 16:27:26 -0800
+Message-ID: <05c4aab8-2d26-b944-adb6-624d67e4a11d@quicinc.com>
+Date:   Tue, 21 Feb 2023 16:27:25 -0800
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1383.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de42b7b1-7d87-4874-1ae4-08db14689a62
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Feb 2023 00:06:10.2019
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /Jhl3JOcnwuoAk6Nm/fi1m6hchPd6BGVJe+aioysd2XIyTke8jTw5ft+Xx7JPbNsqxpNVdnU51I/dWowVVxeyVodPL99tfQLmbsJzDHH7VE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB6004
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 10/26] gunyah: vm_mgr: Introduce basic VM Manager
+Content-Language: en-US
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alex Elder <elder@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212356.3313181-1-quic_eberman@quicinc.com>
+ <dbcfa4e9-a1ad-0f24-77bf-05934ca26bb2@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <dbcfa4e9-a1ad-0f24-77bf-05934ca26bb2@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: HKKGuBqppjiiOzIkNHkllqlyyIafk3Jn
+X-Proofpoint-GUID: HKKGuBqppjiiOzIkNHkllqlyyIafk3Jn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-21_13,2023-02-20_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015
+ lowpriorityscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0 phishscore=0
+ suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302220000
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gVHVlLCAyMDIzLTAyLTIxIGF0IDA5OjMxICswMTAwLCBEYXZpZCBIaWxkZW5icmFuZCB3cm90
-ZToNCj4gPiA+IFdoeSBub3QgbW9kaWZ5IGlzX3N0YWNrX21hcHBpbmcoKSA/DQo+ID4gDQo+ID4g
-SXQga2luZCBvZiBzdGlja3Mgb3V0IGEgbGl0dGxlIGluIHRoaXMgY29uZGl0aW9uYWwsIGJ1dA0K
-PiA+IGlzX3N0YWNrX21hcHBpbmcoKSBoYXMgdGhpcyBjb21tZW50Og0KPiA+IC8qDQo+ID4gICAg
-KiBTdGFjayBhcmVhIC0gYXV0b21hdGljYWxseSBncm93cyBpbiBvbmUgZGlyZWN0aW9uDQo+ID4g
-ICAgKg0KPiA+ICAgICogVk1fR1JPV1NVUCAvIFZNX0dST1dTRE9XTiBWTUFzIGFyZSBhbHdheXMg
-cHJpdmF0ZSBhbm9ueW1vdXM6DQo+ID4gICAgKiBkb19tbWFwKCkgZm9yYmlkcyBhbGwgb3RoZXIg
-Y29tYmluYXRpb25zLg0KPiA+ICAgICovDQo+ID4gDQo+ID4gU2hhZG93IHN0YWNrIGRvbid0IGdy
-b3csIHNvIGl0IGRvZXNuJ3QgcXVpdGUgZml0LiBUaGVyZSB1c2VkIHRvIGJlDQo+ID4gYW4NCj4g
-PiBpc19zaGFkb3dfc3RhY2tfbWFwcGluZygpLCBidXQgaXQgd2FzIHJlbW92ZWQgYmVjYXVzZSBh
-bGwgdGhhdCB3YXMNCj4gPiBuZWVkZWQgKGZvciB0aGUgdGltZSBiZWluZykgd2FzIHRoZSBzaW1w
-bGUgYml0d2lzZSBBTkQ6DQo+ID4gDQo+ID4gDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21s
-LzgwNGFkYmFjLTYxZTYtMGZkMi1mNzI2LTU3MzVmYjI5MDE5OUBpbnRlbC5jb20vDQo+IA0KPiBB
-cyB0aGVyZSBpcyBvbmx5IGEgc2luZ2xlIHVzZXIgb2YgaXNfc3RhY2tfbWFwcGluZygpLCBJJ2Qg
-c2ltcGx5DQo+IGhhdmUgDQo+IGFkanVzdGVkIHRoZSBkb2Mgb2YgaXNfc3RhY2tfbWFwcGluZygp
-IHRvIGluY2x1ZGUgc2hhZG93IHN0YWNrcy4NCg0KT2ssIEknbGwgdXBkYXRlIHRoZSBjb21tZW50
-IGFuZCBhZGQgaXQgdGhlcmUuDQo=
+
+
+On 2/21/2023 2:46 AM, Srinivas Kandagatla wrote:
+> 
+> 
+> On 14/02/2023 21:23, Elliot Berman wrote:
+>>
+>> Gunyah VM manager is a kernel moduel which exposes an interface to
+>> Gunyah userspace to load, run, and interact with other Gunyah virtual
+>> machines. The interface is a character device at /dev/gunyah.
+>>
+>> Add a basic VM manager driver. Upcoming patches will add more ioctls
+>> into this driver.
+>>
+>> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+>> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>> ---
+>>   .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+>>   drivers/virt/gunyah/Makefile                  |   2 +-
+>>   drivers/virt/gunyah/rsc_mgr.c                 |  37 +++++-
+>>   drivers/virt/gunyah/vm_mgr.c                  | 118 ++++++++++++++++++
+>>   drivers/virt/gunyah/vm_mgr.h                  |  22 ++++
+>>   include/uapi/linux/gunyah.h                   |  23 ++++
+>>   6 files changed, 201 insertions(+), 2 deletions(-)
+>>   create mode 100644 drivers/virt/gunyah/vm_mgr.c
+>>   create mode 100644 drivers/virt/gunyah/vm_mgr.h
+>>   create mode 100644 include/uapi/linux/gunyah.h
+>>
+>> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst 
+>> b/Documentation/userspace-api/ioctl/ioctl-number.rst
+>> index 0a1882e296ae..2513324ae7be 100644
+>> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+>> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+>> @@ -137,6 +137,7 @@ Code  Seq#    Include 
+>> File                                           Comments
+>>   'F'   DD     video/sstfb.h                                           
+>> conflict!
+>>   'G'   00-3F  drivers/misc/sgi-gru/grulib.h                           
+>> conflict!
+>>   'G'   00-0F  xen/gntalloc.h, xen/gntdev.h                            
+>> conflict!
+>> +'G'   00-0f  linux/gunyah.h                                          
+>> conflict!
+>>   'H'   00-7F  linux/hiddev.h                                          
+>> conflict!
+>>   'H'   00-0F  linux/hidraw.h                                          
+>> conflict!
+>>   'H'   01     linux/mei.h                                             
+>> conflict!
+>> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+>> index de29769f2f3f..03951cf82023 100644
+>> --- a/drivers/virt/gunyah/Makefile
+>> +++ b/drivers/virt/gunyah/Makefile
+>> @@ -2,5 +2,5 @@
+>>   obj-$(CONFIG_GUNYAH) += gunyah.o
+>> -gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o
+>> +gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
+>>   obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
+>> diff --git a/drivers/virt/gunyah/rsc_mgr.c 
+>> b/drivers/virt/gunyah/rsc_mgr.c
+>> index 2a47139873a8..73c5a6b7cbbc 100644
+>> --- a/drivers/virt/gunyah/rsc_mgr.c
+>> +++ b/drivers/virt/gunyah/rsc_mgr.c
+>> @@ -16,8 +16,10 @@
+>>   #include <linux/completion.h>
+>>   #include <linux/gunyah_rsc_mgr.h>
+>>   #include <linux/platform_device.h>
+>> +#include <linux/miscdevice.h>
+>>   #include "rsc_mgr.h"
+>> +#include "vm_mgr.h"
+>>   #define RM_RPC_API_VERSION_MASK        GENMASK(3, 0)
+>>   #define RM_RPC_HEADER_WORDS_MASK    GENMASK(7, 4)
+>> @@ -103,6 +105,8 @@ struct gh_rm {
+>>       struct kmem_cache *cache;
+>>       struct mutex send_lock;
+>>       struct blocking_notifier_head nh;
+>> +
+>> +    struct miscdevice miscdev;
+>>   };
+>>   static struct gh_rm_connection *gh_rm_alloc_connection(__le32 
+>> msg_id, u8 type)
+>> @@ -509,6 +513,21 @@ void put_gh_rm(struct gh_rm *rm)
+>>   }
+>>   EXPORT_SYMBOL_GPL(put_gh_rm);
+>> +static long gh_dev_ioctl(struct file *filp, unsigned int cmd, 
+>> unsigned long arg)
+>> +{
+>> +    struct miscdevice *miscdev = filp->private_data;
+>> +    struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
+>> +
+>> +    return gh_dev_vm_mgr_ioctl(rm, cmd, arg);
+>> +}
+>> +
+>> +static const struct file_operations gh_dev_fops = {
+>> +    .owner        = THIS_MODULE,
+>> +    .unlocked_ioctl    = gh_dev_ioctl,
+>> +    .compat_ioctl    = compat_ptr_ioctl,
+>> +    .llseek        = noop_llseek,
+>> +};
+>> +
+>>   static int gh_msgq_platform_probe_direction(struct platform_device 
+>> *pdev,
+>>                       bool tx, int idx, struct gunyah_resource *ghrsc)
+>>   {
+>> @@ -567,7 +586,22 @@ static int gh_rm_drv_probe(struct platform_device 
+>> *pdev)
+>>       rm->msgq_client.rx_callback = gh_rm_msgq_rx_data;
+>>       rm->msgq_client.tx_done = gh_rm_msgq_tx_done;
+>> -    return gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, 
+>> &rm->tx_ghrsc, &rm->rx_ghrsc);
+>> +    ret = gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, 
+>> &rm->tx_ghrsc, &rm->rx_ghrsc);
+>> +    if (ret)
+>> +        goto err_cache;
+>> +
+>> +    rm->miscdev.name = "gunyah";
+>> +    rm->miscdev.minor = MISC_DYNAMIC_MINOR;
+>> +    rm->miscdev.fops = &gh_dev_fops;
+>> +
+>> +    ret = misc_register(&rm->miscdev);
+>> +    if (ret)
+>> +        goto err_msgq;
+>> +
+>> +    return 0;
+>> +err_msgq:
+>> +    mbox_free_channel(gh_msgq_chan(&rm->msgq));
+>> +    gh_msgq_remove(&rm->msgq);
+>>   err_cache:
+>>       kmem_cache_destroy(rm->cache);
+>>       return ret;
+>> @@ -577,6 +611,7 @@ static int gh_rm_drv_remove(struct platform_device 
+>> *pdev)
+>>   {
+>>       struct gh_rm *rm = platform_get_drvdata(pdev);
+>> +    misc_deregister(&rm->miscdev);
+>>       mbox_free_channel(gh_msgq_chan(&rm->msgq));
+>>       gh_msgq_remove(&rm->msgq);
+>>       kmem_cache_destroy(rm->cache);
+>> diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+>> new file mode 100644
+>> index 000000000000..fd890a57172e
+>> --- /dev/null
+>> +++ b/drivers/virt/gunyah/vm_mgr.c
+>> @@ -0,0 +1,118 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>> + */
+>> +
+>> +#define pr_fmt(fmt) "gh_vm_mgr: " fmt
+>> +
+>> +#include <linux/anon_inodes.h>
+>> +#include <linux/file.h>
+>> +#include <linux/gunyah_rsc_mgr.h>
+>> +#include <linux/miscdevice.h>
+>> +#include <linux/module.h>
+>> +
+>> +#include <uapi/linux/gunyah.h>
+>> +
+>> +#include "vm_mgr.h"
+>> +
+>> +static void gh_vm_free(struct work_struct *work)
+>> +{
+>> +    struct gh_vm *ghvm = container_of(work, struct gh_vm, free_work);
+>> +    int ret;
+>> +
+>> +    ret = gh_rm_dealloc_vmid(ghvm->rm, ghvm->vmid);
+>> +    if (ret)
+>> +        pr_warn("Failed to deallocate vmid: %d\n", ret);
+>> +
+>> +    put_gh_rm(ghvm->rm);
+>> +    kfree(ghvm);
+>> +}
+>> +
+>> +static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
+>> +{
+>> +    struct gh_vm *ghvm;
+>> +    int vmid;
+>> +
+>> +    vmid = gh_rm_alloc_vmid(rm, 0);
+>> +    if (vmid < 0)
+>> +        return ERR_PTR(vmid);
+>> +
+>> +    ghvm = kzalloc(sizeof(*ghvm), GFP_KERNEL);
+>> +    if (!ghvm) {
+>> +        gh_rm_dealloc_vmid(rm, vmid);
+>> +        return ERR_PTR(-ENOMEM);
+>> +    }
+>> +
+>> +    get_gh_rm(rm);
+>> +
+>> +    ghvm->vmid = vmid;
+>> +    ghvm->rm = rm;
+>> +
+>> +    INIT_WORK(&ghvm->free_work, gh_vm_free);
+>> +
+>> +    return ghvm;
+>> +}
+>> +
+>> +static int gh_vm_release(struct inode *inode, struct file *filp)
+>> +{
+>> +    struct gh_vm *ghvm = filp->private_data;
+>> +
+>> +    /* VM will be reset and make RM calls which can interruptible sleep.
+>> +     * Defer to a work so this thread can receive signal.
+>> +     */
+>> +    schedule_work(&ghvm->free_work);
+>> +    return 0;
+>> +}
+>> +
+>> +static const struct file_operations gh_vm_fops = {
+>> +    .release = gh_vm_release,
+> 
+>> +    .compat_ioctl    = compat_ptr_ioctl,
+> 
+> This line should go with the patch that adds real ioctl
+> 
+
+Done.
+
+>> +    .llseek = noop_llseek,
+>> +};
+>> +
+>> +static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long arg)
+> Not sure what is the gain of this multiple levels of redirection.
+> 
+> How about
+> 
+> long gh_dev_create_vm(struct gh_rm *rm, unsigned long arg)
+> {
+> ...
+> }
+> 
+> and rsc_mgr just call it as part of its ioctl call
+> 
+> static long gh_dev_ioctl(struct file *filp, unsigned int cmd, unsigned 
+> long arg)
+> {
+>      struct miscdevice *miscdev = filp->private_data;
+>      struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
+> 
+>      switch (cmd) {
+>      case GH_CREATE_VM:
+>          return gh_dev_create_vm(rm, arg);
+>      default:
+>          return -ENOIOCTLCMD;
+>      }
+> }
+> 
+
+I'm anticipating we will add further /dev/gunyah ioctls and I thought it 
+would be cleaner to have all that in vm_mgr.c itself.
+
+> 
+>> +{
+>> +    struct gh_vm *ghvm;
+>> +    struct file *file;
+>> +    int fd, err;
+>> +
+>> +    /* arg reserved for future use. */
+>> +    if (arg)
+>> +        return -EINVAL;
+> 
+> The only code path I see here is via GH_CREATE_VM ioctl which obviously 
+> does not take any arguments, so if you are thinking of using the 
+> argument for architecture-specific VM flags.  Then this needs to be 
+> properly done by making the ABI aware of this.
+
+It is documented in Patch 17 (Document Gunyah VM Manager)
+
++GH_CREATE_VM
++~~~~~~~~~~~~
++
++Creates a Gunyah VM. The argument is reserved for future use and must be 0.
+
+> 
+> As you mentioned zero value arg imply an "unauthenticated VM" type, but 
+> this was not properly encoded in the userspace ABI. Why not make it 
+> future compatible. How about adding arguments to GH_CREATE_VM and pass 
+> the required information correctly.
+> Note that once the ABI is accepted then you will not be able to change 
+> it, other than adding a new one.
+> 
+
+Does this means adding #define GH_VM_DEFAULT_ARG 0 ? I am not sure yet 
+what arguments to add here.
+
+The ABI can add new "long" values to GH_CREATE_VM and that wouldn't 
+break compatibility with old kernels; old kernels reject it as -EINVAL.
+
+>> +
+>> +    ghvm = gh_vm_alloc(rm);
+>> +    if (IS_ERR(ghvm))
+>> +        return PTR_ERR(ghvm);
+>> +
+>> +    fd = get_unused_fd_flags(O_CLOEXEC);
+>> +    if (fd < 0) {
+>> +        err = fd;
+>> +        goto err_destroy_vm;
+>> +    }
+>> +
+>> +    file = anon_inode_getfile("gunyah-vm", &gh_vm_fops, ghvm, O_RDWR);
+>> +    if (IS_ERR(file)) {
+>> +        err = PTR_ERR(file);
+>> +        goto err_put_fd;
+>> +    }
+>> +
+>> +    fd_install(fd, file);
+>> +
+>> +    return fd;
+>> +
+>> +err_put_fd:
+>> +    put_unused_fd(fd);
+>> +err_destroy_vm:
+>> +    kfree(ghvm);
+>> +    return err;
+>> +}
+>> +
+>> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned 
+>> long arg)
+>> +{
+>> +    switch (cmd) {
+>> +    case GH_CREATE_VM:
+>> +        return gh_dev_ioctl_create_vm(rm, arg);
+>> +    default:
+>> +        return -ENOIOCTLCMD;
+>> +    }
+>> +}
+>> diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+>> new file mode 100644
+>> index 000000000000..76954da706e9
+>> --- /dev/null
+>> +++ b/drivers/virt/gunyah/vm_mgr.h
+>> @@ -0,0 +1,22 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>> + */
+>> +
+>> +#ifndef _GH_PRIV_VM_MGR_H
+>> +#define _GH_PRIV_VM_MGR_H
+>> +
+>> +#include <linux/gunyah_rsc_mgr.h>
+>> +
+>> +#include <uapi/linux/gunyah.h>
+>> +
+>> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned 
+>> long arg);
+>> +
+>> +struct gh_vm {
+>> +    u16 vmid;
+>> +    struct gh_rm *rm;
+>> +
+>> +    struct work_struct free_work;
+>> +};
+>> +
+>> +#endif
+>> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+>> new file mode 100644
+>> index 000000000000..10ba32d2b0a6
+>> --- /dev/null
+>> +++ b/include/uapi/linux/gunyah.h
+>> @@ -0,0 +1,23 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+>> +/*
+>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>> + */
+>> +
+>> +#ifndef _UAPI_LINUX_GUNYAH
+>> +#define _UAPI_LINUX_GUNYAH
+>> +
+>> +/*
+>> + * Userspace interface for /dev/gunyah - gunyah based virtual machine
+>> + */
+>> +
+>> +#include <linux/types.h>
+>> +#include <linux/ioctl.h>
+>> +
+>> +#define GH_IOCTL_TYPE            'G'
+>> +
+>> +/*
+>> + * ioctls for /dev/gunyah fds:
+>> + */
+>> +#define GH_CREATE_VM            _IO(GH_IOCTL_TYPE, 0x0) /* Returns a 
+>> Gunyah VM fd */
+> 
+> Can HLOS forcefully destroy a VM?
+> If so should we have a corresponding DESTROY IOCTL?
+
+It can forcefully destroy unauthenticated and protected virtual 
+machines. I don't have a userspace usecase for a DESTROY ioctl yet, 
+maybe this can be added later? By the way, the VM is forcefully 
+destroyed when VM refcount is dropped to 0 (close(vm_fd) and any other 
+relevant file descriptors).
+
+- Elliot
