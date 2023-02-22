@@ -2,136 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDF79C61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 08:54:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54039C6379F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 09:06:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231420AbjBVIyR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 03:54:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42730 "EHLO
+        id S231571AbjBVJGN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 04:06:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231255AbjBVIyQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 03:54:16 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CDB91C7EF;
-        Wed, 22 Feb 2023 00:54:15 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id c1so8229993plg.4;
-        Wed, 22 Feb 2023 00:54:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/FteTCAip9xec+DoZhdjjZs+92JNbzqUwYicxVMsGlQ=;
-        b=aGoCgjDcarCa2PmjCeN0YxhNrhetOWe6yl+VSyd4aMdwnvyZHRYJIdQKVWyJrzvx8n
-         tPtWk22yr+zN4LZhh1+C4iB+YBN9ThwqMK2nkbC4OPQqSXfPeqYcCvHvPHqBhvKB7mCi
-         9NW20uhPz69uCrl/OS+I6hv5kinGrVl1SLaNW8XXjSYsYAcdcQG2dI4Yt2yYHqIfpXBl
-         OFI04XwukOQm01iB3TVRSe5EeN41w0h9m02jtvNRdHzMKdLwjncDikdKcbyUQ44XRFdT
-         /xk/uMWdqc9U8fnRubMnD+CYEc8r/i3VsV5mqMXdOco5iwzWHHO1YrH8fSleE2t4rrOq
-         zdoA==
+        with ESMTP id S231593AbjBVJGK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 04:06:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A8E12869
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 01:05:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1677056723;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9LjUQ9O0HnvcxKh2XAsUTz7YC8LaZ/FmXdZBrCkpK+Q=;
+        b=XR9b0fi9KvAiaDE5BTpc8TIOo/qeHDi/6bFhI2uNFW5uWGqpkfgvQAMrEKbV0W/KPpWkN3
+        9IniZuquw6W2gHT+DX86O89ZNADBkd0SalosCPceq+edugj7/xobyiZfJQ2Sqvkvshwhdb
+        RzzLiGVMmu8xLawJ6umYmi7w8Q02jEQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-592-jynV7MdeMG-N5Nx_BGDeNQ-1; Wed, 22 Feb 2023 04:05:22 -0500
+X-MC-Unique: jynV7MdeMG-N5Nx_BGDeNQ-1
+Received: by mail-wr1-f69.google.com with SMTP id l4-20020a5d6d84000000b002c54aaa28dcso1357391wrs.16
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 01:05:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/FteTCAip9xec+DoZhdjjZs+92JNbzqUwYicxVMsGlQ=;
-        b=OKXHormsD49aA6cccbXz2rET6ATuCDb+rWzoW2197qvg5JJ5DthBgiCP4ecPm520QM
-         GgxA2Z9anPhMfjJCikVRF/qEIL2R36wn1x/2tFsaE4PKXVn9lojPyEuMD3eHSOPJAPYU
-         ZaATlGTMLZbao14sHOLQJzoUL+j8n8EGXGeCm5zJAz2FQye1vWW+QH3C6dz75j5kHLpy
-         ILdmfannJ7NyY3c5t5cpKBVAXgubcu8m219zNNL3keSv+hxiRn7WfqhOwUIK4LU9FZ0D
-         9dAMw7EWtKKWBN7CRqjmo+XxzAaKjitTORya4xYvurmJlAPsOjinQZ1uIYALIdz05xlZ
-         n1rg==
-X-Gm-Message-State: AO0yUKX+Xjb+C+QfgPbRj8ohKXxxUNgSW8RjtISqX134pVB/1yJ5cZYT
-        hwIDSKt9MqjSeW3zXA1VaZQ=
-X-Google-Smtp-Source: AK7set/FmSi0IMiSyGTOnCHsihnPA9q2RCOSxAJ7nTp9KPMf7YWExnxSyvdgWeVK7d3VqQgH0Bpkxg==
-X-Received: by 2002:a05:6a20:1452:b0:cb:c8f7:1140 with SMTP id a18-20020a056a20145200b000cbc8f71140mr1559512pzi.21.1677056054579;
-        Wed, 22 Feb 2023 00:54:14 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-84.three.co.id. [180.214.232.84])
-        by smtp.gmail.com with ESMTPSA id t8-20020a1709028c8800b001994a7a662esm6355882plo.201.2023.02.22.00.54.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 00:54:13 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 2C79A10561D; Wed, 22 Feb 2023 15:54:11 +0700 (WIB)
-Date:   Wed, 22 Feb 2023 15:54:11 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/bpf: Fix invalid link of "Documentation/bpf/btf.rst"
-Message-ID: <Y/XYM4D1SW/zyhNJ@debian.me>
-References: <1677035401-3628-1-git-send-email-yangtiezhu@loongson.cn>
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :content-language:references:cc:to:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9LjUQ9O0HnvcxKh2XAsUTz7YC8LaZ/FmXdZBrCkpK+Q=;
+        b=cdSc6VMwJF2Gj3pwfP+x8IhHi1QWPQTkUu7YAMyEvamSTgVE26zn4fDRV97bx68Cxi
+         6oXC8cHx+shYecJMDAjj4wi/IqZ/CveLwO2eeLHzQB6TI9q6rjKnbGgAjrWXkY+nNDli
+         nP3JOxHN7i26rkFGiyMtvYZX7YWX3ab6gOLHzwV2nal3Rcd+UpMMdoB/5cC2rCuRlA+k
+         e3cZdpOsPG9+8vP1csPgv32QWdSxH8xwddzqXpDnLUQW1FQubgKySklknYMDJUY4WXis
+         TOTB1Mx2cLOdCNp1q9tx9P0XuzVgcMVZCxFBVZ8DpVKomml+DvgR6RuqNmnEqU2ZDqkl
+         PxPQ==
+X-Gm-Message-State: AO0yUKUKX1gmY4REsWpSC8f9c0lMx25sETJvYWHdpZFI3kfiNuj3vyEB
+        e7gpqSXIa310dgw35XFq8r2yUXbdY5rirof+CDF8DC44i2XqReh9zBgOzaECr+0naDeEo8ZyjeF
+        DKHpJlfdQlLxx3ty2JrmR
+X-Received: by 2002:a05:600c:80f:b0:3db:fc3:6de4 with SMTP id k15-20020a05600c080f00b003db0fc36de4mr5069696wmp.35.1677056721235;
+        Wed, 22 Feb 2023 01:05:21 -0800 (PST)
+X-Google-Smtp-Source: AK7set9SGBIryzMFukKmMVx5ow2JjCNOU/7I00r/woNcU3wsCpyUfsO529XXrVJjBQAVq81y0YSzRQ==
+X-Received: by 2002:a05:600c:80f:b0:3db:fc3:6de4 with SMTP id k15-20020a05600c080f00b003db0fc36de4mr5069668wmp.35.1677056720798;
+        Wed, 22 Feb 2023 01:05:20 -0800 (PST)
+Received: from ?IPV6:2003:cb:c704:a100:95ad:6325:131:6b1d? (p200300cbc704a10095ad632501316b1d.dip0.t-ipconnect.de. [2003:cb:c704:a100:95ad:6325:131:6b1d])
+        by smtp.gmail.com with ESMTPSA id c22-20020a7bc856000000b003e01493b136sm7194166wml.43.2023.02.22.01.05.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Feb 2023 01:05:20 -0800 (PST)
+Message-ID: <52f001ef-a409-4f33-f28f-02e806ef305a@redhat.com>
+Date:   Wed, 22 Feb 2023 10:05:18 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="zZnDlUkIXd7iZ9Tf"
-Content-Disposition: inline
-In-Reply-To: <1677035401-3628-1-git-send-email-yangtiezhu@loongson.cn>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+To:     Dave Hansen <dave.hansen@intel.com>,
+        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-15-rick.p.edgecombe@intel.com>
+ <70681787-0d33-a9ed-7f2a-747be1490932@redhat.com>
+ <6f19d7c7ad9f61fa8f6c9bd09d24524dbe17463f.camel@intel.com>
+ <6e1201f5-da25-6040-8230-c84856221838@redhat.com>
+ <273414f5-2a7c-3cc0-dc27-d07baaa5787b@intel.com>
+Content-Language: en-US
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v6 14/41] x86/mm: Introduce _PAGE_SAVED_DIRTY
+In-Reply-To: <273414f5-2a7c-3cc0-dc27-d07baaa5787b@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 21.02.23 21:13, Dave Hansen wrote:
+> On 2/21/23 00:38, David Hildenbrand wrote:> Sure, for my taste this is
+> (1) too repetitive (2) too verbose (3) to
+>> specialized. But whatever x86 maintainers prefer.
+> 
+> At this point, I'm not going to be too nitpicky.  I personally think we
+> need to get _something_ merged.  We can then nitpick it to death once
+> its in the tree.
 
---zZnDlUkIXd7iZ9Tf
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, but ... do we have to rush right now?
 
-On Wed, Feb 22, 2023 at 11:10:01AM +0800, Tiezhu Yang wrote:
-> "Documentation/bpf/btf.rst" is linked to the following invalid web page:
->=20
-> https://www.kernel.org/doc/html/latest/bpf/btf.rst
->=20
-> The correct link should be:
->=20
-> https://www.kernel.org/doc/html/latest/bpf/btf.html
->=20
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+This series wasn't in -next and we're in the merge window. Is the plan 
+to still include it into this merge window?
 
-Hi,
+Also, I think concise patch descriptions and comments are not 
+necessarily nitpicking like "please rename that variable".
 
-I have already submitted a different fix to the same problem at [1] (v2
-at [2]). Please take a look at there.
+> 
+> So I prefer whatever will move the set along. ;)
 
-[1]: https://lore.kernel.org/linux-doc/20230219030956.22662-1-bagasdotme@gm=
-ail.com/
-[2]: https://lore.kernel.org/linux-doc/20230222083530.26136-1-bagasdotme@gm=
-ail.com/
+If the plan is to merge it in the next merge window (which I suspect, 
+but I might be wrong), I suggest including it in -next fairly soonish, 
+and in the meantime, polish the remaining bits.
 
-> diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_d=
-evel_QA.rst
-> index 03d4993..f54c328 100644
-> --- a/Documentation/bpf/bpf_devel_QA.rst
-> +++ b/Documentation/bpf/bpf_devel_QA.rst
-> @@ -690,6 +690,7 @@ when:
->     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
-ee/tools/testing/selftests/bpf/
->  .. _Documentation/dev-tools/kselftest.rst:
->     https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
-> -.. _Documentation/bpf/btf.rst: btf.rst
-> +.. _Documentation/bpf/btf.rst:
-> +   https://www.kernel.org/doc/html/latest/bpf/btf.html
-> =20
->  Happy BPF hacking!
+Knowing the plan would be good ;)
 
-For consistency with my fix above, can you please convert these in-tree lin=
-ks
-=66rom using external link to simply write the doc path instead?=20
+-- 
+Thanks,
 
-Thanks.
+David / dhildenb
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---zZnDlUkIXd7iZ9Tf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY/XYLwAKCRD2uYlJVVFO
-o5iFAQC8pJCj/VFWlPFK/YFAkCc2//kK9QkP0m9kOCGBdbAikQEA5BWum972U2Tb
-L8rX+lZL3R20C1dBg/2vxcJL3fS4kQQ=
-=lRJM
------END PGP SIGNATURE-----
-
---zZnDlUkIXd7iZ9Tf--
