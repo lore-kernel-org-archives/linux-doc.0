@@ -2,92 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3425AC636D6
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 04:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 321C9C64EC7
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 07:34:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230213AbjBVESb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 23:18:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58494 "EHLO
+        id S229687AbjBVHeB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 02:34:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjBVESa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 23:18:30 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2DF14EFE;
-        Tue, 21 Feb 2023 20:18:28 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CB33B6124A;
-        Wed, 22 Feb 2023 04:18:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 329C9C433EF;
-        Wed, 22 Feb 2023 04:18:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677039507;
-        bh=L+n8+ZdeW0UM8PVgpkDcbcyIeoXR/nzZSQ8cCKDr5ww=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UvGiV4ACdrN9eDIQlUjF4cL4bdIJZOKbb/9NCLJUEk9fFZAcwn0VMjMGugEZdKTl8
-         RRv0P5aH7gaixBmX4J1ttM4bT/BYaXbJ6dWjAwvSK0I8LiHZc+YwWbaewxW2pvNuIM
-         XuPL9TLFE7hLEDkUNYMc+FgoNSSxrQiYUrNYk6TVgcuFuxHo60wzQliljICS0nX3xZ
-         4V5XftZskijdIkdIIe91+rNbZAqar6bKqFa7z6+t0FEidCiQykDmXy2sKK0mRkjFup
-         KcgxdRqZk64p1nglntgCw5NAZoxEnGXx8rVzgUnBA2IECIS30zH5wim2JJ2/h6AVgM
-         uzZ/aRxlQJHzQ==
-Date:   Tue, 21 Feb 2023 20:18:26 -0800
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Wu Bo <bo.wu@vivo.com>
-Cc:     Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, linux-ext4@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: ext4: modify the group desc size to 64
-Message-ID: <Y/WXkhxhJ742G4xB@magnolia>
-References: <20230222013525.14748-1-bo.wu@vivo.com>
+        with ESMTP id S229911AbjBVHeA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 02:34:00 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96BD11E9F5;
+        Tue, 21 Feb 2023 23:33:59 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id q189so3594972pga.9;
+        Tue, 21 Feb 2023 23:33:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tke6k69A+usZWkifY31rjXvzEvWLk7GDHoTg2tUCQfg=;
+        b=T+zk4z0BjizZQUKsFdfFLf3IcQTrWu2G+lmzvDo88fpEDU1KD7B3K/kzJKCE3CjCSV
+         s/g8iPlywFDYqtGcxXD78mEnI+Z1kqVU6ABYBN85ndidcf7IUwmMHoiP5Gv37/IgAmnx
+         6qiwPhPjyMb1yLXU2ufjPsgQCqJW/iDfBMNiqeahrDQodFYYcaEx5DlL1VHWT6UHJV4+
+         SumrL+03B9XVfo6iELGudiNYDmXZ2EKilL8zsNqBryag+9JBTVzRWglMUh9OftETbXfD
+         CEPw0dru0NSTXIZ8L+/fByBSB4BVqtLPaa7W0ePlZNiq6dWIA9p0CDEyVg7JUeWvyCZ+
+         wOgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tke6k69A+usZWkifY31rjXvzEvWLk7GDHoTg2tUCQfg=;
+        b=VKTJjyb4LhEkkrhm+cWQfcktuhDLWA2dH6Wb5cRCjCCRkZS6ww1DlrJBXFGEGRKtKL
+         TQLRHrh5vxCtazf3ICVWLVBYJBa2l/9SyAYH+1Em1yzRCIrxTpwS7p0gSqaBc48nPJ00
+         ewP/eFt8pwySq3/JRrD7m8U7aG+x0FCf7Y7nrn9HyRRIIrf37lXUhpGbqkZ9iCqyGlno
+         ZZ1Du04UyVBUrz4lNybPfKBOnZt1YTcD9ZFdVTaSjIF5yRd1XgtagLsytw/aH7skT/Bd
+         bGPx0DookHGrsGuBX21VeMGtpxMk95t2F97a8pPPkijzMPLGldiFKgsBUbCSLpH3ru/3
+         z57Q==
+X-Gm-Message-State: AO0yUKVs34Z+mRBXNEL7lscxdaE5Jgc+WTCP5Q9e1LK2FNMf7u7fic3M
+        9mkGDAsHU8lRLcju+88NIxo=
+X-Google-Smtp-Source: AK7set9b5KsJSVkLu281wycw4iSJyEYhbMJIYdjnq7VoR3Iv8VkAkmLbhjOJxEizJUq5upCzF9wObw==
+X-Received: by 2002:a62:1a8d:0:b0:5ab:be1b:c760 with SMTP id a135-20020a621a8d000000b005abbe1bc760mr5213258pfa.12.1677051238977;
+        Tue, 21 Feb 2023 23:33:58 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-84.three.co.id. [180.214.232.84])
+        by smtp.gmail.com with ESMTPSA id c22-20020aa781d6000000b00593fa670c88sm315272pfn.57.2023.02.21.23.33.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Feb 2023 23:33:58 -0800 (PST)
+Message-ID: <1666a6a9-4757-0e1d-f807-618c95e0b6ae@gmail.com>
+Date:   Wed, 22 Feb 2023 14:33:53 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230222013525.14748-1-bo.wu@vivo.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] docs: kbuild: remove description of KBUILD_LDS_MODULE
+To:     Sangmoon Kim <sangmoon.kim@samsung.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <CGME20230222004609epcas1p2eb7e213b2b3503d018fcd6d58b9497b2@epcas1p2.samsung.com>
+ <20230222004550.13469-1-sangmoon.kim@samsung.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230222004550.13469-1-sangmoon.kim@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 22, 2023 at 09:35:24AM +0800, Wu Bo wrote:
-> Since the default ext4 group desc size is 64 now (assuming that the
-> 64-bit feature is enbled). And the size mentioned in this doc is 64 too.
-> Change it to 64.
+On 2/22/23 07:45, Sangmoon Kim wrote:
+> Commit 596b0474d3d9 ("kbuild: preprocess module linker script")
+> has removed KBUILD_LDS_MODULE variable.
 > 
-> Signed-off-by: Wu Bo <bo.wu@vivo.com>
-
-32-bit blockgroup descriptors aren't that ancient of a disk format, it's
-probably helpful to mention that one should double the ratios for ^64bit
-filesystems.
-
-Also: Not sure what went wrong with your emptyish To: line?
-
-If Ted's ok with this, then:
-Acked-by: Darrick J. Wong <djwong@kernel.org>
-
---D
-
-> ---
->  Documentation/filesystems/ext4/blockgroup.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> The KBUILD_LDS_MODULE variable is no longer available, so this patch
+> removes it from the document.
 > 
-> diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/filesystems/ext4/blockgroup.rst
-> index 46d78f860623..ed5a5cac6d40 100644
-> --- a/Documentation/filesystems/ext4/blockgroup.rst
-> +++ b/Documentation/filesystems/ext4/blockgroup.rst
-> @@ -105,9 +105,9 @@ descriptors. Instead, the superblock and a single block group descriptor
->  block is placed at the beginning of the first, second, and last block
->  groups in a meta-block group. A meta-block group is a collection of
->  block groups which can be described by a single block group descriptor
-> -block. Since the size of the block group descriptor structure is 32
-> -bytes, a meta-block group contains 32 block groups for filesystems with
-> -a 1KB block size, and 128 block groups for filesystems with a 4KB
-> +block. Since the size of the block group descriptor structure is 64
-> +bytes, a meta-block group contains 16 block groups for filesystems with
-> +a 1KB block size, and 64 block groups for filesystems with a 4KB
->  blocksize. Filesystems can either be created using this new block group
->  descriptor layout, or existing filesystems can be resized on-line, and
->  the field s_first_meta_bg in the superblock will indicate the first
-> -- 
-> 2.35.3
-> 
+
+What about "Commit <commit> removes KBUILD_LDS_MODULE, yet the variable
+is still mentioned in kbuild documentation. Remove the reference to
+the now-nonexistent variable."?
+
+-- 
+An old man doll... just what I always wanted! - Clara
+
