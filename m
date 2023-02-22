@@ -2,189 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76B4DC6379F
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 22:14:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 236F3C6379F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 22:52:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232553AbjBVWOE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 17:14:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37428 "EHLO
+        id S233052AbjBVWwa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 17:52:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232464AbjBVWNn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 17:13:43 -0500
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCA244741F
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 14:13:36 -0800 (PST)
-Received: by mail-pg1-x52b.google.com with SMTP id q189so4888984pga.9
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 14:13:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IbCbSZMDoolIYT4QTJLVLMs17uxD1iPtRBFug2ILkwU=;
-        b=cg3FMFAJuPi2c8A7CQq/nKwBx0D1yuWtBSTFipKwbm37PB7JPMt6VRIcZf0lJ+HlNx
-         y6U+XsxuwVdAbzt6Qp4UA6rpXOMpRum4XkQvLx2s54YYOsMrpX+PwJDKFbr9qFwOZDqs
-         ZKVNjwmhE2KCDfh7MIFEUpU3LEj0h7ML8m+oYXdEKJhTv9hy9gc4w72j5+tx83vU2t7g
-         mOPDCHHVxaUeKtbERi4NLvScRG2IakMiXN8m53KCwQyGjBxDSkhczUtmBX6EN3dlgi8/
-         j758QR7+YMgV5CRAMKphCigP1SaYUyDuK8hKY6YrrwXqElaGNEGn9r4yQ+aFePJk/i68
-         ebag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IbCbSZMDoolIYT4QTJLVLMs17uxD1iPtRBFug2ILkwU=;
-        b=AoEGNrhjNMIjBU8fGEZHoGAi3cVdYoKv5swS+IZM93REvhlJqopSlIJdENqbQ+Yy7O
-         i29hpWI+TMWW0b8srHK8znP6TP7cxlEJIJzauLX3DGoVxOG5SzCRHz3Yylm+rTBbzUZt
-         6JDAFp/piWd3//80gUgIcMcRbRUHw8XLCe/j7InMJA+OwATeS2UX0fmkSj865fY4fWo3
-         jexMh2qMyuxr+BqalwEsKdEgBD258HKUse0ox6PMF1wMyWZuD9GuUkgBuuv5/uZNqOWH
-         rjWOTQZ50QJBrPcd7NU1mX70vs+ucKfg+zCDwacbxb5y6uz4lr1tHECHJ0DbK6B+o5mT
-         eRFw==
-X-Gm-Message-State: AO0yUKWNYv78TJeYGwcbu1YeHP0W56q4hOmEJ7t8JIYd7fKdv6AX2CyU
-        VKe1dvHHHDrQ2u7jADi3ydVAfQ==
-X-Google-Smtp-Source: AK7set9H/13butg6xLlG1KNCEtebGT6HdRa76qfXxIkiBRaYjFkm+4KsL1gIBDSnN+I8dUYeXvdEDQ==
-X-Received: by 2002:aa7:9407:0:b0:5a9:ea47:cd00 with SMTP id x7-20020aa79407000000b005a9ea47cd00mr8932796pfo.17.1677104016042;
-        Wed, 22 Feb 2023 14:13:36 -0800 (PST)
-Received: from debug.ba.rivosinc.com ([66.220.2.162])
-        by smtp.gmail.com with ESMTPSA id k7-20020aa792c7000000b0058d92d6e4ddsm4895952pfa.5.2023.02.22.14.13.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 14:13:35 -0800 (PST)
-Date:   Wed, 22 Feb 2023 14:13:33 -0800
-From:   Deepak Gupta <debug@rivosinc.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v6 18/41] mm: Introduce VM_SHADOW_STACK for shadow stack
- memory
-Message-ID: <20230222221333.GA945966@debug.ba.rivosinc.com>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-19-rick.p.edgecombe@intel.com>
- <366c0af9-850f-24b1-3133-976fa92c51e2@redhat.com>
- <9e25a24f3783f3960e2c1e5e68a6c6fdf3d89442.camel@intel.com>
- <ef855af5-6a77-55d4-6e54-1e83d2e112a0@redhat.com>
+        with ESMTP id S233051AbjBVWw2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 17:52:28 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 352EE301B6;
+        Wed, 22 Feb 2023 14:52:27 -0800 (PST)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31MEjTtf002541;
+        Wed, 22 Feb 2023 22:52:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=LgmYIsv97qPbDmuwM1PfV1v0A5XJ8xw9/5yC+6G52TE=;
+ b=oN35t60zzfOaTOdp4vp6r5BmyxwEvzSEPBdqtsrIwdRe4XB7onsshfSIZg/10Jz4dCca
+ BBxpfRiur79dRlD/OItdK8oc9/8U/iQx0N58+L0hhd/9gvxaz7fDkaxGL4qbClxUpV6c
+ uQvBzz+Zve1MfqwxDE8K0VGPTc5tFx1pCNXo8Z3zvycUzdAXAmp4b1u3pQfkNUMpzDjZ
+ 6sHlb0+NncHaW3HWQ253QDoDgxAGdraiixdI6BSnLJHysGNJIGJ/MznZLfjhlU7TW88G
+ aUG3sWBwfF+q/KRjNVb4+GAz61MGQctlSp+TLLEJZoCqPoXOYu8S3Aa0jdXeZtGFvi9y vg== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nwn3894ts-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Feb 2023 22:52:09 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31MMq892026213
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Feb 2023 22:52:08 GMT
+Received: from [10.134.67.48] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 22 Feb
+ 2023 14:52:07 -0800
+Message-ID: <931494e0-b2da-5746-a86c-42b972072080@quicinc.com>
+Date:   Wed, 22 Feb 2023 14:52:07 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <ef855af5-6a77-55d4-6e54-1e83d2e112a0@redhat.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 08/26] gunyah: rsc_mgr: Add resource manager RPC core
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Arnd Bergmann" <arnd@arndb.de>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212327.3310128-1-quic_eberman@quicinc.com>
+ <Y+3QqdQVH5BTbnaP@kroah.com>
+ <b04aef26-ee0d-af01-3aa1-a0c77d9cbaf3@quicinc.com>
+ <Y+8upgx58a+vLeaT@kroah.com>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <Y+8upgx58a+vLeaT@kroah.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: n7hNREE5imiuMUSHjvLRU8RWFJOvXThF
+X-Proofpoint-ORIG-GUID: n7hNREE5imiuMUSHjvLRU8RWFJOvXThF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-22_10,2023-02-22_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1015
+ malwarescore=0 bulkscore=0 phishscore=0 spamscore=0 priorityscore=1501
+ mlxlogscore=939 adultscore=0 suspectscore=0 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302220198
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 21, 2023 at 09:34:35AM +0100, David Hildenbrand wrote:
->On 20.02.23 23:08, Edgecombe, Rick P wrote:
->>On Mon, 2023-02-20 at 13:56 +0100, David Hildenbrand wrote:
->>>On 18.02.23 22:14, Rick Edgecombe wrote:
->>>>From: Yu-cheng Yu <yu-cheng.yu@intel.com>
->>>>
->>>>The x86 Control-flow Enforcement Technology (CET) feature includes
->>>>a new
->>>>type of memory called shadow stack. This shadow stack memory has
->>>>some
->>>>unusual properties, which requires some core mm changes to function
->>>>properly.
->>>>
->>>>A shadow stack PTE must be read-only and have _PAGE_DIRTY set.
->>>>However,
->>>>read-only and Dirty PTEs also exist for copy-on-write (COW) pages.
->>>>These
->>>>two cases are handled differently for page faults. Introduce
->>>>VM_SHADOW_STACK to track shadow stack VMAs.
->>>
->>>I suggest simplifying and abstracting that description.
->>>
->>>"New hardware extensions implement support for shadow stack memory,
->>>such
->>>as x86 Control-flow Enforcement Technology (CET). Let's add a new VM
->>>flag to identify these areas, for example, to be used to properly
->>>indicate shadow stack PTEs to the hardware."
->>
->>Ah yea, that top blurb was added to all the non-x86 arch patches after
->>some feedback from Andrew Morton. He had said basically (in some more
->>colorful language) that the changelogs (at the time) were written
->>assuming the reader knows what a shadow stack is.
->
->Okay. It's a bit repetitive, though.
->
->Ideally, we'd just explain it in the cover letter in detail and 
->Andrews's script would include the cover letter in the first commit. 
->IIRC, that's what usually happens.
->
->>
->>So it might be worth keeping a little more info in the log?
->
->Copying the same paragraph into each commit is IMHO a bit repetitive. 
->But these are just my 2 cents.
->
->[...]
->
->>>Should we abstract this to CONFIG_ARCH_USER_SHADOW_STACK, seeing
->>>that
->>>other architectures might similarly need it?
->>
->>There was an ARCH_HAS_SHADOW_STACK but it got removed following this
->>discussion:
->>
->>https://lore.kernel.org/lkml/d09e952d8ae696f687f0787dfeb7be7699c02913.camel@intel.com/
->>
->>Now we have this new RFC for riscv as potentially a second
->>implementation. But it is still very early, and I'm not sure anyone
->>knows exactly what the similarities will be in a mature version. So I
->>think it would be better to refactor in an ARCH_HAS_SHADOW_STACK later
->>(and similar abstractions) once that series is more mature and we have
->>an idea of what pieces will be shared. I don't have a problem in
->>principle with an ARCH config, just don't think we should do it yet.
->
->Okay, easy to factor out later.
 
-I would be more than happy if this config name would've been abstracted out and arches can
-choose to implement. It's a bit sad that it was generic earlier and was later changed due
-to lack of support from other architectures. Now there are three architectures who either
-already support shadow stack (x86), announced the support (aarch64) or are planning to
-support (riscv).
 
-However given patch reduction I will get due to `pte_mkwrite` refactor, I am in favor of
-future refactor for config.
->
->Acked-by: David Hildenbrand <david@redhat.com>
->
->-- 
->Thanks,
->
->David / dhildenb
->
+On 2/16/2023 11:37 PM, Greg Kroah-Hartman wrote:
+> On Thu, Feb 16, 2023 at 09:40:52AM -0800, Elliot Berman wrote:
+>>
+>>
+>> On 2/15/2023 10:43 PM, Greg Kroah-Hartman wrote:
+>>> On Tue, Feb 14, 2023 at 01:23:25PM -0800, Elliot Berman wrote:
+>>>> +struct gh_rm {
+>>>> +	struct device *dev;
+>>>
+>>> What device does this point to?
+>>>
+>>
+>> The platform device.
+> 
+> What platform device?  And why a platform device?
+> 
+
+This will be used for the dev_printk. It's presently also used for the 
+reference counting. From your comments below, I'll switch the reference 
+counting away from this platform device.
+
+>>>> +	struct gunyah_resource tx_ghrsc, rx_ghrsc;
+>>>> +	struct gh_msgq msgq;
+>>>> +	struct mbox_client msgq_client;
+>>>> +	struct gh_rm_connection *active_rx_connection;
+>>>> +	int last_tx_ret;
+>>>> +
+>>>> +	struct idr call_idr;
+>>>> +	struct mutex call_idr_lock;
+>>>> +
+>>>> +	struct kmem_cache *cache;
+>>>> +	struct mutex send_lock;
+>>>> +	struct blocking_notifier_head nh;
+>>>> +};
+>>>
+>>> This obviously is the "device" that your system works on, so what are
+>>> the lifetime rules of it?  Why isn't is just a real 'struct device' in
+>>> the system instead of a random memory blob with a pointer to a device?
+>>>
+>>> What controls the lifetime of this structure and where is the reference
+>>> counting logic for it?
+>>>
+>>
+>> The lifetime of the structure is bound by the platform device that above
+>> struct device *dev points to. get_gh_rm and put_gh_rm increments the device
+>> ref counter and ensures lifetime of the struct is also extended.
+> 
+> But this really is "your" device, not the platform device.  So make it a
+> real one please as that is how the kernel's driver model works.  Don't
+> hang "magic structures" off of a random struct device and have them
+> control the lifetime rules of the parent without actually being a device
+> themself.  This should make things simpler overall, not more complex,
+> and allow you to expose things to userspace properly (right now your
+> data is totally hidden.)
+
+The "real" device I create here is the miscdev, so I think the 
+recommendation here is to do refcounting off that miscdev. Is this the 
+approach you were thinking of?
+
+Thanks,
+Elliot
