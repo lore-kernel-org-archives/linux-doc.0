@@ -2,227 +2,208 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D97AC61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 15:14:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2D0BC61DA4
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 15:24:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232378AbjBVPOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 10:14:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33570 "EHLO
+        id S231572AbjBVPYY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 10:24:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232375AbjBVPOj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 10:14:39 -0500
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2081.outbound.protection.outlook.com [40.107.220.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7591020D25;
-        Wed, 22 Feb 2023 07:14:34 -0800 (PST)
+        with ESMTP id S229513AbjBVPYV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 10:24:21 -0500
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2074.outbound.protection.outlook.com [40.107.244.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1560B36FDA;
+        Wed, 22 Feb 2023 07:24:20 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WikdilMnbFC0i+1veefBKThOn0M4vaArzgvgT0r/mEawI2ydYVTzM1cxg97yBk+h46QrHdYZ73RBZfuNuuCfQTvetNyf6SUZe93FxSCHG/IdBWYzeVJScAaxgiT5REzPnB41wS0bLOSAOIN1n6rgcMR2Ry4X5+cVTvNo2fQ86kr/it+6kZib75bGEPhpImlUnnZAm6lOy26in4JzNb9cNo7Zuoq5JhdRm4ziaiLHOmOn49CIxTg8K4KcGQyeCFWTq1BWfJC4ALt68OK9BqnJV6w9sQ+XqkIqOk442EQvyqMkcbIo3N28Ju+jhxjn3a82TRxxVEsMUEWK/AxaeG4lOg==
+ b=Ww6hXc0O4L3glUa5VsSjeJH+Wtp5VOv2mfuzLs57/BzuUdhE2xNyyMD/B9Eva9CUe6fMOqY9yYaVXESqKeF/UPZSqPbMawpLDtwN7XA5s1Oto7qyU76m0UfU7Z2IQ4zYxeYvadddxUnBwdrRPmqRs0Mq0BqzdYS8/zcJ442TyloBF9eXdyjzZllJlt/j9VKJWvvgx4wQwRu/PCCl0hasey7Wx9GLpyENfzSEZQnE9ocfiPewx3Lw++GOX6SNl7QbN2DFcIvzt1IL5UeMadX2YzEqa7SCwJO1bsL0Y6YcAGFEOAQ8ZymAMrv4awE7OMicjnN80QScdfkbPjTYYq7YGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jvapx6aY8UVoU2bouqBbKh0o9CmfLYVTQ/xgjDEQzjo=;
- b=D7rATxpPa4pkeVFd16Yg8ooBD68lP7fWBjjI9JDzmWbxwWdjVY0pZlu01PwiFrv1fhAH9YwuViuaSUmEc+OZwh0Ii1EIiPIwfRWX4EkUsNNjo7OhCyXYzodCFeAgrx/oY8kLs009GZDo+DRNT9g863fQb+WHVHiMIP/2gG5FzpcbEQ1MmwGmMGVMa2w7OV/w+uNyagCLdTxksaCaqrJeTmDWtoIjpP3urbodjbXDhbUh8hBVDhmNspO/zWsi6KuTzZcjc6dvBlxIY+HwxyrBT8vWVxolV5RnD4LGfjpe+vWtV629VwGRiB0deauLM9YTKtdKzYOnWa9uReoNhImi3g==
+ bh=VIEJUEHo2GRHrkf0aI2CheiVt8rE4V1nk+Gi4r5SXtY=;
+ b=L+wroX/c7RGUAq+3WM9c6FG9pcP5c0z72nLIMiLZLspbmMvaQSUqc3q7372XwnsaELyg3yodNRQZNs1mo0K+2E3sZ5RAWHHsqOgwhXJPijY6gYGJkcr1jIeNnH3WnyhhyXrwNpGH2cFjXcxFcLNGFQ8oVQo8J9VAzvCweqF66/NDKqojCtHJIa1ue2jJZv+jJGfYuRsPzH2GNE4wYxb4qsF5CGTy/3dFYkcO3z5ZXfPLIECZYga/U+dexpwRgriiWxgtpZJdU2O+drq5YD2R2PR49ZiTVrMwtvHzhtU6SYT+mMXycG6wQYmjvYDof+e8i3FKg4cJcjJdmDaLFd4acw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jvapx6aY8UVoU2bouqBbKh0o9CmfLYVTQ/xgjDEQzjo=;
- b=22Jn9KuV7R8ebNcmDfTpSM55XxmCDc2xJo1nhiqeG+OLEw4h1zO2Cuev9L+8ETX5gosxJlgTOoKBW0XnVz8yPM4I0+4Qtypb9ndMtaubPaPmfrkTH4HOUfwm2MIuUp/T9xTYTch2QlPeOSGBSYzocRG3iiBY5Aq8HnPyv6WltfM=
+ bh=VIEJUEHo2GRHrkf0aI2CheiVt8rE4V1nk+Gi4r5SXtY=;
+ b=roVaqISldIqEP3Gm4Q6c2epdoxOz0ixCa11PgCb732XBHBWQBRg+1nQ8eGFQGsqauD3An/cPKmVVgTJPJ3ZDYBVPf/hlcS0RXshRBE7+6yGmvehxVjBwDm5g3NiL8JfPlESes9/Fs7A4v16jaCWT9KuVIef5yaC0t5OwIMcx82k=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CH0PR12MB5234.namprd12.prod.outlook.com (2603:10b6:610:d1::24) with
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
+ by CO6PR17MB5058.namprd17.prod.outlook.com (2603:10b6:5:358::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19; Wed, 22 Feb
- 2023 15:14:32 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6134.019; Wed, 22 Feb 2023
- 15:14:31 +0000
-Message-ID: <29ea3705-5634-c204-c1da-d356b6dfbafc@amd.com>
-Date:   Wed, 22 Feb 2023 16:14:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA
- mappings
-Content-Language: en-US
-To:     Danilo Krummrich <dakr@redhat.com>
-Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        boris.brezillon@collabora.com, alexdeucher@gmail.com,
-        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-        jason@jlekstrand.net, linux-doc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-        Dave Airlie <airlied@redhat.com>
-References: <20230217134422.14116-1-dakr@redhat.com>
- <20230217134422.14116-6-dakr@redhat.com>
- <70ba382f-1559-289a-4922-ca9c371aaf59@amd.com>
- <cc8eeaf4-31e7-98e4-a712-012fc604e985@redhat.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <cc8eeaf4-31e7-98e4-a712-012fc604e985@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0008.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::13) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+ 2023 15:24:16 +0000
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660%3]) with mapi id 15.20.6134.019; Wed, 22 Feb 2023
+ 15:24:15 +0000
+Date:   Wed, 22 Feb 2023 10:24:06 -0500
+From:   Gregory Price <gregory.price@memverge.com>
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        avagin@gmail.com, peterz@infradead.org, luto@kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
+        shuah@kernel.org
+Subject: Re: [PATCH v11 2/2] ptrace,syscall_user_dispatch: checkpoint/restore
+ support for SUD
+Message-ID: <Y/YzloHpiyOSvZfK@memverge.com>
+References: <20230221201740.2236-1-gregory.price@memverge.com>
+ <20230221201740.2236-3-gregory.price@memverge.com>
+ <20230222124834.GA15591@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230222124834.GA15591@redhat.com>
+X-ClientProxiedBy: BY3PR05CA0036.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b::11) To BN6PR17MB3121.namprd17.prod.outlook.com
+ (2603:10b6:405:7c::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH0PR12MB5234:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5d4f2792-b799-4fa6-f3c0-08db14e77fa5
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|CO6PR17MB5058:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e6203ad-6f79-4f60-ce23-08db14e8dbc9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /PDRqFgsSaOP77DaCNTPuforgsZt+IcXNoTeNr5JxDsb48bT9nEAy4MYeLm42PFGxqC3gHJKgTWWIK+HY2C+2XrgUwdozEP+YbDE8/Uku+KQAShfjKfaln102sIO82JQAwKRRbpcOtcPQzxI+naVDVmXP0VdGJC5NYFrPnHRFZlch3DkaGsdfvfzmlJ73xfWHVUmazduAsCXeXzVpMIUnlpu9XJAufc7YkRVzg86/yTtg2xTbgADOYcsCyyeXxz1uflFv4uVpSTG+hCxirGyb7Hzur17j6+ig3gDJO1TTFLv4zqjWet9CcOrKUAaA2a6ZpbPpruVObj5QyII2/xNY2HrtsF2aE/oynyiJ0rBqrKtWYKSHW9NOnvYrsUalFrvHqaVTHhFM7c0g9hrtopYlc/eU6IcB0qQe+NUMQ8HDrOqAIyimkkZAPFKjOM6nUw8jfatgFZkKbUy4559c7Lg7R4AAnb3lgWQTsCfbPo3IECrI3ua9DBtBMr6F3NPjjfGzyFnJf+Z8mPNYHTrMXUsxjvHaMj+CSXz+S3uYBCDY3D4wPbqqlRDp41BeklkM8rUgvzWOZVydQ73tZxZJE2p2Splfgj/784heUnp4kiKB1znT+dyzM0tvYG1QwXLaDC/b1JBpzl/FvEhYcDdA83Z/36wKB3jmjnSXX4e25gqi00k/htvGDsTOAUCvepx6B9KyjdtPqCtQG9FGQVj2Eij8iSbPEVqVTA8j/wsD0nSXAU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(376002)(39860400002)(396003)(346002)(366004)(451199018)(31696002)(86362001)(36756003)(6512007)(66476007)(66946007)(53546011)(6916009)(4326008)(8936002)(66556008)(186003)(41300700001)(2616005)(316002)(38100700002)(6666004)(6506007)(6486002)(478600001)(2906002)(8676002)(66574015)(83380400001)(7416002)(5660300002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: v3fmQpRk9Mmja7DIdbV+RjEk2u5fTpCMrRahyRGVEYAUEx/Wje/gPvQ0Fj7tumiNYFt3Sa6mC0RlpL852HarDgqxSuEXByfShpXKPUP4F6/2pRX/gophQKwbvkH8ThYOoZwMnf4DFCWxPgQfbi8wSjPB44/0ZRRmsDVBJNdgGZtV9JVHmSeOMOAQm50UNfz6M0u4f3GDeO+yFlvW5E814PR8NBVK7g0BKz4Yzoj72QrjrbOw5T8JA1w0Hxdb8Q7Mv6BMeLimpF8T1HN2Wo+HfEk2L4yz349dhTqFooXHb3M4WIB+SDXenzFjFX4YCOhYrXuUphxUhLD5qfrRUD59GJvdARoYZ/uViXRdmrLV0IOaj4l3jX0/L3+Yc2rx8hfNDa6bj68b0WtnvIkGG+drslL2OTCqww3MX7ZJY+WdVx2y5BEc4qbXZp1KQw/E8PlrqWafC21hAKjBno+5AskHegtlc0ShOSY2mjsfbg//LyFItLfFjouxw1AnhGPRkZNPOjpjpJ/SQOMZiqyQyAAgnPBmBMskN+AXknR54pgswwmrZj2mmxENMQhpfNFlOeZB9hAebJuCDSqyL84bi5L/z5wrbwe2j3PTuMd5SwQmmWVOu6YVpOTHohI9FpuoXQ5Bum+j2FhHk8nM9WX89auvVA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR17MB3121.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(136003)(396003)(346002)(376002)(39830400003)(366004)(451199018)(5660300002)(7416002)(38100700002)(8936002)(2906002)(478600001)(6512007)(44832011)(6506007)(2616005)(83380400001)(86362001)(6486002)(316002)(41300700001)(26005)(66899018)(186003)(36756003)(6666004)(8676002)(66556008)(66946007)(66476007)(6916009)(4326008);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UU12bjNBT3V1aVdQS3pnblR0RkJDMFIxd2F4T3o1dElTUjJTcjREcHRFN2or?=
- =?utf-8?B?UWtRVUlXdXNWM1MwRXlSSWV0NXlNeU9jM3RjOXlTYlZrMjlHNWMvRlNxZURx?=
- =?utf-8?B?WWdET0w2cHNjdTBvU2dFMlBHTGt3NkcrZlh6QXZUYVBBalgyK2VCUlJhOUlE?=
- =?utf-8?B?bmZTUWdrVVFDSlNJSUlHb0lFNG1qOWxhNUhvL0hhZENaUTY4RTVHNHVjRnJ5?=
- =?utf-8?B?cUVVUVB0RnFpaFFFbkdFMVl4Z253dER4dkFMWGRTM2c1SU5OWGxTbXE0ejI3?=
- =?utf-8?B?WXl4Um96d25GRFdDK29JR2c3bjRyWUlaN3NuMUtvZ2drOGVzcVdsSjZVQkpO?=
- =?utf-8?B?UUJJMjg5ZVFUbWRDNG1PK3U5dVpTOC92UGJvaTgvY01oL3pDMG01RHJraTRm?=
- =?utf-8?B?d1NrYy8yMkxRa2xSeFgrMnNyM2RJWmlveVpwbkIyMkxqR21BdWNBdGtPdWxV?=
- =?utf-8?B?K2ZBYk41WDA3VjkyZGY3QW90OGUyb2VsTUNCLzVTc3Bua2dVeFZ4VW5CcmFJ?=
- =?utf-8?B?R3lGM28rQU5BdDFid2psMkZwbW9haFFKc0VTZis4Q2ZscmRDRXIzMzE2Q0hH?=
- =?utf-8?B?dUNXL3JyM0Q1SG1sZkpUbEgvK0hzdHF5S0tpWTNjRTE4bWFnOFNVbEtaREE0?=
- =?utf-8?B?SEs4V0xUTjBBb2EwaUQzOG1LUXhTbkFpM1ptMDdNUllHZWVHdlVOWXNLa0Fj?=
- =?utf-8?B?Wkd5OEY1N0JjdVZDRis3UGpiTENHbjFEN3dlQUp3b2FSUGN5aVZZdCtPL0hu?=
- =?utf-8?B?bm45UGhkS1YvRXArZFh6eEw4RENGOFQzK2p4MXJ2RDMxZEg3amFCNDkwNWZ5?=
- =?utf-8?B?eGN1UWpRR084dmx4WU94U1ppblo3bVpZVmRDUHJHUURWcHgyUVZjMFk2Zkpz?=
- =?utf-8?B?VVpUKzZScGpwQVE0K242K0I4VzJ5dnBQV3VvVG1ubFdSc2IxQmw4RVJPVU1m?=
- =?utf-8?B?c2xBQ2lSelZOVVMxM0RHd001MGlRaWd1cFVtRStLcVRCb2VLVHBNbWVNQUM0?=
- =?utf-8?B?TFd5OVdzMUVVUmQvZ1J6a2JQVDg3MVJDRHAyaVR6Ymd6ZE9iTnZUb2EwRkhO?=
- =?utf-8?B?dlQvd2hpdTRTR3RReko3N0RmTWRCZE9tTnBMdDVYNWhVVzNBVDQ5OGtad200?=
- =?utf-8?B?M2Z4VEdhV1hpZWNBa2JoeWVyWS9SMnZFSjdMS1VrSFNUdC9XUms1aFZYRDRT?=
- =?utf-8?B?eUllOERhWHpUbjFsb2l3SlRrSmdGMDNzMFZoN0szSzEzYTZ1Q0lWMHd6azZ0?=
- =?utf-8?B?M1VlK3ZFR2NGSDk0OTYwbXM5SnhDd2IrWTV0R3d0TGpXaGxydDhuZk9UNWZu?=
- =?utf-8?B?djBGSkJkQlZpUmJZa2loWHJlMkh1UnZLOE1oa3RYMEI4bUFEWXQ2bXVXbGtm?=
- =?utf-8?B?OU44UUZhNFk4VzU3YjFFaldpMDZLYXIyblQxejg1clJTaXd4cTQ5RW1NS3R0?=
- =?utf-8?B?MjJ5Uld0R0grdG9udWhYODNkR2JpWkFHMFZxZnArSXlPM3lWZWlCdDAvc2tV?=
- =?utf-8?B?MUNRQlRueXRuTVVGby9aY0tIY3UyZU5WdEhLcE5VT29LM1FxYUEzQkxaczcv?=
- =?utf-8?B?bjAwSzFCUlRieVFzc2RyOXFpY2o0TDNPVHNVSGQvR29zdS9sdnJtR1JtR0gy?=
- =?utf-8?B?MkZqM29DQ2F2Nmh5VjNvS2ZnT0JQSVAzZzZSeUh3S2RDb1E0OXVURHk2MWpZ?=
- =?utf-8?B?NkVWdGFCa1JOVSt5MVpLa01jWHBGRzA3dnZPUE9ocm5pL3lGUlpIbjlsQnln?=
- =?utf-8?B?UzNPTHo4N0o3L0R1SW5QWEkwMGdNZlVMeHFGaTlQa0I2dGxiMVZBVlhtT3N1?=
- =?utf-8?B?ajRteC9tV21wK1hndzBOcTF3NjZaMDJRemludURNMHoxd3pNVEJ5OU8wbEov?=
- =?utf-8?B?QlZTVXhKVWlyS2VBS3Y4aDZMdlpEd3QrZThnajNyS3FZSDgzcWI4OXg1L01u?=
- =?utf-8?B?bjNGYm55T1pBKzk4S1hRK0ludWgrZzNDa2luRndOa1pGSlBTRndoa3N0MVIv?=
- =?utf-8?B?YmVqWDVaMGFBSDQ4NE1CL0tLdnBBa0RGZ0g4dy9vVDM0bFk4K095NDRXMS9s?=
- =?utf-8?B?bXFPTXlET3N0Wnk5aGVTay9GOE4vN2dHSHBETHJHM3RXQy9NVGZPelgyelBU?=
- =?utf-8?B?NllDdjNIMTZjdEErOU9KYkVDSlI5bFhtSUtkSDh0TCtzYnA0emdxbnU0SDh3?=
- =?utf-8?Q?gMQbxXmrtwGLRmKz7P87SEgTr489F7dLMirW2Eqerpmt?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d4f2792-b799-4fa6-f3c0-08db14e77fa5
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WpF7rsgJ6tz4yJHXr4kAxCDRE56O8LwoRLMaKeb+dOoRIXtvXDoVUvawZOK8?=
+ =?us-ascii?Q?O2G6696U3pIa5UpJBgK683oNUaueW9fODgQ124MfSqurgdRrZfH9I2OE5GLs?=
+ =?us-ascii?Q?Zfye3yd84n7PdBWwgV+XLNaECoz7tLAZkGiSBieyzh+PPkXc49Rkz7C7Ukio?=
+ =?us-ascii?Q?hRTbJ5byY/3C+dq8ZYvTrDSP/ndjPsj8Qa64Wv74kNpVvjxjuEz+S0QWgggg?=
+ =?us-ascii?Q?4IasmqcwdxP/e86jCSF+CDmTJShz8mphYesbSw8nS7y4ZR0LY//RWM4/wEkp?=
+ =?us-ascii?Q?IoLFiiWu4s1EDlIq8OhmRwaBhxZH3gk19Ixft0AT4zCRiOd/w2saZXSVZS2B?=
+ =?us-ascii?Q?oPeN8gJ3D5p07rBSoIQaNcb6mWV2sa4k6T7WQWAIxK7+6shndTAvTcE3vky8?=
+ =?us-ascii?Q?ZGCZldUc1SNNzQalIQdf59EKD4fnbv64vnXtugxAWcDFXYwii1VYVFkc0+nB?=
+ =?us-ascii?Q?RbkGtTDORlGyLxK2u2w2t+ZN5zSXJt/aa/8Mu6VE4vu5EkfGBoTQ26hTcMMr?=
+ =?us-ascii?Q?mZumXq9AaOA8KP1Fvs5LwU6GWQFpIBlQWhR5CsxULH8qhBlQlqtk2izRiNVj?=
+ =?us-ascii?Q?eItEoZT1Gu66mo7j8YUjqHBiO6l/U8j/bNG3iy4FJcnn2My/NFsba5YcCJMj?=
+ =?us-ascii?Q?HTjAFSW943CyGIydtKfIS6agZxWOvxtMpLGqpN10FdqayxzeKEjPJfZA1G1g?=
+ =?us-ascii?Q?FJTv2mGxcR6m5iwPXsQ+aVXcQcHe9ka+5s0DqnvQ/hnzEU20FbSi4RC/YYo5?=
+ =?us-ascii?Q?otB6a1waR5zJXuQwQwIzE1asZ+M9FL+4bIq5Uu6MfwcywNjGgy7VJRltT/U7?=
+ =?us-ascii?Q?I9o6nrfS0GX9M8RkSdg/aCxi16OXx3v1RB6toBcTHaMguZY8SyFeGbMky7Pk?=
+ =?us-ascii?Q?4blX8YMdgpoSuG8+C2W9SAkBKAyMjqPZqRjrHQgHUcrg1Oluo+pzQQKioDF3?=
+ =?us-ascii?Q?d0hmRIinXGbGi32KMxkD+yTDGOsCIGNn5klSMVenNGEYqvirX7RXYq9mFqeh?=
+ =?us-ascii?Q?3GfF+0YduAUGSejhtGc4SVtWNIeRCWT3dqOxcw1F2tx1Z8uvZc9BJszlcN0Q?=
+ =?us-ascii?Q?ySjpHkpOlz/EGcvwuyyhlhnfOj1xrALKry6WBZ6sI7Hg0H1R8Se3qYilB/Qy?=
+ =?us-ascii?Q?3ndxDJ/mxYxQhYo0aAbyz1HWVf5Mrk/RlQyaOHrRn6Y5Ui/egl1PsfpujXwk?=
+ =?us-ascii?Q?j+cvdVU6q9gR6Etvb323KVNmnpqOjxhe6FLzPxjJcm9lkddPvyEOG1+JLZAr?=
+ =?us-ascii?Q?0/V5k6vPQu0t7gm7kMuV9rHUW6AVwDres+K4ttDcwBiLwjw5hc8ziu3jPqJt?=
+ =?us-ascii?Q?wJzh01UbRWh1Gh8kVoatAotyZcdXX34HOOhNEg3m1l4LLVT49zIstL8NJS6h?=
+ =?us-ascii?Q?ivsjBi/7aCfzPs5uouWPAdWfHO71aLqNwdVopgk9dRc+3l46Og9CzjZoaHa5?=
+ =?us-ascii?Q?P6LX4XP4fTTjHSwyO6d1gIZegTO4yL1K87TkJc3kwkFmabFw7BkNqzpGpwJF?=
+ =?us-ascii?Q?yqteKEDjNQDLd4NpigbMvad+TKFj9mFuQRsVmOLKHkp7+C7IPImpIwOHqmcp?=
+ =?us-ascii?Q?2HnDIToZAqw8wTozxBXRyCW5YeEQCFA/tNvNW1W2c4hekCbOkirkQJLAfD6z?=
+ =?us-ascii?Q?jg=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e6203ad-6f79-4f60-ce23-08db14e8dbc9
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 15:14:31.6671
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 15:24:15.8429
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 345VGiA10iftcGENcMj4XLr/sZVpsA815b/MkB9eRSUSnimiHMXwZSw9t3cVLEi4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5234
+X-MS-Exchange-CrossTenant-UserPrincipalName: u7cMjCTqTyJG98p0vGYrCaZdIBZtuQ3LFlTEP2KZ2HiG5iyaM+1gBIyj3ZCBwalBxDIh7ps+P2oDNVA6cglkaSKQKPwuHfU4sv15MHayLRo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR17MB5058
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 22.02.23 um 16:07 schrieb Danilo Krummrich:
-> On 2/22/23 11:25, Christian König wrote:
->> Am 17.02.23 um 14:44 schrieb Danilo Krummrich:
->
-> <snip>
->
->>> +/**
->>> + * DOC: Overview
->>> + *
->>> + * The DRM GPU VA Manager, represented by struct drm_gpuva_manager 
->>> keeps track
->>> + * of a GPU's virtual address (VA) space and manages the 
->>> corresponding virtual
->>> + * mappings represented by &drm_gpuva objects. It also keeps track 
->>> of the
->>> + * mapping's backing &drm_gem_object buffers.
->>> + *
->>> + * &drm_gem_object buffers maintain a list (and a corresponding 
->>> list lock) of
->>> + * &drm_gpuva objects representing all existent GPU VA mappings 
->>> using this
->>> + * &drm_gem_object as backing buffer.
->>> + *
->>> + * If the &DRM_GPUVA_MANAGER_REGIONS feature is enabled, a GPU VA 
->>> mapping can
->>> + * only be created within a previously allocated &drm_gpuva_region, 
->>> which
->>> + * represents a reserved portion of the GPU VA space. GPU VA 
->>> mappings are not
->>> + * allowed to span over a &drm_gpuva_region's boundary.
->>> + *
->>> + * GPU VA regions can also be flagged as sparse, which allows 
->>> drivers to create
->>> + * sparse mappings for a whole GPU VA region in order to support 
->>> Vulkan
->>> + * 'Sparse Resources'.
->>
->> Well since we have now found that there is absolutely no technical 
->> reason for having those regions could we please drop them?
->
-> I disagree this was the outcome of our previous discussion.
->
-> In nouveau I still need them to track the separate sparse page tables 
-> and, as you confirmed previously, Nvidia cards are not the only cards 
-> supporting this feature.
->
-> The second reason is that with regions we can avoid merging between 
-> buffers, which saves some effort. However, I agree that this argument 
-> by itself probably doesn't hold too much, since you've pointed out in 
-> a previous mail that:
->
-> <cite>
-> 1) If we merge and decide to only do that inside certain boundaries 
-> then those boundaries needs to be provided and checked against. This 
-> burns quite some CPU cycles
->
-> 2) If we just merge what we can we might have extra page table updates 
-> which cost time and could result in undesired side effects.
->
-> 3) If we don't merge at all we have additional housekeeping for the 
-> mappings and maybe hw restrictions.
-> </cite>
->
-> However, if a driver uses regions to track its separate sparse page 
-> tables anyway it gets 1) for free, which is a nice synergy.
->
-> I totally agree that regions aren't for everyone though. Hence, I made 
-> them an optional feature and by default regions are disabled. In order 
-> to use them drm_gpuva_manager_init() must be called with the 
-> DRM_GPUVA_MANAGER_REGIONS feature flag.
->
-> I really would not want to open code regions or have two GPUVA manager 
-> instances in nouveau to track sparse page tables. That would be really 
-> messy, hence I hope we can agree on this to be an optional feature.
+On Wed, Feb 22, 2023 at 01:48:35PM +0100, Oleg Nesterov wrote:
+> On 02/21, Gregory Price wrote:
+> >
+> > +struct ptrace_sud_config {
+> > +	__u8  mode;
+> > +	__u8  pad[7];
+>               ^^^^^^
+> Why?
+> 
 
-I absolutely don't think that this is a good idea then. This separate 
-handling of sparse page tables is completely Nouveau specific.
+The struct isn't packed, so this is for alignment/consistency of size.
+The padding gets added anyway, and differently between 32/64 bit.
+Without padding, allocating this in 32-bit mode creates a structure of
+size 28 (4-byte aligned), while in 64-bit mode it creates a structure of
+size 32 (8-byte aligned).
 
-Even when it's optional feature mixing this into the common handling is 
-exactly what I pointed out as not properly separating between hardware 
-specific and hardware agnostic functionality.
+ptrace_syscall_info in the same file has the same thing.
 
-This is exactly the problem we ran into with TTM as well and I've spend 
-a massive amount of time to clean that up again.
+> > +int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+> > +		                     void __user *data)
+> > +{
+> > +	struct syscall_user_dispatch *sd = &task->syscall_dispatch;
+> > +	struct ptrace_sud_config config;
+> > +	if (size != sizeof(struct ptrace_sud_config))
+> > +		return -EINVAL;
+> 
+> Andrei, do we really need this check?
+> 
 
-Regards,
-Christian.
+My understanding is that it's a sanity check against the above issue.
+In fact, it was what lead me to add the padding.
 
->
->>
->> I don't really see a need for them any more.
->>
->> Regards,
->> Christian.
->>
->
+Without the padding, sizeof(ptrace_sud_config) will be 32b in the kernel
+and 28b in userland.
 
+> > +
+> > +	if (test_task_syscall_work(task, SYSCALL_USER_DISPATCH))
+> > +		config.mode = PR_SYS_DISPATCH_ON;
+> > +	else
+> > +		config.mode = PR_SYS_DISPATCH_OFF;
+> > +
+> > +	config.offset = sd->offset;
+> > +	config.len = sd->len;
+> > +	config.selector = (__u64)sd->selector;
+> 
+> As the kernel test robot reports, this is not -Wpointer-to-int-cast friendly.
+> Please use uintptr_t. See for example ptrace_get_rseq_configuration(). Same
+> for syscall_user_dispatch_set_config().
+> 
+
+.rseq_abi_pointer = (u64)(uintptr_t)task->rseq,
+
+aye aye. I saw the error yesterday, I need to change my compile settings.
+
+> > +	if (copy_to_user(data, &config, sizeof(config))) {
+> 
+> This leaks info in (uninitialized) config.pad[]. You can probably simply make
+> config.mode __u64 as well.
+> 
+> Minor, but sizeof(struct ptrace_sud_config) above vs this sizeof(config)) doesn't
+> look consistent to me...
+> 
+
+I hadn't considered uninit data. It's technically a __u32, but it's
+probably just cleaner to promote/cast here than deal with padding.
+
+> > +static int sys_ptrace(int request, pid_t pid, void *addr, void *data)
+> > +{
+> > +	return syscall(SYS_ptrace, request, pid, addr, data);
+> > +}
+> 
+> Why can't you simply use ptrace() ?
+> 
+> Oleg.
+> 
+
+ptrace() is the libc wrapper around the syscall.
+
+I would assume there are issues with #include <sys/ptrace.h> and
+#include <linux/ptrace.h> in the same file. Since libc doesn't have the
+new definitions.
+
+Not sure if there's any stipulations around how selftests have to be
+written, i just wrote this one based on the surrounding tests and got
+it to work.  I would think direct usage of the syscall is preferred,
+but i'm ignorant here.
+
+
+
+
+I'll make some changes and give it a few days before shipping another
+patch.
+
+~Gregory
