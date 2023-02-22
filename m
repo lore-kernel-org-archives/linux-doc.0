@@ -2,104 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71861C61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 09:58:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF81BC61DA4
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 10:08:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231349AbjBVJ6t convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 04:58:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37748 "EHLO
+        id S231251AbjBVKIH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 05:08:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231933AbjBVJ6p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 04:58:45 -0500
-X-Greylist: delayed 1034 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 22 Feb 2023 01:58:18 PST
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E9910E9;
-        Wed, 22 Feb 2023 01:58:18 -0800 (PST)
-Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay08.hostedemail.com (Postfix) with ESMTP id D58E5140ABD;
-        Wed, 22 Feb 2023 09:40:03 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf18.hostedemail.com (Postfix) with ESMTPA id 320E134;
-        Wed, 22 Feb 2023 09:39:57 +0000 (UTC)
-Message-ID: <2cf5852092ac5940b8bc6664f54bd6066fe03be2.camel@perches.com>
-Subject: Re: [PATCH v3 5/7] RISC-V: hwprobe: Support probing of misaligned
- access performance
-From:   Joe Perches <joe@perches.com>
-To:     Evan Green <evan@rivosinc.com>,
-        Palmer Dabbelt <palmer@rivosinc.com>
-Cc:     heiko@sntech.de, Conor Dooley <conor@kernel.org>,
-        slewis@rivosinc.com, vineetg@rivosinc.com,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Ruizhe Pan <c141028@gmail.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Tsukasa OI <research_trasio@irq.a4lg.com>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Date:   Wed, 22 Feb 2023 01:39:55 -0800
-In-Reply-To: <20230221190858.3159617-6-evan@rivosinc.com>
-References: <20230221190858.3159617-1-evan@rivosinc.com>
-         <20230221190858.3159617-6-evan@rivosinc.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+        with ESMTP id S231357AbjBVKIG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 05:08:06 -0500
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B7A5F525B;
+        Wed, 22 Feb 2023 02:08:02 -0800 (PST)
+Received: from loongson.cn (unknown [113.200.148.30])
+        by gateway (Coremail) with SMTP id _____8BxttiB6fVjT4sDAA--.6824S3;
+        Wed, 22 Feb 2023 18:08:01 +0800 (CST)
+Received: from [10.130.0.149] (unknown [113.200.148.30])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxtOV+6fVjeas4AA--.4362S3;
+        Wed, 22 Feb 2023 18:07:58 +0800 (CST)
+Subject: Re: [PATCH] docs/bpf: Fix invalid link of "Documentation/bpf/btf.rst"
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <1677035401-3628-1-git-send-email-yangtiezhu@loongson.cn>
+ <Y/XYM4D1SW/zyhNJ@debian.me>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <566b4d43-f952-8038-ec2f-988be014274f@loongson.cn>
+Date:   Wed, 22 Feb 2023 18:06:55 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 320E134
-X-Stat-Signature: ybbcoyf11h49p9quu88t1dg4kuty1m1n
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+8kobCdGdcWhmHWOr9mPUUF3sOhp8Kwis=
-X-HE-Tag: 1677058797-751421
-X-HE-Meta: U2FsdGVkX1+UdPFDfaN1hY5zcxQ+HQPvxVKNWYfjZMmIKNJ658qKEWuywkzdpnpyRHDVQTb4ua/dzl8jHTTtRA==
+In-Reply-To: <Y/XYM4D1SW/zyhNJ@debian.me>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8BxtOV+6fVjeas4AA--.4362S3
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7KFW7Ww15tF43Gr1fWw45Jrb_yoW8Aw13pa
+        18JF4a9rsrKryrW3ykGa1UZF4SvayrX3W7C34DJw18Zrn8ZF95Zr1S9r45WanxtFykCFW7
+        A3ZakF909r17Z37anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bIxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
+        0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+        AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Cr0_Gr1U
+        McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+        AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+        Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwI
+        xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+        JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+        C2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1A9N7UUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2023-02-21 at 11:08 -0800, Evan Green wrote:
-> This allows userspace to select various routines to use based on the
-> performance of misaligned access on the target hardware.
-[]
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-[]
-> @@ -89,11 +94,11 @@ static bool riscv_isa_extension_check(int id)
->  void __init riscv_fill_hwcap(void)
->  {
->  	struct device_node *node;
-> -	const char *isa;
-> +	const char *isa, *misaligned;
->  	char print_str[NUM_ALPHA_EXTS + 1];
->  	int i, j, rc;
->  	unsigned long isa2hwcap[26] = {0};
-> -	unsigned long hartid;
-> +	unsigned long hartid, cpu;
->  
->  	isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
->  	isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
-> @@ -246,6 +251,28 @@ void __init riscv_fill_hwcap(void)
->  			bitmap_copy(riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
->  		else
->  			bitmap_and(riscv_isa, riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
-> +
-> +		/*
-> +		 * Check for the performance of misaligned accesses.
-> +		 */
-> +		cpu = hartid_to_cpuid_map(hartid);
-> +		if (cpu < 0)
-> +			continue;
 
-unsigned long can't be less than 0
-Likely cpu should be long not unsigned long
-It seems cpu is rather randomly either int or long.
-Perhaps standardizing on int would be better.
+
+On 02/22/2023 04:54 PM, Bagas Sanjaya wrote:
+> On Wed, Feb 22, 2023 at 11:10:01AM +0800, Tiezhu Yang wrote:
+>> "Documentation/bpf/btf.rst" is linked to the following invalid web page:
+>>
+>> https://www.kernel.org/doc/html/latest/bpf/btf.rst
+>>
+>> The correct link should be:
+>>
+>> https://www.kernel.org/doc/html/latest/bpf/btf.html
+>>
+>> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+>
+> Hi,
+>
+> I have already submitted a different fix to the same problem at [1] (v2
+> at [2]). Please take a look at there.
+
+Oh, I am sorry, I did not notice these patches, I found this issue when
+I read the bpf doc.
+
+>
+> [1]: https://lore.kernel.org/linux-doc/20230219030956.22662-1-bagasdotme@gmail.com/
+> [2]: https://lore.kernel.org/linux-doc/20230222083530.26136-1-bagasdotme@gmail.com/
+>
+>> diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
+>> index 03d4993..f54c328 100644
+>> --- a/Documentation/bpf/bpf_devel_QA.rst
+>> +++ b/Documentation/bpf/bpf_devel_QA.rst
+>> @@ -690,6 +690,7 @@ when:
+>>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/
+>>  .. _Documentation/dev-tools/kselftest.rst:
+>>     https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
+>> -.. _Documentation/bpf/btf.rst: btf.rst
+>> +.. _Documentation/bpf/btf.rst:
+>> +   https://www.kernel.org/doc/html/latest/bpf/btf.html
+>>
+>>  Happy BPF hacking!
+>
+> For consistency with my fix above, can you please convert these in-tree links
+> from using external link to simply write the doc path instead?
+>
+> Thanks.
+>
+
+Please ignore my patch, you can go on to modify your changes.
+Please let me know if there is anything I need to do.
+
+Thanks,
+Tiezhu
 
