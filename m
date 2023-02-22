@@ -2,243 +2,750 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D3FEC61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 23:07:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 147CFC61DA4
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 23:18:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229908AbjBVXHv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 18:07:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58320 "EHLO
+        id S229922AbjBVXS4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 18:18:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbjBVXHu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 18:07:50 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15BB913D5E;
-        Wed, 22 Feb 2023 15:07:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677107268; x=1708643268;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=mu1tmHcxODbYbxbBdUG2BtQmY6Z1hzsqtGmrD8fEwA8=;
-  b=UcV9gI6VNuSeKTq9buXOMGlkUpRotWCpasJWVI2dkV16qRIk1uUQztMx
-   taxjo2ZNY2/NvCr/X0x7Qn+eZZyDq82sioII3D/QdiVt+Z2L+YFuUtER3
-   XZZwW27kvMhAkByyWwusxF1Zb7ZuhEC/B1Mu6V9nmZnwLOz1r/57tHY/D
-   HA0RPEyrO9VQNt8d2yqdpKW62SllcrAKREKsMaMA0j14jy+YIPM3SRP+4
-   KH4dhUv3L7LrKHk+RfkFwqlY6+raNBWRpC7NYaG9iC7CXSlsquXyf3+9h
-   YwLsx6BJlifdGwVPi28rz3QHeuNu1Dpe3E/Svp4Tt2OsevFPTZOBsoUb5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="312685771"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="312685771"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 15:07:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="761117692"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="761117692"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2023 15:07:45 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 22 Feb 2023 15:07:42 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 22 Feb 2023 15:07:42 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 22 Feb 2023 15:07:42 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gzO5dc9z1lkw305leStE1LBT5HWQYaK9eAwM/M51x4zy3JQzfLWp0//bpKs9l9Pc/rUgMT6d6ldt3r6Sj83seGqa/UXzf1G0D/bfGbSgOWjHEuRPa6q8X0myPEWUcb+9Bagi9L4QYAeR7y9x5IgSuGeaqoTZ0d5gog/5LBPrU3WzpXGKY9vzenH50rHeIXwUrvKMHWsekN1BtS5lQXiH4s5qot0GJfqelxFM/HdeIGqKbWOTEHA/QDQEKsHHn8GGBeXAX6hFACHg/8QlZicV6eZ9dX87IJ+Mng1jpINBEEAwFjShgLuXuVFaqCfw/A1ZS4FWeIJeOyrZDruRiHi2Ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mu1tmHcxODbYbxbBdUG2BtQmY6Z1hzsqtGmrD8fEwA8=;
- b=WbZfI6A/7yk46TY3BkD6mNfoYrjJkQ892HjEQldwAqeVzruoWzzJvNr3cFGzb1tYyFhJyMntDsXZ53xHRzNWtP4CyFgEVX1mn4TElBWkxS/FbyZl6UEqK9u1Vm2CM+XUpQ5FqXfq2Ugya1fvfm/GyQOYboPstnuTrpwTJFRhkU05Huy7HyyMtJ1SBsnvq83AKg2NluEBhRTjoP2pnVkXasmfJklZ2p9JwiQRjn6/h3pEv4KsGMonjY+aME7Bg/ORdXMjIIXWhxki2bH5p96jm9xoEpLH/3Aw4BdFxASxgVmKkR+1RAvv86oUT3xpJkAZSolh6TSk2Vdc3JZiIm/3tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com (2603:10b6:300:24::14)
- by SA3PR11MB7553.namprd11.prod.outlook.com (2603:10b6:806:316::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21; Wed, 22 Feb
- 2023 23:07:39 +0000
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::d41f:9f07:ed56:a536]) by MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::d41f:9f07:ed56:a536%3]) with mapi id 15.20.6134.019; Wed, 22 Feb 2023
- 23:07:39 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-CC:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v6 19/41] x86/mm: Check shadow stack page fault errors
-Thread-Topic: [PATCH v6 19/41] x86/mm: Check shadow stack page fault errors
-Thread-Index: AQHZQ94+C3xlrgx02EewEF3TPzdLrK7XzfEAgAPPPAA=
-Date:   Wed, 22 Feb 2023 23:07:39 +0000
-Message-ID: <c67f511516d2f28385bbe079b7d7d40f136adb27.camel@intel.com>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
-         <20230218211433.26859-20-rick.p.edgecombe@intel.com>
-         <458b3d39-ddce-c0f2-fe80-4e0cc5b101bd@redhat.com>
-In-Reply-To: <458b3d39-ddce-c0f2-fe80-4e0cc5b101bd@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR11MB1392:EE_|SA3PR11MB7553:EE_
-x-ms-office365-filtering-correlation-id: 54195342-026a-47f1-068d-08db15299814
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: N0AqsPEbqewttU7zSFJG5S4GDDJJU1aSgmBKj+TS+UEaVYSOjSW1ZvBOToxZ22IXkNYsnl53mzg/0Zg6IR/7meaEFkDEG7GW65FkCfnYm/eIKyIJxtMiHsOfMyddDG/YwI3Q3L+ZQBMCqmUp4VZeYsujRRnOWEwzK32rwpBddknHB/dUiKNZLABj39aifOfU89GUvnG1oOykalihdMpC38/WP21BcqF6JOgASir+rjTkfMFb86Rnd10owvCEcvHAz0VSvKL/2hbkIEe4PGF4JsnFhO2eBqwKwiQ9Tq5zPmINFvCMygaOKtmW+ItD97mhqX7L3nXkecb43V4pRfijKw7D1npDAYHMrIM9vtSkHRQSVm6AjRp6g5Dlf4n1CyG/7lDMGvVCtqoPfEFkMSjbqKJG/T0KCxB2VlS6G6SQPeOhzF68sINw9M9WeJPdnNIKrLWpvYBd78QBKKiPfZ/t6aVZ5yXaXmdXKnQL3/2BWdZKXJTn6gYQnyPJA2YFGVtjcKwfl+nMUWnKNhnlXxWKcly4wV2vLPMIwtpA8PxtpfCIfXGX5fW6jjqV4eMyvXmVhebBWQRn424RXulUpUweu15E3QpmR7PmDVBCC0n5ICXwCtm9jC38BqViMA+WoZq2vnhY7M4KHuQ0KIoWWlA5OD7AqPSc7jvjy+NGgUaRdwHQgJLmQqTsjv78fxam3hk+9U4dUXfOi8AC1uZdgElEk3oS7z5ovpIvWDMDywxJmh/V0la3uXoh13QFY2x3/0bM
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(136003)(39860400002)(376002)(396003)(346002)(451199018)(110136005)(316002)(83380400001)(82960400001)(921005)(86362001)(122000001)(38070700005)(71200400001)(38100700002)(478600001)(6486002)(36756003)(6512007)(2616005)(26005)(6506007)(186003)(41300700001)(8936002)(2906002)(7416002)(7406005)(5660300002)(66446008)(4326008)(8676002)(66556008)(64756008)(66476007)(76116006)(66946007)(99106002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MkxVUU93ZlI5MnMwMjVuRHJBSFVQQlF4QUhlRVpZbEg0ZFU2ZkUzcW9SRjdB?=
- =?utf-8?B?UWlBaTgwdFVVUVVQejExbmRIeVJHS2p0K2M5aXNqUkgvRnd1QXBFUFA1a3o0?=
- =?utf-8?B?M0g2bkRxOGIwQXJjZGZiSjI0bzV6ZkpaeDl6aW1PVXBPbTJWV2JvV1EvS2FI?=
- =?utf-8?B?RnoyeGd2MjBZRzBhbnNqUHpYZHRCV3VjZnZINlQzWXM1OGdIUi9UU0hBUzh5?=
- =?utf-8?B?MGl1VDJ6UmpORFZsbGpTNEQ0YXZhWll0bG1UUzY3K2VDNU9RSGI1VlUrdk9S?=
- =?utf-8?B?cFRwUVd2VkFwYVpQUWpKWFdEalhTYkE2TmE3Tkc1U3pGdE5qaDg4TVhtaGRm?=
- =?utf-8?B?YnhjZXFuVm1UQ0EyQzh3SEJ2SDRyMEVXSXJ0Z25FZXAwV1h0SE1uTWs2V3Nv?=
- =?utf-8?B?WHJrQVp0Z2d6eFB6THRMT2V0aDJuTXlTS1FuSWxiRmRUUXQ4NDE1RDB5dkFq?=
- =?utf-8?B?Zmlyb0FKWUNQU0dyY2lUUXhwU3RvcTdmbTNiZGFmSVFJKzdkQzRTUXlFOGVB?=
- =?utf-8?B?RlBCbjV5cFFUbXJKb253T1lSUUpFaGV0TWhFVi9VMUdTYnY2ejcxQlpCUHRG?=
- =?utf-8?B?dFREdjdyWmJ0WGU4WVFBQlJoaUJhZ2VNTzFvUlNWVnFXRGVRRngxTTc1ckY5?=
- =?utf-8?B?eTFpaEU4MExWN3N3d1lxUTJIdzVjRTJDSmZORmdBTVcyd2pUdVRhMFJpenRt?=
- =?utf-8?B?WnZUcEVENStTenFtOHVDU2hEYUJueWFUMXEzK2JwVVpBMFlJcFgrTXQ2bmdw?=
- =?utf-8?B?Z2grU0tjU2FzR2VobzdRY2lBdE82TE1HeUhoQ0ZPVlpDdkJDb2Ruc1ZVT3lt?=
- =?utf-8?B?NmpQYytQTTVEL0ZYRlJ5N3FFZFBxWEN3bnFnOVNOdklsZVNtR2RET3hsU1Vv?=
- =?utf-8?B?cUV3dGhWWTVMWjNoZTFCb2lkNmJDekhiTm53MjduSVdTZW8wTzFqNmdXNzlh?=
- =?utf-8?B?RThUYWZiSVI5bTlVRUw1Wlk3RklnMGNrdXJySXRLYUxQWlJyZlhBczlnWCtk?=
- =?utf-8?B?R3VnUVdpeVVrdlZZZW5aaW5HUks0MDJUb1ZySjNIMHZSSzFCNzRjSzZBY0lY?=
- =?utf-8?B?V0N4M2I2QmF3Q3RzSHpJWVlFd084a3dHN3Q4TDd3cEdQbzF5MUN6SFNpam16?=
- =?utf-8?B?emU1M0Mxek80NEo2Zjh3TXliREF1WTlLTmg1YUtJK0lNS2tFem1Hc1hUNXd6?=
- =?utf-8?B?dDdDcmR5MkhaclZHb1VpcmQ0TDVTUXBFZWtpaHZDb3REZVp3aENrMk10UlZr?=
- =?utf-8?B?YUMxM0Yrc05OanNiSy9SQ3pPQTliVTJod2NVbXFHdDNJTzhFRjdpV2FxQm1n?=
- =?utf-8?B?ZGV4bU1EVkRpZ3NtTzNPR1NpRDF1WXhPdGc4ZWV1UVNwajdiWGhMKytHdnZW?=
- =?utf-8?B?WmFhdWhaS2dVclcwZTdxSkxvc3BrcXFKQ1cwakJMcXNmVFo3RkdDUlFQRTQ0?=
- =?utf-8?B?WGswdFFYZ0dsSlVGR1Z4dm11dDdCMWtOOTczSm04Y29VTTA4TVRhd09TWStM?=
- =?utf-8?B?YkRhZ09IS2VUdW5WbzJvTStXWjc0YzBlN3ZoUW53TFVScld3VXNEWlZwUFlS?=
- =?utf-8?B?M0U2Uml6d1E0enNNYU0rQXBtNVZHN3VtRGZmQXluL2RwUWowNG9hNmZtOTBC?=
- =?utf-8?B?ZmpNTlRGbTNNWG1aS2g2VlhCcm5qUE1TOTU0ejlRZ0ZobWVTM013SE9hTURi?=
- =?utf-8?B?WXlucDFiMTR4YmtmRXp1KzhsT3VFTXJFckR2dlVQZlI1a3RFaGVPaXJ2Tzk1?=
- =?utf-8?B?NjZXd2o2aU9mQ3hlWVFNS2hBWTdWMHJGSG4rTkV5SDRnaGdkbXNWQUVxTUVz?=
- =?utf-8?B?R0NQVkVPVkRvS2J3NWV2Wi9YeFJwTE5ySm81VHd2aUI2QXpIWWNHU2RYaVdL?=
- =?utf-8?B?Zkt4VU9yZU1jSUozZmZIcGdJV1N3TTJKOFlPL2MvK3p5bVdTMDk3TGJlVjRW?=
- =?utf-8?B?RW55clRXbitVMTMxMzFMVDhERU1LWjVKUFIxWXVjNUpEazYwbnM5T05UaTNY?=
- =?utf-8?B?am9BWTVXU1JjTlZ6RHRoZldMSmJBYlMzUXFvZXZFZ2NuWk5MWWhqWXY1UG5q?=
- =?utf-8?B?cE1ZU21ibTRXYzdzQyt5UjhzOXh4SkxhcDR0L3BzcjJ3VmpIVlhSSis3bm42?=
- =?utf-8?B?Z1JUbm1QNnZQWGtUVmcxcmlmRUpLR2QwVEwzZ2pkWDRaVWlpQXFyekRaSlhC?=
- =?utf-8?Q?2THamJ5597Xudv6EYeI0BfQ=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D0368B9988B66C48A74D4411EC40F6CC@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S232110AbjBVXSw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 18:18:52 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF7CD1B314;
+        Wed, 22 Feb 2023 15:18:49 -0800 (PST)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31MN2PxC032018;
+        Wed, 22 Feb 2023 23:18:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=kLp6Y2SwLfvdNEEx+KlRLVuK23xsbKShI7drVCOpPjI=;
+ b=KeVcOukVog1gQWIjT6mo5/eAqjncIqPognZua9aNyC1dt3P+6ZmmwDvQSET1gGoOqlBv
+ 4HfvL9qy3dp1aPv0LoH9XJwodaEBhNILs/mQCDwg+pH45zwdQVbPjWXh0NvJVgDjk7J8
+ iKe1QvaTzkm2qW43MI14NYqU4963JRj889SO3jySoIR5CdjyUsoWB3bgMXN0uqF8IGd3
+ IztXcDoNIWe6aZ2j/1f1cGaAvhTe4SmqRrSixmprC8loLCYK817LCrcJhqds6LiCBYvC
+ xkxIHwax8eWOeW5SmDhGOyR1floA7p25Fu1pxibhYn8l/04CF5OP2fJNlph7vG0RC8eF tA== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nwn389778-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Feb 2023 23:18:34 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31MNIXHa007425
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Feb 2023 23:18:33 GMT
+Received: from [10.134.67.48] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 22 Feb
+ 2023 15:18:33 -0800
+Message-ID: <94ebe2f0-0baf-21c0-45d5-c5bc4df9ad94@quicinc.com>
+Date:   Wed, 22 Feb 2023 15:18:32 -0800
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54195342-026a-47f1-068d-08db15299814
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Feb 2023 23:07:39.1880
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7FQDqFqOet6O2JBVX7RZRR4TiTUpB+pTQmKXa1HOqbKF62oapjIwffP4odR2sd6GzAlJLZCuY8kza2twRTymsfXFwB1LsUVJEaRbk5SmNoc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7553
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 08/26] gunyah: rsc_mgr: Add resource manager RPC core
+Content-Language: en-US
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alex Elder <elder@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212327.3310128-1-quic_eberman@quicinc.com>
+ <d69f9699-b4d9-7a3a-71b1-7e6fe72c4f82@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <d69f9699-b4d9-7a3a-71b1-7e6fe72c4f82@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: epDXlmXZriZeLsP3EnT4PS9K2nrF5jdU
+X-Proofpoint-ORIG-GUID: epDXlmXZriZeLsP3EnT4PS9K2nrF5jdU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-22_10,2023-02-22_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1015
+ malwarescore=0 bulkscore=0 phishscore=0 spamscore=0 priorityscore=1501
+ mlxlogscore=999 adultscore=0 suspectscore=0 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302220201
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gTW9uLCAyMDIzLTAyLTIwIGF0IDEzOjU3ICswMTAwLCBEYXZpZCBIaWxkZW5icmFuZCB3cm90
-ZToNCj4gPiAgICANCj4gPiArICAgICAvKg0KPiA+ICsgICAgICAqIFdoZW4gYSBwYWdlIGJlY29t
-ZXMgQ09XIGl0IGNoYW5nZXMgZnJvbSBhIHNoYWRvdyBzdGFjaw0KPiA+IHBlcm1pc3Npb24NCj4g
-PiArICAgICAgKiBwYWdlIChXcml0ZT0wLERpcnR5PTEpIHRvIChXcml0ZT0wLERpcnR5PTAsU2F2
-ZWREaXJ0eT0xKSwNCj4gPiB3aGljaCBpcyBzaW1wbHkNCj4gPiArICAgICAgKiByZWFkLW9ubHkg
-dG8gdGhlIENQVS4gV2hlbiBzaGFkb3cgc3RhY2sgaXMgZW5hYmxlZCwgYSBSRVQNCj4gPiB3b3Vs
-ZA0KPiA+ICsgICAgICAqIG5vcm1hbGx5IHBvcCB0aGUgc2hhZG93IHN0YWNrIGJ5IHJlYWRpbmcg
-aXQgd2l0aCBhICJzaGFkb3cNCj4gPiBzdGFjaw0KPiA+ICsgICAgICAqIHJlYWQiIGFjY2Vzcy4g
-SG93ZXZlciwgaW4gdGhlIENPVyBjYXNlIHRoZSBzaGFkb3cgc3RhY2sNCj4gPiBtZW1vcnkgZG9l
-cw0KPiA+ICsgICAgICAqIG5vdCBoYXZlIHNoYWRvdyBzdGFjayBwZXJtaXNzaW9ucywgaXQgaXMg
-cmVhZC1vbmx5LiBTbyBpdA0KPiA+IHdpbGwNCj4gPiArICAgICAgKiBnZW5lcmF0ZSBhIGZhdWx0
-Lg0KPiA+ICsgICAgICAqDQo+ID4gKyAgICAgICogRm9yIGNvbnZlbnRpb25hbGx5IHdyaXRhYmxl
-IHBhZ2VzLCBhIHJlYWQgY2FuIGJlIHNlcnZpY2VkDQo+ID4gd2l0aCBhDQo+ID4gKyAgICAgICog
-cmVhZCBvbmx5IFBURSwgYW5kIENPVyB3b3VsZCBub3QgaGF2ZSB0byBoYXBwZW4uIEJ1dCBmb3IN
-Cj4gPiBzaGFkb3cNCj4gPiArICAgICAgKiBzdGFjaywgdGhlcmUgaXNuJ3QgdGhlIGNvbmNlcHQg
-b2YgcmVhZC1vbmx5IHNoYWRvdyBzdGFjaw0KPiA+IG1lbW9yeS4NCj4gPiArICAgICAgKiBJZiBp
-dCBpcyBzaGFkb3cgc3RhY2sgcGVybWlzc2lvbiwgaXQgY2FuIGJlIG1vZGlmaWVkIHZpYQ0KPiA+
-IENBTEwgYW5kDQo+ID4gKyAgICAgICogUkVUIGluc3RydWN0aW9ucy4gU28gQ09XIG5lZWRzIHRv
-IGhhcHBlbiBiZWZvcmUgYW55IG1lbW9yeQ0KPiA+IGNhbiBiZQ0KPiA+ICsgICAgICAqIG1hcHBl
-ZCB3aXRoIHNoYWRvdyBzdGFjayBwZXJtaXNzaW9ucy4NCj4gPiArICAgICAgKg0KPiA+ICsgICAg
-ICAqIFNoYWRvdyBzdGFjayBhY2Nlc3NlcyAocmVhZCBvciB3cml0ZSkgbmVlZCB0byBiZSBzZXJ2
-aWNlZA0KPiA+IHdpdGgNCj4gPiArICAgICAgKiBzaGFkb3cgc3RhY2sgcGVybWlzc2lvbiBtZW1v
-cnksIHNvIGluIHRoZSBjYXNlIG9mIGEgc2hhZG93DQo+ID4gc3RhY2sNCj4gPiArICAgICAgKiBy
-ZWFkIGFjY2VzcywgdHJlYXQgaXQgYXMgYSBXUklURSBmYXVsdCBzbyBib3RoIENPVyB3aWxsDQo+
-ID4gaGFwcGVuIGFuZA0KPiA+ICsgICAgICAqIHRoZSB3cml0ZSBmYXVsdCBwYXRoIHdpbGwgdGlj
-a2xlIG1heWJlX21rd3JpdGUoKSBhbmQgbWFwDQo+ID4gdGhlIG1lbW9yeQ0KPiA+ICsgICAgICAq
-IHNoYWRvdyBzdGFjay4NCj4gPiArICAgICAgKi8NCj4gDQo+IEFnYWluLCBJIHN1Z2dlc3QgZHJv
-cHBpbmcgYWxsIGRldGFpbHMgYWJvdXQgQ09XIGZyb20gdGhpcyBjb21tZW50DQo+IGFuZCANCj4g
-ZnJvbSB0aGUgcGF0Y2ggZGVzY3JpcHRpb24uIEl0J3MganVzdCBvbmUgc3VjaCBjYXNlIHRoYXQg
-Y2FuIGhhcHBlbi4NCg0KSGkgRGF2aWQsDQoNCkkgd2FzIGp1c3QgdHJ5aW5nIHRvIGVkaXQgdGhp
-cyBvbmUgdG8gZHJvcCBDT1cgZGV0YWlscywgYnV0IEkgdGhpbmsgaW4NCnRoaXMgY2FzZSwgb25l
-IG9mIHRoZSBtYWpvciByZWFzb25zIGZvciB0aGUgY29kZSAqaXMqIGFjdHVhbGx5IENPVy4gV2UN
-CmFyZSBub3Qgd29ya2luZyBhcm91bmQgdGhlIHdob2xlIGluYWR2ZXJ0ZW50IHNoYWRvdyBzdGFj
-ayBtZW1vcnkgcGllY2UNCmhlcmUsIGJ1dCBzb21ldGhpbmcgZWxzZTogTWFraW5nIHN1cmUgc2hh
-ZG93IHN0YWNrIG1lbW9yeSBpcyBmYXVsdGVkIGluDQphbmQgZG9pbmcgQ09XIGlmIHJlcXVpcmVk
-IHRvIG1ha2UgdGhpcyBwb3NzaWJsZS4gSSBjYW1lIHVwIHdpdGggdGhpcywNCmRvZXMgaXQgc2Vl
-bSBiZXR0ZXI/DQoNCg0KLyoNCiAqIEZvciBjb252ZW50aW9uYWxseSB3cml0YWJsZSBwYWdlcywg
-YSByZWFkIGNhbiBiZSBzZXJ2aWNlZCB3aXRoIGENCiAqDQpyZWFkIG9ubHkgUFRFLiBCdXQgZm9y
-IHNoYWRvdyBzdGFjaywgdGhlcmUgaXNuJ3QgYSBjb25jZXB0IG9mDQogKiByZWFkLQ0Kb25seSBz
-aGFkb3cgc3RhY2sgbWVtb3J5LiBJZiBpdCBhIFBURSBoYXMgdGhlIHNoYWRvdyBzdGFjaw0KICoN
-CnBlcm1pc3Npb24sIGl0IGNhbiBiZSBtb2RpZmllZCB2aWEgQ0FMTCBhbmQgUkVUIGluc3RydWN0
-aW9ucy4gU28NCiAqIGNvcmUNCk1NIG5lZWRzIHRvIGZhdWx0IGluIGEgd3JpdGFibGUgUFRFIGFu
-ZCBkbyB0aGluZ3MgaXQgYWxyZWFkeQ0KICogZG9lcyBmb3INCndyaXRlIGZhdWx0cy4NCiAqDQog
-KiBTaGFkb3cgc3RhY2sgYWNjZXNzZXMgKHJlYWQgb3Igd3JpdGUpIG5lZWQgdG8gYmUNCnNlcnZp
-Y2VkIHdpdGgNCiAqIHNoYWRvdyBzdGFjayBwZXJtaXNzaW9uIG1lbW9yeSwgc28gaW4gdGhlIGNh
-c2Ugb2YgYQ0Kc2hhZG93IHN0YWNrDQogKiByZWFkIGFjY2VzcywgdHJlYXQgaXQgYXMgYSBXUklU
-RSBmYXVsdCBzbyBib3RoIGFueQ0KcmVxdWlyZWQgQ09XIHdpbGwNCiAqIGhhcHBlbiBhbmQgdGhl
-IHdyaXRlIGZhdWx0IHBhdGggd2lsbCB0aWNrbGUNCm1heWJlX21rd3JpdGUoKSBhbmQgbWFwDQog
-KiB0aGUgbWVtb3J5IHNoYWRvdyBzdGFjay4NCiAqLw0KDQoNCg0KVGhhbmtzLA0KUmljaw0KDQo=
+
+
+On 2/20/2023 10:10 AM, Srinivas Kandagatla wrote:
+> 
+> 
+> On 14/02/2023 21:23, Elliot Berman wrote:
+>>
+>> The resource manager is a special virtual machine which is always
+>> running on a Gunyah system. It provides APIs for creating and destroying
+>> VMs, secure memory management, sharing/lending of memory between VMs,
+>> and setup of inter-VM communication. Calls to the resource manager are
+>> made via message queues.
+>>
+>> This patch implements the basic probing and RPC mechanism to make those
+>> API calls. Request/response calls can be made with gh_rm_call.
+>> Drivers can also register to notifications pushed by RM via
+>> gh_rm_register_notifier
+>>
+>> Specific API calls that resource manager supports will be implemented in
+>> subsequent patches.
+>>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>> ---
+>>   drivers/virt/gunyah/Makefile   |   3 +
+>>   drivers/virt/gunyah/rsc_mgr.c  | 604 +++++++++++++++++++++++++++++++++
+>>   drivers/virt/gunyah/rsc_mgr.h  |  77 +++++
+>>   include/linux/gunyah_rsc_mgr.h |  24 ++
+>>   4 files changed, 708 insertions(+)
+>>   create mode 100644 drivers/virt/gunyah/rsc_mgr.c
+>>   create mode 100644 drivers/virt/gunyah/rsc_mgr.h
+>>   create mode 100644 include/linux/gunyah_rsc_mgr.h
+>>
+>> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+>> index 34f32110faf9..cc864ff5abbb 100644
+>> --- a/drivers/virt/gunyah/Makefile
+>> +++ b/drivers/virt/gunyah/Makefile
+>> @@ -1,3 +1,6 @@
+>>   # SPDX-License-Identifier: GPL-2.0
+>>   obj-$(CONFIG_GUNYAH) += gunyah.o
+>> +
+>> +gunyah_rsc_mgr-y += rsc_mgr.o
+>> +obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
+>> diff --git a/drivers/virt/gunyah/rsc_mgr.c 
+>> b/drivers/virt/gunyah/rsc_mgr.c
+>> new file mode 100644
+>> index 000000000000..2a47139873a8
+>> --- /dev/null
+>> +++ b/drivers/virt/gunyah/rsc_mgr.c
+>> @@ -0,0 +1,604 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>> + */
+>> +
+>> +#include <linux/of.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/mutex.h>
+>> +#include <linux/sched.h>
+>> +#include <linux/gunyah.h>
+>> +#include <linux/module.h>
+>> +#include <linux/of_irq.h>
+>> +#include <linux/kthread.h>
+> why do we need this?
+> 
+>> +#include <linux/notifier.h>
+>> +#include <linux/workqueue.h>
+>> +#include <linux/completion.h>
+>> +#include <linux/gunyah_rsc_mgr.h>
+>> +#include <linux/platform_device.h>
+>> +
+>> +#include "rsc_mgr.h"
+>> +
+> 
+> ...
+> 
+>> +struct gh_rm {
+>> +    struct device *dev;
+>> +    struct gunyah_resource tx_ghrsc, rx_ghrsc;
+>> +    struct gh_msgq msgq;
+>> +    struct mbox_client msgq_client;
+>> +    struct gh_rm_connection *active_rx_connection;
+>> +    int last_tx_ret;
+>> +
+> 
+>> +    struct idr call_idr;
+>> +    struct mutex call_idr_lock;
+> 
+> IDR interface is deprecated you should use Xarrays instead here,
+> 
+> Other good thing about Xarrays is that you need not worry about locking 
+> it uses RCU and internal spinlock, that should simiply code a bit here.
+> 
+> more info at
+> Documentation/core-api/xarray.rst
+> 
+
+Done.
+
+>> +
+>> +    struct kmem_cache *cache;
+>> +    struct mutex send_lock;
+>> +    struct blocking_notifier_head nh;
+>> +};
+>> +
+>> +static struct gh_rm_connection *gh_rm_alloc_connection(__le32 msg_id, 
+>> u8 type)
+>> +{
+>> +    struct gh_rm_connection *connection;
+>> +
+>> +    connection = kzalloc(sizeof(*connection), GFP_KERNEL);
+>> +    if (!connection)
+>> +        return ERR_PTR(-ENOMEM);
+>> +
+>> +    connection->type = type;
+>> +    connection->msg_id = msg_id;
+>> +
+>> +    return connection;
+>> +}
+>> +
+>> +static int gh_rm_init_connection_payload(struct gh_rm_connection 
+>> *connection, void *msg,
+>> +                    size_t hdr_size, size_t msg_size)
+>> +{
+>> +    size_t max_buf_size, payload_size;
+>> +    struct gh_rm_rpc_hdr *hdr = msg;
+>> +
+>> +    if (hdr_size > msg_size)
+>> +        return -EINVAL;
+>> +
+>> +    payload_size = msg_size - hdr_size;
+>> +
+>> +    connection->num_fragments = FIELD_GET(RM_RPC_FRAGMENTS_MASK, 
+>> hdr->type);
+>> +    connection->fragments_received = 0;
+>> +
+>> +    /* There's not going to be any payload, no need to allocate 
+>> buffer. */
+>> +    if (!payload_size && !connection->num_fragments)
+>> +        return 0;
+>> +
+>> +    if (connection->num_fragments > GH_RM_MAX_NUM_FRAGMENTS)
+>> +        return -EINVAL;
+>> +
+>> +    max_buf_size = payload_size + (connection->num_fragments * 
+>> GH_RM_MAX_MSG_SIZE);
+>> +
+>> +    connection->payload = kzalloc(max_buf_size, GFP_KERNEL);
+>> +    if (!connection->payload)
+>> +        return -ENOMEM;
+>> +
+>> +    memcpy(connection->payload, msg + hdr_size, payload_size);
+>> +    connection->size = payload_size;
+>> +    return 0;
+>> +}
+>> +
+>> +static void gh_rm_notif_work(struct work_struct *work)
+>> +{
+>> +    struct gh_rm_connection *connection = container_of(work, struct 
+>> gh_rm_connection,
+>> +                                notification.work);
+>> +    struct gh_rm *rm = connection->notification.rm;
+>> +
+>> +    blocking_notifier_call_chain(&rm->nh, connection->msg_id, 
+>> connection->payload);
+>> +
+>> +    put_gh_rm(rm);
+>> +    kfree(connection->payload);
+> if (connection->size)
+>      kfree(connection->payload);
+> 
+> should we check for payload size before freeing this, Normally kfree 
+> NULL should be safe, unless connection object is allocated uninitialized.
+> 
+
+connection object is kzalloc'd, so it's always allocated initialized.
+
+>> +    kfree(connection);
+>> +}
+>> +
+>> +static struct gh_rm_connection *gh_rm_process_notif(struct gh_rm *rm, 
+>> void *msg, size_t msg_size)
+>> +{
+>> +    struct gh_rm_connection *connection;
+>> +    struct gh_rm_rpc_hdr *hdr = msg;
+>> +    int ret;
+>> +
+>> +    connection = gh_rm_alloc_connection(hdr->msg_id, RM_RPC_TYPE_NOTIF);
+>> +    if (IS_ERR(connection)) {
+>> +        dev_err(rm->dev, "Failed to alloc connection for 
+>> notification: %ld, dropping.\n",
+>> +            PTR_ERR(connection));
+>> +        return NULL;
+>> +    }
+>> +
+>> +    get_gh_rm(rm);
+>> +    connection->notification.rm = rm;
+>> +    INIT_WORK(&connection->notification.work, gh_rm_notif_work);
+>> +
+>> +    ret = gh_rm_init_connection_payload(connection, msg, 
+>> sizeof(*hdr), msg_size);
+>> +    if (ret) {
+>> +        dev_err(rm->dev, "Failed to initialize connection buffer for 
+>> notification: %d\n",
+>> +            ret);
+> put_gh_rm(rm);
+> 
+> is missing.
+> or move the get and other lines after this check
+> 
+
+Done.
+
+>> +        kfree(connection);
+>> +        return NULL;
+>> +    }
+>> +
+>> +    return connection;
+>> +}
+>> +
+> 
+>> +static int gh_rm_send_request(struct gh_rm *rm, u32 message_id,
+>> +                  const void *req_buff, size_t req_buff_size,
+>> +                  struct gh_rm_connection *connection)
+>> +{
+>> +    u8 msg_type = FIELD_PREP(RM_RPC_TYPE_MASK, RM_RPC_TYPE_REQUEST);
+>> +    size_t buff_size_remaining = req_buff_size;
+>> +    const void *req_buff_curr = req_buff;
+>> +    struct gh_msgq_tx_data *msg;
+>> +    struct gh_rm_rpc_hdr *hdr;
+>> +    u32 cont_fragments = 0;
+>> +    size_t payload_size;
+>> +    void *payload;
+>> +    int ret;
+>> +
+>> +    if (req_buff_size)
+>> +        cont_fragments = (req_buff_size - 1) / GH_RM_MAX_MSG_SIZE;
+>> +
+>> +    if (req_buff_size > GH_RM_MAX_NUM_FRAGMENTS * GH_RM_MAX_MSG_SIZE) {
+>> +        pr_warn("Limit exceeded for the number of fragments: %u\n", 
+>> cont_fragments);
+>> +        dump_stack();
+>> +        return -E2BIG;
+>> +    }
+>> +
+>> +    ret = mutex_lock_interruptible(&rm->send_lock);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    /* Consider also the 'request' packet for the loop count */
+>> +    do {
+>> +        msg = kmem_cache_zalloc(rm->cache, GFP_KERNEL);
+>> +        if (!msg) {
+>> +            ret = -ENOMEM;
+>> +            goto out;
+>> +        }
+>> +
+>> +        /* Fill header */
+>> +        hdr = (struct gh_rm_rpc_hdr *)msg->data;
+>> +        hdr->api = RM_RPC_API;
+>> +        hdr->type = msg_type | FIELD_PREP(RM_RPC_FRAGMENTS_MASK, 
+>> cont_fragments);
+>> +        hdr->seq = cpu_to_le16(connection->reply.seq);
+>> +        hdr->msg_id = cpu_to_le32(message_id);
+>> +
+>> +        /* Copy payload */
+>> +        payload = hdr + 1;
+>> +        payload_size = min(buff_size_remaining, GH_RM_MAX_MSG_SIZE);
+>> +        memcpy(payload, req_buff_curr, payload_size);
+>> +        req_buff_curr += payload_size;
+>> +        buff_size_remaining -= payload_size;
+>> +
+>> +        /* Force the last fragment to immediately alert the receiver */
+>> +        msg->push = !buff_size_remaining;
+>> +        msg->length = sizeof(*hdr) + payload_size;
+>> +
+>> +        ret = mbox_send_message(gh_msgq_chan(&rm->msgq), msg);
+>> +        if (ret < 0) {
+>> +            kmem_cache_free(rm->cache, msg);
+>> +            break;
+>> +        }
+>> +
+>> +        if (rm->last_tx_ret) {
+>> +            ret = rm->last_tx_ret;
+>> +            break;
+>> +        }
+>> +
+>> +        msg_type = FIELD_PREP(RM_RPC_TYPE_MASK, 
+>> RM_RPC_TYPE_CONTINUATION);
+>> +    } while (buff_size_remaining);
+>> +
+>> +out:
+>> +    mutex_unlock(&rm->send_lock);
+>> +    return ret < 0 ? ret : 0;
+>> +}
+>> +
+>> +/**
+>> + * gh_rm_call: Achieve request-response type communication with RPC
+>> + * @rm: Pointer to Gunyah resource manager internal data
+>> + * @message_id: The RM RPC message-id
+>> + * @req_buff: Request buffer that contains the payload
+>> + * @req_buff_size: Total size of the payload
+>> + * @resp_buf: Pointer to a response buffer
+>> + * @resp_buff_size: Size of the response buffer
+>> + *
+>> + * Make a request to the RM-VM and wait for reply back. For a successful
+>> + * response, the function returns the payload. The size of the 
+>> payload is set in
+>> + * resp_buff_size. The resp_buf should be freed by the caller.
+>> + *
+>> + * req_buff should be not NULL for req_buff_size >0. If req_buff_size 
+>> == 0,
+>> + * req_buff *can* be NULL and no additional payload is sent.
+>> + *
+>> + * Context: Process context. Will sleep waiting for reply.
+>> + * Return: 0 on success. <0 if error.
+>> + */
+>> +int gh_rm_call(struct gh_rm *rm, u32 message_id, void *req_buff, 
+>> size_t req_buff_size,
+>> +        void **resp_buf, size_t *resp_buff_size)
+>> +{
+>> +    struct gh_rm_connection *connection;
+>> +    int ret;
+>> +
+>> +    /* message_id 0 is reserved. req_buff_size implies req_buf is not 
+>> NULL */
+>> +    if (!message_id || (!req_buff && req_buff_size) || !rm)
+>> +        return -EINVAL;
+>> +
+>> +    connection = gh_rm_alloc_connection(cpu_to_le32(message_id), 
+>> RM_RPC_TYPE_REPLY);
+>> +    if (IS_ERR(connection))
+>> +        return PTR_ERR(connection);
+>> +
+>> +    init_completion(&connection->reply.seq_done);
+>> +
+>> +    /* Allocate a new seq number for this connection */
+>> +    mutex_lock(&rm->call_idr_lock);
+>> +    ret = idr_alloc_cyclic(&rm->call_idr, connection, 0, U16_MAX,
+>> +                        GFP_KERNEL);
+>> +    mutex_unlock(&rm->call_idr_lock);
+>> +    if (ret < 0)
+>> +        goto out;
+> 
+> new line.
+> 
+>> +    connection->reply.seq = ret;
+>> +
+>> +    /* Send the request to the Resource Manager */
+>> +    ret = gh_rm_send_request(rm, message_id, req_buff, req_buff_size, 
+>> connection);
+>> +    if (ret < 0)
+>> +        goto out;
+>> +
+>> +    /* Wait for response */
+>> +    ret = 
+>> wait_for_completion_interruptible(&connection->reply.seq_done);
+>> +    if (ret)
+>> +        goto out;
+>> +
+>> +    /* Check for internal (kernel) error waiting for the response */
+>> +    if (connection->reply.ret) {
+>> +        ret = connection->reply.ret;
+>> +        if (ret != -ENOMEM)
+>> +            kfree(connection->payload);
+>> +        goto out;
+>> +    }
+>> +
+>> +    /* Got a response, did resource manager give us an error? */
+>> +    if (connection->reply.rm_error != GH_RM_ERROR_OK) {
+>> +        pr_warn("RM rejected message %08x. Error: %d\n", message_id,
+>> +            connection->reply.rm_error);
+>> +        dump_stack();
+>> +        ret = gh_rm_remap_error(connection->reply.rm_error);
+>> +        kfree(connection->payload);
+>> +        goto out;
+>> +    }
+>> +
+>> +    /* Everything looks good, return the payload */
+>> +    *resp_buff_size = connection->size;
+>> +    if (connection->size)
+>> +        *resp_buf = connection->payload;
+>> +    else {
+>> +        /* kfree in case RM sent us multiple fragments but never any 
+>> data in
+>> +         * those fragments. We would've allocated memory for it, but 
+>> connection->size == 0
+>> +         */
+>> +        kfree(connection->payload);
+>> +    }
+>> +
+>> +out:
+>> +    mutex_lock(&rm->call_idr_lock);
+>> +    idr_remove(&rm->call_idr, connection->reply.seq);
+>> +    mutex_unlock(&rm->call_idr_lock);
+>> +    kfree(connection);
+>> +    return ret;
+>> +}
+>> +
+>> +
+>> +int gh_rm_notifier_register(struct gh_rm *rm, struct notifier_block *nb)
+>> +{
+>> +    return blocking_notifier_chain_register(&rm->nh, nb);
+>> +}
+>> +EXPORT_SYMBOL_GPL(gh_rm_notifier_register);
+>> +
+>> +int gh_rm_notifier_unregister(struct gh_rm *rm, struct notifier_block 
+>> *nb)
+>> +{
+>> +    return blocking_notifier_chain_unregister(&rm->nh, nb);
+>> +}
+>> +EXPORT_SYMBOL_GPL(gh_rm_notifier_unregister);
+>> +
+>> +void get_gh_rm(struct gh_rm *rm)
+>> +{
+>> +    get_device(rm->dev);
+>> +}
+>> +EXPORT_SYMBOL_GPL(get_gh_rm);
+> 
+> Can we have some consistency in the exported symbol naming,
+> we have two combinations now.
+> 
+> EXPORT_SYMBOL_GPL(gh_rm_notifier_register);
+> EXPORT_SYMBOL_GPL(get_gh_rm);
+> 
+> lets stick to one.
+
+done.
+
+>> +
+>> +void put_gh_rm(struct gh_rm *rm)
+>> +{
+>> +    put_device(rm->dev);
+>> +}
+>> +EXPORT_SYMBOL_GPL(put_gh_rm);
+>>
+> ...
+> 
+>> +
+>> +static int gh_rm_drv_probe(struct platform_device *pdev)
+>> +{
+>> +    struct gh_msgq_tx_data *msg;
+>> +    struct gh_rm *rm;
+>> +    int ret;
+>> +
+> How are we ensuring that gunyah driver is probed before this driver?
+> 
+> 
+
+Which driver?
+
+>> +    rm = devm_kzalloc(&pdev->dev, sizeof(*rm), GFP_KERNEL);
+>> +    if (!rm)
+>> +        return -ENOMEM;
+>> +
+>> +    platform_set_drvdata(pdev, rm);
+>> +    rm->dev = &pdev->dev;
+>> +
+>> +    mutex_init(&rm->call_idr_lock);
+>> +    idr_init(&rm->call_idr);
+>> +    rm->cache = kmem_cache_create("gh_rm", struct_size(msg, data, 
+>> GH_MSGQ_MAX_MSG_SIZE), 0,
+>> +        SLAB_HWCACHE_ALIGN, NULL);
+>> +    if (!rm->cache)
+>> +        return -ENOMEM;
+> new line here would be nice.
+> 
+
+done.
+
+>> +    mutex_init(&rm->send_lock);
+>> +    BLOCKING_INIT_NOTIFIER_HEAD(&rm->nh);
+>> +
+>> +    ret = gh_msgq_platform_probe_direction(pdev, true, 0, 
+>> &rm->tx_ghrsc);
+>> +    if (ret)
+>> +        goto err_cache;
+>> +
+>> +    ret = gh_msgq_platform_probe_direction(pdev, false, 1, 
+>> &rm->rx_ghrsc);
+>> +    if (ret)
+>> +        goto err_cache;
+>> +
+>> +    rm->msgq_client.dev = &pdev->dev;
+>> +    rm->msgq_client.tx_block = true;
+>> +    rm->msgq_client.rx_callback = gh_rm_msgq_rx_data;
+>> +    rm->msgq_client.tx_done = gh_rm_msgq_tx_done;
+>> +
+>> +    return gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, 
+>> &rm->tx_ghrsc, &rm->rx_ghrsc);
+>> +err_cache:
+>> +    kmem_cache_destroy(rm->cache);
+>> +    return ret;
+>> +}
+>> +
+>> +static int gh_rm_drv_remove(struct platform_device *pdev)
+>> +{
+>> +    struct gh_rm *rm = platform_get_drvdata(pdev);
+>> +
+>> +    mbox_free_channel(gh_msgq_chan(&rm->msgq));
+>> +    gh_msgq_remove(&rm->msgq);
+>> +    kmem_cache_destroy(rm->cache);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static const struct of_device_id gh_rm_of_match[] = {
+>> +    { .compatible = "gunyah-resource-manager" },
+>> +    {}
+>> +};
+>> +MODULE_DEVICE_TABLE(of, gh_rm_of_match);
+>> +
+>> +static struct platform_driver gh_rm_driver = {
+>> +    .probe = gh_rm_drv_probe,
+>> +    .remove = gh_rm_drv_remove,
+>> +    .driver = {
+>> +        .name = "gh_rsc_mgr",
+>> +        .of_match_table = gh_rm_of_match,
+>> +    },
+>> +};
+>> +module_platform_driver(gh_rm_driver);
+>> +
+>> +MODULE_LICENSE("GPL");
+>> +MODULE_DESCRIPTION("Gunyah Resource Manager Driver");
+>> diff --git a/drivers/virt/gunyah/rsc_mgr.h 
+>> b/drivers/virt/gunyah/rsc_mgr.h
+>> new file mode 100644
+>> index 000000000000..d4e799a7526f
+>> --- /dev/null
+>> +++ b/drivers/virt/gunyah/rsc_mgr.h
+>> @@ -0,0 +1,77 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>> + */
+>> +#ifndef __GH_RSC_MGR_PRIV_H
+>> +#define __GH_RSC_MGR_PRIV_H
+>> +
+>> +#include <linux/gunyah.h>
+>> +#include <linux/gunyah_rsc_mgr.h>
+>> +#include <linux/types.h>
+>> +
+> <------------------
+>> +/* RM Error codes */
+>> +enum gh_rm_error {
+>> +    GH_RM_ERROR_OK            = 0x0,
+>> +    GH_RM_ERROR_UNIMPLEMENTED    = 0xFFFFFFFF,
+>> +    GH_RM_ERROR_NOMEM        = 0x1,
+>> +    GH_RM_ERROR_NORESOURCE        = 0x2,
+>> +    GH_RM_ERROR_DENIED        = 0x3,
+>> +    GH_RM_ERROR_INVALID        = 0x4,
+>> +    GH_RM_ERROR_BUSY        = 0x5,
+>> +    GH_RM_ERROR_ARGUMENT_INVALID    = 0x6,
+>> +    GH_RM_ERROR_HANDLE_INVALID    = 0x7,
+>> +    GH_RM_ERROR_VALIDATE_FAILED    = 0x8,
+>> +    GH_RM_ERROR_MAP_FAILED        = 0x9,
+>> +    GH_RM_ERROR_MEM_INVALID        = 0xA,
+>> +    GH_RM_ERROR_MEM_INUSE        = 0xB,
+>> +    GH_RM_ERROR_MEM_RELEASED    = 0xC,
+>> +    GH_RM_ERROR_VMID_INVALID    = 0xD,
+>> +    GH_RM_ERROR_LOOKUP_FAILED    = 0xE,
+>> +    GH_RM_ERROR_IRQ_INVALID        = 0xF,
+>> +    GH_RM_ERROR_IRQ_INUSE        = 0x10,
+>> +    GH_RM_ERROR_IRQ_RELEASED    = 0x11,
+>> +};
+>> +
+>> +/**
+>> + * gh_rm_remap_error() - Remap Gunyah resource manager errors into a 
+>> Linux error code
+>> + * @gh_error: "Standard" return value from Gunyah resource manager
+>> + */
+>> +static inline int gh_rm_remap_error(enum gh_rm_error rm_error)
+>> +{
+>> +    switch (rm_error) {
+>> +    case GH_RM_ERROR_OK:
+>> +        return 0;
+>> +    case GH_RM_ERROR_UNIMPLEMENTED:
+>> +        return -EOPNOTSUPP;
+>> +    case GH_RM_ERROR_NOMEM:
+>> +        return -ENOMEM;
+>> +    case GH_RM_ERROR_NORESOURCE:
+>> +        return -ENODEV;
+>> +    case GH_RM_ERROR_DENIED:
+>> +        return -EPERM;
+>> +    case GH_RM_ERROR_BUSY:
+>> +        return -EBUSY;
+>> +    case GH_RM_ERROR_INVALID:
+>> +    case GH_RM_ERROR_ARGUMENT_INVALID:
+>> +    case GH_RM_ERROR_HANDLE_INVALID:
+>> +    case GH_RM_ERROR_VALIDATE_FAILED:
+>> +    case GH_RM_ERROR_MAP_FAILED:
+>> +    case GH_RM_ERROR_MEM_INVALID:
+>> +    case GH_RM_ERROR_MEM_INUSE:
+>> +    case GH_RM_ERROR_MEM_RELEASED:
+>> +    case GH_RM_ERROR_VMID_INVALID:
+>> +    case GH_RM_ERROR_LOOKUP_FAILED:
+>> +    case GH_RM_ERROR_IRQ_INVALID:
+>> +    case GH_RM_ERROR_IRQ_INUSE:
+>> +    case GH_RM_ERROR_IRQ_RELEASED:
+>> +        return -EINVAL;
+>> +    default:
+>> +        return -EBADMSG;
+>> +    }
+>> +}
+>> +
+> ---------------->
+> 
+> Only user for the error code coversion is within the rm driver, you 
+> should just move this to the .c file, I see no value of this in .h 
+> unless there are some other users for this.
+> 
+> 
+
+Done.
+
+> 
+>> +struct gh_rm;
+>> +int gh_rm_call(struct gh_rm *rsc_mgr, u32 message_id, void *req_buff, 
+>> size_t req_buff_size,
+>> +        void **resp_buf, size_t *resp_buff_size);
+>> +
+>> +#endif
+>> diff --git a/include/linux/gunyah_rsc_mgr.h 
+>> b/include/linux/gunyah_rsc_mgr.h
+>> new file mode 100644
+>> index 000000000000..c992b3188c8d
+>> --- /dev/null
+>> +++ b/include/linux/gunyah_rsc_mgr.h
+>> @@ -0,0 +1,24 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>> + */
+>> +
+>> +#ifndef _GUNYAH_RSC_MGR_H
+>> +#define _GUNYAH_RSC_MGR_H
+>> +
+>> +#include <linux/list.h>
+>> +#include <linux/notifier.h>
+>> +#include <linux/gunyah.h>
+>> +
+>> +#define GH_VMID_INVAL    U16_MAX
+>> +
+>> +/* Gunyah recognizes VMID0 as an alias to the current VM's ID */
+>> +#define GH_VMID_SELF            0
+>> +
+>> +struct gh_rm;
+>> +int gh_rm_notifier_register(struct gh_rm *rm, struct notifier_block 
+>> *nb);
+>> +int gh_rm_notifier_unregister(struct gh_rm *rm, struct notifier_block 
+>> *nb);
+>> +void get_gh_rm(struct gh_rm *rm);
+>> +void put_gh_rm(struct gh_rm *rm);
+>> +
+>> +#endif
