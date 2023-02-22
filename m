@@ -2,346 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D65EEC61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 10:44:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 250E5C6379F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 10:49:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231618AbjBVKod (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 05:44:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44502 "EHLO
+        id S229528AbjBVKtF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 05:49:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231267AbjBVKoc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 05:44:32 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC4D37F20
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 02:44:28 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id p8so7382272wrt.12
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 02:44:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=63ddUURZK1WcSEWa6PFArCoWz1u1nszRv3/eqLgbtv8=;
-        b=47wOaNT7AL3Ib2+OuLJHB2zcF0brHUnp57QOGwYC0Mz2rCkhn3di1MOK+AIL/l9OuV
-         tV1wzIhG+4VfZY5vmvFPiyCLVR/aPdveJhx7MS9hvsH0nm9SdnlOrxM2BYTpKIgJnC+5
-         8+uKK85b1a6fzlyaBlqtlr5+Xfvjw790brwP+VvHrrU2CZW5JsLLu0AqrUfv1o7VBvCp
-         06iUWVYrBY7ckBCKFEKJIQIjIaMp2pxaz7vypnmYhcSJLk9g3X3Si8luS5OT8quSfgZa
-         HoB9VO5VgrSgE1/zTR65PNr593/SbtSbm66yWopwxqWR3/6TdJ4z2HRSYLv0CSjaE2Ge
-         4o+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=63ddUURZK1WcSEWa6PFArCoWz1u1nszRv3/eqLgbtv8=;
-        b=TnerBYLsGCHDDk3Vh0OQBuozJAVFVlDMyfhmcbbprnt3BQyb5ZqqPmfMNFoQFDf+Kh
-         Y/+BbPWkMqcqEbtRkGCxsDLsEZjaGCSPU0Q9OXXzUO5ZDSJmbUbCD1FhVSzWtZVsc/X4
-         6gLhN1DUNNMyHL28MgsEFmk2Vf9fnKeYSQ+UxNvH+kE257scKkJFxvN9DNOpjTPwUZ4F
-         XDjxX8lyCmfVD4BhTk4tpb4bbeuqIip1S9QW8deJWp46qEj8cXz6750ONtFUV27pjkf2
-         Tk0yDTAYEZtRJbQn5Bp32n7vkFMEpjRwcyXD+480D/O4iLxmX7hSkp1cGitQM3HTIKW+
-         ABow==
-X-Gm-Message-State: AO0yUKXvWsY18z+WolKNmqhrL30SG7w3tNb1dxYS9IjaA20ZY857xB1X
-        aFnaPVoyk4Yt8/MKWxwe/8+WIg==
-X-Google-Smtp-Source: AK7set8S4UcwMjHzxvPq6gSHozwq4anrUgRaw3TEN1hsobsYeyPrRFZm9oD6oEAP79YBdiK+3ZfneA==
-X-Received: by 2002:a5d:4e49:0:b0:2c3:e4f5:18c with SMTP id r9-20020a5d4e49000000b002c3e4f5018cmr6946460wrt.30.1677062666963;
-        Wed, 22 Feb 2023 02:44:26 -0800 (PST)
-Received: from alex-rivos.ba.rivosinc.com (lfbn-gre-1-235-32.w90-112.abo.wanadoo.fr. [90.112.194.32])
-        by smtp.gmail.com with ESMTPSA id ja13-20020a05600c556d00b003e4326a6d53sm9507050wmb.35.2023.02.22.02.44.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 02:44:26 -0800 (PST)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>
-Subject: [PATCH v5 1/1] riscv: Allow to downgrade paging mode from the command line
-Date:   Wed, 22 Feb 2023 11:43:22 +0100
-Message-Id: <20230222104322.1197763-2-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230222104322.1197763-1-alexghiti@rivosinc.com>
-References: <20230222104322.1197763-1-alexghiti@rivosinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S230527AbjBVKtE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 05:49:04 -0500
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A882A168
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 02:49:02 -0800 (PST)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230222104858epoutp03ae82f5fbfe9828699909fcb6f43a95f9~GH9t-sDoJ1972619726epoutp03B
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 10:48:58 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230222104858epoutp03ae82f5fbfe9828699909fcb6f43a95f9~GH9t-sDoJ1972619726epoutp03B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1677062938;
+        bh=pRgejRgp2h9MwzsdDiQ+JxCVBcLZteTvsHs1NmTE+Cc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=QMWmlLkrgkUny/SzV3uMzU+FFmFWvMtqePcf/WqunhYVakOrVNg0nzEGdUdnYIQFd
+         c+CdbIs3sHMu/zNn2nqmBSHwol4Q8bV/P5hyxiB5Gliz8ivvQDiSsbtQ/ypUziZkDC
+         q51jN6xqyY4/NcL2+0TkqF5J1VHVYKwnjEF8DmCA=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+        20230222104857epcas1p389039952ee873d0970fb677ecb28e0a8~GH9s2TgG22477424774epcas1p3C;
+        Wed, 22 Feb 2023 10:48:57 +0000 (GMT)
+Received: from epsmges1p5.samsung.com (unknown [182.195.36.223]) by
+        epsnrtp2.localdomain (Postfix) with ESMTP id 4PMCZK1nmmz4x9Py; Wed, 22 Feb
+        2023 10:48:57 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+        epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
+        64.21.54823.913F5F36; Wed, 22 Feb 2023 19:48:57 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+        20230222104856epcas1p3a6ff45f90292df33ef5fd8216b812f64~GH9r8IRc62477424774epcas1p3B;
+        Wed, 22 Feb 2023 10:48:56 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20230222104856epsmtrp2370ad8213ebc46dbd470f5bfbba89fe0~GH9r7Xd8l1340413404epsmtrp2j;
+        Wed, 22 Feb 2023 10:48:56 +0000 (GMT)
+X-AuditID: b6c32a39-a97ff7000000d627-9f-63f5f3190e72
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        5B.1A.17995.813F5F36; Wed, 22 Feb 2023 19:48:56 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.253.105.183]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20230222104856epsmtip16341801507df126bb1eb25fca0cfcbde~GH9rtThTr2855228552epsmtip1P;
+        Wed, 22 Feb 2023 10:48:56 +0000 (GMT)
+From:   Sangmoon Kim <sangmoon.kim@samsung.com>
+To:     bagasdotme@gmail.com
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
+        nicolas@fjasle.eu, Sangmoon Kim <sangmoon.kim@samsung.com>
+Subject: [PATCH v2] docs: kbuild: remove description of KBUILD_LDS_MODULE
+Date:   Wed, 22 Feb 2023 19:47:19 +0900
+Message-Id: <20230222104719.16374-1-sangmoon.kim@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <1666a6a9-4757-0e1d-f807-618c95e0b6ae@gmail.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMKsWRmVeSWpSXmKPExsWy7bCmrq7k56/JBgfmsVtMbWS0eHKgndFi
+        YdsSFos/u3YwWVzeNYfN4uGDG6wW7Sufsll8mPCfyeLZ3hOsFrceNLI4cHnsOrSZzWPnrLvs
+        Hgs2lXpsWtXJ5rG4bzKrR9+WVYwenzfJBbBHZdtkpCampBYppOYl56dk5qXbKnkHxzvHm5oZ
+        GOoaWlqYKynkJeam2iq5+AToumXmAF2npFCWmFMKFApILC5W0rezKcovLUlVyMgvLrFVSi1I
+        ySkwK9ArTswtLs1L18tLLbEyNDAwMgUqTMjOmHSkl7lgJ0fFiQOVDYx/2boYOTkkBEwkFv85
+        zdzFyMUhJLCDUWLytDlQzidGiVXvXkE5nxklfu/9zQrTsv3aShaIxC5GiTfzVzOBJIQEvjBK
+        7L6RAGKzCehKfJl3mRHEFhGQkNi47yPYJGaBt4wSH75eZQFJCAt4Sty7chbMZhFQlXi29Ch7
+        FyMHB6+ArcTkVn6IZfISqzccYAaxOYHCp3Y3s4HMkRB4yy5xpq+DCaLIRWJ9/xxGCFtY4tXx
+        LewQtpTE53d7oRr6GSVOdXexQCSmMErMvaYJYRtL9PZcYAZZzCygKbF+lz5EWFFi5++5YDOZ
+        Bfgk3n3tYQUpkRDglehoE4IoUZN4/Oou1FoZif4786Gme0hc+z+bHRJAE4DBeGkz0wRGuVkI
+        GxYwMq5iFEstKM5NTy02LDCFx1hyfu4mRnDq07LcwTj97Qe9Q4xMHIyHGCU4mJVEeP/zfk4W
+        4k1JrKxKLcqPLyrNSS0+xGgKDLyJzFKiyfnA5JtXEm9oYmlgYmZkYmFsaWymJM4rbnsyWUgg
+        PbEkNTs1tSC1CKaPiYNTqoFJhWOx7u0/q07+0m5NEhYrMjnPdFwpPNejNtY42e662cUdN1JF
+        tXfuevVC5ccq5wub3y2QFJR4vDbVQPoVv/eBqk+xiXNvbcs6dVKy4dqmxH2TL05cuWfy6SV9
+        lyX8jL5YF7EuLk3yjZlcdFNf/eeT6OR0xV2m72OOLBcUnhWrP+dG49+CVuZFlQ4uDkeWVAUe
+        /2v3bVJaIs9T88uiIUfiSs5HsFd2F3TenC20XGPz29+nPyT1fnLL65H9ds6tL/Ani8TOU+qG
+        JrG3xZWYcg9xc4glmvr8ObbK4WLlF1+NIP/fIUnHuFq3tHzdXnKpQYPnhsldBtfdyetf/vB2
+        PuYq3fTzj2B8dudrq9MZ3JpKLMUZiYZazEXFiQAvfyM5BgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrFLMWRmVeSWpSXmKPExsWy7bCSnK7E56/JBlM7FC2mNjJaPDnQzmix
+        sG0Ji8WfXTuYLC7vmsNm8fDBDVaL9pVP2Sw+TPjPZPFs7wlWi1sPGlkcuDx2HdrM5rFz1l12
+        jwWbSj02repk81jcN5nVo2/LKkaPz5vkAtijuGxSUnMyy1KL9O0SuDImHellLtjJUXHiQGUD
+        41+2LkZODgkBE4nt11aydDFycAgJ7GCU2BkHEZaR2HlxMxNIWEJAWOLw4eIuRi6gik+MEu/n
+        PmMEqWET0JX4Mu8ymC0iICGxcd9HZpAiZoHvjBItU66AzRcW8JS4d+UsC4jNIqAq8WzpUXaQ
+        obwCthKTW/khdslLrN5wgBnE5gQKn9rdDNYqJGAj0TP9B9sERr4FjAyrGCVTC4pz03OLDQuM
+        8lLL9YoTc4tL89L1kvNzNzGCg1NLawfjnlUf9A4xMnEwHmKU4GBWEuH9z/s5WYg3JbGyKrUo
+        P76oNCe1+BCjNAeLkjjvha6T8UIC6YklqdmpqQWpRTBZJg5OqQYm113LNn9PVHYIVGJetuOS
+        wbZjkUEbDvXOOHd+TlKT99Nc0e1TvNnbdmUeDvtnzrxISObdigSzo8XNIZbT+Y+fYfGWdnv9
+        4bLp6QvF11VkLi59Pe+yn8nzWyGnb3YnnkrsNyn5Jzxh7VrObUfX7/P9uNTy6c5Fj4x8OR6G
+        bdpXV+Q9Y+JEw08hv2PURF3NJhtOZ6ne6OzSrJSgz3dxEavHHl0/e57pCckvBHQOu2x7FZA0
+        +5P1TiOfdfyfTbj/qdyrMbN1CpQ3Xv/hXlXWnO7XgvXpdw636VzdfEUuSdww63vb1Wu9PunO
+        q852zq+csP/iWQvBNQv8HbYwbnp7Kaby/47q3ENnA+Jml3Bd3j2RW4mlOCPRUIu5qDgRAEDc
+        thS9AgAA
+X-CMS-MailID: 20230222104856epcas1p3a6ff45f90292df33ef5fd8216b812f64
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230222104856epcas1p3a6ff45f90292df33ef5fd8216b812f64
+References: <1666a6a9-4757-0e1d-f807-618c95e0b6ae@gmail.com>
+        <CGME20230222104856epcas1p3a6ff45f90292df33ef5fd8216b812f64@epcas1p3.samsung.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add 2 early command line parameters that allow to downgrade satp mode
-(using the same naming as x86):
-- "no5lvl": use a 4-level page table (down from sv57 to sv48)
-- "no4lvl": use a 3-level page table (down from sv57/sv48 to sv39)
+Commit 596b0474d3d9 ("kbuild: preprocess module linker script")
+removes KBUILD_LDS_MODULE, yet the variable is still mentioned in
+kbuild documentation. Remove the reference to the now-nonexistent
+variable.
 
-Note that going through the device tree to get the kernel command line
-works with ACPI too since the efi stub creates a device tree anyway with
-the command line.
-
-In KASAN kernels, we can't use the libfdt that early in the boot process
-since we are not ready to execute instrumented functions. So instead of
-using the "generic" libfdt, we compile our own versions of those functions
-that are not instrumented and that are prefixed so that they do not
-conflict with the generic ones. We also need the non-instrumented versions
-of the string functions and the prefixed versions of memcpy/memmove.
-
-This is largely inspired by commit aacd149b6238 ("arm64: head: avoid
-relocating the kernel twice for KASLR") from which I removed compilation
-flags that were not relevant to RISC-V at the moment (LTO, SCS, pie).
-
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Tested-by: Björn Töpel <bjorn@rivosinc.com>
-Reviewed-by: Björn Töpel <bjorn@rivosinc.com>
-
+Signed-off-by: Sangmoon Kim <sangmoon.kim@samsung.com>
 ---
- .../admin-guide/kernel-parameters.txt         |  5 +-
- arch/riscv/kernel/Makefile                    |  2 +
- arch/riscv/kernel/pi/Makefile                 | 34 ++++++++++++
- arch/riscv/kernel/pi/cmdline_early.c          | 55 +++++++++++++++++++
- arch/riscv/lib/memcpy.S                       |  2 +
- arch/riscv/lib/memmove.S                      |  2 +
- arch/riscv/mm/init.c                          | 36 ++++++++++--
- 7 files changed, 129 insertions(+), 7 deletions(-)
- create mode 100644 arch/riscv/kernel/pi/Makefile
- create mode 100644 arch/riscv/kernel/pi/cmdline_early.c
+Thank you for your review.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6cfa6e3996cf..1d8fc66d2b0d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3578,7 +3578,10 @@
- 			emulation library even if a 387 maths coprocessor
- 			is present.
+Changes in v2:
+ - Update the commit message.
+
+ Documentation/kbuild/makefiles.rst | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 38bc74eaa547..468e7830c1c3 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -1250,11 +1250,6 @@ When kbuild executes, the following steps are followed (roughly):
  
--	no5lvl		[X86-64] Disable 5-level paging mode. Forces
-+	no4lvl		[RISCV] Disable 4-level and 5-level paging modes. Forces
-+			kernel to use 3-level paging instead.
-+
-+	no5lvl		[X86-64,RISCV] Disable 5-level paging mode. Forces
- 			kernel to use 4-level paging instead.
+ 	The linker script with full path. Assigned by the top-level Makefile.
  
- 	nofsgsbase	[X86] Disables FSGSBASE instructions.
-diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-index 4cf303a779ab..6756209f1ac6 100644
---- a/arch/riscv/kernel/Makefile
-+++ b/arch/riscv/kernel/Makefile
-@@ -89,3 +89,5 @@ obj-$(CONFIG_EFI)		+= efi.o
- obj-$(CONFIG_COMPAT)		+= compat_syscall_table.o
- obj-$(CONFIG_COMPAT)		+= compat_signal.o
- obj-$(CONFIG_COMPAT)		+= compat_vdso/
-+
-+obj-y				+= pi/
-diff --git a/arch/riscv/kernel/pi/Makefile b/arch/riscv/kernel/pi/Makefile
-new file mode 100644
-index 000000000000..554e936ef0b6
---- /dev/null
-+++ b/arch/riscv/kernel/pi/Makefile
-@@ -0,0 +1,34 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# This file was copied from arm64/kernel/pi/Makefile.
-+
-+KBUILD_CFLAGS	:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
-+		   -Os -DDISABLE_BRANCH_PROFILING $(DISABLE_STACKLEAK_PLUGIN) \
-+		   $(call cc-option,-mbranch-protection=none) \
-+		   -I$(srctree)/scripts/dtc/libfdt -fno-stack-protector \
-+		   -D__DISABLE_EXPORTS -ffreestanding \
-+		   -fno-asynchronous-unwind-tables -fno-unwind-tables \
-+		   $(call cc-option,-fno-addrsig)
-+
-+GCOV_PROFILE	:= n
-+KASAN_SANITIZE	:= n
-+KCSAN_SANITIZE	:= n
-+UBSAN_SANITIZE	:= n
-+KCOV_INSTRUMENT	:= n
-+
-+$(obj)/%.pi.o: OBJCOPYFLAGS := --prefix-symbols=__pi_ \
-+			       --remove-section=.note.gnu.property \
-+			       --prefix-alloc-sections=.init
-+$(obj)/%.pi.o: $(obj)/%.o FORCE
-+	$(call if_changed,objcopy)
-+
-+$(obj)/lib-%.o: $(srctree)/lib/%.c FORCE
-+	$(call if_changed_rule,cc_o_c)
-+
-+$(obj)/string.o: $(srctree)/lib/string.c FORCE
-+	$(call if_changed_rule,cc_o_c)
-+
-+$(obj)/ctype.o: $(srctree)/lib/ctype.c FORCE
-+	$(call if_changed_rule,cc_o_c)
-+
-+obj-y		:= cmdline_early.pi.o string.pi.o ctype.pi.o lib-fdt.pi.o lib-fdt_ro.pi.o
-+extra-y		:= $(patsubst %.pi.o,%.o,$(obj-y))
-diff --git a/arch/riscv/kernel/pi/cmdline_early.c b/arch/riscv/kernel/pi/cmdline_early.c
-new file mode 100644
-index 000000000000..be491987d2bf
---- /dev/null
-+++ b/arch/riscv/kernel/pi/cmdline_early.c
-@@ -0,0 +1,55 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#include <linux/types.h>
-+#include <linux/init.h>
-+#include <linux/libfdt.h>
-+#include <linux/string.h>
-+#include <asm/pgtable.h>
-+#include <asm/setup.h>
-+
-+static char early_cmdline[COMMAND_LINE_SIZE] __initdata;
-+
-+static char * __init get_early_cmdline(uintptr_t dtb_pa)
-+{
-+	const char *fdt_cmdline = NULL;
-+	unsigned int fdt_cmdline_size = 0;
-+	int chosen_node;
-+
-+	if (!IS_ENABLED(CONFIG_CMDLINE_FORCE)) {
-+		chosen_node = fdt_path_offset((void *)dtb_pa, "/chosen");
-+		if (chosen_node >= 0) {
-+			fdt_cmdline = fdt_getprop((void *)dtb_pa, chosen_node,
-+						  "bootargs", NULL);
-+			if (fdt_cmdline) {
-+				fdt_cmdline_size = strlen(fdt_cmdline);
-+				strscpy(early_cmdline, fdt_cmdline,
-+					COMMAND_LINE_SIZE);
-+			}
-+		}
-+	}
-+
-+	if (IS_ENABLED(CONFIG_CMDLINE_EXTEND) ||
-+	    IS_ENABLED(CONFIG_CMDLINE_FORCE) ||
-+	    fdt_cmdline_size == 0 /* CONFIG_CMDLINE_FALLBACK */) {
-+		strncat(early_cmdline, CONFIG_CMDLINE,
-+			COMMAND_LINE_SIZE - fdt_cmdline_size);
-+	}
-+
-+	return early_cmdline;
-+}
-+
-+static u64 __init match_noXlvl(char *cmdline)
-+{
-+	if (strstr(cmdline, "no4lvl"))
-+		return SATP_MODE_48;
-+	else if (strstr(cmdline, "no5lvl"))
-+		return SATP_MODE_57;
-+
-+	return 0;
-+}
-+
-+u64 __init set_satp_mode_from_cmdline(uintptr_t dtb_pa)
-+{
-+	char *cmdline = get_early_cmdline(dtb_pa);
-+
-+	return match_noXlvl(cmdline);
-+}
-diff --git a/arch/riscv/lib/memcpy.S b/arch/riscv/lib/memcpy.S
-index 51ab716253fa..1a40d01a9543 100644
---- a/arch/riscv/lib/memcpy.S
-+++ b/arch/riscv/lib/memcpy.S
-@@ -106,3 +106,5 @@ WEAK(memcpy)
- 6:
- 	ret
- END(__memcpy)
-+SYM_FUNC_ALIAS(__pi_memcpy, __memcpy)
-+SYM_FUNC_ALIAS(__pi___memcpy, __memcpy)
-diff --git a/arch/riscv/lib/memmove.S b/arch/riscv/lib/memmove.S
-index e0609e1f0864..838ff2022fe3 100644
---- a/arch/riscv/lib/memmove.S
-+++ b/arch/riscv/lib/memmove.S
-@@ -314,3 +314,5 @@ return_from_memmove:
+-    KBUILD_LDS_MODULE
+-
+-	The module linker script with full path. Assigned by the top-level
+-	Makefile and additionally by the arch Makefile.
+-
+     KBUILD_VMLINUX_OBJS
  
- SYM_FUNC_END(memmove)
- SYM_FUNC_END(__memmove)
-+SYM_FUNC_ALIAS(__pi_memmove, __memmove)
-+SYM_FUNC_ALIAS(__pi___memmove, __memmove)
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 87f6a5d475a6..04d20e41894e 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -732,6 +732,8 @@ static __init pgprot_t pgprot_from_va(uintptr_t va)
- #endif /* CONFIG_STRICT_KERNEL_RWX */
- 
- #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
-+u64 __pi_set_satp_mode_from_cmdline(uintptr_t dtb_pa);
-+
- static void __init disable_pgtable_l5(void)
- {
- 	pgtable_l5_enabled = false;
-@@ -746,17 +748,39 @@ static void __init disable_pgtable_l4(void)
- 	satp_mode = SATP_MODE_39;
- }
- 
-+static int __init print_no4lvl(char *p)
-+{
-+	pr_info("Disabled 4-level and 5-level paging");
-+	return 0;
-+}
-+early_param("no4lvl", print_no4lvl);
-+
-+static int __init print_no5lvl(char *p)
-+{
-+	pr_info("Disabled 5-level paging");
-+	return 0;
-+}
-+early_param("no5lvl", print_no5lvl);
-+
- /*
-  * There is a simple way to determine if 4-level is supported by the
-  * underlying hardware: establish 1:1 mapping in 4-level page table mode
-  * then read SATP to see if the configuration was taken into account
-  * meaning sv48 is supported.
-  */
--static __init void set_satp_mode(void)
-+static __init void set_satp_mode(uintptr_t dtb_pa)
- {
- 	u64 identity_satp, hw_satp;
- 	uintptr_t set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
--	bool check_l4 = false;
-+	u64 satp_mode_cmdline = __pi_set_satp_mode_from_cmdline(dtb_pa);
-+
-+	if (satp_mode_cmdline == SATP_MODE_57) {
-+		disable_pgtable_l5();
-+	} else if (satp_mode_cmdline == SATP_MODE_48) {
-+		disable_pgtable_l5();
-+		disable_pgtable_l4();
-+		return;
-+	}
- 
- 	create_p4d_mapping(early_p4d,
- 			set_satp_mode_pmd, (uintptr_t)early_pud,
-@@ -775,7 +799,8 @@ static __init void set_satp_mode(void)
- retry:
- 	create_pgd_mapping(early_pg_dir,
- 			   set_satp_mode_pmd,
--			   check_l4 ? (uintptr_t)early_pud : (uintptr_t)early_p4d,
-+			   pgtable_l5_enabled ?
-+				(uintptr_t)early_p4d : (uintptr_t)early_pud,
- 			   PGDIR_SIZE, PAGE_TABLE);
- 
- 	identity_satp = PFN_DOWN((uintptr_t)&early_pg_dir) | satp_mode;
-@@ -786,9 +811,8 @@ static __init void set_satp_mode(void)
- 	local_flush_tlb_all();
- 
- 	if (hw_satp != identity_satp) {
--		if (!check_l4) {
-+		if (pgtable_l5_enabled) {
- 			disable_pgtable_l5();
--			check_l4 = true;
- 			memset(early_pg_dir, 0, PAGE_SIZE);
- 			goto retry;
- 		}
-@@ -979,7 +1003,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
- #endif
- 
- #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
--	set_satp_mode();
-+	set_satp_mode(dtb_pa);
- #endif
- 
- 	kernel_map.va_pa_offset = PAGE_OFFSET - kernel_map.phys_addr;
+ 	All object files for vmlinux. They are linked to vmlinux in the same
 -- 
-2.37.2
+2.17.1
 
