@@ -2,493 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D47C61DA3
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 00:28:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A198BC61DA3
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 00:46:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229451AbjBVA2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Feb 2023 19:28:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36964 "EHLO
+        id S229561AbjBVAqU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Feb 2023 19:46:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbjBVA2A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 19:28:00 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E195A4;
-        Tue, 21 Feb 2023 16:27:48 -0800 (PST)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31M0RS5p002955;
-        Wed, 22 Feb 2023 00:27:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=206/ENTYhpd8cRg/HRQOtIZa/mKOhxRJ+u795kVpeiQ=;
- b=Zr27zCvg8JKYoGzW/fp+UXjF1KxAcQFNI0YlIbtRm3v+ZPyHrYacO4JWRx/rrm1dJLnw
- DgKNByMMl7KpTZTe/w9nJuZB9EIiZ5ru61nn3KpMPH7WzUJMcSjTqmyqBPN5WrwtTJXX
- MjsOa3Bm6Jj3NNkqur1zeVqa123VbKZH1vpn3t8i/C5Vz0NNGGeKHoHJpbNJa1Fw69Nn
- m+PA2loU9kDGSS3/SX6BS+4MbLEc2+UEGGLrAgkPF4D0RVlMSQDDn5iS82bGZAbXJ/h/
- VZLvo+x1KzHC3SUlHC89jwdGlEfaFNIVk6Yv2hkxOQKsY98hJuNqvj2buL2vQH4yyNjf AQ== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nw8gnr02j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 22 Feb 2023 00:27:28 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31M0RRoN025909
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 22 Feb 2023 00:27:27 GMT
-Received: from [10.110.71.80] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 21 Feb
- 2023 16:27:26 -0800
-Message-ID: <05c4aab8-2d26-b944-adb6-624d67e4a11d@quicinc.com>
-Date:   Tue, 21 Feb 2023 16:27:25 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 10/26] gunyah: vm_mgr: Introduce basic VM Manager
-Content-Language: en-US
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alex Elder <elder@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212356.3313181-1-quic_eberman@quicinc.com>
- <dbcfa4e9-a1ad-0f24-77bf-05934ca26bb2@linaro.org>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <dbcfa4e9-a1ad-0f24-77bf-05934ca26bb2@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: HKKGuBqppjiiOzIkNHkllqlyyIafk3Jn
-X-Proofpoint-GUID: HKKGuBqppjiiOzIkNHkllqlyyIafk3Jn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-21_13,2023-02-20_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015
- lowpriorityscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0 phishscore=0
- suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302220000
+        with ESMTP id S229884AbjBVAqT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Feb 2023 19:46:19 -0500
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2543E303C8
+        for <linux-doc@vger.kernel.org>; Tue, 21 Feb 2023 16:46:16 -0800 (PST)
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230222004611epoutp04bd83a027a55c47a6bf7778a309eb13d4~F-vaaMwot3053030530epoutp04v
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 00:46:11 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230222004611epoutp04bd83a027a55c47a6bf7778a309eb13d4~F-vaaMwot3053030530epoutp04v
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1677026771;
+        bh=4o1G4rjzTPoOxlN0OqGx7SQZHq24foL1Mi1d7sljn5g=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=Gs+JtecCgK4Lx5PhrDIgEOR8bkH4uOSQ4rRy5PqVULLw3nu6Yucua6p4LjSrGo2/J
+         HD+bUzDj7XDgbpld9Il0OKIMWNgLCtvpDF2TG+vuXUtmrQmVhrDtJ186E8K3rh59nS
+         haxKE0Ugu1Rb3jpXU4/YBo9cTVXkJEsLHUqbzGXc=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20230222004610epcas1p1dd664250d55a01aad2c6178e2a7f1c19~F-vZshZqe0338203382epcas1p12;
+        Wed, 22 Feb 2023 00:46:10 +0000 (GMT)
+Received: from epsmges1p4.samsung.com (unknown [182.195.38.247]) by
+        epsnrtp4.localdomain (Postfix) with ESMTP id 4PLyBp1K0bz4x9Q1; Wed, 22 Feb
+        2023 00:46:09 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+        54.77.37890.1D565F36; Wed, 22 Feb 2023 09:46:09 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20230222004609epcas1p2eb7e213b2b3503d018fcd6d58b9497b2~F-vYowJNz3040030400epcas1p2o;
+        Wed, 22 Feb 2023 00:46:09 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20230222004609epsmtrp259e3ce8f42d124124b2d376ffb35d598~F-vYn8PUg1275312753epsmtrp2B;
+        Wed, 22 Feb 2023 00:46:09 +0000 (GMT)
+X-AuditID: b6c32a38-5fbfa70000029402-89-63f565d12e23
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        50.82.05839.1D565F36; Wed, 22 Feb 2023 09:46:09 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.253.105.183]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20230222004609epsmtip1803a756a45c287954adadcc8cb4934c7~F-vYWZczY1964919649epsmtip1P;
+        Wed, 22 Feb 2023 00:46:09 +0000 (GMT)
+From:   Sangmoon Kim <sangmoon.kim@samsung.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Sangmoon Kim <sangmoon.kim@samsung.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: kbuild: remove description of KBUILD_LDS_MODULE
+Date:   Wed, 22 Feb 2023 09:45:50 +0900
+Message-Id: <20230222004550.13469-1-sangmoon.kim@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHKsWRmVeSWpSXmKPExsWy7bCmru7F1K/JBo93Gls8OdDOaLGwbQmL
+        xZ9dO5gsLu+aw2bx8MENVov2lU/ZLD5M+M9k8WzvCVaLWw8aWRw4PXYd2szmsWBTqcemVZ1s
+        Hov7JrN69G1ZxejxeZNcAFtUtk1GamJKapFCal5yfkpmXrqtkndwvHO8qZmBoa6hpYW5kkJe
+        Ym6qrZKLT4CuW2YO0FFKCmWJOaVAoYDE4mIlfTubovzSklSFjPziElul1IKUnAKzAr3ixNzi
+        0rx0vbzUEitDAwMjU6DChOyMDT+Wsxa8ZK/4dmg5YwPjfrYuRg4OCQETiZO7groYuTiEBHYw
+        SixadoMZwvnEKHHg1X8o5xujxNuF+1m6GDnBOrbc+M0KYgsJ7GWU6NhTAlH0hVGiqWcyI0iC
+        TUBX4su8y2C2iICPxOlfn5lAipgF/jNKTJhzlh0kISzgJjGv4xDYVBYBVYmHv0+BNfAK2ErM
+        uDuREWKbvMTqDQfAzpAQOMUusXzvU6gzXCRe/ZoJZQtLvDq+hR3ClpL4/G4vG0RDP6PEqe4u
+        qKIpjBJzr2lC2MYSvT0XmEEhwCygKbF+lz5EWFFi5++5YIuZBfgk3n3tYYUEEq9ER5sQRIma
+        xONXd6Fuk5HovzMfarqHxNUHn5ghoRIr8fP9O9YJjLKzEBYsYGRcxSiWWlCcm55abFhgAo+l
+        5PzcTYzghKZlsYNx7tsPeocYmTgYDzFKcDArifD+5/2cLMSbklhZlVqUH19UmpNafIjRFBhg
+        E5mlRJPzgSk1ryTe0MTSwMTMyMTC2NLYTEmcV9z2ZLKQQHpiSWp2ampBahFMHxMHp1QDU3pi
+        ZFNfxSznYNHVF8871fg5B/cKdyXdl9+fa6fVIOM6c1nIGRP2ezuq/qzckhN8Yufho/mTm/2l
+        9ntve5X1V/aaiLUXz50uY+WY0nfbt3/9azAvNzV36x7e76LfffpylO8LHXJanOaleD/r8YTb
+        sgeV025KTHePlb4XHc54Q8A9+uadf/MFEvY8OuCRuqpqMUPic25fDj/J2fwuy9RTcoNXVe9j
+        kFp8jynO6LHRj/enDNUy+iZcP576+e8sq7CWltJLRjOPx/wy36GYXLwrfInx3s/ZOw7zf7md
+        tXaDBcPMLQJVWkWfzGe2a7+VmjaZXW7W/208zbzdnOkHndyPathXFZ6a8CtIqb/b/MUFJZbi
+        jERDLeai4kQAgYSUKfEDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplluLIzCtJLcpLzFFi42LZdlhJTvdi6tdkg8mHBC2eHGhntFjYtoTF
+        4s+uHUwWl3fNYbN4+OAGq0X7yqdsFh8m/GeyeLb3BKvFrQeNLA6cHrsObWbzWLCp1GPTqk42
+        j8V9k1k9+rasYvT4vEkugC2KyyYlNSezLLVI3y6BK2PDj+WsBS/ZK74dWs7YwLifrYuRk0NC
+        wERiy43frF2MXBxCArsZJbq/f2eHSMhI7Ly4mamLkQPIFpY4fLgYouYTo0TH1F5mkBo2AV2J
+        L/MuM4LYIgJ+Eo+XnGUBKWIWaGWSeHvxINgGYQE3iXkdh1hAbBYBVYmHv0+BNfAK2ErMuDuR
+        EWKZvMTqDQeYJzDyLGBkWMUomVpQnJueW2xYYJiXWq5XnJhbXJqXrpecn7uJERxiWpo7GLev
+        +qB3iJGJg/EQowQHs5II73/ez8lCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeS90nYwXEkhPLEnN
+        Tk0tSC2CyTJxcEo1MEXtleXuqJIMnbPd40+DS9byXIWrf7dcsfwmuelFj93BZRvZ/I5tOmwv
+        fS3TudXL6pGuYaFK4EX7p6+zL338mLp8eYlR+c45dudm1m28fJT/aY9H88xMVuf1h+fMuJbS
+        3SbwpGdTPc/xZz8v5ctWhN1km/625VNJhF1oJYvtzF8rz/D+5V5+cce2y3fmxHQYqHvsr/kz
+        ubxEzFRkIe+NH7+re6fNY3BRMLu9JnLFPfXcnyFMito+b5u26H1mP6A1/U5FofOOgzqv+215
+        rkxKnbfcm5dtn9s0LvXy3fuesVomvj5vabP7XNHUTV4CB6R/qQruvClyVGTXNPej1q8ung03
+        XP2ynkenNs37+/Ok4nwlluKMREMt5qLiRABepp6boAIAAA==
+X-CMS-MailID: 20230222004609epcas1p2eb7e213b2b3503d018fcd6d58b9497b2
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230222004609epcas1p2eb7e213b2b3503d018fcd6d58b9497b2
+References: <CGME20230222004609epcas1p2eb7e213b2b3503d018fcd6d58b9497b2@epcas1p2.samsung.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Commit 596b0474d3d9 ("kbuild: preprocess module linker script")
+has removed KBUILD_LDS_MODULE variable.
 
+The KBUILD_LDS_MODULE variable is no longer available, so this patch
+removes it from the document.
 
-On 2/21/2023 2:46 AM, Srinivas Kandagatla wrote:
-> 
-> 
-> On 14/02/2023 21:23, Elliot Berman wrote:
->>
->> Gunyah VM manager is a kernel moduel which exposes an interface to
->> Gunyah userspace to load, run, and interact with other Gunyah virtual
->> machines. The interface is a character device at /dev/gunyah.
->>
->> Add a basic VM manager driver. Upcoming patches will add more ioctls
->> into this driver.
->>
->> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
->> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
->> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->> ---
->>   .../userspace-api/ioctl/ioctl-number.rst      |   1 +
->>   drivers/virt/gunyah/Makefile                  |   2 +-
->>   drivers/virt/gunyah/rsc_mgr.c                 |  37 +++++-
->>   drivers/virt/gunyah/vm_mgr.c                  | 118 ++++++++++++++++++
->>   drivers/virt/gunyah/vm_mgr.h                  |  22 ++++
->>   include/uapi/linux/gunyah.h                   |  23 ++++
->>   6 files changed, 201 insertions(+), 2 deletions(-)
->>   create mode 100644 drivers/virt/gunyah/vm_mgr.c
->>   create mode 100644 drivers/virt/gunyah/vm_mgr.h
->>   create mode 100644 include/uapi/linux/gunyah.h
->>
->> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst 
->> b/Documentation/userspace-api/ioctl/ioctl-number.rst
->> index 0a1882e296ae..2513324ae7be 100644
->> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
->> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
->> @@ -137,6 +137,7 @@ Code  Seq#    Include 
->> File                                           Comments
->>   'F'   DD     video/sstfb.h                                           
->> conflict!
->>   'G'   00-3F  drivers/misc/sgi-gru/grulib.h                           
->> conflict!
->>   'G'   00-0F  xen/gntalloc.h, xen/gntdev.h                            
->> conflict!
->> +'G'   00-0f  linux/gunyah.h                                          
->> conflict!
->>   'H'   00-7F  linux/hiddev.h                                          
->> conflict!
->>   'H'   00-0F  linux/hidraw.h                                          
->> conflict!
->>   'H'   01     linux/mei.h                                             
->> conflict!
->> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
->> index de29769f2f3f..03951cf82023 100644
->> --- a/drivers/virt/gunyah/Makefile
->> +++ b/drivers/virt/gunyah/Makefile
->> @@ -2,5 +2,5 @@
->>   obj-$(CONFIG_GUNYAH) += gunyah.o
->> -gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o
->> +gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
->>   obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
->> diff --git a/drivers/virt/gunyah/rsc_mgr.c 
->> b/drivers/virt/gunyah/rsc_mgr.c
->> index 2a47139873a8..73c5a6b7cbbc 100644
->> --- a/drivers/virt/gunyah/rsc_mgr.c
->> +++ b/drivers/virt/gunyah/rsc_mgr.c
->> @@ -16,8 +16,10 @@
->>   #include <linux/completion.h>
->>   #include <linux/gunyah_rsc_mgr.h>
->>   #include <linux/platform_device.h>
->> +#include <linux/miscdevice.h>
->>   #include "rsc_mgr.h"
->> +#include "vm_mgr.h"
->>   #define RM_RPC_API_VERSION_MASK        GENMASK(3, 0)
->>   #define RM_RPC_HEADER_WORDS_MASK    GENMASK(7, 4)
->> @@ -103,6 +105,8 @@ struct gh_rm {
->>       struct kmem_cache *cache;
->>       struct mutex send_lock;
->>       struct blocking_notifier_head nh;
->> +
->> +    struct miscdevice miscdev;
->>   };
->>   static struct gh_rm_connection *gh_rm_alloc_connection(__le32 
->> msg_id, u8 type)
->> @@ -509,6 +513,21 @@ void put_gh_rm(struct gh_rm *rm)
->>   }
->>   EXPORT_SYMBOL_GPL(put_gh_rm);
->> +static long gh_dev_ioctl(struct file *filp, unsigned int cmd, 
->> unsigned long arg)
->> +{
->> +    struct miscdevice *miscdev = filp->private_data;
->> +    struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
->> +
->> +    return gh_dev_vm_mgr_ioctl(rm, cmd, arg);
->> +}
->> +
->> +static const struct file_operations gh_dev_fops = {
->> +    .owner        = THIS_MODULE,
->> +    .unlocked_ioctl    = gh_dev_ioctl,
->> +    .compat_ioctl    = compat_ptr_ioctl,
->> +    .llseek        = noop_llseek,
->> +};
->> +
->>   static int gh_msgq_platform_probe_direction(struct platform_device 
->> *pdev,
->>                       bool tx, int idx, struct gunyah_resource *ghrsc)
->>   {
->> @@ -567,7 +586,22 @@ static int gh_rm_drv_probe(struct platform_device 
->> *pdev)
->>       rm->msgq_client.rx_callback = gh_rm_msgq_rx_data;
->>       rm->msgq_client.tx_done = gh_rm_msgq_tx_done;
->> -    return gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, 
->> &rm->tx_ghrsc, &rm->rx_ghrsc);
->> +    ret = gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, 
->> &rm->tx_ghrsc, &rm->rx_ghrsc);
->> +    if (ret)
->> +        goto err_cache;
->> +
->> +    rm->miscdev.name = "gunyah";
->> +    rm->miscdev.minor = MISC_DYNAMIC_MINOR;
->> +    rm->miscdev.fops = &gh_dev_fops;
->> +
->> +    ret = misc_register(&rm->miscdev);
->> +    if (ret)
->> +        goto err_msgq;
->> +
->> +    return 0;
->> +err_msgq:
->> +    mbox_free_channel(gh_msgq_chan(&rm->msgq));
->> +    gh_msgq_remove(&rm->msgq);
->>   err_cache:
->>       kmem_cache_destroy(rm->cache);
->>       return ret;
->> @@ -577,6 +611,7 @@ static int gh_rm_drv_remove(struct platform_device 
->> *pdev)
->>   {
->>       struct gh_rm *rm = platform_get_drvdata(pdev);
->> +    misc_deregister(&rm->miscdev);
->>       mbox_free_channel(gh_msgq_chan(&rm->msgq));
->>       gh_msgq_remove(&rm->msgq);
->>       kmem_cache_destroy(rm->cache);
->> diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
->> new file mode 100644
->> index 000000000000..fd890a57172e
->> --- /dev/null
->> +++ b/drivers/virt/gunyah/vm_mgr.c
->> @@ -0,0 +1,118 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
->> rights reserved.
->> + */
->> +
->> +#define pr_fmt(fmt) "gh_vm_mgr: " fmt
->> +
->> +#include <linux/anon_inodes.h>
->> +#include <linux/file.h>
->> +#include <linux/gunyah_rsc_mgr.h>
->> +#include <linux/miscdevice.h>
->> +#include <linux/module.h>
->> +
->> +#include <uapi/linux/gunyah.h>
->> +
->> +#include "vm_mgr.h"
->> +
->> +static void gh_vm_free(struct work_struct *work)
->> +{
->> +    struct gh_vm *ghvm = container_of(work, struct gh_vm, free_work);
->> +    int ret;
->> +
->> +    ret = gh_rm_dealloc_vmid(ghvm->rm, ghvm->vmid);
->> +    if (ret)
->> +        pr_warn("Failed to deallocate vmid: %d\n", ret);
->> +
->> +    put_gh_rm(ghvm->rm);
->> +    kfree(ghvm);
->> +}
->> +
->> +static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
->> +{
->> +    struct gh_vm *ghvm;
->> +    int vmid;
->> +
->> +    vmid = gh_rm_alloc_vmid(rm, 0);
->> +    if (vmid < 0)
->> +        return ERR_PTR(vmid);
->> +
->> +    ghvm = kzalloc(sizeof(*ghvm), GFP_KERNEL);
->> +    if (!ghvm) {
->> +        gh_rm_dealloc_vmid(rm, vmid);
->> +        return ERR_PTR(-ENOMEM);
->> +    }
->> +
->> +    get_gh_rm(rm);
->> +
->> +    ghvm->vmid = vmid;
->> +    ghvm->rm = rm;
->> +
->> +    INIT_WORK(&ghvm->free_work, gh_vm_free);
->> +
->> +    return ghvm;
->> +}
->> +
->> +static int gh_vm_release(struct inode *inode, struct file *filp)
->> +{
->> +    struct gh_vm *ghvm = filp->private_data;
->> +
->> +    /* VM will be reset and make RM calls which can interruptible sleep.
->> +     * Defer to a work so this thread can receive signal.
->> +     */
->> +    schedule_work(&ghvm->free_work);
->> +    return 0;
->> +}
->> +
->> +static const struct file_operations gh_vm_fops = {
->> +    .release = gh_vm_release,
-> 
->> +    .compat_ioctl    = compat_ptr_ioctl,
-> 
-> This line should go with the patch that adds real ioctl
-> 
+Signed-off-by: Sangmoon Kim <sangmoon.kim@samsung.com>
+---
+ Documentation/kbuild/makefiles.rst | 5 -----
+ 1 file changed, 5 deletions(-)
 
-Done.
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 38bc74eaa547..468e7830c1c3 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -1250,11 +1250,6 @@ When kbuild executes, the following steps are followed (roughly):
+ 
+ 	The linker script with full path. Assigned by the top-level Makefile.
+ 
+-    KBUILD_LDS_MODULE
+-
+-	The module linker script with full path. Assigned by the top-level
+-	Makefile and additionally by the arch Makefile.
+-
+     KBUILD_VMLINUX_OBJS
+ 
+ 	All object files for vmlinux. They are linked to vmlinux in the same
+-- 
+2.17.1
 
->> +    .llseek = noop_llseek,
->> +};
->> +
->> +static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long arg)
-> Not sure what is the gain of this multiple levels of redirection.
-> 
-> How about
-> 
-> long gh_dev_create_vm(struct gh_rm *rm, unsigned long arg)
-> {
-> ...
-> }
-> 
-> and rsc_mgr just call it as part of its ioctl call
-> 
-> static long gh_dev_ioctl(struct file *filp, unsigned int cmd, unsigned 
-> long arg)
-> {
->      struct miscdevice *miscdev = filp->private_data;
->      struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
-> 
->      switch (cmd) {
->      case GH_CREATE_VM:
->          return gh_dev_create_vm(rm, arg);
->      default:
->          return -ENOIOCTLCMD;
->      }
-> }
-> 
-
-I'm anticipating we will add further /dev/gunyah ioctls and I thought it 
-would be cleaner to have all that in vm_mgr.c itself.
-
-> 
->> +{
->> +    struct gh_vm *ghvm;
->> +    struct file *file;
->> +    int fd, err;
->> +
->> +    /* arg reserved for future use. */
->> +    if (arg)
->> +        return -EINVAL;
-> 
-> The only code path I see here is via GH_CREATE_VM ioctl which obviously 
-> does not take any arguments, so if you are thinking of using the 
-> argument for architecture-specific VM flags.  Then this needs to be 
-> properly done by making the ABI aware of this.
-
-It is documented in Patch 17 (Document Gunyah VM Manager)
-
-+GH_CREATE_VM
-+~~~~~~~~~~~~
-+
-+Creates a Gunyah VM. The argument is reserved for future use and must be 0.
-
-> 
-> As you mentioned zero value arg imply an "unauthenticated VM" type, but 
-> this was not properly encoded in the userspace ABI. Why not make it 
-> future compatible. How about adding arguments to GH_CREATE_VM and pass 
-> the required information correctly.
-> Note that once the ABI is accepted then you will not be able to change 
-> it, other than adding a new one.
-> 
-
-Does this means adding #define GH_VM_DEFAULT_ARG 0 ? I am not sure yet 
-what arguments to add here.
-
-The ABI can add new "long" values to GH_CREATE_VM and that wouldn't 
-break compatibility with old kernels; old kernels reject it as -EINVAL.
-
->> +
->> +    ghvm = gh_vm_alloc(rm);
->> +    if (IS_ERR(ghvm))
->> +        return PTR_ERR(ghvm);
->> +
->> +    fd = get_unused_fd_flags(O_CLOEXEC);
->> +    if (fd < 0) {
->> +        err = fd;
->> +        goto err_destroy_vm;
->> +    }
->> +
->> +    file = anon_inode_getfile("gunyah-vm", &gh_vm_fops, ghvm, O_RDWR);
->> +    if (IS_ERR(file)) {
->> +        err = PTR_ERR(file);
->> +        goto err_put_fd;
->> +    }
->> +
->> +    fd_install(fd, file);
->> +
->> +    return fd;
->> +
->> +err_put_fd:
->> +    put_unused_fd(fd);
->> +err_destroy_vm:
->> +    kfree(ghvm);
->> +    return err;
->> +}
->> +
->> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned 
->> long arg)
->> +{
->> +    switch (cmd) {
->> +    case GH_CREATE_VM:
->> +        return gh_dev_ioctl_create_vm(rm, arg);
->> +    default:
->> +        return -ENOIOCTLCMD;
->> +    }
->> +}
->> diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
->> new file mode 100644
->> index 000000000000..76954da706e9
->> --- /dev/null
->> +++ b/drivers/virt/gunyah/vm_mgr.h
->> @@ -0,0 +1,22 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
->> rights reserved.
->> + */
->> +
->> +#ifndef _GH_PRIV_VM_MGR_H
->> +#define _GH_PRIV_VM_MGR_H
->> +
->> +#include <linux/gunyah_rsc_mgr.h>
->> +
->> +#include <uapi/linux/gunyah.h>
->> +
->> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned 
->> long arg);
->> +
->> +struct gh_vm {
->> +    u16 vmid;
->> +    struct gh_rm *rm;
->> +
->> +    struct work_struct free_work;
->> +};
->> +
->> +#endif
->> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
->> new file mode 100644
->> index 000000000000..10ba32d2b0a6
->> --- /dev/null
->> +++ b/include/uapi/linux/gunyah.h
->> @@ -0,0 +1,23 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
->> +/*
->> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
->> rights reserved.
->> + */
->> +
->> +#ifndef _UAPI_LINUX_GUNYAH
->> +#define _UAPI_LINUX_GUNYAH
->> +
->> +/*
->> + * Userspace interface for /dev/gunyah - gunyah based virtual machine
->> + */
->> +
->> +#include <linux/types.h>
->> +#include <linux/ioctl.h>
->> +
->> +#define GH_IOCTL_TYPE            'G'
->> +
->> +/*
->> + * ioctls for /dev/gunyah fds:
->> + */
->> +#define GH_CREATE_VM            _IO(GH_IOCTL_TYPE, 0x0) /* Returns a 
->> Gunyah VM fd */
-> 
-> Can HLOS forcefully destroy a VM?
-> If so should we have a corresponding DESTROY IOCTL?
-
-It can forcefully destroy unauthenticated and protected virtual 
-machines. I don't have a userspace usecase for a DESTROY ioctl yet, 
-maybe this can be added later? By the way, the VM is forcefully 
-destroyed when VM refcount is dropped to 0 (close(vm_fd) and any other 
-relevant file descriptors).
-
-- Elliot
