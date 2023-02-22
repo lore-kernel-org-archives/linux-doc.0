@@ -2,73 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB14C636D6
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 18:51:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 925BDC636D6
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 18:55:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231572AbjBVSvl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 13:51:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60028 "EHLO
+        id S231689AbjBVSzR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 13:55:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231351AbjBVSvk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 13:51:40 -0500
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C2F446A2
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 10:51:39 -0800 (PST)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-536eace862cso48178897b3.16
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 10:51:39 -0800 (PST)
+        with ESMTP id S230478AbjBVSzQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 13:55:16 -0500
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12A4F2CFC1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 10:55:16 -0800 (PST)
+Received: by mail-il1-x135.google.com with SMTP id u6so3761798ilk.12
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 10:55:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yqEECA7T14uUEIASP+IpGDgg85ZCOvdRmhNcjI3Iles=;
-        b=qFu2nZFTrTIDgiui6Mnc8nAfWXy3MGuClnECitY08YuGQQb9v6QJj0VhQlA1Hne1PX
-         jwbFjOAh23hL3XupWMXZLLCXKP4THYXpwTr42U1/q1g/QQfC4G2UWmMJyoEBLapf31zr
-         9fMEjCBZJjzx/JmpivZXbiOKlQHgUAMx6sN9r3/FCL+Jj7XJGZLGZQ97FlgwMMVBEVNM
-         9fIitAEtjpeHnK+4ww/FLrj3EscM62WsIQie3jEK2g6DQO1Xip7pL3Yng35IBOv/bAxe
-         x4u6XdkQANWQh3E7/i3BPLdBdEkQDUHrPuK+JE1eZA6241r6sMUD9BLBydK2LBAn6kE5
-         6Qpw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=j4f4KAu5FcuZRh3bQO/pEC/Gq/Kig7c/VMZHAX6Cyzk=;
+        b=IsHICxuo35+/EFnSzxVMkfyeAn1cdD6WQ7p2xoG3LQjOqvmr9q03+NIV0UCsOkoB8Z
+         vzR1H52dQTcBKGwSH9/PeJKVDNwCALGFCPDNuiew+DrT0LD0bXneW0A7STFtrdzLs0wZ
+         rqrbsmIXnfO3IISCXgdIJ//9YejhCeU5ub2zejiHHcBVLxqMmKAs69qCk9f/gcBYEdV0
+         V0SjyZMsEPblJAelDgbR7i/HJhrVbYDRqJ2/V3KrhSE87jQaI9qzBx43FW94kd/ILetJ
+         W6V1nAut75was+7Ws5gmy1ZjX3B49dveA1nbaLCAuft0d+1K0GWpSb30Le4Fw4Q9QNuP
+         nJzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yqEECA7T14uUEIASP+IpGDgg85ZCOvdRmhNcjI3Iles=;
-        b=H5KCKf/I9ijasGGhbYcCOvgdluS7Ok3s8lfxAtLfgUf/+rZtoLTPMZPKJx9Tx/5OyU
-         zYi5M1iva0NOVwzzcxPrimUhQakJg7bxGrQ6ukE57ERIiT0LOMj4xbLzh+G4/OyLB1Yo
-         7U9PiegJGoCQ8JikmvG7PvpQpKo8cwmTSZBgJBjW9ijlxDoAGbu2GpuTWA/sZl+wlmoA
-         7w+3uGZ67P4b9Cu5Wf5doyHeRkHz7KpU4UE+fXQpa2NeGOIex3q58UdSTRjMe+P63wcj
-         /CKG3kWNglXhECWdQFNfrSJ1RcXCGcnvkUvs8GL8Aox32OjRRbHvr6py+WvHyk4L9X3s
-         HuMg==
-X-Gm-Message-State: AO0yUKUQpMVOJgTHbLHSobpMG7V1v45Qx05ZbFo21zSUW7ugMhe0Y+7h
-        LlksAfQXyqA+lPrpD63BLeWzqmMKc/w=
-X-Google-Smtp-Source: AK7set+8IP+LPPuvRfdebQR1ad4tDs9Va9qipjTvwoCKkZH0ygi5W3DkzGpQdJCQHMTdaByTbpW1nzgLFfc=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:1:b0:a27:40c4:e12c with SMTP id
- l1-20020a056902000100b00a2740c4e12cmr54899ybh.2.1677091898129; Wed, 22 Feb
- 2023 10:51:38 -0800 (PST)
-Date:   Wed, 22 Feb 2023 10:51:36 -0800
-In-Reply-To: <20230220034910.11024-1-shahuang@redhat.com>
-Mime-Version: 1.0
-References: <20230220034910.11024-1-shahuang@redhat.com>
-Message-ID: <Y/ZkOFL0O5szHsYP@google.com>
-Subject: Re: [PATCH] KVM: Add the missed title format
-From:   Sean Christopherson <seanjc@google.com>
-To:     Shaoqin Huang <shahuang@redhat.com>
-Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j4f4KAu5FcuZRh3bQO/pEC/Gq/Kig7c/VMZHAX6Cyzk=;
+        b=T0sqwxuMR5ucgG9+QnJ/oUYAd0++06qEyRY41MLJHHSja5YJYuID+LPS/mDA5g0Ty7
+         77+mslosgN6m0enjKanMmjndcQbwrjG+nzJFjyofnOuQCPH+H5kTsExEPVt297sM7ldn
+         hU6v4aYDqfyvLEEhVlFdf8B9kI3omp/BGDnAnx2Dd/JOMhXZ90Hnjo5OWtXVDynDmFsS
+         MjozkEsoH0oK/cWK1HijBFnJ0gY7n6G38s5KirVTx4HreMEmH4tbTIuB1jvlIYjvlsas
+         CDtkQd//Je5vpaIxUk/H/EhYakBAXHCrwlVOjRWOPbio/lLtrRwgEW0G0NRgV2Hvu5c1
+         pUeg==
+X-Gm-Message-State: AO0yUKUOXLeluAvDKM2Wv3QljXU5mtof8JnuNy+AZS1izwwkRcIjxZ2w
+        /uOfa8p+PRabFGuJYlD1OGbMsQ==
+X-Google-Smtp-Source: AK7set+XhW61NoYQaJ+pmjULr4fMZyYfO5h6FOq4U4/2U/7LfWDww1Z1TIGzxmW4o4gW4GR568DiTg==
+X-Received: by 2002:a05:6e02:8aa:b0:315:9a7e:fb03 with SMTP id a10-20020a056e0208aa00b003159a7efb03mr5796202ilt.29.1677092115154;
+        Wed, 22 Feb 2023 10:55:15 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:4099:d580:c693:eb7f])
+        by smtp.gmail.com with ESMTPSA id l23-20020a02ccf7000000b003acde48bdc3sm2154706jaq.111.2023.02.22.10.55.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Feb 2023 10:55:14 -0800 (PST)
+Date:   Wed, 22 Feb 2023 11:55:10 -0700
+From:   Ross Zwisler <zwisler@google.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux BPF <bpf@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+        Alan Maguire <alan.maguire@oracle.com>
+Subject: Re: [PATCH v2] Documentation: bpf: Fix link to BTF doc
+Message-ID: <Y/ZlDnioTn+hj03/@google.com>
+References: <20230222083530.26136-1-bagasdotme@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230222083530.26136-1-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 20, 2023, Shaoqin Huang wrote:
-> The 7.18 KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 now is not a title, make it
-> as a title to keep the format consistent.
+On Wed, Feb 22, 2023 at 03:35:30PM +0700, Bagas Sanjaya wrote:
+> Ross reported broken link to BTF documentation
+> (Documentation/bpf/btf.rst) in Documentation/bpf/bpf_devel_QA.rst. The
+> link in question is written using external link syntax, with the target
+> refers to BTF doc in reST source (btf.rst), which doesn't exist in
+> resulting HTML output.
 > 
-> Signed-off-by: Shaoqin Huang <shahuang@redhat.com>
+> Fix the link by replacing external link syntax with simply writing out
+> the target doc, which the link will be generated to the correct HTML doc
+> target.
+> 
+> Link: https://lore.kernel.org/linux-doc/Y++09LKx25dtR4Ow@google.com/
+> Fixes: 6736aa793c2b5f ("selftests/bpf: Add general instructions for test execution")
+> Reported-by: Ross Zwisler <zwisler@google.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+> Changes since v1 [1]:
+> 
+>   * Reword patch description (I don't see external link semantics on
+>     Sphinx documentation [2] when I submit v1).
+>   * Drop the corresponding orphan target definition.
+>   * Rebase on top of current bpf tree.
+> 
+> Ross, do you want to give a Reviewed-by or Acked-by?
 
-Looks like it simply got missed by the ReST conversion.
-
-Fixes: 106ee47dc633 ("docs: kvm: Convert api.txt to ReST format")
-Reviewed-by: Sean Christopherson <seanjc@google.com>
+Sure, thanks for the fix:
+Acked-by: Ross Zwisler <zwisler@google.com>
