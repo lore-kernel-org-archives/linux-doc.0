@@ -2,135 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77CC0C678D5
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 08:36:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C662C6379F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 08:40:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230280AbjBVIgB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 03:36:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53342 "EHLO
+        id S231266AbjBVIkP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 03:40:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbjBVIf6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 03:35:58 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7300230B36;
-        Wed, 22 Feb 2023 00:35:47 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id e5so8994287plg.8;
-        Wed, 22 Feb 2023 00:35:47 -0800 (PST)
+        with ESMTP id S229669AbjBVIkO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 03:40:14 -0500
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5771360A6
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 00:40:12 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id f13so26666676edz.6
+        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 00:40:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kti8JgugRVGLXizNka/HYINXfKruoK/QDuSJAx3hfIU=;
-        b=qdPdPA9JC+RKYJV7GtxPcqGD/C42MNquMUh00lproMLqkg1EfHKK4IPtgQTB6Eb+Be
-         o1LU7+BR/OvnFKnaTp0QAY9U/Zq34ORx+2G/P745uFNHO2cJNY9kmZzfQuux1E5D+5h0
-         9abp6IzWr24g78juJ/xxxfzKmJDhr80FPO/YRyCrflB/fWWq5urnxa6yfC2AGbHNXaGB
-         MwpV/UujEw054q7l+nXMuJvyl6rkdV4ecJohC5aHnfHuxM2davf5Im7cWXKplAgODbtU
-         B79KVhfLgcp3m+nWVuqFmRqWoDJksVOAnJ6Ae7RlnGK22903KXwiNxcFN4kdNvwqJCTN
-         Lqyg==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lR+ISQQSb0vmBiGpqXlpCKGu34UyCzsJKioNfm+3xdA=;
+        b=KIr+5u8tc47eHv6DkkJqDeie1JQk4hY22L8yH26fDT81Zx+yYccFRNvZfGErS/JwgE
+         CkFTu4B3dTBom6tlDAwOKATkapR/iOJYg+iJK4VHTkXHpOfJVFgSH5DXftj8ZU/agotq
+         35qCt4kfM1oA7fUFnXluAKK8qz9YXpPBBmC4oqmjx1kpKurIgc2q5bHCEJIImZa6Vl29
+         LDxG5C/+Io3PGuebh/xBRhqYtOJ5AbzvYMLWtPKn6Hw37AKvuI/w/050rIMCDvSIGFdj
+         TY7LrQmsvqagR/tB59EO3jMP3aZyI9yO1hgVgCjWYZlMnCRN+9T20pPlUrxmfQvsNtSi
+         IBgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kti8JgugRVGLXizNka/HYINXfKruoK/QDuSJAx3hfIU=;
-        b=S3CjmHXsOnfYbL1McN1lmoM86flahpBcBGwRr7Nx8j71aK6aeprjfpCJmL0HNJ2eQI
-         43aKjfh8Ety6Mkf+ffadEwWpQ3HBjKe4YlNsP+xzxVxMdRqXCZGI3yIxMnMGhWCYcEH2
-         fjoqnM6/K3pUleWxHhRALn1SF4Cgez2VBvGajwDfdA9edvnYCbOep6pNtxrY3LHY7F/W
-         xoux7KMqMsuWwU1/CEub8O4whX4nHjODUdc9vVERGU2f9w1ji1AK5cm3GNK8ztoSfoll
-         c3XOIRrAkDNCFHY86xiT/jjwc7F9wW48lIRLNIyqJH8rw3aN8lq4K2Gdl1drupJW6UbQ
-         u9Rg==
-X-Gm-Message-State: AO0yUKUuQzDFxrG2EmEJl6D2hg1EsbvU0G19drwI4ra7qKr45MraFRlx
-        47serhQgI30F7tX5HgC0Rtw=
-X-Google-Smtp-Source: AK7set+8KuBgbHI7br2D4+Z0RBwGinzpSWzxE0w3j++VzmdMaJuJkqx+d+nEga9GuWIKz/GhtDCPYA==
-X-Received: by 2002:a17:902:dad1:b0:196:5839:b374 with SMTP id q17-20020a170902dad100b001965839b374mr8650865plx.9.1677054946877;
-        Wed, 22 Feb 2023 00:35:46 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-84.three.co.id. [180.214.232.84])
-        by smtp.gmail.com with ESMTPSA id o4-20020a170902bcc400b0019c901b35ecsm3014759pls.106.2023.02.22.00.35.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 00:35:46 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id B9D1C10658F; Wed, 22 Feb 2023 15:35:41 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux BPF <bpf@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Ross Zwisler <zwisler@google.com>
-Subject: [PATCH v2] Documentation: bpf: Fix link to BTF doc
-Date:   Wed, 22 Feb 2023 15:35:30 +0700
-Message-Id: <20230222083530.26136-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lR+ISQQSb0vmBiGpqXlpCKGu34UyCzsJKioNfm+3xdA=;
+        b=2C3a/FmcpCbmzrQeHuKTABF0ABaHTedyu90UOURe2sbxSLYiFRwxKverlOTaUvrzYL
+         OzWIwXlf/8Qd568ypVv4bEWwJyElfOAMPcCDSlzm0mEfYe6FCvMGAYBsBBbGqE7fq7xJ
+         7c1l+F+HZ68gYiAxMO6YyUuk/7RUBAbIObMDN3G86UZf4rNJDMDeuWz8zm4XPrcrHsNC
+         TnLHj6hvqThlRfdM/Oa+gTUcrqoWrwYYAXRGQddjCrk26pqzjxynzniCOs386uZfY4Sb
+         QJEnWYNT9hhF5XdDB5K+tvS48bHXaf8to80x+Ddx5QayzoJ9pmu3wdcDo5tcma+b1cUo
+         Gn4g==
+X-Gm-Message-State: AO0yUKWgxXe+enM00OF9gVZKevWjnN/ZjvQr4ihLxX7/TAeWUFQ0/oM6
+        eMUCi0rJVkaQiCKWbsG8Xn7Kew==
+X-Google-Smtp-Source: AK7set8iXoGezZDOE3ZDJrGYpXVqhY+danP4XJR6egsj0cAxZ2DnpxbBKjpo8ym6+Oa7myY+JjJauQ==
+X-Received: by 2002:a17:907:3e22:b0:8e3:8543:8e71 with SMTP id hp34-20020a1709073e2200b008e385438e71mr5006300ejc.40.1677055211264;
+        Wed, 22 Feb 2023 00:40:11 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id 6-20020a170906318600b008e03af7e7c9sm1708450ejy.188.2023.02.22.00.40.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Feb 2023 00:40:10 -0800 (PST)
+Message-ID: <939ffe2e-9b03-528a-3d27-e9eac7a04ded@linaro.org>
+Date:   Wed, 22 Feb 2023 09:40:08 +0100
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2388; i=bagasdotme@gmail.com; h=from:subject; bh=oKNgKZHFEdu2il286nEDO6UrFE9zRMlSbKSG+cvR994=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMlfL5+UnMD7bZ4JX0R8Rd6uJfcmic/bz/2MU0Zb5O/aJS21 iU7TOkpZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRxFcM/7RfcHwX4sh31Q79d2nOSk HuwCWPVPaYJV9LDuPbYheVpcfIsOun+eOuy0q3glztHxs6H+vl98nYtlfD6n2xS6fOwqvVHAA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 1/4] dt-bindings: mfd: Add DT bindings for TI TPS6594
+ PMIC
+Content-Language: en-US
+To:     Julien Panis <jpanis@baylibre.com>, lee@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        corbet@lwn.net
+Cc:     hdegoede@redhat.com, eric.auger@redhat.com, jgg@ziepe.ca,
+        razor@blackwall.org, suma.hegde@amd.com,
+        stephen@networkplumber.org, arnd@arndb.de,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, eblanc@baylibre.com,
+        jneanne@baylibre.com
+References: <20230216114410.183489-1-jpanis@baylibre.com>
+ <20230216114410.183489-2-jpanis@baylibre.com>
+ <c50503f0-dce1-a3b0-2973-8a22b5ef8bc2@linaro.org>
+ <4e64838c-b727-923b-b6d5-413a0681977c@baylibre.com>
+ <8de5a3bb-a0b1-8d69-cf61-0c33f42c56f6@linaro.org>
+ <85183c04-40e3-fd97-c4ca-06795fe99e40@baylibre.com>
+ <ce5f8e9c-0e05-3391-1393-25ea8086f10c@linaro.org>
+ <633753f7-2b8a-15bb-ba55-1c5a6f2eb3f1@baylibre.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <633753f7-2b8a-15bb-ba55-1c5a6f2eb3f1@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ross reported broken link to BTF documentation
-(Documentation/bpf/btf.rst) in Documentation/bpf/bpf_devel_QA.rst. The
-link in question is written using external link syntax, with the target
-refers to BTF doc in reST source (btf.rst), which doesn't exist in
-resulting HTML output.
+On 21/02/2023 16:18, Julien Panis wrote:
+>>>> It looks the property should be only in the drivers, not in the DT.
+>>> I will remove 'ti,use-crc;' property from the DT. This will be only in
+>>> the driver.
+>>> Do you also consider that a property such as 'ti,is-secondary-pmic;'
+>>> would not be acceptable either ? From driver point of view, this
+>>> primary/secondary role on SPMI bus is a 'built-in' property of the
+>>> PMIC (CRC must be enabled only via primary PMIC but using the
+>>> primary PMIC does not imply that CRC is necessarily used).
+>> Depends, I am not sure. Are the PMICs in some kind of hierarchical
+>> topology? Like one is parent of another? If not (so both are
+>> parallel/equal children of SPMI bus), then some property to indicate
+>> which one is the main PMIC makes sense.
+> 
+> There is no hierarchical topology.
+> So, I will consider identifying in DT which one is the main PMIC.
 
-Fix the link by replacing external link syntax with simply writing out
-the target doc, which the link will be generated to the correct HTML doc
-target.
+Yes. Such property would be also better than the "use-crc" as it
+describes the hardware, not desired Linux driver behavior.
 
-Link: https://lore.kernel.org/linux-doc/Y++09LKx25dtR4Ow@google.com/
-Fixes: 6736aa793c2b5f ("selftests/bpf: Add general instructions for test execution")
-Reported-by: Ross Zwisler <zwisler@google.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
-Changes since v1 [1]:
 
-  * Reword patch description (I don't see external link semantics on
-    Sphinx documentation [2] when I submit v1).
-  * Drop the corresponding orphan target definition.
-  * Rebase on top of current bpf tree.
-
-Ross, do you want to give a Reviewed-by or Acked-by?
-
-[1]: https://lore.kernel.org/linux-doc/20230219030956.22662-1-bagasdotme@gmail.com/ 
-[2]: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#external-links
-
- Documentation/bpf/bpf_devel_QA.rst | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-index 03d4993eda6f05..715f7321020f27 100644
---- a/Documentation/bpf/bpf_devel_QA.rst
-+++ b/Documentation/bpf/bpf_devel_QA.rst
-@@ -469,7 +469,7 @@ under test should match the config file fragment in
- tools/testing/selftests/bpf as closely as possible.
- 
- Finally to ensure support for latest BPF Type Format features -
--discussed in `Documentation/bpf/btf.rst`_ - pahole version 1.16
-+discussed in Documentation/bpf/btf.rst - pahole version 1.16
- is required for kernels built with CONFIG_DEBUG_INFO_BTF=y.
- pahole is delivered in the dwarves package or can be built
- from source at
-@@ -690,6 +690,5 @@ when:
-    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/
- .. _Documentation/dev-tools/kselftest.rst:
-    https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
--.. _Documentation/bpf/btf.rst: btf.rst
- 
- Happy BPF hacking!
-
-base-commit: 345d24a91c79f408e355c8b7e873ccde0f097eea
--- 
-An old man doll... just what I always wanted! - Clara
+Best regards,
+Krzysztof
 
