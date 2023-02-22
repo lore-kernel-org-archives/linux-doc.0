@@ -2,150 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B07C64EC4
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 07:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77CC0C678D5
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Feb 2023 08:36:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230473AbjBVHiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 02:38:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59654 "EHLO
+        id S230280AbjBVIgB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 03:36:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbjBVHiJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 02:38:09 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC8F031E1D;
-        Tue, 21 Feb 2023 23:38:07 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id nt5-20020a17090b248500b00237161e33f4so5487305pjb.4;
-        Tue, 21 Feb 2023 23:38:07 -0800 (PST)
+        with ESMTP id S229560AbjBVIf6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 03:35:58 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7300230B36;
+        Wed, 22 Feb 2023 00:35:47 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id e5so8994287plg.8;
+        Wed, 22 Feb 2023 00:35:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tQnhk4w+A1CZuSiFNzZYnpV69X8Dsuspy9qsHPKjTI0=;
-        b=kgMH6/tfuXU3Gt2XMp21OuwvVA7LLi2oGBFlBP4ahaNQCsd817zZxxjh4mmlcyGvAj
-         74AoHp4DwwrMqH84r7BaW1B5YjzjPwgl5Lqc5kp3BY+TJMmpy22BB1GiBDCLUoW0DLaD
-         lH0rIPkmqTCJ8UVbVqQrNVrQvnT9soVkZ9Wol5REsAUZesfvlxpnMO/cY1oAAGHLRkTS
-         6ixharSxG0r0hXm7NVnsOZLiF+2X/nH7PYpG+RemZ7+HrHLZIwvVxop0E1tSlEDDa8UI
-         cGCbTsjy4lmO8cPMpSI3iN+CTPnPugV5b2m03N3L/ujetT9wDtOE6OTtlhDG5NoGtav6
-         yZKw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kti8JgugRVGLXizNka/HYINXfKruoK/QDuSJAx3hfIU=;
+        b=qdPdPA9JC+RKYJV7GtxPcqGD/C42MNquMUh00lproMLqkg1EfHKK4IPtgQTB6Eb+Be
+         o1LU7+BR/OvnFKnaTp0QAY9U/Zq34ORx+2G/P745uFNHO2cJNY9kmZzfQuux1E5D+5h0
+         9abp6IzWr24g78juJ/xxxfzKmJDhr80FPO/YRyCrflB/fWWq5urnxa6yfC2AGbHNXaGB
+         MwpV/UujEw054q7l+nXMuJvyl6rkdV4ecJohC5aHnfHuxM2davf5Im7cWXKplAgODbtU
+         B79KVhfLgcp3m+nWVuqFmRqWoDJksVOAnJ6Ae7RlnGK22903KXwiNxcFN4kdNvwqJCTN
+         Lqyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tQnhk4w+A1CZuSiFNzZYnpV69X8Dsuspy9qsHPKjTI0=;
-        b=teMmgQEtBHR35ppLNdZgCroI71RLLqe3l6qgVOHVlP1EIcQ7QIbDOYVJpxJNP9RAnc
-         BRE61D4Ve8Y23znqlJN6axh8ZN3CJYpklzaG8Al+qCb21EMFxYrLHVEsgmCPes3g5zMc
-         JvoSR7W49dlxJycxBZWoFELqTXC5lXZSk3hYcqLy0GKKkRn2X4tu3RcuCaqZM4zwL7jZ
-         8OixL8T4+ZpOCuHEaRVMnUO+j/Fz50u7akB/ZvV+ra3zL/B2OBv0ga+/FlISZujD3axM
-         x3G2r/Uqu6bYRW1bnYH9Z4yF5dMQVQHsKdbOPa17KMw59i/51u8ZAWI8XpRu0XvNhCd2
-         0Jog==
-X-Gm-Message-State: AO0yUKVRUlMx3mfXu8wkMOAyuG60zV2UnqR8rgPWYbXETJjlgczb2Y2k
-        GGPewTHPP2NjEW2py5RxROc=
-X-Google-Smtp-Source: AK7set9BPJiiiPA0ZWH3kfJoeUKXA2xqAuB/5VgGXoQcSKWcONnqYOqfJi5snvsOHG7lUNiCqyEK0A==
-X-Received: by 2002:a17:902:eccc:b0:19a:fdc9:7983 with SMTP id a12-20020a170902eccc00b0019afdc97983mr7640085plh.63.1677051487089;
-        Tue, 21 Feb 2023 23:38:07 -0800 (PST)
-Received: from [192.168.43.80] (subs02-180-214-232-84.three.co.id. [180.214.232.84])
-        by smtp.gmail.com with ESMTPSA id g12-20020a1709026b4c00b001992b8cf89bsm1182987plt.16.2023.02.21.23.38.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Feb 2023 23:38:06 -0800 (PST)
-Message-ID: <5ff2b68a-a8fb-7901-2c38-1056a2c59f70@gmail.com>
-Date:   Wed, 22 Feb 2023 14:38:01 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] blk-ioprio: Introduce promote-to-rt policy
-Content-Language: en-US
-To:     Hou Tao <houtao@huaweicloud.com>, linux-block@vger.kernel.org
-Cc:     Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-References: <20230220135428.2632906-1-houtao@huaweicloud.com>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kti8JgugRVGLXizNka/HYINXfKruoK/QDuSJAx3hfIU=;
+        b=S3CjmHXsOnfYbL1McN1lmoM86flahpBcBGwRr7Nx8j71aK6aeprjfpCJmL0HNJ2eQI
+         43aKjfh8Ety6Mkf+ffadEwWpQ3HBjKe4YlNsP+xzxVxMdRqXCZGI3yIxMnMGhWCYcEH2
+         fjoqnM6/K3pUleWxHhRALn1SF4Cgez2VBvGajwDfdA9edvnYCbOep6pNtxrY3LHY7F/W
+         xoux7KMqMsuWwU1/CEub8O4whX4nHjODUdc9vVERGU2f9w1ji1AK5cm3GNK8ztoSfoll
+         c3XOIRrAkDNCFHY86xiT/jjwc7F9wW48lIRLNIyqJH8rw3aN8lq4K2Gdl1drupJW6UbQ
+         u9Rg==
+X-Gm-Message-State: AO0yUKUuQzDFxrG2EmEJl6D2hg1EsbvU0G19drwI4ra7qKr45MraFRlx
+        47serhQgI30F7tX5HgC0Rtw=
+X-Google-Smtp-Source: AK7set+8KuBgbHI7br2D4+Z0RBwGinzpSWzxE0w3j++VzmdMaJuJkqx+d+nEga9GuWIKz/GhtDCPYA==
+X-Received: by 2002:a17:902:dad1:b0:196:5839:b374 with SMTP id q17-20020a170902dad100b001965839b374mr8650865plx.9.1677054946877;
+        Wed, 22 Feb 2023 00:35:46 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-84.three.co.id. [180.214.232.84])
+        by smtp.gmail.com with ESMTPSA id o4-20020a170902bcc400b0019c901b35ecsm3014759pls.106.2023.02.22.00.35.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Feb 2023 00:35:46 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id B9D1C10658F; Wed, 22 Feb 2023 15:35:41 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230220135428.2632906-1-houtao@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     Linux BPF <bpf@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Ross Zwisler <zwisler@google.com>
+Subject: [PATCH v2] Documentation: bpf: Fix link to BTF doc
+Date:   Wed, 22 Feb 2023 15:35:30 +0700
+Message-Id: <20230222083530.26136-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2388; i=bagasdotme@gmail.com; h=from:subject; bh=oKNgKZHFEdu2il286nEDO6UrFE9zRMlSbKSG+cvR994=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDMlfL5+UnMD7bZ4JX0R8Rd6uJfcmic/bz/2MU0Zb5O/aJS21 iU7TOkpZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRxFcM/7RfcHwX4sh31Q79d2nOSk HuwCWPVPaYJV9LDuPbYheVpcfIsOun+eOuy0q3glztHxs6H+vl98nYtlfD6n2xS6fOwqvVHAA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/20/23 20:54, Hou Tao wrote:
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 74cec76be9f2..ccfb9fdfbc16 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -2021,31 +2021,33 @@ that attribute:
->    no-change
->  	Do not modify the I/O priority class.
->  
-> -  none-to-rt
-> -	For requests that do not have an I/O priority class (NONE),
-> -	change the I/O priority class into RT. Do not modify
-> -	the I/O priority class of other requests.
-> +  promote-to-rt
-> +	For requests that have a no-RT I/O priority class, change it into RT.
-"non-RT" maybe? Or the original wording is better?
-> +	Also change the priority level of these requests to 4. Do not modify
-> +	the I/O priority of requests that have priority class RT.>  
->    restrict-to-be
->  	For requests that do not have an I/O priority class or that have I/O
-> -	priority class RT, change it into BE. Do not modify the I/O priority
-> -	class of requests that have priority class IDLE.
-> +	priority class RT, change it into BE. Also change the priority level
-> +	of these requests to 0. Do not modify the I/O priority class of
-> +	requests that have priority class IDLE.
->  
->    idle
->  	Change the I/O priority class of all requests into IDLE, the lowest
->  	I/O priority class.
->  
-> +  none-to-rt
-> +	Deprecated. Just an alias for promote-to-rt.
-> +
->  The following numerical values are associated with the I/O priority policies:
->  
-> -+-------------+---+
-> -| no-change   | 0 |
-> -+-------------+---+
-> -| none-to-rt  | 1 |
-> -+-------------+---+
-> -| rt-to-be    | 2 |
-> -+-------------+---+
-> -| all-to-idle | 3 |
-> -+-------------+---+
-> ++----------------+---+
-> +| no-change      | 0 |
-> ++----------------+---+
-> +| rt-to-be       | 2 |
-> ++----------------+---+
-> +| all-to-idle    | 3 |
-> ++----------------+---+
->  
->  The numerical value that corresponds to each I/O priority class is as follows:
->  
-> @@ -2061,9 +2063,13 @@ The numerical value that corresponds to each I/O priority class is as follows:
->  
->  The algorithm to set the I/O priority class for a request is as follows:
->  
-> -- Translate the I/O priority class policy into a number.
-> -- Change the request I/O priority class into the maximum of the I/O priority
-> -  class policy number and the numerical I/O priority class.
-> +- If I/O priority class policy is promote-to-rt, change the request I/O
-> +  priority class to IOPRIO_CLASS_RT and change the request I/O priority
-> +  level to 4.
-> +- If I/O priorityt class is not promote-to-rt, translate the I/O priority
-> +  class policy into a number, then change the request I/O priority class
-> +  into the maximum of the I/O priority class policy number and the numerical
-> +  I/O priority class.
->  
->  PID
->  ---
+Ross reported broken link to BTF documentation
+(Documentation/bpf/btf.rst) in Documentation/bpf/bpf_devel_QA.rst. The
+link in question is written using external link syntax, with the target
+refers to BTF doc in reST source (btf.rst), which doesn't exist in
+resulting HTML output.
 
-The rest is LGTM.
+Fix the link by replacing external link syntax with simply writing out
+the target doc, which the link will be generated to the correct HTML doc
+target.
 
+Link: https://lore.kernel.org/linux-doc/Y++09LKx25dtR4Ow@google.com/
+Fixes: 6736aa793c2b5f ("selftests/bpf: Add general instructions for test execution")
+Reported-by: Ross Zwisler <zwisler@google.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+Changes since v1 [1]:
+
+  * Reword patch description (I don't see external link semantics on
+    Sphinx documentation [2] when I submit v1).
+  * Drop the corresponding orphan target definition.
+  * Rebase on top of current bpf tree.
+
+Ross, do you want to give a Reviewed-by or Acked-by?
+
+[1]: https://lore.kernel.org/linux-doc/20230219030956.22662-1-bagasdotme@gmail.com/ 
+[2]: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#external-links
+
+ Documentation/bpf/bpf_devel_QA.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
+index 03d4993eda6f05..715f7321020f27 100644
+--- a/Documentation/bpf/bpf_devel_QA.rst
++++ b/Documentation/bpf/bpf_devel_QA.rst
+@@ -469,7 +469,7 @@ under test should match the config file fragment in
+ tools/testing/selftests/bpf as closely as possible.
+ 
+ Finally to ensure support for latest BPF Type Format features -
+-discussed in `Documentation/bpf/btf.rst`_ - pahole version 1.16
++discussed in Documentation/bpf/btf.rst - pahole version 1.16
+ is required for kernels built with CONFIG_DEBUG_INFO_BTF=y.
+ pahole is delivered in the dwarves package or can be built
+ from source at
+@@ -690,6 +690,5 @@ when:
+    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/
+ .. _Documentation/dev-tools/kselftest.rst:
+    https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
+-.. _Documentation/bpf/btf.rst: btf.rst
+ 
+ Happy BPF hacking!
+
+base-commit: 345d24a91c79f408e355c8b7e873ccde0f097eea
 -- 
 An old man doll... just what I always wanted! - Clara
 
