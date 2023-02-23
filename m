@@ -2,130 +2,148 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A451C64ED8
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 12:11:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38F98C64ED6
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 12:15:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232565AbjBWMLg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 07:11:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40528 "EHLO
+        id S234138AbjBWMPW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 07:15:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233897AbjBWMLc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 07:11:32 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F25455C07;
-        Thu, 23 Feb 2023 04:11:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677154269; x=1708690269;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=c3/6mmV17tShYWq3QB6unXyeKS83+JV/EnZRZDWCD5A=;
-  b=A90uAVGi60IStygHGKiUmSzotz5zMWLqAKrGOy9roMOUNI3s5vSe5BCa
-   id3VxJ9UewNVw2mQ35UniKOPTzOS+ler9ZAyhqy9YkBOQiZ23ztQXAYKZ
-   7qnx6bb1vXkxxjaUm2Dy3iDa/weF4ZHEooWVQ0E8VtiXcF47vsm6I+YY7
-   1Hb6uU4wTHBFAFt/xJhsP4wPoCIYxUzfImftr9ZX7g7X+t4jl2OqcHeMY
-   k4wSV1Ml+/6TQholvncfYSyDFnDi5NJIBOMF1B3xAR5zfIo+NuE8I2/+z
-   any3mWTtM1RUXMrhzwp/bY2ZB2ocDlAIBV1wNoz9whyGzO/+BePDypnYZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="330921138"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="330921138"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 04:10:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="781858049"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="781858049"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2023 04:09:59 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pVAQA-0001JW-1a;
-        Thu, 23 Feb 2023 12:09:58 +0000
-Date:   Thu, 23 Feb 2023 20:09:07 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        with ESMTP id S233999AbjBWMPV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 07:15:21 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1DBE3;
+        Thu, 23 Feb 2023 04:15:19 -0800 (PST)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31NBrllM031044;
+        Thu, 23 Feb 2023 12:14:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=fP9xV6lbjH9d0Me/zzCK1TZbbkYDahLeZPZJbYSqzJg=;
+ b=j11osJlhFMpbcNoFcAEqcHR3XdbnHaC0KrVkEPEu2l5fWGAMFhbAcKPlmOgnm64hxjeh
+ bqi2M7c3tJAgis1EFipOAhq9GRcMqMgoNhMs8imphlHiUrmQfOiup/YI1hI/sVJxv+GQ
+ i5wvWLMSM3aEIx3bVT6Cj4h1Kr2T5wSELedjSt55YUF2MPXvkGTn/cVDIjjXKEFhPttE
+ w8n0SzThox9jwO9LD4eCd6CfZy2JBerJuJIntaSC1A9IRxE7gEV2k4gnS97UAyiIN8Ca
+ wHsj5Qx9mN9yEuW8jKnLN073OhKzuCR8MjQPHrSrbiZAmTSsEFvzaT1gnmFvFxe7LilG rQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nx7p00g1c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 23 Feb 2023 12:14:27 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31NBtBG3003887;
+        Thu, 23 Feb 2023 12:14:26 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nx7p00g0f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 23 Feb 2023 12:14:26 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+        by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31N6xENL001655;
+        Thu, 23 Feb 2023 12:14:23 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+        by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3ntpa65193-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 23 Feb 2023 12:14:23 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+        by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 31NCEJb044957978
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 23 Feb 2023 12:14:19 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BF4832004B;
+        Thu, 23 Feb 2023 12:14:19 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 40BA620040;
+        Thu, 23 Feb 2023 12:14:18 +0000 (GMT)
+Received: from osiris (unknown [9.152.212.244])
+        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+        Thu, 23 Feb 2023 12:14:18 +0000 (GMT)
+Date:   Thu, 23 Feb 2023 13:14:17 +0100
+From:   Heiko Carstens <hca@linux.ibm.com>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: Re: [PATCH v6 1/1] riscv: Allow to downgrade paging mode from the
- command line
-Message-ID: <202302231942.6C2mSFYv-lkp@intel.com>
-References: <20230223082434.1280957-2-alexghiti@rivosinc.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com, linux-s390@vger.kernel.org,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+Subject: Re: [PATCH v6 12/41] s390/mm: Introduce pmd_mkwrite_kernel()
+Message-ID: <Y/dYmcHQXP63ONeL@osiris>
+References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-13-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230223082434.1280957-2-alexghiti@rivosinc.com>
+In-Reply-To: <20230218211433.26859-13-rick.p.edgecombe@intel.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: sFRj-Cxjvl2O7RQZgpFdtfpFrv0tJ-hN
+X-Proofpoint-GUID: H39IN__vQKd3uO65pvL406ZakvY6b_il
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-23_06,2023-02-23_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 impostorscore=0 bulkscore=0
+ spamscore=0 clxscore=1011 suspectscore=0 priorityscore=1501
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302230100
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alexandre,
+On Sat, Feb 18, 2023 at 01:14:04PM -0800, Rick Edgecombe wrote:
+> The x86 Control-flow Enforcement Technology (CET) feature includes a new
+> type of memory called shadow stack. This shadow stack memory has some
+> unusual properties, which requires some core mm changes to function
+> properly.
+> 
+> One of these changes is to allow for pmd_mkwrite() to create different
+> types of writable memory (the existing conventionally writable type and
+> also the new shadow stack type). Future patches will convert pmd_mkwrite()
+> to take a VMA in order to facilitate this, however there are places in the
+> kernel where pmd_mkwrite() is called outside of the context of a VMA.
+> These are for kernel memory. So create a new variant called
+> pmd_mkwrite_kernel() and switch the kernel users over to it. Have
+> pmd_mkwrite() and pmd_mkwrite_kernel() be the same for now. Future patches
+> will introduce changes to make pmd_mkwrite() take a VMA.
+> 
+> Only do this for architectures that need it because they call pmd_mkwrite()
+> in arch code without an associated VMA. Since it will only currently be
+> used in arch code, so do not include it in arch_pgtable_helpers.rst.
+> 
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: linux-arch@vger.kernel.org
+> Cc: linux-mm@kvack.org
+> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+> Suggested-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+...
+> ---
+>  arch/s390/include/asm/pgtable.h | 7 ++++++-
+>  arch/s390/mm/pageattr.c         | 2 +-
+>  2 files changed, 7 insertions(+), 2 deletions(-)
 
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Allow-to-downgrade-paging-mode-from-the-command-line/20230223-162702
-patch link:    https://lore.kernel.org/r/20230223082434.1280957-2-alexghiti%40rivosinc.com
-patch subject: [PATCH v6 1/1] riscv: Allow to downgrade paging mode from the command line
-config: riscv-buildonly-randconfig-r002-20230222 (https://download.01.org/0day-ci/archive/20230223/202302231942.6C2mSFYv-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/7e18f795579f897e63812ca9dcb5b48ef2b7b4d2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alexandre-Ghiti/riscv-Allow-to-downgrade-paging-mode-from-the-command-line/20230223-162702
-        git checkout 7e18f795579f897e63812ca9dcb5b48ef2b7b4d2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/pi/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302231942.6C2mSFYv-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> arch/riscv/kernel/pi/cmdline_early.c:50:10: error: use of undeclared identifier 'SATP_MODE_48'
-                   return SATP_MODE_48;
-                          ^
->> arch/riscv/kernel/pi/cmdline_early.c:52:10: error: use of undeclared identifier 'SATP_MODE_57'
-                   return SATP_MODE_57;
-                          ^
-   2 errors generated.
-
-
-vim +/SATP_MODE_48 +50 arch/riscv/kernel/pi/cmdline_early.c
-
-    46	
-    47	static u64 __init match_noXlvl(char *cmdline)
-    48	{
-    49		if (strstr(cmdline, "no4lvl"))
-  > 50			return SATP_MODE_48;
-    51		else if (strstr(cmdline, "no5lvl"))
-  > 52			return SATP_MODE_57;
-    53	
-    54		return 0;
-    55	}
-    56	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Acked-by: Heiko Carstens <hca@linux.ibm.com>
