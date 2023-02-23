@@ -2,82 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FFE9C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 10:26:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E116CC64ED8
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 10:29:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233366AbjBWK0d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 05:26:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60082 "EHLO
+        id S233486AbjBWK32 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 05:29:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233392AbjBWK0b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 05:26:31 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E1E726863;
-        Thu, 23 Feb 2023 02:26:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677147984; x=1708683984;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Yk1mjkoR0tSeW0gPd6MGxEf6ev0w+CVpivJhqFa1wX0=;
-  b=kOg9xhvcL6zSOCRfPdYKXNILIrSpiezeY+KPziyU71Gb9FOXa6rNgYHS
-   Sg4O112DNdfWj+sq51it4ieR4LCCq3jUGpQQnZUmS0oeCCAm49haSGN2l
-   g28cK5EqdLD5odgeAHLawTcYDnrcUKrv31/CKQbusaaqPKd+G5rSjJOyW
-   L5STihkNO/aVpxDmjnagHsHLpPgWFQ2wTF7lDL73e/7H/x0qwfVzUHt5T
-   q5xyfUSZR+VQlh/hXu9dm/vDw6yCn41mcUNPApwyqKSB/VZMoS/4y3w6f
-   /QTVhLeQEmmAm2+/+ZPCMcIIDKopg6D7QSyay1gKinsclO/p/cjk6VYrI
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="313545701"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="313545701"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 02:25:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="649912023"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="649912023"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 23 Feb 2023 02:25:56 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pV8nU-0001G1-01;
-        Thu, 23 Feb 2023 10:25:56 +0000
-Date:   Thu, 23 Feb 2023 18:25:37 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: htmldocs: Warning: Documentation/mm/hugetlbfs_reserv.rst references
- a file that doesn't exist: Documentation/mm/hugetlbpage.rst
-Message-ID: <202302231854.sKlCmx9K-lkp@intel.com>
+        with ESMTP id S233228AbjBWK32 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 05:29:28 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8A62C648
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 02:29:26 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so3911791wms.2
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 02:29:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MKc6y021FHBN+LrR2vkeYuDgxpGOSK9TOESkAOOS40g=;
+        b=MSle8iSbfDKnGj+DESFAgoxCe7S1XWAzXDqXieuC2nduiLZtUbpte2AAM7V5Q2WJ7C
+         3M7MtTxqzcWoSOW3Gb2NlBoYXOZVwl9P269yiCLckSBxg/zxybz5Jr9W00ZYf4UpmqPA
+         rSD7OkH2aMUPXgJjduf0nE5K3xZksEFRZ81NY+pR3a1U+zaMQk+ko0GZz/jJDPOmBLu+
+         ocJwnczeXPqyKUGt6ywnHCuwRQGc8wZtlsjlip3jqHIexlB07we2vgF835BdMU6JOF1D
+         cVKrctmZxTJXCUOU043OHyFXyP3HEl+hN3W1oyi0kk+IV/tKAckfMJwY1++9V2GDamai
+         zyPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MKc6y021FHBN+LrR2vkeYuDgxpGOSK9TOESkAOOS40g=;
+        b=z4cv7dhwY3pf9fwmALXKtybqtrAT44X0Ga67RJhTYmaQPHtNM49F83mIKQaupfsacG
+         Xokz57z9tAjxIfgm0RJUNj0CqOHRAWdb5EeaabK402MY5/1RUnR7CMr/yzOb4/sVmZr7
+         aSisE5G/KicUVsstCpe0d1qJth69gVeiAgmCVQCLwRBH4GtNxyBz5Zr8KOLK5w63y760
+         MfZmEC+XRUaRwPSohkrJVGWsHo7Q6z0owT+J3b/UObSbHUGjZQ2dfZcsf7sa3HnMeTQg
+         eubPRpLPzf50mt48flgb/DfD2hb74IbSfVUp0LLhwYm3mLGAg4kWdKMgyuwI1QY8Rf50
+         jk9w==
+X-Gm-Message-State: AO0yUKXcjMkvItLpe+cYUQNsVeT6Y9h7nffxC6VPkDdZ28BN4zmtYNeU
+        sWtC48hQPPnI8wfHgTyaw9wnSQ==
+X-Google-Smtp-Source: AK7set/DuYj5W4k5F3QFJwDnJAJ3FKK5euZhS7JWUpdW8R6uN/+e1dKH4fcozE/UQmRBX+gaCwo5aw==
+X-Received: by 2002:a05:600c:6001:b0:3e7:772d:22de with SMTP id az1-20020a05600c600100b003e7772d22demr6847506wmb.30.1677148164513;
+        Thu, 23 Feb 2023 02:29:24 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id m17-20020a05600c3b1100b003e896d953a8sm6516457wms.17.2023.02.23.02.29.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Feb 2023 02:29:23 -0800 (PST)
+Message-ID: <44a59ea4-da6e-e96a-5e89-dfd41db72823@linaro.org>
+Date:   Thu, 23 Feb 2023 10:29:20 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v10 08/26] gunyah: rsc_mgr: Add resource manager RPC core
+Content-Language: en-US
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212327.3310128-1-quic_eberman@quicinc.com>
+ <d69f9699-b4d9-7a3a-71b1-7e6fe72c4f82@linaro.org>
+ <94ebe2f0-0baf-21c0-45d5-c5bc4df9ad94@quicinc.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <94ebe2f0-0baf-21c0-45d5-c5bc4df9ad94@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a5c95ca18a98d742d0a4a04063c32556b5b66378
-commit: ee86588960e259760236a537323d5c7d945e378c docs/mm: remove useless markup
-date:   3 weeks ago
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ee86588960e259760236a537323d5c7d945e378c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ee86588960e259760236a537323d5c7d945e378c
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302231854.sKlCmx9K-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+On 22/02/2023 23:18, Elliot Berman wrote:
+>>>
+>>> +EXPORT_SYMBOL_GPL(gh_rm_notifier_unregister);
+>>> +
+>>> +void get_gh_rm(struct gh_rm *rm)
+>>> +{
+>>> +    get_device(rm->dev);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(get_gh_rm);
+>>
+>> Can we have some consistency in the exported symbol naming,
+>> we have two combinations now.
+>>
+>> EXPORT_SYMBOL_GPL(gh_rm_notifier_register);
+>> EXPORT_SYMBOL_GPL(get_gh_rm);
+>>
+>> lets stick to one.
+> 
+> done.
+> 
+>>> +
+>>> +void put_gh_rm(struct gh_rm *rm)
+>>> +{
+>>> +    put_device(rm->dev);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(put_gh_rm);
+>>>
+>> ...
+>>
+>>> +
+>>> +static int gh_rm_drv_probe(struct platform_device *pdev)
+>>> +{
+>>> +    struct gh_msgq_tx_data *msg;
+>>> +    struct gh_rm *rm;
+>>> +    int ret;
+>>> +
+>> How are we ensuring that gunyah driver is probed before this driver?
+>>
+>>
+> 
+> Which driver?
 
->> Warning: Documentation/mm/hugetlbfs_reserv.rst references a file that doesn't exist: Documentation/mm/hugetlbpage.rst
->> Warning: Documentation/translations/zh_CN/mm/hugetlbfs_reserv.rst references a file that doesn't exist: Documentation/mm/hugetlbpage.rst
+Am referring to gunyah.ko
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+TBH, gunyah.c should be merged as part of resource manager, and check if 
+uuids and features in probe before proceeding further.
+
+
+-srini
+
+> 
+>>> +    rm = devm_kzalloc(&pdev->dev, sizeof(*rm), GFP_KERNEL);
+>>> +    if (!rm)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    platform_set_drvdata(pdev, rm);
+>>> +    rm->dev = &pdev->dev;
+>>> +
+>>> +    mutex_init(&rm->call_idr_lock);
+>>> +    idr_init(&rm->call_idr);
+>>> +    rm->cache = kmem_cache_create("gh_rm", struct_size(msg, data, 
+>>> GH_MSGQ_MAX_MSG_SIZE), 0,
+>>> +        SLAB_HWCACHE_ALIGN, NULL);
+>>> +    if (!rm->cache)
+>>> +        return -ENOMEM;
+>> new line here would be nice.
+>>
+> 
+> done.
