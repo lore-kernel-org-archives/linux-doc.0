@@ -2,256 +2,233 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 367ABC61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 13:16:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14E5CC636D6
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 13:23:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233885AbjBWNQH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 08:16:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48334 "EHLO
+        id S233356AbjBWNXj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 08:23:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234278AbjBWNQG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 08:16:06 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6041570A1;
-        Thu, 23 Feb 2023 05:15:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FevKyoode8hIwr5ofA8N0S7odp1Cfi1ZZJC+bVyiDWIr3J+0N5SDFKHXB38LZUbN0MG3cWC47ykOR+AvU2uMK9/uDtpu5pGC6aZGMfVDLIJElfuAp5TVytY76Z1erYcivKVXBOBUDmIRwDCTiw8z4lEq3x6HG7sPeEceRQdMT9p7AjByha4WmS2D6meaJMi6sRiEc7I2NxSdvywbR19JDNXeTH6dwOEV8XASZJZyT32RnmxGk2M5vkmTV2qUFfZcNno77ysAAjsj7E3U09R1p/MffkoaX/SkJ8NHrv6JMkow+fCMzrDnZIJLlW5oJZdJnQW1L1a0/TX8kzC8mXlJHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hYWzur4IshIY+aGD0QnVMrVbfxNszHreGXjz04l9Jwk=;
- b=Alohi5V0NyM5qj4P/hXWFeqQy9uA5BI34C/+q+MaXyB6Siq/lSOUOUVxGN9d9httYMVLqUBkw5EmH9LaUHuj/7MpCqZb1XzjYJAOXs7T5e3ntNjF4rPnYwC8xJRaJo0Pk7txV++g2lH52cUJj60qoJ7REi6onjsSdtbo+MFDY2ZDdmLcCE08FuntXMvRW75ZG03OlGVb3BRU4G05L5wk2scy3b+/1xizbN2lQzxTkKN3zoCZ5iL3EHESoZq8iUntTj6SLYZ95wsrzUEiKamgJ5pN7prTS/5ACxm6v+ooZEIDXY+zvLCfVXfnZJBB1zILkE0xzacASTxAh66tZIFVeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hYWzur4IshIY+aGD0QnVMrVbfxNszHreGXjz04l9Jwk=;
- b=Nw3Z7gEev1qygw/ZIqJo+6HB84YsmzEo+3T3zwPvdSNxInSK262VbwguKhU3hm9786Pyka69KbCbuGhofb1H78OuR7T37Wijuu6z/6d3DDMN7hJo1rNq1xoIwi5ObNTyYKdimg9RzVE5FrgE693z4Ogs7Gj07Uq28jFAcn8UzA8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
- by BN9PR12MB5161.namprd12.prod.outlook.com (2603:10b6:408:11a::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19; Thu, 23 Feb
- 2023 13:15:48 +0000
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::70f8:b479:637:1dd4]) by BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::70f8:b479:637:1dd4%6]) with mapi id 15.20.6134.019; Thu, 23 Feb 2023
- 13:15:48 +0000
-Message-ID: <2406f0ea-8e54-3b81-ae09-c459786facb0@amd.com>
-Date:   Thu, 23 Feb 2023 07:15:46 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/1] docs: Add relevant kernel publications to list of
- books
-Content-Language: en-US
-To:     Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-Cc:     corbet@lwn.net, rlove@rlove.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230221180049.2501495-1-carlos.bilbao@amd.com>
- <20230221180049.2501495-2-carlos.bilbao@amd.com>
- <CAPDLWs99LUCQ47huoiiZmQfAsHX8Esmepu_hSCXWoqcpEoPxKQ@mail.gmail.com>
- <c5317c66-fea2-37da-26ab-091117880d26@amd.com>
- <CAPDLWs8mXmCXwP=tnKNF+Ffouf+a1HU2FYUgL6Npp+_imWwPjg@mail.gmail.com>
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-In-Reply-To: <CAPDLWs8mXmCXwP=tnKNF+Ffouf+a1HU2FYUgL6Npp+_imWwPjg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR12CA0010.namprd12.prod.outlook.com
- (2603:10b6:610:57::20) To BL1PR12MB5874.namprd12.prod.outlook.com
- (2603:10b6:208:396::17)
+        with ESMTP id S232420AbjBWNXi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 08:23:38 -0500
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFFDE55067;
+        Thu, 23 Feb 2023 05:23:36 -0800 (PST)
+Received: from mail02.huawei.com (unknown [172.30.67.153])
+        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4PMtyC48pRz4f3l8q;
+        Thu, 23 Feb 2023 21:23:31 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.124.27])
+        by APP4 (Coremail) with SMTP id gCh0CgD3rLDUaPdj05CuEA--.41220S4;
+        Thu, 23 Feb 2023 21:23:33 +0800 (CST)
+From:   Hou Tao <houtao@huaweicloud.com>
+To:     linux-block@vger.kernel.org
+Cc:     Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, houtao1@huawei.com
+Subject: [PATCH v3] blk-ioprio: Introduce promote-to-rt policy
+Date:   Thu, 23 Feb 2023 21:51:54 +0800
+Message-Id: <20230223135154.3749088-1-houtao@huaweicloud.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|BN9PR12MB5161:EE_
-X-MS-Office365-Filtering-Correlation-Id: c9261d14-0ecb-47e7-087a-08db15a01460
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lntmjRM+Mpo8WduFBr08olz8pqdCQV+4L9fIyWCYgZ6ZmCX01qEI/hqzk4zfxiZ5eCY0cVglW9X7tW1zkyjGT0mH6lvuj6JTw/owb3VZOgf5AFbHwrYLhQdA8KNss3BLuWxjqyZxw73YklXKYivQhZhjyqqP6Y1l0TZ8V7LMrAdGyOwDEtdio5Uw0ISJQ/cEmfM1r0Fi+9jsoZ8imyuQ0hcmI6uDprgcs8pPPjYwrZKlyRQUx1PcgpNu1eEQ4hzsawqsMZJ4rwmarKrTm02RDZZC2fuW0rdIiF9lg/mAof98vDqbNFl4u8yIObiE68EoCq1hhMJDUcmKtab/eGBkJabYgk8ABkQacFgCSiIF95tQui84o7xXYMoSrjAeIpNymgFfPeUCo5jDj/kB1EV7pAABlcMUuMJyjIuFBJ+VYm+ECqlsvhTOPHv0f/6e7u3JZ8SRcuVkvIwo6Gig1mNRmGFhLEdYvuNJmdkX4trG8RTKKOy3vzQsIk5QYs1MTGxeNHVAe9PsWvbIYwWLuLNsFOmr1qgmbSJ8tUDIWLfKmUNkTSRoCYXsWCCUNlRti15krKVR89Wmnj3z0L7GSoSTYt77AEqDu04/J7nSwCQD5lmjWMSHtx65MBaVr0mzteT4eS8yK5h+8DqMcNsrd7JK5OpI1zRSQgrALN3dGLc8xs9sijtno35pjQCXHXVX4urjoOpAxaRbysEiK+adL18NtcY1fO7kukTH2FzL7KeLHw0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(39860400002)(376002)(396003)(346002)(366004)(451199018)(36756003)(44832011)(5660300002)(2906002)(83380400001)(26005)(2616005)(186003)(38100700002)(6916009)(8676002)(66946007)(66556008)(4326008)(66476007)(316002)(8936002)(41300700001)(6512007)(53546011)(6506007)(86362001)(478600001)(31696002)(6486002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VTk5V0hWZE4zaU5JREM5bHJzV1N1K1BnaW9BbXZwc3ZRVndRVytBM01Hem1H?=
- =?utf-8?B?N2tmcWJjdlFNZnhmMGh4MmVac0lqRGtRUVdnMUh4SEhtK0FxaGRHemJwdmVl?=
- =?utf-8?B?cE11TzRDWHhvRDRpVlVOT3NYMzlSY1BWR3NESTVhMWI1UkJSc2pJRW5YY0Nt?=
- =?utf-8?B?NEVGQ1JvZEVWRlgxbjNOSDRXcC8weTlicmdEaUthekNnRHBOVW9NYkYycm56?=
- =?utf-8?B?d0l2T0VwUVNNNVhUenBLOEFMNHJKMGRjdzdSVnUvc0s0aG1wTkRRb2x6bGd3?=
- =?utf-8?B?R1V3c1hhL3ZzcWcrT3p5OGtwRmxWOGJCd2ZibVJadGg3RWYrMWlVNDZwbTFj?=
- =?utf-8?B?MEVSekZOYVdJemNSUnlHeDF0SFZ4b3Z5eFVjWEdHZUFQT1lmaGViL3B5L1Nj?=
- =?utf-8?B?d2hwT0padU9uOUwzczFzRVVJcEJLVWlBb1VvUjI0dTBBUUZtakREQ2YwU3Av?=
- =?utf-8?B?cldoRm1EK2w5RFlDbU54a1pKQmdKeHdxbW1semRCK09jWlFjQ0s2UWJxMkNZ?=
- =?utf-8?B?MXVlMElaQ0t5dml0ZkdqaHI0Ly85b3lORlBDb0NjZ09zVGRQNjV4cG1kTVRv?=
- =?utf-8?B?T3dsc3B0UFNzaytFeERTS3JNakI3Tkl6dXN1NlFXVHJqRHBqb3NCc01ZekI3?=
- =?utf-8?B?dGZ0MGJZaVYzdHVUQkY2WTdZUFNVSU02VWdtek9oYTNYYWswemVPM1g2TXJw?=
- =?utf-8?B?NXRGNlM4NDVMZ1NsaWRmaGp2WG9pSXpnejJIeHZSUVUxeGd4SFlESmRmVXI3?=
- =?utf-8?B?RmhiQWxCSzhvck9EK0dwMlRpQ3REc3l2MW9laTdtNFNvOXl0N2ZoMlFwam1y?=
- =?utf-8?B?aStRQ1RKZG9zcHozaFNyamRickFsMThXUnJJMUx0Ymh5S2pSbEF6V2s5M3Qz?=
- =?utf-8?B?RFowelcrUkU0ZW9YOWZ0RmN3aE5ZOXZldmtsU3dxY1dSWjUvb1RYNWtoVkpT?=
- =?utf-8?B?Y3JNODZyNmx4MFcxK3IvZll5UDFoNGV1QWx4YitaTUVyeUt0eUNuaUw2a2gy?=
- =?utf-8?B?QlEyL1hEQWRsUlZXZDczanp6QlpsallGSmpkQkM1SVRWVFpBZWR5bHF3MUhr?=
- =?utf-8?B?elAxTVBqOWxTNHV1SjdPTmxpcTVoZDBndHJEM0pMU0ZQV3VybjRQQjFlYWpo?=
- =?utf-8?B?b3g2bVROWnRyenk2WWttajd3emtBN1JDaUY2RGNDOENOKzA1SVB0NVlvTDI3?=
- =?utf-8?B?U3FqQlpYVTdOb2pUbXZRRzBZeWFiN3VscWxyaXFuTng3WjNmdmFpR3gyaldl?=
- =?utf-8?B?K1llQ2ZTdW8zWmZmalYwWUQ0YXFEQU1icFBEaTAwajYzanhlT0o2MVZka2hy?=
- =?utf-8?B?K3RlZ0c5NzlIcXRabEU4Z3FHU25jdVJWTTZnWHAwNW5hdDhvaTRoVnpHbmJV?=
- =?utf-8?B?YVk2MmJta0FZSVN5MmgzUmhrY3krdW5GZkZ5eDRJL2NuTi9ZWUdHSE9TL1M3?=
- =?utf-8?B?SjNDd1NCSHVEQ3laQzM4dldQdkVBeTJScS9Db2t2Q0szckd6UkdzWlgwUnNy?=
- =?utf-8?B?UTJsbTV3WlJ4SmdtUUFFWjVvRm4rV0RtdElVUDhVc21JREJ1NHFHWFJrd2h5?=
- =?utf-8?B?dmduSkh2aTlNRGlxSUJGdVFqeVFmRTR1dlZnTk5lc3ZYOXJMZGM4SVJTSHFz?=
- =?utf-8?B?UnVUZnhmQmtzaU9BK1MvZWpEZzJqRXIyeVBhcjJxeHFiTDBibEppUkdWSlNk?=
- =?utf-8?B?QzBZMTVTOXMvODUrSUpsYXdVbWJrREpYWXhUNzcxMVdPUjBvTGhDL2NnR3lG?=
- =?utf-8?B?bGM4RmN5WVNTcWoxS2dEaGI4N3V2N2R1bGJ1d1BBZDFpOVR3cnd2NzZDZnFr?=
- =?utf-8?B?UXFHREVyb3o5bk9rVGRzQ2Eya1B4ZCtYeFhpZWdNQXdLTzQ0bDhhcWV6U2JR?=
- =?utf-8?B?V2ZlNTQxU3BWL2hVckl5VkVPNEZ6eHU5T1NlVnBYTDVIa3ZoUmh6UGh6dTFL?=
- =?utf-8?B?RXRTaldtUkwyZUNYdFM3c2wyaWJVM1dXZi9Vb0xUTGtka3B2aVZkem1UbVFV?=
- =?utf-8?B?MG5GT1RZMVJ1OWxseDNyZSthc2dLK1pVdVZFVmVnYTVxQVgxTGJGTW1LaDhC?=
- =?utf-8?B?UVFod2JyOGZHcktzQkw1aWxWN0wrN2JNVlNpZXhhU2psM3pvOW5oK3RFeEwy?=
- =?utf-8?Q?NxudY/wCADDzPOPangdXgsm+w?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c9261d14-0ecb-47e7-087a-08db15a01460
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 13:15:48.6188
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hb1NjsR5Hn/ELgiY7Shic4cqZe/ABFuBNUh/n/f0hJDxAVgBK/U0K2Jd+YH8+0IkF8d4ZKF8zSjPE9t76OKFLw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5161
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgD3rLDUaPdj05CuEA--.41220S4
+X-Coremail-Antispam: 1UD129KBjvJXoW3GF1ftF4UWrW3trWrZw4ktFb_yoWxAF13pF
+        4fAF9xWr9YqF1xtFnrJ3WkXrWFyas2yw47uFsxKFyF93yjyw1DuF40y3WkWFyfA3yDXFZx
+        XrZ8ArW8CFn8ur7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+        0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+        6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+        Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0E
+        n4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+        0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+        tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
+        CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Zr0_Wr1UMIIF0xvEx4A2jsIE
+        14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
+        9x07UQ6p9UUUUU=
+X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/22/23 19:12, Kaiwan N Billimoria wrote:
-> On Wed, Feb 22, 2023 at 7:44 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
->>
->> On 2/22/23 05:08, Kaiwan N Billimoria wrote:
->>> Hi Carlos,
->>>
->>> On Tue, Feb 21, 2023 at 11:30 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
->>>>
->>>> For the list of kernel published books, include publication covering kernel
->>>> debugging from August, 2022 (ISBN 978-1801075039). Also add foundational
->>>> book from Robert Love (ISBN 978-1449339531) and remove extra spaces.
->>>>
->>>> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
->>>> ---
->>>>    Documentation/process/kernel-docs.rst | 29 ++++++++++++++++++++++-----
->>>>    1 file changed, 24 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
->>>> index 1c6e2ab92f4e..ce461d981d0a 100644
->>>> --- a/Documentation/process/kernel-docs.rst
->>>> +++ b/Documentation/process/kernel-docs.rst
->>>> @@ -75,13 +75,31 @@ On-line docs
->>>>    Published books
->>>>    ---------------
->>>>
->>>> +    * Title: **Linux Kernel Debugging: Leverage proven tools and advanced techniques to effectively debug Linux kernels and kernel modules**
->>>> +
->>>> +      :Author: Kaiwan N. Billimoria
->>>> +      :Publisher: Packt Publishing Ltd
->>>> +      :Date: August, 2022
->>>> +      :Pages: 638
->>>> +      :ISBN: 978-1801075039
->>>> +      :Notes: Debugging book
->>>> +
->>>>        * Title: **Linux Kernel Programming: A Comprehensive Guide to Kernel Internals, Writing Kernel Modules, and Kernel Synchronization**
->>>>
->>>> -          :Author: Kaiwan N. Billimoria
->>>> -          :Publisher: Packt Publishing Ltd
->>>> -          :Date: 2021
->>>> -          :Pages: 754
->>>> -          :ISBN: 978-1789953435
->>>> +      :Author: Kaiwan N. Billimoria
->>>> +      :Publisher: Packt Publishing Ltd
->>>> +      :Date: 2021
->>>> +      :Pages: 754
->>>> +      :ISBN: 978-1789953435
->>>> +
->>>> +    * Title: **Linux System Programming: Talking Directly to the Kernel and C Library**
->>>> +
->>>> +      :Author: Robert Love
->>>> +      :Publisher: O'Reilly Media
->>>> +      :Date: June, 2013
->>>> +      :Pages: 456
->>>> +      :ISBN: 978-1449339531
->>>> +      :Notes: Foundational book
->>>>
->>>>        * Title: **Linux Kernel Development, 3rd Edition**
->>>>
->>>> @@ -92,6 +110,7 @@ Published books
->>>>          :ISBN: 978-0672329463
->>>>          :Notes: Foundational book
->>>>
->>>> +
->>>>    .. _ldd3_published:
->>>>
->>>>        * Title: **Linux Device Drivers, 3rd Edition**
->>>> --
->>>> 2.34.1
->>>>
->>>
->>> Thanks very much.
->>>
->>> A request to incorporate a few minor changes (I applied these small
->>> changes on the latest linux-next I could find):
->>
->> Sure, I will send v2 with your changes and signature.
-> Thanks again.
-> I have no issue though with your SoB, pl do retain it... (sorry for
-> the trouble).
-> 
-> Also, do you think specifying the free download URL for the LKP Part 2
-> book's a good idea?
+From: Hou Tao <houtao1@huawei.com>
 
-Yes, that sounds like a good idea as long as it is a legal download. If you
-share the link with me I will include it in the near future in the
-successive patches of this file.
+Since commit a78418e6a04c ("block: Always initialize bio IO priority on
+submit"), bio->bi_ioprio will never be IOPRIO_CLASS_NONE when calling
+blkcg_set_ioprio(), so there will be no way to promote the io-priority
+of one cgroup to IOPRIO_CLASS_RT, because bi_ioprio will always be
+greater than or equals to IOPRIO_CLASS_RT.
 
+It seems possible to call blkcg_set_ioprio() first then try to
+initialize bi_ioprio later in bio_set_ioprio(), but this doesn't work
+for bio in which bi_ioprio is already initialized (e.g., direct-io), so
+introduce a new promote-to-rt policy to promote the iopriority of bio to
+IOPRIO_CLASS_RT if the ioprio is not already RT.
 
-> T&R,
->>
->>>
->>> Signed-off-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
->>> ---
->>>    Documentation/process/kernel-docs.rst | 13 +++++++++++--
->>>    1 file changed, 11 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/Documentation/process/kernel-docs.rst
->>> b/Documentation/process/kernel-docs.rst
->>> index 1c6e2ab92f4e..f7ecc04b509b 100644
->>> --- a/Documentation/process/kernel-docs.rst
->>> +++ b/Documentation/process/kernel-docs.rst
->>> @@ -75,11 +75,20 @@ On-line docs
->>>    Published books
->>>    ---------------
->>>
->>> +   * Title: **Linux Kernel Debugging: Leverage proven tools and
->>> advanced techniques to effectively debug Linux kernels and kernel
->>> modules**
->>> +
->>> +          :Author: Kaiwan N Billimoria
->>> +          :Publisher: Packt Publishing Ltd
->>> +          :Date: August, 2022
->>> +          :Pages: 638
->>> +          :ISBN: 978-1801075039
->>> +          :Notes: Debugging book
->>> +
->>>        * Title: **Linux Kernel Programming: A Comprehensive Guide to
->>> Kernel Internals, Writing Kernel Modules, and Kernel Synchronization**
->>>
->>> -          :Author: Kaiwan N. Billimoria
->>> +          :Author: Kaiwan N Billimoria
->>>              :Publisher: Packt Publishing Ltd
->>> -          :Date: 2021
->>> +          :Date: March, 2021
->>>              :Pages: 754
->>>              :ISBN: 978-1789953435
->>>
->>
->> Thanks,
->> Carlos
+For none-to-rt policy, although it doesn't work now, but considering
+that its purpose was also to override the io-priority to RT and allowing
+for a smoother transition, just keep it and treat it as an alias of
+the promote-to-rt policy.
 
-Thanks,
-Carlos
+Signed-off-by: Hou Tao <houtao1@huawei.com>
+Acked-by: Tejun Heo <tj@kernel.org>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+v3:
+ * Use 'non-RT' instead of 'no-RT' in document (from Bagas)
+ * Remove repeated sentence in commit message
+ * Add Reviewed-by and Acked-by tags
+ 
+v2: https://lore.kernel.org/linux-block/20230220135428.2632906-1-houtao@huaweicloud.com
+
+ * Simplify the implementation of promote-to-rt (from Bart)
+ * Make none-to-rt to work again by treating it as an alias of
+   the promote-to-rt policy (from Bart & Jan)
+ * fix the style of new content in cgroup-v2.rst (from Bagas)
+ * set the default priority level to 4 instead of 0 for promote-to-rt
+
+v1: https://lore.kernel.org/linux-block/20230201045227.2203123-1-houtao@huaweicloud.com
+
+ Documentation/admin-guide/cgroup-v2.rst | 42 ++++++++++++++-----------
+ block/blk-ioprio.c                      | 23 ++++++++++++--
+ 2 files changed, 44 insertions(+), 21 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index f67c0829350b..7544ce00e0cb 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2024,31 +2024,33 @@ that attribute:
+   no-change
+ 	Do not modify the I/O priority class.
+ 
+-  none-to-rt
+-	For requests that do not have an I/O priority class (NONE),
+-	change the I/O priority class into RT. Do not modify
+-	the I/O priority class of other requests.
++  promote-to-rt
++	For requests that have a non-RT I/O priority class, change it into RT.
++	Also change the priority level of these requests to 4. Do not modify
++	the I/O priority of requests that have priority class RT.
+ 
+   restrict-to-be
+ 	For requests that do not have an I/O priority class or that have I/O
+-	priority class RT, change it into BE. Do not modify the I/O priority
+-	class of requests that have priority class IDLE.
++	priority class RT, change it into BE. Also change the priority level
++	of these requests to 0. Do not modify the I/O priority class of
++	requests that have priority class IDLE.
+ 
+   idle
+ 	Change the I/O priority class of all requests into IDLE, the lowest
+ 	I/O priority class.
+ 
++  none-to-rt
++	Deprecated. Just an alias for promote-to-rt.
++
+ The following numerical values are associated with the I/O priority policies:
+ 
+-+-------------+---+
+-| no-change   | 0 |
+-+-------------+---+
+-| none-to-rt  | 1 |
+-+-------------+---+
+-| rt-to-be    | 2 |
+-+-------------+---+
+-| all-to-idle | 3 |
+-+-------------+---+
+++----------------+---+
++| no-change      | 0 |
+++----------------+---+
++| rt-to-be       | 2 |
+++----------------+---+
++| all-to-idle    | 3 |
+++----------------+---+
+ 
+ The numerical value that corresponds to each I/O priority class is as follows:
+ 
+@@ -2064,9 +2066,13 @@ The numerical value that corresponds to each I/O priority class is as follows:
+ 
+ The algorithm to set the I/O priority class for a request is as follows:
+ 
+-- Translate the I/O priority class policy into a number.
+-- Change the request I/O priority class into the maximum of the I/O priority
+-  class policy number and the numerical I/O priority class.
++- If I/O priority class policy is promote-to-rt, change the request I/O
++  priority class to IOPRIO_CLASS_RT and change the request I/O priority
++  level to 4.
++- If I/O priorityt class is not promote-to-rt, translate the I/O priority
++  class policy into a number, then change the request I/O priority class
++  into the maximum of the I/O priority class policy number and the numerical
++  I/O priority class.
+ 
+ PID
+ ---
+diff --git a/block/blk-ioprio.c b/block/blk-ioprio.c
+index 055529b9b92b..4051fada01f1 100644
+--- a/block/blk-ioprio.c
++++ b/block/blk-ioprio.c
+@@ -23,25 +23,28 @@
+ /**
+  * enum prio_policy - I/O priority class policy.
+  * @POLICY_NO_CHANGE: (default) do not modify the I/O priority class.
+- * @POLICY_NONE_TO_RT: modify IOPRIO_CLASS_NONE into IOPRIO_CLASS_RT.
++ * @POLICY_PROMOTE_TO_RT: modify no-IOPRIO_CLASS_RT to IOPRIO_CLASS_RT.
+  * @POLICY_RESTRICT_TO_BE: modify IOPRIO_CLASS_NONE and IOPRIO_CLASS_RT into
+  *		IOPRIO_CLASS_BE.
+  * @POLICY_ALL_TO_IDLE: change the I/O priority class into IOPRIO_CLASS_IDLE.
++ * @POLICY_NONE_TO_RT: an alias for POLICY_PROMOTE_TO_RT.
+  *
+  * See also <linux/ioprio.h>.
+  */
+ enum prio_policy {
+ 	POLICY_NO_CHANGE	= 0,
+-	POLICY_NONE_TO_RT	= 1,
++	POLICY_PROMOTE_TO_RT	= 1,
+ 	POLICY_RESTRICT_TO_BE	= 2,
+ 	POLICY_ALL_TO_IDLE	= 3,
++	POLICY_NONE_TO_RT	= 4,
+ };
+ 
+ static const char *policy_name[] = {
+ 	[POLICY_NO_CHANGE]	= "no-change",
+-	[POLICY_NONE_TO_RT]	= "none-to-rt",
++	[POLICY_PROMOTE_TO_RT]	= "promote-to-rt",
+ 	[POLICY_RESTRICT_TO_BE]	= "restrict-to-be",
+ 	[POLICY_ALL_TO_IDLE]	= "idle",
++	[POLICY_NONE_TO_RT]	= "none-to-rt",
+ };
+ 
+ static struct blkcg_policy ioprio_policy;
+@@ -189,6 +192,20 @@ void blkcg_set_ioprio(struct bio *bio)
+ 	if (!blkcg || blkcg->prio_policy == POLICY_NO_CHANGE)
+ 		return;
+ 
++	if (blkcg->prio_policy == POLICY_PROMOTE_TO_RT ||
++	    blkcg->prio_policy == POLICY_NONE_TO_RT) {
++		/*
++		 * For RT threads, the default priority level is 4 because
++		 * task_nice is 0. By promoting non-RT io-priority to RT-class
++		 * and default level 4, those requests that are already
++		 * RT-class but need a higher io-priority can use ioprio_set()
++		 * to achieve this.
++		 */
++		if (IOPRIO_PRIO_CLASS(bio->bi_ioprio) != IOPRIO_CLASS_RT)
++			bio->bi_ioprio = IOPRIO_PRIO_VALUE(IOPRIO_CLASS_RT, 4);
++		return;
++	}
++
+ 	/*
+ 	 * Except for IOPRIO_CLASS_NONE, higher I/O priority numbers
+ 	 * correspond to a lower priority. Hence, the max_t() below selects
+-- 
+2.29.2
+
