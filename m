@@ -2,161 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E116CC64ED8
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 10:29:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DC1DC636D7
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 11:24:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233486AbjBWK32 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 05:29:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35052 "EHLO
+        id S233689AbjBWLYN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 06:24:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233228AbjBWK32 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 05:29:28 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8A62C648
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 02:29:26 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so3911791wms.2
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 02:29:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MKc6y021FHBN+LrR2vkeYuDgxpGOSK9TOESkAOOS40g=;
-        b=MSle8iSbfDKnGj+DESFAgoxCe7S1XWAzXDqXieuC2nduiLZtUbpte2AAM7V5Q2WJ7C
-         3M7MtTxqzcWoSOW3Gb2NlBoYXOZVwl9P269yiCLckSBxg/zxybz5Jr9W00ZYf4UpmqPA
-         rSD7OkH2aMUPXgJjduf0nE5K3xZksEFRZ81NY+pR3a1U+zaMQk+ko0GZz/jJDPOmBLu+
-         ocJwnczeXPqyKUGt6ywnHCuwRQGc8wZtlsjlip3jqHIexlB07we2vgF835BdMU6JOF1D
-         cVKrctmZxTJXCUOU043OHyFXyP3HEl+hN3W1oyi0kk+IV/tKAckfMJwY1++9V2GDamai
-         zyPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MKc6y021FHBN+LrR2vkeYuDgxpGOSK9TOESkAOOS40g=;
-        b=z4cv7dhwY3pf9fwmALXKtybqtrAT44X0Ga67RJhTYmaQPHtNM49F83mIKQaupfsacG
-         Xokz57z9tAjxIfgm0RJUNj0CqOHRAWdb5EeaabK402MY5/1RUnR7CMr/yzOb4/sVmZr7
-         aSisE5G/KicUVsstCpe0d1qJth69gVeiAgmCVQCLwRBH4GtNxyBz5Zr8KOLK5w63y760
-         MfZmEC+XRUaRwPSohkrJVGWsHo7Q6z0owT+J3b/UObSbHUGjZQ2dfZcsf7sa3HnMeTQg
-         eubPRpLPzf50mt48flgb/DfD2hb74IbSfVUp0LLhwYm3mLGAg4kWdKMgyuwI1QY8Rf50
-         jk9w==
-X-Gm-Message-State: AO0yUKXcjMkvItLpe+cYUQNsVeT6Y9h7nffxC6VPkDdZ28BN4zmtYNeU
-        sWtC48hQPPnI8wfHgTyaw9wnSQ==
-X-Google-Smtp-Source: AK7set/DuYj5W4k5F3QFJwDnJAJ3FKK5euZhS7JWUpdW8R6uN/+e1dKH4fcozE/UQmRBX+gaCwo5aw==
-X-Received: by 2002:a05:600c:6001:b0:3e7:772d:22de with SMTP id az1-20020a05600c600100b003e7772d22demr6847506wmb.30.1677148164513;
-        Thu, 23 Feb 2023 02:29:24 -0800 (PST)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id m17-20020a05600c3b1100b003e896d953a8sm6516457wms.17.2023.02.23.02.29.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Feb 2023 02:29:23 -0800 (PST)
-Message-ID: <44a59ea4-da6e-e96a-5e89-dfd41db72823@linaro.org>
-Date:   Thu, 23 Feb 2023 10:29:20 +0000
+        with ESMTP id S233101AbjBWLYN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 06:24:13 -0500
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9F0CF59FC;
+        Thu, 23 Feb 2023 03:24:09 -0800 (PST)
+X-MailGates: (flag:4,DYNAMIC,BADHELO,RELAY,NOHOST:PASS)(compute_score:DE
+        LIVER,40,3)
+Received: from 192.168.10.46
+        by mg.richtek.com with MailGates ESMTP Server V5.0(14980:0:AUTH_RELAY)
+        (envelope-from <chiaen_wu@richtek.com>); Thu, 23 Feb 2023 19:23:39 +0800 (CST)
+Received: from ex4.rt.l (192.168.10.47) by ex3.rt.l (192.168.10.46) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.20; Thu, 23 Feb
+ 2023 19:23:39 +0800
+Received: from linuxcarl2.richtek.com (192.168.10.154) by ex4.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1118.20 via Frontend
+ Transport; Thu, 23 Feb 2023 19:23:38 +0800
+From:   ChiaEn Wu <chiaen_wu@richtek.com>
+To:     <corbet@lwn.net>, <pavel@ucw.cz>, <lee@kernel.org>,
+        <matthias.bgg@gmail.com>, <andriy.shevchenko@linux.intel.com>,
+        <jacek.anaszewski@gmail.com>,
+        <angelogioacchino.delregno@collabora.com>
+CC:     <linux-doc@vger.kernel.org>, <peterwu.pub@gmail.com>,
+        <cy_huang@richtek.com>, <linux-leds@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <szunichen@gmail.com>,
+        ChiaEn Wu <chiaen_wu@richtek.com>
+Subject: [PATCH v17 RESEND 3/3] docs: leds: Add MT6370 RGB LED pattern document
+Date:   Thu, 23 Feb 2023 19:23:09 +0800
+Message-ID: <c6487954daff5e514023056ad7de1d0ddee674a8.1677150607.git.chiaen_wu@richtek.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1677150607.git.chiaen_wu@richtek.com>
+References: <cover.1677150607.git.chiaen_wu@richtek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v10 08/26] gunyah: rsc_mgr: Add resource manager RPC core
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212327.3310128-1-quic_eberman@quicinc.com>
- <d69f9699-b4d9-7a3a-71b1-7e6fe72c4f82@linaro.org>
- <94ebe2f0-0baf-21c0-45d5-c5bc4df9ad94@quicinc.com>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <94ebe2f0-0baf-21c0-45d5-c5bc4df9ad94@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: ChiYuan Huang <cy_huang@richtek.com>
 
+Document the MT6370 RGB LED pattern trigger.
 
-On 22/02/2023 23:18, Elliot Berman wrote:
->>>
->>> +EXPORT_SYMBOL_GPL(gh_rm_notifier_unregister);
->>> +
->>> +void get_gh_rm(struct gh_rm *rm)
->>> +{
->>> +    get_device(rm->dev);
->>> +}
->>> +EXPORT_SYMBOL_GPL(get_gh_rm);
->>
->> Can we have some consistency in the exported symbol naming,
->> we have two combinations now.
->>
->> EXPORT_SYMBOL_GPL(gh_rm_notifier_register);
->> EXPORT_SYMBOL_GPL(get_gh_rm);
->>
->> lets stick to one.
-> 
-> done.
-> 
->>> +
->>> +void put_gh_rm(struct gh_rm *rm)
->>> +{
->>> +    put_device(rm->dev);
->>> +}
->>> +EXPORT_SYMBOL_GPL(put_gh_rm);
->>>
->> ...
->>
->>> +
->>> +static int gh_rm_drv_probe(struct platform_device *pdev)
->>> +{
->>> +    struct gh_msgq_tx_data *msg;
->>> +    struct gh_rm *rm;
->>> +    int ret;
->>> +
->> How are we ensuring that gunyah driver is probed before this driver?
->>
->>
-> 
-> Which driver?
+This simply describe how the pattern works, each timing period, and the
+pattern diagram for MT6370 RGB LED.
 
-Am referring to gunyah.ko
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+---
+ Documentation/leds/leds-mt6370-rgb.rst | 64 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
+ create mode 100644 Documentation/leds/leds-mt6370-rgb.rst
 
-TBH, gunyah.c should be merged as part of resource manager, and check if 
-uuids and features in probe before proceeding further.
+diff --git a/Documentation/leds/leds-mt6370-rgb.rst b/Documentation/leds/leds-mt6370-rgb.rst
+new file mode 100644
+index 00000000..d1b2e4f
+--- /dev/null
++++ b/Documentation/leds/leds-mt6370-rgb.rst
+@@ -0,0 +1,64 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=========================================
++Kernel driver for Mediatek MT6370 RGB LED
++=========================================
++
++Description
++-----------
++
++The MT6370 integrates a four-channel RGB LED driver, designed to provide a
++variety of lighting effect for mobile device applications. The RGB LED driver
++includes a smart LED string controller and it can drive 3 channels of LEDs with
++a sink current up to 24mA and a CHG_VIN power good indicator LED with sink
++current up to 6mA. It provides three operation modes for RGB LEDs:
++PWM Dimming mode, breath pattern mode, and constant current mode. The device
++can increase or decrease the brightness of the RGB LED via I2C interface.
++
++The breath pattern for a channel can be programmed using the "pattern" trigger,
++using the hw_pattern attribute.
++
++/sys/class/leds/<led>/hw_pattern
++--------------------------------
++
++Specify a hardware breath pattern for a MT6370 RGB LED.
++
++The breath pattern is a series of timing pairs, with the hold-time expressed in
++milliseconds. And the brightness is controlled by
++'/sys/class/leds/<led>/brightness'. The pattern doesn't include the brightness
++setting. Hardware pattern only controls the timing for each pattern stage
++depending on the current brightness setting.
++
++Pattern diagram::
++
++     "0 Tr1 0 Tr2 0 Tf1 0 Tf2 0 Ton 0 Toff" --> '0' for dummy brightness code
++
++      ^
++      |           ============
++      |          /            \                                /
++Icurr |         /              \                              /
++      |        /                \                            /
++      |       /                  \                          /   .....repeat
++      |      /                    \                        /
++      |   ---                      ---                  ---
++      |---                            ---            ---
++      +----------------------------------============------------> Time
++       < Tr1><Tr2><   Ton    ><Tf1><Tf2 ><  Toff    >< Tr1><Tr2>
++
++Timing description::
++
++Tr1:    First rising time for duty 0 to 30%.
++Tr2:    Second rising time for duty 31% to 100%.
++Ton:    On time for duty 100%.
++Tf1:    First falling time for duty 100% to 31%.
++Tf2:    Second falling time for duty 30% to 0%.
++Toff:   Off time for duty 0%.
++
++Tr1/Tr2/Tf1/Tf2/Ton: 125ms to 3125ms, 200ms per step.
++Toff: 250ms to 6250ms, 400ms per step.
++
++Pattern example::
++
++       "0 125 0 125 0 125 0 125 0 625 0 1050"
++
++This Will configure Tr1/Tr2/Tf1/Tf2 to 125m, Ton to 625ms, and Toff to 1050ms.
+-- 
+2.7.4
 
-
--srini
-
-> 
->>> +    rm = devm_kzalloc(&pdev->dev, sizeof(*rm), GFP_KERNEL);
->>> +    if (!rm)
->>> +        return -ENOMEM;
->>> +
->>> +    platform_set_drvdata(pdev, rm);
->>> +    rm->dev = &pdev->dev;
->>> +
->>> +    mutex_init(&rm->call_idr_lock);
->>> +    idr_init(&rm->call_idr);
->>> +    rm->cache = kmem_cache_create("gh_rm", struct_size(msg, data, 
->>> GH_MSGQ_MAX_MSG_SIZE), 0,
->>> +        SLAB_HWCACHE_ALIGN, NULL);
->>> +    if (!rm->cache)
->>> +        return -ENOMEM;
->> new line here would be nice.
->>
-> 
-> done.
