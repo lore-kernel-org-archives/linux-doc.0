@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 171E0C677F1
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 19:11:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3AE3C678D5
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 19:11:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231342AbjBWTLR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 14:11:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57750 "EHLO
+        id S229552AbjBWTLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 14:11:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231509AbjBWTLN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 14:11:13 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 816F656523
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 11:10:47 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id i11so5394929wrp.5
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 11:10:47 -0800 (PST)
+        with ESMTP id S230081AbjBWTLO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 14:11:14 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0CC156536
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 11:10:50 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id c12so11559076wrw.1
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 11:10:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WRK9CVl+wp5UA9FM0KiXaS6Hv0eR7fUWtXzYt4onYBI=;
-        b=cJLTmlrHNJ4IiK93vT6TGBpN9S5FEqtA2s+/C9Yu566lyKqsXGLuM89eg1haoNDssu
-         XxZW7KhHr6wX5qnbv6MDXLky7jXD/xZu3RgIVwYZoFs8AtzngYBNhITwhkQkeNQF3YWm
-         T5FS7HiVk2OIgjTjNyertPKjsBeW+Gxbl8QuL7GLAnp46EPwXChRrSUKkX8bGHQntmdU
-         VkJ1FsG5tt3wbgJRSwlHlzWxPTF2dBWPyBGSdSkOH+R9EKhTsxNCXz12sHLFgxSqWyI0
-         uR6AWn+lu3Ta5EdlsqXlV/9AH1/VVP1y9hFxaQu92bDnxveRkqQ7T7YS8+tCAJrZhbCy
-         v/tw==
+        bh=Oe0Uu935GUv7Os5h4xnlj3hjmH+1d59YLoRXBZZGIAY=;
+        b=O5L/+yHrHJewBHNYaYMbLKYpHrKb8Xzmc5mPSGmWCTUeJrXKrVIEt9GIBqBDR8jLs9
+         ynu5wPnOjt62g7XREb/nchkcilMGJO5EVs4VNmOhKaEnQqJjyC59CW5xU7hF4xm9Kvzg
+         SW9uMaGjdZaOO459sH7YCj0eTFqrJB/aKntYiF/greT67lZ0krZdefFpCMiDsQVBIPct
+         X9J1b07w2ceDMTaDURJK39Vm3CYaoE0V3kH3z5ZK0iS4XIixTZsGrqXbUNsigjWCjoeq
+         M3QYnDlmMTjwujqbLDLMCmu1b7d/755D9YDgEvxSq+E7CEbiWbnxv7d2mhK4wUqYOjt1
+         iKPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WRK9CVl+wp5UA9FM0KiXaS6Hv0eR7fUWtXzYt4onYBI=;
-        b=sI6XgvbqAZP+QW5e+h85Lv+EYv96OT2G6i2Eb+GKkegkACE/eTbEIgzIqjM/+BW1tD
-         tRpzD7pXpTf9uaHt0P8bL3Anc7uE2AyOUlQM+A+d9cqTL9jX8HKerPUDmZwZvCuproqc
-         xDxTD7tMUFXpMGXZkVRjfpoY4LpwGS3XIgq3Vkv0mDGTZpnfpnrGiSg7fAZmK31tjtI2
-         BWH3yBf2RNwp0oQy9HHDWpPTgCJtqSoGvhJRef5ZUu0N3n6iKkWTqMn8J1UCJy8+7b2h
-         O6eTr/7xM/D7qQgQTuBrI6raxI6Ow0t42eeAlKFiEYh0SMjeUPQ0vRejz+AN1KJ8aFA4
-         evrg==
-X-Gm-Message-State: AO0yUKVxP7PInLGRNTN4OT2Otc2S4s7Dmhq2JEUoW5VbTPYUyOuglR75
-        2tBdesqy9DxubT/txDkWNac+UQ==
-X-Google-Smtp-Source: AK7set8rtIfVKV7bn/vTlLB7uTXwd2V/aAxXF5XJslJGT7D8puAnurv+vs3OrWvzBs0n2u3G3OCBPA==
-X-Received: by 2002:a05:6000:1086:b0:2c7:454:ed41 with SMTP id y6-20020a056000108600b002c70454ed41mr9708055wrw.71.1677179445879;
-        Thu, 23 Feb 2023 11:10:45 -0800 (PST)
+        bh=Oe0Uu935GUv7Os5h4xnlj3hjmH+1d59YLoRXBZZGIAY=;
+        b=Q4/QcF8meFZEnwEXfdop3pc320IOzfDOsNJZ6qIQ1EKnMi+phenqq+NMwckTPc0lLv
+         ApXdPyhJGB0UwQb+IpH0VjnHL9Ev0VVukFZpk2Y2g5l8bET/lKh0KJXk1UuLUijk8K8X
+         15Abl3jzttkmWPAWhIq7XGYtdftT3buG0V7gyQQPYsZZJZd9SX0Rls2JPqrCBSiIQriY
+         zdF3KLn4V0daJbL9VWq9Iy48LK/83+quh+5fw+bw1h8RJ/3K5wMtognnFWtqKcAI6+1g
+         aNOIaI9JDKUR9GMw/YU7Z6UPS8n4uryK2hPoyHDFqj5xgUWHt4s5XkMUsZapVpAvOo1z
+         nLDA==
+X-Gm-Message-State: AO0yUKUyluK8UX1v/bz0FIo8Jt1y00yA/F4MtBLR++QknNiXu5Hd/9YL
+        0b2sr+4wdVDhJ0KHZ0BHrJfwOg==
+X-Google-Smtp-Source: AK7set96DpUpc8Hz/quQD+izLeGyOtgvPquIgErpX9Ec6Y1qBZvnxhj2dEmIniQ2GWaJEOZ96ffgPg==
+X-Received: by 2002:adf:fb49:0:b0:2c5:3cfa:f7dc with SMTP id c9-20020adffb49000000b002c53cfaf7dcmr12039916wrs.7.1677179449339;
+        Thu, 23 Feb 2023 11:10:49 -0800 (PST)
 Received: from vingu-book.. ([2a01:e0a:f:6020:a6f0:4ee9:c103:44cb])
-        by smtp.gmail.com with ESMTPSA id k2-20020adff282000000b002c6e8cb612fsm9844481wro.92.2023.02.23.11.10.44
+        by smtp.gmail.com with ESMTPSA id k2-20020adff282000000b002c6e8cb612fsm9844481wro.92.2023.02.23.11.10.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Feb 2023 11:10:45 -0800 (PST)
+        Thu, 23 Feb 2023 11:10:48 -0800 (PST)
 From:   Vincent Guittot <vincent.guittot@linaro.org>
 To:     mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
         dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
@@ -63,9 +63,9 @@ Cc:     tj@kernel.org, qyousef@layalina.io, chris.hyser@oracle.com,
         kprateek.nayak@amd.com, yu.c.chen@intel.com,
         youssefesmat@chromium.org, joel@joelfernandes.org,
         Vincent Guittot <vincent.guittot@linaro.org>
-Subject: [PATCH v11 1/8] sched/fair: fix unfairness at wakeup
-Date:   Thu, 23 Feb 2023 20:10:34 +0100
-Message-Id: <20230223191041.577305-2-vincent.guittot@linaro.org>
+Subject: [PATCH v11 3/8] sched/core: Propagate parent task's latency requirements to the child task
+Date:   Thu, 23 Feb 2023 20:10:36 +0100
+Message-Id: <20230223191041.577305-4-vincent.guittot@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230223191041.577305-1-vincent.guittot@linaro.org>
 References: <20230223191041.577305-1-vincent.guittot@linaro.org>
@@ -75,154 +75,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-At wake up, the vruntime of a task is updated to not be more older than
-a sched_latency period behind the min_vruntime. This prevents long sleeping
-task to get unlimited credit at wakeup.
-Such waking task should preempt current one to use its CPU bandwidth but
-wakeup_gran() can be larger than sched_latency, filter out the
-wakeup preemption and as a results steals some CPU bandwidth to
-the waking task.
+From: Parth Shah <parth@linux.ibm.com>
 
-Make sure that a task, which vruntime has been capped, will preempt current
-task and use its CPU bandwidth even if wakeup_gran() is in the same range
-as sched_latency.
+Clone parent task's latency_nice attribute to the forked child task.
 
-If the waking task failed to preempt current it could to wait up to
-sysctl_sched_min_granularity before preempting it during next tick.
+Reset the latency_nice value to default value when the child task is
+set to sched_reset_on_fork.
 
-Strictly speaking, we should use cfs->min_vruntime instead of
-curr->vruntime but it doesn't worth the additional overhead and complexity
-as the vruntime of current should be close to min_vruntime if not equal.
+Also, initialize init_task.latency_nice value with DEFAULT_LATENCY_NICE
+value
 
-Reported-by: Youssef Esmat <youssefesmat@chromium.org>
+Signed-off-by: Parth Shah <parth@linux.ibm.com>
+[rebase]
 Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
-Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
 ---
- kernel/sched/fair.c  | 46 ++++++++++++++++++++------------------------
- kernel/sched/sched.h | 34 +++++++++++++++++++++++++++++++-
- 2 files changed, 54 insertions(+), 26 deletions(-)
+ init/init_task.c    | 1 +
+ kernel/sched/core.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index ff4dbbae3b10..81bef11eb660 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -4654,33 +4654,17 @@ place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int initial)
- 	u64 vruntime = cfs_rq->min_vruntime;
- 	u64 sleep_time;
+diff --git a/init/init_task.c b/init/init_task.c
+index ff6c4b9bfe6b..7dd71dd2d261 100644
+--- a/init/init_task.c
++++ b/init/init_task.c
+@@ -78,6 +78,7 @@ struct task_struct init_task
+ 	.prio		= MAX_PRIO - 20,
+ 	.static_prio	= MAX_PRIO - 20,
+ 	.normal_prio	= MAX_PRIO - 20,
++	.latency_nice	= DEFAULT_LATENCY_NICE,
+ 	.policy		= SCHED_NORMAL,
+ 	.cpus_ptr	= &init_task.cpus_mask,
+ 	.user_cpus_ptr	= NULL,
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 4580fe3e1d0c..28b397f9698b 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -4681,6 +4681,7 @@ int sched_fork(unsigned long clone_flags, struct task_struct *p)
+ 		p->prio = p->normal_prio = p->static_prio;
+ 		set_load_weight(p, false);
  
--	/*
--	 * The 'current' period is already promised to the current tasks,
--	 * however the extra weight of the new task will slow them down a
--	 * little, place the new task so that it fits in the slot that
--	 * stays open at the end.
--	 */
--	if (initial && sched_feat(START_DEBIT))
--		vruntime += sched_vslice(cfs_rq, se);
--
--	/* sleeps up to a single latency don't count. */
--	if (!initial) {
--		unsigned long thresh;
--
--		if (se_is_idle(se))
--			thresh = sysctl_sched_min_granularity;
--		else
--			thresh = sysctl_sched_latency;
--
-+	if (!initial)
-+		/* sleeps up to a single latency don't count. */
-+		vruntime -= get_sleep_latency(se_is_idle(se));
-+	else if (sched_feat(START_DEBIT))
++		p->latency_nice = DEFAULT_LATENCY_NICE;
  		/*
--		 * Halve their sleep time's effect, to allow
--		 * for a gentler effect of sleepers:
-+		 * The 'current' period is already promised to the current tasks,
-+		 * however the extra weight of the new task will slow them down a
-+		 * little, place the new task so that it fits in the slot that
-+		 * stays open at the end.
- 		 */
--		if (sched_feat(GENTLE_FAIR_SLEEPERS))
--			thresh >>= 1;
--
--		vruntime -= thresh;
--	}
-+		vruntime += sched_vslice(cfs_rq, se);
- 
- 	/*
- 	 * Pull vruntime of the entity being placed to the base level of
-@@ -7721,6 +7705,18 @@ wakeup_preempt_entity(struct sched_entity *curr, struct sched_entity *se)
- 		return -1;
- 
- 	gran = wakeup_gran(se);
-+
-+	/*
-+	 * At wake up, the vruntime of a task is capped to not be older than
-+	 * a sched_latency period compared to min_vruntime. This prevents long
-+	 * sleeping task to get unlimited credit at wakeup. Such waking up task
-+	 * has to preempt current in order to not lose its share of CPU
-+	 * bandwidth but wakeup_gran() can become higher than scheduling period
-+	 * for low priority task. Make sure that long sleeping task will get a
-+	 * chance to preempt current.
-+	 */
-+	gran = min_t(s64, gran, get_latency_max());
-+
- 	if (vdiff > gran)
- 		return 1;
- 
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 3e8df6d31c1e..51ba0af7fb27 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -2458,9 +2458,9 @@ extern void check_preempt_curr(struct rq *rq, struct task_struct *p, int flags);
- extern const_debug unsigned int sysctl_sched_nr_migrate;
- extern const_debug unsigned int sysctl_sched_migration_cost;
- 
--#ifdef CONFIG_SCHED_DEBUG
- extern unsigned int sysctl_sched_latency;
- extern unsigned int sysctl_sched_min_granularity;
-+#ifdef CONFIG_SCHED_DEBUG
- extern unsigned int sysctl_sched_idle_min_granularity;
- extern unsigned int sysctl_sched_wakeup_granularity;
- extern int sysctl_resched_latency_warn_ms;
-@@ -2475,6 +2475,38 @@ extern unsigned int sysctl_numa_balancing_scan_size;
- extern unsigned int sysctl_numa_balancing_hot_threshold;
- #endif
- 
-+static inline unsigned long get_sleep_latency(bool idle)
-+{
-+	unsigned long thresh;
-+
-+	if (idle)
-+		thresh = sysctl_sched_min_granularity;
-+	else
-+		thresh = sysctl_sched_latency;
-+
-+	/*
-+	 * Halve their sleep time's effect, to allow
-+	 * for a gentler effect of sleepers:
-+	 */
-+	if (sched_feat(GENTLE_FAIR_SLEEPERS))
-+		thresh >>= 1;
-+
-+	return thresh;
-+}
-+
-+static inline unsigned long get_latency_max(void)
-+{
-+	unsigned long thresh = get_sleep_latency(false);
-+
-+	 /*
-+	  * If the waking task failed to preempt current it could to wait up to
-+	  * sysctl_sched_min_granularity before preempting it during next tick.
-+	  */
-+	thresh -= sysctl_sched_min_granularity;
-+
-+	return thresh;
-+}
-+
- #ifdef CONFIG_SCHED_HRTICK
- 
- /*
+ 		 * We don't need the reset flag anymore after the fork. It has
+ 		 * fulfilled its duty:
 -- 
 2.34.1
 
