@@ -2,300 +2,200 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E26ADC636D6
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 15:02:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20B2CC64ED6
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 15:30:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234644AbjBWPCa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 10:02:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41160 "EHLO
+        id S234629AbjBWPas (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 10:30:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjBWPC3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 10:02:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6816222FC
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 07:01:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677164506;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=k9OY3DOmsttxoPAiFSmCq7gtwaYekEfHfeSsFmsCyrY=;
-        b=BiPImrSZC7ZWJy+Q0kpj+4UOl3hYYavOk/yUQ8+IOL21EgN0EC6ukutpbueKwDTpKV820c
-        7KMwOd4zKk7VvW8cQ37D/OuAJbXD+ElNcVs08MMkwX+yzmf+NHFNbxU8TadwCmu+P+wSQM
-        jIwdPKLif4OFvBypBh52vBWK6S4icbo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-222-X9NubvHmN0O2jDlNDUPB6Q-1; Thu, 23 Feb 2023 10:01:45 -0500
-X-MC-Unique: X9NubvHmN0O2jDlNDUPB6Q-1
-Received: by mail-ed1-f69.google.com with SMTP id dm14-20020a05640222ce00b0046790cd9082so15737543edb.21
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 07:01:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k9OY3DOmsttxoPAiFSmCq7gtwaYekEfHfeSsFmsCyrY=;
-        b=IcGbZ11Zcm3VMPu6ui+Aydz+4dB0enXgSm+yjjcdkc9CYml5g3lzm1ZU+PePJyPgNk
-         IJBl2K2Y8t2g0LYzYg70OOBGqE9Sllz/OHoX9BB061OL2q1VoFfGopYyMnKpa4l4Jyaj
-         5O2zvWd1tYrtURwPtlODJONuiZVpYTGDDnpe6wbgjonfsGni2qHZ5SUeV2rhZJEd23J9
-         jCxJKE7Na0wtRiag2GH1C69pSDZiSYBzPw45uYhq15ZzVKbUB0Q500V4Yyqq/JaHg0eG
-         R4wnqifPWzJdBV3SRfystkhIOODxdVkTA4KmF6ADa7YwgVyuHupSgzEg+Amdzq5JtnM9
-         kN1A==
-X-Gm-Message-State: AO0yUKVff8EA2DrLRgDz9zR5S0dyOlKqZ2LePYaNV1LLMlQHwN+ZqQqf
-        qZggyb2ow4CZzNCdD9evfE5AskuIUL3AbPa1kzCnAy2w+S3mR+m+/6oHR0Iauoqn+TxnaE58J9v
-        I9kGtj6CesKFXw4IQ+uKu
-X-Received: by 2002:a17:907:3e22:b0:8e3:8543:8e71 with SMTP id hp34-20020a1709073e2200b008e385438e71mr11141657ejc.40.1677164503827;
-        Thu, 23 Feb 2023 07:01:43 -0800 (PST)
-X-Google-Smtp-Source: AK7set9x3TEkF4rjKsOMblKg8nB91RIygBy/qyspdCpvJfYp5Ifo24giDUJ/K+JxqZGl9KaboO5b6g==
-X-Received: by 2002:a17:907:3e22:b0:8e3:8543:8e71 with SMTP id hp34-20020a1709073e2200b008e385438e71mr11141608ejc.40.1677164503488;
-        Thu, 23 Feb 2023 07:01:43 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id h7-20020a170906260700b008b8ae79a72bsm7650214ejc.135.2023.02.23.07.01.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Feb 2023 07:01:42 -0800 (PST)
-Message-ID: <734e3c77-a536-95ca-bcae-1e1e86940a48@redhat.com>
-Date:   Thu, 23 Feb 2023 15:12:32 +0100
-MIME-Version: 1.0
+        with ESMTP id S234589AbjBWPaq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 10:30:46 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2659019B4;
+        Thu, 23 Feb 2023 07:30:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677166239; x=1708702239;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=+cZ8707FqieGyRTD9roVQkzyXZTjRxBc+Q2e3JB0IUo=;
+  b=UYM1KkM8nyS4vE53bZl6CW9NYejAHv9XVQXzFcYXmvWEGcyslnqpA47I
+   Pq5dKf+hlrTr0PoXSbe2Wfc5Qc6BdZu0/g/qqelUUn/M5HxG/3jI40xQ+
+   W5JeKEanPpmB/qz+nap2hM8vt6ucmEuKMis4CbqSS7Qlpov+FLRDgHQ5/
+   oXhnbEtUKl87YqcxLDl1L4gzgKsZj9GrOL5p1Evr6mupjZFdgOU7BY7Rh
+   dJLHRqxEYMh9DdPZVf7mgDUSvEljXQYbc08ZNHzxKlZ4qCNH7LZH/D/aZ
+   2/MWEhTRZFycpuKY301SPo1Zis46ucUTG3nfN4R3HQsnjFyG1PkslclBT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="419466265"
+X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
+   d="scan'208";a="419466265"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 07:30:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="736407527"
+X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
+   d="scan'208";a="736407527"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga008.fm.intel.com with ESMTP; 23 Feb 2023 07:30:12 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 23 Feb 2023 07:30:12 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 23 Feb 2023 07:30:11 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Thu, 23 Feb 2023 07:30:11 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.175)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Thu, 23 Feb 2023 07:30:11 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j/b6cPpZnexwraTLo8owrg2KICH9NKG0L7wfPEWeVcDGZS/Q19omr1wlSq5ZtyYevk2lG9qq9tYoLCnFLXLLgsRc407ZPY4IVIStPl4/YKQ1nNp0uto5wfZga8D7Bj6Ff8q/dQMZukTM/r5KAP3uHxh/m1T4EEqcNCfzepfpqHSsSsAKuIpfPzdFz+HnBLmvFfKFSITKLj4m+HwpyzcIwsDOeEScvv7mNY6YKq1a+OR1t+3VzpbK6zjXMG8SiMTiHwyMpIyk1cgEuB+keuyD/byLICCs/IRojSUuIbeufIoHbm93c0HrPeu9OSPSLXGX9cVjIFu/PlUne3e8k8boig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nFuX6BayQ/vZgOgBGoONoyog6/qPoCwiGqHRLDt06ec=;
+ b=SPUTZsGOxXdMrQ2/4SwAhe7bNeigVv3IxhipvG4Rq3Q5yRU1b7YdaHgBlRxtUqiO5GawgvEbdARTJDhZOAED3Pv0st0qgAY0lgJxmIr0aVC6RePbfWjLheLpCpB5Tl5OaoQuE/NIpvTRt6qP6RxXkpAYnQjkC7fpcZFaIaUYu5oC0rC72Jr+Wt8CHcTV0iHZ1yQyz7Cd7H8bUtFwVxvkTwLLKczFkR/PAD1u4UGF76flEO07zScbSQSwii7U6l4EdqGFWaoQwCtKmmDupxHcQuJW0V5ruQb80lu+hIk/J4Jl00wfyUWsnxm9nC0QNQShnESqt3Nz54Na5diNItbhyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
+ by BL1PR11MB5317.namprd11.prod.outlook.com (2603:10b6:208:309::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.21; Thu, 23 Feb
+ 2023 15:30:08 +0000
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::3ff6:ca60:f9fe:6934]) by DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::3ff6:ca60:f9fe:6934%4]) with mapi id 15.20.6134.019; Thu, 23 Feb 2023
+ 15:30:08 +0000
+Message-ID: <9a433778-9360-6322-bb74-6e0f51614c8c@intel.com>
+Date:   Thu, 23 Feb 2023 16:29:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA
- mappings
+Subject: Re: [PATCH] sfc: fix builds without CONFIG_RTC_LIB
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        boris.brezillon@collabora.com, alexdeucher@gmail.com,
-        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-        jason@jlekstrand.net, linux-doc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-        Dave Airlie <airlied@redhat.com>
-References: <20230217134422.14116-1-dakr@redhat.com>
- <20230217134422.14116-6-dakr@redhat.com>
- <70ba382f-1559-289a-4922-ca9c371aaf59@amd.com>
- <cc8eeaf4-31e7-98e4-a712-012fc604e985@redhat.com>
- <29ea3705-5634-c204-c1da-d356b6dfbafc@amd.com>
- <83755119-083d-7d66-fca0-ca306c841d9c@redhat.com>
- <7780a9b9-d6bd-6f3f-9c31-aafacb09db1f@amd.com>
-From:   Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <7780a9b9-d6bd-6f3f-9c31-aafacb09db1f@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To:     "Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-net-drivers (AMD-Xilinx)" <linux-net-drivers@amd.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "habetsm.xilinx@gmail.com" <habetsm.xilinx@gmail.com>,
+        "ecree.xilinx@gmail.com" <ecree.xilinx@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "jiri@nvidia.com" <jiri@nvidia.com>
+References: <20230217102236.48789-1-alejandro.lucero-palau@amd.com>
+ <ef38e919-f7ea-0b11-f5d5-2eb4fb665c72@intel.com>
+ <DM6PR12MB4202D1FA796BF66E6AD4C6C0C1A19@DM6PR12MB4202.namprd12.prod.outlook.com>
+From:   Alexander Lobakin <aleksander.lobakin@intel.com>
+In-Reply-To: <DM6PR12MB4202D1FA796BF66E6AD4C6C0C1A19@DM6PR12MB4202.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0370.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18e::15) To DM6PR11MB3625.namprd11.prod.outlook.com
+ (2603:10b6:5:13a::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3625:EE_|BL1PR11MB5317:EE_
+X-MS-Office365-Filtering-Correlation-Id: e32feb84-6199-4fb3-1331-08db15b2d833
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JbGr+ixdpb3y6yOQ/VoqqyqbcY8FwYnVCpZ/UlFc9pRxTcRaewPEGgGCCbkYTqBOXi+yyh1Y1PRUejbAiw/mpf01Y40/KbU9MTUPboRpd+4C+jAETSyjfh0UZjQjOJBmx536jU/TA6PfM65iUk+wod/kyaNLe1Tm6rIax5r+YSRygQaUZfwRxl0Ia9+Y0Gox+WIgSCgzzdJy7gFDWv2CNMwLkHS2k4FpcJhWPHlyPR5i7/9mNtoOmDDzOz4JXpC5mP3ABC3urE2jBPoIk1no9cIEu7jQYlhikbv2Cbz2ZPgvQ+j+Gox4vqyFpKyc/W6ikXi/7CRKEEXt3IMs4GnV+QJ3ERomgiOROmTT4lsVBU3sr0zsYzGcZT4rxhGy503h007Hw4YHWKXniNg4d2xIzRbG9JHcSgIIHcpsDWsyCVdkhwhwFbKAmmvjx5ejFiMKfQksDtBMB2KxCD+yCWoFXR6SyqZdFnmSLxzbVOpiKek5wtpWOiGFhbjJY7tkSQV/T7QEJQnAP1ZFqEM6nRDpnLd3HN2BuAjDJyCQKMgp4kMChmI3Ik4z1wXbabdPu+LERn4yUQ7JiHjRS/Xb3BYxkMVHonsaXINoQwvvBy6luEg91lnuRjAArD4aNUVE5jFcQAk3vfou4v33ArBX7SU+24s0cJwrDO4bnvrTvCcJSavOKl0VwUH9OaRX1NOkiC1AHVCmZff5Ht52P5TEPKmyqg7iMrxNh4BuoB/MojYwOH0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3625.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(376002)(136003)(346002)(396003)(39860400002)(366004)(451199018)(478600001)(6506007)(6666004)(6512007)(26005)(186003)(66946007)(41300700001)(66556008)(66476007)(316002)(6486002)(6916009)(4326008)(53546011)(8676002)(8936002)(4744005)(5660300002)(2906002)(82960400001)(38100700002)(7416002)(86362001)(31696002)(54906003)(31686004)(2616005)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RU1jRXdVVHNNck9Wb3BaM3VibWJEOWt3OWt3QmhSZkJqZTgzYmE5VXBScVRU?=
+ =?utf-8?B?U3UraUpaZDZCb08zUlVHS2pTdUhMbXZqTnNVaXRYN2trd2R2WlNBRWxoN05Q?=
+ =?utf-8?B?S2srN3R0NWdFcEtaUkV4VkN3RU1oOW0zc25pT24vcHpnOUxNbU9Bbm5OQmJw?=
+ =?utf-8?B?OHcrTThlMXRTL0NIRTk5MTlFS0x2V0pXU2VxQjhHeFNKbTdlUXFnZnBpZ0JU?=
+ =?utf-8?B?ZGxKVTQ4VkVISnNsZnpDRWhmWTl0Y2YvWUpOVEFrUkNnSFdLSW5sTXpYNTVl?=
+ =?utf-8?B?Ylp5cnJmT0xtYjdEK1BmODE3dlhFNEc0aWRrUGgxNnZDeS9rODNsZXJxU0xO?=
+ =?utf-8?B?QUdrdldVU0xiWEdqMVJKdWlXTE5xQkVuMlA4Q1h5WUFKNXBWZmRDUnBxNW9v?=
+ =?utf-8?B?aWZLTy9ES0FQMFFFVEh3WElVeURvOGdHTUx3YUhrVVZzcTgwaGpxc243dHp0?=
+ =?utf-8?B?bjJpRHpPajYraXBzSWsrRmJGVnlvK0lIY0xhRlhPUDB0TUJXaFd5RXNSSlFH?=
+ =?utf-8?B?Nlo0MmRKY3VicVEvZitnUFlwaXN1RmJTV3NaVkdGMThTVTVkTENNblZEcGNK?=
+ =?utf-8?B?Z1FyaDlJOGJYTmZjUlpKSDN4bm1YQmZyTGdSREpjM0FNSXJUZVBxTEpoVm1v?=
+ =?utf-8?B?a3JOdmt3L0ZDa24rYXhra0YrazY2SzNYTUplS3dYNHV4ais5OGo3UUM5WWto?=
+ =?utf-8?B?anNtdTJIaFJwNk8yOG9VY25xenJhZVkwRHltRGd0MUJoek03VGRhdkljN1hR?=
+ =?utf-8?B?d3ZDcmpUYXlleVZNVFNCOWxGMWtaSDZPaU9zdm1LVFJKN2dTNHJHMXVmNFhz?=
+ =?utf-8?B?NS9URXg2d24yNnFMcythWnM4L2kzMHNJZDZDaHNmQTFrSVZiV2drL0lPTTUv?=
+ =?utf-8?B?SEVDR1IwYkd3S1VOcTI1RTBnZnlua09OVWVDVG81cjZKNGN6U3ltRzlJb29x?=
+ =?utf-8?B?L0QwdGpNK044L3dPT01rOXF2R0Rxck1TWWY2cUNYUnlKNDVYbW15bUtnaEJn?=
+ =?utf-8?B?WjJzRUF5OFlPTVF2WlBwbHI1ZnhxRWZZNGkrWlZlYWJvVVl6cVgyQ0I2Sk00?=
+ =?utf-8?B?MitzMGJUNmFlZEVTQzhmOFZ0aFJyNngyUGl3b1NHbi9CRi9FT1dhYndqL0Fl?=
+ =?utf-8?B?YkxpTVhrQUt5TmxLenNPSGhJT0JSUE14Vi9BU2Z3azdUQkV6ejR2dlRmZ2FW?=
+ =?utf-8?B?djRkYXg4c2Y0R3d2amxWSkJFRHdneHpPemsxc1ZGeFZDSnNudHhiZmZUNDBO?=
+ =?utf-8?B?L0ozb291blc1anRPOWhwWWRidzk0Q2IxWDBwYzhxRnVCbkJxVjV0cUcyWEJr?=
+ =?utf-8?B?djYzU2JRS1pOZ1hkU0Y1czhwbHhtREk2Z3pYTXJ1UUxFZ0VhT20wNjIxRTJs?=
+ =?utf-8?B?MmEwSkY4eUJXMWRxQjlNZThnWDFLcTY5K1ZObHU5Y0kxYVdzbkZiK0JLcUxF?=
+ =?utf-8?B?ZE44UmIzNjhzTm0reHBsWXgvNWczY3MrV2ZZaVlDUWlRZjNqd0pQcU5xSUc2?=
+ =?utf-8?B?SUI5Wi92ZThhNlI5aUxFSGJwa3hjQmJ0ci9FTytTSmlDRFhkQlRLY2l1eDZk?=
+ =?utf-8?B?MGRJS0lFdHUvWEdNRkdTdzAwdm5tTFIvK21xL25HMlNCQW1rVjJHTlJSN285?=
+ =?utf-8?B?ZUhFaGtxMVpiVGMvcGdicUYxaW05dnNYeHRIL09JSm8zM0Y0NDFlOHlhMU11?=
+ =?utf-8?B?RHdwMDQrTjJnUDkxUyt4SHZiR0szbVhsWUFVNm1HbmhZemlzaWVBdDhFc3Bs?=
+ =?utf-8?B?WkdCMkdUNmZTTnNCd0JrM3hNeWZ4QllTazJwVW8ycTBKWURtMm1NZ3F3K1Jo?=
+ =?utf-8?B?dmZCaUV3MHI2eXlXbkZzYUlCbFNTUm5JeVVqTnJSOWRGZ082UFdDWnRtOUtk?=
+ =?utf-8?B?QmlVRTJ6N0J0VGFzUmphd0RpTWhPSzR2WXBybmF0VWFtMG4zL2s4bUZ0VkNY?=
+ =?utf-8?B?NHJHSmgxak9lNElldzl3M1g3elRDaVMxZzlQVzArVHpYODJvemZPdVlGNEV2?=
+ =?utf-8?B?MlUvR2t2cHV0MjlId2xWWUhveDkvSVhKa3hoeTdUNmMyS052bXJEWjF1V0pY?=
+ =?utf-8?B?TTZycGNheTNoOGgwYWR5bUtaVzNhdiszOXQ4Qmx0b3QzcVVERW9HMzVpdC9j?=
+ =?utf-8?B?UjlyQWtKSVdJbDRWRXA4Ni8vMGRrZmRITWMvNXRtRVdieEVFUDBaa084Y3Rv?=
+ =?utf-8?Q?YLrEvofNraakDS0UcMV4Kac=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e32feb84-6199-4fb3-1331-08db15b2d833
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3625.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 15:30:08.0988
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4su3ZED4W1EShnI7uaBsBgcyuToz1VGx3hv5AS7rKuXvITnktPrP1mpqOpVc2EbrHTRC3cGgDYz0QqEXYfYFO53wSBJK05NuTkBa8To6ruE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5317
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/23/23 08:06, Christian König wrote:
-> Am 22.02.23 um 17:40 schrieb Danilo Krummrich:
->> On 2/22/23 16:14, Christian König wrote:
->>> Am 22.02.23 um 16:07 schrieb Danilo Krummrich:
->>>> On 2/22/23 11:25, Christian König wrote:
->>>>> Am 17.02.23 um 14:44 schrieb Danilo Krummrich:
->>>>
->>>> <snip>
->>>>
->>>>>> +/**
->>>>>> + * DOC: Overview
->>>>>> + *
->>>>>> + * The DRM GPU VA Manager, represented by struct 
->>>>>> drm_gpuva_manager keeps track
->>>>>> + * of a GPU's virtual address (VA) space and manages the 
->>>>>> corresponding virtual
->>>>>> + * mappings represented by &drm_gpuva objects. It also keeps 
->>>>>> track of the
->>>>>> + * mapping's backing &drm_gem_object buffers.
->>>>>> + *
->>>>>> + * &drm_gem_object buffers maintain a list (and a corresponding 
->>>>>> list lock) of
->>>>>> + * &drm_gpuva objects representing all existent GPU VA mappings 
->>>>>> using this
->>>>>> + * &drm_gem_object as backing buffer.
->>>>>> + *
->>>>>> + * If the &DRM_GPUVA_MANAGER_REGIONS feature is enabled, a GPU VA 
->>>>>> mapping can
->>>>>> + * only be created within a previously allocated 
->>>>>> &drm_gpuva_region, which
->>>>>> + * represents a reserved portion of the GPU VA space. GPU VA 
->>>>>> mappings are not
->>>>>> + * allowed to span over a &drm_gpuva_region's boundary.
->>>>>> + *
->>>>>> + * GPU VA regions can also be flagged as sparse, which allows 
->>>>>> drivers to create
->>>>>> + * sparse mappings for a whole GPU VA region in order to support 
->>>>>> Vulkan
->>>>>> + * 'Sparse Resources'.
->>>>>
->>>>> Well since we have now found that there is absolutely no technical 
->>>>> reason for having those regions could we please drop them?
->>>>
->>>> I disagree this was the outcome of our previous discussion.
->>>>
->>>> In nouveau I still need them to track the separate sparse page 
->>>> tables and, as you confirmed previously, Nvidia cards are not the 
->>>> only cards supporting this feature.
->>>>
->>>> The second reason is that with regions we can avoid merging between 
->>>> buffers, which saves some effort. However, I agree that this 
->>>> argument by itself probably doesn't hold too much, since you've 
->>>> pointed out in a previous mail that:
->>>>
->>>> <cite>
->>>> 1) If we merge and decide to only do that inside certain boundaries 
->>>> then those boundaries needs to be provided and checked against. This 
->>>> burns quite some CPU cycles
->>>>
->>>> 2) If we just merge what we can we might have extra page table 
->>>> updates which cost time and could result in undesired side effects.
->>>>
->>>> 3) If we don't merge at all we have additional housekeeping for the 
->>>> mappings and maybe hw restrictions.
->>>> </cite>
->>>>
->>>> However, if a driver uses regions to track its separate sparse page 
->>>> tables anyway it gets 1) for free, which is a nice synergy.
->>>>
->>>> I totally agree that regions aren't for everyone though. Hence, I 
->>>> made them an optional feature and by default regions are disabled. 
->>>> In order to use them drm_gpuva_manager_init() must be called with 
->>>> the DRM_GPUVA_MANAGER_REGIONS feature flag.
->>>>
->>>> I really would not want to open code regions or have two GPUVA 
->>>> manager instances in nouveau to track sparse page tables. That would 
->>>> be really messy, hence I hope we can agree on this to be an optional 
->>>> feature.
+From: Lucero Palau, Alejandro <alejandro.lucero-palau@amd.com>
+Date: Fri, 17 Feb 2023 15:20:27 +0000
+
+> 
+> On 2/17/23 14:47, Alexander Lobakin wrote:
+>> From: Lucero Palau, Alejandro <alejandro.lucero-palau@amd.com>
+>> Date: Fri, 17 Feb 2023 10:22:36 +0000
+>>
+>>> From: Alejandro Lucero <alejandro.lucero-palau@amd.com>
 >>>
->>> I absolutely don't think that this is a good idea then. This separate 
->>> handling of sparse page tables is completely Nouveau specific.
+>>> Adding an embarrasing missing semicolon precluding kernel building
+>> :D
 >>
->> Actually, I rely on what you said in a previous mail when I say it's, 
->> potentially, not specific to nouveau.
->>
->> <cite>
->> This sounds similar to what AMD hw used to have up until gfx8 (I 
->> think), basically sparse resources where defined through a separate 
->> mechanism to the address resolution of the page tables. I won't rule 
->> out that other hardware has similar approaches.
->> </cite>
+>> 'Embarrassing' tho, with two 's'. And I guess "embarrassingly missed",
+>> since a semicolon itself can't be "embarrassing" I believe? :D
 > 
-> Ok, sounds like I didn't made my point here clear: AMD does have that 
-> same mechanism for older hw you try to implement here for Nouveau, but 
-> we have *abandoned* it because it is to much trouble and especially 
-> overhead to support! In other words we have said "Ok we would need two 
-> separate components to cleanly handle that, one for newer hw and one for 
-> older hw.".
+> This is going worse ... :D
+> 
+> I'll change it.
+> 
+>> + "add", not "adding"
+>> + "precluding"? You mean "breaking"?
+> 
+> Preclude: "prevent from happening; make impossible."
 
-My point was more about the potential existence of other hardware having 
-similar concepts.
-
-I, personally, can't judge whether actually making use of having 
-separate sparse page tables (or similar concepts) makes sense for other 
-drivers or not. I think it depends on how the hardware works, which 
-limitations it has in handling page tables, etc.
-
-I definitely recognize your experience and that for AMD you decided its 
-not worth using a similar mechanism. I would definitely be interested in 
-the details. Do you mind sharing them?
-
-However, I think we need to differentiate between whether for AMD 
-hardware you just found an approach that worked out better for your 
-specific hardware or whether something is fundamentally broken with 
-separate sparse page tables (or similar concepts) in general.
-
-Do you think there is something fundamentally broken with such an 
-approach? And if so, why?
+Now I'm embarrassed xD You can leave it as it is, it's my dictionary's
+fault :D
 
 > 
-> What you now try to do is to write one component which works for both. 
-> We have already exercised this idea and came to the conclusion that it's 
-> not a good path to go down. So you're basically just repeating our mistake.
+> But I can use breaking instead.
 > 
-> I mean if it's just for Nouveau then I would say feel free to do 
-> whatever you want, but since this component is supposed to be used by 
-> more drivers then I strongly think we need to tackle this from a 
-> different side.
-> 
->>> Even when it's optional feature mixing this into the common handling 
->>> is exactly what I pointed out as not properly separating between 
->>> hardware specific and hardware agnostic functionality.
->>
->> Optionally having regions is *not* a hardware specific concept, 
->> drivers might use it for a hardware specific purpose though. Which 
->> potentially is is the case for almost every DRM helper.
->>
->> Drivers can use regions only for the sake of not merging between 
->> buffer boundaries as well. Some drivers might prefer this over "never 
->> merge" or "always merge", depending on the cost of re-organizing page 
->> tables for unnecessary splits/merges, without having the need of 
->> tracking separate sparse page tables.
->>
->> Its just that I think *if* a driver needs to track separate sparse 
->> page tables anyways its a nice synergy since then there is no extra 
->> cost for getting this optimization.
-> 
-> Well exactly that's the point: I really don't believe that this comes 
-> without extra costs.
-
-If you already have to store some information for purpose A and an 
-optional purpose B requires the exact same information you would get B 
-for free.
-
-Which other costs would you see here?
-
-> 
-> What we could maybe do is to have an two separate functions, one for 
-> updating the data structures and one for merging. When you now call the 
-> merging function with a limit you don't get mappings merged over that 
-> limit and if you don't call the merging function at all you don't get 
-> merges.
-
-Having a separate merging function would work. However, I am against an 
-interface that takes limit parameters. Having such an interface signals 
-general compliance with tracking regions to drivers, but without the 
-offer to do this job in a generic way.
-
-This sounds like a bad compromise to me. I think we should either accept 
-that some drivers might have a purpose of tracking regions and hence 
-*optionally* support them or have clear evidence that tracking regions 
-never ever make sense at all regardless of how a specific hardware 
-handles it's page tables.
-
-Allowing drivers to set the merge strategy, however, is a good idea. I 
-could also just add corresponding feature flags to let the driver pick.
-
-> 
-> But we should have definitely not have the tracking of the ranges inside 
-> the common component. This is something separated.
-> 
->>> This is exactly the problem we ran into with TTM as well and I've 
->>> spend a massive amount of time to clean that up again. >
->>
->> Admittedly, I don't know what problems you are referring to. However, 
->> I don't see which kind of trouble it could cause by allowing drivers 
->> to track regions optionally.
-> 
-> Take a look at my 2020 presentation about TTM on FOSDEM.
-> 
-> Regards,
-> Christian.
-> 
->>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>>>
->>>>> I don't really see a need for them any more.
->>>>>
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>
->>>
->>
-> 
-
+> Thanks!
+Thanks,
+Olek
