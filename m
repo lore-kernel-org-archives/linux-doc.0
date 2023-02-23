@@ -2,359 +2,278 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC50EC61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 00:03:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E183BC61DA4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 00:15:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229869AbjBWADr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 19:03:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36226 "EHLO
+        id S232133AbjBWAPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 19:15:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjBWADq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 19:03:46 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF5C19C
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 16:03:44 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id m3-20020a17090ade0300b00229eec90a7fso2927445pjv.0
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 16:03:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xpOSkngFbo1xRTtoo3V6Dq6jqJDOtZ7GvHNIgSzFJq8=;
-        b=ZKI7PQElxLxanzxiQq3N1uJcH1n8ZFh6ppeN7hE+ChQ4sv6CQ3Qh3LgGBVp/whvm/i
-         litvp4kdKds0n0UcUo2eZwfFUOh5fLUeBJ9LxDNSkbtZk1XLrha3MouFDHEol1PM+Wtg
-         557hDziGFrLozJJTrTJ249E9d9d+CuJXHrA2D/FHQn4MhX5JFLLV0cvXCIelLZujupEa
-         Ac3MFbzLFYgKzEv1DEvnO/JLM1zH7q5gRSHUn5/kdkRJNyxGrw7MHSImO29UG2Xwiu8S
-         8C4133Zavh8fFtxCSA2kKSt6kvl79cL1cBWyRIyR5b/GlPdsZnriIwpmno8ZrFmrVQB/
-         O30Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xpOSkngFbo1xRTtoo3V6Dq6jqJDOtZ7GvHNIgSzFJq8=;
-        b=tbfTnEZJDJs4sTi1QOa/TaR3Q9JBureBSK+N0cnLkyRsV12hVebhfApwaELWFH0JCa
-         08S1dIZwTo6KNHS32rD+G6b8GPGdwYDO42txQlFytu5nCWgvgAvo+hQ1GjU6TmZGZ8yO
-         RTJrusRf2KiT9Z+wPhqw5vyMh6VCXJlJyIcQUhC1lhLVj7DglmrGqe4QJCg0Lu3m9PXk
-         iVLYTdxO0BBSbXk6PIZ6DPekfHmWhE+6lwpGWSaPZRZN60nKOF6LcsyMo3eOK2/JF6oc
-         3QOtxt+qCz/B3hvkhxz+iaB9ADo+Img2BEziDy+4Jv8EoQFF1SHpVjLzxm/xKrGZ9rua
-         zUmg==
-X-Gm-Message-State: AO0yUKW3aRJs/WKQdmAwA+KYGMmeuAp4kVV82B8uW3iKYmM7l6n+33YV
-        0jdoG/sC7pMPqro9SSSnIwCttw==
-X-Google-Smtp-Source: AK7set/6RZ1DrFP2FUeDUcZNGqTq38f856K4vOcIejvzUHF7MDUzNiKVUoHQ8fpiCBpy46ChYarefg==
-X-Received: by 2002:a17:902:f547:b0:19a:c65d:f93 with SMTP id h7-20020a170902f54700b0019ac65d0f93mr7915812plf.53.1677110624068;
-        Wed, 22 Feb 2023 16:03:44 -0800 (PST)
-Received: from debug.ba.rivosinc.com ([66.220.2.162])
-        by smtp.gmail.com with ESMTPSA id g12-20020a170902c38c00b0019c90f8c831sm4054817plg.242.2023.02.22.16.03.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 16:03:43 -0800 (PST)
-Date:   Wed, 22 Feb 2023 16:03:40 -0800
-From:   Deepak Gupta <debug@rivosinc.com>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com
-Subject: Re: [PATCH v6 33/41] x86/shstk: Introduce map_shadow_stack syscall
-Message-ID: <20230223000340.GB945966@debug.ba.rivosinc.com>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-34-rick.p.edgecombe@intel.com>
+        with ESMTP id S229446AbjBWAPh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 19:15:37 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0030934C34;
+        Wed, 22 Feb 2023 16:15:35 -0800 (PST)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31MLUZPe015607;
+        Thu, 23 Feb 2023 00:15:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : from : subject : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=HCL+ctSWpGnB2xaBRX9FLVk33q+txzOX1BjEyAyM2K0=;
+ b=Y6V03bqm8Ox+5JXvn6CCmdL61OJKZwt7q48MV7231XVhUB2fTcgUCPLPmB99q3XKp78q
+ rZTLKNk8qJQgW9D4suC3OrX4NuSCKR2vVErbh6obdwoCeRwG5D8MqP7eNGpErbFwh5UK
+ ttU2z4A/MA5Ceig5hr2GVRc7QT9fap1xpem2HbPNGGeydazceldLvceYGzC9VM4EEb+2
+ WLhhvhkqAvPP4UAsrFL2dTVSChNAxCsgQu/tUd4qnEt/esA5M3Y5ORyb3A4xLbvYjtPj
+ z4S4jE0yogBQCgGEbNJvTfjJ5yk8EQdPMlLzJzI9rsiCvj6uFmDw3OSUJUe3aHgIBCfm 7A== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nwn389afs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 23 Feb 2023 00:15:16 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31N0FFLA010669
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 23 Feb 2023 00:15:15 GMT
+Received: from [10.134.67.48] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 22 Feb
+ 2023 16:15:15 -0800
+Message-ID: <576aed85-a566-3645-559e-06b2135cf57f@quicinc.com>
+Date:   Wed, 22 Feb 2023 16:15:14 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20230218211433.26859-34-rick.p.edgecombe@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+From:   Elliot Berman <quic_eberman@quicinc.com>
+Subject: Re: [PATCH v10 07/26] mailbox: Add Gunyah message queue mailbox
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alex Elder <elder@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jassi Brar <jassisinghbrar@gmail.com>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212316.3309053-1-quic_eberman@quicinc.com>
+ <c8161a4c-fa45-cb9e-7211-5486ece1fc2d@linaro.org>
+Content-Language: en-US
+In-Reply-To: <c8161a4c-fa45-cb9e-7211-5486ece1fc2d@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: K53N7I3HpO79FCEwWKk2fCSWW6GikGMq
+X-Proofpoint-ORIG-GUID: K53N7I3HpO79FCEwWKk2fCSWW6GikGMq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-22_11,2023-02-22_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1015
+ malwarescore=0 bulkscore=0 phishscore=0 spamscore=0 priorityscore=1501
+ mlxlogscore=883 adultscore=0 suspectscore=0 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302230000
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 18, 2023 at 01:14:25PM -0800, Rick Edgecombe wrote:
->When operating with shadow stacks enabled, the kernel will automatically
->allocate shadow stacks for new threads, however in some cases userspace
->will need additional shadow stacks. The main example of this is the
->ucontext family of functions, which require userspace allocating and
->pivoting to userspace managed stacks.
->
->Unlike most other user memory permissions, shadow stacks need to be
->provisioned with special data in order to be useful. They need to be setup
->with a restore token so that userspace can pivot to them via the RSTORSSP
->instruction. But, the security design of shadow stack's is that they
->should not be written to except in limited circumstances. This presents a
->problem for userspace, as to how userspace can provision this special
->data, without allowing for the shadow stack to be generally writable.
->
->Previously, a new PROT_SHADOW_STACK was attempted, which could be
->mprotect()ed from RW permissions after the data was provisioned. This was
->found to not be secure enough, as other thread's could write to the
->shadow stack during the writable window.
->
->The kernel can use a special instruction, WRUSS, to write directly to
->userspace shadow stacks. So the solution can be that memory can be mapped
->as shadow stack permissions from the beginning (never generally writable
->in userspace), and the kernel itself can write the restore token.
->
->First, a new madvise() flag was explored, which could operate on the
->PROT_SHADOW_STACK memory. This had a couple downsides:
->1. Extra checks were needed in mprotect() to prevent writable memory from
->   ever becoming PROT_SHADOW_STACK.
->2. Extra checks/vma state were needed in the new madvise() to prevent
->   restore tokens being written into the middle of pre-used shadow stacks.
->   It is ideal to prevent restore tokens being added at arbitrary
->   locations, so the check was to make sure the shadow stack had never been
->   written to.
->3. It stood out from the rest of the madvise flags, as more of direct
->   action than a hint at future desired behavior.
->
->So rather than repurpose two existing syscalls (mmap, madvise) that don't
->quite fit, just implement a new map_shadow_stack syscall to allow
->userspace to map and setup new shadow stacks in one step. While ucontext
->is the primary motivator, userspace may have other unforeseen reasons to
->setup it's own shadow stacks using the WRSS instruction. Towards this
->provide a flag so that stacks can be optionally setup securely for the
->common case of ucontext without enabling WRSS. Or potentially have the
->kernel set up the shadow stack in some new way.
 
-Was following ever attempted?
 
-void *shstk = mmap(0, size, PROT_SHADOWSTACK, ...);
-- limit PROT_SHADOWSTACK protection flag to only mmap (and thus mprotect can't
-   convert memory from shadow stack to non-shadow stack type or vice versa)
-- limit PROT_SHADOWSTACK protection flag to anonymous memory only.
-- top level mmap handler to put a token at the base using WRUSS if prot == PROT_SHADOWSTACK
+On 2/20/2023 5:59 AM, Srinivas Kandagatla wrote:
+> 
+> 
+> On 14/02/2023 21:23, Elliot Berman wrote:
+>> Gunyah message queues are a unidirectional inter-VM pipe for messages up
+>> to 1024 bytes. This driver supports pairing a receiver message queue and
+>> a transmitter message queue to expose a single mailbox channel.
+>>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>> ---
+>>   Documentation/virt/gunyah/message-queue.rst |   8 +
+>>   drivers/mailbox/Makefile                   |   2 +
+>>   drivers/mailbox/gunyah-msgq.c               | 214 ++++++++++++++++++++
+>>   include/linux/gunyah.h                      |  56 +++++
+>>   4 files changed, 280 insertions(+)
+>>   create mode 100644 drivers/mailbox/gunyah-msgq.c
+>>
+>> diff --git a/Documentation/virt/gunyah/message-queue.rst 
+>> b/Documentation/virt/gunyah/message-queue.rst
+>> index 0667b3eb1ff9..082085e981e0 100644
+>> --- a/Documentation/virt/gunyah/message-queue.rst
+>> +++ b/Documentation/virt/gunyah/message-queue.rst
+>> @@ -59,3 +59,11 @@ vIRQ: two TX message queues will have two vIRQs 
+>> (and two capability IDs).
+>>         |               |         |                 |         
+>> |               |
+>>         |               |         |                 |         
+>> |               |
+>>         +---------------+         +-----------------+         
+>> +---------------+
+>> +
+>> +Gunyah message queues are exposed as mailboxes. To create the 
+>> mailbox, create
+>> +a mbox_client and call `gh_msgq_init`. On receipt of the RX_READY 
+>> interrupt,
+>> +all messages in the RX message queue are read and pushed via the 
+>> `rx_callback`
+>> +of the registered mbox_client.
+>> +
+>> +.. kernel-doc:: drivers/mailbox/gunyah-msgq.c
+>> +   :identifiers: gh_msgq_init
+>> diff --git a/drivers/mailbox/Makefile b/drivers/mailbox/Makefile
+>> index fc9376117111..5f929bb55e9a 100644
+>> --- a/drivers/mailbox/Makefile
+>> +++ b/drivers/mailbox/Makefile
+>> @@ -55,6 +55,8 @@ obj-$(CONFIG_MTK_CMDQ_MBOX)    += mtk-cmdq-mailbox.o
+>>   obj-$(CONFIG_ZYNQMP_IPI_MBOX)    += zynqmp-ipi-mailbox.o
+>> +obj-$(CONFIG_GUNYAH)        += gunyah-msgq.o
+> 
+> Why are we reusing CONFIG_GUNYAH Kconfig symbol for mailbox, why not 
+> CONFIG_GUNYAH_MBOX?
+> 
 
-You essentially would get shadow stack manufacturing with existing (single) syscall.
-Acting a bit selfish here, this allows other architectures as well to re-use this and 
-do their own implementation of mapping and placing the token at the base.
+There was some previous discussion about this:
 
->
->The following example demonstrates how to create a new shadow stack with
->map_shadow_stack:
->void *shstk = map_shadow_stack(addr, stack_size, SHADOW_STACK_SET_TOKEN);
->
->Tested-by: Pengfei Xu <pengfei.xu@intel.com>
->Tested-by: John Allen <john.allen@amd.com>
->Reviewed-by: Kees Cook <keescook@chromium.org>
->Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
->
->---
->v5:
-> - Fix addr/mapped_addr (Kees)
-> - Switch to EOPNOTSUPP (Kees suggested ENOTSUPP, but checkpatch
->   suggests this)
-> - Return error for addresses below 4G
->
->v3:
-> - Change syscall common -> 64 (Kees)
-> - Use bit shift notation instead of 0x1 for uapi header (Kees)
-> - Call do_mmap() with MAP_FIXED_NOREPLACE (Kees)
-> - Block unsupported flags (Kees)
-> - Require size >= 8 to set token (Kees)
->
->v2:
-> - Change syscall to take address like mmap() for CRIU's usage
->
->v1:
-> - New patch (replaces PROT_SHADOW_STACK).
->---
-> arch/x86/entry/syscalls/syscall_64.tbl |  1 +
-> arch/x86/include/uapi/asm/mman.h       |  3 ++
-> arch/x86/kernel/shstk.c                | 59 ++++++++++++++++++++++----
-> include/linux/syscalls.h               |  1 +
-> include/uapi/asm-generic/unistd.h      |  2 +-
-> kernel/sys_ni.c                        |  1 +
-> 6 files changed, 58 insertions(+), 9 deletions(-)
->
->diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
->index c84d12608cd2..f65c671ce3b1 100644
->--- a/arch/x86/entry/syscalls/syscall_64.tbl
->+++ b/arch/x86/entry/syscalls/syscall_64.tbl
->@@ -372,6 +372,7 @@
-> 448	common	process_mrelease	sys_process_mrelease
-> 449	common	futex_waitv		sys_futex_waitv
-> 450	common	set_mempolicy_home_node	sys_set_mempolicy_home_node
->+451	64	map_shadow_stack	sys_map_shadow_stack
->
-> #
-> # Due to a historical design error, certain syscalls are numbered differently
->diff --git a/arch/x86/include/uapi/asm/mman.h b/arch/x86/include/uapi/asm/mman.h
->index 5a0256e73f1e..8148bdddbd2c 100644
->--- a/arch/x86/include/uapi/asm/mman.h
->+++ b/arch/x86/include/uapi/asm/mman.h
->@@ -13,6 +13,9 @@
-> 		((key) & 0x8 ? VM_PKEY_BIT3 : 0))
-> #endif
->
->+/* Flags for map_shadow_stack(2) */
->+#define SHADOW_STACK_SET_TOKEN	(1ULL << 0)	/* Set up a restore token in the shadow stack */
->+
-> #include <asm-generic/mman.h>
->
-> #endif /* _ASM_X86_MMAN_H */
->diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
->index 40f0a55762a9..0a3decab70ee 100644
->--- a/arch/x86/kernel/shstk.c
->+++ b/arch/x86/kernel/shstk.c
->@@ -17,6 +17,7 @@
-> #include <linux/compat.h>
-> #include <linux/sizes.h>
-> #include <linux/user.h>
->+#include <linux/syscalls.h>
-> #include <asm/msr.h>
-> #include <asm/fpu/xstate.h>
-> #include <asm/fpu/types.h>
->@@ -71,19 +72,31 @@ static int create_rstor_token(unsigned long ssp, unsigned long *token_addr)
-> 	return 0;
-> }
->
->-static unsigned long alloc_shstk(unsigned long size)
->+static unsigned long alloc_shstk(unsigned long addr, unsigned long size,
->+				 unsigned long token_offset, bool set_res_tok)
-> {
-> 	int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_ABOVE4G;
-> 	struct mm_struct *mm = current->mm;
->-	unsigned long addr, unused;
->+	unsigned long mapped_addr, unused;
->
->-	mmap_write_lock(mm);
->-	addr = do_mmap(NULL, 0, size, PROT_READ, flags,
->-		       VM_SHADOW_STACK | VM_WRITE, 0, &unused, NULL);
->+	if (addr)
->+		flags |= MAP_FIXED_NOREPLACE;
->
->+	mmap_write_lock(mm);
->+	mapped_addr = do_mmap(NULL, addr, size, PROT_READ, flags,
->+			      VM_SHADOW_STACK | VM_WRITE, 0, &unused, NULL);
-> 	mmap_write_unlock(mm);
->
->-	return addr;
->+	if (!set_res_tok || IS_ERR_VALUE(mapped_addr))
->+		goto out;
->+
->+	if (create_rstor_token(mapped_addr + token_offset, NULL)) {
->+		vm_munmap(mapped_addr, size);
->+		return -EINVAL;
->+	}
->+
->+out:
->+	return mapped_addr;
-> }
->
-> static unsigned long adjust_shstk_size(unsigned long size)
->@@ -134,7 +147,7 @@ static int shstk_setup(void)
-> 		return -EOPNOTSUPP;
->
-> 	size = adjust_shstk_size(0);
->-	addr = alloc_shstk(size);
->+	addr = alloc_shstk(0, size, 0, false);
-> 	if (IS_ERR_VALUE(addr))
-> 		return PTR_ERR((void *)addr);
->
->@@ -178,7 +191,7 @@ int shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
-> 		return 0;
->
-> 	size = adjust_shstk_size(stack_size);
->-	addr = alloc_shstk(size);
->+	addr = alloc_shstk(0, size, 0, false);
-> 	if (IS_ERR_VALUE(addr))
-> 		return PTR_ERR((void *)addr);
->
->@@ -371,6 +384,36 @@ static int shstk_disable(void)
-> 	return 0;
-> }
->
->+SYSCALL_DEFINE3(map_shadow_stack, unsigned long, addr, unsigned long, size, unsigned int, flags)
->+{
->+	bool set_tok = flags & SHADOW_STACK_SET_TOKEN;
->+	unsigned long aligned_size;
->+
->+	if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK))
->+		return -EOPNOTSUPP;
->+
->+	if (flags & ~SHADOW_STACK_SET_TOKEN)
->+		return -EINVAL;
->+
->+	/* If there isn't space for a token */
->+	if (set_tok && size < 8)
->+		return -EINVAL;
->+
->+	if (addr && addr <= 0xFFFFFFFF)
->+		return -EINVAL;
->+
->+	/*
->+	 * An overflow would result in attempting to write the restore token
->+	 * to the wrong location. Not catastrophic, but just return the right
->+	 * error code and block it.
->+	 */
->+	aligned_size = PAGE_ALIGN(size);
->+	if (aligned_size < size)
->+		return -EOVERFLOW;
->+
->+	return alloc_shstk(addr, aligned_size, size, set_tok);
->+}
->+
-> long shstk_prctl(struct task_struct *task, int option, unsigned long features)
-> {
-> 	if (option == ARCH_SHSTK_LOCK) {
->diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
->index 33a0ee3bcb2e..392dc11e3556 100644
->--- a/include/linux/syscalls.h
->+++ b/include/linux/syscalls.h
->@@ -1058,6 +1058,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
-> asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
-> 					    unsigned long home_node,
-> 					    unsigned long flags);
->+asmlinkage long sys_map_shadow_stack(unsigned long addr, unsigned long size, unsigned int flags);
->
-> /*
->  * Architecture-specific system calls
->diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
->index 45fa180cc56a..b12940ec5926 100644
->--- a/include/uapi/asm-generic/unistd.h
->+++ b/include/uapi/asm-generic/unistd.h
->@@ -887,7 +887,7 @@ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
-> __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
->
-> #undef __NR_syscalls
->-#define __NR_syscalls 451
->+#define __NR_syscalls 452
->
-> /*
->  * 32 bit systems traditionally used different
->diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
->index 860b2dcf3ac4..cb9aebd34646 100644
->--- a/kernel/sys_ni.c
->+++ b/kernel/sys_ni.c
->@@ -381,6 +381,7 @@ COND_SYSCALL(vm86old);
-> COND_SYSCALL(modify_ldt);
-> COND_SYSCALL(vm86);
-> COND_SYSCALL(kexec_file_load);
->+COND_SYSCALL(map_shadow_stack);
->
-> /* s390 */
-> COND_SYSCALL(s390_pci_mmio_read);
->-- 
->2.17.1
->
+https://lore.kernel.org/all/2a7bb5f2-1286-b661-659a-a5037150eae8@quicinc.com/
+
+>> +
+>>   obj-$(CONFIG_SUN6I_MSGBOX)    += sun6i-msgbox.o
+>>   obj-$(CONFIG_SPRD_MBOX)       += sprd-mailbox.o
+>> diff --git a/drivers/mailbox/gunyah-msgq.c 
+>> b/drivers/mailbox/gunyah-msgq.c
+>> new file mode 100644
+>> index 000000000000..03ffaa30ce9b
+>> --- /dev/null
+>> +++ b/drivers/mailbox/gunyah-msgq.c
+>> @@ -0,0 +1,214 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>> + */
+>> +
+>> +#include <linux/mailbox_controller.h>
+>> +#include <linux/module.h>
+>> +#include <linux/interrupt.h>
+>> +#include <linux/gunyah.h>
+>> +#include <linux/printk.h>
+>> +#include <linux/init.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/wait.h>
+> 
+> ...
+> 
+>> +/* Fired when message queue transitions from "full" to "space 
+>> available" to send messages */
+>> +static irqreturn_t gh_msgq_tx_irq_handler(int irq, void *data)
+>> +{
+>> +    struct gh_msgq *msgq = data;
+>> +
+>> +    mbox_chan_txdone(gh_msgq_chan(msgq), 0);
+>> +
+>> +    return IRQ_HANDLED;
+>> +}
+>> +
+>> +/* Fired after sending message and hypercall told us there was more 
+>> space available. */
+>> +static void gh_msgq_txdone_tasklet(struct tasklet_struct *tasklet)
+> 
+> Tasklets have been long deprecated, consider using workqueues in this 
+> particular case.
+> 
+
+Workqueues have higher latency and tasklets came as recommendation from 
+Jassi. drivers/mailbox/imx-mailbox.c uses tasklets in the same way.
+
+I did some quick unscientific measurements of ~1000x samples. The median 
+latency for resource manager went from 25.5 us (tasklet) to 26 us 
+(workqueue) (2% slower). The mean went from 28.7 us to 32.5 us (13% 
+slower). Obviously, the outliers for workqueues were much more extreme.
+
+> 
+>> +{
+>> +    struct gh_msgq *msgq = container_of(tasklet, struct gh_msgq, 
+>> txdone_tasklet);
+>> +
+>> +    mbox_chan_txdone(gh_msgq_chan(msgq), msgq->last_ret);
+>> +}
+>> +
+>> +static int gh_msgq_send_data(struct mbox_chan *chan, void *data)
+>> +{
+> ..
+> 
+>> +    tasklet_schedule(&msgq->txdone_tasklet);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static struct mbox_chan_ops gh_msgq_ops = {
+>> +    .send_data = gh_msgq_send_data,
+>> +};
+>> +
+>> +/**
+>> + * gh_msgq_init() - Initialize a Gunyah message queue with an 
+>> mbox_client
+>> + * @parent: optional, device parent used for the mailbox controller
+>> + * @msgq: Pointer to the gh_msgq to initialize
+>> + * @cl: A mailbox client to bind to the mailbox channel that the 
+>> message queue creates
+>> + * @tx_ghrsc: optional, the transmission side of the message queue
+>> + * @rx_ghrsc: optional, the receiving side of the message queue
+>> + *
+>> + * At least one of tx_ghrsc and rx_ghrsc should be not NULL. Most 
+>> message queue use cases come with
+>> + * a pair of message queues to facilitate bidirectional 
+>> communication. When tx_ghrsc is set,
+>> + * the client can send messages with 
+>> mbox_send_message(gh_msgq_chan(msgq), msg). When rx_ghrsc
+>> + * is set, the mbox_client should register an .rx_callback() and the 
+>> message queue driver will
+>> + * push all available messages upon receiving the RX ready interrupt. 
+>> The messages should be
+>> + * consumed or copied by the client right away as the gh_msgq_rx_data 
+>> will be replaced/destroyed
+>> + * after the callback.
+>> + *
+>> + * Returns - 0 on success, negative otherwise
+>> + */
+>> +int gh_msgq_init(struct device *parent, struct gh_msgq *msgq, struct 
+>> mbox_client *cl,
+>> +             struct gunyah_resource *tx_ghrsc, struct gunyah_resource 
+>> *rx_ghrsc)
+>> +{
+>> +    int ret;
+>> +
+>> +    /* Must have at least a tx_ghrsc or rx_ghrsc and that they are 
+>> the right device types */
+>> +    if ((!tx_ghrsc && !rx_ghrsc) ||
+>> +        (tx_ghrsc && tx_ghrsc->type != GUNYAH_RESOURCE_TYPE_MSGQ_TX) ||
+>> +        (rx_ghrsc && rx_ghrsc->type != GUNYAH_RESOURCE_TYPE_MSGQ_RX))
+>> +        return -EINVAL;
+>> +
+>> +    if (gh_api_version() != GUNYAH_API_V1) {
+>> +        pr_err("Unrecognized gunyah version: %u. Currently supported: 
+>> %d\n",
+> dev_err(parent
+> 
+> would make this more useful
+> 
+
+Done.
+
+- Elliot
