@@ -2,522 +2,247 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EE63C677F1
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 21:12:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D6A9C677F1
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 21:20:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229620AbjBWVMB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 16:12:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54058 "EHLO
+        id S229721AbjBWVUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 16:20:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbjBWVL7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 16:11:59 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDDF560131
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 13:11:44 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id bn17so732338pgb.10
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 13:11:44 -0800 (PST)
+        with ESMTP id S229709AbjBWVUc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 16:20:32 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 442625D470
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 13:20:21 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id h16so47417358edz.10
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 13:20:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kGxq98/zYJkr02YERvuol+Zxe0aDXXqR0cc4pRDXeVA=;
-        b=UlgfM3B2UTOStCC9BeGX1Mz2+6JvZtehj0eYOKCfGRzlK0KiR8ZwhZRb2vLkfoiEsy
-         IvYuDmKUVBa0XRTikiJpb+CX/mf3+d1SZFRsRs8aJkOvTlY+DjiErYiR3dTUT7N6+siq
-         2Nz4s4Y7m30HI0LC1KWst7l0G7pgmvKkM6VnAPUUxVhExvaXIWRgqAZT2TDNZj9374wD
-         2ZHQvMPj0mF31tAJ1sePNWyiEwaSfJHj8hIs8yOWT5VNKhcOGH36dJm9cG5n9tJszltO
-         YyYcdUQJiq9iC7tfUmaihXX4wEfvokt7cNbyk/BBPo05zYFPbCdNBeC4DGynCTsNWBXc
-         kViQ==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OGNK+81UETaPn0jcsEtslOWqhVdogFDF7Oyic4eRMC0=;
+        b=dZ0PmdnqNzzjl4gyodTo7Zb17UgRMZptHwXLBomZ/AvWARR5ZPd6XaTkwjBxJFuGaT
+         H0F3qnuxv3chDjD33jmtByO/Il4zihwWqNRj/EEYnB9Er7lIZ8MGu+au2KIEm8IkqdMt
+         WfEamdrk6xp1+wq8oDc1jQF3iNhV3+/x/+qKI21/MbCuhRW6FiaAU6cN2nBTZzvkDg9m
+         J0h8xSdbeOsGBxBQoM5VmCu+Xj2Pn3BiMhr9jxIsxQrgeI9plEFpVFpjTVHQqDV2PQ9P
+         IGrsG1Wtc/Y6sEBGu7yxprbHh6Ygufryb07uAYG0eTFXjd75azPNJX+kgrT9eVceeION
+         FccQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kGxq98/zYJkr02YERvuol+Zxe0aDXXqR0cc4pRDXeVA=;
-        b=nYay99ZX/uZVfdr5qGpsb4Vbg5vW52QS3pXZFQn5UcT8PPjxDfXwxQOpjwarDr07Sv
-         LwwA1AsNj8BaSBKx2SV0wsvs8o/0WQH9FUSNPQVDWx9ZCXOJ3IyGAc9Fb1KNOXvhPgvq
-         y4UNWc0hGnt+gV6tUhlXrQnb+92/YSg6Inkdu/PQjC9kV3usc7/mzsmMhdQv8+lm01Yu
-         mn4y+NyXSYa8vAlTkzL655EjM3WpVPxAXX5X8HMbw1uT5u9u6rm2h6sXYsiZs1t3jq6M
-         m4HB40BvmaYtMyoApSBSI6p1RlUboo801nc5g//9gL6Nc8xLOXIyZsl4pAAZZE0PNucv
-         N6Lg==
-X-Gm-Message-State: AO0yUKV0Or4QNywIQbI0BpShXwY7p6tCFj3/XVaZZRdg0lVur0Im9ULC
-        rtBiEwMkbZqugWpeW7a9bKbQnA==
-X-Google-Smtp-Source: AK7set+ufZ4pWMjlQZuvfws66m2QzuArNApuEqIP8oNJEoiTPWSN90xu2tFJ7YgjBB+OiyTSFip6aQ==
-X-Received: by 2002:aa7:8bcf:0:b0:5db:4373:c3c7 with SMTP id s15-20020aa78bcf000000b005db4373c3c7mr3879131pfd.20.1677186704198;
-        Thu, 23 Feb 2023 13:11:44 -0800 (PST)
-Received: from [10.211.55.3] (c-73-221-130-71.hsd1.wa.comcast.net. [73.221.130.71])
-        by smtp.gmail.com with ESMTPSA id s18-20020aa78292000000b00597caf6236esm7897008pfm.150.2023.02.23.13.11.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Feb 2023 13:11:43 -0800 (PST)
-Message-ID: <10343ac1-8350-5fc0-b358-8a1b7280afcc@linaro.org>
-Date:   Thu, 23 Feb 2023 15:11:41 -0600
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OGNK+81UETaPn0jcsEtslOWqhVdogFDF7Oyic4eRMC0=;
+        b=MvPQVWHI9n0G0N3i5Kemzjjd++npK9Nxt/vDFcolRCZ4b5XiGmev6YH/wDLxW2KrQ7
+         Y17y4M7/rmhbJiO3rbaeu5G/JkT5KT1IFvLN+4m7CJVX45/NbUAnqF3Bf1OZ2idb6rsQ
+         JCdxB3rX0WCI8ra/La63xAjyyRlylbipulb/ifjfP6sfELMG6ek1T2nvsc7L2pg5qnib
+         Bb3mkuV1iSmG9Eq2yZU2+k2jnDFuc5kuoak01mfX63bIZFvMRqJHubk/5+H7ualbHtd0
+         gaijW+arRpGK7Jy6Q3Sl3axfCXo2RwrJoYz5MrZW1OiWAVQQl3+dOxOzgv/DCYjd050l
+         19Zw==
+X-Gm-Message-State: AO0yUKUsIA1m1aEI3l5hxMuU3x0hG54W3w/DKQlYZ3VHbiV1nlKaAWyH
+        2SGb/wJgLj8puVVaPTVfOnMCj0VfFnFpMeHqTzfuGg==
+X-Google-Smtp-Source: AK7set+KUUdbnyo5JRRHrV1ozmg6AbjBaYX0SdvoC+Bros6cRT/lBPSqwRJvMri7bJe/UlGznB+3heSzYzD8bnfAmKI=
+X-Received: by 2002:a17:907:2b09:b0:8b1:cd2e:177a with SMTP id
+ gc9-20020a1709072b0900b008b1cd2e177amr10778294ejc.6.1677187219479; Thu, 23
+ Feb 2023 13:20:19 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v10 07/26] mailbox: Add Gunyah message queue mailbox
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jassi Brar <jassisinghbrar@gmail.com>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212316.3309053-1-quic_eberman@quicinc.com>
-From:   Alex Elder <alex.elder@linaro.org>
-In-Reply-To: <20230214212316.3309053-1-quic_eberman@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-34-rick.p.edgecombe@intel.com> <20230223000340.GB945966@debug.ba.rivosinc.com>
+ <49a151d5a704487d541e421699cf798c87a80ca5.camel@intel.com>
+In-Reply-To: <49a151d5a704487d541e421699cf798c87a80ca5.camel@intel.com>
+From:   Deepak Gupta <debug@rivosinc.com>
+Date:   Thu, 23 Feb 2023 13:20:06 -0800
+Message-ID: <CAKC1njSXDY_NUxLdrbJbF6zGaP4aifAh3g1ku0E5RkAxK4tqLA@mail.gmail.com>
+Subject: Re: [PATCH v6 33/41] x86/shstk: Introduce map_shadow_stack syscall
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "david@redhat.com" <david@redhat.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/14/23 3:23 PM, Elliot Berman wrote:
-> Gunyah message queues are a unidirectional inter-VM pipe for messages up
-> to 1024 bytes. This driver supports pairing a receiver message queue and
-> a transmitter message queue to expose a single mailbox channel.
-> 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->   Documentation/virt/gunyah/message-queue.rst |   8 +
->   drivers/mailbox/Makefile                    |   2 +
->   drivers/mailbox/gunyah-msgq.c               | 214 ++++++++++++++++++++
->   include/linux/gunyah.h                      |  56 +++++
->   4 files changed, 280 insertions(+)
->   create mode 100644 drivers/mailbox/gunyah-msgq.c
-> 
-> diff --git a/Documentation/virt/gunyah/message-queue.rst b/Documentation/virt/gunyah/message-queue.rst
-> index 0667b3eb1ff9..082085e981e0 100644
-> --- a/Documentation/virt/gunyah/message-queue.rst
-> +++ b/Documentation/virt/gunyah/message-queue.rst
-> @@ -59,3 +59,11 @@ vIRQ: two TX message queues will have two vIRQs (and two capability IDs).
->         |               |         |                 |         |               |
->         |               |         |                 |         |               |
->         +---------------+         +-----------------+         +---------------+
-> +
-> +Gunyah message queues are exposed as mailboxes. To create the mailbox, create
-> +a mbox_client and call `gh_msgq_init`. On receipt of the RX_READY interrupt,
-> +all messages in the RX message queue are read and pushed via the `rx_callback`
-> +of the registered mbox_client.
-> +
-> +.. kernel-doc:: drivers/mailbox/gunyah-msgq.c
-> +   :identifiers: gh_msgq_init
-> diff --git a/drivers/mailbox/Makefile b/drivers/mailbox/Makefile
-> index fc9376117111..5f929bb55e9a 100644
-> --- a/drivers/mailbox/Makefile
-> +++ b/drivers/mailbox/Makefile
-> @@ -55,6 +55,8 @@ obj-$(CONFIG_MTK_CMDQ_MBOX)	+= mtk-cmdq-mailbox.o
->   
->   obj-$(CONFIG_ZYNQMP_IPI_MBOX)	+= zynqmp-ipi-mailbox.o
->   
-> +obj-$(CONFIG_GUNYAH)		+= gunyah-msgq.o
-> +
->   obj-$(CONFIG_SUN6I_MSGBOX)	+= sun6i-msgbox.o
->   
->   obj-$(CONFIG_SPRD_MBOX)		+= sprd-mailbox.o
-> diff --git a/drivers/mailbox/gunyah-msgq.c b/drivers/mailbox/gunyah-msgq.c
-> new file mode 100644
-> index 000000000000..03ffaa30ce9b
-> --- /dev/null
-> +++ b/drivers/mailbox/gunyah-msgq.c
+On Wed, Feb 22, 2023 at 5:11 PM Edgecombe, Rick P
+<rick.p.edgecombe@intel.com> wrote:
+>
+> On Wed, 2023-02-22 at 16:03 -0800, Deepak Gupta wrote:
+> > On Sat, Feb 18, 2023 at 01:14:25PM -0800, Rick Edgecombe wrote:
+> > > When operating with shadow stacks enabled, the kernel will
+> > > automatically
+> > > allocate shadow stacks for new threads, however in some cases
+> > > userspace
+> > > will need additional shadow stacks. The main example of this is the
+> > > ucontext family of functions, which require userspace allocating
+> > > and
+> > > pivoting to userspace managed stacks.
+> > >
+> > > Unlike most other user memory permissions, shadow stacks need to be
+> > > provisioned with special data in order to be useful. They need to
+> > > be setup
+> > > with a restore token so that userspace can pivot to them via the
+> > > RSTORSSP
+> > > instruction. But, the security design of shadow stack's is that
+> > > they
+> > > should not be written to except in limited circumstances. This
+> > > presents a
+> > > problem for userspace, as to how userspace can provision this
+> > > special
+> > > data, without allowing for the shadow stack to be generally
+> > > writable.
+> > >
+> > > Previously, a new PROT_SHADOW_STACK was attempted, which could be
+> > > mprotect()ed from RW permissions after the data was provisioned.
+> > > This was
+> > > found to not be secure enough, as other thread's could write to the
+> > > shadow stack during the writable window.
+> > >
+> > > The kernel can use a special instruction, WRUSS, to write directly
+> > > to
+> > > userspace shadow stacks. So the solution can be that memory can be
+> > > mapped
+> > > as shadow stack permissions from the beginning (never generally
+> > > writable
+> > > in userspace), and the kernel itself can write the restore token.
+> > >
+> > > First, a new madvise() flag was explored, which could operate on
+> > > the
+> > > PROT_SHADOW_STACK memory. This had a couple downsides:
+> > > 1. Extra checks were needed in mprotect() to prevent writable
+> > > memory from
+> > >    ever becoming PROT_SHADOW_STACK.
+> > > 2. Extra checks/vma state were needed in the new madvise() to
+> > > prevent
+> > >    restore tokens being written into the middle of pre-used shadow
+> > > stacks.
+> > >    It is ideal to prevent restore tokens being added at arbitrary
+> > >    locations, so the check was to make sure the shadow stack had
+> > > never been
+> > >    written to.
+> > > 3. It stood out from the rest of the madvise flags, as more of
+> > > direct
+> > >    action than a hint at future desired behavior.
+> > >
+> > > So rather than repurpose two existing syscalls (mmap, madvise) that
+> > > don't
+> > > quite fit, just implement a new map_shadow_stack syscall to allow
+> > > userspace to map and setup new shadow stacks in one step. While
+> > > ucontext
+> > > is the primary motivator, userspace may have other unforeseen
+> > > reasons to
+> > > setup it's own shadow stacks using the WRSS instruction. Towards
+> > > this
+> > > provide a flag so that stacks can be optionally setup securely for
+> > > the
+> > > common case of ucontext without enabling WRSS. Or potentially have
+> > > the
+> > > kernel set up the shadow stack in some new way.
+> >
+> > Was following ever attempted?
+> >
+> > void *shstk = mmap(0, size, PROT_SHADOWSTACK, ...);
+> > - limit PROT_SHADOWSTACK protection flag to only mmap (and thus
+> > mprotect can't
+> >    convert memory from shadow stack to non-shadow stack type or vice
+> > versa)
+> > - limit PROT_SHADOWSTACK protection flag to anonymous memory only.
+> > - top level mmap handler to put a token at the base using WRUSS if
+> > prot == PROT_SHADOWSTACK
+> >
+> > You essentially would get shadow stack manufacturing with existing
+> > (single) syscall.
+> > Acting a bit selfish here, this allows other architectures as well to
+> > re-use this and
+> > do their own implementation of mapping and placing the token at the
+> > base.
+>
+> Yes, I looked at it. You end up with a pile of checks and hooks added
+> to mmap() and various other places as you outline. We also now have the
+> MAP_ABOVE4G limitation for x86 shadow stack that would need checking
+> for too. It's not exactly a clean fit. Then, callers would have to pass
+> special x86 flags in anyway.
 
-You use a dash in this source file name, but an underscore
-everywhere else.  Unless there's a good reason to do this,
-please be consistent (use "gunyah_msgq.c").
+riscv has mechanisms using which a 32bit app can run on 64bit kernel.
+So technically if there are 32bit and 64bit code in address space,
+MAP_ABOVE4G could be useful.
+Although I am not sure (or aware of) if there are such requirement
+from app/developers yet (to guarantee address mapping above 4G)
 
-> @@ -0,0 +1,214 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include <linux/mailbox_controller.h>
-> +#include <linux/module.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/gunyah.h>
-> +#include <linux/printk.h>
-> +#include <linux/init.h>
-> +#include <linux/slab.h>
-> +#include <linux/wait.h>
-> +
-> +#define mbox_chan_to_msgq(chan) (container_of(chan->mbox, struct gh_msgq, mbox))
-> +
-> +static irqreturn_t gh_msgq_rx_irq_handler(int irq, void *data)
-> +{
-> +	struct gh_msgq *msgq = data;
-> +	struct gh_msgq_rx_data rx_data;
-> +	enum gh_error err;
-> +	bool ready = true;
-> +
-> +	while (ready) {
-> +		err = gh_hypercall_msgq_recv(msgq->rx_ghrsc->capid,
-> +				(uintptr_t)&rx_data.data, sizeof(rx_data.data),
-> +				&rx_data.length, &ready);
-> +		if (err != GH_ERROR_OK) {
-> +			if (err != GH_ERROR_MSGQUEUE_EMPTY)
+But I see this as orthogonal to memory protection flags.
 
-Srini mentioned something about this too.  In many
-(all?) cases, there is a device pointer available,
-so you should use dev_*() functions rather than pr_*().
+>
+> It doesn't seem like the complexity of the checks is worth saving the
+> tiny syscall. Is there some reason why riscv can't use the same syscall
+> stub? It doesn't need to live forever in x86 code. Not sure what the
+> savings are for riscv of the mmap+checks approach are either...
 
-In this particular case, I'm not sure why/when the
-mbox.dev pointer would be null.  Also, dev_*() handles
-the case of a null device pointer, and it reports the
-device name (just as you do here).
+I don't see a lot of extra complexity here.
+If `mprotect` and friends don't know about `PROT_SHADOWSTACK`, they'll
+just fail by default (which is desired)
 
-> +				pr_warn("Failed to receive data from msgq for %s: %d\n",
-> +					msgq->mbox.dev ? dev_name(msgq->mbox.dev) : "", err);
-> +			break;
-> +		}
-> +		mbox_chan_received_data(gh_msgq_chan(msgq), &rx_data);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +/* Fired when message queue transitions from "full" to "space available" to send messages */
-> +static irqreturn_t gh_msgq_tx_irq_handler(int irq, void *data)
-> +{
-> +	struct gh_msgq *msgq = data;
-> +
-> +	mbox_chan_txdone(gh_msgq_chan(msgq), 0);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +/* Fired after sending message and hypercall told us there was more space available. */
-> +static void gh_msgq_txdone_tasklet(struct tasklet_struct *tasklet)
-> +{
-> +	struct gh_msgq *msgq = container_of(tasklet, struct gh_msgq, txdone_tasklet);
-> +
-> +	mbox_chan_txdone(gh_msgq_chan(msgq), msgq->last_ret);
-> +}
-> +
-> +static int gh_msgq_send_data(struct mbox_chan *chan, void *data)
-> +{
-> +	struct gh_msgq *msgq = mbox_chan_to_msgq(chan);
-> +	struct gh_msgq_tx_data *msgq_data = data;
-> +	u64 tx_flags = 0;
-> +	enum gh_error gh_error;
+It's only `mmap` that needs to be enlightened. And it can just pass
+`VMA_SHADOW_STACK` to `do_mmap` if input is `PROT_SHADOWSTACK`.
 
-Above you named the variable "err".  It helps readability
-if you use a very consistent naming convention for variables
-of a certain type when they are used a lot.
+Adding a syscall just for mapping shadow stack is weird when it can be
+solved with existing system calls.
+As you say in your response below, it would be good to have such a
+syscall which serve larger purposes (e.g. provisioning special
+security-type memory)
 
-> +	bool ready;
-> +
-> +	if (msgq_data->push)
-> +		tx_flags |= GH_HYPERCALL_MSGQ_TX_FLAGS_PUSH;
-> +
-> +	gh_error = gh_hypercall_msgq_send(msgq->tx_ghrsc->capid, msgq_data->length,
-> +					(uintptr_t)msgq_data->data, tx_flags, &ready);
-> +
-> +	/**
-> +	 * unlikely because Linux tracks state of msgq and should not try to
-> +	 * send message when msgq is full.
-> +	 */
-> +	if (unlikely(gh_error == GH_ERROR_MSGQUEUE_FULL))
-> +		return -EAGAIN;
-> +
-> +	/**
-> +	 * Propagate all other errors to client. If we return error to mailbox
-> +	 * framework, then no other messages can be sent and nobody will know
-> +	 * to retry this message.
-> +	 */
-> +	msgq->last_ret = gh_remap_error(gh_error);
-> +
-> +	/**
-> +	 * This message was successfully sent, but message queue isn't ready to
-> +	 * receive more messages because it's now full. Mailbox framework
+arm64's memory tagging is one such example. Not exactly security-type
+memory (but eventual application is security for this feature) .
+It adds extra meaning to virtual addresses (i.e. an address has tags).
+arm64 went about using a protection flag `PROT_MTE` instead of a
+special system call.
 
-Maybe:  s/receive/accept/
+Being said that since this patch has gone through multiple revisions
+and I am new to the party. If others dont have issues on this special
+system call,
+I think it's fine then. In case of riscv I can choose to use this
+mechanism or go via arm's route to define PROT_SHADOWSTACK which is
+arch specific.
 
-> +	 * requires that we only report that message was transmitted when
-> +	 * we're ready to transmit another message. We'll get that in the form
-> +	 * of tx IRQ once the other side starts to drain the msgq.
-> +	 */
-> +	if (gh_error == GH_ERROR_OK && !ready)
-> +		return 0;
-> +
-> +	/**
-> +	 * We can send more messages. Mailbox framework requires that tx done
-> +	 * happens asynchronously to sending the message. Gunyah message queues
-> +	 * tell us right away on the hypercall return whether we can send more
-> +	 * messages. To work around this, defer the txdone to a tasklet.
-> +	 */
-> +	tasklet_schedule(&msgq->txdone_tasklet);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct mbox_chan_ops gh_msgq_ops = {
-> +	.send_data = gh_msgq_send_data,
-> +};
-> +
-> +/**
-> + * gh_msgq_init() - Initialize a Gunyah message queue with an mbox_client
-> + * @parent: optional, device parent used for the mailbox controller
-> + * @msgq: Pointer to the gh_msgq to initialize
-> + * @cl: A mailbox client to bind to the mailbox channel that the message queue creates
-> + * @tx_ghrsc: optional, the transmission side of the message queue
-> + * @rx_ghrsc: optional, the receiving side of the message queue
-> + *
-> + * At least one of tx_ghrsc and rx_ghrsc should be not NULL. Most message queue use cases come with
+>
+> I did wonder if there could be some sort of more general syscall for
+> mapping and provisioning special security-type memory. But we probably
+> need a few more non-shadow stack examples to get an idea of what that
+> would look like.
 
-s/should be/must be/
-
-> + * a pair of message queues to facilitate bidirectional communication. When tx_ghrsc is set,
-> + * the client can send messages with mbox_send_message(gh_msgq_chan(msgq), msg). When rx_ghrsc
-> + * is set, the mbox_client should register an .rx_callback() and the message queue driver will
-
-s/should register/must register/
-
-A general comment on this code is that you sort of half define
-a Gunyah message queue API.  You define an initialization
-function and an exit function, but you also expose the fact
-that you use the mailbox framework in implementation.  This
-despite avoiding defining it as an mbox in the DTS file.
-
-It might be hard to avoid that I guess.  But to me it would be
-nice if there were a more distinct Gunyah message queue API,
-which would provide a send_message() function, for example.
-And in that case, perhaps you would pass in the tx_done and/or
-rx_data callbacks to this function (since they're required).
-
-All that said, this is (currently?) only used by the resource
-manager, so making a beautiful API might not be that important.
-Do you envision this being used to communicate with other VMs
-in the future?
-
-> + * push all available messages upon receiving the RX ready interrupt. The messages should be
-
-Maybe: s/push/deliver/
-
-> + * consumed or copied by the client right away as the gh_msgq_rx_data will be replaced/destroyed
-> + * after the callback.
-> + *
-> + * Returns - 0 on success, negative otherwise
-> + */
-> +int gh_msgq_init(struct device *parent, struct gh_msgq *msgq, struct mbox_client *cl,
-> +		     struct gunyah_resource *tx_ghrsc, struct gunyah_resource *rx_ghrsc)
-> +{
-> +	int ret;
-> +
-> +	/* Must have at least a tx_ghrsc or rx_ghrsc and that they are the right device types */
-> +	if ((!tx_ghrsc && !rx_ghrsc) ||
-> +	    (tx_ghrsc && tx_ghrsc->type != GUNYAH_RESOURCE_TYPE_MSGQ_TX) ||
-> +	    (rx_ghrsc && rx_ghrsc->type != GUNYAH_RESOURCE_TYPE_MSGQ_RX))
-> +		return -EINVAL;
-> +
-> +	if (gh_api_version() != GUNYAH_API_V1) {
-> +		pr_err("Unrecognized gunyah version: %u. Currently supported: %d\n",
-> +			gh_api_version(), GUNYAH_API_V1);
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	if (!gh_api_has_feature(GH_API_FEATURE_MSGQUEUE))
-> +		return -EOPNOTSUPP;
-
-Can Gunyah even function if it doesn't have the MSGQUEUE feature?
-Will there ever be a Gunyah implementation that does not support
-it?  Perhaps this test could be done in gunyah_init() instead.
-
-For that matter, you could verify the result of gh_api_version()
-at that time also.
-
-> +
-> +	msgq->tx_ghrsc = tx_ghrsc;
-> +	msgq->rx_ghrsc = rx_ghrsc;
-> +
-> +	msgq->mbox.dev = parent;
-> +	msgq->mbox.ops = &gh_msgq_ops;
-> +	msgq->mbox.num_chans = 1;
-> +	msgq->mbox.txdone_irq = true;
-> +	msgq->mbox.chans = kcalloc(msgq->mbox.num_chans, sizeof(*msgq->mbox.chans), GFP_KERNEL);
-
- From what I can tell, you will always use exactly one mailbox channel.
-So you could just do kzalloc(sizeof()...).
-
-> +	if (!msgq->mbox.chans)
-> +		return -ENOMEM;
-> +
-> +	if (msgq->tx_ghrsc) {
-
-	if (tx_ghrsc) {
-
-The irq field is assumed to be valid.  Are there any
-sanity checks you could perform?  Again this is only
-used for the resource manager right now, so maybe
-it's OK.
-
-> +		ret = request_irq(msgq->tx_ghrsc->irq, gh_msgq_tx_irq_handler, 0, "gh_msgq_tx",
-
-		ret = request_irq(tx_ghrsc->irq, ...
-
-
-> +				msgq);
-> +		if (ret)
-> +			goto err_chans;
-> +	}
-> +
-> +	if (msgq->rx_ghrsc) {
-> +		ret = request_threaded_irq(msgq->rx_ghrsc->irq, NULL, gh_msgq_rx_irq_handler,
-> +						IRQF_ONESHOT, "gh_msgq_rx", msgq);
-> +		if (ret)
-> +			goto err_tx_irq;
-> +	}
-> +
-> +	tasklet_setup(&msgq->txdone_tasklet, gh_msgq_txdone_tasklet);
-> +
-> +	ret = mbox_controller_register(&msgq->mbox);
-> +	if (ret)
-> +		goto err_rx_irq;
-> +
-> +	ret = mbox_bind_client(gh_msgq_chan(msgq), cl);
-
-
-> +	if (ret)
-> +		goto err_mbox;
-> +
-> +	return 0;
-> +err_mbox:
-> +	mbox_controller_unregister(&msgq->mbox);
-> +err_rx_irq:
-> +	if (msgq->rx_ghrsc)
-> +		free_irq(msgq->rx_ghrsc->irq, msgq);
-> +err_tx_irq:
-> +	if (msgq->tx_ghrsc)
-> +		free_irq(msgq->tx_ghrsc->irq, msgq);
-> +err_chans:
-> +	kfree(msgq->mbox.chans);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(gh_msgq_init);
-> +
-> +void gh_msgq_remove(struct gh_msgq *msgq)
-> +{
-
-Is there any need to un-bind the client?
-
-> +	mbox_controller_unregister(&msgq->mbox);
-> +
-> +	if (msgq->rx_ghrsc)
-> +		free_irq(msgq->rx_ghrsc->irq, msgq);
-> +
-> +	if (msgq->tx_ghrsc)
-> +		free_irq(msgq->tx_ghrsc->irq, msgq);
-> +
-> +	kfree(msgq->mbox.chans);
-> +}
-> +EXPORT_SYMBOL_GPL(gh_msgq_remove);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("Gunyah Message Queue Driver");
-> diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
-> index cb6df4eec5c2..2e13669c6363 100644
-> --- a/include/linux/gunyah.h
-> +++ b/include/linux/gunyah.h
-> @@ -8,11 +8,67 @@
->   
->   #include <linux/bitfield.h>
->   #include <linux/errno.h>
-> +#include <linux/interrupt.h>
->   #include <linux/limits.h>
-> +#include <linux/mailbox_controller.h>
-> +#include <linux/mailbox_client.h>
->   #include <linux/types.h>
->   
-> +/* Follows resource manager's resource types for VM_GET_HYP_RESOURCES */
-> +enum gunyah_resource_type {
-> +	GUNYAH_RESOURCE_TYPE_BELL_TX	= 0,
-> +	GUNYAH_RESOURCE_TYPE_BELL_RX	= 1,
-> +	GUNYAH_RESOURCE_TYPE_MSGQ_TX	= 2,
-> +	GUNYAH_RESOURCE_TYPE_MSGQ_RX	= 3,
-> +	GUNYAH_RESOURCE_TYPE_VCPU	= 4,
-
-The maximum value here must fit in 8 bits.  I guess
-there's no risk right now of using that up, but you
-use negative values in some cases elsewhere.
-
-> +};
-> +
-> +struct gunyah_resource {
-> +	enum gunyah_resource_type type;
-> +	u64 capid;
-> +	int irq;
-
-request_irq() defines the IRQ value to be an unsigned int.
-
-> +};
-> +
-> +/**
-> + * Gunyah Message Queues
-> + */
-> +
-> +#define GH_MSGQ_MAX_MSG_SIZE	240
-> +
-> +struct gh_msgq_tx_data {
-> +	size_t length;
-> +	bool push;
-> +	char data[];
-> +};
-> +
-> +struct gh_msgq_rx_data {
-> +	size_t length;
-> +	char data[GH_MSGQ_MAX_MSG_SIZE];
-> +};
-> +
-> +struct gh_msgq {
-> +	struct gunyah_resource *tx_ghrsc;
-> +	struct gunyah_resource *rx_ghrsc;
-> +
-> +	/* msgq private */
-> +	int last_ret; /* Linux error, not GH_STATUS_* */
-> +	struct mbox_controller mbox;
-> +	struct tasklet_struct txdone_tasklet;
-
-Can the msgq_client be embedded here too?  (I don't really
-know whether msgq and msgq_client are one-to one.)
-
-> +};
-> +
-> +
-> +int gh_msgq_init(struct device *parent, struct gh_msgq *msgq, struct mbox_client *cl,
-> +		     struct gunyah_resource *tx_ghrsc, struct gunyah_resource *rx_ghrsc);
-> +void gh_msgq_remove(struct gh_msgq *msgq);
-
-I suggested:
-
-int gh_msgq_send(struct gh_msgq, struct gh_msgq_tx_data *data);
-
-					-Alex
-
-> +
-> +static inline struct mbox_chan *gh_msgq_chan(struct gh_msgq *msgq)
-> +{
-> +	return &msgq->mbox.chans[0];
-> +}
-> +
->   /******************************************************************************/
->   /* Common arch-independent definitions for Gunyah hypercalls                  */
-> +
->   #define GH_CAPID_INVAL	U64_MAX
->   #define GH_VMID_ROOT_VM	0xff
->   
-
+As I mentioned memory tagging and thus PROT_MTE is already such a use
+case which uses `mmap/mprotect` protection flags to designate special
+meaning to a virtual address.
