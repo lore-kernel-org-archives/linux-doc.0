@@ -2,197 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E1BEC61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 05:07:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC7F0C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 05:29:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232788AbjBWFHm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 00:07:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36052 "EHLO
+        id S230287AbjBWF3z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 00:29:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjBWFHl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 00:07:41 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 220513527D;
-        Wed, 22 Feb 2023 21:07:39 -0800 (PST)
+        with ESMTP id S229461AbjBWF3z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 00:29:55 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A24B3CA05;
+        Wed, 22 Feb 2023 21:29:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677128859; x=1708664859;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=n6ml1LhldVZgTB+XyVBdvDmDcqP56+iBpXUIV6oJ/rA=;
-  b=n2uiTzghJYwYVAq0lBR5k6Tfx0VH+dlysA4W3mnDdCsKjtD1NqkI7Cdj
-   m5sDsnSIyOg/Lhmrd2WDGSfQ5NqiQ7TPeP71bWHTp1f2TSnMIYsyV6Kkz
-   ta0p3D9DdpOZVt8nH7WMhmQPxwPpFmQJxKg/R4IbSF3pxLO4S23tDd24a
-   6VMfpnHeNLtxRE7ssEI2InkqnRLQVUrRwqIUzot0NKVxfpkdNjFH3kGiJ
-   Z+CDnC52lJ5Yg9fgbPga0AxUe06hNajbFxhIHSZDqUgk8u+Ugb8bdFOBx
-   Bi2U+KEWVmIiyo4IDejSHR5Z2QgDyCalRAjvdf1+a0oMghBy+Idpjc3RO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="321262449"
+  t=1677130193; x=1708666193;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=K8IMeI4Bvp4oHzpdzTBMsmizPfZAgqXCDZxNy/3Bn1k=;
+  b=dPSW90Hrbt3dBW2+kwmBglQiU77wCdG0gd40pddHm1bMUctH+rDZjLoS
+   SqxntP+k0CmQJMVXRhqNKSqF7m5NgNhWeFulEgEkSgPe1zOhnPmLAkond
+   wN840y+AfRFac0ts+W8RtvrLjR5uxP1PtdhnSuSfM3ZcU+w+RjeYuuJpv
+   jwdsk+i60fQ0M6MebuFvPnd+RhEA7F1D84HTVfJTWr1y6jlkiDCptz0tt
+   7uC2Kvpuyq/dwNqKce6eVXxik/bmrsCz38uh9oJybwdvchy6K1k6DQ48q
+   /jF6QGqQXG9PSmM8CyETlcStlCehLHw+8JjfEA/L6UX68zAn31O47ys/d
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="331789151"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="321262449"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 21:07:12 -0800
+   d="scan'208";a="331789151"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 21:29:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="622190951"
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="672342758"
 X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="622190951"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga003.jf.intel.com with ESMTP; 22 Feb 2023 21:07:11 -0800
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 22 Feb 2023 21:07:10 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 22 Feb 2023 21:07:10 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 22 Feb 2023 21:07:10 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YfCL7oC8+yqSWAFiBsm2N9JoBA+t2ZODOvOPHAuGq8oVBxC2bnu6dUxDynJG2RERo/MpnLvxT0XYlyDsJxBIa39QvNPsNo1TyB+bl9ZpZJ468zu4vID3v8CZR4AMfvJ60ZjE4YE9urCsVkAOorlu9JwCO8D7Ih1PK5E58HMA5MDzjbPypqEQUgOcs4OtHAlm585C4RIF1zLRqsU4D34+2GXrlM++yrrLmg68/cikM6qrLGoHn+gk/V8jYVOB62cJ4hOsSXBFDI8VVCAj0nn+8vh0ubIOG0lUvuLAxf6Yv1DyU1XhNKtmuSpvpxqRbwbxmjEoyfWtw1gW02rQUM11vQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Npf5NEIZp2XPL1OSVHTe1UkLc9kV7e6q+gzX/9llioQ=;
- b=BoywBs2Apw5YX5R8tsWFVsGXv/i69J6aL7KDkCoSeMmV5gFqNeYae/LlLRyHXLGraM4NzT7pIXYo+MsmBibsI5qJiiW4rc0OTubUaOU+/14GaOcVdHhQjS91QmILdzE2ALF8Gn9IBsOfmwOuBsUmJWuTBGwS/QFEsy4chmEGbEqMkdd5BfQYVOwvlhv0Zx+Eq9J9HQluJUDYKBE/23aZ8SNZh9XCqW4+uuO9eW//vBCM+dp3vN3PjZWCTtcYrb1IwZEUKKZ5IKgK93bGl/j3Y2CNoxFB+6TKxcqUy6wNbOeqMqpr6vPH2y9qbS68qcNGKJgIPqnRSFBXxlwBDoQYFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB4739.namprd11.prod.outlook.com (2603:10b6:5:2a0::22)
- by DS0PR11MB8206.namprd11.prod.outlook.com (2603:10b6:8:166::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.18; Thu, 23 Feb
- 2023 05:07:02 +0000
-Received: from DM6PR11MB4739.namprd11.prod.outlook.com
- ([fe80::c442:e5e2:35c4:7339]) by DM6PR11MB4739.namprd11.prod.outlook.com
- ([fe80::c442:e5e2:35c4:7339%7]) with mapi id 15.20.6134.019; Thu, 23 Feb 2023
- 05:07:02 +0000
-From:   "Miao, Jun" <jun.miao@intel.com>
-To:     "Christopherson,, Sean" <seanjc@google.com>
-CC:     "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Szmigiero, Maciej" <maciej.szmigiero@oracle.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] KVM: Align the function name of
- kvm_swap_active_memslots()
-Thread-Topic: [PATCH] KVM: Align the function name of
- kvm_swap_active_memslots()
-Thread-Index: AQHZRQfG/5qoLPdSx0uaQHuTSRKFXa7bT+8AgACuWUA=
-Date:   Thu, 23 Feb 2023 05:07:01 +0000
-Message-ID: <DM6PR11MB4739574A5EBA94A487D725319AAB9@DM6PR11MB4739.namprd11.prod.outlook.com>
-References: <20230220084500.938739-1-jun.miao@intel.com>
- <Y/ZhYiN+oYbx6z5n@google.com>
-In-Reply-To: <Y/ZhYiN+oYbx6z5n@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB4739:EE_|DS0PR11MB8206:EE_
-x-ms-office365-filtering-correlation-id: d75362a0-deaf-4029-4292-08db155bcc68
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Uk0FfHgsEBelryApHVhOCQZ/0MhcNgvmZn49kKL1W4u7qwQORFzYdYAVoC3TLp9GhaX0CbLaW2bRfV/Ekp6OQhVSxvVBzb8ZByJiG1BR2EZt3H5VY9j7e2UYhsLWntZ7MdWpjfqFVHoslHO2nAbSDw8Sp1P33WwRqr3Ulf9jIS3DZZkU8xdpjksSjzfeWewPa3d0Mz0YYla+K5AIUE0vknyCcCIb9jCds3Y1mYJ1oZ4ImRSJQYLw0p1EHwclna41nAoeQEp3rEwfNVZhn7pnsvSahT3fLQdfR/9uX+RKUylQPkLbMDo5tOUzQpM1tMdyoNY9d0qNA1nBby8WM1m47f2fyfta4KNlH7XRYmCDppgDlXi2vXr5aBNwYuZ8U1nVl9pR16gcBRHGRYJ+lZWH7aMBZIV81ktxip7rT0FaLizrLT1C8LTRJ96MEFU7B2QfZ/ZxoBITxWQbVH87TaoF78og3C2htiasVkjH+GyIBjGgNylwHbjGm/QtRBUN1/BZut8RTAt3AFPGs6H17/q7VHzQTLiHmLDFxpBpHdiy4RgqGj9twc3gN3JGwuvWBQw3HXKK8yKI7s2qmJXsl9cZJLuPYcvmsHw/D7A8i4KyBh1O8L47FWUCfAv5IP8vyuJoL+425V/C3uZHPn6U2D6qBeIymHRINrZwaFTuExa62UPl5MboqieCxV2a4GqXh0RXPVhB7tOm7gbjeia+OvJUtQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4739.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(136003)(39860400002)(366004)(396003)(376002)(346002)(451199018)(316002)(478600001)(66446008)(66556008)(66476007)(71200400001)(66946007)(64756008)(8936002)(54906003)(8676002)(52536014)(76116006)(4326008)(7696005)(6916009)(5660300002)(41300700001)(38100700002)(122000001)(2906002)(38070700005)(26005)(186003)(9686003)(83380400001)(33656002)(6506007)(86362001)(55016003)(82960400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?87Z5B6lDTG6cJ2+6VhNLGAd8q/ZzBVn+1UxJ/TQmMQDzX2HsHFXhWKG3OXB6?=
- =?us-ascii?Q?v9alj0WSi5wn1+KAwC7q77XbWntECsF4l742JTXTZTE6RST3+terXaKLSs+o?=
- =?us-ascii?Q?FtC396fHOdQjAIi66PIp1ZXTl31FxMm62B/FdWYFpv/NXSmGdu2H85+znZvv?=
- =?us-ascii?Q?cmhcpCWnzO72EAlzEFR7Z6wDOVcmoRf3yLvJX8FlGR9hNc4X6XhqJtGyMbzy?=
- =?us-ascii?Q?fxLWBFqYMyI614AChokc8GP15rcHPQOLUUdCfd5wJeFSJGi8Rv1p3CyZOxOP?=
- =?us-ascii?Q?Ii/VkBsh0h19cFjx5mul2y6L9osDsNvnzdUb2i6TaWojNpn0VdFC6U9Kd5Yp?=
- =?us-ascii?Q?CYoJjlaWIIdp4TSp9f5v9AOv42X/gooef9uGzwqZYM5YoUK7GFH02sGTkOzd?=
- =?us-ascii?Q?l9fp+NlFskHSX1zmXqPSpqqFOOBS7Df7V+9CwhKHjmlBqQ8P2Shv/Dk+kTAU?=
- =?us-ascii?Q?0Xwm/xjJWH5mHsWqiy7vp/F+Iuwjo1/AJ/MzzMHEeS7dZfbpG1GkhVNI3HLR?=
- =?us-ascii?Q?YkunsFTBrz1egQWldLwvjDnBzY8Ua97Ml6tMpApIHPLGSTiIf1sao8437tqk?=
- =?us-ascii?Q?ksg2+RTFXac6D7c7HVKlG0ZGy8ylOe91S4kLYUSqxWDLiifNvfTx+qI3lWgB?=
- =?us-ascii?Q?VAj3s5WGcuSJ7PNwQlUoNzfWnGv78jyOfV6lbfjQ3efefAuoEC34ogDtICbM?=
- =?us-ascii?Q?ljWwBmvqjHEQ5ya2EyV/dEZ35FNE4tfab6sFD1v7tFfQ7Q9DJYvrkts9+8da?=
- =?us-ascii?Q?ClhYHyOWEukRNpRZ2FR6le4ExmjEWVJiOWosuCc09fyZsecu1ndmnQ8bX0Nb?=
- =?us-ascii?Q?jWA6yof1BHB3rHOrSWeXK/rQQLVvPccH/26pyukXwbOcSX2tRCfFVV/kYVzZ?=
- =?us-ascii?Q?pvZbC+ipc3n4Ij7/UhzQyawo2eugcpohDiksCdv3P9QClWQUH/ZFy+E9PlP8?=
- =?us-ascii?Q?Z2p3b1pHPzPPSg4/Uj9Hfb2VDoiGq1zZapLQsukEqdOwtmBBzAZurfmgbdkU?=
- =?us-ascii?Q?HKzDW16DQ/6idxB6i7/8zEHVI9lvQxg68GOrAIhOlwJOzWMphXfL+MYn6Sw6?=
- =?us-ascii?Q?EUFvnwH6IpRODzaEA6qcG9LfEeM2h6MeRQJcwBKdBtxpVWVVQ0qlJfJ6ceSr?=
- =?us-ascii?Q?uJ3Pl2Z3pAQF6oZSAVtMPz6F5retpUiNpkoGUbQHSv7752IyS0ParLcgDbTo?=
- =?us-ascii?Q?e54H30bIHQeZchuJV5AnMVsZUfI/IDeV3fdsEWo5SIybRaCsuUTRT6OhZqez?=
- =?us-ascii?Q?yIbo731RJv6zotTZBSYzA5+McsC0XtA23MocSzzZR5XVHwlrl83zbTZE6zr4?=
- =?us-ascii?Q?Bny1es/pnPDyVNUaPnKya9onfFtGehWbDT0Sb0fH9rfh7Hg8tj7duqQYKbjw?=
- =?us-ascii?Q?5xxf23UYESK5/nJrX0Lphwu5o+tY2nYDwmFs31Pj5zFVrLCl1INbwKWSs2Qk?=
- =?us-ascii?Q?VNdVg2urZCpPMd5lVQQe9OFvPDT7iXTCYhXnB5RSYRuwvTJlL86Fuu+aUYkK?=
- =?us-ascii?Q?mxk1YHM6rG7Y9nrGpmMlgRiAe2eNWKzsUqQy5mSK8sZrQYiYNqzbaWsM9pVr?=
- =?us-ascii?Q?B21Uk7PlocvFPqTvJ5HjLVINLIpt/X1Fht2TGNEC?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="672342758"
+Received: from ubuntu.bj.intel.com ([10.238.155.108])
+  by orsmga002.jf.intel.com with ESMTP; 22 Feb 2023 21:29:50 -0800
+From:   Jun Miao <jun.miao@intel.com>
+To:     pbonzini@redhat.com, seanjc@google.com
+Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, jun.miao@intel.com
+Subject: [PATCH v2] KVM: Fix comments that refer to the non-existent install_new_memslots()
+Date:   Thu, 23 Feb 2023 13:28:51 +0800
+Message-Id: <20230223052851.1054799-1-jun.miao@intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4739.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d75362a0-deaf-4029-4292-08db155bcc68
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2023 05:07:01.8180
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: F34KKOG5AT7XaeWAWUizsznBRzmH4vGuK6DOppjrrWuXZJDTZ4DOFjVqr/KCDOfwo8e29YusjsIiy7Q5/C/p3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8206
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->=20
-> Nit, "Align" is a confusing because it's often used to refer to indentati=
-on.  Maybe?
->=20
->    KVM: Fix comments that refer to the non-existent install_new_memslots(=
-)
->=20
-> On Mon, Feb 20, 2023, Jun Miao wrote:
-> > The function of install_new_memslots() is replaced by
-> kvm_swap_active_memslots().
-> > In order to avoid confusion, align the name in the comments which alway=
-s be
-> ignored.
-> >
-> > Fixes: a54d806688fe "KVM: Keep memslots in tree-based structures instea=
-d of
-> array-based ones")
-> > Signed-off-by: Jun Miao <jun.miao@intel.com>
-> > ---
-> >  Documentation/virt/kvm/locking.rst | 2 +-
-> >  include/linux/kvm_host.h           | 4 ++--
-> >  virt/kvm/kvm_main.c                | 4 ++--
-> >  3 files changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/Documentation/virt/kvm/locking.rst
-> b/Documentation/virt/kvm/locking.rst
-> > index 14c4e9fa501d..ac0e549a3ae7 100644
-> > --- a/Documentation/virt/kvm/locking.rst
-> > +++ b/Documentation/virt/kvm/locking.rst
-> > @@ -21,7 +21,7 @@ The acquisition orders for mutexes are as follows:
-> >  - kvm->mn_active_invalidate_count ensures that pairs of
-> >    invalidate_range_start() and invalidate_range_end() callbacks
-> >    use the same memslots array.  kvm->slots_lock and kvm->slots_arch_lo=
-ck
-> > -  are taken on the waiting side in install_new_memslots, so MMU notifi=
-ers
-> > +  are taken on the waiting side in kvm_swap_active_memslots, so MMU
-> notifiers
->=20
-> Can you send a v2 and opportunistically add () to the blurbs that don't h=
-ave it?
-> I.e. so these are all "kvm_swap_active_memslots()"?
->=20
-I will send V2 with the lost "()", thank you for the warm and accurate advi=
-ce.
+The function of install_new_memslots() was replaced by kvm_swap_active_memslots().
+In order to avoid confusion, fix the comments that refer the non-existent name of
+install_new_memslots which always be ignored.
 
---Jun
-> Thanks!
+Fixes: a54d806688fe ("KVM: Keep memslots in tree-based structures instead of array-based ones")
+Signed-off-by: Jun Miao <jun.miao@intel.com>
+---
+ Documentation/virt/kvm/locking.rst |  2 +-
+ include/linux/kvm_host.h           |  4 ++--
+ virt/kvm/kvm_main.c                | 10 +++++-----
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/virt/kvm/locking.rst b/Documentation/virt/kvm/locking.rst
+index 14c4e9fa501d..6e03ad853c27 100644
+--- a/Documentation/virt/kvm/locking.rst
++++ b/Documentation/virt/kvm/locking.rst
+@@ -21,7 +21,7 @@ The acquisition orders for mutexes are as follows:
+ - kvm->mn_active_invalidate_count ensures that pairs of
+   invalidate_range_start() and invalidate_range_end() callbacks
+   use the same memslots array.  kvm->slots_lock and kvm->slots_arch_lock
+-  are taken on the waiting side in install_new_memslots, so MMU notifiers
++  are taken on the waiting side in kvm_swap_active_memslots(), so MMU notifiers
+   must not take either kvm->slots_lock or kvm->slots_arch_lock.
+ 
+ For SRCU:
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 8ada23756b0e..98605bd25060 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -58,7 +58,7 @@
+ 
+ /*
+  * Bit 63 of the memslot generation number is an "update in-progress flag",
+- * e.g. is temporarily set for the duration of install_new_memslots().
++ * e.g. is temporarily set for the duration of kvm_swap_active_memslots().
+  * This flag effectively creates a unique generation number that is used to
+  * mark cached memslot data, e.g. MMIO accesses, as potentially being stale,
+  * i.e. may (or may not) have come from the previous memslots generation.
+@@ -713,7 +713,7 @@ struct kvm {
+ 	 * use by the VM. To be used under the slots_lock (above) or in a
+ 	 * kvm->srcu critical section where acquiring the slots_lock would
+ 	 * lead to deadlock with the synchronize_srcu in
+-	 * install_new_memslots.
++	 * kvm_swap_active_memslots().
+ 	 */
+ 	struct mutex slots_arch_lock;
+ 	struct mm_struct *mm; /* userspace tied to this vm */
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index d255964ec331..9f9077a898dc 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -1298,7 +1298,7 @@ static void kvm_destroy_vm(struct kvm *kvm)
+ 	 * At this point, pending calls to invalidate_range_start()
+ 	 * have completed but no more MMU notifiers will run, so
+ 	 * mn_active_invalidate_count may remain unbalanced.
+-	 * No threads can be waiting in install_new_memslots as the
++	 * No threads can be waiting in kvm_swap_active_memslots() as the
+ 	 * last reference on KVM has been dropped, but freeing
+ 	 * memslots would deadlock without this manual intervention.
+ 	 */
+@@ -1742,13 +1742,13 @@ static void kvm_invalidate_memslot(struct kvm *kvm,
+ 	kvm_arch_flush_shadow_memslot(kvm, old);
+ 	kvm_arch_guest_memory_reclaimed(kvm);
+ 
+-	/* Was released by kvm_swap_active_memslots, reacquire. */
++	/* Was released by kvm_swap_active_memslots(), reacquire. */
+ 	mutex_lock(&kvm->slots_arch_lock);
+ 
+ 	/*
+ 	 * Copy the arch-specific field of the newly-installed slot back to the
+ 	 * old slot as the arch data could have changed between releasing
+-	 * slots_arch_lock in install_new_memslots() and re-acquiring the lock
++	 * slots_arch_lock in kvm_swap_active_memslots() and re-acquiring the lock
+ 	 * above.  Writers are required to retrieve memslots *after* acquiring
+ 	 * slots_arch_lock, thus the active slot's data is guaranteed to be fresh.
+ 	 */
+@@ -1810,11 +1810,11 @@ static int kvm_set_memslot(struct kvm *kvm,
+ 	int r;
+ 
+ 	/*
+-	 * Released in kvm_swap_active_memslots.
++	 * Released in kvm_swap_active_memslots().
+ 	 *
+ 	 * Must be held from before the current memslots are copied until
+ 	 * after the new memslots are installed with rcu_assign_pointer,
+-	 * then released before the synchronize srcu in kvm_swap_active_memslots.
++	 * then released before the synchronize srcu in kvm_swap_active_memslots().
+ 	 *
+ 	 * When modifying memslots outside of the slots_lock, must be held
+ 	 * before reading the pointer to the current memslots until after all
+-- 
+2.32.0
+
