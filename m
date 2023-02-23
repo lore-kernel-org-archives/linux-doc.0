@@ -2,295 +2,312 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8523BC64ED8
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 07:06:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5126CC61DA4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 07:33:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233178AbjBWHG3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 02:06:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54202 "EHLO
+        id S233199AbjBWHdg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 02:33:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232420AbjBWHG2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 02:06:28 -0500
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on20608.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e88::608])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A5A3AAF;
-        Wed, 22 Feb 2023 23:06:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iaBVVkVmKbIs1YhkIo2Pit1GaQ+/43X5vo/wTD+Yh/PJMTQyekGNERnygshj5B+LOvsQslC2jRPxcXuCHskHcFxs5XjAnciHJiEjQjAVFhDXGxP6pWIallic13cQOIHiNv4usJtGnMCbvzReuJZlkzq6v1nxd+Tc2VIUAXQ6xTf8+kvXQVGxeU5p7DnmDOoLLYlUvTR1q3iafSHxcu254X6OWrXJ2kSF6r+qWmn7HF8nVUVzf/mN4G56kDwfUSaiftfKIH+i/jvucZRTXmXd6wfSoDV7H3ebdS769ssSAvJ7smngC26AutVyTM8b8Jhvv6S74j0E2hVyMkBwvaDn/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=12hp1L0CE5xXc/fbwY6OdlqjOQE8NxQBiHNdhdTm8RY=;
- b=g6ZI7qY9z5OqldCzeqtiefoRpFas8REW28yx/q5JbF/1URMZRf/4373Ajgl0d04PRNkZM1qGiJXosE1aZDPCltm465E/2ueIRmFyTgdNDiJXgfx17n/0ejed3vBBQ0PqSykStb+iiNsr1d8SUAlh3cUQAQFc300RaHs9L5tRSZDDBKELNWjovXf36sfjzUcbB7z4HvM05eFfgmpdmOuTAvxR01PFYbrLVJu/OyaTVoXK/2MDxeAkXhlqwbytTpjT9dT1+s9ZmHvUR5MiRUNViy0k8wDEIgl3XNe26IaKhQO7L+jgXlsBYvhDeVAB5nG5B2RGzufPym/QIAuzHDFMWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=12hp1L0CE5xXc/fbwY6OdlqjOQE8NxQBiHNdhdTm8RY=;
- b=26w41dGRXRwS+oJrSryf0kurwbOPlFL8CvbebtJXiD7y1YWUuE0Cr9PG2S10vbT436yMbct5knDnnUzNrPdDpRxoiirs+yqiTO9vwb82EILKzBOX3IpR9hjENpA2/GpwkbhkNDLnhI4IcSBUwmH+actyWDuSn+rnJ83RS9J77ps=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by IA1PR12MB6113.namprd12.prod.outlook.com (2603:10b6:208:3eb::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19; Thu, 23 Feb
- 2023 07:06:21 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6134.021; Thu, 23 Feb 2023
- 07:06:19 +0000
-Message-ID: <7780a9b9-d6bd-6f3f-9c31-aafacb09db1f@amd.com>
-Date:   Thu, 23 Feb 2023 08:06:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA
- mappings
-Content-Language: en-US
-To:     Danilo Krummrich <dakr@redhat.com>
-Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        boris.brezillon@collabora.com, alexdeucher@gmail.com,
-        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-        jason@jlekstrand.net, linux-doc@vger.kernel.org,
-        nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-        Dave Airlie <airlied@redhat.com>
-References: <20230217134422.14116-1-dakr@redhat.com>
- <20230217134422.14116-6-dakr@redhat.com>
- <70ba382f-1559-289a-4922-ca9c371aaf59@amd.com>
- <cc8eeaf4-31e7-98e4-a712-012fc604e985@redhat.com>
- <29ea3705-5634-c204-c1da-d356b6dfbafc@amd.com>
- <83755119-083d-7d66-fca0-ca306c841d9c@redhat.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <83755119-083d-7d66-fca0-ca306c841d9c@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0016.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::26) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        with ESMTP id S229453AbjBWHdf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 02:33:35 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F1DB3ABC;
+        Wed, 22 Feb 2023 23:33:33 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B84DA61486;
+        Thu, 23 Feb 2023 07:33:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01211C433D2;
+        Thu, 23 Feb 2023 07:33:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1677137612;
+        bh=YLGNpiKGKeQXS7cWFQgkghK8DLlHfbcET0IszUJPvQM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pP9fXt/tXJ1degBWfaPBvR4/7EIlfuAoEEitMXtixJh/D8a85c3sNDhf4CWUfxgDt
+         1N3fLUncs1mzcXLhI3hU511eZAEbztQrX1k3TXomdFn0JMcBTjYvDJv3WxaCaMxGF2
+         zuQSnrGO/xqMgXbj0w9EkefmQFYTEwsjsFC/9wQg=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] driver core: remove CONFIG_SYSFS_DEPRECATED and CONFIG_SYSFS_DEPRECATED_V2
+Date:   Thu, 23 Feb 2023 08:33:26 +0100
+Message-Id: <20230223073326.2073220-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA1PR12MB6113:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6afd23c3-edc4-434e-7e13-08db156c76b6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hRzwlwtWXdobZWGkDUSjCk6sfYkX/LQBRC+lTwxTLbvvOTqf24cuZavVHGJbEJ2XCVx3OM0JSpH3aPw8IK1g5P37AZGW/Xblbz6ohxK+aC6VHEcs0nPPCW62VU6P2yNp9AmdbrpFmGsqm0rZwCD3PqbfG6rhsYKksEklPXb3H4DkmCUL+WmmsBZopvUySrDDwVfH0zR+pipZuP+yp62TT3cZs0iWw0N5i3V1SWdUm8FbAo3be7PF4B3H2UQPZAeM1XoTQCjgDKkjWhFTPjqL70QMya00FrvRGHOw8lat9UAUgnLBdsscuz/PrZJS03U6yHiNbmtdFfqqaqPsRzODIDBSjzj5Cm0LYudXzKK/nuiZOR9RsX+g/uHmO8BEjW682mqS7cnJCi3ytaUglrn3ECv4uPqEAkb531In232GLPeuLmXPFX4e+ZU5AXNMxN3k990/eNYuky6XbuPEmJEvSiEYncdKPlpR17xvePcgglSnuNSCS+rzZwoXlBalK2uX0mO51pT4mCkC8LFgj4R5FRRZrIuJtyZIFLvdv/88DzwRLro6Wow82Txthl+AKmlWY1eXgVvvzG0CJDrfiT/ERhHZzdssOfYMe4tw5LNBoJ5sx93Wqj35CuhqLFqadiEdjNe/gPR8YPql6XZByKI+X98baQPdYJZxryE687av0jxk1mMd8AT6Ou6Ng5Ivssv2yKNeIthmo8c7PlTjujp//ryqk+7gXYcUVWUNAX/UWLA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(396003)(39860400002)(376002)(136003)(346002)(451199018)(36756003)(83380400001)(66574015)(6506007)(6512007)(53546011)(6486002)(26005)(186003)(478600001)(4326008)(86362001)(2616005)(41300700001)(66556008)(31696002)(8676002)(66946007)(66476007)(6916009)(8936002)(2906002)(5660300002)(38100700002)(6666004)(7416002)(316002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aExpRFdXVUkrMlRIV2x5MzhBaU9Ob2kxU1orM2ZXN1RvUTU3a2ZqdHV2aFNF?=
- =?utf-8?B?T1FXOWFWU2RwUVNoZ25wV0J5c0RwU0x5VCtJQUg3MU52M2dLNUFJNW5hRHha?=
- =?utf-8?B?WTE0Q281aWdCTktjQnFpVmdhZ3NLVTBMY3JGMjltb01CMjBMV1ZsU0hEeC9V?=
- =?utf-8?B?dnQvTVFLbFpHaXhNZ0dLTXMrZWlXVmxXNy82QnQwR01LWHY0NnpVNzZoWUJI?=
- =?utf-8?B?dkNtZ0pWVUJ5UGZVcTRRSkR0TXhoQWdBRzdsU0ZiY0F5MG1iSWVhS2UyUlFP?=
- =?utf-8?B?RGJrakpOYTJpU3ZLSDFvUStkcGk3WnVucjJXK0V0VTVWejN4ZjhtUDlCdDhQ?=
- =?utf-8?B?MjlXZmxlMXJaSE5KYmVpT0t3azJ4MS95VlQzR3luaURhWjBNSElXaUkzVVdJ?=
- =?utf-8?B?STd0emRiaEJINjF6VThmQjRWRXF6T0JSNlk2NGJkVTJ4ZlR6T0k0SFhnYkR1?=
- =?utf-8?B?aXA1V0ExSHNmN29pNjg3L1FCTkthcTdxYkx1VVpxeC9MU09nY3dMd2srMjk5?=
- =?utf-8?B?ai9lbU9XNjJBTjdwYVFIWFIzMFZYWktFNzJlcml4UUxpMnVRUTZ1VlQxaTEz?=
- =?utf-8?B?ZFJGT1pyUGtOOGdENTduS3NjekVMOUx3bm53L2IxeDRhRUJocFVncjd4bURC?=
- =?utf-8?B?SUE5Qmc2WTZkL29icDZra1BsRk90a0ZWNDBnWnBkMlNERkdRckdZNm5GalI0?=
- =?utf-8?B?ek9zV2VyMUR1NjJWa0pOSlczbVd4bUlZT055Q3E1dXpySHA2S1o4SnpkYlRH?=
- =?utf-8?B?dkltYnFURjQzYzhSamUvYlM4dVZBV2lJZSs3dWlnVkJ2UzhpZDIrdDFISXRD?=
- =?utf-8?B?bU0zWHhKMUhkWW1IMkxWOThYb2FVYUk4eCtjSGZaZXByK3BIU00zNjltdThv?=
- =?utf-8?B?Z0dQZC9jS3FsUUxQOFJKTE9ZclRzRGp4Y21xNXExY1U0aG80dW9jMHVsK0li?=
- =?utf-8?B?NWxZTC9vcnYzSnRqSXYvaDZTTkdnOGlvNTRhVVY0N2dQWGd5WlkwanNKWnQ5?=
- =?utf-8?B?YytWNUI3bnVhUUlTV01kMlV5Y0lKUm43Z1Z4L3RVOVRYblJBemV6b2lnY1J5?=
- =?utf-8?B?WkswaDhwbDZGdkxDdzQ0aW12QWxwTkJ1T1ZZZGpwSDBDendDVEd6L3dvK2ND?=
- =?utf-8?B?cDBLK2IzdEllWW5jeUxqd1lMWUdTVlNwYTU4enFTSkU5cVpUbnVBZzhaYlYr?=
- =?utf-8?B?RFVUZGpsckh3THJPdkp5Vmc3WU9pUFpCZmlQSVJOdWhJNmd6cDhqV2pRdzIv?=
- =?utf-8?B?cTAxMlZ3bEs0WFRoZU50R0Uwb0FlODZCZnZSeGJaRi9RNGlxMXNmSWE5N0cv?=
- =?utf-8?B?bVVxbmpUd0loSDM3VTJHR3hMRmMrK2tlTlRTQzJBRzMySEp2QVBsakNjUTR6?=
- =?utf-8?B?eXUwSXgvZWVTbHpTelFOT1VmZjRBTUp0OWt6RUpsd3lTT0dXNlplU3hDZGM1?=
- =?utf-8?B?ampsTFRXK0p2UWpwamFDMnlNUVRrSXZzTzdySEtSOFE0ZWRYRkIrTkpEdkxJ?=
- =?utf-8?B?TGpHV2VCaHl1b2lRY250eTdaSU5SblVhNUR2bHBEVXdneTJQWFN2emh3SUZP?=
- =?utf-8?B?My9QbTNnT3JOTzZJZU9EbktlbHJ3K2daTkFFOWJtdDZZdFNQWWNmOWprb3Ev?=
- =?utf-8?B?LzFIajhkZVRJTU83Smw5VzFkUGFXV1RDQ3h0aEJqRnBNa053cEtTZlVLd2FE?=
- =?utf-8?B?K2xSUk1ZQjVrZlJXWVg2UmdqdVRyNUR2UUsyc1E5anpnNE1LWmpydk1pU2h6?=
- =?utf-8?B?T2xLN3VvcGszL1RKWlZ0bWZEcmY5SDZXTm5YN3cyM0FtdTd1N2d3cjNxL1hl?=
- =?utf-8?B?c3ZIMXlYV0UxTlRjcjB4SGJ3Ym1qNVV2b0dyTk9ValJFSUo0NGNpWnp6cTda?=
- =?utf-8?B?Q2QvbXVHRERxVmxKUDJtRG00eGZod1djUlpZUFdvdDBKRi9VZWQ3YU5adCtP?=
- =?utf-8?B?OFYxdDB2Yjl3K3plU0RHOE1Md1JqRHZBUmk0TnM4b2xkM0locFZ1Kzd4dksz?=
- =?utf-8?B?ZHA5T3FtSEVTSHpTb0hTQjZtV0RFeTlENWRMN3h6SnIydHRKOEw5MHgrOVUv?=
- =?utf-8?B?OXEybS9GRDlsM2szbVhZNXNMakJYRytJbHM1NUpPVU1UNUVpMmhXVExKUkM2?=
- =?utf-8?Q?HSIYvlWNbja73LoT7X3bXZlya?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6afd23c3-edc4-434e-7e13-08db156c76b6
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 07:06:19.6942
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F6px0+NpN9VG5b6rvdqS2zHy1+TU3vzyCPcH0f8t7OuZ7PP4ktrpeb9XbyVOU/+j
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6113
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9765; i=gregkh@linuxfoundation.org; h=from:subject; bh=YLGNpiKGKeQXS7cWFQgkghK8DLlHfbcET0IszUJPvQM=; b=owGbwMvMwCRo6H6F97bub03G02pJDMnfxY7m7OyeIFhcc88tQj9uu4u9cu8yjpCnQi9ZnoV9nb2t bcPSjlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZjIHUWGBTvnJ0ZP5zlZE553m50tNP SfotS1JwxzZQUbXj9ev3LelF/2cfwRUgvNjjBdAgA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 22.02.23 um 17:40 schrieb Danilo Krummrich:
-> On 2/22/23 16:14, Christian König wrote:
->> Am 22.02.23 um 16:07 schrieb Danilo Krummrich:
->>> On 2/22/23 11:25, Christian König wrote:
->>>> Am 17.02.23 um 14:44 schrieb Danilo Krummrich:
->>>
->>> <snip>
->>>
->>>>> +/**
->>>>> + * DOC: Overview
->>>>> + *
->>>>> + * The DRM GPU VA Manager, represented by struct 
->>>>> drm_gpuva_manager keeps track
->>>>> + * of a GPU's virtual address (VA) space and manages the 
->>>>> corresponding virtual
->>>>> + * mappings represented by &drm_gpuva objects. It also keeps 
->>>>> track of the
->>>>> + * mapping's backing &drm_gem_object buffers.
->>>>> + *
->>>>> + * &drm_gem_object buffers maintain a list (and a corresponding 
->>>>> list lock) of
->>>>> + * &drm_gpuva objects representing all existent GPU VA mappings 
->>>>> using this
->>>>> + * &drm_gem_object as backing buffer.
->>>>> + *
->>>>> + * If the &DRM_GPUVA_MANAGER_REGIONS feature is enabled, a GPU VA 
->>>>> mapping can
->>>>> + * only be created within a previously allocated 
->>>>> &drm_gpuva_region, which
->>>>> + * represents a reserved portion of the GPU VA space. GPU VA 
->>>>> mappings are not
->>>>> + * allowed to span over a &drm_gpuva_region's boundary.
->>>>> + *
->>>>> + * GPU VA regions can also be flagged as sparse, which allows 
->>>>> drivers to create
->>>>> + * sparse mappings for a whole GPU VA region in order to support 
->>>>> Vulkan
->>>>> + * 'Sparse Resources'.
->>>>
->>>> Well since we have now found that there is absolutely no technical 
->>>> reason for having those regions could we please drop them?
->>>
->>> I disagree this was the outcome of our previous discussion.
->>>
->>> In nouveau I still need them to track the separate sparse page 
->>> tables and, as you confirmed previously, Nvidia cards are not the 
->>> only cards supporting this feature.
->>>
->>> The second reason is that with regions we can avoid merging between 
->>> buffers, which saves some effort. However, I agree that this 
->>> argument by itself probably doesn't hold too much, since you've 
->>> pointed out in a previous mail that:
->>>
->>> <cite>
->>> 1) If we merge and decide to only do that inside certain boundaries 
->>> then those boundaries needs to be provided and checked against. This 
->>> burns quite some CPU cycles
->>>
->>> 2) If we just merge what we can we might have extra page table 
->>> updates which cost time and could result in undesired side effects.
->>>
->>> 3) If we don't merge at all we have additional housekeeping for the 
->>> mappings and maybe hw restrictions.
->>> </cite>
->>>
->>> However, if a driver uses regions to track its separate sparse page 
->>> tables anyway it gets 1) for free, which is a nice synergy.
->>>
->>> I totally agree that regions aren't for everyone though. Hence, I 
->>> made them an optional feature and by default regions are disabled. 
->>> In order to use them drm_gpuva_manager_init() must be called with 
->>> the DRM_GPUVA_MANAGER_REGIONS feature flag.
->>>
->>> I really would not want to open code regions or have two GPUVA 
->>> manager instances in nouveau to track sparse page tables. That would 
->>> be really messy, hence I hope we can agree on this to be an optional 
->>> feature.
->>
->> I absolutely don't think that this is a good idea then. This separate 
->> handling of sparse page tables is completely Nouveau specific.
->
-> Actually, I rely on what you said in a previous mail when I say it's, 
-> potentially, not specific to nouveau.
->
-> <cite>
-> This sounds similar to what AMD hw used to have up until gfx8 (I 
-> think), basically sparse resources where defined through a separate 
-> mechanism to the address resolution of the page tables. I won't rule 
-> out that other hardware has similar approaches.
-> </cite>
+CONFIG_SYSFS_DEPRECATED was added in commit 88a22c985e35
+("CONFIG_SYSFS_DEPRECATED") in 2006 to allow systems with older versions
+of some tools (i.e. Fedora 3's version of udev) to boot properly.  Four
+years later, in 2010, the option was attempted to be removed as most of
+userspace should have been fixed up properly by then, but some kernel
+developers clung to those old systems and refused to update, so we added
+CONFIG_SYSFS_DEPRECATED_V2 in commit e52eec13cd6b ("SYSFS: Allow boot
+time switching between deprecated and modern sysfs layout") to allow
+them to continue to boot properly, and we allowed a boot time parameter
+to be used to switch back to the old format if needed.
 
-Ok, sounds like I didn't made my point here clear: AMD does have that 
-same mechanism for older hw you try to implement here for Nouveau, but 
-we have *abandoned* it because it is to much trouble and especially 
-overhead to support! In other words we have said "Ok we would need two 
-separate components to cleanly handle that, one for newer hw and one for 
-older hw.".
+Over time, the logic that was covered under these config options was
+slowly removed from individual driver subsystems successfully, removed,
+and the only thing that is now left in the kernel are some changes in
+the block layer's representation in sysfs where real directories are
+used instead of symlinks like normal.
 
-What you now try to do is to write one component which works for both. 
-We have already exercised this idea and came to the conclusion that it's 
-not a good path to go down. So you're basically just repeating our mistake.
+Because the original changes were done to userspace tools in 2006, and
+all distros that use those tools are long end-of-life, and older
+non-udev-based systems do not care about the block layer's sysfs
+representation, it is time to finally remove this old logic and the
+config entries from the kernel.
 
-I mean if it's just for Nouveau then I would say feel free to do 
-whatever you want, but since this component is supposed to be used by 
-more drivers then I strongly think we need to tackle this from a 
-different side.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: linux-block@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ .../admin-guide/kernel-parameters.txt         |  9 -----
+ block/genhd.c                                 | 19 ++++------
+ drivers/base/class.c                          |  2 +-
+ drivers/base/core.c                           | 37 ------------------
+ include/linux/device.h                        |  6 ---
+ init/Kconfig                                  | 38 -------------------
+ 6 files changed, 8 insertions(+), 103 deletions(-)
 
->> Even when it's optional feature mixing this into the common handling 
->> is exactly what I pointed out as not properly separating between 
->> hardware specific and hardware agnostic functionality.
->
-> Optionally having regions is *not* a hardware specific concept, 
-> drivers might use it for a hardware specific purpose though. Which 
-> potentially is is the case for almost every DRM helper.
->
-> Drivers can use regions only for the sake of not merging between 
-> buffer boundaries as well. Some drivers might prefer this over "never 
-> merge" or "always merge", depending on the cost of re-organizing page 
-> tables for unnecessary splits/merges, without having the need of 
-> tracking separate sparse page tables.
->
-> Its just that I think *if* a driver needs to track separate sparse 
-> page tables anyways its a nice synergy since then there is no extra 
-> cost for getting this optimization.
-
-Well exactly that's the point: I really don't believe that this comes 
-without extra costs.
-
-What we could maybe do is to have an two separate functions, one for 
-updating the data structures and one for merging. When you now call the 
-merging function with a limit you don't get mappings merged over that 
-limit and if you don't call the merging function at all you don't get 
-merges.
-
-But we should have definitely not have the tracking of the ranges inside 
-the common component. This is something separated.
-
->> This is exactly the problem we ran into with TTM as well and I've 
->> spend a massive amount of time to clean that up again. >
->
-> Admittedly, I don't know what problems you are referring to. However, 
-> I don't see which kind of trouble it could cause by allowing drivers 
-> to track regions optionally.
-
-Take a look at my 2020 presentation about TTM on FOSDEM.
-
-Regards,
-Christian.
-
->
->> Regards,
->> Christian.
->>
->>>
->>>>
->>>> I don't really see a need for them any more.
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>
->>
->
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6cfa6e3996cf..65a741732b04 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6101,15 +6101,6 @@
+ 			later by a loaded module cannot be set this way.
+ 			Example: sysctl.vm.swappiness=40
+ 
+-	sysfs.deprecated=0|1 [KNL]
+-			Enable/disable old style sysfs layout for old udev
+-			on older distributions. When this option is enabled
+-			very new udev will not work anymore. When this option
+-			is disabled (or CONFIG_SYSFS_DEPRECATED not compiled)
+-			in older udev will not work anymore.
+-			Default depends on CONFIG_SYSFS_DEPRECATED_V2 set in
+-			the kernel configuration.
+-
+ 	sysrq_always_enabled
+ 			[KNL]
+ 			Ignore sysrq setting - this boot parameter will
+diff --git a/block/genhd.c b/block/genhd.c
+index 09f2ac548832..45b9a81d2de2 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -452,12 +452,10 @@ int __must_check device_add_disk(struct device *parent, struct gendisk *disk,
+ 	if (ret)
+ 		goto out_device_del;
+ 
+-	if (!sysfs_deprecated) {
+-		ret = sysfs_create_link(block_depr, &ddev->kobj,
+-					kobject_name(&ddev->kobj));
+-		if (ret)
+-			goto out_device_del;
+-	}
++	ret = sysfs_create_link(block_depr, &ddev->kobj,
++				kobject_name(&ddev->kobj));
++	if (ret)
++		goto out_device_del;
+ 
+ 	/*
+ 	 * avoid probable deadlock caused by allocating memory with
+@@ -535,8 +533,7 @@ int __must_check device_add_disk(struct device *parent, struct gendisk *disk,
+ out_del_integrity:
+ 	blk_integrity_del(disk);
+ out_del_block_link:
+-	if (!sysfs_deprecated)
+-		sysfs_remove_link(block_depr, dev_name(ddev));
++	sysfs_remove_link(block_depr, dev_name(ddev));
+ out_device_del:
+ 	device_del(ddev);
+ out_free_ext_minor:
+@@ -638,8 +635,7 @@ void del_gendisk(struct gendisk *disk)
+ 
+ 	part_stat_set_all(disk->part0, 0);
+ 	disk->part0->bd_stamp = 0;
+-	if (!sysfs_deprecated)
+-		sysfs_remove_link(block_depr, dev_name(disk_to_dev(disk)));
++	sysfs_remove_link(block_depr, dev_name(disk_to_dev(disk)));
+ 	pm_runtime_set_memalloc_noio(disk_to_dev(disk), false);
+ 	device_del(disk_to_dev(disk));
+ 
+@@ -893,8 +889,7 @@ static int __init genhd_device_init(void)
+ 	register_blkdev(BLOCK_EXT_MAJOR, "blkext");
+ 
+ 	/* create top-level block dir */
+-	if (!sysfs_deprecated)
+-		block_depr = kobject_create_and_add("block", NULL);
++	block_depr = kobject_create_and_add("block", NULL);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/base/class.c b/drivers/base/class.c
+index 2373b3e210d8..fb8f2a1e1c19 100644
+--- a/drivers/base/class.c
++++ b/drivers/base/class.c
+@@ -180,7 +180,7 @@ int __class_register(struct class *cls, struct lock_class_key *key)
+ 
+ #if defined(CONFIG_BLOCK)
+ 	/* let the block class directory show up in the root of sysfs */
+-	if (!sysfs_deprecated || cls != &block_class)
++	if (cls != &block_class)
+ 		cp->subsys.kobj.kset = class_kset;
+ #else
+ 	cp->subsys.kobj.kset = class_kset;
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index f9297c68214a..64b9fd960342 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -36,19 +36,6 @@
+ #include "physical_location.h"
+ #include "power/power.h"
+ 
+-#ifdef CONFIG_SYSFS_DEPRECATED
+-#ifdef CONFIG_SYSFS_DEPRECATED_V2
+-long sysfs_deprecated = 1;
+-#else
+-long sysfs_deprecated = 0;
+-#endif
+-static int __init sysfs_deprecated_setup(char *arg)
+-{
+-	return kstrtol(arg, 10, &sysfs_deprecated);
+-}
+-early_param("sysfs.deprecated", sysfs_deprecated_setup);
+-#endif
+-
+ /* Device links support. */
+ static LIST_HEAD(deferred_sync);
+ static unsigned int defer_sync_state_count = 1;
+@@ -3179,15 +3166,6 @@ static struct kobject *get_device_parent(struct device *dev,
+ 		struct kobject *parent_kobj;
+ 		struct kobject *k;
+ 
+-#ifdef CONFIG_BLOCK
+-		/* block disks show up in /sys/block */
+-		if (sysfs_deprecated && dev->class == &block_class) {
+-			if (parent && parent->class == &block_class)
+-				return &parent->kobj;
+-			return &block_class.p->subsys.kobj;
+-		}
+-#endif
+-
+ 		/*
+ 		 * If we have no parent, we live in "virtual".
+ 		 * Class-devices with a non class-device as parent, live
+@@ -3366,12 +3344,6 @@ static int device_add_class_symlinks(struct device *dev)
+ 			goto out_subsys;
+ 	}
+ 
+-#ifdef CONFIG_BLOCK
+-	/* /sys/block has directories and does not need symlinks */
+-	if (sysfs_deprecated && dev->class == &block_class)
+-		return 0;
+-#endif
+-
+ 	/* link in the class directory pointing to the device */
+ 	error = sysfs_create_link(&dev->class->p->subsys.kobj,
+ 				  &dev->kobj, dev_name(dev));
+@@ -3401,10 +3373,6 @@ static void device_remove_class_symlinks(struct device *dev)
+ 	if (dev->parent && device_is_not_partition(dev))
+ 		sysfs_remove_link(&dev->kobj, "device");
+ 	sysfs_remove_link(&dev->kobj, "subsystem");
+-#ifdef CONFIG_BLOCK
+-	if (sysfs_deprecated && dev->class == &block_class)
+-		return;
+-#endif
+ 	sysfs_delete_link(&dev->class->p->subsys.kobj, &dev->kobj, dev_name(dev));
+ }
+ 
+@@ -4694,11 +4662,6 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
+ 	if (error)
+ 		goto out;
+ 
+-#ifdef CONFIG_BLOCK
+-	if (sysfs_deprecated && dev->class == &block_class)
+-		goto out;
+-#endif
+-
+ 	/*
+ 	 * Change the owner of the symlink located in the class directory of
+ 	 * the device class associated with @dev which points to the actual
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 1508e637bb26..19b6ba478fbf 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -1092,10 +1092,4 @@ int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+ #define MODULE_ALIAS_CHARDEV_MAJOR(major) \
+ 	MODULE_ALIAS("char-major-" __stringify(major) "-*")
+ 
+-#ifdef CONFIG_SYSFS_DEPRECATED
+-extern long sysfs_deprecated;
+-#else
+-#define sysfs_deprecated 0
+-#endif
+-
+ #endif /* _DEVICE_H_ */
+diff --git a/init/Kconfig b/init/Kconfig
+index 44e90b28a30f..28be8621381e 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1297,44 +1297,6 @@ config SCHED_AUTOGROUP
+ 	  desktop applications.  Task group autogeneration is currently based
+ 	  upon task session.
+ 
+-config SYSFS_DEPRECATED
+-	bool "Enable deprecated sysfs features to support old userspace tools"
+-	depends on SYSFS
+-	default n
+-	help
+-	  This option adds code that switches the layout of the "block" class
+-	  devices, to not show up in /sys/class/block/, but only in
+-	  /sys/block/.
+-
+-	  This switch is only active when the sysfs.deprecated=1 boot option is
+-	  passed or the SYSFS_DEPRECATED_V2 option is set.
+-
+-	  This option allows new kernels to run on old distributions and tools,
+-	  which might get confused by /sys/class/block/. Since 2007/2008 all
+-	  major distributions and tools handle this just fine.
+-
+-	  Recent distributions and userspace tools after 2009/2010 depend on
+-	  the existence of /sys/class/block/, and will not work with this
+-	  option enabled.
+-
+-	  Only if you are using a new kernel on an old distribution, you might
+-	  need to say Y here.
+-
+-config SYSFS_DEPRECATED_V2
+-	bool "Enable deprecated sysfs features by default"
+-	default n
+-	depends on SYSFS
+-	depends on SYSFS_DEPRECATED
+-	help
+-	  Enable deprecated sysfs by default.
+-
+-	  See the CONFIG_SYSFS_DEPRECATED option for more details about this
+-	  option.
+-
+-	  Only if you are using a new kernel on an old distribution, you might
+-	  need to say Y here. Even then, odds are you would not need it
+-	  enabled, you can always pass the boot option if absolutely necessary.
+-
+ config RELAY
+ 	bool "Kernel->user space relay support (formerly relayfs)"
+ 	select IRQ_WORK
+-- 
+2.39.2
 
