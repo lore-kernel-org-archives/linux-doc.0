@@ -2,247 +2,240 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D6A9C677F1
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 21:20:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A22EFC61DA4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 21:37:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbjBWVUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 16:20:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34296 "EHLO
+        id S229572AbjBWVhR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 16:37:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbjBWVUc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 16:20:32 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 442625D470
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 13:20:21 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id h16so47417358edz.10
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 13:20:21 -0800 (PST)
+        with ESMTP id S229460AbjBWVhQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 16:37:16 -0500
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D969659E4F
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 13:37:13 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id c1so14891084plg.4
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 13:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OGNK+81UETaPn0jcsEtslOWqhVdogFDF7Oyic4eRMC0=;
-        b=dZ0PmdnqNzzjl4gyodTo7Zb17UgRMZptHwXLBomZ/AvWARR5ZPd6XaTkwjBxJFuGaT
-         H0F3qnuxv3chDjD33jmtByO/Il4zihwWqNRj/EEYnB9Er7lIZ8MGu+au2KIEm8IkqdMt
-         WfEamdrk6xp1+wq8oDc1jQF3iNhV3+/x/+qKI21/MbCuhRW6FiaAU6cN2nBTZzvkDg9m
-         J0h8xSdbeOsGBxBQoM5VmCu+Xj2Pn3BiMhr9jxIsxQrgeI9plEFpVFpjTVHQqDV2PQ9P
-         IGrsG1Wtc/Y6sEBGu7yxprbHh6Ygufryb07uAYG0eTFXjd75azPNJX+kgrT9eVceeION
-         FccQ==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=z7+aUg9HXQ/A/eUt8v18nKugzdSz6vl7sg4McbH6tWQ=;
+        b=c0u0fvJZo7cq6NMR9jPgTY+MYZwgs+0jV6PRHowGAKrgQuoUhvj3TL13DAL7cHpEIg
+         4fYxMXbiP4VqePjSGrYZ+GgoINswsELo4klKlaOH4DjNL3MId9Z0yRYhzhfiPzf14+Js
+         l5sOFeOLeZTeRxCU5FJ7yUA5tg8DlZpNSY3LQYP/lIR8O/awnhgVGJ4sEswcpLfqh6ux
+         GeK5MXrLx3lqT4df5CdiOamajjJAW0KBcA5PN6wJTJ6HgbUrsXmFllSjzjM7WvPpOqsO
+         TE70o8gCt2etNpQiPKSBG2B/atIKnm7rJoR0iG6sIKDmvr+I3CnqWdiZmk1xPB6cJt5x
+         hIvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OGNK+81UETaPn0jcsEtslOWqhVdogFDF7Oyic4eRMC0=;
-        b=MvPQVWHI9n0G0N3i5Kemzjjd++npK9Nxt/vDFcolRCZ4b5XiGmev6YH/wDLxW2KrQ7
-         Y17y4M7/rmhbJiO3rbaeu5G/JkT5KT1IFvLN+4m7CJVX45/NbUAnqF3Bf1OZ2idb6rsQ
-         JCdxB3rX0WCI8ra/La63xAjyyRlylbipulb/ifjfP6sfELMG6ek1T2nvsc7L2pg5qnib
-         Bb3mkuV1iSmG9Eq2yZU2+k2jnDFuc5kuoak01mfX63bIZFvMRqJHubk/5+H7ualbHtd0
-         gaijW+arRpGK7Jy6Q3Sl3axfCXo2RwrJoYz5MrZW1OiWAVQQl3+dOxOzgv/DCYjd050l
-         19Zw==
-X-Gm-Message-State: AO0yUKUsIA1m1aEI3l5hxMuU3x0hG54W3w/DKQlYZ3VHbiV1nlKaAWyH
-        2SGb/wJgLj8puVVaPTVfOnMCj0VfFnFpMeHqTzfuGg==
-X-Google-Smtp-Source: AK7set+KUUdbnyo5JRRHrV1ozmg6AbjBaYX0SdvoC+Bros6cRT/lBPSqwRJvMri7bJe/UlGznB+3heSzYzD8bnfAmKI=
-X-Received: by 2002:a17:907:2b09:b0:8b1:cd2e:177a with SMTP id
- gc9-20020a1709072b0900b008b1cd2e177amr10778294ejc.6.1677187219479; Thu, 23
- Feb 2023 13:20:19 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z7+aUg9HXQ/A/eUt8v18nKugzdSz6vl7sg4McbH6tWQ=;
+        b=tfCeyg4SrddVUAOFK9TjgULgGNRJGXr5hxAFz4rjW0tvMXGOTvCCcSgQHRPcqS+pSp
+         K2pAqdumjZ4FrNXoX5eKLhn67XYyZ1Fwme5sVuaruW52N7zV12aIprtmj1Wt6BQXwJeA
+         PTb9dfpH3zEa+xkT+8mGXBwcIg5hgNt+33D72TMa6CKRVFZuXAiv1aXCqfAALZGUb8JW
+         Z1P47y9cYk7YeZAohp0PGhemPH+1HG95mYaepBhfgW5nL0oRx/aNwf2uYV3FTpDHl6dw
+         q+kZfO5ut8aI2XFl2MDUg2OV7fGdrh1VeWK+7fgxFhBNX65VytD/ctvkSeu9IUvZy8vH
+         pxzg==
+X-Gm-Message-State: AO0yUKU/Nn6BoBqKQUmcXhs7PJFzfz20Q6ykcDaYW1cWNS4C8DI+YiuJ
+        p8c/fDdTm8SIY3+IDv8erRVTYQ==
+X-Google-Smtp-Source: AK7set+WA4y6isMIp2ZzVMyILhKLJ1WQxXMtedotrSE0LCPg6li/VQItDsL6LiRCl1UMeJqGyYTlRQ==
+X-Received: by 2002:a05:6a20:6918:b0:c7:164c:edf7 with SMTP id q24-20020a056a20691800b000c7164cedf7mr12929189pzj.36.1677188233241;
+        Thu, 23 Feb 2023 13:37:13 -0800 (PST)
+Received: from [10.211.55.3] (c-73-221-130-71.hsd1.wa.comcast.net. [73.221.130.71])
+        by smtp.gmail.com with ESMTPSA id s23-20020a62e717000000b005a9cb8edee3sm3881780pfh.85.2023.02.23.13.36.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Feb 2023 13:37:01 -0800 (PST)
+Message-ID: <556ab51e-ddf8-b56b-1743-36f3b6d623d1@linaro.org>
+Date:   Thu, 23 Feb 2023 15:36:58 -0600
 MIME-Version: 1.0
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-34-rick.p.edgecombe@intel.com> <20230223000340.GB945966@debug.ba.rivosinc.com>
- <49a151d5a704487d541e421699cf798c87a80ca5.camel@intel.com>
-In-Reply-To: <49a151d5a704487d541e421699cf798c87a80ca5.camel@intel.com>
-From:   Deepak Gupta <debug@rivosinc.com>
-Date:   Thu, 23 Feb 2023 13:20:06 -0800
-Message-ID: <CAKC1njSXDY_NUxLdrbJbF6zGaP4aifAh3g1ku0E5RkAxK4tqLA@mail.gmail.com>
-Subject: Re: [PATCH v6 33/41] x86/shstk: Introduce map_shadow_stack syscall
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v10 09/26] gunyah: rsc_mgr: Add VM lifecycle RPC
+Content-Language: en-US
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212343.3311875-1-quic_eberman@quicinc.com>
+From:   Alex Elder <alex.elder@linaro.org>
+In-Reply-To: <20230214212343.3311875-1-quic_eberman@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 22, 2023 at 5:11 PM Edgecombe, Rick P
-<rick.p.edgecombe@intel.com> wrote:
->
-> On Wed, 2023-02-22 at 16:03 -0800, Deepak Gupta wrote:
-> > On Sat, Feb 18, 2023 at 01:14:25PM -0800, Rick Edgecombe wrote:
-> > > When operating with shadow stacks enabled, the kernel will
-> > > automatically
-> > > allocate shadow stacks for new threads, however in some cases
-> > > userspace
-> > > will need additional shadow stacks. The main example of this is the
-> > > ucontext family of functions, which require userspace allocating
-> > > and
-> > > pivoting to userspace managed stacks.
-> > >
-> > > Unlike most other user memory permissions, shadow stacks need to be
-> > > provisioned with special data in order to be useful. They need to
-> > > be setup
-> > > with a restore token so that userspace can pivot to them via the
-> > > RSTORSSP
-> > > instruction. But, the security design of shadow stack's is that
-> > > they
-> > > should not be written to except in limited circumstances. This
-> > > presents a
-> > > problem for userspace, as to how userspace can provision this
-> > > special
-> > > data, without allowing for the shadow stack to be generally
-> > > writable.
-> > >
-> > > Previously, a new PROT_SHADOW_STACK was attempted, which could be
-> > > mprotect()ed from RW permissions after the data was provisioned.
-> > > This was
-> > > found to not be secure enough, as other thread's could write to the
-> > > shadow stack during the writable window.
-> > >
-> > > The kernel can use a special instruction, WRUSS, to write directly
-> > > to
-> > > userspace shadow stacks. So the solution can be that memory can be
-> > > mapped
-> > > as shadow stack permissions from the beginning (never generally
-> > > writable
-> > > in userspace), and the kernel itself can write the restore token.
-> > >
-> > > First, a new madvise() flag was explored, which could operate on
-> > > the
-> > > PROT_SHADOW_STACK memory. This had a couple downsides:
-> > > 1. Extra checks were needed in mprotect() to prevent writable
-> > > memory from
-> > >    ever becoming PROT_SHADOW_STACK.
-> > > 2. Extra checks/vma state were needed in the new madvise() to
-> > > prevent
-> > >    restore tokens being written into the middle of pre-used shadow
-> > > stacks.
-> > >    It is ideal to prevent restore tokens being added at arbitrary
-> > >    locations, so the check was to make sure the shadow stack had
-> > > never been
-> > >    written to.
-> > > 3. It stood out from the rest of the madvise flags, as more of
-> > > direct
-> > >    action than a hint at future desired behavior.
-> > >
-> > > So rather than repurpose two existing syscalls (mmap, madvise) that
-> > > don't
-> > > quite fit, just implement a new map_shadow_stack syscall to allow
-> > > userspace to map and setup new shadow stacks in one step. While
-> > > ucontext
-> > > is the primary motivator, userspace may have other unforeseen
-> > > reasons to
-> > > setup it's own shadow stacks using the WRSS instruction. Towards
-> > > this
-> > > provide a flag so that stacks can be optionally setup securely for
-> > > the
-> > > common case of ucontext without enabling WRSS. Or potentially have
-> > > the
-> > > kernel set up the shadow stack in some new way.
-> >
-> > Was following ever attempted?
-> >
-> > void *shstk = mmap(0, size, PROT_SHADOWSTACK, ...);
-> > - limit PROT_SHADOWSTACK protection flag to only mmap (and thus
-> > mprotect can't
-> >    convert memory from shadow stack to non-shadow stack type or vice
-> > versa)
-> > - limit PROT_SHADOWSTACK protection flag to anonymous memory only.
-> > - top level mmap handler to put a token at the base using WRUSS if
-> > prot == PROT_SHADOWSTACK
-> >
-> > You essentially would get shadow stack manufacturing with existing
-> > (single) syscall.
-> > Acting a bit selfish here, this allows other architectures as well to
-> > re-use this and
-> > do their own implementation of mapping and placing the token at the
-> > base.
->
-> Yes, I looked at it. You end up with a pile of checks and hooks added
-> to mmap() and various other places as you outline. We also now have the
-> MAP_ABOVE4G limitation for x86 shadow stack that would need checking
-> for too. It's not exactly a clean fit. Then, callers would have to pass
-> special x86 flags in anyway.
+On 2/14/23 3:23 PM, Elliot Berman wrote:
+> 
+> Add Gunyah Resource Manager RPC to launch an unauthenticated VM.
+> 
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+>   drivers/virt/gunyah/Makefile      |   2 +-
+>   drivers/virt/gunyah/rsc_mgr.h     |  45 ++++++
+>   drivers/virt/gunyah/rsc_mgr_rpc.c | 226 ++++++++++++++++++++++++++++++
+>   include/linux/gunyah_rsc_mgr.h    |  73 ++++++++++
+>   4 files changed, 345 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
+> 
+> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+> index cc864ff5abbb..de29769f2f3f 100644
+> --- a/drivers/virt/gunyah/Makefile
+> +++ b/drivers/virt/gunyah/Makefile
+> @@ -2,5 +2,5 @@
+>   
+>   obj-$(CONFIG_GUNYAH) += gunyah.o
+>   
+> -gunyah_rsc_mgr-y += rsc_mgr.o
+> +gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o
+>   obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
+> diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
+> index d4e799a7526f..7406237bc66d 100644
+> --- a/drivers/virt/gunyah/rsc_mgr.h
+> +++ b/drivers/virt/gunyah/rsc_mgr.h
+> @@ -74,4 +74,49 @@ struct gh_rm;
+>   int gh_rm_call(struct gh_rm *rsc_mgr, u32 message_id, void *req_buff, size_t req_buff_size,
+>   		void **resp_buf, size_t *resp_buff_size);
+>   
+> +/* Message IDs: VM Management */
+> +#define GH_RM_RPC_VM_ALLOC_VMID			0x56000001
+> +#define GH_RM_RPC_VM_DEALLOC_VMID		0x56000002
+> +#define GH_RM_RPC_VM_START			0x56000004
+> +#define GH_RM_RPC_VM_STOP			0x56000005
+> +#define GH_RM_RPC_VM_RESET			0x56000006
+> +#define GH_RM_RPC_VM_CONFIG_IMAGE		0x56000009
+> +#define GH_RM_RPC_VM_INIT			0x5600000B
+> +#define GH_RM_RPC_VM_GET_HYP_RESOURCES		0x56000020
+> +#define GH_RM_RPC_VM_GET_VMID			0x56000024
+> +
+> +struct gh_rm_vm_common_vmid_req {
+> +	__le16 vmid;
+> +	__le16 reserved0;
+> +} __packed;
+> +
+> +/* Call: VM_ALLOC */
+> +struct gh_rm_vm_alloc_vmid_resp {
+> +	__le16 vmid;
+> +	__le16 reserved0;
+> +} __packed;
+> +
+> +/* Call: VM_STOP */
+> +struct gh_rm_vm_stop_req {
+> +	__le16 vmid;
+> +#define GH_RM_VM_STOP_FLAG_FORCE_STOP	BIT(0)
+> +	u8 flags;
+> +	u8 reserved;
+> +#define GH_RM_VM_STOP_REASON_FORCE_STOP		3
 
-riscv has mechanisms using which a 32bit app can run on 64bit kernel.
-So technically if there are 32bit and 64bit code in address space,
-MAP_ABOVE4G could be useful.
-Although I am not sure (or aware of) if there are such requirement
-from app/developers yet (to guarantee address mapping above 4G)
+I suggested this before and you honored it.  Now I'll suggest
+it again, and ask you to do it throughout the driver.
 
-But I see this as orthogonal to memory protection flags.
+Please separate the definitions of constant values that
+certain fields can take on from the structure definition.
+I think doing it the way you have here makes it harder to
+understand the structure definition.
 
->
-> It doesn't seem like the complexity of the checks is worth saving the
-> tiny syscall. Is there some reason why riscv can't use the same syscall
-> stub? It doesn't need to live forever in x86 code. Not sure what the
-> savings are for riscv of the mmap+checks approach are either...
+You could define an anonymous enumerated type to hold
+the values meant to be held by each field.
 
-I don't see a lot of extra complexity here.
-If `mprotect` and friends don't know about `PROT_SHADOWSTACK`, they'll
-just fail by default (which is desired)
+> +	__le32 stop_reason;
+> +} __packed;
+> +
+> +/* Call: VM_CONFIG_IMAGE */
+> +struct gh_rm_vm_config_image_req {
+> +	__le16 vmid;
+> +	__le16 auth_mech;
+> +	__le32 mem_handle;
+> +	__le64 image_offset;
+> +	__le64 image_size;
+> +	__le64 dtb_offset;
+> +	__le64 dtb_size;
+> +} __packed;
+> +
+> +/* Call: GET_HYP_RESOURCES */
+> +
+>   #endif
+> diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
+> new file mode 100644
+> index 000000000000..4515cdd80106
+> --- /dev/null
+> +++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
+> @@ -0,0 +1,226 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/gunyah_rsc_mgr.h>
+> +
+> +#include "rsc_mgr.h"
+> +
+> +/*
+> + * Several RM calls take only a VMID as a parameter and give only standard
+> + * response back. Deduplicate boilerplate code by using this common call.
+> + */
+> +static int gh_rm_common_vmid_call(struct gh_rm *rm, u32 message_id, u16 vmid)
+> +{
+> +	struct gh_rm_vm_common_vmid_req req_payload = {
+> +		.vmid = cpu_to_le16(vmid),
+> +	};
+> +	size_t resp_size;
+> +	void *resp;
+> +
+> +	return gh_rm_call(rm, message_id, &req_payload, sizeof(req_payload), &resp, &resp_size);
+> +}
+> +
+> +/**
+> + * gh_rm_alloc_vmid() - Allocate a new VM in Gunyah. Returns the VM identifier.
+> + * @rm: Handle to a Gunyah resource manager
+> + * @vmid: Use GH_VMID_INVAL or 0 to dynamically allocate a VM. A reserved VMID can
+> + *        be supplied to request allocation of a platform-defined VM.
 
-It's only `mmap` that needs to be enlightened. And it can just pass
-`VMA_SHADOW_STACK` to `do_mmap` if input is `PROT_SHADOWSTACK`.
+Honestly, I'd rather just see 0 (and *not* GH_VMID_INVAL) be the
+special value to mean "dynamically allocate the VMID."  It seems
+0 is a reserved VMID anyway, and GH_VMID_INVAL might as well be
+treated here as an invalid parameter.
 
-Adding a syscall just for mapping shadow stack is weird when it can be
-solved with existing system calls.
-As you say in your response below, it would be good to have such a
-syscall which serve larger purposes (e.g. provisioning special
-security-type memory)
+Is there any definitition of which VMIDs are reserved?  Like,
+anything under 1024?
 
-arm64's memory tagging is one such example. Not exactly security-type
-memory (but eventual application is security for this feature) .
-It adds extra meaning to virtual addresses (i.e. an address has tags).
-arm64 went about using a protection flag `PROT_MTE` instead of a
-special system call.
+That's it on this patch for now.
 
-Being said that since this patch has gone through multiple revisions
-and I am new to the party. If others dont have issues on this special
-system call,
-I think it's fine then. In case of riscv I can choose to use this
-mechanism or go via arm's route to define PROT_SHADOWSTACK which is
-arch specific.
+					-Alex
 
->
-> I did wonder if there could be some sort of more general syscall for
-> mapping and provisioning special security-type memory. But we probably
-> need a few more non-shadow stack examples to get an idea of what that
-> would look like.
+> + *
+> + * Returns - the allocated VMID or negative value on error
+> + */
+> +int gh_rm_alloc_vmid(struct gh_rm *rm, u16 vmid)
+> +{
+> +	struct gh_rm_vm_common_vmid_req req_payload = { 0 };
+> +	struct gh_rm_vm_alloc_vmid_resp *resp_payload;
+> +	size_t resp_size;
+> +	void *resp;
+> +	int ret;
 
-As I mentioned memory tagging and thus PROT_MTE is already such a use
-case which uses `mmap/mprotect` protection flags to designate special
-meaning to a virtual address.
+. . .
+
