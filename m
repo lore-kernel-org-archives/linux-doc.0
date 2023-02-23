@@ -2,87 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01B5AC61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 15:34:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCC03C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 16:01:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234256AbjBWPeJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 10:34:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45536 "EHLO
+        id S233320AbjBWQBN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 11:01:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233627AbjBWPeI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 10:34:08 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C710919A0;
-        Thu, 23 Feb 2023 07:34:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677166447; x=1708702447;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0QQngnPj0KYq88epAkjtpHhVWThg+EKfq84nRKBsT4I=;
-  b=FbTjzUBN+YPmlWLiN+KdciP1botS8MNBi1LnV14bstOjN5kTzo6SP6th
-   PC3hNK0c5vV6toDyfEz6kAutnFyvNdg+EBl38QisiO7krsXPUwbznRX8i
-   Ol3mf4K7NAXTsA35ahQ1Qx78T5LaZwMPhzpq21vEiDHu6B+EV/eBHN0RM
-   i3OWcwGiMH/E7GbmlMgX5BxTf3/GxibMKtAd67z/G+fhNSE0CeJB2kX7a
-   axorV4JH2b8m6Io1t+MLhe+NohYYTQmcFZwPCKJeIeGhhCGRNvA8T5Z2z
-   KpojpkYIZLRL9hDLpmiFP8af/un+ZO63qmVFscb5D/TC4ArST/EJ7E8z4
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="335469013"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="335469013"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 07:34:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="702827230"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="702827230"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 23 Feb 2023 07:34:06 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pVDbh-0001Qd-0n;
-        Thu, 23 Feb 2023 15:34:05 +0000
-Date:   Thu, 23 Feb 2023 23:33:09 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Johan Jonker <jbx6244@gmail.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Heiko Stuebner <heiko@sntech.de>, linux-doc@vger.kernel.org
-Subject: htmldocs: Warning:
- Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file
- that doesn't exist:
- Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-Message-ID: <202302232316.L6gzJade-lkp@intel.com>
+        with ESMTP id S234880AbjBWQBM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 11:01:12 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF2233B865
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 08:01:09 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 2AFBE4E5;
+        Thu, 23 Feb 2023 16:01:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2AFBE4E5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1677168069; bh=aN831SzKEjozkfFZ3z4VZjtahCEViG+rHV1qghG/BRA=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=jkMRSVZTeCwbWmxWKzrU7WELKfUKN4W14xngld0hDQn2sxMtQbXcJHwO4daca/EMB
+         edTgAPjcyiz/CJsl9UQISo91tiBqz7XlHEOMIyfo7OdDJ0Sw1ewATQuLHoLlAsnSMK
+         taHrcW5droMGhl6QnauITXj4yJqzY4vLciLHho0jY1j5oYPcnkHFfI3snYacTxf/ht
+         C7/ALVBKxMMS2OLaNMwneBO23oKlNdvdDl+oZ/0k4MYmvePEV55ZClM7OyHOCh6DnY
+         SIXAMc7hZlRKS9RbEfTeBgeXZbr46OKHfX4E1clULmEypHpgZ+LcTQcP7Wg2FEHNFw
+         nk9pYMyGMGSIw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Harsh Mishra <hmisraji07@gmail.com>, linux-doc@vger.kernel.org
+Cc:     Harsh Mishra <hmisraji07@gmail.com>, skhan@linuxfoundation.org
+Subject: Re: [PATCH] Fixed the Warning:
+ Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst:92: WARNING:
+ Unexpected indentation.
+In-Reply-To: <20230222232759.12599-1-hmisraji07@gmail.com>
+References: <20230222232759.12599-1-hmisraji07@gmail.com>
+Date:   Thu, 23 Feb 2023 09:01:08 -0700
+Message-ID: <87k0085q2j.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Johan,
+Harsh Mishra <hmisraji07@gmail.com> writes:
 
-FYI, the error/warning still remains.
+> ------
+>
+> Dear Maintainers and Mentors,
+> I have successfully compeleted the task "Documentation Task" under "Linux Kernel Bug Fixing Spring 2023" Mentee Application. 
+> I have also solved a minor documentation warning in Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst .
+> Please have a look into it 
+> Regards,
+> Harsh Mishra
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a5c95ca18a98d742d0a4a04063c32556b5b66378
-commit: 0f48b0ed356d8868f62f7c6814fc2edcd70d1816 dt-bindings: phy: rename phy-rockchip-inno-usb2.yaml
-date:   3 weeks ago
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0f48b0ed356d8868f62f7c6814fc2edcd70d1816
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 0f48b0ed356d8868f62f7c6814fc2edcd70d1816
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Thank you for working to improve our documentation!
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302232316.L6gzJade-lkp@intel.com/
+That said, I do have a few requests, starting with:
 
-All warnings (new ones prefixed by >>):
+- Please read Documentation/process/submitting-patches.rst for
+  information on how your changelog should be written.  Among other
+  things, the changelog should be *above* the '---' line, briefly
+  describe the problem and why it needs to be fixed, and not contain
+  extraneous information.
 
->> Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
+> Signed-off-by: Harsh Mishra <hmisraji07@gmail.com>
+> ---
+>  Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst b/Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst
+> index ec6e9f5bcf9e..d0fd6cf44911 100644
+> --- a/Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst
+> +++ b/Documentation/admin-guide/hw-vuln/cross-thread-rsb.rst
+> @@ -88,5 +88,4 @@ capability to override those interceptions, but since this is not common, the
+>  mitigation that covers this path is not enabled by default.
+>  
+>  The mitigation for the KVM_CAP_X86_DISABLE_EXITS capability can be turned on
+> -using the boolean module parameter mitigate_smt_rsb, e.g.:
+> -        kvm.mitigate_smt_rsb=1
+> +using the boolean module parameter mitigate_smt_rsb, e.g.: kvm.mitigate_smt_rsb=1
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+This is not a terrible fix, but may not be the best one.  Most likely,
+the author wanted this as a literal block:
+
+  ...the boolean module parameter mitigate_smt_rsb, e.g.::
+
+	kvm.mitigate_smt_rsb=1
+
+Thanks,
+
+jon
