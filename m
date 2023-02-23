@@ -2,130 +2,190 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1255BC64ED6
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 01:32:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A33B2C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 01:55:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233049AbjBWBcD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Feb 2023 20:32:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38864 "EHLO
+        id S233013AbjBWBzh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Feb 2023 20:55:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232464AbjBWBb6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 20:31:58 -0500
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 379A53E606
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 17:31:56 -0800 (PST)
-Received: by mail-pl1-x64a.google.com with SMTP id p14-20020a170902ebce00b001963da9cc71so4817542plg.11
-        for <linux-doc@vger.kernel.org>; Wed, 22 Feb 2023 17:31:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Say+6a1ZyYr+UuCKdaAjxZI4dgG3bJdQNiusmWUgqvk=;
-        b=ZftMo2Jr/MYc+TnSUI/NqHqeLeV4TeeVWH0yMAlI85IeiLcuVkcU0Xi9yTYAL4Ti4N
-         Pcptnd77UOE+Ubfxn8QRWMdZmWSY4akFCQf6v1PFTzO870zP5UiH0CvKAUAI60rjhMim
-         A2kOh6/xUtroxJBIX+ZIQDEuJ2pVebSSpDtdCRhVuxII0dGn+QairZ/42WYH8onaX3sW
-         VTadd7UYWVbVvmpPJT8zKlqq4fO8PhGLg1iNudHVb3yTAkso/TczAQYjur3wkh3ATGMq
-         V9iE2XTX1+ukTikznIFKOxl8ReNuuDE+7TSPpoSVLKtc3hqyAmK9WjjTQq/mdtnRLNoK
-         xRbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Say+6a1ZyYr+UuCKdaAjxZI4dgG3bJdQNiusmWUgqvk=;
-        b=UibcEAzqPzC6DKlEo/unZsTCBQQImwQ1Pm9XIX1oKHg1+wP/kl947whsj6DkjFR/Tc
-         7oZ5/+EXarz0RRbkw5rqKa4IcYv+TUWW9K8tAFT3vgOynPOmRW7+QkYAyZ8Wrm0kDyvv
-         XdJ8DjSk+iZSY1VltvBkmD3arRdyQKjBvrZpKAvq1tg7CIAcitcTbafE7LBdwb0aCDEI
-         aYq/j0V4PCFQD5l2tUG+Sk8N4wWgR0UczBVaEee8FWBy5f4ea7FHcG9AQFjJ+/bLJVpB
-         IZGJwuVEvBRBm4SLu7gMhpf0Xa9MHbYidRgsaut92KGvPSWp8sqj59xN1BLCK1XaWD1k
-         NnKw==
-X-Gm-Message-State: AO0yUKW2B3MjBq7KD6cuqe383xDuaI+kpz/NIMjnX7AsUmt2t2Qpyu3y
-        wBDNGixHL3AwlYgXIHqha9k0nPv7F4rKjhFbvQ==
-X-Google-Smtp-Source: AK7set8In7pASIkwc5RmcKGC5gPhzEpeOqmjGbH5z8/aZP8m2bTicadsvcxB91Z6rAsHkHh1dfvaP8X5FauAcxQlUQ==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a17:90a:49ca:b0:231:1d90:7b1b with
- SMTP id l10-20020a17090a49ca00b002311d907b1bmr79634pjm.2.1677115915638; Wed,
- 22 Feb 2023 17:31:55 -0800 (PST)
-Date:   Thu, 23 Feb 2023 01:31:54 +0000
-In-Reply-To: <20230220030412.fgh3f5qzgihz4f4x@yy-desk-7060> (message from Yuan
- Yao on Mon, 20 Feb 2023 11:04:12 +0800)
-Mime-Version: 1.0
-Message-ID: <diqzk0099ng5.fsf@ackerleytng-cloudtop.c.googlers.com>
-Subject: Re: [RFC PATCH 0/2] Add flag as THP allocation hint for
- memfd_restricted() syscall
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     Yuan Yao <yuan.yao@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
-        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
-        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
-        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
-        joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
-        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
-        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
-        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
-        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
-        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
-        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
-Content-Transfer-Encoding: base64
+        with ESMTP id S230048AbjBWBzg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Feb 2023 20:55:36 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7064113FF;
+        Wed, 22 Feb 2023 17:55:34 -0800 (PST)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31N1C773023643;
+        Thu, 23 Feb 2023 01:55:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=3tFARqURuZ0F1rOR81RT4P4rlziCK2DZUB77v3kvH7M=;
+ b=AMGNodXn4Y29uW5OlaNtyn9tzLIbKVI36n0RUEmh+0TQAaoCOVY4hO4UwUadhSqfrR7H
+ 4H1pFG+wxD8ufh2dzQvpIApoHE4oavkUpqIUZH6dxd266GbRnkiohSiihoK755YgZZsR
+ SddGexoYxswWbqGfuKtgYJTq0Hb2fDl/oB+VlduiMLMt3vvAtM+3ZJxXD0R1yFokD1fJ
+ YgiDz+iVZ4IQj6dFTRPqA7phk6zaQDcAzxE5/pt90olazG/aNpaEhU6li7EbNjE84FvM
+ +zw42R3Xg+K9U6Fcw9mOHVSUeikL9bPx5prOP+HN6N9M2JsJolEoTaAprVJlknLEQHDn KA== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nwfh02gqc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 23 Feb 2023 01:55:18 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31N1tII2021720
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 23 Feb 2023 01:55:18 GMT
+Received: from [10.134.67.48] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 22 Feb
+ 2023 17:55:17 -0800
+Message-ID: <74c19e48-481a-7be9-e287-ca1f7a659c21@quicinc.com>
+Date:   Wed, 22 Feb 2023 17:55:17 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 15/26] gunyah: rsc_mgr: Add platform ops on
+ mem_lend/mem_reclaim
+Content-Language: en-US
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alex Elder <elder@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212448.3318756-1-quic_eberman@quicinc.com>
+ <963d84e8-7b91-c278-1978-4e73d73f7c6f@linaro.org>
+ <7aa025a1-b211-f04c-9169-236102fe27fe@quicinc.com>
+ <dea710b6-b627-08e9-3d26-d73e6be2e852@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <dea710b6-b627-08e9-3d26-d73e6be2e852@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Zxazv_018zfZqQGMD80Fr5WUnEbIOd2X
+X-Proofpoint-GUID: Zxazv_018zfZqQGMD80Fr5WUnEbIOd2X
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-22_12,2023-02-22_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 mlxlogscore=999 phishscore=0
+ impostorscore=0 mlxscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
+ spamscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302230015
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-WXVhbiBZYW8gPHl1YW4ueWFvQGxpbnV4LmludGVsLmNvbT4gd3JpdGVzOg0KDQo+IE9uIFNhdCwg
-RmViIDE4LCAyMDIzIGF0IDEyOjQzOjAwQU0gKzAwMDAsIEFja2VybGV5IFRuZyB3cm90ZToNCj4+
-IEhlbGxvLA0KDQo+PiBUaGlzIHBhdGNoc2V0IGJ1aWxkcyB1cG9uIHRoZSBtZW1mZF9yZXN0cmlj
-dGVkKCkgc3lzdGVtIGNhbGwgdGhhdCBoYXMNCj4+IGJlZW4gZGlzY3Vzc2VkIGluIHRoZSDigJhL
-Vk06IG1tOiBmZC1iYXNlZCBhcHByb2FjaCBmb3Igc3VwcG9ydGluZyBLVk3igJkNCj4+IHBhdGNo
-IHNlcmllcywgYXQNCj4+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvMjAyMjEyMDIwNjEz
-NDcuMTA3MDI0Ni0xLWNoYW8ucC5wZW5nQGxpbnV4LmludGVsLmNvbS9ULyNtN2U5NDRkNzg5MmFm
-ZGQxZDYyYTAzYTI4N2JkNDg4YzU2ZTM3N2IwYw0KDQo+PiBUaGUgdHJlZSBjYW4gYmUgZm91bmQg
-YXQ6DQo+PiBodHRwczovL2dpdGh1Yi5jb20vZ29vZ2xlcHJvZGtlcm5lbC9saW51eC1jYy90cmVl
-L3Jlc3RyaWN0ZWRtZW0tcm1mZC1odWdlcGFnZQ0KDQo+PiBGb2xsb3dpbmcgdGhlIFJGQyB0byBw
-cm92aWRlIG1vdW50IGZvciBtZW1mZF9yZXN0cmljdGVkKCkgc3lzY2FsbCBhdA0KPj4gaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC9jb3Zlci4xNjc2NTA3NjYzLmdpdC5hY2tlcmxleXRuZ0Bn
-b29nbGUuY29tL1QvI3UsDQo+PiB0aGlzIHBhdGNoc2V0IGFkZHMgdGhlIFJNRkRfSFVHRVBBR0Ug
-ZmxhZyB0byB0aGUgbWVtZmRfcmVzdHJpY3RlZCgpDQo+PiBzeXNjYWxsLCB3aGljaCB3aWxsIGhp
-bnQgdGhlIGtlcm5lbCB0byB1c2UgVHJhbnNwYXJlbnQgSHVnZVBhZ2VzIHRvDQo+PiBiYWNrIHJl
-c3RyaWN0ZWRtZW0gcGFnZXMuDQoNCj4+IFRoaXMgc3VwcGxlbWVudHMgdGhlIGludGVyZmFjZSBw
-cm9wb3NlZCBlYXJsaWVyLCB3aGljaCByZXF1aXJlcyB0aGUNCj4+IGNyZWF0aW9uIG9mIGEgdG1w
-ZnMgbW91bnQgdG8gYmUgcGFzc2VkIHRvIG1lbWZkX3Jlc3RyaWN0ZWQoKSwgd2l0aCBhDQo+PiBt
-b3JlIGRpcmVjdCBwZXItZmlsZSBoaW50Lg0KDQo+PiBEZXBlbmRlbmNpZXM6DQoNCj4+ICsgU2Vh
-buKAmXMgaXRlcmF0aW9uIG9mIHRoZSDigJhLVk06IG1tOiBmZC1iYXNlZCBhcHByb2FjaCBmb3Ig
-c3VwcG9ydGluZw0KPj4gICAgS1ZN4oCZIHBhdGNoIHNlcmllcyBhdA0KPj4gICAgaHR0cHM6Ly9n
-aXRodWIuY29tL3NlYW4tamMvbGludXgvdHJlZS94ODYvdXBtX2Jhc2Vfc3VwcG9ydA0KPj4gKyBQ
-cm9wb3NlZCBmaXggZm9yIHJlc3RyaWN0ZWRtZW1fZ2V0YXR0cigpIGFzIG1lbnRpb25lZCBvbiB0
-aGUgbWFpbGluZw0KPj4gICAgbGlzdCBhdA0KPj4gICAgIA0KPj4gaHR0cHM6Ly9sb3JlLmtlcm5l
-bC5vcmcvbGttbC9kaXF6emdhMGZ2OTYuZnNmQGFja2VybGV5dG5nLWNsb3VkdG9wLXNnLmMuZ29v
-Z2xlcnMuY29tLw0KPj4gKyBIdWdo4oCZcyBwYXRjaDoNCj4+ICAgICANCj4+IGh0dHBzOi8vbG9y
-ZS5rZXJuZWwub3JnL2xrbWwvYzE0MGY1NmEtMWFhMy1mN2FlLWI3ZDEtOTNkYTdkNWEzNTcyQGdv
-b2dsZS5jb20vLA0KPj4gICAgd2hpY2ggcHJvdmlkZXMgZnVuY3Rpb25hbGl0eSBpbiBzaG1lbSB0
-aGF0IHJlYWRzIHRoZSBWTV9IVUdFUEFHRQ0KPj4gICAgZmxhZyBpbiBrZXkgZnVuY3Rpb25zIHNo
-bWVtX2lzX2h1Z2UoKSBhbmQgc2htZW1fZ2V0X2lub2RlKCkNCg0KPiBXaWxsIEh1Z2gncyBwYXRj
-aCBiZSBtZXJnZWQgaW50byA2LjMgPyBJIGRpZG4ndCBmaW5kIGl0IGluIDYuMi1yYzguDQo+IElN
-SE8gdGhpcyBwYXRjaCB3b24ndCB3b3JrIHdpdGhvdXQgSHVnaCdzIHBhdGNoLCBvciBhdCBsZWFz
-dCBuZWVkDQo+IGFub3RoZXIgd2F5LCBlLmcuIEhNRU1fU0IoaW5vZGUtPmlfc2IpLT5odWdlLg0K
-DQoNCkh1Z2gncyBwYXRjaCBpcyBzdGlsbCBwZW5kaW5nIGRpc2N1c3Npb24gYW5kIG1heSBub3Qg
-YmUgbWVyZ2VkIHNvDQpzb29uLiBUaGVzZSBwYXRjaGVzIHdpbGwgbm90IHdvcmsgd2l0aG91dCBI
-dWdoJ3MgcGF0Y2guDQoNCkkgd291bGQgbGlrZSB0byB1bmRlcnN0YW5kIHdoYXQgdGhlIGNvbW11
-bml0eSB0aGlua3Mgb2YgdGhlIHByb3Bvc2VkDQppbnRlcmZhY2UgKFJNRkRfSFVHRVBBR0UgZmxh
-ZywgcGFzc2VkIHRvIHRoZSBtZW1mZF9yZXN0cmljdGVkKCkNCnN5c2NhbGwpLiBJZiB0aGlzIGlu
-dGVyZmFjZSBpcyBmYXZvcmFibHkgcmVjZWl2ZWQsIHdlIGNhbiBkZWZpbml0ZWx5DQpmaW5kIGFu
-b3RoZXIgd2F5IGZvciBzaG1lbSB0byBzdXBwb3J0IHRoaXMgaW50ZXJmYWNlLg0KDQpJZiBJIHVu
-ZGVyc3RhbmQgY29ycmVjdGx5LCBTSE1FTV9TQihpbm9kZS0+aV9zYiktPmh1Z2UgY2hlY2tzIHRo
-ZSBzdGF0ZQ0Kb2YgaHVnZXBhZ2UtbmVzcyBmb3IgdGhlIHN1cGVyYmxvY2suIFNpbmNlIHRoZSBw
-cm9wb3NlZCBpbnRlcmZhY2Ugd2lsbA0Kb25seSBhZmZlY3QgYSBzaW5nbGUgZmlsZSwgd2Ugd2ls
-bCBuZWVkIHNvbWV0aGluZyBjbG9zZXIgdG8NCg0KICAgICBib29sIHNobWVtX2lzX2h1Z2Uoc3Ry
-dWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsIHN0cnVjdCBpbm9kZSAqaW5vZGUsDQogICAgICAgICAg
-ICAgICAgICAgICAgICBwZ29mZl90IGluZGV4LCBib29sIHNobWVtX2h1Z2VfZm9yY2UpDQogICAg
-IHsNCiAgICAgICAgICAgICAuLi4NCg0KICAgICAgICAgICAgIGlmIChTSE1FTV9JKGlub2RlKS0+
-ZmxhZ3MgJiBWTV9IVUdFUEFHRSkNCiAgICAgICAgICAgICAgICAgICAgIHJldHVybiB0cnVlOw0K
-DQogICAgICAgICAgICAgLi4uDQogICAgIH0NCg0KZnJvbSBIdWdoJ3MgcGF0Y2guDQo=
+
+On 2/22/2023 2:21 AM, Srinivas Kandagatla wrote:
+> 
+> 
+> On 21/02/2023 21:22, Elliot Berman wrote:
+>>
+>>
+>> On 2/21/2023 6:51 AM, Srinivas Kandagatla wrote:
+>>>
+>>>
+>>> On 14/02/2023 21:24, Elliot Berman wrote:
+>> [snip]
+>>>> +
+>>>> +static struct gunyah_rm_platform_ops *rm_platform_ops;
+>>>> +static DECLARE_RWSEM(rm_platform_ops_lock);
+>>>
+>>> Why do we need this read/write lock or this global rm_platform_ops 
+>>> here, AFAIU, there will be only one instance of platform_ops per 
+>>> platform.
+>>>
+>>> This should be a core part of the gunyah and its driver early setup, 
+>>> that should give us pretty much lock less behaviour.
+>>>
+>>> We should be able to determine by Hypervisor UUID that its on 
+>>> Qualcomm platform or not, during early gunyah setup which should help 
+>>> us setup the platfrom ops accordingly.
+>>>
+>>> This should also help cleanup some of the gunyah code that was added 
+>>> futher down in this patchset.
+>>
+>> I'm guessing the direction to take is:
+>>
+>>    config GUNYAH
+>>      select QCOM_SCM if ARCH_QCOM
+> 
+> This is how other kernel drivers use SCM.
+> 
+>>
+>> and have vm_mgr call directly into qcom_scm driver if the UID matches?
+> 
+> Yes that is the plan, we could have these callbacks as part key data 
+> structure like struct gh_rm and update it at very early in setup stage 
+> based on UUID match.
+> 
+> 
+>>
+>> We have an Android requirement to enable CONFIG_GUNYAH=y and 
+>> CONFIG_QCOM_SCM=m, but it wouldn't be possible with this design. The 
+> 
+> Am not sure how this will work, if gunyah for QCOM Platform is depended 
+> on SCM then there is no way that gunyah could be a inbuilt and make scm 
+> a module. >
+> On the other hand with the existing design gunyah will not be functional 
+> until scm driver is loaded and platform hooks are registered. This 
+> runtime dependency design does not express the dependency correctly and 
+> the only way to know if gunyah is functional is keep trying which can 
+> only work after scm driver is probed.
+> 
+> This also raises the design question on how much of platform hooks 
+> dependency is captured at gunyah core and api level, with state of 
+> current code /dev/gunyah will be created even without platform hooks and 
+> let the userspace use it which then only fail at hyp call level.
+> 
+> Other issue with current design is, scm module can be unloaded under the 
+> hood leaving gunyah with NULL pointers to those platform hook functions. 
+
+
+This is not possible because SCM module can't be unloaded (except with 
+CONFIG_MODULE_FORCE_UNLOAD). I can also increase refcount of qcom_scm.ko 
+module to be more correct.
+
+> This is the kind of issues we could see if the dependency is not 
+> expressed from bottom up. >
+> The current design is not really capturing the depended components 
+> accurately.
+> 
+> Considering platform hooks as a core resource to gunyah on Qualcomm 
+> platform is something that needs attention. If we can fix that then it 
+> might be doable to have QCOM_SCM=m and CONFIG_GUNYAH=y.
+> 
+
+I'm open to ideas. I don't see this as being a real-world issue because 
+default defconfig has QCOM_SCM=y and all Qualcomm platforms enable 
+QCOM_SCM at least as =m.
+
+Thanks,
+Elliot
+
+> 
+> --srini
+>> platform hooks implementation allows GUNYAH and QCOM_SCM to be enabled 
+>> without setting lower bound of the other.
+>>
+>> - Elliot
