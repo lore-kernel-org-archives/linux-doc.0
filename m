@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECFF9C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 22:41:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4A69C64ED6
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 23:10:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbjBWWlX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 17:41:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40280 "EHLO
+        id S229635AbjBWXKb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 18:10:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbjBWWlW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 17:41:22 -0500
+        with ESMTP id S229625AbjBWXKa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 18:10:30 -0500
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 462B255C3C;
-        Thu, 23 Feb 2023 14:41:21 -0800 (PST)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31NMEqhv006321;
-        Thu, 23 Feb 2023 22:40:52 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5AAF16AF6;
+        Thu, 23 Feb 2023 15:10:24 -0800 (PST)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31NJExr7006742;
+        Thu, 23 Feb 2023 23:10:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=vwSIdh17qJjWuuG8z6cWMHyJXoRyAfuwcZs4OEdGOzg=;
- b=V7046jEF9kPAvF7/4ErM/lwBvesSCcAH5bXzJjNLStio887Ls4DsJpFmkZW+pwFfsA/K
- ZZ+nRMXBeb9B3L5jo4myeAGtpu7aAc+TQiBxIfAXoJEUTUte5oljeXwODAPzQ59hOjUX
- LeOXj63rbHZTRCI4eB07AdUGEnslg2OIGtdPFnLqO1X+wMjcpxOgZ9k96406PK6VoEle
- NYsGswH8C2TxN2/AhonDwfvnNR/nU3RUnfkZlpoDWoYeYfm8r6gQjAGQefn1Bt+q5UoV
- URupPM+FH46yQsR+TguzgS5k/6KB13fLCtlVgVSkFQpdIKvHOYsa2yz0UjtYdGuifdLr vQ== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nwycnjtbu-1
+ bh=e8d6JQRZYzHOjOhE6CwKkCmgKK3WQqyP3QWaM0JUdf8=;
+ b=bJxa/WyKRUXmcBAkbzvKaNoZDEQYCk8fq76Xdyp382xIU+sGK/BmAUnttkHsAWKTmNS+
+ xqmBDOpFQmVgUDEFOTRKaaCqiSQp2Kt+6rHbvciXROIqXHdiGfjJ89EJ3xe5E7Yw+kJ1
+ l2iPI3SoQrjqYkVd37+xuYqM2BIzDNnuGpWBzM4ZW7zN1fOjctwDHLaFCI8CjTwz+sNO
+ DnUryTYdADqtYyhKcoVruGx3TzRb9PlA8JRrMQgjC1eGEgn2gP0VnbxlO5C4tBzcR9p+
+ n7rtkwfA8J+m40gO30fIrj2cdXyG31I/OMfImr66MCjzIQB3Zgo6gfrzBPrIDJI8oWuX OA== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nwy9gjw83-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 23 Feb 2023 22:40:52 +0000
+        Thu, 23 Feb 2023 23:10:05 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31NMepx5031123
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31NNA5aK008482
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 23 Feb 2023 22:40:51 GMT
+        Thu, 23 Feb 2023 23:10:05 GMT
 Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 23 Feb
- 2023 14:40:50 -0800
-Message-ID: <c5ff1523-7a62-3d3f-6fa9-792ce4d222e8@quicinc.com>
-Date:   Thu, 23 Feb 2023 14:40:50 -0800
+ 2023 15:10:04 -0800
+Message-ID: <0ba4a554-3a40-1a67-c666-77502f4e6ed6@quicinc.com>
+Date:   Thu, 23 Feb 2023 15:10:04 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v10 10/26] gunyah: vm_mgr: Introduce basic VM Manager
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alex Elder <elder@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+Subject: Re: [PATCH v10 09/26] gunyah: rsc_mgr: Add VM lifecycle RPC
+Content-Language: en-US
+To:     Alex Elder <alex.elder@linaro.org>, Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
@@ -59,6 +59,7 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Jassi Brar <jassisinghbrar@gmail.com>,
@@ -66,251 +67,208 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
 References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212356.3313181-1-quic_eberman@quicinc.com>
- <dbcfa4e9-a1ad-0f24-77bf-05934ca26bb2@linaro.org>
- <05c4aab8-2d26-b944-adb6-624d67e4a11d@quicinc.com>
- <52d944b1-3ea6-26b7-766a-2fed05dccf3a@linaro.org>
-Content-Language: en-US
+ <20230214212343.3311875-1-quic_eberman@quicinc.com>
+ <556ab51e-ddf8-b56b-1743-36f3b6d623d1@linaro.org>
 From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <52d944b1-3ea6-26b7-766a-2fed05dccf3a@linaro.org>
+In-Reply-To: <556ab51e-ddf8-b56b-1743-36f3b6d623d1@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: w-UUgCskb9-MmOJrbcAGgLdyO350Ovqq
-X-Proofpoint-GUID: w-UUgCskb9-MmOJrbcAGgLdyO350Ovqq
+X-Proofpoint-GUID: QIOMK4EJZNvm_zoXIL9SasRk7-_pJhmF
+X-Proofpoint-ORIG-GUID: QIOMK4EJZNvm_zoXIL9SasRk7-_pJhmF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
  definitions=2023-02-23_13,2023-02-23_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
- suspectscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 spamscore=0
- clxscore=1015 mlxlogscore=999 priorityscore=1501 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302230188
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ spamscore=0 malwarescore=0 adultscore=0 impostorscore=0 mlxscore=0
+ suspectscore=0 lowpriorityscore=0 clxscore=1015 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302230193
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 2/23/2023 2:08 AM, Srinivas Kandagatla wrote:
-> 
-> 
-> On 22/02/2023 00:27, Elliot Berman wrote:
+On 2/23/2023 1:36 PM, Alex Elder wrote:
+> On 2/14/23 3:23 PM, Elliot Berman wrote:
 >>
->>>> +    .llseek = noop_llseek,
->>>> +};
->>>> +
->>>> +static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long 
->>>> arg)
->>> Not sure what is the gain of this multiple levels of redirection.
->>>
->>> How about
->>>
->>> long gh_dev_create_vm(struct gh_rm *rm, unsigned long arg)
->>> {
->>> ...
->>> }
->>>
->>> and rsc_mgr just call it as part of its ioctl call
->>>
->>> static long gh_dev_ioctl(struct file *filp, unsigned int cmd, 
->>> unsigned long arg)
->>> {
->>>      struct miscdevice *miscdev = filp->private_data;
->>>      struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
->>>
->>>      switch (cmd) {
->>>      case GH_CREATE_VM:
->>>          return gh_dev_create_vm(rm, arg);
->>>      default:
->>>          return -ENOIOCTLCMD;
->>>      }
->>> }
->>>
+>> Add Gunyah Resource Manager RPC to launch an unauthenticated VM.
 >>
->> I'm anticipating we will add further /dev/gunyah ioctls and I thought 
->> it would be cleaner to have all that in vm_mgr.c itself.
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>> ---
+>>   drivers/virt/gunyah/Makefile      |   2 +-
+>>   drivers/virt/gunyah/rsc_mgr.h     |  45 ++++++
+>>   drivers/virt/gunyah/rsc_mgr_rpc.c | 226 ++++++++++++++++++++++++++++++
+>>   include/linux/gunyah_rsc_mgr.h    |  73 ++++++++++
+>>   4 files changed, 345 insertions(+), 1 deletion(-)
+>>   create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
 >>
->>>
->>>> +{
->>>> +    struct gh_vm *ghvm;
->>>> +    struct file *file;
->>>> +    int fd, err;
->>>> +
->>>> +    /* arg reserved for future use. */
->>>> +    if (arg)
->>>> +        return -EINVAL;
->>>
->>> The only code path I see here is via GH_CREATE_VM ioctl which 
->>> obviously does not take any arguments, so if you are thinking of 
->>> using the argument for architecture-specific VM flags.  Then this 
->>> needs to be properly done by making the ABI aware of this.
->>
->> It is documented in Patch 17 (Document Gunyah VM Manager)
->>
->> +GH_CREATE_VM
->> +~~~~~~~~~~~~
+>> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+>> index cc864ff5abbb..de29769f2f3f 100644
+>> --- a/drivers/virt/gunyah/Makefile
+>> +++ b/drivers/virt/gunyah/Makefile
+>> @@ -2,5 +2,5 @@
+>>   obj-$(CONFIG_GUNYAH) += gunyah.o
+>> -gunyah_rsc_mgr-y += rsc_mgr.o
+>> +gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o
+>>   obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
+>> diff --git a/drivers/virt/gunyah/rsc_mgr.h 
+>> b/drivers/virt/gunyah/rsc_mgr.h
+>> index d4e799a7526f..7406237bc66d 100644
+>> --- a/drivers/virt/gunyah/rsc_mgr.h
+>> +++ b/drivers/virt/gunyah/rsc_mgr.h
+>> @@ -74,4 +74,49 @@ struct gh_rm;
+>>   int gh_rm_call(struct gh_rm *rsc_mgr, u32 message_id, void 
+>> *req_buff, size_t req_buff_size,
+>>           void **resp_buf, size_t *resp_buff_size);
+>> +/* Message IDs: VM Management */
+>> +#define GH_RM_RPC_VM_ALLOC_VMID            0x56000001
+>> +#define GH_RM_RPC_VM_DEALLOC_VMID        0x56000002
+>> +#define GH_RM_RPC_VM_START            0x56000004
+>> +#define GH_RM_RPC_VM_STOP            0x56000005
+>> +#define GH_RM_RPC_VM_RESET            0x56000006
+>> +#define GH_RM_RPC_VM_CONFIG_IMAGE        0x56000009
+>> +#define GH_RM_RPC_VM_INIT            0x5600000B
+>> +#define GH_RM_RPC_VM_GET_HYP_RESOURCES        0x56000020
+>> +#define GH_RM_RPC_VM_GET_VMID            0x56000024
 >> +
->> +Creates a Gunyah VM. The argument is reserved for future use and must 
->> be 0.
->>
-> But this conficts with the UAPIs that have been defined. GH_CREATE_VM 
-> itself is defined to take no parameters.
+>> +struct gh_rm_vm_common_vmid_req {
+>> +    __le16 vmid;
+>> +    __le16 reserved0;
+>> +} __packed;
+>> +
+>> +/* Call: VM_ALLOC */
+>> +struct gh_rm_vm_alloc_vmid_resp {
+>> +    __le16 vmid;
+>> +    __le16 reserved0;
+>> +} __packed;
+>> +
+>> +/* Call: VM_STOP */
+>> +struct gh_rm_vm_stop_req {
+>> +    __le16 vmid;
+>> +#define GH_RM_VM_STOP_FLAG_FORCE_STOP    BIT(0)
+>> +    u8 flags;
+>> +    u8 reserved;
+>> +#define GH_RM_VM_STOP_REASON_FORCE_STOP        3
 > 
-> #define GH_CREATE_VM                    _IO(GH_IOCTL_TYPE, 0x0)
+> I suggested this before and you honored it.  Now I'll suggest
+> it again, and ask you to do it throughout the driver.
 > 
-> so where are you expecting the argument to come from?
->  >>>
->>> As you mentioned zero value arg imply an "unauthenticated VM" type, 
->>> but this was not properly encoded in the userspace ABI. Why not make 
->>> it future compatible. How about adding arguments to GH_CREATE_VM and 
->>> pass the required information correctly.
->>> Note that once the ABI is accepted then you will not be able to 
->>> change it, other than adding a new one.
->>>
->>
->> Does this means adding #define GH_VM_DEFAULT_ARG 0 ? I am not sure yet 
->> what arguments to add here.
->>
->> The ABI can add new "long" values to GH_CREATE_VM and that wouldn't 
+> Please separate the definitions of constant values that
+> certain fields can take on from the structure definition.
+> I think doing it the way you have here makes it harder to
+> understand the structure definition.
 > 
-> Sorry, that is exactly what we want to avoid, we can not change the UAPI 
-> its going to break the userspace.
-> 
->> break compatibility with old kernels; old kernels reject it as -EINVAL.
-> 
-> If you have userspace built with older kernel headers then that will 
-> break. Am not sure about old-kernels.
-> 
-> What exactly is the argument that you want to add to GH_CREATE_VM?
-> 
-> If you want to keep GH_CREATE_VM with no arguments that is fine but 
-> remove the conflicting comments in the code and document so that its not 
-> misleading readers/reviewers that the UAPI is going to be modified in 
-> near future.
-> 
+> You could define an anonymous enumerated type to hold
+> the values meant to be held by each field.
 > 
 
-The convention followed here comes from KVM_CREATE_VM. Is this ioctl 
-considered bad example?
+Done.
 
->>
->>>> +
->>>> +    ghvm = gh_vm_alloc(rm);
->>>> +    if (IS_ERR(ghvm))
->>>> +        return PTR_ERR(ghvm);
->>>> +
->>>> +    fd = get_unused_fd_flags(O_CLOEXEC);
->>>> +    if (fd < 0) {
->>>> +        err = fd;
->>>> +        goto err_destroy_vm;
->>>> +    }
->>>> +
->>>> +    file = anon_inode_getfile("gunyah-vm", &gh_vm_fops, ghvm, O_RDWR);
->>>> +    if (IS_ERR(file)) {
->>>> +        err = PTR_ERR(file);
->>>> +        goto err_put_fd;
->>>> +    }
->>>> +
->>>> +    fd_install(fd, file);
->>>> +
->>>> +    return fd;
->>>> +
->>>> +err_put_fd:
->>>> +    put_unused_fd(fd);
->>>> +err_destroy_vm:
->>>> +    kfree(ghvm);
->>>> +    return err;
->>>> +}
->>>> +
->>>> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, 
->>>> unsigned long arg)
->>>> +{
->>>> +    switch (cmd) {
->>>> +    case GH_CREATE_VM:
->>>> +        return gh_dev_ioctl_create_vm(rm, arg);
->>>> +    default:
->>>> +        return -ENOIOCTLCMD;
->>>> +    }
->>>> +}
->>>> diff --git a/drivers/virt/gunyah/vm_mgr.h 
->>>> b/drivers/virt/gunyah/vm_mgr.h
->>>> new file mode 100644
->>>> index 000000000000..76954da706e9
->>>> --- /dev/null
->>>> +++ b/drivers/virt/gunyah/vm_mgr.h
->>>> @@ -0,0 +1,22 @@
->>>> +/* SPDX-License-Identifier: GPL-2.0-only */
->>>> +/*
->>>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
->>>> rights reserved.
->>>> + */
->>>> +
->>>> +#ifndef _GH_PRIV_VM_MGR_H
->>>> +#define _GH_PRIV_VM_MGR_H
->>>> +
->>>> +#include <linux/gunyah_rsc_mgr.h>
->>>> +
->>>> +#include <uapi/linux/gunyah.h>
->>>> +
->>>> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, 
->>>> unsigned long arg);
->>>> +
->>>> +struct gh_vm {
->>>> +    u16 vmid;
->>>> +    struct gh_rm *rm;
->>>> +
->>>> +    struct work_struct free_work;
->>>> +};
->>>> +
->>>> +#endif
->>>> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
->>>> new file mode 100644
->>>> index 000000000000..10ba32d2b0a6
->>>> --- /dev/null
->>>> +++ b/include/uapi/linux/gunyah.h
->>>> @@ -0,0 +1,23 @@
->>>> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
->>>> +/*
->>>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
->>>> rights reserved.
->>>> + */
->>>> +
->>>> +#ifndef _UAPI_LINUX_GUNYAH
->>>> +#define _UAPI_LINUX_GUNYAH
->>>> +
->>>> +/*
->>>> + * Userspace interface for /dev/gunyah - gunyah based virtual machine
->>>> + */
->>>> +
->>>> +#include <linux/types.h>
->>>> +#include <linux/ioctl.h>
->>>> +
->>>> +#define GH_IOCTL_TYPE            'G'
->>>> +
->>>> +/*
->>>> + * ioctls for /dev/gunyah fds:
->>>> + */
->>>> +#define GH_CREATE_VM            _IO(GH_IOCTL_TYPE, 0x0) /* Returns 
->>>> a Gunyah VM fd */
->>>
->>> Can HLOS forcefully destroy a VM?
->>> If so should we have a corresponding DESTROY IOCTL?
->>
->> It can forcefully destroy unauthenticated and protected virtual 
->> machines. I don't have a userspace usecase for a DESTROY ioctl yet, 
->> maybe this can be added later? By the way, the VM is forcefully 
-> that should be fine, but its also nice to add it for completeness, but 
-> not a compulsory atm
+>> +    __le32 stop_reason;
+>> +} __packed;
+>> +
+>> +/* Call: VM_CONFIG_IMAGE */
+>> +struct gh_rm_vm_config_image_req {
+>> +    __le16 vmid;
+>> +    __le16 auth_mech;
+>> +    __le32 mem_handle;
+>> +    __le64 image_offset;
+>> +    __le64 image_size;
+>> +    __le64 dtb_offset;
+>> +    __le64 dtb_size;
+>> +} __packed;
+>> +
+>> +/* Call: GET_HYP_RESOURCES */
+>> +
+>>   #endif
+>> diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c 
+>> b/drivers/virt/gunyah/rsc_mgr_rpc.c
+>> new file mode 100644
+>> index 000000000000..4515cdd80106
+>> --- /dev/null
+>> +++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
+>> @@ -0,0 +1,226 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>> + */
+>> +
+>> +#include <linux/gunyah_rsc_mgr.h>
+>> +
+>> +#include "rsc_mgr.h"
+>> +
+>> +/*
+>> + * Several RM calls take only a VMID as a parameter and give only 
+>> standard
+>> + * response back. Deduplicate boilerplate code by using this common 
+>> call.
+>> + */
+>> +static int gh_rm_common_vmid_call(struct gh_rm *rm, u32 message_id, 
+>> u16 vmid)
+>> +{
+>> +    struct gh_rm_vm_common_vmid_req req_payload = {
+>> +        .vmid = cpu_to_le16(vmid),
+>> +    };
+>> +    size_t resp_size;
+>> +    void *resp;
+>> +
+>> +    return gh_rm_call(rm, message_id, &req_payload, 
+>> sizeof(req_payload), &resp, &resp_size);
+>> +}
+>> +
+>> +/**
+>> + * gh_rm_alloc_vmid() - Allocate a new VM in Gunyah. Returns the VM 
+>> identifier.
+>> + * @rm: Handle to a Gunyah resource manager
+>> + * @vmid: Use GH_VMID_INVAL or 0 to dynamically allocate a VM. A 
+>> reserved VMID can
+>> + *        be supplied to request allocation of a platform-defined VM.
 > 
->> destroyed when VM refcount is dropped to 0 (close(vm_fd) and any other 
->> relevant file descriptors).
-> I have noticed that path.
+> Honestly, I'd rather just see 0 (and *not* GH_VMID_INVAL) be the
+> special value to mean "dynamically allocate the VMID."  It seems
+> 0 is a reserved VMID anyway, and GH_VMID_INVAL might as well be
+> treated here as an invalid parameter.
+
+Done.
+
 > 
-> --srini
->>
->> - Elliot
+> Is there any definitition of which VMIDs are reserved?  Like,
+> anything under 1024?
+
+It's platform dependent. On Qualcomm platforms, VMIDs <= 63 
+(QCOM_SCM_MAX_MANAGED_VMID) are reserved. Of those reserved VMIDs, 
+Gunyah only allows us to allocate the "special VMs" (today: TUIVM, 
+CPUSYSVM, OEMVM). Passing any value except 0, tuivm_vmid, cpusysvm_vmid, 
+or oemvm_vmid returns an error.
+
+On current non-Qualcomm platforms, there aren't any reserved VMIDs so 
+passing anything but 0 returns an error.
+
+Thanks,
+Elliot
+
+> 
+> That's it on this patch for now.
+> 
+>                      -Alex
+> 
+>> + *
+>> + * Returns - the allocated VMID or negative value on error
+>> + */
+>> +int gh_rm_alloc_vmid(struct gh_rm *rm, u16 vmid)
+>> +{
+>> +    struct gh_rm_vm_common_vmid_req req_payload = { 0 };
+>> +    struct gh_rm_vm_alloc_vmid_resp *resp_payload;
+>> +    size_t resp_size;
+>> +    void *resp;
+>> +    int ret;
+> 
+> . . .
+> 
