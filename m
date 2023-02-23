@@ -2,141 +2,300 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A467C64ED6
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 13:48:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E26ADC636D6
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 15:02:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234407AbjBWNsX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 08:48:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55502 "EHLO
+        id S234644AbjBWPCa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 10:02:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234272AbjBWNsS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 08:48:18 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88CD1EBDC;
-        Thu, 23 Feb 2023 05:47:58 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 669341EC06C0;
-        Thu, 23 Feb 2023 14:47:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1677160075;
+        with ESMTP id S229502AbjBWPC3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 10:02:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6816222FC
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 07:01:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1677164506;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=hO7XAwGHrh7jFk3tHCK0hu6b1iYy4OafzVQ/2u7pgt0=;
-        b=XfrOb7PSES+S6B9eQEkNsjlZRHVF4TWjOqGoeG4O4dPJLEYmxc8q1Ehl5tvde40+rpKH68
-        3wN/883J0piBys3sMxNwuV9jX8TKi5vKKbjvvJPUrReZ+bzfj4BeS2P9fQiRfrIHpbz3Bl
-        1WIZQ+6CUY+TxMk/R6vjW/NeYUVVxE8=
-Date:   Thu, 23 Feb 2023 14:47:51 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v6 37/41] selftests/x86: Add shadow stack test
-Message-ID: <Y/duhySUieqUWoGX@zn.tnic>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-38-rick.p.edgecombe@intel.com>
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=k9OY3DOmsttxoPAiFSmCq7gtwaYekEfHfeSsFmsCyrY=;
+        b=BiPImrSZC7ZWJy+Q0kpj+4UOl3hYYavOk/yUQ8+IOL21EgN0EC6ukutpbueKwDTpKV820c
+        7KMwOd4zKk7VvW8cQ37D/OuAJbXD+ElNcVs08MMkwX+yzmf+NHFNbxU8TadwCmu+P+wSQM
+        jIwdPKLif4OFvBypBh52vBWK6S4icbo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-222-X9NubvHmN0O2jDlNDUPB6Q-1; Thu, 23 Feb 2023 10:01:45 -0500
+X-MC-Unique: X9NubvHmN0O2jDlNDUPB6Q-1
+Received: by mail-ed1-f69.google.com with SMTP id dm14-20020a05640222ce00b0046790cd9082so15737543edb.21
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 07:01:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=k9OY3DOmsttxoPAiFSmCq7gtwaYekEfHfeSsFmsCyrY=;
+        b=IcGbZ11Zcm3VMPu6ui+Aydz+4dB0enXgSm+yjjcdkc9CYml5g3lzm1ZU+PePJyPgNk
+         IJBl2K2Y8t2g0LYzYg70OOBGqE9Sllz/OHoX9BB061OL2q1VoFfGopYyMnKpa4l4Jyaj
+         5O2zvWd1tYrtURwPtlODJONuiZVpYTGDDnpe6wbgjonfsGni2qHZ5SUeV2rhZJEd23J9
+         jCxJKE7Na0wtRiag2GH1C69pSDZiSYBzPw45uYhq15ZzVKbUB0Q500V4Yyqq/JaHg0eG
+         R4wnqifPWzJdBV3SRfystkhIOODxdVkTA4KmF6ADa7YwgVyuHupSgzEg+Amdzq5JtnM9
+         kN1A==
+X-Gm-Message-State: AO0yUKVff8EA2DrLRgDz9zR5S0dyOlKqZ2LePYaNV1LLMlQHwN+ZqQqf
+        qZggyb2ow4CZzNCdD9evfE5AskuIUL3AbPa1kzCnAy2w+S3mR+m+/6oHR0Iauoqn+TxnaE58J9v
+        I9kGtj6CesKFXw4IQ+uKu
+X-Received: by 2002:a17:907:3e22:b0:8e3:8543:8e71 with SMTP id hp34-20020a1709073e2200b008e385438e71mr11141657ejc.40.1677164503827;
+        Thu, 23 Feb 2023 07:01:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set9x3TEkF4rjKsOMblKg8nB91RIygBy/qyspdCpvJfYp5Ifo24giDUJ/K+JxqZGl9KaboO5b6g==
+X-Received: by 2002:a17:907:3e22:b0:8e3:8543:8e71 with SMTP id hp34-20020a1709073e2200b008e385438e71mr11141608ejc.40.1677164503488;
+        Thu, 23 Feb 2023 07:01:43 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+        by smtp.gmail.com with ESMTPSA id h7-20020a170906260700b008b8ae79a72bsm7650214ejc.135.2023.02.23.07.01.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Feb 2023 07:01:42 -0800 (PST)
+Message-ID: <734e3c77-a536-95ca-bcae-1e1e86940a48@redhat.com>
+Date:   Thu, 23 Feb 2023 15:12:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230218211433.26859-38-rick.p.edgecombe@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA
+ mappings
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net, linux-doc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+        Dave Airlie <airlied@redhat.com>
+References: <20230217134422.14116-1-dakr@redhat.com>
+ <20230217134422.14116-6-dakr@redhat.com>
+ <70ba382f-1559-289a-4922-ca9c371aaf59@amd.com>
+ <cc8eeaf4-31e7-98e4-a712-012fc604e985@redhat.com>
+ <29ea3705-5634-c204-c1da-d356b6dfbafc@amd.com>
+ <83755119-083d-7d66-fca0-ca306c841d9c@redhat.com>
+ <7780a9b9-d6bd-6f3f-9c31-aafacb09db1f@amd.com>
+From:   Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <7780a9b9-d6bd-6f3f-9c31-aafacb09db1f@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 18, 2023 at 01:14:29PM -0800, Rick Edgecombe wrote:
-> Since this test exercises a recently added syscall manually, it needs
-> to find the automatically created __NR_foo defines. Per the selftest
-> documentation, KHDR_INCLUDES can be used to help the selftest Makefile's
+On 2/23/23 08:06, Christian König wrote:
+> Am 22.02.23 um 17:40 schrieb Danilo Krummrich:
+>> On 2/22/23 16:14, Christian König wrote:
+>>> Am 22.02.23 um 16:07 schrieb Danilo Krummrich:
+>>>> On 2/22/23 11:25, Christian König wrote:
+>>>>> Am 17.02.23 um 14:44 schrieb Danilo Krummrich:
+>>>>
+>>>> <snip>
+>>>>
+>>>>>> +/**
+>>>>>> + * DOC: Overview
+>>>>>> + *
+>>>>>> + * The DRM GPU VA Manager, represented by struct 
+>>>>>> drm_gpuva_manager keeps track
+>>>>>> + * of a GPU's virtual address (VA) space and manages the 
+>>>>>> corresponding virtual
+>>>>>> + * mappings represented by &drm_gpuva objects. It also keeps 
+>>>>>> track of the
+>>>>>> + * mapping's backing &drm_gem_object buffers.
+>>>>>> + *
+>>>>>> + * &drm_gem_object buffers maintain a list (and a corresponding 
+>>>>>> list lock) of
+>>>>>> + * &drm_gpuva objects representing all existent GPU VA mappings 
+>>>>>> using this
+>>>>>> + * &drm_gem_object as backing buffer.
+>>>>>> + *
+>>>>>> + * If the &DRM_GPUVA_MANAGER_REGIONS feature is enabled, a GPU VA 
+>>>>>> mapping can
+>>>>>> + * only be created within a previously allocated 
+>>>>>> &drm_gpuva_region, which
+>>>>>> + * represents a reserved portion of the GPU VA space. GPU VA 
+>>>>>> mappings are not
+>>>>>> + * allowed to span over a &drm_gpuva_region's boundary.
+>>>>>> + *
+>>>>>> + * GPU VA regions can also be flagged as sparse, which allows 
+>>>>>> drivers to create
+>>>>>> + * sparse mappings for a whole GPU VA region in order to support 
+>>>>>> Vulkan
+>>>>>> + * 'Sparse Resources'.
+>>>>>
+>>>>> Well since we have now found that there is absolutely no technical 
+>>>>> reason for having those regions could we please drop them?
+>>>>
+>>>> I disagree this was the outcome of our previous discussion.
+>>>>
+>>>> In nouveau I still need them to track the separate sparse page 
+>>>> tables and, as you confirmed previously, Nvidia cards are not the 
+>>>> only cards supporting this feature.
+>>>>
+>>>> The second reason is that with regions we can avoid merging between 
+>>>> buffers, which saves some effort. However, I agree that this 
+>>>> argument by itself probably doesn't hold too much, since you've 
+>>>> pointed out in a previous mail that:
+>>>>
+>>>> <cite>
+>>>> 1) If we merge and decide to only do that inside certain boundaries 
+>>>> then those boundaries needs to be provided and checked against. This 
+>>>> burns quite some CPU cycles
+>>>>
+>>>> 2) If we just merge what we can we might have extra page table 
+>>>> updates which cost time and could result in undesired side effects.
+>>>>
+>>>> 3) If we don't merge at all we have additional housekeeping for the 
+>>>> mappings and maybe hw restrictions.
+>>>> </cite>
+>>>>
+>>>> However, if a driver uses regions to track its separate sparse page 
+>>>> tables anyway it gets 1) for free, which is a nice synergy.
+>>>>
+>>>> I totally agree that regions aren't for everyone though. Hence, I 
+>>>> made them an optional feature and by default regions are disabled. 
+>>>> In order to use them drm_gpuva_manager_init() must be called with 
+>>>> the DRM_GPUVA_MANAGER_REGIONS feature flag.
+>>>>
+>>>> I really would not want to open code regions or have two GPUVA 
+>>>> manager instances in nouveau to track sparse page tables. That would 
+>>>> be really messy, hence I hope we can agree on this to be an optional 
+>>>> feature.
+>>>
+>>> I absolutely don't think that this is a good idea then. This separate 
+>>> handling of sparse page tables is completely Nouveau specific.
+>>
+>> Actually, I rely on what you said in a previous mail when I say it's, 
+>> potentially, not specific to nouveau.
+>>
+>> <cite>
+>> This sounds similar to what AMD hw used to have up until gfx8 (I 
+>> think), basically sparse resources where defined through a separate 
+>> mechanism to the address resolution of the page tables. I won't rule 
+>> out that other hardware has similar approaches.
+>> </cite>
+> 
+> Ok, sounds like I didn't made my point here clear: AMD does have that 
+> same mechanism for older hw you try to implement here for Nouveau, but 
+> we have *abandoned* it because it is to much trouble and especially 
+> overhead to support! In other words we have said "Ok we would need two 
+> separate components to cleanly handle that, one for newer hw and one for 
+> older hw.".
 
-Well, why don't you make it easier for the user of this to not have to
-jump through hoops to get the test built?
+My point was more about the potential existence of other hardware having 
+similar concepts.
 
-IOW, something like the below ontop.
+I, personally, can't judge whether actually making use of having 
+separate sparse page tables (or similar concepts) makes sense for other 
+drivers or not. I think it depends on how the hardware works, which 
+limitations it has in handling page tables, etc.
 
-It works if I do
+I definitely recognize your experience and that for AMD you decided its 
+not worth using a similar mechanism. I would definitely be interested in 
+the details. Do you mind sharing them?
 
-$ make -j<num> test_shadow_stack_64
+However, I think we need to differentiate between whether for AMD 
+hardware you just found an approach that worked out better for your 
+specific hardware or whether something is fundamentally broken with 
+separate sparse page tables (or similar concepts) in general.
 
-It would only need to be fixed to work when you do
+Do you think there is something fundamentally broken with such an 
+approach? And if so, why?
 
-$ make -j<num>
+> 
+> What you now try to do is to write one component which works for both. 
+> We have already exercised this idea and came to the conclusion that it's 
+> not a good path to go down. So you're basically just repeating our mistake.
+> 
+> I mean if it's just for Nouveau then I would say feel free to do 
+> whatever you want, but since this component is supposed to be used by 
+> more drivers then I strongly think we need to tackle this from a 
+> different side.
+> 
+>>> Even when it's optional feature mixing this into the common handling 
+>>> is exactly what I pointed out as not properly separating between 
+>>> hardware specific and hardware agnostic functionality.
+>>
+>> Optionally having regions is *not* a hardware specific concept, 
+>> drivers might use it for a hardware specific purpose though. Which 
+>> potentially is is the case for almost every DRM helper.
+>>
+>> Drivers can use regions only for the sake of not merging between 
+>> buffer boundaries as well. Some drivers might prefer this over "never 
+>> merge" or "always merge", depending on the cost of re-organizing page 
+>> tables for unnecessary splits/merges, without having the need of 
+>> tracking separate sparse page tables.
+>>
+>> Its just that I think *if* a driver needs to track separate sparse 
+>> page tables anyways its a nice synergy since then there is no extra 
+>> cost for getting this optimization.
+> 
+> Well exactly that's the point: I really don't believe that this comes 
+> without extra costs.
 
-without arguments as then make does a parallel build.
+If you already have to store some information for purpose A and an 
+optional purpose B requires the exact same information you would get B 
+for free.
 
-I guess something like
+Which other costs would you see here?
 
-ifneq ($(filter test_shadow_stack_64, $(MAKECMDGOALS)),)
-.NOTPARALLEL:
-endif
+> 
+> What we could maybe do is to have an two separate functions, one for 
+> updating the data structures and one for merging. When you now call the 
+> merging function with a limit you don't get mappings merged over that 
+> limit and if you don't call the merging function at all you don't get 
+> merges.
 
-needs to happen but I'm not sure...
+Having a separate merging function would work. However, I am against an 
+interface that takes limit parameters. Having such an interface signals 
+general compliance with tracking regions to drivers, but without the 
+offer to do this job in a generic way.
 
-Thx.
+This sounds like a bad compromise to me. I think we should either accept 
+that some drivers might have a purpose of tracking regions and hence 
+*optionally* support them or have clear evidence that tracking regions 
+never ever make sense at all regardless of how a specific hardware 
+handles it's page tables.
 
-diff --git a/tools/testing/selftests/x86/Makefile b/tools/testing/selftests/x86/Makefile
-index a5c5ee73052a..9287dc7c0263 100644
---- a/tools/testing/selftests/x86/Makefile
-+++ b/tools/testing/selftests/x86/Makefile
-@@ -14,6 +14,10 @@ top_srcdir ?= ../../..
- abs_srctree := $(shell cd $(top_srcdir) && pwd)
- KHDR_INCLUDES := -isystem ${abs_srctree}/usr/include
- 
-+test_shadow_stack_64: test_shadow_stack.c helpers.h
-+	cd $(top_srcdir) && $(MAKE) headers
-+	$(CC) -m64 -o $@ $(CFLAGS) $(EXTRA_CFLAGS) $(KHDR_INCLUDES) $^ -lrt -ldl
-+
- TARGETS_C_BOTHBITS := single_step_syscall sysret_ss_attrs syscall_nt test_mremap_vdso \
- 			check_initial_reg_state sigreturn iopl ioperm \
- 			test_vsyscall mov_ss_trap \
-@@ -22,7 +26,7 @@ TARGETS_C_32BIT_ONLY := entry_from_vm86 test_syscall_vdso unwind_vdso \
- 			test_FCMOV test_FCOMI test_FISTTP \
- 			vdso_restorer
- TARGETS_C_64BIT_ONLY := fsgsbase sysret_rip syscall_numbering \
--			corrupt_xstate_header amx test_shadow_stack
-+			corrupt_xstate_header amx
- # Some selftests require 32bit support enabled also on 64bit systems
- TARGETS_C_32BIT_NEEDED := ldt_gdt ptrace_syscall
- 
-@@ -38,7 +42,7 @@ BINARIES_64 := $(TARGETS_C_64BIT_ALL:%=%_64)
- BINARIES_32 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_32))
- BINARIES_64 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_64))
- 
--CFLAGS := -O2 -g -std=gnu99 -pthread -Wall $(KHDR_INCLUDES)
-+CFLAGS := -O2 -g -std=gnu99 -pthread -Wall
- 
- # call32_from_64 in thunks.S uses absolute addresses.
- ifeq ($(CAN_BUILD_WITH_NOPIE),1)
+Allowing drivers to set the merge strategy, however, is a good idea. I 
+could also just add corresponding feature flags to let the driver pick.
 
--- 
-Regards/Gruss,
-    Boris.
+> 
+> But we should have definitely not have the tracking of the ranges inside 
+> the common component. This is something separated.
+> 
+>>> This is exactly the problem we ran into with TTM as well and I've 
+>>> spend a massive amount of time to clean that up again. >
+>>
+>> Admittedly, I don't know what problems you are referring to. However, 
+>> I don't see which kind of trouble it could cause by allowing drivers 
+>> to track regions optionally.
+> 
+> Take a look at my 2020 presentation about TTM on FOSDEM.
+> 
+> Regards,
+> Christian.
+> 
+>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>>
+>>>>>
+>>>>> I don't really see a need for them any more.
+>>>>>
+>>>>> Regards,
+>>>>> Christian.
+>>>>>
+>>>>
+>>>
+>>
+> 
 
-https://people.kernel.org/tglx/notes-about-netiquette
