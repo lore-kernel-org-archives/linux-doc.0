@@ -2,102 +2,219 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDEAC61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 12:31:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59478C64ED6
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Feb 2023 12:56:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233755AbjBWMbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 07:31:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55932 "EHLO
+        id S233477AbjBWM4l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 07:56:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233240AbjBWMbV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 07:31:21 -0500
+        with ESMTP id S233437AbjBWM4k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 07:56:40 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4BBF3E0BA
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 04:30:34 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31F89199EE
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 04:55:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677155433;
+        s=mimecast20190719; t=1677156952;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=50lBuV3QR2//PSngGTbSWZPBlP82sIgkQ+k5w94wfYg=;
-        b=LBJc38PrWJiIV91ItccqrFGNlyEr8yDU5Qx9kEdptLySmD+681e8gRS0eMxyQ4NMfUFCFv
-        uubTphrpp7lhn9UE5KKHEKbigdvl72AGuMlJN3uYmq8bagdpjPT+M2Yz8m3pCzfzkELsj6
-        Q2IVfHra2nrZB2WV3XYXfbiMqikp8Lc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-155-NUsTCYPcMC6b5sDMgY8Nng-1; Thu, 23 Feb 2023 07:30:30 -0500
-X-MC-Unique: NUsTCYPcMC6b5sDMgY8Nng-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D790885624;
-        Thu, 23 Feb 2023 12:30:29 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.239])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 1CA42492C14;
-        Thu, 23 Feb 2023 12:30:26 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu, 23 Feb 2023 13:30:24 +0100 (CET)
-Date:   Thu, 23 Feb 2023 13:30:20 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Gregory Price <gregory.price@memverge.com>
-Cc:     Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        avagin@gmail.com, peterz@infradead.org, luto@kernel.org,
-        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
-        shuah@kernel.org
-Subject: Re: [PATCH v11 2/2] ptrace,syscall_user_dispatch: checkpoint/restore
- support for SUD
-Message-ID: <20230223123020.GA26182@redhat.com>
-References: <20230221201740.2236-1-gregory.price@memverge.com>
- <20230221201740.2236-3-gregory.price@memverge.com>
- <20230222124834.GA15591@redhat.com>
- <Y/YzloHpiyOSvZfK@memverge.com>
+        bh=PT6kgDTp7/GY4ysTzhnQOlEbU8Ib9XDdtbwXVzEvIDI=;
+        b=OyZwUgfiTSQb0oXyy4q+khFNd1z0Q2i1Zaa/fy/c4JFYJIbrhpLMdaistzrRWMAHSlgSm2
+        sxXdDkeA3bbdjwRR4GRS+u5ForDEzZYridcXGWyOeON7srpF3WBR7UmYbNnyVpq3HAfoeL
+        ZHLQa0KRmYVMUS3oN1PVXWNQX7SEfWQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-17-J5K4w4GIOJi3P_0EWbGUSQ-1; Thu, 23 Feb 2023 07:55:51 -0500
+X-MC-Unique: J5K4w4GIOJi3P_0EWbGUSQ-1
+Received: by mail-wm1-f69.google.com with SMTP id l20-20020a05600c1d1400b003e10d3e1c23so5064888wms.1
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 04:55:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PT6kgDTp7/GY4ysTzhnQOlEbU8Ib9XDdtbwXVzEvIDI=;
+        b=haHXrTtiHX4UdlkpGNVyvdswwdhshARKsqOBYPYnArdfQs5cYyAgT/anZ3KTMUObgP
+         Vzc6qJlApx8n83VY6TCNGnad3bR/6oICqdbAptKWFHe/uD0mzjvR484mfAP7xBzp6MX2
+         6bDWm3Qyy7amqRV9528jZUntKvLcRlCKfDoYzN9gavvQ/6RIrxG08fmgms1+Xz+YJHHH
+         b0vjwR1pxSgw7fXjACQUYLHSTNcmo+18Z4Bl6K0YEk0PutE6Q7WsnE6a5zXlCiBSkyio
+         HBsSwW2+scBC4uOT1YRqo5gc5xsJZhGNUcpNGIHm27y8eLCcc+IUeeSsXC4j9QLi0mGJ
+         QA9w==
+X-Gm-Message-State: AO0yUKUoLtaStRy4Zg0FifQ3iJ/kvJEv6Zey8lo8yO5+tQIh/vGyPxnN
+        BakHkXgRKXI38KbLts69W5HtoZxkGW19rQ12Ml2ppCfSG0UHl0cCav9dakwsqRkUmHq1L1Zvf2r
+        bnKJTdW0hvuM+aY7pmb/B
+X-Received: by 2002:a05:600c:13d4:b0:3ea:dbdd:66e1 with SMTP id e20-20020a05600c13d400b003eadbdd66e1mr129158wmg.28.1677156950088;
+        Thu, 23 Feb 2023 04:55:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set+z4Zckn4kGh4RDzbT5i3WSb5X8+Y/ga4x3DBVsKlX44yNblYKhzFO6jE19EiwrBNHiOOrHYg==
+X-Received: by 2002:a05:600c:13d4:b0:3ea:dbdd:66e1 with SMTP id e20-20020a05600c13d400b003eadbdd66e1mr129131wmg.28.1677156949645;
+        Thu, 23 Feb 2023 04:55:49 -0800 (PST)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+        by smtp.gmail.com with ESMTPSA id m3-20020a05600c4f4300b003df5be8987esm4390794wmq.20.2023.02.23.04.55.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Feb 2023 04:55:49 -0800 (PST)
+Message-ID: <2905adaa-97f8-912d-5d23-bee92eb4483e@redhat.com>
+Date:   Thu, 23 Feb 2023 13:55:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y/YzloHpiyOSvZfK@memverge.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Content-Language: en-US
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-20-rick.p.edgecombe@intel.com>
+ <458b3d39-ddce-c0f2-fe80-4e0cc5b101bd@redhat.com>
+ <c67f511516d2f28385bbe079b7d7d40f136adb27.camel@intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v6 19/41] x86/mm: Check shadow stack page fault errors
+In-Reply-To: <c67f511516d2f28385bbe079b7d7d40f136adb27.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/22, Gregory Price wrote:
->
-> On Wed, Feb 22, 2023 at 01:48:35PM +0100, Oleg Nesterov wrote:
-> > On 02/21, Gregory Price wrote:
-> > >
-> > > +struct ptrace_sud_config {
-> > > +	__u8  mode;
-> > > +	__u8  pad[7];
-> >               ^^^^^^
-> > Why?
-> >
->
-> The struct isn't packed, so this is for alignment/consistency of size.
-> The padding gets added anyway, and differently between 32/64 bit.
+On 23.02.23 00:07, Edgecombe, Rick P wrote:
+> On Mon, 2023-02-20 at 13:57 +0100, David Hildenbrand wrote:
+>>>     
+>>> +     /*
+>>> +      * When a page becomes COW it changes from a shadow stack
+>>> permission
+>>> +      * page (Write=0,Dirty=1) to (Write=0,Dirty=0,SavedDirty=1),
+>>> which is simply
+>>> +      * read-only to the CPU. When shadow stack is enabled, a RET
+>>> would
+>>> +      * normally pop the shadow stack by reading it with a "shadow
+>>> stack
+>>> +      * read" access. However, in the COW case the shadow stack
+>>> memory does
+>>> +      * not have shadow stack permissions, it is read-only. So it
+>>> will
+>>> +      * generate a fault.
+>>> +      *
+>>> +      * For conventionally writable pages, a read can be serviced
+>>> with a
+>>> +      * read only PTE, and COW would not have to happen. But for
+>>> shadow
+>>> +      * stack, there isn't the concept of read-only shadow stack
+>>> memory.
+>>> +      * If it is shadow stack permission, it can be modified via
+>>> CALL and
+>>> +      * RET instructions. So COW needs to happen before any memory
+>>> can be
+>>> +      * mapped with shadow stack permissions.
+>>> +      *
+>>> +      * Shadow stack accesses (read or write) need to be serviced
+>>> with
+>>> +      * shadow stack permission memory, so in the case of a shadow
+>>> stack
+>>> +      * read access, treat it as a WRITE fault so both COW will
+>>> happen and
+>>> +      * the write fault path will tickle maybe_mkwrite() and map
+>>> the memory
+>>> +      * shadow stack.
+>>> +      */
+>>
+>> Again, I suggest dropping all details about COW from this comment
+>> and
+>> from the patch description. It's just one such case that can happen.
+> 
+> Hi David,
 
-OK, I have to admit I didn't know that alignof(long long) == 4 on 32 bit.
+Hi Rick,
 
-> > > +int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
-> > > +		                     void __user *data)
-> > > +{
-> > > +	struct syscall_user_dispatch *sd = &task->syscall_dispatch;
-> > > +	struct ptrace_sud_config config;
-> > > +	if (size != sizeof(struct ptrace_sud_config))
-> > > +		return -EINVAL;
-> >
-> > Andrei, do we really need this check?
-> >
->
-> My understanding is that it's a sanity check against the above issue.
-> In fact, it was what lead me to add the padding.
+> 
+> I was just trying to edit this one to drop COW details, but I think in
+> this case, one of the major reasons for the code *is* actually COW. We
+> are not working around the whole inadvertent shadow stack memory piece
+> here, but something else: Making sure shadow stack memory is faulted in
+> and doing COW if required to make this possible. I came up with this,
+> does it seem better?
 
-Well, if this is the only reason then this check and the "size" argument
-ahould be removed, imo.
+Regarding the fault handling I completely agree. We have to treat a read 
+like a write event. And as read-only shadow stack PTEs don't exist, we 
+have to tell the MM to create a writable one for us.
 
-But perhaps it can be useful for future extensions, I dunno.
+> 
+> 
+> /*
+>   * For conventionally writable pages, a read can be serviced with a
+>   *
+> read only PTE. But for shadow stack, there isn't a concept of
+>   * read-
+> only shadow stack memory. If it a PTE has the shadow stack
+>   *
+> permission, it can be modified via CALL and RET instructions. So
+>   * core
+> MM needs to fault in a writable PTE and do things it already
+>   * does for
+> write faults.
+>   *
+>   * Shadow stack accesses (read or write) need to be
+> serviced with
+>   * shadow stack permission memory, so in the case of a
+> shadow stack
+>   * read access, treat it as a WRITE fault so both any
+> required COW will
+>   * happen and the write fault path will tickle
+> maybe_mkwrite() and map
+>   * the memory shadow stack.
+>   */
 
-Oleg.
+That sounds good! I'd rewrite the last part slightly.
+
+"
+Shadow stack accesses (read or write) need to be serviced with
+shadow stack permission memory, which always include write permissions. 
+So in the case of a shadow stack read access, treat it as a WRITE fault. 
+This will make sure that MM will prepare everything (e.g., break COW) 
+such that maybe_mkwrite() can create a proper shadow stack PTE.
+"
+
+-- 
+Thanks,
+
+David / dhildenb
 
