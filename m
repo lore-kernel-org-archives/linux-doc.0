@@ -2,139 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF67C61DA3
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 10:03:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0BD1C61DA3
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 10:04:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229982AbjBXKD0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 05:03:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46432 "EHLO
+        id S230043AbjBXKEi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 05:04:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbjBXKDD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 05:03:03 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88EC8168AB
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 02:02:27 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id h14so4660571wru.4
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 02:02:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DgTiDDsfaHP7jVew0rXgrkZhb05V4kPRInLQ8/UIVxU=;
-        b=SmTacAhXaRqBZ9fg0/Pw7HwF4ypCxgeWSOEEpguNsAWFgbxZ6RW0G8FWQfT2Grz/zH
-         YuFAJJlBt5NWeJSEF8pDOFnWP9k5MoVG+N4mffLhbvnP8WDDhfphepvAtr8lDCu6GAQ6
-         kGHIa6rBH5T8OTDxya8R73Lm1H3Zqq+iTpibbZqbiJ/SLlPqWpC6FVExaPjTtv9LIMW3
-         upCo2N/z9TcJRLCcsaN36Q+nl13uG1tIUNhzRHWNc79xQ2CvkIpYIk4PP9/v7r5p14Fa
-         EUVB6f+X/cdGR6pJG3+zKW9TkQ+TEHHe8dpWL4w2DiX/uuioqYO/syE3OqC47re2VbJW
-         2LCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DgTiDDsfaHP7jVew0rXgrkZhb05V4kPRInLQ8/UIVxU=;
-        b=6s94om2R8IY5YSEjcxWtHT/ALS++ctJ0RUHgSieONNM83sPU8Y01sFJ96+nEkuuH9s
-         ytiDgp6tmEf4KkX2Hj8tEczNmqcKIhgPgpQ4QzZF3IV1NsekJH3aiz2fGAj7zfRirP83
-         DMBA+EWu797/joDjpCIjl2gAJ98A+h2EIvHlTMZM3+fI91KWkHUPdo1cwEIoTB7oztaF
-         C2EscjkZ6oDefYPSmuN1mPVbHu8yRFh9cFsKG5gNwKtYdOAiBPyelkDuuv34drrUAiCs
-         uR6mZeyJ+If+TON/XAj3s2RcKtl88ahoo08xXVQEeFzkkzzAUpH+JkvkDgvmQaBsdlh0
-         iKZA==
-X-Gm-Message-State: AO0yUKUA5oVV7yH3mgds/eLkipgpv2jWZqkiQeW5beWY3BKeJnUxYz+1
-        UqDKJY2a94NdrZ5u7PEeG3fDQw==
-X-Google-Smtp-Source: AK7set8mY1ChiX0wV8ujiGBzXbIYnfB2xYPTAyRwTS+YhheiWY3mHU8T0lZoOqgaQ1NDGWtOicy93Q==
-X-Received: by 2002:a5d:5486:0:b0:2be:c41:4758 with SMTP id h6-20020a5d5486000000b002be0c414758mr11725398wrv.38.1677232944108;
-        Fri, 24 Feb 2023 02:02:24 -0800 (PST)
-Received: from alex-rivos.ba.rivosinc.com (lfbn-gre-1-235-32.w90-112.abo.wanadoo.fr. [90.112.194.32])
-        by smtp.gmail.com with ESMTPSA id b15-20020a5d4b8f000000b002c561805a4csm14572802wrt.45.2023.02.24.02.02.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 02:02:23 -0800 (PST)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v7 0/1] riscv: Allow to downgrade paging mode from the command line
-Date:   Fri, 24 Feb 2023 11:02:17 +0100
-Message-Id: <20230224100218.1824569-1-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.37.2
+        with ESMTP id S230007AbjBXKED (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 05:04:03 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93279168A3;
+        Fri, 24 Feb 2023 02:03:24 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 76149CE22D5;
+        Fri, 24 Feb 2023 10:03:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96115C433EF;
+        Fri, 24 Feb 2023 10:03:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677232998;
+        bh=+IVRztdAGMoZDxrDulaf2DrIWp7EopXbsY/1jwlxfcM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=UfyoQf2ZOJqG42jFJhb/apxaR80/ef3UrYYl26wt15avL2IVbfXj+oU4oHCA9Hhd5
+         lrPiBLI0jfuwIh1ZtDK8q5jytemsTWX4lVEkCk0mljjj6p5P6DWrqoRp8GSn+87vCK
+         dmgLSaVzku5bqQt3HAw+3XgYEscL5u/Ud6Nz9WJt7AsCOweT7sfdo+baEBbJnw2xu/
+         1pRRV8gPxoh/dJli4sVBIITSbR9zKM6epZ2+4qSsetLUWBCZkZ22Ctt/EHFfHBylBj
+         wTZZQimnpYLIIvGUojzlklhd/ZYQnbPdbqYvJTTfDvc7WPZsPPF5+mmETyASOjaXgl
+         ewXBPiwzAHtNA==
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     kernel test robot <lkp@intel.com>, Mike Rapoport <rppt@kernel.org>,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] docs/mm: Physical Memory: fix a reference to a file that doesn't exist
+Date:   Fri, 24 Feb 2023 12:03:05 +0200
+Message-Id: <20230224100306.2287696-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This new version gets rid of the limitation that prevented KASAN kernels         
-to use the newly introduced parameters.                                          
-                                                                                 
-While looking into KASLR, I fell onto commit aacd149b6238 ("arm64: head:         
-avoid relocating the kernel twice for KASLR"): it allows to use the fdt          
-functions very early in the boot process with KASAN enabled by simply            
-compiling a new version of those functions without instrumentation.              
-                                                                                 
-I had to change the handling of the command line parsing to make the             
-code self-contained in kernel/pi/cmd_early.c to avoid calling too many           
-__pi prefixed functions from outside this file.                                  
-                                                                                 
-I'll use this approach like arm64 to handle the extraction of the random         
-seedi from the device tree for KASLR. 
+From: "Mike Rapoport (IBM)" <rppt@kernel.org>
 
-base-commit: eb9be8310c58 ("RISC-V: add a spin_shadow_stack declaration")
+kbuild reports:
 
-v7:
-- Rebased on top of for-next which introduces lots of errors (thanks to
-  the patchwork CI)
-- Add __NO_FORTIFY to avoid undefined __pi_fortify_panic
-- Add an alias to our newly introduced strlen
-- Remove __init as sections are already prefixed in the Makefile
-- Introduce new section for kernel/pi/string.c to quiet the following
-  warnings (once we have all the string functions, we'll be able to get
-  rid of this):
+>> Warning: Documentation/mm/physical_memory.rst references a file that doesn't exist: Documentation/admin-guide/mm/memory_hotplug.rst
 
-warning: orphan section `.init__bug_table' from `arch/riscv/kernel/pi/string.pi.o' being placed in section `.init__bug_table'
-warning: orphan section `.init.srodata.cst8' from `arch/riscv/kernel/pi/string.pi.o' being placed in section `.init.srodata.cst8'
+Fix the filename to be 'Documentation/admin-guide/mm/memory-hotplug.rst'.
 
-v6:
-- Fix llvm warning by forward declaring set_satp_mode_from_cmdline
+Reported-by: kernel test robot <lkp@intel.com>
+Link: https://lore.kernel.org/oe-kbuild-all/202302231311.567PAoS2-lkp@intel.com/
+Fixes: 353c7dd636ed ("docs/mm: Physical Memory: remove useless markup")
+Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
+---
+ Documentation/mm/physical_memory.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v5:                                                                              
-- Handle null command line, Thanks Björn!                                        
-- Add RB/TB from Björn                                                           
-                                                                                 
-v4:                                                                              
-- Introduce pi/ for KASAN to work                                                
-                                                                                 
-v3:                                                                              
-- Massage commit log to make no4lvl clearer, as asked by Conor                   
-- Add a note to kernel-parameters.txt regarding the impossibility to use         
-  those parameters when KASAN is enabled, as suggested by Conor                  
-- Add RB from Björn                                                              
-                                                                                 
-v2:                                                                              
-- Honor CMDLINE_EXTEND and CMDLINE_FORCE as noticed by Björn
-
-Alexandre Ghiti (1):
-  riscv: Allow to downgrade paging mode from the command line
-
- .../admin-guide/kernel-parameters.txt         |  5 +-
- arch/riscv/kernel/Makefile                    |  2 +
- arch/riscv/kernel/pi/Makefile                 | 37 +++++++++++
- arch/riscv/kernel/pi/cmdline_early.c          | 62 +++++++++++++++++++
- arch/riscv/kernel/vmlinux.lds.S               |  7 +++
- arch/riscv/lib/memcpy.S                       |  2 +
- arch/riscv/lib/memmove.S                      |  2 +
- arch/riscv/lib/strlen.S                       |  1 +
- arch/riscv/mm/init.c                          | 36 +++++++++--
- 9 files changed, 147 insertions(+), 7 deletions(-)
- create mode 100644 arch/riscv/kernel/pi/Makefile
- create mode 100644 arch/riscv/kernel/pi/cmdline_early.c
-
+diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
+index f9d7ea4b9dca..1bc888d36ea1 100644
+--- a/Documentation/mm/physical_memory.rst
++++ b/Documentation/mm/physical_memory.rst
+@@ -66,7 +66,7 @@ one of the types described below.
+   also populated on boot using one of ``kernelcore``, ``movablecore`` and
+   ``movable_node`` kernel command line parameters. See
+   Documentation/mm/page_migration.rst and
+-  Documentation/admin-guide/mm/memory_hotplug.rst for additional details.
++  Documentation/admin-guide/mm/memory-hotplug.rst for additional details.
+ 
+ * ``ZONE_DEVICE`` represents memory residing on devices such as PMEM and GPU.
+   It has different characteristics than RAM zone types and it exists to provide
 -- 
-2.37.2
+2.35.1
 
