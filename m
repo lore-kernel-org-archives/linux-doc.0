@@ -2,124 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FD4C6FA8E
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 23:23:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B577C6FA8E
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 23:30:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229681AbjBXXXK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 18:23:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50492 "EHLO
+        id S229471AbjBXXaV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 18:30:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbjBXXXJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 18:23:09 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE840231D4;
-        Fri, 24 Feb 2023 15:23:08 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3C4411EC0725;
-        Sat, 25 Feb 2023 00:23:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1677280987;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=j0zvR/GW8qESlMENYKavRs5BBeojGzLc+Igg/tiAP10=;
-        b=LYcoaFyr631Gy3vC9r2lkRIy/pHYb5Kb6lwDjloyRBA8QwwjuE990CgNkiI00nprv/0KY6
-        Ow1/wyGRtZpeSkENTyGShz1PCjHPGgaTgNLqDi831UepcbiOdqO9CYXIgJchcHY3q6BhKB
-        OqDjqbOoXrxYig5kP9pSfm8H+jGlEbM=
-Date:   Sat, 25 Feb 2023 00:23:02 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Josh Poimboeuf <jpoimboe@kernel.org>
-Cc:     Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        with ESMTP id S229468AbjBXXaU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 18:30:20 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBE446BF5A;
+        Fri, 24 Feb 2023 15:30:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677281419; x=1708817419;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iYG64KQ8eDbP4/BqEcmXVFBG++OPO7afYUzLr08b6cg=;
+  b=mXoBqhTzG9XLc1n8QlcxO7aYqA3aaKqzmCdsWbf/ERZTXQoWxJ5LpxVr
+   8Ba3PUw/mwef02Rwkwos19fzkMRqHv1F7SosXnDs3ENZRyW/sHAs13vuH
+   mokb9Vguozks2zznJ5tZxIXrGOdV22FYP46BeW9/i5LBliVgLsXmHqa39
+   GOTACWm/r1ocBK2gZbDZxRD1AJqneaMMhviHnxkyuoGptXwWfmg3q7OLP
+   RbfxStoyufA+r5muS/z8jhJ6IgZR22VsI2iqo3huY7YCcBqsFIQXIs4Y7
+   zObEyOm+5ufr5YoBLd8tfQ9xX2wLTv2fnxyWWVXO1KFF/yLd9c0UQ4Fv6
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="398334904"
+X-IronPort-AV: E=Sophos;i="5.97,326,1669104000"; 
+   d="scan'208";a="398334904"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 15:30:19 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="847106500"
+X-IronPort-AV: E=Sophos;i="5.97,326,1669104000"; 
+   d="scan'208";a="847106500"
+Received: from ydu6-mobl1.gar.corp.intel.com (HELO desk) ([10.209.68.79])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 15:30:18 -0800
+Date:   Fri, 24 Feb 2023 15:30:04 -0800
+From:   "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     "Luck, Tony" <tony.luck@intel.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Ostrovsky, Boris" <boris.ostrovsky@oracle.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
+        "Martins, Joao" <joao.m.martins@oracle.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        "Wilk, Konrad" <konrad.wilk@oracle.com>,
         Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
+        "Christopherson,, Sean" <seanjc@google.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
+        "Gross, Jurgen" <jgross@suse.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
         Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        Alexey Kardashevskiy <aik@amd.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH v9 7/8] x86/cpu: Support AMD Automatic IBRS
-Message-ID: <Y/lG1v28zQx976Pz@zn.tnic>
+Message-ID: <20230224233004.rf2nzgqvz5c2b73u@desk>
 References: <20230124163319.2277355-1-kim.phillips@amd.com>
  <20230124163319.2277355-8-kim.phillips@amd.com>
  <20230224185257.o3mcmloei5zqu7wa@treble>
  <Y/knUC0s+rg6ef2r@zn.tnic>
- <Y/k/ZXUXOFiBhOiI@zn.tnic>
+ <20230224213522.nofavod2jzhn22wp@treble>
+ <Y/kzGEqafzQkbU4T@zn.tnic>
+ <SJ1PR11MB60834960ECAC976C1D328A86FCA89@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <Y/k2TWHpq1M8QiSa@zn.tnic>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y/k/ZXUXOFiBhOiI@zn.tnic>
+In-Reply-To: <Y/k2TWHpq1M8QiSa@zn.tnic>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 24, 2023 at 11:51:17PM +0100, Borislav Petkov wrote:
-> Or, actually, we should simply write it again because it is the init
-> path and not really a hot path but it should damn well make sure that
-> that bit gets set.
+On Fri, Feb 24, 2023 at 11:12:29PM +0100, Borislav Petkov wrote:
+> On Fri, Feb 24, 2023 at 10:03:16PM +0000, Luck, Tony wrote:
+> > Should also include Pawan as another unfortunate soul sucked
+> > into keeping that file up to date with the latest wreckage. If not
+> > as "M", at least as "R":
+> > 
+> > R: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> 
+> We probably should hear from him before you offer his soul into the
+> purgatory of hardware speculation.
 
-Yeah, we have this fancy msr_set_bit() interface which saves us the MSR
-write when not needed. And it also tells us that. :-)
+I will be happy to review what I can.
 
-So we can do:
-
-diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
-index 380753b14cab..2aa089aa23db 100644
---- a/arch/x86/kernel/cpu/amd.c
-+++ b/arch/x86/kernel/cpu/amd.c
-@@ -996,6 +996,12 @@ static void init_amd(struct cpuinfo_x86 *c)
- 		msr_set_bit(MSR_K7_HWCR, MSR_K7_HWCR_IRPERF_EN_BIT);
- 
- 	check_null_seg_clears_base(c);
-+
-+	if (cpu_has(c, X86_FEATURE_AUTOIBRS)) {
-+		int ret = msr_set_bit(MSR_EFER, _EFER_AUTOIBRS);
-+
-+		pr_info("%s: CPU%d, ret: %d\n", __func__, smp_processor_id(), ret);
-+	}
- }
- 
- #ifdef CONFIG_X86_32
-
----
-
-and the output looks like this:
-
-[    3.046607] x86: Booting SMP configuration:
-[    3.046609] .... node  #0, CPUs:          #1
-[    2.874768] init_amd: CPU1, ret: 0
-[    3.046873]    #2
-[    2.874768] init_amd: CPU2, ret: 0
-[    3.049155]    #3
-[    2.874768] init_amd: CPU3, ret: 0
-[    3.050834]    #4
-[    2.874768] init_amd: CPU4, ret: 0
-...
-
-which says that the bit was already set - which confirms the
-trampoline setting thing.
-
-And doing the write again serves as a guard when in the future we decide
-to not set EFER anymore - I doubt it - but we can't allow ourselves to
-not set the autoibrs bit so one more RDMSR on init doesn't matter.
-
-Proper patch tomorrow.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Soulfully yours,
+Pawan
