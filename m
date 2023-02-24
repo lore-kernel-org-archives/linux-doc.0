@@ -2,177 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F13A7C61DA4
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 15:28:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6623C61DA4
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 16:03:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbjBXP2R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 10:28:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53340 "EHLO
+        id S229759AbjBXQDN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 11:03:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbjBXP2Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 10:28:16 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9025512078;
-        Fri, 24 Feb 2023 07:28:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1677252491; x=1708788491;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=poxQTqgWSLciAThNe/zOfrINHkOB6ILahmpb3aOL6ts=;
-  b=TMXgFNsot2ZlcQGXixSJYe/WLAehSRDwcPOwrE/IOXFr4OGvVu5gSWMj
-   B4rQyUhGCKAywjbEL5ikPWTkTFpXiLrO3+2uEaqW6WRyHsjmn92dbNyLQ
-   8eM7RbK8e8kFuJhYjaH/mWNrDxT6bO14Mwyy1IjXb6gTBH9j9AwzTt7aZ
-   sOFiYQmE0HipdXJED60cbcPbU/oIte1206NH1Lr+34jKTTV8uO5WPt6qY
-   YX1tvAZ6hO9CDxJlNzAoEyJPjqkkZAqRorCZ8Xk7hn/UUU/VROYqxZiUr
-   0WLMsG7+kQFomuFq/BykJr5nsl5VKLf+I/T1RZEd/gTw6cRyA64IerIJh
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.97,325,1669100400"; 
-   d="asc'?scan'208";a="202114504"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 24 Feb 2023 08:28:10 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 24 Feb 2023 08:28:09 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
- Transport; Fri, 24 Feb 2023 08:28:06 -0700
-Date:   Fri, 24 Feb 2023 15:27:39 +0000
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Nathan Chancellor <nathan@kernel.org>
-CC:     <linux-riscv@lists.infradead.org>, <conor@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <llvm@lists.linux.dev>
-Subject: Re: [RFC RESEND 2/2] RISC-V: enable building the 64-bit kernels with
- rust support
-Message-ID: <Y/jXayJucRFxzJGA@wendy>
-References: <20230224135044.2882109-1-conor.dooley@microchip.com>
- <20230224135044.2882109-3-conor.dooley@microchip.com>
- <Y/jQSUpXH5XwQTqg@dev-arch.thelio-3990X>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="z2lFv5ndM+uKjjaZ"
+        with ESMTP id S229993AbjBXQDJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 11:03:09 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2066.outbound.protection.outlook.com [40.107.223.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B254E059;
+        Fri, 24 Feb 2023 08:03:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hqKYBxFhPXi6ivNGIGViT3ycUR6vN/X34lPM9mvT8cV6HVXlNT2KYBvga8SHdYrMdnYYpuZh+rHypetD5SUoPV4fZbh72d2HevUwbhnYJJyhNLGfur5Ydt+mVQ4VEzxyDd0EQXH5Bm/S4HyyYn1uoEKpmFqWHgdKFiMFemYPVwTBYksFq5tTsahYcwoj2d+BHCY/0m73mZ+N1oDNY78YxgPHB8A6+bVEYwIEr6h15t1pTCfqzx4oSOb10G1AnUVU8h8icXyECsTSDHJcFv9n71fFC0nNumZUNa1ZpFosYUyc8wpn0LeEkJoImLixPvo2Zs04hu0eBkPcJl32sVwmLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R5MA4zMt3rYtRUYASp0A2TFMZXJv4Wp6eLqXiCnRl6k=;
+ b=mK+kfKgyHUBsseNMy2N9rTsOYsYySZ7jgqiV80PSHtdKlCSEei/73560jh0fYRnodZts/g0L7RCas2bc3PzcnLodvPHlCtuj2xKABtqVMLUzlUCCTYqhHI5zYZ9IZ7AACurkhEeCISo2JhW8k5tvcS65QqdctcpW7CAhKdx95fQRetLmjpMs4ITX7tew7ubAfU3zCt15fb4k9MSrqSQRjnbm/5reG7kZijAhFU9+KKcxEmkCcOJnkleVfSRhkpMnoZaSuz5zi9mritGiEKDLSpJ6pm7+rS/Xx9qjcs69xyE+coBbT3y+bSQCuUmHIbmlJnirlNwdt3MyKHgUw1JHlw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R5MA4zMt3rYtRUYASp0A2TFMZXJv4Wp6eLqXiCnRl6k=;
+ b=v4vFghSjwImlERpeEji+BDHPLw6gl0Tby6GuuY5VyqJyK81jhZ36PJuFDxN1lPlgtUVEnRYB97PluP2cqFqwf/FDEWilLU49qRmnUmw6MoINkeJUw3+JuNmwQZCbICttAHV4QTmnfzwfbRuy4bn9yZ6xNaOjc8t2bGZPdxWvmxU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
+ by MW4PR17MB4540.namprd17.prod.outlook.com (2603:10b6:303:bd::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.21; Fri, 24 Feb
+ 2023 16:03:01 +0000
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660%3]) with mapi id 15.20.6134.024; Fri, 24 Feb 2023
+ 16:03:01 +0000
+Date:   Fri, 24 Feb 2023 11:02:58 -0500
+From:   Gregory Price <gregory.price@memverge.com>
+To:     Andrei Vagin <avagin@gmail.com>
+Cc:     Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        oleg@redhat.com, peterz@infradead.org, luto@kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
+        shuah@kernel.org
+Subject: Re: [PATCH v11 2/2] ptrace,syscall_user_dispatch: checkpoint/restore
+ support for SUD
+Message-ID: <Y/jfsiFBF7RYoMvN@memverge.com>
+References: <20230221201740.2236-1-gregory.price@memverge.com>
+ <20230221201740.2236-3-gregory.price@memverge.com>
+ <CANaxB-zTkCLbjBti8hrs9RVna21KzwC0GugyDu7=nTzGLLum2Q@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y/jQSUpXH5XwQTqg@dev-arch.thelio-3990X>
+In-Reply-To: <CANaxB-zTkCLbjBti8hrs9RVna21KzwC0GugyDu7=nTzGLLum2Q@mail.gmail.com>
+X-ClientProxiedBy: BL0PR02CA0038.namprd02.prod.outlook.com
+ (2603:10b6:207:3d::15) To BN6PR17MB3121.namprd17.prod.outlook.com
+ (2603:10b6:405:7c::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|MW4PR17MB4540:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4c4ae9c-6a38-455c-86a9-08db16809aae
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: phbRuVKNE1j+w9e50/3OykTeuatdgcScawPE/oSkBRnQoVcQppQbIsUjg3853lgWSBE/xnCOwJB3QPtv0oa6+qmTpnV4gnekEh3o/xxweT/LqJry2wOpXfbIzdaI7NeawRZk+g0o+olVx0JILvZBG07eJSxlIDiSv2/7QFI+EVrgL6yecd61NzszKeYX2F1ENkE2JRbpXfJCh/jqpZu0810cPLIdRcL6rMF9QQ1LeTTU2g9Mw0ivPC3/FHtE+R8glrbgJrE2FwnlME04F2f4SEQ4d/48PNrTseKJLXRzdHDQmUZiNp5BfRnZY6q32kROA+An3OsD/MmuwgtLqt/ElFYTujT0wEJcjBropE8pQTaiaxytZiJ0OeRYO1QrkCs0qfSujaBWLX4vTpIYN3LhuXSckEYikHPUt0TXBiNubwVGYGe+qS9UUliHBZ/FeC466TLzea/Tu/RLPY8WbZTFFDo9Hb4CDmfE37wJdNSC09DozZmkbf2yJhTqiIEKt2I8Hj8zHmOonTIXD9tpaNjfFcKn1b/dlPQfiHBr9lXMdy6VV/Zuw7CnPMTPiItFXmr9BPX3AgzvltULFS60dptSQsHcX+LZK2wFo5GeTqfMr0rbJicyx8vS/gpjIJBZLg14z04hPeYMkxW5cnfoAZ4mzw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR17MB3121.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(346002)(39830400003)(136003)(396003)(366004)(376002)(451199018)(41300700001)(8676002)(6916009)(316002)(4326008)(86362001)(5660300002)(8936002)(7416002)(44832011)(66476007)(4744005)(66946007)(66556008)(478600001)(6486002)(38100700002)(2906002)(6512007)(6506007)(186003)(36756003)(26005)(2616005)(6666004)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3N4sV1ntv981dlLWksk/zG+8oZD9Vk7STyfOF1A3sLWooiCjm0bG4U7ltPPY?=
+ =?us-ascii?Q?brO8TlJhAiVB2F0tqM1COgAjrmiTXhspokFPAYTILbdGjbWhA+X+QG9FzFfR?=
+ =?us-ascii?Q?K8Q8LuyQDqk9w8JlEjdyzRm4ohXOaa4n/XwaGatNgLz5a1LJAtZKpCgVSqxf?=
+ =?us-ascii?Q?RuKeZFkrCvkCu0HnmfVoiUdbIL2aXhYQHg8NELtGhtnHQPGT+rXOIfKFi0zL?=
+ =?us-ascii?Q?6k9B4lVdl86J5fDw7PNvb2Yor3jVZaJT14TralwuhxZjVutiMHfbkbYseBXF?=
+ =?us-ascii?Q?84PYIRu6g8vWy4iihjx/yAPsXmPjFyIuVBw5o0ziEdW4UYHHu6Ip5YpKCree?=
+ =?us-ascii?Q?rETq2//kHuGq8gwQjXIaDhPJLKpWh6cBOROdcZduMHCDHfufGfYlkjjB5uD2?=
+ =?us-ascii?Q?K9MXxcDYTgMyOdXLLOR+cmYLX/Ylhxk5qFoo6q1wOKUqUbb7BQI0FZLlFPDk?=
+ =?us-ascii?Q?wngzkqUBcnA5MA1J5PBcBOoDU15euCGNfFUM1j+4Gx9UEgQyXtJXjiNV0Sq4?=
+ =?us-ascii?Q?52XTbfvquRhnNX4uwiwrlF58UtE8zRb5GlincBiSyKQ+zrUULZgcfWfPrbUl?=
+ =?us-ascii?Q?I/gVAiWpEG3cbrqsvlOdIL/Y67CORrSKRJfW79h8vncfKix/gc/BVsMr/2/i?=
+ =?us-ascii?Q?14GdQ1MWapXqsUAMfp6KfcTIE6y2Vp/VR3wNRY2rYdBqSIVV/9uLDUqFaqas?=
+ =?us-ascii?Q?P/ZxtSOF69BExjStP2S+vT9x35iF03bPfm/H1v0xOdpK6ppWKY836vMKjTeL?=
+ =?us-ascii?Q?JiT7Di8g0YzNBIF23IHXpopO1lql552cO6dvp2nk6IqnUsijsAcw+vrGDXQd?=
+ =?us-ascii?Q?JzUyq7EuUYubzFNCuLO4F/GXpmE9s7eZD0z1dtNclcbb4vH+IFVXV+PonBIk?=
+ =?us-ascii?Q?BJGAiiWzmmN1lQT41/t1w4m/lxq6+eBbQYR1GKGA3fdhnHuZAp+R3xxs7FrR?=
+ =?us-ascii?Q?fYf7wig3Vms4pT3F9us1lHYnu03Yu+MJxZmmBMVgtC1zm7O/utn5Sot3ZYTt?=
+ =?us-ascii?Q?B664Ov2a3uI4IC792BASuwGtB2bU6Jdaf4IPnix65tHPQ7+5qUim/7PeLt/a?=
+ =?us-ascii?Q?x4pf8/gCWmGwavVnYvgZsu7L6oSfCLTEiE4ONYeGZgSzF2hBzIjR1dQb/Xl5?=
+ =?us-ascii?Q?7wRpejXAPkeigOZQiY1hK+1HVpaHiKiUmM9cUThg7J7setTyejAjDqXvKwk/?=
+ =?us-ascii?Q?C6pU/Bj15iKEVz7E2jHk7QBbKwOiWRCA35htsQaiiRMAvFpSS3vZkYJTPCBb?=
+ =?us-ascii?Q?LhX6FzHND4ZRM9grXYu0Gc1fiK4QOofRerAYE9ccnXRRjJLYzboi8cHGMxda?=
+ =?us-ascii?Q?rzerGzojh694TQdv+Di4Z8pf1wF44DBZi7qfoi9LWDinmi1ZoE36sa53mYbv?=
+ =?us-ascii?Q?OUvhqiZOs6dZaGJAAe35ik0Tem9RV0bZ4ylyujoAB1Avo8WYI6uOt+LnYCDu?=
+ =?us-ascii?Q?aFwrcGa3hdC4g3rXi25nT3h4P7XgNGniIcW+4/d1fqNWUjf7meqgu5u0J4J7?=
+ =?us-ascii?Q?n0n9z6RyEfBEgRdB/TcliSBIl5J4hHWlj+oFlGyNE0cImG7QMJ3jFjYC85ST?=
+ =?us-ascii?Q?0GYTRR383P6MgX+pBgLwr3bVxdNEs97vJhaqIZ0MUBQUgFA3+H15/8OXkNt7?=
+ =?us-ascii?Q?lQ=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4c4ae9c-6a38-455c-86a9-08db16809aae
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2023 16:03:01.2779
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XBYg6ELBuNbMSbIJegR0Q1w+V5Bf/C8dRxuYceFzKTWgg2vADZp/AJkepJ0QDtp5YltDspwCKRlK2iPBF6KlNpFquaJLoUEUdZptZxa8Wv0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR17MB4540
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---z2lFv5ndM+uKjjaZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Feb 24, 2023 at 12:17:56AM -0800, Andrei Vagin wrote:
+> WARNING: Missing a blank line after declarations
+> 
+> You need to verify all patches with ./scripts/checkpatch.pl. Here are
+> a few other warnings.
+>
 
-On Fri, Feb 24, 2023 at 07:57:13AM -0700, Nathan Chancellor wrote:
-> Hi Conor,
->=20
-> On Fri, Feb 24, 2023 at 01:50:44PM +0000, Conor Dooley wrote:
-> > From: Miguel Ojeda <ojeda@kernel.org>
-> >=20
-> > The rust modules work on 64-bit RISC-V, with no twiddling required.
-> > Select HAS_RUST and provide the required flags to kbuild so that the
-> > modules can be used.
-> > 32-bit is broken in core rust code, so support is limited to 64-bit
-> > only: ld.lld: error: undefined symbol: __udivdi3
-> >=20
-> > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> > ---
-> >  Documentation/rust/arch-support.rst | 2 ++
-> >  arch/riscv/Kconfig                  | 1 +
-> >  arch/riscv/Makefile                 | 3 ++-
-> >  3 files changed, 5 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/a=
-rch-support.rst
-> > index 6982b63775da..197919158596 100644
-> > --- a/Documentation/rust/arch-support.rst
-> > +++ b/Documentation/rust/arch-support.rst
-> > @@ -15,5 +15,7 @@ support corresponds to ``S`` values in the ``MAINTAIN=
-ERS`` file.
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> >  Architecture  Level of support  Constraints
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> > +``riscv``     Maintained        ``rv64`` only.
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> >  ``x86``       Maintained        ``x86_64`` only.
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > index 81eb031887d2..73174157212d 100644
-> > --- a/arch/riscv/Kconfig
-> > +++ b/arch/riscv/Kconfig
-> > @@ -115,6 +115,7 @@ config RISCV
-> >  	select HAVE_POSIX_CPU_TIMERS_TASK_WORK
-> >  	select HAVE_REGS_AND_STACK_ACCESS_API
-> >  	select HAVE_RSEQ
-> > +	select HAVE_RUST if 64BIT
->=20
-> Just a small drive by comment, you have 'if 64BIT' here...
->=20
-> >  	select HAVE_STACKPROTECTOR
-> >  	select HAVE_SYSCALL_TRACEPOINTS
-> >  	select IRQ_DOMAIN
-> > diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-> > index 76989561566b..0d6fc4e25221 100644
-> > --- a/arch/riscv/Makefile
-> > +++ b/arch/riscv/Makefile
-> > @@ -29,8 +29,8 @@ ifeq ($(CONFIG_ARCH_RV64I),y)
-> > =20
-> >  	KBUILD_CFLAGS +=3D -mabi=3Dlp64
-> >  	KBUILD_AFLAGS +=3D -mabi=3Dlp64
-> > -
-> >  	KBUILD_LDFLAGS +=3D -melf64lriscv
-> > +	KBUILD_RUSTFLAGS +=3D -Ctarget-cpu=3Dgeneric-rv64
-> >  else
-> >  	BITS :=3D 32
-> >  	UTS_MACHINE :=3D riscv32
-> > @@ -38,6 +38,7 @@ else
-> >  	KBUILD_CFLAGS +=3D -mabi=3Dilp32
-> >  	KBUILD_AFLAGS +=3D -mabi=3Dilp32
-> >  	KBUILD_LDFLAGS +=3D -melf32lriscv
-> > +	KBUILD_RUSTFLAGS +=3D -Ctarget-cpu=3Dgeneric-rv32
->=20
-> but also add KBUILD_RUSTFLAGS for the !64BIT case. Seems like one of
-> those can be removed.
+I completely neglected this, aye aye
 
-Yeah & it's ditto for the rv32 handling in 1/2 as well. Ideally there
-wouldn't be implicit 64-bit division and the "if 64BIT" could go
-away. I just left things as-lifted, but I'll go drop anything 32-bit
-related if this series looses the RFC prefix ;)
+> > diff --git a/tools/testing/selftests/ptrace/get_set_sud.c b/tools/testing/selftests/ptrace/get_set_sud.c
+> 
+> I think the test has to be in a separate patch.
+> 
 
---z2lFv5ndM+uKjjaZ
-Content-Type: application/pgp-signature; name="signature.asc"
+will split
 
------BEGIN PGP SIGNATURE-----
+> > +       if (ret < 0) {
+> > +               ASSERT_EQ(errno, EIO);
+> 
+> When do we expect to get EIO here?
+> 
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY/jXawAKCRB4tDGHoIJi
-0pNGAP4zIxU9hWDGRLAc9v31P3IiCujj/BIkSl5SxfXQyqJseAD/VlqTDGyws2G0
-0Yvnyz+H9GhDgw8F2jUNxhK9REZOLgM=
-=Stuu
------END PGP SIGNATURE-----
+artifact from an old version i never dropped, had to do with my include
+paths being messed up and not being able to include linux/ptrace.h for
+some reason.  Will drop
 
---z2lFv5ndM+uKjjaZ--
+~Gregory
