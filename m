@@ -2,228 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FD0BC64ED8
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 19:37:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97845C6FA8E
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 20:42:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbjBXThB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 14:37:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60510 "EHLO
+        id S229605AbjBXUmX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 15:42:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjBXThA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 14:37:00 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38EA16BF74;
-        Fri, 24 Feb 2023 11:36:59 -0800 (PST)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31OI8UdU021536;
-        Fri, 24 Feb 2023 19:36:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=acp1T5j6afCwX9uS+mO6XABK0UgALgiXC0Lx+JN6FQ0=;
- b=l944EgRZWGAJBHH8e5haQQ46oYTkvP357CQ4zbGpVxDbMq/TiX4sPJyN8VlC7K1dRlxR
- YXn5pW96PQl/a4w7+Z5ldeltv8Iqu/nGlkowbKU73zLzVl/dn/dte9IdHQcnEdz3VzuW
- sJThJ8+Gx8Oha+Z7JbM8K3blWwyTLBJT9m0QuidoddfknmarMwZCUHSglTnPkQmyQW9+
- fPymNmKJQjT5rMoYWdK/Rh0pCP+gAridcw4Cnf3qOLtTMk4GPJT2MszhcCveLqfjQBi6
- VGIqlFCwdHPOdYMH2XZrV7T5exJvXX9iYXo1aTJgFQAYkjVyKR6/g9I8fbY2pPE3rzWc UA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nwy9a5qj0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 24 Feb 2023 19:36:54 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31OJaruk002102
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 24 Feb 2023 19:36:53 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 24 Feb
- 2023 11:36:52 -0800
-Message-ID: <00914fa9-8618-a3ef-d3c5-2a3bba68fa1f@quicinc.com>
-Date:   Fri, 24 Feb 2023 12:36:51 -0700
+        with ESMTP id S229492AbjBXUmW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 15:42:22 -0500
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E32796DDAE;
+        Fri, 24 Feb 2023 12:42:20 -0800 (PST)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-536af432ee5so13451347b3.0;
+        Fri, 24 Feb 2023 12:42:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2ldkH3+tipVLOPM0MWXmtHwekgdqITx22yGZynxWxbI=;
+        b=dtF6STP7th/ajy1mC0vEUSVWlM9pVmOG3Gn6XA5sl3LA9B9wF3UHwni7+m64GxjbOR
+         VJ8YtDgIepMCXzo3IqidR6Cotkep2peyv5PLBE1o4qjySmPFQpBz1gTEVu5KwgHz/Avx
+         eYeoxs0AEnbKsW+Lwxf7bJsfpZIVDXS8zZWVLrJl03lvJ4GG2rCmVqfdsSFMTAvwZ9hp
+         Jvc/8QtR/Kx/MlWRP2gXnMW5ZZ1S0BWrIDDqfxxr2ZopFa9eZs9Inw++1fPcqsN9pfeu
+         HkTMFCZv5T8sYU5ua56Z/XQ4SqtIwDjglQCvQA22GnAvaT5WFS0PSBOy/wmaUJuWNFfX
+         HUOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2ldkH3+tipVLOPM0MWXmtHwekgdqITx22yGZynxWxbI=;
+        b=jW9+ZTM3iDQ2E7WfMURhEnAxogubst5+o0JtQotgrK/oX8uLq3C8bQbvmohD4O1211
+         vWtksCXzUUkkragdKzLc4IsD9xjvUB5NpcnOgrdIFQ95G2hx5Faf5rox1Jkwprrs9KUH
+         VaDt+Ppgq+5g0Gfp5SCbhwJNtNcTxxwVI2rhliGKo5wtQMmVpvN39/tSjkMcsxOoBEkZ
+         Y5QugFGmgqg/uGOHS8njLSqK3EI/8lHi0LqjcC/w9vKSXpLwTO1gTU0FC8TN2xAVc4iJ
+         RxQ+WzAHlPRCSvb5tqp0nkjljqqQDUSlAi5UVav1tFjVeqMMKSczD3XJZZguMHdR65CZ
+         lw6g==
+X-Gm-Message-State: AO0yUKVMdYMK/8bBN6SO4pBxsOZckp3E6Mrr2Pxp5zcnCxc86czT15TQ
+        29OjT4MGCVt5+RdQHxIK3DSTKyfp33QNfCWhx54HSsDYknA=
+X-Google-Smtp-Source: AK7set/+ywY8A6LUpNjag7/xfz0UOWYQ6RUky53j75FCT+hoIcIZqEDUzCcFtByz4LcO4y0MEBVqzL7jJFm3tgkYRFc=
+X-Received: by 2002:a05:6902:1602:b0:8a3:d147:280b with SMTP id
+ bw2-20020a056902160200b008a3d147280bmr810737ybb.3.1677271339810; Fri, 24 Feb
+ 2023 12:42:19 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 5/8] accel/qaic: Add datapath
-Content-Language: en-US
-To:     Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-CC:     <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
-        <dri-devel@lists.freedesktop.org>,
-        <jacek.lawrynowicz@linux.intel.com>, <quic_pkanojiy@quicinc.com>,
-        <quic_carlv@quicinc.com>, <quic_ajitpals@quicinc.com>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
-References: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
- <1675698105-19025-6-git-send-email-quic_jhugo@quicinc.com>
- <20230224152546.GB3547587@linux.intel.com>
-From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230224152546.GB3547587@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: I84sMu4JGSPO-p1Vdmwm2sQTCC6l9vSd
-X-Proofpoint-ORIG-GUID: I84sMu4JGSPO-p1Vdmwm2sQTCC6l9vSd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-24_14,2023-02-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
- malwarescore=0 spamscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 adultscore=0 phishscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302240155
+References: <20230224133609.2877396-1-conor.dooley@microchip.com>
+In-Reply-To: <20230224133609.2877396-1-conor.dooley@microchip.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 24 Feb 2023 21:42:08 +0100
+Message-ID: <CANiq72=4ZhV=u2ZUr=x-iAS_iMnV8GSiq0tEn7Tj0NanO=D+xQ@mail.gmail.com>
+Subject: Re: [RFC 0/2] RISC-V: enable rust
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     linux-riscv@lists.infradead.org, conor@kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, rust-for-linux@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/24/2023 8:25 AM, Stanislaw Gruszka wrote:
-> On Mon, Feb 06, 2023 at 08:41:42AM -0700, Jeffrey Hugo wrote:
->> +#define SEM_VAL_MASK	GENMASK_ULL(11, 0)
->> +#define SEM_INDEX_MASK	GENMASK_ULL(4, 0)
->> +#define BULK_XFER	BIT(3)
->> +#define GEN_COMPLETION	BIT(4)
->> +#define INBOUND_XFER	1
->> +#define OUTBOUND_XFER	2
->> +#define REQHP_OFF	0x0 /* we read this */
->> +#define REQTP_OFF	0x4 /* we write this */
->> +#define RSPHP_OFF	0x8 /* we write this */
->> +#define RSPTP_OFF	0xc /* we read this */
->> +
->> +#define ENCODE_SEM(val, index, sync, cmd, flags)			\
->> +			((val) |					\
->> +			(index) << 16 |					\
->> +			(sync) << 22 |					\
->> +			(cmd) << 24 |					\
->> +			((cmd) ? BIT(31) : 0) |				\
->> +			(((flags) & SEM_INSYNCFENCE) ? BIT(30) : 0) |	\
->> +			(((flags) & SEM_OUTSYNCFENCE) ? BIT(29) : 0))
-> 
-> This could be probably better coded using FIELD_PREP()
-> with integrated checks of passed values not exceed
-> field width.
+Hi Conor,
 
-Interesting idea.  Will have a look.
+On Fri, Feb 24, 2023 at 2:37 PM Conor Dooley <conor.dooley@microchip.com> wrote:
+>
+> This is a somewhat blind (and maybe foolish) attempt at enabling Rust
+> for RISC-V. I've tested this on Icicle, and the modules seem to work.
+> I'd like to play around with Rust on RISC-V, but I'm not interested in
+> using downstream kernels, so figured I should try and see what's
+> missing...
+> I've tagged this as RFC in case I've missed some "WAaaaa you can't do
+> this" somewhere :)
 
-> 
->> +struct dbc_req { /* everything must be little endian encoded */
-> 
-> This comment does not provide much value IMHO ...
+Thanks for sending this and taking the lead on RISC-V -- I appreciate
+you put me as the author, but in this case, it was actually Gary that
+started the RISC-V port [1], and then I sent three PRs on top later
+on.
 
-With the LE types, this does seem to be redundant now.  Will remove.
+When submitting something on behalf of somebody else, I suggest being
+very careful and ideally contacting the authors beforehand. In
+particular, if there has been any modification (including to the
+commit message), then a note should be added explaining so.
 
-> 
->> +inline int get_dbc_req_elem_size(void)
->> +{
->> +	return sizeof(struct dbc_req);
->> +}
->> +
->> +inline int get_dbc_rsp_elem_size(void)
->> +{
->> +	return sizeof(struct dbc_rsp);
->> +}
-> 
-> .. as those those inliners, instead of using sizeof() directly.
-> Up to you to change.
+Therefore, please double-check everybody that contributed to the lines
+you are sending (e.g. via `git-blame`) and add them as
+`Co-developed-by`. Also, please add a note of what you changed/wrote
+e.g. square brackets, and `Link` tags to the original PRs/discussions.
 
-Will review these.
+See, for instance, what Jamie did at [2] for arm64 or Lina at [3].
 
-> 
->> +static int reserve_pages(unsigned long start_pfn, unsigned long nr_pages,
->> +			 bool reserve)
->> +{
->> +	unsigned long pfn;
->> +	unsigned long end_pfn = start_pfn + nr_pages;
->> +	struct page *page;
->> +
->> +	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
->> +		if (!pfn_valid(pfn))
->> +			return -EINVAL;
->> +		page =  pfn_to_page(pfn);
->> +		if (reserve)
->> +			SetPageReserved(page);
->> +		else
->> +			ClearPageReserved(page);
-> 
-> It is needed? Looks like taken from some legacy code.
+[1] https://github.com/Rust-for-Linux/linux/pull/225
+[2] https://lore.kernel.org/rust-for-linux/20230125163739.3798252-2-Jamie.Cunliffe@arm.com/
+[3] https://lore.kernel.org/rust-for-linux/20230224-rust-vec-v1-4-733b5b5a57c5@asahilina.net/
 
-Required for remap_pfn_range().
-
->> +static int copy_sgt(struct qaic_device *qdev, struct sg_table **sgt_out,
->> +		    struct sg_table *sgt_in, u64 size, u64 offset)
->> +{
->> +	int total_len, len, nents, offf = 0, offl = 0;
->> +	struct scatterlist *sg, *sgn, *sgf, *sgl;
->> +	struct sg_table *sgt;
->> +	int ret, j;
->> +
->> +	/* find out number of relevant nents needed for this mem */
->> +	total_len = 0;
->> +	sgf = NULL;
->> +	sgl = NULL;
->> +	nents = 0;
->> +
->> +	size = size ? size : PAGE_SIZE;
->> +	for (sg = sgt_in->sgl; sg; sg = sg_next(sg)) {
->> +		len = sg_dma_len(sg);
->> +
->> +		if (!len)
->> +			continue;
->> +		if (offset >= total_len && offset < total_len + len) {
->> +			sgf = sg;
->> +			offf = offset - total_len;
->> +		}
->> +		if (sgf)
->> +			nents++;
->> +		if (offset + size >= total_len &&
->> +		    offset + size <= total_len + len) {
->> +			sgl = sg;
->> +			offl = offset + size - total_len;
->> +			break;
->> +		}
->> +		total_len += len;
->> +	}
->> +
->> +	if (!sgf || !sgl) {
->> +		ret = -EINVAL;
->> +		goto out;
->> +	}
->> +
->> +	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
->> +	if (!sgt) {
->> +		ret = -ENOMEM;
->> +		goto out;
->> +	}
->> +
->> +	ret = sg_alloc_table(sgt, nents, GFP_KERNEL);
->> +	if (ret)
->> +		goto free_sgt;
->> +
->> +	/* copy relevant sg node and fix page and length */
->> +	sgn = sgf;
->> +	for_each_sgtable_sg(sgt, sg, j) {
->> +		memcpy(sg, sgn, sizeof(*sg));
->> +		if (sgn == sgf) {
->> +			sg_dma_address(sg) += offf;
->> +			sg_dma_len(sg) -= offf;
->> +			sg_set_page(sg, sg_page(sgn),
->> +				    sg_dma_len(sg), offf);
->> +		} else {
->> +			offf = 0;
->> +		}
->> +		if (sgn == sgl) {
->> +			sg_dma_len(sg) = offl - offf;
->> +			sg_set_page(sg, sg_page(sgn),
->> +				    offl - offf, offf);
->> +			sg_mark_end(sg);
->> +			break;
->> +		}
->> +		sgn = sg_next(sgn);
->> +	}
-> 
-> Why not use sg_copy_table() ? Overall copy_sgt() seems to be something
-> that could be replaced by generic helper or at least simplify.
-
-I don't see "sg_copy_table" defined in 6.2.  Are you suggesting renaming 
-this function?  I guess I'm not quite understanding your comment here. 
-Can you elaborate?
+Cheers,
+Miguel
