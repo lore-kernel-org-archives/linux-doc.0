@@ -2,251 +2,274 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F086C61DA3
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 07:49:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 577C5C61DA3
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 08:18:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbjBXHth (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 02:49:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41920 "EHLO
+        id S229494AbjBXISL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 03:18:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjBXHtg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 02:49:36 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97A624DE38
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 23:49:34 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id bv17so140857wrb.5
-        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 23:49:34 -0800 (PST)
+        with ESMTP id S229485AbjBXISL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 03:18:11 -0500
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B5F013529;
+        Fri, 24 Feb 2023 00:18:09 -0800 (PST)
+Received: by mail-io1-xd2d.google.com with SMTP id b5so2246541iow.0;
+        Fri, 24 Feb 2023 00:18:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QbxEvBcANfCyv04vVI+P20GroH/CL1OZ8pzexawzCPA=;
-        b=tnQWyJSxP15q1apDQgYJZl7TiYEzVSdSDue1GfVVOaD0fB7R0X/Bpt/P+s54EvMarj
-         Y1GC+LfEvoa4d+LHbYhq1lLahNstbjvLM3CPlLNdcTMWd+6fEpU5pCFUdd1VfeuNgKwk
-         ibvjVqYpxqAiwq34+4XApexuqjYGbp4gt7qZw1iuaxGK1TvncfYmapRjGkD85NIMMmmP
-         NbuQi4uWSQWuuy9ihIFez+nKuGnq8M3VjfTqgeRzTTrLM/7QimIK9UBuRM43t1GjyADK
-         yey+QqJZp4HrIHUMyIt6xRNdgPgUO0A11h1Oks2iBavOIBt53d+FQQPLO4ynnVsaUe+U
-         aQBA==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=O0ngU5kfJKxMYZFBd+7WXjjgrm7mINfk+g1OE6PGkNw=;
+        b=juyQhWTkOySr/EdhXTXw0uQdF8kVaOzrtUeaH7yY7M6zf1AEu10smfDCdKgUDooeJA
+         drqAgRRPNKdFRJLBakxny9P/0HxNuy7DFGBdt8GBg6zdO5eADPmSjyPo2FWnGApn2Ewp
+         Hu7IcPlSSxcqeT6B/gfP7esDGhVgxRpnMDB3HDFHLFNlcc8q0FbDWBZrwdQHUoKjMc3/
+         zjgJbBgD/hZ8ussa5VvU+3asesbQR77NVJXnuMTx/55VnEBXTpJuJYtUP9FPY6mHbYX2
+         e9hu+Vn5H+6kHRG8X5FQ15PYpwn7Kqas6oBHRJRI+XnFgeX3mURWfmv9tE+Z1tm3jPSm
+         2tig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QbxEvBcANfCyv04vVI+P20GroH/CL1OZ8pzexawzCPA=;
-        b=p2IuGlybFXxOjf8MyLWUpvt4KQoWOzeXESLnCnSkeH9Gv4ldMh1lFSR6X/X9O+SSQk
-         GAP0yawicZ/ntEhD0gmDxT56Z9JnmlHPXCMwXDeZJXShReCMfqzG4K3qJe/gSNn09XhO
-         KFzmI21MtU1Q0asFrT47Z00b9t77zcUg6TnAqQX4fVjhxk002mlMlBlZQS4k2LG36Kse
-         mVOTbZ/YorLf+fTodIKb+Xxse4wGzZdkKfVh7i1AG1ZL1/VqlCQ+QwDTvA0ERguSblno
-         WB75ATv5/D1LKYCZNo0iLxBVx3xz6bbDX+7PegUmiXNitWtQY3RTWJl+qQVCAd6mzqRN
-         8tcA==
-X-Gm-Message-State: AO0yUKVrTalea3XnvOngXixYkGmOfhdcwtZ57vEV5WGnEdH/doNSJrkq
-        KwvFNo6DjrL3xLAR3wjDyvKUrQ==
-X-Google-Smtp-Source: AK7set/nHyhaRUq0Yd+9Qdd+3r2tbNOhcXsgs9HAHAccmP/VT5YKMYKugqE9ITyi4t9jCFYpx+UWhg==
-X-Received: by 2002:a05:6000:98c:b0:2c5:5ee9:6b27 with SMTP id by12-20020a056000098c00b002c55ee96b27mr11889818wrb.13.1677224973014;
-        Thu, 23 Feb 2023 23:49:33 -0800 (PST)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id j21-20020a5d6e55000000b002c3f81c51b6sm13600444wrz.90.2023.02.23.23.49.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Feb 2023 23:49:32 -0800 (PST)
-Message-ID: <78fc83d7-a31b-c6bd-4e08-f0696e0a275b@linaro.org>
-Date:   Fri, 24 Feb 2023 07:49:31 +0000
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O0ngU5kfJKxMYZFBd+7WXjjgrm7mINfk+g1OE6PGkNw=;
+        b=i/JMzO6TXIQF/3s2DcW3BlYfpU3+MLJqQruRMzL3eoTODUFzoKJeVtHX82TH4Q4D7t
+         DzbhaqRtaJLONIUyTiK00CuqoAqJ+j4FNYJCLWRvTva3hsgVEoBpRZP5dEC4oPHoOlhj
+         A4JX2vYMgvXz/UfpkPOfYDMTZNWGcNb8oP8Cc5xOmM/lUEY6/w/UW43kL4J2F0Mwb5FJ
+         s4HfjBHaNksaHORt7QT4gtAPfK4bSg5sGWNF5IU/E9iXeQV5EIrK8i+DOYvb/sfIV7VW
+         draDSHkAqCqDd8zpHHl4aXa132FxFFVZFfeAWpcxnoQQNkmmfyn/CFO27OySbQPDOFmq
+         STqA==
+X-Gm-Message-State: AO0yUKWC3cUA5+QcNFbIGqS0+59fZH2eUncpla87aJKk+JmwSWH4NN4T
+        2SrbY/7vq3BhfqNtQueokhisIbdSbuTYVAh2UnM=
+X-Google-Smtp-Source: AK7set8Jq6plJbbrBmatQWDPxsz0GV823XNOEt52m+0mf8yWNEVK00R+UGnjbQjEdlzrpO+Iau02uUa8QqrmmEH9I1Q=
+X-Received: by 2002:a05:6638:1342:b0:3c2:c1c9:8bca with SMTP id
+ u2-20020a056638134200b003c2c1c98bcamr6370686jad.2.1677226688551; Fri, 24 Feb
+ 2023 00:18:08 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v10 07/26] mailbox: Add Gunyah message queue mailbox
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jassi Brar <jassisinghbrar@gmail.com>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212316.3309053-1-quic_eberman@quicinc.com>
- <c8161a4c-fa45-cb9e-7211-5486ece1fc2d@linaro.org>
- <576aed85-a566-3645-559e-06b2135cf57f@quicinc.com>
- <7e3170e4-c530-0b5b-903f-e5ea6d8268dc@linaro.org>
- <d42cba3e-db22-5241-0ae2-ccec3b811a5a@quicinc.com>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <d42cba3e-db22-5241-0ae2-ccec3b811a5a@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230221201740.2236-1-gregory.price@memverge.com> <20230221201740.2236-3-gregory.price@memverge.com>
+In-Reply-To: <20230221201740.2236-3-gregory.price@memverge.com>
+From:   Andrei Vagin <avagin@gmail.com>
+Date:   Fri, 24 Feb 2023 00:17:56 -0800
+Message-ID: <CANaxB-zTkCLbjBti8hrs9RVna21KzwC0GugyDu7=nTzGLLum2Q@mail.gmail.com>
+Subject: Re: [PATCH v11 2/2] ptrace,syscall_user_dispatch: checkpoint/restore
+ support for SUD
+To:     Gregory Price <gourry.memverge@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        oleg@redhat.com, peterz@infradead.org, luto@kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Feb 21, 2023 at 12:18 PM Gregory Price
+<gourry.memverge@gmail.com> wrote:
 
+...
 
-On 23/02/2023 23:15, Elliot Berman wrote:
-> 
-> 
-> On 2/23/2023 2:25 AM, Srinivas Kandagatla wrote:
->>
->>
->> On 23/02/2023 00:15, Elliot Berman wrote:
->>>
->>>
->>> On 2/20/2023 5:59 AM, Srinivas Kandagatla wrote:
->>>>
->>>>
->>>> On 14/02/2023 21:23, Elliot Berman wrote:
->>>>> Gunyah message queues are a unidirectional inter-VM pipe for 
->>>>> messages up
->>>>> to 1024 bytes. This driver supports pairing a receiver message 
->>>>> queue and
->>>>> a transmitter message queue to expose a single mailbox channel.
->>>>>
->>>>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->>>>> ---
->>>>>   Documentation/virt/gunyah/message-queue.rst |   8 +
->>>>>   drivers/mailbox/Makefile                   |   2 +
->>>>>   drivers/mailbox/gunyah-msgq.c               | 214 
->>>>> ++++++++++++++++++++
->>>>>   include/linux/gunyah.h                      |  56 +++++
->>>>>   4 files changed, 280 insertions(+)
->>>>>   create mode 100644 drivers/mailbox/gunyah-msgq.c
->>>>>
->>>>> diff --git a/Documentation/virt/gunyah/message-queue.rst 
->>>>> b/Documentation/virt/gunyah/message-queue.rst
->>>>> index 0667b3eb1ff9..082085e981e0 100644
->>>>> --- a/Documentation/virt/gunyah/message-queue.rst
->>>>> +++ b/Documentation/virt/gunyah/message-queue.rst
->>>>> @@ -59,3 +59,11 @@ vIRQ: two TX message queues will have two vIRQs 
->>>>> (and two capability IDs).
->>>>>         |               |         |                 | 
->>>>> |               |
->>>>>         |               |         |                 | 
->>>>> |               |
->>>>>         +---------------+         +-----------------+ 
->>>>> +---------------+
->>>>> +
->>>>> +Gunyah message queues are exposed as mailboxes. To create the 
->>>>> mailbox, create
->>>>> +a mbox_client and call `gh_msgq_init`. On receipt of the RX_READY 
->>>>> interrupt,
->>>>> +all messages in the RX message queue are read and pushed via the 
->>>>> `rx_callback`
->>>>> +of the registered mbox_client.
->>>>> +
->>>>> +.. kernel-doc:: drivers/mailbox/gunyah-msgq.c
->>>>> +   :identifiers: gh_msgq_init
->>>>> diff --git a/drivers/mailbox/Makefile b/drivers/mailbox/Makefile
->>>>> index fc9376117111..5f929bb55e9a 100644
->>>>> --- a/drivers/mailbox/Makefile
->>>>> +++ b/drivers/mailbox/Makefile
->>>>> @@ -55,6 +55,8 @@ obj-$(CONFIG_MTK_CMDQ_MBOX)    += mtk-cmdq-mailbox.o
->>>>>   obj-$(CONFIG_ZYNQMP_IPI_MBOX)    += zynqmp-ipi-mailbox.o
->>>>> +obj-$(CONFIG_GUNYAH)        += gunyah-msgq.o
->>>>
->>>> Why are we reusing CONFIG_GUNYAH Kconfig symbol for mailbox, why not 
->>>> CONFIG_GUNYAH_MBOX?
->>>>
->>>
->>> There was some previous discussion about this:
->>>
->>> https://lore.kernel.org/all/2a7bb5f2-1286-b661-659a-a5037150eae8@quicinc.com/
->>>
->>>>> +
->>>>>   obj-$(CONFIG_SUN6I_MSGBOX)    += sun6i-msgbox.o
->>>>>   obj-$(CONFIG_SPRD_MBOX)       += sprd-mailbox.o
->>>>> diff --git a/drivers/mailbox/gunyah-msgq.c 
->>>>> b/drivers/mailbox/gunyah-msgq.c
->>>>> new file mode 100644
->>>>> index 000000000000..03ffaa30ce9b
->>>>> --- /dev/null
->>>>> +++ b/drivers/mailbox/gunyah-msgq.c
->>>>> @@ -0,0 +1,214 @@
->>>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>>> +/*
->>>>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
->>>>> rights reserved.
->>>>> + */
->>>>> +
->>>>> +#include <linux/mailbox_controller.h>
->>>>> +#include <linux/module.h>
->>>>> +#include <linux/interrupt.h>
->>>>> +#include <linux/gunyah.h>
->>>>> +#include <linux/printk.h>
->>>>> +#include <linux/init.h>
->>>>> +#include <linux/slab.h>
->>>>> +#include <linux/wait.h>
->>>>
->>>> ...
->>>>
->>>>> +/* Fired when message queue transitions from "full" to "space 
->>>>> available" to send messages */
->>>>> +static irqreturn_t gh_msgq_tx_irq_handler(int irq, void *data)
->>>>> +{
->>>>> +    struct gh_msgq *msgq = data;
->>>>> +
->>>>> +    mbox_chan_txdone(gh_msgq_chan(msgq), 0);
->>>>> +
->>>>> +    return IRQ_HANDLED;
->>>>> +}
->>>>> +
->>>>> +/* Fired after sending message and hypercall told us there was 
->>>>> more space available. */
->>>>> +static void gh_msgq_txdone_tasklet(struct tasklet_struct *tasklet)
->>>>
->>>> Tasklets have been long deprecated, consider using workqueues in 
->>>> this particular case.
->>>>
->>>
->>> Workqueues have higher latency and tasklets came as recommendation 
->>> from Jassi. drivers/mailbox/imx-mailbox.c uses tasklets in the same way.
->>>
->>> I did some quick unscientific measurements of ~1000x samples. The 
->>> median latency for resource manager went from 25.5 us (tasklet) to 26 
->>> us (workqueue) (2% slower). The mean went from 28.7 us to 32.5 us 
->>> (13% slower). Obviously, the outliers for workqueues were much more 
->>> extreme.
->>
->> TBH, this is expected because we are only testing resource manager, 
->> Note   the advantage that you will see shifting from tasket to 
->> workqueues is on overall system latencies and some drivers performance 
->> that need to react to events.
->>
->> please take some time to read this nice article about this 
->> https://lwn.net/Articles/830964/
->>
-> 
-> Hmm, this article is from 2020 and there was another effort in 2007. 
-> Neither seems to have succeeded. I'd like to stick to same mechanisms as 
-> other mailbox controllers.
+> diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
+> index 22396b234854..08e8b377557f 100644
+> --- a/kernel/entry/syscall_user_dispatch.c
+> +++ b/kernel/entry/syscall_user_dispatch.c
+> @@ -4,6 +4,7 @@
+>   */
+>  #include <linux/sched.h>
+>  #include <linux/prctl.h>
+> +#include <linux/ptrace.h>
+>  #include <linux/syscall_user_dispatch.h>
+>  #include <linux/uaccess.h>
+>  #include <linux/signal.h>
+> @@ -113,3 +114,42 @@ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
+>  {
+>         return task_set_syscall_user_dispatch(current, mode, offset, len, selector);
+>  }
+> +
+> +int syscall_user_dispatch_get_config(struct task_struct *task, unsigned long size,
+> +                                    void __user *data)
+> +{
+> +       struct syscall_user_dispatch *sd = &task->syscall_dispatch;
+> +       struct ptrace_sud_config config;
 
-I don't want to block this series because of this. We will have more 
-opportunity to improve this once some system wide profiling is done.
+WARNING: Missing a blank line after declarations
 
-AFAIU, In this system we will have atleast 2 tasklets between VM and RM 
-and 2 per inter-vm, so if the number of tasklets increase in the system 
-will be potentially spending more time in soft irq handling it.
+You need to verify all patches with ./scripts/checkpatch.pl. Here are
+a few other warnings.
 
-At somepoint in time its good to get some profiling done using 
-bcc/softirqs to see how much time is spent on softirqs.
+> +       if (size != sizeof(struct ptrace_sud_config))
+> +               return -EINVAL;
+> +
 
+config has to be fully initialized otherwise it leaks data from a kernel stack.
 
---srini
+> +       if (test_task_syscall_work(task, SYSCALL_USER_DISPATCH))
+> +               config.mode = PR_SYS_DISPATCH_ON;
+> +       else
+> +               config.mode = PR_SYS_DISPATCH_OFF;
+> +
+> +       config.offset = sd->offset;
+> +       config.len = sd->len;
+> +       config.selector = (__u64)sd->selector;
+> +
+> +       if (copy_to_user(data, &config, sizeof(config))) {
+> +               return -EFAULT;
+> +       }
+> +       return 0;
+> +}
+> +
+> +int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
+> +                                    void __user *data)
+> +{
+> +       int rc;
+> +       struct ptrace_sud_config cfg;
+> +       if (size != sizeof(struct ptrace_sud_config))
+> +               return -EINVAL;
+> +
+> +       if (copy_from_user(&cfg, data, sizeof(cfg))) {
+> +               return -EFAULT;
+> +       }
+> +       rc = task_set_syscall_user_dispatch(task, cfg.mode, cfg.offset,
+> +                                           cfg.len, (void __user*)cfg.selector);
+> +       return rc;
+> +}
+> diff --git a/kernel/ptrace.c b/kernel/ptrace.c
+> index 54482193e1ed..d99376532b56 100644
+> --- a/kernel/ptrace.c
+> +++ b/kernel/ptrace.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/compat.h>
+>  #include <linux/sched/signal.h>
+>  #include <linux/minmax.h>
+> +#include <linux/syscall_user_dispatch.h>
+>
+>  #include <asm/syscall.h>       /* for syscall_get_* */
+>
+> @@ -1259,6 +1260,14 @@ int ptrace_request(struct task_struct *child, long request,
+>                 break;
+>  #endif
+>
+> +       case PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG:
+> +               ret = syscall_user_dispatch_set_config(child, addr, datavp);
+> +               break;
+> +
+> +       case PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG:
+> +               ret = syscall_user_dispatch_get_config(child, addr, datavp);
+> +               break;
+> +
+>         default:
+>                 break;
+>         }
+> diff --git a/tools/testing/selftests/ptrace/.gitignore b/tools/testing/selftests/ptrace/.gitignore
+> index 792318aaa30c..b7dde152e75a 100644
+> --- a/tools/testing/selftests/ptrace/.gitignore
+> +++ b/tools/testing/selftests/ptrace/.gitignore
+> @@ -1,4 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  get_syscall_info
+> +get_set_sud
+>  peeksiginfo
+>  vmaccess
+> diff --git a/tools/testing/selftests/ptrace/Makefile b/tools/testing/selftests/ptrace/Makefile
+> index 2f1f532c39db..33a36b73bcb9 100644
+> --- a/tools/testing/selftests/ptrace/Makefile
+> +++ b/tools/testing/selftests/ptrace/Makefile
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  CFLAGS += -std=c99 -pthread -iquote../../../../include/uapi -Wall
+>
+> -TEST_GEN_PROGS := get_syscall_info peeksiginfo vmaccess
+> +TEST_GEN_PROGS := get_syscall_info peeksiginfo vmaccess get_set_sud
+>
+>  include ../lib.mk
+> diff --git a/tools/testing/selftests/ptrace/get_set_sud.c b/tools/testing/selftests/ptrace/get_set_sud.c
 
-> 
-> Jassi, do you have any preferences?
-> 
-> Thanks,
-> Elliot
-> 
-> 
+I think the test has to be in a separate patch.
+
+> new file mode 100644
+> index 000000000000..c4e7b87cab03
+> --- /dev/null
+> +++ b/tools/testing/selftests/ptrace/get_set_sud.c
+> @@ -0,0 +1,77 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#define _GNU_SOURCE
+> +#include "../kselftest_harness.h"
+> +#include <stdio.h>
+> +#include <string.h>
+> +#include <errno.h>
+> +#include <sys/wait.h>
+> +#include <sys/syscall.h>
+> +#include <sys/prctl.h>
+> +
+> +#include "linux/ptrace.h"
+> +
+> +static int sys_ptrace(int request, pid_t pid, void *addr, void *data)
+> +{
+> +       return syscall(SYS_ptrace, request, pid, addr, data);
+> +}
+> +
+> +TEST(get_set_sud)
+> +{
+> +       struct ptrace_sud_config config;
+> +       pid_t child;
+> +       int ret = 0;
+> +       int status;
+> +
+> +       child = fork();
+> +       ASSERT_GE(child, 0);
+> +       if (child == 0) {
+> +               ASSERT_EQ(0, sys_ptrace(PTRACE_TRACEME, 0, 0, 0)) {
+> +                       TH_LOG("PTRACE_TRACEME: %m");
+> +               }
+> +               kill(getpid(), SIGSTOP);
+> +               _exit(1);
+> +       }
+> +
+> +       waitpid(child, &status, 0);
+> +
+> +       memset(&config, 0xff, sizeof(config));
+> +       config.mode = PR_SYS_DISPATCH_ON;
+> +
+> +       ret = sys_ptrace(PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG, child,
+> +                        (void*)sizeof(config), &config);
+> +       if (ret < 0) {
+> +               ASSERT_EQ(errno, EIO);
+
+When do we expect to get EIO here?
+
+> +               goto leave;
+> +       }
+> +
+> +       ASSERT_EQ(ret, 0);
+> +       ASSERT_EQ(config.mode, PR_SYS_DISPATCH_OFF);
+> +       ASSERT_EQ(config.selector, 0);
+> +       ASSERT_EQ(config.offset, 0);
+> +       ASSERT_EQ(config.len, 0);
+> +
+> +       config.mode = PR_SYS_DISPATCH_ON;
+> +       config.selector = 0;
+> +       config.offset = 0x400000;
+> +       config.len = 0x1000;
+> +
+> +       ret = sys_ptrace(PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG, child,
+> +                        (void*)sizeof(config), &config);
+> +
+> +       ASSERT_EQ(ret, 0);
+> +
+> +       memset(&config, 1, sizeof(config));
+> +       ret = sys_ptrace(PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG, child,
+> +                        (void*)sizeof(config), &config);
+> +
+> +       ASSERT_EQ(ret, 0);
+> +       ASSERT_EQ(config.mode, PR_SYS_DISPATCH_ON);
+> +       ASSERT_EQ(config.selector, 0);
+> +       ASSERT_EQ(config.offset, 0x400000);
+> +       ASSERT_EQ(config.len, 0x1000);
+> +
+> +leave:
+> +       kill(child, SIGKILL);
+> +}
+> +
+> +TEST_HARNESS_MAIN
+> --
+> 2.39.1
+>
