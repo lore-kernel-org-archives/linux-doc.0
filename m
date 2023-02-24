@@ -2,113 +2,273 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FA0EC61DA4
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 11:46:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEA9CC61DA3
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 12:03:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbjBXLqH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 06:46:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47890 "EHLO
+        id S229810AbjBXMD2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 07:03:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbjBXLqG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 06:46:06 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5388164D6E;
-        Fri, 24 Feb 2023 03:46:04 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 80E8A1EC0723;
-        Fri, 24 Feb 2023 12:46:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1677239162;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=OSDHzpRiPKXFuKbj/ntPOkDODEh8hWASFyXRMMoKKPg=;
-        b=aA+1bgzgnvaLFpgSuz1deBeWtCAEBmlV7GEzr7ZA4Mp69V9HXC6O2/Ul+Pfxkyh4rVX5fc
-        n3kDrsTIKdr7MJGhF4cuP0UpC14Urlzpbs+vc6PJC4x5S5P+o+Bmw0KsEqIkEtE1ARcMxk
-        ahkS3utYulVNwD95M9K9ipo0UizTrH4=
-Date:   Fri, 24 Feb 2023 12:45:57 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v6 37/41] selftests/x86: Add shadow stack test
-Message-ID: <Y/ijdXoTAATt0+Ct@zn.tnic>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-38-rick.p.edgecombe@intel.com>
- <Y/duhySUieqUWoGX@zn.tnic>
- <5fe0874655a7190a6ea5a070584d2603522f4395.camel@intel.com>
+        with ESMTP id S229458AbjBXMD1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 07:03:27 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F364251935
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 04:03:25 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id e5so17577424plg.8
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 04:03:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MjPROIr0qGwhUYh5g74pFM5GpA5WGW4aBOr62nGt2dk=;
+        b=mPEo1cMEHY/yB0t1LDM2RnjmiDw7QFk/XuH2gPkS3U2EHORhRjgbe+6gOBD04CXj8Y
+         nJR0R+aIZjGtTozSa8j0gDbKEEVeo5bjt6Ct62rTLUGib05TI5XBBSzEwSrPbI9X5P3s
+         XMb9k2z4dwm0h8+NuIWfJGGpd7jPdGqGk+g0G/TdwyKtvzsRdawuDcy+EGYnzf/zmwlL
+         HwQaEvjLBDQJMnSd6ntUkcJCxpEiUBKcwaYt+A58+glW5bHy113Qy9xqCeZ+5fo7GgPM
+         wSbfR+xpowtLb6F5kWiwLbsxZOfbic+JRX6O4ZTCsNqBmcX6Tk73qufcRIKruVV66x9j
+         N2Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MjPROIr0qGwhUYh5g74pFM5GpA5WGW4aBOr62nGt2dk=;
+        b=DbmoOBgCoUz5bs/12N8H2brU56cuhoTunQjN4kL7el50DGhyYUOvjmmqdJz6N2eKIy
+         b9SXJe8KX+w9TGkprJD8TKhxZTrL6kVV7odTwaIKVRAUo4INY632YtqTtVwKEOWCg4+k
+         i37stIW+cAUrzz2XJXU3faPreoXh6Yaem92ofiRA1By/+TD2pcBZhqgsflQVkri541OV
+         EdZ/6AT6Kt1jrW+/sXtVZNbqarheKyA0Syq9ktqQ31qgWiyKgG+wiEhMlYZ+uoA95pc6
+         Zpw918sfeSn5z2YJu5U2Hinmy7qo3kIuCP2AzTGzeRWOd7rLotRR3Ow2y2ESu4FSDvhA
+         niBQ==
+X-Gm-Message-State: AO0yUKVxtKcjiClgbODQ1GWCahOWBboCvNjiL3/OXGOHBwBHfAPHrIkB
+        5Q0EIXJbd2TulS6zPrfGjHp2Hw==
+X-Google-Smtp-Source: AK7set8s4KJUlAUa+S8V50XxDO/fcproXW1ucDuhrZ/FIOtcL0GdtiqhtiSV3XKXShecQRYH1ubh+g==
+X-Received: by 2002:a17:902:e5cd:b0:19a:bbd0:c5c7 with SMTP id u13-20020a170902e5cd00b0019abbd0c5c7mr23075349plf.64.1677240205325;
+        Fri, 24 Feb 2023 04:03:25 -0800 (PST)
+Received: from sunil-laptop ([49.206.14.226])
+        by smtp.gmail.com with ESMTPSA id jh18-20020a170903329200b0019cb8ffd592sm3561453plb.163.2023.02.24.04.03.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 04:03:24 -0800 (PST)
+Date:   Fri, 24 Feb 2023 17:33:15 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Subject: Re: [PATCH V2 08/21] drivers/acpi: RISC-V: Add RHCT related code
+Message-ID: <Y/ingw3nYwO7PUHm@sunil-laptop>
+References: <20230216182043.1946553-1-sunilvl@ventanamicro.com>
+ <20230216182043.1946553-9-sunilvl@ventanamicro.com>
+ <20230220163648.72bw7ujwzkx42far@orel>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5fe0874655a7190a6ea5a070584d2603522f4395.camel@intel.com>
+In-Reply-To: <20230220163648.72bw7ujwzkx42far@orel>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 23, 2023 at 05:54:55PM +0000, Edgecombe, Rick P wrote:
-> The proposed Makefile solution seems a bit unusual. What about this
-> less complicated solution to just make this case work?
+On Mon, Feb 20, 2023 at 05:36:48PM +0100, Andrew Jones wrote:
+> On Thu, Feb 16, 2023 at 11:50:30PM +0530, Sunil V L wrote:
+> > RHCT is a new table defined for RISC-V to communicate the
+> > features of the CPU to the OS. Create a new architecture folder
+> > in drivers/acpi and add RHCT parsing code.
+> > 
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > ---
+> >  arch/riscv/include/asm/acpi.h |  9 ++++
+> >  drivers/acpi/Makefile         |  2 +
+> >  drivers/acpi/riscv/Makefile   |  2 +
+> >  drivers/acpi/riscv/rhct.c     | 92 +++++++++++++++++++++++++++++++++++
+> >  4 files changed, 105 insertions(+)
+> >  create mode 100644 drivers/acpi/riscv/Makefile
+> >  create mode 100644 drivers/acpi/riscv/rhct.c
+> > 
+> > diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> > index 4a3622b38159..7bc49f65c86b 100644
+> > --- a/arch/riscv/include/asm/acpi.h
+> > +++ b/arch/riscv/include/asm/acpi.h
+> > @@ -58,6 +58,15 @@ static inline bool acpi_has_cpu_in_madt(void)
+> >  
+> >  static inline void arch_fix_phys_package_id(int num, u32 slot) { }
+> >  
+> > +int acpi_get_riscv_isa(struct acpi_table_header *table,
+> > +		       unsigned int cpu, const char **isa);
+> > +#else
+> > +static inline int acpi_get_riscv_isa(struct acpi_table_header *table,
+> > +				     unsigned int cpu, const char **isa)
+> > +{
+> > +	return -EINVAL;
+> > +}
+> > +
+> >  #endif /* CONFIG_ACPI */
+> >  
+> >  #endif /*_ASM_ACPI_H*/
+> > diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
+> > index feb36c0b9446..3fc5a0d54f6e 100644
+> > --- a/drivers/acpi/Makefile
+> > +++ b/drivers/acpi/Makefile
+> > @@ -131,3 +131,5 @@ obj-y				+= dptf/
+> >  obj-$(CONFIG_ARM64)		+= arm64/
+> >  
+> >  obj-$(CONFIG_ACPI_VIOT)		+= viot.o
+> > +
+> > +obj-$(CONFIG_RISCV)		+= riscv/
+> > diff --git a/drivers/acpi/riscv/Makefile b/drivers/acpi/riscv/Makefile
+> > new file mode 100644
+> > index 000000000000..8b3b126e0b94
+> > --- /dev/null
+> > +++ b/drivers/acpi/riscv/Makefile
+> > @@ -0,0 +1,2 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +obj-y 	+= rhct.o
+> > diff --git a/drivers/acpi/riscv/rhct.c b/drivers/acpi/riscv/rhct.c
+> > new file mode 100644
+> > index 000000000000..5bafc236d627
+> > --- /dev/null
+> > +++ b/drivers/acpi/riscv/rhct.c
+> > @@ -0,0 +1,92 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Copyright (C) 2022-2023, Ventana Micro Systems Inc
+> > + *	Author: Sunil V L <sunilvl@ventanamicro.com>
+> > + *
+> > + */
+> > +
+> > +#define pr_fmt(fmt)	"ACPI: RHCT: " fmt
+> > +
+> > +#include <linux/acpi.h>
+> > +
+> > +static void acpi_rhct_warn_missing(void)
+> > +{
+> > +	pr_warn_once("No RHCT table found\n");
+> > +}
+> > +
+> > +static struct acpi_table_header *acpi_get_rhct(void)
+> > +{
+> > +	static struct acpi_table_header *rhct;
+> > +	acpi_status status;
+> > +
+> > +	/*
+> > +	 * RHCT will be used at runtime on every CPU, so we
+> > +	 * don't need to call acpi_put_table() to release the table mapping.
+> > +	 */
+> > +	if (!rhct) {
+> > +		status = acpi_get_table(ACPI_SIG_RHCT, 0, &rhct);
+> > +		if (ACPI_FAILURE(status))
+> > +			acpi_rhct_warn_missing();
+> 
+> Probably don't need the wrapper function for this one callsite. Also,
+> returning NULL here, rather than relying on acpi_get_table() to set
+> rhct to NULL would be a bit more robust.
+> 
+Sure. Will update.
 
-I like simple. :)
+> > +	}
+> > +
+> > +	return rhct;
+> > +}
+> > +
+> > +/*
+> > + * During early boot, the caller should call acpi_get_table() and pass its pointer to
+> > + * these functions(and free up later). At run time, since this table can be used
+> > + * multiple times, pass NULL so that the table remains in memory
+> 
+> ...multiple times, NULL may be passed in order to use the cached table.
+> 
+Okay.
 
-> So alternatively, why not just always encourage building the headers
-> before running the selftests by warning if
-> ${abs_srctree}/usr/include/linux is not found?
+> > + */
+> > +int acpi_get_riscv_isa(struct acpi_table_header *table, unsigned int acpi_cpu_id, const char **isa)
+> > +{
+> > +	struct acpi_rhct_node_header *node, *ref_node, *end;
+> > +	struct acpi_table_rhct *rhct;
+> > +	struct acpi_rhct_hart_info *hart_info;
+> > +	struct acpi_rhct_isa_string *isa_node;
+> > +	u32 *hart_info_node_offset;
+> > +	int i, j;
+> > +	u32 size_hdr = sizeof(struct acpi_rhct_node_header);
+> > +	u32 size_hartinfo = sizeof(struct acpi_rhct_hart_info);
+> > +
+> > +	if (acpi_disabled) {
+> > +		pr_debug("%s: acpi is disabled\n", __func__);
+> > +		return -1;
+> 
+> This seems like something that should never happen and easy to catch
+> and fix with a BUG_ON. Is there any chance that BUG'ing here would
+> be a bad idea?
+> 
+Yes, we can use BUG_ON. Will update.
 
-s/encourage/automate/
-
-Imagine this situation: maintainer says: "please run the selftests".
-User says, "uh oh, it fails building, I need to figure that out first."
-
-So we should not have users have to figure out stuff if we can code it
-to happen automatically for the default case.
-
-If they want something special, then they can do all the figuring out
-they want. :-)
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+> > +	}
+> > +
+> > +	if (!table) {
+> > +		rhct = (struct acpi_table_rhct *)acpi_get_rhct();
+> > +		if (!rhct)
+> > +			return -ENOENT;
+> > +	} else {
+> > +		rhct = (struct acpi_table_rhct *)table;
+> > +	}
+> > +
+> > +	node = ACPI_ADD_PTR(struct acpi_rhct_node_header, rhct, rhct->node_offset);
+> > +	end = ACPI_ADD_PTR(struct acpi_rhct_node_header, rhct, rhct->header.length);
+> > +
+> > +	for (i = 0; i < rhct->node_count; i++) {
+> > +		if (node >= end)
+> > +			break;
+> 
+> for (node = ACPI_ADD_PTR(struct acpi_rhct_node_header, rhct, rhct->node_offset);
+>      node < end;
+>      node = ACPI_ADD_PTR(struct acpi_rhct_node_header, node node->length))
+> 
+> > +		switch (node->type) {
+> > +		case ACPI_RHCT_NODE_TYPE_HART_INFO:
+> 
+> if (node->type == ACPI_RHCT_NODE_TYPE_HART_INFO)
+> 
+> > +			hart_info = ACPI_ADD_PTR(struct acpi_rhct_hart_info, node, size_hdr);
+> > +			hart_info_node_offset = ACPI_ADD_PTR(u32, hart_info, size_hartinfo);
+> > +			if (acpi_cpu_id != hart_info->uid)
+> > +				break;
+> 
+> With the above suggested changes, this 'break' becomes 'continue'.
+> 
+Okay.
+> > +			for (j = 0; j < hart_info->num_offsets; j++) {
+> > +				ref_node = ACPI_ADD_PTR(struct acpi_rhct_node_header,
+> > +							rhct, hart_info_node_offset[j]);
+> > +				if (ref_node->type == ACPI_RHCT_NODE_TYPE_ISA_STRING) {
+> > +					isa_node = ACPI_ADD_PTR(struct acpi_rhct_isa_string,
+> > +								ref_node, size_hdr);
+> > +					*isa = isa_node->isa;
+> > +					return 0;
+> > +				}
+> > +			}
+> > +			break;
+> > +		}
+> > +		node = ACPI_ADD_PTR(struct acpi_rhct_node_header, node, node->length);
+> > +	}
+> > +
+> > +	return -1;
+> > +}
+> > -- 
+> > 2.34.1
+> > 
+> 
+> Other than the nits,
+> 
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> 
+Thanks!
+Sunil
