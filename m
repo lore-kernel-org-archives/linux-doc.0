@@ -2,154 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 666E5C7EE2F
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 18:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0143C7EE23
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 19:29:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229947AbjBXS65 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 13:58:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55186 "EHLO
+        id S229617AbjBXT3Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 14:29:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbjBXS64 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 13:58:56 -0500
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2870B1B2D4
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 10:58:54 -0800 (PST)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-536bf649e70so4000227b3.0
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 10:58:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8eyNjfwQBa7qLFsUu3bNYeTJLQHqdWa7casCsIOp2RI=;
-        b=SzvTDJrrScZV4TBTvzgyM+LouwGgypUKGGsGW/TbVp60IWUa1NjVp70moEMh8L+wlv
-         ot6Zj4qfJ/qaroOWOWo9uFqvoAxz/UN0rxDm1diqqKC2IRNZRtIS6MD8aFtK57o9cmFb
-         SPjVw2jpiMexZeRyZm9tDPLzZ/XtaFMPodVICUs0e+4GTfDc2DzOWFeXqgtGaWxPHZUl
-         F96P53A9KfA4kDw6QD14PCR0rwUXHL3bJ3o50Cr/DDMV3Z7JGwQI+UtkEaWj5YKm6Nzz
-         centoG0WRU0X6x2dSVU/u5MXhFWtDAaBnipEnBcWFSVam0mLdSqPr9O93d7y9DniBkfh
-         h/xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8eyNjfwQBa7qLFsUu3bNYeTJLQHqdWa7casCsIOp2RI=;
-        b=FxseUeav395H+ya1mYJNkw8AeI1LNfyiESjQLFcvJKOMZXcbDrGM1rnnrjIrCwqYAb
-         nPiyiDqEVt9fhWPk7zn0ggEzQaZ86WSqTNHEoYAWR4u1zcoxSyCX0fU3Rlpqrol0lt+E
-         JzerluF/kPKEmokGgIYG79DEl4ajtPJkiOOpjc4g7XJQ2lc4EVd4jeBKh4fXRYHZGYoo
-         rUSvEjatWfe10JRguEce7j25MJucsqkt1Bxq0y5WVAoTJFSco/Zr1oKPHRDZvXnJ8xox
-         NV8oZhT+4Is57euItJOMUsithZrAZv3iH17YLYECTIPp8xwDZcPCU8A7vn/a3rAY+wxd
-         QKtA==
-X-Gm-Message-State: AO0yUKUWkdB+Na43nCIV+2ZSZkDPUp+UGBKgA4KrjFXbGM2XDFUIubQK
-        W+7aOtU5LJP0ZoCHxh8HZgMKnA1Qb1s=
-X-Google-Smtp-Source: AK7set+fB1FfnV7TXXPKAJPp2lud32TvUcgHqwB/gdL19Z9Bb0IlPQP9AAU24+i2w2pIC0sUcgq8CUX3kuE=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a5b:a10:0:b0:97c:863e:6d91 with SMTP id
- k16-20020a5b0a10000000b0097c863e6d91mr819065ybq.227.1677265133190; Fri, 24
- Feb 2023 10:58:53 -0800 (PST)
-Date:   Fri, 24 Feb 2023 10:58:51 -0800
-In-Reply-To: <7b6d4c14-ebde-1bc3-04de-59cae9d4b7be@quicinc.com>
-Mime-Version: 1.0
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212417.3315422-1-quic_eberman@quicinc.com> <CA+EHjTxEeiBWXJMCnv0V+5n=jB8w=m0EFdgK=FKtSqKOkiaChg@mail.gmail.com>
- <7b6d4c14-ebde-1bc3-04de-59cae9d4b7be@quicinc.com>
-Message-ID: <Y/kI66qQFJJ6bkTq@google.com>
-Subject: Re: [PATCH v10 12/26] gunyah: vm_mgr: Add/remove user memory regions
-From:   Sean Christopherson <seanjc@google.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Fuad Tabba <tabba@google.com>, Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Quentin Perret <qperret@google.com>,
-        Will Deacon <will@kernel.org>,
-        "smoreland@google.com" <smoreland@google.com>
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S229479AbjBXT3Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 14:29:24 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40DD0688D7;
+        Fri, 24 Feb 2023 11:29:23 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id EB2963ECA0;
+        Fri, 24 Feb 2023 19:29:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1677266961; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hnAMd8q05Oc+Az6aeyniIup+x2AJU5/PdX1pnOCHdJs=;
+        b=cU2tCFgRPQYdnsnpsRf1Poa8TL/3C6O/oI0EPZZp19/BGEaSu17O+F+NHq4lp5ZzRzaTFk
+        l9v2ieikO/5p3NfDdJjrp5yebQEsFutRZScsHqlaF6k22o+0Y2ViWpvl58eZRdowV/Lk7f
+        0aW3Ztv9IcFZWs9dVMz+WqQOZ93Du6A=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3057313246;
+        Fri, 24 Feb 2023 19:29:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id vxKVChEQ+WNPBgAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Fri, 24 Feb 2023 19:29:21 +0000
+Date:   Fri, 24 Feb 2023 20:29:19 +0100
+From:   Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To:     Vincent Guittot <vincent.guittot@linaro.org>
+Cc:     mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
+        linux-kernel@vger.kernel.org, parth@linux.ibm.com, tj@kernel.org,
+        lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        cgroups@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        qyousef@layalina.io, chris.hyser@oracle.com,
+        patrick.bellasi@matbug.net, David.Laight@aculab.com,
+        pjt@google.com, pavel@ucw.cz, qperret@google.com,
+        tim.c.chen@linux.intel.com, joshdon@google.com, timj@gnu.org,
+        kprateek.nayak@amd.com, yu.c.chen@intel.com,
+        youssefesmat@chromium.org, joel@joelfernandes.org
+Subject: Re: [PATCH v12 6/8] sched/fair: Add sched group latency support
+Message-ID: <20230224192919.d4fcde3dwh7betvm@blackpad>
+References: <20230224093454.956298-1-vincent.guittot@linaro.org>
+ <20230224093454.956298-7-vincent.guittot@linaro.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ach44qdpkbnxkdxs"
+Content-Disposition: inline
+In-Reply-To: <20230224093454.956298-7-vincent.guittot@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 24, 2023, Elliot Berman wrote:
-> 
-> 
-> On 2/24/2023 2:19 AM, Fuad Tabba wrote:
-> > Hi,
-> > 
-> > On Tue, Feb 14, 2023 at 9:26 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
-> > > 
-> > > 
-> > > When launching a virtual machine, Gunyah userspace allocates memory for
-> > > the guest and informs Gunyah about these memory regions through
-> > > SET_USER_MEMORY_REGION ioctl.
-> > 
-> > I'm working on pKVM [1], and regarding the problem of donating private
-> > memory to a guest, we and others working on confidential computing
-> > have faced a similar issue that this patch is trying to address. In
-> > pKVM, we've initially taken an approach similar to the one here by
-> > pinning the pages being donated to prevent swapping or migration [2].
-> > However, we've encountered issues with this approach since the memory
-> > is still mapped by the host, which could cause the system to crash on
-> > an errant access.
-> > 
-> > Instead, we've been working on adopting an fd-based restricted memory
-> > approach that was initially proposed for TDX [3] and is now being
-> > considered by others in the confidential computing space as well
-> > (e.g., Arm CCA [4]). The basic idea is that the host manages the guest
-> > memory via a file descriptor instead of a userspace address. It cannot
-> > map that memory (unless explicitly shared by the guest [5]),
-> > eliminating the possibility of the host trying to access private
-> > memory accidentally or being tricked by a malicious actor. This is
-> > based on memfd with some restrictions. It handles swapping and
-> > migration by disallowing them (for now [6]), and adds a new type of
-> > memory region to KVM to accommodate having an fd representing guest
-> > memory.
-> > 
-> > Although the fd-based restricted memory isn't upstream yet, we've
-> > ported the latest patches to arm64 and made changes and additions to
-> > make it work with pKVM, to test it and see if the solution is feasible
-> > for us (it is). I wanted to mention this work in case you find it
-> > useful, and in the hopes that we can all work on confidential
-> > computing using the same interfaces as much as possible.
-> 
-> Thanks for highlighting the memfd_restricted changes to us! We'll
-> investigate how/if it can suit Gunyah usecases.
 
-Can you provide Gunyah's requirements/rules and use cases as they relate to memory
-management?  I agree with Fuad, this is pretty much exactly what memfd_restricted()
-is intended to handle.  If Gunyah has a unique requirement or use case, it'd be
-helpful to find out sooner than later.  E.g.
+--ach44qdpkbnxkdxs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  1. What is the state of memory when it's accepted by a VM?  Is it undefined,
-     i.e. the VM's responsibility to initialize?  If not, is it always
-     zero-initialized or can memory be populated by the RM?
+Hello Vincent.
 
-  2. When exclusive/private memory is reclaimed, can the VM's data be preserved,
-     or is it unconditionally
+On Fri, Feb 24, 2023 at 10:34:52AM +0100, Vincent Guittot <vincent.guittot@linaro.org> wrote:
+> +  cpu.latency.nice
+> +	A read-write single value file which exists on non-root
+> +	cgroups.  The default is "0".
+> +
+> +	The nice value is in the range [-20, 19].
+> +
+> +	This interface file allows reading and setting latency using the
+> +	same values used by sched_setattr(2). The latency_nice of a group is
+> +	used to limit the impact of the latency_nice of a task outside the
+> +	group.
 
-  3. How frequently is memory transition allocated/reclaimed?
+IIUC, the latency priority is taken into account when deciding between
+entitites at the same level (as in pick_next_entity() or
+check_preempt_wake()/find_matchig_se()).
 
-  4. Are there assumptions and/or limitations on the size or granlarity of
-     memory objects?
+So this group attribute is relevant in context of siblings (i.e. like
+cpu.weight ~ bandwidth priority)?
 
-  5. Can memory be shared by multiple VMs but _not_ be accessible from the RM?
+I'm thus confused when it's referred to as a limit (in vertical sense).
+You somewhat imply that in [1]:
 
-  6. etc. :-)
+> Regarding the behavior, the rule remains the same that a sched_entity
+> attached to a cgroup will not get more (latency in this case) than
+> what has been set for the group entity.
 
-Thanks!
+But I don't see where such a constraint would be implemented in the
+code. (My cursory understanding above tends to horizontal comparisons.)
+
+Could you please hint me which is right?
+
+Thanks,
+Michal
+
+[1] https://lore.kernel.org/r/CAKfTPtDu=c-psGnHkoWSPRWoh1Z0VBBfsN++g+krv4B1SJmFjg@mail.gmail.com/
+
+
+--ach44qdpkbnxkdxs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTrXXag4J0QvXXBmkMkDQmsBEOquQUCY/kQDQAKCRAkDQmsBEOq
+ub3oAQDEfOX2TRBsjRsSXpo+vOEyZrjXeyDhQLhjWFuVBg+ULAD5ATvSCYRMEgA2
+2bDHVH5lA4uSr/kcxYKHNEp+qw6K5w8=
+=bajD
+-----END PGP SIGNATURE-----
+
+--ach44qdpkbnxkdxs--
