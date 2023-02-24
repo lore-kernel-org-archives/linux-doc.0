@@ -2,89 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4450C64ED8
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 22:12:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A57C64ED8
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 22:20:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbjBXWMg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 17:12:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54934 "EHLO
+        id S229591AbjBXWUt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 17:20:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbjBXWMf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 17:12:35 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BAAD6C1B6;
-        Fri, 24 Feb 2023 14:12:34 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D2E061EC0725;
-        Fri, 24 Feb 2023 23:12:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1677276752;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=xeYi9hbAisvVgwsIQVhAVyxgasq3BFCJGVZ+4Kn/ojs=;
-        b=Jvh4pMI87qGd5TiSfg1fClxmOEgKebumIXZRPDPr7bStf9gF2wrxrLmdw+B/dsbN4pznmW
-        KEj5VYecXK9K8A31+EP4s2kUccX21kKYSOYwDRAlvkddXHCM5rbONr7jfQXDQEk4gdpVie
-        jareyQFmNamh1InO2NqBWkDJxTnT+0M=
-Date:   Fri, 24 Feb 2023 23:12:29 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Luck, Tony" <tony.luck@intel.com>
-Cc:     Josh Poimboeuf <jpoimboe@kernel.org>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Ostrovsky, Boris" <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Martins, Joao" <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Wilk, Konrad" <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        "Christopherson,, Sean" <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Gross, Jurgen" <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v9 7/8] x86/cpu: Support AMD Automatic IBRS
-Message-ID: <Y/k2TWHpq1M8QiSa@zn.tnic>
-References: <20230124163319.2277355-1-kim.phillips@amd.com>
- <20230124163319.2277355-8-kim.phillips@amd.com>
- <20230224185257.o3mcmloei5zqu7wa@treble>
- <Y/knUC0s+rg6ef2r@zn.tnic>
- <20230224213522.nofavod2jzhn22wp@treble>
- <Y/kzGEqafzQkbU4T@zn.tnic>
- <SJ1PR11MB60834960ECAC976C1D328A86FCA89@SJ1PR11MB6083.namprd11.prod.outlook.com>
+        with ESMTP id S229539AbjBXWUr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 17:20:47 -0500
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF0FF17CEE;
+        Fri, 24 Feb 2023 14:20:46 -0800 (PST)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-53916ab0c6bso18143647b3.7;
+        Fri, 24 Feb 2023 14:20:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=IqQPJNfK638HDk4ODq+fMB7JJcK2vXRJP7v56xO3S9k=;
+        b=HAJsEdyAG1cOY/j+Vs6v1Ro4klVsPX0l7htKPdL5rdyUoEkEXwc3EqGqF/31BqyoeR
+         8Gc70jiB86abn5T/EFSlzm0tBLZDe6nthy/OgbziasK9ExC9MssJnkYayGu/7y7MiZ6x
+         vLpLAmkBnQLWWxaG4HdTQW/iO+UoJzutbQCl7iyYup9ojoeDv3oB+BPX6w3NMnFlrvmF
+         B7v7bhSOYv9K5Go8X+0CQR3SM7rheJYcgwBzKyef9i+y0/2WLsP/SiEOJe2jpYGOKM8V
+         GGno0ZpW+yaMgPcdZajCU49icbCJhJim4ne8u8L16Ek/F5u7Tu8uMzMcwSCfFLS1wYqb
+         87tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IqQPJNfK638HDk4ODq+fMB7JJcK2vXRJP7v56xO3S9k=;
+        b=8CK2Me3hrGMzFt57aY2LHgSpH6uhYleEHN0yQUv1aFI9VKasBfykg4IGRNCKpLDlgv
+         KiZG5ao83IBuEZLuQ1+4vdlPsT8o5nGphVnDQ16QEXVdUXFlTDRVSSMVAvbPlrY27ilE
+         5gELdDPcKH8JZORy/bbDFKY8+lYCc07XkUykmVTv/9ObeOQ4RR943YzEDCkhdSlaykzP
+         etK55gy0L7fhFcf2ehHZ7up+PeAG/9fn7LIh9drfsTF/prZ6rVAqoEa9lu7KCLYvrYju
+         MypYYlxbvnHktgCen85GRjRGgjhZB3/O0rMyZzVeNircnTmA2+mQCv4hGQ1PDf++qbvG
+         4WNA==
+X-Gm-Message-State: AO0yUKXlXxFf6NQWSSFjNAHcilIvWDchZPxLUeJSIWkeOWWD6MGA4TLC
+        GqSiO0tIeidq9KXzZPjj6m/g8weOMs+dp+QOGPI=
+X-Google-Smtp-Source: AK7set+BCO4mvxBMIls68YhyM4z+vOB5zPgpVOZ6T1wB6+em698PSXYG6gf/JzasjxCkItBDvJ2GBFZIoNFQhY4OKBw=
+X-Received: by 2002:a5b:ac8:0:b0:a06:538f:24b2 with SMTP id
+ a8-20020a5b0ac8000000b00a06538f24b2mr3802600ybr.2.1677277245871; Fri, 24 Feb
+ 2023 14:20:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <SJ1PR11MB60834960ECAC976C1D328A86FCA89@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20230224133609.2877396-1-conor.dooley@microchip.com>
+ <CANiq72=4ZhV=u2ZUr=x-iAS_iMnV8GSiq0tEn7Tj0NanO=D+xQ@mail.gmail.com> <Y/kldmYcl7+2FBRB@spud>
+In-Reply-To: <Y/kldmYcl7+2FBRB@spud>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 24 Feb 2023 23:20:34 +0100
+Message-ID: <CANiq72=btcBOmrz0=ib=2eZiiV1z4_3qm1cqyw1=jUFDiJ77bg@mail.gmail.com>
+Subject: Re: [RFC 0/2] RISC-V: enable rust
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        linux-riscv@lists.infradead.org, Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, rust-for-linux@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 24, 2023 at 10:03:16PM +0000, Luck, Tony wrote:
-> Should also include Pawan as another unfortunate soul sucked
-> into keeping that file up to date with the latest wreckage. If not
-> as "M", at least as "R":
-> 
-> R: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+On Fri, Feb 24, 2023 at 10:00 PM Conor Dooley <conor@kernel.org> wrote:
+>
+> The stuff that I have lifted here all had you as the sole author in the
+> "rust" branch downstream, which is why I gave you authorship. Namely:
+> afba78eacb9b ("rust: generate target specification files on the fly")
+> 732b3c386328 ("rust: target: remove `cpu`")
+>
+> I don't see anything from [1] in these commits, so I don't think that I
+> made a mistake here.
 
-We probably should hear from him before you offer his soul into the
-purgatory of hardware speculation.
+It is true that I converted the original target spec files into the
+script, so I added the final lines. However, in that first commit some
+of the deleted files (related to RISC-V) were created by Gary. Thus it
+still feels a bit wrong to not credit Gary or even mention him.
 
-:-P
+For instance, consider an even more extreme case: somebody moving a
+file or doing formatting/whitespace changes. Would they be the main
+and only author?
 
--- 
-Regards/Gruss,
-    Boris.
+> It's RFC for a reason, I've had a poor track record with off-list emails
+> to people that do not know me so would rather do it this way :)
+> Probably should have noted that I wrote the ~placeholder commit messages
+> though, apologies. I'll sort that out for a potential v1.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+No problem!
+
+> That's what I did! Unless I missed something that was non-obvious, the
+> only name on the commits I lifted was you. Is there somewhere else I
+> should have looked for that information?
+
+I would have traced the commits back a bit more. For instance, in the
+first commit you mention above, one may see the RISC-V target files
+were removed, so that means something was already there. Checking who
+added those files leads to a few commits from Gary (and one from
+Daniel). And then it is about making a judgement call trying to be
+fair :)
+
+Cheers,
+Miguel
