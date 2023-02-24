@@ -2,384 +2,377 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6EDCC61DA3
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 10:04:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D7FFC61DA3
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 10:20:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbjBXKE5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 05:04:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43198 "EHLO
+        id S230087AbjBXKUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 05:20:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229936AbjBXKEJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 05:04:09 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C5AB4988B
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 02:03:27 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id p3-20020a05600c358300b003e206711347so1418264wmq.0
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 02:03:27 -0800 (PST)
+        with ESMTP id S230035AbjBXKUR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 05:20:17 -0500
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E2791968C
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 02:20:14 -0800 (PST)
+Received: by mail-lf1-x132.google.com with SMTP id n2so14017299lfb.12
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 02:20:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=40up+yGooIEvj5xW9urteTS0BsqAK8/nqFf9xcjI96c=;
-        b=qzchQJfMSroqx2OPO4s15RCMn703UQmXsHZrtv8oPHRgiO+IEaNaLOA2zwPoXfE0PU
-         ZchyNbgfU0pGNGhUUgDobmbOl7uG0Nqv2p9wU0+rJqlSSa7RnQB6i6OhdySDR+CCY6kk
-         tYX6LCnmY2KAgbQmBjEI2185apwGCNFGxzRjkzPR3VtbADID3ki8Ebd2wBebN1O6pLKJ
-         qxlZz6KCXd6Bc/epYe0mcfH8iL3FkYRGrK6Fs6ua+qUrXUfC4zc6xG+ls5F1NWPyR+mU
-         4qI+wE2fm5Od7MpUyW8A+Dv+RL4gRSO47JkUz0pDzyLOSYD8SQhmeyNa2uXxJnGbIM7l
-         Y+tw==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hEwsz4UUnsL1QET78UClGRYs4m/AnPiP7Yj0wQq8Jxw=;
+        b=K8tTsNNp5D8tUYAWhc2GO1NhLYzTyEV34gBYen+1QJKaxzkqjRa3AWMJcSOfNHlHJG
+         XYwRthsOp4fXPgJi9/Mok2mlb6tP6wljqhtbZ20etjStPicx6oN4TqcMBH0Hwc9blRTr
+         NWV9SWr1QYDFgjJbwMQszkQrv9s3KTRVPzH3hfvyMb3y7whA43mEA6/ctqwWRcqKa/3G
+         2wTDP4FdqEOHvihpJXRSVxqIGbcE+Xr4Vqeg6jkSQMYukPKi/ioMjlbVl+nsRLuF3qI4
+         guw35siVBLvOJuR1jtPE55mgdNMfzSWXsmYF6bqpfNddGkvDf9C3+HCSIfN66WxqRxaB
+         nz/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=40up+yGooIEvj5xW9urteTS0BsqAK8/nqFf9xcjI96c=;
-        b=mlkJn8jUUVblOw/puf4/Vfy1pUws0QnoNhyNCIJq28uv12yEglNRO/i9dq9J6KL73m
-         QyceIl0SRJBduoxhRV8RL8AQYVikjqFBc9+NqisibXQ3C6O3AagbiPMwqZnLas5B83x7
-         3IFryqjGVTfC/pd3Bcy1HmsjioJGUjG9sfrt+3487nZexidJZUQH33yubV/Oca7Ft36n
-         lmGr5jzf8QAA1qOlF0olDv7r8n9Ao2Fx+yXlkp2T4Ntxm7OQu16gLUTdYp5sD3QHPzTi
-         4secZieh0kRODZgoHzMzQPCdHFFTn+6/JeYji31jeJ9BJ4nqugVg+Uo05BYkg3wRJ9IW
-         Gm5Q==
-X-Gm-Message-State: AO0yUKUvUptIDdXaJruJuAOmYH30Lmq7PDH57IEchBfunkeW3zGRmzUI
-        k891Ba5emZ4E/noawUHCxBhWJQ==
-X-Google-Smtp-Source: AK7set+fbnmteTkcWE3/z7kvJjoBe+QypKlmeQp0K1UeOyIA3AI25/IhiTBv4JEe7mwRN4wltfG8Cg==
-X-Received: by 2002:a05:600c:a4c:b0:3ea:e582:48dd with SMTP id c12-20020a05600c0a4c00b003eae58248ddmr2392554wmq.34.1677233005015;
-        Fri, 24 Feb 2023 02:03:25 -0800 (PST)
-Received: from alex-rivos.ba.rivosinc.com (lfbn-gre-1-235-32.w90-112.abo.wanadoo.fr. [90.112.194.32])
-        by smtp.gmail.com with ESMTPSA id r26-20020a05600c2f1a00b003eae73ee4a1sm2325521wmn.17.2023.02.24.02.03.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 02:03:24 -0800 (PST)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>
-Subject: [PATCH v7 1/1] riscv: Allow to downgrade paging mode from the command line
-Date:   Fri, 24 Feb 2023 11:02:18 +0100
-Message-Id: <20230224100218.1824569-2-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230224100218.1824569-1-alexghiti@rivosinc.com>
-References: <20230224100218.1824569-1-alexghiti@rivosinc.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hEwsz4UUnsL1QET78UClGRYs4m/AnPiP7Yj0wQq8Jxw=;
+        b=fs6/Hm+9r/o3FxRXR4/gSi9d+m/ymy16vSvAazSNdB7aHHSySCoV5pC3f2vGTE5cE/
+         SAJxBKZ9MqMJNx59P3eG2xBkGe6VB0Y4YZvBLodbwcujlJEGWGqcMTX2+8vDu6kqHRz5
+         qrw7gu/FqdtXUdvxw0s5f4K3bkUlvzIsNsK0JZgfrUEss9IUIcxiR71ZNkyDisIPuycD
+         p87TotYirVsMrSBW88QQ69YoqBvAMxUC/O8gFew7qunw3fTUmfq9pSvImdOmwbZWvnbG
+         UPiF0tN1yZC1yVj9gRMZYlMcPkuVOQ83o+q0rbaSFztzVv5I+btjdXSfMMlVPRe1kLBg
+         xVUg==
+X-Gm-Message-State: AO0yUKVUGolESJMKQC4UFmkXmtJuzh43OzsN4d7LKIQW8N8qzZUkp9vJ
+        qBEWSD//tWL1YbYQJi2VP/haMe63PMnIn0rRWU4bgw==
+X-Google-Smtp-Source: AK7set8pSd+vhBCeJWziASLZGOpsuRNu5oEjKmnP1K9G95zIvZq4Seu4EvlZk0HiUCIBWV2b7rOFhPfETP1R7DZhKa4=
+X-Received: by 2002:a05:6512:516:b0:4dc:807a:d148 with SMTP id
+ o22-20020a056512051600b004dc807ad148mr4755043lfb.7.1677234012621; Fri, 24 Feb
+ 2023 02:20:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com> <20230214212417.3315422-1-quic_eberman@quicinc.com>
+In-Reply-To: <20230214212417.3315422-1-quic_eberman@quicinc.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Fri, 24 Feb 2023 10:19:36 +0000
+Message-ID: <CA+EHjTxEeiBWXJMCnv0V+5n=jB8w=m0EFdgK=FKtSqKOkiaChg@mail.gmail.com>
+Subject: Re: [PATCH v10 12/26] gunyah: vm_mgr: Add/remove user memory regions
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add 2 early command line parameters that allow to downgrade satp mode
-(using the same naming as x86):
-- "no5lvl": use a 4-level page table (down from sv57 to sv48)
-- "no4lvl": use a 3-level page table (down from sv57/sv48 to sv39)
+Hi,
 
-Note that going through the device tree to get the kernel command line
-works with ACPI too since the efi stub creates a device tree anyway with
-the command line.
+On Tue, Feb 14, 2023 at 9:26 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>
+>
+> When launching a virtual machine, Gunyah userspace allocates memory for
+> the guest and informs Gunyah about these memory regions through
+> SET_USER_MEMORY_REGION ioctl.
 
-In KASAN kernels, we can't use the libfdt that early in the boot process
-since we are not ready to execute instrumented functions. So instead of
-using the "generic" libfdt, we compile our own versions of those functions
-that are not instrumented and that are prefixed so that they do not
-conflict with the generic ones. We also need the non-instrumented versions
-of the string functions and the prefixed versions of memcpy/memmove.
+I'm working on pKVM [1], and regarding the problem of donating private
+memory to a guest, we and others working on confidential computing
+have faced a similar issue that this patch is trying to address. In
+pKVM, we've initially taken an approach similar to the one here by
+pinning the pages being donated to prevent swapping or migration [2].
+However, we've encountered issues with this approach since the memory
+is still mapped by the host, which could cause the system to crash on
+an errant access.
 
-This is largely inspired by commit aacd149b6238 ("arm64: head: avoid
-relocating the kernel twice for KASLR") from which I removed compilation
-flags that were not relevant to RISC-V at the moment (LTO, SCS, pie).
+Instead, we've been working on adopting an fd-based restricted memory
+approach that was initially proposed for TDX [3] and is now being
+considered by others in the confidential computing space as well
+(e.g., Arm CCA [4]). The basic idea is that the host manages the guest
+memory via a file descriptor instead of a userspace address. It cannot
+map that memory (unless explicitly shared by the guest [5]),
+eliminating the possibility of the host trying to access private
+memory accidentally or being tricked by a malicious actor. This is
+based on memfd with some restrictions. It handles swapping and
+migration by disallowing them (for now [6]), and adds a new type of
+memory region to KVM to accommodate having an fd representing guest
+memory.
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Tested-by: Björn Töpel <bjorn@rivosinc.com>
-Reviewed-by: Björn Töpel <bjorn@rivosinc.com>
----
- .../admin-guide/kernel-parameters.txt         |  5 +-
- arch/riscv/kernel/Makefile                    |  2 +
- arch/riscv/kernel/pi/Makefile                 | 37 +++++++++++
- arch/riscv/kernel/pi/cmdline_early.c          | 62 +++++++++++++++++++
- arch/riscv/kernel/vmlinux.lds.S               |  7 +++
- arch/riscv/lib/memcpy.S                       |  2 +
- arch/riscv/lib/memmove.S                      |  2 +
- arch/riscv/lib/strlen.S                       |  1 +
- arch/riscv/mm/init.c                          | 36 +++++++++--
- 9 files changed, 147 insertions(+), 7 deletions(-)
- create mode 100644 arch/riscv/kernel/pi/Makefile
- create mode 100644 arch/riscv/kernel/pi/cmdline_early.c
+Although the fd-based restricted memory isn't upstream yet, we've
+ported the latest patches to arm64 and made changes and additions to
+make it work with pKVM, to test it and see if the solution is feasible
+for us (it is). I wanted to mention this work in case you find it
+useful, and in the hopes that we can all work on confidential
+computing using the same interfaces as much as possible.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6cfa6e3996cf..1d8fc66d2b0d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3578,7 +3578,10 @@
- 			emulation library even if a 387 maths coprocessor
- 			is present.
- 
--	no5lvl		[X86-64] Disable 5-level paging mode. Forces
-+	no4lvl		[RISCV] Disable 4-level and 5-level paging modes. Forces
-+			kernel to use 3-level paging instead.
-+
-+	no5lvl		[X86-64,RISCV] Disable 5-level paging mode. Forces
- 			kernel to use 4-level paging instead.
- 
- 	nofsgsbase	[X86] Disables FSGSBASE instructions.
-diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-index 4cf303a779ab..aa22f87faeae 100644
---- a/arch/riscv/kernel/Makefile
-+++ b/arch/riscv/kernel/Makefile
-@@ -89,3 +89,5 @@ obj-$(CONFIG_EFI)		+= efi.o
- obj-$(CONFIG_COMPAT)		+= compat_syscall_table.o
- obj-$(CONFIG_COMPAT)		+= compat_signal.o
- obj-$(CONFIG_COMPAT)		+= compat_vdso/
-+
-+obj-$(CONFIG_64BIT)		+= pi/
-diff --git a/arch/riscv/kernel/pi/Makefile b/arch/riscv/kernel/pi/Makefile
-new file mode 100644
-index 000000000000..4002ed94b6d3
---- /dev/null
-+++ b/arch/riscv/kernel/pi/Makefile
-@@ -0,0 +1,37 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# This file was copied from arm64/kernel/pi/Makefile.
-+
-+KBUILD_CFLAGS	:= $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
-+		   -Os -DDISABLE_BRANCH_PROFILING $(DISABLE_STACKLEAK_PLUGIN) \
-+		   $(call cc-option,-mbranch-protection=none) \
-+		   -I$(srctree)/scripts/dtc/libfdt -fno-stack-protector \
-+		   -D__DISABLE_EXPORTS -ffreestanding \
-+		   -fno-asynchronous-unwind-tables -fno-unwind-tables \
-+		   $(call cc-option,-fno-addrsig)
-+
-+CFLAGS_cmdline_early.o += -D__NO_FORTIFY
-+CFLAGS_lib-fdt_ro.o += -D__NO_FORTIFY
-+
-+GCOV_PROFILE	:= n
-+KASAN_SANITIZE	:= n
-+KCSAN_SANITIZE	:= n
-+UBSAN_SANITIZE	:= n
-+KCOV_INSTRUMENT	:= n
-+
-+$(obj)/%.pi.o: OBJCOPYFLAGS := --prefix-symbols=__pi_ \
-+			       --remove-section=.note.gnu.property \
-+			       --prefix-alloc-sections=.init
-+$(obj)/%.pi.o: $(obj)/%.o FORCE
-+	$(call if_changed,objcopy)
-+
-+$(obj)/lib-%.o: $(srctree)/lib/%.c FORCE
-+	$(call if_changed_rule,cc_o_c)
-+
-+$(obj)/string.o: $(srctree)/lib/string.c FORCE
-+	$(call if_changed_rule,cc_o_c)
-+
-+$(obj)/ctype.o: $(srctree)/lib/ctype.c FORCE
-+	$(call if_changed_rule,cc_o_c)
-+
-+obj-y		:= cmdline_early.pi.o string.pi.o ctype.pi.o lib-fdt.pi.o lib-fdt_ro.pi.o
-+extra-y		:= $(patsubst %.pi.o,%.o,$(obj-y))
-diff --git a/arch/riscv/kernel/pi/cmdline_early.c b/arch/riscv/kernel/pi/cmdline_early.c
-new file mode 100644
-index 000000000000..05652d13c746
---- /dev/null
-+++ b/arch/riscv/kernel/pi/cmdline_early.c
-@@ -0,0 +1,62 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#include <linux/types.h>
-+#include <linux/init.h>
-+#include <linux/libfdt.h>
-+#include <linux/string.h>
-+#include <asm/pgtable.h>
-+#include <asm/setup.h>
-+
-+static char early_cmdline[COMMAND_LINE_SIZE];
-+
-+/*
-+ * Declare the functions that are exported (but prefixed) here so that LLVM
-+ * does not complain it lacks the 'static' keyword (which, if added, makes
-+ * LLVM complain because the function is actually unused in this file).
-+ */
-+u64 set_satp_mode_from_cmdline(uintptr_t dtb_pa);
-+
-+static char *get_early_cmdline(uintptr_t dtb_pa)
-+{
-+	const char *fdt_cmdline = NULL;
-+	unsigned int fdt_cmdline_size = 0;
-+	int chosen_node;
-+
-+	if (!IS_ENABLED(CONFIG_CMDLINE_FORCE)) {
-+		chosen_node = fdt_path_offset((void *)dtb_pa, "/chosen");
-+		if (chosen_node >= 0) {
-+			fdt_cmdline = fdt_getprop((void *)dtb_pa, chosen_node,
-+						  "bootargs", NULL);
-+			if (fdt_cmdline) {
-+				fdt_cmdline_size = strlen(fdt_cmdline);
-+				strscpy(early_cmdline, fdt_cmdline,
-+					COMMAND_LINE_SIZE);
-+			}
-+		}
-+	}
-+
-+	if (IS_ENABLED(CONFIG_CMDLINE_EXTEND) ||
-+	    IS_ENABLED(CONFIG_CMDLINE_FORCE) ||
-+	    fdt_cmdline_size == 0 /* CONFIG_CMDLINE_FALLBACK */) {
-+		strncat(early_cmdline, CONFIG_CMDLINE,
-+			COMMAND_LINE_SIZE - fdt_cmdline_size);
-+	}
-+
-+	return early_cmdline;
-+}
-+
-+static u64 match_noXlvl(char *cmdline)
-+{
-+	if (strstr(cmdline, "no4lvl"))
-+		return SATP_MODE_48;
-+	else if (strstr(cmdline, "no5lvl"))
-+		return SATP_MODE_57;
-+
-+	return 0;
-+}
-+
-+u64 set_satp_mode_from_cmdline(uintptr_t dtb_pa)
-+{
-+	char *cmdline = get_early_cmdline(dtb_pa);
-+
-+	return match_noXlvl(cmdline);
-+}
-diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.lds.S
-index b2813b5e47a0..e5bd2412ba63 100644
---- a/arch/riscv/kernel/vmlinux.lds.S
-+++ b/arch/riscv/kernel/vmlinux.lds.S
-@@ -87,6 +87,13 @@ SECTIONS
- 	/* Start of init data section */
- 	__init_data_begin = .;
- 	INIT_DATA_SECTION(16)
-+
-+	/* Those sections result from the compilation of kernel/pi/string.c */
-+	.init.pidata : {
-+		*(.init.srodata.cst8*)
-+		*(.init__bug_table*)
-+	}
-+
- 	.init.bss : {
- 		*(.init.bss)	/* from the EFI stub */
- 	}
-diff --git a/arch/riscv/lib/memcpy.S b/arch/riscv/lib/memcpy.S
-index 51ab716253fa..1a40d01a9543 100644
---- a/arch/riscv/lib/memcpy.S
-+++ b/arch/riscv/lib/memcpy.S
-@@ -106,3 +106,5 @@ WEAK(memcpy)
- 6:
- 	ret
- END(__memcpy)
-+SYM_FUNC_ALIAS(__pi_memcpy, __memcpy)
-+SYM_FUNC_ALIAS(__pi___memcpy, __memcpy)
-diff --git a/arch/riscv/lib/memmove.S b/arch/riscv/lib/memmove.S
-index e0609e1f0864..838ff2022fe3 100644
---- a/arch/riscv/lib/memmove.S
-+++ b/arch/riscv/lib/memmove.S
-@@ -314,3 +314,5 @@ return_from_memmove:
- 
- SYM_FUNC_END(memmove)
- SYM_FUNC_END(__memmove)
-+SYM_FUNC_ALIAS(__pi_memmove, __memmove)
-+SYM_FUNC_ALIAS(__pi___memmove, __memmove)
-diff --git a/arch/riscv/lib/strlen.S b/arch/riscv/lib/strlen.S
-index 8345ceeee3f6..ed43be976134 100644
---- a/arch/riscv/lib/strlen.S
-+++ b/arch/riscv/lib/strlen.S
-@@ -131,3 +131,4 @@ strlen_zbb:
- .option pop
- #endif
- SYM_FUNC_END(strlen)
-+SYM_FUNC_ALIAS(__pi_strlen, strlen)
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 478d6763a01a..70c7fc566f63 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -732,6 +732,8 @@ static __init pgprot_t pgprot_from_va(uintptr_t va)
- #endif /* CONFIG_STRICT_KERNEL_RWX */
- 
- #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
-+u64 __pi_set_satp_mode_from_cmdline(uintptr_t dtb_pa);
-+
- static void __init disable_pgtable_l5(void)
- {
- 	pgtable_l5_enabled = false;
-@@ -746,17 +748,39 @@ static void __init disable_pgtable_l4(void)
- 	satp_mode = SATP_MODE_39;
- }
- 
-+static int __init print_no4lvl(char *p)
-+{
-+	pr_info("Disabled 4-level and 5-level paging");
-+	return 0;
-+}
-+early_param("no4lvl", print_no4lvl);
-+
-+static int __init print_no5lvl(char *p)
-+{
-+	pr_info("Disabled 5-level paging");
-+	return 0;
-+}
-+early_param("no5lvl", print_no5lvl);
-+
- /*
-  * There is a simple way to determine if 4-level is supported by the
-  * underlying hardware: establish 1:1 mapping in 4-level page table mode
-  * then read SATP to see if the configuration was taken into account
-  * meaning sv48 is supported.
-  */
--static __init void set_satp_mode(void)
-+static __init void set_satp_mode(uintptr_t dtb_pa)
- {
- 	u64 identity_satp, hw_satp;
- 	uintptr_t set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
--	bool check_l4 = false;
-+	u64 satp_mode_cmdline = __pi_set_satp_mode_from_cmdline(dtb_pa);
-+
-+	if (satp_mode_cmdline == SATP_MODE_57) {
-+		disable_pgtable_l5();
-+	} else if (satp_mode_cmdline == SATP_MODE_48) {
-+		disable_pgtable_l5();
-+		disable_pgtable_l4();
-+		return;
-+	}
- 
- 	create_p4d_mapping(early_p4d,
- 			set_satp_mode_pmd, (uintptr_t)early_pud,
-@@ -775,7 +799,8 @@ static __init void set_satp_mode(void)
- retry:
- 	create_pgd_mapping(early_pg_dir,
- 			   set_satp_mode_pmd,
--			   check_l4 ? (uintptr_t)early_pud : (uintptr_t)early_p4d,
-+			   pgtable_l5_enabled ?
-+				(uintptr_t)early_p4d : (uintptr_t)early_pud,
- 			   PGDIR_SIZE, PAGE_TABLE);
- 
- 	identity_satp = PFN_DOWN((uintptr_t)&early_pg_dir) | satp_mode;
-@@ -786,9 +811,8 @@ static __init void set_satp_mode(void)
- 	local_flush_tlb_all();
- 
- 	if (hw_satp != identity_satp) {
--		if (!check_l4) {
-+		if (pgtable_l5_enabled) {
- 			disable_pgtable_l5();
--			check_l4 = true;
- 			memset(early_pg_dir, 0, PAGE_SIZE);
- 			goto retry;
- 		}
-@@ -979,7 +1003,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
- #endif
- 
- #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
--	set_satp_mode();
-+	set_satp_mode(dtb_pa);
- #endif
- 
- 	kernel_map.va_pa_offset = PAGE_OFFSET - kernel_map.phys_addr;
--- 
-2.37.2
+Some comments inline below...
 
+Cheers,
+/fuad
+
+[1] https://lore.kernel.org/kvmarm/20220519134204.5379-1-will@kernel.org/
+[2] https://lore.kernel.org/kvmarm/20220519134204.5379-34-will@kernel.org/
+[3] https://lore.kernel.org/all/20221202061347.1070246-1-chao.p.peng@linux.intel.com/
+[4] https://lore.kernel.org/lkml/20230127112932.38045-1-steven.price@arm.com/
+[5] This is a modification we've done for the arm64 port, after
+discussing it with the original authors.
+[6] Nothing inherent in the proposal to stop migration and swapping.
+There are some technical issues that need to be resolved.
+
+<snip>
+
+> +int gh_vm_mem_alloc(struct gh_vm *ghvm, struct gh_userspace_memory_region *region)
+> +{
+> +       struct gh_vm_mem *mapping, *tmp_mapping;
+> +       struct gh_rm_mem_entry *mem_entries;
+> +       phys_addr_t curr_page, prev_page;
+> +       struct gh_rm_mem_parcel *parcel;
+> +       int i, j, pinned, ret = 0;
+> +       size_t entry_size;
+> +       u16 vmid;
+> +
+> +       if (!gh_api_has_feature(GH_API_FEATURE_MEMEXTENT))
+> +               return -EOPNOTSUPP;
+> +
+> +       if (!region->memory_size || !PAGE_ALIGNED(region->memory_size) ||
+> +               !PAGE_ALIGNED(region->userspace_addr) || !PAGE_ALIGNED(region->guest_phys_addr))
+> +               return -EINVAL;
+> +
+> +       ret = mutex_lock_interruptible(&ghvm->mm_lock);
+> +       if (ret)
+> +               return ret;
+> +       mapping = __gh_vm_mem_find(ghvm, region->label);
+> +       if (mapping) {
+> +               mutex_unlock(&ghvm->mm_lock);
+> +               return -EEXIST;
+> +       }
+> +
+> +       mapping = kzalloc(sizeof(*mapping), GFP_KERNEL);
+> +       if (!mapping) {
+> +               ret = -ENOMEM;
+> +               goto free_mapping;
+> +       }
+> +
+> +       mapping->parcel.label = region->label;
+> +       mapping->guest_phys_addr = region->guest_phys_addr;
+> +       mapping->npages = region->memory_size >> PAGE_SHIFT;
+> +       parcel = &mapping->parcel;
+> +       parcel->mem_handle = GH_MEM_HANDLE_INVAL; /* to be filled later by mem_share/mem_lend */
+> +       parcel->mem_type = GH_RM_MEM_TYPE_NORMAL;
+> +
+> +       /* Check for overlap */
+> +       list_for_each_entry(tmp_mapping, &ghvm->memory_mappings, list) {
+> +               if (!((mapping->guest_phys_addr + (mapping->npages << PAGE_SHIFT) <=
+> +                       tmp_mapping->guest_phys_addr) ||
+> +                       (mapping->guest_phys_addr >=
+> +                       tmp_mapping->guest_phys_addr + (tmp_mapping->npages << PAGE_SHIFT)))) {
+> +                       ret = -EEXIST;
+> +                       goto free_mapping;
+> +               }
+> +       }
+> +
+> +       list_add(&mapping->list, &ghvm->memory_mappings);
+> +
+> +       mapping->pages = kcalloc(mapping->npages, sizeof(*mapping->pages), GFP_KERNEL);
+> +       if (!mapping->pages) {
+> +               ret = -ENOMEM;
+> +               mapping->npages = 0; /* update npages for reclaim */
+> +               goto reclaim;
+> +       }
+
+These pages should be accounted for as locked pages, e.g.,
+account_locked_vm(), which would also ensure that the process hasn't
+reached its limit.
+
+> +       pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
+> +                                       FOLL_WRITE | FOLL_LONGTERM, mapping->pages);
+
+It might be good to check and avoid donating pages with pre-faulted
+file mappings since it might trigger a writeback of a page after
+losing access to it. Ideally, you want to only accept anonymous or
+shmem pages. In pKVM, we check that the pages are SwapBacked and
+reject the pinning/donation otherwise [2].
+
+> +       if (pinned < 0) {
+> +               ret = pinned;
+> +               mapping->npages = 0; /* update npages for reclaim */
+> +               goto reclaim;
+> +       } else if (pinned != mapping->npages) {
+> +               ret = -EFAULT;
+> +               mapping->npages = pinned; /* update npages for reclaim */
+> +               goto reclaim;
+> +       }
+> +
+> +       if (region->flags & GH_MEM_LENT) {
+> +               parcel->n_acl_entries = 1;
+> +               mapping->share_type = VM_MEM_LEND;
+> +       } else {
+> +               parcel->n_acl_entries = 2;
+> +               mapping->share_type = VM_MEM_SHARE;
+> +       }
+> +       parcel->acl_entries = kcalloc(parcel->n_acl_entries, sizeof(*parcel->acl_entries),
+> +                                       GFP_KERNEL);
+> +       if (!parcel->acl_entries) {
+> +               ret = -ENOMEM;
+> +               goto reclaim;
+> +       }
+> +
+> +       parcel->acl_entries[0].vmid = cpu_to_le16(ghvm->vmid);
+> +       if (region->flags & GH_MEM_ALLOW_READ)
+> +               parcel->acl_entries[0].perms |= GH_RM_ACL_R;
+> +       if (region->flags & GH_MEM_ALLOW_WRITE)
+> +               parcel->acl_entries[0].perms |= GH_RM_ACL_W;
+> +       if (region->flags & GH_MEM_ALLOW_EXEC)
+> +               parcel->acl_entries[0].perms |= GH_RM_ACL_X;
+> +
+> +       if (mapping->share_type == VM_MEM_SHARE) {
+> +               ret = gh_rm_get_vmid(ghvm->rm, &vmid);
+> +               if (ret)
+> +                       goto reclaim;
+> +
+> +               parcel->acl_entries[1].vmid = cpu_to_le16(vmid);
+> +               /* Host assumed to have all these permissions. Gunyah will not
+> +                * grant new permissions if host actually had less than RWX
+> +                */
+> +               parcel->acl_entries[1].perms |= GH_RM_ACL_R | GH_RM_ACL_W | GH_RM_ACL_X;
+> +       }
+> +
+> +       mem_entries = kcalloc(mapping->npages, sizeof(*mem_entries), GFP_KERNEL);
+> +       if (!mem_entries) {
+> +               ret = -ENOMEM;
+> +               goto reclaim;
+> +       }
+> +
+> +       /* reduce number of entries by combining contiguous pages into single memory entry */
+> +       prev_page = page_to_phys(mapping->pages[0]);
+> +       mem_entries[0].ipa_base = cpu_to_le64(prev_page);
+> +       entry_size = PAGE_SIZE;
+> +       for (i = 1, j = 0; i < mapping->npages; i++) {
+> +               curr_page = page_to_phys(mapping->pages[i]);
+> +               if (page_contiguous(prev_page, curr_page)) {
+> +                       entry_size += PAGE_SIZE;
+> +               } else {
+> +                       mem_entries[j].size = cpu_to_le64(entry_size);
+> +                       j++;
+> +                       mem_entries[j].ipa_base = cpu_to_le64(curr_page);
+> +                       entry_size = PAGE_SIZE;
+> +               }
+> +
+> +               prev_page = curr_page;
+> +       }
+> +       mem_entries[j].size = cpu_to_le64(entry_size);
+> +
+> +       parcel->n_mem_entries = j + 1;
+> +       parcel->mem_entries = kmemdup(mem_entries, sizeof(*mem_entries) * parcel->n_mem_entries,
+> +                                       GFP_KERNEL);
+> +       kfree(mem_entries);
+> +       if (!parcel->mem_entries) {
+> +               ret = -ENOMEM;
+> +               goto reclaim;
+> +       }
+> +
+> +       mutex_unlock(&ghvm->mm_lock);
+> +       return 0;
+> +reclaim:
+> +       gh_vm_mem_reclaim(ghvm, mapping);
+> +free_mapping:
+> +       kfree(mapping);
+> +       mutex_unlock(&ghvm->mm_lock);
+> +       return ret;
+> +}
+> +
+> +int gh_vm_mem_free(struct gh_vm *ghvm, u32 label)
+> +{
+> +       struct gh_vm_mem *mapping;
+> +       int ret;
+> +
+> +       ret = mutex_lock_interruptible(&ghvm->mm_lock);
+> +       if (ret)
+> +               return ret;
+> +
+> +       mapping = __gh_vm_mem_find(ghvm, label);
+> +       if (!mapping)
+> +               goto out;
+> +
+> +       gh_vm_mem_reclaim(ghvm, mapping);
+> +       kfree(mapping);
+> +out:
+> +       mutex_unlock(&ghvm->mm_lock);
+> +       return ret;
+> +}
+> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+> index 10ba32d2b0a6..d85d12119a48 100644
+> --- a/include/uapi/linux/gunyah.h
+> +++ b/include/uapi/linux/gunyah.h
+> @@ -20,4 +20,37 @@
+>   */
+>  #define GH_CREATE_VM                   _IO(GH_IOCTL_TYPE, 0x0) /* Returns a Gunyah VM fd */
+>
+> +/*
+> + * ioctls for VM fds
+> + */
+> +
+> +/**
+> + * struct gh_userspace_memory_region - Userspace memory descripion for GH_VM_SET_USER_MEM_REGION
+
+nit: s/descripion/description
+
+> + * @label: Unique identifer to the region.
+
+nit: s/identifer/identifier
+
+
+
+
+> + * @flags: Flags for memory parcel behavior
+> + * @guest_phys_addr: Location of the memory region in guest's memory space (page-aligned)
+> + * @memory_size: Size of the region (page-aligned)
+> + * @userspace_addr: Location of the memory region in caller (userspace)'s memory
+> + *
+> + * See Documentation/virt/gunyah/vm-manager.rst for further details.
+> + */
+> +struct gh_userspace_memory_region {
+> +       __u32 label;
+> +#define GH_MEM_ALLOW_READ      (1UL << 0)
+> +#define GH_MEM_ALLOW_WRITE     (1UL << 1)
+> +#define GH_MEM_ALLOW_EXEC      (1UL << 2)
+> +/*
+> + * The guest will be lent the memory instead of shared.
+> + * In other words, the guest has exclusive access to the memory region and the host loses access.
+> + */
+> +#define GH_MEM_LENT            (1UL << 3)
+> +       __u32 flags;
+> +       __u64 guest_phys_addr;
+> +       __u64 memory_size;
+> +       __u64 userspace_addr;
+> +};
+> +
+> +#define GH_VM_SET_USER_MEM_REGION      _IOW(GH_IOCTL_TYPE, 0x1, \
+> +                                               struct gh_userspace_memory_region)
+> +
+>  #endif
+> --
+> 2.39.1
+>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
