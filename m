@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1CC2C61DA3
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 12:38:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 770ADC61DA3
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 13:07:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229787AbjBXMiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 07:38:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37324 "EHLO
+        id S229904AbjBXNHR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 08:07:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbjBXMit (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 07:38:49 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6131589B
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 04:38:41 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id q11so16943404plx.5
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 04:38:41 -0800 (PST)
+        with ESMTP id S229584AbjBXNHQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 08:07:16 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1428863DF8
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 05:07:15 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id l7-20020a05600c4f0700b003e79fa98ce1so1692966wmq.2
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 05:07:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ventanamicro.com; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=K7qH17OyGyM47GPzRwHNiOgr9TsgAnfi2ZEjhVFPdcg=;
-        b=Mt68vRPDJBeoMxtMNOChw+A7exoz18+aUvT6JRwUTf7K6bXqvpMUHqiEycS//qFsU3
-         HVdWLFrDh4zfTrJzhPu2zMFHFEunSFyBhQV0tGwm6ZEledQKfno2fjmw9IYGXTyIjVRl
-         1Nm+zeM2tTD7pSA9lu3lTGMI/d0QVyfgoWpNFbINA93+xvMoUd/Fr7IjSV8s2fxuXsZJ
-         Tjm0hW77pG/PzMT/AubtH3oi+nwOcYi3d7K3WO6T9YEpBRxLlbYtPPcMEZgxoCyM/r14
-         WUWMf+wcebBgEmu8T37SAyyYhXWLxLMj668fZH+HRXchJEwKLXSaKdrFeM1lA0ZmPGTP
-         XWkA==
+        bh=vRmr+qDGaynX3Fi6rufm9jo6Cki4j4VKaIrpKJ6hwe4=;
+        b=RIzQ/rCEKDayTetLjXaZd+oSz1DZTFs/EICH39jXUnNfYZuNXnhAVn70h8MAx/r7En
+         9s9Ztit2RAsX5OutmWbcjJkoU9mBD5kv04WMC7vhxIx2bstjHAjj1xeOVYwNJaVShM3z
+         MSXKpi6MONd3MJNXHM3ZRafE10CLJIX6gKoSHplkfWt/wYKfHUkuSARSfw7LabxHBMej
+         7+Hj+7Xcz24oxDBt9lUDiNIcYvmbGKsvwOQ6uDv4vzRQi9cfze/4mtNDEknnN7oKrxjS
+         5fsa6SOiCOHWvHCnDcmSg4Fx9Qf3bP4BqNcw8pBity7kNEjBwK6FWjDX5KLT8rrlrAUs
+         iiuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=K7qH17OyGyM47GPzRwHNiOgr9TsgAnfi2ZEjhVFPdcg=;
-        b=Ex+5tOZuxHE1IUxfMFrFYHF8LQpqJ25XtaGZNFqw8pMlruC49VmEn+2oQTMfZ8IZBV
-         UIKdFUHZ0pptUV0s6Uab/KF6+2ldlDRkZjWkcC0SRmGWMGbY2Ob/cDpxbVoXd6oCpma3
-         hreVVgsRA592CcPIA9G05S55e3kCWT36ovjOVDD9GkdijvlDTXgu0pUQVhmLew8+g1wg
-         M17bX4Awwh00g+u+FfPQ4JusQxbvX96THuD22HfrqW2HEaSmK6uKRt37K2l/fvtjllrr
-         N3+j34QW2ZZg6SkCqZRN9rq53yKKn5x0y9gDNVJJ6LQHdPkJeg3fYGDxUpb+7lZ4DC7L
-         hQvQ==
-X-Gm-Message-State: AO0yUKXGXJRmu+2nWkdUybQjHGlbntRLyDAd1PjB27SCqbhqUFhAZJ8/
-        EyhQFIMggW24Q51NyltheDwUsQ==
-X-Google-Smtp-Source: AK7set9/IK46oIHdAjUgWq+wlPNf5E+YpHOahLJ9kH52yTNvgxOt21mZCyPmEi1etMRXaG2aNV/qhw==
-X-Received: by 2002:a17:90b:3a87:b0:233:c301:32b0 with SMTP id om7-20020a17090b3a8700b00233c30132b0mr17950540pjb.10.1677242321176;
-        Fri, 24 Feb 2023 04:38:41 -0800 (PST)
-Received: from sunil-laptop ([49.206.14.226])
-        by smtp.gmail.com with ESMTPSA id e8-20020a170902744800b0019a593e45f1sm9363605plt.261.2023.02.24.04.38.35
+        bh=vRmr+qDGaynX3Fi6rufm9jo6Cki4j4VKaIrpKJ6hwe4=;
+        b=aL6y45yC85x30IUQeUERhC69NmpYrguNobL+w9189Ufj8J9hJx6f8tgwA0iREXge/7
+         o5n5shGH6eQKKjomH5VA9ItQG2lSTW5zajgh4/flQBj4aLT1cvyovO1vhTTnodrmvz+T
+         aviNiuhZSlpTubj1V1WfvbA9Lp4v64n2a83zNdvA3LI3sEBCsuw8kOe/6JenIKxs2fZC
+         xV4CbufB9zLdqDnO7xULPkfrr8Zy7nXIriTVY+pfxyYfcGZR/Al40VyO+Fls73Li/CML
+         VhUTTDLKrhwXp6IH0tKfz7ps72636uN5UWUVxO6B9KUJuUoz7LYoMmRMR8NXpOEdGzRo
+         /2Rw==
+X-Gm-Message-State: AO0yUKXtho4uemoSxUHZebohbIqhqY2QHfbGUulbyHgnEVqVIY67C51y
+        Yr4IpVhP/hiWBQvDrlFs5Uf1aA==
+X-Google-Smtp-Source: AK7set/jjFnC7ufdlcEvxsuUZyY5vrhEqrMGd5YSK2I2jwDD6VLGYlvjWgiKEajdk68eJyHa5z6g7w==
+X-Received: by 2002:a05:600c:80f:b0:3db:fc3:6de4 with SMTP id k15-20020a05600c080f00b003db0fc36de4mr11161205wmp.35.1677244033586;
+        Fri, 24 Feb 2023 05:07:13 -0800 (PST)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id b4-20020a5d4d84000000b002c71703876bsm3195029wru.14.2023.02.24.05.07.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 04:38:40 -0800 (PST)
-Date:   Fri, 24 Feb 2023 18:08:32 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Andrew Jones <ajones@ventanamicro.com>
+        Fri, 24 Feb 2023 05:07:13 -0800 (PST)
+Date:   Fri, 24 Feb 2023 14:07:12 +0100
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Sunil V L <sunilvl@ventanamicro.com>
 Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
         Paul Walmsley <paul.walmsley@sifive.com>,
@@ -65,53 +65,45 @@ Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
         Anup Patel <apatel@ventanamicro.com>,
         Atish Patra <atishp@rivosinc.com>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH V2 20/21] MAINTAINERS: Add entry for drivers/acpi/riscv
-Message-ID: <Y/ivyGVW/v6Nf5Nh@sunil-laptop>
+Subject: Re: [PATCH V2 18/21] RISC-V: Add ACPI initialization in setup_arch()
+Message-ID: <20230224130712.c42ob66ux5xhffbm@orel>
 References: <20230216182043.1946553-1-sunilvl@ventanamicro.com>
- <20230216182043.1946553-21-sunilvl@ventanamicro.com>
- <20230220201432.5lz7rvwqhfxa4fno@orel>
+ <20230216182043.1946553-19-sunilvl@ventanamicro.com>
+ <20230220200743.rev3djzbaa2jcmg6@orel>
+ <Y/ivRjQbIna7M4R2@sunil-laptop>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230220201432.5lz7rvwqhfxa4fno@orel>
+In-Reply-To: <Y/ivRjQbIna7M4R2@sunil-laptop>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 20, 2023 at 09:14:32PM +0100, Andrew Jones wrote:
-> On Thu, Feb 16, 2023 at 11:50:42PM +0530, Sunil V L wrote:
-> > ACPI defines few RISC-V specific tables which need
-> > parsing code added in drivers/acpi/riscv. Add maintainer
-> > entries for this newly created folder.
+On Fri, Feb 24, 2023 at 06:06:22PM +0530, Sunil V L wrote:
+> On Mon, Feb 20, 2023 at 09:07:43PM +0100, Andrew Jones wrote:
+> > On Thu, Feb 16, 2023 at 11:50:40PM +0530, Sunil V L wrote:
+...
+> > > +	fadt = (struct acpi_table_fadt *)table;
+> > > +
+> > > +	if (!(fadt->flags & ACPI_FADT_HW_REDUCED)) {
 > > 
-> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > ---
-> >  MAINTAINERS | 7 +++++++
-> >  1 file changed, 7 insertions(+)
+> > Do we also need to check for ACPI version 5.0+ when checking for HW
+> > reduced?
 > > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 39ff1a717625..d47212194457 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -450,6 +450,13 @@ S:	Orphan
-> >  F:	drivers/platform/x86/wmi.c
-> >  F:	include/uapi/linux/wmi.h
-> >  
-> > +ACPI FOR RISC-V (ACPI/riscv)
-> > +M:	Sunil V L <sunilvl@ventanamicro.com>
-> > +L:	linux-acpi@vger.kernel.org
-> > +L:	linux-riscv@lists.infradead.org
-> > +S:	Maintained
-> > +F:	drivers/acpi/riscv
+> We need to add version check of FADT once spec is released. Will
+> update it at that time.
 > 
-> This section should go under the "ACPI FOR ARM64 (ACPI/arm64)"
-> section to be in alphabetical order and also in a more logical
-> place. Also, shouldn't this section include
-> arch/riscv/kernel/acpi.c and potentially other arch/riscv/ files?
-> I see arm64 doesn't, but maybe it should too.
-> 
-Okay. Let me update.
+
+I was thinking we need the version check already just for the flag.
+The spec has a footnote that says
+
+"The description of HW_REDUCED_ACPI provided here applies to ACPI
+ specifications 5.0 and later"
+
+It doesn't really matter in practice since no RISC-V machines can
+boot with ACPI less than a version that support the new RISC-V
+tables... But I'd rather we either document that fact, or just do
+the check.
 
 Thanks,
-Sunil
+drew
