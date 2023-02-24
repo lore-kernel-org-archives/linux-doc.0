@@ -2,204 +2,335 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4882CC64ED6
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 02:09:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C77DDC678D5
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 04:41:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbjBXCJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Feb 2023 21:09:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35948 "EHLO
+        id S229644AbjBXElP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Feb 2023 23:41:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjBXCJR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 21:09:17 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E7E12A154;
-        Thu, 23 Feb 2023 18:09:16 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id i34so24069906eda.7;
-        Thu, 23 Feb 2023 18:09:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bL6ym21iaTwuVnT9wy2oUPQGdYabrjeuwhSvL5/VRXg=;
-        b=a3+T1xo0VdgygwjDxqh9jSFY0Yd+/ZI5k5kY6ymDgMPhsdYrR+ypGiF47UcBqkMZER
-         S46TeL6VQA5yFF9czvDVKm5H/vRIfTllhuUkK8cybbzepY3ffU9KOvbKHGDl24Npshw9
-         0IlXYpWz+RvV6MHhNGbDaxY9XMhXW0QfKoWV6FiB9st8POaaHj8KiHGEuzYHklQhczeo
-         1hDIqv5IFaRbGEV4tbwhOidVOQO+404yd56BCvuOXWYDEwm2oA8RvHC3ZXId3QzEc9dL
-         qfVoxzrNG1Fy7IWIQqbaVGF4a36vwhunCue60IdM/af/dNdfnnIMLtzYzZukDMvxVF1r
-         MSuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bL6ym21iaTwuVnT9wy2oUPQGdYabrjeuwhSvL5/VRXg=;
-        b=UOdGdb0pspqEI25mbrBIw1UI/w1Cj8/zkscqWEG9/TvTvhEIBQg3XbXPm+EaXuY4Z6
-         FObTtchSsU+39xuknQ5hYvnXI1ny5WeDaMUJhLM+6lHqjuYU2pkR19a/x9CEo4754/d2
-         8wCjPy5BNM3yMEzrLQhE/7zVNd6W8vMiN1dvqX2xVoyyL+enRZByfUr79Dp1vUviUVyo
-         SHSnfDxJRIo1pDhYNDYq9cQnbN8JSUl79p0fLztpKnJHtaQfEOZcaet5cGhu/27Winot
-         ovM8ESYhmIz4wRVvVzWb5FmJyMzaLzf02diXC3Rou3IArU8KTvN7AcXU84jGXozrNfGu
-         w1xw==
-X-Gm-Message-State: AO0yUKUr9KLBNieeDQz/3tu3qJ4oBZ08CIeQPJ88XmvBFL8O0ziDR4gw
-        eIp8XlZbXt3bkSpVsdo67pdAfaKvdwD3Moni7Vw=
-X-Google-Smtp-Source: AK7set9WX7zdu3A03AxuYDgAbiCFUReVxc8TUicPoGFcAtWFwkheqsYXOy2bECsmVAN0GuIRfi29thGN0nCiRkGFaD8=
-X-Received: by 2002:a17:906:48e:b0:883:2c50:5401 with SMTP id
- f14-20020a170906048e00b008832c505401mr9894295eja.12.1677204554419; Thu, 23
- Feb 2023 18:09:14 -0800 (PST)
+        with ESMTP id S229479AbjBXElN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Feb 2023 23:41:13 -0500
+Received: from 66-220-144-178.mail-mxout.facebook.com (66-220-144-178.mail-mxout.facebook.com [66.220.144.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE505192B
+        for <linux-doc@vger.kernel.org>; Thu, 23 Feb 2023 20:41:10 -0800 (PST)
+Received: by dev0134.prn3.facebook.com (Postfix, from userid 425415)
+        id 05A317B74EDA; Thu, 23 Feb 2023 20:40:59 -0800 (PST)
+From:   Stefan Roesch <shr@devkernel.io>
+To:     kernel-team@fb.com
+Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
+        hannes@cmpxchg.org
+Subject: [PATCH v3 1/3] mm: add new api to enable ksm per process
+Date:   Thu, 23 Feb 2023 20:39:58 -0800
+Message-Id: <20230224044000.3084046-2-shr@devkernel.io>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230224044000.3084046-1-shr@devkernel.io>
+References: <20230224044000.3084046-1-shr@devkernel.io>
 MIME-Version: 1.0
-References: <20230221180049.2501495-1-carlos.bilbao@amd.com>
- <20230221180049.2501495-2-carlos.bilbao@amd.com> <CAPDLWs99LUCQ47huoiiZmQfAsHX8Esmepu_hSCXWoqcpEoPxKQ@mail.gmail.com>
- <c5317c66-fea2-37da-26ab-091117880d26@amd.com> <CAPDLWs8mXmCXwP=tnKNF+Ffouf+a1HU2FYUgL6Npp+_imWwPjg@mail.gmail.com>
- <2406f0ea-8e54-3b81-ae09-c459786facb0@amd.com>
-In-Reply-To: <2406f0ea-8e54-3b81-ae09-c459786facb0@amd.com>
-From:   Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-Date:   Fri, 24 Feb 2023 07:38:56 +0530
-Message-ID: <CAPDLWs-SNbocyryLqWZGdra6N1WBk+QAoLGwCncM9xr6F_aOFA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] docs: Add relevant kernel publications to list of books
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, rlove@rlove.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 23, 2023 at 6:45 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
->
-> On 2/22/23 19:12, Kaiwan N Billimoria wrote:
-> > On Wed, Feb 22, 2023 at 7:44 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
-> >>
-> >> On 2/22/23 05:08, Kaiwan N Billimoria wrote:
-> >>> Hi Carlos,
-> >>>
-> >>> On Tue, Feb 21, 2023 at 11:30 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote:
-> >>>>
-> >>>> For the list of kernel published books, include publication covering kernel
-> >>>> debugging from August, 2022 (ISBN 978-1801075039). Also add foundational
-> >>>> book from Robert Love (ISBN 978-1449339531) and remove extra spaces.
-> >>>>
-> >>>> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
-> >>>> ---
-> >>>>    Documentation/process/kernel-docs.rst | 29 ++++++++++++++++++++++-----
-> >>>>    1 file changed, 24 insertions(+), 5 deletions(-)
-> >>>>
-> >>>> diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-> >>>> index 1c6e2ab92f4e..ce461d981d0a 100644
-> >>>> --- a/Documentation/process/kernel-docs.rst
-> >>>> +++ b/Documentation/process/kernel-docs.rst
-> >>>> @@ -75,13 +75,31 @@ On-line docs
-> >>>>    Published books
-> >>>>    ---------------
-> >>>>
-> >>>> +    * Title: **Linux Kernel Debugging: Leverage proven tools and advanced techniques to effectively debug Linux kernels and kernel modules**
-> >>>> +
-> >>>> +      :Author: Kaiwan N. Billimoria
-> >>>> +      :Publisher: Packt Publishing Ltd
-> >>>> +      :Date: August, 2022
-> >>>> +      :Pages: 638
-> >>>> +      :ISBN: 978-1801075039
-> >>>> +      :Notes: Debugging book
-> >>>> +
-> >>>>        * Title: **Linux Kernel Programming: A Comprehensive Guide to Kernel Internals, Writing Kernel Modules, and Kernel Synchronization**
-> >>>>
-> >>>> -          :Author: Kaiwan N. Billimoria
-> >>>> -          :Publisher: Packt Publishing Ltd
-> >>>> -          :Date: 2021
-> >>>> -          :Pages: 754
-> >>>> -          :ISBN: 978-1789953435
-> >>>> +      :Author: Kaiwan N. Billimoria
-> >>>> +      :Publisher: Packt Publishing Ltd
-> >>>> +      :Date: 2021
-> >>>> +      :Pages: 754
-> >>>> +      :ISBN: 978-1789953435
-> >>>> +
-> >>>> +    * Title: **Linux System Programming: Talking Directly to the Kernel and C Library**
-> >>>> +
-> >>>> +      :Author: Robert Love
-> >>>> +      :Publisher: O'Reilly Media
-> >>>> +      :Date: June, 2013
-> >>>> +      :Pages: 456
-> >>>> +      :ISBN: 978-1449339531
-> >>>> +      :Notes: Foundational book
-> >>>>
-> >>>>        * Title: **Linux Kernel Development, 3rd Edition**
-> >>>>
-> >>>> @@ -92,6 +110,7 @@ Published books
-> >>>>          :ISBN: 978-0672329463
-> >>>>          :Notes: Foundational book
-> >>>>
-> >>>> +
-> >>>>    .. _ldd3_published:
-> >>>>
-> >>>>        * Title: **Linux Device Drivers, 3rd Edition**
-> >>>> --
-> >>>> 2.34.1
-> >>>>
-> >>>
-> >>> Thanks very much.
-> >>>
-> >>> A request to incorporate a few minor changes (I applied these small
-> >>> changes on the latest linux-next I could find):
-> >>
-> >> Sure, I will send v2 with your changes and signature.
-> > Thanks again.
-> > I have no issue though with your SoB, pl do retain it... (sorry for
-> > the trouble).
-> >
-> > Also, do you think specifying the free download URL for the LKP Part 2
-> > book's a good idea?
->
-> Yes, that sounds like a good idea as long as it is a legal download. If you
-> share the link with me I will include it in the near future in the
-> successive patches of this file.
-It's definitely legal. The link is:
-https://github.com/PacktPublishing/Linux-Kernel-Programming/blob/master/Linux-Kernel-Programming-(Part-2)/Linux%20Kernel%20Programming%20Part%202%20-%20Char%20Device%20Drivers%20and%20Kernel%20Synchronization_eBook.pdf
+This adds a new prctl to API to enable and disable KSM on a per process
+basis instead of only at the VMA basis (with madvise).
 
-Thanks,
-Kaiwan.
->
->
-> > T&R,
-> >>
-> >>>
-> >>> Signed-off-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-> >>> ---
-> >>>    Documentation/process/kernel-docs.rst | 13 +++++++++++--
-> >>>    1 file changed, 11 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/process/kernel-docs.rst
-> >>> b/Documentation/process/kernel-docs.rst
-> >>> index 1c6e2ab92f4e..f7ecc04b509b 100644
-> >>> --- a/Documentation/process/kernel-docs.rst
-> >>> +++ b/Documentation/process/kernel-docs.rst
-> >>> @@ -75,11 +75,20 @@ On-line docs
-> >>>    Published books
-> >>>    ---------------
-> >>>
-> >>> +   * Title: **Linux Kernel Debugging: Leverage proven tools and
-> >>> advanced techniques to effectively debug Linux kernels and kernel
-> >>> modules**
-> >>> +
-> >>> +          :Author: Kaiwan N Billimoria
-> >>> +          :Publisher: Packt Publishing Ltd
-> >>> +          :Date: August, 2022
-> >>> +          :Pages: 638
-> >>> +          :ISBN: 978-1801075039
-> >>> +          :Notes: Debugging book
-> >>> +
-> >>>        * Title: **Linux Kernel Programming: A Comprehensive Guide to
-> >>> Kernel Internals, Writing Kernel Modules, and Kernel Synchronization**
-> >>>
-> >>> -          :Author: Kaiwan N. Billimoria
-> >>> +          :Author: Kaiwan N Billimoria
-> >>>              :Publisher: Packt Publishing Ltd
-> >>> -          :Date: 2021
-> >>> +          :Date: March, 2021
-> >>>              :Pages: 754
-> >>>              :ISBN: 978-1789953435
-> >>>
-> >>
-> >> Thanks,
-> >> Carlos
->
-> Thanks,
-> Carlos
+1) Introduce new MMF_VM_MERGE_ANY flag
+
+This introduces the new flag MMF_VM_MERGE_ANY flag. When this flag is
+set, kernel samepage merging (ksm) gets enabled for all vma's of a
+process.
+
+2) add flag to __ksm_enter
+
+This change adds the flag parameter to __ksm_enter. This allows to
+distinguish if ksm was called by prctl or madvise.
+
+3) add flag to __ksm_exit call
+
+This adds the flag parameter to the __ksm_exit() call. This allows to
+distinguish if this call is for an prctl or madvise invocation.
+
+4) invoke madvise for all vmas in scan_get_next_rmap_item
+
+If the new flag MMF_VM_MERGE_ANY has been set for a process, iterate
+over all the vmas and enable ksm if possible. For the vmas that can be
+ksm enabled this is only done once.
+
+5) support disabling of ksm for a process
+
+This adds the ability to disable ksm for a process if ksm has been
+enabled for the process.
+
+6) add new prctl option to get and set ksm for a process
+
+This adds two new options to the prctl system call
+- enable ksm for all vmas of a process (if the vmas support it).
+- query if ksm has been enabled for a process.
+
+Signed-off-by: Stefan Roesch <shr@devkernel.io>
+---
+ include/linux/ksm.h            | 14 ++++---
+ include/linux/sched/coredump.h |  1 +
+ include/uapi/linux/prctl.h     |  2 +
+ kernel/sys.c                   | 29 +++++++++++++++
+ mm/ksm.c                       | 67 ++++++++++++++++++++++++++++++----
+ 5 files changed, 101 insertions(+), 12 deletions(-)
+
+diff --git a/include/linux/ksm.h b/include/linux/ksm.h
+index 7e232ba59b86..d38a05a36298 100644
+--- a/include/linux/ksm.h
++++ b/include/linux/ksm.h
+@@ -18,20 +18,24 @@
+ #ifdef CONFIG_KSM
+ int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
+ 		unsigned long end, int advice, unsigned long *vm_flags);
+-int __ksm_enter(struct mm_struct *mm);
+-void __ksm_exit(struct mm_struct *mm);
++int __ksm_enter(struct mm_struct *mm, int flag);
++void __ksm_exit(struct mm_struct *mm, int flag);
+=20
+ static inline int ksm_fork(struct mm_struct *mm, struct mm_struct *oldmm=
+)
+ {
++	if (test_bit(MMF_VM_MERGE_ANY, &oldmm->flags))
++		return __ksm_enter(mm, MMF_VM_MERGE_ANY);
+ 	if (test_bit(MMF_VM_MERGEABLE, &oldmm->flags))
+-		return __ksm_enter(mm);
++		return __ksm_enter(mm, MMF_VM_MERGEABLE);
+ 	return 0;
+ }
+=20
+ static inline void ksm_exit(struct mm_struct *mm)
+ {
+-	if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
+-		__ksm_exit(mm);
++	if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
++		__ksm_exit(mm, MMF_VM_MERGE_ANY);
++	else if (test_bit(MMF_VM_MERGEABLE, &mm->flags))
++		__ksm_exit(mm, MMF_VM_MERGEABLE);
+ }
+=20
+ /*
+diff --git a/include/linux/sched/coredump.h b/include/linux/sched/coredum=
+p.h
+index 0e17ae7fbfd3..0ee96ea7a0e9 100644
+--- a/include/linux/sched/coredump.h
++++ b/include/linux/sched/coredump.h
+@@ -90,4 +90,5 @@ static inline int get_dumpable(struct mm_struct *mm)
+ #define MMF_INIT_MASK		(MMF_DUMPABLE_MASK | MMF_DUMP_FILTER_MASK |\
+ 				 MMF_DISABLE_THP_MASK | MMF_HAS_MDWE_MASK)
+=20
++#define MMF_VM_MERGE_ANY	29
+ #endif /* _LINUX_SCHED_COREDUMP_H */
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index 1312a137f7fb..759b3f53e53f 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -290,4 +290,6 @@ struct prctl_mm_map {
+ #define PR_SET_VMA		0x53564d41
+ # define PR_SET_VMA_ANON_NAME		0
+=20
++#define PR_SET_MEMORY_MERGE		67
++#define PR_GET_MEMORY_MERGE		68
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/kernel/sys.c b/kernel/sys.c
+index b3cab94545ed..495bab3ed2ad 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -15,6 +15,7 @@
+ #include <linux/highuid.h>
+ #include <linux/fs.h>
+ #include <linux/kmod.h>
++#include <linux/ksm.h>
+ #include <linux/perf_event.h>
+ #include <linux/resource.h>
+ #include <linux/kernel.h>
+@@ -2659,6 +2660,34 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long,=
+ arg2, unsigned long, arg3,
+ 	case PR_SET_VMA:
+ 		error =3D prctl_set_vma(arg2, arg3, arg4, arg5);
+ 		break;
++#ifdef CONFIG_KSM
++	case PR_SET_MEMORY_MERGE:
++		if (!capable(CAP_SYS_RESOURCE))
++			return -EPERM;
++
++		if (arg2) {
++			if (mmap_write_lock_killable(me->mm))
++				return -EINTR;
++
++			if (test_bit(MMF_VM_MERGEABLE, &me->mm->flags))
++				error =3D -EINVAL;
++			else if (!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags))
++				error =3D __ksm_enter(me->mm, MMF_VM_MERGE_ANY);
++			mmap_write_unlock(me->mm);
++		} else {
++			__ksm_exit(me->mm, MMF_VM_MERGE_ANY);
++		}
++		break;
++	case PR_GET_MEMORY_MERGE:
++		if (!capable(CAP_SYS_RESOURCE))
++			return -EPERM;
++
++		if (arg2 || arg3 || arg4 || arg5)
++			return -EINVAL;
++
++		error =3D !!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
++		break;
++#endif
+ 	default:
+ 		error =3D -EINVAL;
+ 		break;
+diff --git a/mm/ksm.c b/mm/ksm.c
+index 56808e3bfd19..23d6944f78ad 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -1063,6 +1063,7 @@ static int unmerge_and_remove_all_rmap_items(void)
+=20
+ 			mm_slot_free(mm_slot_cache, mm_slot);
+ 			clear_bit(MMF_VM_MERGEABLE, &mm->flags);
++			clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+ 			mmdrop(mm);
+ 		} else
+ 			spin_unlock(&ksm_mmlist_lock);
+@@ -2329,6 +2330,17 @@ static struct ksm_rmap_item *get_next_rmap_item(st=
+ruct ksm_mm_slot *mm_slot,
+ 	return rmap_item;
+ }
+=20
++static bool vma_ksm_mergeable(struct vm_area_struct *vma)
++{
++	if (vma->vm_flags & VM_MERGEABLE)
++		return true;
++
++	if (test_bit(MMF_VM_MERGE_ANY, &vma->vm_mm->flags))
++		return true;
++
++	return false;
++}
++
+ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+ {
+ 	struct mm_struct *mm;
+@@ -2405,8 +2417,20 @@ static struct ksm_rmap_item *scan_get_next_rmap_it=
+em(struct page **page)
+ 		goto no_vmas;
+=20
+ 	for_each_vma(vmi, vma) {
+-		if (!(vma->vm_flags & VM_MERGEABLE))
++		if (!vma_ksm_mergeable(vma))
+ 			continue;
++		if (!(vma->vm_flags & VM_MERGEABLE)) {
++			unsigned long flags =3D vma->vm_flags;
++
++			/* madvise failed, use next vma */
++			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_MERGEABLE, &fla=
+gs))
++				continue;
++			/* vma, not supported as being mergeable */
++			if (!(flags & VM_MERGEABLE))
++				continue;
++
++			vm_flags_set(vma, VM_MERGEABLE);
++		}
+ 		if (ksm_scan.address < vma->vm_start)
+ 			ksm_scan.address =3D vma->vm_start;
+ 		if (!vma->anon_vma)
+@@ -2491,6 +2515,7 @@ static struct ksm_rmap_item *scan_get_next_rmap_ite=
+m(struct page **page)
+=20
+ 		mm_slot_free(mm_slot_cache, mm_slot);
+ 		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
++		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+ 		mmap_read_unlock(mm);
+ 		mmdrop(mm);
+ 	} else {
+@@ -2595,8 +2620,9 @@ int ksm_madvise(struct vm_area_struct *vma, unsigne=
+d long start,
+ 			return 0;
+ #endif
+=20
+-		if (!test_bit(MMF_VM_MERGEABLE, &mm->flags)) {
+-			err =3D __ksm_enter(mm);
++		if (!test_bit(MMF_VM_MERGEABLE, &mm->flags) &&
++		    !test_bit(MMF_VM_MERGE_ANY, &mm->flags)) {
++			err =3D __ksm_enter(mm, MMF_VM_MERGEABLE);
+ 			if (err)
+ 				return err;
+ 		}
+@@ -2622,7 +2648,7 @@ int ksm_madvise(struct vm_area_struct *vma, unsigne=
+d long start,
+ }
+ EXPORT_SYMBOL_GPL(ksm_madvise);
+=20
+-int __ksm_enter(struct mm_struct *mm)
++int __ksm_enter(struct mm_struct *mm, int flag)
+ {
+ 	struct ksm_mm_slot *mm_slot;
+ 	struct mm_slot *slot;
+@@ -2655,7 +2681,7 @@ int __ksm_enter(struct mm_struct *mm)
+ 		list_add_tail(&slot->mm_node, &ksm_scan.mm_slot->slot.mm_node);
+ 	spin_unlock(&ksm_mmlist_lock);
+=20
+-	set_bit(MMF_VM_MERGEABLE, &mm->flags);
++	set_bit(flag, &mm->flags);
+ 	mmgrab(mm);
+=20
+ 	if (needs_wakeup)
+@@ -2664,12 +2690,39 @@ int __ksm_enter(struct mm_struct *mm)
+ 	return 0;
+ }
+=20
+-void __ksm_exit(struct mm_struct *mm)
++static void unmerge_vmas(struct mm_struct *mm)
++{
++	struct vm_area_struct *vma;
++	struct vma_iterator vmi;
++
++	vma_iter_init(&vmi, mm, 0);
++
++	mmap_read_lock(mm);
++	for_each_vma(vmi, vma) {
++		if (vma->vm_flags & VM_MERGEABLE) {
++			unsigned long flags =3D vma->vm_flags;
++
++			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_UNMERGEABLE, &f=
+lags))
++				continue;
++
++			vm_flags_clear(vma, VM_MERGEABLE);
++		}
++	}
++	mmap_read_unlock(mm);
++}
++
++void __ksm_exit(struct mm_struct *mm, int flag)
+ {
+ 	struct ksm_mm_slot *mm_slot;
+ 	struct mm_slot *slot;
+ 	int easy_to_free =3D 0;
+=20
++	if (!(current->flags & PF_EXITING) && flag =3D=3D MMF_VM_MERGE_ANY &&
++		test_bit(MMF_VM_MERGE_ANY, &mm->flags)) {
++		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
++		unmerge_vmas(mm);
++	}
++
+ 	/*
+ 	 * This process is exiting: if it's straightforward (as is the
+ 	 * case when ksmd was never running), free mm_slot immediately.
+@@ -2696,7 +2749,7 @@ void __ksm_exit(struct mm_struct *mm)
+=20
+ 	if (easy_to_free) {
+ 		mm_slot_free(mm_slot_cache, mm_slot);
+-		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
++		clear_bit(flag, &mm->flags);
+ 		mmdrop(mm);
+ 	} else if (mm_slot) {
+ 		mmap_write_lock(mm);
+--=20
+2.30.2
+
