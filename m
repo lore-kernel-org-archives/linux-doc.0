@@ -2,93 +2,353 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A11EFC64ED8
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 08:58:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9636AC677F1
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 09:02:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbjBXI6I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 03:58:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41726 "EHLO
+        id S229780AbjBXJCN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 04:02:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbjBXI6H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 03:58:07 -0500
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC261136DD;
-        Fri, 24 Feb 2023 00:58:03 -0800 (PST)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by ex01.ufhost.com (Postfix) with ESMTP id 7DA1F24E2A1;
-        Fri, 24 Feb 2023 16:57:50 +0800 (CST)
-Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 24 Feb
- 2023 16:57:50 +0800
-Received: from [192.168.125.82] (113.72.147.165) by EXMBX172.cuchost.com
- (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 24 Feb
- 2023 16:57:49 +0800
-Message-ID: <b9b4e45b-eb79-f94f-d96f-764b49ce0471@starfivetech.com>
-Date:   Fri, 24 Feb 2023 16:57:48 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v4 2/2] hwmon: (sfctemp) Add StarFive JH71x0 temperature
- sensor
-Content-Language: en-US
-To:     Guenter Roeck <linux@roeck-us.net>
-CC:     <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor@kernel.org>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
+        with ESMTP id S229965AbjBXJBr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 04:01:47 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 716E1662A5
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 01:01:10 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id qa18-20020a17090b4fd200b0023750b675f5so2081286pjb.3
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 01:01:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7SciX5aVZChspF9M3W2UcrfB8lkq1WSnSwFmbufo/K4=;
+        b=ZI383dRDIbf8rnbyqXMKkKwicJwWHKyhiJTe3izBokdxTjMOJDe8gArmmeBig46IPg
+         3FLKFHmnqBnsE4jhea/WELLQQEgoa0qt/7VZ3z6cAR3523nb5Ufrp4GDBDc3sZIBq4OV
+         SJcq9Zzp/OHbKDSga7ZwuvO7o+nQpKRGs6sXSjJaSjNUzEK5C2WDSQBCsdyNHFGEPnZr
+         b/MCBliE6jjByZpUysVs9U2QiOjEPKl3A1bd0h77AinQ/trZwVfaR09VksCJuntZTJVv
+         3Dgi3R6jmo/qQolSZdCHvu+Jc3NeRof7W9q1v8wcm+nx+jnqHOVscx0H7JpE2LckPM4y
+         2Ghg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7SciX5aVZChspF9M3W2UcrfB8lkq1WSnSwFmbufo/K4=;
+        b=S4T5VFo/WMyp4a1R8J9ozFfyvrUgQdcSrJlkG2tVd32HjnCMHN/4/OLhneuq4QBxh1
+         b9kE4oSfr83YhtlvPB858zyqZRSV782eBHeUi8RKAVDex7vZ7/zWV8THvfWYoEFqEQno
+         EL8GXf4DhvAo7rRdgbJF1WpLOHIV2niFhlY/Xjr9oXcA7MujLA249I8HKZrZMikX+Ar6
+         MQqYYdAJ0B+yDgnusqyMeGrOv3SivF13rSJCeax/Fmkf3hxGnof3gjp5GHpUyrRQ/2eT
+         u1qzQA0ouoJhFKvNWrwoELfeWIz1+9cGivHd/ClgJ4HABGSc38uMeG3vgwbpS1q9nEY0
+         2OFQ==
+X-Gm-Message-State: AO0yUKWj8AJBkeLMW7cVo+hZSUghBuA9rA/dXmzp0XY77462Ibic9HPv
+        IpQ+gBHAbJQjmc4xFWgG8553BA==
+X-Google-Smtp-Source: AK7set9TN0cuW8/3ER/OJmFGi76u0ihPyZMOpJVaB8g6dEcNmNinMZWMGq3IjbfFDv/DEQrUjT2bkQ==
+X-Received: by 2002:a17:90b:3912:b0:233:b73c:18c9 with SMTP id ob18-20020a17090b391200b00233b73c18c9mr18005220pjb.40.1677229268265;
+        Fri, 24 Feb 2023 01:01:08 -0800 (PST)
+Received: from sunil-laptop ([49.206.14.226])
+        by smtp.gmail.com with ESMTPSA id mv11-20020a17090b198b00b002376d85844dsm1039904pjb.51.2023.02.24.01.01.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 01:01:07 -0800 (PST)
+Date:   Fri, 24 Feb 2023 14:30:58 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-        Samin Guo <samin.guo@starfivetech.com>,
-        <linux-kernel@vger.kernel.org>
-References: <20230207072314.62040-1-hal.feng@starfivetech.com>
- <20230207072314.62040-3-hal.feng@starfivetech.com>
- <20230208162312.GA3062856@roeck-us.net>
-From:   Hal Feng <hal.feng@starfivetech.com>
-In-Reply-To: <20230208162312.GA3062856@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [113.72.147.165]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX172.cuchost.com
- (172.16.6.92)
-X-YovoleRuleAgent: yovoleflag
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Subject: Re: [PATCH V2 04/21] RISC-V: Add support to build the ACPI core
+Message-ID: <Y/h8ygElKNMzPVoy@sunil-laptop>
+References: <20230216182043.1946553-1-sunilvl@ventanamicro.com>
+ <20230216182043.1946553-5-sunilvl@ventanamicro.com>
+ <20230220154415.u435t34q7btmwzwx@orel>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230220154415.u435t34q7btmwzwx@orel>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 8 Feb 2023 08:23:12 -0800, Guenter Roeck wrote:
-> On Tue, Feb 07, 2023 at 03:23:14PM +0800, Hal Feng wrote:
->> From: Emil Renner Berthing <kernel@esmil.dk>
->> 
->> Register definitions and conversion constants based on sfctemp driver by
->> Samin in the StarFive 5.10 kernel.
+On Mon, Feb 20, 2023 at 04:44:15PM +0100, Andrew Jones wrote:
+> On Thu, Feb 16, 2023 at 11:50:26PM +0530, Sunil V L wrote:
+> > Enable ACPI core for RISC-V after adding architecture-specific
+> > interfaces and header files required to build the ACPI core.
+> > 
+> > 1) Couple of header files are required unconditionally by the ACPI
+> > core. Add empty acenv.h and cpu.h header files.
+> > 
+> > 2) If CONFIG_PCI is enabled, a few PCI related interfaces need to
+> > be provided by the architecture. Define dummy interfaces for now
+> > so that build succeeds. Actual implementation will be added when
+> > PCI support is added for ACPI along with external interrupt
+> > controller support.
+> > 
+> > 3) A few globals and memory mapping related functions specific
+> > to the architecture need to be provided.
+> > 
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > ---
+> >  arch/riscv/Kconfig             |  5 +++
+> >  arch/riscv/include/asm/acenv.h | 11 +++++
+> >  arch/riscv/include/asm/acpi.h  | 60 +++++++++++++++++++++++++
+> >  arch/riscv/include/asm/cpu.h   |  8 ++++
+> >  arch/riscv/kernel/Makefile     |  2 +
+> >  arch/riscv/kernel/acpi.c       | 80 ++++++++++++++++++++++++++++++++++
+> >  6 files changed, 166 insertions(+)
+> >  create mode 100644 arch/riscv/include/asm/acenv.h
+> >  create mode 100644 arch/riscv/include/asm/acpi.h
+> >  create mode 100644 arch/riscv/include/asm/cpu.h
+> >  create mode 100644 arch/riscv/kernel/acpi.c
+> > 
+> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > index d153e1cd890b..3ba701b26389 100644
+> > --- a/arch/riscv/Kconfig
+> > +++ b/arch/riscv/Kconfig
+> > @@ -12,6 +12,8 @@ config 32BIT
+> >  
+> >  config RISCV
+> >  	def_bool y
+> > +	select ACPI_GENERIC_GSI if ACPI
 > 
-> "based on ..." does not belong here. Describe what the driver does,
-> not what it is based on. If you want to add a note about the origin
-> of the driver, add it in the comments on the top of the driver.
-
-Will reword the commit message in the next version.
-
+> Is it better for this to come after patch 14, "irqchip/riscv-intc:
+> Add ACPI support"?
 > 
-> Please add the missing default: statements in the driver,
+This is required to just to enable building the ACPI core for RISC-V.
 
-OK. I will fix it accordingly.
+> > +	select ACPI_REDUCED_HARDWARE_ONLY if ACPI
+> >  	select ARCH_CLOCKSOURCE_INIT
+> >  	select ARCH_ENABLE_HUGEPAGE_MIGRATION if HUGETLB_PAGE && MIGRATION
+> >  	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
+> > @@ -598,6 +600,7 @@ config EFI_STUB
+> >  config EFI
+> >  	bool "UEFI runtime support"
+> >  	depends on OF && !XIP_KERNEL
+> > +	select ARCH_SUPPORTS_ACPI if 64BIT
+> >  	select LIBFDT
+> >  	select UCS2_STRING
+> >  	select EFI_PARAMS_FROM_FDT
+> > @@ -703,3 +706,5 @@ source "drivers/cpufreq/Kconfig"
+> >  endmenu # "CPU Power Management"
+> >  
+> >  source "arch/riscv/kvm/Kconfig"
+> > +
+> > +source "drivers/acpi/Kconfig"
+> > diff --git a/arch/riscv/include/asm/acenv.h b/arch/riscv/include/asm/acenv.h
+> > new file mode 100644
+> > index 000000000000..22123c5a4883
+> > --- /dev/null
+> > +++ b/arch/riscv/include/asm/acenv.h
+> > @@ -0,0 +1,11 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +/*
+> > + * RISC-V specific ACPICA environments and implementation
+> > + */
+> > +
+> > +#ifndef _ASM_ACENV_H
+> > +#define _ASM_ACENV_H
+> > +
+> > +/* It is required unconditionally by ACPI core */
+> > +
+> > +#endif /* _ASM_ACENV_H */
+> > diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> > new file mode 100644
+> > index 000000000000..7f9dce3c39d0
+> > --- /dev/null
+> > +++ b/arch/riscv/include/asm/acpi.h
+> > @@ -0,0 +1,60 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +/*
+> > + *  Copyright (C) 2013-2014, Linaro Ltd.
+> > + *	Author: Al Stone <al.stone@linaro.org>
+> > + *	Author: Graeme Gregory <graeme.gregory@linaro.org>
+> > + *	Author: Hanjun Guo <hanjun.guo@linaro.org>
+> > + *
+> > + *  Copyright (C) 2021-2023, Ventana Micro Systems Inc.
+> > + *	Author: Sunil V L <sunilvl@ventanamicro.com>
+> > + */
+> > +
+> > +#ifndef _ASM_ACPI_H
+> > +#define _ASM_ACPI_H
+> > +
+> > +/* Basic configuration for ACPI */
+> > +#ifdef CONFIG_ACPI
+> > +
+> > +/* ACPI table mapping after acpi_permanent_mmap is set */
+> > +void *acpi_os_ioremap(acpi_physical_address phys, acpi_size size);
+> > +#define acpi_os_ioremap acpi_os_ioremap
+> > +
+> > +#define acpi_strict 1   /* No out-of-spec workarounds on RISC-V */
+> > +extern int acpi_disabled;
+> > +extern int acpi_noirq;
+> > +extern int acpi_pci_disabled;
+> 
+> need blank line here
+> 
+Okay.
 
-> and explain (for example in the comments at the top of the
-> driver) why you don't use continuous mode. The description
-> needs to be detailed and compelling enough that no one comes
-> back and implements a continuous mode version of the driver.
-
-As we discussed in [1], I will use continuous mode instead.
-Thanks.
-
-[1] https://lore.kernel.org/all/2c424d39-3a1d-3c91-d049-c0b941359bc3@starfivetech.com/
-
-Best regards,
-Hal
+> > +static inline void disable_acpi(void)
+> > +{
+> > +	acpi_disabled = 1;
+> > +	acpi_pci_disabled = 1;
+> > +	acpi_noirq = 1;
+> > +}
+> > +
+> > +static inline void enable_acpi(void)
+> > +{
+> > +	acpi_disabled = 0;
+> > +	acpi_pci_disabled = 0;
+> > +	acpi_noirq = 0;
+> > +}
+> > +
+> > +/*
+> > + * The ACPI processor driver for ACPI core code needs this macro
+> > + * to find out this cpu was already mapped (mapping from CPU hardware
+> > + * ID to CPU logical ID) or not.
+> > + */
+> > +#define cpu_physical_id(cpu) cpuid_to_hartid_map(cpu)
+> > +
+> > +/*
+> > + * Since MADT must provide at least one RINTC structure, the
+> > + * CPU will be always available in MADT on RISC-V.
+> > + */
+> > +static inline bool acpi_has_cpu_in_madt(void)
+> > +{
+> > +	return true;
+> > +}
+> > +
+> > +static inline void arch_fix_phys_package_id(int num, u32 slot) { }
+> > +
+> > +#endif /* CONFIG_ACPI */
+> > +
+> > +#endif /*_ASM_ACPI_H*/
+> > diff --git a/arch/riscv/include/asm/cpu.h b/arch/riscv/include/asm/cpu.h
+> > new file mode 100644
+> > index 000000000000..ea1a88b3d5f2
+> > --- /dev/null
+> > +++ b/arch/riscv/include/asm/cpu.h
+> > @@ -0,0 +1,8 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +
+> > +#ifndef _ASM_CPU_H
+> > +#define _ASM_CPU_H
+> > +
+> > +/* It is required unconditionally by ACPI core */
+> > +
+> > +#endif /* _ASM_CPU_H */
+> > diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+> > index 67f542be1bea..f979dc8cf47d 100644
+> > --- a/arch/riscv/kernel/Makefile
+> > +++ b/arch/riscv/kernel/Makefile
+> > @@ -90,3 +90,5 @@ obj-$(CONFIG_EFI)		+= efi.o
+> >  obj-$(CONFIG_COMPAT)		+= compat_syscall_table.o
+> >  obj-$(CONFIG_COMPAT)		+= compat_signal.o
+> >  obj-$(CONFIG_COMPAT)		+= compat_vdso/
+> > +
+> > +obj-$(CONFIG_ACPI)              += acpi.o
+> > diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
+> > new file mode 100644
+> > index 000000000000..81d448c41714
+> > --- /dev/null
+> > +++ b/arch/riscv/kernel/acpi.c
+> > @@ -0,0 +1,80 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + *  RISC-V Specific Low-Level ACPI Boot Support
+> > + *
+> > + *  Copyright (C) 2013-2014, Linaro Ltd.
+> > + *	Author: Al Stone <al.stone@linaro.org>
+> > + *	Author: Graeme Gregory <graeme.gregory@linaro.org>
+> > + *	Author: Hanjun Guo <hanjun.guo@linaro.org>
+> > + *	Author: Tomasz Nowicki <tomasz.nowicki@linaro.org>
+> > + *	Author: Naresh Bhat <naresh.bhat@linaro.org>
+> > + *
+> > + *  Copyright (C) 2021-2023, Ventana Micro Systems Inc.
+> > + *	Author: Sunil V L <sunilvl@ventanamicro.com>
+> > + */
+> > +
+> > +#include <linux/acpi.h>
+> > +#include <linux/io.h>
+> > +#include <linux/pci.h>
+> > +
+> > +int acpi_noirq = 1;		/* skip ACPI IRQ initialization */
+> > +int acpi_disabled = 1;
+> > +EXPORT_SYMBOL(acpi_disabled);
+> > +
+> > +int acpi_pci_disabled = 1;	/* skip ACPI PCI scan and IRQ initialization */
+> > +EXPORT_SYMBOL(acpi_pci_disabled);
+> > +
+> > +/*
+> > + * __acpi_map_table() will be called before paging_init(), so early_ioremap()
+> > + * or early_memremap() should be called here to for ACPI table mapping.
+> > + */
+> > +void __init __iomem *__acpi_map_table(unsigned long phys, unsigned long size)
+> > +{
+> > +	if (!size)
+> > +		return NULL;
+> > +
+> > +	return early_memremap(phys, size);
+> > +}
+> > +
+> > +void __init __acpi_unmap_table(void __iomem *map, unsigned long size)
+> > +{
+> > +	if (!map || !size)
+> > +		return;
+> > +
+> > +	early_memunmap(map, size);
+> > +}
+> > +
+> > +void *acpi_os_ioremap(acpi_physical_address phys, acpi_size size)
+> > +{
+> > +	return memremap(phys, size, MEMREMAP_WB);
+> > +}
+> > +
+> > +#ifdef CONFIG_PCI
+> > +
+> > +/*
+> > + * These interfaces are defined just to enable building ACPI core.
+> > + * TODO: Update it with actual implementation when external interrupt
+> > + * controller support is added in RISC-V ACPI.
+> > + */
+> > +int raw_pci_read(unsigned int domain, unsigned int bus, unsigned int devfn,
+> > +		 int reg, int len, u32 *val)
+> > +{
+> > +	return PCIBIOS_DEVICE_NOT_FOUND;
+> > +}
+> > +
+> > +int raw_pci_write(unsigned int domain, unsigned int bus, unsigned int devfn,
+> > +		  int reg, int len, u32 val)
+> > +{
+> > +	return PCIBIOS_DEVICE_NOT_FOUND;
+> > +}
+> > +
+> > +int acpi_pci_bus_find_domain_nr(struct pci_bus *bus)
+> > +{
+> > +	return -1;
+> > +}
+> > +
+> > +struct pci_bus *pci_acpi_scan_root(struct acpi_pci_root *root)
+> > +{
+> > +	return NULL;
+> > +}
+> > +#endif	/* CONFIG_PCI */
+> > -- 
+> > 2.34.1
+> >
+> 
+> Otherwise, afaict, this is pretty consistent with how arm64 started its
+> ACPI support.
+> 
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> 
+Thanks!
+Sunil
