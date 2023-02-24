@@ -2,153 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EACC6C61DA3
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 13:21:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63774C61DA3
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 13:37:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbjBXNVG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 08:21:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51798 "EHLO
+        id S229468AbjBXNh1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 08:37:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjBXNVF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 08:21:05 -0500
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FFAC66970;
-        Fri, 24 Feb 2023 05:21:00 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id C8BE55C00FD;
-        Fri, 24 Feb 2023 08:20:57 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 24 Feb 2023 08:20:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1677244857; x=1677331257; bh=Xle0yeUGBO
-        ksma2Gc9p3BVXHO1tPXh7Uos0haf9MEdw=; b=CSaI77jmGYFEpkHo8SbSMJFSNt
-        s+7t+i35rlx+02Rkc5GAegdPGWQwqYVeBJpwrcevDxWbkkFilW4xy+gcUGK/YhKt
-        W3Ir7ftEGg6agi3OWEjE439seloBmVLd0aa0RdMdoZhGTxrvS7fen4k6BRHmwTXu
-        MEmO1qInbkqbvbC81tUMIG05+VQQ6lsiuxvkQsZOey+917S/b6e7fxDL4wSD7ZNE
-        3X6w2UZa8k/kpE/M5P0UtPwg8dsJl144hrrCX/4vIqsE2Reez1vELeNPXCt+BqSk
-        1Ve7MAgrcfDNDWB7QgPkMwjwbTvPYqtIAcGUJbug5lQek62VSMxT6+0IV1yw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1677244857; x=1677331257; bh=Xle0yeUGBOksma2Gc9p3BVXHO1tP
-        Xh7Uos0haf9MEdw=; b=mkUCCb+7KZ0i6c+OmFU3nSQZO0DzLhBKzaVQdyl5hj7E
-        B6La8P7s76VzF19FLer7kfJcr4Z3QO8ycIY8IVCzXqmp2o6+CYcjJbVfmNi/9uwX
-        XpvKmbtloNnJ6Y7cMLaq8VXRSPgiN4OBNMLJmuGkTXXdgJL1Tp5h5KsD//Wd9GzZ
-        1FcwsLxE/53TAJHnzFB1lmPrQG7i/LpXS+CdgRuwWxLFR/0SHcx+Y9gIaH3K7dzs
-        zOvWrGuT9w+pGZ9Rs3aPZN/oeA94Y6zQdAXbVd9aL4ZWVcBDKQMEZpMjEq5gfQDL
-        IUuyD4BbKtiS3S20aPC2bc58cv/DPoQAXMA/HDeeWg==
-X-ME-Sender: <xms:ubn4YwjAurfwTsVL7ndr1bAB6gidcqZijE86FhNUmGeJniTuL60i5g>
-    <xme:ubn4Y5APYULTM1iq2cJDTTfy32rZ2TM3D0wYrrWDNFyU_ud0E5-DUPI77_UkBMJAv
-    dD-EnG9CvOJl_DlEIc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekfedggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:ubn4Y4FYb6e9VA8-bXVQxC6VBZOnLCKl1hVxEIMQOdpJjxtA7yBbeA>
-    <xmx:ubn4YxQBvA1VhTF9vQTgsEScgcMpnAep5-eP9iB02UhbhiT6MX6GoA>
-    <xmx:ubn4Y9wxuFRfRM0GGGVjpUYIeOPPEHV_nMYNt9wR3u0QikPh3fwRnQ>
-    <xmx:ubn4YyxFUZ_-OwngXtf0cXoRFAOD81hhN_bdOYgOooL8MiEwQxFZRw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 5D0F7B60086; Fri, 24 Feb 2023 08:20:57 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-172-g9a2dae1853-fm-20230213.001-g9a2dae18
-Mime-Version: 1.0
-Message-Id: <15aa881f-5cf1-446e-a71e-f62d24e87500@app.fastmail.com>
-In-Reply-To: <a50fa44d-fbc3-9ce2-175b-85c8cd7a9f7f@linaro.org>
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212356.3313181-1-quic_eberman@quicinc.com>
- <dbcfa4e9-a1ad-0f24-77bf-05934ca26bb2@linaro.org>
- <05c4aab8-2d26-b944-adb6-624d67e4a11d@quicinc.com>
- <52d944b1-3ea6-26b7-766a-2fed05dccf3a@linaro.org>
- <c5ff1523-7a62-3d3f-6fa9-792ce4d222e8@quicinc.com>
- <a50fa44d-fbc3-9ce2-175b-85c8cd7a9f7f@linaro.org>
-Date:   Fri, 24 Feb 2023 14:20:40 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
-        "Elliot Berman" <quic_eberman@quicinc.com>,
-        "Alex Elder" <elder@linaro.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Prakruthi Deepak Heragu" <quic_pheragu@quicinc.com>
-Cc:     "Murali Nalajala" <quic_mnalajal@quicinc.com>,
-        "Trilok Soni" <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
-        "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
-        "Bjorn Andersson" <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        "Bagas Sanjaya" <bagasdotme@gmail.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Jassi Brar" <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v10 10/26] gunyah: vm_mgr: Introduce basic VM Manager
-Content-Type: text/plain
+        with ESMTP id S229454AbjBXNh1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 08:37:27 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADB424BE90;
+        Fri, 24 Feb 2023 05:37:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1677245843; x=1708781843;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aZzsSFvg1UfLqYXxjgJ2eB+4H3YgR+M3br8uQwZVD1w=;
+  b=QwWy4LSgPP8apy192AgnI4HWGoPp6kkVi/dJTy8dr7aBvBS27oIOccVP
+   H6WVpaitfUP5w2+W9ec5HB/CE1U3jVi4SmWdZaPmXFQTboHPJz9ODceio
+   y9Yb93YsiQ1sAJ615EoKA5+u3Dj6Ntd6oyuVVfFEzXpcEgMeM6nu4n2Jj
+   EkoYId4kEmr3upVO7zF8uYcSEa2xM7ZCBBnqB+rSi5/ffRinzcPdnAHlY
+   slkqlz9FKn1Auk7agsCW97kpOnQqG2aF3rTvhO3WxO87EAbxu5nrDrrK5
+   1Y6IZwIsrhBvV1wZou6g7iAMde8rPZAYTYXiNE8rTcgHN2q5QJdRdZE5z
+   w==;
+X-IronPort-AV: E=Sophos;i="5.97,324,1669100400"; 
+   d="scan'208";a="138922155"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 24 Feb 2023 06:37:22 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 24 Feb 2023 06:37:20 -0700
+Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex02.mchp-main.com
+ (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.16 via Frontend
+ Transport; Fri, 24 Feb 2023 06:37:17 -0700
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     <linux-riscv@lists.infradead.org>
+CC:     Conor Dooley <conor.dooley@microchip.com>, <conor@kernel.org>,
+        "Miguel Ojeda" <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        "Wedson Almeida Filho" <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        "Nathan Chancellor" <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <llvm@lists.linux.dev>
+Subject: [RFC 0/2] RISC-V: enable rust
+Date:   Fri, 24 Feb 2023 13:36:08 +0000
+Message-ID: <20230224133609.2877396-1-conor.dooley@microchip.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1475; i=conor.dooley@microchip.com; h=from:subject; bh=aZzsSFvg1UfLqYXxjgJ2eB+4H3YgR+M3br8uQwZVD1w=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDMk/9rocvX3IpcHZwESXJXif4QPzG+uS7Z+U/3R8YDjTJC6T zbipo5SFQYyDQVZMkSXxdl+L1Po/Ljuce97CzGFlAhnCwMUpABOxMWRk2LhgbcZ94f3W9/ddLXNZq7 b64bvUiUmuPRJzVryeG7I6K4aRYUr5E82VBzfNVau2eiiQ6377v52T4gt7P5kbB5xL+Wr42QA=
+X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 24, 2023, at 11:29, Srinivas Kandagatla wrote:
-> On 23/02/2023 22:40, Elliot Berman wrote:
+This is a somewhat blind (and maybe foolish) attempt at enabling Rust
+for RISC-V. I've tested this on Icicle, and the modules seem to work.
+I'd like to play around with Rust on RISC-V, but I'm not interested in
+using downstream kernels, so figured I should try and see what's
+missing...
+I've tagged this as RFC in case I've missed some "WAaaaa you can't do
+this" somewhere :)
 
->>>> Does this means adding #define GH_VM_DEFAULT_ARG 0 ? I am not sure 
->>>> yet what arguments to add here.
->>>>
->>>> The ABI can add new "long" values to GH_CREATE_VM and that wouldn't 
->>>
->>> Sorry, that is exactly what we want to avoid, we can not change the 
->>> UAPI its going to break the userspace.
->>>
->>>> break compatibility with old kernels; old kernels reject it as -EINVAL.
->>>
->>> If you have userspace built with older kernel headers then that will 
->>> break. Am not sure about old-kernels.
->>>
->>> What exactly is the argument that you want to add to GH_CREATE_VM?
->>>
->>> If you want to keep GH_CREATE_VM with no arguments that is fine but 
->>> remove the conflicting comments in the code and document so that its 
->>> not misleading readers/reviewers that the UAPI is going to be modified 
->>> in near future.
->>>
->>>
->> 
->> The convention followed here comes from KVM_CREATE_VM. Is this ioctl 
->> considered bad example?
->> 
->
-> It is recommended to only use _IO for commands without arguments, and 
-> use pointers for passing data. Even though _IO can indicate either 
-> commands with no argument or passing an integer value instead of a 
-> pointer. Am really not sure how this works in compat case.
->
-> Am sure there are tricks that can be done with just using _IO() macro 
-> (ex vfio), but this does not mean that we should not use _IOW to be more 
-> explicit on the type and size of argument that we are expecting.
->
-> On the other hand If its really not possible to change this IOCTL to 
-> _IOW and argument that you are referring would be with in integer range, 
-> then what you have with _IO macro should work.
+Thanks,
+Conor.
 
-Passing an 'unsigned long' value instead of a pointer is fine for compat
-mode, as a 32-bit compat_ulong_t always fits inside of the 64-bit
-unsigned long. The downside is that portable code cannot have a
-single ioctl handler function that takes both commands with pointers
-and other commands with integer arguments, as some architectures
-(i.e. s390, possibly arm64+morello in the future) need to mangle
-pointer arguments using compat_ptr() but must not do that on integer
-arguments.
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Alex Gaynor <alex.gaynor@gmail.com>
+CC: Wedson Almeida Filho <wedsonaf@gmail.com>
+CC: Boqun Feng <boqun.feng@gmail.com>
+CC: Gary Guo <gary@garyguo.net>
+CC: Björn Roy Baron <bjorn3_gh@protonmail.com>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Paul Walmsley <paul.walmsley@sifive.com>
+CC: Palmer Dabbelt <palmer@dabbelt.com>
+CC: Nathan Chancellor <nathan@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+CC: Tom Rix <trix@redhat.com>
+CC: rust-for-linux@vger.kernel.org
+CC: linux-doc@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-riscv@lists.infradead.org
+CC: llvm@lists.linux.dev
 
-     Arnd
+Miguel Ojeda (2):
+  scripts: generate_rust_target: enable building on RISC-V
+  RISC-V: enable building the 64-bit kernels with rust support
+
+ Documentation/rust/arch-support.rst |  2 ++
+ arch/riscv/Kconfig                  |  1 +
+ arch/riscv/Makefile                 |  3 ++-
+ scripts/generate_rust_target.rs     | 19 +++++++++++++++++++
+ 4 files changed, 24 insertions(+), 1 deletion(-)
+
+-- 
+2.39.2
+
