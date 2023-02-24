@@ -2,79 +2,154 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 010BEC6FA8E
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 18:53:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 666E5C7EE2F
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 18:58:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229525AbjBXSxE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 13:53:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49748 "EHLO
+        id S229947AbjBXS65 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 13:58:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbjBXSxD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 13:53:03 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B608C11678;
-        Fri, 24 Feb 2023 10:53:02 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4F144B81D01;
-        Fri, 24 Feb 2023 18:53:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F8FDC433EF;
-        Fri, 24 Feb 2023 18:52:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677264779;
-        bh=A7n0ZKEV3cT4ofTZftMjL2isGjA2th4kIutljiN1v3w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VAQmaoo+pliGlOcJZDWF7wr0OHnK8MBoL7p6yl9g0lcyTSXoLnww4OQpGkl/N6aCx
-         YMR28JD4cYki84qFyRu2lgMs9TwP284t+xbrvosCtKvSx4ngPewRlPPqFWfAKzQRxb
-         3Ox1TMPjoJ0r5xIcTCZqSN1tgrS3RkXW7BG1GXIn/ayPx31gNMzPIePr/VGOMKPyfx
-         z+FJzeLSWtqvvhyYOCzVnM36ODD/98+wA8wfRifBx/nySiYW73Ko889COJTRc57/As
-         dgeFa3PCi0hnqcl47WRpH/BdjXSgFc3adh9WlMeqYxTsb5e/2h+vY4qSgmS8Q5zRwz
-         Uprw6OvKEtiQA==
-Date:   Fri, 24 Feb 2023 10:52:57 -0800
-From:   Josh Poimboeuf <jpoimboe@kernel.org>
-To:     Kim Phillips <kim.phillips@amd.com>
-Cc:     x86@kernel.org, Borislav Petkov <bp@alien8.de>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
+        with ESMTP id S229942AbjBXS64 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 13:58:56 -0500
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2870B1B2D4
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 10:58:54 -0800 (PST)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-536bf649e70so4000227b3.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 10:58:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8eyNjfwQBa7qLFsUu3bNYeTJLQHqdWa7casCsIOp2RI=;
+        b=SzvTDJrrScZV4TBTvzgyM+LouwGgypUKGGsGW/TbVp60IWUa1NjVp70moEMh8L+wlv
+         ot6Zj4qfJ/qaroOWOWo9uFqvoAxz/UN0rxDm1diqqKC2IRNZRtIS6MD8aFtK57o9cmFb
+         SPjVw2jpiMexZeRyZm9tDPLzZ/XtaFMPodVICUs0e+4GTfDc2DzOWFeXqgtGaWxPHZUl
+         F96P53A9KfA4kDw6QD14PCR0rwUXHL3bJ3o50Cr/DDMV3Z7JGwQI+UtkEaWj5YKm6Nzz
+         centoG0WRU0X6x2dSVU/u5MXhFWtDAaBnipEnBcWFSVam0mLdSqPr9O93d7y9DniBkfh
+         h/xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8eyNjfwQBa7qLFsUu3bNYeTJLQHqdWa7casCsIOp2RI=;
+        b=FxseUeav395H+ya1mYJNkw8AeI1LNfyiESjQLFcvJKOMZXcbDrGM1rnnrjIrCwqYAb
+         nPiyiDqEVt9fhWPk7zn0ggEzQaZ86WSqTNHEoYAWR4u1zcoxSyCX0fU3Rlpqrol0lt+E
+         JzerluF/kPKEmokGgIYG79DEl4ajtPJkiOOpjc4g7XJQ2lc4EVd4jeBKh4fXRYHZGYoo
+         rUSvEjatWfe10JRguEce7j25MJucsqkt1Bxq0y5WVAoTJFSco/Zr1oKPHRDZvXnJ8xox
+         NV8oZhT+4Is57euItJOMUsithZrAZv3iH17YLYECTIPp8xwDZcPCU8A7vn/a3rAY+wxd
+         QKtA==
+X-Gm-Message-State: AO0yUKUWkdB+Na43nCIV+2ZSZkDPUp+UGBKgA4KrjFXbGM2XDFUIubQK
+        W+7aOtU5LJP0ZoCHxh8HZgMKnA1Qb1s=
+X-Google-Smtp-Source: AK7set+fB1FfnV7TXXPKAJPp2lud32TvUcgHqwB/gdL19Z9Bb0IlPQP9AAU24+i2w2pIC0sUcgq8CUX3kuE=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a5b:a10:0:b0:97c:863e:6d91 with SMTP id
+ k16-20020a5b0a10000000b0097c863e6d91mr819065ybq.227.1677265133190; Fri, 24
+ Feb 2023 10:58:53 -0800 (PST)
+Date:   Fri, 24 Feb 2023 10:58:51 -0800
+In-Reply-To: <7b6d4c14-ebde-1bc3-04de-59cae9d4b7be@quicinc.com>
+Mime-Version: 1.0
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212417.3315422-1-quic_eberman@quicinc.com> <CA+EHjTxEeiBWXJMCnv0V+5n=jB8w=m0EFdgK=FKtSqKOkiaChg@mail.gmail.com>
+ <7b6d4c14-ebde-1bc3-04de-59cae9d4b7be@quicinc.com>
+Message-ID: <Y/kI66qQFJJ6bkTq@google.com>
+Subject: Re: [PATCH v10 12/26] gunyah: vm_mgr: Add/remove user memory regions
+From:   Sean Christopherson <seanjc@google.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Fuad Tabba <tabba@google.com>, Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 7/8] x86/cpu: Support AMD Automatic IBRS
-Message-ID: <20230224185257.o3mcmloei5zqu7wa@treble>
-References: <20230124163319.2277355-1-kim.phillips@amd.com>
- <20230124163319.2277355-8-kim.phillips@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230124163319.2277355-8-kim.phillips@amd.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Quentin Perret <qperret@google.com>,
+        Will Deacon <will@kernel.org>,
+        "smoreland@google.com" <smoreland@google.com>
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 10:33:18AM -0600, Kim Phillips wrote:
-> @@ -1495,8 +1495,12 @@ static void __init spectre_v2_select_mitigation(void)
->  		pr_err(SPECTRE_V2_EIBRS_EBPF_MSG);
->  
->  	if (spectre_v2_in_ibrs_mode(mode)) {
-> -		x86_spec_ctrl_base |= SPEC_CTRL_IBRS;
-> -		update_spec_ctrl(x86_spec_ctrl_base);
-> +		if (boot_cpu_has(X86_FEATURE_AUTOIBRS)) {
-> +			msr_set_bit(MSR_EFER, _EFER_AUTOIBRS);
+On Fri, Feb 24, 2023, Elliot Berman wrote:
+> 
+> 
+> On 2/24/2023 2:19 AM, Fuad Tabba wrote:
+> > Hi,
+> > 
+> > On Tue, Feb 14, 2023 at 9:26 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+> > > 
+> > > 
+> > > When launching a virtual machine, Gunyah userspace allocates memory for
+> > > the guest and informs Gunyah about these memory regions through
+> > > SET_USER_MEMORY_REGION ioctl.
+> > 
+> > I'm working on pKVM [1], and regarding the problem of donating private
+> > memory to a guest, we and others working on confidential computing
+> > have faced a similar issue that this patch is trying to address. In
+> > pKVM, we've initially taken an approach similar to the one here by
+> > pinning the pages being donated to prevent swapping or migration [2].
+> > However, we've encountered issues with this approach since the memory
+> > is still mapped by the host, which could cause the system to crash on
+> > an errant access.
+> > 
+> > Instead, we've been working on adopting an fd-based restricted memory
+> > approach that was initially proposed for TDX [3] and is now being
+> > considered by others in the confidential computing space as well
+> > (e.g., Arm CCA [4]). The basic idea is that the host manages the guest
+> > memory via a file descriptor instead of a userspace address. It cannot
+> > map that memory (unless explicitly shared by the guest [5]),
+> > eliminating the possibility of the host trying to access private
+> > memory accidentally or being tricked by a malicious actor. This is
+> > based on memfd with some restrictions. It handles swapping and
+> > migration by disallowing them (for now [6]), and adds a new type of
+> > memory region to KVM to accommodate having an fd representing guest
+> > memory.
+> > 
+> > Although the fd-based restricted memory isn't upstream yet, we've
+> > ported the latest patches to arm64 and made changes and additions to
+> > make it work with pKVM, to test it and see if the solution is feasible
+> > for us (it is). I wanted to mention this work in case you find it
+> > useful, and in the hopes that we can all work on confidential
+> > computing using the same interfaces as much as possible.
+> 
+> Thanks for highlighting the memfd_restricted changes to us! We'll
+> investigate how/if it can suit Gunyah usecases.
 
-Doesn't this only enable it on the boot CPU?
+Can you provide Gunyah's requirements/rules and use cases as they relate to memory
+management?  I agree with Fuad, this is pretty much exactly what memfd_restricted()
+is intended to handle.  If Gunyah has a unique requirement or use case, it'd be
+helpful to find out sooner than later.  E.g.
 
--- 
-Josh
+  1. What is the state of memory when it's accepted by a VM?  Is it undefined,
+     i.e. the VM's responsibility to initialize?  If not, is it always
+     zero-initialized or can memory be populated by the RM?
+
+  2. When exclusive/private memory is reclaimed, can the VM's data be preserved,
+     or is it unconditionally
+
+  3. How frequently is memory transition allocated/reclaimed?
+
+  4. Are there assumptions and/or limitations on the size or granlarity of
+     memory objects?
+
+  5. Can memory be shared by multiple VMs but _not_ be accessible from the RM?
+
+  6. etc. :-)
+
+Thanks!
