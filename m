@@ -2,194 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D29C3C7EE23
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 21:24:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D748AC64ED8
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 21:32:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230225AbjBXVYg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 16:24:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45970 "EHLO
+        id S229520AbjBXVcQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 16:32:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230165AbjBXVYe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 16:24:34 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C5CF39CF7;
-        Fri, 24 Feb 2023 13:24:21 -0800 (PST)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31OCG7Nt012852;
-        Fri, 24 Feb 2023 21:24:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=dqn3TSizO1k0WXRWN0nK+feytmKUay5FFzXt31bXIZk=;
- b=WPoC+b/cQ5HOwg375AGWx/+c3gnzUeF0v/2y3P4qXN0l2eIpgTme8BPvDTqspIa5pCEH
- EzBlekb5AZ4wmddiahDsg93jAjh/+pF4M9cEaKGI1ggDsT+f8cdNJ3G7QBFL9oCANsnL
- 5CDo0n1fODi5y81Bsmd0hP2O0/GNp4CiDBY5xKwih2i1yCEpwbC4hn3tGG242XghLUBh
- 4KamqAIz3E9TKGWzvB3X8LckhsVZ1lqfd7Q/9qZFJ+unVOktkf2fAH5WL/5lfmoJi9SF
- /Qq9lQW7PoS6dq6yshWfixucGEt+5vVg65Z3Tf7XionP9jhOwqlw8ru6VOadZWf6YXhV Ow== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nxw3d9jn3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 24 Feb 2023 21:24:03 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31OLO2F3015714
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 24 Feb 2023 21:24:02 GMT
-Received: from [10.110.9.108] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 24 Feb
- 2023 13:24:00 -0800
-Message-ID: <556dedfa-2c18-fca7-94d9-994d29b7bacc@quicinc.com>
-Date:   Fri, 24 Feb 2023 13:24:00 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 06/26] virt: gunyah: msgq: Add hypercalls to send and
- receive messages
-Content-Language: en-US
-To:     Alex Elder <alex.elder@linaro.org>, Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212303.3307536-1-quic_eberman@quicinc.com>
- <d4cdae93-a003-d07f-3074-3542a231747b@linaro.org>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <d4cdae93-a003-d07f-3074-3542a231747b@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+        with ESMTP id S229492AbjBXVcP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 16:32:15 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F286F01D
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 13:31:57 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id c23so423317pjo.4
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 13:31:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cvJN8dmrmNJu4tTYhdlBrzcRSinLAy+Jhaplp/kCRiA=;
+        b=wh807lSO9v29Yu6tO13IzDLOgiVo3Y9CLLlEMCaN5Bfph5SWKk/ief3r4cZyouTDq3
+         ekQ8BZiAaegZvDAKUQ41D41hsAmetgk6oRbzZgr5tZ8Ebv6rouEL0se6NNr8O8vuHMuA
+         Y9E1KcrrOfgbPedMh8QVliNBmDLSSk306iIqsN5Z3WjNY4Kf8EbTZS61IOkrrZWWRWux
+         SIrlqYQU9Ed7MRpv4GK6gK/n40iENTbOVq0sI7jnPIv4ay32p0xTWuzO+r4e3KUxS3Aw
+         mV9fpIWYF+zc1nWP6gzHkwKwUixXjTuaac3chNZcBChKKjLuR16rINK9a4ShFPJKhkRy
+         dJKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cvJN8dmrmNJu4tTYhdlBrzcRSinLAy+Jhaplp/kCRiA=;
+        b=QTmT3KSuTzeJsro0PSYT2v2z36MYuUvWO6OANQGY+/+rD4m8uLZh9K2R+FbDi1Vu1f
+         mn9E7bGZg43u9EJ+VxF7m+fRzxmj5RH+Ufru4AKHgfyLkZ8nxIZLs47NLZsceGIR+rvf
+         ndJrEWGiv/t4HguqwJ2fE6cgOalUhxz7Tisia6frHRxQSDQH/7CsA+6Oy0NNP1d7XoQD
+         I3lCwkSo+Fjnkpii8q7FI/u+UbHtaA6Q4I2NYl4kuT/PbvAaV5XcFshHzuGIg5NyNPgz
+         UX20y2R/lxuExuTTCpjEMRDxFPi6JhKN1HhYbQSNEmTSZociNR0V6jkoWuOqRgXtca5+
+         +SSQ==
+X-Gm-Message-State: AO0yUKXBAxYoG4bWH14j/evVrV+XYhdXdOFRckcdG10ZrjjQGC0uDPOv
+        xRd/r7HjRmoYv0tzMNYhvRZnvw==
+X-Google-Smtp-Source: AK7set+inR9Bfe356VnjZRrkMmucPTHHx4QOqBABEwJbFOr2cvrtN9y1cnMB0g/q9qfmCnSJDZEm5g==
+X-Received: by 2002:a17:902:d506:b0:199:4d25:6a4d with SMTP id b6-20020a170902d50600b001994d256a4dmr997355plg.10.1677274316335;
+        Fri, 24 Feb 2023 13:31:56 -0800 (PST)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id jw9-20020a170903278900b0019a7d58e595sm6071070plb.143.2023.02.24.13.31.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 13:31:55 -0800 (PST)
+Date:   Fri, 24 Feb 2023 13:31:55 -0800 (PST)
+X-Google-Original-Date: Fri, 24 Feb 2023 13:31:09 PST (-0800)
+Subject:     Re: [RFC 0/2] RISC-V: enable rust
+In-Reply-To: <20230224133609.2877396-1-conor.dooley@microchip.com>
+CC:     linux-riscv@lists.infradead.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Conor Dooley <conor@kernel.org>, ojeda@kernel.org,
+        alex.gaynor@gmail.com, wedsonaf@gmail.com, boqun.feng@gmail.com,
+        gary@garyguo.net, bjorn3_gh@protonmail.com, corbet@lwn.net,
+        Paul Walmsley <paul.walmsley@sifive.com>, nathan@kernel.org,
+        ndesaulniers@google.com, trix@redhat.com,
+        rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     Conor Dooley <conor.dooley@microchip.com>
+Message-ID: <mhng-f429a40f-1869-4c5b-ab4f-e7eec94489e8@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: rL3Ze6N_w2egxgkQGAEE24YRFNj3xBCX
-X-Proofpoint-ORIG-GUID: rL3Ze6N_w2egxgkQGAEE24YRFNj3xBCX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-24_16,2023-02-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 mlxscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
- suspectscore=0 bulkscore=0 impostorscore=0 mlxlogscore=999 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302240169
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 24 Feb 2023 05:36:08 PST (-0800), Conor Dooley wrote:
+> This is a somewhat blind (and maybe foolish) attempt at enabling Rust
+> for RISC-V. I've tested this on Icicle, and the modules seem to work.
+> I'd like to play around with Rust on RISC-V, but I'm not interested in
+> using downstream kernels, so figured I should try and see what's
+> missing...
+> I've tagged this as RFC in case I've missed some "WAaaaa you can't do
+> this" somewhere :)
 
+I'm fine with it, but IIRC the Rust support for most targets was pulled 
+out as they weren't deemed ready to go yet.  If the Rust folks are OK 
+turning on RISC-V support then it's fine with me, but I think it's 
+really more up to them at this point.
 
-On 2/23/2023 4:15 PM, Alex Elder wrote:
-> On 2/14/23 3:23 PM, Elliot Berman wrote:
->> Add hypercalls to send and receive messages on a Gunyah message queue.
->>
->> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->> ---
->>   arch/arm64/gunyah/gunyah_hypercall.c | 32 ++++++++++++++++++++++++++++
->>   include/linux/gunyah.h               |  7 ++++++
->>   2 files changed, 39 insertions(+)
->>
->> diff --git a/arch/arm64/gunyah/gunyah_hypercall.c 
->> b/arch/arm64/gunyah/gunyah_hypercall.c
->> index f30d06ee80cf..2ca9ab098ff6 100644
->> --- a/arch/arm64/gunyah/gunyah_hypercall.c
->> +++ b/arch/arm64/gunyah/gunyah_hypercall.c
->> @@ -38,6 +38,8 @@ EXPORT_SYMBOL_GPL(arch_is_gunyah_guest);
->>                              fn)
->>   #define GH_HYPERCALL_HYP_IDENTIFY        GH_HYPERCALL(0x8000)
->> +#define GH_HYPERCALL_MSGQ_SEND            GH_HYPERCALL(0x801B)
->> +#define GH_HYPERCALL_MSGQ_RECV            GH_HYPERCALL(0x801C)
->>   /**
->>    * gh_hypercall_hyp_identify() - Returns build information and 
->> feature flags
->> @@ -57,5 +59,35 @@ void gh_hypercall_hyp_identify(struct 
->> gh_hypercall_hyp_identify_resp *hyp_identi
->>   }
->>   EXPORT_SYMBOL_GPL(gh_hypercall_hyp_identify);
->> +enum gh_error gh_hypercall_msgq_send(u64 capid, size_t size, 
->> uintptr_t buff, int tx_flags,
->> +                    bool *ready)
->> +{
->> +    struct arm_smccc_res res;
->> +
->> +    arm_smccc_1_1_hvc(GH_HYPERCALL_MSGQ_SEND, capid, size, buff, 
->> tx_flags, 0, &res);
->> +
->> +    if (res.a0 == GH_ERROR_OK)
->> +        *ready = res.a1;
->> +
->> +    return res.a0;
->> +}
->> +EXPORT_SYMBOL_GPL(gh_hypercall_msgq_send);
->> +
->> +enum gh_error gh_hypercall_msgq_recv(u64 capid, uintptr_t buff, 
->> size_t size, size_t *recv_size,
->> +                    bool *ready)
->> +{
->> +    struct arm_smccc_res res;
->> +
->> +    arm_smccc_1_1_hvc(GH_HYPERCALL_MSGQ_RECV, capid, buff, size, 0, 
->> &res);
->> +
->> +    if (res.a0 == GH_ERROR_OK) {
->> +        *recv_size = res.a1;
-> 
-> Is there any chance the 64-bit size is incompatible
-> with size_t?  (Too big?)
+So
 
-This is safe because size of messages <= 240.
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
 
-> 
->> +        *ready = res.a2;
-> 
->          *ready = !!res.a2;
-> 
->> +    }
->> +
->> +    return res.a0;
->> +}
->> +EXPORT_SYMBOL_GPL(gh_hypercall_msgq_recv);
->> +
->>   MODULE_LICENSE("GPL");
->>   MODULE_DESCRIPTION("Gunyah Hypervisor Hypercalls");
->> diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
->> index 3fef2854c5e1..cb6df4eec5c2 100644
->> --- a/include/linux/gunyah.h
->> +++ b/include/linux/gunyah.h
->> @@ -112,4 +112,11 @@ struct gh_hypercall_hyp_identify_resp {
->>   void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp 
->> *hyp_identity);
->> +#define GH_HYPERCALL_MSGQ_TX_FLAGS_PUSH        BIT(0)
->> +
->> +enum gh_error gh_hypercall_msgq_send(u64 capid, size_t size, 
->> uintptr_t buff, int tx_flags,
->> +                    bool *ready);
-> 
-> Why uintptr_t?  Why not just pass a host pointer (void *)
-> and do whatever conversion is necessary inside the function?
-> 
->                      -Alex
-> 
->> +enum gh_error gh_hypercall_msgq_recv(u64 capid, uintptr_t buff, 
->> size_t size, size_t *recv_size,
->> +                    bool *ready);
->> +
->>   #endif
-> 
+in case folks want to take it via some Rust-related tree, but I'm also 
+fine taking it via the RISC-V tree if that's easier.
+
+>
+> Thanks,
+> Conor.
+>
+> CC: Miguel Ojeda <ojeda@kernel.org>
+> CC: Alex Gaynor <alex.gaynor@gmail.com>
+> CC: Wedson Almeida Filho <wedsonaf@gmail.com>
+> CC: Boqun Feng <boqun.feng@gmail.com>
+> CC: Gary Guo <gary@garyguo.net>
+> CC: Björn Roy Baron <bjorn3_gh@protonmail.com>
+> CC: Jonathan Corbet <corbet@lwn.net>
+> CC: Paul Walmsley <paul.walmsley@sifive.com>
+> CC: Palmer Dabbelt <palmer@dabbelt.com>
+> CC: Nathan Chancellor <nathan@kernel.org>
+> CC: Nick Desaulniers <ndesaulniers@google.com>
+> CC: Tom Rix <trix@redhat.com>
+> CC: rust-for-linux@vger.kernel.org
+> CC: linux-doc@vger.kernel.org
+> CC: linux-kernel@vger.kernel.org
+> CC: linux-riscv@lists.infradead.org
+> CC: llvm@lists.linux.dev
+>
+> Miguel Ojeda (2):
+>   scripts: generate_rust_target: enable building on RISC-V
+>   RISC-V: enable building the 64-bit kernels with rust support
+>
+>  Documentation/rust/arch-support.rst |  2 ++
+>  arch/riscv/Kconfig                  |  1 +
+>  arch/riscv/Makefile                 |  3 ++-
+>  scripts/generate_rust_target.rs     | 19 +++++++++++++++++++
+>  4 files changed, 24 insertions(+), 1 deletion(-)
