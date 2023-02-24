@@ -2,101 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19A61C64ED8
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 09:35:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EBA0C678DB
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 09:37:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229893AbjBXJfW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 04:35:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46120 "EHLO
+        id S229552AbjBXJhh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 04:37:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229839AbjBXJfU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 04:35:20 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15516662A3
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 01:35:09 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id fm20-20020a05600c0c1400b003ead37e6588so1654927wmb.5
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 01:35:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jFfq5teius6pAK1nmf1oSiYVaS3V8Wiqx9qF8KZNMCQ=;
-        b=UPtzcx8EFj1zlSxQ6lMU0mkanMgYYtKeaO2lWxoPNm90eUsDg5dZ1+YuhJFLZ9eA1C
-         GwVX/XBU0wi8bbZqS4brymorHHXxUfabheM649o6i0SQ/aVibdS9bgWV9lK6GXWoyCxV
-         DDBMfSwJFsDs+VxTsL6tGbeInl0ZqUq5wfYvFDMQ9DRbPWoCbA/6Cvincqhb8n8A/JMv
-         yF2u9O9DHpm/uv9CcBKmrH4ca42lGrIqrseUJRNneFVCwHJafcuPzxjA18lvOlidR6dV
-         8ry4CjCYix+BYGvJUnF6KeUvdaZAfzJwDqJXYi1r+dRV7oZAoBl3+BLYwTygm+t5PEOr
-         SgfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jFfq5teius6pAK1nmf1oSiYVaS3V8Wiqx9qF8KZNMCQ=;
-        b=DC/TuQkdUiytrI6YNI5bC9JVnQVDj53ksGEp55CFVAYhe0uKBdw5RCiq6MBJ6vdFL9
-         RuKUTvYhkcrK1eSCgvubKBC3k+6dn0IbZQJKVQYl4IkB4E9KWKFQ53wEl/NvHT4YyHF/
-         vxS9sCNQYq/N0CJHBhc/nu55GHlJq5RnQyK6vIbSnqSYTM/wu01s7pS86ymfuzJZzhIr
-         uOwNn+68PjoZncBgNNCWaOeInW3m0Zvq8ZJ0BPdIxSY3SK9hF4tgvNNFUKTLyVQecmEV
-         GozHyd/AauqDpf1yMnteDa7sGJKguPgOfYzhrhHvfLPWpdAlV281YIsKkbNDYanqVGSi
-         oa4g==
-X-Gm-Message-State: AO0yUKXmFchkKZX8o+1I86npLcrXJVk/HyN/XqDC4BUfNmadX8PXij3C
-        Dhfv2xeVZ90QM8IH/df+BcX6cQ==
-X-Google-Smtp-Source: AK7set8uakOUbvmySBPvXTJA5HuapKBeA4BG/N82btii8y/1ofW049QHU4eTRDVwR0fxueKtyIIuAw==
-X-Received: by 2002:a05:600c:1da2:b0:3ea:ed4d:38fc with SMTP id p34-20020a05600c1da200b003eaed4d38fcmr2179606wms.31.1677231307168;
-        Fri, 24 Feb 2023 01:35:07 -0800 (PST)
-Received: from vingu-book.. ([2a01:e0a:f:6020:a6f0:4ee9:c103:44cb])
-        by smtp.gmail.com with ESMTPSA id d18-20020a05600c34d200b003e6dcd562a6sm2239179wmq.28.2023.02.24.01.35.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 01:35:06 -0800 (PST)
-From:   Vincent Guittot <vincent.guittot@linaro.org>
-To:     mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
-        linux-kernel@vger.kernel.org, parth@linux.ibm.com, tj@kernel.org,
-        lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        cgroups@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
-Cc:     qyousef@layalina.io, chris.hyser@oracle.com,
-        patrick.bellasi@matbug.net, David.Laight@aculab.com,
-        pjt@google.com, pavel@ucw.cz, qperret@google.com,
-        tim.c.chen@linux.intel.com, joshdon@google.com, timj@gnu.org,
-        kprateek.nayak@amd.com, yu.c.chen@intel.com,
-        youssefesmat@chromium.org, joel@joelfernandes.org,
-        Vincent Guittot <vincent.guittot@linaro.org>
-Subject: [PATCH v12 7/8] sched/core: Support latency priority with sched core
-Date:   Fri, 24 Feb 2023 10:34:53 +0100
-Message-Id: <20230224093454.956298-8-vincent.guittot@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230224093454.956298-1-vincent.guittot@linaro.org>
-References: <20230224093454.956298-1-vincent.guittot@linaro.org>
+        with ESMTP id S229532AbjBXJhg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 04:37:36 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08DDE64D70;
+        Fri, 24 Feb 2023 01:37:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677231422; x=1708767422;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qh5dHIF3Zy/2vFiSSHWmzyQvmvJlUbTRwfF+WltTESk=;
+  b=WDRmYASbnHMX3Ojs54SxtR4XRQJcnzIlqgO0LVMrqnnPuoTJUGcsDl+p
+   q7lTPDO1RvYqMufhR4Swyq+ciCjFN5UzzFbTRdCIH31tMDTToidONCaWO
+   wwVgFq3VlbhT2hZsgq6GRfavpzfa4627vKCHOGo6QjKSlXHo1GviywI04
+   Jb9qM+kFi5zX1vpLGvmsqz9i7yiHw8qHcjyh8LDYOHTZlmViKL6GS+xfP
+   lh2NK0dHo/LYlKDOQrSstBW12KHy/00lN/ngwTbVod68HxdA0UGoZc79o
+   DbNRlqAFoks4I6NKWKYWyptQ8/jcGFitNemb/4umoWmXqr2tOM3Kgqt9/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="331171606"
+X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
+   d="scan'208";a="331171606"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 01:36:13 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="741608912"
+X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
+   d="scan'208";a="741608912"
+Received: from rkris18-mobl.amr.corp.intel.com (HELO box.shutemov.name) ([10.252.56.190])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 01:36:03 -0800
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id C84DF10A581; Fri, 24 Feb 2023 12:36:00 +0300 (+03)
+Date:   Fri, 24 Feb 2023 12:36:00 +0300
+From:   kirill.shutemov@linux.intel.com
+To:     Ackerley Tng <ackerleytng@google.com>
+Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>, kvm@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        qemu-devel@nongnu.org, chao.p.peng@linux.intel.com,
+        aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
+        arnd@arndb.de, bfields@fieldses.org, bp@alien8.de, corbet@lwn.net,
+        dave.hansen@intel.com, david@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, hpa@zytor.com, hughd@google.com,
+        jlayton@kernel.org, jmattson@google.com, joro@8bytes.org,
+        jun.nakajima@intel.com, linmiaohe@huawei.com, luto@kernel.org,
+        mail@maciej.szmigiero.name, mhocko@suse.com, michael.roth@amd.com,
+        mingo@redhat.com, naoya.horiguchi@nec.com, pbonzini@redhat.com,
+        qperret@google.com, rppt@kernel.org, seanjc@google.com,
+        shuah@kernel.org, steven.price@arm.com, tabba@google.com,
+        tglx@linutronix.de, vannapurve@google.com, vbabka@suse.cz,
+        vkuznets@redhat.com, wanpengli@tencent.com, wei.w.wang@intel.com,
+        x86@kernel.org, yu.c.zhang@linux.intel.com
+Subject: Re: [RFC PATCH 1/2] mm: restrictedmem: Allow userspace to specify
+ mount_path for memfd_restricted
+Message-ID: <20230224093600.osmbpilmsi64wlwb@box.shutemov.name>
+References: <20230216100150.yv2ehwrdcfzbdhcq@box.shutemov.name>
+ <diqzsfex5hfv.fsf@ackerleytng-cloudtop.c.googlers.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <diqzsfex5hfv.fsf@ackerleytng-cloudtop.c.googlers.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Take into account wakeup_latency_gran() when ordering the cfs threads.
+On Thu, Feb 23, 2023 at 12:55:16AM +0000, Ackerley Tng wrote:
+> 
+> "Kirill A. Shutemov" <kirill@shutemov.name> writes:
+> 
+> > On Thu, Feb 16, 2023 at 12:41:16AM +0000, Ackerley Tng wrote:
+> > > By default, the backing shmem file for a restrictedmem fd is created
+> > > on shmem's kernel space mount.
+> 
+> > > With this patch, an optional tmpfs mount can be specified, which will
+> > > be used as the mountpoint for backing the shmem file associated with a
+> > > restrictedmem fd.
+> 
+> > > This change is modeled after how sys_open() can create an unnamed
+> > > temporary file in a given directory with O_TMPFILE.
+> 
+> > > This will help restrictedmem fds inherit the properties of the
+> > > provided tmpfs mounts, for example, hugepage allocation hints, NUMA
+> > > binding hints, etc.
+> 
+> > > Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> > > ---
+> > >   include/linux/syscalls.h           |  2 +-
+> > >   include/uapi/linux/restrictedmem.h |  8 ++++
+> > >   mm/restrictedmem.c                 | 63 +++++++++++++++++++++++++++---
+> > >   3 files changed, 66 insertions(+), 7 deletions(-)
+> > >   create mode 100644 include/uapi/linux/restrictedmem.h
+> 
+> > > diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> > > index f9e9e0c820c5..4b8efe9a8680 100644
+> > > --- a/include/linux/syscalls.h
+> > > +++ b/include/linux/syscalls.h
+> > > @@ -1056,7 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int
+> > > flags);
+> > >   asmlinkage long sys_set_mempolicy_home_node(unsigned long start,
+> > > unsigned long len,
+> > >   					    unsigned long home_node,
+> > >   					    unsigned long flags);
+> > > -asmlinkage long sys_memfd_restricted(unsigned int flags);
+> > > +asmlinkage long sys_memfd_restricted(unsigned int flags, const char
+> > > __user *mount_path);
+> 
+> > >   /*
+> > >    * Architecture-specific system calls
+> 
+> > I'm not sure what the right practice now: do we provide string that
+> > contains mount path or fd that represents the filesystem (returned from
+> > fsmount(2) or open_tree(2)).
+> 
+> > fd seems more flexible: it allows to specify unbind mounts.
+> 
+> I tried out the suggestion of passing fds to memfd_restricted() instead
+> of strings.
+> 
+> One benefit I see of using fds is interface uniformity: it feels more
+> aligned with other syscalls like fsopen(), fsconfig(), and fsmount() in
+> terms of using and passing around fds.
+> 
+> Other than being able to use a mount without a path attached to the
+> mount, are there any other benefits of using fds over using the path string?
 
-Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
-Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
----
- kernel/sched/fair.c | 3 +++
- 1 file changed, 3 insertions(+)
+It would be nice if anyone from fs folks comment on this.
 
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index dc7570f43ebe..125a6ff53378 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -11949,6 +11949,9 @@ bool cfs_prio_less(const struct task_struct *a, const struct task_struct *b,
- 	delta = (s64)(sea->vruntime - seb->vruntime) +
- 		(s64)(cfs_rqb->min_vruntime_fi - cfs_rqa->min_vruntime_fi);
- 
-+	/* Take into account latency offset */
-+	delta -= wakeup_latency_gran(sea, seb);
-+
- 	return delta > 0;
- }
- #else
+> Should I post the patches that allows specifying a mount using fds?
+> Should I post them as a separate RFC, or as a new revision to this RFC?
+
+Let's first decide what the right direction is.
+
 -- 
-2.34.1
-
+  Kiryl Shutsemau / Kirill A. Shutemov
