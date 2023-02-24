@@ -2,135 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BEA0C61DA4
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 13:51:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0ABDC61DA4
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 14:45:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbjBXNvq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 08:51:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44138 "EHLO
+        id S230048AbjBXOpV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 09:45:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjBXNvp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 08:51:45 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3A5A69ACF;
-        Fri, 24 Feb 2023 05:51:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1677246701; x=1708782701;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ZukmKbhuckdgYPxcrfE3bKQ6TkEUIZBG4kNxEuFJMEs=;
-  b=bcf5dK0AceYDByhTOLgGLHU6PC0bYN1OArEwbbrQG9ZY56KMkNoA8MNP
-   W5nYLuSCp/bWG/s9KZsgo1qcGPnLfGkyIQbdKsDMxs6ncdJAUQ8iKUaDo
-   s+doXSrKE92oRTL4la79pAg+GcC9VxFyNOlVRTFu5F3vM1octttVwYNPN
-   /aCrB4KT80FpOvpsh4OMDA7lLwAte3ZAqVJ4QekMayNp6UZ0dmfnnSJdc
-   l1OF/0GPvZ4U6AkLg4ikhnCaBUSTGDGg2a1KBBxFCOErABDzRPhNzcqV0
-   FAPV98vy8vUkmmtgf9nTJkjTF4x3ZGauESzJQ4jWJDsBMhftxrncjZoK1
-   g==;
-X-IronPort-AV: E=Sophos;i="5.97,324,1669100400"; 
-   d="scan'208";a="138923444"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 24 Feb 2023 06:51:39 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 24 Feb 2023 06:51:33 -0700
-Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.16 via Frontend
- Transport; Fri, 24 Feb 2023 06:51:30 -0700
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     <linux-riscv@lists.infradead.org>
-CC:     Conor Dooley <conor.dooley@microchip.com>, <conor@kernel.org>,
-        "Miguel Ojeda" <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        "Wedson Almeida Filho" <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S230034AbjBXOpF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 09:45:05 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3F803B66D
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 06:45:04 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id s5so16890715plg.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 06:45:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=coTtLh17Jcp/i0fKluv9ugDwM4AesfTvM9iAIYJCq2A=;
+        b=f3JP3IfXZFoWmGVI+4aC5ZR6KytWd3/IEHl8NQy66xo+fh0HIm6MxedamJlxa8lmAl
+         fPZCJigIQoFapyXsf34PLbN35QvacCathImrfrvcSwCQu3H/mXdgGvsKKvIDS7GxJcSI
+         K4hISq8h9SDFlloVloSQcmKNkcY3+ahaPqbJwxZNGSgsfIqmdjIGe9ovGg8Py222kmjl
+         zyvSr5nhPsrS30yHyQgAGQ2XxxjJy8kB1k2F4U86BXsVCd3c4kUCL0G4lrFkSklq3c25
+         OyvtfK3ObB4PhLcCUuu+YrSO5foxebwWaxQ3UrcvkXuH8tl7RDskoyYWD/uNdmXFNdWG
+         fp4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=coTtLh17Jcp/i0fKluv9ugDwM4AesfTvM9iAIYJCq2A=;
+        b=AgdvEBDQ2705oU14JvY+qcFO4O/hObcHC3ajD2Vn0vtFL5Hmgw6eiVCz+u/VVf2JIK
+         W6O4iYp9i5exY3WRp+rMD9plLbRwiTRTo6F9xD5x1ttmLRUej5y/Sb0HWXLQS7XErQFf
+         /y0Vye99Wm1d6qwFFDEIcCYzzUnl1YVegoPG4vLyMi8q13wm4jdk5NTIEkNV9odCxWnv
+         5BXlnqF6rg2x/Nd3d3HILc77UBjrKztJSPDPt5V/1Em7o6umdQDPXCb9M/DHewF6MPqC
+         5vJkWvCBcFPEisy+ZXR4QY9ihOaTE/4LBGj/n0uKBfuYbyvF92f00U5PUdrA1ruFsCeN
+         x6ig==
+X-Gm-Message-State: AO0yUKVPWEye4nh4uSmYGJHVRfxZAJlTvLD7uuKNu6JlbDrWegS8W6N0
+        YvdZyUjVYD7wgGGG/SWrwtF91w==
+X-Google-Smtp-Source: AK7set/Iyjj7TrMe766Iwdl0u/OZcVJHX4ug1aHv9t/gLxoHo1hy6D3fQY4QTXwCFZqVNjl7iJMV7g==
+X-Received: by 2002:a17:90b:38c7:b0:234:a88e:d67e with SMTP id nn7-20020a17090b38c700b00234a88ed67emr17691751pjb.34.1677249904318;
+        Fri, 24 Feb 2023 06:45:04 -0800 (PST)
+Received: from sunil-laptop ([49.206.14.226])
+        by smtp.gmail.com with ESMTPSA id b12-20020a170902b60c00b0019472226769sm9103967pls.251.2023.02.24.06.44.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 06:45:04 -0800 (PST)
+Date:   Fri, 24 Feb 2023 20:14:54 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <llvm@lists.linux.dev>
-Subject: [RFC RESEND 2/2] RISC-V: enable building the 64-bit kernels with rust support
-Date:   Fri, 24 Feb 2023 13:50:44 +0000
-Message-ID: <20230224135044.2882109-3-conor.dooley@microchip.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230224135044.2882109-1-conor.dooley@microchip.com>
-References: <20230224135044.2882109-1-conor.dooley@microchip.com>
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Subject: Re: [PATCH V2 18/21] RISC-V: Add ACPI initialization in setup_arch()
+Message-ID: <Y/jNZg5k1UZ26i1X@sunil-laptop>
+References: <20230216182043.1946553-1-sunilvl@ventanamicro.com>
+ <20230216182043.1946553-19-sunilvl@ventanamicro.com>
+ <20230220200743.rev3djzbaa2jcmg6@orel>
+ <Y/ivRjQbIna7M4R2@sunil-laptop>
+ <20230224130712.c42ob66ux5xhffbm@orel>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2374; i=conor.dooley@microchip.com; h=from:subject; bh=HpaH7oMTktYgKSCgvr9/FNMbXJinNGLWnda4ScFUHPo=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDMk/Dmwo8fSS+rnrslhV3QIxvewyGfVJjuHBOg8sXjq7yN4O SKzsKGVhEONgkBVTZEm83dcitf6Pyw7nnrcwc1iZQIYwcHEKwETSHzEyNLGy7y/49uWRcuOr+Z2vC6 4smbJ76bE1dctbZCoUmMunr2X4X/Ar9bmz27Vrej8EeOez+1t/dfoyxTXEdtfO1T5qXzbdZgQA
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230224130712.c42ob66ux5xhffbm@orel>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Miguel Ojeda <ojeda@kernel.org>
+On Fri, Feb 24, 2023 at 02:07:12PM +0100, Andrew Jones wrote:
+> On Fri, Feb 24, 2023 at 06:06:22PM +0530, Sunil V L wrote:
+> > On Mon, Feb 20, 2023 at 09:07:43PM +0100, Andrew Jones wrote:
+> > > On Thu, Feb 16, 2023 at 11:50:40PM +0530, Sunil V L wrote:
+> ...
+> > > > +	fadt = (struct acpi_table_fadt *)table;
+> > > > +
+> > > > +	if (!(fadt->flags & ACPI_FADT_HW_REDUCED)) {
+> > > 
+> > > Do we also need to check for ACPI version 5.0+ when checking for HW
+> > > reduced?
+> > > 
+> > We need to add version check of FADT once spec is released. Will
+> > update it at that time.
+> > 
+> 
+> I was thinking we need the version check already just for the flag.
+> The spec has a footnote that says
+> 
+> "The description of HW_REDUCED_ACPI provided here applies to ACPI
+>  specifications 5.0 and later"
+> 
+> It doesn't really matter in practice since no RISC-V machines can
+> boot with ACPI less than a version that support the new RISC-V
+> tables... But I'd rather we either document that fact, or just do
+> the check.
+> 
+Okay Let me add the current FADT version of 6.5 which for sure
+supports HW_REDUCED flag. When the spec gets released, we can update with
+actual revision we need for RISC-V.
 
-The rust modules work on 64-bit RISC-V, with no twiddling required.
-Select HAS_RUST and provide the required flags to kbuild so that the
-modules can be used.
-32-bit is broken in core rust code, so support is limited to 64-bit
-only: ld.lld: error: undefined symbol: __udivdi3
-
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
- Documentation/rust/arch-support.rst | 2 ++
- arch/riscv/Kconfig                  | 1 +
- arch/riscv/Makefile                 | 3 ++-
- 3 files changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
-index 6982b63775da..197919158596 100644
---- a/Documentation/rust/arch-support.rst
-+++ b/Documentation/rust/arch-support.rst
-@@ -15,5 +15,7 @@ support corresponds to ``S`` values in the ``MAINTAINERS`` file.
- ============  ================  ==============================================
- Architecture  Level of support  Constraints
- ============  ================  ==============================================
-+``riscv``     Maintained        ``rv64`` only.
-+============  ================  ==============================================
- ``x86``       Maintained        ``x86_64`` only.
- ============  ================  ==============================================
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index 81eb031887d2..73174157212d 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -115,6 +115,7 @@ config RISCV
- 	select HAVE_POSIX_CPU_TIMERS_TASK_WORK
- 	select HAVE_REGS_AND_STACK_ACCESS_API
- 	select HAVE_RSEQ
-+	select HAVE_RUST if 64BIT
- 	select HAVE_STACKPROTECTOR
- 	select HAVE_SYSCALL_TRACEPOINTS
- 	select IRQ_DOMAIN
-diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-index 76989561566b..0d6fc4e25221 100644
---- a/arch/riscv/Makefile
-+++ b/arch/riscv/Makefile
-@@ -29,8 +29,8 @@ ifeq ($(CONFIG_ARCH_RV64I),y)
- 
- 	KBUILD_CFLAGS += -mabi=lp64
- 	KBUILD_AFLAGS += -mabi=lp64
--
- 	KBUILD_LDFLAGS += -melf64lriscv
-+	KBUILD_RUSTFLAGS += -Ctarget-cpu=generic-rv64
- else
- 	BITS := 32
- 	UTS_MACHINE := riscv32
-@@ -38,6 +38,7 @@ else
- 	KBUILD_CFLAGS += -mabi=ilp32
- 	KBUILD_AFLAGS += -mabi=ilp32
- 	KBUILD_LDFLAGS += -melf32lriscv
-+	KBUILD_RUSTFLAGS += -Ctarget-cpu=generic-rv32
- endif
- 
- ifeq ($(CONFIG_LD_IS_LLD),y)
--- 
-2.39.2
-
+Thanks,
+Sunil
