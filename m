@@ -2,184 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2737AC6FA8E
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 17:06:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4963C6FA8E
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 18:08:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229724AbjBXRG3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 12:06:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39232 "EHLO
+        id S229758AbjBXSIx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 13:08:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbjBXRG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 12:06:27 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6267566975
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 09:06:26 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id p8so14753926wrt.12
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 09:06:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Am7UTsrrLl5LeWU1phk06r4aR+aojXRx8nt3c68UlzA=;
-        b=T8uUCWgFONTHlUy4fcf1OtN163guOpfDSvC9cRpeQQm8mOTkqbWJjpPowNk66P8aNL
-         ZiGxi3v5PAdjNAlneDE1HI89mAAkmRx//62ebbndeI1ULCrhcDnTJIq1Dxf8jbGhIeFR
-         wSruzc2Rw5xjIC/KNVlZVMNlz1/0Ju35kRnQduhUV1+rBY2K6M757XELJ0aSi2wceClc
-         0AS7Zi75IA+FQld6Nr6zpIOGrv4RrhAuWXBZGSBX6FtgENkABF7N4Iaj25rXyeGEivYK
-         C8mU9beKrjf3rsbed9ZG/jfyBcRuoasDsbLpScBbm+nVwgXYCTuFMdNg0ulgPgGd+nxS
-         aL/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Am7UTsrrLl5LeWU1phk06r4aR+aojXRx8nt3c68UlzA=;
-        b=iv0/LL9GzJKJebYKvvvFOsb0H0508i5xf1EAvil5H8YYiiLM/mmFoi0AlY8jT+tAlL
-         rkWM188cUtTqFgtslxP49MXq4CCCWFmq1bc+PsTuwjUw5oe0OylulqtgApao/vknqaSE
-         RZlvUz07i/Z2WLpPaA9WI/G2iHu43GrD5xGU7Dt60Hmd2eLnEX0zRlOKf5n0CoreMqlY
-         0cXzeLT5taC7rnzjZAWvz1GsJ7jp0ZCK9FynCNCjCcP0d4UaAsAZtyYg853DvmeVgnM0
-         MATBxEJ+UpxzwWvXxFMVOEj6/3kOHXqa1DNJUUGg3UgMma23T4N+F67b9k7vE6657Bph
-         PSZg==
-X-Gm-Message-State: AO0yUKUjDn0DIrpf7upx52G09/Zv6aMBoYGwSY3Y/9f983L5R35+D3Es
-        myJZhJ8/kChiSnCa4OM8pID/xg==
-X-Google-Smtp-Source: AK7set88uoDBhcGuMYfhYqWOmL9+KmCBxlE31bBrR7wtdw0dI+ThATqK199/etDNQtfA8PwDynkLKA==
-X-Received: by 2002:adf:f946:0:b0:2c5:617a:5023 with SMTP id q6-20020adff946000000b002c5617a5023mr14388379wrr.71.1677258384848;
-        Fri, 24 Feb 2023 09:06:24 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id x4-20020adfdd84000000b002c556a4f1casm13292847wrl.42.2023.02.24.09.06.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 09:06:24 -0800 (PST)
-Date:   Fri, 24 Feb 2023 18:06:23 +0100
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH V2 10/21] RISC-V: smpboot: Add ACPI support in smp_setup()
-Message-ID: <20230224170623.d6ubdmatqfromjjm@orel>
-References: <20230216182043.1946553-1-sunilvl@ventanamicro.com>
- <20230216182043.1946553-11-sunilvl@ventanamicro.com>
- <20230220170843.2zkrqcnqcwbruea6@orel>
- <Y/jqye85kKU8KfDU@sunil-laptop>
+        with ESMTP id S229610AbjBXSIv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 13:08:51 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B798965302;
+        Fri, 24 Feb 2023 10:08:46 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31OI8VMV030263;
+        Fri, 24 Feb 2023 18:08:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=0YkAC5sdUDDNmzZjSAq+GcFuOfC2a1Wmd+AzIEAfGlk=;
+ b=mtfdtO8xjp0EKrogibIHZXdFq3IWWg3cGIDlEeKVNGccHgKogSbdNPsV2JMqkJmcKBQ1
+ S84I62QQt1n0GX8Hud235eLdJK+6kCYJKyNmaOgDX7LQ9pgGah/9skQ+2lK71cs7Yy4n
+ IyyDNXqM6hu39RKFaHSTJXLtxxVSTsRK0ABCrOmE6YUyIcj4G3WIIeLz474gu/9qliis
+ Pb4iEH5K6hUhvlLAK1cl6+T5MmXKudIKNJv7T0nrojK4nsQyepJZ6okIUNLci//ubyQd
+ BLhtxO3C571knJ0uX20g++vedoQTHcWPEn8qCce1sc5KGYr9oso5TD3aFiH5c59UWMzk aQ== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ny05mrcs6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 24 Feb 2023 18:08:31 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31OI8UW5000665
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 24 Feb 2023 18:08:30 GMT
+Received: from [10.110.9.108] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 24 Feb
+ 2023 10:08:29 -0800
+Message-ID: <7b6d4c14-ebde-1bc3-04de-59cae9d4b7be@quicinc.com>
+Date:   Fri, 24 Feb 2023 10:08:28 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y/jqye85kKU8KfDU@sunil-laptop>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 12/26] gunyah: vm_mgr: Add/remove user memory regions
+Content-Language: en-US
+To:     Fuad Tabba <tabba@google.com>
+CC:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Bagas Sanjaya" <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        "Chao Peng" <chao.p.peng@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Will Deacon <will@kernel.org>,
+        "smoreland@google.com" <smoreland@google.com>
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212417.3315422-1-quic_eberman@quicinc.com>
+ <CA+EHjTxEeiBWXJMCnv0V+5n=jB8w=m0EFdgK=FKtSqKOkiaChg@mail.gmail.com>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <CA+EHjTxEeiBWXJMCnv0V+5n=jB8w=m0EFdgK=FKtSqKOkiaChg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: GB_MM5ia32HfIiO1IJ_OZveSflPxvTnN
+X-Proofpoint-ORIG-GUID: GB_MM5ia32HfIiO1IJ_OZveSflPxvTnN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-24_13,2023-02-24_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 bulkscore=0
+ priorityscore=1501 malwarescore=0 clxscore=1011 phishscore=0 mlxscore=0
+ spamscore=0 impostorscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302240142
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 24, 2023 at 10:20:17PM +0530, Sunil V L wrote:
-> On Mon, Feb 20, 2023 at 06:08:43PM +0100, Andrew Jones wrote:
-> > On Thu, Feb 16, 2023 at 11:50:32PM +0530, Sunil V L wrote:
-> > > Enable SMP boot on ACPI based platforms by using the RINTC
-> > > structures in the MADT table.
-> > > 
-> > > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > > ---
-> > >  arch/riscv/include/asm/acpi.h |  7 ++++
-> > >  arch/riscv/kernel/smpboot.c   | 70 ++++++++++++++++++++++++++++++++++-
-> > >  2 files changed, 76 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
-> > > index 7bc49f65c86b..3c3a8ac3b37a 100644
-> > > --- a/arch/riscv/include/asm/acpi.h
-> > > +++ b/arch/riscv/include/asm/acpi.h
-> > > @@ -60,6 +60,13 @@ static inline void arch_fix_phys_package_id(int num, u32 slot) { }
-> > >  
-> > >  int acpi_get_riscv_isa(struct acpi_table_header *table,
-> > >  		       unsigned int cpu, const char **isa);
-> > > +
-> > > +#ifdef CONFIG_ACPI_NUMA
-> > > +int acpi_numa_get_nid(unsigned int cpu);
-> > > +#else
-> > > +static inline int acpi_numa_get_nid(unsigned int cpu) { return NUMA_NO_NODE; }
-> > > +#endif /* CONFIG_ACPI_NUMA */
-> > 
-> > The #ifdef stuff seems premature since we're not providing an
-> > implementation for acpi_numa_get_nid() or selecting ACPI_NUMA, but OK.
-> > 
-> Yes, will remove it. We can add as part NUMA enablement.
-> 
-> > > +
-> > >  #else
-> > >  static inline int acpi_get_riscv_isa(struct acpi_table_header *table,
-> > >  				     unsigned int cpu, const char **isa)
-> > > diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
-> > > index 26214ddefaa4..77630f8ed12b 100644
-> > > --- a/arch/riscv/kernel/smpboot.c
-> > > +++ b/arch/riscv/kernel/smpboot.c
-> > > @@ -8,6 +8,7 @@
-> > >   * Copyright (C) 2017 SiFive
-> > >   */
-> > >  
-> > > +#include <linux/acpi.h>
-> > >  #include <linux/arch_topology.h>
-> > >  #include <linux/module.h>
-> > >  #include <linux/init.h>
-> > > @@ -70,6 +71,70 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
-> > >  	}
-> > >  }
-> > >  
-> > > +#ifdef CONFIG_ACPI
-> > > +static unsigned int cpu_count = 1;
-> > > +
-> > > +static int __init acpi_parse_rintc(union acpi_subtable_headers *header, const unsigned long end)
-> > > +{
-> > > +	unsigned long hart;
-> > > +	bool found_boot_cpu = false;
-> > 
-> > I guess found_boot_cpu should be static?
-> > 
-> Good catch!. Thanks!
-> 
-> > > +	struct acpi_madt_rintc *processor = (struct acpi_madt_rintc *)header;
-> > > +
-> > > +	/*
-> > > +	 * Each RINTC structure in MADT will have a flag. If ACPI_MADT_ENABLED
-> > > +	 * bit in the flag is not enabled, it means OS should not try to enable
-> > > +	 * the cpu to which RINTC belongs.
-> > > +	 */
-> > > +	if (!(processor->flags & ACPI_MADT_ENABLED))
-> > > +		return 0;
-> > > +
-> > > +	hart = processor->hart_id;
-> > > +	if (hart < 0)
-> > > +		return 0;
-> > 
-> > A valid hart ID is anything up to INVALID_HARTID, right? Shouldn't we only
-> > be checking for INVALID_HARTID here? And what does it mean to have an
-> > invalid hart ID here? It's not an issue to error/warn about?
-> > 
-> Yes, will check for INVALID_HARTID (though I am not really sure how it
-> can be invalid). Will add a warning.
-> 
-> > > +	if (hart == cpuid_to_hartid_map(0)) {
-> > > +		BUG_ON(found_boot_cpu);
-> > 
-> > Do we really want to BUG due to bad, but potentially bootable ACPI tables?
-> > I'd BUG for things that can only happen when we break the code, but broken
-> > ACPI tables might be something we want to complain loudly about and then
-> > attempt to limp along.
-> > 
-> Okay. I used same logic as in DT. It may be better to use BUG instead of
-> debugging weird symptoms later, right?
 
-Maybe? I guess it depends on how obvious the symptoms are, how much they
-mess things up, and how easy it is to correct the ACPI tables. I'll leave
-this one up to you :-)
+
+On 2/24/2023 2:19 AM, Fuad Tabba wrote:
+> Hi,
+> 
+> On Tue, Feb 14, 2023 at 9:26 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>>
+>>
+>> When launching a virtual machine, Gunyah userspace allocates memory for
+>> the guest and informs Gunyah about these memory regions through
+>> SET_USER_MEMORY_REGION ioctl.
+> 
+> I'm working on pKVM [1], and regarding the problem of donating private
+> memory to a guest, we and others working on confidential computing
+> have faced a similar issue that this patch is trying to address. In
+> pKVM, we've initially taken an approach similar to the one here by
+> pinning the pages being donated to prevent swapping or migration [2].
+> However, we've encountered issues with this approach since the memory
+> is still mapped by the host, which could cause the system to crash on
+> an errant access.
+> 
+> Instead, we've been working on adopting an fd-based restricted memory
+> approach that was initially proposed for TDX [3] and is now being
+> considered by others in the confidential computing space as well
+> (e.g., Arm CCA [4]). The basic idea is that the host manages the guest
+> memory via a file descriptor instead of a userspace address. It cannot
+> map that memory (unless explicitly shared by the guest [5]),
+> eliminating the possibility of the host trying to access private
+> memory accidentally or being tricked by a malicious actor. This is
+> based on memfd with some restrictions. It handles swapping and
+> migration by disallowing them (for now [6]), and adds a new type of
+> memory region to KVM to accommodate having an fd representing guest
+> memory.
+> 
+> Although the fd-based restricted memory isn't upstream yet, we've
+> ported the latest patches to arm64 and made changes and additions to
+> make it work with pKVM, to test it and see if the solution is feasible
+> for us (it is). I wanted to mention this work in case you find it
+> useful, and in the hopes that we can all work on confidential
+> computing using the same interfaces as much as possible.
+
+Thanks for highlighting the memfd_restricted changes to us! We'll 
+investigate how/if it can suit Gunyah usecases. It sounds like you 
+might've made memfd_restricted changes as well? Are those posted on the 
+mailing lists? Also, are example userspace (crosvm?) changes posted?
 
 Thanks,
-drew
+Elliot
+
+> 
+> Some comments inline below...
+> 
+> Cheers,
+> /fuad
+> 
+> [1] https://lore.kernel.org/kvmarm/20220519134204.5379-1-will@kernel.org/
+> [2] https://lore.kernel.org/kvmarm/20220519134204.5379-34-will@kernel.org/
+> [3] https://lore.kernel.org/all/20221202061347.1070246-1-chao.p.peng@linux.intel.com/
+> [4] https://lore.kernel.org/lkml/20230127112932.38045-1-steven.price@arm.com/
+> [5] This is a modification we've done for the arm64 port, after
+> discussing it with the original authors.
+> [6] Nothing inherent in the proposal to stop migration and swapping.
+> There are some technical issues that need to be resolved.
+> 
+> <snip>
+<snip, looking at comments in parallel>
