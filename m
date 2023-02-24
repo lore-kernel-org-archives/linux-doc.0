@@ -2,128 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53993C6FA8E
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 23:18:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FD4C6FA8E
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 23:23:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbjBXXSH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 18:18:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47698 "EHLO
+        id S229681AbjBXXXK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 18:23:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229569AbjBXXSG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 18:18:06 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E7A210416
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 15:18:04 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id oe18-20020a17090b395200b00236a0d55d3aso793327pjb.3
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 15:18:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MX1R2gtpS7PTJMMj2XzkRK8QoMFOMXwlDnaBp/O//5Y=;
-        b=c8tddRXKciU40CU2uGoIeK1kgI4zQGR73paZYrd7u3/ki3jB1M2TQ6uhzSu9wQvF3s
-         kdEzKpS2EhXW7z3UEdPsrzvfqZr6laqZAFyEJgO4/kqWPvXc70YZhiLgtoPq8Hk3ls6U
-         DFmnR+n6Wy7xuCLutA/EOXdBmeTXFC5dlMT/1LgpQ9MKsB5KXhZjlC43/bYknWGD9YPi
-         JUkg6hzSv11lsoS/jk7xH64ddbg07hj9yYSwEHOskrh50Qfs2W7VuZAd7TXifAdpUfm6
-         5NQAWoZTrQLn55+j88OtXH6bdqMjvsza/oMvvkN8V5qvBBoHgSZHMu++tkEvu1xyaNIj
-         fw0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MX1R2gtpS7PTJMMj2XzkRK8QoMFOMXwlDnaBp/O//5Y=;
-        b=PMSY5XM3cxofTkyET8zOlFfJs5kjsvbeFRiI5AK7I6mqjs9g2sflf/cNyvUqXcEoFG
-         uE+9LCbhF1r+MSCl5Z1EvXtceIcSAXY0OfqWSqxiKuLKmoTC7rqWhHHK4g8WTBOXAKU4
-         /Y8QlMDiaOx4EOvZ17db3d7SOJcv4dL8WQeBBaLOLr6t5ZuWcf/qrb464crA2sLGEk4z
-         NncBJPaQ/WiugC4UyVs7epz1kdviexCvTcolGp4YOd8gvxR8FpP7g/TQEuXlbnLjkP/V
-         Zf3Hw85QcjOHlCJqCKq5rWuOMQ5m80Kengdwx4eAI85nrMa28/G3q3ZiwEMa+YB5D4hP
-         FeSw==
-X-Gm-Message-State: AO0yUKUyDHjX/a2Ae6VrfaA/8si7zJfbkBJ/tFKJfsdzUe2/YtJ2VYiV
-        xNaiKcDCj2pJrxYqagaCU/WDoQ==
-X-Google-Smtp-Source: AK7set+FjlLmjlbXKl/hb0rF9jHxqpKdq7pxOc+XOmxKvvLljAbBnp9DR6wlnW/P8k+DlGKdRyPNkw==
-X-Received: by 2002:a05:6a20:7f9f:b0:cc:6728:f3da with SMTP id d31-20020a056a207f9f00b000cc6728f3damr6055852pzj.19.1677280683659;
-        Fri, 24 Feb 2023 15:18:03 -0800 (PST)
-Received: from localhost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id r19-20020a6560d3000000b00502ea97cbc0sm33732pgv.40.2023.02.24.15.18.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 15:18:03 -0800 (PST)
-Date:   Fri, 24 Feb 2023 15:18:03 -0800 (PST)
-X-Google-Original-Date: Fri, 24 Feb 2023 15:17:19 PST (-0800)
-Subject:     Re: [RFC 0/2] RISC-V: enable rust
-In-Reply-To: <CANiq72nfGfqnk4QyKsf3kmjgBVPG3WFLQqd7_+jLcYh9jG+fQw@mail.gmail.com>
-CC:     Conor Dooley <conor.dooley@microchip.com>,
-        linux-riscv@lists.infradead.org, Conor Dooley <conor@kernel.org>,
-        ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com,
-        boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
-        corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        nathan@kernel.org, ndesaulniers@google.com, trix@redhat.com,
-        rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     miguel.ojeda.sandonis@gmail.com
-Message-ID: <mhng-b792c358-a678-4ab3-aba4-4bc38da55744@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229532AbjBXXXJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 18:23:09 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE840231D4;
+        Fri, 24 Feb 2023 15:23:08 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3C4411EC0725;
+        Sat, 25 Feb 2023 00:23:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1677280987;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=j0zvR/GW8qESlMENYKavRs5BBeojGzLc+Igg/tiAP10=;
+        b=LYcoaFyr631Gy3vC9r2lkRIy/pHYb5Kb6lwDjloyRBA8QwwjuE990CgNkiI00nprv/0KY6
+        Ow1/wyGRtZpeSkENTyGShz1PCjHPGgaTgNLqDi831UepcbiOdqO9CYXIgJchcHY3q6BhKB
+        OqDjqbOoXrxYig5kP9pSfm8H+jGlEbM=
+Date:   Sat, 25 Feb 2023 00:23:02 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Josh Poimboeuf <jpoimboe@kernel.org>
+Cc:     Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 7/8] x86/cpu: Support AMD Automatic IBRS
+Message-ID: <Y/lG1v28zQx976Pz@zn.tnic>
+References: <20230124163319.2277355-1-kim.phillips@amd.com>
+ <20230124163319.2277355-8-kim.phillips@amd.com>
+ <20230224185257.o3mcmloei5zqu7wa@treble>
+ <Y/knUC0s+rg6ef2r@zn.tnic>
+ <Y/k/ZXUXOFiBhOiI@zn.tnic>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y/k/ZXUXOFiBhOiI@zn.tnic>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 24 Feb 2023 14:38:28 PST (-0800), miguel.ojeda.sandonis@gmail.com wrote:
-> On Fri, Feb 24, 2023 at 10:32 PM Palmer Dabbelt <palmer@dabbelt.com> wrote:
->>
->> I'm fine with it, but IIRC the Rust support for most targets was pulled
->> out as they weren't deemed ready to go yet.  If the Rust folks are OK
->
-> So we trimmed the original series from v8 to v9 as much as possible in
-> order to upstream things piece by piece, get maintainers involved, and
-> so on; i.e. they were not trimmed because they were not ready.
+On Fri, Feb 24, 2023 at 11:51:17PM +0100, Borislav Petkov wrote:
+> Or, actually, we should simply write it again because it is the init
+> path and not really a hot path but it should damn well make sure that
+> that bit gets set.
 
-OK, cool, that's way less scary.
+Yeah, we have this fancy msr_set_bit() interface which saves us the MSR
+write when not needed. And it also tells us that. :-)
 
-> Having said that, for the architectures support in particular, what we
-> had is indeed a prototype: each architecture we added was able to
-> compile, boot into QEMU, load the sample Rust modules, pass a few
-> tests, and so on in our CI, using a couple kernel configs. But that is
-> just the basic support, and it does not mean it works for other kernel
-> configs, all hardware, all security features, and so on.
->
-> So it depends on how you want to approach it, whether you are
-> interested in the basic support or not, etc. In any case, I would
-> recommend having an expert on the architecture take a look to
-> double-check things look sane, run some tests on real hardware, etc.
+So we can do:
 
-We generally take stuff pretty early in RISC-V land, for example we take 
-a bunch of stuff that's just in the ISA but doesn't have any hardware 
-yet.  The good news is that we don't really have any of the complicated 
-language-tied features in RISC-V land, so with any luck it's pretty 
-straight-forward to flip on.
+diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
+index 380753b14cab..2aa089aa23db 100644
+--- a/arch/x86/kernel/cpu/amd.c
++++ b/arch/x86/kernel/cpu/amd.c
+@@ -996,6 +996,12 @@ static void init_amd(struct cpuinfo_x86 *c)
+ 		msr_set_bit(MSR_K7_HWCR, MSR_K7_HWCR_IRPERF_EN_BIT);
+ 
+ 	check_null_seg_clears_base(c);
++
++	if (cpu_has(c, X86_FEATURE_AUTOIBRS)) {
++		int ret = msr_set_bit(MSR_EFER, _EFER_AUTOIBRS);
++
++		pr_info("%s: CPU%d, ret: %d\n", __func__, smp_processor_id(), ret);
++	}
+ }
+ 
+ #ifdef CONFIG_X86_32
 
->> turning on RISC-V support then it's fine with me, but I think it's
->> really more up to them at this point.
->>
->> So
->>
->> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
->>
->> in case folks want to take it via some Rust-related tree, but I'm also
->> fine taking it via the RISC-V tree if that's easier.
->
-> Thanks Palmer! We are trying to get maintainers of the different
-> subsystems/archs/... involved so that they maintain the different Rust
-> bits we are upstreaming, so ideally it would go through the RISC-V
-> tree.
+---
 
-Works for me.
+and the output looks like this:
 
-I've got a few other things in the pipeline for this merge window so 
-this probably won't make it, but I'll dig in after that.  We've got a 
-bunch of Rust-types floating around Rivos as well, so with any luck 
-someone else will have some time to poke around.  Having a full cycle in 
-linux-next is probably the right way to go for this sort of thing 
-anyway, as it's likely to shake out some long-tail issues.
+[    3.046607] x86: Booting SMP configuration:
+[    3.046609] .... node  #0, CPUs:          #1
+[    2.874768] init_amd: CPU1, ret: 0
+[    3.046873]    #2
+[    2.874768] init_amd: CPU2, ret: 0
+[    3.049155]    #3
+[    2.874768] init_amd: CPU3, ret: 0
+[    3.050834]    #4
+[    2.874768] init_amd: CPU4, ret: 0
+...
 
-That'll also give us time to sort out the authorship issues, which we'd 
-of course need to do before merging anything.
+which says that the bit was already set - which confirms the
+trampoline setting thing.
+
+And doing the write again serves as a guard when in the future we decide
+to not set EFER anymore - I doubt it - but we can't allow ourselves to
+not set the autoibrs bit so one more RDMSR on init doesn't matter.
+
+Proper patch tomorrow.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
