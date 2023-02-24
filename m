@@ -2,61 +2,65 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D7FFC61DA3
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 10:20:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0074CC6FA8E
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Feb 2023 10:31:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbjBXKUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 05:20:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41724 "EHLO
+        id S230340AbjBXKbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 05:31:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230035AbjBXKUR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 05:20:17 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E2791968C
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 02:20:14 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id n2so14017299lfb.12
-        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 02:20:14 -0800 (PST)
+        with ESMTP id S230109AbjBXKbA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 05:31:00 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56335679AB
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 02:30:26 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id k37so8093149wms.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Feb 2023 02:30:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hEwsz4UUnsL1QET78UClGRYs4m/AnPiP7Yj0wQq8Jxw=;
-        b=K8tTsNNp5D8tUYAWhc2GO1NhLYzTyEV34gBYen+1QJKaxzkqjRa3AWMJcSOfNHlHJG
-         XYwRthsOp4fXPgJi9/Mok2mlb6tP6wljqhtbZ20etjStPicx6oN4TqcMBH0Hwc9blRTr
-         NWV9SWr1QYDFgjJbwMQszkQrv9s3KTRVPzH3hfvyMb3y7whA43mEA6/ctqwWRcqKa/3G
-         2wTDP4FdqEOHvihpJXRSVxqIGbcE+Xr4Vqeg6jkSQMYukPKi/ioMjlbVl+nsRLuF3qI4
-         guw35siVBLvOJuR1jtPE55mgdNMfzSWXsmYF6bqpfNddGkvDf9C3+HCSIfN66WxqRxaB
-         nz/w==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6wxxz+sDh794uzv69vqKx5GNNub+zLdXfYsMvxxHBJ4=;
+        b=ftm4FaeoP2zr5EYlxPFvlurlNxkZoU/u6gsYW0oFeC6dwiCYq7LzqS4DjcV6allT9l
+         o/Zd+Pmt028rUJa2MyaU5OKEfubnqpL+UmCodhb+SdUnkYF5Fb/YnxjerOmIHjXoGRqw
+         ESZRI42hZYoDZ0U3pi9wIWDp9PZQwRspsyZwRXQaWoqkfWjBLJUoVA2zZGWxS8BcV0BX
+         qFwp7ZrtZwxGiSqybS1cdOPOJVED33eHxhSPYhV1+58yCHABO4rh2b65YXS15zu7GXJM
+         YBvECCJThSbVQHkQ5bUcPR+98dfsIVcxn/0TuU1lJ/lil50PfGLT8Fw0csw+hYB8n9mr
+         Uu9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hEwsz4UUnsL1QET78UClGRYs4m/AnPiP7Yj0wQq8Jxw=;
-        b=fs6/Hm+9r/o3FxRXR4/gSi9d+m/ymy16vSvAazSNdB7aHHSySCoV5pC3f2vGTE5cE/
-         SAJxBKZ9MqMJNx59P3eG2xBkGe6VB0Y4YZvBLodbwcujlJEGWGqcMTX2+8vDu6kqHRz5
-         qrw7gu/FqdtXUdvxw0s5f4K3bkUlvzIsNsK0JZgfrUEss9IUIcxiR71ZNkyDisIPuycD
-         p87TotYirVsMrSBW88QQ69YoqBvAMxUC/O8gFew7qunw3fTUmfq9pSvImdOmwbZWvnbG
-         UPiF0tN1yZC1yVj9gRMZYlMcPkuVOQ83o+q0rbaSFztzVv5I+btjdXSfMMlVPRe1kLBg
-         xVUg==
-X-Gm-Message-State: AO0yUKVUGolESJMKQC4UFmkXmtJuzh43OzsN4d7LKIQW8N8qzZUkp9vJ
-        qBEWSD//tWL1YbYQJi2VP/haMe63PMnIn0rRWU4bgw==
-X-Google-Smtp-Source: AK7set8pSd+vhBCeJWziASLZGOpsuRNu5oEjKmnP1K9G95zIvZq4Seu4EvlZk0HiUCIBWV2b7rOFhPfETP1R7DZhKa4=
-X-Received: by 2002:a05:6512:516:b0:4dc:807a:d148 with SMTP id
- o22-20020a056512051600b004dc807ad148mr4755043lfb.7.1677234012621; Fri, 24 Feb
- 2023 02:20:12 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6wxxz+sDh794uzv69vqKx5GNNub+zLdXfYsMvxxHBJ4=;
+        b=IOwTI2nKp+hfIL3/Bw61XzYc2jNCp6be5g0QFnSLIMsAwjMQHQZxsb5zOSimdxmLJF
+         cuOVevbhLu2E/aO6d2t379mxTg/huH1nhtQ9MG+dS5IrmrsvOW2JRWll6Pr7167vY9GC
+         0jjCLzw7wU5EFT7pi7Dwmh0nS4TSAWGELOtduStxjbjvINX3GFGS0q7D3fevQhWGPVhS
+         zxdoo4PD6ubbEqwyJc7BsgSv8swGGz3wTq79LVT+f6ZXHE63mqtezAMd5nIohmAJKYTa
+         KOgYGTyZV2Vg0AJLLsn58BVVK79ujj1vJRBGdY/a0lUQblr3OhwGDH7+Iw4eMqaxnvga
+         puJQ==
+X-Gm-Message-State: AO0yUKWKAEhq9UCk4rn+WqqUKqf+rcZnAxti3TL3V/pA1s39a2uwVz49
+        HhbTddifUG/2RVWGqXZW//ZT5Q==
+X-Google-Smtp-Source: AK7set+yKZPsTlp+cfnAvSBbyEIWpo7dQfPOGPoNPA8Ycci6zSnnqhHIygrGuXmhhimjWGXsjagJrw==
+X-Received: by 2002:a05:600c:34cb:b0:3eb:a4e:a2b2 with SMTP id d11-20020a05600c34cb00b003eb0a4ea2b2mr1562593wmq.4.1677234588949;
+        Fri, 24 Feb 2023 02:29:48 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id az35-20020a05600c602300b003eaf666cbe0sm2376659wmb.27.2023.02.24.02.29.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Feb 2023 02:29:48 -0800 (PST)
+Message-ID: <a50fa44d-fbc3-9ce2-175b-85c8cd7a9f7f@linaro.org>
+Date:   Fri, 24 Feb 2023 10:29:46 +0000
 MIME-Version: 1.0
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com> <20230214212417.3315422-1-quic_eberman@quicinc.com>
-In-Reply-To: <20230214212417.3315422-1-quic_eberman@quicinc.com>
-From:   Fuad Tabba <tabba@google.com>
-Date:   Fri, 24 Feb 2023 10:19:36 +0000
-Message-ID: <CA+EHjTxEeiBWXJMCnv0V+5n=jB8w=m0EFdgK=FKtSqKOkiaChg@mail.gmail.com>
-Subject: Re: [PATCH v10 12/26] gunyah: vm_mgr: Add/remove user memory regions
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v10 10/26] gunyah: vm_mgr: Introduce basic VM Manager
+Content-Language: en-US
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
         Carl van Schaik <quic_cvanscha@quicinc.com>,
@@ -67,312 +71,263 @@ Cc:     Alex Elder <elder@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Will Deacon <will@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-arm-kernel@lists.infradead.org
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212356.3313181-1-quic_eberman@quicinc.com>
+ <dbcfa4e9-a1ad-0f24-77bf-05934ca26bb2@linaro.org>
+ <05c4aab8-2d26-b944-adb6-624d67e4a11d@quicinc.com>
+ <52d944b1-3ea6-26b7-766a-2fed05dccf3a@linaro.org>
+ <c5ff1523-7a62-3d3f-6fa9-792ce4d222e8@quicinc.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <c5ff1523-7a62-3d3f-6fa9-792ce4d222e8@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On Tue, Feb 14, 2023 at 9:26 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->
->
-> When launching a virtual machine, Gunyah userspace allocates memory for
-> the guest and informs Gunyah about these memory regions through
-> SET_USER_MEMORY_REGION ioctl.
-
-I'm working on pKVM [1], and regarding the problem of donating private
-memory to a guest, we and others working on confidential computing
-have faced a similar issue that this patch is trying to address. In
-pKVM, we've initially taken an approach similar to the one here by
-pinning the pages being donated to prevent swapping or migration [2].
-However, we've encountered issues with this approach since the memory
-is still mapped by the host, which could cause the system to crash on
-an errant access.
-
-Instead, we've been working on adopting an fd-based restricted memory
-approach that was initially proposed for TDX [3] and is now being
-considered by others in the confidential computing space as well
-(e.g., Arm CCA [4]). The basic idea is that the host manages the guest
-memory via a file descriptor instead of a userspace address. It cannot
-map that memory (unless explicitly shared by the guest [5]),
-eliminating the possibility of the host trying to access private
-memory accidentally or being tricked by a malicious actor. This is
-based on memfd with some restrictions. It handles swapping and
-migration by disallowing them (for now [6]), and adds a new type of
-memory region to KVM to accommodate having an fd representing guest
-memory.
-
-Although the fd-based restricted memory isn't upstream yet, we've
-ported the latest patches to arm64 and made changes and additions to
-make it work with pKVM, to test it and see if the solution is feasible
-for us (it is). I wanted to mention this work in case you find it
-useful, and in the hopes that we can all work on confidential
-computing using the same interfaces as much as possible.
-
-Some comments inline below...
-
-Cheers,
-/fuad
-
-[1] https://lore.kernel.org/kvmarm/20220519134204.5379-1-will@kernel.org/
-[2] https://lore.kernel.org/kvmarm/20220519134204.5379-34-will@kernel.org/
-[3] https://lore.kernel.org/all/20221202061347.1070246-1-chao.p.peng@linux.intel.com/
-[4] https://lore.kernel.org/lkml/20230127112932.38045-1-steven.price@arm.com/
-[5] This is a modification we've done for the arm64 port, after
-discussing it with the original authors.
-[6] Nothing inherent in the proposal to stop migration and swapping.
-There are some technical issues that need to be resolved.
-
-<snip>
-
-> +int gh_vm_mem_alloc(struct gh_vm *ghvm, struct gh_userspace_memory_region *region)
-> +{
-> +       struct gh_vm_mem *mapping, *tmp_mapping;
-> +       struct gh_rm_mem_entry *mem_entries;
-> +       phys_addr_t curr_page, prev_page;
-> +       struct gh_rm_mem_parcel *parcel;
-> +       int i, j, pinned, ret = 0;
-> +       size_t entry_size;
-> +       u16 vmid;
-> +
-> +       if (!gh_api_has_feature(GH_API_FEATURE_MEMEXTENT))
-> +               return -EOPNOTSUPP;
-> +
-> +       if (!region->memory_size || !PAGE_ALIGNED(region->memory_size) ||
-> +               !PAGE_ALIGNED(region->userspace_addr) || !PAGE_ALIGNED(region->guest_phys_addr))
-> +               return -EINVAL;
-> +
-> +       ret = mutex_lock_interruptible(&ghvm->mm_lock);
-> +       if (ret)
-> +               return ret;
-> +       mapping = __gh_vm_mem_find(ghvm, region->label);
-> +       if (mapping) {
-> +               mutex_unlock(&ghvm->mm_lock);
-> +               return -EEXIST;
-> +       }
-> +
-> +       mapping = kzalloc(sizeof(*mapping), GFP_KERNEL);
-> +       if (!mapping) {
-> +               ret = -ENOMEM;
-> +               goto free_mapping;
-> +       }
-> +
-> +       mapping->parcel.label = region->label;
-> +       mapping->guest_phys_addr = region->guest_phys_addr;
-> +       mapping->npages = region->memory_size >> PAGE_SHIFT;
-> +       parcel = &mapping->parcel;
-> +       parcel->mem_handle = GH_MEM_HANDLE_INVAL; /* to be filled later by mem_share/mem_lend */
-> +       parcel->mem_type = GH_RM_MEM_TYPE_NORMAL;
-> +
-> +       /* Check for overlap */
-> +       list_for_each_entry(tmp_mapping, &ghvm->memory_mappings, list) {
-> +               if (!((mapping->guest_phys_addr + (mapping->npages << PAGE_SHIFT) <=
-> +                       tmp_mapping->guest_phys_addr) ||
-> +                       (mapping->guest_phys_addr >=
-> +                       tmp_mapping->guest_phys_addr + (tmp_mapping->npages << PAGE_SHIFT)))) {
-> +                       ret = -EEXIST;
-> +                       goto free_mapping;
-> +               }
-> +       }
-> +
-> +       list_add(&mapping->list, &ghvm->memory_mappings);
-> +
-> +       mapping->pages = kcalloc(mapping->npages, sizeof(*mapping->pages), GFP_KERNEL);
-> +       if (!mapping->pages) {
-> +               ret = -ENOMEM;
-> +               mapping->npages = 0; /* update npages for reclaim */
-> +               goto reclaim;
-> +       }
-
-These pages should be accounted for as locked pages, e.g.,
-account_locked_vm(), which would also ensure that the process hasn't
-reached its limit.
-
-> +       pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
-> +                                       FOLL_WRITE | FOLL_LONGTERM, mapping->pages);
-
-It might be good to check and avoid donating pages with pre-faulted
-file mappings since it might trigger a writeback of a page after
-losing access to it. Ideally, you want to only accept anonymous or
-shmem pages. In pKVM, we check that the pages are SwapBacked and
-reject the pinning/donation otherwise [2].
-
-> +       if (pinned < 0) {
-> +               ret = pinned;
-> +               mapping->npages = 0; /* update npages for reclaim */
-> +               goto reclaim;
-> +       } else if (pinned != mapping->npages) {
-> +               ret = -EFAULT;
-> +               mapping->npages = pinned; /* update npages for reclaim */
-> +               goto reclaim;
-> +       }
-> +
-> +       if (region->flags & GH_MEM_LENT) {
-> +               parcel->n_acl_entries = 1;
-> +               mapping->share_type = VM_MEM_LEND;
-> +       } else {
-> +               parcel->n_acl_entries = 2;
-> +               mapping->share_type = VM_MEM_SHARE;
-> +       }
-> +       parcel->acl_entries = kcalloc(parcel->n_acl_entries, sizeof(*parcel->acl_entries),
-> +                                       GFP_KERNEL);
-> +       if (!parcel->acl_entries) {
-> +               ret = -ENOMEM;
-> +               goto reclaim;
-> +       }
-> +
-> +       parcel->acl_entries[0].vmid = cpu_to_le16(ghvm->vmid);
-> +       if (region->flags & GH_MEM_ALLOW_READ)
-> +               parcel->acl_entries[0].perms |= GH_RM_ACL_R;
-> +       if (region->flags & GH_MEM_ALLOW_WRITE)
-> +               parcel->acl_entries[0].perms |= GH_RM_ACL_W;
-> +       if (region->flags & GH_MEM_ALLOW_EXEC)
-> +               parcel->acl_entries[0].perms |= GH_RM_ACL_X;
-> +
-> +       if (mapping->share_type == VM_MEM_SHARE) {
-> +               ret = gh_rm_get_vmid(ghvm->rm, &vmid);
-> +               if (ret)
-> +                       goto reclaim;
-> +
-> +               parcel->acl_entries[1].vmid = cpu_to_le16(vmid);
-> +               /* Host assumed to have all these permissions. Gunyah will not
-> +                * grant new permissions if host actually had less than RWX
-> +                */
-> +               parcel->acl_entries[1].perms |= GH_RM_ACL_R | GH_RM_ACL_W | GH_RM_ACL_X;
-> +       }
-> +
-> +       mem_entries = kcalloc(mapping->npages, sizeof(*mem_entries), GFP_KERNEL);
-> +       if (!mem_entries) {
-> +               ret = -ENOMEM;
-> +               goto reclaim;
-> +       }
-> +
-> +       /* reduce number of entries by combining contiguous pages into single memory entry */
-> +       prev_page = page_to_phys(mapping->pages[0]);
-> +       mem_entries[0].ipa_base = cpu_to_le64(prev_page);
-> +       entry_size = PAGE_SIZE;
-> +       for (i = 1, j = 0; i < mapping->npages; i++) {
-> +               curr_page = page_to_phys(mapping->pages[i]);
-> +               if (page_contiguous(prev_page, curr_page)) {
-> +                       entry_size += PAGE_SIZE;
-> +               } else {
-> +                       mem_entries[j].size = cpu_to_le64(entry_size);
-> +                       j++;
-> +                       mem_entries[j].ipa_base = cpu_to_le64(curr_page);
-> +                       entry_size = PAGE_SIZE;
-> +               }
-> +
-> +               prev_page = curr_page;
-> +       }
-> +       mem_entries[j].size = cpu_to_le64(entry_size);
-> +
-> +       parcel->n_mem_entries = j + 1;
-> +       parcel->mem_entries = kmemdup(mem_entries, sizeof(*mem_entries) * parcel->n_mem_entries,
-> +                                       GFP_KERNEL);
-> +       kfree(mem_entries);
-> +       if (!parcel->mem_entries) {
-> +               ret = -ENOMEM;
-> +               goto reclaim;
-> +       }
-> +
-> +       mutex_unlock(&ghvm->mm_lock);
-> +       return 0;
-> +reclaim:
-> +       gh_vm_mem_reclaim(ghvm, mapping);
-> +free_mapping:
-> +       kfree(mapping);
-> +       mutex_unlock(&ghvm->mm_lock);
-> +       return ret;
-> +}
-> +
-> +int gh_vm_mem_free(struct gh_vm *ghvm, u32 label)
-> +{
-> +       struct gh_vm_mem *mapping;
-> +       int ret;
-> +
-> +       ret = mutex_lock_interruptible(&ghvm->mm_lock);
-> +       if (ret)
-> +               return ret;
-> +
-> +       mapping = __gh_vm_mem_find(ghvm, label);
-> +       if (!mapping)
-> +               goto out;
-> +
-> +       gh_vm_mem_reclaim(ghvm, mapping);
-> +       kfree(mapping);
-> +out:
-> +       mutex_unlock(&ghvm->mm_lock);
-> +       return ret;
-> +}
-> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
-> index 10ba32d2b0a6..d85d12119a48 100644
-> --- a/include/uapi/linux/gunyah.h
-> +++ b/include/uapi/linux/gunyah.h
-> @@ -20,4 +20,37 @@
->   */
->  #define GH_CREATE_VM                   _IO(GH_IOCTL_TYPE, 0x0) /* Returns a Gunyah VM fd */
->
-> +/*
-> + * ioctls for VM fds
-> + */
-> +
-> +/**
-> + * struct gh_userspace_memory_region - Userspace memory descripion for GH_VM_SET_USER_MEM_REGION
-
-nit: s/descripion/description
-
-> + * @label: Unique identifer to the region.
-
-nit: s/identifer/identifier
 
 
+On 23/02/2023 22:40, Elliot Berman wrote:
+> 
+> 
+> On 2/23/2023 2:08 AM, Srinivas Kandagatla wrote:
+>>
+>>
+>> On 22/02/2023 00:27, Elliot Berman wrote:
+>>>
+>>>>> +    .llseek = noop_llseek,
+>>>>> +};
+>>>>> +
+>>>>> +static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long 
+>>>>> arg)
+>>>> Not sure what is the gain of this multiple levels of redirection.
+>>>>
+>>>> How about
+>>>>
+>>>> long gh_dev_create_vm(struct gh_rm *rm, unsigned long arg)
+>>>> {
+>>>> ...
+>>>> }
+>>>>
+>>>> and rsc_mgr just call it as part of its ioctl call
+>>>>
+>>>> static long gh_dev_ioctl(struct file *filp, unsigned int cmd, 
+>>>> unsigned long arg)
+>>>> {
+>>>>      struct miscdevice *miscdev = filp->private_data;
+>>>>      struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
+>>>>
+>>>>      switch (cmd) {
+>>>>      case GH_CREATE_VM:
+>>>>          return gh_dev_create_vm(rm, arg);
+>>>>      default:
+>>>>          return -ENOIOCTLCMD;
+>>>>      }
+>>>> }
+>>>>
+>>>
+>>> I'm anticipating we will add further /dev/gunyah ioctls and I thought 
+>>> it would be cleaner to have all that in vm_mgr.c itself.
+>>>
+>>>>
+>>>>> +{
+>>>>> +    struct gh_vm *ghvm;
+>>>>> +    struct file *file;
+>>>>> +    int fd, err;
+>>>>> +
+>>>>> +    /* arg reserved for future use. */
+>>>>> +    if (arg)
+>>>>> +        return -EINVAL;
+>>>>
+>>>> The only code path I see here is via GH_CREATE_VM ioctl which 
+>>>> obviously does not take any arguments, so if you are thinking of 
+>>>> using the argument for architecture-specific VM flags.  Then this 
+>>>> needs to be properly done by making the ABI aware of this.
+>>>
+>>> It is documented in Patch 17 (Document Gunyah VM Manager)
+>>>
+>>> +GH_CREATE_VM
+>>> +~~~~~~~~~~~~
+>>> +
+>>> +Creates a Gunyah VM. The argument is reserved for future use and 
+>>> must be 0.
+>>>
+>> But this conficts with the UAPIs that have been defined. GH_CREATE_VM 
+>> itself is defined to take no parameters.
+>>
+>> #define GH_CREATE_VM                    _IO(GH_IOCTL_TYPE, 0x0)
+>>
+>> so where are you expecting the argument to come from?
+>>  >>>
+>>>> As you mentioned zero value arg imply an "unauthenticated VM" type, 
+>>>> but this was not properly encoded in the userspace ABI. Why not make 
+>>>> it future compatible. How about adding arguments to GH_CREATE_VM and 
+>>>> pass the required information correctly.
+>>>> Note that once the ABI is accepted then you will not be able to 
+>>>> change it, other than adding a new one.
+>>>>
+>>>
+>>> Does this means adding #define GH_VM_DEFAULT_ARG 0 ? I am not sure 
+>>> yet what arguments to add here.
+>>>
+>>> The ABI can add new "long" values to GH_CREATE_VM and that wouldn't 
+>>
+>> Sorry, that is exactly what we want to avoid, we can not change the 
+>> UAPI its going to break the userspace.
+>>
+>>> break compatibility with old kernels; old kernels reject it as -EINVAL.
+>>
+>> If you have userspace built with older kernel headers then that will 
+>> break. Am not sure about old-kernels.
+>>
+>> What exactly is the argument that you want to add to GH_CREATE_VM?
+>>
+>> If you want to keep GH_CREATE_VM with no arguments that is fine but 
+>> remove the conflicting comments in the code and document so that its 
+>> not misleading readers/reviewers that the UAPI is going to be modified 
+>> in near future.
+>>
+>>
+> 
+> The convention followed here comes from KVM_CREATE_VM. Is this ioctl 
+> considered bad example?
+> 
 
+It is recommended to only use _IO for commands without arguments, and 
+use pointers for passing data. Even though _IO can indicate either 
+commands with no argument or passing an integer value instead of a 
+pointer. Am really not sure how this works in compat case.
 
-> + * @flags: Flags for memory parcel behavior
-> + * @guest_phys_addr: Location of the memory region in guest's memory space (page-aligned)
-> + * @memory_size: Size of the region (page-aligned)
-> + * @userspace_addr: Location of the memory region in caller (userspace)'s memory
-> + *
-> + * See Documentation/virt/gunyah/vm-manager.rst for further details.
-> + */
-> +struct gh_userspace_memory_region {
-> +       __u32 label;
-> +#define GH_MEM_ALLOW_READ      (1UL << 0)
-> +#define GH_MEM_ALLOW_WRITE     (1UL << 1)
-> +#define GH_MEM_ALLOW_EXEC      (1UL << 2)
-> +/*
-> + * The guest will be lent the memory instead of shared.
-> + * In other words, the guest has exclusive access to the memory region and the host loses access.
-> + */
-> +#define GH_MEM_LENT            (1UL << 3)
-> +       __u32 flags;
-> +       __u64 guest_phys_addr;
-> +       __u64 memory_size;
-> +       __u64 userspace_addr;
-> +};
-> +
-> +#define GH_VM_SET_USER_MEM_REGION      _IOW(GH_IOCTL_TYPE, 0x1, \
-> +                                               struct gh_userspace_memory_region)
-> +
->  #endif
-> --
-> 2.39.1
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+Am sure there are tricks that can be done with just using _IO() macro 
+(ex vfio), but this does not mean that we should not use _IOW to be more 
+explicit on the type and size of argument that we are expecting.
+
+On the other hand If its really not possible to change this IOCTL to 
+_IOW and argument that you are referring would be with in integer range, 
+then what you have with _IO macro should work.
+
+--srini
+
+>>>
+>>>>> +
+>>>>> +    ghvm = gh_vm_alloc(rm);
+>>>>> +    if (IS_ERR(ghvm))
+>>>>> +        return PTR_ERR(ghvm);
+>>>>> +
+>>>>> +    fd = get_unused_fd_flags(O_CLOEXEC);
+>>>>> +    if (fd < 0) {
+>>>>> +        err = fd;
+>>>>> +        goto err_destroy_vm;
+>>>>> +    }
+>>>>> +
+>>>>> +    file = anon_inode_getfile("gunyah-vm", &gh_vm_fops, ghvm, 
+>>>>> O_RDWR);
+>>>>> +    if (IS_ERR(file)) {
+>>>>> +        err = PTR_ERR(file);
+>>>>> +        goto err_put_fd;
+>>>>> +    }
+>>>>> +
+>>>>> +    fd_install(fd, file);
+>>>>> +
+>>>>> +    return fd;
+>>>>> +
+>>>>> +err_put_fd:
+>>>>> +    put_unused_fd(fd);
+>>>>> +err_destroy_vm:
+>>>>> +    kfree(ghvm);
+>>>>> +    return err;
+>>>>> +}
+>>>>> +
+>>>>> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, 
+>>>>> unsigned long arg)
+>>>>> +{
+>>>>> +    switch (cmd) {
+>>>>> +    case GH_CREATE_VM:
+>>>>> +        return gh_dev_ioctl_create_vm(rm, arg);
+>>>>> +    default:
+>>>>> +        return -ENOIOCTLCMD;
+>>>>> +    }
+>>>>> +}
+>>>>> diff --git a/drivers/virt/gunyah/vm_mgr.h 
+>>>>> b/drivers/virt/gunyah/vm_mgr.h
+>>>>> new file mode 100644
+>>>>> index 000000000000..76954da706e9
+>>>>> --- /dev/null
+>>>>> +++ b/drivers/virt/gunyah/vm_mgr.h
+>>>>> @@ -0,0 +1,22 @@
+>>>>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>>>>> +/*
+>>>>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>>>>> rights reserved.
+>>>>> + */
+>>>>> +
+>>>>> +#ifndef _GH_PRIV_VM_MGR_H
+>>>>> +#define _GH_PRIV_VM_MGR_H
+>>>>> +
+>>>>> +#include <linux/gunyah_rsc_mgr.h>
+>>>>> +
+>>>>> +#include <uapi/linux/gunyah.h>
+>>>>> +
+>>>>> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, 
+>>>>> unsigned long arg);
+>>>>> +
+>>>>> +struct gh_vm {
+>>>>> +    u16 vmid;
+>>>>> +    struct gh_rm *rm;
+>>>>> +
+>>>>> +    struct work_struct free_work;
+>>>>> +};
+>>>>> +
+>>>>> +#endif
+>>>>> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+>>>>> new file mode 100644
+>>>>> index 000000000000..10ba32d2b0a6
+>>>>> --- /dev/null
+>>>>> +++ b/include/uapi/linux/gunyah.h
+>>>>> @@ -0,0 +1,23 @@
+>>>>> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+>>>>> +/*
+>>>>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>>>>> rights reserved.
+>>>>> + */
+>>>>> +
+>>>>> +#ifndef _UAPI_LINUX_GUNYAH
+>>>>> +#define _UAPI_LINUX_GUNYAH
+>>>>> +
+>>>>> +/*
+>>>>> + * Userspace interface for /dev/gunyah - gunyah based virtual machine
+>>>>> + */
+>>>>> +
+>>>>> +#include <linux/types.h>
+>>>>> +#include <linux/ioctl.h>
+>>>>> +
+>>>>> +#define GH_IOCTL_TYPE            'G'
+>>>>> +
+>>>>> +/*
+>>>>> + * ioctls for /dev/gunyah fds:
+>>>>> + */
+>>>>> +#define GH_CREATE_VM            _IO(GH_IOCTL_TYPE, 0x0) /* Returns 
+>>>>> a Gunyah VM fd */
+>>>>
+>>>> Can HLOS forcefully destroy a VM?
+>>>> If so should we have a corresponding DESTROY IOCTL?
+>>>
+>>> It can forcefully destroy unauthenticated and protected virtual 
+>>> machines. I don't have a userspace usecase for a DESTROY ioctl yet, 
+>>> maybe this can be added later? By the way, the VM is forcefully 
+>> that should be fine, but its also nice to add it for completeness, but 
+>> not a compulsory atm
+>>
+>>> destroyed when VM refcount is dropped to 0 (close(vm_fd) and any 
+>>> other relevant file descriptors).
+>> I have noticed that path.
+>>
+>> --srini
+>>>
+>>> - Elliot
