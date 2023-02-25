@@ -2,84 +2,194 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA03C7EE2D
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Feb 2023 09:29:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29CCCC6FA8E
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Feb 2023 12:22:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbjBYJ3X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Feb 2023 04:29:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40528 "EHLO
+        id S229379AbjBYMWB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Feb 2023 07:22:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjBYJ3X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Feb 2023 04:29:23 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0E17FF03;
-        Sat, 25 Feb 2023 01:29:20 -0800 (PST)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pVqrh-0000TL-HG; Sat, 25 Feb 2023 10:29:13 +0100
-Message-ID: <1c222195-8fec-5067-c382-78dfd2505974@leemhuis.info>
-Date:   Sat, 25 Feb 2023 10:29:12 +0100
+        with ESMTP id S229515AbjBYMWA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Feb 2023 07:22:00 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21D3E395;
+        Sat, 25 Feb 2023 04:21:55 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C87131EC047D;
+        Sat, 25 Feb 2023 13:21:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1677327713;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=OdE0DYVEn9gDitPK3SGqJ0wBcUW0JAiMYjDlzTXKee0=;
+        b=HCR4DqNd8FA6jStBpbdi3WhEHDNd9CgJCysyrSH580xrzDLnDWJNQ7hbqIxEOSrTTUsZ7z
+        5QQaMwUHhVOhyDA/HpK+BVW5IxPHX19rWoD1U5WlqQJ+OFYJj4zTf4LGg28/U8uvb5gUbY
+        zUp+edZPdPAGSeDjZvcMbPuQI2gcjE8=
+Date:   Sat, 25 Feb 2023 13:21:49 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Josh Poimboeuf <jpoimboe@kernel.org>
+Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
+Message-ID: <Y/n9XcbnCzWv2Vul@zn.tnic>
+References: <20230124163319.2277355-1-kim.phillips@amd.com>
+ <20230124163319.2277355-8-kim.phillips@amd.com>
+ <20230224185257.o3mcmloei5zqu7wa@treble>
+ <Y/knUC0s+rg6ef2r@zn.tnic>
+ <Y/k/ZXUXOFiBhOiI@zn.tnic>
+ <20230225000931.wrednfun4jifkqau@treble>
+ <Y/lUSC5x2ZkTIGu4@zn.tnic>
+ <20230225005221.425yahqvxb57c43x@desk>
+ <20230225013202.g7tibykvylprsxs5@treble>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev
-References: <fabdb45fa44db2531f0dbe5e88545c49dfb87040.1675252073.git.linux@leemhuis.info>
- <Y/nSJvm6h4Sq5PR2@duo.ucw.cz>
-Content-Language: en-US, de-DE
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v1] docs: describe how to quickly build Linux
-In-Reply-To: <Y/nSJvm6h4Sq5PR2@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1677317361;72dcdd09;
-X-HE-SMSGID: 1pVqrh-0000TL-HG
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230225013202.g7tibykvylprsxs5@treble>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 25.02.23 10:17, Pavel Machek wrote:
->> +If your platform uses techniques like Secure Boot, prepare the system to permit
->> +starting self-compiled Linux kernels; install compilers and everything else
->> +needed for building Linux; make sure to have 15 Gigabyte free space in your home
->> +directory. Now run the following commands to download the sources of Linux,
->> +which you then use to configure, build and install your own
->> kernel::
+On Fri, Feb 24, 2023 at 05:32:02PM -0800, Josh Poimboeuf wrote:
+> > Is it intended to be set regardless of the spectre_v2 mitigation status?
 > 
-> 15GB is quite a lot. Maybe the shallow clone should be given another
-> chance?
+> Right, it needs to check spectre_v2_enabled.
 
-It got and made it, see v2:
-https://lore.kernel.org/all/8cfcf069d48c1b8d7b83aafe0132f8dad0f1d0ea.1676400947.git.linux@leemhuis.info/
+Right, I realized this too this morning, while sleeping, so I made me
+a note on the nightstand to fix it... :-)
 
->> +       mkdir ~/linux/ ~/linux/sources ~/linux/build
->> +       git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git \
->> +         ~/linux/sources
->> +       cd ~/linux/sources/
->> +       # hint: if you don't want to build any stable or longterm kernels, skip the
->> +       #   next two commands
->> +       git remote add linux-stable \
->> +         https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
->> +       git fetch --all
->> +       # hint: if you want to apply patches, do it at this point (see below for details)
->> +       # hint: at this point it's recommended to tag your build (see below for details)
->> +       yes "" | make O=~/linux/build/ localmodconfig
->> +       # hint: at this point you might want or have to adjust the build configuration
->> +       #  (see below for details)
->> +       # note: if you are running a Debian kernel, you'll have to adjust the configuration
->> +       #  at this point (see below)
->> +       make -j $(nproc --all) O=~/linux/build/
-> 
-> Is the complexity of using O= worth it for one-off kernel builds?
+> Also, this code might be a better fit in identify_secondary_cpu() with
+> the other MSR-writing bug-related code.
 
-That is a good question. I seemed like the right thing to do when I
-started writing this guide (maybe just because I've been doing it that
-way for ages), but now that you ask I'm unsure myself.
+Same path:
 
-/me wonders how others feel about it
+identify_secondary_cpu->identify_cpu->this_cpu->c_init(c)->init_amd
 
-Ciao, Thorsten
+Plus, it keeps the vendor code where it belongs.
+
+v2 below, still untested.
+
+---
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
+Date: Sat, 25 Feb 2023 01:11:31 +0100
+Subject: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
+
+The AutoIBRS bit gets set only on the BSP as part of determining which
+mitigation to enable on AMD. Setting on the APs relies on the
+circumstance that the APs get booted through the trampoline and EFER
+- the MSR which contains that bit - gets replicated on every AP from the
+BSP.
+
+However, this can change in the future and considering the security
+implications of this bit not being set on every CPU, make sure it is set
+by verifying EFER later in the boot process and on every AP.
+
+Reported-by: Josh Poimboeuf <jpoimboe@kernel.org>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/r/20230224185257.o3mcmloei5zqu7wa@treble
+---
+ arch/x86/kernel/cpu/amd.c  | 11 +++++++++++
+ arch/x86/kernel/cpu/bugs.c | 14 ++------------
+ arch/x86/kernel/cpu/cpu.h  | 10 ++++++++++
+ 3 files changed, 23 insertions(+), 12 deletions(-)
+
+diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
+index 380753b14cab..aba1b43ed6fd 100644
+--- a/arch/x86/kernel/cpu/amd.c
++++ b/arch/x86/kernel/cpu/amd.c
+@@ -996,6 +996,17 @@ static void init_amd(struct cpuinfo_x86 *c)
+ 		msr_set_bit(MSR_K7_HWCR, MSR_K7_HWCR_IRPERF_EN_BIT);
+ 
+ 	check_null_seg_clears_base(c);
++
++	/*
++	 * Make sure EFER[AIBRSE - Automatic IBRS Enable] is set. The APs are brought up
++	 * using the trampoline code and as part of it, EFER gets prepared there in order
++	 * to be replicated onto them. Regardless, set it here again, if not set, to protect
++	 * against any future refactoring/code reorganization which might miss setting
++	 * this important bit.
++	 */
++	if (spectre_v2_in_ibrs_mode(spectre_v2_enabled) &&
++	    cpu_has(c, X86_FEATURE_AUTOIBRS))
++		msr_set_bit(MSR_EFER, _EFER_AUTOIBRS);
+ }
+ 
+ #ifdef CONFIG_X86_32
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 4fd43d25b483..407c73d3beb9 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -784,8 +784,7 @@ static int __init nospectre_v1_cmdline(char *str)
+ }
+ early_param("nospectre_v1", nospectre_v1_cmdline);
+ 
+-static enum spectre_v2_mitigation spectre_v2_enabled __ro_after_init =
+-	SPECTRE_V2_NONE;
++enum spectre_v2_mitigation spectre_v2_enabled __ro_after_init = SPECTRE_V2_NONE;
+ 
+ #undef pr_fmt
+ #define pr_fmt(fmt)     "RETBleed: " fmt
+@@ -1133,16 +1132,7 @@ spectre_v2_parse_user_cmdline(void)
+ 	return SPECTRE_V2_USER_CMD_AUTO;
+ }
+ 
+-static inline bool spectre_v2_in_ibrs_mode(enum spectre_v2_mitigation mode)
+-{
+-	return mode == SPECTRE_V2_IBRS ||
+-	       mode == SPECTRE_V2_EIBRS ||
+-	       mode == SPECTRE_V2_EIBRS_RETPOLINE ||
+-	       mode == SPECTRE_V2_EIBRS_LFENCE;
+-}
+-
+-static void __init
+-spectre_v2_user_select_mitigation(void)
++static void __init spectre_v2_user_select_mitigation(void)
+ {
+ 	enum spectre_v2_user_mitigation mode = SPECTRE_V2_USER_NONE;
+ 	bool smt_possible = IS_ENABLED(CONFIG_SMP);
+diff --git a/arch/x86/kernel/cpu/cpu.h b/arch/x86/kernel/cpu/cpu.h
+index 57a5349e6954..99c507c42901 100644
+--- a/arch/x86/kernel/cpu/cpu.h
++++ b/arch/x86/kernel/cpu/cpu.h
+@@ -83,4 +83,14 @@ unsigned int aperfmperf_get_khz(int cpu);
+ extern void x86_spec_ctrl_setup_ap(void);
+ extern void update_srbds_msr(void);
+ 
++extern enum spectre_v2_mitigation spectre_v2_enabled;
++
++static inline bool spectre_v2_in_ibrs_mode(enum spectre_v2_mitigation mode)
++{
++	return mode == SPECTRE_V2_IBRS ||
++	       mode == SPECTRE_V2_EIBRS ||
++	       mode == SPECTRE_V2_EIBRS_RETPOLINE ||
++	       mode == SPECTRE_V2_EIBRS_LFENCE;
++}
++
+ #endif /* ARCH_X86_CPU_H */
+-- 
+2.35.1
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
