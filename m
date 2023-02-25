@@ -2,138 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F067C7EE2E
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Feb 2023 23:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 489A0C64EC7
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Feb 2023 23:43:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbjBYXjl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Feb 2023 18:39:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49866 "EHLO
+        id S229569AbjBYXnf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Feb 2023 18:43:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbjBYXjk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Feb 2023 18:39:40 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A5B8D315;
-        Sat, 25 Feb 2023 15:39:38 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id kb15so2675961pjb.1;
-        Sat, 25 Feb 2023 15:39:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Pio0uRP/ewoQJQAm/tSRW/tGkbea/TOip01WmAMHVzo=;
-        b=FO5Jb1+wDZrmKC1gE6gtni9QN39RJ74fJZm3VMr582oRKOwFt0N2fK5tXG2Y2NvWXs
-         3flNlNgc8YSguTXnMZrQyzOrkkP9MOIz+Jv75lhaa81O2rWJgoIN7JhvySJjv+S+6eGG
-         sWWRt5G3DCTGSJSe1oFD8CQzBjOdL1rp15IY1XPJfK68FUrjiB/SZphDLAuZwE58l4jw
-         zuu/SkPOoNrgP+P+/Z2jd02qjZKOaJvxFRZEHsD6INVi/fqrTOFuzrvOTuepwJD63BpL
-         DuXaqqE8f0p5R3WImzdCAEVAUzP2Uu2sLlac16M6mIQlmC8dupzyikNOvJxEnnB46H4K
-         IF3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pio0uRP/ewoQJQAm/tSRW/tGkbea/TOip01WmAMHVzo=;
-        b=DIVDyhKEqRz0i2jwmJfCGCJVQXcqPFY8j4rJ2tWr65KEtqov8SFfJEPkpcbJTkjPiM
-         IpTWyybAuYnHvwncLjnBuebD8LO1ubvpyv2+Pue5/G92JaND6X+4sGqUT9/RJrsxH9iP
-         JXGpSUP7K/WPp3Vl5sEfIxfdVjx808DFrH/T881hC8BaeKMk9W/cUT70+5Z9VR+vA2/S
-         YgBqHkAPxYl5V0CkdlZSKWlNgR1cEqQGtv6ZADUOPfBUdZSlxXyKEQHXtMXeEVdXkzyX
-         OOl4047r0ZcMma4vWmClM1yMyXsYg0rT+1TvimmBm9Ta68BvnN7Mh5T+W1eGLJFZ5udM
-         dPVA==
-X-Gm-Message-State: AO0yUKUBFesxB2do5+PwOkneD5ViARA4nJqb4IJgXIIzEaV1630N0gWv
-        A8ZiGD7Ly1qBReOOEiPZRms=
-X-Google-Smtp-Source: AK7set89d/ivG7PS04MXWl/22Xdl6Zd0rGjXDVOF53H4hiShuf17qLdp5MNCESTV6PwDgFeKAvng2w==
-X-Received: by 2002:a17:903:8ce:b0:199:3a4a:d702 with SMTP id lk14-20020a17090308ce00b001993a4ad702mr4223586plb.0.1677368378086;
-        Sat, 25 Feb 2023 15:39:38 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id e6-20020a170902d38600b0019cb8ffd592sm1761602pld.163.2023.02.25.15.39.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Feb 2023 15:39:37 -0800 (PST)
-Message-ID: <307dbafd-6fe7-1b75-a484-67553529a5e0@gmail.com>
-Date:   Sun, 26 Feb 2023 08:39:32 +0900
+        with ESMTP id S229515AbjBYXne (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Feb 2023 18:43:34 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6A26C65C;
+        Sat, 25 Feb 2023 15:43:33 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C44A60B9B;
+        Sat, 25 Feb 2023 23:43:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1970C433D2;
+        Sat, 25 Feb 2023 23:43:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677368612;
+        bh=d60Nmt1XVteziluASH8Ks/31L1dJmDv8FJP2Vc5NIOQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=e8PlVbubHiG+QFtCZyp64zWmL2Ua2SC3LxUUWKvW5WAfUOZnMzhii8khk0QF1BLQA
+         45/JN66OcgXhCJAQNkl6xmcTd8eupKcuzAcrnDWkiyVWj2j8OqXr8+dzDgmeSf/H3b
+         XuyIEWCRqz1LE/kfF934bL0vyj1yM7XLOfl+Gejz4YgClTJJC0q5MOMa06/noV2XS3
+         UoKM7fpBFWc0Xo0Y7n6AT8VqPBX3D5zfCq5jFSbWSgd7KHwcIu7yPW8AuOi3pGyiSV
+         S6W9Ogym/a9SlPkHdClqBW/9SzXsXzydHiLiB56weeE2ff+TOPjFM2bYj2V+FwE90Z
+         yWpewhNhkCrnQ==
+Date:   Sat, 25 Feb 2023 15:43:30 -0800
+From:   Josh Poimboeuf <jpoimboe@kernel.org>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
+Message-ID: <20230225234330.caznxpkjhq3u5tls@treble>
+References: <20230224185257.o3mcmloei5zqu7wa@treble>
+ <Y/knUC0s+rg6ef2r@zn.tnic>
+ <Y/k/ZXUXOFiBhOiI@zn.tnic>
+ <20230225000931.wrednfun4jifkqau@treble>
+ <Y/lUSC5x2ZkTIGu4@zn.tnic>
+ <20230225005221.425yahqvxb57c43x@desk>
+ <20230225013202.g7tibykvylprsxs5@treble>
+ <Y/n9XcbnCzWv2Vul@zn.tnic>
+ <20230225172832.sqdd7dejkkmjxpt6@treble>
+ <Y/qSJd1Z3ABEJPPD@zn.tnic>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] media: Fix building pdfdocs
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dave Airlie <airlied@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y/qSJd1Z3ABEJPPD@zn.tnic>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+CC: Jon, linux-doc]
-
-On Wed,  8 Feb 2023 10:29:16 +0200, Tomi Valkeinen wrote:
-> Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
-> documatation for a few new RGB formats. For some reason these break the
-> pdfdocs build, even if the same style seems to work elsewhere in the
-> file.
+On Sat, Feb 25, 2023 at 11:56:37PM +0100, Borislav Petkov wrote:
+> On Sat, Feb 25, 2023 at 09:28:32AM -0800, Josh Poimboeuf wrote:
+> > All the other "bug" code in identify_secondary_cpu() *is*
+> > vendor-specific.
 > 
-> Remove the trailing empty dash lines, which seems to fix the issue.
-> 
-> Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-Link: https://lore.kernel.org/r/12250823-8445-5854-dfb8-b92c0ff0851e@gmail.com/
+> I meant "vendor-specific" in the sense that AMD code goes to amd.c, etc.
 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> 
-> Note: the offending patch was merged via drm tree, so we may want to
-> apply the fix to the drm tree also.
+Hm?  So code in bugs.c is not vendor-specific?  That seems circular and
+I don't get your point.
 
-So, the offending commit is now in mainline without this fix...
-I believe this build regression -- a real build error of "make pdfdocs"
--- should be fixed ASAP.
+> As to the identify_secondary_cpu()  code - I didn't like it being
+> slapped there either but it got stuck in there hastily during the
+> mitigations upstreaming as back then we had bigger fish to fry than
+> paying too much attention to clean design...
 
-Tomi, Laurent has suggested a typo fix in the Changelog.
-Can you respin ?
+Right, so rather than spreading all the bug-related MSR logic around,
+just do it in one spot.
 
-Or, Laurent, can you do the fix on your own?
-
-Hopefully, the fix can make v6.3-rc1.
-
-        Thanks, Akira
-
-> 
->  Documentation/userspace-api/media/v4l/pixfmt-rgb.rst | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> index d330aeb4d3eb..ea545ed1aeaa 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> @@ -868,7 +868,6 @@ number of bits for each component.
->        - r\ :sub:`4`
->        - r\ :sub:`3`
->        - r\ :sub:`2`
-> -      -
->      * .. _V4L2-PIX-FMT-RGBA1010102:
->  
->        - ``V4L2_PIX_FMT_RGBA1010102``
-> @@ -909,7 +908,6 @@ number of bits for each component.
->        - r\ :sub:`4`
->        - r\ :sub:`3`
->        - r\ :sub:`2`
-> -      -
->      * .. _V4L2-PIX-FMT-ARGB2101010:
->  
->        - ``V4L2_PIX_FMT_ARGB2101010``
-> @@ -950,7 +948,6 @@ number of bits for each component.
->        - r\ :sub:`6`
->        - r\ :sub:`5`
->        - r\ :sub:`4`
-> -      -
->  
->  .. raw:: latex
->  
+-- 
+Josh
