@@ -2,38 +2,35 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12061C6FA8E
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Feb 2023 17:28:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 566DDC7EE2D
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Feb 2023 22:56:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbjBYR2i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Feb 2023 12:28:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56174 "EHLO
+        id S229554AbjBYW4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Feb 2023 17:56:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbjBYR2h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Feb 2023 12:28:37 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD88C11653;
-        Sat, 25 Feb 2023 09:28:36 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229539AbjBYW4p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Feb 2023 17:56:45 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF0814E87;
+        Sat, 25 Feb 2023 14:56:44 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 21F0660B51;
-        Sat, 25 Feb 2023 17:28:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CBB2C433EF;
-        Sat, 25 Feb 2023 17:28:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677346115;
-        bh=OQY775V7tq8tLvORC1v+ZouMR4NkgEeJqiRqqDQjHKk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UYQdlVogKngmxvP/3HxRVbDMpZjmw8R4UaFy0fZtMwYkonGfTO48sYVSYIZ8xZs9m
-         sfxYvrqldYa1qg1tzHCwwS9bR+3ZAyYtwAHZn7zMlb9pdv05c2VqFIY1TBsXrPWYzt
-         bGlJUTsmy3nMAFn0lxWJrZkv3/s4/FnoMvaDZFgZTNtB7u0IY++87+ANUOue+ldtJ4
-         +1RokzbkSlPeF0CtNj4xh34oA9EoCVMi1/Vr2qGo8ve3t6Gkau+QOgHVuRUqHZVu/m
-         dhMse7A70f8yLkgrwnfaJazl+8EEZjSOyuBGSiwFjbnWQGfDZspTjpbCzwfQCJBF4x
-         5+8MwgWK4ZVBA==
-Date:   Sat, 25 Feb 2023 09:28:32 -0800
-From:   Josh Poimboeuf <jpoimboe@kernel.org>
-To:     Borislav Petkov <bp@alien8.de>
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 492E01EC047D;
+        Sat, 25 Feb 2023 23:56:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1677365803;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=j3ugE7rRx7v8z7AKp5/pV3RvqKMVeAPdtvAIQTrk910=;
+        b=nGfZYDreGx6HtqGQU10qPtOFE6wEB4gbo2koYbUnfRkbrqLfG4yohZ3U1rx9oMq6OJMFSu
+        H8UoJ9xucF1ZPuUwOJEsVv9cvRfzUb66oYBnmwihGIwUSBo6xv9LrsifmgPPAlQlPNWh1L
+        Mpt+1vCC4eufpr2zoExuzVoGTMhf1NY=
+Date:   Sat, 25 Feb 2023 23:56:37 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Josh Poimboeuf <jpoimboe@kernel.org>
 Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
         Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
         Boris Ostrovsky <boris.ostrovsky@oracle.com>,
@@ -54,9 +51,8 @@ Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
         Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
-Message-ID: <20230225172832.sqdd7dejkkmjxpt6@treble>
-References: <20230124163319.2277355-1-kim.phillips@amd.com>
- <20230124163319.2277355-8-kim.phillips@amd.com>
+Message-ID: <Y/qSJd1Z3ABEJPPD@zn.tnic>
+References: <20230124163319.2277355-8-kim.phillips@amd.com>
  <20230224185257.o3mcmloei5zqu7wa@treble>
  <Y/knUC0s+rg6ef2r@zn.tnic>
  <Y/k/ZXUXOFiBhOiI@zn.tnic>
@@ -65,43 +61,44 @@ References: <20230124163319.2277355-1-kim.phillips@amd.com>
  <20230225005221.425yahqvxb57c43x@desk>
  <20230225013202.g7tibykvylprsxs5@treble>
  <Y/n9XcbnCzWv2Vul@zn.tnic>
+ <20230225172832.sqdd7dejkkmjxpt6@treble>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y/n9XcbnCzWv2Vul@zn.tnic>
+In-Reply-To: <20230225172832.sqdd7dejkkmjxpt6@treble>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 25, 2023 at 01:21:49PM +0100, Borislav Petkov wrote:
-> On Fri, Feb 24, 2023 at 05:32:02PM -0800, Josh Poimboeuf wrote:
-> > > Is it intended to be set regardless of the spectre_v2 mitigation status?
-> > 
-> > Right, it needs to check spectre_v2_enabled.
-> 
-> Right, I realized this too this morning, while sleeping, so I made me
-> a note on the nightstand to fix it... :-)
-> 
-> > Also, this code might be a better fit in identify_secondary_cpu() with
-> > the other MSR-writing bug-related code.
-> 
-> Same path:
-> 
-> identify_secondary_cpu->identify_cpu->this_cpu->c_init(c)->init_amd
-> 
-> Plus, it keeps the vendor code where it belongs.
+On Sat, Feb 25, 2023 at 09:28:32AM -0800, Josh Poimboeuf wrote:
+> All the other "bug" code in identify_secondary_cpu() *is*
+> vendor-specific.
 
-All the other "bug" code in identify_secondary_cpu() *is*
-vendor-specific.
+I meant "vendor-specific" in the sense that AMD code goes to amd.c, etc.
 
-And for that matter, so is most of the code in bugs.c.
+As to the identify_secondary_cpu()  code - I didn't like it being
+slapped there either but it got stuck in there hastily during the
+mitigations upstreaming as back then we had bigger fish to fry than
+paying too much attention to clean design...
 
-I'm thinking we should just move all this MSR-writing bug-related code
-into a new cpu_init_bugs() function in bugs.c which can be called by
-identify_secondary_cpu().
+> And for that matter, so is most of the code in bugs.c.
+> 
+> I'm thinking we should just move all this MSR-writing bug-related code
+> into a new cpu_init_bugs() function in bugs.c which can be called by
+> identify_secondary_cpu().
 
-Then we have more "bug" code together and all the local
-variables/functions like spectre_v2_in_ibrs_mode() can remain local.
+I guess.
+ 
+> Then we have more "bug" code together and all the local
+> variables/functions like spectre_v2_in_ibrs_mode() can remain local.
+
+They're still local, more or less. Note the special cpu.h header which
+is private to arch/x86/kernel/cpu/
+
+Thx.
 
 -- 
-Josh
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
