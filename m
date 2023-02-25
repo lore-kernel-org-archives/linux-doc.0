@@ -2,102 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 202BEC64EC7
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Feb 2023 08:42:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4062CC64EC7
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Feb 2023 09:17:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbjBYImB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Feb 2023 03:42:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44420 "EHLO
+        id S229570AbjBYJR3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Feb 2023 04:17:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjBYImA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Feb 2023 03:42:00 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F0F18B04;
-        Sat, 25 Feb 2023 00:41:59 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id B9221CE1AD8;
-        Sat, 25 Feb 2023 08:41:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2263C433A1;
-        Sat, 25 Feb 2023 08:41:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677314515;
-        bh=niO7O0Rmdw9flhWi+a16uXTnlS3H4K5/29E7AT4Kkgg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=k5fwJL0WwGrJfwS27hW0bRt2bAUyt0q0hS+93q9GPT+JSZLl1d8D9rtiW8N/gWFtI
-         /NSXd8zwlwBxdRm6/u8cq1HOOM8bl9Fq+5+ECSb0aWNA1dMvU57M2etZWAM1u0NpYv
-         Tnbo24SdvLTRhfirPEArT9hbDGxeJy7wrPllFrGtOvJvd7CwNwTQREPM4kGaJEfFA0
-         0oLhWSsIyxcv7LnMSKvrA1YCFqdM7V2xAcHQHyE0eicOMlzKQcVn4z6Nr3xt9we8ce
-         VDoNtPqeDKSwTBjHEXUAqS+o7vzLsgfT+5ykT2wXQRQHKIhcnkRnQDkmz1SSsM38vf
-         F/0aPFIg/Jj3A==
-Received: by mail-ot1-f53.google.com with SMTP id t7-20020a9d7487000000b00693d565b852so934648otk.5;
-        Sat, 25 Feb 2023 00:41:55 -0800 (PST)
-X-Gm-Message-State: AO0yUKX0wTJ3LfMvDTf4nsoMypxqATTwZBNfheQ3iBzjTVBAwP+G3bmM
-        L67ETOTSiOZchDrFRohyj80jWrBZirU2hL700Vs=
-X-Google-Smtp-Source: AK7set+Fqkij0tc73KS9oJ1xY3lw9JJaSlccZOZYUv7IuOxhU2vVMVFxun0RKc7SENlSW/6JPBOc2/3wuR5KzFvOfAI=
-X-Received: by 2002:a05:6830:26c2:b0:68b:df73:951e with SMTP id
- m2-20020a05683026c200b0068bdf73951emr2631430otu.1.1677314515076; Sat, 25 Feb
- 2023 00:41:55 -0800 (PST)
+        with ESMTP id S229515AbjBYJR2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Feb 2023 04:17:28 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2911ACD0;
+        Sat, 25 Feb 2023 01:17:28 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 9FC391C0AB2; Sat, 25 Feb 2023 10:17:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1677316646;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YVomgrlVcKbKHqY20EcIxvF06UgcWi8Fb+JC0ZMX+tw=;
+        b=NKv+VYp6JDa26eqRY+etKicKhm6nejkDfTvC2t8WqUzc43WFqjvixbLmXGqQ5rJOb3wWM0
+        QZg8aDYqIROEwIn7am3YECA70x1odRz7e/ew126Ft2iy7cw/DoqHQSaNpEhpXSlYE8QQ0m
+        AGRxfKAtHcQusiL8yMwUq6KdCa/cc34=
+Date:   Sat, 25 Feb 2023 10:17:26 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        regressions@lists.linux.dev
+Subject: Re: [PATCH v1] docs: describe how to quickly build Linux
+Message-ID: <Y/nSJvm6h4Sq5PR2@duo.ucw.cz>
+References: <fabdb45fa44db2531f0dbe5e88545c49dfb87040.1675252073.git.linux@leemhuis.info>
 MIME-Version: 1.0
-References: <CGME20230222104856epcas1p3a6ff45f90292df33ef5fd8216b812f64@epcas1p3.samsung.com>
- <1666a6a9-4757-0e1d-f807-618c95e0b6ae@gmail.com> <20230222104719.16374-1-sangmoon.kim@samsung.com>
-In-Reply-To: <20230222104719.16374-1-sangmoon.kim@samsung.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 25 Feb 2023 17:41:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASMb+nwqV6PBs2UB5YnsjQPNJDeh_BwPypPb5auv4uiPQ@mail.gmail.com>
-Message-ID: <CAK7LNASMb+nwqV6PBs2UB5YnsjQPNJDeh_BwPypPb5auv4uiPQ@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: kbuild: remove description of KBUILD_LDS_MODULE
-To:     Sangmoon Kim <sangmoon.kim@samsung.com>
-Cc:     bagasdotme@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="wUWUakVz7YN0DDf8"
+Content-Disposition: inline
+In-Reply-To: <fabdb45fa44db2531f0dbe5e88545c49dfb87040.1675252073.git.linux@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 22, 2023 at 7:49 PM Sangmoon Kim <sangmoon.kim@samsung.com> wrote:
->
-> Commit 596b0474d3d9 ("kbuild: preprocess module linker script")
-> removes KBUILD_LDS_MODULE, yet the variable is still mentioned in
-> kbuild documentation. Remove the reference to the now-nonexistent
-> variable.
->
-> Signed-off-by: Sangmoon Kim <sangmoon.kim@samsung.com>
-> ---
-> Thank you for your review.
->
-> Changes in v2:
->  - Update the commit message.
->
->  Documentation/kbuild/makefiles.rst | 5 -----
->  1 file changed, 5 deletions(-)
->
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 38bc74eaa547..468e7830c1c3 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -1250,11 +1250,6 @@ When kbuild executes, the following steps are followed (roughly):
->
->         The linker script with full path. Assigned by the top-level Makefile.
->
-> -    KBUILD_LDS_MODULE
-> -
-> -       The module linker script with full path. Assigned by the top-level
-> -       Makefile and additionally by the arch Makefile.
-> -
->      KBUILD_VMLINUX_OBJS
->
->         All object files for vmlinux. They are linked to vmlinux in the same
-> --
-> 2.17.1
->
 
-Applied to linux-kbuild.
-Thanks.
+--wUWUakVz7YN0DDf8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi!
 
--- 
-Best Regards
-Masahiro Yamada
+> +If your platform uses techniques like Secure Boot, prepare the system to=
+ permit
+> +starting self-compiled Linux kernels; install compilers and everything e=
+lse
+> +needed for building Linux; make sure to have 15 Gigabyte free space in y=
+our home
+> +directory. Now run the following commands to download the sources of Lin=
+ux,
+> +which you then use to configure, build and install your own
+> kernel::
+
+15GB is quite a lot. Maybe the shallow clone should be given another
+chance?
+
+> +       mkdir ~/linux/ ~/linux/sources ~/linux/build
+> +       git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvald=
+s/linux.git \
+> +         ~/linux/sources
+> +       cd ~/linux/sources/
+> +       # hint: if you don't want to build any stable or longterm kernels=
+, skip the
+> +       #   next two commands
+> +       git remote add linux-stable \
+> +         https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+> +       git fetch --all
+> +       # hint: if you want to apply patches, do it at this point (see be=
+low for details)
+> +       # hint: at this point it's recommended to tag your build (see bel=
+ow for details)
+> +       yes "" | make O=3D~/linux/build/ localmodconfig
+> +       # hint: at this point you might want or have to adjust the build =
+configuration
+> +       #  (see below for details)
+> +       # note: if you are running a Debian kernel, you'll have to adjust=
+ the configuration
+> +       #  at this point (see below)
+> +       make -j $(nproc --all) O=3D~/linux/build/
+
+Is the complexity of using O=3D worth it for one-off kernel builds?
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--wUWUakVz7YN0DDf8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY/nSJgAKCRAw5/Bqldv6
+8goeAJ9kvJcd1ci6ELgtSrXqqRap8FoLIACggBWRqzdN8Nl8uG0DVJDsTc5V85o=
+=OjwI
+-----END PGP SIGNATURE-----
+
+--wUWUakVz7YN0DDf8--
