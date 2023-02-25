@@ -2,221 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A07C6FA8E
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Feb 2023 01:21:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF609C6FA8E
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Feb 2023 01:32:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbjBYBVo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Feb 2023 20:21:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50402 "EHLO
+        id S229650AbjBYBcI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Feb 2023 20:32:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229698AbjBYBTv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 20:19:51 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19A9F30192;
-        Fri, 24 Feb 2023 17:19:13 -0800 (PST)
+        with ESMTP id S229507AbjBYBcH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Feb 2023 20:32:07 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D97827483;
+        Fri, 24 Feb 2023 17:32:06 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C2AFFB81D70;
-        Sat, 25 Feb 2023 01:19:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D29DC433D2;
-        Sat, 25 Feb 2023 01:19:10 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F614618C4;
+        Sat, 25 Feb 2023 01:32:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DFCFC433EF;
+        Sat, 25 Feb 2023 01:32:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677287950;
-        bh=ggtCBOdroZma1BxMO4zu+ds8Jh2QD1F37oeOd2MCFcc=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=GGEg1S4inijFQ/Wn94pMABd+G45WjS5aOHod+VYeVhOsuDYs8PVPBF0w99flBYXkT
-         lskaHhZmy0OOYMx5bOnA5Bk0KUcbxl4z/yiP2uWyDy2nv4JpABBaCNk2YJLIK8ouhT
-         60YeEocblefwTms2cXgA87zsyFADhkDWOFntNE7vUMjgdtwQIMnB6KpOr9zG5ETrEu
-         sy6UNc3tra9KPeC41nvU4/MKrn1nXJ52+Uzfr50X55+8l7uyI+3mZZ7AdhPpcGqcAi
-         /uyRHoz8mwwluL9Y/g/3u7BjLNDsV3JHcO1zZxp5r9Nf0osqUywzOscKb6oFTGPNjI
-         fCZdnhPcI9ATg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 1C2425C00F6; Fri, 24 Feb 2023 17:19:10 -0800 (PST)
-Date:   Fri, 24 Feb 2023 17:19:10 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, akpm@linux-foundation.org, ndesaulniers@google.com,
-        vbabka@suse.cz, hannes@cmpxchg.org, joel@joelfernandes.org,
-        quic_neeraju@quicinc.com, urezki@gmail.com
-Subject: Re: [PATCH RFC bootconfig] Allow forcing unconditional bootconfig
- processing
-Message-ID: <20230225011910.GV2948950@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20230105005838.GA1772817@paulmck-ThinkPad-P17-Gen-1>
- <20230108002215.c18df95b19acdd3207b379fa@kernel.org>
- <20230107162202.GA4028633@paulmck-ThinkPad-P17-Gen-1>
- <CAMuHMdV9jJvE2y8gY5V_CxidUikCf5515QMZHzTA3rRGEOj6=w@mail.gmail.com>
- <20230225011306.0dd47e760f502b6787096bf7@kernel.org>
- <20230224163307.GN2948950@paulmck-ThinkPad-P17-Gen-1>
- <20230225095811.926a8ebaee4ca2d1fb9d9e45@kernel.org>
+        s=k20201202; t=1677288725;
+        bh=Y31rE2YdqVX6Eu1AV4fYqkgcnglNl8cm+1m1hh+YDZg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SvlF8tDkPDnkS4uomH9hWkp3drVLnEc3aZuZd1igY1Z1oBLkTjNv0J16SQpqyctQa
+         3mpIfQjaXjxrutW0cIxhPld6LjhmHO2LWolnqfthtYkDIO/ZkwbAldESkvDvA62XsX
+         obfHMw4om4IhI870D2YrfsdWwxInnfTpw8m/vmWpdJtO7jduH4Q/eEAFJdyzHASKis
+         uzh6GDLTY4lGgykNeYCaQOjbPn3jfDfdS1rWoE+RQYpiEVnGoD23JztD/4S6nNKHBy
+         3nMrv0zvwG1BQKaZQvozjAd+01rQTbRNw44SjezGgSU/PAi46QXWrIRsMetE7RTIY0
+         +8sEYiyoUAEyQ==
+Date:   Fri, 24 Feb 2023 17:32:02 -0800
+From:   Josh Poimboeuf <jpoimboe@kernel.org>
+To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
+Message-ID: <20230225013202.g7tibykvylprsxs5@treble>
+References: <20230124163319.2277355-1-kim.phillips@amd.com>
+ <20230124163319.2277355-8-kim.phillips@amd.com>
+ <20230224185257.o3mcmloei5zqu7wa@treble>
+ <Y/knUC0s+rg6ef2r@zn.tnic>
+ <Y/k/ZXUXOFiBhOiI@zn.tnic>
+ <20230225000931.wrednfun4jifkqau@treble>
+ <Y/lUSC5x2ZkTIGu4@zn.tnic>
+ <20230225005221.425yahqvxb57c43x@desk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230225095811.926a8ebaee4ca2d1fb9d9e45@kernel.org>
+In-Reply-To: <20230225005221.425yahqvxb57c43x@desk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 25, 2023 at 09:58:11AM +0900, Masami Hiramatsu wrote:
-> On Fri, 24 Feb 2023 08:33:07 -0800
-> "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> 
-> > On Sat, Feb 25, 2023 at 01:13:06AM +0900, Masami Hiramatsu wrote:
-> > > Hi Geert,
-> > > 
-> > > On Fri, 24 Feb 2023 09:31:50 +0100
-> > > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > 
-> > > > Hi Paul,
-> > > > 
-> > > > On Sat, Jan 7, 2023 at 5:33 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > > > On Sun, Jan 08, 2023 at 12:22:15AM +0900, Masami Hiramatsu wrote:
-> > > > > > BTW, maybe CONFIG_BOOT_CONFIG_EMBED is better to select this.
-> > > > > > (or at least recommend to enable this)
-> > > > >
-> > > > > Like this?
-> > > > >
-> > > > >                                                         Thanx, Paul
-> > > > >
-> > > > > ------------------------------------------------------------------------
-> > > > >
-> > > > > commit d09a1505c51a70da38b34ac38062977299aef742
-> > > > > Author: Paul E. McKenney <paulmck@kernel.org>
-> > > > > Date:   Sat Jan 7 08:09:22 2023 -0800
-> > > > >
-> > > > >     bootconfig: Default BOOT_CONFIG_FORCE to y if BOOT_CONFIG_EMBED
-> > > > >
-> > > > >     When a kernel is built with CONFIG_BOOT_CONFIG_EMBED=y, the intention
-> > > > >     will normally be to unconditionally provide the specified kernel-boot
-> > > > >     arguments to the kernel, as opposed to requiring a separately provided
-> > > > >     bootconfig parameter.  Therefore, make the BOOT_CONFIG_FORCE Kconfig
-> > > > >     option default to y in kernels built with CONFIG_BOOT_CONFIG_EMBED=y.
-> > > > >
-> > > > >     The old semantics may be obtained by manually overriding this default.
-> > > > >
-> > > > >     Suggested-by: Masami Hiramatsu <mhiramat@kernel.org>
-> > > > >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > > > >
-> > > > > diff --git a/init/Kconfig b/init/Kconfig
-> > > > > index 0fb19fa0edba9..97a0f14d9020d 100644
-> > > > > --- a/init/Kconfig
-> > > > > +++ b/init/Kconfig
-> > > > > @@ -1379,6 +1379,7 @@ config BOOT_CONFIG
-> > > > >  config BOOT_CONFIG_FORCE
-> > > > >         bool "Force unconditional bootconfig processing"
-> > > > >         depends on BOOT_CONFIG
-> > > > > +       default y if BOOT_CONFIG_EMBED
-> > > > >         help
-> > > > >           With this Kconfig option set, BOOT_CONFIG processing is carried
-> > > > >           out even when the "bootconfig" kernel-boot parameter is omitted.
-> > > > 
-> > > > Thanks for your patch, which is now commit 6ded8a28ed80e4cc
-> > > > ("bootconfig: Default BOOT_CONFIG_FORCE to y if BOOT_CONFIG_EMBED").
-> > > > 
-> > > > After this change, an all{mod,yes}config kernel has:
-> > > > 
-> > > >     CONFIG_BOOT_CONFIG_FORCE=y
-> > > >     CONFIG_BOOT_CONFIG_EMBED=y
-> > > >     CONFIG_BOOT_CONFIG_EMBED_FILE=""
-> > > > 
-> > > > Will this actually work? I haven't tried booting such a kernel yet.
-> > > 
-> > > Yeah, good question. It is same as when you boot the kernel with 'bootconfig'
-> > > but do not add the bootconfig file to initrd. You may see below message
-> > > on boot log, but kernel boots normally. :)
-> > > 
-> > >  'bootconfig' found on command line, but no bootconfig found
-> > > 
-> > > (Maybe it is better to fix the message, because if BOOT_CONFIG_FORCE=y, this
-> > > will be shown without 'bootconfig' on command line.)
+On Fri, Feb 24, 2023 at 04:52:21PM -0800, Pawan Gupta wrote:
+> On Sat, Feb 25, 2023 at 01:20:24AM +0100, Borislav Petkov wrote:
+> > On Fri, Feb 24, 2023 at 04:09:31PM -0800, Josh Poimboeuf wrote:
+> > > Ah, I had to stare it that for a bit to figure out how it works.
 > > 
-> > I just tried it again, and for me it just silently ignores the bootconfig
-> > setup.  Which is what I recall happening when I tried it when creating
-> > the patch.
+> > Yeah, it is a bit "hidden". :)
 > > 
-> > Here is the .config file pieces of interest:
+> > > setup_real_mode() reads MSR_EFER from the boot CPU and stores it in
+> > > trampoline_header->efer.  Then the other CPUs read that stored value in
+> > > startup_32() and write it into their MSR.
 > > 
-> > CONFIG_BOOT_CONFIG=y
-> > CONFIG_BOOT_CONFIG_FORCE=y
-> > CONFIG_BOOT_CONFIG_EMBED=y
-> > CONFIG_BOOT_CONFIG_EMBED_FILE=""
+> > Exactly.
 > > 
-> > Anyone else seeing something different?
+> > > Yeah, I think that would be good.  Otherwise it's rather magical.
+> > 
+> > Yap, see below.
+> > 
+> > > That EFER MSR is a surprising place to put that bit.
+> > 
+> > That MSR is very important on AMD. Consider it AMD's CR4. :-)
+> > 
+> > Thx.
+> > 
+> > ---
+> > From: "Borislav Petkov (AMD)" <bp@alien8.de>
+> > Date: Sat, 25 Feb 2023 01:11:31 +0100
+> > Subject: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
+> > 
+> > The AutoIBRS bit gets set only on the BSP as part of determining which
+> > mitigation to enable on AMD. Setting on the APs relies on the
+> > circumstance that the APs get booted through the trampoline and EFER
+> > - the MSR which contains that bit - gets replicated on every AP from the
+> > BSP.
+> > 
+> > However, this can change in the future and considering the security
+> > implications of this bit not being set on every CPU, make sure it is set
+> > by verifying EFER later in the boot process and on every AP.
+> > 
+> > Reported-by: Josh Poimboeuf <jpoimboe@kernel.org>
+> > Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+> > Link: https://lore.kernel.org/r/20230224185257.o3mcmloei5zqu7wa@treble
+> > ---
+> >  arch/x86/kernel/cpu/amd.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
+> > index 380753b14cab..de624c1442c2 100644
+> > --- a/arch/x86/kernel/cpu/amd.c
+> > +++ b/arch/x86/kernel/cpu/amd.c
+> > @@ -996,6 +996,16 @@ static void init_amd(struct cpuinfo_x86 *c)
+> >  		msr_set_bit(MSR_K7_HWCR, MSR_K7_HWCR_IRPERF_EN_BIT);
+> >  
+> >  	check_null_seg_clears_base(c);
+> > +
+> > +	/*
+> > +	 * Make sure EFER[AIBRSE - Automatic IBRS Enable] is set. The APs are brought up
+> > +	 * using the trampoline code and as part of it, EFER gets prepared there in order
+> > +	 * to be replicated onto them. Regardless, set it here again, if not set, to protect
+> > +	 * against any future refactoring/code reorganization which might miss setting
+> > +	 * this important bit.
+> > +	 */
+> > +	if (cpu_has(c, X86_FEATURE_AUTOIBRS))
+> > +		msr_set_bit(MSR_EFER, _EFER_AUTOIBRS);
 > 
-> Hmm, from the code, I think you'll see that message in early console log.
-> 
-> In init/main.c:
-> 
-> ----
-> #ifdef CONFIG_BOOT_CONFIG
-> /* Is bootconfig on command line? */
-> static bool bootconfig_found = IS_ENABLED(CONFIG_BOOT_CONFIG_FORCE);
-> static size_t initargs_offs;
-> #else
-> ----
-> And
-> ----
-> static void __init setup_boot_config(void)
-> {
-> ...
->         strscpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
->         err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
->                          bootconfig_params);
-> 
->         if (IS_ERR(err) || !bootconfig_found)
->                 return;
-> 
->         /* parse_args() stops at the next param of '--' and returns an address */
->         if (err)
->                 initargs_offs = err - tmp_cmdline;
-> 
->         if (!data) {
->                 pr_err("'bootconfig' found on command line, but no bootconfig found\n");
->                 return;
->         }
-> ----
-> 
-> Thus, if CONFIG_BOOT_CONFIG_FORCE=y, the process passes the below check
-> 
->         if (IS_ERR(err) || !bootconfig_found)
->                 return;
-> 
-> But since we have an empty 'data', the error should be printed.
+> Is it intended to be set regardless of the spectre_v2 mitigation status?
 
-And you are quite right, the runs without data files did get me this:
+Right, it needs to check spectre_v2_enabled.
 
-'bootconfig' found on command line, but no bootconfig found
+Also, this code might be a better fit in identify_secondary_cpu() with
+the other MSR-writing bug-related code.
 
-Please accept my apologies for my confusion.
-
-							Thanx, Paul
-
-> Thank you,
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> > > Thank you!
-> > > 
-> > > > 
-> > > > Gr{oetje,eeting}s,
-> > > > 
-> > > >                         Geert
-> > > > 
-> > > > -- 
-> > > > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> > > > 
-> > > > In personal conversations with technical people, I call myself a hacker. But
-> > > > when I'm talking to journalists I just say "programmer" or something like that.
-> > > >                                 -- Linus Torvalds
-> > > 
-> > > 
-> > > -- 
-> > > Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> 
-> 
-> -- 
-> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+-- 
+Josh
