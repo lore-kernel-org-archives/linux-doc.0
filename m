@@ -2,135 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD3E1C6FA8E
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 10:47:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8820EC6FA8E
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 11:18:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbjBZKry (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Feb 2023 05:47:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55958 "EHLO
+        id S229547AbjBZLSN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Feb 2023 06:18:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbjBZKrx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 05:47:53 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85EC5199C;
-        Sun, 26 Feb 2023 02:47:51 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229470AbjBZLSM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 06:18:12 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A1E34EE1;
+        Sun, 26 Feb 2023 03:18:11 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 37990B80B6F;
-        Sun, 26 Feb 2023 10:47:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A19AC433EF;
-        Sun, 26 Feb 2023 10:47:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677408469;
-        bh=fLQt+ixMEJSno4VMGJ1WCh88kx568RB8kp9xOEK0ZLw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=d1Btl1zvFXWcXcQY0WO1bc/qjhN1GZgwcTiYMFxTOQOqDLawscMFk5ki2J3DAa1Xw
-         wlTMXP0BwkWr99xwqquqlREx461suPqS+zKKLJyl36bSSfE6gNtGr1OfXMr9c6FPQ5
-         t2XmTbirJcUKs7uPA1wVo03LrjngNw8FsZmg4wqQkfULn0riyheBkFbNWv7FWyGoqb
-         hwgEEEKgCCAAU27m4wv6i0rhSBo4Y8g+8BiBI9I5Jyx9Ta7goKCuAI+hbk6XUU2nIw
-         mWtAReJxcP/pF17LSnl0svyDSwDX9buC6PMxg+suQJmsh6CID0LGTSb4Z1rb/67YLl
-         U4JVxL4tYEXEw==
-Date:   Sun, 26 Feb 2023 11:47:44 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] media: Fix building pdfdocs
-Message-ID: <20230226114744.7221f460@coco.lan>
-In-Reply-To: <307dbafd-6fe7-1b75-a484-67553529a5e0@gmail.com>
-References: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
-        <307dbafd-6fe7-1b75-a484-67553529a5e0@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C4A311EC05B0;
+        Sun, 26 Feb 2023 12:18:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1677410289;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=Fqca05TAjyju01u0iIdb8z1cG5MT45Cv6Y7lhY3Umj8=;
+        b=jIwESVcTEQVvy+6uCr73JGWEzdJ4pig7GZmp2tyYMtE8Mp5gPFQ39fx1t41A2BJW/S0C7D
+        fMkYE3m7OxzkOasn/G17ICTgpmzA/diz6Aq17Rj5O7WNtiJSAvfpEy1SVZTUNXfEt9sGly
+        fTwBBZQutvKO3/lJ9F2BAmR6TgvySKU=
+Date:   Sun, 26 Feb 2023 12:18:06 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Josh Poimboeuf <jpoimboe@kernel.org>
+Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
+Message-ID: <Y/s/7rtj+SDqRuMz@zn.tnic>
+References: <Y/knUC0s+rg6ef2r@zn.tnic>
+ <Y/k/ZXUXOFiBhOiI@zn.tnic>
+ <20230225000931.wrednfun4jifkqau@treble>
+ <Y/lUSC5x2ZkTIGu4@zn.tnic>
+ <20230225005221.425yahqvxb57c43x@desk>
+ <20230225013202.g7tibykvylprsxs5@treble>
+ <Y/n9XcbnCzWv2Vul@zn.tnic>
+ <20230225172832.sqdd7dejkkmjxpt6@treble>
+ <Y/qSJd1Z3ABEJPPD@zn.tnic>
+ <20230225234330.caznxpkjhq3u5tls@treble>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230225234330.caznxpkjhq3u5tls@treble>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sun, 26 Feb 2023 08:39:32 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+On Sat, Feb 25, 2023 at 03:43:30PM -0800, Josh Poimboeuf wrote:
+> Hm?  So code in bugs.c is not vendor-specific?  That seems circular and
+> I don't get your point.
 
-> [+CC: Jon, linux-doc]
-> 
-> On Wed,  8 Feb 2023 10:29:16 +0200, Tomi Valkeinen wrote:
-> > Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
-> > documatation for a few new RGB formats. For some reason these break the
-> > pdfdocs build, even if the same style seems to work elsewhere in the
-> > file.
-> > 
-> > Remove the trailing empty dash lines, which seems to fix the issue.
-> > 
-> > Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
-> > Reported-by: Akira Yokosawa <akiyks@gmail.com>  
-> Link: https://lore.kernel.org/r/12250823-8445-5854-dfb8-b92c0ff0851e@gmail.com/
-> 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > ---
-> > 
-> > Note: the offending patch was merged via drm tree, so we may want to
-> > apply the fix to the drm tree also.  
-> 
-> So, the offending commit is now in mainline without this fix...
-> I believe this build regression -- a real build error of "make pdfdocs"
-> -- should be fixed ASAP.
-> 
-> Tomi, Laurent has suggested a typo fix in the Changelog.
-> Can you respin ?
-> 
-> Or, Laurent, can you do the fix on your own?
-> 
-> Hopefully, the fix can make v6.3-rc1.
+Lemme try that again...
 
-Better to wait for media PR to be handled. There were some changes at
-the documentation that affected the patch. I guess the bug is gone.
-If not, we'll need to rebase the patch.
+So there's an obvious benefit of keeping vendor-specific CPU code in one
+place: Intel stuff in cpu/intel*, AMD stuff in cpu/amd.c
 
-Regards,
-Mauro
+The sekjority stuff is still vendor-specific CPU code.
 
-> 
->         Thanks, Akira
-> 
-> > 
-> >  Documentation/userspace-api/media/v4l/pixfmt-rgb.rst | 3 ---
-> >  1 file changed, 3 deletions(-)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> > index d330aeb4d3eb..ea545ed1aeaa 100644
-> > --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> > @@ -868,7 +868,6 @@ number of bits for each component.
-> >        - r\ :sub:`4`
-> >        - r\ :sub:`3`
-> >        - r\ :sub:`2`
-> > -      -
-> >      * .. _V4L2-PIX-FMT-RGBA1010102:
-> >  
-> >        - ``V4L2_PIX_FMT_RGBA1010102``
-> > @@ -909,7 +908,6 @@ number of bits for each component.
-> >        - r\ :sub:`4`
-> >        - r\ :sub:`3`
-> >        - r\ :sub:`2`
-> > -      -
-> >      * .. _V4L2-PIX-FMT-ARGB2101010:
-> >  
-> >        - ``V4L2_PIX_FMT_ARGB2101010``
-> > @@ -950,7 +948,6 @@ number of bits for each component.
-> >        - r\ :sub:`6`
-> >        - r\ :sub:`5`
-> >        - r\ :sub:`4`
-> > -      -
-> >  
-> >  .. raw:: latex
-> >    
+Now, if you wanna add a function pointer ->bugs_init or so, say, to
 
+	struct cpu_dev
 
+and keep the respective code in amd.c or intel.c, then we get the best
+of both worlds:
 
-Thanks,
-Mauro
+- vendor-specific code remains in the respective file
+
+- you have a vendor-specific function which does hw vuln-specific work
+  *without* vendor checks and so on
+
+> Right, so rather than spreading all the bug-related MSR logic around,
+> just do it in one spot.
+
+It is all CPU init code and I'm wondering if splitting stuff by vendor
+wouldn't make all that maze in bugs.c a lot more palatable. And get rid
+of
+
+$ git grep VENDOR arch/x86/kernel/cpu/bugs.c | wc -l
+11
+
+those, for starters.
+
+There's this trade-off of
+
+1. keeping bugs setup code in one place - but then you need to do vendor
+   checks and the other CPU setup code is somewhere else and it is
+   probably related, MSR_AMD64_DE_CFG_LFENCE_SERIALIZE_BIT in amd.c for
+   example.
+
+or
+
+2. separating it into their respective files. Then the respective vendor
+   code is simple because you don't need vendor checks. It would need to
+   be done in a slick way, though, so that it remains maintainable.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
