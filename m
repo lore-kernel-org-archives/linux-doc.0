@@ -2,90 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9996BC64ED6
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 05:30:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD3E1C6FA8E
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 10:47:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229524AbjBZFae (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Feb 2023 00:30:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52078 "EHLO
+        id S229489AbjBZKry (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Feb 2023 05:47:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjBZFad (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 00:30:33 -0500
+        with ESMTP id S229536AbjBZKrx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 05:47:53 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC57AC153;
-        Sat, 25 Feb 2023 21:30:31 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85EC5199C;
+        Sun, 26 Feb 2023 02:47:51 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1FAC0B80B07;
-        Sun, 26 Feb 2023 05:30:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C69BC433D2;
-        Sun, 26 Feb 2023 05:30:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1677389428;
-        bh=kMiKvSkb038+QPnW4dyUZBgrNR77GVNbTMcPAKsJoCg=;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 37990B80B6F;
+        Sun, 26 Feb 2023 10:47:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A19AC433EF;
+        Sun, 26 Feb 2023 10:47:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677408469;
+        bh=fLQt+ixMEJSno4VMGJ1WCh88kx568RB8kp9xOEK0ZLw=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=1lnF48nQ6RD68VEkAU0hQS/bb9PdL3A/+q24DiuPpT5y2PxV4ToPq/XDxBSQEEeyY
-         +fGmk27+DmjuJWBVpya2b0hUgtTxLe9HdWlRtfR4E4RiOWVt2Vo+3RVo+Uv8VoGoQX
-         2KGlsG3KcM5JG+MD78OXwrhPt5ilcs1yZOyXzoO4=
-Date:   Sat, 25 Feb 2023 21:30:27 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Stefan Roesch <shr@devkernel.io>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, hannes@cmpxchg.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH v3 3/3] selftests/mm: add new selftests for KSM
-Message-Id: <20230225213027.69c27e7790898c32e66312ea@linux-foundation.org>
-In-Reply-To: <20230224044000.3084046-4-shr@devkernel.io>
-References: <20230224044000.3084046-1-shr@devkernel.io>
-        <20230224044000.3084046-4-shr@devkernel.io>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+        b=d1Btl1zvFXWcXcQY0WO1bc/qjhN1GZgwcTiYMFxTOQOqDLawscMFk5ki2J3DAa1Xw
+         wlTMXP0BwkWr99xwqquqlREx461suPqS+zKKLJyl36bSSfE6gNtGr1OfXMr9c6FPQ5
+         t2XmTbirJcUKs7uPA1wVo03LrjngNw8FsZmg4wqQkfULn0riyheBkFbNWv7FWyGoqb
+         hwgEEEKgCCAAU27m4wv6i0rhSBo4Y8g+8BiBI9I5Jyx9Ta7goKCuAI+hbk6XUU2nIw
+         mWtAReJxcP/pF17LSnl0svyDSwDX9buC6PMxg+suQJmsh6CID0LGTSb4Z1rb/67YLl
+         U4JVxL4tYEXEw==
+Date:   Sun, 26 Feb 2023 11:47:44 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dave Airlie <airlied@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] media: Fix building pdfdocs
+Message-ID: <20230226114744.7221f460@coco.lan>
+In-Reply-To: <307dbafd-6fe7-1b75-a484-67553529a5e0@gmail.com>
+References: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
+        <307dbafd-6fe7-1b75-a484-67553529a5e0@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 23 Feb 2023 20:40:00 -0800 Stefan Roesch <shr@devkernel.io> wrote:
+Em Sun, 26 Feb 2023 08:39:32 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-> This adds three new tests to the selftests for KSM. These tests use the
-> new prctl API's to enable and disable KSM.
+> [+CC: Jon, linux-doc]
 > 
-> ...
->
-> diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-> index d90cdc06aa59..507cb22bdebd 100644
-> --- a/tools/testing/selftests/mm/Makefile
-> +++ b/tools/testing/selftests/mm/Makefile
-> @@ -29,7 +29,8 @@ MACHINE ?= $(shell echo $(uname_M) | sed -e 's/aarch64.*/arm64/' -e 's/ppc64.*/p
->  # LDLIBS.
->  MAKEFLAGS += --no-builtin-rules
->  
-> -CFLAGS = -Wall -I $(top_srcdir) -I $(top_srcdir)/usr/include $(EXTRA_CFLAGS) $(KHDR_INCLUDES)
-> +CFLAGS = -Wall -I $(top_srcdir)/tools/include/uapi
-> +CFLAGS += -I $(top_srcdir) -I $(top_srcdir)/usr/include $(EXTRA_CFLAGS) $(KHDR_INCLUDES)
->  LDLIBS = -lrt -lpthread
->  TEST_GEN_FILES = cow
->  TEST_GEN_FILES += compaction_test
+> On Wed,  8 Feb 2023 10:29:16 +0200, Tomi Valkeinen wrote:
+> > Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
+> > documatation for a few new RGB formats. For some reason these break the
+> > pdfdocs build, even if the same style seems to work elsewhere in the
+> > file.
+> > 
+> > Remove the trailing empty dash lines, which seems to fix the issue.
+> > 
+> > Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
+> > Reported-by: Akira Yokosawa <akiyks@gmail.com>  
+> Link: https://lore.kernel.org/r/12250823-8445-5854-dfb8-b92c0ff0851e@gmail.com/
+> 
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > ---
+> > 
+> > Note: the offending patch was merged via drm tree, so we may want to
+> > apply the fix to the drm tree also.  
+> 
+> So, the offending commit is now in mainline without this fix...
+> I believe this build regression -- a real build error of "make pdfdocs"
+> -- should be fixed ASAP.
+> 
+> Tomi, Laurent has suggested a typo fix in the Changelog.
+> Can you respin ?
+> 
+> Or, Laurent, can you do the fix on your own?
+> 
+> Hopefully, the fix can make v6.3-rc1.
 
-This change runs afoul of the recently merged 8eb3751c73bec
-("selftests: vm: Fix incorrect kernel headers search path").
+Better to wait for media PR to be handled. There were some changes at
+the documentation that affected the patch. I guess the bug is gone.
+If not, we'll need to rebase the patch.
 
-I did this:
+Regards,
+Mauro
 
---- a/tools/testing/selftests/mm/Makefile~selftests-mm-add-new-selftests-for-ksm
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -29,7 +29,7 @@ MACHINE ?= $(shell echo $(uname_M) | sed -e 's/aarch64.*/arm64/' -e 's/ppc64.*/p
- # LDLIBS.
- MAKEFLAGS += --no-builtin-rules
- 
--CFLAGS = -Wall -I $(top_srcdir) $(EXTRA_CFLAGS) $(KHDR_INCLUDES)
-+CFLAGS = -Wall -I $(top_srcdir) -I $(top_srcdir)/tools/include/uapi $(EXTRA_CFLAGS) $(KHDR_INCLUDES)
- LDLIBS = -lrt -lpthread
- TEST_GEN_FILES = cow
- TEST_GEN_FILES += compaction_test
-_
+> 
+>         Thanks, Akira
+> 
+> > 
+> >  Documentation/userspace-api/media/v4l/pixfmt-rgb.rst | 3 ---
+> >  1 file changed, 3 deletions(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> > index d330aeb4d3eb..ea545ed1aeaa 100644
+> > --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> > @@ -868,7 +868,6 @@ number of bits for each component.
+> >        - r\ :sub:`4`
+> >        - r\ :sub:`3`
+> >        - r\ :sub:`2`
+> > -      -
+> >      * .. _V4L2-PIX-FMT-RGBA1010102:
+> >  
+> >        - ``V4L2_PIX_FMT_RGBA1010102``
+> > @@ -909,7 +908,6 @@ number of bits for each component.
+> >        - r\ :sub:`4`
+> >        - r\ :sub:`3`
+> >        - r\ :sub:`2`
+> > -      -
+> >      * .. _V4L2-PIX-FMT-ARGB2101010:
+> >  
+> >        - ``V4L2_PIX_FMT_ARGB2101010``
+> > @@ -950,7 +948,6 @@ number of bits for each component.
+> >        - r\ :sub:`6`
+> >        - r\ :sub:`5`
+> >        - r\ :sub:`4`
+> > -      -
+> >  
+> >  .. raw:: latex
+> >    
 
-But I expect it's a bit wrong.  Please check?
+
+
+Thanks,
+Mauro
