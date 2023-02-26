@@ -2,89 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60EA6C64ED6
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 18:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F099C64ED6
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 19:45:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229605AbjBZSoS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Feb 2023 13:44:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40258 "EHLO
+        id S229693AbjBZTpQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Feb 2023 14:45:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbjBZSoR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 13:44:17 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5838CDDD;
-        Sun, 26 Feb 2023 10:44:15 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        with ESMTP id S229379AbjBZTpP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 14:45:15 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC9C61287A;
+        Sun, 26 Feb 2023 11:45:14 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2C8D41EC0505;
-        Sun, 26 Feb 2023 19:44:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1677437054;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=rXoym0obEUSH1mjLiPOp+aa2Yv/KRlu/Xe4v9jWR4pY=;
-        b=PMLG3AaH9U5f6W9kPb5mRHBIoo9IE7cJLKs+7MUG1UWhU32OApHTM8tDVth6IadQwMvb2J
-        4DuvFZda4Eip1oVzX1RKGkgwjxruJ0XyEQKTtBpEEEIYWRvJSBGSP/WDBwE+K5V/EyiAde
-        7zJLaKsOwbdCBhr1QlchNFatHTgy5fI=
-Date:   Sun, 26 Feb 2023 19:44:09 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Josh Poimboeuf <jpoimboe@kernel.org>
-Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
-Message-ID: <Y/uoeZKMxAgqU5eR@zn.tnic>
-References: <20230225000931.wrednfun4jifkqau@treble>
- <Y/lUSC5x2ZkTIGu4@zn.tnic>
- <20230225005221.425yahqvxb57c43x@desk>
- <20230225013202.g7tibykvylprsxs5@treble>
- <Y/n9XcbnCzWv2Vul@zn.tnic>
- <20230225172832.sqdd7dejkkmjxpt6@treble>
- <Y/qSJd1Z3ABEJPPD@zn.tnic>
- <20230225234330.caznxpkjhq3u5tls@treble>
- <Y/s/7rtj+SDqRuMz@zn.tnic>
- <20230226172726.iidbgidy5336npi4@treble>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 95B8EB80C8D;
+        Sun, 26 Feb 2023 19:45:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6DC1C433EF;
+        Sun, 26 Feb 2023 19:45:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677440712;
+        bh=OSwtZh3LVmcBE8L5v7Q9+ZP5zaBH8RmFfr6WYe81suE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nWLt8iPZi1F6Q6kRLiWNkjYEJoFkVMqsWrJHSh1zNZeLfyM3gkZ74ifkZ7f4MWpe0
+         6fVydqDUa/UUaKkQCWnnJzlBNm2SiKINCup0TilEjxKDxfCwR8VNljNqBe+9o3fKGn
+         VJJJEkGetXiABdKXw042fauR2pzWXZeCCpnPV2OFe16J72nx9c6VQxkNBZ2C7R/p0n
+         85p8cwIAScEyXckthaTVqzXLMr7aLdBCkdzwuDx8c0yaLqy4u/yR6iSHXEhxf2nYYk
+         AXLAyA/33pOdHHjrQGFq7MRQyhxzQa5SQF4xSdJgv8ULiALab86CcBSRaqdZfHMhvi
+         IpJktS5fuATIA==
+Date:   Sun, 26 Feb 2023 20:45:08 +0100
+From:   Frederic Weisbecker <frederic@kernel.org>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
+        rcu@vger.kernel.org
+Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
+ completed
+Message-ID: <Y/u2xK8FHwKMsJNh@lothringen>
+References: <20230225033421.3323164-1-joel@joelfernandes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230226172726.iidbgidy5336npi4@treble>
+In-Reply-To: <20230225033421.3323164-1-joel@joelfernandes.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 26, 2023 at 09:27:26AM -0800, Josh Poimboeuf wrote:
-> At least now it's a (mostly) self-contained hornets nest.  I'm not sure
-> we want to poke it :-)
-> 
-> And I'm not sure spreading the mess around would be an improvement.
+On Sat, Feb 25, 2023 at 03:34:21AM +0000, Joel Fernandes (Google) wrote:
+> On many systems, a great deal of boot happens after the kernel thinks the boot
+> has completed. It is difficult to determine if the system has really booted
+> from the kernel side.
 
-Yah, if anything, I wanna see the change first and it has to be an
-obvious and good one.
+Is this only about kernel booting? What makes it hard to determine if the
+system has really booted?
 
-What I think we should finish doing, though, is documenting it. Because
-there are aspects/mitigations that are missing, e.g., there's no
-retbleed.rst in Documentation/admin-guide/hw-vuln/
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks.
