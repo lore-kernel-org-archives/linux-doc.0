@@ -2,38 +2,35 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DBC4C64ED6
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 17:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60EA6C64ED6
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 18:44:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229581AbjBZR1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Feb 2023 12:27:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54162 "EHLO
+        id S229605AbjBZSoS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Feb 2023 13:44:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjBZR1c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 12:27:32 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1585A17140;
-        Sun, 26 Feb 2023 09:27:31 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229524AbjBZSoR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 13:44:17 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5838CDDD;
+        Sun, 26 Feb 2023 10:44:15 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BA915B80B07;
-        Sun, 26 Feb 2023 17:27:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D9D9C433EF;
-        Sun, 26 Feb 2023 17:27:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677432448;
-        bh=Ua3oPrmvH330KRAKtpBqRdRMZ6rjHIhfTvhZmK/Msjg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ub165GqcmsTkskmKhqJhReLW5ZD7W9DJzka+7J1mJHsf7XfNCvZegWntw6E0tti4Y
-         Qy7IO2GGjhFRq27bcfh5VXzJFfU+3K41AjgouwbRt6qDkWUrTlrP2D6DFfrYlaCuDr
-         byq+a2Y5BWGKGmRMV6esJX4nyrToJia5O9lgspISIyMIQUrKQGvUX81FC5rC+S7Yut
-         idIEh3i+AuRxM5/cc0cTqLBfcfvKHXDSHF18zAALVbHmW9ss1KPFoI097udPW+pxRb
-         QTIK4+XF9QJoM/88cxNwSMuZlVTL+jSZSWmUU0ENKJHkSgNiH+ni2CbxMI9L5tECZ5
-         AJFQScnS9xCYQ==
-Date:   Sun, 26 Feb 2023 09:27:26 -0800
-From:   Josh Poimboeuf <jpoimboe@kernel.org>
-To:     Borislav Petkov <bp@alien8.de>
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2C8D41EC0505;
+        Sun, 26 Feb 2023 19:44:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1677437054;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=rXoym0obEUSH1mjLiPOp+aa2Yv/KRlu/Xe4v9jWR4pY=;
+        b=PMLG3AaH9U5f6W9kPb5mRHBIoo9IE7cJLKs+7MUG1UWhU32OApHTM8tDVth6IadQwMvb2J
+        4DuvFZda4Eip1oVzX1RKGkgwjxruJ0XyEQKTtBpEEEIYWRvJSBGSP/WDBwE+K5V/EyiAde
+        7zJLaKsOwbdCBhr1QlchNFatHTgy5fI=
+Date:   Sun, 26 Feb 2023 19:44:09 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Josh Poimboeuf <jpoimboe@kernel.org>
 Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
         Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
         Boris Ostrovsky <boris.ostrovsky@oracle.com>,
@@ -54,9 +51,8 @@ Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
         Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
-Message-ID: <20230226172726.iidbgidy5336npi4@treble>
-References: <Y/k/ZXUXOFiBhOiI@zn.tnic>
- <20230225000931.wrednfun4jifkqau@treble>
+Message-ID: <Y/uoeZKMxAgqU5eR@zn.tnic>
+References: <20230225000931.wrednfun4jifkqau@treble>
  <Y/lUSC5x2ZkTIGu4@zn.tnic>
  <20230225005221.425yahqvxb57c43x@desk>
  <20230225013202.g7tibykvylprsxs5@treble>
@@ -65,44 +61,30 @@ References: <Y/k/ZXUXOFiBhOiI@zn.tnic>
  <Y/qSJd1Z3ABEJPPD@zn.tnic>
  <20230225234330.caznxpkjhq3u5tls@treble>
  <Y/s/7rtj+SDqRuMz@zn.tnic>
+ <20230226172726.iidbgidy5336npi4@treble>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y/s/7rtj+SDqRuMz@zn.tnic>
+In-Reply-To: <20230226172726.iidbgidy5336npi4@treble>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 26, 2023 at 12:18:06PM +0100, Borislav Petkov wrote:
-> > Right, so rather than spreading all the bug-related MSR logic around,
-> > just do it in one spot.
+On Sun, Feb 26, 2023 at 09:27:26AM -0800, Josh Poimboeuf wrote:
+> At least now it's a (mostly) self-contained hornets nest.  I'm not sure
+> we want to poke it :-)
 > 
-> It is all CPU init code and I'm wondering if splitting stuff by vendor
-> wouldn't make all that maze in bugs.c a lot more palatable. And get rid
-> of
-> 
-> $ git grep VENDOR arch/x86/kernel/cpu/bugs.c | wc -l
-> 11
-> 
-> those, for starters.
-> 
-> There's this trade-off of
-> 
-> 1. keeping bugs setup code in one place - but then you need to do vendor
->    checks and the other CPU setup code is somewhere else and it is
->    probably related, MSR_AMD64_DE_CFG_LFENCE_SERIALIZE_BIT in amd.c for
->    example.
-> 
-> or
-> 
-> 2. separating it into their respective files. Then the respective vendor
->    code is simple because you don't need vendor checks. It would need to
->    be done in a slick way, though, so that it remains maintainable.
+> And I'm not sure spreading the mess around would be an improvement.
 
-At least now it's a (mostly) self-contained hornets nest.  I'm not sure
-we want to poke it :-)
+Yah, if anything, I wanna see the change first and it has to be an
+obvious and good one.
 
-And I'm not sure spreading the mess around would be an improvement.
+What I think we should finish doing, though, is documenting it. Because
+there are aspects/mitigations that are missing, e.g., there's no
+retbleed.rst in Documentation/admin-guide/hw-vuln/
 
 -- 
-Josh
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
