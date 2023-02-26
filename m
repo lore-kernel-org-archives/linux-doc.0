@@ -2,99 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 810EDC7EE2D
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 01:48:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E7CFC7EE23
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 05:08:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjBZBsz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Feb 2023 20:48:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54070 "EHLO
+        id S229584AbjBZFI6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Feb 2023 00:08:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjBZBsy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Feb 2023 20:48:54 -0500
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02955D33E;
-        Sat, 25 Feb 2023 17:48:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-        t=1677376113; i=w_armin@gmx.de;
-        bh=WUcYVEwqrG6usAiQFxSS5/w7vamMXRwl23OvRi5cT6o=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=I97Ono275JMIR9NazH2Rjw2tD1SSrKjYRayQKSTB+W/BN+SYo4fjRwoYBC8ixcl/L
-         L1ywzcJ4+hhMee1aFgMqBVKBepHYP26MVaff30Pc805fZDRn8Pqg3QCQIlIpg682Of
-         vQ6dJ4zoqfVmexUaygnxfI8NSo712WKL/jMLwAAauHH8U+purR+QiZyUAqoQyh/Eu4
-         9tMHcILAnPtCyMTHmu3cptA3lV1UkQgV2yzvdMcWF2N1LA/ZLiAGqzFl/eCYyc6lob
-         5BOqSXkEFAvDInyRCF7zZ6iy2MoMLT3KP7U1Z8NvJ3SRwm+R6cwuZzFMtZYoeX57gs
-         py2L/caJEMC/w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from esprimo-mx.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
- (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MsHs0-1ocTMZ2UYc-00tom9; Sun, 26 Feb 2023 02:48:33 +0100
-From:   Armin Wolf <W_Armin@gmx.de>
-To:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (ftsteutates) Update specifications website
-Date:   Sun, 26 Feb 2023 02:48:30 +0100
-Message-Id: <20230226014830.10929-1-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:KJfAOvKDHvVsmTGKmNASb4WX+dMdFthNqzuX6yhwDdxyEwtZ7WJ
- iBhadcBQjFBWJ+hmC/Er+F7WGsv2cAVzFqcPeRtnDNLbUvfCJwMm0uDA2ysNVc3gd+D07V9
- ZwV7RWTWltGPQi3Hm3263p4OFLYcwwFx6QBBa1eFq8u9Nnr5z9z7M1a0ASEhzZAq2rat8Vv
- 7vYmLymHWTBcHqWcbD3dw==
-UI-OutboundReport: notjunk:1;M01:P0:sVSSp4pGbGc=;YG7R0optsPk+XgcLp70gjL2xbJ9
- 1pCohmGnqs3n34oeOgukXte742FHGOpfTSJ0yYXqT++2tTuoGxcY7VFqYZD85XUbrT/kLylxF
- sMt3DsK7AYMPZE7AIr5QrM6pe9hXwpgTboYjYLyHRw+AGHqonkrGskls5oTNcdWeqtT1dAxwB
- hwx0nyRlzS3aPFeJlLZLfS9DIBGeu9HG2UEcCIKk0yfpUZSv8NZCt/v6sd0M7/tB32g4n5KW2
- hyBVotgdqRfuuJD5TJ6juKbolboF21AWSocJ5L6gKuJbiNgg0QBAtYJ6dAkQcymyBS9ExRu+U
- JKgDaJhXORMRPA5SGZRvhe5QbTTRzVSq9VLVrdResIerICLMgi7KUbievC4Vda6IMmWfRaplZ
- caHObdYZyPNLSnDIadduFmAB/o1MCxCd7wQbf05Uk1Uv4uIwdB9uc3eQFX5u+TrPZWwt27n45
- kv5moWqIlpTeo5HXqDlzWKxtY90t9vBD8ZOKfWxOHYRiM1bbR9lxhU89Y0V7rwD8QWFDffM61
- lGJoKv7msHE1SDRZM0yRj+EfUfP7kYI87SDXrpNekcZkbJZZHgvlNb93DO0ZB2Fykj4ma4DJD
- wKO7bm6pyErgdPtoOTE4+MDEDo8EJbVhxORreTcJwK04tqDAI+6HC+Pe8eTGqBusBFJFlj4hF
- 7ECVuTIdNEd/FMCQGgp8p1JoXRWt/JskNGTP+pvPmFlCgGnbZ4J2ChepAu/L2GfFY4jPPHeoW
- YP8k/YYMPmtPfaSmwBN5cJgFN+X9ivoBFF7fwAOnPRKoH6EOnQhLGh1mjcit2c7j0SbMuVNaV
- R2znAuU3xcdxXXLmRLjSEMNbbCpD4uTdamKPm2yq1iZesDC61Ra1gz8UxP4NK21IhgsZNAhpR
- CLOl98veU12B9tis4/otuNndLPcNb5zkqEjhQH2RiYxOMmpk8ehPH2z0aeMTUorzV1nqgVClg
- I2rknsl3Ud5i4NZGkoobNv0cB0A=
+        with ESMTP id S229512AbjBZFI5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 00:08:57 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8163BE399;
+        Sat, 25 Feb 2023 21:08:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 04B8B60C04;
+        Sun, 26 Feb 2023 05:08:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0588DC433D2;
+        Sun, 26 Feb 2023 05:08:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1677388135;
+        bh=DAfO6lgQfsX8e4eAz4Jp1wblc0DHfPpgZd2JsmuvcXc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nm6CNxHGjw7mjWJMcGRqObe44yKeqZ1WvpXtlQcZeGSCAmlJRuD24SKXQ9OUXeWCj
+         ZWpL9zBTkVCWxcz5xfEh/l6C+nSdgjrCUj+bKEodPfJ17U6rznW4aZaokV/iYUzTh2
+         xuJbo62QRTs1vMUrEohN+0HIfBse9HjD0GgMbaGY=
+Date:   Sat, 25 Feb 2023 21:08:54 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Stefan Roesch <shr@devkernel.io>
+Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, hannes@cmpxchg.org
+Subject: Re: [PATCH v3 0/3] mm: process/cgroup ksm support
+Message-Id: <20230225210854.25e93b1d94666aa13c269104@linux-foundation.org>
+In-Reply-To: <20230224044000.3084046-1-shr@devkernel.io>
+References: <20230224044000.3084046-1-shr@devkernel.io>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The Fujitsu OEM Mainboard business was acquired by Kontron,
-so the specifications of the Teutates chip was transferred to
-the new Kontron FTP server.
+On Thu, 23 Feb 2023 20:39:57 -0800 Stefan Roesch <shr@devkernel.io> wrote:
 
-Update the specifications website accordingly. The outdated
-sensors how-to was omitted.
+> So far KSM can only be enabled by calling madvise for memory regions. To
+> be able to use KSM for more workloads, KSM needs to have the ability to be
+> enabled / disabled at the process / cgroup level.
 
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- Documentation/hwmon/ftsteutates.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I'll toss this in for integration and testing, but I'd like to see
+reviewer input before proceeding further.
 
-diff --git a/Documentation/hwmon/ftsteutates.rst b/Documentation/hwmon/fts=
-teutates.rst
-index b3bfec36661d..2abd16830c99 100644
-=2D-- a/Documentation/hwmon/ftsteutates.rst
-+++ b/Documentation/hwmon/ftsteutates.rst
-@@ -36,7 +36,7 @@ correct path to the alarm file::
-
- 	echo 0 >XXXX_alarm
-
--Specification of the chip can be found here:
-+Specifications of the chip can be found at the `Kontron FTP Server <http:=
-//ftp.kontron.com/>`_ (username =3D "anonymous", no password required)
-+under the following path:
-
-=2D- ftp://ftp.ts.fujitsu.com/pub/Mainboard-OEM-Sales/Services/Software&To=
-ols/Linux_SystemMonitoring&Watchdog&GPIO/BMC-Teutates_Specification_V1.21.=
-pdf
-=2D- ftp://ftp.ts.fujitsu.com/pub/Mainboard-OEM-Sales/Services/Software&To=
-ols/Linux_SystemMonitoring&Watchdog&GPIO/Fujitsu_mainboards-1-Sensors_HowT=
-o-en-US.pdf
-+  /Services/Software_Tools/Linux_SystemMonitoring_Watchdog_GPIO/BMC-Teuta=
-tes_Specification_V1.21.pdf
-=2D-
-2.30.2
-
+Please plan on adding suitable user-facing documentation?  Presumably a
+patch for the prctl manpage?
