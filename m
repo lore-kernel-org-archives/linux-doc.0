@@ -2,94 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 489A0C64EC7
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Feb 2023 23:43:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 810EDC7EE2D
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 01:48:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229569AbjBYXnf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Feb 2023 18:43:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51652 "EHLO
+        id S229504AbjBZBsz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Feb 2023 20:48:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbjBYXne (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Feb 2023 18:43:34 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6A26C65C;
-        Sat, 25 Feb 2023 15:43:33 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C44A60B9B;
-        Sat, 25 Feb 2023 23:43:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1970C433D2;
-        Sat, 25 Feb 2023 23:43:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677368612;
-        bh=d60Nmt1XVteziluASH8Ks/31L1dJmDv8FJP2Vc5NIOQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=e8PlVbubHiG+QFtCZyp64zWmL2Ua2SC3LxUUWKvW5WAfUOZnMzhii8khk0QF1BLQA
-         45/JN66OcgXhCJAQNkl6xmcTd8eupKcuzAcrnDWkiyVWj2j8OqXr8+dzDgmeSf/H3b
-         XuyIEWCRqz1LE/kfF934bL0vyj1yM7XLOfl+Gejz4YgClTJJC0q5MOMa06/noV2XS3
-         UoKM7fpBFWc0Xo0Y7n6AT8VqPBX3D5zfCq5jFSbWSgd7KHwcIu7yPW8AuOi3pGyiSV
-         S6W9Ogym/a9SlPkHdClqBW/9SzXsXzydHiLiB56weeE2ff+TOPjFM2bYj2V+FwE90Z
-         yWpewhNhkCrnQ==
-Date:   Sat, 25 Feb 2023 15:43:30 -0800
-From:   Josh Poimboeuf <jpoimboe@kernel.org>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
-Message-ID: <20230225234330.caznxpkjhq3u5tls@treble>
-References: <20230224185257.o3mcmloei5zqu7wa@treble>
- <Y/knUC0s+rg6ef2r@zn.tnic>
- <Y/k/ZXUXOFiBhOiI@zn.tnic>
- <20230225000931.wrednfun4jifkqau@treble>
- <Y/lUSC5x2ZkTIGu4@zn.tnic>
- <20230225005221.425yahqvxb57c43x@desk>
- <20230225013202.g7tibykvylprsxs5@treble>
- <Y/n9XcbnCzWv2Vul@zn.tnic>
- <20230225172832.sqdd7dejkkmjxpt6@treble>
- <Y/qSJd1Z3ABEJPPD@zn.tnic>
+        with ESMTP id S229445AbjBZBsy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Feb 2023 20:48:54 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02955D33E;
+        Sat, 25 Feb 2023 17:48:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+        t=1677376113; i=w_armin@gmx.de;
+        bh=WUcYVEwqrG6usAiQFxSS5/w7vamMXRwl23OvRi5cT6o=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=I97Ono275JMIR9NazH2Rjw2tD1SSrKjYRayQKSTB+W/BN+SYo4fjRwoYBC8ixcl/L
+         L1ywzcJ4+hhMee1aFgMqBVKBepHYP26MVaff30Pc805fZDRn8Pqg3QCQIlIpg682Of
+         vQ6dJ4zoqfVmexUaygnxfI8NSo712WKL/jMLwAAauHH8U+purR+QiZyUAqoQyh/Eu4
+         9tMHcILAnPtCyMTHmu3cptA3lV1UkQgV2yzvdMcWF2N1LA/ZLiAGqzFl/eCYyc6lob
+         5BOqSXkEFAvDInyRCF7zZ6iy2MoMLT3KP7U1Z8NvJ3SRwm+R6cwuZzFMtZYoeX57gs
+         py2L/caJEMC/w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from esprimo-mx.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MsHs0-1ocTMZ2UYc-00tom9; Sun, 26 Feb 2023 02:48:33 +0100
+From:   Armin Wolf <W_Armin@gmx.de>
+To:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] hwmon: (ftsteutates) Update specifications website
+Date:   Sun, 26 Feb 2023 02:48:30 +0100
+Message-Id: <20230226014830.10929-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y/qSJd1Z3ABEJPPD@zn.tnic>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:KJfAOvKDHvVsmTGKmNASb4WX+dMdFthNqzuX6yhwDdxyEwtZ7WJ
+ iBhadcBQjFBWJ+hmC/Er+F7WGsv2cAVzFqcPeRtnDNLbUvfCJwMm0uDA2ysNVc3gd+D07V9
+ ZwV7RWTWltGPQi3Hm3263p4OFLYcwwFx6QBBa1eFq8u9Nnr5z9z7M1a0ASEhzZAq2rat8Vv
+ 7vYmLymHWTBcHqWcbD3dw==
+UI-OutboundReport: notjunk:1;M01:P0:sVSSp4pGbGc=;YG7R0optsPk+XgcLp70gjL2xbJ9
+ 1pCohmGnqs3n34oeOgukXte742FHGOpfTSJ0yYXqT++2tTuoGxcY7VFqYZD85XUbrT/kLylxF
+ sMt3DsK7AYMPZE7AIr5QrM6pe9hXwpgTboYjYLyHRw+AGHqonkrGskls5oTNcdWeqtT1dAxwB
+ hwx0nyRlzS3aPFeJlLZLfS9DIBGeu9HG2UEcCIKk0yfpUZSv8NZCt/v6sd0M7/tB32g4n5KW2
+ hyBVotgdqRfuuJD5TJ6juKbolboF21AWSocJ5L6gKuJbiNgg0QBAtYJ6dAkQcymyBS9ExRu+U
+ JKgDaJhXORMRPA5SGZRvhe5QbTTRzVSq9VLVrdResIerICLMgi7KUbievC4Vda6IMmWfRaplZ
+ caHObdYZyPNLSnDIadduFmAB/o1MCxCd7wQbf05Uk1Uv4uIwdB9uc3eQFX5u+TrPZWwt27n45
+ kv5moWqIlpTeo5HXqDlzWKxtY90t9vBD8ZOKfWxOHYRiM1bbR9lxhU89Y0V7rwD8QWFDffM61
+ lGJoKv7msHE1SDRZM0yRj+EfUfP7kYI87SDXrpNekcZkbJZZHgvlNb93DO0ZB2Fykj4ma4DJD
+ wKO7bm6pyErgdPtoOTE4+MDEDo8EJbVhxORreTcJwK04tqDAI+6HC+Pe8eTGqBusBFJFlj4hF
+ 7ECVuTIdNEd/FMCQGgp8p1JoXRWt/JskNGTP+pvPmFlCgGnbZ4J2ChepAu/L2GfFY4jPPHeoW
+ YP8k/YYMPmtPfaSmwBN5cJgFN+X9ivoBFF7fwAOnPRKoH6EOnQhLGh1mjcit2c7j0SbMuVNaV
+ R2znAuU3xcdxXXLmRLjSEMNbbCpD4uTdamKPm2yq1iZesDC61Ra1gz8UxP4NK21IhgsZNAhpR
+ CLOl98veU12B9tis4/otuNndLPcNb5zkqEjhQH2RiYxOMmpk8ehPH2z0aeMTUorzV1nqgVClg
+ I2rknsl3Ud5i4NZGkoobNv0cB0A=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 25, 2023 at 11:56:37PM +0100, Borislav Petkov wrote:
-> On Sat, Feb 25, 2023 at 09:28:32AM -0800, Josh Poimboeuf wrote:
-> > All the other "bug" code in identify_secondary_cpu() *is*
-> > vendor-specific.
-> 
-> I meant "vendor-specific" in the sense that AMD code goes to amd.c, etc.
+The Fujitsu OEM Mainboard business was acquired by Kontron,
+so the specifications of the Teutates chip was transferred to
+the new Kontron FTP server.
 
-Hm?  So code in bugs.c is not vendor-specific?  That seems circular and
-I don't get your point.
+Update the specifications website accordingly. The outdated
+sensors how-to was omitted.
 
-> As to the identify_secondary_cpu()  code - I didn't like it being
-> slapped there either but it got stuck in there hastily during the
-> mitigations upstreaming as back then we had bigger fish to fry than
-> paying too much attention to clean design...
+Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+=2D--
+ Documentation/hwmon/ftsteutates.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Right, so rather than spreading all the bug-related MSR logic around,
-just do it in one spot.
+diff --git a/Documentation/hwmon/ftsteutates.rst b/Documentation/hwmon/fts=
+teutates.rst
+index b3bfec36661d..2abd16830c99 100644
+=2D-- a/Documentation/hwmon/ftsteutates.rst
++++ b/Documentation/hwmon/ftsteutates.rst
+@@ -36,7 +36,7 @@ correct path to the alarm file::
 
--- 
-Josh
+ 	echo 0 >XXXX_alarm
+
+-Specification of the chip can be found here:
++Specifications of the chip can be found at the `Kontron FTP Server <http:=
+//ftp.kontron.com/>`_ (username =3D "anonymous", no password required)
++under the following path:
+
+=2D- ftp://ftp.ts.fujitsu.com/pub/Mainboard-OEM-Sales/Services/Software&To=
+ols/Linux_SystemMonitoring&Watchdog&GPIO/BMC-Teutates_Specification_V1.21.=
+pdf
+=2D- ftp://ftp.ts.fujitsu.com/pub/Mainboard-OEM-Sales/Services/Software&To=
+ols/Linux_SystemMonitoring&Watchdog&GPIO/Fujitsu_mainboards-1-Sensors_HowT=
+o-en-US.pdf
++  /Services/Software_Tools/Linux_SystemMonitoring_Watchdog_GPIO/BMC-Teuta=
+tes_Specification_V1.21.pdf
+=2D-
+2.30.2
+
