@@ -2,51 +2,48 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE0EFC7EE23
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 14:48:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40116C7EE23
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 14:49:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbjBZOsK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Feb 2023 09:48:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44036 "EHLO
+        id S230116AbjBZOtw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Feb 2023 09:49:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229885AbjBZOsC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 09:48:02 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C08313DF2;
-        Sun, 26 Feb 2023 06:47:18 -0800 (PST)
+        with ESMTP id S229903AbjBZOtO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 09:49:14 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93F175278;
+        Sun, 26 Feb 2023 06:47:56 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 63777B80BA8;
-        Sun, 26 Feb 2023 14:46:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 256ECC433EF;
-        Sun, 26 Feb 2023 14:46:02 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BED14B80BEC;
+        Sun, 26 Feb 2023 14:47:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66B1AC433D2;
+        Sun, 26 Feb 2023 14:47:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677422764;
-        bh=lgMByjNARYrLIqZM9HrSpx05mNEpzqawg8FJtKZXzXQ=;
+        s=k20201202; t=1677422858;
+        bh=FlxPSjXOwiKPRpHyKHO3OfzHkwLmOuLBQ73f273Cudg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PALv+B1AQ+okM4UG0pimCNQIGW2fm53j2akL5zapEF4xbiuE1n8YNNdleF7wtRJ3z
-         nhjH4UqtALPHtNPnIwf0qjAJ+ei0lLybHPZ6KERx63rVH7C27CZNK4Oh2uvHSfQlWc
-         7dxt+8FQrBC+n6A7kQ7WSDg5gihTcmMoSSgQMgKV/V2h+LmsOVAyFBQFLHhWDg5165
-         0FXpve77icv2RQxkmvnRdgTteobAvIgh8rZ8XvpQZpW7x0AHyvJYr8ICk9v3yvH1F+
-         Ato1/KQQYBBVRu38NcEWFGvRJ9vfCIQ4z9c0TegjYrhBjiejAxzJaD8G5cF5WdC6eZ
-         sHW8uhWXTAxyg==
+        b=mgBxHqUy12qi6/RTTVDzbYe9q6Iq8iXuXt0waROq9c15eG+mkQUZUKJ5L1QZJURRq
+         MJ6g1UcBScZPk6deMDe4ofh7Fsi30+blwsn2WUiJMv0HAAX6cZa2VU3lNfGD1Dfbth
+         sUzGUhbjSmZGjN1vVoV7bfRX3O5GcUQV2mIjDjjcp58fNJSRPamX8gxAgcPvsIQKZv
+         I89EReyKH/iQoSNGeSEgb5OrQf9bqF9XrMfC378BFNMUB7PGRIU5bTegxGCJ8mnUS1
+         OuBjZC+bIbRsdoGCj5/fdT9mCFjD55zoA4ZO/5wBDadi7GKGzW4nXaGJsidYbyZboV
+         0P3ayQQ3MPZEA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Brian Haley <haleyb.dev@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, davem@davemloft.net,
-        edumazet@google.com, pabeni@redhat.com, corbet@lwn.net,
-        den@openvz.org, razor@blackwall.org, ulf.hansson@linaro.org,
-        Jason@zx2c4.com, wangyuweihx@gmail.com, daniel@iogearbox.net,
-        thomas.zeitlhofer+lkml@ze-it.at, alexander@mihalicyn.com,
-        ja@ssi.bg, netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 31/53] neighbor: fix proxy_delay usage when it is zero
-Date:   Sun, 26 Feb 2023 09:44:23 -0500
-Message-Id: <20230226144446.824580-31-sashal@kernel.org>
+Cc:     Dave Thaler <dthaler@microsoft.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Sasha Levin <sashal@kernel.org>, ast@kernel.org,
+        andrii@kernel.org, corbet@lwn.net, bpf@vger.kernel.org,
+        bpf@ietf.org, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 20/49] bpf, docs: Fix modulo zero, division by zero, overflow, and underflow
+Date:   Sun, 26 Feb 2023 09:46:20 -0500
+Message-Id: <20230226144650.826470-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230226144446.824580-1-sashal@kernel.org>
-References: <20230226144446.824580-1-sashal@kernel.org>
+In-Reply-To: <20230226144650.826470-1-sashal@kernel.org>
+References: <20230226144650.826470-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -55,89 +52,66 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Brian Haley <haleyb.dev@gmail.com>
+From: Dave Thaler <dthaler@microsoft.com>
 
-[ Upstream commit 62e395f82d04510b0f86e5e603e29412be88596f ]
+[ Upstream commit 0eb9d19e2201068260e439a5c96dc85f9f3722a2 ]
 
-When set to zero, the neighbor sysctl proxy_delay value
-does not cause an immediate reply for ARP/ND requests
-as expected, it instead causes a random delay between
-[0, U32_MAX). Looking at this comment from
-__get_random_u32_below() explains the reason:
+Fix modulo zero, division by zero, overflow, and underflow. Also clarify how
+a negative immediate value is used in unsigned division.
 
-/*
- * This function is technically undefined for ceil == 0, and in fact
- * for the non-underscored constant version in the header, we build bug
- * on that. But for the non-constant case, it's convenient to have that
- * evaluate to being a straight call to get_random_u32(), so that
- * get_random_u32_inclusive() can work over its whole range without
- * undefined behavior.
- */
-
-Added helper function that does not call get_random_u32_below()
-if proxy_delay is zero and just uses the current value of
-jiffies instead, causing pneigh_enqueue() to respond
-immediately.
-
-Also added definition of proxy_delay to ip-sysctl.txt since
-it was missing.
-
-Signed-off-by: Brian Haley <haleyb.dev@gmail.com>
-Link: https://lore.kernel.org/r/20230130171428.367111-1-haleyb.dev@gmail.com
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Signed-off-by: Dave Thaler <dthaler@microsoft.com>
+Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
+Link: https://lore.kernel.org/bpf/20230124001218.827-1-dthaler1968@googlemail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/networking/ip-sysctl.rst |  8 ++++++++
- net/core/neighbour.c                   | 14 ++++++++++++--
- 2 files changed, 20 insertions(+), 2 deletions(-)
+ Documentation/bpf/instruction-set.rst | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 7fbd060d60470..f0bf509d2321b 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -1589,6 +1589,14 @@ proxy_arp_pvlan - BOOLEAN
- 	  Hewlett-Packard call it Source-Port filtering or port-isolation.
- 	  Ericsson call it MAC-Forced Forwarding (RFC Draft).
+diff --git a/Documentation/bpf/instruction-set.rst b/Documentation/bpf/instruction-set.rst
+index 5d798437dad47..3ba6475cfbfc7 100644
+--- a/Documentation/bpf/instruction-set.rst
++++ b/Documentation/bpf/instruction-set.rst
+@@ -99,19 +99,26 @@ code      value  description
+ BPF_ADD   0x00   dst += src
+ BPF_SUB   0x10   dst -= src
+ BPF_MUL   0x20   dst \*= src
+-BPF_DIV   0x30   dst /= src
++BPF_DIV   0x30   dst = (src != 0) ? (dst / src) : 0
+ BPF_OR    0x40   dst \|= src
+ BPF_AND   0x50   dst &= src
+ BPF_LSH   0x60   dst <<= src
+ BPF_RSH   0x70   dst >>= src
+ BPF_NEG   0x80   dst = ~src
+-BPF_MOD   0x90   dst %= src
++BPF_MOD   0x90   dst = (src != 0) ? (dst % src) : dst
+ BPF_XOR   0xa0   dst ^= src
+ BPF_MOV   0xb0   dst = src
+ BPF_ARSH  0xc0   sign extending shift right
+ BPF_END   0xd0   byte swap operations (see `Byte swap instructions`_ below)
+ ========  =====  ==========================================================
  
-+proxy_delay - INTEGER
-+	Delay proxy response.
++Underflow and overflow are allowed during arithmetic operations, meaning
++the 64-bit or 32-bit value will wrap. If eBPF program execution would
++result in division by zero, the destination register is instead set to zero.
++If execution would result in modulo by zero, for ``BPF_ALU64`` the value of
++the destination register is unchanged whereas for ``BPF_ALU`` the upper
++32 bits of the destination register are zeroed.
 +
-+	Delay response to a neighbor solicitation when proxy_arp
-+	or proxy_ndp is enabled. A random value between [0, proxy_delay)
-+	will be chosen, setting to zero means reply with no delay.
-+	Value in jiffies. Defaults to 80.
-+
- shared_media - BOOLEAN
- 	Send(router) or accept(host) RFC1620 shared media redirects.
- 	Overrides secure_redirects.
-diff --git a/net/core/neighbour.c b/net/core/neighbour.c
-index 4edd2176e2385..6798f6d2423b9 100644
---- a/net/core/neighbour.c
-+++ b/net/core/neighbour.c
-@@ -1674,11 +1674,21 @@ static void neigh_proxy_process(struct timer_list *t)
- 	spin_unlock(&tbl->proxy_queue.lock);
- }
+ ``BPF_ADD | BPF_X | BPF_ALU`` means::
  
-+static unsigned long neigh_proxy_delay(struct neigh_parms *p)
-+{
-+	/* If proxy_delay is zero, do not call get_random_u32_below()
-+	 * as it is undefined behavior.
-+	 */
-+	unsigned long proxy_delay = NEIGH_VAR(p, PROXY_DELAY);
-+
-+	return proxy_delay ?
-+	       jiffies + get_random_u32_below(proxy_delay) : jiffies;
-+}
-+
- void pneigh_enqueue(struct neigh_table *tbl, struct neigh_parms *p,
- 		    struct sk_buff *skb)
- {
--	unsigned long sched_next = jiffies +
--			get_random_u32_below(NEIGH_VAR(p, PROXY_DELAY));
-+	unsigned long sched_next = neigh_proxy_delay(p);
+   dst_reg = (u32) dst_reg + (u32) src_reg;
+@@ -128,6 +135,11 @@ BPF_END   0xd0   byte swap operations (see `Byte swap instructions`_ below)
  
- 	if (p->qlen > NEIGH_VAR(p, PROXY_QLEN)) {
- 		kfree_skb(skb);
+   src_reg = src_reg ^ imm32
+ 
++Also note that the division and modulo operations are unsigned. Thus, for
++``BPF_ALU``, 'imm' is first interpreted as an unsigned 32-bit value, whereas
++for ``BPF_ALU64``, 'imm' is first sign extended to 64 bits and the result
++interpreted as an unsigned 64-bit value. There are no instructions for
++signed division or modulo.
+ 
+ Byte swap instructions
+ ~~~~~~~~~~~~~~~~~~~~~~
 -- 
 2.39.0
 
