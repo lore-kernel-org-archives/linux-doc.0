@@ -2,76 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7A03C6FA8E
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 16:27:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DBC4C64ED6
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Feb 2023 17:27:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbjBZQ1B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Feb 2023 11:27:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45194 "EHLO
+        id S229581AbjBZR1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Feb 2023 12:27:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjBZQ1A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 11:27:00 -0500
-Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3C9D1ADDC;
-        Sun, 26 Feb 2023 08:26:57 -0800 (PST)
-Received: from localhost.localdomain (unknown [182.253.183.169])
-        by gnuweeb.org (Postfix) with ESMTPSA id D8F7F8319D;
-        Sun, 26 Feb 2023 16:26:53 +0000 (UTC)
-X-GW-Data: lPqxHiMPbJw1wb7CM9QUryAGzr0yq5atzVDdxTR0iA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
-        s=default; t=1677428817;
-        bh=a4DJSHEBNpCHZMkW0VGKhaz/c5vRBlHibuGW/RG0Z0c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UObI9LD2OmfFvyNxz1ZD3hoPDd+2RTOTgHbcsum87bh86LeOxf6LGw0lDV4USONap
-         TlWHethmu0+KoGBntSf8f6FSPMJVcuvjPsYfYiOuBNMODN+0oT4TFsWwjngixkMni4
-         T7fWKLmsUmXsRm5zTgwaZymYVCYQoXGp1AkwwRz4vKdwhhWwWfn96Yv+cwSodqsxZQ
-         8RbWfvp4Pb7QdpEVa2REXi2qc2EaZ+7ThwB3QowsBQVeyebxQ5gFwX3wXz0nWRVVtd
-         Zq9CRo4g5MCiZ3Tu2k175wyNwmxx5lnyJpg4eV6zF6N4Hcvoobx0zevPeMMuAluPa8
-         bEYqZlIQejVqQ==
-From:   Ammar Faizi <ammarfaizi2@gnuweeb.org>
-To:     Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>
-Cc:     Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-        Filipe Manana <fdmanana@suse.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Btrfs Mailing List <linux-btrfs@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Fsdevel Mailing List <linux-fsdevel@vger.kernel.org>,
-        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: [RFC PATCH v1 2/2] Documentation: btrfs: Document the influence of wq_cpu_set to thread_pool option
-Date:   Sun, 26 Feb 2023 23:26:39 +0700
-Message-Id: <20230226162639.20559-3-ammarfaizi2@gnuweeb.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230226162639.20559-1-ammarfaizi2@gnuweeb.org>
-References: <20230226162639.20559-1-ammarfaizi2@gnuweeb.org>
+        with ESMTP id S229379AbjBZR1c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 12:27:32 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1585A17140;
+        Sun, 26 Feb 2023 09:27:31 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BA915B80B07;
+        Sun, 26 Feb 2023 17:27:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D9D9C433EF;
+        Sun, 26 Feb 2023 17:27:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677432448;
+        bh=Ua3oPrmvH330KRAKtpBqRdRMZ6rjHIhfTvhZmK/Msjg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ub165GqcmsTkskmKhqJhReLW5ZD7W9DJzka+7J1mJHsf7XfNCvZegWntw6E0tti4Y
+         Qy7IO2GGjhFRq27bcfh5VXzJFfU+3K41AjgouwbRt6qDkWUrTlrP2D6DFfrYlaCuDr
+         byq+a2Y5BWGKGmRMV6esJX4nyrToJia5O9lgspISIyMIQUrKQGvUX81FC5rC+S7Yut
+         idIEh3i+AuRxM5/cc0cTqLBfcfvKHXDSHF18zAALVbHmW9ss1KPFoI097udPW+pxRb
+         QTIK4+XF9QJoM/88cxNwSMuZlVTL+jSZSWmUU0ENKJHkSgNiH+ni2CbxMI9L5tECZ5
+         AJFQScnS9xCYQ==
+Date:   Sun, 26 Feb 2023 09:27:26 -0800
+From:   Josh Poimboeuf <jpoimboe@kernel.org>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
+Message-ID: <20230226172726.iidbgidy5336npi4@treble>
+References: <Y/k/ZXUXOFiBhOiI@zn.tnic>
+ <20230225000931.wrednfun4jifkqau@treble>
+ <Y/lUSC5x2ZkTIGu4@zn.tnic>
+ <20230225005221.425yahqvxb57c43x@desk>
+ <20230225013202.g7tibykvylprsxs5@treble>
+ <Y/n9XcbnCzWv2Vul@zn.tnic>
+ <20230225172832.sqdd7dejkkmjxpt6@treble>
+ <Y/qSJd1Z3ABEJPPD@zn.tnic>
+ <20230225234330.caznxpkjhq3u5tls@treble>
+ <Y/s/7rtj+SDqRuMz@zn.tnic>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y/s/7rtj+SDqRuMz@zn.tnic>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If wq_cpu_set option is set, the default thread_pool value will be
-adjusted accordingly.
+On Sun, Feb 26, 2023 at 12:18:06PM +0100, Borislav Petkov wrote:
+> > Right, so rather than spreading all the bug-related MSR logic around,
+> > just do it in one spot.
+> 
+> It is all CPU init code and I'm wondering if splitting stuff by vendor
+> wouldn't make all that maze in bugs.c a lot more palatable. And get rid
+> of
+> 
+> $ git grep VENDOR arch/x86/kernel/cpu/bugs.c | wc -l
+> 11
+> 
+> those, for starters.
+> 
+> There's this trade-off of
+> 
+> 1. keeping bugs setup code in one place - but then you need to do vendor
+>    checks and the other CPU setup code is somewhere else and it is
+>    probably related, MSR_AMD64_DE_CFG_LFENCE_SERIALIZE_BIT in amd.c for
+>    example.
+> 
+> or
+> 
+> 2. separating it into their respective files. Then the respective vendor
+>    code is simple because you don't need vendor checks. It would need to
+>    be done in a slick way, though, so that it remains maintainable.
 
-Signed-off-by: Ammar Faizi <ammarfaizi2@gnuweeb.org>
----
- Documentation/ch-mount-options.rst | 3 +++
- 1 file changed, 3 insertions(+)
+At least now it's a (mostly) self-contained hornets nest.  I'm not sure
+we want to poke it :-)
 
-diff --git a/Documentation/ch-mount-options.rst b/Documentation/ch-mount-options.rst
-index 48fe63ee5e95c297..c38caf5e5fd0b719 100644
---- a/Documentation/ch-mount-options.rst
-+++ b/Documentation/ch-mount-options.rst
-@@ -411,6 +411,9 @@ thread_pool=<number>
-         due to increased locking contention, process scheduling, cache-line bouncing or
-         costly data transfers between local CPU memories.
- 
-+        Since 6.5, if *wq_cpu_set* is set, the default value will be the number of
-+        online CPUs in the CPU wq_cpu_set plus 2.
-+
- treelog, notreelog
-         (default: on)
- 
+And I'm not sure spreading the mess around would be an improvement.
+
 -- 
-Ammar Faizi
-
+Josh
