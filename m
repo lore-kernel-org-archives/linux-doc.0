@@ -2,46 +2,46 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34DC5C7EE23
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 02:11:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F2BBC64ED6
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 02:13:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230359AbjB0CLa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Feb 2023 21:11:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41282 "EHLO
+        id S231156AbjB0CNn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Feb 2023 21:13:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230183AbjB0CKv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 21:10:51 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD081C325;
-        Sun, 26 Feb 2023 18:09:35 -0800 (PST)
+        with ESMTP id S231154AbjB0CNR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 21:13:17 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0E3D1BAFE;
+        Sun, 26 Feb 2023 18:11:31 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C158F60DB5;
-        Mon, 27 Feb 2023 02:09:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 959CCC433D2;
-        Mon, 27 Feb 2023 02:09:34 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0735060DD0;
+        Mon, 27 Feb 2023 02:10:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0564C433A1;
+        Mon, 27 Feb 2023 02:10:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677463775;
-        bh=eF84hPSUlq0NnK3I0lJ1wPe3Vof4mcdSUvR4+5Y5PYE=;
+        s=k20201202; t=1677463854;
+        bh=+w6xRfnl0rTwGBZqJJDym/Ma7rrvgFKMziUfFS+k078=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LdNLKAYijoLjnvCdKezoaqWkov1J076fMONfJV8MydK+MgwG5v06tQQb0UzPm4zpI
-         RLSUHAracgC/8MH0qRh9+fX3Fu8oUpOLfrK1mZXIHKiWtG7Lwnrt7I7PiKgOHIF1t9
-         MY1U7NF2TgbQpG+WFJcF0ZtJNp2rxKPaoCqfQt62QGzxC+QYJrrgEOJ47TgXKgrWgS
-         cf7ZwfqidOeBAf3/3QitPEcw4h7AJZZ1VtbgdTHZRuNsn2TsPrnN43lYn+R1lVmyp8
-         /IPC8pucKEAsMa2JmpdoAt0VZVtgUm/TDSPmM3NsOJiaNoM/u7WcuOm9ISY6wR5L7c
-         vcAiqySSqdmzA==
+        b=FYdunrUYaB8/s8y6SQFktb3QTKjgQFoI5qQvBDT7raxWvblJRItABi1UJx/a+HPZ9
+         V3cFI5YxVxqs/2n3FhJY6xAw+zWJ45Ds/n2uFILBrEJARs4Hzn2hLbjm1U3PUKwRCD
+         wcS0cntBYmcW9psAuVsYtiMF+mDTq7LaEAZEJVefB+eX1dqF3oytoDF7vw4TAldWA7
+         MaxX+87YfViJ+KvGormdrWOZaoL84psCRno1DQg/p5r3xc4fgjlRQgaqSQq/c5cK/b
+         0qvsroIYf248i2exs+AuBV60kHUV4wKaTYs5o7xqChA0PVf+TooTrmLjMPjBM1UuFU
+         6ZTLf4zFOU0vQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jakob Koschel <jkl820.git@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 12/25] docs/scripts/gdb: add necessary make scripts_gdb step
-Date:   Sun, 26 Feb 2023 21:08:35 -0500
-Message-Id: <20230227020855.1051605-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 06/15] docs/scripts/gdb: add necessary make scripts_gdb step
+Date:   Sun, 26 Feb 2023 21:10:25 -0500
+Message-Id: <20230227021038.1052958-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230227020855.1051605-1-sashal@kernel.org>
-References: <20230227020855.1051605-1-sashal@kernel.org>
+In-Reply-To: <20230227021038.1052958-1-sashal@kernel.org>
+References: <20230227021038.1052958-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -74,7 +74,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/dev-tools/gdb-kernel-debugging.rst
-index 8e0f1fe8d17ad..895285c037c72 100644
+index 19df79286f000..afe4bc206486c 100644
 --- a/Documentation/dev-tools/gdb-kernel-debugging.rst
 +++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
 @@ -39,6 +39,10 @@ Setup
