@@ -2,241 +2,178 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 893FDC7EE2D
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 19:10:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE593C64ED8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 19:35:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbjB0TKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 14:10:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48348 "EHLO
+        id S229763AbjB0Tfx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 14:35:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjB0TKq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 14:10:46 -0500
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18A4124121
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 11:10:44 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id f18so9960962lfa.3
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 11:10:44 -0800 (PST)
+        with ESMTP id S229607AbjB0Tfw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 14:35:52 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 437D924125;
+        Mon, 27 Feb 2023 11:35:48 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id ay18so4272339pfb.2;
+        Mon, 27 Feb 2023 11:35:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gb+ylv7fOsT/EqUUa32R/hvpCHUNsZDpedSr1Yuw2VY=;
-        b=ZXZiEMhbvySq2/7qhvyqin9Bgc0TdTV5UXF7fuFsZOpWJaUgfAFnAn5o9UoCwZZhRi
-         pk9p9fwB5rINmla46YFxpd36DVDrs+uLOKs5frcSBz4xu5T08eokeOEO3TJq1xuULzPV
-         Whshjg0/d/B1qdTNX42tQqLH0W00E3tngIi9U=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eqSkMkOWvo198Qe9ugotk8774STpM+o2a7uvWEbmyhI=;
+        b=jpgyHcjyAaGnPsMXVAm2GRBpiP1WcxO7Je/7kLkTA3rtRPpZM63s2qAVsYJzi0Z0gN
+         sfedtybQXMObhUoSB6y9kaEQUwpYBvE5uqw2j9KZiJ3AsKHyM8xHBGvHoM1hrJChMfgS
+         HW76rauQ4oKtTsGw+TcaRTOsLD8Q3BdSv4+8YA+qJdQZ78IZXFcvMXZg4igKohmUyOSo
+         HfVAk60hbp+MRj/bfKwx2ERa55V1Jxq+3hc2nq32saAa2qacGQQPrHqcBl+UWMEpSL3z
+         p0vnauDCADHvZvjkSCmWO2Pkb9aJJESQoMbAQB6MqbN6dhdo7mTt9GkkeFELH/jg7Qrn
+         CFzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Gb+ylv7fOsT/EqUUa32R/hvpCHUNsZDpedSr1Yuw2VY=;
-        b=gEmMhK1lLQ5So2WYtwxaW5hDJdJbgpNp9/zDz72se3fyOuhr2Wwy/D/8zQIWtxE/xi
-         8BkIug919ocMdS+5LT/f0UXcMkDWoOdp5b7kIkWwcob7TCbrA9Jd7zyQE7I2LeEomAmW
-         776dh9hB4HWZz5t7zhWCUtd2MNNJHSBLIPI1os4zcZF4i8zPCqWYgUcHwc03aAKiPRZ+
-         tw/wr4vIz/em2ezT3c9BuU6OXbwljg9em/SzRbymRriA8Tg258Tj425KKH0xhzTjvi64
-         yMTvXtjh1MCYZvojg8Xid0wvq9xHNWe4f7tISrUVE2n1aZ966vmJflPkL5R4biK4ySdR
-         8wXg==
-X-Gm-Message-State: AO0yUKWP4bVSpEFKRX5b5BQboxaWd/V6QXKjirBJnehR60JaUbUltm5b
-        bwATqjADjNzVPkWWZLXmAg4adfDW4W+a04oTAIKtQ65dEXGdjuMq
-X-Google-Smtp-Source: AK7set+RZfsxSr6qAraut154L4XQdSB4lbe2BejBKMIPwO3hcufXg0JwLbLucRgjjFNojoFpoaCso34bGrj+ra9imE0=
-X-Received: by 2002:a05:6512:208:b0:4d5:ca32:9bdf with SMTP id
- a8-20020a056512020800b004d5ca329bdfmr7917463lfo.11.1677525042278; Mon, 27 Feb
- 2023 11:10:42 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eqSkMkOWvo198Qe9ugotk8774STpM+o2a7uvWEbmyhI=;
+        b=kuq7onsLPbrVnS/Zz2Qvwb/Hragjf94zHRmdlEBkffWOV+E39y3CniP733X6HAFQg8
+         b3EMUCdOdgUqcnt+R7hapy7xT2akGfuDW7h+w1pX4Fz1W6qbVyFPbBFv8wpF6p+0hMeA
+         bDrBI64/HMXBxKCLr85QVdvGfYd8T85zhetgrGkU7rbogEfvaBssTE0++dgYxC8UIyyJ
+         EegZuYMbExKaHh0U1XM0FGnJ9fS3ZYbdNk9xPZ6fJ6AOT32kcgkRUxhFg0octYovENKP
+         CIOqWs07GLGPMsIGhyck5A4rvl5uVHEIvfB8jjHLPP+1ZNJqAtYxZkQ5aVqqSxWHM1pg
+         qPkQ==
+X-Gm-Message-State: AO0yUKU1G9jqYVpVGn9McaU2zlFN7liHFq4yy9HwUTgaV7niFXF+Avwt
+        pUpHx3kJ8EI4vxwgUpVzmao=
+X-Google-Smtp-Source: AK7set8dR7Le+9Dq5U/mXM+Gk/dwWnvs8RpwgZNM20/ZapctF7B3kGBdAxp4COFbDivh6cmRzWmwoA==
+X-Received: by 2002:a05:6a00:47:b0:5a9:b4eb:d262 with SMTP id i7-20020a056a00004700b005a9b4ebd262mr181600pfk.1.1677526547630;
+        Mon, 27 Feb 2023 11:35:47 -0800 (PST)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+        by smtp.gmail.com with ESMTPSA id y14-20020aa7854e000000b0056283e2bdbdsm4581119pfn.138.2023.02.27.11.35.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Feb 2023 11:35:47 -0800 (PST)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Simon Ser <contact@emersion.fr>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        intel-gfx@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK),
+        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        Liu Shixin <liushixin2@huawei.com>,
+        Sean Paul <sean@poorly.run>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Vinod Polimera <quic_vpolimer@quicinc.com>
+Subject: [PATCH v7 00/15] dma-fence: Deadline awareness
+Date:   Mon, 27 Feb 2023 11:35:06 -0800
+Message-Id: <20230227193535.2822389-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <Y/z0fHHYdxEXcWMT@pc636> <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
- <Y/z9Its1RKetIr8V@pc636>
-In-Reply-To: <Y/z9Its1RKetIr8V@pc636>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Mon, 27 Feb 2023 14:10:30 -0500
-Message-ID: <CAEXW_YSjT_orp8TbomBFU+ETS7YJ7TrbHTdrsBRTzCKG5_SBdw@mail.gmail.com>
-Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as completed
-To:     Uladzislau Rezki <urezki@gmail.com>
-Cc:     paulmck@kernel.org, "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>,
-        linux-kernel@vger.kernel.org,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 27, 2023 at 1:57=E2=80=AFPM Uladzislau Rezki <urezki@gmail.com>=
- wrote:
->
-> On Mon, Feb 27, 2023 at 01:27:20PM -0500, Joel Fernandes wrote:
-> >
-> >
-> > > On Feb 27, 2023, at 1:20 PM, Uladzislau Rezki <urezki@gmail.com> wrot=
-e:
-> > >
-> > > =EF=BB=BFOn Mon, Feb 27, 2023 at 01:15:47PM -0500, Joel Fernandes wro=
-te:
-> > >>
-> > >>
-> > >>>> On Feb 27, 2023, at 1:06 PM, Uladzislau Rezki <urezki@gmail.com> w=
-rote:
-> > >>>
-> > >>> =EF=BB=BFOn Mon, Feb 27, 2023 at 10:16:51AM -0500, Joel Fernandes w=
-rote:
-> > >>>>> On Mon, Feb 27, 2023 at 9:55 AM Paul E. McKenney <paulmck@kernel.=
-org> wrote:
-> > >>>>>
-> > >>>>> On Mon, Feb 27, 2023 at 08:22:06AM -0500, Joel Fernandes wrote:
-> > >>>>>>
-> > >>>>>>
-> > >>>>>>> On Feb 27, 2023, at 2:53 AM, Zhuo, Qiuxu <qiuxu.zhuo@intel.com>=
- wrote:
-> > >>>>>>>
-> > >>>>>>> =EF=BB=BF
-> > >>>>>>>>
-> > >>>>>>>> From: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > >>>>>>>> Sent: Saturday, February 25, 2023 11:34 AM
-> > >>>>>>>> To: linux-kernel@vger.kernel.org
-> > >>>>>>>> Cc: Joel Fernandes (Google) <joel@joelfernandes.org>; Frederic=
- Weisbecker
-> > >>>>>>>> <frederic@kernel.org>; Lai Jiangshan <jiangshanlai@gmail.com>;=
- linux-
-> > >>>>>>>> doc@vger.kernel.org; Paul E. McKenney <paulmck@kernel.org>;
-> > >>>>>>>> rcu@vger.kernel.org
-> > >>>>>>>> Subject: [PATCH RFC v2] rcu: Add a minimum time for marking bo=
-ot as
-> > >>>>>>>> completed
-> > >>>>>>>>
-> > >>>>>>>> On many systems, a great deal of boot happens after the kernel=
- thinks the
-> > >>>>>>>> boot has completed. It is difficult to determine if the system=
- has really
-> > >>>>>>>> booted from the kernel side. Some features like lazy-RCU can r=
-isk slowing
-> > >>>>>>>> down boot time if, say, a callback has been added that the boo=
-t
-> > >>>>>>>> synchronously depends on.
-> > >>>>>>>>
-> > >>>>>>>> Further, it is better to boot systems which pass 'rcu_normal_a=
-fter_boot' to
-> > >>>>>>>> stay expedited for as long as the system is still booting.
-> > >>>>>>>>
-> > >>>>>>>> For these reasons, this commit adds a config option
-> > >>>>>>>> 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter
-> > >>>>>>>> rcupdate.boot_end_delay.
-> > >>>>>>>>
-> > >>>>>>>> By default, this value is 20s. A system designer can choose to=
- specify a value
-> > >>>>>>>> here to keep RCU from marking boot completion.  The boot seque=
-nce will not
-> > >>>>>>>> be marked ended until at least boot_end_delay milliseconds hav=
-e passed.
-> > >>>>>>>
-> > >>>>>>> Hi Joel,
-> > >>>>>>>
-> > >>>>>>> Just some thoughts on the default value of 20s, correct me if I=
-'m wrong :-).
-> > >>>>>>>
-> > >>>>>>> Does the OS with CONFIG_PREEMPT_RT=3Dy kernel concern more abou=
-t the
-> > >>>>>>> real-time latency than the overall OS boot time?
-> > >>>>>>
-> > >>>>>> But every system has to boot, even an RT system.
-> > >>>>>>
-> > >>>>>>>
-> > >>>>>>> If so, we might make rcupdate.boot_end_delay =3D 0 as the defau=
-lt value
-> > >>>>>>> (NOT the default 20s) for CONFIG_PREEMPT_RT=3Dy kernels?
-> > >>>>>>
-> > >>>>>> Could you measure how much time your RT system takes to boot bef=
-ore the application runs?
-> > >>>>>>
-> > >>>>>> I can change it to default 0 essentially NOOPing it, but I would=
- rather have a saner default (10 seconds even), than having someone forget =
-to tune this for their system.
-> > >>>>>
-> > >>>>> Provide a /sys location that the userspace code writes to when it
-> > >>>>> is ready?  Different systems with different hardware and software
-> > >>>>> configurations are going to take different amounts of time to boo=
-t,
-> > >>>>> correct?
-> > >>>>
-> > >>>> I could add a sysfs node, but I still wanted this patch as well
-> > >>>> because I am wary of systems where yet more userspace changes are
-> > >>>> required. I feel the kernel should itself be able to do this. Yes,=
- it
-> > >>>> is possible the system completes "booting" at a different time tha=
-n
-> > >>>> what the kernel thinks. But it does that anyway (even without this
-> > >>>> patch), so I am not seeing a good reason to not do this in the ker=
-nel.
-> > >>>> It is also only a minimum cap, so if the in-kernel boot takes too
-> > >>>> long, then the patch will have no effect.
-> > >>>>
-> > >>>> Thoughts?
-> > >>>>
-> > >>> Why "rcu_boot_ended" is not enough? As i see right after that an "i=
-nit"
-> > >>> process or shell or panic is going to be invoked by the kernel. It =
-basically
-> > >>> indicates that a kernel is fully functional.
-> > >>>
-> > >>> Or an idea to wait even further? Until all kernel modules are loade=
-d by
-> > >>> user space.
-> > >>
-> > >> I mentioned in commit message it is daemons, userspace initializatio=
-n etc. There is a lot of userspace booting up as well and using the kernel =
-while doing so.
-> > >>
-> > >> So, It does not make sense to me to mark kernel as booted too early.=
- And no harm in adding some builtin kernel hysteresis. What am I missing?
-> > >>
-> > > Than it is up to user space to decide when it is ready in terms of "b=
-oot completed".
-> >
-> > I dont know if you caught up with the other threads. See replies from P=
-aul and my reply to that.
-> >
-> > Also what you are proposing can be more harmful. If user space has a bu=
-g and does not notify the kernel that boot completed, then the boot can sta=
-y incomplete forever. The idea with this patch is to make things better, no=
-t worse.
-> >
-> I saw that Paul proposed to have a sysfs attribute using which you can
-> send a notification.
+From: Rob Clark <robdclark@chromium.org>
 
-Maybe I am missing something but how will a sysfs node on its own work real=
-ly?
+This series adds a deadline hint to fences, so realtime deadlines
+such as vblank can be communicated to the fence signaller for power/
+frequency management decisions.
 
-1. delete kernel marking itself boot completed  -- and then sysfs
-marks it completed?
+This is partially inspired by a trick i915 does, but implemented
+via dma-fence for a couple of reasons:
 
-2. delete kernel marking itself boot completed  -- and then sysfs
-marks it completed, if sysfs does not come in in N seconds, then
-kernel marks as completed?
+1) To continue to be able to use the atomic helpers
+2) To support cases where display and gpu are different drivers
 
-#1 is a no go, that just means a bug waiting to happen if userspace
-forgets to write to sysfs.
+This iteration adds a dma-fence ioctl to set a deadline (both to
+support igt-tests, and compositors which delay decisions about which
+client buffer to display), and a sw_sync ioctl to read back the
+deadline.  IGT tests utilizing these can be found at:
 
-#2 is just an extension of this patch. So I can add a sysfs node on
-top of this. And we can make the minimum time as a long period of
-time, as you noted below:
+  https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence-deadline
 
-> IMHO, to me this patch does not provide a clear correlation between what
-> is a boot complete and when it occurs. A boot complete is a synchronous
-> event whereas the patch thinks that after some interval a "boot" is compl=
-eted.
 
-But that is exactly how the kernel code is now without this patch, so
-it is already broken in that sense, I am not really breaking it more
-;-)
+v1: https://patchwork.freedesktop.org/series/93035/
+v2: Move filtering out of later deadlines to fence implementation
+    to avoid increasing the size of dma_fence
+v3: Add support in fence-array and fence-chain; Add some uabi to
+    support igt tests and userspace compositors.
+v4: Rebase, address various comments, and add syncobj deadline
+    support, and sync_file EPOLLPRI based on experience with perf/
+    freq issues with clvk compute workloads on i915 (anv)
+v5: Clarify that this is a hint as opposed to a more hard deadline
+    guarantee, switch to using u64 ns values in UABI (still absolute
+    CLOCK_MONOTONIC values), drop syncobj related cap and driver
+    feature flag in favor of allowing count_handles==0 for probing
+    kernel support.
+v6: Re-work vblank helper to calculate time of _start_ of vblank,
+    and work correctly if the last vblank event was more than a
+    frame ago.  Add (mostly unrelated) drm/msm patch which also
+    uses the vblank helper.  Use dma_fence_chain_contained().  More
+    verbose syncobj UABI comments.  Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
+v7: Fix kbuild complaints about vblank helper.  Add more docs.
 
-> We can imply that after, say 100 seconds an initialization of user space
-> is done. Maybe 100 seconds then? :)
+Rob Clark (15):
+  dma-buf/dma-fence: Add deadline awareness
+  dma-buf/fence-array: Add fence deadline support
+  dma-buf/fence-chain: Add fence deadline support
+  dma-buf/dma-resv: Add a way to set fence deadline
+  dma-buf/sync_file: Add SET_DEADLINE ioctl
+  dma-buf/sync_file: Support (E)POLLPRI
+  dma-buf/sw_sync: Add fence deadline support
+  drm/scheduler: Add fence deadline support
+  drm/syncobj: Add deadline support for syncobj waits
+  drm/vblank: Add helper to get next vblank time
+  drm/atomic-helper: Set fence deadline for vblank
+  drm/msm: Add deadline based boost support
+  drm/msm: Add wait-boost support
+  drm/msm/atomic: Switch to vblank_start helper
+  drm/i915: Add deadline based boost support
 
-Yes I am Ok with that. So are you suggesting we change the default to
-100 seconds and then add a sysfs node to mark as boot done whenever
-userspace notifies?
+ Documentation/driver-api/dma-buf.rst    |  6 ++
+ drivers/dma-buf/dma-fence-array.c       | 11 ++++
+ drivers/dma-buf/dma-fence-chain.c       | 12 ++++
+ drivers/dma-buf/dma-fence.c             | 60 ++++++++++++++++++++
+ drivers/dma-buf/dma-resv.c              | 22 ++++++++
+ drivers/dma-buf/sw_sync.c               | 58 +++++++++++++++++++
+ drivers/dma-buf/sync_debug.h            |  2 +
+ drivers/dma-buf/sync_file.c             | 27 +++++++++
+ drivers/gpu/drm/drm_atomic_helper.c     | 36 ++++++++++++
+ drivers/gpu/drm/drm_syncobj.c           | 64 ++++++++++++++++-----
+ drivers/gpu/drm/drm_vblank.c            | 53 +++++++++++++++---
+ drivers/gpu/drm/i915/i915_request.c     | 20 +++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 15 -----
+ drivers/gpu/drm/msm/msm_atomic.c        |  8 ++-
+ drivers/gpu/drm/msm/msm_drv.c           | 12 ++--
+ drivers/gpu/drm/msm/msm_fence.c         | 74 +++++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_fence.h         | 20 +++++++
+ drivers/gpu/drm/msm/msm_gem.c           |  5 ++
+ drivers/gpu/drm/msm/msm_kms.h           |  8 ---
+ drivers/gpu/drm/scheduler/sched_fence.c | 46 +++++++++++++++
+ drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
+ include/drm/drm_vblank.h                |  1 +
+ include/drm/gpu_scheduler.h             | 17 ++++++
+ include/linux/dma-fence.h               | 20 +++++++
+ include/linux/dma-resv.h                |  2 +
+ include/uapi/drm/drm.h                  | 17 ++++++
+ include/uapi/drm/msm_drm.h              | 14 ++++-
+ include/uapi/linux/sync_file.h          | 26 +++++++++
+ 28 files changed, 603 insertions(+), 55 deletions(-)
 
-Thanks,
+-- 
+2.39.1
 
- - Joel
