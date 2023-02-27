@@ -2,123 +2,258 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA6FAC64ED6
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 23:15:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF548C64ED9
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 23:25:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229780AbjB0XPI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 18:15:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59168 "EHLO
+        id S229613AbjB0XZG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 18:25:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbjB0XPI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 18:15:08 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3EE5DBE7;
-        Mon, 27 Feb 2023 15:15:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 36241B80DCE;
-        Mon, 27 Feb 2023 23:15:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517B4C433EF;
-        Mon, 27 Feb 2023 23:14:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677539703;
-        bh=ZBHNECAhstQhQIfVxLmWfx+9U+cYMlGgp/4GCzlwY7Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Wyz6inJ15Jx6h5dTdXCZ3dH4iI+pz9TdOdJUXWaXHhUonQok4QQcBdUyDzZRKguQM
-         TbnM4hZPKpBZ42SfWVuCPW/DEDqpEzxvhj3GDPcnd6qdozMy0xTXJKQKimjclhKPDm
-         JQ48flxE+75mOSfDL2jY2l55m9r9cQYXRnfxNQaQ5cwKjKbTclzY83dh7Y/QIxNy7O
-         5zehXy/JXEYRr2M1/SX/uEqhlLNVp3mLZ8p+ehelDLnTiZ8en7IwudA+Mvvn8HZeNL
-         nxumQjw+SA78S0ueupBRgZf9guvmCsB/M6MUN6YB0SPAykR0xOT4cpO5MeFbNXesBc
-         i4IluDXdXUxMA==
-Date:   Mon, 27 Feb 2023 23:14:56 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Evan Green <evan@rivosinc.com>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>, heiko@sntech.de,
-        slewis@rivosinc.com, vineetg@rivosinc.com,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Bresticker <abrestic@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Celeste Liu <coelacanthus@outlook.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Ruizhe Pan <c141028@gmail.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Tsukasa OI <research_trasio@irq.a4lg.com>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v3 5/7] RISC-V: hwprobe: Support probing of misaligned
- access performance
-Message-ID: <Y/05cBMyrYSiaNL5@spud>
-References: <20230221190858.3159617-1-evan@rivosinc.com>
- <20230221190858.3159617-6-evan@rivosinc.com>
+        with ESMTP id S229485AbjB0XZF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 18:25:05 -0500
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA62A25E1F
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 15:25:02 -0800 (PST)
+Received: by mail-lj1-x234.google.com with SMTP id t14so8267395ljd.5
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 15:25:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AJJWaVVSIZjZ+G1Kq23FeuZRyr8NP+H9jObI+RlAcBc=;
+        b=OAqBVmHElZUUac2UEEd5qN3zHG0rmaqrkQFbRTl5Udk6yioQ5yN+6IOWG7JrnOo/Dd
+         QpnUS0uiNCVFNl9LwoJ1a4gvICtAA7T9+YGFBjEHgT804BaMohkfqlUhxSqCJGrZMGpq
+         jefEB2JNLfK01bmZVlUWcm7uJRmSNK+iDbAag=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AJJWaVVSIZjZ+G1Kq23FeuZRyr8NP+H9jObI+RlAcBc=;
+        b=fGDVmYAgS2TGTheM+N1Kjx7IdRoVbt9/awbMkOjSCUdlCUtvOS2j8bWqfxXZVkguwQ
+         8mqy6fDXVzMQ8f2HTNzeTahMu0KW09FVKJDQWGr0TrO22XUFe4sLKuqAvp1cV/XYa47c
+         MLUg7QR38dfHw9H+Qb5YI+UzuvcgPeS+dO4N61E7gxLPH9fdjo6odtIi3teOUm9eqJ9q
+         qMXrcME18JdLSlaJrB0b4dqgH/mrKbsLc0pmm/qlEZPC7W8HKsvWlL4PR9F5bEHrBJvO
+         Cj/BKqo/504MvqkdgXh0Bbi54CQaVfH+od3y3Vwo3DUCSHWrijWZqxM+QeAKgt4CefoM
+         hjgA==
+X-Gm-Message-State: AO0yUKV+IQWlTZS/s8ICL4PDYyJQn6xrM0e23d4HfL9z4p2cjnKARdIp
+        79lidKiFJ/QKri0eBXUi8xfku0cujdp2zKSiqq/vRA==
+X-Google-Smtp-Source: AK7set/31E/pohifRX6cBtI3PF7l0+17H08NElgVXjj+uGTprnsv18lGVW0twqT0rAUeaZWgH2gNo66h2V8LZzozUlU=
+X-Received: by 2002:a05:651c:10af:b0:295:a8d1:8a28 with SMTP id
+ k15-20020a05651c10af00b00295a8d18a28mr139590ljn.3.1677540301001; Mon, 27 Feb
+ 2023 15:25:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="SxTha3qIYXZ4YGJ0"
-Content-Disposition: inline
-In-Reply-To: <20230221190858.3159617-6-evan@rivosinc.com>
+References: <Y/z0fHHYdxEXcWMT@pc636> <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
+ <Y/z9Its1RKetIr8V@pc636> <CAEXW_YSjT_orp8TbomBFU+ETS7YJ7TrbHTdrsBRTzCKG5_SBdw@mail.gmail.com>
+ <20230227230502.GJ2948950@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20230227230502.GJ2948950@paulmck-ThinkPad-P17-Gen-1>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Mon, 27 Feb 2023 18:24:49 -0500
+Message-ID: <CAEXW_YR6qnU=35Ang7S5brRRDX_HgiNgPpQ_w-+REYkujZE6rQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as completed
+To:     paulmck@kernel.org
+Cc:     Uladzislau Rezki <urezki@gmail.com>,
+        "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Feb 27, 2023 at 6:05=E2=80=AFPM Paul E. McKenney <paulmck@kernel.or=
+g> wrote:
+[...]
+> > > > >>>>> On Mon, Feb 27, 2023 at 08:22:06AM -0500, Joel Fernandes wrot=
+e:
+> > > > >>>>>>
+> > > > >>>>>>
+> > > > >>>>>>> On Feb 27, 2023, at 2:53 AM, Zhuo, Qiuxu <qiuxu.zhuo@intel.=
+com> wrote:
+> > > > >>>>>>>
+> > > > >>>>>>> =EF=BB=BF
+> > > > >>>>>>>>
+> > > > >>>>>>>> From: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > > > >>>>>>>> Sent: Saturday, February 25, 2023 11:34 AM
+> > > > >>>>>>>> To: linux-kernel@vger.kernel.org
+> > > > >>>>>>>> Cc: Joel Fernandes (Google) <joel@joelfernandes.org>; Fred=
+eric Weisbecker
+> > > > >>>>>>>> <frederic@kernel.org>; Lai Jiangshan <jiangshanlai@gmail.c=
+om>; linux-
+> > > > >>>>>>>> doc@vger.kernel.org; Paul E. McKenney <paulmck@kernel.org>=
+;
+> > > > >>>>>>>> rcu@vger.kernel.org
+> > > > >>>>>>>> Subject: [PATCH RFC v2] rcu: Add a minimum time for markin=
+g boot as
+> > > > >>>>>>>> completed
+> > > > >>>>>>>>
+> > > > >>>>>>>> On many systems, a great deal of boot happens after the ke=
+rnel thinks the
+> > > > >>>>>>>> boot has completed. It is difficult to determine if the sy=
+stem has really
+> > > > >>>>>>>> booted from the kernel side. Some features like lazy-RCU c=
+an risk slowing
+> > > > >>>>>>>> down boot time if, say, a callback has been added that the=
+ boot
+> > > > >>>>>>>> synchronously depends on.
+> > > > >>>>>>>>
+> > > > >>>>>>>> Further, it is better to boot systems which pass 'rcu_norm=
+al_after_boot' to
+> > > > >>>>>>>> stay expedited for as long as the system is still booting.
+> > > > >>>>>>>>
+> > > > >>>>>>>> For these reasons, this commit adds a config option
+> > > > >>>>>>>> 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter
+> > > > >>>>>>>> rcupdate.boot_end_delay.
+> > > > >>>>>>>>
+> > > > >>>>>>>> By default, this value is 20s. A system designer can choos=
+e to specify a value
+> > > > >>>>>>>> here to keep RCU from marking boot completion.  The boot s=
+equence will not
+> > > > >>>>>>>> be marked ended until at least boot_end_delay milliseconds=
+ have passed.
+> > > > >>>>>>>
+> > > > >>>>>>> Hi Joel,
+> > > > >>>>>>>
+> > > > >>>>>>> Just some thoughts on the default value of 20s, correct me =
+if I'm wrong :-).
+> > > > >>>>>>>
+> > > > >>>>>>> Does the OS with CONFIG_PREEMPT_RT=3Dy kernel concern more =
+about the
+> > > > >>>>>>> real-time latency than the overall OS boot time?
+> > > > >>>>>>
+> > > > >>>>>> But every system has to boot, even an RT system.
+> > > > >>>>>>
+> > > > >>>>>>>
+> > > > >>>>>>> If so, we might make rcupdate.boot_end_delay =3D 0 as the d=
+efault value
+> > > > >>>>>>> (NOT the default 20s) for CONFIG_PREEMPT_RT=3Dy kernels?
+> > > > >>>>>>
+> > > > >>>>>> Could you measure how much time your RT system takes to boot=
+ before the application runs?
+> > > > >>>>>>
+> > > > >>>>>> I can change it to default 0 essentially NOOPing it, but I w=
+ould rather have a saner default (10 seconds even), than having someone for=
+get to tune this for their system.
+> > > > >>>>>
+> > > > >>>>> Provide a /sys location that the userspace code writes to whe=
+n it
+> > > > >>>>> is ready?  Different systems with different hardware and soft=
+ware
+> > > > >>>>> configurations are going to take different amounts of time to=
+ boot,
+> > > > >>>>> correct?
+> > > > >>>>
+> > > > >>>> I could add a sysfs node, but I still wanted this patch as wel=
+l
+> > > > >>>> because I am wary of systems where yet more userspace changes =
+are
+> > > > >>>> required. I feel the kernel should itself be able to do this. =
+Yes, it
+> > > > >>>> is possible the system completes "booting" at a different time=
+ than
+> > > > >>>> what the kernel thinks. But it does that anyway (even without =
+this
+> > > > >>>> patch), so I am not seeing a good reason to not do this in the=
+ kernel.
+> > > > >>>> It is also only a minimum cap, so if the in-kernel boot takes =
+too
+> > > > >>>> long, then the patch will have no effect.
+> > > > >>>>
+> > > > >>>> Thoughts?
+> > > > >>>>
+> > > > >>> Why "rcu_boot_ended" is not enough? As i see right after that a=
+n "init"
+> > > > >>> process or shell or panic is going to be invoked by the kernel.=
+ It basically
+> > > > >>> indicates that a kernel is fully functional.
+> > > > >>>
+> > > > >>> Or an idea to wait even further? Until all kernel modules are l=
+oaded by
+> > > > >>> user space.
+> > > > >>
+> > > > >> I mentioned in commit message it is daemons, userspace initializ=
+ation etc. There is a lot of userspace booting up as well and using the ker=
+nel while doing so.
+> > > > >>
+> > > > >> So, It does not make sense to me to mark kernel as booted too ea=
+rly. And no harm in adding some builtin kernel hysteresis. What am I missin=
+g?
+> > > > >>
+> > > > > Than it is up to user space to decide when it is ready in terms o=
+f "boot completed".
+> > > >
+> > > > I dont know if you caught up with the other threads. See replies fr=
+om Paul and my reply to that.
+> > > >
+> > > > Also what you are proposing can be more harmful. If user space has =
+a bug and does not notify the kernel that boot completed, then the boot can=
+ stay incomplete forever. The idea with this patch is to make things better=
+, not worse.
+> > > >
+> > > I saw that Paul proposed to have a sysfs attribute using which you ca=
+n
+> > > send a notification.
+> >
+> > Maybe I am missing something but how will a sysfs node on its own work =
+really?
+> >
+> > 1. delete kernel marking itself boot completed  -- and then sysfs
+> > marks it completed?
+> >
+> > 2. delete kernel marking itself boot completed  -- and then sysfs
+> > marks it completed, if sysfs does not come in in N seconds, then
+> > kernel marks as completed?
+> >
+> > #1 is a no go, that just means a bug waiting to happen if userspace
+> > forgets to write to sysfs.
+> >
+> > #2 is just an extension of this patch. So I can add a sysfs node on
+> > top of this. And we can make the minimum time as a long period of
+> > time, as you noted below:
+> >
+> > > IMHO, to me this patch does not provide a clear correlation between w=
+hat
+> > > is a boot complete and when it occurs. A boot complete is a synchrono=
+us
+> > > event whereas the patch thinks that after some interval a "boot" is c=
+ompleted.
+> >
+> > But that is exactly how the kernel code is now without this patch, so
+> > it is already broken in that sense, I am not really breaking it more
+> > ;-)
+> >
+> > > We can imply that after, say 100 seconds an initialization of user sp=
+ace
+> > > is done. Maybe 100 seconds then? :)
+> >
+> > Yes I am Ok with that. So are you suggesting we change the default to
+> > 100 seconds and then add a sysfs node to mark as boot done whenever
+> > userspace notifies?
+>
+> The combination of sysfs manipulated by userspace and a kernel failsafe
+> makes sense to me.  Especially if by default triggering the failsafe
+> splats.  That way, bugs where userspace fails to update the sysfs file
+> get caught.
 
---SxTha3qIYXZ4YGJ0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+By splat, if we could do an "info" message, that would work for me
+instead of a WARN_ON. I'm afraid of Android and other folks who
+upgrade to the new kernel only to now have to go patch userspace.
 
-Hey Evan,
+So,
+pr_info("RCU is still in boot-mode for the next N seconds, please
+consider writing X to /sys/.. to avoid this message.");
+?
 
-On Tue, Feb 21, 2023 at 11:08:56AM -0800, Evan Green wrote:
-> This allows userspace to select various routines to use based on the
-> performance of misaligned access on the target hardware.
->=20
-> Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Evan Green <evan@rivosinc.com>
->=20
-> ---
->=20
-> Changes in v3:
->  - Have hwprobe_misaligned return int instead of long.
->  - Constify cpumask pointer in hwprobe_misaligned()
->  - Fix warnings in _PERF_O list documentation, use :c:macro:.
->  - Move include cpufeature.h to misaligned patch.
->  - Fix documentation mismatch for RISCV_HWPROBE_KEY_CPUPERF_0 (Conor)
->  - Use for_each_possible_cpu() instead of NR_CPUS (Conor)
->  - Break early in misaligned access iteration (Conor)
->  - Increase MISALIGNED_MASK from 2 bits to 3 for possible UNSUPPORTED fut=
-ure
->    value (Conor)
+> The non-default silent-failsafe mode is also useful to allow some power
+> savings in advance of userspace getting the sysfs updating in place.
+> And of course the default splatting setup can be used in internal testing
+> with the release software being more tolerant of userspace foibles.
 
-I'm not quite sure why we don't just go ahead and plumb this in already?
-Whether the specs allow this or not, someone is going to end up doing
-it (and it sounds like the specs now do allow it).
-Is it wise to plug the hole in the syscall now, rather than leaving the
-gap?
+Sounds good, would 100 seconds be a good fail-safe trigger value?
 
-Otherwise, this looks fine, modulo Joe's comment about types.
+Thanks,
 
-Cheers,
-Conor.
-
-
---SxTha3qIYXZ4YGJ0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY/05cAAKCRB4tDGHoIJi
-0ih+AQDO+TBU5dt3vbjyzYvBj2OYRSRoj+m7fOk3ZiuU/t6iewD+K9qpmYRNlEdh
-cLzg0+K2QIc1GWFWHR++hP2QHlQnTAc=
-=xn/p
------END PGP SIGNATURE-----
-
---SxTha3qIYXZ4YGJ0--
+ - Joel
