@@ -2,237 +2,175 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F02BC7EE31
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 19:35:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAB8AC7EE2D
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 19:51:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbjB0Tfy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 14:35:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41266 "EHLO
+        id S230177AbjB0Tvg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 14:51:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbjB0Tfx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 14:35:53 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1270F93F6;
-        Mon, 27 Feb 2023 11:35:50 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id v11so4387701plz.8;
-        Mon, 27 Feb 2023 11:35:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pnCiHlTZ3XHUfR7rXNQOF8AslwfEMhVF7SVf22K+dwA=;
-        b=I6mDs2TufiHGOpRM9erBq02iQ22+V5PWw8V9du6xB+Z0yvBkxQyMt7qnlMSEgeIO0O
-         Qs4EWbkmc7NbNwgpoNM36W06HYMEXUolOBzcYA4PsKl9Zj4z/s2nUirhAzhKa1ISdxO6
-         XUdR0DPB/dsFQ+OP2wTwLdRQa+zYbOB7fAmgTF7HOFutnypvSToRj0kjQY6TklMT2otY
-         7xmabiC02oOcM7YCf8joTl0AyeJOLMYTIxclDdO335JDb655VLZMBfPeBFn7kcAq/7nt
-         yFaaY/LNBD5GT6AqGZnJKyLYZFuwPzUQDmao+GOlppq4ntWVmcmNQ656Bm1M66aX7nyI
-         qhVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pnCiHlTZ3XHUfR7rXNQOF8AslwfEMhVF7SVf22K+dwA=;
-        b=OGeBBQ5mep+yj/PibKre0j4khxAa3nk5yySzGz8HANzi7J5V0RWmpD+tFuxG9elC8h
-         ickNeg+RL8+iXGTNrMkWW3R7nR8QJRvqDq2DsvXLJnkBJ+DdOnsxJRgYS4Dcfo4LwId7
-         1UNik+625Es9/PlyiVG6AfZ5WR/Z9Qumk2N8DNg0OK1AeopElTQDat2qxvoHj5ZYDMre
-         G/Dtl9MyCXBV0bWn1jR/rb5mRp2ZCaBHMR2/MtqnCSfrAtVl0dw0DaVwu6NwmL6ybokv
-         tOWaDtFdYvjsvEfAFwA8PrIyVE7aBLpXoroCl5ZaE2SYgjUieyqtnEAb5mCJfRekBP3p
-         O/9w==
-X-Gm-Message-State: AO0yUKUgjxCqagly1zz+Ta82aZn3sOGl4KAfaj/tTrCt7F4i2CdZc4OL
-        Y2BrwiZcXi4hBs2rysGButM=
-X-Google-Smtp-Source: AK7set+xjcru5uMJbo51/Coda3pgTL/GPwf8cuOG/WLXI8Ek1zE0cnb0rvcHwjA9q8TU8Dl271GYcA==
-X-Received: by 2002:a17:902:db0b:b0:19d:f7e:9864 with SMTP id m11-20020a170902db0b00b0019d0f7e9864mr5610079plx.57.1677526550132;
-        Mon, 27 Feb 2023 11:35:50 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id ix1-20020a170902f80100b0019ab58f47a6sm5000335plb.105.2023.02.27.11.35.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Feb 2023 11:35:49 -0800 (PST)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v7 01/15] dma-buf/dma-fence: Add deadline awareness
-Date:   Mon, 27 Feb 2023 11:35:07 -0800
-Message-Id: <20230227193535.2822389-2-robdclark@gmail.com>
+        with ESMTP id S229944AbjB0Tvf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 14:51:35 -0500
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03D07ECC;
+        Mon, 27 Feb 2023 11:51:33 -0800 (PST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.west.internal (Postfix) with ESMTP id BADDF3200947;
+        Mon, 27 Feb 2023 14:51:29 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 27 Feb 2023 14:51:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+        :content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm3; t=1677527489; x=1677613889; bh=eD3XTUyleC7VHpJcu1oJPldm9
+        EE+fHMQEZsCRJDzCRQ=; b=l2F4WNnM+QPIRn26UF4B25y1qE+SX+/VsfcrMysXl
+        Kap3RUpSG+Gc8o8UUSSWD4Lcrp7valwBfvUYd7+DoO19olWIXyfWvO+z5lUTqMLk
+        did4fsmA59AWfsxgfjGEAV33qa8kJWWgRmp4ZIRQO1+ge2N3DYk1WJy2nOsFWGtq
+        8q4V82MTe5TxIozc0EEV0LIDiEFiGZ3P4vOwLmfpwJqSGRnsa1dYcWcXG/GHRRL2
+        nspm/ZeMjt+wtye5q6XUhr481jo+NagpKLjgKxP9Q+RPb7/3rsIfxitnA7xOL/34
+        QX5FbCniqb0ihQqPAQwM3LiUbotT00fBVnpaVZYGLN+qg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+        1677527489; x=1677613889; bh=eD3XTUyleC7VHpJcu1oJPldm9EE+fHMQEZs
+        CRJDzCRQ=; b=VzdRcjv/DNK/XYFRqa2x32PFNlYqNY7rRk4ITzhyvdiWiZ98/r8
+        ftvBicpNakKa6JmdXPoyd4aURPlLqVmp83ZepWh1LvtgEqqXiXmEq2WArbBKvT6P
+        wBgcXqUxWybOMXm9awVH0Hd3UIq1SDKHPfFfnMXxeydgS2wdYK5A8WeV+BGyj+jY
+        8mW8LQaX46Jau6ie1BbBaF0rTSXTgy3s7lajorxZVmwTvWFCsBvYFvnZY0Pb+Qkc
+        wXVVZDeUloXKCXNmRHGSamTVjbWIYDVKJ4DNA0hFIEGUFTb50+T2qXa06kXwRt9w
+        ykeiNlMbq1TkuiiXT8/F0PHyb7wq4Zg5NEQ==
+X-ME-Sender: <xms:wQn9YxCDL11D-rlH1dD18pcxbKql5K3XFBjvhd7bA5l9E0FkhK_pkw>
+    <xme:wQn9Y_hJsVfn5xmURXLFPBe2YgDAEeOD_25XgLLiUk2BRScYwpaEYDfAl2Ix_wEU4
+    zqKbvtPLYQUsC2yfQ>
+X-ME-Received: <xmr:wQn9Y8mm8dZWlnq6Fa0NC5LRThOFTGYiMs19oYpRijeUD66vtYSKqLOoE1q4caIDMCcl20FfLuKVD1EBQKDlbRP1jpwpP4gOGotNm3uFZrgb3Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddguddviecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecufghrlhcuvffnffculdefhedmnecujfgurhephf
+    fvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeffrghnihgvlhcuighuuceougig
+    uhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepheektdduueeiuefgieeghf
+    efvdeugeetiefffefhgfduudefudehveejgedtgedtnecuffhomhgrihhnpehivghtfhdr
+    ohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gugihusegugihuuhhurdighiii
+X-ME-Proxy: <xmx:wQn9Y7wF7PTb_i_ziNRJCtylz-gFNAsYbrGFivn24Zs_4lse7tcy1w>
+    <xmx:wQn9Y2QdOeNqnyIToFbBusGkv58mwr9Rzmuw2RY-Iomiacilmb90Pg>
+    <xmx:wQn9Y-b3z2ArS2Oqzoyvs_o5QNZMEWbLopUrKGz1navR0GFJ0ut1qg>
+    <xmx:wQn9Y0c0rTnsOvMy0vn8Wp0klcBq_Wz6LWjMMlfDiO-N-_n7GI_ziA>
+Feedback-ID: i6a694271:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Feb 2023 14:51:28 -0500 (EST)
+From:   Daniel Xu <dxu@dxuuu.xyz>
+To:     bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH bpf-next v2 0/8] Support defragmenting IPv(4|6) packets in BPF
+Date:   Mon, 27 Feb 2023 12:51:02 -0700
+Message-Id: <cover.1677526810.git.dxu@dxuuu.xyz>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230227193535.2822389-1-robdclark@gmail.com>
-References: <20230227193535.2822389-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+=== Context ===
 
-Add a way to hint to the fence signaler of an upcoming deadline, such as
-vblank, which the fence waiter would prefer not to miss.  This is to aid
-the fence signaler in making power management decisions, like boosting
-frequency as the deadline approaches and awareness of missing deadlines
-so that can be factored in to the frequency scaling.
+In the context of a middlebox, fragmented packets are tricky to handle.
+The full 5-tuple of a packet is often only available in the first
+fragment which makes enforcing consistent policy difficult. There are
+really only two stateless options, neither of which are very nice:
 
-v2: Drop dma_fence::deadline and related logic to filter duplicate
-    deadlines, to avoid increasing dma_fence size.  The fence-context
-    implementation will need similar logic to track deadlines of all
-    the fences on the same timeline.  [ckoenig]
-v3: Clarify locking wrt. set_deadline callback
-v4: Clarify in docs comment that this is a hint
-v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-v6: More docs
+1. Enforce policy on first fragment and accept all subsequent fragments.
+   This works but may let in certain attacks or allow data exfiltration.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
- Documentation/driver-api/dma-buf.rst |  6 +++
- drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++++++
- include/linux/dma-fence.h            | 20 ++++++++++
- 3 files changed, 85 insertions(+)
+2. Enforce policy on first fragment and drop all subsequent fragments.
+   This does not really work b/c some protocols may rely on
+   fragmentation. For example, DNS may rely on oversized UDP packets for
+   large responses.
 
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index 622b8156d212..183e480d8cea 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
- .. kernel-doc:: drivers/dma-buf/dma-fence.c
-    :doc: fence signalling annotation
- 
-+DMA Fence Deadline Hints
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: drivers/dma-buf/dma-fence.c
-+   :doc: deadline hints
-+
- DMA Fences Functions Reference
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 0de0482cd36e..e103e821d993 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
- }
- EXPORT_SYMBOL(dma_fence_wait_any_timeout);
- 
-+/**
-+ * DOC: deadline hints
-+ *
-+ * In an ideal world, it would be possible to pipeline a workload sufficiently
-+ * that a utilization based device frequency governor could arrive at a minimum
-+ * frequency that meets the requirements of the use-case, in order to minimize
-+ * power consumption.  But in the real world there are many workloads which
-+ * defy this ideal.  For example, but not limited to:
-+ *
-+ * * Workloads that ping-pong between device and CPU, with alternating periods
-+ *   of CPU waiting for device, and device waiting on CPU.  This can result in
-+ *   devfreq and cpufreq seeing idle time in their respective domains and in
-+ *   result reduce frequency.
-+ *
-+ * * Workloads that interact with a periodic time based deadline, such as double
-+ *   buffered GPU rendering vs vblank sync'd page flipping.  In this scenario,
-+ *   missing a vblank deadline results in an *increase* in idle time on the GPU
-+ *   (since it has to wait an additional vblank period), sending a single to
-+ *   the GPU's devfreq to reduce frequency, when in fact the opposite is what is
-+ *   needed.
-+ *
-+ * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline.
-+ * The deadline hint provides a way for the waiting driver, or userspace, to
-+ * convey an appropriate sense of urgency to the signaling driver.
-+ *
-+ * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for userspace
-+ * facing APIs).  The time could either be some point in the future (such as
-+ * the vblank based deadline for page-flipping, or the start of a compositor's
-+ * composition cycle), or the current time to indicate an immediate deadline
-+ * hint (Ie. forward progress cannot be made until this fence is signaled).
-+ *
-+ * Multiple deadlines may be set on a given fence, even in parallel.  See the
-+ * documentation for &dma_fence_ops.set_deadline.
-+ *
-+ * The deadline hint is just that, a hint.  The driver that created the fence
-+ * may react by increasing frequency, making different scheduling choices, etc.
-+ * Or doing nothing at all.
-+ */
-+
-+/**
-+ * dma_fence_set_deadline - set desired fence-wait deadline hint
-+ * @fence:    the fence that is to be waited on
-+ * @deadline: the time by which the waiter hopes for the fence to be
-+ *            signaled
-+ *
-+ * Give the fence signaler a hint about an upcoming deadline, such as
-+ * vblank, by which point the waiter would prefer the fence to be
-+ * signaled by.  This is intended to give feedback to the fence signaler
-+ * to aid in power management decisions, such as boosting GPU frequency
-+ * if a periodic vblank deadline is approaching but the fence is not
-+ * yet signaled..
-+ */
-+void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-+{
-+	if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
-+		fence->ops->set_deadline(fence, deadline);
-+}
-+EXPORT_SYMBOL(dma_fence_set_deadline);
-+
- /**
-  * dma_fence_describe - Dump fence describtion into seq_file
-  * @fence: the 6fence to describe
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 775cdc0b4f24..87c0d846dbb4 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -257,6 +257,24 @@ struct dma_fence_ops {
- 	 */
- 	void (*timeline_value_str)(struct dma_fence *fence,
- 				   char *str, int size);
-+
-+	/**
-+	 * @set_deadline:
-+	 *
-+	 * Callback to allow a fence waiter to inform the fence signaler of
-+	 * an upcoming deadline, such as vblank, by which point the waiter
-+	 * would prefer the fence to be signaled by.  This is intended to
-+	 * give feedback to the fence signaler to aid in power management
-+	 * decisions, such as boosting GPU frequency.
-+	 *
-+	 * This is called without &dma_fence.lock held, it can be called
-+	 * multiple times and from any context.  Locking is up to the callee
-+	 * if it has some state to manage.  If multiple deadlines are set,
-+	 * the expectation is to track the soonest one.
-+	 *
-+	 * This callback is optional.
-+	 */
-+	void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
- };
- 
- void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
-@@ -583,6 +601,8 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
- 	return ret < 0 ? ret : 0;
- }
- 
-+void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
-+
- struct dma_fence *dma_fence_get_stub(void);
- struct dma_fence *dma_fence_allocate_private_stub(void);
- u64 dma_fence_context_alloc(unsigned num);
+So stateful tracking is the only sane option. RFC 8900 [0] calls this
+out as well in section 6.3:
+
+    Middleboxes [...] should process IP fragments in a manner that is
+    consistent with [RFC0791] and [RFC8200]. In many cases, middleboxes
+    must maintain state in order to achieve this goal.
+
+=== BPF related bits ===
+
+However, when policy is enforced through BPF, the prog is run before the
+kernel reassembles fragmented packets. This leaves BPF developers in a
+awkward place: implement reassembly (possibly poorly) or use a stateless
+method as described above.
+
+Fortunately, the kernel has robust support for fragmented IP packets.
+This patchset wraps the existing defragmentation facilities in kfuncs so
+that BPF progs running on middleboxes can reassemble fragmented packets
+before applying policy.
+
+=== Patchset details ===
+
+This patchset is (hopefully) relatively straightforward from BPF perspective.
+One thing I'd like to call out is the skb_copy()ing of the prog skb. I
+did this to maintain the invariant that the ctx remains valid after prog
+has run. This is relevant b/c ip_defrag() and ip_check_defrag() may
+consume the skb if the skb is a fragment.
+
+Originally I did play around with teaching the verifier about kfuncs
+that may consume the ctx and disallowing ctx accesses in ret != 0
+branches. It worked ok, but it seemed too complex to modify the
+surrounding assumptions about ctx validity.
+
+[0]: https://datatracker.ietf.org/doc/html/rfc8900
+
+===
+
+Changes from v1:
+* Add support for ipv6 defragmentation
+
+
+Daniel Xu (8):
+  ip: frags: Return actual error codes from ip_check_defrag()
+  bpf: verifier: Support KF_CHANGES_PKT flag
+  bpf, net, frags: Add bpf_ip_check_defrag() kfunc
+  net: ipv6: Factor ipv6_frag_rcv() to take netns and user
+  bpf: net: ipv6: Add bpf_ipv6_frag_rcv() kfunc
+  bpf: selftests: Support not connecting client socket
+  bpf: selftests: Support custom type and proto for client sockets
+  bpf: selftests: Add defrag selftests
+
+ Documentation/bpf/kfuncs.rst                  |   7 +
+ drivers/net/macvlan.c                         |   2 +-
+ include/linux/btf.h                           |   1 +
+ include/net/ip.h                              |  11 +
+ include/net/ipv6.h                            |   1 +
+ include/net/ipv6_frag.h                       |   1 +
+ include/net/transp_v6.h                       |   1 +
+ kernel/bpf/verifier.c                         |   8 +
+ net/ipv4/Makefile                             |   1 +
+ net/ipv4/ip_fragment.c                        |  15 +-
+ net/ipv4/ip_fragment_bpf.c                    |  98 ++++++
+ net/ipv6/Makefile                             |   1 +
+ net/ipv6/af_inet6.c                           |   4 +
+ net/ipv6/reassembly.c                         |  16 +-
+ net/ipv6/reassembly_bpf.c                     | 143 ++++++++
+ net/packet/af_packet.c                        |   2 +-
+ tools/testing/selftests/bpf/Makefile          |   3 +-
+ .../selftests/bpf/generate_udp_fragments.py   |  90 +++++
+ .../selftests/bpf/ip_check_defrag_frags.h     |  57 +++
+ tools/testing/selftests/bpf/network_helpers.c |  26 +-
+ tools/testing/selftests/bpf/network_helpers.h |   3 +
+ .../bpf/prog_tests/ip_check_defrag.c          | 327 ++++++++++++++++++
+ .../selftests/bpf/progs/bpf_tracing_net.h     |   1 +
+ .../selftests/bpf/progs/ip_check_defrag.c     | 133 +++++++
+ 24 files changed, 931 insertions(+), 21 deletions(-)
+ create mode 100644 net/ipv4/ip_fragment_bpf.c
+ create mode 100644 net/ipv6/reassembly_bpf.c
+ create mode 100755 tools/testing/selftests/bpf/generate_udp_fragments.py
+ create mode 100644 tools/testing/selftests/bpf/ip_check_defrag_frags.h
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/ip_check_defrag.c
+ create mode 100644 tools/testing/selftests/bpf/progs/ip_check_defrag.c
+
 -- 
 2.39.1
 
