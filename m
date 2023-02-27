@@ -2,134 +2,175 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44EC7C64ED8
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 09:00:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 623DCC7EE36
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 09:55:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229741AbjB0JA4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 04:00:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53774 "EHLO
+        id S229997AbjB0Jzy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 04:55:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229700AbjB0JAW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 04:00:22 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C023AD22;
-        Mon, 27 Feb 2023 00:50:54 -0800 (PST)
-Received: from dggpeml500019.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PQDdT5C6QznWWq;
-        Mon, 27 Feb 2023 16:47:09 +0800 (CST)
-Received: from [10.67.101.98] (10.67.101.98) by dggpeml500019.china.huawei.com
- (7.185.36.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 27 Feb
- 2023 16:49:46 +0800
-Message-ID: <75a1b477-5325-bec9-5750-b09bf0e5dfb0@hisilicon.com>
-Date:   Mon, 27 Feb 2023 16:49:46 +0800
+        with ESMTP id S229960AbjB0Jzu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 04:55:50 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33AC71B300
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 01:55:43 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id k14so7729579lfj.7
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 01:55:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZhaELgleS6+r+Ibfx7TrEKluNYIWjG4LoxKJl7PWG5U=;
+        b=Pv5L5SFIBIKlbiDrf20eyYOxXqDu4tIMuaF7OCiVWutcAYW9vA5wMU4sMuFvpKVM9P
+         BRTsL77XTKS75AVm9PTrfthBrrqn9Yb1vpJUKmAmjzrwO/1QLt5RY3JR2TORrYLOn7r6
+         ZWjiR0bsNpktEgaoamv5CeD50tvanAqBvDG8guLdBk9EgaQ5TpJ+DdRVffbHAWu3NF2j
+         88aliUG9pEuMvv0eHAowiAagjmMqCC2oHtA7U8jriAS++fZdTmDLJtYwFgBaD08fhOHK
+         xujFFMJvumRb4SBbfdzClnV6arnZBMI0Hk5Rrj+U73I7/aeeonCC550VgqJLC62mjenT
+         piYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZhaELgleS6+r+Ibfx7TrEKluNYIWjG4LoxKJl7PWG5U=;
+        b=0aySuL5vOesQATtpqtvEnypboKadkweg/xJtLVcE3NokTSDz/pfpkp9DdhM3NPCf+d
+         snnn3DhTKmd/Oh8L4smJ1rzD5ySIm2SMR+83G7UchVxwTs8bvBhncNFaa6HE6uyGB8+L
+         13BVhKs8YJfyjr+iqvXyPl8HIUwAiRMMhZdM9ZWdPC1To+5gXNZLIAlIHK3JTl6eFD8T
+         39bIHrXEV95v56+raHO4NezmQ1Y+nIs+0V0t8eaQUNNYHPR0cm4Cq0Qi95oMo+Et2Un4
+         +KR8hTnDEvETwPWDSEJ0qcJpF2GACcmIJ//JiLQdPzxNPp3ZEYFrX3ClDalxDyhEh4t2
+         K9Sg==
+X-Gm-Message-State: AO0yUKUOL3Mc+dKIr4p0olJJ540zjr83ay2ttmiQ+t7mMrcUJsZE16g/
+        OainKGYmqIeerSd3+5GMQ/4TjnjkLvYiWUu2na9jEg==
+X-Google-Smtp-Source: AK7set+eRFLwmofDycetmUw4kVPKIe20hDcCWvU1Q09bxSkaosoMqAzmXAjjIx3XbLUV25e/AgPwzszOwhyIFFWoK3k=
+X-Received: by 2002:a05:6512:b10:b0:4dd:9eb6:444e with SMTP id
+ w16-20020a0565120b1000b004dd9eb6444emr3712409lfu.5.1677491741277; Mon, 27 Feb
+ 2023 01:55:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [RFC PATCH v1 0/4] HiSilicon Performance Monitor Control Unit
-To:     <will@kernel.org>, <mark.rutland@arm.com>,
-        <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
-        <mike.leach@linaro.org>, <leo.yan@linaro.org>,
-        <john.g.garry@oracle.com>, <james.clark@arm.com>,
-        <peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
-        <corbet@lwn.net>, <jonathan.cameron@huawei.com>
-CC:     <zhangshaokun@hisilicon.com>, <shenyang39@huawei.com>,
-        <hejunhao3@huawei.com>, <yangyicong@hisilicon.com>,
-        <prime.zeng@huawei.com>, <suntao25@huawei.com>,
-        <jiazhao4@hisilicon.com>, <linuxarm@huawei.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-perf-users@vger.kernel.org>
-References: <20230206065146.645505-1-zhanjie9@hisilicon.com>
-From:   Jie Zhan <zhanjie9@hisilicon.com>
-In-Reply-To: <20230206065146.645505-1-zhanjie9@hisilicon.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.101.98]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500019.china.huawei.com (7.185.36.137)
-X-CFilter-Loop: Reflected
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212417.3315422-1-quic_eberman@quicinc.com> <CA+EHjTxEeiBWXJMCnv0V+5n=jB8w=m0EFdgK=FKtSqKOkiaChg@mail.gmail.com>
+ <7b6d4c14-ebde-1bc3-04de-59cae9d4b7be@quicinc.com>
+In-Reply-To: <7b6d4c14-ebde-1bc3-04de-59cae9d4b7be@quicinc.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Mon, 27 Feb 2023 09:55:05 +0000
+Message-ID: <CA+EHjTzZu4m_RGU0dbNjXhfHLRsHqnAWS24ZhL2SK0hV5M39dQ@mail.gmail.com>
+Subject: Re: [PATCH v10 12/26] gunyah: vm_mgr: Add/remove user memory regions
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Quentin Perret <qperret@google.com>,
+        Will Deacon <will@kernel.org>,
+        "smoreland@google.com" <smoreland@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Please can anyone have a look at this PMCU patchset and provide some 
-comments?
+Hi,
 
-It is much related to the ARM PMU.
+On Fri, Feb 24, 2023 at 6:08 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>
+>
+>
+> On 2/24/2023 2:19 AM, Fuad Tabba wrote:
+> > Hi,
+> >
+> > On Tue, Feb 14, 2023 at 9:26 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+> >>
+> >>
+> >> When launching a virtual machine, Gunyah userspace allocates memory for
+> >> the guest and informs Gunyah about these memory regions through
+> >> SET_USER_MEMORY_REGION ioctl.
+> >
+> > I'm working on pKVM [1], and regarding the problem of donating private
+> > memory to a guest, we and others working on confidential computing
+> > have faced a similar issue that this patch is trying to address. In
+> > pKVM, we've initially taken an approach similar to the one here by
+> > pinning the pages being donated to prevent swapping or migration [2].
+> > However, we've encountered issues with this approach since the memory
+> > is still mapped by the host, which could cause the system to crash on
+> > an errant access.
+> >
+> > Instead, we've been working on adopting an fd-based restricted memory
+> > approach that was initially proposed for TDX [3] and is now being
+> > considered by others in the confidential computing space as well
+> > (e.g., Arm CCA [4]). The basic idea is that the host manages the guest
+> > memory via a file descriptor instead of a userspace address. It cannot
+> > map that memory (unless explicitly shared by the guest [5]),
+> > eliminating the possibility of the host trying to access private
+> > memory accidentally or being tricked by a malicious actor. This is
+> > based on memfd with some restrictions. It handles swapping and
+> > migration by disallowing them (for now [6]), and adds a new type of
+> > memory region to KVM to accommodate having an fd representing guest
+> > memory.
+> >
+> > Although the fd-based restricted memory isn't upstream yet, we've
+> > ported the latest patches to arm64 and made changes and additions to
+> > make it work with pKVM, to test it and see if the solution is feasible
+> > for us (it is). I wanted to mention this work in case you find it
+> > useful, and in the hopes that we can all work on confidential
+> > computing using the same interfaces as much as possible.
+>
+> Thanks for highlighting the memfd_restricted changes to us! We'll
+> investigate how/if it can suit Gunyah usecases. It sounds like you
+> might've made memfd_restricted changes as well? Are those posted on the
+> mailing lists? Also, are example userspace (crosvm?) changes posted?
 
-We are looking forward to the feedback.
+I have posted kvmtool changes to make it work with memfd_restricted
+and pKVM as an RFC [1] (git [2]). I haven't posted the arm64 port, but
+it's in a git repo [3]. Chao has a repository with qemu support (TDX)
+as well [4].
 
-Any relevant comments/questions, with respect to software or hardware 
-design, use cases, coding, are welcome.
+Eventually, we're likely to have crosvm support as well. If you're
+interested, I can keep you CCed on anything we post upstream.
 
-Kind regards,
+Cheers,
+/fuad
 
-Jie
+[1] https://lore.kernel.org/all/20221202174417.1310826-1-tabba@google.com/
+[2] https://android-kvm.googlesource.com/kvmtool/+/refs/heads/tabba/fdmem-v10-core
+[3] https://android-kvm.googlesource.com/linux/+/refs/heads/tabba/fdmem-v10-core
+[4] https://github.com/chao-p/qemu/tree/privmem-v10
 
-
-On 06/02/2023 14:51, Jie Zhan wrote:
-> HiSilicon Performance Monitor Control Unit (PMCU) is a device that offloads
-> PMU accesses from CPUs, handling the configuration, event switching, and
-> counter reading of core PMUs on Kunpeng SoC. It facilitates fine-grained
-> and multi-PMU-event CPU profiling, in which scenario the current 'perf'
-> scheme may lose events or drop sampling frequency. With PMCU, users can
-> reliably obtain the data of up to 240 PMU events with the sample interval
-> of events down to 1ms, while the software overhead of accessing PMUs, as
-> well as its impact on target workloads, is reduced.
 >
-> This patchset contains the documentation, driver, and user perf tool
-> support to enable using PMCU with the 'perf_event' framework.
+> Thanks,
+> Elliot
 >
-> Here are two key questions requested for comments:
->
-> - How do we make it compatible with arm_pmu drivers?
->
->    Hardware-wise, PMCU uses the existing core PMUs, so PMUs can be accessed
->    from CPU and PMCU simultaneously. The current hardware can't guarantee
->    mutual exclusive accesses. Hence, scheduling arm_pmu and PMCU events at
->    the same time may mess up the operation of PMUs, delivering incorrect
->    data for both events, e.g. unexpected events or sample periods.
->    Software-wise, we probably need to prevent the two types of events from
->    running at the same time, but currently there isn't a clear solution.
->
-> - Currently we reply on a sysfs file for users to input event numbers. Is
->    there a better way to pass many events?
->
->    The perf framework only allows three 64-bit config fields for custom PMU
->    configs. Obviously, this can't satisfy our need for passing many events
->    at a time. As an event number is 16-bit wide, the config fields can only
->    take up to 12 events at a time, or up to 192 events even if we do a
->    bitmap of events (and there are more than 192 available event numbers).
->    Hence, the current design takes an array of event numbers from a sysfs
->    file before starting profiling. However, this may go against the common
->    way to schedule perf events through perf commands.
->
-> Jie Zhan (4):
->    docs: perf: Add documentation for HiSilicon PMCU
->    drivers/perf: hisi: Add driver support for HiSilicon PMCU
->    perf tool: Add HiSilicon PMCU data recording support
->    perf tool: Add HiSilicon PMCU data decoding support
->
->   Documentation/admin-guide/perf/hisi-pmcu.rst |  183 +++
->   Documentation/admin-guide/perf/index.rst     |    1 +
->   drivers/perf/hisilicon/Kconfig               |   15 +
->   drivers/perf/hisilicon/Makefile              |    1 +
->   drivers/perf/hisilicon/hisi_pmcu.c           | 1096 ++++++++++++++++++
->   tools/perf/arch/arm/util/auxtrace.c          |   61 +
->   tools/perf/arch/arm64/util/Build             |    2 +-
->   tools/perf/arch/arm64/util/hisi-pmcu.c       |  145 +++
->   tools/perf/util/Build                        |    1 +
->   tools/perf/util/auxtrace.c                   |    4 +
->   tools/perf/util/auxtrace.h                   |    1 +
->   tools/perf/util/hisi-pmcu.c                  |  305 +++++
->   tools/perf/util/hisi-pmcu.h                  |   19 +
->   13 files changed, 1833 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/admin-guide/perf/hisi-pmcu.rst
->   create mode 100644 drivers/perf/hisilicon/hisi_pmcu.c
->   create mode 100644 tools/perf/arch/arm64/util/hisi-pmcu.c
->   create mode 100644 tools/perf/util/hisi-pmcu.c
->   create mode 100644 tools/perf/util/hisi-pmcu.h
->
->
-> base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
+> >
+> > Some comments inline below...
+> >
+> > Cheers,
+> > /fuad
+> >
+> > [1] https://lore.kernel.org/kvmarm/20220519134204.5379-1-will@kernel.org/
+> > [2] https://lore.kernel.org/kvmarm/20220519134204.5379-34-will@kernel.org/
+> > [3] https://lore.kernel.org/all/20221202061347.1070246-1-chao.p.peng@linux.intel.com/
+> > [4] https://lore.kernel.org/lkml/20230127112932.38045-1-steven.price@arm.com/
+> > [5] This is a modification we've done for the arm64 port, after
+> > discussing it with the original authors.
+> > [6] Nothing inherent in the proposal to stop migration and swapping.
+> > There are some technical issues that need to be resolved.
+> >
+> > <snip>
+> <snip, looking at comments in parallel>
