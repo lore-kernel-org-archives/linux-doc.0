@@ -2,113 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF2D6C64ED6
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 14:42:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22581C64ED6
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 14:56:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230057AbjB0Omm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 09:42:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52064 "EHLO
+        id S229894AbjB0O4A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 09:56:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229921AbjB0Oml (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 09:42:41 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 234AD20571;
-        Mon, 27 Feb 2023 06:42:40 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        with ESMTP id S229545AbjB0Oz7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 09:55:59 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 803E72D68;
+        Mon, 27 Feb 2023 06:55:47 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 693EB1FD67;
-        Mon, 27 Feb 2023 14:42:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1677508958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=BdizNH1AzSr0bKpBzNhArg9yFjow/CCwchYkew7eG8k=;
-        b=pqUg/q6/MUBr1HnwOq2Z4zkg0ZwcBEX7c8zJkoNMfAMDc0o/YbFfh96lMqOWYqoEOxCR/n
-        xhGpnCZTnjAKDQ+QzC6+DypAo39hvZx0yCFYWJluxJBpy3aoDSq97ScBF2XM4x137ishdq
-        V9PWkJY+8PpVVO8KBzrfuCd9ivVQt7I=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C474F13A43;
-        Mon, 27 Feb 2023 14:42:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id fOL0Ll3B/GNkEQAAMHmgww
-        (envelope-from <mkoutny@suse.com>); Mon, 27 Feb 2023 14:42:37 +0000
-Date:   Mon, 27 Feb 2023 15:42:36 +0100
-From:   Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To:     Vincent Guittot <vincent.guittot@linaro.org>
-Cc:     mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
-        linux-kernel@vger.kernel.org, parth@linux.ibm.com, tj@kernel.org,
-        lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        cgroups@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        qyousef@layalina.io, chris.hyser@oracle.com,
-        patrick.bellasi@matbug.net, David.Laight@aculab.com,
-        pjt@google.com, pavel@ucw.cz, qperret@google.com,
-        tim.c.chen@linux.intel.com, joshdon@google.com, timj@gnu.org,
-        kprateek.nayak@amd.com, yu.c.chen@intel.com,
-        youssefesmat@chromium.org, joel@joelfernandes.org
-Subject: Re: [PATCH v12 6/8] sched/fair: Add sched group latency support
-Message-ID: <20230227144236.z6zbgsaohlz6sl7o@blackpad>
-References: <20230224093454.956298-1-vincent.guittot@linaro.org>
- <20230224093454.956298-7-vincent.guittot@linaro.org>
- <20230224192919.d4fcde3dwh7betvm@blackpad>
- <CAKfTPtBorwnjU2=nprBo7aAEjoz+7x5nRYUdajZc53cuVgHSBw@mail.gmail.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 26732B80D54;
+        Mon, 27 Feb 2023 14:55:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA7C9C433D2;
+        Mon, 27 Feb 2023 14:55:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677509744;
+        bh=2QrzAfKZY4OPPKpyJkn5qM/7xuOVZoXSSIqyOxpALJM=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=iZpW8caqpGwhUauzk3OVLMZ7ydAG08LNXEX6LKS32VxbMjXskYdpTXWYCwSPFV41W
+         cZwGcB+Pvh87+0huEiTjwZvkG2pMxDhgPrG7qFdbz23vsN1MMFGjJEvVO6i9RYZvPO
+         fc5QkSLTm4iOJz2bfUljiKlq8mpOMImlmVx/swy4xe2+5KgLjlZgzHsUhH2jMTCZw/
+         wu9vpqXEiajUJrnW+IzfU95SeF6pjhiKR2k/mBTQBVaq1SJRI6ZcZWx/1PVcPbrtoY
+         FnOVqCX6bIWHDUSxjqFfa7c/NOH41pzgVmNr626VwjRU0G+25URwiHaiblowUBvdOf
+         RYyFzb2tmkgdA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 5D26D5C0146; Mon, 27 Feb 2023 06:55:44 -0800 (PST)
+Date:   Mon, 27 Feb 2023 06:55:44 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
+ completed
+Message-ID: <20230227145544.GC2948950@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <IA1PR11MB617175CA398D425B7489CE4889AF9@IA1PR11MB6171.namprd11.prod.outlook.com>
+ <764CA486-6FB2-4667-B8CB-56E3AC31FD58@joelfernandes.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="k2vtvr4lfwegj6vr"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAKfTPtBorwnjU2=nprBo7aAEjoz+7x5nRYUdajZc53cuVgHSBw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <764CA486-6FB2-4667-B8CB-56E3AC31FD58@joelfernandes.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Feb 27, 2023 at 08:22:06AM -0500, Joel Fernandes wrote:
+> 
+> 
+> > On Feb 27, 2023, at 2:53 AM, Zhuo, Qiuxu <qiuxu.zhuo@intel.com> wrote:
+> > 
+> > ﻿
+> >> 
+> >> From: Joel Fernandes (Google) <joel@joelfernandes.org>
+> >> Sent: Saturday, February 25, 2023 11:34 AM
+> >> To: linux-kernel@vger.kernel.org
+> >> Cc: Joel Fernandes (Google) <joel@joelfernandes.org>; Frederic Weisbecker
+> >> <frederic@kernel.org>; Lai Jiangshan <jiangshanlai@gmail.com>; linux-
+> >> doc@vger.kernel.org; Paul E. McKenney <paulmck@kernel.org>;
+> >> rcu@vger.kernel.org
+> >> Subject: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
+> >> completed
+> >> 
+> >> On many systems, a great deal of boot happens after the kernel thinks the
+> >> boot has completed. It is difficult to determine if the system has really
+> >> booted from the kernel side. Some features like lazy-RCU can risk slowing
+> >> down boot time if, say, a callback has been added that the boot
+> >> synchronously depends on.
+> >> 
+> >> Further, it is better to boot systems which pass 'rcu_normal_after_boot' to
+> >> stay expedited for as long as the system is still booting.
+> >> 
+> >> For these reasons, this commit adds a config option
+> >> 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter
+> >> rcupdate.boot_end_delay.
+> >> 
+> >> By default, this value is 20s. A system designer can choose to specify a value
+> >> here to keep RCU from marking boot completion.  The boot sequence will not
+> >> be marked ended until at least boot_end_delay milliseconds have passed.
+> > 
+> > Hi Joel,
+> > 
+> > Just some thoughts on the default value of 20s, correct me if I'm wrong :-).
+> > 
+> > Does the OS with CONFIG_PREEMPT_RT=y kernel concern more about the 
+> > real-time latency than the overall OS boot time?
+> 
+> But every system has to boot, even an RT system.
+> 
+> > 
+> > If so, we might make rcupdate.boot_end_delay = 0 as the default value 
+> > (NOT the default 20s) for CONFIG_PREEMPT_RT=y kernels? 
+> 
+> Could you measure how much time your RT system takes to boot before the application runs?
+> 
+> I can change it to default 0 essentially NOOPing it, but I would rather have a saner default (10 seconds even), than having someone forget to tune this for their system.
 
---k2vtvr4lfwegj6vr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Provide a /sys location that the userspace code writes to when it
+is ready?  Different systems with different hardware and software
+configurations are going to take different amounts of time to boot,
+correct?
 
-On Mon, Feb 27, 2023 at 02:44:22PM +0100, Vincent Guittot <vincent.guittot@linaro.org> wrote:
-> Regarding the current use of latency nice to set a latency offset, the
-> problem doesn't appear because latency offset applies between entities
-> at the same level as you mentioned above
+								Thanx, Paul
 
-Splendid, it turned out that way (latency nice analogous to bandwidth
-nice).
-
-> Does  my explanation above make sense to you ?
-
-Yes, thank you.
-
-Thus, I'd like to propose avoiding the use of "limit" in this context and
-stress the horizontal scope. For example:
-
-> +     This interface file allows reading and setting latency using the
-> +     same values used by sched_setattr(2). The latency_nice of a group is
-> +     used to limit the impact of the latency_nice of a task outside the
-> +     group.
-
-+     This interface file allows reading and setting latency using the
-+     same values used by sched_setattr(2). The latency_nice of a group is
-+     used to modify group members' latency with respect to sibling groups.
-
-Regards,
-Michal
-
---k2vtvr4lfwegj6vr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTrXXag4J0QvXXBmkMkDQmsBEOquQUCY/zBWgAKCRAkDQmsBEOq
-uRXXAP4nBfg1JWkFJlUphJU/HXYaqG7HKuwUDehUmhtQOcLnRQD/XqLftrr1aayr
-WcfeRCiKVdubEZX6L35zYCrcNd3hBAM=
-=FRsw
------END PGP SIGNATURE-----
-
---k2vtvr4lfwegj6vr--
+> Thanks,
+> 
+>  - Joel
+> 
+> 
+> > 
+> > -Qiuxu
+> > 
+> >> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> >> ---
+> >> v1->v2:
+> >>    Update some comments and description.
+> >> ...
+> > 
