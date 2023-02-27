@@ -2,175 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 623DCC7EE36
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 09:55:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2B18C64ED8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 10:02:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbjB0Jzy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 04:55:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36556 "EHLO
+        id S230079AbjB0KCQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 05:02:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbjB0Jzu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 04:55:50 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33AC71B300
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 01:55:43 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id k14so7729579lfj.7
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 01:55:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZhaELgleS6+r+Ibfx7TrEKluNYIWjG4LoxKJl7PWG5U=;
-        b=Pv5L5SFIBIKlbiDrf20eyYOxXqDu4tIMuaF7OCiVWutcAYW9vA5wMU4sMuFvpKVM9P
-         BRTsL77XTKS75AVm9PTrfthBrrqn9Yb1vpJUKmAmjzrwO/1QLt5RY3JR2TORrYLOn7r6
-         ZWjiR0bsNpktEgaoamv5CeD50tvanAqBvDG8guLdBk9EgaQ5TpJ+DdRVffbHAWu3NF2j
-         88aliUG9pEuMvv0eHAowiAagjmMqCC2oHtA7U8jriAS++fZdTmDLJtYwFgBaD08fhOHK
-         xujFFMJvumRb4SBbfdzClnV6arnZBMI0Hk5Rrj+U73I7/aeeonCC550VgqJLC62mjenT
-         piYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZhaELgleS6+r+Ibfx7TrEKluNYIWjG4LoxKJl7PWG5U=;
-        b=0aySuL5vOesQATtpqtvEnypboKadkweg/xJtLVcE3NokTSDz/pfpkp9DdhM3NPCf+d
-         snnn3DhTKmd/Oh8L4smJ1rzD5ySIm2SMR+83G7UchVxwTs8bvBhncNFaa6HE6uyGB8+L
-         13BVhKs8YJfyjr+iqvXyPl8HIUwAiRMMhZdM9ZWdPC1To+5gXNZLIAlIHK3JTl6eFD8T
-         39bIHrXEV95v56+raHO4NezmQ1Y+nIs+0V0t8eaQUNNYHPR0cm4Cq0Qi95oMo+Et2Un4
-         +KR8hTnDEvETwPWDSEJ0qcJpF2GACcmIJ//JiLQdPzxNPp3ZEYFrX3ClDalxDyhEh4t2
-         K9Sg==
-X-Gm-Message-State: AO0yUKUOL3Mc+dKIr4p0olJJ540zjr83ay2ttmiQ+t7mMrcUJsZE16g/
-        OainKGYmqIeerSd3+5GMQ/4TjnjkLvYiWUu2na9jEg==
-X-Google-Smtp-Source: AK7set+eRFLwmofDycetmUw4kVPKIe20hDcCWvU1Q09bxSkaosoMqAzmXAjjIx3XbLUV25e/AgPwzszOwhyIFFWoK3k=
-X-Received: by 2002:a05:6512:b10:b0:4dd:9eb6:444e with SMTP id
- w16-20020a0565120b1000b004dd9eb6444emr3712409lfu.5.1677491741277; Mon, 27 Feb
- 2023 01:55:41 -0800 (PST)
+        with ESMTP id S229817AbjB0KCQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 05:02:16 -0500
+Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CFD51E299;
+        Mon, 27 Feb 2023 02:02:15 -0800 (PST)
+Received: from biznet-home.integral.gnuweeb.org (unknown [182.2.41.146])
+        by gnuweeb.org (Postfix) with ESMTPSA id 147FF831E1;
+        Mon, 27 Feb 2023 10:02:11 +0000 (UTC)
+X-GW-Data: lPqxHiMPbJw1wb7CM9QUryAGzr0yq5atzVDdxTR0iA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
+        s=default; t=1677492135;
+        bh=HzfaCigHgb6Z+xfz7yIVdSy7DWhZopcyQEu9jCZDWj4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RhBkp7VEtWPoK/PZd9ql0NDUOC7uzxI8gtfSNzEUA7JG1Q1mfl7OLm5XLfeOdV/q2
+         OIhf/QVM6ovsRRkmjbSzI1WfGZfD8Q3PZOtOvDQnMG/sdP0Mol3/WbXl+jvN5Hf6TV
+         2JwHAEEiQTTMn+tcJthImnGPAAleyRCJ/F5/xV0+FTL/L/9r2btIG2T0tRQqevLyRF
+         d2H55qp3owPxxUpgp8xaiWAbYvJQnL5YDXFYOPDP7hV2ZTEF8/AmHYGFmKG4SYkMzd
+         lw+2VjqgyTjMuYZjluupyl8kBFMQsa8w/mZFGi6CeZrv0sayj8DKk0S7iSgKMZu+VI
+         2SyXzIFqqXOdQ==
+Date:   Mon, 27 Feb 2023 17:02:08 +0700
+From:   Ammar Faizi <ammarfaizi2@gnuweeb.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>,
+        Filipe Manana <fdmanana@suse.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Btrfs Mailing List <linux-btrfs@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Fsdevel Mailing List <linux-fsdevel@vger.kernel.org>,
+        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: Re: [RFC PATCH v1 2/2] Documentation: btrfs: Document the influence
+ of wq_cpu_set to thread_pool option
+Message-ID: <Y/x/oD+byOu092fF@biznet-home.integral.gnuweeb.org>
+References: <20230226162639.20559-1-ammarfaizi2@gnuweeb.org>
+ <20230226162639.20559-3-ammarfaizi2@gnuweeb.org>
+ <Y/wSXlp3vTEA6eo3@debian.me>
 MIME-Version: 1.0
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212417.3315422-1-quic_eberman@quicinc.com> <CA+EHjTxEeiBWXJMCnv0V+5n=jB8w=m0EFdgK=FKtSqKOkiaChg@mail.gmail.com>
- <7b6d4c14-ebde-1bc3-04de-59cae9d4b7be@quicinc.com>
-In-Reply-To: <7b6d4c14-ebde-1bc3-04de-59cae9d4b7be@quicinc.com>
-From:   Fuad Tabba <tabba@google.com>
-Date:   Mon, 27 Feb 2023 09:55:05 +0000
-Message-ID: <CA+EHjTzZu4m_RGU0dbNjXhfHLRsHqnAWS24ZhL2SK0hV5M39dQ@mail.gmail.com>
-Subject: Re: [PATCH v10 12/26] gunyah: vm_mgr: Add/remove user memory regions
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Will Deacon <will@kernel.org>,
-        "smoreland@google.com" <smoreland@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y/wSXlp3vTEA6eo3@debian.me>
+X-Bpl:  hUx9VaHkTWcLO7S8CQCslj6OzqBx2hfLChRz45nPESx5VSB/xuJQVOKOB1zSXE3yc9ntP27bV1M1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Mon, Feb 27, 2023 at 09:15:58AM +0700, Bagas Sanjaya wrote:
+> Why will the behavior be introduced in such future version (6.5)?
 
-On Fri, Feb 24, 2023 at 6:08 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->
->
->
-> On 2/24/2023 2:19 AM, Fuad Tabba wrote:
-> > Hi,
-> >
-> > On Tue, Feb 14, 2023 at 9:26 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
-> >>
-> >>
-> >> When launching a virtual machine, Gunyah userspace allocates memory for
-> >> the guest and informs Gunyah about these memory regions through
-> >> SET_USER_MEMORY_REGION ioctl.
-> >
-> > I'm working on pKVM [1], and regarding the problem of donating private
-> > memory to a guest, we and others working on confidential computing
-> > have faced a similar issue that this patch is trying to address. In
-> > pKVM, we've initially taken an approach similar to the one here by
-> > pinning the pages being donated to prevent swapping or migration [2].
-> > However, we've encountered issues with this approach since the memory
-> > is still mapped by the host, which could cause the system to crash on
-> > an errant access.
-> >
-> > Instead, we've been working on adopting an fd-based restricted memory
-> > approach that was initially proposed for TDX [3] and is now being
-> > considered by others in the confidential computing space as well
-> > (e.g., Arm CCA [4]). The basic idea is that the host manages the guest
-> > memory via a file descriptor instead of a userspace address. It cannot
-> > map that memory (unless explicitly shared by the guest [5]),
-> > eliminating the possibility of the host trying to access private
-> > memory accidentally or being tricked by a malicious actor. This is
-> > based on memfd with some restrictions. It handles swapping and
-> > migration by disallowing them (for now [6]), and adds a new type of
-> > memory region to KVM to accommodate having an fd representing guest
-> > memory.
-> >
-> > Although the fd-based restricted memory isn't upstream yet, we've
-> > ported the latest patches to arm64 and made changes and additions to
-> > make it work with pKVM, to test it and see if the solution is feasible
-> > for us (it is). I wanted to mention this work in case you find it
-> > useful, and in the hopes that we can all work on confidential
-> > computing using the same interfaces as much as possible.
->
-> Thanks for highlighting the memfd_restricted changes to us! We'll
-> investigate how/if it can suit Gunyah usecases. It sounds like you
-> might've made memfd_restricted changes as well? Are those posted on the
-> mailing lists? Also, are example userspace (crosvm?) changes posted?
+It's not like it has been staged for the next merge window. It's still
+in an RFC state. The changes are not trivial and need further review.
 
-I have posted kvmtool changes to make it work with memfd_restricted
-and pKVM as an RFC [1] (git [2]). I haven't posted the arm64 port, but
-it's in a git repo [3]. Chao has a repository with qemu support (TDX)
-as well [4].
+I don't know if it can hit the next merge window. As such, I picked a
+long distance for this proposal. If it ends up going upstream sooner, we
+can change this document.
 
-Eventually, we're likely to have crosvm support as well. If you're
-interested, I can keep you CCed on anything we post upstream.
+-- 
+Ammar Faizi
 
-Cheers,
-/fuad
-
-[1] https://lore.kernel.org/all/20221202174417.1310826-1-tabba@google.com/
-[2] https://android-kvm.googlesource.com/kvmtool/+/refs/heads/tabba/fdmem-v10-core
-[3] https://android-kvm.googlesource.com/linux/+/refs/heads/tabba/fdmem-v10-core
-[4] https://github.com/chao-p/qemu/tree/privmem-v10
-
->
-> Thanks,
-> Elliot
->
-> >
-> > Some comments inline below...
-> >
-> > Cheers,
-> > /fuad
-> >
-> > [1] https://lore.kernel.org/kvmarm/20220519134204.5379-1-will@kernel.org/
-> > [2] https://lore.kernel.org/kvmarm/20220519134204.5379-34-will@kernel.org/
-> > [3] https://lore.kernel.org/all/20221202061347.1070246-1-chao.p.peng@linux.intel.com/
-> > [4] https://lore.kernel.org/lkml/20230127112932.38045-1-steven.price@arm.com/
-> > [5] This is a modification we've done for the arm64 port, after
-> > discussing it with the original authors.
-> > [6] Nothing inherent in the proposal to stop migration and swapping.
-> > There are some technical issues that need to be resolved.
-> >
-> > <snip>
-> <snip, looking at comments in parallel>
