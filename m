@@ -2,126 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70A26C64ED8
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 12:41:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0FDAC64ED6
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 12:56:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229696AbjB0Ml1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 07:41:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55208 "EHLO
+        id S229684AbjB0M41 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 07:56:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbjB0Ml1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 07:41:27 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1FD91E286;
-        Mon, 27 Feb 2023 04:41:22 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id s17so3452291pgv.4;
-        Mon, 27 Feb 2023 04:41:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8051CX7GPwWvxqPme+h1NtjPhHXl6yhdGNxnSFiTIOA=;
-        b=DkVsZ7W6sLSIbxXqO3RoUSQbMxy+34TToWoKm83zULMAtyl1ogv9SxlV5LzIqI0lyP
-         69NKWYIwkNWmBdOaWfGR4/pZ1TXJL273lB9247VA8pD50IIdZcQHJHCAGyDlBvuToTJq
-         6tRcO44j60Agew8QWEjJUbShHfFjIkZnpEP4oX+UclT1W5vprZPTfsUucuLoCIh75Yyl
-         6XUfq3vPoPlDtbrELgyTjeWySVIBbfhO0P5YgwqvzYLdCkVg1KbB7nf/U+iza0TLhIvQ
-         /8iUib+n0EolvYMXtODbhqDZMOUaZEwp/R1qtbZbDSdOfvxAh5x2SPZNbzs+w+3MjpRw
-         R3zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8051CX7GPwWvxqPme+h1NtjPhHXl6yhdGNxnSFiTIOA=;
-        b=AgGJECPrWshvuMaD4KvFo4seEtyh8ysejvZ+f7z1Cj5C4btbJKMp/5HRKDxBY/yjge
-         FOEDQWKAjO/HYxJ9laVpR0KDDAzvMeWVN6F3MF/fPnr3MxfOsJ6OXXGjlvrJANSrSYJv
-         1oxtZCBkB7PXV4gEUCBgB//OIXlfvlgm3vimydX7RIP2oWflMaBcCBaMJVVBDrTmPRxd
-         IgWwCmH9Rt8CowUzSlYmvaC1rIuI+SuniNUDbpUPPWPev/bJ45VZDBeFadDG0q3LEp9N
-         uYSUGvvE5rvh+uegtGX/567sFr3lgBmKreK1J6bgWvUgKCiuLpDoCOjb+l+SwtzQPiLy
-         ak6w==
-X-Gm-Message-State: AO0yUKWb1sdcyDmhbMHZK5MqMvycapGDB3PwuIqd1irtpLRuFSPfhZc3
-        l6jCdt6LQQySscsrCFJ1bU6LCgZ4+ZcqTtjjRrY=
-X-Google-Smtp-Source: AK7set+VPHNc0Uj3lGJtVWGyyyOmXD3p+bICegEcbCtoyyDOa/JLV6ZlwR96+FshBmRFyL71aTMFUEuoS6vHb1bDNu8=
-X-Received: by 2002:a63:7556:0:b0:4fb:9902:fc4a with SMTP id
- f22-20020a637556000000b004fb9902fc4amr5794446pgn.10.1677501682153; Mon, 27
- Feb 2023 04:41:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20230227105941.2749193-1-suagrfillet@gmail.com> <Y/yagE7jfRGo1FgY@wendy>
-In-Reply-To: <Y/yagE7jfRGo1FgY@wendy>
-From:   Song Shuai <suagrfillet@gmail.com>
-Date:   Mon, 27 Feb 2023 12:40:45 +0000
-Message-ID: <CAAYs2=jSt9=d=N98DCVvtNA9FE6KcVYVdHPG-wpuDPknBFUndQ@mail.gmail.com>
+        with ESMTP id S229530AbjB0M40 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 07:56:26 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 708891CF71;
+        Mon, 27 Feb 2023 04:56:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1677502585; x=1709038585;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SYzO1Z5QiAchp6VlN8dlhG1cZc1ViNp1xpnQxa5rYlA=;
+  b=whhPiTvRV8SCNiS13Zw1r6cz03GFz4J/Q9OUbE11dmPTdKC+Ys7GoqKY
+   NpbQj1wRGO/zjzARMs3uVYmZGfuFgDWJsrafS0PcCZwLXHqkJpj1RbfVy
+   VuiXa+dNqWaJ4lpd5d8sAEgorKHKIxXh66Ly+dC5KTt1qjInfwujnlH6b
+   KO5uoqyZH/HmEtInxF8QuPtwx2bvfdVfY5MjWOU0JS7TZn4jss1sBoLTv
+   bumcto7oY2fqBcV8TUiB8zTXBx4ipC8EBG3wvJSqMok+06I6kL3HwOklN
+   b0Uh4W1T2e62rBWNGf1DF0IlZQ5KBjzMNO+sCdEFwQqlxNq12mL1uI3no
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.97,332,1669100400"; 
+   d="asc'?scan'208";a="202388109"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 27 Feb 2023 05:56:23 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 27 Feb 2023 05:56:23 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
+ Transport; Mon, 27 Feb 2023 05:56:21 -0700
+Date:   Mon, 27 Feb 2023 12:55:54 +0000
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Song Shuai <suagrfillet@gmail.com>
+CC:     <corbet@lwn.net>, <alexs@kernel.org>, <siyanteng@loongson.cn>,
+        <robh@kernel.org>, <palmer@rivosinc.com>,
+        <leyfoon.tan@starfivetech.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>
 Subject: Re: [PATCH] sched/doc: supplement CPU capacity with RISC-V
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     corbet@lwn.net, alexs@kernel.org, siyanteng@loongson.cn,
-        robh@kernel.org, palmer@rivosinc.com, leyfoon.tan@starfivetech.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <Y/yoWt+Y7n8/A6m9@wendy>
+References: <20230227105941.2749193-1-suagrfillet@gmail.com>
+ <Y/yagE7jfRGo1FgY@wendy>
+ <CAAYs2=jSt9=d=N98DCVvtNA9FE6KcVYVdHPG-wpuDPknBFUndQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="wnAnL+HDoyre5KCO"
+Content-Disposition: inline
+In-Reply-To: <CAAYs2=jSt9=d=N98DCVvtNA9FE6KcVYVdHPG-wpuDPknBFUndQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Conor Dooley <conor.dooley@microchip.com> =E4=BA=8E2023=E5=B9=B42=E6=9C=882=
-7=E6=97=A5=E5=91=A8=E4=B8=80 11:57=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Feb 27, 2023 at 06:59:41PM +0800, Song Shuai wrote:
-> > This commit 7d2078310cbf ("dt-bindings: arm: move cpu-capacity to a
-> > shared loation") updates some references about capacity-dmips-mhz
->
-> Not requesting a respin for this, but mentioning commit 991994509ee9
-> ("dt-bindings: riscv: add a capacity-dmips-mhz cpu property") is
-> probably more relevant as a justification for this change.
->
-Thanks for your correction, I'll pay attention next time.
+--wnAnL+HDoyre5KCO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have a question about the patch you mentioned:
-The patch uses cpu_scale per_cpu variable to store the CPU capacity
-through arch_topology,
-But arch_scale_cpu_capacity() interface seems not defined to deliver
-the cpu_scale to the scheduler
-In contrast, arm64 defines it as the topology_get_cpu_scale() in its
-arch/arm64/include/asm/topology.h.
-Is this an oversight or a particular purpose?
+On Mon, Feb 27, 2023 at 12:40:45PM +0000, Song Shuai wrote:
+> Conor Dooley <conor.dooley@microchip.com> =E4=BA=8E2023=E5=B9=B42=E6=9C=
+=8827=E6=97=A5=E5=91=A8=E4=B8=80 11:57=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > On Mon, Feb 27, 2023 at 06:59:41PM +0800, Song Shuai wrote:
+> > > This commit 7d2078310cbf ("dt-bindings: arm: move cpu-capacity to a
+> > > shared loation") updates some references about capacity-dmips-mhz
+> >
+> > Not requesting a respin for this, but mentioning commit 991994509ee9
+> > ("dt-bindings: riscv: add a capacity-dmips-mhz cpu property") is
+> > probably more relevant as a justification for this change.
+> >
+> Thanks for your correction, I'll pay attention next time.
+>=20
+> I have a question about the patch you mentioned:
+> The patch uses cpu_scale per_cpu variable to store the CPU capacity
+> through arch_topology,
+> But arch_scale_cpu_capacity() interface seems not defined to deliver
+> the cpu_scale to the scheduler
+> In contrast, arm64 defines it as the topology_get_cpu_scale() in its
+> arch/arm64/include/asm/topology.h.
+> Is this an oversight or a particular purpose?
 
-> > property in this document.
-> >
-> > The list of architectures using capacity-dmips-mhz omits RISC-V, so
-> > supplements it here.
-> >
-> > Signed-off-by: Song Shuai <suagrfillet@gmail.com>
-> > ---
-> >  Documentation/scheduler/sched-capacity.rst                    | 2 +-
-> >  Documentation/translations/zh_CN/scheduler/sched-capacity.rst | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation=
-/scheduler/sched-capacity.rst
-> > index 8e2b8538bc2b..e2c1cf743158 100644
-> > --- a/Documentation/scheduler/sched-capacity.rst
-> > +++ b/Documentation/scheduler/sched-capacity.rst
-> > @@ -258,7 +258,7 @@ Linux cannot currently figure out CPU capacity on i=
-ts own, this information thus
-> >  needs to be handed to it. Architectures must define arch_scale_cpu_cap=
-acity()
-> >  for that purpose.
-> >
-> > -The arm and arm64 architectures directly map this to the arch_topology=
- driver
-> > +The arm, arm64, and RISC-V architectures directly map this to the arch=
-_topology driver
->
-> My grep clearly missed this change, thanks.
-> For the only part of the patch I understand:
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
->
-> Thanks,
-> Conor.
->
+Intentional oversight I suppose? It wasn't my intention to do anything
+other than document the property that people were already using in
+their devicetrees (and finding bugs with!).
+In retrospect, perhaps it is better if I un-review this patch until
+we know it is plumbed into the scheduler properly?
 
+Ley Foon Tan is the one that found the RISC-V bugs with this property in
+their devicetree, so perhaps they've already done the work here?
 
---=20
 Thanks,
-Song
+Conor.
+
+--wnAnL+HDoyre5KCO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY/yoWgAKCRB4tDGHoIJi
+0lWMAP9MODOvtDm5vvcJ/DtkXxIsbk5s7zLjS+U2FljJQmwtiAD/bGwqZS4S3cwB
+OaA5EaPDOFOMmnwePguHgv/seh1dFAM=
+=ZDSm
+-----END PGP SIGNATURE-----
+
+--wnAnL+HDoyre5KCO--
