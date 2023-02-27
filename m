@@ -2,122 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2C7C7EE23
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 14:04:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF2D6C64ED6
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 14:42:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbjB0OD7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 09:03:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50104 "EHLO
+        id S230057AbjB0Omm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 09:42:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbjB0OD7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 09:03:59 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D7A65BF;
-        Mon, 27 Feb 2023 06:03:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1677506638; x=1709042638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lhINFStdkUVW6diIibKLb9nd7HYBVPWekTlInXGunlM=;
-  b=x+bRhmtBZx2nx6R+5HhztNXI3ptTCcbN0mW6qwlzhTiOmhGUJflpU5EY
-   L3GiUbHCzI4r1j3q2qEUTZTSqMKHsd+eXnU1klZ7y4OJ7FvtfsRn/FSqu
-   0T2DvBZJi8IGUm288xeUNVUZ8WWO7y5j7oC/QlPuq3y4Dlumh3zJIskQ4
-   pxf4uFog+BUfeqQ6rnlC6UXJ+rv2GQRc/tk63jlAyhbfToFVYuIZOm+hB
-   gNGQSR9c5YTRye0f6NnBUCyNs2PEjKg2sTSJJp1Eo7XztY/YYgKSrdZul
-   4A03PTKNiW94MD2Kj3A/KkoDZr5QCQii/s+m6YfxlF84EaWMNgMax5Wpc
-   A==;
-X-IronPort-AV: E=Sophos;i="5.98,332,1673938800"; 
-   d="asc'?scan'208";a="139247079"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 27 Feb 2023 07:03:55 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 27 Feb 2023 07:03:55 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
- Transport; Mon, 27 Feb 2023 07:03:53 -0700
-Date:   Mon, 27 Feb 2023 14:03:26 +0000
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Hal Feng <hal.feng@starfivetech.com>
-CC:     <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-        Samin Guo <samin.guo@starfivetech.com>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 2/2] hwmon: (sfctemp) Add StarFive JH71x0 temperature
- sensor
-Message-ID: <Y/y4LunvriV2RYwu@wendy>
-References: <20230227134125.120638-1-hal.feng@starfivetech.com>
- <20230227134125.120638-3-hal.feng@starfivetech.com>
+        with ESMTP id S229921AbjB0Oml (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 09:42:41 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 234AD20571;
+        Mon, 27 Feb 2023 06:42:40 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 693EB1FD67;
+        Mon, 27 Feb 2023 14:42:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1677508958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=BdizNH1AzSr0bKpBzNhArg9yFjow/CCwchYkew7eG8k=;
+        b=pqUg/q6/MUBr1HnwOq2Z4zkg0ZwcBEX7c8zJkoNMfAMDc0o/YbFfh96lMqOWYqoEOxCR/n
+        xhGpnCZTnjAKDQ+QzC6+DypAo39hvZx0yCFYWJluxJBpy3aoDSq97ScBF2XM4x137ishdq
+        V9PWkJY+8PpVVO8KBzrfuCd9ivVQt7I=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C474F13A43;
+        Mon, 27 Feb 2023 14:42:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id fOL0Ll3B/GNkEQAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Mon, 27 Feb 2023 14:42:37 +0000
+Date:   Mon, 27 Feb 2023 15:42:36 +0100
+From:   Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To:     Vincent Guittot <vincent.guittot@linaro.org>
+Cc:     mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
+        linux-kernel@vger.kernel.org, parth@linux.ibm.com, tj@kernel.org,
+        lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        cgroups@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        qyousef@layalina.io, chris.hyser@oracle.com,
+        patrick.bellasi@matbug.net, David.Laight@aculab.com,
+        pjt@google.com, pavel@ucw.cz, qperret@google.com,
+        tim.c.chen@linux.intel.com, joshdon@google.com, timj@gnu.org,
+        kprateek.nayak@amd.com, yu.c.chen@intel.com,
+        youssefesmat@chromium.org, joel@joelfernandes.org
+Subject: Re: [PATCH v12 6/8] sched/fair: Add sched group latency support
+Message-ID: <20230227144236.z6zbgsaohlz6sl7o@blackpad>
+References: <20230224093454.956298-1-vincent.guittot@linaro.org>
+ <20230224093454.956298-7-vincent.guittot@linaro.org>
+ <20230224192919.d4fcde3dwh7betvm@blackpad>
+ <CAKfTPtBorwnjU2=nprBo7aAEjoz+7x5nRYUdajZc53cuVgHSBw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="NBI72SkxZsmpX/ON"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="k2vtvr4lfwegj6vr"
 Content-Disposition: inline
-In-Reply-To: <20230227134125.120638-3-hal.feng@starfivetech.com>
+In-Reply-To: <CAKfTPtBorwnjU2=nprBo7aAEjoz+7x5nRYUdajZc53cuVgHSBw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---NBI72SkxZsmpX/ON
+
+--k2vtvr4lfwegj6vr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 27, 2023 at 09:41:25PM +0800, Hal Feng wrote:
-> From: Emil Renner Berthing <kernel@esmil.dk>
->=20
-> Add driver for the StarFive JH71x0 temperature sensor. You
-> can enable/disable it and read temperature in milli Celcius
-> through sysfs.
->=20
-> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
-> Co-developed-by: Samin Guo <samin.guo@starfivetech.com>
-> Signed-off-by: Samin Guo <samin.guo@starfivetech.com>
-> Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+On Mon, Feb 27, 2023 at 02:44:22PM +0100, Vincent Guittot <vincent.guittot@linaro.org> wrote:
+> Regarding the current use of latency nice to set a latency offset, the
+> problem doesn't appear because latency offset applies between entities
+> at the same level as you mentioned above
 
-> +config SENSORS_SFCTEMP
-> +	tristate "Starfive JH71x0 temperature sensor"
-> +	depends on SOC_STARFIVE || COMPILE_TEST
+Splendid, it turned out that way (latency nice analogous to bandwidth
+nice).
 
-We (or I?) am trying to homogenise RISC-V with the rest of the kernel by
-using ARCH_FOO rather than SOC_FOO. We've currently got a mix of both,
-due to companies that started out with RISC-V having SOC_ symbols &
-those with history in other archs having ARCH_ ones.
-The ARCH_ definitions landed in mainline this week, so if you end up
-resubmitting this driver, it'd save me a conversion if you were to use
-the ARCH_ variant.
+> Does  my explanation above make sense to you ?
 
-Thanks,
-Conor.
+Yes, thank you.
 
-> +	help
-> +	  If you say yes here you get support for temperature sensor
-> +	  on the Starfive JH71x0 SoCs.
-> +
-> +	  This driver can also be built as a module.  If so, the module
-> +	  will be called sfctemp.
+Thus, I'd like to propose avoiding the use of "limit" in this context and
+stress the horizontal scope. For example:
 
---NBI72SkxZsmpX/ON
+> +     This interface file allows reading and setting latency using the
+> +     same values used by sched_setattr(2). The latency_nice of a group is
+> +     used to limit the impact of the latency_nice of a task outside the
+> +     group.
+
++     This interface file allows reading and setting latency using the
++     same values used by sched_setattr(2). The latency_nice of a group is
++     used to modify group members' latency with respect to sibling groups.
+
+Regards,
+Michal
+
+--k2vtvr4lfwegj6vr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY/y4LgAKCRB4tDGHoIJi
-0mJ0AP4vNo5Ie/2kHWAmJFUKGr8YQL9x84VEY3Xn9vgF9A6izgD/QJzmlpXfLT0E
-wuAiKkJkRPP9FP1Z+dqqrB2FAZrw3QY=
-=DO8S
+iHUEABYKAB0WIQTrXXag4J0QvXXBmkMkDQmsBEOquQUCY/zBWgAKCRAkDQmsBEOq
+uRXXAP4nBfg1JWkFJlUphJU/HXYaqG7HKuwUDehUmhtQOcLnRQD/XqLftrr1aayr
+WcfeRCiKVdubEZX6L35zYCrcNd3hBAM=
+=FRsw
 -----END PGP SIGNATURE-----
 
---NBI72SkxZsmpX/ON--
+--k2vtvr4lfwegj6vr--
