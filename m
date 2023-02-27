@@ -2,55 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF7B1C64ED8
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 16:03:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FCFEC64ED8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 16:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbjB0QDI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 11:03:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48666 "EHLO
+        id S229984AbjB0QE0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 11:04:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229652AbjB0QDI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 11:03:08 -0500
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D66AC10401;
-        Mon, 27 Feb 2023 08:03:06 -0800 (PST)
-Received: by mail-oi1-x22a.google.com with SMTP id r40so4534231oiw.0;
-        Mon, 27 Feb 2023 08:03:06 -0800 (PST)
+        with ESMTP id S230001AbjB0QEY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 11:04:24 -0500
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73AE9233D6;
+        Mon, 27 Feb 2023 08:04:18 -0800 (PST)
+Received: by mail-oi1-x230.google.com with SMTP id t22so5539472oiw.12;
+        Mon, 27 Feb 2023 08:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wY4yELjMWXO6awZMb6iksWCV1+Ua72vr+LoFoZrRcNI=;
-        b=Wu3M9Zzms7rB+HEmXw3QF/BbTf2J61E3ygv1I2NPKXWhU6GPjWdanJRLwrjvilBLtU
-         Rr8pPHsfmuakydNlSkNpVsV/OXdx2qHJ98oo9UESdwofNhVwqDETfHpqTA+jL2rtvnQG
-         ZL998qqpyJrLAoI46/gpTPTnGtU+40Ns+snV3S5UBbW6aVmPmmLKEACAkLdFMitVI2cT
-         UaEAwGzxJggo1BVFPXSvwqr46NrRtzIZBcy8vTLvlECpchuvDpQXu3vpE5ijN0BPajb2
-         Bbnb3z0e0tk0KFw1w8RcqiM1bmvFixkVsAgTMVXokc61gDDiFFi+Np/z/s8u+dKHu2vU
-         h5Kw==
+        bh=Qg8vuwxyxMrPQjar45V1HfclOoi0YISeIydy8F+02pg=;
+        b=PHZGIMLjEWdWxQXoKvIzrFieKCvHIlMf9WKIVbZyIByHx5nQJcEbDh3SUyS5m58+UY
+         +40Getm3YSyn+XENp0PUdjeb1DInKU4iQG9XUoatZWBJa7NGHeOKj23jCImM6/dvyu2g
+         V3IXa8v74GCSMj1s2UGawPBcrq1gA87koDsMU/DIN6YPTcx68W/ujkV9nsGpuELGtedH
+         EZrbh9EcMYpZkTNj6Aa6X6tt3cs/w6XJmv9EMEijGRhgYhMfDBKoVpA8jFoDZTL+Zncd
+         DpUfOdIuE0Wg45+dmnlKw3gWbqJKvst+fkfRqAaachlgAcMG9o83hmIfRnmAhgWIXHMt
+         Z6vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wY4yELjMWXO6awZMb6iksWCV1+Ua72vr+LoFoZrRcNI=;
-        b=sUXLyXQXcQqSEC4WAHzEKZSBCcyf3QxduvpLfHQkSrcatedqgDgyPyxkMyL9c7dKqF
-         Mn/F2brmvNyeYv5GO8y2Hu8Z0mHbA2l46tZUgAg9tUKK6Xx90YwXr8PTdnNqfRVG5DTW
-         ytAh0DUMH/UkIXtkYBgNgrheDYLOmUusgxooE7F2ls1tyKQUtr4quS2/UREBH37YKlUp
-         vroYB74yJSZaq16+5j3KlvRSv1Ozk3BjP36PHD6l9af7wE5y4LeAw4owGKuUDyg0nNd3
-         iKJkEocpl0dZcAy19vk+AVwFYSA37B+KdPed0l5wDyfwG5O06aERr5eq3K0S7ss6gZ4Q
-         SoEg==
-X-Gm-Message-State: AO0yUKX2Mq8gHpCirfPAerKeGPbQ2N9l1XWDYMEM1eL5tetoyKMJTzQm
-        dJn9uZTsWVTUpYfwdDAU6KDAz1tPI4j++kGMpns=
-X-Google-Smtp-Source: AK7set+ZmrR7I1biQluOEJBEn/C6gMWC4qCxUJpYC9xBJ6krD3818J7krK8txkEnXTIjVNWC1IBCWAlO2i4xZ5YiQm0=
-X-Received: by 2002:a05:6808:d49:b0:37f:a2ad:6718 with SMTP id
- w9-20020a0568080d4900b0037fa2ad6718mr4518935oik.3.1677513786148; Mon, 27 Feb
- 2023 08:03:06 -0800 (PST)
+        bh=Qg8vuwxyxMrPQjar45V1HfclOoi0YISeIydy8F+02pg=;
+        b=MKx5WeCg35THPkxDrZbQvY9Hhy1rPAoJCnhtz0qwhNsCIS7AoEZ0p+S0fZGyN4clM1
+         zUv+kUnKp/btnVI2OuXjgnN8msmpWzmeBBmAqchXszpkReulFDmlaOpwZVPJT4TOFFZU
+         fTqjQyvy7YraHaYf0vpnT0Je42ZYbEzgu9RWSthLQUBtu0AxdxvPprxVxTViWgwzJjK5
+         1jlkMkHCB64nd2RTyT6yyDCkpeaGG7aEKEZAkGQX1kphxswdVVlu2w2W6/wcE1hDfLWQ
+         S7WOUhiNfo4uUaiWgcJKHaJ9JMVxgNGKudsT15aUVYkD+U9QKz7/IILPY2TY1+e/hUSP
+         P2IQ==
+X-Gm-Message-State: AO0yUKXZxZoxrQ6rFVL/VaM5cEmBx70ToNk0xWBpQ3r711vNvfDVOMxN
+        ZEV/pBMGie7aGNEoCCNXBoZIvJtgedCO9Kwv+xM=
+X-Google-Smtp-Source: AK7set802gM1M5X29uiBUkLSilay5VZBp6Sj5f6yDBgCgaQqNEdzU7nNPqzUNkbZTxsxNQAc++SQeTd7wmNR/upbkKc=
+X-Received: by 2002:a05:6808:30b:b0:384:2fd0:e1cc with SMTP id
+ i11-20020a056808030b00b003842fd0e1ccmr1037408oie.5.1677513857756; Mon, 27 Feb
+ 2023 08:04:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20230224233126.1936-1-gregory.price@memverge.com> <20230224233126.1936-3-gregory.price@memverge.com>
-In-Reply-To: <20230224233126.1936-3-gregory.price@memverge.com>
+References: <20230224233126.1936-1-gregory.price@memverge.com>
+ <20230224233126.1936-3-gregory.price@memverge.com> <CAJwJo6YnELNhU8RmR-z37vDZ=xb0CmUUBgrPGgHP2dqjVm=O2g@mail.gmail.com>
+In-Reply-To: <CAJwJo6YnELNhU8RmR-z37vDZ=xb0CmUUBgrPGgHP2dqjVm=O2g@mail.gmail.com>
 From:   Dmitry Safonov <0x7f454c46@gmail.com>
-Date:   Mon, 27 Feb 2023 16:02:54 +0000
-Message-ID: <CAJwJo6YnELNhU8RmR-z37vDZ=xb0CmUUBgrPGgHP2dqjVm=O2g@mail.gmail.com>
+Date:   Mon, 27 Feb 2023 16:04:05 +0000
+Message-ID: <CAJwJo6a9NF=o+ON04t5uFThNfDypBE-QUg=7A8jNrTuTcZEEew@mail.gmail.com>
 Subject: Re: [PATCH v12 2/3] ptrace,syscall_user_dispatch: checkpoint/restore
  support for SUD
 To:     Gregory Price <gourry.memverge@gmail.com>
@@ -64,35 +65,12 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Gragory,
+On Mon, 27 Feb 2023 at 16:02, Dmitry Safonov <0x7f454c46@gmail.com> wrote:
+>
+> Hi Gragory,
 
-On Fri, 24 Feb 2023 at 23:40, Gregory Price <gourry.memverge@gmail.com> wrote:
->
-> Implement ptrace getter/setter interface for syscall user dispatch.
->
-> These prctl settings are presently write-only, making it impossible to
-> implement transparent checkpoint/restore via software like CRIU.
->
-> 'on_dispatch' field is not exposed because it is a kernel-internal
-> only field that cannot be 'true' when returning to userland.
->
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
-> ---
-[..]
-> +int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
-> +                                    void __user *data)
-> +{
-> +       int rc;
-> +       struct ptrace_sud_config cfg;
-> +
-> +       if (size != sizeof(struct ptrace_sud_config))
-> +               return -EINVAL;
-> +
-> +       if (copy_from_user(&cfg, data, sizeof(struct ptrace_sud_config)))
-> +               return -EFAULT;
+s/Gragory/Gregory/
+Sorry, a typo!
 
-It seems that the tool you want here would be copy_struct_from_user(),
-which is designed for extendable syscalls.
-
-Thanks,
+-- 
              Dmitry
