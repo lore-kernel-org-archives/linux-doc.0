@@ -2,149 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66E93C64ED8
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 19:52:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CB60C64ED8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 20:38:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230364AbjB0TwG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 14:52:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36296 "EHLO
+        id S229548AbjB0Uir (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 15:38:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230388AbjB0TwC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 14:52:02 -0500
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E59142887D;
-        Mon, 27 Feb 2023 11:51:52 -0800 (PST)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id 26EB032000CC;
-        Mon, 27 Feb 2023 14:51:51 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 27 Feb 2023 14:51:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
-        :cc:content-transfer-encoding:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1677527510; x=1677613910; bh=2w
-        S7QXee/ZD2u1qIg7tfCJKh+l0Hd7Y+MEF85vsyvdY=; b=ltEEr5nsui4odRXKET
-        yer0ZxMVXfaBCaaLcvWs7eNHjqd/FtdIOiRpVst+nvP1EBs59AKzuiCQ1OTMF9Ir
-        ovITRvtGrVcFajtCzBrCuccx/FhehzVotm4RuZg3gYLyZ3hqV15eWsgJ7ySbc+fD
-        ajKI4iv+kAJitaFso/fBTOzaN80WRQ/y5sJpmDFY5iJXYFU+FyyH6gMzxd7hqH85
-        lK2w3bJMGVpQhNtG8d7SZ+qyei8O96B7EEUq37P+QGjrTxnjr9K15KiPHA8FbYhj
-        15wcSh7o906GNpmwibc6TGji1Ke+CxxhxrzjPEHArKqpy2/JLrkolfA4zdV00tj8
-        +VOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1677527510; x=1677613910; bh=2wS7QXee/ZD2u
-        1qIg7tfCJKh+l0Hd7Y+MEF85vsyvdY=; b=KVE1sgYfCYqBVJFZEoOkdxkLLhpcV
-        X9sTPVEl80dCszfxkvQphyXW9nyPHR9ouM+dj0EXr8GNNuK9amA9+lowwtb1y0vm
-        q2YtvL56n5T/jc7VWCpg2EnN/rb+gN8LbZIo8eir3VbtnrysNyUX8Uetmv+xIoH9
-        Bs1JTHSLLMLs2jjLqxTKzzb4r1k3dGkqrrI+CcUwh1/1yBbBhKGd8NvddAreAA/7
-        DX2WddKOzvDqFZsF0i81AYTs5JywQKptGsfUIhnOivQQvPISNxq1KVb5wQf7XOob
-        dP46H8uTMHUTavnolSp9PnfyIVQpw/3QIUPTuGsvvz0XdqnZq4RekSYHg==
-X-ME-Sender: <xms:1gn9Y02o6wE5ble9OOraIsCmR2SJpBW7mosR_D7GJonzR82_hhxN9Q>
-    <xme:1gn9Y_Hyfb9AC43oz9H6mfTWJINUTZZm0bxWgsKY5zPynwaWYbtZHeMZtjiCVoMqS
-    lNA_QmysR3NCHsayw>
-X-ME-Received: <xmr:1gn9Y85OcZx5C387z_muDRUsoH9hFit1nDoi166kPym-pxNbIoUTxaHL8_RNn6exaYb4zpw_8B3jh6mRf-3pr0Vmsl1SKMK0W6EO6yxDF536dw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddguddviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecufghrlhcuvffnffculdejtddmnecujfgurhephf
-    fvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepffgrnhhivghlucgiuhcu
-    oegugihusegugihuuhhurdighiiiqeenucggtffrrghtthgvrhhnpefgfefggeejhfduie
-    ekvdeuteffleeifeeuvdfhheejleejjeekgfffgefhtddtteenucevlhhushhtvghrufhi
-    iigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpegugihusegugihuuhhurdighiii
-X-ME-Proxy: <xmx:1gn9Y90N1_eZAe31wj-gB0mllIylXHE7MOSLefQRgwZtPrd8lVSKDg>
-    <xmx:1gn9Y3E5BWcHmvpTOna-eML9CQ62cihjiXGW2lBXAJxzYmsfsTk_IQ>
-    <xmx:1gn9Y2-X5wHO1IuVG4eaNYSlK9YQ8-nDnREv-99tEh_SkdK--fL1GA>
-    <xmx:1gn9Y3Ezzz1YSM0JQQd8g-lqhgp9DEZey1B-rvD8Fzh5b0CLT6yGIw>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Feb 2023 14:51:49 -0500 (EST)
-From:   Daniel Xu <dxu@dxuuu.xyz>
-To:     corbet@lwn.net, daniel@iogearbox.net, andrii@kernel.org,
-        martin.lau@linux.dev, ast@kernel.org
-Cc:     song@kernel.org, yhs@fb.com, john.fastabend@gmail.com,
-        kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-        jolsa@kernel.org, bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next v2 2/8] bpf: verifier: Support KF_CHANGES_PKT flag
-Date:   Mon, 27 Feb 2023 12:51:04 -0700
-Message-Id: <991bc64ee4013bc81d7d4ab908d541d8978595a8.1677526810.git.dxu@dxuuu.xyz>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <cover.1677526810.git.dxu@dxuuu.xyz>
+        with ESMTP id S229470AbjB0Uiq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 15:38:46 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63ED1BBB4;
+        Mon, 27 Feb 2023 12:38:44 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id v16so4763507wrn.0;
+        Mon, 27 Feb 2023 12:38:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hE1FHM1U2zm1erfLjZRxZpbmVUkLBg3sA/DLB4dzuBo=;
+        b=qj4arBGe+jk9mWesxN2xwdEoJ6DAJDdkL4ptrKn8esZCMAbN95b4ax50iWLja43blW
+         zwy5fZF4ncEeD9WSs5Hmj+ikaGqh3ET88l0Rsd1/MFpgUfTe5c1kscjJ5S2JveA/QgB3
+         wZRg/PHlUv15pMlCr838F+NcvSQvWFB3d/oSxvvzrKZsnyUGaLwmTd3cGfwVPFUqa2UM
+         b3L2oydkQgj6LfZTlOkDBX4QbkkVHbl03L6f+sKweTxhfM1dJodOWiXkozWihNe8X1K6
+         FVqBA+MdbrMQZyt70TOD9mbYwwNkXJdftUiy1evANJNa3LVdviNhVu4NBBsl+9gX9/Tu
+         Dncw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hE1FHM1U2zm1erfLjZRxZpbmVUkLBg3sA/DLB4dzuBo=;
+        b=nuvF9WSDHgcttmXJ2hVQnP1D2arcatkkoZyAtn6qM5qE8ilf9LRiJ0VJDJik6EESxG
+         PqCnXkS9Jgh7EsO1JBT2y2pnr5PSFXu6VshFU8Yxelp0pj7aTZxOP7irjLz4c0ZNv3Vq
+         2BjdaLeWQGQDATtgc3oNGArgpTA/euILlD+PNDJ80soU6JPc8tz8thbdGiz92HoDgcDJ
+         8Ju/1SqEJgVhk+NMDCYNDgrpdF1i7O57jwRYLfBEs+d5OXfc4kjON0t1GRA3a+HuB8Lw
+         gtorFl37m8/vd3eSFS2MhHJiU4o8N7hiXuJ5Vm2gGYC6fBLDX7/e/TZ4BwHGmOCB83Ts
+         hh/w==
+X-Gm-Message-State: AO0yUKXz3Th5xnfS/COVRKYwjFyIUBCSyg2fEjLTg8pw7NGPSC41lF+c
+        WxBgraBHIbfFLirenEaGyQIccZa6JYQ=
+X-Google-Smtp-Source: AK7set9V3tdK/RYak+pa1dRZ1YYwxGzKCQiX+KQ3sP4NGLhdDLjKb6HD//k7/hhgNrsfda6ZAV1btQ==
+X-Received: by 2002:a5d:4cc7:0:b0:2bf:94ea:67ca with SMTP id c7-20020a5d4cc7000000b002bf94ea67camr369325wrt.25.1677530322739;
+        Mon, 27 Feb 2023 12:38:42 -0800 (PST)
+Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
+        by smtp.gmail.com with ESMTPSA id i14-20020a5d55ce000000b002c559405a1csm7849754wrw.20.2023.02.27.12.38.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Feb 2023 12:38:42 -0800 (PST)
+Subject: Re: [PATCH bpf-next v2 0/8] Support defragmenting IPv(4|6) packets in
+ BPF
+To:     Daniel Xu <dxu@dxuuu.xyz>, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1677526810.git.dxu@dxuuu.xyz>
+From:   Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <cf49a091-9b14-05b8-6a79-00e56f3019e1@gmail.com>
+Date:   Mon, 27 Feb 2023 20:38:41 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1677526810.git.dxu@dxuuu.xyz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KF_CHANGES_PKT indicates that the kfunc call may change packet data.
-This is analogous to bpf_helper_changes_pkt_data().
+On 27/02/2023 19:51, Daniel Xu wrote:
+> However, when policy is enforced through BPF, the prog is run before the
+> kernel reassembles fragmented packets. This leaves BPF developers in a
+> awkward place: implement reassembly (possibly poorly) or use a stateless
+> method as described above.
 
-Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
----
- Documentation/bpf/kfuncs.rst | 7 +++++++
- include/linux/btf.h          | 1 +
- kernel/bpf/verifier.c        | 8 ++++++++
- 3 files changed, 16 insertions(+)
+Just out of curiosity - what stops BPF progs using the middle ground of
+ stateful validation?  I'm thinking of something like:
+First-frag: run the usual checks on L4 headers etc, if we PASS then save
+ IPID and maybe expected next frag-offset into a map.  But don't try to
+ stash the packet contents anywhere for later reassembly, just PASS it.
+Subsequent frags: look up the IPID in the map.  If we find it, validate
+ and update the frag-offset in the map; if this is the last fragment then
+ delete the map entry.  If the frag-offset was bogus or the IPID wasn't
+ found in the map, DROP; otherwise PASS.
+(If re-ordering is prevalent then use something more sophisticated than
+ just expected next frag-offset, but the principle is the same. And of
+ course you might want to put in timers for expiry etc.)
+So this avoids the need to stash the packet data and modify/consume SKBs,
+ because you're not actually doing reassembly; the down-side is that the
+ BPF program can't so easily make decisions about the application-layer
+ contents of the fragmented datagram, but for the common case (we just
+ care about the 5-tuple) it's simple enough.
+But I haven't actually tried it, so maybe there's some obvious reason why
+ it can't work this way.
 
-diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
-index 226313747be5..16c387ee987f 100644
---- a/Documentation/bpf/kfuncs.rst
-+++ b/Documentation/bpf/kfuncs.rst
-@@ -260,6 +260,13 @@ encouraged to make their use-cases known as early as possible, and participate
- in upstream discussions regarding whether to keep, change, deprecate, or remove
- those kfuncs if and when such discussions occur.
- 
-+2.4.10 KF_CHANGES_PKT flag
-+-----------------
-+
-+The KF_CHANGES_PKT is used for kfuncs that may change packet data.
-+After calls to such kfuncs, existing packet pointers will be invalidated
-+and must be revalidated before the prog can access packet data.
-+
- 2.5 Registering the kfuncs
- --------------------------
- 
-diff --git a/include/linux/btf.h b/include/linux/btf.h
-index 49e0fe6d8274..ee3d6c3e6cc0 100644
---- a/include/linux/btf.h
-+++ b/include/linux/btf.h
-@@ -71,6 +71,7 @@
- #define KF_SLEEPABLE    (1 << 5) /* kfunc may sleep */
- #define KF_DESTRUCTIVE  (1 << 6) /* kfunc performs destructive actions */
- #define KF_RCU          (1 << 7) /* kfunc only takes rcu pointer arguments */
-+#define KF_CHANGES_PKT  (1 << 8) /* kfunc may change packet data */
- 
- /*
-  * Tag marking a kernel function as a kfunc. This is meant to minimize the
-diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index 5cb8b623f639..e58065498a35 100644
---- a/kernel/bpf/verifier.c
-+++ b/kernel/bpf/verifier.c
-@@ -8681,6 +8681,11 @@ static bool is_kfunc_rcu(struct bpf_kfunc_call_arg_meta *meta)
- 	return meta->kfunc_flags & KF_RCU;
- }
- 
-+static bool is_kfunc_changes_pkt(struct bpf_kfunc_call_arg_meta *meta)
-+{
-+	return meta->kfunc_flags & KF_CHANGES_PKT;
-+}
-+
- static bool is_kfunc_arg_kptr_get(struct bpf_kfunc_call_arg_meta *meta, int arg)
- {
- 	return arg == 0 && (meta->kfunc_flags & KF_KPTR_GET);
-@@ -10083,6 +10088,9 @@ static int check_kfunc_call(struct bpf_verifier_env *env, struct bpf_insn *insn,
- 			mark_btf_func_reg_size(env, regno, t->size);
- 	}
- 
-+	if (is_kfunc_changes_pkt(&meta))
-+		clear_all_pkt_pointers(env);
-+
- 	return 0;
- }
- 
--- 
-2.39.1
-
+-ed
