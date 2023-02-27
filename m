@@ -2,127 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E51C64ED6
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 21:12:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2CD7C64ED8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 21:22:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229590AbjB0VMR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 16:12:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48874 "EHLO
+        id S229955AbjB0VWl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 16:22:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbjB0VMR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 16:12:17 -0500
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70D01E2A6;
-        Mon, 27 Feb 2023 13:12:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-        bh=9EFMV8RI95u1IbGQbaI0Q+qMCLpo5vI0UEma9i4EWq8=; b=lmkICcWa037dIV/snWUFxFxXfY
-        gi8oPk9SeHoZFLaBxf10MFECZ6iOxxPIS0a2i9694r8ITlmVEOyXX1wuPkdHbO9PzMa3Fp2f1XZup
-        NGCVhQy3fSWICfKuWD5D7OmY7JDrd3/WcklHeFJNFxOOFD+uNo4IgofcWZg+W+B2jUvDP20LqbBSv
-        C0PTSx1WP8SNJ/WIhr6FAJ6xZ6+BoVFjTwEqIFOSSpuTVYHThrQLgSrKP+D3sYWeBq2YqWDJnYxs0
-        PoC+uxjxXyJQ8g8Id3/GqsazrvJrYjLTPPCGy5OsilTZNLqevEUvbuPI4L1sJIwAW9ypn8ZXHpF5c
-        IYm4gRIw==;
-Received: from sslproxy01.your-server.de ([78.46.139.224])
-        by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1pWkn5-0001YJ-N8; Mon, 27 Feb 2023 22:12:11 +0100
-Received: from [85.1.206.226] (helo=linux.home)
-        by sslproxy01.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1pWkn3-000Wp1-Va; Mon, 27 Feb 2023 22:12:11 +0100
-Subject: Re: [PATCH v2] Documentation: bpf: Fix link to BTF doc
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux BPF <bpf@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Ross Zwisler <zwisler@google.com>
-References: <20230222083530.26136-1-bagasdotme@gmail.com>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <7cd545a2-4a5c-1961-1cf7-cd0f24e41df8@iogearbox.net>
-Date:   Mon, 27 Feb 2023 22:11:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        with ESMTP id S229589AbjB0VWk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 16:22:40 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9526522A21;
+        Mon, 27 Feb 2023 13:22:38 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id bx12so4514332wrb.11;
+        Mon, 27 Feb 2023 13:22:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uirSLB3F9Zb+PTXXeLN0MPijsyHCQ2xWrITr0wlr88I=;
+        b=em1V+lmvXOiXWqqGeAQ2IjGFqdAYg++TzAYPyddFCk1yvxJVYBcPgfgXN9g4P0axNn
+         P4KLkVkBYvYpuOsXySp7nDPzjMSAQqBYLHcamLew9fzaR781fkBCt3i/CsN/hXGUuf33
+         dFztapH6nIeAADdZo5yWhT2ErYWEjTRsC/cvP+ms0WC+8IWB/5Y6MJ9dZ2K2P/aajRSh
+         3Z2jWmroWtD4hQXKbRnmnsjCnEdqyTWzn4YrdPPxR/vCA9nmFolM2J5nnNffSin1VF17
+         XTbPQ92H9tVBVUOtShGCLaqxTWKxfr+roLG6yUJ63d5GyIY3/AFkfTlVfX5DSdj7a00v
+         cOJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uirSLB3F9Zb+PTXXeLN0MPijsyHCQ2xWrITr0wlr88I=;
+        b=2TzcdNU9jXV0n3Gwu9GJ06vk+XFe5/HRVopUMHhf87OVHlNcGz/zEyY2MmglXWer2I
+         zca5kT6xiOG9OTPvb80fqm7mtaOxsDNmCm8EtH4sajw2p4iagvbbUcjZit1VhYNF2aPu
+         Pw6+8HfBQw7A4vn7KUoTp4BhXR8/PrRKbz5VOJr8+HqDLYJHCrfyfdujkG03E0wIgT7x
+         p9G+OyV/DAIS0fZlseov692gLD4kRbq7PtMI61R/ZUzqc0G0GhBvHFN2DxREeNk8SP9h
+         krMzoQPQhM2n/Hih/CxMuazCF5m2z5l6ANTP7msnbFt6l5S0/LKrWWcUYqpj0rZRmHmQ
+         zVZw==
+X-Gm-Message-State: AO0yUKXdEu+9yJuuxnEl746y4QRial3B6JSegAmYGTsNFyIaXaQOEvdg
+        sKcL2cXqz6PDil45oQJ7InpX0K8p+i6c3FXEcLA=
+X-Google-Smtp-Source: AK7set8ADg0kdUtzpW9qrUsTBlfAGHGWVV37/V1prUR1shzO/2nhTvB+GPKFW2eS1wh/uaj4v+GfSVYbARZ+xcmxqnM=
+X-Received: by 2002:adf:d4c3:0:b0:2cc:4ed1:f849 with SMTP id
+ w3-20020adfd4c3000000b002cc4ed1f849mr120657wrk.8.1677532956794; Mon, 27 Feb
+ 2023 13:22:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20230222083530.26136-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.8/26825/Mon Feb 27 09:24:38 2023)
+References: <20230227151847.207922-1-lucas.tanure@collabora.com>
+In-Reply-To: <20230227151847.207922-1-lucas.tanure@collabora.com>
+From:   Peter Geis <pgwipeout@gmail.com>
+Date:   Mon, 27 Feb 2023 16:22:23 -0500
+Message-ID: <CAMdYzYrmq1ftBaBj1XHVWWXUQ4Prr1VpTpunyNOQ2ha-DkXMjQ@mail.gmail.com>
+Subject: Re: [RFC 0/1] ITS fails to allocate on rk3588
+To:     Lucas Tanure <lucas.tanure@collabora.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Kever Yang <kever.yang@rock-chips.com>,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/22/23 9:35 AM, Bagas Sanjaya wrote:
-> Ross reported broken link to BTF documentation
-> (Documentation/bpf/btf.rst) in Documentation/bpf/bpf_devel_QA.rst. The
-> link in question is written using external link syntax, with the target
-> refers to BTF doc in reST source (btf.rst), which doesn't exist in
-> resulting HTML output.
-> 
-> Fix the link by replacing external link syntax with simply writing out
-> the target doc, which the link will be generated to the correct HTML doc
-> target.
-> 
-> Link: https://lore.kernel.org/linux-doc/Y++09LKx25dtR4Ow@google.com/
-> Fixes: 6736aa793c2b5f ("selftests/bpf: Add general instructions for test execution")
-> Reported-by: Ross Zwisler <zwisler@google.com>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
-> Changes since v1 [1]:
-> 
->    * Reword patch description (I don't see external link semantics on
->      Sphinx documentation [2] when I submit v1).
->    * Drop the corresponding orphan target definition.
->    * Rebase on top of current bpf tree.
-> 
-> Ross, do you want to give a Reviewed-by or Acked-by?
-> 
-> [1]: https://lore.kernel.org/linux-doc/20230219030956.22662-1-bagasdotme@gmail.com/
-> [2]: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#external-links
-> 
->   Documentation/bpf/bpf_devel_QA.rst | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-> index 03d4993eda6f05..715f7321020f27 100644
-> --- a/Documentation/bpf/bpf_devel_QA.rst
-> +++ b/Documentation/bpf/bpf_devel_QA.rst
-> @@ -469,7 +469,7 @@ under test should match the config file fragment in
->   tools/testing/selftests/bpf as closely as possible.
->   
->   Finally to ensure support for latest BPF Type Format features -
-> -discussed in `Documentation/bpf/btf.rst`_ - pahole version 1.16
-> +discussed in Documentation/bpf/btf.rst - pahole version 1.16
->   is required for kernels built with CONFIG_DEBUG_INFO_BTF=y.
->   pahole is delivered in the dwarves package or can be built
->   from source at
-> @@ -690,6 +690,5 @@ when:
->      https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/
->   .. _Documentation/dev-tools/kselftest.rst:
->      https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
-> -.. _Documentation/bpf/btf.rst: btf.rst
+On Mon, Feb 27, 2023 at 10:18 AM Lucas Tanure
+<lucas.tanure@collabora.com> wrote:
+>
+> I am assisting with PCIe and networking bring-up for Rock Pi 5B (RK3588).
+> This chip uses the same GICv3 as RK356X but has fixed the previous
+> limitation of GIC only supporting 32-bit addresses.
+>
+> But the implementation decision for shareability in GICR and GITS is
+> still the same.
+>
+> I read the previous thread about this topic:
+> https://lore.kernel.org/lkml/2791594e-db60-e1d0-88e5-7e5bbd98ae4d@rock-chips.com/T/#m5dbc70ff308d81e98dd0d797e23d3fbf9c353245
+>
+> From my understanding, the errata numbers Marc Zyngier is referring to
+> are found in Arm errata documents at developer.arm.com/documentation.
+> But I could not find Cavium or Broadcom pages for errata with those
+> numbers in Documentation/arm64/silicon-errata.rst
+>
+> I could not find an errata document about this shareability issue,
+> and by what Kever said in the previous thread this could be a
+> RockChip design decision.
+>
+> Marc, as I could only find ARM errata numbers, is the errata number
+> you were expecting generated by ARM only, or RockChip should issue
+> a document like Arm to detail the issue?
+>
+> Can this shareability issue be seen as a quirk without an
+> errata number?
+>
+> The following patch is based on the work of Peter Geis for the
+> Quartz64 board and the previous thread feedback.
 
-Applied, thanks! Looks like kselftest.rst has a similar issue, could you
-send a fix for this too?
+I see you have included rk356x in this as well. This will only work on
+rk356x boards that do not exceed 4GB of ram as the on chip devices are
+only 32bit addressable and the kernel by default allocates this in
+highmem.
 
->   Happy BPF hacking!
-> 
-> base-commit: 345d24a91c79f408e355c8b7e873ccde0f097eea
-> 
+Very Respectfully,
+Peter Geis
 
+>
+> Lucas Tanure (1):
+>   irqchip/gic-v3: Add RK3588 GICR and GITS no share workaround
+>
+>  Documentation/arm64/silicon-errata.rst |  4 +++
+>  arch/arm64/Kconfig                     | 13 ++++++++
+>  drivers/irqchip/irq-gic-v3-its.c       | 42 ++++++++++++++++++++++++++
+>  3 files changed, 59 insertions(+)
+>
+> --
+> 2.39.2
+>
