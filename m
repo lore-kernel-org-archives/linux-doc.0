@@ -2,151 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FA71C64ED6
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 15:17:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B8AEC64ED8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 15:19:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229627AbjB0PRM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 10:17:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59632 "EHLO
+        id S229629AbjB0PS5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 10:18:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbjB0PRL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 10:17:11 -0500
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01862227BD
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 07:17:04 -0800 (PST)
-Received: by mail-lj1-x22a.google.com with SMTP id g18so4688111ljl.3
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 07:17:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VKXLlaaemAVoYCtT3ySmIHO9PjdJ01/BFhW7YVvSoM8=;
-        b=tWQczuPkY/15I3k6zvkILjtXUbKLHrv3j2r43OOp8wZIaG0eMPeM2wPZWOqsrkT7bT
-         55RvlShsM5dezLGOdIdCZ0NnwBh3doY38KvBG4I6xV4ui3VeOsk94cpFihkWJginUIAh
-         ACqYOVmgYOCbLj4dcmaAaOhVOcGYU4xNR8x84=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VKXLlaaemAVoYCtT3ySmIHO9PjdJ01/BFhW7YVvSoM8=;
-        b=KfS5DLQVch+mieGrV4+XasliLGWTiuGQatWt/RYdqggCgr1YMq0nSgjGnTH6AKXbpz
-         0TrwAhcdXpuOFES3cyfCL8ewsCUU4olWF+cprSAlJR37l0uYTl0HKnOjSpspoMiaQV2q
-         UCslc0o7NVVBHnYlyZl288uVVm/wne0nz0qUCXGMgnJZkdqPYOxH4YJUVg/bkZROoZEz
-         ce7C9whlIaXQ6G2uSqVBl7X0kZS3gTgumktUKw9wOsXwiJUyHMi5N5tXRSlKkONruA25
-         PGXgMxDf1Oso6rdtXDIPuVC/kr7XzCspkY3CuNAkKQe5QZ8ULwQJ0MTFng3ZW7WGUgAC
-         ZKlg==
-X-Gm-Message-State: AO0yUKU3rltMPQzzc1VtV9wYC7z6Mm0dvBu6ycy443tCHxvaXnFd/8aK
-        1YIjLNZrDQ1hlyYiz5osm/yUx4728103UI1ZCWmFGQ==
-X-Google-Smtp-Source: AK7set+RwGX8fRfBMoaZ6SngOAjLmc5OMCM1wZt5sL+MdRDu0LU5qryx/iLx5I6QBV7IlDEjZ1duazsyinIxvm4btz8=
-X-Received: by 2002:a2e:a275:0:b0:294:6de5:e642 with SMTP id
- k21-20020a2ea275000000b002946de5e642mr7481676ljm.3.1677511023217; Mon, 27 Feb
- 2023 07:17:03 -0800 (PST)
+        with ESMTP id S229720AbjB0PS4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 10:18:56 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6173AD332;
+        Mon, 27 Feb 2023 07:18:54 -0800 (PST)
+Received: from cryzen.lan (cpc87451-finc19-2-0-cust61.4-2.cable.virginm.net [82.11.51.62])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: tanureal)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id A65066602F93;
+        Mon, 27 Feb 2023 15:18:52 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1677511132;
+        bh=BZOWK6rfvJBAo+rrMVEDVF17jJpwJrzKHXdauB9aZYk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FLOuFAjKJJn75VH3nEocm2Y6f/4TvswwOCgM37zBwcffv5yVIhQm55MWEPaFQohqX
+         SLkEBSApFi8kdGawyMbK+2YSUPAbjyv2ZOI6beS3ru5czOB7ThDkuCmEkWCF/awiUB
+         ppzkDL+cTPFQdRFcX1c9CpHCcMqOEf/JN4IyZ1a3yGgEUarO1qKWhLK9rAx3hG79+v
+         3XoXyOmvPYPbHOe2wlPgyDLQqX9YQx7pB6Bzjw9ySaV6gUX7p5LNKUf1L4hVSfWIgo
+         e03Yp9eHAYA8apM6bdrS7D9nLaCaMhHaLJ65ru0fA4G0LttRlCwNDf29ag+kr8UpqH
+         a63NjUIu43F6A==
+From:   Lucas Tanure <lucas.tanure@collabora.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Kever Yang <kever.yang@rock-chips.com>
+Cc:     linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lucas Tanure <lucas.tanure@collabora.com>, kernel@collabora.com
+Subject: [RFC 0/1] ITS fails to allocate on rk3588
+Date:   Mon, 27 Feb 2023 15:18:46 +0000
+Message-Id: <20230227151847.207922-1-lucas.tanure@collabora.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <IA1PR11MB617175CA398D425B7489CE4889AF9@IA1PR11MB6171.namprd11.prod.outlook.com>
- <764CA486-6FB2-4667-B8CB-56E3AC31FD58@joelfernandes.org> <20230227145544.GC2948950@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20230227145544.GC2948950@paulmck-ThinkPad-P17-Gen-1>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Mon, 27 Feb 2023 10:16:51 -0500
-Message-ID: <CAEXW_YSVm7fjJaX=AT-Yg70wXL-_1RxoVPfzN8M8zJAkc0um3g@mail.gmail.com>
-Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as completed
-To:     paulmck@kernel.org
-Cc:     "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 27, 2023 at 9:55 AM Paul E. McKenney <paulmck@kernel.org> wrote=
-:
->
-> On Mon, Feb 27, 2023 at 08:22:06AM -0500, Joel Fernandes wrote:
-> >
-> >
-> > > On Feb 27, 2023, at 2:53 AM, Zhuo, Qiuxu <qiuxu.zhuo@intel.com> wrote=
-:
-> > >
-> > > =EF=BB=BF
-> > >>
-> > >> From: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > >> Sent: Saturday, February 25, 2023 11:34 AM
-> > >> To: linux-kernel@vger.kernel.org
-> > >> Cc: Joel Fernandes (Google) <joel@joelfernandes.org>; Frederic Weisb=
-ecker
-> > >> <frederic@kernel.org>; Lai Jiangshan <jiangshanlai@gmail.com>; linux=
--
-> > >> doc@vger.kernel.org; Paul E. McKenney <paulmck@kernel.org>;
-> > >> rcu@vger.kernel.org
-> > >> Subject: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
-> > >> completed
-> > >>
-> > >> On many systems, a great deal of boot happens after the kernel think=
-s the
-> > >> boot has completed. It is difficult to determine if the system has r=
-eally
-> > >> booted from the kernel side. Some features like lazy-RCU can risk sl=
-owing
-> > >> down boot time if, say, a callback has been added that the boot
-> > >> synchronously depends on.
-> > >>
-> > >> Further, it is better to boot systems which pass 'rcu_normal_after_b=
-oot' to
-> > >> stay expedited for as long as the system is still booting.
-> > >>
-> > >> For these reasons, this commit adds a config option
-> > >> 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter
-> > >> rcupdate.boot_end_delay.
-> > >>
-> > >> By default, this value is 20s. A system designer can choose to speci=
-fy a value
-> > >> here to keep RCU from marking boot completion.  The boot sequence wi=
-ll not
-> > >> be marked ended until at least boot_end_delay milliseconds have pass=
-ed.
-> > >
-> > > Hi Joel,
-> > >
-> > > Just some thoughts on the default value of 20s, correct me if I'm wro=
-ng :-).
-> > >
-> > > Does the OS with CONFIG_PREEMPT_RT=3Dy kernel concern more about the
-> > > real-time latency than the overall OS boot time?
-> >
-> > But every system has to boot, even an RT system.
-> >
-> > >
-> > > If so, we might make rcupdate.boot_end_delay =3D 0 as the default val=
-ue
-> > > (NOT the default 20s) for CONFIG_PREEMPT_RT=3Dy kernels?
-> >
-> > Could you measure how much time your RT system takes to boot before the=
- application runs?
-> >
-> > I can change it to default 0 essentially NOOPing it, but I would rather=
- have a saner default (10 seconds even), than having someone forget to tune=
- this for their system.
->
-> Provide a /sys location that the userspace code writes to when it
-> is ready?  Different systems with different hardware and software
-> configurations are going to take different amounts of time to boot,
-> correct?
+I am assisting with PCIe and networking bring-up for Rock Pi 5B (RK3588).
+This chip uses the same GICv3 as RK356X but has fixed the previous
+limitation of GIC only supporting 32-bit addresses.
 
-I could add a sysfs node, but I still wanted this patch as well
-because I am wary of systems where yet more userspace changes are
-required. I feel the kernel should itself be able to do this. Yes, it
-is possible the system completes "booting" at a different time than
-what the kernel thinks. But it does that anyway (even without this
-patch), so I am not seeing a good reason to not do this in the kernel.
-It is also only a minimum cap, so if the in-kernel boot takes too
-long, then the patch will have no effect.
+But the implementation decision for shareability in GICR and GITS is
+still the same.
 
-Thoughts?
+I read the previous thread about this topic:
+https://lore.kernel.org/lkml/2791594e-db60-e1d0-88e5-7e5bbd98ae4d@rock-chips.com/T/#m5dbc70ff308d81e98dd0d797e23d3fbf9c353245
 
-thanks,
+From my understanding, the errata numbers Marc Zyngier is referring to
+are found in Arm errata documents at developer.arm.com/documentation.
+But I could not find Cavium or Broadcom pages for errata with those
+numbers in Documentation/arm64/silicon-errata.rst
 
- - Joel
+I could not find an errata document about this shareability issue,
+and by what Kever said in the previous thread this could be a
+RockChip design decision.
+
+Marc, as I could only find ARM errata numbers, is the errata number
+you were expecting generated by ARM only, or RockChip should issue
+a document like Arm to detail the issue?
+
+Can this shareability issue be seen as a quirk without an
+errata number?
+
+The following patch is based on the work of Peter Geis for the
+Quartz64 board and the previous thread feedback.
+
+Lucas Tanure (1):
+  irqchip/gic-v3: Add RK3588 GICR and GITS no share workaround
+
+ Documentation/arm64/silicon-errata.rst |  4 +++
+ arch/arm64/Kconfig                     | 13 ++++++++
+ drivers/irqchip/irq-gic-v3-its.c       | 42 ++++++++++++++++++++++++++
+ 3 files changed, 59 insertions(+)
+
+-- 
+2.39.2
+
