@@ -2,171 +2,241 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E5C0C64ED8
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 19:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 893FDC7EE2D
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 19:10:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbjB0TBE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 14:01:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40062 "EHLO
+        id S229649AbjB0TKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 14:10:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbjB0TBC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 14:01:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C239B1814B
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 10:59:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677524391;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XJsvYk7GXp8I4COeJ3t1hMqXzf5hp4/G1Bgw17Xxk70=;
-        b=KHmgx5/k7S4VKN7tEqeUtOK4Qui5MajX2/B7QkM1E05Yjs4jAmLDtJ0cgqrkAQN5ktYWP+
-        qzsNkItc4CMBP6oxP/w0q56Xawia4q+4jRdrQDisU2LD0wW2c4gek0wq8HzCJHPlnz5lgh
-        08ioqtaV1DkJNn3mPOlkIKr6YBOPP20=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-76-I8y2-SCdNaOK3_65oT7AGA-1; Mon, 27 Feb 2023 13:59:50 -0500
-X-MC-Unique: I8y2-SCdNaOK3_65oT7AGA-1
-Received: by mail-ed1-f70.google.com with SMTP id d24-20020a056402401800b004b65da6d5e2so4395937eda.5
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 10:59:50 -0800 (PST)
+        with ESMTP id S229501AbjB0TKq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 14:10:46 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18A4124121
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 11:10:44 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id f18so9960962lfa.3
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 11:10:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gb+ylv7fOsT/EqUUa32R/hvpCHUNsZDpedSr1Yuw2VY=;
+        b=ZXZiEMhbvySq2/7qhvyqin9Bgc0TdTV5UXF7fuFsZOpWJaUgfAFnAn5o9UoCwZZhRi
+         pk9p9fwB5rINmla46YFxpd36DVDrs+uLOKs5frcSBz4xu5T08eokeOEO3TJq1xuULzPV
+         Whshjg0/d/B1qdTNX42tQqLH0W00E3tngIi9U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XJsvYk7GXp8I4COeJ3t1hMqXzf5hp4/G1Bgw17Xxk70=;
-        b=GjArI2fkYI4PlnxGYMVirB7jqTk38I7+nJBAwlXZlqIc6/mWrHVHLaZOU1wEIFn5rx
-         sn/44JCdH78JODRi+kjK8wGiJTeEV7Bu29T74b7LMQbMHtvKNs7o9aSKwga+XcLomC+s
-         uGmkAKiyF+V+KAet7O2UIbWfmNzwWaYDsEwvmZ5SoxhOjXgM1kQv1jTvhVyVpyF2xjjH
-         TRjAWDfWpsVy34mExelW32qtQQ67w+QkFY+JpV8jl4f189xnOgw1ZjbHZ7vKYBSIDL1e
-         yKea2tyMYi0KjtcXdeQGRZ2yWrnJlK3vVH3gpqRqQvs4Jx0WMdVY+u9rPrYsOZCR5A4A
-         IX2Q==
-X-Gm-Message-State: AO0yUKXaNTrNNCEIwq2vuFCgBaCnVyaepM7J110niysWpDjYfPMQWX1H
-        uZFjIoQJzlW706gsJJC/npfERYMPgY+C5+C7Agc+LdvZbkECQdchcL5JGqwxQV1mSmXvicR01Bu
-        lIfHYSmJjfzYc4dm90pAm
-X-Received: by 2002:a17:907:76f3:b0:878:50f7:a35a with SMTP id kg19-20020a17090776f300b0087850f7a35amr31180638ejc.72.1677524389408;
-        Mon, 27 Feb 2023 10:59:49 -0800 (PST)
-X-Google-Smtp-Source: AK7set/nAXyU6HErE/WKmVJkdOcUhliWwVp6EtClu1WGQ8XxsSLsimgCTlXes6YRi85ETu9ws3e7Hw==
-X-Received: by 2002:a17:907:76f3:b0:878:50f7:a35a with SMTP id kg19-20020a17090776f300b0087850f7a35amr31180622ejc.72.1677524389137;
-        Mon, 27 Feb 2023 10:59:49 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id i16-20020a17090685d000b008b7a9ff7dfdsm3436723ejy.162.2023.02.27.10.59.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Feb 2023 10:59:48 -0800 (PST)
-Message-ID: <f5b0e10a-d7ab-66cb-95dd-48c8f7aa3a46@redhat.com>
-Date:   Mon, 27 Feb 2023 19:59:47 +0100
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Gb+ylv7fOsT/EqUUa32R/hvpCHUNsZDpedSr1Yuw2VY=;
+        b=gEmMhK1lLQ5So2WYtwxaW5hDJdJbgpNp9/zDz72se3fyOuhr2Wwy/D/8zQIWtxE/xi
+         8BkIug919ocMdS+5LT/f0UXcMkDWoOdp5b7kIkWwcob7TCbrA9Jd7zyQE7I2LeEomAmW
+         776dh9hB4HWZz5t7zhWCUtd2MNNJHSBLIPI1os4zcZF4i8zPCqWYgUcHwc03aAKiPRZ+
+         tw/wr4vIz/em2ezT3c9BuU6OXbwljg9em/SzRbymRriA8Tg258Tj425KKH0xhzTjvi64
+         yMTvXtjh1MCYZvojg8Xid0wvq9xHNWe4f7tISrUVE2n1aZ966vmJflPkL5R4biK4ySdR
+         8wXg==
+X-Gm-Message-State: AO0yUKWP4bVSpEFKRX5b5BQboxaWd/V6QXKjirBJnehR60JaUbUltm5b
+        bwATqjADjNzVPkWWZLXmAg4adfDW4W+a04oTAIKtQ65dEXGdjuMq
+X-Google-Smtp-Source: AK7set+RZfsxSr6qAraut154L4XQdSB4lbe2BejBKMIPwO3hcufXg0JwLbLucRgjjFNojoFpoaCso34bGrj+ra9imE0=
+X-Received: by 2002:a05:6512:208:b0:4d5:ca32:9bdf with SMTP id
+ a8-20020a056512020800b004d5ca329bdfmr7917463lfo.11.1677525042278; Mon, 27 Feb
+ 2023 11:10:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH drm-next v2 04/16] maple_tree: add flag MT_FLAGS_LOCK_NONE
-Content-Language: en-US
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     matthew.brost@intel.com, dri-devel@lists.freedesktop.org,
-        corbet@lwn.net, nouveau@lists.freedesktop.org, ogabbay@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, boris.brezillon@collabora.com,
-        bskeggs@redhat.com, tzimmermann@suse.de, Liam.Howlett@oracle.com,
-        bagasdotme@gmail.com, christian.koenig@amd.com,
-        jason@jlekstrand.net
-References: <20230217134422.14116-1-dakr@redhat.com>
- <20230217134422.14116-5-dakr@redhat.com>
- <Y+/Xn11dfdn7SfBD@casper.infradead.org>
- <3bb02ec3-4d19-9135-cabc-26ed210f7396@redhat.com>
- <Y/ONYhyDCPEYH1ml@casper.infradead.org>
- <e43f6acc-175d-1031-c4a2-67a6f1741866@redhat.com>
- <Y/PZH/q2Xsr3od9m@casper.infradead.org> <Y/TXPasvkhtGiR+w@pollux>
- <Y/UN50hCaRe+8ZCg@casper.infradead.org>
- <67942a68-2ae7-8883-25d7-c6d595c3587e@redhat.com>
- <Y/z4QMyIkZLi4Ruw@casper.infradead.org>
-From:   Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <Y/z4QMyIkZLi4Ruw@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <Y/z0fHHYdxEXcWMT@pc636> <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
+ <Y/z9Its1RKetIr8V@pc636>
+In-Reply-To: <Y/z9Its1RKetIr8V@pc636>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Mon, 27 Feb 2023 14:10:30 -0500
+Message-ID: <CAEXW_YSjT_orp8TbomBFU+ETS7YJ7TrbHTdrsBRTzCKG5_SBdw@mail.gmail.com>
+Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as completed
+To:     Uladzislau Rezki <urezki@gmail.com>
+Cc:     paulmck@kernel.org, "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/27/23 19:36, Matthew Wilcox wrote:
-> On Mon, Feb 27, 2023 at 06:39:33PM +0100, Danilo Krummrich wrote:
->> On 2/21/23 19:31, Matthew Wilcox wrote:
->>> Lockdep will shout at you if you get it wrong ;-)  But you can safely
->>> take the spinlock before calling mas_store_gfp(GFP_KERNEL) because
->>> mas_nomem() knows to drop the lock before doing a sleeping allocation.
->>> Essentially you're open-coding mtree_store_range() but doing your own
->>> thing in addition to the store.
->>
->> As already mentioned, I went with your advice to just take the maple tree's
->> internal spinlock within the GPUVA manager and leave all the other locking
->> to the drivers as intended.
->>
->> However, I run into the case that lockdep shouts at me for not taking the
->> spinlock before calling mas_find() in the iterator macros.
->>
->> Now, I definitely don't want to let the drivers take the maple tree's
->> spinlock before they use the iterator macro. Of course, drivers shouldn't
->> even know about the underlying maple tree of the GPUVA manager.
->>
->> One way to make lockdep happy in this case seems to be taking the spinlock
->> right before mas_find() and drop it right after for each iteration.
-> 
-> While we don't have any lockdep checking of this, you really shouldn't be
-> using an iterator if you're going to drop the lock between invocations.
-> The iterator points into the tree, so you need to invalidate the iterator
-> any time you drop the lock.
-
-The tree can't change either way in my case. Changes to the DRM GPUVA 
-manager (and hence the tree) are protected by drivers, either by 
-serializing tree accesses or by having another external lock ensuring 
-mutual exclusion. Just as a reminder, in the latter case drivers usually 
-lock multiple transactions to the manager (and hence the tree) to ensure 
-they appear atomic.
-
-So, really the only purpose for me taking the internal lock is to ensure 
-I satisfy lockdep and the maple tree's internal requirements on locking 
-for future use cases you mentioned (e.g. slab cache defragmentation).
-
-It's the rcu_dereference_check() in mas_root() that triggers in my case:
-
-[   28.745706] lib/maple_tree.c:851 suspicious rcu_dereference_check() 
-usage!
-
-                stack backtrace:
-[   28.746057] CPU: 8 PID: 1518 Comm: nouveau_dma_cop Not tainted 
-6.2.0-rc6-vmbind-0.2+ #104
-[   28.746061] Hardware name: ASUS System Product Name/PRIME Z690-A, 
-BIOS 2103 09/30/2022
-[   28.746064] Call Trace:
-[   28.746067]  <TASK>
-[   28.746070]  dump_stack_lvl+0x5b/0x77
-[   28.746077]  mas_walk+0x16d/0x1b0
-[   28.746082]  mas_find+0xf7/0x300
-[   28.746088]  drm_gpuva_in_region+0x63/0xa0
-[   28.746099]  __drm_gpuva_sm_map.isra.0+0x465/0x9f0
-[   28.746103]  ? lock_acquire+0xbf/0x2b0
-[   28.746111]  ? __pfx_drm_gpuva_sm_step+0x10/0x10
-[   28.746114]  ? lock_is_held_type+0xe3/0x140
-[   28.746121]  ? mark_held_locks+0x49/0x80
-[   28.746125]  ? _raw_spin_unlock_irqrestore+0x30/0x60
-[   28.746138]  drm_gpuva_sm_map_ops_create+0x80/0xc0
-[   28.746145]  uvmm_bind_job_submit+0x3c2/0x470 [nouveau]
-[   28.746272]  nouveau_job_submit+0x60/0x450 [nouveau]
-[   28.746393]  nouveau_uvmm_ioctl_vm_bind+0x179/0x1e0 [nouveau]
-[   28.746510]  ? __pfx_nouveau_uvmm_ioctl_vm_bind+0x10/0x10 [nouveau]
-[   28.746622]  drm_ioctl_kernel+0xa9/0x160
-[   28.746629]  drm_ioctl+0x1f7/0x4b0
-
-> 
-> You don't have to use a spinlock to do a read iteration.  You can just
-> take the rcu_read_lock() around your iteration, as long as you can
-> tolerate the mild inconsistencies that RCU permits.
+On Mon, Feb 27, 2023 at 1:57=E2=80=AFPM Uladzislau Rezki <urezki@gmail.com>=
+ wrote:
 >
+> On Mon, Feb 27, 2023 at 01:27:20PM -0500, Joel Fernandes wrote:
+> >
+> >
+> > > On Feb 27, 2023, at 1:20 PM, Uladzislau Rezki <urezki@gmail.com> wrot=
+e:
+> > >
+> > > =EF=BB=BFOn Mon, Feb 27, 2023 at 01:15:47PM -0500, Joel Fernandes wro=
+te:
+> > >>
+> > >>
+> > >>>> On Feb 27, 2023, at 1:06 PM, Uladzislau Rezki <urezki@gmail.com> w=
+rote:
+> > >>>
+> > >>> =EF=BB=BFOn Mon, Feb 27, 2023 at 10:16:51AM -0500, Joel Fernandes w=
+rote:
+> > >>>>> On Mon, Feb 27, 2023 at 9:55 AM Paul E. McKenney <paulmck@kernel.=
+org> wrote:
+> > >>>>>
+> > >>>>> On Mon, Feb 27, 2023 at 08:22:06AM -0500, Joel Fernandes wrote:
+> > >>>>>>
+> > >>>>>>
+> > >>>>>>> On Feb 27, 2023, at 2:53 AM, Zhuo, Qiuxu <qiuxu.zhuo@intel.com>=
+ wrote:
+> > >>>>>>>
+> > >>>>>>> =EF=BB=BF
+> > >>>>>>>>
+> > >>>>>>>> From: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > >>>>>>>> Sent: Saturday, February 25, 2023 11:34 AM
+> > >>>>>>>> To: linux-kernel@vger.kernel.org
+> > >>>>>>>> Cc: Joel Fernandes (Google) <joel@joelfernandes.org>; Frederic=
+ Weisbecker
+> > >>>>>>>> <frederic@kernel.org>; Lai Jiangshan <jiangshanlai@gmail.com>;=
+ linux-
+> > >>>>>>>> doc@vger.kernel.org; Paul E. McKenney <paulmck@kernel.org>;
+> > >>>>>>>> rcu@vger.kernel.org
+> > >>>>>>>> Subject: [PATCH RFC v2] rcu: Add a minimum time for marking bo=
+ot as
+> > >>>>>>>> completed
+> > >>>>>>>>
+> > >>>>>>>> On many systems, a great deal of boot happens after the kernel=
+ thinks the
+> > >>>>>>>> boot has completed. It is difficult to determine if the system=
+ has really
+> > >>>>>>>> booted from the kernel side. Some features like lazy-RCU can r=
+isk slowing
+> > >>>>>>>> down boot time if, say, a callback has been added that the boo=
+t
+> > >>>>>>>> synchronously depends on.
+> > >>>>>>>>
+> > >>>>>>>> Further, it is better to boot systems which pass 'rcu_normal_a=
+fter_boot' to
+> > >>>>>>>> stay expedited for as long as the system is still booting.
+> > >>>>>>>>
+> > >>>>>>>> For these reasons, this commit adds a config option
+> > >>>>>>>> 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter
+> > >>>>>>>> rcupdate.boot_end_delay.
+> > >>>>>>>>
+> > >>>>>>>> By default, this value is 20s. A system designer can choose to=
+ specify a value
+> > >>>>>>>> here to keep RCU from marking boot completion.  The boot seque=
+nce will not
+> > >>>>>>>> be marked ended until at least boot_end_delay milliseconds hav=
+e passed.
+> > >>>>>>>
+> > >>>>>>> Hi Joel,
+> > >>>>>>>
+> > >>>>>>> Just some thoughts on the default value of 20s, correct me if I=
+'m wrong :-).
+> > >>>>>>>
+> > >>>>>>> Does the OS with CONFIG_PREEMPT_RT=3Dy kernel concern more abou=
+t the
+> > >>>>>>> real-time latency than the overall OS boot time?
+> > >>>>>>
+> > >>>>>> But every system has to boot, even an RT system.
+> > >>>>>>
+> > >>>>>>>
+> > >>>>>>> If so, we might make rcupdate.boot_end_delay =3D 0 as the defau=
+lt value
+> > >>>>>>> (NOT the default 20s) for CONFIG_PREEMPT_RT=3Dy kernels?
+> > >>>>>>
+> > >>>>>> Could you measure how much time your RT system takes to boot bef=
+ore the application runs?
+> > >>>>>>
+> > >>>>>> I can change it to default 0 essentially NOOPing it, but I would=
+ rather have a saner default (10 seconds even), than having someone forget =
+to tune this for their system.
+> > >>>>>
+> > >>>>> Provide a /sys location that the userspace code writes to when it
+> > >>>>> is ready?  Different systems with different hardware and software
+> > >>>>> configurations are going to take different amounts of time to boo=
+t,
+> > >>>>> correct?
+> > >>>>
+> > >>>> I could add a sysfs node, but I still wanted this patch as well
+> > >>>> because I am wary of systems where yet more userspace changes are
+> > >>>> required. I feel the kernel should itself be able to do this. Yes,=
+ it
+> > >>>> is possible the system completes "booting" at a different time tha=
+n
+> > >>>> what the kernel thinks. But it does that anyway (even without this
+> > >>>> patch), so I am not seeing a good reason to not do this in the ker=
+nel.
+> > >>>> It is also only a minimum cap, so if the in-kernel boot takes too
+> > >>>> long, then the patch will have no effect.
+> > >>>>
+> > >>>> Thoughts?
+> > >>>>
+> > >>> Why "rcu_boot_ended" is not enough? As i see right after that an "i=
+nit"
+> > >>> process or shell or panic is going to be invoked by the kernel. It =
+basically
+> > >>> indicates that a kernel is fully functional.
+> > >>>
+> > >>> Or an idea to wait even further? Until all kernel modules are loade=
+d by
+> > >>> user space.
+> > >>
+> > >> I mentioned in commit message it is daemons, userspace initializatio=
+n etc. There is a lot of userspace booting up as well and using the kernel =
+while doing so.
+> > >>
+> > >> So, It does not make sense to me to mark kernel as booted too early.=
+ And no harm in adding some builtin kernel hysteresis. What am I missing?
+> > >>
+> > > Than it is up to user space to decide when it is ready in terms of "b=
+oot completed".
+> >
+> > I dont know if you caught up with the other threads. See replies from P=
+aul and my reply to that.
+> >
+> > Also what you are proposing can be more harmful. If user space has a bu=
+g and does not notify the kernel that boot completed, then the boot can sta=
+y incomplete forever. The idea with this patch is to make things better, no=
+t worse.
+> >
+> I saw that Paul proposed to have a sysfs attribute using which you can
+> send a notification.
 
-Doing that would mean that the driver needs to do it. However, the 
-driver either needs to serialize accesses or use it's own mutex for 
-protection for the above reasons. Hence, that should not be needed.
+Maybe I am missing something but how will a sysfs node on its own work real=
+ly?
 
+1. delete kernel marking itself boot completed  -- and then sysfs
+marks it completed?
 
+2. delete kernel marking itself boot completed  -- and then sysfs
+marks it completed, if sysfs does not come in in N seconds, then
+kernel marks as completed?
+
+#1 is a no go, that just means a bug waiting to happen if userspace
+forgets to write to sysfs.
+
+#2 is just an extension of this patch. So I can add a sysfs node on
+top of this. And we can make the minimum time as a long period of
+time, as you noted below:
+
+> IMHO, to me this patch does not provide a clear correlation between what
+> is a boot complete and when it occurs. A boot complete is a synchronous
+> event whereas the patch thinks that after some interval a "boot" is compl=
+eted.
+
+But that is exactly how the kernel code is now without this patch, so
+it is already broken in that sense, I am not really breaking it more
+;-)
+
+> We can imply that after, say 100 seconds an initialization of user space
+> is done. Maybe 100 seconds then? :)
+
+Yes I am Ok with that. So are you suggesting we change the default to
+100 seconds and then add a sysfs node to mark as boot done whenever
+userspace notifies?
+
+Thanks,
+
+ - Joel
