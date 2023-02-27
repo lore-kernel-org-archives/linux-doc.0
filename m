@@ -2,68 +2,184 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A34CCC64ED8
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 18:15:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0E95C7EE2E
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 18:16:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbjB0SPK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 13:15:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44850 "EHLO
+        id S229542AbjB0SQI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 13:16:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230506AbjB0SPJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 13:15:09 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D31D91ADE0;
-        Mon, 27 Feb 2023 10:15:08 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7EC66B80D99;
-        Mon, 27 Feb 2023 18:15:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72AC0C4339B;
-        Mon, 27 Feb 2023 18:15:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677521706;
-        bh=cncdIkMR1gprp4HuOs6wGtWWUUc1+D/y8p1+f7FwAxA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=e19Ub1od5SnXaKZqM4CWFmZX80lC6pVJEoVGG90aM5lX1mtVz9VfIknmYsNMaZID1
-         3RjKMfpG57j9oyB+oF4TJkH3VEJBVF40rZEFwed+yUHFlemusyj+WWYTCDgd+0qe+c
-         Vz6T5kFlsEr5Or65mQSzMYiY57Iy7wGByWZnwQGuaj71IXrFUWu1JeXNDZu3kp6Jc7
-         DasbyC4sHhaabBk0wm9oS1oUiB/DMIdi4eSzFJf6IIGQ4/94xYufpdj3MGDoaI1mXF
-         J+vmkTVO7SwmgFZ5La9eBhHnQDmk/c0u+xyhjebd4fO/AP+qvpJ2VmFoDGJPk5fKC0
-         v+m+u87G1/wNw==
-Date:   Mon, 27 Feb 2023 10:15:04 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Brian Haley <haleyb.dev@gmail.com>, davem@davemloft.net,
-        edumazet@google.com, pabeni@redhat.com, corbet@lwn.net,
-        den@openvz.org, razor@blackwall.org, ulf.hansson@linaro.org,
-        Jason@zx2c4.com, wangyuweihx@gmail.com, daniel@iogearbox.net,
-        thomas.zeitlhofer+lkml@ze-it.at, alexander@mihalicyn.com,
-        ja@ssi.bg, netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 6.2 31/53] neighbor: fix proxy_delay usage when
- it is zero
-Message-ID: <20230227101504.45ef890c@kernel.org>
-In-Reply-To: <20230226144446.824580-31-sashal@kernel.org>
-References: <20230226144446.824580-1-sashal@kernel.org>
-        <20230226144446.824580-31-sashal@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229780AbjB0SQE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 13:16:04 -0500
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AA36252A8
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 10:16:00 -0800 (PST)
+Received: by mail-qt1-x829.google.com with SMTP id z6so7771799qtv.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 10:16:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sA0zwwxSh10gV4VGqqHr6okLTh8FciLwKCJEIhDneKk=;
+        b=I7nxXGKe5lOO0fMuzeK6FgmJ5fyTftYzC0AYeHHWyPcOTTBZYieC0dkPYxddejdbiq
+         XU/jLBHCpF1XuZ0vMRxZ+2HbJdGLuBDHxxRCPTgrrvmKB4VREJlM35yOp2OZ0CfQWLj0
+         VvZRTHvNYRnVeLgKaXpCYF5j/z3h2xp2VMmh0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sA0zwwxSh10gV4VGqqHr6okLTh8FciLwKCJEIhDneKk=;
+        b=yrtSRt4THMwBUD9E2AHfvGj/CkzCIzHZKcnpGNDI2CmiXtzNAtbke/t73KChiOjIbG
+         hCIra7bKOvrY9ROfIn0EecVYzsB/U9R8/06Rsul7UiDgC7+nScxdEORsbCTUyhWR0zAK
+         Jk8Ujr1DwGU/ZjhlB6EA7olQEuBvAO/9TxtOCMTVxsaoq0Dat4GaaMQjjnsFmOeDulzv
+         p/8gwcyKHvecGbd8/Flqo6QnM2rXyfHyAR+Gv1doYPZK+e4SeA77TOy+oIyzpl3yRzbi
+         zWPbBhbX8icCSjzc0YZQuOvY4lFqM9WtDOBCTEpz4mMToWvdj7xuVlHfKb9lUbxhzsEM
+         KAeQ==
+X-Gm-Message-State: AO0yUKWPGVzpO43IS4Ar8TzVUcR+cVzUXGrjJW50hvrwh32lVowk/Bb6
+        13Ffwu0y24u9Lt4ZomenmP7srw==
+X-Google-Smtp-Source: AK7set9TLj+Hn7daTx771B36Hbj9u9bLdRF1XVFNaZvgVP2Ck3m5z9f9M0aumqD+YjEuhNxIguVSQg==
+X-Received: by 2002:a05:622a:5cf:b0:3bd:1a07:2086 with SMTP id d15-20020a05622a05cf00b003bd1a072086mr308587qtb.36.1677521759207;
+        Mon, 27 Feb 2023 10:15:59 -0800 (PST)
+Received: from smtpclient.apple (c-98-249-43-138.hsd1.va.comcast.net. [98.249.43.138])
+        by smtp.gmail.com with ESMTPSA id p12-20020a37420c000000b007426ec97253sm2853850qka.111.2023.02.27.10.15.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Feb 2023 10:15:58 -0800 (PST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Joel Fernandes <joel@joelfernandes.org>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as completed
+Date:   Mon, 27 Feb 2023 13:15:47 -0500
+Message-Id: <577E687B-1E01-4953-A353-D8B91DF8387E@joelfernandes.org>
+References: <Y/zxDuxsihJXTdxf@pc636>
+Cc:     paulmck@kernel.org, "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+In-Reply-To: <Y/zxDuxsihJXTdxf@pc636>
+To:     Uladzislau Rezki <urezki@gmail.com>
+X-Mailer: iPhone Mail (20B101)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 26 Feb 2023 09:44:23 -0500 Sasha Levin wrote:
-> From: Brian Haley <haleyb.dev@gmail.com>
-> 
-> [ Upstream commit 62e395f82d04510b0f86e5e603e29412be88596f ]
-> 
-> When set to zero, the neighbor sysctl proxy_delay value
-> does not cause an immediate reply for ARP/ND requests
-> as expected, it instead causes a random delay between
-> [0, U32_MAX). Looking at this comment from
-> __get_random_u32_below() explains the reason:
 
-Potential behavior change, can we wait 4 weeks, until it's been 
-in a couple of -rcs?
+
+> On Feb 27, 2023, at 1:06 PM, Uladzislau Rezki <urezki@gmail.com> wrote:
+>=20
+> =EF=BB=BFOn Mon, Feb 27, 2023 at 10:16:51AM -0500, Joel Fernandes wrote:
+>>> On Mon, Feb 27, 2023 at 9:55 AM Paul E. McKenney <paulmck@kernel.org> wr=
+ote:
+>>>=20
+>>> On Mon, Feb 27, 2023 at 08:22:06AM -0500, Joel Fernandes wrote:
+>>>>=20
+>>>>=20
+>>>>> On Feb 27, 2023, at 2:53 AM, Zhuo, Qiuxu <qiuxu.zhuo@intel.com> wrote:=
+
+>>>>>=20
+>>>>> =EF=BB=BF
+>>>>>>=20
+>>>>>> From: Joel Fernandes (Google) <joel@joelfernandes.org>
+>>>>>> Sent: Saturday, February 25, 2023 11:34 AM
+>>>>>> To: linux-kernel@vger.kernel.org
+>>>>>> Cc: Joel Fernandes (Google) <joel@joelfernandes.org>; Frederic Weisbe=
+cker
+>>>>>> <frederic@kernel.org>; Lai Jiangshan <jiangshanlai@gmail.com>; linux-=
+
+>>>>>> doc@vger.kernel.org; Paul E. McKenney <paulmck@kernel.org>;
+>>>>>> rcu@vger.kernel.org
+>>>>>> Subject: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
+>>>>>> completed
+>>>>>>=20
+>>>>>> On many systems, a great deal of boot happens after the kernel thinks=
+ the
+>>>>>> boot has completed. It is difficult to determine if the system has re=
+ally
+>>>>>> booted from the kernel side. Some features like lazy-RCU can risk slo=
+wing
+>>>>>> down boot time if, say, a callback has been added that the boot
+>>>>>> synchronously depends on.
+>>>>>>=20
+>>>>>> Further, it is better to boot systems which pass 'rcu_normal_after_bo=
+ot' to
+>>>>>> stay expedited for as long as the system is still booting.
+>>>>>>=20
+>>>>>> For these reasons, this commit adds a config option
+>>>>>> 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter
+>>>>>> rcupdate.boot_end_delay.
+>>>>>>=20
+>>>>>> By default, this value is 20s. A system designer can choose to specif=
+y a value
+>>>>>> here to keep RCU from marking boot completion.  The boot sequence wil=
+l not
+>>>>>> be marked ended until at least boot_end_delay milliseconds have passe=
+d.
+>>>>>=20
+>>>>> Hi Joel,
+>>>>>=20
+>>>>> Just some thoughts on the default value of 20s, correct me if I'm wron=
+g :-).
+>>>>>=20
+>>>>> Does the OS with CONFIG_PREEMPT_RT=3Dy kernel concern more about the
+>>>>> real-time latency than the overall OS boot time?
+>>>>=20
+>>>> But every system has to boot, even an RT system.
+>>>>=20
+>>>>>=20
+>>>>> If so, we might make rcupdate.boot_end_delay =3D 0 as the default valu=
+e
+>>>>> (NOT the default 20s) for CONFIG_PREEMPT_RT=3Dy kernels?
+>>>>=20
+>>>> Could you measure how much time your RT system takes to boot before the=
+ application runs?
+>>>>=20
+>>>> I can change it to default 0 essentially NOOPing it, but I would rather=
+ have a saner default (10 seconds even), than having someone forget to tune t=
+his for their system.
+>>>=20
+>>> Provide a /sys location that the userspace code writes to when it
+>>> is ready?  Different systems with different hardware and software
+>>> configurations are going to take different amounts of time to boot,
+>>> correct?
+>>=20
+>> I could add a sysfs node, but I still wanted this patch as well
+>> because I am wary of systems where yet more userspace changes are
+>> required. I feel the kernel should itself be able to do this. Yes, it
+>> is possible the system completes "booting" at a different time than
+>> what the kernel thinks. But it does that anyway (even without this
+>> patch), so I am not seeing a good reason to not do this in the kernel.
+>> It is also only a minimum cap, so if the in-kernel boot takes too
+>> long, then the patch will have no effect.
+>>=20
+>> Thoughts?
+>>=20
+> Why "rcu_boot_ended" is not enough? As i see right after that an "init"
+> process or shell or panic is going to be invoked by the kernel. It basical=
+ly
+> indicates that a kernel is fully functional.
+>=20
+> Or an idea to wait even further? Until all kernel modules are loaded by
+> user space.
+
+I mentioned in commit message it is daemons, userspace initialization etc. T=
+here is a lot of userspace booting up as well and using the kernel while doi=
+ng so.
+
+So, It does not make sense to me to mark kernel as booted too early. And no h=
+arm in adding some builtin kernel hysteresis. What am I missing?
+
+Thanks,
+
+- Joel
+(And Steven please dont kick my butt for the lack of wrapping, I am working o=
+n fixing it :P).
+
+
+>=20
+> Thanks!
+>=20
+> --
+> Uladzislau Rezki
