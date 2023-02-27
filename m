@@ -2,92 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81639C7EE30
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 02:16:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA952C6FA8E
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 02:21:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231237AbjB0CQa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Feb 2023 21:16:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50814 "EHLO
+        id S231345AbjB0CVm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Feb 2023 21:21:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231728AbjB0CPs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 21:15:48 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE0F91ABE9;
-        Sun, 26 Feb 2023 18:13:14 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 96BAFB80D2E;
-        Mon, 27 Feb 2023 02:11:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7D99C4339C;
-        Mon, 27 Feb 2023 02:11:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677463900;
-        bh=+w6xRfnl0rTwGBZqJJDym/Ma7rrvgFKMziUfFS+k078=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Wb8xJkUX4Hu51tn3WCyYk+Hm1jrow0CL61/VpHBYwcOTwbfL/uwcfveNwQJys7h9y
-         r/xueElD1K2+vefwWpIrZvMz25LmejS0pLCINkLR5VA4ho8N2qGF6cmBdiTZ93NW0u
-         Eh7GJOw0PP4kRek1duxS2aibfaVxEN0JHLpwk25TIcamLcUY1+o/zYJex4qYCnqb1z
-         Rc7OC6wikQzlGj5hTI4DC7I1PyMplSePlDQGaV988H0W7xqd1u3FuTl+/vI8Kejahk
-         a6jgc/lVr8JAqL2oTwgIifJsSKRbrq+Qjqkdy8bJQvo3G/L5JigF0lniIIVDBoutih
-         NlMyu34dSZxzA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jakob Koschel <jkl820.git@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 3/9] docs/scripts/gdb: add necessary make scripts_gdb step
-Date:   Sun, 26 Feb 2023 21:11:25 -0500
-Message-Id: <20230227021131.1053662-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230227021131.1053662-1-sashal@kernel.org>
-References: <20230227021131.1053662-1-sashal@kernel.org>
+        with ESMTP id S231469AbjB0CVU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 21:21:20 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D70C1C325;
+        Sun, 26 Feb 2023 18:17:13 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id u5so1824946plq.7;
+        Sun, 26 Feb 2023 18:17:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lg/EVQFvAajZS4rtWyEAh6Z6igbC+w6ofAggl5IlIFU=;
+        b=Ukb0X0ZCepXJJlx2GkNihtFkEHFqgMvs8iyQSGqctV7fPAJdB41cn06EtTqyc14SLd
+         dBdoQeqlHF0M2QVF256LiBozc/M1rin0YTsI7WEtTAUO+nQjGAgMj32ZTFX2kJ6DGjtb
+         YJ5QeBVhPyidHW65yjWeyF/sJJXa9nU5Ud7lr/81USHTUoz1AcCjqXzvzQVviFM8ROb3
+         F1qdMZbZThQPXdIN2i1oZC6AQUuk8wFOJVNLxBUw63CmhMrSqoovK2A7e8aOMNAwMVNF
+         2cAF/NQCbQNzlm0HZd6Yfh4qLyi9ZkAdMRf0hHViM6R+1t6443/cfBtq4OGakCQW5G93
+         itHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Lg/EVQFvAajZS4rtWyEAh6Z6igbC+w6ofAggl5IlIFU=;
+        b=N4XUE6DanmBh6qsme+Nf+n/piZsF+ue16tGAdKSZovawqeXA6e8W3TFCjZnVuByxlX
+         5l+o/eJZ8xqL2pgeg89wi7m3wTZCPFzJb8juAEbEZj1CUI3+UVchQBfwXu+mHQIrw+pG
+         dPLndMcSUM2q70Xo8JAyUOKOaECXP0y807Q3tgiWL2pnW1z/fyXcTB9eeki3sLN95k/i
+         Rs+Cde1OHgUCzgPP+QPRnMc9PL6qGyZCD90FGGlu325CHoE2mnyyT9u+W4rVTFab5tqH
+         rW2AjoSOwaKoPl2ZR2roFl56K03mKicqdVbmjMdgAEmVpaGYbv/1PDppdGeDOyzsUCzi
+         ePxQ==
+X-Gm-Message-State: AO0yUKUwKdZ5+ZOU7tQRx0KVHNAoCPdNdE4MkxK2lZ4YQRsgZlX296SK
+        /MXNiPsQebd3eD7ehorHAyOjVeJhu/0=
+X-Google-Smtp-Source: AK7set8I+e7NYaQG/v240GdZ9N4OyBEVhfatokypeo1WQQJp18ekqLtCli8WLTgpUpVguAoEsZEi5g==
+X-Received: by 2002:a17:902:f9cb:b0:19c:f80c:df90 with SMTP id kz11-20020a170902f9cb00b0019cf80cdf90mr4358207plb.45.1677464163978;
+        Sun, 26 Feb 2023 18:16:03 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-8.three.co.id. [180.214.232.8])
+        by smtp.gmail.com with ESMTPSA id e23-20020a170902ed9700b001964c8164aasm3272679plj.129.2023.02.26.18.16.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Feb 2023 18:16:03 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 5E730103521; Mon, 27 Feb 2023 09:15:59 +0700 (WIB)
+Date:   Mon, 27 Feb 2023 09:15:58 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Ammar Faizi <ammarfaizi2@gnuweeb.org>, Chris Mason <clm@fb.com>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>
+Cc:     Filipe Manana <fdmanana@suse.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Btrfs Mailing List <linux-btrfs@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Fsdevel Mailing List <linux-fsdevel@vger.kernel.org>,
+        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: Re: [RFC PATCH v1 2/2] Documentation: btrfs: Document the influence
+ of wq_cpu_set to thread_pool option
+Message-ID: <Y/wSXlp3vTEA6eo3@debian.me>
+References: <20230226162639.20559-1-ammarfaizi2@gnuweeb.org>
+ <20230226162639.20559-3-ammarfaizi2@gnuweeb.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="fDFresKap0HjLffm"
+Content-Disposition: inline
+In-Reply-To: <20230226162639.20559-3-ammarfaizi2@gnuweeb.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jakob Koschel <jkl820.git@gmail.com>
 
-[ Upstream commit 6b219431037bf98c9efd49716aea9b68440477a3 ]
+--fDFresKap0HjLffm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In order to debug the kernel successfully with gdb you need to run
-'make scripts_gdb' nowadays.
+On Sun, Feb 26, 2023 at 11:26:39PM +0700, Ammar Faizi wrote:
+> +        Since 6.5, if *wq_cpu_set* is set, the default value will be the=
+ number of
+> +        online CPUs in the CPU wq_cpu_set plus 2.
+> +
+ =20
+Why will the behavior be introduced in such future version (6.5)?
 
-This was changed with the following commit:
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Commit 67274c083438340ad16c ("scripts/gdb: delay generation of gdb
-constants.py")
+--fDFresKap0HjLffm
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In order to have a complete guide for beginners this remark
-should be added to the offial documentation.
+-----BEGIN PGP SIGNATURE-----
 
-Signed-off-by: Jakob Koschel <jkl820.git@gmail.com>
-Link: https://lore.kernel.org/r/20230112-documentation-gdb-v2-1-292785c43dc9@gmail.com
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/dev-tools/gdb-kernel-debugging.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY/wSVgAKCRD2uYlJVVFO
+o2EFAP9iZ+Zv1BNkYVDso1HKU2Uz0akR+IpxjX6+ElY9Si7A3QD/cgWI94cx9XeY
+9eYiqqdMAPVW1tcwpYNSJXZVE4gCZQU=
+=NmA9
+-----END PGP SIGNATURE-----
 
-diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/dev-tools/gdb-kernel-debugging.rst
-index 19df79286f000..afe4bc206486c 100644
---- a/Documentation/dev-tools/gdb-kernel-debugging.rst
-+++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
-@@ -39,6 +39,10 @@ Setup
-   this mode. In this case, you should build the kernel with
-   CONFIG_RANDOMIZE_BASE disabled if the architecture supports KASLR.
- 
-+- Build the gdb scripts (required on kernels v5.1 and above)::
-+
-+    make scripts_gdb
-+
- - Enable the gdb stub of QEMU/KVM, either
- 
-     - at VM startup time by appending "-s" to the QEMU command line
--- 
-2.39.0
-
+--fDFresKap0HjLffm--
