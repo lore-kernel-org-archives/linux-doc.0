@@ -2,93 +2,182 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14FD2C7EE2D
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 18:41:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84E4CC7EE2D
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 18:57:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbjB0SlV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 13:41:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49410 "EHLO
+        id S229727AbjB0S5p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 13:57:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229873AbjB0SlU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 13:41:20 -0500
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8898025BA0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 10:41:18 -0800 (PST)
-Received: by mail-qv1-xf2e.google.com with SMTP id nf5so5124825qvb.5
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 10:41:18 -0800 (PST)
+        with ESMTP id S229470AbjB0S5o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 13:57:44 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 274B823119;
+        Mon, 27 Feb 2023 10:57:43 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id y14so7563206ljq.4;
+        Mon, 27 Feb 2023 10:57:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=efficientek-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A/ulrwzIZworYzpsVbD55851xLgzvV7G5hrKbS1T2G8=;
-        b=IbvZeAIiHHVHbpQ2DAC4KkKBVmBL4vsQW7CGtp6pPwV5YMCJjtP72xR7TaLNtapAg5
-         hVZl64CYzSAwncUX2umFsIoSh5M3TZzD32G3hlwlT+6h9DoPf0OMwg/0vk3wmGCQeIk0
-         E37ULciG/82PrXrswWg/4mj71Sa9svhDHmg5d+QBbVo7WsVM8besbHtDSE4WufhxQHmd
-         4POVCVeH5tXhpW4UO3arKSZbPCIljBWeqLwzRKPawyzR0wMnK8zxhjNZfVT0kXDDt2/6
-         26f/SqQ9yO4PKvLaG0w2C0u+VcOemXUwCYWDKgqD4QkUWxm1vrixiXuR9t0cxwqnin4W
-         x2IQ==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3VHJoIINQUP1fNRMMen/8cCs/WWXM/hffYmgoPKFxjY=;
+        b=bIPDKBrbA7KJ71AyXzg/zN98Cg9NyrQSlxG7aaFNR4rNwJIPRtfbjv7Xmc4gP8KbL7
+         ECYUcdg4KgVjp8OMUcthgQCtc1ulEkbF/29kk4WsijNVhX5JzFXzSJtglmacvd6GOVMf
+         +VO3WFAQicF2cyKcQSKhFTYfSxDVQLEV9mwrELLZfbk9DLNg32rs8sWZlgEjYOXRV2n5
+         SqsYkmVOqEj0AxAZXwgp9pTvf4Kbnv3wR36TArptR4Dn6QkXcSs92vL2EMoqbrquE5WO
+         9yumT1haQdvdG/swD7l7wqXfp2ahuO6/Z6Lz+HRRZco5onsRO/DuipNUtT1dT6eVeRLq
+         cpdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A/ulrwzIZworYzpsVbD55851xLgzvV7G5hrKbS1T2G8=;
-        b=EypRdIlO6YhfTRPRVJzkaFs5l+SPBX55fpIB0k5F63KK6qCCzxwHwjN3EcKcDesJ8Y
-         8nGPPO6N+9ZF2tGTQQH1hRPvbdZ2c9OJZXBq5K5o6z4Ws3gOMqFHwNdkRTVQWciJoaTP
-         xtXngEcOj+kaR+/tdqIf6uyoxwbEdnxMY5rZfUmHrm+W+hWYyKsRN9A/uFad7HO/Ebtm
-         ntwdIukWoGotf5w2ziMLW9JceiBK7PQjyZzxMD6UpXvpXEBWaXCq6P0M8AjJlmgJeqs/
-         y30khjoDF0x+33o7b18Vop2P3JSq++0r7xJ56MorNgDrTB3QXrIIPUGjaKDUXTue2A2C
-         YCIg==
-X-Gm-Message-State: AO0yUKVNaZWxHRTGmjJCRXppiW66N0K70aqjpAS/9luMpSnPGjSQGKvx
-        pos0kqC19veDn/lJYuAv3A28AzZWFHC1j4Qo
-X-Google-Smtp-Source: AK7set/LuVuasIVGB6lWomVJu25FMp222NzwbdwPoY2fFQ8GTwHs2oMIIQxlhbK7QXO0UDzEOpA6JQ==
-X-Received: by 2002:a05:6214:d49:b0:56e:c00c:bf5c with SMTP id 9-20020a0562140d4900b0056ec00cbf5cmr808386qvr.31.1677523277734;
-        Mon, 27 Feb 2023 10:41:17 -0800 (PST)
-Received: from localhost.localdomain ([37.218.244.251])
-        by smtp.gmail.com with ESMTPSA id d184-20020a37b4c1000000b0073b3316bbd0sm5392861qkf.29.2023.02.27.10.41.14
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3VHJoIINQUP1fNRMMen/8cCs/WWXM/hffYmgoPKFxjY=;
+        b=f6poBOGQGABQBX8PbthdRKLELV7joTdyxA61F45L61mEIHWFBPfinmEg8UhhdN+pRQ
+         S84g74kGzZE3mdjkgc+DF5PrGfC9hvvS14Fk8vpNM7ojbFx/4ZHKsc3aWg7cUvmB9SRO
+         g74gyMS+XfnEspJQooCWHTinm968GeSrvvLpa2WMw9+pgOMZZca/zo8IDZZCXH5UnpAI
+         l8gR0/H/leT79h9KXfCqnwI/bXK3bTbUHGL5mU5e74cAoWi88xsX8OFgtzRSXj4zoD4r
+         wB8n1saX8CUw72iuGG0OMBwHGmtmYxr3gt8ZEJNQWCobiEMDngQjv/TuRnIuEX6JKOi7
+         O1Ag==
+X-Gm-Message-State: AO0yUKWVHrkrK13L/J3ZGPNbfcaEgiCbc9ERrRRf/XeiovoXUScObSs/
+        BcJb5vRBuKYrTugsFWBEtms=
+X-Google-Smtp-Source: AK7set/MsnhboCC3vx1YZH/ndRWRLeD0Uh575sHoLwzk61Q/uZDagvb75/xmvNLkEsBWAVyf5GaEIQ==
+X-Received: by 2002:a05:651c:3de:b0:295:bd6d:90e5 with SMTP id f30-20020a05651c03de00b00295bd6d90e5mr956229ljp.9.1677524261378;
+        Mon, 27 Feb 2023 10:57:41 -0800 (PST)
+Received: from pc636 (host-90-235-25-56.mobileonline.telia.com. [90.235.25.56])
+        by smtp.gmail.com with ESMTPSA id j20-20020a2e3c14000000b00295a583a20bsm840402lja.74.2023.02.27.10.57.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Feb 2023 10:41:16 -0800 (PST)
-From:   Glenn Washburn <development@efficientek.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Glenn Washburn <development@efficientek.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        "Tobin C. Harding" <tobin@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: Correct missing "d_" prefix for dentry_operations member d_weak_revalidate
-Date:   Mon, 27 Feb 2023 12:40:42 -0600
-Message-Id: <20230227184042.2375235-1-development@efficientek.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 27 Feb 2023 10:57:40 -0800 (PST)
+From:   Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
+Date:   Mon, 27 Feb 2023 19:57:38 +0100
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Uladzislau Rezki <urezki@gmail.com>, paulmck@kernel.org,
+        "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
+ completed
+Message-ID: <Y/z9Its1RKetIr8V@pc636>
+References: <Y/z0fHHYdxEXcWMT@pc636>
+ <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The details for struct dentry_operations member d_weak_revalidate is
-missing a "d_" prefix.
+On Mon, Feb 27, 2023 at 01:27:20PM -0500, Joel Fernandes wrote:
+> 
+> 
+> > On Feb 27, 2023, at 1:20 PM, Uladzislau Rezki <urezki@gmail.com> wrote:
+> > 
+> > ﻿On Mon, Feb 27, 2023 at 01:15:47PM -0500, Joel Fernandes wrote:
+> >> 
+> >> 
+> >>>> On Feb 27, 2023, at 1:06 PM, Uladzislau Rezki <urezki@gmail.com> wrote:
+> >>> 
+> >>> ﻿On Mon, Feb 27, 2023 at 10:16:51AM -0500, Joel Fernandes wrote:
+> >>>>> On Mon, Feb 27, 2023 at 9:55 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+> >>>>> 
+> >>>>> On Mon, Feb 27, 2023 at 08:22:06AM -0500, Joel Fernandes wrote:
+> >>>>>> 
+> >>>>>> 
+> >>>>>>> On Feb 27, 2023, at 2:53 AM, Zhuo, Qiuxu <qiuxu.zhuo@intel.com> wrote:
+> >>>>>>> 
+> >>>>>>> ﻿
+> >>>>>>>> 
+> >>>>>>>> From: Joel Fernandes (Google) <joel@joelfernandes.org>
+> >>>>>>>> Sent: Saturday, February 25, 2023 11:34 AM
+> >>>>>>>> To: linux-kernel@vger.kernel.org
+> >>>>>>>> Cc: Joel Fernandes (Google) <joel@joelfernandes.org>; Frederic Weisbecker
+> >>>>>>>> <frederic@kernel.org>; Lai Jiangshan <jiangshanlai@gmail.com>; linux-
+> >>>>>>>> doc@vger.kernel.org; Paul E. McKenney <paulmck@kernel.org>;
+> >>>>>>>> rcu@vger.kernel.org
+> >>>>>>>> Subject: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
+> >>>>>>>> completed
+> >>>>>>>> 
+> >>>>>>>> On many systems, a great deal of boot happens after the kernel thinks the
+> >>>>>>>> boot has completed. It is difficult to determine if the system has really
+> >>>>>>>> booted from the kernel side. Some features like lazy-RCU can risk slowing
+> >>>>>>>> down boot time if, say, a callback has been added that the boot
+> >>>>>>>> synchronously depends on.
+> >>>>>>>> 
+> >>>>>>>> Further, it is better to boot systems which pass 'rcu_normal_after_boot' to
+> >>>>>>>> stay expedited for as long as the system is still booting.
+> >>>>>>>> 
+> >>>>>>>> For these reasons, this commit adds a config option
+> >>>>>>>> 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter
+> >>>>>>>> rcupdate.boot_end_delay.
+> >>>>>>>> 
+> >>>>>>>> By default, this value is 20s. A system designer can choose to specify a value
+> >>>>>>>> here to keep RCU from marking boot completion.  The boot sequence will not
+> >>>>>>>> be marked ended until at least boot_end_delay milliseconds have passed.
+> >>>>>>> 
+> >>>>>>> Hi Joel,
+> >>>>>>> 
+> >>>>>>> Just some thoughts on the default value of 20s, correct me if I'm wrong :-).
+> >>>>>>> 
+> >>>>>>> Does the OS with CONFIG_PREEMPT_RT=y kernel concern more about the
+> >>>>>>> real-time latency than the overall OS boot time?
+> >>>>>> 
+> >>>>>> But every system has to boot, even an RT system.
+> >>>>>> 
+> >>>>>>> 
+> >>>>>>> If so, we might make rcupdate.boot_end_delay = 0 as the default value
+> >>>>>>> (NOT the default 20s) for CONFIG_PREEMPT_RT=y kernels?
+> >>>>>> 
+> >>>>>> Could you measure how much time your RT system takes to boot before the application runs?
+> >>>>>> 
+> >>>>>> I can change it to default 0 essentially NOOPing it, but I would rather have a saner default (10 seconds even), than having someone forget to tune this for their system.
+> >>>>> 
+> >>>>> Provide a /sys location that the userspace code writes to when it
+> >>>>> is ready?  Different systems with different hardware and software
+> >>>>> configurations are going to take different amounts of time to boot,
+> >>>>> correct?
+> >>>> 
+> >>>> I could add a sysfs node, but I still wanted this patch as well
+> >>>> because I am wary of systems where yet more userspace changes are
+> >>>> required. I feel the kernel should itself be able to do this. Yes, it
+> >>>> is possible the system completes "booting" at a different time than
+> >>>> what the kernel thinks. But it does that anyway (even without this
+> >>>> patch), so I am not seeing a good reason to not do this in the kernel.
+> >>>> It is also only a minimum cap, so if the in-kernel boot takes too
+> >>>> long, then the patch will have no effect.
+> >>>> 
+> >>>> Thoughts?
+> >>>> 
+> >>> Why "rcu_boot_ended" is not enough? As i see right after that an "init"
+> >>> process or shell or panic is going to be invoked by the kernel. It basically
+> >>> indicates that a kernel is fully functional.
+> >>> 
+> >>> Or an idea to wait even further? Until all kernel modules are loaded by
+> >>> user space.
+> >> 
+> >> I mentioned in commit message it is daemons, userspace initialization etc. There is a lot of userspace booting up as well and using the kernel while doing so.
+> >> 
+> >> So, It does not make sense to me to mark kernel as booted too early. And no harm in adding some builtin kernel hysteresis. What am I missing?
+> >> 
+> > Than it is up to user space to decide when it is ready in terms of "boot completed".
+> 
+> I dont know if you caught up with the other threads. See replies from Paul and my reply to that.
+> 
+> Also what you are proposing can be more harmful. If user space has a bug and does not notify the kernel that boot completed, then the boot can stay incomplete forever. The idea with this patch is to make things better, not worse.
+> 
+I saw that Paul proposed to have a sysfs attribute using which you can
+send a notification.
 
-Fixes: af96c1e304f7 (docs: filesystems: vfs: Convert vfs.txt to RST)
-Signed-off-by: Glenn Washburn <development@efficientek.com>
----
- Documentation/filesystems/vfs.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+IMHO, to me this patch does not provide a clear correlation between what
+is a boot complete and when it occurs. A boot complete is a synchronous
+event whereas the patch thinks that after some interval a "boot" is completed.
 
-diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-index c53f30251a66..f3b344f0c0a4 100644
---- a/Documentation/filesystems/vfs.rst
-+++ b/Documentation/filesystems/vfs.rst
-@@ -1222,7 +1222,7 @@ defined:
- 	return
- 	-ECHILD and it will be called again in ref-walk mode.
- 
--``_weak_revalidate``
-+``d_weak_revalidate``
- 	called when the VFS needs to revalidate a "jumped" dentry.  This
- 	is called when a path-walk ends at dentry that was not acquired
- 	by doing a lookup in the parent directory.  This includes "/",
+We can imply that after, say 100 seconds an initialization of user space
+is done. Maybe 100 seconds then? :)
 
-base-commit: 7fa08de735e41001a70c8ca869b2b159d74c2339
--- 
-2.30.2
-
+--
+Uladzislau Rezki
