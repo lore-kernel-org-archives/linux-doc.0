@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A80C7EE3A
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 22:32:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA066C64ED8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 22:32:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230324AbjB0WcG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 17:32:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37594 "EHLO
+        id S230320AbjB0WcD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 17:32:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230201AbjB0Wbh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 17:31:37 -0500
+        with ESMTP id S230228AbjB0Wbp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 17:31:45 -0500
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 817E3298F0;
-        Mon, 27 Feb 2023 14:31:31 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325AD29E11;
+        Mon, 27 Feb 2023 14:31:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677537091; x=1709073091;
+  t=1677537096; x=1709073096;
   h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=D7r3sPYzuOicvyDyAiCcjJlcjrFZlOzlMPKscQsbvdA=;
-  b=D00v5Cw/5/5Swn5WtRlN8Wc/Tvnp2pi2PmadrF0xeFldyaSNTUiC4mma
-   ctjh5gzMvHmnNiH5gLjexWKh7kj1JIaQudKFLTKNbIK6sCx2oEUQKyAcg
-   g1LUhBIO/ySzywfA+LCf0DKYwoVGnpjPe6qVpWuTQm7nLk/NnrwfF+3El
-   P7PvrIwdMGbVv8F7hqCcTtWV1TW0tuq0LwWGVhpFvvRBiQnjzetZE9mz5
-   cFCBpfVnayYl+lN21ZSHTL+apWPHCJ4c4Tfzl/FAma5HdHi6UUczlXQjA
-   Vj2rWVBX+P41QVu2hT1jyGmH1Gct62dp4+DPfR9d0IFhqh3RcELBlNxP0
+   references:mime-version:content-transfer-encoding;
+  bh=h3g9dfsaSYOQw9Djcf7aO6npKOb7bN/WODuQBbF8SE0=;
+  b=Ubt3Gx3414HK4ZAPqQUtqCrY0JJ1PRz/pqMyEujJszk+C6y1JlZrm5+T
+   QwIAgj62FyaDRJpWfRZszQ1PAHUrVpe2OyM0tnrzkbLt7KpPMSYhV0XjQ
+   +GPzDRqtxbJgblUy/fh/zsMoARk1aOnSX1wShQoyJNUEdW5Eu3rbObzuQ
+   oeMoCoYZTRt3MAN0NFSRu+5JaFTDB+KAv76wkukKFmyfhMRIZrCrC3Sti
+   Lv71oAIY2Thr+/Q1IqF67W61c44pl1w6hFd6jT5eITuxQwakahbOYPi64
+   EHDgeviIIASmf2Xco8s3VgN+fiY9jt7hREwB3HOUGd9eMHFqMZ+oLwIrV
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="313657127"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="313657249"
 X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="313657127"
+   d="scan'208";a="313657249"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 14:31:12 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="848024393"
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 14:31:16 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="848024459"
 X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="848024393"
+   d="scan'208";a="848024459"
 Received: from leonqu-mobl1.amr.corp.intel.com (HELO rpedgeco-desk.amr.corp.intel.com) ([10.209.72.19])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 14:31:11 -0800
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 14:31:15 -0800
 From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
 To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -66,118 +66,208 @@ To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
         david@redhat.com, debug@rivosinc.com
-Cc:     rick.p.edgecombe@intel.com
-Subject: [PATCH v7 06/41] x86/fpu: Add helper for modifying xstate
-Date:   Mon, 27 Feb 2023 14:29:22 -0800
-Message-Id: <20230227222957.24501-7-rick.p.edgecombe@intel.com>
+Cc:     rick.p.edgecombe@intel.com, linux-arm-kernel@lists.infradead.org,
+        linux-s390@vger.kernel.org, xen-devel@lists.xenproject.org
+Subject: [PATCH v7 11/41] mm: Introduce pte_mkwrite_kernel()
+Date:   Mon, 27 Feb 2023 14:29:27 -0800
+Message-Id: <20230227222957.24501-12-rick.p.edgecombe@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
 References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just like user xfeatures, supervisor xfeatures can be active in the
-registers or present in the task FPU buffer. If the registers are
-active, the registers can be modified directly. If the registers are
-not active, the modification must be performed on the task FPU buffer.
+The x86 Control-flow Enforcement Technology (CET) feature includes a new
+type of memory called shadow stack. This shadow stack memory has some
+unusual properties, which requires some core mm changes to function
+properly.
 
-When the state is not active, the kernel could perform modifications
-directly to the buffer. But in order for it to do that, it needs
-to know where in the buffer the specific state it wants to modify is
-located. Doing this is not robust against optimizations that compact
-the FPU buffer, as each access would require computing where in the
-buffer it is.
+One of these changes is to allow for pte_mkwrite() to create different
+types of writable memory (the existing conventionally writable type and
+also the new shadow stack type). Future patches will convert pte_mkwrite()
+to take a VMA in order to facilitate this, however there are places in the
+kernel where pte_mkwrite() is called outside of the context of a VMA.
+These are for kernel memory. So create a new variant called
+pte_mkwrite_kernel() and switch the kernel users over to it. Have
+pte_mkwrite() and pte_mkwrite_kernel() be the same for now. Future patches
+will introduce changes to make pte_mkwrite() take a VMA.
 
-The easiest way to modify supervisor xfeature data is to force restore
-the registers and write directly to the MSRs. Often times this is just fine
-anyway as the registers need to be restored before returning to userspace.
-Do this for now, leaving buffer writing optimizations for the future.
+Only do this for architectures that need it because they call pte_mkwrite()
+in arch code without an associated VMA. Since it will only currently be
+used in arch code, so do not include it in arch_pgtable_helpers.rst.
 
-Add a new function fpregs_lock_and_load() that can simultaneously call
-fpregs_lock() and do this restore. Also perform some extra sanity
-checks in this function since this will be used in non-fpu focused code.
-
+Cc: linux-doc@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-s390@vger.kernel.org
+Cc: xen-devel@lists.xenproject.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-mm@kvack.org
 Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 Tested-by: John Allen <john.allen@amd.com>
 Tested-by: Kees Cook <keescook@chromium.org>
 Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+Acked-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+Suggested-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
 ---
+Hi Non-x86 Arch’s,
+
+x86 has a feature that allows for the creation of a special type of
+writable memory (shadow stack) that is only writable in limited specific
+ways. Previously, changes were proposed to core MM code to teach it to
+decide when to create normally writable memory or the special shadow stack
+writable memory, but David Hildenbrand suggested[0] to change
+pXX_mkwrite() to take a VMA, so awareness of shadow stack memory can be
+moved into x86 code.
+
+Since pXX_mkwrite() is defined in every arch, it requires some tree-wide
+changes. So that is why you are seeing some patches out of a big x86
+series pop up in your arch mailing list. There is no functional change.
+After this refactor, the shadow stack series goes on to use the arch
+helpers to push shadow stack memory details inside arch/x86.
+
+Testing was just 0-day build testing.
+
+Hopefully that is enough context. Thanks!
+
+[0] https://lore.kernel.org/lkml/0e29a2d0-08d8-bcd6-ff26-4bea0e4037b0@redhat.com/#t
+
 v6:
- - Drop "but appear to work" (Boris)
-
-v5:
- - Fix spelling error (Boris)
- - Don't export fpregs_lock_and_load() (Boris)
-
-v3:
- - Rename to fpregs_lock_and_load() to match the unlocking
-   fpregs_unlock(). (Kees)
- - Elaborate in comment about helper. (Dave)
-
-v2:
- - Drop optimization of writing directly the buffer, and change API
-   accordingly.
- - fpregs_lock_and_load() suggested by tglx
- - Some commit log verbiage from dhansen
+ - New patch
 ---
- arch/x86/include/asm/fpu/api.h |  9 +++++++++
- arch/x86/kernel/fpu/core.c     | 18 ++++++++++++++++++
- 2 files changed, 27 insertions(+)
+ arch/arm64/include/asm/pgtable.h | 7 ++++++-
+ arch/arm64/mm/trans_pgd.c        | 4 ++--
+ arch/s390/include/asm/pgtable.h  | 7 ++++++-
+ arch/s390/mm/pageattr.c          | 2 +-
+ arch/x86/include/asm/pgtable.h   | 7 ++++++-
+ arch/x86/xen/mmu_pv.c            | 2 +-
+ 6 files changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/arch/x86/include/asm/fpu/api.h b/arch/x86/include/asm/fpu/api.h
-index 503a577814b2..aadc6893dcaa 100644
---- a/arch/x86/include/asm/fpu/api.h
-+++ b/arch/x86/include/asm/fpu/api.h
-@@ -82,6 +82,15 @@ static inline void fpregs_unlock(void)
- 		preempt_enable();
+diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+index b6ba466e2e8a..cccf8885792e 100644
+--- a/arch/arm64/include/asm/pgtable.h
++++ b/arch/arm64/include/asm/pgtable.h
+@@ -180,13 +180,18 @@ static inline pmd_t set_pmd_bit(pmd_t pmd, pgprot_t prot)
+ 	return pmd;
  }
  
-+/*
-+ * FPU state gets lazily restored before returning to userspace. So when in the
-+ * kernel, the valid FPU state may be kept in the buffer. This function will force
-+ * restore all the fpu state to the registers early if needed, and lock them from
-+ * being automatically saved/restored. Then FPU state can be modified safely in the
-+ * registers, before unlocking with fpregs_unlock().
-+ */
-+void fpregs_lock_and_load(void);
-+
- #ifdef CONFIG_X86_DEBUG_FPU
- extern void fpregs_assert_state_consistent(void);
- #else
-diff --git a/arch/x86/kernel/fpu/core.c b/arch/x86/kernel/fpu/core.c
-index caf33486dc5e..f851558b673f 100644
---- a/arch/x86/kernel/fpu/core.c
-+++ b/arch/x86/kernel/fpu/core.c
-@@ -753,6 +753,24 @@ void switch_fpu_return(void)
+-static inline pte_t pte_mkwrite(pte_t pte)
++static inline pte_t pte_mkwrite_kernel(pte_t pte)
+ {
+ 	pte = set_pte_bit(pte, __pgprot(PTE_WRITE));
+ 	pte = clear_pte_bit(pte, __pgprot(PTE_RDONLY));
+ 	return pte;
  }
- EXPORT_SYMBOL_GPL(switch_fpu_return);
  
-+void fpregs_lock_and_load(void)
++static inline pte_t pte_mkwrite(pte_t pte)
 +{
-+	/*
-+	 * fpregs_lock() only disables preemption (mostly). So modifying state
-+	 * in an interrupt could screw up some in progress fpregs operation.
-+	 * Warn about it.
-+	 */
-+	WARN_ON_ONCE(!irq_fpu_usable());
-+	WARN_ON_ONCE(current->flags & PF_KTHREAD);
-+
-+	fpregs_lock();
-+
-+	fpregs_assert_state_consistent();
-+
-+	if (test_thread_flag(TIF_NEED_FPU_LOAD))
-+		fpregs_restore_userregs();
++	return pte_mkwrite_kernel(pte);
 +}
 +
- #ifdef CONFIG_X86_DEBUG_FPU
- /*
-  * If current FPU state according to its tracking (loaded FPU context on this
+ static inline pte_t pte_mkclean(pte_t pte)
+ {
+ 	pte = clear_pte_bit(pte, __pgprot(PTE_DIRTY));
+diff --git a/arch/arm64/mm/trans_pgd.c b/arch/arm64/mm/trans_pgd.c
+index 4ea2eefbc053..5c07e68d80ea 100644
+--- a/arch/arm64/mm/trans_pgd.c
++++ b/arch/arm64/mm/trans_pgd.c
+@@ -40,7 +40,7 @@ static void _copy_pte(pte_t *dst_ptep, pte_t *src_ptep, unsigned long addr)
+ 		 * read only (code, rodata). Clear the RDONLY bit from
+ 		 * the temporary mappings we use during restore.
+ 		 */
+-		set_pte(dst_ptep, pte_mkwrite(pte));
++		set_pte(dst_ptep, pte_mkwrite_kernel(pte));
+ 	} else if (debug_pagealloc_enabled() && !pte_none(pte)) {
+ 		/*
+ 		 * debug_pagealloc will removed the PTE_VALID bit if
+@@ -53,7 +53,7 @@ static void _copy_pte(pte_t *dst_ptep, pte_t *src_ptep, unsigned long addr)
+ 		 */
+ 		BUG_ON(!pfn_valid(pte_pfn(pte)));
+ 
+-		set_pte(dst_ptep, pte_mkpresent(pte_mkwrite(pte)));
++		set_pte(dst_ptep, pte_mkpresent(pte_mkwrite_kernel(pte)));
+ 	}
+ }
+ 
+diff --git a/arch/s390/include/asm/pgtable.h b/arch/s390/include/asm/pgtable.h
+index 2c70b4d1263d..d4943f2d3f00 100644
+--- a/arch/s390/include/asm/pgtable.h
++++ b/arch/s390/include/asm/pgtable.h
+@@ -1005,7 +1005,7 @@ static inline pte_t pte_wrprotect(pte_t pte)
+ 	return set_pte_bit(pte, __pgprot(_PAGE_PROTECT));
+ }
+ 
+-static inline pte_t pte_mkwrite(pte_t pte)
++static inline pte_t pte_mkwrite_kernel(pte_t pte)
+ {
+ 	pte = set_pte_bit(pte, __pgprot(_PAGE_WRITE));
+ 	if (pte_val(pte) & _PAGE_DIRTY)
+@@ -1013,6 +1013,11 @@ static inline pte_t pte_mkwrite(pte_t pte)
+ 	return pte;
+ }
+ 
++static inline pte_t pte_mkwrite(pte_t pte)
++{
++	return pte_mkwrite_kernel(pte);
++}
++
+ static inline pte_t pte_mkclean(pte_t pte)
+ {
+ 	pte = clear_pte_bit(pte, __pgprot(_PAGE_DIRTY));
+diff --git a/arch/s390/mm/pageattr.c b/arch/s390/mm/pageattr.c
+index 85195c18b2e8..4ee5fe5caa23 100644
+--- a/arch/s390/mm/pageattr.c
++++ b/arch/s390/mm/pageattr.c
+@@ -96,7 +96,7 @@ static int walk_pte_level(pmd_t *pmdp, unsigned long addr, unsigned long end,
+ 		if (flags & SET_MEMORY_RO)
+ 			new = pte_wrprotect(new);
+ 		else if (flags & SET_MEMORY_RW)
+-			new = pte_mkwrite(pte_mkdirty(new));
++			new = pte_mkwrite_kernel(pte_mkdirty(new));
+ 		if (flags & SET_MEMORY_NX)
+ 			new = set_pte_bit(new, __pgprot(_PAGE_NOEXEC));
+ 		else if (flags & SET_MEMORY_X)
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index 56eea96502c6..3607f2572f9e 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -364,11 +364,16 @@ static inline pte_t pte_mkyoung(pte_t pte)
+ 	return pte_set_flags(pte, _PAGE_ACCESSED);
+ }
+ 
+-static inline pte_t pte_mkwrite(pte_t pte)
++static inline pte_t pte_mkwrite_kernel(pte_t pte)
+ {
+ 	return pte_set_flags(pte, _PAGE_RW);
+ }
+ 
++static inline pte_t pte_mkwrite(pte_t pte)
++{
++	return pte_mkwrite_kernel(pte);
++}
++
+ static inline pte_t pte_mkhuge(pte_t pte)
+ {
+ 	return pte_set_flags(pte, _PAGE_PSE);
+diff --git a/arch/x86/xen/mmu_pv.c b/arch/x86/xen/mmu_pv.c
+index ee29fb558f2e..a23f04243c19 100644
+--- a/arch/x86/xen/mmu_pv.c
++++ b/arch/x86/xen/mmu_pv.c
+@@ -150,7 +150,7 @@ void make_lowmem_page_readwrite(void *vaddr)
+ 	if (pte == NULL)
+ 		return;		/* vaddr missing */
+ 
+-	ptev = pte_mkwrite(*pte);
++	ptev = pte_mkwrite_kernel(*pte);
+ 
+ 	if (HYPERVISOR_update_va_mapping(address, ptev, 0))
+ 		BUG();
 -- 
 2.17.1
 
