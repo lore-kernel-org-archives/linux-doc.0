@@ -2,136 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E685FC7EE23
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 00:03:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0256CC7EE23
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 02:05:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229582AbjB0AD2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Feb 2023 19:03:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48644 "EHLO
+        id S229992AbjB0CFT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Feb 2023 21:05:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbjB0AD1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 19:03:27 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 643039742;
-        Sun, 26 Feb 2023 16:03:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=+nha29/AKnCiNonhjL1b/Xu2lJjtfS87odZR9H1Cc0s=; b=ArdVyRxKOIKlcRkICMv/DL5jxJ
-        celGImU9YTrL6d6N/2lA4YGL2+XddjRfOw9k1xPbrR+swIwvIz4SHMvrcdY2E/Swz7Zs5rZpKoMgj
-        LL5jFE72NpjaUbxqC8+Anc/t+5qUn/8HHaF4XSsjnRkdqYL+g1hWX1PlMDSHU+afIY2KGbM1rGv4L
-        7GtW41DMrtsuk3iY6fVIlEmi4c9aXQYvs8itp1y6JWv1W7oq/UgBbSc8xgjOGg78eTU+yzlszOR3Y
-        EyBr7ajIATLucXJ18843/0nelWMknh6CtQJd/135IexW7ugDIjh21T5SHjeABMIiqS8+sv1L23jXa
-        E+r3BtEQ==;
-Received: from [2601:1c2:980:9ec0::df2f]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pWQzF-0082zE-9M; Mon, 27 Feb 2023 00:03:25 +0000
-Message-ID: <d24bff4c-9426-296a-d43a-f22983ab9086@infradead.org>
-Date:   Sun, 26 Feb 2023 16:03:24 -0800
+        with ESMTP id S229974AbjB0CFM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Feb 2023 21:05:12 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C1DCCA07;
+        Sun, 26 Feb 2023 18:04:42 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B0FAD60CA3;
+        Mon, 27 Feb 2023 02:02:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87C1EC433D2;
+        Mon, 27 Feb 2023 02:02:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677463372;
+        bh=eF84hPSUlq0NnK3I0lJ1wPe3Vof4mcdSUvR4+5Y5PYE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=QfDNLTXrNh/y0Np/6R8mK78h8+pO/Ea337gv6QdZyFknj10vUYik8mLa6xaB9B7di
+         Y4j4RYOv8tJ0/FOvnlFrnh1/ONjq0spUPpLpZ4vwTaKUrDGNTjJKhpWaJxEocRhXQF
+         VGrvZmLEOaE3WJO2FxifDB8ArZAcLZdOTFiU3Y+Y/+uXMWRaWl5O39O6HbrBjh4TI0
+         zK/7p2BzPzYABxhI58BKnxI2kYIv9pPSW8d4yoIaNQ2U0ZZgKf5IAKvfP5qxzsft6J
+         0FoFu/ODZh31uOngJMbdPReZaR6loi6OQ7GDh7fnBy8bWBAiZ8+dKDx6v0CNbnxu1M
+         u+5kHfdxnZkWA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Jakob Koschel <jkl820.git@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.2 32/60] docs/scripts/gdb: add necessary make scripts_gdb step
+Date:   Sun, 26 Feb 2023 21:00:17 -0500
+Message-Id: <20230227020045.1045105-32-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230227020045.1045105-1-sashal@kernel.org>
+References: <20230227020045.1045105-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH RFC] rcu: Add a minimum time for marking boot as completed
-Content-Language: en-US
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
-        rcu@vger.kernel.org
-References: <20230225032716.3320124-1-joel@joelfernandes.org>
- <ea03e810-95f0-abd8-2a83-f83174a99dbf@infradead.org>
- <Y/mHpOrr1C8NkMWm@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <Y/mHpOrr1C8NkMWm@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Jakob Koschel <jkl820.git@gmail.com>
 
+[ Upstream commit 6b219431037bf98c9efd49716aea9b68440477a3 ]
 
-On 2/24/23 19:59, Joel Fernandes wrote:
-> On Fri, Feb 24, 2023 at 07:32:22PM -0800, Randy Dunlap wrote:
-> [..] 
->>> +
->>> +	  Accept the default if unsure.
->>> +
->>>  config RCU_EXP_KTHREAD
->>>  	bool "Perform RCU expedited work in a real-time kthread"
->>>  	depends on RCU_BOOST && RCU_EXPERT
->>> diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
->>> index 19bf6fa3ee6a..5b73341d9b89 100644
->>> --- a/kernel/rcu/update.c
->>> +++ b/kernel/rcu/update.c
->>> @@ -62,6 +62,10 @@ module_param(rcu_normal_after_boot, int, 0444);
->>>  #endif
->>>  #endif /* #ifndef CONFIG_TINY_RCU */
->>>  
->>> +/* Minimum time until RCU considers boot as completed. */
->>> +static int boot_end_delay = CONFIG_RCU_BOOT_END_DELAY;
->>> +module_param(boot_end_delay, int, 0444);
->>> +
->>>  #ifdef CONFIG_DEBUG_LOCK_ALLOC
->>>  /**
->>>   * rcu_read_lock_held_common() - might we be in RCU-sched read-side critical section?
->>> @@ -225,12 +229,29 @@ void rcu_unexpedite_gp(void)
->>>  EXPORT_SYMBOL_GPL(rcu_unexpedite_gp);
->>>  
->>>  static bool rcu_boot_ended __read_mostly;
->>> -
->>>  /*
->>> - * Inform RCU of the end of the in-kernel boot sequence.
->>> + * Inform RCU of the end of the in-kernel boot sequence. The boot sequence will
->>> + * not be marked ended until at least boot_end_delay milliseconds have passed.
->>>   */
->>> +void rcu_end_inkernel_boot(void);
->>> +static void boot_rcu_work_fn(struct work_struct *work)
->>> +{
->>> +	rcu_end_inkernel_boot();
->>> +}
->>> +static DECLARE_DELAYED_WORK(boot_rcu_work, boot_rcu_work_fn);
->>> +
->>>  void rcu_end_inkernel_boot(void)
->>>  {
->>> +	if (boot_end_delay) {
->>> +		u64 boot_ms = ktime_get_boot_fast_ns() / 1000000UL;
->>
->> Is that division OK on 32-bit?  Might have to use a helper macro. (I dunno.)
-> 
-> I believe the below should work on 32-bit, but I will test it more. It does
-> on 64-bit.
-> 
-> Thanks!
-> 
-> ---8<-----------------------
-> 
-> diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
-> index cbdad7b46841..2f539c18b310 100644
-> --- a/kernel/rcu/update.c
-> +++ b/kernel/rcu/update.c
-> @@ -243,7 +243,7 @@ static DECLARE_DELAYED_WORK(boot_rcu_work, boot_rcu_work_fn);
->  void rcu_end_inkernel_boot(void)
->  {
->  	if (boot_end_delay) {
-> -		u64 boot_ms = ktime_get_boot_fast_ns() / 1000000UL;
-> +		u64 boot_ms = div_u64(ktime_get_boot_fast_ns(), 1000000UL);
->  
->  		if (boot_ms < boot_end_delay) {
->  			schedule_delayed_work(&boot_rcu_work,
+In order to debug the kernel successfully with gdb you need to run
+'make scripts_gdb' nowadays.
 
-Joel, this now builds cleanly on 32-bit. Before the patch:
+This was changed with the following commit:
 
-ld: kernel/rcu/update.o: in function `boot_rcu_work_fn':
-update.c:(.text+0x4623): undefined reference to `__udivdi3'
-ld: kernel/rcu/update.o: in function `rcu_end_inkernel_boot':
-update.c:(.text+0x46b3): undefined reference to `__udivdi3'
+Commit 67274c083438340ad16c ("scripts/gdb: delay generation of gdb
+constants.py")
 
-I don't know what the second one refers to, but it didn't show up
-after the patch above (using div_u64()).
+In order to have a complete guide for beginners this remark
+should be added to the offial documentation.
 
-Thanks.
+Signed-off-by: Jakob Koschel <jkl820.git@gmail.com>
+Link: https://lore.kernel.org/r/20230112-documentation-gdb-v2-1-292785c43dc9@gmail.com
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/dev-tools/gdb-kernel-debugging.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/dev-tools/gdb-kernel-debugging.rst
+index 8e0f1fe8d17ad..895285c037c72 100644
+--- a/Documentation/dev-tools/gdb-kernel-debugging.rst
++++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
+@@ -39,6 +39,10 @@ Setup
+   this mode. In this case, you should build the kernel with
+   CONFIG_RANDOMIZE_BASE disabled if the architecture supports KASLR.
+ 
++- Build the gdb scripts (required on kernels v5.1 and above)::
++
++    make scripts_gdb
++
+ - Enable the gdb stub of QEMU/KVM, either
+ 
+     - at VM startup time by appending "-s" to the QEMU command line
 -- 
-~Randy
+2.39.0
+
