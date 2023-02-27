@@ -2,108 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 631C6C64ED8
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 11:01:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C2FFC64ED8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 11:03:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229878AbjB0LBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 06:01:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60916 "EHLO
+        id S229589AbjB0LD0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 06:03:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbjB0LAo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 06:00:44 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22B502007F;
-        Mon, 27 Feb 2023 03:00:05 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id x34so5737651pjj.0;
-        Mon, 27 Feb 2023 03:00:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MFzgTaiWcQIPYwKIkE4QWiTWeDFQMo1N82kLFrXukaQ=;
-        b=OPz8eYyLQJ7KhWOumITy9lQam4wFZij+pd7qvjPRO+RxtIh9HEUGdDZE5OxqgA7HXO
-         bcsmA7e5S3+wfI9B6l0CN84Hf2RCO/hZmJDy78pnD5mnO8cxm+fajkPJYBn+vVWX061n
-         6pjkdJXWM5TT4puVefhwCfIl7AfbCx1FikV2Kd+URNaUzsYA9lmxND+C5/6BkhfH4Ev/
-         TIUXYJTHVsysuwfINf8W9T9bztowbQpfOX1oLHiy3THDb2lu76oIVc0KWhjMzA1x9r34
-         eaKUgPIzXhXl5vln6YmYkEWXl006nArQqQWJ86hT16OAeFDgsw6Z4Ab6JLjB5M5ISQUJ
-         0D3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MFzgTaiWcQIPYwKIkE4QWiTWeDFQMo1N82kLFrXukaQ=;
-        b=QsQcNHut4gdVRa0V768Tsuh3WOlgKvNc9PlcvM4Wi0rzVQzkkPq2QqISJaz74TL/8l
-         W0g0HyFgoxzRpY6cIjTjUHIiq3tnhFUJMkrVldw/cpzwJS9zr7eRUcPEFLYmCbC6z2Am
-         LEInRB7uniFpjsttjfduy1cH82spb3RToFF2wLf4GrWrtr95N7hzl30O9v6jsR0CcS9v
-         tkIXhDLbd+gWJeEG2AgTKIzXaB1Zpxjx3UwAYMllqorfp1IwlmW8O6dNLNa6zNrzjNfG
-         dN1pkvXgJcdNBMFVYUZnoR+3t2xCZn7FKCP/B8EsRB+VQIItMU24bTmasxfGCSqpY8u2
-         3dIA==
-X-Gm-Message-State: AO0yUKUrK0OuxymB/3RG+fsUqbVICkubdN1s80bn+51RlkW33UZjPTod
-        V0oCIKYZHzXBS/GCcB5mlh0=
-X-Google-Smtp-Source: AK7set9tHTkqdUjni8Yoqj+dQFR6RfCuA7YAg7Vi/pbwgMFz4YIas8EaUb6bFHEgmK4tjS6iem3Jdg==
-X-Received: by 2002:a17:902:d2c8:b0:19d:19fb:55fd with SMTP id n8-20020a170902d2c800b0019d19fb55fdmr2924513plc.20.1677495596942;
-        Mon, 27 Feb 2023 02:59:56 -0800 (PST)
-Received: from localhost.localdomain ([221.226.144.218])
-        by smtp.gmail.com with ESMTPSA id c5-20020a170902b68500b0019a7385079esm4292115pls.123.2023.02.27.02.59.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Feb 2023 02:59:56 -0800 (PST)
-From:   Song Shuai <suagrfillet@gmail.com>
-To:     corbet@lwn.net, alexs@kernel.org, siyanteng@loongson.cn,
-        robh@kernel.org, conor.dooley@microchip.com, palmer@rivosinc.com,
-        leyfoon.tan@starfivetech.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, Song Shuai <suagrfillet@gmail.com>
-Subject: [PATCH] sched/doc: supplement CPU capacity with RISC-V
-Date:   Mon, 27 Feb 2023 18:59:41 +0800
-Message-Id: <20230227105941.2749193-1-suagrfillet@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        with ESMTP id S229841AbjB0LCy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 06:02:54 -0500
+Received: from smtp-8faf.mail.infomaniak.ch (smtp-8faf.mail.infomaniak.ch [IPv6:2001:1600:3:17::8faf])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFDA0199ED
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 03:02:31 -0800 (PST)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4PQHdd0gyxzMr7Fg;
+        Mon, 27 Feb 2023 12:02:29 +0100 (CET)
+Received: from unknown by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4PQHdY3jTlzMsSll;
+        Mon, 27 Feb 2023 12:02:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1677495748;
+        bh=bVIwqOcB8Feb2sYl8JSgdB3nHN1l5NdDbh7Wn239QBM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=h0W2PJorapw4TwJv18FOzUG8Dd64rSrUwflL4kprPsYA3agwMRM/4rgVqmpKQrO1v
+         10IboLfUn0BbE9X2R1R4MsUMD1a6L1xwQqobvuvskYi0lbExH722Z9zf3vpPhldWcG
+         ZnGsYV3pEa/deNAZXzfKnVfuUowDpIr9Urdsof6k=
+Message-ID: <796789c7-24bd-f1f1-c402-c88b46253008@digikod.net>
+Date:   Mon, 27 Feb 2023 12:02:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: 
+Subject: Re: [PATCH v4] landlock: Clarify documentation for the
+ LANDLOCK_ACCESS_FS_REFER right
+Content-Language: en-US
+To:     Alex Colomar <alx.manpages@gmail.com>,
+        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Moore <paul@paul-moore.com>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Xiu Jianfeng <xiujianfeng@huawei.com>
+References: <20230221165205.4231-1-gnoack3000@gmail.com>
+ <f46d3b7f-71bf-7a5e-90b5-ab433f7253cd@gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <f46d3b7f-71bf-7a5e-90b5-ab433f7253cd@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit 7d2078310cbf ("dt-bindings: arm: move cpu-capacity to a
-shared loation") updates some references about capacity-dmips-mhz
-property in this document.
 
-The list of architectures using capacity-dmips-mhz omits RISC-V, so
-supplements it here.
+On 25/02/2023 00:00, Alex Colomar wrote:
+> Hi Günther,
+> 
+> On 2/21/23 17:52, Günther Noack wrote:
+> [...]
+> 
+> Sorry for taking so much time in looking into this!
+> 
+>> + *
+>> + *   * The reparented file may not gain more access rights in the destination
+>> + *     directory than it previously had in the source directory.  If this is
+>> + *     attempted, the operation results in an ``EXDEV`` error.
+>> + *
+>> + *   * When linking or renaming, the ``LANDLOCK_ACCESS_FS_MAKE_*`` right for the
+>> + *     respective file type must be granted for the destination directory.
+>> + *     Otherwise, the operation results in an ``EACCES`` error.
+>> + *
+>> + *   * When renaming, the ``LANDLOCK_ACCESS_FS_REMOVE_*`` right for the
+>> + *     respective file type must be granted for the source directory.  Otherwise,
+>> + *     the operation results in an ``EACCES`` error.
+>> + *
+>> + *   If multiple requirements are not met, the ``EACCES`` error code takes
+>> + *   precedence over ``EXDEV``.
+> 
+> Is this something worth guaranteeing, or just an implementation detail
+> that may easily change?
 
-Signed-off-by: Song Shuai <suagrfillet@gmail.com>
----
- Documentation/scheduler/sched-capacity.rst                    | 2 +-
- Documentation/translations/zh_CN/scheduler/sched-capacity.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation/scheduler/sched-capacity.rst
-index 8e2b8538bc2b..e2c1cf743158 100644
---- a/Documentation/scheduler/sched-capacity.rst
-+++ b/Documentation/scheduler/sched-capacity.rst
-@@ -258,7 +258,7 @@ Linux cannot currently figure out CPU capacity on its own, this information thus
- needs to be handed to it. Architectures must define arch_scale_cpu_capacity()
- for that purpose.
- 
--The arm and arm64 architectures directly map this to the arch_topology driver
-+The arm, arm64, and RISC-V architectures directly map this to the arch_topology driver
- CPU scaling data, which is derived from the capacity-dmips-mhz CPU binding; see
- Documentation/devicetree/bindings/cpu/cpu-capacity.txt.
- 
-diff --git a/Documentation/translations/zh_CN/scheduler/sched-capacity.rst b/Documentation/translations/zh_CN/scheduler/sched-capacity.rst
-index e07ffdd391d3..8cba135dcd1a 100644
---- a/Documentation/translations/zh_CN/scheduler/sched-capacity.rst
-+++ b/Documentation/translations/zh_CN/scheduler/sched-capacity.rst
-@@ -231,7 +231,7 @@ CFS调度类基于实体负载跟踪机制（Per-Entity Load Tracking, PELT）
- 当前，Linux无法凭自身算出CPU算力，因此必须要有把这个信息传递给Linux的方式。每个架构必须为此
- 定义arch_scale_cpu_capacity()函数。
- 
--arm和arm64架构直接把这个信息映射到arch_topology驱动的CPU scaling数据中（译注：参考
-+arm、arm64和RISC-V架构直接把这个信息映射到arch_topology驱动的CPU scaling数据中（译注：参考
- arch_topology.h的percpu变量cpu_scale），它是从capacity-dmips-mhz CPU binding中衍生计算
- 出来的。参见Documentation/devicetree/bindings/cpu/cpu-capacity.txt。
- 
--- 
-2.20.1
-
+There is a deliberate effort to keep this error priority to be able to 
+know if a rename or link action can be replaced with a file copy, which 
+is useful e.g., for `mv`.
