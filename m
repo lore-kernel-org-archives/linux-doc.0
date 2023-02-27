@@ -2,134 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75827C64ED6
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 13:44:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6787BC64ED8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 13:56:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230159AbjB0Noh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 08:44:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33036 "EHLO
+        id S229657AbjB0N4g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 08:56:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230157AbjB0Nog (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 08:44:36 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 654FC1C5A9
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 05:44:35 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id p6so3589134pga.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 05:44:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z110NAjU0K09Me/E1RV39MMihHyn6kMCAJzzQuDRvLM=;
-        b=Bt25ZvB0N308yiyf/YLK6YTdoFkc2Qa+32onq9WBjhU/OTcfuk9JA3esrW4xhcahv+
-         7C8KuGS41htHANVW9KbDLzdQ7VxEyp3H2nDqK/0W7L4QdxuVfnOlUUnnGg1H5AyhtrIL
-         0bQufJpjUNdNJ85Y6SUmYAGRzWyphsj0y3VxG8sugulYIxbJpKsfcqYB4dTJAjoQ8y5u
-         m2HxHiO/mCzujS2P4vOwiStsfHE/T0oCBSpn/UJbPe2SSXoaXMb8SxIFFUUQNQ34E3Dz
-         8B24mQVHov6TeFvUwvAUAOPyjvje0N4cLw6nsmfh0L3ZXwJSAoXqIaGf0FwznVrWHUFv
-         f8zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z110NAjU0K09Me/E1RV39MMihHyn6kMCAJzzQuDRvLM=;
-        b=aWgL9ZwEYFuytEzIttBWEs13l00tJkYJ7uz0jBMuIj7KN0LTAsxSgcK6DvFIvrLc+C
-         D9lKhIROgGCqabvCDh3uO+KP8kBTX1ldr8ox3hKWgSJLT6PGbFZpNPuHHiZmbUdIgsxY
-         vBdyTH3u1RJ1QVnHsZSWzz3vK8Py5urclMpoTau3CYdYNwTZQqIKqQtCp7XnHTPPTssZ
-         Gn5+Qpka/rpuQfkQV2AE3aVHAlhabs1gay7kVEK4+G7pJ4XV5fCmgtWWrYrgP9WhgrnS
-         LXz1VX6u679rsl/gpztajmMpv6HTpvbnOqMDC2YGt7TkSZhTAeUOYkX2O+9aPvX44Xw8
-         D40g==
-X-Gm-Message-State: AO0yUKWbqHxbJYLGnMyr8UJged1ckj6lOPjQ6hZ9uC7ObNwEdnAk9+IQ
-        z+JG2QF5sdkTBd/fg+y2qfWEWvEWB4trKpsQ7ZszKg==
-X-Google-Smtp-Source: AK7set87NqLRpSozE6kg2p4o0pb3XUQaQz7B9sYHA7YkNrwzCDZ04rxsE1XWwJm5J825W1si6bN1i5xRQxMQsUL0Yvo=
-X-Received: by 2002:a05:6a00:1629:b0:5e9:57b1:5bda with SMTP id
- e9-20020a056a00162900b005e957b15bdamr2461691pfc.3.1677505474786; Mon, 27 Feb
- 2023 05:44:34 -0800 (PST)
+        with ESMTP id S229753AbjB0N4f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 08:56:35 -0500
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00AD11F4B2;
+        Mon, 27 Feb 2023 05:56:33 -0800 (PST)
+Received: from mail02.huawei.com (unknown [172.30.67.143])
+        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4PQMVL6W5Yz4f3l81;
+        Mon, 27 Feb 2023 21:56:26 +0800 (CST)
+Received: from [10.174.176.117] (unknown [10.174.176.117])
+        by APP2 (Coremail) with SMTP id Syh0CgAXB+WJtvxjUNV0EQ--.30054S2;
+        Mon, 27 Feb 2023 21:56:28 +0800 (CST)
+From:   Hou Tao <houtao@huaweicloud.com>
+Subject: Re: [PATCH v2] blk-ioprio: Introduce promote-to-rt policy
+To:     Jan Kara <jack@suse.cz>
+Cc:     linux-block@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, houtao1@huawei.com
+References: <20230220135428.2632906-1-houtao@huaweicloud.com>
+ <20230227130305.2idxwmz2kdnacolc@quack3>
+Message-ID: <05eafc4f-2d60-b7e6-1d5d-9a08709916e8@huaweicloud.com>
+Date:   Mon, 27 Feb 2023 21:56:25 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20230224093454.956298-1-vincent.guittot@linaro.org>
- <20230224093454.956298-7-vincent.guittot@linaro.org> <20230224192919.d4fcde3dwh7betvm@blackpad>
-In-Reply-To: <20230224192919.d4fcde3dwh7betvm@blackpad>
-From:   Vincent Guittot <vincent.guittot@linaro.org>
-Date:   Mon, 27 Feb 2023 14:44:22 +0100
-Message-ID: <CAKfTPtBorwnjU2=nprBo7aAEjoz+7x5nRYUdajZc53cuVgHSBw@mail.gmail.com>
-Subject: Re: [PATCH v12 6/8] sched/fair: Add sched group latency support
-To:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc:     mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
-        linux-kernel@vger.kernel.org, parth@linux.ibm.com, tj@kernel.org,
-        lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        cgroups@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        qyousef@layalina.io, chris.hyser@oracle.com,
-        patrick.bellasi@matbug.net, David.Laight@aculab.com,
-        pjt@google.com, pavel@ucw.cz, qperret@google.com,
-        tim.c.chen@linux.intel.com, joshdon@google.com, timj@gnu.org,
-        kprateek.nayak@amd.com, yu.c.chen@intel.com,
-        youssefesmat@chromium.org, joel@joelfernandes.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230227130305.2idxwmz2kdnacolc@quack3>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-CM-TRANSID: Syh0CgAXB+WJtvxjUNV0EQ--.30054S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tw4kJF1UAF4UGryrKrykZrb_yoW8CrW5pF
+        4fWas3WryktF4fCF1DXF48AFW8t397Jw1UJr1YqrWru3y3Ar9xKw12gayfXFW5CrWkGr4Y
+        q3W5ZrWvkF4UZ3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+        0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
+        07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+        GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
+        wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
+        7IU1zuWJUUUUU==
+X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 24 Feb 2023 at 20:29, Michal Koutn=C3=BD <mkoutny@suse.com> wrote:
->
-> Hello Vincent.
->
-> On Fri, Feb 24, 2023 at 10:34:52AM +0100, Vincent Guittot <vincent.guitto=
-t@linaro.org> wrote:
-> > +  cpu.latency.nice
-> > +     A read-write single value file which exists on non-root
-> > +     cgroups.  The default is "0".
-> > +
-> > +     The nice value is in the range [-20, 19].
-> > +
-> > +     This interface file allows reading and setting latency using the
-> > +     same values used by sched_setattr(2). The latency_nice of a group=
- is
-> > +     used to limit the impact of the latency_nice of a task outside th=
-e
-> > +     group.
->
-> IIUC, the latency priority is taken into account when deciding between
-> entitites at the same level (as in pick_next_entity() or
-> check_preempt_wake()/find_matchig_se()).
->
-> So this group attribute is relevant in context of siblings (i.e. like
-> cpu.weight ~ bandwidth priority)?
+Hi
 
-Yes
+On 2/27/2023 9:03 PM, Jan Kara wrote:
+> On Mon 20-02-23 21:54:28, Hou Tao wrote:
+>> From: Hou Tao <houtao1@huawei.com>
+>>
+>> Since commit a78418e6a04c ("block: Always initialize bio IO priority on
+>> submit"), bio->bi_ioprio will never be IOPRIO_CLASS_NONE when calling
+>> blkcg_set_ioprio(), so there will be no way to promote the io-priority
+>> of one cgroup to IOPRIO_CLASS_RT, because bi_ioprio will always be
+>> greater than or equals to IOPRIO_CLASS_RT.
+>>
+>> It seems possible to call blkcg_set_ioprio() first then try to
+>> initialize bi_ioprio later in bio_set_ioprio(), but this doesn't work
+>> for bio in which bi_ioprio is already initialized (e.g., direct-io), so
+>> introduce a new ioprio policy to promote the iopriority of bio to
+>> IOPRIO_CLASS_RT if the ioprio is not already RT.
+>>
+>> So introduce a new promote-to-rt policy to achieve this. For none-to-rt
+>> policy, although it doesn't work now, but considering that its purpose
+>> was also to override the io-priority to RT and allow for a smoother
+>> transition, just keep it and treat it as an alias of the promote-to-rt
+>> policy.
+>>
+>> Signed-off-by: Hou Tao <houtao1@huawei.com>
+> Looks good to me. Feel free to add:
+>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+Thanks for the review.
+>
+> Just one question regarding doc below:
+>
+>> ++----------------+---+
+>> +| no-change      | 0 |
+>> ++----------------+---+
+>> +| rt-to-be       | 2 |
+>> ++----------------+---+
+>> +| all-to-idle    | 3 |
+>> ++----------------+---+
+> Shouldn't there be preempt-to-rt somewhere in this table as well? Or why
+> this this in the doc at all? I'd consider the numbers to be kernel internal
+> thing?
+These numbers are used in the algorithm paragraph below to explain how the final
+ioprio is calculated. For prompt-to-rt policy, the algorithm is different and
+the number is unnecessary.
 
->
-> I'm thus confused when it's referred to as a limit (in vertical sense).
-> You somewhat imply that in [1]:
+> 								Honza
 
-There were discussions about adding more features that could make use
-of the latency nice. This comment mainly wants to describe how this
-would behave in case that we need to compre entities/tasks not at the
-same level.
-
-Regarding the current use of latency nice to set a latency offset, the
-problem doesn't appear because latency offset applies between entities
-at the same level as you mentioned above
-
->
-> > Regarding the behavior, the rule remains the same that a sched_entity
-> > attached to a cgroup will not get more (latency in this case) than
-> > what has been set for the group entity.
->
-> But I don't see where such a constraint would be implemented in the
-> code. (My cursory understanding above tends to horizontal comparisons.)
->
-> Could you please hint me which is right?
-
-Does  my explanation above make sense to you ?
-
->
-> Thanks,
-> Michal
->
-> [1] https://lore.kernel.org/r/CAKfTPtDu=3Dc-psGnHkoWSPRWoh1Z0VBBfsN++g+kr=
-v4B1SJmFjg@mail.gmail.com/
->
