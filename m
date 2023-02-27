@@ -2,113 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6787BC64ED8
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 13:56:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2C7C7EE23
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 14:04:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229657AbjB0N4g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 08:56:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44732 "EHLO
+        id S229767AbjB0OD7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 09:03:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbjB0N4f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 08:56:35 -0500
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00AD11F4B2;
-        Mon, 27 Feb 2023 05:56:33 -0800 (PST)
-Received: from mail02.huawei.com (unknown [172.30.67.143])
-        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4PQMVL6W5Yz4f3l81;
-        Mon, 27 Feb 2023 21:56:26 +0800 (CST)
-Received: from [10.174.176.117] (unknown [10.174.176.117])
-        by APP2 (Coremail) with SMTP id Syh0CgAXB+WJtvxjUNV0EQ--.30054S2;
-        Mon, 27 Feb 2023 21:56:28 +0800 (CST)
-From:   Hou Tao <houtao@huaweicloud.com>
-Subject: Re: [PATCH v2] blk-ioprio: Introduce promote-to-rt policy
-To:     Jan Kara <jack@suse.cz>
-Cc:     linux-block@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>, cgroups@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, houtao1@huawei.com
-References: <20230220135428.2632906-1-houtao@huaweicloud.com>
- <20230227130305.2idxwmz2kdnacolc@quack3>
-Message-ID: <05eafc4f-2d60-b7e6-1d5d-9a08709916e8@huaweicloud.com>
-Date:   Mon, 27 Feb 2023 21:56:25 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        with ESMTP id S229566AbjB0OD7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 09:03:59 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D7A65BF;
+        Mon, 27 Feb 2023 06:03:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1677506638; x=1709042638;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lhINFStdkUVW6diIibKLb9nd7HYBVPWekTlInXGunlM=;
+  b=x+bRhmtBZx2nx6R+5HhztNXI3ptTCcbN0mW6qwlzhTiOmhGUJflpU5EY
+   L3GiUbHCzI4r1j3q2qEUTZTSqMKHsd+eXnU1klZ7y4OJ7FvtfsRn/FSqu
+   0T2DvBZJi8IGUm288xeUNVUZ8WWO7y5j7oC/QlPuq3y4Dlumh3zJIskQ4
+   pxf4uFog+BUfeqQ6rnlC6UXJ+rv2GQRc/tk63jlAyhbfToFVYuIZOm+hB
+   gNGQSR9c5YTRye0f6NnBUCyNs2PEjKg2sTSJJp1Eo7XztY/YYgKSrdZul
+   4A03PTKNiW94MD2Kj3A/KkoDZr5QCQii/s+m6YfxlF84EaWMNgMax5Wpc
+   A==;
+X-IronPort-AV: E=Sophos;i="5.98,332,1673938800"; 
+   d="asc'?scan'208";a="139247079"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 27 Feb 2023 07:03:55 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 27 Feb 2023 07:03:55 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
+ Transport; Mon, 27 Feb 2023 07:03:53 -0700
+Date:   Mon, 27 Feb 2023 14:03:26 +0000
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Hal Feng <hal.feng@starfivetech.com>
+CC:     <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+        Samin Guo <samin.guo@starfivetech.com>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 2/2] hwmon: (sfctemp) Add StarFive JH71x0 temperature
+ sensor
+Message-ID: <Y/y4LunvriV2RYwu@wendy>
+References: <20230227134125.120638-1-hal.feng@starfivetech.com>
+ <20230227134125.120638-3-hal.feng@starfivetech.com>
 MIME-Version: 1.0
-In-Reply-To: <20230227130305.2idxwmz2kdnacolc@quack3>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-CM-TRANSID: Syh0CgAXB+WJtvxjUNV0EQ--.30054S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tw4kJF1UAF4UGryrKrykZrb_yoW8CrW5pF
-        4fWas3WryktF4fCF1DXF48AFW8t397Jw1UJr1YqrWru3y3Ar9xKw12gayfXFW5CrWkGr4Y
-        q3W5ZrWvkF4UZ3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-        0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
-        07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
-        GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
-        wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
-        7IU1zuWJUUUUU==
-X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="NBI72SkxZsmpX/ON"
+Content-Disposition: inline
+In-Reply-To: <20230227134125.120638-3-hal.feng@starfivetech.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi
+--NBI72SkxZsmpX/ON
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2/27/2023 9:03 PM, Jan Kara wrote:
-> On Mon 20-02-23 21:54:28, Hou Tao wrote:
->> From: Hou Tao <houtao1@huawei.com>
->>
->> Since commit a78418e6a04c ("block: Always initialize bio IO priority on
->> submit"), bio->bi_ioprio will never be IOPRIO_CLASS_NONE when calling
->> blkcg_set_ioprio(), so there will be no way to promote the io-priority
->> of one cgroup to IOPRIO_CLASS_RT, because bi_ioprio will always be
->> greater than or equals to IOPRIO_CLASS_RT.
->>
->> It seems possible to call blkcg_set_ioprio() first then try to
->> initialize bi_ioprio later in bio_set_ioprio(), but this doesn't work
->> for bio in which bi_ioprio is already initialized (e.g., direct-io), so
->> introduce a new ioprio policy to promote the iopriority of bio to
->> IOPRIO_CLASS_RT if the ioprio is not already RT.
->>
->> So introduce a new promote-to-rt policy to achieve this. For none-to-rt
->> policy, although it doesn't work now, but considering that its purpose
->> was also to override the io-priority to RT and allow for a smoother
->> transition, just keep it and treat it as an alias of the promote-to-rt
->> policy.
->>
->> Signed-off-by: Hou Tao <houtao1@huawei.com>
-> Looks good to me. Feel free to add:
->
-> Reviewed-by: Jan Kara <jack@suse.cz>
-Thanks for the review.
->
-> Just one question regarding doc below:
->
->> ++----------------+---+
->> +| no-change      | 0 |
->> ++----------------+---+
->> +| rt-to-be       | 2 |
->> ++----------------+---+
->> +| all-to-idle    | 3 |
->> ++----------------+---+
-> Shouldn't there be preempt-to-rt somewhere in this table as well? Or why
-> this this in the doc at all? I'd consider the numbers to be kernel internal
-> thing?
-These numbers are used in the algorithm paragraph below to explain how the final
-ioprio is calculated. For prompt-to-rt policy, the algorithm is different and
-the number is unnecessary.
+On Mon, Feb 27, 2023 at 09:41:25PM +0800, Hal Feng wrote:
+> From: Emil Renner Berthing <kernel@esmil.dk>
+>=20
+> Add driver for the StarFive JH71x0 temperature sensor. You
+> can enable/disable it and read temperature in milli Celcius
+> through sysfs.
+>=20
+> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+> Co-developed-by: Samin Guo <samin.guo@starfivetech.com>
+> Signed-off-by: Samin Guo <samin.guo@starfivetech.com>
+> Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
 
-> 								Honza
+> +config SENSORS_SFCTEMP
+> +	tristate "Starfive JH71x0 temperature sensor"
+> +	depends on SOC_STARFIVE || COMPILE_TEST
 
+We (or I?) am trying to homogenise RISC-V with the rest of the kernel by
+using ARCH_FOO rather than SOC_FOO. We've currently got a mix of both,
+due to companies that started out with RISC-V having SOC_ symbols &
+those with history in other archs having ARCH_ ones.
+The ARCH_ definitions landed in mainline this week, so if you end up
+resubmitting this driver, it'd save me a conversion if you were to use
+the ARCH_ variant.
+
+Thanks,
+Conor.
+
+> +	help
+> +	  If you say yes here you get support for temperature sensor
+> +	  on the Starfive JH71x0 SoCs.
+> +
+> +	  This driver can also be built as a module.  If so, the module
+> +	  will be called sfctemp.
+
+--NBI72SkxZsmpX/ON
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY/y4LgAKCRB4tDGHoIJi
+0mJ0AP4vNo5Ie/2kHWAmJFUKGr8YQL9x84VEY3Xn9vgF9A6izgD/QJzmlpXfLT0E
+wuAiKkJkRPP9FP1Z+dqqrB2FAZrw3QY=
+=DO8S
+-----END PGP SIGNATURE-----
+
+--NBI72SkxZsmpX/ON--
