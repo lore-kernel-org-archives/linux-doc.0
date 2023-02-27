@@ -2,167 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C541BC64ED6
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 13:24:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B6A8C64ED8
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 13:27:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbjB0NY2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 08:24:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37560 "EHLO
+        id S229842AbjB0N1U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 08:27:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229874AbjB0NY1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 08:24:27 -0500
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45AAB12C
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 05:24:26 -0800 (PST)
-Received: by mail-qt1-x829.google.com with SMTP id ay9so6463879qtb.9
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 05:24:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SvWgbJ9JHqwbDNhWcFDNiCZkkzEissDQVBURsUj8ZIc=;
-        b=oKsTvaze0v+fliq+yhISzNmMHTgaoRjTFxGNiMkiFr8xwejqoVDZ3SbqCe1P7uMiEr
-         f84rxWS0HQWHgVdJnxaqzE6wssLYtdv3R0X0VPE6KjHhoHou6743WAS6o6Ru+TkRoxN7
-         YXhnaUo5i9+BkfNQGLBbDWxaEzxFnmD//goSQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SvWgbJ9JHqwbDNhWcFDNiCZkkzEissDQVBURsUj8ZIc=;
-        b=NuzCNuBVu3Q67kCMYo8XMRnDTccj2zbDLnZNpxgJfvStLfdub/PE3BRPbyqjcfMhaK
-         QngkrKzkoZXmr1dpZods5SXdJrHM8jLQVE+uY8MpLbVZm32ePbG0lNUCR/mbmL9ZVKuT
-         cHSZOwlqmQWdhQ0oPB6Iu9LAo66rni9Fsm0vd4BHiMcEKwhTiXsFN7SXT/ke97GLwyDS
-         UrgBFcsI5wS5nhBViI2tgSrP5cGjU97F+C0Gjckrh7Ip1e/pzcjfzmufFP3gxB8dnh1z
-         yTT4GxF4K3BHe9tan05nNbgbG5StTV3y9mVlglDWu9g6ECSOIaCm6Iq5JiwbXiGl0Ltx
-         TTgw==
-X-Gm-Message-State: AO0yUKWJ4PiYbk74Rp0CDmoyQxitSOev7yEWIAdvoyzKyxFpZQtWebuv
-        PJZudw8PLf1ok3KOnmpdyw4Pow==
-X-Google-Smtp-Source: AK7set/RKUThs6S/feli3szgaS/+d/HsT0B0UInQ6324wdqpABzcfGwCKnyPp4CE3pNdGJNew2XSFg==
-X-Received: by 2002:a05:622a:1048:b0:3b8:4951:57b8 with SMTP id f8-20020a05622a104800b003b8495157b8mr29368866qte.15.1677504265255;
-        Mon, 27 Feb 2023 05:24:25 -0800 (PST)
-Received: from smtpclient.apple (c-98-249-43-138.hsd1.va.comcast.net. [98.249.43.138])
-        by smtp.gmail.com with ESMTPSA id k13-20020ac8074d000000b003bfd27755d7sm2592585qth.19.2023.02.27.05.24.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Feb 2023 05:24:24 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Joel Fernandes <joel@joelfernandes.org>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH RFC] rcu: Add a minimum time for marking boot as completed
-Date:   Mon, 27 Feb 2023 08:24:13 -0500
-Message-Id: <F276BA2C-5401-498D-80CF-D60DFEA71F38@joelfernandes.org>
-References: <d24bff4c-9426-296a-d43a-f22983ab9086@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
-        rcu@vger.kernel.org
-In-Reply-To: <d24bff4c-9426-296a-d43a-f22983ab9086@infradead.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-X-Mailer: iPhone Mail (20B101)
+        with ESMTP id S229688AbjB0N1T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 08:27:19 -0500
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B734718B0E;
+        Mon, 27 Feb 2023 05:27:17 -0800 (PST)
+Received: (Authenticated sender: alex@ghiti.fr)
+        by mail.gandi.net (Postfix) with ESMTPSA id 275B3E0006;
+        Mon, 27 Feb 2023 13:27:11 +0000 (UTC)
+Message-ID: <6bd8012a-7311-7956-b0ae-966b8534a64a@ghiti.fr>
+Date:   Mon, 27 Feb 2023 14:27:11 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v7 1/1] riscv: Allow to downgrade paging mode from the
+ command line
+To:     Ard Biesheuvel <ardb@kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <conor@kernel.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+        nathan@kernel.org, llvm@lists.linux.dev, ndesaulniers@google.com
+References: <20230224100218.1824569-1-alexghiti@rivosinc.com>
+ <20230224100218.1824569-2-alexghiti@rivosinc.com> <Y/yilORflGv3vXjX@wendy>
+ <CAMj1kXGCkqpHY7rHZv0EFKhPNk6jpbh1OfG_Jm3vSW8c5Y+9_A@mail.gmail.com>
+Content-Language: en-US
+From:   Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <CAMj1kXGCkqpHY7rHZv0EFKhPNk6jpbh1OfG_Jm3vSW8c5Y+9_A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-
-> On Feb 26, 2023, at 7:03 PM, Randy Dunlap <rdunlap@infradead.org> wrote:
->=20
-> =EF=BB=BF
->=20
->> On 2/24/23 19:59, Joel Fernandes wrote:
->> On Fri, Feb 24, 2023 at 07:32:22PM -0800, Randy Dunlap wrote:
->> [..]=20
->>>> +
->>>> +      Accept the default if unsure.
->>>> +
->>>> config RCU_EXP_KTHREAD
->>>>    bool "Perform RCU expedited work in a real-time kthread"
->>>>    depends on RCU_BOOST && RCU_EXPERT
->>>> diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
->>>> index 19bf6fa3ee6a..5b73341d9b89 100644
->>>> --- a/kernel/rcu/update.c
->>>> +++ b/kernel/rcu/update.c
->>>> @@ -62,6 +62,10 @@ module_param(rcu_normal_after_boot, int, 0444);
->>>> #endif
->>>> #endif /* #ifndef CONFIG_TINY_RCU */
->>>>=20
->>>> +/* Minimum time until RCU considers boot as completed. */
->>>> +static int boot_end_delay =3D CONFIG_RCU_BOOT_END_DELAY;
->>>> +module_param(boot_end_delay, int, 0444);
->>>> +
->>>> #ifdef CONFIG_DEBUG_LOCK_ALLOC
->>>> /**
->>>>  * rcu_read_lock_held_common() - might we be in RCU-sched read-side cri=
-tical section?
->>>> @@ -225,12 +229,29 @@ void rcu_unexpedite_gp(void)
->>>> EXPORT_SYMBOL_GPL(rcu_unexpedite_gp);
->>>>=20
->>>> static bool rcu_boot_ended __read_mostly;
->>>> -
->>>> /*
->>>> - * Inform RCU of the end of the in-kernel boot sequence.
->>>> + * Inform RCU of the end of the in-kernel boot sequence. The boot sequ=
-ence will
->>>> + * not be marked ended until at least boot_end_delay milliseconds have=
- passed.
->>>>  */
->>>> +void rcu_end_inkernel_boot(void);
->>>> +static void boot_rcu_work_fn(struct work_struct *work)
->>>> +{
->>>> +    rcu_end_inkernel_boot();
->>>> +}
->>>> +static DECLARE_DELAYED_WORK(boot_rcu_work, boot_rcu_work_fn);
->>>> +
->>>> void rcu_end_inkernel_boot(void)
->>>> {
->>>> +    if (boot_end_delay) {
->>>> +        u64 boot_ms =3D ktime_get_boot_fast_ns() / 1000000UL;
->>>=20
->>> Is that division OK on 32-bit?  Might have to use a helper macro. (I dun=
-no.)
->>=20
->> I believe the below should work on 32-bit, but I will test it more. It do=
-es
->> on 64-bit.
->>=20
->> Thanks!
->>=20
->> ---8<-----------------------
->>=20
->> diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
->> index cbdad7b46841..2f539c18b310 100644
->> --- a/kernel/rcu/update.c
->> +++ b/kernel/rcu/update.c
->> @@ -243,7 +243,7 @@ static DECLARE_DELAYED_WORK(boot_rcu_work, boot_rcu_w=
-ork_fn);
->> void rcu_end_inkernel_boot(void)
->> {
->>    if (boot_end_delay) {
->> -        u64 boot_ms =3D ktime_get_boot_fast_ns() / 1000000UL;
->> +        u64 boot_ms =3D div_u64(ktime_get_boot_fast_ns(), 1000000UL);
->>=20
->>        if (boot_ms < boot_end_delay) {
->>            schedule_delayed_work(&boot_rcu_work,
->=20
-> Joel, this now builds cleanly on 32-bit. Before the patch:
->=20
-> ld: kernel/rcu/update.o: in function `boot_rcu_work_fn':
-> update.c:(.text+0x4623): undefined reference to `__udivdi3'
-> ld: kernel/rcu/update.o: in function `rcu_end_inkernel_boot':
-> update.c:(.text+0x46b3): undefined reference to `__udivdi3'
->=20
-> I don't know what the second one refers to, but it didn't show up
-> after the patch above (using div_u64()).
-
-Thanks a lot, I will update the patch with this in the next spin.
-
- - Joel
+On 2/27/23 13:56, Ard Biesheuvel wrote:
+> On Mon, 27 Feb 2023 at 13:32, Conor Dooley <conor.dooley@microchip.com> wrote:
+>> Hey Alex, clang/llvm folk,
+>>
+>> On Fri, Feb 24, 2023 at 11:02:18AM +0100, Alexandre Ghiti wrote:
+>>> Add 2 early command line parameters that allow to downgrade satp mode
+>>> (using the same naming as x86):
+>>> - "no5lvl": use a 4-level page table (down from sv57 to sv48)
+>>> - "no4lvl": use a 3-level page table (down from sv57/sv48 to sv39)
+>>>
+>>> Note that going through the device tree to get the kernel command line
+>>> works with ACPI too since the efi stub creates a device tree anyway with
+>>> the command line.
+>>>
+>>> In KASAN kernels, we can't use the libfdt that early in the boot process
+>>> since we are not ready to execute instrumented functions. So instead of
+>>> using the "generic" libfdt, we compile our own versions of those functions
+>>> that are not instrumented and that are prefixed so that they do not
+>>> conflict with the generic ones. We also need the non-instrumented versions
+>>> of the string functions and the prefixed versions of memcpy/memmove.
+>>>
+>>> This is largely inspired by commit aacd149b6238 ("arm64: head: avoid
+>>> relocating the kernel twice for KASLR") from which I removed compilation
+>>> flags that were not relevant to RISC-V at the moment (LTO, SCS, pie).
+>>>
+>>> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+>>> Tested-by: Björn Töpel <bjorn@rivosinc.com>
+>>> Reviewed-by: Björn Töpel <bjorn@rivosinc.com>
+>>> ---
+>>>   .../admin-guide/kernel-parameters.txt         |  5 +-
+>>>   arch/riscv/kernel/Makefile                    |  2 +
+>>>   arch/riscv/kernel/pi/Makefile                 | 37 +++++++++++
+>>>   arch/riscv/kernel/pi/cmdline_early.c          | 62 +++++++++++++++++++
+>> +      4 ld.lld: warning: vmlinux.a(arch/riscv/kernel/pi/string.pi.o):(.init.sdata) is being placed in '.init.sdata'
+>>
+>> I'm getting 4 new linker warnings with LLVM=1 clang-15 allmodconfig
+>> builds - but I don't really understand this issue.
+>> Is this spurious, and a just consequence of...
+>>
+>>> diff --git a/arch/riscv/kernel/pi/Makefile b/arch/riscv/kernel/pi/Makefile
+>>> new file mode 100644
+>>> index 000000000000..4002ed94b6d3
+>>> --- /dev/null
+>>> +++ b/arch/riscv/kernel/pi/Makefile
+>>> @@ -0,0 +1,37 @@
+>>> +# SPDX-License-Identifier: GPL-2.0
+>>> +# This file was copied from arm64/kernel/pi/Makefile.
+>>> +
+>>> +KBUILD_CFLAGS        := $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
+>>> +                -Os -DDISABLE_BRANCH_PROFILING $(DISABLE_STACKLEAK_PLUGIN) \
+>>> +                $(call cc-option,-mbranch-protection=none) \
+>>> +                -I$(srctree)/scripts/dtc/libfdt -fno-stack-protector \
+>>> +                -D__DISABLE_EXPORTS -ffreestanding \
+>>> +                -fno-asynchronous-unwind-tables -fno-unwind-tables \
+>>> +                $(call cc-option,-fno-addrsig)
+>>> +
+>>> +CFLAGS_cmdline_early.o += -D__NO_FORTIFY
+>>> +CFLAGS_lib-fdt_ro.o += -D__NO_FORTIFY
+>>> +
+>>> +GCOV_PROFILE := n
+>>> +KASAN_SANITIZE       := n
+>>> +KCSAN_SANITIZE       := n
+>>> +UBSAN_SANITIZE       := n
+>>> +KCOV_INSTRUMENT      := n
+>>> +
+>>> +$(obj)/%.pi.o: OBJCOPYFLAGS := --prefix-symbols=__pi_ \
+>>> +                            --remove-section=.note.gnu.property \
+>>> +                            --prefix-alloc-sections=.init
+>> ...this?
+>>
+> Yes. if the input object has a .sdata section, the output .pi.o object
+> will have a .init.sdata section, and if the common linker script does
+> not place it explicitly, you will get a warning. Note that we switched
+> to --orphan-handling=error on other arches, as the linker sometimes
 
 
->=20
-> Thanks.
-> --=20
-> ~Randy
+It seems orphan-handling is set to "error" only when WERROR is set (see 
+CONFIG_LD_ORPHAN_WARN_LEVEL).
+
+
+> does unexpected things with sections it doesn't know about.
+>
+> I'd imagine this needs to be combined with .init.data
+
+
+Yes, gcc does not produce this section but others that I placed in a new 
+section called .init.pidata: I did not want to expand INIT_DATA_SECTION 
+macro because we won't need that anymore when we implement all the 
+string functions.
+
+So I'll add this new .init.sdata section to .init.pidata in the v8!
+
+Thanks,
+
+
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
