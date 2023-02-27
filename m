@@ -2,135 +2,173 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C3AAC64ED6
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 12:07:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1106DC64ED6
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 12:32:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbjB0MHB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 07:07:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57796 "EHLO
+        id S229535AbjB0McK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 07:32:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbjB0MHA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 07:07:00 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4DD71421A;
-        Mon, 27 Feb 2023 04:06:58 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id h11-20020a17090a2ecb00b00237c740335cso4904312pjs.3;
-        Mon, 27 Feb 2023 04:06:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RrHEMkhyfJhxIny70LQz8hfKlJZxebfX1zWh9JqyY+g=;
-        b=Yj28AAZRGZ0QzeoY1TIm9msvcpiSCxy4fSZgwOXT2VeXGJI06XOK23h77Ulc+3TCmM
-         rNkgRMyGhy/Nz7m6MzfbagblWRRnEPlUMxlfZpuTFUWsmQ0h4f4Ggcjknk5cExgekM1V
-         2mxPQsnd6vZ73yaEmK5lXoUeDgdRefpT+RJFlw0rjV/ucrLSsFtH+1UC914QT2GIKiD7
-         HhF1j6JM5ucV9ro0+h5i8WAnohqQJEIstlZmN8k+z8RilWRb9ciHU1pSttJW920WmSJa
-         DG4j4YXLUo/Z5QZVvvN2Yvyn5ebvpdQwUiH2VIF9u2aZH1zyZDo77wOtGG4TpWjBYLCA
-         6KTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RrHEMkhyfJhxIny70LQz8hfKlJZxebfX1zWh9JqyY+g=;
-        b=B89Zdz7nCt0OQ6RXjDp9doGMHNbIrexb8xYcnRigYpPFvaEP1L6hdAa5TZfVTaait7
-         HQfcGoFeEHGF9A3SJegJXaQGlxOIFBzY8PfOMw2yMK1UiEmB6OZwj6mAGw1ZCx1X4GB3
-         OCqUxYENiJjxe9Hh3Yjt3RKqSXj/WZ2LqgAmp/IyetlXv/C5izwqJk3RJWsrNS2ffLjQ
-         O9F/S1khDIHfTgZfj6ORAVE1eb/HbfvJHZit2p7zyS4JN/Qm8OWCs43NCsxnkvbveDTg
-         PxySqMsNJz4F8tDMxsCyR7VzFgHQW2r+nAb4dNogASzucyqeVhJk1+7GKkIy3Ifs1ba0
-         riAw==
-X-Gm-Message-State: AO0yUKVcZj4xtA2VVEB0FhRzemHb76CThxCSszCL4/tOoLkrUvneTolk
-        8ggyDg3C8OtLxbi/7aBkKNI=
-X-Google-Smtp-Source: AK7set8NO0asQI/pmISNEICt0Z8cmaKJvOLhp0aqvHqrYnOAzeoc04uOO2eT8MP882N2GR02yXcnAg==
-X-Received: by 2002:a05:6a20:2996:b0:c3:2bef:bd62 with SMTP id f22-20020a056a20299600b000c32befbd62mr13007016pzh.1.1677499618113;
-        Mon, 27 Feb 2023 04:06:58 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id w18-20020aa78592000000b005afda149679sm4210430pfn.179.2023.02.27.04.06.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Feb 2023 04:06:57 -0800 (PST)
-Message-ID: <a0d52b30-265e-056e-0e67-6873d2c3b9ee@gmail.com>
-Date:   Mon, 27 Feb 2023 21:06:51 +0900
+        with ESMTP id S229379AbjB0McJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 07:32:09 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C224D1DB88;
+        Mon, 27 Feb 2023 04:32:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1677501129; x=1709037129;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RO6aTFXermoMWjG0Tt8TtnTKM9NV8n7SoUu00FD0WU8=;
+  b=SqUltUsXjDojHVVwEProOQMgGIAAZec89IrbIb7tgPgyy9HvoTYE+ARs
+   zVJnUwiNutvqhgu6zI/mnLZALMEKdm0M+igOcBMxv9qvVocbrNchgyJ7Q
+   vyni6PqQmVQEACVZBZUfRv8AvH9MvgtlL3rl4ehAuk2E76SA0n3eIzfOq
+   2+200MnRsZwQuQL8gLAYwch/g1qr+W7Ho59xBXlGA4IJk9DXO9Gm2k1up
+   k3ADLLGKCBaLwQV7LpZJ/ZZP6SfxjLzmRHDHsv5+tLU8giBKcl3rpKcaf
+   QW+5mJzAdWtA+5psG/+9d/rILFXNZnmIVyrpoKefYmC6P0CjqI0LVZhsy
+   w==;
+X-IronPort-AV: E=Sophos;i="5.97,332,1669100400"; 
+   d="asc'?scan'208";a="202701616"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 27 Feb 2023 05:31:46 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 27 Feb 2023 05:31:45 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
+ Transport; Mon, 27 Feb 2023 05:31:43 -0700
+Date:   Mon, 27 Feb 2023 12:31:16 +0000
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <conor@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+        <nathan@kernel.org>, <llvm@lists.linux.dev>,
+        <ndesaulniers@google.com>
+Subject: Re: [PATCH v7 1/1] riscv: Allow to downgrade paging mode from the
+ command line
+Message-ID: <Y/yilORflGv3vXjX@wendy>
+References: <20230224100218.1824569-1-alexghiti@rivosinc.com>
+ <20230224100218.1824569-2-alexghiti@rivosinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] media: Fix building pdfdocs
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
- <307dbafd-6fe7-1b75-a484-67553529a5e0@gmail.com>
- <20230226114744.7221f460@coco.lan>
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20230226114744.7221f460@coco.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="8ORzwRGnfaATysc6"
+Content-Disposition: inline
+In-Reply-To: <20230224100218.1824569-2-alexghiti@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+--8ORzwRGnfaATysc6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 26 Feb 2023 11:47:44 +0100, Mauro Carvalho Chehab wrote:
-> Em Sun, 26 Feb 2023 08:39:32 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
->> [+CC: Jon, linux-doc]
->>
->> On Wed,  8 Feb 2023 10:29:16 +0200, Tomi Valkeinen wrote:
->>> Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
->>> documatation for a few new RGB formats. For some reason these break the
->>> pdfdocs build, even if the same style seems to work elsewhere in the
->>> file.
->>>
->>> Remove the trailing empty dash lines, which seems to fix the issue.
->>>
->>> Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
->>> Reported-by: Akira Yokosawa <akiyks@gmail.com>  
->> Link: https://lore.kernel.org/r/12250823-8445-5854-dfb8-b92c0ff0851e@gmail.com/
->>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> ---
->>>
->>> Note: the offending patch was merged via drm tree, so we may want to
->>> apply the fix to the drm tree also.  
->>
->> So, the offending commit is now in mainline without this fix...
->> I believe this build regression -- a real build error of "make pdfdocs"
->> -- should be fixed ASAP.
->>
->> Tomi, Laurent has suggested a typo fix in the Changelog.
->> Can you respin ?
->>
->> Or, Laurent, can you do the fix on your own?
->>
->> Hopefully, the fix can make v6.3-rc1.
-> 
-> Better to wait for media PR to be handled. There were some changes at
-> the documentation that affected the patch. I guess the bug is gone.
+Hey Alex, clang/llvm folk,
 
-You mean the PR at https://lore.kernel.org/lkml/20230226114551.68480d44@coco.lan/ ?
-Unfortunately, it has had no effect on this issue.
+On Fri, Feb 24, 2023 at 11:02:18AM +0100, Alexandre Ghiti wrote:
+> Add 2 early command line parameters that allow to downgrade satp mode
+> (using the same naming as x86):
+> - "no5lvl": use a 4-level page table (down from sv57 to sv48)
+> - "no4lvl": use a 3-level page table (down from sv57/sv48 to sv39)
+>=20
+> Note that going through the device tree to get the kernel command line
+> works with ACPI too since the efi stub creates a device tree anyway with
+> the command line.
+>=20
+> In KASAN kernels, we can't use the libfdt that early in the boot process
+> since we are not ready to execute instrumented functions. So instead of
+> using the "generic" libfdt, we compile our own versions of those functions
+> that are not instrumented and that are prefixed so that they do not
+> conflict with the generic ones. We also need the non-instrumented versions
+> of the string functions and the prefixed versions of memcpy/memmove.
+>=20
+> This is largely inspired by commit aacd149b6238 ("arm64: head: avoid
+> relocating the kernel twice for KASLR") from which I removed compilation
+> flags that were not relevant to RISC-V at the moment (LTO, SCS, pie).
+>=20
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Tested-by: Bj=F6rn T=F6pel <bjorn@rivosinc.com>
+> Reviewed-by: Bj=F6rn T=F6pel <bjorn@rivosinc.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  5 +-
+>  arch/riscv/kernel/Makefile                    |  2 +
+>  arch/riscv/kernel/pi/Makefile                 | 37 +++++++++++
+>  arch/riscv/kernel/pi/cmdline_early.c          | 62 +++++++++++++++++++
 
-> If not, we'll need to rebase the patch.
++      4 ld.lld: warning: vmlinux.a(arch/riscv/kernel/pi/string.pi.o):(.ini=
+t.sdata) is being placed in '.init.sdata'
 
-There was no change in Documentation/userspace-api/media/v4l/pixfmt-rgb.rst,
-so rebase is not needed.
+I'm getting 4 new linker warnings with LLVM=3D1 clang-15 allmodconfig
+builds - but I don't really understand this issue.
+Is this spurious, and a just consequence of...
 
-Should this bug survive v6.3-rc1, I guess this fix could go through
-media or doc tree.
+> diff --git a/arch/riscv/kernel/pi/Makefile b/arch/riscv/kernel/pi/Makefile
+> new file mode 100644
+> index 000000000000..4002ed94b6d3
+> --- /dev/null
+> +++ b/arch/riscv/kernel/pi/Makefile
+> @@ -0,0 +1,37 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +# This file was copied from arm64/kernel/pi/Makefile.
+> +
+> +KBUILD_CFLAGS	:=3D $(subst $(CC_FLAGS_FTRACE),,$(KBUILD_CFLAGS)) \
+> +		   -Os -DDISABLE_BRANCH_PROFILING $(DISABLE_STACKLEAK_PLUGIN) \
+> +		   $(call cc-option,-mbranch-protection=3Dnone) \
+> +		   -I$(srctree)/scripts/dtc/libfdt -fno-stack-protector \
+> +		   -D__DISABLE_EXPORTS -ffreestanding \
+> +		   -fno-asynchronous-unwind-tables -fno-unwind-tables \
+> +		   $(call cc-option,-fno-addrsig)
+> +
+> +CFLAGS_cmdline_early.o +=3D -D__NO_FORTIFY
+> +CFLAGS_lib-fdt_ro.o +=3D -D__NO_FORTIFY
+> +
+> +GCOV_PROFILE	:=3D n
+> +KASAN_SANITIZE	:=3D n
+> +KCSAN_SANITIZE	:=3D n
+> +UBSAN_SANITIZE	:=3D n
+> +KCOV_INSTRUMENT	:=3D n
+> +
+> +$(obj)/%.pi.o: OBJCOPYFLAGS :=3D --prefix-symbols=3D__pi_ \
+> +			       --remove-section=3D.note.gnu.property \
+> +			       --prefix-alloc-sections=3D.init
 
-Thoughts?
+=2E..this?
 
-        Thanks, Akira
+> +$(obj)/%.pi.o: $(obj)/%.o FORCE
+> +	$(call if_changed,objcopy)
+> +
+> +$(obj)/lib-%.o: $(srctree)/lib/%.c FORCE
+> +	$(call if_changed_rule,cc_o_c)
+> +
+> +$(obj)/string.o: $(srctree)/lib/string.c FORCE
+> +	$(call if_changed_rule,cc_o_c)
+> +
+> +$(obj)/ctype.o: $(srctree)/lib/ctype.c FORCE
+> +	$(call if_changed_rule,cc_o_c)
+> +
+> +obj-y		:=3D cmdline_early.pi.o string.pi.o ctype.pi.o lib-fdt.pi.o lib-f=
+dt_ro.pi.o
+> +extra-y		:=3D $(patsubst %.pi.o,%.o,$(obj-y))
 
-> 
-> Regards,
-> Mauro
-> 
+--8ORzwRGnfaATysc6
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY/yilAAKCRB4tDGHoIJi
+0vndAQC4f+NCDSCyNXYj0njkGSVRxmlHAyLfwBzffl3veDQDTwD+Ll58OPQxpsri
+ApRUvSTvYGRl+S21vQH6TERahcXL2gI=
+=2KwQ
+-----END PGP SIGNATURE-----
+
+--8ORzwRGnfaATysc6--
