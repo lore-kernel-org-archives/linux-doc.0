@@ -2,83 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C2FFC64ED8
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 11:03:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BE1C64ED6
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 11:57:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbjB0LD0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 06:03:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33258 "EHLO
+        id S229590AbjB0L5X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 06:57:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229841AbjB0LCy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 06:02:54 -0500
-Received: from smtp-8faf.mail.infomaniak.ch (smtp-8faf.mail.infomaniak.ch [IPv6:2001:1600:3:17::8faf])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFDA0199ED
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 03:02:31 -0800 (PST)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4PQHdd0gyxzMr7Fg;
-        Mon, 27 Feb 2023 12:02:29 +0100 (CET)
-Received: from unknown by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4PQHdY3jTlzMsSll;
-        Mon, 27 Feb 2023 12:02:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1677495748;
-        bh=bVIwqOcB8Feb2sYl8JSgdB3nHN1l5NdDbh7Wn239QBM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=h0W2PJorapw4TwJv18FOzUG8Dd64rSrUwflL4kprPsYA3agwMRM/4rgVqmpKQrO1v
-         10IboLfUn0BbE9X2R1R4MsUMD1a6L1xwQqobvuvskYi0lbExH722Z9zf3vpPhldWcG
-         ZnGsYV3pEa/deNAZXzfKnVfuUowDpIr9Urdsof6k=
-Message-ID: <796789c7-24bd-f1f1-c402-c88b46253008@digikod.net>
-Date:   Mon, 27 Feb 2023 12:02:24 +0100
+        with ESMTP id S229501AbjB0L5W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 06:57:22 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2757BAD15;
+        Mon, 27 Feb 2023 03:57:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1677499039; x=1709035039;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OYWmC+11VkZ07K9SxaUsII3U3gMEbonSgeOzevEiM9w=;
+  b=bJ9Vci8cErnadxxIVKZNe5esHuvRBAtMyZb9qiUbw6Pv9iDgPTY5uYP7
+   d6+fONMTgixAJYmboGqQfyG+PwIo251neOtRh/Z+Mra0XVp/kMiGnfQH5
+   /0tFEj57KWItbO7WUttQatPfuWcB41X+jKu+AnuSkNzlA9ig8b6NgYGBe
+   uYXSecPgs59X8yc3X8+iLsLvpcfTrI7RLu+8Ngk/IpvwsNWLGln5qjMfY
+   DjwqlN+ggTAENh3p19DP0QVEwbGpTYY2lOBMOhdSsxlM/TycYSa67HpRX
+   pw41gZkBrMPB+H1ln+s4z843rry9YPOK0IIMO1hyvAJLZBLEgNzgjqCf0
+   w==;
+X-IronPort-AV: E=Sophos;i="5.97,331,1669100400"; 
+   d="asc'?scan'208";a="198902334"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 27 Feb 2023 04:57:18 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 27 Feb 2023 04:57:16 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex02.mchp-main.com
+ (10.10.85.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
+ Transport; Mon, 27 Feb 2023 04:57:15 -0700
+Date:   Mon, 27 Feb 2023 11:56:48 +0000
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Song Shuai <suagrfillet@gmail.com>
+CC:     <corbet@lwn.net>, <alexs@kernel.org>, <siyanteng@loongson.cn>,
+        <robh@kernel.org>, <palmer@rivosinc.com>,
+        <leyfoon.tan@starfivetech.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>
+Subject: Re: [PATCH] sched/doc: supplement CPU capacity with RISC-V
+Message-ID: <Y/yagE7jfRGo1FgY@wendy>
+References: <20230227105941.2749193-1-suagrfillet@gmail.com>
 MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH v4] landlock: Clarify documentation for the
- LANDLOCK_ACCESS_FS_REFER right
-Content-Language: en-US
-To:     Alex Colomar <alx.manpages@gmail.com>,
-        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Moore <paul@paul-moore.com>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-        Xiu Jianfeng <xiujianfeng@huawei.com>
-References: <20230221165205.4231-1-gnoack3000@gmail.com>
- <f46d3b7f-71bf-7a5e-90b5-ab433f7253cd@gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <f46d3b7f-71bf-7a5e-90b5-ab433f7253cd@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Qu+vqTjLVyvhigH7"
+Content-Disposition: inline
+In-Reply-To: <20230227105941.2749193-1-suagrfillet@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+--Qu+vqTjLVyvhigH7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 25/02/2023 00:00, Alex Colomar wrote:
-> Hi Günther,
-> 
-> On 2/21/23 17:52, Günther Noack wrote:
-> [...]
-> 
-> Sorry for taking so much time in looking into this!
-> 
->> + *
->> + *   * The reparented file may not gain more access rights in the destination
->> + *     directory than it previously had in the source directory.  If this is
->> + *     attempted, the operation results in an ``EXDEV`` error.
->> + *
->> + *   * When linking or renaming, the ``LANDLOCK_ACCESS_FS_MAKE_*`` right for the
->> + *     respective file type must be granted for the destination directory.
->> + *     Otherwise, the operation results in an ``EACCES`` error.
->> + *
->> + *   * When renaming, the ``LANDLOCK_ACCESS_FS_REMOVE_*`` right for the
->> + *     respective file type must be granted for the source directory.  Otherwise,
->> + *     the operation results in an ``EACCES`` error.
->> + *
->> + *   If multiple requirements are not met, the ``EACCES`` error code takes
->> + *   precedence over ``EXDEV``.
-> 
-> Is this something worth guaranteeing, or just an implementation detail
-> that may easily change?
+On Mon, Feb 27, 2023 at 06:59:41PM +0800, Song Shuai wrote:
+> This commit 7d2078310cbf ("dt-bindings: arm: move cpu-capacity to a
+> shared loation") updates some references about capacity-dmips-mhz
 
-There is a deliberate effort to keep this error priority to be able to 
-know if a rename or link action can be replaced with a file copy, which 
-is useful e.g., for `mv`.
+Not requesting a respin for this, but mentioning commit 991994509ee9
+("dt-bindings: riscv: add a capacity-dmips-mhz cpu property") is
+probably more relevant as a justification for this change.
+
+> property in this document.
+>=20
+> The list of architectures using capacity-dmips-mhz omits RISC-V, so
+> supplements it here.
+>=20
+> Signed-off-by: Song Shuai <suagrfillet@gmail.com>
+> ---
+>  Documentation/scheduler/sched-capacity.rst                    | 2 +-
+>  Documentation/translations/zh_CN/scheduler/sched-capacity.rst | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation/s=
+cheduler/sched-capacity.rst
+> index 8e2b8538bc2b..e2c1cf743158 100644
+> --- a/Documentation/scheduler/sched-capacity.rst
+> +++ b/Documentation/scheduler/sched-capacity.rst
+> @@ -258,7 +258,7 @@ Linux cannot currently figure out CPU capacity on its=
+ own, this information thus
+>  needs to be handed to it. Architectures must define arch_scale_cpu_capac=
+ity()
+>  for that purpose.
+> =20
+> -The arm and arm64 architectures directly map this to the arch_topology d=
+river
+> +The arm, arm64, and RISC-V architectures directly map this to the arch_t=
+opology driver
+
+My grep clearly missed this change, thanks.
+For the only part of the patch I understand:
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Thanks,
+Conor.
+
+
+--Qu+vqTjLVyvhigH7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHQEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY/yacQAKCRB4tDGHoIJi
+0jMuAPUS3U8wKt0dDvUC5JFcU2VrD5RRUuYkkJESmDvd+oMvAPsE9NZjwV40Eqvv
+MRChuLnLfK6qyIngBouG73xf0TMeBQ==
+=v5xR
+-----END PGP SIGNATURE-----
+
+--Qu+vqTjLVyvhigH7--
