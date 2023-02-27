@@ -2,211 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08D9FC7EE23
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 15:19:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87602C64ED6
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 15:25:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229760AbjB0PS7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 10:18:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33882 "EHLO
+        id S229696AbjB0PZD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 10:25:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbjB0PS4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 10:18:56 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2B34EB74;
-        Mon, 27 Feb 2023 07:18:54 -0800 (PST)
-Received: from cryzen.lan (cpc87451-finc19-2-0-cust61.4-2.cable.virginm.net [82.11.51.62])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: tanureal)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 062296602FA1;
-        Mon, 27 Feb 2023 15:18:53 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1677511133;
-        bh=cMHt6PnmCwdV3HhU5FSZOVL8khQ8AWB90bFY2XZ9v2M=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YrLRYYZChK0AcN2rUlWOS7rMf2AfNrpLRua+3uqUjrfxJTpoU5sAVSn54q+IR9fwT
-         noB2/BZ/PtgGz9RapVsxqL12vX5h0jBtWtbA+osulnHj6+r6Mm7xfRRT12seOPfB7n
-         u7SYQdGK0GMvPak9fr5vZsjgkBJ9Rlj3+VGXIDAiX7PCyhJretK2Ioh5hJQHRym2MR
-         0yWIrhnwtfqUJ+0V9Y5zSbDIrIw3EpQoYd1hy7ncBRC6z/3+qfc7BmTcCEa9JhPU1b
-         azHpkURaTga2f8iYQZADsVRxNdLETencPClZu94mssB5oXPkotqJmTdM1gtvnaDPdK
-         9tnPrM0M06Deg==
-From:   Lucas Tanure <lucas.tanure@collabora.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Kever Yang <kever.yang@rock-chips.com>
-Cc:     linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lucas Tanure <lucas.tanure@collabora.com>, kernel@collabora.com
-Subject: [RFC 1/1] irqchip/gic-v3: Add RK3588 GICR and GITS no share workaround
-Date:   Mon, 27 Feb 2023 15:18:47 +0000
-Message-Id: <20230227151847.207922-2-lucas.tanure@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230227151847.207922-1-lucas.tanure@collabora.com>
-References: <20230227151847.207922-1-lucas.tanure@collabora.com>
+        with ESMTP id S229562AbjB0PZC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 10:25:02 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34D32A5C8;
+        Mon, 27 Feb 2023 07:25:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677511502; x=1709047502;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=+CejFf8b0UQvbot2jFXkztwMBtpHRC/UL4Ous0PzlUA=;
+  b=hu497h45ij+//XIxaQnMt9YrECD90YqNebpuv0hpz6ZfPbmUniiztqU6
+   IS8BpRM/9U6ukzGVKU6NGINkQHm+DD5/yOaTgaeyvHcCIcPXJE0iHxcdl
+   hY8Qp1KC46s04bu9pNy6KZk8o9qRIlqqWluq0+3oJmRCwrio+XJRA+SDm
+   crc4SSyuTKkVkJwkeBCWwCyAT16oYjFRDjtknTy0RtP9K99pdl1H9j+PG
+   ImgOnSl/G0OxCIuDxf6mtP93n18kdLyYEwLSreazJ6wJG4jUtO4C1U2pM
+   uZWMCW0iTh0LvdC5goO3joZDb6yE+42/5W4maJAN785Helscgyg5gAsua
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="333926329"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
+   d="scan'208";a="333926329"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 07:25:01 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="797674229"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
+   d="scan'208";a="797674229"
+Received: from mkrathi-mobl.gar.corp.intel.com (HELO [10.251.27.133]) ([10.251.27.133])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 07:25:00 -0800
+Message-ID: <445daef5-8417-ddbb-abbf-3c5ab38e1c9c@intel.com>
+Date:   Mon, 27 Feb 2023 07:25:00 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
+Content-Language: en-US
+To:     Borislav Petkov <bp@alien8.de>,
+        Josh Poimboeuf <jpoimboe@kernel.org>
+Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230124163319.2277355-1-kim.phillips@amd.com>
+ <20230124163319.2277355-8-kim.phillips@amd.com>
+ <20230224185257.o3mcmloei5zqu7wa@treble> <Y/knUC0s+rg6ef2r@zn.tnic>
+ <Y/k/ZXUXOFiBhOiI@zn.tnic> <20230225000931.wrednfun4jifkqau@treble>
+ <Y/lUSC5x2ZkTIGu4@zn.tnic> <20230225005221.425yahqvxb57c43x@desk>
+ <20230225013202.g7tibykvylprsxs5@treble> <Y/n9XcbnCzWv2Vul@zn.tnic>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <Y/n9XcbnCzWv2Vul@zn.tnic>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The GIC600 integration in RK356x, used in rk3588, doesn't support
-any of the shareability or cacheability attributes, and requires
-both values to be set to 0b00 for all the ITS and Redistributor
-tables.
+On 2/25/23 04:21, Borislav Petkov wrote:
+> +	/*
+> +	 * Make sure EFER[AIBRSE - Automatic IBRS Enable] is set. The APs are brought up
+> +	 * using the trampoline code and as part of it, EFER gets prepared there in order
+> +	 * to be replicated onto them. Regardless, set it here again, if not set, to protect
+> +	 * against any future refactoring/code reorganization which might miss setting
+> +	 * this important bit.
+> +	 */
+> +	if (spectre_v2_in_ibrs_mode(spectre_v2_enabled) &&
+> +	    cpu_has(c, X86_FEATURE_AUTOIBRS))
+> +		msr_set_bit(MSR_EFER, _EFER_AUTOIBRS);
+>  }
 
-Based on work of Peter Geis for the Quartz64 board.
+I guess the belt and suspenders could be justified here by how important
+the bit is.
 
-Signed-off-by: Lucas Tanure <lucas.tanure@collabora.com>
----
- Documentation/arm64/silicon-errata.rst |  4 +++
- arch/arm64/Kconfig                     | 13 ++++++++
- drivers/irqchip/irq-gic-v3-its.c       | 42 ++++++++++++++++++++++++++
- 3 files changed, 59 insertions(+)
+But, if EFER[AIBRSE] gets clear somehow shouldn't we also dump a warning
+out here so the fool who botched it can fix it?  Even if AIBRSE is fixed
+up, some less important bit could still be botched.
 
-diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index ec5f889d7681..b26cf8ca7d5c 100644
---- a/Documentation/arm64/silicon-errata.rst
-+++ b/Documentation/arm64/silicon-errata.rst
-@@ -209,3 +209,7 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
- +----------------+-----------------+-----------------+-----------------------------+
-+
-++----------------+-----------------+-----------------+-----------------------------+
-+| RockChip       | RK3588          | N/A             | ROCKCHIP_NO_SHARE           |
-++----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 27b2592698b0..ad3f1742052b 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1150,6 +1150,19 @@ config NVIDIA_CARMEL_CNP_ERRATUM
- 
- 	  If unsure, say Y.
- 
-+config ROCKCHIP_NO_SHARE
-+	bool "Rockchip RK3588 GIC6000 No shareability or cacheability attributes"
-+	default y
-+	help
-+	  The GIC600 integration in RK356x doesn't support any of the shareability or
-+	  cacheability attributes, and requires both values to be set to 0b00 for all 
-+	  the ITS and Redistributor tables.
-+
-+	  Work around the issue by clearing the GICR_PROPBASER_SHAREABILITY_MASK from
-+	  register reads at GICR and GITS.
-+
-+	  If unsure, say Y.
-+
- config SOCIONEXT_SYNQUACER_PREITS
- 	bool "Socionext Synquacer: Workaround for GICv3 pre-ITS"
- 	default y
-diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-index 586271b8aa39..637e2e2a1ab1 100644
---- a/drivers/irqchip/irq-gic-v3-its.c
-+++ b/drivers/irqchip/irq-gic-v3-its.c
-@@ -42,6 +42,7 @@
- #define ITS_FLAGS_CMDQ_NEEDS_FLUSHING		(1ULL << 0)
- #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
- #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
-+#define ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE	(1ULL << 3)
- 
- #define RDIST_FLAGS_PROPBASE_NEEDS_FLUSHING	(1 << 0)
- #define RDIST_FLAGS_RD_TABLES_PREALLOCATED	(1 << 1)
-@@ -2359,6 +2360,15 @@ static int its_setup_baser(struct its_node *its, struct its_baser *baser,
- 	its_write_baser(its, baser, val);
- 	tmp = baser->val;
- 
-+#if CONFIG_ROCKCHIP_NO_SHARE
-+	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE) {
-+		if (tmp & GITS_BASER_SHAREABILITY_MASK)
-+			tmp &= ~GITS_BASER_SHAREABILITY_MASK;
-+		else
-+			gic_flush_dcache_to_poc(base, PAGE_ORDER_TO_SIZE(order));
-+	}
-+#endif
-+
- 	if ((val ^ tmp) & GITS_BASER_SHAREABILITY_MASK) {
- 		/*
- 		 * Shareability didn't stick. Just use
-@@ -3057,6 +3067,7 @@ static void its_cpu_init_lpis(void)
- {
- 	void __iomem *rbase = gic_data_rdist_rd_base();
- 	struct page *pend_page;
-+	struct its_node *its;
- 	phys_addr_t paddr;
- 	u64 val, tmp;
- 
-@@ -3096,6 +3107,12 @@ static void its_cpu_init_lpis(void)
- 	gicr_write_propbaser(val, rbase + GICR_PROPBASER);
- 	tmp = gicr_read_propbaser(rbase + GICR_PROPBASER);
- 
-+#if CONFIG_ROCKCHIP_NO_SHARE
-+	its = list_first_entry(&its_nodes, struct its_node, entry);
-+	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
-+		tmp &= ~GICR_PROPBASER_SHAREABILITY_MASK;
-+#endif
-+
- 	if ((tmp ^ val) & GICR_PROPBASER_SHAREABILITY_MASK) {
- 		if (!(tmp & GICR_PROPBASER_SHAREABILITY_MASK)) {
- 			/*
-@@ -3120,6 +3137,11 @@ static void its_cpu_init_lpis(void)
- 	gicr_write_pendbaser(val, rbase + GICR_PENDBASER);
- 	tmp = gicr_read_pendbaser(rbase + GICR_PENDBASER);
- 
-+#if CONFIG_ROCKCHIP_NO_SHARE
-+	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
-+		tmp &= ~GICR_PENDBASER_SHAREABILITY_MASK;
-+#endif
-+
- 	if (!(tmp & GICR_PENDBASER_SHAREABILITY_MASK)) {
- 		/*
- 		 * The HW reports non-shareable, we must remove the
-@@ -4710,6 +4732,14 @@ static bool __maybe_unused its_enable_quirk_hip07_161600802(void *data)
- 	return true;
- }
- 
-+static bool __maybe_unused its_enable_quirk_rk356x(void *data)
-+{
-+	struct its_node *its = data;
-+
-+	its->flags |= ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE;
-+	return true;
-+}
-+
- static const struct gic_quirk its_quirks[] = {
- #ifdef CONFIG_CAVIUM_ERRATUM_22375
- 	{
-@@ -4755,6 +4785,14 @@ static const struct gic_quirk its_quirks[] = {
- 		.mask	= 0xffffffff,
- 		.init	= its_enable_quirk_hip07_161600802,
- 	},
-+#endif
-+#ifdef CONFIG_ROCKCHIP_NO_SHARE
-+	{
-+		.desc	= "ITS: Rockchip RK356X/RK3588 doesn't support shareability",
-+		.iidr	= 0x0201743b,
-+		.mask	= 0xffffffff,
-+		.init	= its_enable_quirk_rk356x,
-+	},
- #endif
- 	{
- 	}
-@@ -5096,6 +5134,10 @@ static int __init its_probe_one(struct resource *res,
- 	gits_write_cbaser(baser, its->base + GITS_CBASER);
- 	tmp = gits_read_cbaser(its->base + GITS_CBASER);
- 
-+#if CONFIG_ROCKCHIP_NO_SHARE
-+	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
-+		tmp &= ~GITS_CBASER_SHAREABILITY_MASK;
-+#endif
- 	if ((tmp ^ baser) & GITS_CBASER_SHAREABILITY_MASK) {
- 		if (!(tmp & GITS_CBASER_SHAREABILITY_MASK)) {
- 			/*
--- 
-2.39.2
-
+It will freak some users out, but it does seem like the kind of thing we
+_want_ a bug report for.
