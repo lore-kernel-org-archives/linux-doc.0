@@ -2,121 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49AEFC7EE31
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 01:06:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8739FC7EE2E
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 01:30:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbjB1BGg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 20:06:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51206 "EHLO
+        id S229629AbjB1Ba3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 20:30:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229720AbjB1BGf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 20:06:35 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0DBA2821C
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 17:06:31 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id y11so4627621plg.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 17:06:31 -0800 (PST)
+        with ESMTP id S229558AbjB1Ba2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 20:30:28 -0500
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DDD046A6
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 17:30:27 -0800 (PST)
+Received: by mail-qt1-x82d.google.com with SMTP id c19so8872889qtn.13
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 17:30:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C8ajA9RG68k8olqdv6T69Sappa+FZyVAapRtuC0ZTtk=;
-        b=ld5E0k411ZDbt37oNeRZNeJ++ktOoJ34+wETrrbHJSDv1UuwN9FnFy8HdjJTVQynj/
-         h/H/uvj5FrZOy9v8ve2RhqMwp8MiIr2xXzktzCEoGwIpNWmRoc8zIMmeKQuISMnrJvCh
-         3iK8r6pGwvyjiiHrR03d5ULiaAe0LEYng+nijxkv71XovUbCTz1xwiFtxQKSkTOPz3DX
-         wp5PiWHwCRM8K9Zt7ZokAvEzHCYV1q4hH/CFRUwOJdf6ppkBMZqFbDcIklcDc9m7YfgO
-         zcbz8XKG4AsRbrM78sTLQz6JeF9XtYmvyS+5hyAdPYTjNfcZ15ZoMwyN52Y9sAWZaIGP
-         5WMg==
+        d=joelfernandes.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EuMQ4R7Qcpzp+24B3X8Yl/9yUt6uqVFoa6RSbqcjeIs=;
+        b=O/BNoI/bjDmKlfOByyzuulTXcHp5SUbRqGfj7S7wmalXNQbMw9EVxdYHrAseqJAKiN
+         jLMgDufyroK/6c4CRtZePBt4DV1vdZp/RTM1LheCrhD365AVTTRvutIjw6YZTcx0VZfA
+         eCwyTGl7qT4tK7neqUgNGkGQAexQEc03nXBjA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C8ajA9RG68k8olqdv6T69Sappa+FZyVAapRtuC0ZTtk=;
-        b=X83Hl4w/cOOI2I8H09KO1KhWpLgqfJrTUM8X2U2DHZ2HphSw8cZQMMkoHvvznTeFCV
-         J2ADYaeQM2rptv9Wk8CmtA7B+Hy9CC0ZU8l57HO/Pd0lYi3bmdvCMm8VQVmYaF64IOqD
-         t42+3ekWykbNR2l1xEGhyblAUoQXTtYySMQzFJoX86cdYqgKGiMkLXBnQ7nBN0t9+fi7
-         IHihkyh0SLCX2vwq3qvtfP1nvMU874AOBA5kWoa/vlDQpsspQhTpLs0nASBtZB21jM+D
-         lwE1SCD7jc6gwPW5ergSlfKJx1MmanEvvyqre9LtDHL4HQEie6QaGlQXlwsryaZSCxTj
-         8FUA==
-X-Gm-Message-State: AO0yUKVMGowB4/fNb10Dwy7o6RbuCP1rhs7ZwuaoSAjoqmWHTtiUxkyv
-        0UBqgIdQfVf0vivo2H9qrdd57Q==
-X-Google-Smtp-Source: AK7set9Knbykae3swM5IubIOSpx+i2s6n2UWMH/l49hBBpl6zqXIuK4OlpAXqzJ5dH2EEXssAs3Arw==
-X-Received: by 2002:a17:90b:1bc9:b0:237:30ef:e593 with SMTP id oa9-20020a17090b1bc900b0023730efe593mr1213179pjb.24.1677546391104;
-        Mon, 27 Feb 2023 17:06:31 -0800 (PST)
-Received: from [10.211.55.3] (h112.92.137.40.static.ip.windstream.net. [40.137.92.112])
-        by smtp.gmail.com with ESMTPSA id z1-20020a17090a014100b002353082958csm6650911pje.10.2023.02.27.17.06.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Feb 2023 17:06:30 -0800 (PST)
-Message-ID: <fcd61f55-f445-9721-3490-ed70b7b30293@linaro.org>
-Date:   Mon, 27 Feb 2023 19:06:28 -0600
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EuMQ4R7Qcpzp+24B3X8Yl/9yUt6uqVFoa6RSbqcjeIs=;
+        b=eARBN5R9W146QdaZK+yA4TALS35Yoyz+wu+waC6N/jxiRB3uJV4Ig8exBfsT8rTse1
+         eBvnsNUlvkai12ofo7b+LyDvKGJFaTsCBCvBqRExE5+LqYO9D5T7z5Iaf2sm2Ds7kURZ
+         wp1Db0a6nPnUWIJU4pITfYZHtuWsJPMptNMpzcqljguTiSUrIWA180TOtucFWYujyeFk
+         TXo8fyN5J4CtHyjp8pBG9+gfspjtGRVUBBDm1l5rcGC7He4747mAizS/CoBItg2Z74RM
+         VHYAt/DpMg2sEddKUkj0k9zQr/FzT/v++SjuRirdsan/ommom4ay5rB6CtkbHImKj83s
+         9Adg==
+X-Gm-Message-State: AO0yUKWVjmgsJSfB9nAX5tvKmSquGh9TsrvfH0Nxvemzl6yL5Gmn/kl3
+        /B/ZFRtGtkdyHunhayusj1i9ZA==
+X-Google-Smtp-Source: AK7set+gzmpHwGjyqAH6OmnNysxwS8GhOVYZrcGN/dDY8QQ38IcGvcm+qQyKvVQ2LWTIavMzLD4X+Q==
+X-Received: by 2002:ac8:5848:0:b0:3bf:a72f:d0bd with SMTP id h8-20020ac85848000000b003bfa72fd0bdmr2602796qth.3.1677547826325;
+        Mon, 27 Feb 2023 17:30:26 -0800 (PST)
+Received: from localhost (129.239.188.35.bc.googleusercontent.com. [35.188.239.129])
+        by smtp.gmail.com with ESMTPSA id g2-20020ac870c2000000b003b868cdc689sm5690048qtp.5.2023.02.27.17.30.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Feb 2023 17:30:25 -0800 (PST)
+Date:   Tue, 28 Feb 2023 01:30:25 +0000
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Frederic Weisbecker <frederic@kernel.org>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
+ completed
+Message-ID: <Y/1ZMXsNZtwYPJNW@google.com>
+References: <Y/z0fHHYdxEXcWMT@pc636>
+ <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
+ <Y/z9Its1RKetIr8V@pc636>
+ <CAEXW_YSjT_orp8TbomBFU+ETS7YJ7TrbHTdrsBRTzCKG5_SBdw@mail.gmail.com>
+ <20230227230502.GJ2948950@paulmck-ThinkPad-P17-Gen-1>
+ <Y/0/dnmIk508sidK@lothringen>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v10 10/26] gunyah: vm_mgr: Introduce basic VM Manager
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Alex Elder <elder@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214212356.3313181-1-quic_eberman@quicinc.com>
- <dbcfa4e9-a1ad-0f24-77bf-05934ca26bb2@linaro.org>
- <05c4aab8-2d26-b944-adb6-624d67e4a11d@quicinc.com>
- <52d944b1-3ea6-26b7-766a-2fed05dccf3a@linaro.org>
- <c5ff1523-7a62-3d3f-6fa9-792ce4d222e8@quicinc.com>
- <a50fa44d-fbc3-9ce2-175b-85c8cd7a9f7f@linaro.org>
- <15aa881f-5cf1-446e-a71e-f62d24e87500@app.fastmail.com>
- <6efceacf-93d3-787a-a121-bee16f1531f2@quicinc.com>
-From:   Alex Elder <alex.elder@linaro.org>
-In-Reply-To: <6efceacf-93d3-787a-a121-bee16f1531f2@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y/0/dnmIk508sidK@lothringen>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/24/23 4:48 PM, Elliot Berman wrote:
-> I'd be open to making GH_CREATE_VM take a struct argument today, but I 
-> really don't know what size or what needs to be in that struct. My hope 
-> is that we can get away with just an integer for future needs. If 
-> integer doesn't suit, then new ioctl would need to be created. I think 
-> there's same problem if I pick some struct today (the struct may not 
-> suit tomorrow and we need to create new ioctl for the new struct).
+On Tue, Feb 28, 2023 at 12:40:38AM +0100, Frederic Weisbecker wrote:
+> On Mon, Feb 27, 2023 at 03:05:02PM -0800, Paul E. McKenney wrote:
+> > On Mon, Feb 27, 2023 at 02:10:30PM -0500, Joel Fernandes wrote:
+> > 
+> > The combination of sysfs manipulated by userspace and a kernel failsafe
+> > makes sense to me.  Especially if by default triggering the failsafe
+> > splats.  That way, bugs where userspace fails to update the sysfs file
+> > get caught.
+> > 
+> > The non-default silent-failsafe mode is also useful to allow some power
+> > savings in advance of userspace getting the sysfs updating in place.
+> > And of course the default splatting setup can be used in internal testing
+> > with the release software being more tolerant of userspace foibles.
+> 
+> I'm wondering, this is all about CONFIG_RCU_LAZY, right? Or does also expedited
+> GP turned off a bit early or late on boot matter for anybody in practice?
 
-I'd like someone to back me up (or tell me I'm wrong), but...
+Yes, if you provide 'rcu_normal_after_boot', then after the boot ends, it
+switches expedited GPs to normal ones.
 
-I think you can still pass a void in/out pointer, which can
-be interpreted in an IOCTL-specific way, as long as it can
-be unambiguously processed.
+It is the same issue for expedited, the kernel's version of what is 'boot' is
+much shorter than what is actually boot.
 
-So if you passed a non-null pointer, what it referred to
-could contain a key that defines the way to interpret it.
+This is also the case with suspend/resume's rcu_pm_notify(). See the comment:
+  /*
+   * On non-huge systems, use expedited RCU grace periods to make suspend
+   * and hibernation run faster.
+   */
 
-You can't take away a behavior you've once supported, but I
-*think* you can add a new behavior (with a new structure
-that identifies itself).
+There also we turn on/off both lazy and expedited. I don't see why we
+shouldn't do it for boot.
 
-So if that is correct, you can extend a single IOCTL.  But
-sadly I can't tell you I'm sure this is correct.
+> So shouldn't we disable lazy callbacks by default when CONFIG_RCU_LAZY=y and then
+> turn it on with "sysctl kernel.rcu.lazy=1" only whenever userspace feels ready
+> about it? We can still keep the current call to rcu_end_inkernel_boot().
 
-					-Alex
+Hmm IMHO that would add more knobs for not much reason honestly. We already
+have CONFIG_RCU_LAZY default disabled, I really don't want to add more
+dependency (like user enables the config and does not see laziness).
+
+Thanks!
+
+ - Joel
+
