@@ -2,104 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18745C64EC7
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 18:35:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A7F6C64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 19:06:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbjB1Se7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 13:34:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37160 "EHLO
+        id S229662AbjB1TGC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 14:06:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229750AbjB1Sey (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 13:34:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A04E1199CB
-        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 10:34:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677609246;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=M/upaeZg39CGRkRtUjHzzG4geHV95wgedCmPWBh4GgI=;
-        b=PzeZO+pnrZ+dYqYuyJKD3s6mXoNN2gdfl+FK5L1foe0N9SoH22mBjv6of9FjWgmE/5dzCO
-        Qa+ZXjjVO1gx382/V020XIAye6mmnJsB4DpdoJh1lD7f9l3E/7mrNX6YX41QwvAuzOEQSv
-        xX9d4UUZhbsas9de1o742bun1CVzo+4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-TNFH7IW9OCiX0RXE7QnGAQ-1; Tue, 28 Feb 2023 13:34:03 -0500
-X-MC-Unique: TNFH7IW9OCiX0RXE7QnGAQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2960C811732;
-        Tue, 28 Feb 2023 18:34:02 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.252])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 47E00C15BAD;
-        Tue, 28 Feb 2023 18:33:59 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Tue, 28 Feb 2023 19:33:55 +0100 (CET)
-Date:   Tue, 28 Feb 2023 19:33:52 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Dmitry Safonov <0x7f454c46@gmail.com>
-Cc:     Gregory Price <gourry.memverge@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        avagin@gmail.com, peterz@infradead.org, luto@kernel.org,
-        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
-        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH v12 2/3] ptrace,syscall_user_dispatch: checkpoint/restore
- support for SUD
-Message-ID: <20230228183351.GB15021@redhat.com>
-References: <20230224233126.1936-1-gregory.price@memverge.com>
- <20230224233126.1936-3-gregory.price@memverge.com>
- <CAJwJo6YnELNhU8RmR-z37vDZ=xb0CmUUBgrPGgHP2dqjVm=O2g@mail.gmail.com>
- <20230228165217.GA16798@redhat.com>
- <c44af068-8f30-9fbc-1b06-da9fe317f213@gmail.com>
+        with ESMTP id S229592AbjB1TGB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 14:06:01 -0500
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E844305FF
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 11:06:00 -0800 (PST)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-53852143afcso302334477b3.3
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 11:06:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jp-hosting.net; s=google;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=T5YAkEgvaiCl9tX6YlYNUEiVKoTeTiZHoRI7PUW6hZQ=;
+        b=B19osipC0T3RM+yR8sKkH/sNrtUXHUPsK0N9fVIDlgf/8Soq7DerG/LbV6EXBYPcIS
+         NVlw18qWttckm9e1xB+TP4kt8fFHMn434MMFhlYQEB8dEq89t7zJc2iFa7+pTIPg7ZNE
+         +pb2GdZsVIcYa5Rs8ichQ+NRtp1l8zY8y/a3xe28LWeHVIAgxQCCpZPnPkh9Zbnko0ip
+         TRWlh1lqf6Z53KjcC1YpdXRI2eFX8L2adRTAC/LtexW9W2XfMl6FGJBHmrurOQFVaouc
+         d78e44HrQe6C/V4nUvWhq7JCYmjO+TOy1nNJu/gPbmMddhyQSvILH3Bcoay1yN/qZ80s
+         g3Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T5YAkEgvaiCl9tX6YlYNUEiVKoTeTiZHoRI7PUW6hZQ=;
+        b=VFQf7YVKQdDaNXygDM8y7Kru/sTtl6ciThJtwKHkkdP199YLmqur6zp58l6wGIZ3/V
+         J7ROtSWg0PG/J6EOvajdOzThYX0+CKvSO+87J+WEZMLTeGn3wpojsxlFcEYqAnsCYI3Z
+         oYWiIL/TwXHsRcgKDLzjDwyPTqTM+yHNdbVLG7fjFea/0kJlNrnYZ45TWsEGGyCoYuZj
+         RL9zIP9l0FSduKQQBmJs1207rgm8LzQD2nl8FHaYXsgoR91+3/nuIyHbpRexOing940k
+         P965TJbvjpO06AXAF09sj4/ndH4BlazdmrqjyJmmiCVaT6tvqujuKqoD0S25aCoBei/O
+         zTaA==
+X-Gm-Message-State: AO0yUKWrnW4sdttV0yUQDL6lPQ3uok1r/rS02s4zuMRT/YJLqe4HlzFS
+        H6sEC5LtF6kvP5XiMQix85wW7aQHteltmaRJavh69E2svDTkK98Db1U=
+X-Google-Smtp-Source: AK7set9auwWfF3wIN1q30rRtpdUmkonwyBMuaaRudbnZmPSKptNoCJ89EPkxhe1jBNWNXlbDVVv0W0QLvsyRWKtr9wg=
+X-Received: by 2002:a05:6902:1205:b0:a09:314f:9f09 with SMTP id
+ s5-20020a056902120500b00a09314f9f09mr3766092ybu.6.1677611159575; Tue, 28 Feb
+ 2023 11:05:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c44af068-8f30-9fbc-1b06-da9fe317f213@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+From:   James Addison <jay@jp-hosting.net>
+Date:   Tue, 28 Feb 2023 19:05:48 +0000
+Message-ID: <CALDQ5Ny1mbcUSk8pDL6HEq0Cgqze1tidyOeAgVxc5tyZNb+P_g@mail.gmail.com>
+Subject: [PATCH RESEND] Documentation: update kernel parameter limit notes
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     corbet@lwn.net, Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/28, Dmitry Safonov wrote:
->
-> On 2/28/23 16:52, Oleg Nesterov wrote:
-> > On 02/27, Dmitry Safonov wrote:
-> >>
-> >>> +int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
-> >>> +                                    void __user *data)
-> >>> +{
-> >>> +       int rc;
-> >>> +       struct ptrace_sud_config cfg;
-> >>> +
-> >>> +       if (size != sizeof(struct ptrace_sud_config))
-> >>> +               return -EINVAL;
-> >>> +
-> >>> +       if (copy_from_user(&cfg, data, sizeof(struct ptrace_sud_config)))
-> >>> +               return -EFAULT;
-> >>
-> >> It seems that the tool you want here would be copy_struct_from_user(),
-> >> which is designed for extendable syscalls.
-> >
-> > Hmm. Why?
-> >
-> > In this case ksize == usize, so why do we need copy_struct_from_user ?
->
-> In case the structure extends in future, that will let newer userspace
-> run on an older kernel (as long as it doesn't use [set] any new fields).
+There does appear to be a limit on the number of parameters accepted by the
+kernel at boot-time, so this changeset updates the kernel-parameters.rst
+documentation to reflect that.
 
-Sure, I understand that, but I don't think it's worth the trouble
-in this case.
+Signed-off-by: James Addison <jay@jp-hosting.net>
+---
+ Documentation/admin-guide/kernel-parameters.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-If (unlikely, I think) this structure ever extends we can switch to
-copy_struct_from_user() or do something else if check_zeroed_user()
-makes no real sense for the new fields.
+diff --git a/Documentation/admin-guide/kernel-parameters.rst
+b/Documentation/admin-guide/kernel-parameters.rst
+index 19600c502..a3a099127 100644
+--- a/Documentation/admin-guide/kernel-parameters.rst
++++ b/Documentation/admin-guide/kernel-parameters.rst
+@@ -203,7 +203,8 @@ be entered as an environment variable, whereas its
+absence indicates that
+ it will appear as a kernel argument readable via /proc/cmdline by programs
+ running once the system is up.
 
-Right now I think it is more important to ensure that the new users
-of this API use the correct size.
+-The number of kernel parameters is not limited, but the length of the
++The number of kernel parameters is limited to 32 by default (128 in User Mode
++Linux), and is defined in ./init/main.c as MAX_INIT_ARGS. The length of the
+ complete command line (parameters including spaces etc.) is limited to
+ a fixed number of characters. This limit depends on the architecture
+ and is between 256 and 4096 characters. It is defined in the file
 
-Oleg.
-
+base-commit: e492250d5252635b6c97d52eddf2792ec26f1ec1
+-- 
+2.39.2
