@@ -2,148 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E030C64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 13:43:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3805C7EE31
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 13:47:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbjB1Nnb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 08:43:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
+        id S229685AbjB1Nr3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 08:47:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbjB1Nnb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 08:43:31 -0500
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 841D325B9F;
-        Tue, 28 Feb 2023 05:43:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-        bh=2YufEiSw26yUxGvxbvEcxh/qT0bL7Zfm+eeVmdJnJkM=; b=T/sgNzMZ8+UIner/PUcMgOg0r1
-        zQFvgCVN9l9b9eWUqLPajIEg7GxjjPqq3otpSJRj9gin0diwflv6ia8ZCPL04YQABg2bdTernyi89
-        ooFAaYDR6yXfIrMHL8UHBE18j8nG2rjqjGPvVxg0HTse1XpYp33aRiCrXUeN7LsRsnC8aF8IqhmOf
-        Eh2TxqwlxGimqD8PkcJjOoKbHU9BUQtsMHE3NZ4XZD2QFMaU3McaXEIW8qApfUB5PnksxSSvwoZTs
-        We2Y4z1gmxzeic23kKSYEQq1sgcrobW3UHb9fMAOmr4IwMr8NWA1U/LdljFfr92RsUSKXudXvL9nN
-        IbGKeqSA==;
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-        by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1pX0GN-000Dyo-8m; Tue, 28 Feb 2023 14:43:27 +0100
-Received: from [85.1.206.226] (helo=linux.home)
-        by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        with ESMTP id S229637AbjB1Nr1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 08:47:27 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F82303F8
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 05:47:06 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1pX0GN-000H1f-0N; Tue, 28 Feb 2023 14:43:27 +0100
-Subject: Re: [PATCH bpf-next v2 0/8] Support defragmenting IPv(4|6) packets in
- BPF
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Daniel Xu <dxu@dxuuu.xyz>
-Cc:     bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, quentin@isovalent.com
-References: <cover.1677526810.git.dxu@dxuuu.xyz>
- <20230227230338.awdzw57e4uzh4u7n@MacBook-Pro-6.local>
- <20230228015712.clq6kyrsd7rrklbz@kashmir.localdomain>
- <CAADnVQ+a633QyZgkbXfRiT_WRbPgr5n8RN0w=ntEkBHUeqRcbw@mail.gmail.com>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <fbf869c6-29ac-4dbe-dd1c-85c6c3c10670@iogearbox.net>
-Date:   Tue, 28 Feb 2023 14:43:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pX0Js-00078D-1g; Tue, 28 Feb 2023 14:47:04 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pX0Jq-000sbi-9k; Tue, 28 Feb 2023 14:47:02 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pX0Jp-0011YR-Ol; Tue, 28 Feb 2023 14:47:01 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     David Rientjes <rientjes@google.com>, linux-doc@vger.kernel.org,
+        kernel@pengutronix.de,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
+Subject: [PATCH] docs: rebasing-and-merging: Drop wrong statement about git
+Date:   Tue, 28 Feb 2023 14:46:57 +0100
+Message-Id: <20230228134657.1797871-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-In-Reply-To: <CAADnVQ+a633QyZgkbXfRiT_WRbPgr5n8RN0w=ntEkBHUeqRcbw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1369; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=W+LzTZqD9krsBHs0O9kqMZGsJXeqil7l+zq6IhqpL50=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBj/gXObxEa3BXYuKgd+EaD/nFoZP0YE3NGk+5UC QPqqoMUItCJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY/4FzgAKCRDB/BR4rcrs CX5eCACPj98s54mer6YkzbydTLGj0LBoremKZFgCoSwWmRc0xicCaezqcgIgIPYktNqwUbdJYdD 4R1cdZ96vHeZHmN/Plz80ry4XJi33pJBs6RpGfN3g6sQLOBV+I4ciuHwxUW6DfhTTAhT/fGY5nx xlKSKxLM2JvOo3cA77S7aRska4Lk2ClXFpjcf37VTa+XtlNZM0eYsMWEeEjon9Nk5PGoK8wkaRB dEl6MeJQA+sSbsTV/QPcXmQ7XcTc1FyAzRlrWngR5yoBqEvxwqEswDTdeNbE5a13EISQNBER9YA pUq+f6x/nEiLBPf5xs3BU6vOCbCbRX22Vp8Zbs5w0vNR4Nic
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.8/26826/Tue Feb 28 09:32:16 2023)
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/28/23 5:56 AM, Alexei Starovoitov wrote:
-> On Mon, Feb 27, 2023 at 5:57 PM Daniel Xu <dxu@dxuuu.xyz> wrote:
->> On Mon, Feb 27, 2023 at 03:03:38PM -0800, Alexei Starovoitov wrote:
->>> On Mon, Feb 27, 2023 at 12:51:02PM -0700, Daniel Xu wrote:
->>>> === Context ===
->>>>
->>>> In the context of a middlebox, fragmented packets are tricky to handle.
->>>> The full 5-tuple of a packet is often only available in the first
->>>> fragment which makes enforcing consistent policy difficult. There are
->>>> really only two stateless options, neither of which are very nice:
->>>>
->>>> 1. Enforce policy on first fragment and accept all subsequent fragments.
->>>>     This works but may let in certain attacks or allow data exfiltration.
->>>>
->>>> 2. Enforce policy on first fragment and drop all subsequent fragments.
->>>>     This does not really work b/c some protocols may rely on
->>>>     fragmentation. For example, DNS may rely on oversized UDP packets for
->>>>     large responses.
->>>>
->>>> So stateful tracking is the only sane option. RFC 8900 [0] calls this
->>>> out as well in section 6.3:
->>>>
->>>>      Middleboxes [...] should process IP fragments in a manner that is
->>>>      consistent with [RFC0791] and [RFC8200]. In many cases, middleboxes
->>>>      must maintain state in order to achieve this goal.
->>>>
->>>> === BPF related bits ===
->>>>
->>>> However, when policy is enforced through BPF, the prog is run before the
->>>> kernel reassembles fragmented packets. This leaves BPF developers in a
->>>> awkward place: implement reassembly (possibly poorly) or use a stateless
->>>> method as described above.
->>>>
->>>> Fortunately, the kernel has robust support for fragmented IP packets.
->>>> This patchset wraps the existing defragmentation facilities in kfuncs so
->>>> that BPF progs running on middleboxes can reassemble fragmented packets
->>>> before applying policy.
->>>>
->>>> === Patchset details ===
->>>>
->>>> This patchset is (hopefully) relatively straightforward from BPF perspective.
->>>> One thing I'd like to call out is the skb_copy()ing of the prog skb. I
->>>> did this to maintain the invariant that the ctx remains valid after prog
->>>> has run. This is relevant b/c ip_defrag() and ip_check_defrag() may
->>>> consume the skb if the skb is a fragment.
->>>
->>> Instead of doing all that with extra skb copy can you hook bpf prog after
->>> the networking stack already handled ip defrag?
->>> What kind of middle box are you doing? Why does it have to run at TC layer?
->>
->> Unless I'm missing something, the only other relevant hooks would be
->> socket hooks, right?
->>
->> Unfortunately I don't think my use case can do that. We are running the
->> kernel as a router, so no sockets are involved.
-> 
-> Are you using bpf_fib_lookup and populating kernel routing
-> table and doing everything on your own including neigh ?
-> 
-> Have you considered to skb redirect to another netdev that does ip defrag?
-> Like macvlan does it under some conditions. This can be generalized.
-> 
-> Recently Florian proposed to allow calling bpf progs from all existing
-> netfilter hooks.
-> You can pretend to local deliver and hook in NF_INET_LOCAL_IN ?
-> I feel it would be so much cleaner if stack does ip_defrag normally.
-> The general issue of skb ownership between bpf prog and defrag logic
-> isn't really solved with skb_copy. It's still an issue.
+From: Uwe Kleine-König <uwe@kleine-koenig.org>
 
-I do like this series and we would also use it for Cilium case, so +1 on the
-tc BPF integration. Today we have in Cilium what Ed [0] hinted in his earlier
-mail where we extract information from first fragment and store the meta data
-in a BPF map for subsequent packets based on ipid [1], but limitations apply
-e.g. service load-balancing won't work. Redirecting to a different device
-or moving higher up the stack is cumbersome since we then need to go and
-recirculate back into tc BPF layer where all the business logic is located and
-handling the regular (non-fragmented) path, too. Wrt skb ownership, can you
-elaborate what is a concrete issue exactly? Anything that comes to mind with
-this approach that could crash the kernel?
+The "^0" doesn't have the described effect to only do fast-forward merges.
+For example
 
-   [0] https://lore.kernel.org/bpf/cf49a091-9b14-05b8-6a79-00e56f3019e1@gmail.com/
-   [1] https://github.com/cilium/cilium/pull/10264
+	git checkout 055efab3120b
+	git merge v5.2-rc1^0
+
+creates a normal merge commit. In fact "v5.2-rc1^0" only refers to the
+commit the tag v5.2-rc1 points to.
+
+Fixes: d95ea1a4e1fb ("docs: Add a document on repository management")
+Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+---
+ Documentation/maintainer/rebasing-and-merging.rst | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/Documentation/maintainer/rebasing-and-merging.rst b/Documentation/maintainer/rebasing-and-merging.rst
+index 09f988e7fa71..85800ce95ae5 100644
+--- a/Documentation/maintainer/rebasing-and-merging.rst
++++ b/Documentation/maintainer/rebasing-and-merging.rst
+@@ -213,11 +213,7 @@ point rather than some random spot.  If your upstream-bound branch has
+ emptied entirely into the mainline during the merge window, you can pull it
+ forward with a command like::
+ 
+-  git merge v5.2-rc1^0
+-
+-The "^0" will cause Git to do a fast-forward merge (which should be
+-possible in this situation), thus avoiding the addition of a spurious merge
+-commit.
++  git merge --ff-only v5.2-rc1
+ 
+ The guidelines laid out above are just that: guidelines.  There will always
+ be situations that call out for a different solution, and these guidelines
+-- 
+2.39.1
+
