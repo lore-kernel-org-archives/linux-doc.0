@@ -2,208 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EA0EC7EE30
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 20:09:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB82C64EC4
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 20:40:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbjB1UJJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 15:09:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33012 "EHLO
+        id S229836AbjB1UkH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 15:40:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbjB1UJI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 15:09:08 -0500
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D7491CAF2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 12:09:05 -0800 (PST)
-Received: by mail-qv1-xf31.google.com with SMTP id y3so7758847qvn.4
-        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 12:09:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1677614944;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NH34UHl+rn2FO1mQ7lCOsCVjbWfDkbPYuh07UsQOhis=;
-        b=H8JbXstRVmnyb9jd9RDj3Pnvvuq5Ealg3QjKjfsGavPEO6e7ckbwkzZz/20MOO5Ey0
-         FbksYZRhWWe7hwgmwnvyaVn/kra+2SNHIurnijeStGiR1CaANhatLN1Y5afYqd8mOs8N
-         I6y6IfhP5H2cDUXJ+p+5b6eKHrXxkTjTvct4s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677614944;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NH34UHl+rn2FO1mQ7lCOsCVjbWfDkbPYuh07UsQOhis=;
-        b=Qscgy8D7ecuqwx7iqqVqVlsgTJv6nr1mWRVEbkrvUfeGCaGkKqBTtTaIzjGR8FDXrv
-         DHrMaozWNZWEuo2yX/idNJQqAa+OmvbGUz3Ha7VTWuC3oEzGTvgByycp1HeA0NJ+PDg3
-         S+0fVfU4X8RG8RxKrqCEPLOMFPNllOmnd32IlWUqiuNRhw45wZhnMZljOidONTBoyMgZ
-         uzlHacPCkxnI057s1QWlKXY5PyXxTyZt5bFWmK3q80D20U/RTwmEdOzajsauXqLFWVFy
-         +Uayyb6LeLCchuIXbu8b5NMqIkhD3cdZ38D63P6KBrF4ojg7AgBJRVWpvTdtBL2rd517
-         k3DA==
-X-Gm-Message-State: AO0yUKUNNHXI04TxztWMKSLSzX6dwWdoidgAamjQLc1oLNMTsapXXysp
-        I3ulRiKfQ5HIuFXrNb0vpIvn6A==
-X-Google-Smtp-Source: AK7set950bRPMYcF1PBo6aHG2JurEHS1incCiQgR8NOD4Yh854UqDXAxDRkb6hlikDJeHLFHuKCVVA==
-X-Received: by 2002:a05:6214:f0f:b0:56e:bc62:e151 with SMTP id gw15-20020a0562140f0f00b0056ebc62e151mr8013215qvb.7.1677614944380;
-        Tue, 28 Feb 2023 12:09:04 -0800 (PST)
-Received: from localhost (129.239.188.35.bc.googleusercontent.com. [35.188.239.129])
-        by smtp.gmail.com with ESMTPSA id v23-20020a05620a091700b007423c78b004sm7359424qkv.9.2023.02.28.12.09.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 12:09:03 -0800 (PST)
-Date:   Tue, 28 Feb 2023 20:09:02 +0000
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Frederic Weisbecker <frederic@kernel.org>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
- completed
-Message-ID: <Y/5fXskgrQxzbt0U@google.com>
-References: <Y/z0fHHYdxEXcWMT@pc636>
- <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
- <Y/z9Its1RKetIr8V@pc636>
- <CAEXW_YSjT_orp8TbomBFU+ETS7YJ7TrbHTdrsBRTzCKG5_SBdw@mail.gmail.com>
- <20230227230502.GJ2948950@paulmck-ThinkPad-P17-Gen-1>
- <Y/0/dnmIk508sidK@lothringen>
- <Y/1ZMXsNZtwYPJNW@google.com>
- <Y/3fxLXbfvnLFEZq@lothringen>
+        with ESMTP id S229803AbjB1UkG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 15:40:06 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEFE834F4F;
+        Tue, 28 Feb 2023 12:39:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677616798; x=1709152798;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=m5CjE0fx63jlpfjjvAjYgncR5C24Ji8Inu83bixkfh8=;
+  b=MWDnvg9QA/QjUEeRU1mpwPG4NUrBADkVcTcECYx7Hh3naWVE4McJDF0Y
+   g3n8j4/dMRhbN9gVb9cRDYC35jBieBwN2dQUy7UgU+XbL77kwFP++qRrC
+   BUIwHQ5U+Mz/fHJCtlaR4nEpt6HNuHEhm+xbnCfgmBNSoogMDAq/E3ajN
+   dBCf+QJDtSqgPE9PECgGG1oASxrO3396QQTIBgMM7akVMJR60ecUp2CQu
+   G2jGsRF9437nJLtWeAA4m0sZbJhtUKbqu5do0EtxOFfIHPZooez06Gzy0
+   PgU0fnr2jpAeKhgT293GezmZTfeYJmGFVgi8DQEfOa5iMjjRecXNenAOq
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="336539176"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="336539176"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 12:39:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="919931044"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="919931044"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga006.fm.intel.com with ESMTP; 28 Feb 2023 12:39:34 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 28 Feb 2023 12:39:34 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 28 Feb 2023 12:39:33 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Tue, 28 Feb 2023 12:39:33 -0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.40) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Tue, 28 Feb 2023 12:39:33 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=daktL9tJA2hjs8/CKR6Zgdguui1kOqe4OlBkwseWJSWiKY9lyTcytyYOqV07jPJ5K9MMNfhT6fgzM0Qq6xD/QleDhGeKAI48VXfxtR3LB+9i5pxNfSWlNLP/rvKu5Bu/E7zqjHl5GbgMnJVW5bL/sQ98sgyfCj0JDfy/7hOHbztaMMUVJk17heQpK7Va7YMuf5T0hnCXpg/o6UoIiSuUoIs80KxI67EkUaj+cXip16VzAe8ioLh54ukdLzav5v/xXnv2qxmT7Vs0G5r/YpGZlpsOppT44D8ryBdESiuCZouAXjTE4Vxwv23IGL8tQ6kJvOZ6gLbTyK3yBtfNTX9QeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m5CjE0fx63jlpfjjvAjYgncR5C24Ji8Inu83bixkfh8=;
+ b=UENyKtBsnq8g3uiP5pSssV/QxcfjasWH70Cg/NAWJ6PcH/ugEc60QSyp/IvTLkdOAGKn1pJjxiZ33p4ChnPfZkhgd2Aj4IMeRI1fgUZ9qlE8KTuXs56x1NRMMdh0bj44LvagnFEWCCqRuHepFKNDb/XmIYD0/0rdc5v9nqL2U/IEBhokf4weBA95kuENurZjeBb+2cqLFhi1Qofi4sbQinfsQzzb+t/bcSfF9hNMaD8pTpxWRh0wv6DkHTGbeD49TPNY7DB6RxnZizA13DFrv9FCT9wxLidWQMcoDfrqw8Kex9Y1FiayhJPx51iymBQFDRGCiHrLiWvoaVUAn3kmOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by SA0PR11MB4624.namprd11.prod.outlook.com (2603:10b6:806:98::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.30; Tue, 28 Feb
+ 2023 20:39:31 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::ee6a:b9b2:6f37:86a1]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::ee6a:b9b2:6f37:86a1%9]) with mapi id 15.20.6134.026; Tue, 28 Feb 2023
+ 20:39:31 +0000
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     "babu.moger@amd.com" <babu.moger@amd.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        "Peter Newman" <peternewman@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "x86@kernel.org" <x86@kernel.org>
+CC:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: RE: [PATCH 7/7] x86/resctrl: Determine if Sub-NUMA Cluster is enabled
+ and initialize.
+Thread-Topic: [PATCH 7/7] x86/resctrl: Determine if Sub-NUMA Cluster is
+ enabled and initialize.
+Thread-Index: AQHZMbXnUEoONz5h40uCChzoDDCRa67k3i6AgAAnEFA=
+Date:   Tue, 28 Feb 2023 20:39:31 +0000
+Message-ID: <SJ1PR11MB60837729155ACDEB1C093DCFFCAC9@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20230126184157.27626-1-tony.luck@intel.com>
+ <20230126184157.27626-8-tony.luck@intel.com>
+ <85d7e70a-b9c8-6551-b1ac-229b51ee18d7@amd.com>
+In-Reply-To: <85d7e70a-b9c8-6551-b1ac-229b51ee18d7@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|SA0PR11MB4624:EE_
+x-ms-office365-filtering-correlation-id: cc57ed73-cb2c-4e45-cdd0-08db19cbe518
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: FEj5aNXVZsYOLxDgDfwiMmfuv+YdNtrnqu4m5dhI9STQwT33RQXuUH9CEoEojJlZKNMC2DajKjAbdYPZf9dR6pIvMSxRS4gHiBT8iqDQUFFERF92jxZNeWEf4qb+i0NJPuP52x40SxHA/oMSmf5lgeWXJ7ygl9abKYuqd0z2d6x4baSZ+aq6FSPycrsOUKrxb8AFsH5V/9GYypohfhalaELaDoEuJwaV8n6B1qMm9hqXUA6ECwgaLIQxDpeWxWDCtqxBn7mZPWCPuiKm/42BVFq5y8sw/glORfHCvjakIRjLXumtp5mdjrZjh12y1POECEDTdwe80oflbc79nmTJ8Ij6Mu4k+iM3SMnkoriU4XP6ARmVdS5ybwZW9RMqVHsVG0h9J3mS5S0wKTSObxxclCgeXivahJhfGMKDBQB5QzFPzqdTxszV9a3dKV50cTcfu9lYT5qoV49CBJ0+kLJ/TMD7/eJ1ezGsHMvzOGkAhUU89ECORGC9lMyTmR+Job4khIaULNFvnBMPdhM96yncUfentfpaWyfaiHBmGNlsoP872Fs1dU/0t404crTW6d/aFvihA/6jr6zWK/6npYqjchJFdFeJaiF7rvUQiuXf5AFLdj+r9GZSB1UFk7Txmj+UyWTkLvLsTwMpQZkCZzT5lBD9fLO7vd9wHPaia1WS4iXznNd02bwHLvvkvGn941twFK7LIvch/aY1fsh9m33VNw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(136003)(346002)(396003)(366004)(376002)(451199018)(64756008)(76116006)(66946007)(38070700005)(26005)(66556008)(6506007)(66446008)(66476007)(2906002)(316002)(54906003)(9686003)(186003)(478600001)(86362001)(33656002)(7696005)(55016003)(110136005)(71200400001)(83380400001)(5660300002)(52536014)(41300700001)(7416002)(122000001)(8936002)(4744005)(8676002)(4326008)(38100700002)(82960400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bXQ2YmQybWxLVzMzZkJBUXJrcm5WcHcraVdrM3VmWDZGeUdJRlBHK2g4Tk5U?=
+ =?utf-8?B?bk1HSkdEQksxRUltVzJyVGxOWXoxeVRBOE1EcnFub3Rtd09lTDNBeVdpZ1J1?=
+ =?utf-8?B?QWZ3VklXVHZBM201OUxYekVlSSs0YlQ4NVVQdXVqYVd2Q0JZRXQrTTBQdU5E?=
+ =?utf-8?B?UXhOYWlNUEw2ZmVNTlcxVGxjTHpoUEgzd0QrWFNaWGNtVXg1dUxMc014T0lr?=
+ =?utf-8?B?c3JJK1cxMW0zbU1WN1JWMnRSRUNINXQ3czN3Ty9MeGVVaHdudUJTaGFDMWR5?=
+ =?utf-8?B?RHR0WWtVUEVIYjk2b3BxNUZlMTJ5UXBMdGdEbkQ4TTJLd3JaY1BzbGhQamNr?=
+ =?utf-8?B?U3VGUTY3U1VqN3JKbERFRHpPcGZHQWlUNmhmRGVKMGxOU01FdWlQVDNnYzBv?=
+ =?utf-8?B?UXdrRVB3bmpmL3IwSHQzbVk0YTNUUVNCWmV4bCtDaWpTSGdneEMvS3Jic0ZY?=
+ =?utf-8?B?MkR4WWJrSUtJdG11UE9yZUVKUThRelkzM1ZKQXZjVUdHRnBIVWd0MmMwVHQ4?=
+ =?utf-8?B?UmozVTUvaVN0dGRmMlIwV3B0dnVJazBpYmFUZnQrZGZtckU3d1laUERsWnFh?=
+ =?utf-8?B?bFpnQzBscHlQMWpDYWRtMWU4aFkrWkpNRnRNTVBXMThING1jRElXMEsvbkhI?=
+ =?utf-8?B?V3BaTms3Ym5xVmZIOVVrck02MG5EbXMyZmErbU5RVC94Q2lacytIWnR5Nm1z?=
+ =?utf-8?B?ZVFQajhLUkF5QnBTNkozMnZNaXBncnhKdUx2NlJjZHhhZ0V1VXp2VGVhL1FE?=
+ =?utf-8?B?N3hGWm9QbjU4Um50Mjc4NHhwSkVRMS9tSGNKYkNDcXZVdHN1SGNBMGFpNUZZ?=
+ =?utf-8?B?UGp0cG9JR1VNRUdUaUdtbHRISlFYM3JUZ2hIc1M4cFl6S2JQL2pnbjhLMGJl?=
+ =?utf-8?B?cyszaDVhakpDMnRoVkdQZ0ZjeHJzQUZFN2pKNU5IMW1iSlVRbC8rKzErZk1Z?=
+ =?utf-8?B?bWlYMUFma2xpN2Y4cy92QTUrMlJwNytUNXpIQUJnejRnbWtnWFFFSXoxdFZw?=
+ =?utf-8?B?djVEWHhCRXorL1pPWVY3VTRPZGNtcW0yV3o1SUtxa1p4ZUNZV0VqMVVnWGoz?=
+ =?utf-8?B?dVdMUzlwSy8xYlYvMWhEa3B5dWlzU2VVUnFiRUViN3JxUktiNDJQclZxVnZB?=
+ =?utf-8?B?bTRzN0cyOSs2emZMeXYrbUZYMDlDRGQrVEtiK3ZqQ2xZeVczRGoySE5GUFQy?=
+ =?utf-8?B?QUNjRVgyNE8xNTdFamNhK3ErMVBMVVRVMTVEdk9VS1QzU2VHK1l2M3dORHZW?=
+ =?utf-8?B?Y3FLZWJ4R3NMZitRUzliT0tDTmlNeXpqcndoZDZtS21GandXL2hvTitmS0Rl?=
+ =?utf-8?B?WW9JbXVjWk5rTXhiaG9aZFZyV1pvUDVGWTd5S2duSDhtMVI1TXNlSkJsQWV5?=
+ =?utf-8?B?K1JRbkwya08xVEc2VHQ4a08vNEhxTXhHNzZXY1hOYnJRZ1ByaFlwMUk1N0I1?=
+ =?utf-8?B?b1ZVZ29PUGxzTGxZSS9FWml0NW9MK2phVkI4bU9WRGZKd1I1cU1HbjRsWFR0?=
+ =?utf-8?B?bnp0NS9NR3hYczR2cEFHUmZuMU42eUlKSHZrczJrb25RQ1hsQ1REYmg1N3VL?=
+ =?utf-8?B?bVIxQmFQMjFNOUp5eCs2S2ZHanZ3cTJhRy9jYmUyT0ZGYVZlQTJjSTlQVVRa?=
+ =?utf-8?B?YkNlbVBNZmtyZnQrRStoZ2pVVVNuYWdOaU9NdG5KMHF1TnkybmY5OUVhLy9Q?=
+ =?utf-8?B?Sk1jUGVxNmllTVhWTmxvZmZsaXA1bjM2SE83R25GYlZCSXNibmFpOCtRZi85?=
+ =?utf-8?B?L1RDS05SYmpYcHRGdlVqYVkyU1RQUUpyOEVvNEdLQ3owaVdRaElvTE5ydzFh?=
+ =?utf-8?B?UE1KK1VjSm1LUStaZHY4QW8xWE5qYUZla25oMkVpMEJrRko3NTRjaitOZzcr?=
+ =?utf-8?B?MHpOVWMwY293SkJuS1VJeWx1UjBhRnVCNVBDaVVwS2dIVWxlUDBHTWZSWGpr?=
+ =?utf-8?B?Y0RFUEk0TjVNY2dQeWpFc2xyQmhWS3FnWllyZjY0bUo1S2NEK1MvTW1RUldy?=
+ =?utf-8?B?eTVreWFQelFLclhpbVE3bEZGTkVibmFWdzdpRlloemRuUnpndXp0RzlsMGNH?=
+ =?utf-8?B?K05vYzNwVmJMSGFlOEpRampoTS81cEpnbGFZcFJLYndhTmdIQk1PWGU2ZGJj?=
+ =?utf-8?Q?y9dI1XqgfJ1V8HUkDyss7yye5?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y/3fxLXbfvnLFEZq@lothringen>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc57ed73-cb2c-4e45-cdd0-08db19cbe518
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Feb 2023 20:39:31.5564
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: L2kjac9BA+aXt6yYeFaOQFu3FeKFl4l7QI0Dqlf/Qh2hC/QMcXOBQw8OFjR5LWrlvhPgXzh0DQBMbU4m8DjtCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4624
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Frederic,
-
-On Tue, Feb 28, 2023 at 12:04:36PM +0100, Frederic Weisbecker wrote:
-> On Tue, Feb 28, 2023 at 01:30:25AM +0000, Joel Fernandes wrote:
-> > On Tue, Feb 28, 2023 at 12:40:38AM +0100, Frederic Weisbecker wrote:
-> > > On Mon, Feb 27, 2023 at 03:05:02PM -0800, Paul E. McKenney wrote:
-> > > > On Mon, Feb 27, 2023 at 02:10:30PM -0500, Joel Fernandes wrote:
-> > > > 
-> > > > The combination of sysfs manipulated by userspace and a kernel failsafe
-> > > > makes sense to me.  Especially if by default triggering the failsafe
-> > > > splats.  That way, bugs where userspace fails to update the sysfs file
-> > > > get caught.
-> > > > 
-> > > > The non-default silent-failsafe mode is also useful to allow some power
-> > > > savings in advance of userspace getting the sysfs updating in place.
-> > > > And of course the default splatting setup can be used in internal testing
-> > > > with the release software being more tolerant of userspace foibles.
-> > > 
-> > > I'm wondering, this is all about CONFIG_RCU_LAZY, right? Or does also expedited
-> > > GP turned off a bit early or late on boot matter for anybody in practice?
-> > 
-> > Yes, if you provide 'rcu_normal_after_boot', then after the boot ends, it
-> > switches expedited GPs to normal ones.
-> > 
-> > It is the same issue for expedited, the kernel's version of what is 'boot' is
-> > much shorter than what is actually boot.
-> > 
-> > This is also the case with suspend/resume's rcu_pm_notify(). See the comment:
-> >   /*
-> >    * On non-huge systems, use expedited RCU grace periods to make suspend
-> >    * and hibernation run faster.
-> >    */
-> > 
-> > There also we turn on/off both lazy and expedited. I don't see why we
-> > shouldn't do it for boot.
-> 
-> Of course but I mean currently rcu_end_inkernel_boot() is called explicitly
-> before the kernel calls init. From that point on, what is the source of the
-> issue? Delaying lazy further would be enough or do we really need to delay
-> forcing expedited as well? Or is it the reverse: delaying expedited further
-> would matter and lazy doesn't play much role from there.
-
-Both should play a role. For lazy, we found callbacks that showed later in
-the full boot sequence (like the SCSI issue).
-
-For expedited, there is new data from Qiuxu showing 5% improvement in boot
-time.
-
-> It matters to know because if delaying expedited further is enough, then indeed
-> we must delay the call to rcu_end_inkernel_boot() somehow. But if delaying
-> expedited further doesn't matter and delaying lazy matter then it's possible
-> that the issue is a callback that should be marked as call_rcu_hurry() and then
-> the source of the problem is much broader.
-
-Right, and we also don't know if in the future, somebody queues a CB that
-slows down boot as well (say they queue a lazy CB that does a wakeup), even
-if currently there are not any such. As noted, that SCSI issue did show. Just
-to note, callbacks doing wakeups are supposed to call call_rcu_hurry().
-
-> I think the confusion comes from the fact that your changelog doesn't state precisely
-> what the problem exactly is. Also do we need to wait for the kernel boot completion?
-> And if so what is missing from kernel boot after the current explicit call to
-> rcu_end_inkernel_boot()?
-
-Yes, sorry, it was more an RFC but still should have been more clear. For the
-v3 I'll definitely make it clear.
-
-rcu_end_inkernel_boot() is called before init is run. But the kernel cannot
-posibly know when init has finished running and say the system is now waiting
-for user login, or something. There's a considerable amount time from
-rcu_end_inkernel_boot() to when the system is actually "booted". That's the
-main issue. We could look at CPU load, but that's not ideal. Maybe wait for
-user input, but that sucks as well.
-
-> Or do we also need to wait for userspace to complete the boot? Different
-> problems, different solutions.
-> 
-> But in any case a countdown is not a way to go. Consider that rcu_lazy may
-> be used by a larger audience than just chromium in the long run. You can not
-> ask every admin to provide his own estimation per type of machine. You can't
-> either rely on a long default value because that may have bad impact on
-> workload assumptions launched right after boot.
-
-Hmmm I see what you mean, so a conservative and configurable "fail-safe"
-timeout followed by sysctl to end the boot earlier than the timeout, should
-do it (something like 30 seconds IMHO sounds reasonable)? In any case,
-whatever way we go, we would not end the kernel boot before
-rcu_end_inkernel_boot() is called at least once (which is the current
-behavior).
-
-So it would be:
-
-  low level boot + initcalls
-       20 sec                         30 second timeout
-|------------------------------|--------------------------
-                               |                         |
-	        old rcu_end_inkernel_boot()      new rcu_end_inkernel_boot()
-
-But it could be, if user decides:
-  low level boot + initcalls
-       20 sec                         10 second timeout
-|------------------------------|--------------------------
-                               |                         |
-	        old rcu_end_inkernel_boot()      new rcu_end_inkernel_boot()
-		                                 via /sys/ entry.
-
-> > > So shouldn't we disable lazy callbacks by default when CONFIG_RCU_LAZY=y and then
-> > > turn it on with "sysctl kernel.rcu.lazy=1" only whenever userspace feels ready
-> > > about it? We can still keep the current call to rcu_end_inkernel_boot().
-> > 
-> > Hmm IMHO that would add more knobs for not much reason honestly. We already
-> > have CONFIG_RCU_LAZY default disabled, I really don't want to add more
-> > dependency (like user enables the config and does not see laziness).
-> 
-> I don't know. Like I said, different problems, different solutions. Let's
-> identify what the issue is precisely. For example can we expect that the issues
-> on boot can be a problem also on some temporary workloads?
-> 
-> Besides I'm currently testing a very hacky flavour of rcu_lazy and so far it
-> shows many idle calls that would have been delayed if callbacks weren't queued
-> as lazy.
-
-Can you provide more details? What kind of hack flavor, and what is it doing?
-
-thanks,
-
- - Joel
-
-
-> I have yet to do actual energy and performance measurements but if it
-> happens to show improvements, I suspect distros will want a supported yet
-> default disabled Kconfig that can be turned on on boot or later. Of course we
-> are not there yet but things to keep in mind...
-> 
-> Thanks.
+QmFidSB3cm90ZToNCj4gSSBhbSB0aGlua2luZyBsb3VkIGhlcmUuIEhhdmUgeW91IHRob3VnaHQg
+b2YgYWRkcmVzc2luZyB0aGlzIHByb2JsZW0/DQo+IFdoZW4gYSBuZXcgbW9uaXRvciBncm91cCBp
+cyBjcmVhdGVkLCBuZXcgUk1JRCBpcyBhc3NpZ25lZC4gVGhpcyBpcyBkb25lIGJ5IGFsbG9jX3Jt
+aWQuIEl0IGRvZXMgbm90IGtub3cgYWJvdXQgdGhlIHJtaWRfb2Zmc2V0IGRldGFpbHMuIFRoaXMg
+d2lsbCBhbGxvY2F0ZSB0aGUgb25lIG9mIHRoZSBmcmVlIFJNSURzLg0KPiBXaGVuIENQVXMgYXJl
+IGFzc2lnbmVkIHRvIHRoZSBncm91cCwgdGhlbiBwZXIgY3B1wqAgcHFyX3N0YXRlIGlzIHVwZGF0
+ZWQuIEF0IHRoYXQgcG9pbnQsIHRoaXMgUk1JRCBiZWNvbWVzIGRlZmF1bHRfcm1pZCBmb3IgdGhh
+dCBjcHUuDQoNCkdvb2QgcG9pbnQuIFRoaXMgaXMgYSBnYXAuIEkgaGF2ZW4ndCBoYW5kbGVkIGFz
+c2lnbmluZyBDUFVzIHRvIHJlc2N0cmwgZ3JvdXBzIHdoZW4gU05DIGlzIGVuYWJsZWQuDQoNCkkn
+bSBub3Qgc3VyZSB0aGlzIGhhcyBhIHNvbHV0aW9uIDotKA0KDQotVG9ueQ0KDQo=
