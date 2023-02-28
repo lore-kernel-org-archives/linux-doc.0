@@ -2,106 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FDFEC64EC7
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 16:26:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40ED2C64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 16:55:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229706AbjB1Q0h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 11:26:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48806 "EHLO
+        id S229529AbjB1Qzl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 11:55:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229700AbjB1Q0e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 11:26:34 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8212ED41;
-        Tue, 28 Feb 2023 08:26:33 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229527AbjB1Qzk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 11:55:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F61D28D0C
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 08:54:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1677603177;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=zCkSECvXS7yB7KD0+uxNsAJHsyUzclFZ5TPFGlTqNhA=;
+        b=jNV9M5Vy3EZkgSlC7wpRa26Sor7Vxk7PhlMZ+U773dWl43//IAPJrwV/sOxe1BqDo3nvAh
+        1xdbZ+FxYa5/lqa7rvYZnV2y02Rv5ymZOko1UVH/e0oS4j4qbfg5vy8ZFBigGVOyJsuEeb
+        Tv7JI36Z4NF6ml7kbCUWRDNyAFPA4kw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-605-7BXfBiSpNsaGYExb4C9rcw-1; Tue, 28 Feb 2023 11:52:51 -0500
+X-MC-Unique: 7BXfBiSpNsaGYExb4C9rcw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 25C1CB80E77;
-        Tue, 28 Feb 2023 16:26:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E60C4C4339B;
-        Tue, 28 Feb 2023 16:26:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677601590;
-        bh=AkB87OLJPxh9UIAOkr0bc/Qc5bsWpH72J1kKlUqwG6w=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PJ+K1r4DTU8UnWWt6rDeyIEw3brQj8Y50enjFxlDsxXyBFdtsobwRo2OuLPr07Z4c
-         892oOad38RE0oMJXiWBb6yHcG1jEa/obwkIsuBuhYtP6m70kJoA+DbK/8guds5kura
-         k5EjcKYr9HsL1pdCxaIQPyiRHTjEWnFRBIq4jOPsZpHRbrh5C7gI+N2RJ5Wp0lwb2V
-         B4nnDuYm2CpX5j2F5tqFhfYhE2M3x7NYcdTG7VGGGpd9m/a4k3LiiBk6MS8Z2fnrNH
-         ji9Mxrq4WgFIodwP7bQyI6MuZAcdoX0waw/Lp7Sm2PPjvXpy7KiA9O+0H0IHtGml+d
-         /Yo7zMnF0OCHQ==
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-17235c8dab9so11427491fac.7;
-        Tue, 28 Feb 2023 08:26:30 -0800 (PST)
-X-Gm-Message-State: AO0yUKVljMemMAeQbWz6Wiw/saH/4azJDorvafpPpY3pFMI5AsSRqlK7
-        DWtMN2dGk0/GakimrpVx963AzCRaEu/C/i65nSU=
-X-Google-Smtp-Source: AK7set+XkU42uYSE+s2398F/OQ9vjDr2sktTB9q7cO79kHz1YeeqQL2V9oj7FKqA0sumKSYwGJtv+OjxBCxoe2i9CVU=
-X-Received: by 2002:a05:6870:c7a6:b0:171:8f59:3437 with SMTP id
- dy38-20020a056870c7a600b001718f593437mr893819oab.8.1677601590226; Tue, 28 Feb
- 2023 08:26:30 -0800 (PST)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA670811E9C;
+        Tue, 28 Feb 2023 16:52:50 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.252])
+        by smtp.corp.redhat.com (Postfix) with SMTP id C9D3018EC6;
+        Tue, 28 Feb 2023 16:52:47 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Tue, 28 Feb 2023 17:52:44 +0100 (CET)
+Date:   Tue, 28 Feb 2023 17:52:40 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Dmitry Safonov <0x7f454c46@gmail.com>
+Cc:     Gregory Price <gourry.memverge@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        avagin@gmail.com, peterz@infradead.org, luto@kernel.org,
+        krisman@collabora.com, tglx@linutronix.de, corbet@lwn.net,
+        shuah@kernel.org, Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH v12 2/3] ptrace,syscall_user_dispatch: checkpoint/restore
+ support for SUD
+Message-ID: <20230228165217.GA16798@redhat.com>
+References: <20230224233126.1936-1-gregory.price@memverge.com>
+ <20230224233126.1936-3-gregory.price@memverge.com>
+ <CAJwJo6YnELNhU8RmR-z37vDZ=xb0CmUUBgrPGgHP2dqjVm=O2g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230228031317.3415484-1-davidgow@google.com> <CAK7LNASBznyHmAwSRApOHw_6dyAXFuskmtKav65xFwKZdvNWJw@mail.gmail.com>
- <e8addca3-e539-110c-ea2b-9a4921a45d71@intel.com>
-In-Reply-To: <e8addca3-e539-110c-ea2b-9a4921a45d71@intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 1 Mar 2023 01:25:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASZwwHsbsEEHhqsLKg44ZUoGDWMqhteazuOrSx23uf1XQ@mail.gmail.com>
-Message-ID: <CAK7LNASZwwHsbsEEHhqsLKg44ZUoGDWMqhteazuOrSx23uf1XQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kbuild: Add note about using (subst m,y)
-To:     Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc:     David Gow <davidgow@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sadiya Kazi <sadiyakazi@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJwJo6YnELNhU8RmR-z37vDZ=xb0CmUUBgrPGgHP2dqjVm=O2g@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 1, 2023 at 12:16=E2=80=AFAM Alexander Lobakin
-<aleksander.lobakin@intel.com> wrote:
+On 02/27, Dmitry Safonov wrote:
 >
-> From: Masahiro Yamada <masahiroy@kernel.org>
-> Date: Tue, 28 Feb 2023 17:30:09 +0900
+> > +int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long size,
+> > +                                    void __user *data)
+> > +{
+> > +       int rc;
+> > +       struct ptrace_sud_config cfg;
+> > +
+> > +       if (size != sizeof(struct ptrace_sud_config))
+> > +               return -EINVAL;
+> > +
+> > +       if (copy_from_user(&cfg, data, sizeof(struct ptrace_sud_config)))
+> > +               return -EFAULT;
 >
-> > On Tue, Feb 28, 2023 at 12:13=E2=80=AFPM David Gow <davidgow@google.com=
-> wrote:
->
-> [...]
->
-> >> +Example::
-> >> +
-> >> +  #drivers/Makefile
-> >> +  obj-$(subst m,y,$(CONFIG_HYPERV)) +=3D hv/
-> >> +
-> >
-> >
-> > I think many subsystems simply do
-> >
-> > obj-y  +=3D hv/
->
-> This creates a ton of empty built-in.a, each of them is listed in the
-> Kbuild output. Someone may think that if a directory contains
-> built-in.a, then something was built there. Sure it's their problems,
-> but I'd prefer to not pollute the log and built-in.a contents when
-> possible (empty files are still listed there IIRC).
+> It seems that the tool you want here would be copy_struct_from_user(),
+> which is designed for extendable syscalls.
 
+Hmm. Why?
 
-You can choose whichever you like.
-Up to each subsystem maintainer.
+In this case ksize == usize, so why do we need copy_struct_from_user ?
 
+Oleg.
 
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
