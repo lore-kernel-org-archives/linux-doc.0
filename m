@@ -2,160 +2,148 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A2AC64EC7
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 12:43:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E030C64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 13:43:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230383AbjB1Mn0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 07:43:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56290 "EHLO
+        id S229535AbjB1Nnb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 08:43:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230491AbjB1MnY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 07:43:24 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F2BA8A46;
-        Tue, 28 Feb 2023 04:43:03 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id qa18-20020a17090b4fd200b0023750b675f5so13517784pjb.3;
-        Tue, 28 Feb 2023 04:43:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677588182;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GNoSdXiAy4Hnpx4GSmf9v1s/TnoJ2Easnzikmce7RFo=;
-        b=Df7zrRz22eg8YZi+bpqjSJPlYpN8eIwr9o77wJ4OIQ+4kuTEVXpnUz/mPubCGdCkzm
-         wB0GhDQXs3xOQYDpZ9TG3khGJT4x7Ps3f8Vj0npRhk0C4oSB96tMQoW50c51EZ3lfU6+
-         vFMlcXzfaK3nk76iyyHVvUt22CWre9Kuihg8DdAXM83Q0NBTYhnQ9e1mcv7ZaGj3nj6C
-         DWIlEvKfO56rW78AV5SO5ICvqhDgv2GTFKuLLPU+zrXAXmgq0Z3G0wNqW6+IdX6MRcKc
-         JC/a+Zbq22en8EaGBqwiunzxOiXmQHaNTUI4tKBNSby2zUAc3XWf8SlBzOOJfcD8IlKJ
-         SM5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677588182;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GNoSdXiAy4Hnpx4GSmf9v1s/TnoJ2Easnzikmce7RFo=;
-        b=FBDohP3fu3kQLytahyhOvYTIj72q4/9UJrAxCkl3mmAnomevTHmr3nclTXlGdUmM8P
-         OhnakrWnAMFJAM2OL3rS/V+DxRVIiL3WuF5stbCLF9kwRy0Q8cf/3Yb9cW6DiLyO+lfw
-         goa1EVOVD3maW3PsGSds+yjbCRvckigrXS5xW9vLw5tg82T6SI48/rnIVS0XFxA+tpvk
-         y52bvQ3vfSTfx1/ee12pe3UVET0KRAiGctIXLXHC7zNR2dn05hviK5lv6W4zATvy+NT8
-         zvhqd+scZL2atbNQXPYBM6il+lYEWz84dLZYUSPoN2kqlk3JvIHNZXFNG/O7XJI6dvRP
-         dlmg==
-X-Gm-Message-State: AO0yUKV2seuGNnS5LdA318lpsTVq5hp6nWui9PgGrzYWaURXIj0c/fez
-        aHyBcGq6ICP8VeuMxGNFyL0=
-X-Google-Smtp-Source: AK7set9OdAQjCkCpgdCiYZHKKMRQTrLw3bEzWK8cbf3O+nNoqA5K32bwW9Ij9MRpVcAkVdH7hRxAQg==
-X-Received: by 2002:a05:6a20:47d7:b0:cc:68a1:5033 with SMTP id ey23-20020a056a2047d700b000cc68a15033mr3052844pzb.16.1677588182510;
-        Tue, 28 Feb 2023 04:43:02 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-83.three.co.id. [180.214.232.83])
-        by smtp.gmail.com with ESMTPSA id y18-20020aa78052000000b005a909290425sm6172405pfm.172.2023.02.28.04.43.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 04:43:01 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 24D0210105C; Tue, 28 Feb 2023 19:42:57 +0700 (WIB)
-Date:   Tue, 28 Feb 2023 19:42:57 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
-        Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        intel-gfx@lists.freedesktop.org,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>,
+        with ESMTP id S229470AbjB1Nnb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 08:43:31 -0500
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 841D325B9F;
+        Tue, 28 Feb 2023 05:43:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+        bh=2YufEiSw26yUxGvxbvEcxh/qT0bL7Zfm+eeVmdJnJkM=; b=T/sgNzMZ8+UIner/PUcMgOg0r1
+        zQFvgCVN9l9b9eWUqLPajIEg7GxjjPqq3otpSJRj9gin0diwflv6ia8ZCPL04YQABg2bdTernyi89
+        ooFAaYDR6yXfIrMHL8UHBE18j8nG2rjqjGPvVxg0HTse1XpYp33aRiCrXUeN7LsRsnC8aF8IqhmOf
+        Eh2TxqwlxGimqD8PkcJjOoKbHU9BUQtsMHE3NZ4XZD2QFMaU3McaXEIW8qApfUB5PnksxSSvwoZTs
+        We2Y4z1gmxzeic23kKSYEQq1sgcrobW3UHb9fMAOmr4IwMr8NWA1U/LdljFfr92RsUSKXudXvL9nN
+        IbGKeqSA==;
+Received: from sslproxy06.your-server.de ([78.46.172.3])
+        by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1pX0GN-000Dyo-8m; Tue, 28 Feb 2023 14:43:27 +0100
+Received: from [85.1.206.226] (helo=linux.home)
+        by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1pX0GN-000H1f-0N; Tue, 28 Feb 2023 14:43:27 +0100
+Subject: Re: [PATCH bpf-next v2 0/8] Support defragmenting IPv(4|6) packets in
+ BPF
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Daniel Xu <dxu@dxuuu.xyz>
+Cc:     bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Liu Shixin <liushixin2@huawei.com>,
-        Sean Paul <sean@poorly.run>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Vinod Polimera <quic_vpolimer@quicinc.com>
-Subject: Re: [PATCH v7 00/15] dma-fence: Deadline awareness
-Message-ID: <Y/320d96QmbLe1J8@debian.me>
-References: <20230227193535.2822389-1-robdclark@gmail.com>
+        linux-kernel@vger.kernel.org, quentin@isovalent.com
+References: <cover.1677526810.git.dxu@dxuuu.xyz>
+ <20230227230338.awdzw57e4uzh4u7n@MacBook-Pro-6.local>
+ <20230228015712.clq6kyrsd7rrklbz@kashmir.localdomain>
+ <CAADnVQ+a633QyZgkbXfRiT_WRbPgr5n8RN0w=ntEkBHUeqRcbw@mail.gmail.com>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <fbf869c6-29ac-4dbe-dd1c-85c6c3c10670@iogearbox.net>
+Date:   Tue, 28 Feb 2023 14:43:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wAv6Jr7MZqhKVbDV"
-Content-Disposition: inline
-In-Reply-To: <20230227193535.2822389-1-robdclark@gmail.com>
+In-Reply-To: <CAADnVQ+a633QyZgkbXfRiT_WRbPgr5n8RN0w=ntEkBHUeqRcbw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.103.8/26826/Tue Feb 28 09:32:16 2023)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2/28/23 5:56 AM, Alexei Starovoitov wrote:
+> On Mon, Feb 27, 2023 at 5:57 PM Daniel Xu <dxu@dxuuu.xyz> wrote:
+>> On Mon, Feb 27, 2023 at 03:03:38PM -0800, Alexei Starovoitov wrote:
+>>> On Mon, Feb 27, 2023 at 12:51:02PM -0700, Daniel Xu wrote:
+>>>> === Context ===
+>>>>
+>>>> In the context of a middlebox, fragmented packets are tricky to handle.
+>>>> The full 5-tuple of a packet is often only available in the first
+>>>> fragment which makes enforcing consistent policy difficult. There are
+>>>> really only two stateless options, neither of which are very nice:
+>>>>
+>>>> 1. Enforce policy on first fragment and accept all subsequent fragments.
+>>>>     This works but may let in certain attacks or allow data exfiltration.
+>>>>
+>>>> 2. Enforce policy on first fragment and drop all subsequent fragments.
+>>>>     This does not really work b/c some protocols may rely on
+>>>>     fragmentation. For example, DNS may rely on oversized UDP packets for
+>>>>     large responses.
+>>>>
+>>>> So stateful tracking is the only sane option. RFC 8900 [0] calls this
+>>>> out as well in section 6.3:
+>>>>
+>>>>      Middleboxes [...] should process IP fragments in a manner that is
+>>>>      consistent with [RFC0791] and [RFC8200]. In many cases, middleboxes
+>>>>      must maintain state in order to achieve this goal.
+>>>>
+>>>> === BPF related bits ===
+>>>>
+>>>> However, when policy is enforced through BPF, the prog is run before the
+>>>> kernel reassembles fragmented packets. This leaves BPF developers in a
+>>>> awkward place: implement reassembly (possibly poorly) or use a stateless
+>>>> method as described above.
+>>>>
+>>>> Fortunately, the kernel has robust support for fragmented IP packets.
+>>>> This patchset wraps the existing defragmentation facilities in kfuncs so
+>>>> that BPF progs running on middleboxes can reassemble fragmented packets
+>>>> before applying policy.
+>>>>
+>>>> === Patchset details ===
+>>>>
+>>>> This patchset is (hopefully) relatively straightforward from BPF perspective.
+>>>> One thing I'd like to call out is the skb_copy()ing of the prog skb. I
+>>>> did this to maintain the invariant that the ctx remains valid after prog
+>>>> has run. This is relevant b/c ip_defrag() and ip_check_defrag() may
+>>>> consume the skb if the skb is a fragment.
+>>>
+>>> Instead of doing all that with extra skb copy can you hook bpf prog after
+>>> the networking stack already handled ip defrag?
+>>> What kind of middle box are you doing? Why does it have to run at TC layer?
+>>
+>> Unless I'm missing something, the only other relevant hooks would be
+>> socket hooks, right?
+>>
+>> Unfortunately I don't think my use case can do that. We are running the
+>> kernel as a router, so no sockets are involved.
+> 
+> Are you using bpf_fib_lookup and populating kernel routing
+> table and doing everything on your own including neigh ?
+> 
+> Have you considered to skb redirect to another netdev that does ip defrag?
+> Like macvlan does it under some conditions. This can be generalized.
+> 
+> Recently Florian proposed to allow calling bpf progs from all existing
+> netfilter hooks.
+> You can pretend to local deliver and hook in NF_INET_LOCAL_IN ?
+> I feel it would be so much cleaner if stack does ip_defrag normally.
+> The general issue of skb ownership between bpf prog and defrag logic
+> isn't really solved with skb_copy. It's still an issue.
 
---wAv6Jr7MZqhKVbDV
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I do like this series and we would also use it for Cilium case, so +1 on the
+tc BPF integration. Today we have in Cilium what Ed [0] hinted in his earlier
+mail where we extract information from first fragment and store the meta data
+in a BPF map for subsequent packets based on ipid [1], but limitations apply
+e.g. service load-balancing won't work. Redirecting to a different device
+or moving higher up the stack is cumbersome since we then need to go and
+recirculate back into tc BPF layer where all the business logic is located and
+handling the regular (non-fragmented) path, too. Wrt skb ownership, can you
+elaborate what is a concrete issue exactly? Anything that comes to mind with
+this approach that could crash the kernel?
 
-On Mon, Feb 27, 2023 at 11:35:06AM -0800, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
->=20
-> This series adds a deadline hint to fences, so realtime deadlines
-> such as vblank can be communicated to the fence signaller for power/
-> frequency management decisions.
->=20
-> This is partially inspired by a trick i915 does, but implemented
-> via dma-fence for a couple of reasons:
->=20
-> 1) To continue to be able to use the atomic helpers
-> 2) To support cases where display and gpu are different drivers
->=20
-> This iteration adds a dma-fence ioctl to set a deadline (both to
-> support igt-tests, and compositors which delay decisions about which
-> client buffer to display), and a sw_sync ioctl to read back the
-> deadline.  IGT tests utilizing these can be found at:
->=20
->   https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence-d=
-eadline
->=20
->=20
-> v1: https://patchwork.freedesktop.org/series/93035/
-> v2: Move filtering out of later deadlines to fence implementation
->     to avoid increasing the size of dma_fence
-> v3: Add support in fence-array and fence-chain; Add some uabi to
->     support igt tests and userspace compositors.
-> v4: Rebase, address various comments, and add syncobj deadline
->     support, and sync_file EPOLLPRI based on experience with perf/
->     freq issues with clvk compute workloads on i915 (anv)
-> v5: Clarify that this is a hint as opposed to a more hard deadline
->     guarantee, switch to using u64 ns values in UABI (still absolute
->     CLOCK_MONOTONIC values), drop syncobj related cap and driver
->     feature flag in favor of allowing count_handles=3D=3D0 for probing
->     kernel support.
-> v6: Re-work vblank helper to calculate time of _start_ of vblank,
->     and work correctly if the last vblank event was more than a
->     frame ago.  Add (mostly unrelated) drm/msm patch which also
->     uses the vblank helper.  Use dma_fence_chain_contained().  More
->     verbose syncobj UABI comments.  Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> v7: Fix kbuild complaints about vblank helper.  Add more docs.
->=20
-
-I want to apply this series for testing, but it can't be applied cleanly
-on current drm-misc tree. On what tree (and commit) is this series based
-on?
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---wAv6Jr7MZqhKVbDV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY/32zQAKCRD2uYlJVVFO
-o1TBAQCAHLKqy5NdumoKS+DbOAOm+KfhLK93EKYDC8UmiebsRAEA+JAK75T6QTDt
-aHxaJFTZKkVfK7+Eq1MfYn2ZeBgJXgU=
-=jpg1
------END PGP SIGNATURE-----
-
---wAv6Jr7MZqhKVbDV--
+   [0] https://lore.kernel.org/bpf/cf49a091-9b14-05b8-6a79-00e56f3019e1@gmail.com/
+   [1] https://github.com/cilium/cilium/pull/10264
