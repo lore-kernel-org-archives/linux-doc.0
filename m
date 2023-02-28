@@ -2,107 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4DC0C7EE2D
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 03:13:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 377F7C64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 03:37:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230083AbjB1DNs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 22:13:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53978 "EHLO
+        id S229512AbjB1DhU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 22:37:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230025AbjB1DNr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 22:13:47 -0500
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E35CE16897
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 19:13:44 -0800 (PST)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-536e8d6d9ceso181880007b3.12
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 19:13:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1677554024;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=s6UOSWO+feCYZ3WxJ17vXN444yl542PP/Ra8QhWlg1E=;
-        b=BVXvaAIO+k0MW9rbMLSLEL10JfJv/dqSvdauXeBmyVpNYdjfdOGp19/tANrYafzYyE
-         LbhRzdL2lvTTAncxwGhgasgNaGccO4CT6trzGMtN4OyDVqq1yNRvKr8k6m0SyGzhQLf6
-         62xJm5ZeHJZe2QcGqIHidAamjGA3cdLHPl2Vd4WJ/W/YHO1XRESmHk17nnsE851VuOIi
-         Kn7qMoYRJwkl4eeph2+NygNkEAKludimbYssyp6p84lsBq54aUAGi1Mfjy/aPlwcmX4l
-         vTBdnYLWidYqBDUjq4fijBm3IaF2hMCneHOe76SeRAoXID4FJGMHP7dV6xWbKKzHOYLg
-         lUoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677554024;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s6UOSWO+feCYZ3WxJ17vXN444yl542PP/Ra8QhWlg1E=;
-        b=cjJS9RLUfueHXbBAz5z6WEB81kJZkTgRWt5GzMkgZw5g4CdwSjQrLOIY/Ta818drUQ
-         i+zWYzVm+zhtcrnYVboZnvSg0QXPQJMtX+hTfTYdScySzmWU65d2Bseu/Qm0wYoILJDR
-         cT5SXSP5IEhObBmuwLwCj3/qRpfbLiMB8M9ybnosZlI9urVLY6q3G9ORYN5H8lKsJEVj
-         cILmZXeuv/Bez0QbFl0lg4Bo3P7BEcsO3XzYsHfkIGyFTNOZetrVZQP9kTblNrDHPNx9
-         AcJS7MxC3eZgWRgz88tXbRNrrkKE/Lie+nFSnCnzRKZJYnmmrCLj7dibzhyaC+fFWcEI
-         u/zw==
-X-Gm-Message-State: AO0yUKVQwgeIlIinDanlv2Q7e5pgIRSt93sKDIPqw6LuHXVBteIBdFUM
-        Zk8V+YgGEvMbkort7w5UHYhqVXNz3AxCaQ==
-X-Google-Smtp-Source: AK7set9/7oGN1cxLTSyivW/Lnm2hI66pvRCEncRFscnVFliFQ59tiscx9LiAIz1ONm2E9DLKuEu4Xv3lFA6dBw==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a81:431c:0:b0:52e:b22b:f99 with SMTP id
- q28-20020a81431c000000b0052eb22b0f99mr623341ywa.4.1677554024082; Mon, 27 Feb
- 2023 19:13:44 -0800 (PST)
-Date:   Tue, 28 Feb 2023 11:13:18 +0800
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.39.2.722.g9855ee24e9-goog
-Message-ID: <20230228031317.3415484-1-davidgow@google.com>
-Subject: [PATCH] Documentation: kbuild: Add note about using (subst m,y)
-From:   David Gow <davidgow@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Sadiya Kazi <sadiyakazi@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229492AbjB1DhT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 22:37:19 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E6A11E9D2;
+        Mon, 27 Feb 2023 19:37:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677555438; x=1709091438;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=al/INyoNJ0XDfdnz7VHXZf5kkuMVxaCGXwtFpDxHwQY=;
+  b=VPnaE/GQ3b0TA9m6iWN0AMCvugISMYOEeTAioLF9C70G7lSgG1ynD2f+
+   uS+kFZzQzi8P6AxL9xdaMEAz4D031V2GdnwwSVBkix300XK/7eELyhN27
+   UOkIdZL/IAxABb/q279kQIRjfKl6Ij+KG6C9DD9FkqBDrZZI5twn99dQs
+   2tQ92x6t9ilDaM/6yLB6u99V2euRzMGUB71YzKN7NimwX5h3evOWhhVoh
+   nKNXsh8aOdv3hIsrwXOdYufVQ/M4PqJk+GWrCg44Kc6soEocvlhY7aA56
+   m3ZPPrSsVQAGR7VcogIZL1OLl+UAtJWL5JC2PmVrKH0gjueY/qSeP7gxR
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="420298167"
+X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
+   d="scan'208";a="420298167"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 19:37:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="667293697"
+X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
+   d="scan'208";a="667293697"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 27 Feb 2023 19:37:15 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pWqni-00052r-15;
+        Tue, 28 Feb 2023 03:37:14 +0000
+Date:   Tue, 28 Feb 2023 11:36:42 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Aditya Srivastava <yashsri421@gmail.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: drivers/iommu/fsl_pamu.c:586: warning: This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202302281151.B1WtZvSC-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-THe kbuild documentation already notes that, where there's an obj-y
-target in a subdirectory, it will be orphaned if the subdirectory uses
-obj-m. Suggest a way of forcing the directory to obj-y when it's based
-on a config option which could be 'm'.
+Hi Aditya,
 
-Linus made several suggestions as to how this is usually done here:
-https://lore.kernel.org/linux-kselftest/CAHk-=wgK07PQ_DBBbAbSJ41t__6de1xZ6q7RRu-JS=2SU0wqLQ@mail.gmail.com/
+FYI, the error/warning still remains.
 
-This only documents the first one, which seems most common.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ae3419fbac845b4d3f3a9fae4cc80c68d82cdf6e
+commit: 3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf scripts: kernel-doc: add warning for comment not following kernel-doc syntax
+date:   1 year, 11 months ago
+config: powerpc-randconfig-r002-20230227 (https://download.01.org/0day-ci/archive/20230228/202302281151.B1WtZvSC-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/iommu/
 
-Signed-off-by: David Gow <davidgow@google.com>
----
- Documentation/kbuild/makefiles.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302281151.B1WtZvSC-lkp@intel.com/
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index e67eb261c9b0..d9eb24799f52 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -254,6 +254,17 @@ from that directory will be linked into vmlinux. If the Makefile in
- that directory specifies obj-y, those objects will be left orphan.
- It is very likely a bug of the Makefile or of dependencies in Kconfig.
- 
-+This means that, if a directory contains both obj-y and obj-m targets,
-+it should be added with obj-y. If this directory nevertheless should
-+only be built when a config option is enabled (typically to support
-+a module which requires one or two files to nevertheless be built-in),
-+'subst m,y' can be used to ensure obj-y is used.
-+
-+Example::
-+
-+  #drivers/Makefile
-+  obj-$(subst m,y,$(CONFIG_HYPERV)) += hv/
-+
- Kbuild also supports dedicated syntax, subdir-y and subdir-m, for
- descending into subdirectories. It is a good fit when you know they
- do not contain kernel-space objects at all. A typical usage is to let
+All warnings (new ones prefixed by >>):
+
+   drivers/iommu/fsl_pamu.c:325: warning: Function parameter or member 'win_size' not described in 'pamu_config_ppaace'
+   drivers/iommu/fsl_pamu.c:325: warning: expecting prototype for pamu_config_paace(). Prototype was for pamu_config_ppaace() instead
+   drivers/iommu/fsl_pamu.c:493: warning: Function parameter or member 'omi_index' not described in 'get_ome_index'
+   drivers/iommu/fsl_pamu.c:493: warning: Function parameter or member 'dev' not described in 'get_ome_index'
+>> drivers/iommu/fsl_pamu.c:586: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Setup operation mapping and stash destinations for QMAN and QMAN portal.
+   drivers/iommu/fsl_pamu.c:615: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Setup the operation mapping table for various devices. This is a static
+
+
+vim +586 drivers/iommu/fsl_pamu.c
+
+695093e38c3ef6 Varun Sethi 2013-07-15  584  
+695093e38c3ef6 Varun Sethi 2013-07-15  585  /**
+695093e38c3ef6 Varun Sethi 2013-07-15 @586   * Setup operation mapping and stash destinations for QMAN and QMAN portal.
+695093e38c3ef6 Varun Sethi 2013-07-15  587   * Memory accesses to QMAN and BMAN private memory need not be coherent, so
+695093e38c3ef6 Varun Sethi 2013-07-15  588   * clear the PAACE entry coherency attribute for them.
+695093e38c3ef6 Varun Sethi 2013-07-15  589   */
+57fb907da89977 Emil Medve  2015-03-25  590  static void setup_qbman_paace(struct paace *ppaace, int  paace_type)
+695093e38c3ef6 Varun Sethi 2013-07-15  591  {
+695093e38c3ef6 Varun Sethi 2013-07-15  592  	switch (paace_type) {
+695093e38c3ef6 Varun Sethi 2013-07-15  593  	case QMAN_PAACE:
+695093e38c3ef6 Varun Sethi 2013-07-15  594  		set_bf(ppaace->impl_attr, PAACE_IA_OTM, PAACE_OTM_INDEXED);
+695093e38c3ef6 Varun Sethi 2013-07-15  595  		ppaace->op_encode.index_ot.omi = OMI_QMAN_PRIV;
+695093e38c3ef6 Varun Sethi 2013-07-15  596  		/* setup QMAN Private data stashing for the L3 cache */
+695093e38c3ef6 Varun Sethi 2013-07-15  597  		set_bf(ppaace->impl_attr, PAACE_IA_CID, get_stash_id(PAMU_ATTR_CACHE_L3, 0));
+695093e38c3ef6 Varun Sethi 2013-07-15  598  		set_bf(ppaace->domain_attr.to_host.coherency_required, PAACE_DA_HOST_CR,
+695093e38c3ef6 Varun Sethi 2013-07-15  599  		       0);
+695093e38c3ef6 Varun Sethi 2013-07-15  600  		break;
+695093e38c3ef6 Varun Sethi 2013-07-15  601  	case QMAN_PORTAL_PAACE:
+695093e38c3ef6 Varun Sethi 2013-07-15  602  		set_bf(ppaace->impl_attr, PAACE_IA_OTM, PAACE_OTM_INDEXED);
+695093e38c3ef6 Varun Sethi 2013-07-15  603  		ppaace->op_encode.index_ot.omi = OMI_QMAN;
+695093e38c3ef6 Varun Sethi 2013-07-15  604  		/* Set DQRR and Frame stashing for the L3 cache */
+695093e38c3ef6 Varun Sethi 2013-07-15  605  		set_bf(ppaace->impl_attr, PAACE_IA_CID, get_stash_id(PAMU_ATTR_CACHE_L3, 0));
+695093e38c3ef6 Varun Sethi 2013-07-15  606  		break;
+695093e38c3ef6 Varun Sethi 2013-07-15  607  	case BMAN_PAACE:
+695093e38c3ef6 Varun Sethi 2013-07-15  608  		set_bf(ppaace->domain_attr.to_host.coherency_required, PAACE_DA_HOST_CR,
+695093e38c3ef6 Varun Sethi 2013-07-15  609  		       0);
+695093e38c3ef6 Varun Sethi 2013-07-15  610  		break;
+695093e38c3ef6 Varun Sethi 2013-07-15  611  	}
+695093e38c3ef6 Varun Sethi 2013-07-15  612  }
+695093e38c3ef6 Varun Sethi 2013-07-15  613  
+
+:::::: The code at line 586 was first introduced by commit
+:::::: 695093e38c3ef63fcb43a2840ed865efa20671d5 iommu/fsl: Freescale PAMU driver and iommu implementation.
+
+:::::: TO: Varun Sethi <Varun.Sethi@freescale.com>
+:::::: CC: Joerg Roedel <joro@8bytes.org>
+
 -- 
-2.39.2.722.g9855ee24e9-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
