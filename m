@@ -2,111 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72142C64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 09:10:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6380C7EE31
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 09:19:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230455AbjB1JKH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 04:10:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51746 "EHLO
+        id S229659AbjB1JTX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 04:19:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230452AbjB1JKD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 04:10:03 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B10129149
-        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 01:09:59 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id n6so8313686plf.5
-        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 01:09:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JD6LFUjaCV0Y3rxiGh/Ykg8y93935IDS5wJRL1FIbVk=;
-        b=V8ikxzfit8o1ERBDuVpWZBjCJo3dBKGAYbIiDxp9M9uCoraXVlmQhSEskvLmuayfg7
-         /A8wcV7Xoc0qpfJZtw6hgOyJsrSsEWnaY6cSn+3lyXcaR4wB89slxOmi+OPCGsjOAbrN
-         QxvsRE8/q4humpPg/XxOfc5HxA9dOoJSpNo/FKyyoHQPu6t3Yz3jXs7uSmB0txyiTz0e
-         PUi+8DPIYfsOf5AYgU8+ggxQauIYTdqvYTy8pEMolMHzGgRZoYlFxf5Gzjp17l6mhKxY
-         a/KI6B9hkhoCTAhTmYKOpgcqM7aPi8tZ5WYPp2xh0paNZczkU7SJWbRcVLCujWEUckUj
-         wDKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JD6LFUjaCV0Y3rxiGh/Ykg8y93935IDS5wJRL1FIbVk=;
-        b=MqD4KN96r/6T1Vl7WqfqJ35eT4HlZMRzQES+LPpACu2/K0pAhvF3uhCeAvwas2os5T
-         70bNcsLqA9dzW67YKSjwNCKGiwLkZfJVkamHa5gnRO5XYx3HRRtyPpsW5BxKdp4G5Kkw
-         PK5VW0SU6I8NBbwXqA6OgUWDr/DoLI+tKvZK4i2fhFLxQJGHno9PlVajEk0dZ/tg63lY
-         MvewSF9A2IAe+nekcHEAs/2zi5gwffd+X9G65OdM9YxRiNrp0rRqbt6JLQAVxMx4J2DZ
-         qQ10YeAfFsS+e+GvSfzuNaMxjMihSmAIX/DVCODo2JhWnFa+SdN7g/cPzfhlw9bnLQVR
-         Z5NA==
-X-Gm-Message-State: AO0yUKUzfzJxxGjc4HGj6auMk7RChjG/x62sIH6Jz+bkxlFwORy/61h6
-        B4VSfBHp/m7OEALunRPQp/r/bdEGKlnLZoOyh5l+gw==
-X-Google-Smtp-Source: AK7set93FN2ttcQwT7EC15gr1UiM1Y8d9QHK7DcW3SPfncAiSsZl4qdnrkpo0ulu9uB0Vhpt/THDhHb+4GpqYXzPBfk=
-X-Received: by 2002:a17:902:e5d0:b0:19a:fa2f:559e with SMTP id
- u16-20020a170902e5d000b0019afa2f559emr1612340plf.3.1677575399000; Tue, 28 Feb
- 2023 01:09:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20230224093454.956298-1-vincent.guittot@linaro.org>
- <20230224093454.956298-7-vincent.guittot@linaro.org> <20230224192919.d4fcde3dwh7betvm@blackpad>
- <CAKfTPtBorwnjU2=nprBo7aAEjoz+7x5nRYUdajZc53cuVgHSBw@mail.gmail.com> <20230227144236.z6zbgsaohlz6sl7o@blackpad>
-In-Reply-To: <20230227144236.z6zbgsaohlz6sl7o@blackpad>
-From:   Vincent Guittot <vincent.guittot@linaro.org>
-Date:   Tue, 28 Feb 2023 10:09:47 +0100
-Message-ID: <CAKfTPtAq-fRhgXw21RxLhT_ZZQUoMSZgGc90R_qoqkUhu+ADDw@mail.gmail.com>
-Subject: Re: [PATCH v12 6/8] sched/fair: Add sched group latency support
-To:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc:     mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
-        linux-kernel@vger.kernel.org, parth@linux.ibm.com, tj@kernel.org,
-        lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        cgroups@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        qyousef@layalina.io, chris.hyser@oracle.com,
-        patrick.bellasi@matbug.net, David.Laight@aculab.com,
-        pjt@google.com, pavel@ucw.cz, qperret@google.com,
-        tim.c.chen@linux.intel.com, joshdon@google.com, timj@gnu.org,
-        kprateek.nayak@amd.com, yu.c.chen@intel.com,
-        youssefesmat@chromium.org, joel@joelfernandes.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229600AbjB1JTW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 04:19:22 -0500
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E282F1B577;
+        Tue, 28 Feb 2023 01:19:21 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 56EE65C0162;
+        Tue, 28 Feb 2023 04:19:21 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Tue, 28 Feb 2023 04:19:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1677575961; x=1677662361; bh=RTh3XCd3TT
+        INGEA8952iJSbnCnKSTHDULwmXmX3RyCY=; b=apt/iV+JxeXYnDOobPFP8Wyby+
+        rw7OCEUJ5AG8lL5nle1MCjNaC8WjJZl3SMl42N7A7P1P0DecIQjccDUgbFT5wjs3
+        tqjYgkjT+ONmwejV4/0VWd8GMKLX8BZYSvPcG9xhxcMhA/lFJhoo97QY3tdMsy33
+        kjRQcvxjU5f1eCYRs/QyewBsAf1tEnz7g0Hh4YxYBUblcQIDj2ZJXEI2r9DGKIn6
+        Jse17yCjxpGHtJ9pykChnl0U7COxHENCxPrcU+NHeyYQytHf228yiZt9kJV+LIHr
+        ZaRKr5COYEIUpniIA3MLk0gQpEfVzWGXpyK6SHA9jmx+QVpjmdffwoAdBmdA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1677575961; x=1677662361; bh=RTh3XCd3TTINGEA8952iJSbnCnKS
+        THDULwmXmX3RyCY=; b=C2Z18Z0B7Y4zUsQZHT3fNir62IoIwXtBeBwuZceDO/gS
+        2+oHSRHY/+JifnXRpiXuChpEcLsz5oky1n9Lmug+v/4X+0yH/qjmKTBj9Cwfe5sS
+        B/5YNPw7pLWLuMoFQCEAeTOdk4YSqEeU79CXE25Fp7dDjb8BVOWVrX095uTuQb4O
+        iqhDZBOdL+RJbGxoSZuDIz0FYvH5o/5WR1oYfVzRmCq3xsqlmrnWxi/PdB3xnfJC
+        n1BtBBlmhXSGywVsPwvWlqvqZSdoDFZ6CFN1DWh9OeDFrdE1PoOU0BWpmyNiC9BF
+        RzDzs51zgIA9ggqGuY3JQ7UAnJjcsW9ErnBJYb9NkQ==
+X-ME-Sender: <xms:Gcf9YwOaAb-8PooJr6JFqyQD-fBpzw1CtjishQ63uUwrwrW-HX9LvA>
+    <xme:Gcf9Y29hx6BZKL3SOpciqHiKuk6ZgrL0JMxTjDlbYtceUb850fITrz5Lna5K92P1X
+    _SHFAypawqU64UJyMM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelvddgtddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:Gcf9Y3SOIqIt6Rtam2bjR2U_f4mC-JCrX62vw19ioVxgEC8ilUo67A>
+    <xmx:Gcf9Y4tLhkT19H9SWtUWuoJ1evYLTzbl6VFGCM_Wx2kFqgUUtmHFqg>
+    <xmx:Gcf9Y4fQdD8p9k5xWwi-dqKgp-0WjCjYKNny3Q_kf6tr0v3RrxfDTw>
+    <xmx:Gcf9Y8G_xYXOHo3MxFfeU6phhCWxtqbim4iFQa-dEbaqSsjjDiKpOg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 0A6DAB60086; Tue, 28 Feb 2023 04:19:21 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-183-gbf7d00f500-fm-20230220.001-gbf7d00f5
+Mime-Version: 1.0
+Message-Id: <90bc1f6c-95c5-43a5-a39c-6a72bdf4a4f5@app.fastmail.com>
+In-Reply-To: <fcd61f55-f445-9721-3490-ed70b7b30293@linaro.org>
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212356.3313181-1-quic_eberman@quicinc.com>
+ <dbcfa4e9-a1ad-0f24-77bf-05934ca26bb2@linaro.org>
+ <05c4aab8-2d26-b944-adb6-624d67e4a11d@quicinc.com>
+ <52d944b1-3ea6-26b7-766a-2fed05dccf3a@linaro.org>
+ <c5ff1523-7a62-3d3f-6fa9-792ce4d222e8@quicinc.com>
+ <a50fa44d-fbc3-9ce2-175b-85c8cd7a9f7f@linaro.org>
+ <15aa881f-5cf1-446e-a71e-f62d24e87500@app.fastmail.com>
+ <6efceacf-93d3-787a-a121-bee16f1531f2@quicinc.com>
+ <fcd61f55-f445-9721-3490-ed70b7b30293@linaro.org>
+Date:   Tue, 28 Feb 2023 10:19:00 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Alex Elder" <alex.elder@linaro.org>,
+        "Elliot Berman" <quic_eberman@quicinc.com>,
+        "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
+        "Alex Elder" <elder@linaro.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Prakruthi Deepak Heragu" <quic_pheragu@quicinc.com>
+Cc:     "Murali Nalajala" <quic_mnalajal@quicinc.com>,
+        "Trilok Soni" <quic_tsoni@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
+        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
+        "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        "Bagas Sanjaya" <bagasdotme@gmail.com>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        "Jassi Brar" <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v10 10/26] gunyah: vm_mgr: Introduce basic VM Manager
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 27 Feb 2023 at 15:42, Michal Koutn=C3=BD <mkoutny@suse.com> wrote:
+On Tue, Feb 28, 2023, at 02:06, Alex Elder wrote:
+> On 2/24/23 4:48 PM, Elliot Berman wrote:
+>> I'd be open to making GH_CREATE_VM take a struct argument today, but I 
+>> really don't know what size or what needs to be in that struct. My hope 
+>> is that we can get away with just an integer for future needs. If 
+>> integer doesn't suit, then new ioctl would need to be created. I think 
+>> there's same problem if I pick some struct today (the struct may not 
+>> suit tomorrow and we need to create new ioctl for the new struct).
 >
-> On Mon, Feb 27, 2023 at 02:44:22PM +0100, Vincent Guittot <vincent.guitto=
-t@linaro.org> wrote:
-> > Regarding the current use of latency nice to set a latency offset, the
-> > problem doesn't appear because latency offset applies between entities
-> > at the same level as you mentioned above
+> I'd like someone to back me up (or tell me I'm wrong), but...
 >
-> Splendid, it turned out that way (latency nice analogous to bandwidth
-> nice).
+> I think you can still pass a void in/out pointer, which can
+> be interpreted in an IOCTL-specific way, as long as it can
+> be unambiguously processed.
 >
-> > Does  my explanation above make sense to you ?
+> So if you passed a non-null pointer, what it referred to
+> could contain a key that defines the way to interpret it.
 >
-> Yes, thank you.
+> You can't take away a behavior you've once supported, but I
+> *think* you can add a new behavior (with a new structure
+> that identifies itself).
 >
-> Thus, I'd like to propose avoiding the use of "limit" in this context and
-> stress the horizontal scope. For example:
->
-> > +     This interface file allows reading and setting latency using the
-> > +     same values used by sched_setattr(2). The latency_nice of a group=
- is
-> > +     used to limit the impact of the latency_nice of a task outside th=
-e
-> > +     group.
->
-> +     This interface file allows reading and setting latency using the
-> +     same values used by sched_setattr(2). The latency_nice of a group i=
-s
-> +     used to modify group members' latency with respect to sibling group=
-s.
+> So if that is correct, you can extend a single IOCTL.  But
+> sadly I can't tell you I'm sure this is correct.
 
-That sounds reasonable to me.
+In general you are correct that the behavior of an ioctl
+command can be changed by reusing a combination of inputs that
+was previously prohibited. I can't think of a case where that
+would be a good idea though, as this just adds more complexity
+than defining a new ioctl command code.
 
->
-> Regards,
-> Michal
+Interface versions and multiplexed ioctl commands are
+all discouraged for the same reason.
+
+      Arnd
