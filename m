@@ -2,307 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C03FC64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 09:22:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78473C64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 10:58:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbjB1JWQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 04:22:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35130 "EHLO
+        id S230480AbjB1K6u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 05:58:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbjB1JWQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 04:22:16 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40AD11EFE5;
-        Tue, 28 Feb 2023 01:22:00 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id m6so12270630lfq.5;
-        Tue, 28 Feb 2023 01:22:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677576118;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XjtJVhGRBCDGP/is6/3T+zNp4V+GDc3TNme85Sg5PY0=;
-        b=pVdEb78DTn3eQBQcq6N4sGN3dLfU3ywxYnOMElKqn+oSSbT7fZHi2Z8LKtgVj4C7xg
-         uFV+ZPaoR77M1cb8uLQhx991oUGKUuS1gHZLluPI6jmqMeSGmoKd0X7GyfVZq32aNSTw
-         fI9rN3HppMU/GGFJiPsXciC+kvSr+1TNqVYWxMCff3IDtwiw4N7Rjwh5Hn6C65eCdyta
-         hJq8T6UKgMfG1CzOvwUYbM/yEZsyLedwSy27x3xlAzkrldtw5OE+lJGboZvzkAhLb/2U
-         +jsuvnsy9Y7O3Tx7utZeqMGWWKOKMw3y6Zg4Lv+ESVvQLckx30lwQQisAOQhh7Qb3Kdo
-         w2jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677576118;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XjtJVhGRBCDGP/is6/3T+zNp4V+GDc3TNme85Sg5PY0=;
-        b=KI5UklHYrqo0IKKcMbnZRE8bORMnXqG4KaPqwfS0AaIR5S+SsKh2mzamLne0O7ea4x
-         7SVkfAFI0jIXytOxipkEfOLztecbcG1a5If2J+fwGjPn/LqB0fNB5GBSgJ58s2KAnwGf
-         gUHytVV4HW+QV74/Sc6rT+6rydOHnCg7ilJuoMPa283Ll75ta13FNEJdSAP9EJkr/lch
-         Iolv/PWkReu3SVXKOEZC4n32HB+Hx+dWwynwTU+uPa7Zxe5Lju3NktiRTnhNhzSHGVqW
-         YJil831dbZztBwDoripIexdbV6TvZ/rTi7kurgyuKNmNfAbwahORTqSCqy3NDzM97gla
-         Cs6w==
-X-Gm-Message-State: AO0yUKU9a0sLOLH1hZJhoKtL03Lovs3+ff6BHvCThn92VKqKr1zjrSCF
-        4hBJHcbVVVFkJd6pOLHkPSo=
-X-Google-Smtp-Source: AK7set+dJBbdBoZvb2afjs4Y2ULjyyN8Zs8NDLuybShWYRGUSeI2os45dkGDgdtNd/GFltEUQKG7tg==
-X-Received: by 2002:ac2:538a:0:b0:4e0:6e01:7ebe with SMTP id g10-20020ac2538a000000b004e06e017ebemr486405lfh.36.1677576118312;
-        Tue, 28 Feb 2023 01:21:58 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id q25-20020ac25299000000b004e048852377sm752107lfm.263.2023.02.28.01.21.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 01:21:57 -0800 (PST)
-Date:   Tue, 28 Feb 2023 11:21:54 +0200
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
-        Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH v7 01/15] dma-buf/dma-fence: Add deadline awareness
-Message-ID: <20230228112154.207dc66c@eldfell>
-In-Reply-To: <20230227193535.2822389-2-robdclark@gmail.com>
-References: <20230227193535.2822389-1-robdclark@gmail.com>
-        <20230227193535.2822389-2-robdclark@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S231318AbjB1K6k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 05:58:40 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64C7130F3;
+        Tue, 28 Feb 2023 02:58:32 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D566B1EC067E;
+        Tue, 28 Feb 2023 11:58:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1677581910;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=8M3tlnbS9Pz471dSvOzN4aKK6qk+Uej9KAtfSfq3hVM=;
+        b=AoiltTMvFbe/f/ypMXgOnhHwt+phRCl8mXS5lx3DkxlOxvdf31/yUuFf6amM69Bov1xqnP
+        44Md0Q+v9X6VCHe229Cfao5EsmCUhy/O+5uqW3SelHzpFRnaj/yN+ErabZpQAMGomc7Rfb
+        noGKmIIfKLYOoiyBdkJwLQWaY5b+Os8=
+Date:   Tue, 28 Feb 2023 11:58:25 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "david@redhat.com" <david@redhat.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v6 28/41] x86: Introduce userspace API for shadow stack
+Message-ID: <Y/3eUQEV95gZEoaF@zn.tnic>
+References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-29-rick.p.edgecombe@intel.com>
+ <Y/irg8d6OZ+OCFml@zn.tnic>
+ <9c67abd16cce9251bfdb87bcc7e47bbf32e4a9f2.camel@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/6el54_V3G4c7URCr0CD3eSr";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9c67abd16cce9251bfdb87bcc7e47bbf32e4a9f2.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/6el54_V3G4c7URCr0CD3eSr
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Fri, Feb 24, 2023 at 06:37:57PM +0000, Edgecombe, Rick P wrote:
+> In the first patch:
+> 
+> https://lore.kernel.org/lkml/20230218211433.26859-2-rick.p.edgecombe@intel.com/
+> 
+> Then some more documentation is added about ARCH_SHSTK_UNLOCK and
+> ARCH_SHSTK_STATUS (which are for CRIU) in those patches.
 
-On Mon, 27 Feb 2023 11:35:07 -0800
-Rob Clark <robdclark@gmail.com> wrote:
+Right, I was thinking more about ARCH_PRCTL(2), the man page.
 
-> From: Rob Clark <robdclark@chromium.org>
->=20
-> Add a way to hint to the fence signaler of an upcoming deadline, such as
-> vblank, which the fence waiter would prefer not to miss.  This is to aid
-> the fence signaler in making power management decisions, like boosting
-> frequency as the deadline approaches and awareness of missing deadlines
-> so that can be factored in to the frequency scaling.
->=20
-> v2: Drop dma_fence::deadline and related logic to filter duplicate
->     deadlines, to avoid increasing dma_fence size.  The fence-context
->     implementation will need similar logic to track deadlines of all
->     the fences on the same timeline.  [ckoenig]
-> v3: Clarify locking wrt. set_deadline callback
-> v4: Clarify in docs comment that this is a hint
-> v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> v6: More docs
->=20
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  Documentation/driver-api/dma-buf.rst |  6 +++
->  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++++++
->  include/linux/dma-fence.h            | 20 ++++++++++
->  3 files changed, 85 insertions(+)
->=20
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-=
-api/dma-buf.rst
-> index 622b8156d212..183e480d8cea 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
->  .. kernel-doc:: drivers/dma-buf/dma-fence.c
->     :doc: fence signalling annotation
-> =20
-> +DMA Fence Deadline Hints
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> +   :doc: deadline hints
-> +
->  DMA Fences Functions Reference
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> =20
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 0de0482cd36e..e103e821d993 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **fences=
-, uint32_t count,
->  }
->  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> =20
-> +/**
-> + * DOC: deadline hints
-> + *
-> + * In an ideal world, it would be possible to pipeline a workload suffic=
-iently
-> + * that a utilization based device frequency governor could arrive at a =
-minimum
-> + * frequency that meets the requirements of the use-case, in order to mi=
-nimize
-> + * power consumption.  But in the real world there are many workloads wh=
-ich
-> + * defy this ideal.  For example, but not limited to:
-> + *
-> + * * Workloads that ping-pong between device and CPU, with alternating p=
-eriods
-> + *   of CPU waiting for device, and device waiting on CPU.  This can res=
-ult in
-> + *   devfreq and cpufreq seeing idle time in their respective domains an=
-d in
-> + *   result reduce frequency.
-> + *
-> + * * Workloads that interact with a periodic time based deadline, such a=
-s double
-> + *   buffered GPU rendering vs vblank sync'd page flipping.  In this sce=
-nario,
-> + *   missing a vblank deadline results in an *increase* in idle time on =
-the GPU
-> + *   (since it has to wait an additional vblank period), sending a singl=
-e to
+But you can send that to the manpages folks later. I.e., it should be
+nearly impossible to be missed. :)
 
-Hi Rob,
+> There are glibc patches prepared by HJ to use the new interface and
+> it's my understanding that he has discussed the changes with the other
+> glibc folks. Those glibc patches are used for testing these kernel
+> patches, but will not get upstream until the kernel patches to avoid
+> repeating the past problems. So I think it's as prepared as it can be.
 
-s/single/signal/ ?
+Good.
 
-> + *   the GPU's devfreq to reduce frequency, when in fact the opposite is=
- what is
-> + *   needed.
-> + *
-> + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fen=
-ce_set_deadline.
-> + * The deadline hint provides a way for the waiting driver, or userspace=
-, to
-> + * convey an appropriate sense of urgency to the signaling driver.
-> + *
-> + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for users=
-pace
-> + * facing APIs).  The time could either be some point in the future (suc=
-h as
-> + * the vblank based deadline for page-flipping, or the start of a compos=
-itor's
-> + * composition cycle), or the current time to indicate an immediate dead=
-line
-> + * hint (Ie. forward progress cannot be made until this fence is signale=
-d).
+> One future thing that might come up... Glibc has this mode called
+> "permissive mode". When glibc is configured this way (compile time or
+> env var), it is supposed to disable shadow stack when dlopen()ing any
+> DSO that doesn't have the shadow stack elf header bit.
 
-As "current time" not a special value, but just an absolute timestamp
-like any other, deadlines already in the past must also be accepted?
+Maybe I don't understand all the possible use cases but if I were
+interested in using shadow stack, then I'd enable it for all objects.
+And if I want permissive, I'd disable it for all. A mixed thing sounds
+like a mixed can of worms waiting to be opened.
 
-> + *
-> + * Multiple deadlines may be set on a given fence, even in parallel.  Se=
-e the
-> + * documentation for &dma_fence_ops.set_deadline.
-> + *
-> + * The deadline hint is just that, a hint.  The driver that created the =
-fence
-> + * may react by increasing frequency, making different scheduling choice=
-s, etc.
-> + * Or doing nothing at all.
-> + */
+-- 
+Regards/Gruss,
+    Boris.
 
-Yes! Thank you for writing this! Well explained.
-
-> +
-> +/**
-> + * dma_fence_set_deadline - set desired fence-wait deadline hint
-> + * @fence:    the fence that is to be waited on
-> + * @deadline: the time by which the waiter hopes for the fence to be
-> + *            signaled
-> + *
-> + * Give the fence signaler a hint about an upcoming deadline, such as
-> + * vblank, by which point the waiter would prefer the fence to be
-> + * signaled by.  This is intended to give feedback to the fence signaler
-> + * to aid in power management decisions, such as boosting GPU frequency
-> + * if a periodic vblank deadline is approaching but the fence is not
-> + * yet signaled..
-> + */
-> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-> +{
-> +	if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
-> +		fence->ops->set_deadline(fence, deadline);
-> +}
-> +EXPORT_SYMBOL(dma_fence_set_deadline);
-> +
->  /**
->   * dma_fence_describe - Dump fence describtion into seq_file
->   * @fence: the 6fence to describe
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 775cdc0b4f24..87c0d846dbb4 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -257,6 +257,24 @@ struct dma_fence_ops {
->  	 */
->  	void (*timeline_value_str)(struct dma_fence *fence,
->  				   char *str, int size);
-> +
-> +	/**
-> +	 * @set_deadline:
-> +	 *
-> +	 * Callback to allow a fence waiter to inform the fence signaler of
-> +	 * an upcoming deadline, such as vblank, by which point the waiter
-> +	 * would prefer the fence to be signaled by.  This is intended to
-> +	 * give feedback to the fence signaler to aid in power management
-> +	 * decisions, such as boosting GPU frequency.
-> +	 *
-> +	 * This is called without &dma_fence.lock held, it can be called
-> +	 * multiple times and from any context.  Locking is up to the callee
-> +	 * if it has some state to manage.  If multiple deadlines are set,
-> +	 * the expectation is to track the soonest one.
-> +	 *
-> +	 * This callback is optional.
-> +	 */
-> +	void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
->  };
-> =20
->  void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops =
-*ops,
-> @@ -583,6 +601,8 @@ static inline signed long dma_fence_wait(struct dma_f=
-ence *fence, bool intr)
->  	return ret < 0 ? ret : 0;
->  }
-> =20
-> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
-> +
->  struct dma_fence *dma_fence_get_stub(void);
->  struct dma_fence *dma_fence_allocate_private_stub(void);
->  u64 dma_fence_context_alloc(unsigned num);
-
-This is exactly what I wanted to see. Already
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
---Sig_/6el54_V3G4c7URCr0CD3eSr
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP9x7IACgkQI1/ltBGq
-qqf39hAArfMVaNzoWkdJ/XBP/lqf8srlm1Wy/5FOim9RJPwgYpDNH72V4oAdf0nJ
-wFjOZrbG2b0D4P9XHz0eKHojoYgSHN1Mn+mabZWz84zxRCt5uIN9jYACuxeWNjLA
-kg3pNda0riISHO+htQ73+0cfX8B11UkgtPI3fm8vnYKlKmGkQW4TcDLdtogj7OPy
-nDRuJcjDLzCcmb41fEyeZGZg76qb99ey+WyBJAgdT9M59mC/FJvHPIVVtd1B+OVA
-uVXhryCtV8CZBrBSTZIOV4kWHr1SWhtFiuo8PI3xTawoO+euKf/cyILRFXrzOPb8
-sLuAoU2A2pofKZEyctLU5fffH6X8Dx7ymaIOv87p13hNBA3Xh9uHb7uBZQ0zTtpu
-F4XKlf/Fxxhumn+/Iz/CG4EZRnMs7PKb7PTCnmz+s8mZiQhAvaWT+PmHn2SiggYy
-mBTiSGMQy/UAUGW9SESF79GOUdiH6upQNoVxQ8vj5ASbu1lqGuhjD4TZ2n8GOi5C
-p0bsSo2AbkYsx8Wfw7Z9vpu6zuTAODKHx0A8ZdOVut+kBspG2oJdO3/8P6aTt6B0
-oF6fCAyvJsXovguCgqk2CW4X3JAKrLMmZOEb6Xs8ab8CZSwC0ic+XAS6mogwHs0B
-QAkHh7DMz7/JoTKuOxp6A7WAe1G7fYzmGaZZhuuLZ9O5mVLG6kE=
-=CNyQ
------END PGP SIGNATURE-----
-
---Sig_/6el54_V3G4c7URCr0CD3eSr--
+https://people.kernel.org/tglx/notes-about-netiquette
