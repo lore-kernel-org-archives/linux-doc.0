@@ -2,161 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 997EBC64EC4
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 21:47:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D54C7EE30
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 21:59:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229563AbjB1VrZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 16:47:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39422 "EHLO
+        id S229867AbjB1V7d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 16:59:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjB1VrX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 16:47:23 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 847423598
-        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 13:47:08 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pX7oP-00073T-WF; Tue, 28 Feb 2023 22:47:06 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pX7oP-000xOM-94; Tue, 28 Feb 2023 22:47:05 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pX7oO-0017PX-8v; Tue, 28 Feb 2023 22:47:04 +0100
-Date:   Tue, 28 Feb 2023 22:47:03 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-        kernel@pengutronix.de, David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH] docs: rebasing-and-merging: Drop wrong statement about
- git
-Message-ID: <20230228214703.22tswl2ne6zssuy5@pengutronix.de>
-References: <20230228134657.1797871-1-u.kleine-koenig@pengutronix.de>
- <875yblzjoe.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="oy5hrz5low6rk2la"
-Content-Disposition: inline
-In-Reply-To: <875yblzjoe.fsf@meer.lwn.net>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+        with ESMTP id S229844AbjB1V7c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 16:59:32 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2062C2FCF1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 13:59:19 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id n5so6706427pfv.11
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 13:59:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677621558;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zcPXNEsEpksofsMgrJKoW+2Dw41GYFuZiABYuzNl9Gs=;
+        b=za5fWNg2Nv2HD9fejIfGBhGN1pMgo+aOFuLl+8D0p02BS02PEImNrgQqCIrppjORuf
+         Ivb6x0gnS0BZbVUteSyLJCe4dTk4zpZynrOz2UWb8qWvNDF+yf/sciJYzrRNEgvxLC9u
+         E+F8Jm5xh8TCc/I/byatHLr26L45EWG8pwgxY8bbdXhQsB74QJZvbs2lRJR9Za0eJQrh
+         P5GUabS7IWGFucgrRD6J0IOa6HasWQ1XTi4OIfCkZYZytf9vQdJlGOg3RL3s8CWEpn5/
+         z2Z6M46w39AsDLnnsLxujw5xk3E+JuicdzOsa2t4XB/n/cM5AaEnJbKx5Syy42mM5qGb
+         HD4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677621558;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zcPXNEsEpksofsMgrJKoW+2Dw41GYFuZiABYuzNl9Gs=;
+        b=vhdhQeAzMJTATdYZXHyPZWj3jp6dLjhrvQZhYKyFLMg3bblNy0c/HOH/Ms7bfpUvPR
+         5PPiWBMgqfFtvUtDFKXnTFyMjpWUiRYBHImsvDC2tq797MHcnc6NfLWFLFGWrtJzLk+z
+         vLlg6I7CAHx8oqX7j+jJCMk/l+za0CCG4kF1yFkSdrhO+agPYotSt+8Wqkyk2/pCau0a
+         KfZD10EomDujCIy+G+agtkldaVd8Gi4bZjE28QgYt1YeLYVrDLlSnqaHJIkzpmjrSJtA
+         IXpxpAcJmmjJEC5Ysh4hcItXgI3yNMW0t0He8BZYOlaRThvofvZnqEjB2+mgoaoia8Z4
+         Or1Q==
+X-Gm-Message-State: AO0yUKWZ9scCfn3zhSS6P5JXsrY2GGX91HbPDDVU81M/NARLeoAfQHi8
+        /J7FJqRJ6e6voleSmyC/+bqnWw==
+X-Google-Smtp-Source: AK7set9MF/vBgDRK4NIoF28WqhT66X4p2Sfvcjoa4aaWatAUerjrnyBRKlu55zK+kgH1S0F08yes8A==
+X-Received: by 2002:a62:1887:0:b0:5df:9809:2e3f with SMTP id 129-20020a621887000000b005df98092e3fmr2660388pfy.32.1677621558446;
+        Tue, 28 Feb 2023 13:59:18 -0800 (PST)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id e18-20020a656892000000b004fbd91d9716sm6185873pgt.15.2023.02.28.13.59.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Feb 2023 13:59:17 -0800 (PST)
+Date:   Tue, 28 Feb 2023 13:59:17 -0800 (PST)
+X-Google-Original-Date: Tue, 28 Feb 2023 13:58:23 PST (-0800)
+Subject:     Re: [PATCH] sched/doc: supplement CPU capacity with RISC-V
+In-Reply-To: <20230227105941.2749193-1-suagrfillet@gmail.com>
+CC:     alexs@kernel.org, siyanteng@loongson.cn, robh@kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>,
+        leyfoon.tan@starfivetech.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        suagrfillet@gmail.com
+From:   Palmer Dabbelt <palmer@rivosinc.com>
+To:     suagrfillet@gmail.com, corbet@lwn.net
+Message-ID: <mhng-90a89c61-02e7-4f1a-b18d-189d9b7fff72@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 27 Feb 2023 02:59:41 PST (-0800), suagrfillet@gmail.com wrote:
+> This commit 7d2078310cbf ("dt-bindings: arm: move cpu-capacity to a
+> shared loation") updates some references about capacity-dmips-mhz
+> property in this document.
+>
+> The list of architectures using capacity-dmips-mhz omits RISC-V, so
+> supplements it here.
+>
+> Signed-off-by: Song Shuai <suagrfillet@gmail.com>
+> ---
+>  Documentation/scheduler/sched-capacity.rst                    | 2 +-
+>  Documentation/translations/zh_CN/scheduler/sched-capacity.rst | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation/scheduler/sched-capacity.rst
+> index 8e2b8538bc2b..e2c1cf743158 100644
+> --- a/Documentation/scheduler/sched-capacity.rst
+> +++ b/Documentation/scheduler/sched-capacity.rst
+> @@ -258,7 +258,7 @@ Linux cannot currently figure out CPU capacity on its own, this information thus
+>  needs to be handed to it. Architectures must define arch_scale_cpu_capacity()
+>  for that purpose.
+>
+> -The arm and arm64 architectures directly map this to the arch_topology driver
+> +The arm, arm64, and RISC-V architectures directly map this to the arch_topology driver
+>  CPU scaling data, which is derived from the capacity-dmips-mhz CPU binding; see
+>  Documentation/devicetree/bindings/cpu/cpu-capacity.txt.
+>
+> diff --git a/Documentation/translations/zh_CN/scheduler/sched-capacity.rst b/Documentation/translations/zh_CN/scheduler/sched-capacity.rst
+> index e07ffdd391d3..8cba135dcd1a 100644
+> --- a/Documentation/translations/zh_CN/scheduler/sched-capacity.rst
+> +++ b/Documentation/translations/zh_CN/scheduler/sched-capacity.rst
+> @@ -231,7 +231,7 @@ CFS调度类基于实体负载跟踪机制（Per-Entity Load Tracking, PELT）
+>  当前，Linux无法凭自身算出CPU算力，因此必须要有把这个信息传递给Linux的方式。每个架构必须为此
+>  定义arch_scale_cpu_capacity()函数。
+>
+> -arm和arm64架构直接把这个信息映射到arch_topology驱动的CPU scaling数据中（译注：参考
+> +arm、arm64和RISC-V架构直接把这个信息映射到arch_topology驱动的CPU scaling数据中（译注：参考
+>  arch_topology.h的percpu变量cpu_scale），它是从capacity-dmips-mhz CPU binding中衍生计算
+>  出来的。参见Documentation/devicetree/bindings/cpu/cpu-capacity.txt。
 
---oy5hrz5low6rk2la
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com> # English
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
 
-Hello,
-
-On Tue, Feb 28, 2023 at 12:14:41PM -0700, Jonathan Corbet wrote:
-> Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de> writes:
->=20
-> > From: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
-> >
-> > The "^0" doesn't have the described effect to only do fast-forward merg=
-es.
-> > For example
-> >
-> > 	git checkout 055efab3120b
-> > 	git merge v5.2-rc1^0
-> >
-> > creates a normal merge commit. In fact "v5.2-rc1^0" only refers to the
-> > commit the tag v5.2-rc1 points to.
->=20
-> So that pattern came straight from Linus, and it still works fine for me
-> - just tried it and got the expected fast-forward.
-
-Yes, git merge v5.2-rc1^0 creates a ff when done on a branch that is
-fully merged into v5.2-rc1. But then so does
-
-	git merge v5.2-rc1
-
-, the "^0" has no influence there. In the example from my commit log
-(that doesn't result in a ff) the only difference is the generated
-commit log for the non-ff merge. At least for me I get
-
-	Merge commit 'v5.2-rc1^0' into HEAD
-
-with the ^0, and if I drop the ^0 I get:
-
-	Merge tag 'v5.2-rc1' into HEAD
-
-	Linux 5.2-rc1
-
-and a valid signature. (So I'd say the variant without ^0 is better.)
-
-> Maybe you have something in your git configuration that makes things
-> behave differently?
-
-I think the behaviour for me is the same as for you. "git merge
-v5.2-rc1^0" isn't wrong per se, it does the right thing in the described
-situation. But that's not because of the ^0.
-
-> > Fixes: d95ea1a4e1fb ("docs: Add a document on repository management")
-> > Signed-off-by: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
-> > ---
-> >  Documentation/maintainer/rebasing-and-merging.rst | 6 +-----
-> >  1 file changed, 1 insertion(+), 5 deletions(-)
-> >
-> > diff --git a/Documentation/maintainer/rebasing-and-merging.rst b/Docume=
-ntation/maintainer/rebasing-and-merging.rst
-> > index 09f988e7fa71..85800ce95ae5 100644
-> > --- a/Documentation/maintainer/rebasing-and-merging.rst
-> > +++ b/Documentation/maintainer/rebasing-and-merging.rst
-> > @@ -213,11 +213,7 @@ point rather than some random spot.  If your upstr=
-eam-bound branch has
-> >  emptied entirely into the mainline during the merge window, you can pu=
-ll it
-> >  forward with a command like::
-> > =20
-> > -  git merge v5.2-rc1^0
-> > -
-> > -The "^0" will cause Git to do a fast-forward merge (which should be
-> > -possible in this situation), thus avoiding the addition of a spurious =
-merge
-> > -commit.
-> > +  git merge --ff-only v5.2-rc1
-> > =20
->=20
-> Git was fixed a couple of years or so ago to do the fast-forward by
-> default when it can, so the original advice in this file is unnecessary
-> - as is --ff-only (most of the time).  So the patch is worth applying,
-> but I may tweak the changelog some.
-
-I think mentioning --ff-only is good, because then git merge does the
-right thing independant of the configuration. And it errors out if a ff
-merge is not possible.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---oy5hrz5low6rk2la
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmP+dlQACgkQwfwUeK3K
-7AnCBgf6A+uQr8yngICzVcuR88kPwK6twAfP6VQQAz0WYXanZJIFWmf9zjDgRjel
-YEtO/sd1DHcWLq8dqj7d59ZbAzeFt/xBTnDMjWSzkp8D22A3EhbVe1KwFp6Y64pT
-xXLkqV0OFN59aAPp3bKT5QCuKa/xR9Y+3geyudvaaeDhTP4JX8DucZU8o9V64PQb
-qgNBFAHBheBcbfs3EQ3XvfRmNDD30iiObX7P80ZO0MPqnI2+25fgIG/TuRxe/pfF
-x7RNK16OlNHOCvIlN1xjUiYWAtC1/mvkowJ0sxg5DRZ1JbBFZmSTHz1xW4arzphI
-ManONmy7XutThNm4tO5x1trKNgwstQ==
-=17jd
------END PGP SIGNATURE-----
-
---oy5hrz5low6rk2la--
+Happy to take this through the RISC-V tree, but I'll hold off for a bit 
+and let the doc folks have a chance to chime in (or just pick it up).  
+I'm planning on sending something later this week either way.
