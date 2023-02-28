@@ -2,60 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D750C64EC7
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 22:13:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A830C64EC7
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 22:25:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229574AbjB1WNj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 17:13:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35008 "EHLO
+        id S229713AbjB1WZv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 17:25:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbjB1WNi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 17:13:38 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 970C612869;
-        Tue, 28 Feb 2023 14:13:37 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 091D549B;
-        Tue, 28 Feb 2023 22:13:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 091D549B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1677622417; bh=F1mnOVYGyKe00jPt16PkikjTGm9r2Hcgq7VT9LY82ko=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=kGnOQwCTXvgV1hbb+cvcK4q0tWouXcbWyPt8GCuAB0GBVWhl/13zHxL3eIBkkLBOR
-         qRAgFg/vFt/5mFD3h+L9hdpNbhSXjKhHpKFWZ/eklT3ljE2bmTyDqFkiXZVzlWOMRs
-         B1CLgLBVqinhPJX4YMKA6v7WT+KJAVABPRIsq0ZvnO2TmSuFhBfunIkfE9ITEewjkf
-         VN5ofasJ+W46x9AMgls3MEocvbw2Yj5eVQK2gKG+pMTw2kSw3n7bMSQtq/C4Fu0MfP
-         3PWrvViMDwmiP05PkebxFJUwZOZmo87bRtcWm+cMJNijMeWTlZEjgczXTP0tDt3jUO
-         4WRJu6gmPweUg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Palmer Dabbelt <palmer@rivosinc.com>, suagrfillet@gmail.com
-Cc:     alexs@kernel.org, siyanteng@loongson.cn, robh@kernel.org,
-        Conor Dooley <conor.dooley@microchip.com>,
-        leyfoon.tan@starfivetech.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        suagrfillet@gmail.com
-Subject: Re: [PATCH] sched/doc: supplement CPU capacity with RISC-V
-In-Reply-To: <mhng-90a89c61-02e7-4f1a-b18d-189d9b7fff72@palmer-ri-x1c9a>
-References: <mhng-90a89c61-02e7-4f1a-b18d-189d9b7fff72@palmer-ri-x1c9a>
-Date:   Tue, 28 Feb 2023 15:13:36 -0700
-Message-ID: <87wn41wi9b.fsf@meer.lwn.net>
+        with ESMTP id S229653AbjB1WZv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 17:25:51 -0500
+X-Greylist: delayed 301 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 28 Feb 2023 14:25:48 PST
+Received: from m228-13.mailgun.net (m228-13.mailgun.net [159.135.228.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69DB18B26
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 14:25:48 -0800 (PST)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev;
+ q=dns/txt; s=smtp; t=1677623147; x=1677630347; h=Content-Type: MIME-Version:
+ Message-ID: Subject: Subject: To: To: From: From: Date: Sender: Sender;
+ bh=2UJ1akhy5RsOqPyJubbCb4xOTm/QKoxwWG+Uel/YVNI=;
+ b=VD88AHiqNHNx8JYp+7+KaE30NvZucNK+SSbZKeNEpbLTEhxMdYBpV+3++WvegVJRQ+/Pe6S2d1t4DDnLKo634IjIEB7e1Sl5zidhjF3yO6s5xG91DWYPv/ZOoFqB5a7iOPQzoh8EuGa+dNsXJvhEQ2XIzJGN187eh/jDj//WLwTrO20PA4pR+lmqORj68bQApnT12GC1vMyC7IqYIiPpT9Xm7IjfHLbniA8BGDRXE7i5AqRWwxFTdXx+AAamnutVUL4frlcuBWjwYMoAgR+9tgLK7GSWukvRwaAfEFiJ6PlWcwH+cAYEJVmEHu4KTKxWxEqOzoOE04Tvm/H9+Y7wgQ==
+X-Mailgun-Sending-Ip: 159.135.228.13
+X-Mailgun-Sid: WyJkNWI4MiIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCJiZTljNmQiXQ==
+Received: from guidai (177.75.142.135.mhnet.com.br [177.75.142.135]) by 8ff609fc26a7
+ with SMTP id 63fe7e3ee23dde8434ab2aa8; Tue, 28 Feb 2023 22:20:46 GMT
+Sender: codeagain@codeagain.dev
+Date:   Tue, 28 Feb 2023 19:20:35 -0300
+From:   Bru Moreira-Guedes <codeagain@codeagain.dev>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Patch Watchbox <patch-reply@codeagain.dev>
+Subject: [PATCH] coding-style.rst: indentation: Clarify tabs text
+Message-ID: <20230228222035.k227xb3okt2lbksn@guidai>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="x33xvo4wnlnrxfu7"
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Palmer Dabbelt <palmer@rivosinc.com> writes:
+--x33xvo4wnlnrxfu7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Happy to take this through the RISC-V tree, but I'll hold off for a bit 
-> and let the doc folks have a chance to chime in (or just pick it up).  
-> I'm planning on sending something later this week either way.
+The old text about tabs failed to clearly convey the message that the
+TAB character is used for indentation. It also gives the misleading
+impression that it's trying to "redefine" what a tab (the 0x09 ASCII
+character) is when it says "tabs are 8 characters".
 
-"Doc folks" are fine if you just include this one in the pull you're
-doing.
+It might be misleading, especially for some autistic readers for whom
+English is not the first language and whose tendency to interpret things
+more literally might be present (i.e., my very own self).
 
-Thanks,
+The present patch clarifies the tabs text on such aspects.
 
-jon
+Signed-off-by: Bru Moreira-Guedes <codeagain@codeagain.dev>
+---
+ Documentation/process/coding-style.rst | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process=
+/coding-style.rst
+index 007e49ef6cec..9a0205fa7ed3 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -18,23 +18,25 @@ Anyway, here goes:
+ 1) Indentation
+ --------------
+=20
+-Tabs are 8 characters, and thus indentations are also 8 characters.
+-There are heretic movements that try to make indentations 4 (or even 2!)
+-characters deep, and that is akin to trying to define the value of PI to
+-be 3.
++The Linux Kernel uses the TAB character for indentation, as in the K&R
++style. Tabs are meant to be viewed as 8-characters, and thus
++indentations are meant to be seen as 8 characters as well. There are
++heretic movements that try to use spaces for indentation, or make tabs
++viewed as 4 (or even 2!) characters, and that is akin to trying to
++define the value of PI to be 5.
+=20
+ Rationale: The whole idea behind indentation is to clearly define where
+ a block of control starts and ends.  Especially when you've been looking
+ at your screen for 20 straight hours, you'll find it a lot easier to see
+ how the indentation works if you have large indentations.
+=20
+-Now, some people will claim that having 8-character indentations makes
++Now, some people will claim that viewint 8-character tab indentations makes
+ the code move too far to the right, and makes it hard to read on a
+ 80-character terminal screen.  The answer to that is that if you need
+ more than 3 levels of indentation, you're screwed anyway, and should fix
+ your program.
+=20
+-In short, 8-char indents make things easier to read, and have the added
++In short, 8-char tab size make things easier to read, and have the added
+ benefit of warning you when you're nesting your functions too deep.
+ Heed that warning.
+=20
+--=20
+2.39.2
+
+
+--x33xvo4wnlnrxfu7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCY/5+MwAKCRAZtd3tyEY2
+krmkAQD1QDLQJcRslQMVJbW50mTPcpWozUfxmCqQYu1oT20srAEA6YtGC+RrWYt1
+52F2OO1UWSe5uGR1fFCWxkeeFfiOEgQ=
+=E2XU
+-----END PGP SIGNATURE-----
+
+--x33xvo4wnlnrxfu7--
