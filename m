@@ -2,206 +2,188 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E81DCC64EC4
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 22:59:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65B0BC64EC7
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 23:17:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229842AbjB1W67 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 17:58:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51826 "EHLO
+        id S229482AbjB1XRX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 18:17:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229841AbjB1W6x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 17:58:53 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF90F37714;
-        Tue, 28 Feb 2023 14:58:48 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id h8so8806967plf.10;
-        Tue, 28 Feb 2023 14:58:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677625128;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hG7vKOCZs7RF7xaksAPYUQd1A2SxHbLuaH7Mq26I3gY=;
-        b=EvydJjNFp+u1SVWCsmQl6hCES4FLObikUxdCaUzTp+mazMyN04WpakjfWOiWYZpQ9K
-         +18Q+ZrVN6rXU535yHal4u0v9WlNj4fL83CX21cvR5kaAswoUkIIwPiP6yA7uSomZ2q4
-         gOyL+8oS9/tESst5ORa9gq9/1quHZQT/awWoAwyGXR4G4xRhnGfJueSfJbFixQNDhsV+
-         gSLgbCPMR+YRh9/psIjCBZ2zV70Lq/Am60VGukvTC352yjnZJCRJ6iQ47q9zdpYG+RW4
-         JJ/Fs8OSN0EAlcLSodzwcWV0JQ/lIWcliG3tbJoDP5OA7yH1hUodS/10ILurYlxl3Z47
-         xYmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677625128;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hG7vKOCZs7RF7xaksAPYUQd1A2SxHbLuaH7Mq26I3gY=;
-        b=sZZGhMts5leSrBhvtlX2iCQc0Z3MCHu6kLrsETnyN/FHyCAR8RpDrK5O2ThlqdvCeN
-         sxn7uBJZ4IEWGkjZDKbiuJKvPM9k8cenwrOVY51Zw6ndeZCtFJ7sZXAR1m3fUnDWf98f
-         RAuZTiCUjjDKF6Xm2w/O4F4EgZ4q6VpVYQlwl5felOJC3y338cKXzricG8pW50cBevl3
-         bjhQUoCaehy0IaOmWXAyxTe+78Ft7+ioqrNh9Q5hCTQ9NFHQDzqoFXDvZFYA5lKxd4OQ
-         PLrgRPQ9t9M8NAj3zOnKRjyQxL6fqqANwKqXU9h2eDzGDWQ0s+/3N1HpyLLUBSM/A34K
-         HCSg==
-X-Gm-Message-State: AO0yUKXsqe2QuJ/V8tBri5zbb7n7k3zmqfFsAILaRF3299P5cKkGGuau
-        Tpqd5e+u+AINEus+wWDht+4=
-X-Google-Smtp-Source: AK7set8lrAj3oH7C94OxUvYLU1Uk1OCd5R4A9eqbUFXEtWJ7E8gHvhvvliXhpZQfXk8gGBCizI2YJQ==
-X-Received: by 2002:a17:902:cec5:b0:19a:6acc:1de2 with SMTP id d5-20020a170902cec500b0019a6acc1de2mr5095396plg.35.1677625128309;
-        Tue, 28 Feb 2023 14:58:48 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id e19-20020a170902ed9300b0019949fd956bsm7038431plj.178.2023.02.28.14.58.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 14:58:47 -0800 (PST)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v8 05/16] dma-buf/sync_file: Surface sync-file uABI
-Date:   Tue, 28 Feb 2023 14:58:09 -0800
-Message-Id: <20230228225833.2920879-6-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230228225833.2920879-1-robdclark@gmail.com>
-References: <20230228225833.2920879-1-robdclark@gmail.com>
+        with ESMTP id S229591AbjB1XRW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 18:17:22 -0500
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF2D199EA;
+        Tue, 28 Feb 2023 15:17:20 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 3DF4C5C00E3;
+        Tue, 28 Feb 2023 18:17:18 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 28 Feb 2023 18:17:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+        :cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm3; t=1677626238; x=
+        1677712638; bh=4KxBwKlTQZ05BLQjRzeOs8wp458o4ENpyLmhm8kBBF8=; b=q
+        It9z9OGTfT94KurTW4r2++HlnWTc8ppcw1U+1ih0whaZl6edWoV9KPzg8INNTYn6
+        FBYu4PTKD683Q6ECPPajA6YKA49dl8IZjs3RcyDO8EicxiOFx+vRbBnArog7rHW0
+        Lb0t6H0CFTiu0DEsVHD7eYNI0+8JZEwo3surYKWn6IWamPJzlDUZAiIuRhIwIq36
+        TB0xh+ohbtrljb+cyOmxY2onCtN8WPjEirsLA80yWPPMN3L5vuzYw1ruX8wpb8lN
+        +drsO4OmCHM+KzxZYtfoS3YCxFoRiYoMlPGwm8kH7H0LlhlaWr1hq1MIgp9jFmVE
+        PhNyOzuT8X8oGbmuQna+g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677626238; x=
+        1677712638; bh=4KxBwKlTQZ05BLQjRzeOs8wp458o4ENpyLmhm8kBBF8=; b=c
+        HAVbbPs9z2GHoY4/QDROnKFhCYOJs2wzYftlUdsHeEk/ev3022oV0jNHeTFZKmb5
+        1smXhbHJk9VnsiIzmQEGL4mAan2x1NGdnoprT2i7/b7K2uGz0mqXQ7eTF+B+1OgU
+        7rRUiZ4Zs5fcKf2vVce+mcntH8eJsENYS4z5qise3UMJWotY9tlYh6RI8THR9KeQ
+        3S0trnYqxEtTA+/SM9L5tdUq2ExTGEbIg5fq4bNz9VhTdkcn3+kyoCP4YSVlMLTk
+        lKs9QRF/rTxS2hlBun27pHmCDQyOhRIGXfjCeSJNB6V0nsv68SeEcBx5ZbIRZO6m
+        u50EOp8uvlYjPdHhonMDA==
+X-ME-Sender: <xms:fov-Y1eZpVuDQqsZ_pjMAWdBtHUI_O1njFoxzzdrvYuwkiPAsEWbaA>
+    <xme:fov-YzOQcOMwCfmpwQ3dB9tGAcwPPHqgc2no9BcB01X0Gsi0x3KNULFRAM1_3eDap
+    8wsiY04osQ5VhqV2w>
+X-ME-Received: <xmr:fov-Y-iP3xjX-FWkmLiHGa1T2kVLs5AH_mI7_1h3HpeGncCB_VdrSwLtGvTPgwpKAwdUAjI2zxhEmiji6kGvbBoC9Mco1RSh-VfckH3vUXI6Noiyd3sxiYhh>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelgedgtdefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    gfrhhlucfvnfffucdlvdefmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredt
+    tddtjeenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihusegugihuuhhurdighiiiqe
+    enucggtffrrghtthgvrhhnpefgteejiedthfdvvedujeetudeugeetieejfeegvefhjeeg
+    keevheehvefgiefhgeenucffohhmrghinhepkhgvrhhnvghlnhgvfigsihgvshdrohhrgh
+    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegugihu
+    segugihuuhhurdighiii
+X-ME-Proxy: <xmx:fov-Y-8hPpH8zQx9qO2xtThrBhTnf5ybansu7bER3xcs1JSxwv46ZQ>
+    <xmx:fov-YxvxiHD-6hHwC72z_fN5-Qq9xHtseKAhmUuyHc-yKLlKD5v5WQ>
+    <xmx:fov-Y9GGtyJE5r_k47X3ZLtk7i_LhiPd9IRpexT5FbhsaS7Z3TQ9Yw>
+    <xmx:fov-Y7J6eXorEBy_ZCD_RAMed2tx2XpIbu6JS_moLO6iA4622CNM7w>
+Feedback-ID: i6a694271:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 28 Feb 2023 18:17:17 -0500 (EST)
+Date:   Tue, 28 Feb 2023 16:17:16 -0700
+From:   Daniel Xu <dxu@dxuuu.xyz>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH bpf-next v2 0/8] Support defragmenting IPv(4|6) packets
+ in BPF
+Message-ID: <20230228231716.a5uwc4tdo3kjlkg7@aviatrix-fedora.tail1b9c7.ts.net>
+References: <cover.1677526810.git.dxu@dxuuu.xyz>
+ <20230227230338.awdzw57e4uzh4u7n@MacBook-Pro-6.local>
+ <20230228015712.clq6kyrsd7rrklbz@kashmir.localdomain>
+ <CAADnVQ+a633QyZgkbXfRiT_WRbPgr5n8RN0w=ntEkBHUeqRcbw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAADnVQ+a633QyZgkbXfRiT_WRbPgr5n8RN0w=ntEkBHUeqRcbw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+Hi Alexei,
 
-We had all of the internal driver APIs, but not the all important
-userspace uABI, in the dma-buf doc.  Fix that.  And re-arrange the
-comments slightly as otherwise the comments for the ioctl nr defines
-would not show up.
+On Mon, Feb 27, 2023 at 08:56:38PM -0800, Alexei Starovoitov wrote:
+> On Mon, Feb 27, 2023 at 5:57 PM Daniel Xu <dxu@dxuuu.xyz> wrote:
+> >
+> > Hi Alexei,
+> >
+> > On Mon, Feb 27, 2023 at 03:03:38PM -0800, Alexei Starovoitov wrote:
+> > > On Mon, Feb 27, 2023 at 12:51:02PM -0700, Daniel Xu wrote:
+> > > > === Context ===
+> > > >
+> > > > In the context of a middlebox, fragmented packets are tricky to handle.
+> > > > The full 5-tuple of a packet is often only available in the first
+> > > > fragment which makes enforcing consistent policy difficult. There are
+> > > > really only two stateless options, neither of which are very nice:
+> > > >
+> > > > 1. Enforce policy on first fragment and accept all subsequent fragments.
+> > > >    This works but may let in certain attacks or allow data exfiltration.
+> > > >
+> > > > 2. Enforce policy on first fragment and drop all subsequent fragments.
+> > > >    This does not really work b/c some protocols may rely on
+> > > >    fragmentation. For example, DNS may rely on oversized UDP packets for
+> > > >    large responses.
+> > > >
+> > > > So stateful tracking is the only sane option. RFC 8900 [0] calls this
+> > > > out as well in section 6.3:
+> > > >
+> > > >     Middleboxes [...] should process IP fragments in a manner that is
+> > > >     consistent with [RFC0791] and [RFC8200]. In many cases, middleboxes
+> > > >     must maintain state in order to achieve this goal.
+> > > >
+> > > > === BPF related bits ===
+> > > >
+> > > > However, when policy is enforced through BPF, the prog is run before the
+> > > > kernel reassembles fragmented packets. This leaves BPF developers in a
+> > > > awkward place: implement reassembly (possibly poorly) or use a stateless
+> > > > method as described above.
+> > > >
+> > > > Fortunately, the kernel has robust support for fragmented IP packets.
+> > > > This patchset wraps the existing defragmentation facilities in kfuncs so
+> > > > that BPF progs running on middleboxes can reassemble fragmented packets
+> > > > before applying policy.
+> > > >
+> > > > === Patchset details ===
+> > > >
+> > > > This patchset is (hopefully) relatively straightforward from BPF perspective.
+> > > > One thing I'd like to call out is the skb_copy()ing of the prog skb. I
+> > > > did this to maintain the invariant that the ctx remains valid after prog
+> > > > has run. This is relevant b/c ip_defrag() and ip_check_defrag() may
+> > > > consume the skb if the skb is a fragment.
+> > >
+> > > Instead of doing all that with extra skb copy can you hook bpf prog after
+> > > the networking stack already handled ip defrag?
+> > > What kind of middle box are you doing? Why does it have to run at TC layer?
+> >
+> > Unless I'm missing something, the only other relevant hooks would be
+> > socket hooks, right?
+> >
+> > Unfortunately I don't think my use case can do that. We are running the
+> > kernel as a router, so no sockets are involved.
+> 
+> Are you using bpf_fib_lookup and populating kernel routing
+> table and doing everything on your own including neigh ?
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- Documentation/driver-api/dma-buf.rst | 10 ++++++--
- include/uapi/linux/sync_file.h       | 35 +++++++++++-----------------
- 2 files changed, 22 insertions(+), 23 deletions(-)
+We're currently not doing any routing things in BPF yet. All the routing
+manipulation has been done in iptables / netfilter so far. I'm not super
+familiar with routing stuff but from what I understand there is some
+relatively complicated stuff going on with BGP and ipsec tunnels at the
+moment. Not sure if that answers your question.
 
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index 183e480d8cea..ff3f8da296af 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -203,8 +203,8 @@ DMA Fence unwrap
- .. kernel-doc:: include/linux/dma-fence-unwrap.h
-    :internal:
- 
--DMA Fence uABI/Sync File
--~~~~~~~~~~~~~~~~~~~~~~~~
-+DMA Fence Sync File
-+~~~~~~~~~~~~~~~~~~~
- 
- .. kernel-doc:: drivers/dma-buf/sync_file.c
-    :export:
-@@ -212,6 +212,12 @@ DMA Fence uABI/Sync File
- .. kernel-doc:: include/linux/sync_file.h
-    :internal:
- 
-+DMA Fence Sync File uABI
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: include/uapi/linux/sync_file.h
-+   :internal:
-+
- Indefinite DMA Fences
- ~~~~~~~~~~~~~~~~~~~~~
- 
-diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-index ee2dcfb3d660..eced40c204d7 100644
---- a/include/uapi/linux/sync_file.h
-+++ b/include/uapi/linux/sync_file.h
-@@ -16,12 +16,16 @@
- #include <linux/types.h>
- 
- /**
-- * struct sync_merge_data - data passed to merge ioctl
-+ * struct sync_merge_data - SYNC_IOC_MERGE: merge two fences
-  * @name:	name of new fence
-  * @fd2:	file descriptor of second fence
-  * @fence:	returns the fd of the new fence to userspace
-  * @flags:	merge_data flags
-  * @pad:	padding for 64-bit alignment, should always be zero
-+ *
-+ * Creates a new fence containing copies of the sync_pts in both
-+ * the calling fd and sync_merge_data.fd2.  Returns the new fence's
-+ * fd in sync_merge_data.fence
-  */
- struct sync_merge_data {
- 	char	name[32];
-@@ -34,8 +38,8 @@ struct sync_merge_data {
- /**
-  * struct sync_fence_info - detailed fence information
-  * @obj_name:		name of parent sync_timeline
--* @driver_name:	name of driver implementing the parent
--* @status:		status of the fence 0:active 1:signaled <0:error
-+ * @driver_name:	name of driver implementing the parent
-+ * @status:		status of the fence 0:active 1:signaled <0:error
-  * @flags:		fence_info flags
-  * @timestamp_ns:	timestamp of status change in nanoseconds
-  */
-@@ -48,14 +52,19 @@ struct sync_fence_info {
- };
- 
- /**
-- * struct sync_file_info - data returned from fence info ioctl
-+ * struct sync_file_info - SYNC_IOC_FILE_INFO: get detailed information on a sync_file
-  * @name:	name of fence
-  * @status:	status of fence. 1: signaled 0:active <0:error
-  * @flags:	sync_file_info flags
-  * @num_fences	number of fences in the sync_file
-  * @pad:	padding for 64-bit alignment, should always be zero
-- * @sync_fence_info: pointer to array of structs sync_fence_info with all
-+ * @sync_fence_info: pointer to array of struct &sync_fence_info with all
-  *		 fences in the sync_file
-+ *
-+ * Takes a struct sync_file_info. If num_fences is 0, the field is updated
-+ * with the actual number of fences. If num_fences is > 0, the system will
-+ * use the pointer provided on sync_fence_info to return up to num_fences of
-+ * struct sync_fence_info, with detailed fence information.
-  */
- struct sync_file_info {
- 	char	name[32];
-@@ -76,23 +85,7 @@ struct sync_file_info {
-  * no upstream users available.
-  */
- 
--/**
-- * DOC: SYNC_IOC_MERGE - merge two fences
-- *
-- * Takes a struct sync_merge_data.  Creates a new fence containing copies of
-- * the sync_pts in both the calling fd and sync_merge_data.fd2.  Returns the
-- * new fence's fd in sync_merge_data.fence
-- */
- #define SYNC_IOC_MERGE		_IOWR(SYNC_IOC_MAGIC, 3, struct sync_merge_data)
--
--/**
-- * DOC: SYNC_IOC_FILE_INFO - get detailed information on a sync_file
-- *
-- * Takes a struct sync_file_info. If num_fences is 0, the field is updated
-- * with the actual number of fences. If num_fences is > 0, the system will
-- * use the pointer provided on sync_fence_info to return up to num_fences of
-- * struct sync_fence_info, with detailed fence information.
-- */
- #define SYNC_IOC_FILE_INFO	_IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_info)
- 
- #endif /* _UAPI_LINUX_SYNC_H */
--- 
-2.39.1
+> Have you considered to skb redirect to another netdev that does ip defrag?
+> Like macvlan does it under some conditions. This can be generalized.
 
+I had not considered that yet. Are you suggesting adding a new
+passthrough netdev thing that'll defrags? I looked at the macvlan driver
+and it looks like it defrags to handle some multicast corner case.
+
+> Recently Florian proposed to allow calling bpf progs from all existing
+> netfilter hooks.
+> You can pretend to local deliver and hook in NF_INET_LOCAL_IN ?
+
+Does that work for forwarding cases? I'm reading through [0] and it
+seems to suggest that it'll only defrag for locally destined packets:
+
+    If the destination IP address is matches with
+    local NIC's IP address, the dst_input() function will brings the packets
+    into the ip_local_deliver(), which will defrag the packet and pass it
+    to the NF_IP_LOCAL_IN hook
+
+Faking local delivery seems kinda ugly -- maybe I don't know any clean
+ways.
+
+[...]
+
+[0]: https://kernelnewbies.org/Networking?action=AttachFile&do=get&target=hacking_the_wholism_of_linux_net.txt
+
+
+Thanks,
+Daniel
