@@ -2,321 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CA73C7EE2E
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 02:18:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4DC0C7EE2D
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 03:13:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229471AbjB1CSN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 21:18:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40824 "EHLO
+        id S230083AbjB1DNs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 22:13:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229705AbjB1CSM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 21:18:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88D6127486
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 18:17:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677550642;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=aaG8/Bg6dhlDDPoj6nBl4VpMZT/wui8WldswSe4hBs4=;
-        b=KOn1yK/HQlmp4eg5oZxkrKVZ8b/884wFqRau4gDLWnj31SjYi+Ipn8aHyXOyzDrW8619sq
-        eN5x++OPrFtSjIEg3RwA47oS2cIv4v+IdUMRQP5Z5QaDMFUwyNL3hlDkcblGE+fMx1TMh7
-        mRCFjZr9Oq3sP7A57Ri6p/xJRvo/TAM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-106-J1CMv6QLMjq0c6fwrDp2eg-1; Mon, 27 Feb 2023 21:17:21 -0500
-X-MC-Unique: J1CMv6QLMjq0c6fwrDp2eg-1
-Received: by mail-ed1-f71.google.com with SMTP id ec13-20020a0564020d4d00b004a621e993a8so11462887edb.13
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 18:17:20 -0800 (PST)
+        with ESMTP id S230025AbjB1DNr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 22:13:47 -0500
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E35CE16897
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 19:13:44 -0800 (PST)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-536e8d6d9ceso181880007b3.12
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 19:13:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1677554024;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=s6UOSWO+feCYZ3WxJ17vXN444yl542PP/Ra8QhWlg1E=;
+        b=BVXvaAIO+k0MW9rbMLSLEL10JfJv/dqSvdauXeBmyVpNYdjfdOGp19/tANrYafzYyE
+         LbhRzdL2lvTTAncxwGhgasgNaGccO4CT6trzGMtN4OyDVqq1yNRvKr8k6m0SyGzhQLf6
+         62xJm5ZeHJZe2QcGqIHidAamjGA3cdLHPl2Vd4WJ/W/YHO1XRESmHk17nnsE851VuOIi
+         Kn7qMoYRJwkl4eeph2+NygNkEAKludimbYssyp6p84lsBq54aUAGi1Mfjy/aPlwcmX4l
+         vTBdnYLWidYqBDUjq4fijBm3IaF2hMCneHOe76SeRAoXID4FJGMHP7dV6xWbKKzHOYLg
+         lUoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:subject:to
-         :from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aaG8/Bg6dhlDDPoj6nBl4VpMZT/wui8WldswSe4hBs4=;
-        b=Cu9aSTpYxyjGZL0RCLyTzykXEGW7vs3pEwTdE6RvGXkXpRBcu2nLULFpny3FVW4+Ln
-         PY0nrsYHONbweOFm0/y76u1elBNh2U3sG9C4hbYloGTc6zLpJFI2rZhib9fHOLlnsB1I
-         SspMg+iB+2KqezNYcjf6fYn9g1Tn5wM7SlSHYERmb99UY9uiH9Y+KvVzZMgi4eXALYLI
-         eWx7H1BoRSCBibv596RRTLkmNutpPt5H88Q6BH1pvTnxV+g4Y+5FqGHMSBny/X/ILc3m
-         mIv+MFO0WNNWpCot5UbwIxV3lUaoZwPJTD3Y8w6Sk2gfFHIVH6/xbdXUZtLUUPesmyaI
-         Az9w==
-X-Gm-Message-State: AO0yUKU2x0uPFxmE3CWQKHSNCA79fIIJeoc8FMSUC1WNTm5pCCI46Nx2
-        26q5kIL+iuZwz1M/FoHyzxevgIKASU8WOWA/b4PpuzxxS3N8V0ic8uW0P9LiuCGNdY2ijUEYSDz
-        QZfsJXS7K8QQyfBAcg4rR
-X-Received: by 2002:a17:906:714e:b0:8b2:8876:6a3c with SMTP id z14-20020a170906714e00b008b288766a3cmr878949ejj.29.1677550640021;
-        Mon, 27 Feb 2023 18:17:20 -0800 (PST)
-X-Google-Smtp-Source: AK7set9tTXKhn1koDlG1F1zP1IAfope6sN3htqLi1+Nr+TLZ9X3jnhKZaiB/RADncuz0n/Vy80QyHA==
-X-Received: by 2002:a17:906:714e:b0:8b2:8876:6a3c with SMTP id z14-20020a170906714e00b008b288766a3cmr878917ejj.29.1677550639717;
-        Mon, 27 Feb 2023 18:17:19 -0800 (PST)
-Received: from WINDOWS. ([2a02:810d:4b3f:de78:41c:160e:6481:ed36])
-        by smtp.gmail.com with ESMTPSA id s17-20020a170906501100b008b17aa6afc8sm3927141ejj.30.2023.02.27.18.17.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Feb 2023 18:17:18 -0800 (PST)
-Message-ID: <63fd642e.170a0220.f67f6.e248@mx.google.com>
-X-Google-Original-Message-ID: <Y/1kK5mjGoovZ8dU@WINDOWS.>
-Date:   Tue, 28 Feb 2023 03:17:15 +0100
-From:   Danilo Krummrich <dakr@redhat.com>
-To:     "Liam R. Howlett" <Liam.Howlett@oracle.com>, airlied@gmail.com,
-        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
-        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
-        matthew.brost@intel.com, boris.brezillon@collabora.com,
-        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
-        willy@infradead.org, jason@jlekstrand.net,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA
- mappings
-References: <20230217134422.14116-1-dakr@redhat.com>
- <20230217134422.14116-6-dakr@redhat.com>
- <20230221182050.day6z5ge2e3dxerv@revolver>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="xgWBGL0J166I1n9/"
-Content-Disposition: inline
-In-Reply-To: <20230221182050.day6z5ge2e3dxerv@revolver>
+        d=1e100.net; s=20210112; t=1677554024;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s6UOSWO+feCYZ3WxJ17vXN444yl542PP/Ra8QhWlg1E=;
+        b=cjJS9RLUfueHXbBAz5z6WEB81kJZkTgRWt5GzMkgZw5g4CdwSjQrLOIY/Ta818drUQ
+         i+zWYzVm+zhtcrnYVboZnvSg0QXPQJMtX+hTfTYdScySzmWU65d2Bseu/Qm0wYoILJDR
+         cT5SXSP5IEhObBmuwLwCj3/qRpfbLiMB8M9ybnosZlI9urVLY6q3G9ORYN5H8lKsJEVj
+         cILmZXeuv/Bez0QbFl0lg4Bo3P7BEcsO3XzYsHfkIGyFTNOZetrVZQP9kTblNrDHPNx9
+         AcJS7MxC3eZgWRgz88tXbRNrrkKE/Lie+nFSnCnzRKZJYnmmrCLj7dibzhyaC+fFWcEI
+         u/zw==
+X-Gm-Message-State: AO0yUKVQwgeIlIinDanlv2Q7e5pgIRSt93sKDIPqw6LuHXVBteIBdFUM
+        Zk8V+YgGEvMbkort7w5UHYhqVXNz3AxCaQ==
+X-Google-Smtp-Source: AK7set9/7oGN1cxLTSyivW/Lnm2hI66pvRCEncRFscnVFliFQ59tiscx9LiAIz1ONm2E9DLKuEu4Xv3lFA6dBw==
+X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a81:431c:0:b0:52e:b22b:f99 with SMTP id
+ q28-20020a81431c000000b0052eb22b0f99mr623341ywa.4.1677554024082; Mon, 27 Feb
+ 2023 19:13:44 -0800 (PST)
+Date:   Tue, 28 Feb 2023 11:13:18 +0800
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.39.2.722.g9855ee24e9-goog
+Message-ID: <20230228031317.3415484-1-davidgow@google.com>
+Subject: [PATCH] Documentation: kbuild: Add note about using (subst m,y)
+From:   David Gow <davidgow@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Sadiya Kazi <sadiyakazi@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, David Gow <davidgow@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+THe kbuild documentation already notes that, where there's an obj-y
+target in a subdirectory, it will be orphaned if the subdirectory uses
+obj-m. Suggest a way of forcing the directory to obj-y when it's based
+on a config option which could be 'm'.
 
---xgWBGL0J166I1n9/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Linus made several suggestions as to how this is usually done here:
+https://lore.kernel.org/linux-kselftest/CAHk-=wgK07PQ_DBBbAbSJ41t__6de1xZ6q7RRu-JS=2SU0wqLQ@mail.gmail.com/
 
-On Tue, Feb 21, 2023 at 01:20:50PM -0500, Liam R. Howlett wrote:
-> * Danilo Krummrich <dakr@redhat.com> [230217 08:45]:
-> > Add infrastructure to keep track of GPU virtual address (VA) mappings
-> > with a decicated VA space manager implementation.
-> > 
-> > New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
-> > start implementing, allow userspace applications to request multiple and
-> > arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
-> > intended to serve the following purposes in this context.
-> > 
-> > 1) Provide infrastructure to track GPU VA allocations and mappings,
-> >    making use of the maple_tree.
-> > 
-> > 2) Generically connect GPU VA mappings to their backing buffers, in
-> >    particular DRM GEM objects.
-> > 
-> > 3) Provide a common implementation to perform more complex mapping
-> >    operations on the GPU VA space. In particular splitting and merging
-> >    of GPU VA mappings, e.g. for intersecting mapping requests or partial
-> >    unmap requests.
-> > 
-> > Suggested-by: Dave Airlie <airlied@redhat.com>
-> > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> > ---
-> >  Documentation/gpu/drm-mm.rst    |   31 +
-> >  drivers/gpu/drm/Makefile        |    1 +
-> >  drivers/gpu/drm/drm_gem.c       |    3 +
-> >  drivers/gpu/drm/drm_gpuva_mgr.c | 1704 +++++++++++++++++++++++++++++++
-> >  include/drm/drm_drv.h           |    6 +
-> >  include/drm/drm_gem.h           |   75 ++
-> >  include/drm/drm_gpuva_mgr.h     |  714 +++++++++++++
-> >  7 files changed, 2534 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
-> >  create mode 100644 include/drm/drm_gpuva_mgr.h
-> > 
-> > diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> > index a52e6f4117d6..c9f120cfe730 100644
-> > --- a/Documentation/gpu/drm-mm.rst
-> > +++ b/Documentation/gpu/drm-mm.rst
-> > @@ -466,6 +466,37 @@ DRM MM Range Allocator Function References
-> >  .. kernel-doc:: drivers/gpu/drm/drm_mm.c
-> >     :export:
-> >  
-> ...
-> 
-> > +
-> > +/**
-> > + * drm_gpuva_remove_iter - removes the iterators current element
-> > + * @it: the &drm_gpuva_iterator
-> > + *
-> > + * This removes the element the iterator currently points to.
-> > + */
-> > +void
-> > +drm_gpuva_iter_remove(struct drm_gpuva_iterator *it)
-> > +{
-> > +	mas_erase(&it->mas);
-> > +}
-> > +EXPORT_SYMBOL(drm_gpuva_iter_remove);
-> > +
-> > +/**
-> > + * drm_gpuva_insert - insert a &drm_gpuva
-> > + * @mgr: the &drm_gpuva_manager to insert the &drm_gpuva in
-> > + * @va: the &drm_gpuva to insert
-> > + * @addr: the start address of the GPU VA
-> > + * @range: the range of the GPU VA
-> > + *
-> > + * Insert a &drm_gpuva with a given address and range into a
-> > + * &drm_gpuva_manager.
-> > + *
-> > + * Returns: 0 on success, negative error code on failure.
-> > + */
-> > +int
-> > +drm_gpuva_insert(struct drm_gpuva_manager *mgr,
-> > +		 struct drm_gpuva *va)
-> > +{
-> > +	u64 addr = va->va.addr;
-> > +	u64 range = va->va.range;
-> > +	MA_STATE(mas, &mgr->va_mt, addr, addr + range - 1);
-> > +	struct drm_gpuva_region *reg = NULL;
-> > +	int ret;
-> > +
-> > +	if (unlikely(!drm_gpuva_in_mm_range(mgr, addr, range)))
-> > +		return -EINVAL;
-> > +
-> > +	if (unlikely(drm_gpuva_in_kernel_region(mgr, addr, range)))
-> > +		return -EINVAL;
-> > +
-> > +	if (mgr->flags & DRM_GPUVA_MANAGER_REGIONS) {
-> > +		reg = drm_gpuva_in_region(mgr, addr, range);
-> > +		if (unlikely(!reg))
-> > +			return -EINVAL;
-> > +	}
-> > +
-> 
-> -----
-> 
-> > +	if (unlikely(drm_gpuva_find_first(mgr, addr, range)))
-> > +		return -EEXIST;
-> > +
-> > +	ret = mas_store_gfp(&mas, va, GFP_KERNEL);
-> 
-> mas_walk() will set the internal maple state to the limits to what it
-> finds.  So, instead of an iterator, you can use the walk function and
-> ensure there is a large enough area in the existing NULL:
-> 
-> /*
->  * Nothing at addr, mas now points to the location where the store would
->  * happen
->  */
-> if (mas_walk(&mas))
-> 	return -EEXIST;
-> 
+This only documents the first one, which seems most common.
 
-For some reason mas_walk() finds an entry and hence this function returns
--EEXIST for the following sequence of insertions.
+Signed-off-by: David Gow <davidgow@google.com>
+---
+ Documentation/kbuild/makefiles.rst | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-A = [0xc0000 - 0xfffff]
-B = [0x0 - 0xbffff]
-
-Interestingly, inserting B before A works fine.
-
-I attached a test module that reproduces the issue. I hope its just a stupid
-mistake I just can't spot though.
-
-> /* The NULL entry ends at mas.last, make sure there is room */
-> if (mas.last < (addr + range - 1))
-> 	return -EEXIST;
-> 
-> /* Limit the store size to the correct end address, and store */
->  mas.last = addr + range - 1;
->  ret = mas_store_gfp(&mas, va, GFP_KERNEL);
-> 
-
---xgWBGL0J166I1n9/
-Content-Type: text/x-c; charset=us-ascii
-Content-Disposition: attachment; filename="maple.c"
-
-/* SPDX-License-Identifier: GPL-2.0 */
-#if 1
-#include <linux/init.h>
-#include <linux/ioctl.h>
-#include <linux/kernel.h>
-#include <linux/list.h>
-#include <linux/maple_tree.h>
-#include <linux/mm.h>
-#include <linux/module.h>
-#include <linux/moduleparam.h>
-#include <linux/mutex.h>
-#include <linux/printk.h>
-#include <linux/proc_fs.h>
-#include <linux/slab.h>
-#include <linux/types.h>
-#endif
-
-struct maple_tree mt;
-
-struct va {
-	u64 addr;
-	u64 range;
-};
-
-static int va_store(struct va *va)
-{
-	void *entry = NULL;
-	u64 addr = va->addr;
-	u64 range = va->range;
-	u64 last = addr + range - 1;
-	MA_STATE(mas, &mt, addr, addr);
-	int ret;
-
-	mas_lock(&mas);
-
-	if ((entry = mas_walk(&mas))) {
-		pr_err("addr=%llx, range=%llx, last=%llx, mas.index=%lx, mas.last=%lx, entry=%px - exists\n",
-		       addr, range, last, mas.index, mas.last, entry);
-		ret = -EEXIST;
-		goto err_unlock;
-	}
-
-	if (mas.last < last) {
-		pr_err("addr=%llx, range=%llx, last=%llx, mas.index=%lx, mas.last%lx, va=%px - not enough space\n",
-		       addr, range, last, mas.index, mas.last, va);
-		ret = -EEXIST;
-		goto err_unlock;
-	}
-
-	mas.last = last;
-	ret = mas_store_gfp(&mas, &va, GFP_KERNEL);
-	if (ret) {
-		pr_err("mas_store_gfp() failed\n");
-		goto err_unlock;
-	}
-
-	mas_unlock(&mas);
-
-	pr_info("addr=%llx, range=%llx, last=%llx, mas.index=%lx, mas.last=%lx, va=%px - insert\n",
-		addr, range, last, mas.index, mas.last, va);
-
-	return 0;
-
-err_unlock:
-	mas_unlock(&mas);
-	return ret;
-}
-
-static int __init maple_init(void)
-{
-	struct va kernel_node = { .addr = 0xc0000, .range = 0x40000 };
-	struct va node = { .addr = 0x0, .range = 0xc0000 };
-
-	mt_init(&mt);
-
-	va_store(&kernel_node);
-	va_store(&node);
-
-	return 0;
-}
-
-static void __exit maple_exit(void)
-{
-	mtree_lock(&mt);
-	__mt_destroy(&mt);
-	mtree_unlock(&mt);
-}
-
-module_init(maple_init);
-module_exit(maple_exit);
-
-MODULE_LICENSE("GPL v2");
-MODULE_AUTHOR("Danilo Krummrich");
-MODULE_DESCRIPTION("Maple Tree example.");
-MODULE_VERSION("0.1");
-
---xgWBGL0J166I1n9/--
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index e67eb261c9b0..d9eb24799f52 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -254,6 +254,17 @@ from that directory will be linked into vmlinux. If the Makefile in
+ that directory specifies obj-y, those objects will be left orphan.
+ It is very likely a bug of the Makefile or of dependencies in Kconfig.
+ 
++This means that, if a directory contains both obj-y and obj-m targets,
++it should be added with obj-y. If this directory nevertheless should
++only be built when a config option is enabled (typically to support
++a module which requires one or two files to nevertheless be built-in),
++'subst m,y' can be used to ensure obj-y is used.
++
++Example::
++
++  #drivers/Makefile
++  obj-$(subst m,y,$(CONFIG_HYPERV)) += hv/
++
+ Kbuild also supports dedicated syntax, subdir-y and subdir-m, for
+ descending into subdirectories. It is a good fit when you know they
+ do not contain kernel-space objects at all. A typical usage is to let
+-- 
+2.39.2.722.g9855ee24e9-goog
 
