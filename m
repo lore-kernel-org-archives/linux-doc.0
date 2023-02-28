@@ -2,141 +2,154 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 377F7C64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 03:37:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2336DC6FA8E
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 04:56:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbjB1DhU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 22:37:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37914 "EHLO
+        id S229524AbjB1E4y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 23:56:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbjB1DhT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 22:37:19 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E6A11E9D2;
-        Mon, 27 Feb 2023 19:37:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677555438; x=1709091438;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=al/INyoNJ0XDfdnz7VHXZf5kkuMVxaCGXwtFpDxHwQY=;
-  b=VPnaE/GQ3b0TA9m6iWN0AMCvugISMYOEeTAioLF9C70G7lSgG1ynD2f+
-   uS+kFZzQzi8P6AxL9xdaMEAz4D031V2GdnwwSVBkix300XK/7eELyhN27
-   UOkIdZL/IAxABb/q279kQIRjfKl6Ij+KG6C9DD9FkqBDrZZI5twn99dQs
-   2tQ92x6t9ilDaM/6yLB6u99V2euRzMGUB71YzKN7NimwX5h3evOWhhVoh
-   nKNXsh8aOdv3hIsrwXOdYufVQ/M4PqJk+GWrCg44Kc6soEocvlhY7aA56
-   m3ZPPrSsVQAGR7VcogIZL1OLl+UAtJWL5JC2PmVrKH0gjueY/qSeP7gxR
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="420298167"
-X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="420298167"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 19:37:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="667293697"
-X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
-   d="scan'208";a="667293697"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 27 Feb 2023 19:37:15 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pWqni-00052r-15;
-        Tue, 28 Feb 2023 03:37:14 +0000
-Date:   Tue, 28 Feb 2023 11:36:42 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: drivers/iommu/fsl_pamu.c:586: warning: This comment starts with
- '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202302281151.B1WtZvSC-lkp@intel.com>
+        with ESMTP id S229520AbjB1E4x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 23:56:53 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49E59241E8;
+        Mon, 27 Feb 2023 20:56:51 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id o12so34875061edb.9;
+        Mon, 27 Feb 2023 20:56:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=okmRvyXBxZ0o8pbO3WLuRK922SzNzOQvPgzOOLIl67E=;
+        b=gSacQg7cDaOiW6jQCpRlFI10wyEfBq78p4/bhMVdXjdiA5bYHn09KjKUY19IaRQOoK
+         Jk1re5nnDSOX3VfSfCUc37yo5MN+r9aWfQm63pKXchcSx0e2REhyK6fjF/hfdE9bXz3D
+         6VHS+E43e8+nCP9ptO2xzW0pWUZ42q01IxMw1QygL5DSzN/nLt5Nx0LO7+m9bphhw6zO
+         o5hE47+gdT/Oxrdz5V8JhRtD6mRrO933W8q1CLh8v+zT5V/vS59Di8xXOn9QRMREe+MY
+         J0r2dGzq5O74iGvOdme5MZzbhbhieJaofrNJZlo0mNrgco1+cPZyvrcvWnEDzLVzsiM/
+         FRFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=okmRvyXBxZ0o8pbO3WLuRK922SzNzOQvPgzOOLIl67E=;
+        b=zQSWuPlVNRY7A7K1OMV26LOA+v3P4oK72wnbYUk/v7wRgXszCly5q4QECvWmcVZNUQ
+         nWWVrcijWYuet0drEbXiXkE4hpCicDs4ISl5v1BgZqaah6mwRxpmqT+MkzswJ0iLOhGf
+         Nq6BFKNcXjThslJFTUQ79/tXuUh23S5c7EToC7zXj+Ek7jRTPJzIOoMJJw3y86JD2qH+
+         vEEXCK1AE13dOX+R/3egArAQW7tdreUUVbZd8pP3D8ZgDiZSepNFlh2LNwlTsWOJjMoQ
+         kU7Kpk2I4VbRWUHJIRJXsAYqPqDM33Fw7EfEFpPm7DCdzXFZfXbc5RQzsry4fnJOQPjF
+         07+w==
+X-Gm-Message-State: AO0yUKXWfKIQNC038xETu7kMb/Z1NMQ+v7wMxOkSgtJGUCpPk8h/cx0R
+        qXcVyUURiIok9usoHAKjBWnEtu6aqGv35bIJz8Vs1q/1b5M=
+X-Google-Smtp-Source: AK7set8gKY0GodjAmaFttAkUsYsfQgC1w7nWfqds+hu0p1TYhtkpsjEvbYRSk15cuQj4d3XVGPZqlZhuAjW5SFAtD1Y=
+X-Received: by 2002:a17:906:a46:b0:895:58be:963 with SMTP id
+ x6-20020a1709060a4600b0089558be0963mr576673ejf.3.1677560209655; Mon, 27 Feb
+ 2023 20:56:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <cover.1677526810.git.dxu@dxuuu.xyz> <20230227230338.awdzw57e4uzh4u7n@MacBook-Pro-6.local>
+ <20230228015712.clq6kyrsd7rrklbz@kashmir.localdomain>
+In-Reply-To: <20230228015712.clq6kyrsd7rrklbz@kashmir.localdomain>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Mon, 27 Feb 2023 20:56:38 -0800
+Message-ID: <CAADnVQ+a633QyZgkbXfRiT_WRbPgr5n8RN0w=ntEkBHUeqRcbw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 0/8] Support defragmenting IPv(4|6) packets in BPF
+To:     Daniel Xu <dxu@dxuuu.xyz>
+Cc:     bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Aditya,
+On Mon, Feb 27, 2023 at 5:57=E2=80=AFPM Daniel Xu <dxu@dxuuu.xyz> wrote:
+>
+> Hi Alexei,
+>
+> On Mon, Feb 27, 2023 at 03:03:38PM -0800, Alexei Starovoitov wrote:
+> > On Mon, Feb 27, 2023 at 12:51:02PM -0700, Daniel Xu wrote:
+> > > =3D=3D=3D Context =3D=3D=3D
+> > >
+> > > In the context of a middlebox, fragmented packets are tricky to handl=
+e.
+> > > The full 5-tuple of a packet is often only available in the first
+> > > fragment which makes enforcing consistent policy difficult. There are
+> > > really only two stateless options, neither of which are very nice:
+> > >
+> > > 1. Enforce policy on first fragment and accept all subsequent fragmen=
+ts.
+> > >    This works but may let in certain attacks or allow data exfiltrati=
+on.
+> > >
+> > > 2. Enforce policy on first fragment and drop all subsequent fragments=
+.
+> > >    This does not really work b/c some protocols may rely on
+> > >    fragmentation. For example, DNS may rely on oversized UDP packets =
+for
+> > >    large responses.
+> > >
+> > > So stateful tracking is the only sane option. RFC 8900 [0] calls this
+> > > out as well in section 6.3:
+> > >
+> > >     Middleboxes [...] should process IP fragments in a manner that is
+> > >     consistent with [RFC0791] and [RFC8200]. In many cases, middlebox=
+es
+> > >     must maintain state in order to achieve this goal.
+> > >
+> > > =3D=3D=3D BPF related bits =3D=3D=3D
+> > >
+> > > However, when policy is enforced through BPF, the prog is run before =
+the
+> > > kernel reassembles fragmented packets. This leaves BPF developers in =
+a
+> > > awkward place: implement reassembly (possibly poorly) or use a statel=
+ess
+> > > method as described above.
+> > >
+> > > Fortunately, the kernel has robust support for fragmented IP packets.
+> > > This patchset wraps the existing defragmentation facilities in kfuncs=
+ so
+> > > that BPF progs running on middleboxes can reassemble fragmented packe=
+ts
+> > > before applying policy.
+> > >
+> > > =3D=3D=3D Patchset details =3D=3D=3D
+> > >
+> > > This patchset is (hopefully) relatively straightforward from BPF pers=
+pective.
+> > > One thing I'd like to call out is the skb_copy()ing of the prog skb. =
+I
+> > > did this to maintain the invariant that the ctx remains valid after p=
+rog
+> > > has run. This is relevant b/c ip_defrag() and ip_check_defrag() may
+> > > consume the skb if the skb is a fragment.
+> >
+> > Instead of doing all that with extra skb copy can you hook bpf prog aft=
+er
+> > the networking stack already handled ip defrag?
+> > What kind of middle box are you doing? Why does it have to run at TC la=
+yer?
+>
+> Unless I'm missing something, the only other relevant hooks would be
+> socket hooks, right?
+>
+> Unfortunately I don't think my use case can do that. We are running the
+> kernel as a router, so no sockets are involved.
 
-FYI, the error/warning still remains.
+Are you using bpf_fib_lookup and populating kernel routing
+table and doing everything on your own including neigh ?
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ae3419fbac845b4d3f3a9fae4cc80c68d82cdf6e
-commit: 3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf scripts: kernel-doc: add warning for comment not following kernel-doc syntax
-date:   1 year, 11 months ago
-config: powerpc-randconfig-r002-20230227 (https://download.01.org/0day-ci/archive/20230228/202302281151.B1WtZvSC-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/iommu/
+Have you considered to skb redirect to another netdev that does ip defrag?
+Like macvlan does it under some conditions. This can be generalized.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302281151.B1WtZvSC-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/iommu/fsl_pamu.c:325: warning: Function parameter or member 'win_size' not described in 'pamu_config_ppaace'
-   drivers/iommu/fsl_pamu.c:325: warning: expecting prototype for pamu_config_paace(). Prototype was for pamu_config_ppaace() instead
-   drivers/iommu/fsl_pamu.c:493: warning: Function parameter or member 'omi_index' not described in 'get_ome_index'
-   drivers/iommu/fsl_pamu.c:493: warning: Function parameter or member 'dev' not described in 'get_ome_index'
->> drivers/iommu/fsl_pamu.c:586: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Setup operation mapping and stash destinations for QMAN and QMAN portal.
-   drivers/iommu/fsl_pamu.c:615: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Setup the operation mapping table for various devices. This is a static
-
-
-vim +586 drivers/iommu/fsl_pamu.c
-
-695093e38c3ef6 Varun Sethi 2013-07-15  584  
-695093e38c3ef6 Varun Sethi 2013-07-15  585  /**
-695093e38c3ef6 Varun Sethi 2013-07-15 @586   * Setup operation mapping and stash destinations for QMAN and QMAN portal.
-695093e38c3ef6 Varun Sethi 2013-07-15  587   * Memory accesses to QMAN and BMAN private memory need not be coherent, so
-695093e38c3ef6 Varun Sethi 2013-07-15  588   * clear the PAACE entry coherency attribute for them.
-695093e38c3ef6 Varun Sethi 2013-07-15  589   */
-57fb907da89977 Emil Medve  2015-03-25  590  static void setup_qbman_paace(struct paace *ppaace, int  paace_type)
-695093e38c3ef6 Varun Sethi 2013-07-15  591  {
-695093e38c3ef6 Varun Sethi 2013-07-15  592  	switch (paace_type) {
-695093e38c3ef6 Varun Sethi 2013-07-15  593  	case QMAN_PAACE:
-695093e38c3ef6 Varun Sethi 2013-07-15  594  		set_bf(ppaace->impl_attr, PAACE_IA_OTM, PAACE_OTM_INDEXED);
-695093e38c3ef6 Varun Sethi 2013-07-15  595  		ppaace->op_encode.index_ot.omi = OMI_QMAN_PRIV;
-695093e38c3ef6 Varun Sethi 2013-07-15  596  		/* setup QMAN Private data stashing for the L3 cache */
-695093e38c3ef6 Varun Sethi 2013-07-15  597  		set_bf(ppaace->impl_attr, PAACE_IA_CID, get_stash_id(PAMU_ATTR_CACHE_L3, 0));
-695093e38c3ef6 Varun Sethi 2013-07-15  598  		set_bf(ppaace->domain_attr.to_host.coherency_required, PAACE_DA_HOST_CR,
-695093e38c3ef6 Varun Sethi 2013-07-15  599  		       0);
-695093e38c3ef6 Varun Sethi 2013-07-15  600  		break;
-695093e38c3ef6 Varun Sethi 2013-07-15  601  	case QMAN_PORTAL_PAACE:
-695093e38c3ef6 Varun Sethi 2013-07-15  602  		set_bf(ppaace->impl_attr, PAACE_IA_OTM, PAACE_OTM_INDEXED);
-695093e38c3ef6 Varun Sethi 2013-07-15  603  		ppaace->op_encode.index_ot.omi = OMI_QMAN;
-695093e38c3ef6 Varun Sethi 2013-07-15  604  		/* Set DQRR and Frame stashing for the L3 cache */
-695093e38c3ef6 Varun Sethi 2013-07-15  605  		set_bf(ppaace->impl_attr, PAACE_IA_CID, get_stash_id(PAMU_ATTR_CACHE_L3, 0));
-695093e38c3ef6 Varun Sethi 2013-07-15  606  		break;
-695093e38c3ef6 Varun Sethi 2013-07-15  607  	case BMAN_PAACE:
-695093e38c3ef6 Varun Sethi 2013-07-15  608  		set_bf(ppaace->domain_attr.to_host.coherency_required, PAACE_DA_HOST_CR,
-695093e38c3ef6 Varun Sethi 2013-07-15  609  		       0);
-695093e38c3ef6 Varun Sethi 2013-07-15  610  		break;
-695093e38c3ef6 Varun Sethi 2013-07-15  611  	}
-695093e38c3ef6 Varun Sethi 2013-07-15  612  }
-695093e38c3ef6 Varun Sethi 2013-07-15  613  
-
-:::::: The code at line 586 was first introduced by commit
-:::::: 695093e38c3ef63fcb43a2840ed865efa20671d5 iommu/fsl: Freescale PAMU driver and iommu implementation.
-
-:::::: TO: Varun Sethi <Varun.Sethi@freescale.com>
-:::::: CC: Joerg Roedel <joro@8bytes.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Recently Florian proposed to allow calling bpf progs from all existing
+netfilter hooks.
+You can pretend to local deliver and hook in NF_INET_LOCAL_IN ?
+I feel it would be so much cleaner if stack does ip_defrag normally.
+The general issue of skb ownership between bpf prog and defrag logic
+isn't really solved with skb_copy. It's still an issue.
