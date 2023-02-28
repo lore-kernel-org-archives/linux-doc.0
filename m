@@ -2,158 +2,247 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85700C64EC7
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 08:30:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1A1C64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 08:36:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbjB1Iav (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 03:30:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43052 "EHLO
+        id S229600AbjB1IgI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 03:36:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229525AbjB1Iau (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 03:30:50 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FB4F233E9;
-        Tue, 28 Feb 2023 00:30:49 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229737AbjB1IgH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 03:36:07 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42E342A98D;
+        Tue, 28 Feb 2023 00:36:04 -0800 (PST)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 15FCDB80DDF;
-        Tue, 28 Feb 2023 08:30:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB5A4C4339B;
-        Tue, 28 Feb 2023 08:30:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677573046;
-        bh=zfyCcSgjMdF8W+Qi+Rx8oUXMr1yNgfu4iPHvVxSYOB8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LMGsAnQbNrbjVKb8+G+fvfZ4Nx3S39oY87kWEOWgoASqKxZklJySw+eW9+drz71/m
-         nHyzIelfs3tpSqZuWrwsRJubwssfX0qjGKJnmNgas7ieS+7VFP6k9mlmd9xi1eeRfX
-         P2kCE8SBvTWSghstqqWyM9Gowrll5KV+9R3sc0jtFk8AoWaAQY2HBwgysKtT/uA501
-         OCNWtLD2YZndXSAnFQ/imEx8SFRy/BL+nt8Q1nalkbbR9nUt9oTwVnRj3h8iwp6jd/
-         ehKNXeHUFBz96U4bAzI/6CPWqiLWqA8R4t9cgqVOS3OQKSP+0aEBLKqvEwS82pJClX
-         RoCzQf6G8meQw==
-Received: by mail-ot1-f43.google.com with SMTP id q11-20020a056830440b00b00693c1a62101so5131346otv.0;
-        Tue, 28 Feb 2023 00:30:46 -0800 (PST)
-X-Gm-Message-State: AO0yUKUAermkDJRMBCGsXlcPQV1hW1Lg3+C1vuUD90mz2CGdDeG1LDoG
-        jbFP4fG0QThym3SbvC1ELSZZHile3d5KKQcearc=
-X-Google-Smtp-Source: AK7set9aGRiK5kBCfmomrGb0lL9fE6jbhl/PxUd9Omi+KWh6wTqYREe8s8vqpNLa4v0A7ZtRnJsCvFM9klVL3SNqFFE=
-X-Received: by 2002:a9d:705c:0:b0:688:cfcc:ddad with SMTP id
- x28-20020a9d705c000000b00688cfccddadmr711660otj.1.1677573045838; Tue, 28 Feb
- 2023 00:30:45 -0800 (PST)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C97536602E18;
+        Tue, 28 Feb 2023 08:36:01 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1677573362;
+        bh=sSCSNcAqqjG5p1vyPrPF5laJlyrHjAnoYyrkzT0wCBw=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=XHL41QU1m5Z4BwJXQIyYlnOOwEx/7A9c153+Idri0aMSGntkahLFPF3DYvkCGX20D
+         P+I5OlLsTyhGBusUPopLSfCGZgb2DVJI9Rn+Mt4wiqersYQr4aaWhQpFpajX5yAI1K
+         F9Yo5cxeMAhC9rmlDnzD4Hw7SSLP/uuBpbSzh8GMt80yLSm8MOkmAYz+BeCBelhTis
+         C4q+FAWUEnHMYxbRVFQYzkWGL0oJbxDSuo43ihRTG/0rUw5JhKqBJ+6ORyOXJPTk2i
+         zdcjgoMF4+Fo899Qq3U32VFjrVPBOwtbqUGw/YBziFrz7uKP1v2ISyZMqTdiHf98jd
+         YclbNjOLfMntA==
+Message-ID: <d86908b8-20b1-418e-d266-6532c012c8ea@collabora.com>
+Date:   Tue, 28 Feb 2023 09:35:59 +0100
 MIME-Version: 1.0
-References: <20230228031317.3415484-1-davidgow@google.com>
-In-Reply-To: <20230228031317.3415484-1-davidgow@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 28 Feb 2023 17:30:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASBznyHmAwSRApOHw_6dyAXFuskmtKav65xFwKZdvNWJw@mail.gmail.com>
-Message-ID: <CAK7LNASBznyHmAwSRApOHw_6dyAXFuskmtKav65xFwKZdvNWJw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kbuild: Add note about using (subst m,y)
-To:     David Gow <davidgow@google.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC 1/1] irqchip/gic-v3: Add RK3588 GICR and GITS no share
+ workaround
+Content-Language: en-US
+To:     Lucas Tanure <lucas.tanure@collabora.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sadiya Kazi <sadiyakazi@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Kever Yang <kever.yang@rock-chips.com>
+Cc:     linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+References: <20230227151847.207922-1-lucas.tanure@collabora.com>
+ <20230227151847.207922-2-lucas.tanure@collabora.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230227151847.207922-2-lucas.tanure@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 28, 2023 at 12:13=E2=80=AFPM David Gow <davidgow@google.com> wr=
-ote:
->
-> THe kbuild documentation already notes that, where there's an obj-y
-> target in a subdirectory, it will be orphaned if the subdirectory uses
-> obj-m. Suggest a way of forcing the directory to obj-y when it's based
-> on a config option which could be 'm'.
->
-> Linus made several suggestions as to how this is usually done here:
-> https://lore.kernel.org/linux-kselftest/CAHk-=3DwgK07PQ_DBBbAbSJ41t__6de1=
-xZ6q7RRu-JS=3D2SU0wqLQ@mail.gmail.com/
->
-> This only documents the first one, which seems most common.
->
-> Signed-off-by: David Gow <davidgow@google.com>
+Il 27/02/23 16:18, Lucas Tanure ha scritto:
+> The GIC600 integration in RK356x, used in rk3588, doesn't support
+> any of the shareability or cacheability attributes, and requires
+> both values to be set to 0b00 for all the ITS and Redistributor
+> tables.
+> 
+> Based on work of Peter Geis for the Quartz64 board.
+> 
+> Signed-off-by: Lucas Tanure <lucas.tanure@collabora.com>
 > ---
->  Documentation/kbuild/makefiles.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/ma=
-kefiles.rst
-> index e67eb261c9b0..d9eb24799f52 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -254,6 +254,17 @@ from that directory will be linked into vmlinux. If =
-the Makefile in
->  that directory specifies obj-y, those objects will be left orphan.
->  It is very likely a bug of the Makefile or of dependencies in Kconfig.
->
-> +This means that, if a directory contains both obj-y and obj-m targets,
-> +it should be added with obj-y. If this directory nevertheless should
-> +only be built when a config option is enabled (typically to support
-> +a module which requires one or two files to nevertheless be built-in),
-> +'subst m,y' can be used to ensure obj-y is used.
+>   Documentation/arm64/silicon-errata.rst |  4 +++
+>   arch/arm64/Kconfig                     | 13 ++++++++
+>   drivers/irqchip/irq-gic-v3-its.c       | 42 ++++++++++++++++++++++++++
+>   3 files changed, 59 insertions(+)
+> 
+> diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
+> index ec5f889d7681..b26cf8ca7d5c 100644
+> --- a/Documentation/arm64/silicon-errata.rst
+> +++ b/Documentation/arm64/silicon-errata.rst
+> @@ -209,3 +209,7 @@ stable kernels.
+>   +----------------+-----------------+-----------------+-----------------------------+
+>   | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
+>   +----------------+-----------------+-----------------+-----------------------------+
 > +
-> +Example::
+> ++----------------+-----------------+-----------------+-----------------------------+
+> +| RockChip       | RK3588          | N/A             | ROCKCHIP_NO_SHARE           |
+> ++----------------+-----------------+-----------------+-----------------------------+
+
+This should go after Qualcomm, as it looks like this file is ordered by name but
+for some reason Fujitsu got at the bottom.
+Just keep your new addition ordered.
+
+Besides, I propose the following:
+
+| RockChip       | RK3588          | N/A             | ROCKCHIP_ITS_ERRATUM       |
+
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 27b2592698b0..ad3f1742052b 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -1150,6 +1150,19 @@ config NVIDIA_CARMEL_CNP_ERRATUM
+>   
+>   	  If unsure, say Y.
+>   
+> +config ROCKCHIP_NO_SHARE
+
+config ROCKCHIP_ITS_ERRATUM ?? :-)
+
+> +	bool "Rockchip RK3588 GIC6000 No shareability or cacheability attributes"
+
+You've got a typo here: GIC6000.
+
+> +	default y
+> +	help
+> +	  The GIC600 integration in RK356x doesn't support any of the shareability or
+> +	  cacheability attributes, and requires both values to be set to 0b00 for all
+> +	  the ITS and Redistributor tables.
 > +
-> +  #drivers/Makefile
-> +  obj-$(subst m,y,$(CONFIG_HYPERV)) +=3D hv/
+> +	  Work around the issue by clearing the GICR_PROPBASER_SHAREABILITY_MASK from
+> +	  register reads at GICR and GITS.
 > +
+> +	  If unsure, say Y.
+> +
+>   config SOCIONEXT_SYNQUACER_PREITS
+>   	bool "Socionext Synquacer: Workaround for GICv3 pre-ITS"
+>   	default y
+> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
+> index 586271b8aa39..637e2e2a1ab1 100644
+> --- a/drivers/irqchip/irq-gic-v3-its.c
+> +++ b/drivers/irqchip/irq-gic-v3-its.c
+> @@ -42,6 +42,7 @@
+>   #define ITS_FLAGS_CMDQ_NEEDS_FLUSHING		(1ULL << 0)
+>   #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
+>   #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
+> +#define ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE	(1ULL << 3)
+>   
+>   #define RDIST_FLAGS_PROPBASE_NEEDS_FLUSHING	(1 << 0)
+>   #define RDIST_FLAGS_RD_TABLES_PREALLOCATED	(1 << 1)
+> @@ -2359,6 +2360,15 @@ static int its_setup_baser(struct its_node *its, struct its_baser *baser,
+>   	its_write_baser(its, baser, val);
+>   	tmp = baser->val;
+>   
+> +#if CONFIG_ROCKCHIP_NO_SHARE
+
+None of the other workarounds have an ifdef in parsing the flags, so I think
+that you can avoid enclosing this in a preprocessor `if` block.
+
+> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE) {
+> +		if (tmp & GITS_BASER_SHAREABILITY_MASK)
+> +			tmp &= ~GITS_BASER_SHAREABILITY_MASK;
+> +		else
+> +			gic_flush_dcache_to_poc(base, PAGE_ORDER_TO_SIZE(order));
+> +	}
+> +#endif
+> +
+>   	if ((val ^ tmp) & GITS_BASER_SHAREABILITY_MASK) {
+>   		/*
+>   		 * Shareability didn't stick. Just use
+> @@ -3057,6 +3067,7 @@ static void its_cpu_init_lpis(void)
+>   {
+>   	void __iomem *rbase = gic_data_rdist_rd_base();
+>   	struct page *pend_page;
+> +	struct its_node *its;
+>   	phys_addr_t paddr;
+>   	u64 val, tmp;
+>   
+> @@ -3096,6 +3107,12 @@ static void its_cpu_init_lpis(void)
+>   	gicr_write_propbaser(val, rbase + GICR_PROPBASER);
+>   	tmp = gicr_read_propbaser(rbase + GICR_PROPBASER);
+>   
+> +#if CONFIG_ROCKCHIP_NO_SHARE
+
+ditto.
+
+> +	its = list_first_entry(&its_nodes, struct its_node, entry);
+> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
+> +		tmp &= ~GICR_PROPBASER_SHAREABILITY_MASK;
+> +#endif
+> +
+>   	if ((tmp ^ val) & GICR_PROPBASER_SHAREABILITY_MASK) {
+>   		if (!(tmp & GICR_PROPBASER_SHAREABILITY_MASK)) {
+>   			/*
+> @@ -3120,6 +3137,11 @@ static void its_cpu_init_lpis(void)
+>   	gicr_write_pendbaser(val, rbase + GICR_PENDBASER);
+>   	tmp = gicr_read_pendbaser(rbase + GICR_PENDBASER);
+>   
+> +#if CONFIG_ROCKCHIP_NO_SHARE
+> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
+> +		tmp &= ~GICR_PENDBASER_SHAREABILITY_MASK;
+> +#endif
+> +
+>   	if (!(tmp & GICR_PENDBASER_SHAREABILITY_MASK)) {
+>   		/*
+>   		 * The HW reports non-shareable, we must remove the
+> @@ -4710,6 +4732,14 @@ static bool __maybe_unused its_enable_quirk_hip07_161600802(void *data)
+>   	return true;
+>   }
+>   
+> +static bool __maybe_unused its_enable_quirk_rk356x(void *data)
+> +{
+> +	struct its_node *its = data;
+> +
+> +	its->flags |= ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE;
+> +	return true;
+> +}
+> +
+>   static const struct gic_quirk its_quirks[] = {
+>   #ifdef CONFIG_CAVIUM_ERRATUM_22375
+>   	{
+> @@ -4755,6 +4785,14 @@ static const struct gic_quirk its_quirks[] = {
+>   		.mask	= 0xffffffff,
+>   		.init	= its_enable_quirk_hip07_161600802,
+>   	},
+> +#endif
+> +#ifdef CONFIG_ROCKCHIP_NO_SHARE
+
+here it's fine.
+
+> +	{
+> +		.desc	= "ITS: Rockchip RK356X/RK3588 doesn't support shareability",
+> +		.iidr	= 0x0201743b,
+> +		.mask	= 0xffffffff,
+> +		.init	= its_enable_quirk_rk356x,
+> +	},
+>   #endif
+>   	{
+>   	}
+> @@ -5096,6 +5134,10 @@ static int __init its_probe_one(struct resource *res,
+>   	gits_write_cbaser(baser, its->base + GITS_CBASER);
+>   	tmp = gits_read_cbaser(its->base + GITS_CBASER);
+>   
+> +#if CONFIG_ROCKCHIP_NO_SHARE
+
+...here it's not, again.
+
+> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
+> +		tmp &= ~GITS_CBASER_SHAREABILITY_MASK;
+> +#endif
+>   	if ((tmp ^ baser) & GITS_CBASER_SHAREABILITY_MASK) {
+>   		if (!(tmp & GITS_CBASER_SHAREABILITY_MASK)) {
+>   			/*
 
 
-I think many subsystems simply do
-
-obj-y  +=3D hv/
-
-
-I do not think we need to advertise hyperv's way
-since it does not look very pretty.
-
-
-
-
-
-
-
-Mostly, it looks like this:
-
-
-obj-y  +=3D kunit/
-
-and
-
-obj-$(CONFIG_KUNIT_HOOK)   +=3D hook.o
-
-
-
-
-
-
-
-Bikeshed:
-
-I think Linus' suggestion is OK, but
-the BSD style seems less ugly,
-of course, that is just a matter of style.
-
-
-obj-$(CONFIG_HYPERV:m=3Dy)   +=3D kunit/
-
-
-
-
->  Kbuild also supports dedicated syntax, subdir-y and subdir-m, for
->  descending into subdirectories. It is a good fit when you know they
->  do not contain kernel-space objects at all. A typical usage is to let
-> --
-> 2.39.2.722.g9855ee24e9-goog
->
-
-
---
-Best Regards
-Masahiro Yamada
+Regards,
+Angelo
