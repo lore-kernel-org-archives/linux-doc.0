@@ -2,86 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A7F6C64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 19:06:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D700C64EC7
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 19:14:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229662AbjB1TGC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 14:06:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37064 "EHLO
+        id S229733AbjB1TOp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 14:14:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229592AbjB1TGB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 14:06:01 -0500
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E844305FF
-        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 11:06:00 -0800 (PST)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-53852143afcso302334477b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 11:06:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jp-hosting.net; s=google;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=T5YAkEgvaiCl9tX6YlYNUEiVKoTeTiZHoRI7PUW6hZQ=;
-        b=B19osipC0T3RM+yR8sKkH/sNrtUXHUPsK0N9fVIDlgf/8Soq7DerG/LbV6EXBYPcIS
-         NVlw18qWttckm9e1xB+TP4kt8fFHMn434MMFhlYQEB8dEq89t7zJc2iFa7+pTIPg7ZNE
-         +pb2GdZsVIcYa5Rs8ichQ+NRtp1l8zY8y/a3xe28LWeHVIAgxQCCpZPnPkh9Zbnko0ip
-         TRWlh1lqf6Z53KjcC1YpdXRI2eFX8L2adRTAC/LtexW9W2XfMl6FGJBHmrurOQFVaouc
-         d78e44HrQe6C/V4nUvWhq7JCYmjO+TOy1nNJu/gPbmMddhyQSvILH3Bcoay1yN/qZ80s
-         g3Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=T5YAkEgvaiCl9tX6YlYNUEiVKoTeTiZHoRI7PUW6hZQ=;
-        b=VFQf7YVKQdDaNXygDM8y7Kru/sTtl6ciThJtwKHkkdP199YLmqur6zp58l6wGIZ3/V
-         J7ROtSWg0PG/J6EOvajdOzThYX0+CKvSO+87J+WEZMLTeGn3wpojsxlFcEYqAnsCYI3Z
-         oYWiIL/TwXHsRcgKDLzjDwyPTqTM+yHNdbVLG7fjFea/0kJlNrnYZ45TWsEGGyCoYuZj
-         RL9zIP9l0FSduKQQBmJs1207rgm8LzQD2nl8FHaYXsgoR91+3/nuIyHbpRexOing940k
-         P965TJbvjpO06AXAF09sj4/ndH4BlazdmrqjyJmmiCVaT6tvqujuKqoD0S25aCoBei/O
-         zTaA==
-X-Gm-Message-State: AO0yUKWrnW4sdttV0yUQDL6lPQ3uok1r/rS02s4zuMRT/YJLqe4HlzFS
-        H6sEC5LtF6kvP5XiMQix85wW7aQHteltmaRJavh69E2svDTkK98Db1U=
-X-Google-Smtp-Source: AK7set9auwWfF3wIN1q30rRtpdUmkonwyBMuaaRudbnZmPSKptNoCJ89EPkxhe1jBNWNXlbDVVv0W0QLvsyRWKtr9wg=
-X-Received: by 2002:a05:6902:1205:b0:a09:314f:9f09 with SMTP id
- s5-20020a056902120500b00a09314f9f09mr3766092ybu.6.1677611159575; Tue, 28 Feb
- 2023 11:05:59 -0800 (PST)
+        with ESMTP id S229445AbjB1TOp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 14:14:45 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8149A30B35
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 11:14:43 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 2F1B249B;
+        Tue, 28 Feb 2023 19:14:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2F1B249B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1677611682; bh=4rusV75kVasHUd8RbND76R6FYe7b4yAmv0qA7thUq7E=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=JwoXQO8iS95OiZjTk7+is3ycBnvdlPNL8zrwUOf9ULSgZLjo+tlVrFe7a0TdP1y5n
+         cQQmjgme5MIlJru2/8wx194DGB3HoLvdFC0Wd4WCyzD1TCkP5yx0vdeGeJ2fn/sNm6
+         ptQlEUfcvard/HuK+/5jfuhaESCCQ5ds1jQyemPvOOevPSrcmMKgNc8h3/Ol0LtYIf
+         vcHFIf6gRcjugYQABiH3RxXujFSCl32nsk5XNmiBmG4pv60DjIwPL3MftTCqUXOGjQ
+         Pndhchmfhi/CX2lA5MaC3QZfJtgXhtitjC+4H1CPqNjvaNrulW8qar1JUgMntZsk3X
+         iOhxZLH6CZJ4g==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     David Rientjes <rientjes@google.com>, linux-doc@vger.kernel.org,
+        kernel@pengutronix.de,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
+Subject: Re: [PATCH] docs: rebasing-and-merging: Drop wrong statement about git
+In-Reply-To: <20230228134657.1797871-1-u.kleine-koenig@pengutronix.de>
+References: <20230228134657.1797871-1-u.kleine-koenig@pengutronix.de>
+Date:   Tue, 28 Feb 2023 12:14:41 -0700
+Message-ID: <875yblzjoe.fsf@meer.lwn.net>
 MIME-Version: 1.0
-From:   James Addison <jay@jp-hosting.net>
-Date:   Tue, 28 Feb 2023 19:05:48 +0000
-Message-ID: <CALDQ5Ny1mbcUSk8pDL6HEq0Cgqze1tidyOeAgVxc5tyZNb+P_g@mail.gmail.com>
-Subject: [PATCH RESEND] Documentation: update kernel parameter limit notes
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There does appear to be a limit on the number of parameters accepted by the
-kernel at boot-time, so this changeset updates the kernel-parameters.rst
-documentation to reflect that.
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> writes:
 
-Signed-off-by: James Addison <jay@jp-hosting.net>
----
- Documentation/admin-guide/kernel-parameters.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> From: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
+>
+> The "^0" doesn't have the described effect to only do fast-forward merges.
+> For example
+>
+> 	git checkout 055efab3120b
+> 	git merge v5.2-rc1^0
+>
+> creates a normal merge commit. In fact "v5.2-rc1^0" only refers to the
+> commit the tag v5.2-rc1 points to.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.rst
-b/Documentation/admin-guide/kernel-parameters.rst
-index 19600c502..a3a099127 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -203,7 +203,8 @@ be entered as an environment variable, whereas its
-absence indicates that
- it will appear as a kernel argument readable via /proc/cmdline by programs
- running once the system is up.
+So that pattern came straight from Linus, and it still works fine for me
+- just tried it and got the expected fast-forward.  Maybe you have
+something in your git configuration that makes things behave
+differently?
 
--The number of kernel parameters is not limited, but the length of the
-+The number of kernel parameters is limited to 32 by default (128 in User Mode
-+Linux), and is defined in ./init/main.c as MAX_INIT_ARGS. The length of the
- complete command line (parameters including spaces etc.) is limited to
- a fixed number of characters. This limit depends on the architecture
- and is between 256 and 4096 characters. It is defined in the file
+That said...
 
-base-commit: e492250d5252635b6c97d52eddf2792ec26f1ec1
--- 
-2.39.2
+> Fixes: d95ea1a4e1fb ("docs: Add a document on repository management")
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
+> ---
+>  Documentation/maintainer/rebasing-and-merging.rst | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+>
+> diff --git a/Documentation/maintainer/rebasing-and-merging.rst b/Document=
+ation/maintainer/rebasing-and-merging.rst
+> index 09f988e7fa71..85800ce95ae5 100644
+> --- a/Documentation/maintainer/rebasing-and-merging.rst
+> +++ b/Documentation/maintainer/rebasing-and-merging.rst
+> @@ -213,11 +213,7 @@ point rather than some random spot.  If your upstrea=
+m-bound branch has
+>  emptied entirely into the mainline during the merge window, you can pull=
+ it
+>  forward with a command like::
+>=20=20
+> -  git merge v5.2-rc1^0
+> -
+> -The "^0" will cause Git to do a fast-forward merge (which should be
+> -possible in this situation), thus avoiding the addition of a spurious me=
+rge
+> -commit.
+> +  git merge --ff-only v5.2-rc1
+>=20=20
+
+Git was fixed a couple of years or so ago to do the fast-forward by
+default when it can, so the original advice in this file is unnecessary
+- as is --ff-only (most of the time).  So the patch is worth applying,
+but I may tweak the changelog some.
+
+Thanks,
+
+jon
