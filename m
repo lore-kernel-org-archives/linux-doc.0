@@ -2,114 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87046C64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 07:49:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE9AC64EC7
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 08:00:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbjB1HtB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 02:49:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38532 "EHLO
+        id S230323AbjB1H77 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 02:59:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbjB1HtA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 02:49:00 -0500
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F8021944;
-        Mon, 27 Feb 2023 23:48:59 -0800 (PST)
-Received: by mail-pl1-x62c.google.com with SMTP id i10so9497787plr.9;
-        Mon, 27 Feb 2023 23:48:59 -0800 (PST)
+        with ESMTP id S230267AbjB1H7o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 02:59:44 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E43962B638;
+        Mon, 27 Feb 2023 23:59:30 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id me6-20020a17090b17c600b0023816b0c7ceso4837395pjb.2;
+        Mon, 27 Feb 2023 23:59:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677570539;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IZ/cMOGvS9DzjygK7cuVRUjCO9JEh86G/ox5bXVC1DM=;
-        b=Ij0jwP9fnA69PUrdtWGb8EbhWqgJqexb3xA7TQc08Xu9EHMKIfbkBjj6k5SAkaP40s
-         eS31l/nj5qUoJw7wFfyl3+aj2F0r/UuyC7wLJ2jPzFcoNTD12Zcoy05swq2e71FdpcA1
-         rZI1mo7OlOr6fU5k648vHXFluETYrJtOiL/p7LGD1qtKkwRCUSEy8numijqUImZ4Zq3r
-         xaqqXW2PEc6nc5l/4Ig7aGxNpLCS0VGeO2zdxjQrReirAVcEjr6luYYrfl7Lv1CUoXqq
-         t92npfkOzY9LvMNUm+o7RaSEtTg1s6bK9uxsGWE8B7OTWp7+eH+goeJ+qk8X6PeXsL5d
-         v4ww==
+        d=gmail.com; s=20210112; t=1677571170;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uXTYFo40FyvmsbZ+pLf8ZZB+7BCz0ihNHXxTIcIpDNs=;
+        b=RVeSBRzbOa+EuQqmVJXUTPHOpSwhYuvUC/pM3VLqWIQBHBDw6fuRzLgmVhQS0ndwlJ
+         MoDg85fddy+3aEjTGHErwr4n7JU11ZbgFi+WkHzecd+zRBNR11QuiiWAnQde06TWV+hp
+         3W/N0ZAzMNPD1ulM+E8C6Kjj53QvTfwpST9PnMBAb9HC8zdx1e4PEgS7Be2lX+dnO2jj
+         pUo540b0IISYEQO6JqEMpcmXrKDPhsY5zm3DYFs+99awZLUR7rV/59Tc8dHsXr43zE0t
+         wI02jl9tyOh+/FcV3bPVsCGTwtiyvKH+yBG7iXROXsfNXUekN98XInqsBNehOP5FhdR2
+         zSNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677570539;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IZ/cMOGvS9DzjygK7cuVRUjCO9JEh86G/ox5bXVC1DM=;
-        b=GnZ1bl78bR87Vhpoq21YYFZmhaGEhl/BX2HMz9tytJ50PdpnF6GdpnPvLeirHdeCD9
-         IEm+zgc5c2czYXNQlwT3OP/5qGoHGziMqN9pjTw4EkHi6eNlyUuJjiB/GLvakQsQdVHa
-         6sk7b76uLSwSTcMLZpZDRm/NfTUT4r6oW/mrekFaGkXsXCC9mugO9jVRJFQ+9vLRILqq
-         Q4WwOSgABPjHkxVRyqxT6/ZmkjHfjYBtS+ALXCQQ+eZtYswjR7qUroh6FSCPwUZN6+md
-         27fPb5bxyboOmyIfBkIQL993eu/Q/ykmdq+Ju25x0rQFh0cWPcsMWoS9qkIYN9QvdwbU
-         dptA==
-X-Gm-Message-State: AO0yUKWeoUrRxNETuPN1GDvS6Ec2SayB5QnPMVqHC50OXkxCVQbitv5O
-        Lxj3s5HuVCRHq608DKSQlZA=
-X-Google-Smtp-Source: AK7set8eLvHNV7YHP1gioNaAbF6VlT10U9X1GZRH6Ak9TXlvMxUhS0gr+7q/4hJWQXEKtTgX1vK5EQ==
-X-Received: by 2002:a17:902:8542:b0:19c:eb42:883 with SMTP id d2-20020a170902854200b0019ceb420883mr1546287plo.49.1677570539275;
-        Mon, 27 Feb 2023 23:48:59 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-86.three.co.id. [180.214.232.86])
-        by smtp.gmail.com with ESMTPSA id v1-20020a1709028d8100b00194d2f14ef0sm5840192plo.23.2023.02.27.23.48.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Feb 2023 23:48:58 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 3407310105C; Tue, 28 Feb 2023 14:48:56 +0700 (WIB)
-Date:   Tue, 28 Feb 2023 14:48:56 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Daniel Borkmann <daniel@iogearbox.net>,
-        Linux BPF <bpf@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Ross Zwisler <zwisler@google.com>
-Subject: Re: [PATCH v2] Documentation: bpf: Fix link to BTF doc
-Message-ID: <Y/2x6KLsGecrIIok@debian.me>
-References: <20230222083530.26136-1-bagasdotme@gmail.com>
- <7cd545a2-4a5c-1961-1cf7-cd0f24e41df8@iogearbox.net>
+        d=1e100.net; s=20210112; t=1677571170;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uXTYFo40FyvmsbZ+pLf8ZZB+7BCz0ihNHXxTIcIpDNs=;
+        b=nk3O52QEvepqVOm3sg4ilNzDd5vDtJi4oasev8ybBYIlaFFnZs3gyALj10xEGk5dxL
+         YVdU5strdqqNTvW3bXYEnv/4OEuiWoJFOYQgm2E+KHc5eU4lTswdp0GgJu3eAOlJiEpc
+         YsblNT7aGL156cF0ei78WHV4fJFwHLB9PkV1HAacPNRJvuxXKpW33B48LHQnLUMYd9jd
+         Gwa5vvrhMReDJNHtJhnB2izhkCoQSb+PFufzfP4dcy0HNpgYMXgabX9XKzaDUTleRjJa
+         Zr2m9/OA66WTa5DZtamgPiPjogBGuCVqUmMPo7G5vFnS/ts6XSNTZQzGjKq1cPcc41f2
+         f+4Q==
+X-Gm-Message-State: AO0yUKU9Grbnga1kji2I0mDFGSQtLGM9LBk9aBJ0nnbmSTlQTYEm34Xw
+        hV7+CYKSYlYSbqxNo/fpmfs=
+X-Google-Smtp-Source: AK7set/eBaP+MaZDFG1k/pZohuSQ5/nA7B3iCLgoKqKaj9TNgHwIMwVMLk1B1qx7hRKNAhESTqGYzw==
+X-Received: by 2002:a17:90a:3ec7:b0:234:106a:3490 with SMTP id k65-20020a17090a3ec700b00234106a3490mr2374093pjc.40.1677571170373;
+        Mon, 27 Feb 2023 23:59:30 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-86.three.co.id. [180.214.232.86])
+        by smtp.gmail.com with ESMTPSA id fz2-20020a17090b024200b00233aeec339fsm7487535pjb.1.2023.02.27.23.59.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Feb 2023 23:59:29 -0800 (PST)
+Message-ID: <9f26074a-ee21-846a-46a3-072cc0630b4e@gmail.com>
+Date:   Tue, 28 Feb 2023 14:59:23 +0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="NknHNgPSc3zXNhzD"
-Content-Disposition: inline
-In-Reply-To: <7cd545a2-4a5c-1961-1cf7-cd0f24e41df8@iogearbox.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] Documentation: gpu: add acceleration node section
+To:     Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, ogabbay@kernel.org
+Cc:     Dylan Le <self@dylanle.dev>, David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org
+References: <7799513f0fb5aee27b64752c037980471be669c5.1677120686.git.self@dylanle.dev>
+ <Y/bqtlbnWkKMIJI4@debian.me>
+ <CAOCk7NrAKZ2G-VbQW3MJUZmkKkO1Ccrs2wo12kg6QHysH-d=Yg@mail.gmail.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <CAOCk7NrAKZ2G-VbQW3MJUZmkKkO1Ccrs2wo12kg6QHysH-d=Yg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2/27/23 23:43, Jeffrey Hugo wrote:
+> I'm thinking the drm_file.h reference is broken.  I suspect it should
+> reference Documentation/accel/index.rst
+> 
 
---NknHNgPSc3zXNhzD
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think so, but since the doc tree above only contains "Introduction"
+doc, the reference should be that doc, right?
 
-On Mon, Feb 27, 2023 at 10:11:52PM +0100, Daniel Borkmann wrote:
-> Applied, thanks! Looks like kselftest.rst has a similar issue, could you
-> send a fix for this too?
->=20
-
-The fixup is in the recently sent miniseries at [1].
-
-[1]: https://lore.kernel.org/linux-doc/20230228074523.11493-1-bagasdotme@gm=
-ail.com/
-
-Thanks!
-
---=20
+-- 
 An old man doll... just what I always wanted! - Clara
 
---NknHNgPSc3zXNhzD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY/2x5wAKCRD2uYlJVVFO
-ozomAP9wHAiFW7w91ha2sqjjxGSuQd1FWDB+nPzOJ62PKMVVaQEA1XFaqfEd4wkg
-5yiZyLLrL5Rxbr05XArUniNHcW0S3gM=
-=xS9a
------END PGP SIGNATURE-----
-
---NknHNgPSc3zXNhzD--
