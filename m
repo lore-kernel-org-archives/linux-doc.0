@@ -2,305 +2,179 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AE8AC64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 17:32:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D16FC64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 17:44:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbjB1Rco (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 12:32:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52932 "EHLO
+        id S229577AbjB1Ro3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 12:44:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjB1Rcn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 12:32:43 -0500
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 382C023D93;
-        Tue, 28 Feb 2023 09:32:42 -0800 (PST)
-Received: by mail-oi1-x234.google.com with SMTP id q15so8623634oiw.11;
-        Tue, 28 Feb 2023 09:32:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OS2xX+BtHdXwUDSZ5DQ0d8jK5T/XMeJmBIJDyEZsagY=;
-        b=Nk5WmDPHrcSVCD7pd3bZdYSqH3SpwxNlDXtzxaRNnhlyNLqKXPSct1od4XkzI40QiQ
-         z7EB7N5I5P5bQqUFd3+D9kddSyWv+K4d/FLj7tdhruhZfKeCm1tPz8SuHU7MIeEpP4nR
-         CEcd0Gn6snBz9w+NqiM6PXs46XEfwxvCXEawKfwVjXX2WW4Of4tGiBKPoxjnhR+3c9bq
-         2jG3Z/OCsq5/36H9wJsXaNo9SbWiBYkUi1nTFba1lFMx+JmIoNPwds9Bk3IOepBCJf82
-         4PDgVRCudfjWL3UXzSRym3O+ly+A2gdLEvj91BXpZZzOD2dCRiStd0wwRoWUtvyJBllc
-         oVoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OS2xX+BtHdXwUDSZ5DQ0d8jK5T/XMeJmBIJDyEZsagY=;
-        b=bWOINWGjZm5CD2OgGAU51fDEE33HIHSc3jbfTz0jBqRqxERcrEsIta7TbxNvdaSMmt
-         bBDYZ96qB/VVMTrA2ene5D4v+1oJiyyz18o36JdsmFM1281fddUA7gp2QAmcOGJf15OJ
-         IqluLp4yc5gMrG16eGruFDGL8zjfa7wVbrdDQElDscQW4ckISKq0CewvpDFQitv0JnT0
-         sFf/Hbxno4pl2fYRESLmIMvjnHL6q2P7MsyljtvX3zmZGGnSCSWDOstPe/GrGzdQSJZq
-         ZYISlKYVADV4AI/QUYxTMJz1+vpJ9jesJWSndPtD/XQMsiFs2RZ15pRNJalzVjIIt5kM
-         OxVA==
-X-Gm-Message-State: AO0yUKVQo7Zc6S2ErDvJogWvTI7vEB657zxOVtO1RgwbCWbMK+M77LzK
-        gvJdRbnMKOMsU4vbT+WQ/NBHJh5ystMKiCEfS/0=
-X-Google-Smtp-Source: AK7set9wDysrTDCY5oqefgdcjHb48vnAXtnE6xR8/CSF6XoQkO4OKA20wINQBgGtH/zvjgvAgUaBg0YapluvX8WDLFU=
-X-Received: by 2002:a05:6808:278c:b0:384:23ed:1ff6 with SMTP id
- es12-20020a056808278c00b0038423ed1ff6mr1079335oib.3.1677605561422; Tue, 28
- Feb 2023 09:32:41 -0800 (PST)
-MIME-Version: 1.0
-References: <20230227193535.2822389-1-robdclark@gmail.com> <20230227193535.2822389-2-robdclark@gmail.com>
- <20230228112154.207dc66c@eldfell>
-In-Reply-To: <20230228112154.207dc66c@eldfell>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Tue, 28 Feb 2023 09:32:30 -0800
-Message-ID: <CAF6AEGu3eCqK3ooWrArF9XS06Ad9cFjQn=kvwCVoioRjYJ9NmQ@mail.gmail.com>
-Subject: Re: [PATCH v7 01/15] dma-buf/dma-fence: Add deadline awareness
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
+        with ESMTP id S229445AbjB1Ro2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 12:44:28 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CA6223C4C;
+        Tue, 28 Feb 2023 09:44:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677606267; x=1709142267;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=R3H+Ip5kGhJWWZXsjnYOPSqNd9o31L4NZ8t8k00Wvis=;
+  b=Tu0FU4JGGSf1dbb25VP7l+zK4RL6vBWqMi33/Qo2epyxSTLwvRjv6Mzm
+   tYRUJSgbZqGauyjty4T1+OTBujr/fmxgfoQMcfPM4fLQnm2QUSf5Br9SO
+   t/cRkR3teKHasX496m8ARFhLakijggbKNi9DKhbdm2666sJLf3bCo6PCH
+   HN1aiallJ4Nv94KvNuTrEjcWxp+/wOlehTj5axyPBSdiaXLJRaEfc3BAK
+   BzGt/LrfAk9M9au4U3LweVbWOa60+HJwNNpNo/5DwtjsR5zXEJPZHCPIZ
+   N8RJDq0qQn/dgMXZToniuRtN81CcdCgwtQ/wanUEV/78iAP/snKMR08Lf
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="335691922"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="335691922"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 09:44:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="919855277"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="919855277"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga006.fm.intel.com with ESMTP; 28 Feb 2023 09:44:26 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 28 Feb 2023 09:44:25 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Tue, 28 Feb 2023 09:44:25 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.102)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Tue, 28 Feb 2023 09:44:25 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BdMdb5JZAiPmjmpOH7+Ns775hn0g5ES5H5DS1d1WHUc5GKl1WWQe9o306HVUD33v97syhNCaSbn7eecXKXSmUbCsg5XZdaFSK3OF4Gya6Tbnr51LkRdSFDj8VPwvDt+5+6tNmc+HF3Fm59ssig1dptSZW3gKjMqzQnOmudsIAUqjrkRXJT+1N2I40AqUmHv/IBl7XZT/W5M6Qvo5dpKSTxavXUyBLyu1nXBYq2BuU6ZTywwIgRh3ZNX/VggIP8oxS4qSYIVrMveVCM3rmKH7YB7GydfHLrwOyBOOXoQo4j6tnkW26JRMdP+jgWmG0CidsVs5/VOfcXGkMNY6NS0DVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R3H+Ip5kGhJWWZXsjnYOPSqNd9o31L4NZ8t8k00Wvis=;
+ b=KNec5EhXUWmlWGkQQ8aI99hN+Iit1fp9p+vce6wTP5KjcqCRDQDteQPdWJFjmxa78cOfI33xZH8Fa3vvAjkumsP3kuwSpB3O+OT8az9yB/an03Lfz4NS/S3NCxqJgOvuJY78Nun+Z8kjho97/4N5VrTn1rHJ51H5HcJVjTF3/t0EqAZCM79OjsuCfG2xBF83RY3RevpfC2Vd8RC+c7R99LEFTy+ol3pmTOsL44HfAAh3Myh9XPbTzs/g2xqJafiXFa2KEv5M0eGiwKPBi7uYX953+D6jvTuXel3GikdMo89MyEBmva6fNiHwTavEv9f9wuUYAaEkhAmRm1xw3UyFNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by MN0PR11MB6088.namprd11.prod.outlook.com (2603:10b6:208:3cc::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.30; Tue, 28 Feb
+ 2023 17:44:23 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::ee6a:b9b2:6f37:86a1]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::ee6a:b9b2:6f37:86a1%9]) with mapi id 15.20.6134.026; Tue, 28 Feb 2023
+ 17:44:23 +0000
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     James Morse <james.morse@arm.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        Peter Newman <peternewman@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        "x86@kernel.org" <x86@kernel.org>
+CC:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: RE: [PATCH 5/7] x86/resctrl: Add a new "snc_ways" file to the
+ monitoring info directory.
+Thread-Topic: [PATCH 5/7] x86/resctrl: Add a new "snc_ways" file to the
+ monitoring info directory.
+Thread-Index: AQHZMbXqvyw4Gquwq0Cl2irBA6p5sK7kzIsAgAAEZcA=
+Date:   Tue, 28 Feb 2023 17:44:23 +0000
+Message-ID: <SJ1PR11MB60837DC9C2E04AD3CBF3CA67FCAC9@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20230126184157.27626-1-tony.luck@intel.com>
+ <20230126184157.27626-6-tony.luck@intel.com>
+ <a95d0200-da28-4fbe-2bfe-ff948b4c2801@arm.com>
+In-Reply-To: <a95d0200-da28-4fbe-2bfe-ff948b4c2801@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|MN0PR11MB6088:EE_
+x-ms-office365-filtering-correlation-id: ce84fc43-b71a-45ec-ef93-08db19b36d95
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: aCqYbuiIdztIPrNweE/fP9KKajTyk+pU1Xe83bn1nGCv2P5I1IwOwkfsqzvjhUCtMJYYcuFcxeWk9NVOLdCmehSw1NQEtq3eSHRvnzBatK9SePkA5I3M6DpP05hk6sH1z7SZrsRsvFBdAY3H/AcICQeIKKrViyh9d7+wj1AxkPzE8eTenzuro2/E2MdIzKDrJVYrbPu35tQ3zPEZp4+Lj29NeWB4QESUADygNQ7xMOEkLJhQwv8LIY1ACAdWsnlWSHxDl4jEk93TheipNq4kkNEHH2H/WPuVReOrFudIIhqqLbf+cD7dowGN2gwhGLBn3nw55W/HVgQVtSLlSTq+1Kp5511yUnEkKUK8XfiE1OQ64CTafZh46FOu/5SxDG3kxNkYOc0n9TtyO2kHWL7ll3otMqDEN121hVrtvGdBKlwa7jsZvxJRnBVO+b2Tv1tQH62XPflEjq7HKSt3/a0I03djlmWLzs8APjz/FsLGk6sXLBkEfrcfsS06hwm+s6C+MeKHO5gwLJE5N3JRw0WI/c/v8gJ8oF3ldWGtdevfEzzSqBiYQUnr4w182jJ2IVDX4enWXZbZtku1nrHMjnP1Rbk+sqyMmXgIwEdHyZDVXEgH1Y7EiqY0n0Zy4bkGU7ILQvnwaN+gC/mL1r6gjaMjMGc2asV4EGaQkWTuRfkgYej51jwZ6EG/rLrwzKEPdNMq9zqbS/SMENThKHDPXDrV7w==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(346002)(39860400002)(136003)(376002)(396003)(451199018)(38100700002)(122000001)(38070700005)(82960400001)(4326008)(86362001)(33656002)(2906002)(4744005)(66446008)(64756008)(7416002)(66946007)(66556008)(66476007)(55016003)(41300700001)(5660300002)(8936002)(8676002)(76116006)(6506007)(9686003)(186003)(110136005)(26005)(54906003)(52536014)(478600001)(316002)(7696005)(71200400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Z2wyVFFSci81Q0RCWStpQk9TVFQyUk5Va3RpL3dNa1RBRldqMjBoVXQ5Vnow?=
+ =?utf-8?B?QjJBbGFld1p2QTl1VmpRTFRJRUVmRG1qS01VQ2I4aWV5aWFqaWVic0QwVHBW?=
+ =?utf-8?B?TVZKUUNSd3VQL3BVdUwxdE45ZVcxd1RzR0hjWE13UnIvNU9QbTYvZm14elc1?=
+ =?utf-8?B?dFpVUTJpOXV4RURYL3hWM2lDalVNaVlPSFBCWkFkMWdNWWEwM2lpMW1oV000?=
+ =?utf-8?B?SXBQNGlWUzI2SVF2WkhFaW0ydHFkQjNJUVZXZy9hdlgxdHNuWlZIenFsdzF5?=
+ =?utf-8?B?U2hnKzdYamNkNzhleks1bUFkcjNuM3dBbERLOFJMRkRFdHFTT01oWkhwNGNP?=
+ =?utf-8?B?Qndzb2xqK1EzaFhjTEVnbEYyV2djV2UrOGdMWm5kL0o3MjRrai9EWG00czlM?=
+ =?utf-8?B?L1FYN1NlVzN0N0JUa3VEdnBRaG1KL2MzQzJPN1lQWFpmMDRnZDVhSXhUeG0w?=
+ =?utf-8?B?U3lxeVRxV09vdG9VaklHYzVqRnNLRXdWa2NzcVdCL2JZamVobW5RZm1EQnpo?=
+ =?utf-8?B?RmJ3WDRZcjhiMEI2V1ZSWWRXZ0o3QWZ3alhXT1F4Tkc1V1VsdHYrNXUvcmdj?=
+ =?utf-8?B?c1BLTjFHalVRT3o3dUQ2eGlkV25lZm9qQVN5eThoa0kyVjczT3cyUXFTNGRE?=
+ =?utf-8?B?VDFZTFJ2VUFJd20ycDBPS2JoWS9XcFpvK3ZyWWhXYkFEeVhxTU10V0VFc0V1?=
+ =?utf-8?B?bjlJNG1KZnlBcWd0Q2RmOGE2NmRLSVdBVDVUTzhFa3dLVkRHSE12YktjNHR2?=
+ =?utf-8?B?TllTc1JVaWVKdGRaYU1mRW1MUG5MUGY0NGhnYkVxSTAyU2pKTUlKUW14SUtP?=
+ =?utf-8?B?RWlJUFUzcExmNDBVVVJJWEtCbnRUN2Fielhya0s4aG5seEhQN2luQnoxS2l3?=
+ =?utf-8?B?RjY3NGZGR1RlUzA1d2JONUVwTDk2cEZmdlNnalVSM3dBazhjMDRtM0wwaFF0?=
+ =?utf-8?B?a1ZjT2dMekZHTFJsTWlHK1hvNVJCK1lHRS80QjR1b0lOY1Z3eFRkM1cwd1hX?=
+ =?utf-8?B?M1JYdURYMzR0Q1F6OStuOGdDNzZ4V05UenMvdi9RVXNxeE00S3lPV3RnQ1Jz?=
+ =?utf-8?B?RDRBUkUyclJYNTRrbkJsNDdIYnVXc3l1aWp4S1BHa2lBeExVNnQ2eFhsdUdS?=
+ =?utf-8?B?UDNReWF6Wm5vK25jbFNTVytvMFNoYVpySGl5a09LTjIvc1Y4QW5NVEFqWVQr?=
+ =?utf-8?B?UlNIMkVmRmZNOHdDeDJHVlR5NnZSOVZsSFhIZWd0K3B6bEd3UHIwTDZ6QzJa?=
+ =?utf-8?B?Y2dacDMwdlZFQXJIZzBnWXhtYk10bGZUYmdyRnlCQ2t2cjRiMW44TXhKUi9w?=
+ =?utf-8?B?cEp2TzFEVzVoQURwYy9WcGoxZTNuNEM2N1JMeU1TczBKWUY4VExEWk52ZUs1?=
+ =?utf-8?B?QWwwd2t0Y1NzSGo5MC9uTXA4dHNYYk9zcy8vUVpTTURoWGZyTG1kY1dnZCs4?=
+ =?utf-8?B?TjdEVU5hdGZDRHhjejJBQzh1T2FXOThPVDNzYklCeHpBblJGLzhsUXNoOWVm?=
+ =?utf-8?B?VlVmSWdTeHQ0YjhNckM2R2k1cmt2SnlNbmdEQk9ITWd3ajNJcGttSnFwRlBH?=
+ =?utf-8?B?d0Ezd3R5S1BDTTdONUl2TjZOWEVkelFtYkJrK28zZTVpNU5zeUszS0UvR3lp?=
+ =?utf-8?B?TlpJOHEwU3pRRXYxTnBLL2xCWmtXSVhYVXQ0RlRNV0dwYlFtbFhOR0J2SDV2?=
+ =?utf-8?B?T3hsZEpkRHdvVXo0UHBIRlpQWTVyNTVJNHhTZklOWkorMFgvQm5CQ2s1Tmhj?=
+ =?utf-8?B?b2VlaHdXc1B3S3RYSEN0MmNjNXpKT0htMHN6dVc4V2k4bEttdzNuVDdlcHBu?=
+ =?utf-8?B?Ty9xUVRVSlIzdXQyRjA5UlRSVzl4S2RQK0cvZi9NQkVKYS93V01lSnIvNmF0?=
+ =?utf-8?B?QkFIaHVadFAzRkJkbUp4azhQNDZoODBoUXdlUGh6TkI1T0o0c0VLZGhCT3lp?=
+ =?utf-8?B?NmNMbFROZkVKdTVpQmVPVlBlbVVVVlNyTjBISlk4aDZiSktpY0NYbm55VWRx?=
+ =?utf-8?B?RjhtdXFoeTVEMFJwdThQMHdUa3FGRjM4QUlKSXZ2VkpEaVhNMnBXOEJnL3d4?=
+ =?utf-8?B?RHVOUllpanhKZmVkWSs4T0dzWmFuSGd6aitzeGsvVXJBMkl0ODRpcGFkendr?=
+ =?utf-8?Q?JoZrzJNzR1bca4rGqOM3EWOw8?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce84fc43-b71a-45ec-ef93-08db19b36d95
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Feb 2023 17:44:23.0971
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: o3Hh59urgI0i4Q3FDxQ20LTOxWAFeJbeLgC6h7tPxUuoJHh0da9Rs/P7sOx3DzHCUdghfKV9CmoHbuJ0Q2TNDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6088
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 28, 2023 at 1:21 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> On Mon, 27 Feb 2023 11:35:07 -0800
-> Rob Clark <robdclark@gmail.com> wrote:
->
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Add a way to hint to the fence signaler of an upcoming deadline, such a=
-s
-> > vblank, which the fence waiter would prefer not to miss.  This is to ai=
-d
-> > the fence signaler in making power management decisions, like boosting
-> > frequency as the deadline approaches and awareness of missing deadlines
-> > so that can be factored in to the frequency scaling.
-> >
-> > v2: Drop dma_fence::deadline and related logic to filter duplicate
-> >     deadlines, to avoid increasing dma_fence size.  The fence-context
-> >     implementation will need similar logic to track deadlines of all
-> >     the fences on the same timeline.  [ckoenig]
-> > v3: Clarify locking wrt. set_deadline callback
-> > v4: Clarify in docs comment that this is a hint
-> > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> > v6: More docs
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > ---
-> >  Documentation/driver-api/dma-buf.rst |  6 +++
-> >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++++++
-> >  include/linux/dma-fence.h            | 20 ++++++++++
-> >  3 files changed, 85 insertions(+)
-> >
-> > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/drive=
-r-api/dma-buf.rst
-> > index 622b8156d212..183e480d8cea 100644
-> > --- a/Documentation/driver-api/dma-buf.rst
-> > +++ b/Documentation/driver-api/dma-buf.rst
-> > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
-> >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
-> >     :doc: fence signalling annotation
-> >
-> > +DMA Fence Deadline Hints
-> > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > +   :doc: deadline hints
-> > +
-> >  DMA Fences Functions Reference
-> >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > index 0de0482cd36e..e103e821d993 100644
-> > --- a/drivers/dma-buf/dma-fence.c
-> > +++ b/drivers/dma-buf/dma-fence.c
-> > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **fenc=
-es, uint32_t count,
-> >  }
-> >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> >
-> > +/**
-> > + * DOC: deadline hints
-> > + *
-> > + * In an ideal world, it would be possible to pipeline a workload suff=
-iciently
-> > + * that a utilization based device frequency governor could arrive at =
-a minimum
-> > + * frequency that meets the requirements of the use-case, in order to =
-minimize
-> > + * power consumption.  But in the real world there are many workloads =
-which
-> > + * defy this ideal.  For example, but not limited to:
-> > + *
-> > + * * Workloads that ping-pong between device and CPU, with alternating=
- periods
-> > + *   of CPU waiting for device, and device waiting on CPU.  This can r=
-esult in
-> > + *   devfreq and cpufreq seeing idle time in their respective domains =
-and in
-> > + *   result reduce frequency.
-> > + *
-> > + * * Workloads that interact with a periodic time based deadline, such=
- as double
-> > + *   buffered GPU rendering vs vblank sync'd page flipping.  In this s=
-cenario,
-> > + *   missing a vblank deadline results in an *increase* in idle time o=
-n the GPU
-> > + *   (since it has to wait an additional vblank period), sending a sin=
-gle to
->
-> Hi Rob,
->
-> s/single/signal/ ?
-
-oops, yes
-
-> > + *   the GPU's devfreq to reduce frequency, when in fact the opposite =
-is what is
-> > + *   needed.
-> > + *
-> > + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_f=
-ence_set_deadline.
-> > + * The deadline hint provides a way for the waiting driver, or userspa=
-ce, to
-> > + * convey an appropriate sense of urgency to the signaling driver.
-> > + *
-> > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for use=
-rspace
-> > + * facing APIs).  The time could either be some point in the future (s=
-uch as
-> > + * the vblank based deadline for page-flipping, or the start of a comp=
-ositor's
-> > + * composition cycle), or the current time to indicate an immediate de=
-adline
-> > + * hint (Ie. forward progress cannot be made until this fence is signa=
-led).
->
-> As "current time" not a special value, but just an absolute timestamp
-> like any other, deadlines already in the past must also be accepted?
-
-Yes, well "current time" is already in the past after the next clock
-tick, so deadlines already passed should be accepted.  I've been
-trying to avoid advocating zero as a special value, but I guess
-realistically we don't have a rollover problem for a couple hundred
-years.  In any case, I think `deadline < now` should be allowed (ie.
-what if you were preempted in the process of setting a deadline, etc)
-
-I'll try to clarify this in the next version.
-
-BR,
--R
-
-> > + *
-> > + * Multiple deadlines may be set on a given fence, even in parallel.  =
-See the
-> > + * documentation for &dma_fence_ops.set_deadline.
-> > + *
-> > + * The deadline hint is just that, a hint.  The driver that created th=
-e fence
-> > + * may react by increasing frequency, making different scheduling choi=
-ces, etc.
-> > + * Or doing nothing at all.
-> > + */
->
-> Yes! Thank you for writing this! Well explained.
->
-> > +
-> > +/**
-> > + * dma_fence_set_deadline - set desired fence-wait deadline hint
-> > + * @fence:    the fence that is to be waited on
-> > + * @deadline: the time by which the waiter hopes for the fence to be
-> > + *            signaled
-> > + *
-> > + * Give the fence signaler a hint about an upcoming deadline, such as
-> > + * vblank, by which point the waiter would prefer the fence to be
-> > + * signaled by.  This is intended to give feedback to the fence signal=
-er
-> > + * to aid in power management decisions, such as boosting GPU frequenc=
-y
-> > + * if a periodic vblank deadline is approaching but the fence is not
-> > + * yet signaled..
-> > + */
-> > +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-> > +{
-> > +     if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
-> > +             fence->ops->set_deadline(fence, deadline);
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_set_deadline);
-> > +
-> >  /**
-> >   * dma_fence_describe - Dump fence describtion into seq_file
-> >   * @fence: the 6fence to describe
-> > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > index 775cdc0b4f24..87c0d846dbb4 100644
-> > --- a/include/linux/dma-fence.h
-> > +++ b/include/linux/dma-fence.h
-> > @@ -257,6 +257,24 @@ struct dma_fence_ops {
-> >        */
-> >       void (*timeline_value_str)(struct dma_fence *fence,
-> >                                  char *str, int size);
-> > +
-> > +     /**
-> > +      * @set_deadline:
-> > +      *
-> > +      * Callback to allow a fence waiter to inform the fence signaler =
-of
-> > +      * an upcoming deadline, such as vblank, by which point the waite=
-r
-> > +      * would prefer the fence to be signaled by.  This is intended to
-> > +      * give feedback to the fence signaler to aid in power management
-> > +      * decisions, such as boosting GPU frequency.
-> > +      *
-> > +      * This is called without &dma_fence.lock held, it can be called
-> > +      * multiple times and from any context.  Locking is up to the cal=
-lee
-> > +      * if it has some state to manage.  If multiple deadlines are set=
-,
-> > +      * the expectation is to track the soonest one.
-> > +      *
-> > +      * This callback is optional.
-> > +      */
-> > +     void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
-> >  };
-> >
-> >  void dma_fence_init(struct dma_fence *fence, const struct dma_fence_op=
-s *ops,
-> > @@ -583,6 +601,8 @@ static inline signed long dma_fence_wait(struct dma=
-_fence *fence, bool intr)
-> >       return ret < 0 ? ret : 0;
-> >  }
-> >
-> > +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)=
-;
-> > +
-> >  struct dma_fence *dma_fence_get_stub(void);
-> >  struct dma_fence *dma_fence_allocate_private_stub(void);
-> >  u64 dma_fence_context_alloc(unsigned num);
->
-> This is exactly what I wanted to see. Already
-> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
->
->
-> Thanks,
-> pq
+PiA+IE1ha2UgaXQgZWFzeSBmb3IgdGhlIHVzZXIgdG8gdGVsbCBpZiBTdWItTlVNQSBDbHVzdGVy
+IGlzIGVuYWJsZWQgYnkNCj4gPiBwcm92aWRpbmcgYW4gaW5mby8gZmlsZS4NCj4NCj4gSSB0aGlu
+ayB3aGF0IHRoaXMgaXMgY29udmV5aW5nIHRvIHVzZXItc3BhY2UgaXMgJ2RvbWFpbl9pZF9pc19u
+dW1hX25vZGUnLg0KDQpUaGF0IHNlZW1zIG1vcmUgYXJjaGl0ZWN0dXJhbGx5IG5ldXRyYWwuIEkg
+bGlrZSBpdC4NCg0KPiBEb2VzIHVzZXItc3BhY2UgbmVlZCB0byBrbm93IHRoZSBudW1iZXIgb2Yg
+d2F5cz8NCg0KSSBkb24ndCBrbm93LiBNYXliZSBzb21lIG1pZ2h0LiBQZXJoYXBzIHRoZXJlIGlz
+IHNvbWUgYmV0dGVyIG5hbWUgdGhhdA0KaXMgYXJjaGl0ZWN0dXJhbGx5IG5ldXRyYWwsIGJ1dCBz
+dGlsbCBoYXMgYSBudW1lcmljYWwgcmF0aGVyIHRoYW4gYm9vbGVhbiB2YWx1ZT8NCg0KPiBXaWxs
+IHRoaXMgYWx3YXlzIGJlIGEgc2luZ2xlIG51bWJlciwgb3Igd2lsbCBpdCBldmVyIGJlIHBvc3Np
+YmxlIHRvIGhhdmUgYW4gU05DPTIgYW5kDQo+IFNOQz0xIHBhY2thZ2UgaW4gdGhlIHNhbWUgc3lz
+dGVtPw0KDQpJIHNpbmNlcmVseSBob3BlIHRoYXQgaXQgaXMgdGhlIHNhbWUgdmFsdWUgYWNyb3Nz
+IHRoZSBzeXN0ZW0uIEN1cnJlbnRseSB0aGUNCkJJT1Mgc2V0dXAgb3B0aW9uIHRvIGVuYWJsZSBT
+TkMgZG9lc24ndCBoYXZlIHBlci1zb2NrZXQgY2hvaWNlcywgaXQgaXMNCmp1c3QgYW4gYWxsLW9y
+LW5vdGhpbmcgY2hvaWNlLiAiMiIgaXNuJ3QgdGhlIG9ubHkgY2hvaWNlIGZvciBudW1iZXIgb2Yg
+U05DDQpub2RlcyBvbiBhIHNvY2tldC4gIjQiIGlzIChvciB3aWxsIGJlKSBhIGNob2ljZS4NCg0K
+LVRvbnkNCg==
