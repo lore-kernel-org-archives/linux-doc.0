@@ -2,115 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8739FC7EE2E
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 01:30:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5530C7EE2E
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 01:58:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229629AbjB1Ba3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 20:30:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39924 "EHLO
+        id S229524AbjB1B6G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 20:58:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229558AbjB1Ba2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 20:30:28 -0500
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DDD046A6
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 17:30:27 -0800 (PST)
-Received: by mail-qt1-x82d.google.com with SMTP id c19so8872889qtn.13
-        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 17:30:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EuMQ4R7Qcpzp+24B3X8Yl/9yUt6uqVFoa6RSbqcjeIs=;
-        b=O/BNoI/bjDmKlfOByyzuulTXcHp5SUbRqGfj7S7wmalXNQbMw9EVxdYHrAseqJAKiN
-         jLMgDufyroK/6c4CRtZePBt4DV1vdZp/RTM1LheCrhD365AVTTRvutIjw6YZTcx0VZfA
-         eCwyTGl7qT4tK7neqUgNGkGQAexQEc03nXBjA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EuMQ4R7Qcpzp+24B3X8Yl/9yUt6uqVFoa6RSbqcjeIs=;
-        b=eARBN5R9W146QdaZK+yA4TALS35Yoyz+wu+waC6N/jxiRB3uJV4Ig8exBfsT8rTse1
-         eBvnsNUlvkai12ofo7b+LyDvKGJFaTsCBCvBqRExE5+LqYO9D5T7z5Iaf2sm2Ds7kURZ
-         wp1Db0a6nPnUWIJU4pITfYZHtuWsJPMptNMpzcqljguTiSUrIWA180TOtucFWYujyeFk
-         TXo8fyN5J4CtHyjp8pBG9+gfspjtGRVUBBDm1l5rcGC7He4747mAizS/CoBItg2Z74RM
-         VHYAt/DpMg2sEddKUkj0k9zQr/FzT/v++SjuRirdsan/ommom4ay5rB6CtkbHImKj83s
-         9Adg==
-X-Gm-Message-State: AO0yUKWVjmgsJSfB9nAX5tvKmSquGh9TsrvfH0Nxvemzl6yL5Gmn/kl3
-        /B/ZFRtGtkdyHunhayusj1i9ZA==
-X-Google-Smtp-Source: AK7set+gzmpHwGjyqAH6OmnNysxwS8GhOVYZrcGN/dDY8QQ38IcGvcm+qQyKvVQ2LWTIavMzLD4X+Q==
-X-Received: by 2002:ac8:5848:0:b0:3bf:a72f:d0bd with SMTP id h8-20020ac85848000000b003bfa72fd0bdmr2602796qth.3.1677547826325;
-        Mon, 27 Feb 2023 17:30:26 -0800 (PST)
-Received: from localhost (129.239.188.35.bc.googleusercontent.com. [35.188.239.129])
-        by smtp.gmail.com with ESMTPSA id g2-20020ac870c2000000b003b868cdc689sm5690048qtp.5.2023.02.27.17.30.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Feb 2023 17:30:25 -0800 (PST)
-Date:   Tue, 28 Feb 2023 01:30:25 +0000
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Frederic Weisbecker <frederic@kernel.org>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
- completed
-Message-ID: <Y/1ZMXsNZtwYPJNW@google.com>
-References: <Y/z0fHHYdxEXcWMT@pc636>
- <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
- <Y/z9Its1RKetIr8V@pc636>
- <CAEXW_YSjT_orp8TbomBFU+ETS7YJ7TrbHTdrsBRTzCKG5_SBdw@mail.gmail.com>
- <20230227230502.GJ2948950@paulmck-ThinkPad-P17-Gen-1>
- <Y/0/dnmIk508sidK@lothringen>
+        with ESMTP id S229491AbjB1B6G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 20:58:06 -0500
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86CC77DBD;
+        Mon, 27 Feb 2023 17:58:03 -0800 (PST)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 4649624E36E;
+        Tue, 28 Feb 2023 09:57:57 +0800 (CST)
+Received: from EXMBX172.cuchost.com (172.16.6.92) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 28 Feb
+ 2023 09:57:57 +0800
+Received: from [192.168.125.82] (113.72.145.171) by EXMBX172.cuchost.com
+ (172.16.6.92) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 28 Feb
+ 2023 09:57:56 +0800
+Message-ID: <db0036f5-e904-36b2-b3f5-3b0c520ca6aa@starfivetech.com>
+Date:   Tue, 28 Feb 2023 09:57:55 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y/0/dnmIk508sidK@lothringen>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v5 2/2] hwmon: (sfctemp) Add StarFive JH71x0 temperature
+ sensor
+Content-Language: en-US
+To:     Conor Dooley <conor.dooley@microchip.com>
+CC:     <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+        Samin Guo <samin.guo@starfivetech.com>,
+        <linux-kernel@vger.kernel.org>
+References: <20230227134125.120638-1-hal.feng@starfivetech.com>
+ <20230227134125.120638-3-hal.feng@starfivetech.com> <Y/y4LunvriV2RYwu@wendy>
+From:   Hal Feng <hal.feng@starfivetech.com>
+In-Reply-To: <Y/y4LunvriV2RYwu@wendy>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [113.72.145.171]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX172.cuchost.com
+ (172.16.6.92)
+X-YovoleRuleAgent: yovoleflag
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 28, 2023 at 12:40:38AM +0100, Frederic Weisbecker wrote:
-> On Mon, Feb 27, 2023 at 03:05:02PM -0800, Paul E. McKenney wrote:
-> > On Mon, Feb 27, 2023 at 02:10:30PM -0500, Joel Fernandes wrote:
-> > 
-> > The combination of sysfs manipulated by userspace and a kernel failsafe
-> > makes sense to me.  Especially if by default triggering the failsafe
-> > splats.  That way, bugs where userspace fails to update the sysfs file
-> > get caught.
-> > 
-> > The non-default silent-failsafe mode is also useful to allow some power
-> > savings in advance of userspace getting the sysfs updating in place.
-> > And of course the default splatting setup can be used in internal testing
-> > with the release software being more tolerant of userspace foibles.
+On Mon, 27 Feb 2023 14:03:26 +0000, Conor Dooley wrote:
+> On Mon, Feb 27, 2023 at 09:41:25PM +0800, Hal Feng wrote:
+>> From: Emil Renner Berthing <kernel@esmil.dk>
+>> 
+>> Add driver for the StarFive JH71x0 temperature sensor. You
+>> can enable/disable it and read temperature in milli Celcius
+>> through sysfs.
+>> 
+>> Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+>> Co-developed-by: Samin Guo <samin.guo@starfivetech.com>
+>> Signed-off-by: Samin Guo <samin.guo@starfivetech.com>
+>> Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
 > 
-> I'm wondering, this is all about CONFIG_RCU_LAZY, right? Or does also expedited
-> GP turned off a bit early or late on boot matter for anybody in practice?
+>> +config SENSORS_SFCTEMP
+>> +	tristate "Starfive JH71x0 temperature sensor"
+>> +	depends on SOC_STARFIVE || COMPILE_TEST
+> 
+> We (or I?) am trying to homogenise RISC-V with the rest of the kernel by
+> using ARCH_FOO rather than SOC_FOO. We've currently got a mix of both,
+> due to companies that started out with RISC-V having SOC_ symbols &
+> those with history in other archs having ARCH_ ones.
+> The ARCH_ definitions landed in mainline this week, so if you end up
+> resubmitting this driver, it'd save me a conversion if you were to use
+> the ARCH_ variant.
 
-Yes, if you provide 'rcu_normal_after_boot', then after the boot ends, it
-switches expedited GPs to normal ones.
+Got it. I will use the ARCH_ symbol instead in the next version. Thanks.
 
-It is the same issue for expedited, the kernel's version of what is 'boot' is
-much shorter than what is actually boot.
+Best regards,
+Hal
 
-This is also the case with suspend/resume's rcu_pm_notify(). See the comment:
-  /*
-   * On non-huge systems, use expedited RCU grace periods to make suspend
-   * and hibernation run faster.
-   */
-
-There also we turn on/off both lazy and expedited. I don't see why we
-shouldn't do it for boot.
-
-> So shouldn't we disable lazy callbacks by default when CONFIG_RCU_LAZY=y and then
-> turn it on with "sysctl kernel.rcu.lazy=1" only whenever userspace feels ready
-> about it? We can still keep the current call to rcu_end_inkernel_boot().
-
-Hmm IMHO that would add more knobs for not much reason honestly. We already
-have CONFIG_RCU_LAZY default disabled, I really don't want to add more
-dependency (like user enables the config and does not see laziness).
-
-Thanks!
-
- - Joel
+> 
+>> +	help
+>> +	  If you say yes here you get support for temperature sensor
+>> +	  on the Starfive JH71x0 SoCs.
+>> +
+>> +	  This driver can also be built as a module.  If so, the module
+>> +	  will be called sfctemp.
 
