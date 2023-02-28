@@ -2,247 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1A1C64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 08:36:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72142C64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 09:10:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229600AbjB1IgI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 03:36:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46322 "EHLO
+        id S230455AbjB1JKH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 04:10:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbjB1IgH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 03:36:07 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42E342A98D;
-        Tue, 28 Feb 2023 00:36:04 -0800 (PST)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C97536602E18;
-        Tue, 28 Feb 2023 08:36:01 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1677573362;
-        bh=sSCSNcAqqjG5p1vyPrPF5laJlyrHjAnoYyrkzT0wCBw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=XHL41QU1m5Z4BwJXQIyYlnOOwEx/7A9c153+Idri0aMSGntkahLFPF3DYvkCGX20D
-         P+I5OlLsTyhGBusUPopLSfCGZgb2DVJI9Rn+Mt4wiqersYQr4aaWhQpFpajX5yAI1K
-         F9Yo5cxeMAhC9rmlDnzD4Hw7SSLP/uuBpbSzh8GMt80yLSm8MOkmAYz+BeCBelhTis
-         C4q+FAWUEnHMYxbRVFQYzkWGL0oJbxDSuo43ihRTG/0rUw5JhKqBJ+6ORyOXJPTk2i
-         zdcjgoMF4+Fo899Qq3U32VFjrVPBOwtbqUGw/YBziFrz7uKP1v2ISyZMqTdiHf98jd
-         YclbNjOLfMntA==
-Message-ID: <d86908b8-20b1-418e-d266-6532c012c8ea@collabora.com>
-Date:   Tue, 28 Feb 2023 09:35:59 +0100
+        with ESMTP id S230452AbjB1JKD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 04:10:03 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B10129149
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 01:09:59 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id n6so8313686plf.5
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 01:09:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JD6LFUjaCV0Y3rxiGh/Ykg8y93935IDS5wJRL1FIbVk=;
+        b=V8ikxzfit8o1ERBDuVpWZBjCJo3dBKGAYbIiDxp9M9uCoraXVlmQhSEskvLmuayfg7
+         /A8wcV7Xoc0qpfJZtw6hgOyJsrSsEWnaY6cSn+3lyXcaR4wB89slxOmi+OPCGsjOAbrN
+         QxvsRE8/q4humpPg/XxOfc5HxA9dOoJSpNo/FKyyoHQPu6t3Yz3jXs7uSmB0txyiTz0e
+         PUi+8DPIYfsOf5AYgU8+ggxQauIYTdqvYTy8pEMolMHzGgRZoYlFxf5Gzjp17l6mhKxY
+         a/KI6B9hkhoCTAhTmYKOpgcqM7aPi8tZ5WYPp2xh0paNZczkU7SJWbRcVLCujWEUckUj
+         wDKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JD6LFUjaCV0Y3rxiGh/Ykg8y93935IDS5wJRL1FIbVk=;
+        b=MqD4KN96r/6T1Vl7WqfqJ35eT4HlZMRzQES+LPpACu2/K0pAhvF3uhCeAvwas2os5T
+         70bNcsLqA9dzW67YKSjwNCKGiwLkZfJVkamHa5gnRO5XYx3HRRtyPpsW5BxKdp4G5Kkw
+         PK5VW0SU6I8NBbwXqA6OgUWDr/DoLI+tKvZK4i2fhFLxQJGHno9PlVajEk0dZ/tg63lY
+         MvewSF9A2IAe+nekcHEAs/2zi5gwffd+X9G65OdM9YxRiNrp0rRqbt6JLQAVxMx4J2DZ
+         qQ10YeAfFsS+e+GvSfzuNaMxjMihSmAIX/DVCODo2JhWnFa+SdN7g/cPzfhlw9bnLQVR
+         Z5NA==
+X-Gm-Message-State: AO0yUKUzfzJxxGjc4HGj6auMk7RChjG/x62sIH6Jz+bkxlFwORy/61h6
+        B4VSfBHp/m7OEALunRPQp/r/bdEGKlnLZoOyh5l+gw==
+X-Google-Smtp-Source: AK7set93FN2ttcQwT7EC15gr1UiM1Y8d9QHK7DcW3SPfncAiSsZl4qdnrkpo0ulu9uB0Vhpt/THDhHb+4GpqYXzPBfk=
+X-Received: by 2002:a17:902:e5d0:b0:19a:fa2f:559e with SMTP id
+ u16-20020a170902e5d000b0019afa2f559emr1612340plf.3.1677575399000; Tue, 28 Feb
+ 2023 01:09:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC 1/1] irqchip/gic-v3: Add RK3588 GICR and GITS no share
- workaround
-Content-Language: en-US
-To:     Lucas Tanure <lucas.tanure@collabora.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Kever Yang <kever.yang@rock-chips.com>
-Cc:     linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20230227151847.207922-1-lucas.tanure@collabora.com>
- <20230227151847.207922-2-lucas.tanure@collabora.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230227151847.207922-2-lucas.tanure@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230224093454.956298-1-vincent.guittot@linaro.org>
+ <20230224093454.956298-7-vincent.guittot@linaro.org> <20230224192919.d4fcde3dwh7betvm@blackpad>
+ <CAKfTPtBorwnjU2=nprBo7aAEjoz+7x5nRYUdajZc53cuVgHSBw@mail.gmail.com> <20230227144236.z6zbgsaohlz6sl7o@blackpad>
+In-Reply-To: <20230227144236.z6zbgsaohlz6sl7o@blackpad>
+From:   Vincent Guittot <vincent.guittot@linaro.org>
+Date:   Tue, 28 Feb 2023 10:09:47 +0100
+Message-ID: <CAKfTPtAq-fRhgXw21RxLhT_ZZQUoMSZgGc90R_qoqkUhu+ADDw@mail.gmail.com>
+Subject: Re: [PATCH v12 6/8] sched/fair: Add sched group latency support
+To:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc:     mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
+        linux-kernel@vger.kernel.org, parth@linux.ibm.com, tj@kernel.org,
+        lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        cgroups@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        qyousef@layalina.io, chris.hyser@oracle.com,
+        patrick.bellasi@matbug.net, David.Laight@aculab.com,
+        pjt@google.com, pavel@ucw.cz, qperret@google.com,
+        tim.c.chen@linux.intel.com, joshdon@google.com, timj@gnu.org,
+        kprateek.nayak@amd.com, yu.c.chen@intel.com,
+        youssefesmat@chromium.org, joel@joelfernandes.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Il 27/02/23 16:18, Lucas Tanure ha scritto:
-> The GIC600 integration in RK356x, used in rk3588, doesn't support
-> any of the shareability or cacheability attributes, and requires
-> both values to be set to 0b00 for all the ITS and Redistributor
-> tables.
-> 
-> Based on work of Peter Geis for the Quartz64 board.
-> 
-> Signed-off-by: Lucas Tanure <lucas.tanure@collabora.com>
-> ---
->   Documentation/arm64/silicon-errata.rst |  4 +++
->   arch/arm64/Kconfig                     | 13 ++++++++
->   drivers/irqchip/irq-gic-v3-its.c       | 42 ++++++++++++++++++++++++++
->   3 files changed, 59 insertions(+)
-> 
-> diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-> index ec5f889d7681..b26cf8ca7d5c 100644
-> --- a/Documentation/arm64/silicon-errata.rst
-> +++ b/Documentation/arm64/silicon-errata.rst
-> @@ -209,3 +209,7 @@ stable kernels.
->   +----------------+-----------------+-----------------+-----------------------------+
->   | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
->   +----------------+-----------------+-----------------+-----------------------------+
-> +
-> ++----------------+-----------------+-----------------+-----------------------------+
-> +| RockChip       | RK3588          | N/A             | ROCKCHIP_NO_SHARE           |
-> ++----------------+-----------------+-----------------+-----------------------------+
+On Mon, 27 Feb 2023 at 15:42, Michal Koutn=C3=BD <mkoutny@suse.com> wrote:
+>
+> On Mon, Feb 27, 2023 at 02:44:22PM +0100, Vincent Guittot <vincent.guitto=
+t@linaro.org> wrote:
+> > Regarding the current use of latency nice to set a latency offset, the
+> > problem doesn't appear because latency offset applies between entities
+> > at the same level as you mentioned above
+>
+> Splendid, it turned out that way (latency nice analogous to bandwidth
+> nice).
+>
+> > Does  my explanation above make sense to you ?
+>
+> Yes, thank you.
+>
+> Thus, I'd like to propose avoiding the use of "limit" in this context and
+> stress the horizontal scope. For example:
+>
+> > +     This interface file allows reading and setting latency using the
+> > +     same values used by sched_setattr(2). The latency_nice of a group=
+ is
+> > +     used to limit the impact of the latency_nice of a task outside th=
+e
+> > +     group.
+>
+> +     This interface file allows reading and setting latency using the
+> +     same values used by sched_setattr(2). The latency_nice of a group i=
+s
+> +     used to modify group members' latency with respect to sibling group=
+s.
 
-This should go after Qualcomm, as it looks like this file is ordered by name but
-for some reason Fujitsu got at the bottom.
-Just keep your new addition ordered.
+That sounds reasonable to me.
 
-Besides, I propose the following:
-
-| RockChip       | RK3588          | N/A             | ROCKCHIP_ITS_ERRATUM       |
-
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 27b2592698b0..ad3f1742052b 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -1150,6 +1150,19 @@ config NVIDIA_CARMEL_CNP_ERRATUM
->   
->   	  If unsure, say Y.
->   
-> +config ROCKCHIP_NO_SHARE
-
-config ROCKCHIP_ITS_ERRATUM ?? :-)
-
-> +	bool "Rockchip RK3588 GIC6000 No shareability or cacheability attributes"
-
-You've got a typo here: GIC6000.
-
-> +	default y
-> +	help
-> +	  The GIC600 integration in RK356x doesn't support any of the shareability or
-> +	  cacheability attributes, and requires both values to be set to 0b00 for all
-> +	  the ITS and Redistributor tables.
-> +
-> +	  Work around the issue by clearing the GICR_PROPBASER_SHAREABILITY_MASK from
-> +	  register reads at GICR and GITS.
-> +
-> +	  If unsure, say Y.
-> +
->   config SOCIONEXT_SYNQUACER_PREITS
->   	bool "Socionext Synquacer: Workaround for GICv3 pre-ITS"
->   	default y
-> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-> index 586271b8aa39..637e2e2a1ab1 100644
-> --- a/drivers/irqchip/irq-gic-v3-its.c
-> +++ b/drivers/irqchip/irq-gic-v3-its.c
-> @@ -42,6 +42,7 @@
->   #define ITS_FLAGS_CMDQ_NEEDS_FLUSHING		(1ULL << 0)
->   #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
->   #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
-> +#define ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE	(1ULL << 3)
->   
->   #define RDIST_FLAGS_PROPBASE_NEEDS_FLUSHING	(1 << 0)
->   #define RDIST_FLAGS_RD_TABLES_PREALLOCATED	(1 << 1)
-> @@ -2359,6 +2360,15 @@ static int its_setup_baser(struct its_node *its, struct its_baser *baser,
->   	its_write_baser(its, baser, val);
->   	tmp = baser->val;
->   
-> +#if CONFIG_ROCKCHIP_NO_SHARE
-
-None of the other workarounds have an ifdef in parsing the flags, so I think
-that you can avoid enclosing this in a preprocessor `if` block.
-
-> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE) {
-> +		if (tmp & GITS_BASER_SHAREABILITY_MASK)
-> +			tmp &= ~GITS_BASER_SHAREABILITY_MASK;
-> +		else
-> +			gic_flush_dcache_to_poc(base, PAGE_ORDER_TO_SIZE(order));
-> +	}
-> +#endif
-> +
->   	if ((val ^ tmp) & GITS_BASER_SHAREABILITY_MASK) {
->   		/*
->   		 * Shareability didn't stick. Just use
-> @@ -3057,6 +3067,7 @@ static void its_cpu_init_lpis(void)
->   {
->   	void __iomem *rbase = gic_data_rdist_rd_base();
->   	struct page *pend_page;
-> +	struct its_node *its;
->   	phys_addr_t paddr;
->   	u64 val, tmp;
->   
-> @@ -3096,6 +3107,12 @@ static void its_cpu_init_lpis(void)
->   	gicr_write_propbaser(val, rbase + GICR_PROPBASER);
->   	tmp = gicr_read_propbaser(rbase + GICR_PROPBASER);
->   
-> +#if CONFIG_ROCKCHIP_NO_SHARE
-
-ditto.
-
-> +	its = list_first_entry(&its_nodes, struct its_node, entry);
-> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
-> +		tmp &= ~GICR_PROPBASER_SHAREABILITY_MASK;
-> +#endif
-> +
->   	if ((tmp ^ val) & GICR_PROPBASER_SHAREABILITY_MASK) {
->   		if (!(tmp & GICR_PROPBASER_SHAREABILITY_MASK)) {
->   			/*
-> @@ -3120,6 +3137,11 @@ static void its_cpu_init_lpis(void)
->   	gicr_write_pendbaser(val, rbase + GICR_PENDBASER);
->   	tmp = gicr_read_pendbaser(rbase + GICR_PENDBASER);
->   
-> +#if CONFIG_ROCKCHIP_NO_SHARE
-> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
-> +		tmp &= ~GICR_PENDBASER_SHAREABILITY_MASK;
-> +#endif
-> +
->   	if (!(tmp & GICR_PENDBASER_SHAREABILITY_MASK)) {
->   		/*
->   		 * The HW reports non-shareable, we must remove the
-> @@ -4710,6 +4732,14 @@ static bool __maybe_unused its_enable_quirk_hip07_161600802(void *data)
->   	return true;
->   }
->   
-> +static bool __maybe_unused its_enable_quirk_rk356x(void *data)
-> +{
-> +	struct its_node *its = data;
-> +
-> +	its->flags |= ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE;
-> +	return true;
-> +}
-> +
->   static const struct gic_quirk its_quirks[] = {
->   #ifdef CONFIG_CAVIUM_ERRATUM_22375
->   	{
-> @@ -4755,6 +4785,14 @@ static const struct gic_quirk its_quirks[] = {
->   		.mask	= 0xffffffff,
->   		.init	= its_enable_quirk_hip07_161600802,
->   	},
-> +#endif
-> +#ifdef CONFIG_ROCKCHIP_NO_SHARE
-
-here it's fine.
-
-> +	{
-> +		.desc	= "ITS: Rockchip RK356X/RK3588 doesn't support shareability",
-> +		.iidr	= 0x0201743b,
-> +		.mask	= 0xffffffff,
-> +		.init	= its_enable_quirk_rk356x,
-> +	},
->   #endif
->   	{
->   	}
-> @@ -5096,6 +5134,10 @@ static int __init its_probe_one(struct resource *res,
->   	gits_write_cbaser(baser, its->base + GITS_CBASER);
->   	tmp = gits_read_cbaser(its->base + GITS_CBASER);
->   
-> +#if CONFIG_ROCKCHIP_NO_SHARE
-
-...here it's not, again.
-
-> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
-> +		tmp &= ~GITS_CBASER_SHAREABILITY_MASK;
-> +#endif
->   	if ((tmp ^ baser) & GITS_CBASER_SHAREABILITY_MASK) {
->   		if (!(tmp & GITS_CBASER_SHAREABILITY_MASK)) {
->   			/*
-
-
-Regards,
-Angelo
+>
+> Regards,
+> Michal
