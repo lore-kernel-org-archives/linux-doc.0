@@ -2,216 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACAF3C64EC7
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 17:22:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00A60C64EC7
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 17:28:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbjB1RWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 12:22:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45796 "EHLO
+        id S229672AbjB1R2Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 12:28:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbjB1RWF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 12:22:05 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 87FD71C316;
-        Tue, 28 Feb 2023 09:22:03 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 799B6C14;
-        Tue, 28 Feb 2023 09:22:46 -0800 (PST)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BBB703F881;
-        Tue, 28 Feb 2023 09:22:01 -0800 (PST)
-Message-ID: <8df79b4a-c7fb-3483-0d95-a97876f92f1b@arm.com>
-Date:   Tue, 28 Feb 2023 17:21:57 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC 1/1] irqchip/gic-v3: Add RK3588 GICR and GITS no share
- workaround
-To:     Lucas Tanure <lucas.tanure@collabora.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
+        with ESMTP id S229520AbjB1R2Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 12:28:24 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E25CCDCF;
+        Tue, 28 Feb 2023 09:28:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677605303; x=1709141303;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=4k0iKJV2vMKeqIQgSIorNxU0wctfI7EI0fn+i1jfZLs=;
+  b=CqBSxF6PkWMfHBlH5EvsArqgNz8AXYm8rFHaOxLV79mRZregiqyrRaXT
+   rcCp77Z7CHysbX0RYhraVTcKijys7l48luCa7mncPCUdEqrq/nCsuTWZF
+   CLZtUZ+awgDlUp0MZDeI8h7ZOTfNCPP1mM/uExoCd679LlTK1Q2t+ToA2
+   e/zHPGgOxI+OwwpFxmCBrJETXocNonKwy8YoSDhhICK5ZLU19MIXhx+9K
+   Ta2LYAnYwZqCMfzKpIh+OS2+RT0ctOkKqweWdFMauc/EZlHgkYwRTSCsA
+   pz+QI+OTG3tjMbRlaoJkGH6HoOqLSTT7surqiNYwrBM1xNSDYTSJr6WSv
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="332927957"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="332927957"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 09:28:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="783948443"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="783948443"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2023 09:28:22 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 28 Feb 2023 09:28:22 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 28 Feb 2023 09:28:22 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Tue, 28 Feb 2023 09:28:22 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Tue, 28 Feb 2023 09:28:21 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SVOWNdoYZf007P1nvO7+74zF5EjEidmIhjCH82P7l5S2PZ4cOz8mMVzkj2pCIJItqcWPqG6VDcVp4DaW5NRw8/NsHGjHHhhMJhRN8o9XZ5yRXcjC7INUwcJPCwUH0aRMAGxaAts9bXf2WPswC32nXXWFi0JvsnJnI5zSQzRxjyHbV/8Z9X4JhR9tZMeWPp5We9EH99FkXevTl36lnOhDfOuSKT+Y/hfsQqbjg17TcuvM79lL+HUZ4ScBWQMWYagVRjdN9is9DHApZceH/CKOK5NIq8+IttjAO3S81VP+R1m4tQWtkc8kWSZ9PF5X/4fDze+OLPQPjWWhMTB9dM4/YQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4k0iKJV2vMKeqIQgSIorNxU0wctfI7EI0fn+i1jfZLs=;
+ b=kElBIpwfBEKjU1lfhGxgY2S2VbN0ZbA4vi7K827c37yqTpXhInjvytt/trUyxX5LqOhOrWnmn3V957L7J4bTkQMBiQam5V1NmFF6Qsl8k0LU38f/sRqPczEXjKFd7a0FGRzNUNwukuipfKrBCeT4q4z9YOTQsFqsit8r3Mnd+JqDbXgjS5BqtjD/B2k/JvEbO5jeG8AtqLWqgG2uq63rT8nZh23fUpay79PGYYXO00dsgl2GTygrC6zCWp55cz8vPW7zk6q3mv60z61OeIwpDw2dFVfM59Ng/ED0ZLYL9ivHNVzldEhzrdA97V/mPyWAt8rN19OiHcKSu4miH5SuJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by SA2PR11MB5081.namprd11.prod.outlook.com (2603:10b6:806:118::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.30; Tue, 28 Feb
+ 2023 17:28:19 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::ee6a:b9b2:6f37:86a1]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::ee6a:b9b2:6f37:86a1%9]) with mapi id 15.20.6134.026; Tue, 28 Feb 2023
+ 17:28:19 +0000
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     James Morse <james.morse@arm.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        Peter Newman <peternewman@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Kever Yang <kever.yang@rock-chips.com>
-Cc:     linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20230227151847.207922-1-lucas.tanure@collabora.com>
- <20230227151847.207922-2-lucas.tanure@collabora.com>
-Content-Language: en-GB
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20230227151847.207922-2-lucas.tanure@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        "x86@kernel.org" <x86@kernel.org>
+CC:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: RE: [PATCH 4/7] x86/resctrl: Add code to setup monitoring at L3 or
+ NODE scope.
+Thread-Topic: [PATCH 4/7] x86/resctrl: Add code to setup monitoring at L3 or
+ NODE scope.
+Thread-Index: AQHZMbXpHjS9mD2CUkuBdSFBMC+fXq7kzKUAgAADufA=
+Date:   Tue, 28 Feb 2023 17:28:19 +0000
+Message-ID: <SJ1PR11MB6083F264B1730DBB86F06E1DFCAC9@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20230126184157.27626-1-tony.luck@intel.com>
+ <20230126184157.27626-5-tony.luck@intel.com>
+ <3c3b99b8-5f8f-4671-944d-fd615d209456@arm.com>
+In-Reply-To: <3c3b99b8-5f8f-4671-944d-fd615d209456@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|SA2PR11MB5081:EE_
+x-ms-office365-filtering-correlation-id: 02a036d0-d73b-4ee7-b876-08db19b12f34
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: EGxzBDxrRpAkKG8RBQmMkjyFLIlK7owZerXZNPPUg8OkjuIt/Py1rjJtkJCwZG+yg8T6BfnGjzwrDtxMMSyH/FI0RFA8yB9IqXPahLhSfJsrPG8meRtQqn91UoB9wP9J7Ltzu/Kxffip5c/LTbZU+kOidX4h+G0qXbSJoKMdNAySbk50NHTXVjjhRPwCt4TmiLaFUMXAxAbgC1081GR6/bcui6Ei/AIo2Ogt5O8wU4J2Ouag4+3mlCY7TLinTJIvA2hliY0IYTdPEoNDkeObFBjp3+tC+DRV8fTGe7QRjlSVA1TkSnruzg3VCOtvtIymXhQAZmTWNUS/wleZQjQJ7e8fkgRDQTV6GfeXl0eJ2Z71tfvA3TdDTytbZPp5p5wY3BRirA2pa8AjMxHUxH1xWhSBxDuATuEzxdrN9TnH0tCQz2yqTuPd2i8f+EmDTCKmF3aHUGrrCIAos4b2YHwCqJwu0pCAeE+jaSaoRkVngPxBMKiP28AnxmZqAsvcby0ab7WhurnKPaP2EEEWi19PobVx9aqy54vz7DVGTXFJ51V7VJ0+584LqDIy2j95gEKEHXQngYlvczFEzKvEDcu10DO511CqrINXboFMG8sjh84lwcx2ltkuqsrP2hBOFi58Ezn3V2w7iXdLOi+FTbYwVhAbELmDf1izdXQYuxbn/WyWDNqwDAUktfX3DzlRg7Nkk4AFBkQqFZbcGsDA2nOqIw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(346002)(39860400002)(366004)(396003)(376002)(136003)(451199018)(33656002)(86362001)(55016003)(66556008)(66476007)(66446008)(64756008)(7416002)(66946007)(41300700001)(5660300002)(8936002)(8676002)(2906002)(4744005)(82960400001)(122000001)(4326008)(38100700002)(38070700005)(7696005)(71200400001)(52536014)(54906003)(316002)(478600001)(76116006)(83380400001)(110136005)(186003)(26005)(9686003)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Z3FpRmUrNGFnR0Z0L2c1NzNBcEZBam01TzhvVlE5dERpc2Vac3hGdnZOTjJZ?=
+ =?utf-8?B?OFEwSFFUd0tUcDVzR0NUUHJRWXVFSHYvd0ZZY1dBOVpXY1U0bnJsd3A3QnY5?=
+ =?utf-8?B?ZkoyUnJURzdkM0VtQlY4aU02dEhuOExwS2dzOWZ4akFZYlZRblZvZ1dXK2d3?=
+ =?utf-8?B?WXQ1T2V2WjJSOWlDNnk4eVZ1dW4wQXB4ZS9QL0VKZFcvSEJLT21vMUZsem9Y?=
+ =?utf-8?B?SVhzeUl4OXpVTWpsUWRJNG1oUStJak1RM3ptRnEvL0ZBMGw5SHdKZkJxaHlK?=
+ =?utf-8?B?R0c5Y0VQWWkwbzFyUEVTOThoTFhsTHNuTy9Oc2xaRW9iSU11TTNJZ2JwTjQ5?=
+ =?utf-8?B?ZVF2S1JvSnhsTXRIZjNHeEFkbkRsaENYd25ydkxZaDkvbjlSRWxMc09DZ0dk?=
+ =?utf-8?B?V2pxdjBuS1lYN3lhMXd2L2ROR1c0Qmxidy9JeGpXNWV3ZnhhZk1NZ3BuN0ll?=
+ =?utf-8?B?T2lmT0lscTRRczVTVDFncVJZaitST1hUeFg2Q1Z3TzFMRGliRXp4RGE0Yzkr?=
+ =?utf-8?B?TUdnOG1TbURjc2xtWXdDbnY3U3hjUDZId3o2SVpyRUxXcmVaVEkvQ3B6aDYr?=
+ =?utf-8?B?b1NSNVFKcW1tWVJ5S2lsUXdOVnhlSVFsenBQNUJScDhRTE9SVTI3NWg4NGVn?=
+ =?utf-8?B?SVBWUmF4allQUkZDYjkvMFh1TUc1MHljS3ZjczlVeHpHTlJKZk1kWGJXdVJQ?=
+ =?utf-8?B?b2xKdVpoZmVHVlZUS1RBbWxvRjF2UThYOXI1eUNyNFAyVVdnZ2pzN2N1RjFi?=
+ =?utf-8?B?c1UvNFhsdTZkdnVST3pCVzB0T3JscDdGYzFoODFkb2FvNTVlbkFDRnFoUnhW?=
+ =?utf-8?B?MUtDZHQ2SlQzK1c0Z0dkY3JIekhCTXZWajdha1BnV0RlS2hjYkpxRFBnNDVE?=
+ =?utf-8?B?d0QvYyt6elRIQnl3VlgrRHorbDQzWDJmLzlMUmxEWnhUeDJ6ZnozdG9wUzBW?=
+ =?utf-8?B?VnVnUHdKalpCSCtQZC9XZkozcWdhTnBySGxGcms1YUZwQnB1UUlHRHhoM20r?=
+ =?utf-8?B?NmtkdXNYcUpubExULzRnSkxtUnFEM05hcUJXMGRmTG5GNkxxell3Q0ZnaXVv?=
+ =?utf-8?B?MjVLZTVHbkZwbE9RYVYzNVpIc2ZYalNnM2NqTWNqcmhMTFdQTzc1dFN2blhk?=
+ =?utf-8?B?VXZhcUNTaGRsMysvNmlIU2Z0UHZCbXNtWHJlYWxUaUFXYWtJQ2IrWmxFYXI4?=
+ =?utf-8?B?SzRhaGZkMVlhTUtkTDd1Z1laSkd3ZnBlUFJYWjJGQXFoUmhKQ1l1Zmp3bmk0?=
+ =?utf-8?B?WVJDOWdzV0g2dlZWaW5lLzNPL1hjSmh4dlBNRTNJTU5BcEVzL0hYbXN4bHk1?=
+ =?utf-8?B?am9KUzI3MWZPaFRnME8xc0o2MnZSN0FSQndvZWNzWlBrZStXdHUvVjYwSjNH?=
+ =?utf-8?B?K2UvUUJ1VjJOUGpuSW5LRXZCYXRQWk8yZzVJdDNYUGR3ZEM0OHJoSXU5K2Rx?=
+ =?utf-8?B?cGExVW41aDdvWFNFV3Yvb3hVcUNOeUR3OW52VllFOU1hbm9YcWJVTDVhWTRL?=
+ =?utf-8?B?Y0xJS0xESUJUOTFmZHFZOFJQdWM3eVVqaVVxck4yVDl1Y214SEFtVkQvTCtJ?=
+ =?utf-8?B?b2R1c0JUWnBwUEZnd2hlRFFOR3IzOTZrRWl1YXlncHRVMitBU0FDazE1UU1G?=
+ =?utf-8?B?RmtWcmVVZlE3RlJpUzRKemxHeUtsakt3YU1jWTN2U28vbWdtVUxLYkgrMjVy?=
+ =?utf-8?B?dk4renF6VHVmaU9HZ0pBdHpHelVJMW93cVBPYXR4MUlIWnBTNG5VOGJsQk1p?=
+ =?utf-8?B?KzBlZGltUWZZRGVWSEZpVU90V2gwYUliWktONXFjNGJOaXcrSndpQ3Z0UGZs?=
+ =?utf-8?B?b29nSTVndkcvUUxkRXRLNFA5UzhYQ21kODRxWnNvRkZlenRqQmtrcWhqbTcy?=
+ =?utf-8?B?MlJ4bHh0RHJKRjlKZ0hKSWxmd3FHYzVDeEYrMXhTanVpMWF5dzRjRVBHSzky?=
+ =?utf-8?B?ZUE3S2JJQm5lUjZiN09yYkRZaXAzRVhxREFldnhYVFFJcGxZRXNQUmtUR1FE?=
+ =?utf-8?B?ZHRwYytFbS9vNWtRaEF0RFZDbmU1Y3NFRDlOVEo1NndpUUd0OTZqUHFTb1BI?=
+ =?utf-8?B?N0dXUkJRTUVIMWhVWWJNM3BBZFdGUmtVYW9FY01JOUdZak1mRFJwcVA4YzdE?=
+ =?utf-8?Q?VmaHkcB2xOKKU3AnHlw/lAI+J?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02a036d0-d73b-4ee7-b876-08db19b12f34
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Feb 2023 17:28:19.4322
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Jjm58evUizbEtORFvLPYun9Tm8gmq8GFgwNDJzJa/5XGK8nmSvQB42F6Rsu+hJDgOLVkLwNdUO06wPPo+StsaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5081
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 27/02/2023 3:18 pm, Lucas Tanure wrote:
-> The GIC600 integration in RK356x, used in rk3588, doesn't support
-> any of the shareability or cacheability attributes, and requires
-> both values to be set to 0b00 for all the ITS and Redistributor
-> tables.
-> 
-> Based on work of Peter Geis for the Quartz64 board.
-> 
-> Signed-off-by: Lucas Tanure <lucas.tanure@collabora.com>
-> ---
->   Documentation/arm64/silicon-errata.rst |  4 +++
->   arch/arm64/Kconfig                     | 13 ++++++++
->   drivers/irqchip/irq-gic-v3-its.c       | 42 ++++++++++++++++++++++++++
->   3 files changed, 59 insertions(+)
-> 
-> diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-> index ec5f889d7681..b26cf8ca7d5c 100644
-> --- a/Documentation/arm64/silicon-errata.rst
-> +++ b/Documentation/arm64/silicon-errata.rst
-> @@ -209,3 +209,7 @@ stable kernels.
->   +----------------+-----------------+-----------------+-----------------------------+
->   | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
->   +----------------+-----------------+-----------------+-----------------------------+
-> +
-> ++----------------+-----------------+-----------------+-----------------------------+
-> +| RockChip       | RK3588          | N/A             | ROCKCHIP_NO_SHARE           |
-> ++----------------+-----------------+-----------------+-----------------------------+
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 27b2592698b0..ad3f1742052b 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -1150,6 +1150,19 @@ config NVIDIA_CARMEL_CNP_ERRATUM
->   
->   	  If unsure, say Y.
->   
-> +config ROCKCHIP_NO_SHARE
-> +	bool "Rockchip RK3588 GIC6000 No shareability or cacheability attributes"
-> +	default y
-> +	help
-> +	  The GIC600 integration in RK356x doesn't support any of the shareability or
-> +	  cacheability attributes, and requires both values to be set to 0b00 for all
-> +	  the ITS and Redistributor tables.
-> +
-> +	  Work around the issue by clearing the GICR_PROPBASER_SHAREABILITY_MASK from
-> +	  register reads at GICR and GITS.
-> +
-> +	  If unsure, say Y.
-> +
->   config SOCIONEXT_SYNQUACER_PREITS
->   	bool "Socionext Synquacer: Workaround for GICv3 pre-ITS"
->   	default y
-> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-> index 586271b8aa39..637e2e2a1ab1 100644
-> --- a/drivers/irqchip/irq-gic-v3-its.c
-> +++ b/drivers/irqchip/irq-gic-v3-its.c
-> @@ -42,6 +42,7 @@
->   #define ITS_FLAGS_CMDQ_NEEDS_FLUSHING		(1ULL << 0)
->   #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
->   #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
-> +#define ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE	(1ULL << 3)
->   
->   #define RDIST_FLAGS_PROPBASE_NEEDS_FLUSHING	(1 << 0)
->   #define RDIST_FLAGS_RD_TABLES_PREALLOCATED	(1 << 1)
-> @@ -2359,6 +2360,15 @@ static int its_setup_baser(struct its_node *its, struct its_baser *baser,
->   	its_write_baser(its, baser, val);
->   	tmp = baser->val;
->   
-> +#if CONFIG_ROCKCHIP_NO_SHARE
-> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE) {
-> +		if (tmp & GITS_BASER_SHAREABILITY_MASK)
-> +			tmp &= ~GITS_BASER_SHAREABILITY_MASK;
-> +		else
-> +			gic_flush_dcache_to_poc(base, PAGE_ORDER_TO_SIZE(order));
-> +	}
-> +#endif
-> +
->   	if ((val ^ tmp) & GITS_BASER_SHAREABILITY_MASK) {
->   		/*
->   		 * Shareability didn't stick. Just use
-> @@ -3057,6 +3067,7 @@ static void its_cpu_init_lpis(void)
->   {
->   	void __iomem *rbase = gic_data_rdist_rd_base();
->   	struct page *pend_page;
-> +	struct its_node *its;
->   	phys_addr_t paddr;
->   	u64 val, tmp;
->   
-> @@ -3096,6 +3107,12 @@ static void its_cpu_init_lpis(void)
->   	gicr_write_propbaser(val, rbase + GICR_PROPBASER);
->   	tmp = gicr_read_propbaser(rbase + GICR_PROPBASER);
->   
-> +#if CONFIG_ROCKCHIP_NO_SHARE
-> +	its = list_first_entry(&its_nodes, struct its_node, entry);
-> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
-> +		tmp &= ~GICR_PROPBASER_SHAREABILITY_MASK;
-> +#endif
-> +
->   	if ((tmp ^ val) & GICR_PROPBASER_SHAREABILITY_MASK) {
->   		if (!(tmp & GICR_PROPBASER_SHAREABILITY_MASK)) {
->   			/*
-> @@ -3120,6 +3137,11 @@ static void its_cpu_init_lpis(void)
->   	gicr_write_pendbaser(val, rbase + GICR_PENDBASER);
->   	tmp = gicr_read_pendbaser(rbase + GICR_PENDBASER);
->   
-> +#if CONFIG_ROCKCHIP_NO_SHARE
-> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
-> +		tmp &= ~GICR_PENDBASER_SHAREABILITY_MASK;
-> +#endif
-> +
->   	if (!(tmp & GICR_PENDBASER_SHAREABILITY_MASK)) {
->   		/*
->   		 * The HW reports non-shareable, we must remove the
-> @@ -4710,6 +4732,14 @@ static bool __maybe_unused its_enable_quirk_hip07_161600802(void *data)
->   	return true;
->   }
->   
-> +static bool __maybe_unused its_enable_quirk_rk356x(void *data)
-> +{
-> +	struct its_node *its = data;
-> +
-> +	its->flags |= ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE;
-> +	return true;
-> +}
-> +
->   static const struct gic_quirk its_quirks[] = {
->   #ifdef CONFIG_CAVIUM_ERRATUM_22375
->   	{
-> @@ -4755,6 +4785,14 @@ static const struct gic_quirk its_quirks[] = {
->   		.mask	= 0xffffffff,
->   		.init	= its_enable_quirk_hip07_161600802,
->   	},
-> +#endif
-> +#ifdef CONFIG_ROCKCHIP_NO_SHARE
-> +	{
-> +		.desc	= "ITS: Rockchip RK356X/RK3588 doesn't support shareability",
-> +		.iidr	= 0x0201743b,
-
-This represents the Arm Ltd. GIC-600 implementation. It is definitely 
-not Rockchip-specific, and applying this quirk to the likes of Ampere 
-Altra or AWS Graviton2 would be extremely unpopular.
-
-TBH I think this whole thing would be reasonable to handle in a generic 
-manner using the now-standard "dma-noncoherent" property to override the 
-driver's expectations. Given the apparent lack of clear integration 
-guidelines it's only likely to continue happening.
-
-Thanks,
-Robin.
-
-> +		.mask	= 0xffffffff,
-> +		.init	= its_enable_quirk_rk356x,
-> +	},
->   #endif
->   	{
->   	}
-> @@ -5096,6 +5134,10 @@ static int __init its_probe_one(struct resource *res,
->   	gits_write_cbaser(baser, its->base + GITS_CBASER);
->   	tmp = gits_read_cbaser(its->base + GITS_CBASER);
->   
-> +#if CONFIG_ROCKCHIP_NO_SHARE
-> +	if (its->flags & ITS_FLAGS_WORKAROUND_ROCKCHIP_NOSHARE)
-> +		tmp &= ~GITS_CBASER_SHAREABILITY_MASK;
-> +#endif
->   	if ((tmp ^ baser) & GITS_CBASER_SHAREABILITY_MASK) {
->   		if (!(tmp & GITS_CBASER_SHAREABILITY_MASK)) {
->   			/*
+Pj4gKwkvKiBXaGVuIFNOQyBlbmFibGVkLCBtb25pdG9yIGZ1bmN0aW9ucyBhdCBub2RlIGluc3Rl
+YWQgb2YgTDMgY2FjaGUgc2NvcGUgKi8NCj4+ICsJaWYgKHNuY193YXlzID4gMSkNCj4+ICsJCXIg
+PSAmcmR0X3Jlc291cmNlc19hbGxbUkRUX1JFU09VUkNFX05PREVdLnJfcmVzY3RybDsNCj4+ICsJ
+ZWxzZQ0KPj4gKwkJciA9ICZyZHRfcmVzb3VyY2VzX2FsbFtSRFRfUkVTT1VSQ0VfTDNdLnJfcmVz
+Y3RybDsNCj4NCj4gQ291bGQgdGhpcyBiZSBoaWRkZW4gaW4gYSBoZWxwZXIgd2l0aCBzb21lIG5h
+bWUgbGlrZSByZXNjdHJsX2FyY2hfZ2V0X21ibV9yZXNvdXJjZSgpPw0KPiBZb3UgaGF2ZSB0aGUg
+c2FtZSBwYXR0ZXJuIGFnYWluIGluIHJkdF9nZXRfdHJlZSgpLiBJZiB0aGlzIGdldHMgbW9yZSBj
+b21wbGV4IGluIHRoZQ0KPiBmdXR1cmUsIGl0IG1lYW5zIGl0cyBvdXRzaWRlIHRoZSBmaWxlc3lz
+dGVtIGNvZGUsIGFuZCBhbGwgaW4gb25lIHBsYWNlLg0KDQpTb3VuZHMgbGlrZSBhIGdvb2QgaWRl
+YS4gIFRoYW5rcy4NCg0KLVRvbnkNCg==
