@@ -2,87 +2,172 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3805C7EE31
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 13:47:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E79D9C64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 14:27:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbjB1Nr3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 08:47:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47048 "EHLO
+        id S229562AbjB1O1V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 09:27:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbjB1Nr1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 08:47:27 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F82303F8
-        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 05:47:06 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pX0Js-00078D-1g; Tue, 28 Feb 2023 14:47:04 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pX0Jq-000sbi-9k; Tue, 28 Feb 2023 14:47:02 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pX0Jp-0011YR-Ol; Tue, 28 Feb 2023 14:47:01 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     David Rientjes <rientjes@google.com>, linux-doc@vger.kernel.org,
-        kernel@pengutronix.de,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-Subject: [PATCH] docs: rebasing-and-merging: Drop wrong statement about git
-Date:   Tue, 28 Feb 2023 14:46:57 +0100
-Message-Id: <20230228134657.1797871-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.1
+        with ESMTP id S229504AbjB1O1V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 09:27:21 -0500
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03FCD2FCFA
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 06:27:15 -0800 (PST)
+Received: by mail-lj1-x232.google.com with SMTP id x6so4825189ljq.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Feb 2023 06:27:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HAHdW0R4bB84/Yv1D1KskPGK8seaDNPN4i0lvIc9rYU=;
+        b=DacTmKHtT5gE40GOYuFI7D4a8YIPu8S+Ow599Df9by4CQ5BRdHBvyt0nQUSRIeSb2t
+         6KkwAQUuQFKa73+u7fMjGiBPj3HjVRGt9ZsBJU8SkQ9aAonlpfwGT1RQH51bTDRK9cRM
+         AEX1sJuu42mM+X3ly+4jkuNjrKykcR9+EFUuc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HAHdW0R4bB84/Yv1D1KskPGK8seaDNPN4i0lvIc9rYU=;
+        b=agrK9eqYeIkSMmnFL/HrXWwBdRLdi7xaFxRc9TwL7w0S0g1FUwt7mDuXzBiYXV7pw5
+         EgiH6DH0NNRMtoc72Gvjb6Zz5OIIzVut8+HPKZObhVzS2Qct2+bGd32ZWC9rCiRG9bGO
+         TxJ1ve1NGtIxAPtY4p8CSlAIIZpDMF7sbqBx39phjbAXVkhRXBDcJgAVvY11XXxQRJYJ
+         19ZdRvk1dAg0fjC/ZB2OrAiFlMHcP7B7BJe1Z20mv+Jmg9f+Bh05FAE9OCuI0rUw/I/C
+         ETMz31lx1O6NIgbPRxvWUySkf5+N8MF8k1MYwwEWF9cDMCJzyi5Vx0vNp8UQbFHCjTn1
+         9bSQ==
+X-Gm-Message-State: AO0yUKVSDyajniN9Ui7PhptfSYngEsUYFrgwkl966aUaqAkGXCgXCtVe
+        7X9be7tybtX25k/lHdmvCsRpNKsQfSAeA9+a3ncXPT9oiecb7kTI
+X-Google-Smtp-Source: AK7set8RWzXot28kcY8LaU3hLMJC0uJ6rGu9Tkc9ovqpMn1izF9y3NUPM6HM9WcSGA1oi7Sam5kJlLxEvYt1S7tqTJI=
+X-Received: by 2002:a2e:508:0:b0:294:6de5:e642 with SMTP id
+ 8-20020a2e0508000000b002946de5e642mr870608ljf.3.1677594433251; Tue, 28 Feb
+ 2023 06:27:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1369; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=W+LzTZqD9krsBHs0O9kqMZGsJXeqil7l+zq6IhqpL50=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBj/gXObxEa3BXYuKgd+EaD/nFoZP0YE3NGk+5UC QPqqoMUItCJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY/4FzgAKCRDB/BR4rcrs CX5eCACPj98s54mer6YkzbydTLGj0LBoremKZFgCoSwWmRc0xicCaezqcgIgIPYktNqwUbdJYdD 4R1cdZ96vHeZHmN/Plz80ry4XJi33pJBs6RpGfN3g6sQLOBV+I4ciuHwxUW6DfhTTAhT/fGY5nx xlKSKxLM2JvOo3cA77S7aRska4Lk2ClXFpjcf37VTa+XtlNZM0eYsMWEeEjon9Nk5PGoK8wkaRB dEl6MeJQA+sSbsTV/QPcXmQ7XcTc1FyAzRlrWngR5yoBqEvxwqEswDTdeNbE5a13EISQNBER9YA pUq+f6x/nEiLBPf5xs3BU6vOCbCbRX22Vp8Zbs5w0vNR4Nic
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <IA1PR11MB617175CA398D425B7489CE4889AF9@IA1PR11MB6171.namprd11.prod.outlook.com>
+ <764CA486-6FB2-4667-B8CB-56E3AC31FD58@joelfernandes.org> <IA1PR11MB617118DAE8D72E2419558D6689AC9@IA1PR11MB6171.namprd11.prod.outlook.com>
+In-Reply-To: <IA1PR11MB617118DAE8D72E2419558D6689AC9@IA1PR11MB6171.namprd11.prod.outlook.com>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Tue, 28 Feb 2023 09:27:01 -0500
+Message-ID: <CAEXW_YQwu4ccqWLTfFSwcJQOH6fbhe4SiHHa4XPUCvefiBZi9g@mail.gmail.com>
+Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as completed
+To:     "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "rcu@vger.kernel.org" <rcu@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Uwe Kleine-König <uwe@kleine-koenig.org>
+On Tue, Feb 28, 2023 at 1:40=E2=80=AFAM Zhuo, Qiuxu <qiuxu.zhuo@intel.com> =
+wrote:
+>
+[...]
+> > > If so, we might make rcupdate.boot_end_delay =3D 0 as the default val=
+ue
+> > > (NOT the default 20s) for CONFIG_PREEMPT_RT=3Dy kernels?
+> >
+> > Could you measure how much time your RT system takes to boot before the
+> > application runs?
+>
+> I don't have a real-time OS environment to measure the OS boot time.
+> I tried to measure the OS boot time of my "CentOS Stream 8" w/o and
+> w/ Joel=E2=80=99s patch.
+>
+> My testing showed the positive result that the OS boot time was
+> reduced by ~4.6% on my side after applying Joel=E2=80=99s patch.
 
-The "^0" doesn't have the described effect to only do fast-forward merges.
-For example
+Wow, this is great! I am guessing you have CONFIG_RCU_LAZY disabled,
+when you tested. If so, that is great news that expediting RCU for a
+bit longer improves boot time! Please confirm that your config had
+LAZY disabled.
 
-	git checkout 055efab3120b
-	git merge v5.2-rc1^0
+> For testing details, please see the below:
+>
+> 1) Testing environment:
+>     OS            : CentOS Stream 8 (non-RT OS)
+>     Kernel     : v6.2
+>     Machine : Intel Cascade Lake server (2 sockets, each with 44 logical =
+threads)
+>     Qemu  args  : -cpu host -enable-kvm, -smp 88,threads=3D2,sockets=3D2,=
+ =E2=80=A6
+>
+> 2) My OS boot time definition:
+>     The time from the start of the kernel boot to the shell command line
+>     prompt is shown from the console. [ Different people may have
+>     different OS boot time definitions. ]
+>
+> 3) My measurement method (very rough method):
+>     A timer in the kernel periodically prints the boot time every 100ms.
+>     As soon as the shell command line prompt is shown from the console,
+>     we record the boot time printed by the timer, then the printed boot
+>     time is the OS boot time.
 
-creates a normal merge commit. In fact "v5.2-rc1^0" only refers to the
-commit the tag v5.2-rc1 points to.
+Hmm, Can you not just print the boot time from userspace using
+clock_gettime() and CLOCK_BOOTTIME? But yeah either way, good data!
 
-Fixes: d95ea1a4e1fb ("docs: Add a document on repository management")
-Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
----
- Documentation/maintainer/rebasing-and-merging.rst | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+>     The console log (mixed userspace and kernel logs) looked like this:
+>
+>            [  OK  ] Started Permit User Sessions.
+>                         Starting Terminate Plymouth Boot Screen...
+>                         Starting Hold until boot process finishes up...
+>            [  OK  ] Started Command Scheduler.
+>            [    6.824466] input: ImExPS/2 Generic Explorer ...
+>            [    6.884685] Boot ms 6863
+>                 ...
+>            [    7.170920] Spectre V2 : WARNING: Unprivileged eBPF ...
+>            [    7.173140] Spectre V2 : WARNING: Unprivileged eBPF ...
+>            [    7.196741] Boot ms 7175
+>                 ...
+>            [    8.236757] Boot ms 8215
+>
+>            CentOS Stream 8
+>            Kernel 6.2.0-rcu+ on an x86_64
+>
+>            login: [    8.340751] Boot ms 8319
+>            [    8.444756] Boot ms 8423
+>                 ...
+>
+>      Then the log "login: [    8.340751] Boot ms 8319" roughly showed the=
+ OS boot time was ~8.3s.
+>
+> 4) Measured OS boot time (in seconds)
+>    a) Measured 10 times w/o Joel's patch:
+>         8.7s, 8.4s, 8.6s, 8.2s, 9.0s, 8.7s, 8.8s, 9.3s, 8.8s, 8.3s
+>         The average OS boot time was: ~8.7s
+>
+>    b) Measure 10 times w/ Joel's patch:
+>         8.5s, 8.2s, 7.6s, 8.2s, 8.7s, 8.2s, 7.8s, 8.2s, 9.3s, 8.4s
+>         The average OS boot time was: ~8.3s.
+>
+> The OS boot time was reduced by : 8.7 =E2=80=93 8.3 =3D 0.4 second
+> The reduction percentage was       : 0.4/8.7 * 100% =3D 4.6%
+>
+> If the testing above makes sense to you, please feel free to
+> add
+>
+>       Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 
-diff --git a/Documentation/maintainer/rebasing-and-merging.rst b/Documentation/maintainer/rebasing-and-merging.rst
-index 09f988e7fa71..85800ce95ae5 100644
---- a/Documentation/maintainer/rebasing-and-merging.rst
-+++ b/Documentation/maintainer/rebasing-and-merging.rst
-@@ -213,11 +213,7 @@ point rather than some random spot.  If your upstream-bound branch has
- emptied entirely into the mainline during the merge window, you can pull it
- forward with a command like::
- 
--  git merge v5.2-rc1^0
--
--The "^0" will cause Git to do a fast-forward merge (which should be
--possible in this situation), thus avoiding the addition of a spurious merge
--commit.
-+  git merge --ff-only v5.2-rc1
- 
- The guidelines laid out above are just that: guidelines.  There will always
- be situations that call out for a different solution, and these guidelines
--- 
-2.39.1
+Yes, it makes sense. I will add these. Thanks!
 
+ - Joel
+
+>
+> Thanks!
+> -Qiuxu
+>
+> > I can change it to default 0 essentially NOOPing it, but I would rather=
+ have a
+> > saner default (10 seconds even), than having someone forget to tune thi=
+s for
+> > their system.
+> >
+> > Thanks,
+> >
+> >  - Joel
+>
