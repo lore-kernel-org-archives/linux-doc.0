@@ -2,78 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7C3DC7EE30
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Feb 2023 23:40:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B357CC64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 00:52:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229823AbjB0Xkw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Feb 2023 18:40:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46814 "EHLO
+        id S229542AbjB1AwH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Feb 2023 19:52:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229837AbjB0Xkv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 18:40:51 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB642596D;
-        Mon, 27 Feb 2023 15:40:42 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4F68560D57;
-        Mon, 27 Feb 2023 23:40:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B249C433D2;
-        Mon, 27 Feb 2023 23:40:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677541241;
-        bh=oYGfSP1jQ+oQxI9MEK053Arzs+AetogJWsAlkK1901U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nbANs9xmu9YhQNFdX1EkZQUH3qFdDNgtZmdwYNO+W6NPmx5MVKfSFw7d9at24fgbb
-         S+gyftqTmay9cEJGytle7rQTxiFGPci4ejFlJvens2xba4LaMHMs5+3/CsW4Ep3G3+
-         LHowdroLMvyl+v/Cz96cuEJ9499EN1R4x1T2/RGFcPhA4IWAP5vdbKlktZGfBsb4HI
-         /vVyWB53w9KAgy1/BRkLQYemwPDBx9Q0Kk+69zH7gMwudkEqgZ0KcldCBpZ8gtK8ap
-         P076wavYZXRaC9146f14DI+J3e1C6/tOo78tITg0lDp4XrgRrsUp+ZpwyXKJn/dz9W
-         QSYHFE+9DkHYQ==
-Date:   Tue, 28 Feb 2023 00:40:38 +0100
-From:   Frederic Weisbecker <frederic@kernel.org>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
- completed
-Message-ID: <Y/0/dnmIk508sidK@lothringen>
-References: <Y/z0fHHYdxEXcWMT@pc636>
- <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
- <Y/z9Its1RKetIr8V@pc636>
- <CAEXW_YSjT_orp8TbomBFU+ETS7YJ7TrbHTdrsBRTzCKG5_SBdw@mail.gmail.com>
- <20230227230502.GJ2948950@paulmck-ThinkPad-P17-Gen-1>
+        with ESMTP id S229485AbjB1AwH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Feb 2023 19:52:07 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB80825E22
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 16:52:05 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id m3-20020a17090ade0300b00229eec90a7fso465993pjv.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Feb 2023 16:52:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=m8s5UkFxN0XyIVbUTdsw9LuY++h2yrQIvwFytCMmrlw=;
+        b=c0/r4xm3kIsQ2Jwpl2m192HxOi7kIuvxJlwpCw38u+VEwUoONxMx+2qs1uLXOCjydX
+         2LbhnU8dywiojN74erI1KyXuyFYPRJdsQl1goK7DcPl5Sipb0qRBq5ulFnzZ1VzKVgYT
+         8YPGredZ0oHAq6gSDQ9HKIe8bmBQEaON4yWej2GQseOoXtPfUMGDLMq73zvuQ38uFJcR
+         +BwmQdvaHbPp+i4V5Uhi+fAu7EjF7hT7zMOBPxFM/t6yrAcWlgcbT5J7Et/hI7nS+BVO
+         9LFuQtJersMA2qTjc4ezrLiEjKxaf2ZzBG3t3F0fnhSAnFnQ3tngo1g16dXdohdHqIq/
+         fWHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=m8s5UkFxN0XyIVbUTdsw9LuY++h2yrQIvwFytCMmrlw=;
+        b=LHwcfIaH24JN/+wLSG1p6sRZFPRCIVQdfOuLNWIlkmhQhcWIND5Hl+D/r5cYZYAXm7
+         56vvUofKFKL9tixfvE7ZOSR1W8PiqifZ/Dc/A/OEqq50VXgdVyJrr1GGSI416ji+ketF
+         CEqfqDrXDqOnLBpFR6UUxUXDPgt9zUXpJU33+hL0xZyblXNB8UruXIsI2ntX/MzqjC5+
+         sHiot9qiYmA8XoPcU89TM9EHF3NDBkTuTMa+P8tXcmkdcWHQ+TpkoXoyhsmYnnNPjAsQ
+         pQUrs/gA1WdzHXHmTZAhAStN+CAsJV3GlP/d0JWqVehtnZRhVNRF7BWCljdK+Z5yMfGe
+         e4Kw==
+X-Gm-Message-State: AO0yUKWGC8azzsEsbgChLuT0tgGg3cfCvGVAuv4KFz5vOgNmN6QsEkDy
+        xQO6C3p0dw9sPviuR92w1qsybQ==
+X-Google-Smtp-Source: AK7set+TQtVs8/qCCbDkDc4YM5iQhgpDnJ+EIymGMdWMWy3GdNnv8VYRETrDicOK331w/rirpzr9GA==
+X-Received: by 2002:a17:902:d4cd:b0:19c:d7a9:8bf0 with SMTP id o13-20020a170902d4cd00b0019cd7a98bf0mr1618653plg.10.1677545525332;
+        Mon, 27 Feb 2023 16:52:05 -0800 (PST)
+Received: from [10.211.55.3] (h112.92.137.40.static.ip.windstream.net. [40.137.92.112])
+        by smtp.gmail.com with ESMTPSA id p5-20020a170902780500b0019a8530c063sm5176304pll.102.2023.02.27.16.52.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Feb 2023 16:52:04 -0800 (PST)
+Message-ID: <e75b8b9e-c870-6342-f7e4-32492d5f77be@linaro.org>
+Date:   Mon, 27 Feb 2023 18:52:03 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230227230502.GJ2948950@paulmck-ThinkPad-P17-Gen-1>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v10 08/26] gunyah: rsc_mgr: Add resource manager RPC core
+Content-Language: en-US
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alex Elder <elder@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214212327.3310128-1-quic_eberman@quicinc.com>
+ <d69f9699-b4d9-7a3a-71b1-7e6fe72c4f82@linaro.org>
+ <94ebe2f0-0baf-21c0-45d5-c5bc4df9ad94@quicinc.com>
+ <44a59ea4-da6e-e96a-5e89-dfd41db72823@linaro.org>
+ <cd61963d-eb4c-9a4f-d48f-7a633bfd4be3@quicinc.com>
+From:   Alex Elder <alex.elder@linaro.org>
+In-Reply-To: <cd61963d-eb4c-9a4f-d48f-7a633bfd4be3@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 27, 2023 at 03:05:02PM -0800, Paul E. McKenney wrote:
-> On Mon, Feb 27, 2023 at 02:10:30PM -0500, Joel Fernandes wrote:
+On 2/23/23 5:13 PM, Elliot Berman wrote:
+>> TBH, gunyah.c should be merged as part of resource manager, and check 
+>> if uuids and features in probe before proceeding further.
+>>
 > 
-> The combination of sysfs manipulated by userspace and a kernel failsafe
-> makes sense to me.  Especially if by default triggering the failsafe
-> splats.  That way, bugs where userspace fails to update the sysfs file
-> get caught.
 > 
-> The non-default silent-failsafe mode is also useful to allow some power
-> savings in advance of userspace getting the sysfs updating in place.
-> And of course the default splatting setup can be used in internal testing
-> with the release software being more tolerant of userspace foibles.
+> Ah -- gunyah_rsc_mgr.ko has symbol dependency on gunyah-msgq.ko. 
+> gunyah-msgq.ko has symbol dependency on gunyah.ko. gunyah.ko doesn't 
+> have any probe and does all its work on module_init.
+> 
+> In order to merge gunyah.c with resource manager, I would need to 
+> incorporate message queue mailbox into resource manager. IMO, this 
+> rapidly moves towards a mega-module which was discouraged previously.
 
-I'm wondering, this is all about CONFIG_RCU_LAZY, right? Or does also expedited
-GP turned off a bit early or late on boot matter for anybody in practice?
+I missed this discussion; why was it discouraged?
 
-So shouldn't we disable lazy callbacks by default when CONFIG_RCU_LAZY=y and then
-turn it on with "sysctl kernel.rcu.lazy=1" only whenever userspace feels ready
-about it? We can still keep the current call to rcu_end_inkernel_boot().
+I can think of some reasons why I guess.  But I don't see what
+problem comes from linking together a "mega module" that's made
+up of well-isolated source files that expose minimal APIs to
+one another.  All inter-dependent modules will required at once
+anyway; I don't understand the benefit of implementing them
+separately.  Can you explain, or provide some context?  Thanks.
 
-And if suddenly disabling lazy by default is an ABI breakage we can still add
-CONFIG_RCU_LAZY_DEFAULT_DISABLED.
+					-Alex
+
