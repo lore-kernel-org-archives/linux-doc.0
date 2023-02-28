@@ -2,120 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78473C64ED6
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 10:58:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD7F2C64ED6
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Feb 2023 11:04:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230480AbjB1K6u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 05:58:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42096 "EHLO
+        id S231286AbjB1LEo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 06:04:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231318AbjB1K6k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 05:58:40 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64C7130F3;
-        Tue, 28 Feb 2023 02:58:32 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        with ESMTP id S231278AbjB1LEo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 06:04:44 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F1A627497;
+        Tue, 28 Feb 2023 03:04:42 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D566B1EC067E;
-        Tue, 28 Feb 2023 11:58:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1677581910;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=8M3tlnbS9Pz471dSvOzN4aKK6qk+Uej9KAtfSfq3hVM=;
-        b=AoiltTMvFbe/f/ypMXgOnhHwt+phRCl8mXS5lx3DkxlOxvdf31/yUuFf6amM69Bov1xqnP
-        44Md0Q+v9X6VCHe229Cfao5EsmCUhy/O+5uqW3SelHzpFRnaj/yN+ErabZpQAMGomc7Rfb
-        noGKmIIfKLYOoiyBdkJwLQWaY5b+Os8=
-Date:   Tue, 28 Feb 2023 11:58:25 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v6 28/41] x86: Introduce userspace API for shadow stack
-Message-ID: <Y/3eUQEV95gZEoaF@zn.tnic>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-29-rick.p.edgecombe@intel.com>
- <Y/irg8d6OZ+OCFml@zn.tnic>
- <9c67abd16cce9251bfdb87bcc7e47bbf32e4a9f2.camel@intel.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3FCD2B80D58;
+        Tue, 28 Feb 2023 11:04:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8F2C433D2;
+        Tue, 28 Feb 2023 11:04:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677582280;
+        bh=QpDfQ/zJp6kV7hVEF9bezQ5WIgwiAYm6JLVTuiilDXw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PxIOIXNqhzXRLo2LGPqW2PgTig+cHJdmF6wthVXirQB1Eqc3HBvl+EPi3ZEWuHF4c
+         n+/2/fOjEJCyXki6PSX4oeix71z8Y+eprCUXKH1YWqVmEwOeOpZtquIL038SEKnNvb
+         Kt/CfrKVY9AoyIr1IkHjJZf4vvmVTUytMrMBCTSGwiDSRjl692CuiZFlK7Zw30TmXi
+         vGkmvW+VOHeE0om/CPMJQrGNugdD1pU75Yi1ikm+ZWkjnjKH2J/cAxJlnEAqHPU0kZ
+         UxbJwI49lXOUBMv8vxmQhuGVWnh0cXN92HinaChq0/HnYyp7WFFyBzzPsmNC7Wse0y
+         YynmkKaKnSXiw==
+Date:   Tue, 28 Feb 2023 12:04:36 +0100
+From:   Frederic Weisbecker <frederic@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
+ completed
+Message-ID: <Y/3fxLXbfvnLFEZq@lothringen>
+References: <Y/z0fHHYdxEXcWMT@pc636>
+ <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
+ <Y/z9Its1RKetIr8V@pc636>
+ <CAEXW_YSjT_orp8TbomBFU+ETS7YJ7TrbHTdrsBRTzCKG5_SBdw@mail.gmail.com>
+ <20230227230502.GJ2948950@paulmck-ThinkPad-P17-Gen-1>
+ <Y/0/dnmIk508sidK@lothringen>
+ <Y/1ZMXsNZtwYPJNW@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9c67abd16cce9251bfdb87bcc7e47bbf32e4a9f2.camel@intel.com>
+In-Reply-To: <Y/1ZMXsNZtwYPJNW@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 24, 2023 at 06:37:57PM +0000, Edgecombe, Rick P wrote:
-> In the first patch:
+On Tue, Feb 28, 2023 at 01:30:25AM +0000, Joel Fernandes wrote:
+> On Tue, Feb 28, 2023 at 12:40:38AM +0100, Frederic Weisbecker wrote:
+> > On Mon, Feb 27, 2023 at 03:05:02PM -0800, Paul E. McKenney wrote:
+> > > On Mon, Feb 27, 2023 at 02:10:30PM -0500, Joel Fernandes wrote:
+> > > 
+> > > The combination of sysfs manipulated by userspace and a kernel failsafe
+> > > makes sense to me.  Especially if by default triggering the failsafe
+> > > splats.  That way, bugs where userspace fails to update the sysfs file
+> > > get caught.
+> > > 
+> > > The non-default silent-failsafe mode is also useful to allow some power
+> > > savings in advance of userspace getting the sysfs updating in place.
+> > > And of course the default splatting setup can be used in internal testing
+> > > with the release software being more tolerant of userspace foibles.
+> > 
+> > I'm wondering, this is all about CONFIG_RCU_LAZY, right? Or does also expedited
+> > GP turned off a bit early or late on boot matter for anybody in practice?
 > 
-> https://lore.kernel.org/lkml/20230218211433.26859-2-rick.p.edgecombe@intel.com/
+> Yes, if you provide 'rcu_normal_after_boot', then after the boot ends, it
+> switches expedited GPs to normal ones.
 > 
-> Then some more documentation is added about ARCH_SHSTK_UNLOCK and
-> ARCH_SHSTK_STATUS (which are for CRIU) in those patches.
+> It is the same issue for expedited, the kernel's version of what is 'boot' is
+> much shorter than what is actually boot.
+> 
+> This is also the case with suspend/resume's rcu_pm_notify(). See the comment:
+>   /*
+>    * On non-huge systems, use expedited RCU grace periods to make suspend
+>    * and hibernation run faster.
+>    */
+> 
+> There also we turn on/off both lazy and expedited. I don't see why we
+> shouldn't do it for boot.
 
-Right, I was thinking more about ARCH_PRCTL(2), the man page.
+Of course but I mean currently rcu_end_inkernel_boot() is called explicitly
+before the kernel calls init. From that point on, what is the source of the
+issue? Delaying lazy further would be enough or do we really need to delay
+forcing expedited as well? Or is it the reverse: delaying expedited further
+would matter and lazy doesn't play much role from there.
 
-But you can send that to the manpages folks later. I.e., it should be
-nearly impossible to be missed. :)
+It matters to know because if delaying expedited further is enough, then indeed
+we must delay the call to rcu_end_inkernel_boot() somehow. But if delaying
+expedited further doesn't matter and delaying lazy matter then it's possible
+that the issue is a callback that should be marked as call_rcu_hurry() and then
+the source of the problem is much broader.
 
-> There are glibc patches prepared by HJ to use the new interface and
-> it's my understanding that he has discussed the changes with the other
-> glibc folks. Those glibc patches are used for testing these kernel
-> patches, but will not get upstream until the kernel patches to avoid
-> repeating the past problems. So I think it's as prepared as it can be.
+I think the confusion comes from the fact that your changelog doesn't state precisely
+what the problem exactly is. Also do we need to wait for the kernel boot completion?
+And if so what is missing from kernel boot after the current explicit call to
+rcu_end_inkernel_boot()?
 
-Good.
+Or do we also need to wait for userspace to complete the boot? Different
+problems, different solutions.
 
-> One future thing that might come up... Glibc has this mode called
-> "permissive mode". When glibc is configured this way (compile time or
-> env var), it is supposed to disable shadow stack when dlopen()ing any
-> DSO that doesn't have the shadow stack elf header bit.
+But in any case a countdown is not a way to go. Consider that rcu_lazy may
+be used by a larger audience than just chromium in the long run. You can not
+ask every admin to provide his own estimation per type of machine. You can't
+either rely on a long default value because that may have bad impact on
+workload assumptions launched right after boot.
 
-Maybe I don't understand all the possible use cases but if I were
-interested in using shadow stack, then I'd enable it for all objects.
-And if I want permissive, I'd disable it for all. A mixed thing sounds
-like a mixed can of worms waiting to be opened.
+> 
+> > So shouldn't we disable lazy callbacks by default when CONFIG_RCU_LAZY=y and then
+> > turn it on with "sysctl kernel.rcu.lazy=1" only whenever userspace feels ready
+> > about it? We can still keep the current call to rcu_end_inkernel_boot().
+> 
+> Hmm IMHO that would add more knobs for not much reason honestly. We already
+> have CONFIG_RCU_LAZY default disabled, I really don't want to add more
+> dependency (like user enables the config and does not see laziness).
 
--- 
-Regards/Gruss,
-    Boris.
+I don't know. Like I said, different problems, different solutions. Let's
+identify what the issue is precisely. For example can we expect that the issues
+on boot can be a problem also on some temporary workloads?
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Besides I'm currently testing a very hacky flavour of rcu_lazy and so far it
+shows many idle calls that would have been delayed if callbacks weren't queued
+as lazy. I have yet to do actual energy and performance measurements but if it
+happens to show improvements, I suspect distros will want a supported yet
+default disabled Kconfig that can be turned on on boot or later. Of course we
+are not there yet but things to keep in mind...
+
+Thanks.
