@@ -2,185 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D478C64EC7
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 08:17:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F1CFC64ED6
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 08:28:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbjCAIRv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 03:17:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47222 "EHLO
+        id S229794AbjCAI2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 03:28:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229884AbjCAIRr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 03:17:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E494939CC9
-        for <linux-doc@vger.kernel.org>; Wed,  1 Mar 2023 00:16:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677658574;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qQIo0hNE1IdmdTJeAfVSWSJHdp/A2L81MbqwgQGi7/s=;
-        b=G8tgfKqa1YDCNLfOia9uffPGr8BtOSAMB8gRWSNAooQAMe0UhXHQXpCJQB2Udt2sM9RMTo
-        pNuNHSQ78isYUfo4QcwvWV4qTar17sJww4bqBK6NopTgNVBTKCPebdPX1x8P8VHy51SalK
-        pD4VD0PQhof6vljf8Z1fDnZANhOI6YU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-64-4Dx-Rw_YP3eNejODp7yzpA-1; Wed, 01 Mar 2023 03:16:10 -0500
-X-MC-Unique: 4Dx-Rw_YP3eNejODp7yzpA-1
-Received: by mail-wm1-f71.google.com with SMTP id j32-20020a05600c1c2000b003e9bdf02c9fso7997024wms.6
-        for <linux-doc@vger.kernel.org>; Wed, 01 Mar 2023 00:16:10 -0800 (PST)
+        with ESMTP id S229753AbjCAI2O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 03:28:14 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A68FD10C3;
+        Wed,  1 Mar 2023 00:28:11 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id v11so9670612plz.8;
+        Wed, 01 Mar 2023 00:28:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677659291;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7sZ5QMejw6iYZe3voviTFum1T1dofKPjV1mBViIgC/U=;
+        b=E/+sjHiN+X5ygvglxuZ8/nnSHxEAHz/HVcpSuWxVf17Q/8mk5CioW0pyKTi1qxGpvn
+         r9lXC2Czoa8DLgEY5iI8+wnnKTHdNCUsO4ezS1ygiTn6tWtksLUQ9Nz3a2sWX5dQj8c0
+         XVLSeAkYBRgla4jvIbrFS6xneXuGoN5ox7wNeVDKVNPeMEDBQf+bfIzLuuiFZhQ+7i3I
+         4+KNf1BXoPA5R4BBkIRWe8nv6Nqai4z1kSJolcVNMnoOCnZKbkcdRTx9Eimx0L/o+MLL
+         xH+YZALu0z79b645yC/PMHm2aoUN0M8emzviiVAPIBLU3N4gtsPRaS1HFddEpCphSP55
+         ATLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :content-language:references:cc:to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qQIo0hNE1IdmdTJeAfVSWSJHdp/A2L81MbqwgQGi7/s=;
-        b=vMEs42BFRsNXRFhaXlGNWzZp58i2azlYPx9sN04DEVclbkqsukyntqZhg0jwVFEWGT
-         H9JgW6X8cyoUX3RJLodA0NwfNBVoLWi6FalIDoDIApMBrwzZVsRXHZPOBBTRNFLfBlW7
-         DCZ7W8UOAtP5fSfJdR5ngCZulNVHvpdATLj+KCksyFWvcGxjZuoblSYG6X2JpUOP9PzD
-         U2Skw94fE3pCDi1iPXZ6iJ3PzWLIG0Ad5juqfOON1ZWkdXaxR38gc+69k9oNlYtxx+KU
-         nFB7YHc9atkVc6tys4nA7ySAnrFLDFD2/h49jV4sjiaa7PTQ9FPAnn/FUZXB7TQ/b4vs
-         WtXw==
-X-Gm-Message-State: AO0yUKX9CwtDHDxmUCGDiEHBn/Cw+Neo9qJmTtAxsGPT62vG32vNSsMg
-        TTEMJHG4Qsvl88rpXuvKYVRyfPdmRkDRphskMInOkBdgjry70jRXr+YNn9iBjfxC12i/hW5Bq3v
-        rfoxmA9aSKRmOkybhzWa9
-X-Received: by 2002:adf:fa42:0:b0:2c8:9cfe:9e29 with SMTP id y2-20020adffa42000000b002c89cfe9e29mr3673905wrr.38.1677658569262;
-        Wed, 01 Mar 2023 00:16:09 -0800 (PST)
-X-Google-Smtp-Source: AK7set/Zcp0KDYd3P+ttMa1nxfZFskB2aS7FMY5A6AFDn91vWMJGTRwO0n5U4FI/yi5+QKrlOm4zVQ==
-X-Received: by 2002:adf:fa42:0:b0:2c8:9cfe:9e29 with SMTP id y2-20020adffa42000000b002c89cfe9e29mr3673883wrr.38.1677658568881;
-        Wed, 01 Mar 2023 00:16:08 -0800 (PST)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id m15-20020a5d6a0f000000b002c707785da4sm11739026wru.107.2023.03.01.00.16.06
+        d=1e100.net; s=20210112; t=1677659291;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7sZ5QMejw6iYZe3voviTFum1T1dofKPjV1mBViIgC/U=;
+        b=KGPyjZZ2M4e6qxbn4qE249mwFPseiq+r+RsaUefjg+oQL2/72tGlq0ZEW3emP2/Cvm
+         U/ln/BiBZ+fWmBbAy9s+gqWq5pxIvq5B+LR+2Fo4XpcnB3QEe6q0dlDs2cmPXIGJCvSR
+         cMrmGHgogVdJbhVZUxi3z7T59Tl2qp4s0vul3kQDX0a2E9Xf+9q5fkJNHgAUVQpq2tpw
+         nFLbm0cMvUX0BDR5osSVshyiL4KpINP2tkX+PnLwgooWvvX6q6ZDc3SEsLX/wJ1R1Zw9
+         DLCxoVJnhcXt9pyzK6n7OFzcG0tGbjyn8r/uBwXuCiVAp7RDcRMDQc+gt38DJfCOxoDX
+         Hw3w==
+X-Gm-Message-State: AO0yUKU/1+phi84i1RaUFjBdqGD0NZGvS/Lz9E23J8kG04j0UzUGumz9
+        4tfV0YAdSNA6ByRHD6MHxes=
+X-Google-Smtp-Source: AK7set+f85af+gXx0M8VaSMb/VOvinKTLPhYimAmMWJMRIThpaCS0eXbsQbHbmRqFMbxDMhAgNHb7A==
+X-Received: by 2002:a05:6a21:6d8a:b0:cc:c69b:f7f1 with SMTP id wl10-20020a056a216d8a00b000ccc69bf7f1mr7161371pzb.15.1677659291078;
+        Wed, 01 Mar 2023 00:28:11 -0800 (PST)
+Received: from [192.168.43.80] (subs03-180-214-233-68.three.co.id. [180.214.233.68])
+        by smtp.gmail.com with ESMTPSA id b15-20020aa7810f000000b005b6f63c6cf4sm7321262pfi.30.2023.03.01.00.28.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Mar 2023 00:16:08 -0800 (PST)
-Message-ID: <550c6035-6dd0-d215-226b-1a82dafa05d6@redhat.com>
-Date:   Wed, 1 Mar 2023 09:16:06 +0100
+        Wed, 01 Mar 2023 00:28:10 -0800 (PST)
+Message-ID: <635a2923-b69a-4ce9-f37d-6fe50b6dd164@gmail.com>
+Date:   Wed, 1 Mar 2023 15:28:02 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+Subject: Re: [PATCH v8 01/16] dma-buf/dma-fence: Add deadline awareness
+To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Simon Ser <contact@emersion.fr>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "eranian@google.com" <eranian@google.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Andrew.Cooper3@citrix.com" <Andrew.Cooper3@citrix.com>,
-        "christina.schimpe@intel.com" <christina.schimpe@intel.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>
-Cc:     "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-        "linux-snps-arc@lists.infradead.org" 
-        <linux-snps-arc@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
-References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-14-rick.p.edgecombe@intel.com>
- <1f8b78b6-9f34-b646-68f2-eac62136b9f4@csgroup.eu>
+        Gustavo Padovan <gustavo@padovan.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20230228225833.2920879-1-robdclark@gmail.com>
+ <20230228225833.2920879-2-robdclark@gmail.com>
 Content-Language: en-US
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v7 13/41] mm: Make pte_mkwrite() take a VMA
-In-Reply-To: <1f8b78b6-9f34-b646-68f2-eac62136b9f4@csgroup.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230228225833.2920879-2-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01.03.23 08:03, Christophe Leroy wrote:
+On 3/1/23 05:58, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
+> Add a way to hint to the fence signaler of an upcoming deadline, such as
+> vblank, which the fence waiter would prefer not to miss.  This is to aid
+> the fence signaler in making power management decisions, like boosting
+> frequency as the deadline approaches and awareness of missing deadlines
+> so that can be factored in to the frequency scaling.
 > 
-> Le 27/02/2023 à 23:29, Rick Edgecombe a écrit :
->> The x86 Control-flow Enforcement Technology (CET) feature includes a new
->> type of memory called shadow stack. This shadow stack memory has some
->> unusual properties, which requires some core mm changes to function
->> properly.
->>
->> One of these unusual properties is that shadow stack memory is writable,
->> but only in limited ways. These limits are applied via a specific PTE
->> bit combination. Nevertheless, the memory is writable, and core mm code
->> will need to apply the writable permissions in the typical paths that
->> call pte_mkwrite().
->>
->> In addition to VM_WRITE, the shadow stack VMA's will have a flag denoting
->> that they are special shadow stack flavor of writable memory. So make
->> pte_mkwrite() take a VMA, so that the x86 implementation of it can know to
->> create regular writable memory or shadow stack memory.
->>
->> Apply the same changes for pmd_mkwrite() and huge_pte_mkwrite().
+> v2: Drop dma_fence::deadline and related logic to filter duplicate
+>     deadlines, to avoid increasing dma_fence size.  The fence-context
+>     implementation will need similar logic to track deadlines of all
+>     the fences on the same timeline.  [ckoenig]
+> v3: Clarify locking wrt. set_deadline callback
+> v4: Clarify in docs comment that this is a hint
+> v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
+> v6: More docs
+> v7: Fix typo, clarify past deadlines
 > 
-> I'm not sure it is a good idea to add a second argument to
-> pte_mkwrite(). All pte_mkxxxx() only take a pte and nothing else.
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
-We touched on this in previous revisions and so far there was no strong 
-push back. This turned out to be cleaner and easier than the 
-alternatives we evaluated.
+I have given my Reviewed-by from v7 [1], but it didn't get picked up,
+thus giving it again:
 
-pte_modify(), for example, takes another argument. Sure, we could try 
-thinking about passing something else than a VMA to identify the 
-writability type, but I am not convinced that will look particularly better.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-> 
-> I think you should do the same as commit d9ed9faac283 ("mm: add new
-> arch_make_huge_pte() method for tile support")
-> 
+Thanks.
 
-We already have 3 architectures intending to support shadow stacks in 
-one way or the other. Replacing all pte_mkwrite() with 
-arch_pte_mkwrite() doesn't sound particularly appealing to me.
-
+[1]: https://lore.kernel.org/linux-doc/Y%2F7LfLxhIjDpD4D3@debian.me/
 
 -- 
-Thanks,
-
-David / dhildenb
+An old man doll... just what I always wanted! - Clara
 
