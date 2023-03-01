@@ -2,42 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81E5DC6FA9D
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 18:36:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35802C64ED6
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 18:36:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229923AbjCASgz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 13:36:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43242 "EHLO
+        id S229894AbjCASg4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 13:36:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbjCASgw (ORCPT
+        with ESMTP id S229904AbjCASgw (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 13:36:52 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E809A47402;
-        Wed,  1 Mar 2023 10:36:50 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F142548E09;
+        Wed,  1 Mar 2023 10:36:49 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A56D9B8110A;
-        Wed,  1 Mar 2023 18:36:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 123C7C433A7;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9F2AAB810D5;
         Wed,  1 Mar 2023 18:36:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0021DC4339C;
+        Wed,  1 Mar 2023 18:36:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677695808;
-        bh=1PTbEGcPaUc/kPHFJ2lFOtZgCtP4SxJi0Ga247F3+QI=;
+        s=k20201202; t=1677695807;
+        bh=UJ5NKmoe4owCJ+AjKMsXkW6J0FjadIwP5rlFgHI3eeU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TNzFLQusSYUt4ScKa51nAS3gNDneFjt9EfhnGqaPGbOWeeeCKaFbZL9enIGrH6Ctq
-         U8bAcmr7dZLUNeIr7OFyzG+IMMKOHEQ5J/pZs5L5LWFbkL4GF4dbsGw/8dW/H4aBTU
-         nV3kTtRw37ig79ynzSxJALmsMO4TvoYgfnLjeZyBVGyju3ghB/n5CmxA5WH20a71Sv
-         dlNuQD1iGp2UoxVbjsjidkbf8gh5ZCmVXCpkqaswEtNysbf3QTDBqLpcyyf//4Oxcq
-         CrEJrnIN5VRFp1DgEraf4e/PM6sQtu+ATRsiCq128sAncGKpj61+YmdZP/iJqQV9sr
-         Y4rN44QSJ4xLg==
+        b=elvvtZAbsbwcH/CTd0T7mFNuSUqktzBf/7Wz9bhN/A+Zw1F4qCtE38Ch5idVEnZHu
+         JAqxqdAJK+3hpzBa410EaZ3L4QGrhNGTNOZf2X+r3LwvJR2cgC4/7D/ZxGIm/rukal
+         NITJBfDLQb7k7VI8dNL1za29/GJHocaIVBSfcUOkGd0LkVr0qCFw78MXILr3eqDdd9
+         jsN9+PhBpDolGhVcrZcD3io0oMOSBtAnCriVIYi0bxr5jeAQWvu2nRpz3xFjBFuS9i
+         sOFax3Q3e8GYZFTCzEE2Zfi3f8fkUzXw4eRCA45sOws/q1z0K797vtsKAN7eLQP/CM
+         497VXOym1aKYw==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net 3/3] netlink: specs: update for codegen enumerating from 1
-Date:   Wed,  1 Mar 2023 10:36:42 -0800
-Message-Id: <20230301183642.2168393-4-kuba@kernel.org>
+        linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        corbet@lwn.net, sdf@google.com
+Subject: [PATCH net 1/3] tools: ynl: fully inherit attrs in subsets
+Date:   Wed,  1 Mar 2023 10:36:40 -0800
+Message-Id: <20230301183642.2168393-2-kuba@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230301183642.2168393-1-kuba@kernel.org>
 References: <20230301183642.2168393-1-kuba@kernel.org>
@@ -47,176 +48,70 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now that the codegen rules had been changed we can update
-the specs to reflect the new default.
+To avoid having to repeat the entire definition of an attribute
+(including the value) use the Attr object from the original set.
+In fact this is already the documented expectation.
 
+Fixes: be5bea1cc0bf ("net: add basic C code generators for Netlink")
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- Documentation/netlink/specs/ethtool.yaml | 15 ---------------
- Documentation/netlink/specs/fou.yaml     |  2 ++
- Documentation/netlink/specs/netdev.yaml  |  2 --
- 3 files changed, 2 insertions(+), 17 deletions(-)
+CC: corbet@lwn.net
+CC: sdf@google.com
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/userspace-api/netlink/specs.rst |  3 ++-
+ tools/net/ynl/lib/nlspec.py                   | 23 ++++++++++++-------
+ 2 files changed, 17 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
-index 08b776908d15..35c462bce56f 100644
---- a/Documentation/netlink/specs/ethtool.yaml
-+++ b/Documentation/netlink/specs/ethtool.yaml
-@@ -11,7 +11,6 @@ doc: Partial family for Ethtool Netlink.
-       -
-         name: dev-index
-         type: u32
--        value: 1
-       -
-         name: dev-name
-         type: string
-@@ -25,7 +24,6 @@ doc: Partial family for Ethtool Netlink.
-       -
-         name: index
-         type: u32
--        value: 1
-       -
-         name: name
-         type: string
-@@ -39,14 +37,12 @@ doc: Partial family for Ethtool Netlink.
-         name: bit
-         type: nest
-         nested-attributes: bitset-bit
--        value: 1
-   -
-     name: bitset
-     attributes:
-       -
-         name: nomask
-         type: flag
--        value: 1
-       -
-         name: size
-         type: u32
-@@ -61,7 +57,6 @@ doc: Partial family for Ethtool Netlink.
-       -
-         name: index
-         type: u32
--        value: 1
-       -
-         name: value
-         type: string
-@@ -71,7 +66,6 @@ doc: Partial family for Ethtool Netlink.
-       -
-         name: string
-         type: nest
--        value: 1
-         multi-attr: true
-         nested-attributes: string
-   -
-@@ -80,7 +74,6 @@ doc: Partial family for Ethtool Netlink.
-       -
-         name: id
-         type: u32
--        value: 1
-       -
-         name: count
-         type: u32
-@@ -96,14 +89,12 @@ doc: Partial family for Ethtool Netlink.
-         name: stringset
-         type: nest
-         multi-attr: true
--        value: 1
-         nested-attributes: stringset
-   -
-     name: strset
-     attributes:
-       -
-         name: header
--        value: 1
-         type: nest
-         nested-attributes: header
-       -
-@@ -119,7 +110,6 @@ doc: Partial family for Ethtool Netlink.
-     attributes:
-       -
-         name: header
--        value: 1
-         type: nest
-         nested-attributes: header
-       -
-@@ -132,7 +122,6 @@ doc: Partial family for Ethtool Netlink.
-     attributes:
-       -
-         name: header
--        value: 1
-         type: nest
-         nested-attributes: header
-       -
-@@ -180,7 +169,6 @@ doc: Partial family for Ethtool Netlink.
-     attributes:
-       -
-         name: pad
--        value: 1
-         type: pad
-       -
-         name: reassembly-errors
-@@ -205,7 +193,6 @@ doc: Partial family for Ethtool Netlink.
-     attributes:
-       -
-         name: header
--        value: 1
-         type: nest
-         nested-attributes: header
-       -
-@@ -251,13 +238,11 @@ doc: Partial family for Ethtool Netlink.
+diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
+index 6ffe8137cd90..1424ab1b9b33 100644
+--- a/Documentation/userspace-api/netlink/specs.rst
++++ b/Documentation/userspace-api/netlink/specs.rst
+@@ -199,7 +199,8 @@ The ``value`` property can be skipped, in which case the attribute ID
+ will be the value of the previous attribute plus one (recursively)
+ and ``0`` for the first attribute in the attribute set.
  
-       do: &strset-get-op
-         request:
--          value: 1
-           attributes:
-             - header
-             - stringsets
-             - counts-only
-         reply:
--          value: 1
-           attributes:
-             - header
-             - stringsets
-diff --git a/Documentation/netlink/specs/fou.yaml b/Documentation/netlink/specs/fou.yaml
-index 266c386eedf3..cca4cf98f03a 100644
---- a/Documentation/netlink/specs/fou.yaml
-+++ b/Documentation/netlink/specs/fou.yaml
-@@ -26,6 +26,7 @@ kernel-policy: global
-       -
-         name: unspec
-         type: unused
-+        value: 0
-       -
-         name: port
-         type: u16
-@@ -71,6 +72,7 @@ kernel-policy: global
-     -
-       name: unspec
-       doc: unused
-+      value: 0
+-Note that the ``value`` of an attribute is defined only in its main set.
++Note that the ``value`` of an attribute is defined only in its main set
++(not in subsets).
  
-     -
-       name: add
-diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
-index cffef09729f1..ba9ee13cf729 100644
---- a/Documentation/netlink/specs/netdev.yaml
-+++ b/Documentation/netlink/specs/netdev.yaml
-@@ -48,7 +48,6 @@ name: netdev
-         name: ifindex
-         doc: netdev ifindex
-         type: u32
--        value: 1
-         checks:
-           min: 1
-       -
-@@ -66,7 +65,6 @@ name: netdev
-     -
-       name: dev-get
-       doc: Get / dump information about a netdev.
--      value: 1
-       attribute-set: dev
-       do:
-         request:
+ enum
+ ~~~~
+diff --git a/tools/net/ynl/lib/nlspec.py b/tools/net/ynl/lib/nlspec.py
+index 71da568e2c28..dff31dad36c5 100644
+--- a/tools/net/ynl/lib/nlspec.py
++++ b/tools/net/ynl/lib/nlspec.py
+@@ -95,15 +95,22 @@ jsonschema = None
+         self.attrs = collections.OrderedDict()
+         self.attrs_by_val = collections.OrderedDict()
+ 
+-        val = 0
+-        for elem in self.yaml['attributes']:
+-            if 'value' in elem:
+-                val = elem['value']
++        if self.subset_of is None:
++            val = 0
++            for elem in self.yaml['attributes']:
++                if 'value' in elem:
++                    val = elem['value']
+ 
+-            attr = self.new_attr(elem, val)
+-            self.attrs[attr.name] = attr
+-            self.attrs_by_val[attr.value] = attr
+-            val += 1
++                attr = self.new_attr(elem, val)
++                self.attrs[attr.name] = attr
++                self.attrs_by_val[attr.value] = attr
++                val += 1
++        else:
++            real_set = family.attr_sets[self.subset_of]
++            for elem in self.yaml['attributes']:
++                attr = real_set[elem['name']]
++                self.attrs[attr.name] = attr
++                self.attrs_by_val[attr.value] = attr
+ 
+     def new_attr(self, elem, value):
+         return SpecAttr(self.family, self, elem, value)
 -- 
 2.39.2
 
