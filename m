@@ -2,265 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 918F0C64EC7
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 03:50:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6213C64ED6
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 04:07:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229579AbjCADu1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 22:50:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55246 "EHLO
+        id S229788AbjCAEHW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 23:07:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjCADu1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 22:50:27 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D099336471;
-        Tue, 28 Feb 2023 19:50:25 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id a2so2217602plm.4;
-        Tue, 28 Feb 2023 19:50:25 -0800 (PST)
+        with ESMTP id S229579AbjCAEHU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 23:07:20 -0500
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A8C11ACF3;
+        Tue, 28 Feb 2023 20:07:19 -0800 (PST)
+Received: by mail-il1-x129.google.com with SMTP id a1so7656545iln.9;
+        Tue, 28 Feb 2023 20:07:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677642625;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AG9TChwIFMajojqyXqEeGeimL/z1mkcKZGzrMps/uis=;
-        b=ajRS1aeLUGnojhe1k7eA812UZUIS3hY2jYVS9d5zFM0jhBxx21nQDwPW3geiY5KdeQ
-         BLJMUnJBC0FmwAMVRJEcPC9h0yvElO0Eg4yDrZbRdVlSIVYHyBj/m4hs6t8WNbsFUqIe
-         rH563UfNysxfDommzDram0sYc1BZmnZj2FUzWTi5xO0uTP2sfaVaeCQUeK1/IcD5cc6p
-         TzzxeiJ/hJHzTQVGK+QWUFWZ5uh72U6Idw9I1DX94dvL6OxxKIxwA+cvL2ZbI35X9A60
-         3qXtquqAHJ1GzCZtW3AsuAXPBYrJr472ZEbkXsI/W3Y33j9rgc+bJ/06sk2nvgjF+AwV
-         GZuQ==
+        d=gmail.com; s=20210112; t=1677643638;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=34NFfCpl2ugJCk18M5HFAnMc3Csw+/1Vb9q5/O6tJ7Q=;
+        b=P6PXUFq5hR+CKKxw8mCIcAAOBTCzPZVqKvHftgD/NeFFOF4b+OND8vnLqdScM3Bj2z
+         WVyu8/tP9W28tPCdjbtIVJYtzPgYjsaCNTExcljeGrt0H6hdHiYlMlzskqHSZcHUdFpX
+         q+6rfCVH7H+P1LX4yYzS9wurCaELJw7tXAsH2E0acbH16RjRMR0UP8kVRWFCKGeiw2oq
+         qyFUi08ex7s294SINysQ1ij1Gt8IN4FuEnGkKuOvVh33nNnknuYmfuuhu0GPfYN1CBm9
+         ALHn3gtDk7bEL/Fh6AX1mfr/B4RKnWFSbHyYRwa2cPgau7ZyIBQNdylR/q+d1NMEa8co
+         kzYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677642625;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AG9TChwIFMajojqyXqEeGeimL/z1mkcKZGzrMps/uis=;
-        b=41a3lXmC4MfI85dm6+Yy3cfmt1DAy4d1ccdAG3OXfJSLNVf72WtoeiB3bJEHnAv3ls
-         OsplHQkrx6aLOyuXA/A+2H+sEhCMcw7qoYfHR3Opm0qeYGMJdY4C9kQQYsgRrkBLKRm4
-         2LVOaqQFuXK5ZsEnaK6b3SJG4QA/wlKtIhAsGwbnCvgEqQYIddhyOvW9jzSpJtYRlWve
-         6IH5CtJNhZfEE8ARzmZCCQeqTfEUVyVAltv6KISDyVRe2vhBqBaP01QuBpy8r6ZZBqy+
-         W3V+Vs4VKhD7r6W1WHUaPd5YXhll+IYTfsfaOGfM+hIs+VZGzT6ZoEeWEQVPVCuxUed5
-         eDqQ==
-X-Gm-Message-State: AO0yUKXIbzjPvGSj+IiBeqcZIUOvY8Ad2cmfk4FkRHOiN3Lv4D2nB8q1
-        lZTIa0tyWvB5bLpQTDEPUEsg/6VC3G4=
-X-Google-Smtp-Source: AK7set81We+ge3qRlyt7CmGR9AL4sF3286rRoAlURb45cbwztk4MA141kwF+DBy8DFaVodZF3XnfTQ==
-X-Received: by 2002:a17:903:707:b0:19c:be57:9c6e with SMTP id kk7-20020a170903070700b0019cbe579c6emr3963565plb.39.1677642624977;
-        Tue, 28 Feb 2023 19:50:24 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-27.three.co.id. [180.214.232.27])
-        by smtp.gmail.com with ESMTPSA id x6-20020a1709029a4600b001992b8cf89bsm7279993plv.16.2023.02.28.19.50.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 19:50:24 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id D41941034B0; Wed,  1 Mar 2023 10:50:20 +0700 (WIB)
-Date:   Wed, 1 Mar 2023 10:50:20 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
-        Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 01/15] dma-buf/dma-fence: Add deadline awareness
-Message-ID: <Y/7LfLxhIjDpD4D3@debian.me>
-References: <20230227193535.2822389-1-robdclark@gmail.com>
- <20230227193535.2822389-2-robdclark@gmail.com>
+        d=1e100.net; s=20210112; t=1677643638;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=34NFfCpl2ugJCk18M5HFAnMc3Csw+/1Vb9q5/O6tJ7Q=;
+        b=NewDUu/HkTq+iy+pcjQ4fjDDXazq5lyYrT2w6k48oKm5PbacdWoqyPTStFv0K1vUYq
+         lBRqDduQBHjNpLcA3StJi4Ss8YELgap2uCXTOwOP42xbByJBMr4sPCJXYiMnqx9ia/IT
+         T7vKhB/tsq/s8FRq2xKaGU8J/iZMaryrV9xGXInUwuCWbm8hqzRrSlnEGeMYFl/oAEwR
+         5PJYZv15cKv8Brn6VgZ9WQIYpuBn+XqmvIpsxMXuO7JLTLnLCNxK0/ycgNEov7lY4Vi9
+         zDTJeR3IqlblemaYRXr4FzMyUSkOyoJdHshd9+ixD4VSAtXNXHP4haoI8qP4QnhhM3VR
+         NOkA==
+X-Gm-Message-State: AO0yUKWP1ubOC4LiLvzLw3uWQhyN+UJFh5X/MH0ZWPnUxFQxWUmpMum+
+        Y6r2vHRo6Ai4wLndglc98BI=
+X-Google-Smtp-Source: AK7set8BO8kmRLWPHQAepLh/KJA9eGmluOmaO4N38iT89XrNPhJV5gJZUUErhj4WphANT9Zh0UhcEQ==
+X-Received: by 2002:a05:6e02:219b:b0:316:f93f:6baa with SMTP id j27-20020a056e02219b00b00316f93f6baamr5492289ila.31.1677643638503;
+        Tue, 28 Feb 2023 20:07:18 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y21-20020a02bb15000000b003acfdc75a53sm3657081jan.48.2023.02.28.20.07.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Feb 2023 20:07:17 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <018f54ee-55cc-e30b-4595-ce555fff1708@roeck-us.net>
+Date:   Tue, 28 Feb 2023 20:07:15 -0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="oTYOw6gqQhDOyhTR"
-Content-Disposition: inline
-In-Reply-To: <20230227193535.2822389-2-robdclark@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/2] of: unittest: option to allow tests that trigger
+ kernel stack dump
+Content-Language: en-US
+To:     Frank Rowand <frowand.list@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230301012116.1488132-1-frowand.list@gmail.com>
+ <20230301012116.1488132-2-frowand.list@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20230301012116.1488132-2-frowand.list@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---oTYOw6gqQhDOyhTR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Feb 27, 2023 at 11:35:07AM -0800, Rob Clark wrote:
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-=
-api/dma-buf.rst
-> index 622b8156d212..183e480d8cea 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
->  .. kernel-doc:: drivers/dma-buf/dma-fence.c
->     :doc: fence signalling annotation
-> =20
-> +DMA Fence Deadline Hints
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> +   :doc: deadline hints
-> +
->  DMA Fences Functions Reference
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> =20
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 0de0482cd36e..e103e821d993 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **fences=
-, uint32_t count,
->  }
->  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> =20
-> +/**
-> + * DOC: deadline hints
+On 2/28/23 17:21, Frank Rowand wrote:
+> Commit 74df14cd301a ("of: unittest: add node lifecycle tests") added
+> some tests that trigger a kernel stack dump.  Filtering the boot
+> messages with scripts/dtc/of_unittest_expect detects that the stack
+> dump is expected instead of being a test error.
+> 
+> Test beds might interpret the stack dumps as errors, resulting in
+> needless debugging and error reports.  These test beds are likely
+> to remove unittests due to these stack dumps. To avoid these problems,
+> have unittest default to skip the tests that trigger a stack dump.
+> 
+> Add a kernel cmdline option to not skip those tests.  This option can
+> be used by testers who are able to interpret the stack dumps as not
+> an error.
+> 
+> Signed-off-by: Frank Rowand <frowand.list@gmail.com>
+> ---
+>   drivers/of/unittest.c | 54 ++++++++++++++++++++++++++++++++++++++++---
+>   1 file changed, 51 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
+> index b5a7a31d8bd2..3a9bc2bc4ba1 100644
+> --- a/drivers/of/unittest.c
+> +++ b/drivers/of/unittest.c
+> @@ -70,6 +70,36 @@ static struct unittest_results {
+>   #define EXPECT_NOT_END(level, fmt, ...) \
+>   	printk(level pr_fmt("EXPECT_NOT / : ") fmt, ##__VA_ARGS__)
+>   
+> +/*
+> + * Some tests will cause the kernel to emit a stack dump, aka back trace,
+> + * when the test is successful.  The tests should make it possible for
+> + * test beds to detect that the trace is not an error via EXPECT_BEGIN().
 > + *
-> + * In an ideal world, it would be possible to pipeline a workload suffic=
-iently
-> + * that a utilization based device frequency governor could arrive at a =
-minimum
-> + * frequency that meets the requirements of the use-case, in order to mi=
-nimize
-> + * power consumption.  But in the real world there are many workloads wh=
-ich
-> + * defy this ideal.  For example, but not limited to:
+> + * Most test beds do not process the EXPECT_BEGIN() information and may
+> + * flag the stack dump as an error, thus reporting a false failure.  It
+> + * is hoped that the KTAP version 4 specification will add the EXPECT_BEGIN()
+> + * processing to test beds.
 > + *
-> + * * Workloads that ping-pong between device and CPU, with alternating p=
-eriods
-> + *   of CPU waiting for device, and device waiting on CPU.  This can res=
-ult in
-> + *   devfreq and cpufreq seeing idle time in their respective domains an=
-d in
-> + *   result reduce frequency.
-> + *
-> + * * Workloads that interact with a periodic time based deadline, such a=
-s double
-> + *   buffered GPU rendering vs vblank sync'd page flipping.  In this sce=
-nario,
-> + *   missing a vblank deadline results in an *increase* in idle time on =
-the GPU
-> + *   (since it has to wait an additional vblank period), sending a singl=
-e to
-> + *   the GPU's devfreq to reduce frequency, when in fact the opposite is=
- what is
-> + *   needed.
-> + *
-> + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fen=
-ce_set_deadline.
-> + * The deadline hint provides a way for the waiting driver, or userspace=
-, to
-> + * convey an appropriate sense of urgency to the signaling driver.
-> + *
-> + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for users=
-pace
-> + * facing APIs).  The time could either be some point in the future (suc=
-h as
-> + * the vblank based deadline for page-flipping, or the start of a compos=
-itor's
-> + * composition cycle), or the current time to indicate an immediate dead=
-line
-> + * hint (Ie. forward progress cannot be made until this fence is signale=
-d).
-> + *
-> + * Multiple deadlines may be set on a given fence, even in parallel.  Se=
-e the
-> + * documentation for &dma_fence_ops.set_deadline.
-> + *
-> + * The deadline hint is just that, a hint.  The driver that created the =
-fence
-> + * may react by increasing frequency, making different scheduling choice=
-s, etc.
-> + * Or doing nothing at all.
+> + * By default, skip tests that cause a stack dump.  Test beds that process
+> + * EXPECT_BEGIN() information should enable these tests via a kernel boot
+> + * command line option.
 > + */
+> +static int stackdump_tests_enabled;
 > +
-> +/**
-> + * dma_fence_set_deadline - set desired fence-wait deadline hint
-> + * @fence:    the fence that is to be waited on
-> + * @deadline: the time by which the waiter hopes for the fence to be
-> + *            signaled
-> + *
-> + * Give the fence signaler a hint about an upcoming deadline, such as
-> + * vblank, by which point the waiter would prefer the fence to be
-> + * signaled by.  This is intended to give feedback to the fence signaler
-> + * to aid in power management decisions, such as boosting GPU frequency
-> + * if a periodic vblank deadline is approaching but the fence is not
-> + * yet signaled..
-> + */
-> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+> +static int __init enable_unittest_stackdump(char *str)
 > +{
-> +	if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
-> +		fence->ops->set_deadline(fence, deadline);
+> +	stackdump_tests_enabled = 1;
+> +	return 0;
 > +}
-> +EXPORT_SYMBOL(dma_fence_set_deadline);
 > +
->  /**
->   * dma_fence_describe - Dump fence describtion into seq_file
->   * @fence: the 6fence to describe
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 775cdc0b4f24..87c0d846dbb4 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -257,6 +257,24 @@ struct dma_fence_ops {
->  	 */
->  	void (*timeline_value_str)(struct dma_fence *fence,
->  				   char *str, int size);
-> +
-> +	/**
-> +	 * @set_deadline:
-> +	 *
-> +	 * Callback to allow a fence waiter to inform the fence signaler of
-> +	 * an upcoming deadline, such as vblank, by which point the waiter
-> +	 * would prefer the fence to be signaled by.  This is intended to
-> +	 * give feedback to the fence signaler to aid in power management
-> +	 * decisions, such as boosting GPU frequency.
-> +	 *
-> +	 * This is called without &dma_fence.lock held, it can be called
-> +	 * multiple times and from any context.  Locking is up to the callee
-> +	 * if it has some state to manage.  If multiple deadlines are set,
-> +	 * the expectation is to track the soonest one.
-> +	 *
-> +	 * This callback is optional.
-> +	 */
-> +	void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
->  };
-> =20
->  void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops =
-*ops,
-> @@ -583,6 +601,8 @@ static inline signed long dma_fence_wait(struct dma_f=
-ence *fence, bool intr)
->  	return ret < 0 ? ret : 0;
->  }
-> =20
-> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
-> +
->  struct dma_fence *dma_fence_get_stub(void);
->  struct dma_fence *dma_fence_allocate_private_stub(void);
->  u64 dma_fence_context_alloc(unsigned num);
+> +static int __init disable_unittest_stackdump(char *str)
+> +{
+> +	stackdump_tests_enabled = 0;
+> +	return 0;
+> +}
+> +early_param("of_unittest_stackdump", enable_unittest_stackdump);
+> +early_param("no_of_unittest_stackdump", disable_unittest_stackdump);
 
-The doc LGTM, thanks!
+Does no_of_unittest_stackdump have any benefit or value ?
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Thanks,
+Guenter
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---oTYOw6gqQhDOyhTR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY/7LdwAKCRD2uYlJVVFO
-o+yRAQCD//a9bLGYLjTrMNBYwCLBiPxnmV7phSin6w6b2ykgIgD+IsVkADZfyUA7
-J+62fGEud4jd/xybHjUgjSdSoJL4sQI=
-=yfmJ
------END PGP SIGNATURE-----
-
---oTYOw6gqQhDOyhTR--
