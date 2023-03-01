@@ -2,72 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C5FCC64ED6
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 18:36:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 020D5C6FA9D
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 18:36:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229732AbjCASgu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 13:36:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43212 "EHLO
+        id S229899AbjCASgw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 13:36:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjCASgt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 13:36:49 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C50A047402;
-        Wed,  1 Mar 2023 10:36:47 -0800 (PST)
+        with ESMTP id S229572AbjCASgv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 13:36:51 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 730C73C7BC;
+        Wed,  1 Mar 2023 10:36:50 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F5546147A;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2AE35B8110C;
+        Wed,  1 Mar 2023 18:36:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DB26C433EF;
         Wed,  1 Mar 2023 18:36:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74FABC433D2;
-        Wed,  1 Mar 2023 18:36:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677695806;
-        bh=dJbYJ/NNyQBREXfySmKAVF9Y4eFJgZ2sCCx+sMRma/g=;
-        h=From:To:Cc:Subject:Date:From;
-        b=GOYVXq1lFbqrDEdTGgGhmItOrXenTchQUhb1pBOxCEgTzWFcE/0KEhVLHsPYqp2vK
-         UR2Bzn0dZNueSM2D19GPXmlrKeCHPpwFwQgQCvvUeoHCQfXw6+La2C/dbpU+ya3xMr
-         DmaBAn1zaGWpxebkjHlksCtLQ3an1aA/yDHWVbD6ACcwEdxboj2hniVI0AOKs8evxy
-         3kZXug9YCxvEyJtV6HNeJly0UZPTWnEhra7F58QyBDDgDKH7roN/9NpEqIN+baclqZ
-         EXePWSJ3Ocn9U7U0p5S7fKpgpAS2Q5IeXnWnQtnb3vzZtAZiPavLEoCTnOhzNdGLYG
-         11yE033kvNnRQ==
+        s=k20201202; t=1677695807;
+        bh=8QK1u8EV59bYDX/FqMygIaZVKVOTZpGe9Fl30a3pVz0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=vIgvUfnvfIXDLC+5A6vIQMstYFLX0h/wiiG1EcM1d6TOC/fsRsqRogCc6O3uRO7gK
+         IaLeKtx9vqkLXpdmXzqWKPVB77at+eP0ZDDL8OZ7JtInKvaE3cukFmnDNQ/SG9K9AU
+         YlxnhABiSiZbNnyL7rz+KQNcNLUUGN5sUPo/2NN1uhTeniVPPVF82xY0aXruuzSJae
+         rXFbgon9HL7iud+1RdvWRB0khC9RWaYzGFlNLw3MlycqE3u4rTFmyGqBj59vmxJDlj
+         1Jvn3RyLpfr1BkPtyElL+JlAIUuXDBW6sZzPm5N/fNNaxgDoIiLV1Ni6elEBipPJHF
+         BNH9plgtAzPJA==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
         linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net 0/3] tools: ynl: fix subset use and change default value for attrs/ops
-Date:   Wed,  1 Mar 2023 10:36:39 -0800
-Message-Id: <20230301183642.2168393-1-kuba@kernel.org>
+Subject: [PATCH net 2/3] tools: ynl: use 1 as the default for first entry in attrs/ops
+Date:   Wed,  1 Mar 2023 10:36:41 -0800
+Message-Id: <20230301183642.2168393-3-kuba@kernel.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230301183642.2168393-1-kuba@kernel.org>
+References: <20230301183642.2168393-1-kuba@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix a problem in subsetting, which will become apparent when
-the devlink family comes after the merge window. Even tho none
-of the existing families need this, we don't want someone to
-get "inspired" by the current, incorrect code when using specs
-in other languages.
+Pretty much all families use value: 1 or reserve as unspec
+the first entry in attribute set and the first operation.
+Make this the default. Update documentation (the doc for
+values of operations just refers back to doc for attrs
+so updating only attrs).
 
-Change the default value for the first attr/op. This is a slight
-behavior change so needs to go in now. The diffstat of the last
-patch should serve as the clearest justification there..
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ Documentation/userspace-api/netlink/specs.rst | 7 ++++++-
+ tools/net/ynl/lib/nlspec.py                   | 6 +++---
+ tools/net/ynl/ynl-gen-c.py                    | 7 +++++--
+ 3 files changed, 14 insertions(+), 6 deletions(-)
 
-Jakub Kicinski (3):
-  tools: ynl: fully inherit attrs in subsets
-  tools: ynl: use 1 as the default for first entry in attrs/ops
-  netlink: specs: update for codegen enumerating from 1
-
- Documentation/netlink/specs/ethtool.yaml      | 15 -----------
- Documentation/netlink/specs/fou.yaml          |  2 ++
- Documentation/netlink/specs/netdev.yaml       |  2 --
- Documentation/userspace-api/netlink/specs.rst | 10 +++++--
- tools/net/ynl/lib/nlspec.py                   | 27 ++++++++++++-------
- tools/net/ynl/ynl-gen-c.py                    |  7 +++--
- 6 files changed, 32 insertions(+), 31 deletions(-)
-
+diff --git a/Documentation/userspace-api/netlink/specs.rst b/Documentation/userspace-api/netlink/specs.rst
+index 1424ab1b9b33..32e53328d113 100644
+--- a/Documentation/userspace-api/netlink/specs.rst
++++ b/Documentation/userspace-api/netlink/specs.rst
+@@ -197,7 +197,12 @@ value
+ Numerical attribute ID, used in serialized Netlink messages.
+ The ``value`` property can be skipped, in which case the attribute ID
+ will be the value of the previous attribute plus one (recursively)
+-and ``0`` for the first attribute in the attribute set.
++and ``1`` for the first attribute in the attribute set.
++
++Attributes (and operations) use ``1`` as the default value for the first
++entry (unlike enums in definitions which start from ``0``) because
++entry ``0`` is almost always reserved as undefined. Spec can explicitly
++set value to ``0`` if needed.
+ 
+ Note that the ``value`` of an attribute is defined only in its main set
+ (not in subsets).
+diff --git a/tools/net/ynl/lib/nlspec.py b/tools/net/ynl/lib/nlspec.py
+index dff31dad36c5..9d394e50de23 100644
+--- a/tools/net/ynl/lib/nlspec.py
++++ b/tools/net/ynl/lib/nlspec.py
+@@ -96,7 +96,7 @@ jsonschema = None
+         self.attrs_by_val = collections.OrderedDict()
+ 
+         if self.subset_of is None:
+-            val = 0
++            val = 1
+             for elem in self.yaml['attributes']:
+                 if 'value' in elem:
+                     val = elem['value']
+@@ -252,7 +252,7 @@ jsonschema = None
+         self._resolution_list.append(elem)
+ 
+     def _dictify_ops_unified(self):
+-        val = 0
++        val = 1
+         for elem in self.yaml['operations']['list']:
+             if 'value' in elem:
+                 val = elem['value']
+@@ -263,7 +263,7 @@ jsonschema = None
+             self.msgs[op.name] = op
+ 
+     def _dictify_ops_directional(self):
+-        req_val = rsp_val = 0
++        req_val = rsp_val = 1
+         for elem in self.yaml['operations']['list']:
+             if 'notify' in elem:
+                 if 'value' in elem:
+diff --git a/tools/net/ynl/ynl-gen-c.py b/tools/net/ynl/ynl-gen-c.py
+index 274e9c566f61..62f8f2c3c56c 100755
+--- a/tools/net/ynl/ynl-gen-c.py
++++ b/tools/net/ynl/ynl-gen-c.py
+@@ -2044,14 +2044,17 @@ _C_KW = {
+     max_value = f"({cnt_name} - 1)"
+ 
+     uapi_enum_start(family, cw, family['operations'], 'enum-name')
++    val = 0
+     for op in family.msgs.values():
+         if separate_ntf and ('notify' in op or 'event' in op):
+             continue
+ 
+         suffix = ','
+-        if 'value' in op:
+-            suffix = f" = {op['value']},"
++        if op.value != val:
++            suffix = f" = {op.value},"
++            val = op.value
+         cw.p(op.enum_name + suffix)
++        val += 1
+     cw.nl()
+     cw.p(cnt_name + ('' if max_by_define else ','))
+     if not max_by_define:
 -- 
 2.39.2
 
