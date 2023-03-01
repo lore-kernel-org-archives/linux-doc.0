@@ -2,188 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46F50C7EE30
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 20:59:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A6F2C7EE23
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 21:31:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229728AbjCAU7H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 15:59:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34206 "EHLO
+        id S229618AbjCAVbT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 16:31:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbjCAU7F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 15:59:05 -0500
-Received: from mail-oa1-x41.google.com (mail-oa1-x41.google.com [IPv6:2001:4860:4864:20::41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 636B651F94;
-        Wed,  1 Mar 2023 12:59:01 -0800 (PST)
-Received: by mail-oa1-x41.google.com with SMTP id 586e51a60fabf-17235c8dab9so15847613fac.7;
-        Wed, 01 Mar 2023 12:59:01 -0800 (PST)
+        with ESMTP id S229471AbjCAVbS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 16:31:18 -0500
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35C8451F84
+        for <linux-doc@vger.kernel.org>; Wed,  1 Mar 2023 13:31:16 -0800 (PST)
+Received: by mail-lj1-x22b.google.com with SMTP id a32so632557ljr.9
+        for <linux-doc@vger.kernel.org>; Wed, 01 Mar 2023 13:31:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677704341;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=joelfernandes.org; s=google; t=1677706274;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ogl86awpdsmdZqeffQnskO7M/1aafsTEVLhtpf3qa4Y=;
-        b=NJd1oRfO+b8UXpnw2BwVoyMMir/MiR/iutmK6N+WdGcPOSjRfaGA0XsKjukfFhNBrm
-         2Pj01Vy0fB81Hqp+1Ge7P7VcrEyrBkBv292Jh2iB1L3RTZ7PXe6JM7FUpXT4sOeQxeAS
-         LLHj4aYDFO5n9S0WiuVe2Ro91RF3sUejuhTlXOEsyoyRneY+3OsRI7aoJ4U2QTDneYvJ
-         US1jj6zz/phgGBpGEuN0ftfMPZcGQ64pG6xrpFwXIUtJrrbEYO7g4spIXQcy5gvbZG4n
-         wCn+QzgRTeMFpqf74y0DJdhv9cNe5+N3I4ovoC/3Jma2j67ogKhxhofY75qC41mFCGIM
-         OVsA==
+        bh=lO9u8Y9aCl3r3Q/aM+pDkXOYi2YlGs7AHUhcyE2n2LY=;
+        b=a9nHs6kSXWVgIl5oXYw2ESLt4jjTbPTVaUPLY4bwiIKzlL3BRCcc6btqbMcVuIeW0m
+         OaXbVQnUkn4Kn5iviM5qK9E5zlPYPH4pUT3dO0PXPPZfCFnbR6AgyIMNhDUDsTmP9h68
+         4OrComDjpKwoDUeG63K5E5OB9K16LZzLZPtXk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677704341;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1677706274;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ogl86awpdsmdZqeffQnskO7M/1aafsTEVLhtpf3qa4Y=;
-        b=pFmC+LoBUO4fvyUQlY9maZDW1zgUHAetrd8bvJwyGQaLS1kF8PjIQbN1a//0cnZMdv
-         Db+SgWzqVOfxhXvfWlnTKbcXsFI79xb/8lbqgvvhLfVexBTdidnOkxDghga7FWFEsmd8
-         OTDVjwHBt3g/QIEky6c5J6KmUrnXepYciDlCIBRNw0R2B+i8hCm0wusGPMC8nb4zApwP
-         nuvJp6Nvepmhpvrg4CJB/isYv9VFEaM8mH4JRVCFxwcMfot1V9KECLJd7wQixDp9olyA
-         CXlVVo18iXeKR+Klb8TDYJDoyOEN03sEwg4CN6ZewxXqeev8oSSRIjkLu2KPvDOXwAHw
-         e0Bg==
-X-Gm-Message-State: AO0yUKVotO7GA7ZYQaUZyXlPAzAnAMG250QMeZjLX+m7vdH2baw5gnLI
-        uAxzQEt28Oo+RMs0ploVE4SHg32Ezlwn
-X-Google-Smtp-Source: AK7set92szTndhxgCbSTUqxdd4hnPnCRKMVSjUspA40Jb/ri74sTXdapXzMRuIbw0TSV13+x+6YxfA==
-X-Received: by 2002:a05:6870:a904:b0:16a:ad7b:b471 with SMTP id eq4-20020a056870a90400b0016aad7bb471mr4395000oab.38.1677704340842;
-        Wed, 01 Mar 2023 12:59:00 -0800 (PST)
-Received: from fedora.mshome.net ([104.184.156.161])
-        by smtp.gmail.com with ESMTPSA id bt55-20020a05683039f700b0068abc8e786fsm5273899otb.10.2023.03.01.12.58.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Mar 2023 12:59:00 -0800 (PST)
-From:   Gregory Price <gourry.memverge@gmail.com>
-X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, oleg@redhat.com, avagin@gmail.com,
-        peterz@infradead.org, luto@kernel.org, krisman@collabora.com,
-        tglx@linutronix.de, corbet@lwn.net, shuah@kernel.org,
-        Gregory Price <gregory.price@memverge.com>
-Subject: [PATCH v13 3/3] selftest,ptrace: Add selftest for syscall user dispatch config api
-Date:   Wed,  1 Mar 2023 15:58:43 -0500
-Message-Id: <20230301205843.2164-4-gregory.price@memverge.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230301205843.2164-1-gregory.price@memverge.com>
-References: <20230301205843.2164-1-gregory.price@memverge.com>
+        bh=lO9u8Y9aCl3r3Q/aM+pDkXOYi2YlGs7AHUhcyE2n2LY=;
+        b=YlqhrC1AjMUXqZW4O7fs271TH7SOYR73t/UUHi/Bo/+KFqtDaFzYaKrfi8XtDclNRd
+         /gDhaLye8/eteW438FdyVRCanYdHO3WyBfFkvvSrPQhpXGtyupWFI6TddwIl4L68Ddw+
+         hc92y03Z0/ZdA2QooSdcb8wxYgTjvLAxWgZ4Y/o+FwCZb6yP68Sr5gLnGz1/bXMqETdt
+         j4OGYAwpxPinXaX0W/vUeDQjt47/YB0QTyNqdqUithfye2rFp4nImKmeLZ8bt8KLCP6Z
+         DbQLLCH3K+bDanLRyN6RtAxyifDLUx0pogoemNanhl1FalshocvYsIEFKkinmIL1BqVM
+         ntmw==
+X-Gm-Message-State: AO0yUKXXvJ9eFcUrzmKXsL/fMpBfupwE6TMJnLVaNDee7e5BZ9do0K8N
+        HciKJ+OH3q6bA0o61RQ+zRqnypyDcPuKPVBtUtwJLw==
+X-Google-Smtp-Source: AK7set9Tm1EDlxHZBroReRahXqjqtSYLr7qj1vqPncn5dhoSh7r0awu49+RC5nrhdI7rVsydMc8y1qKFWfcNEkcTR6M=
+X-Received: by 2002:a05:651c:231b:b0:293:2d18:36a0 with SMTP id
+ bi27-20020a05651c231b00b002932d1836a0mr2531588ljb.3.1677706274370; Wed, 01
+ Mar 2023 13:31:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <Y/z0fHHYdxEXcWMT@pc636> <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
+ <Y/z9Its1RKetIr8V@pc636> <CAEXW_YSjT_orp8TbomBFU+ETS7YJ7TrbHTdrsBRTzCKG5_SBdw@mail.gmail.com>
+ <20230227230502.GJ2948950@paulmck-ThinkPad-P17-Gen-1> <Y/0/dnmIk508sidK@lothringen>
+ <Y/1ZMXsNZtwYPJNW@google.com> <Y/3fxLXbfvnLFEZq@lothringen>
+ <Y/5fXskgrQxzbt0U@google.com> <Y/+HPrU/ofFXapHM@lothringen>
+In-Reply-To: <Y/+HPrU/ofFXapHM@lothringen>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Wed, 1 Mar 2023 16:31:01 -0500
+Message-ID: <CAEXW_YTt=VZ8ZMptccFMStsQvfjy5yMbd5Ah3KL=PUB4YVSTCg@mail.gmail.com>
+Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as completed
+To:     Frederic Weisbecker <frederic@kernel.org>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Validate that the following new ptrace requests work as expected
+On Wed, Mar 1, 2023 at 12:11=E2=80=AFPM Frederic Weisbecker <frederic@kerne=
+l.org> wrote:
+[...]
+> > Hmmm I see what you mean, so a conservative and configurable "fail-safe=
+"
+> > timeout followed by sysctl to end the boot earlier than the timeout, sh=
+ould
+> > do it (something like 30 seconds IMHO sounds reasonable)? In any case,
+> > whatever way we go, we would not end the kernel boot before
+> > rcu_end_inkernel_boot() is called at least once (which is the current
+> > behavior).
+> >
+> > So it would be:
+> >
+> >   low level boot + initcalls
+> >        20 sec                         30 second timeout
+> > |------------------------------|--------------------------
+> >                                |                         |
+> >               old rcu_end_inkernel_boot()      new rcu_end_inkernel_boo=
+t()
+> >
+> > But it could be, if user decides:
+> >   low level boot + initcalls
+> >        20 sec                         10 second timeout
+> > |------------------------------|--------------------------
+> >                                |                         |
+> >               old rcu_end_inkernel_boot()      new rcu_end_inkernel_boo=
+t()
+> >                                                via /sys/ entry.
+>
+> The problem I have with a random default timeout is that it may break sen=
+sitive
+> workloads. If the default is 30 and say the boot only takes 5 seconds and
+> immediately launches a latency sensitive task, this may break things in a
+> subtle way during these 25 seconds when it usually didn't. Because expedi=
+ted
+> RCU is a hammer interrupting all non-idle CPUs.
+>
+> Until now forcing expedited RCU was only performed before any user code. =
+Now it
+> crosses the boundary so better be careful. I'd personally advocate for ke=
+eping
+> the current call before init is launched. Then provide an end_boot_sysctl=
+ kernel
+> boot parameter that will ignore the current call before init and let the =
+user
+> signal that through sysctl.
 
-* PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG
-  - returns the contents of task->syscall_dispatch if enabled
+Considering that the PREEMPT-RT system benefits from it within the 8
+seconds, I will go ahead make the default 15 seconds or so and make it
+tunable. Hopefully that will be an acceptable compromise, with
+sufficient documentation, changelog, and so forth... If you agree I'd
+appreciate your Ack on the next posting.
 
-* PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG
-  - sets the contents of task->syscall_dispatch
+> > > > > So shouldn't we disable lazy callbacks by default when CONFIG_RCU=
+_LAZY=3Dy and then
+> > > > > turn it on with "sysctl kernel.rcu.lazy=3D1" only whenever usersp=
+ace feels ready
+> > > > > about it? We can still keep the current call to rcu_end_inkernel_=
+boot().
+> > > >
+> > > > Hmm IMHO that would add more knobs for not much reason honestly. We=
+ already
+> > > > have CONFIG_RCU_LAZY default disabled, I really don't want to add m=
+ore
+> > > > dependency (like user enables the config and does not see laziness)=
+.
+> > >
+> > > I don't know. Like I said, different problems, different solutions. L=
+et's
+> > > identify what the issue is precisely. For example can we expect that =
+the issues
+> > > on boot can be a problem also on some temporary workloads?
+> > >
+> > > Besides I'm currently testing a very hacky flavour of rcu_lazy and so=
+ far it
+> > > shows many idle calls that would have been delayed if callbacks weren=
+'t queued
+> > > as lazy.
+> >
+> > Can you provide more details? What kind of hack flavor, and what is it =
+doing?
+>
+> Sorry, I meant a hacky implementation of lazy to work with !NOCB.
 
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
----
- tools/testing/selftests/ptrace/.gitignore    |  1 +
- tools/testing/selftests/ptrace/Makefile      |  2 +-
- tools/testing/selftests/ptrace/get_set_sud.c | 72 ++++++++++++++++++++
- 3 files changed, 74 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/ptrace/get_set_sud.c
+Interesting, I'm curious which calls those are and if they should also
+be call_rcu_hurry().
 
-diff --git a/tools/testing/selftests/ptrace/.gitignore b/tools/testing/selftests/ptrace/.gitignore
-index 792318aaa30c..b7dde152e75a 100644
---- a/tools/testing/selftests/ptrace/.gitignore
-+++ b/tools/testing/selftests/ptrace/.gitignore
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
- get_syscall_info
-+get_set_sud
- peeksiginfo
- vmaccess
-diff --git a/tools/testing/selftests/ptrace/Makefile b/tools/testing/selftests/ptrace/Makefile
-index 96ffa94afb91..1c631740a730 100644
---- a/tools/testing/selftests/ptrace/Makefile
-+++ b/tools/testing/selftests/ptrace/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- CFLAGS += -std=c99 -pthread -Wall $(KHDR_INCLUDES)
- 
--TEST_GEN_PROGS := get_syscall_info peeksiginfo vmaccess
-+TEST_GEN_PROGS := get_syscall_info peeksiginfo vmaccess get_set_sud
- 
- include ../lib.mk
-diff --git a/tools/testing/selftests/ptrace/get_set_sud.c b/tools/testing/selftests/ptrace/get_set_sud.c
-new file mode 100644
-index 000000000000..5297b10d25c3
---- /dev/null
-+++ b/tools/testing/selftests/ptrace/get_set_sud.c
-@@ -0,0 +1,72 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+#include "../kselftest_harness.h"
-+#include <stdio.h>
-+#include <string.h>
-+#include <errno.h>
-+#include <sys/wait.h>
-+#include <sys/syscall.h>
-+#include <sys/prctl.h>
-+
-+#include "linux/ptrace.h"
-+
-+static int sys_ptrace(int request, pid_t pid, void *addr, void *data)
-+{
-+	return syscall(SYS_ptrace, request, pid, addr, data);
-+}
-+
-+TEST(get_set_sud)
-+{
-+	struct ptrace_sud_config config;
-+	pid_t child;
-+	int ret = 0;
-+	int status;
-+
-+	child = fork();
-+	ASSERT_GE(child, 0);
-+	if (child == 0) {
-+		ASSERT_EQ(0, sys_ptrace(PTRACE_TRACEME, 0, 0, 0)) {
-+			TH_LOG("PTRACE_TRACEME: %m");
-+		}
-+		kill(getpid(), SIGSTOP);
-+		_exit(1);
-+	}
-+
-+	waitpid(child, &status, 0);
-+
-+	memset(&config, 0xff, sizeof(config));
-+	config.mode = PR_SYS_DISPATCH_ON;
-+
-+	ret = sys_ptrace(PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG, child,
-+			 (void *)sizeof(config), &config);
-+
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(config.mode, PR_SYS_DISPATCH_OFF);
-+	ASSERT_EQ(config.selector, 0);
-+	ASSERT_EQ(config.offset, 0);
-+	ASSERT_EQ(config.len, 0);
-+
-+	config.mode = PR_SYS_DISPATCH_ON;
-+	config.selector = 0;
-+	config.offset = 0x400000;
-+	config.len = 0x1000;
-+
-+	ret = sys_ptrace(PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG, child,
-+			 (void *)sizeof(config), &config);
-+
-+	ASSERT_EQ(ret, 0);
-+
-+	memset(&config, 1, sizeof(config));
-+	ret = sys_ptrace(PTRACE_GET_SYSCALL_USER_DISPATCH_CONFIG, child,
-+			 (void *)sizeof(config), &config);
-+
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(config.mode, PR_SYS_DISPATCH_ON);
-+	ASSERT_EQ(config.selector, 0);
-+	ASSERT_EQ(config.offset, 0x400000);
-+	ASSERT_EQ(config.len, 0x1000);
-+
-+	kill(child, SIGKILL);
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.39.1
-
+ - Joel
