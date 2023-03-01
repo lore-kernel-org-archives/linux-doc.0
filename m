@@ -2,144 +2,221 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB9ACC6FA9D
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 16:01:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07EEEC64ED6
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 16:08:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229509AbjCAQBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 11:01:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52354 "EHLO
+        id S229884AbjCAQIN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 11:08:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbjCAQBl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 11:01:41 -0500
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com [IPv6:2607:f8b0:4864:20::c32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEBA643453;
-        Wed,  1 Mar 2023 08:01:38 -0800 (PST)
-Received: by mail-oo1-xc32.google.com with SMTP id p8-20020a4a3c48000000b0052527a9d5f0so2169048oof.1;
-        Wed, 01 Mar 2023 08:01:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677686498;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rGNflb0ajOkdmuY+LNebxSZ86wnGKRlkggqvuXEoVOE=;
-        b=GveqTujHntdvzY+t7e93caxcSwCWvQI2xt3sgbt/+5qhoXVA+G/BICOf4B4Tz7+cFP
-         qSxGzckK0v+FPQ0b6yncmYaJQKmUGJC1aE7iRR3AX5qR1jEwVc1hVkr9V1qit+21AxTG
-         5zJ/y/Ox4Y1V2HnMZV435iPcSaQcygCmvdZuolgh2PQDfaIHmJZC29YDEYEIfN56QRmj
-         47rrRjb4Mu7JS8k9SKd5+DQe43p7cS6K7iNtbOVmp2R6tBGL5VNT2HpmNgyQ8WDQLr3G
-         4Yl/N0bBMgdZ8JcBp/2f/w5822hynYpPAQdGeSLUedHJu+t7PL1gfIfVWyyqxQxTPrHR
-         ZpXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677686498;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rGNflb0ajOkdmuY+LNebxSZ86wnGKRlkggqvuXEoVOE=;
-        b=nx5Y71aRQZJY0bmelQc11GA9DKh4TPSi02R/TjmwwhkcQRd1T7M1NqhzqfPlZwL26O
-         y8vztcRCgN6vynyT+08Lgweal2djBh4w5DTCXNlPwuYNAgkDzc1FRZoKV47U468bAuAT
-         bUZPwgGRn1WdVkfJpn9S3DdCp94Nzy7o/WppoXGr13DfVa7ulLslTmXe+wZH1UqQNGqN
-         ZMYqBAU5v/sxcTDx+3d2BXnGROYmojDIxACsqToVrAi6EWTT27v7ft12FcpBnd1tNn/D
-         Oe3x737tKWWv0Iw2KUtglay7y+2QSadwVIllHxNhsPzAVU5S1lCeMmr4y7VmQ4EKyloH
-         dcaw==
-X-Gm-Message-State: AO0yUKUKCEhLVATjzvufPbFeffSoH/0W4WlKzmfgsSqnXea398KTAQqD
-        h/fq2U+SqSp5FxaeSh5ZVBg=
-X-Google-Smtp-Source: AK7set97rV3xBpkZ8iCWM8R3t/ott/t+7KacVVgxezD/hc3hZ+HJ/kopNrOz4TtMbQro5VAdxHodMQ==
-X-Received: by 2002:a4a:ce9a:0:b0:525:2f4b:db55 with SMTP id f26-20020a4ace9a000000b005252f4bdb55mr3323106oos.4.1677686497833;
-        Wed, 01 Mar 2023 08:01:37 -0800 (PST)
-Received: from ?IPV6:2600:1700:2442:6db0:488d:18da:bebc:d316? ([2600:1700:2442:6db0:488d:18da:bebc:d316])
-        by smtp.gmail.com with ESMTPSA id 13-20020a9d060d000000b0068bcf7995aesm5054522otn.64.2023.03.01.08.01.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Mar 2023 08:01:37 -0800 (PST)
-Message-ID: <96cfd1ee-768d-cc03-53dd-35ccf2396863@gmail.com>
-Date:   Wed, 1 Mar 2023 10:01:36 -0600
+        with ESMTP id S229703AbjCAQIM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 11:08:12 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D8C45FFA;
+        Wed,  1 Mar 2023 08:08:11 -0800 (PST)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 321FEZde009799;
+        Wed, 1 Mar 2023 16:08:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=tnUic79Fz9XkJceYdCri/sylXCNffUEx2TPqpiTBdos=;
+ b=UTyAJZS7X5+Ru4uvIDwChCGCbdEMVKCzG+TX6zVzcLw1tV3Ka7Ymt4XK2ccOl0bgLLiK
+ ejMw0p4o4QboJv57aRVUAqirNRI14ed/c4T2dGvk33OV/ZiMet2xcCKKkEu0Nq5/oFWl
+ 36mTje6axGyQ9MBFAqBOX+nlPqGseFte8JIoyYqDQJtph9ovGSWbZxptdCQFP0DOaD2e
+ kqitpjVXNk2R5WjlgU7QPt6/IoGr/tXh/06kRg+8DKQwoRNxBzkkE391+kT+8IyQaNOg
+ 9i6zeQ67sB2qZgI92zJJPKlZD6rUuSqzkfTO2smAwqx0ULrOsF+MMUipkFldLoJtmNpf 6g== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p24yursry-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 01 Mar 2023 16:08:06 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 321G85Vi018152
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 1 Mar 2023 16:08:05 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 1 Mar 2023
+ 08:08:04 -0800
+Message-ID: <83543d98-e624-fadc-7f92-490efa602805@quicinc.com>
+Date:   Wed, 1 Mar 2023 09:08:03 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/2] of: unittest: option to allow tests that trigger
- kernel stack dump
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2 5/8] accel/qaic: Add datapath
 Content-Language: en-US
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230301012116.1488132-1-frowand.list@gmail.com>
- <20230301012116.1488132-2-frowand.list@gmail.com>
- <018f54ee-55cc-e30b-4595-ce555fff1708@roeck-us.net>
-From:   Frank Rowand <frowand.list@gmail.com>
-In-Reply-To: <018f54ee-55cc-e30b-4595-ce555fff1708@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To:     Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+CC:     <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <dri-devel@lists.freedesktop.org>,
+        <jacek.lawrynowicz@linux.intel.com>, <quic_pkanojiy@quicinc.com>,
+        <quic_carlv@quicinc.com>, <quic_ajitpals@quicinc.com>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+References: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
+ <1675698105-19025-6-git-send-email-quic_jhugo@quicinc.com>
+ <20230224152546.GB3547587@linux.intel.com>
+ <00914fa9-8618-a3ef-d3c5-2a3bba68fa1f@quicinc.com>
+ <20230227171454.GF3547587@linux.intel.com>
+From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230227171454.GF3547587@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: aeNUVinjxZnpdQ73MMAVN7N7iiPNi8wE
+X-Proofpoint-ORIG-GUID: aeNUVinjxZnpdQ73MMAVN7N7iiPNi8wE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-01_13,2023-03-01_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ bulkscore=0 priorityscore=1501 malwarescore=0 suspectscore=0 mlxscore=0
+ adultscore=0 spamscore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2303010131
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/28/23 22:07, Guenter Roeck wrote:
-> On 2/28/23 17:21, Frank Rowand wrote:
->> Commit 74df14cd301a ("of: unittest: add node lifecycle tests") added
->> some tests that trigger a kernel stack dump.  Filtering the boot
->> messages with scripts/dtc/of_unittest_expect detects that the stack
->> dump is expected instead of being a test error.
+On 2/27/2023 10:14 AM, Stanislaw Gruszka wrote:
+> On Fri, Feb 24, 2023 at 12:36:51PM -0700, Jeffrey Hugo wrote:
+>>>> +static int reserve_pages(unsigned long start_pfn, unsigned long nr_pages,
+>>>> +			 bool reserve)
+>>>> +{
+>>>> +	unsigned long pfn;
+>>>> +	unsigned long end_pfn = start_pfn + nr_pages;
+>>>> +	struct page *page;
+>>>> +
+>>>> +	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
+>>>> +		if (!pfn_valid(pfn))
+>>>> +			return -EINVAL;
+>>>> +		page =  pfn_to_page(pfn);
+>>>> +		if (reserve)
+>>>> +			SetPageReserved(page);
+>>>> +		else
+>>>> +			ClearPageReserved(page);
+>>>
+>>> It is needed? Looks like taken from some legacy code.
 >>
->> Test beds might interpret the stack dumps as errors, resulting in
->> needless debugging and error reports.  These test beds are likely
->> to remove unittests due to these stack dumps. To avoid these problems,
->> have unittest default to skip the tests that trigger a stack dump.
->>
->> Add a kernel cmdline option to not skip those tests.  This option can
->> be used by testers who are able to interpret the stack dumps as not
->> an error.
->>
->> Signed-off-by: Frank Rowand <frowand.list@gmail.com>
->> ---
->>   drivers/of/unittest.c | 54 ++++++++++++++++++++++++++++++++++++++++---
->>   1 file changed, 51 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
->> index b5a7a31d8bd2..3a9bc2bc4ba1 100644
->> --- a/drivers/of/unittest.c
->> +++ b/drivers/of/unittest.c
->> @@ -70,6 +70,36 @@ static struct unittest_results {
->>   #define EXPECT_NOT_END(level, fmt, ...) \
->>       printk(level pr_fmt("EXPECT_NOT / : ") fmt, ##__VA_ARGS__)
->>   +/*
->> + * Some tests will cause the kernel to emit a stack dump, aka back trace,
->> + * when the test is successful.  The tests should make it possible for
->> + * test beds to detect that the trace is not an error via EXPECT_BEGIN().
->> + *
->> + * Most test beds do not process the EXPECT_BEGIN() information and may
->> + * flag the stack dump as an error, thus reporting a false failure.  It
->> + * is hoped that the KTAP version 4 specification will add the EXPECT_BEGIN()
->> + * processing to test beds.
->> + *
->> + * By default, skip tests that cause a stack dump.  Test beds that process
->> + * EXPECT_BEGIN() information should enable these tests via a kernel boot
->> + * command line option.
->> + */
->> +static int stackdump_tests_enabled;
->> +
->> +static int __init enable_unittest_stackdump(char *str)
->> +{
->> +    stackdump_tests_enabled = 1;
->> +    return 0;
->> +}
->> +
->> +static int __init disable_unittest_stackdump(char *str)
->> +{
->> +    stackdump_tests_enabled = 0;
->> +    return 0;
->> +}
->> +early_param("of_unittest_stackdump", enable_unittest_stackdump);
->> +early_param("no_of_unittest_stackdump", disable_unittest_stackdump);
+>> Required for remap_pfn_range().
 > 
-> Does no_of_unittest_stackdump have any benefit or value ?
+> PG_reserved is not required any longer for remap_pfn_range(), here
+> is excerpt from comment from include/linux/page-flags.h :
+> 
+>   * Some PG_reserved pages will be excluded from the hibernation image.
+>   * PG_reserved does in general not hinder anybody from dumping or swapping
+>   * and is no longer required for remap_pfn_range(). ioremap might require it.
+>   * Consequently, PG_reserved for a page mapped into user space can indicate
+>   * the zero page, the vDSO, MMIO pages or device memory.
 
-I would say no, but it is a common pattern to provide both
-foo and no_foo.
-
--Frank
+I clearly missed that and was relying on other documentation.  Thank you 
+for pointing this out.  Will remove.
 
 > 
-> Thanks,
-> Guenter
+>>>> +static int copy_sgt(struct qaic_device *qdev, struct sg_table **sgt_out,
+>>>> +		    struct sg_table *sgt_in, u64 size, u64 offset)
+>>>> +{
+>>>> +	int total_len, len, nents, offf = 0, offl = 0;
+>>>> +	struct scatterlist *sg, *sgn, *sgf, *sgl;
+>>>> +	struct sg_table *sgt;
+>>>> +	int ret, j;
+>>>> +
+>>>> +	/* find out number of relevant nents needed for this mem */
+>>>> +	total_len = 0;
+>>>> +	sgf = NULL;
+>>>> +	sgl = NULL;
+>>>> +	nents = 0;
+>>>> +
+>>>> +	size = size ? size : PAGE_SIZE;
+>>>> +	for (sg = sgt_in->sgl; sg; sg = sg_next(sg)) {
+>>>> +		len = sg_dma_len(sg);
+>>>> +
+>>>> +		if (!len)
+>>>> +			continue;
+>>>> +		if (offset >= total_len && offset < total_len + len) {
+>>>> +			sgf = sg;
+>>>> +			offf = offset - total_len;
+>>>> +		}
+>>>> +		if (sgf)
+>>>> +			nents++;
+>>>> +		if (offset + size >= total_len &&
+>>>> +		    offset + size <= total_len + len) {
+>>>> +			sgl = sg;
+>>>> +			offl = offset + size - total_len;
+>>>> +			break;
+>>>> +		}
+>>>> +		total_len += len;
+>>>> +	}
+>>>> +
+>>>> +	if (!sgf || !sgl) {
+>>>> +		ret = -EINVAL;
+>>>> +		goto out;
+>>>> +	}
+>>>> +
+>>>> +	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+>>>> +	if (!sgt) {
+>>>> +		ret = -ENOMEM;
+>>>> +		goto out;
+>>>> +	}
+>>>> +
+>>>> +	ret = sg_alloc_table(sgt, nents, GFP_KERNEL);
+>>>> +	if (ret)
+>>>> +		goto free_sgt;
+>>>> +
+>>>> +	/* copy relevant sg node and fix page and length */
+>>>> +	sgn = sgf;
+>>>> +	for_each_sgtable_sg(sgt, sg, j) {
+>>>> +		memcpy(sg, sgn, sizeof(*sg));
+>>>> +		if (sgn == sgf) {
+>>>> +			sg_dma_address(sg) += offf;
 > 
+> This looks a bit suspicious. Are you sure you can modify
+> sg->dma_address and still use it as valid value ?
+
+A single entry in the sg table is a contiguous mapping of memory.  If it 
+wasn't contiguous, it would have to be broken up into multiple entries. 
+  In the simple case, a driver is going to take the dma_address/len pair 
+and hand that directly to the device.  Then the device is going to 
+access every address in that range.
+
+If the device can access every address from dma_address to dma_address + 
+len, why can't it access a subset of that?
+
+>>>> +			sg_dma_len(sg) -= offf;
+>>>> +			sg_set_page(sg, sg_page(sgn),
+>>>> +				    sg_dma_len(sg), offf);
+>>>> +		} else {
+>>>> +			offf = 0;
+>>>> +		}
+>>>> +		if (sgn == sgl) {
+>>>> +			sg_dma_len(sg) = offl - offf;
+>>>> +			sg_set_page(sg, sg_page(sgn),
+>>>> +				    offl - offf, offf);
+>>>> +			sg_mark_end(sg);
+>>>> +			break;
+>>>> +		}
+>>>> +		sgn = sg_next(sgn);
+>>>> +	}
+>>>
+>>> Why not use sg_copy_table() ? Overall copy_sgt() seems to be something
+>>> that could be replaced by generic helper or at least simplify.
+>>
+>> I don't see "sg_copy_table" defined in 6.2.
+> 
+> Because there is no such function in any kernel source. It was only my
+> imagination, not sure right now how I came up with this function name :-/
+> Sorry about confusion.
+> 
+> There are only sg_copy_{to,from}_buffer(), but not really useful in
+> this case.
+> 
+>> Are you suggesting renaming
+>> this function?  I guess I'm not quite understanding your comment here. Can
+>> you elaborate?
+> 
+> Renaming would be nice. I was thinking by simplifying it, not sure
+> now if that's easy achievable, though.
+
+Ok.  I'll think on this.
 
