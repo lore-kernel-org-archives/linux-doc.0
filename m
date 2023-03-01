@@ -2,115 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D293FC64EC4
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 02:28:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B0BFC64EC4
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 02:42:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229745AbjCAC2j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 21:28:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43872 "EHLO
+        id S229888AbjCACmd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 21:42:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229792AbjCAC2i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 21:28:38 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 888B335A5;
-        Tue, 28 Feb 2023 18:28:37 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id x20-20020a17090a8a9400b00233ba727724so1114pjn.1;
-        Tue, 28 Feb 2023 18:28:37 -0800 (PST)
+        with ESMTP id S229672AbjCACmd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 21:42:33 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55ECC37554;
+        Tue, 28 Feb 2023 18:42:32 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id x34so11928297pjj.0;
+        Tue, 28 Feb 2023 18:42:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677637717;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zmN51dbTFHg3aDziTv/V6yP0O0YxrV+csosShMWfGa8=;
-        b=YcxlEshvRD8BweKoqE1QAItpsAUCITBLZQ01yn2ta1gEVGD6kRKtCp8JpP3cHs32rK
-         uecMypHqfzH4QIr3gm5+aRv7IMD27HuU/73rQHNnxPLzx76ZQM2X7dDXXSiOBaENbR+F
-         Crtym58y7CSoYRTWkJQoor/QA1gBoWbLZVaKGlZXPYwqFI92bHv+IdhpEsXRUqMx/3Pp
-         y4S2BMVlJ4OvxLEwRwcxc3YEUuerRfk79Yo/7bz+JgbGLca7vzwWxr0qdk8MNcJXEFtn
-         yNVllbUpQuAMlzvSGd84jeJn/qvw5XVh8NJZbPz1hHoDPKrVFBVcoLlQLQzgtQDUNmuu
-         19xw==
+        d=gmail.com; s=20210112; t=1677638552;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TtEI17+g3+FYNmzjZog7TObGaEISKv33yP7XaUgcMpw=;
+        b=C2awFZi3UZK1zN88aASBwpbUmIyVjmgoYglFuONN/+0apTYd5IWDuLiOz1c1VN8upZ
+         6mlskXUv1yXAzEH8dxRsozpV2xWpBd80NAmpQGfUmvJrKEuXhVvb/V6prcMvsaRZiCo+
+         iXCFzMv9fj9v6B/f7hkrooQoUAGi4cO0UN3c8UHZpBrPIC1gOPBU49wHROJNBocEHvmp
+         tb3cm050fGMauVRXy7ifSfX1VzGGFhZ3tAEBXlF+mQg8FsIVHkeT8V5zrFCozrWvuK8Q
+         9rrdYm6eG1V39BS+g40xVcIy99Q0FgF6YWINYxQvQWe/rGwLsUCHKm73ixthff5BDTcM
+         E7mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677637717;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1677638552;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zmN51dbTFHg3aDziTv/V6yP0O0YxrV+csosShMWfGa8=;
-        b=p7Bb6pWBAiEwjZ6DpHAjEb4N59oJz3iEaeyUkHFNn4k0p+LcdM7gP0O33daiulDQK8
-         l12rakH7ZATWljnMcbER5IaER0TldZNR0L3dAMjiZOv0UFIbms6SsDUJFR0Ne7Qo0ZWL
-         mDiIqMPlph/Cvm9tQ47Y9XLZtbA30c7QPbUlxTWSx0jAHKDOswboaBTyHnHBSpCONqmv
-         gkSukoVvX2Hz8FV2GQT39Jqw3Y+6hJZok+Fx8VskF6eJhyxQkDLIZCsT5fLCCD2rEhla
-         85hbY8uBgV9YrMEO0gGRXXUu9RzXTGc4uwuCeodoqPPOlLFU6ganhOs6gsvQOmlELJen
-         tvRw==
-X-Gm-Message-State: AO0yUKVwYFmvdTmwtjac1GJiTdGZ67G5LEL29LO6pe3Tv5IRNzXy9Ss0
-        gJCoIaCrZQ9UbW+9FoJLS530XxV23Sw=
-X-Google-Smtp-Source: AK7set/JuvQ023i4V5p8CHU/gOaHKbdFrG2u5t7hs1h6e1UMq3d8K6oa0b7Zn02nh11tSMvjXKNjkQ==
-X-Received: by 2002:a17:903:32c4:b0:19b:78:539e with SMTP id i4-20020a17090332c400b0019b0078539emr5366834plr.68.1677637717031;
-        Tue, 28 Feb 2023 18:28:37 -0800 (PST)
+        bh=TtEI17+g3+FYNmzjZog7TObGaEISKv33yP7XaUgcMpw=;
+        b=shAOjRrwhDaOjkrBWbNlyVKXK37YWagk0WL05oh4d7Ab7zlfE95wjt/zLE/NIsyZGY
+         yPDI49te2tA+KuwM2sLT5ctGUndGfbHcyWfYelo6sWuSvdrbnKTMYkRnWn8weoCtmmQ4
+         bw3NrjPYwnP7ij+mrmHtLx3UUm6rnhPP+Air4/ZqndhbWK322QMJ8Wvq0LFJQDiKa+VG
+         X6l1X1B02el+56Fn9s1hYS4PlK99piK8oJBAHkWaW58UUMn2MoU12g/au8GBsNeRv99H
+         oJgxtvEpxUqae/686qheDvZ0fPe0uKdE9JmZTC02+nHeRcpp6qbLOPdOKQsTgqR2z7mk
+         YAIA==
+X-Gm-Message-State: AO0yUKXPhb9c6m3X0pENlO3U3Y/sjoXbQeNIZ+qINuIlUDdjrcc98X+S
+        KfO72sfapmL2jF0WgjX2ieA=
+X-Google-Smtp-Source: AK7set/i/rEne9Miy3soqJWFleyHZluwc5UHR+jsPgrNaLUUlsoxf8qLJ7q2HYdNV1zs/GO9IiWdsQ==
+X-Received: by 2002:a17:902:d54d:b0:19e:2298:c53d with SMTP id z13-20020a170902d54d00b0019e2298c53dmr4379817plf.10.1677638551793;
+        Tue, 28 Feb 2023 18:42:31 -0800 (PST)
 Received: from [192.168.43.80] (subs02-180-214-232-27.three.co.id. [180.214.232.27])
-        by smtp.gmail.com with ESMTPSA id g8-20020a1709029f8800b0019ca7b7a684sm7142317plq.161.2023.02.28.18.28.34
+        by smtp.gmail.com with ESMTPSA id ju4-20020a170903428400b0019a7563ff15sm7198090plb.115.2023.02.28.18.42.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Feb 2023 18:28:36 -0800 (PST)
-Message-ID: <45757233-6152-9971-d987-e0ce27f92fe2@gmail.com>
-Date:   Wed, 1 Mar 2023 09:28:32 +0700
+        Tue, 28 Feb 2023 18:42:31 -0800 (PST)
+Message-ID: <7aaf6ed9-3da2-0535-f269-fc5c35e7aadc@gmail.com>
+Date:   Wed, 1 Mar 2023 09:42:14 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] coding-style.rst: indentation: Clarify tabs text
-To:     Bru Moreira-Guedes <codeagain@codeagain.dev>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Patch Watchbox <patch-reply@codeagain.dev>
-References: <20230228222035.k227xb3okt2lbksn@guidai>
+Subject: Re: [PATCH v7 00/15] dma-fence: Deadline awareness
 Content-Language: en-US
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Simon Ser <contact@emersion.fr>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        intel-gfx@lists.freedesktop.org,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Liu Shixin <liushixin2@huawei.com>,
+        Sean Paul <sean@poorly.run>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Vinod Polimera <quic_vpolimer@quicinc.com>
+References: <20230227193535.2822389-1-robdclark@gmail.com>
+ <Y/320d96QmbLe1J8@debian.me>
+ <CAF6AEGuqHDDQS22qcp8sk+5bj16XFiBarCLvpX=qNc2r2euMUw@mail.gmail.com>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230228222035.k227xb3okt2lbksn@guidai>
+In-Reply-To: <CAF6AEGuqHDDQS22qcp8sk+5bj16XFiBarCLvpX=qNc2r2euMUw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/1/23 05:20, Bru Moreira-Guedes wrote:
-> It might be misleading, especially for some autistic readers for whom
-> English is not the first language and whose tendency to interpret things
-> more literally might be present (i.e., my very own self).
+On 2/28/23 22:44, Rob Clark wrote:
+> You can find my branch here:
+> 
+> https://gitlab.freedesktop.org/robclark/msm/-/commits/dma-fence/deadline
 > 
 
-I'm also actually autistic (∞) :) ...
-
-> The present patch clarifies the tabs text on such aspects.
-> 
-
-Clarify tabs description?
-
-> -Tabs are 8 characters, and thus indentations are also 8 characters.
-> -There are heretic movements that try to make indentations 4 (or even 2!)
-> -characters deep, and that is akin to trying to define the value of PI to
-> -be 3.
-> +The Linux Kernel uses the TAB character for indentation, as in the K&R
-> +style. Tabs are meant to be viewed as 8-characters, and thus
-> +indentations are meant to be seen as 8 characters as well. There are
-> +heretic movements that try to use spaces for indentation, or make tabs
-> +viewed as 4 (or even 2!) characters, and that is akin to trying to
-> +define the value of PI to be 5.
->
-  
-"In the context of kernel code, tabs are intended to be 8-characters
-indentation."
-
->  Rationale: The whole idea behind indentation is to clearly define where
->  a block of control starts and ends.  Especially when you've been looking
->  at your screen for 20 straight hours, you'll find it a lot easier to see
->  how the indentation works if you have large indentations.
->  
-> -Now, some people will claim that having 8-character indentations makes
-> +Now, some people will claim that viewint 8-character tab indentations makes
-viewing
-
->  
-> -In short, 8-char indents make things easier to read, and have the added
-> +In short, 8-char tab size make things easier to read, and have the added
-
-8-char tab indents (for consistency with above)?
+Pulled, thanks!
 
 -- 
 An old man doll... just what I always wanted! - Clara
