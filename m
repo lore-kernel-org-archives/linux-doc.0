@@ -2,90 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 523F0C64EC4
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 01:22:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98C1CC7EE32
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 01:22:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbjCABWj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Feb 2023 20:22:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43346 "EHLO
+        id S229613AbjCABWk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Feb 2023 20:22:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229549AbjCABWi (ORCPT
+        with ESMTP id S229564AbjCABWi (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Feb 2023 20:22:38 -0500
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D4CD32E5C;
-        Tue, 28 Feb 2023 17:22:07 -0800 (PST)
-Received: by mail-ot1-x333.google.com with SMTP id g6-20020a056830308600b0068d4b30536aso6694720ots.9;
-        Tue, 28 Feb 2023 17:22:07 -0800 (PST)
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB23534015;
+        Tue, 28 Feb 2023 17:22:08 -0800 (PST)
+Received: by mail-ot1-x32c.google.com with SMTP id h6-20020a9d7986000000b0068bd8c1e836so6719531otm.3;
+        Tue, 28 Feb 2023 17:22:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677633726;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V0dDKM/kz9j+kr4YipucQRbjkJuSAUreWGjHChZMyfU=;
-        b=j70Z6d74PxeOmjKCkXe3wzFvCUDGNQMIVJgZJLIB80H5UBzLcqON1dFrv8KYK5wdwc
-         7VOamfdrjECIxrS90d+V/UUnWd/frIxXi+KLwMx0xQFJkeNcUGf3Wovvf5LLuV3l3Upo
-         0wX2PN9bIfMISC0V1VONVxUwNeswAIJs01DK9HnNJ7bK2gOMr5tiBzAR7MwIt/RLDYrR
-         InGI9xk39UvaSvdabX0kBG0bOahWv/tZrUnqz/toFzwQGTSzyRhhuR1DopzEIRiTlEoA
-         tZ24iuuKF5wdi+kq7wFbFCZAsMVqex5i8zERzB9kWDn1CPR2nGPIlhlFsrnmvuRyi99l
-         /iTA==
+        d=gmail.com; s=20210112; t=1677633728;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ut1wOGTxZO1SVGZaQtP1Hekk5rmZBOrU7xQMiC2fKDs=;
+        b=W4wRXOLhsnVooDYCrmojCs6Pe5EL4K+vZIYoy/HLdfU/5GEcS/f3t+FnLUSz5CUZbd
+         WMVzgpgWwIalHDEHbIixOUUiPEzwkOAcvR7DzsoXP+yivjHIK80NSNu38us66AtKAjqZ
+         +58JcS/A4uezef9N3GemiNSFu48/IAnye8LNQd8+O3GeW9QIb6Mq7XWiRE3Mh5oNVgJF
+         9DYd74QIBmDFsa9dGm3Q273vcj+ZriuUIS5YwRiyGP5nzUx8aEoPFacEPbjBgxlmgz7r
+         OY97ZLQAGwH8u42SjktGKmlUfAhXX53mZFtsh//SkEKBENPaRa1QjyuOKUBl555vLkDQ
+         XOFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677633726;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V0dDKM/kz9j+kr4YipucQRbjkJuSAUreWGjHChZMyfU=;
-        b=Hw2aF4pqAVOgfW/coYEfldySypmH573kJ1z/d1KG0Hn9UNEgR5pAGWBWgYW2jJbuLT
-         GWJYRnGQ48HDFE0pjSLo6RN321sfeM6B3iXD4ueCa5b9L+lkJ+pnk/1GMElfvkhwxLLG
-         F2p0RnsJYKEnEAotpEnNv4qcQ0HWxgPyiBT9avGI08mA2Oqjd9MnDMRlheQOUXtmnR92
-         W9Wi3n1qVgwBDtMRbstI9WeD41wj2lyaYgUxIt2xwNTqL6Ch0E1NwEPP3LPe3jyOqmhq
-         St6MZGy4occFmxtZ1doziQ+ZeBsVSHZJDJK4KWpd20mmVsB15fK1eMIenz7YmmYAcr7s
-         Xbsg==
-X-Gm-Message-State: AO0yUKXN1f5v5EJHazO2YIwgV+OSu615EGIJvuEysvsFgbifh3gx5U/F
-        F8ePlWUnx2Wqpgd9KHz4ju4q9kiXt2o=
-X-Google-Smtp-Source: AK7set/qbane1eg06bWyjfTJCCSYY62178P6KH3XhvxVAYkSbuCmbKzoa2lpaYkWW6xkbjfFB3LKxA==
-X-Received: by 2002:a05:6830:829:b0:68b:d344:97cb with SMTP id t9-20020a056830082900b0068bd34497cbmr2510876ots.13.1677633725847;
-        Tue, 28 Feb 2023 17:22:05 -0800 (PST)
+        d=1e100.net; s=20210112; t=1677633728;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ut1wOGTxZO1SVGZaQtP1Hekk5rmZBOrU7xQMiC2fKDs=;
+        b=VUFHSpjdDufK9CbsBPdhRWDGE5nVIjAB/QUSA7Teh/JI2GBM3sougzbEz1Cz9UtIHM
+         yiNIdmGZvrWSsHO2M1UBa1/24QnWueBzPAnv24Ca9KU/HNASFFgBxI/ckUbaJSJIjJYG
+         1fd8t7GRATKrCDsNboFJKEHuNlOiBLPWcN4PLSapR82w+F7KlQNMthuXO3oj9U3/vq5C
+         yanMvrGrjZBwMlN8ArWlvxkxX1npHRqrYm7BARYAE8xhp6ocxB3vAoDG6Ji63LDBCM+s
+         9X81sR6qEBMeP6fhmvVCljsnZWqzMBOanDGmoxk824+T+o8Xd0777I50qesm2iyhXsGV
+         f/+w==
+X-Gm-Message-State: AO0yUKU+TVIuQKv5cAN/Dk/A009IVS+CTTz5GGzumvAInDoiEzv9aDGS
+        igXJX9cb/VUymsnLcGOBQCM=
+X-Google-Smtp-Source: AK7set9l7pqGid3dlHIOJ92ewrX2ZoDZzzoy37WHpw1fTL9zt4ey8pg9dXGE0TW61TC8ao4Okx+RSA==
+X-Received: by 2002:a9d:729c:0:b0:693:cf97:c103 with SMTP id t28-20020a9d729c000000b00693cf97c103mr2244762otj.37.1677633727863;
+        Tue, 28 Feb 2023 17:22:07 -0800 (PST)
 Received: from xps8900.attlocal.net ([2600:1700:2442:6db0:20c1:2bed:d8f3:84d8])
-        by smtp.gmail.com with ESMTPSA id v2-20020a056830140200b006864b5f4650sm4436362otp.46.2023.02.28.17.22.05
+        by smtp.gmail.com with ESMTPSA id v2-20020a056830140200b006864b5f4650sm4436362otp.46.2023.02.28.17.22.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 17:22:05 -0800 (PST)
+        Tue, 28 Feb 2023 17:22:07 -0800 (PST)
 From:   Frank Rowand <frowand.list@gmail.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH 0/2] of: unittest: option to allow tests that trigger kernel stack dump
-Date:   Tue, 28 Feb 2023 19:21:14 -0600
-Message-Id: <20230301012116.1488132-1-frowand.list@gmail.com>
+Subject: [PATCH 2/2] of: unittest: add of_unittest_stackdump to kernel documentation
+Date:   Tue, 28 Feb 2023 19:21:16 -0600
+Message-Id: <20230301012116.1488132-3-frowand.list@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230301012116.1488132-1-frowand.list@gmail.com>
+References: <20230301012116.1488132-1-frowand.list@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 74df14cd301a ("of: unittest: add node lifecycle tests") added
-some tests that trigger a kernel stack dump.  Filtering the boot
-messages with scripts/dtc/of_unittest_expect detects that the stack
-dump is expected instead of being a test error.
+Add new option of_unittest_stackdump to the documentation admin guide.
 
-Test beds might interpret the stack dumps as errors, resulting in
-needless debugging and error reports.  These test beds are likely
-to remove unittests due to these stack dumps. To avoid these problems,
-have the unittest default to skip the tests that trigger a stack dump.
+Signed-off-by: Frank Rowand <frowand.list@gmail.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Add a kernel cmdline option to not skip those tests.  This option can
-be used by testers who are able to interpret the stack dumps as not
-an error.
-
-Frank Rowand (2):
-  of: unittest: option to allow tests that trigger kernel stack dump
-  of: unittest: add of_unittest_stackdump to kernel documentation
-
- .../admin-guide/kernel-parameters.txt         |  4 ++
- drivers/of/unittest.c                         | 54 +++++++++++++++++--
- 2 files changed, 55 insertions(+), 3 deletions(-)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6221a1d057dd..98c3fc7f4f72 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3911,6 +3911,10 @@
+ 			This can be set from sysctl after boot.
+ 			See Documentation/admin-guide/sysctl/vm.rst for details.
+ 
++	of_unittest_stackdump	[OF]
++			Do not skip OF unittests that trigger a kernel stack dump.
++			Default: skip the tests that trigger a kernel stack dump
++
+ 	ohci1394_dma=early	[HW] enable debugging via the ohci1394 driver.
+ 			See Documentation/core-api/debugging-via-ohci1394.rst for more
+ 			info.
 -- 
 Frank Rowand <frowand.list@gmail.com>
 
