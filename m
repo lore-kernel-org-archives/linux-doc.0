@@ -2,85 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1B7BC7EE2F
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 15:36:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C7C3C6FA9D
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 15:39:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229686AbjCAPgK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 10:36:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57146 "EHLO
+        id S229739AbjCAPjS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 10:39:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229639AbjCAPgJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 10:36:09 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDC803525C;
-        Wed,  1 Mar 2023 07:36:04 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id 132so7924866pgh.13;
-        Wed, 01 Mar 2023 07:36:04 -0800 (PST)
+        with ESMTP id S229633AbjCAPjO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 10:39:14 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1BC616AE5
+        for <linux-doc@vger.kernel.org>; Wed,  1 Mar 2023 07:39:12 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id z10so7948534pgr.8
+        for <linux-doc@vger.kernel.org>; Wed, 01 Mar 2023 07:39:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677684964;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gx2Y04HnbVuJVg0xOpO6v56u/oJYu43rVfvF9yJ29p0=;
-        b=pF5MsrHtv0EhvXmTsxznc8Fe+kqFIJ66uvA2fk9s5FYr/yyv/JMagS+vmF5zDCDU+k
-         CBMNL8f/Qv/DEOebnFKPAhwuSK084Gu3dzO3QeUqR2aBjgErM2bm5PbbOkUIna1dwigT
-         2sfBwuw5KAQxfv4JO5Vy+0/DeWreC4YusUx/LpwUmub5ZJauKPG/Kb5Pco8hR8PD0ZSs
-         kDV8f57I/cYutHVxQdS2A/EUm1U9kOZYaAXUt/dau+NNJlazb4RhVKI4cPgQJvUgYaqz
-         finuqruKf3hqpOl+Du2FeyTeq8dhEumIFNO0if8ve9Ot4POt9eqGq03tNI+k+LzW4t48
-         aVTA==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677685152;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G88lHAU8EQsCcXmuw5k8V0o7uYf93X0m0EbK56nmCkc=;
+        b=Ny+HmlrE0gXICVns/E53J7P+ufLy4O/6mPMZ9p2rf+anhUNDxXReAJ7Of7RumsIo7i
+         MF0of+OFSSVag+jJbKJCbWqw/7+3QP1Ep9RYaalmJO09mE4viOw8S2klvVFaryWM8jl2
+         TtVtqnAAOEN9R1ADWrsxZJSJWmuT6eBeUtGvwmxtiW6+g7vic+774Z/gaDYyszuozffC
+         OjXIGEYSwLxa1xaHosEo3E4lK3jZqYXbE8AJSAcyVW/Ya9OJJK8u4pEJ6QPLxpJdgj2D
+         ds5e0Mvpliu5fpO+nw6SVbgSyG5paByNt+L/3lCiP7+YU4Hd4Qok+ddJgLOslD7RpwmT
+         /2tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677684964;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gx2Y04HnbVuJVg0xOpO6v56u/oJYu43rVfvF9yJ29p0=;
-        b=VkkKUdc9OKMbrJVSO4XV+xFluJttK9GcNtU/O2nvErgv1O6/Hy1tYX6ewav3DEsefq
-         cj1vYYTejDWd/qRzoPw+SeS6Zig6bj5JpeHN/YrVLDXF/e/EQMOnWOdqpnaxNu1sw39N
-         6vBBvcLwl0QliIMWEM7VM7iKo3fq/cucPhNNNtGeu/qXpUYqR4xN/xtjWEZUFoRFwSQN
-         Mq6vZUxgS/veTPHygX9RmAUEOuE8RVJwffVJrAdObaUP3qIcmwVStMD4352wdIh6Fonx
-         7UVgh6cgj7ttUygXKGckBkB+WoVBHEyLKKsXRWuPYIZdY4jOYi5pOXesu2YR/hZBVMuX
-         f+fQ==
-X-Gm-Message-State: AO0yUKVmlebTMY/JimzQ48lnlPraHnMfeCA79P0/gRv63TnUFAM+3Ygy
-        U5fYLOZY8QUgZMTP3GVQk8vtIhZZzOcMOT2hOGA=
-X-Google-Smtp-Source: AK7set/tcFRH/h71gLqfGSCLKue7Ra4g5s2d4KChaBPTuRlmH41mpYCu3VEgWHVMhCqbKpz83rkdLv6FUbSqfQBe3fY=
-X-Received: by 2002:a63:741e:0:b0:502:fd12:83ce with SMTP id
- p30-20020a63741e000000b00502fd1283cemr2277016pgc.5.1677684964298; Wed, 01 Mar
- 2023 07:36:04 -0800 (PST)
+        d=1e100.net; s=20210112; t=1677685152;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G88lHAU8EQsCcXmuw5k8V0o7uYf93X0m0EbK56nmCkc=;
+        b=bORAxrxRu5VYUgCSIC7DnbuN7xLLbAtIomGjM4cehuKX+KRo6ZqAZ7i8AT4xPysk1u
+         vLVuuHtypOE6mGl5DVdFiuUvUJi0eWqQIlYpIB8geo9z4+5+dfqLHvadxTpBJXqHe3bE
+         JjXmNaxKVL+CE9UeXuMBQRNxZZYJRIkmgImMIbIp6R/Yj+Xrd9X9MHRcFebnIM7d+fb2
+         Ed2wOmxGapdFdpCldj0mFz2FGy5oJLKxWH0uVZFKq3lZcAY1VhW/QkYQTUltvwklTOmo
+         YvF/6TvOlKOaTi3SsG39yLcpFy35NrWFLT5TUP4Jgp7sYkqI/zIr94YjKbO/0BSHal6Q
+         T+yA==
+X-Gm-Message-State: AO0yUKVeF0K2oGtA5hBgDVFkO9W0qX3J1XIg6a0IAujdGJ1KPITGxKV0
+        +M2KhNVBkA2MkVKCPExNeOFhfQ==
+X-Google-Smtp-Source: AK7set8O+FBRYvI4IODXsFr4hn8ba9dIyWnvB6rPeJHmFqFJ7d5V8y8v1teRy0/jHqbFKVQ/Seo5yA==
+X-Received: by 2002:aa7:9ac2:0:b0:5a8:ea06:662 with SMTP id x2-20020aa79ac2000000b005a8ea060662mr6767366pfp.20.1677685152202;
+        Wed, 01 Mar 2023 07:39:12 -0800 (PST)
+Received: from debug.ba.rivosinc.com ([66.220.2.162])
+        by smtp.gmail.com with ESMTPSA id j13-20020a62b60d000000b005a8851e0cddsm8070167pff.188.2023.03.01.07.39.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Mar 2023 07:39:11 -0800 (PST)
+Date:   Wed, 1 Mar 2023 07:39:08 -0800
+From:   Deepak Gupta <debug@rivosinc.com>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, linux-arm-kernel@lists.infradead.org,
+        linux-s390@vger.kernel.org, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v6 11/41] mm: Introduce pte_mkwrite_kernel()
+Message-ID: <20230301153908.GA3505369@debug.ba.rivosinc.com>
+References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-12-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-References: <583f41c49eef15210fa813e8229730d11427efa7.1677614637.git.andreyknvl@google.com>
- <Y/7VeHQBL43MzIPR@debian.me>
-In-Reply-To: <Y/7VeHQBL43MzIPR@debian.me>
-From:   Andrey Konovalov <andreyknvl@gmail.com>
-Date:   Wed, 1 Mar 2023 16:35:53 +0100
-Message-ID: <CA+fCnZdq0FkQDe+FU-dUfsBFnQz-xqRO1eUJ3_Oq38OuN2N7zg@mail.gmail.com>
-Subject: Re: [PATCH v2] kcov: improve documentation
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     andrey.konovalov@linux.dev,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Marco Elver <elver@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        kasan-dev@googlegroups.com, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Linux Documentation <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20230218211433.26859-12-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 1, 2023 at 5:33=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com>=
- wrote:
+On Sat, Feb 18, 2023 at 01:14:03PM -0800, Rick Edgecombe wrote:
+>The x86 Control-flow Enforcement Technology (CET) feature includes a new
+>type of memory called shadow stack. This shadow stack memory has some
+>unusual properties, which requires some core mm changes to function
+>properly.
 >
-> > +2. Using `KCOV_REMOTE_ENABLE`` instead of ``KCOV_ENABLE`` in the users=
-pace
-> ``KCOV_REMOTE_ENABLE``
-
-Will fix in v3.
-
-> Otherwise LGTM.
+>One of these changes is to allow for pte_mkwrite() to create different
+>types of writable memory (the existing conventionally writable type and
+>also the new shadow stack type). Future patches will convert pte_mkwrite()
+>to take a VMA in order to facilitate this, however there are places in the
+>kernel where pte_mkwrite() is called outside of the context of a VMA.
+>These are for kernel memory. So create a new variant called
+>pte_mkwrite_kernel() and switch the kernel users over to it. Have
+>pte_mkwrite() and pte_mkwrite_kernel() be the same for now. Future patches
+>will introduce changes to make pte_mkwrite() take a VMA.
 >
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>Only do this for architectures that need it because they call pte_mkwrite()
+>in arch code without an associated VMA. Since it will only currently be
+>used in arch code, so do not include it in arch_pgtable_helpers.rst.
+>
+>Cc: linux-doc@vger.kernel.org
+>Cc: linux-arm-kernel@lists.infradead.org
+>Cc: linux-s390@vger.kernel.org
+>Cc: xen-devel@lists.xenproject.org
+>Cc: linux-arch@vger.kernel.org
+>Cc: linux-mm@kvack.org
+>Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+>Suggested-by: David Hildenbrand <david@redhat.com>
+>Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+>
 
-Thank you, Bagas!
+Acked-by: Deepak Gupta <debug@rivosinc.com>
