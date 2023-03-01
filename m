@@ -2,156 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A6F2C7EE23
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 21:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E73F7C678D4
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Mar 2023 23:53:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229618AbjCAVbT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 16:31:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60790 "EHLO
+        id S229494AbjCAXxt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 18:53:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjCAVbS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 16:31:18 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35C8451F84
-        for <linux-doc@vger.kernel.org>; Wed,  1 Mar 2023 13:31:16 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id a32so632557ljr.9
-        for <linux-doc@vger.kernel.org>; Wed, 01 Mar 2023 13:31:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1677706274;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lO9u8Y9aCl3r3Q/aM+pDkXOYi2YlGs7AHUhcyE2n2LY=;
-        b=a9nHs6kSXWVgIl5oXYw2ESLt4jjTbPTVaUPLY4bwiIKzlL3BRCcc6btqbMcVuIeW0m
-         OaXbVQnUkn4Kn5iviM5qK9E5zlPYPH4pUT3dO0PXPPZfCFnbR6AgyIMNhDUDsTmP9h68
-         4OrComDjpKwoDUeG63K5E5OB9K16LZzLZPtXk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677706274;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lO9u8Y9aCl3r3Q/aM+pDkXOYi2YlGs7AHUhcyE2n2LY=;
-        b=YlqhrC1AjMUXqZW4O7fs271TH7SOYR73t/UUHi/Bo/+KFqtDaFzYaKrfi8XtDclNRd
-         /gDhaLye8/eteW438FdyVRCanYdHO3WyBfFkvvSrPQhpXGtyupWFI6TddwIl4L68Ddw+
-         hc92y03Z0/ZdA2QooSdcb8wxYgTjvLAxWgZ4Y/o+FwCZb6yP68Sr5gLnGz1/bXMqETdt
-         j4OGYAwpxPinXaX0W/vUeDQjt47/YB0QTyNqdqUithfye2rFp4nImKmeLZ8bt8KLCP6Z
-         DbQLLCH3K+bDanLRyN6RtAxyifDLUx0pogoemNanhl1FalshocvYsIEFKkinmIL1BqVM
-         ntmw==
-X-Gm-Message-State: AO0yUKXXvJ9eFcUrzmKXsL/fMpBfupwE6TMJnLVaNDee7e5BZ9do0K8N
-        HciKJ+OH3q6bA0o61RQ+zRqnypyDcPuKPVBtUtwJLw==
-X-Google-Smtp-Source: AK7set9Tm1EDlxHZBroReRahXqjqtSYLr7qj1vqPncn5dhoSh7r0awu49+RC5nrhdI7rVsydMc8y1qKFWfcNEkcTR6M=
-X-Received: by 2002:a05:651c:231b:b0:293:2d18:36a0 with SMTP id
- bi27-20020a05651c231b00b002932d1836a0mr2531588ljb.3.1677706274370; Wed, 01
- Mar 2023 13:31:14 -0800 (PST)
+        with ESMTP id S229887AbjCAXxs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 18:53:48 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FE9E1A66B;
+        Wed,  1 Mar 2023 15:53:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677714827; x=1709250827;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=QOd5AAG+EZGbuAGfUXscK1yyzYiihDtrdKAjjEtJTkE=;
+  b=e4KcHa8aE0T1T5VtBjzJq/OVQf25f14/Fh4bQWp1WSv50P8EjPFCEV+R
+   f8nTduA+0ErQ6OR0+5B77thafrac5zmAvAqcnH8Jn7+FH1H4517jkAsVe
+   jnsWp1V912HInlwfHqSNA/HjrCp2XWfCrGpvuoAWa6G9bbKt2f2m65k9K
+   HveWuZUHctmJZNyEhJLAn0upV2XhFK2BHxKMXfs+fqnrMpNN3esPEYEJv
+   wSnZYXStb8jsYP2L7YnAOPGR+CTx0g3gPw6/06JZJpltHQDHOzs0KhvRC
+   vQLP4rR6F3OKwuvI0ExOVp3iS9Nhdom8j1HkB6XhG6LQKvl9AlaLH7D5z
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="397127609"
+X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
+   d="scan'208";a="397127609"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 15:53:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="1003880312"
+X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
+   d="scan'208";a="1003880312"
+Received: from srinivas-otcpl-7600.jf.intel.com (HELO jacob-builder.jf.intel.com) ([10.54.39.106])
+  by fmsmga005.fm.intel.com with ESMTP; 01 Mar 2023 15:52:58 -0800
+From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
+To:     LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        "Lu Baolu" <baolu.lu@linux.intel.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        X86 Kernel <x86@kernel.org>, bp@alien8.de,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
+        vkoul@kernel.org, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     "Robin Murphy" <robin.murphy@arm.com>,
+        "Will Deacon" <will@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Raj Ashok <ashok.raj@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>
+Subject: [PATCH v4 0/6] Remove VT-d virtual command interface and IOASID
+Date:   Wed,  1 Mar 2023 15:56:40 -0800
+Message-Id: <20230301235646.2692846-1-jacob.jun.pan@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <Y/z0fHHYdxEXcWMT@pc636> <7EBE4F51-F2BD-4B42-AFC1-CA234E78CC7B@joelfernandes.org>
- <Y/z9Its1RKetIr8V@pc636> <CAEXW_YSjT_orp8TbomBFU+ETS7YJ7TrbHTdrsBRTzCKG5_SBdw@mail.gmail.com>
- <20230227230502.GJ2948950@paulmck-ThinkPad-P17-Gen-1> <Y/0/dnmIk508sidK@lothringen>
- <Y/1ZMXsNZtwYPJNW@google.com> <Y/3fxLXbfvnLFEZq@lothringen>
- <Y/5fXskgrQxzbt0U@google.com> <Y/+HPrU/ofFXapHM@lothringen>
-In-Reply-To: <Y/+HPrU/ofFXapHM@lothringen>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Wed, 1 Mar 2023 16:31:01 -0500
-Message-ID: <CAEXW_YTt=VZ8ZMptccFMStsQvfjy5yMbd5Ah3KL=PUB4YVSTCg@mail.gmail.com>
-Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as completed
-To:     Frederic Weisbecker <frederic@kernel.org>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 1, 2023 at 12:11=E2=80=AFPM Frederic Weisbecker <frederic@kerne=
-l.org> wrote:
-[...]
-> > Hmmm I see what you mean, so a conservative and configurable "fail-safe=
-"
-> > timeout followed by sysctl to end the boot earlier than the timeout, sh=
-ould
-> > do it (something like 30 seconds IMHO sounds reasonable)? In any case,
-> > whatever way we go, we would not end the kernel boot before
-> > rcu_end_inkernel_boot() is called at least once (which is the current
-> > behavior).
-> >
-> > So it would be:
-> >
-> >   low level boot + initcalls
-> >        20 sec                         30 second timeout
-> > |------------------------------|--------------------------
-> >                                |                         |
-> >               old rcu_end_inkernel_boot()      new rcu_end_inkernel_boo=
-t()
-> >
-> > But it could be, if user decides:
-> >   low level boot + initcalls
-> >        20 sec                         10 second timeout
-> > |------------------------------|--------------------------
-> >                                |                         |
-> >               old rcu_end_inkernel_boot()      new rcu_end_inkernel_boo=
-t()
-> >                                                via /sys/ entry.
->
-> The problem I have with a random default timeout is that it may break sen=
-sitive
-> workloads. If the default is 30 and say the boot only takes 5 seconds and
-> immediately launches a latency sensitive task, this may break things in a
-> subtle way during these 25 seconds when it usually didn't. Because expedi=
-ted
-> RCU is a hammer interrupting all non-idle CPUs.
->
-> Until now forcing expedited RCU was only performed before any user code. =
-Now it
-> crosses the boundary so better be careful. I'd personally advocate for ke=
-eping
-> the current call before init is launched. Then provide an end_boot_sysctl=
- kernel
-> boot parameter that will ignore the current call before init and let the =
-user
-> signal that through sysctl.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Considering that the PREEMPT-RT system benefits from it within the 8
-seconds, I will go ahead make the default 15 seconds or so and make it
-tunable. Hopefully that will be an acceptable compromise, with
-sufficient documentation, changelog, and so forth... If you agree I'd
-appreciate your Ack on the next posting.
+Hi all,
 
-> > > > > So shouldn't we disable lazy callbacks by default when CONFIG_RCU=
-_LAZY=3Dy and then
-> > > > > turn it on with "sysctl kernel.rcu.lazy=3D1" only whenever usersp=
-ace feels ready
-> > > > > about it? We can still keep the current call to rcu_end_inkernel_=
-boot().
-> > > >
-> > > > Hmm IMHO that would add more knobs for not much reason honestly. We=
- already
-> > > > have CONFIG_RCU_LAZY default disabled, I really don't want to add m=
-ore
-> > > > dependency (like user enables the config and does not see laziness)=
-.
-> > >
-> > > I don't know. Like I said, different problems, different solutions. L=
-et's
-> > > identify what the issue is precisely. For example can we expect that =
-the issues
-> > > on boot can be a problem also on some temporary workloads?
-> > >
-> > > Besides I'm currently testing a very hacky flavour of rcu_lazy and so=
- far it
-> > > shows many idle calls that would have been delayed if callbacks weren=
-'t queued
-> > > as lazy.
-> >
-> > Can you provide more details? What kind of hack flavor, and what is it =
-doing?
->
-> Sorry, I meant a hacky implementation of lazy to work with !NOCB.
+This patch set removes unused VT-d virtual command interface followed by
+removal of the IOASID infrastructure.
 
-Interesting, I'm curious which calls those are and if they should also
-be call_rcu_hurry().
+This has only been tested on x86 platforms, need help with testing on ARM
+SMMU and other architectures.
 
- - Joel
+
+Thanks,
+
+Jacob
+
+ChangeLog:
+v4:
+ - keep mm_pasid helpers inline as much as we can for fork performance
+ - separate GFP_ATOMIC to GFP_KERNEL change for bisectability
+
+v3:
+ - moved helper functions for PASID under SVA code, avoided circular inclusion
+   between mm.h and iommu.h
+ - deleted makefiles
+ - put rename under a different patch
+
+
+Jacob Pan (4):
+  iommu/vt-d: Remove virtual command interface
+  iommu/sva: Move PASID helpers to sva code
+  iommu/sva: Use GFP_KERNEL for pasid allocation
+  iommu/ioasid: Rename INVALID_IOASID
+
+Jason Gunthorpe (2):
+  iommu/sva: Stop using ioasid_set for SVA
+  iommu: Remove ioasid infrastructure
+
+ Documentation/x86/sva.rst       |   2 +-
+ arch/x86/kernel/traps.c         |   5 +-
+ drivers/dma/idxd/device.c       |   8 +-
+ drivers/dma/idxd/idxd.h         |   2 +-
+ drivers/dma/idxd/init.c         |   2 +-
+ drivers/dma/idxd/irq.c          |   2 +-
+ drivers/iommu/Kconfig           |   5 -
+ drivers/iommu/Makefile          |   1 -
+ drivers/iommu/intel/cap_audit.c |   2 -
+ drivers/iommu/intel/dmar.c      |   6 +-
+ drivers/iommu/intel/iommu.c     |  87 +------
+ drivers/iommu/intel/iommu.h     |   9 -
+ drivers/iommu/intel/svm.c       |   3 +-
+ drivers/iommu/ioasid.c          | 422 --------------------------------
+ drivers/iommu/iommu-sva.c       |  62 ++---
+ drivers/iommu/iommu-sva.h       |   4 -
+ include/linux/ioasid.h          |  83 -------
+ include/linux/iommu-helper.h    |   1 +
+ include/linux/iommu.h           |   8 +-
+ include/linux/sched/mm.h        |  20 +-
+ mm/init-mm.c                    |   4 +-
+ 21 files changed, 46 insertions(+), 692 deletions(-)
+ delete mode 100644 drivers/iommu/ioasid.c
+ delete mode 100644 include/linux/ioasid.h
+
+-- 
+2.25.1
+
