@@ -2,116 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 361A7C7EE23
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 02:48:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1FF2C678D4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 03:17:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbjCBCsS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 21:48:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41590 "EHLO
+        id S229794AbjCBDR0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 22:17:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229799AbjCBCsR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 21:48:17 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19B346A78;
-        Wed,  1 Mar 2023 18:48:17 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id cp12so8494795pfb.5;
-        Wed, 01 Mar 2023 18:48:17 -0800 (PST)
+        with ESMTP id S229715AbjCBDRU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 22:17:20 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 848C94FAAC
+        for <linux-doc@vger.kernel.org>; Wed,  1 Mar 2023 19:17:18 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id h11-20020a17090a2ecb00b00237c740335cso1356528pjs.3
+        for <linux-doc@vger.kernel.org>; Wed, 01 Mar 2023 19:17:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677725296;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CyOJjljScA1IV8sLYQx4JYgQ0KEeCcbRmuPAm8zbNs0=;
-        b=mqEVhSLhnIWUxSLG5tX+ddyDaOLKKTszF/OvzkWpp0mmPCBVwGSAZ03nEog087YXvK
-         8y6FRPNHQVQi/1MVYt6xZh0q5sg6+MMle8H+cvhkUBCzSvZ4W9EL2WcmCpbJ/EGiwtHW
-         2RuOiWxHNT3jUhP55yFCFzSg2n91EU1U3Z2BPZIOY2fLNAKay12PEMb951JwQasrVNyw
-         I5yp7q8ohmPyZMD4DOhSffVKrj1YLrKu9GV/ae9xINgwN0lyJyps52J7X9dohThl60mc
-         w8BPHcq7Tcb0E8i7IKMDIPULkASD/uRgPYWYrxbYPTgAXiEDLPWdDnnJgvI5eH4EQ24m
-         rg5w==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677727038;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hgpf8cgLJj50M86L5F9BUoIAMwjT++SeEfR1/zwwwE0=;
+        b=05BK9h2oN73d+vLQZ8AXICX+yqZH9PJw8eGQwQu3aLpPw/PQkKLBM+zl4FHFPDCMbr
+         oT2a7ycW9j4IvNJVs7ZNd3qeiw85Qtha4m0oAo5Q0QiPipyRwzSV4J3XcelEef5d8yqB
+         I4KXQDK7qQ+mAPYeZvAqQG78vIyZoGQH/5i1rIXtVNLbcQNF9Kn0gW9O7HWaBv1Z1Hfx
+         4q2OGZuaoqmuPypq3KgIWVltCxcy5gmQYJ+016KcQmuC/U0yrGY0o6z+m+PHYIZUzGYI
+         1grLiGwuTn7D4jkc5r6I/7tUA73EppBwvM41vkni8yrDAA+aUFBNlGO/ZUE432ubFqlh
+         lUug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677725296;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20210112; t=1677727038;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CyOJjljScA1IV8sLYQx4JYgQ0KEeCcbRmuPAm8zbNs0=;
-        b=t9v2SJcNVKex8EZ8YqwqtUY6eopiEe/Du++4l0oDCvFSjSHg+uJQ1z0G0nD+/u+W8Y
-         rz+uqqAo3NtbdaRrzbWarSJptnhu+AfdWTZG9T5iDgvVbhZWdW8jyvnuyCNlhCsFa2Mh
-         ts5z55Jc5wNor6URv3X2pbU1NEOzV3CCcOaIKtiVTQZLtTZT9ynCuIaDf9gaOlGAIIWO
-         jdIv26yQu/52Zvrueupd7Cb/OKV46hoE+kLn04k8TImxGwlQDnl6lH3B7Uks3gGos5Q7
-         u5B2iOrQ5Ql23vbXGvAiDLw8u0EdrG1xT5qrsOkt8nKo4by+xc0KzJpp14ppYTvYxL05
-         IOqQ==
-X-Gm-Message-State: AO0yUKVn2mkCTk4MOH/kFiS+jvyyhuxOZ4aqvz62/5Bf9TPOiD4Rvial
-        sV/CtK9288abcboTYJhy7R0=
-X-Google-Smtp-Source: AK7set+SCS9iuszLb29lf2dM6thcXWIzqM012j7t5hexSTRJVB9F7PoLom1itM2jWwAmZhOkIFBnQA==
-X-Received: by 2002:a62:6401:0:b0:577:272f:fdb with SMTP id y1-20020a626401000000b00577272f0fdbmr7021473pfb.29.1677725296570;
-        Wed, 01 Mar 2023 18:48:16 -0800 (PST)
-Received: from debian.me (subs32-116-206-28-6.three.co.id. [116.206.28.6])
-        by smtp.gmail.com with ESMTPSA id x21-20020aa793b5000000b005a8de0f4c76sm8873813pff.17.2023.03.01.18.48.14
+        bh=hgpf8cgLJj50M86L5F9BUoIAMwjT++SeEfR1/zwwwE0=;
+        b=jpHH7OBwBwgaaYeHI6VJKERh4cfgVEyQxubyYJnThaH1rB88PeKt8HIWqhGgySC9N8
+         kDaXiD6/XLZ5RFgqvY7zAdbAHulIXLSBsC90J7j/+sqdYG8UuiqDyjc8lQXR0iOUz7Ug
+         I3ADP5H8rEq6wmsfMH+qZ84soAiTYUfPFl1HHlZ1N/HhLUMHIvpdDeOTT0fmJa4paqWq
+         IBR3obyp+uRtN42U/btFypluf0FTuDHRz9uc3RZ203ymeT6TqWEnH8byPtbVOlDlpfXt
+         K9uhGusLC9qQSewZNz0zVc12gvDema5K6t4fmd1KOjk07WgG7RyFsqQH21TunfDga2No
+         60Vw==
+X-Gm-Message-State: AO0yUKUgczJElFzVI7u0NoRt1Efr7aJJRj8KmhWejSawlt07MI0B00Nx
+        /Swj/iKvwQO/O07cqNcVXX3rnw==
+X-Google-Smtp-Source: AK7set9sdV/+BdUm2bBjL395AsIYL1A1j9eCLS8ecMxY0Ws8WD4l1oqL273WzlVwyO1Yv4lm9xFKPQ==
+X-Received: by 2002:a05:6a20:1bde:b0:cc:de56:957a with SMTP id cv30-20020a056a201bde00b000ccde56957amr8709472pzb.13.1677727037881;
+        Wed, 01 Mar 2023 19:17:17 -0800 (PST)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id h192-20020a636cc9000000b00502f5cd216bsm8183287pgc.6.2023.03.01.19.17.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Mar 2023 18:48:14 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 8BCA0104006; Thu,  2 Mar 2023 09:48:11 +0700 (WIB)
-Date:   Thu, 2 Mar 2023 09:48:11 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     yang.yang29@zte.com.cn, akpm@linux-foundation.org, david@redhat.com
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, wang.yong12@zte.com.cn
-Subject: Re: [PATCH linux-next] delayacct: improve the average delay
- precision of getdelay tool to microsecond
-Message-ID: <ZAAOa4nYSYQc48Lr@debian.me>
-References: <202302131408087983857@zte.com.cn>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="8wLeOCCbXvPi5D5N"
-Content-Disposition: inline
-In-Reply-To: <202302131408087983857@zte.com.cn>
+        Wed, 01 Mar 2023 19:17:16 -0800 (PST)
+Date:   Wed, 01 Mar 2023 19:17:16 -0800 (PST)
+X-Google-Original-Date: Wed, 01 Mar 2023 18:55:30 PST (-0800)
+Subject:     Re: [PATCH v3 03/24] arm: Remove COMMAND_LINE_SIZE from uapi
+In-Reply-To: <874b8076-b0d1-4aaa-bcd8-05d523060152@app.fastmail.com>
+CC:     alexghiti@rivosinc.com, linux@armlinux.org.uk, corbet@lwn.net,
+        Richard Henderson <richard.henderson@linaro.org>,
+        ink@jurassic.park.msu.ru, mattst88@gmail.com, vgupta@kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, chenhuacai@kernel.org,
+        kernel@xen0n.name, geert@linux-m68k.org, monstr@monstr.eu,
+        tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com,
+        deller@gmx.de, mpe@ellerman.id.au, npiggin@gmail.com,
+        christophe.leroy@csgroup.eu,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org,
+        davem@davemloft.net, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, chris@zankel.net, jcmvbkbc@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org
+From:   Palmer Dabbelt <palmer@rivosinc.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Message-ID: <mhng-78901e66-16df-4563-9e2c-3a9744ef2828@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 23 Feb 2023 05:09:17 PST (-0800), Arnd Bergmann wrote:
+> On Thu, Feb 23, 2023, at 10:54, Alexandre Ghiti wrote:
+>> On Wed, Feb 15, 2023 at 2:05 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>>>
+>>> On Wed, Feb 15, 2023, at 13:59, Russell King (Oracle) wrote:
+>>> > On Tue, Feb 14, 2023 at 08:49:04AM +0100, Alexandre Ghiti wrote:
+>>> >> From: Palmer Dabbelt <palmer@rivosinc.com>
+>>> >>
+>>> >> As far as I can tell this is not used by userspace and thus should not
+>>> >> be part of the user-visible API.
+>>> >>
+>>> >> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+>>> >
+>>> > Looks good to me. What's the merge plan for this?
+>>>
+>>> The easiest way is probably if I merge it through the whole
+>>> series through the asm-generic tree. The timing is a bit
+>>> unfortunate as we're just ahead of the merge window, so unless
+>>> we really need this in 6.3, I'd suggest that Alexandre resend
+>>> the series to me in two weeks with the Acks added in and I'll
+>>> pick it up for 6.4.
+>>
+>> Sorry for the response delay, I was waiting to see if Palmer would
+>> merge my KASAN patchset in 6.3 (which he does): I have to admit that
+>> fixing the command line size + the KASAN patchset would allow 6.3 to
+>> run on syzkaller, which would be nice.
+>>
+>> If I don't see this merged in 6.3, I'll send another round as you
+>> suggested in 1 week now :)
+>
+> Hi Alexandre,
+>
+> I have no plans to still pick up the series for 6.3. The patches
+> all look fine to me, but it's clearly too late now. What is the
+> actual dependency for KASAN, do you just need a longer command
+> line or something else? If it's just the command line size,
+> I would suggest that Palmer can still pick up a oneline change
+> to increase it and refer to this thread in the changelog as a
+> reference for why it is not an actual UAPI break.
 
---8wLeOCCbXvPi5D5N
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sorry for being slow here, I just queued up the original patch in the 
+RISC-V tree and intend on sending it for 6.3 -- the main worry was that 
+it's a uABi change and we're confident it's not.  It's late, but I'd 
+prefer to have this as it should let us start running syzkaller now and 
+that'll probably find more bugs than this is likely to trigger.
 
-On Mon, Feb 13, 2023 at 02:08:08PM +0800, yang.yang29@zte.com.cn wrote:
-> From: Wang Yong <wang.yong12@zte.com.cn>
->=20
-> Improve the average delay precision of getdelay tool to microsecond.
-> When using the getdelay tool, it is sometimes found that the average
-> delay except CPU is not 0, but display is 0, because the precison is too
-> low. For example, see delay average of SWAP below when using ZRAM.
->=20
-> print delayacct stats ON
-> PID	32915
-> CPU             count     real total  virtual total    delay total  delay=
- average
->                339202     2793871936     9233585504        7951112       =
-   0.000ms
-> IO              count    delay total  delay average
->                    41      419296904             10ms
-> SWAP            count    delay total  delay average
->                242589     1045792384              0ms
-> This wrong display is misleading, so improve the millisecond precision
-> of the  average delay to microsecond just like CPU. Then user would
-> get more accurate information of delay time.
-
-I'm kinda confused. 0.000ms is same as 0ms, right?
-
-And did you mean accuracy of delay average is to be same as CPU time?
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---8wLeOCCbXvPi5D5N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZAAOZAAKCRD2uYlJVVFO
-o6xvAP0WSORel6xyIqLGNu4/4lTlk9PRFn7O/lcP8vrG6NhNuwEAxqqncRwHWDwo
-QhdxwBIWfmACP0vVmaSxBU121++GiQQ=
-=1hUB
------END PGP SIGNATURE-----
-
---8wLeOCCbXvPi5D5N--
+https://lore.kernel.org/r/mhng-b5f934ff-a9bb-4c2b-9ba6-3ab68312077a@palmer-ri-x1c9a/
