@@ -2,92 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64B19C7EE23
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 03:18:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CAA8C7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 03:26:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229651AbjCBDSr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 22:18:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35224 "EHLO
+        id S229794AbjCBD0s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 22:26:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjCBDSr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 22:18:47 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3A79035BA;
-        Wed,  1 Mar 2023 19:18:46 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 36F511FB;
-        Wed,  1 Mar 2023 19:19:29 -0800 (PST)
-Received: from a077893.blr.arm.com (unknown [10.162.41.9])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 92D323F99C;
-        Wed,  1 Mar 2023 19:18:42 -0800 (PST)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-To:     linux-mm@kvack.org
-Cc:     david@redhat.com, mike.kravetz@oracle.com,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: [PATCH] mm/debug_vm_pgtable: Replace pte_mkhuge() with arch_make_huge_pte()
-Date:   Thu,  2 Mar 2023 08:48:33 +0530
-Message-Id: <20230302031833.360679-1-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229471AbjCBD0s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 22:26:48 -0500
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 985E34E5DF;
+        Wed,  1 Mar 2023 19:26:46 -0800 (PST)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4PRxNN44KNz8RV7L;
+        Thu,  2 Mar 2023 11:26:44 +0800 (CST)
+Received: from szxlzmapp07.zte.com.cn ([10.5.230.251])
+        by mse-fl1.zte.com.cn with SMTP id 3223QYm9099616;
+        Thu, 2 Mar 2023 11:26:34 +0800 (+08)
+        (envelope-from yang.yang29@zte.com.cn)
+Received: from mapi (szxlzmapp01[null])
+        by mapi (Zmail) with MAPI id mid14;
+        Thu, 2 Mar 2023 11:26:35 +0800 (CST)
+Date:   Thu, 2 Mar 2023 11:26:35 +0800 (CST)
+X-Zmail-TransId: 2b036400176b393f8afc
+X-Mailer: Zmail v1.0
+Message-ID: <202303021126356602083@zte.com.cn>
+In-Reply-To: <ZAAOa4nYSYQc48Lr@debian.me>
+References: 202302131408087983857@zte.com.cn,ZAAOa4nYSYQc48Lr@debian.me
+Mime-Version: 1.0
+From:   <yang.yang29@zte.com.cn>
+To:     <bagasdotme@gmail.com>
+Cc:     <akpm@linux-foundation.org>, <david@redhat.com>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <wang.yong12@zte.com.cn>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCBsaW51eC1uZXh0XSBkZWxheWFjY3Q6IGltcHJvdmUgdGhlIGF2ZXJhZ2UgZGVsYXkgcHJlY2lzaW9uIG9mIGdldGRlbGF5IHRvb2wgdG8gbWljcm9zZWNvbmQ=?=
+Content-Type: text/plain;
+        charset="UTF-8"
+X-MAIL: mse-fl1.zte.com.cn 3223QYm9099616
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.250.137.novalocal with ID 64001774.000 by FangMail milter!
+X-FangMail-Envelope: 1677727604/4PRxNN44KNz8RV7L/64001774.000/10.5.228.132/[10.5.228.132]/mse-fl1.zte.com.cn/<yang.yang29@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 64001774.000/4PRxNN44KNz8RV7L
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since the following commit arch_make_huge_pte() should be used directly in
-generic memory subsystem as a platform provided page table helper, instead
-of pte_mkhuge(). Change hugetlb_basic_tests() to call arch_make_huge_pte()
-directly, and update its relevant documentation entry as required.
+> I'm kinda confused. 0.000ms is same as 0ms, right?
+Not really. The types of these two results are different, so the precision of
+representation is different.
 
-'commit 16785bd77431 ("mm: merge pte_mkhuge() call into arch_make_huge_pte()")'
-
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-mm@kvack.org
-Reported-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-Link: https://lore.kernel.org/all/1ea45095-0926-a56a-a273-816709e9075e@csgroup.eu/
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
-This applies on latest mainline.
-
- Documentation/mm/arch_pgtable_helpers.rst | 2 +-
- mm/debug_vm_pgtable.c                     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/mm/arch_pgtable_helpers.rst b/Documentation/mm/arch_pgtable_helpers.rst
-index 30d9a09f01f4..af3891f895b0 100644
---- a/Documentation/mm/arch_pgtable_helpers.rst
-+++ b/Documentation/mm/arch_pgtable_helpers.rst
-@@ -214,7 +214,7 @@ HugeTLB Page Table Helpers
- +---------------------------+--------------------------------------------------+
- | pte_huge                  | Tests a HugeTLB                                  |
- +---------------------------+--------------------------------------------------+
--| pte_mkhuge                | Creates a HugeTLB                                |
-+| arch_make_huge_pte        | Creates a HugeTLB                                |
- +---------------------------+--------------------------------------------------+
- | huge_pte_dirty            | Tests a dirty HugeTLB                            |
- +---------------------------+--------------------------------------------------+
-diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
-index af59cc7bd307..92bed5bd5879 100644
---- a/mm/debug_vm_pgtable.c
-+++ b/mm/debug_vm_pgtable.c
-@@ -934,7 +934,7 @@ static void __init hugetlb_basic_tests(struct pgtable_debug_args *args)
- #ifdef CONFIG_ARCH_WANT_GENERAL_HUGETLB
- 	pte = pfn_pte(args->fixed_pmd_pfn, args->page_prot);
- 
--	WARN_ON(!pte_huge(pte_mkhuge(pte)));
-+	WARN_ON(!pte_huge(arch_make_huge_pte(pte)));
- #endif /* CONFIG_ARCH_WANT_GENERAL_HUGETLB */
- }
- #else  /* !CONFIG_HUGETLB_PAGE */
--- 
-2.30.2
-
+> And did you mean accuracy of delay average is to be same as CPU time?
+Yes.
