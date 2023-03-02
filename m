@@ -2,132 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0404AC7EE30
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 01:19:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CA8BC7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 01:22:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbjCBBTR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 20:19:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56584 "EHLO
+        id S229544AbjCBBWP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 20:22:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjCBBTP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 20:19:15 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7FE11B556;
-        Wed,  1 Mar 2023 17:19:12 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 248E5CE1EC1;
-        Thu,  2 Mar 2023 01:19:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D300C433D2;
-        Thu,  2 Mar 2023 01:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677719949;
-        bh=Snf1tIKNo7waT6gubhhft5f41e+dfcAwpZjlx/Je1gI=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=NVKW1KCfRbeCa5llS4njOUhIi03APJXhT6CuSBQ+Yr+EFaFx28bVFElLoNjbDbyRG
-         hjL9SEcEszgpwypYpTNDlhndeL0/pMjmBB0duceqhTRvwCEV+VvE7Qp6AlBFhF9MKg
-         JoFUuFqv2NzMwZFjvJ+y6Cn8M2N4eo/txNf2wUf9LIMY5U66Dur9iPeJzpyWaPVGP4
-         SI0MprNiSmDsmOR7rgPcDAP1lm+V4J2EOUVRpCZLdCdDggDzM92WowIoLAlNlrt1wp
-         9ZEYtIjSsKEGT/vTlVjWBKSUVFQIvyywZqpdJhHXUWuOp81wRAfi9BTXLi324ADfNQ
-         NBFDyBkDjPq8g==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id AA66A5C0361; Wed,  1 Mar 2023 17:19:08 -0800 (PST)
-Date:   Wed, 1 Mar 2023 17:19:08 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Frederic Weisbecker <frederic@kernel.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, linux-kernel@vger.kernel.org,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-Subject: Re: [PATCH RFC v2] rcu: Add a minimum time for marking boot as
- completed
-Message-ID: <20230302011908.GN2948950@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <CAEXW_YSjT_orp8TbomBFU+ETS7YJ7TrbHTdrsBRTzCKG5_SBdw@mail.gmail.com>
- <20230227230502.GJ2948950@paulmck-ThinkPad-P17-Gen-1>
- <Y/0/dnmIk508sidK@lothringen>
- <Y/1ZMXsNZtwYPJNW@google.com>
- <Y/3fxLXbfvnLFEZq@lothringen>
- <Y/5fXskgrQxzbt0U@google.com>
- <Y/+HPrU/ofFXapHM@lothringen>
- <CAEXW_YTt=VZ8ZMptccFMStsQvfjy5yMbd5Ah3KL=PUB4YVSTCg@mail.gmail.com>
- <20230302004931.GM2948950@paulmck-ThinkPad-P17-Gen-1>
- <CAEXW_YRwNT02Z7e1NVd5eCknwtGfS98cViMGjuvp7zFNgu8pxg@mail.gmail.com>
+        with ESMTP id S229445AbjCBBWO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 20:22:14 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2437460B3;
+        Wed,  1 Mar 2023 17:22:12 -0800 (PST)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 321N0PVj032491;
+        Thu, 2 Mar 2023 01:21:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=hyQxkgFzuSR8YZ5Bl4NrASAhqzVQh3AgpefjsIf0GmI=;
+ b=SuqCfRao7BN/vIPCbYrZeOSYl/QVRUJYsGX8MY370+Y2OjKZPjnRIXCeAtuGxoGI2rqD
+ OC/5rjtyl9Wtpxi2c2wKcMCrXx9rZfRdB6cLkLWraDKnGY9zTq/kShPvBBL/i0c1K5bk
+ oqoDXXvZVdit6VsVF7AMRJXgDeON1FM30iz5IK4Ud6anZjMyG692Bg1c6V4soAbmjKG4
+ etByXyEDmZdWdWO8+BZb8D0DwnTNLJugn4buwMNEQfw9FSqAL76V4zI8GTyu+m9NE1F0
+ 8RAn6ZmcOeJkbnAVgjn3luVnktZWcCYBUxhFUUUv8oFhyp7lFCiQ2duR0Iijs1Hm0GH1 Zw== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p24yut3sk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 02 Mar 2023 01:21:55 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3221Ltdf019789
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 2 Mar 2023 01:21:55 GMT
+Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 1 Mar 2023
+ 17:21:53 -0800
+Message-ID: <d01e4b1f-862b-410f-66bb-9b8158e76807@quicinc.com>
+Date:   Wed, 1 Mar 2023 17:21:53 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 04/26] virt: gunyah: Add hypercalls to identify Gunyah
+Content-Language: en-US
+To:     Alex Elder <alex.elder@linaro.org>, Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "Prakruthi Deepak Heragu" <quic_pheragu@quicinc.com>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214211229.3239350-5-quic_eberman@quicinc.com>
+ <4eb2e494-d987-5eb7-3513-be58eb87c9af@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <4eb2e494-d987-5eb7-3513-be58eb87c9af@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEXW_YRwNT02Z7e1NVd5eCknwtGfS98cViMGjuvp7zFNgu8pxg@mail.gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: R_DQVLllJKNcTXXTtSy5zqtfT2bjjag2
+X-Proofpoint-ORIG-GUID: R_DQVLllJKNcTXXTtSy5zqtfT2bjjag2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-01_17,2023-03-01_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ bulkscore=0 priorityscore=1501 malwarescore=0 suspectscore=0 mlxscore=0
+ adultscore=0 spamscore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2303020008
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 01, 2023 at 08:08:54PM -0500, Joel Fernandes wrote:
-> On Wed, Mar 1, 2023 at 7:49 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Wed, Mar 01, 2023 at 04:31:01PM -0500, Joel Fernandes wrote:
-> > > On Wed, Mar 1, 2023 at 12:11 PM Frederic Weisbecker <frederic@kernel.org> wrote:
-> > > [...]
-> > > > > Hmmm I see what you mean, so a conservative and configurable "fail-safe"
-> > > > > timeout followed by sysctl to end the boot earlier than the timeout, should
-> > > > > do it (something like 30 seconds IMHO sounds reasonable)? In any case,
-> > > > > whatever way we go, we would not end the kernel boot before
-> > > > > rcu_end_inkernel_boot() is called at least once (which is the current
-> > > > > behavior).
-> > > > >
-> > > > > So it would be:
-> > > > >
-> > > > >   low level boot + initcalls
-> > > > >        20 sec                         30 second timeout
-> > > > > |------------------------------|--------------------------
-> > > > >                                |                         |
-> > > > >               old rcu_end_inkernel_boot()      new rcu_end_inkernel_boot()
-> > > > >
-> > > > > But it could be, if user decides:
-> > > > >   low level boot + initcalls
-> > > > >        20 sec                         10 second timeout
-> > > > > |------------------------------|--------------------------
-> > > > >                                |                         |
-> > > > >               old rcu_end_inkernel_boot()      new rcu_end_inkernel_boot()
-> > > > >                                                via /sys/ entry.
-> > > >
-> > > > The problem I have with a random default timeout is that it may break sensitive
-> > > > workloads. If the default is 30 and say the boot only takes 5 seconds and
-> > > > immediately launches a latency sensitive task, this may break things in a
-> > > > subtle way during these 25 seconds when it usually didn't. Because expedited
-> > > > RCU is a hammer interrupting all non-idle CPUs.
-> > > >
-> > > > Until now forcing expedited RCU was only performed before any user code. Now it
-> > > > crosses the boundary so better be careful. I'd personally advocate for keeping
-> > > > the current call before init is launched. Then provide an end_boot_sysctl kernel
-> > > > boot parameter that will ignore the current call before init and let the user
-> > > > signal that through sysctl.
-> > >
-> > > Considering that the PREEMPT-RT system benefits from it within the 8
-> > > seconds, I will go ahead make the default 15 seconds or so and make it
-> > > tunable. Hopefully that will be an acceptable compromise, with
-> > > sufficient documentation, changelog, and so forth... If you agree I'd
-> > > appreciate your Ack on the next posting.
-> >
-> > Just checking on the sysfs portion of this.
+
+
+On 2/23/2023 4:09 PM, Alex Elder wrote:
+> On 2/14/23 3:12 PM, Elliot Berman wrote:
+>> +
+>> +void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp 
+>> *hyp_identity);
 > 
-> Yes, the current plan is to add a sysfs node (likely sysctl) with the
-> 15-second failsafe.
-
-Whew!!!  Very good, then!
-
-> > After all, tuning kernel
-> > boot parameters to specific systems is not all that much fun, especially
-> > when you have lots of systems.
+> Since this is a user space API, you *could* consider having
+> this function return an int.  Just in case there's a future
+> reason that a failure could occur, or that you want to
+> supply some other information.  If this truly doesn't make
+> sense, it's fine as-is...
 > 
-> Are you suggesting to drop "end the boot" sysfs and just have a
-> minimum-time approach as I initially did?
 
-Not at all.  I was just concerned that the sysfs was getting lost in
-the shuffle.
+I'm not sure what was meant by user space API. However, hypervisor API 
+doesn't provision a return value. r0 is usually the return value for 
+most other Gunyah hypercalls except for this one -- instead, it's the 
+api_info field.
 
-All good now, thank you!
+The other kind of error we could get is at hypercall "transport" layer, 
+but the hvc instruction doesn't fail and if we ever change the hypercall 
+transport, I'm sure there will be a lot of other changes to consider as 
+well.
 
-							Thanx, Paul
+Thanks,
+Elliot
+
