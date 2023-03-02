@@ -2,181 +2,226 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D199EC7EE30
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 09:05:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE0D6C678D4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 09:35:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229876AbjCBJFt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Mar 2023 04:05:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42700 "EHLO
+        id S229679AbjCBJfr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Mar 2023 04:35:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229831AbjCBJFp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 04:05:45 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8F463CE01;
-        Thu,  2 Mar 2023 01:05:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677747943; x=1709283943;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ZIwVy14DkpyPVjkMETlZF6v3qm6gnPICu2aR8MiXxL0=;
-  b=jns2I5TNu2qTXumpwtgQHyOQIn2Ei7qNFH2I/zoCBC8zFoKQxH509mA3
-   G9P+jwGgJ6i1oedldtq/tiP5eWRnggWC8xAwZMa+70MvnjM5obNu6jxgS
-   wuqD3KA1FodYMdHDpQmljuSQXs8H1XoPPFlh5Rnnb4qAfishnx80OMkJp
-   FhnbxY3X9YscbT4L1Z1JwsOUtsdVXGlnwlPU0MhrRfCRkg6A+w+eAFrjF
-   zfnJ9VUZMWH2B3lAKyt+p8tWunc3MvKVOj4b/+S1iKZZAkx3SddImtEWL
-   f25+Yf3H6qB+ctGJfg3NVS7r1s3bTcjyq0nijfNYlsoDGSb6wBxisP1wi
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="318467332"
-X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
-   d="scan'208";a="318467332"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 01:03:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="784731711"
-X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
-   d="scan'208";a="784731711"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga002.fm.intel.com with ESMTP; 02 Mar 2023 01:03:56 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 2 Mar 2023 01:03:56 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 2 Mar 2023 01:03:55 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Thu, 2 Mar 2023 01:03:55 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Thu, 2 Mar 2023 01:03:55 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nD2qmeMZDNXifd/3fpxWjQxqRvrTpG16Izy14HDKSHTRFEjk/1B+f3nfPf0hkF1Qg2Iel0PZSm1t8n0VqI08PwN7bGj670MzGuiEtzZogRqn3v7ejHDb6oWFDcMtd6iJz7YtoXNECix/oma58VvX4wqG3vnK8psFAD/7G28N9FQPLWEALq6X8ORdNZm8J7bgxbB5atBxnAUSWndjSvH77clrEzXjCdLWq56WRZT/89da2Dwf58Ytnire+KzM2GXg17dIyy7JzRg1osaIxoh6lYTAEB7tRjVtDS5Smf+84ZlMHiPUSdZVgnjeFKnmfShdX3EH9RvrhNr3Eo55Gm5NZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y10TuUh7fcM9yIfrsNibSYuobyQdCBlfQutsn5Zi+Jo=;
- b=Woqp8VlypMxqU7/2gtVzqNIEsgl1beqnDAF14KZCPRI7qlKcGyoK23vVHWhoA8rRZukpo12FkhPRiI4lqr0oLiqUYQnCGKoOK0MUjCJnXg+GR4GrWuhJkqO/Wqkj2oLEnmq0q8F7vzp7e2BoBjr0BhMBKEIOhua84FChEssaD+JWGs2cZno+nIv7f2b8ytHn244BgcJtCTNJxXaMqVMzhZPA8fasGw0A3R+zl+AvWgWBIn773zBRXJ+00KhL9Ynz5pOKAGLS7Agp3jCjBBCCJ1n+JHSAw3bVfqbhey29X/mpDb3x9xO88i+9ByN1POvxY4pPoBRhueolqpHiMFsglA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by CH0PR11MB5379.namprd11.prod.outlook.com (2603:10b6:610:ba::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.19; Thu, 2 Mar
- 2023 09:03:52 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::1aac:b695:f7c5:bcac]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::1aac:b695:f7c5:bcac%9]) with mapi id 15.20.6156.019; Thu, 2 Mar 2023
- 09:03:52 +0000
-From:   "Tian, Kevin" <kevin.tian@intel.com>
-To:     Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "Jean-Philippe Brucker" <jean-philippe@linaro.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
+        with ESMTP id S229739AbjCBJfq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 04:35:46 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 958A12E0D7
+        for <linux-doc@vger.kernel.org>; Thu,  2 Mar 2023 01:35:43 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id t25-20020a1c7719000000b003eb052cc5ccso1229304wmi.4
+        for <linux-doc@vger.kernel.org>; Thu, 02 Mar 2023 01:35:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677749742;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0+QyJbOcIEmK/h00N9XPuc9p7Y446r7FCIJpaEpb2y0=;
+        b=GSZPDYNuLgx/8mLBXcWrYDn7canNDaRtfx/thmlw+ZEBHPI0HYu1zL9LQFCizwcrca
+         TsKITKLC0vDpyHBESTzecaxvZI4+8ls2wjItm2Pt/uxbbqQ0iKB0xHThPFn5cHy8g/mJ
+         y9OD1hXrn5nc4Q2EZaQPwPA3ne0cIzPME9LqnyO6K/L7WEPGkJVeZOAkCNfuTzDGKLV3
+         /5/Ofu4+aOhWWfFMVIN2YY9VqSSWA+OsdGSkgKWVxcBzI+N21V9PPC5mATDOgJC7aibv
+         nuJNa9uPLqwVsGG4Y11KwSu5HX6ff6be1CREj0CQTZPl1a4u3/kbBq6+Gy5wWVRsPZ7x
+         9i+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677749742;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0+QyJbOcIEmK/h00N9XPuc9p7Y446r7FCIJpaEpb2y0=;
+        b=jXoruXVxcsZtxdUwYZeBTwZLJQ31+Zo/Dp3evQtvkZaYtzb/ekhqc4YWaQ32BQ1nbs
+         4XbVn8S3B3PfnSRbVGXr3exkuaJjZ+hR5cyTSkgFXN7JdRk+IffJuQ3DEKSXs/vhe44L
+         qoXaqshw9US8Cb3G8KmDmefrls82+fb2NjfSuy50Lux4Pvazgqsg5Q8nnAgurAr2x1+/
+         SQSxEGjDGBQ4R2AKpJ0DlR7tZqwg0KbnxAZKmOVjBnqoiYn4NKH3fJuuXlaL7MTF4p5N
+         tmQO2GuxdyAB24YJeWTZDKm6S2Gd90jo6AZ1Dn37Mxxup5MxiYRpf8CzqCySQGLPeIMy
+         sUFA==
+X-Gm-Message-State: AO0yUKXtZa3VopQFZ67s85I9GEK+qGQv3blnPBA+NEZBHRyAJpB4pq9L
+        NUvdTSbaKFHhZx/nMuxYZYAyyw==
+X-Google-Smtp-Source: AK7set82JqkGhDygh6pR2mSF0/c3yM6dikmWvSRMvxrqnIL2EUb/yJbhzMLscJ56hDRKKxkME8A6dw==
+X-Received: by 2002:a05:600c:1708:b0:3d0:6a57:66a5 with SMTP id c8-20020a05600c170800b003d06a5766a5mr7384393wmn.0.1677749742062;
+        Thu, 02 Mar 2023 01:35:42 -0800 (PST)
+Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+        by smtp.gmail.com with ESMTPSA id l10-20020a7bc44a000000b003e21dcccf9fsm2223136wmi.16.2023.03.02.01.35.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Mar 2023 01:35:41 -0800 (PST)
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S . Miller" <davem@davemloft.net>,
         Thomas Gleixner <tglx@linutronix.de>,
-        X86 Kernel <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "vkoul@kernel.org" <vkoul@kernel.org>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-CC:     Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>,
-        "David Woodhouse" <dwmw2@infradead.org>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        "Jiang, Dave" <dave.jiang@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>
-Subject: RE: [PATCH v4 2/6] iommu/sva: Move PASID helpers to sva code
-Thread-Topic: [PATCH v4 2/6] iommu/sva: Move PASID helpers to sva code
-Thread-Index: AQHZTJj5HnHa9YIa9kO1Q/LNXU7+Oq7nMkNQ
-Date:   Thu, 2 Mar 2023 09:03:52 +0000
-Message-ID: <BN9PR11MB5276E466C33CB6240B06B0728CB29@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20230301235646.2692846-1-jacob.jun.pan@linux.intel.com>
- <20230301235646.2692846-3-jacob.jun.pan@linux.intel.com>
-In-Reply-To: <20230301235646.2692846-3-jacob.jun.pan@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|CH0PR11MB5379:EE_
-x-ms-office365-filtering-correlation-id: b15c8992-6441-4043-519b-08db1afd0b5d
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7W5NGPnjUR7rveaf0Tx4SeEL7D6D8kdVif7jC2P5xqtg+qoTEJ6X7svf1Lu79h5579bnyj2hG6PRubumutIV1Tx76xK01N+y6v6X3VfCoCwiqGLt2idV2X5S42Fl/B3/sGKYZtFeKaqQoFKScEr1E3jbwWvO84uyClRjujEFSQqquxwrrogqiq+Q2XuWmw/SfN5QdD6D09tWCaNij7G78eZmiWvn0+EOxZmvPVQWjNzxkSTzxclVwzvHlnS0vBGcGwSBF4zpbT50yrdpflbGvq2dk+GJrauJJ47UPCxn2jvEkbs4PFgx9gdi6YXtG1rPswm8qJAbTRfQZ/g6ccLY6jGBX/V51rJ3KNGh6HfG5VnBu0i5SgGtgrdZMvoPM76o39DOY0OWsDOizHaG6xwWp2WWS21+JX4B0YkZNU+MSFkMDaylnNp9GUVBYLD15gE0HARfJxEAmdsJgKI/8JSAiY5pVezW112zHm++xP6q3QUe5Axd2fIqYzIuGITx4IR5O+/tiB5YbpZjpVX1fVm+kTstyHjies7F/aF7xbqJ/8brdb82jHVXbofMwb5ZvcAr0NGS2FrsClwG7oLKA+A/ErWtYwxJ5vkq1CklGtwo6e+L0l/81BNpsQRLOoinLQR0RtpFdlVMYeQtP5tFGg5PKns8S/HOF0UNWbqzhJoIe9L17UXOjsPcBXIzbwJHQkkPW7zAUasqe42gu1aFwtKVmQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(136003)(39860400002)(396003)(366004)(376002)(346002)(451199018)(38100700002)(122000001)(5660300002)(478600001)(8936002)(82960400001)(7416002)(921005)(66946007)(33656002)(71200400001)(86362001)(38070700005)(55016003)(26005)(186003)(9686003)(6506007)(64756008)(66446008)(66476007)(66556008)(7696005)(2906002)(4744005)(52536014)(8676002)(76116006)(316002)(41300700001)(4326008)(110136005)(54906003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?08RKR70ScGzzgvurcMJvbSW7SNFxNDtLHupeKflaVwWxL+F63ZnpuRirCg6s?=
- =?us-ascii?Q?aGijFLb6kbBN5XzaGpqHm55g2NKlrSromcJ9tGRk9aVCTB4fJHHc9dZ0YPRc?=
- =?us-ascii?Q?DhSbpEyRJpBPrZZjmAZMhOkC1QDWIX5mNPHjOGBqM4eV+I9/wbhxAwQOGOg2?=
- =?us-ascii?Q?tsV6LhRrOm1+66pT1jcT634KgYmyZyTEy0JhpMQxCBKwSKQgCoq7SYds92d7?=
- =?us-ascii?Q?4psJwaENNWKnKQfW4GKScZS3X4RNUcyo9hPFecnr+SRKNWb1IAqPj7dLU8u/?=
- =?us-ascii?Q?a7m780De6WiS373OmzTo6GjjrHaUkOagHoswTvqvlug36LizNTWZjgk7YZvx?=
- =?us-ascii?Q?+6+yqqjeDpP18TfGdgco+ZdlNqGbuaTEZdbhp+b0hytbkSainNELL0Kudiqa?=
- =?us-ascii?Q?TT2K/5EZPozYtCiSyYgW/ujPPMm5DQ8aeGxdbC5nlSpqSP4AmEqp9ABsB2Tl?=
- =?us-ascii?Q?Z3G/inDY7OuqrBsQPTo3toZ2vbEl7b5cXatGDab3zDAqhQPRr+745lQ5vgU3?=
- =?us-ascii?Q?/Z38KRKeRVv1PW4XzPzMxgyMOIKJMQ3m7RK8oVGUKe3Sbeag3vaYvemX8zQ6?=
- =?us-ascii?Q?njVdNSEn0t/VuDitgzg1h6rP/bIyMjrnyNHMb5pFBFoa/NFIUpDLLJqcHYYz?=
- =?us-ascii?Q?IgRYozKCFMAXnWbu/DOCoa3PlpQdT775XwPei20CvSycEoD3CInu0mDGPt52?=
- =?us-ascii?Q?llxZdL1es073xuSxij6zpLUPqTJwYCztB2vImnpHZIuQunpXmYb/GrSqxqEO?=
- =?us-ascii?Q?gYTaiHcMHvQtlW2CQRJs02+62FV3HKMTdFvajSp+U/xDDlbJGOZvxztAx+6R?=
- =?us-ascii?Q?Kwroy+lWPzngkH+Ncv7Heu351B8kXXekRoxfZcLkHfH1+zl0uoCxrXRR5tuR?=
- =?us-ascii?Q?mY7pehw237RLdaorHv2tboULtOQ9ew/pwPZZvjM3EnD+YlZ1XjbBQatDzMeA?=
- =?us-ascii?Q?V7vV990AcceBKBO1/izpA2izNgtdVLQh2gY82VrSo0bEea2W1BoZiZj5Q9/r?=
- =?us-ascii?Q?7HP1yYk4byGifWQqnGszKYA3FYEhuuEL5AK2nEiWK74GGmeJorCVOiRJvoGv?=
- =?us-ascii?Q?7C3MyoEmw+gqogYfnuEGd/oG70TvoKizbDiy+bbnRvXsZUgRT7TJcd2sD673?=
- =?us-ascii?Q?CGaXu59saoIf/COlAgpohWDZ89nfOGULYdGsZk8Mjhzvm+QEIWNAj1WHJlQ7?=
- =?us-ascii?Q?GM7YrmCLOhkDH/xxUpkI8XihgE1UfG66MMkPz2ZNT5H1gEQsCh0qruK2/CGi?=
- =?us-ascii?Q?iTie+0cPwMt+mi9XkcCP0Tdp57XtGCiNZTeCVTABEHQbutqJy0N8lygfLaOy?=
- =?us-ascii?Q?3r/A0UX+4vaGSZWyur8YRPkVP9u40bz9U/JvtPWVH/xaMWCDk3P4RNrIwCBi?=
- =?us-ascii?Q?s0vxBTPs1YH1uH8cyQBC0VuRcWqyZqr9j4Apzd6zZgIf0WqkvLFDLstKA69P?=
- =?us-ascii?Q?gtb8MIkYVIg0ibKOK5YM+GDtJYHnCxDJrAxIrczy+BXYrdiD8PzwBhbgvUnH?=
- =?us-ascii?Q?AcOLvAhEOvMF0zqs3xmQzEh3UvXFGL6aJ3ST7Keapk3ahD6BBdbu4NxtWnh5?=
- =?us-ascii?Q?+wO6sIdhef0lrLHDpP0zBIB4b4JzIaYLdlYXt0OM?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch@vger.kernel.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v4 00/24] Remove COMMAND_LINE_SIZE from uapi
+Date:   Thu,  2 Mar 2023 10:35:15 +0100
+Message-Id: <20230302093539.372962-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b15c8992-6441-4043-519b-08db1afd0b5d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2023 09:03:52.2614
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yj47OKPRdt/DHw+uBwBfYp2BTS/SFVZ51wtM+st9vYpMZr5mxFgGMRIzmfq7cOM+g6nZARNDt47ZeNoRRMqj7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5379
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Sent: Thursday, March 2, 2023 7:57 AM
->
-> -static inline void mm_pasid_drop(struct mm_struct *mm)
-> -{
-> -	if (pasid_valid(mm->pasid)) {
-> -		ioasid_free(mm->pasid);
-> -		mm->pasid =3D INVALID_IOASID;
-> -	}
-> -}
-> +void mm_pasid_drop(struct mm_struct *mm);
+This all came up in the context of increasing COMMAND_LINE_SIZE in the
+RISC-V port.  In theory that's a UABI break, as COMMAND_LINE_SIZE is the
+maximum length of /proc/cmdline and userspace could staticly rely on
+that to be correct.
 
-Is it good to have a function declared in a header file of one
-subsystem while being implemented in another subsystem?
+Usually I wouldn't mess around with changing this sort of thing, but
+PowerPC increased it with a5980d064fe2 ("powerpc: Bump COMMAND_LINE_SIZE
+to 2048").  There are also a handful of examples of COMMAND_LINE_SIZE
+increasing, but they're from before the UAPI split so I'm not quite sure
+what that means: e5a6a1c90948 ("powerpc: derive COMMAND_LINE_SIZE from
+asm-generic"), 684d2fd48e71 ("[S390] kernel: Append scpdata to kernel
+boot command line"), 22242681cff5 ("MIPS: Extend COMMAND_LINE_SIZE"),
+and 2b74b85693c7 ("sh: Derive COMMAND_LINE_SIZE from
+asm-generic/setup.h.").
+
+It seems to me like COMMAND_LINE_SIZE really just shouldn't have been
+part of the uapi to begin with, and userspace should be able to handle
+/proc/cmdline of whatever length it turns out to be.  I don't see any
+references to COMMAND_LINE_SIZE anywhere but Linux via a quick Google
+search, but that's not really enough to consider it unused on my end.
+
+This issue was already considered in s390 and they reached the same
+conclusion in commit 622021cd6c56 ("s390: make command line
+configurable").
+
+The feedback on the v1 seemed to indicate that COMMAND_LINE_SIZE really
+shouldn't be part of uapi, so this now touches all the ports.  I've
+tried to split this all out and leave it bisectable, but I haven't
+tested it all that aggressively.
+
+Changes since v3 <https://lore.kernel.org/all/20230214074925.228106-1-alexghiti@rivosinc.com/>:
+* Added RB/AB
+* Added a mention to commit 622021cd6c56 ("s390: make command line
+  configurable") in the cover letter
+
+Changes since v2 <https://lore.kernel.org/all/20221211061358.28035-1-palmer@rivosinc.com/>:
+* Fix sh, csky and ia64 builds, as reported by kernel test robot
+
+Changes since v1 <https://lore.kernel.org/all/20210423025545.313965-1-palmer@dabbelt.com/>:
+* Touches every arch.
+
+base-commit-tag: next-20230207
+
+Palmer Dabbelt (24):
+  alpha: Remove COMMAND_LINE_SIZE from uapi
+  arm64: Remove COMMAND_LINE_SIZE from uapi
+  arm: Remove COMMAND_LINE_SIZE from uapi
+  ia64: Remove COMMAND_LINE_SIZE from uapi
+  m68k: Remove COMMAND_LINE_SIZE from uapi
+  microblaze: Remove COMMAND_LINE_SIZE from uapi
+  mips: Remove COMMAND_LINE_SIZE from uapi
+  parisc: Remove COMMAND_LINE_SIZE from uapi
+  powerpc: Remove COMMAND_LINE_SIZE from uapi
+  sparc: Remove COMMAND_LINE_SIZE from uapi
+  xtensa: Remove COMMAND_LINE_SIZE from uapi
+  asm-generic: Remove COMMAND_LINE_SIZE from uapi
+  alpha: Remove empty <uapi/asm/setup.h>
+  arc: Remove empty <uapi/asm/setup.h>
+  m68k: Remove empty <uapi/asm/setup.h>
+  arm64: Remove empty <uapi/asm/setup.h>
+  microblaze: Remove empty <uapi/asm/setup.h>
+  sparc: Remove empty <uapi/asm/setup.h>
+  parisc: Remove empty <uapi/asm/setup.h>
+  x86: Remove empty <uapi/asm/setup.h>
+  xtensa: Remove empty <uapi/asm/setup.h>
+  powerpc: Remove empty <uapi/asm/setup.h>
+  mips: Remove empty <uapi/asm/setup.h>
+  s390: Remove empty <uapi/asm/setup.h>
+
+ .../admin-guide/kernel-parameters.rst         |  2 +-
+ arch/alpha/include/asm/setup.h                |  4 +--
+ arch/alpha/include/uapi/asm/setup.h           |  7 -----
+ arch/arc/include/asm/setup.h                  |  1 -
+ arch/arc/include/uapi/asm/setup.h             |  6 -----
+ arch/arm/include/asm/setup.h                  |  1 +
+ arch/arm/include/uapi/asm/setup.h             |  2 --
+ arch/arm64/include/asm/setup.h                |  3 ++-
+ arch/arm64/include/uapi/asm/setup.h           | 27 -------------------
+ arch/ia64/include/asm/setup.h                 | 10 +++++++
+ arch/ia64/include/uapi/asm/setup.h            |  6 ++---
+ arch/loongarch/include/asm/setup.h            |  2 +-
+ arch/m68k/include/asm/setup.h                 |  3 +--
+ arch/m68k/include/uapi/asm/setup.h            | 17 ------------
+ arch/microblaze/include/asm/setup.h           |  2 +-
+ arch/microblaze/include/uapi/asm/setup.h      | 20 --------------
+ arch/mips/include/asm/setup.h                 |  3 ++-
+ arch/mips/include/uapi/asm/setup.h            |  8 ------
+ arch/parisc/include/{uapi => }/asm/setup.h    |  0
+ arch/powerpc/include/asm/setup.h              |  2 +-
+ arch/powerpc/include/uapi/asm/setup.h         |  7 -----
+ arch/s390/include/asm/setup.h                 |  1 -
+ arch/s390/include/uapi/asm/setup.h            |  1 -
+ arch/sh/include/asm/setup.h                   |  2 +-
+ arch/sparc/include/asm/setup.h                |  6 ++++-
+ arch/sparc/include/uapi/asm/setup.h           | 16 -----------
+ arch/x86/include/asm/setup.h                  |  2 --
+ arch/x86/include/uapi/asm/setup.h             |  1 -
+ arch/xtensa/include/{uapi => }/asm/setup.h    |  0
+ include/asm-generic/Kbuild                    |  1 +
+ include/{uapi => }/asm-generic/setup.h        |  0
+ include/uapi/asm-generic/Kbuild               |  1 -
+ 32 files changed, 31 insertions(+), 133 deletions(-)
+ delete mode 100644 arch/alpha/include/uapi/asm/setup.h
+ delete mode 100644 arch/arc/include/uapi/asm/setup.h
+ delete mode 100644 arch/arm64/include/uapi/asm/setup.h
+ create mode 100644 arch/ia64/include/asm/setup.h
+ delete mode 100644 arch/m68k/include/uapi/asm/setup.h
+ delete mode 100644 arch/microblaze/include/uapi/asm/setup.h
+ delete mode 100644 arch/mips/include/uapi/asm/setup.h
+ rename arch/parisc/include/{uapi => }/asm/setup.h (100%)
+ delete mode 100644 arch/powerpc/include/uapi/asm/setup.h
+ delete mode 100644 arch/s390/include/uapi/asm/setup.h
+ delete mode 100644 arch/sparc/include/uapi/asm/setup.h
+ delete mode 100644 arch/x86/include/uapi/asm/setup.h
+ rename arch/xtensa/include/{uapi => }/asm/setup.h (100%)
+ rename include/{uapi => }/asm-generic/setup.h (100%)
+
+-- 
+2.37.2
+
