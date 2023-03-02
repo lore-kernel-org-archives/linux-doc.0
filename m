@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2064C7EE39
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 23:54:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B92DBC7EE36
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 23:54:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229705AbjCBXyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Mar 2023 18:54:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39920 "EHLO
+        id S230073AbjCBXy1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Mar 2023 18:54:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229677AbjCBXyC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 18:54:02 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72CDFEFB0;
-        Thu,  2 Mar 2023 15:54:01 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id x34so855922pjj.0;
-        Thu, 02 Mar 2023 15:54:01 -0800 (PST)
+        with ESMTP id S230075AbjCBXyR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 18:54:17 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE5EF59E5C;
+        Thu,  2 Mar 2023 15:54:10 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id kb15so824624pjb.1;
+        Thu, 02 Mar 2023 15:54:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677801241;
+        d=gmail.com; s=20210112; t=1677801250;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MNK4EAXE449Ce2l3n69cjKEqV9oops58mW8yuHdnCzs=;
-        b=aY/t7j93xxdOs7JmfvKvArQyIm33WCAYc9L+FBv/Rd7ysY8N1rZ4CqWMXGq1UDhlp0
-         5oMd893ch1N87bbsjm2NNRviy/GBwCXG9iDVnw+mdgvjB5ZzJV9GV6gKi+Stesyyw2ZM
-         4hpTQEcQqoPeb9dwFhg93/IZWzQgAECSPpLRZIo/DO166N6Fu6j1HnMaN7v2rX1yqGXZ
-         UvCy8ykM2T1+WkJ9Y9uVr/dePQcyOlIHgsWw2z+DyrekmjjMjDdXb9ynepJ3bO3oE3TB
-         ZW7sMPO4fmKKzIM/C+9wbXqvhroBsfQfckZq1FbkchaU2nvKVkuyEy+a+inJVb7Umw1V
-         hxqw==
+        bh=8o/IEZdj8Cn2a3a2Ro5nT/fmWKdys9Z3WQ6bWICIcGU=;
+        b=BTpenYirnz4B8q7/2hN50ThrX4yr6wisyKtR0dg+ykWdMMSjRplIQedNS07kRpwOvE
+         oS5zaZMyezMv1QZS05SYGcbaZjUBoH0xKKwVx6GKehJY5YiZ8K2JH0+ndECFS/RUaG2r
+         DHNjfNzYIe0eNltaGLpjDJoDDIEyfcKnomK3w8cWLAWz6igd8g6+7wvB9sjCANYLcZf0
+         tIQexWr5zqLe80Cu4bMF8p854n/bHA9sqwpy93jBqwKuIF+diaYnpzJX0Y/9529Tpc4t
+         1n22/beRF/gIHxxyo9Dmu7LlZhHs6jPw7LXUza4Ozi0Xqr9w4AucOv8svDIlKBJsCKI4
+         kbbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677801241;
+        d=1e100.net; s=20210112; t=1677801250;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MNK4EAXE449Ce2l3n69cjKEqV9oops58mW8yuHdnCzs=;
-        b=TwGMdzUDU/WUgueQLjPZpP3KGxduRXmWhs+cnx8Z0ZczRPvISA1KnQ//abiONkPsAx
-         5HolLY9OxZgPn99Dr8ztWn1TSLjFmdPzrlsla1zX/v/mIp86zDsody/b1/A/YQ2IKbD1
-         1VcsmCJIPlzDnOYHGQCHP+wP7H6lD2BBmV9RZFf7jJoFecYh3UTuykQNvvqMTvL/9J0u
-         1fg8TqbtnKDBSf+Jg5lLdSSrYOO3r3uB+Ls7VKM+EyPhom7Y2G1vZN7U+K8Y7TKX+JjW
-         QBKdcPaWueTsVmvZC/Q+eW6xju4HvxbEiRRpSKbnt5OCTq11CzsqHFucBjBqHaYqftPf
-         SEGA==
-X-Gm-Message-State: AO0yUKVKMC8OrbQ0hreS47MCJXpHAdTecMrb4XtcVpqDgNrbWJiJXdgI
-        IlnLDPl6KXBVoaw8J5oDcpI=
-X-Google-Smtp-Source: AK7set/F6PBmFSHbT23NnNbCBzYLCIvIAQzxnHQvkvk9MfRxtNHvyFRXboh+FUIUlLOu7i03hSI/cw==
-X-Received: by 2002:a17:902:f801:b0:19a:aaac:f4d1 with SMTP id ix1-20020a170902f80100b0019aaaacf4d1mr3023868plb.13.1677801240810;
-        Thu, 02 Mar 2023 15:54:00 -0800 (PST)
+        bh=8o/IEZdj8Cn2a3a2Ro5nT/fmWKdys9Z3WQ6bWICIcGU=;
+        b=0k4wQKQiyvcLv9Nu3vj1PjACOjIGWMF+JLaeMmLkyx1P9+2IzbzK8kmujiiW3X+NkQ
+         inIUYHTjBKCf7vaiZ4nEfwcHQLBVyzGCwklm6xQYXsJVG4cyaTmX5/6/ErzIu4/IflK8
+         lLaN3RZj1RPQreVEg8qyufcUeAAJR+JQsZ8zr6mZWO2mf73AZ9Xv7YPgxT4ko8NGmCRz
+         LETTshXiYkxvH5MbGXiI2dkm6uD/ZAormWKHjE/I1pOpLs98Sd4XXN3wTTZC7TsSwHqB
+         +yldO/Zg/KhbRxfhBDHyDktKDFhp/jOYfIHqugP5/xk0JngJjBu2Yttosyd9KHhaicjB
+         P4vQ==
+X-Gm-Message-State: AO0yUKVpj8V5bghdgFnM+kLd+dZVCwrROBOx13Dztx470i7QLCv1yAvH
+        HzjheAEIxCckwwZF/EyBZdg=
+X-Google-Smtp-Source: AK7set9xw6yYcUpQ834HKf0gFqVGnZ9bcMz7tqmaYidGEmTy7owSmE0clFs6hA13pZ4gnYdVcsFIUg==
+X-Received: by 2002:a17:902:ed11:b0:19d:af21:dc2f with SMTP id b17-20020a170902ed1100b0019daf21dc2fmr31301pld.33.1677801250107;
+        Thu, 02 Mar 2023 15:54:10 -0800 (PST)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id t4-20020a170902a5c400b0019602274208sm211584plq.186.2023.03.02.15.54.00
+        by smtp.gmail.com with ESMTPSA id kp14-20020a170903280e00b0019e31e5f7f9sm230346plb.71.2023.03.02.15.54.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Mar 2023 15:54:00 -0800 (PST)
+        Thu, 02 Mar 2023 15:54:09 -0800 (PST)
 From:   Rob Clark <robdclark@gmail.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
@@ -62,24 +62,22 @@ Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
         Simon Ser <contact@emersion.fr>,
         Luben Tuikov <luben.tuikov@amd.com>,
         Rob Clark <robdclark@chromium.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Gustavo Padovan <gustavo@padovan.org>,
         linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
         linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
         FRAMEWORK), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v9 01/15] dma-buf/dma-fence: Add deadline awareness
-Date:   Thu,  2 Mar 2023 15:53:23 -0800
-Message-Id: <20230302235356.3148279-2-robdclark@gmail.com>
+Subject: [PATCH v9 05/15] dma-buf/sync_file: Surface sync-file uABI
+Date:   Thu,  2 Mar 2023 15:53:27 -0800
+Message-Id: <20230302235356.3148279-6-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230302235356.3148279-1-robdclark@gmail.com>
 References: <20230302235356.3148279-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -87,159 +85,136 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Rob Clark <robdclark@chromium.org>
 
-Add a way to hint to the fence signaler of an upcoming deadline, such as
-vblank, which the fence waiter would prefer not to miss.  This is to aid
-the fence signaler in making power management decisions, like boosting
-frequency as the deadline approaches and awareness of missing deadlines
-so that can be factored in to the frequency scaling.
+We had all of the internal driver APIs, but not the all important
+userspace uABI, in the dma-buf doc.  Fix that.  And re-arrange the
+comments slightly as otherwise the comments for the ioctl nr defines
+would not show up.
 
-v2: Drop dma_fence::deadline and related logic to filter duplicate
-    deadlines, to avoid increasing dma_fence size.  The fence-context
-    implementation will need similar logic to track deadlines of all
-    the fences on the same timeline.  [ckoenig]
-v3: Clarify locking wrt. set_deadline callback
-v4: Clarify in docs comment that this is a hint
-v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-v6: More docs
-v7: Fix typo, clarify past deadlines
+v2: Fix docs build warning coming from newly including the uabi header
+    in the docs build
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Christian König <christian.koenig@amd.com>
 Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/driver-api/dma-buf.rst |  6 +++
- drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++++++
- include/linux/dma-fence.h            | 22 +++++++++++
- 3 files changed, 87 insertions(+)
+ Documentation/driver-api/dma-buf.rst | 10 ++++++--
+ include/uapi/linux/sync_file.h       | 37 +++++++++++-----------------
+ 2 files changed, 23 insertions(+), 24 deletions(-)
 
 diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index 622b8156d212..183e480d8cea 100644
+index 183e480d8cea..ff3f8da296af 100644
 --- a/Documentation/driver-api/dma-buf.rst
 +++ b/Documentation/driver-api/dma-buf.rst
-@@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
- .. kernel-doc:: drivers/dma-buf/dma-fence.c
-    :doc: fence signalling annotation
+@@ -203,8 +203,8 @@ DMA Fence unwrap
+ .. kernel-doc:: include/linux/dma-fence-unwrap.h
+    :internal:
  
-+DMA Fence Deadline Hints
+-DMA Fence uABI/Sync File
+-~~~~~~~~~~~~~~~~~~~~~~~~
++DMA Fence Sync File
++~~~~~~~~~~~~~~~~~~~
+ 
+ .. kernel-doc:: drivers/dma-buf/sync_file.c
+    :export:
+@@ -212,6 +212,12 @@ DMA Fence uABI/Sync File
+ .. kernel-doc:: include/linux/sync_file.h
+    :internal:
+ 
++DMA Fence Sync File uABI
 +~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+.. kernel-doc:: drivers/dma-buf/dma-fence.c
-+   :doc: deadline hints
++.. kernel-doc:: include/uapi/linux/sync_file.h
++   :internal:
 +
- DMA Fences Functions Reference
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Indefinite DMA Fences
+ ~~~~~~~~~~~~~~~~~~~~~
  
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 0de0482cd36e..f177c56269bb 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
- }
- EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+index ee2dcfb3d660..7e42a5b7558b 100644
+--- a/include/uapi/linux/sync_file.h
++++ b/include/uapi/linux/sync_file.h
+@@ -16,12 +16,16 @@
+ #include <linux/types.h>
  
-+/**
-+ * DOC: deadline hints
-+ *
-+ * In an ideal world, it would be possible to pipeline a workload sufficiently
-+ * that a utilization based device frequency governor could arrive at a minimum
-+ * frequency that meets the requirements of the use-case, in order to minimize
-+ * power consumption.  But in the real world there are many workloads which
-+ * defy this ideal.  For example, but not limited to:
-+ *
-+ * * Workloads that ping-pong between device and CPU, with alternating periods
-+ *   of CPU waiting for device, and device waiting on CPU.  This can result in
-+ *   devfreq and cpufreq seeing idle time in their respective domains and in
-+ *   result reduce frequency.
-+ *
-+ * * Workloads that interact with a periodic time based deadline, such as double
-+ *   buffered GPU rendering vs vblank sync'd page flipping.  In this scenario,
-+ *   missing a vblank deadline results in an *increase* in idle time on the GPU
-+ *   (since it has to wait an additional vblank period), sending a signal to
-+ *   the GPU's devfreq to reduce frequency, when in fact the opposite is what is
-+ *   needed.
-+ *
-+ * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline.
-+ * The deadline hint provides a way for the waiting driver, or userspace, to
-+ * convey an appropriate sense of urgency to the signaling driver.
-+ *
-+ * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for userspace
-+ * facing APIs).  The time could either be some point in the future (such as
-+ * the vblank based deadline for page-flipping, or the start of a compositor's
-+ * composition cycle), or the current time to indicate an immediate deadline
-+ * hint (Ie. forward progress cannot be made until this fence is signaled).
-+ *
-+ * Multiple deadlines may be set on a given fence, even in parallel.  See the
-+ * documentation for &dma_fence_ops.set_deadline.
-+ *
-+ * The deadline hint is just that, a hint.  The driver that created the fence
-+ * may react by increasing frequency, making different scheduling choices, etc.
-+ * Or doing nothing at all.
-+ */
-+
-+/**
-+ * dma_fence_set_deadline - set desired fence-wait deadline hint
-+ * @fence:    the fence that is to be waited on
-+ * @deadline: the time by which the waiter hopes for the fence to be
-+ *            signaled
-+ *
-+ * Give the fence signaler a hint about an upcoming deadline, such as
-+ * vblank, by which point the waiter would prefer the fence to be
-+ * signaled by.  This is intended to give feedback to the fence signaler
-+ * to aid in power management decisions, such as boosting GPU frequency
-+ * if a periodic vblank deadline is approaching but the fence is not
-+ * yet signaled..
-+ */
-+void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-+{
-+	if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
-+		fence->ops->set_deadline(fence, deadline);
-+}
-+EXPORT_SYMBOL(dma_fence_set_deadline);
-+
  /**
-  * dma_fence_describe - Dump fence describtion into seq_file
-  * @fence: the 6fence to describe
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 775cdc0b4f24..d54b595a0fe0 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -257,6 +257,26 @@ struct dma_fence_ops {
- 	 */
- 	void (*timeline_value_str)(struct dma_fence *fence,
- 				   char *str, int size);
-+
-+	/**
-+	 * @set_deadline:
-+	 *
-+	 * Callback to allow a fence waiter to inform the fence signaler of
-+	 * an upcoming deadline, such as vblank, by which point the waiter
-+	 * would prefer the fence to be signaled by.  This is intended to
-+	 * give feedback to the fence signaler to aid in power management
-+	 * decisions, such as boosting GPU frequency.
-+	 *
-+	 * This is called without &dma_fence.lock held, it can be called
-+	 * multiple times and from any context.  Locking is up to the callee
-+	 * if it has some state to manage.  If multiple deadlines are set,
-+	 * the expectation is to track the soonest one.  If the deadline is
-+	 * before the current time, it should be interpreted as an immediate
-+	 * deadline.
-+	 *
-+	 * This callback is optional.
-+	 */
-+	void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
+- * struct sync_merge_data - data passed to merge ioctl
++ * struct sync_merge_data - SYNC_IOC_MERGE: merge two fences
+  * @name:	name of new fence
+  * @fd2:	file descriptor of second fence
+  * @fence:	returns the fd of the new fence to userspace
+  * @flags:	merge_data flags
+  * @pad:	padding for 64-bit alignment, should always be zero
++ *
++ * Creates a new fence containing copies of the sync_pts in both
++ * the calling fd and sync_merge_data.fd2.  Returns the new fence's
++ * fd in sync_merge_data.fence
+  */
+ struct sync_merge_data {
+ 	char	name[32];
+@@ -34,8 +38,8 @@ struct sync_merge_data {
+ /**
+  * struct sync_fence_info - detailed fence information
+  * @obj_name:		name of parent sync_timeline
+-* @driver_name:	name of driver implementing the parent
+-* @status:		status of the fence 0:active 1:signaled <0:error
++ * @driver_name:	name of driver implementing the parent
++ * @status:		status of the fence 0:active 1:signaled <0:error
+  * @flags:		fence_info flags
+  * @timestamp_ns:	timestamp of status change in nanoseconds
+  */
+@@ -48,14 +52,19 @@ struct sync_fence_info {
  };
  
- void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
-@@ -583,6 +603,8 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
- 	return ret < 0 ? ret : 0;
- }
+ /**
+- * struct sync_file_info - data returned from fence info ioctl
++ * struct sync_file_info - SYNC_IOC_FILE_INFO: get detailed information on a sync_file
+  * @name:	name of fence
+  * @status:	status of fence. 1: signaled 0:active <0:error
+  * @flags:	sync_file_info flags
+  * @num_fences	number of fences in the sync_file
+  * @pad:	padding for 64-bit alignment, should always be zero
+- * @sync_fence_info: pointer to array of structs sync_fence_info with all
++ * @sync_fence_info: pointer to array of struct &sync_fence_info with all
+  *		 fences in the sync_file
++ *
++ * Takes a struct sync_file_info. If num_fences is 0, the field is updated
++ * with the actual number of fences. If num_fences is > 0, the system will
++ * use the pointer provided on sync_fence_info to return up to num_fences of
++ * struct sync_fence_info, with detailed fence information.
+  */
+ struct sync_file_info {
+ 	char	name[32];
+@@ -69,30 +78,14 @@ struct sync_file_info {
  
-+void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
-+
- struct dma_fence *dma_fence_get_stub(void);
- struct dma_fence *dma_fence_allocate_private_stub(void);
- u64 dma_fence_context_alloc(unsigned num);
+ #define SYNC_IOC_MAGIC		'>'
+ 
+-/**
++/*
+  * Opcodes  0, 1 and 2 were burned during a API change to avoid users of the
+  * old API to get weird errors when trying to handling sync_files. The API
+  * change happened during the de-stage of the Sync Framework when there was
+  * no upstream users available.
+  */
+ 
+-/**
+- * DOC: SYNC_IOC_MERGE - merge two fences
+- *
+- * Takes a struct sync_merge_data.  Creates a new fence containing copies of
+- * the sync_pts in both the calling fd and sync_merge_data.fd2.  Returns the
+- * new fence's fd in sync_merge_data.fence
+- */
+ #define SYNC_IOC_MERGE		_IOWR(SYNC_IOC_MAGIC, 3, struct sync_merge_data)
+-
+-/**
+- * DOC: SYNC_IOC_FILE_INFO - get detailed information on a sync_file
+- *
+- * Takes a struct sync_file_info. If num_fences is 0, the field is updated
+- * with the actual number of fences. If num_fences is > 0, the system will
+- * use the pointer provided on sync_fence_info to return up to num_fences of
+- * struct sync_fence_info, with detailed fence information.
+- */
+ #define SYNC_IOC_FILE_INFO	_IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_info)
+ 
+ #endif /* _UAPI_LINUX_SYNC_H */
 -- 
 2.39.1
 
