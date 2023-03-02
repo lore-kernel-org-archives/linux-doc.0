@@ -2,139 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CABA7C7EE36
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 19:08:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36DAEC6FA8E
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 19:54:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbjCBTI2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Mar 2023 14:08:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59838 "EHLO
+        id S229946AbjCBTyw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Mar 2023 14:54:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbjCBTIV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 14:08:21 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAE2332538
-        for <linux-doc@vger.kernel.org>; Thu,  2 Mar 2023 11:08:15 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id cp7-20020a17090afb8700b0023756229427so3822940pjb.1
-        for <linux-doc@vger.kernel.org>; Thu, 02 Mar 2023 11:08:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1677784095;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vdu6kOAJ1Ups+aUuKMhdxW9mbKAGnc9mpfEPZtQ5oYc=;
-        b=QCBxot5UEe92USFtl63SUB/c1YdLVxScPQJ1P4QKkUVllAOjkExvExOlk22Y+cAPLp
-         7weEoPvxZ0D+WDb8BBKIVp9dG4Qk6OQkdh8kKA3dGVcxvksE7MJCCR2RE4qhTXvYfGvU
-         jgj/tDTwkb4LQQic+6FFlgFTo6sCZEIGs5slvhlNdP2IW3PkjwzxqzAKtaNvhqrh1ARk
-         Fk945S48pTjqSBexPAR6DDMtcXU3MwN4FBw5DjJSxESA4tj2RXONXJlXtInGbuPs/1lK
-         6Em3Vjg2pr05lfKVnhLnuoPez7jPU4XUgCaO4BKItyg6p/BwZcZW+iA8dgGN98E+y8bW
-         DE3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677784095;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vdu6kOAJ1Ups+aUuKMhdxW9mbKAGnc9mpfEPZtQ5oYc=;
-        b=z/08R1fqKP/BYa+jsiTz1Ux/HhiR3+JvTgiwHXO/l6UQVELyD3nm+3SBOVK9uBIN1y
-         1GsLJ8OhUPV2znU3I9I9F6lIWpj33QV6AU3S3JhYDYdlXZ6DBILyD3+lk8cy+lH2axKN
-         1+jRo2IelMEPNFaeqCQ9FBlB0faxR5OrU56KqUVdgN5h5LYQoPeFpzqYLjHLUy8gceL4
-         M/FuZ2fxdUsoLyqgMEO3I1/qjkYGHU7Zj9Ia+6JGI29WMcT+PD+Ngkb+tRkigKKfPvR0
-         u5mkUq7tgfeIXR9DO+zetPema3/o+UIqj6Hiodr+O+H/T14WqlJ/PzjU+G6oa3iI3xZn
-         Ojsg==
-X-Gm-Message-State: AO0yUKV/4N1bSClyxNe4zd0P7p1SScnsTh6OLQTzNOx2MI74E4hxSd8j
-        Kxt+3VA6JHBSJbMrFloaRykTbW9geKrTNPyzcme3
-X-Google-Smtp-Source: AK7set9s3MxX+z1dx88uX1Fs1h5mTCDHnH5bToYcnqr8ZticQMwTWq2upjnKLw2DFG5CIW3NG3MUdlWUtltns+RDwxc=
-X-Received: by 2002:a17:903:1d1:b0:19c:cb32:bfef with SMTP id
- e17-20020a17090301d100b0019ccb32bfefmr4510758plh.3.1677784095231; Thu, 02 Mar
- 2023 11:08:15 -0800 (PST)
+        with ESMTP id S229562AbjCBTyw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 14:54:52 -0500
+Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18D9139B93;
+        Thu,  2 Mar 2023 11:54:51 -0800 (PST)
+Received: from [127.0.0.1] ([73.223.221.228])
+        (authenticated bits=0)
+        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 322JolfB1654568
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Thu, 2 Mar 2023 11:50:48 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 322JolfB1654568
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2023020601; t=1677786658;
+        bh=n/GRsm1pImWCPNm4dPoe5zec7Kp4K3JReb8gPrI8/mc=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+        b=EoMqj2NrvtdnnKP1K3ZY31x6mzZLyhmRVv+AfJ7wKdoAJbCxWwA+q2O/5sMmJVAVH
+         CBl1NaM0Y8H4KZuzvQjbNwKYV6dXCiIfmDalzvbDgGVmn+bMayegSv6UvQXFNOV7kH
+         d/WVC69GzUYAENKo48YQjfv0/LuQNbAN20Le/uIDHGiGr9P8B8oHP2fS95eG5xB58F
+         uasUM1VqxwzDuwffGGAapL9uswmgoHxhnTzGnsDohaOFjOu2pxA/e5nnYVugsNl2zn
+         98XlC/4jazJIi0XM8kFrS6seI0EpKbWqSgJdlLGlfl4yBTPVtfQW74gM369HHmiIcn
+         4YRgUzYFXGcXg==
+Date:   Thu, 02 Mar 2023 11:50:45 -0800
+From:   "H. Peter Anvin" <hpa@zytor.com>
+To:     Palmer Dabbelt <palmer@dabbelt.com>, hca@linux.ibm.com
+CC:     geert@linux-m68k.org, alexghiti@rivosinc.com, corbet@lwn.net,
+        Richard Henderson <richard.henderson@linaro.org>,
+        ink@jurassic.park.msu.ru, mattst88@gmail.com, vgupta@kernel.org,
+        linux@armlinux.org.uk, Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, chenhuacai@kernel.org,
+        kernel@xen0n.name, monstr@monstr.eu, tsbogend@alpha.franken.de,
+        James.Bottomley@hansenpartnership.com, deller@gmx.de,
+        mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, gor@linux.ibm.com, agordeev@linux.ibm.com,
+        borntraeger@linux.ibm.com, svens@linux.ibm.com,
+        ysato@users.osdn.me, dalias@libc.org, davem@davemloft.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, chris@zankel.net,
+        jcmvbkbc@gmail.com, Arnd Bergmann <arnd@arndb.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch@vger.kernel.org
+Subject: Re: [PATCH v3 00/24] Remove COMMAND_LINE_SIZE from uapi
+User-Agent: K-9 Mail for Android
+In-Reply-To: <mhng-e8b09772-24e5-4729-a0bf-01a9e4c76636@palmer-ri-x1c9a>
+References: <mhng-e8b09772-24e5-4729-a0bf-01a9e4c76636@palmer-ri-x1c9a>
+Message-ID: <21F95EC4-71EA-4154-A7DC-8A5BA54F174B@zytor.com>
 MIME-Version: 1.0
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com> <1675119451-23180-12-git-send-email-wufan@linux.microsoft.com>
-In-Reply-To: <1675119451-23180-12-git-send-email-wufan@linux.microsoft.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 2 Mar 2023 14:08:04 -0500
-Message-ID: <CAHC9VhRdm_xpXNQvSVO2hkx2js=_zzo2DiQ6PvEjAEet4OjxNw@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 11/16] ipe: add support for dm-verity as a trust provider
-To:     Fan Wu <wufan@linux.microsoft.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, linux-audit@redhat.com,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 5:58=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
-wrote:
+On March 1, 2023 7:17:18 PM PST, Palmer Dabbelt <palmer@dabbelt=2Ecom> wrot=
+e:
+>On Tue, 14 Feb 2023 01:19:02 PST (-0800), hca@linux=2Eibm=2Ecom wrote:
+>> On Tue, Feb 14, 2023 at 09:58:17AM +0100, Geert Uytterhoeven wrote:
+>>> Hi Heiko,
+>>>=20
+>>> On Tue, Feb 14, 2023 at 9:39 AM Heiko Carstens <hca@linux=2Eibm=2Ecom>=
+ wrote:
+>>> > On Tue, Feb 14, 2023 at 08:49:01AM +0100, Alexandre Ghiti wrote:
+>>> > > This all came up in the context of increasing COMMAND_LINE_SIZE in=
+ the
+>>> > > RISC-V port=2E  In theory that's a UABI break, as COMMAND_LINE_SIZ=
+E is the
+>>> > > maximum length of /proc/cmdline and userspace could staticly rely =
+on
+>>> > > that to be correct=2E
+>>> > >
+>>> > > Usually I wouldn't mess around with changing this sort of thing, b=
+ut
+>>> > > PowerPC increased it with a5980d064fe2 ("powerpc: Bump COMMAND_LIN=
+E_SIZE
+>>> > > to 2048")=2E  There are also a handful of examples of COMMAND_LINE=
+_SIZE
+>>> > > increasing, but they're from before the UAPI split so I'm not quit=
+e sure
+>>> > > what that means: e5a6a1c90948 ("powerpc: derive COMMAND_LINE_SIZE =
+from
+>>> > > asm-generic"), 684d2fd48e71 ("[S390] kernel: Append scpdata to ker=
+nel
+>>> > > boot command line"), 22242681cff5 ("MIPS: Extend COMMAND_LINE_SIZE=
+"),
+>>> > > and 2b74b85693c7 ("sh: Derive COMMAND_LINE_SIZE from
+>>> > > asm-generic/setup=2Eh=2E")=2E
+>>> > >
+>>> > > It seems to me like COMMAND_LINE_SIZE really just shouldn't have b=
+een
+>>> > > part of the uapi to begin with, and userspace should be able to ha=
+ndle
+>>> > > /proc/cmdline of whatever length it turns out to be=2E  I don't se=
+e any
+>>> > > references to COMMAND_LINE_SIZE anywhere but Linux via a quick Goo=
+gle
+>>> > > search, but that's not really enough to consider it unused on my e=
+nd=2E
+>>> > >
+>>> > > The feedback on the v1 seemed to indicate that COMMAND_LINE_SIZE r=
+eally
+>>> > > shouldn't be part of uapi, so this now touches all the ports=2E  I=
+'ve
+>>> > > tried to split this all out and leave it bisectable, but I haven't
+>>> > > tested it all that aggressively=2E
+>>> >
+>>> > Just to confirm this assumption a bit more: that's actually the same
+>>> > conclusion that we ended up with when commit 3da0243f906a ("s390: ma=
+ke
+>>> > command line configurable") went upstream=2E
 >
-> From: Deven Bowers <deven.desai@linux.microsoft.com>
+>Thanks, I guess I'd missed that one=2E  At some point I think there was s=
+ome discussion of making this a Kconfig for everyone, which seems reasonabl=
+e to me -- our use case for this being extended is syzkaller, but we're sor=
+t of just picking a value that's big enough for now and running with it=2E
 >
-> Allows author of IPE policy to indicate trust for a singular dm-verity
-> volume, identified by roothash, through "dmverity_roothash" and all
-> signed dm-verity volumes, through "dmverity_signature".
+>Probably best to get it out of uapi first, though, as that way at least i=
+t's clear that it's not uABI=2E
 >
-> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-
-...
-
-> ---
->  security/ipe/Kconfig         |  20 +++++
->  security/ipe/Makefile        |   2 +
->  security/ipe/audit.c         |  24 ++++++
->  security/ipe/digest.c        | 144 +++++++++++++++++++++++++++++++++++
->  security/ipe/digest.h        |  26 +++++++
->  security/ipe/eval.c          | 103 +++++++++++++++++++++++++
->  security/ipe/eval.h          |  13 ++++
->  security/ipe/hooks.c         |  51 +++++++++++++
->  security/ipe/hooks.h         |   8 ++
->  security/ipe/ipe.c           |  15 ++++
->  security/ipe/ipe.h           |   4 +
->  security/ipe/policy.h        |   3 +
->  security/ipe/policy_parser.c |  16 ++++
->  13 files changed, 429 insertions(+)
->  create mode 100644 security/ipe/digest.c
->  create mode 100644 security/ipe/digest.h
+>>> Commit 622021cd6c560ce7 ("s390: make command line configurable"),
+>>> I assume?
+>>=20
+>> Yes, sorry for that=2E I got distracted while writing and used the wron=
+g
+>> branch to look this up=2E
 >
-> diff --git a/security/ipe/Kconfig b/security/ipe/Kconfig
-> index ac4d558e69d5..16e835ce61b0 100644
-> --- a/security/ipe/Kconfig
-> +++ b/security/ipe/Kconfig
-> @@ -15,3 +15,23 @@ menuconfig SECURITY_IPE
->           admins to reconfigure trust requirements on the fly.
->
->           If unsure, answer N.
-> +
-> +if SECURITY_IPE
-> +menu "IPE Trust Providers"
-> +
-> +config IPE_PROP_DM_VERITY
-> +       bool "Enable support for dm-verity volumes"
-> +       depends on DM_VERITY && DM_VERITY_VERIFY_ROOTHASH_SIG
-> +       default Y
-> +       help
-> +         This option enables the properties 'dmverity_signature' and
-> +         'dmverity_roothash' in IPE policy. These properties evaluates
-> +         to TRUE when a file is evaluated against a dm-verity volume
-> +         that was mounted with a signed root-hash or the volume's
-> +         root hash matches the supplied value in the policy.
-> +
-> +         If unsure, answer Y.
+>Alex: Probably worth adding that to the list in the cover letter as it lo=
+oks like you were planning on a v4 anyway (which I guess you now have to do=
+, given that I just added the issue to RISC-V)=2E
 
-If you had both IPE and dm-verity enabled in your kernel build, is
-there ever a case where you wouldn't want IPE_PROP_DM_VERITY?  I
-suspect you can just have IPE and dm-verity select IPE_PROP_DM_VERITY
-and not bother the user/admin with the additional Kconfig knob.
-
-> +endmenu
-> +
-> +endif
-
---
-paul-moore.com
+The only use that is uapi is the *default* length of the command line if t=
+he kernel header doesn't include it (in the case of x86, it is in the bzIma=
+ge header, but that is atchitecture- or even boot format-specific=2E)
