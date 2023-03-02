@@ -2,228 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A7CC7EE23
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 01:41:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF7CAC7EE2F
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 02:33:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229509AbjCBBlo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 20:41:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45264 "EHLO
+        id S229504AbjCBCde (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 21:33:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjCBBln (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 20:41:43 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB10957D39;
-        Wed,  1 Mar 2023 17:41:11 -0800 (PST)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 321KRMSx003384;
-        Thu, 2 Mar 2023 01:40:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=t+ox/ua+WNtH76S6Rpnio0sQR5LltkxRqkoaHGKqzc4=;
- b=Wjh/xxP4FmDM3mBJTljDkC/nVkpZLJlwanXO7Bx16hZN2VPIr5hf1/UHAnCb7oY1d+2p
- ZkII8EV02Y3IEJBXuhVc3LMXfhwY++bCjtmNVm9SM4GkVOvDsEWKY8zGqyo9qGRcx89h
- KmqQqPmlmUAIwYauUu+3/WC4KISw+h1+v9dAKqU8u29tIw1iMd6g4519JfNIj5uNeMgI
- IR7hoqmzimHSozO5HjH4Zsy0Pk7qoYiLvkpqQsEBNJGzJJTekkax4xumn8dSX74S7OB0
- HkIuKST7oq6CZPEPcQccX5euVNEJLt53rrUPeRpGy2O7+KUgh8RBbdugA0osKmo8zejN uQ== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p25jwj2jk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 02 Mar 2023 01:40:29 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3221eSeG023002
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 2 Mar 2023 01:40:28 GMT
-Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 1 Mar 2023
- 17:40:27 -0800
-Message-ID: <9003dd79-00eb-72d4-18e5-51c0f52833f8@quicinc.com>
-Date:   Wed, 1 Mar 2023 17:40:26 -0800
+        with ESMTP id S229470AbjCBCde (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 21:33:34 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 276371A65A
+        for <linux-doc@vger.kernel.org>; Wed,  1 Mar 2023 18:33:31 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id i3so16118942plg.6
+        for <linux-doc@vger.kernel.org>; Wed, 01 Mar 2023 18:33:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1677724410;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b0lZNoVt9lJ6J8uwaJdMmpDSpbdScMq/0KTuhIjVkUQ=;
+        b=LBK+rKiKoXKZ/dbsn6xOP1h/1DdhUKpftUh9e+mkGx24Ct1QSUdx91ynl9oxmsdOmu
+         AY8rWlxThr7PyU90SvB4UXjE6M5VHvjWx4KfK9GsYGkN3hLA/9NX+ZGRYO521cn5HoV/
+         L4jLAkDTaJkUj2nKsaBy/Az+XIjOhnJpuKJKZ477nIPry0z8rgcjlZ2QsKxicDEtQVKp
+         qFpzchl85bH4lVPP54ms7k/a61sS9zFQWXTwWJRVD0naVRlEs9F3Hyi4XBBHf5kj6brb
+         ssow4TEkTpN1pS5sL1n+r5CheMH8kPZkPSRkwSE7afnWqqvApSlU63NoKvUKbd68prZj
+         EoXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677724410;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b0lZNoVt9lJ6J8uwaJdMmpDSpbdScMq/0KTuhIjVkUQ=;
+        b=0/LpzNe/hEWtXF55zw21AZEIdQrNHVFpjmyXIGjeprqHBgDSzVWazm8QNTn+J3YhxG
+         xJ0B5okQF6GauMfuyv+nyE6+jzSG6VzwqpknjnmnbDXzqRtHjUGAbUjLsfO/4apXsN84
+         tX2dts/Rk6JQRjME95dVmV7iJE3dxD/XArcTlps4q+IzLuhGJhs4q0ZO7UUb0EFk+ZJB
+         WKyQKkFVkwfFQfoDc/5V7kssF28cBxbV+sxW7QeGYum6EoR2Bx85zrCmPtAJMQZV4ver
+         sj/aCIBjrxpnLFReVuTVGBDPR+9KRfeu9nBDkgM7khnH4KMg3jUQcasASg134Jyf6nkl
+         CHFg==
+X-Gm-Message-State: AO0yUKVSzJmFVOD99ujRnjxRh+V0U7mHUusMsKkkbh0UdskRy090uEa/
+        97vGynKfN5cjbvpVXMrFb+nsNGw0Hti0gBjCEKGy
+X-Google-Smtp-Source: AK7set+xzLCM6twBgJCibMqi0G3TLp91UnzEQU5FoUMwEXykcRoWlNU/HbsG/K6w+XprDCA87nJQJ5CJfxasDk2ZryU=
+X-Received: by 2002:a17:903:2782:b0:19b:373:94ad with SMTP id
+ jw2-20020a170903278200b0019b037394admr3206594plb.3.1677724410550; Wed, 01 Mar
+ 2023 18:33:30 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 03/26] gunyah: Common types and error codes for Gunyah
- hypercalls
-Content-Language: en-US
-To:     Alex Elder <alex.elder@linaro.org>, Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214211229.3239350-4-quic_eberman@quicinc.com>
- <5d67ee67-e63f-1393-1455-bfb6b2ddaeb5@linaro.org>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <5d67ee67-e63f-1393-1455-bfb6b2ddaeb5@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: XcWIMnHC-9wL9xi4R89QapkhQrFr9KaT
-X-Proofpoint-ORIG-GUID: XcWIMnHC-9wL9xi4R89QapkhQrFr9KaT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-01_17,2023-03-01_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
- lowpriorityscore=0 impostorscore=0 mlxlogscore=676 spamscore=0
- priorityscore=1501 mlxscore=0 clxscore=1015 suspectscore=0 phishscore=0
- adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2303020011
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-4-git-send-email-wufan@linux.microsoft.com>
+ <061df661004a06ef1e8790d48157c7ba4ecfc009.camel@huaweicloud.com> <20230210232154.GA17962@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <20230210232154.GA17962@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Wed, 1 Mar 2023 21:33:19 -0500
+Message-ID: <CAHC9VhShcgFtdxxoFX9x+QOM3Qb7xWa-AJuJGrHgaK_N8nKtzQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 03/16] ipe: add evaluation loop and introduce
+ 'boot_verified' as a trust provider
+To:     Fan Wu <wufan@linux.microsoft.com>
+Cc:     Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
+        agk@redhat.com, snitzer@kernel.org, eparis@redhat.com,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Feb 10, 2023 at 6:21=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
+wrote:
+> On Tue, Jan 31, 2023 at 04:49:44PM +0100, Roberto Sassu wrote:
+> > On Mon, 2023-01-30 at 14:57 -0800, Fan Wu wrote:
+> > > From: Deven Bowers <deven.desai@linux.microsoft.com>
+> > >
+> > > IPE must have a centralized function to evaluate incoming callers
+> > > against IPE's policy. This iteration of the policy against the rules
+> > > for that specific caller is known as the evaluation loop.
+> >
+> > Not sure if you check the properties at every access.
+> >
+> > >From my previous comments (also for previous versions of the patches)
+> > you could evaluate the property once, by calling the respective
+> > functions in the other subsystems.
+> >
+> > Then, you reserve space in the security blob for inodes and superblocks
+> > to cache the decision. The format could be a policy sequence number, to
+> > ensure that the cache is valid only for the current policy, and a bit
+> > for every hook you enforce.
+>
+> Thanks for raising this idea. I agree that if the property evaluation
+> leads to a performance issue, it will be better to cache the evaluation
+> result. But for this version, all the property evaluations are simple,
+> so it is just as fast as accessing a cache. Also, for the initial
+> version we prefer to keep the patch as minimal as possible.
 
+FWIW, I think that is the right decision.  Keeping the initial
+submission relatively small and focused has a lot of advantages when
+it comes both to review and prematurely optimizing things that might
+not need optimization.
 
-On 2/23/2023 1:58 PM, Alex Elder wrote:
-> On 2/14/23 3:12 PM, Elliot Berman wrote:
->> Add architecture-independent standard error codes, types, and macros for
->> Gunyah hypercalls.
->>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->> ---
->>   include/linux/gunyah.h | 82 ++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 82 insertions(+)
->>   create mode 100644 include/linux/gunyah.h
->>
->> diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
->> new file mode 100644
->> index 000000000000..59ef4c735ae8
->> --- /dev/null
->> +++ b/include/linux/gunyah.h
->> @@ -0,0 +1,82 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
->> rights reserved.
->> + */
->> +
->> +#ifndef _LINUX_GUNYAH_H
->> +#define _LINUX_GUNYAH_H
->> +
->> +#include <linux/errno.h>
->> +#include <linux/limits.h>
->> +
->> +/******************************************************************************/
->> +/* Common arch-independent definitions for Gunyah 
->> hypercalls                  */
->> +#define GH_CAPID_INVAL    U64_MAX
->> +#define GH_VMID_ROOT_VM    0xff
->> +
->> +enum gh_error {
->> +    GH_ERROR_OK            = 0,
->> +    GH_ERROR_UNIMPLEMENTED        = -1,
->> +    GH_ERROR_RETRY            = -2,
-> 
-> Do you expect this type to have a particular size?
-> Since you specify negative values, it matters, and
-> it's possible that this forces it to be a 4-byte value
-> (though I'm not sure what the rules are).  In other
-> words, UNIMPLEMENTED could conceivably have value 0xff
-> or 0xffffffff.  I'm not even sure you can tell whether
-> an enum is interpreted as signed or unsigned.
-
-I'm not a C expert, but my understanding is that enums are signed. 
-Gunyah will be returning a signed 64-bit register, however there's no 
-intention to go beyond 32 bits of error codes since we want to work on 
-32-bit architectures.
-
-> 
-> It's not usually a good thing to do, but this *could*
-> be a case where you do a typedef to represent this as
-> a signed value of a certain bit width.  (But don't do
-> that unless someone else says that's worth doing.)
-> 
->                      -Alex
-> 
->> +
->> +    GH_ERROR_ARG_INVAL        = 1,
->> +    GH_ERROR_ARG_SIZE        = 2,
->> +    GH_ERROR_ARG_ALIGN        = 3,
->> +
->> +    GH_ERROR_NOMEM            = 10,
->> +
->> +    GH_ERROR_ADDR_OVFL        = 20,
->> +    GH_ERROR_ADDR_UNFL        = 21,
->> +    GH_ERROR_ADDR_INVAL        = 22,
->> +
->> +    GH_ERROR_DENIED            = 30,
->> +    GH_ERROR_BUSY            = 31,
->> +    GH_ERROR_IDLE            = 32,
->> +
->> +    GH_ERROR_IRQ_BOUND        = 40,
->> +    GH_ERROR_IRQ_UNBOUND        = 41,
->> +
->> +    GH_ERROR_CSPACE_CAP_NULL    = 50,
->> +    GH_ERROR_CSPACE_CAP_REVOKED    = 51,
->> +    GH_ERROR_CSPACE_WRONG_OBJ_TYPE    = 52,
->> +    GH_ERROR_CSPACE_INSUF_RIGHTS    = 53,
->> +    GH_ERROR_CSPACE_FULL        = 54,
->> +
->> +    GH_ERROR_MSGQUEUE_EMPTY        = 60,
->> +    GH_ERROR_MSGQUEUE_FULL        = 61,
->> +};
->> +
->> +/**
->> + * gh_remap_error() - Remap Gunyah hypervisor errors into a Linux 
->> error code
->> + * @gh_error: Gunyah hypercall return value
->> + */
->> +static inline int gh_remap_error(enum gh_error gh_error)
->> +{
->> +    switch (gh_error) {
->> +    case GH_ERROR_OK:
->> +        return 0;
->> +    case GH_ERROR_NOMEM:
->> +        return -ENOMEM;
->> +    case GH_ERROR_DENIED:
->> +    case GH_ERROR_CSPACE_CAP_NULL:
->> +    case GH_ERROR_CSPACE_CAP_REVOKED:
->> +    case GH_ERROR_CSPACE_WRONG_OBJ_TYPE:
->> +    case GH_ERROR_CSPACE_INSUF_RIGHTS:
->> +    case GH_ERROR_CSPACE_FULL:
->> +        return -EACCES;
->> +    case GH_ERROR_BUSY:
->> +    case GH_ERROR_IDLE:
->> +    case GH_ERROR_IRQ_BOUND:
->> +    case GH_ERROR_IRQ_UNBOUND:
->> +    case GH_ERROR_MSGQUEUE_FULL:
->> +    case GH_ERROR_MSGQUEUE_EMPTY:
-> 
-> Is an empty message queue really busy?
-> 
-
-Changed to -EIO.
-
->> +        return -EBUSY;
->> +    case GH_ERROR_UNIMPLEMENTED:
->> +    case GH_ERROR_RETRY:
->> +        return -EOPNOTSUPP;
->> +    default:
->> +        return -EINVAL;
->> +    }
->> +}
->> +
->> +#endif
-> 
+--=20
+paul-moore.com
