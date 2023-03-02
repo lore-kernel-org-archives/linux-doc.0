@@ -2,150 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36DAEC6FA8E
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 19:54:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32294C6FA8E
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 20:24:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229946AbjCBTyw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Mar 2023 14:54:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52696 "EHLO
+        id S229615AbjCBUY1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Mar 2023 15:24:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbjCBTyw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 14:54:52 -0500
-Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18D9139B93;
-        Thu,  2 Mar 2023 11:54:51 -0800 (PST)
-Received: from [127.0.0.1] ([73.223.221.228])
-        (authenticated bits=0)
-        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 322JolfB1654568
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-        Thu, 2 Mar 2023 11:50:48 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 322JolfB1654568
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2023020601; t=1677786658;
-        bh=n/GRsm1pImWCPNm4dPoe5zec7Kp4K3JReb8gPrI8/mc=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=EoMqj2NrvtdnnKP1K3ZY31x6mzZLyhmRVv+AfJ7wKdoAJbCxWwA+q2O/5sMmJVAVH
-         CBl1NaM0Y8H4KZuzvQjbNwKYV6dXCiIfmDalzvbDgGVmn+bMayegSv6UvQXFNOV7kH
-         d/WVC69GzUYAENKo48YQjfv0/LuQNbAN20Le/uIDHGiGr9P8B8oHP2fS95eG5xB58F
-         uasUM1VqxwzDuwffGGAapL9uswmgoHxhnTzGnsDohaOFjOu2pxA/e5nnYVugsNl2zn
-         98XlC/4jazJIi0XM8kFrS6seI0EpKbWqSgJdlLGlfl4yBTPVtfQW74gM369HHmiIcn
-         4YRgUzYFXGcXg==
-Date:   Thu, 02 Mar 2023 11:50:45 -0800
-From:   "H. Peter Anvin" <hpa@zytor.com>
-To:     Palmer Dabbelt <palmer@dabbelt.com>, hca@linux.ibm.com
-CC:     geert@linux-m68k.org, alexghiti@rivosinc.com, corbet@lwn.net,
-        Richard Henderson <richard.henderson@linaro.org>,
-        ink@jurassic.park.msu.ru, mattst88@gmail.com, vgupta@kernel.org,
-        linux@armlinux.org.uk, Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, chenhuacai@kernel.org,
-        kernel@xen0n.name, monstr@monstr.eu, tsbogend@alpha.franken.de,
-        James.Bottomley@hansenpartnership.com, deller@gmx.de,
-        mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, gor@linux.ibm.com, agordeev@linux.ibm.com,
-        borntraeger@linux.ibm.com, svens@linux.ibm.com,
-        ysato@users.osdn.me, dalias@libc.org, davem@davemloft.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, chris@zankel.net,
-        jcmvbkbc@gmail.com, Arnd Bergmann <arnd@arndb.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-m68k@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch@vger.kernel.org
-Subject: Re: [PATCH v3 00/24] Remove COMMAND_LINE_SIZE from uapi
-User-Agent: K-9 Mail for Android
-In-Reply-To: <mhng-e8b09772-24e5-4729-a0bf-01a9e4c76636@palmer-ri-x1c9a>
-References: <mhng-e8b09772-24e5-4729-a0bf-01a9e4c76636@palmer-ri-x1c9a>
-Message-ID: <21F95EC4-71EA-4154-A7DC-8A5BA54F174B@zytor.com>
+        with ESMTP id S229447AbjCBUY0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 15:24:26 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2047.outbound.protection.outlook.com [40.107.94.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7913A2202D;
+        Thu,  2 Mar 2023 12:24:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UodihRvYmEsKmSsWpaTypVtVYly1XIH8SJIUO3iBpbZdQGI/kbf+gsAYz5wKmlEYWa1ksLt7mJ85RFkpemdPc932ogq4I0uUXjJpwNjGFJr1ofuDh4GMr1mhI1///nADa+ucxgE8YvJlgqnmeEZhX388anQbd+VfrPRUcC31jATGJLDNWXjahgSJVTqMjavRzAAgj44XtZso3ckOOahWSIY/MwWujeaH3/6mXHy+pblGF+qibsDhabBC+SwG8eYuZNIHzVpmAEofgRnvI8+D7Hs/Kr3K0DLZScJOBTZeC/V3g4slIVxn1yTMabShPePKbHyv+a6mmfpDWmXklrNbRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=THTYmXsorbTljVKrjq8/hN1MQG4zXc9YJg0l4le1JRc=;
+ b=KaGI2sfrv5Ysr0ubccQRCwD9Lk7Zk9zwGcTxU+MYwJCNjiranngMJ1oxoNfsScjQ2Vhmev4uNWF5w2z7TOBBssZbucXybmdTNKGmikH1rGuwHY6p7irQPu5oumyY/khZE6hycIQmqf7DBJSyu8BFQ1X5tzcEEnChMG9zyBSWNFlpyOn64v8HOV9LqijyP5PyCYNur0AMnddg/zFNMcYkvQ0g/+rl6T5wUiiMttUK5/Fm8jMYGriaUrt3BmQ17xlRkWjENXPNKPABbDz40bDC8nMnTDXu4FalNBu+gZUILahRNle1gssyr55PDikId/dGpLnyTrMjbNnPgyGKlr5xvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=quicinc.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=THTYmXsorbTljVKrjq8/hN1MQG4zXc9YJg0l4le1JRc=;
+ b=WrABrYvjyRGAt3HN1MqSZRs+7F1aFBpl5Sx+18NHjmJqkk+vraZFk9IxbH6AT27psNR6qrqYNK955+V7a0SaMXdbm9aE/eKvHZpNqme3GfCy7YqBq82giVIQjpuMuRNTOu7I/eARidXQgwH2qOyBiYJa0ucHyO62weBQGMQ6OLs=
+Received: from DM6PR06CA0035.namprd06.prod.outlook.com (2603:10b6:5:120::48)
+ by IA1PR12MB8494.namprd12.prod.outlook.com (2603:10b6:208:44c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.6; Thu, 2 Mar
+ 2023 20:24:22 +0000
+Received: from DS1PEPF0000E633.namprd02.prod.outlook.com
+ (2603:10b6:5:120:cafe::4c) by DM6PR06CA0035.outlook.office365.com
+ (2603:10b6:5:120::48) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.20 via Frontend
+ Transport; Thu, 2 Mar 2023 20:24:22 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF0000E633.mail.protection.outlook.com (10.167.17.137) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6156.16 via Frontend Transport; Thu, 2 Mar 2023 20:24:22 +0000
+Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 2 Mar
+ 2023 14:24:18 -0600
+Subject: [PATCH v3 0/7] x86/resctrl: Miscellaneous resctrl features
+From:   Babu Moger <babu.moger@amd.com>
+To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
+        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
+CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
+        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
+        <songmuchun@bytedance.com>, <peterz@infradead.org>,
+        <jpoimboe@kernel.org>, <pbonzini@redhat.com>, <babu.moger@amd.com>,
+        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
+        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
+        <sandipan.das@amd.com>, <tony.luck@intel.com>,
+        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
+        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
+        <pawan.kumar.gupta@linux.intel.com>, <jarkko@kernel.org>,
+        <adrian.hunter@intel.com>, <quic_jiles@quicinc.com>,
+        <peternewman@google.com>, <babu.moger@amd.com>
+Date:   Thu, 2 Mar 2023 14:24:12 -0600
+Message-ID: <167778850105.1053859.14596357862185564029.stgit@bmoger-ubuntu>
+User-Agent: StGit/1.1.dev103+g5369f4c
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E633:EE_|IA1PR12MB8494:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2d1b755-a9d4-410b-76df-08db1b5c1bf3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: B8PBgwb9aNsJlPOJJ9E3hx8U+Ys/PicB3+MwBjQWy9NT5Kcjt1FtNHAJRveE4Y1v4YlowQI2unB94XVloprJHtyPH6+/PSjeHO8t9RR/U9cNnrmnPKUYf0pIjg30zDMhbACkyB1aCKZx19DvSGjAmiHrJAbQR/2JeKJnlEFLjNDVwZv7kP6mdBGOJ4uNg2IEgnxSa8phj+xkPbEXG1Thh9DwnWRXNHbf23q3Tp9jcdjwboiBHSsqL1jNmWRi+1DmagwC/qz9uM1JgKQfC57UIJDEQ+mzGHnClR5XH6L2GEhK25fFDrRUmqSviO16u5zdcGKBj+MDiuhBvtBA70/+Jc93ObMI+/ZwTyOdpQbXt1wFSdV7wFVyw/2nFhCWXqvH2J8eikbDj0kXYw8RgoPrQ3wXBZXp3FfsgPkwg+fnu1H4NBKK8UTp/zU7XNbCXvkSnGJHqX/UI8NJwd5exnqoDTJcxNef4rIR3hZY9EPEqsr6RCrTqtnaod5lCGkgP2EFfaKmjb/apt5zEvZ7P5lj0+F114+Q/xWWgFwnCpVVwxen084zzIX1+DxNpRNSUw5AFfIEeHJ+qErLwb6lgOKLILQeymiHgaGExCHnz2Z9eb3YjfZHHfE/8ywrlhQ5htGKnXXbYud5CJIyye7Lcl7i2V9FphKT64LSVMeOTvZJCTTPTvoAXiGGbEzMhGLZlLWxCXM7C/Dbc6LB5/Mmmzugsmp+vQGpOJnnMv+lKrmvGFvACf/UNVdJfyFEs4/ZvwQhvNM1ASV1Ejs52DRACRTr7GNyBmF+KjxT98bl4jcRTdo=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(7916004)(4636009)(346002)(136003)(376002)(39860400002)(396003)(451199018)(46966006)(36840700001)(40470700004)(40460700003)(70206006)(70586007)(110136005)(316002)(16576012)(83380400001)(54906003)(36860700001)(8936002)(41300700001)(4326008)(6666004)(8676002)(9686003)(966005)(186003)(16526019)(82310400005)(47076005)(26005)(336012)(478600001)(426003)(33716001)(86362001)(2906002)(82740400003)(40480700001)(81166007)(5660300002)(7406005)(7416002)(44832011)(356005)(103116003)(71626013)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2023 20:24:22.2157
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2d1b755-a9d4-410b-76df-08db1b5c1bf3
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E633.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8494
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On March 1, 2023 7:17:18 PM PST, Palmer Dabbelt <palmer@dabbelt=2Ecom> wrot=
-e:
->On Tue, 14 Feb 2023 01:19:02 PST (-0800), hca@linux=2Eibm=2Ecom wrote:
->> On Tue, Feb 14, 2023 at 09:58:17AM +0100, Geert Uytterhoeven wrote:
->>> Hi Heiko,
->>>=20
->>> On Tue, Feb 14, 2023 at 9:39 AM Heiko Carstens <hca@linux=2Eibm=2Ecom>=
- wrote:
->>> > On Tue, Feb 14, 2023 at 08:49:01AM +0100, Alexandre Ghiti wrote:
->>> > > This all came up in the context of increasing COMMAND_LINE_SIZE in=
- the
->>> > > RISC-V port=2E  In theory that's a UABI break, as COMMAND_LINE_SIZ=
-E is the
->>> > > maximum length of /proc/cmdline and userspace could staticly rely =
-on
->>> > > that to be correct=2E
->>> > >
->>> > > Usually I wouldn't mess around with changing this sort of thing, b=
-ut
->>> > > PowerPC increased it with a5980d064fe2 ("powerpc: Bump COMMAND_LIN=
-E_SIZE
->>> > > to 2048")=2E  There are also a handful of examples of COMMAND_LINE=
-_SIZE
->>> > > increasing, but they're from before the UAPI split so I'm not quit=
-e sure
->>> > > what that means: e5a6a1c90948 ("powerpc: derive COMMAND_LINE_SIZE =
-from
->>> > > asm-generic"), 684d2fd48e71 ("[S390] kernel: Append scpdata to ker=
-nel
->>> > > boot command line"), 22242681cff5 ("MIPS: Extend COMMAND_LINE_SIZE=
-"),
->>> > > and 2b74b85693c7 ("sh: Derive COMMAND_LINE_SIZE from
->>> > > asm-generic/setup=2Eh=2E")=2E
->>> > >
->>> > > It seems to me like COMMAND_LINE_SIZE really just shouldn't have b=
-een
->>> > > part of the uapi to begin with, and userspace should be able to ha=
-ndle
->>> > > /proc/cmdline of whatever length it turns out to be=2E  I don't se=
-e any
->>> > > references to COMMAND_LINE_SIZE anywhere but Linux via a quick Goo=
-gle
->>> > > search, but that's not really enough to consider it unused on my e=
-nd=2E
->>> > >
->>> > > The feedback on the v1 seemed to indicate that COMMAND_LINE_SIZE r=
-eally
->>> > > shouldn't be part of uapi, so this now touches all the ports=2E  I=
-'ve
->>> > > tried to split this all out and leave it bisectable, but I haven't
->>> > > tested it all that aggressively=2E
->>> >
->>> > Just to confirm this assumption a bit more: that's actually the same
->>> > conclusion that we ended up with when commit 3da0243f906a ("s390: ma=
-ke
->>> > command line configurable") went upstream=2E
->
->Thanks, I guess I'd missed that one=2E  At some point I think there was s=
-ome discussion of making this a Kconfig for everyone, which seems reasonabl=
-e to me -- our use case for this being extended is syzkaller, but we're sor=
-t of just picking a value that's big enough for now and running with it=2E
->
->Probably best to get it out of uapi first, though, as that way at least i=
-t's clear that it's not uABI=2E
->
->>> Commit 622021cd6c560ce7 ("s390: make command line configurable"),
->>> I assume?
->>=20
->> Yes, sorry for that=2E I got distracted while writing and used the wron=
-g
->> branch to look this up=2E
->
->Alex: Probably worth adding that to the list in the cover letter as it lo=
-oks like you were planning on a v4 anyway (which I guess you now have to do=
-, given that I just added the issue to RISC-V)=2E
+These series adds support few minor features.=0A=
+1. Support assigning multiple tasks to control/mon groups in one command.=
+=0A=
+2. Add debug mount option for resctrl interface.=0A=
+3. Add RMID and CLOSID in resctrl interface when mounted with debug option.=
+=0A=
+4. While doing these above changes, found that rftype flags needed some cle=
+anup.=0A=
+   They were named inconsistently. Re-arranged them much more cleanly now.=
+=0A=
+   Hope it can help future additions.=0A=
+=0A=
+Code is built on top of tip master (commit 7fa08de735e41001).=0A=
+---=0A=
+v3: Changes since v2=0A=
+    Still waiting for more comments. While waiting, addressed few comments =
+from Fenghua.=0A=
+    Added few more texts in the documentation about multiple tasks assignme=
+nt feature.=0A=
+    Added pid in last_cmd_status when applicable.=0A=
+    Introduced static resctrl_debug to save the debug option.=0A=
+    Few minor text changes.=0A=
+  =0A=
+v2: Changes since v1=0A=
+  a. Removed the changes to add the task's threads automatically. It requir=
+ed=0A=
+     book keeping to handle the failures and gets complicated. Removed that=
+ change=0A=
+     for now.=0A=
+  b. Added -o debug option to mount in debug mode(comment from Fenghua)=0A=
+  c. Added debug files rmid and closid. Stephane wanted to rename them more=
+=0A=
+     generic to accommodate ARM. It kind of loses meaning if is renamed dif=
+ferently.=0A=
+     Kept it same for now. Will change if he feels strong about it. =0A=
+=0A=
+v2: https://lore.kernel.org/lkml/167537433143.647488.9641864719195184123.st=
+git@bmoger-ubuntu/=0A=
+v1: https://lore.kernel.org/lkml/167278351577.34228.12803395505584557101.st=
+git@bmoger-ubuntu/=0A=
+=0A=
+Babu Moger (7):=0A=
+      x86/resctrl: Add multiple tasks to the resctrl group at once=0A=
+      x86/resctrl: Remove few unnecessary rftype flags=0A=
+      x86/resctrl: Rename rftype flags for consistency=0A=
+      x86/resctrl: Re-arrange RFTYPE flags based on hierarchy=0A=
+      x86/resctrl: Display the RMID and COSID for resctrl groups=0A=
+      x86/resctrl: Introduce -o debug mount option=0A=
+      x86/resctrl: Add debug files when mounted with debug option=0A=
+=0A=
+=0A=
+ Documentation/x86/resctrl.rst          |  30 ++++-=0A=
+ arch/x86/kernel/cpu/resctrl/core.c     |   8 +-=0A=
+ arch/x86/kernel/cpu/resctrl/internal.h |  68 ++++++++--=0A=
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c | 179 +++++++++++++++++++++----=0A=
+ 4 files changed, 242 insertions(+), 43 deletions(-)=0A=
+=0A=
+--=0A=
 
-The only use that is uapi is the *default* length of the command line if t=
-he kernel header doesn't include it (in the case of x86, it is in the bzIma=
-ge header, but that is atchitecture- or even boot format-specific=2E)
