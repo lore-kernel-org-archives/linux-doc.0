@@ -2,184 +2,228 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE251C7EE2F
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 01:36:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A7CC7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 01:41:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229546AbjCBBg7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Mar 2023 20:36:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38452 "EHLO
+        id S229509AbjCBBlo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Mar 2023 20:41:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbjCBBg6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 20:36:58 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43C93347A;
-        Wed,  1 Mar 2023 17:36:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677721016; x=1709257016;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Ieiymo+u4ftU4eBbAcMS4HN7w7wxh+e2uXkqxRpeWGo=;
-  b=lVyWmGZKQbvWNjhPX4FzCb14sCic23O9OmbQyvIPdqpzEDWfSa05kIoF
-   M+b0yX47zfMoOzKLrYtfgi4UGBV/TnDe9n2wf8hR9oDzAALU/hbUm3e9J
-   Srt7140Odieq/npGLOQzskEqa5HFDGSbt7GRE/s+pHv09SmN+ebZaxfvQ
-   hJIrrNBffyxJZhfL8f/b+zH7n+02ZbB+//R9zb4lRiKpI3NAdkJ9hMihj
-   jdGrbf/R1fA6Vm0FaCh1C4KeMXQWZtAFKb7ja+WaegBEoH26eY2gYr1A3
-   dotrRl6DXn+PPVKU1/usHUmyKxQO2J4zqkiV1mv8i4y6e/pIeV7+GLvYy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="322855183"
-X-IronPort-AV: E=Sophos;i="5.98,226,1673942400"; 
-   d="scan'208";a="322855183"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 17:36:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="676992376"
-X-IronPort-AV: E=Sophos;i="5.98,226,1673942400"; 
-   d="scan'208";a="676992376"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Mar 2023 17:36:55 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 1 Mar 2023 17:36:52 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Wed, 1 Mar 2023 17:36:52 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.104)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 1 Mar 2023 17:36:51 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nFoVzvLGC+1mlvWyaejBPsg3Evdb92IEf1dFconyrCjLpf/VRw8Du4ht1ufH6fudRqLCjhIiM/jc5iXTaZ/Yaglc+xebvHADyNycKSY0Q7oas4ubcCd2tcYm4KChPcEDTQDsrvEnoEdeLSLUWbGVHumzBaPm7gz0IZhyL07XtDcvtVGI1xFFZEGInY16s3IgKsYQjjSICidulimNdS7EwBl6VuFhMwp2biAlVYoVTWkR1GJgC10W+NiFtoIt0DFJPpl6rhYoAwijUZU0ZZpVv7aHoqbQxH4FbATetUQ9qv5jjbNmClHwmJiYmsa3Fw8Nr6as0lMuUqcZFyp0ch22bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=osnIjiijnDcDpB6d3CfiZW7/Q4xAtDY+gu9zgD0S4Dc=;
- b=UsEp2O/ru39WNwc+R+bYyAuxxboReUnygECFY+XQNumSbSyOGp7BFVJyJAztXImW2pQn9wrl9wFwwMyfxyKrsaRGhBwACUkA1lJaghqgAQkw17CTWeGwi7uWGQZQ7aodrukRrXXzlijmxHV17yasIbD/CLYko2aO0QDRATlJsHALlBYJr0JXjOAKaL9apGCO01hrKx6oJx5am42+LphzNbj6QiSPkKscTCbbhCalJHC03MHRmZkqLbZM+Fur0vYWDVD4xPGxi8zABuvNXWRD1j7zwGN+em6DTLPCqucmOAp5UF7S+I2TQYeOFlGrGVaXU6MdAwYMqUu7iaV6sGOLOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA1PR11MB6097.namprd11.prod.outlook.com (2603:10b6:208:3d7::17)
- by PH0PR11MB5641.namprd11.prod.outlook.com (2603:10b6:510:d6::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.18; Thu, 2 Mar
- 2023 01:36:48 +0000
-Received: from IA1PR11MB6097.namprd11.prod.outlook.com
- ([fe80::726b:a43a:2100:7171]) by IA1PR11MB6097.namprd11.prod.outlook.com
- ([fe80::726b:a43a:2100:7171%9]) with mapi id 15.20.6156.017; Thu, 2 Mar 2023
- 01:36:48 +0000
-Message-ID: <8700d72f-a995-8ab5-45a5-cc08e34e57f6@intel.com>
-Date:   Wed, 1 Mar 2023 17:36:44 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v4 5/6] iommu/ioasid: Rename INVALID_IOASID
-Content-Language: en-US
-To:     Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        "Dave Hansen" <dave.hansen@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "X86 Kernel" <x86@kernel.org>, <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>, <corbet@lwn.net>,
-        <vkoul@kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-CC:     Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>,
-        "David Woodhouse" <dwmw2@infradead.org>,
-        Raj Ashok <ashok.raj@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>
-References: <20230301235646.2692846-1-jacob.jun.pan@linux.intel.com>
- <20230301235646.2692846-6-jacob.jun.pan@linux.intel.com>
-From:   Fenghua Yu <fenghua.yu@intel.com>
-In-Reply-To: <20230301235646.2692846-6-jacob.jun.pan@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0018.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::23) To IA1PR11MB6097.namprd11.prod.outlook.com
- (2603:10b6:208:3d7::17)
+        with ESMTP id S229471AbjCBBln (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Mar 2023 20:41:43 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB10957D39;
+        Wed,  1 Mar 2023 17:41:11 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 321KRMSx003384;
+        Thu, 2 Mar 2023 01:40:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=t+ox/ua+WNtH76S6Rpnio0sQR5LltkxRqkoaHGKqzc4=;
+ b=Wjh/xxP4FmDM3mBJTljDkC/nVkpZLJlwanXO7Bx16hZN2VPIr5hf1/UHAnCb7oY1d+2p
+ ZkII8EV02Y3IEJBXuhVc3LMXfhwY++bCjtmNVm9SM4GkVOvDsEWKY8zGqyo9qGRcx89h
+ KmqQqPmlmUAIwYauUu+3/WC4KISw+h1+v9dAKqU8u29tIw1iMd6g4519JfNIj5uNeMgI
+ IR7hoqmzimHSozO5HjH4Zsy0Pk7qoYiLvkpqQsEBNJGzJJTekkax4xumn8dSX74S7OB0
+ HkIuKST7oq6CZPEPcQccX5euVNEJLt53rrUPeRpGy2O7+KUgh8RBbdugA0osKmo8zejN uQ== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p25jwj2jk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 02 Mar 2023 01:40:29 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3221eSeG023002
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 2 Mar 2023 01:40:28 GMT
+Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 1 Mar 2023
+ 17:40:27 -0800
+Message-ID: <9003dd79-00eb-72d4-18e5-51c0f52833f8@quicinc.com>
+Date:   Wed, 1 Mar 2023 17:40:26 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB6097:EE_|PH0PR11MB5641:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4008490c-af4b-4efe-4ab9-08db1abe96fb
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FWziLaiARDoYXiXYy8LZ7/FjeHpX3XPBqCfKeo/pRQE9TajL+S7Sq57yoRohrPGdTpLjnsAsDWRXV3z6aCvMMPpu0GwlYMkMjxlFf6imrFVW1AclxpVIjkmF8B76/HEtr+x0iDTyI8AeP/CDl+MdKrtatldkqF8Xz1GgpyxQSAGSQfSwlWPR+qQc/BYA3LOfVcZsqTDyNWo603CcSwgf5e23kAuYiB5TA0MceDMzzOJPrAxMmu33LwlEnS2tn/3qlJ1ZNd0Ob++1yibKzyKyR600sEVp9+zEflnKUJkj4QH8RsK1Tl4q6l3K09HU3rQEt1lVu6uAJ3haT5plrBN11Q3dp/QokD0b4cCiGSjiMre1FDVTuMihU876hxgEhlfRNBQSKpwknJ0CNs9nTTRQ6kf37KsBPXXBiQeBkxNNPPzHB4lgcXIwNf00N5EYVPA0h2yKp2DTOLVPq0dJ90IZ+i8TcXYa9PXmOEpHsr9nMl1Wx/SIMhiKkin8br25HVPkZ7mQrk84yPXoiyHhPaApLOZtG4h+pHkBVUrwDj8YX0lGlp5WqCiIPjEgofPHpl/L9F2qAprwkxfbuhd4gcJ2Gc5xqF/NmdV84vl9/HU39RGozNYm+qMb0KwK9sMXEAilp3gUjLY0u9dRsZbx3Jdo9GXMg1cIh6uS3RbkifMG/JGrXEiAL0j5U2a2jOGxVhPzPqIX6V87iuZX4FzIFMZi5Sdg0VsvBxFIWmP79d+HPgTdJ0qZmQbSQKPphv0Kl+Yc
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6097.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(136003)(376002)(366004)(39860400002)(396003)(346002)(451199018)(36756003)(6666004)(53546011)(6486002)(6506007)(6512007)(2616005)(186003)(26005)(316002)(110136005)(54906003)(41300700001)(4326008)(66476007)(66556008)(44832011)(4744005)(2906002)(8676002)(8936002)(5660300002)(478600001)(7416002)(82960400001)(38100700002)(31696002)(86362001)(66946007)(921005)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bHBpdStmYVhPQjd1cldWM0NEVnpaVzF5aGRnRHNGR0pCWGlpUy8xTHE4cTUy?=
- =?utf-8?B?bVFtQks1MTJ3NEsyRjA0UE5uSUVvMTNUcmkya0VXTnlUVjlkaDdFTkp3WU54?=
- =?utf-8?B?UXJOcTI4N2VzaUU2SkRWb0RnYlhXN3RzbEJhdGFydFVOSGZ1ZTFvb0NvU2pP?=
- =?utf-8?B?VXhPYmhSSjRVTS9wUjZKU0JSN25JdWJYdzhIdmZhU05MQlZicW9UanB6RlY5?=
- =?utf-8?B?cnI1alpuM25KQWtjRUJRb1A5ejByN3BZT3o1ZXFGSGZ1YktYTEFPL0tVSGYy?=
- =?utf-8?B?VUphbWFlQVFZTnNvbU82d3I4T3g0U1d6YTNuWHhKZ0hoZjYzZzIxQkVwZmk1?=
- =?utf-8?B?NUZtYityRUhCSGpnZTVnQ3ZwRXhrYTVDU3ZqelB3UHJEVVQ2dThESkkwNXRZ?=
- =?utf-8?B?VEdaZHp0Rk5Ga1lnMXJDN0VSNU1lcktZY0VCOVh2UDdDTjlZNUsyWVhjcnZG?=
- =?utf-8?B?QWVnbU1qTkpkWEpwbHFDZ2hGZkhHdmsrTXg4bjZleVo1N0VMWXJ0MUxXYmdp?=
- =?utf-8?B?ZUJhQkNnV0pLMDg0amNKQVlXU0JvZGlPZHNEQW12Z1phK0F5L1pUV0diWHpv?=
- =?utf-8?B?TE1wOUprVm9iMXFBdXc3WE45VStHVmNFOE5jWGZNQ2doTGpTL0JYdGVmYllJ?=
- =?utf-8?B?MnJMVDlDRWxOT3lMZCtCSDVWTElPdys4N3RDZmY5bXBVY25BYnd5YnNsVWJh?=
- =?utf-8?B?NnlqeGdBWUQ3cytDRnU0OVJDWnlkanFLZlI4ODQzS2dZaXRhVGk2eGYvTHRM?=
- =?utf-8?B?c2NTc00zS25CVGEvUy9nMG5lU0ZjQWd3TGNtUTIzcHQ1TktZMWkrU3FSVTFH?=
- =?utf-8?B?N0hwbUVyL2c5VzMxemRWaTgvNEdnVjRtRGpVR3dxREhhbWhyMm1jUnJRbzJr?=
- =?utf-8?B?Y3N0TVF1ZUJQNGVMUWU5aEhWM0QyUU91N0pDMzFhM2JnZncybHlMMWZRdnNw?=
- =?utf-8?B?dXM2bHBLdmlJb2dnZk9ER0dqRFBidkpiQzhISkpPbmwzdzd4cHNXZmFTQjRS?=
- =?utf-8?B?NmxZN05ZR0pMTFFrUklkMnVkQmZ1T2YrM2loWEZpNzNNejBJN3RwS1l4WFFS?=
- =?utf-8?B?RmZ0S1pmdENPQ0JzTGpTek42ZXUrZUxTelhrRjhiaTFkK09GZCtSOHJoS2ZI?=
- =?utf-8?B?OWtTM3R5cnlkWUdSL2ZZYWNjN3RnY0dKQldCeE03azQ0bnVCcnFjalBPaDBr?=
- =?utf-8?B?eUwvS0k4a0ZBMjltQjNpQlRIY0VxVkRLMDg4cnAvRGpFK3pESUZCZVBtVDJL?=
- =?utf-8?B?YjBaci9KWE0zTCtWRURuRlJZeC9kb1A1TTRNM2s1cUVvbEpjcnhsVXpPTnpS?=
- =?utf-8?B?Z3VDMjg3bHBUUzQvSWx0dmpHTnhoVm1BREtZNnRqRFl5ZTRYaUVMdFQydUM3?=
- =?utf-8?B?K21CUVU4RHdzeDVtanZkMitQaHYzK3NDUkl6MWFmdFdycWVnT1dYbHFEeVNQ?=
- =?utf-8?B?MGdycXdLNlY5eDlKc3FTdXpsUHZraWY5aytkc0o0cVQyWGJpcEwwQzRJRG9k?=
- =?utf-8?B?WmJjYlZncnNtSU5LS2U1MnRram5saFM0YjFtNEs1Yk1aeFprL2IxNFA2YnRu?=
- =?utf-8?B?cFEwbHQ4VjJaMXI2SXJkTWt5bnNOQkNyR1ZzZmpmT2dwQ1B3MTVLaEhqZTJE?=
- =?utf-8?B?WjJFdEJaQTd3NGl3ajFZY3k2YUZ5Ni9uOWFhYnlwZWZNZ3pkTEYwV0xNZjdW?=
- =?utf-8?B?U0phcGVDOFZsTkMrdDlRdU92QXZVS1dDNVRKVWgxdFVpMlJjMWFxVG96KzFv?=
- =?utf-8?B?S1ByNXVGK2hjWW1YKzBMUzFLV3pxa1FVRFBpOTdRajVDQWg5N3pScElwKzNC?=
- =?utf-8?B?RUFmdEJySTMwZFc5aXBkN1Zva3FkY1ltTk1ES1FCVXJzS2NQS1A2ck1LcTVB?=
- =?utf-8?B?ZTJYWWZVRTNaejg0dUVjWjNnRFpoSkEvUGZMOXhmdkhGK2JEZTAwTlRmblI3?=
- =?utf-8?B?T0RvaUhubjdIZXYrdDd6M0NTenB0SnpLVVhFN3YwS01NbGdDZGlzOE4xOEor?=
- =?utf-8?B?dS93YXFxU2k1ZndoeXRFby82VFI0QmlHdjNmdmxEQVlDbE9MNEhNS0VNYllB?=
- =?utf-8?B?N0hOY2s5c2duWm1VWEVTclVIM0dTTTNyN1plVWhidFRXUUVQY2U5V0ZtSjls?=
- =?utf-8?Q?knyruYgbvNrkRrRrzRoq5zgd4?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4008490c-af4b-4efe-4ab9-08db1abe96fb
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6097.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2023 01:36:48.5965
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GAvc0kf1lTQpWyWoIQ6oJQxMlUuRi3sUcOU3WIGahbhunI2/KbdvWKuGHhX8HRx3VXAjp1U4biBH83BDGnJclw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5641
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 03/26] gunyah: Common types and error codes for Gunyah
+ hypercalls
+Content-Language: en-US
+To:     Alex Elder <alex.elder@linaro.org>, Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
+ <20230214211229.3239350-4-quic_eberman@quicinc.com>
+ <5d67ee67-e63f-1393-1455-bfb6b2ddaeb5@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <5d67ee67-e63f-1393-1455-bfb6b2ddaeb5@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: XcWIMnHC-9wL9xi4R89QapkhQrFr9KaT
+X-Proofpoint-ORIG-GUID: XcWIMnHC-9wL9xi4R89QapkhQrFr9KaT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-01_17,2023-03-01_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=676 spamscore=0
+ priorityscore=1501 mlxscore=0 clxscore=1015 suspectscore=0 phishscore=0
+ adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2303020011
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 3/1/23 15:56, Jacob Pan wrote:
-> INVALID_IOASID and IOMMU_PASID_INVALID are duplicated. Rename
-> INVALID_IOASID and consolidate since we are moving away from IOASID
-> infrastructure.
+On 2/23/2023 1:58 PM, Alex Elder wrote:
+> On 2/14/23 3:12 PM, Elliot Berman wrote:
+>> Add architecture-independent standard error codes, types, and macros for
+>> Gunyah hypercalls.
+>>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>> ---
+>>   include/linux/gunyah.h | 82 ++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 82 insertions(+)
+>>   create mode 100644 include/linux/gunyah.h
+>>
+>> diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
+>> new file mode 100644
+>> index 000000000000..59ef4c735ae8
+>> --- /dev/null
+>> +++ b/include/linux/gunyah.h
+>> @@ -0,0 +1,82 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All 
+>> rights reserved.
+>> + */
+>> +
+>> +#ifndef _LINUX_GUNYAH_H
+>> +#define _LINUX_GUNYAH_H
+>> +
+>> +#include <linux/errno.h>
+>> +#include <linux/limits.h>
+>> +
+>> +/******************************************************************************/
+>> +/* Common arch-independent definitions for Gunyah 
+>> hypercalls                  */
+>> +#define GH_CAPID_INVAL    U64_MAX
+>> +#define GH_VMID_ROOT_VM    0xff
+>> +
+>> +enum gh_error {
+>> +    GH_ERROR_OK            = 0,
+>> +    GH_ERROR_UNIMPLEMENTED        = -1,
+>> +    GH_ERROR_RETRY            = -2,
 > 
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Do you expect this type to have a particular size?
+> Since you specify negative values, it matters, and
+> it's possible that this forces it to be a 4-byte value
+> (though I'm not sure what the rules are).  In other
+> words, UNIMPLEMENTED could conceivably have value 0xff
+> or 0xffffffff.  I'm not even sure you can tell whether
+> an enum is interpreted as signed or unsigned.
 
-Reviewed-by: Fenghua Yu <fenghua.yu@intel.com>
+I'm not a C expert, but my understanding is that enums are signed. 
+Gunyah will be returning a signed 64-bit register, however there's no 
+intention to go beyond 32 bits of error codes since we want to work on 
+32-bit architectures.
 
-Thanks.
+> 
+> It's not usually a good thing to do, but this *could*
+> be a case where you do a typedef to represent this as
+> a signed value of a certain bit width.  (But don't do
+> that unless someone else says that's worth doing.)
+> 
+>                      -Alex
+> 
+>> +
+>> +    GH_ERROR_ARG_INVAL        = 1,
+>> +    GH_ERROR_ARG_SIZE        = 2,
+>> +    GH_ERROR_ARG_ALIGN        = 3,
+>> +
+>> +    GH_ERROR_NOMEM            = 10,
+>> +
+>> +    GH_ERROR_ADDR_OVFL        = 20,
+>> +    GH_ERROR_ADDR_UNFL        = 21,
+>> +    GH_ERROR_ADDR_INVAL        = 22,
+>> +
+>> +    GH_ERROR_DENIED            = 30,
+>> +    GH_ERROR_BUSY            = 31,
+>> +    GH_ERROR_IDLE            = 32,
+>> +
+>> +    GH_ERROR_IRQ_BOUND        = 40,
+>> +    GH_ERROR_IRQ_UNBOUND        = 41,
+>> +
+>> +    GH_ERROR_CSPACE_CAP_NULL    = 50,
+>> +    GH_ERROR_CSPACE_CAP_REVOKED    = 51,
+>> +    GH_ERROR_CSPACE_WRONG_OBJ_TYPE    = 52,
+>> +    GH_ERROR_CSPACE_INSUF_RIGHTS    = 53,
+>> +    GH_ERROR_CSPACE_FULL        = 54,
+>> +
+>> +    GH_ERROR_MSGQUEUE_EMPTY        = 60,
+>> +    GH_ERROR_MSGQUEUE_FULL        = 61,
+>> +};
+>> +
+>> +/**
+>> + * gh_remap_error() - Remap Gunyah hypervisor errors into a Linux 
+>> error code
+>> + * @gh_error: Gunyah hypercall return value
+>> + */
+>> +static inline int gh_remap_error(enum gh_error gh_error)
+>> +{
+>> +    switch (gh_error) {
+>> +    case GH_ERROR_OK:
+>> +        return 0;
+>> +    case GH_ERROR_NOMEM:
+>> +        return -ENOMEM;
+>> +    case GH_ERROR_DENIED:
+>> +    case GH_ERROR_CSPACE_CAP_NULL:
+>> +    case GH_ERROR_CSPACE_CAP_REVOKED:
+>> +    case GH_ERROR_CSPACE_WRONG_OBJ_TYPE:
+>> +    case GH_ERROR_CSPACE_INSUF_RIGHTS:
+>> +    case GH_ERROR_CSPACE_FULL:
+>> +        return -EACCES;
+>> +    case GH_ERROR_BUSY:
+>> +    case GH_ERROR_IDLE:
+>> +    case GH_ERROR_IRQ_BOUND:
+>> +    case GH_ERROR_IRQ_UNBOUND:
+>> +    case GH_ERROR_MSGQUEUE_FULL:
+>> +    case GH_ERROR_MSGQUEUE_EMPTY:
+> 
+> Is an empty message queue really busy?
+> 
 
--Fenghua
+Changed to -EIO.
+
+>> +        return -EBUSY;
+>> +    case GH_ERROR_UNIMPLEMENTED:
+>> +    case GH_ERROR_RETRY:
+>> +        return -EOPNOTSUPP;
+>> +    default:
+>> +        return -EINVAL;
+>> +    }
+>> +}
+>> +
+>> +#endif
+> 
