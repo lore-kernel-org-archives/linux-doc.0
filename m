@@ -2,128 +2,233 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E7D0C6FA8E
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 12:48:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA0DAC678D4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 13:02:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229690AbjCBMse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Mar 2023 07:48:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43942 "EHLO
+        id S229725AbjCBNC1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Mar 2023 08:02:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjCBMsd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 07:48:33 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 427B418B2B;
-        Thu,  2 Mar 2023 04:48:32 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BBA871EC04F0;
-        Thu,  2 Mar 2023 13:48:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1677761310;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=4MfiBkMkz5ebUfMAXrylF6PkikHE4wLk3HTn0lHaOb8=;
-        b=R49PSVoU67TzEd1On6SpyLZ5WN+gqAjISYxKzodjcp2/ghuXDA5b8QNG5KBnMO6cXj5YsF
-        WpCPRF0NmdOGSrDnKXws+eFjaG91CTVWNqlrOkaSjyjNIHM7nBkjL7+VWFZt1SHGYHoUg0
-        xc2yxp3B4WH91qCi1Cnu2Lbg6fCdzg4=
-Date:   Thu, 2 Mar 2023 13:48:21 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v7 14/41] x86/mm: Introduce _PAGE_SAVED_DIRTY
-Message-ID: <ZACbFc55bcVYRXpG@zn.tnic>
-References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-15-rick.p.edgecombe@intel.com>
+        with ESMTP id S229504AbjCBNC0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 08:02:26 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEF9B3250E;
+        Thu,  2 Mar 2023 05:02:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677762144; x=1709298144;
+  h=message-id:date:mime-version:cc:subject:to:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=WkXF8/EcCNkfU640/eEExv8Plxnmv/7/V2TBsmDVado=;
+  b=Uh0a4K7mEeXMvg/PeCOo5Tyu4B8hIL+yRYenNwai32v2ci1grdRGxGKq
+   kn4XD3xQrri19advEuqe/INRaX1GXfoHTst1TkOhXzINCMhG63121Nf9v
+   5JOBCFxemJrAVdToOc04gqsWyuF8oc/XO7gJpvimiEStX2bsAeA1PBxgm
+   Z+p0J1H9ps0GHV8KmDR+JVhnJVvWAU1Tw9YfyUIKf28wLVN8YJcQIarIf
+   DMUFuK99hHQy8Halo5fVWNLOnx3XX2gTr9VC16I1AswWg2I6SaIuk63fw
+   HbN4G2yCQG2D8JZG2mkVRIpRXAAviUKwTWxu/OibqBfOCykK+OaFzZwwj
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="318510061"
+X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
+   d="scan'208";a="318510061"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 05:01:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="624932798"
+X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
+   d="scan'208";a="624932798"
+Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.214.218]) ([10.254.214.218])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 05:01:44 -0800
+Message-ID: <3b7fb4d3-1fe9-a3be-46ad-c271be9f96c7@linux.intel.com>
+Date:   Thu, 2 Mar 2023 21:01:42 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230227222957.24501-15-rick.p.edgecombe@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Cc:     baolu.lu@linux.intel.com, Robin Murphy <robin.murphy@arm.com>,
+        Will Deacon <will@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Raj Ashok <ashok.raj@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v4 3/6] iommu/sva: Stop using ioasid_set for SVA
+Content-Language: en-US
+To:     Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        X86 Kernel <x86@kernel.org>, bp@alien8.de,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
+        vkoul@kernel.org, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230301235646.2692846-1-jacob.jun.pan@linux.intel.com>
+ <20230301235646.2692846-4-jacob.jun.pan@linux.intel.com>
+From:   Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <20230301235646.2692846-4-jacob.jun.pan@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 27, 2023 at 02:29:30PM -0800, Rick Edgecombe wrote:
-> diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-> index 0646ad00178b..56b374d1bffb 100644
-> --- a/arch/x86/include/asm/pgtable_types.h
-> +++ b/arch/x86/include/asm/pgtable_types.h
-> @@ -21,7 +21,8 @@
->  #define _PAGE_BIT_SOFTW2	10	/* " */
->  #define _PAGE_BIT_SOFTW3	11	/* " */
->  #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
-> -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
-> +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
-> +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
->  #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
->  #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
->  #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
-> @@ -34,6 +35,15 @@
->  #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
->  #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
->  
-> +/*
-> + * Indicates a Saved Dirty bit page.
-> + */
-> +#ifdef CONFIG_X86_USER_SHADOW_STACK
-> +#define _PAGE_BIT_SAVED_DIRTY		_PAGE_BIT_SOFTW5 /* Saved Dirty bit */
-> +#else
-> +#define _PAGE_BIT_SAVED_DIRTY		0
-> +#endif
+On 2023/3/2 7:56, Jacob Pan wrote:
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> 
+> Instead SVA drivers can use a simple global IDA to allocate PASIDs for
+> each mm_struct.
+> 
+> Future work would be to allow drivers using the SVA APIs to reserve global
+> PASIDs from this IDA for their internal use, eg with the DMA API PASID
+> support.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> ---
+> v4:
+> 	- Keep GFP_ATOMIC flag for PASID allocation, will changed to
+> 	GFP_KERNEL in a separate patch.
+> ---
+>   drivers/iommu/iommu-sva.c | 62 ++++++++++-----------------------------
+>   drivers/iommu/iommu-sva.h |  3 --
+>   2 files changed, 15 insertions(+), 50 deletions(-)
+> 
+> diff --git a/drivers/iommu/iommu-sva.c b/drivers/iommu/iommu-sva.c
+> index 376b2a9e2543..297852ae5e7c 100644
+> --- a/drivers/iommu/iommu-sva.c
+> +++ b/drivers/iommu/iommu-sva.c
+> @@ -9,26 +9,13 @@
+>   #include "iommu-sva.h"
+>   
+>   static DEFINE_MUTEX(iommu_sva_lock);
+> -static DECLARE_IOASID_SET(iommu_sva_pasid);
+> +static DEFINE_IDA(iommu_global_pasid_ida);
+>   
+> -/**
+> - * iommu_sva_alloc_pasid - Allocate a PASID for the mm
+> - * @mm: the mm
+> - * @min: minimum PASID value (inclusive)
+> - * @max: maximum PASID value (inclusive)
+> - *
+> - * Try to allocate a PASID for this mm, or take a reference to the existing one
+> - * provided it fits within the [@min, @max] range. On success the PASID is
+> - * available in mm->pasid and will be available for the lifetime of the mm.
+> - *
+> - * Returns 0 on success and < 0 on error.
+> - */
+> -int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max)
+> +static int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max)
+>   {
+> -	int ret = 0;
+> -	ioasid_t pasid;
+> +	int ret;
+>   
+> -	if (min == INVALID_IOASID || max == INVALID_IOASID ||
+> +	if (min == IOMMU_PASID_INVALID || max == IOMMU_PASID_INVALID ||
+>   	    min == 0 || max < min)
+
+It's irrelevant to this patch. Just out of curiosity, why do we need to
+exclude PASID 0 here? I just had a quick look at PCI spec section 6.20.
+The spec does not state that PASID 0 is invalid.
+
+>   		return -EINVAL;
+>   
+> @@ -37,39 +24,20 @@ int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max)
+>   	if (pasid_valid(mm->pasid)) {
+>   		if (mm->pasid < min || mm->pasid >= max)
+>   			ret = -EOVERFLOW;
+> +		else
+> +			ret = 0;
+
+Nit:
+
+If you didn't change "int ret = 0" to "int ret", we don't need above two
+lines. Did I miss anything?
+
+>   		goto out;
+>   	}
+>   
+> -	pasid = ioasid_alloc(&iommu_sva_pasid, min, max, mm);
+> -	if (!pasid_valid(pasid))
+> -		ret = -ENOMEM;
+> -	else
+> -		mm->pasid = ret;
+> +	ret = ida_alloc_range(&iommu_global_pasid_ida, min, max, GFP_ATOMIC);
+> +	if (ret < min)
+
+Nit:
+	    ret < 0?
+
+ida_alloc_range() returns negative error number on failure.
+
+> +		goto out;
+> +	mm->pasid = ret;
+> +	ret = 0;
+>   out:
+>   	mutex_unlock(&iommu_sva_lock);
+>   	return ret;
+>   }
+> -EXPORT_SYMBOL_GPL(iommu_sva_alloc_pasid);
+> -
+> -/* ioasid_find getter() requires a void * argument */
+> -static bool __mmget_not_zero(void *mm)
+> -{
+> -	return mmget_not_zero(mm);
+> -}
+> -
+> -/**
+> - * iommu_sva_find() - Find mm associated to the given PASID
+> - * @pasid: Process Address Space ID assigned to the mm
+> - *
+> - * On success a reference to the mm is taken, and must be released with mmput().
+> - *
+> - * Returns the mm corresponding to this PASID, or an error if not found.
+> - */
+> -struct mm_struct *iommu_sva_find(ioasid_t pasid)
+> -{
+> -	return ioasid_find(&iommu_sva_pasid, pasid, __mmget_not_zero);
+> -}
+> -EXPORT_SYMBOL_GPL(iommu_sva_find);
+
+Removing iommu_sva_find() has nothing to do with the intention of this
+patch. Perhaps make it in a separated patch?
+
+>   
+>   /**
+>    * iommu_sva_bind_device() - Bind a process address space to a device
+> @@ -241,8 +209,8 @@ iommu_sva_handle_iopf(struct iommu_fault *fault, void *data)
+>   
+>   void mm_pasid_drop(struct mm_struct *mm)
+>   {
+> -	if (pasid_valid(mm->pasid)) {
+> -		ioasid_free(mm->pasid);
+> -		mm->pasid = INVALID_IOASID;
+> -	}
+> +	if (likely(!pasid_valid(mm->pasid)))
+
+Why is this a likely?
+
+> +		return;
 > +
->  /* If _PAGE_BIT_PRESENT is clear, we use these: */
->  /* - if the user mapped it with PROT_NONE; pte_present gives true */
->  #define _PAGE_BIT_PROTNONE	_PAGE_BIT_GLOBAL
-> @@ -117,6 +127,25 @@
->  #define _PAGE_SOFTW4	(_AT(pteval_t, 0))
->  #endif
->  
-> +/*
-> + * The hardware requires shadow stack to be Write=0,Dirty=1. However,
-> + * there are valid cases where the kernel might create read-only PTEs that
-> + * are dirty (e.g., fork(), mprotect(), uffd-wp(), soft-dirty  tracking). In
-> + * this case, the _PAGE_SAVED_DIRTY bit is used instead of the HW-dirty bit,
-> + * to avoid creating a wrong "shadow stack" PTEs. Such PTEs have
-> + * (Write=0,SavedDirty=1,Dirty=0) set.
-> + *
-> + * Note that on processors without shadow stack support, the 
+> +	ida_free(&iommu_global_pasid_ida, mm->pasid);
+>   }
+> diff --git a/drivers/iommu/iommu-sva.h b/drivers/iommu/iommu-sva.h
+> index 7215a761b962..c22d0174ad61 100644
+> --- a/drivers/iommu/iommu-sva.h
+> +++ b/drivers/iommu/iommu-sva.h
+> @@ -8,9 +8,6 @@
+>   #include <linux/ioasid.h>
+>   #include <linux/mm_types.h>
+>   
+> -int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max);
+> -struct mm_struct *iommu_sva_find(ioasid_t pasid);
+> -
+>   /* I/O Page fault */
+>   struct device;
+>   struct iommu_fault;
 
-.git/rebase-apply/patch:154: trailing whitespace.
- * Note that on processors without shadow stack support, the 
-warning: 1 line adds whitespace errors.
-
-Hm, apparently git checks for that too - not only trailing empty lines.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Best regards,
+baolu
