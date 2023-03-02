@@ -2,309 +2,630 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF7FC678D4
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 13:53:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B88C8C678D4
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 15:02:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbjCBNxD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Mar 2023 08:53:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49812 "EHLO
+        id S229797AbjCBPCM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Mar 2023 10:02:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjCBNxC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 08:53:02 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52DF3B46E;
-        Thu,  2 Mar 2023 05:53:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677765181; x=1709301181;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=M3gchpX0fTIcVWkz3o8uclKZhhJdMo25rmEY1JBfSMY=;
-  b=bJdgifsLwmYuOfplld1PJq14Hc93F3SaCR6mv/ldlLojQrPUb1JUQ7dd
-   QCTfjDjorclReGjZgvsDEZ22FUXBGsBWDyxyh3w8VCLy2afa/I0kcDB02
-   Vxi0gID3nSHc+tCQ0W0dsLXiukpWulKn0WugNuVpWXogewqQmqNp9zAj1
-   Veoe+W/iTk1OryL0FzV75zhM9HrS1DVi5wWOH81rvy7W6B0s/PLtTBYYH
-   IeZt916KW7MM45APSS4x7gIOhFNrCp4zCOMFXbyACfhjOQlEpuBXKXywU
-   12qOC57iRkrJrss5TrEDP7sE6LcrM968E/y8hDDLstwp+vzkATcMRIr8p
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="332205092"
-X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
-   d="scan'208";a="332205092"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 05:53:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="674967390"
-X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; 
-   d="scan'208";a="674967390"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga002.jf.intel.com with ESMTP; 02 Mar 2023 05:53:00 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 2 Mar 2023 05:52:59 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Thu, 2 Mar 2023 05:52:59 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.171)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Thu, 2 Mar 2023 05:52:59 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W/j5fTz0T12p3Bn+I3x+UEGUq9W5gY+YqS4hQuzvAmb+pHonC8so75GT9BexVAJpW/4Yum/Nf6oIkDOafr2lILFGpZMcG00iAVSYK6ftYnHTMh0soLvq1yUJAJYY84/uaYTb/iKBitn5TThVA+lbie2ELM/nmgSxw1XF/0ib+bUpoHBb5240Rizdgb6ldVRyvV1cA8NV2vzWBTG5BAfJCGTqXCcq/tpnc2VphNvP+0uB6Z3oOdKMtAsgV4tn1b5aJtvW64xM1FCEsjv62Reba5MWM2t8MR1csutWgpEVaK1PL0Xgxh5I83i+k5fCrR1gYqUjj17jBgAxya8YxWH84Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hNL/SxPAY2qhMrvCHQLhzO/sgPKzLLUJXKMOlP1rR4c=;
- b=EJRyf2ExsXpV5dNCFRsfSDQAFLhORTtoQ8orCHWOBSK2MQhPgmGEm8jKu7IuTzJOrSoaE4dR1kHro5Fafr2qu+kucXrZFoxXeNt9lspeFnHtY1ND8UUciEM9ULS8sNuE5kfGhbnQmvtxnJsc08JlhlcGsraJjfItjGRaQHA0q4bKfLdEeCyVKKUL0axYNxrQIztXLLRB5TW6NGa95rZAetW0k3HIEz6UA7eAKdKkYaSn6LmyGonbkmzAZgsnCBrh0Xwh1rskrkeLo1w3/xrbUuxHl4RLuZJ/PdIc34QosF/o5NIAru4/PBoP+moDbvZUn92Qk9IpM12uptSxWdmgAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MW5PR11MB5881.namprd11.prod.outlook.com (2603:10b6:303:19d::14)
- by SJ0PR11MB5023.namprd11.prod.outlook.com (2603:10b6:a03:2de::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.19; Thu, 2 Mar
- 2023 13:52:57 +0000
-Received: from MW5PR11MB5881.namprd11.prod.outlook.com
- ([fe80::d1f4:4d52:6667:5479]) by MW5PR11MB5881.namprd11.prod.outlook.com
- ([fe80::d1f4:4d52:6667:5479%4]) with mapi id 15.20.6156.018; Thu, 2 Mar 2023
- 13:52:57 +0000
-Message-ID: <43e9711f-042e-eaf9-e091-07db78cad943@intel.com>
-Date:   Thu, 2 Mar 2023 21:52:42 +0800
+        with ESMTP id S229617AbjCBPCL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 10:02:11 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CB764108E;
+        Thu,  2 Mar 2023 07:02:08 -0800 (PST)
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 322EscVF013474;
+        Thu, 2 Mar 2023 15:00:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=0V+0sklh2fi4Nk+eahyAB+uhhrNDXNJ5CknNPCmhQ7Q=;
+ b=qq35NeqKDgf9dpeztFcWHNkoNWnyP5q1mxlnFydkxyIlcAyErQgxboLqVeOE5iSjjInv
+ FX/MMGU4PyW1R343BzvyGwCFoN/LN11UcKbxOAVJ9gqbiTKcInr7MvHuUIUka0E3Ewm6
+ E+K//2uB/mMZi/UQAJjfc4UAAngEHBP41Kp9dWR1jledleKHOkPk5PZPjqCH+f5Gkuvt
+ qBithHX5yfFbP722qBSG59y2AcFeiE0F+f2H4IErY8Y8xQ99x9/pqk8gDB1SkJ4QRf0a
+ 5+5hUAlbSyHJljf4ijAkzq4V/O+EnpKMQkXZFNjv6yjrANdXMtYKQmM696HTwsuCZJgp iQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3p2vcrkjv5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 02 Mar 2023 15:00:40 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 322EKIbI012897;
+        Thu, 2 Mar 2023 15:00:39 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3p2vcrkjub-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 02 Mar 2023 15:00:39 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+        by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 322D2Ds8016051;
+        Thu, 2 Mar 2023 15:00:38 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([9.208.130.98])
+        by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3nybdm4re9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 02 Mar 2023 15:00:38 +0000
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
+        by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 322F0bD812190406
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 2 Mar 2023 15:00:37 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1115958066;
+        Thu,  2 Mar 2023 15:00:37 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CD8F65805E;
+        Thu,  2 Mar 2023 15:00:25 +0000 (GMT)
+Received: from [9.43.36.62] (unknown [9.43.36.62])
+        by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+        Thu,  2 Mar 2023 15:00:25 +0000 (GMT)
+Message-ID: <7dd8fa7e-3cbc-6d3f-5748-74ffdeb056a7@linux.vnet.ibm.com>
+Date:   Thu, 2 Mar 2023 20:30:24 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.7.1
-Subject: Re: [PATCH v4 3/6] iommu/sva: Stop using ioasid_set for SVA
-To:     Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        "Dave Hansen" <dave.hansen@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "X86 Kernel" <x86@kernel.org>, <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>, <corbet@lwn.net>,
-        <vkoul@kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-CC:     Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>,
-        "David Woodhouse" <dwmw2@infradead.org>,
-        Raj Ashok <ashok.raj@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>
-References: <20230301235646.2692846-1-jacob.jun.pan@linux.intel.com>
- <20230301235646.2692846-4-jacob.jun.pan@linux.intel.com>
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v12 8/8] sched/fair: Add latency list
 Content-Language: en-US
-From:   Tina Zhang <tina.zhang@intel.com>
-In-Reply-To: <20230301235646.2692846-4-jacob.jun.pan@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To:     Vincent Guittot <vincent.guittot@linaro.org>
+Cc:     qyousef@layalina.io, chris.hyser@oracle.com,
+        patrick.bellasi@matbug.net, David.Laight@aculab.com,
+        pjt@google.com, pavel@ucw.cz, qperret@google.com,
+        tim.c.chen@linux.intel.com, joshdon@google.com, timj@gnu.org,
+        kprateek.nayak@amd.com, yu.c.chen@intel.com,
+        youssefesmat@chromium.org, joel@joelfernandes.org,
+        mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
+        linux-kernel@vger.kernel.org, parth@linux.ibm.com, tj@kernel.org,
+        lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        cgroups@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        Shrikanth Hegde <sshegde@linux.vnet.ibm.com>
+References: <20230224093454.956298-1-vincent.guittot@linaro.org>
+ <20230224093454.956298-9-vincent.guittot@linaro.org>
+ <4982b608-f8c7-531c-3322-c055643a5b2d@linux.vnet.ibm.com>
+ <CAKfTPtAEbzrxKOGXYRxp0qMM-TPj1q8BdcaVpK7ObZfe8QWn4g@mail.gmail.com>
+ <913b0491-cef6-87ac-bf7e-d6d6c8fc380a@linux.vnet.ibm.com>
+ <CAKfTPtA5wqBb1hAQa=qd6CicJbHsRi+q=s2tT0n6XspGOEA2Xg@mail.gmail.com>
+From:   Shrikanth Hegde <sshegde@linux.vnet.ibm.com>
+In-Reply-To: <CAKfTPtA5wqBb1hAQa=qd6CicJbHsRi+q=s2tT0n6XspGOEA2Xg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 8-CtjA5-V7pbcuYuwlSt1zErteCeG7iY
+X-Proofpoint-GUID: p8eUa__U7P2XEvB7_0mIuysmXvBO7C6m
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR01CA0110.apcprd01.prod.exchangelabs.com
- (2603:1096:4:40::14) To MW5PR11MB5881.namprd11.prod.outlook.com
- (2603:10b6:303:19d::14)
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW5PR11MB5881:EE_|SJ0PR11MB5023:EE_
-X-MS-Office365-Filtering-Correlation-Id: 95c5681a-7dc4-49b9-6351-08db1b256d5e
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vTD0gaihNxtOG30XKKAaVmxErngDrcqThgEvdXyomq/ALSNecZPWdMq9u/X4q1hspsVkXjS1U7IT82YiPpdLKJsiFFGA3IwvEq1sB78EOV4keYhegX0XnjaXoDfsoC5mGSK40encCbUC9/LnQBGcghaIebzyCLvR7aaVtXiGejsH8WkAjkgslQxq+Ty9gc/NIl/pvci2CkKRj5vNE9NzThV1cED1OPIy4HPhIRr9OwPhOnCH/2ai3seU0MMxQqq2PNCObVjDGmOD7NfRKGH5gBIf8bDjwlnMiV75aZjDUgIewEA2xZD4hr89xnge0BseJbyv6U0cV6HleP3s80Hccyc+B0+T4+a4UyW44HHaAbqs8QDwQvkFKzjG+hmzrkzVnKn4YDTzh0PqfjZi8Vnq4yqSLyEQV7x2Gy9bqFRT1XX9UEUsFb9SPug0uFeEpYb/CFwtknkxfoYFx31ZSFNo16z7bfesPsgA31JsDRGeecfBQGFDxo3rsHaza60vm5N3TJv3SfSasD2FoBGlt8uEbtDK57Q3VnqTScZo4YoJEr7hI3LXSqjmPw1s3IqAWurQskK3xpmbe1F+lN3K6EpNreQPiz9mhmmWZUszaq33Lr4QWZQjFg9UCnZQzeZTHCpwKi20eructW+VyMfyWHBsdHPGn0neWgd/BzZWymAfDoAK5I0QAPpFqbD9CmFWMJfVuNyv2s2+TznNgbphxeBiBmMRG1B3xxtTJ0f1O9jYSilklo9hnWdnoHp2xNsakW+i
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW5PR11MB5881.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(346002)(396003)(39860400002)(136003)(376002)(451199018)(31686004)(36756003)(2616005)(41300700001)(8936002)(54906003)(6512007)(8676002)(66556008)(4326008)(66476007)(66946007)(31696002)(86362001)(2906002)(7416002)(44832011)(83380400001)(186003)(6506007)(26005)(53546011)(316002)(5660300002)(6666004)(6486002)(110136005)(478600001)(921005)(38100700002)(82960400001)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHh0ZmxjV0wxaHJqNGFFMFVWNjZUdEVQMEV0NHo1QWVYR0lEODM5bmR0T1Jz?=
- =?utf-8?B?T1RlNFZUSmFIVVFyUU1iTjdUMjdoWCtjK3BHa05rdDNYSzBWdlBQQVF3MUM4?=
- =?utf-8?B?bmVySXM0eWp6dEFSRERwYkUyMENJdUhOUDFkTXJMSEtINWhTK3RJSVJpRm9v?=
- =?utf-8?B?Y2o0a3N0eW16MTF2aVg3VUh5UGlOSXhzVVR1MWNzZzVUc0Z2Qzc5OVFWTnBB?=
- =?utf-8?B?bEhXMFBTeFphZG9BbGtSZmNTM0E1bE4vQVFQZGVCckpBZFBVR1NFSkkzRlJ4?=
- =?utf-8?B?UHU0MWtTdm9iUEJIWjg2b3YzZThBMXJ6cVdENXRjeldPS0tBeFN6ampETEZk?=
- =?utf-8?B?dm9pcFBqOVUzRFZMVGltbGN1VWNBUElhakJQRWZwRWtjNUFOaHRMMTlwMzdT?=
- =?utf-8?B?U1RLbG1pN24zTFp3WlpyUE5Fb3M4UER4OTUxSjdIWFZXRGYxRVd2S3F6K0Vw?=
- =?utf-8?B?U3pVS1ZGTTBVd2RnT0dFU3Zpb2NrTTJ2MzVNdk9xTmdCNmw4K3Fxc2c1VTYx?=
- =?utf-8?B?R01EeUpOL045VVdyODFuTUg4NEx3NHdqZjQwdjRnaFB3WEticFZQUXhiY0dj?=
- =?utf-8?B?S0gwaGZWMGhTR0dwdFhFUm1vQWdxdjVnZ0E0Z0ZaaU52c3Q3WmVZUllibEgz?=
- =?utf-8?B?VU5Xbm8zWEJ1ak9zL1JRTGtLb2RyanlmYStMRWxReHhMYk5tZ2dJK1dnUkUx?=
- =?utf-8?B?aDhDZXcrY1JndE5hQk9EVkZBM3N0VklEdXAyMnlSSmE3b2VJRThQekNoWTdV?=
- =?utf-8?B?Q3NKeHY2UDJtd01naVEzSkIzdXlJdDNNVTcrc00yRHlEejVaL3huMzdJWlNt?=
- =?utf-8?B?a2ZrUC9hSmNDTHpwSUdBOHkzRkxCd1ZuWXNjVWx3SzJ0aGx0cVVRUDYyUzRp?=
- =?utf-8?B?SE01WlZPNWFwRXRSQlQrenlOc0U2VFg5S3pvd2lhS1Bvb2lYZU81REJESVlH?=
- =?utf-8?B?RWhldXQ3YVBUdjRQdHFiREY2MEdXeFlEM1lUQnJnWWdhY2dGVVpCazZVaHJz?=
- =?utf-8?B?eFZ0ZGkyWDMwcmJXRnBxcVdwZVRRVmlvRjhDTURGWVVnRitBQmxLbVQrZld3?=
- =?utf-8?B?UmI5YVRPM3FrR1hpay9lMUZQaGVxMHljUmMwb2VrWFRLUVJGQTVmQklBeFk5?=
- =?utf-8?B?TElDbWdFYjFFbGhzZmFjZ2RJSkpmZDdmUmp1RTVPS1RDYklWazhiVTErN1Fz?=
- =?utf-8?B?OGJnaFFMS1IrTUZzWmI3b01FYzZKQ2w1ZERuT2s5bEN6ZnFhYjlVS2tndHVl?=
- =?utf-8?B?SDkydWl0ekxFaXUyN1QxVWo5VDEvYUszQm16OUNsSktkb0YzbUVNUEdaWHVm?=
- =?utf-8?B?bkVHUWNGeHMrU05sem1Kb2x5UjZqOE9iUlNlNDM2bEFYclVaWlA3STlpbEpn?=
- =?utf-8?B?SGdNenhWd1Rhci9pL2dGNk10WUlKa2ZVR0dyUDRmVUpPQ3FNQUxqWStoN3Nx?=
- =?utf-8?B?ZUFHVUdHSG4rYWRNUVhnN29XOCtwMGdERW5UbEFENGNGeFNkeXQrbGxQQWp1?=
- =?utf-8?B?bTBweTJlbmFNZ0VZbVg5ZlRKSVZjM2dLKzQzeWxpcHlBanhMUjZOWkMzV3ZV?=
- =?utf-8?B?RUY2d2JteFRHdTlzQU1VdG1sMVh0TWxMeVhrM2g4djMrcURPNmNXcC9NN1Ra?=
- =?utf-8?B?dXY3OXhQdGNOVEJZM0JYWnlRSmFaZGlrRWNqMmNCNlhyRldqczh2S1RaNksw?=
- =?utf-8?B?TWlkSHoyNHRaN0l5YVdRQnR0NFFCSUkzanJ3NG5hVSs1c2xtV1ptRXVtQXg3?=
- =?utf-8?B?aDFMbi9iVjFvNTduU2M5YlhRWnRNc2xzcVZ3bUNuOVlTamRVK0NNQklVd0cv?=
- =?utf-8?B?TVZBQ01kb0tVa1Bod1BxTWlzaXE3M2dscjJtZVhEaDJqNklZcTd1bjFOSXU3?=
- =?utf-8?B?UllXcnZ3N090b2JTeHdXT0dEbzA3b0NkRXdjZzhRMk40YVdTU1ZBOVNXVGl1?=
- =?utf-8?B?VUw0WHlJdkJVRmdhZXFUTnA2cXRORDB6aVQvSENlZkdzblBNZG9USmJQMEJS?=
- =?utf-8?B?bXBjcjZNdmovV3A4NWZydXhxdXMwWmp1NVBoam1Tc3hQZU5BSm05ckd5SzRX?=
- =?utf-8?B?NUc2SzJqUTZGQW1yUlh2c2hyT2U0SWVzN0YvOGlDTi9CNFNEUDFJQnMzNVoz?=
- =?utf-8?B?N0xpYWxOcllrVEN2b3R5MHVBek5nNC93enI2U3puRjJQQy8vUSt6b2gxVDlW?=
- =?utf-8?B?V1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95c5681a-7dc4-49b9-6351-08db1b256d5e
-X-MS-Exchange-CrossTenant-AuthSource: MW5PR11MB5881.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2023 13:52:56.9930
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RH/5AQY9dFBUE+Z/k42exoDq7gmVMVX9WrfPf4CBFF2CJFUCkel1TGXr3e7J3fAU4yDTD8bzxwpcarl8lInK+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5023
-X-OriginatorOrg: intel.com
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-02_08,2023-03-02_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
+ phishscore=0 clxscore=1015 malwarescore=0 priorityscore=1501 spamscore=0
+ bulkscore=0 lowpriorityscore=0 impostorscore=0 adultscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303020126
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
 
-On 3/2/23 07:56, Jacob Pan wrote:
-> From: Jason Gunthorpe <jgg@nvidia.com>
-> 
-> Instead SVA drivers can use a simple global IDA to allocate PASIDs for
-> each mm_struct.
-> 
-> Future work would be to allow drivers using the SVA APIs to reserve global
-> PASIDs from this IDA for their internal use, eg with the DMA API PASID
-> support.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> ---
-> v4:
-> 	- Keep GFP_ATOMIC flag for PASID allocation, will changed to
-> 	GFP_KERNEL in a separate patch.
-> ---
->   drivers/iommu/iommu-sva.c | 62 ++++++++++-----------------------------
->   drivers/iommu/iommu-sva.h |  3 --
->   2 files changed, 15 insertions(+), 50 deletions(-)
-> 
-> diff --git a/drivers/iommu/iommu-sva.c b/drivers/iommu/iommu-sva.c
-> index 376b2a9e2543..297852ae5e7c 100644
-> --- a/drivers/iommu/iommu-sva.c
-> +++ b/drivers/iommu/iommu-sva.c
-> @@ -9,26 +9,13 @@
->   #include "iommu-sva.h"
->   
->   static DEFINE_MUTEX(iommu_sva_lock);
-> -static DECLARE_IOASID_SET(iommu_sva_pasid);
-> +static DEFINE_IDA(iommu_global_pasid_ida);
->   
-> -/**
-> - * iommu_sva_alloc_pasid - Allocate a PASID for the mm
-> - * @mm: the mm
-> - * @min: minimum PASID value (inclusive)
-> - * @max: maximum PASID value (inclusive)
-> - *
-> - * Try to allocate a PASID for this mm, or take a reference to the existing one
-> - * provided it fits within the [@min, @max] range. On success the PASID is
-> - * available in mm->pasid and will be available for the lifetime of the mm.
-> - *
-> - * Returns 0 on success and < 0 on error.
-> - */
-> -int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max)
-> +static int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max)
->   {
-> -	int ret = 0;
-> -	ioasid_t pasid;
-> +	int ret;
->   
-> -	if (min == INVALID_IOASID || max == INVALID_IOASID ||
-> +	if (min == IOMMU_PASID_INVALID || max == IOMMU_PASID_INVALID ||
->   	    min == 0 || max < min)
->   		return -EINVAL;
->   
-> @@ -37,39 +24,20 @@ int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max)
->   	if (pasid_valid(mm->pasid)) {
->   		if (mm->pasid < min || mm->pasid >= max)
-Here seems not right, since the valid range is defined [min, max]. 
-Shouldn't the invalid range be:
-		if (mm->pasid < min || mm->pasid > max)
 
-Regards,
--Tina
+On 3/2/23 6:47 PM, Vincent Guittot wrote:
+> On Thu, 2 Mar 2023 at 12:00, Shrikanth Hegde <sshegde@linux.vnet.ibm.com> wrote:
+>>
+>> On 3/2/23 1:20 PM, Vincent Guittot wrote:
+>>> On Wed, 1 Mar 2023 at 19:48, shrikanth hegde <sshegde@linux.vnet.ibm.com> wrote:
+>>>> On 2/24/23 3:04 PM, Vincent Guittot wrote:
+>>>>> Add a rb tree for latency sensitive entities so we can schedule the most
+>>>>> sensitive one first even when it failed to preempt current at wakeup or
+>>>>> when it got quickly preempted by another entity of higher priority.
+>>>>>
+>>>>> In order to keep fairness, the latency is used once at wakeup to get a
+>>>>> minimum slice and not during the following scheduling slice to prevent
+>>>>> long running entity to got more running time than allocated to his nice
+>>>>> priority.
+>>>>>
+>>>>> The rb tree enables to cover the last corner case where latency
+>>>>> sensitive entity can't got schedule quickly after the wakeup.
+>>>>>
+>>>>> Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
+>>>>> Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
+>>>>> ---
+>>>>>  include/linux/sched.h |   1 +
+>>>>>  kernel/sched/core.c   |   1 +
+>>>>>  kernel/sched/fair.c   | 109 ++++++++++++++++++++++++++++++++++++++++--
+>>>>>  kernel/sched/sched.h  |   1 +
+>>>>>  4 files changed, 109 insertions(+), 3 deletions(-)
+>>>>>
+>>>>> diff --git a/include/linux/sched.h b/include/linux/sched.h
+>>>>> index 38decae3e156..41bb92be5ecc 100644
+>>>>> --- a/include/linux/sched.h
+>>>>> +++ b/include/linux/sched.h
+>>>>> @@ -548,6 +548,7 @@ struct sched_entity {
+>>>>>       /* For load-balancing: */
+>>>>>       struct load_weight              load;
+>>>>>       struct rb_node                  run_node;
+>>>>> +     struct rb_node                  latency_node;
+>>>> Ran pahole to see if the frequently accessed fields change across cachelines.
+>>>> There is no change in cachelines of task_struct, whereas sched_entity differs
+>>>> due to latency_node.  Maybe the latency_node could be placed after
+>>>> runnable_weight as there is space available in that cacheline.
+>>> I will run some test on my system to confimr your results but we can
+>>> move latency_node field if it helps cache hit stats
+>>>
+>>>> 6.2
+>>>> #pahole sched_entity
+>>>> struct sched_entity {
+>>>>         struct load_weight         load;                 /*     0    16 */
+>>>>
+>>>>         /* XXX last struct has 4 bytes of padding */
+>>>>
+>>>>         struct rb_node             run_node;             /*    16    24 */
+>>>>         struct list_head           group_node;           /*    40    16 */
+>>>>         unsigned int               on_rq;                /*    56     4 */
+>>>>
+>>>>         /* XXX 4 bytes hole, try to pack */
+>>>>
+>>>>         u64                        exec_start;           /*    64     8 */
+>>>>         u64                        sum_exec_runtime;     /*    72     8 */
+>>>>         u64                        vruntime;             /*    80     8 */
+>>>>         u64                        prev_sum_exec_runtime; /*    88     8 */
+>>>>         u64                        nr_migrations;        /*    96     8 */
+>>>>         int                        depth;                /*   104     4 */
+>>>>
+>>>>         /* XXX 4 bytes hole, try to pack */
+>>>>
+>>>>         struct sched_entity *      parent;               /*   112     8 */
+>>>>         struct cfs_rq *            cfs_rq;               /*   120     8 */
+>>>>         /* --- cacheline 1 boundary (128 bytes) --- */
+>>>>         struct cfs_rq *            my_q;                 /*   128     8 */
+>>>>         long unsigned int          runnable_weight;      /*   136     8 */
+>>>>
+>>>>         /* XXX 112 bytes hole, try to pack */
+>>>>
+>>>>         /* --- cacheline 2 boundary (256 bytes) --- */
+>>>>         struct sched_avg           avg;                  /*   256   128 */
+>>>>
+>>>>
+>>>> 6.2 + V12 patch
+>>>> #pahole sched_entity
+>>>> struct sched_entity {
+>>>>         struct load_weight         load;                 /*     0    16 */
+>>>>
+>>>>         /* XXX last struct has 4 bytes of padding */
+>>>>
+>>>>         struct rb_node             run_node;             /*    16    24 */
+>>>>         struct rb_node             latency_node;         /*    40    24 */
+>>>>         struct list_head           group_node;           /*    64    16 */
+>>>>         unsigned int               on_rq;                /*    80     4 */
+>>>>
+>>>>         /* XXX 4 bytes hole, try to pack */
+>>>>
+>>>>         u64                        exec_start;           /*    88     8 */
+>>>>         u64                        sum_exec_runtime;     /*    96     8 */
+>>>>         u64                        vruntime;             /*   104     8 */
+>>>>         u64                        prev_sum_exec_runtime; /*   112     8 */
+>>>>         u64                        nr_migrations;        /*   120     8 */
+>>>>         /* --- cacheline 1 boundary (128 bytes) --- */
+>>>>         int                        depth;                /*   128     4 */
+>>>>
+>>>>         /* XXX 4 bytes hole, try to pack */
+>>>>
+>>>>         struct sched_entity *      parent;               /*   136     8 */
+>>>>         struct cfs_rq *            cfs_rq;               /*   144     8 */
+>>>>         struct cfs_rq *            my_q;                 /*   152     8 */
+>>>>
+>>>>
+>>>> 6.2 + V12 patch + Re-shuffle of latency_node
+>>>> #pahole sched_entity
+>>>> struct sched_entity {
+>>>>         struct load_weight         load;                 /*     0    16 */
+>>>>
+>>>>         /* XXX last struct has 4 bytes of padding */
+>>>>
+>>>>         struct rb_node             run_node;             /*    16    24 */
+>>>>         struct list_head           group_node;           /*    40    16 */
+>>>>         unsigned int               on_rq;                /*    56     4 */
+>>>>
+>>>>         /* XXX 4 bytes hole, try to pack */
+>>>>
+>>>>         u64                        exec_start;           /*    64     8 */
+>>>>         u64                        sum_exec_runtime;     /*    72     8 */
+>>>>         u64                        vruntime;             /*    80     8 */
+>>>>         u64                        prev_sum_exec_runtime; /*    88     8 */
+>>>>         u64                        nr_migrations;        /*    96     8 */
+>>>>         int                        depth;                /*   104     4 */
+>>>>
+>>>>         /* XXX 4 bytes hole, try to pack */
+>>>>
+>>>>         struct sched_entity *      parent;               /*   112     8 */
+>>>>         struct cfs_rq *            cfs_rq;               /*   120     8 */
+>>>>         /* --- cacheline 1 boundary (128 bytes) --- */
+>>>>         struct cfs_rq *            my_q;                 /*   128     8 */
+>>>>         long unsigned int          runnable_weight;      /*   136     8 */
+>>>>         struct rb_node             latency_node;         /*   144    24 */
+>>>>         long int                   latency_offset;       /*   168     8 */
+>>>>
+>>>>         /* XXX 80 bytes hole, try to pack */
+>>>>
+>>>>         /* --- cacheline 2 boundary (256 bytes) --- */
+>>>>
+>>>>
+>>>>
+>>>> diff --git a/include/linux/sched.h b/include/linux/sched.h
+>>>> index a2b52cf5e1bb..1e93aaaeead2 100644
+>>>> --- a/include/linux/sched.h
+>>>> +++ b/include/linux/sched.h
+>>>> @@ -548,7 +548,6 @@ struct sched_entity {
+>>>>         /* For load-balancing: */
+>>>>         struct load_weight              load;
+>>>>         struct rb_node                  run_node;
+>>>> -       struct rb_node                  latency_node;
+>>>>         struct list_head                group_node;
+>>>>         unsigned int                    on_rq;
+>>>>
+>>>> @@ -569,6 +568,7 @@ struct sched_entity {
+>>>>         /* cached value of my_q->h_nr_running */
+>>>>         unsigned long                   runnable_weight;
+>>>>  #endif
+>>>> +       struct rb_node                  latency_node;
+>>>>         /* preemption offset in ns */
+>>>>         long                            latency_offset;
+>>>>
+>>>>
+>>>> Ran the schbench and hackbench with this patch series. Here comparison is
+>>>> between 6.2 stable tree, 6.2 + Patch and 6.2 + patch + above re-arrange of
+>>>> latency_node. Ran two cgroups, in one cgroup running stress-ng at 50%(group1)
+>>>> and other is running these benchmarks (group2). Set the latency nice
+>>>> of group2 to -20. These are run on Power system with 12 cores with SMT=8.
+>>>> Total of 96 CPU.
+>>>>
+>>>> schbench gets lower latency compared to stabletree. Whereas hackbench seems
+>>>> to regress under this case. Maybe i am doing something wrong. I will re-run
+>>>> and attach the numbers to series.
+>>>> Please suggest if any variation in the test i need to try.
+>>> hackbench takes advanatge of a latency nice 19 as it mainly wants to
+>>> run longer slice to move forward rather than preempting others all the
+>>> time
+>> hackbench still seems to regress in different latency nice values compared to
+>> baseline of 6.2 in this case. up to 50% in some cases.
+>>
+>> 12 core powerpc system  with SMT=8 i.e 96 CPU
+>> running 2 CPU cgroups. No quota assigned.
+>> 1st cgroup is running stress-ng with 48 threads. Consuming 50% of CPU.
+>> latency is not changed for this cgroup.
+>> 2nd cgroup is running hackbench. This cgroup is assigned the different latency
+>> nice values of 0, -20 and 19.
+> According to your other emails, you are using the cgroup interface and
+> not the task's one. Do I get it right ?
 
->   			ret = -EOVERFLOW;
-> +		else
-> +			ret = 0;
->   		goto out;
->   	}
->   
-> -	pasid = ioasid_alloc(&iommu_sva_pasid, min, max, mm);
-> -	if (!pasid_valid(pasid))
-> -		ret = -ENOMEM;
-> -	else
-> -		mm->pasid = ret;
-> +	ret = ida_alloc_range(&iommu_global_pasid_ida, min, max, GFP_ATOMIC);
-> +	if (ret < min)
-> +		goto out;
-> +	mm->pasid = ret;
-> +	ret = 0;
->   out:
->   	mutex_unlock(&iommu_sva_lock);
->   	return ret;
->   }
-> -EXPORT_SYMBOL_GPL(iommu_sva_alloc_pasid);
-> -
-> -/* ioasid_find getter() requires a void * argument */
-> -static bool __mmget_not_zero(void *mm)
-> -{
-> -	return mmget_not_zero(mm);
-> -}
-> -
-> -/**
-> - * iommu_sva_find() - Find mm associated to the given PASID
-> - * @pasid: Process Address Space ID assigned to the mm
-> - *
-> - * On success a reference to the mm is taken, and must be released with mmput().
-> - *
-> - * Returns the mm corresponding to this PASID, or an error if not found.
-> - */
-> -struct mm_struct *iommu_sva_find(ioasid_t pasid)
-> -{
-> -	return ioasid_find(&iommu_sva_pasid, pasid, __mmget_not_zero);
-> -}
-> -EXPORT_SYMBOL_GPL(iommu_sva_find);
->   
->   /**
->    * iommu_sva_bind_device() - Bind a process address space to a device
-> @@ -241,8 +209,8 @@ iommu_sva_handle_iopf(struct iommu_fault *fault, void *data)
->   
->   void mm_pasid_drop(struct mm_struct *mm)
->   {
-> -	if (pasid_valid(mm->pasid)) {
-> -		ioasid_free(mm->pasid);
-> -		mm->pasid = INVALID_IOASID;
-> -	}
-> +	if (likely(!pasid_valid(mm->pasid)))
-> +		return;
-> +
-> +	ida_free(&iommu_global_pasid_ida, mm->pasid);
->   }
-> diff --git a/drivers/iommu/iommu-sva.h b/drivers/iommu/iommu-sva.h
-> index 7215a761b962..c22d0174ad61 100644
-> --- a/drivers/iommu/iommu-sva.h
-> +++ b/drivers/iommu/iommu-sva.h
-> @@ -8,9 +8,6 @@
->   #include <linux/ioasid.h>
->   #include <linux/mm_types.h>
->   
-> -int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max);
-> -struct mm_struct *iommu_sva_find(ioasid_t pasid);
-> -
->   /* I/O Page fault */
->   struct device;
->   struct iommu_fault;
+right. I create cgroup, attach bash command with echo $$, 
+assign the latency nice to cgroup, and run hackbench from that bash prompt.
+
+>
+> I haven't run test such tests in a cgroup but at least the test with
+> latency_nice == 0 should not make any noticeable difference. Does this
+> include the re-arrange patch that you have proposed previously ?
+
+No. This is only with V12 of the series.
+
+>
+> Also, the tests that you did on v6, gave better result.
+> https://lore.kernel.org/lkml/34112324-de67-55eb-92bc-181a98c4311c@linux.vnet.ibm.com/
+>
+> Are you running same tests or you changed something in the mean time ?
+
+Test machine got changed. 
+now i re-read my earlier mail. I see it was slightly different. 
+I had created only one cgroup and stress-ng was run
+without any cgroup. Let me try that scenario and get the numbers. 
+
+>
+>> Numbers are average of 10 runs in each case. Time is in seconds
+>>
+>> type       groups |   v6.2     |  v6.2 + V12   | v6.2 + V12  | v6.2 + V12
+>>                   |            | lat nice=0    | lat nice=-20| lat nice=+19
+>>                   |            |               |             |
+>> Process       10  |   0.36     |     0.41      |    0.43     |    0.42
+>> Process       20  |   0.62     |     0.76      |    0.75     |    0.75
+>> Process       30  |   0.87     |     1.05      |    1.04     |    1.06
+>> Process       40  |   1.13     |     1.34      |    1.33     |    1.33
+>> Process       50  |   1.38     |     1.62      |    1.66     |    1.63
+>> Process       60  |   1.64     |     1.91      |    1.97     |    1.90
+>> thread        10  |   0.35     |     0.41      |    0.44     |    0.42
+>> thread        20  |   0.64     |     0.78      |    0.77     |    0.79
+>> Process(Pipe) 10  |   0.20     |     0.34      |    0.33     |    0.34
+>> Process(Pipe) 20  |   0.32     |     0.52      |    0.53     |    0.52
+>> Process(Pipe) 30  |   0.44     |     0.70      |    0.70     |    0.69
+>> Process(Pipe) 40  |   0.56     |     0.88      |    0.89     |    0.88
+>> Process(Pipe) 50  |   0.70     |     1.08      |    1.08     |    1.07
+>> Process(Pipe) 60  |   0.83     |     1.27      |    1.27     |    1.26
+>> thread(Pipe)  10  |   0.21     |     0.35      |    0.34     |    0.36
+>> thread(Pipe)  10  |   0.35     |     0.55      |    0.58     |    0.55
+>>
+>>
+>>
+>>>> Re-arrange seems to help the patch series by avoiding an cacheline miss.
+>>>>
+>>>> =========================
+>>>> schbench
+>>>> =========================
+>>>>                  6.2   |  6.2 + V12     |     6.2 + V12 + re-arrange
+>>>> 1 Thread
+>>>>   50.0th:        9.00  |    9.00        |        9.50
+>>>>   75.0th:       10.50  |   10.00        |        9.50
+>>>>   90.0th:       11.00  |   11.00        |       10.50
+>>>>   95.0th:       11.00  |   11.00        |       11.00
+>>>>   99.0th:       11.50  |   11.50        |       11.50
+>>>>   99.5th:       12.50  |   12.00        |       12.00
+>>>>   99.9th:       14.50  |   13.50        |       12.00
+>>>> 2 Threads
+>>>>   50.0th:        9.50  |    9.50        |        8.50
+>>>>   75.0th:       11.00  |   10.50        |        9.50
+>>>>   90.0th:       13.50  |   11.50        |       10.50
+>>>>   95.0th:       14.00  |   12.00        |       11.00
+>>>>   99.0th:       15.50  |   13.50        |       12.00
+>>>>   99.5th:       16.00  |   14.00        |       12.00
+>>>>   99.9th:       17.00  |   16.00        |       16.50
+>>>> 4 Threads
+>>>>   50.0th:       11.50  |   11.50        |       10.50
+>>>>   75.0th:       13.50  |   12.50        |       12.50
+>>>>   90.0th:       15.50  |   14.50        |       14.00
+>>>>   95.0th:       16.50  |   15.50        |       14.50
+>>>>   99.0th:       20.00  |   17.50        |       16.50
+>>>>   99.5th:       20.50  |   18.50        |       17.00
+>>>>   99.9th:       22.50  |   21.00        |       19.00
+>>>> 8 Threads
+>>>>   50.0th:       14.00  |   14.00        |       14.00
+>>>>   75.0th:       16.00  |   16.00        |       16.00
+>>>>   90.0th:       18.00  |   18.00        |       17.50
+>>>>   95.0th:       18.50  |   18.50        |       18.50
+>>>>   99.0th:       20.00  |   20.00        |       20.00
+>>>>   99.5th:       20.50  |   21.50        |       21.00
+>>>>   99.9th:       22.50  |   23.50        |       23.00
+>>>> 16 Threads
+>>>>   50.0th:       19.00  |   18.50        |       19.00
+>>>>   75.0th:       23.00  |   22.50        |       23.00
+>>>>   90.0th:       25.00  |   25.50        |       25.00
+>>>>   95.0th:       26.50  |   26.50        |       26.00
+>>>>   99.0th:       28.50  |   29.00        |       28.50
+>>>>   99.5th:       31.00  |   30.00        |       30.00
+>>>>   99.9th:     5626.00  | 4761.50        |       32.50
+>>>> 32 Threads
+>>>>   50.0th:       27.00  |   27.50        |       29.00
+>>>>   75.0th:       35.50  |   36.50        |       38.50
+>>>>   90.0th:       42.00  |   44.00        |       50.50
+>>>>   95.0th:      447.50  | 2959.00        |     8544.00
+>>>>   99.0th:     7372.00  | 17032.00       |    19136.00
+>>>>   99.5th:    15360.00  | 19808.00       |    20704.00
+>>>>   99.9th:    20640.00  | 30048.00       |    30048.00
+>>>>
+>>>> ====================
+>>>> hackbench
+>>>> ====================
+>>>>                         6.2     |  6.2 + V12        |     6.2+ V12 +re-arrange
+>>>>
+>>>> Process 10 Time:        0.35    |       0.42        |           0.41
+>>>> Process 20 Time:        0.61    |       0.76        |           0.76
+>>>> Process 30 Time:        0.87    |       1.06        |           1.05
+>>>> thread 10 Time:         0.35    |       0.43        |           0.42
+>>>> thread 20 Time:         0.66    |       0.79        |           0.78
+>>>> Process(Pipe) 10 Time:  0.21    |       0.33        |           0.32
+>>>> Process(Pipe) 20 Time:  0.34    |       0.52        |           0.52
+>>>> Process(Pipe) 30 Time:  0.46    |       0.72        |           0.71
+>>>> thread(Pipe) 10 Time:   0.21    |       0.34        |           0.34
+>>>> thread(Pipe) 20 Time:   0.36    |       0.56        |           0.56
+>>>>
+>>>>
+>>>>>       struct list_head                group_node;
+>>>>>       unsigned int                    on_rq;
+>>>>>
+>>>>> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+>>>>> index 093cc1af73dc..752fd364216c 100644
+>>>>> --- a/kernel/sched/core.c
+>>>>> +++ b/kernel/sched/core.c
+>>>>> @@ -4434,6 +4434,7 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
+>>>>>       p->se.nr_migrations             = 0;
+>>>>>       p->se.vruntime                  = 0;
+>>>>>       INIT_LIST_HEAD(&p->se.group_node);
+>>>>> +     RB_CLEAR_NODE(&p->se.latency_node);
+>>>>>
+>>>>>  #ifdef CONFIG_FAIR_GROUP_SCHED
+>>>>>       p->se.cfs_rq                    = NULL;
+>>>>> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+>>>>> index 125a6ff53378..e2aeb4511686 100644
+>>>>> --- a/kernel/sched/fair.c
+>>>>> +++ b/kernel/sched/fair.c
+>>>>> @@ -680,7 +680,85 @@ struct sched_entity *__pick_last_entity(struct cfs_rq *cfs_rq)
+>>>>>
+>>>>>       return __node_2_se(last);
+>>>>>  }
+>>>>> +#endif
+>>>>>
+>>>>> +/**************************************************************
+>>>>> + * Scheduling class tree data structure manipulation methods:
+>>>>> + * for latency
+>>>>> + */
+>>>>> +
+>>>>> +static inline bool latency_before(struct sched_entity *a,
+>>>>> +                             struct sched_entity *b)
+>>>>> +{
+>>>>> +     return (s64)(a->vruntime + a->latency_offset - b->vruntime - b->latency_offset) < 0;
+>>>>> +}
+>>>>> +
+>>>>> +#define __latency_node_2_se(node) \
+>>>>> +     rb_entry((node), struct sched_entity, latency_node)
+>>>>> +
+>>>>> +static inline bool __latency_less(struct rb_node *a, const struct rb_node *b)
+>>>>> +{
+>>>>> +     return latency_before(__latency_node_2_se(a), __latency_node_2_se(b));
+>>>>> +}
+>>>>> +
+>>>>> +/*
+>>>>> + * Enqueue an entity into the latency rb-tree:
+>>>>> + */
+>>>>> +static void __enqueue_latency(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
+>>>>> +{
+>>>>> +
+>>>>> +     /* Only latency sensitive entity can be added to the list */
+>>>>> +     if (se->latency_offset >= 0)
+>>>>> +             return;
+>>>>> +
+>>>>> +     if (!RB_EMPTY_NODE(&se->latency_node))
+>>>>> +             return;
+>>>>> +
+>>>>> +     /*
+>>>>> +      * The entity is always added the latency list at wakeup.
+>>>>> +      * Then, a not waking up entity that is put back in the list after an
+>>>>> +      * execution time less than sysctl_sched_min_granularity, means that
+>>>>> +      * the entity has been preempted by a higher sched class or an entity
+>>>>> +      * with higher latency constraint. In thi case, the entity is also put
+>>>>> +      * back in the latency list so it gets a chance to run 1st during the
+>>>>> +      * next slice.
+>>>>> +      */
+>>>>> +     if (!(flags & ENQUEUE_WAKEUP)) {
+>>>>> +             u64 delta_exec = se->sum_exec_runtime - se->prev_sum_exec_runtime;
+>>>>> +
+>>>>> +             if (delta_exec >= sysctl_sched_min_granularity)
+>>>>> +                     return;
+>>>>> +     }
+>>>>> +
+>>>>> +     rb_add_cached(&se->latency_node, &cfs_rq->latency_timeline, __latency_less);
+>>>>> +}
+>>>>> +
+>>>>> +/*
+>>>>> + * Dequeue an entity from the latency rb-tree and return true if it was really
+>>>>> + * part of the rb-tree:
+>>>>> + */
+>>>>> +static bool __dequeue_latency(struct cfs_rq *cfs_rq, struct sched_entity *se)
+>>>>> +{
+>>>>> +     if (!RB_EMPTY_NODE(&se->latency_node)) {
+>>>>> +             rb_erase_cached(&se->latency_node, &cfs_rq->latency_timeline);
+>>>>> +             RB_CLEAR_NODE(&se->latency_node);
+>>>>> +             return true;
+>>>>> +     }
+>>>>> +
+>>>>> +     return false;
+>>>>> +}
+>>>>> +
+>>>>> +static struct sched_entity *__pick_first_latency(struct cfs_rq *cfs_rq)
+>>>>> +{
+>>>>> +     struct rb_node *left = rb_first_cached(&cfs_rq->latency_timeline);
+>>>>> +
+>>>>> +     if (!left)
+>>>>> +             return NULL;
+>>>>> +
+>>>>> +     return __latency_node_2_se(left);
+>>>>> +}
+>>>>> +
+>>>>> +#ifdef CONFIG_SCHED_DEBUG
+>>>>>  /**************************************************************
+>>>>>   * Scheduling class statistics methods:
+>>>>>   */
+>>>>> @@ -4758,8 +4836,10 @@ enqueue_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
+>>>>>       check_schedstat_required();
+>>>>>       update_stats_enqueue_fair(cfs_rq, se, flags);
+>>>>>       check_spread(cfs_rq, se);
+>>>>> -     if (!curr)
+>>>>> +     if (!curr) {
+>>>>>               __enqueue_entity(cfs_rq, se);
+>>>>> +             __enqueue_latency(cfs_rq, se, flags);
+>>>>> +     }
+>>>>>       se->on_rq = 1;
+>>>>>
+>>>>>       if (cfs_rq->nr_running == 1) {
+>>>>> @@ -4845,8 +4925,10 @@ dequeue_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
+>>>>>
+>>>>>       clear_buddies(cfs_rq, se);
+>>>>>
+>>>>> -     if (se != cfs_rq->curr)
+>>>>> +     if (se != cfs_rq->curr) {
+>>>>>               __dequeue_entity(cfs_rq, se);
+>>>>> +             __dequeue_latency(cfs_rq, se);
+>>>>> +     }
+>>>>>       se->on_rq = 0;
+>>>>>       account_entity_dequeue(cfs_rq, se);
+>>>>>
+>>>>> @@ -4941,6 +5023,7 @@ set_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *se)
+>>>>>                */
+>>>>>               update_stats_wait_end_fair(cfs_rq, se);
+>>>>>               __dequeue_entity(cfs_rq, se);
+>>>>> +             __dequeue_latency(cfs_rq, se);
+>>>>>               update_load_avg(cfs_rq, se, UPDATE_TG);
+>>>>>       }
+>>>>>
+>>>>> @@ -4979,7 +5062,7 @@ static struct sched_entity *
+>>>>>  pick_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *curr)
+>>>>>  {
+>>>>>       struct sched_entity *left = __pick_first_entity(cfs_rq);
+>>>>> -     struct sched_entity *se;
+>>>>> +     struct sched_entity *latency, *se;
+>>>>>
+>>>>>       /*
+>>>>>        * If curr is set we have to see if its left of the leftmost entity
+>>>>> @@ -5021,6 +5104,12 @@ pick_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *curr)
+>>>>>               se = cfs_rq->last;
+>>>>>       }
+>>>>>
+>>>>> +     /* Check for latency sensitive entity waiting for running */
+>>>>> +     latency = __pick_first_latency(cfs_rq);
+>>>>> +     if (latency && (latency != se) &&
+>>>>> +         wakeup_preempt_entity(latency, se) < 1)
+>>>>> +             se = latency;
+>>>>> +
+>>>>>       return se;
+>>>>>  }
+>>>>>
+>>>>> @@ -5044,6 +5133,7 @@ static void put_prev_entity(struct cfs_rq *cfs_rq, struct sched_entity *prev)
+>>>>>               update_stats_wait_start_fair(cfs_rq, prev);
+>>>>>               /* Put 'current' back into the tree. */
+>>>>>               __enqueue_entity(cfs_rq, prev);
+>>>>> +             __enqueue_latency(cfs_rq, prev, 0);
+>>>>>               /* in !on_rq case, update occurred at dequeue */
+>>>>>               update_load_avg(cfs_rq, prev, 0);
+>>>>>       }
+>>>>> @@ -12222,6 +12312,7 @@ static void set_next_task_fair(struct rq *rq, struct task_struct *p, bool first)
+>>>>>  void init_cfs_rq(struct cfs_rq *cfs_rq)
+>>>>>  {
+>>>>>       cfs_rq->tasks_timeline = RB_ROOT_CACHED;
+>>>>> +     cfs_rq->latency_timeline = RB_ROOT_CACHED;
+>>>>>       u64_u32_store(cfs_rq->min_vruntime, (u64)(-(1LL << 20)));
+>>>>>  #ifdef CONFIG_SMP
+>>>>>       raw_spin_lock_init(&cfs_rq->removed.lock);
+>>>>> @@ -12378,6 +12469,7 @@ void init_tg_cfs_entry(struct task_group *tg, struct cfs_rq *cfs_rq,
+>>>>>       se->my_q = cfs_rq;
+>>>>>
+>>>>>       se->latency_offset = calc_latency_offset(tg->latency_prio);
+>>>>> +     RB_CLEAR_NODE(&se->latency_node);
+>>>>>
+>>>>>       /* guarantee group entities always have weight */
+>>>>>       update_load_set(&se->load, NICE_0_LOAD);
+>>>>> @@ -12529,8 +12621,19 @@ int sched_group_set_latency(struct task_group *tg, int prio)
+>>>>>
+>>>>>       for_each_possible_cpu(i) {
+>>>>>               struct sched_entity *se = tg->se[i];
+>>>>> +             struct rq *rq = cpu_rq(i);
+>>>>> +             struct rq_flags rf;
+>>>>> +             bool queued;
+>>>>> +
+>>>>> +             rq_lock_irqsave(rq, &rf);
+>>>>>
+>>>>> +             queued = __dequeue_latency(se->cfs_rq, se);
+>>>>>               WRITE_ONCE(se->latency_offset, latency_offset);
+>>>>> +             if (queued)
+>>>>> +                     __enqueue_latency(se->cfs_rq, se, ENQUEUE_WAKEUP);
+>>>>> +
+>>>>> +
+>>>>> +             rq_unlock_irqrestore(rq, &rf);
+>>>>>       }
+>>>>>
+>>>>>       mutex_unlock(&shares_mutex);
+>>>>> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+>>>>> index 9a2e71231083..21dd309e98a9 100644
+>>>>> --- a/kernel/sched/sched.h
+>>>>> +++ b/kernel/sched/sched.h
+>>>>> @@ -570,6 +570,7 @@ struct cfs_rq {
+>>>>>  #endif
+>>>>>
+>>>>>       struct rb_root_cached   tasks_timeline;
+>>>>> +     struct rb_root_cached   latency_timeline;
+>>>>>
+>>>>>       /*
+>>>>>        * 'curr' points to currently running entity on this cfs_rq.
+
