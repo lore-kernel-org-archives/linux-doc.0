@@ -2,141 +2,433 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 673E0C6FA8E
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 07:18:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1490C7EE2F
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 07:43:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbjCBHSw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Mar 2023 02:18:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36594 "EHLO
+        id S229463AbjCBHnb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Mar 2023 02:43:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229884AbjCBHSu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 02:18:50 -0500
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5CC0D309;
-        Wed,  1 Mar 2023 23:18:45 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id BC01D3200C42;
-        Thu,  2 Mar 2023 02:18:43 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 02 Mar 2023 02:18:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1677741523; x=1677827923; bh=W1hdcOQxGQU0ebLTR8DQVhMf/+cpeg+06LD
-        xY0b8rGw=; b=D+YIcU2j34lGBuWzqi9hNCT5A321ctynb+rncz9FW+0FgZOq6m5
-        FTnJikUR9ynPIOyo+1Ua5y3jzZRENtQwP797kUDYe3Kmk49JwCXo3oVvRTenrWUP
-        OJbFYgzmmEB/VV3EbDjsHFrBAB4230wjWSpsmXdwA0iSiCHkR2ct34XoMjjYplIR
-        B6dfgGGG076O9Qre8Rde5xxqaddelftSPMYnsw8iiiG1umshV7yQmrYgXhwKw4F1
-        SBwpORK03D1MgrdeXLP1t0SeCEWt76Ifr6xYBN7HcY6poqoh1xY522AGa541EZBB
-        vr36Qg85SUGpvk6Eo5GRsoX0zXm9qg1jrJQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-        1677741523; x=1677827923; bh=W1hdcOQxGQU0ebLTR8DQVhMf/+cpeg+06LD
-        xY0b8rGw=; b=DOmMZdkdzJ87q/MWvxhvyaY1AObra5az/eCIi4Bw/KBikhfnBj5
-        1skrdule4Wj9kMPa41ZdzbFrcpqOh9oiCUZSuvcUwHf2vezqpLHam9CkD4vat61k
-        DRDahFMDr9LqXAokhyBwHpHWY1Kg8YZSipJALT22jGRUWYQYGvcJ+iUwNZ7wBHMK
-        ebielb1tj6m7fxWw/aNvRONJFY9mkCpWz4tCJJ/r3bf468b8kISoIdRVyLpk9ZDD
-        L8w7b7Opfvd0PscELJbvp8lPiZ7VMiNHANLs3xZPBPElXkj8IWHw1/lNYIDGYcXN
-        0B+AtayAY5Up3OhYSsV0DbIcvPWQtCl+zWA==
-X-ME-Sender: <xms:000AZLSiIuhAjVGIx2lFU7JMDsEjBq50CfKOYYTj7iKBmRbiLw1GOA>
-    <xme:000AZMwa01LBWHdjEEsfQ-29MlMKRLGLRxF9qEw-ihtBRKy_0S4EFyp7rbe5qu0i8
-    7OFgKWVYtnJK-WJYWE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeliedguddtgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
-    tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
-    grthhtvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudek
-    tdfgjeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:000AZA0JZoGQs_3zE-H29P78oQ7O7UdcjxLtw7YK_-e7n_ldrLSUQQ>
-    <xmx:000AZLD0cqeG6pY6GuiKq_0Rk-eseM-kDuWW8DigquEJBrlFgvPH1g>
-    <xmx:000AZEgTTAIV2GAEOnqQq1aqjzUU_HZ8Fv5SbDNS8pGgcTKcR9pjRQ>
-    <xmx:000AZBZfmFl32G7ZevTse5RwWb53QCHt4kNPQG5tth3yf4iuc2WBQQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 0A42BB60086; Thu,  2 Mar 2023 02:18:42 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-183-gbf7d00f500-fm-20230220.001-gbf7d00f5
-Mime-Version: 1.0
-Message-Id: <e449e759-ae59-4892-a453-75213d711ae1@app.fastmail.com>
-In-Reply-To: <9003dd79-00eb-72d4-18e5-51c0f52833f8@quicinc.com>
-References: <20230214211229.3239350-1-quic_eberman@quicinc.com>
- <20230214211229.3239350-4-quic_eberman@quicinc.com>
- <5d67ee67-e63f-1393-1455-bfb6b2ddaeb5@linaro.org>
- <9003dd79-00eb-72d4-18e5-51c0f52833f8@quicinc.com>
-Date:   Thu, 02 Mar 2023 08:18:21 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Elliot Berman" <quic_eberman@quicinc.com>,
-        "Alex Elder" <alex.elder@linaro.org>,
-        "Alex Elder" <elder@linaro.org>,
-        "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
-        "Prakruthi Deepak Heragu" <quic_pheragu@quicinc.com>
-Cc:     "Murali Nalajala" <quic_mnalajal@quicinc.com>,
-        "Trilok Soni" <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
-        "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
-        "Bjorn Andersson" <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Bagas Sanjaya" <bagasdotme@gmail.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Jassi Brar" <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v10 03/26] gunyah: Common types and error codes for Gunyah
- hypercalls
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229437AbjCBHn3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 02:43:29 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5554211D5
+        for <linux-doc@vger.kernel.org>; Wed,  1 Mar 2023 23:43:27 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id h11-20020a17090a2ecb00b00237c740335cso1858731pjs.3
+        for <linux-doc@vger.kernel.org>; Wed, 01 Mar 2023 23:43:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=64SSbXRp/YLmSHI0JrDoo+9XuvG3Mhb2Dw2MwawYdis=;
+        b=eT7opkpxHavKKVJDADeHezyk3UFseFgXZ+IT5LKIXj1CwleLkzUyviCT+xNC53Uz8C
+         BAN3UeD3LeEtuwf/9TGfAXX7RhcuyJISiUupcp84dJv87dyHCysURmi1X+hT64sRfF1o
+         I3ypVBkolBBpvr4KCFW/CxJAwy8X7fWA9UFWRe/Bv+514NU2HQzZrzSxY4jNpzPIy0r7
+         nqzkHJHty6IPeLjIatFT+gJ/9bU79WPCQsNkvGPE8fMqo8WG0OFJPh73eudR4ADYQ7wJ
+         JBkpkf+x7e0SbA3WrJ0x3wSJjTfm4SzfRkaAF5QZDb4gDmTF/Mpfpbqd0sudidsXtH3n
+         oLuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=64SSbXRp/YLmSHI0JrDoo+9XuvG3Mhb2Dw2MwawYdis=;
+        b=Tqb+y8UAyVwvoGU6EX/8wV4uKbF2mEQhtPJTkXehXsTwqk6+aFjbAKTg1MA2fTr25e
+         61spBJdPRpmX78mpsv40PlMjGz5wNCU4XHfLuYy66b2WwHzonMlyChSrd5N4GCRxNb/P
+         7fDbzPjDBY/Wb/nYDCydbnCorZTFgBUy7SDVjB7ZQ0RVsHR2YNVSGzkx20Mi69fKzOWj
+         49l/JR4r0M7n0WTf2ptnjo+/yxjnyzp788nz5EVOPAbZXMiMXfYUnqGmc7f5hcaM0XJL
+         LcYfJljP2IMjN1ctfXQ+grRaGknNl5DdmHH/PpA7MR7lq5k44tVtt5b9CblPCJCfvIT0
+         bWAg==
+X-Gm-Message-State: AO0yUKWKpukJ75gQCn3d0cmyPVw1fR+GocY3ozqkgZtcDwl1gVHGbcxB
+        PUTAgocBzHMHARxVQbVfRvuHFvtCppLpsLiaOOw88BkCahyEaw==
+X-Google-Smtp-Source: AK7set/IcI4ts54U0aA5sV/VBCEPF77gFaEw8canaVMUoJOwAEyyLoZO63NvvLZci+wMZuy4yVcyqVAG3FO+4JxdWPM=
+X-Received: by 2002:a17:90a:668d:b0:230:80d7:2158 with SMTP id
+ m13-20020a17090a668d00b0023080d72158mr3684381pjj.4.1677743007251; Wed, 01 Mar
+ 2023 23:43:27 -0800 (PST)
+MIME-Version: 1.0
+References: <20230224093454.956298-1-vincent.guittot@linaro.org>
+ <20230224093454.956298-6-vincent.guittot@linaro.org> <cf16613d-b5e1-bdcf-ef3f-6763ba939f42@linux.vnet.ibm.com>
+In-Reply-To: <cf16613d-b5e1-bdcf-ef3f-6763ba939f42@linux.vnet.ibm.com>
+From:   Vincent Guittot <vincent.guittot@linaro.org>
+Date:   Thu, 2 Mar 2023 08:43:15 +0100
+Message-ID: <CAKfTPtBAxYkntXR9jwH3HSBx00YoDUDXLEJ7h-90wqra4G5jSA@mail.gmail.com>
+Subject: Re: [PATCH v12 5/8] sched/fair: Take into account latency priority at wakeup
+To:     shrikanth hegde <sshegde@linux.vnet.ibm.com>
+Cc:     qyousef@layalina.io, chris.hyser@oracle.com,
+        patrick.bellasi@matbug.net, David.Laight@aculab.com,
+        pjt@google.com, pavel@ucw.cz, qperret@google.com,
+        tim.c.chen@linux.intel.com, joshdon@google.com, timj@gnu.org,
+        kprateek.nayak@amd.com, yu.c.chen@intel.com,
+        youssefesmat@chromium.org, joel@joelfernandes.org,
+        mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
+        linux-kernel@vger.kernel.org, parth@linux.ibm.com, tj@kernel.org,
+        lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        cgroups@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 2, 2023, at 02:40, Elliot Berman wrote:
-> On 2/23/2023 1:58 PM, Alex Elder wrote:
-
->>> +enum gh_error {
->>> +=C2=A0=C2=A0=C2=A0 GH_ERROR_OK=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D 0,
->>> +=C2=A0=C2=A0=C2=A0 GH_ERROR_UNIMPLEMENTED=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D -1,
->>> +=C2=A0=C2=A0=C2=A0 GH_ERROR_RETRY=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D -2,
->>=20
->> Do you expect this type to have a particular size?
->> Since you specify negative values, it matters, and
->> it's possible that this forces it to be a 4-byte value
->> (though I'm not sure what the rules are).=C2=A0 In other
->> words, UNIMPLEMENTED could conceivably have value 0xff
->> or 0xffffffff.=C2=A0 I'm not even sure you can tell whether
->> an enum is interpreted as signed or unsigned.
+On Wed, 1 Mar 2023 at 20:29, shrikanth hegde <sshegde@linux.vnet.ibm.com> wrote:
 >
-> I'm not a C expert, but my understanding is that enums are signed.=20
-> Gunyah will be returning a signed 64-bit register, however there's no=20
-> intention to go beyond 32 bits of error codes since we want to work on=20
-> 32-bit architectures.
+>
+>
+> On 2/24/23 3:04 PM, Vincent Guittot wrote:
+> > Take into account the latency priority of a thread when deciding to
+> > preempt the current running thread. We don't want to provide more CPU
+> > bandwidth to a thread but reorder the scheduling to run latency sensitive
+> > task first whenever possible.
+> >
+> > As long as a thread didn't use its bandwidth, it will be able to preempt
+> > the current thread.
+> >
+> > At the opposite, a thread with a low latency priority will preempt current
+> > thread at wakeup only to keep fair CPU bandwidth sharing. Otherwise it will
+> > wait for the tick to get its sched slice.
+> >
+> >                                    curr vruntime
+> >                                        |
+> >                       sysctl_sched_wakeup_granularity
+> >                                    <-->
+> > ----------------------------------|----|-----------------------|---------------
+> >                                   |    |<--------------------->
+> >                                   |    .  sysctl_sched_latency
+> >                                   |    .
+> > default/current latency entity    |    .
+> >                                   |    .
+> > 1111111111111111111111111111111111|0000|-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-
+> > se preempts curr at wakeup ------>|<- se doesn't preempt curr -----------------
+> >                                   |    .
+> >                                   |    .
+> >                                   |    .
+> > low latency entity                |    .
+> >                                    ---------------------->|
+> >                                % of sysctl_sched_latency  |
+> > 1111111111111111111111111111111111111111111111111111111111|0000|-1-1-1-1-1-1-1-
+> > preempt ------------------------------------------------->|<- do not preempt --
+> >                                   |    .
+> >                                   |    .
+> >                                   |    .
+> > high latency entity               |    .
+> >          |<-----------------------|----.
+> >          | % of sysctl_sched_latency   .
+> > 111111111|0000|-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1
+> > preempt->|<- se doesn't preempt curr ------------------------------------------
+> >
+> > Tests results of nice latency impact on heavy load like hackbench:
+> >
+> > hackbench -l (2560 / group) -g group
+> > group        latency 0             latency 19
+> > 1            1.378(+/-  1%)      1.337(+/- 1%) + 3%
+> > 4            1.393(+/-  3%)      1.312(+/- 3%) + 6%
+> > 8            1.308(+/-  2%)      1.279(+/- 1%) + 2%
+> > 16           1.347(+/-  1%)      1.317(+/- 1%) + 2%
+> >
+> > hackbench -p -l (2560 / group) -g group
+> > group
+> > 1            1.836(+/- 17%)      1.148(+/- 5%) +37%
+> > 4            1.586(+/-  6%)      1.109(+/- 8%) +30%
+> > 8            1.209(+/-  4%)      0.780(+/- 4%) +35%
+> > 16           0.805(+/-  5%)      0.728(+/- 4%) +10%
+> >
+> > By deacreasing the latency prio, we reduce the number of preemption at
+> > wakeup and help hackbench making progress.
+> >
+> > Test results of nice latency impact on short live load like cyclictest
+> > while competing with heavy load like hackbench:
+> >
+> > hackbench -l 10000 -g $group &
+> > cyclictest --policy other -D 5 -q -n
+> >         latency 0           latency -20
+> > group   min  avg    max     min  avg    max
+> > 0       16    19     29      17   18     29
+> > 1       43   299   7359      63   84   3422
+> > 4       56   449  14806      45   83    284
+> > 8       63   820  51123      63   83    283
+> > 16      64  1326  70684      41  157  26852
+> >
+> > group = 0 means that hackbench is not running.
+> >
+> > The avg is significantly improved with nice latency -20 especially with
+> > large number of groups but min and max remain quite similar. If we add the
+> > histogram parameter to get details of latency, we have :
+> >
+> > hackbench -l 10000 -g 16 &
+> > cyclictest --policy other -D 5 -q -n  -H 20000 --histfile data.txt
+> >               latency 0    latency -20
+> > Min Latencies:    64           62
+> > Avg Latencies:  1170          107
+> > Max Latencies: 88069        10417
+> > 50% latencies:   122           86
+> > 75% latencies:   614           91
+> > 85% latencies:   961           94
+> > 90% latencies:  1225           97
+> > 95% latencies:  6120          102
+> > 99% latencies: 18328          159
+> >
+> > With percentile details, we see the benefit of nice latency -20 as
+> > only 1% of the latencies are above 159us whereas the default latency
+> > has got 15% around ~1ms or above and 5% over the 6ms.
+> >
+> > Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
+> > Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
+> > ---
+> >  include/linux/sched.h      |  4 +++-
+> >  include/linux/sched/prio.h |  9 +++++++++
+> >  init/init_task.c           |  2 +-
+> >  kernel/sched/core.c        | 19 ++++++++++++++-----
+> >  kernel/sched/debug.c       |  2 +-
+> >  kernel/sched/fair.c        | 32 +++++++++++++++++++++++++++-----
+> >  kernel/sched/sched.h       | 11 +++++++++++
+> >  7 files changed, 66 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > index 6c61bde49152..38decae3e156 100644
+> > --- a/include/linux/sched.h
+> > +++ b/include/linux/sched.h
+> > @@ -568,6 +568,8 @@ struct sched_entity {
+> >       /* cached value of my_q->h_nr_running */
+> >       unsigned long                   runnable_weight;
+> >  #endif
+> > +     /* preemption offset in ns */
+> > +     long                            latency_offset;
+> >
+> >  #ifdef CONFIG_SMP
+> >       /*
+> > @@ -784,7 +786,7 @@ struct task_struct {
+> >       int                             static_prio;
+> >       int                             normal_prio;
+> >       unsigned int                    rt_priority;
+> > -     int                             latency_nice;
+> > +     int                             latency_prio;
+> >
+> >       struct sched_entity             se;
+> >       struct sched_rt_entity          rt;
+> > diff --git a/include/linux/sched/prio.h b/include/linux/sched/prio.h
+> > index bfcd7f1d1e11..be79503d86af 100644
+> > --- a/include/linux/sched/prio.h
+> > +++ b/include/linux/sched/prio.h
+> > @@ -59,5 +59,14 @@ static inline long rlimit_to_nice(long prio)
+> >   * Default tasks should be treated as a task with latency_nice = 0.
+> >   */
+> >  #define DEFAULT_LATENCY_NICE 0
+> > +#define DEFAULT_LATENCY_PRIO (DEFAULT_LATENCY_NICE + LATENCY_NICE_WIDTH/2)
+> > +
+> > +/*
+> > + * Convert user-nice values [ -20 ... 0 ... 19 ]
+> > + * to static latency [ 0..39 ],
+> > + * and back.
+> > + */
+> > +#define NICE_TO_LATENCY(nice)        ((nice) + DEFAULT_LATENCY_PRIO)
+> > +#define LATENCY_TO_NICE(prio)        ((prio) - DEFAULT_LATENCY_PRIO)
+> >
+> >  #endif /* _LINUX_SCHED_PRIO_H */
+> > diff --git a/init/init_task.c b/init/init_task.c
+> > index 7dd71dd2d261..071deff8dbd1 100644
+> > --- a/init/init_task.c
+> > +++ b/init/init_task.c
+> > @@ -78,7 +78,7 @@ struct task_struct init_task
+> >       .prio           = MAX_PRIO - 20,
+> >       .static_prio    = MAX_PRIO - 20,
+> >       .normal_prio    = MAX_PRIO - 20,
+> > -     .latency_nice   = DEFAULT_LATENCY_NICE,
+> > +     .latency_prio   = DEFAULT_LATENCY_PRIO,
+> >       .policy         = SCHED_NORMAL,
+> >       .cpus_ptr       = &init_task.cpus_mask,
+> >       .user_cpus_ptr  = NULL,
+> > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> > index d327614c70b0..d5b7e237d79b 100644
+> > --- a/kernel/sched/core.c
+> > +++ b/kernel/sched/core.c
+> > @@ -1285,6 +1285,11 @@ static void set_load_weight(struct task_struct *p, bool update_load)
+> >       }
+> >  }
+> >
+> > +static void set_latency_offset(struct task_struct *p)
+> > +{
+> > +     p->se.latency_offset = calc_latency_offset(p->latency_prio);
+> > +}
+> > +
+> >  #ifdef CONFIG_UCLAMP_TASK
+> >  /*
+> >   * Serializes updates of utilization clamp values
+> > @@ -4681,7 +4686,9 @@ int sched_fork(unsigned long clone_flags, struct task_struct *p)
+> >               p->prio = p->normal_prio = p->static_prio;
+> >               set_load_weight(p, false);
+> >
+> > -             p->latency_nice = DEFAULT_LATENCY_NICE;
+> > +             p->latency_prio = NICE_TO_LATENCY(0);
+> > +             set_latency_offset(p);
+> > +
+> >               /*
+> >                * We don't need the reset flag anymore after the fork. It has
+> >                * fulfilled its duty:
+> > @@ -7449,8 +7456,10 @@ static void __setscheduler_params(struct task_struct *p,
+> >  static void __setscheduler_latency(struct task_struct *p,
+> >               const struct sched_attr *attr)
+> >  {
+> > -     if (attr->sched_flags & SCHED_FLAG_LATENCY_NICE)
+> > -             p->latency_nice = attr->sched_latency_nice;
+> > +     if (attr->sched_flags & SCHED_FLAG_LATENCY_NICE) {
+> > +             p->latency_prio = NICE_TO_LATENCY(attr->sched_latency_nice);
+> > +             set_latency_offset(p);
+> > +     }
+> >  }
+> >
+> >  /*
+> > @@ -7635,7 +7644,7 @@ static int __sched_setscheduler(struct task_struct *p,
+> >               if (attr->sched_flags & SCHED_FLAG_UTIL_CLAMP)
+> >                       goto change;
+> >               if (attr->sched_flags & SCHED_FLAG_LATENCY_NICE &&
+> > -                 attr->sched_latency_nice != p->latency_nice)
+> > +                 attr->sched_latency_nice != LATENCY_TO_NICE(p->latency_prio))
+> >                       goto change;
+> >
+> >               p->sched_reset_on_fork = reset_on_fork;
+> > @@ -8176,7 +8185,7 @@ SYSCALL_DEFINE4(sched_getattr, pid_t, pid, struct sched_attr __user *, uattr,
+> >       get_params(p, &kattr);
+> >       kattr.sched_flags &= SCHED_FLAG_ALL;
+> >
+> > -     kattr.sched_latency_nice = p->latency_nice;
+> > +     kattr.sched_latency_nice = LATENCY_TO_NICE(p->latency_prio);
+> >
+> >  #ifdef CONFIG_UCLAMP_TASK
+> >       /*
+> > diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
+> > index 68be7a3e42a3..b3922184af91 100644
+> > --- a/kernel/sched/debug.c
+> > +++ b/kernel/sched/debug.c
+> > @@ -1043,7 +1043,7 @@ void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
+> >  #endif
+> >       P(policy);
+> >       P(prio);
+> > -     P(latency_nice);
+> > +     P(latency_prio);
+>
+> /proc/<pid>/sched  should update if the latency values are updated
+> for the cgroup right? That doesn't seem to happen.
 
-This came up recently because gcc-13 changes the rules.
+No It's not. The cgroup latency_nice value applies the the
+sched_entity of the group in which the task are scheduled
 
-In GNU C, the enum type will have the smallest type that fits all
-values, so if it contains a negative number it ends up as a signed
-type (int, long or long long), but if all values are positive and at
-least one of them exceeds the signed range (e.g. UINT_MAX), it is
-an unsigned type. If it contains both UINT_MAX and -1, the enum
-type gets changed to a signed 64-bit type in order to fit both.
-
-Before gcc-13, the individual constants have the smallest type
-(at least 'int') that fits their value, but in gcc-13 they have
-the same type as the enum type itself.
-
-     Arnd
+>
+> #cd /sys/fs/cgroup/cpu
+> # echo -20 >  task1/cpu.latency.nice
+> # cat task1/cgroup.procs
+> 1897
+> 1998
+> 1999
+> # cat /proc/1999/sched | grep latency
+> latency_prio                                 :                   20
+> # echo 0 >  task1/cpu.latency.nice
+> # cat /proc/1999/sched | grep latency
+> latency_prio                                 :                   20
+> # echo 19 >  task1/cpu.latency.nice
+> # cat /proc/1999/sched | grep latency
+> latency_prio                                 :                   20
+>
+>
+> >       if (task_has_dl_policy(p)) {
+> >               P(dl.runtime);
+> >               P(dl.deadline);
+> > diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+> > index 81bef11eb660..414b6243208b 100644
+> > --- a/kernel/sched/fair.c
+> > +++ b/kernel/sched/fair.c
+> > @@ -4877,6 +4877,8 @@ dequeue_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
+> >               update_idle_cfs_rq_clock_pelt(cfs_rq);
+> >  }
+> >
+> > +static long wakeup_latency_gran(struct sched_entity *curr, struct sched_entity *se);
+> > +
+> >  /*
+> >   * Preempt the current task with a newly woken task if needed:
+> >   */
+> > @@ -4885,7 +4887,7 @@ check_preempt_tick(struct cfs_rq *cfs_rq, struct sched_entity *curr)
+> >  {
+> >       unsigned long ideal_runtime, delta_exec;
+> >       struct sched_entity *se;
+> > -     s64 delta;
+> > +     s64 delta, offset;
+> >
+> >       /*
+> >        * When many tasks blow up the sched_period; it is possible that
+> > @@ -4916,10 +4918,12 @@ check_preempt_tick(struct cfs_rq *cfs_rq, struct sched_entity *curr)
+> >       se = __pick_first_entity(cfs_rq);
+> >       delta = curr->vruntime - se->vruntime;
+> >
+> > -     if (delta < 0)
+> > +     offset = wakeup_latency_gran(curr, se);
+> > +     if (delta < offset)
+> >               return;
+> >
+> > -     if (delta > ideal_runtime)
+> > +     if ((delta > ideal_runtime) ||
+> > +         (delta > get_latency_max()))
+> >               resched_curr(rq_of(cfs_rq));
+> >  }
+> >
+> > @@ -7662,6 +7666,23 @@ balance_fair(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
+> >  }
+> >  #endif /* CONFIG_SMP */
+> >
+> > +static long wakeup_latency_gran(struct sched_entity *curr, struct sched_entity *se)
+> > +{
+> > +     long latency_offset = se->latency_offset;
+> > +
+> > +     /*
+> > +      * A negative latency offset means that the sched_entity has latency
+> > +      * requirement that needs to be evaluated versus other entity.
+> > +      * Otherwise, use the latency weight to evaluate how much scheduling
+> > +      * delay is acceptable by se.
+> > +      */
+> > +     if ((latency_offset < 0) || (curr->latency_offset < 0))
+> > +             latency_offset -= curr->latency_offset;
+> > +     latency_offset = min_t(long, latency_offset, get_latency_max());
+> > +
+> > +     return latency_offset;
+> > +}
+> > +
+> >  static unsigned long wakeup_gran(struct sched_entity *se)
+> >  {
+> >       unsigned long gran = sysctl_sched_wakeup_granularity;
+> > @@ -7700,11 +7721,12 @@ static int
+> >  wakeup_preempt_entity(struct sched_entity *curr, struct sched_entity *se)
+> >  {
+> >       s64 gran, vdiff = curr->vruntime - se->vruntime;
+> > +     s64 offset = wakeup_latency_gran(curr, se);
+> >
+> > -     if (vdiff <= 0)
+> > +     if (vdiff < offset)
+> >               return -1;
+> >
+> > -     gran = wakeup_gran(se);
+> > +     gran = offset + wakeup_gran(se);
+> >
+> >       /*
+> >        * At wake up, the vruntime of a task is capped to not be older than
+> > diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+> > index 51ba0af7fb27..3f42f86105d4 100644
+> > --- a/kernel/sched/sched.h
+> > +++ b/kernel/sched/sched.h
+> > @@ -2494,6 +2494,17 @@ static inline unsigned long get_sleep_latency(bool idle)
+> >       return thresh;
+> >  }
+> >
+> > +/*
+> > + * Calculate the latency offset for a priority level.
+> > + * We use a linear mapping of the priority in the range:
+> > + *     [-sysctl_sched_latency:sysctl_sched_latency]
+> > + */
+> > +static inline long calc_latency_offset(int prio)
+> > +{
+> > +     return (long)get_sleep_latency(false) * LATENCY_TO_NICE(prio) /
+> > +                     (LATENCY_NICE_WIDTH/2);
+> > +}
+> > +
+> >  static inline unsigned long get_latency_max(void)
+> >  {
+> >       unsigned long thresh = get_sleep_latency(false);
+>
