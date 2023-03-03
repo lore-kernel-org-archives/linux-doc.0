@@ -2,119 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBE04C7EE2F
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 14:39:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35F3FC64EC4
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 14:49:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231310AbjCCOjU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 09:39:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53772 "EHLO
+        id S231351AbjCCOt3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 09:49:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231300AbjCCOjS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 09:39:18 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 777F9199;
-        Fri,  3 Mar 2023 06:39:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677854355; x=1709390355;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=enM9fqPmmUCNjfregnTQTxVlem+fBlV9uM7hLOVjTZk=;
-  b=iGukCSG/XG0XV1D3/JTNKtdG1Ju8ZK/9q51a0ZhBFgHkMNkbLcXj/Jiu
-   QhqckyOkLQlr/8dMMknzU4EaRzrUkIegMkMR89NHRaq5rDD06eIIygVJV
-   w/J73+hqIYFWhBs31DQ9VAJog0ysjMnxnFpbEhilq7rHXIcTVChwDBawD
-   qRPlX3gml7V7Qfv0uBq9f59eP5FQru96erxQEUHCCvegev0ZStQzeUPY/
-   OgsuHkgsAju3yWhNkbNAPV0FmDfZ3GnYGW8M6aOpL7OOYh1lC3xO5uuTx
-   SH/C3PNx3wKM1xvsHZk1iDrDucpl+AFjB6hn66o9Fau5BtUHqvZI7nFOF
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="315454031"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="315454031"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 06:39:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="818491545"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="818491545"
-Received: from ppatil1-mobl3.amr.corp.intel.com (HELO [10.252.140.187]) ([10.252.140.187])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 06:39:11 -0800
-Message-ID: <e237d765-3d18-3188-33fa-74b0bef95ac4@intel.com>
-Date:   Fri, 3 Mar 2023 06:39:11 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v7 19/41] x86/mm: Check shadow stack page fault errors
-Content-Language: en-US
-To:     Borislav Petkov <bp@alien8.de>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        with ESMTP id S231371AbjCCOtX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 09:49:23 -0500
+Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7C414D62F
+        for <linux-doc@vger.kernel.org>; Fri,  3 Mar 2023 06:49:16 -0800 (PST)
+Date:   Fri, 03 Mar 2023 14:49:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dylanle.dev;
+        s=protonmail; t=1677854954; x=1678114154;
+        bh=GE82kdhVniwQCHmSI+W3zZPQ84XQA0TdOMeq+pnRWDE=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=IqwEbFJRh8Kx0oQWHp9cVQcj8La/lHRA3HdeeTq3cg3FsIeeitkFmaE1sduTdvxj1
+         7AGsyZ3iXdXs+d2ZovIUjhUXJAO9zKCSBPRFiojK91Hxe7C2nyY+XIm5QJqj0/Ns6r
+         8bE8kwL/sy1GOpTnqcnUScOMceOb6EBfOEH4ij95MPGm5t6Xte/EdQN1pmYY9/14s/
+         0TBtuRLcfAGRdWWOvlpVrsoIv2lF4CXSmVdoM5z80XgR4cuY40kKyppNKvPYDip0Jx
+         PqtJD2YW251KfLXiWqoZXBt29+F8Mq1gkP8S4kwJP06cdkUM25zQ2V2sOIVv7nnDBY
+         uhYCnWcZBRrNQ==
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+From:   Dylan Le <self@dylanle.dev>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-20-rick.p.edgecombe@intel.com>
- <ZAH9dhFGtbR5J8j+@zn.tnic>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <ZAH9dhFGtbR5J8j+@zn.tnic>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH] Documentation: gpu: add acceleration node section
+Message-ID: <mnLCBvF9cqw1NSMEMHVM86FfcFsr63NEB1V1q0uUFUv70_ZBHgOLgtY-qIDiolOKclKFLfcBOpWfF1Q6PpWXNqRx0mI0yoWfBD7zLPM6HXc=@dylanle.dev>
+In-Reply-To: <Y/bqtlbnWkKMIJI4@debian.me>
+References: <7799513f0fb5aee27b64752c037980471be669c5.1677120686.git.self@dylanle.dev> <Y/bqtlbnWkKMIJI4@debian.me>
+Feedback-ID: 68106091:user:proton
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/3/23 06:00, Borislav Petkov wrote:
-> On Mon, Feb 27, 2023 at 02:29:35PM -0800, Rick Edgecombe wrote:
->> @@ -1310,6 +1324,23 @@ void do_user_addr_fault(struct pt_regs *regs,
->>  
->>  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
->>  
->> +	/*
->> +	 * For conventionally writable pages, a read can be serviced with a
->> +	 * read only PTE. But for shadow stack, there isn't a concept of
->> +	 * read-only shadow stack memory. If it a PTE has the shadow stack
-> s/it //
-> 
->> +	 * permission, it can be modified via CALL and RET instructions. So
->> +	 * core MM needs to fault in a writable PTE and do things it already
->> +	 * does for write faults.
->> +	 *
->> +	 * Shadow stack accesses (read or write) need to be serviced with
->> +	 * shadow stack permission memory, which always include write
->> +	 * permissions. So in the case of a shadow stack read access, treat it
->> +	 * as a WRITE fault. This will make sure that MM will prepare
->> +	 * everything (e.g., break COW) such that maybe_mkwrite() can create a
->> +	 * proper shadow stack PTE.
+On Wednesday, February 22nd, 2023 at 11:25 PM, Bagas Sanjaya <bagasdotme@gm=
+ail.com> wrote:
+>=20
+>=20
+> On Thu, Feb 23, 2023 at 02:52:52AM +0000, Dylan Le wrote:
+>=20
+> > This patch was initially written for the Linux Kernel Bug Fixing Mentor=
+ship
+> > program. The patch adds a temporarily stubbed section on Acceleration N=
+odes
+> > to resolve a documentation warning.
+> >=20
+> > This resolves the warning:
+> > ./Documentation/gpu/drm-internals:179: ./include/drm/drm_file.h:411: WA=
+RNING: undefined label: drm_accel_node
+>=20
+>=20
+> Please write the patch description in imperative mood ("Do foo" instead
+> of "This patch does foo").
+>=20
+> > I would appreciate any feedback on what should be documented here.
+>=20
+>=20
+> I think above is better placed between the three dashes and diffstat ...
+>=20
+> > ---
+>=20
+>=20
+> like here.
+>=20
+> > Documentation/gpu/drm-uapi.rst | 9 +++++++++
+> > 1 file changed, 9 insertions(+)
+>=20
+> > +.. _drm_accel_node:
+> > +
+> > +Acceleration nodes
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +.. note::
+> > + There is not any documentation yet need to figure out what this is.
+>=20
+>=20
+> I'd like to write this stub as generic .. admonition:: block [1] instead,
+> with the content which is "This section is empty, add appropriate
+> documentation here." or similar.
+>=20
+> [1]: https://docutils.sourceforge.io/docs/ref/rst/directives.html#generic=
+-admonition
+>=20
+> Thanks.
+>=20
+> --
+> An old man doll... just what I always wanted! - Clara
 
-I ended up just chopping that top paragraph out and rewording it a bit.  I think this still expresses the intent in a lot less space:
+Thank you Bagas for the feedback,
 
-        /*
-         * Read-only permissions can not be expressed in shadow stack PTEs.
-         * Treat all shadow stack accesses as WRITE faults. This ensures
-         * that the MM will prepare everything (e.g., break COW) such that
-         * maybe_mkwrite() can create a proper shadow stack PTE.
-         */
+I prematurely sent a v2 of this patch taking into account your feedback, bu=
+t I will hold off on other changes. Since there seems to be another discuss=
+ion about a broken reference in drm_file.h.
 
+If there is something I can look at in the meantime let me know.
+
+Thanks,
+Dylan Le
