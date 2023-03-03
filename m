@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8721BC7EE2D
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 15:49:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55C54C64EC4
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 16:06:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231531AbjCCPt1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 10:49:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34090 "EHLO
+        id S229974AbjCCQGB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 11:06:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231523AbjCCPtZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 10:49:25 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA564D502
-        for <linux-doc@vger.kernel.org>; Fri,  3 Mar 2023 07:49:23 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id da10so12119580edb.3
-        for <linux-doc@vger.kernel.org>; Fri, 03 Mar 2023 07:49:23 -0800 (PST)
+        with ESMTP id S229541AbjCCQGA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 11:06:00 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02E4116325
+        for <linux-doc@vger.kernel.org>; Fri,  3 Mar 2023 08:05:59 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id u9so12338442edd.2
+        for <linux-doc@vger.kernel.org>; Fri, 03 Mar 2023 08:05:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ventanamicro.com; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=x+5JbfjZ8Aa/Wy9sFT0uYrAvKsrB7pVmzzINwbowStU=;
-        b=BdAa7enZ9MgSZLdVOPUP7KtdM25yTv5Gt4+UmTEGXb7tjay5ZxpdRRJ5ETYRoBsFni
-         sYRzYsTu7lRj8u1pbH/PIRnyjrBqHsOm4hnYswNP0thheg/2KeuBGaM1mFOaA3VuEA7s
-         /hHlOlrHosFopTpSNTUPWO9kpAsHtEjlUEVgG6aGnoT280yjnwWVjQx5RKnoBSt+Tc51
-         jckjfynl8Uk+9ziSywgoXzTKVfuZPeuTcvBJNcuroVDn8E89+pxP46ZuJje4tWSaJ7IT
-         7uG7+keqhI47E+fSZiRZxmqIDOfrPvU2GdGqwgoF4bGDFTB6JP1zWKoQTClbRT/c/TE5
-         BQ8w==
+        bh=sdqrjc1pgikpMKF5PbXM2gjCoZe2CVGirbF1d+RRhCY=;
+        b=JeQfAioo6oFj+KRaBzFsCj5bb9x3TRw3wgo0wrhMuuQvMR9U2Au84lRqsjAG2iu3C4
+         fwmjjpgNn2ru5NY0KhiRIcK0EzA/rz2IAaqwebg1j5n664NCL5jGZZrsp863P3xXASWK
+         7PXuZE988cbbV3B2xjgokMIWShOseKXguLUmq9rzC1OiWW4MrdVyCLNNyYzK1RSQ3cCW
+         VJo3LOLgIVd507nXL4J8q7nCP84NCXhIJu2wuo4UnB34FsJWfpijy6YkhZiQOUwCT+Ei
+         B0dVCW4ASjoFHqR1afRvAZSequHTxekW21McCWa2wrdNJGfVxFuLGWnHKKTkkTMhmGEw
+         lgGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x+5JbfjZ8Aa/Wy9sFT0uYrAvKsrB7pVmzzINwbowStU=;
-        b=EBct8kPQ9Ijc6RdaW32YQWtWEbF55Ii7MtrWfwX4oPN9TPqYbqiL+8+KEmKEB9TrdP
-         tdLdjyV3zNWPJMwL2jG6CA+uO5rVBOj1nb++SVsKccYlivpXqrQ3hOBgmL1YGQ9byQ/1
-         pBFFiG1XDTK/y9pLav6BI+amDGL8V3a1BnWr6o79YbdVUbjTKxvmzX+f57ETEkhedkyX
-         hnhmma98jSWWneBlQy7eWxzVxp7bdKb/vxjbIuGrM9d2lmULfYsT8eCJJs8+P3DdwCkl
-         0sVUgvzF9GAi9ujHynsQsiJkC578CZthpZt4ZrPk+h0pKZe/LeaOp2dOLOkS9PpXMbSB
-         Gd1w==
-X-Gm-Message-State: AO0yUKUp1otG3nwDRc7Dc+xYyBs4pdS1WUJ53DPaykmcQN82k4or0OQk
-        DRmffwdWF81e9WsmjmiZp6YW2g==
-X-Google-Smtp-Source: AK7set+zOpC3DQ8WQaz+jDiXR0tvMLVKI1MlDuFlw/L+S82YrzsxNoEXEDmTRZn0PNz1SmwhvAcsNg==
-X-Received: by 2002:a17:907:d109:b0:878:78f9:d1be with SMTP id uy9-20020a170907d10900b0087878f9d1bemr1957250ejc.23.1677858562207;
-        Fri, 03 Mar 2023 07:49:22 -0800 (PST)
+        bh=sdqrjc1pgikpMKF5PbXM2gjCoZe2CVGirbF1d+RRhCY=;
+        b=yHuqyW2Qr3X+i/HrTjrmV+DRNTAVeFvZrSkH00ES4RQejWmbDaPoShWKDaQrU+emZY
+         4Ar8VxEvn49Cv1NzLslz7cOOec0ILS+LwDOzzOE+O7xGgi8JafmDJzf34YF1MOOSQGWn
+         DSCuzF8+ZGPq3xxVL+Ly4pFIphaadjG80mWb9qYbBgGM3a1tKnFmfepBOVjVm/w/MR7D
+         ncCCmCDGBwsqARnQyADZKNcHN5pKsWOE2kKIlGESmXJfS7jpcE1J7u3UQG0VnWhnBhC5
+         bBmcm5ep2zSQ6GV6B5IhvV9YAlYgMlwqjdsO6hh0RrF+VgnZ0eJDQIbtJwclQz21tl8i
+         j2aQ==
+X-Gm-Message-State: AO0yUKWMfYPh1CyB22C8viY7aYs82QhGBZxPE7iwIw/96lJZlmU8+7l/
+        RUq884LDlHoYJ144EMWxitk+wg==
+X-Google-Smtp-Source: AK7set8EfOP27papyNPQmRFQWhUVEaWFLkUJ0APxQYh53vl+XhNDfZeeHrfzIrq11w3kaokKnHWDWA==
+X-Received: by 2002:a17:907:b15:b0:872:27cb:9436 with SMTP id h21-20020a1709070b1500b0087227cb9436mr1927396ejl.43.1677859557288;
+        Fri, 03 Mar 2023 08:05:57 -0800 (PST)
 Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id n13-20020a170906164d00b008deba75e89csm1080779ejd.66.2023.03.03.07.49.21
+        by smtp.gmail.com with ESMTPSA id ga1-20020a170906b84100b008b17879ec95sm1089916ejb.22.2023.03.03.08.05.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 07:49:21 -0800 (PST)
-Date:   Fri, 3 Mar 2023 16:49:20 +0100
+        Fri, 03 Mar 2023 08:05:56 -0800 (PST)
+Date:   Fri, 3 Mar 2023 17:05:56 +0100
 From:   Andrew Jones <ajones@ventanamicro.com>
 To:     Sunil V L <sunilvl@ventanamicro.com>
 Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
@@ -65,139 +65,143 @@ Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
         Atish Patra <atishp@rivosinc.com>,
         'Conor Dooley ' <conor.dooley@microchip.com>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH V3 10/20] RISC-V: smpboot: Add ACPI support in smp_setup()
-Message-ID: <20230303154920.dq65hkcivpv7zyev@orel>
+Subject: Re: [PATCH V3 11/20] RISC-V: ACPI: Cache and retrieve the RINTC
+ structure
+Message-ID: <20230303160556.lezccmwa7ymymxws@orel>
 References: <20230303133647.845095-1-sunilvl@ventanamicro.com>
- <20230303133647.845095-11-sunilvl@ventanamicro.com>
+ <20230303133647.845095-12-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230303133647.845095-11-sunilvl@ventanamicro.com>
+In-Reply-To: <20230303133647.845095-12-sunilvl@ventanamicro.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 03, 2023 at 07:06:37PM +0530, Sunil V L wrote:
-> Enable SMP boot on ACPI based platforms by using the RINTC
-> structures in the MADT table.
+On Fri, Mar 03, 2023 at 07:06:38PM +0530, Sunil V L wrote:
+> RINTC structures in the MADT provide mapping between the hartid
+> and the CPU. This is required many times even at run time like
+> cpuinfo. So, instead of parsing the ACPI table every time, cache
+> the RINTC structures and provide a function to get the correct
+> RINTC structure for a given cpu.
 > 
 > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
->  arch/riscv/kernel/smpboot.c | 72 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 71 insertions(+), 1 deletion(-)
+>  arch/riscv/include/asm/acpi.h |  9 ++++++
+>  arch/riscv/kernel/acpi.c      | 56 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 65 insertions(+)
 > 
-> diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
-> index 26214ddefaa4..27047322d3bb 100644
-> --- a/arch/riscv/kernel/smpboot.c
-> +++ b/arch/riscv/kernel/smpboot.c
-> @@ -8,6 +8,7 @@
->   * Copyright (C) 2017 SiFive
->   */
+> diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
+> index 111a8ed10af1..8be16c1ef7da 100644
+> --- a/arch/riscv/include/asm/acpi.h
+> +++ b/arch/riscv/include/asm/acpi.h
+> @@ -61,6 +61,10 @@ static inline void arch_fix_phys_package_id(int num, u32 slot) { }
 >  
-> +#include <linux/acpi.h>
->  #include <linux/arch_topology.h>
->  #include <linux/module.h>
->  #include <linux/init.h>
-> @@ -70,6 +71,72 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
->  	}
+>  int acpi_get_riscv_isa(struct acpi_table_header *table,
+>  		       unsigned int cpu, const char **isa);
+> +
+> +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
+> +
+> +u32 get_acpi_id_for_cpu(int cpu);
+>  #else
+>  static inline int acpi_get_riscv_isa(struct acpi_table_header *table,
+>  				     unsigned int cpu, const char **isa)
+> @@ -68,6 +72,11 @@ static inline int acpi_get_riscv_isa(struct acpi_table_header *table,
+>  	return -EINVAL;
 >  }
 >  
-> +#ifdef CONFIG_ACPI
-> +static unsigned int cpu_count = 1;
-> +
-> +static int __init acpi_parse_rintc(union acpi_subtable_headers *header, const unsigned long end)
+> +static inline u32 get_acpi_id_for_cpu(int cpu)
 > +{
-> +	unsigned long hart;
-> +	static bool found_boot_cpu;
-> +	struct acpi_madt_rintc *processor = (struct acpi_madt_rintc *)header;
+> +	return -1;
+> +}
+
+Why do we need this stub? I wouldn't expect non-ACPI code to need an ACPI
+ID.
+
 > +
-> +	/*
-> +	 * Each RINTC structure in MADT will have a flag. If ACPI_MADT_ENABLED
-> +	 * bit in the flag is not enabled, it means OS should not try to enable
-> +	 * the cpu to which RINTC belongs.
-> +	 */
-> +	if (!(processor->flags & ACPI_MADT_ENABLED))
+>  #endif /* CONFIG_ACPI */
+>  
+>  #endif /*_ASM_ACPI_H*/
+> diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
+> index 81d448c41714..8b3d68d8225f 100644
+> --- a/arch/riscv/kernel/acpi.c
+> +++ b/arch/riscv/kernel/acpi.c
+> @@ -24,6 +24,62 @@ EXPORT_SYMBOL(acpi_disabled);
+>  int acpi_pci_disabled = 1;	/* skip ACPI PCI scan and IRQ initialization */
+>  EXPORT_SYMBOL(acpi_pci_disabled);
+>  
+> +static struct acpi_madt_rintc cpu_madt_rintc[NR_CPUS];
+> +
+> +static int acpi_parse_madt_rintc(union acpi_subtable_headers *header, const unsigned long end)
+> +{
+> +	struct acpi_madt_rintc *rintc = (struct acpi_madt_rintc *)header;
+> +	int cpuid;
+> +
+> +	if (!(rintc->flags & ACPI_MADT_ENABLED))
 > +		return 0;
-> +
-> +	if (BAD_MADT_ENTRY(processor, end))
-> +		return -EINVAL;
-> +
-> +	acpi_table_print_madt_entry(&header->common);
-> +
-> +	hart = processor->hart_id;
-> +	if (hart == INVALID_HARTID) {
-> +		pr_warn("Invalid hartid\n");
-> +		return 0;
-> +	}
-> +
-> +	if (hart == cpuid_to_hartid_map(0)) {
-> +		BUG_ON(found_boot_cpu);
-> +		found_boot_cpu = true;
-> +		early_map_cpu_to_node(0, NUMA_NO_NODE);
 
-We should have kept
+Why not cache the data even when its disabled? We also cache the flags so
+we can always check later too.
 
- static inline int acpi_numa_get_nid(unsigned int cpu) { return NUMA_NO_NODE; }
-
-and only dropped the
-
- #ifdef CONFIG_ACPI_NUMA
- int acpi_numa_get_nid(unsigned int cpu);
- #else
- ...
- #endif
-
-> +		return 0;
-> +	}
 > +
-> +	if (cpu_count >= NR_CPUS) {
-> +		pr_warn("NR_CPUS is too small for the number of ACPI tables.\n");
-> +		return 0;
-> +	}
-> +
-> +	cpuid_to_hartid_map(cpu_count) = hart;
-> +	early_map_cpu_to_node(cpu_count, NUMA_NO_NODE);
-> +	cpu_count++;
+> +	cpuid = riscv_hartid_to_cpuid(rintc->hart_id);
+> +	if (cpuid >= 0 && cpuid < NR_CPUS)
+
+What does it mean for the above check to fail? Bad ACPI tables?
+
+> +		cpu_madt_rintc[cpuid] = *rintc;
 > +
 > +	return 0;
 > +}
 > +
-> +static void __init acpi_parse_and_init_cpus(void)
+> +static int acpi_init_rintc_array(void)
 > +{
-> +	int cpuid;
+> +	if (acpi_table_parse_madt(ACPI_MADT_TYPE_RINTC, acpi_parse_madt_rintc, 0) > 0)
+> +		return 0;
 > +
-> +	cpu_set_ops(0);
-> +
-> +	acpi_table_parse_madt(ACPI_MADT_TYPE_RINTC, acpi_parse_rintc, 0);
-> +
-> +	for (cpuid = 1; cpuid < nr_cpu_ids; cpuid++) {
-> +		if (cpuid_to_hartid_map(cpuid) != INVALID_HARTID) {
-> +			cpu_set_ops(cpuid);
-> +			set_cpu_possible(cpuid, true);
-> +		}
-> +	}
+> +	return -ENODEV;
 > +}
-> +#else
-> +#define acpi_parse_and_init_cpus(...)	do { } while (0)
-> +#endif
 > +
->  static void __init of_parse_and_init_cpus(void)
->  {
->  	struct device_node *dn;
-> @@ -118,7 +185,10 @@ static void __init of_parse_and_init_cpus(void)
->  
->  void __init setup_smp(void)
->  {
-> -	of_parse_and_init_cpus();
-> +	if (acpi_disabled)
-> +		of_parse_and_init_cpus();
-> +	else
-> +		acpi_parse_and_init_cpus();
->  }
->  
->  static int start_secondary_cpu(int cpu, struct task_struct *tidle)
+> +/*
+> + * Instead of parsing (and freeing) the ACPI table, cache
+> + * the RINTC structures since they are frequently used
+> + * like in  cpuinfo.
+> + */
+> +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu)
+> +{
+> +	static bool rintc_init_done;
+> +
+> +	if (!rintc_init_done) {
+> +		if (acpi_init_rintc_array()) {
+> +			pr_err("No valid RINTC entries exist\n");
+> +			return NULL;
+> +		}
+> +
+> +		rintc_init_done = true;
+> +	}
+> +
+> +	return &cpu_madt_rintc[cpu];
+> +}
+> +
+> +u32 get_acpi_id_for_cpu(int cpu)
+> +{
+> +	struct acpi_madt_rintc *rintc = acpi_cpu_get_madt_rintc(cpu);
+> +
+> +	if (!rintc)
+> +		return -1;
+
+Is -1 defined as an invalid ACPI ID? I'm wondering if we shouldn't just
+BUG in acpi_init_rintc_array() if we fail to initialize and then we can
+unconditionally return rintc->uid here.
+
+> +
+> +	return rintc->uid;
+> +}
+> +
+>  /*
+>   * __acpi_map_table() will be called before paging_init(), so early_ioremap()
+>   * or early_memremap() should be called here to for ACPI table mapping.
 > -- 
 > 2.34.1
 >
