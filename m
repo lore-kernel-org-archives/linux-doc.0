@@ -2,313 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E49DC7EE2F
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 13:40:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 205C9C678D4
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 13:49:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231361AbjCCNkw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 08:40:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46816 "EHLO
+        id S229956AbjCCNtj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 08:49:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231243AbjCCNjZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 08:39:25 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 055285F6EF
-        for <linux-doc@vger.kernel.org>; Fri,  3 Mar 2023 05:38:31 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id p20so2630241plw.13
-        for <linux-doc@vger.kernel.org>; Fri, 03 Mar 2023 05:38:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1677850702;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PnWMRVmSE/FRN1G4jePLo7NyPHxO3nOfwGFEZAQeYgw=;
-        b=AG/Tf51+s22adpeRGvtvyn8utYIGCZCOngUStWWIN4Xvgcjf9OT7yemtdcuDE9RF73
-         Tp2l5evMan993UfOjExmWatX1Ej6KbCl21v/LybejXpIcTUMKt65Yc8taUjveX6u48Te
-         1UFN6b3oiLuPxRLljwFChqMEPCWO3uCiRB4XQ8VZZjRMqpHyhS+wKyBI8w993vl3rxYs
-         AXb0qEGrWMbN89nZ5JRoB/PYsUA/yWnhiHulSKHbq5h8+VF+/HFRkoUp1T/41VLNGEBY
-         WMRc9UqlSwE4zk2Z+8oReKckCgw/IkBYNrFQXQNBSnPj961BIKn43KCLUezicY1o3EUf
-         Gtyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677850702;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PnWMRVmSE/FRN1G4jePLo7NyPHxO3nOfwGFEZAQeYgw=;
-        b=xwocdh6vg/bBku6YwOFVKBSPcQ2YoXtpX0tA9nZiSwqj4xrHl4mq+61gloZIqEoxZx
-         G918VRQTfT/78rT8Y1dxtvsMmVJoKL2OxAeCuyfdMT6pzjFo0KGra6cLFPgyksDBD3tZ
-         nxLz1bA9P/1qUaLp+USrdk8G1qD0UV7925TPOjUhPqid2soOAfxd/66HIFstKs5Kuwdu
-         LRs+jmVy08RWfjehUfNiQAJn1f+LXNwVvrIl0yXf5EUTKgsrKYrgaV+Iwf4YgZvNnRgD
-         LESBtUEqlFRviERdnnNuhCN1wSLy9dsJmWSbaf+ehDeGIgf0dzGSnqTovEhBCjcxHMhV
-         YsJQ==
-X-Gm-Message-State: AO0yUKXtwe99AuiMUEEF+ZY3ivPpCKXvSPATAYWblp8jKCb4+qO6V1ht
-        uqCxmBeFNiapz73bsduL/bSEdw==
-X-Google-Smtp-Source: AK7set+V51+07N8qgFm1g2lKLOWif8Yck9PdXztlJ+r/xz8awvRzgCb/QA45Sz9lhXFjogmhYXfMNA==
-X-Received: by 2002:a17:903:124a:b0:19c:d550:803e with SMTP id u10-20020a170903124a00b0019cd550803emr2225851plh.57.1677850701885;
-        Fri, 03 Mar 2023 05:38:21 -0800 (PST)
-Received: from localhost.localdomain ([49.206.14.226])
-        by smtp.gmail.com with ESMTPSA id m9-20020a170902768900b0019ac5d3ee9dsm1533125pll.157.2023.03.03.05.38.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 05:38:21 -0800 (PST)
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        'Conor Dooley ' <conor.dooley@microchip.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: [PATCH V3 18/20] RISC-V: Add ACPI initialization in setup_arch()
-Date:   Fri,  3 Mar 2023 19:06:45 +0530
-Message-Id: <20230303133647.845095-19-sunilvl@ventanamicro.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230303133647.845095-1-sunilvl@ventanamicro.com>
-References: <20230303133647.845095-1-sunilvl@ventanamicro.com>
+        with ESMTP id S229541AbjCCNti (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 08:49:38 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAB3660AA8;
+        Fri,  3 Mar 2023 05:49:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677851377; x=1709387377;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1DcRojDhcYd/5hgYkX/D/eFp0Loh8mlANtVNOfmijZA=;
+  b=YTHuVoNqhK38NeDzYhkIGtOfQw94j04v9DWFk73htwhYlIP+ZdI2lcyt
+   7WVJSZsHLqtIlCx5vGMvbliJK1RnLyKfYLGOqinCJuq6ghj/HL+ko78Ed
+   XgB66sZDAZzOXhdC2YBI4vsMmHymFa/l9rwFlX+M2sN/q3bH96FvFcyIX
+   YjKSGlqRjwye3K3ouHxp83WlsCPWIaULUH4XSkXq4mHUavKycYzaRtDDF
+   0yoEd2girmkHTonKX9C3x9S8PTUiHTkcX5lpRif0ZwH/9YOIJZBZTvcxL
+   7xa5Gjq60HboyhKpvH1I5v056tUBdgpYwTLcKK93/qLpAMoPOS+fhSK9/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="318867453"
+X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
+   d="scan'208";a="318867453"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 05:49:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="705648522"
+X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
+   d="scan'208";a="705648522"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 05:49:34 -0800
+Date:   Fri, 3 Mar 2023 14:49:32 +0100
+From:   Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To:     Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        ogabbay@kernel.org, dri-devel@lists.freedesktop.org,
+        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
+        quic_carlv@quicinc.com, jacek.lawrynowicz@linux.intel.com
+Subject: Re: [PATCH v2 5/8] accel/qaic: Add datapath
+Message-ID: <20230303134932.GF3963532@linux.intel.com>
+References: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
+ <1675698105-19025-6-git-send-email-quic_jhugo@quicinc.com>
+ <20230224152546.GB3547587@linux.intel.com>
+ <00914fa9-8618-a3ef-d3c5-2a3bba68fa1f@quicinc.com>
+ <20230227171454.GF3547587@linux.intel.com>
+ <83543d98-e624-fadc-7f92-490efa602805@quicinc.com>
+ <20230301170514.GB3963532@linux.intel.com>
+ <5eed22fc-cd22-8186-de08-98827852a518@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5eed22fc-cd22-8186-de08-98827852a518@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Initialize the ACPI core for RISC-V during boot.
+On Wed, Mar 01, 2023 at 11:14:35AM -0700, Jeffrey Hugo wrote:
+> On 3/1/2023 10:05 AM, Stanislaw Gruszka wrote:
+> > On Wed, Mar 01, 2023 at 09:08:03AM -0700, Jeffrey Hugo wrote:
+> > > > This looks a bit suspicious. Are you sure you can modify
+> > > > sg->dma_address and still use it as valid value ?
+> > > 
+> > > A single entry in the sg table is a contiguous mapping of memory.  If it
+> > > wasn't contiguous, it would have to be broken up into multiple entries.  In
+> > > the simple case, a driver is going to take the dma_address/len pair and hand
+> > > that directly to the device.  Then the device is going to access every
+> > > address in that range.
+> > > 
+> > > If the device can access every address from dma_address to dma_address +
+> > > len, why can't it access a subset of that?
+> > 
+> > Required address alignment can be broken. Not sure if only that.
+> 
+> AIC100 doesn't have required alignment.  AIC100 can access any 64-bit
+> address, at a byte level granularity.  The only restriction AIC100 has is
+> that the size of a transfer is restricted to a 32-bit value, so max
+> individual transfer size of 4GB.  Transferring more than 4GB requires
+> multiple transactions.
+> 
+> > > > > Are you suggesting renaming
+> > > > > this function?  I guess I'm not quite understanding your comment here. Can
+> > > > > you elaborate?
+> > > > 
+> > > > Renaming would be nice. I was thinking by simplifying it, not sure
+> > > > now if that's easy achievable, though.
+> > > 
+> > > Ok.  I'll think on this.
+> > 
+> > Maybe this function could be removed ? And create sg lists
+> > that hardware can handle without any modification.
+> > Just idea to consider, not any requirement.
+> 
+> Ok, so this is part of our "slicing" operation, and thus required.
+> 
+> Maybe how slicing works is not clear.
+> 
+> Lets say that we have a workload on AIC100 that can identify a license plate
+> in a picture (aka lprnet).  Lets assume this workload only needs the RGB
+> values of a RGBA file (a "jpeg" we are processing).
+> 
+> Userspace allocates a BO to hold the entire file.  A quarter of the file is
+> R values, a quarter is G values, etc.  For simplicity, lets assume the R
+> values are all sequentially listed, then the G values, then the B values,
+> finally the A values.  When we allocate the BO, we map it once.  If we have
+> an IOMMU, this optimizes the IOMMU mappings.  BOs can be quite large.  We
+> have some test workloads based on real world workloads where each BO is
+> 16-32M in size, and there are multiple BOs.  I don't want to map a 32M BO N
+> duplicate times in the IOMMU.
+> 
+> So, now userspace slices the BO.  It tells us we need to transfer the RGB
+> values (the first 75% of the BO), but not the A values.  So, we create a
+> copy of the mapped SG and edit it to represent this transfer, which is a
+> subset of the entire BO.  Using the slice information and the mapping
+> information, we construct the DMA engine commands that can be used to
+> transfer the relevant portions of the BO to the device.
+> 
+> It sounds like you are suggesting, lets flip this around.  Don't map the
+> entire BO once.  Instead, wait for the slice info from userspace, construct
+> a sg list based on the parts of the BO for the slice, and map that.  Then
+> the driver gets a mapped SG it can just use.  The issue I see with that is
+> slices can overlap.  You can transfer the same part of a BO multiple times.
+> Maybe lprnet has multiple threads on AIC100 where thread A consumes R data,
+> thread B consumes R and G data, and thread C consumes B data.  We need to
+> transfer the R data twice to different device locations so that threads A
+> and B can consume the R data independently.
+> 
+> If we map per slice, we are going to map the R part of the BO twice in the
+> IOMMU.  Is that valid?  It feels possible that there exists some IOMMU
+> implementation that won't allow multiple IOVAs to map to the same DDR PA
+> because that is weird and the implementer thinks its a software bug.  I
+> don't want to run into that.  Assuming it is valid, that is multiple
+> mappings in the IOMMU TLB which could have been a single mapping.  We are
+> wasting IOMMU resources.
+> 
+> There are some ARM systems we support with limited IOVA space in the IOMMU,
+> and we've had some issues with exhausting that space.  The current
+> implementation is influenced by those experiences.
 
-ACPI tables and interpreter are initialized based on
-the information passed from the firmware and the value of
-the kernel parameter 'acpi'.
+Ok, then the current implementation seems reasonable.
+Thanks for explanation!
 
-With ACPI support added for RISC-V, the kernel parameter 'acpi'
-is also supported on RISC-V. Hence, update the documentation.
-
-Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
----
- .../admin-guide/kernel-parameters.txt         |   8 +-
- arch/riscv/kernel/acpi.c                      | 126 ++++++++++++++++++
- arch/riscv/kernel/setup.c                     |  25 ++--
- 3 files changed, 147 insertions(+), 12 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6221a1d057dd..047679554453 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1,17 +1,17 @@
--	acpi=		[HW,ACPI,X86,ARM64]
-+	acpi=		[HW,ACPI,X86,ARM64,RISCV64]
- 			Advanced Configuration and Power Interface
- 			Format: { force | on | off | strict | noirq | rsdt |
- 				  copy_dsdt }
- 			force -- enable ACPI if default was off
--			on -- enable ACPI but allow fallback to DT [arm64]
-+			on -- enable ACPI but allow fallback to DT [arm64,riscv64]
- 			off -- disable ACPI if default was on
- 			noirq -- do not use ACPI for IRQ routing
- 			strict -- Be less tolerant of platforms that are not
- 				strictly ACPI specification compliant.
- 			rsdt -- prefer RSDT over (default) XSDT
- 			copy_dsdt -- copy DSDT to memory
--			For ARM64, ONLY "acpi=off", "acpi=on" or "acpi=force"
--			are available
-+			For ARM64 and RISCV64, ONLY "acpi=off", "acpi=on" or
-+			"acpi=force" are available
- 
- 			See also Documentation/power/runtime_pm.rst, pci=noacpi
- 
-diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
-index 8b3d68d8225f..9b6841700e30 100644
---- a/arch/riscv/kernel/acpi.c
-+++ b/arch/riscv/kernel/acpi.c
-@@ -16,6 +16,7 @@
- #include <linux/acpi.h>
- #include <linux/io.h>
- #include <linux/pci.h>
-+#include <linux/efi.h>
- 
- int acpi_noirq = 1;		/* skip ACPI IRQ initialization */
- int acpi_disabled = 1;
-@@ -25,6 +26,131 @@ int acpi_pci_disabled = 1;	/* skip ACPI PCI scan and IRQ initialization */
- EXPORT_SYMBOL(acpi_pci_disabled);
- 
- static struct acpi_madt_rintc cpu_madt_rintc[NR_CPUS];
-+static bool param_acpi_off __initdata;
-+static bool param_acpi_on __initdata;
-+static bool param_acpi_force __initdata;
-+
-+static int __init parse_acpi(char *arg)
-+{
-+	if (!arg)
-+		return -EINVAL;
-+
-+	/* "acpi=off" disables both ACPI table parsing and interpreter */
-+	if (strcmp(arg, "off") == 0)
-+		param_acpi_off = true;
-+	else if (strcmp(arg, "on") == 0) /* prefer ACPI over DT */
-+		param_acpi_on = true;
-+	else if (strcmp(arg, "force") == 0) /* force ACPI to be enabled */
-+		param_acpi_force = true;
-+	else
-+		return -EINVAL;	/* Core will print when we return error */
-+
-+	return 0;
-+}
-+early_param("acpi", parse_acpi);
-+
-+/*
-+ * acpi_fadt_sanity_check() - Check FADT presence and carry out sanity
-+ *			      checks on it
-+ *
-+ * Return 0 on success,  <0 on failure
-+ */
-+static int __init acpi_fadt_sanity_check(void)
-+{
-+	struct acpi_table_header *table;
-+	struct acpi_table_fadt *fadt;
-+	acpi_status status;
-+	int ret = 0;
-+
-+	/*
-+	 * FADT is required on riscv; retrieve it to check its presence
-+	 * and carry out revision and ACPI HW reduced compliancy tests
-+	 */
-+	status = acpi_get_table(ACPI_SIG_FADT, 0, &table);
-+	if (ACPI_FAILURE(status)) {
-+		const char *msg = acpi_format_exception(status);
-+
-+		pr_err("Failed to get FADT table, %s\n", msg);
-+		return -ENODEV;
-+	}
-+
-+	fadt = (struct acpi_table_fadt *)table;
-+
-+	/*
-+	 * Revision in table header is the FADT Major revision, and there
-+	 * is a minor revision of FADT.
-+	 *
-+	 * TODO: Currently, we check for 6.5 as the minimum version to check
-+	 * for HW_REDUCED flag. However, once RISC-V updates are released in
-+	 * the ACPI spec, we need to update this check for exact minor revision
-+	 */
-+	if (table->revision < 6 || (table->revision == 6 && fadt->minor_revision < 5)) {
-+		pr_err(FW_BUG "Unsupported FADT revision %d.%d, should be 6.5+\n",
-+		       table->revision, fadt->minor_revision);
-+	}
-+
-+	if (!(fadt->flags & ACPI_FADT_HW_REDUCED)) {
-+		pr_err("FADT not ACPI hardware reduced compliant\n");
-+		ret = -EINVAL;
-+	}
-+
-+	/*
-+	 * acpi_get_table() creates FADT table mapping that
-+	 * should be released after parsing and before resuming boot
-+	 */
-+	acpi_put_table(table);
-+	return ret;
-+}
-+
-+/*
-+ * acpi_boot_table_init() called from setup_arch(), always.
-+ *	1. find RSDP and get its address, and then find XSDT
-+ *	2. extract all tables and checksums them all
-+ *	3. check ACPI FADT HW reduced flag
-+ *
-+ * We can parse ACPI boot-time tables such as MADT after
-+ * this function is called.
-+ *
-+ * On return ACPI is enabled if either:
-+ *
-+ * - ACPI tables are initialized and sanity checks passed
-+ * - acpi=force was passed in the command line and ACPI was not disabled
-+ *   explicitly through acpi=off command line parameter
-+ *
-+ * ACPI is disabled on function return otherwise
-+ */
-+void __init acpi_boot_table_init(void)
-+{
-+	/*
-+	 * Enable ACPI instead of device tree unless
-+	 * - ACPI has been disabled explicitly (acpi=off), or
-+	 * - firmware has not populated ACPI ptr in EFI system table
-+	 *   and ACPI has not been [force] enabled (acpi=on|force)
-+	 */
-+	if (param_acpi_off ||
-+	    (!param_acpi_on && !param_acpi_force &&
-+	     efi.acpi20 == EFI_INVALID_TABLE_ADDR))
-+		return;
-+
-+	/*
-+	 * ACPI is disabled at this point. Enable it in order to parse
-+	 * the ACPI tables and carry out sanity checks
-+	 */
-+	enable_acpi();
-+
-+	/*
-+	 * If ACPI tables are initialized and FADT sanity checks passed,
-+	 * leave ACPI enabled and carry on booting; otherwise disable ACPI
-+	 * on initialization error.
-+	 * If acpi=force was passed on the command line it forces ACPI
-+	 * to be enabled even if its initialization failed.
-+	 */
-+	if (acpi_table_init() || acpi_fadt_sanity_check()) {
-+		pr_err("Failed to init ACPI tables\n");
-+		if (!param_acpi_force)
-+			disable_acpi();
-+	}
-+}
- 
- static int acpi_parse_madt_rintc(union acpi_subtable_headers *header, const unsigned long end)
- {
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index 2d45a416d283..7b2b065a9f70 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -8,6 +8,7 @@
-  *  Nick Kossifidis <mick@ics.forth.gr>
-  */
- 
-+#include <linux/acpi.h>
- #include <linux/init.h>
- #include <linux/mm.h>
- #include <linux/memblock.h>
-@@ -276,14 +277,22 @@ void __init setup_arch(char **cmdline_p)
- 
- 	efi_init();
- 	paging_init();
--#if IS_ENABLED(CONFIG_BUILTIN_DTB)
--	unflatten_and_copy_device_tree();
--#else
--	if (early_init_dt_verify(__va(XIP_FIXUP(dtb_early_pa))))
--		unflatten_device_tree();
--	else
--		pr_err("No DTB found in kernel mappings\n");
--#endif
-+
-+	/* Parse the ACPI tables for possible boot-time configuration */
-+	acpi_boot_table_init();
-+	if (acpi_disabled) {
-+		if (IS_ENABLED(CONFIG_BUILTIN_DTB)) {
-+			unflatten_and_copy_device_tree();
-+		} else {
-+			if (early_init_dt_verify(__va(XIP_FIXUP(dtb_early_pa))))
-+				unflatten_device_tree();
-+			else
-+				pr_err("No DTB found in kernel mappings\n");
-+		}
-+	} else {
-+		early_init_dt_verify(__va(XIP_FIXUP(dtb_early_pa)));
-+	}
-+
- 	early_init_fdt_scan_reserved_mem();
- 	misc_mem_init();
- 
--- 
-2.34.1
-
+Regards
+Stanislaw
