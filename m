@@ -2,219 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B92DBC7EE36
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Mar 2023 23:54:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1833C678D4
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 00:56:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230073AbjCBXy1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Mar 2023 18:54:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40448 "EHLO
+        id S229681AbjCCA4y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Mar 2023 19:56:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230075AbjCBXyR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 18:54:17 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE5EF59E5C;
-        Thu,  2 Mar 2023 15:54:10 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id kb15so824624pjb.1;
-        Thu, 02 Mar 2023 15:54:10 -0800 (PST)
+        with ESMTP id S229592AbjCCA4x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Mar 2023 19:56:53 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C83FC4FAAC
+        for <linux-doc@vger.kernel.org>; Thu,  2 Mar 2023 16:56:50 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id m6so1606615lfq.5
+        for <linux-doc@vger.kernel.org>; Thu, 02 Mar 2023 16:56:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677801250;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8o/IEZdj8Cn2a3a2Ro5nT/fmWKdys9Z3WQ6bWICIcGU=;
-        b=BTpenYirnz4B8q7/2hN50ThrX4yr6wisyKtR0dg+ykWdMMSjRplIQedNS07kRpwOvE
-         oS5zaZMyezMv1QZS05SYGcbaZjUBoH0xKKwVx6GKehJY5YiZ8K2JH0+ndECFS/RUaG2r
-         DHNjfNzYIe0eNltaGLpjDJoDDIEyfcKnomK3w8cWLAWz6igd8g6+7wvB9sjCANYLcZf0
-         tIQexWr5zqLe80Cu4bMF8p854n/bHA9sqwpy93jBqwKuIF+diaYnpzJX0Y/9529Tpc4t
-         1n22/beRF/gIHxxyo9Dmu7LlZhHs6jPw7LXUza4Ozi0Xqr9w4AucOv8svDIlKBJsCKI4
-         kbbA==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677805008;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hhOaUUtcn0GNvOjLHghATWbxYEsh5HHcckYl0flnDRk=;
+        b=7YKwPnHYHtEomAzauAtTEVCduneHnCHVYc8wA8mlRN/RDrPlrpjPy1EGiVFb4vKoDi
+         6MV2N/NOciUb1+E5YMjYIR3ngMdFO88f8EbqE0O5vDz5VV8uAql/BO6da9K0eHDyoCmd
+         wolQrVIQhNVnoKabot/cyFHYMoqIBv6dkEH4eg4C5eX9fFz9DWxK9GRmMDgXZr3b1QBk
+         OYbt3NVuVS34QR9on9pmWTyBv9lOgYjEUCGlusiAJO0krkT0lm62kpzwPmMwYyD7gczd
+         lHYsNdbX3w5HSW6Ea570UjQW8Iz6s3R4fBVrrYOsD8PKamXDsSd6OLXl3rBidIxviSso
+         KAPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677801250;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8o/IEZdj8Cn2a3a2Ro5nT/fmWKdys9Z3WQ6bWICIcGU=;
-        b=0k4wQKQiyvcLv9Nu3vj1PjACOjIGWMF+JLaeMmLkyx1P9+2IzbzK8kmujiiW3X+NkQ
-         inIUYHTjBKCf7vaiZ4nEfwcHQLBVyzGCwklm6xQYXsJVG4cyaTmX5/6/ErzIu4/IflK8
-         lLaN3RZj1RPQreVEg8qyufcUeAAJR+JQsZ8zr6mZWO2mf73AZ9Xv7YPgxT4ko8NGmCRz
-         LETTshXiYkxvH5MbGXiI2dkm6uD/ZAormWKHjE/I1pOpLs98Sd4XXN3wTTZC7TsSwHqB
-         +yldO/Zg/KhbRxfhBDHyDktKDFhp/jOYfIHqugP5/xk0JngJjBu2Yttosyd9KHhaicjB
-         P4vQ==
-X-Gm-Message-State: AO0yUKVpj8V5bghdgFnM+kLd+dZVCwrROBOx13Dztx470i7QLCv1yAvH
-        HzjheAEIxCckwwZF/EyBZdg=
-X-Google-Smtp-Source: AK7set9xw6yYcUpQ834HKf0gFqVGnZ9bcMz7tqmaYidGEmTy7owSmE0clFs6hA13pZ4gnYdVcsFIUg==
-X-Received: by 2002:a17:902:ed11:b0:19d:af21:dc2f with SMTP id b17-20020a170902ed1100b0019daf21dc2fmr31301pld.33.1677801250107;
-        Thu, 02 Mar 2023 15:54:10 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id kp14-20020a170903280e00b0019e31e5f7f9sm230346plb.71.2023.03.02.15.54.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Mar 2023 15:54:09 -0800 (PST)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v9 05/15] dma-buf/sync_file: Surface sync-file uABI
-Date:   Thu,  2 Mar 2023 15:53:27 -0800
-Message-Id: <20230302235356.3148279-6-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230302235356.3148279-1-robdclark@gmail.com>
-References: <20230302235356.3148279-1-robdclark@gmail.com>
+        d=1e100.net; s=20210112; t=1677805008;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hhOaUUtcn0GNvOjLHghATWbxYEsh5HHcckYl0flnDRk=;
+        b=oiT7fHUTSjYZselnn1mXzyS+Cj4yHaq4LcPSDqSvas76ygYrWxe/rZ2rz8m9mkU5i1
+         lNyOcY5Zc1YggikpurEAfbNEbWGwLVvDolo+RunijoMlHHnPTc8bv8IZwwqdBuLVMw0u
+         SiAn5w9HZRY/ybtey1XiYg5ss7RNbuIcCht5oPX9RwZu2CgopWCE54z7vNSscgE46JD1
+         yfp6EfiSFp/jF3bHwJBrOh0/qqwFjEtklBboB0Af37D/VI8DyLU+ommZPCj5yMGzpkvJ
+         2lvfDHN5hmW1D+NcjC04I3lPhH3T5rwsW8o+H6s+KAyaF4h7k47tYcs8nvKJbHKx2lun
+         0AJw==
+X-Gm-Message-State: AO0yUKU+GzIWKdKXbhCANoXXx7KsxmiJuG2C25IK3nuhjtFRLBSA1x7h
+        cMJlEBMTv1N66sPu1BHQQ50PS+5DKhHNEnX12HXInw==
+X-Google-Smtp-Source: AK7set8Xec0hmZtsTEoXvSYXQ53A6NrkQ4OC6YHTS3jOwamMG773B1NC/0R48ttoRARWzEWE/Y09iqutqWRgiZkiCJU=
+X-Received: by 2002:ac2:48a2:0:b0:4dd:9931:c555 with SMTP id
+ u2-20020ac248a2000000b004dd9931c555mr1361458lfg.0.1677805008352; Thu, 02 Mar
+ 2023 16:56:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230221190858.3159617-1-evan@rivosinc.com> <20230221190858.3159617-4-evan@rivosinc.com>
+ <Y/0zC0Dn9gwC8N5w@spud>
+In-Reply-To: <Y/0zC0Dn9gwC8N5w@spud>
+From:   Evan Green <evan@rivosinc.com>
+Date:   Thu, 2 Mar 2023 16:56:12 -0800
+Message-ID: <CALs-HsvpGCpmnVouRL-Kyaes0Yy2jOktebM8DA5wXaDR=D0yvA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>, heiko@sntech.de,
+        slewis@rivosinc.com, vineetg@rivosinc.com,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Guo Ren <guoren@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, Feb 27, 2023 at 2:47 PM Conor Dooley <conor@kernel.org> wrote:
+>
+> Hey Evan,
+>
+> On Tue, Feb 21, 2023 at 11:08:54AM -0800, Evan Green wrote:
+> > We have an implicit set of base behaviors that userspace depends on,
+> > which are mostly defined in various ISA specifications.
+> >
+> > Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
+> > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> > Signed-off-by: Evan Green <evan@rivosinc.com>
+> > ---
+> >
+> > Changes in v3:
+> >  - Refactored base ISA behavior probe to allow kernel probing as well,
+> >    in prep for vDSO data initialization.
+> >  - Fixed doc warnings in IMA text list, use :c:macro:.
+> >
+> >  Documentation/riscv/hwprobe.rst       | 21 +++++++++++++++++++++
+> >  arch/riscv/include/asm/hwprobe.h      |  2 +-
+> >  arch/riscv/include/uapi/asm/hwprobe.h |  5 +++++
+> >  arch/riscv/kernel/sys_riscv.c         | 20 ++++++++++++++++++++
+> >  4 files changed, 47 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
+> > index 88b015a2026e..9f2da414fbf8 100644
+> > --- a/Documentation/riscv/hwprobe.rst
+> > +++ b/Documentation/riscv/hwprobe.rst
+> > @@ -37,3 +37,24 @@ The following keys are defined:
+> >    defined by the RISC-V privileged architecture specification.
+> >  * :c:macro:`RISCV_HWPROBE_KEY_MIMPLID`: Contains the value of ``mimplid``, as
+> >    defined by the RISC-V privileged architecture specification.
+> > +* :c:macro:`RISCV_HWPROBE_KEY_BASE_BEHAVIOR`: A bitmask containing the base
+> > +  user-visible behavior that this kernel supports.  The following base user ABIs
+> > +  are defined:
+> > +
+> > +  * :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`: Support for rv32ima or
+> > +    rv64ima, as defined by version 2.2 of the user ISA and version 1.10 of the
+> > +    privileged ISA, with the following known exceptions (more exceptions may be
+> > +    added, but only if it can be demonstrated that the user ABI is not broken):
+> > +
+> > +    * The :fence.i: instruction cannot be directly executed by userspace
+> > +      programs (it may still be executed in userspace via a
+> > +      kernel-controlled mechanism such as the vDSO).
+> > +* :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_0`: A bitmask containing the extensions
+> > +  that are compatible with the :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`:
+> > +  base system behavior.
+> > +
+> > +  * :c:macro:`RISCV_HWPROBE_IMA_FD`: The F and D extensions are supported, as
+> > +    defined by commit cd20cee ("FMIN/FMAX now implement
+> > +    minimumNumber/maximumNumber, not minNum/maxNum") of the RISC-V ISA manual.
+> > +  * :c:macro:`RISCV_HWPROBE_IMA_C`: The C extension is supported, as defined
+> > +    by version 2.2 of the RISC-V ISA manual.
+>
+> I think I asked for some newlines, but this all seems kinda random now
+> as to whether there is a blank line between list items or not.
 
-We had all of the internal driver APIs, but not the all important
-userspace uABI, in the dma-buf doc.  Fix that.  And re-arrange the
-comments slightly as otherwise the comments for the ioctl nr defines
-would not show up.
+Yeah, this was the minimum number of newlines needed to make it
+actually render correctly. The relevant rules which I've now learned
+are that newlines are required before a list beginning (including a
+sub-list), but optional between items. I'll fix this up to add
+newlines between elements as well, then it will look pretty I think.
 
-v2: Fix docs build warning coming from newly including the uabi header
-    in the docs build
+>
+> > diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
+> > index 02c2f1f7417e..f2b224550923 100644
+> > --- a/arch/riscv/kernel/sys_riscv.c
+> > +++ b/arch/riscv/kernel/sys_riscv.c
+> > @@ -9,6 +9,7 @@
+> >  #include <asm/cacheflush.h>
+> >  #include <asm/hwprobe.h>
+> >  #include <asm/sbi.h>
+> > +#include <asm/switch_to.h>
+> >  #include <asm/uaccess.h>
+> >  #include <asm/unistd.h>
+> >  #include <asm-generic/mman-common.h>
+> > @@ -124,6 +125,25 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+> >       case RISCV_HWPROBE_KEY_MIMPID:
+> >               hwprobe_arch_id(pair, cpus);
+> >               break;
+> > +     /*
+> > +      * The kernel already assumes that the base single-letter ISA
+> > +      * extensions are supported on all harts, and only supports the
+> > +      * IMA base, so just cheat a bit here and tell that to
+> > +      * userspace.
+> > +      */
+> > +     case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
+> > +             pair->value = RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
+> > +             break;
+> > +
+> > +     case RISCV_HWPROBE_KEY_IMA_EXT_0:
+> > +             pair->value = 0;
+> > +             if (has_fpu())
+> > +                     pair->value |= RISCV_HWPROBE_IMA_FD;
+> > +
+> > +             if (elf_hwcap & RISCV_ISA_EXT_c)
+> > +                     pair->value |= RISCV_HWPROBE_IMA_C;
+> > +
+> > +             break;
+> >
+> >       /*
+> >        * For forward compatibility, unknown keys don't fail the whole
+>
+> This looks a lot nicer after the refactor, sans the {}.
+> With a consistent approach taken to newlines:
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
----
- Documentation/driver-api/dma-buf.rst | 10 ++++++--
- include/uapi/linux/sync_file.h       | 37 +++++++++++-----------------
- 2 files changed, 23 insertions(+), 24 deletions(-)
+Thanks Conor!
 
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index 183e480d8cea..ff3f8da296af 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -203,8 +203,8 @@ DMA Fence unwrap
- .. kernel-doc:: include/linux/dma-fence-unwrap.h
-    :internal:
- 
--DMA Fence uABI/Sync File
--~~~~~~~~~~~~~~~~~~~~~~~~
-+DMA Fence Sync File
-+~~~~~~~~~~~~~~~~~~~
- 
- .. kernel-doc:: drivers/dma-buf/sync_file.c
-    :export:
-@@ -212,6 +212,12 @@ DMA Fence uABI/Sync File
- .. kernel-doc:: include/linux/sync_file.h
-    :internal:
- 
-+DMA Fence Sync File uABI
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: include/uapi/linux/sync_file.h
-+   :internal:
-+
- Indefinite DMA Fences
- ~~~~~~~~~~~~~~~~~~~~~
- 
-diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-index ee2dcfb3d660..7e42a5b7558b 100644
---- a/include/uapi/linux/sync_file.h
-+++ b/include/uapi/linux/sync_file.h
-@@ -16,12 +16,16 @@
- #include <linux/types.h>
- 
- /**
-- * struct sync_merge_data - data passed to merge ioctl
-+ * struct sync_merge_data - SYNC_IOC_MERGE: merge two fences
-  * @name:	name of new fence
-  * @fd2:	file descriptor of second fence
-  * @fence:	returns the fd of the new fence to userspace
-  * @flags:	merge_data flags
-  * @pad:	padding for 64-bit alignment, should always be zero
-+ *
-+ * Creates a new fence containing copies of the sync_pts in both
-+ * the calling fd and sync_merge_data.fd2.  Returns the new fence's
-+ * fd in sync_merge_data.fence
-  */
- struct sync_merge_data {
- 	char	name[32];
-@@ -34,8 +38,8 @@ struct sync_merge_data {
- /**
-  * struct sync_fence_info - detailed fence information
-  * @obj_name:		name of parent sync_timeline
--* @driver_name:	name of driver implementing the parent
--* @status:		status of the fence 0:active 1:signaled <0:error
-+ * @driver_name:	name of driver implementing the parent
-+ * @status:		status of the fence 0:active 1:signaled <0:error
-  * @flags:		fence_info flags
-  * @timestamp_ns:	timestamp of status change in nanoseconds
-  */
-@@ -48,14 +52,19 @@ struct sync_fence_info {
- };
- 
- /**
-- * struct sync_file_info - data returned from fence info ioctl
-+ * struct sync_file_info - SYNC_IOC_FILE_INFO: get detailed information on a sync_file
-  * @name:	name of fence
-  * @status:	status of fence. 1: signaled 0:active <0:error
-  * @flags:	sync_file_info flags
-  * @num_fences	number of fences in the sync_file
-  * @pad:	padding for 64-bit alignment, should always be zero
-- * @sync_fence_info: pointer to array of structs sync_fence_info with all
-+ * @sync_fence_info: pointer to array of struct &sync_fence_info with all
-  *		 fences in the sync_file
-+ *
-+ * Takes a struct sync_file_info. If num_fences is 0, the field is updated
-+ * with the actual number of fences. If num_fences is > 0, the system will
-+ * use the pointer provided on sync_fence_info to return up to num_fences of
-+ * struct sync_fence_info, with detailed fence information.
-  */
- struct sync_file_info {
- 	char	name[32];
-@@ -69,30 +78,14 @@ struct sync_file_info {
- 
- #define SYNC_IOC_MAGIC		'>'
- 
--/**
-+/*
-  * Opcodes  0, 1 and 2 were burned during a API change to avoid users of the
-  * old API to get weird errors when trying to handling sync_files. The API
-  * change happened during the de-stage of the Sync Framework when there was
-  * no upstream users available.
-  */
- 
--/**
-- * DOC: SYNC_IOC_MERGE - merge two fences
-- *
-- * Takes a struct sync_merge_data.  Creates a new fence containing copies of
-- * the sync_pts in both the calling fd and sync_merge_data.fd2.  Returns the
-- * new fence's fd in sync_merge_data.fence
-- */
- #define SYNC_IOC_MERGE		_IOWR(SYNC_IOC_MAGIC, 3, struct sync_merge_data)
--
--/**
-- * DOC: SYNC_IOC_FILE_INFO - get detailed information on a sync_file
-- *
-- * Takes a struct sync_file_info. If num_fences is 0, the field is updated
-- * with the actual number of fences. If num_fences is > 0, the system will
-- * use the pointer provided on sync_fence_info to return up to num_fences of
-- * struct sync_fence_info, with detailed fence information.
-- */
- #define SYNC_IOC_FILE_INFO	_IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_info)
- 
- #endif /* _UAPI_LINUX_SYNC_H */
--- 
-2.39.1
-
+-Evan
