@@ -2,145 +2,142 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC688C7EE2D
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 17:49:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66344C7EE2F
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 17:51:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231343AbjCCRtl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 12:49:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36438 "EHLO
+        id S231467AbjCCRvF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 12:51:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230446AbjCCRtk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 12:49:40 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 940E3193E5
-        for <linux-doc@vger.kernel.org>; Fri,  3 Mar 2023 09:49:37 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id a2so3521632plm.4
-        for <linux-doc@vger.kernel.org>; Fri, 03 Mar 2023 09:49:37 -0800 (PST)
+        with ESMTP id S231430AbjCCRu6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 12:50:58 -0500
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93B93584B5;
+        Fri,  3 Mar 2023 09:50:56 -0800 (PST)
+Received: by mail-yb1-xb2b.google.com with SMTP id x199so2718164ybg.5;
+        Fri, 03 Mar 2023 09:50:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1677865777;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ci3RnlB0VZFKqzzAEnpOLkE36BOnr4VRjKen387ZgnE=;
-        b=iz7Fbv/e7nazEjnOF1SV143FLcPMaNcE4smxk4E9MSI/T59GJkyBupMF1A4mRoR3BG
-         +jwbF26UALINlRANG1ZIOk0fDrIsu5O6TEFRKSTUTjlqMAZHAunjuUit8tU3zO3h45Od
-         asjPP2iJPLCjSZKoJhxXsNhbLhBv6vkx1+el6dKiDz8AjV6QiX7RT4G4Og/KvYCiiH7R
-         EAnkKzLbyhoTNPq39S7jst7ZfOsILBEx7zl358FEK01RyqDe7KNPiSghDlETXMU308oc
-         jNma8oumdTjwqg6hAthoKLmRxnnW7dUVBLsa0eegq1WdP5lL3eVO3cPc+mFzR+30AEFN
-         rKew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677865777;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20210112; t=1677865856;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ci3RnlB0VZFKqzzAEnpOLkE36BOnr4VRjKen387ZgnE=;
-        b=207EPtMk0pWNy1DJdrwJhesoM+7ukAJsw9kd4a5mybw2otLBkZwWTnj0qzqvve5jJb
-         9aj6vUdGF0oid1d5jmzgYCVPs19UA4MM6h6t2AWREq21UPGwLz03rfUv6AXH52cW8hS4
-         xXnpQWReujv1gDpiixqOJZOJcEDqvN1WQNkIPtexq2F//AFo0gCbq9+QdrjUH9XRuu1i
-         YX/I24TnndnzvbvpYSP6jD7rfeZizeYRFqSOLmZzmjrRKojtegGGnrLrn5Pg1FLQUeRP
-         JtjRTe74zgbHzF/EtMCD4/xsO+YHC2lC8Rr8rXdCmvpI8a5t6BCV6VpeJsg30x/oqZ60
-         MGVA==
-X-Gm-Message-State: AO0yUKWstsTVm3A+HjmeYx4chbtJSgw/8A7MseQAieUABw+PIciX3b0C
-        b5dcZ1kFrIUyU8SOXYLR05yABw==
-X-Google-Smtp-Source: AK7set+Bf+zqq8sNm9WNWTp7EAHBGvsHuLhVhVk39cIGjEsd50L3ZxtSbFwAzHH6JTd/AxqyzAnIWg==
-X-Received: by 2002:a05:6a20:160a:b0:cc:88af:12ab with SMTP id l10-20020a056a20160a00b000cc88af12abmr3571575pzj.28.1677865776948;
-        Fri, 03 Mar 2023 09:49:36 -0800 (PST)
-Received: from sunil-laptop ([49.206.8.117])
-        by smtp.gmail.com with ESMTPSA id i23-20020aa787d7000000b005a8b882a239sm1905656pfo.109.2023.03.03.09.49.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 09:49:36 -0800 (PST)
-Date:   Fri, 3 Mar 2023 23:19:28 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Andrew Jones <ajones@ventanamicro.com>
-Cc:     Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        'Conor Dooley ' <conor.dooley@microchip.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH V3 11/20] RISC-V: ACPI: Cache and retrieve the RINTC
- structure
-Message-ID: <ZAIzKLzKE7MpQ+Yr@sunil-laptop>
-References: <20230303133647.845095-1-sunilvl@ventanamicro.com>
- <20230303133647.845095-12-sunilvl@ventanamicro.com>
- <20230303160556.lezccmwa7ymymxws@orel>
- <fdb52973-0cbc-4d7e-88bc-534fe43eec9b@spud>
- <20230303172113.jskripuyr3xx2z7k@orel>
+        bh=SCxddsYYw42LPM43/gkvlie96kmGO3FZ4G2subvXzzU=;
+        b=fLGfl9d8hRxr0PWmqstZFZdpj03Y2a8vI1Icd/J+Yunnnd+mcFIXz4wtbdN2hYiGDW
+         Rk9i60Tw2atvr6IPg1o9J5DPzTbj9nTvca4ZdGzL1gYVxPInrg8c4jDE9op7uuGh+IlO
+         jeVW1ToKEMQcEYzghwsERQBGIXU6nh967eMtdK2JLknjEUztLiCki8FL+nAKYB2xSfBQ
+         ArmboZy9wzMMEtZZnmAFVGm4dRwkqAYcGr6cjy970dTApX6TUtnZ0crw1Ir2Mkls9MTj
+         bdGkPQEaM/mTDmV8YuPKvm3rxa+szH6OSsJoJIuWXepkkb1OwmTQ33pJPk3QDexijb8t
+         1zSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677865856;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SCxddsYYw42LPM43/gkvlie96kmGO3FZ4G2subvXzzU=;
+        b=Af9VpsovLTCM1AXEubDIMs3AcAcM6uREF+xvuZlUlGItFE4nb1k015NnoLQDNrxitC
+         Si1n7pZWcA6e3Sc2uaxvtznLDxlgC/W5dxDiewBLumlen6n4O18b2O1p49f71QO3vMkn
+         aCFyqUfJg6RKPgAJ+6IaYCV0Pm//VoAwPRdlLWqbf5bQRFJiJJF246fW1XhEXCWhWsHD
+         k/0wUtj5IMuBgabrZbD15ytf72nCgX5MtD4AleoVGZMXVzQpOk0Ou1IIdxKdEnX0Wwuv
+         +WXoP5vv9X0/KO1DHETb01T3IRiFTfOYhqNguzAe21lNO+S7m1EVPNuzhXh1FAGvAOGN
+         2LBw==
+X-Gm-Message-State: AO0yUKX0/Ic1h1EFqIM19fBy2gTyaERJlqiQZGYD55I6xgF+YEMmYNyj
+        FUKJfbfu3YHryL022jC2JEljuhvJj7tS3KA6rfA=
+X-Google-Smtp-Source: AK7set+guTb0nl3oPFuy1k9LGVkybiSalecoyAl7DJSMWvDgkBFGD40v5vxH/Y40U99lEPgcKmDYhBduebnPL+CBxBw=
+X-Received: by 2002:a5b:38a:0:b0:ac9:cb97:bd0e with SMTP id
+ k10-20020a5b038a000000b00ac9cb97bd0emr1212723ybp.5.1677865855710; Fri, 03 Mar
+ 2023 09:50:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230303172113.jskripuyr3xx2z7k@orel>
+References: <Y/9fdYQ8Cd0GI+8C@arm.com> <636de4a28a42a082f182e940fbd8e63ea23895cc.camel@intel.com>
+ <ZADLZJI1W1PCJf5t@arm.com> <8153f5d15ec6aa4a221fb945e16d315068bd06e4.camel@intel.com>
+ <ZAIgrXQ4670gxlE4@arm.com> <CAMe9rOrM=HXBY25rYrjLnHzSvHFuui06qRpc4xufxeaaGW-Fmw@mail.gmail.com>
+ <ZAIwuvfPqNW/w3yt@arm.com>
+In-Reply-To: <ZAIwuvfPqNW/w3yt@arm.com>
+From:   "H.J. Lu" <hjl.tools@gmail.com>
+Date:   Fri, 3 Mar 2023 09:50:19 -0800
+Message-ID: <CAMe9rOpvUVfhESeM457m2a9EotUEEAma67ivv5pmhrWmcxexDw@mail.gmail.com>
+Subject: Re: [PATCH v7 01/41] Documentation/x86: Add CET shadow stack description
+To:     "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>
+Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, "nd@arm.com" <nd@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 03, 2023 at 06:21:13PM +0100, Andrew Jones wrote:
-> On Fri, Mar 03, 2023 at 04:58:53PM +0000, Conor Dooley wrote:
-> > On Fri, Mar 03, 2023 at 05:05:56PM +0100, Andrew Jones wrote:
-> > > On Fri, Mar 03, 2023 at 07:06:38PM +0530, Sunil V L wrote:
-> > > > RINTC structures in the MADT provide mapping between the hartid
-> > > > and the CPU. This is required many times even at run time like
-> > > > cpuinfo. So, instead of parsing the ACPI table every time, cache
-> > > > the RINTC structures and provide a function to get the correct
-> > > > RINTC structure for a given cpu.
-> > > > 
-> > > > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > > > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > > ---
-> > > >  arch/riscv/include/asm/acpi.h |  9 ++++++
-> > > >  arch/riscv/kernel/acpi.c      | 56 +++++++++++++++++++++++++++++++++++
-> > > >  2 files changed, 65 insertions(+)
-> > 
-> > > > diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
-> > > > index 111a8ed10af1..8be16c1ef7da 100644
-> > > > --- a/arch/riscv/include/asm/acpi.h
-> > > > +++ b/arch/riscv/include/asm/acpi.h
-> > > > @@ -61,6 +61,10 @@ static inline void arch_fix_phys_package_id(int num, u32 slot) { }
-> > > >  
-> > > >  int acpi_get_riscv_isa(struct acpi_table_header *table,
-> > > >  		       unsigned int cpu, const char **isa);
-> > > > +
-> > > > +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
-> > > > +
-> > > > +u32 get_acpi_id_for_cpu(int cpu);
-> > > >  #else
-> > > >  static inline int acpi_get_riscv_isa(struct acpi_table_header *table,
-> > > >  				     unsigned int cpu, const char **isa)
-> > > > @@ -68,6 +72,11 @@ static inline int acpi_get_riscv_isa(struct acpi_table_header *table,
-> > > >  	return -EINVAL;
-> > > >  }
-> > > >  
-> > > > +static inline u32 get_acpi_id_for_cpu(int cpu)
-> > > > +{
-> > > > +	return -1;
-> > > > +}
-> > > 
-> > > Why do we need this stub? I wouldn't expect non-ACPI code to need an ACPI
-> > > ID.
-> > 
-> > I think I asked for this (or assumed it existed) in v1, when I requested
-> > the removal of #ifdef CONFIG_ACPI stuff in riscv_fill_hwcap().
-> > Personally, I'd rather have this stub than the ifdeffery :)
+On Fri, Mar 3, 2023 at 9:40=E2=80=AFAM szabolcs.nagy@arm.com
+<szabolcs.nagy@arm.com> wrote:
+>
+> The 03/03/2023 08:57, H.J. Lu wrote:
+> > On Fri, Mar 3, 2023 at 8:31=E2=80=AFAM szabolcs.nagy@arm.com
+> > <szabolcs.nagy@arm.com> wrote:
+> > > longjmp to different stack should work: it can do the same as
+> > > setcontext/swapcontext: scan for the pivot token. then only
+> > > longjmp out of alt shadow stack fails. (this is non-conforming
+> > > longjmp use, but e.g. qemu relies on it.)
 > >
-> 
-> Yeah, avoiding #ifdefs with stubs is good if we need to call the function
-> from non-ACPI code. I'm wondering why we'd need to, though. In all the
-> cases introduced with this series, we could pass a 'cpu' to
-> acpi_get_riscv_isa() and then have acpi_get_riscv_isa() call
-> get_acpi_id_for_cpu() itself, for example.
-> 
-Yes, that's a good idea to avoid the stub. Will update. Thanks!
+> > Restore token may not be used with longjmp.  Unlike setcontext/swapcont=
+ext,
+> > longjmp is optional.  If longjmp isn't called, there will be an extra
+> > token on shadow
+> > stack and RET will fail.
+>
+> what do you mean longjmp is optional?
 
-> We also need to be sure -1 truly means "no ACPI ID" in order to stub this.
-> 
-Yes, with your BUG suggestion I can remove this.
+In some cases, longjmp is called to handle an error condition and
+longjmp won't be called if there is no error.
 
-Thanks,
-Sunil
+> it can scan the target shadow stack and decide if it's the
+> same as the current one or not and in the latter case there
+> should be a restore token to switch to. then it can INCSSP
+> to reach the target SSP state.
+>
+> qemu does setjmp, then swapcontext, then longjmp back.
+> swapcontext can change the stack, but leaves a token behind
+> so longjmp can switch back.
+
+This needs changes to support shadow stack.  Replacing setjmp with
+getcontext and longjmp with setcontext may work for shadow stack.
+
+BTW, there is no testcase in glibc for this usage.
+
+--=20
+H.J.
