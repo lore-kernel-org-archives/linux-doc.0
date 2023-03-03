@@ -2,172 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA004C64EC4
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 18:18:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC4B1C7EE2D
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 18:33:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231633AbjCCSSL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 13:18:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37128 "EHLO
+        id S231604AbjCCSdW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 13:33:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231626AbjCCSSJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 13:18:09 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E3AB5FDA
-        for <linux-doc@vger.kernel.org>; Fri,  3 Mar 2023 10:18:07 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id me6-20020a17090b17c600b0023816b0c7ceso7039701pjb.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Mar 2023 10:18:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1677867486;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=668IMkJ9VCN0OF++MP5t7Oo0nXOWw+hWogxo8w+yeOg=;
-        b=B+fQyvUELFfrROPXXypnqqlZ7q4HthF2DYdEUF8AJmC4q/lXWSA71vfbKbevTqz/Xg
-         0pYJNzLo0KssTzVsdDWr+pXFVwghw/dIqLXto6MzGATWDFjs73CQIDkbnAiv9bEIndx0
-         Fu2yhOEvzD80FFCllVb02RkSz0CUUbfF7YhPXie6dIgXEe9a6WXCZ+18pTwcIjRFqHNw
-         nA4LNIejj5OECwV/Zk8nYpbQeqYRiiqWDuuXSTP3uWQIom5l1RfJlCV1Xg59xEjb+3ek
-         ilCqivi1Uj3RcXgpPP2PD73O49jjRREZ+P1YJHDhx0Jfg/OtU6f4c5pAwixdfDSfVXlW
-         x4Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677867486;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=668IMkJ9VCN0OF++MP5t7Oo0nXOWw+hWogxo8w+yeOg=;
-        b=4F26VtMgNbEFP6mRTF4mXVUAkMfsYbMyW0bMySc4aw2sd5hukTuxcMX5GNcCw1OrUB
-         UTJNBDCBAYHGsUDySJrOZcxsNngRme73mA3AaNST6rNItwcIgHNDU/cMicVKzrus2rzT
-         PL4x/ZXVO1hg8Tkw/cErE5M7PcS5xqRRT4K8zTxT2vkL4CcmHDHcMBpKCb6/3rht8hL6
-         MJOwrwofUaq1KwLdI+gSVqLV6qe00JJmLQtC/faF2nS807jGA0YFZ4niuoBLe42Mw8Ti
-         QVlvNdX7nu5E2kU2oV6VKGLeyxUbbAB5hKHn7Pgy5KfZNF2fPYj0X4A8XVDm22XDZJbS
-         EofA==
-X-Gm-Message-State: AO0yUKUcFaWpBNQptW4bVXrHTTt1gdxfGe0DmlIRVS9caRwElsLh4ule
-        X4E6JQrhGH7FCNm6Mf7Jja1Spw==
-X-Google-Smtp-Source: AK7set8OIhn2IJsNuwMRF4I+CfpWQ8X8Z8hSi4/JoVY3kI6gbMnm5DimL4tTlump/mgU2EV0usM82A==
-X-Received: by 2002:a17:902:c1cd:b0:19e:32da:e458 with SMTP id c13-20020a170902c1cd00b0019e32dae458mr2030337plc.63.1677867486583;
-        Fri, 03 Mar 2023 10:18:06 -0800 (PST)
-Received: from sunil-laptop ([49.206.8.117])
-        by smtp.gmail.com with ESMTPSA id kl15-20020a170903074f00b0019945535973sm1820709plb.63.2023.03.03.10.18.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 10:18:06 -0800 (PST)
-Date:   Fri, 3 Mar 2023 23:47:57 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Andrew Jones <ajones@ventanamicro.com>
-Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        'Conor Dooley ' <conor.dooley@microchip.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH V3 11/20] RISC-V: ACPI: Cache and retrieve the RINTC
- structure
-Message-ID: <ZAI51YC6N/p6hXkU@sunil-laptop>
-References: <20230303133647.845095-1-sunilvl@ventanamicro.com>
- <20230303133647.845095-12-sunilvl@ventanamicro.com>
- <20230303160556.lezccmwa7ymymxws@orel>
- <ZAI1PbEfo1Gyco1n@sunil-laptop>
- <20230303180452.qzzjdwpgvqqxdqz5@orel>
+        with ESMTP id S231708AbjCCSdV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 13:33:21 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6024A83FE;
+        Fri,  3 Mar 2023 10:33:11 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 43E1F143D;
+        Fri,  3 Mar 2023 10:33:54 -0800 (PST)
+Received: from [10.1.196.177] (eglon.cambridge.arm.com [10.1.196.177])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 52FBC3F93E;
+        Fri,  3 Mar 2023 10:33:08 -0800 (PST)
+Message-ID: <f0841866-315b-4727-0a6c-ec60d22ca29c@arm.com>
+Date:   Fri, 3 Mar 2023 18:32:59 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230303180452.qzzjdwpgvqqxdqz5@orel>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 5/7] x86/resctrl: Add a new "snc_ways" file to the
+ monitoring info directory.
+Content-Language: en-GB
+To:     "Luck, Tony" <tony.luck@intel.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        Peter Newman <peternewman@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "x86@kernel.org" <x86@kernel.org>
+Cc:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>
+References: <20230126184157.27626-1-tony.luck@intel.com>
+ <20230126184157.27626-6-tony.luck@intel.com>
+ <a95d0200-da28-4fbe-2bfe-ff948b4c2801@arm.com>
+ <SJ1PR11MB60837DC9C2E04AD3CBF3CA67FCAC9@SJ1PR11MB6083.namprd11.prod.outlook.com>
+From:   James Morse <james.morse@arm.com>
+In-Reply-To: <SJ1PR11MB60837DC9C2E04AD3CBF3CA67FCAC9@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 03, 2023 at 07:04:52PM +0100, Andrew Jones wrote:
-> On Fri, Mar 03, 2023 at 11:28:21PM +0530, Sunil V L wrote:
-> > On Fri, Mar 03, 2023 at 05:05:56PM +0100, Andrew Jones wrote:
-> > > On Fri, Mar 03, 2023 at 07:06:38PM +0530, Sunil V L wrote:
-> > > > RINTC structures in the MADT provide mapping between the hartid
-> > > > and the CPU. This is required many times even at run time like
-> > > > cpuinfo. So, instead of parsing the ACPI table every time, cache
-> > > > the RINTC structures and provide a function to get the correct
-> > > > RINTC structure for a given cpu.
-> > > > 
-> > > > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > > > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > > ---
-> > > >  arch/riscv/include/asm/acpi.h |  9 ++++++
-> > > >  arch/riscv/kernel/acpi.c      | 56 +++++++++++++++++++++++++++++++++++
-> > > >  2 files changed, 65 insertions(+)
-> > > > 
-> > > > diff --git a/arch/riscv/include/asm/acpi.h b/arch/riscv/include/asm/acpi.h
-> > > > index 111a8ed10af1..8be16c1ef7da 100644
-> > > > --- a/arch/riscv/include/asm/acpi.h
-> > > > +++ b/arch/riscv/include/asm/acpi.h
-> > > > @@ -61,6 +61,10 @@ static inline void arch_fix_phys_package_id(int num, u32 slot) { }
-> > > >  
-> > > >  int acpi_get_riscv_isa(struct acpi_table_header *table,
-> > > >  		       unsigned int cpu, const char **isa);
-> > > > +
-> > > > +struct acpi_madt_rintc *acpi_cpu_get_madt_rintc(int cpu);
-> > > > +
-> > > > +u32 get_acpi_id_for_cpu(int cpu);
-> > > >  #else
-> > > >  static inline int acpi_get_riscv_isa(struct acpi_table_header *table,
-> > > >  				     unsigned int cpu, const char **isa)
-> > > > @@ -68,6 +72,11 @@ static inline int acpi_get_riscv_isa(struct acpi_table_header *table,
-> > > >  	return -EINVAL;
-> > > >  }
-> > > >  
-> > > > +static inline u32 get_acpi_id_for_cpu(int cpu)
-> > > > +{
-> > > > +	return -1;
-> > > > +}
-> > > 
-> > > Why do we need this stub? I wouldn't expect non-ACPI code to need an ACPI
-> > > ID.
-> > > 
-> > > > +
-> > > >  #endif /* CONFIG_ACPI */
-> > > >  
-> > > >  #endif /*_ASM_ACPI_H*/
-> > > > diff --git a/arch/riscv/kernel/acpi.c b/arch/riscv/kernel/acpi.c
-> > > > index 81d448c41714..8b3d68d8225f 100644
-> > > > --- a/arch/riscv/kernel/acpi.c
-> > > > +++ b/arch/riscv/kernel/acpi.c
-> > > > @@ -24,6 +24,62 @@ EXPORT_SYMBOL(acpi_disabled);
-> > > >  int acpi_pci_disabled = 1;	/* skip ACPI PCI scan and IRQ initialization */
-> > > >  EXPORT_SYMBOL(acpi_pci_disabled);
-> > > >  
-> > > > +static struct acpi_madt_rintc cpu_madt_rintc[NR_CPUS];
-> > > > +
-> > > > +static int acpi_parse_madt_rintc(union acpi_subtable_headers *header, const unsigned long end)
-> > > > +{
-> > > > +	struct acpi_madt_rintc *rintc = (struct acpi_madt_rintc *)header;
-> > > > +	int cpuid;
-> > > > +
-> > > > +	if (!(rintc->flags & ACPI_MADT_ENABLED))
-> > > > +		return 0;
-> > > 
-> > > Why not cache the data even when its disabled? We also cache the flags so
-> > > we can always check later too.
-> > > 
-> > Okay, doesn't harm.
-> > 
-On second thought, I would like to keep this check. The reason is, it
-is indexed using logical cpuid and OS will not enumerate disabled CPUs.
+Hi Tony,
 
-> > > > +
-> > > > +	cpuid = riscv_hartid_to_cpuid(rintc->hart_id);
-> > > > +	if (cpuid >= 0 && cpuid < NR_CPUS)
-> > > 
-> > > What does it mean for the above check to fail? Bad ACPI tables?
-> > > 
-> > This can happen when SMP is disabled but platform has more CPUs.
+On 28/02/2023 17:44, Luck, Tony wrote:
+>>> Make it easy for the user to tell if Sub-NUMA Cluster is enabled by
+>>> providing an info/ file.
+>>
+>> I think what this is conveying to user-space is 'domain_id_is_numa_node'.
 > 
-> Ah yes, NR_CPUS can be too small for the platform. Maybe a comment
-> explaining that we ignore all additional cpus in the ACPI tables that
-> we can't manage with the kernel's limits would be helpful here.
+> That seems more architecturally neutral. I like it.
 > 
-Sure.
+>> Does user-space need to know the number of ways?
+> 
+> I don't know. Maybe some might. Perhaps there is some better name that
+> is architecturally neutral, but still has a numerical rather than boolean value?
+
+If we don't know what user-space needs this for, I'd prefer we don't expose it. It'll be a
+problem in the future if there is no single number we can put there.
+
+I don't see what the difference between 2 and 4 would be used for when setting up resctrl,
+unless you are choosing which numa-nodes to spread tasks over ... but the numa distance
+would be a much better number to base that decision on.
+
+User-space is able to perform the same calculation to find the snc_ways using the
+cache/index stuff and node entries in sysfs.
+
+
+>> Will this always be a single number, or will it ever be possible to have an SNC=2 and
+>> SNC=1 package in the same system?
+> 
+> I sincerely hope that it is the same value across the system. Currently the
+> BIOS setup option to enable SNC doesn't have per-socket choices, it is
+> just an all-or-nothing choice. "2" isn't the only choice for number of SNC
+> nodes on a socket. "4" is (or will be) a choice.
+
+Yeah, in the arm world, partners get to make the decision on what is sane. Big-little
+means someone could do something that looks like SNC in on cluster, but not another.
+
+If we don't know what user-space needs it for, I'd prefer we don't expose it, just to
+avoid giving out rope to shoot ourselves in the foot with.
+
 
 Thanks,
-Sunil
+
+James
