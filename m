@@ -2,95 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B23A0C678D4
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 09:57:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC906C64EC4
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 10:12:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbjCCJ5v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 04:57:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40166 "EHLO
+        id S230451AbjCCKMe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 05:12:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjCCJ5t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 04:57:49 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 414345B5DD;
-        Fri,  3 Mar 2023 01:57:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677837469; x=1709373469;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=dA37+VbNhDthKXVJxlFIvcQryB+hn/AJidWA2VvbN90=;
-  b=intWZVkQpwZBTaTtl9USh4/XjTVP1unr8CP2BIHfnozAVSbrrthOAQsJ
-   DMH7mw9NC6A96eBcNKoguLYoV7o94ACdn5v0+8wBXSG5XqPMKQyy+cjyN
-   RWYoeYzvkk+ggJeQ3kNOuOjR0JG4ismtJaNkEJjclqKRG0IURA8YfHQEl
-   MNnW7/ArxyjocuJOJAhxwaG2a6WELi+pUq46bgy3Yh4i+Va/86Y8V9lZx
-   DBUl6veQ2BLGWVOxwZPHXcdz9cgkCMCPraDxj97y5tyFeQ1bGZ3n9xZqu
-   Kl7Lj2QdbX6gyhhl3XfeOVGbrgpL3EgbtGp2AUHR0CTK41/E07wzn24EU
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="335031687"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="335031687"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 01:57:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="744183445"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="744183445"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.208.51]) ([10.254.208.51])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 01:57:43 -0800
-Message-ID: <3b2c6fe9-821f-9b84-acb6-777e8517a0fc@linux.intel.com>
-Date:   Fri, 3 Mar 2023 17:57:41 +0800
+        with ESMTP id S230436AbjCCKMb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 05:12:31 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA55B5D8A9;
+        Fri,  3 Mar 2023 02:12:29 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 763A4617A6;
+        Fri,  3 Mar 2023 10:12:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA015C433EF;
+        Fri,  3 Mar 2023 10:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677838348;
+        bh=zSP4xjwQDlAEcT4eSELsSnu2Y/RaPLRuo7VgSU9hATs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kzpbJmGqcPtZzscYVDHWsmdWQW6SKzVuhMclSOjXhPrrrIAwDMPiAAx/rOFShYwzq
+         Kr+JfFrJVM3sl5VseW8UNnoprCOZF4ziydHLqf85WCKsuW5ubdpetFjWNhk1kjceQ3
+         bhVtKp5heJU7SSdumpCxpXZ4DxPncpb0+DOwv60UEDWVbMnxVyDe9Ku6WidET+QBMv
+         awVxJrXjlg6o/Gj0+dV1JcTkX1jt4ZKdyGGUeLp3eOwRZ9GVblITo3I2c5MCzT1hIF
+         JafFcg+3/MgdK+GAwP0v5tgNrFMnO1RvI4rGXpVra83zceVjtaPDlf64HqrQulqkBO
+         2y0ta9IrKc9ig==
+Date:   Fri, 3 Mar 2023 12:12:14 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
+        mike.kravetz@oracle.com, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: Re: [PATCH V2] mm/debug_vm_pgtable: Replace pte_mkhuge() with
+ arch_make_huge_pte()
+Message-ID: <ZAHH/oj4cfi8TpHO@kernel.org>
+References: <20230302114845.421674-1-anshuman.khandual@arm.com>
+ <d4895edc-a7de-239b-e452-c64535b68685@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Cc:     baolu.lu@linux.intel.com,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        X86 Kernel <x86@kernel.org>, bp@alien8.de,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
-        vkoul@kernel.org, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Raj Ashok <ashok.raj@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v4 3/6] iommu/sva: Stop using ioasid_set for SVA
-Content-Language: en-US
-To:     Jean-Philippe Brucker <jean-philippe@linaro.org>
-References: <20230301235646.2692846-1-jacob.jun.pan@linux.intel.com>
- <20230301235646.2692846-4-jacob.jun.pan@linux.intel.com>
- <3b7fb4d3-1fe9-a3be-46ad-c271be9f96c7@linux.intel.com>
- <20230302091707.58d59964@jacob-builder>
- <794c7dad-2e62-3afa-ea10-92179b0d1659@linux.intel.com>
- <20230303093235.GB361458@myrica>
-From:   Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20230303093235.GB361458@myrica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d4895edc-a7de-239b-e452-c64535b68685@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/3/3 17:32, Jean-Philippe Brucker wrote:
->> I suppose the common thing is reserving some kind of special PASIDs.
-> Are you planning to use RID_PASID != 0 in VT-d?  Otherwise we could just
-> communicate min_pasid from the IOMMU driver the same way we do max_pasid.
+On Thu, Mar 02, 2023 at 01:42:21PM +0100, David Hildenbrand wrote:
+> On 02.03.23 12:48, Anshuman Khandual wrote:
+> > Since the following commit arch_make_huge_pte() should be used directly in
+> > generic memory subsystem as a platform provided page table helper, instead
+> > of pte_mkhuge(). Change hugetlb_basic_tests() to call arch_make_huge_pte()
+> > directly, and update its relevant documentation entry as required.
+> > 
+> > 'commit 16785bd77431 ("mm: merge pte_mkhuge() call into arch_make_huge_pte()")'
+> > 
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: "Mike Rapoport (IBM)" <rppt@kernel.org>
+> > Cc: linux-doc@vger.kernel.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: linux-mm@kvack.org
+> > Reported-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> > Link: https://lore.kernel.org/all/1ea45095-0926-a56a-a273-816709e9075e@csgroup.eu/
+> > Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> > ---
+> > This applies on latest mainline.
+> > 
+> > Changes in V2:
+> > 
+> > - Send PMD_SHIFT and VM_ACCESS_FLAGS as arguments for arch_make_huge_pte()
+> > Changes in V1:
+> > 
+> > https://lore.kernel.org/all/20230302031833.360679-1-anshuman.khandual@arm.com/
+> > 
+> >   Documentation/mm/arch_pgtable_helpers.rst | 2 +-
+> >   mm/debug_vm_pgtable.c                     | 2 +-
+> >   2 files changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/mm/arch_pgtable_helpers.rst b/Documentation/mm/arch_pgtable_helpers.rst
+> > index 30d9a09f01f4..af3891f895b0 100644
+> > --- a/Documentation/mm/arch_pgtable_helpers.rst
+> > +++ b/Documentation/mm/arch_pgtable_helpers.rst
+> > @@ -214,7 +214,7 @@ HugeTLB Page Table Helpers
+> >   +---------------------------+--------------------------------------------------+
+> >   | pte_huge                  | Tests a HugeTLB                                  |
+> >   +---------------------------+--------------------------------------------------+
+> > -| pte_mkhuge                | Creates a HugeTLB                                |
+> > +| arch_make_huge_pte        | Creates a HugeTLB                                |
+> >   +---------------------------+--------------------------------------------------+
+> >   | huge_pte_dirty            | Tests a dirty HugeTLB                            |
+> >   +---------------------------+--------------------------------------------------+
+> > diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
+> > index af59cc7bd307..7887cc2b75bf 100644
+> > --- a/mm/debug_vm_pgtable.c
+> > +++ b/mm/debug_vm_pgtable.c
+> > @@ -934,7 +934,7 @@ static void __init hugetlb_basic_tests(struct pgtable_debug_args *args)
+> >   #ifdef CONFIG_ARCH_WANT_GENERAL_HUGETLB
+> >   	pte = pfn_pte(args->fixed_pmd_pfn, args->page_prot);
+> > -	WARN_ON(!pte_huge(pte_mkhuge(pte)));
+> > +	WARN_ON(!pte_huge(arch_make_huge_pte(pte, PMD_SHIFT, VM_ACCESS_FLAGS)));
+> >   #endif /* CONFIG_ARCH_WANT_GENERAL_HUGETLB */
+> >   }
+> >   #else  /* !CONFIG_HUGETLB_PAGE */
 > 
-> Otherwise I guess re-introduce a lighter ioasid_alloc() that the IOMMU
-> driver calls to reserve PASID0/RID_PASID.
+> 
+> IMHO, it's a bit weird that we are starting to call these things "arch_*".
+> PTE operations like these are already mostly arch-specific helpers with
+> custom implementations (and some generic ones in asm-generic as a fallback).
 
-Yes. We probably will use a non-zero RID_PASID in the future. An
-interface to reserve (or allocate) a PASID from iommu_global_pasid_ida
-should work then.
+Yeah, probably a better name for arch_make_huge_pte() would have been
+pte_make_huge()
+ 
+> So this one certainly sticks out now ... anyhow, change itself LGTM ...
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
+> 
 
-Best regards,
-baolu
+-- 
+Sincerely yours,
+Mike.
