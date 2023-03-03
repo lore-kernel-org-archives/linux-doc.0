@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F21EC7EE33
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 13:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE64AC64EC4
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 13:39:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231264AbjCCNiy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 08:38:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47314 "EHLO
+        id S231272AbjCCNjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 08:39:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231265AbjCCNi0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 08:38:26 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91BA83C25
-        for <linux-doc@vger.kernel.org>; Fri,  3 Mar 2023 05:37:53 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id l1so2540943pjt.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Mar 2023 05:37:53 -0800 (PST)
+        with ESMTP id S231171AbjCCNi2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 08:38:28 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F196498BA
+        for <linux-doc@vger.kernel.org>; Fri,  3 Mar 2023 05:37:59 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id ky4so2692858plb.3
+        for <linux-doc@vger.kernel.org>; Fri, 03 Mar 2023 05:37:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1677850673;
+        d=ventanamicro.com; s=google; t=1677850678;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9ZDqAIiQh1iz6zpk7hAy2IsEozk94KbzxqCS/Vkjh5o=;
-        b=n9umgm4XarNc8gsfjp46IzZiTpAtE1BOvMr6t0GaPEd94V3o+dimvJdd2NYqtOt78O
-         Wk+cZPGvnjxrCP3dVWSfVY9zKY3X8tqXfP3UdsGlTOPWW154spoB+PqEfdHwPD4Qpb/J
-         7LRu60H/NBGrMRCOkbBn+Dr0fJMKGQRJPePyLQ6anbUECkmPLh70AerRQEj8aUiZrnG5
-         u5fn27T3NYKQvJGj2iKX0KpqsKqK1amngKRdJ1OkVxEawrTVxLYuoc8z5OBzyFIm9Uwj
-         YfO0Nnzktsu7Kdq4Wb/adAasHPg9ygDntDuGxorrprkG3NkNqIi/oSuy4LdlkhpXJtu0
-         CcEg==
+        bh=gcUANUnPmLAEK+XIpTGTIqkpKyb9BeUNqm/80XJY5vg=;
+        b=XkUA56V6OSWXY471GkW4kVLn1PNkoP0yegLGy0Ue3fMxWyv3Opt/TrgEQ89v+uhM5l
+         xzycoQ6aJh4rQndCAbi5StOxCsNhC1uLkGzrJVH8fQPAEE+dgI/RtCyFiTGLib8ygx8w
+         me0SrFzXYuI3HmvPpXntl50OPSz36mtIOsoJdtYLB/bNvK8pCgnri3yMkGigOjoGdQta
+         AuHx3b9azP0+z8OziaCUVR/bKUnsoshjlUEK/fsjgkv9UMbuuqzHJQDaSVb1wd59ogKx
+         rGOlklA8Z5aWjEue6ZiIAkU6tT/BVcFOCZVMlp01uiSnAg/H8H06icOR3G0H8dgPPdTK
+         ogmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677850673;
+        d=1e100.net; s=20210112; t=1677850678;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9ZDqAIiQh1iz6zpk7hAy2IsEozk94KbzxqCS/Vkjh5o=;
-        b=Huwdx1JOiuqMV2zrjx7OM/GWuNQ8H8UA3LMsIQJ6ZE7VTT55sQs/ncr9eTYkQkMIlt
-         ZFblPt9pfpQxnKewhP0JztC81RKvDRbZZpxTPoyTnz9y6LcWHYrCDIFUHrBGsJ6XaJOR
-         Ia/3kvHcbPLKJwQbZY+oESqzsLVOS2CLLoJbWwuAUsMcc7w0Pz6iPBpK1QSOUHe1hM5N
-         V3V5x8LYuHbqanwuziL9q2skZvcRxJIv0vvcbk65K8vHjA1Z46RaIy2bkzVJ+HRMmDSw
-         j0VxOCJ0LE/JRKZXsz7ZWR9PICK3Mx/WR8jE9mBuu+488KLQpl0WjLQR/AkStccnKY9c
-         lj0A==
-X-Gm-Message-State: AO0yUKXuv/I9zenPkPQV6oPh9XQlCR5U6fa7LqrZmtecCI8RSeJrX/xp
-        aP1Vs0iXHQH8uHBN56CJqSLkWg==
-X-Google-Smtp-Source: AK7set8J/vYbwyD1m4XRQ3AgWGRchGR8NoRHsIuocp3J3fFoa1b+Rs9bDGRjPxWCAPErZncQBtxuqg==
-X-Received: by 2002:a17:90a:db92:b0:237:44ad:5124 with SMTP id h18-20020a17090adb9200b0023744ad5124mr1650183pjv.42.1677850673253;
-        Fri, 03 Mar 2023 05:37:53 -0800 (PST)
+        bh=gcUANUnPmLAEK+XIpTGTIqkpKyb9BeUNqm/80XJY5vg=;
+        b=Nuz3vpXBhIRmw/ThcrozcgLD8CtWv2aYbS6VNfNEVWggR8cDy/rbdrQNg9SB6cPbUa
+         qLsDLPo14NZ3yjbbJRz/DYqPxA/wrr5J/ur0Sdk03K1PVn/9eTA0V3ghwrwwZsZO3Smb
+         u4IAgRjlQApoeOKp0uLTxaolqZiXtA+tRdsOesgbIwjGGVBSl5Rv/WMC/gtUAbKMz+ps
+         VRByniwsap/FxUn0xMZMgrJoTdLgXfVHdmfkuc79aCkwxY1JkGm18dRz34/kqT1IlcVL
+         0J7mldn3ccgtMr82y1qHjdhMEtICc3Mohch1xKl6Kk2nz2PGEo+zlLzQ0Z5vJCAgHdL+
+         n2Yw==
+X-Gm-Message-State: AO0yUKVORg2PkfGnFHzi1nr4uKiyM+8tSjuOsNg5T0SM+oDiDBCxr2k4
+        P5EBaiJEodG+Kp58iDVzaD1Ngg==
+X-Google-Smtp-Source: AK7set8dJdlMTzofbwwc2OpZqHZJ+omJqGrix56MsJz7IW6hYJ/YKtw8q16TCcLJYH60qn735r1Dgw==
+X-Received: by 2002:a17:903:8cb:b0:19e:8e73:e977 with SMTP id lk11-20020a17090308cb00b0019e8e73e977mr2051813plb.67.1677850677984;
+        Fri, 03 Mar 2023 05:37:57 -0800 (PST)
 Received: from localhost.localdomain ([49.206.14.226])
-        by smtp.gmail.com with ESMTPSA id m9-20020a170902768900b0019ac5d3ee9dsm1533125pll.157.2023.03.03.05.37.48
+        by smtp.gmail.com with ESMTPSA id m9-20020a170902768900b0019ac5d3ee9dsm1533125pll.157.2023.03.03.05.37.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 05:37:52 -0800 (PST)
+        Fri, 03 Mar 2023 05:37:57 -0800 (PST)
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
@@ -66,9 +66,9 @@ Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
         'Conor Dooley ' <conor.dooley@microchip.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: [PATCH V3 12/20] RISC-V: cpufeature: Add ACPI support in riscv_fill_hwcap()
-Date:   Fri,  3 Mar 2023 19:06:39 +0530
-Message-Id: <20230303133647.845095-13-sunilvl@ventanamicro.com>
+Subject: [PATCH V3 13/20] RISC-V: cpu: Enable cpuinfo for ACPI systems
+Date:   Fri,  3 Mar 2023 19:06:40 +0530
+Message-Id: <20230303133647.845095-14-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230303133647.845095-1-sunilvl@ventanamicro.com>
 References: <20230303133647.845095-1-sunilvl@ventanamicro.com>
@@ -78,100 +78,73 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On ACPI based systems, the information about the hart
-like ISA is provided by the RISC-V Hart Capabilities Table (RHCT).
-Enable filling up hwcap structure based on the information in RHCT.
+On ACPI based platforms, few details like ISA need to be read
+from the ACPI table. Enable cpuinfo on ACPI based systems.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- arch/riscv/kernel/cpufeature.c | 41 ++++++++++++++++++++++++++--------
- 1 file changed, 32 insertions(+), 9 deletions(-)
+ arch/riscv/kernel/cpu.c | 27 +++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 59d58ee0f68d..478dbf129922 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -6,6 +6,7 @@
-  * Copyright (C) 2017 SiFive
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index 8400f0cc9704..80101bf77dab 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -3,10 +3,12 @@
+  * Copyright (C) 2012 Regents of the University of California
   */
  
 +#include <linux/acpi.h>
- #include <linux/bitmap.h>
- #include <linux/ctype.h>
- #include <linux/libfdt.h>
-@@ -13,6 +14,8 @@
- #include <linux/memory.h>
- #include <linux/module.h>
+ #include <linux/cpu.h>
+ #include <linux/init.h>
+ #include <linux/seq_file.h>
  #include <linux/of.h>
-+#include <linux/of_device.h>
 +#include <asm/acpi.h>
- #include <asm/alternative.h>
- #include <asm/cacheflush.h>
- #include <asm/errata_list.h>
-@@ -91,7 +94,9 @@ void __init riscv_fill_hwcap(void)
- 	char print_str[NUM_ALPHA_EXTS + 1];
- 	int i, j, rc;
- 	unsigned long isa2hwcap[26] = {0};
--	unsigned long hartid;
-+	struct acpi_table_header *rhct;
-+	acpi_status status;
-+	unsigned int cpu;
+ #include <asm/csr.h>
+ #include <asm/hwcap.h>
+ #include <asm/sbi.h>
+@@ -283,23 +285,32 @@ static void c_stop(struct seq_file *m, void *v)
+ static int c_show(struct seq_file *m, void *v)
+ {
+ 	unsigned long cpu_id = (unsigned long)v - 1;
+-	struct device_node *node = of_get_cpu_node(cpu_id, NULL);
+ 	struct riscv_cpuinfo *ci = per_cpu_ptr(&riscv_cpuinfo, cpu_id);
++	struct device_node *node;
+ 	const char *compat, *isa;
  
- 	isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
- 	isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
-@@ -104,18 +109,33 @@ void __init riscv_fill_hwcap(void)
- 
- 	bitmap_zero(riscv_isa, RISCV_ISA_EXT_MAX);
- 
--	for_each_of_cpu_node(node) {
-+	if (!acpi_disabled) {
-+		status = acpi_get_table(ACPI_SIG_RHCT, 0, &rhct);
-+		if (ACPI_FAILURE(status))
-+			return;
+ 	seq_printf(m, "processor\t: %lu\n", cpu_id);
+ 	seq_printf(m, "hart\t\t: %lu\n", cpuid_to_hartid_map(cpu_id));
+-	if (!of_property_read_string(node, "riscv,isa", &isa))
+-		print_isa(m, isa);
+-	print_mmu(m);
+-	if (!of_property_read_string(node, "compatible", &compat)
+-	    && strcmp(compat, "riscv"))
+-		seq_printf(m, "uarch\t\t: %s\n", compat);
++
++	if (acpi_disabled) {
++		node = of_get_cpu_node(cpu_id, NULL);
++		if (!of_property_read_string(node, "riscv,isa", &isa))
++			print_isa(m, isa);
++		print_mmu(m);
++		if (!of_property_read_string(node, "compatible", &compat) &&
++		    strcmp(compat, "riscv"))
++			seq_printf(m, "uarch\t\t: %s\n", compat);
++		of_node_put(node);
++	} else {
++		if (!acpi_get_riscv_isa(NULL, get_acpi_id_for_cpu(cpu_id), &isa))
++			print_isa(m, isa);
++		print_mmu(m);
 +	}
 +
-+	for_each_possible_cpu(cpu) {
- 		unsigned long this_hwcap = 0;
- 		DECLARE_BITMAP(this_isa, RISCV_ISA_EXT_MAX);
- 		const char *temp;
+ 	seq_printf(m, "mvendorid\t: 0x%lx\n", ci->mvendorid);
+ 	seq_printf(m, "marchid\t\t: 0x%lx\n", ci->marchid);
+ 	seq_printf(m, "mimpid\t\t: 0x%lx\n", ci->mimpid);
+ 	seq_puts(m, "\n");
+-	of_node_put(node);
  
--		rc = riscv_of_processor_hartid(node, &hartid);
--		if (rc < 0)
--			continue;
--
--		if (of_property_read_string(node, "riscv,isa", &isa)) {
--			pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
--			continue;
-+		if (acpi_disabled) {
-+			node = of_cpu_device_node_get(cpu);
-+			if (node) {
-+				rc = of_property_read_string(node, "riscv,isa", &isa);
-+				of_node_put(node);
-+				if (rc) {
-+					pr_warn("Unable to find \"riscv,isa\" devicetree entry\n");
-+					continue;
-+				}
-+			}
-+		} else {
-+			rc = acpi_get_riscv_isa(rhct, get_acpi_id_for_cpu(cpu), &isa);
-+			if (rc < 0) {
-+				pr_warn("Unable to get ISA for the hart - %d\n", cpu);
-+				continue;
-+			}
- 		}
- 
- 		temp = isa;
-@@ -248,6 +268,9 @@ void __init riscv_fill_hwcap(void)
- 			bitmap_and(riscv_isa, riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
- 	}
- 
-+	if (!acpi_disabled && rhct)
-+		acpi_put_table((struct acpi_table_header *)rhct);
-+
- 	/* We don't support systems with F but without D, so mask those out
- 	 * here. */
- 	if ((elf_hwcap & COMPAT_HWCAP_ISA_F) && !(elf_hwcap & COMPAT_HWCAP_ISA_D)) {
+ 	return 0;
+ }
 -- 
 2.34.1
 
