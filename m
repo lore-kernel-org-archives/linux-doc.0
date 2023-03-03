@@ -2,97 +2,287 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC4B1C7EE2D
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 18:33:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E780C7EE39
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 21:39:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231604AbjCCSdW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 13:33:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58792 "EHLO
+        id S231793AbjCCVjH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 16:39:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231708AbjCCSdV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 13:33:21 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6024A83FE;
-        Fri,  3 Mar 2023 10:33:11 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 43E1F143D;
-        Fri,  3 Mar 2023 10:33:54 -0800 (PST)
-Received: from [10.1.196.177] (eglon.cambridge.arm.com [10.1.196.177])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 52FBC3F93E;
-        Fri,  3 Mar 2023 10:33:08 -0800 (PST)
-Message-ID: <f0841866-315b-4727-0a6c-ec60d22ca29c@arm.com>
-Date:   Fri, 3 Mar 2023 18:32:59 +0000
+        with ESMTP id S231937AbjCCVjG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 16:39:06 -0500
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C924C05
+        for <linux-doc@vger.kernel.org>; Fri,  3 Mar 2023 13:39:01 -0800 (PST)
+Received: by mail-qt1-x82a.google.com with SMTP id l18so4525415qtp.1
+        for <linux-doc@vger.kernel.org>; Fri, 03 Mar 2023 13:39:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google; t=1677879540;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NZBqbWgHugu/GnRzpPvn7DxcaGfZfuTK+s2+Sb3Qrso=;
+        b=KJnNlffsNi4iZcHyTuaZmINvsu5p9H7urMKDMssRreAhc14lEW0TN47RGQF1RCsR6A
+         SgthzzHEJQAQ+UP4PAxpLOBAanKA/M3TOspp47ppymmUO2Jc5QGfN+LrK2AZenMd3ZL6
+         XiW5cnWyyti4FjQYeCnuNr6Qrc/mGTesaalKE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677879540;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NZBqbWgHugu/GnRzpPvn7DxcaGfZfuTK+s2+Sb3Qrso=;
+        b=z0j1s3RiUfYMIjaWoev9tLtFJg0VMVsHy2mFO2IQqMp5zF+ncnA+Hapv3bjvVaKgr9
+         aucR7EzTiF4mmJHZLmp+bouw76/NZ6VxbOn9c6jSGrCJDTWVFU/td8Q08P2hjYsjZZuG
+         l4UlgTvTYT9uoKdxJ4iF8PtGfS7hvAIWGekxSH6B9optzxYccOJ/wO/uDuFwGYXv19zI
+         djGRiQozUyOWOeezlgHYl4Ydu5ZlCcwGN9koItBo7w/kJNI89LUbYYlLdtSJmBxeNFef
+         x/TDmsZ+LWPouyYBO3O7PPqGulf12nCYOPqYsnIdvhrzCNiwrLbxp4zhPck7zFsunKju
+         Q3wA==
+X-Gm-Message-State: AO0yUKWMyVjHVFWacT1N1G3qt+33ajyFxwot+JNHP8GSAnj0j04DXgOS
+        H1e7A6zZ5JJYJxRv+uSBSygk6Q==
+X-Google-Smtp-Source: AK7set+lAlUBF6IdgCqlHt4jaKJ6KnckJv2Ds+chLo812O6QY6I0q+16QLcS6j8Qmu55VufmZS0I8A==
+X-Received: by 2002:a05:622a:102:b0:3bd:11a5:c114 with SMTP id u2-20020a05622a010200b003bd11a5c114mr5034392qtw.63.1677879540077;
+        Fri, 03 Mar 2023 13:39:00 -0800 (PST)
+Received: from joelboxx.c.googlers.com.com (129.239.188.35.bc.googleusercontent.com. [35.188.239.129])
+        by smtp.gmail.com with ESMTPSA id f9-20020ac840c9000000b003b869f71eedsm2449737qtm.66.2023.03.03.13.38.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Mar 2023 13:38:59 -0800 (PST)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
+        rcu@vger.kernel.org, urezki@gmail.com
+Subject: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+Date:   Fri,  3 Mar 2023 21:38:51 +0000
+Message-Id: <20230303213851.2090365-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.40.0.rc0.216.gc4246ad0f0-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 5/7] x86/resctrl: Add a new "snc_ways" file to the
- monitoring info directory.
-Content-Language: en-GB
-To:     "Luck, Tony" <tony.luck@intel.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>,
-        Peter Newman <peternewman@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "x86@kernel.org" <x86@kernel.org>
-Cc:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>
-References: <20230126184157.27626-1-tony.luck@intel.com>
- <20230126184157.27626-6-tony.luck@intel.com>
- <a95d0200-da28-4fbe-2bfe-ff948b4c2801@arm.com>
- <SJ1PR11MB60837DC9C2E04AD3CBF3CA67FCAC9@SJ1PR11MB6083.namprd11.prod.outlook.com>
-From:   James Morse <james.morse@arm.com>
-In-Reply-To: <SJ1PR11MB60837DC9C2E04AD3CBF3CA67FCAC9@SJ1PR11MB6083.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Tony,
+On many systems, a great deal of boot (in userspace) happens after the
+kernel thinks the boot has completed. It is difficult to determine if
+the system has really booted from the kernel side. Some features like
+lazy-RCU can risk slowing down boot time if, say, a callback has been
+added that the boot synchronously depends on. Further expedited callbacks
+can get unexpedited way earlier than it should be, thus slowing down
+boot (as shown in the data below).
 
-On 28/02/2023 17:44, Luck, Tony wrote:
->>> Make it easy for the user to tell if Sub-NUMA Cluster is enabled by
->>> providing an info/ file.
->>
->> I think what this is conveying to user-space is 'domain_id_is_numa_node'.
-> 
-> That seems more architecturally neutral. I like it.
-> 
->> Does user-space need to know the number of ways?
-> 
-> I don't know. Maybe some might. Perhaps there is some better name that
-> is architecturally neutral, but still has a numerical rather than boolean value?
+For these reasons, this commit adds a config option
+'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter rcupdate.boot_end_delay.
+Userspace can also make RCU's view of the system as booted, by writing the
+time in milliseconds to: /sys/module/rcupdate/parameters/rcu_boot_end_delay
+Or even just writing a value of 0 to this sysfs node.
+However, under no circumstance will the boot be allowed to end earlier
+than just before init is launched.
 
-If we don't know what user-space needs this for, I'd prefer we don't expose it. It'll be a
-problem in the future if there is no single number we can put there.
+The default value of CONFIG_RCU_BOOT_END_DELAY is chosen as 15s. This
+suites ChromeOS and also a PREEMPT_RT system below very well, which need
+no config or parameter changes, and just a simple application of this patch. A
+system designer can also choose a specific value here to keep RCU from marking
+boot completion.  As noted earlier, RCU's perspective of the system as booted
+will not be marker until at least rcu_boot_end_delay milliseconds have passed
+or an update is made via writing a small value (or 0) in milliseconds to:
+/sys/module/rcupdate/parameters/rcu_boot_end_delay.
 
-I don't see what the difference between 2 and 4 would be used for when setting up resctrl,
-unless you are choosing which numa-nodes to spread tasks over ... but the numa distance
-would be a much better number to base that decision on.
+One side-effect of this patch is, there is a risk that a real-time workload
+launched just after the kernel boots will suffer interruptions due to expedited
+RCU, which previous ended just before init was launched. However, to mitigate
+such an issue (however unlikely), the user should either tune
+CONFIG_RCU_BOOT_END_DELAY to a smaller value than 15 seconds or write a value
+of 0 to /sys/module/rcupdate/parameters/rcu_boot_end_delay, once userspace
+boots, and before launching the real-time workload.
 
-User-space is able to perform the same calculation to find the snc_ways using the
-cache/index stuff and node entries in sysfs.
+Qiuxu also noted impressive boot-time improvements with earlier version
+of patch. An excerpt from the data he shared:
 
+1) Testing environment:
+    OS            : CentOS Stream 8 (non-RT OS)
+    Kernel     : v6.2
+    Machine : Intel Cascade Lake server (2 sockets, each with 44 logical threads)
+    Qemu  args  : -cpu host -enable-kvm, -smp 88,threads=2,sockets=2, …
 
->> Will this always be a single number, or will it ever be possible to have an SNC=2 and
->> SNC=1 package in the same system?
-> 
-> I sincerely hope that it is the same value across the system. Currently the
-> BIOS setup option to enable SNC doesn't have per-socket choices, it is
-> just an all-or-nothing choice. "2" isn't the only choice for number of SNC
-> nodes on a socket. "4" is (or will be) a choice.
+2) OS boot time definition:
+    The time from the start of the kernel boot to the shell command line
+    prompt is shown from the console. [ Different people may have
+    different OS boot time definitions. ]
 
-Yeah, in the arm world, partners get to make the decision on what is sane. Big-little
-means someone could do something that looks like SNC in on cluster, but not another.
+3) Measurement method (very rough method):
+    A timer in the kernel periodically prints the boot time every 100ms.
+    As soon as the shell command line prompt is shown from the console,
+    we record the boot time printed by the timer, then the printed boot
+    time is the OS boot time.
 
-If we don't know what user-space needs it for, I'd prefer we don't expose it, just to
-avoid giving out rope to shoot ourselves in the foot with.
+4) Measured OS boot time (in seconds)
+   a) Measured 10 times w/o this patch:
+        8.7s, 8.4s, 8.6s, 8.2s, 9.0s, 8.7s, 8.8s, 9.3s, 8.8s, 8.3s
+        The average OS boot time was: ~8.7s
 
+   b) Measure 10 times w/ this patch:
+        8.5s, 8.2s, 7.6s, 8.2s, 8.7s, 8.2s, 7.8s, 8.2s, 9.3s, 8.4s
+        The average OS boot time was: ~8.3s.
 
-Thanks,
+Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+v1->v2:
+	Update some comments and description.
+v2->v3:
+        Add sysfs param, and update with Test data.
 
-James
+ .../admin-guide/kernel-parameters.txt         | 12 ++++
+ cc_list                                       |  8 +++
+ kernel/rcu/Kconfig                            | 19 ++++++
+ kernel/rcu/update.c                           | 68 ++++++++++++++++++-
+ 4 files changed, 106 insertions(+), 1 deletion(-)
+ create mode 100644 cc_list
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 2429b5e3184b..611de90d9c13 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5085,6 +5085,18 @@
+ 	rcutorture.verbose= [KNL]
+ 			Enable additional printk() statements.
+ 
++	rcupdate.rcu_boot_end_delay= [KNL]
++			Minimum time in milliseconds that must elapse
++			before the boot sequence can be marked complete
++			from RCU's perspective, after which RCU's behavior
++			becomes more relaxed. The default value is also
++			configurable via CONFIG_RCU_BOOT_END_DELAY.
++			Userspace can also mark the boot as completed
++			sooner by writing the time in milliseconds, say once
++			userspace considers the system as booted, to:
++			/sys/module/rcupdate/parameters/rcu_boot_end_delay
++			Or even just writing a value of 0 to this sysfs node.
++
+ 	rcupdate.rcu_cpu_stall_ftrace_dump= [KNL]
+ 			Dump ftrace buffer after reporting RCU CPU
+ 			stall warning.
+diff --git a/kernel/rcu/Kconfig b/kernel/rcu/Kconfig
+index 9071182b1284..4b5ffa36cbaf 100644
+--- a/kernel/rcu/Kconfig
++++ b/kernel/rcu/Kconfig
+@@ -217,6 +217,25 @@ config RCU_BOOST_DELAY
+ 
+ 	  Accept the default if unsure.
+ 
++config RCU_BOOT_END_DELAY
++	int "Minimum time before RCU may consider in-kernel boot as completed"
++	range 0 120000
++	default 15000
++	help
++	  Default value of the minimum time in milliseconds that must elapse
++	  before the boot sequence can be marked complete from RCU's perspective,
++	  after which RCU's behavior becomes more relaxed.
++	  Userspace can also mark the boot as completed sooner than this default
++	  by writing the time in milliseconds, say once userspace considers
++	  the system as booted, to: /sys/module/rcupdate/parameters/rcu_boot_end_delay.
++	  Or even just writing a value of 0 to this sysfs node.
++
++	  The actual delay for RCU's view of the system to be marked as booted can be
++	  higher than this value if the kernel takes a long time to initialize but it
++	  will never be smaller than this value.
++
++	  Accept the default if unsure.
++
+ config RCU_EXP_KTHREAD
+ 	bool "Perform RCU expedited work in a real-time kthread"
+ 	depends on RCU_BOOST && RCU_EXPERT
+diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
+index 19bf6fa3ee6a..93138c92136e 100644
+--- a/kernel/rcu/update.c
++++ b/kernel/rcu/update.c
+@@ -224,18 +224,84 @@ void rcu_unexpedite_gp(void)
+ }
+ EXPORT_SYMBOL_GPL(rcu_unexpedite_gp);
+ 
++/*
++ * Minimum time in milliseconds until RCU can consider in-kernel boot as
++ * completed.  This can also be tuned at runtime to end the boot earlier, by
++ * userspace init code writing the time in milliseconds (even 0) to:
++ * /sys/module/rcupdate/parameters/rcu_boot_end_delay
++ */
++static int rcu_boot_end_delay = CONFIG_RCU_BOOT_END_DELAY;
++
+ static bool rcu_boot_ended __read_mostly;
++static bool rcu_boot_end_called __read_mostly;
++static DEFINE_MUTEX(rcu_boot_end_lock);
++
++static int param_set_rcu_boot_end(const char *val, const struct kernel_param *kp)
++{
++	uint end_ms;
++	int ret = kstrtouint(val, 0, &end_ms);
++
++	if (ret)
++		return ret;
++	WRITE_ONCE(*(uint *)kp->arg, end_ms);
++
++	/*
++	 * rcu_end_inkernel_boot() should be called at least once during init
++	 * before we can allow param changes to end the boot.
++	 */
++	mutex_lock(&rcu_boot_end_lock);
++	rcu_boot_end_delay = end_ms;
++	if (!rcu_boot_ended && rcu_boot_end_called) {
++		mutex_unlock(&rcu_boot_end_lock);
++		rcu_end_inkernel_boot();
++	}
++	mutex_unlock(&rcu_boot_end_lock);
++	return ret;
++}
++
++static const struct kernel_param_ops rcu_boot_end_ops = {
++	.set = param_set_rcu_boot_end,
++	.get = param_get_uint,
++};
++module_param_cb(rcu_boot_end_delay, &rcu_boot_end_ops, &rcu_boot_end_delay, 0644);
+ 
+ /*
+- * Inform RCU of the end of the in-kernel boot sequence.
++ * Inform RCU of the end of the in-kernel boot sequence. The boot sequence will
++ * not be marked ended until at least rcu_boot_end_delay milliseconds have passed.
+  */
++void rcu_end_inkernel_boot(void);
++static void rcu_boot_end_work_fn(struct work_struct *work)
++{
++	rcu_end_inkernel_boot();
++}
++static DECLARE_DELAYED_WORK(rcu_boot_end_work, rcu_boot_end_work_fn);
++
+ void rcu_end_inkernel_boot(void)
+ {
++	mutex_lock(&rcu_boot_end_lock);
++	rcu_boot_end_called = true;
++
++	if (rcu_boot_ended)
++		return;
++
++	if (rcu_boot_end_delay) {
++		u64 boot_ms = div_u64(ktime_get_boot_fast_ns(), 1000000UL);
++
++		if (boot_ms < rcu_boot_end_delay) {
++			schedule_delayed_work(&rcu_boot_end_work,
++					rcu_boot_end_delay - boot_ms);
++			mutex_unlock(&rcu_boot_end_lock);
++			return;
++		}
++	}
++
++	cancel_delayed_work(&rcu_boot_end_work);
+ 	rcu_unexpedite_gp();
+ 	rcu_async_relax();
+ 	if (rcu_normal_after_boot)
+ 		WRITE_ONCE(rcu_normal, 1);
+ 	rcu_boot_ended = true;
++	mutex_unlock(&rcu_boot_end_lock);
+ }
+ 
+ /*
+-- 
+2.40.0.rc0.216.gc4246ad0f0-goog
