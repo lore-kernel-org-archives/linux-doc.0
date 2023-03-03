@@ -2,287 +2,498 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E780C7EE39
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 21:39:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B521C61DA3
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 22:11:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231793AbjCCVjH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 16:39:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51086 "EHLO
+        id S233592AbjCCWLw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 17:11:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231937AbjCCVjG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 16:39:06 -0500
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C924C05
-        for <linux-doc@vger.kernel.org>; Fri,  3 Mar 2023 13:39:01 -0800 (PST)
-Received: by mail-qt1-x82a.google.com with SMTP id l18so4525415qtp.1
-        for <linux-doc@vger.kernel.org>; Fri, 03 Mar 2023 13:39:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1677879540;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NZBqbWgHugu/GnRzpPvn7DxcaGfZfuTK+s2+Sb3Qrso=;
-        b=KJnNlffsNi4iZcHyTuaZmINvsu5p9H7urMKDMssRreAhc14lEW0TN47RGQF1RCsR6A
-         SgthzzHEJQAQ+UP4PAxpLOBAanKA/M3TOspp47ppymmUO2Jc5QGfN+LrK2AZenMd3ZL6
-         XiW5cnWyyti4FjQYeCnuNr6Qrc/mGTesaalKE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677879540;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NZBqbWgHugu/GnRzpPvn7DxcaGfZfuTK+s2+Sb3Qrso=;
-        b=z0j1s3RiUfYMIjaWoev9tLtFJg0VMVsHy2mFO2IQqMp5zF+ncnA+Hapv3bjvVaKgr9
-         aucR7EzTiF4mmJHZLmp+bouw76/NZ6VxbOn9c6jSGrCJDTWVFU/td8Q08P2hjYsjZZuG
-         l4UlgTvTYT9uoKdxJ4iF8PtGfS7hvAIWGekxSH6B9optzxYccOJ/wO/uDuFwGYXv19zI
-         djGRiQozUyOWOeezlgHYl4Ydu5ZlCcwGN9koItBo7w/kJNI89LUbYYlLdtSJmBxeNFef
-         x/TDmsZ+LWPouyYBO3O7PPqGulf12nCYOPqYsnIdvhrzCNiwrLbxp4zhPck7zFsunKju
-         Q3wA==
-X-Gm-Message-State: AO0yUKWMyVjHVFWacT1N1G3qt+33ajyFxwot+JNHP8GSAnj0j04DXgOS
-        H1e7A6zZ5JJYJxRv+uSBSygk6Q==
-X-Google-Smtp-Source: AK7set+lAlUBF6IdgCqlHt4jaKJ6KnckJv2Ds+chLo812O6QY6I0q+16QLcS6j8Qmu55VufmZS0I8A==
-X-Received: by 2002:a05:622a:102:b0:3bd:11a5:c114 with SMTP id u2-20020a05622a010200b003bd11a5c114mr5034392qtw.63.1677879540077;
-        Fri, 03 Mar 2023 13:39:00 -0800 (PST)
-Received: from joelboxx.c.googlers.com.com (129.239.188.35.bc.googleusercontent.com. [35.188.239.129])
-        by smtp.gmail.com with ESMTPSA id f9-20020ac840c9000000b003b869f71eedsm2449737qtm.66.2023.03.03.13.38.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 13:38:59 -0800 (PST)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
-        rcu@vger.kernel.org, urezki@gmail.com
-Subject: [PATCH v3] rcu: Add a minimum time for marking boot as completed
-Date:   Fri,  3 Mar 2023 21:38:51 +0000
-Message-Id: <20230303213851.2090365-1-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.40.0.rc0.216.gc4246ad0f0-goog
+        with ESMTP id S233725AbjCCWLe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 17:11:34 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 885A691895;
+        Fri,  3 Mar 2023 14:01:54 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 56A8F618F1;
+        Fri,  3 Mar 2023 22:00:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E32BCC433EF;
+        Fri,  3 Mar 2023 22:00:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677880854;
+        bh=8Tx/4zW6qLMV49U7TVBUoizFmTU9zv1Tov2IzIHxtt0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=q48LbH0jdWDYuskXO5iWnl+BhMgt3rJ6B4LjMz/kPJ4V3yXED0LmEsBwaAkV4POQj
+         cOdh0BcpS+NLDJo1rtr8rlwDikhPyAyPGVNjFG6pzLNrcU7BJEaqfNGjFMHmzjD0iL
+         auDUaAqi0mseM7fUFcH9FXbIYsdnjqGjtrF/0oJO4uyWGcMXZjOHBLqlcUKS0koux7
+         kUTWGosRpSvWuniQFQnJoLrBPV2+ci9Ja23CrSURlDZYF01NQ84QwaSqvhWz1PYXYg
+         CLjyERr8hdGtvVgbywPQBBfU25Rxb9DZdSKur9PKbfMn2kGkRShUXKMCcbzo//qF9x
+         A4ipr16c5KlDg==
+Date:   Fri, 3 Mar 2023 22:00:47 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Julien Panis <jpanis@baylibre.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        corbet@lwn.net, hdegoede@redhat.com, eric.auger@redhat.com,
+        jgg@ziepe.ca, razor@blackwall.org, suma.hegde@amd.com,
+        stephen@networkplumber.org, arnd@arndb.de,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, eblanc@baylibre.com,
+        jneanne@baylibre.com
+Subject: Re: [PATCH v1 4/4] mfd: tps6594-pfsm: Add driver for TI TPS6594 PFSM
+Message-ID: <20230303220047.GT2420672@google.com>
+References: <20230216114410.183489-1-jpanis@baylibre.com>
+ <20230216114410.183489-5-jpanis@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230216114410.183489-5-jpanis@baylibre.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On many systems, a great deal of boot (in userspace) happens after the
-kernel thinks the boot has completed. It is difficult to determine if
-the system has really booted from the kernel side. Some features like
-lazy-RCU can risk slowing down boot time if, say, a callback has been
-added that the boot synchronously depends on. Further expedited callbacks
-can get unexpedited way earlier than it should be, thus slowing down
-boot (as shown in the data below).
+On Thu, 16 Feb 2023, Julien Panis wrote:
 
-For these reasons, this commit adds a config option
-'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter rcupdate.boot_end_delay.
-Userspace can also make RCU's view of the system as booted, by writing the
-time in milliseconds to: /sys/module/rcupdate/parameters/rcu_boot_end_delay
-Or even just writing a value of 0 to this sysfs node.
-However, under no circumstance will the boot be allowed to end earlier
-than just before init is launched.
+> This patch adds support for TPS6594 PFSM (Pre-configurable Finite
+> State Machine).
+> 
+> This PFSM controls the operational modes of the PMIC:
+> - STANDBY and LP_STANDBY,
+> - ACTIVE state,
+> - MCU_ONLY state,
+> - RETENTION state, with or without DDR and/or GPIO retention.
+> Depending on the current operational mode, some voltage domains
+> remain energized while others can be off.
+> 
+> This PFSM is also used to trigger a firmware update, and provides
+> R/W access to device registers.
+> 
+> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> ---
+>  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+>  drivers/mfd/Kconfig                           |  11 +
+>  drivers/mfd/Makefile                          |   1 +
+>  drivers/mfd/tps6594-pfsm.c                    | 304 ++++++++++++++++++
+>  include/uapi/linux/tps6594_pfsm.h             |  45 +++
+>  5 files changed, 362 insertions(+)
+>  create mode 100644 drivers/mfd/tps6594-pfsm.c
+>  create mode 100644 include/uapi/linux/tps6594_pfsm.h
+> 
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index eb045fc495a4..f3098d3800a5 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -180,6 +180,7 @@ Code  Seq#    Include File                                           Comments
+>  'P'   00-0F  drivers/usb/class/usblp.c                               conflict!
+>  'P'   01-09  drivers/misc/pci_endpoint_test.c                        conflict!
+>  'P'   00-0F  xen/privcmd.h                                           conflict!
+> +'P'   00-03  linux/tps6594_pfsm.h                                    conflict!
+>  'Q'   all    linux/soundcard.h
+>  'R'   00-1F  linux/random.h                                          conflict!
+>  'R'   01     linux/rfkill.h                                          conflict!
+> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> index cbf7cfb70879..188c949e4eb0 100644
+> --- a/drivers/mfd/Kconfig
+> +++ b/drivers/mfd/Kconfig
+> @@ -1732,6 +1732,17 @@ config MFD_TPS6594_ESM
+>  	  This driver can also be built as a module.  If so, the module
+>  	  will be called tps6594-esm.
+>  
+> +config MFD_TPS6594_PFSM
+> +	tristate "TI TPS6594 Pre-configurable Finite State Machine support"
+> +	depends on MFD_TPS6594
+> +	help
+> +	  Support PFSM (Pre-configurable Finite State Machine) on TPS6594 PMIC devices.
+> +	  These devices integrate a finite state machine engine, which manages the state
+> +	  of the device during operating state transition.
+> +
+> +	  This driver can also be built as a module.  If so, the module
+> +	  will be called tps6594-pfsm.
+> +
+>  config TWL4030_CORE
+>  	bool "TI TWL4030/TWL5030/TWL6030/TPS659x0 Support"
+>  	depends on I2C=y
+> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+> index ae2d404cd6b8..c201c186ae38 100644
+> --- a/drivers/mfd/Makefile
+> +++ b/drivers/mfd/Makefile
+> @@ -106,6 +106,7 @@ obj-$(CONFIG_MFD_TPS6594)	+= tps6594-core.o
+>  obj-$(CONFIG_MFD_TPS6594_I2C)	+= tps6594-i2c.o
+>  obj-$(CONFIG_MFD_TPS6594_SPI)	+= tps6594-spi.o
+>  obj-$(CONFIG_MFD_TPS6594_ESM)	+= tps6594-esm.o
+> +obj-$(CONFIG_MFD_TPS6594_PFSM)	+= tps6594-pfsm.o
+>  obj-$(CONFIG_MENELAUS)		+= menelaus.o
+>  
+>  obj-$(CONFIG_TWL4030_CORE)	+= twl-core.o twl4030-irq.o twl6030-irq.o
+> diff --git a/drivers/mfd/tps6594-pfsm.c b/drivers/mfd/tps6594-pfsm.c
+> new file mode 100644
+> index 000000000000..ce7859ac82ab
+> --- /dev/null
+> +++ b/drivers/mfd/tps6594-pfsm.c
+> @@ -0,0 +1,304 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * PFSM (Pre-configurable Finite State Machine) driver for TI TPS6594/TPS6593/LP8764X PMICs
+> + *
+> + * Copyright (C) 2022 BayLibre Incorporated - https://www.baylibre.com/
+> + */
+> +
+> +#include <linux/fs.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/ioctl.h>
+> +#include <linux/miscdevice.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +
+> +#include <linux/mfd/tps6594.h>
+> +
+> +#include <linux/tps6594_pfsm.h>
+> +
+> +#define TPS6594_STARTUP_DEST_MCU_ONLY_VAL 2
+> +#define TPS6594_STARTUP_DEST_ACTIVE_VAL   3
+> +#define TPS6594_STARTUP_DEST_SHIFT	  5
+> +#define TPS6594_STARTUP_DEST_MCU_ONLY	  (TPS6594_STARTUP_DEST_MCU_ONLY_VAL \
+> +					   << TPS6594_STARTUP_DEST_SHIFT)
+> +#define TPS6594_STARTUP_DEST_ACTIVE	  (TPS6594_STARTUP_DEST_ACTIVE_VAL \
+> +					   << TPS6594_STARTUP_DEST_SHIFT)
+> +
+> +/*
+> + * To update the PMIC firmware, the user must be able to access
+> + * page 0 (user registers) and page 1 (NVM control and configuration).
+> + */
+> +#define TPS6594_PMIC_MAX_POS 0x200
+> +
+> +#define TPS6594_FILE_TO_PFSM(f) container_of((f)->private_data, struct tps6594_pfsm, miscdev)
+> +
+> +/**
+> + * struct tps6594_pfsm - device private data structure
+> + *
+> + * @miscdev: misc device infos
+> + * @regmap:  regmap for accessing the device registers
+> + */
+> +struct tps6594_pfsm {
+> +	struct miscdevice miscdev;
+> +	struct regmap *regmap;
+> +};
+> +
+> +static ssize_t tps6594_pfsm_read(struct file *f, char __user *buf,
+> +				 size_t count, loff_t *ppos)
+> +{
+> +	struct tps6594_pfsm *pfsm = TPS6594_FILE_TO_PFSM(f);
+> +	loff_t pos = *ppos;
+> +	unsigned int val;
+> +	int ret;
+> +	int i;
+> +
+> +	if (pos < 0)
+> +		return -EINVAL;
+> +	if (pos >= TPS6594_PMIC_MAX_POS)
+> +		return 0;
+> +	if (count > TPS6594_PMIC_MAX_POS - pos)
+> +		count = TPS6594_PMIC_MAX_POS - pos;
+> +
+> +	for (i = 0 ; i < count ; i++) {
+> +		ret = regmap_read(pfsm->regmap, pos + i, &val);
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (put_user(val, buf + i))
+> +			return -EFAULT;
+> +	}
+> +
+> +	*ppos = pos + count;
+> +
+> +	return count;
+> +}
+> +
+> +static ssize_t tps6594_pfsm_write(struct file *f, const char __user *buf,
+> +				  size_t count, loff_t *ppos)
+> +{
+> +	struct tps6594_pfsm *pfsm = TPS6594_FILE_TO_PFSM(f);
+> +	loff_t pos = *ppos;
+> +	char val;
+> +	int ret;
+> +	int i;
+> +
+> +	if (pos < 0)
+> +		return -EINVAL;
+> +	if (pos >= TPS6594_PMIC_MAX_POS || !count)
+> +		return 0;
+> +	if (count > TPS6594_PMIC_MAX_POS - pos)
+> +		count = TPS6594_PMIC_MAX_POS - pos;
+> +
+> +	for (i = 0 ; i < count ; i++) {
+> +		if (get_user(val, buf + i))
+> +			return -EFAULT;
+> +
+> +		ret = regmap_write(pfsm->regmap, pos + i, val);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	*ppos = pos + count;
+> +
+> +	return count;
+> +}
+> +
+> +static int tps6594_pfsm_configure_ret_trig(struct regmap *regmap, u8 options)
+> +{
+> +	int ret;
+> +
+> +	if (options & PMIC_GPIO_RETENTION)
+> +		ret = regmap_set_bits(regmap, TPS6594_REG_FSM_I2C_TRIGGERS,
+> +				      TPS6594_BIT_TRIGGER_I2C(5) | TPS6594_BIT_TRIGGER_I2C(6));
+> +	else
+> +		ret = regmap_clear_bits(regmap, TPS6594_REG_FSM_I2C_TRIGGERS,
+> +					TPS6594_BIT_TRIGGER_I2C(5) | TPS6594_BIT_TRIGGER_I2C(6));
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (options & PMIC_DDR_RETENTION)
+> +		ret = regmap_set_bits(regmap, TPS6594_REG_FSM_I2C_TRIGGERS,
+> +				      TPS6594_BIT_TRIGGER_I2C(7));
+> +	else
+> +		ret = regmap_clear_bits(regmap, TPS6594_REG_FSM_I2C_TRIGGERS,
+> +					TPS6594_BIT_TRIGGER_I2C(7));
+> +
+> +	return ret;
+> +}
+> +
+> +static long tps6594_pfsm_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+> +{
+> +	struct tps6594_pfsm *pfsm = TPS6594_FILE_TO_PFSM(f);
+> +	struct pmic_state pfsm_state;
+> +	void __user *argp = (void __user *)arg;
+> +	int ret = -EINVAL;
+> +
+> +	switch (cmd) {
+> +	case PMIC_GOTO_STANDBY:
+> +		/* Disable LP mode */
+> +		ret = regmap_clear_bits(pfsm->regmap, TPS6594_REG_RTC_CTRL_2,
+> +					TPS6594_BIT_LP_STANDBY_SEL);
+> +		if (ret)
+> +			return ret;
+> +
+> +		/* Force trigger */
+> +		ret = regmap_write_bits(pfsm->regmap, TPS6594_REG_FSM_I2C_TRIGGERS,
+> +					TPS6594_BIT_TRIGGER_I2C(0), TPS6594_BIT_TRIGGER_I2C(0));
+> +		break;
+> +	case PMIC_GOTO_LP_STANDBY:
+> +		/* Enable LP mode */
+> +		ret = regmap_set_bits(pfsm->regmap, TPS6594_REG_RTC_CTRL_2,
+> +				      TPS6594_BIT_LP_STANDBY_SEL);
+> +		if (ret)
+> +			return ret;
+> +
+> +		/* Force trigger */
+> +		ret = regmap_write_bits(pfsm->regmap, TPS6594_REG_FSM_I2C_TRIGGERS,
+> +					TPS6594_BIT_TRIGGER_I2C(0), TPS6594_BIT_TRIGGER_I2C(0));
+> +		break;
+> +	case PMIC_UPDATE_PGM:
+> +		/* Force trigger */
+> +		ret = regmap_write_bits(pfsm->regmap, TPS6594_REG_FSM_I2C_TRIGGERS,
+> +					TPS6594_BIT_TRIGGER_I2C(3), TPS6594_BIT_TRIGGER_I2C(3));
+> +		break;
+> +	case PMIC_SET_STATE:
+> +		if (copy_from_user(&pfsm_state, argp, sizeof(pfsm_state)))
+> +			return -EFAULT;
+> +
+> +		switch (pfsm_state.state) {
+> +		case PMIC_ACTIVE_STATE:
+> +			/* Modify NSLEEP1-2 bits */
+> +			ret = regmap_set_bits(pfsm->regmap, TPS6594_REG_FSM_NSLEEP_TRIGGERS,
+> +					      TPS6594_BIT_NSLEEP1B | TPS6594_BIT_NSLEEP2B);
+> +			break;
+> +		case PMIC_MCU_ONLY_STATE:
+> +			/* Configure retention triggers */
+> +			ret = tps6594_pfsm_configure_ret_trig(pfsm->regmap, pfsm_state.options);
+> +			if (ret)
+> +				return ret;
+> +
+> +			/* Modify NSLEEP1-2 bits */
+> +			ret = regmap_clear_bits(pfsm->regmap, TPS6594_REG_FSM_NSLEEP_TRIGGERS,
+> +						TPS6594_BIT_NSLEEP1B);
+> +			if (ret)
+> +				return ret;
+> +
+> +			ret = regmap_set_bits(pfsm->regmap, TPS6594_REG_FSM_NSLEEP_TRIGGERS,
+> +					      TPS6594_BIT_NSLEEP2B);
+> +			break;
+> +		case PMIC_RETENTION_STATE:
+> +			/* Configure wake-up destination */
+> +			if (pfsm_state.options & PMIC_MCU_ONLY_STARTUP_DEST)
+> +				ret = regmap_write_bits(pfsm->regmap, TPS6594_REG_RTC_CTRL_2,
+> +							TPS6594_MASK_STARTUP_DEST,
+> +							TPS6594_STARTUP_DEST_MCU_ONLY);
+> +			else
+> +				ret = regmap_write_bits(pfsm->regmap, TPS6594_REG_RTC_CTRL_2,
+> +							TPS6594_MASK_STARTUP_DEST,
+> +							TPS6594_STARTUP_DEST_ACTIVE);
+> +			if (ret)
+> +				return ret;
+> +
+> +			/* Configure retention triggers */
+> +			ret = tps6594_pfsm_configure_ret_trig(pfsm->regmap, pfsm_state.options);
+> +			if (ret)
+> +				return ret;
+> +
+> +			/* Modify NSLEEP1-2 bits */
+> +			ret = regmap_clear_bits(pfsm->regmap, TPS6594_REG_FSM_NSLEEP_TRIGGERS,
+> +						TPS6594_BIT_NSLEEP2B);
+> +			break;
+> +		}
+> +
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct file_operations tps6594_pfsm_fops = {
+> +	.owner		= THIS_MODULE,
+> +	.llseek		= generic_file_llseek,
+> +	.read		= tps6594_pfsm_read,
+> +	.write		= tps6594_pfsm_write,
+> +	.unlocked_ioctl	= tps6594_pfsm_ioctl,
+> +};
+> +
+> +static irqreturn_t tps6594_pfsm_isr(int irq, void *dev_id)
+> +{
+> +	struct platform_device *pdev = dev_id;
+> +	int i;
+> +
+> +	for (i = 0 ; i < pdev->num_resources ; i++) {
+> +		if (irq == platform_get_irq_byname(pdev, pdev->resource[i].name)) {
+> +			dev_err(pdev->dev.parent, "%s event detected\n", pdev->resource[i].name);
+> +			return IRQ_HANDLED;
+> +		}
+> +	}
+> +
+> +	return IRQ_NONE;
+> +}
+> +
+> +static int tps6594_pfsm_probe(struct platform_device *pdev)
+> +{
+> +	struct tps6594_pfsm *pfsm;
+> +	struct tps6594 *tps = dev_get_drvdata(pdev->dev.parent);
+> +	struct device *dev = &pdev->dev;
+> +	int irq;
+> +	int ret;
+> +	int i;
+> +
+> +	pfsm = devm_kzalloc(dev, sizeof(struct tps6594_pfsm), GFP_KERNEL);
+> +	if (!pfsm)
+> +		return -ENOMEM;
+> +
+> +	pfsm->regmap = tps->regmap;
+> +
+> +	pfsm->miscdev.minor = MISC_DYNAMIC_MINOR;
+> +	pfsm->miscdev.name = devm_kasprintf(dev, GFP_KERNEL, "pfsm-%ld-0x%02x",
+> +					    tps->chip_id, tps->reg);
+> +	pfsm->miscdev.fops = &tps6594_pfsm_fops;
+> +	pfsm->miscdev.parent = dev->parent;
+> +
+> +	for (i = 0 ; i < pdev->num_resources ; i++) {
+> +		irq = platform_get_irq_byname(pdev, pdev->resource[i].name);
+> +		if (irq < 0)
+> +			return dev_err_probe(dev, irq, "Failed to get %s irq\n",
+> +					     pdev->resource[i].name);
+> +
+> +		ret = devm_request_threaded_irq(dev, irq, NULL,
+> +						tps6594_pfsm_isr, IRQF_ONESHOT,
+> +						pdev->resource[i].name, pdev);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret, "Failed to request irq\n");
+> +	}
+> +
+> +	platform_set_drvdata(pdev, pfsm);
+> +
+> +	return misc_register(&pfsm->miscdev);
 
-The default value of CONFIG_RCU_BOOT_END_DELAY is chosen as 15s. This
-suites ChromeOS and also a PREEMPT_RT system below very well, which need
-no config or parameter changes, and just a simple application of this patch. A
-system designer can also choose a specific value here to keep RCU from marking
-boot completion.  As noted earlier, RCU's perspective of the system as booted
-will not be marker until at least rcu_boot_end_delay milliseconds have passed
-or an update is made via writing a small value (or 0) in milliseconds to:
-/sys/module/rcupdate/parameters/rcu_boot_end_delay.
+`mv <this> drivers/misc` ?
 
-One side-effect of this patch is, there is a risk that a real-time workload
-launched just after the kernel boots will suffer interruptions due to expedited
-RCU, which previous ended just before init was launched. However, to mitigate
-such an issue (however unlikely), the user should either tune
-CONFIG_RCU_BOOT_END_DELAY to a smaller value than 15 seconds or write a value
-of 0 to /sys/module/rcupdate/parameters/rcu_boot_end_delay, once userspace
-boots, and before launching the real-time workload.
+> +}
+> +
+> +static int tps6594_pfsm_remove(struct platform_device *pdev)
+> +{
+> +	struct tps6594_pfsm *pfsm = platform_get_drvdata(pdev);
+> +
+> +	misc_deregister(&pfsm->miscdev);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver tps6594_pfsm_driver = {
+> +	.driver	= {
+> +		.name = "tps6594-pfsm",
+> +	},
+> +	.probe = tps6594_pfsm_probe,
+> +	.remove = tps6594_pfsm_remove,
+> +};
+> +
+> +module_platform_driver(tps6594_pfsm_driver);
+> +
+> +MODULE_ALIAS("platform:tps6594-pfsm");
+> +MODULE_AUTHOR("Julien Panis <jpanis@baylibre.com>");
+> +MODULE_DESCRIPTION("TPS6594 Pre-configurable Finite State Machine Driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/include/uapi/linux/tps6594_pfsm.h b/include/uapi/linux/tps6594_pfsm.h
+> new file mode 100644
+> index 000000000000..e5264af71d2e
+> --- /dev/null
+> +++ b/include/uapi/linux/tps6594_pfsm.h
+> @@ -0,0 +1,45 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +/*
+> + * Userspace ABI for TPS6594 PMIC Pre-configurable Finite State Machine
+> + *
+> + * Copyright (C) 2022 BayLibre Incorporated - https://www.baylibre.com/
+> + */
+> +
+> +#ifndef __TPS6594_PFSM_H
+> +#define __TPS6594_PFSM_H
+> +
+> +#include <linux/const.h>
+> +#include <linux/ioctl.h>
+> +#include <linux/types.h>
+> +
+> +/* PFSM state definitions */
+> +enum pfsm_state {
+> +	PMIC_ACTIVE_STATE,
+> +	PMIC_MCU_ONLY_STATE,
+> +	PMIC_RETENTION_STATE
+> +};
+> +
+> +/**
+> + * struct pmic_state - PMIC state identification
+> + * @state:   PFSM destination state
+> + * @options: options for destination state
+> + */
+> +struct pmic_state {
+> +	enum pfsm_state state;
+> +	__u8 options;
+> +};
+> +
+> +/* Commands */
+> +#define	PMIC_BASE			'P'
+> +
+> +#define	PMIC_GOTO_STANDBY		_IO(PMIC_BASE, 0)
+> +#define	PMIC_GOTO_LP_STANDBY		_IO(PMIC_BASE, 1)
+> +#define	PMIC_UPDATE_PGM			_IO(PMIC_BASE, 2)
+> +#define	PMIC_SET_STATE			_IOW(PMIC_BASE, 3, struct pmic_state)
+> +
+> +/* Options for destination state */
+> +#define PMIC_GPIO_RETENTION		_BITUL(0)
+> +#define PMIC_DDR_RETENTION		_BITUL(1)
+> +#define PMIC_MCU_ONLY_STARTUP_DEST	_BITUL(2)
+> +
+> +#endif /*  __TPS6594_PFSM_H */
+> -- 
+> 2.37.3
+> 
 
-Qiuxu also noted impressive boot-time improvements with earlier version
-of patch. An excerpt from the data he shared:
-
-1) Testing environment:
-    OS            : CentOS Stream 8 (non-RT OS)
-    Kernel     : v6.2
-    Machine : Intel Cascade Lake server (2 sockets, each with 44 logical threads)
-    Qemu  args  : -cpu host -enable-kvm, -smp 88,threads=2,sockets=2, …
-
-2) OS boot time definition:
-    The time from the start of the kernel boot to the shell command line
-    prompt is shown from the console. [ Different people may have
-    different OS boot time definitions. ]
-
-3) Measurement method (very rough method):
-    A timer in the kernel periodically prints the boot time every 100ms.
-    As soon as the shell command line prompt is shown from the console,
-    we record the boot time printed by the timer, then the printed boot
-    time is the OS boot time.
-
-4) Measured OS boot time (in seconds)
-   a) Measured 10 times w/o this patch:
-        8.7s, 8.4s, 8.6s, 8.2s, 9.0s, 8.7s, 8.8s, 9.3s, 8.8s, 8.3s
-        The average OS boot time was: ~8.7s
-
-   b) Measure 10 times w/ this patch:
-        8.5s, 8.2s, 7.6s, 8.2s, 8.7s, 8.2s, 7.8s, 8.2s, 9.3s, 8.4s
-        The average OS boot time was: ~8.3s.
-
-Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
-v1->v2:
-	Update some comments and description.
-v2->v3:
-        Add sysfs param, and update with Test data.
-
- .../admin-guide/kernel-parameters.txt         | 12 ++++
- cc_list                                       |  8 +++
- kernel/rcu/Kconfig                            | 19 ++++++
- kernel/rcu/update.c                           | 68 ++++++++++++++++++-
- 4 files changed, 106 insertions(+), 1 deletion(-)
- create mode 100644 cc_list
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 2429b5e3184b..611de90d9c13 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5085,6 +5085,18 @@
- 	rcutorture.verbose= [KNL]
- 			Enable additional printk() statements.
- 
-+	rcupdate.rcu_boot_end_delay= [KNL]
-+			Minimum time in milliseconds that must elapse
-+			before the boot sequence can be marked complete
-+			from RCU's perspective, after which RCU's behavior
-+			becomes more relaxed. The default value is also
-+			configurable via CONFIG_RCU_BOOT_END_DELAY.
-+			Userspace can also mark the boot as completed
-+			sooner by writing the time in milliseconds, say once
-+			userspace considers the system as booted, to:
-+			/sys/module/rcupdate/parameters/rcu_boot_end_delay
-+			Or even just writing a value of 0 to this sysfs node.
-+
- 	rcupdate.rcu_cpu_stall_ftrace_dump= [KNL]
- 			Dump ftrace buffer after reporting RCU CPU
- 			stall warning.
-diff --git a/kernel/rcu/Kconfig b/kernel/rcu/Kconfig
-index 9071182b1284..4b5ffa36cbaf 100644
---- a/kernel/rcu/Kconfig
-+++ b/kernel/rcu/Kconfig
-@@ -217,6 +217,25 @@ config RCU_BOOST_DELAY
- 
- 	  Accept the default if unsure.
- 
-+config RCU_BOOT_END_DELAY
-+	int "Minimum time before RCU may consider in-kernel boot as completed"
-+	range 0 120000
-+	default 15000
-+	help
-+	  Default value of the minimum time in milliseconds that must elapse
-+	  before the boot sequence can be marked complete from RCU's perspective,
-+	  after which RCU's behavior becomes more relaxed.
-+	  Userspace can also mark the boot as completed sooner than this default
-+	  by writing the time in milliseconds, say once userspace considers
-+	  the system as booted, to: /sys/module/rcupdate/parameters/rcu_boot_end_delay.
-+	  Or even just writing a value of 0 to this sysfs node.
-+
-+	  The actual delay for RCU's view of the system to be marked as booted can be
-+	  higher than this value if the kernel takes a long time to initialize but it
-+	  will never be smaller than this value.
-+
-+	  Accept the default if unsure.
-+
- config RCU_EXP_KTHREAD
- 	bool "Perform RCU expedited work in a real-time kthread"
- 	depends on RCU_BOOST && RCU_EXPERT
-diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
-index 19bf6fa3ee6a..93138c92136e 100644
---- a/kernel/rcu/update.c
-+++ b/kernel/rcu/update.c
-@@ -224,18 +224,84 @@ void rcu_unexpedite_gp(void)
- }
- EXPORT_SYMBOL_GPL(rcu_unexpedite_gp);
- 
-+/*
-+ * Minimum time in milliseconds until RCU can consider in-kernel boot as
-+ * completed.  This can also be tuned at runtime to end the boot earlier, by
-+ * userspace init code writing the time in milliseconds (even 0) to:
-+ * /sys/module/rcupdate/parameters/rcu_boot_end_delay
-+ */
-+static int rcu_boot_end_delay = CONFIG_RCU_BOOT_END_DELAY;
-+
- static bool rcu_boot_ended __read_mostly;
-+static bool rcu_boot_end_called __read_mostly;
-+static DEFINE_MUTEX(rcu_boot_end_lock);
-+
-+static int param_set_rcu_boot_end(const char *val, const struct kernel_param *kp)
-+{
-+	uint end_ms;
-+	int ret = kstrtouint(val, 0, &end_ms);
-+
-+	if (ret)
-+		return ret;
-+	WRITE_ONCE(*(uint *)kp->arg, end_ms);
-+
-+	/*
-+	 * rcu_end_inkernel_boot() should be called at least once during init
-+	 * before we can allow param changes to end the boot.
-+	 */
-+	mutex_lock(&rcu_boot_end_lock);
-+	rcu_boot_end_delay = end_ms;
-+	if (!rcu_boot_ended && rcu_boot_end_called) {
-+		mutex_unlock(&rcu_boot_end_lock);
-+		rcu_end_inkernel_boot();
-+	}
-+	mutex_unlock(&rcu_boot_end_lock);
-+	return ret;
-+}
-+
-+static const struct kernel_param_ops rcu_boot_end_ops = {
-+	.set = param_set_rcu_boot_end,
-+	.get = param_get_uint,
-+};
-+module_param_cb(rcu_boot_end_delay, &rcu_boot_end_ops, &rcu_boot_end_delay, 0644);
- 
- /*
-- * Inform RCU of the end of the in-kernel boot sequence.
-+ * Inform RCU of the end of the in-kernel boot sequence. The boot sequence will
-+ * not be marked ended until at least rcu_boot_end_delay milliseconds have passed.
-  */
-+void rcu_end_inkernel_boot(void);
-+static void rcu_boot_end_work_fn(struct work_struct *work)
-+{
-+	rcu_end_inkernel_boot();
-+}
-+static DECLARE_DELAYED_WORK(rcu_boot_end_work, rcu_boot_end_work_fn);
-+
- void rcu_end_inkernel_boot(void)
- {
-+	mutex_lock(&rcu_boot_end_lock);
-+	rcu_boot_end_called = true;
-+
-+	if (rcu_boot_ended)
-+		return;
-+
-+	if (rcu_boot_end_delay) {
-+		u64 boot_ms = div_u64(ktime_get_boot_fast_ns(), 1000000UL);
-+
-+		if (boot_ms < rcu_boot_end_delay) {
-+			schedule_delayed_work(&rcu_boot_end_work,
-+					rcu_boot_end_delay - boot_ms);
-+			mutex_unlock(&rcu_boot_end_lock);
-+			return;
-+		}
-+	}
-+
-+	cancel_delayed_work(&rcu_boot_end_work);
- 	rcu_unexpedite_gp();
- 	rcu_async_relax();
- 	if (rcu_normal_after_boot)
- 		WRITE_ONCE(rcu_normal, 1);
- 	rcu_boot_ended = true;
-+	mutex_unlock(&rcu_boot_end_lock);
- }
- 
- /*
 -- 
-2.40.0.rc0.216.gc4246ad0f0-goog
+Lee Jones [李琼斯]
