@@ -2,81 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C63C64EC4
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 13:57:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3049CC7EE30
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Mar 2023 14:00:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230396AbjCCN5l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 08:57:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41240 "EHLO
+        id S231145AbjCCOAa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 09:00:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230334AbjCCN5k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 08:57:40 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A82B61515;
-        Fri,  3 Mar 2023 05:57:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677851859; x=1709387859;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nSpXovstq9ryCqVJkFnv7h1Lwdq9lEritgt5M4+pxzw=;
-  b=GyDH7+IkJugawr9OleqJ93+pm4I65iDN4XJG+BoPIdaE0fND6FB50G7e
-   R7uUgytWbpd6IU3cNSJx/T/PPAkIignoZUKHzDKlCXGkO+7R9gknfi0Me
-   Yh18qlO1cquzjEpaXsp9hCyRy5VSr+EB+xHbwOJ3CD/EJ58cRIN2QLY9V
-   BYC+7ElfaaPfsjsXl54pWmqrUOabMf5Psq6fWkYIp9M4ENygaQ+TgiQYt
-   x2MzTHaoBtjZgdue9wb4+5UsLRjTj+ci5xUz6x9yb00ppMLwWZ2AiBYOr
-   jN+H6LMiLRFnQELx7bXUW/X/ElqX1hxKAcTtmiCfI6WegR5lCnimuNlQk
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="397634445"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="397634445"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 05:57:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="744247173"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="744247173"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 05:57:36 -0800
-Date:   Fri, 3 Mar 2023 14:57:35 +0100
-From:   Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        ogabbay@kernel.org, dri-devel@lists.freedesktop.org,
-        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
-        quic_carlv@quicinc.com, jacek.lawrynowicz@linux.intel.com
-Subject: Re: [PATCH v2 3/8] accel/qaic: Add MHI controller
-Message-ID: <20230303135735.GG3963532@linux.intel.com>
-References: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
- <1675698105-19025-4-git-send-email-quic_jhugo@quicinc.com>
- <20230228115239.GH3547587@linux.intel.com>
- <0f2959e3-8d9e-b603-1317-0d348263f90c@quicinc.com>
+        with ESMTP id S231138AbjCCOA3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 09:00:29 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD335C13B;
+        Fri,  3 Mar 2023 06:00:28 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 242C31EC0657;
+        Fri,  3 Mar 2023 15:00:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1677852027;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=qnYHVDGtQv3jnmqIeyy8ite/fQyg2MBE/ckQjSbBpNM=;
+        b=YlRhGsYyfadQXHimloeHMfYzHgPMt4rRKJ5ZJpz3f7rZXiR4DcSs61vbGpJcRD7wubIbgn
+        Cy5sYRTCmvgOgF2q8BIUBY0oGyQjXPUVKD2axEEDzT4EdiJfZum0kFSwUDEeQjb4kIYCi9
+        dwYF79zrOj6nrFa4wG5FeRtKoWY9ZUM=
+Date:   Fri, 3 Mar 2023 15:00:22 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v7 19/41] x86/mm: Check shadow stack page fault errors
+Message-ID: <ZAH9dhFGtbR5J8j+@zn.tnic>
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-20-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0f2959e3-8d9e-b603-1317-0d348263f90c@quicinc.com>
+In-Reply-To: <20230227222957.24501-20-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 01, 2023 at 09:09:57AM -0700, Jeffrey Hugo wrote:
-> On 2/28/2023 4:52 AM, Stanislaw Gruszka wrote:
-> > On Mon, Feb 06, 2023 at 08:41:40AM -0700, Jeffrey Hugo wrote:
-> > > +	mhi_cntl = kzalloc(sizeof(*mhi_cntl), GFP_KERNEL);
-> > [snip]
-> > > +	mhi_cntl->irq = kmalloc(sizeof(*mhi_cntl->irq), GFP_KERNEL);
-> > 
-> > I recommend usage of devm_kzalloc(), devm_kmalloc() for those
-> > to simplify error and exit paths.
+On Mon, Feb 27, 2023 at 02:29:35PM -0800, Rick Edgecombe wrote:
+> @@ -1310,6 +1324,23 @@ void do_user_addr_fault(struct pt_regs *regs,
+>  
+>  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+>  
+> +	/*
+> +	 * For conventionally writable pages, a read can be serviced with a
+> +	 * read only PTE. But for shadow stack, there isn't a concept of
+> +	 * read-only shadow stack memory. If it a PTE has the shadow stack
+
+s/it //
+
+> +	 * permission, it can be modified via CALL and RET instructions. So
+> +	 * core MM needs to fault in a writable PTE and do things it already
+> +	 * does for write faults.
+> +	 *
+> +	 * Shadow stack accesses (read or write) need to be serviced with
+> +	 * shadow stack permission memory, which always include write
+> +	 * permissions. So in the case of a shadow stack read access, treat it
+> +	 * as a WRITE fault. This will make sure that MM will prepare
+> +	 * everything (e.g., break COW) such that maybe_mkwrite() can create a
+> +	 * proper shadow stack PTE.
+> +	 */
+> +	if (error_code & X86_PF_SHSTK)
+> +		flags |= FAULT_FLAG_WRITE;
+>  	if (error_code & X86_PF_WRITE)
+>  		flags |= FAULT_FLAG_WRITE;
+>  	if (error_code & X86_PF_INSTR)
+> -- 
+> 2.17.1
 > 
-> When this was written, I didn't want to pass the struct device to the
-> mhi_controller just for the purpose of using devm_*.  Today, I'm thinking
-> that is not the end of the world, and devm has advantages. Will change.
 
-If already available &pci_dev->dev can not be used in devm_ due to
-different life times of pci_dev->dev and mhi_cntl, I don't think change
-would be justifiable and kmalloc/kzalloc should stay.
+-- 
+Regards/Gruss,
+    Boris.
 
-Regards
-Stanislaw
-
+https://people.kernel.org/tglx/notes-about-netiquette
