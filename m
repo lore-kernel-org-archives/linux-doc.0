@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8076C61DA4
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Mar 2023 01:10:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2967BC61DA3
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Mar 2023 01:35:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbjCDBKM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 20:10:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38142 "EHLO
+        id S229732AbjCDBfu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 20:35:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229673AbjCDBJq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 20:09:46 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 905426B31A;
-        Fri,  3 Mar 2023 17:08:49 -0800 (PST)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 323Ndesj017428;
-        Sat, 4 Mar 2023 01:07:10 GMT
+        with ESMTP id S229484AbjCDBft (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 20:35:49 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA6E364A88;
+        Fri,  3 Mar 2023 17:35:47 -0800 (PST)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3240r4ow007584;
+        Sat, 4 Mar 2023 01:07:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=tu6+qvW/Zhi1XKBb+7JrOFesQl2cFoGev4zTJaArKOc=;
- b=AmOLrPdxeAja25DoJ4/dxS/kaRzh6+EHsJd9KeAoH6e3k1oAHbdMwllnnssA9X6xvJ+k
- rdKuEnMYK/gVpxaVL7uTNitSfPSURVskAARSivNqGHrykDb3Dj4JtWdGBURValEyI92N
- X0MFW52WcI5fWtbQ+L3D6pbsrn31bsh8SmIEmSDoYiP5JGdIjKgKqCV3KibY868k5lz3
- 6YnqV+m1nR4Z8p5gKy92FydMj9vHpXoLHyC8up+VitR2UlDYPVzFfZGpOGe1DLs8vg9j
- cRKXDizu8iItb6gW4IgqIGtJpXLo5k5pPH62G89oFSaAwl61/NaNYX3oXhLBATJU0FgE CQ== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p3bsbtrew-1
+ bh=wvhDtInPmC0leqk/Kbs8lbSLrxQCbpRgDn//zaKP+3A=;
+ b=N4QIX8FVeV//H/Tk6LCPslaXvPIyP/w97rv2LggkAF+fdV9KtVgsNEeMFK5VCWd+wx5U
+ aJAt8n7ppAp3cAEUXdJ4O+wl7AVblYvqdHA5R7ivr5utiCGoLHSrU8nifzhybmWxrsxW
+ iuIV5gB6gSI3iq46OXwcdp9KQlS5rT6OciIqjViCqaHcXoE+K/ixRyLy5Cr2xbhfG8md
+ oLHR2J93mFuJHsm6O6sz6tAJe5xqtO+JBsy6Rny40zBLeTn+PBzDkUv/V0+E6Zl0q+2F
+ QtZB6tDmhM8kBI7J6BYtf+vGv4vZbJy3II/qdS4H05jOqU5n3546zPprMqBdey53d4Iv Ow== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p32ty430h-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 04 Mar 2023 01:07:10 +0000
+        Sat, 04 Mar 2023 01:07:23 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 324179Il032297
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32417Mmd019390
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 4 Mar 2023 01:07:09 GMT
+        Sat, 4 Mar 2023 01:07:22 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Fri, 3 Mar 2023 17:07:08 -0800
+ 15.2.986.41; Fri, 3 Mar 2023 17:07:22 -0800
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -62,9 +62,9 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v11 17/26] docs: gunyah: Document Gunyah VM Manager
-Date:   Fri, 3 Mar 2023 17:06:23 -0800
-Message-ID: <20230304010632.2127470-18-quic_eberman@quicinc.com>
+Subject: [PATCH v11 25/26] virt: gunyah: Add ioeventfd
+Date:   Fri, 3 Mar 2023 17:06:31 -0800
+Message-ID: <20230304010632.2127470-26-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230304010632.2127470-1-quic_eberman@quicinc.com>
 References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
@@ -76,138 +76,251 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: -Min-bMluKjxBJzwV2OMQ6tBhsnC1kRV
-X-Proofpoint-ORIG-GUID: -Min-bMluKjxBJzwV2OMQ6tBhsnC1kRV
+X-Proofpoint-GUID: 0ezja0ChU0czpuzouca54EhuQjAyN310
+X-Proofpoint-ORIG-GUID: 0ezja0ChU0czpuzouca54EhuQjAyN310
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-03_07,2023-03-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 spamscore=0 phishscore=0 impostorscore=0 suspectscore=0
- bulkscore=0 clxscore=1015 adultscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303040005
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
+ mlxlogscore=999 lowpriorityscore=0 suspectscore=0 mlxscore=0
+ priorityscore=1501 malwarescore=0 adultscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303040004
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the ioctls and usage of Gunyah VM Manager driver.
+Allow userspace to attach an ioeventfd to an mmio address within the guest.
 
+Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- Documentation/virt/gunyah/index.rst      |  1 +
- Documentation/virt/gunyah/vm-manager.rst | 91 ++++++++++++++++++++++++
- 2 files changed, 92 insertions(+)
- create mode 100644 Documentation/virt/gunyah/vm-manager.rst
+ Documentation/virt/gunyah/vm-manager.rst |   2 +-
+ drivers/virt/gunyah/Kconfig              |   9 ++
+ drivers/virt/gunyah/Makefile             |   1 +
+ drivers/virt/gunyah/gunyah_ioeventfd.c   | 117 +++++++++++++++++++++++
+ include/uapi/linux/gunyah.h              |  37 +++++++
+ 5 files changed, 165 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/virt/gunyah/gunyah_ioeventfd.c
 
-diff --git a/Documentation/virt/gunyah/index.rst b/Documentation/virt/gunyah/index.rst
-index 74aa345e0a14..7058249825b1 100644
---- a/Documentation/virt/gunyah/index.rst
-+++ b/Documentation/virt/gunyah/index.rst
-@@ -7,6 +7,7 @@ Gunyah Hypervisor
- .. toctree::
-    :maxdepth: 1
- 
-+   vm-manager
-    message-queue
- 
- Gunyah is a Type-1 hypervisor which is independent of any OS kernel, and runs in
 diff --git a/Documentation/virt/gunyah/vm-manager.rst b/Documentation/virt/gunyah/vm-manager.rst
-new file mode 100644
-index 000000000000..1b4aa18670a3
---- /dev/null
+index a1dd70f0cbf6..cd41a705849f 100644
+--- a/Documentation/virt/gunyah/vm-manager.rst
 +++ b/Documentation/virt/gunyah/vm-manager.rst
-@@ -0,0 +1,91 @@
-+.. SPDX-License-Identifier: GPL-2.0
+@@ -124,7 +124,7 @@ the VM starts.
+ The possible types are documented below:
+ 
+ .. kernel-doc:: include/uapi/linux/gunyah.h
+-   :identifiers: GH_FN_VCPU gh_fn_vcpu_arg GH_FN_IRQFD gh_fn_irqfd_arg
++   :identifiers: GH_FN_VCPU gh_fn_vcpu_arg GH_FN_IRQFD gh_fn_irqfd_arg GH_FN_IOEVENTFD gh_fn_ioeventfd_arg
+ 
+ Gunyah VCPU API Descriptions
+ ----------------------------
+diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+index 2cde24d429d1..bd8e31184962 100644
+--- a/drivers/virt/gunyah/Kconfig
++++ b/drivers/virt/gunyah/Kconfig
+@@ -35,3 +35,12 @@ config GUNYAH_IRQFD
+ 	  on Gunyah virtual machine.
+ 
+ 	  Say Y/M here if unsure and you want to support Gunyah VMMs.
 +
-+=======================
-+Virtual Machine Manager
-+=======================
++config GUNYAH_IOEVENTFD
++	tristate "Gunyah ioeventfd interface"
++	depends on GUNYAH
++	help
++	  Enable kernel support for creating ioeventfds which can alert userspace
++	  when a Gunyah virtual machine accesses a memory address.
 +
-+The Gunyah Virtual Machine Manager is a Linux driver to support launching
-+virtual machines using Gunyah. It presently supports launching non-proxy
-+scheduled Linux-like virtual machines.
++	  Say Y/M here if unsure and you want to support Gunyah VMMs.
+diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+index 6cf756bfa3c2..7347b1470491 100644
+--- a/drivers/virt/gunyah/Makefile
++++ b/drivers/virt/gunyah/Makefile
+@@ -8,3 +8,4 @@ obj-$(CONFIG_GUNYAH) += gunyah_rsc_mgr.o
+ 
+ obj-$(CONFIG_GUNYAH_VCPU) += gunyah_vcpu.o
+ obj-$(CONFIG_GUNYAH_IRQFD) += gunyah_irqfd.o
++obj-$(CONFIG_GUNYAH_IOEVENTFD) += gunyah_ioeventfd.o
+diff --git a/drivers/virt/gunyah/gunyah_ioeventfd.c b/drivers/virt/gunyah/gunyah_ioeventfd.c
+new file mode 100644
+index 000000000000..517f55706ed9
+--- /dev/null
++++ b/drivers/virt/gunyah/gunyah_ioeventfd.c
+@@ -0,0 +1,117 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
 +
-+Except for some basic information about the location of initial binaries,
-+most of the configuration about a Gunyah virtual machine is described in the
-+VM's devicetree. The devicetree is generated by userspace. Interacting with the
-+virtual machine is still done via the kernel and VM configuration requires some
-+of the corresponding functionality to be set up in the kernel. For instance,
-+sharing userspace memory with a VM is done via the GH_VM_SET_USER_MEM_REGION
-+ioctl. The VM itself is configured to use the memory region via the
-+devicetree.
++#include <linux/eventfd.h>
++#include <linux/file.h>
++#include <linux/fs.h>
++#include <linux/gunyah.h>
++#include <linux/gunyah_vm_mgr.h>
++#include <linux/module.h>
++#include <linux/printk.h>
 +
-+Sample Userspace VMM
-+====================
++#include <uapi/linux/gunyah.h>
 +
-+A sample userspace VMM is included in samples/gunyah/ along with a minimal
-+devicetree that can be used to launch a VM. To build this sample, enable
-+CONFIG_SAMPLE_GUNYAH.
++struct gh_ioeventfd {
++	struct gh_vm_function_instance *f;
++	struct gh_vm_io_handler io_handler;
 +
-+IOCTLs and userspace VMM flows
-+==============================
++	struct eventfd_ctx *ctx;
++};
 +
-+The kernel exposes a char device interface at /dev/gunyah.
++static int gh_write_ioeventfd(struct gh_vm_io_handler *io_dev, u64 addr, u32 len, u64 data)
++{
++	struct gh_ioeventfd *iofd = container_of(io_dev, struct gh_ioeventfd, io_handler);
 +
-+To create a VM, use the GH_CREATE_VM ioctl. A successful call will return a
-+"Gunyah VM" file descriptor.
++	eventfd_signal(iofd->ctx, 1);
++	return 0;
++}
 +
-+/dev/gunyah API Descriptions
-+----------------------------
++static struct gh_vm_io_handler_ops io_ops = {
++	.write = gh_write_ioeventfd,
++};
 +
-+GH_CREATE_VM
-+~~~~~~~~~~~~
++static long gh_ioeventfd_bind(struct gh_vm_function_instance *f)
++{
++	const struct gh_fn_ioeventfd_arg *args = f->argp;
++	struct eventfd_ctx *ctx = NULL;
++	struct gh_ioeventfd *iofd;
++	int ret;
 +
-+Creates a Gunyah VM. The argument is reserved for future use and must be 0.
++	if (f->arg_size != sizeof(*args))
++		return -EINVAL;
 +
-+Gunyah VM API Descriptions
-+--------------------------
++	/* must be natural-word sized, or 0 to ignore length */
++	switch (args->len) {
++	case 0:
++	case 1:
++	case 2:
++	case 4:
++	case 8:
++		break;
++	default:
++		return -EINVAL;
++	}
 +
-+GH_VM_SET_USER_MEM_REGION
-+~~~~~~~~~~~~~~~~~~~~~~~~~
++	/* check for range overflow */
++	if (args->addr + args->len < args->addr)
++		return -EINVAL;
 +
-+This ioctl allows the user to create or delete a memory parcel for a guest
-+virtual machine. Each memory region is uniquely identified by a label;
-+attempting to create two regions with the same label is not allowed. Labels are
-+unique per virtual machine.
++	/* ioeventfd with no length can't be combined with DATAMATCH */
++	if (!args->len && (args->flags & GH_IOEVENTFD_DATAMATCH))
++		return -EINVAL;
 +
-+While VMM is guest-agnostic and allows runtime addition of memory regions,
-+Linux guest virtual machines do not support accepting memory regions at runtime.
-+Thus, memory regions should be provided before starting the VM and the VM must
-+be configured to accept these at boot-up.
++	/* All other flag bits are reserved for future use */
++	if (args->flags & ~GH_IOEVENTFD_DATAMATCH)
++		return -EINVAL;
 +
-+The guest physical address is used by Linux kernel to check that the requested
-+user regions do not overlap and to help find the corresponding memory region
-+for calls like GH_VM_SET_DTB_CONFIG. It must be page aligned.
++	ctx = eventfd_ctx_fdget(args->fd);
++	if (IS_ERR(ctx))
++		return PTR_ERR(ctx);
 +
-+memory_size and userspace_addr must be page-aligned.
++	iofd = kzalloc(sizeof(*iofd), GFP_KERNEL);
++	if (!iofd) {
++		ret = -ENOMEM;
++		goto err_eventfd;
++	}
 +
-+The flags field of gh_userspace_memory_region accepts the following bits. All
-+other bits must be 0 and are reserved for future use. The ioctl will return
-+-EINVAL if an unsupported bit is detected.
++	f->data = iofd;
++	iofd->f = f;
 +
-+  - GH_MEM_ALLOW_READ/GH_MEM_ALLOW_WRITE/GH_MEM_ALLOW_EXEC sets read/write/exec
-+    permissions for the guest, respectively.
++	iofd->ctx = ctx;
 +
-+To add a memory region, call GH_VM_SET_USER_MEM_REGION with fields set as
-+described above.
++	if (args->flags & GH_IOEVENTFD_DATAMATCH) {
++		iofd->io_handler.datamatch = true;
++		iofd->io_handler.len = args->len;
++		iofd->io_handler.data = args->datamatch;
++	}
++	iofd->io_handler.addr = args->addr;
++	iofd->io_handler.ops = &io_ops;
 +
-+.. kernel-doc:: include/uapi/linux/gunyah.h
-+   :identifiers: gh_userspace_memory_region
++	ret = gh_vm_add_io_handler(f->ghvm, &iofd->io_handler);
++	if (ret)
++		goto err_io_dev_add;
 +
-+GH_VM_SET_DTB_CONFIG
-+~~~~~~~~~~~~~~~~~~~~
++	return 0;
 +
-+This ioctl sets the location of the VM's devicetree blob and is used by Gunyah
-+Resource Manager to allocate resources. The guest physical memory should be part
-+of the primary memory parcel provided to the VM prior to GH_VM_START.
++err_io_dev_add:
++	kfree(iofd);
++err_eventfd:
++	eventfd_ctx_put(ctx);
++	return ret;
++}
 +
-+.. kernel-doc:: include/uapi/linux/gunyah.h
-+   :identifiers: gh_vm_dtb_config
++static void gh_ioevent_unbind(struct gh_vm_function_instance *f)
++{
++	struct gh_ioeventfd *iofd = f->data;
 +
-+GH_VM_START
-+~~~~~~~~~~~
++	eventfd_ctx_put(iofd->ctx);
++	gh_vm_remove_io_handler(iofd->f->ghvm, &iofd->io_handler);
++	kfree(iofd);
++}
 +
-+This ioctl starts the VM.
++DECLARE_GH_VM_FUNCTION_INIT(ioeventfd, GH_FN_IOEVENTFD,
++				gh_ioeventfd_bind, gh_ioevent_unbind);
++MODULE_DESCRIPTION("Gunyah ioeventfds");
++MODULE_LICENSE("GPL");
+diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+index 5617dadc1c7b..f8482ff4cc55 100644
+--- a/include/uapi/linux/gunyah.h
++++ b/include/uapi/linux/gunyah.h
+@@ -89,6 +89,23 @@ struct gh_vm_dtb_config {
+  */
+ #define GH_FN_IRQFD 		2
+ 
++/**
++ * GH_FN_IOEVENTFD - register ioeventfd to trigger when VM faults on parameter
++ *
++ * gh_fn_desc is filled with gh_fn_ioeventfd_arg
++ *
++ * Attaches an ioeventfd to a legal mmio address within the guest. A guest write
++ * in the registered address will signal the provided event instead of triggering
++ * an exit on the GH_VCPU_RUN ioctl.
++ *
++ * If GH_IOEVENTFD_DATAMATCH flag is set, the event will be signaled only if the
++ * written value to the registered address is equal to datamatch in
++ * struct gh_fn_ioeventfd_arg.
++ *
++ * Return: 0
++ */
++#define GH_FN_IOEVENTFD 	3
++
+ #define GH_FN_MAX_ARG_SIZE		256
+ 
+ /**
+@@ -118,6 +135,26 @@ struct gh_fn_irqfd_arg {
+ 
+ #define GH_IOEVENTFD_DATAMATCH		(1UL << 0)
+ 
++/**
++ * struct gh_fn_ioeventfd_arg - Arguments to create an ioeventfd function
++ * @datamatch: data used when GH_IOEVENTFD_DATAMATCH is set
++ * @addr: Address in guest memory
++ * @len: Length of access
++ * @fd: When ioeventfd is matched, this eventfd is written
++ * @flags: If GH_IOEVENTFD_DATAMATCH flag is set, the event will be signaled
++ *         only if the written value to the registered address is equal to
++ *         @datamatch
++ * @padding: padding bytes
++ */
++struct gh_fn_ioeventfd_arg {
++	__u64 datamatch;
++	__u64 addr;        /* legal mmio address */
++	__u32 len;         /* 1, 2, 4, or 8 bytes; or 0 to ignore length */
++	__s32 fd;
++	__u32 flags;
++	__u32 padding;
++};
++
+ /**
+  * struct gh_fn_desc - Arguments to create a VM function
+  * @type: Type of the function. See GH_FN_* macro for supported types
 -- 
 2.39.2
 
