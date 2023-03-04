@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62C52C6FD19
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Mar 2023 01:07:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE1FAC6FD1A
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Mar 2023 01:07:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229452AbjCDBHH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 20:07:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33582 "EHLO
+        id S229780AbjCDBHI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 20:07:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbjCDBHF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 20:07:05 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79EBC60D71;
-        Fri,  3 Mar 2023 17:07:04 -0800 (PST)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 323LUSmM024354;
-        Sat, 4 Mar 2023 01:06:52 GMT
+        with ESMTP id S229661AbjCDBHG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 20:07:06 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1713F60D7F;
+        Fri,  3 Mar 2023 17:07:05 -0800 (PST)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32400LVG003536;
+        Sat, 4 Mar 2023 01:06:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=c+R7Cm2h9YH+WF+IGm5QH89rs8g8xWEdt60LkDWmLUY=;
- b=RTYYnWXMQdpSdp2TJL09Jpcz5BgY+a1j30FLL4KKMVBZk9IOF26t1OornNM9vExCtekC
- XzFm31zjOGzFcnk1OnhaQN/cU6tCaob6FNFvWRBQCY05SAjosE/u0f3DXiWz8R5lmf1Z
- KzqBW27aURXgWF6+YF1OnL/1veqGxCsqxU5QVok0XYRIQCTPcmEsRTEmQcHg+ISsriQB
- SQsoqQJGkb2FXQfRzXMzp3MONOCGWwjWGqqlgJ2XK9hs0cO3/y48so82gnaeKu4f0CXV
- 9BTPHeyBx/2JMPar0VU73q1ZIPwf8W8K0OTFWiUnLhRZIIAflgjG2Jf+jlAP9NSEI5Gz Yw== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p3c8htrbd-1
+ bh=jEyk4HliMxKi4wE8CsySZn3iDFHDSO6CVbaXJWg6y1Y=;
+ b=LhklqIu95JDioJYSYlEdh5A+06GuAWOC+YwCHMoTddsFxGk8NCKPxEJbsBex/NuK7xcm
+ ZSjIi46OPCkIxqTDabDagYlTlHqboQcP3oiwsGdqJzDp+usGu8zyiRSO+do6sQYJkWAd
+ ktZuVxAEn5edX2J8q63ZWu4GQsQHbtpsDJYBr1srOXEnQ7oUY4E9VogvyRsLkKl7HyIr
+ 9B/Dz5K6FYJNbECMJ+AODL+oIQl1aBu4Cd1OwmPj7XTnWXe14bQH0Ch7t5IUs/MS4svz
+ uD8yMruyq6e42/TRABxgbr0LjTH06dR5ulpdzY6GyMUpiGnP3j1rS6Ax89r2MhX2++g8 5Q== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p3dfrjf3r-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 04 Mar 2023 01:06:52 +0000
+        Sat, 04 Mar 2023 01:06:48 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32416pYk031659
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32416mvx018575
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 4 Mar 2023 01:06:51 GMT
+        Sat, 4 Mar 2023 01:06:48 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Fri, 3 Mar 2023 17:06:50 -0800
+ 15.2.986.41; Fri, 3 Mar 2023 17:06:47 -0800
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -62,9 +62,9 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v11 05/26] virt: gunyah: Identify hypervisor version
-Date:   Fri, 3 Mar 2023 17:06:11 -0800
-Message-ID: <20230304010632.2127470-6-quic_eberman@quicinc.com>
+Subject: [PATCH v11 03/26] gunyah: Common types and error codes for Gunyah hypercalls
+Date:   Fri, 3 Mar 2023 17:06:09 -0800
+Message-ID: <20230304010632.2127470-4-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230304010632.2127470-1-quic_eberman@quicinc.com>
 References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
@@ -76,117 +76,119 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: dwX26VFNCPBxoep2hDYNa8iXyxQZpPOD
-X-Proofpoint-ORIG-GUID: dwX26VFNCPBxoep2hDYNa8iXyxQZpPOD
+X-Proofpoint-GUID: j_boKn3Ets6Sh33sceCLbPTuf9hMuIC6
+X-Proofpoint-ORIG-GUID: j_boKn3Ets6Sh33sceCLbPTuf9hMuIC6
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-03_07,2023-03-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- clxscore=1015 phishscore=0 malwarescore=0 mlxlogscore=999
- priorityscore=1501 impostorscore=0 mlxscore=0 bulkscore=0 suspectscore=0
- adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303040004
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 mlxlogscore=719 clxscore=1015
+ priorityscore=1501 malwarescore=0 lowpriorityscore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303040005
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Export the version of Gunyah which is reported via the hyp_identify
-hypercall. Increments of the major API version indicate possibly
-backwards incompatible changes.
+Add architecture-independent standard error codes, types, and macros for
+Gunyah hypercalls.
 
-Export the hypervisor identity so that Gunyah drivers can act according
-to the major API version.
-
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- drivers/virt/Makefile        |  1 +
- drivers/virt/gunyah/Makefile |  3 ++
- drivers/virt/gunyah/gunyah.c | 57 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 61 insertions(+)
- create mode 100644 drivers/virt/gunyah/Makefile
- create mode 100644 drivers/virt/gunyah/gunyah.c
+ include/linux/gunyah.h | 83 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
+ create mode 100644 include/linux/gunyah.h
 
-diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-index e9aa6fc96fab..a5817e2d7d71 100644
---- a/drivers/virt/Makefile
-+++ b/drivers/virt/Makefile
-@@ -12,3 +12,4 @@ obj-$(CONFIG_ACRN_HSM)		+= acrn/
- obj-$(CONFIG_EFI_SECRET)	+= coco/efi_secret/
- obj-$(CONFIG_SEV_GUEST)		+= coco/sev-guest/
- obj-$(CONFIG_INTEL_TDX_GUEST)	+= coco/tdx-guest/
-+obj-y				+= gunyah/
-diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
 new file mode 100644
-index 000000000000..34f32110faf9
+index 000000000000..54b4be71caf7
 --- /dev/null
-+++ b/drivers/virt/gunyah/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-$(CONFIG_GUNYAH) += gunyah.o
-diff --git a/drivers/virt/gunyah/gunyah.c b/drivers/virt/gunyah/gunyah.c
-new file mode 100644
-index 000000000000..4b7e6f3edaff
---- /dev/null
-+++ b/drivers/virt/gunyah/gunyah.c
-@@ -0,0 +1,57 @@
-+// SPDX-License-Identifier: GPL-2.0-only
++++ b/include/linux/gunyah.h
+@@ -0,0 +1,83 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#define pr_fmt(fmt) "gunyah: " fmt
++#ifndef _LINUX_GUNYAH_H
++#define _LINUX_GUNYAH_H
 +
-+#include <linux/gunyah.h>
-+#include <linux/init.h>
-+#include <linux/module.h>
-+#include <linux/printk.h>
++#include <linux/errno.h>
++#include <linux/limits.h>
 +
-+static struct gh_hypercall_hyp_identify_resp gh_api;
++/******************************************************************************/
++/* Common arch-independent definitions for Gunyah hypercalls                  */
++#define GH_CAPID_INVAL	U64_MAX
++#define GH_VMID_ROOT_VM	0xff
 +
-+u16 gh_api_version(void)
++enum gh_error {
++	GH_ERROR_OK			= 0,
++	GH_ERROR_UNIMPLEMENTED		= -1,
++	GH_ERROR_RETRY			= -2,
++
++	GH_ERROR_ARG_INVAL		= 1,
++	GH_ERROR_ARG_SIZE		= 2,
++	GH_ERROR_ARG_ALIGN		= 3,
++
++	GH_ERROR_NOMEM			= 10,
++
++	GH_ERROR_ADDR_OVFL		= 20,
++	GH_ERROR_ADDR_UNFL		= 21,
++	GH_ERROR_ADDR_INVAL		= 22,
++
++	GH_ERROR_DENIED			= 30,
++	GH_ERROR_BUSY			= 31,
++	GH_ERROR_IDLE			= 32,
++
++	GH_ERROR_IRQ_BOUND		= 40,
++	GH_ERROR_IRQ_UNBOUND		= 41,
++
++	GH_ERROR_CSPACE_CAP_NULL	= 50,
++	GH_ERROR_CSPACE_CAP_REVOKED	= 51,
++	GH_ERROR_CSPACE_WRONG_OBJ_TYPE	= 52,
++	GH_ERROR_CSPACE_INSUF_RIGHTS	= 53,
++	GH_ERROR_CSPACE_FULL		= 54,
++
++	GH_ERROR_MSGQUEUE_EMPTY		= 60,
++	GH_ERROR_MSGQUEUE_FULL		= 61,
++};
++
++/**
++ * gh_remap_error() - Remap Gunyah hypervisor errors into a Linux error code
++ * @gh_error: Gunyah hypercall return value
++ */
++static inline int gh_remap_error(enum gh_error gh_error)
 +{
-+	return FIELD_GET(GH_API_INFO_API_VERSION_MASK, gh_api.api_info);
-+}
-+EXPORT_SYMBOL_GPL(gh_api_version);
-+
-+bool gh_api_has_feature(enum gh_api_feature feature)
-+{
-+	switch (feature) {
-+	case GH_FEATURE_DOORBELL:
-+	case GH_FEATURE_MSGQUEUE:
-+	case GH_FEATURE_VCPU:
-+	case GH_FEATURE_MEMEXTENT:
-+		return !!(gh_api.flags[0] & BIT_ULL(feature));
++	switch (gh_error) {
++	case GH_ERROR_OK:
++		return 0;
++	case GH_ERROR_NOMEM:
++		return -ENOMEM;
++	case GH_ERROR_DENIED:
++	case GH_ERROR_CSPACE_CAP_NULL:
++	case GH_ERROR_CSPACE_CAP_REVOKED:
++	case GH_ERROR_CSPACE_WRONG_OBJ_TYPE:
++	case GH_ERROR_CSPACE_INSUF_RIGHTS:
++	case GH_ERROR_CSPACE_FULL:
++		return -EACCES;
++	case GH_ERROR_BUSY:
++	case GH_ERROR_IDLE:
++		return -EBUSY;
++	case GH_ERROR_IRQ_BOUND:
++	case GH_ERROR_IRQ_UNBOUND:
++	case GH_ERROR_MSGQUEUE_FULL:
++	case GH_ERROR_MSGQUEUE_EMPTY:
++		return -EIO;
++	case GH_ERROR_UNIMPLEMENTED:
++	case GH_ERROR_RETRY:
++		return -EOPNOTSUPP;
 +	default:
-+		return false;
++		return -EINVAL;
 +	}
 +}
-+EXPORT_SYMBOL_GPL(gh_api_has_feature);
 +
-+static int __init gh_init(void)
-+{
-+	if (!arch_is_gh_guest())
-+		return -ENODEV;
-+
-+	gh_hypercall_hyp_identify(&gh_api);
-+
-+	pr_info("Running under Gunyah hypervisor %llx/v%u\n",
-+		FIELD_GET(GH_API_INFO_VARIANT_MASK, gh_api.api_info),
-+		gh_api_version());
-+
-+	/* We might move this out to individual drivers if there's ever an API version bump */
-+	if (gh_api_version() != GH_API_V1) {
-+		pr_info("Unsupported Gunyah version: %u\n", gh_api_version());
-+		return -ENODEV;
-+	}
-+
-+	return 0;
-+}
-+arch_initcall(gh_init);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Gunyah Hypervisor Driver");
++#endif
 -- 
 2.39.2
 
