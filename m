@@ -2,49 +2,47 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7578C6FA9E
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Mar 2023 01:07:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62C52C6FD19
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Mar 2023 01:07:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229686AbjCDBHG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Mar 2023 20:07:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33566 "EHLO
+        id S229452AbjCDBHH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Mar 2023 20:07:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbjCDBHE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 20:07:04 -0500
+        with ESMTP id S229614AbjCDBHF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Mar 2023 20:07:05 -0500
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9AB161519;
-        Fri,  3 Mar 2023 17:07:02 -0800 (PST)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3240hP7Q014377;
-        Sat, 4 Mar 2023 01:06:48 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79EBC60D71;
+        Fri,  3 Mar 2023 17:07:04 -0800 (PST)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 323LUSmM024354;
+        Sat, 4 Mar 2023 01:06:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=lBgQ8sQd2ooWTyKgD+qhk0eX+e4plIATV17Lqcn5aqk=;
- b=dTZvV3FpctO2eCIguz4nqGEKuFNLz75gAuLhcESZv6ZQWZPAesNDQLGt19PBMtCBE65d
- qsHac/3AES2K5DTmUAhkdNcKSHEsK6hYusJemnuhTQiU3ByaasBDwb9PFI4vEg9C38PI
- JhY3dLMs/lAH8FerTs3vkED4w2Xo6YdW365ay3I1O+AS5DZtPiwT4j6gbKig5ylqn0bF
- yF+aV4uhjW3lrvgdF3VgLBK6AI5kKn8cNjDiNbeGCfQKg2q3xoKf3lRZXeH4vivpjdwK
- Wj+SqtPt72EBwexJSI5ct4Cj8gxvPBr7EdcsSI9BLK5VkBB2PxM0zFOACVmw5sCTbTv1 Dg== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p3rse8by9-1
+ bh=c+R7Cm2h9YH+WF+IGm5QH89rs8g8xWEdt60LkDWmLUY=;
+ b=RTYYnWXMQdpSdp2TJL09Jpcz5BgY+a1j30FLL4KKMVBZk9IOF26t1OornNM9vExCtekC
+ XzFm31zjOGzFcnk1OnhaQN/cU6tCaob6FNFvWRBQCY05SAjosE/u0f3DXiWz8R5lmf1Z
+ KzqBW27aURXgWF6+YF1OnL/1veqGxCsqxU5QVok0XYRIQCTPcmEsRTEmQcHg+ISsriQB
+ SQsoqQJGkb2FXQfRzXMzp3MONOCGWwjWGqqlgJ2XK9hs0cO3/y48so82gnaeKu4f0CXV
+ 9BTPHeyBx/2JMPar0VU73q1ZIPwf8W8K0OTFWiUnLhRZIIAflgjG2Jf+jlAP9NSEI5Gz Yw== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p3c8htrbd-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 04 Mar 2023 01:06:48 +0000
+        Sat, 04 Mar 2023 01:06:52 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32416lmW025739
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32416pYk031659
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 4 Mar 2023 01:06:47 GMT
+        Sat, 4 Mar 2023 01:06:51 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Fri, 3 Mar 2023 17:06:46 -0800
+ 15.2.986.41; Fri, 3 Mar 2023 17:06:50 -0800
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Elliot Berman <quic_eberman@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
@@ -54,19 +52,19 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         "Konrad Dybcio" <konrad.dybcio@linaro.org>,
         Arnd Bergmann <arnd@arndb.de>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        "Andy Gross" <agross@kernel.org>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        "Jassi Brar" <jassisinghbrar@gmail.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        "Rob Herring" <robh@kernel.org>
-Subject: [PATCH v11 02/26] dt-bindings: Add binding for gunyah hypervisor
-Date:   Fri, 3 Mar 2023 17:06:08 -0800
-Message-ID: <20230304010632.2127470-3-quic_eberman@quicinc.com>
+        <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v11 05/26] virt: gunyah: Identify hypervisor version
+Date:   Fri, 3 Mar 2023 17:06:11 -0800
+Message-ID: <20230304010632.2127470-6-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230304010632.2127470-1-quic_eberman@quicinc.com>
 References: <20230304010632.2127470-1-quic_eberman@quicinc.com>
@@ -78,125 +76,117 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 01EecaefkqRu4PEyg--kavSIItjnS7NB
-X-Proofpoint-ORIG-GUID: 01EecaefkqRu4PEyg--kavSIItjnS7NB
+X-Proofpoint-GUID: dwX26VFNCPBxoep2hDYNa8iXyxQZpPOD
+X-Proofpoint-ORIG-GUID: dwX26VFNCPBxoep2hDYNa8iXyxQZpPOD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-03_07,2023-03-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 malwarescore=0
- suspectscore=0 priorityscore=1501 impostorscore=0 adultscore=0
- phishscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 phishscore=0 malwarescore=0 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 mlxscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2303040004
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
-Resource Manager applies a devicetree overlay describing the virtual
-platform configuration of the guest VM, such as the message queue
-capability IDs for communicating with the Resource Manager. This
-information is not otherwise discoverable by a VM: the Gunyah hypervisor
-core does not provide a direct interface to discover capability IDs nor
-a way to communicate with RM without having already known the
-corresponding message queue capability ID. Add the DT bindings that
-Gunyah adheres for the hypervisor node and message queues.
+Export the version of Gunyah which is reported via the hyp_identify
+hypercall. Increments of the major API version indicate possibly
+backwards incompatible changes.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Export the hypervisor identity so that Gunyah drivers can act according
+to the major API version.
+
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- .../bindings/firmware/gunyah-hypervisor.yaml  | 82 +++++++++++++++++++
- 1 file changed, 82 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+ drivers/virt/Makefile        |  1 +
+ drivers/virt/gunyah/Makefile |  3 ++
+ drivers/virt/gunyah/gunyah.c | 57 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 61 insertions(+)
+ create mode 100644 drivers/virt/gunyah/Makefile
+ create mode 100644 drivers/virt/gunyah/gunyah.c
 
-diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
+index e9aa6fc96fab..a5817e2d7d71 100644
+--- a/drivers/virt/Makefile
++++ b/drivers/virt/Makefile
+@@ -12,3 +12,4 @@ obj-$(CONFIG_ACRN_HSM)		+= acrn/
+ obj-$(CONFIG_EFI_SECRET)	+= coco/efi_secret/
+ obj-$(CONFIG_SEV_GUEST)		+= coco/sev-guest/
+ obj-$(CONFIG_INTEL_TDX_GUEST)	+= coco/tdx-guest/
++obj-y				+= gunyah/
+diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
 new file mode 100644
-index 000000000000..3fc0b043ac3c
+index 000000000000..34f32110faf9
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-@@ -0,0 +1,82 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/virt/gunyah/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0
 +
-+title: Gunyah Hypervisor
++obj-$(CONFIG_GUNYAH) += gunyah.o
+diff --git a/drivers/virt/gunyah/gunyah.c b/drivers/virt/gunyah/gunyah.c
+new file mode 100644
+index 000000000000..4b7e6f3edaff
+--- /dev/null
++++ b/drivers/virt/gunyah/gunyah.c
+@@ -0,0 +1,57 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
 +
-+maintainers:
-+  - Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-+  - Elliot Berman <quic_eberman@quicinc.com>
++#define pr_fmt(fmt) "gunyah: " fmt
 +
-+description: |+
-+  Gunyah virtual machines use this information to determine the capability IDs
-+  of the message queues used to communicate with the Gunyah Resource Manager.
-+  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
++#include <linux/gunyah.h>
++#include <linux/init.h>
++#include <linux/module.h>
++#include <linux/printk.h>
 +
-+properties:
-+  compatible:
-+    const: gunyah-hypervisor
++static struct gh_hypercall_hyp_identify_resp gh_api;
 +
-+  "#address-cells":
-+    description: Number of cells needed to represent 64-bit capability IDs.
-+    const: 2
++u16 gh_api_version(void)
++{
++	return FIELD_GET(GH_API_INFO_API_VERSION_MASK, gh_api.api_info);
++}
++EXPORT_SYMBOL_GPL(gh_api_version);
 +
-+  "#size-cells":
-+    description: must be 0, because capability IDs are not memory address
-+                  ranges and do not have a size.
-+    const: 0
++bool gh_api_has_feature(enum gh_api_feature feature)
++{
++	switch (feature) {
++	case GH_FEATURE_DOORBELL:
++	case GH_FEATURE_MSGQUEUE:
++	case GH_FEATURE_VCPU:
++	case GH_FEATURE_MEMEXTENT:
++		return !!(gh_api.flags[0] & BIT_ULL(feature));
++	default:
++		return false;
++	}
++}
++EXPORT_SYMBOL_GPL(gh_api_has_feature);
 +
-+patternProperties:
-+  "^gunyah-resource-mgr(@.*)?":
-+    type: object
-+    description:
-+      Resource Manager node which is required to communicate to Resource
-+      Manager VM using Gunyah Message Queues.
++static int __init gh_init(void)
++{
++	if (!arch_is_gh_guest())
++		return -ENODEV;
 +
-+    properties:
-+      compatible:
-+        const: gunyah-resource-manager
++	gh_hypercall_hyp_identify(&gh_api);
 +
-+      reg:
-+        items:
-+          - description: Gunyah capability ID of the TX message queue
-+          - description: Gunyah capability ID of the RX message queue
++	pr_info("Running under Gunyah hypervisor %llx/v%u\n",
++		FIELD_GET(GH_API_INFO_VARIANT_MASK, gh_api.api_info),
++		gh_api_version());
 +
-+      interrupts:
-+        items:
-+          - description: Interrupt for the TX message queue
-+          - description: Interrupt for the RX message queue
++	/* We might move this out to individual drivers if there's ever an API version bump */
++	if (gh_api_version() != GH_API_V1) {
++		pr_info("Unsupported Gunyah version: %u\n", gh_api_version());
++		return -ENODEV;
++	}
 +
-+    additionalProperties: false
++	return 0;
++}
++arch_initcall(gh_init);
 +
-+    required:
-+      - compatible
-+      - reg
-+      - interrupts
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - "#address-cells"
-+  - "#size-cells"
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    hypervisor {
-+        #address-cells = <2>;
-+        #size-cells = <0>;
-+        compatible = "gunyah-hypervisor";
-+
-+        gunyah-resource-mgr@0 {
-+            compatible = "gunyah-resource-manager";
-+            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX full IRQ */
-+                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX empty IRQ */
-+            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
-+                  /* TX, RX cap ids */
-+        };
-+    };
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Gunyah Hypervisor Driver");
 -- 
 2.39.2
 
