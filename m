@@ -2,286 +2,1176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEDF3C678DB
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Mar 2023 04:03:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54463C6FA8E
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Mar 2023 08:55:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229519AbjCEEDh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Mar 2023 23:03:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33448 "EHLO
+        id S229518AbjCEIz5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Mar 2023 03:55:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjCEEDg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Mar 2023 23:03:36 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E56BBDCC;
-        Sat,  4 Mar 2023 20:03:34 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id u5so6796223plq.7;
-        Sat, 04 Mar 2023 20:03:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677989014;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=St+LXbAwYb6pdrMuptqZn7fDDP6I0sfWlOco0YZvkco=;
-        b=WZjsJco8N1ikNVVmqEQ7C/RXdh58a1X6dq3AnmYCZOKAmIGBXM/na2ZGOSIBwAgJ0x
-         D0pZGc2D+HBfP731JuhP2f6Xxd3xBJuOijHsGKW0eJZUa/IY8StjCCkpFbcxJWlmTOtA
-         TwogSW5BJAOoObhK9rqwKZbS/A7QaIRqfhMmACA+dvkxSDVPu+IcnIQ12eCAgIPc9I9G
-         lnOrHlzmCQOUta96rhzUdflwgxJgtjdifecFUuPMianupBEB6CbTjVnogRqHqP7l0suR
-         k0/wf7prQ6auGPPOd+YZZpL/9rRx5UbIxgUrJ+uYARg3yN8EvQNdyP9cXd8zdS6ZF3A1
-         335Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677989014;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=St+LXbAwYb6pdrMuptqZn7fDDP6I0sfWlOco0YZvkco=;
-        b=s8to6cMqu0G2wDNY8ziTmeilP88GJ5O8y54O8gtIrmowYpsel5KFfmWVi2GlYbxkp1
-         OZiMTw5ddNtpP022To+G1Lb5JRs6EZa4SFZAofLZDL9jsfDYMwK6G5Ck/r3qRqK0BZLD
-         OsYLrCTX0H8gEl/5729B5i4DyS3WuAYfqT8sqdrLV1AXsnuS159OCdQftplGIJYBOt4k
-         qDp00LR3stRC4ER5Ga5KcH9aWWRQKfWLecZviluNc+r5QzzUHxFbbWg1ZL7j81RCYURo
-         iLrCAO6QM9GjSMB94IyYdkhbj257grSSjy1KCDplFBCjQAnwPJxlnI1fmlmbOqtAKICP
-         NpAg==
-X-Gm-Message-State: AO0yUKVDda9cpYeBM7A5ULaoARKZkqJNTtJhcJNZRaEzuxyuBWqM3X+6
-        TnhTrq28XjzyxGDNKoEPOdgvpDYSqRg=
-X-Google-Smtp-Source: AK7set9qHxMhSv6UDvC/imoSB+PoGEl5y1Qe2a3PzFSooQDzANyH7sQmctk76Ui+u45gyKcopHkX7A==
-X-Received: by 2002:a05:6a21:6d81:b0:cb:cd6a:2e42 with SMTP id wl1-20020a056a216d8100b000cbcd6a2e42mr9035269pzb.29.1677989013886;
-        Sat, 04 Mar 2023 20:03:33 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-71.three.co.id. [180.214.232.71])
-        by smtp.gmail.com with ESMTPSA id p18-20020a62ab12000000b005825b8e0540sm3867201pff.204.2023.03.04.20.03.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Mar 2023 20:03:33 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 12594105FA1; Sun,  5 Mar 2023 11:03:29 +0700 (WIB)
-Date:   Sun, 5 Mar 2023 11:03:29 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Vegard Nossum <vegard.nossum@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org, backports@vger.kernel.org,
-        Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH] docs: add backporting and conflict resolution document
-Message-ID: <ZAQUkbxQxCanh+9c@debian.me>
-References: <20230303162553.17212-1-vegard.nossum@oracle.com>
+        with ESMTP id S229621AbjCEIzz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Mar 2023 03:55:55 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CE4CA2B;
+        Sun,  5 Mar 2023 00:55:41 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C37C60AD6;
+        Sun,  5 Mar 2023 08:55:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98A4EC433D2;
+        Sun,  5 Mar 2023 08:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678006539;
+        bh=WX0wYSxbdNdbxTJEbfDpGlef0cG1lLp6IyBHSxSWLaA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XVejsf9ozZVet8UPVjOuA6VLFBrwH8RbFKXPQn3dXv1XM/dpri18UIFI1Hp3EU1It
+         8O8qqudnzTZqUKvIZ3LZ0QVJDp2VutJiTI2po6NrNL9aSY1lwizuDn9ifJGG+GcYr/
+         GfnZGCt96nXRzpkAgu8/Q05nR5zf06wNY6PrY8uTEEoZPD/qZ4qgUVcNYB0mbOVY2d
+         Blj449+HHN2B3jVit900l5cv0tAIe09lV/ow3NAYJGYWQ998HFZCGuTrwWz/vMTI67
+         1YYS0Rj259A6cBJsRJ9jibVXeXZ6OmSkci07f0Jsta4gFblJLdXNwf1LWY6XlOKnQg
+         /9F8qJZYhpqIQ==
+Date:   Sun, 5 Mar 2023 08:55:33 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     ChiaEn Wu <chiaen_wu@richtek.com>
+Cc:     corbet@lwn.net, pavel@ucw.cz, matthias.bgg@gmail.com,
+        andriy.shevchenko@linux.intel.com, jacek.anaszewski@gmail.com,
+        angelogioacchino.delregno@collabora.com, linux-doc@vger.kernel.org,
+        peterwu.pub@gmail.com, cy_huang@richtek.com,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        szunichen@gmail.com, Alice Chen <alice_chen@richtek.com>
+Subject: Re: [PATCH v17 RESEND 1/3] leds: rgb: mt6370: Add MediaTek MT6370
+ current sink type LED Indicator support
+Message-ID: <20230305085533.GC2574592@google.com>
+References: <cover.1677150607.git.chiaen_wu@richtek.com>
+ <8f139c773de274311c8ca63a47d6b207c30913e2.1677150607.git.chiaen_wu@richtek.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="yxswqAePtvTOIAX3"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230303162553.17212-1-vegard.nossum@oracle.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8f139c773de274311c8ca63a47d6b207c30913e2.1677150607.git.chiaen_wu@richtek.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 23 Feb 2023, ChiaEn Wu wrote:
 
---yxswqAePtvTOIAX3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> The MediaTek MT6370 is a highly-integrated smart power management IC,
+> which includes a single cell Li-Ion/Li-Polymer switching battery
+> charger, a USB Type-C & Power Delivery (PD) controller, dual
+> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
+> a display bias driver and a general LDO for portable devices.
+> 
+> Add support for the MediaTek MT6370 Current Sink Type LED Indicator
+> driver. It can control four channels current-sink RGB LEDs with 3 modes:
+> constant current, PWM, and breath mode.
+> 
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Co-developed-by: Alice Chen <alice_chen@richtek.com>
+> Signed-off-by: Alice Chen <alice_chen@richtek.com>
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> ---
+> v17
+> - Update the year of Copyright from 2022 to 2023
+> 
+> ---
+>  drivers/leds/rgb/Kconfig           |   13 +
+>  drivers/leds/rgb/Makefile          |    1 +
+>  drivers/leds/rgb/leds-mt6370-rgb.c | 1009 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 1023 insertions(+)
+>  create mode 100644 drivers/leds/rgb/leds-mt6370-rgb.c
 
-On Fri, Mar 03, 2023 at 05:25:53PM +0100, Vegard Nossum wrote:
-> +It is strongly recommended to instead find an appropriate base version
-> +where the patch applies cleanly and *then* cherry-pick it over to your
-> +destination tree, as this will make git output conflict markers and let
-> +you resolve conflicts with the help of git and any other conflict
-> +resolution tools you might prefer to use.
+In generally, this is really nicely done.  Great job.
+
+Just a few niggles, then you'll be good to go.
+ 
+> diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
+> index 204cf47..7d86bb2 100644
+> --- a/drivers/leds/rgb/Kconfig
+> +++ b/drivers/leds/rgb/Kconfig
+> @@ -26,4 +26,17 @@ config LEDS_QCOM_LPG
+>  
+>  	  If compiled as a module, the module will be named leds-qcom-lpg.
+>  
+> +config LEDS_MT6370_RGB
+> +	tristate "LED Support for MediaTek MT6370 PMIC"
+> +	depends on MFD_MT6370
+> +	select LINEAR_RANGE
+> +	help
+> +	  Say Y here to enable support for MT6370_RGB LED device.
+> +	  In MT6370, there are four channel current-sink LED drivers that
+> +	  support hardware pattern for constant current, PWM, and breath mode.
+> +	  Isink4 channel can also be used as a CHG_VIN power good indicator.
 > +
-> +It's generally better to use the exact same base as the one the patch
-> +was generated from, but it doesn't really matter that much as long as it
-> +applies cleanly and isn't too far from the original base. The only
-> +problem with applying the patch to the "wrong" base is that it may pull
-> +in more unrelated changes in the context of the diff when cherry-picking
-> +it to the older branch.
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called "leds-mt6370-rgb".
 > +
-> +If you are using
-> +`b4 <https://people.kernel.org/monsieuricon/introducing-b4-and-patch-att=
-estation>`__
-> +and you are applying the patch directly from an email, you can use
-> +``b4 am`` with the options ``-g``/``--guess-base`` and
-> +``-3``/``--prep-3way`` to do some of this automatically (see `this
-> +presentation <https://youtu.be/mF10hgVIx9o?t=3D2996>`__ for more
-> +information). However, the rest of this article will assume that you are
-> +doing a plain ``git cherry-pick``.
-
-Above are from applier's perspective (maintainers and/or developers
-doing the backport). For patch submitter, don't forget to pass
---base=3D<base-commit> to git-format-patch(1) so that the applier can know
-the base commit of the patch to be applied. For patches intended for
-mainline submission, the applier could create a temporary branch based on
-specified base commit (as described above), apply the patch, and rebase
-to latest appropriate subsystem tree (and resolve conflicts if any).
-Others could instead directly apply the patch on top of subsystem tree.
-
+>  endif # LEDS_CLASS_MULTICOLOR
+> diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
+> index 0675bc0..8c01daf 100644
+> --- a/drivers/leds/rgb/Makefile
+> +++ b/drivers/leds/rgb/Makefile
+> @@ -2,3 +2,4 @@
+>  
+>  obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
+>  obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
+> +obj-$(CONFIG_LEDS_MT6370_RGB)		+= leds-mt6370-rgb.o
+> diff --git a/drivers/leds/rgb/leds-mt6370-rgb.c b/drivers/leds/rgb/leds-mt6370-rgb.c
+> new file mode 100644
+> index 00000000..185d5d7
+> --- /dev/null
+> +++ b/drivers/leds/rgb/leds-mt6370-rgb.c
+> @@ -0,0 +1,1009 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2023 Richtek Technology Corp.
+> + *
+> + * Authors:
+> + *   ChiYuan Huang <cy_huang@richtek.com>
+> + *   Alice Chen <alice_chen@richtek.com>
+> + */
 > +
-> +Once you have the patch in git, you can go ahead and cherry-pick it into
-> +your source tree. Don't forget to cherry-pick with ``-x`` if you want a
-> +written record of where the patch came from!
-
-"In most cases, you will likely want to cherry-pick with ``-x`` option
-to record upstream commit in the resulting backport commit description,
-which looks like::
-
-    (cherry picked from commit <upstream commit>)
-
-However, for backporting to stable, you need to edit the description
-above to either::
-
-    commit <upstream commit> upstream
-
-or
-    [ Upstream commit <upstream commit> ]
-
-"
-
-> +For backports, what likely happened was that your older branch is
-> +missing a patch compared to the branch you are backporting from --
-> +however, it is also possible that your older branch has some commit that
-> +doesn't exist in the newer branch. In any case, the result is a conflict
-> +that needs to be resolved.
-
-Another conflict culprit that there are non-prerequisite commits that
-change the context line.
-
-> +git log
-> +^^^^^^^
+> +#include <linux/bitops.h>
+> +#include <linux/kernel.h>
+> +#include <linux/leds.h>
+> +#include <linux/led-class-multicolor.h>
+> +#include <linux/linear_range.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +#include <linux/regmap.h>
+> +#include <linux/util_macros.h>
 > +
-> +A good first step is to look at ``git log`` for the file that has the
-> +conflict -- this is usually sufficient when there aren't a lot of
-> +patches to the file, but may get confusing if the file is big and
-> +frequently patched. You should run ``git log`` on the range of commits
-> +between your currently checked-out branch (``HEAD``) and the parent of
-> +the patch you are picking (``COMMIT``), i.e.::
+> +#include <asm/unaligned.h>
 > +
-> +    git log HEAD..COMMIT^ -- PATH
-
-HEAD and <commit> swapped, giving empty log. The correct way is:
-
-```
-git log <commit>^..HEAD -- <path>
-```
-
-Note that for placeholder arguments, I'd like to write the
-placeholder name inside chevrons, like above (git manpage style).
-
+> +enum {
+> +	MT6370_LED_ISNK1 = 0,
+> +	MT6370_LED_ISNK2,
+> +	MT6370_LED_ISNK3,
+> +	MT6370_LED_ISNK4,
+> +	MT6370_MAX_LEDS
+> +};
 > +
-> +Even better, if you want to restrict this output to a single function
-> +(because that's where the conflict appears), you can use the following
-> +syntax::
+> +enum mt6370_led_mode {
+> +	MT6370_LED_PWM_MODE = 0,
+> +	MT6370_LED_BREATH_MODE,
+> +	MT6370_LED_REG_MODE,
+> +	MT6370_LED_MAX_MODE
+> +};
 > +
-> +    git log -L:'\<function\>':PATH HEAD..COMMIT^
-
-Similar reply as above.
-
-> +Another useful option for ``git log`` is ``-G``, which allows you to
-> +filter on certain strings appearing in the diffs of the commits you are
-> +listing::
+> +enum mt6370_led_field {
+> +	F_RGB_EN = 0,
+> +	F_CHGIND_EN,
+> +	F_LED1_CURR,
+> +	F_LED2_CURR,
+> +	F_LED3_CURR,
+> +	F_LED4_CURR,
+> +	F_LED1_MODE,
+> +	F_LED2_MODE,
+> +	F_LED3_MODE,
+> +	F_LED4_MODE,
+> +	F_LED1_DUTY,
+> +	F_LED2_DUTY,
+> +	F_LED3_DUTY,
+> +	F_LED4_DUTY,
+> +	F_LED1_FREQ,
+> +	F_LED2_FREQ,
+> +	F_LED3_FREQ,
+> +	F_LED4_FREQ,
+> +	F_MAX_FIELDS
+> +};
 > +
-> +    git log -G'regex' HEAD..COMMIT^ -- PATH
-
-Similar reply.
-
-> +It might be a good idea to ``git show`` these commits and see if they
-=2E.. to show these commits with ``git show <commit>`` ...
-
-> +Prerequisite vs. incidental patches
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +enum mt6370_led_ranges {
+> +	R_LED123_CURR = 0,
+> +	R_LED4_CURR,
+> +	R_LED_TRFON,
+> +	R_LED_TOFF,
+> +	R_MAX_RANGES
+> +};
 > +
-> +Having found the patch that caused the conflict, you need to determine
-> +whether it is a prerequisite for the patch you are backporting or
-> +whether it is just incidental and can be skipped. An incidental patch
-> +would be one that touches the same code as the patch you are
-> +backporting, but does not change the semantics of the code in any
-> +material way. For example, a whitespace cleanup patch is completely
-> +incidental -- likewise, a patch that simply renames a function or a
-> +variable would be incidental as well. On the other hand, if the function
-> +being changed does not even exist in your current branch then this would
-> +not be incidental at all and you need to carefully consider whether the
-> +patch adding the function should be cherry-picked first.
+> +enum mt6370_pattern {
+> +	P_LED_TR1 = 0,
+> +	P_LED_TR2,
+> +	P_LED_TF1,
+> +	P_LED_TF2,
+> +	P_LED_TON,
+> +	P_LED_TOFF,
+> +	P_MAX_PATTERNS
+> +};
 > +
-> +If you find that there is a necessary prerequisite patch, then you need
-> +to stop and cherry-pick that instead. If you've already resolved some
-> +conflicts in a different file and don't want to do it again, you can
-> +create a temporary copy of that file.
+> +#define MT6370_REG_DEV_INFO			0x100
+> +#define MT6370_REG_RGB1_DIM			0x182
+> +#define MT6370_REG_RGB2_DIM			0x183
+> +#define MT6370_REG_RGB3_DIM			0x184
+> +#define MT6370_REG_RGB_EN			0x185
+> +#define MT6370_REG_RGB1_ISNK			0x186
+> +#define MT6370_REG_RGB2_ISNK			0x187
+> +#define MT6370_REG_RGB3_ISNK			0x188
+> +#define MT6370_REG_RGB1_TR			0x189
+> +#define MT6370_REG_RGB_CHRIND_DIM		0x192
+> +#define MT6370_REG_RGB_CHRIND_CTRL		0x193
+> +#define MT6370_REG_RGB_CHRIND_TR		0x194
 > +
-> +To abort the current cherry-pick, go ahead and run
-> +``git cherry-pick --abort``, then restart the cherry-picking process
-> +with the commit ID of the prerequisite patch instead.
-
-IMO, finding prerequisite commits can be done without attempting to
-cherry-pick the desired commit first.
-
-> +Sometimes the right thing to do will be to also backport the patch that
-> +did the rename, but that's definitely not the most common case. Instead,
-> +what you can do is to temporarily rename the file in the branch you're
-> +backporting to (using ``git mv`` and committing the result), restart the
-> +attempt to cherry-pick the patch, rename the file back (``git mv`` and
-> +committing again), and finally squash the result using ``git rebase -i``
-> +(`tutorial <https://medium.com/@slamflipstrom/a-beginners-guide-to-squas=
-hing-commits-with-git-rebase-8185cf6e62ec>`__)
-> +so it appears as a single commit when you are done.
-
-I'm kinda confused with above. Did you mean that after renaming file, I
-have to abort cherry-picking (``git cherry-pick --abort``) first and
-then redo cherry-picking?
-
-> +Build testing
-> +~~~~~~~~~~~~~
+> +#define MT6372_REG_RGB_EN			0x182
+> +#define MT6372_REG_RGB1_ISNK			0x183
+> +#define MT6372_REG_RGB2_ISNK			0x184
+> +#define MT6372_REG_RGB3_ISNK			0x185
+> +#define MT6372_REG_RGB4_ISNK			0x186
+> +#define MT6372_REG_RGB1_DIM			0x187
+> +#define MT6372_REG_RGB2_DIM			0x188
+> +#define MT6372_REG_RGB3_DIM			0x189
+> +#define MT6372_REG_RGB4_DIM			0x18A
+> +#define MT6372_REG_RGB12_FREQ			0x18B
+> +#define MT6372_REG_RGB34_FREQ			0x18C
+> +#define MT6372_REG_RGB1_TR			0x18D
 > +
-> +We won't cover runtime testing here, but it can be a good idea to build
-Runtime testing is described in the next section.
-> +just the files touched by the patch as a quick sanity check. For the
-> +Linux kernel you can build single files like this, assuming you have the
-> +``.config`` and build environment set up correctly::
+> +#define MT6370_VENID_MASK			GENMASK(7, 4)
+
+Vendor?  Defines should be self documenting.
+
+What does this save over "VENDOR_ID"?
+
+> +#define MT6370_CHEN_BIT(id)			BIT(MT6370_LED_ISNK4 - id)
+> +#define MT6370_VIRTUAL_MULTICOLOR		5
+> +#define MC_CHANNEL_NUM				3
+> +#define MT6370_PWM_DUTY				(BIT(5) - 1)
+> +#define MT6372_PWM_DUTY				(BIT(8) - 1)
 > +
-> +    make path/to/file.o
+> +struct mt6370_led {
+> +	/*
+> +	 * If the color of the LED in DT is set to
+> +	 *   - 'LED_COLOR_ID_RGB'
+> +	 *   - 'LED_COLOR_ID_MULTI'
+> +	 * The member 'index' of this struct will be set to
+> +	 * 'MT6370_VIRTUAL_MULTICOLOR'.
+> +	 * If so, this LED will choose 'struct led_classdev_mc mc' to use.
+> +	 * Instead, if the member 'index' of this struct is set to
+> +	 * 'MT6370_LED_ISNK1' ~ 'MT6370_LED_ISNK4', then this LED will choose
+> +	 * 'struct led_classdev isink' to use.
+> +	 */
+> +	union {
+> +		struct led_classdev isink;
+> +		struct led_classdev_mc mc;
+> +	};
+> +	struct mt6370_priv *priv;
+> +	enum led_default_state default_state;
+> +	u32 index;
+> +};
 > +
-> +Note that this won't discover linker errors, so you should still do a
-> +full build after verifying that the single file compiles. By compiling
-> +the single file first you can avoid having to wait for a full build *in
-> +case* there are compiler errors in any of the files you've changed.
+> +struct mt6370_pdata {
+> +	const unsigned int *tfreq;
+> +	unsigned int tfreq_len;
+> +	u16 reg_rgb1_tr;
+> +	s16 reg_rgb_chrind_tr;
+> +	u8 pwm_duty;
+> +};
 > +
-
-plain ``make``?
-
-> +One concrete example of this was where a patch to the system call entry
-> +code saved/restored a register and a later patch made use of the saved
-> +register somewhere in the middle -- since there was no conflict, one
-> +could backport the second patch and believe that everything was fine,
-> +but in fact the code was now scribbling over an unsaved register.
-
-Did you mean the later patch is the backported syscall patch?
-
+> +struct mt6370_priv {
+> +	/* Per LED access lock */
+> +	struct mutex lock;
+> +	struct regmap *regmap;
+> +	struct regmap_field *fields[F_MAX_FIELDS];
+> +	const struct reg_field *reg_fields;
+> +	const struct linear_range *ranges;
+> +	struct reg_cfg *reg_cfgs;
+> +	const struct mt6370_pdata *pdata;
+> +	unsigned int leds_count;
+> +	unsigned int leds_active;
+> +	struct mt6370_led leds[];
+> +};
 > +
-> +Although the vast majority of errors will be caught during compilation
-> +or by superficially exercising the code, the only way to *really* verify
-> +a backport is to review the final patch with the same level of scrutiny
-> +as you would (or should) give to any other patch. Having unit tests and
-"... patches intended for mainline."
+> +static const struct reg_field common_reg_fields[F_MAX_FIELDS] = {
+> +	[F_RGB_EN]	= REG_FIELD(MT6370_REG_RGB_EN, 4, 7),
+> +	[F_CHGIND_EN]	= REG_FIELD(MT6370_REG_RGB_CHRIND_DIM, 7, 7),
+> +	[F_LED1_CURR]	= REG_FIELD(MT6370_REG_RGB1_ISNK, 0, 2),
+> +	[F_LED2_CURR]	= REG_FIELD(MT6370_REG_RGB2_ISNK, 0, 2),
+> +	[F_LED3_CURR]	= REG_FIELD(MT6370_REG_RGB3_ISNK, 0, 2),
+> +	[F_LED4_CURR]	= REG_FIELD(MT6370_REG_RGB_CHRIND_CTRL, 0, 1),
+> +	[F_LED1_MODE]	= REG_FIELD(MT6370_REG_RGB1_DIM, 5, 6),
+> +	[F_LED2_MODE]	= REG_FIELD(MT6370_REG_RGB2_DIM, 5, 6),
+> +	[F_LED3_MODE]	= REG_FIELD(MT6370_REG_RGB3_DIM, 5, 6),
+> +	[F_LED4_MODE]	= REG_FIELD(MT6370_REG_RGB_CHRIND_DIM, 5, 6),
+> +	[F_LED1_DUTY]	= REG_FIELD(MT6370_REG_RGB1_DIM, 0, 4),
+> +	[F_LED2_DUTY]	= REG_FIELD(MT6370_REG_RGB2_DIM, 0, 4),
+> +	[F_LED3_DUTY]	= REG_FIELD(MT6370_REG_RGB3_DIM, 0, 4),
+> +	[F_LED4_DUTY]	= REG_FIELD(MT6370_REG_RGB_CHRIND_DIM, 0, 4),
+> +	[F_LED1_FREQ]	= REG_FIELD(MT6370_REG_RGB1_ISNK, 3, 5),
+> +	[F_LED2_FREQ]	= REG_FIELD(MT6370_REG_RGB2_ISNK, 3, 5),
+> +	[F_LED3_FREQ]	= REG_FIELD(MT6370_REG_RGB3_ISNK, 3, 5),
+> +	[F_LED4_FREQ]	= REG_FIELD(MT6370_REG_RGB_CHRIND_CTRL, 2, 4),
+> +};
+> +
+> +static const struct reg_field mt6372_reg_fields[F_MAX_FIELDS] = {
+> +	[F_RGB_EN]	= REG_FIELD(MT6372_REG_RGB_EN, 4, 7),
+> +	[F_CHGIND_EN]	= REG_FIELD(MT6372_REG_RGB_EN, 3, 3),
+> +	[F_LED1_CURR]	= REG_FIELD(MT6372_REG_RGB1_ISNK, 0, 3),
+> +	[F_LED2_CURR]	= REG_FIELD(MT6372_REG_RGB2_ISNK, 0, 3),
+> +	[F_LED3_CURR]	= REG_FIELD(MT6372_REG_RGB3_ISNK, 0, 3),
+> +	[F_LED4_CURR]	= REG_FIELD(MT6372_REG_RGB4_ISNK, 0, 3),
+> +	[F_LED1_MODE]	= REG_FIELD(MT6372_REG_RGB1_ISNK, 6, 7),
+> +	[F_LED2_MODE]	= REG_FIELD(MT6372_REG_RGB2_ISNK, 6, 7),
+> +	[F_LED3_MODE]	= REG_FIELD(MT6372_REG_RGB3_ISNK, 6, 7),
+> +	[F_LED4_MODE]	= REG_FIELD(MT6372_REG_RGB4_ISNK, 6, 7),
+> +	[F_LED1_DUTY]	= REG_FIELD(MT6372_REG_RGB1_DIM, 0, 7),
+> +	[F_LED2_DUTY]	= REG_FIELD(MT6372_REG_RGB2_DIM, 0, 7),
+> +	[F_LED3_DUTY]	= REG_FIELD(MT6372_REG_RGB3_DIM, 0, 7),
+> +	[F_LED4_DUTY]	= REG_FIELD(MT6372_REG_RGB4_DIM, 0, 7),
+> +	[F_LED1_FREQ]	= REG_FIELD(MT6372_REG_RGB12_FREQ, 5, 7),
+> +	[F_LED2_FREQ]	= REG_FIELD(MT6372_REG_RGB12_FREQ, 2, 4),
+> +	[F_LED3_FREQ]	= REG_FIELD(MT6372_REG_RGB34_FREQ, 5, 7),
+> +	[F_LED4_FREQ]	= REG_FIELD(MT6372_REG_RGB34_FREQ, 2, 4),
+> +};
+> +
+> +/* Current unit: microamp, time unit: millisecond */
+> +static const struct linear_range common_led_ranges[R_MAX_RANGES] = {
+> +	[R_LED123_CURR]	= { 4000, 1, 6, 4000 },
+> +	[R_LED4_CURR]	= { 2000, 1, 3, 2000 },
+> +	[R_LED_TRFON]	= { 125, 0, 15, 200 },
+> +	[R_LED_TOFF]	= { 250, 0, 15, 400 },
+> +};
+> +
+> +static const struct linear_range mt6372_led_ranges[R_MAX_RANGES] = {
+> +	[R_LED123_CURR]	= { 2000, 1, 14, 2000 },
+> +	[R_LED4_CURR]	= { 2000, 1, 14, 2000 },
+> +	[R_LED_TRFON]	= { 125, 0, 15, 250 },
+> +	[R_LED_TOFF]	= { 250, 0, 15, 500 },
+> +};
+> +
+> +static const unsigned int common_tfreqs[] = {
+> +	10000, 5000, 2000, 1000, 500, 200, 5, 1,
+> +};
+> +
+> +static const unsigned int mt6372_tfreqs[] = {
+> +	8000, 4000, 2000, 1000, 500, 250, 8, 4,
+> +};
+> +
+> +static const struct mt6370_pdata common_pdata = {
+> +	.tfreq = common_tfreqs,
+> +	.tfreq_len = ARRAY_SIZE(common_tfreqs),
+> +	.pwm_duty = MT6370_PWM_DUTY,
+> +	.reg_rgb1_tr = MT6370_REG_RGB1_TR,
+> +	.reg_rgb_chrind_tr = MT6370_REG_RGB_CHRIND_TR,
+> +};
+> +
+> +static const struct mt6370_pdata mt6372_pdata = {
+> +	.tfreq = mt6372_tfreqs,
+> +	.tfreq_len = ARRAY_SIZE(mt6372_tfreqs),
+> +	.pwm_duty = MT6372_PWM_DUTY,
+> +	.reg_rgb1_tr = MT6372_REG_RGB1_TR,
+> +	.reg_rgb_chrind_tr = -1,
+> +};
+> +
+> +static enum mt6370_led_field mt6370_get_led_current_field(unsigned int led_no)
+> +{
+> +	switch (led_no) {
+> +	case MT6370_LED_ISNK1:
+> +		return F_LED1_CURR;
+> +	case MT6370_LED_ISNK2:
+> +		return F_LED2_CURR;
+> +	case MT6370_LED_ISNK3:
+> +		return F_LED3_CURR;
+> +	default:
+> +		return F_LED4_CURR;
+> +	}
+> +}
+> +
+> +static int mt6370_set_led_brightness(struct mt6370_priv *priv,
+> +				     unsigned int led_no, unsigned int level)
+> +{
+> +	enum mt6370_led_field sel_field;
+> +
+> +	sel_field = mt6370_get_led_current_field(led_no);
+> +
+> +	return regmap_field_write(priv->fields[sel_field], level);
+> +}
+> +
+> +static int mt6370_get_led_brightness(struct mt6370_priv *priv,
+> +				     unsigned int led_no, unsigned int *level)
+> +{
+> +	enum mt6370_led_field sel_field;
+> +
+> +	sel_field = mt6370_get_led_current_field(led_no);
+> +
+> +	return regmap_field_read(priv->fields[sel_field], level);
+> +}
+> +
+> +static int mt6370_set_led_duty(struct mt6370_priv *priv, unsigned int led_no,
+> +			       unsigned int ton, unsigned int toff)
+> +{
+> +	const struct mt6370_pdata *pdata = priv->pdata;
+> +	enum mt6370_led_field sel_field;
+> +	unsigned int divisor, ratio;
+> +
+> +	divisor = pdata->pwm_duty;
+> +	ratio = ton * divisor / (ton + toff);
+> +
+> +	switch (led_no) {
+> +	case MT6370_LED_ISNK1:
+> +		sel_field = F_LED1_DUTY;
+> +		break;
+> +	case MT6370_LED_ISNK2:
+> +		sel_field = F_LED2_DUTY;
+> +		break;
+> +	case MT6370_LED_ISNK3:
+> +		sel_field = F_LED3_DUTY;
+> +		break;
+> +	default:
+> +		sel_field = F_LED4_DUTY;
+> +		break;
+> +	}
+> +
+> +	return regmap_field_write(priv->fields[sel_field], ratio);
+> +}
+> +
+> +static int mt6370_set_led_freq(struct mt6370_priv *priv, unsigned int led_no,
+> +			       unsigned int ton, unsigned int toff)
+> +{
+> +	const struct mt6370_pdata *pdata = priv->pdata;
+> +	enum mt6370_led_field sel_field;
+> +	unsigned int tfreq_len = pdata->tfreq_len;
+> +	unsigned int tsum, sel;
+> +
+> +	tsum = ton + toff;
+> +
+> +	if (tsum > pdata->tfreq[0] || tsum < pdata->tfreq[tfreq_len - 1])
+> +		return -EOPNOTSUPP;
+> +
+> +	sel = find_closest_descending(tsum, pdata->tfreq, tfreq_len);
+> +
+> +	switch (led_no) {
+> +	case MT6370_LED_ISNK1:
+> +		sel_field = F_LED1_FREQ;
+> +		break;
+> +	case MT6370_LED_ISNK2:
+> +		sel_field = F_LED2_FREQ;
+> +		break;
+> +	case MT6370_LED_ISNK3:
+> +		sel_field = F_LED3_FREQ;
+> +		break;
+> +	default:
+> +		sel_field = F_LED4_FREQ;
+> +		break;
+> +	}
+> +
+> +	return regmap_field_write(priv->fields[sel_field], sel);
+> +}
+> +
+> +static void mt6370_get_breath_reg_base(struct mt6370_priv *priv,
+> +				       unsigned int led_no, unsigned int *base)
+> +{
+> +	const struct mt6370_pdata *pdata = priv->pdata;
+> +
+> +	if (pdata->reg_rgb_chrind_tr < 0) {
+> +		*base = pdata->reg_rgb1_tr + led_no * 3;
+> +		return;
+> +	}
+> +
+> +	switch (led_no) {
+> +	case MT6370_LED_ISNK1:
+> +	case MT6370_LED_ISNK2:
+> +	case MT6370_LED_ISNK3:
+> +		*base = pdata->reg_rgb1_tr + led_no * 3;
+> +		break;
+> +	default:
+> +		*base = pdata->reg_rgb_chrind_tr;
+> +		break;
+> +	}
+> +}
+> +
+> +static int mt6370_gen_breath_pattern(struct mt6370_priv *priv,
+> +				     struct led_pattern *pattern, u32 len,
+> +				     u8 *pattern_val, u32 val_len)
+> +{
+> +	enum mt6370_led_ranges sel_range;
+> +	struct led_pattern *curr;
+> +	unsigned int sel;
+> +	u32 val = 0;
+> +	int i;
+> +
+> +	if (len < P_MAX_PATTERNS && val_len < P_MAX_PATTERNS / 2)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Pattern list
+> +	 * tr1:	 byte 0, b'[7: 4]
 
-> +The above shows roughly the idealized process of backporting a patch.
-> +For a more concrete example, see this video tutorial where two patches
-> +are backported from mainline to stable:
-> +`Backporting Linux Kernel patches <https://youtu.be/sBR7R1V2FeA>`__
+Perhaps this is standard formatting and I'm just not aware of it, but
+the space is throwing me and making me think twice.  Does this mean bits
+7 through 4, so b'11110000?
 
-For the external link targets, I'd like to separate them from
-corresponding link texts (see
-https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#ext=
-ernal-links
-for details).
+> +	 * tr2:	 byte 0, b'[3: 0]
+> +	 * tf1:	 byte 1, b'[7: 4]
+> +	 * tf2:	 byte 1, b'[3: 0]
+> +	 * ton:	 byte 2, b'[7: 4]
+> +	 * toff: byte 2, b'[3: 0]
+> +	 */
+> +	for (i = 0; i < P_MAX_PATTERNS; i++) {
+> +		curr = pattern + i;
+> +
+> +		sel_range = i == P_LED_TOFF ? R_LED_TOFF : R_LED_TRFON;
+> +
+> +		linear_range_get_selector_within(priv->ranges + sel_range,
+> +						 curr->delta_t, &sel);
+> +
+> +		if (i % 2) {
+> +			val |= sel;
+> +		} else {
+> +			val <<= 8;
+> +			val |= sel << 4;
+> +		}
+> +	}
+> +
+> +	put_unaligned_be24(val, pattern_val);
+> +
+> +	return 0;
+> +}
+> +
+> +static int mt6370_set_led_mode(struct mt6370_priv *priv, unsigned int led_no,
+> +			       enum mt6370_led_mode mode)
+> +{
+> +	enum mt6370_led_field sel_field;
+> +
+> +	switch (led_no) {
+> +	case MT6370_LED_ISNK1:
+> +		sel_field = F_LED1_MODE;
+> +		break;
+> +	case MT6370_LED_ISNK2:
+> +		sel_field = F_LED2_MODE;
+> +		break;
+> +	case MT6370_LED_ISNK3:
+> +		sel_field = F_LED3_MODE;
+> +		break;
+> +	default:
+> +		sel_field = F_LED4_MODE;
+> +		break;
+> +	}
+> +
+> +	return regmap_field_write(priv->fields[sel_field], mode);
+> +}
+> +
+> +static int mt6370_mc_brightness_set(struct led_classdev *lcdev,
+> +				    enum led_brightness level)
+> +{
+> +	struct led_classdev_mc *mccdev = lcdev_to_mccdev(lcdev);
+> +	struct mt6370_led *led = container_of(mccdev, struct mt6370_led, mc);
+> +	struct mt6370_priv *priv = led->priv;
+> +	struct mc_subled *subled;
+> +	unsigned int enable, disable;
+> +	int i, ret;
+> +
+> +	mutex_lock(&priv->lock);
+> +
+> +	led_mc_calc_color_components(mccdev, level);
+> +
+> +	ret = regmap_field_read(priv->fields[F_RGB_EN], &enable);
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	disable = enable;
+> +
+> +	for (i = 0; i < mccdev->num_colors; i++) {
+> +		u32 brightness;
+> +
+> +		subled = mccdev->subled_info + i;
+> +		brightness = min(subled->brightness, lcdev->max_brightness);
+> +		disable &= ~MT6370_CHEN_BIT(subled->channel);
+> +
+> +		if (level == 0) {
+> +			enable &= ~MT6370_CHEN_BIT(subled->channel);
+> +
+> +			ret = mt6370_set_led_mode(priv, subled->channel,
+> +						  MT6370_LED_REG_MODE);
 
-Thanks.
+Please unify your line-wrap strategy.  In some places you are using the
+full 100-chars allowable and in many others, you line-wrap early.  Please
+go through the entire file and unwrap to 100-chars where appropriate.
 
---=20
-An old man doll... just what I always wanted! - Clara
+You'll see what I mean as you re-read the file with this in mind.
 
---yxswqAePtvTOIAX3
-Content-Type: application/pgp-signature; name="signature.asc"
+> +			if (ret)
+> +				goto out_unlock;
+> +
+> +			continue;
+> +		}
+> +
+> +		if (brightness == 0) {
+> +			enable &= ~MT6370_CHEN_BIT(subled->channel);
+> +			continue;
+> +		}
+> +
+> +		enable |= MT6370_CHEN_BIT(subled->channel);
+> +
+> +		ret = mt6370_set_led_brightness(priv, subled->channel,
+> +						brightness);
+> +		if (ret)
+> +			goto out_unlock;
+> +	}
+> +
+> +	ret = regmap_field_write(priv->fields[F_RGB_EN], disable);
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	ret = regmap_field_write(priv->fields[F_RGB_EN], enable);
+> +
+> +out_unlock:
+> +	mutex_unlock(&priv->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int mt6370_mc_blink_set(struct led_classdev *lcdev,
+> +			       unsigned long *delay_on,
+> +			       unsigned long *delay_off)
+> +{
+> +	struct led_classdev_mc *mccdev = lcdev_to_mccdev(lcdev);
+> +	struct mt6370_led *led = container_of(mccdev, struct mt6370_led, mc);
+> +	struct mt6370_priv *priv = led->priv;
+> +	struct mc_subled *subled;
+> +	unsigned int enable, disable;
+> +	int i, ret;
+> +
+> +	mutex_lock(&priv->lock);
+> +
+> +	if (!*delay_on && !*delay_off)
+> +		*delay_on = *delay_off = 500;
+> +
+> +	ret = regmap_field_read(priv->fields[F_RGB_EN], &enable);
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	disable = enable;
+> +
+> +	for (i = 0; i < mccdev->num_colors; i++) {
+> +		subled = mccdev->subled_info + i;
+> +
+> +		disable &= ~MT6370_CHEN_BIT(subled->channel);
+> +
+> +		ret = mt6370_set_led_duty(priv, subled->channel, *delay_on,
+> +					  *delay_off);
+> +		if (ret)
+> +			goto out_unlock;
+> +
+> +		ret = mt6370_set_led_freq(priv, subled->channel, *delay_on,
+> +					  *delay_off);
+> +		if (ret)
+> +			goto out_unlock;
+> +
+> +		ret = mt6370_set_led_mode(priv, subled->channel,
+> +					  MT6370_LED_PWM_MODE);
+> +		if (ret)
+> +			goto out_unlock;
+> +	}
+> +
+> +	/* Toggle to make pattern timing the same */
+> +	ret = regmap_field_write(priv->fields[F_RGB_EN], disable);
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	ret = regmap_field_write(priv->fields[F_RGB_EN], enable);
+> +
+> +out_unlock:
+> +	mutex_unlock(&priv->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int mt6370_mc_pattern_set(struct led_classdev *lcdev,
+> +			struct led_pattern *pattern, u32 len, int repeat)
+> +{
+> +	struct led_classdev_mc *mccdev = lcdev_to_mccdev(lcdev);
+> +	struct mt6370_led *led = container_of(mccdev, struct mt6370_led, mc);
+> +	struct mt6370_priv *priv = led->priv;
+> +	struct mc_subled *subled;
+> +	unsigned int reg_base, enable, disable;
+> +	u8 params[P_MAX_PATTERNS / 2];
+> +	int i, ret;
+> +
+> +	mutex_lock(&priv->lock);
+> +
+> +	ret = mt6370_gen_breath_pattern(priv, pattern, len, params,
+> +					sizeof(params));
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	ret = regmap_field_read(priv->fields[F_RGB_EN], &enable);
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	disable = enable;
+> +
+> +	for (i = 0; i < mccdev->num_colors; i++) {
+> +		subled = mccdev->subled_info + i;
+> +
+> +		mt6370_get_breath_reg_base(priv, subled->channel, &reg_base);
+> +		disable &= ~MT6370_CHEN_BIT(subled->channel);
+> +
+> +		ret = regmap_raw_write(priv->regmap, reg_base, params,
+> +				       sizeof(params));
+> +		if (ret)
+> +			goto out_unlock;
+> +
+> +		ret = mt6370_set_led_mode(priv, subled->channel,
+> +					  MT6370_LED_BREATH_MODE);
+> +		if (ret)
+> +			goto out_unlock;
+> +	}
+> +
+> +	/* Toggle to make pattern timing be the same */
+> +	ret = regmap_field_write(priv->fields[F_RGB_EN], disable);
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	ret = regmap_field_write(priv->fields[F_RGB_EN], enable);
+> +
+> +out_unlock:
+> +	mutex_unlock(&priv->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static inline int mt6370_mc_pattern_clear(struct led_classdev *lcdev)
+> +{
+> +	struct led_classdev_mc *mccdev = lcdev_to_mccdev(lcdev);
+> +	struct mt6370_led *led = container_of(mccdev, struct mt6370_led, mc);
+> +	struct mt6370_priv *priv = led->priv;
+> +	struct mc_subled *subled;
+> +	int i, ret;
+> +
+> +	mutex_lock(&led->priv->lock);
+> +
+> +	for (i = 0; i < mccdev->num_colors; i++) {
+> +		subled = mccdev->subled_info + i;
+> +
+> +		ret = mt6370_set_led_mode(priv, subled->channel,
+> +					  MT6370_LED_REG_MODE);
+> +		if (ret)
+> +			break;
+> +	}
+> +
+> +	mutex_unlock(&led->priv->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int mt6370_isnk_brightness_set(struct led_classdev *lcdev,
+> +				      enum led_brightness level)
+> +{
+> +	struct mt6370_led *led = container_of(lcdev, struct mt6370_led, isink);
+> +	struct mt6370_priv *priv = led->priv;
+> +	unsigned int enable;
+> +	int ret;
+> +
+> +	mutex_lock(&priv->lock);
+> +
+> +	ret = regmap_field_read(priv->fields[F_RGB_EN], &enable);
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	if (level == 0) {
+> +		enable &= ~MT6370_CHEN_BIT(led->index);
+> +
+> +		ret = mt6370_set_led_mode(priv, led->index,
+> +					  MT6370_LED_REG_MODE);
+> +		if (ret)
+> +			goto out_unlock;
+> +	} else {
+> +		enable |= MT6370_CHEN_BIT(led->index);
+> +
+> +		ret = mt6370_set_led_brightness(priv, led->index, level);
+> +		if (ret)
+> +			goto out_unlock;
+> +	}
+> +
+> +	ret = regmap_field_write(priv->fields[F_RGB_EN], enable);
+> +
+> +out_unlock:
+> +	mutex_unlock(&priv->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int mt6370_isnk_blink_set(struct led_classdev *lcdev,
+> +				 unsigned long *delay_on,
+> +				 unsigned long *delay_off)
+> +{
+> +	struct mt6370_led *led = container_of(lcdev, struct mt6370_led, isink);
+> +	struct mt6370_priv *priv = led->priv;
+> +	int ret;
+> +
+> +	mutex_lock(&priv->lock);
+> +
+> +	if (!*delay_on && !*delay_off)
+> +		*delay_on = *delay_off = 500;
+> +
+> +	ret = mt6370_set_led_duty(priv, led->index, *delay_on, *delay_off);
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	ret = mt6370_set_led_freq(priv, led->index, *delay_on, *delay_off);
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	ret = mt6370_set_led_mode(priv, led->index, MT6370_LED_PWM_MODE);
+> +
+> +out_unlock:
+> +	mutex_unlock(&priv->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int mt6370_isnk_pattern_set(struct led_classdev *lcdev,
+> +				   struct led_pattern *pattern, u32 len,
+> +				   int repeat)
+> +{
+> +	struct mt6370_led *led = container_of(lcdev, struct mt6370_led, isink);
+> +	struct mt6370_priv *priv = led->priv;
+> +	unsigned int reg_base;
+> +	u8 params[P_MAX_PATTERNS / 2];
+> +	int ret;
+> +
+> +	mutex_lock(&priv->lock);
+> +
+> +	ret = mt6370_gen_breath_pattern(priv, pattern, len, params,
+> +					sizeof(params));
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	mt6370_get_breath_reg_base(priv, led->index, &reg_base);
+> +
+> +	ret = regmap_raw_write(priv->regmap, reg_base, params, sizeof(params));
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	ret = mt6370_set_led_mode(priv, led->index, MT6370_LED_BREATH_MODE);
+> +
+> +out_unlock:
+> +	mutex_unlock(&priv->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static inline int mt6370_isnk_pattern_clear(struct led_classdev *lcdev)
+> +{
+> +	struct mt6370_led *led = container_of(lcdev, struct mt6370_led, isink);
+> +	struct mt6370_priv *priv = led->priv;
+> +	int ret;
+> +
+> +	mutex_lock(&led->priv->lock);
+> +	ret = mt6370_set_led_mode(priv, led->index, MT6370_LED_REG_MODE);
+> +	mutex_unlock(&led->priv->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int mt6370_init_led_properties(struct device *dev,
+> +				      struct mt6370_led *led,
+> +				      struct led_init_data *init_data)
+> +{
+> +	struct mt6370_priv *priv = led->priv;
+> +	struct led_classdev *lcdev;
+> +	struct fwnode_handle *child;
+> +	enum mt6370_led_ranges sel_range;
+> +	u32 max_uA, max_level;
+> +	int ret;
+> +
+> +	if (led->index == MT6370_VIRTUAL_MULTICOLOR) {
 
------BEGIN PGP SIGNATURE-----
+Rather than having these huge if-else statements, please consider using
+a sub-function.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZAQUiwAKCRD2uYlJVVFO
-o/nkAP9HAoOxmJf20hmzYd1d7cNXTgEElPbqD9if4LZlq42gZwD/Tw/wra8mCG2H
-1XBywHdzs4o154/N+50FaksJWIPzPQE=
-=Mtfy
------END PGP SIGNATURE-----
+> +		struct mc_subled *sub_led;
+> +		u32 num_color = 0;
+> +
+> +		sub_led = devm_kcalloc(dev, MC_CHANNEL_NUM, sizeof(*sub_led),
+> +				       GFP_KERNEL);
+> +		if (!sub_led)
+> +			return -ENOMEM;
+> +
+> +		fwnode_for_each_child_node(init_data->fwnode, child) {
+> +			u32 reg, color;
+> +
+> +			ret = fwnode_property_read_u32(child, "reg", &reg);
+> +			if (ret || reg > MT6370_LED_ISNK3 ||
+> +			    priv->leds_active & BIT(reg)) {
+> +				fwnode_handle_put(child);
+> +				return -EINVAL;
+> +			}
+> +
+> +			ret = fwnode_property_read_u32(child, "color", &color);
+> +			if (ret) {
+> +				fwnode_handle_put(child);
+> +				return dev_err_probe(dev, ret, "LED %d, no color specified\n",
+> +						     led->index);
+> +			}
+> +
+> +			priv->leds_active |= BIT(reg);
+> +			sub_led[num_color].color_index = color;
+> +			sub_led[num_color].channel = reg;
+> +			sub_led[num_color].intensity = 0;
+> +			num_color++;
+> +		}
+> +
+> +		if (num_color < 2)
+> +			return dev_err_probe(dev, -EINVAL,
+> +					     "Multicolor must include 2 or more LED channels\n");
+> +
+> +		led->mc.num_colors = num_color;
+> +		led->mc.subled_info = sub_led;
+> +
+> +		lcdev = &led->mc.led_cdev;
+> +		lcdev->brightness_set_blocking = mt6370_mc_brightness_set;
+> +		lcdev->blink_set = mt6370_mc_blink_set;
+> +		lcdev->pattern_set = mt6370_mc_pattern_set;
+> +		lcdev->pattern_clear = mt6370_mc_pattern_clear;
+> +	} else {
+> +		lcdev = &led->isink;
+> +		lcdev->brightness_set_blocking = mt6370_isnk_brightness_set;
+> +		lcdev->blink_set = mt6370_isnk_blink_set;
+> +		lcdev->pattern_set = mt6370_isnk_pattern_set;
+> +		lcdev->pattern_clear = mt6370_isnk_pattern_clear;
+> +	}
+> +
+> +	ret = fwnode_property_read_u32(init_data->fwnode, "led-max-microamp",
+> +				       &max_uA);
+> +	if (ret) {
+> +		dev_warn(dev, "Not specified led-max-microamp, config to the minimum\n");
+> +		max_uA = 0;
+> +	}
+> +
+> +	if (led->index == MT6370_LED_ISNK4)
+> +		sel_range = R_LED4_CURR;
+> +	else
+> +		sel_range = R_LED123_CURR;
+> +
+> +	linear_range_get_selector_within(priv->ranges + sel_range, max_uA,
+> +					 &max_level);
+> +
+> +	lcdev->max_brightness = max_level;
+> +
+> +	led->default_state = led_init_default_state_get(init_data->fwnode);
+> +
+> +	return 0;
+> +}
+> +
+> +static int mt6370_isnk_init_default_state(struct mt6370_led *led)
+> +{
+> +	struct mt6370_priv *priv = led->priv;
+> +	unsigned int enable, level;
+> +	int ret;
+> +
+> +	ret = mt6370_get_led_brightness(priv, led->index, &level);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_field_read(priv->fields[F_RGB_EN], &enable);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!(enable & MT6370_CHEN_BIT(led->index)))
+> +		level = 0;
+> +
+> +	switch (led->default_state) {
+> +	case LEDS_DEFSTATE_ON:
+> +		led->isink.brightness = led->isink.max_brightness;
+> +		break;
+> +	case LEDS_DEFSTATE_KEEP:
+> +		led->isink.brightness = min(level, led->isink.max_brightness);
+> +		break;
+> +	default:
+> +		led->isink.brightness = 0;
+> +		break;
+> +	}
+> +
+> +	return mt6370_isnk_brightness_set(&led->isink, led->isink.brightness);
+> +}
+> +
+> +static int mt6370_led_register(struct device *dev, struct mt6370_led *led,
+> +			       struct led_init_data *init_data)
+> +{
+> +	struct mt6370_priv *priv = led->priv;
+> +	int ret;
+> +
+> +	if (led->index == MT6370_VIRTUAL_MULTICOLOR) {
 
---yxswqAePtvTOIAX3--
+This too could be split into separate functions to tidy things up a
+little.
+
+> +		ret = mt6370_mc_brightness_set(&led->mc.led_cdev, 0);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret, "Couldn't set multicolor brightness\n");
+> +
+> +		ret = devm_led_classdev_multicolor_register_ext(dev, &led->mc,
+> +								init_data);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret, "Couldn't register multicolor\n");
+> +	} else {
+> +		if (led->index == MT6370_LED_ISNK4) {
+> +			ret = regmap_field_write(priv->fields[F_CHGIND_EN], 1);
+> +			if (ret)
+> +				return dev_err_probe(dev, ret, "Failed to set CHRIND to SW\n");
+> +		}
+> +
+> +		ret = mt6370_isnk_init_default_state(led);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret, "Failed to init %d isnk state\n",
+> +					     led->index);
+> +
+> +		ret = devm_led_classdev_register_ext(dev, &led->isink,
+> +						     init_data);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret, "Couldn't register isink %d\n", led->index);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int mt6370_check_vendor_info(struct mt6370_priv *priv)
+> +{
+> +	unsigned int devinfo, vid;
+> +	int ret;
+> +
+> +	ret = regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &devinfo);
+> +	if (ret)
+> +		return ret;
+> +
+> +	vid = FIELD_GET(MT6370_VENID_MASK, devinfo);
+> +	if (vid == 0x9 || vid == 0xb) {
+
+Are there nice human readable associates of these (vendor?) IDS?
+
+> +		priv->reg_fields = mt6372_reg_fields;
+> +		priv->ranges = mt6372_led_ranges;
+> +		priv->pdata = &mt6372_pdata;
+> +	} else {
+> +		/* Common for MT6370/71 */
+> +		priv->reg_fields = common_reg_fields;
+> +		priv->ranges = common_led_ranges;
+> +		priv->pdata = &common_pdata;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int mt6370_leds_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct mt6370_priv *priv;
+> +	struct fwnode_handle *child;
+> +	size_t count;
+> +	unsigned int i = 0;
+> +	int ret;
+> +
+> +	count = device_get_child_node_count(dev);
+> +	if (!count || count > MT6370_MAX_LEDS)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "No child node or node count over max LED number %zu\n",
+> +				      count);
+> +
+> +	priv = devm_kzalloc(dev, struct_size(priv, leds, count), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->leds_count = count;
+> +	mutex_init(&priv->lock);
+> +
+> +	priv->regmap = dev_get_regmap(dev->parent, NULL);
+> +	if (!priv->regmap)
+> +		return dev_err_probe(dev, -ENODEV, "Failed to get parent regmap\n");
+> +
+> +	ret = mt6370_check_vendor_info(priv);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to check vendor info\n");
+> +
+> +	ret = devm_regmap_field_bulk_alloc(dev, priv->regmap, priv->fields,
+> +					   priv->reg_fields, F_MAX_FIELDS);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to allocate regmap field\n");
+> +
+> +	device_for_each_child_node(dev, child) {
+> +		struct mt6370_led *led = priv->leds + i++;
+> +		struct led_init_data init_data = { .fwnode = child };
+> +		u32 reg, color;
+> +
+> +		ret = fwnode_property_read_u32(child, "reg", &reg);
+> +		if (ret) {
+> +			fwnode_handle_put(child);
+> +			return dev_err_probe(dev, ret, "Failed to parse reg property\n");
+> +		}
+> +
+> +		if (reg >= MT6370_MAX_LEDS) {
+> +			fwnode_handle_put(child);
+> +			return dev_err_probe(dev, -EINVAL, "Error reg property number\n");
+> +		}
+> +
+> +		ret = fwnode_property_read_u32(child, "color", &color);
+> +		if (ret) {
+> +			fwnode_handle_put(child);
+> +			return dev_err_probe(dev, ret, "Failed to parse color property\n");
+> +		}
+> +
+> +		if (color == LED_COLOR_ID_RGB || color == LED_COLOR_ID_MULTI)
+> +			reg = MT6370_VIRTUAL_MULTICOLOR;
+> +
+> +		if (priv->leds_active & BIT(reg)) {
+> +			fwnode_handle_put(child);
+> +			return dev_err_probe(dev, -EINVAL, "Duplicate reg property\n");
+> +		}
+> +
+> +		priv->leds_active |= BIT(reg);
+> +
+> +		led->index = reg;
+> +		led->priv = priv;
+> +
+> +		ret = mt6370_init_led_properties(dev, led, &init_data);
+> +		if (ret) {
+> +			fwnode_handle_put(child);
+
+I count 6 calls to fwnode_handle_put() here.
+
+Please use a goto to divert the error handling to the bottom of the
+function where you call fwnode_handle_put() just once.
+
+> +			return ret;
+> +		}
+> +
+> +		ret = mt6370_led_register(dev, led, &init_data);
+> +		if (ret) {
+> +			fwnode_handle_put(child);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id mt6370_rgbled_device_table[] = {
+> +	{ .compatible = "mediatek,mt6370-indicator" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, mt6370_rgbled_device_table);
+> +
+> +static struct platform_driver mt6370_rgbled_driver = {
+> +	.driver = {
+> +		.name = "mt6370-indicator",
+> +		.of_match_table = mt6370_rgbled_device_table,
+> +	},
+> +	.probe = mt6370_leds_probe,
+> +};
+> +module_platform_driver(mt6370_rgbled_driver);
+> +
+> +MODULE_AUTHOR("Alice Chen <alice_chen@richtek.com>");
+> +MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
+> +MODULE_DESCRIPTION("MediaTek MT6370 RGB LED Driver");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.7.4
+> 
+
+-- 
+Lee Jones [李琼斯]
