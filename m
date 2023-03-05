@@ -2,622 +2,286 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 283A8C64EC4
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Mar 2023 15:13:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEDF3C678DB
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Mar 2023 04:03:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229579AbjCDPN0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Mar 2023 10:13:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41156 "EHLO
+        id S229519AbjCEEDh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Mar 2023 23:03:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjCDPNZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Mar 2023 10:13:25 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B2F0D325;
-        Sat,  4 Mar 2023 07:13:22 -0800 (PST)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 324E4PAL006694;
-        Sat, 4 Mar 2023 15:11:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=YVmn9Jls+KizZs6mjx8mIRoOYllvnTiataeZpNS2PaA=;
- b=XoT0SLZeWN5sTdpKCZE+nHwKZUnJXNIBnGzf8SBNmbnUrQYHZMgeUNMJBFcF1Ea1eiFA
- eoA5CKeRnC2LLth82AgXm5vE5vBukpwnQSfla6IwspQqD3zzsX9D1GjD6g074xnIxnKC
- edzaolyqrhlShxrXWuqWHFIFfHwaVQTzk6kXuCCIWjAVvEFRwdmvO/O8CmJvDEagDAA4
- /Vvcwd46Chh2bv6EGzDfUll+71Xc+8fSUy1OpG+4/9RHKb/qF42mXQogVchVp5LGs7a5
- KJUlx60Xe7OfE++gi+DSXdBDDWjGEQ3Kt94zXtl8nTHtdUdMX1rE+5EtJ5oDnJBBDUFV vg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3p41g669gg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 04 Mar 2023 15:11:23 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 324F8rqs001542;
-        Sat, 4 Mar 2023 15:11:23 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3p41g669g4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 04 Mar 2023 15:11:22 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 324D0vlA005407;
-        Sat, 4 Mar 2023 15:11:21 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([9.208.129.118])
-        by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3p4184ad9c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 04 Mar 2023 15:11:21 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-        by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 324FBK6J57541088
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 4 Mar 2023 15:11:20 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0A1935804E;
-        Sat,  4 Mar 2023 15:11:20 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 550165803F;
-        Sat,  4 Mar 2023 15:11:08 +0000 (GMT)
-Received: from [9.43.63.33] (unknown [9.43.63.33])
-        by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-        Sat,  4 Mar 2023 15:11:07 +0000 (GMT)
-Message-ID: <48b8f849-fa81-d968-8fb6-b25c5fe94edb@linux.vnet.ibm.com>
-Date:   Sat, 4 Mar 2023 20:41:06 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v12 8/8] sched/fair: Add latency list
-Content-Language: en-US
-To:     Vincent Guittot <vincent.guittot@linaro.org>
-Cc:     qyousef@layalina.io, chris.hyser@oracle.com,
-        patrick.bellasi@matbug.net, David.Laight@aculab.com,
-        pjt@google.com, pavel@ucw.cz, qperret@google.com,
-        tim.c.chen@linux.intel.com, joshdon@google.com, timj@gnu.org,
-        kprateek.nayak@amd.com, yu.c.chen@intel.com,
-        youssefesmat@chromium.org, joel@joelfernandes.org,
-        mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
-        linux-kernel@vger.kernel.org, parth@linux.ibm.com, tj@kernel.org,
-        lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        cgroups@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        Shrikanth Hegde <sshegde@linux.vnet.ibm.com>
-References: <20230224093454.956298-1-vincent.guittot@linaro.org>
- <20230224093454.956298-9-vincent.guittot@linaro.org>
- <4982b608-f8c7-531c-3322-c055643a5b2d@linux.vnet.ibm.com>
- <CAKfTPtAEbzrxKOGXYRxp0qMM-TPj1q8BdcaVpK7ObZfe8QWn4g@mail.gmail.com>
- <913b0491-cef6-87ac-bf7e-d6d6c8fc380a@linux.vnet.ibm.com>
- <CAKfTPtA5wqBb1hAQa=qd6CicJbHsRi+q=s2tT0n6XspGOEA2Xg@mail.gmail.com>
- <7dd8fa7e-3cbc-6d3f-5748-74ffdeb056a7@linux.vnet.ibm.com>
- <2226e488-390d-ed64-832e-ca8e6a3a1731@linux.vnet.ibm.com>
- <ZAIg5de3EkHtHqLM@vingu-book>
-From:   Shrikanth Hegde <sshegde@linux.vnet.ibm.com>
-In-Reply-To: <ZAIg5de3EkHtHqLM@vingu-book>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Jks_t5r_leAMITqvfqIqmzK0gbv9L7AI
-X-Proofpoint-ORIG-GUID: G5cH7SvLYN4CE3MhiWU6LtT3Q7I4PPOG
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        with ESMTP id S229471AbjCEEDg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Mar 2023 23:03:36 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E56BBDCC;
+        Sat,  4 Mar 2023 20:03:34 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id u5so6796223plq.7;
+        Sat, 04 Mar 2023 20:03:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677989014;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=St+LXbAwYb6pdrMuptqZn7fDDP6I0sfWlOco0YZvkco=;
+        b=WZjsJco8N1ikNVVmqEQ7C/RXdh58a1X6dq3AnmYCZOKAmIGBXM/na2ZGOSIBwAgJ0x
+         D0pZGc2D+HBfP731JuhP2f6Xxd3xBJuOijHsGKW0eJZUa/IY8StjCCkpFbcxJWlmTOtA
+         TwogSW5BJAOoObhK9rqwKZbS/A7QaIRqfhMmACA+dvkxSDVPu+IcnIQ12eCAgIPc9I9G
+         lnOrHlzmCQOUta96rhzUdflwgxJgtjdifecFUuPMianupBEB6CbTjVnogRqHqP7l0suR
+         k0/wf7prQ6auGPPOd+YZZpL/9rRx5UbIxgUrJ+uYARg3yN8EvQNdyP9cXd8zdS6ZF3A1
+         335Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677989014;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=St+LXbAwYb6pdrMuptqZn7fDDP6I0sfWlOco0YZvkco=;
+        b=s8to6cMqu0G2wDNY8ziTmeilP88GJ5O8y54O8gtIrmowYpsel5KFfmWVi2GlYbxkp1
+         OZiMTw5ddNtpP022To+G1Lb5JRs6EZa4SFZAofLZDL9jsfDYMwK6G5Ck/r3qRqK0BZLD
+         OsYLrCTX0H8gEl/5729B5i4DyS3WuAYfqT8sqdrLV1AXsnuS159OCdQftplGIJYBOt4k
+         qDp00LR3stRC4ER5Ga5KcH9aWWRQKfWLecZviluNc+r5QzzUHxFbbWg1ZL7j81RCYURo
+         iLrCAO6QM9GjSMB94IyYdkhbj257grSSjy1KCDplFBCjQAnwPJxlnI1fmlmbOqtAKICP
+         NpAg==
+X-Gm-Message-State: AO0yUKVDda9cpYeBM7A5ULaoARKZkqJNTtJhcJNZRaEzuxyuBWqM3X+6
+        TnhTrq28XjzyxGDNKoEPOdgvpDYSqRg=
+X-Google-Smtp-Source: AK7set9qHxMhSv6UDvC/imoSB+PoGEl5y1Qe2a3PzFSooQDzANyH7sQmctk76Ui+u45gyKcopHkX7A==
+X-Received: by 2002:a05:6a21:6d81:b0:cb:cd6a:2e42 with SMTP id wl1-20020a056a216d8100b000cbcd6a2e42mr9035269pzb.29.1677989013886;
+        Sat, 04 Mar 2023 20:03:33 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-71.three.co.id. [180.214.232.71])
+        by smtp.gmail.com with ESMTPSA id p18-20020a62ab12000000b005825b8e0540sm3867201pff.204.2023.03.04.20.03.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Mar 2023 20:03:33 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 12594105FA1; Sun,  5 Mar 2023 11:03:29 +0700 (WIB)
+Date:   Sun, 5 Mar 2023 11:03:29 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Vegard Nossum <vegard.nossum@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, backports@vger.kernel.org,
+        Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH] docs: add backporting and conflict resolution document
+Message-ID: <ZAQUkbxQxCanh+9c@debian.me>
+References: <20230303162553.17212-1-vegard.nossum@oracle.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-04_06,2023-03-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- adultscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 clxscore=1015
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303040118
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="yxswqAePtvTOIAX3"
+Content-Disposition: inline
+In-Reply-To: <20230303162553.17212-1-vegard.nossum@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--yxswqAePtvTOIAX3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 3/3/23 10:01 PM, Vincent Guittot wrote:
-> Le jeudi 02 mars 2023 à 23:37:52 (+0530), Shrikanth Hegde a écrit :
->>
->> On 3/2/23 8:30 PM, Shrikanth Hegde wrote:
->>> On 3/2/23 6:47 PM, Vincent Guittot wrote:
->>>> On Thu, 2 Mar 2023 at 12:00, Shrikanth Hegde <sshegde@linux.vnet.ibm.com> wrote:
->>>>> On 3/2/23 1:20 PM, Vincent Guittot wrote:
->>>>>> On Wed, 1 Mar 2023 at 19:48, shrikanth hegde <sshegde@linux.vnet.ibm.com> wrote:
->>>>>>> On 2/24/23 3:04 PM, Vincent Guittot wrote:
-> [...]
->
->>>>>>> Ran the schbench and hackbench with this patch series. Here comparison is
->>>>>>> between 6.2 stable tree, 6.2 + Patch and 6.2 + patch + above re-arrange of
->>>>>>> latency_node. Ran two cgroups, in one cgroup running stress-ng at 50%(group1)
->>>>>>> and other is running these benchmarks (group2). Set the latency nice
->>>>>>> of group2 to -20. These are run on Power system with 12 cores with SMT=8.
->>>>>>> Total of 96 CPU.
->>>>>>>
->>>>>>> schbench gets lower latency compared to stabletree. Whereas hackbench seems
->>>>>>> to regress under this case. Maybe i am doing something wrong. I will re-run
->>>>>>> and attach the numbers to series.
->>>>>>> Please suggest if any variation in the test i need to try.
->>>>>> hackbench takes advanatge of a latency nice 19 as it mainly wants to
->>>>>> run longer slice to move forward rather than preempting others all the
->>>>>> time
->>>>> hackbench still seems to regress in different latency nice values compared to
->>>>> baseline of 6.2 in this case. up to 50% in some cases.
->>>>>
->>>>> 12 core powerpc system  with SMT=8 i.e 96 CPU
->>>>> running 2 CPU cgroups. No quota assigned.
->>>>> 1st cgroup is running stress-ng with 48 threads. Consuming 50% of CPU.
->>>>> latency is not changed for this cgroup.
->>>>> 2nd cgroup is running hackbench. This cgroup is assigned the different latency
->>>>> nice values of 0, -20 and 19.
->>>> According to your other emails, you are using the cgroup interface and
->>>> not the task's one. Do I get it right ?
->>> right. I create cgroup, attach bash command with echo $$, 
->>> assign the latency nice to cgroup, and run hackbench from that bash prompt.
->>>
->>>> I haven't run test such tests in a cgroup but at least the test with
->>>> latency_nice == 0 should not make any noticeable difference. Does this
->>>> include the re-arrange patch that you have proposed previously ?
->>> No. This is only with V12 of the series.
->>>
->>>> Also, the tests that you did on v6, gave better result.
->>>> https://lore.kernel.org/lkml/34112324-de67-55eb-92bc-181a98c4311c@linux.vnet.ibm.com/
->>>>
->>>> Are you running same tests or you changed something in the mean time ?
->>> Test machine got changed. 
->>> now i re-read my earlier mail. I see it was slightly different. 
->>> I had created only one cgroup and stress-ng was run
->>> without any cgroup. Let me try that scenario and get the numbers. 
->>
->> Tried the same method of testing i had done on V7 of the series. on this
->> machine hackbench still regress's both on V12 as well as V7 of the series.
->>
->> Created one cpu cgroup called cgroup1. created two bash prompts. 
->> assigned "bash $$" to cgroup1 and on other bash prompt running,
->> stress-ng --cpu=96 -l 50. Ran hackbench from cgroup1 prompt. 
->> assigned latency values to the cgroup1.
-> I have tried to reproduce your results on some of my systems but I can't see
-> the impacts that you are reporting below.
-> The fact that your other platform was not impacted as well could imply that
-> it's specific to this platform.
-> In particular, the lat nice=0 case should not show any real impact as it
-> should be similar to a nop. At least that what I can see in the tests on my
-> platforms and Prateek on his.
->
-> Nevertheless, could you try to run your tests with the changes below ?
-> These are the only places which could have an impact even with lat nice = 0
->
-> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> index 8137bca80572..979571a98b28 100644
-> --- a/kernel/sched/fair.c
-> +++ b/kernel/sched/fair.c
-> @@ -4991,8 +4991,7 @@ check_preempt_tick(struct cfs_rq *cfs_rq, struct sched_entity *curr)
->         if (delta < offset)
->                 return;
->
-> -       if ((delta > ideal_runtime) ||
-> -           (delta > get_latency_max()))
-> +       if (delta > ideal_runtime)
->                 resched_curr(rq_of(cfs_rq));
->  }
->
-> @@ -7574,9 +7573,10 @@ static long wakeup_latency_gran(struct sched_entity *curr, struct sched_entity *
->          * Otherwise, use the latency weight to evaluate how much scheduling
->          * delay is acceptable by se.
->          */
-> -       if ((latency_offset < 0) || (curr->latency_offset < 0))
-> +       if ((latency_offset < 0) || (curr->latency_offset < 0)) {
->                 latency_offset -= curr->latency_offset;
-> -       latency_offset = min_t(long, latency_offset, get_latency_max());
-> +               latency_offset = min_t(long, latency_offset, get_latency_max());
-> +       }
->
->         return latency_offset;
->  }
-> @@ -7635,7 +7635,6 @@ wakeup_preempt_entity(struct sched_entity *curr, struct sched_entity *se)
->          * for low priority task. Make sure that long sleeping task will get a
->          * chance to preempt current.
->          */
-> -       gran = min_t(s64, gran, get_latency_max());
->
->         if (vdiff > gran)
->                 return 1;
->
+On Fri, Mar 03, 2023 at 05:25:53PM +0100, Vegard Nossum wrote:
+> +It is strongly recommended to instead find an appropriate base version
+> +where the patch applies cleanly and *then* cherry-pick it over to your
+> +destination tree, as this will make git output conflict markers and let
+> +you resolve conflicts with the help of git and any other conflict
+> +resolution tools you might prefer to use.
+> +
+> +It's generally better to use the exact same base as the one the patch
+> +was generated from, but it doesn't really matter that much as long as it
+> +applies cleanly and isn't too far from the original base. The only
+> +problem with applying the patch to the "wrong" base is that it may pull
+> +in more unrelated changes in the context of the diff when cherry-picking
+> +it to the older branch.
+> +
+> +If you are using
+> +`b4 <https://people.kernel.org/monsieuricon/introducing-b4-and-patch-att=
+estation>`__
+> +and you are applying the patch directly from an email, you can use
+> +``b4 am`` with the options ``-g``/``--guess-base`` and
+> +``-3``/``--prep-3way`` to do some of this automatically (see `this
+> +presentation <https://youtu.be/mF10hgVIx9o?t=3D2996>`__ for more
+> +information). However, the rest of this article will assume that you are
+> +doing a plain ``git cherry-pick``.
 
-Above patch helps. thank you.
-Numbers are comparable to 6.2 and there is slight improvement. Much better than V12 numbers. 
+Above are from applier's perspective (maintainers and/or developers
+doing the backport). For patch submitter, don't forget to pass
+--base=3D<base-commit> to git-format-patch(1) so that the applier can know
+the base commit of the patch to be applied. For patches intended for
+mainline submission, the applier could create a temporary branch based on
+specified base commit (as described above), apply the patch, and rebase
+to latest appropriate subsystem tree (and resolve conflicts if any).
+Others could instead directly apply the patch on top of subsystem tree.
 
-type	   groups |   v6.2      |v6.2 + V12| v6.2 + V12  | v6.2 + V12
-		  |	        |lat nice=0| lat nice=-20| lat nice=+19
+> +
+> +Once you have the patch in git, you can go ahead and cherry-pick it into
+> +your source tree. Don't forget to cherry-pick with ``-x`` if you want a
+> +written record of where the patch came from!
 
-Process	      10  |	0.33    |   0.37   |   0.38     |   0.37
-Process       20  |	0.61    |   0.67   |   0.68     |   0.67
-Process	      30  |	0.85    |   0.95   |   0.95     |   0.96
-Process	      40  |	1.10    |   1.20   |   1.20     |   1.21
-Process	      50  |	1.34    |   1.47   |   1.44     |   1.45
-Process	      60  |	1.57    |   1.70   |   1.71     |   1.70
-thread	      10  |	0.36    |   0.40   |   0.39     |   0.39
-thread	      20  |	0.65    |   0.72   |   0.71     |   0.71
-Process(Pipe) 10  |	0.18	|   0.31   |   0.31	|   0.33
-Process(Pipe) 20  |	0.32	|   0.51   |   0.50	|   0.50
-Process(Pipe) 30  |	0.43	|   0.65   |   0.67	|   0.67
-Process(Pipe) 40  |	0.57	|   0.82   |   0.83	|   0.83
-Process(Pipe) 50  |	0.67	|   1.00   |   0.97	|   0.98
-Process(Pipe) 60  |	0.81	|   1.13   |   1.11	|   1.12
-thread(Pipe)  10  |	0.19	|   0.33   |   0.33	|   0.33
-thread(Pipe)  20  |	0.34	|   0.53   |   0.51	|   0.52
+"In most cases, you will likely want to cherry-pick with ``-x`` option
+to record upstream commit in the resulting backport commit description,
+which looks like::
 
+    (cherry picked from commit <upstream commit>)
 
+However, for backporting to stable, you need to edit the description
+above to either::
 
-type	   groups |   v6.2	|v6.2+ V12+ | v6.2 + V12+| v6.2 + V12
-                  |             |above patch|above patch | above patch
-		  |		|lat nice=0 |lat nice=-20| lat nice=+19
+    commit <upstream commit> upstream
 
-Process       10  |	0.36    |   0.33    |   0.34     |   0.34
-Process       20  |	0.62    |   0.60    |   0.61     |   0.61
-Process       30  |	0.87    |   0.84    |   0.85     |   0.84
-Process       40  |	1.13    |   1.09    |   1.10     |   1.09
-Process       50  |	1.38    |   1.33    |   1.33     |   1.34
-Process       60  |	1.64    |   1.56    |   1.58     |   1.56
-thread        10  |	0.35    |   0.35    |   0.35     |   0.35
-thread        20  |	0.64    |   0.63    |   0.63     |   0.63
-Process(Pipe) 10  |	0.20    |   0.18    |   0.18     |   0.18
-Process(Pipe) 20  |	0.32    |   0.31    |   0.31     |   0.32
-Process(Pipe) 30  |	0.44    |   0.43    |   0.43     |   0.43
-Process(Pipe) 40  |	0.56    |   0.57    |   0.56     |   0.55
-Process(Pipe) 50  |	0.70    |   0.67    |   0.67     |   0.67
-Process(Pipe) 60  |	0.83    |   0.79    |   0.81     |   0.80
-thread(Pipe)  10  |	0.21    |   0.19    |   0.19     |   0.19
-thread(Pipe)  20  |	0.35    |   0.33    |   0.34     |   0.33
+or
+    [ Upstream commit <upstream commit> ]
 
+"
 
-Do you want me to try any other experiment on this further?
+> +For backports, what likely happened was that your older branch is
+> +missing a patch compared to the branch you are backporting from --
+> +however, it is also possible that your older branch has some commit that
+> +doesn't exist in the newer branch. In any case, the result is a conflict
+> +that needs to be resolved.
 
->> I will try to run with only task's set with latency_nice=0 as well. 
->>
->> type	   groups |   v6.2      |v6.2 + V12| v6.2 + V12  | v6.2 + V12
->> 		  |	        |lat nice=0| lat nice=-20| lat nice=+19
->>
->> Process	      10  |	0.33    |   0.37   |   0.38     |   0.37
->> Process       20  |	0.61    |   0.67   |   0.68     |   0.67
->> Process	      30  |	0.85    |   0.95   |   0.95     |   0.96
->> Process	      40  |	1.10    |   1.20   |   1.20     |   1.21
->> Process	      50  |	1.34    |   1.47   |   1.44     |   1.45
->> Process	      60  |	1.57    |   1.70   |   1.71     |   1.70
->> thread	      10  |	0.36    |   0.40   |   0.39     |   0.39
->> thread	      20  |	0.65    |   0.72   |   0.71     |   0.71
->> Process(Pipe) 10  |	0.18	|   0.31   |   0.31	|   0.33
->> Process(Pipe) 20  |	0.32	|   0.51   |   0.50	|   0.50
->> Process(Pipe) 30  |	0.43	|   0.65   |   0.67	|   0.67
->> Process(Pipe) 40  |	0.57	|   0.82   |   0.83	|   0.83
->> Process(Pipe) 50  |	0.67	|   1.00   |   0.97	|   0.98
->> Process(Pipe) 60  |	0.81	|   1.13   |   1.11	|   1.12
->> thread(Pipe)  10  |	0.19	|   0.33   |   0.33	|   0.33
->> thread(Pipe)  20  |	0.34	|   0.53   |   0.51	|   0.52
->>
->>
->>
->> type	   groups |   v6.2	|v6.2 + V7 | v6.2 + V7  | v6.2 + V7
->> 		  |		|lat nice=0|lat nice=-20| lat nice=+19
->> Process	      10  |	0.33    |   0.37   |   0.37     |   0.37
->> Process	      20  |	0.61    |   0.67   |   0.67     |   0.67
->> Process	      30  |	0.85    |   0.96   |   0.94     |   0.95
->> Process	      40  |	1.10    |   1.20   |   1.20     |   1.20
->> Process	      50  |	1.34    |   1.45   |   1.46     |   1.45
->> Process	      60  |	1.57    |   1.71   |   1.68     |   1.72
->> thread	      10  |	0.36    |   0.40   |   0.40     |   0.40
->> thread	      20  |	0.65    |   0.71   |   0.71     |   0.71
->> Process(Pipe) 10  |	0.18	|   0.30   |   0.30	|   0.31
->> Process(Pipe) 20  |	0.32	|   0.50   |   0.50	|   0.50
->> Process(Pipe) 30  |	0.43	|   0.67   |   0.67	|   0.66
->> Process(Pipe) 40  |	0.57	|   0.86   |   0.84	|   0.84
->> Process(Pipe) 50  |	0.67	|   0.99   |   0.97	|   0.97
->> Process(Pipe) 60  |	0.81	|   1.10   |   1.13	|   1.13
->> thread(Pipe)  10  |	0.19	|   0.34   |   0.34	|   0.33
->> thread(Pipe)  20  |	0.34	|   0.55   |   0.53	|   0.54
->>
->>>>> Numbers are average of 10 runs in each case. Time is in seconds
->>>>>
->>>>> type       groups |   v6.2     |  v6.2 + V12   | v6.2 + V12  | v6.2 + V12
->>>>>                   |            | lat nice=0    | lat nice=-20| lat nice=+19
->>>>>                   |            |               |             |
->>>>> Process       10  |   0.36     |     0.41      |    0.43     |    0.42
->>>>> Process       20  |   0.62     |     0.76      |    0.75     |    0.75
->>>>> Process       30  |   0.87     |     1.05      |    1.04     |    1.06
->>>>> Process       40  |   1.13     |     1.34      |    1.33     |    1.33
->>>>> Process       50  |   1.38     |     1.62      |    1.66     |    1.63
->>>>> Process       60  |   1.64     |     1.91      |    1.97     |    1.90
->>>>> thread        10  |   0.35     |     0.41      |    0.44     |    0.42
->>>>> thread        20  |   0.64     |     0.78      |    0.77     |    0.79
->>>>> Process(Pipe) 10  |   0.20     |     0.34      |    0.33     |    0.34
->>>>> Process(Pipe) 20  |   0.32     |     0.52      |    0.53     |    0.52
->>>>> Process(Pipe) 30  |   0.44     |     0.70      |    0.70     |    0.69
->>>>> Process(Pipe) 40  |   0.56     |     0.88      |    0.89     |    0.88
->>>>> Process(Pipe) 50  |   0.70     |     1.08      |    1.08     |    1.07
->>>>> Process(Pipe) 60  |   0.83     |     1.27      |    1.27     |    1.26
->>>>> thread(Pipe)  10  |   0.21     |     0.35      |    0.34     |    0.36
->>>>> thread(Pipe)  10  |   0.35     |     0.55      |    0.58     |    0.55
->>>>>
->>>>>
->>>>>
->>>>>>> Re-arrange seems to help the patch series by avoiding an cacheline miss.
->>>>>>>
->>>>>>> =========================
->>>>>>> schbench
->>>>>>> =========================
->>>>>>>                  6.2   |  6.2 + V12     |     6.2 + V12 + re-arrange
->>>>>>> 1 Thread
->>>>>>>   50.0th:        9.00  |    9.00        |        9.50
->>>>>>>   75.0th:       10.50  |   10.00        |        9.50
->>>>>>>   90.0th:       11.00  |   11.00        |       10.50
->>>>>>>   95.0th:       11.00  |   11.00        |       11.00
->>>>>>>   99.0th:       11.50  |   11.50        |       11.50
->>>>>>>   99.5th:       12.50  |   12.00        |       12.00
->>>>>>>   99.9th:       14.50  |   13.50        |       12.00
->>>>>>> 2 Threads
->>>>>>>   50.0th:        9.50  |    9.50        |        8.50
->>>>>>>   75.0th:       11.00  |   10.50        |        9.50
->>>>>>>   90.0th:       13.50  |   11.50        |       10.50
->>>>>>>   95.0th:       14.00  |   12.00        |       11.00
->>>>>>>   99.0th:       15.50  |   13.50        |       12.00
->>>>>>>   99.5th:       16.00  |   14.00        |       12.00
->>>>>>>   99.9th:       17.00  |   16.00        |       16.50
->>>>>>> 4 Threads
->>>>>>>   50.0th:       11.50  |   11.50        |       10.50
->>>>>>>   75.0th:       13.50  |   12.50        |       12.50
->>>>>>>   90.0th:       15.50  |   14.50        |       14.00
->>>>>>>   95.0th:       16.50  |   15.50        |       14.50
->>>>>>>   99.0th:       20.00  |   17.50        |       16.50
->>>>>>>   99.5th:       20.50  |   18.50        |       17.00
->>>>>>>   99.9th:       22.50  |   21.00        |       19.00
->>>>>>> 8 Threads
->>>>>>>   50.0th:       14.00  |   14.00        |       14.00
->>>>>>>   75.0th:       16.00  |   16.00        |       16.00
->>>>>>>   90.0th:       18.00  |   18.00        |       17.50
->>>>>>>   95.0th:       18.50  |   18.50        |       18.50
->>>>>>>   99.0th:       20.00  |   20.00        |       20.00
->>>>>>>   99.5th:       20.50  |   21.50        |       21.00
->>>>>>>   99.9th:       22.50  |   23.50        |       23.00
->>>>>>> 16 Threads
->>>>>>>   50.0th:       19.00  |   18.50        |       19.00
->>>>>>>   75.0th:       23.00  |   22.50        |       23.00
->>>>>>>   90.0th:       25.00  |   25.50        |       25.00
->>>>>>>   95.0th:       26.50  |   26.50        |       26.00
->>>>>>>   99.0th:       28.50  |   29.00        |       28.50
->>>>>>>   99.5th:       31.00  |   30.00        |       30.00
->>>>>>>   99.9th:     5626.00  | 4761.50        |       32.50
->>>>>>> 32 Threads
->>>>>>>   50.0th:       27.00  |   27.50        |       29.00
->>>>>>>   75.0th:       35.50  |   36.50        |       38.50
->>>>>>>   90.0th:       42.00  |   44.00        |       50.50
->>>>>>>   95.0th:      447.50  | 2959.00        |     8544.00
->>>>>>>   99.0th:     7372.00  | 17032.00       |    19136.00
->>>>>>>   99.5th:    15360.00  | 19808.00       |    20704.00
->>>>>>>   99.9th:    20640.00  | 30048.00       |    30048.00
->>>>>>>
->>>>>>> ====================
->>>>>>> hackbench
->>>>>>> ====================
->>>>>>>                         6.2     |  6.2 + V12        |     6.2+ V12 +re-arrange
->>>>>>>
->>>>>>> Process 10 Time:        0.35    |       0.42        |           0.41
->>>>>>> Process 20 Time:        0.61    |       0.76        |           0.76
->>>>>>> Process 30 Time:        0.87    |       1.06        |           1.05
->>>>>>> thread 10 Time:         0.35    |       0.43        |           0.42
->>>>>>> thread 20 Time:         0.66    |       0.79        |           0.78
->>>>>>> Process(Pipe) 10 Time:  0.21    |       0.33        |           0.32
->>>>>>> Process(Pipe) 20 Time:  0.34    |       0.52        |           0.52
->>>>>>> Process(Pipe) 30 Time:  0.46    |       0.72        |           0.71
->>>>>>> thread(Pipe) 10 Time:   0.21    |       0.34        |           0.34
->>>>>>> thread(Pipe) 20 Time:   0.36    |       0.56        |           0.56
->>>>>>>
->>>>>>>
->>>>>>>>       struct list_head                group_node;
->>>>>>>>       unsigned int                    on_rq;
->>>>>>>>
->>>>>>>> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
->>>>>>>> index 093cc1af73dc..752fd364216c 100644
->>>>>>>> --- a/kernel/sched/core.c
->>>>>>>> +++ b/kernel/sched/core.c
->>>>>>>> @@ -4434,6 +4434,7 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
->>>>>>>>       p->se.nr_migrations             = 0;
->>>>>>>>       p->se.vruntime                  = 0;
->>>>>>>>       INIT_LIST_HEAD(&p->se.group_node);
->>>>>>>> +     RB_CLEAR_NODE(&p->se.latency_node);
->>>>>>>>
->>>>>>>>  #ifdef CONFIG_FAIR_GROUP_SCHED
->>>>>>>>       p->se.cfs_rq                    = NULL;
->>>>>>>> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
->>>>>>>> index 125a6ff53378..e2aeb4511686 100644
->>>>>>>> --- a/kernel/sched/fair.c
->>>>>>>> +++ b/kernel/sched/fair.c
->>>>>>>> @@ -680,7 +680,85 @@ struct sched_entity *__pick_last_entity(struct cfs_rq *cfs_rq)
->>>>>>>>
->>>>>>>>       return __node_2_se(last);
->>>>>>>>  }
->>>>>>>> +#endif
->>>>>>>>
->>>>>>>> +/**************************************************************
->>>>>>>> + * Scheduling class tree data structure manipulation methods:
->>>>>>>> + * for latency
->>>>>>>> + */
->>>>>>>> +
->>>>>>>> +static inline bool latency_before(struct sched_entity *a,
->>>>>>>> +                             struct sched_entity *b)
->>>>>>>> +{
->>>>>>>> +     return (s64)(a->vruntime + a->latency_offset - b->vruntime - b->latency_offset) < 0;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +#define __latency_node_2_se(node) \
->>>>>>>> +     rb_entry((node), struct sched_entity, latency_node)
->>>>>>>> +
->>>>>>>> +static inline bool __latency_less(struct rb_node *a, const struct rb_node *b)
->>>>>>>> +{
->>>>>>>> +     return latency_before(__latency_node_2_se(a), __latency_node_2_se(b));
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +/*
->>>>>>>> + * Enqueue an entity into the latency rb-tree:
->>>>>>>> + */
->>>>>>>> +static void __enqueue_latency(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
->>>>>>>> +{
->>>>>>>> +
->>>>>>>> +     /* Only latency sensitive entity can be added to the list */
->>>>>>>> +     if (se->latency_offset >= 0)
->>>>>>>> +             return;
->>>>>>>> +
->>>>>>>> +     if (!RB_EMPTY_NODE(&se->latency_node))
->>>>>>>> +             return;
->>>>>>>> +
->>>>>>>> +     /*
->>>>>>>> +      * The entity is always added the latency list at wakeup.
->>>>>>>> +      * Then, a not waking up entity that is put back in the list after an
->>>>>>>> +      * execution time less than sysctl_sched_min_granularity, means that
->>>>>>>> +      * the entity has been preempted by a higher sched class or an entity
->>>>>>>> +      * with higher latency constraint. In thi case, the entity is also put
->>>>>>>> +      * back in the latency list so it gets a chance to run 1st during the
->>>>>>>> +      * next slice.
->>>>>>>> +      */
->>>>>>>> +     if (!(flags & ENQUEUE_WAKEUP)) {
->>>>>>>> +             u64 delta_exec = se->sum_exec_runtime - se->prev_sum_exec_runtime;
->>>>>>>> +
->>>>>>>> +             if (delta_exec >= sysctl_sched_min_granularity)
->>>>>>>> +                     return;
->>>>>>>> +     }
->>>>>>>> +
->>>>>>>> +     rb_add_cached(&se->latency_node, &cfs_rq->latency_timeline, __latency_less);
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +/*
->>>>>>>> + * Dequeue an entity from the latency rb-tree and return true if it was really
->>>>>>>> + * part of the rb-tree:
->>>>>>>> + */
->>>>>>>> +static bool __dequeue_latency(struct cfs_rq *cfs_rq, struct sched_entity *se)
->>>>>>>> +{
->>>>>>>> +     if (!RB_EMPTY_NODE(&se->latency_node)) {
->>>>>>>> +             rb_erase_cached(&se->latency_node, &cfs_rq->latency_timeline);
->>>>>>>> +             RB_CLEAR_NODE(&se->latency_node);
->>>>>>>> +             return true;
->>>>>>>> +     }
->>>>>>>> +
->>>>>>>> +     return false;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +static struct sched_entity *__pick_first_latency(struct cfs_rq *cfs_rq)
->>>>>>>> +{
->>>>>>>> +     struct rb_node *left = rb_first_cached(&cfs_rq->latency_timeline);
->>>>>>>> +
->>>>>>>> +     if (!left)
->>>>>>>> +             return NULL;
->>>>>>>> +
->>>>>>>> +     return __latency_node_2_se(left);
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +#ifdef CONFIG_SCHED_DEBUG
->>>>>>>>  /**************************************************************
->>>>>>>>   * Scheduling class statistics methods:
->>>>>>>>   */
->>>>>>>> @@ -4758,8 +4836,10 @@ enqueue_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
->>>>>>>>       check_schedstat_required();
->>>>>>>>       update_stats_enqueue_fair(cfs_rq, se, flags);
->>>>>>>>       check_spread(cfs_rq, se);
->>>>>>>> -     if (!curr)
->>>>>>>> +     if (!curr) {
->>>>>>>>               __enqueue_entity(cfs_rq, se);
->>>>>>>> +             __enqueue_latency(cfs_rq, se, flags);
->>>>>>>> +     }
->>>>>>>>       se->on_rq = 1;
->>>>>>>>
->>>>>>>>       if (cfs_rq->nr_running == 1) {
->>>>>>>> @@ -4845,8 +4925,10 @@ dequeue_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
->>>>>>>>
->>>>>>>>       clear_buddies(cfs_rq, se);
->>>>>>>>
->>>>>>>> -     if (se != cfs_rq->curr)
->>>>>>>> +     if (se != cfs_rq->curr) {
->>>>>>>>               __dequeue_entity(cfs_rq, se);
->>>>>>>> +             __dequeue_latency(cfs_rq, se);
->>>>>>>> +     }
->>>>>>>>       se->on_rq = 0;
->>>>>>>>       account_entity_dequeue(cfs_rq, se);
->>>>>>>>
->>>>>>>> @@ -4941,6 +5023,7 @@ set_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *se)
->>>>>>>>                */
->>>>>>>>               update_stats_wait_end_fair(cfs_rq, se);
->>>>>>>>               __dequeue_entity(cfs_rq, se);
->>>>>>>> +             __dequeue_latency(cfs_rq, se);
->>>>>>>>               update_load_avg(cfs_rq, se, UPDATE_TG);
->>>>>>>>       }
->>>>>>>>
->>>>>>>> @@ -4979,7 +5062,7 @@ static struct sched_entity *
->>>>>>>>  pick_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *curr)
->>>>>>>>  {
->>>>>>>>       struct sched_entity *left = __pick_first_entity(cfs_rq);
->>>>>>>> -     struct sched_entity *se;
->>>>>>>> +     struct sched_entity *latency, *se;
->>>>>>>>
->>>>>>>>       /*
->>>>>>>>        * If curr is set we have to see if its left of the leftmost entity
->>>>>>>> @@ -5021,6 +5104,12 @@ pick_next_entity(struct cfs_rq *cfs_rq, struct sched_entity *curr)
->>>>>>>>               se = cfs_rq->last;
->>>>>>>>       }
->>>>>>>>
->>>>>>>> +     /* Check for latency sensitive entity waiting for running */
->>>>>>>> +     latency = __pick_first_latency(cfs_rq);
->>>>>>>> +     if (latency && (latency != se) &&
->>>>>>>> +         wakeup_preempt_entity(latency, se) < 1)
->>>>>>>> +             se = latency;
->>>>>>>> +
->>>>>>>>       return se;
->>>>>>>>  }
->>>>>>>>
->>>>>>>> @@ -5044,6 +5133,7 @@ static void put_prev_entity(struct cfs_rq *cfs_rq, struct sched_entity *prev)
->>>>>>>>               update_stats_wait_start_fair(cfs_rq, prev);
->>>>>>>>               /* Put 'current' back into the tree. */
->>>>>>>>               __enqueue_entity(cfs_rq, prev);
->>>>>>>> +             __enqueue_latency(cfs_rq, prev, 0);
->>>>>>>>               /* in !on_rq case, update occurred at dequeue */
->>>>>>>>               update_load_avg(cfs_rq, prev, 0);
->>>>>>>>       }
->>>>>>>> @@ -12222,6 +12312,7 @@ static void set_next_task_fair(struct rq *rq, struct task_struct *p, bool first)
->>>>>>>>  void init_cfs_rq(struct cfs_rq *cfs_rq)
->>>>>>>>  {
->>>>>>>>       cfs_rq->tasks_timeline = RB_ROOT_CACHED;
->>>>>>>> +     cfs_rq->latency_timeline = RB_ROOT_CACHED;
->>>>>>>>       u64_u32_store(cfs_rq->min_vruntime, (u64)(-(1LL << 20)));
->>>>>>>>  #ifdef CONFIG_SMP
->>>>>>>>       raw_spin_lock_init(&cfs_rq->removed.lock);
->>>>>>>> @@ -12378,6 +12469,7 @@ void init_tg_cfs_entry(struct task_group *tg, struct cfs_rq *cfs_rq,
->>>>>>>>       se->my_q = cfs_rq;
->>>>>>>>
->>>>>>>>       se->latency_offset = calc_latency_offset(tg->latency_prio);
->>>>>>>> +     RB_CLEAR_NODE(&se->latency_node);
->>>>>>>>
->>>>>>>>       /* guarantee group entities always have weight */
->>>>>>>>       update_load_set(&se->load, NICE_0_LOAD);
->>>>>>>> @@ -12529,8 +12621,19 @@ int sched_group_set_latency(struct task_group *tg, int prio)
->>>>>>>>
->>>>>>>>       for_each_possible_cpu(i) {
->>>>>>>>               struct sched_entity *se = tg->se[i];
->>>>>>>> +             struct rq *rq = cpu_rq(i);
->>>>>>>> +             struct rq_flags rf;
->>>>>>>> +             bool queued;
->>>>>>>> +
->>>>>>>> +             rq_lock_irqsave(rq, &rf);
->>>>>>>>
->>>>>>>> +             queued = __dequeue_latency(se->cfs_rq, se);
->>>>>>>>               WRITE_ONCE(se->latency_offset, latency_offset);
->>>>>>>> +             if (queued)
->>>>>>>> +                     __enqueue_latency(se->cfs_rq, se, ENQUEUE_WAKEUP);
->>>>>>>> +
->>>>>>>> +
->>>>>>>> +             rq_unlock_irqrestore(rq, &rf);
->>>>>>>>       }
->>>>>>>>
->>>>>>>>       mutex_unlock(&shares_mutex);
->>>>>>>> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
->>>>>>>> index 9a2e71231083..21dd309e98a9 100644
->>>>>>>> --- a/kernel/sched/sched.h
->>>>>>>> +++ b/kernel/sched/sched.h
->>>>>>>> @@ -570,6 +570,7 @@ struct cfs_rq {
->>>>>>>>  #endif
->>>>>>>>
->>>>>>>>       struct rb_root_cached   tasks_timeline;
->>>>>>>> +     struct rb_root_cached   latency_timeline;
->>>>>>>>
->>>>>>>>       /*
->>>>>>>>        * 'curr' points to currently running entity on this cfs_rq.
+Another conflict culprit that there are non-prerequisite commits that
+change the context line.
 
+> +git log
+> +^^^^^^^
+> +
+> +A good first step is to look at ``git log`` for the file that has the
+> +conflict -- this is usually sufficient when there aren't a lot of
+> +patches to the file, but may get confusing if the file is big and
+> +frequently patched. You should run ``git log`` on the range of commits
+> +between your currently checked-out branch (``HEAD``) and the parent of
+> +the patch you are picking (``COMMIT``), i.e.::
+> +
+> +    git log HEAD..COMMIT^ -- PATH
+
+HEAD and <commit> swapped, giving empty log. The correct way is:
+
+```
+git log <commit>^..HEAD -- <path>
+```
+
+Note that for placeholder arguments, I'd like to write the
+placeholder name inside chevrons, like above (git manpage style).
+
+> +
+> +Even better, if you want to restrict this output to a single function
+> +(because that's where the conflict appears), you can use the following
+> +syntax::
+> +
+> +    git log -L:'\<function\>':PATH HEAD..COMMIT^
+
+Similar reply as above.
+
+> +Another useful option for ``git log`` is ``-G``, which allows you to
+> +filter on certain strings appearing in the diffs of the commits you are
+> +listing::
+> +
+> +    git log -G'regex' HEAD..COMMIT^ -- PATH
+
+Similar reply.
+
+> +It might be a good idea to ``git show`` these commits and see if they
+=2E.. to show these commits with ``git show <commit>`` ...
+
+> +Prerequisite vs. incidental patches
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +Having found the patch that caused the conflict, you need to determine
+> +whether it is a prerequisite for the patch you are backporting or
+> +whether it is just incidental and can be skipped. An incidental patch
+> +would be one that touches the same code as the patch you are
+> +backporting, but does not change the semantics of the code in any
+> +material way. For example, a whitespace cleanup patch is completely
+> +incidental -- likewise, a patch that simply renames a function or a
+> +variable would be incidental as well. On the other hand, if the function
+> +being changed does not even exist in your current branch then this would
+> +not be incidental at all and you need to carefully consider whether the
+> +patch adding the function should be cherry-picked first.
+> +
+> +If you find that there is a necessary prerequisite patch, then you need
+> +to stop and cherry-pick that instead. If you've already resolved some
+> +conflicts in a different file and don't want to do it again, you can
+> +create a temporary copy of that file.
+> +
+> +To abort the current cherry-pick, go ahead and run
+> +``git cherry-pick --abort``, then restart the cherry-picking process
+> +with the commit ID of the prerequisite patch instead.
+
+IMO, finding prerequisite commits can be done without attempting to
+cherry-pick the desired commit first.
+
+> +Sometimes the right thing to do will be to also backport the patch that
+> +did the rename, but that's definitely not the most common case. Instead,
+> +what you can do is to temporarily rename the file in the branch you're
+> +backporting to (using ``git mv`` and committing the result), restart the
+> +attempt to cherry-pick the patch, rename the file back (``git mv`` and
+> +committing again), and finally squash the result using ``git rebase -i``
+> +(`tutorial <https://medium.com/@slamflipstrom/a-beginners-guide-to-squas=
+hing-commits-with-git-rebase-8185cf6e62ec>`__)
+> +so it appears as a single commit when you are done.
+
+I'm kinda confused with above. Did you mean that after renaming file, I
+have to abort cherry-picking (``git cherry-pick --abort``) first and
+then redo cherry-picking?
+
+> +Build testing
+> +~~~~~~~~~~~~~
+> +
+> +We won't cover runtime testing here, but it can be a good idea to build
+Runtime testing is described in the next section.
+> +just the files touched by the patch as a quick sanity check. For the
+> +Linux kernel you can build single files like this, assuming you have the
+> +``.config`` and build environment set up correctly::
+> +
+> +    make path/to/file.o
+> +
+> +Note that this won't discover linker errors, so you should still do a
+> +full build after verifying that the single file compiles. By compiling
+> +the single file first you can avoid having to wait for a full build *in
+> +case* there are compiler errors in any of the files you've changed.
+> +
+
+plain ``make``?
+
+> +One concrete example of this was where a patch to the system call entry
+> +code saved/restored a register and a later patch made use of the saved
+> +register somewhere in the middle -- since there was no conflict, one
+> +could backport the second patch and believe that everything was fine,
+> +but in fact the code was now scribbling over an unsaved register.
+
+Did you mean the later patch is the backported syscall patch?
+
+> +
+> +Although the vast majority of errors will be caught during compilation
+> +or by superficially exercising the code, the only way to *really* verify
+> +a backport is to review the final patch with the same level of scrutiny
+> +as you would (or should) give to any other patch. Having unit tests and
+"... patches intended for mainline."
+
+> +The above shows roughly the idealized process of backporting a patch.
+> +For a more concrete example, see this video tutorial where two patches
+> +are backported from mainline to stable:
+> +`Backporting Linux Kernel patches <https://youtu.be/sBR7R1V2FeA>`__
+
+For the external link targets, I'd like to separate them from
+corresponding link texts (see
+https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#ext=
+ernal-links
+for details).
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--yxswqAePtvTOIAX3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZAQUiwAKCRD2uYlJVVFO
+o/nkAP9HAoOxmJf20hmzYd1d7cNXTgEElPbqD9if4LZlq42gZwD/Tw/wra8mCG2H
+1XBywHdzs4o154/N+50FaksJWIPzPQE=
+=Mtfy
+-----END PGP SIGNATURE-----
+
+--yxswqAePtvTOIAX3--
