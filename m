@@ -2,47 +2,47 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D81BBC6FA8E
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Mar 2023 22:02:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80FA6C61DA4
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Mar 2023 22:02:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229905AbjCEWCO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Mar 2023 17:02:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58636 "EHLO
+        id S229954AbjCEWCQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Mar 2023 17:02:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229927AbjCEWCH (ORCPT
+        with ESMTP id S229932AbjCEWCH (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Mar 2023 17:02:07 -0500
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D223C1969F;
-        Sun,  5 Mar 2023 14:01:57 -0800 (PST)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 325LU3P0022560;
-        Sun, 5 Mar 2023 22:01:04 GMT
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6291D199D8;
+        Sun,  5 Mar 2023 14:01:58 -0800 (PST)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 325LvTMH004167;
+        Sun, 5 Mar 2023 22:00:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2022-7-12;
- bh=K4J/PSEjpfD1bARxkY3stp5xTVHHyV6U8fEH33L8wKY=;
- b=LwKkKp8YcJMTi58DlbwGfKmn5JRhDCFCsEes3ju2Hbs/AH6kvI3gJ7Q8ynoV/nsEqVzI
- 1A1n3BRFoXqsug8qJF3pa0y1a38S7StDfswvCV0Sov+DYSgoLbQw3sgssTZZdvIuX7Bs
- 3IuVuWpYiKpFMmBIGbxMn/cLq7jsqviodszzc9YdCihx6gH+nD2LCzwb4CmoR8ZoCKGk
- miXRUOVJGHJjCwQm5zW6XwOr6gbx94m3kmCYjpCh2+92z2MsldgQMAVmRjN/N7W+wfeP
- +ax9jkwf9yadE+ArvOJFQlpW5GmWdwBe0YzFWs2NrM7FnZMMHt05zbHHqPAp9l5dE8HZ 6g== 
+ bh=3x2IB5WMGDPKO44R1fstih3EObkOoy7v9hScUddrClo=;
+ b=lGQ4t8w0S/jxZuyK9DHUQGBV0K+JKgoJ6hbXwpxQ77A4neO8YFrByUK8fd62dQYgnyw4
+ 4j6HDXyhZhOV9bTlIn3qLFDhSAB/dfJUZSGCtm0+juKdO/MbSDNWGgpnNd1+HoHF9CqH
+ MYi4gVFH1X+YJvhYWF9CL3ekaPSa14VCNgpuFFoF2jeEAQ3iUFMNPPiUtbpxOtxSDwgt
+ Yxmu+6yq94sRdjZewBsGLs1Cb9Tnp55+gS65EI0btySSzkgSPnH6VF2hfS1nZXKaSpM2
+ NuT+LU9guDBo9bnt/991cTuLqQNW5lYTZQ0MqmkqCmD6/LSa1iKuu/PQUs75jSzDziXd 8w== 
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p41561rre-1
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p417c9rjf-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 05 Mar 2023 22:01:04 +0000
+        Sun, 05 Mar 2023 22:00:53 +0000
 Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 325I2GKT023367;
-        Sun, 5 Mar 2023 22:01:03 GMT
+        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 325IAIji023468;
+        Sun, 5 Mar 2023 22:00:52 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3p4u040mmc-1
+        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3p4u040mgh-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 05 Mar 2023 22:01:03 +0000
+        Sun, 05 Mar 2023 22:00:52 +0000
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 325M0NrB013622;
-        Sun, 5 Mar 2023 22:01:03 GMT
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 325M0Nr7013622;
+        Sun, 5 Mar 2023 22:00:51 GMT
 Received: from t460.home (dhcp-10-175-35-7.vpn.oracle.com [10.175.35.7])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3p4u040ktj-7;
-        Sun, 05 Mar 2023 22:01:02 +0000
+        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3p4u040ktj-5;
+        Sun, 05 Mar 2023 22:00:51 +0000
 From:   Vegard Nossum <vegard.nossum@oracle.com>
 To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Jiri Kosina <jkosina@suse.cz>,
@@ -62,11 +62,10 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Thorsten Leemhuis <linux@leemhuis.info>,
         Tyler Hicks <tyhicks@linux.microsoft.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: [PATCH v3 6/7] Documentation/security-bugs: clarify hardware vs. software vulnerabilities
-Date:   Sun,  5 Mar 2023 23:00:09 +0100
-Message-Id: <20230305220010.20895-7-vegard.nossum@oracle.com>
+        Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [PATCH v3 4/7] Documentation/security-bugs: add linux-distros and oss-security sections
+Date:   Sun,  5 Mar 2023 23:00:07 +0100
+Message-Id: <20230305220010.20895-5-vegard.nossum@oracle.com>
 X-Mailer: git-send-email 2.23.0.718.g5ad94255a8
 In-Reply-To: <20230305220010.20895-1-vegard.nossum@oracle.com>
 References: <20230305220010.20895-1-vegard.nossum@oracle.com>
@@ -79,37 +78,130 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxl
  suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 malwarescore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2303050192
-X-Proofpoint-GUID: pZOQdTeOzVF_YsAwqYS63qIc2SWXfctH
-X-Proofpoint-ORIG-GUID: pZOQdTeOzVF_YsAwqYS63qIc2SWXfctH
+X-Proofpoint-GUID: pVldTcCYvm2QtnxvReBedPNPIgluSSxC
+X-Proofpoint-ORIG-GUID: pVldTcCYvm2QtnxvReBedPNPIgluSSxC
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We should emphasize the fact that we have a separate document for
-reporting hardware vulnerabilities.
+The existing information about CVE assignment requests and coordinated
+disclosure fits much better in these new sections, since that's what these
+lists are for.
 
-Link: https://lore.kernel.org/all/nycvar.YFH.7.76.2206062326230.10851@cbobk.fhfr.pm/
-Suggested-by: Jiri Kosina <jikos@kernel.org>
+Keep just a reminder in the security list section.
+
 Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 ---
- Documentation/process/security-bugs.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/process/security-bugs.rst | 92 ++++++++++++++++++-------
+ 1 file changed, 67 insertions(+), 25 deletions(-)
 
 diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index 61742dcfea50..7bd59587332a 100644
+index fb156d146c42..2dd6569a7abb 100644
 --- a/Documentation/process/security-bugs.rst
 +++ b/Documentation/process/security-bugs.rst
-@@ -15,6 +15,10 @@ While the security list is closed, the security team may bring in extra
- help from the relevant maintainers to understand and fix the security
- vulnerability.
+@@ -31,6 +31,10 @@ be released without consent from the reporter unless it has already been
+ made public.  Reporters are encouraged to propose patches, participate in the
+ discussions of a fix, and test patches.
  
-+The security list is mainly for software vulnerabilities.  For hardware
-+security vulnerabilities, see
-+Documentation/process/embargoed-hardware-issues.rst instead.
++The security team does not assign CVEs, nor does it require them for reports
++or fixes.  CVEs may be requested when the issue is reported to the
++linux-distros list.
 +
- Note that the main interest of the kernel security list is in getting
- bugs fixed and getting patches reviewed, tested, and merged; CVE
- assignment, disclosure to distributions, and public disclosure happen on
+ **Disclosure.** Once a robust patch or patchset has been developed, the
+ release process starts.  The security list strongly prefers to have these
+ posted for review and testing on public mailing lists and merged into the
+@@ -68,28 +72,66 @@ embargo has been lifted, in perpetuity.
+ The Linux kernel security team is not a formal body and therefore unable
+ to enter any non-disclosure agreements.
+ 
+-Coordination
+-------------
+-
+-Fixes for sensitive bugs, such as those that might lead to privilege
+-escalations, may need to be coordinated with the private
+-<linux-distros@vs.openwall.org> mailing list so that distribution vendors
+-are well prepared to issue a fixed kernel upon public disclosure of the
+-upstream fix. Distros will need some time to test the proposed patch and
+-will generally request at least a few days of embargo, and vendor update
+-publication prefers to happen Tuesday through Thursday. When appropriate,
+-the security team can assist with this coordination, or the reporter can
+-include linux-distros from the start. In this case, remember to prefix
+-the email Subject line with "[vs]" as described in the linux-distros wiki:
+-<http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>
+-
+-CVE assignment
+---------------
+-
+-The security team does not normally assign CVEs, nor do we require them
+-for reports or fixes, as this can needlessly complicate the process and
+-may delay the bug handling. If a reporter wishes to have a CVE identifier
+-assigned ahead of public disclosure, they will need to contact the private
+-linux-distros list, described above. When such a CVE identifier is known
+-before a patch is provided, it is desirable to mention it in the commit
+-message if the reporter agrees.
++Once a patch has been developed, you are encouraged to contact the
++linux-distros list.
++
++Contacting the linux-distros list
++---------------------------------
++
++Fixes for particularly sensitive bugs (such as those that might lead to
++privilege escalations) may need to be coordinated with the private
++linux-distros mailing list (linux-distros@vs.openwall.org) so that
++distribution vendors are well prepared to release a fixed kernel as soon as
++possible after the public disclosure of the upstream fix.  This includes
++verifying the reported issue, testing proposed fixes, developing a fix (if
++none is known yet), and backporting to older kernels and other versions.
++
++The linux-distros list can also help with assigning a CVE for your issue.
++
++**Disclosure.** The linux-distros list has a strict policy of requiring
++reporters to post about the security issue on oss-security within 14
++calendar days of the list being contacted regardless of whether a patch is
++available or not.  It is therefore preferable that you don't send your
++initial bug report to the linux-distros list unless you already have a patch
++for the issue.
++
++**List rules.** The main rules to be aware of when contacting the
++linux-distros list are:
++
++* Don't post about issues that are already public. If your issue has a
++  public patch, but the security impact is not generally known, then you may
++  still post about it.
++
++* The submitter can suggest an embargo end-date, but as a rule, embargoes
++  should not be longer than 7 calendar days, or at most 14 calendar days in
++  exceptional cases. Keep in mind that vendors may prefer to release new
++  kernel packages and/or updates Tuesday through Thursday.
++
++* When the embargo ends, the issue must be disclosed immediately on the
++  oss-security list (see below).
++
++* Prefix your subject with the string "[vs]" to avoid getting rejected by
++  the spam filter.
++
++For the full list of rules, see:
++https://oss-security.openwall.org/wiki/mailing-lists/distros#list-policy-and-instructions-for-reporters
++
++**Confidentiality.** Please note that, as opposed to the security list, any
++and all material submitted to the list must be made public once the security
++issue is publicly disclosed, so please do not post information to the
++linux-distros list that cannot be made public.
++
++Contacting the oss-security list
++--------------------------------
++
++When your security issue is public, or you wish to make your issue public,
++you can write to the oss-security list (oss-security@lists.openwall.com).
++This is a public list (anybody can subscribe and view the list archives) and
++it is not restricted to Linux kernel issues.
++
++The oss-security list typically does not assign CVEs or accept requests for
++CVE assignments.
++
++**List rules.** Please do not cross-post to other lists when writing to this
++list. Make sure to read the other list rules before posting:
++https://oss-security.openwall.org/wiki/mailing-lists/oss-security.
 -- 
 2.40.0.rc1.2.gd15644fe02
 
