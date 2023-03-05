@@ -2,156 +2,300 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F298C61DA4
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Mar 2023 10:18:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB57C61DA4
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Mar 2023 11:39:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229519AbjCEKSe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Mar 2023 05:18:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59816 "EHLO
+        id S229469AbjCELjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Mar 2023 06:39:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229495AbjCEKSd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Mar 2023 05:18:33 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3079FD52C;
-        Sun,  5 Mar 2023 02:18:32 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B172E60AF0;
-        Sun,  5 Mar 2023 10:18:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D873C433D2;
-        Sun,  5 Mar 2023 10:18:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678011511;
-        bh=BqiMKn3RghRbcr4+/wUZ/+Ee50jKJj55sBSSUqyBSfg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OtThlPKDFnTfNx5xXDxaCUoxkiBM/T7WP33tkYkit2llqBNoPX93N91X8zCR+7Kg2
-         iFXBb/OtAXkXJWncbFAI0A7lWLj4u6fHr08IBd/dinZpPlRIEtp/Q35sW+5JMI9Hmz
-         Q2Xcyar0XSUkp+9gFb9jmlqKeCb0gVFwCy/0QXGOLDDsS2Wr9WhXZHP2w/+2m6azaj
-         CwiGbBXMG+fPk8XEqByRrWYJKoAC2/DYbZ5rIArkYglc6oXTXsTfSZAGEf4+f77mtr
-         X4DDTQj9BhWapPsktMtmyXpm6ZTXHpemaJoTiUtwhFgVMkKpmarqQ3KtRpOsc1t3NE
-         tPwIjFe96wqZg==
-Date:   Sun, 5 Mar 2023 10:18:24 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     ChiaEn Wu <chiaen_wu@richtek.com>
-Cc:     corbet@lwn.net, pavel@ucw.cz, matthias.bgg@gmail.com,
-        andriy.shevchenko@linux.intel.com, jacek.anaszewski@gmail.com,
-        angelogioacchino.delregno@collabora.com, linux-doc@vger.kernel.org,
-        peterwu.pub@gmail.com, cy_huang@richtek.com,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        szunichen@gmail.com
-Subject: Re: [PATCH v17 RESEND 3/3] docs: leds: Add MT6370 RGB LED pattern
- document
-Message-ID: <20230305101824.GE2574592@google.com>
-References: <cover.1677150607.git.chiaen_wu@richtek.com>
- <c6487954daff5e514023056ad7de1d0ddee674a8.1677150607.git.chiaen_wu@richtek.com>
+        with ESMTP id S229455AbjCELjH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Mar 2023 06:39:07 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EF73CDDB;
+        Sun,  5 Mar 2023 03:39:05 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id x3so27446201edb.10;
+        Sun, 05 Mar 2023 03:39:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678016344;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ia6NTRBi8I6vwEXopSdGm/7/hJAaOLIxwJMBDzaRQbk=;
+        b=YuJLNERon9EeN3uC7k5q0JaBBoE0FMoFDZB1bpH92Xo4tl0vE4H+iEnMOV8miIq/Xg
+         uDT/i7xtnt9H8OrWMbUq4Bk8kOQAyKTHXTtLy72XTDSlUnk1RX2cdmHvSW7rppVpdoMJ
+         mCjAQd2XEeY+82curxZZKyi0sJq4/RoWxnJnCYlPuDFnsMw0MZgYrHjbqxAjMUBRZj4w
+         vAJ2miIIo2M2Oh/osYYFX7Npz33OwyjwAbebQgs5pUwnW+Sce09ry7pTPQd2/u8gMn8D
+         80EU87zhbAZ6ozn22urrtc+SwJ5xj0vz7nCe0v8ze696Toc8tki1twOTFmnq7BT0WRSQ
+         tS5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678016344;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ia6NTRBi8I6vwEXopSdGm/7/hJAaOLIxwJMBDzaRQbk=;
+        b=HHJDFXr0ZgWLB1OrGFdOsxRDiFO1QDCbYBYtcfCUWGVPDx3ZUXYbz1zMpFgEyASANw
+         EX09RZhQjq5KzvCXLbyscGO1AgCIaGggYjfTzVhhq9GxyeOQ17fnFAa40SWvAyVSBiGP
+         /o1Qtm4GYH/G8K44TYPC+gfCauGroRbsCljc1FEgN0EZRfr0CmVzHrPH0HS2corGGhpU
+         MtOOnHIbPozHr4Rkh1jsU+Hpf4veumLXSYYusC+6NBJTTEBIhp/pH7dDypxaggHCXDzw
+         HsFyjmNbiCPGPsQDUpXjsFu2DT2E0mxLBs0QgN9diUwQ9axch/5+/XCArc6B3PfkoP8c
+         NNsA==
+X-Gm-Message-State: AO0yUKV6hXBI36KOpHTcVvU3/2JmR12JGl4/TJ3od+z+h3xOuktd9dDE
+        v7K2v0vE4J8S9yBT6b3/7aI=
+X-Google-Smtp-Source: AK7set9rxPr/K59/UeOn/u8hJhDgEvAccHBDTYGzh8yJF43UHWdezk/4cWHfvhqYfO+lE+Nts1ZFXg==
+X-Received: by 2002:a17:906:ee82:b0:8b1:7891:19e8 with SMTP id wt2-20020a170906ee8200b008b1789119e8mr9693476ejb.44.1678016343908;
+        Sun, 05 Mar 2023 03:39:03 -0800 (PST)
+Received: from pc636 ([155.137.26.201])
+        by smtp.gmail.com with ESMTPSA id v8-20020a50c408000000b004c09f0ba24dsm3564542edf.48.2023.03.05.03.39.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Mar 2023 03:39:03 -0800 (PST)
+From:   Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
+Date:   Sun, 5 Mar 2023 12:39:01 +0100
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
+        rcu@vger.kernel.org, urezki@gmail.com
+Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+Message-ID: <ZAR/VdMNBwdrWA/5@pc636>
+References: <20230303213851.2090365-1-joel@joelfernandes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c6487954daff5e514023056ad7de1d0ddee674a8.1677150607.git.chiaen_wu@richtek.com>
+In-Reply-To: <20230303213851.2090365-1-joel@joelfernandes.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 23 Feb 2023, ChiaEn Wu wrote:
-
-> From: ChiYuan Huang <cy_huang@richtek.com>
+On Fri, Mar 03, 2023 at 09:38:51PM +0000, Joel Fernandes (Google) wrote:
+> On many systems, a great deal of boot (in userspace) happens after the
+> kernel thinks the boot has completed. It is difficult to determine if
+> the system has really booted from the kernel side. Some features like
+> lazy-RCU can risk slowing down boot time if, say, a callback has been
+> added that the boot synchronously depends on. Further expedited callbacks
+> can get unexpedited way earlier than it should be, thus slowing down
+> boot (as shown in the data below).
 > 
-> Document the MT6370 RGB LED pattern trigger.
+> For these reasons, this commit adds a config option
+> 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter rcupdate.boot_end_delay.
+> Userspace can also make RCU's view of the system as booted, by writing the
+> time in milliseconds to: /sys/module/rcupdate/parameters/rcu_boot_end_delay
+> Or even just writing a value of 0 to this sysfs node.
+> However, under no circumstance will the boot be allowed to end earlier
+> than just before init is launched.
 > 
-> This simply describe how the pattern works, each timing period, and the
-> pattern diagram for MT6370 RGB LED.
+> The default value of CONFIG_RCU_BOOT_END_DELAY is chosen as 15s. This
+> suites ChromeOS and also a PREEMPT_RT system below very well, which need
+> no config or parameter changes, and just a simple application of this patch. A
+> system designer can also choose a specific value here to keep RCU from marking
+> boot completion.  As noted earlier, RCU's perspective of the system as booted
+> will not be marker until at least rcu_boot_end_delay milliseconds have passed
+> or an update is made via writing a small value (or 0) in milliseconds to:
+> /sys/module/rcupdate/parameters/rcu_boot_end_delay.
 > 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> One side-effect of this patch is, there is a risk that a real-time workload
+> launched just after the kernel boots will suffer interruptions due to expedited
+> RCU, which previous ended just before init was launched. However, to mitigate
+> such an issue (however unlikely), the user should either tune
+> CONFIG_RCU_BOOT_END_DELAY to a smaller value than 15 seconds or write a value
+> of 0 to /sys/module/rcupdate/parameters/rcu_boot_end_delay, once userspace
+> boots, and before launching the real-time workload.
+> 
+> Qiuxu also noted impressive boot-time improvements with earlier version
+> of patch. An excerpt from the data he shared:
+> 
+> 1) Testing environment:
+>     OS            : CentOS Stream 8 (non-RT OS)
+>     Kernel     : v6.2
+>     Machine : Intel Cascade Lake server (2 sockets, each with 44 logical threads)
+>     Qemu  args  : -cpu host -enable-kvm, -smp 88,threads=2,sockets=2, …
+> 
+> 2) OS boot time definition:
+>     The time from the start of the kernel boot to the shell command line
+>     prompt is shown from the console. [ Different people may have
+>     different OS boot time definitions. ]
+> 
+> 3) Measurement method (very rough method):
+>     A timer in the kernel periodically prints the boot time every 100ms.
+>     As soon as the shell command line prompt is shown from the console,
+>     we record the boot time printed by the timer, then the printed boot
+>     time is the OS boot time.
+> 
+> 4) Measured OS boot time (in seconds)
+>    a) Measured 10 times w/o this patch:
+>         8.7s, 8.4s, 8.6s, 8.2s, 9.0s, 8.7s, 8.8s, 9.3s, 8.8s, 8.3s
+>         The average OS boot time was: ~8.7s
+> 
+>    b) Measure 10 times w/ this patch:
+>         8.5s, 8.2s, 7.6s, 8.2s, 8.7s, 8.2s, 7.8s, 8.2s, 9.3s, 8.4s
+>         The average OS boot time was: ~8.3s.
+> 
+> Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 > ---
->  Documentation/leds/leds-mt6370-rgb.rst | 64 ++++++++++++++++++++++++++++++++++
->  1 file changed, 64 insertions(+)
->  create mode 100644 Documentation/leds/leds-mt6370-rgb.rst
+> v1->v2:
+> 	Update some comments and description.
+> v2->v3:
+>         Add sysfs param, and update with Test data.
 > 
-> diff --git a/Documentation/leds/leds-mt6370-rgb.rst b/Documentation/leds/leds-mt6370-rgb.rst
-> new file mode 100644
-> index 00000000..d1b2e4f
-> --- /dev/null
-> +++ b/Documentation/leds/leds-mt6370-rgb.rst
-> @@ -0,0 +1,64 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=========================================
-> +Kernel driver for Mediatek MT6370 RGB LED
-
-Are you describing the device or the kernel driver?
-
-> +=========================================
-> +
-> +Description
-> +-----------
-> +
-> +The MT6370 integrates a four-channel RGB LED driver, designed to provide a
-> +variety of lighting effect for mobile device applications. The RGB LED driver
-
-"devices"
-
-> +includes a smart LED string controller and it can drive 3 channels of LEDs with
-> +a sink current up to 24mA and a CHG_VIN power good indicator LED with sink
-> +current up to 6mA. It provides three operation modes for RGB LEDs:
-> +PWM Dimming mode, breath pattern mode, and constant current mode. The device
-> +can increase or decrease the brightness of the RGB LED via I2C interface.
-
-"an I2C interface"
-
-> +The breath pattern for a channel can be programmed using the "pattern" trigger,
-> +using the hw_pattern attribute.
-> +
-> +/sys/class/leds/<led>/hw_pattern
-> +--------------------------------
-> +
-> +Specify a hardware breath pattern for a MT6370 RGB LED.
-> +
-> +The breath pattern is a series of timing pairs, with the hold-time expressed in
-> +milliseconds. And the brightness is controlled by
-> +'/sys/class/leds/<led>/brightness'. The pattern doesn't include the brightness
-> +setting. Hardware pattern only controls the timing for each pattern stage
-> +depending on the current brightness setting.
-> +
-> +Pattern diagram::
-> +
-> +     "0 Tr1 0 Tr2 0 Tf1 0 Tf2 0 Ton 0 Toff" --> '0' for dummy brightness code
-> +
-> +      ^
-> +      |           ============
-> +      |          /            \                                /
-> +Icurr |         /              \                              /
-> +      |        /                \                            /
-> +      |       /                  \                          /   .....repeat
-> +      |      /                    \                        /
-> +      |   ---                      ---                  ---
-> +      |---                            ---            ---
-> +      +----------------------------------============------------> Time
-> +       < Tr1><Tr2><   Ton    ><Tf1><Tf2 ><  Toff    >< Tr1><Tr2>
-> +
-> +Timing description::
-> +
-> +Tr1:    First rising time for duty 0 to 30%.
-> +Tr2:    Second rising time for duty 31% to 100%.
-> +Ton:    On time for duty 100%.
-> +Tf1:    First falling time for duty 100% to 31%.
-> +Tf2:    Second falling time for duty 30% to 0%.
-> +Toff:   Off time for duty 0%.
-> +
-> +Tr1/Tr2/Tf1/Tf2/Ton: 125ms to 3125ms, 200ms per step.
-> +Toff: 250ms to 6250ms, 400ms per step.
-> +
-> +Pattern example::
-> +
-> +       "0 125 0 125 0 125 0 125 0 625 0 1050"
-> +
-> +This Will configure Tr1/Tr2/Tf1/Tf2 to 125m, Ton to 625ms, and Toff to 1050ms.
-> -- 
-> 2.7.4
+>  .../admin-guide/kernel-parameters.txt         | 12 ++++
+>  cc_list                                       |  8 +++
+>  kernel/rcu/Kconfig                            | 19 ++++++
+>  kernel/rcu/update.c                           | 68 ++++++++++++++++++-
+>  4 files changed, 106 insertions(+), 1 deletion(-)
+>  create mode 100644 cc_list
 > 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 2429b5e3184b..611de90d9c13 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -5085,6 +5085,18 @@
+>  	rcutorture.verbose= [KNL]
+>  			Enable additional printk() statements.
+>  
+> +	rcupdate.rcu_boot_end_delay= [KNL]
+> +			Minimum time in milliseconds that must elapse
+> +			before the boot sequence can be marked complete
+> +			from RCU's perspective, after which RCU's behavior
+> +			becomes more relaxed. The default value is also
+> +			configurable via CONFIG_RCU_BOOT_END_DELAY.
+> +			Userspace can also mark the boot as completed
+> +			sooner by writing the time in milliseconds, say once
+> +			userspace considers the system as booted, to:
+> +			/sys/module/rcupdate/parameters/rcu_boot_end_delay
+> +			Or even just writing a value of 0 to this sysfs node.
+> +
+>  	rcupdate.rcu_cpu_stall_ftrace_dump= [KNL]
+>  			Dump ftrace buffer after reporting RCU CPU
+>  			stall warning.
+> diff --git a/kernel/rcu/Kconfig b/kernel/rcu/Kconfig
+> index 9071182b1284..4b5ffa36cbaf 100644
+> --- a/kernel/rcu/Kconfig
+> +++ b/kernel/rcu/Kconfig
+> @@ -217,6 +217,25 @@ config RCU_BOOST_DELAY
+>  
+>  	  Accept the default if unsure.
+>  
+> +config RCU_BOOT_END_DELAY
+> +	int "Minimum time before RCU may consider in-kernel boot as completed"
+> +	range 0 120000
+> +	default 15000
+> +	help
+> +	  Default value of the minimum time in milliseconds that must elapse
+> +	  before the boot sequence can be marked complete from RCU's perspective,
+> +	  after which RCU's behavior becomes more relaxed.
+> +	  Userspace can also mark the boot as completed sooner than this default
+> +	  by writing the time in milliseconds, say once userspace considers
+> +	  the system as booted, to: /sys/module/rcupdate/parameters/rcu_boot_end_delay.
+> +	  Or even just writing a value of 0 to this sysfs node.
+> +
+> +	  The actual delay for RCU's view of the system to be marked as booted can be
+> +	  higher than this value if the kernel takes a long time to initialize but it
+> +	  will never be smaller than this value.
+> +
+> +	  Accept the default if unsure.
+> +
+>  config RCU_EXP_KTHREAD
+>  	bool "Perform RCU expedited work in a real-time kthread"
+>  	depends on RCU_BOOST && RCU_EXPERT
+> diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
+> index 19bf6fa3ee6a..93138c92136e 100644
+> --- a/kernel/rcu/update.c
+> +++ b/kernel/rcu/update.c
+> @@ -224,18 +224,84 @@ void rcu_unexpedite_gp(void)
+>  }
+>  EXPORT_SYMBOL_GPL(rcu_unexpedite_gp);
+>  
+> +/*
+> + * Minimum time in milliseconds until RCU can consider in-kernel boot as
+> + * completed.  This can also be tuned at runtime to end the boot earlier, by
+> + * userspace init code writing the time in milliseconds (even 0) to:
+> + * /sys/module/rcupdate/parameters/rcu_boot_end_delay
+> + */
+> +static int rcu_boot_end_delay = CONFIG_RCU_BOOT_END_DELAY;
+> +
+>  static bool rcu_boot_ended __read_mostly;
+> +static bool rcu_boot_end_called __read_mostly;
+> +static DEFINE_MUTEX(rcu_boot_end_lock);
+> +
+> +static int param_set_rcu_boot_end(const char *val, const struct kernel_param *kp)
+> +{
+> +	uint end_ms;
+> +	int ret = kstrtouint(val, 0, &end_ms);
+> +
+> +	if (ret)
+> +		return ret;
+> +	WRITE_ONCE(*(uint *)kp->arg, end_ms);
+> +
+> +	/*
+> +	 * rcu_end_inkernel_boot() should be called at least once during init
+> +	 * before we can allow param changes to end the boot.
+> +	 */
+> +	mutex_lock(&rcu_boot_end_lock);
+> +	rcu_boot_end_delay = end_ms;
+> +	if (!rcu_boot_ended && rcu_boot_end_called) {
+> +		mutex_unlock(&rcu_boot_end_lock);
+> +		rcu_end_inkernel_boot();
+> +	}
+> +	mutex_unlock(&rcu_boot_end_lock);
+> +	return ret;
+> +}
+> +
+> +static const struct kernel_param_ops rcu_boot_end_ops = {
+> +	.set = param_set_rcu_boot_end,
+> +	.get = param_get_uint,
+> +};
+> +module_param_cb(rcu_boot_end_delay, &rcu_boot_end_ops, &rcu_boot_end_delay, 0644);
+>  
+>  /*
+> - * Inform RCU of the end of the in-kernel boot sequence.
+> + * Inform RCU of the end of the in-kernel boot sequence. The boot sequence will
+> + * not be marked ended until at least rcu_boot_end_delay milliseconds have passed.
+>   */
+> +void rcu_end_inkernel_boot(void);
+> +static void rcu_boot_end_work_fn(struct work_struct *work)
+> +{
+> +	rcu_end_inkernel_boot();
+> +}
+> +static DECLARE_DELAYED_WORK(rcu_boot_end_work, rcu_boot_end_work_fn);
+> +
+>  void rcu_end_inkernel_boot(void)
+>  {
+> +	mutex_lock(&rcu_boot_end_lock);
+> +	rcu_boot_end_called = true;
+> +
+> +	if (rcu_boot_ended)
+> +		return;
+> +
+> +	if (rcu_boot_end_delay) {
+> +		u64 boot_ms = div_u64(ktime_get_boot_fast_ns(), 1000000UL);
+> +
+> +		if (boot_ms < rcu_boot_end_delay) {
+> +			schedule_delayed_work(&rcu_boot_end_work,
+> +					rcu_boot_end_delay - boot_ms);
+<snip>
+urezki@pc638:~/data/raid0/coding/linux-rcu.git$ git diff
+diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
+index 93138c92136e..93f426f0f4ec 100644
+--- a/kernel/rcu/update.c
++++ b/kernel/rcu/update.c
+@@ -289,7 +289,7 @@ void rcu_end_inkernel_boot(void)
+ 
+                if (boot_ms < rcu_boot_end_delay) {
+                        schedule_delayed_work(&rcu_boot_end_work,
+-                                       rcu_boot_end_delay - boot_ms);
++                               msecs_to_jiffies(rcu_boot_end_delay - boot_ms));
+                        mutex_unlock(&rcu_boot_end_lock);
+                        return;
+                }
+urezki@pc638:~/data/raid0/coding/linux-rcu.git$
+<snip>
 
--- 
-Lee Jones [李琼斯]
+I think you need to apply above patch. I am not sure maybe Paul
+has already mentioned about it. But just in case.
+
+--
+Uladzislau Rezki
