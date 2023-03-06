@@ -2,41 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACF96C678D4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 06:42:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB4D6C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 07:12:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229558AbjCFGmn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 01:42:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54172 "EHLO
+        id S229609AbjCFHMX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 02:12:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbjCFGmn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 01:42:43 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A4D41CF78;
-        Sun,  5 Mar 2023 22:42:39 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BB615B80B6B;
-        Mon,  6 Mar 2023 06:42:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02E7CC433D2;
-        Mon,  6 Mar 2023 06:42:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1678084956;
-        bh=vbmXtwLQpExWUGSPmIpEouqE3pH/PZT2tUi97t12HTo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DpvK1VlfPgt5Rfmh4kY+Ho9TArL/E0CXfcQbUUlMX14YIbEF4g2/1YIFMoorB0QXz
-         ZMBoL0qIf7rEHA/ARF0csk6UXDCPFQ1CZOQSqmGg7OUwWnnI4z41nRBQYl8EDOx34J
-         TMi8WU0tx5lZL1kX1W6H8Wtfwvxg0763oHM1+4ec=
-Date:   Mon, 6 Mar 2023 07:42:33 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Willy Tarreau <w@1wt.eu>
-Cc:     Vegard Nossum <vegard.nossum@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        with ESMTP id S229450AbjCFHMW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 02:12:22 -0500
+Received: from 1wt.eu (wtarreau.pck.nerim.net [62.212.114.60])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 334BBAD1B;
+        Sun,  5 Mar 2023 23:12:21 -0800 (PST)
+Received: (from willy@localhost)
+        by mail.home.local (8.17.1/8.17.1/Submit) id 3267Bc41005636;
+        Mon, 6 Mar 2023 08:11:38 +0100
+Date:   Mon, 6 Mar 2023 08:11:38 +0100
+From:   Willy Tarreau <w@1wt.eu>
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Jiri Kosina <jkosina@suse.cz>,
         Solar Designer <solar@openwall.com>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
-        Amit Shah <aams@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Amit Shah <aams@amazon.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         David Woodhouse <dwmw@amazon.co.uk>,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
@@ -50,47 +39,79 @@ Cc:     Vegard Nossum <vegard.nossum@oracle.com>,
         Thorsten Leemhuis <linux@leemhuis.info>,
         Tyler Hicks <tyhicks@linux.microsoft.com>
 Subject: Re: [PATCH v3 0/7] Documentation/security-bugs: overhaul
-Message-ID: <ZAWLWWofpqKtH3CT@kroah.com>
+Message-ID: <ZAWSKrbaQ6nm3qNe@1wt.eu>
 References: <20230305220010.20895-1-vegard.nossum@oracle.com>
- <ZAWB5kwcG9IpWvE/@kroah.com>
- <ZAWJtvfnFWEjsIXd@1wt.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZAWJtvfnFWEjsIXd@1wt.eu>
+In-Reply-To: <20230305220010.20895-1-vegard.nossum@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 06, 2023 at 07:35:34AM +0100, Willy Tarreau wrote:
-> On Mon, Mar 06, 2023 at 07:02:14AM +0100, Greg Kroah-Hartman wrote:
-> > Secondly, and the bigger one, I think we should just drop all of the
-> > references to linux-distros and oss-security entirely, as those are
-> > groups that are outside of our control and interaction and have
-> > different rules that we might not agree with.  They also just a tiny
-> > subset of Linux users and companies and as such do not really reflect
-> > the majority of where Linux is used anymore.
-> 
-> I'm wondering if instead they shouldn't just be mentioned as a warning
-> about the risk of leak or forced disclosure. We know that reporters may
-> find the address from various places, including various sites that may
-> enumerate the long list of potential contacts, and not just this doc.
-> It can be useful to have just a paragraph warning about the fact that
-> oss-sec is public and that linux-distros has this strict disclosure
-> policy without consideration for the availability of a fix, in order
-> to warn them to only contact such lists once the fix is available and
-> tested if they want to, but never before. Anything we can do to help
-> serious reporters (i.e. those who are really embarrassed with a bug,
-> not those who seek a Curiculum Vitae Enhancer) should be done. It's
-> always a stressful moment to report a security issue on a project,
-> you always fear that you might be doing an irreversible mistake, so
-> whatever info we can pass about the risks (or lack of) should be
-> welcome I guess.
+Hi Vegard,
 
-That's a good idea, if it can be worded in a way that reflects that is
-is not any sort of requirement or that it is normal part of our
-development process.
+first, thanks for doing this work.
 
-thanks,
+On Sun, Mar 05, 2023 at 11:00:03PM +0100, Vegard Nossum wrote:
+> Probably the easiest way to see the end result of this series is to view the
+> rendered HTML which I've put here:
+> https://vegard.github.io/security-v3/Documentation/output/process/security-bugs.html
 
-greg k-h
+I'm seeing a few points that could be improved but I don't have much to
+propose right now, I'll just enumerate issues we've faced in the past or
+that continue to pop up from time to time and that require extra effort
+from the team:
+
+  - I'm not seeing anywhere that the security list is *exclusively*
+    for kernel issues. That might explain why about once a week or so
+    we receive messages like "there's a bug in that userland tool" or
+    "we've found an XSS issue on your website". It's written that kernel
+    bugs should be reported to the security list but I think we should
+    strengthen that by adding "This list is exclusively used for Linux
+    kernel security reports, please do not report issues affecting any
+    other component there".
+
+  - we always need to be able to describe the nature of a bug in the
+    commit message so that if the patch is found to cause a regression,
+    its purpose can at least be understood and argumented. It happened
+    at least once that we were requested not to explain the details
+    because a paper was about to be issued, and that's not acceptable
+    at all because it means that it becomes very complicated to have
+    public discussions about possible forthcoming issues. I think that
+    after the paragraph suggesting that the details of an issue or its
+    exploit code might not always be published, it could be useful to
+    mention something along the fact that the reporter shall not
+    request the security team to withhold technical details about the
+    issue as long as it doesn't represent an imminent danger.
+
+  - it's quite frequent that reporters post from dummy addresses,
+    looking like randomly generated ones (we even had one looking
+    like a smiley). It doesn't help to communicate with them at all.
+    I can understand how some working as consultants for a customer
+    would want to avoid disclosing a particular relation between their
+    finding and their customer, but at least they should indicate how
+    they should be called. I.e. "call me Margarett" is not difficult
+    and simplifies exchanges when the address is "69236836@example.com".
+    And often we see at the end that they're willing to provide a real
+    name to be credited for the finding, so most likely starting with
+    this real name could be easier.
+
+  - it's more a discussion for the list itself, but the wording continues
+    to make one think that the reporter should expect the list members to
+    develop a patch, while in practise the first thing that's asked is
+    "since you've studied the problem well, do you happen to have a patch?".
+    And it happened a few times that in response we got "oops sorry, I
+    analysed it wrong, there's no issue there". I think the text should
+    emphasize more on encouraging submitters to complete their work with
+    a patch proposal (that's also helpful to confirm an analysis). And
+    conversely I think that reports for non-immediately exploitable issues
+    that are found by code analyzers (and almost always come without a
+    patch) should not be sent to this list and should be discussed and
+    addressed publicly instead. It's more efficient and allows more
+    knowledgeable participants to have their say on the root cause of
+    the problem and its possible solutions. That's of course not always
+    the case, but common sense should prevail here.
+
+Thanks,
+Willy
