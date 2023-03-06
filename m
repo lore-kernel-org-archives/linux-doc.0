@@ -2,129 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F95C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 08:48:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC32C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 08:57:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbjCFIsm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 03:48:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52622 "EHLO
+        id S229639AbjCFI5l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 03:57:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbjCFIsl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 03:48:41 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD15449E;
-        Mon,  6 Mar 2023 00:48:39 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id y2so9020528pjg.3;
-        Mon, 06 Mar 2023 00:48:39 -0800 (PST)
+        with ESMTP id S229616AbjCFI5j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 03:57:39 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D551821965;
+        Mon,  6 Mar 2023 00:57:33 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id u5so9490104plq.7;
+        Mon, 06 Mar 2023 00:57:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678092519;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QL3D3IFssfqAcoz9U5L3ra97LeXFC8PAa9Bxh4q7krk=;
-        b=kInJZia6jXpz4sGTiwT3kN9m3USfoq4YOvN1MahB6MW7+J3QBFlBhdXd+WY3WsPgov
-         ZpL+jvBDgyswYuIGAlnkXRv2dD4GZapO7NidAP3EWa4rq/QrO/xYC0kmSnTq/0B5iZVO
-         u5wqRGc7NR8a2wqPu9uq6n+u9L9uLj6mSgHtIte/UPEMk3U0xslI5WX0HvYBz0K21CAb
-         axyoyyuC0WzeJYl6Xggx6fniXJ3ZOCvyLHamEN/REI0TOUiL9ECAahALVOinpH0c8nU+
-         t4rdmA6Wa+GqzqQBoRF0JCa3BX61tHy380xkm2orG+uhVzIBzfJ+DVgVFEG+A7XVhcoU
-         ucBQ==
+        d=gmail.com; s=20210112; t=1678093053;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vt+MS0eYcnMeqDB+aM3O4tClbihsYFf1JjAFSjKpS1E=;
+        b=Ut2pKvDf5wwayQF+UAC+FXF6xHDhXluuw7A6U2rkEwwqhkYN5kTsDWdIlcpFk0krUc
+         lY8S6KlxITtUWDTDzUkrs7VSrxHu09I324zsD0cQk2qhJ6l4/sOHIWMHsGDmQ1HPXTdk
+         OJcPY+GMEj99V3q+BtoXsRpgeXaGDcsNqsK+lhAFFqwgEgCj2Z7+4ag1w2DBSoSs60s8
+         70iyjdwN3vTnJKC1ONpM5pMOeX3W+WXB4aVscw/4hCFnzeAS+aIz61fLh9bxrjTHmXtE
+         pF78aY6e8KxYw4kXIWuF9qsUaTQ3cE8qo+HFqbMZog+hA3bXZhAW27U1EFR/81jKd3tJ
+         gJeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678092519;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QL3D3IFssfqAcoz9U5L3ra97LeXFC8PAa9Bxh4q7krk=;
-        b=QQcjS4Jk+9LN9LXTKYWL8kDyIwBcj/T5mq2+JmARhuQT0Laku7RcWqvmMf/COChJEk
-         dbkh4tsAatKDLWNvr/f3JwhrlnOE5djIR/sNwfwXpfrZknDR+T5Hg4PV1BBor8wLMERn
-         /3FAhB9z5rrgUpq+i+K0gkf+GAW2uxO1D8DSQe4b4ZE3wljemRy2a/Y0xfqa0/+xI/PV
-         wDTiVFrz32rA74lupgw/yBnYjxTo+jmWhcmX2zW76RPxVrnh4Ow55Z3ALYjmQuBf1yAs
-         875JYOV0rEi9BVH1YoQR0VNpUxQJlYF5duaFQOKOsgOfV8T/BVVUxVargObNxuK+bwnT
-         Y8Rg==
-X-Gm-Message-State: AO0yUKWHLOsuL3EDlKSnux3SqE9XkYLyWm8jnz7ID+Bj4xxxVFRRG48P
-        PIrYVbioKKz9S4Y5pOepUtQ=
-X-Google-Smtp-Source: AK7set9ckGHLdbVf+/Cm+9akHzUlyw9lUKHzYuQYd9IdP0H9Msr9rxBucnt1pfh2hjkANMRshctdKw==
-X-Received: by 2002:a17:902:ea02:b0:19d:2a3:f017 with SMTP id s2-20020a170902ea0200b0019d02a3f017mr12474545plg.62.1678092519375;
-        Mon, 06 Mar 2023 00:48:39 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-82.three.co.id. [180.214.233.82])
-        by smtp.gmail.com with ESMTPSA id lf15-20020a170902fb4f00b00194ac38bc86sm2206992plb.131.2023.03.06.00.48.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 00:48:38 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 7236C1062E0; Mon,  6 Mar 2023 15:48:36 +0700 (WIB)
-Date:   Mon, 6 Mar 2023 15:48:36 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Vegard Nossum <vegard.nossum@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Jiri Kosina <jkosina@suse.cz>,
-        Solar Designer <solar@openwall.com>,
-        Will Deacon <will@kernel.org>, Willy Tarreau <w@1wt.eu>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Amit Shah <aams@amazon.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>
-Subject: Re: [PATCH v3 0/7] Documentation/security-bugs: overhaul
-Message-ID: <ZAWo5BEPmNTkC2Gf@debian.me>
-References: <20230305220010.20895-1-vegard.nossum@oracle.com>
+        d=1e100.net; s=20210112; t=1678093053;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vt+MS0eYcnMeqDB+aM3O4tClbihsYFf1JjAFSjKpS1E=;
+        b=bRd303f9wMGKX9S23VNDtoE+MUefeS0ECN/te5WGTZCIwDcydIcZmVEZk7i3jp7fzJ
+         +Je0OPnOv/CarMF7JbmWLZP8QQYlD60PtXubrzUPHTVVdBYdJuwYkHip8iLGnSKCbFCX
+         PBRDE1eZAFB/HJGy83YtgRDFSfz9akQn8OYeieBxx52fjzZdHQ4al6C2ItwTlAPoj0RP
+         MieBjS52GXsmVzKU+hroewXfN7nRsKiu+V+JV84bp7huadIL2PVyov7fkLKgcrpfibuj
+         dMXvKbnrFX0i68YrQjopzuA+p6+bvK1cA8701Zx7FuxBtRtcpq94nv5Tj2YXJaOa/lvc
+         Gxdg==
+X-Gm-Message-State: AO0yUKVaiorZ8Mpzl4DH6szbSADUrsVamImmhxIsEooPiYhcfK0Ve0eb
+        3MuOoCmV47ZYsppdUl0XCA0=
+X-Google-Smtp-Source: AK7set+dFQRcLEIvi0ZHJ5bHx/UaxNJvMl1pMDFFHBR/U+WXM9FUajLpcyefdLAvvbY7wiCn+BqlMg==
+X-Received: by 2002:a17:902:d489:b0:19e:5cc3:828f with SMTP id c9-20020a170902d48900b0019e5cc3828fmr13019163plg.27.1678093053259;
+        Mon, 06 Mar 2023 00:57:33 -0800 (PST)
+Received: from [192.168.43.80] (subs03-180-214-233-82.three.co.id. [180.214.233.82])
+        by smtp.gmail.com with ESMTPSA id e1-20020a631e01000000b004fb681ea0e1sm5764949pge.84.2023.03.06.00.57.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Mar 2023 00:57:33 -0800 (PST)
+Message-ID: <f53f84b5-9da7-0726-2e1f-f7e81e8ecd24@gmail.com>
+Date:   Mon, 6 Mar 2023 15:57:28 +0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="L2+HyKnihq8gts0j"
-Content-Disposition: inline
-In-Reply-To: <20230305220010.20895-1-vegard.nossum@oracle.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        regressions@lists.linux.dev
+References: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
+ <ZAVp6jdeWzYcisUO@debian.me>
+ <3d6a30ee-f093-f5b6-a193-cd86320f9452@leemhuis.info>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <3d6a30ee-f093-f5b6-a193-cd86320f9452@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 3/6/23 12:40, Thorsten Leemhuis wrote:
+>> If your distro config have ``CONFIG_IKCONFIG=y``, you can copy from
+>> procfs::
+>>
+>>     zcat /proc/config.gz > .config
+> <snipped>
+> 
+>> If it isn't the case, you may want to enable the aforementioned config
+>> option.
+> 
+> That or put them in /boot/config-$(uname -r). But well, that is
+> something the provider of the running kernel needs to do, so it won't
+> help the reader if we mention it here.
+> 
+> Or do you think the guide should explain this to ensure people can
+> pickup their config from there again in case they deleted their build
+> artifacts? Hmmm. I currently tend to think that's not worth making the
+> text longer for, as at that point it might be better to restart from
+> scratch with a distro config anyway.
+> 
 
---L2+HyKnihq8gts0j
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think it depends whether someone would pick from /proc/config.gz or
+/boot/config. My kernel configuration have CONFIG_IKCONFIG=y but I
+often copy the config from the latter instead, since I booted with
+arbitrary kernel version when compiling two or three versions, and I
+want to ensure that the config used is from correct version (i.e.
+I use /boot/config-5.15.x-string to build 5.15.x+1 kernel).
 
-On Sun, Mar 05, 2023 at 11:00:03PM +0100, Vegard Nossum wrote:
-> Hi,
->=20
-> This is v3 of clarifying our documentation for reporting security
-> issues.
->=20
-> The current document is not clear enough, in particular the process of
-> disclosure and requesting CVEs, and what the roles of the different
-> lists are and how exactly to report to each of them.
->=20
-> Lots of people have been confused about the 7/14 days of the kernel list
-> vs. the 7/14 days of the distros list, the fact that these are two
-> separate lists, etc. Many reporters contact distros first, or submit
-> their report to both lists at the same time (which has the unfortunate
-> effect of starting off the disclosure countdown for the distros list
-> before s@k.o has had a chance to look at the report). I've shared the v2
-> document with a couple of people who submitted reports and they said
-> they found it a lot clearer.=20
->=20
+Thanks.
 
-The docs LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
+-- 
 An old man doll... just what I always wanted! - Clara
 
---L2+HyKnihq8gts0j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZAWo5AAKCRD2uYlJVVFO
-oy9UAQCcdhC6kNEb/Ch1VdBnFbItrrJIHkj953sjJx6TkqlZdwEA7JHcMEkcUGLj
-5C22FvhMyVeMAlg73eSmH04v+m/0hQg=
-=rHOT
------END PGP SIGNATURE-----
-
---L2+HyKnihq8gts0j--
