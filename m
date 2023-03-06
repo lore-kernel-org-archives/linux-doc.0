@@ -2,95 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 177D6C61DA3
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 05:40:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F97C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 06:02:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbjCFFk2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 00:40:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43522 "EHLO
+        id S229591AbjCFGCU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 01:02:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbjCFFk1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 00:40:27 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C7D51A49D;
-        Sun,  5 Mar 2023 21:40:26 -0800 (PST)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pZ3a7-0005ht-2J; Mon, 06 Mar 2023 06:40:19 +0100
-Message-ID: <3d6a30ee-f093-f5b6-a193-cd86320f9452@leemhuis.info>
-Date:   Mon, 6 Mar 2023 06:40:18 +0100
+        with ESMTP id S229494AbjCFGCT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 01:02:19 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6891B1B551;
+        Sun,  5 Mar 2023 22:02:18 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D987660BEB;
+        Mon,  6 Mar 2023 06:02:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC9D1C433D2;
+        Mon,  6 Mar 2023 06:02:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1678082537;
+        bh=UMGmArJhwi4kk5eVQL7RgTy9y4MNvsA9JMiR+NEkmyQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DLLtuu836aWzw7nitnP/UQ94PGEmwRhZsz0kUTJCTLpN3Nxt5EAK9cLQwdjsTHFdG
+         YkEeQm+kKWuMTVBsdylac3ORP+CNj0TWlgdc/WexZefU5TgiKAS0uPdmKQldlez3i9
+         U8ARmrfKZf42jUidEjgaAIlK6EFs/Jv9Wtw+OCRE=
+Date:   Mon, 6 Mar 2023 07:02:14 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Jiri Kosina <jkosina@suse.cz>,
+        Solar Designer <solar@openwall.com>,
+        Will Deacon <will@kernel.org>, Willy Tarreau <w@1wt.eu>,
+        linux-kernel@vger.kernel.org, Amit Shah <aams@amazon.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>
+Subject: Re: [PATCH v3 0/7] Documentation/security-bugs: overhaul
+Message-ID: <ZAWB5kwcG9IpWvE/@kroah.com>
+References: <20230305220010.20895-1-vegard.nossum@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US, de-DE
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev
-References: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
- <ZAVp6jdeWzYcisUO@debian.me>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
-In-Reply-To: <ZAVp6jdeWzYcisUO@debian.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1678081226;cbc15c05;
-X-HE-SMSGID: 1pZ3a7-0005ht-2J
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230305220010.20895-1-vegard.nossum@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06.03.23 05:19, Bagas Sanjaya wrote:
-> On Sun, Mar 05, 2023 at 02:04:44PM +0100, Thorsten Leemhuis wrote:
->> + * Create the build configuration for your kernel based on an existing
->> +   configuration.
->> +
->> +   If you already prepared such a '.config' file yourself, copy it to
->> +   ~/linux/ and run ``make olddefconfig``.
->> +
->> +   Use the same command, if your distribution or somebody else already tailored
->> +   your running kernel to your or your hardware's needs: the make target
->> +   'olddefconfig' will then try to use that kernel's .config as base.
->> +
->> +   Using this make target is fine for everybody else, too -- but you often can
->> +   save a lot of time by using this command instead::
->> +
->> +     yes "" | make localmodconfig
->> +
->> +   This will try to pick your distribution's kernel as base, but then disable
->> +   modules for any features apparently superfluous for your setup. This will
->> +   reduce the compile time enormously, especially if you are running an
->> +   universal kernel from a commodity Linux distribution.
->> +
->> +   There is a catch: the make target 'localmodconfig' will disable kernel
->> +   features you have not directly or indirectly through some program utilized
->> +   since you booted the system. You can reduce or nearly eliminate that risk by
->> +   using tricks outlined in the reference section; for quick testing purposes
->> +   that risk is often negligible, but it is an aspect you want to keep in mind
->> +   in case your kernel behaves oddly.
+On Sun, Mar 05, 2023 at 11:00:03PM +0100, Vegard Nossum wrote:
+> Hi,
 > 
-> If your distro config have ``CONFIG_IKCONFIG=y``, you can copy from
-> procfs::
+> This is v3 of clarifying our documentation for reporting security
+> issues.
 > 
->     zcat /proc/config.gz > .config
+> The current document is not clear enough, in particular the process of
+> disclosure and requesting CVEs, and what the roles of the different
+> lists are and how exactly to report to each of them.
+> 
+> Lots of people have been confused about the 7/14 days of the kernel list
+> vs. the 7/14 days of the distros list, the fact that these are two
+> separate lists, etc. Many reporters contact distros first, or submit
+> their report to both lists at the same time (which has the unfortunate
+> effect of starting off the disclosure countdown for the distros list
+> before s@k.o has had a chance to look at the report). I've shared the v2
+> document with a couple of people who submitted reports and they said
+> they found it a lot clearer. 
+> 
+> Probably the easiest way to see the end result of this series is to view the
+> rendered HTML which I've put here:
+> https://vegard.github.io/security-v3/Documentation/output/process/security-bugs.html
 
-Localmodconfig afaics does that automatically and I'm pretty sure
-olddefconfig does that, too (but I didn't check either). So no need to
-explain this in the text afaics.
+Thanks for doing this, it looks much better, but I do have some
+objections with it.
 
-> If it isn't the case, you may want to enable the aforementioned config
-> option.
+First off, you didn't cc: the security@k.o group to see if they agree
+with this, any specific reason why?  :)
 
-That or put them in /boot/config-$(uname -r). But well, that is
-something the provider of the running kernel needs to do, so it won't
-help the reader if we mention it here.
+Secondly, and the bigger one, I think we should just drop all of the
+references to linux-distros and oss-security entirely, as those are
+groups that are outside of our control and interaction and have
+different rules that we might not agree with.  They also just a tiny
+subset of Linux users and companies and as such do not really reflect
+the majority of where Linux is used anymore.
 
-Or do you think the guide should explain this to ensure people can
-pickup their config from there again in case they deleted their build
-artifacts? Hmmm. I currently tend to think that's not worth making the
-text longer for, as at that point it might be better to restart from
-scratch with a distro config anyway.
+But overall I like the slimmer size, so perhaps the end result just
+being the first two major sections would be best.  Let me take those
+changes first and we can see how the result looks for now to see if that
+will resolve some of the major issues the security@k.o group have right
+now with reports (i.e. CVE requests, other group's disclosure rules and
+dates).
 
-Ciao, Thorsten
+thanks,
+
+greg k-h
