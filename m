@@ -2,133 +2,175 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E90C64EC4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 18:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75958C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 18:58:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbjCFSn0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 13:43:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48296 "EHLO
+        id S230274AbjCFS63 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 13:58:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229634AbjCFSn0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 13:43:26 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 558D52E0FB;
-        Mon,  6 Mar 2023 10:43:25 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id p26so6282597wmc.4;
-        Mon, 06 Mar 2023 10:43:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678128204;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=9howz/MYIxQFOTkjG2sZpdC7yu6HSX7t+4kJG+A428w=;
-        b=RnYzgl5WppeBICyY1Qmu1aiUrbPL0PnHOWQqqLHOo6Oa8WlLlBB3H8ipoPvJsND8NL
-         +AqUgw+/V2JVJ4I0dnK1gAaYDtM2lcMCjU4fLKUOLyagYv63UPbPk6yL4a0qbbic3uVl
-         wgf4ldWVweQlmgN6hGD9PKYh37kyyh4VBQDIn6jbuhVMlqq+GRv8Z79RNhjO28JEhcxQ
-         pZSYbgJHyVerQBR13/kqTrDp/MOUt4XB2kVkeF3hcMdt5HK2R3MNxxlsNkWV60PM8PS8
-         zRqtwE3CLnmu+UOlA7BiWYRMep8EbKDTd7hTdT8ENLJo1ib46CIXo4GcSWOz9KtKcEwn
-         Ammw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678128204;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9howz/MYIxQFOTkjG2sZpdC7yu6HSX7t+4kJG+A428w=;
-        b=bts/DOMgHdrXGYTRUfWEQdNIBnZZDqeC70h+ZNYBRYcPIa2FDwBO325sJ5O2aukYp2
-         otTzdVXdsxB0VlfVtQzOeO4mHdrVQBlzXh8z1Ix1mMykBJRqdgwYXvsqeG7MBUwmeViy
-         WpYaRowH0fIb7s3TIX14w8WBaAXe0UPm6/iwvsmSipPoEVVgPkDDLvp3K2k9Vir3HLlj
-         xIPYQPrZXLQbEO+K1Aq4fl00CB/Oy1maMqS1nZCaGgUbwey1X6dgu9nwyMK4kWDQIARC
-         x6qPErYHtZQpSp0vdAGTD3dvyeL4ocnO7qbBQSu7N2m/aIhAMyJsaGLRCEnJYfd3caUg
-         0GKQ==
-X-Gm-Message-State: AO0yUKX00Cj6f22maIWASb8uYsnWr2V3vQSurPjGo/mDoYz10N+8hplT
-        BTMm+tuMsYvhjBF0XsRwt+c=
-X-Google-Smtp-Source: AK7set9ocXY79rQCq8kdmSs3rFvVpcdzSuqw0hZ/yLMPPrZfSYmrWzRcwSyRFmjA6ou8n26+wR5neA==
-X-Received: by 2002:a05:600c:4f87:b0:3ea:d610:f059 with SMTP id n7-20020a05600c4f8700b003ead610f059mr11280986wmq.4.1678128203504;
-        Mon, 06 Mar 2023 10:43:23 -0800 (PST)
-Received: from Ansuel-xps. (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
-        by smtp.gmail.com with ESMTPSA id r18-20020a05600c35d200b003dfe549da4fsm15761153wmq.18.2023.03.06.10.43.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 10:43:22 -0800 (PST)
-Message-ID: <6406344a.050a0220.693b3.6689@mx.google.com>
-X-Google-Original-Message-ID: <ZAY0SzbzIgRH1oBa@Ansuel-xps.>
-Date:   Mon, 6 Mar 2023 19:43:23 +0100
-From:   Christian Marangi <ansuelsmth@gmail.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Arun.Ramadoss@microchip.com
-Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
-References: <20230216013230.22978-1-ansuelsmth@gmail.com>
- <Y++PdVq+DlzdotMq@lunn.ch>
- <Y/YubNUBvQ5fBjtG@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y/YubNUBvQ5fBjtG@google.com>
+        with ESMTP id S230312AbjCFS6F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 13:58:05 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 568FAC168
+        for <linux-doc@vger.kernel.org>; Mon,  6 Mar 2023 10:57:32 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 93CA061122
+        for <linux-doc@vger.kernel.org>; Mon,  6 Mar 2023 18:57:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C672C4339B;
+        Mon,  6 Mar 2023 18:57:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678129051;
+        bh=6vXrvt7y3pSV5UzVc45cU2dXI063yro0+EDdwbCQfnU=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=YHGXN2ttr+dzVMrQJ/3uAO7tCf2e10wEH6fIPNlkxjQIOrF5OG2ydcs8+zNp4uJRx
+         JRWoH/FYf+zYVYIJ1BR021QD6zt6Vx4Vy60zCDI6LT/nbVJG+jmQ7XSEAN3/Y8R1y5
+         9GoO1MzbWlROZvJglp6hqx3kaTTaDlncZoJVwbnqRZNMOggMQcbI4kvkagMWyxVsln
+         Hxlh8xvR91mBAGQ04eKvP8ruUwqyfz/bOTyaxWKDUADsCCqfkGYdU/e79igiWKXyGb
+         uS+k03X/FP9QdhIegbRIiUMmIRmmcAM3g3KLIqfz3LkhisDhtqgOdEiQ69ou6Y3FOt
+         nDUYcME6rcYVA==
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 7654827C0054;
+        Mon,  6 Mar 2023 13:57:28 -0500 (EST)
+Received: from imap48 ([10.202.2.98])
+  by compute3.internal (MEProxy); Mon, 06 Mar 2023 13:57:28 -0500
+X-ME-Sender: <xms:ljcGZHkD9Azx8CnjaQr1OAMo85lvkMQHnS1OGc59t2xI0LLFXIo6zg>
+    <xme:ljcGZK1Mhih9tBQOYsihBve47qe1Vfw6QVvj8fACKCnj3hIQap92OIHngSL3G5P42
+    PhZgYfEsU9oGsOKScI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddtkedgleduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeeiteejleegjeekleegveeujeejvdehjeekveegudduudffueek
+    jefffeeujeekhfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrh
+    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnugihodhmvghsmhhtphgr
+    uhhthhhpvghrshhonhgrlhhithihqdduudeiudekheeifedvqddvieefudeiiedtkedqlh
+    huthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuhigrdhluhhtohdruhhs
+X-ME-Proxy: <xmx:ljcGZNpr7paDnSHmMFH-Gj7F5-y8Q53JTvKn0-UVV-q1eqD20cRBGw>
+    <xmx:ljcGZPkzRTZmNcOa42iXgmYIyyT4fDqxGJeyrciMCneH3DJfV2_ziA>
+    <xmx:ljcGZF2b-Ft6PTPRgbxnlmFOjAEg7Dj5aeKcE6lKu48F4KVEEadXDg>
+    <xmx:mDcGZA55iif505_2sp6shY1Ep30GOjTS-AaJfQpumw6W_iDd0bNPWw>
+Feedback-ID: ieff94742:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id B80BE31A0063; Mon,  6 Mar 2023 13:57:26 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-206-g57c8fdedf8-fm-20230227.001-g57c8fded
+Mime-Version: 1.0
+Message-Id: <2361d4e2-c8c9-4dc4-b925-ab6543ba3404@app.fastmail.com>
+In-Reply-To: <c3e21d54fdc025c8e09f90b57dd3de0751cefbfd.camel@intel.com>
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-25-rick.p.edgecombe@intel.com>
+ <ZAXmOZYcoR3hq/CH@zn.tnic>
+ <CALCETrViDpTbuBk+9wQa-PNzKZerwk=4MmKMXw2v3Ysxuv2k3A@mail.gmail.com>
+ <c3e21d54fdc025c8e09f90b57dd3de0751cefbfd.camel@intel.com>
+Date:   Mon, 06 Mar 2023 10:57:06 -0800
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Rick P Edgecombe" <rick.p.edgecombe@intel.com>,
+        "Borislav Petkov" <bp@alien8.de>
+Cc:     "David Hildenbrand" <david@redhat.com>,
+        "Balbir Singh" <bsingharora@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Florian Weimer" <fweimer@redhat.com>,
+        "Nadav Amit" <nadav.amit@gmail.com>,
+        "Jann Horn" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "Pavel Machek" <pavel@ucw.cz>, "Oleg Nesterov" <oleg@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        "Weijiang Yang" <weijiang.yang@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "Mike Kravetz" <mike.kravetz@oracle.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "Andrew Cooper" <andrew.cooper3@citrix.com>,
+        "Mike Rapoport" <rppt@kernel.org>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Linux API" <linux-api@vger.kernel.org>,
+        "Cyrill Gorcunov" <gorcunov@gmail.com>
+Subject: Re: [PATCH v7 24/41] mm: Don't allow write GUPs to shadow stack memory
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 22, 2023 at 03:02:04PM +0000, Lee Jones wrote:
-> On Fri, 17 Feb 2023, Andrew Lunn wrote:
-> 
-> > On Thu, Feb 16, 2023 at 02:32:17AM +0100, Christian Marangi wrote:
-> > > This is another attempt on adding this feature on LEDs, hoping this is
-> > > the right time and someone finally notice this.
-> > 
-> > Hi Christian
-> > 
-> > Thanks for keeping working on this.
-> > 
-> > I want to review it, and maybe implement LED support in a PHY
-> > driver. But i'm busy with reworking EEE at the moment.
-> > 
-> > The merge window is about to open, so patches are not going to be
-> > accepted for the next two weeks. So i will take a look within that
-> > time and give you feedback.
-> 
-> Thanks Andrew.  If Pavel is still unavailable to conduct reviews, I'm
-> going to need all the help I can get with complex submissions such as
-> these.
-> 
+On Mon, Mar 6, 2023, at 10:33 AM, Edgecombe, Rick P wrote:
+> On Mon, 2023-03-06 at 10:15 -0800, Andy Lutomirski wrote:
+>> On Mon, Mar 6, 2023 at 5:10=E2=80=AFAM Borislav Petkov <bp@alien8.de>=
+ wrote:
+>> >=20
+>> > On Mon, Feb 27, 2023 at 02:29:40PM -0800, Rick Edgecombe wrote:
+>> > > The x86 Control-flow Enforcement Technology (CET) feature
+>> > > includes a new
+>> > > type of memory called shadow stack. This shadow stack memory has
+>> > > some
+>> > > unusual properties, which requires some core mm changes to
+>> > > function
+>> > > properly.
+>> > >=20
+>> > > Shadow stack memory is writable only in very specific, controlled
+>> > > ways.
+>> > > However, since it is writable, the kernel treats it as such. As a
+>> > > result
+>> >=20
+>> >                                                                   =20
+>> >         ^
+>> >                                                                   =20
+>> >         ,
+>> >=20
+>> > > there remain many ways for userspace to trigger the kernel to
+>> > > write to
+>> > > shadow stack's via get_user_pages(, FOLL_WRITE) operations. To
+>> > > make this a
+>>=20
+>> Is there an alternate mechanism, or do we still want to allow
+>> FOLL_FORCE so that debuggers can write it?
+>
+> Yes, GDB shadow stack support uses it via both ptrace poke and
+> /proc/pid/mem apparently. So some ability to write through is needed
+> for debuggers. But not CRIU actually. It uses WRSS.
+>
+> There was also some discussion[0] previously about how apps might
+> prefer to block /proc/self/mem for general security reasons. Blocking
+> shadow stack writes while you allow text writes is probably not that
+> impactful security-wise. So I thought it would be better to leave the
+> logic simpler. Then when /proc/self/mem could be locked down per the
+> discussion, shadow stack can be locked down the same way.
 
-Hi Lee,
-thanks for stepping in. Just wanted to tell you I got some message with
-Andrew to make this thing less problematic and to dry/make it more
-review friendly.
+Ah, I am guilty of reading your changelog but not the code.
 
-We decided on pushing this in 3 step:
-1. Propose most basic things for some switch and some PHY. (brightness
-and blink_set support only, already supported by LED core)
-2. A small series that should be just a cleanup for the netdev trigger
-3. Support for hw_control in the most possible clean and way with small
-patch to they are not hard to track and understand the concept of this
-feature.
+You said:
 
-I'm starting with the step 1 and sending some of my patch and Andrew
-patch to add basic support and I will add you and LED mailing list in
-Cc.
+Shadow stack memory is writable only in very specific, controlled ways.
+However, since it is writable, the kernel treats it as such. As a result
+there remain many ways for userspace to trigger the kernel to write to
+shadow stack's via get_user_pages(, FOLL_WRITE) operations. To make this=
+ a
+little less exposed, block writable GUPs for shadow stack VMAs.
 
-Again thanks for starting checking this and feel free to ask any
-question about this to me also privately, I'm very open to any help.
+I read that as *denying* FOLL_FORCE.  Maybe clarify the changelog?
 
--- 
-	Ansuel
+>
+> [0]=20
+> https://lore.kernel.org/lkml/E857CF98-EEB2-4F83-8305-0A52B463A661@kern=
+el.org/
