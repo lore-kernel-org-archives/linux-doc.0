@@ -2,271 +2,245 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22F5BC61DA4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 09:44:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA699C678D4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 10:06:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbjCFJoL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 04:44:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58272 "EHLO
+        id S229871AbjCFKGD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 05:06:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229935AbjCFJoK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 04:44:10 -0500
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F070023C7F;
-        Mon,  6 Mar 2023 01:43:41 -0800 (PST)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3268IiwN031823;
-        Mon, 6 Mar 2023 09:42:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=g8Db6zORaTq4hr/scjMDQC8fvo2Ejxoopow85nv+ixY=;
- b=FG42g96t7FecrVbqZj7m5FVhi8e1LxwOpbKbN1Pacs/8Gf51QjpF4K6kyQTEYdqYtyLE
- wfSFaBmhp+EDEgnJic8DIh9Nfv4/3GevDMGRFbfNL082FbP1NF1RyecPtW9NPXdf3PiT
- X9Dq2G1PysZTrB5m2l/y3PdnmXRbG0sCvsgD34cEdDnk2tcHaKMA0IycGFlH2lkSZARA
- mthmBs2d67MuH59vM/AJOSjuN38aLNvX2TYveZ06zAPuF4ifKvaH8zHrFOPnI81FpUFn
- eRi8c2dU4wZCssaIXyga8z+q5Ubs2iiL2yasJc2JgDqVxc1iundHm944OHjHeH45zTyF ww== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3p4168jf8s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 06 Mar 2023 09:42:34 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 3267M8vJ027227;
-        Mon, 6 Mar 2023 09:42:34 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2109.outbound.protection.outlook.com [104.47.55.109])
-        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3p4u1d8q31-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 06 Mar 2023 09:42:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e0UIXEWrW+8ByIhryl6p7zdRiE8JX572twcLYrVSKGZoCIGvMmnuDwuhCMV1My0O3jMcbEH0UK4Wun/aAm0z17GQrYdcCr92727EOZCrK5dG0wdKcbDo9+Vpt11dvc9ai3/09TPfXKg4MQ+VRXuhVWkwIlFrWlP/A6G2xN/pRUFwmgoRVVep4QsZ3zdrx4bDOePJfkxN1EHXdsE3p+x3QyFjEHASAgsiiMukXnhVXnWYWXbaVwWU93LIKBTzdLAQQ7FGiE+UUr8Bk9+DHRymMJwIot1kNaNlaSQAMUyz/hQog1CReEvJiECiAUgDblwXO37maacVTF5p3aVXjEa1gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g8Db6zORaTq4hr/scjMDQC8fvo2Ejxoopow85nv+ixY=;
- b=DcNIKecXZDlEoam1sfTCZduyAJrVBWiycCYorQ94cbkkM+Zam2zoKSh9AyZXs/9C8s1QCWwTgwi5m5t2Oge7yBnINJVHaoqEGA+IEm02iybmZhTFpfKNT3hWOYlZqWwEtuBNUvbzpy0LtFQWTh+7ZYIzcJ0kcgXW7arZGcfmqcsMZ5Odgac8uQNK99E/hv4xa6MOWwRu1B+A3HiFSjwll7Q5jw9UK5eYL3N7nGVrb0HfuTtUJwLcFEwo6NLY+0q+8jzIuxfpbL98YHghSGBVnCGXJhNJtQ0UgL9bi02Ias7J3fcyN6qLavRGFWUpRUo6dRM+RmC903FG+Aveu7mZFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        with ESMTP id S230206AbjCFKFu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 05:05:50 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02CD823C6D
+        for <linux-doc@vger.kernel.org>; Mon,  6 Mar 2023 02:05:46 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id m25-20020a7bcb99000000b003e7842b75f2so4815396wmi.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Mar 2023 02:05:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g8Db6zORaTq4hr/scjMDQC8fvo2Ejxoopow85nv+ixY=;
- b=L9Lod89WS48qVBmpkFCtVcyF6Tlaz/3XszDfUZ3313r13grA0ovbguxLt5bjNVcj158XHqjlT/FgbUY+oNfYXC9Ot1M76R8xv/KsbqogifyKFqZwwS5iHXSjrpe3unSSVq1z0pRkH5/XKrWhFoLJyL61CpWT7TkAUrHwC3Hxwps=
-Received: from PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
- by MW4PR10MB5725.namprd10.prod.outlook.com (2603:10b6:303:18b::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Mon, 6 Mar
- 2023 09:42:31 +0000
-Received: from PH0PR10MB5433.namprd10.prod.outlook.com
- ([fe80::a0c1:677d:5394:bf43]) by PH0PR10MB5433.namprd10.prod.outlook.com
- ([fe80::a0c1:677d:5394:bf43%6]) with mapi id 15.20.6156.028; Mon, 6 Mar 2023
- 09:42:31 +0000
-Message-ID: <823bae9e-1458-3654-bdbc-67d8657cd865@oracle.com>
-Date:   Mon, 6 Mar 2023 10:42:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 0/7] Documentation/security-bugs: overhaul
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Jiri Kosina <jkosina@suse.cz>,
-        Solar Designer <solar@openwall.com>,
-        Will Deacon <will@kernel.org>, Willy Tarreau <w@1wt.eu>,
-        linux-kernel@vger.kernel.org, Amit Shah <aams@amazon.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678097144;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OJlcjxfKw8jXMW5N6Ul3wEtOotHt+pEdQ/DGM7xaX10=;
+        b=JEqgx1ClmnhOe6ebVyq1YqTIUhSXqSCUzyVnszcOp7awHNdT/xsM+7rlI1qdGO+YiE
+         slQ76DmA72N+jgwPU2NK3rXaHYk02KROwM+j5UoVlE6/S84CO+vB/F3BWaDO7xRB2RIG
+         of8yuUcFzP4Tre4cToIWTCOQJWBuRErMO44gEIuUiHYSd2Cn7gaTQDsMMDbVeLzUpjB4
+         mzd55rdVRoXyW887zexXWxI8zSMxD3E76H/lTdsw61lekuH6TU9lFSZs1SwhjoOVi1uJ
+         k2ny/foI2AfuKjMCphWC6FEhY+VrVHZTIxhlexwMTUthb5QjBCQqbA/uzSZiUyHHThiI
+         YNPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678097144;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OJlcjxfKw8jXMW5N6Ul3wEtOotHt+pEdQ/DGM7xaX10=;
+        b=wN5+EjIza7ocND75/IPHTODNsTr4DSX2f97XfjfPAtrO7tg6bXe7133zOkrixXyP9M
+         Op+NIY+p0HuMkKpGrwG9DLsMD0jVgykmfqY+cksIYHJ48+msN/xXHooLQsfx711BQFZ0
+         /F9ADJco8kgHja3Ff6FB7R2g1zXDcRY2Q/Z9tsxOBPO/LG5ER0XfZuE9OQLj/B+KJIyi
+         okTxKe6nn9F0MazraAzGrSu8VHOPQcXySmii/UcaBbitjCZf55Gn0Z91VjnwnUxojzCC
+         qYYCQ7OnvnFrrZu61DYInQCeG6yWgjRy6qVviEnM+Omo3z492/Z/DkL1sqmxHBmrGP5O
+         kDbQ==
+X-Gm-Message-State: AO0yUKWMcibBQx+NBFTp7+i+xCqMAqP9HMY8JgJq+IuufOyrXIXC1+vD
+        YwXsWnjJs+ypzK3eZjlGBfw8Hg==
+X-Google-Smtp-Source: AK7set99ZkofQ6d3rgbVc8vHPZA3jk10S3lFiRC/cDNeG2Kooe0Xt+AMGkkoqceiwIcjL4YA9m24iQ==
+X-Received: by 2002:a05:600c:45c8:b0:3ea:ed4d:38fc with SMTP id s8-20020a05600c45c800b003eaed4d38fcmr9291657wmo.31.1678097144359;
+        Mon, 06 Mar 2023 02:05:44 -0800 (PST)
+Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+        by smtp.gmail.com with ESMTPSA id p8-20020a05600c2e8800b003e2066a6339sm9863700wmn.5.2023.03.06.02.05.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Mar 2023 02:05:43 -0800 (PST)
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S . Miller" <davem@davemloft.net>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>,
-        Security Officers <security@kernel.org>
-References: <20230305220010.20895-1-vegard.nossum@oracle.com>
- <ZAWB5kwcG9IpWvE/@kroah.com>
-From:   Vegard Nossum <vegard.nossum@oracle.com>
-In-Reply-To: <ZAWB5kwcG9IpWvE/@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PA7P264CA0147.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:377::7) To PH0PR10MB5433.namprd10.prod.outlook.com
- (2603:10b6:510:e0::9)
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch@vger.kernel.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v5 00/26] Remove COMMAND_LINE_SIZE from uapi
+Date:   Mon,  6 Mar 2023 11:04:42 +0100
+Message-Id: <20230306100508.1171812-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB5433:EE_|MW4PR10MB5725:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f7c0ac0-304c-4b62-635b-08db1e271b05
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sbnaSvPK+M3IP6FUwqZf7H9q0aPwXODNcOXJ7ECJQU+mOKn5VmnvMrdR+9VyIHdRFpBwB26KxTZ2+15JNTuPMOPvIU2Fwhn5XGa9TTxN744ZcapuJXQ/OG6hlzFT88yNuEOxPyM0/4ezL4cozhnXSqjdl29OAQqkMd304VCkCdGX2L4JdkXOh1AK69dyw64u2IDix9QSz2Nio30Vd9mIs9SJxB1yLYaJExCwDP0U9GF1LF09KMHNFlpIYHZNRWOEYahO8IH7nj8b9q97heHu2EE17A6VDQhrCasMyLndac/M576cZTc4+BIhNmlSU/dJSQ+TfOFUTm2NPQgHpa6Zxw9b9FyPK3Uj9xI8n1MwHfDW5kFlNvvcQb4S9QWxVaxkdDognIwge334lH78bP07RiU0dU30c2vcnmEK9Fjy0zW3ze/7J3qNwK16G0czxzZRAx2miHt5yhE+sRR1joBkRabpNXoYKQbc26OH9edTYDydKA6vn+V+FH4chO15p6jffqUrI957n75aithBHCeP5JecvwpL3jUz/DOtD3CWsaBynBdhVH528WM2aP7xuMTU3s12rHGY4ClZWMBWkmztSBvk2eqZKc8xfpkGrWzkksq8NySpoz4IE8e/Ihsp7v59ED1tCMHuA0ot62TyPUdp0cCS8K+CvdcZIOykYVldvEW8j2u58G3vntYx2jGNBh5D5T4hFc73llTG/8ekihv6EZCF8Dp4h5ydUbmE/mR/hQI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5433.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(396003)(136003)(39860400002)(346002)(376002)(451199018)(31686004)(83380400001)(36756003)(478600001)(54906003)(316002)(38100700002)(2616005)(966005)(6486002)(6506007)(6512007)(6666004)(53546011)(26005)(186003)(15650500001)(41300700001)(5660300002)(44832011)(7416002)(66476007)(66556008)(66946007)(8936002)(2906002)(8676002)(6916009)(86362001)(4326008)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?elBscnNFYks4SFVvdFd4TDh5NGw4QUwyTm5VRUtpalRKMG5xd2kvMlBrZjlu?=
- =?utf-8?B?aU53cHBVUXRobVFjaFExQ0JjcC9aUjdYODJ5MmtBWVNtSmVkYnFNUmFOc1o0?=
- =?utf-8?B?T05uT2xRZlUvWU80MmkzWTJsOWs5TDNzRVdFbGV6a0E2TlJtdTRrYUQyalJi?=
- =?utf-8?B?M3JOVW1ONktTV2tHSTJGejdPZ2RFU1lseUUzSDM3ZUNjUGFwNzJCK2FLWFFp?=
- =?utf-8?B?TmIyWmk3YWpKSFZJS3M3VVc1eWYrMHgxYzJuNFR4OXZ4YTNkR3BudmJzUXIz?=
- =?utf-8?B?QmxBK1FlVWt0MGpEQlE1M0lJcHFxZVNLYnFxMkhqc2NwdWlEdzFlY2YraUN5?=
- =?utf-8?B?YVZORzhLNHp1bHB3dzhoV3F4S0ZQUHFUTm9QYnpVYUkzN2VSV3B5M2owallh?=
- =?utf-8?B?OTlSa3lDYUUyRzdPUzNNbU93Q0hobS81bzJVSFQ1WVkweWhGYVRKeXBlUXVZ?=
- =?utf-8?B?Z1Z3a3R6RlFxR0ZHeHpPYStGdGw2aElzbCtpaFJBUlR5UGdCeHhEL1hsc1Zv?=
- =?utf-8?B?WlgvazczUkRaOXF4b2cxd2FORTl4NzRmTmh4emJNbTBZU0drUnNHM2Z2Z3Yz?=
- =?utf-8?B?SXh3UzQyaFpEL1UxcXhiRWJFTGVmSk9CeStzOWV6dHVsOGU5Q0x2K3ZMZGw4?=
- =?utf-8?B?elJZZDZkeWpZMUhrTmxGSENBMDN2cXJHWWY3UEFWeStCdnppejAyL3BpOEFm?=
- =?utf-8?B?d2FIbEk3dDNRemNKUXhSb3pXR0hDYUMwRUwrVCt2K015M2NOdlJoWUpUZkRx?=
- =?utf-8?B?UVYxTmxkSWQzWUZ4Y1VGN3ljRDBRVG9JNzVMRlVwR25DcTgvYjRCZUIzVkFQ?=
- =?utf-8?B?TEMrSzJIU1U5L2tQZ1VYZkhoWTR6bml1S09iYTVUL1ZwYTM3UTJFUERyTmJF?=
- =?utf-8?B?ZkdHTXZxellBK1l2dzJJWWRtbkF4YlBpYWkvLzZVWlkzSHh5WnJmS1BsQzdO?=
- =?utf-8?B?MEtJejdzbHR3N3BIR2NCa1ZpVmJ0TDhSYXlUblNiVW1zZnUxcUdGcW1GTE1h?=
- =?utf-8?B?djREdmR2OXJQWlFPaEpQV29YRjY4WHBTdzFQRG1CZktjM0E0THZNTzBkU1Y5?=
- =?utf-8?B?VHhBQ1NmSm9jRURCWVBQZkthbVh3aEdPK3E1SkJ0cHFKbDBtRG9uV2RYYUxC?=
- =?utf-8?B?emlXS2VjMUpZNm8zYVlmUXNUTXdnVmw0S3dkUDBPOEhxNzAvSzVpQldXTHRY?=
- =?utf-8?B?TEk1aWZSMmtMek80S0hTSDUvdWJLUWc1Z0c5QkxZYVZPRUgrbGswSUZ0am9J?=
- =?utf-8?B?ZDRmWlloNTdkQkFMR2t4NGtHVXlMVlVDVzl6bEhrNHIva1VqRkRNcTIvbnZ5?=
- =?utf-8?B?aEN0Ykl6TW9BWFh1RE4yQVY4bTVVUU94NytzTnRvekVXRThZTWo3Y3c1RGxa?=
- =?utf-8?B?U1JYaFhyMWVUc3FOc1pwaXhDMlhCaUYySHJHb0NTODRoQk5SOHpxdU1pbUhw?=
- =?utf-8?B?MHBQRUEzNzdOdVB1RmhIVFFFVEpDb0N2ekh2bVFvOWdKcDF2dE0wa0FOcWp0?=
- =?utf-8?B?bDdQZnVycUl1b0ZwWEhKWGUvL1RlWVNTL0MxUGlTNTFUMWdYKzN3Uy9JU3JN?=
- =?utf-8?B?RmVVdGlnSUJaZlBuRURrajFrUURVRC9DaDhKVm9wSU9nUlA1UStLODNOWHUy?=
- =?utf-8?B?WDdDV1d5YW02V0NhUlJLUWVnQVlqaDkxdHM0am1iZkdwUFlBVGlsV05xSlRL?=
- =?utf-8?B?YktKUVUvUDZOSGtKRE1tS2s0TEtSM1ZwN0VaQzBDanZTOU8rVEY5ZkM4ejds?=
- =?utf-8?B?czBWcnBiRFVzRm4wcmJ3TWhUQ2NIbk9URVo3WW9VNVZXUGRSSzc5RThLdW96?=
- =?utf-8?B?anEzcW9PTG5RTERnU0VNV2EwMlc3dExrcjMzRlFKMFZldzQwVDAxNGJVVE9k?=
- =?utf-8?B?czIwOTNjL1UrNEQvb2ZpMEJXTjVTT0U5cXNTa083OXpaRytWR1JISEsyd2RG?=
- =?utf-8?B?VzdRZnd6elY0V1pGSE1WN3JrNnlUY1Y1ZjNxdEQxbDAvc0xBT1Z5c3k1MUxa?=
- =?utf-8?B?Tm5vU09ZTncwbytWWUcyREhtaDJZNDVIckRnWmdrMlZvMGZBdXZYeW9WM2Jz?=
- =?utf-8?B?ajAxdGNkUFFkTkhDSVF0Vm1tM1A4QnZsU3hRN0RLNXYxSG5ZUDhqdEN6Mk9o?=
- =?utf-8?B?Y0gyejJWUTFFTEg3WHo2OVA4aTZnZk1VUzRwSzBUK2ZqZE1FbkJoWC8yeko0?=
- =?utf-8?B?Y2c9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?NkVaM2NlU29FazVXQzY5SzlVK1NLZUVCTW5xMnV2alh5Ny9mdEFvV1JIc3lq?=
- =?utf-8?B?UjRPVTVpaitEejYvWWhLZXYvMGUxMnFwdlYzdlBUaVd3Q2xVeFJSVStnbE9n?=
- =?utf-8?B?OWsxdm5WMWtJb3RyRE0vRkRIVXBiWThXcjZrblJlOS8zU2V3RTRDN0h5SlJ0?=
- =?utf-8?B?dFJUWk90d3Z3SHRxNFNCUTdqMHp6eTJwWjh3bWxKSDdzYmVVVmF0S0d3SWFD?=
- =?utf-8?B?T3RER3MydVh0THFCS25XblZ5UWxIWE9ub1lZdVBaR2Q5YWN3L083Mm9ncnFE?=
- =?utf-8?B?S0tBREhad3FjRFpReHFnZkFtSll5ZFZSa3RDR2xFNVZGMnRVSyt0QWJvMGhj?=
- =?utf-8?B?QTNzMmJvR2VxNTZodXdiMVhKVWJxUkcyVjhxWjh5T216YXgyZldXSHJUUjhM?=
- =?utf-8?B?T0RKQUxKUDIyN3dmc1hlOEhGN2xmZ3hSSHNHZjI1MTYrQVhPSnJEQjdWWEp4?=
- =?utf-8?B?b2FocmZJTnkzNWo5czJ0Szc4aFM5RmM1Rkh6N0ZaMlRyTS9DM09odmx4Mjds?=
- =?utf-8?B?Y1VjY1hvdWJzeFdCMkw5U0hBcURJMjF6Zkc4ckVhcmZVdGNYaldteGxkT015?=
- =?utf-8?B?NEI1aXppSnFOT3VqUUJiV1IycUFocFdHZzZKdW1kQ1lRZ3lkUGY3QlVnejV2?=
- =?utf-8?B?Zy8yVk54azRXOUZMRWhVVm9malF5cFRIanBwQmJqbC9ncjM3SzFOMkNrL2hW?=
- =?utf-8?B?b25udzB4emY1RlMxLzVlNDBvZmU4MEdRbHZCVTh2ZjBRTm1sRm9GY3NWNVM1?=
- =?utf-8?B?ZWZiWjducHVpOWZKMHFNQzFwNkRwWHBxemNyMXFLRGE0QjhBTlk4cmRySXlZ?=
- =?utf-8?B?QXRpNlAxVXhBcUZ6eFNPY2lrZHdWR295WGJmR3F1bncvZFk0TjZ5UXdRejY5?=
- =?utf-8?B?ZkVXcElISGE1ZWl3eUoxSkdxdHFuS3JkTkZlRmpUQi9USTBUTjJwRDVpVjFK?=
- =?utf-8?B?K29Sd1crcmZsZlgzSnA2bHhYVWYxMzJNM3YyN3JJZW1JUkpZR0lLVzE2MHZu?=
- =?utf-8?B?eUIvZUxLNzZ0dWpORHlBdy9KSndDVGh2aVp6cTljRlJkcG05U3NNS1NUNlh1?=
- =?utf-8?B?OStuazhxNHdjb1d0MjEya3E1dm80SGEyV3hzZi9qUUdnN1hTdHZBY0IxK2ZS?=
- =?utf-8?B?NmpYMXVYN0Q4VjBmM2VlQ1hPekVkMUczaUJvQVEzSVhSSDRibDhRb2k3b3Y5?=
- =?utf-8?B?V3lac0hRNnhMNWF2SzhsNkcyajlVb1daeWgrY0xJQUMrdVlCZUdhV0I3RjZz?=
- =?utf-8?B?dHl0MXpXMnJ3bnpLQi9McFBBNU9uSkg5djE1eHh3TjBuc0NwVVV1RWpvY21T?=
- =?utf-8?B?aFpBam1kaEFxaDJzNCtscUNIVFRtZ0lwSTVVRnJ0ekx0a2kwU1JjZVprczd1?=
- =?utf-8?B?RXVSZzJzYTZjMy9NWnYvZDJTWGJaOVkzSVYxdXF1Uk5kOHJzUnlLTGROZm9O?=
- =?utf-8?B?c0Rmck1JZDI1U2Q4Q2RIdmF5VDlZd3VTNVhidWNDdlZRTmxaMTBJeG9NU2xX?=
- =?utf-8?B?eFRlbGQ3U2pyQUtTRU1ua2s1Wm96QndRQjh2ZlRuVnFMZnBGZWt0cUZ1WWlu?=
- =?utf-8?B?QU1qdGJ1TnY3bnZzOXRJblVPb3Bmb3NremZxYXM4RWp5VWNTQVFLQVkyR21H?=
- =?utf-8?B?UWNHcDNBRFpLWTRObmhTSjZBbEtic1c3WHJpaEdFUTJtUmtQWURtUVJiRFNi?=
- =?utf-8?B?ZzZLZjMzRWVqMVU3c2l3dzk0K0ZVZzVYM1BtbDY4N0hnR0Qvb2hSYThyMXdR?=
- =?utf-8?Q?9IDnOAtTNHqrtyRzz8QsZShs3q0lUbOZmiY8Iwu?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f7c0ac0-304c-4b62-635b-08db1e271b05
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5433.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2023 09:42:31.2403
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2zfEL9xGzrlCh3U7HitlbUJCYsXtvCkmI94O5tQ4/gu5rYTC1ESF3x1mmP+lOCEtGMRgJ1RTp0w4tq/6lLlsSLztfH/SauiExY427frQ4v4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5725
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-06_02,2023-03-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 bulkscore=0
- adultscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303060084
-X-Proofpoint-GUID: OGUiLVnaKfR2v9XY6t3avDSnIimI3Z8o
-X-Proofpoint-ORIG-GUID: OGUiLVnaKfR2v9XY6t3avDSnIimI3Z8o
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This all came up in the context of increasing COMMAND_LINE_SIZE in the
+RISC-V port.  In theory that's a UABI break, as COMMAND_LINE_SIZE is the
+maximum length of /proc/cmdline and userspace could staticly rely on
+that to be correct.
 
-On 3/6/23 07:02, Greg Kroah-Hartman wrote:
-> On Sun, Mar 05, 2023 at 11:00:03PM +0100, Vegard Nossum wrote:
->> Lots of people have been confused about the 7/14 days of the kernel list
->> vs. the 7/14 days of the distros list, the fact that these are two
->> separate lists, etc. Many reporters contact distros first, or submit
->> their report to both lists at the same time (which has the unfortunate
->> effect of starting off the disclosure countdown for the distros list
->> before s@k.o has had a chance to look at the report). I've shared the v2
->> document with a couple of people who submitted reports and they said
->> they found it a lot clearer.
->>
->> Probably the easiest way to see the end result of this series is to view the
->> rendered HTML which I've put here:
->> https://vegard.github.io/security-v3/Documentation/output/process/security-bugs.html
-> 
-> Thanks for doing this, it looks much better, but I do have some
-> objections with it.
-> 
-> First off, you didn't cc: the security@k.o group to see if they agree
-> with this, any specific reason why?  :)
+Usually I wouldn't mess around with changing this sort of thing, but
+PowerPC increased it with a5980d064fe2 ("powerpc: Bump COMMAND_LINE_SIZE
+to 2048").  There are also a handful of examples of COMMAND_LINE_SIZE
+increasing, but they're from before the UAPI split so I'm not quite sure
+what that means: e5a6a1c90948 ("powerpc: derive COMMAND_LINE_SIZE from
+asm-generic"), 684d2fd48e71 ("[S390] kernel: Append scpdata to kernel
+boot command line"), 22242681cff5 ("MIPS: Extend COMMAND_LINE_SIZE"),
+and 2b74b85693c7 ("sh: Derive COMMAND_LINE_SIZE from
+asm-generic/setup.h.").
 
-I did consider it, but thought it was better not to since this is not
-a security issue -- but I see it's actually listed in MAINTAINERS (in an
-entry I'm changing, no less... *facepalm*)
+It seems to me like COMMAND_LINE_SIZE really just shouldn't have been
+part of the uapi to begin with, and userspace should be able to handle
+/proc/cmdline of whatever length it turns out to be.  I don't see any
+references to COMMAND_LINE_SIZE anywhere but Linux via a quick Google
+search, but that's not really enough to consider it unused on my end.
 
-Added to Cc, beginning of the thread is here:
-https://lore.kernel.org/all/20230305220010.20895-1-vegard.nossum@oracle.com/
+This issue was already considered in s390 and they reached the same
+conclusion in commit 622021cd6c56 ("s390: make command line
+configurable").
 
-> Secondly, and the bigger one, I think we should just drop all of the
-> references to linux-distros and oss-security entirely, as those are
-> groups that are outside of our control and interaction and have
-> different rules that we might not agree with.
+The feedback on the v1 seemed to indicate that COMMAND_LINE_SIZE really
+shouldn't be part of uapi, so this now touches all the ports.  I've
+tried to split this all out and leave it bisectable, but I haven't
+tested it all that aggressively.
 
-I find this a strange sentiment. All the major Linux distros have a
-presence on the distros list and it remains a valuable resource for
-coordination.
+Changes since v4 <https://lore.kernel.org/all/20230302093539.372962-1-alexghiti@rivosinc.com/>:
+* Add my own SoB as suggested by Geert
+* Add riscv patches as suggested by Björn
+* Remove "WITH Linux-syscall-note" from new setup.h not in uapi/, as
+  suggested by Greg KH, his quoted answer below:
 
-I think most of the friction of the past should have been resolved by
-the distros list actually updating its rules last year (if not 100%
-according to your wishes, at least a good step in that direction), any
-remaining problems should hopefully be resolved by improving the
-documentation so that issues are not sent to the distros list prematurely.
+"The "syscall note" makes no sense at all for any files not in the uapi/
+directory, so you can remove it just fine as that WITH doesn't mean
+anything _UNLESS_ the file is in the uapi directory."
 
-> They also just a tiny subset of Linux users and companies and as such
-> do not really reflect the majority of where Linux is used anymore.
-Is the elephant in the room that Android vendors are not rolling out
-kernel updates in the 7-14 days given by distros to publicly disclose
-the reported issues? If so, then I think this is the real issue here,
-and it should be stated outright.
+Changes since v3 <https://lore.kernel.org/all/20230214074925.228106-1-alexghiti@rivosinc.com/>:
+* Added RB/AB
+* Added a mention to commit 622021cd6c56 ("s390: make command line
+  configurable") in the cover letter
 
-> But overall I like the slimmer size, so perhaps the end result just
-> being the first two major sections would be best.  Let me take those
-> changes first and we can see how the result looks for now to see if that
-> will resolve some of the major issues the security@k.o group have right
-> now with reports (i.e. CVE requests, other group's disclosure rules and
-> dates).
+Changes since v2 <https://lore.kernel.org/all/20221211061358.28035-1-palmer@rivosinc.com/>:
+* Fix sh, csky and ia64 builds, as reported by kernel test robot
 
-I personally think it would be a mistake not to include the info about
-the other lists, both because I think they have real value (and I do
-think they represent Linux kernel users, if not kernel developers) but
-also because, as Willy said, people will find the wrong information
-elsewhere and submit issues anyway, people are still going to want to
-request CVEs (regardless of what you or I think about them), etc.
+Changes since v1 <https://lore.kernel.org/all/20210423025545.313965-1-palmer@dabbelt.com/>:
+* Touches every arch.
 
-Anyway, I don't represent s@k.o so I don't decide, I really just want
-security for end users and as responsible disclosure as we can hope for.
-The patches are out there so feel free to use whatever you want from them.
+base-commit-tag: next-20230207
 
-Thanks for looking it over.
+Alexandre Ghiti (2):
+  riscv: Remove COMMAND_LINE_SIZE from uapi
+  riscv: Remove empty <uapi/asm/setup.h>
 
+Palmer Dabbelt (24):
+  alpha: Remove COMMAND_LINE_SIZE from uapi
+  arm64: Remove COMMAND_LINE_SIZE from uapi
+  arm: Remove COMMAND_LINE_SIZE from uapi
+  ia64: Remove COMMAND_LINE_SIZE from uapi
+  m68k: Remove COMMAND_LINE_SIZE from uapi
+  microblaze: Remove COMMAND_LINE_SIZE from uapi
+  mips: Remove COMMAND_LINE_SIZE from uapi
+  parisc: Remove COMMAND_LINE_SIZE from uapi
+  powerpc: Remove COMMAND_LINE_SIZE from uapi
+  sparc: Remove COMMAND_LINE_SIZE from uapi
+  xtensa: Remove COMMAND_LINE_SIZE from uapi
+  asm-generic: Remove COMMAND_LINE_SIZE from uapi
+  alpha: Remove empty <uapi/asm/setup.h>
+  arc: Remove empty <uapi/asm/setup.h>
+  m68k: Remove empty <uapi/asm/setup.h>
+  arm64: Remove empty <uapi/asm/setup.h>
+  microblaze: Remove empty <uapi/asm/setup.h>
+  sparc: Remove empty <uapi/asm/setup.h>
+  parisc: Remove empty <uapi/asm/setup.h>
+  x86: Remove empty <uapi/asm/setup.h>
+  xtensa: Remove empty <uapi/asm/setup.h>
+  powerpc: Remove empty <uapi/asm/setup.h>
+  mips: Remove empty <uapi/asm/setup.h>
+  s390: Remove empty <uapi/asm/setup.h>
 
-Vegard
+ .../admin-guide/kernel-parameters.rst         |  2 +-
+ arch/alpha/include/asm/setup.h                |  4 +--
+ arch/alpha/include/uapi/asm/setup.h           |  7 -----
+ arch/arc/include/asm/setup.h                  |  1 -
+ arch/arc/include/uapi/asm/setup.h             |  6 -----
+ arch/arm/include/asm/setup.h                  |  1 +
+ arch/arm/include/uapi/asm/setup.h             |  2 --
+ arch/arm64/include/asm/setup.h                |  3 ++-
+ arch/arm64/include/uapi/asm/setup.h           | 27 -------------------
+ arch/ia64/include/asm/setup.h                 | 10 +++++++
+ arch/ia64/include/uapi/asm/setup.h            |  6 ++---
+ arch/loongarch/include/asm/setup.h            |  2 +-
+ arch/m68k/include/asm/setup.h                 |  3 +--
+ arch/m68k/include/uapi/asm/setup.h            | 17 ------------
+ arch/microblaze/include/asm/setup.h           |  2 +-
+ arch/microblaze/include/uapi/asm/setup.h      | 20 --------------
+ arch/mips/include/asm/setup.h                 |  3 ++-
+ arch/mips/include/uapi/asm/setup.h            |  8 ------
+ arch/parisc/include/{uapi => }/asm/setup.h    |  2 +-
+ arch/powerpc/include/asm/setup.h              |  2 +-
+ arch/powerpc/include/uapi/asm/setup.h         |  7 -----
+ arch/riscv/include/asm/setup.h                |  7 +++++
+ arch/riscv/include/uapi/asm/setup.h           |  8 ------
+ arch/s390/include/asm/setup.h                 |  1 -
+ arch/s390/include/uapi/asm/setup.h            |  1 -
+ arch/sh/include/asm/setup.h                   |  2 +-
+ arch/sparc/include/asm/setup.h                |  6 ++++-
+ arch/sparc/include/uapi/asm/setup.h           | 16 -----------
+ arch/x86/include/asm/setup.h                  |  2 --
+ arch/x86/include/uapi/asm/setup.h             |  1 -
+ arch/xtensa/include/{uapi => }/asm/setup.h    |  2 +-
+ include/asm-generic/Kbuild                    |  1 +
+ include/{uapi => }/asm-generic/setup.h        |  0
+ include/uapi/asm-generic/Kbuild               |  1 -
+ 34 files changed, 40 insertions(+), 143 deletions(-)
+ delete mode 100644 arch/alpha/include/uapi/asm/setup.h
+ delete mode 100644 arch/arc/include/uapi/asm/setup.h
+ delete mode 100644 arch/arm64/include/uapi/asm/setup.h
+ create mode 100644 arch/ia64/include/asm/setup.h
+ delete mode 100644 arch/m68k/include/uapi/asm/setup.h
+ delete mode 100644 arch/microblaze/include/uapi/asm/setup.h
+ delete mode 100644 arch/mips/include/uapi/asm/setup.h
+ rename arch/parisc/include/{uapi => }/asm/setup.h (63%)
+ delete mode 100644 arch/powerpc/include/uapi/asm/setup.h
+ create mode 100644 arch/riscv/include/asm/setup.h
+ delete mode 100644 arch/riscv/include/uapi/asm/setup.h
+ delete mode 100644 arch/s390/include/uapi/asm/setup.h
+ delete mode 100644 arch/sparc/include/uapi/asm/setup.h
+ delete mode 100644 arch/x86/include/uapi/asm/setup.h
+ rename arch/xtensa/include/{uapi => }/asm/setup.h (84%)
+ rename include/{uapi => }/asm-generic/setup.h (100%)
+
+-- 
+2.37.2
+
