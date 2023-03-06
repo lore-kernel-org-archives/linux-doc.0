@@ -2,83 +2,195 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54013C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 22:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C7D3C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 23:03:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbjCFWdz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 17:33:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34384 "EHLO
+        id S229879AbjCFXDd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 18:03:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbjCFWdy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 17:33:54 -0500
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D9A830D7;
-        Mon,  6 Mar 2023 14:33:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-        bh=2y0NjxrS3Q5GoOlQaWYkv98PUAGadMtF3mRneW7e7Y0=; b=RUTrNJjHjpQbA8gXkilZ5f8RW0
-        5xGQI87mWD6x8uA1kT7h/1FUcSOqQwHYW08hFROzOjwsTaKkir9kSRd3N7pB6HJp9F1LCjaPrUAyv
-        KfmvyXVtfdduBsq0JjZaaGsBYmztGWLFvWRfZ8yBy/YluMfuzPNnVOTUf4N3VjyI5XH2hYt1RrNNo
-        +UcP+B+CzHHXrOhxbCFggJl/Db3Jg1tjp1EqU5puhPItYRA8OQ0SbdrUFNLHMMJCgdE7fhquWd1W9
-        50J0/gCn8Ls//t0NhXQpXNbBdXBVLzMCpoHcIORWYpafKRPZRAAP8F4C8tjeaWTNExJQvknnKM0aM
-        nhfgIiCQ==;
-Received: from sslproxy02.your-server.de ([78.47.166.47])
-        by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1pZJOw-000CQj-Nd; Mon, 06 Mar 2023 23:33:50 +0100
-Received: from [85.1.206.226] (helo=linux.home)
-        by sslproxy02.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1pZJOw-000OXZ-76; Mon, 06 Mar 2023 23:33:50 +0100
-Subject: Re: [PATCH 0/2] Hyperlink fixes for BPF QA documentation
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux BPF <bpf@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jesper Dangaard Brouer <brouer@redhat.com>
-References: <20230228074523.11493-1-bagasdotme@gmail.com>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <fd32d4eb-451e-23cd-d99b-294e99f8cc66@iogearbox.net>
-Date:   Mon, 6 Mar 2023 23:33:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        with ESMTP id S229688AbjCFXDd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 18:03:33 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 032B732CFC;
+        Mon,  6 Mar 2023 15:03:32 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so14734203pjg.4;
+        Mon, 06 Mar 2023 15:03:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678143811;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Faxcnm+gnV6yaEFvioUQPdzwe/7YrA9kfzZX61U9lpo=;
+        b=WpthXM2okZuDw48FetvHdPGd++0nvgiHT6aSelJpZJ/pjQR+AT60IelDOi73jmlE5/
+         rgYXilGCGa7pHHjPEWmH8YcAi1zy8ExgAuKThawg+wqM51OCLA28Zu3WW6dMkodPB6Sa
+         JL/IXir+GMaKG7vTgmrzHDRZMvpNSVxCECnvrwJ+D7sLoKw3Y494PNPgleDtRDwFPb5Z
+         br7H8Pbav3ukjsb4rjjtRRem+poIkUAMzymodeWLO9ujgpZekww3fqOIruaYvBSQ7dzv
+         tiqZ8oVnvFpInsKrWcNGhIfFH8KkE+a4C3hJ0SY4bbGpAflTD6IJAheKPBMM2gJeKDfb
+         z9oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678143811;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Faxcnm+gnV6yaEFvioUQPdzwe/7YrA9kfzZX61U9lpo=;
+        b=coKKq0oGfmNINvCaau5kIx70lozxxxcv9/qwXa+g7bnqgnJq6kd0YKOx/uBzYJm205
+         XAndnTQcjGwUqbHhH96L9LyR1ZCzjTFJWa40rBcS/pQ7VQe4+A1ayIZxWm3rnHn+aWnW
+         BhHeJMANQ3PFbAqgMylsgUIDl1YZ0xFMvfKWrEMfK9sjmJjK8flI/hAsLEoKhUpoNStR
+         c+IDJaoXs13yrhCQXo/yvIBeJ6a7d6SfxOcU+XF/8kTGQzHsaHAasFizoNfx2hh6l+WG
+         Hzkd4ZdUBR87wnde3zDekmCjtV18V7rTtJT6MJYx7w/wnAhDPtfC/68t9uzhydvgVba3
+         d5LQ==
+X-Gm-Message-State: AO0yUKWuh9vuJE39TuR3TuPsFNvcdbaHaMPX01O2LP1HL4x+t1QYxi/G
+        UbTHkoaBInFlxlQAx7TZwuw=
+X-Google-Smtp-Source: AK7set+sT6beC1v6mjrUcP18VgL9BGyqGoRY2d+72btj1X44/blFh7C8dlFaEaV/4L+Ky/rHMPhx0Q==
+X-Received: by 2002:a17:902:c103:b0:19e:7611:7162 with SMTP id 3-20020a170902c10300b0019e76117162mr11108693pli.16.1678143811362;
+        Mon, 06 Mar 2023 15:03:31 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id b23-20020a170902b61700b0019c3296844csm7161983pls.301.2023.03.06.15.03.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Mar 2023 15:03:30 -0800 (PST)
+Message-ID: <dbd8ece3-fb92-9ca3-917b-4951af7e1593@gmail.com>
+Date:   Tue, 7 Mar 2023 08:03:28 +0900
 MIME-Version: 1.0
-In-Reply-To: <20230228074523.11493-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] docs/sp_SP: Add process deprecated translation
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.8/26833/Mon Mar  6 09:22:59 2023)
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sergio.collado@gmail.com,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <20230306134420.30210-1-carlos.bilbao@amd.com>
+ <38cb9f23-a56a-f420-5942-0bfeb620306e@gmail.com>
+ <875b2564-589b-c381-cbf0-f30470d4a5a8@amd.com>
+ <6f1d8954-586b-efea-526b-ef461b5624df@gmail.com>
+ <2b4f177b-3b8a-fef6-e7a5-692db347679e@amd.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <2b4f177b-3b8a-fef6-e7a5-692db347679e@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/28/23 8:45 AM, Bagas Sanjaya wrote:
-> When the broken link fix for Documentation/bpf/bpf_devel_QA.rst was
-> applied, Daniel Borkmann asked me to also fix some other links in the
-> documentation [1]. So here is the series.
-> 
-> The fixes in the shortlog below should be self-explanatory.
-> 
-> [1]: https://lore.kernel.org/linux-doc/7cd545a2-4a5c-1961-1cf7-cd0f24e41df8@iogearbox.net/
-> 
-> Bagas Sanjaya (2):
->    Documentation: bpf: Do not link to docs.kernel.org for kselftest link
->    Documentation: bpf: Link to submitting-patches.rst for general patch
->      submission info
+On Mon, 6 Mar 2023 09:34:29 -0600, Carlos Bilbao wrote:
+> On 3/6/23 09:30, Akira Yokosawa wrote:
+>> On 2023/03/07 0:20, Carlos Bilbao wrote:
+>>> Hello Akira,
+>>>
+>>> On 3/6/23 09:13, Akira Yokosawa wrote:
+>>>> Hi Carlos,
+>>>>
+>>>> Minor nits in the Subject and Sob area.
+>>>>
+>>>> On Mon, 6 Mar 2023 07:44:20 -0600, Carlos Bilbao wrote:
+>>>>> Subject: [PATCH] docs/sp_SP: Add process deprecated translation
+>>>>
+>>>> This summary looks ambiguous to me.
+>>>>
+>>>> Maybe
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 docs/sp_SP: Add translation of process/depr=
+ecated
+>>>
+>>> This summary follows the same format followed in the past. Some examp=
+les:
+>>>
+>>> docs/sp_SP: Add process coding-style translation
+>>> docs/sp_SP: Add process magic-number translation
+>>> docs/sp_SP: Add process programming-language translation
+>>> docs/sp_SP: Add process email-clients translation
+>>
+>> Let me explain why "Add process deprecated translation" looks
+>> ambiguous.
+>>
+>> "deprecated translation" can be interpreted as "some translation
+>> which is deprecated".
+>> Of course you don't need to agree.
+>=20
+> I see what you mean. I'm sending v2 patch renamed to avoid confusion.
+>=20
+>>
+>>>
+>>>>
+>>>> ??
+>>>>
+>>>>> Translate Documentation/process/deprecated.rst into Spanish.
+>>>>>
+>>>>> Co-developed-by: Carlos Bilbao <carlos.bilbao@amd.com>
+>>>>> Signed-off-by: Sergio Gonzalez <sergio.collado@gmail.com>
+>>>>> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+>>>>
+>>>> To me, Co-developed-by: from the author of the patch looks
+>>>> strange, because it is obvious the author did some development on
+>>>> the patch.
+>>>>
+>>>
+>>> No, we both worked on this patch so Co-developed-by: is the appropria=
+te
+>>> tagging. That being said, Sergio translated more than I did, so I put=
 
-The series got applied to bpf, thanks!
+>>> him as sole Translator in the document itself.
+>>
+>> Hmm, anyway I don't think you are following the rule of Co-developed-b=
+y:
+>> explained in submitting-patches.rst.
+>>
+>> Again, you don't need to agree... ;-)
+>=20
+> But, why doesn't it follow the rule?
+>=20
+> The rule is "A Co-Developed-by: states that the patch was also created =
+by another developer along with the original author. This is useful at ti=
+mes when multiple people work on a single patch."
+>=20
+> IMHO this is the case here, but before I send v2 I'll wait to read you =
+again in case we agree at that point.
+
+If you put "From: Sergio" as the first line in the Changelog, like
+this submission [1], then the Sob chain would make sense.
+
+[1]: https://lore.kernel.org/linux-doc/20230227222957.24501-2-rick.p.edge=
+combe@intel.com/
+
+Didn't you forgot to put it there?
+
+Just guessing...
+
+        Thanks, Akira
+
+>=20
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Thanks, Akira
+>>
+>>>
+>>>> Which is your intent:
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 Author: Carlos
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 Co-developer: Sergio
+>>>>
+>>>> , or
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 Author: Sergio
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 Co-developer: Carlos
+>>>>
+>>>> ???
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Thanks, Akira=
+
+>>>>
+>>>>> ---
+>>>>> =C2=A0=C2=A0 .../translations/sp_SP/process/deprecated.rst | 381 ++=
+++++++++++++++++
+>>>>> =C2=A0=C2=A0 .../translations/sp_SP/process/index.rst=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+>>>>> =C2=A0=C2=A0 2 files changed, 382 insertions(+)
+>>>>> =C2=A0=C2=A0 create mode 100644 Documentation/translations/sp_SP/pr=
+ocess/deprecated.rst
+>>>> [...]
+>>>
+>>> Thanks,
+>>> Carlos
+>=20
+> Thanks,
+> Carlos
