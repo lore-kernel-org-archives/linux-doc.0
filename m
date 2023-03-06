@@ -2,116 +2,209 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB4D6C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 07:12:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9031EC6FD19
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 08:08:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229609AbjCFHMX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 02:12:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46450 "EHLO
+        id S229578AbjCFIIQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 03:08:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjCFHMW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 02:12:22 -0500
-Received: from 1wt.eu (wtarreau.pck.nerim.net [62.212.114.60])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 334BBAD1B;
-        Sun,  5 Mar 2023 23:12:21 -0800 (PST)
-Received: (from willy@localhost)
-        by mail.home.local (8.17.1/8.17.1/Submit) id 3267Bc41005636;
-        Mon, 6 Mar 2023 08:11:38 +0100
-Date:   Mon, 6 Mar 2023 08:11:38 +0100
-From:   Willy Tarreau <w@1wt.eu>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Jiri Kosina <jkosina@suse.cz>,
-        Solar Designer <solar@openwall.com>,
-        Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Amit Shah <aams@amazon.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        with ESMTP id S229510AbjCFIIP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 03:08:15 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8959286A6;
+        Mon,  6 Mar 2023 00:08:11 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E1E6E1EC0554;
+        Mon,  6 Mar 2023 09:08:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1678090090;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=SCgxwhfA8a2XzbeTj8pvN/P7ji/tBRIr/iWcDVYJ/Qg=;
+        b=hT6yTUHCM7iuFYwq3kiPpevrJfbf4NruRD+AiFavDW1R6kYkHTKRc/xTU5hzHlHM6vNlww
+        7jJxJGZh0qVyTqFR6adcA6K1PvN+XdSFZAVoo3V++d05KbDQ6rcktqT4oC+5k+UJO7/RW9
+        PC9GbmSz3dUK8wPBfDmFSPsylMM0BzE=
+Date:   Mon, 6 Mar 2023 09:08:05 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>
-Subject: Re: [PATCH v3 0/7] Documentation/security-bugs: overhaul
-Message-ID: <ZAWSKrbaQ6nm3qNe@1wt.eu>
-References: <20230305220010.20895-1-vegard.nossum@oracle.com>
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v7 21/41] mm: Add guard pages around a shadow stack.
+Message-ID: <ZAWfZcJLXUfNt1Fs@zn.tnic>
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-22-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230305220010.20895-1-vegard.nossum@oracle.com>
+In-Reply-To: <20230227222957.24501-22-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vegard,
+Just typos:
 
-first, thanks for doing this work.
+On Mon, Feb 27, 2023 at 02:29:37PM -0800, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> 
+> The x86 Control-flow Enforcement Technology (CET) feature includes a new
+> type of memory called shadow stack. This shadow stack memory has some
+> unusual properties, which requires some core mm changes to function
+> properly.
+> 
+> The architecture of shadow stack constrains the ability of userspace to
+> move the shadow stack pointer (SSP) in order to  prevent corrupting or
+> switching to other shadow stacks. The RSTORSSP can move the ssp to
+						^
+						instruction
 
-On Sun, Mar 05, 2023 at 11:00:03PM +0100, Vegard Nossum wrote:
-> Probably the easiest way to see the end result of this series is to view the
-> rendered HTML which I've put here:
-> https://vegard.github.io/security-v3/Documentation/output/process/security-bugs.html
+s/ssp/SSP/g
 
-I'm seeing a few points that could be improved but I don't have much to
-propose right now, I'll just enumerate issues we've faced in the past or
-that continue to pop up from time to time and that require extra effort
-from the team:
 
-  - I'm not seeing anywhere that the security list is *exclusively*
-    for kernel issues. That might explain why about once a week or so
-    we receive messages like "there's a bug in that userland tool" or
-    "we've found an XSS issue on your website". It's written that kernel
-    bugs should be reported to the security list but I think we should
-    strengthen that by adding "This list is exclusively used for Linux
-    kernel security reports, please do not report issues affecting any
-    other component there".
+> different shadow stacks, but it requires a specially placed token in order
+> to do this. However, the architecture does not prevent incrementing the
+> stack pointer to wander onto an adjacent shadow stack. To prevent this in
+> software, enforce guard pages at the beginning of shadow stack vmas, such
 
-  - we always need to be able to describe the nature of a bug in the
-    commit message so that if the patch is found to cause a regression,
-    its purpose can at least be understood and argumented. It happened
-    at least once that we were requested not to explain the details
-    because a paper was about to be issued, and that's not acceptable
-    at all because it means that it becomes very complicated to have
-    public discussions about possible forthcoming issues. I think that
-    after the paragraph suggesting that the details of an issue or its
-    exploit code might not always be published, it could be useful to
-    mention something along the fact that the reporter shall not
-    request the security team to withhold technical details about the
-    issue as long as it doesn't represent an imminent danger.
+VMAs
 
-  - it's quite frequent that reporters post from dummy addresses,
-    looking like randomly generated ones (we even had one looking
-    like a smiley). It doesn't help to communicate with them at all.
-    I can understand how some working as consultants for a customer
-    would want to avoid disclosing a particular relation between their
-    finding and their customer, but at least they should indicate how
-    they should be called. I.e. "call me Margarett" is not difficult
-    and simplifies exchanges when the address is "69236836@example.com".
-    And often we see at the end that they're willing to provide a real
-    name to be credited for the finding, so most likely starting with
-    this real name could be easier.
+> that there will always be a gap between adjacent shadow stacks.
+> 
+> Make the gap big enough so that no userspace SSP changing operations
+> (besides RSTORSSP), can move the SSP from one stack to the next. The
+> SSP can increment or decrement by CALL, RET  and INCSSP. CALL and RET
 
-  - it's more a discussion for the list itself, but the wording continues
-    to make one think that the reporter should expect the list members to
-    develop a patch, while in practise the first thing that's asked is
-    "since you've studied the problem well, do you happen to have a patch?".
-    And it happened a few times that in response we got "oops sorry, I
-    analysed it wrong, there's no issue there". I think the text should
-    emphasize more on encouraging submitters to complete their work with
-    a patch proposal (that's also helpful to confirm an analysis). And
-    conversely I think that reports for non-immediately exploitable issues
-    that are found by code analyzers (and almost always come without a
-    patch) should not be sent to this list and should be discussed and
-    addressed publicly instead. It's more efficient and allows more
-    knowledgeable participants to have their say on the root cause of
-    the problem and its possible solutions. That's of course not always
-    the case, but common sense should prevail here.
+"can be incremented or decremented"
 
-Thanks,
-Willy
+> can move the SSP by a maximum of 8 bytes, at which point the shadow
+> stack would be accessed.
+> 
+> The INCSSP instruction can also increment the shadow stack pointer. It
+> is the shadow stack analog of an instruction like:
+> 
+> 	addq    $0x80, %rsp
+> 
+> However, there is one important difference between an ADD on %rsp and
+> INCSSP. In addition to modifying SSP, INCSSP also reads from the memory
+> of the first and last elements that were "popped". It can be thought of
+> as acting like this:
+> 
+> READ_ONCE(ssp);       // read+discard top element on stack
+> ssp += nr_to_pop * 8; // move the shadow stack
+> READ_ONCE(ssp-8);     // read+discard last popped stack element
+> 
+> The maximum distance INCSSP can move the SSP is 2040 bytes, before it
+> would read the memory. Therefore a single page gap will be enough to
+				  ^
+				  ,
+
+
+> prevent any operation from shifting the SSP to an adjacent stack, since
+> it would have to land in the gap at least once, causing a fault.
+> 
+> This could be accomplished by using VM_GROWSDOWN, but this has a
+> downside. The behavior would allow shadow stack's to grow, which is
+
+s/stack's/stacks/
+
+> unneeded and adds a strange difference to how most regular stacks work.
+> 
+> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+> Tested-by: John Allen <john.allen@amd.com>
+> Tested-by: Kees Cook <keescook@chromium.org>
+> Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> 
+> ---
+> v5:
+>  - Fix typo in commit log
+> 
+> v4:
+>  - Drop references to 32 bit instructions
+>  - Switch to generic code to drop __weak (Peterz)
+> 
+> v2:
+>  - Use __weak instead of #ifdef (Dave Hansen)
+>  - Only have start gap on shadow stack (Andy Luto)
+>  - Create stack_guard_start_gap() to not duplicate code
+>    in an arch version of vm_start_gap() (Dave Hansen)
+>  - Improve commit log partly with verbiage from (Dave Hansen)
+> 
+> Yu-cheng v25:
+>  - Move SHADOW_STACK_GUARD_GAP to arch/x86/mm/mmap.c.
+> ---
+>  include/linux/mm.h | 31 ++++++++++++++++++++++++++-----
+>  1 file changed, 26 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 097544afb1aa..6a093daced88 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -3107,15 +3107,36 @@ struct vm_area_struct *vma_lookup(struct mm_struct *mm, unsigned long addr)
+>  	return mtree_load(&mm->mm_mt, addr);
+>  }
+>  
+> +static inline unsigned long stack_guard_start_gap(struct vm_area_struct *vma)
+> +{
+> +	if (vma->vm_flags & VM_GROWSDOWN)
+> +		return stack_guard_gap;
+> +
+> +	/*
+> +	 * Shadow stack pointer is moved by CALL, RET, and INCSSPQ.
+> +	 * INCSSPQ moves shadow stack pointer up to 255 * 8 = ~2 KB
+> +	 * and touches the first and the last element in the range, which
+> +	 * triggers a page fault if the range is not in a shadow stack.
+> +	 * Because of this, creating 4-KB guard pages around a shadow
+> +	 * stack prevents these instructions from going beyond.
+
+I'd prefer the equivalant explanation above from the commit message - it
+is more precise.
+
+> +	 *
+> +	 * Creation of VM_SHADOW_STACK is tightly controlled, so a vma
+> +	 * can't be both VM_GROWSDOWN and VM_SHADOW_STACK
+> +	 */
+> +	if (vma->vm_flags & VM_SHADOW_STACK)
+> +		return PAGE_SIZE;
+> +
+> +	return 0;
+> +}
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
