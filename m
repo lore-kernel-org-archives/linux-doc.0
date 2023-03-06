@@ -2,85 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19B32C64EC4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 22:24:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54013C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 22:33:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbjCFWYv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 17:24:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52028 "EHLO
+        id S229818AbjCFWdz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 17:33:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229686AbjCFWYs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 17:24:48 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC5393B3E7;
-        Mon,  6 Mar 2023 14:24:47 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id k23so9733999ybk.13;
-        Mon, 06 Mar 2023 14:24:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678141487;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/HcUaH1X7Qi/9+4nj4EKlp5k2Eh7c4FkvNK1y/esUSw=;
-        b=d7Mv6PYebMheWEsnRKlnuNBlSyisVIT7UHqB0qDW3K/GE61M0+ebcEZ9JDPlyf6yXx
-         ozMi9hC41IDegX+/ey68MvRY2ZJdCl8IOe/RAnuO4dZZQkTdT/e7O1ALJWgppNBOHub6
-         XtSfoLsH7RA4ixmB2EXaBDdcpd/mHFLOVMtAG2/MXpqJwT+9JO2grSdS66Gclo1vdqpC
-         sbOzvtlqdy28Ge3HsxZKF3RkfVMO83mMydWNM8wekhAxZogxZSr2u0pqKeTQTeFsHx6k
-         M0pQtPxpjw6t5wHf4Lxpz0C9wupxrakjFD4RwqNhTWH9QEzs63c1nK0/97qn8oIet8+F
-         7q9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678141487;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/HcUaH1X7Qi/9+4nj4EKlp5k2Eh7c4FkvNK1y/esUSw=;
-        b=7oucTAT/MHKEOFhDjS7UrFXcC7OChDIvGSRoXVBJF3lFAklDJbBFRZvQVh8jkZerk+
-         h+hzKdyQY9HzNGGraVYoqEfwjL1Swb+JLH3jCaVcUC+ZgnTKzIp63ZKvPhWbmG29nm2t
-         nt+IKjNfMMf5fLihrPZ3GitBTz/KVTivgcIWMPvhmp69EH59X/1LrF8/zSvxEtCRgaXN
-         hu3oTsshw51N/eEaFQlxT6dCpD7qYyEeiNflq7/eKYc6dfn8sxKLWKe3odS0GRGcd7nu
-         D8ziMNlduAYWyBGFstoBp3FpfeiAa8RifKs8leF8EDGrGwLLhzUsmDULO2/VCHlpWt1N
-         +dyA==
-X-Gm-Message-State: AO0yUKVgsp950w3XMuEW8ssaonhMaD/hLwtB0sLr99wNRpshRs15WW3h
-        KMGwW0oUgOu2rdQGQDJx+yYh7hl4wr75b7hAEowiK92K4u7W2w==
-X-Google-Smtp-Source: AK7set+FoDileIaD0OWvYJM64YsRE7dvxESFqPRy2decGoDFbxTaGZa22p+SBzQ/yRdESBPE9Vk2vHp2udAy77V+S9E=
-X-Received: by 2002:a5b:585:0:b0:b13:7a6:f462 with SMTP id l5-20020a5b0585000000b00b1307a6f462mr1581883ybp.3.1678141486854;
- Mon, 06 Mar 2023 14:24:46 -0800 (PST)
+        with ESMTP id S229907AbjCFWdy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 17:33:54 -0500
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D9A830D7;
+        Mon,  6 Mar 2023 14:33:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+        bh=2y0NjxrS3Q5GoOlQaWYkv98PUAGadMtF3mRneW7e7Y0=; b=RUTrNJjHjpQbA8gXkilZ5f8RW0
+        5xGQI87mWD6x8uA1kT7h/1FUcSOqQwHYW08hFROzOjwsTaKkir9kSRd3N7pB6HJp9F1LCjaPrUAyv
+        KfmvyXVtfdduBsq0JjZaaGsBYmztGWLFvWRfZ8yBy/YluMfuzPNnVOTUf4N3VjyI5XH2hYt1RrNNo
+        +UcP+B+CzHHXrOhxbCFggJl/Db3Jg1tjp1EqU5puhPItYRA8OQ0SbdrUFNLHMMJCgdE7fhquWd1W9
+        50J0/gCn8Ls//t0NhXQpXNbBdXBVLzMCpoHcIORWYpafKRPZRAAP8F4C8tjeaWTNExJQvknnKM0aM
+        nhfgIiCQ==;
+Received: from sslproxy02.your-server.de ([78.47.166.47])
+        by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1pZJOw-000CQj-Nd; Mon, 06 Mar 2023 23:33:50 +0100
+Received: from [85.1.206.226] (helo=linux.home)
+        by sslproxy02.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1pZJOw-000OXZ-76; Mon, 06 Mar 2023 23:33:50 +0100
+Subject: Re: [PATCH 0/2] Hyperlink fixes for BPF QA documentation
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux BPF <bpf@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jesper Dangaard Brouer <brouer@redhat.com>
+References: <20230228074523.11493-1-bagasdotme@gmail.com>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <fd32d4eb-451e-23cd-d99b-294e99f8cc66@iogearbox.net>
+Date:   Mon, 6 Mar 2023 23:33:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-References: <20230306220959.240235-1-ojeda@kernel.org>
-In-Reply-To: <20230306220959.240235-1-ojeda@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 6 Mar 2023 23:24:35 +0100
-Message-ID: <CANiq72kF1wy0HWTPFaF3UKOvoZ19kdWe_mCAt8KxY9364-RE-w@mail.gmail.com>
-Subject: Re: [PATCH] docs: rust: point directly to the standalone installers
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230228074523.11493-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.103.8/26833/Mon Mar  6 09:22:59 2023)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 6, 2023 at 11:10=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
->
-> Thus point directly to the page (and anchor) with the table that
-> contains the standalone installers (plus signing key etc.).
+On 2/28/23 8:45 AM, Bagas Sanjaya wrote:
+> When the broken link fix for Documentation/bpf/bpf_devel_QA.rst was
+> applied, Daniel Borkmann asked me to also fix some other links in the
+> documentation [1]. So here is the series.
+> 
+> The fixes in the shortlog below should be self-explanatory.
+> 
+> [1]: https://lore.kernel.org/linux-doc/7cd545a2-4a5c-1961-1cf7-cd0f24e41df8@iogearbox.net/
+> 
+> Bagas Sanjaya (2):
+>    Documentation: bpf: Do not link to docs.kernel.org for kselftest link
+>    Documentation: bpf: Link to submitting-patches.rst for general patch
+>      submission info
 
-By the way, while it is fairly easy to figure out the links to
-previous stable releases, it would nevertheless be nice to have a way
-to show them. At least there is a `FIXME` comment in those docs about
-it:
-
-    https://github.com/rust-lang/rust-forge/blob/793249870cf7610ffe78dcb9c7=
-acc7efdbbcc713/src/infra/other-installation-methods.md?plain=3D1#L99-L101
-
-So I opened https://github.com/rust-lang/rust-forge/issues/676.
-
-Cheers,
-Miguel
+The series got applied to bpf, thanks!
