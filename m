@@ -2,160 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24986C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 12:55:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D7F0C6FD1B
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 13:01:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230308AbjCFMza (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 07:55:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54566 "EHLO
+        id S230458AbjCFNB5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 08:01:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230311AbjCFMz3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 07:55:29 -0500
-X-Greylist: delayed 599 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 06 Mar 2023 04:55:26 PST
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78DA72B630;
-        Mon,  6 Mar 2023 04:55:26 -0800 (PST)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 0C66440DA3;
-        Mon,  6 Mar 2023 13:35:57 +0100 (CET)
-Authentication-Results: ext-mx-out003.mykolab.com (amavisd-new);
-        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
-        header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1678106154; x=1679920555; bh=CldnAGWCUyLWQj0+FhFTF/gQQirraazid4l
-        4YVTfOJ8=; b=w9T3IV/Ww8mnjjLPqOmY3uJru3lYyOeSk+w/VcE55YQ2u9fVOfh
-        MUkvZppkRlu3OT43tqcS1s3ZI8zXZI8B1CuFHGwAwuASJvstpOPu0E9NlB8Z5pmJ
-        R+Fc53gtNu6pJ+phAmn+6flLW1TjUzFT+IKiWNSNwusKGanqAFoQxa9er6JFYdPi
-        6rYt5yadVSfVgsILAgiqYVBGu/lvz8BwhhSbqrkeVfIMUK7tcwGubnLizLPlLpZZ
-        9rAe4fxDL9yX4A52Won7+F6ajcZrnjlhquIe21HXpeb2oSMMGBELciIrdf4Zp6xT
-        SLEpn3BTohYZzSrMxbcR5UDiMmD1IE9RyY3w70G4itvS14p4acW341WIqaQTYY6U
-        VjeiFxWTbbHk0G1hl+SGCES+zhqcut5dVOwwk/Bpt+nxx0JHrNyPSQnK0zt9jGvL
-        l0SLY0GK4ElzwFeEcuJTi4xRMUDlQjyyGmT70NOdDuFk+bIUBGw3m1NWkYthsrkX
-        9syZ8yFdxWkyA+2YFqHkLHcmgmHheltrtVHt2bCkihfbhmhmbrPdtq9rX97t6PMW
-        vSpCZbNfzX05WmGlskHzeJESFCcVyE3GgsCJORS6lwC2up3ir644d/s8TDpg4GLo
-        gZiUmXSFWd30FOIh9dR8aizZqW0j7n33CW48/y1122us2EjY3BoC8PFM=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id xPYFZXUyIZwT; Mon,  6 Mar 2023 13:35:54 +0100 (CET)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by mx.kolabnow.com (Postfix) with ESMTPS id 0450A404DB;
-        Mon,  6 Mar 2023 13:35:32 +0100 (CET)
-Received: from int-subm001.mykolab.com (unknown [10.9.37.1])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id C755C8AB;
-        Mon,  6 Mar 2023 13:35:31 +0100 (CET)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Mon, 06 Mar 2023 13:35:29 +0100
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Jiri Kosina <jkosina@suse.cz>,
-        Solar Designer <solar@openwall.com>,
-        Will Deacon <will@kernel.org>, Willy Tarreau <w@1wt.eu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Amit Shah <aams@amazon.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        with ESMTP id S230460AbjCFNBq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 08:01:46 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 829AD2CFC3;
+        Mon,  6 Mar 2023 05:01:09 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B64261EC04DA;
+        Mon,  6 Mar 2023 14:01:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1678107667;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=jQayClAk4ZKs945VJGZ1hReCgeNmANEJoJkjlZzhjRM=;
+        b=OLP9wrvnxP3bnofbwvS2TqGT0AU3SW2D5mL7WaFyFNRmzmapRbbEV2jcLh9mbFM5BlvCpA
+        cP5k+tgViv8zFIj65sSl31LsrfXl+HIKmVoU05Y2sKH94/MMBWFtDp2ZwxCY37ADbtpKsn
+        spmTShKfgv4iajAT73UtWOQiNHUruQ4=
+Date:   Mon, 6 Mar 2023 14:01:02 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>,
-        Jiri Kosina <jikos@kernel.org>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Tsugikazu Shibata <tshibata@ab.jp.nec.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Jeimi Lee <jamee.lee@samsung.com>,
-        Carlos Bilbao <carlos.bilbao@amd.com>,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v3 1/7] Documentation/security-bugs: move from
- admin-guide/ to process/
-In-Reply-To: <20230305220010.20895-2-vegard.nossum@oracle.com>
-References: <20230305220010.20895-1-vegard.nossum@oracle.com>
- <20230305220010.20895-2-vegard.nossum@oracle.com>
-Message-ID: <b435d859273cc51efb3e0284ba3c9a7e@vaga.pv.it>
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v7 22/41] mm/mmap: Add shadow stack pages to memory
+ accounting
+Message-ID: <ZAXkDgmGFYpPoXTg@zn.tnic>
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-23-rick.p.edgecombe@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230227222957.24501-23-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-03-05 23:00, Vegard Nossum wrote:
-> Jiri Kosina, Jonathan Corbet, and Willy Tarreau all expressed a desire
-> to move this document under process/.
+On Mon, Feb 27, 2023 at 02:29:38PM -0800, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> Create a new section for security issues in the index and group it with
-> embargoed-hardware-issues.
+> The x86 Control-flow Enforcement Technology (CET) feature includes a new
+> type of memory called shadow stack. This shadow stack memory has some
+> unusual properties, which requires some core mm changes to function
+> properly.
 > 
-> I'm doing this at the start of the series to make all the subsequent
-> changes show up in 'git blame'.
-> 
-> Existing references were updated using:
-> 
->   git grep -l security-bugs ':!Documentation/translations/' | xargs
-> sed -i 's|admin-guide/security-bugs|process/security-bugs|g'
->   git grep -l security-bugs Documentation/translations/ | xargs sed -i
-> 's|Documentation/admin-guide/security-bugs|Documentation/process/security-bugs|g'
->   git grep -l security-bugs Documentation/translations/ | xargs sed -i
-> '/Original:/s|\.\./admin-guide/security-bugs|\.\./process/security-bugs|g'
-> 
-> Notably, the page is not moved in the translations (due to my lack of
-> knowledge of these languages), but the translations have been updated
-> to point to the new location of the original document where these
-> references exist.
+> Account shadow stack pages to stack memory. Do this by adding a
+> VM_SHADOW_STACK check in is_stack_mapping().
 
-Fine with me (Italian), I will move it later to the right place to 
-reflect
-the English version
-
-Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
-
-> diff --git
-> a/Documentation/translations/it_IT/admin-guide/security-bugs.rst
-> b/Documentation/translations/it_IT/admin-guide/security-bugs.rst
-> index 18a5822c7d9a..20994f4bfa31 100644
-> --- a/Documentation/translations/it_IT/admin-guide/security-bugs.rst
-> +++ b/Documentation/translations/it_IT/admin-guide/security-bugs.rst
-> @@ -1,6 +1,6 @@
->  .. include:: ../disclaimer-ita.rst
-> 
-> -:Original: :ref:`Documentation/admin-guide/security-bugs.rst 
-> <securitybugs>`
-> +:Original: :ref:`Documentation/process/security-bugs.rst 
-> <securitybugs>`
-> 
->  .. _it_securitybugs:
-> 
-> diff --git
-> a/Documentation/translations/it_IT/process/submitting-patches.rst
-> b/Documentation/translations/it_IT/process/submitting-patches.rst
-> index c2cfa0948b2b..167fce813032 100644
-> --- a/Documentation/translations/it_IT/process/submitting-patches.rst
-> +++ b/Documentation/translations/it_IT/process/submitting-patches.rst
-> @@ -272,7 +272,7 @@ embargo potrebbe essere preso in considerazione
-> per dare il tempo alle
->  distribuzioni di prendere la patch e renderla disponibile ai loro 
-> utenti;
->  in questo caso, ovviamente, la patch non dovrebbe essere inviata su 
-> alcuna
->  lista di discussione pubblica. Leggete anche
-> -Documentation/admin-guide/security-bugs.rst.
-> +Documentation/process/security-bugs.rst.
-> 
->  Patch che correggono bachi importanti su un kernel già rilasciato, 
-> dovrebbero
->  essere inviate ai manutentori dei kernel stabili aggiungendo la 
-> seguente riga::
+That last sentence is superfluous.
 
 -- 
-Federico Vaga
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
