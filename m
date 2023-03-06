@@ -2,442 +2,295 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10534C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 01:33:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70AF3C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 02:24:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229540AbjCFBdA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Mar 2023 20:33:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58118 "EHLO
+        id S229570AbjCFCYm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Mar 2023 21:24:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjCFBc7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Mar 2023 20:32:59 -0500
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2087.outbound.protection.outlook.com [40.107.223.87])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56B0935A1;
-        Sun,  5 Mar 2023 17:32:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VDwkThkELRWHbMjCSbFctwhqv+CsUnTl1oE9R1kSl44kv57g22nCz2lpU6oQyyQJw4BKFUov7UqlfCYhhumP5lUIEtqdrx1wbLr8S57Ou+j+C5bbYpuzWTAzBuQdSVdB8ir2C1jg7nCsPMxSW1WCHjtqua4d3VGtU1suaWFbpaEkof++mIhbZTTsb91BXYAReEOMgSpBM7vxnQzy3uGVGXTim4fQBy7Vnp9nnqnxCKsCjU+GY8jm1kIxOwKcf3R8JpWvWLg5l0GcD0cpFCzUkU+Nte2N5Bj2lMMGrxAEFTlEzBGZAC6Tk5+f9gD+Cr8HcYGM3uOaa/2yKZbOAl55TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YO42unP8OkNW0TNes6UkYnxHK+u9CDmjMEALbAkpbrQ=;
- b=S8eDnwmZxKcs/DnMIjWDaudTkA4IZS5O15LhFIq8ACZ0p73w4gYSq/T2J3DOmbiB5CFtTicH26ooabvCc6Ua81IyH+FiSyuEEZJF7IQ9CKIlUPzV1GfNZnbdNlgqcGXxP0PSEMDHqgwGbe58DLDkRawX5chnQWbrzGFHtWk7ojzW0dAaFG1FMYog8Y1tQHoUP6tA+/SD7qH9//gYAgQUhq0Ghq7J84mPG85Okm4JtDqJ4eaFRL0a2InZseyq3o+Kjl8LTh7RG4n12CPGhlo7OCC3YmYJkEVo80j3xexerXbbcm0wpA8utfvbJhQueT8UYqP3ehriOQj9kuO7SJptiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YO42unP8OkNW0TNes6UkYnxHK+u9CDmjMEALbAkpbrQ=;
- b=PKmnIpLVV8kVsD19WXzLzXHw0L59HEcYKU7HFSEG52WNWxjLejwDsN7b4UoSBtmjsrKH61HmpLQ1fs2EJvVKRA9cfzaqQmFRXAx60yND30Y8fG+QJsHKTmJ4qnVXVJHHw1gbkJwWJRnLS034CqicWwtEvOQ/jycV7wQubPoz1lEYDSO0wyoMsm+kn0MSZL3uwzdnpDWzZBAD4bC0ZXTFrypCl/vBFGdFFg85JYkfaqNSnxci1HF+y603A+3bsYMmODwC9mKEP1WJMHRz/ujRSa2JfsKZ3sJw+kIR9ygTtoTbR4TyO3HmKwtlVIdKL0wYi4viCFlo2njiHD3YaqEzZA==
-Received: from CY8PR11CA0011.namprd11.prod.outlook.com (2603:10b6:930:48::16)
- by SA1PR12MB8598.namprd12.prod.outlook.com (2603:10b6:806:253::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Mon, 6 Mar
- 2023 01:32:55 +0000
-Received: from CY4PEPF0000B8E8.namprd05.prod.outlook.com
- (2603:10b6:930:48:cafe::46) by CY8PR11CA0011.outlook.office365.com
- (2603:10b6:930:48::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28 via Frontend
- Transport; Mon, 6 Mar 2023 01:32:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000B8E8.mail.protection.outlook.com (10.167.241.4) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.4 via Frontend Transport; Mon, 6 Mar 2023 01:32:54 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Sun, 5 Mar 2023
- 17:32:42 -0800
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Sun, 5 Mar 2023
- 17:32:41 -0800
-Received: from SDONTHINENI-DESKTOP.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server id 15.2.986.5 via Frontend
- Transport; Sun, 5 Mar 2023 17:32:41 -0800
-From:   Shanker Donthineni <sdonthineni@nvidia.com>
-To:     Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Shanker Donthineni <sdonthineni@nvidia.com>,
-        Vikram Sethi <vsethi@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>
-Subject: [PATCH] irqchip/gicv3: Workaround for NVIDIA erratum T241-FABRIC-4
-Date:   Sun, 5 Mar 2023 19:31:48 -0600
-Message-ID: <20230306013148.3483335-1-sdonthineni@nvidia.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229557AbjCFCYl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Mar 2023 21:24:41 -0500
+Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com [IPv6:2607:f8b0:4864:20::c2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7FE8C65B;
+        Sun,  5 Mar 2023 18:24:39 -0800 (PST)
+Received: by mail-oo1-xc2a.google.com with SMTP id c184-20020a4a4fc1000000b005250b2dc0easo1331245oob.2;
+        Sun, 05 Mar 2023 18:24:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678069479;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8eB/UF/tlnbbeXcEuRN7hzjSgFcNNFvN1jX/T+t9+LU=;
+        b=WBZs6FLMVU1TdZ4/W6g84EtE99Lh48VXmrZqpDGEv5g+aQStqPVJIgsX++oyq9PvXr
+         1NfXSs0P2EXFaR5gWewLUFb9xDMrf5ld7YxJ/q0uER49ybdQ55CvTkTVDEt2VjPCK+Gv
+         LNjbe2YaJI1hFwKdB+ynRLlwOrSWlZC9Yn8LC2vbQS79jB0g6Ll8cBnhCizmVYqn7Oko
+         kd223JyMRMC9w6F1SWzwqCM3Yvz5tfdnGCOjY5CqcecnJDK2zm+PlWgqusI66q0ADWj1
+         0hPbbroAqmeEUAvYMEDTpABJAMGeUfGnCGKsStrF7lEbtqs6+s6/W53Y03P9zTUjxm6o
+         LTrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678069479;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8eB/UF/tlnbbeXcEuRN7hzjSgFcNNFvN1jX/T+t9+LU=;
+        b=LL+70MHWUUY0jbkmuOQTGRln8lfxnQO/RNfQ0EAHW2cxbyhzEjGxo/XWC3pYjQgyQJ
+         +KJkR3efr2Cg1EEAPmziNl/ItqA/6EaqgbeoNuDg0X1AVNR+ECM5mJH+MVwzHZFm+qdS
+         nSQdGThSbrN9bruJlSyfhikMwQPzCGoi4lWk8AyFAC5XAq6bpdKA/a8DhWAhqzqqdbuQ
+         fxaxRcM2FNMOySVeAu5XZHSLq58CjjPDShzzzDQZ1GkneRRzFPSjy5Mmd6H1qMJREvSx
+         gMiTyYTJAheLBfLrNGWQLx+RhqtCgS1/ZfC0ScXwXEYUgYgFXLXMAVn/955OTISvmXoX
+         wwuw==
+X-Gm-Message-State: AO0yUKW6Lt4LudgTziXJpvDnSrRF0rTDWS79M/M1k/KcvyTOUTNW4hoU
+        AuB+0XNQsKpH7kAkPICzPAc=
+X-Google-Smtp-Source: AK7set9GAIBy44XY3fRiSMdEnYc7lHYuY37gI0ek4gAaxZ7X+6Kx7JIPTxXFJE0tPhHTrYqjK2lWkg==
+X-Received: by 2002:a4a:b149:0:b0:525:4e79:8715 with SMTP id e9-20020a4ab149000000b005254e798715mr4367199ooo.8.1678069479081;
+        Sun, 05 Mar 2023 18:24:39 -0800 (PST)
+Received: from localhost.localdomain ([2804:14c:63:8ae3:4d1f:9fc2:9fe6:c88e])
+        by smtp.gmail.com with ESMTPSA id k124-20020aca3d82000000b00383e12e20c5sm3491557oia.24.2023.03.05.18.24.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Mar 2023 18:24:38 -0800 (PST)
+From:   David Tadokoro <davidbtadokoro@gmail.com>
+To:     alexander.deucher@amd.com, christian.koenig@amd.com,
+        Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, corbet@lwn.net, harry.wentland@amd.com,
+        sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com
+Cc:     David Tadokoro <davidbtadokoro@usp.br>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd/display: add prefix to amdgpu_dm_plane.h functions
+Date:   Sun,  5 Mar 2023 23:24:27 -0300
+Message-Id: <20230306022427.437022-1-davidbtadokoro@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-NVConfidentiality: public
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000B8E8:EE_|SA1PR12MB8598:EE_
-X-MS-Office365-Filtering-Correlation-Id: 113fbd35-dc2e-4464-195d-08db1de2b56f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rn0tzr7OyAU7k9i+AuDE3oik8KyvDs5Zh9R1at6Py5uUwN500dngtTCUAHAWzO1jQMR71ucly/Jv7Gc65PeZGLhpvy1rXIAc6UzAjwLaK0omv/XZFeUmBfYczBIOupcrvMPIQMzXNE2Tc2fo0p6Zp96WjIZHqAUFCiPFTJC6LTKCqeNKi1kuNfqiEVZXjK5HrMrIORzRwjmebjoK/oXTA1ssWXLfUgLSxfEYUeRM6V+UWvelwX22XFgr43gAkilw3GsvUXZkjgE+yiXtPc9atxkc/903gGzMrQBtI0G98AIQwFD6I4AIyDjnEMhU7R0750b63E5YQQq5e6MkFf4w/exm+58bMN15NBg2PTK/f0bSYuEhNBXm5vGqjRlLUrlzWZYDHzIGyM3yzNQ/g0D/bnSe4OxrwCrMeh4nXfhF7SjAX120AJaqxWL8hQIaGkHzYQMG8C16sdx5LCYR9qhESIfIRxv9Bl2lMXuo5sX3zlb2P12hkUTkAnkZBTqTteDQWC14RJ3LKC5F0fdtmtwWT9hC6o3yDygsJgxzeAZTtqkmGsO8btH7SqqnDewq+iACxlQDVsyJuK/XMgwA9q6i670Dm62fTtp38c+4/uIIfSL6PD9hSBdDG/7K+ztaSMgX8LrArH1sAO9nPe7ehfRTvrJ9oS1MzhL/ZeP8Uyy+R/ODrXo1O1CUU1W2xEck8+T4OGK6T3tq0qxOTzH5GO+0xA==
-X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(396003)(136003)(346002)(376002)(451199018)(40470700004)(46966006)(36840700001)(36860700001)(86362001)(82740400003)(7636003)(356005)(36756003)(2906002)(30864003)(5660300002)(4326008)(70586007)(70206006)(40480700001)(8676002)(8936002)(41300700001)(82310400005)(40460700003)(2616005)(336012)(26005)(186003)(83380400001)(47076005)(426003)(110136005)(54906003)(478600001)(316002)(1076003)(107886003)(7696005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2023 01:32:54.5108
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 113fbd35-dc2e-4464-195d-08db1de2b56f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000B8E8.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8598
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The purpose of this patch is to address the T241 erratum T241-FABRIC-4,
-which causes unexpected behavior in the GIC when multiple transactions
-are received simultaneously from different sources. This hardware issue
-impacts NVIDIA server platforms that use more than two T241 chips
-interconnected. Each chip has support for 320 {E}SPIs.
+From: David Tadokoro <davidbtadokoro@usp.br>
 
-This issue occurs when multiple packets from different GICs are
-incorrectly interleaved at the target chip. The erratum text below
-specifies exactly what can cause multiple transfer packets susceptible
-to interleaving and GIC state corruption. GIC state corruption can
-lead to a range of problems, including kernel panics, and unexpected
-behavior.
+The amdgpu_dm_plane.h functions didn't have names that indicated where
+they were declared.
 
-From the erratum text:
-  "In some cases, inter-socket AXI4 Stream packets with multiple
-  transfers, may be interleaved by the fabric when presented to ARM
-  Generic Interrupt Controller. GIC expects all transfers of a packet
-  to be delivered without any interleaving.
+To better filter results in debug tools like ftrace, prefix these
+functions with 'amdgpu_dm_plane_'.
 
-  The following GICv3 commands may result in multiple transfer packets
-  over inter-socket AXI4 Stream interface:
-   - Register reads from GICD_I* and GICD_N*
-   - Register writes to 64-bit GICD registers other than GICD_IROUTERn*
-   - ITS command MOVALL
+Note that we may want to make this same change in other files like
+amdgpu_dm_crtc.h.
 
-  Multiple commands in GICv4+ utilize multiple transfer packets,
-  including VMOVP, VMOVI and VMAPP.
-
-  This issue impacts system configurations with more than 2 sockets,
-  that require multi-transfer packets to be sent over inter-socket
-  AXI4 Stream interface between GIC instances on different sockets.
-  GICv4 cannot be supported. GICv3 SW model can only be supported
-  with the workaround. Single and Dual socket configurations are not
-  impacted by this issue and support GICv3 and GICv4."
-
-To fix this problem, the patch implements a workaround that ensures
-read accesses to the GICD_In{E} registers are directed to the chip
-that owns the SPI, and disables GICv4.x features for KVM.
-
-Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
-Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
+Signed-off-by: David Tadokoro <davidbtadokoro@usp.br>
 ---
- Documentation/arm64/silicon-errata.rst |   2 +
- drivers/irqchip/irq-gic-common.c       |  10 +-
- drivers/irqchip/irq-gic-common.h       |   3 +-
- drivers/irqchip/irq-gic-v3.c           | 124 +++++++++++++++++++++++--
- drivers/irqchip/irq-gic.c              |   3 +-
- drivers/irqchip/irq-hip04.c            |   2 +-
- 6 files changed, 131 insertions(+), 13 deletions(-)
+ .../gpu/amdgpu/display/display-manager.rst    |  2 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 ++++++-------
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 20 +++++++++----------
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.h   | 12 +++++------
+ 4 files changed, 24 insertions(+), 24 deletions(-)
 
-diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index ec5f889d76819..e31f6c0687041 100644
---- a/Documentation/arm64/silicon-errata.rst
-+++ b/Documentation/arm64/silicon-errata.rst
-@@ -172,6 +172,8 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
- +----------------+-----------------+-----------------+-----------------------------+
-+| NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Freescale/NXP  | LS2080A/LS1043A | A-008585        | FSL_ERRATUM_A008585         |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/drivers/irqchip/irq-gic-common.c b/drivers/irqchip/irq-gic-common.c
-index a610821c8ff2a..83b2187d342af 100644
---- a/drivers/irqchip/irq-gic-common.c
-+++ b/drivers/irqchip/irq-gic-common.c
-@@ -39,7 +39,8 @@ void gic_enable_quirks(u32 iidr, const struct gic_quirk *quirks,
- }
+diff --git a/Documentation/gpu/amdgpu/display/display-manager.rst b/Documentation/gpu/amdgpu/display/display-manager.rst
+index b7abb18cfc82..be2651ecdd7f 100644
+--- a/Documentation/gpu/amdgpu/display/display-manager.rst
++++ b/Documentation/gpu/amdgpu/display/display-manager.rst
+@@ -173,7 +173,7 @@ The alpha blending equation is configured from DRM to DC interface by the
+ following path:
  
- int gic_configure_irq(unsigned int irq, unsigned int type,
--		       void __iomem *base, void (*sync_access)(void))
-+		      void __iomem *base, void (*sync_access)(void),
-+		      void __iomem *base_read_alias)
- {
- 	u32 confmask = 0x2 << ((irq % 16) * 2);
- 	u32 confoff = (irq / 16) * 4;
-@@ -52,7 +53,10 @@ int gic_configure_irq(unsigned int irq, unsigned int type,
- 	 * for "irq", depending on "type".
- 	 */
- 	raw_spin_lock_irqsave(&irq_controller_lock, flags);
--	val = oldval = readl_relaxed(base + confoff);
-+	if (base_read_alias == NULL)
-+		base_read_alias = base;
-+
-+	val = oldval = readl_relaxed(base_read_alias + confoff);
- 	if (type & IRQ_TYPE_LEVEL_MASK)
- 		val &= ~confmask;
- 	else if (type & IRQ_TYPE_EDGE_BOTH)
-@@ -73,7 +77,7 @@ int gic_configure_irq(unsigned int irq, unsigned int type,
- 	 * non-secure mode, and hence it may not be catastrophic.
- 	 */
- 	writel_relaxed(val, base + confoff);
--	if (readl_relaxed(base + confoff) != val)
-+	if (readl_relaxed(base_read_alias + confoff) != val)
- 		ret = -EINVAL;
+ 1. When updating a :c:type:`drm_plane_state <drm_plane_state>`, DM calls
+-   :c:type:`fill_blending_from_plane_state()` that maps
++   :c:type:`amdgpu_dm_plane_fill_blending_from_plane_state()` that maps
+    :c:type:`drm_plane_state <drm_plane_state>` attributes to
+    :c:type:`dc_plane_info <dc_plane_info>` struct to be handled in the
+    OS-agnostic component (DC).
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 4217ebe6391b..f7111acd45cc 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -2923,7 +2923,7 @@ const struct amdgpu_ip_block_version dm_ip_block =
  
- 	raw_spin_unlock_irqrestore(&irq_controller_lock, flags);
-diff --git a/drivers/irqchip/irq-gic-common.h b/drivers/irqchip/irq-gic-common.h
-index 27e3d4ed4f328..c955f83d1f8f2 100644
---- a/drivers/irqchip/irq-gic-common.h
-+++ b/drivers/irqchip/irq-gic-common.h
-@@ -19,7 +19,8 @@ struct gic_quirk {
- };
+ static const struct drm_mode_config_funcs amdgpu_dm_mode_funcs = {
+ 	.fb_create = amdgpu_display_user_framebuffer_create,
+-	.get_format_info = amd_get_format_info,
++	.get_format_info = amdgpu_dm_plane_get_format_info,
+ 	.output_poll_changed = drm_fb_helper_output_poll_changed,
+ 	.atomic_check = amdgpu_dm_atomic_check,
+ 	.atomic_commit = drm_atomic_helper_commit,
+@@ -4948,7 +4948,7 @@ fill_dc_plane_info_and_addr(struct amdgpu_device *adev,
+ 	if (ret)
+ 		return ret;
  
- int gic_configure_irq(unsigned int irq, unsigned int type,
--                       void __iomem *base, void (*sync_access)(void));
-+		      void __iomem *base, void (*sync_access)(void),
-+		      void __iomem *base_read_alias);
- void gic_dist_config(void __iomem *base, int gic_irqs,
- 		     void (*sync_access)(void));
- void gic_cpu_config(void __iomem *base, int nr, void (*sync_access)(void));
-diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
-index 997104d4338e7..f460f832c87e6 100644
---- a/drivers/irqchip/irq-gic-v3.c
-+++ b/drivers/irqchip/irq-gic-v3.c
-@@ -45,6 +45,13 @@ struct redist_region {
- 	bool			single_redist;
- };
+-	ret = fill_plane_buffer_attributes(adev, afb, plane_info->format,
++	ret = amdgpu_dm_plane_fill_plane_buffer_attributes(adev, afb, plane_info->format,
+ 					   plane_info->rotation, tiling_flags,
+ 					   &plane_info->tiling_info,
+ 					   &plane_info->plane_size,
+@@ -4957,7 +4957,7 @@ fill_dc_plane_info_and_addr(struct amdgpu_device *adev,
+ 	if (ret)
+ 		return ret;
  
-+/* Distributor alias region for {E}SPIs registers */
-+struct dist_base_alias {
-+	u32		intid_start;
-+	u32		intid_end;
-+	void __iomem	*base;
-+};
-+
- struct gic_chip_data {
- 	struct fwnode_handle	*fwnode;
- 	void __iomem		*dist_base;
-@@ -57,8 +64,12 @@ struct gic_chip_data {
- 	bool			has_rss;
- 	unsigned int		ppi_nr;
- 	struct partition_desc	**ppi_descs;
-+	struct dist_base_alias	*base_read_aliases;
-+	u32			nr_dist_base_aliases;
- };
+-	fill_blending_from_plane_state(
++	amdgpu_dm_plane_fill_blending_from_plane_state(
+ 		plane_state, &plane_info->per_pixel_alpha, &plane_info->pre_multiplied_alpha,
+ 		&plane_info->global_alpha, &plane_info->global_alpha_value);
  
-+static DEFINE_STATIC_KEY_FALSE(gic_nvidia_t241_erratum);
-+
- static struct gic_chip_data gic_data __read_mostly;
- static DEFINE_STATIC_KEY_TRUE(supports_deactivate_key);
- 
-@@ -188,6 +199,26 @@ static inline bool gic_irq_in_rdist(struct irq_data *d)
- 	}
- }
- 
-+static inline void __iomem *gic_dist_base_read_alias(irq_hw_number_t intid)
-+{
-+	struct dist_base_alias *base_alias;
-+	int i;
-+
-+	if (static_branch_unlikely(&gic_nvidia_t241_erratum)) {
-+		base_alias = gic_data.base_read_aliases;
-+		for (i = 0; i < gic_data.nr_dist_base_aliases; i++) {
-+			if (base_alias->base &&
-+			   (intid >= base_alias->intid_start) &&
-+			   (intid <= base_alias->intid_end)) {
-+				return base_alias->base;
-+			}
-+			base_alias++;
-+		}
-+	}
-+
-+	return gic_data.dist_base;
-+}
-+
- static inline void __iomem *gic_dist_base(struct irq_data *d)
- {
- 	switch (get_intid_range(d)) {
-@@ -346,7 +377,7 @@ static int gic_peek_irq(struct irq_data *d, u32 offset)
- 	if (gic_irq_in_rdist(d))
- 		base = gic_data_rdist_sgi_base();
- 	else
--		base = gic_data.dist_base;
-+		base = gic_dist_base_read_alias(irqd_to_hwirq(d));
- 
- 	return !!(readl_relaxed(base + offset + (index / 32) * 4) & mask);
- }
-@@ -580,6 +611,7 @@ static int gic_set_type(struct irq_data *d, unsigned int type)
- 	enum gic_intid_range range;
- 	unsigned int irq = gic_irq(d);
- 	void __iomem *base;
-+	void __iomem *base_read_alias;
- 	u32 offset, index;
+@@ -4976,7 +4976,7 @@ static int fill_dc_plane_attributes(struct amdgpu_device *adev,
  	int ret;
+ 	bool force_disable_dcc = false;
  
-@@ -594,14 +626,17 @@ static int gic_set_type(struct irq_data *d, unsigned int type)
- 	    type != IRQ_TYPE_LEVEL_HIGH && type != IRQ_TYPE_EDGE_RISING)
- 		return -EINVAL;
+-	ret = fill_dc_scaling_info(adev, plane_state, &scaling_info);
++	ret = amdgpu_dm_plane_fill_dc_scaling_info(adev, plane_state, &scaling_info);
+ 	if (ret)
+ 		return ret;
  
--	if (gic_irq_in_rdist(d))
-+	if (gic_irq_in_rdist(d)) {
- 		base = gic_data_rdist_sgi_base();
--	else
-+		base_read_alias = base;
-+	} else {
- 		base = gic_data.dist_base;
-+		base_read_alias = gic_dist_base_read_alias(irqd_to_hwirq(d));
-+	}
- 
- 	offset = convert_offset_index(d, GICD_ICFGR, &index);
--
--	ret = gic_configure_irq(index, type, base + offset, NULL);
-+	ret = gic_configure_irq(index, type, base + offset, NULL,
-+				base_read_alias + offset);
- 	if (ret && (range == PPI_RANGE || range == EPPI_RANGE)) {
- 		/* Misconfigured PPIs are usually not fatal */
- 		pr_warn("GIC: PPI INTID%d is secure or misconfigured\n", irq);
-@@ -1719,6 +1754,70 @@ static bool gic_enable_quirk_hip06_07(void *data)
- 	return false;
+@@ -7882,7 +7882,7 @@ static void amdgpu_dm_commit_cursors(struct drm_atomic_state *state)
+ 	 */
+ 	for_each_old_plane_in_state(state, plane, old_plane_state, i)
+ 		if (plane->type == DRM_PLANE_TYPE_CURSOR)
+-			handle_cursor_update(plane, old_plane_state);
++			amdgpu_dm_plane_handle_cursor_update(plane, old_plane_state);
  }
  
-+static bool gic_enable_quirk_nvidia_t241(void *data)
-+{
-+#ifdef CONFIG_ACPI
-+	struct dist_base_alias *base_alias;
-+	struct acpi_table_header *madt;
-+	int i, intid, nchips = 0;
-+	acpi_status status;
-+	phys_addr_t phys;
-+
-+	status = acpi_get_table(ACPI_SIG_MADT, 0, &madt);
-+	if (ACPI_FAILURE(status))
-+		return false;
-+
-+	/* Check NVIDIA OEM ID */
-+	if (memcmp(madt->oem_id, "NVIDIA", 6)) {
-+		acpi_put_table(madt);
-+		return false;
-+	}
-+
-+	/* Find the number of chips based on OEM_TABLE_ID */
-+	if ((!memcmp(madt->oem_table_id, "T241x3", 6)) ||
-+	    (!memcmp(madt->oem_table_id, "T241c3", 6))) {
-+		nchips = 3;
-+	} else if ((!memcmp(madt->oem_table_id, "T241x4", 6)) ||
-+		   (!memcmp(madt->oem_table_id, "T241c4", 6))) {
-+		nchips = 4;
-+	}
-+
-+	acpi_put_table(madt);
-+	if (nchips < 3)
-+		return false;
-+
-+	base_alias = kmalloc_array(nchips, sizeof(*base_alias),
-+				   GFP_KERNEL | __GFP_ZERO);
-+	if (!base_alias)
-+		return false;
-+
-+	gic_data.base_read_aliases = base_alias;
-+	gic_data.nr_dist_base_aliases = nchips;
-+
-+	/**
-+	 * Setup GICD alias and {E}SPIs range for each chip
-+	 * {E}SPI blocks mappings:
-+	 *    Chip0 = 00-09
-+	 *    Chip1 = 10-19
-+	 *    Chip2 = 20-29
-+	 *    Chip3 = 30-39
-+	 */
-+	for (i = 0; i < nchips; i++, base_alias++) {
-+		phys = ((1ULL << 44) * i) | 0x23580000;
-+		base_alias->base = ioremap(phys, SZ_64K);
-+		WARN_ON(!base_alias->base);
-+
-+		intid = i < 3 ? 32 + i * 10 * 32 : ESPI_BASE_INTID;
-+		base_alias->intid_start = intid;
-+		base_alias->intid_end = intid + 10 * 32 - 1;
-+	}
-+	static_branch_enable(&gic_nvidia_t241_erratum);
-+	return true;
-+#else
-+	return false;
-+#endif
-+}
-+
- static const struct gic_quirk gic_quirks[] = {
- 	{
- 		.desc	= "GICv3: Qualcomm MSM8996 broken firmware",
-@@ -1750,6 +1849,12 @@ static const struct gic_quirk gic_quirks[] = {
- 		.mask	= 0xe8f00fff,
- 		.init	= gic_enable_quirk_cavium_38539,
- 	},
-+	{
-+		.desc	= "GICv3: NVIDIA erratum T241-FABRIC-4",
-+		.iidr	= 0x0402043b,
-+		.mask	= 0xffffffff,
-+		.init	= gic_enable_quirk_nvidia_t241,
-+	},
- 	{
- 	}
+ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+@@ -7967,7 +7967,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 			bundle->surface_updates[planes_count].gamut_remap_matrix = &dc_plane->gamut_remap_matrix;
+ 		}
+ 
+-		fill_dc_scaling_info(dm->adev, new_plane_state,
++		amdgpu_dm_plane_fill_dc_scaling_info(dm->adev, new_plane_state,
+ 				     &bundle->scaling_infos[planes_count]);
+ 
+ 		bundle->surface_updates[planes_count].scaling_info =
+@@ -9634,7 +9634,7 @@ static int dm_update_plane_state(struct dc *dc,
+ 		if (!needs_reset)
+ 			return 0;
+ 
+-		ret = dm_plane_helper_check_state(new_plane_state, new_crtc_state);
++		ret = amdgpu_dm_plane_helper_check_state(new_plane_state, new_crtc_state);
+ 		if (ret)
+ 			return ret;
+ 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index 28fb1f02591a..dc23c788cdba 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -90,12 +90,12 @@ enum dm_micro_swizzle {
+ 	MICRO_SWIZZLE_R = 3
  };
-@@ -2377,8 +2482,13 @@ static void __init gic_acpi_setup_kvm_info(void)
- 		vcpu->end = vcpu->start + ACPI_GICV2_VCPU_MEM_SIZE - 1;
- 	}
  
--	gic_v3_kvm_info.has_v4 = gic_data.rdists.has_vlpis;
--	gic_v3_kvm_info.has_v4_1 = gic_data.rdists.has_rvpeid;
-+	if (static_branch_unlikely(&gic_nvidia_t241_erratum)) {
-+		gic_v3_kvm_info.has_v4 = false;
-+		gic_v3_kvm_info.has_v4_1 = false;
-+	} else {
-+		gic_v3_kvm_info.has_v4 = gic_data.rdists.has_vlpis;
-+		gic_v3_kvm_info.has_v4_1 = gic_data.rdists.has_rvpeid;
-+	}
- 	vgic_set_kvm_info(&gic_v3_kvm_info);
+-const struct drm_format_info *amd_get_format_info(const struct drm_mode_fb_cmd2 *cmd)
++const struct drm_format_info *amdgpu_dm_plane_get_format_info(const struct drm_mode_fb_cmd2 *cmd)
+ {
+ 	return amdgpu_lookup_format_info(cmd->pixel_format, cmd->modifier[0]);
  }
  
-diff --git a/drivers/irqchip/irq-gic.c b/drivers/irqchip/irq-gic.c
-index 210bc2f4d5550..73575bbf4df67 100644
---- a/drivers/irqchip/irq-gic.c
-+++ b/drivers/irqchip/irq-gic.c
-@@ -306,7 +306,8 @@ static int gic_set_type(struct irq_data *d, unsigned int type)
- 			    type != IRQ_TYPE_EDGE_RISING)
+-void fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
++void amdgpu_dm_plane_fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
+ 			       bool *per_pixel_alpha, bool *pre_multiplied_alpha,
+ 			       bool *global_alpha, int *global_alpha_value)
+ {
+@@ -759,7 +759,7 @@ static int attach_color_mgmt_properties(struct amdgpu_display_manager *dm, struc
+ }
+ #endif
+ 
+-int fill_plane_buffer_attributes(struct amdgpu_device *adev,
++int amdgpu_dm_plane_fill_plane_buffer_attributes(struct amdgpu_device *adev,
+ 			     const struct amdgpu_framebuffer *afb,
+ 			     const enum surface_pixel_format format,
+ 			     const enum dc_rotation_angle rotation,
+@@ -918,7 +918,7 @@ static int dm_plane_helper_prepare_fb(struct drm_plane *plane,
+ 			dm_plane_state_new->dc_state;
+ 		bool force_disable_dcc = !plane_state->dcc.enable;
+ 
+-		fill_plane_buffer_attributes(
++		amdgpu_dm_plane_fill_plane_buffer_attributes(
+ 			adev, afb, plane_state->format, plane_state->rotation,
+ 			afb->tiling_flags,
+ 			&plane_state->tiling_info, &plane_state->plane_size,
+@@ -999,7 +999,7 @@ static void get_min_max_dc_plane_scaling(struct drm_device *dev,
+ 		*min_downscale = 1000;
+ }
+ 
+-int dm_plane_helper_check_state(struct drm_plane_state *state,
++int amdgpu_dm_plane_helper_check_state(struct drm_plane_state *state,
+ 				       struct drm_crtc_state *new_crtc_state)
+ {
+ 	struct drm_framebuffer *fb = state->fb;
+@@ -1053,7 +1053,7 @@ int dm_plane_helper_check_state(struct drm_plane_state *state,
+ 		state, new_crtc_state, min_scale, max_scale, true, true);
+ }
+ 
+-int fill_dc_scaling_info(struct amdgpu_device *adev,
++int amdgpu_dm_plane_fill_dc_scaling_info(struct amdgpu_device *adev,
+ 				const struct drm_plane_state *state,
+ 				struct dc_scaling_info *scaling_info)
+ {
+@@ -1161,11 +1161,11 @@ static int dm_plane_atomic_check(struct drm_plane *plane,
+ 	if (!new_crtc_state)
  		return -EINVAL;
  
--	ret = gic_configure_irq(gicirq, type, base + GIC_DIST_CONFIG, NULL);
-+	ret = gic_configure_irq(gicirq, type, base + GIC_DIST_CONFIG, NULL,
-+				NULL);
- 	if (ret && gicirq < 32) {
- 		/* Misconfigured PPIs are usually not fatal */
- 		pr_warn("GIC: PPI%d is secure or misconfigured\n", gicirq - 16);
-diff --git a/drivers/irqchip/irq-hip04.c b/drivers/irqchip/irq-hip04.c
-index 46161f6ff289d..dc19f48d6f5a5 100644
---- a/drivers/irqchip/irq-hip04.c
-+++ b/drivers/irqchip/irq-hip04.c
-@@ -130,7 +130,7 @@ static int hip04_irq_set_type(struct irq_data *d, unsigned int type)
+-	ret = dm_plane_helper_check_state(new_plane_state, new_crtc_state);
++	ret = amdgpu_dm_plane_helper_check_state(new_plane_state, new_crtc_state);
+ 	if (ret)
+ 		return ret;
  
- 	raw_spin_lock(&irq_controller_lock);
+-	ret = fill_dc_scaling_info(adev, new_plane_state, &scaling_info);
++	ret = amdgpu_dm_plane_fill_dc_scaling_info(adev, new_plane_state, &scaling_info);
+ 	if (ret)
+ 		return ret;
  
--	ret = gic_configure_irq(irq, type, base + GIC_DIST_CONFIG, NULL);
-+	ret = gic_configure_irq(irq, type, base + GIC_DIST_CONFIG, NULL, NULL);
- 	if (ret && irq < 32) {
- 		/* Misconfigured PPIs are usually not fatal */
- 		pr_warn("GIC: PPI%d is secure or misconfigured\n", irq - 16);
+@@ -1229,7 +1229,7 @@ static int get_cursor_position(struct drm_plane *plane, struct drm_crtc *crtc,
+ 	return 0;
+ }
+ 
+-void handle_cursor_update(struct drm_plane *plane,
++void amdgpu_dm_plane_handle_cursor_update(struct drm_plane *plane,
+ 				 struct drm_plane_state *old_plane_state)
+ {
+ 	struct amdgpu_device *adev = drm_to_adev(plane->dev);
+@@ -1314,7 +1314,7 @@ static void dm_plane_atomic_async_update(struct drm_plane *plane,
+ 	plane->state->crtc_w = new_state->crtc_w;
+ 	plane->state->crtc_h = new_state->crtc_h;
+ 
+-	handle_cursor_update(plane, old_state);
++	amdgpu_dm_plane_handle_cursor_update(plane, old_state);
+ }
+ 
+ static const struct drm_plane_helper_funcs dm_plane_helper_funcs = {
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
+index a4bee8528a51..930f1572f898 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
+@@ -29,17 +29,17 @@
+ 
+ #include "dc.h"
+ 
+-void handle_cursor_update(struct drm_plane *plane,
++void amdgpu_dm_plane_handle_cursor_update(struct drm_plane *plane,
+ 			  struct drm_plane_state *old_plane_state);
+ 
+-int fill_dc_scaling_info(struct amdgpu_device *adev,
++int amdgpu_dm_plane_fill_dc_scaling_info(struct amdgpu_device *adev,
+ 			 const struct drm_plane_state *state,
+ 			 struct dc_scaling_info *scaling_info);
+ 
+-int dm_plane_helper_check_state(struct drm_plane_state *state,
++int amdgpu_dm_plane_helper_check_state(struct drm_plane_state *state,
+ 				struct drm_crtc_state *new_crtc_state);
+ 
+-int fill_plane_buffer_attributes(struct amdgpu_device *adev,
++int amdgpu_dm_plane_fill_plane_buffer_attributes(struct amdgpu_device *adev,
+ 				 const struct amdgpu_framebuffer *afb,
+ 				 const enum surface_pixel_format format,
+ 				 const enum dc_rotation_angle rotation,
+@@ -56,9 +56,9 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+ 			 unsigned long possible_crtcs,
+ 			 const struct dc_plane_cap *plane_cap);
+ 
+-const struct drm_format_info *amd_get_format_info(const struct drm_mode_fb_cmd2 *cmd);
++const struct drm_format_info *amdgpu_dm_plane_get_format_info(const struct drm_mode_fb_cmd2 *cmd);
+ 
+-void fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
++void amdgpu_dm_plane_fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
+ 				    bool *per_pixel_alpha, bool *pre_multiplied_alpha,
+ 				    bool *global_alpha, int *global_alpha_value);
+ 
 -- 
-2.25.1
+2.39.2
 
