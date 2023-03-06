@@ -2,366 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE638C6FD1A
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 21:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BECDC64EC4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 22:10:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229941AbjCFVvT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 16:51:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46850 "EHLO
+        id S229651AbjCFWK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 17:10:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbjCFVvS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 16:51:18 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B4B867836;
-        Mon,  6 Mar 2023 13:51:16 -0800 (PST)
+        with ESMTP id S229628AbjCFWK2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 17:10:28 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 379423A876;
+        Mon,  6 Mar 2023 14:10:18 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B574260C8F;
-        Mon,  6 Mar 2023 21:51:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A272EC433D2;
-        Mon,  6 Mar 2023 21:51:11 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E8B80B8111A;
+        Mon,  6 Mar 2023 22:10:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8604C433D2;
+        Mon,  6 Mar 2023 22:10:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678139475;
-        bh=ZrJmhyMhkUzjCOjMoKs2veezt+FJkmiy4IanCPeTgjk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FrdQhuBdaJwRseYaFYQvhZbNqmWMvL6JcWBgGrru0xtmfApoh9bVgDL91QyYtJu46
-         H0oW9+6Gb41u6zMft3CmOoGewTA/b511tB3pw+UFtseZhnAqGvLzrt540ZdkhRiX2Z
-         /A9jIQE3w/wZ/L7NHoa7CpXtnJf76tVy0GG5k2vGsDJT/jkLk4W2i7VrLHSZzae8dq
-         0dyXmg+0+BvTiMSGvNIsWIjKWXQtTgJYxbQ+92QO/94c4TZD2PS/IzkWFhz/mUqKLo
-         nOVVL59sstJYGawKikg5TZhc7C97QX0pzqe7PKg2o8jrSmz8QZcsfArVqle3tjmRNU
-         x6ME9yGFkfgpQ==
-Date:   Mon, 6 Mar 2023 21:51:09 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        'Conor Dooley ' <conor.dooley@microchip.com>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH V3 00/20] Add basic ACPI support for RISC-V
-Message-ID: <16007014-c5f2-4b07-baec-e19952236aa5@spud>
-References: <20230303133647.845095-1-sunilvl@ventanamicro.com>
+        s=k20201202; t=1678140615;
+        bh=KN5F0AoFgFiAv14Zs4VVwE5Kztdka3CdrjT1Qq8snyQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ar1g9Pvs6nI2YGY1crohlcib7jgCpYuLpx4nEfJAxZaICCg/2qHbFgKQMpwWYc5T/
+         pReSqdlGSEgLqnK86GkxEVCGVmg6ocyZwGYIOESDg2YItz4gk2Uq3Y6At8fw2A3XYq
+         2mR1D9LlFGahqIsYtr/+CBUT7ZRazFDCeoMUePlUeSEuw95eUclar8nfFeN52xkpro
+         JXr2YK5zrIZz9Jz+WV6IKAgKW1gyWPAQnmUi0cUxXcVx45kt7JRp2LoAEVLQfAXEDr
+         ZPummfBAAz0Iz9r5LDb+JsNZozRIqIq3rgrHmCS6RKFpP/Eq12V+qJ3uOIQxFXiF4t
+         JcnRdmf6WL4bw==
+From:   Miguel Ojeda <ojeda@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>
+Cc:     linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: [PATCH] docs: rust: point directly to the standalone installers
+Date:   Mon,  6 Mar 2023 23:09:59 +0100
+Message-Id: <20230306220959.240235-1-ojeda@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="27Tfh9qw3tZtvGh2"
-Content-Disposition: inline
-In-Reply-To: <20230303133647.845095-1-sunilvl@ventanamicro.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The Quick Start guide points to the Rust programming language front
+page when it mentions the possibility of using the standalone
+installers instead of `rustup`.
 
---27Tfh9qw3tZtvGh2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This was done to have a hopefully stable link, but it is not too
+helpful: readers need to figure out how to reach the standalone
+installers from there.
 
-Hey Sunil,
+Thus point directly to the page (and anchor) with the table that
+contains the standalone installers (plus signing key etc.).
 
-On Fri, Mar 03, 2023 at 07:06:27PM +0530, Sunil V L wrote:
-> This patch series enables the basic ACPI infrastructure for RISC-V.
-> Supporting external interrupt controllers is in progress and hence it is
-> tested using poll based HVC SBI console and RAM disk.
->=20
-> The first patch in this series is one of the patch from Jisheng's
-> series [1] which is not merged yet. This patch is required to support
-> ACPI since efi_init() which gets called before sbi_init() can enable
-> static branches and hits a panic.
->=20
-> Patch 2 and 3 are ACPICA patches which are not merged into acpica yet
-> but a PR is raised already.
->=20
-> Below are two ECRs approved by ASWG.
-> RINTC - https://drive.google.com/file/d/1R6k4MshhN3WTT-hwqAquu5nX6xSEqK2l=
-/view
-> RHCT - https://drive.google.com/file/d/1nP3nFiH4jkPMp6COOxP6123DCZKR-tia/=
-view
->=20
-> The series depends on Anup's IPI improvement series [2].
->=20
-> [1] https://lore.kernel.org/all/20220821140918.3613-1-jszhang@kernel.org/
-> [2] https://lore.kernel.org/lkml/20230103141221.772261-7-apatel@ventanami=
-cro.com/T/
+If the link breaks in the future, we can always update it as
+needed. And anyway having the full link includes the domain and
+gives more information about where the old docs were in such
+a broken link case, which may help.
 
-Building a clang-15 allmodconfig (I didn't try gcc) with this series, and
-Anup's IPI bits, results in a broken build, due to failings in cmpxchg:
+Link: https://lore.kernel.org/linux-doc/CANiq72=gpzQyh1ExGbBWWNdgH-mTATdG5F600jKD1=NLLCn7wg@mail.gmail.com/
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ Documentation/rust/quick-start.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-/stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: error:=
- call to __compiletime_assert_335 declared with 'error' attribute: BUILD_BU=
-G failed
-        while (unlikely((ret =3D cmpxchg(&c->value, old, new)) !=3D old)) {
-                               ^
-/stuff/linux/include/linux/atomic/atomic-instrumented.h:1916:2: note: expan=
-ded from macro 'cmpxchg'
-        arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
-        ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from m=
-acro 'arch_cmpxchg'
-        (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-                             ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:335:3: note: expanded from ma=
-cro '__cmpxchg'
-                BUILD_BUG();                                            \
-                ^
-note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=3D0 =
-to see all)
-/stuff/linux/include/linux/compiler_types.h:385:2: note: expanded from macr=
-o '_compiletime_assert'
-        __compiletime_assert(condition, msg, prefix, suffix)
-        ^
-/stuff/linux/include/linux/compiler_types.h:378:4: note: expanded from macr=
-o '__compiletime_assert'
-                        prefix ## suffix();                             \
-                        ^
-<scratch space>:69:1: note: expanded from here
-__compiletime_assert_335
-^
-/stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: error:=
- call to __compiletime_assert_335 declared with 'error' attribute: BUILD_BU=
-G failed
-/stuff/linux/include/linux/atomic/atomic-instrumented.h:1916:2: note: expan=
-ded from macro 'cmpxchg'
-        arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
-        ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from m=
-acro 'arch_cmpxchg'
-        (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-                             ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:335:3: note: expanded from ma=
-cro '__cmpxchg'
-                BUILD_BUG();                                            \
-                ^
-note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=3D0 =
-to see all)
-/stuff/linux/include/linux/compiler_types.h:385:2: note: expanded from macr=
-o '_compiletime_assert'
-        __compiletime_assert(condition, msg, prefix, suffix)
-        ^
-/stuff/linux/include/linux/compiler_types.h:378:4: note: expanded from macr=
-o '__compiletime_assert'
-                        prefix ## suffix();                             \
-                        ^
-<scratch space>:69:1: note: expanded from here
-__compiletime_assert_335
-^
-/stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: error:=
- call to __compiletime_assert_335 declared with 'error' attribute: BUILD_BU=
-G failed
-/stuff/linux/include/linux/atomic/atomic-instrumented.h:1916:2: note: expan=
-ded from macro 'cmpxchg'
-        arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
-        ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from m=
-acro 'arch_cmpxchg'
-        (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-                             ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:335:3: note: expanded from ma=
-cro '__cmpxchg'
-                BUILD_BUG();                                            \
-                ^
-note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=3D0 =
-to see all)
-/stuff/linux/include/linux/compiler_types.h:385:2: note: expanded from macr=
-o '_compiletime_assert'
-        __compiletime_assert(condition, msg, prefix, suffix)
-        ^
-/stuff/linux/include/linux/compiler_types.h:378:4: note: expanded from macr=
-o '__compiletime_assert'
-                        prefix ## suffix();                             \
-                        ^
-<scratch space>:69:1: note: expanded from here
-__compiletime_assert_335
-^
-/stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: error:=
- call to __compiletime_assert_335 declared with 'error' attribute: BUILD_BU=
-G failed
-/stuff/linux/include/linux/atomic/atomic-instrumented.h:1916:2: note: expan=
-ded from macro 'cmpxchg'
-        arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
-        ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from m=
-acro 'arch_cmpxchg'
-        (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-                             ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:335:3: note: expanded from ma=
-cro '__cmpxchg'
-                BUILD_BUG();                                            \
-                ^
-note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=3D0 =
-to see all)
-/stuff/linux/include/linux/compiler_types.h:385:2: note: expanded from macr=
-o '_compiletime_assert'
-        __compiletime_assert(condition, msg, prefix, suffix)
-        ^
-/stuff/linux/include/linux/compiler_types.h:378:4: note: expanded from macr=
-o '__compiletime_assert'
-                        prefix ## suffix();                             \
-                        ^
-<scratch space>:69:1: note: expanded from here
-__compiletime_assert_335
-^
-/stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: error:=
- call to __compiletime_assert_335 declared with 'error' attribute: BUILD_BU=
-G failed
-/stuff/linux/include/linux/atomic/atomic-instrumented.h:1916:2: note: expan=
-ded from macro 'cmpxchg'
-        arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
-        ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from m=
-acro 'arch_cmpxchg'
-        (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-                             ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:335:3: note: expanded from ma=
-cro '__cmpxchg'
-                BUILD_BUG();                                            \
-                ^
-note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=3D0 =
-to see all)
-/stuff/linux/include/linux/compiler_types.h:385:2: note: expanded from macr=
-o '_compiletime_assert'
-        __compiletime_assert(condition, msg, prefix, suffix)
-        ^
-/stuff/linux/include/linux/compiler_types.h:378:4: note: expanded from macr=
-o '__compiletime_assert'
-                        prefix ## suffix();                             \
-                        ^
-<scratch space>:69:1: note: expanded from here
-__compiletime_assert_335
-^
-/stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: error:=
- call to __compiletime_assert_335 declared with 'error' attribute: BUILD_BU=
-G failed
-/stuff/linux/include/linux/atomic/atomic-instrumented.h:1916:2: note: expan=
-ded from macro 'cmpxchg'
-        arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
-        ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from m=
-acro 'arch_cmpxchg'
-        (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-                             ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:335:3: note: expanded from ma=
-cro '__cmpxchg'
-                BUILD_BUG();                                            \
-                ^
-note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=3D0 =
-to see all)
-/stuff/linux/include/linux/compiler_types.h:385:2: note: expanded from macr=
-o '_compiletime_assert'
-        __compiletime_assert(condition, msg, prefix, suffix)
-        ^
-/stuff/linux/include/linux/compiler_types.h:378:4: note: expanded from macr=
-o '__compiletime_assert'
-                        prefix ## suffix();                             \
-                        ^
-<scratch space>:69:1: note: expanded from here
-__compiletime_assert_335
-^
-/stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: error:=
- call to __compiletime_assert_335 declared with 'error' attribute: BUILD_BU=
-G failed
-/stuff/linux/include/linux/atomic/atomic-instrumented.h:1916:2: note: expan=
-ded from macro 'cmpxchg'
-        arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
-        ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from m=
-acro 'arch_cmpxchg'
-        (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-                             ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:335:3: note: expanded from ma=
-cro '__cmpxchg'
-                BUILD_BUG();                                            \
-                ^
-note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=3D0 =
-to see all)
-/stuff/linux/include/linux/compiler_types.h:385:2: note: expanded from macr=
-o '_compiletime_assert'
-        __compiletime_assert(condition, msg, prefix, suffix)
-        ^
-/stuff/linux/include/linux/compiler_types.h:378:4: note: expanded from macr=
-o '__compiletime_assert'
-                        prefix ## suffix();                             \
-                        ^
-<scratch space>:69:1: note: expanded from here
-__compiletime_assert_335
-^
-/stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: error:=
- call to __compiletime_assert_335 declared with 'error' attribute: BUILD_BU=
-G failed
-/stuff/linux/include/linux/atomic/atomic-instrumented.h:1916:2: note: expan=
-ded from macro 'cmpxchg'
-        arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
-        ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from m=
-acro 'arch_cmpxchg'
-        (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-                             ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:335:3: note: expanded from ma=
-cro '__cmpxchg'
-                BUILD_BUG();                                            \
-                ^
-note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=3D0 =
-to see all)
-/stuff/linux/include/linux/compiler_types.h:385:2: note: expanded from macr=
-o '_compiletime_assert'
-        __compiletime_assert(condition, msg, prefix, suffix)
-        ^
-/stuff/linux/include/linux/compiler_types.h:378:4: note: expanded from macr=
-o '__compiletime_assert'
-                        prefix ## suffix();                             \
-                        ^
-<scratch space>:69:1: note: expanded from here
-__compiletime_assert_335
-^
-/stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: error:=
- call to __compiletime_assert_335 declared with 'error' attribute: BUILD_BU=
-G failed
-/stuff/linux/include/linux/atomic/atomic-instrumented.h:1916:2: note: expan=
-ded from macro 'cmpxchg'
-        arch_cmpxchg(__ai_ptr, __VA_ARGS__); \
-        ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:344:23: note: expanded from m=
-acro 'arch_cmpxchg'
-        (__typeof__(*(ptr))) __cmpxchg((ptr),                           \
-                             ^
-/stuff/linux/arch/riscv/include/asm/cmpxchg.h:335:3: note: expanded from ma=
-cro '__cmpxchg'
-                BUILD_BUG();                                            \
-                ^
-note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=3D0 =
-to see all)
-/stuff/linux/include/linux/compiler_types.h:385:2: note: expanded from macr=
-o '_compiletime_assert'
-        __compiletime_assert(condition, msg, prefix, suffix)
-        ^
-/stuff/linux/include/linux/compiler_types.h:378:4: note: expanded from macr=
-o '__compiletime_assert'
-                        prefix ## suffix();                             \
-                        ^
-<scratch space>:69:1: note: expanded from here
-__compiletime_assert_335
-^
-9 errors generated.
+diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+index 13b7744b1e27..253d47791f0f 100644
+--- a/Documentation/rust/quick-start.rst
++++ b/Documentation/rust/quick-start.rst
+@@ -40,7 +40,7 @@ and run::
+ 
+ Otherwise, fetch a standalone installer or install ``rustup`` from:
+ 
+-	https://www.rust-lang.org
++	https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
+ 
+ 
+ Rust standard library source
 
---27Tfh9qw3tZtvGh2
-Content-Type: application/pgp-signature; name="signature.asc"
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+-- 
+2.39.2
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZAZgTQAKCRB4tDGHoIJi
-0uBUAPwNyD6kqs6UahOkel8ihw22Ieds7rMpfQendImfuHvc+gD+N829uA3Fy+uc
-i1UvPIQcaMWNUL2BVc8u+oJ4lyYh9Qc=
-=APgi
------END PGP SIGNATURE-----
-
---27Tfh9qw3tZtvGh2--
