@@ -2,60 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC32C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 08:57:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61BE9C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 09:07:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbjCFI5l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 03:57:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59930 "EHLO
+        id S229837AbjCFJHe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 04:07:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbjCFI5j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 03:57:39 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D551821965;
-        Mon,  6 Mar 2023 00:57:33 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id u5so9490104plq.7;
-        Mon, 06 Mar 2023 00:57:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678093053;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vt+MS0eYcnMeqDB+aM3O4tClbihsYFf1JjAFSjKpS1E=;
-        b=Ut2pKvDf5wwayQF+UAC+FXF6xHDhXluuw7A6U2rkEwwqhkYN5kTsDWdIlcpFk0krUc
-         lY8S6KlxITtUWDTDzUkrs7VSrxHu09I324zsD0cQk2qhJ6l4/sOHIWMHsGDmQ1HPXTdk
-         OJcPY+GMEj99V3q+BtoXsRpgeXaGDcsNqsK+lhAFFqwgEgCj2Z7+4ag1w2DBSoSs60s8
-         70iyjdwN3vTnJKC1ONpM5pMOeX3W+WXB4aVscw/4hCFnzeAS+aIz61fLh9bxrjTHmXtE
-         pF78aY6e8KxYw4kXIWuF9qsUaTQ3cE8qo+HFqbMZog+hA3bXZhAW27U1EFR/81jKd3tJ
-         gJeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678093053;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vt+MS0eYcnMeqDB+aM3O4tClbihsYFf1JjAFSjKpS1E=;
-        b=bRd303f9wMGKX9S23VNDtoE+MUefeS0ECN/te5WGTZCIwDcydIcZmVEZk7i3jp7fzJ
-         +Je0OPnOv/CarMF7JbmWLZP8QQYlD60PtXubrzUPHTVVdBYdJuwYkHip8iLGnSKCbFCX
-         PBRDE1eZAFB/HJGy83YtgRDFSfz9akQn8OYeieBxx52fjzZdHQ4al6C2ItwTlAPoj0RP
-         MieBjS52GXsmVzKU+hroewXfN7nRsKiu+V+JV84bp7huadIL2PVyov7fkLKgcrpfibuj
-         dMXvKbnrFX0i68YrQjopzuA+p6+bvK1cA8701Zx7FuxBtRtcpq94nv5Tj2YXJaOa/lvc
-         Gxdg==
-X-Gm-Message-State: AO0yUKVaiorZ8Mpzl4DH6szbSADUrsVamImmhxIsEooPiYhcfK0Ve0eb
-        3MuOoCmV47ZYsppdUl0XCA0=
-X-Google-Smtp-Source: AK7set+dFQRcLEIvi0ZHJ5bHx/UaxNJvMl1pMDFFHBR/U+WXM9FUajLpcyefdLAvvbY7wiCn+BqlMg==
-X-Received: by 2002:a17:902:d489:b0:19e:5cc3:828f with SMTP id c9-20020a170902d48900b0019e5cc3828fmr13019163plg.27.1678093053259;
-        Mon, 06 Mar 2023 00:57:33 -0800 (PST)
-Received: from [192.168.43.80] (subs03-180-214-233-82.three.co.id. [180.214.233.82])
-        by smtp.gmail.com with ESMTPSA id e1-20020a631e01000000b004fb681ea0e1sm5764949pge.84.2023.03.06.00.57.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Mar 2023 00:57:33 -0800 (PST)
-Message-ID: <f53f84b5-9da7-0726-2e1f-f7e81e8ecd24@gmail.com>
-Date:   Mon, 6 Mar 2023 15:57:28 +0700
+        with ESMTP id S229698AbjCFJHd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 04:07:33 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAF221F5EF;
+        Mon,  6 Mar 2023 01:07:31 -0800 (PST)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pZ6oZ-0007Rz-WC; Mon, 06 Mar 2023 10:07:28 +0100
+Message-ID: <b12d433e-62ea-3ac4-dd97-be0288f1335f@leemhuis.info>
+Date:   Mon, 6 Mar 2023 10:07:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
+Content-Language: en-US, de-DE
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>,
@@ -64,45 +32,62 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
 References: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
  <ZAVp6jdeWzYcisUO@debian.me>
  <3d6a30ee-f093-f5b6-a193-cd86320f9452@leemhuis.info>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <3d6a30ee-f093-f5b6-a193-cd86320f9452@leemhuis.info>
+ <f53f84b5-9da7-0726-2e1f-f7e81e8ecd24@gmail.com>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
+In-Reply-To: <f53f84b5-9da7-0726-2e1f-f7e81e8ecd24@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1678093652;e0a85556;
+X-HE-SMSGID: 1pZ6oZ-0007Rz-WC
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/6/23 12:40, Thorsten Leemhuis wrote:
->> If your distro config have ``CONFIG_IKCONFIG=y``, you can copy from
->> procfs::
+
+
+On 06.03.23 09:57, Bagas Sanjaya wrote:
+> On 3/6/23 12:40, Thorsten Leemhuis wrote:
+>>> If your distro config have ``CONFIG_IKCONFIG=y``, you can copy from
+>>> procfs::
+>>>
+>>>     zcat /proc/config.gz > .config
+>> <snipped>
 >>
->>     zcat /proc/config.gz > .config
-> <snipped>
+>>> If it isn't the case, you may want to enable the aforementioned config
+>>> option.
+>>
+>> That or put them in /boot/config-$(uname -r). But well, that is
+>> something the provider of the running kernel needs to do, so it won't
+>> help the reader if we mention it here.
+>>
+>> Or do you think the guide should explain this to ensure people can
+>> pickup their config from there again in case they deleted their build
+>> artifacts? Hmmm. I currently tend to think that's not worth making the
+>> text longer for, as at that point it might be better to restart from
+>> scratch with a distro config anyway.
+>>
 > 
->> If it isn't the case, you may want to enable the aforementioned config
->> option.
-> 
-> That or put them in /boot/config-$(uname -r). But well, that is
-> something the provider of the running kernel needs to do, so it won't
-> help the reader if we mention it here.
-> 
-> Or do you think the guide should explain this to ensure people can
-> pickup their config from there again in case they deleted their build
-> artifacts? Hmmm. I currently tend to think that's not worth making the
-> text longer for, as at that point it might be better to restart from
-> scratch with a distro config anyway.
-> 
+> I think it depends whether someone would pick from /proc/config.gz or
+> /boot/config. My kernel configuration have CONFIG_IKCONFIG=y but I
+> often copy the config from the latter instead, since I booted with
+> arbitrary kernel version when compiling two or three versions, and I
+> want to ensure that the config used is from correct version (i.e.
+> I use /boot/config-5.15.x-string to build 5.15.x+1 kernel).
 
-I think it depends whether someone would pick from /proc/config.gz or
-/boot/config. My kernel configuration have CONFIG_IKCONFIG=y but I
-often copy the config from the latter instead, since I booted with
-arbitrary kernel version when compiling two or three versions, and I
-want to ensure that the config used is from correct version (i.e.
-I use /boot/config-5.15.x-string to build 5.15.x+1 kernel).
+Well, I'd say for most users the file that was automatically picked up
+by olddefconfig/localmodconfig will be the right one. And for cases like
+yours there is already this in the text:
 
-Thanks.
+```
+The make targets try to find the configuration for your running kernel
+automatically, but might choose poorly. A line like ‘# using defaults
+found in /boot/config-6.0.7-250.fc36.x86_64’ or ‘using config:
+‘/boot/config-6.0.7-250.fc36.x86_64’ tells you which file they picked.
+If that is not the intended one, simply store it as ‘~/linux/.config’
+before using these make targets.
+```
 
--- 
-An old man doll... just what I always wanted! - Clara
+Or am I missing something?
 
+Ciao, Thorsten
