@@ -2,211 +2,225 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BBBCC64EC4
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 16:39:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24714C64EC4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 16:43:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbjCFQjU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 11:39:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50840 "EHLO
+        id S230176AbjCFQn2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 11:43:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230409AbjCFQjC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 11:39:02 -0500
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on061d.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe0c::61d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 565D03B853;
-        Mon,  6 Mar 2023 08:37:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jQNgJEDFoUKXy4ThF0M8Np59faSoB1rf2uF7KLFVNPA=;
- b=IpYc3/86OAfHqLh2+etMndPaDE/OOcwzmuO6v/NuQfx7jJSiEd/wLQYN5cAEiZqOnKJosGKGQRIiPtCHVAEeL3/Sy6jUDytrgXC1at+bagdwsm+I3Cvtx6xSicZ5Mo5qO8f09o7Lmnm0Nkety/12nDbikX/ZiY5yKWkQEQ5tVnU=
-Received: from AM6PR04CA0053.eurprd04.prod.outlook.com (2603:10a6:20b:f0::30)
- by GV1PR08MB8402.eurprd08.prod.outlook.com (2603:10a6:150:a7::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.27; Mon, 6 Mar
- 2023 16:21:46 +0000
-Received: from VI1EUR03FT035.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:f0:cafe::1e) by AM6PR04CA0053.outlook.office365.com
- (2603:10a6:20b:f0::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28 via Frontend
- Transport; Mon, 6 Mar 2023 16:21:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VI1EUR03FT035.mail.protection.outlook.com (100.127.145.20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6156.28 via Frontend Transport; Mon, 6 Mar 2023 16:21:45 +0000
-Received: ("Tessian outbound 2ba0ed2ebb9f:v135"); Mon, 06 Mar 2023 16:21:45 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: a6cc002718f8ae22
-X-CR-MTA-TID: 64aa7808
-Received: from d7de9c93e0c7.1
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id EC51BBBD-05A6-4453-A2CC-CDC2C26D8830.1;
-        Mon, 06 Mar 2023 16:21:38 +0000
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id d7de9c93e0c7.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 06 Mar 2023 16:21:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HSQ014iZC6cIiZy0I3TakA4CL10qT6e2BthU5nSFgYedc8n9wpZPB9mjR99ffX7KE1ryJgnxi9t0ddEznpizIrtesSXvRebvVHNi8S3vfbLkuwuK1QfwRlQybs471Izs/Q5O2x7k9X30W3fjIVlWkPXSxeUQlGfXSOd424pXwaUpUbkydtptlbrX1y5sW+HJoa7EA+i9o5nopj5R4vOdi4WbpuxIP315BdqUpC7ZR9qWLrq42aZB7CL01RAhNv814U0mwTKap1OhmEFQiQ6Rib13vDoticAEInSb7lVC5WQIVxGlAZhtp9V1hzMZYSjS6/J+hr+0dmS6zrlmjLOs8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jQNgJEDFoUKXy4ThF0M8Np59faSoB1rf2uF7KLFVNPA=;
- b=Sjymlq059sU0QJTHrx4ElUrS5gOCGkqdSotMAVmM60/ARp2h4aNajvTPgFu6lYQOxULhWkfYYkJQ/ZHH2Ty9+1Ujjw/3N5Jn1/mEfZFojTuMEt4NAQEovkpZHMb4AxUl/W+fGcGrSZqd6vJIuoPIuEwihU94Rgwl0bGZWdd3agVWuQCx0PnyTTU7ENv4U9IgNBaYnMjMzLQniozp2FhMg8b1imPLSnmLMfKprK1Zg+Munt1Qzy1JKItpSZaR4ylJ7Sm8WEshpfoXRGqmCvcBqAHTAtVBvFJgMN/YgjSAzetX4CbMcFPReR3RZvc+mkFpD05WS6Ztrk3XofAcxSEllg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jQNgJEDFoUKXy4ThF0M8Np59faSoB1rf2uF7KLFVNPA=;
- b=IpYc3/86OAfHqLh2+etMndPaDE/OOcwzmuO6v/NuQfx7jJSiEd/wLQYN5cAEiZqOnKJosGKGQRIiPtCHVAEeL3/Sy6jUDytrgXC1at+bagdwsm+I3Cvtx6xSicZ5Mo5qO8f09o7Lmnm0Nkety/12nDbikX/ZiY5yKWkQEQ5tVnU=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
- by DB9PR08MB6361.eurprd08.prod.outlook.com (2603:10a6:10:261::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Mon, 6 Mar
- 2023 16:21:25 +0000
-Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
- ([fe80::e3d1:5a4:db0c:43cc]) by DB9PR08MB7179.eurprd08.prod.outlook.com
- ([fe80::e3d1:5a4:db0c:43cc%8]) with mapi id 15.20.6156.028; Mon, 6 Mar 2023
- 16:21:25 +0000
-Date:   Mon, 6 Mar 2023 16:20:56 +0000
-From:   "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, "nd@arm.com" <nd@arm.com>
-Subject: Re: [PATCH v7 01/41] Documentation/x86: Add CET shadow stack
- description
-Message-ID: <ZAYS6CHuZ0MiFvmE@arm.com>
-References: <Y/9fdYQ8Cd0GI+8C@arm.com>
- <636de4a28a42a082f182e940fbd8e63ea23895cc.camel@intel.com>
- <df8ef3a9e5139655a223589c16a68393ab3f6d1d.camel@intel.com>
- <ZADQISkczejfgdoS@arm.com>
- <9714f724b53b04fdf69302c6850885f5dfbf3af5.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9714f724b53b04fdf69302c6850885f5dfbf3af5.camel@intel.com>
-X-ClientProxiedBy: SN7PR04CA0004.namprd04.prod.outlook.com
- (2603:10b6:806:f2::9) To DB9PR08MB7179.eurprd08.prod.outlook.com
- (2603:10a6:10:2cc::19)
+        with ESMTP id S229801AbjCFQnU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 11:43:20 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2664D61BE
+        for <linux-doc@vger.kernel.org>; Mon,  6 Mar 2023 08:42:54 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id g3so41341660eda.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Mar 2023 08:42:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1678120900;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CBQLhMJNJwBxWCZBMKKd2ZioyWT7HHTdTuSHuSD5zeE=;
+        b=RymyUxEqXDN6lqEMPjXJTgOOGQgr5jbPevWg8i40M+/MPF9dFVfBLTwCZgxRLAl46d
+         Nw/KqOGzbnN3Q4Ki62BMdS7r2U3bvniAWizojRlbFsi2tCP9JpJ/kBxnPGuGrGT4q8xy
+         raXXBoV2dAXAfj90iQOvAzDND8z0f2MR5DjBr5lepEWwn/d0ZzmiuL74BixrSAxBIVcH
+         rREZOqtfY8LN8WH5mHd0lTO80qa/S8ovZopCCPZ1yjpC2F3ziHWty8MZ9gFFgAQhxW7n
+         TZiRddDGSdircQbHifgYgGIhdIbNL5yofWgbB4LX1Qrblg8MyEt90pqodeP9mhBrnavh
+         SNpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678120900;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CBQLhMJNJwBxWCZBMKKd2ZioyWT7HHTdTuSHuSD5zeE=;
+        b=FgdwsUqoGpp+yW5RDgK2VjtS8iuZM1sfz35VN6clQ+TNBBDVoEkhVHwIwbjwwt0B6z
+         IDL3v75uA1vVcfPW6n6rVRnvGStUdY2JFduhUhfwUu7yJkFFPBB8mR+yRRXB9/dc7Zvh
+         2CF4sT8qZWHHlqNi5wQxMaANIgLY00i7//9HRZxxvO0bRRvB5H+381Ild/GdsEM6+5gG
+         jSxLQmjEKJ8c2284+k9mkGpG7rjTIRg9NkKMk86MsTMfstzLnbkAwIwstDMg1evNtyZJ
+         Xzd0bKdVvTJStu84Oin0EOjcPUw1XEY/lhCNYbyoHh93NA/hvhW3wDyzQcVg4MBsXfKV
+         slgg==
+X-Gm-Message-State: AO0yUKVIkPR+FhPZlAQMtcSqA9c1/P0/D1W5LoUq7sADy3cZOyJdR3q0
+        whXy4h1NZf7/QARVt+reQPS/NOVVChlhLIf2+hvGsa0j
+X-Google-Smtp-Source: AK7set8jxix0Za/DVd/wm3kcw43surTXMo2qOCiwMqzZSVfE/iqtn5rPhfFDjsexdGCVyoGKW4OM/Q==
+X-Received: by 2002:a17:906:ee9:b0:8af:2bb3:80d7 with SMTP id x9-20020a1709060ee900b008af2bb380d7mr15158307eji.31.1678120899857;
+        Mon, 06 Mar 2023 08:41:39 -0800 (PST)
+Received: from [192.168.1.70] (125.62.71.86.rev.sfr.net. [86.71.62.125])
+        by smtp.gmail.com with ESMTPSA id m30-20020a50d7de000000b004c13fe8fabfsm5355664edj.84.2023.03.06.08.41.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Mar 2023 08:41:39 -0800 (PST)
+Message-ID: <7ade5f76-426c-297c-2809-af5f67279cf9@baylibre.com>
+Date:   Mon, 6 Mar 2023 17:41:37 +0100
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|DB9PR08MB6361:EE_|VI1EUR03FT035:EE_|GV1PR08MB8402:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1443a4f-349f-442c-19e6-08db1e5ee15c
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: RfT5tvhJOoGmOCieGsWqsYWBArlz1hKznr98Xnp8KiD6XoDfFh/9dGElhqmsuomIr5qVcdTQwdQ3tqnC2Y+pCEHoai+xA1ZcahICUyKnqh6hwsj8t2/azsQ3yUU7s/AIg+neChb4wDpCwJ+srKzYxQqvUjHcvROE1sWmZcL74fmnIPAf9+C8FiFx/Pwmp3sQUFyuA4br/rgupDMsGKqMM8B/Ow0DXbDyiio/amBuzmRkUfOxWge6x80nJ7VO1uyfz7R3D+kd/il8c8hPYUeDa/x+OLMWipgID5V/icXZEXWEqrw2qNlcmjqtSzbALx732w5obD3DGy/hGFqLxbdgEGybLxdkgB66DVPqs7m1OeH5hr7D9W1ISi1c26Cb2JwgW2KD/vOO/pghoRocSSJZJ/rv/XZAR2YD1bPMeddx3SxHI4G5TXqvQxnCbjPBlDnNA73rlEHwHwOD2JXsZlgMsXwcjLu9PWesaiZQPnJnmYXGDDFfs97rrYSYIEc/H3qKMHy2VN+cZQnbXA3F89WKQ4t/Uufsh6e0wUxDodYQ1/eL2PgnV6vedXnjc/GTvawlcqfX65d9dTOr1bMGI0ktMYE6zEgNuz6bWQ1klGTKOk/jBUFBTWuCe+lt3v2dtmGA13BvAlu7hlJL8AwDhzSLpE1REMaDwX8JBvIgT2GWVh6XuX4EAkkHKq5pPGs0uF1l
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(346002)(366004)(396003)(136003)(39860400002)(451199018)(8936002)(5660300002)(7416002)(7406005)(66556008)(66946007)(2906002)(66476007)(8676002)(4326008)(54906003)(110136005)(316002)(478600001)(36756003)(6666004)(6512007)(6506007)(6486002)(26005)(2616005)(41300700001)(921005)(86362001)(186003)(38100700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6361
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: VI1EUR03FT035.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: cff02f66-8e96-4e0f-9862-08db1e5ed457
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9X/8ch43QmX4AFOoTAi+tqP/orDhtSppw3a8EtEX5eT9VWWzBCn2CQe2WOTxu1gZFSZFrNO0Zb7i/zbsP5/uNPhFy3AaWzNcnj3Q/MWGifwKPxI5wQlHVNi7PJ3txdBmKwhlMepYfMLREX9YttzDSSf6OYIL/ZScrAhF90E7mBBtYk4DOZVjpCvELhcLtkjKFZ3SUYwrte0fvq/7SjPNTjaDuxEVN++m5sxMbe50D646hDPjztNFoHdDOM0suFp9SkN0HjwJ10ZU+I9rHx/o3q6OVSHS3vcrvJTRYHPjsOIZ2nWHrWRsjq3msX8H+R9whNY/HOUcT78pd1Xf5ggdqCw1vMiRSljip0iIrVxej2uRQHSEeTpvEXyFXrwHLkDmTxw2RFJ9S2DJwr3g+4iTimh0A5pSYhoNKSv3vDRKvndtsxsOLr21kdIEwavrEXRlrRWG3uyuWOMvOoGxn9AjUW21lwtPL3GAP+gc7N9vXZLVKtVuCYdCZjFWrmOPoUhVwEx0Gw0DH3AcmhfUDqQfoT5LfmVqwbBGOjgbzp/F2xtQ1lbPzBCgKPB4+GbAkq16z4KOAedVlA9h9MBnWomQ9SwGfaT7eLd+U8fYqofun1wRTJr1nE1Pfv9/+FiRTobhLcW47uDACa6SAaf29v4es2T9fZ08fGx2+mLqwqmsMdUmkJCQLwsjE9RKqZuy2lPg5HpN8OiztohyFj8x14KWoyeNLKD0+gtcjelPqOdbpq4=
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230025)(4636009)(396003)(39860400002)(376002)(136003)(346002)(451199018)(40470700004)(36840700001)(46966006)(8936002)(5660300002)(70586007)(450100002)(70206006)(2906002)(8676002)(4326008)(110136005)(54906003)(316002)(478600001)(36860700001)(36756003)(47076005)(6666004)(6512007)(6506007)(6486002)(26005)(2616005)(41300700001)(82740400003)(86362001)(82310400005)(921005)(40460700003)(40480700001)(356005)(186003)(81166007)(336012);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2023 16:21:45.7225
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1443a4f-349f-442c-19e6-08db1e5ee15c
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: VI1EUR03FT035.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8402
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 2/4] mfd: tps6594: Add driver for TI TPS6594 PMIC
+Content-Language: en-US
+To:     Lee Jones <lee@kernel.org>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        corbet@lwn.net, hdegoede@redhat.com, eric.auger@redhat.com,
+        jgg@ziepe.ca, razor@blackwall.org, suma.hegde@amd.com,
+        stephen@networkplumber.org, arnd@arndb.de,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, eblanc@baylibre.com,
+        jneanne@baylibre.com
+References: <20230216114410.183489-1-jpanis@baylibre.com>
+ <20230216114410.183489-3-jpanis@baylibre.com>
+ <20230303150355.GQ2420672@google.com>
+From:   Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <20230303150355.GQ2420672@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The 03/03/2023 22:35, Edgecombe, Rick P wrote:
-> I think I slightly prefer the former arch_prctl() based solution for a
-> few reasons:
->  - When you need to find the start or end of the shadow stack can you
-> can just ask for it instead of searching. It can be faster and simpler.
->  - It saves 8 bytes of memory per shadow stack.
-> 
-> If this turns out to be wrong and we want to do the marker solution
-> much later at some point, the safest option would probably be to create
-> new flags.
 
-i see two problems with a get bounds syscall:
 
-- syscall overhead.
+On 3/3/23 16:03, Lee Jones wrote:
+> On Thu, 16 Feb 2023, Julien Panis wrote:
+>
+>> This patch adds support for TPS6594 PMIC MFD core. It provides
+>> communication through the I2C and SPI interfaces, and supports
+>> protocols with embedded CRC data fields for safety applications.
+>>
+>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+>> ---
 
-- discontinous shadow stack (e.g. alt shadow stack ends with a
-  pointer to the interrupted thread shadow stack, so stack trace
-  can continue there, except you don't know the bounds of that).
+(...)
 
-> But just discussing this with HJ, can you share more on what the usage
-> is? Like which backtracing operation specifically needs the marker? How
-> much does it care about the ucontext case?
+>> +
+>> +static int tps6594_check_crc_mode(struct tps6594 *tps, bool primary_pmic)
+>> +{
+>> +	int ret;
+>> +
+>> +	/*
+>> +	 * Ensure that CRC is enabled.
+>> +	 * Once CRC is enabled, it can't be disabled until next power cycle.
+>> +	 */
+>> +	tps->use_crc = true;
+>> +	ret = regmap_test_bits(tps->regmap, TPS6594_REG_SERIAL_IF_CONFIG,
+>> +			       TPS6594_BIT_I2C1_SPI_CRC_EN);
+>> +	if (ret < 0) {
+>> +		tps->use_crc = false;
+>> +	} else if (ret == 0) {
+>> +		tps->use_crc = false;
+> Will this value be used again after you return an error?
 
-it could be an option for perf or ptracers to sample the stack trace.
+No, it is not used any more. I will remove this line in v2.
 
-in-process collection of stack trace for profiling or crash reporting
-(e.g. when stack is corrupted) or cross checking stack integrity may
-use it too.
+>
+>> +		ret = -EIO;
+>> +	} else {
+>> +		dev_info(tps->dev, "CRC feature enabled on %s PMIC",
+>> +			 primary_pmic ? "primary" : "secondary");
+>> +		ret = 0;
+> I would consider reversing the logic of the if()s, default to 'false'
+> then set 'true' in here before the print.
 
-sometimes parsing /proc/self/smaps maybe enough, but the idea was to
-enable light-weight backtrace collection in an async-signal-safe way.
+Do you speak about 'tps->use_crc' value ?
+'tps->use_crc' is used in regmap read/write callbacks, so it
+must be set 'true' before calling 'regmap_test_bits()' function.
+In other words, CRC_EN bit must be read with 'tps->use_crc = true'.
 
-syscall overhead in case of frequent stack trace collection can be
-avoided by caching (in tls) when ssp falls within the thread shadow
-stack bounds. otherwise caching does not work as the shadow stack may
-be reused (alt shadow stack or ucontext case).
+>
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int tps6594_set_crc_feature(struct tps6594 *tps)
+>> +{
+>> +	int ret;
+>> +
+>> +	/* Force PFSM I2C_2 trigger to enable CRC on primary PMIC */
+>> +	ret = regmap_write_bits(tps->regmap, TPS6594_REG_FSM_I2C_TRIGGERS,
+>> +				TPS6594_BIT_TRIGGER_I2C(2), TPS6594_BIT_TRIGGER_I2C(2));
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Wait for PFSM to process trigger */
+>> +	msleep(20);
+> Is this the time specified in the datasheet?
 
-unfortunately i don't know if syscall overhead is actually a problem
-(probably not) or if backtrace across signal handlers need to work
-with alt shadow stack (i guess it should work for crash reporting).
+I checked with the customer after your review and the datasheet
+specifies 2 ms.
+The clock specification is +/-5%. The customer recommends
+using 4ms, which is a simple number providing sufficient margin.
+As a consequence, I will adjust this delay in v2.
 
-thanks.
+>
+>> +	return tps6594_check_crc_mode(tps, true);
+>> +}
+>> +
+>> +int tps6594_device_init(struct tps6594 *tps)
+>> +{
+>> +	struct device *dev = tps->dev;
+>> +	unsigned int prop;
+> Since this only has a single use, better to rename it to something specific.
+>
+>> +	unsigned long timeout = msecs_to_jiffies(TPS6594_CRC_SYNC_TIMEOUT_MS);
+>> +	int n_dev = ARRAY_SIZE(tps6594_cells);
+>> +	int ret;
+>> +
+>> +	/* Keep PMIC in ACTIVE state */
+>> +	ret = regmap_set_bits(tps->regmap, TPS6594_REG_FSM_NSLEEP_TRIGGERS,
+>> +			      TPS6594_BIT_NSLEEP1B | TPS6594_BIT_NSLEEP2B);
+>> +	if (ret)
+>> +		return dev_err_probe(dev, ret, "Failed to set PMIC state\n");
+>> +
+>> +	/*
+>> +	 * CRC mode can be used with I2C or SPI protocols.
+>> +	 * If this mode is specified for primary PMIC, it will also be applied to secondary PMICs
+>> +	 * through SPMI serial interface.
+>> +	 * In this multi-PMIC synchronization scheme, the primary PMIC is the controller device
+>> +	 * on the SPMI bus, and the secondary PMICs are the target devices on the SPMI bus.
+>> +	 */
+>> +	prop = of_property_read_bool(dev->of_node, "ti,use-crc");
+
+As discussed with Krzysztof for dt-bindings, this 'ti,use-crc'
+property will be removed from the device tree, in v2.
+Instead, a property will be used to identify the primary PMIC.
+Moreover, since using CRC applies either to all the PMICs or
+to none of them, it is a global feature. That's why a driver
+parameter will be added to enable CRC feature at initialization
+(something like a 'enable_crc' bool).
+
+(...)
+
+>> diff --git a/include/linux/mfd/tps6594.h b/include/linux/mfd/tps6594.h
+>> new file mode 100644
+>> index 000000000000..e2ffd4dc034d
+>> --- /dev/null
+>> +++ b/include/linux/mfd/tps6594.h
+>> @@ -0,0 +1,1018 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * Functions to access TPS6594 Power Management IC
+>> + *
+>> + * Copyright (C) 2022 BayLibre Incorporated - https://www.baylibre.com/
+>> + */
+>> +
+>> +#ifndef __LINUX_MFD_TPS6594_H
+>> +#define __LINUX_MFD_TPS6594_H
+>> +
+>> +#include <linux/device.h>
+>> +#include <linux/regmap.h>
+>> +
+>> +struct regmap_irq_chip_data;
+>> +
+>> +/* Chip id list */
+>> +#define TPS6594		0
+>> +#define TPS6593		1
+>> +#define LP8764X		2
+> enum?
+
+Yes indeed, I will fix that in v2.
+
+(...)
+
+Your others suggestions will also be implemented in v2.
+
+Thank you Lee for your time and feedback.
+
+Julien
