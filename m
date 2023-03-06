@@ -2,209 +2,235 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9031EC6FD19
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 08:08:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87C44C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Mar 2023 08:25:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbjCFIIQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 03:08:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41270 "EHLO
+        id S229689AbjCFIZA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 03:25:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbjCFIIP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 03:08:15 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8959286A6;
-        Mon,  6 Mar 2023 00:08:11 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E1E6E1EC0554;
-        Mon,  6 Mar 2023 09:08:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1678090090;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=SCgxwhfA8a2XzbeTj8pvN/P7ji/tBRIr/iWcDVYJ/Qg=;
-        b=hT6yTUHCM7iuFYwq3kiPpevrJfbf4NruRD+AiFavDW1R6kYkHTKRc/xTU5hzHlHM6vNlww
-        7jJxJGZh0qVyTqFR6adcA6K1PvN+XdSFZAVoo3V++d05KbDQ6rcktqT4oC+5k+UJO7/RW9
-        PC9GbmSz3dUK8wPBfDmFSPsylMM0BzE=
-Date:   Mon, 6 Mar 2023 09:08:05 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v7 21/41] mm: Add guard pages around a shadow stack.
-Message-ID: <ZAWfZcJLXUfNt1Fs@zn.tnic>
-References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-22-rick.p.edgecombe@intel.com>
+        with ESMTP id S229899AbjCFIY6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 03:24:58 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B3993E4;
+        Mon,  6 Mar 2023 00:24:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678091095; x=1709627095;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ZhJdKNNmd5cW07xowwKYORD+kEzn0T20Ma/CP1nj1S8=;
+  b=AZwZhr4V0BnnoqukEplY9Sri08Jzy18j69mO6T6ebTnGLFkG7JD/TDUO
+   Z4C/tqwUlDEMdvMHtSXg0y7S2+JEb5SDH1kT6cuSziSHryFAMwcUYiBHj
+   wISeJNnCBbUvMWUbzu5xpxnDi+5NohCLuSzGHFjS+lTLAnJ2y7FUgK6xk
+   r1AegKPLZHbjBQOeNMYJsH6BuZPj7+9l0h03pdnGhgHSsP8X0MrykV4G2
+   LdiHnjy1wctOqweIMf6UGhOLw6VDNCKMXDDPSWNnSqkVmXWfM+Xlse62r
+   bNBkaejXAbr4WtTAeOpfVCbbLMUqEFqwzwED+B3b269PA/UCFS2HoNvuv
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="337015566"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
+   d="scan'208";a="337015566"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 00:24:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="669357035"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
+   d="scan'208";a="669357035"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga007.jf.intel.com with ESMTP; 06 Mar 2023 00:24:54 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 6 Mar 2023 00:24:54 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Mon, 6 Mar 2023 00:24:54 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.177)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Mon, 6 Mar 2023 00:24:53 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CklH25QvyhmSsZ9lrWlFFojoj4Cv0X54Rl4Ho6f1h5Mz1PH1XClGZw95VUmDsizDvw848kICoBJPVEoegBAMAACb2tFzv/YliemvfUMQl3/dnTbKBKuxkMMxIoDKMpmwmwypzgoDhCPAqD470DejmY6fJoHqWTvXWIb/qGB9UKZOCVTmf77Uc2b3yirqdX9kBvVTvK0kuGihcseqpVBh2MKFKmcIjGLtEQ9zp2vKMRgsGqGMd6nQETfg2tBHjimZBPXFV2NkFo78ourp2lsQI1EdJ/EH1U71KliHTy2JJoCr5k06nnQWMQBANqkt45Fcz4+p+GuNnCPGjahPhrMZWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZhJdKNNmd5cW07xowwKYORD+kEzn0T20Ma/CP1nj1S8=;
+ b=jC9tbc1NXsflVMZ/6J1EyIkFfzYUGscHcE0gmghQuWMQ3Eqfwv5q4AH0YmYsYBJ9MUEC6g9Tb+27shnLpnpxSEVYGIcq+Ds0tDU7wuX91OnhhqMVN/rCqNEVGHR5GgIoJJpsJ6U37mN4a7yDNANEsbf2ozcQqFUNLvkwLLMikduVfZu0LY48CpMqfV7PK1iLiNmh4UWJiSEpYCM+2vZRsLgZ9tgxsWyBaSJpPgApKFJC0S/eOjgcrdLnDP8UgSTguypihWYIogDgJNOBRbMV2QUXSCHs4u1wXG+CQGIBtotKQ2tfXmWrsliZAoNvGoGev4WUhLiE6q+0R2C97Wh9TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA1PR11MB6171.namprd11.prod.outlook.com (2603:10b6:208:3e9::13)
+ by SN7PR11MB6773.namprd11.prod.outlook.com (2603:10b6:806:266::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Mon, 6 Mar
+ 2023 08:24:51 +0000
+Received: from IA1PR11MB6171.namprd11.prod.outlook.com
+ ([fe80::2aed:1a72:b351:1601]) by IA1PR11MB6171.namprd11.prod.outlook.com
+ ([fe80::2aed:1a72:b351:1601%8]) with mapi id 15.20.6156.027; Mon, 6 Mar 2023
+ 08:24:44 +0000
+From:   "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
+To:     "paulmck@kernel.org" <paulmck@kernel.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Frederic Weisbecker" <frederic@kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+        "urezki@gmail.com" <urezki@gmail.com>
+Subject: RE: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+Thread-Topic: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+Thread-Index: AQHZThiYp3MlrzfqvEWnd0vYLxlOHa7pzeSAgAOQlXA=
+Date:   Mon, 6 Mar 2023 08:24:44 +0000
+Message-ID: <IA1PR11MB617141A98ADB1F301FCA07E589B69@IA1PR11MB6171.namprd11.prod.outlook.com>
+References: <20230303213851.2090365-1-joel@joelfernandes.org>
+ <20230304010251.GD1301832@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20230304010251.GD1301832@paulmck-ThinkPad-P17-Gen-1>
+Accept-Language: en-US
+Content-Language: en-US
+X-Mentions: joel@joelfernandes.org
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR11MB6171:EE_|SN7PR11MB6773:EE_
+x-ms-office365-filtering-correlation-id: 7ce209c0-180b-46e4-0c96-08db1e1c3dcd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: mNA/Z6l165txyi+mOflpsZSIdRb9xSd1/Suiaah2HzZEmOvznnt2/dCZeBIvVwKPe36czXZYDTN/SRI4Unqpt1JwGLPO+vapgCu7Wd5KZ8+46ssZvNSQDeH+mgud+7QvgEIWfp/4iMx8m7l/TCsQ/nleEKv0pftaHGW5H+XIYdvRKgLRXNVncOHl22Zd7wUuuvJ5rbGEQa6T387t+24s8TWS5/lQxbkOAwfmTFJmUGQmvzXWtXGS5WzZtlcVprvDBOhvQVTJwGkRABQsYrEOCgwvsnCbnDHtteUDsz+kBXnDNSJhx+mKeRmV1JBjSFySkOk+XjVgihr7FRcOKNRSgKF9/KreLZlEV+3GRSYKFlaHNrVNEzLy5IAub3YIrk1pkMyERLOY69YJjdggq0PiexIfWJRZgUFPRM8cPXQFs+KBNhFfR3FiLko9hJdsRcCMe5OpxVdWS5n+YRgwcGtfgXTF1cokmuFnb00+ARMdI0dvXXq9Uzvq832O9Il1ctArzxs4seFeG8o2Z9C9ijVdwz8UYuxxAVy2Sds1enlXuzScbVFDVvoiQfVei5tjE8NR9nC6yDcGCUSsDvfNyiAoFhBTxDL6MP5Jsg0REpqvGLcww8U/kYvZzhFSLiPsHypfJQNxUURXfwPP2MbtsFhNnqM4qCFjszUBxwQWcTL6QfISrz8JcOwZYr3wmveMljztZ2LI0xriMec8UWwKsAsRAw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6171.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(346002)(376002)(396003)(136003)(366004)(451199018)(110136005)(54906003)(316002)(83380400001)(55016003)(33656002)(86362001)(9686003)(186003)(2906002)(76116006)(5660300002)(66556008)(66446008)(8936002)(8676002)(66946007)(41300700001)(66476007)(4326008)(478600001)(26005)(6506007)(64756008)(71200400001)(82960400001)(7696005)(122000001)(52536014)(38100700002)(38070700005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OExRV01yTWx2aTZFdmF1SitNNDh0RWpMMGtWeGVuTEh3blUwaTNIYjhIY1Rr?=
+ =?utf-8?B?OE1KRFNJU25MOXRoQmkzU2QxSjR6aVNGTEVPUTM2Ti84Q2tlYU9LQ04wOVdy?=
+ =?utf-8?B?SUNlOHQ3ZEtmMWRSejMxQXpkSFlUTVNsQ2xCYW9UaFVkL2E1QVQ2TU9tV3Jk?=
+ =?utf-8?B?ZnBmRzY2R00xbHUxcWxIYnZDVmR1eG53akxxY3Y2OEJNK1NMYnBIMUF0R1A0?=
+ =?utf-8?B?V0psc0RKTFdsUU16ZkJOdzYva1B1RHRFampiQ0tSNUFkeEJkMUFicSs0YThw?=
+ =?utf-8?B?aW9WOWZ2cTJaR0hVTkVkekZtUzVqZW03WCtqQnNoTHo3NzIxa1hLL00zQm8v?=
+ =?utf-8?B?bVl6MkxVY3RIT200aG9BZkFwZmh1R0M1OXhqRDBzN3ROMlIyR282NGtZY3dD?=
+ =?utf-8?B?R2FTT1V6QmpCcSs2Y1djdHJsZFZGYjdiU2FrNktFMEFCL3VjMXRuTmFZemxp?=
+ =?utf-8?B?UnFDUWZXdTYwU1pYSkZmdTNXRitwTmM3Z1JtZnNDYW04T0pBRkoybW8wVnNt?=
+ =?utf-8?B?RUhaZW9vamJnZllTdkpDT3dNRFBZRHRwbklJb3BZeUF5NUZwMnVFTnV6amgx?=
+ =?utf-8?B?MzlZc25WLyszVTNpZUFxT0xaZlc3U2dsWENkb2hrYzhJUnBMcVlkSkw2ZThI?=
+ =?utf-8?B?Ty91ajBVUTZWUENDcVR0M1RoN3EvaXBKR2d2ZXh1THkvRjRNQ0VTN0RBTGNo?=
+ =?utf-8?B?R2gzUmp6VnFkd011SEsvVmFKTjZrRzlTSG85RDFRRk1DTmxzakZqaUhiSlkz?=
+ =?utf-8?B?d2ZUNCtUa1A1WWR3V0doVy91eEoxaDlqb1RWUk9LV0tpNmg2SkxTTC9WL1NW?=
+ =?utf-8?B?ZEpvQURmblhEUzVJam15dHI1a29pbzJ5cUx1eElwam5HTUxIRDNyczRqTXZJ?=
+ =?utf-8?B?YjBCdW5WS1RMZUlFdmFvNHF2cG9aS2NMYXI3bk5RVUl4bWtFQkJ4eUd5MnJU?=
+ =?utf-8?B?TjNjQUNzbExSZ2lVR2dEVnV2Q0NHd01ETHU2SzdWZVJ4TVdNejZodnNicmQ2?=
+ =?utf-8?B?cDA2clJ6aGhadE9Kb0F3NWlld1BJS2FoTXZHVGJIdXBCZlFRL2NQRGhwUUlv?=
+ =?utf-8?B?eWo4dkZOVzR2RGlEN1BIaWVmeHhSbFdZcFQ5ZVVlNXJQTTV4R1VRSEhsb2Vu?=
+ =?utf-8?B?UDB1Zm9PNFhvalVLREJaRTZwanF3eWFWQlRTVU95WVNvSUxvWnRmc2FrdGM5?=
+ =?utf-8?B?N3FLUHR5ZHBUVzdEenVNSFdvWXFtZldyM3VsRnlSVCtzTTdLTENYai9UbGxv?=
+ =?utf-8?B?L053UCtzVkxwc3ZuRldpNEEwV2JycjhiN293N2FkcXozK0RCcFd2azZyRTlK?=
+ =?utf-8?B?ZEIzRWpsRUtVNjNucHpmemEyeE5qT1I3UC9KUlJYNGRuVjh0NkI2YVljNjQv?=
+ =?utf-8?B?KzhtZlRFTmRuajFLTUM1R1dWRGRMdkE0eXFBdUpwbUUzNmQybGhHRHhIR25X?=
+ =?utf-8?B?ckdzWkIzYmlxYjVSV3p0NzAybHhtSFBMVXhnV0RRNDlkY29QQkNJYlltZURM?=
+ =?utf-8?B?NEl3SGN5T0N5c21ZbHdNUnZRaUZDMEc2Mk52SlRFd2x0WHordW1aNzUxNVRD?=
+ =?utf-8?B?WGJPdWlGSkNMVmRKeE1jdDhPclBtVHIwSUpkVnpvblp4QjNwTTVzTXRPczha?=
+ =?utf-8?B?ck4vN2dUQ3llVnB5WU1DQjZPc1BmakR0OHA2R3Bodlk1ck1KTjRIUnJJQkNa?=
+ =?utf-8?B?aXBYei9NNHhCaXMrWEZlVVpVUm1peGxZTkFYN1VFQTlpNjhMeXJ0Z285NDNz?=
+ =?utf-8?B?Y2pkcElrYlpxRFlNbUUvSWpqVkhCZitsMExaNW1ZWFEyelJGWFRuZGw2YUZJ?=
+ =?utf-8?B?QWpncnl3UkRIVm8rb0UyZzdxNGIwUG5GMlozcitHN2NzTHJEOEZPYzV6dWNx?=
+ =?utf-8?B?WGN0a1lYanBzbVVqNVdLVkpPT09LSWpEUWlzdGZMNU5OanhLcDB1RmwyUVVn?=
+ =?utf-8?B?TVNrZ3p2dlh3ZTRycHBLTlpkRnhGY0NlL3lISjBFQjJjN1lmNktYT2VGVU00?=
+ =?utf-8?B?OExTTG1qcVk3YW5hNUlCclpkb0VCSDJRN0tmZ0JyaS9NMVFwTG5udmIvOE5O?=
+ =?utf-8?B?L1FMUGJ4KzYxMXVTVE85dmp3aWVpMG95SHRNazlvTWZJVXZIZ3RiWUllU1Zz?=
+ =?utf-8?Q?l90DOfSp4QROcGiz+zB2ERZX8?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230227222957.24501-22-rick.p.edgecombe@intel.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6171.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ce209c0-180b-46e4-0c96-08db1e1c3dcd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2023 08:24:44.7198
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pSItKeu7GDym7OtlPthN40ilXuFTT27X8Uw4/B/K5medjNxK7WRMBXikt/mhFbQ/+BTCaEKzd6EiXIjJqxTNbg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6773
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just typos:
-
-On Mon, Feb 27, 2023 at 02:29:37PM -0800, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> 
-> The x86 Control-flow Enforcement Technology (CET) feature includes a new
-> type of memory called shadow stack. This shadow stack memory has some
-> unusual properties, which requires some core mm changes to function
-> properly.
-> 
-> The architecture of shadow stack constrains the ability of userspace to
-> move the shadow stack pointer (SSP) in order to  prevent corrupting or
-> switching to other shadow stacks. The RSTORSSP can move the ssp to
-						^
-						instruction
-
-s/ssp/SSP/g
-
-
-> different shadow stacks, but it requires a specially placed token in order
-> to do this. However, the architecture does not prevent incrementing the
-> stack pointer to wander onto an adjacent shadow stack. To prevent this in
-> software, enforce guard pages at the beginning of shadow stack vmas, such
-
-VMAs
-
-> that there will always be a gap between adjacent shadow stacks.
-> 
-> Make the gap big enough so that no userspace SSP changing operations
-> (besides RSTORSSP), can move the SSP from one stack to the next. The
-> SSP can increment or decrement by CALL, RET  and INCSSP. CALL and RET
-
-"can be incremented or decremented"
-
-> can move the SSP by a maximum of 8 bytes, at which point the shadow
-> stack would be accessed.
-> 
-> The INCSSP instruction can also increment the shadow stack pointer. It
-> is the shadow stack analog of an instruction like:
-> 
-> 	addq    $0x80, %rsp
-> 
-> However, there is one important difference between an ADD on %rsp and
-> INCSSP. In addition to modifying SSP, INCSSP also reads from the memory
-> of the first and last elements that were "popped". It can be thought of
-> as acting like this:
-> 
-> READ_ONCE(ssp);       // read+discard top element on stack
-> ssp += nr_to_pop * 8; // move the shadow stack
-> READ_ONCE(ssp-8);     // read+discard last popped stack element
-> 
-> The maximum distance INCSSP can move the SSP is 2040 bytes, before it
-> would read the memory. Therefore a single page gap will be enough to
-				  ^
-				  ,
-
-
-> prevent any operation from shifting the SSP to an adjacent stack, since
-> it would have to land in the gap at least once, causing a fault.
-> 
-> This could be accomplished by using VM_GROWSDOWN, but this has a
-> downside. The behavior would allow shadow stack's to grow, which is
-
-s/stack's/stacks/
-
-> unneeded and adds a strange difference to how most regular stacks work.
-> 
-> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
-> Tested-by: John Allen <john.allen@amd.com>
-> Tested-by: Kees Cook <keescook@chromium.org>
-> Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> 
-> ---
-> v5:
->  - Fix typo in commit log
-> 
-> v4:
->  - Drop references to 32 bit instructions
->  - Switch to generic code to drop __weak (Peterz)
-> 
-> v2:
->  - Use __weak instead of #ifdef (Dave Hansen)
->  - Only have start gap on shadow stack (Andy Luto)
->  - Create stack_guard_start_gap() to not duplicate code
->    in an arch version of vm_start_gap() (Dave Hansen)
->  - Improve commit log partly with verbiage from (Dave Hansen)
-> 
-> Yu-cheng v25:
->  - Move SHADOW_STACK_GUARD_GAP to arch/x86/mm/mmap.c.
-> ---
->  include/linux/mm.h | 31 ++++++++++++++++++++++++++-----
->  1 file changed, 26 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 097544afb1aa..6a093daced88 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -3107,15 +3107,36 @@ struct vm_area_struct *vma_lookup(struct mm_struct *mm, unsigned long addr)
->  	return mtree_load(&mm->mm_mt, addr);
->  }
->  
-> +static inline unsigned long stack_guard_start_gap(struct vm_area_struct *vma)
-> +{
-> +	if (vma->vm_flags & VM_GROWSDOWN)
-> +		return stack_guard_gap;
-> +
-> +	/*
-> +	 * Shadow stack pointer is moved by CALL, RET, and INCSSPQ.
-> +	 * INCSSPQ moves shadow stack pointer up to 255 * 8 = ~2 KB
-> +	 * and touches the first and the last element in the range, which
-> +	 * triggers a page fault if the range is not in a shadow stack.
-> +	 * Because of this, creating 4-KB guard pages around a shadow
-> +	 * stack prevents these instructions from going beyond.
-
-I'd prefer the equivalant explanation above from the commit message - it
-is more precise.
-
-> +	 *
-> +	 * Creation of VM_SHADOW_STACK is tightly controlled, so a vma
-> +	 * can't be both VM_GROWSDOWN and VM_SHADOW_STACK
-> +	 */
-> +	if (vma->vm_flags & VM_SHADOW_STACK)
-> +		return PAGE_SIZE;
-> +
-> +	return 0;
-> +}
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+PiBGcm9tOiBQYXVsIEUuIE1jS2VubmV5IDxwYXVsbWNrQGtlcm5lbC5vcmc+DQo+IFsuLi5dDQo+
+ID4gUWl1eHUgYWxzbyBub3RlZCBpbXByZXNzaXZlIGJvb3QtdGltZSBpbXByb3ZlbWVudHMgd2l0
+aCBlYXJsaWVyDQo+ID4gdmVyc2lvbiBvZiBwYXRjaC4gQW4gZXhjZXJwdCBmcm9tIHRoZSBkYXRh
+IGhlIHNoYXJlZDoNCj4gPg0KPiA+IDEpIFRlc3RpbmcgZW52aXJvbm1lbnQ6DQo+ID4gICAgIE9T
+ICAgICAgICAgICAgOiBDZW50T1MgU3RyZWFtIDggKG5vbi1SVCBPUykNCj4gPiAgICAgS2VybmVs
+ICAgICA6IHY2LjINCj4gPiAgICAgTWFjaGluZSA6IEludGVsIENhc2NhZGUgTGFrZSBzZXJ2ZXIg
+KDIgc29ja2V0cywgZWFjaCB3aXRoIDQ0IGxvZ2ljYWwNCj4gdGhyZWFkcykNCj4gPiAgICAgUWVt
+dSAgYXJncyAgOiAtY3B1IGhvc3QgLWVuYWJsZS1rdm0sIC1zbXAgODgsdGhyZWFkcz0yLHNvY2tl
+dHM9MiwNCj4gPiDigKYNCj4gPg0KPiA+IDIpIE9TIGJvb3QgdGltZSBkZWZpbml0aW9uOg0KPiA+
+ICAgICBUaGUgdGltZSBmcm9tIHRoZSBzdGFydCBvZiB0aGUga2VybmVsIGJvb3QgdG8gdGhlIHNo
+ZWxsIGNvbW1hbmQgbGluZQ0KPiA+ICAgICBwcm9tcHQgaXMgc2hvd24gZnJvbSB0aGUgY29uc29s
+ZS4gWyBEaWZmZXJlbnQgcGVvcGxlIG1heSBoYXZlDQo+ID4gICAgIGRpZmZlcmVudCBPUyBib290
+IHRpbWUgZGVmaW5pdGlvbnMuIF0NCj4gPg0KPiA+IDMpIE1lYXN1cmVtZW50IG1ldGhvZCAodmVy
+eSByb3VnaCBtZXRob2QpOg0KPiA+ICAgICBBIHRpbWVyIGluIHRoZSBrZXJuZWwgcGVyaW9kaWNh
+bGx5IHByaW50cyB0aGUgYm9vdCB0aW1lIGV2ZXJ5IDEwMG1zLg0KPiA+ICAgICBBcyBzb29uIGFz
+IHRoZSBzaGVsbCBjb21tYW5kIGxpbmUgcHJvbXB0IGlzIHNob3duIGZyb20gdGhlIGNvbnNvbGUs
+DQo+ID4gICAgIHdlIHJlY29yZCB0aGUgYm9vdCB0aW1lIHByaW50ZWQgYnkgdGhlIHRpbWVyLCB0
+aGVuIHRoZSBwcmludGVkIGJvb3QNCj4gPiAgICAgdGltZSBpcyB0aGUgT1MgYm9vdCB0aW1lLg0K
+PiA+DQo+ID4gNCkgTWVhc3VyZWQgT1MgYm9vdCB0aW1lIChpbiBzZWNvbmRzKQ0KPiA+ICAgIGEp
+IE1lYXN1cmVkIDEwIHRpbWVzIHcvbyB0aGlzIHBhdGNoOg0KPiA+ICAgICAgICAgOC43cywgOC40
+cywgOC42cywgOC4ycywgOS4wcywgOC43cywgOC44cywgOS4zcywgOC44cywgOC4zcw0KPiA+ICAg
+ICAgICAgVGhlIGF2ZXJhZ2UgT1MgYm9vdCB0aW1lIHdhczogfjguN3MNCj4gPg0KPiA+ICAgIGIp
+IE1lYXN1cmUgMTAgdGltZXMgdy8gdGhpcyBwYXRjaDoNCj4gPiAgICAgICAgIDguNXMsIDguMnMs
+IDcuNnMsIDguMnMsIDguN3MsIDguMnMsIDcuOHMsIDguMnMsIDkuM3MsIDguNHMNCj4gPiAgICAg
+ICAgIFRoZSBhdmVyYWdlIE9TIGJvb3QgdGltZSB3YXM6IH44LjNzLg0KPiANCj4gVW5mb3J0dW5h
+dGVseSwgZ2l2ZW4gdGhhdCBhJ3MgYXZlcmFnZSBpcyB3aXRoaW4gb25lIHN0YW5kYXJkIGRldmlh
+dGlvbiBvZiBiJ3MNCj4gYXZlcmFnZSwgdGhpcyBpcyBtb3N0IGRlZmluaXRlbHkgbm90IHN0YXRp
+c3RpY2FsbHkgc2lnbmlmaWNhbnQuDQo+IEVzcGVjaWFsbHkgZ2l2ZW4gb25seSB0ZW4gbWVhc3Vy
+ZW1lbnRzIGZvciBlYWNoIGNhc2UgLS0geW91IG5lZWQgKmF0Kg0KPiAqbGVhc3QqIDI0LCBwcmVm
+ZXJhYmx5IG1vcmUuICBFc3BlY2lhbGx5IGluIHRoaXMgY2FzZSwgd2hlcmUgeW91IGRvbid0IHJl
+YWxseQ0KPiBrbm93IHdoYXQgdGhlIHVuZGVybHlpbmcgZGlzdHJpYnV0aW9uIGlzLg0KDQpUaGFu
+ayB5b3Ugc28gbXVjaCBQYXVsIGZvciB0aGUgZGV0YWlsZWQgY29tbWVudHMgb24gdGhlIG1lYXN1
+cmVkIGRhdGEuDQoNCkknbSBjdXJpb3VzIGhvdyBkaWQgeW91IGZpZ3VyZSBvdXQgdGhlIG51bWJl
+ciAyNCB0aGF0IHdlIGF0ICpsZWFzdCogbmVlZC4NClRoaXMgY2FuIGd1aWRlIG1lIG9uIHdoZXRo
+ZXIgdGhlIG51bWJlciBvZiBzYW1wbGVzIGlzIGVub3VnaCBmb3IgDQpmdXR1cmUgdGVzdGluZyA7
+LSkuDQoNCkkgZGlkIGFub3RoZXIgNDggbWVhc3VyZW1lbnRzICgyeCBvZiAyNCkgZm9yIGVhY2gg
+Y2FzZSANCih3L28gYW5kIHcvIEpvZWwncyB2MiBwYXRjaCkgYXMgYmVsb3cuIA0KQWxsIHRoZSB0
+ZXN0aW5nIGNvbmZpZ3VyYXRpb25zIGZvciB0aGUgbmV3IHRlc3RpbmcNCmFyZSB0aGUgc2FtZSBh
+cyBiZWZvcmUuDQoNCmEpIE1lYXN1cmVkIDQ4IHRpbWVzIHcvbyB2MiBwYXRjaCAoaW4gc2Vjb25k
+cyk6DQogICAgOC40LCA4LjgsIDkuMiwgOS4wLCA4LjMsIDkuNiwgOC44LCA5LjQsDQogICAgOC43
+LCA5LjIsIDguMywgOS40LCA4LjQsIDkuNiwgOC41LCA4LjgsDQogICAgOC44LCA4LjksIDkuMywg
+OS4yLCA4LjYsIDkuNywgOS4yLCA4LjgsDQogICAgOC43LCA5LjAsIDkuMSwgOS41LCA4LjYsIDgu
+OSwgOS4xLCA4LjYsDQogICAgOC4yLCA5LjEsIDguOCwgOS4yLCA5LjEsIDguOSwgOC40LCA5LjAs
+DQogICAgOS44LCA5LjgsIDguNywgOC44LCA5LjEsIDkuNSwgOS41LCA4LjcNCiAgICBUaGUgYXZl
+cmFnZSBPUyBib290IHRpbWUgd2FzOiB+OS4wcw0KDQpiKSBNZWFzdXJlIDQ4IHRpbWVzIHcvIHYy
+IHBhdGNoIChpbiBzZWNvbmRzKToNCiAgICA3LjcsIDguNiwgOC4xLCA3LjgsIDguMiwgOC4yLCA4
+LjgsIDguMiwNCiAgICA5LjgsIDguMCwgOS4yLCA4LjgsIDkuMiwgOC41LCA4LjQsIDkuMiwNCiAg
+ICA4LjUsIDguMywgOC4xLCA4LjMsIDguNiwgNy45LCA4LjMsIDguMywNCiAgICA4LjYsIDguOSwg
+OC4wLCA4LjUsIDguNCwgOC42LCA4LjcsIDguMCwNCiAgICA4LjgsIDguOCwgOS4xLCA3LjksIDku
+NywgNy45LCA4LjIsIDcuOCwNCiAgICA4LjEsIDguNSwgOC42LCA4LjQsIDkuMiwgOC42LCA5LjYs
+IDguMywNCiAgICBUaGUgYXZlcmFnZSBPUyBib290IHRpbWUgd2FzOiB+OC41cw0KDQpASm9lbCBG
+ZXJuYW5kZXMgKEdvb2dsZSksIHlvdSBtYXkgcmVwbGFjZSBteSBvbGQgZGF0YSB3aXRoIHRoZSBh
+Ym92ZSANCm5ldyBkYXRhIGluIHlvdXIgY29tbWl0IG1lc3NhZ2UuDQoNCj4gQnV0IHdlIGNhbiBh
+cHBseSB0aGUgYmlub21pYWwgZGlzdHJpYnV0aW9uIGluc3RlYWQgb2YgdGhlIHVzdWFsIG5vcm1h
+bA0KPiBkaXN0cmlidXRpb24uICBGaXJzdCwgbGV0J3Mgc29ydCBhbmQgdGFrZSB0aGUgbWVkaWFu
+czoNCj4gDQo+IGE6IDguMiA4LjMgOC40IDguNiA4LjcgOC43IDguOCA4LjggOS4wIDkuMyAgTWVk
+aWFuOiA4LjcNCj4gYjogNy42IDcuOCA4LjIgOC4yIDguMiA4LjIgOC40IDguNSA4LjcgOS4zICBN
+ZWRpYW46IDguMg0KPiANCj4gOC8xMCBvZiBhJ3MgZGF0YSBwb2ludHMgYXJlIGdyZWF0ZXIgdGhh
+biAwLjEgbW9yZSB0aGFuIGIncyBtZWRpYW4gYW5kIDgvMTANCj4gb2YgYidzIGRhdGEgcG9pbnRz
+IGFyZSBsZXNzIHRoYW4gMC4xIGxlc3MgdGhhbiBhJ3MgbWVkaWFuLg0KPiBXaGF0IGFyZSB0aGUg
+b2RkcyB0aGF0IHRoaXMgaGFwcGVucyBieSByYW5kb20gY2hhbmNlPw0KPiANCj4gVGhpcyBpcyBn
+aXZlbiBieSBzdW1fMF4yICgwLjVeMTAgKiBiaW5vbWlhbCgxMCxpKSksIHdoaWNoIGlzIGFib3V0
+IDAuMDU1Lg0KDQpXaGF0J3MgdGhlIG1lYW5pbmcgb2YgMC41IGhlcmU/IFdhcyBpdCB0aGUgcHJv
+YmFiaWxpdHkgKHdlIGFzc3VtZT8pIHRoYXQgDQplYWNoIHRpbWUgYidzIGRhdGEgcG9pbnQgZmFp
+bGVkIChvciBkaWRuJ3Qgc2F0aXNmeSkgImxlc3MgdGhhbiAwLjEgbGVzcyB0aGFuIA0KYSdzIG1l
+ZGlhbiI/DQoNCj4gVGhpcyBpcyBub3QgcXVpdGUgOTUlIGNvbmZpZGVuY2UsIHNvIG5vdCBodWdl
+bHkgY29udmluY2luZywgYnV0IGl0IGlzIGF0IGxlYXN0DQo+IGNsb3NlLiAgTm90IHRoYXQgdGhp
+cyBpcyB0aGUgY29uZmlkZW5jZSB0aGF0IChiKSBpcyAxMDBtcyBmYXN0ZXIgdGhhbiAoYSksIG5v
+dA0KPiBqdXN0IHRoYXQgKGIpIGlzIGZhc3RlciB0aGFuIChhKS4NCj4gDQo+IE5vdCBzdXJlIHRo
+YXQgdGhpcyByZWFsbHkgY2FycmllcyBpdHMgd2VpZ2h0LCBidXQgaW4gY29udHJhc3QgdG8gdGhl
+IHVzdWFsDQo+IHN0YXRpc3RpY3MgYmFzZWQgb24gdGhlIG5vcm1hbCBkaXN0cmlidXRpb24sIGl0
+IGRvZXMgc3VnZ2VzdCBhdCBsZWFzdCBhIGxpdHRsZQ0KPiBpbXByb3ZlbWVudC4gIE9uIHRoZSBv
+dGhlciBoYW5kLCBhbnlvbmUgd2hvIGhhcyBjYXJlZnVsbHkgc3R1ZGllZA0KPiBub25wYXJhbWV0
+cmljIHN0YXRpc3RpY3MgcHJvYmFibHkganVtcGVkIG91dCBvZiB0aGUgYm9hdCBzZXZlcmFsIHBh
+cmFncmFwaHMNCj4gYWdvLiAgOy0pDQo+IA0KPiBBIGZldyBtb3JlIHF1ZXN0aW9ucyBpbnRlcnNw
+ZXJzZWQgYmVsb3cuDQo+IA0KPiAJCQkJCQkJVGhhbngsIFBhdWwNCj4gDQo+ID4gVGVzdGVkLWJ5
+OiBRaXV4dSBaaHVvIDxxaXV4dS56aHVvQGludGVsLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBK
+b2VsIEZlcm5hbmRlcyAoR29vZ2xlKSA8am9lbEBqb2VsZmVybmFuZGVzLm9yZz4NCg0K
