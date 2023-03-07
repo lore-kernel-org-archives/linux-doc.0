@@ -2,233 +2,238 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74635C678D4
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 13:43:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E593C678D5
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 13:43:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230354AbjCGNmw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Mar 2023 08:42:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39576 "EHLO
+        id S229833AbjCGNmy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Mar 2023 08:42:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229941AbjCGNmC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 08:42:02 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4946A76F41
-        for <linux-doc@vger.kernel.org>; Tue,  7 Mar 2023 05:41:31 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id m6so17110812lfq.5
-        for <linux-doc@vger.kernel.org>; Tue, 07 Mar 2023 05:41:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1678196489;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BfVNWRy9a0gMO1Pid/nllP9Vg6biqTw3XLwrBavINRo=;
-        b=Fkh2gZT69D42Vozm9kyxGPBUzGIu197ZYeGELkVhpyUTCPh+23qoqk7xkTF0ahwOAZ
-         jcfMITK1MCmmjILs80UGXYT6fF2d6qqMfkLLx8ruZP08146Z1rTIwQJ8yTFEUvo3b58D
-         tXx7Ni3AkpuXC7OOAv43xYILVlXswC7/cDfBI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678196489;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BfVNWRy9a0gMO1Pid/nllP9Vg6biqTw3XLwrBavINRo=;
-        b=sdwWWUxDz2SZjiF4wThlVIM0Vh5LlWfFb/K8F4S4Y2tzvBYNXH4Kd+bvsx4zd/CJoN
-         75jmNzlTQmAKAWKA/vQFSHfp29msqgkl26NTSg3z2LeNUMev1wVJNTQCsF7PfoRz7Qup
-         jghgV9pMLpv4aAqvjPDzaNpaEBwecGfG1lnfM2TYBimmk8y6gG1mjhZobmLA1e/mfLjR
-         77g8MZz+UuUDUNW1gusMEualnnLnh2lLfRhk4AwpXsPEYFfU0UqZSPgKBHiNmfs/QClt
-         VacweJUG70tKg8dp8FnxVyFkWp41ycO2rWVoO3CIsW4lKAt9RDK7Va8yDEHA5nEQviMp
-         PrzQ==
-X-Gm-Message-State: AO0yUKUyGuIT7XB7sglFr02lVB9rsA7hueu1xSTOiVVR5Csjt4e9kkjr
-        deA+SEXOloHNkHRg6GdQW0yNqZakbdO4hoOOgiw9Ng==
-X-Google-Smtp-Source: AK7set9RWntswalOZp7n6m4+l8CAeu4q46lBrQJupqbgtr9kTxlgbnNNvgkboBD1MjO2KqCK/IVL+GT7IThaMzn5eQY=
-X-Received: by 2002:ac2:530d:0:b0:4db:1809:29a1 with SMTP id
- c13-20020ac2530d000000b004db180929a1mr8373690lfh.2.1678196489356; Tue, 07 Mar
- 2023 05:41:29 -0800 (PST)
+        with ESMTP id S231223AbjCGNmM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 08:42:12 -0500
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2073.outbound.protection.outlook.com [40.107.95.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C143344A;
+        Tue,  7 Mar 2023 05:41:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gi3pgtUWFCGX5Dw7qmXiwpgiKApwxtbJAnd9ElzbWdSILvWl4mnXag1cJxUNQES6mCeZckbYsiZZYtXKZ87ug230A7Ep6khzHnpD9eH07S8hoRwJTiOJZNgdfyOgywC7tD+qM9eVFJtO/KjOUDvDCFNmayk9TaOZhxYtgZ1wD0ScdkN7uVGu/uqDmYWShU/DcEtANWp6KPDZiMIsziTu33NigD9/w/6WC7AHKSAqN7mGH7M2yPR5c5QkCpSQKOQ7SUiTrzUmf2PIxnlfpEHSg9cZ3RHwNeCaShkHId0Wt3uty6dSUdSz9kaXUsxnQNc7F9wr69IIT6EQ45KwfTfmWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2OViwvK/iXR46ZTlxrWy60AcnggfVX4RM1oB5gnYV5M=;
+ b=Juj0fA5OtmDIqg64uEc/8X9Zs0afUN2ZSZ+Rx8wskyFhf6CH4+y55QgTVjjKrXOa9xo+OjNchUT78XSPcqAKSIaXlJ1tkkgVN288lC4UYUDfpkoGZHkmac/3V98mrh7CEYinT4n5PHWJ1lQSRV5arwEZSGitdY05miW1dbVTrH6z6oBfnZfS2jipObbVBrmyG7nIM6EgJN4zBsHcKSkGX8qmNkInPdZ3n2D8OW1hz1eJATTUQNAiodoVYyH0Itwq2hqxwb8B3zbC2qysP6cNzbVXJ+CykfGffEhoQG3la/rGTGc0ZqdZLJRm97hiPUMt+g45FKbjL+Rlv7VMNwRkUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2OViwvK/iXR46ZTlxrWy60AcnggfVX4RM1oB5gnYV5M=;
+ b=1oSTtXW0uKvGi/1cES73SdneOJgzBCLz71Oak+UxcVeLfb0tSRSvSDPWf3BFBeZSY7soAR5xhHNpMnHDoxoERW/7wfOdq510Rwde9p7S95isW53VJvaaa/gPAGwQWGSTVohGJhL7KK512CJFjwg69b2cA91A94f01tcqp0YkZ6w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
+ by CY8PR12MB8244.namprd12.prod.outlook.com (2603:10b6:930:72::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.29; Tue, 7 Mar
+ 2023 13:41:53 +0000
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::70f8:b479:637:1dd4]) by BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::70f8:b479:637:1dd4%7]) with mapi id 15.20.6156.029; Tue, 7 Mar 2023
+ 13:41:53 +0000
+Message-ID: <bb3fe216-9fe3-cc64-decf-290df128e370@amd.com>
+Date:   Tue, 7 Mar 2023 07:41:51 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] docs/sp_SP: Add process deprecated translation
+Content-Language: en-US
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sergio.collado@gmail.com
+References: <20230306134420.30210-1-carlos.bilbao@amd.com>
+ <38cb9f23-a56a-f420-5942-0bfeb620306e@gmail.com>
+ <875b2564-589b-c381-cbf0-f30470d4a5a8@amd.com>
+ <6f1d8954-586b-efea-526b-ef461b5624df@gmail.com>
+ <2b4f177b-3b8a-fef6-e7a5-692db347679e@amd.com>
+ <dbd8ece3-fb92-9ca3-917b-4951af7e1593@gmail.com>
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+In-Reply-To: <dbd8ece3-fb92-9ca3-917b-4951af7e1593@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH2PR08CA0003.namprd08.prod.outlook.com
+ (2603:10b6:610:5a::13) To BL1PR12MB5874.namprd12.prod.outlook.com
+ (2603:10b6:208:396::17)
 MIME-Version: 1.0
-References: <20230303213851.2090365-1-joel@joelfernandes.org> <ZAc1wsvd4trjP/xi@lothringen>
-In-Reply-To: <ZAc1wsvd4trjP/xi@lothringen>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Tue, 7 Mar 2023 08:41:17 -0500
-Message-ID: <CAEXW_YRf9MuJ9YTXGkxJn5BVA2-vt+OD2=b2hN4uLgN3RxWwTw@mail.gmail.com>
-Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
-To:     Frederic Weisbecker <frederic@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
-        rcu@vger.kernel.org, urezki@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|CY8PR12MB8244:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57013323-7cab-4be2-80c7-08db1f11b633
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qKEwS/I9w45F4IIn7IkTWRRXKpQdbqOtCqNNfbwbsOUCLxDOVCUZzCvAb/iep3o6indYdoW1wlnJg3nBTlgaXwrOyeCqM0W20FcJYB0A1wrT6Yn9MXnlbrX79GEltEgcxr46XpjBnB3xDl5uFuvYJ2uNAVOy8Uf71g1Mt18gIwXT8n6Oj7b8quM2E7l3EeKrnGn3hrvceCI9bvGfm5S0WZdDeytD0vYxEK2RmXl92VA5znLPMhxwGDyQAJeikP4h0qiQx0nWMfZDx5MeJ/pjzhukZbqboTkDlaSpEUNagKtlrxrH7oM5sWBush7sDKdT1alow3Y4VInImzB/jXkHtoMQ7BmdEUV1vuH6UYlZNrbbLY8col43z7ZdfbcOiEs31URC8YYSs6O/VkfCGiCY/i5WC4hvQgzslhPeU2qTDyiTgDLUF+KK3G01hn8LC4qXnIWPyOYPpcPJEs4b6EHa/Er9sJlVZtLUxTdagtCpSB9DLGoOytaKS+3Yv6VEs4ZRLOMJm47lgYgvXZFtsfp4m5v7+1FeTfYxYw0a9f0GBOy7oI+V5+dc8HThNDz/SB5p5/OqHJ3taYNBb4GGnKNLMGvP6vTQV6zD3HThxNmNA0ifRuuff0uKWPZsfRoo4+7r7NkTDRV9wk6iZ3+UgYdIPcwgomTC3hKZXz4vr3yLgXNoZvc6LLFHqNlCZdSX45tNlbDf5yw+Vamkk4vmF4lS/nL/1T8obQVyaUAETKbnvD8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(396003)(366004)(376002)(136003)(39860400002)(451199018)(26005)(186003)(66556008)(8676002)(5660300002)(66946007)(6916009)(66476007)(4326008)(6486002)(478600001)(966005)(86362001)(31696002)(316002)(6512007)(6506007)(8936002)(36756003)(41300700001)(53546011)(38100700002)(2906002)(2616005)(31686004)(44832011)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWdodlo4Wk5keXhKTU8rZndsSUl5R0FMMDRwMm9XZGlZcjYxc0hrS3Nsd2VH?=
+ =?utf-8?B?VDVLaTAxRW5hR1ZDVkpKNGtZM2FBWS9yUWJ0aTZnQ0JlaXFuSmdDSzB3VVY4?=
+ =?utf-8?B?UGg0WDZ6MERNQmJOS0puUyttbjhScTJyVTYvYkNleE8xY0E0Y25mRTQ4T001?=
+ =?utf-8?B?MGRoVWJhS0FNWlV0a2xVRWlZcFU4QUpRMzk0aWdPRzBaSDliSVJNVFo4ZGgy?=
+ =?utf-8?B?Uy9jZlJoUm1YanZHbzdEbHNicDZ5TWVKVmFtZ1ZEM3ZEMmxUcEFNT2NKSUpn?=
+ =?utf-8?B?SSs1OGVFUDAwT0U5d2M2Y2UyL3RxZGZIMXdYWUFuNS9kMmI5Z3JIdHplUVUw?=
+ =?utf-8?B?WnhVVkVsclRpVTZSRnhvVDBrTmZkZDdjRzZhNFYyamlrZU1UVGJ6SVB3MmRI?=
+ =?utf-8?B?dFhmVTUxYmpWV3BNQkcycWVYcW85Y3l4bEpET2l5K043aWxVdXAwdml3UnRv?=
+ =?utf-8?B?cTBsNHhBczVIOUJaYURRY3luY3psVFNxQ3QxeFplMnBuR1kyK0pwUEcrek5p?=
+ =?utf-8?B?QXB4NWtFQkt4c1gyY1pKM29iNFprZDdZTUUyRXllMGpHVXhkajRPaThQZHFk?=
+ =?utf-8?B?MTBWVDFyVVJQUzVoTTFDZElrMDdLZ2lzRGhVNlk1eXdpNjJtUnVuUG1rd1RO?=
+ =?utf-8?B?SGxuOFVuUk8rTlB6S0ZXVks0ZTdxSGJPNVhsMCtxWmdXK3IwMW4wa0QxbWgz?=
+ =?utf-8?B?K25xbEZWTXQwUHh2endMa3NNb084L29xYy8vTGMxVmMvNTZrNHo3U1FIRng5?=
+ =?utf-8?B?Slk3UVJVY0RkVTBiRmRqdXZnQkx6bVQ3bjlIelB2V2Q4UGZENlY1amIvMU9m?=
+ =?utf-8?B?RGdxckFQTWxHNzZZYWY0aGpuVVIyR2VxNWdKbFhvbVJpUFA1Y1lDRzl4Yi94?=
+ =?utf-8?B?VVQ5azdyaisvQ28zU09rN1doMzR2ZUoyRzRrR1Z2UHhkWFZ3MDlKbG5KQjl0?=
+ =?utf-8?B?ZU1iQkI2c3FUbnd1bG1wcFdLM0NXcENHVDFUZjlOaEU1NkcrK3ZCWFJuUzlT?=
+ =?utf-8?B?OW9HWmtHTWpzbUNsbWhXbTJCY1g4b3BKTkZWaGlkdjlVY2hJZXFXbWFoME90?=
+ =?utf-8?B?QzJSSjk3Mm9nc0NMYXJFblp1QWw1amlUQXR4NXBmZVVxalVDN09QVk5wQlpU?=
+ =?utf-8?B?MHY5T3dscGdGWGJEa2RiRXgrZllSWGdhTGZ4NmxUYTd1c2Z5TGlKZDFtMlRu?=
+ =?utf-8?B?WUFYRDgrT3lKUU1nY2hCMC9jd0ZqSGZ4Sjk3VlF2Vzl5dnBkSGI5cS9HOWdm?=
+ =?utf-8?B?TmlxQUlBRmdQTDBUU0phUVI2T2VnNnFjV210ZTFDYmtkbFFabXlkeXo2Mi9I?=
+ =?utf-8?B?YVR2SEsrR0QxVlRwTzk0WEZBcjBrRW9mOFFzRFRMV1Rxd1JkNE45Q2pkaENm?=
+ =?utf-8?B?QXdOeExYSjUzVng0L29DN0QzYXcxamZzVzR5b2JzeHc3QkJPMElhVTFMcFZG?=
+ =?utf-8?B?a3FOZmdJaGVlaUFvemNSM2ZTVkVCd3Y2OG5YT01TYVJsdHFYelpUM3Bha0NQ?=
+ =?utf-8?B?YXRoODI5SHpneHZFeExZRllGTjVtM2xaYTVxTVBvWkRQMlVTS0RHZEE0ZStw?=
+ =?utf-8?B?Wnp1VkYvYloySXBRL1VJV0tZcUpzcWZVOWRXRW9URktFQTVRZ2Irc2xJaWcv?=
+ =?utf-8?B?VlpXNDdIUG9HcUU5VGllcmtmbm5pTktXQmFZM3dFZTlDWWRDTUQxZ1BNSkRG?=
+ =?utf-8?B?YmZSZkJrOVR6cFQvL0RnNVlES0tZejgzS0JoNXNtT255WWgzQ3ppRnp1ek8y?=
+ =?utf-8?B?WmxrbTA0ZUZSRmhpaVhCZHdwakorSFVsN3NnZWZmNDFGK1B4Z2V3WTNHbzNy?=
+ =?utf-8?B?SjVQY3ljUFd0SXdZWkxDUkZUeVZERXJXQ2VGVzRXTlNpN0JXeFhMblJZVWgz?=
+ =?utf-8?B?USt5K0s0SWZnMGs5a0pSQlh4Nk1EOHNybUZtYUp2QnpUanRpdUtKTVBKZnVM?=
+ =?utf-8?B?TUp6dXlQZDNEMjZQOUdldFZZVlV5N2dJTklZbG8xK0h0ZHlvbTN4NVFoQ3cr?=
+ =?utf-8?B?eEFYZllLQk5KRWM4MC9zYVBzYk9rdnpaUFljZzVqK2hJaWdreEZSTEVrQzJU?=
+ =?utf-8?B?VDUyMG5PQkhBdWFjQXkraks0SUh2czVoa2RVS3ozQ0poZmtqZnNwU1R2a2tM?=
+ =?utf-8?Q?q2KkunDjCLPuOOEGg6dq0zleD?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57013323-7cab-4be2-80c7-08db1f11b633
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 13:41:53.6353
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VFFhvKRsDkbrPeHjK0SqQQlciseerfIjyvqJsAEkm7K9DNVhFCd+MBOPXr/LkzfLyuoZkiVqvgBmRHzO6n3N0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8244
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 7, 2023 at 8:01=E2=80=AFAM Frederic Weisbecker <frederic@kernel=
-.org> wrote:
->
-> On Fri, Mar 03, 2023 at 09:38:51PM +0000, Joel Fernandes (Google) wrote:
-> > On many systems, a great deal of boot (in userspace) happens after the
-> > kernel thinks the boot has completed. It is difficult to determine if
-> > the system has really booted from the kernel side. Some features like
-> > lazy-RCU can risk slowing down boot time if, say, a callback has been
-> > added that the boot synchronously depends on. Further expedited callbac=
-ks
-> > can get unexpedited way earlier than it should be, thus slowing down
-> > boot (as shown in the data below).
-> >
-> > For these reasons, this commit adds a config option
-> > 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter rcupdate.boot_end_dela=
-y.
-> > Userspace can also make RCU's view of the system as booted, by writing =
-the
-> > time in milliseconds to: /sys/module/rcupdate/parameters/rcu_boot_end_d=
-elay
-> > Or even just writing a value of 0 to this sysfs node.
-> > However, under no circumstance will the boot be allowed to end earlier
-> > than just before init is launched.
-> >
-> > The default value of CONFIG_RCU_BOOT_END_DELAY is chosen as 15s. This
-> > suites ChromeOS and also a PREEMPT_RT system below very well, which nee=
-d
-> > no config or parameter changes, and just a simple application of this p=
-atch. A
-> > system designer can also choose a specific value here to keep RCU from =
-marking
-> > boot completion.  As noted earlier, RCU's perspective of the system as =
-booted
-> > will not be marker until at least rcu_boot_end_delay milliseconds have =
-passed
-> > or an update is made via writing a small value (or 0) in milliseconds t=
-o:
-> > /sys/module/rcupdate/parameters/rcu_boot_end_delay.
-> >
-> > One side-effect of this patch is, there is a risk that a real-time work=
-load
-> > launched just after the kernel boots will suffer interruptions due to e=
-xpedited
-> > RCU, which previous ended just before init was launched. However, to mi=
-tigate
-> > such an issue (however unlikely), the user should either tune
-> > CONFIG_RCU_BOOT_END_DELAY to a smaller value than 15 seconds or write a=
- value
-> > of 0 to /sys/module/rcupdate/parameters/rcu_boot_end_delay, once usersp=
-ace
-> > boots, and before launching the real-time workload.
-> >
-> > Qiuxu also noted impressive boot-time improvements with earlier version
-> > of patch. An excerpt from the data he shared:
-> >
-> > 1) Testing environment:
-> >     OS            : CentOS Stream 8 (non-RT OS)
-> >     Kernel     : v6.2
-> >     Machine : Intel Cascade Lake server (2 sockets, each with 44 logica=
-l threads)
-> >     Qemu  args  : -cpu host -enable-kvm, -smp 88,threads=3D2,sockets=3D=
-2, =E2=80=A6
-> >
-> > 2) OS boot time definition:
-> >     The time from the start of the kernel boot to the shell command lin=
-e
-> >     prompt is shown from the console. [ Different people may have
-> >     different OS boot time definitions. ]
-> >
-> > 3) Measurement method (very rough method):
-> >     A timer in the kernel periodically prints the boot time every 100ms=
-.
-> >     As soon as the shell command line prompt is shown from the console,
-> >     we record the boot time printed by the timer, then the printed boot
-> >     time is the OS boot time.
-> >
-> > 4) Measured OS boot time (in seconds)
-> >    a) Measured 10 times w/o this patch:
-> >         8.7s, 8.4s, 8.6s, 8.2s, 9.0s, 8.7s, 8.8s, 9.3s, 8.8s, 8.3s
-> >         The average OS boot time was: ~8.7s
-> >
-> >    b) Measure 10 times w/ this patch:
-> >         8.5s, 8.2s, 7.6s, 8.2s, 8.7s, 8.2s, 7.8s, 8.2s, 9.3s, 8.4s
-> >         The average OS boot time was: ~8.3s.
-> >
-> > Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
->
-> I still don't really like that:
->
-> 1) It feels like we are curing a symptom for which we don't know the caus=
-e.
->    Which RCU write side caller is the source of this slow boot? Some trac=
-epoints
->    reporting the wait duration within synchronize_rcu() calls between the=
- end of
->    the kernel boot and the end of userspace boot may be helpful.
+On 3/6/23 17:03, Akira Yokosawa wrote:
+> On Mon, 6 Mar 2023 09:34:29 -0600, Carlos Bilbao wrote:
+>> On 3/6/23 09:30, Akira Yokosawa wrote:
+>>> On 2023/03/07 0:20, Carlos Bilbao wrote:
+>>>> Hello Akira,
+>>>>
+>>>> On 3/6/23 09:13, Akira Yokosawa wrote:
+>>>>> Hi Carlos,
+>>>>>
+>>>>> Minor nits in the Subject and Sob area.
+>>>>>
+>>>>> On Mon, 6 Mar 2023 07:44:20 -0600, Carlos Bilbao wrote:
+>>>>>> Subject: [PATCH] docs/sp_SP: Add process deprecated translation
+>>>>>
+>>>>> This summary looks ambiguous to me.
+>>>>>
+>>>>> Maybe
+>>>>>
+>>>>>       docs/sp_SP: Add translation of process/deprecated
+>>>>
+>>>> This summary follows the same format followed in the past. Some examples:
+>>>>
+>>>> docs/sp_SP: Add process coding-style translation
+>>>> docs/sp_SP: Add process magic-number translation
+>>>> docs/sp_SP: Add process programming-language translation
+>>>> docs/sp_SP: Add process email-clients translation
+>>>
+>>> Let me explain why "Add process deprecated translation" looks
+>>> ambiguous.
+>>>
+>>> "deprecated translation" can be interpreted as "some translation
+>>> which is deprecated".
+>>> Of course you don't need to agree.
+>>
+>> I see what you mean. I'm sending v2 patch renamed to avoid confusion.
+>>
+>>>
+>>>>
+>>>>>
+>>>>> ??
+>>>>>
+>>>>>> Translate Documentation/process/deprecated.rst into Spanish.
+>>>>>>
+>>>>>> Co-developed-by: Carlos Bilbao <carlos.bilbao@amd.com>
+>>>>>> Signed-off-by: Sergio Gonzalez <sergio.collado@gmail.com>
+>>>>>> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+>>>>>
+>>>>> To me, Co-developed-by: from the author of the patch looks
+>>>>> strange, because it is obvious the author did some development on
+>>>>> the patch.
+>>>>>
+>>>>
+>>>> No, we both worked on this patch so Co-developed-by: is the appropriate
+>>>> tagging. That being said, Sergio translated more than I did, so I put
+>>>> him as sole Translator in the document itself.
+>>>
+>>> Hmm, anyway I don't think you are following the rule of Co-developed-by:
+>>> explained in submitting-patches.rst.
+>>>
+>>> Again, you don't need to agree... ;-)
+>>
+>> But, why doesn't it follow the rule?
+>>
+>> The rule is "A Co-Developed-by: states that the patch was also created by another developer along with the original author. This is useful at times when multiple people work on a single patch."
+>>
+>> IMHO this is the case here, but before I send v2 I'll wait to read you again in case we agree at that point.
+> 
+> If you put "From: Sergio" as the first line in the Changelog, like
+> this submission [1], then the Sob chain would make sense.
+> 
+> [1]: https://lore.kernel.org/linux-doc/20230227222957.24501-2-rick.p.edgecombe@intel.com/
+> 
+> Didn't you forgot to put it there?
 
-Just to clarify (and I feel we discussed this recently) -- there is no
-callback I am aware of right now causing a slow boot. The reason for
-doing this is we don't have such issues in the future; so it is a
-protection. Note the repeated call outs to the scsi callback and also
-the rcu_barrier() issue previously fixed. Further, we already see
-slight improvements in boot times with disabling lazy during boot (its
-not much but its there). Yes, we should fix issues instead of hiding
-them - but we also would like to improve the user experience -- just
-like we disable lazy and expedited during suspend.
+Sending v2 :)
 
-So what is the problem that you really have with this patch even with
-data showing improvements? I actually wanted a mechanism like this
-from the beginning and was trying to get Intel to write the patch, but
-I ended up writing it.
+> 
+> Just guessing...
+> 
+>          Thanks, Akira
+> 
+>>
+>>>
+>>>           Thanks, Akira
+>>>
+>>>>
+>>>>> Which is your intent:
+>>>>>
+>>>>>       Author: Carlos
+>>>>>       Co-developer: Sergio
+>>>>>
+>>>>> , or
+>>>>>
+>>>>>       Author: Sergio
+>>>>>       Co-developer: Carlos
+>>>>>
+>>>>> ???
+>>>>>
+>>>>>            Thanks, Akira
+>>>>>
+>>>>>> ---
+>>>>>>     .../translations/sp_SP/process/deprecated.rst | 381 ++++++++++++++++++
+>>>>>>     .../translations/sp_SP/process/index.rst      |   1 +
+>>>>>>     2 files changed, 382 insertions(+)
+>>>>>>     create mode 100644 Documentation/translations/sp_SP/process/deprecated.rst
+>>>>> [...]
+>>>>
+>>>> Thanks,
+>>>> Carlos
+>>
+>> Thanks,
+>> Carlos
 
-> 2) The kernel boot was already covered before this patch so this is about
->    userspace code calling into the kernel. Is that piece of code also cal=
-led
->    after the boot? In that case are we missing a conversion from
->    synchronize_rcu() to synchronize_rcu_expedited() somewhere? Because th=
-en
->    the problem is more general than just boot.
->
-> This needs to be analyzed first and if it happens that the issue really
-> needs to be fixed with telling the kernel that userspace has completed
-> booting, eg: because the problem is not in a few callsites that need conv=
-ersion
-> to expedited but instead in the accumulation of lots of calls that should=
- stay
-> as is:
-
-There is no such callback I am aware off that needs such a conversion
-and I don't think that will help give any guarantees because there is
-no preventing someone from adding a callback that synchronously slows
-boot. The approach here is to put a protection. However, I will do
-some more investigations into what else may be slowing things as I do
-hold a lot of weight for your words! :)
-
->
-> 3) This arbitrary timeout looks dangerous to me as latency sensitive code
->    may run right after the boot. Either you choose a value that is too lo=
-w
->    and you miss the optimization or the value is too high and you may bre=
-ak
->    things.
-
-So someone is presenting a timing sensitive workload within 15 seconds
-of boot? Please provide some evidence of that. The only evidence right
-now is on the plus side even for the RT system.
-
-> 4) This should be fixed the way you did:
->    a) a kernel parameter like you did
->    b) The init process (systemd?) tells the kernel when it judges that us=
-erspace
->       has completed booting.
->    c) Make these interfaces more generic, maybe that information will be =
-useful
->       outside RCU. For example the kernel parameter should be
->       "user_booted_reported" and the sysfs (should be sysctl?):
->       kernel.user_booted =3D 1
->    d) But yuck, this means we must know if the init process supports that=
-...
->
-> For these reasons, let's make sure we know exactly what is going on first=
-.
-
-I can investigate this more and get back to you.
-
-One of the challenges is getting boot tracing working properly.
-Systems do weird things like turning off tracing during boot and/or
-clearing trace buffers.
-
- - Joel
+Thanks,
+Carlos
