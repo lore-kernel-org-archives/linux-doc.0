@@ -2,93 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C99CC61DA4
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 02:52:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC10AC64EC4
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 02:58:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229755AbjCGCwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 21:52:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57058 "EHLO
+        id S230191AbjCGC6Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Mar 2023 21:58:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229624AbjCGCwU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 21:52:20 -0500
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 350C457D35;
-        Mon,  6 Mar 2023 18:52:19 -0800 (PST)
-Received: from loongson.cn (unknown [112.20.109.241])
-        by gateway (Coremail) with SMTP id _____8AxlF3ipgZkNS0JAA--.11610S3;
-        Tue, 07 Mar 2023 10:52:18 +0800 (CST)
-Received: from [192.168.100.131] (unknown [112.20.109.241])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxTL7fpgZkoXlNAA--.4078S3;
-        Tue, 07 Mar 2023 10:52:16 +0800 (CST)
-Message-ID: <06ec3f93-87c6-9b54-734c-b0d9d1419e2b@loongson.cn>
-Date:   Tue, 7 Mar 2023 10:52:15 +0800
+        with ESMTP id S230214AbjCGC6P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 21:58:15 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 115D52684F;
+        Mon,  6 Mar 2023 18:58:03 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id kb15so11904176pjb.1;
+        Mon, 06 Mar 2023 18:58:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678157882;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZG9H8kJCK6WYwRPdpe8Xhn57MezozsZ/GiZoddNadUo=;
+        b=eMu1WXHDVsaEZqx58s0fbo89SuPSweqXF8VArjA18ypdz+WK9HYC+qeF01v/VxFutq
+         40G7EQfVkrArxG0lYsdVq1+aeyZVCPtLQOleYt6NTfyyn2dWauL94rXf81rTGrPhw00P
+         5MWx3n8KYTGt7mH7qy3TeYpY3GEIJ9x81ycdsa/xxyedyakrtZLne71q8FwxN5iuEvne
+         cM/epRuPbomeYnz/6yhSOX2ghgT656w13Uu0P/chhlWqj8BOuZYdQzMQzodXi1P9IGw+
+         qukbRip9ScaZQWpQMluK6pMZai20XhyAg9QWHaXSTPBOLG0lmVP/XNFWWDwfRN1dCxaV
+         FgMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678157882;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZG9H8kJCK6WYwRPdpe8Xhn57MezozsZ/GiZoddNadUo=;
+        b=OD6sAZLQomeR7vLwTbfCJC1uO6agbPakcNMSt4M8HDJOzRGOnRcN538JsxtkYI2pdS
+         PBocINPv0Pof1YJ+fEbYpn4qeNXTxb+51v47DiC/Zg4Z8Z1CriHrS1zDZXx4puHBIZwv
+         BVUd4UMtOC3oG/jS//IYIeWk+0qYjsdKLxSeLRV3ukFU7Y7vUBIxTva0nEQewbmj/x5f
+         CnCxhDtP4SSBazTTaoh53ZXcH0MctvdMTdikSyZ6BuSpScOLSDV3XMdfbgewZk9liATC
+         DD70nFd4UwbASA0xZUh9XVWv0GDDc/EOzMS4/OK4JBtlWO4IjreMr1/zEJsacEa0AKCZ
+         OihA==
+X-Gm-Message-State: AO0yUKWFmDaRgJlmG0H7p4+3wrsi4l04lYCEp1J19YUHk7UrZamwSkmD
+        fg+NlVskil2xcnZFyhLDetMSe7F3OaE=
+X-Google-Smtp-Source: AK7set8sebQi6ka4Uw0tIudv7vur/G+YowtMa7d1No3GHx7jRxgAdVzieGfTZ3qknMwreU/Tot+KJg==
+X-Received: by 2002:a05:6a20:a025:b0:cd:9db3:a7c1 with SMTP id p37-20020a056a20a02500b000cd9db3a7c1mr11838174pzj.44.1678157882389;
+        Mon, 06 Mar 2023 18:58:02 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-68.three.co.id. [180.214.232.68])
+        by smtp.gmail.com with ESMTPSA id x6-20020aa793a6000000b005a8dd86018dsm6971769pff.64.2023.03.06.18.58.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Mar 2023 18:58:02 -0800 (PST)
+Message-ID: <2d1362fd-c109-1d8f-5954-3d60475ed907@gmail.com>
+Date:   Tue, 7 Mar 2023 09:57:57 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] specification sched-capacity.rst
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        regressions@lists.linux.dev
+References: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
+ <ZAVp6jdeWzYcisUO@debian.me>
+ <3d6a30ee-f093-f5b6-a193-cd86320f9452@leemhuis.info>
+ <f53f84b5-9da7-0726-2e1f-f7e81e8ecd24@gmail.com>
+ <b12d433e-62ea-3ac4-dd97-be0288f1335f@leemhuis.info>
 Content-Language: en-US
-To:     shao_xuehua <1154690388@qq.com>, corbet@lwn.net,
-        leyfoon.tan@starfivetech.com, robh@kernel.org,
-        conor.dooley@microchip.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <tencent_8D5CE32548E3EDDA267776815C3B982C3E08@qq.com>
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <tencent_8D5CE32548E3EDDA267776815C3B982C3E08@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <b12d433e-62ea-3ac4-dd97-be0288f1335f@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxTL7fpgZkoXlNAA--.4078S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvdXoWrZFy7GF17CFy5Xr1xury8Zrb_yoWDCFcEgw
-        n5GFnYyayDJF1kZ3W3JF1DJrsYvanFk3Wkuw1vq34kJayUuFZ7CryDKa4YkFW3XrZF9F98
-        X3sYqFyrJrnFkjkaLaAFLSUrUUUU0b8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
-        xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUO
-        e7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
-        AFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
-        6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4
-        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
-        n4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
-        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E
-        87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
-        AS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCF
-        s4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI
-        8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41l
-        IxAIcVC0I7IYx2IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIx
-        AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2
-        jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jz5lbUUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 3/6/23 16:07, Thorsten Leemhuis wrote:
+>> I think it depends whether someone would pick from /proc/config.gz or
+>> /boot/config. My kernel configuration have CONFIG_IKCONFIG=y but I
+>> often copy the config from the latter instead, since I booted with
+>> arbitrary kernel version when compiling two or three versions, and I
+>> want to ensure that the config used is from correct version (i.e.
+>> I use /boot/config-5.15.x-string to build 5.15.x+1 kernel).
+> 
+> Well, I'd say for most users the file that was automatically picked up
+> by olddefconfig/localmodconfig will be the right one. And for cases like
+> yours there is already this in the text:
+> 
+> ```
+> The make targets try to find the configuration for your running kernel
+> automatically, but might choose poorly. A line like ‘# using defaults
+> found in /boot/config-6.0.7-250.fc36.x86_64’ or ‘using config:
+> ‘/boot/config-6.0.7-250.fc36.x86_64’ tells you which file they picked.
+> If that is not the intended one, simply store it as ‘~/linux/.config’
+> before using these make targets.
+> ```
+> 
 
-在 3/6/23 16:43, shao_xuehua 写道:
-> Signed-off-by: shao_xuehua <1154690388@qq.com>
-> ---
+Ah, I don't see that feature! Thanks anyway.
 
-Hi xuehua,
-
-
-Missing commit message. See 
-<Documentation/translations/zh_CN/process/submitting-patches.rst>
-
-
-Thanks,
-
-Yanteng
-
->   Documentation/scheduler/sched-capacity.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/scheduler/sched-capacity.rst b/Documentation/scheduler/sched-capacity.rst
-> index 8e2b8538bc2b..6bbdcb10ffa9 100644
-> --- a/Documentation/scheduler/sched-capacity.rst
-> +++ b/Documentation/scheduler/sched-capacity.rst
-> @@ -420,7 +420,7 @@ to a CPU with more capacity than its current one.
->   
->   RT task wakeup CPU selection searches for a CPU that satisfies::
->   
-> -  task_uclamp_min(p) <= capacity(task_cpu(cpu))
-> +  task_uclamp_min(p) <= capacity(task_cpu(p))
->   
->   while still following the usual priority constraints. If none of the candidate
->   CPUs can satisfy this capacity criterion, then strict priority based scheduling
+-- 
+An old man doll... just what I always wanted! - Clara
 
