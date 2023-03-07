@@ -2,257 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40E27C6FD1A
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 13:50:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA713C678D5
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 14:01:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230395AbjCGNua (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Mar 2023 08:50:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48366 "EHLO
+        id S229880AbjCGOBs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Mar 2023 09:01:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231421AbjCGNuO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 08:50:14 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61AB885B18
-        for <linux-doc@vger.kernel.org>; Tue,  7 Mar 2023 05:49:08 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id k14so17134087lfj.7
-        for <linux-doc@vger.kernel.org>; Tue, 07 Mar 2023 05:49:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1678196944;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CN3RrfwHggCqyNGCibpCijEgRUpbfNo+308R2rtH1gc=;
-        b=TGR0qaH0HM4qQykiR3WVw2js1EA+GEqTsFk3nxWysYdiCBLITd/CWnn+55oVdIc2h9
-         d0PtO5MPUGx7MlWw9o/eMSAehzqPDZrpYt8zfduG7UACkbFc87f9WRzlWbP7kKwN54+K
-         qZv4qN2LtngxA2ZJT1OzSD7vkvgaqjk3cSF6s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678196944;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CN3RrfwHggCqyNGCibpCijEgRUpbfNo+308R2rtH1gc=;
-        b=o9h1SY0t3TreWpGzALTWXJ6LBjJgTfSsVtH87R2LVMavp/P9bTavuN14SLxhLrAfy+
-         RwDywsC5vD2I1YRmW/broP9DzG9xf0DAfInvLmTfj53IGIt16jXyuWrqGre0/bktaPN9
-         /n7hfFj78QuJpG7DlAKURMEyR0N+r8iC/EpM4QJczG0J8osy3RBCAXQuy7RmxG2MG0Rs
-         q84VV1CouI+ZZUi32M/W9O6OFPp00OrPFJ9gDJcSVMQFtz35xlM+qK+xUKv9j3vuuafn
-         L1M1frU9LbW/d0ZcEOUNwM39nLzqHXDUM+OUrfJpFuk8n3UO/OyRQ8OsiJOHPukxMxSK
-         ahgA==
-X-Gm-Message-State: AO0yUKVIrZFSeO8aB18uOPIjJfnm9/N8Q1dekr2/TWrcsxo41aeX2cLC
-        dFoG3TaIIEzP4vZSlwzopptJYj1ficalyaV/hQ8v7A==
-X-Google-Smtp-Source: AK7set/vsfgf1HpWaYziGLk+ODYZPZ8A3+35BOPJmj4MRgoSF5sQqXQoIiWErbvIguM9cBEin20MvSXx34241RFMS4Y=
-X-Received: by 2002:a19:750b:0:b0:4de:6514:2ee4 with SMTP id
- y11-20020a19750b000000b004de65142ee4mr4397242lfe.11.1678196944278; Tue, 07
- Mar 2023 05:49:04 -0800 (PST)
+        with ESMTP id S229556AbjCGOBo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 09:01:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9822554CAD
+        for <linux-doc@vger.kernel.org>; Tue,  7 Mar 2023 06:00:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678197658;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5ju9gg/y4szyt14f2LWbHQQkg2yj4KFsHllcMP2Gs2E=;
+        b=YBUdVKYMLGyrfAKFj7CB4n4Rq98n1GNpaeYA7JveFPLaiNp4BUioTvQpdGi1Y9qv4CSofW
+        EswgNAe8m9apbAXVsisXdcEH4isDSlUhdamxRH0lA+zrjxyqgisFhlojJd+CO9vyJ6s4L6
+        r56d1GFODRvJfLDLn3k/kzZuXs6hU7I=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-153-IhkD_1szN0qSCW-h4ox-0w-1; Tue, 07 Mar 2023 09:00:52 -0500
+X-MC-Unique: IhkD_1szN0qSCW-h4ox-0w-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 88A7929DD9A8;
+        Tue,  7 Mar 2023 14:00:12 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.16.80])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5562D492C18;
+        Tue,  7 Mar 2023 14:00:04 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     szabolcs.nagy@arm.com
+Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>, "nd@arm.com" <nd@arm.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Subject: Re: [PATCH v7 01/41] Documentation/x86: Add CET shadow stack
+ description
+References: <Y/9fdYQ8Cd0GI+8C@arm.com>
+        <636de4a28a42a082f182e940fbd8e63ea23895cc.camel@intel.com>
+        <df8ef3a9e5139655a223589c16a68393ab3f6d1d.camel@intel.com>
+        <ZADQISkczejfgdoS@arm.com>
+        <9714f724b53b04fdf69302c6850885f5dfbf3af5.camel@intel.com>
+        <ZAYS6CHuZ0MiFvmE@arm.com> <87wn3tsuxf.fsf@oldenburg.str.redhat.com>
+        <a205aed2171a0a463e3bb7179e8dd63bd4012e7e.camel@intel.com>
+        <ZAc2LQEfvRLCknQQ@arm.com>
+Date:   Tue, 07 Mar 2023 15:00:02 +0100
+In-Reply-To: <ZAc2LQEfvRLCknQQ@arm.com> (szabolcs's message of "Tue, 7 Mar
+        2023 13:03:41 +0000")
+Message-ID: <87ilfcoe59.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20230303213851.2090365-1-joel@joelfernandes.org>
- <ZAc1wsvd4trjP/xi@lothringen> <ZAc+vVZUhXdhpSki@pc636>
-In-Reply-To: <ZAc+vVZUhXdhpSki@pc636>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Tue, 7 Mar 2023 08:48:52 -0500
-Message-ID: <CAEXW_YRTLQpQpOW-+n+X59pmB=4TkV=gdsMiQfBkdK_4wO9Jug@mail.gmail.com>
-Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
-To:     Uladzislau Rezki <urezki@gmail.com>
-Cc:     Frederic Weisbecker <frederic@kernel.org>,
-        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
-        rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 7, 2023 at 8:40=E2=80=AFAM Uladzislau Rezki <urezki@gmail.com> =
-wrote:
->
-> On Tue, Mar 07, 2023 at 02:01:54PM +0100, Frederic Weisbecker wrote:
-> > On Fri, Mar 03, 2023 at 09:38:51PM +0000, Joel Fernandes (Google) wrote=
-:
-> > > On many systems, a great deal of boot (in userspace) happens after th=
-e
-> > > kernel thinks the boot has completed. It is difficult to determine if
-> > > the system has really booted from the kernel side. Some features like
-> > > lazy-RCU can risk slowing down boot time if, say, a callback has been
-> > > added that the boot synchronously depends on. Further expedited callb=
-acks
-> > > can get unexpedited way earlier than it should be, thus slowing down
-> > > boot (as shown in the data below).
-> > >
-> > > For these reasons, this commit adds a config option
-> > > 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter rcupdate.boot_end_de=
-lay.
-> > > Userspace can also make RCU's view of the system as booted, by writin=
-g the
-> > > time in milliseconds to: /sys/module/rcupdate/parameters/rcu_boot_end=
-_delay
-> > > Or even just writing a value of 0 to this sysfs node.
-> > > However, under no circumstance will the boot be allowed to end earlie=
-r
-> > > than just before init is launched.
-> > >
-> > > The default value of CONFIG_RCU_BOOT_END_DELAY is chosen as 15s. This
-> > > suites ChromeOS and also a PREEMPT_RT system below very well, which n=
-eed
-> > > no config or parameter changes, and just a simple application of this=
- patch. A
-> > > system designer can also choose a specific value here to keep RCU fro=
-m marking
-> > > boot completion.  As noted earlier, RCU's perspective of the system a=
-s booted
-> > > will not be marker until at least rcu_boot_end_delay milliseconds hav=
-e passed
-> > > or an update is made via writing a small value (or 0) in milliseconds=
- to:
-> > > /sys/module/rcupdate/parameters/rcu_boot_end_delay.
-> > >
-> > > One side-effect of this patch is, there is a risk that a real-time wo=
-rkload
-> > > launched just after the kernel boots will suffer interruptions due to=
- expedited
-> > > RCU, which previous ended just before init was launched. However, to =
-mitigate
-> > > such an issue (however unlikely), the user should either tune
-> > > CONFIG_RCU_BOOT_END_DELAY to a smaller value than 15 seconds or write=
- a value
-> > > of 0 to /sys/module/rcupdate/parameters/rcu_boot_end_delay, once user=
-space
-> > > boots, and before launching the real-time workload.
-> > >
-> > > Qiuxu also noted impressive boot-time improvements with earlier versi=
-on
-> > > of patch. An excerpt from the data he shared:
-> > >
-> > > 1) Testing environment:
-> > >     OS            : CentOS Stream 8 (non-RT OS)
-> > >     Kernel     : v6.2
-> > >     Machine : Intel Cascade Lake server (2 sockets, each with 44 logi=
-cal threads)
-> > >     Qemu  args  : -cpu host -enable-kvm, -smp 88,threads=3D2,sockets=
-=3D2, =E2=80=A6
-> > >
-> > > 2) OS boot time definition:
-> > >     The time from the start of the kernel boot to the shell command l=
-ine
-> > >     prompt is shown from the console. [ Different people may have
-> > >     different OS boot time definitions. ]
-> > >
-> > > 3) Measurement method (very rough method):
-> > >     A timer in the kernel periodically prints the boot time every 100=
-ms.
-> > >     As soon as the shell command line prompt is shown from the consol=
-e,
-> > >     we record the boot time printed by the timer, then the printed bo=
-ot
-> > >     time is the OS boot time.
-> > >
-> > > 4) Measured OS boot time (in seconds)
-> > >    a) Measured 10 times w/o this patch:
-> > >         8.7s, 8.4s, 8.6s, 8.2s, 9.0s, 8.7s, 8.8s, 9.3s, 8.8s, 8.3s
-> > >         The average OS boot time was: ~8.7s
-> > >
-> > >    b) Measure 10 times w/ this patch:
-> > >         8.5s, 8.2s, 7.6s, 8.2s, 8.7s, 8.2s, 7.8s, 8.2s, 9.3s, 8.4s
-> > >         The average OS boot time was: ~8.3s.
-> > >
-> > > Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> >
-> > I still don't really like that:
-> >
-> > 1) It feels like we are curing a symptom for which we don't know the ca=
-use.
-> >    Which RCU write side caller is the source of this slow boot? Some tr=
-acepoints
-> >    reporting the wait duration within synchronize_rcu() calls between t=
-he end of
-> >    the kernel boot and the end of userspace boot may be helpful.
-> >
-> > 2) The kernel boot was already covered before this patch so this is abo=
-ut
-> >    userspace code calling into the kernel. Is that piece of code also c=
-alled
-> >    after the boot? In that case are we missing a conversion from
-> >    synchronize_rcu() to synchronize_rcu_expedited() somewhere? Because =
-then
-> >    the problem is more general than just boot.
-> >
-> > This needs to be analyzed first and if it happens that the issue really
-> > needs to be fixed with telling the kernel that userspace has completed
-> > booting, eg: because the problem is not in a few callsites that need co=
-nversion
-> > to expedited but instead in the accumulation of lots of calls that shou=
-ld stay
-> > as is:
-> >
-> > 3) This arbitrary timeout looks dangerous to me as latency sensitive co=
-de
-> >    may run right after the boot. Either you choose a value that is too =
-low
-> >    and you miss the optimization or the value is too high and you may b=
-reak
-> >    things.
-> >
-> > 4) This should be fixed the way you did:
-> >    a) a kernel parameter like you did
-> >    b) The init process (systemd?) tells the kernel when it judges that =
-userspace
-> >       has completed booting.
-> >    c) Make these interfaces more generic, maybe that information will b=
-e useful
-> >       outside RCU. For example the kernel parameter should be
-> >       "user_booted_reported" and the sysfs (should be sysctl?):
-> >       kernel.user_booted =3D 1
-> >    d) But yuck, this means we must know if the init process supports th=
-at...
-> >
-> > For these reasons, let's make sure we know exactly what is going on fir=
-st.
-> >
-> > Thanks.
-> Just add some notes and thoughts. There is a rcupdate.rcu_expedited=3D1
-> parameter that can be used during the boot. For example on our devices
-> to speedup a boot we boot the kernel with rcu_expedited:
->
-> XQ-DQ54:/ # cat /proc/cmdline
-> stack_depot_disable=3Don kasan.stacktrace=3Doff kvm-arm.mode=3Dprotected =
-cgroup_disable=3Dpressure console=3DttyMSM0,115200n8 loglevel=3D6 kpti=3D0 =
-log_buf_len=3D256K kernel.panic_on_rcu_stall=3D1 service_locator.enable=3D1=
- msm_rtb.filter=3D0x237 rcupdate.rcu_expedited=3D1 rcu_nocbs=3D0-7 ftrace_d=
-ump_on_oops swiotlb=3Dnoforce loop.max_part=3D7 fw_devlink.strict=3D1 allow=
-_mismatched_32bit_el0 cpufreq.default_governor=3Dperformance printk.console=
-_no_auto_verbose=3D1 kasan=3Doff sysctl.kernel.sched_pelt_multiplier=3D4 ca=
-n.stats_timer=3D0 pcie_ports=3Dcompat irqaffinity=3D0-2 disable_dma32=3Don =
-no-steal-acc cgroup.memory=3Dnokmem,nosocket video=3Dvfb:640x400,bpp=3D32,m=
-emsize=3D3072000 page_owner=3Don stack_depot_disable=3Doff printk.console_n=
-o_auto_verbose=3D0 nosoftlockup bootconfig buildvariant=3Duserdebug  msm_dr=
-m.dsi_display0=3Dsomc,1_panel: rootwait ro init=3D/init  qcom_geni_serial.c=
-on_enabled=3D0 oembootloader.startup=3D0x00000001 oembootloader.warmboot=3D=
-0x00000000 oembootloader.securityflags=3D0x00000001
-> XQ-DQ54:/ #
->
-> then a user space can decides if it is needed or not:
->
-> <snip>
-> rcu_expedited  rcu_normal
-> XQ-DQ54:/ # ls -al /sys/kernel/rcu_*
-> -rw-r--r-- 1 root root 4096 2023-02-16 09:27 /sys/kernel/rcu_expedited
-> -rw-r--r-- 1 root root 4096 2023-02-16 09:27 /sys/kernel/rcu_normal
-> XQ-DQ54:/ #
-> <snip>
->
-> for lazy we can add "rcu_cb_lazy" parameter and boot the kernel with
-> true or false. So we can follow and be aligned with rcu_expedited and
-> rcu_normal parameters.
+* szabolcs:
 
-Speaking of aligning, there is also the automated
-rcu_normal_after_boot boot option correct? I prefer the automated
-option of doing this. So the approach here is not really unprecedented
-and is much more robust than relying on userspace too much (I am ok
-with adding your suggestion *on top* of the automated toggle, but I
-probably would not have ChromeOS use it if the automated way exists).
-Or did I miss something?
+> changing/disabling the alt stack is not valid while a handler is
+> executing on it. if we don't allow jumping out and back to an
+> alt stack (swapcontext) then there can be only one alt stack
+> live per thread and change/disable can do the shadow stack free.
+>
+> if jump back is allowed (linux even makes it race-free with
+> SS_AUTODISARM) then the life-time of alt stack is extended
+> beyond change/disable (jump back to an unregistered alt stack).
+>
+> to support jump back to an alt stack the requirements are
+>
+> 1) user has to manage an alt shadow stack together with the alt
+>    stack (requies user code change, not just libc).
+>
+> 2) kernel has to push a restore token on the thread shadow stack
+>    on signal entry (at least in case of alt shadow stack, and
+>    deal with corner cases around shadow stack overflow).
 
-thanks,
+We need to have a story for stackful coroutine switching as well, not
+just for sigaltstack.  I hope that we can use OpenJDK (Project Loom) and
+QEMU as guinea pigs.  If we have something that works for both,
+hopefully that covers a broad range of scenarios.  Userspace
+coordination can eventually be handled by glibc; we can deallocate
+alternate stacks on thread exit fairly easily (at least compared to the
+current stack 8-).
 
- - Joel
+Thanks,
+Florian
+
