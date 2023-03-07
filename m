@@ -2,226 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90BACC678D5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 19:41:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29BADC76186
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 19:56:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234231AbjCGTlE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Mar 2023 14:41:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53284 "EHLO
+        id S231695AbjCGT4M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Mar 2023 14:56:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231562AbjCGTkn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 14:40:43 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563DC4BEBA;
-        Tue,  7 Mar 2023 11:27:29 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 16D0BB81A09;
-        Tue,  7 Mar 2023 19:27:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D003FC433EF;
-        Tue,  7 Mar 2023 19:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678217246;
-        bh=CawQmekQc0mtKFJzUNJGygoX6bgE1fyuhJ9azbjUDTU=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=swMggIT4RBLKpbXEEQ0nNSgT5nLwm5yzMnD/tmGLOpzAR6OOgwcta8KAmT81z0nvP
-         UuOWPWTWAvR+WKwxavppzC4OEz3ek41L2R3CqKCeoORCLisjL4DdaLoA0y78mZfdTn
-         Na9XEdvKNqGxIgn/4DqgjGKHwG+cDczcvEk1cbA3CLI6G8/463bWJ6IdUmnw0nJWky
-         kvl8Ry3FEoMdDyWcFVpZgD6kzHFsQUb5/NkGhwc7m60JzMQzUVj4eFqxCYWDUkybvL
-         1sfWPQGYQJQpcUU8Qg9+9iNbmqLUpjpa7ngWw0fKsE8UHZT/Sh52Yux0QWeGX7v+Z4
-         IlC1K6gYx946Q==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 7C08D5C01E4; Tue,  7 Mar 2023 11:27:26 -0800 (PST)
-Date:   Tue, 7 Mar 2023 11:27:26 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Uladzislau Rezki <urezki@gmail.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
-Message-ID: <20230307192726.GL1301832@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20230303213851.2090365-1-joel@joelfernandes.org>
- <ZAc1wsvd4trjP/xi@lothringen>
- <ZAc+vVZUhXdhpSki@pc636>
- <CAEXW_YRTLQpQpOW-+n+X59pmB=4TkV=gdsMiQfBkdK_4wO9Jug@mail.gmail.com>
- <20230307173313.GJ1301832@paulmck-ThinkPad-P17-Gen-1>
- <20230307185443.GA516865@google.com>
+        with ESMTP id S229889AbjCGTzy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 14:55:54 -0500
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26C4656525;
+        Tue,  7 Mar 2023 11:48:06 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 0D1C43200AA7;
+        Tue,  7 Mar 2023 14:48:04 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Tue, 07 Mar 2023 14:48:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+        1678218484; x=1678304884; bh=i2XAzD+F4/rjBbe17O/XOpaCPV7I5BfH1Rg
+        lNA7lUi0=; b=Lo9Iu5zqQqfT+CrUx2U9KYmBN53OFppA0fHYIv4c4NUG+VJIWHY
+        Z2Lu+rat5ugeSyi8xih5NzAOWeoN7jDaELUQX3qbztx9BMvrZbHuhG3ILGpilbfr
+        uS5gAD74/ZFpfrIxDfE69ztQ9w/bL4s2podjo7XccSIHPB7DwT3cBvihMBPwabtN
+        6QGksZnbWtHq4QcnA+91wn4FJ5Xye3L/rsr5+WKE+e5aK7JPsJWjlfZB6ZSckOho
+        3nOtYv8keAAOX2xu2+vizQpbrfEth3/i5f0WZ7nvxPB87/JIBohZG1k5rkFAnwa2
+        G2K/1Op1/wYpJG0gIGVr0HoE/cZni2SKj7A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+        1678218484; x=1678304884; bh=i2XAzD+F4/rjBbe17O/XOpaCPV7I5BfH1Rg
+        lNA7lUi0=; b=ehYxmA7iows/9kAaBcYRKzjJ70llC8MXYDIk3Q7EFV2F8k1t6Tt
+        yUsxY6vuDgnMSPZRxoRmA4CSBqbF4KqzRlILWmaF1k3KA1gG5v6B5+DD0dLDLJxK
+        k3duU/N/K+Sb09c3WE+p3pVzMYK8TPzoL5f3AFS5V2RMOIXDfDwmmyY0XTNh/7Vi
+        AVJQQUI48iOk0C68uejz8g2WeKCdI0OMAxSb1nTXx963V/Ec6ymzAMhPZiVygRzh
+        8oMVVQpK5txcV1SYlrGRgNLpV/HHdIj0quDUy0zRXo9cEr5ISNgKbg2SPUt5CqVE
+        2OEsCS7uUo2Dg8WDAGkY+5fKwhjmL2wvLWA==
+X-ME-Sender: <xms:85QHZFSfG05a9c4zR34InWpCmeUE6cLoSEQ_10XdnGITc984F_huUg>
+    <xme:85QHZOxqThSjpl1CjMu8iBRSHmuHGHG29_gChVXj5Lq9k8Wpbe15uh_6pjXNPx4zb
+    KCDI_HKb5ldFqo43g>
+X-ME-Received: <xmr:85QHZK3mY0oDbR5TVdTM3qp385Z9X8n2MkHtNUDiHmrVgy3Lt8F2m6KnVn0kl1Evf8Udg7YOA0hLCgdbM-9yDm3No-ReNKYao1dGTIE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddutddguddvfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enfghrlhcuvffnffculdejtddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeer
+    tddttdejnecuhfhrohhmpeffrghnihgvlhcuighuuceougiguhesugiguhhuuhdrgiihii
+    eqnecuggftrfgrthhtvghrnheptdeugfelvdelffegleduleffudfhgfdvfeduiefhgfdu
+    uddukeeggfelheeiueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
+X-ME-Proxy: <xmx:85QHZNARKGAj8iiGyDSChYDz4pNoZUa2jPqDOJIoVPKreATWVPsVwg>
+    <xmx:85QHZOg5FPk7jYZyAxiff0TOGTQPbwO_-qWx2V81HkX6Pi8mbVEbRQ>
+    <xmx:85QHZBq0aUwBOYjL27j5-BwC6TFXC1hP_YwMPmUShIPZoUc19UFXXQ>
+    <xmx:9JQHZHXUPUmaAijkzlMvw47fCAdPWmNxUS6G0FxEywTIOROshz2zZQ>
+Feedback-ID: i6a694271:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Mar 2023 14:48:02 -0500 (EST)
+Date:   Tue, 7 Mar 2023 12:48:01 -0700
+From:   Daniel Xu <dxu@dxuuu.xyz>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, pablo@netfilter.org,
+        kadlec@netfilter.org, fw@strlen.de, daniel@iogearbox.net
+Subject: Re: [PATCH bpf-next v2 0/8] Support defragmenting IPv(4|6) packets
+ in BPF
+Message-ID: <20230307194801.mopwvidrkrybm7h5@kashmir.localdomain>
+References: <cover.1677526810.git.dxu@dxuuu.xyz>
+ <20230227230338.awdzw57e4uzh4u7n@MacBook-Pro-6.local>
+ <20230228015712.clq6kyrsd7rrklbz@kashmir.localdomain>
+ <CAADnVQ+a633QyZgkbXfRiT_WRbPgr5n8RN0w=ntEkBHUeqRcbw@mail.gmail.com>
+ <20230228231716.a5uwc4tdo3kjlkg7@aviatrix-fedora.tail1b9c7.ts.net>
+ <CAADnVQKK+a_0effQW5qBSq1AXoQOJg5-79q3d1NWJ2Vv8SHvOw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230307185443.GA516865@google.com>
+In-Reply-To: <CAADnVQKK+a_0effQW5qBSq1AXoQOJg5-79q3d1NWJ2Vv8SHvOw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 07, 2023 at 06:54:43PM +0000, Joel Fernandes wrote:
-> On Tue, Mar 07, 2023 at 09:33:13AM -0800, Paul E. McKenney wrote:
-> > On Tue, Mar 07, 2023 at 08:48:52AM -0500, Joel Fernandes wrote:
-> > > On Tue, Mar 7, 2023 at 8:40 AM Uladzislau Rezki <urezki@gmail.com> wrote:
-> > > >
-> > > > On Tue, Mar 07, 2023 at 02:01:54PM +0100, Frederic Weisbecker wrote:
-> > > > > On Fri, Mar 03, 2023 at 09:38:51PM +0000, Joel Fernandes (Google) wrote:
-> > > > > > On many systems, a great deal of boot (in userspace) happens after the
-> > > > > > kernel thinks the boot has completed. It is difficult to determine if
-> > > > > > the system has really booted from the kernel side. Some features like
-> > > > > > lazy-RCU can risk slowing down boot time if, say, a callback has been
-> > > > > > added that the boot synchronously depends on. Further expedited callbacks
-> > > > > > can get unexpedited way earlier than it should be, thus slowing down
-> > > > > > boot (as shown in the data below).
-> > > > > >
-> > > > > > For these reasons, this commit adds a config option
-> > > > > > 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter rcupdate.boot_end_delay.
-> > > > > > Userspace can also make RCU's view of the system as booted, by writing the
-> > > > > > time in milliseconds to: /sys/module/rcupdate/parameters/rcu_boot_end_delay
-> > > > > > Or even just writing a value of 0 to this sysfs node.
-> > > > > > However, under no circumstance will the boot be allowed to end earlier
-> > > > > > than just before init is launched.
-> > > > > >
-> > > > > > The default value of CONFIG_RCU_BOOT_END_DELAY is chosen as 15s. This
-> > > > > > suites ChromeOS and also a PREEMPT_RT system below very well, which need
-> > > > > > no config or parameter changes, and just a simple application of this patch. A
-> > > > > > system designer can also choose a specific value here to keep RCU from marking
-> > > > > > boot completion.  As noted earlier, RCU's perspective of the system as booted
-> > > > > > will not be marker until at least rcu_boot_end_delay milliseconds have passed
-> > > > > > or an update is made via writing a small value (or 0) in milliseconds to:
-> > > > > > /sys/module/rcupdate/parameters/rcu_boot_end_delay.
-> > > > > >
-> > > > > > One side-effect of this patch is, there is a risk that a real-time workload
-> > > > > > launched just after the kernel boots will suffer interruptions due to expedited
-> > > > > > RCU, which previous ended just before init was launched. However, to mitigate
-> > > > > > such an issue (however unlikely), the user should either tune
-> > > > > > CONFIG_RCU_BOOT_END_DELAY to a smaller value than 15 seconds or write a value
-> > > > > > of 0 to /sys/module/rcupdate/parameters/rcu_boot_end_delay, once userspace
-> > > > > > boots, and before launching the real-time workload.
-> > > > > >
-> > > > > > Qiuxu also noted impressive boot-time improvements with earlier version
-> > > > > > of patch. An excerpt from the data he shared:
-> > > > > >
-> > > > > > 1) Testing environment:
-> > > > > >     OS            : CentOS Stream 8 (non-RT OS)
-> > > > > >     Kernel     : v6.2
-> > > > > >     Machine : Intel Cascade Lake server (2 sockets, each with 44 logical threads)
-> > > > > >     Qemu  args  : -cpu host -enable-kvm, -smp 88,threads=2,sockets=2, …
-> > > > > >
-> > > > > > 2) OS boot time definition:
-> > > > > >     The time from the start of the kernel boot to the shell command line
-> > > > > >     prompt is shown from the console. [ Different people may have
-> > > > > >     different OS boot time definitions. ]
-> > > > > >
-> > > > > > 3) Measurement method (very rough method):
-> > > > > >     A timer in the kernel periodically prints the boot time every 100ms.
-> > > > > >     As soon as the shell command line prompt is shown from the console,
-> > > > > >     we record the boot time printed by the timer, then the printed boot
-> > > > > >     time is the OS boot time.
-> > > > > >
-> > > > > > 4) Measured OS boot time (in seconds)
-> > > > > >    a) Measured 10 times w/o this patch:
-> > > > > >         8.7s, 8.4s, 8.6s, 8.2s, 9.0s, 8.7s, 8.8s, 9.3s, 8.8s, 8.3s
-> > > > > >         The average OS boot time was: ~8.7s
-> > > > > >
-> > > > > >    b) Measure 10 times w/ this patch:
-> > > > > >         8.5s, 8.2s, 7.6s, 8.2s, 8.7s, 8.2s, 7.8s, 8.2s, 9.3s, 8.4s
-> > > > > >         The average OS boot time was: ~8.3s.
-> > > > > >
-> > > > > > Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-> > > > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > >
-> > > > > I still don't really like that:
-> > > > >
-> > > > > 1) It feels like we are curing a symptom for which we don't know the cause.
-> > > > >    Which RCU write side caller is the source of this slow boot? Some tracepoints
-> > > > >    reporting the wait duration within synchronize_rcu() calls between the end of
-> > > > >    the kernel boot and the end of userspace boot may be helpful.
-> > > > >
-> > > > > 2) The kernel boot was already covered before this patch so this is about
-> > > > >    userspace code calling into the kernel. Is that piece of code also called
-> > > > >    after the boot? In that case are we missing a conversion from
-> > > > >    synchronize_rcu() to synchronize_rcu_expedited() somewhere? Because then
-> > > > >    the problem is more general than just boot.
-> > > > >
-> > > > > This needs to be analyzed first and if it happens that the issue really
-> > > > > needs to be fixed with telling the kernel that userspace has completed
-> > > > > booting, eg: because the problem is not in a few callsites that need conversion
-> > > > > to expedited but instead in the accumulation of lots of calls that should stay
-> > > > > as is:
-> > > > >
-> > > > > 3) This arbitrary timeout looks dangerous to me as latency sensitive code
-> > > > >    may run right after the boot. Either you choose a value that is too low
-> > > > >    and you miss the optimization or the value is too high and you may break
-> > > > >    things.
-> > > > >
-> > > > > 4) This should be fixed the way you did:
-> > > > >    a) a kernel parameter like you did
-> > > > >    b) The init process (systemd?) tells the kernel when it judges that userspace
-> > > > >       has completed booting.
-> > > > >    c) Make these interfaces more generic, maybe that information will be useful
-> > > > >       outside RCU. For example the kernel parameter should be
-> > > > >       "user_booted_reported" and the sysfs (should be sysctl?):
-> > > > >       kernel.user_booted = 1
-> > > > >    d) But yuck, this means we must know if the init process supports that...
-> > > > >
-> > > > > For these reasons, let's make sure we know exactly what is going on first.
-> > > > >
-> > > > > Thanks.
-> > > > Just add some notes and thoughts. There is a rcupdate.rcu_expedited=1
-> > > > parameter that can be used during the boot. For example on our devices
-> > > > to speedup a boot we boot the kernel with rcu_expedited:
-> > > >
-> > > > XQ-DQ54:/ # cat /proc/cmdline
-> > > > XQ-DQ54:/ #
-> > > >
-> > > > then a user space can decides if it is needed or not:
-> > > >
-> > > > <snip>
-> > > > rcu_expedited  rcu_normal
-> > > > XQ-DQ54:/ # ls -al /sys/kernel/rcu_*
-> > > > -rw-r--r-- 1 root root 4096 2023-02-16 09:27 /sys/kernel/rcu_expedited
-> > > > -rw-r--r-- 1 root root 4096 2023-02-16 09:27 /sys/kernel/rcu_normal
-> > > > XQ-DQ54:/ #
-> > > > <snip>
-> > > >
-> > > > for lazy we can add "rcu_cb_lazy" parameter and boot the kernel with
-> > > > true or false. So we can follow and be aligned with rcu_expedited and
-> > > > rcu_normal parameters.
-> > > 
-> > > Speaking of aligning, there is also the automated
-> > > rcu_normal_after_boot boot option correct? I prefer the automated
-> > > option of doing this. So the approach here is not really unprecedented
-> > > and is much more robust than relying on userspace too much (I am ok
-> > > with adding your suggestion *on top* of the automated toggle, but I
-> > > probably would not have ChromeOS use it if the automated way exists).
-> > > Or did I miss something?
-> > 
-> > See this commit:
-> > 
-> > 3705b88db0d7cc ("rcu: Add a module parameter to force use of expedited RCU primitives")
-> > 
-> > Antti provided this commit precisely in order to allow Android devices
-> > to expedite the boot process and to shut off the expediting at a time of
-> > Android userspace's choosing.  So Android has been making this work for
-> > about ten years, which strikes me as an adequate proof of concept.  ;-)
+Hi Alexei,
+
+(cc netfilter maintainers)
+
+On Mon, Mar 06, 2023 at 08:17:20PM -0800, Alexei Starovoitov wrote:
+> On Tue, Feb 28, 2023 at 3:17 PM Daniel Xu <dxu@dxuuu.xyz> wrote:
+> >
+> > > Have you considered to skb redirect to another netdev that does ip defrag?
+> > > Like macvlan does it under some conditions. This can be generalized.
+> >
+> > I had not considered that yet. Are you suggesting adding a new
+> > passthrough netdev thing that'll defrags? I looked at the macvlan driver
+> > and it looks like it defrags to handle some multicast corner case.
 > 
-> Thanks for the pointer. That's true. Looking at Android sources, I find that
-> Android Mediatek devices at least are setting rcu_expedited to 1 at late
-> stage of their userspace boot (which is weird, it should be set to 1 as early
-> as possible), and interestingly I cannot find them resetting it back to 0!.
-> Maybe they set rcu_normal to 1? But I cannot find that either. Vlad? :P
-
-Interesting.  Though this is consistent with Antti's commit log, where
-he talks about expediting grace periods but not unexpediting them.
-
-> > Of course, Android has a rather tightly controlled userspace, as do
-> > real-time embedded systems (I sure hope, anyway!).  Which is why your
-> > timeout-based fallback/backup makes a lot of sense.  And why someone might
-> > want an aggressive indication when that timeout-based backup is needed.
+> Something like that. A netdev that bpf prog can redirect too.
+> It will consume ip frags and eventually will produce reassembled skb.
 > 
-> Or someone designs a system but is unaware of RCU behavior during boot. ;-)
+> The kernel ip_defrag logic has timeouts, counters, rhashtable
+> with thresholds, etc. All of them are per netns.
+> Just another ip_defrag_user will still share rhashtable
+> with its limits. The kernel can even do icmp_send().
+> ip_defrag is not a kfunc. It's a big block with plenty of kernel
+> wide side effects.
+> I really don't think we can alloc_skb, copy_skb, and ip_defrag it.
+> It messes with the stack too much.
+> It's also not clear to me when skb is reassembled and how bpf sees it.
+> "redirect into reassembling netdev" and attaching bpf prog to consume
+> that skb is much cleaner imo.
+> May be there are other ways to use ip_defrag, but certainly not like
+> synchronous api helper.
 
-RCU is just doing what they told it to!  ;-)
+I was giving the virtual netdev idea some thought this morning and I
+thought I'd give the netfilter approach a deeper look.
 
-							Thanx, Paul
+From my reading (I'll run some tests later) it looks like netfilter
+will defrag all ipv4/ipv6 packets in any netns with conntrack enabled.
+It appears to do so in NF_INET_PRE_ROUTING.
+
+Unfortunately that does run after tc hooks. But fortunately with the
+new BPF netfilter hooks I think we can make defrag work outside of BPF
+kfuncs like you want. And the NF_IP_FORWARD hook works well for my
+router use case.
+
+One thing we would need though are (probably kfunc) wrappers around
+nf_defrag_ipv4_enable() and nf_defrag_ipv6_enable() to ensure BPF progs
+are not transitively depending on defrag support from other netfilter
+modules.
+
+The exact mechanism would probably need some thinking, as the above
+functions kinda rely on module_init() and module_exit() semantics. We
+cannot make the prog bump the refcnt every time it runs -- it would
+overflow.  And it would be nice to automatically free the refcnt when
+prog is unloaded. 
+
+Once the netfilter prog type series lands I can get that discussion
+started. Unless Daniel feels strongly that we should continue with
+the approach in this patchset, I am leaning towards dropping in favor
+of netfilter approach.
+
+Thanks,
+Daniel
