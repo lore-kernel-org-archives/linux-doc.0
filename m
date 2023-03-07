@@ -2,175 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 297E4C678D5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 11:32:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33BE4C678D4
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 11:56:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230511AbjCGLcQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Mar 2023 06:32:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58956 "EHLO
+        id S230293AbjCGL4o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Mar 2023 06:56:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230481AbjCGLcD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 06:32:03 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on20630.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe5b::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C784843475;
-        Tue,  7 Mar 2023 03:31:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=diujgsvmhBVoHCCWnBRwkiQCAc+800K8j1d2KwrMOxx29ZwU2PdNc9Bj9dxVuFbGU5Shwo40QtvLDtmZDq/SXFN9kKuKvIRphaVybdx6GD68DJvkvlu4q9iXu7Ow+oO1Ia9jwb3bKnY0FXS5MmIbDOv7j4ulAOheTNFi/kyxwMNXNJ0YesN9QeUZ/HWuS3JA8ayfz5G1abQ2SElszPm0bl9ftTX1NJl331uAPcT3zHnqexXSMmTH67FSo+jjIqSdiHJzL2c/UZBSrr+u3AdrfSJvCYJJA7DC0sWLpgf2KTwlfiBb2/QO4I+j0TId002dtcV3G4clPPiIjlhnmNOu7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oqrccLHy/K9iCZa7u8ey+Sxd+xqfVbX3jNE54cX1UI0=;
- b=mE3dhRmEFwOSCUhPUHFk8opibbmNrsMBRUW7HVSD37red+C87IcAgFplS8pJH7q5U375QZhaFmdye1fdcwIZL5dKGlpGoIQwL7KarNxh7ThXQs7o1YIihT/wnU1nrD5DVCZ+REK6BA98lX3vZ4LSt3IAEFY88VXtwJDFsN/R3ciuKMja+rI3VwUlwe/bgIDOOi+Mcb/megXl1fOkuN53siWwAztvxlwoRz9HRTdm0M4PxOhO86SK4uNNpCkKFI3zpnPyWK8fvfIMr6HFTVyNU3etKkmg+ZDcCkcd6EW/l5Td+kFoB84zrJwDmRsCXevbB0gex0Oq92waZldLaAeZnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oqrccLHy/K9iCZa7u8ey+Sxd+xqfVbX3jNE54cX1UI0=;
- b=KJuRE4125cBYBbeyr30LE1GKwAgLza94azU66UI7zcag/cnaEEXJ0IEmLaljgJtMJamLvVlbOp8NjVtbOzrktCJ0AU5YR92lPKc9tthqKWwDXscvj1uwbDaFhHHEAshQvSsL7raNBr3pf+7IbdXlH8BPeuH5ppLYCs8E5s/4zls=
-Received: from DS7P222CA0003.NAMP222.PROD.OUTLOOK.COM (2603:10b6:8:2e::19) by
- DM4PR12MB5988.namprd12.prod.outlook.com (2603:10b6:8:6b::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6156.23; Tue, 7 Mar 2023 11:31:14 +0000
-Received: from DS1PEPF0000B078.namprd05.prod.outlook.com
- (2603:10b6:8:2e:cafe::a1) by DS7P222CA0003.outlook.office365.com
- (2603:10b6:8:2e::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.29 via Frontend
- Transport; Tue, 7 Mar 2023 11:31:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF0000B078.mail.protection.outlook.com (10.167.17.9) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6178.16 via Frontend Transport; Tue, 7 Mar 2023 11:31:14 +0000
-Received: from beas.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 7 Mar
- 2023 05:31:08 -0600
-From:   Wyes Karny <wyes.karny@amd.com>
-To:     Rafael J Wysocki <rafael@kernel.org>,
-        Huang Rui <ray.huang@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        <Mario.Limonciello@amd.com>, <Perry.Yuan@amd.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
-        <santosh.shukla@amd.com>, Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Ananth Narayan <ananth.narayan@amd.com>,
-        <gautham.shenoy@amd.com>, Tor Vic <torvic9@mailbox.org>,
-        Russell Haley <yumpusamongus@gmail.com>,
-        Wyes Karny <wyes.karny@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>
-Subject: [PATCH v8 6/6] Documentation: cpufreq: amd-pstate: Update amd_pstate status sysfs for guided
-Date:   Tue, 7 Mar 2023 11:27:40 +0000
-Message-ID: <20230307112740.132338-7-wyes.karny@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230307112740.132338-1-wyes.karny@amd.com>
-References: <20230307112740.132338-1-wyes.karny@amd.com>
+        with ESMTP id S230338AbjCGL4n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 06:56:43 -0500
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D338B2D5D;
+        Tue,  7 Mar 2023 03:56:41 -0800 (PST)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-536b7ffdd34so240009557b3.6;
+        Tue, 07 Mar 2023 03:56:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678190201;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fpzu6mM9TObEaWPqTRbV/lVIlKZNjyI+OGMeOTlpmmM=;
+        b=HlTlFZ6JpzfQr4iv30oIdQyWt5EKVG4KlPTb+CtXgnhcokg9agdArzRPjQaAhjClKC
+         ZdKh92km6nxWkT3uQOqDjCk/L1h0yTo3J3/U6pK8OkC1WlgHQdR+UJzqYNSNfKh56g1h
+         P6SjgUcedkQsE7840DprGK0z/3YIOuMtgwSwzxamhNMXCsjz/bOD5MvATFVETc5SR+UT
+         iBVMPMKPl2EtwWqT8Im+I1/eoqcIyrslwnxUhawQPD4rEIjHRjbkTYaGZlWu3279wo1m
+         o9hRTRw9GolZcvpByHOv1j8JCWQJ9mYMpP+s0DjAfQlcib7hjtoM8L2U5RyjFmGHJHtj
+         o/vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678190201;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Fpzu6mM9TObEaWPqTRbV/lVIlKZNjyI+OGMeOTlpmmM=;
+        b=cHALOOMvsCyHU1iZevMB7BNvTmCEuGZ2QrVW+xMmkzlu1fZWWQEpOsx+BE81RwGuaX
+         i3Qwy24l9zkQ+fvWX8GyPJF9HLRWND3W2vGGTIGJ4mz2GPVNtMiT/IHqb7YvCrLZqtPK
+         9DCONtTxtUhKUMj4FK5OHzAqPYBdy46K2NHMTEbTT/VAQNLq9AO6tbq7JYYsG6mRXifL
+         4apwYv+s4Q0T8I42gKDHqAOX2yjW1Lj2NPhyO1W2gd7qw+nNxINOiWGtKKjhCScvFX/z
+         Yowgqg6AXw9MKABOd5LXb301jsw0OGr43Lszzb8AYQVmN9gAXb0a6PRWubmi73JBqHvF
+         j+zg==
+X-Gm-Message-State: AO0yUKVniY7V+qj2Hrl+BiLwk0F355pCLoZ9CKPZn4FPbXnqs5NAp/H3
+        jNiWcVj+yAFa4rVVf8HpTKKmDtzSgk/2/OHM1kY=
+X-Google-Smtp-Source: AK7set+XuApmsHpeE59OAObEV85h6yLM1xkplSm7PT1n4hNgCYOTpCcCuw40R2D3CdnvscfMkze9+dwV/8bTBkxG6YU=
+X-Received: by 2002:a81:b61a:0:b0:52e:c79a:cda with SMTP id
+ u26-20020a81b61a000000b0052ec79a0cdamr9075327ywh.10.1678190201054; Tue, 07
+ Mar 2023 03:56:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0000B078:EE_|DM4PR12MB5988:EE_
-X-MS-Office365-Filtering-Correlation-Id: 651aabe1-ae6f-485b-8560-08db1eff75b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: H4nJyLVBaZwV3BgL+ogLwUt+cPAU2BfrOROLEooVGL/xMLNdflGo+mz3gAaveYa9au3ANfy1X80Sd59aNSpNjFVfXxuQUh/Tt6NC33/QJ4isWTti8IXF0QJ//P649FyFV7cWfR999Sn2Ebqki8ajQi4kpZUPy9O6uXOlPj/KHluTG+ih+21IPv50NbFDgNJ8fHfJ+vFu0c0oDVaV9H8aLz3DfqvBgcPA4jz7UNKUbvkKHAC7oHCR5OquKhDf1VBwBBo64m8CWB/c7LrV43eMiVGGkQelwWpS2qb3FjQ1w0IJ5s7D2vk25oEnPnheQavMLH+5Ajf9MmaZqBqf4lbtnCLRRMc3F7GcZAPczwFGRVkRjNbrveJ8306/De+vZ0ceEMJu7J26B2Sy02Ji5wfOYxD6WRYkIHT512SUCe79O7TplhBgulIlgSYNlGC7zmcuDSrasKD8ajXP5qVm2FdBvdWUhzxH06uyC7RlJaAGrkuxcK9uhLY4qnMTDH0KX3A3Krq6M8cegbyxmrwe2VNKOeTyHU49oP8/V14tOorfJDy1nw2wkBHzZXq3VED/TIkl1SFgdgxiKkBsOBo+82xWd+EC22hhodxv1e1RgOIHpYG7Oiqdh55xDmpQA2+VBbmj8/cV8i0n7KKQW95fwM8JjC+UmWrWzZ4y35fM6s+WBgj5Xj0e+z66zzyKEEFtkcMMKxOTu3Rn25N7baZuiZzOJ6+EJcMO6ygO6/JBRMTYPGc=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(396003)(376002)(346002)(39860400002)(451199018)(36840700001)(46966006)(40470700004)(82310400005)(82740400003)(6666004)(47076005)(36860700001)(83380400001)(36756003)(478600001)(6636002)(81166007)(316002)(356005)(110136005)(7696005)(336012)(16526019)(5660300002)(41300700001)(1076003)(54906003)(40460700003)(26005)(15650500001)(426003)(70586007)(7416002)(186003)(44832011)(8676002)(2616005)(8936002)(2906002)(40480700001)(70206006)(4326008)(86362001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 11:31:14.2600
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 651aabe1-ae6f-485b-8560-08db1eff75b5
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000B078.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5988
+References: <20230307102441.94417-1-conor.dooley@microchip.com>
+ <20230307102441.94417-3-conor.dooley@microchip.com> <CANiq72nLjBgMSUTtWuF7qU5vG9rA3v=ekWk1d6+SNiGkfcaS8Q@mail.gmail.com>
+ <ZAcZeWYUU75BK5FO@wendy>
+In-Reply-To: <ZAcZeWYUU75BK5FO@wendy>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 7 Mar 2023 12:56:30 +0100
+Message-ID: <CANiq72kz2qxsB9JG7OB02KMAfy-YvokCFWMuEj_bkaY8i5tdVg@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] RISC-V: enable building 64-bit kernels with rust support
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     linux-riscv@lists.infradead.org, conor@kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, rust-for-linux@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update amd_pstate status sysfs for guided mode.
+On Tue, Mar 7, 2023 at 12:01=E2=80=AFPM Conor Dooley <conor.dooley@microchi=
+p.com> wrote:
+>
+> Cool. Git should resolve that, probably without even generating a
+> conflict in -next, right?
 
-Acked-by: Huang Rui <ray.huang@amd.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-Tested-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-Signed-off-by: Wyes Karny <wyes.karny@amd.com>
----
- Documentation/admin-guide/pm/amd-pstate.rst | 31 ++++++++++++++++-----
- 1 file changed, 24 insertions(+), 7 deletions(-)
+I think it will conflict.
 
-diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-index 6e5298b521b1..1cf40f69278c 100644
---- a/Documentation/admin-guide/pm/amd-pstate.rst
-+++ b/Documentation/admin-guide/pm/amd-pstate.rst
-@@ -303,13 +303,18 @@ efficiency frequency management method on AMD processors.
- AMD Pstate Driver Operation Modes
- =================================
- 
--``amd_pstate`` CPPC has two operation modes: CPPC Autonomous(active) mode and
--CPPC non-autonomous(passive) mode.
--active mode and passive mode can be chosen by different kernel parameters.
--When in Autonomous mode, CPPC ignores requests done in the Desired Performance
--Target register and takes into account only the values set to the Minimum requested
--performance, Maximum requested performance, and Energy Performance Preference
--registers. When Autonomous is disabled, it only considers the Desired Performance Target.
-+``amd_pstate`` CPPC has 3 operation modes: autonomous (active) mode,
-+non-autonomous (passive) mode and guided autonomous (guided) mode.
-+Active/passive/guided mode can be chosen by different kernel parameters.
-+
-+- In autonomous mode, platform ignores the desired performance level request
-+  and takes into account only the values set to the minimum, maximum and energy
-+  performance preference registers.
-+- In non-autonomous mode, platform gets desired performance level
-+  from OS directly through Desired Performance Register.
-+- In guided-autonomous mode, platform sets operating performance level
-+  autonomously according to the current workload and within the limits set by
-+  OS through min and max performance registers.
- 
- Active Mode
- ------------
-@@ -338,6 +343,15 @@ to the Performance Reduction Tolerance register. Above the nominal performance l
- processor must provide at least nominal performance requested and go higher if current
- operating conditions allow.
- 
-+Guided Mode
-+-----------
-+
-+``amd_pstate=guided``
-+
-+If ``amd_pstate=guided`` is passed to kernel command line option then this mode
-+is activated.  In this mode, driver requests minimum and maximum performance
-+level and the platform autonomously selects a performance level in this range
-+and appropriate to the current workload.
- 
- User Space Interface in ``sysfs`` - General
- ===========================================
-@@ -358,6 +372,9 @@ control its functionality at the system level.  They are located in the
- 	"passive"
- 		The driver is functional and in the ``passive mode``
- 
-+	"guided"
-+		The driver is functional and in the ``guided mode``
-+
- 	"disable"
- 		The driver is unregistered and not functional now.
- 
--- 
-2.34.1
+Since the cleanup is elsewhere and it may add work for the -next
+maintainer, it is probably best to take it out in v2.
 
+Cheers,
+Miguel
