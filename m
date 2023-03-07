@@ -2,83 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 941E2C678D5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 14:55:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B209C6FD1A
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 14:55:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229787AbjCGOzq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Mar 2023 09:55:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60278 "EHLO
+        id S229486AbjCGOzu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Mar 2023 09:55:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229820AbjCGOxn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 09:53:43 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAA5A85351;
-        Tue,  7 Mar 2023 06:40:05 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id i34so53132333eda.7;
-        Tue, 07 Mar 2023 06:40:05 -0800 (PST)
+        with ESMTP id S229891AbjCGOxt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 09:53:49 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BA63867F5;
+        Tue,  7 Mar 2023 06:40:11 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id g3so53265060eda.1;
+        Tue, 07 Mar 2023 06:40:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678200004;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R3RqJ40QuyU6gTdk0TLAOUN9gyan56NZTQb54foCPzs=;
-        b=GlR7BJ2BVMasBLyzYPDobcTwCUC6CxlHAnohTNSxZnNUAJ0vAC/NGxQfM6TOgvgtAf
-         KJr79LYAejGkTvZxqzmYmbY9Ky1hlULhlGrjurb6UmnkI8k1v/WfI2K0ZDTBWH5d5d4G
-         9K0j0pTv5DtW/b9LMrPImDJuq839Ag363ytclj1bRyct349YSCVMiqG25Dn/Of8voZPv
-         88+c79xYk0cS/JQOc0KdylylOv+u+KoVUEBoFA2y+M7ZHj+B6+gQ0PNduZCASOLGfShN
-         rqboMJJLZkg6g24Hizjeknvg9585OrmcBY9kYpgKBILzzBBkNx1PqtKFhLhdgOtY6JY2
-         IVtA==
+        d=gmail.com; s=20210112; t=1678200009;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ffyuxsjxwRhSg2GhzeH8tqKDCwlIQld/SCdHJpBH2gE=;
+        b=FL1DCLJ8QssMQC9Zk1WCpjYxPUrnj2VhJaLyKwYlK5B3yiutHaW4GMzsQM8UVJ43A/
+         cOMmqWE1OVIfI4gVMXvgtj6rRKfLJErJ8exczL9IlQymmovf4KmRKPmQpp9qGAGTKZ5i
+         En7mCAji6D1Ng6F72dbeWjQ7U2LWqVAs/o6jiNSrGxRYHwyMEIUwzVFH18qpagGGoAHb
+         gHwNBGXi09PwLbdOnlcJEuYDz6Sp4TXoCPda4Z/lzcUsTZxb+nkF/Y1/DtPHb2F1yG4v
+         nEpxsZ/gp4Voh740Xp9dlVTB5QNkFFRwyIGIX6vI1nGxRNpjvQXBv7hACTKzR4DU6rch
+         rMWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678200004;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R3RqJ40QuyU6gTdk0TLAOUN9gyan56NZTQb54foCPzs=;
-        b=TylUMMPtOeIJku7cl+0BlMGUug357HKA6lyqn4Hf5xJDqsjxzxAJlVLrPsKr/CBCt+
-         07Nh9gJUwBLcZ5Xxgfq4Bwq8KDOmzUt2G9pflFWTA6MKy1wjn9bwfxLjkJGnhFbImrRT
-         cY7B8Kn6wqCSdakQgIVMh5TwDJBA94Xwu/WbszHlB9z+ZtMtgeIhcgRUdznTiVB1p0Ay
-         Y39Dsq4LbjzuUyLnkFPj39I7qVGpk/YGUP36qxG1nrGG83jLcMWQlurVcCrvE7qkDO0m
-         uzONqEbl7VH0s6vszzfR8h77BA8y5GzJS4As+/Dx4ca84HZg12dv97UqJaOpNznyEMDx
-         /RTQ==
-X-Gm-Message-State: AO0yUKV1wtGJUWIJyoxYziSZSE+yp34YDOLBxrw/9sN80ezWmcjMC9EP
-        0kwxYbyARRaX3caKJx4PIDg=
-X-Google-Smtp-Source: AK7set9xSqBTU2QYwHlLx1MIR2qXzc9eOL1pGw/9RyCeptxm3dDUQsuDkQHP5X8u+NyFET63Yk7AJw==
-X-Received: by 2002:a17:906:1593:b0:885:dd71:89b5 with SMTP id k19-20020a170906159300b00885dd7189b5mr13679935ejd.41.1678200004142;
-        Tue, 07 Mar 2023 06:40:04 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678200009;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ffyuxsjxwRhSg2GhzeH8tqKDCwlIQld/SCdHJpBH2gE=;
+        b=o6XHiW75pUqYLfjY4YTtx1B6s6/5OgV71ENPLT/hOnAGXEylUEWQ0Ve1Zd/+w2/HMp
+         Ah35P+Cgv5tOiOXTvNLlVr9NaIaIsAzLLyY66DAl+bHy6eecUvTrcgjVuuqlJnbu/bOo
+         fY0PDZhx5CwiY7etD5l/+CkahZDpGfK6jhqinOy/JTqLfVBVBxm56V9fjjlHHbarL0i+
+         UDj75SKA83FwhmTtmDLmBjuzamFjsa4OcxGpwd5XmZBJJpKHEHrMA6cyv5yqhcC2sWvx
+         97ZARSQE+pUWwh3rnEsbLgEEjb6e2v0e8htWv9ttuMMqPiieX7/od96l1doUEO2oKfsN
+         8cOg==
+X-Gm-Message-State: AO0yUKUHo7l6jn0vJChZMOQ5VESrkJJRYx48vHB3oHvufpj2eJc6iaNj
+        M2mngfdlDsDyUBIYuXjuZKhyt3rRZtwvJg==
+X-Google-Smtp-Source: AK7set9AIv2ityQc09l8G8Eel3DdJ5gKJFHeg31rT7c1BM9g2nMHdCB5QHufFFiVI3FZvg3ttpedHQ==
+X-Received: by 2002:a17:906:224d:b0:8f4:732e:40bf with SMTP id 13-20020a170906224d00b008f4732e40bfmr16114397ejr.16.1678200009590;
+        Tue, 07 Mar 2023 06:40:09 -0800 (PST)
 Received: from felia.fritz.box ([2a02:810d:2a40:1104:a517:a52e:cdbc:e30d])
-        by smtp.gmail.com with ESMTPSA id pv16-20020a170907209000b009079442dd11sm6183861ejb.154.2023.03.07.06.40.03
+        by smtp.gmail.com with ESMTPSA id pv16-20020a170907209000b009079442dd11sm6183861ejb.154.2023.03.07.06.40.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 06:40:03 -0800 (PST)
+        Tue, 07 Mar 2023 06:40:09 -0800 (PST)
 From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         device@lanana.org, unicode@lanana.org,
         "H . Peter Anvin" <hpa@zytor.com>
 Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH 0/2] Updating information on lanana.org
-Date:   Tue,  7 Mar 2023 15:39:58 +0100
-Message-Id: <20230307144000.29539-1-lukas.bulwahn@gmail.com>
+Subject: [PATCH 2/2] docs: admin: unicode: update information on state of lanana.org document
+Date:   Tue,  7 Mar 2023 15:40:00 +0100
+Message-Id: <20230307144000.29539-3-lukas.bulwahn@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230307144000.29539-1-lukas.bulwahn@gmail.com>
+References: <20230307144000.29539-1-lukas.bulwahn@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dear Jon,
+Replace link to a non-existing page with a note that lanana.org does not
+maintain Linux Zone Unicode Assignments anymore.
 
-please pick these two changes that update information in MAINTAINERS and
-the kernel documentation on the actual state of lanana.org.
+Remove the reference to H. Peter Anvin and the unicode lanana.org email as
+the maintainer of this file, as at this point, this is all maintained by
+the general kernel community.
 
-Thanks,
-
-Lukas
-
-
-Lukas Bulwahn (2):
-  MAINTAINERS: remove historic section DEVICE NUMBER REGISTRY
-  docs: admin: unicode: update information on state of lanana.org document
-
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
  Documentation/admin-guide/unicode.rst | 9 ++++-----
- MAINTAINERS                           | 5 -----
- 2 files changed, 4 insertions(+), 10 deletions(-)
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
+diff --git a/Documentation/admin-guide/unicode.rst b/Documentation/admin-guide/unicode.rst
+index 290fe83ebe82..cba7e5017d36 100644
+--- a/Documentation/admin-guide/unicode.rst
++++ b/Documentation/admin-guide/unicode.rst
+@@ -3,11 +3,10 @@ Unicode support
+ 
+ 		 Last update: 2005-01-17, version 1.4
+ 
+-This file is maintained by H. Peter Anvin <unicode@lanana.org> as part
+-of the Linux Assigned Names And Numbers Authority (LANANA) project.
+-The current version can be found at:
+-
+-	    http://www.lanana.org/docs/unicode/admin-guide/unicode.rst
++Note: The original version of this document, which was maintained at
++lanana.org as part of the Linux Assigned Names And Numbers Authority
++(LANANA) project, is no longer existent.  So, this version in the
++mainline Linux kernel is now the maintained main document.
+ 
+ Introduction
+ ------------
 -- 
 2.17.1
 
