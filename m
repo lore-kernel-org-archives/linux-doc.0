@@ -2,143 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFDA8C678D5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 10:25:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A533EC678DB
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 10:33:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230237AbjCGKZm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Mar 2023 05:25:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35486 "EHLO
+        id S230225AbjCGKdf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Mar 2023 05:33:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230236AbjCGKZb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 05:25:31 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D567E5FF5;
-        Tue,  7 Mar 2023 02:25:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1678184725; x=1709720725;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=qWB3e5tgDGUKCOsNQtNNw5AKYgfS2AJpadcC4RT6yqQ=;
-  b=YWQES2dcbwVTCkleictX1E3V0UhpGGRfL/a0obG27EQyA1hDrcsxLXl2
-   FwcB+v9gys8cNnSTx3Wh6AUmNb7TUg+9IzoC+hAQrzPHNZJpnvghWCLp7
-   3mfgj1nn4PFxY0zlnOwmWVvP/71wmHzxkPzYLILb+LwU5SUaA4fXYfdFO
-   EXfj/uMQ2jOewabptYdHL2Hwk0lpktOJj0JWzWRjHDTPdLBFdm89N4Xrx
-   GRCizSYaKOtiYrYt6zYkIp3WIRsNyQeXrvCtTlqbjziyvfLc0+ZOtOhz4
-   +19rYCfKeblqP/illwnK+1uXVIkacxvAexKO9I96CG1IzZk48oTC8/SYc
-   A==;
-X-IronPort-AV: E=Sophos;i="5.98,240,1673938800"; 
-   d="scan'208";a="204052299"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 07 Mar 2023 03:25:24 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 7 Mar 2023 03:25:22 -0700
-Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.16 via Frontend
- Transport; Tue, 7 Mar 2023 03:25:19 -0700
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     <linux-riscv@lists.infradead.org>
-CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <llvm@lists.linux.dev>
-Subject: [PATCH v1 2/2] RISC-V: enable building 64-bit kernels with rust support
-Date:   Tue, 7 Mar 2023 10:24:41 +0000
-Message-ID: <20230307102441.94417-3-conor.dooley@microchip.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230307102441.94417-1-conor.dooley@microchip.com>
-References: <20230307102441.94417-1-conor.dooley@microchip.com>
+        with ESMTP id S230189AbjCGKdF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 05:33:05 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7AA72A6;
+        Tue,  7 Mar 2023 02:32:57 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D9B1F1EC0683;
+        Tue,  7 Mar 2023 11:32:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1678185175;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=TSaRNnuYPMpqfKbVyvY5NfwUuBAd5KNTO4zFjqwOrxs=;
+        b=L1XBCtD23na6R3E13elS6V0ZP5T2POm9e9hiV/ka1IMvkPwbFMAaKSQRD70gxI+wvR11FF
+        roVJC30ow7iteUYrsOIzCJ2K4IwqmiCNeCZ4S7YrnBe99Ta9WPZTuwVAKPjZAHFH6BfcSS
+        dQ3+Z1erhtgZDIYxF6Y1uAhTxiZbhgc=
+Date:   Tue, 7 Mar 2023 11:32:51 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "david@redhat.com" <david@redhat.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v7 21/41] mm: Add guard pages around a shadow stack.
+Message-ID: <20230307103251.GAZAcS0zpon573Ox3N@fat_crate.local>
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-22-rick.p.edgecombe@intel.com>
+ <ZAWfZcJLXUfNt1Fs@zn.tnic>
+ <f91bbe94b51c0855da921a770685aa17c06c8beb.camel@intel.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2889; i=conor.dooley@microchip.com; h=from:subject; bh=yBD6MNol++6y2HAWMBBaDRLPC5EtLmNC6wyDPXZv0s4=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCnsAs+aOuwTWjpufIiaM2fzp6LVux5wqT1WnRVxQM+mrf5w VINVRykLgxgHg6yYIkvi7b4WqfV/XHY497yFmcPKBDKEgYtTACZyoI3hf4iJso1T2ZFneoqdb/5bWv Tebv2x8NxSR/1oV4uw6NaiVkaGdwZ6t/Wjz29b8GVH9OWbU7YeKJ5+V+Fi3plvhnYXf5s1sAAA
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f91bbe94b51c0855da921a770685aa17c06c8beb.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Miguel Ojeda <ojeda@kernel.org>
+On Tue, Mar 07, 2023 at 01:29:50AM +0000, Edgecombe, Rick P wrote:
+> On Mon, 2023-03-06 at 09:08 +0100, Borislav Petkov wrote:
+> > Just typos:
+> 
+> All seem reasonable to me. Thanks. 
+> 
+> For using the log verbiage for the comment, it is quite big. Does
+> something like this seem reasonable?
 
-The rust modules work on 64-bit RISC-V, with no twiddling required.
-Select HAVE_RUST and provide the required flags to kbuild so that the
-modules can be used. The Makefile and Kconfig changes are lifted from
-work done by Miguel in the Rust-for-Linux tree, hence his authorship.
-Following the rabbit hole, the Makefile changes originated in a script,
-created based on config files originally added by Gary, hence his
-co-authorship.
+Yeah, it does. I wouldn't want to lose that explanation in a commit
+message.
 
-32-bit is broken in core rust code, so support is limited to 64-bit:
-ld.lld: error: undefined symbol: __udivdi3
+However, this special aspect pertains to the shstk implementation in x86
+but the code is generic mm and such arch-specific comments are kinda
+unfitting there.
 
-As 64-bit RISC-V is now supported, add it to the arch support table,
-taking the opportunity to sort the table in alphabetical order.
+I wonder if it would be better if you could stick that explanation
+somewhere in arch/x86/ and only refer to it in a short comment above
+VM_SHADOW_STACK check in stack_guard_start_gap()...
 
-Co-developed-by: Gary Guo <gary@garyguo.net>
-Signed-off-by: Gary Guo <gary@garyguo.net>
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
-While adding RISC-V to the table, I took the chance to re-sort it
-alphabetically. I didn't think that warranted co-authorship, but given
-we had an authorship conversation already I am happy to provide one for
-that...
----
- Documentation/rust/arch-support.rst | 3 ++-
- arch/riscv/Kconfig                  | 1 +
- arch/riscv/Makefile                 | 2 ++
- 3 files changed, 5 insertions(+), 1 deletion(-)
+Thx.
 
-diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
-index ed7f4f5b3cf15..77765ffd5af41 100644
---- a/Documentation/rust/arch-support.rst
-+++ b/Documentation/rust/arch-support.rst
-@@ -15,7 +15,8 @@ support corresponds to ``S`` values in the ``MAINTAINERS`` file.
- ============  ================  ==============================================
- Architecture  Level of support  Constraints
- ============  ================  ==============================================
--``x86``       Maintained        ``x86_64`` only.
-+``riscv``     Maintained        ``riscv64`` only.
- ``um``        Maintained        ``x86_64`` only.
-+``x86``       Maintained        ``x86_64`` only.
- ============  ================  ==============================================
- 
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index c5e42cc376048..c3179b139361f 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -114,6 +114,7 @@ config RISCV
- 	select HAVE_POSIX_CPU_TIMERS_TASK_WORK
- 	select HAVE_REGS_AND_STACK_ACCESS_API
- 	select HAVE_RSEQ
-+	select HAVE_RUST if 64BIT
- 	select HAVE_STACKPROTECTOR
- 	select HAVE_SYSCALL_TRACEPOINTS
- 	select IRQ_DOMAIN
-diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-index 6203c33789228..950612bf193cf 100644
---- a/arch/riscv/Makefile
-+++ b/arch/riscv/Makefile
-@@ -31,6 +31,8 @@ ifeq ($(CONFIG_ARCH_RV64I),y)
- 	KBUILD_AFLAGS += -mabi=lp64
- 
- 	KBUILD_LDFLAGS += -melf64lriscv
-+
-+	KBUILD_RUSTFLAGS += -Ctarget-cpu=generic-rv64
- else
- 	BITS := 32
- 	UTS_MACHINE := riscv32
 -- 
-2.39.2
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
