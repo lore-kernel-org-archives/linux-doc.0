@@ -2,154 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4352C678D4
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 18:57:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F4CCC678D4
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 19:04:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233363AbjCGS5z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Mar 2023 13:57:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35472 "EHLO
+        id S233637AbjCGTEl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Mar 2023 14:04:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233519AbjCGS5h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 13:57:37 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1DCBB6D36;
-        Tue,  7 Mar 2023 10:45:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7F68AB819CB;
-        Tue,  7 Mar 2023 18:44:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD2A7C433D2;
-        Tue,  7 Mar 2023 18:44:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678214681;
-        bh=98GSn9Nd5lbsZB8GQDRpBCln3pvxy2GNE1Kh/iUgG4E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ci9N7xCRe3wAWKGx/fHN59ZdShHG3aGjM0ECdLco4W7QTTaolajEJDHRwxvUfIbl2
-         JEdttpeYOYKITpWFhrQ8yqGYNxjMeIspbBV7yKxPZAQK3I5HeeJEKokX3QBFsITDmW
-         9V8fMq3OnQktdbltjtKV1bfjg11yg2ZQvNHVgB9RuKE1fSY7Orgz/DmJeDCIadnSAi
-         Rrp5S+qhFFAb7qkLDwhwzqdlBSZHO5aIyprEzfJ3x0t2e4euG1/C/Vp9wBJ17qEr/w
-         iHo/7rodCX7H5a6n6XPg12/FabuzP9TBNbJ4Nww8tewlRAbmb1il3mvTUy2TpzQyHC
-         3DzJX5Sv83O4w==
-Date:   Tue, 7 Mar 2023 18:44:35 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        'Conor Dooley ' <conor.dooley@microchip.com>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH V3 00/20] Add basic ACPI support for RISC-V
-Message-ID: <a9823561-2e32-49e8-b6c9-73e4b8f8cf8d@spud>
-References: <20230303133647.845095-1-sunilvl@ventanamicro.com>
- <16007014-c5f2-4b07-baec-e19952236aa5@spud>
- <ZAbGSA6F0kfv9YYw@sunil-laptop>
- <E7FB4927-1FE6-435A-914E-9615C2AD9D34@kernel.org>
+        with ESMTP id S231618AbjCGTES (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 14:04:18 -0500
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9402B76F45;
+        Tue,  7 Mar 2023 10:50:00 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 66BEB5C0297;
+        Tue,  7 Mar 2023 13:49:37 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 07 Mar 2023 13:49:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
+        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1678214977; x=1678301377; bh=P2
+        eYCUn4XQ1ZPSM5uBDSRPlUAfsQ7yKQeLEQr2QQkBg=; b=lOa2rchhGbSWNj3QQn
+        LVtyqUiyyaux6Ad9uRo/4mfKTBv/zrUwv9AumTiI6vm9vTS/VsYycMcENUP6ircn
+        egJTH1cW/4LhQ5dnFkkyboJXsGSwmmKmBfZsRKOshjve7tn4WxcPcPW77ua6/4dM
+        qF03TGGTmsBE/F7gomsrIL89QjY5dc39JefVqzo8wR1HHFRBu5pWcTTzPUWFD38M
+        vFgXYeXlTlgpQQszT+BKbejS8kYxQ+ZY8FtRqnNCu1WFFfAmkjro7zNKAnRsfoKO
+        V9vQaYhwVd/zC/WuxOuwSVnewZEk7rG7jf13MZRgynKMhMllsGyvtlk1YFaPgDhn
+        dPgg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; t=1678214977; x=1678301377; bh=P2eYCUn4XQ1ZP
+        SM5uBDSRPlUAfsQ7yKQeLEQr2QQkBg=; b=FtDUgsoElbzHcFVdw09IZE+u6i5wh
+        0IrcwaWYpK2UO3FDSEnZ80mFcau1q5vNGH3L/RkFNFOI02HMY5fcqmEr4Kdua/ZB
+        KB1VeW+NpFOSjsmNLoMt3/hDKp4T7j/BfeiQkqRhuIOSyta8rUhA3d1DIk55Uiqn
+        yflNGAuKhPkJgjJF+PufG6fxahOHyxnc8OyDuy8UeGYNg529Pq//2GxgNyc9cFqJ
+        8RQlYCRYSdBruftTcTUK4MnV3ss1eRa9cQhV0Sfe+iFPByyviPkxWGUXcgEkC+cz
+        t7cwAaoPIBC8I4qB1y8WWTiFrSorlxq3AYES89TYkKE3qM0C18B6rbB2g==
+X-ME-Sender: <xms:QYcHZGriXsPLzW62pimimwW4cvuw6fe--_4TWQxppDALbPOeC_-ZcA>
+    <xme:QYcHZEq_f1z_HMoTFGc6Kmr7_Azpd7E_tB1sBIQiSTGiPxoGFUPJUgP24C-qmm9bq
+    UQ27UjYg688F3SPX1A>
+X-ME-Received: <xmr:QYcHZLNG2aNknJ0_i3-Mpu_NEPUtM7-szMv5tUYGYnsc2UdiwMo9j_kMHEr3AFBNImZ8L2d0mB1MgFFzdtveXH1eb1IptXvFVNxmr2E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddutddgudduudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhepfhgfhffvvefuffgjkfggtgesth
+    dtofdttdertdenucfhrhhomhepufhtvghfrghnucftohgvshgthhcuoehshhhrseguvghv
+    khgvrhhnvghlrdhioheqnecuggftrfgrthhtvghrnhepgeeiudelhefhkeffiefhteeuve
+    dugfejgfeutdevfeeufeeggeegueehieekudeinecuffhomhgrihhnpehkvghrnhgvlhdr
+    ohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hshhhrseguvghvkhgvrhhnvghlrdhioh
+X-ME-Proxy: <xmx:QYcHZF5Y76SuwluK-VaqVnkYHz1D9VikefIEk52SJNBKTeAME40a_A>
+    <xmx:QYcHZF7YOHpJD-rXOVxHneXC_rzxmDWHTPHEagVtHoZufJo5S5cbpA>
+    <xmx:QYcHZFgwJ5iUdgdgfEZeah03xd24gewezztmiKZcu_l1m7nTHgnbCQ>
+    <xmx:QYcHZAaw39t6qsYxraG8aShDaE7naVnEEnQeorv0HSwXYXT8FSU--g>
+Feedback-ID: i84614614:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Mar 2023 13:49:36 -0500 (EST)
+References: <20230224044000.3084046-1-shr@devkernel.io>
+ <20230225210854.25e93b1d94666aa13c269104@linux-foundation.org>
+User-agent: mu4e 1.6.11; emacs 28.2.50
+From:   Stefan Roesch <shr@devkernel.io>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, hannes@cmpxchg.org
+Subject: Re: [PATCH v3 0/3] mm: process/cgroup ksm support
+Date:   Tue, 07 Mar 2023 10:48:12 -0800
+In-reply-to: <20230225210854.25e93b1d94666aa13c269104@linux-foundation.org>
+Message-ID: <qvqwsfeggzwl.fsf@dev0134.prn3.facebook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Syeh4y7IR+Jnz+iK"
-Content-Disposition: inline
-In-Reply-To: <E7FB4927-1FE6-435A-914E-9615C2AD9D34@kernel.org>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---Syeh4y7IR+Jnz+iK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Andrew Morton <akpm@linux-foundation.org> writes:
 
-On Tue, Mar 07, 2023 at 06:13:22AM +0000, Conor Dooley wrote:
->=20
->=20
-> On 7 March 2023 05:06:16 GMT, Sunil V L <sunilvl@ventanamicro.com> wrote:
-> >On Mon, Mar 06, 2023 at 09:51:09PM +0000, Conor Dooley wrote:
-> >> Hey Sunil,
-> >>=20
-> >> On Fri, Mar 03, 2023 at 07:06:27PM +0530, Sunil V L wrote:
-> >> > This patch series enables the basic ACPI infrastructure for RISC-V.
-> >> > Supporting external interrupt controllers is in progress and hence i=
-t is
-> >> > tested using poll based HVC SBI console and RAM disk.
-> >> >=20
-> >> > The first patch in this series is one of the patch from Jisheng's
-> >> > series [1] which is not merged yet. This patch is required to support
-> >> > ACPI since efi_init() which gets called before sbi_init() can enable
-> >> > static branches and hits a panic.
-> >> >=20
-> >> > Patch 2 and 3 are ACPICA patches which are not merged into acpica yet
-> >> > but a PR is raised already.
-> >> >=20
-> >> > Below are two ECRs approved by ASWG.
-> >> > RINTC - https://drive.google.com/file/d/1R6k4MshhN3WTT-hwqAquu5nX6xS=
-EqK2l/view
-> >> > RHCT - https://drive.google.com/file/d/1nP3nFiH4jkPMp6COOxP6123DCZKR=
--tia/view
-> >> >=20
-> >> > The series depends on Anup's IPI improvement series [2].
-> >> >=20
-> >> > [1] https://lore.kernel.org/all/20220821140918.3613-1-jszhang@kernel=
-=2Eorg/
-> >> > [2] https://lore.kernel.org/lkml/20230103141221.772261-7-apatel@vent=
-anamicro.com/T/
-> >>=20
-> >> Building a clang-15 allmodconfig (I didn't try gcc) with this series, =
-and
-> >> Anup's IPI bits, results in a broken build, due to failings in cmpxchg:
-> >>=20
-> >> /stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: e=
-rror: call to __compiletime_assert_335 declared with 'error' attribute: BUI=
-LD_BUG failed
-> >>         while (unlikely((ret =3D cmpxchg(&c->value, old, new)) !=3D ol=
-d)) {
-> >>                                ^
+> On Thu, 23 Feb 2023 20:39:57 -0800 Stefan Roesch <shr@devkernel.io> wrote:
+>
+>> So far KSM can only be enabled by calling madvise for memory regions. To
+>> be able to use KSM for more workloads, KSM needs to have the ability to be
+>> enabled / disabled at the process / cgroup level.
+>
+> I'll toss this in for integration and testing, but I'd like to see
+> reviewer input before proceeding further.
+>
+> Please plan on adding suitable user-facing documentation?  Presumably a
+> patch for the prctl manpage?
 
-> > I am able to build without any of these issues using clang-15. I am
-> > wondering whether the base is proper. I had rebased on top of the master
-> > and couple of patches from IPI series were already merged in the master.
-> >=20
-> > Do you mind verifying with my branch
-> > https://github.com/vlsunil/linux/commits/acpi_b1_us_review_ipi17_V3?
->=20
-> I can check that later I suppose.
-
-That's broken too.
-
-> > Or if you could provide me your branch details, I can look further.
->=20
-> 6.3-rc1, with both series applied, sans Anups applied patches.
-
-I've pushed my stuff here, but unlikely that it makes any odds since
-your branch experiences the same build issue.
-https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/ borked-acp=
-i-surface
-
-My build commands are wrapped in a script, but it's an LLVM=3D1
-allmodconfig run w/ clang-15(.0.7) etc.
-
-Chees,
-Conor.
-
---Syeh4y7IR+Jnz+iK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZAeGEwAKCRB4tDGHoIJi
-0pBJAQC6eUPL8agYJlDStZNq2bNTc9yH0rw+9QH9WnR5mdEIxwD+Ikx1pSDTQT/o
-2vHNHYLroiHM+zN28aBpih7YsooWjQI=
-=4gdL
------END PGP SIGNATURE-----
-
---Syeh4y7IR+Jnz+iK--
+The doc patch has been posted:
+https://lore.kernel.org/linux-man/20230227220206.436662-1-shr@devkernel.io/
