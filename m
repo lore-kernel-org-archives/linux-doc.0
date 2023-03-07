@@ -2,238 +2,510 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E593C678D5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 13:43:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D822C678D4
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 13:46:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229833AbjCGNmy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Mar 2023 08:42:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39428 "EHLO
+        id S229792AbjCGNqW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Mar 2023 08:46:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231223AbjCGNmM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 08:42:12 -0500
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2073.outbound.protection.outlook.com [40.107.95.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C143344A;
-        Tue,  7 Mar 2023 05:41:55 -0800 (PST)
+        with ESMTP id S229767AbjCGNqB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 08:46:01 -0500
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2080.outbound.protection.outlook.com [40.107.92.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937CC52F7B;
+        Tue,  7 Mar 2023 05:45:42 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gi3pgtUWFCGX5Dw7qmXiwpgiKApwxtbJAnd9ElzbWdSILvWl4mnXag1cJxUNQES6mCeZckbYsiZZYtXKZ87ug230A7Ep6khzHnpD9eH07S8hoRwJTiOJZNgdfyOgywC7tD+qM9eVFJtO/KjOUDvDCFNmayk9TaOZhxYtgZ1wD0ScdkN7uVGu/uqDmYWShU/DcEtANWp6KPDZiMIsziTu33NigD9/w/6WC7AHKSAqN7mGH7M2yPR5c5QkCpSQKOQ7SUiTrzUmf2PIxnlfpEHSg9cZ3RHwNeCaShkHId0Wt3uty6dSUdSz9kaXUsxnQNc7F9wr69IIT6EQ45KwfTfmWg==
+ b=i4E0yot6Prdk7PpRbjNkTPHIlbqJe71xOH7IuifbmEYMMJIt2ck8AQjVZiDNUI7iS0pkaEALn9D/zH4dSmXXOZvoMaeS9dRqDmANIADCP2Aq7s1trVFDyFni6Jx+d1DHWEGSpVGDTbnbDJ8WjDGabUBzhSZup9h8M0YhFjZcvT5aFnmgu5mMW+Tb0FGKV98hrMV7/Io7KLqOYpUk12jLrKduBajo0nmnW7Mu+h+/Hq4XdY/dgu5faMr4//zX3XKDQWgDCe0wQZsGwHwFXR3S9jhi735uNvVS/FvA3rVC/PTgX5avciNK3nlDmDyMLqfDnCu3dT/YuPsSEe9zDjDNiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2OViwvK/iXR46ZTlxrWy60AcnggfVX4RM1oB5gnYV5M=;
- b=Juj0fA5OtmDIqg64uEc/8X9Zs0afUN2ZSZ+Rx8wskyFhf6CH4+y55QgTVjjKrXOa9xo+OjNchUT78XSPcqAKSIaXlJ1tkkgVN288lC4UYUDfpkoGZHkmac/3V98mrh7CEYinT4n5PHWJ1lQSRV5arwEZSGitdY05miW1dbVTrH6z6oBfnZfS2jipObbVBrmyG7nIM6EgJN4zBsHcKSkGX8qmNkInPdZ3n2D8OW1hz1eJATTUQNAiodoVYyH0Itwq2hqxwb8B3zbC2qysP6cNzbVXJ+CykfGffEhoQG3la/rGTGc0ZqdZLJRm97hiPUMt+g45FKbjL+Rlv7VMNwRkUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=yJWEj3hjDnPe65iOjnLh7VgkaSVLEFJha2qS1Gs9wX0=;
+ b=gTbvsr/EOL5opPSLoq06sqkWvEXVJauzN4pCslwocsy6JwP7xfPb7J+9E7cjHaoLGerVU065e8lEZUN6RqCoC2j5V4/jFYELR6X89AdD6szdDIt5E438axOEtW3y6fLKxk8YKP69OEMP6VgOmMVmQKST9GVj8747+1oBx5ll8ON7yfK1y+AscfjywDePIStS9kDFbrqO4A2PSt/p3PYkskDrYnuxbFvwiW5pMXcE2G64TuEGRC7ry2k8H6cufRRCYYbXcoP4yk4OlhHJNHsgxVr7KAZi9ZUYEKw7n8u679jCOlIOFGsGgzdTFaTUNzvd/BvxZwCbXQNyQtXt8cBaKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2OViwvK/iXR46ZTlxrWy60AcnggfVX4RM1oB5gnYV5M=;
- b=1oSTtXW0uKvGi/1cES73SdneOJgzBCLz71Oak+UxcVeLfb0tSRSvSDPWf3BFBeZSY7soAR5xhHNpMnHDoxoERW/7wfOdq510Rwde9p7S95isW53VJvaaa/gPAGwQWGSTVohGJhL7KK512CJFjwg69b2cA91A94f01tcqp0YkZ6w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
- by CY8PR12MB8244.namprd12.prod.outlook.com (2603:10b6:930:72::7) with
+ bh=yJWEj3hjDnPe65iOjnLh7VgkaSVLEFJha2qS1Gs9wX0=;
+ b=x+JajhQBPYxfA0j/zLLcM9xuhTkfIyPP2fiu2vA+7nhYd5CccJOYQ6MYwf4mWTv/OHj1ag+GF72qvGeUlvkZw9i7wlSkfky4iMsFA/JHsGMv11U+cx1wue/cwukaXf1iS6BR5qNY0aZeQtse64vWdLdbi/3lktYJl14+aT99Ruw=
+Received: from DM6PR13CA0035.namprd13.prod.outlook.com (2603:10b6:5:bc::48) by
+ CH3PR12MB8305.namprd12.prod.outlook.com (2603:10b6:610:12e::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.29; Tue, 7 Mar
- 2023 13:41:53 +0000
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::70f8:b479:637:1dd4]) by BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::70f8:b479:637:1dd4%7]) with mapi id 15.20.6156.029; Tue, 7 Mar 2023
- 13:41:53 +0000
-Message-ID: <bb3fe216-9fe3-cc64-decf-290df128e370@amd.com>
-Date:   Tue, 7 Mar 2023 07:41:51 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] docs/sp_SP: Add process deprecated translation
-Content-Language: en-US
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, sergio.collado@gmail.com
-References: <20230306134420.30210-1-carlos.bilbao@amd.com>
- <38cb9f23-a56a-f420-5942-0bfeb620306e@gmail.com>
- <875b2564-589b-c381-cbf0-f30470d4a5a8@amd.com>
- <6f1d8954-586b-efea-526b-ef461b5624df@gmail.com>
- <2b4f177b-3b8a-fef6-e7a5-692db347679e@amd.com>
- <dbd8ece3-fb92-9ca3-917b-4951af7e1593@gmail.com>
+ 2023 13:45:09 +0000
+Received: from DS1PEPF0000B074.namprd05.prod.outlook.com
+ (2603:10b6:5:bc:cafe::cf) by DM6PR13CA0035.outlook.office365.com
+ (2603:10b6:5:bc::48) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.16 via Frontend
+ Transport; Tue, 7 Mar 2023 13:45:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DS1PEPF0000B074.mail.protection.outlook.com (10.167.17.5) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6178.13 via Frontend Transport; Tue, 7 Mar 2023 13:45:09 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 7 Mar
+ 2023 07:45:08 -0600
+Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Tue, 7 Mar 2023 07:45:07 -0600
 From:   Carlos Bilbao <carlos.bilbao@amd.com>
-In-Reply-To: <dbd8ece3-fb92-9ca3-917b-4951af7e1593@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH2PR08CA0003.namprd08.prod.outlook.com
- (2603:10b6:610:5a::13) To BL1PR12MB5874.namprd12.prod.outlook.com
- (2603:10b6:208:396::17)
+To:     <corbet@lwn.net>
+CC:     <linux-kernel@vger.kernel.org>, <sergio.collado@gmail.com>,
+        <linux-doc@vger.kernel.org>, <akiyks@gmail.com>,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: [PATCH v2] docs/sp_SP: Add translation of process/deprecated
+Date:   Tue, 7 Mar 2023 07:45:02 -0600
+Message-ID: <20230307134502.625671-1-carlos.bilbao@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|CY8PR12MB8244:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57013323-7cab-4be2-80c7-08db1f11b633
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000B074:EE_|CH3PR12MB8305:EE_
+X-MS-Office365-Filtering-Correlation-Id: 303176ad-905a-44a0-7aa8-08db1f122acd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qKEwS/I9w45F4IIn7IkTWRRXKpQdbqOtCqNNfbwbsOUCLxDOVCUZzCvAb/iep3o6indYdoW1wlnJg3nBTlgaXwrOyeCqM0W20FcJYB0A1wrT6Yn9MXnlbrX79GEltEgcxr46XpjBnB3xDl5uFuvYJ2uNAVOy8Uf71g1Mt18gIwXT8n6Oj7b8quM2E7l3EeKrnGn3hrvceCI9bvGfm5S0WZdDeytD0vYxEK2RmXl92VA5znLPMhxwGDyQAJeikP4h0qiQx0nWMfZDx5MeJ/pjzhukZbqboTkDlaSpEUNagKtlrxrH7oM5sWBush7sDKdT1alow3Y4VInImzB/jXkHtoMQ7BmdEUV1vuH6UYlZNrbbLY8col43z7ZdfbcOiEs31URC8YYSs6O/VkfCGiCY/i5WC4hvQgzslhPeU2qTDyiTgDLUF+KK3G01hn8LC4qXnIWPyOYPpcPJEs4b6EHa/Er9sJlVZtLUxTdagtCpSB9DLGoOytaKS+3Yv6VEs4ZRLOMJm47lgYgvXZFtsfp4m5v7+1FeTfYxYw0a9f0GBOy7oI+V5+dc8HThNDz/SB5p5/OqHJ3taYNBb4GGnKNLMGvP6vTQV6zD3HThxNmNA0ifRuuff0uKWPZsfRoo4+7r7NkTDRV9wk6iZ3+UgYdIPcwgomTC3hKZXz4vr3yLgXNoZvc6LLFHqNlCZdSX45tNlbDf5yw+Vamkk4vmF4lS/nL/1T8obQVyaUAETKbnvD8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(396003)(366004)(376002)(136003)(39860400002)(451199018)(26005)(186003)(66556008)(8676002)(5660300002)(66946007)(6916009)(66476007)(4326008)(6486002)(478600001)(966005)(86362001)(31696002)(316002)(6512007)(6506007)(8936002)(36756003)(41300700001)(53546011)(38100700002)(2906002)(2616005)(31686004)(44832011)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWdodlo4Wk5keXhKTU8rZndsSUl5R0FMMDRwMm9XZGlZcjYxc0hrS3Nsd2VH?=
- =?utf-8?B?VDVLaTAxRW5hR1ZDVkpKNGtZM2FBWS9yUWJ0aTZnQ0JlaXFuSmdDSzB3VVY4?=
- =?utf-8?B?UGg0WDZ6MERNQmJOS0puUyttbjhScTJyVTYvYkNleE8xY0E0Y25mRTQ4T001?=
- =?utf-8?B?MGRoVWJhS0FNWlV0a2xVRWlZcFU4QUpRMzk0aWdPRzBaSDliSVJNVFo4ZGgy?=
- =?utf-8?B?Uy9jZlJoUm1YanZHbzdEbHNicDZ5TWVKVmFtZ1ZEM3ZEMmxUcEFNT2NKSUpn?=
- =?utf-8?B?SSs1OGVFUDAwT0U5d2M2Y2UyL3RxZGZIMXdYWUFuNS9kMmI5Z3JIdHplUVUw?=
- =?utf-8?B?WnhVVkVsclRpVTZSRnhvVDBrTmZkZDdjRzZhNFYyamlrZU1UVGJ6SVB3MmRI?=
- =?utf-8?B?dFhmVTUxYmpWV3BNQkcycWVYcW85Y3l4bEpET2l5K043aWxVdXAwdml3UnRv?=
- =?utf-8?B?cTBsNHhBczVIOUJaYURRY3luY3psVFNxQ3QxeFplMnBuR1kyK0pwUEcrek5p?=
- =?utf-8?B?QXB4NWtFQkt4c1gyY1pKM29iNFprZDdZTUUyRXllMGpHVXhkajRPaThQZHFk?=
- =?utf-8?B?MTBWVDFyVVJQUzVoTTFDZElrMDdLZ2lzRGhVNlk1eXdpNjJtUnVuUG1rd1RO?=
- =?utf-8?B?SGxuOFVuUk8rTlB6S0ZXVks0ZTdxSGJPNVhsMCtxWmdXK3IwMW4wa0QxbWgz?=
- =?utf-8?B?K25xbEZWTXQwUHh2endMa3NNb084L29xYy8vTGMxVmMvNTZrNHo3U1FIRng5?=
- =?utf-8?B?Slk3UVJVY0RkVTBiRmRqdXZnQkx6bVQ3bjlIelB2V2Q4UGZENlY1amIvMU9m?=
- =?utf-8?B?RGdxckFQTWxHNzZZYWY0aGpuVVIyR2VxNWdKbFhvbVJpUFA1Y1lDRzl4Yi94?=
- =?utf-8?B?VVQ5azdyaisvQ28zU09rN1doMzR2ZUoyRzRrR1Z2UHhkWFZ3MDlKbG5KQjl0?=
- =?utf-8?B?ZU1iQkI2c3FUbnd1bG1wcFdLM0NXcENHVDFUZjlOaEU1NkcrK3ZCWFJuUzlT?=
- =?utf-8?B?OW9HWmtHTWpzbUNsbWhXbTJCY1g4b3BKTkZWaGlkdjlVY2hJZXFXbWFoME90?=
- =?utf-8?B?QzJSSjk3Mm9nc0NMYXJFblp1QWw1amlUQXR4NXBmZVVxalVDN09QVk5wQlpU?=
- =?utf-8?B?MHY5T3dscGdGWGJEa2RiRXgrZllSWGdhTGZ4NmxUYTd1c2Z5TGlKZDFtMlRu?=
- =?utf-8?B?WUFYRDgrT3lKUU1nY2hCMC9jd0ZqSGZ4Sjk3VlF2Vzl5dnBkSGI5cS9HOWdm?=
- =?utf-8?B?TmlxQUlBRmdQTDBUU0phUVI2T2VnNnFjV210ZTFDYmtkbFFabXlkeXo2Mi9I?=
- =?utf-8?B?YVR2SEsrR0QxVlRwTzk0WEZBcjBrRW9mOFFzRFRMV1Rxd1JkNE45Q2pkaENm?=
- =?utf-8?B?QXdOeExYSjUzVng0L29DN0QzYXcxamZzVzR5b2JzeHc3QkJPMElhVTFMcFZG?=
- =?utf-8?B?a3FOZmdJaGVlaUFvemNSM2ZTVkVCd3Y2OG5YT01TYVJsdHFYelpUM3Bha0NQ?=
- =?utf-8?B?YXRoODI5SHpneHZFeExZRllGTjVtM2xaYTVxTVBvWkRQMlVTS0RHZEE0ZStw?=
- =?utf-8?B?Wnp1VkYvYloySXBRL1VJV0tZcUpzcWZVOWRXRW9URktFQTVRZ2Irc2xJaWcv?=
- =?utf-8?B?VlpXNDdIUG9HcUU5VGllcmtmbm5pTktXQmFZM3dFZTlDWWRDTUQxZ1BNSkRG?=
- =?utf-8?B?YmZSZkJrOVR6cFQvL0RnNVlES0tZejgzS0JoNXNtT255WWgzQ3ppRnp1ek8y?=
- =?utf-8?B?WmxrbTA0ZUZSRmhpaVhCZHdwakorSFVsN3NnZWZmNDFGK1B4Z2V3WTNHbzNy?=
- =?utf-8?B?SjVQY3ljUFd0SXdZWkxDUkZUeVZERXJXQ2VGVzRXTlNpN0JXeFhMblJZVWgz?=
- =?utf-8?B?USt5K0s0SWZnMGs5a0pSQlh4Nk1EOHNybUZtYUp2QnpUanRpdUtKTVBKZnVM?=
- =?utf-8?B?TUp6dXlQZDNEMjZQOUdldFZZVlV5N2dJTklZbG8xK0h0ZHlvbTN4NVFoQ3cr?=
- =?utf-8?B?eEFYZllLQk5KRWM4MC9zYVBzYk9rdnpaUFljZzVqK2hJaWdreEZSTEVrQzJU?=
- =?utf-8?B?VDUyMG5PQkhBdWFjQXkraks0SUh2czVoa2RVS3ozQ0poZmtqZnNwU1R2a2tM?=
- =?utf-8?Q?q2KkunDjCLPuOOEGg6dq0zleD?=
+X-Microsoft-Antispam-Message-Info: YGjhhP8KKMo6LHaGFnRtGLqfMZ2Y9iVBKriYWNyfDGGHH9deX6wd00q2/Sp2+wu6vFdRYQdhiKY/6hsasQLlh+2kKw6z+oBejWblb9HmCuK0vAKOtZAFl7eOmaqXDHDAj8Awqw62me5l8tj4AMQFgoEEDLARRxB5tfBi+z+037mtyTFvgWnkElA6MibBQ8grf6e1/HTOkLpRr/hsMoOYkctmy/GzJ+IcshuTI8SFVPBVJdQ7kzYOGpm667g1MOG4vs0ALOxrTivJOGbqbmYrwOq5dZSLTsSqci/plfgiuheAQycDWv48sLQamm5wuugzOdIkoCJtkDDQxTSIfJq13jYkCkPcrP2nWO32B0DwsiCrAFJurqIbySurveE4MFMrDmUy7FE7X4bLdnTPZo4wsoIYXXihQg7gjQEuzRV1NFcHkIVWHdHdrsFIvU2FiiysYlfZsTf5RI1gLZ3AUEDK8V/mkP28UJKWoXyYomkcQ1BBdroPJE+oD1mqFvuT+WWklZxN6NHgXJ2cOVxKK4kTm1OC4dhPB8mpBOPwCMXNyTf58U/L7K2QNIZYURt3GF2658RblwS1x3VMivIJzAYtQK3mRMGiJBxDVPzEuMX8FmLA/aFDRjUvA9YhcuBdV80iC27d0mmw8tRPm0bz4KmFok3iTDAQLWcCRykUMdpY22OYGjCrsp836d6Ge/pwGeLzb2buyH5n4eLpfziTdvJ/MwKlwXvbXpulcRihlNRxzXNvmavYs4q1ftWPtJZNTxFDfyFb3VGOOZ0e1zvBn+IVrA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:es;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(376002)(346002)(39860400002)(396003)(451199018)(46966006)(40470700004)(36840700001)(82740400003)(36860700001)(81166007)(86362001)(356005)(36756003)(8676002)(44832011)(30864003)(5660300002)(2906002)(4326008)(6916009)(8936002)(70206006)(70586007)(41300700001)(82310400005)(2616005)(40460700003)(336012)(26005)(40480700001)(186003)(83380400001)(426003)(47076005)(478600001)(54906003)(316002)(6666004)(1076003)(7696005)(966005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57013323-7cab-4be2-80c7-08db1f11b633
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 13:41:53.6353
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 13:45:09.0257
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: 303176ad-905a-44a0-7aa8-08db1f122acd
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VFFhvKRsDkbrPeHjK0SqQQlciseerfIjyvqJsAEkm7K9DNVhFCd+MBOPXr/LkzfLyuoZkiVqvgBmRHzO6n3N0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8244
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000B074.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8305
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/6/23 17:03, Akira Yokosawa wrote:
-> On Mon, 6 Mar 2023 09:34:29 -0600, Carlos Bilbao wrote:
->> On 3/6/23 09:30, Akira Yokosawa wrote:
->>> On 2023/03/07 0:20, Carlos Bilbao wrote:
->>>> Hello Akira,
->>>>
->>>> On 3/6/23 09:13, Akira Yokosawa wrote:
->>>>> Hi Carlos,
->>>>>
->>>>> Minor nits in the Subject and Sob area.
->>>>>
->>>>> On Mon, 6 Mar 2023 07:44:20 -0600, Carlos Bilbao wrote:
->>>>>> Subject: [PATCH] docs/sp_SP: Add process deprecated translation
->>>>>
->>>>> This summary looks ambiguous to me.
->>>>>
->>>>> Maybe
->>>>>
->>>>>       docs/sp_SP: Add translation of process/deprecated
->>>>
->>>> This summary follows the same format followed in the past. Some examples:
->>>>
->>>> docs/sp_SP: Add process coding-style translation
->>>> docs/sp_SP: Add process magic-number translation
->>>> docs/sp_SP: Add process programming-language translation
->>>> docs/sp_SP: Add process email-clients translation
->>>
->>> Let me explain why "Add process deprecated translation" looks
->>> ambiguous.
->>>
->>> "deprecated translation" can be interpreted as "some translation
->>> which is deprecated".
->>> Of course you don't need to agree.
->>
->> I see what you mean. I'm sending v2 patch renamed to avoid confusion.
->>
->>>
->>>>
->>>>>
->>>>> ??
->>>>>
->>>>>> Translate Documentation/process/deprecated.rst into Spanish.
->>>>>>
->>>>>> Co-developed-by: Carlos Bilbao <carlos.bilbao@amd.com>
->>>>>> Signed-off-by: Sergio Gonzalez <sergio.collado@gmail.com>
->>>>>> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
->>>>>
->>>>> To me, Co-developed-by: from the author of the patch looks
->>>>> strange, because it is obvious the author did some development on
->>>>> the patch.
->>>>>
->>>>
->>>> No, we both worked on this patch so Co-developed-by: is the appropriate
->>>> tagging. That being said, Sergio translated more than I did, so I put
->>>> him as sole Translator in the document itself.
->>>
->>> Hmm, anyway I don't think you are following the rule of Co-developed-by:
->>> explained in submitting-patches.rst.
->>>
->>> Again, you don't need to agree... ;-)
->>
->> But, why doesn't it follow the rule?
->>
->> The rule is "A Co-Developed-by: states that the patch was also created by another developer along with the original author. This is useful at times when multiple people work on a single patch."
->>
->> IMHO this is the case here, but before I send v2 I'll wait to read you again in case we agree at that point.
-> 
-> If you put "From: Sergio" as the first line in the Changelog, like
-> this submission [1], then the Sob chain would make sense.
-> 
-> [1]: https://lore.kernel.org/linux-doc/20230227222957.24501-2-rick.p.edgecombe@intel.com/
-> 
-> Didn't you forgot to put it there?
+From: Sergio Gonzalez <sergio.collado@gmail.com>
 
-Sending v2 :)
+Translate Documentation/process/deprecated.rst into Spanish.
 
-> 
-> Just guessing...
-> 
->          Thanks, Akira
-> 
->>
->>>
->>>           Thanks, Akira
->>>
->>>>
->>>>> Which is your intent:
->>>>>
->>>>>       Author: Carlos
->>>>>       Co-developer: Sergio
->>>>>
->>>>> , or
->>>>>
->>>>>       Author: Sergio
->>>>>       Co-developer: Carlos
->>>>>
->>>>> ???
->>>>>
->>>>>            Thanks, Akira
->>>>>
->>>>>> ---
->>>>>>     .../translations/sp_SP/process/deprecated.rst | 381 ++++++++++++++++++
->>>>>>     .../translations/sp_SP/process/index.rst      |   1 +
->>>>>>     2 files changed, 382 insertions(+)
->>>>>>     create mode 100644 Documentation/translations/sp_SP/process/deprecated.rst
->>>>> [...]
->>>>
->>>> Thanks,
->>>> Carlos
->>
->> Thanks,
->> Carlos
+Co-developed-by: Carlos Bilbao <carlos.bilbao@amd.com>
+Signed-off-by: Sergio Gonzalez <sergio.collado@gmail.com>
+Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+---
 
-Thanks,
-Carlos
+Changes since v1:
+ - Change commit message to avoid confusion
+ - Add From: tag for ma
+
+---
+ .../translations/sp_SP/process/deprecated.rst | 381 ++++++++++++++++++
+ .../translations/sp_SP/process/index.rst      |   1 +
+ 2 files changed, 382 insertions(+)
+ create mode 100644 Documentation/translations/sp_SP/process/deprecated.rst
+
+diff --git a/Documentation/translations/sp_SP/process/deprecated.rst b/Documentation/translations/sp_SP/process/deprecated.rst
+new file mode 100644
+index 000000000000..d52120e0d753
+--- /dev/null
++++ b/Documentation/translations/sp_SP/process/deprecated.rst
+@@ -0,0 +1,381 @@
++.. include:: ../disclaimer-sp.rst
++
++:Original: :ref:`Documentation/process/deprecated.rst <deprecated>`
++:Translator: Sergio Gonzalez <sergio.collado@gmail.com>
++
++.. _sp_deprecated:
++
++============================================================================
++Interfaces obsoletos, Características del lenguaje, Atributos y Convenciones
++============================================================================
++
++En un mundo perfecto, sería posible convertir todas las instancias de
++alguna API obsoleta en una nueva API y quitar la API anterior en un
++único ciclo de desarrollo. Desafortunadamente, debido al tamaño del kernel,
++la jerarquía de mantenimiento, y el tiempo, no siempre es posible hacer
++estos cambios de una única vez. Esto significa que las nuevas instancias
++han de ir creándose en el kernel, mientras que las antiguas se quitan,
++haciendo que la cantidad de trabajo para limpiar las APIs crezca. Para
++informar a los desarrolladores sobre qué ha sido declarado obsoleto y por
++qué, ha sido creada esta lista como un lugar donde indicar cuando los usos
++obsoletos son propuestos para incluir en el kernel.
++
++__deprecated
++------------
++Mientras que este atributo señala visualmente que un interface ha sido
++declarado obsoleto, este `no produce más avisos durante las compilaciones
++<https://git.kernel.org/linus/771c035372a036f83353eef46dbb829780330234>`_
++porque uno de los objetivos del kernel es que compile sin avisos, y
++nadie ha hecho nada para quitar estos interfaces obsoletos. Mientras
++que usar `__deprecated` es sencillo para anotar una API obsoleta en
++un archivo de cabecera, no es la solución completa. Dichos interfaces
++deben o bien ser quitados por completo, o añadidos a este archivo para
++desanimar a otros a usarla en el futuro.
++
++BUG() y BUG_ON()
++----------------
++Use WARN() y WARN_ON() en su lugar, y gestione las condiciones de error
++"imposibles" tan elegantemente como se pueda. Mientras que la familia de
++funciones BUG() fueron originalmente diseñadas para actuar como una
++"situación imposible", confirmar y disponer de un hilo del kernel de forma
++"segura", estas funciones han resultado ser demasiado arriesgadas. (e.g.
++"¿en qué orden se necesitan liberar los locks? ¿Se han restaurado sus
++estados?). La popular función BUG() desestabilizará el sistema o lo romperá
++totalmente, lo cual hace imposible depurarlo o incluso generar reportes de
++crash. Linus tiene una `opinión muy fuerte
++<https://lore.kernel.org/lkml/CA+55aFy6jNLsywVYdGp83AMrXBo_P-pkjkphPGrO=82SPKCpLQ@mail.gmail.com/>`_
++y sentimientos `sobre esto
++<https://lore.kernel.org/lkml/CAHk-=whDHsbK3HTOpTF=ue_o04onRwTEaK_ZoJp_fjbqq4+=Jw@mail.gmail.com/>`_.
++
++Nótese que la familia de funciones WARN() únicamente debería ser usada
++en situaciones que se "esperan no sean alcanzables". Si se quiere
++avisar sobre situaciones "alcanzables pero no deseadas", úsese la familia
++de funciones pr_warn(). Los responsables del sistema pueden haber definido
++*panic_on_warn* sysctl para asegurarse que sus sistemas no continúan
++ejecutándose en presencia del condiciones "no alcanzables". (Por ejemplo,
++véase commits como `este
++<https://git.kernel.org/linus/d4689846881d160a4d12a514e991a740bcb5d65a>`_.)
++
++Operaciones aritméticas en los argumentos de reserva de memoria
++---------------------------------------------------------------
++Los cálculos dinámicos de tamaño (especialmente multiplicaciones) no
++deberían realizarse en los argumentos de reserva de memoria (o similares)
++debido al riesgo de desbordamiento. Esto puede llevar a valores rotando y
++que se realicen reservas de memoria menores que las que se esperaban. El
++uso de esas reservas puede llevar a desbordamientos en el 'heap' de memoria
++y otros funcionamientos incorrectos. (Una excepción a esto son los valores
++literales donde el compilador si puede avisar si estos puede desbordarse.
++De todos modos, el método recomendado en estos caso es reescribir el código
++como se sugiere a continuación para evitar las operaciones aritméticas en
++la reserva de memoria.)
++
++Por ejemplo, no utilice `count * size`` como argumento, como en::
++
++    foo = kmalloc(count * size, GFP_KERNEL);
++
++En vez de eso, utilice la reserva con dos argumentos::
++
++    	foo = kmalloc_array(count, size, GFP_KERNEL);
++
++Específicamente, kmalloc() puede ser sustituido con kmalloc_array(),
++kzalloc() puede ser sustituido con kcalloc().
++
++Si no existen funciones con dos argumentos, utilice las funciones que se
++saturan, en caso de desbordamiento::
++
++    	bar = vmalloc(array_size(count, size));
++
++Otro caso común a evitar es calcular el tamaño de una estructura com
++la suma de otras estructuras, como en::
++
++    header = kzalloc(sizeof(*header) + count * sizeof(*header->item),
++   		  GFP_KERNEL);
++
++En vez de eso emplee::
++
++    header = kzalloc(struct_size(header, item, count), GFP_KERNEL);
++
++.. note:: Si se usa struct_size() en una estructura que contiene un elemento
++    	de longitud cero o un array de un único elemento como un array miembro,
++    	por favor reescribir ese uso y cambiar a un `miembro array flexible
++    	<#zero-length-and-one-element-arrays>`_
++
++
++Para otros cálculos, por favor use las funciones de ayuda: size_mul(),
++size_add(), and size_sub(). Por ejemplo, en el caso de::
++
++    foo = krealloc(current_size + chunk_size * (count - 3), GFP_KERNEL);
++
++Re-escríbase, como::
++
++    foo = krealloc(size_add(current_size,
++   			 size_mul(chunk_size,
++   				  size_sub(count, 3))), GFP_KERNEL);
++
++Para más detalles, mire también array3_size() y flex_array_size(),
++como también la familia de funciones relacionadas check_mul_overflow(),
++check_add_overflow(), check_sub_overflow(), y check_shl_overflow().
++
++
++simple_strtol(), simple_strtoll(), simple_strtoul(), simple_strtoull()
++----------------------------------------------------------------------
++Las funciones: simple_strtol(), simple_strtoll(), simple_strtoul(), y
++simple_strtoull() explícitamente ignoran los desbordamientos, lo que puede
++llevar a resultados inesperados por las funciones que las llaman. Las
++funciones respectivas kstrtol(), kstrtoll(), kstrtoul(), y kstrtoull()
++tienden a ser reemplazos correctos, aunque nótese que necesitarán que la
++cadena de caracteres termine en NUL o en el carácter de línea nueva.
++
++
++strcpy()
++--------
++strcpy() no realiza verificaciones de los límites del buffer de destino.
++Esto puede resultar en desbordamientos lineals más allá del fin del buffer,
++causando todo tipo de errores. Mientras `CONFIG_FORTIFY_SOURCE=y` otras
++varias opciones de compilación reducen el riesgo de usar esta función, no
++hay ninguna buena razón para añadir nuevos usos de esta. El remplazo seguro
++es la función strscpy(), aunque se ha de tener cuidado con cualquier caso
++en el el valor retornado por strcpy() sea usado, ya que strscpy() no
++devuelve un puntero a el destino, sino el número de caracteres no nulos
++compilados (o el valor negativo de errno cuando se trunca la cadena de
++caracteres).
++
++strncpy() en cadenas de caracteres terminadas en NUL
++----------------------------------------------------
++El uso de strncpy() no garantiza que el buffer de destino esté terminado en
++NUL. Esto puede causar varios errores de desbordamiento en lectura y otros
++tipos de funcionamiento erróneo debido a que falta la terminación en NUL.
++Esta función también termina la cadena de caracteres en NUL en el buffer de
++destino si la cadena de origen es más corta que el buffer de destino, lo
++cual puede ser una penalización innecesaria para funciones usen esta
++función con cadenas de caracteres que sí están terminadas en NUL.
++
++Cuando se necesita que la cadena de destino sea terminada en NUL,
++el mejor reemplazo es usar la función strscpy(), aunque se ha de tener
++cuidado en los casos en los que el valor de strncpy() fuera usado, ya que
++strscpy() no devuelve un puntero al destino, sino el número de
++caracteres no nulos copiados (o el valor negativo de errno cuando se trunca
++la cadena de caracteres). Cualquier caso restante que necesitase todavía
++ser terminado en el caracter nulo, debería usar strscpy_pad().
++
++Si una función usa cadenas de caracteres que no necesitan terminar en NUL,
++debería usarse strtomem(), y el destino debería señalarse con el atributo
++`__nonstring
++<https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html>`_
++para evitar avisos futuros en el compilador. Para casos que todavía
++necesitan cadenas de caracteres que se rellenen al final con el
++caracter NUL, usar strtomem_pad().
++
++strlcpy()
++---------
++strlcpy() primero lee por completo el buffer de origen (ya que el valor
++devuelto intenta ser el mismo que el de strlen()). Esta lectura puede
++sobrepasar el límite de tamaño del destino. Esto ineficiente y puede causar
++desbordamientos de lectura si la cadena de origen no está terminada en el
++carácter NUL. El reemplazo seguro de esta función es strscpy(), pero se ha
++de tener cuidado que en los casos en lso que se usase el valor devuelto de
++strlcpy(), ya que strscpy() devolverá valores negativos de erno cuando se
++produzcan truncados.
++
++Especificación de formato %p
++----------------------------
++Tradicionalmente,el uso de "%p" en el formato de cadenas de caracteres
++resultaría en exponer esas direcciones en dmesg, proc, sysfs, etc. En vez
++de dejar que sean una vulnerabilidad, todos los "%p" que se usan en el
++kernel se imprimen como un hash, haciéndolos efectivamente inutilizables
++para usarlos como direcciones de memoria. Nuevos usos de "%p" no deberían
++ser añadidos al kernel. Para textos de direcciones, usar "%pS" es
++mejor, ya que resulta en el nombre del símbolo. Para prácticamente el
++resto de casos, mejor no usar "%p" en absoluto.
++
++Parafraseando las actuales `direcciones de Linus <https://lore.kernel.org/lkml/CA+55aFwQEd_d40g4mUCSsVRZzrFPUJt74vc6PPpb675hYNXcKw@mail.gmail.com/>`_:
++
++- Si el valor "hasheado" "%p" no tienen ninguna finalidad, preguntarse si el
++  puntero es realmente importante. ¿Quizás se podría quitar totalmente?
++- Si realmente se piensa que el valor del puntero es importante, ¿porqué
++  algún estado del sistema o nivel de privilegio de usuario es considerado
++  "especial"? Si piensa que puede justificarse (en comentarios y mensajes
++  del commit), de forma suficiente como para pasar el escrutinio de Linux,
++  quizás pueda usar el "%p", a la vez que se asegura que tiene los permisos
++  correspondientes.
++
++Si está depurando algo donde el "%p" hasheado está causando problemas,
++se puede arrancar temporalmente con la opción de depuración "`no_hash_pointers
++<https://git.kernel.org/linus/5ead723a20e0447bc7db33dc3070b420e5f80aa6>`_".
++
++
++Arrays de longitud variable (VLAs)
++----------------------------------
++Usando VLA en la pila (stack) produce un código mucho peor que los arrays
++de tamaño estático. Mientras que estos errores no triviales de `rendimiento
++<https://git.kernel.org/linus/02361bc77888>`_  son razón suficiente
++para no usar VLAs, esto además son un riesgo de seguridad. El crecimiento
++dinámico del array en la pila, puede exceder la memoria restante en
++el segmento de la pila. Esto podría llevara a un fallo, posible sobre-escritura
++de contenido al final de la pila (cuando se construye sin
++`CONFIG_THREAD_INFO_IN_TASK=y`), o sobre-escritura de la memoria adyacente
++a la pila (cuando se construye sin `CONFIG_VMAP_STACK=y`).
++
++
++Switch case fall-through implícito
++----------------------------------
++El lenguaje C permite a las sentencias 'switch' saltar de un caso al
++siguiente caso cuando la sentencia de ruptura "break" no aparece al final
++del caso. Esto, introduce ambigüedad en el código, ya que no siempre está
++claro si el 'break' que falta es intencionado o un olvido. Por ejemplo, no
++es obvio solamente mirando al código si `STATE_ONE` está escrito para
++intencionadamente saltar en `STATE_TWO`::
++
++    switch (value) {
++    case STATE_ONE:
++   	 do_something();
++    case STATE_TWO:
++   	 do_other();
++   	 break;
++    default:
++   	 WARN("unknown state");
++    }
++
++Ya que ha habido una larga lista de defectos `debidos a declaraciones de "break"
++que faltan <https://cwe.mitre.org/data/definitions/484.html>`_, no se
++permiten 'fall-through' implícitos. Para identificar 'fall-through'
++intencionados, se ha adoptado la pseudo-palabra-clave macro "falltrhrough",
++que expande las extensiones de gcc `__attribute__((__fallthrough__))
++<https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html>`_.
++(Cuando la sintaxis de C17/c18 `[[fallthrough]]` sea más comúnmente
++soportadas por los compiladores de C, analizadores estáticos, e IDEs,
++se puede cambiar a usar esa sintaxis para esa pseudo-palabra-clave.
++
++Todos los bloques switch/case deben acabar en uno de:
++
++* break;
++* fallthrough;
++* continue;
++* goto <label>;
++* return [expression];
++
++
++Arrays de longitud cero y un elemento
++-------------------------------------
++Hay una necesidad habitual en el kernel de proveer una forma para declarar
++un grupo de elementos consecutivos de tamaño dinámico en una estructura.
++El código del kernel debería usar siempre `"miembros array flexible" <https://en.wikipedia.org/wiki/Flexible_array_member>`_
++en estos casos. El estilo anterior de arrays de un elemento o de longitud
++cero, no deben usarse más.
++
++En el código C más antiguo, los elementos finales de tamaño dinámico se
++obtenían especificando un array de un elemento al final de una estructura::
++
++    	struct something {
++            	size_t count;
++            	struct foo items[1];
++    	};
++
++En código C más antiguo, elementos seguidos de tamaño dinámico eran creados
++especificando una array de un único elemento al final de una estructura::
++
++    	struct something {
++            	size_t count;
++            	struct foo items[1];
++    	};
++
++Esto llevó a resultados incorrectos en los cálculos de tamaño mediante
++sizeof() (el cual hubiera necesitado eliminar el tamaño del último elemento
++para tener un tamaño correcto de la "cabecera"). Una `extensión de GNU C
++<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_ se empezó a usar
++para permitir los arrays de longitud cero, para evitar estos tipos de
++problemas de tamaño::
++
++    	struct something {
++            	size_t count;
++            	struct foo items[0];
++    	};
++
++Pero esto llevó a otros problemas, y no solucionó algunos otros problemas
++compartidos por ambos estilos, como no ser capaz de detectar cuando ese array
++accidentalmente _no_ es usado al final de la estructura (lo que podía pasar
++directamente, o cuando dicha estructura era usada en uniones, estructuras
++de estructuras, etc).
++
++C99 introdujo "los arrays miembros flexibles", los cuales carecen de un
++tamaño numérico en su declaración del array::
++
++    	struct something {
++            	size_t count;
++            	struct foo items[];
++    	};
++
++Esta es la forma en la que el kernel espera que se declaren los elementos
++de tamaño dinámico concatenados. Esto permite al compilador generar
++errores, cuando el array flexible no es declarado en el último lugar de la
++estructura, lo que ayuda a prevenir errores en él código del tipo
++`comportamiento indefinido <https://git.kernel.org/linus/76497732932f15e7323dc805e8ea8dc11bb587cf>`_.
++Esto también permite al compilador analizar correctamente los tamaños de
++los arrays (via sizeof(), `CONFIG_FORTIFY_SOURCE`, y `CONFIG_UBSAN_BOUNDS`).
++Por ejemplo, si no hay un mecanismo que avise que el siguiente uso de
++sizeof() en un array de longitud cero, siempre resulta en cero::
++
++        struct something {
++                size_t count;
++                struct foo items[0];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
++        instance->count = count;
++
++        size = sizeof(instance->items) * instance->count;
++        memcpy(instance->items, source, size);
++
++En la última línea del código anterior, ``zero`` vale ``cero``, cuando uno
++podría esperar que representa el tamaño total en bytes de la memoria dinámica
++reservada para el array consecutivo ``items``. Aquí hay un par de ejemplos
++más sobre este tema:  `link 1
++<https://git.kernel.org/linus/f2cd32a443da694ac4e28fbf4ac6f9d5cc63a539>`_,
++`link 2
++<https://git.kernel.org/linus/ab91c2a89f86be2898cee208d492816ec238b2cf>`_.
++Sin embargo, los array de miembros flexibles tienen un type incompleto, y
++no se ha de aplicar el operador sizeof()<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_,
++así cualquier mal uso de dichos operadores será detectado inmediatamente en
++el momento de compilación.
++
++Con respecto a los arrays de un único elemento, se ha de ser consciente de
++que dichos arrays ocupan al menos tanto espacio como un único objeto del
++tipo https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_, de ahí que
++estos contribuyan al tamaño de la estructura que los contiene. Esto es
++proclive a errores cada vez que se quiere calcular el tamaño total de la
++memoria dinámica para reservar una estructura que contenga un array de este
++tipo como su miembro::
++
++        struct something {
++                size_t count;
++                struct foo items[1];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, items, count - 1), GFP_KERNEL);
++        instance->count = count;
++
++        size = sizeof(instance->items) * instance->count;
++        memcpy(instance->items, source, size);
++
++En el ejemplo anterior, hemos de recordar calcular ``count - 1``, cuando se
++usa la función de ayuda struct_size(), de otro modo estaríamos
++--desintencionadamente--reservando memoria para un  ``items`` de más. La
++forma más clara y menos proclive a errores es implementar esto mediante el
++uso de `array miembro flexible`, junto con las funciones de ayuda:
++struct_size() y flex_array_size()::
++
++        struct something {
++                size_t count;
++                struct foo items[];
++        };
++
++        struct something *instance;
++
++        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
++        instance->count = count;
++
++        memcpy(instance->items, source, flex_array_size(instance, items, instance->count));
+diff --git a/Documentation/translations/sp_SP/process/index.rst b/Documentation/translations/sp_SP/process/index.rst
+index 0f1e131b3bb1..3b0c32593726 100644
+--- a/Documentation/translations/sp_SP/process/index.rst
++++ b/Documentation/translations/sp_SP/process/index.rst
+@@ -18,3 +18,4 @@
+    email-clients
+    magic-number
+    programming-language
++   deprecated
+-- 
+2.34.1
+
