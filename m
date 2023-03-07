@@ -2,95 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F34C678DB
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 04:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A08E7C678DB
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 05:06:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230260AbjCGESc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Mar 2023 23:18:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33810 "EHLO
+        id S230157AbjCGFG2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Mar 2023 00:06:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230258AbjCGESM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Mar 2023 23:18:12 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D39B74A58;
-        Mon,  6 Mar 2023 20:17:38 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id ay14so43689177edb.11;
-        Mon, 06 Mar 2023 20:17:38 -0800 (PST)
+        with ESMTP id S229483AbjCGFG1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 00:06:27 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10937457C0
+        for <linux-doc@vger.kernel.org>; Mon,  6 Mar 2023 21:06:25 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id ky4so12915296plb.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Mar 2023 21:06:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678162652;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QTXjcayLZoZ4Jg8E7qsZ3gtXhW2rdu4DubQwwX1FJ4I=;
-        b=QYh2DEkv2BMGpuJJDmLIX1WUe/a7HIX00XeWR3Kyvj1Tt9d3YeFdXt/3e40MCUM44p
-         m5/fQwU6pN1gWJiYCEgyimDr+9mNryB3a4D75ampUl88kJV3DTUa/nrmc75f67Ra2Va3
-         rXJBqHCJSHzGcjgCXAvPTHnQ1tAR6TRjdqOpMCTFaUJWaOra1aHQaMwk66rtN2uJzDBe
-         h3FdGURc+qm7N7wrk2JwfxDEWH8Q4T8YqAZj1Za9xmjxtiA6gJQzHKgVrE4RMkEwo4OL
-         1yTq94pnG8Q2t7I3deHKi3uuVbTqs9HQ2qll5nSoFncHOUkK1h1i2iYdkN7X5/OsqyDu
-         TzXw==
+        d=ventanamicro.com; s=google; t=1678165584;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+ncIZQ84lksEd9kxqzUc4pmHzurSPn3jNUdkAVBVakM=;
+        b=ZDrVtKw9CQtz5i5Rktk/5VuDFClMgI+RB514CO50h6TX40umhQQXF+3Al7jnCCXMPJ
+         hrdzIs41xbHE6KDgEtj/FfBi18Vz5YkbagBEP6N1wmOxeuTjjivdwCKZh2RTzJE6loC/
+         lzhACyYDd0OCcrXkO/T81CHBNKACaz6nsAf6E15zew/yj3OMUhPwVatN5ZAb4hrVTWYV
+         PukVc2HJaWAVSRfl24P98E1EoRxJbXH9KoIQB96TlLPVCFVN7/vgZuRVwQuMwdfUf7zx
+         Es9WWh7t1O9vTOsoSAQUcyz/3cIxhnas9VN7Q9VWGaXwdBAaf6eSR7rTquhMN3wr/6YP
+         skLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678162652;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QTXjcayLZoZ4Jg8E7qsZ3gtXhW2rdu4DubQwwX1FJ4I=;
-        b=a9PmUwCS0OduELJsaJrXsWHJnA5o689gF6puzMWaGXG820EFmPxQHuP6TrvLOOpHkF
-         twT9KZgpq+qPbPvY5nIeOV/78oAqN7RVw7uevygW9TUgqsyX8ci96zmgHorBm1SR6IC2
-         P03XtiVE97wO5g/w5JfyXdMOTwWFK/7DzDUXM0HhK+WIWj4GnTPA3uuwvm66zsDyOoBW
-         hnRuLcbb2ydPTDjbpwN5aYInqIeGMFsUocJpkBIQW+2joPRyQ+D4OC5k3XWqVm7Jh70c
-         NmB6PzzWCyLDD4Xot9T4T2LFp4bvM88Bo//MTFcqXUsZS9wDbTyHOhrQqv7Nod5PjKRr
-         iwOA==
-X-Gm-Message-State: AO0yUKX+BO8P4NvwniEpLnbYnB0HM0F1PbFE/CoTq4LvlFY2x8gUt0zc
-        rPUt2h+aPgnytC/DV/BVPHQPu/8tkckaz6LA7ZmDLDiKa0Y=
-X-Google-Smtp-Source: AK7set+9D18dxn1tqA0s9eBHMgNpzz7jTmhfwaZbBkFF2okwzkos8TileTGlddttOhZNt6L/WK4bx/c60uE5Cm3/ijM=
-X-Received: by 2002:a17:906:6b1a:b0:877:747d:4a85 with SMTP id
- q26-20020a1709066b1a00b00877747d4a85mr6451918ejr.3.1678162651705; Mon, 06 Mar
- 2023 20:17:31 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678165584;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+ncIZQ84lksEd9kxqzUc4pmHzurSPn3jNUdkAVBVakM=;
+        b=RKsYiTvwTUjLj+twSBq9bCc9MY/xemHOdKP9k4J4uIWoJKts76hGAMuKzgpMuEk6m6
+         FeyyAjbrkEC8ca5+FVsJ00ZRIDi0Mb4aQmgpXYQW892G+5LtoqguSzAZZXwt8E5Y0hXq
+         PvRhllvrIcOTlbfAj14UROkYo0Nx0Ua4pdEbxARbGzTyKb/ygy2DMBddm1X1Vc0J99kx
+         hETTDuEGBVM2BlAouLEK2usnknl8gRKGSnlzW87q7Ts2PMGJuYbqUO9XgZybPsoEc6r8
+         T9UOu+N1qaqPq1J/2evQEc7/SQNUSQ82dCsFIp/IuwHEDCDict9zIpTu9A96MMtpR2S0
+         wO6w==
+X-Gm-Message-State: AO0yUKXoQyLnP8WnNN4vwJfAoRWdz5DNzhGX/gMw56VkCB2v3ja5mM2B
+        eeCOQY0x6fvrPb+5G/fWRqfVlg==
+X-Google-Smtp-Source: AK7set+lsGeOZJEFKPysrv4y2Wbb94M1eNKlJPEGR3INGjRdcW5GKTB4n9YlJ3volc2UF6gUqL7yYQ==
+X-Received: by 2002:a17:902:f693:b0:19d:e11:32de with SMTP id l19-20020a170902f69300b0019d0e1132demr16517253plg.34.1678165584256;
+        Mon, 06 Mar 2023 21:06:24 -0800 (PST)
+Received: from sunil-laptop ([49.206.8.117])
+        by smtp.gmail.com with ESMTPSA id le3-20020a170902fb0300b0019edf582a95sm470363plb.20.2023.03.06.21.06.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Mar 2023 21:06:23 -0800 (PST)
+Date:   Tue, 7 Mar 2023 10:36:16 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        'Conor Dooley ' <conor.dooley@microchip.com>,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH V3 00/20] Add basic ACPI support for RISC-V
+Message-ID: <ZAbGSA6F0kfv9YYw@sunil-laptop>
+References: <20230303133647.845095-1-sunilvl@ventanamicro.com>
+ <16007014-c5f2-4b07-baec-e19952236aa5@spud>
 MIME-Version: 1.0
-References: <cover.1677526810.git.dxu@dxuuu.xyz> <20230227230338.awdzw57e4uzh4u7n@MacBook-Pro-6.local>
- <20230228015712.clq6kyrsd7rrklbz@kashmir.localdomain> <CAADnVQ+a633QyZgkbXfRiT_WRbPgr5n8RN0w=ntEkBHUeqRcbw@mail.gmail.com>
- <20230228231716.a5uwc4tdo3kjlkg7@aviatrix-fedora.tail1b9c7.ts.net>
-In-Reply-To: <20230228231716.a5uwc4tdo3kjlkg7@aviatrix-fedora.tail1b9c7.ts.net>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Mon, 6 Mar 2023 20:17:20 -0800
-Message-ID: <CAADnVQKK+a_0effQW5qBSq1AXoQOJg5-79q3d1NWJ2Vv8SHvOw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 0/8] Support defragmenting IPv(4|6) packets in BPF
-To:     Daniel Xu <dxu@dxuuu.xyz>
-Cc:     bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <16007014-c5f2-4b07-baec-e19952236aa5@spud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 28, 2023 at 3:17=E2=80=AFPM Daniel Xu <dxu@dxuuu.xyz> wrote:
->
-> > Have you considered to skb redirect to another netdev that does ip defr=
-ag?
-> > Like macvlan does it under some conditions. This can be generalized.
->
-> I had not considered that yet. Are you suggesting adding a new
-> passthrough netdev thing that'll defrags? I looked at the macvlan driver
-> and it looks like it defrags to handle some multicast corner case.
+On Mon, Mar 06, 2023 at 09:51:09PM +0000, Conor Dooley wrote:
+> Hey Sunil,
+> 
+> On Fri, Mar 03, 2023 at 07:06:27PM +0530, Sunil V L wrote:
+> > This patch series enables the basic ACPI infrastructure for RISC-V.
+> > Supporting external interrupt controllers is in progress and hence it is
+> > tested using poll based HVC SBI console and RAM disk.
+> > 
+> > The first patch in this series is one of the patch from Jisheng's
+> > series [1] which is not merged yet. This patch is required to support
+> > ACPI since efi_init() which gets called before sbi_init() can enable
+> > static branches and hits a panic.
+> > 
+> > Patch 2 and 3 are ACPICA patches which are not merged into acpica yet
+> > but a PR is raised already.
+> > 
+> > Below are two ECRs approved by ASWG.
+> > RINTC - https://drive.google.com/file/d/1R6k4MshhN3WTT-hwqAquu5nX6xSEqK2l/view
+> > RHCT - https://drive.google.com/file/d/1nP3nFiH4jkPMp6COOxP6123DCZKR-tia/view
+> > 
+> > The series depends on Anup's IPI improvement series [2].
+> > 
+> > [1] https://lore.kernel.org/all/20220821140918.3613-1-jszhang@kernel.org/
+> > [2] https://lore.kernel.org/lkml/20230103141221.772261-7-apatel@ventanamicro.com/T/
+> 
+> Building a clang-15 allmodconfig (I didn't try gcc) with this series, and
+> Anup's IPI bits, results in a broken build, due to failings in cmpxchg:
+> 
+> /stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: error: call to __compiletime_assert_335 declared with 'error' attribute: BUILD_BUG failed
+>         while (unlikely((ret = cmpxchg(&c->value, old, new)) != old)) {
+>                                ^
+Hi Conor,
 
-Something like that. A netdev that bpf prog can redirect too.
-It will consume ip frags and eventually will produce reassembled skb.
+I am able to build without any of these issues using clang-15. I am
+wondering whether the base is proper. I had rebased on top of the master
+and couple of patches from IPI series were already merged in the master.
 
-The kernel ip_defrag logic has timeouts, counters, rhashtable
-with thresholds, etc. All of them are per netns.
-Just another ip_defrag_user will still share rhashtable
-with its limits. The kernel can even do icmp_send().
-ip_defrag is not a kfunc. It's a big block with plenty of kernel
-wide side effects.
-I really don't think we can alloc_skb, copy_skb, and ip_defrag it.
-It messes with the stack too much.
-It's also not clear to me when skb is reassembled and how bpf sees it.
-"redirect into reassembling netdev" and attaching bpf prog to consume
-that skb is much cleaner imo.
-May be there are other ways to use ip_defrag, but certainly not like
-synchronous api helper.
+Do you mind verifying with my branch
+https://github.com/vlsunil/linux/commits/acpi_b1_us_review_ipi17_V3?
+
+Or if you could provide me your branch details, I can look further.
+
+Thanks!
+Sunil
