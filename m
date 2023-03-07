@@ -2,133 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA713C678D5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 14:01:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 941E2C678D5
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Mar 2023 14:55:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229880AbjCGOBs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Mar 2023 09:01:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41714 "EHLO
+        id S229787AbjCGOzq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Mar 2023 09:55:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbjCGOBo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 09:01:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9822554CAD
-        for <linux-doc@vger.kernel.org>; Tue,  7 Mar 2023 06:00:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678197658;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=5ju9gg/y4szyt14f2LWbHQQkg2yj4KFsHllcMP2Gs2E=;
-        b=YBUdVKYMLGyrfAKFj7CB4n4Rq98n1GNpaeYA7JveFPLaiNp4BUioTvQpdGi1Y9qv4CSofW
-        EswgNAe8m9apbAXVsisXdcEH4isDSlUhdamxRH0lA+zrjxyqgisFhlojJd+CO9vyJ6s4L6
-        r56d1GFODRvJfLDLn3k/kzZuXs6hU7I=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-153-IhkD_1szN0qSCW-h4ox-0w-1; Tue, 07 Mar 2023 09:00:52 -0500
-X-MC-Unique: IhkD_1szN0qSCW-h4ox-0w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 88A7929DD9A8;
-        Tue,  7 Mar 2023 14:00:12 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.80])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5562D492C18;
-        Tue,  7 Mar 2023 14:00:04 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     szabolcs.nagy@arm.com
-Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>, "nd@arm.com" <nd@arm.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Subject: Re: [PATCH v7 01/41] Documentation/x86: Add CET shadow stack
- description
-References: <Y/9fdYQ8Cd0GI+8C@arm.com>
-        <636de4a28a42a082f182e940fbd8e63ea23895cc.camel@intel.com>
-        <df8ef3a9e5139655a223589c16a68393ab3f6d1d.camel@intel.com>
-        <ZADQISkczejfgdoS@arm.com>
-        <9714f724b53b04fdf69302c6850885f5dfbf3af5.camel@intel.com>
-        <ZAYS6CHuZ0MiFvmE@arm.com> <87wn3tsuxf.fsf@oldenburg.str.redhat.com>
-        <a205aed2171a0a463e3bb7179e8dd63bd4012e7e.camel@intel.com>
-        <ZAc2LQEfvRLCknQQ@arm.com>
-Date:   Tue, 07 Mar 2023 15:00:02 +0100
-In-Reply-To: <ZAc2LQEfvRLCknQQ@arm.com> (szabolcs's message of "Tue, 7 Mar
-        2023 13:03:41 +0000")
-Message-ID: <87ilfcoe59.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+        with ESMTP id S229820AbjCGOxn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 09:53:43 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAA5A85351;
+        Tue,  7 Mar 2023 06:40:05 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id i34so53132333eda.7;
+        Tue, 07 Mar 2023 06:40:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678200004;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R3RqJ40QuyU6gTdk0TLAOUN9gyan56NZTQb54foCPzs=;
+        b=GlR7BJ2BVMasBLyzYPDobcTwCUC6CxlHAnohTNSxZnNUAJ0vAC/NGxQfM6TOgvgtAf
+         KJr79LYAejGkTvZxqzmYmbY9Ky1hlULhlGrjurb6UmnkI8k1v/WfI2K0ZDTBWH5d5d4G
+         9K0j0pTv5DtW/b9LMrPImDJuq839Ag363ytclj1bRyct349YSCVMiqG25Dn/Of8voZPv
+         88+c79xYk0cS/JQOc0KdylylOv+u+KoVUEBoFA2y+M7ZHj+B6+gQ0PNduZCASOLGfShN
+         rqboMJJLZkg6g24Hizjeknvg9585OrmcBY9kYpgKBILzzBBkNx1PqtKFhLhdgOtY6JY2
+         IVtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678200004;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R3RqJ40QuyU6gTdk0TLAOUN9gyan56NZTQb54foCPzs=;
+        b=TylUMMPtOeIJku7cl+0BlMGUug357HKA6lyqn4Hf5xJDqsjxzxAJlVLrPsKr/CBCt+
+         07Nh9gJUwBLcZ5Xxgfq4Bwq8KDOmzUt2G9pflFWTA6MKy1wjn9bwfxLjkJGnhFbImrRT
+         cY7B8Kn6wqCSdakQgIVMh5TwDJBA94Xwu/WbszHlB9z+ZtMtgeIhcgRUdznTiVB1p0Ay
+         Y39Dsq4LbjzuUyLnkFPj39I7qVGpk/YGUP36qxG1nrGG83jLcMWQlurVcCrvE7qkDO0m
+         uzONqEbl7VH0s6vszzfR8h77BA8y5GzJS4As+/Dx4ca84HZg12dv97UqJaOpNznyEMDx
+         /RTQ==
+X-Gm-Message-State: AO0yUKV1wtGJUWIJyoxYziSZSE+yp34YDOLBxrw/9sN80ezWmcjMC9EP
+        0kwxYbyARRaX3caKJx4PIDg=
+X-Google-Smtp-Source: AK7set9xSqBTU2QYwHlLx1MIR2qXzc9eOL1pGw/9RyCeptxm3dDUQsuDkQHP5X8u+NyFET63Yk7AJw==
+X-Received: by 2002:a17:906:1593:b0:885:dd71:89b5 with SMTP id k19-20020a170906159300b00885dd7189b5mr13679935ejd.41.1678200004142;
+        Tue, 07 Mar 2023 06:40:04 -0800 (PST)
+Received: from felia.fritz.box ([2a02:810d:2a40:1104:a517:a52e:cdbc:e30d])
+        by smtp.gmail.com with ESMTPSA id pv16-20020a170907209000b009079442dd11sm6183861ejb.154.2023.03.07.06.40.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Mar 2023 06:40:03 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        device@lanana.org, unicode@lanana.org,
+        "H . Peter Anvin" <hpa@zytor.com>
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH 0/2] Updating information on lanana.org
+Date:   Tue,  7 Mar 2023 15:39:58 +0100
+Message-Id: <20230307144000.29539-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* szabolcs:
+Dear Jon,
 
-> changing/disabling the alt stack is not valid while a handler is
-> executing on it. if we don't allow jumping out and back to an
-> alt stack (swapcontext) then there can be only one alt stack
-> live per thread and change/disable can do the shadow stack free.
->
-> if jump back is allowed (linux even makes it race-free with
-> SS_AUTODISARM) then the life-time of alt stack is extended
-> beyond change/disable (jump back to an unregistered alt stack).
->
-> to support jump back to an alt stack the requirements are
->
-> 1) user has to manage an alt shadow stack together with the alt
->    stack (requies user code change, not just libc).
->
-> 2) kernel has to push a restore token on the thread shadow stack
->    on signal entry (at least in case of alt shadow stack, and
->    deal with corner cases around shadow stack overflow).
-
-We need to have a story for stackful coroutine switching as well, not
-just for sigaltstack.  I hope that we can use OpenJDK (Project Loom) and
-QEMU as guinea pigs.  If we have something that works for both,
-hopefully that covers a broad range of scenarios.  Userspace
-coordination can eventually be handled by glibc; we can deallocate
-alternate stacks on thread exit fairly easily (at least compared to the
-current stack 8-).
+please pick these two changes that update information in MAINTAINERS and
+the kernel documentation on the actual state of lanana.org.
 
 Thanks,
-Florian
+
+Lukas
+
+
+Lukas Bulwahn (2):
+  MAINTAINERS: remove historic section DEVICE NUMBER REGISTRY
+  docs: admin: unicode: update information on state of lanana.org document
+
+ Documentation/admin-guide/unicode.rst | 9 ++++-----
+ MAINTAINERS                           | 5 -----
+ 2 files changed, 4 insertions(+), 10 deletions(-)
+
+-- 
+2.17.1
 
