@@ -2,205 +2,319 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6618AC6FD1F
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 20:13:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB69C64EC4
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 22:23:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230143AbjCHUNP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 15:13:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55210 "EHLO
+        id S229959AbjCHWXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 17:23:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbjCHUNN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 15:13:13 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2081.outbound.protection.outlook.com [40.107.94.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9417D51FB4;
-        Wed,  8 Mar 2023 12:13:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l8Z/6bWf5STQRPCRPfeFpUyCpqr80qaIjL7pIHuVWATyuW9QBScf+rqK194Lzmakg4akkh5knBLr42xIPA5P7ylpdLfxchkjquHf5XpVC07pLIRiDfs2vb6+po3LejfDMTNFDXkjCQ+ZWbeyhKkquizPFaOZ01MSwJ+Ni39oPu2loeODrW7nwmPo6gqj1LS68AtdZ/mATifb4Ldr4vYdzgKBO+J+ec+qaKFjh+PTYG+Nv4ZXXWFwCZRWaSKX7d8VLoHjXFPq6+Q5mVamzpIWHbnkaG+iJqEhFaao2vpCpv/vqC1eGkc1N66j6X4M1r1eukODG0r0Ga3z5NXDFrKp/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hIG3OUcYRWY3WPLnmwoUUWZILZ4dTn8y8hnizQkAylA=;
- b=Boup5VnOF0NuQMDmvNVjNC3Uallgf+d5Rbdr/a++dzA7LTyr37aCTrmDoR9nhLIBDRVorUagVC9Sjgkro/szzMEUeL6QiKMCA0hSd8mPputQaGJlDmPi08HWbAaPGAKe0ZUt0YJ0S/3GA2Eo0wPEMrMKKJgtCYSrCVUW5X/MROshDlyJdXoAPMVSLu9O7UzdRV0nxPfGstJ6jtFBxO4uxvcyQlIT73yfQHkZ02dz1inYPhJmmq3Sts9CyQzzK9qFTGIoKBe/AmPPs6Yb4yq6Ht+T4AwQY4rJCV8aHLp5Qten+Ob1uhbMo6F2MHEnSuSk3PWI34RXte3pdqvGE/ZXMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hIG3OUcYRWY3WPLnmwoUUWZILZ4dTn8y8hnizQkAylA=;
- b=GIOalNBma/5Kd2zdL9dYjgEnmRZFKxnDzWKVVSAnhmYTUhbFzszv/xr1pfFUtgFQZTpiK0zjg4LioH52As0gJSfv3/pmpB2oNiWGn1J1+Jldk9VIGeRDH7uHjXvPJf5uyzIK7x1999YL6Ilb0Hey9ktkvZSWYPOJ93TvboTfhu9rk3++vDmnVikz8+JxSstZ0AdjhRfESjSxllJMXSWGbfgcpMRlEGL4y48bft96aNpu7H7j5SjelXHL0XReywbK/zezVoEzxgt74Xvddbd47J+ThSEp9qWbtCyqSKRBiw6Yfv67GLEi8b0e5UO7qTRJXtEdl2Bjvj/8cA+kZV5OvQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com (2603:10b6:208:3a0::7)
- by SJ2PR12MB7962.namprd12.prod.outlook.com (2603:10b6:a03:4c2::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.17; Wed, 8 Mar
- 2023 20:13:08 +0000
-Received: from IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::735c:fa9:2043:279a]) by IA1PR12MB6604.namprd12.prod.outlook.com
- ([fe80::735c:fa9:2043:279a%4]) with mapi id 15.20.6156.029; Wed, 8 Mar 2023
- 20:13:08 +0000
-Message-ID: <ef58cd61-f90d-f242-9923-e9544d1aa963@nvidia.com>
-Date:   Wed, 8 Mar 2023 12:13:04 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH V2 6/6] arm64: tegra: Add GTE nodes
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzk@kernel.org>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org,
-        timestamp@lists.linux.dev
-References: <20230214115553.10416-1-dipenp@nvidia.com>
- <20230214115553.10416-7-dipenp@nvidia.com>
- <16e3ddb4-219e-70a8-8644-c62973f84d31@kernel.org>
-X-Nvconfidentiality: public
-From:   Dipen Patel <dipenp@nvidia.com>
-In-Reply-To: <16e3ddb4-219e-70a8-8644-c62973f84d31@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0143.namprd03.prod.outlook.com
- (2603:10b6:a03:33c::28) To IA1PR12MB6604.namprd12.prod.outlook.com
- (2603:10b6:208:3a0::7)
+        with ESMTP id S229610AbjCHWXx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 17:23:53 -0500
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38D28618B0;
+        Wed,  8 Mar 2023 14:23:45 -0800 (PST)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id D430F5C00E4;
+        Wed,  8 Mar 2023 17:23:41 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Wed, 08 Mar 2023 17:23:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
+        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1678314221; x=1678400621; bh=QO
+        wR0D9gPl7Iokbw5axOEkvXsNmPpiw+HASooBf+03M=; b=lEYGgCBk+s6p2F2hDg
+        KMCAS6GDNmPhmF8hzbgrDsWoKCfoCxTm4MCAXu3DzbuD887fuK5qf/vOtNdfenmy
+        6147lBzeLBmBzolXLHDclVdOjbSxOrw3nU2z2jmjv8Jh313mxtnmijp+60vcLjwI
+        f1p3ce55zBaKvAap2+SNySgwZ7DCjMoqaxBLesXfMlx+BGBlhAFrAb/4u2v4hPvl
+        5jQy6FXNDrhW7jDnU30wwuH/nFdPZI3rtOemLUCo/+KjNCERlBPZXxUnBbnUsNqA
+        gEJECf6tSyiAqwvAy/9IANtucsrYL3RgvMf+VSjxal/SA4g0EuwW8pVr74AJQWMH
+        JqJA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; t=1678314221; x=1678400621; bh=QOwR0D9gPl7Io
+        kbw5axOEkvXsNmPpiw+HASooBf+03M=; b=pOp2qRfTXTkJ0KODm+Rfr1kfNl3ed
+        D5XPH96mBf358Jzs9KYB69sfGM6i33xmK3PLcTrjbb64zUzZD0R4JmbR9HPtHQ9R
+        7ozLcRgO5PgXYVCFSOmmHb7CsBYvBWTiDp94Isj4ZO1fvcWNFggAY/Vlgj/QuRBa
+        Zum0fNSu7RNqC6pi0JCKz04DjwsOh41htTqdHp+N5JA1z1sGVKjGtL3XjLzu1PV8
+        afQnZruYilXNQIZdgks65nMeqro3fRskkUkzqYvHrAxBFE02jKGmiEkF7IPicIcG
+        +LdoOlxs3OnUp/TPhSjCn3Wvzh1hd1RxEtmvFKP++dg+hKXekzULJSPrg==
+X-ME-Sender: <xms:7QoJZICotthS5iF31MchtXt9rbPKJZ06Sptp-SKqrE8TtNqfhUhFFg>
+    <xme:7QoJZKjaHv-uOmoL22Vi86Ur5TqzVhSckJ_2jhOyKXQ5Vsf31sxvl7SWmSUUA3HOu
+    8T1ehEEQqhrHkUNQD4>
+X-ME-Received: <xmr:7QoJZLlh1pIuzaXk1LLgh6Ef6Mmg7dvm2lUOYCbuZkYlh3J7ArkFjWw5R3L4_LFf0_9IYRsedCBM_mJtrbnO9Qp9NDil6szmrP2C0Qv6>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddufedgudduvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhepfhgfhffvvefuffgjkfggtgesth
+    dtredttdertdenucfhrhhomhepufhtvghfrghnucftohgvshgthhcuoehshhhrseguvghv
+    khgvrhhnvghlrdhioheqnecuggftrfgrthhtvghrnhepveelgffghfehudeitdehjeevhe
+    dthfetvdfhledutedvgeeikeeggefgudeguedtnecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomhepshhhrhesuggvvhhkvghrnhgvlhdrihho
+X-ME-Proxy: <xmx:7QoJZOw9g-ox6g4HhJ4TDGVLB7S9QjlJomlQ3OGxLyQeD9l3hd-cSA>
+    <xmx:7QoJZNQpV70N78TNvO8tasxk-Ay4IgwMgX0GsPelgPyVjcACxwi3Kg>
+    <xmx:7QoJZJbjB9bZfn4ag6TCDjZLpWIWWWq3fz2U6X7RihcAcetco-pLKg>
+    <xmx:7QoJZOReFAtqiDoskpqnglfshXpP18U6aK9EMQ_fxPEN6GeXBx-0Tw>
+Feedback-ID: i84614614:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Mar 2023 17:23:40 -0500 (EST)
+References: <20230224044000.3084046-1-shr@devkernel.io>
+ <20230224044000.3084046-2-shr@devkernel.io>
+ <20230308164746.GA473363@cmpxchg.org>
+User-agent: mu4e 1.6.11; emacs 28.2.50
+From:   Stefan Roesch <shr@devkernel.io>
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org
+Subject: Re: [PATCH v3 1/3] mm: add new api to enable ksm per process
+Date:   Wed, 08 Mar 2023 14:16:36 -0800
+In-reply-to: <20230308164746.GA473363@cmpxchg.org>
+Message-ID: <qvqwbkl2zxui.fsf@dev0134.prn3.facebook.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6604:EE_|SJ2PR12MB7962:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7ea158f4-7a4a-4974-752e-08db201188b3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /QZdcmI+kxX7+iiOrbqRQ+m5q1BDxy6hFMFJGt9ImB96YkiuVb7xizIkQ1meRPUCHC8so5TnR9Jz/s+jIc9u78u8fWs6KuRLQan94+V3bCXcgPENHeMNLuUtWPSg1QdNT4buJgRGi0v+h+BG55CZxBIrxIBxYa0PfD3PtEebMOBawnzUuson92Rk55k6mJ/M2+7eDawnI2JwAN6f40TgRIB8C1eK3gmjnzQCYa4kwjDf9cKjQysyQFVSZagwIc9p4JyrSqDcQX7NlfFvhJBNc7GTvVM5d8+ZYxW7GEKCeIRSSFRDo6prNnSDDa7yIIemp0lYMsTDyabXRezcqskpwoAAG2hlGf09TIGhEl5ve8qkHfOClRYseqApOWmvQt8/sbiwuOQkFBt+Af/eQPqXryHCaJ97ECxyhyWsIm//o9GLrbsuolF12S5qeCIF2a8muSijXhrkNGtCWld77/a2BEzDx/XZDgojCMKMnSa6aIYeRHpotFa87mfZfzlWa/GC0GghR6vHNsOiK0yRXb/Y2twyCeAqxGDSGpcB5paYxsxsXBzyyLkk2uHtr36ERt5otwo3WaSVnyR0DRK/KOfY/isaMyJiRGco7Cl7yEr59RUlmDTtshmdBr3Ervci9QUhypeXlkhNyQcKcXeDHWUBGdVu8cOesvphw2t7lPbNLmwcbKH9PKI0YCWhY2OxNSVzwNOUUDfAh+c/JVgJv4rBUk0goun2yNZJUljMoRqoKQ98vXndMNGkcV+jN60uf0J8
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6604.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(39860400002)(136003)(346002)(366004)(451199018)(36756003)(2616005)(316002)(478600001)(7416002)(6486002)(2906002)(8676002)(66476007)(66556008)(66946007)(41300700001)(8936002)(5660300002)(26005)(921005)(86362001)(38100700002)(186003)(6666004)(53546011)(6506007)(6512007)(83380400001)(31696002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dkZZeThZMUlVNnpvMFE1RVNzaWVsUXg0emhmOTVpZmFrNjZqQjlQdjlNUVhZ?=
- =?utf-8?B?Ymc2bThLYk5aWHM1WVcwRTdyTDJ6eDJXeGZienN4UVNRZGhvSGRTT2JIMEZh?=
- =?utf-8?B?VTdGRjU2TnRmclVhYWVTU1d5ODExNk5CN2Qzck1TcDVIVE9RenFGdGJaNzFj?=
- =?utf-8?B?M3BLWEo5RGRIV21Qc3VHME9HKzJJNTVlT0RPbVg4U0w4RGRXRSsyVmhDMExz?=
- =?utf-8?B?dndHS1ZMMXNGalVxc05CRUQ2WW1pL0t6M0UrelR0VGhGaXhEbXpqcEE1MFl6?=
- =?utf-8?B?a0x0TGVCOFBybzZ6cGdWOWNudU94eGJkZEhKYmtEOU5oY3pCdlZlbFZGb0l4?=
- =?utf-8?B?ZUQyT1RJazdsNUt3U0l2Y1lrSjRKN3lXU1EwWXh5bkZtajJOUjhjZWxoTklt?=
- =?utf-8?B?OFV1cC9id0NzZ05TVnNYOUJaeEQzRFcrRjN2YmxFREQxbHdWUmRqSVBpRDda?=
- =?utf-8?B?dXhZb2prUXVoNTZJSGhacklHdWsrc1FMWm9wRFZwSUJJQVpRVGs1a2c5ZzVZ?=
- =?utf-8?B?NHNLM3lhb29xVTlDa0ZpYXQyTlNHRk5sbTNIb290cTcrYUNYTDZQdUkvWnFW?=
- =?utf-8?B?elBUZVY2MFY2ODFXZ3NMbGY5eGFrT016aS8zUkNJU1RxaHc5UGFkU1ZsbzBa?=
- =?utf-8?B?RHVZYWQxSkU0c3hNemFoR2xBbFFSbmlldFMreDVHSWozR1BtRllXbk5HZjZz?=
- =?utf-8?B?T0FWK2k2YnVBYlZqbXdOcmtvUHJjYi9mcEFUZ241K3ZnNGx2N3hkVDRmc3Rr?=
- =?utf-8?B?RTNvbXNaTmtuMG9DV1phdkt6NXk1SFhORmZMS3R6aDQzdGJYVXdNcHRSUXRC?=
- =?utf-8?B?TDlLRjF5aWYvODdLb3FySUhtYXk4VzdEMVgyaVRTbmtFWHR1WWFES0JJL2RQ?=
- =?utf-8?B?dEFhK3RqSXc1Q0kxMk5HYmVNUFM4dXlZbVBuNCtVeVdTTEVtdmU4d0RhMXRZ?=
- =?utf-8?B?SUFXV1hXNnQ3TjBmdlArcTFRTjBaYzMzWFJ0aTM2SCsyTGw1dUdUSGJQYUsz?=
- =?utf-8?B?cUpaV1VkN0JVMGJ1N1UweXNvTWQzcWZ6a2NaZnNUODFtWTc4VFlZTVNDR2VJ?=
- =?utf-8?B?SHN1Nm8xa1dwWWppcG1jRFVIS1VaQW1sRHpYZHJnR2Q2c0ZNcFNEelNJYzBV?=
- =?utf-8?B?K0lNS3JLTWVaYlN6U1JjMnJrUm5JT1dGNjJERXhJQXlQSnlUL3BCOHc1UHpu?=
- =?utf-8?B?SWZWdFlqRmFRZFNSR2tmS0xaTzlVdDE1cnd6c1pyMEZFcjErRHVHQzJWUmVm?=
- =?utf-8?B?UHdmQnlVdGdtQXlUVnRQdmpNY2xwNlJFalkvZmpQcXZlNTVLcnExMG5wMmdl?=
- =?utf-8?B?WUIySk5HbEJCR3ZKZ1pxTTlaOWZhZkZoR1RsTDF2eHUvMUF4WGJScDhrcVBa?=
- =?utf-8?B?aXdrZmJkQy9CQzF1bi91cTZlSVUxZFRpVUgxK2Z6RkVWWVdkMHI1VHVSVEJF?=
- =?utf-8?B?OS81NWFPQnl6dmdSVmcralZ2QmdoaWFwZEpnTHlkQnFpODF0NFJJeGtXWlhF?=
- =?utf-8?B?L2dmWVRCTVFrZVZHMDZNRldlcVlvUHNmY2YvUzJuWVpseE9oTFpkcDJQWFJk?=
- =?utf-8?B?bm9QMzRKbjJxNnc2VjVzejZpZWwrWFdLbnpicEk5WXBGMUljU1p3L3BYVGs5?=
- =?utf-8?B?WGJWcFJta1NLU2VZUzVFazZ1d3ZTd2YvQmJqcmcya1RBdmg4aHgxZDM0eU9Z?=
- =?utf-8?B?S2hPRUNscjg3ci82TjBzTkF4SEhWRGdadkZlSThGeHA3aVJneWxBZ1M3NEVY?=
- =?utf-8?B?OWwwVjNYa3RVN3ZFR0J5MXlyU2hQSXFNdUE4Q1BDQTFDNUFkMlNKWEdiUHN2?=
- =?utf-8?B?WHFmenZkMEQ0ckwxbllHWUhPQ3ZPR3hQcEszeVJBN3FzeHpXNUZDcVZUTm4x?=
- =?utf-8?B?NU0waklsTklOQVplS1ZDcVFieVpyNUNQRG1YKzFpbENBZFUwdlAwWUQ1L0NB?=
- =?utf-8?B?c285RlV4bWYvL3YwRjQ1TG9GRlVEdlVTSjJsb1MwRUdmUkFmUTlZd1pzWHNu?=
- =?utf-8?B?VzdiRDA4UFVReG1aSUtPUjNxblE2dzF1MW1KOFB0enk5NDJwOG8rYm85OXhR?=
- =?utf-8?B?cGtQdVFHWllZVEJsN2R2MllST2NqU0JSb2RlZmtNM0xld25sMzdEWDNPaUVs?=
- =?utf-8?Q?AtZPfWBGTy2autlWgVtrz47ms?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ea158f4-7a4a-4974-752e-08db201188b3
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6604.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 20:13:08.5551
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mTXMk18Hcvw6APJMEXpGiUHStge4uPgLinNnbGAEhMRau9T5dJbPPIelk1XXgMSpmvBuDbthKQFBN1W9rVeiVw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7962
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/16/23 6:18 AM, Krzysztof Kozlowski wrote:
-> On 14/02/2023 12:55, Dipen Patel wrote:
->> Add GTE nodes for the tegra234. Also modify AON GTE nodes for the
->> tegra194 to remove nvidia,slice property and add nvidia,gpio-controller
->> propertyto specify AON GPIO controller node so that GTE driver can
->> do namespace conversion between GPIO lines provided by the gpiolib
->> framework and hardware timestamping engine subsystem.
->>
->> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
->> ---
->>  arch/arm64/boot/dts/nvidia/tegra194.dtsi |  3 +--
->>  arch/arm64/boot/dts/nvidia/tegra234.dtsi | 19 +++++++++++++++++++
->>  2 files changed, 20 insertions(+), 2 deletions(-)
->>
->> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
->> index 4afcbd60e144..4c92850b1ec4 100644
->> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
->> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
->> @@ -1363,7 +1363,6 @@
->>  			reg = <0x3aa0000 0x10000>;
->>  			interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
->>  			nvidia,int-threshold = <1>;
->> -			nvidia,slices = <11>;
->>  			#timestamp-cells = <1>;
->>  			status = "okay";
->>  		};
->> @@ -1586,7 +1585,7 @@
->>  			reg = <0xc1e0000 0x10000>;
->>  			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
->>  			nvidia,int-threshold = <1>;
->> -			nvidia,slices = <3>;
->> +			nvidia,gpio-controller = <&gpio_aon>;
->>  			#timestamp-cells = <1>;
->>  			status = "okay";
->>  		};
->> diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
->> index eaf05ee9acd1..4a87490c5fd4 100644
->> --- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
->> +++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
->> @@ -1086,6 +1086,15 @@
->>  			clock-names = "fuse";
->>  		};
->>  
->> +		hte_lic: hardware-timestamp@3aa0000 {
->> +			compatible = "nvidia,tegra234-gte-lic";
->> +			reg = <0x3aa0000 0x10000>;
->> +			interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
->> +			nvidia,int-threshold = <1>;
->> +			#timestamp-cells = <1>;
->> +			status = "okay";
-> 
-> Why do you need status? It's okay by default.
-what's harm of having to explicitly mentioned? I can see status = okay in this dtsi file
-for other nodes as well and was just following that.
-> 
->> +		};
->> +
->>  		hsp_top0: hsp@3c00000 {
->>  			compatible = "nvidia,tegra234-hsp", "nvidia,tegra194-hsp";
->>  			reg = <0x03c00000 0xa0000>;
->> @@ -1603,6 +1612,16 @@
->>  			#mbox-cells = <2>;
->>  		};
->>  
->> +		hte_aon: hardware-timestamp@c1e0000 {
->> +			compatible = "nvidia,tegra234-gte-aon";
->> +			reg = <0xc1e0000 0x10000>;
->> +			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
->> +			nvidia,int-threshold = <1>;
->> +			nvidia,gpio-controller = <&gpio_aon>;
->> +			#timestamp-cells = <1>;
->> +			status = "okay";
-> 
-> 
-> Also here
-> 
-> Best regards,
-> Krzysztof
-> 
 
+Johannes Weiner <hannes@cmpxchg.org> writes:
+
+> On Thu, Feb 23, 2023 at 08:39:58PM -0800, Stefan Roesch wrote:
+>> This adds a new prctl to API to enable and disable KSM on a per process
+>> basis instead of only at the VMA basis (with madvise).
+>>
+>> 1) Introduce new MMF_VM_MERGE_ANY flag
+>>
+>> This introduces the new flag MMF_VM_MERGE_ANY flag. When this flag is
+>> set, kernel samepage merging (ksm) gets enabled for all vma's of a
+>> process.
+>>
+>> 2) add flag to __ksm_enter
+>>
+>> This change adds the flag parameter to __ksm_enter. This allows to
+>> distinguish if ksm was called by prctl or madvise.
+>>
+>> 3) add flag to __ksm_exit call
+>>
+>> This adds the flag parameter to the __ksm_exit() call. This allows to
+>> distinguish if this call is for an prctl or madvise invocation.
+>>
+>> 4) invoke madvise for all vmas in scan_get_next_rmap_item
+>>
+>> If the new flag MMF_VM_MERGE_ANY has been set for a process, iterate
+>> over all the vmas and enable ksm if possible. For the vmas that can be
+>> ksm enabled this is only done once.
+>>
+>> 5) support disabling of ksm for a process
+>>
+>> This adds the ability to disable ksm for a process if ksm has been
+>> enabled for the process.
+>>
+>> 6) add new prctl option to get and set ksm for a process
+>>
+>> This adds two new options to the prctl system call
+>> - enable ksm for all vmas of a process (if the vmas support it).
+>> - query if ksm has been enabled for a process.
+>>
+>> Signed-off-by: Stefan Roesch <shr@devkernel.io>
+>
+> Hey Stefan, thanks for merging the patches into one. I found it much
+> easier to review.
+>
+> Overall this looks straight-forward to me. A few comments below:
+>
+>> @@ -2659,6 +2660,34 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>>  	case PR_SET_VMA:
+>>  		error = prctl_set_vma(arg2, arg3, arg4, arg5);
+>>  		break;
+>> +#ifdef CONFIG_KSM
+>> +	case PR_SET_MEMORY_MERGE:
+>> +		if (!capable(CAP_SYS_RESOURCE))
+>> +			return -EPERM;
+>> +
+>> +		if (arg2) {
+>> +			if (mmap_write_lock_killable(me->mm))
+>> +				return -EINTR;
+>> +
+>> +			if (test_bit(MMF_VM_MERGEABLE, &me->mm->flags))
+>> +				error = -EINVAL;
+>
+> So if the workload has already madvised specific VMAs the
+> process-enablement will fail. Why is that? Shouldn't it be possible to
+> override a local decision from an outside context that has more
+> perspective on both sharing opportunities and security aspects?
+>
+> If there is a good reason for it, the -EINVAL should be addressed in
+> the manpage. And maybe add a comment here as well.
+>
+
+This makes sense, I'll remove the check above.
+
+>> +			else if (!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags))
+>> +				error = __ksm_enter(me->mm, MMF_VM_MERGE_ANY);
+>> +			mmap_write_unlock(me->mm);
+>> +		} else {
+>> +			__ksm_exit(me->mm, MMF_VM_MERGE_ANY);
+>> +		}
+>> +		break;
+>> +	case PR_GET_MEMORY_MERGE:
+>> +		if (!capable(CAP_SYS_RESOURCE))
+>> +			return -EPERM;
+>> +
+>> +		if (arg2 || arg3 || arg4 || arg5)
+>> +			return -EINVAL;
+>> +
+>> +		error = !!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
+>> +		break;
+>> +#endif
+>>  	default:
+>>  		error = -EINVAL;
+>>  		break;
+>> diff --git a/mm/ksm.c b/mm/ksm.c
+>> index 56808e3bfd19..23d6944f78ad 100644
+>> --- a/mm/ksm.c
+>> +++ b/mm/ksm.c
+>> @@ -1063,6 +1063,7 @@ static int unmerge_and_remove_all_rmap_items(void)
+>>
+>>  			mm_slot_free(mm_slot_cache, mm_slot);
+>>  			clear_bit(MMF_VM_MERGEABLE, &mm->flags);
+>> +			clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+>>  			mmdrop(mm);
+>>  		} else
+>>  			spin_unlock(&ksm_mmlist_lock);
+>> @@ -2329,6 +2330,17 @@ static struct ksm_rmap_item *get_next_rmap_item(struct ksm_mm_slot *mm_slot,
+>>  	return rmap_item;
+>>  }
+>>
+>> +static bool vma_ksm_mergeable(struct vm_area_struct *vma)
+>> +{
+>> +	if (vma->vm_flags & VM_MERGEABLE)
+>> +		return true;
+>> +
+>> +	if (test_bit(MMF_VM_MERGE_ANY, &vma->vm_mm->flags))
+>> +		return true;
+>> +
+>> +	return false;
+>> +}
+>> +
+>>  static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+>>  {
+>>  	struct mm_struct *mm;
+>> @@ -2405,8 +2417,20 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+>>  		goto no_vmas;
+>>
+>>  	for_each_vma(vmi, vma) {
+>> -		if (!(vma->vm_flags & VM_MERGEABLE))
+>> +		if (!vma_ksm_mergeable(vma))
+>>  			continue;
+>> +		if (!(vma->vm_flags & VM_MERGEABLE)) {
+>
+> IMO, the helper obscures the interaction between the vma flag and the
+> per-process flag here. How about:
+>
+> 		if (!(vma->vm_flags & VM_MERGEABLE)) {
+> 			if (!test_bit(MMF_VM_MERGE_ANY, &vma->vm_mm->flags))
+> 				continue;
+>
+> 			/*
+> 			 * With per-process merging enabled, have the MM scan
+> 			 * enroll any existing and new VMAs on the fly.
+> 			 *
+> 			ksm_madvise();
+> 		}
+>
+>> +			unsigned long flags = vma->vm_flags;
+>> +
+>> +			/* madvise failed, use next vma */
+>> +			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_MERGEABLE, &flags))
+>> +				continue;
+>> +			/* vma, not supported as being mergeable */
+>> +			if (!(flags & VM_MERGEABLE))
+>> +				continue;
+>> +
+>> +			vm_flags_set(vma, VM_MERGEABLE);
+>
+> I don't understand the local flags. Can't it pass &vma->vm_flags to
+> ksm_madvise()? It'll set VM_MERGEABLE on success. And you know it
+> wasn't set before because the whole thing is inside the !set
+> branch. The return value doesn't seem super useful, it's only the flag
+> setting that matters:
+>
+> 			ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_MERGEABLE, &vma->vm_flags);
+> 			/* madvise can fail, and will skip special vmas (pfnmaps and such) */
+> 			if (!(vma->vm_flags & VM_MERGEABLE))
+> 				continue;
+>
+
+vm_flags is defined as const. I cannot pass it directly inside the
+function, this is the reason, I'm using a local variable for it.
+
+>> +		}
+>>  		if (ksm_scan.address < vma->vm_start)
+>>  			ksm_scan.address = vma->vm_start;
+>>  		if (!vma->anon_vma)
+>> @@ -2491,6 +2515,7 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+>>
+>>  		mm_slot_free(mm_slot_cache, mm_slot);
+>>  		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
+>> +		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+>>  		mmap_read_unlock(mm);
+>>  		mmdrop(mm);
+>>  	} else {
+>
+>> @@ -2664,12 +2690,39 @@ int __ksm_enter(struct mm_struct *mm)
+>>  	return 0;
+>>  }
+>>
+>> -void __ksm_exit(struct mm_struct *mm)
+>> +static void unmerge_vmas(struct mm_struct *mm)
+>> +{
+>> +	struct vm_area_struct *vma;
+>> +	struct vma_iterator vmi;
+>> +
+>> +	vma_iter_init(&vmi, mm, 0);
+>> +
+>> +	mmap_read_lock(mm);
+>> +	for_each_vma(vmi, vma) {
+>> +		if (vma->vm_flags & VM_MERGEABLE) {
+>> +			unsigned long flags = vma->vm_flags;
+>> +
+>> +			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_UNMERGEABLE, &flags))
+>> +				continue;
+>> +
+>> +			vm_flags_clear(vma, VM_MERGEABLE);
+>
+> ksm_madvise() tests and clears VM_MERGEABLE, so AFAICS
+>
+> 	for_each_vma(vmi, vma)
+> 		ksm_madvise();
+>
+> should do it...
+>
+
+This is the same problem. vma->vm_flags is defined as const.
+
++		if (vma->vm_flags & VM_MERGEABLE) {
+This will be removed.
+
+>> +		}
+>> +	}
+>> +	mmap_read_unlock(mm);
+>> +}
+>> +
+>> +void __ksm_exit(struct mm_struct *mm, int flag)
+>>  {
+>>  	struct ksm_mm_slot *mm_slot;
+>>  	struct mm_slot *slot;
+>>  	int easy_to_free = 0;
+>>
+>> +	if (!(current->flags & PF_EXITING) && flag == MMF_VM_MERGE_ANY &&
+>> +		test_bit(MMF_VM_MERGE_ANY, &mm->flags)) {
+>> +		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+>> +		unmerge_vmas(mm);
+>
+> ...and then it's short enough to just open-code it here and drop the
+> unmerge_vmas() helper.
