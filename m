@@ -2,290 +2,429 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A05AC6FD1E
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 16:47:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3182CC64EC4
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 16:52:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbjCHQr5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 11:47:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41136 "EHLO
+        id S229770AbjCHQwv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 11:52:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbjCHQrz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 11:47:55 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6E0FCB04F
-        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 08:47:48 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id l18so18759853qtp.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Mar 2023 08:47:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112; t=1678294068;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KxydbB3uyyn9bCiMvWGSHt2Z+kQttveOlsssE2ak6kI=;
-        b=cgodqzhqamLdzp7EQPagtF1gYGWqDLN3V7I2zEYyuR3gRxt7mr8Akkw5zcmCOvBK69
-         jj9g+fiGERJm/1MkvMYDfyG7+MrQnrN1DY3MCaUmitsvLqtLAvua6+EdYkZDsIOWJyPB
-         Hy8kx66XXapoIqDmKQeTXgvQEl3WTmJ6IdrD7WGZIVBMsCoEpYMHzvL64dcU/AesBRNR
-         SpVaNdkWzfz4TylRjWIImpxOVhEZytCAFIn2TPlLVzTRe1vbo60sf4qOhcufF17hpJIE
-         LLpKCOc4w8iFIQbzzpb4tXlHnRkvNV2pbZ1b1lfoPU+f9fcOLj1JAopL5qTZJKILuEPC
-         sfbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678294068;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KxydbB3uyyn9bCiMvWGSHt2Z+kQttveOlsssE2ak6kI=;
-        b=RkzmoPN7NNggjVOqnj8/H90J5Nx/rWJiqVyX0YfbrRShYzhrBiULUKDzi+zM8kZAy0
-         /vYVsYDZO7lFHNXzeYSm01kC4UDR1aw6e0DQuRyHT3e5PjDX2A16+iG8iAzwdHEAiA86
-         v2PP3IEhppEgwhqPciRZBzkPliIVIeJWW1fFcKzOIbi7GTI/nvcR6kv3QoaT9md9647A
-         OBSv4kA/+Bt6g+ACguKbsq9MUHzkEgkX1UA0M2YpoMtIspRM40m0Y299aLl193WtAPF0
-         ScaaARFdtGk0Hkhu+bx8Z7jFxprB5ziGyPABbI6+4UnzTGP0eexHnPrHn2RD684bo00e
-         x94w==
-X-Gm-Message-State: AO0yUKULaD2xL5evt3gBUTAocpMBaWcG9G6rKUc5WcRluauct2FpOW6+
-        czTeoTxdDnMETzmXb3VSsapfTg==
-X-Google-Smtp-Source: AK7set97fg/D+XxANClcUJyVA0x8gZg5tcID6He26QN4715WeGw5XZyQfVlTn+sZ1wXRnsBx0LOWlQ==
-X-Received: by 2002:a05:622a:1106:b0:3b9:bd05:bde1 with SMTP id e6-20020a05622a110600b003b9bd05bde1mr31825069qty.8.1678294067979;
-        Wed, 08 Mar 2023 08:47:47 -0800 (PST)
-Received: from localhost (2603-7000-0c01-2716-8f57-5681-ccd3-4a2e.res6.spectrum.com. [2603:7000:c01:2716:8f57:5681:ccd3:4a2e])
-        by smtp.gmail.com with ESMTPSA id 29-20020a05620a041d00b0073b8745fd39sm3215975qkp.110.2023.03.08.08.47.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 08:47:47 -0800 (PST)
-Date:   Wed, 8 Mar 2023 11:47:46 -0500
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Stefan Roesch <shr@devkernel.io>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org
-Subject: Re: [PATCH v3 1/3] mm: add new api to enable ksm per process
-Message-ID: <20230308164746.GA473363@cmpxchg.org>
-References: <20230224044000.3084046-1-shr@devkernel.io>
- <20230224044000.3084046-2-shr@devkernel.io>
+        with ESMTP id S229634AbjCHQwv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 11:52:51 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD9A6CB04F;
+        Wed,  8 Mar 2023 08:52:47 -0800 (PST)
+Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 967FBEF;
+        Wed,  8 Mar 2023 17:52:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1678294365;
+        bh=Z2yMtXQ7zzwI7ioz0Jmo2ZIC/xZqoZMf2R+MY2AIlfE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ET1zJJDoTZd/vyxpF0odi4ILToFfD4RLhIUbqBJvo6qVPg2PEVSTGGnks/WfjD4/l
+         ristuwfawYPMv0WJdA4/B8phQnBJN8HJTjbHg0O9WbpAC7ckndcMBtfa7yh79UUDsE
+         yQZjSBatL9Vp4TJv9cob6lwzy4t2gr2FQDPHPrZU=
+From:   Daniel Scally <dan.scally@ideasonboard.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-usb@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Daniel Scally <dan.scally@ideasonboard.com>,
+        laurent.pinchart@ideasonboard.com
+Subject: [PATCH] docs: usb: Add documentation for the UVC Gadget
+Date:   Wed,  8 Mar 2023 16:52:13 +0000
+Message-Id: <20230308165213.139315-1-dan.scally@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230224044000.3084046-2-shr@devkernel.io>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 23, 2023 at 08:39:58PM -0800, Stefan Roesch wrote:
-> This adds a new prctl to API to enable and disable KSM on a per process
-> basis instead of only at the VMA basis (with madvise).
-> 
-> 1) Introduce new MMF_VM_MERGE_ANY flag
-> 
-> This introduces the new flag MMF_VM_MERGE_ANY flag. When this flag is
-> set, kernel samepage merging (ksm) gets enabled for all vma's of a
-> process.
-> 
-> 2) add flag to __ksm_enter
-> 
-> This change adds the flag parameter to __ksm_enter. This allows to
-> distinguish if ksm was called by prctl or madvise.
-> 
-> 3) add flag to __ksm_exit call
-> 
-> This adds the flag parameter to the __ksm_exit() call. This allows to
-> distinguish if this call is for an prctl or madvise invocation.
-> 
-> 4) invoke madvise for all vmas in scan_get_next_rmap_item
-> 
-> If the new flag MMF_VM_MERGE_ANY has been set for a process, iterate
-> over all the vmas and enable ksm if possible. For the vmas that can be
-> ksm enabled this is only done once.
-> 
-> 5) support disabling of ksm for a process
-> 
-> This adds the ability to disable ksm for a process if ksm has been
-> enabled for the process.
-> 
-> 6) add new prctl option to get and set ksm for a process
-> 
-> This adds two new options to the prctl system call
-> - enable ksm for all vmas of a process (if the vmas support it).
-> - query if ksm has been enabled for a process.
-> 
-> Signed-off-by: Stefan Roesch <shr@devkernel.io>
+The UVC Gadget function has become quite complex, but documentation
+for it is fairly sparse. Add some more detailed documentation to
+improve the situation.
 
-Hey Stefan, thanks for merging the patches into one. I found it much
-easier to review.
+Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+---
+Greg, Jonathan - I didn't know if there's a specific tree for Documentation/
+only patches, so this is on usb-next. If that was wrong let me know and I'll
+resend the patch.
 
-Overall this looks straight-forward to me. A few comments below:
+ Documentation/usb/gadget_uvc.rst | 352 +++++++++++++++++++++++++++++++
+ Documentation/usb/index.rst      |   1 +
+ 2 files changed, 353 insertions(+)
+ create mode 100644 Documentation/usb/gadget_uvc.rst
 
-> @@ -2659,6 +2660,34 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->  	case PR_SET_VMA:
->  		error = prctl_set_vma(arg2, arg3, arg4, arg5);
->  		break;
-> +#ifdef CONFIG_KSM
-> +	case PR_SET_MEMORY_MERGE:
-> +		if (!capable(CAP_SYS_RESOURCE))
-> +			return -EPERM;
-> +
-> +		if (arg2) {
-> +			if (mmap_write_lock_killable(me->mm))
-> +				return -EINTR;
-> +
-> +			if (test_bit(MMF_VM_MERGEABLE, &me->mm->flags))
-> +				error = -EINVAL;
+diff --git a/Documentation/usb/gadget_uvc.rst b/Documentation/usb/gadget_uvc.rst
+new file mode 100644
+index 000000000000..6d22faceb1a0
+--- /dev/null
++++ b/Documentation/usb/gadget_uvc.rst
+@@ -0,0 +1,352 @@
++=======================
++Linux UVC Gadget Driver
++=======================
++
++Overview
++--------
++The UVC Gadget driver is a driver for hardware on the *device* side of a USB
++connection. It is intended to run on a Linux system that has USB device-side
++hardware such as boards with an OTG port.
++
++On the device system, once the driver is bound it appears as a V4L2 device with
++the output capability.
++
++On the host side (once connected via USB cable), a device running the UVC Gadget
++driver *and controlled by an appropriate userspace program* should appear as a UVC
++specification compliant camera, and function appropriately with any program
++designed to handle them. The userspace program running on the device system can
++queue image buffers from a variety of sources to be transmitted via the USB
++connection. Typically this would mean forwarding the buffers from a camera sensor
++peripheral, but the source of the buffer is entirely dependent on the userspace
++companion program.
++
++Configuring the device kernel
++-----------------------------
++The Kconfig options USB_CONFIGFS, USB_LIBCOMPOSITE, USB_CONFIGFS_F_UVC and
++USB_F_UVC must be selected to enable support for the UVC gadget.
++
++Configuring the gadget through configfs
++---------------------------------------
++The UVC Gadget expects to be configured through configfs using the UVC function.
++This allows a significant degree of flexibility, as many of a UVC device's
++settings can be controlled this way.
++
++Not all of the available attributes are described here. For a complete enumeration
++see Documentation/ABI/testing/configfs-usb-gadget-uvc
++
++Assumptions
++~~~~~~~~~~~
++This section assumes that you have mounted configfs at `/sys/kernel/config` and
++created a gadget as `/sys/kernel/config/usb_gadget/g1`.
++
++The UVC Function
++~~~~~~~~~~~~~~~~
++
++The first step is to create the UVC function:
++
++.. code-block:: bash
++
++	# These variables will be assumed throughout the rest of the document
++	CONFIGFS="/sys/kernel/config"
++	GADGET="$CONFIGFS/usb_gadget/g1"
++	FUNCTION="$GADGET/functions/uvc.0"
++
++	mkdir -p $FUNCTION
++
++Formats and Frames
++~~~~~~~~~~~~~~~~~~
++
++You must configure the gadget by telling it which formats you support, as well
++as the frame sizes and frame intervals that are supported for each format. In
++the current implementation there is no way for the gadget to refuse to set a
++format that the host instructs it to set, so it is important that this step is
++completed *accurately* to ensure that the host never asks for a format that
++can't be provided.
++
++Formats are created under the streaming/uncompressed and streaming/mjpeg configfs
++groups, with the framesizes created under the formats in the following
++structure:
++
++::
++
++	uvc.0 +
++	      |
++	      + streaming +
++			  |
++			  + mjpeg +
++			  |       |
++			  |       + mjpeg +
++			  |	       |
++			  |	       + 720p
++			  |	       |
++			  |	       + 1080p
++			  |
++			  + uncompressed +
++					 |
++					 + yuyv +
++						|
++						+ 720p
++						|
++						+ 1080p
++
++Each frame can then be configured with a width and height, plus the maximum
++buffer size required to store a single frame, and finally with the supported
++frame intervals for that format and framesize. Width and height are enumerated in
++units of pixels, frame interval in units of 100ns. To create the structure
++above with 2, 15 and 100 fps frameintervals for each framesize for example you
++might do:
++
++.. code-block:: bash
++
++	create_frame() {
++		# Example usage:
++		# create_frame <width> <height> <group> <format name>
++
++		WIDTH=$1
++		HEIGHT=$2
++		FORMAT=$3
++		NAME=$4
++
++		wdir=$FUNCTION/streaming/$FORMAT/$NAME/${HEIGHT}p
++
++		mkdir -p $wdir
++		echo $WIDTH > $wdir/wWidth
++		echo $HEIGHT > $wdir/wHeight
++		echo $(( $WIDTH * $HEIGHT * 2 )) > $wdir/dwMaxVideoFrameBufferSize
++		cat <<EOF > $wdir/dwFrameInterval
++	666666
++	100000
++	5000000
++	EOF
++	}
++
++	create_frame 1280 720 mjpeg mjpeg
++	create_frame 1920 1080 mjpeg mjpeg
++	create_frame 1280 720 uncompressed yuyv
++	create_frame 1920 1080 uncompressed yuyv
++
++The only uncompressed format currently supported is YUYV, which is detailed at
++Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst.
++
++Color Matching Descriptors
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++It's possible to specify some colometry information for each format you create.
++This step is optional, and default information will be included if this step is
++skipped; those default values follow those defined in the Color Matching Descriptor
++section of the UVC specification.
++
++To create a Color Matching Descriptor, create a configfs item and set its three
++attributes to your desired settings and then link to it from the format you wish
++it to be associated with:
++
++.. code-block:: bash
++
++	# Create a new Color Matching Descriptor
++
++	mkdir $FUNCTION/streaming/color_matching/yuyv
++	pushd $FUNCTION/streaming/color_matching/yuyv
++
++	echo 1 > bColorPrimaries
++	echo 1 > bTransferCharacteristics
++	echo 4 > bMatrixCoefficients
++
++	popd
++
++	# Create a symlink to the Color Matching Descriptor from the format's config item
++	ln -s $FUNCTION/streaming/color_matching/yuyv $FUNCTION/streaming/uncompressed/yuyv
++
++For details about the valid values, consult the UVC specification. Note that a
++default color matching descriptor exists and is used by any format which does
++not have a link to a different Color Matching Descriptor. It's possible to
++change the attribute settings for the default descriptor, so bear in mind that if
++you do that you are altering the defaults for any format that does not link to
++a different one.
++
++
++Header linking
++~~~~~~~~~~~~~~
++
++The UVC specification requires that Format and Frame descriptors be preceded by
++Headers detailing things such as the number and cumulative size of the different
++Format descriptors that follow. This and similar operations are acheived in
++configfs by linking between the configfs item representing the header and the
++config items representing those other descriptors, in this manner:
++
++.. code-block:: bash
++
++	mkdir $FUNCTION/streaming/header/h
++
++	# This section links the format descriptors and their associated frames
++	# to the header
++	cd $FUNCTION/streaming/header/h
++	ln -s ../../uncompressed/yuyv
++	ln -s ../../mjpeg/mjpeg
++
++	# This section ensures that the header will be transmitted for each
++	# speed's set of descriptors. If support for a particular speed is not
++	# needed then it can be skipped here.
++	cd ../../class/fs
++	ln -s ../../header/h
++	cd ../../class/hs
++	ln -s ../../header/h
++	cd ../../class/ss
++	ln -s ../../header/h
++	cd ../../../control
++	mkdir header/h
++	ln -s header/h class/fs
++	ln -s header/h class/ss
++
++
++Extension Unit Support
++~~~~~~~~~~~~~~~~~~~~~~
++
++A UVC Extension Unit (XU) basically provides a distinct unit to which control set
++and get requests can be addressed. The meaning of those control requests is
++entirely implementation dependent, but may be used to control settings outside
++of the UVC specification (for example enabling or disabling video effects). An
++XU can be inserted into the UVC unit chain or left free-hanging.
++
++Configuring an extension unit involves creating an entry in the appropriate
++directory and setting its attributes appropriately, like so:
++
++.. code-block:: bash
++
++	mkdir $FUNCTION/control/extensions/xu.0
++	pushd $FUNCTION/control/extensions/xu.0
++
++	# Set the bUnitID of the Processing Unit as the source for this
++	# Extension Unit
++	echo 2 > baSourceID
++
++	# Set this XU as the source of the default output terminal. This inserts
++	# the XU into the UVC chain between the PU and OT such that the final
++	# chain is IT > PU > XU.0 > OT
++	cat bUnitID > ../../terminal/output/default/baSourceID
++
++	# Flag some controls as being available for use. The bmControl field is
++	# a bitmap with each bit denoting the availability of a particular
++	# control. For example to flag the 0th, 2nd and 3rd controls available:
++	echo 0x0d > bmControls
++
++	# Set the GUID; this is a vendor-specific code identifying the XU.
++	echo -e -n "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10" > guidExtensionCode
++
++	popd
++
++The bmControls attribute and the baSourceID attribute are multi-value attributes.
++This means that you may write multiple newline separated values to them. For
++example to flag the 1st, 2nd, 9th and 10th controls as being available you would
++need to write two values to bmControls, like so:
++
++.. code-block:: bash
++
++	cat << EOF > bmControls
++	0x03
++	0x03
++	EOF
++
++The multi-value nature of the baSourceID attribute belies the fact that XUs can
++be multiple-input, though note that this currently has no significant effect.
++
++The bControlSize attribute reflects the size of the bmControls attribute, and
++similarly bNrInPins reflects the size of the baSourceID attributes. Both
++attributes are automatically increased / decreased as you set bmControls and
++baSourceID. It is also possible to manually increase or decrease bControlSize
++which has the effect of truncating entries to the new size, or padding entries
++out with 0x00, for example:
++
++::
++
++	$ cat bmControls
++	0x03
++	0x05
++
++	$ cat bControlSize
++	2
++
++	$ echo 1 > bControlSize
++	$ cat bmControls
++	0x03
++
++	$ echo 2 > bControlSize
++	$ cat bmControls
++	0x03
++	0x00
++
++bNrInPins and baSourceID function in the same way.
++
++Custom Strings Support
++~~~~~~~~~~~~~~~~~~~~~~
++
++String descriptors that provide a textual description for various parts of a
++USB device can be defined in the usual place within USB configfs, and may then
++be linked to from the UVC function root or from Extension Unit directories to
++assign those strings as descriptors:
++
++.. code-block:: bash
++
++	# Create a string descriptor in us-EN and link to it from the function
++	# root. The name of the link is significant here, as it declares this
++	# descriptor to be intended for the Interface Association Descriptor.
++	# Other significant link names at function root are vs0_desc and vs1_desc
++	# For the VideoStreaming Interface 0/1 Descriptors.
++
++	mkdir -p $GADGET/strings/0x409/iad_desc
++	echo -n "Interface Associaton Descriptor" > $GADGET/strings/0x409/iad_desc/s
++	ln -s $GADGET/strings/0x409/iad_desc $FUNCTION/iad_desc
++
++	# Because the link to a String Descriptor from an Extension Unit clearly
++	# associates the two, the name of this link is not significant and may
++	# be set freely.
++
++	mkdir -p $GADGET/strings/0x409/xu.0
++	echo -n "A Very Useful Extension Unit" > $GADGET/strings/0x409/xu.0/s
++	ln -s $GADGET/strings/0x409/xu.0 $FUNCTION/control/extensions/xu.0
++
++The interrupt endpoint
++~~~~~~~~~~~~~~~~~~~~~~
++
++The VideoControl interface has an optional interrupt endpoint which is by default
++disabled. This is intended to support delayed response control set requests for
++UVC (which should respond through the interrupt endpoint rather than tying up
++endpoint 0). At present support for sending data through this endpoint is missing
++and so it is left disabled to avoid confusion. If you wish to enable it you can
++do so through the configfs attribute:
++
++.. code-block:: bash
++
++	echo 1 > $FUNCTION/control/enable_interrupt_ep
++
++Bandwidth configuration
++~~~~~~~~~~~~~~~~~~~~~~~
++
++There are three attributes which control the bandwidth of the USB connection.
++These live in the function root and can be set within limits:
++
++.. code-block:: bash
++
++	# streaming_interval sets bInterval. Values range from 1..255
++	echo 1 > $FUNCTION/streaming_interval
++
++	# streaming_maxpacket sets wMaxPacketSize. Valid values are 1024/2048/3072
++	echo 3072 > $FUNCTION/streaming_maxpacket
++
++	# streaming_maxburst sets bMaxBurst. Valid values are 1..15
++	echo 1 > $FUNCTION/streaming_maxburst
++
++
++The values passed here will be clamped to valid values according to the UVC
++specification (which depend on the speed of the USB connection). To understand
++how the settings influence bandwidth you should consult the UVC specifications,
++but a rule of thumb is that increasing the streaming_maxpacket setting will
++improve bandwidth (and thus the maximum possible framerate), whilst the same is
++true for streaming_maxburst provided the USB connection is running at SuperSpeed.
++Increasing streaming_interval will reduce bandwidth and framerate.
++
++The userspace application
++-------------------------
++By itself, the UVC Gadget driver cannot do anything particularly interesting. It
++must be paired with a userspace program that responds to UVC control requests and
++fills buffers to be queued to the V4L2 device that the driver creates. How those
++things are achieved is implementation dependent and beyond the scope of this
++document, but a reference application can be found at https://gitlab.freedesktop.org/camera/uvc-gadget
+diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
+index b656c9be23ed..27955dad95e1 100644
+--- a/Documentation/usb/index.rst
++++ b/Documentation/usb/index.rst
+@@ -16,6 +16,7 @@ USB support
+     gadget_multi
+     gadget_printer
+     gadget_serial
++    gadget_uvc
+     gadget-testing
+     iuu_phoenix
+     mass-storage
+-- 
+2.34.1
 
-So if the workload has already madvised specific VMAs the
-process-enablement will fail. Why is that? Shouldn't it be possible to
-override a local decision from an outside context that has more
-perspective on both sharing opportunities and security aspects?
-
-If there is a good reason for it, the -EINVAL should be addressed in
-the manpage. And maybe add a comment here as well.
-
-> +			else if (!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags))
-> +				error = __ksm_enter(me->mm, MMF_VM_MERGE_ANY);
-> +			mmap_write_unlock(me->mm);
-> +		} else {
-> +			__ksm_exit(me->mm, MMF_VM_MERGE_ANY);
-> +		}
-> +		break;
-> +	case PR_GET_MEMORY_MERGE:
-> +		if (!capable(CAP_SYS_RESOURCE))
-> +			return -EPERM;
-> +
-> +		if (arg2 || arg3 || arg4 || arg5)
-> +			return -EINVAL;
-> +
-> +		error = !!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
-> +		break;
-> +#endif
->  	default:
->  		error = -EINVAL;
->  		break;
-> diff --git a/mm/ksm.c b/mm/ksm.c
-> index 56808e3bfd19..23d6944f78ad 100644
-> --- a/mm/ksm.c
-> +++ b/mm/ksm.c
-> @@ -1063,6 +1063,7 @@ static int unmerge_and_remove_all_rmap_items(void)
->  
->  			mm_slot_free(mm_slot_cache, mm_slot);
->  			clear_bit(MMF_VM_MERGEABLE, &mm->flags);
-> +			clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
->  			mmdrop(mm);
->  		} else
->  			spin_unlock(&ksm_mmlist_lock);
-> @@ -2329,6 +2330,17 @@ static struct ksm_rmap_item *get_next_rmap_item(struct ksm_mm_slot *mm_slot,
->  	return rmap_item;
->  }
->  
-> +static bool vma_ksm_mergeable(struct vm_area_struct *vma)
-> +{
-> +	if (vma->vm_flags & VM_MERGEABLE)
-> +		return true;
-> +
-> +	if (test_bit(MMF_VM_MERGE_ANY, &vma->vm_mm->flags))
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
->  static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
->  {
->  	struct mm_struct *mm;
-> @@ -2405,8 +2417,20 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
->  		goto no_vmas;
->  
->  	for_each_vma(vmi, vma) {
-> -		if (!(vma->vm_flags & VM_MERGEABLE))
-> +		if (!vma_ksm_mergeable(vma))
->  			continue;
-> +		if (!(vma->vm_flags & VM_MERGEABLE)) {
-
-IMO, the helper obscures the interaction between the vma flag and the
-per-process flag here. How about:
-
-		if (!(vma->vm_flags & VM_MERGEABLE)) {
-			if (!test_bit(MMF_VM_MERGE_ANY, &vma->vm_mm->flags))
-				continue;
-
-			/*
-			 * With per-process merging enabled, have the MM scan
-			 * enroll any existing and new VMAs on the fly.
-			 * 
-			ksm_madvise();
-		}
-
-> +			unsigned long flags = vma->vm_flags;
-> +
-> +			/* madvise failed, use next vma */
-> +			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_MERGEABLE, &flags))
-> +				continue;
-> +			/* vma, not supported as being mergeable */
-> +			if (!(flags & VM_MERGEABLE))
-> +				continue;
-> +
-> +			vm_flags_set(vma, VM_MERGEABLE);
-
-I don't understand the local flags. Can't it pass &vma->vm_flags to
-ksm_madvise()? It'll set VM_MERGEABLE on success. And you know it
-wasn't set before because the whole thing is inside the !set
-branch. The return value doesn't seem super useful, it's only the flag
-setting that matters:
-
-			ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_MERGEABLE, &vma->vm_flags);
-			/* madvise can fail, and will skip special vmas (pfnmaps and such) */
-			if (!(vma->vm_flags & VM_MERGEABLE))
-				continue;
-
-> +		}
->  		if (ksm_scan.address < vma->vm_start)
->  			ksm_scan.address = vma->vm_start;
->  		if (!vma->anon_vma)
-> @@ -2491,6 +2515,7 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
->  
->  		mm_slot_free(mm_slot_cache, mm_slot);
->  		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
-> +		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
->  		mmap_read_unlock(mm);
->  		mmdrop(mm);
->  	} else {
-
-> @@ -2664,12 +2690,39 @@ int __ksm_enter(struct mm_struct *mm)
->  	return 0;
->  }
->  
-> -void __ksm_exit(struct mm_struct *mm)
-> +static void unmerge_vmas(struct mm_struct *mm)
-> +{
-> +	struct vm_area_struct *vma;
-> +	struct vma_iterator vmi;
-> +
-> +	vma_iter_init(&vmi, mm, 0);
-> +
-> +	mmap_read_lock(mm);
-> +	for_each_vma(vmi, vma) {
-> +		if (vma->vm_flags & VM_MERGEABLE) {
-> +			unsigned long flags = vma->vm_flags;
-> +
-> +			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_UNMERGEABLE, &flags))
-> +				continue;
-> +
-> +			vm_flags_clear(vma, VM_MERGEABLE);
-
-ksm_madvise() tests and clears VM_MERGEABLE, so AFAICS
-
-	for_each_vma(vmi, vma)
-		ksm_madvise();
-
-should do it...
-
-> +		}
-> +	}
-> +	mmap_read_unlock(mm);
-> +}
-> +
-> +void __ksm_exit(struct mm_struct *mm, int flag)
->  {
->  	struct ksm_mm_slot *mm_slot;
->  	struct mm_slot *slot;
->  	int easy_to_free = 0;
->  
-> +	if (!(current->flags & PF_EXITING) && flag == MMF_VM_MERGE_ANY &&
-> +		test_bit(MMF_VM_MERGE_ANY, &mm->flags)) {
-> +		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
-> +		unmerge_vmas(mm);
-
-...and then it's short enough to just open-code it here and drop the
-unmerge_vmas() helper.
