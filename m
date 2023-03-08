@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09722C6FD1F
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 09:44:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDAEAC678D5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 09:45:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbjCHJoF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 04:44:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54226 "EHLO
+        id S230267AbjCHJpi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 04:45:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229735AbjCHJnW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 04:43:22 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19522B8554
-        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 01:42:35 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id m8-20020a17090a4d8800b002377bced051so1731459pjh.0
-        for <linux-doc@vger.kernel.org>; Wed, 08 Mar 2023 01:42:35 -0800 (PST)
+        with ESMTP id S229923AbjCHJpL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 04:45:11 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02AB0B9BC1
+        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 01:44:02 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id n6so17123562plf.5
+        for <linux-doc@vger.kernel.org>; Wed, 08 Mar 2023 01:44:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1678268548;
+        d=ventanamicro.com; s=google; t=1678268641;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WeyXTaxIbnTtJMJY1WVjvmFvuqO6VxWCdTywZ3qjmjc=;
-        b=n19N1ItnjPvh9iP26Vx0UZP/KArrNNMG94GZuR8mS/tDTeBG74rDgw9u7y5NSKMAxa
-         N8T7/pad1hrGdZPAkFYO8BWjvljobo4Vd4pnJgaFW6hph6NxN9zq13ilOudxDglUgLXh
-         fk6nXHin/D4RH1o+SbYagfOu0R4+mVsxr63AMC9VlrhQgZ0nhQEtPW2vnUK79r1ooNYr
-         aeIUhoSQXDTY+W7XRR0O/I2FMM2gthmpiiErv/IDsTNyMimqr0eYyuXQdaNnugSRfERa
-         HmIM3CFVGZ35HDm7jiGcmQfl4UQ1ugTd96CRoBQIEZUudgFC1g0e2AFr+R10a0Ew3G83
-         upFQ==
+        bh=bv6GQABTyvlUo8n5V+5AOScxA1OJXslTI0WCdpQtyc4=;
+        b=lsdiFEmzBt55hVroblb079wHiV07NNRRrmXMwYMFoADw16GE8O2BiYk8f4FmyVrnJj
+         HXphoOrakUNIHGGPmkToOU2wQ9PAzQsWjfrdepMWhQbBThTbIpvMKPZcvGhz3CXlIOaB
+         Tm3oilEr6EM3DuawtYrOFEUz+iuTQyasqqEwmn0mtpuv3BJEnXoiRPzMPgxWnGioPJ+2
+         7alSFZTHit7Wd/Z63Ro1i3Q6mTKL43o6dK4br2KcaGvnEXhqCBsBZt/7iuMttOaIf9MV
+         aVQs9imzjlulAr3Sxa3mzHIXS0i6FqUkQrkwpEYoVWc4NF2ng4ZO7kXytYIvmBNC+SJV
+         3bpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678268548;
+        d=1e100.net; s=20210112; t=1678268641;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WeyXTaxIbnTtJMJY1WVjvmFvuqO6VxWCdTywZ3qjmjc=;
-        b=vCA+ShqNdZpimmOzHuPsPzf+i5ENgQbeGmVykzWmdpTlaxutXdDQ1KeHeVMbcfqUXf
-         IbCL0ymKDtCFUPdoLdU29legRkt1E22HbtSt8mVsGlPD3rtb4IY828OTd54EUHfrGc5n
-         j5wGgQEMCOOPgGg77LqoA7uDrKES8H/+B8ZMpMTQribfBM4HygrkkKrwMdY/TGzLRe1S
-         c+WfEtEilT1MIMdqVfbw9ag42vCbg0gs8bAGxkcpPpRFtL8W8m6y+jj8okSPeYqYFNIL
-         FW0y19qdkgoYQy9Sh213bCT0iq9R3pUbMgATZ6XCKJAJCgsCD0mkQ0w1dwhajqY7gZrp
-         MIuA==
-X-Gm-Message-State: AO0yUKVC/qAR7wJxsawgFzgz5O7NAxecnA1mst7BNaB0XD/4xHbGDasR
-        bCJ6DKzoAo9nR1gWHGer6M7mqw==
-X-Google-Smtp-Source: AK7set8V5GISDP4tsHoQrXeDFegGCmaiNN9OIPiKSFZyFFeqKHd6Ec8vSl5y8GKubvU3UDmDbFUQXQ==
-X-Received: by 2002:a05:6a20:8b21:b0:c7:23ad:63eb with SMTP id l33-20020a056a208b2100b000c723ad63ebmr14871284pzh.10.1678268548257;
-        Wed, 08 Mar 2023 01:42:28 -0800 (PST)
+        bh=bv6GQABTyvlUo8n5V+5AOScxA1OJXslTI0WCdpQtyc4=;
+        b=M4g0SMQDaV0aOQDRVuzUrGwWYnnsn0J0DNYfVnlPO0y29it9Fm6FIbfI0hOTmepnK2
+         S4KyRsVVZSFVWf7abVIs0sWEE4O/43jAp5IGV4KZTuPrc1LbaRBp1uKo6TpB7a1M1WFD
+         cAt1iiT91DAdhDp8P4kQxaNCbJQaNXFz3EGDvZvLhx8Py6kuXGM5N2+LcfCVpjQELdCt
+         m7uuF9dY9wsdXAfgVjnSA+SjUDtCMwr0DYeSf/WX7eE1Sg+c6vSKl6WCVgJSb7ZIPjgH
+         bN7Nc33cYkefkvOt6Hob+BAvO5dz6VlHI8jR+DxfJFweRI61xAzbSDHxRhAbq8Yj87vk
+         UOFw==
+X-Gm-Message-State: AO0yUKWuAaFwzuSDJcwUjc3VYrJwws5gw8lJpELdKKbJxI02cYGr/SOR
+        c/LQLGbruBU9y+bbbW0R/mzeyQ==
+X-Google-Smtp-Source: AK7set8+7oXejOnlrwNi7JTHrVcEN9fDrM3oo4Jq00Uh/vXOHeP1adEYP5gSS2Al/s5ESn312YharQ==
+X-Received: by 2002:a17:903:32d2:b0:19a:7d73:ef47 with SMTP id i18-20020a17090332d200b0019a7d73ef47mr22273674plr.17.1678268640954;
+        Wed, 08 Mar 2023 01:44:00 -0800 (PST)
 Received: from sunil-laptop ([49.206.8.117])
-        by smtp.gmail.com with ESMTPSA id g5-20020aa78745000000b0058a3d8eab6asm9082552pfo.134.2023.03.08.01.42.21
+        by smtp.gmail.com with ESMTPSA id f13-20020a170902ce8d00b0019926c77577sm4759989plg.90.2023.03.08.01.43.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 01:42:27 -0800 (PST)
-Date:   Wed, 8 Mar 2023 15:12:18 +0530
+        Wed, 08 Mar 2023 01:44:00 -0800 (PST)
+Date:   Wed, 8 Mar 2023 15:13:51 +0530
 From:   Sunil V L <sunilvl@ventanamicro.com>
 To:     Conor Dooley <conor@kernel.org>
 Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
@@ -66,68 +66,65 @@ Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
         Atish Patra <atishp@rivosinc.com>,
         'Conor Dooley ' <conor.dooley@microchip.com>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH V3 18/20] RISC-V: Add ACPI initialization in setup_arch()
-Message-ID: <ZAhYeuCmdYAnanNv@sunil-laptop>
+Subject: Re: [PATCH V3 17/20] RISC-V: time.c: Add ACPI support for time_init()
+Message-ID: <ZAhY10oQ6uwVIlb8@sunil-laptop>
 References: <20230303133647.845095-1-sunilvl@ventanamicro.com>
- <20230303133647.845095-19-sunilvl@ventanamicro.com>
- <b38179fe-f1b8-4146-ae22-11e8bbbd500e@spud>
+ <20230303133647.845095-18-sunilvl@ventanamicro.com>
+ <0cceafc3-522b-4ce0-9016-e931c818adec@spud>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b38179fe-f1b8-4146-ae22-11e8bbbd500e@spud>
+In-Reply-To: <0cceafc3-522b-4ce0-9016-e931c818adec@spud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 06, 2023 at 09:17:34PM +0000, Conor Dooley wrote:
-> On Fri, Mar 03, 2023 at 07:06:45PM +0530, Sunil V L wrote:
-> > Initialize the ACPI core for RISC-V during boot.
-> > 
-> > ACPI tables and interpreter are initialized based on
-> > the information passed from the firmware and the value of
-> > the kernel parameter 'acpi'.
-> > 
-> > With ACPI support added for RISC-V, the kernel parameter 'acpi'
-> > is also supported on RISC-V. Hence, update the documentation.
+On Mon, Mar 06, 2023 at 09:09:11PM +0000, Conor Dooley wrote:
+> On Fri, Mar 03, 2023 at 07:06:44PM +0530, Sunil V L wrote:
+> > On ACPI based platforms, timer related information is
+> > available in RHCT. Add ACPI based probe support to the
+> > timer initialization.
 > > 
 > > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 > > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 > > ---
-> 
-> > +static int __init acpi_fadt_sanity_check(void)
-> > +{
-> > +	struct acpi_table_header *table;
-> > +	struct acpi_table_fadt *fadt;
+> >  arch/riscv/kernel/time.c | 23 +++++++++++++++++------
+> >  1 file changed, 17 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/arch/riscv/kernel/time.c b/arch/riscv/kernel/time.c
+> > index babaf3b48ba8..2c29543549c3 100644
+> > --- a/arch/riscv/kernel/time.c
+> > +++ b/arch/riscv/kernel/time.c
+> > @@ -4,6 +4,7 @@
+> >   * Copyright (C) 2017 SiFive
+> >   */
+> >  
+> > +#include <linux/acpi.h>
+> >  #include <linux/of_clk.h>
+> >  #include <linux/clockchips.h>
+> >  #include <linux/clocksource.h>
+> > @@ -18,17 +19,27 @@ EXPORT_SYMBOL_GPL(riscv_timebase);
+> >  void __init time_init(void)
+> >  {
+> >  	struct device_node *cpu;
+> > +	struct acpi_table_rhct *rhct;
 > > +	acpi_status status;
-> > +	int ret = 0;
-> > +
-> > +	/*
-> > +	 * FADT is required on riscv; retrieve it to check its presence
-> > +	 * and carry out revision and ACPI HW reduced compliancy tests
-> > +	 */
-> > +	status = acpi_get_table(ACPI_SIG_FADT, 0, &table);
-> > +	if (ACPI_FAILURE(status)) {
-> > +		const char *msg = acpi_format_exception(status);
-> > +
-> > +		pr_err("Failed to get FADT table, %s\n", msg);
-> > +		return -ENODEV;
-> > +	}
-> > +
-> > +	fadt = (struct acpi_table_fadt *)table;
-> > +
-> > +	/*
-> > +	 * Revision in table header is the FADT Major revision, and there
-> > +	 * is a minor revision of FADT.
+> >  	u32 prop;
+> >  
+> > -	cpu = of_find_node_by_path("/cpus");
+> > -	if (!cpu || of_property_read_u32(cpu, "timebase-frequency", &prop))
+> > -		panic(KERN_WARNING "RISC-V system with no 'timebase-frequency' in DTS\n");
+> > -	of_node_put(cpu);
+> > -	riscv_timebase = prop;
+> > +	if (acpi_disabled) {
+> > +		cpu = of_find_node_by_path("/cpus");
+> > +		if (!cpu || of_property_read_u32(cpu, "timebase-frequency", &prop))
+> > +			panic("RISC-V system with no 'timebase-frequency' in DTS\n");
 > 
-> What is the point of this part of the comment? Isn't it obvious from the
-> below code that you expect a major and minor revision?
-> If feel like you're trying to make a point in it, but the point has been
-> lost :/
-> 
-It just highlights that major and minor revision fields are in two
-different places. Let me remove this comment since it is part of the
-spec anyway.
+> I appreciate that it was like this before, but a newline here (and in
+> the corresponding spot below) would be nice.
+Sure!. Will update in next revision.
 
 Thanks,
 Sunil
