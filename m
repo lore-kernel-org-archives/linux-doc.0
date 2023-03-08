@@ -2,216 +2,290 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD857C6FD1E
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 15:54:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A05AC6FD1E
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 16:47:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232165AbjCHPyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 10:54:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35566 "EHLO
+        id S229672AbjCHQr5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 11:47:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232068AbjCHPxo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 10:53:44 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE7859438D;
-        Wed,  8 Mar 2023 07:53:39 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id a2so18088579plm.4;
-        Wed, 08 Mar 2023 07:53:39 -0800 (PST)
+        with ESMTP id S229696AbjCHQrz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 11:47:55 -0500
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6E0FCB04F
+        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 08:47:48 -0800 (PST)
+Received: by mail-qt1-x834.google.com with SMTP id l18so18759853qtp.1
+        for <linux-doc@vger.kernel.org>; Wed, 08 Mar 2023 08:47:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678290819;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EbDlebxpAu8Jy85TzCfB9W36IqqFAcxu6Fybm4OXr4E=;
-        b=ethz/tcwIqxFWg8rZBESWLcOnT61/jBqhZ80v/RzAbQGK9r71sa+/VkQDJQ0hy3kH+
-         U+Fjw1NchSL9RPnrrB1wdh6tIP4BlONOBmM6iaVq2iwntSf6u0XRhCW498JKQWMCHFnR
-         sUK6bxrJaxdKbLVowayRpYLDwtKOUPrDd5mxalopjtFm3hp+JSWX36YRFS55vc68xz88
-         7I9tq39ZkOTeOaBg3vLUx8cGb2B8ic0XTkmgpWnrfAgQtG/+Yv/VionLfPnX+jBL4EQS
-         Gd89Z0mQTGAVzfJUdSLH4EttscP7iHcz73ZvNI3VRZA7/bAl5JyyD/Gm5tRcsYQ7RTpg
-         LwVw==
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112; t=1678294068;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KxydbB3uyyn9bCiMvWGSHt2Z+kQttveOlsssE2ak6kI=;
+        b=cgodqzhqamLdzp7EQPagtF1gYGWqDLN3V7I2zEYyuR3gRxt7mr8Akkw5zcmCOvBK69
+         jj9g+fiGERJm/1MkvMYDfyG7+MrQnrN1DY3MCaUmitsvLqtLAvua6+EdYkZDsIOWJyPB
+         Hy8kx66XXapoIqDmKQeTXgvQEl3WTmJ6IdrD7WGZIVBMsCoEpYMHzvL64dcU/AesBRNR
+         SpVaNdkWzfz4TylRjWIImpxOVhEZytCAFIn2TPlLVzTRe1vbo60sf4qOhcufF17hpJIE
+         LLpKCOc4w8iFIQbzzpb4tXlHnRkvNV2pbZ1b1lfoPU+f9fcOLj1JAopL5qTZJKILuEPC
+         sfbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678290819;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EbDlebxpAu8Jy85TzCfB9W36IqqFAcxu6Fybm4OXr4E=;
-        b=2vYJg7HjNA0NDOYhmAi0urs1KL4Xh1KMjLr69r6Hsmb0im9d456pMM/fFRfGLKiCoJ
-         cmZJDQ+l9haO36OsPOJbHxWluZ7K/pM76Sibcwsen+tMhsxG1AS9RNuXDS0yzFmO+xwe
-         ZT7U0Oqj8dxNyGLcVG7R900rMBXekZfk4BaaI9jEywo61sqwt6Yb/PHjupyLDFsJ0O2c
-         ATlDUT75toUjjpAzImAavwmPpOuqsqnLGzqBhRk7s6KFSbKjyzzsScswvu9YWK3cCM2L
-         TGJsZKNCXrqM37wY8tXTpIw3B5vjbTsgkjGZ35rRc8PKmEZK29b/r3E27oQuo7komgYi
-         0aIQ==
-X-Gm-Message-State: AO0yUKV3Pvy3NwkI3yugB9M7yS/nRxXP69YZWuhELeivDgdkTOVGfMZl
-        ufYAiFBynJ1A+7M4XeUxSB8=
-X-Google-Smtp-Source: AK7set9ehM4kiJT0VFaO2tzlGH0SSkFEDrNpXRegxJcLPydnEdmlO2KUXBQAXEOBo017es2DfICPBA==
-X-Received: by 2002:a17:902:f54f:b0:19d:164e:5565 with SMTP id h15-20020a170902f54f00b0019d164e5565mr18271427plf.56.1678290819198;
-        Wed, 08 Mar 2023 07:53:39 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id kd13-20020a17090313cd00b0019a8e559345sm8518732plb.167.2023.03.08.07.53.38
+        d=1e100.net; s=20210112; t=1678294068;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KxydbB3uyyn9bCiMvWGSHt2Z+kQttveOlsssE2ak6kI=;
+        b=RkzmoPN7NNggjVOqnj8/H90J5Nx/rWJiqVyX0YfbrRShYzhrBiULUKDzi+zM8kZAy0
+         /vYVsYDZO7lFHNXzeYSm01kC4UDR1aw6e0DQuRyHT3e5PjDX2A16+iG8iAzwdHEAiA86
+         v2PP3IEhppEgwhqPciRZBzkPliIVIeJWW1fFcKzOIbi7GTI/nvcR6kv3QoaT9md9647A
+         OBSv4kA/+Bt6g+ACguKbsq9MUHzkEgkX1UA0M2YpoMtIspRM40m0Y299aLl193WtAPF0
+         ScaaARFdtGk0Hkhu+bx8Z7jFxprB5ziGyPABbI6+4UnzTGP0eexHnPrHn2RD684bo00e
+         x94w==
+X-Gm-Message-State: AO0yUKULaD2xL5evt3gBUTAocpMBaWcG9G6rKUc5WcRluauct2FpOW6+
+        czTeoTxdDnMETzmXb3VSsapfTg==
+X-Google-Smtp-Source: AK7set97fg/D+XxANClcUJyVA0x8gZg5tcID6He26QN4715WeGw5XZyQfVlTn+sZ1wXRnsBx0LOWlQ==
+X-Received: by 2002:a05:622a:1106:b0:3b9:bd05:bde1 with SMTP id e6-20020a05622a110600b003b9bd05bde1mr31825069qty.8.1678294067979;
+        Wed, 08 Mar 2023 08:47:47 -0800 (PST)
+Received: from localhost (2603-7000-0c01-2716-8f57-5681-ccd3-4a2e.res6.spectrum.com. [2603:7000:c01:2716:8f57:5681:ccd3:4a2e])
+        by smtp.gmail.com with ESMTPSA id 29-20020a05620a041d00b0073b8745fd39sm3215975qkp.110.2023.03.08.08.47.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 07:53:38 -0800 (PST)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v10 05/15] dma-buf/sync_file: Surface sync-file uABI
-Date:   Wed,  8 Mar 2023 07:52:56 -0800
-Message-Id: <20230308155322.344664-6-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230308155322.344664-1-robdclark@gmail.com>
-References: <20230308155322.344664-1-robdclark@gmail.com>
+        Wed, 08 Mar 2023 08:47:47 -0800 (PST)
+Date:   Wed, 8 Mar 2023 11:47:46 -0500
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Stefan Roesch <shr@devkernel.io>
+Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
+        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org
+Subject: Re: [PATCH v3 1/3] mm: add new api to enable ksm per process
+Message-ID: <20230308164746.GA473363@cmpxchg.org>
+References: <20230224044000.3084046-1-shr@devkernel.io>
+ <20230224044000.3084046-2-shr@devkernel.io>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230224044000.3084046-2-shr@devkernel.io>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+On Thu, Feb 23, 2023 at 08:39:58PM -0800, Stefan Roesch wrote:
+> This adds a new prctl to API to enable and disable KSM on a per process
+> basis instead of only at the VMA basis (with madvise).
+> 
+> 1) Introduce new MMF_VM_MERGE_ANY flag
+> 
+> This introduces the new flag MMF_VM_MERGE_ANY flag. When this flag is
+> set, kernel samepage merging (ksm) gets enabled for all vma's of a
+> process.
+> 
+> 2) add flag to __ksm_enter
+> 
+> This change adds the flag parameter to __ksm_enter. This allows to
+> distinguish if ksm was called by prctl or madvise.
+> 
+> 3) add flag to __ksm_exit call
+> 
+> This adds the flag parameter to the __ksm_exit() call. This allows to
+> distinguish if this call is for an prctl or madvise invocation.
+> 
+> 4) invoke madvise for all vmas in scan_get_next_rmap_item
+> 
+> If the new flag MMF_VM_MERGE_ANY has been set for a process, iterate
+> over all the vmas and enable ksm if possible. For the vmas that can be
+> ksm enabled this is only done once.
+> 
+> 5) support disabling of ksm for a process
+> 
+> This adds the ability to disable ksm for a process if ksm has been
+> enabled for the process.
+> 
+> 6) add new prctl option to get and set ksm for a process
+> 
+> This adds two new options to the prctl system call
+> - enable ksm for all vmas of a process (if the vmas support it).
+> - query if ksm has been enabled for a process.
+> 
+> Signed-off-by: Stefan Roesch <shr@devkernel.io>
 
-We had all of the internal driver APIs, but not the all important
-userspace uABI, in the dma-buf doc.  Fix that.  And re-arrange the
-comments slightly as otherwise the comments for the ioctl nr defines
-would not show up.
+Hey Stefan, thanks for merging the patches into one. I found it much
+easier to review.
 
-v2: Fix docs build warning coming from newly including the uabi header
-    in the docs build
+Overall this looks straight-forward to me. A few comments below:
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
----
- Documentation/driver-api/dma-buf.rst | 10 ++++++--
- include/uapi/linux/sync_file.h       | 37 +++++++++++-----------------
- 2 files changed, 23 insertions(+), 24 deletions(-)
+> @@ -2659,6 +2660,34 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>  	case PR_SET_VMA:
+>  		error = prctl_set_vma(arg2, arg3, arg4, arg5);
+>  		break;
+> +#ifdef CONFIG_KSM
+> +	case PR_SET_MEMORY_MERGE:
+> +		if (!capable(CAP_SYS_RESOURCE))
+> +			return -EPERM;
+> +
+> +		if (arg2) {
+> +			if (mmap_write_lock_killable(me->mm))
+> +				return -EINTR;
+> +
+> +			if (test_bit(MMF_VM_MERGEABLE, &me->mm->flags))
+> +				error = -EINVAL;
 
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index 183e480d8cea..ff3f8da296af 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -203,8 +203,8 @@ DMA Fence unwrap
- .. kernel-doc:: include/linux/dma-fence-unwrap.h
-    :internal:
- 
--DMA Fence uABI/Sync File
--~~~~~~~~~~~~~~~~~~~~~~~~
-+DMA Fence Sync File
-+~~~~~~~~~~~~~~~~~~~
- 
- .. kernel-doc:: drivers/dma-buf/sync_file.c
-    :export:
-@@ -212,6 +212,12 @@ DMA Fence uABI/Sync File
- .. kernel-doc:: include/linux/sync_file.h
-    :internal:
- 
-+DMA Fence Sync File uABI
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: include/uapi/linux/sync_file.h
-+   :internal:
-+
- Indefinite DMA Fences
- ~~~~~~~~~~~~~~~~~~~~~
- 
-diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-index ee2dcfb3d660..7e42a5b7558b 100644
---- a/include/uapi/linux/sync_file.h
-+++ b/include/uapi/linux/sync_file.h
-@@ -16,12 +16,16 @@
- #include <linux/types.h>
- 
- /**
-- * struct sync_merge_data - data passed to merge ioctl
-+ * struct sync_merge_data - SYNC_IOC_MERGE: merge two fences
-  * @name:	name of new fence
-  * @fd2:	file descriptor of second fence
-  * @fence:	returns the fd of the new fence to userspace
-  * @flags:	merge_data flags
-  * @pad:	padding for 64-bit alignment, should always be zero
-+ *
-+ * Creates a new fence containing copies of the sync_pts in both
-+ * the calling fd and sync_merge_data.fd2.  Returns the new fence's
-+ * fd in sync_merge_data.fence
-  */
- struct sync_merge_data {
- 	char	name[32];
-@@ -34,8 +38,8 @@ struct sync_merge_data {
- /**
-  * struct sync_fence_info - detailed fence information
-  * @obj_name:		name of parent sync_timeline
--* @driver_name:	name of driver implementing the parent
--* @status:		status of the fence 0:active 1:signaled <0:error
-+ * @driver_name:	name of driver implementing the parent
-+ * @status:		status of the fence 0:active 1:signaled <0:error
-  * @flags:		fence_info flags
-  * @timestamp_ns:	timestamp of status change in nanoseconds
-  */
-@@ -48,14 +52,19 @@ struct sync_fence_info {
- };
- 
- /**
-- * struct sync_file_info - data returned from fence info ioctl
-+ * struct sync_file_info - SYNC_IOC_FILE_INFO: get detailed information on a sync_file
-  * @name:	name of fence
-  * @status:	status of fence. 1: signaled 0:active <0:error
-  * @flags:	sync_file_info flags
-  * @num_fences	number of fences in the sync_file
-  * @pad:	padding for 64-bit alignment, should always be zero
-- * @sync_fence_info: pointer to array of structs sync_fence_info with all
-+ * @sync_fence_info: pointer to array of struct &sync_fence_info with all
-  *		 fences in the sync_file
-+ *
-+ * Takes a struct sync_file_info. If num_fences is 0, the field is updated
-+ * with the actual number of fences. If num_fences is > 0, the system will
-+ * use the pointer provided on sync_fence_info to return up to num_fences of
-+ * struct sync_fence_info, with detailed fence information.
-  */
- struct sync_file_info {
- 	char	name[32];
-@@ -69,30 +78,14 @@ struct sync_file_info {
- 
- #define SYNC_IOC_MAGIC		'>'
- 
--/**
-+/*
-  * Opcodes  0, 1 and 2 were burned during a API change to avoid users of the
-  * old API to get weird errors when trying to handling sync_files. The API
-  * change happened during the de-stage of the Sync Framework when there was
-  * no upstream users available.
-  */
- 
--/**
-- * DOC: SYNC_IOC_MERGE - merge two fences
-- *
-- * Takes a struct sync_merge_data.  Creates a new fence containing copies of
-- * the sync_pts in both the calling fd and sync_merge_data.fd2.  Returns the
-- * new fence's fd in sync_merge_data.fence
-- */
- #define SYNC_IOC_MERGE		_IOWR(SYNC_IOC_MAGIC, 3, struct sync_merge_data)
--
--/**
-- * DOC: SYNC_IOC_FILE_INFO - get detailed information on a sync_file
-- *
-- * Takes a struct sync_file_info. If num_fences is 0, the field is updated
-- * with the actual number of fences. If num_fences is > 0, the system will
-- * use the pointer provided on sync_fence_info to return up to num_fences of
-- * struct sync_fence_info, with detailed fence information.
-- */
- #define SYNC_IOC_FILE_INFO	_IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_info)
- 
- #endif /* _UAPI_LINUX_SYNC_H */
--- 
-2.39.2
+So if the workload has already madvised specific VMAs the
+process-enablement will fail. Why is that? Shouldn't it be possible to
+override a local decision from an outside context that has more
+perspective on both sharing opportunities and security aspects?
 
+If there is a good reason for it, the -EINVAL should be addressed in
+the manpage. And maybe add a comment here as well.
+
+> +			else if (!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags))
+> +				error = __ksm_enter(me->mm, MMF_VM_MERGE_ANY);
+> +			mmap_write_unlock(me->mm);
+> +		} else {
+> +			__ksm_exit(me->mm, MMF_VM_MERGE_ANY);
+> +		}
+> +		break;
+> +	case PR_GET_MEMORY_MERGE:
+> +		if (!capable(CAP_SYS_RESOURCE))
+> +			return -EPERM;
+> +
+> +		if (arg2 || arg3 || arg4 || arg5)
+> +			return -EINVAL;
+> +
+> +		error = !!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
+> +		break;
+> +#endif
+>  	default:
+>  		error = -EINVAL;
+>  		break;
+> diff --git a/mm/ksm.c b/mm/ksm.c
+> index 56808e3bfd19..23d6944f78ad 100644
+> --- a/mm/ksm.c
+> +++ b/mm/ksm.c
+> @@ -1063,6 +1063,7 @@ static int unmerge_and_remove_all_rmap_items(void)
+>  
+>  			mm_slot_free(mm_slot_cache, mm_slot);
+>  			clear_bit(MMF_VM_MERGEABLE, &mm->flags);
+> +			clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+>  			mmdrop(mm);
+>  		} else
+>  			spin_unlock(&ksm_mmlist_lock);
+> @@ -2329,6 +2330,17 @@ static struct ksm_rmap_item *get_next_rmap_item(struct ksm_mm_slot *mm_slot,
+>  	return rmap_item;
+>  }
+>  
+> +static bool vma_ksm_mergeable(struct vm_area_struct *vma)
+> +{
+> +	if (vma->vm_flags & VM_MERGEABLE)
+> +		return true;
+> +
+> +	if (test_bit(MMF_VM_MERGE_ANY, &vma->vm_mm->flags))
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+>  static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+>  {
+>  	struct mm_struct *mm;
+> @@ -2405,8 +2417,20 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+>  		goto no_vmas;
+>  
+>  	for_each_vma(vmi, vma) {
+> -		if (!(vma->vm_flags & VM_MERGEABLE))
+> +		if (!vma_ksm_mergeable(vma))
+>  			continue;
+> +		if (!(vma->vm_flags & VM_MERGEABLE)) {
+
+IMO, the helper obscures the interaction between the vma flag and the
+per-process flag here. How about:
+
+		if (!(vma->vm_flags & VM_MERGEABLE)) {
+			if (!test_bit(MMF_VM_MERGE_ANY, &vma->vm_mm->flags))
+				continue;
+
+			/*
+			 * With per-process merging enabled, have the MM scan
+			 * enroll any existing and new VMAs on the fly.
+			 * 
+			ksm_madvise();
+		}
+
+> +			unsigned long flags = vma->vm_flags;
+> +
+> +			/* madvise failed, use next vma */
+> +			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_MERGEABLE, &flags))
+> +				continue;
+> +			/* vma, not supported as being mergeable */
+> +			if (!(flags & VM_MERGEABLE))
+> +				continue;
+> +
+> +			vm_flags_set(vma, VM_MERGEABLE);
+
+I don't understand the local flags. Can't it pass &vma->vm_flags to
+ksm_madvise()? It'll set VM_MERGEABLE on success. And you know it
+wasn't set before because the whole thing is inside the !set
+branch. The return value doesn't seem super useful, it's only the flag
+setting that matters:
+
+			ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_MERGEABLE, &vma->vm_flags);
+			/* madvise can fail, and will skip special vmas (pfnmaps and such) */
+			if (!(vma->vm_flags & VM_MERGEABLE))
+				continue;
+
+> +		}
+>  		if (ksm_scan.address < vma->vm_start)
+>  			ksm_scan.address = vma->vm_start;
+>  		if (!vma->anon_vma)
+> @@ -2491,6 +2515,7 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+>  
+>  		mm_slot_free(mm_slot_cache, mm_slot);
+>  		clear_bit(MMF_VM_MERGEABLE, &mm->flags);
+> +		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+>  		mmap_read_unlock(mm);
+>  		mmdrop(mm);
+>  	} else {
+
+> @@ -2664,12 +2690,39 @@ int __ksm_enter(struct mm_struct *mm)
+>  	return 0;
+>  }
+>  
+> -void __ksm_exit(struct mm_struct *mm)
+> +static void unmerge_vmas(struct mm_struct *mm)
+> +{
+> +	struct vm_area_struct *vma;
+> +	struct vma_iterator vmi;
+> +
+> +	vma_iter_init(&vmi, mm, 0);
+> +
+> +	mmap_read_lock(mm);
+> +	for_each_vma(vmi, vma) {
+> +		if (vma->vm_flags & VM_MERGEABLE) {
+> +			unsigned long flags = vma->vm_flags;
+> +
+> +			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_UNMERGEABLE, &flags))
+> +				continue;
+> +
+> +			vm_flags_clear(vma, VM_MERGEABLE);
+
+ksm_madvise() tests and clears VM_MERGEABLE, so AFAICS
+
+	for_each_vma(vmi, vma)
+		ksm_madvise();
+
+should do it...
+
+> +		}
+> +	}
+> +	mmap_read_unlock(mm);
+> +}
+> +
+> +void __ksm_exit(struct mm_struct *mm, int flag)
+>  {
+>  	struct ksm_mm_slot *mm_slot;
+>  	struct mm_slot *slot;
+>  	int easy_to_free = 0;
+>  
+> +	if (!(current->flags & PF_EXITING) && flag == MMF_VM_MERGE_ANY &&
+> +		test_bit(MMF_VM_MERGE_ANY, &mm->flags)) {
+> +		clear_bit(MMF_VM_MERGE_ANY, &mm->flags);
+> +		unmerge_vmas(mm);
+
+...and then it's short enough to just open-code it here and drop the
+unmerge_vmas() helper.
