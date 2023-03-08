@@ -2,146 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A579C678D5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 01:01:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C112C6FD20
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 04:33:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbjCHBBo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Mar 2023 20:01:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37534 "EHLO
+        id S229540AbjCHEdq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Mar 2023 23:33:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229525AbjCHBBk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 20:01:40 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C50DA4011
-        for <linux-doc@vger.kernel.org>; Tue,  7 Mar 2023 17:01:39 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id z10so8728857pgr.8
-        for <linux-doc@vger.kernel.org>; Tue, 07 Mar 2023 17:01:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1678237298;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6YvH7/30oaOoEw0fJZgjxisk6g6l9V1q6jEfMHBBZ7g=;
-        b=m+uxGQ+9tXNfzy4WRdbu+myuhDshXcyXzBV/FL60bIqLgA5QTO4BIDu49QVcNlWQoX
-         HXEtkAaPHt4BUHysRzgeG291T94nnA0iUWevelUjQWY4cpOU05Pw4PQjwmaQRMDCqgk7
-         gH9m2S+xbn0elKjpA1oT/24qcT57wvBjT0JRPtliohA108MIQbfXI4KVPyPnPdM2VDbe
-         LgD8sRdSSHSYW5qFKK7aDSXSjKqXHkZwnsbjWz1fHtfReenMRihXPJoc7woFq6c/gbRt
-         m0er4erQ1I8cKacpdck6Zb+lWyzC5oDFpWh0Z/Z+BbNA+sMCRFvfZWaX3wVNciB07Bpw
-         r+Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678237298;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6YvH7/30oaOoEw0fJZgjxisk6g6l9V1q6jEfMHBBZ7g=;
-        b=gmJ2QukNsAHcB7D7GNOhy5UchrgCfu/VAMgfzSV1PbpmXaq1y2nv2RVycHnsul+2xv
-         Yet8DRFi8UoPT015jwRe/MZujUwwGSf8FaxIqBmKh4k0bg71t0vdn2F79PsF4fsW5CtQ
-         v5BTaxdUN4gnXAFIM4wuJMmW5b3Ahb548FkuNYe/h++4cqtCJLxysEkY6dmu4sGyjdlj
-         4rOLfoZnD32AZ0/0DwS0S/5YW66OiuKI+UJCD1uHwfBi0uLrnWE8o9/0dF8Vd8SaC7qh
-         lxndaBmNT6Zl9r2MBOvdq1a4MN1D+P24v9Z48kP9eQHlO9LSkF7VxLIsKCRUD8fO15LU
-         GJiw==
-X-Gm-Message-State: AO0yUKV6KbHpb3Vy12fuWeT2ARrggW/aiFoR/27P2WQT1kFtMThp1CrJ
-        Z961xor6rD8J0ey14GpWaZND0731YV/q8AI45Oc=
-X-Google-Smtp-Source: AK7set+510meSm73kiGWTkbA6xQr4dpohbcmAGKW4EbRmVSRTjthYftiUey8GAHEowaibQaODVyMKw==
-X-Received: by 2002:a05:6a00:9a9:b0:5a8:4c8a:2ce4 with SMTP id u41-20020a056a0009a900b005a84c8a2ce4mr4710038pfg.3.1678237298469;
-        Tue, 07 Mar 2023 17:01:38 -0800 (PST)
-Received: from sunil-laptop ([49.206.8.117])
-        by smtp.gmail.com with ESMTPSA id a5-20020a62bd05000000b005afda1496c6sm8401705pff.31.2023.03.07.17.01.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 17:01:38 -0800 (PST)
-Date:   Wed, 8 Mar 2023 06:31:28 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     linux-riscv@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        'Conor Dooley ' <conor.dooley@microchip.com>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH V3 00/20] Add basic ACPI support for RISC-V
-Message-ID: <ZAfeaO52pnYhiyLN@sunil-laptop>
-References: <20230303133647.845095-1-sunilvl@ventanamicro.com>
- <16007014-c5f2-4b07-baec-e19952236aa5@spud>
- <ZAbGSA6F0kfv9YYw@sunil-laptop>
- <E7FB4927-1FE6-435A-914E-9615C2AD9D34@kernel.org>
- <a9823561-2e32-49e8-b6c9-73e4b8f8cf8d@spud>
+        with ESMTP id S229776AbjCHEdl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Mar 2023 23:33:41 -0500
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D00C98EA6
+        for <linux-doc@vger.kernel.org>; Tue,  7 Mar 2023 20:33:38 -0800 (PST)
+Received: from cwcc.thunk.org (pool-173-48-120-46.bstnma.fios.verizon.net [173.48.120.46])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 3284XTsv021500
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 7 Mar 2023 23:33:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1678250012; bh=+kUWUn38BH757yTcGKYg/R+b2u1y8Z0de2DOAnM6DOU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=Zf6vQ1rpopLr1AUjE0sRrOn0BAUIJW5TfFE6RvYMZillJ/3pmpYiHXFny1AQtLVs2
+         TSMCibUYPISvdrEKrzok+mnmoS8kZThOK9U+ytT88ui6y2CKmJJr3Y+9a8KrguBtCF
+         Lwslt+1ZjgiJdCPpOJBThfD+itWO8lKCbsuWq5vP4mIvlWQ5RD0i6rXBCnPotoeTvN
+         B8vtPK8NsehiXZc3B20jWgNjyuXlLngwsL12bxoJn/8+puwDCqNCX0cpynrSysoa8e
+         DKE5aSUIUg2hoklSUDrTvFBJi2EZxSupYvzYTHFK/gUVUTCNKj5vzUCA3YYDiHwV00
+         3kl5NSt0zCKcg==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id CC87A15C3441; Tue,  7 Mar 2023 23:33:29 -0500 (EST)
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Wu Bo <bo.wu@vivo.com>
+Cc:     "Theodore Ts'o" <tytso@mit.edu>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-ext4@vger.kernel.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>
+Subject: Re: [PATCH v2] docs: ext4: modify the group desc size to 64
+Date:   Tue,  7 Mar 2023 23:33:20 -0500
+Message-Id: <167824999282.2129363.5569221761031906694.b4-ty@mit.edu>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20230222013525.14748-1-bo.wu@vivo.com>
+References: <20230222013525.14748-1-bo.wu@vivo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a9823561-2e32-49e8-b6c9-73e4b8f8cf8d@spud>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 07, 2023 at 06:44:35PM +0000, Conor Dooley wrote:
-> On Tue, Mar 07, 2023 at 06:13:22AM +0000, Conor Dooley wrote:
-> > 
-> > 
-> > On 7 March 2023 05:06:16 GMT, Sunil V L <sunilvl@ventanamicro.com> wrote:
-> > >On Mon, Mar 06, 2023 at 09:51:09PM +0000, Conor Dooley wrote:
-> > >> Hey Sunil,
-> > >> 
-> > >> On Fri, Mar 03, 2023 at 07:06:27PM +0530, Sunil V L wrote:
-> > >> > This patch series enables the basic ACPI infrastructure for RISC-V.
-> > >> > Supporting external interrupt controllers is in progress and hence it is
-> > >> > tested using poll based HVC SBI console and RAM disk.
-> > >> > 
-> > >> > The first patch in this series is one of the patch from Jisheng's
-> > >> > series [1] which is not merged yet. This patch is required to support
-> > >> > ACPI since efi_init() which gets called before sbi_init() can enable
-> > >> > static branches and hits a panic.
-> > >> > 
-> > >> > Patch 2 and 3 are ACPICA patches which are not merged into acpica yet
-> > >> > but a PR is raised already.
-> > >> > 
-> > >> > Below are two ECRs approved by ASWG.
-> > >> > RINTC - https://drive.google.com/file/d/1R6k4MshhN3WTT-hwqAquu5nX6xSEqK2l/view
-> > >> > RHCT - https://drive.google.com/file/d/1nP3nFiH4jkPMp6COOxP6123DCZKR-tia/view
-> > >> > 
-> > >> > The series depends on Anup's IPI improvement series [2].
-> > >> > 
-> > >> > [1] https://lore.kernel.org/all/20220821140918.3613-1-jszhang@kernel.org/
-> > >> > [2] https://lore.kernel.org/lkml/20230103141221.772261-7-apatel@ventanamicro.com/T/
-> > >> 
-> > >> Building a clang-15 allmodconfig (I didn't try gcc) with this series, and
-> > >> Anup's IPI bits, results in a broken build, due to failings in cmpxchg:
-> > >> 
-> > >> /stuff/linux/drivers/platform/surface/aggregator/controller.c:61:25: error: call to __compiletime_assert_335 declared with 'error' attribute: BUILD_BUG failed
-> > >>         while (unlikely((ret = cmpxchg(&c->value, old, new)) != old)) {
-> > >>                                ^
+On Wed, 22 Feb 2023 09:35:24 +0800, Wu Bo wrote:
+> Since the default ext4 group desc size is 64 now (assuming that the
+> 64-bit feature is enbled). And the size mentioned in this doc is 64 too.
+> Change it to 64.
 > 
-> > > I am able to build without any of these issues using clang-15. I am
-> > > wondering whether the base is proper. I had rebased on top of the master
-> > > and couple of patches from IPI series were already merged in the master.
-> > > 
-> > > Do you mind verifying with my branch
-> > > https://github.com/vlsunil/linux/commits/acpi_b1_us_review_ipi17_V3?
-> > 
-> > I can check that later I suppose.
 > 
-> That's broken too.
-> 
-> > > Or if you could provide me your branch details, I can look further.
-> > 
-> > 6.3-rc1, with both series applied, sans Anups applied patches.
-> 
-> I've pushed my stuff here, but unlikely that it makes any odds since
-> your branch experiences the same build issue.
-> https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/ borked-acpi-surface
-> 
-> My build commands are wrapped in a script, but it's an LLVM=1
-> allmodconfig run w/ clang-15(.0.7) etc.
-> 
-Ahh allmodconfig. Thank you very much!. I can reproduce the failure. Let
-me look further and fix in next revision.
 
-Thanks!
-Sunil
+Applied, thanks!
+
+[1/1] docs: ext4: modify the group desc size to 64
+      commit: b7eef407e5271f5135ce97bfd6e2e5009922331e
+
+Best regards,
+-- 
+Theodore Ts'o <tytso@mit.edu>
