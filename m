@@ -2,236 +2,232 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A0BBC64EC4
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 18:42:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35CD6C6FD1F
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 18:45:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbjCHSmU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 13:42:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38712 "EHLO
+        id S230071AbjCHSpe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 13:45:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230171AbjCHSmK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 13:42:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D377AE13A
-        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 10:41:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678300890;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DWZnH/S2SSsps7LCJKfYBHl/qAsBXwWRiKVfSsyg8WE=;
-        b=hLKqKm/FfiVp/sgcBs3MjsIY/eZt1wlwMPZSh5MkP+8wKR6F3G1h94u22GGgq2Kvj+ABsE
-        TYWTqubhSZjzLUARRNS/sQywI4wRkIJzQNW87x31bu26gkqpzZxvt41Y2AJ0/gtnDOm65v
-        FpAmdrTqstmk7VtsFkGjsPYNJbmcK0Q=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-675-8CaYPG8AOHmzWA5hlZHcEA-1; Wed, 08 Mar 2023 13:41:29 -0500
-X-MC-Unique: 8CaYPG8AOHmzWA5hlZHcEA-1
-Received: by mail-wm1-f70.google.com with SMTP id az39-20020a05600c602700b003e97eb80524so1286019wmb.4
-        for <linux-doc@vger.kernel.org>; Wed, 08 Mar 2023 10:41:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678300888;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DWZnH/S2SSsps7LCJKfYBHl/qAsBXwWRiKVfSsyg8WE=;
-        b=K6ZpeU86HQ48uCNjDC5Dg7StUCMvRAtI1NYxTQTxuUmb0tQl1AYWLKQPeif1/3L0QQ
-         V+RMa4SeFCZPFAo59+uQPL2Hjkdd3k9Y9KVTrf9YSAkJRLE6jCdaa+fCyq+VKJIrskuq
-         fewq86IzyrZjeVAA16bKwaSarKqhXDeezTOLvBPe5dEhELzKklcBJDW17fUXXjnKJLBY
-         PERJc50ATD+kuqixzXbXM8ErgHIwVS7yA6A/cIl8/e6gzs2PaA9s/cSlUDcSSFonStc2
-         k+ytPLH2d/25WOQxraZ/BmV6C09I31NbFDTfzc4N0N25hv9xMtbLCRLsvCbfnMxt3i78
-         f72A==
-X-Gm-Message-State: AO0yUKW6jpP8efxusOdcR8vMEUOSiZbEBPomT+rSAOpETprwvrgpZoDg
-        Bjavd2/W7sY+LSSMvoIDy1iASHDxdrYBrCekXvV/ON7wZAfkQN1OQOoth2wfYFbxMBZjnQl8ubf
-        7IDkFI9wEnuFNWM7DmhY+
-X-Received: by 2002:adf:f58b:0:b0:2c3:f8ea:da26 with SMTP id f11-20020adff58b000000b002c3f8eada26mr16652264wro.32.1678300887903;
-        Wed, 08 Mar 2023 10:41:27 -0800 (PST)
-X-Google-Smtp-Source: AK7set93OfqYv05KREWPRO+0DybPoGhN1GL8gAnuaMlfcRqFfsvDFgS21mzSjowtRSl6fzupzlTwMQ==
-X-Received: by 2002:adf:f58b:0:b0:2c3:f8ea:da26 with SMTP id f11-20020adff58b000000b002c3f8eada26mr16652246wro.32.1678300887477;
-        Wed, 08 Mar 2023 10:41:27 -0800 (PST)
-Received: from ?IPV6:2003:cb:c71b:cb00:d372:1da8:9e9e:422d? (p200300cbc71bcb00d3721da89e9e422d.dip0.t-ipconnect.de. [2003:cb:c71b:cb00:d372:1da8:9e9e:422d])
-        by smtp.gmail.com with ESMTPSA id p13-20020a056000018d00b002c5691f13eesm15692031wrx.50.2023.03.08.10.41.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Mar 2023 10:41:27 -0800 (PST)
-Message-ID: <f531ab1e-5fc0-c47a-b3e9-2e9c2f76ab81@redhat.com>
-Date:   Wed, 8 Mar 2023 19:41:26 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
+        with ESMTP id S229529AbjCHSpc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 13:45:32 -0500
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA4E2B4F64;
+        Wed,  8 Mar 2023 10:45:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=INduyiSJ9LHLH0H4qQH5vEugQDX1tvuyf8eS1dbAejWRefx/pPluhrv7q6nqE4CMOZ8N6hjH5wZpn2ObCQO72ifkdRwib2LJJCZGMRMMDOEHXrHUUcT7u91wHIBQyUDHwnmiqgVvrfitRS1Mwo5YjYM/BGV+f1pEOA2kdTO01Z9gru2YUU5trYATlVR8l0ExNB3vK0Neg8SViikQd8UZVWFSNKPMExJWP2GKoBIaCh+iTOMrSQOHjVt7GDcr+DBuI99K5L3IU4Dku8mJUuJlWgJx8w86s2soWCt/RfFRBRgbxVDARYhnHS4WgXV9m89suxInfQPgW2g4eIc/BlO/gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E96IIZ6xmwBFS11EJWoWrl3mG+vK+PSqP630xHPNESU=;
+ b=FoCMrQEg0CbtcHGc9rhDleeZUuIMdBsyjljAa3GGDlwcYeUrHqiuk8jw/3Ag7IKUGJblFxtIOvs7dNdCsEbgN3V62vXw6nkyHcXzB0bnzzpJot2iau4oZJWZ98LgAbnwjMQ2bZrr9Jf3DdzczySMkJ5ydVaiygDGyyYiHjhWm7yQRk5uIMISBs/M98w7/vtp3SSUFQixG8L/k05eDKTF2pmBAXRq1+YRJVXNq6Sxw4zfzjQ/31IJiHCfNrseMyPZZhdCoJbgtVA7typ0TrIuj6oUKMIPJpK0cIBYIOiXYN+FY0ySZiwnPr9Ka9XkOaEaOSL2Tbdiyd/T8WTPnGygUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E96IIZ6xmwBFS11EJWoWrl3mG+vK+PSqP630xHPNESU=;
+ b=ktmaiFqe+rHtOpKCn1zjaCTLouXDYa4UtMxhxrC5iaWcfR6dpieK8ZALiXNpflKutvxlfbFNd6ysnBDqYBWHaVOZUBp1yUs5LAQHDX/9ugN8XkwrB+L7QdGWQjfHOW/d+8Lc1Ktdpk9YOZnqvzPNLTxcNxQfW25w8uaYSnfKdKJnS1G4WVONxC0UDHo3BjYB6jk+21zI7FYis9bTbpVfubC33p890i2LrUoOdsMRihTUC4/Roi7IalVAct+ZaTtgeluLs2OK/8k9DGj1er7HaByXPLhsEJchszEPVk4r/tMv331HVnGmcGPlewl62mNH4lv7yKhoM8jh0cLq41AUJA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA1PR12MB6604.namprd12.prod.outlook.com (2603:10b6:208:3a0::7)
+ by PH7PR12MB6563.namprd12.prod.outlook.com (2603:10b6:510:211::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.17; Wed, 8 Mar
+ 2023 18:45:28 +0000
+Received: from IA1PR12MB6604.namprd12.prod.outlook.com
+ ([fe80::735c:fa9:2043:279a]) by IA1PR12MB6604.namprd12.prod.outlook.com
+ ([fe80::735c:fa9:2043:279a%4]) with mapi id 15.20.6156.029; Wed, 8 Mar 2023
+ 18:45:28 +0000
+Message-ID: <7a8027c9-dc73-3684-c5f2-3071f315b3cd@nvidia.com>
+Date:   Wed, 8 Mar 2023 10:45:24 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH V2 4/6] dt-bindings: timestamp: Add Tegra234 support
+To:     Krzysztof Kozlowski <krzk@kernel.org>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org,
+        timestamp@lists.linux.dev
+References: <20230214115553.10416-1-dipenp@nvidia.com>
+ <20230214115553.10416-5-dipenp@nvidia.com>
+ <3c0ad963-ce69-bd5b-20cd-888e5fbdecaf@kernel.org>
 Content-Language: en-US
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com,
-        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org
-References: <20230224044000.3084046-1-shr@devkernel.io>
- <d9727ac4-4976-0de7-2d16-676ad7db5e89@redhat.com>
- <20230308173006.GA476158@cmpxchg.org>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v3 0/3] mm: process/cgroup ksm support
-In-Reply-To: <20230308173006.GA476158@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Nvconfidentiality: pubilc
+From:   Dipen Patel <dipenp@nvidia.com>
+In-Reply-To: <3c0ad963-ce69-bd5b-20cd-888e5fbdecaf@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0021.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c0::26) To IA1PR12MB6604.namprd12.prod.outlook.com
+ (2603:10b6:208:3a0::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6604:EE_|PH7PR12MB6563:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1ad0ad9b-5775-4d68-84f1-08db20054953
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6DSogy+WRKnzKu5DAymcBAfKlRzGJlKOB950B/wCAW3UHMXSGnQfsFLYpVZ1t8BLljU/oe/NtJuigeShN5/XN121C1u67JAgYtb3xR+a2ZOMzxk32yunq12B69S0tMSUjEwyf0675TdeYQIB5wAAcuL0LLX6riufF4iGM4U45WVBavvV3GgIJ7qn1/1wiNh1rPxV8/NmfZkcXEhh6JbCNt1sdt6z8quuscY/a6+LTnkeJXG+DDcNY3cWaYUAsGlVpnH4S+vKblHKl9RXY90CR/eGq6xAZqHgsGTm9BW5Ph/ijr/cWhUd7ydnXI/zZHIpCHizuaDicA8gGkyXvb4/PoBV7EGI0j98kfDzNyUQbZNHXOKtz26fmrY3SDRUyxibkkLicfurfXMbXFF0xGua6O2WAVxi23Z/71T/TgdbdlExRrg8Xmw3Qn2PDE1oNmXBGss42aTxGLXj+ck6CL1KMC4e/ve+93rg+rM4Zaw6Oxjqc1m6lwnt/xLctZUFh7G60irhZog+Rrs3AZsdcbHFPvDJ97/WR2L5TTLmvmB3rYX75NUAwweNSJ3dDNjuFu4rvgAKDc42/TOMLA3aX9AKuR1nNOM31legQ9dQweQeL99UlXwhIW/VrXbnlPv3QRCcfrRMMIMjyAP40+uhEgSK0d28RFV+qfQ3UbxTRGe7FpwzjDCNOTR0H6pTepTcU/0sbVCkpqwnkvnOHFjgnCGJg5OuUI+929iM6VzcYNZG/5RDR+b/lbAzJ+VIM3usBl6jkG4rpjchdo4GNuYjrCVB22Ykf/0nDn2TZsjyDsuSQ0qdzJfcHU50QZo3ZUm3GIr5+/QTl8zy/bx6Ia+8T4NBXA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6604.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(136003)(376002)(396003)(39860400002)(346002)(451199018)(36756003)(26005)(8936002)(7416002)(5660300002)(53546011)(6506007)(6666004)(38100700002)(6512007)(83380400001)(186003)(2616005)(86362001)(316002)(31696002)(66556008)(41300700001)(66476007)(8676002)(6486002)(921005)(966005)(478600001)(31686004)(66946007)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGhVajQzM1ZHanJpQkJrK20xVDlnbURzeW4xSk5ZYy8ycFhKM056ZjdjMWVH?=
+ =?utf-8?B?NzMzeE8rVmFUR08wbWdWWHZpOTlDY2M5aVlSakJaSk91bFJIN1RLc1ZuR0NY?=
+ =?utf-8?B?cVFOYVZHZVl6akFBa2R5ZTdza3cvODdLKzJoVlFiYWl4aVpLYWRPNGs0ZHI1?=
+ =?utf-8?B?N2NmMFVFSnI2ZW1WUHRBMXFoaTg4M3UyR0MzRHBoYnFJdUVPM2hBR2xWak1E?=
+ =?utf-8?B?eVo5UVNjSnljK2JDTndNYXlyNUhMZnlMMkJxTlJ1WVF5anoxa0pzdG5xQ1Fj?=
+ =?utf-8?B?a25KTitDNmRQYW91TzZKK0dKTEhWcHdLVk9MbEVrVXJFaGdOTVhhY2hHblBn?=
+ =?utf-8?B?WUZKMzU5SVhYLzFOcG5KRmlwcHNIZWw0QjEzeXI0UWRmeFkvYjZ2NGYzUU1L?=
+ =?utf-8?B?cXRGdk5tWTB5QWpUVklQMWU1ZTYyZ2U4Y2NWK0hoNVVYbWxCM2szZ1JZek45?=
+ =?utf-8?B?R0xMU1pEaEFjSnNhMEIvbDI0RkNQK1QyZlg5ZHJGYnFGWGxGM1QyUUtiaU1Z?=
+ =?utf-8?B?Mldvd2tLbWlKQjZuVDU1QndpV2VaK2dRK09JSUNhcUI4TDRCMlVDRThRcy9p?=
+ =?utf-8?B?b29oeWI3S1pRYjM3d3NoYnBhS0svUUpWelR4d0V1aTBuSzlrRjhYSnZHdVRy?=
+ =?utf-8?B?VlY5cmJlZGk5SFBVREhKRXFzaEVjelZ4dUFSSzhiU244eGdqREgxK2hvS1l1?=
+ =?utf-8?B?U216VTl0L0VCWlkyQ1pwblhKL0lBdkk3MlBuZHdXTk5NamxaN2Z0bjhXdUgz?=
+ =?utf-8?B?U0hSVGRKUmo2UDRHYUZnNkcyelowSFBMdlhDUkRDOXQ1OXN6SGI4Mjk3cnVv?=
+ =?utf-8?B?bWZTZ0VpcU1SdDdxZzJ3aWlwaU9qV0prYWxvWFhTaklTRGxXTFpBVnlLK1oy?=
+ =?utf-8?B?R2h5YkxZbFg5N1ErU3VzN1Y0dDk2ODhxd3dzd1pNdlB5YmhSRDAybXFUMGxK?=
+ =?utf-8?B?aU1YVGpKUlpNWEVkY3R5TXlrSktIaGpoa0N3S1ZjOWsyWTZaSTBVZlhzcmRt?=
+ =?utf-8?B?SldNYkxEK0o5ZzI0K3V0YUtZeTU4RitwRFdzTExhQkltdy90ekd6SHVqYnBj?=
+ =?utf-8?B?ZTE0dzNXd2RGeHVwRGtYeTZoRzU5eHRGSUhnc0xvYVdBU2FrU28wWVlkSFJX?=
+ =?utf-8?B?TkZRa3YxbGRsZEd6NTlyL3NPZlVKREFqTHhkT3I5bmJhazNkQk54ejNrRGF0?=
+ =?utf-8?B?M2c4RlNjV1hyWi80MUlydmYzQjE4WFFVQ2ZIK2lIUGZ5eW1NTnJIdlZ2YWwy?=
+ =?utf-8?B?WUJMcVVSSU5RdzFYblQyR0xOUDJabGJQaG5xYXlqMzhpOUY2ekF6NzcrdWJL?=
+ =?utf-8?B?a1VKblplaUszY0ZlMXJJT21YV0JSUFFCcWxIMngwQ1JVUFIrMWk2WlVHeWM5?=
+ =?utf-8?B?bmNvWDdibC8vbWpocXhJQ0Q5UDlvd0R1QzI0MWxyU0pqTldPTW9lVno5NVpa?=
+ =?utf-8?B?aXNoSkxqV25OSkczVFJqUnZ1d3JvZ3dia0wvelIzRzBOOWNGU2dqb2xBVkdw?=
+ =?utf-8?B?b3hLdlc3ckhYYXgrc011R2J4M0VrcEFubVhxTXB2YTlLa3RaaDdyR3hQMU1h?=
+ =?utf-8?B?YXVFT0lDeU54L1M4UkI4cGlaWExVbjM4bHEvYW5xT0dMRWNrNERwZ01EY2xu?=
+ =?utf-8?B?em1xNCtnMEk0Ukh4cldBL1ZwMm8vWlYrVDRLVWtKb1R2NSs4ZUpFOUZNMkpZ?=
+ =?utf-8?B?RmVCMTRzMDRTbExFQlBuS3Qyd2szZVR6ei9QQmMybzk0WlBRQ1RkVlEyK05I?=
+ =?utf-8?B?bFBnaVhJOVZYcTQvLzU2bGxrdCtjNXo4TUs1djFaOTNRWFh0d0M5MW9tQzFT?=
+ =?utf-8?B?Rkx4SU1iYjhLajJoblBFeDRJaGNrelNnK0FPOHF6NklXR2NhRWJJQjhvZXFl?=
+ =?utf-8?B?N3lVaSsya1NYMWpSdGZnMnF1TFppVlowNWl6czU4OHA0UDFPU2c1RjZRTlc5?=
+ =?utf-8?B?dVQ5bTlKSFFBRlVUTFRDQXRzdW51VVpTTDdpRXVRQnFuTVR5WGRKSEFGWU9s?=
+ =?utf-8?B?RTJ1a3lSK2QvWkZORHd4SWtQb1BNQkZkOWlDcnlpM1NsclMxRFVVTEFXN21T?=
+ =?utf-8?B?U1JIZytnanRJd0VWdGQrZzhRekJ4RUxmVmx6ZE1ZT3Jtb3Z0L1ZHZk0zc0dr?=
+ =?utf-8?Q?Ka4nDZc7RI7JnVTGtpFzMYCaC?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ad0ad9b-5775-4d68-84f1-08db20054953
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6604.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 18:45:28.3942
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ytB2Au/kmlslpGW1/sPBKRQxVf2y2PwOmmtwuOKnXwcdsWGvfcBx88uERixd8+E0m8ryvheYukLr/C9wHU3Icw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6563
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
->> One point that popped up in the past and that I raised on the last RFC: we
->> should think about letting processes *opt out/disable* KSM on their own.
->> Either completely, or for selected VMAs.
+On 2/16/23 6:17 AM, Krzysztof Kozlowski wrote:
+> On 14/02/2023 12:55, Dipen Patel wrote:
+>> Added timestamp provider support for the Tegra234 in devicetree
+>> bindings.
+> 
+> 1. Your commit does much more. You need to explain it why you drop some
+> property.
+ACK, will address it next patch
+> 
+> 2. Bindings go before its usage (in the patchset).
+Ack...
+> 
+> 3. Please use scripts/get_maintainers.pl to get a list of necessary
+> people and lists to CC.  It might happen, that command when run on an
+> older kernel, gives you outdated entries.  Therefore please be sure you
+> base your patches on recent Linux kernel.
+It is based on recent linux at the time patch series was sent...
+> 
+> 
 >>
->> Reasoning is, that if you have an application that really doesn't want some
->> memory regions to be applicable to KSM (memory de-duplication attacks?
->> Knowing that KSM on some regions will be counter-productive)
+>> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+>> ---
+>> v2:
+>> - Removed nvidia,slices property
+>> - Added nvidia,gpio-controller based on review comments from Thierry,
+>>   this will help simplify the  hte provider driver.
 >>
->> For example, remembering if MADV_UNMERGEABLE was called and not only
->> clearing the VMA flag. So even if KSM would be force-enabled by some tooling
->> after the process started, such regions would not get considered for KSM.
+>>  .../timestamp/nvidia,tegra194-hte.yaml        | 30 ++++++++++++-------
+>>  1 file changed, 19 insertions(+), 11 deletions(-)
 >>
->> It would a bit like how we handle THP.
+>> diff --git a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+>> index c31e207d1652..d0f4ed75baee 100644
+>> --- a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+>> +++ b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
+>> @@ -4,7 +4,7 @@
+>>  $id: http://devicetree.org/schemas/timestamp/nvidia,tegra194-hte.yaml#
+>>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>>  
+>> -title: Tegra194 on chip generic hardware timestamping engine (HTE)
+>> +title: Tegra on chip generic hardware timestamping engine (HTE) provider
+>>  
+>>  maintainers:
+>>    - Dipen Patel <dipenp@nvidia.com>
+>> @@ -23,6 +23,8 @@ properties:
+>>      enum:
+>>        - nvidia,tegra194-gte-aon
+>>        - nvidia,tegra194-gte-lic
+>> +      - nvidia,tegra234-gte-aon
+>> +      - nvidia,tegra234-gte-lic
+>>  
+>>    reg:
+>>      maxItems: 1
+>> @@ -38,14 +40,11 @@ properties:
+>>      minimum: 1
+>>      maximum: 256
+>>  
+>> -  nvidia,slices:
+>> -    $ref: /schemas/types.yaml#/definitions/uint32
+>> +  nvidia,gpio-controller:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>      description:
+>> -      HTE lines are arranged in 32 bit slice where each bit represents different
+>> -      line/signal that it can enable/configure for the timestamp. It is u32
+>> -      property and depends on the HTE instance in the chip. The value 3 is for
+>> -      GPIO GTE and 11 for IRQ GTE.
+>> -    enum: [3, 11]
+>> +      The phandle to AON gpio controller instance. This is required to handle
+>> +      namespace conversion between GPIO and GTE.
+>>  
+>>    '#timestamp-cells':
+>>      description:
+>> @@ -55,11 +54,21 @@ properties:
+>>        mentioned in the nvidia GPIO device tree binding document.
+>>      const: 1
+>>  
+>> +if:
 > 
-> I'm not sure the THP comparison is apt. THP is truly a local
-> optimization that depends on the workload's access patterns. The
-> environment isn't a true factor. It makes some sense that if there is
-> a global policy to generally use THP the workload be able to opt out
-> based on known sparse access patterns. At least until THP allocation
-> strategy inside the kernel becomes smarter!
-
-Yes, and some features really don't want THP, at least for some period 
-of time (e.g., userfaultfd), because they are to some degree 
-incompatible with the idea of THP populating more memory than was accessed.
-
-Page pinning + KSM was one of the remaining cases where force-enabling 
-KSM could have made a real difference (IOW buggy) that we discussed the 
-last time this was proposed. That should be fixed now. I guess besides 
-that, most features should be compatible with KSM nowadays. So 
-force-enabling it should not result in actual issues I guess.
-
+> Keep it under allOf (so you no need to re-indent it on next if statement
+> in the future) and put entire allOf after "required:".
 > 
-> Merging opportunities and security questions are trickier. The
-> application might know which data is sensitive, but it doesn't know
-> whether its environment is safe or subject do memory attacks, so it
-> cannot make that decision purely from inside.
-
-I agree regarding security. Regarding merging opportunities, I am not so 
-sure. There are certainly examples where an application knows best that 
-memory deduplication is mostly a lost bet (if a lot of randomization or 
-pointers are involved most probably).
-
+Ack...
+>> +  properties:
+>> +    compatible:
+>> +      contains:
+>> +        enum:
+>> +          - nvidia,tegra194-gte-aon
 > 
-> There is a conceivable usecase where multiple instances of the same
-> job are running inside a safe shared security domain and using the
-> same sensitive data.
-
-Yes. IMHO, such special applications could just enable KSM manually, 
-though, instead of enabling it for each and every last piece of 
-anonymous memory that doesn't make sense to get deduplciated :)
-
-But of course, I see the simplicity in just enabling it globally.
-
+> This is an ABI break. Does your driver handle it?
+yes, handling patch is part of this patch series.
 > 
-> There is a conceivable usecase where the system and the workload
-> collaborate to merge insensitive data across security domains.
+>> +          - nvidia,tegra234-gte-aon
+>> +then:
+>> +  required:
+>> +    - nvidia,gpio-controller
+>> +
+>>  required:
+>>    - compatible
+>>    - reg
+>>    - interrupts
+>> -  - nvidia,slices
+>>    - "#timestamp-cells"
 > 
-> I'm honestly not sure which usecase is more likely. My gut feeling is
-> the first one, simply because of broader concerns of multiple security
-> domains sharing kernel instances or physical hardware.
 > 
-
-See my side note below.
-
->> On 24.02.23 05:39, Stefan Roesch wrote:
->>> So far KSM can only be enabled by calling madvise for memory regions. To
->>> be able to use KSM for more workloads, KSM needs to have the ability to be
->>> enabled / disabled at the process / cgroup level.
->>>
->>> Use case 1:
->>> The madvise call is not available in the programming language. An example for
->>> this are programs with forked workloads using a garbage collected language without
->>> pointers. In such a language madvise cannot be made available.
->>>
->>> In addition the addresses of objects get moved around as they are garbage
->>> collected. KSM sharing needs to be enabled "from the outside" for these type of
->>> workloads.
->>>
->>> Use case 2:
->>> The same interpreter can also be used for workloads where KSM brings no
->>> benefit or even has overhead. We'd like to be able to enable KSM on a workload
->>> by workload basis.
->>>
->>> Use case 3:
->>> With the madvise call sharing opportunities are only enabled for the current
->>> process: it is a workload-local decision. A considerable number of sharing
->>> opportuniites may exist across multiple workloads or jobs. Only a higler level
->>> entity like a job scheduler or container can know for certain if its running
->>> one or more instances of a job. That job scheduler however doesn't have
->>> the necessary internal worklaod knowledge to make targeted madvise calls.
->>>
->>> Security concerns:
->>> In previous discussions security concerns have been brought up. The problem is
->>> that an individual workload does not have the knowledge about what else is
->>> running on a machine. Therefore it has to be very conservative in what memory
->>> areas can be shared or not. However, if the system is dedicated to running
->>> multiple jobs within the same security domain, its the job scheduler that has
->>> the knowledge that sharing can be safely enabled and is even desirable.
->>
->> Note that there are some papers about why limiting memory deduplciation
->> attacks to single security domains is not sufficient. Especially, the remote
->> deduplication attacks fall into that category IIRC.
+> Best regards,
+> Krzysztof
 > 
-> I think it would be good to elaborate on that and include any caveats
-> in the documentation.
-
-Yes. The main point I would make is that we should encourage eventual 
-users to think twice instead of blindly enabling this feature. Good 
-documentation is certainly helpful.
-
-> 
-> Ultimately, the bar isn't whether there are attack vectors on a subset
-> of possible usecases, but whether there are usecases where this can be
-> used safely, which is obviously true.
-
-I agree. But still I have to raise that the security implications might 
-be rather subtle and surprising (e.g., single security domain). Sure, 
-there are setups that certainly don't care, I totally agree.
-
-
-
-Side note:
-
-
-Of course, I wonder how many workloads would place identical data into 
-anonymous memory where it would have to get deduplicated instead, say, 
-mmaping a file instead.
-
-In the VM world it all makes sense to me, because the kernel, libraries, 
-...executables may be identical and loaded into guest memory (-> 
-anonymous memory) where we'd just wish to deduplciate them. In ordinary 
-process, I'm not so sure how much deduplication potential there really 
-is once pointers etc. are involved and memory allocators go crazy on 
-placing unrelated data into the same page. There is one prime example, 
-though, that might be different, which is the shared zeropage I guess.
-
-
-I'd be curious which data the mentioned 20% actually deduplicate: 
-according to [1], some workloads mostly only deduplicate the shared 
-zeropage (in their Microsoft Edge scenario, 84% -- 93% of all 
-deduplicated pages are zeropage). Deduplicating the shared zeropage is 
-obviously "less security" relevant and one could optimize KSM easily to 
-only try deduplicating that and avoid a lot of unstable nodes.
-
-Of course, just a thought on memory deduplication on process level.
-
-
-[1] https://ieeexplore.ieee.org/document/7546546
-
--- 
-Thanks,
-
-David / dhildenb
 
