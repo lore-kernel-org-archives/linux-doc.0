@@ -2,170 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80EA7C64EC4
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 18:24:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 324FEC678D5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 18:27:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229675AbjCHSX6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 13:23:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45220 "EHLO
+        id S229868AbjCHS1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 13:27:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229914AbjCHSXy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 13:23:54 -0500
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2068.outbound.protection.outlook.com [40.107.243.68])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73A535D8B8;
-        Wed,  8 Mar 2023 10:23:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aGPAMDxOrYSqMxjIJRnSIma/FkvAFRtxaHB4Dcr5PHM4SCiT0PPcoFWloGFmmo+QS5Jcjq4sXVsuMNpMjqd93B3y3GfLLFl6GvW68TUFZTAUV6FXGRLolo77cM8NTDEOdxlB621CcJFmFMxV+OtGwuvgxc6YnHzadgoFHyXQtAFiuX3/MCFlx1gRR4mzBg/+pwvwnd4fNQckjbrMNPCsloSKZrpm3tpPeGkvh8NZSlm8P6QOmwcmL3NS/Cd2r3rCPjejHlntxENmwcytuhTX1Q9Ww41qJTrFvKnW9B/+wrgSfiavoL6g2ve2bgm+2iPbE4MDVi3u+ybydZtN1+0RGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Tb+RifHl0F72hSf+3BXDc8FjdeUZQzowjKg3X1BGCsQ=;
- b=OrPqLIlVvobkN372GG9zWFRf54vijxj2fbp1mVC0Ep80G76Qb78lUzt1nB5446rqjSJisl3Gg9sPRBG2uJilqTCHCIsapaNhY+jBaQQ743kEHH9GPIzs7P3EyrzqXSTlHCpv5NkcrOwjQsYi7jRDOoW0w03ZPjWvMFqJvLC1cF9N4WRcprrBW5Xlbx1l7ofzj44j2HFj6d2YrvGETUh8ASTgzhwaevcrUJSNxlClS7jY5Bh5wIqPDY0wOEtDLGAgBHcDJ3PtFCZoJO3Zsm7SAAfISCvRgTZdn3WWUvwLDCWTgBYuUX430/tFVEYQKqAa6BNXgpRkZK+BEnlYobvfBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tb+RifHl0F72hSf+3BXDc8FjdeUZQzowjKg3X1BGCsQ=;
- b=kl0bRVZiCcSXHngHRcer8u9dSRc/cVRgFLlzK50iBhBj9M953ye5AJPLloHR/fVkHih450W49uK9lElfKhu35b6w+deRwLMp3BknYQmKWUdFd91s22yzMAI5rpgJ9HYnlxwmfz6IFx5SpG1Uwvy/TEeLZeZn0erJLHeHk23mRr94e1JpnLACXErnjymjttg4KpCp5IytvTDw/NkOjOobdBVx09I+GtXUqCzaq6HPLBJ9St7cCNMDLmxfXohEK2TY3ta84Y1C2Qip4ABjqrlrYxKYHoksnLh0YX1mGO0jhgMlxrFcjXIZdhEJmFCDFIj/vFLNu+5AM7BTvACRx3ffbw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by CH2PR12MB4890.namprd12.prod.outlook.com (2603:10b6:610:63::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.29; Wed, 8 Mar
- 2023 18:23:49 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::ef6d:fdf6:352f:efd1]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::ef6d:fdf6:352f:efd1%3]) with mapi id 15.20.6178.017; Wed, 8 Mar 2023
- 18:23:49 +0000
-Date:   Wed, 8 Mar 2023 14:23:46 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc:     Baolu Lu <baolu.lu@linux.intel.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
-        Joerg Roedel <joro@8bytes.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        X86 Kernel <x86@kernel.org>, bp@alien8.de,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
-        vkoul@kernel.org, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Raj Ashok <ashok.raj@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v4 3/6] iommu/sva: Stop using ioasid_set for SVA
-Message-ID: <ZAjSsm4/PDRqViwa@nvidia.com>
-References: <20230301235646.2692846-1-jacob.jun.pan@linux.intel.com>
- <20230301235646.2692846-4-jacob.jun.pan@linux.intel.com>
- <3b7fb4d3-1fe9-a3be-46ad-c271be9f96c7@linux.intel.com>
- <20230302091707.58d59964@jacob-builder>
- <794c7dad-2e62-3afa-ea10-92179b0d1659@linux.intel.com>
- <20230303093235.GB361458@myrica>
- <3b2c6fe9-821f-9b84-acb6-777e8517a0fc@linux.intel.com>
- <ZAHzAa0mnilf0N9K@nvidia.com>
- <20230307143209.2873d9e2@jacob-builder>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230307143209.2873d9e2@jacob-builder>
-X-ClientProxiedBy: BYAPR04CA0016.namprd04.prod.outlook.com
- (2603:10b6:a03:40::29) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+        with ESMTP id S229456AbjCHS1K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 13:27:10 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F058EC3631;
+        Wed,  8 Mar 2023 10:27:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678300029; x=1709836029;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=5xt+Oxmh4ZD99PRtVYMgcMoTdrC8s3y2I1hzYqDESF4=;
+  b=nspyLdK5mKMGDTI7D1yLYjHx8gQNWhu1yvlF1D7zDX9fcrhWtyV8cse+
+   5MsiQIkG/lZOxPgtm60zEEPo20FoLzqvEOk2eUQQV564EKuX0Z5Mbp0kZ
+   uthrBgfNGHQatgDJgVK6mH0+/tNCj+fhJfqLiH7cc4lNtpy17I8cx5gjL
+   2USyzKQ3zgpzVivB8Lfq00u2952l8XrwVnUqc8FDaTkxeLLKF/95dfHdy
+   76U8EbmTgV3Ow4CFPhDbOrkFLWzWEVRK6KgpgYkdZ3If7dfsFWvKWpQp6
+   sso397daB51yuNj1oR4VPlx0IV7Pu+42FdHg4pOyFm8/V0sjmAnzDbpc2
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="401065305"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
+   d="scan'208";a="401065305"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 10:27:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="766100262"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
+   d="scan'208";a="766100262"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 08 Mar 2023 10:26:55 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pZyV5-0002Kv-0g;
+        Wed, 08 Mar 2023 18:26:55 +0000
+Date:   Thu, 9 Mar 2023 02:26:13 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, Michael Walle <michael@walle.cc>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Kory Maincent <kory.maincent@bootlin.com>,
+        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>
+Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
+ selectable.
+Message-ID: <202303090220.EervgFvH-lkp@intel.com>
+References: <20230308135936.761794-4-kory.maincent@bootlin.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|CH2PR12MB4890:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34f47289-f38c-4eb3-3879-08db20024332
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QKY88GnVt7KYDLFd1pCnO6tye7B67nOQFvDo25Rfc32xHSrjIcwciMl+xDSYEX2ks/dcZsun34U5KBk59iGjTxLkM5ZdE41rWJ9gmZRnk0lFK+78hktifvzZmjUSRPeYjQk7JI6bXokuuGP4ZIkRxIFI7oxWZWuhCNKA8pcYt1himrOAOSvFi+pga5qGuYO6ykZ2vhM+k8U5ZeBDod8tz0vW8MnEFIMqrai7Q1HVn/Fr1JIJpBiVu2VBXwHc7DfNrAPcEUeptlv7oxmQncSB/NYJvGuzxTjpp3zM4Tgn5UPSWIy3EgR3sZEZGg2PlzFYf4NhVAgAr33DjrYvKcCmUItWjWksVQi0aqcwA5ksItZpke2rKbQDyfk+gj66oM3WruklHOtpyK2H8iiVJuqBzab7TfRAfEEIsBoFFP7xkkr5y6W3Zh246HafgXc/r7V95jvnQuGCDZs4hrKueD67m5Pwnwi05UcgUk9dFS57qvmdPE/55XZeNL16QGnvglKgQsuAXyJoomkdLeSU8+cic2YYNlLxHiieXvm3R3hwDX3AkdywV0dCjL/tBuYSVOSp6FVk3wD+Mj1m9je1sSbBVXoQ99xgrq5247H2pxpUyRYJTDqo6U18n6zqCnWjeyON83ePzqe9YRsxKhsXipDhVTQsoJz5/TtRgwd0UwVUqL2yXIAzCmtLnlVVpGKBFDAE
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(366004)(39860400002)(346002)(376002)(136003)(451199018)(6916009)(66946007)(4326008)(66556008)(41300700001)(8676002)(38100700002)(5660300002)(66476007)(316002)(8936002)(54906003)(7416002)(478600001)(2906002)(6512007)(6486002)(966005)(36756003)(53546011)(26005)(186003)(6666004)(6506007)(83380400001)(2616005)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ipyMf6f3CY6RZhmPZp2tj51At/4Kj9U33nwDluClPkX8bGS27Zoh+EXUNJRt?=
- =?us-ascii?Q?+8vLTKe2nKRoBp+b2/ApBqSIl1QP49R0fRGliXxuDJreg29SnURtCsHSVuTJ?=
- =?us-ascii?Q?zS/B/YNo+i4hJokJKxe8fUVVS6/T1X2uvJKu7kcXeU1j4N846yGmOTHLvo7i?=
- =?us-ascii?Q?EFt6ZtTF3deCGT/bIgJ/vV3aO0SCuaSjhWzAFgRiIc4ca/sCKBj4sAXMjlUv?=
- =?us-ascii?Q?IeeL6MlefuRdnNC6LzZtOprLURUFwczTXH4whRQhlJTBch9YKIcXgPf7s+BV?=
- =?us-ascii?Q?fxE3kVZZaIg6++LwaBNal1u9MdalKJuPQ8Bof97eWPhw/g+piK2Hk0dd4ldl?=
- =?us-ascii?Q?J6V4siWgv3+WzFHY08Li0UK9pX9E0A7qW+BkdhjcVwaHELsjD0h6rHvISai0?=
- =?us-ascii?Q?KDqW0G5Y//c5NBKIuBPxsUVY7qT/aqCbDaYRiayYfTsvNUlsio0O7xXGrd5D?=
- =?us-ascii?Q?MeAAWHgkZT4/MRg0oU5qst/4vpUr3f7S5Hq21rwJ87x1nhGLY2sUEzb2GT1E?=
- =?us-ascii?Q?qvYC/7s9xp6v7hgXRPlamf+yTHXOCOnI2gYVph8q61ZEvR32NGTNC7iBqf0w?=
- =?us-ascii?Q?1NjCibhM3pFkche1771kQAbuV2EvzfDG9JgKsZWtRfTjNAZGTMoKgXfvpKdN?=
- =?us-ascii?Q?TYse9ypbTLc17EhtYm30nSN45mTV4CPSWmfKl+alDispdxb563oq4OZGQOYQ?=
- =?us-ascii?Q?eSRfIFbMsLbUCPVTQEZrhP0K5pcAFqPdp7VmxJGqRfwIxW4Q8aJss7j+1L0r?=
- =?us-ascii?Q?iFX/LtgCNX0Fjtz+Y87WSS4wm7jqf9XecmkmTXJYCLDd3ZVqKUydZ+kMjbHE?=
- =?us-ascii?Q?+woNnfiKIl97Qhmmnk/3wXK+pJudfMcoFv0rsG9SrivS7PDGCCzrZz1aUJqy?=
- =?us-ascii?Q?6C3+L8Jdq+YHAlmGUvWJV5lcjBl61WABRzp5dx1An/bsaCVt/kDhVTvy6gOS?=
- =?us-ascii?Q?Ip2Si0mkacdDqbDee3A0kSHc2esxVilxRG6sYtPH4iJqO4AjicuSgbbMz/qX?=
- =?us-ascii?Q?KOWJ9uM5fNxvN/z4jbc/RNQuWLSqch+yb6spirbL82hiJ66yh67ZfgkxDu7J?=
- =?us-ascii?Q?oqu5c3ph4AQbx0v9ywAN+GqP8A4LJY3jdXvWsWxTY11S1BuTJD2wgytj0t/1?=
- =?us-ascii?Q?cUX99fFSgWkUPqebX80wMifpumkU16vfoLEKvWJXUj3MhUVl29oZjGi2Y7yF?=
- =?us-ascii?Q?8IKd+al7Xr4kQ21LeDhCzH6dLcBE6eVoMmZ2Tnt+J2PhAoT1YEo9p4IW4c7N?=
- =?us-ascii?Q?t6IWKlym8J7Uqv3zL3SsNi/mqOmglQ8A4sMDnPmPXrKhoNP70KxAhuvenG+8?=
- =?us-ascii?Q?cdiRQQI5Zi06tVNSj6CSysTPBEbTDBddW7zqLQgZzI3gdrSr5SfrLrXm408h?=
- =?us-ascii?Q?FgOYgATaPPxT5AZnr5UY63XBpEwI++DHLCSHgCUK5omBxoPxWKapPiOZGZ2b?=
- =?us-ascii?Q?eEwCrE2nZDsGEG9HH/8FOnio/8UnXK0XPBg8vAADwS/MlosaXeg16IWGgCsZ?=
- =?us-ascii?Q?SbqsQnH1jmjL6vM9JjWBvkWS15tkW8bbT6JcFVLlFuWpwaSE674rLyWkoKAD?=
- =?us-ascii?Q?EXaf/wkYAYcLSbscnqgQrcJrIdMN4hwzMAmrokv6?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34f47289-f38c-4eb3-3879-08db20024332
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 18:23:49.4456
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9bxWwcYjRhNns+7JD1qgbUl6yiEaU90d4UOfp7f4q3ZGuaN3V5qIJ7smoq5hKKMn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4890
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230308135936.761794-4-kory.maincent@bootlin.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 07, 2023 at 02:32:09PM -0800, Jacob Pan wrote:
-> Hi Jason,
-> 
-> On Fri, 3 Mar 2023 09:15:45 -0400, Jason Gunthorpe <jgg@nvidia.com> wrote:
-> 
-> > On Fri, Mar 03, 2023 at 05:57:41PM +0800, Baolu Lu wrote:
-> > > On 2023/3/3 17:32, Jean-Philippe Brucker wrote:  
-> > > > > I suppose the common thing is reserving some kind of special
-> > > > > PASIDs.  
-> > > > Are you planning to use RID_PASID != 0 in VT-d?  Otherwise we could
-> > > > just communicate min_pasid from the IOMMU driver the same way we do
-> > > > max_pasid.
-> > > > 
-> > > > Otherwise I guess re-introduce a lighter ioasid_alloc() that the IOMMU
-> > > > driver calls to reserve PASID0/RID_PASID.  
-> > > 
-> > > Yes. We probably will use a non-zero RID_PASID in the future. An
-> > > interface to reserve (or allocate) a PASID from iommu_global_pasid_ida
-> > > should work then.  
-> > 
-> > Just allowing the driver to store XA_ZERO_ENTRY would be fine
-> > 
-> It looks like there are incoming users of iommu_sva_find()
-> https://lore.kernel.org/lkml/20230306163138.587484-1-fenghua.yu@intel.com/T/#m1fc97725a0e56ea269c8bdabacee447070d51846
-> Should we keep the xa here instead of the global ida?
+Hi Köry,
 
-I'm not sure this should be in the iommu core, it is really gross.
+I love your patch! Perhaps something to improve:
 
-I would expect IDXD to keep track of the PASID's and mms it is using
-and do this kind of stuff itself.
+[auto build test WARNING on v6.2]
+[cannot apply to robh/for-next horms-ipvs/master net/master net-next/master linus/master v6.3-rc1 next-20230308]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-And why is this using access_remote_vm anyhow? If you know you are in
-a kthread then kthread_use_mm() is probably better anyhow.
+url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
+patch link:    https://lore.kernel.org/r/20230308135936.761794-4-kory.maincent%40bootlin.com
+patch subject: [PATCH v3 3/5] net: Let the active time stamping layer be selectable.
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230309/202303090220.EervgFvH-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/d81a36f239360e7e3b9ca2633e52b3cb12205590
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
+        git checkout d81a36f239360e7e3b9ca2633e52b3cb12205590
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/phy/
 
-In any event we don't need a iommu_sva_find() function to wrapper
-xa_load for another function inside the same .c file.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303090220.EervgFvH-lkp@intel.com/
 
-Jason
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/phy/phy_device.c:1384:6: warning: no previous prototype for 'of_set_timestamp' [-Wmissing-prototypes]
+    1384 | void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
+         |      ^~~~~~~~~~~~~~~~
+
+
+vim +/of_set_timestamp +1384 drivers/net/phy/phy_device.c
+
+  1383	
+> 1384	void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
+  1385	{
+  1386		struct device_node *node = phydev->mdio.dev.of_node;
+  1387		const struct ethtool_ops *ops = netdev->ethtool_ops;
+  1388		const char *s;
+  1389		enum timestamping_layer ts_layer = 0;
+  1390	
+  1391		if (phy_has_hwtstamp(phydev))
+  1392			ts_layer = PHY_TIMESTAMPING;
+  1393		else if (ops->get_ts_info)
+  1394			ts_layer = MAC_TIMESTAMPING;
+  1395	
+  1396		if (of_property_read_string(node, "preferred-timestamp", &s))
+  1397			goto out;
+  1398	
+  1399		if (!s)
+  1400			goto out;
+  1401	
+  1402		if (phy_has_hwtstamp(phydev) && !strcmp(s, "phy"))
+  1403			ts_layer = PHY_TIMESTAMPING;
+  1404	
+  1405		if (ops->get_ts_info && !strcmp(s, "mac"))
+  1406			ts_layer = MAC_TIMESTAMPING;
+  1407	
+  1408	out:
+  1409		netdev->selected_timestamping_layer = ts_layer;
+  1410	}
+  1411	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
