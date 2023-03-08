@@ -2,59 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A3DC678D5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 17:01:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71998C678D5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 17:03:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbjCHRBS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 12:01:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60124 "EHLO
+        id S230183AbjCHRD6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 12:03:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230113AbjCHQ7v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 11:59:51 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6C1EAF283;
-        Wed,  8 Mar 2023 08:58:30 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C9BEBB81D31;
-        Wed,  8 Mar 2023 16:58:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 465AAC433EF;
-        Wed,  8 Mar 2023 16:58:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1678294693;
-        bh=BS3TSOSb1lKA0GEtXmbpsbzUsW+bjMAUX1S4QvhB23Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FSnc+UoWTiXSVepgNsB2aNKTnEksXHBmwNVwXT4zxk5BorJ+8ostmcXeYxN7i+/Ny
-         1LU+q0lqi6vlUIXnTa4F0yMfpNpp/1aTsTZ6yKlLD1VE7bEO9KpogGJpDPq2G7SDt5
-         wHbhdhcl64vKE6xe08zF/Yx+jX+VMjN6b/EMlgZU=
-Date:   Wed, 8 Mar 2023 17:58:11 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Daniel Scally <dan.scally@ideasonboard.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-usb@vger.kernel.org,
-        linux-doc@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH] docs: usb: Add documentation for the UVC Gadget
-Message-ID: <ZAi+o84djBCzFXIy@kroah.com>
-References: <20230308165213.139315-1-dan.scally@ideasonboard.com>
+        with ESMTP id S229716AbjCHRDi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 12:03:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3A0D61BC
+        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 09:01:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678294879;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=isJ7kUg6w2yotKIMM4vEPM6+nhroD6rmF07E2tGh5Po=;
+        b=CdomeMF9ITaL9jbwtMK+QwCY3o/6FlR5c8CS+ROt/ZcqQeJ+/tnM9aX0EZSMDnDxt218tJ
+        uepG2VT8VjPCIoTlwek7InE4szq3JRvqOVNn1narkIBs76wod/pM/qs9UA0xJr6pJZzDd8
+        C5xmJtTTpreYinb+6w93qkLazWLtExc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-436-LO2k-XpwMEyfQv0v8dBSSw-1; Wed, 08 Mar 2023 12:01:18 -0500
+X-MC-Unique: LO2k-XpwMEyfQv0v8dBSSw-1
+Received: by mail-wm1-f70.google.com with SMTP id j6-20020a05600c1c0600b003eaf882cb85so1036699wms.9
+        for <linux-doc@vger.kernel.org>; Wed, 08 Mar 2023 09:01:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678294877;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=isJ7kUg6w2yotKIMM4vEPM6+nhroD6rmF07E2tGh5Po=;
+        b=s4vnImiG0KxSEBAuoSoLS/CFVMFJbpdIHm+mMF8OZZOjKVzvRMNsHYSmIjrk2q4oq8
+         h2jXaEQEeEQtF3o0uWScv4Kyjngwjodqz26jSTcWRVFOk8yAei/7Bl1Aj7CnGiAvvXor
+         a5uj72kI8ZnUmfRFlxLuJHNZpaq0KE6EfdtbVAJfAmlzBCxlxNYcI0+CIISmgIrnO7h0
+         OvE/yONFzuuSelm69WIrf1FOAzSxyhX8IgoIcDS38TQp8dNumu69Ph51HV/yOn4QIpOh
+         k0ulQ1RSQa6tCB94dxvi0N1BjGyIL2X/5wbocfMxqKDgex+Z1mSdTQFQLruVJGjZxj6S
+         rgiw==
+X-Gm-Message-State: AO0yUKWPSnFkqsSrjbrS23NpO1uiGeQY9FNbet8P/unUBIVzFkxW7M0t
+        9ThLBOE+Nw616ljhlcO6KSmq+ho1vDoCQuNkqElpAxPf9Dz8e+Zaycn2pHtMWcgP0j61C6pJM0Y
+        eodr5okpKbt2tNB1XEfFV
+X-Received: by 2002:a05:600c:35c8:b0:3eb:3692:6450 with SMTP id r8-20020a05600c35c800b003eb36926450mr18162696wmq.18.1678294877298;
+        Wed, 08 Mar 2023 09:01:17 -0800 (PST)
+X-Google-Smtp-Source: AK7set8/yxEmiy9IGiBlKJbCq89vZIGh2thlx0KZIAaYSbrcDYcQtulnML6PDyUCnLtd4DvoqVzIbA==
+X-Received: by 2002:a05:600c:35c8:b0:3eb:3692:6450 with SMTP id r8-20020a05600c35c800b003eb36926450mr18162656wmq.18.1678294876944;
+        Wed, 08 Mar 2023 09:01:16 -0800 (PST)
+Received: from ?IPV6:2003:cb:c71b:cb00:d372:1da8:9e9e:422d? (p200300cbc71bcb00d3721da89e9e422d.dip0.t-ipconnect.de. [2003:cb:c71b:cb00:d372:1da8:9e9e:422d])
+        by smtp.gmail.com with ESMTPSA id j39-20020a05600c48a700b003e21638c0edsm15915707wmp.45.2023.03.08.09.01.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 09:01:16 -0800 (PST)
+Message-ID: <d9727ac4-4976-0de7-2d16-676ad7db5e89@redhat.com>
+Date:   Wed, 8 Mar 2023 18:01:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230308165213.139315-1-dan.scally@ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
+Cc:     linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        akpm@linux-foundation.org, hannes@cmpxchg.org
+References: <20230224044000.3084046-1-shr@devkernel.io>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v3 0/3] mm: process/cgroup ksm support
+In-Reply-To: <20230224044000.3084046-1-shr@devkernel.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 08, 2023 at 04:52:13PM +0000, Daniel Scally wrote:
-> The UVC Gadget function has become quite complex, but documentation
-> for it is fairly sparse. Add some more detailed documentation to
-> improve the situation.
+For some reason gmail thought it would be a good ideas to move this into 
+the SPAM folder, so I only saw the recent replies just now.
+
+I'm going to have a look at this soonish.
+
+
+One point that popped up in the past and that I raised on the last RFC: 
+we should think about letting processes *opt out/disable* KSM on their 
+own. Either completely, or for selected VMAs.
+
+Reasoning is, that if you have an application that really doesn't want 
+some memory regions to be applicable to KSM (memory de-duplication 
+attacks? Knowing that KSM on some regions will be counter-productive)
+
+For example, remembering if MADV_UNMERGEABLE was called and not only 
+clearing the VMA flag. So even if KSM would be force-enabled by some 
+tooling after the process started, such regions would not get considered 
+for KSM.
+
+It would a bit like how we handle THP.
+
+
+On 24.02.23 05:39, Stefan Roesch wrote:
+> So far KSM can only be enabled by calling madvise for memory regions. To
+> be able to use KSM for more workloads, KSM needs to have the ability to be
+> enabled / disabled at the process / cgroup level.
 > 
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> ---
-> Greg, Jonathan - I didn't know if there's a specific tree for Documentation/
-> only patches, so this is on usb-next. If that was wrong let me know and I'll
-> resend the patch.
+> Use case 1:
+> The madvise call is not available in the programming language. An example for
+> this are programs with forked workloads using a garbage collected language without
+> pointers. In such a language madvise cannot be made available.
+> 
+> In addition the addresses of objects get moved around as they are garbage
+> collected. KSM sharing needs to be enabled "from the outside" for these type of
+> workloads.
+> 
+> Use case 2:
+> The same interpreter can also be used for workloads where KSM brings no
+> benefit or even has overhead. We'd like to be able to enable KSM on a workload
+> by workload basis.
+> 
+> Use case 3:
+> With the madvise call sharing opportunities are only enabled for the current
+> process: it is a workload-local decision. A considerable number of sharing
+> opportuniites may exist across multiple workloads or jobs. Only a higler level
+> entity like a job scheduler or container can know for certain if its running
+> one or more instances of a job. That job scheduler however doesn't have
+> the necessary internal worklaod knowledge to make targeted madvise calls.
+> 
+> Security concerns:
+> In previous discussions security concerns have been brought up. The problem is
+> that an individual workload does not have the knowledge about what else is
+> running on a machine. Therefore it has to be very conservative in what memory
+> areas can be shared or not. However, if the system is dedicated to running
+> multiple jobs within the same security domain, its the job scheduler that has
+> the knowledge that sharing can be safely enabled and is even desirable.
 
-I can take it with my normal USB patches, thanks!
+Note that there are some papers about why limiting memory deduplciation 
+attacks to single security domains is not sufficient. Especially, the 
+remote deduplication attacks fall into that category IIRC.
 
-greg k-h
+
+-- 
+Thanks,
+
+David / dhildenb
+
