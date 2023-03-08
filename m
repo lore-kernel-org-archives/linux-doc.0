@@ -2,160 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5812C64EC4
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 17:30:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24FCCC678D5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 17:35:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbjCHRaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 12:30:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54436 "EHLO
+        id S229546AbjCHRfd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 12:35:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbjCHRaK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 12:30:10 -0500
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 886335C12D
-        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 09:30:08 -0800 (PST)
-Received: by mail-qt1-x836.google.com with SMTP id h19so18871160qtk.7
-        for <linux-doc@vger.kernel.org>; Wed, 08 Mar 2023 09:30:08 -0800 (PST)
+        with ESMTP id S229513AbjCHRfc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 12:35:32 -0500
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64D9160D57
+        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 09:35:29 -0800 (PST)
+Received: by mail-il1-x129.google.com with SMTP id x10so10799477ill.12
+        for <linux-doc@vger.kernel.org>; Wed, 08 Mar 2023 09:35:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112; t=1678296607;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ofryIsss+bbfKW9sRlJ4gUUuHW01b2FzSgIEOep0Fw=;
-        b=WTJCKYrlPO+z80Pj0ldUQiPsUhYYM3Lzu1D1J/OSaW7XBqfIxu9QFpb18NqjkIkyoE
-         K8hLYPh3wWCXGptcswhGP/YEslOikQirsJ+Cq6byqp68SmOchcJa9Zd6pVt9vB2YS9bV
-         Sku9qjINYCyLh1V8Se2D2jNIH3tC4Avf+tseSoUcPRNirfhGvy//ihgHijokpUoyslqJ
-         RyDS0BsKyAy5Z1928GgvcS+ORxhj7kmCdI4DrzIbqcc1eOMWqSCedIBxBaMdCt/KM37l
-         YE9fsU4HhYLKK6W7NmP8X946Kg+GuUO6ZIMg9MuYmisrru6YdLIWOwJsSnL1D1wP/9Hl
-         mmHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678296607;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1678296928;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9ofryIsss+bbfKW9sRlJ4gUUuHW01b2FzSgIEOep0Fw=;
-        b=xC3SiHb0IlfYm8VldSH7cClZH4gVF5abnsIr8w262JxrpDQwwZZipV6BCULQT3p1qH
-         gIp7goxuNw7XfU9KxLoij9ZM7VRwR4MpxOogjETWcCbtEbEeCgygfBrRbKNNI+C8OEJZ
-         6EYNT6cfiimEaDMch+Z4bDQmXucFj++xVscsPALQYdrczZLVRnDHfU3bOFYBf6HU9eWD
-         iTEv+jA4Rb38KCwg2tnQK78lutM1Wl5n6GjEq3lPhZj4e4JSQQR4X7WKAKITWfuiNvLa
-         ulR/ByPaAQGL5yzRv7ytAc0fBCIVOVzCN/Kk/Nt40lFhWpvIKSn6R/eEZ7AWtifthAkG
-         sBmw==
-X-Gm-Message-State: AO0yUKX872pImN7tPPqT8uYLz/j7Nn/zmnZnhkJoDbuWEZzNR2Vctohv
-        ek3PW709oQJ5sWX8O7mOjTyYEg==
-X-Google-Smtp-Source: AK7set/8J01RvgfncU4nxvd+VBrZobaqJFtIVM0M54i84BS0aGGdL7XMMjkbFYRNSCsnKxJyTYSiJg==
-X-Received: by 2002:a05:622a:1aa4:b0:3bd:156f:6666 with SMTP id s36-20020a05622a1aa400b003bd156f6666mr4748778qtc.26.1678296607609;
-        Wed, 08 Mar 2023 09:30:07 -0800 (PST)
-Received: from localhost (2603-7000-0c01-2716-8f57-5681-ccd3-4a2e.res6.spectrum.com. [2603:7000:c01:2716:8f57:5681:ccd3:4a2e])
-        by smtp.gmail.com with ESMTPSA id f13-20020ac87f0d000000b003b9b48cdbe8sm8515424qtk.58.2023.03.08.09.30.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 09:30:07 -0800 (PST)
-Date:   Wed, 8 Mar 2023 12:30:06 -0500
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com,
-        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org
-Subject: Re: [PATCH v3 0/3] mm: process/cgroup ksm support
-Message-ID: <20230308173006.GA476158@cmpxchg.org>
-References: <20230224044000.3084046-1-shr@devkernel.io>
- <d9727ac4-4976-0de7-2d16-676ad7db5e89@redhat.com>
+        bh=FSyUj9sOQAg1bto5phGO0kdMN7B410cjZoU9zGMstis=;
+        b=jq3SyMYYuTIgvU+sGELF+gqjQAmnVWzWaFRFgf7Hx3xedzgG2D4EFUTGJm5qp3TVfK
+         b4WD7CWaoOYbABuXo7RXPIcyYdX4SIZXGycuDjyR0FkPNuaxgIoJr/WqvV34oMLNj3FI
+         f6bIdf8HzZRTzOzXyQe+Rr/bi3bF0guyfDJU0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678296928;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FSyUj9sOQAg1bto5phGO0kdMN7B410cjZoU9zGMstis=;
+        b=CvD7m3x6ADa0CoieZvQ4yuCQBUttQzH2Rui5fqpjKZXmZ1np55DrABc8T05T0LmLAT
+         3Q/FhMADZEwXzz0Qpjw87Jn/kZwv1B9maSysyP8okLm3S+vDUoz/QQLnmOz35++dHg3G
+         IFjG6XKFItWNHSRJYAYWBJ3PjjIpa/8IYOB+dtc6xnMs2oyv45Wa2QxPZOXjuKnleCay
+         cG+PY80oq6xiSX/C1S+w6WCld/bi5s+7/tNC4+zUlWomnpu38IUmfX2glVN4/RKKy7Zl
+         kZ6ioAZs4yNkRPE0FfHFn2PR2FdDHA+npif0Vm1Gk5493+0zsYC+z0o55afH26lSjmSD
+         hpRg==
+X-Gm-Message-State: AO0yUKVh/kxWgvKgFdFhre0AW0An6ihViGoUm1PyaaDsqRZq8nvLvSl1
+        uxUq9IPTVtA3kz5uwl1332emnYX2u/qD6U7b3vw=
+X-Google-Smtp-Source: AK7set/nmwddJoOW0+g+95avHvZw0n5vuU/gp5YYbF8MuroQ2VY7dvhCCnNj/c6YyUAEN8b4sJtlvQ==
+X-Received: by 2002:a05:6e02:12e3:b0:313:e73b:d3dd with SMTP id l3-20020a056e0212e300b00313e73bd3ddmr12751314iln.13.1678296928262;
+        Wed, 08 Mar 2023 09:35:28 -0800 (PST)
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com. [209.85.166.172])
+        by smtp.gmail.com with ESMTPSA id g2-20020a92c7c2000000b00313d32f8345sm4705767ilk.66.2023.03.08.09.35.27
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 09:35:27 -0800 (PST)
+Received: by mail-il1-f172.google.com with SMTP id y9so9795851ill.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 Mar 2023 09:35:27 -0800 (PST)
+X-Received: by 2002:a05:6e02:ca6:b0:315:4c21:a377 with SMTP id
+ 6-20020a056e020ca600b003154c21a377mr9109185ilg.6.1678296927307; Wed, 08 Mar
+ 2023 09:35:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d9727ac4-4976-0de7-2d16-676ad7db5e89@redhat.com>
+References: <20230224070506.4157738-1-saravanak@google.com>
+ <20230224070506.4157738-3-saravanak@google.com> <CAD=FV=WaWmHDX0FVH1KO7b_QDM9xxt86q60MGOtPVVvGZJ+t7A@mail.gmail.com>
+ <CAGETcx_2f4atf-bpvj3o5FVcWrsbJRuY_Kwu5_NU6ESbNM8MFQ@mail.gmail.com>
+In-Reply-To: <CAGETcx_2f4atf-bpvj3o5FVcWrsbJRuY_Kwu5_NU6ESbNM8MFQ@mail.gmail.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Wed, 8 Mar 2023 09:35:14 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Uv0JZDZ4adVkXN=Wkkv+N2EXnBsREx-bHyeeefYc4s6A@mail.gmail.com>
+Message-ID: <CAD=FV=Uv0JZDZ4adVkXN=Wkkv+N2EXnBsREx-bHyeeefYc4s6A@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] driver core: Make state_synced device attribute writeable
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Matthias Kaehlcke <mka@chromium.org>, kernel-team@android.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hey David,
+Hi,
 
-On Wed, Mar 08, 2023 at 06:01:14PM +0100, David Hildenbrand wrote:
-> For some reason gmail thought it would be a good ideas to move this into the
-> SPAM folder, so I only saw the recent replies just now.
-> 
-> I'm going to have a look at this soonish.
+On Fri, Mar 3, 2023 at 4:53=E2=80=AFPM Saravana Kannan <saravanak@google.co=
+m> wrote:
+>
+> > > --- a/drivers/base/base.h
+> > > +++ b/drivers/base/base.h
+> > > @@ -164,6 +164,14 @@ static inline int driver_match_device(struct dev=
+ice_driver *drv,
+> > >         return drv->bus->match ? drv->bus->match(dev, drv) : 1;
+> > >  }
+> > >
+> > > +static inline void dev_sync_state(struct device *dev)
+> >
+> > IMO don't force inline. The compiler is probably smarter than you. I
+> > could even believe that it might be more optimal for this rarely
+> > called function to be _not_ inline if it kept the kernel smaller. I
+> > guess that means moving it out of the header...
+>
+> I'm following the style of every other function in the .h file.
 
-Thanks! More eyes are always helpful.
+Right, that's why I suggested moving it out of the .h file. I see
+plenty of non-inline function definitions in the header file.
 
-> One point that popped up in the past and that I raised on the last RFC: we
-> should think about letting processes *opt out/disable* KSM on their own.
-> Either completely, or for selected VMAs.
-> 
-> Reasoning is, that if you have an application that really doesn't want some
-> memory regions to be applicable to KSM (memory de-duplication attacks?
-> Knowing that KSM on some regions will be counter-productive)
-> 
-> For example, remembering if MADV_UNMERGEABLE was called and not only
-> clearing the VMA flag. So even if KSM would be force-enabled by some tooling
-> after the process started, such regions would not get considered for KSM.
-> 
-> It would a bit like how we handle THP.
-
-I'm not sure the THP comparison is apt. THP is truly a local
-optimization that depends on the workload's access patterns. The
-environment isn't a true factor. It makes some sense that if there is
-a global policy to generally use THP the workload be able to opt out
-based on known sparse access patterns. At least until THP allocation
-strategy inside the kernel becomes smarter!
-
-Merging opportunities and security questions are trickier. The
-application might know which data is sensitive, but it doesn't know
-whether its environment is safe or subject do memory attacks, so it
-cannot make that decision purely from inside.
-
-There is a conceivable usecase where multiple instances of the same
-job are running inside a safe shared security domain and using the
-same sensitive data.
-
-There is a conceivable usecase where the system and the workload
-collaborate to merge insensitive data across security domains.
-
-I'm honestly not sure which usecase is more likely. My gut feeling is
-the first one, simply because of broader concerns of multiple security
-domains sharing kernel instances or physical hardware.
-
-> On 24.02.23 05:39, Stefan Roesch wrote:
-> > So far KSM can only be enabled by calling madvise for memory regions. To
-> > be able to use KSM for more workloads, KSM needs to have the ability to be
-> > enabled / disabled at the process / cgroup level.
-> > 
-> > Use case 1:
-> > The madvise call is not available in the programming language. An example for
-> > this are programs with forked workloads using a garbage collected language without
-> > pointers. In such a language madvise cannot be made available.
-> > 
-> > In addition the addresses of objects get moved around as they are garbage
-> > collected. KSM sharing needs to be enabled "from the outside" for these type of
-> > workloads.
-> > 
-> > Use case 2:
-> > The same interpreter can also be used for workloads where KSM brings no
-> > benefit or even has overhead. We'd like to be able to enable KSM on a workload
-> > by workload basis.
-> > 
-> > Use case 3:
-> > With the madvise call sharing opportunities are only enabled for the current
-> > process: it is a workload-local decision. A considerable number of sharing
-> > opportuniites may exist across multiple workloads or jobs. Only a higler level
-> > entity like a job scheduler or container can know for certain if its running
-> > one or more instances of a job. That job scheduler however doesn't have
-> > the necessary internal worklaod knowledge to make targeted madvise calls.
-> > 
-> > Security concerns:
-> > In previous discussions security concerns have been brought up. The problem is
-> > that an individual workload does not have the knowledge about what else is
-> > running on a machine. Therefore it has to be very conservative in what memory
-> > areas can be shared or not. However, if the system is dedicated to running
-> > multiple jobs within the same security domain, its the job scheduler that has
-> > the knowledge that sharing can be safely enabled and is even desirable.
-> 
-> Note that there are some papers about why limiting memory deduplciation
-> attacks to single security domains is not sufficient. Especially, the remote
-> deduplication attacks fall into that category IIRC.
-
-I think it would be good to elaborate on that and include any caveats
-in the documentation.
-
-Ultimately, the bar isn't whether there are attack vectors on a subset
-of possible usecases, but whether there are usecases where this can be
-used safely, which is obviously true.
+-Doug
