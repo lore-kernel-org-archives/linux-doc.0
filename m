@@ -2,121 +2,70 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3D7AC6FD20
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 14:08:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32E59C678D5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 14:41:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232180AbjCHOIp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 09:08:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48674 "EHLO
+        id S231932AbjCHOlt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 09:41:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232116AbjCHOIE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 09:08:04 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE3065ADF5;
-        Wed,  8 Mar 2023 06:06:53 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S231982AbjCHOl2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 09:41:28 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2338DB6D7
+        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 06:39:41 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9AD2AB81BEB;
-        Wed,  8 Mar 2023 14:06:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55EF7C433D2;
-        Wed,  8 Mar 2023 14:06:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678284411;
-        bh=c4godVAn6HjOWriTqbDfMbdcTlhXhbEHeIYFkgIhqE4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c3zW/ilEvzKm8sQ1YvCRc6PMjZ7hUSBRDaM+R6u5gVm2j/XlCYYzKs+Yj9sgoWfaK
-         xF4oQ4mfPeQ1DazAWbdh1Wd9v7QLs6GCRa8c1hzqxDR/ERqNNWwNusJ2Bwuk+y12zu
-         OssN1SK/Ow+Zvo9pn+pEDhuwXOr6V2DJlwEi6rC6PzOU34j8T8BTaXnhS+eVRwQRAL
-         YmikLUlLzN6gbzRa+rxcSullmPtvdq7B9lzvoFXmkGv3gIq3BJs/b6ZVHeVzoFYfUs
-         PRAYGunOslzfulvMunLELAY6zqPgEeg+YXmIwEuIKJnQ8FuXYBpiYWhqT8lyZ5OJg0
-         daD58umJZWimw==
-Date:   Wed, 8 Mar 2023 14:06:42 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Arun.Ramadoss@microchip.com
-Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
-Message-ID: <20230308140642.GO9667@google.com>
-References: <20230216013230.22978-1-ansuelsmth@gmail.com>
- <Y++PdVq+DlzdotMq@lunn.ch>
- <Y/YubNUBvQ5fBjtG@google.com>
- <6406344a.050a0220.693b3.6689@mx.google.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id D6C312C3;
+        Wed,  8 Mar 2023 14:39:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D6C312C3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1678286380; bh=LaEwZX6NZ05ginfLQT+9LvrZWbhKXF0n8wqUhqymkzI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=HAhEFX9siDLaUx+qc05bpQh1ecDYZdaRGNDOc5tuenF/mkY2Vokoz4d9yhJ12hO+P
+         +s6VnIstOYtOmQEvBw9WfgWQhgPIDNupPXy7ChVdHxFufzm64Xv8BGlzDOzHPwRgUq
+         czKx4DCh3Ghek3fsrQScWPXYFI4e6wuicYfHfy8IndpPKOhd8NVe8+6LkV2jvZ7iuq
+         tW1czTOzzy7fMNsHQNri5SPpmgkM97s4Y84hKzlLwCNJNA/qG1jY3RS7+v85bmiUI7
+         obDW9YLH0DREm2rGYsixzdpsdTxPbbVJ4QaWSCH+DURyD3gykJUr7zMzSAeVwIGAR2
+         qBVmgRySAAuNg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     linux-doc@vger.kernel.org,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+        kernel@pengutronix.de, David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH] docs: rebasing-and-merging: Drop wrong statement about git
+In-Reply-To: <20230308073058.ipiudixcn2fpwaus@pengutronix.de>
+References: <20230228134657.1797871-1-u.kleine-koenig@pengutronix.de>
+ <875yblzjoe.fsf@meer.lwn.net>
+ <20230308073058.ipiudixcn2fpwaus@pengutronix.de>
+Date:   Wed, 08 Mar 2023 07:39:38 -0700
+Message-ID: <87v8jbl32t.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6406344a.050a0220.693b3.6689@mx.google.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 06 Mar 2023, Christian Marangi wrote:
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> writes:
 
-> On Wed, Feb 22, 2023 at 03:02:04PM +0000, Lee Jones wrote:
-> > On Fri, 17 Feb 2023, Andrew Lunn wrote:
-> >
-> > > On Thu, Feb 16, 2023 at 02:32:17AM +0100, Christian Marangi wrote:
-> > > > This is another attempt on adding this feature on LEDs, hoping this is
-> > > > the right time and someone finally notice this.
-> > >
-> > > Hi Christian
-> > >
-> > > Thanks for keeping working on this.
-> > >
-> > > I want to review it, and maybe implement LED support in a PHY
-> > > driver. But i'm busy with reworking EEE at the moment.
-> > >
-> > > The merge window is about to open, so patches are not going to be
-> > > accepted for the next two weeks. So i will take a look within that
-> > > time and give you feedback.
-> >
-> > Thanks Andrew.  If Pavel is still unavailable to conduct reviews, I'm
-> > going to need all the help I can get with complex submissions such as
-> > these.
-> >
+> On Tue, Feb 28, 2023 at 12:14:41PM -0700, Jonathan Corbet wrote:
+>> So the patch is worth applying, but I may tweak the changelog some.
 >
-> Hi Lee,
-> thanks for stepping in. Just wanted to tell you I got some message with
-> Andrew to make this thing less problematic and to dry/make it more
-> review friendly.
+> I spotted a414684e3b735a4114c19295a07e8cb2eb889dae in next now. You made
+> the changelog read:
 >
-> We decided on pushing this in 3 step:
-> 1. Propose most basic things for some switch and some PHY. (brightness
-> and blink_set support only, already supported by LED core)
-> 2. A small series that should be just a cleanup for the netdev trigger
-> 3. Support for hw_control in the most possible clean and way with small
-> patch to they are not hard to track and understand the concept of this
-> feature.
+> 	The "^0" syntax is no longer needed to fast-forward to a mainline commit
 >
-> I'm starting with the step 1 and sending some of my patch and Andrew
-> patch to add basic support and I will add you and LED mailing list in
-> Cc.
+> I'm willing to bet that ^0 was never needed to force a fast-forward and
+> using it was never had an advantage.
 
-Sounds like a plan.  Thank you both.
+https://lore.kernel.org/lkml/CA+55aFwaxsNZ0ACQkASdDTbSrdcHMJpFPtswK485tEWRB=
+VVYrA@mail.gmail.com/
 
-> Again thanks for starting checking this and feel free to ask any
-> question about this to me also privately, I'm very open to any help.
+Git has since been changed, as I said before, so that it's no longer
+necessary to use the ^0 notation.  So I maintain that, while the doc
+change was good, the changelog wasn't quite right.
 
---
-Lee Jones [李琼斯]
+jon
