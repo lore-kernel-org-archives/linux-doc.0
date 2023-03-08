@@ -2,158 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 324FEC678D5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 18:27:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23A57C64EC4
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 18:32:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229868AbjCHS1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 13:27:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48002 "EHLO
+        id S230159AbjCHScW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 13:32:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjCHS1K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 13:27:10 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F058EC3631;
-        Wed,  8 Mar 2023 10:27:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678300029; x=1709836029;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=5xt+Oxmh4ZD99PRtVYMgcMoTdrC8s3y2I1hzYqDESF4=;
-  b=nspyLdK5mKMGDTI7D1yLYjHx8gQNWhu1yvlF1D7zDX9fcrhWtyV8cse+
-   5MsiQIkG/lZOxPgtm60zEEPo20FoLzqvEOk2eUQQV564EKuX0Z5Mbp0kZ
-   uthrBgfNGHQatgDJgVK6mH0+/tNCj+fhJfqLiH7cc4lNtpy17I8cx5gjL
-   2USyzKQ3zgpzVivB8Lfq00u2952l8XrwVnUqc8FDaTkxeLLKF/95dfHdy
-   76U8EbmTgV3Ow4CFPhDbOrkFLWzWEVRK6KgpgYkdZ3If7dfsFWvKWpQp6
-   sso397daB51yuNj1oR4VPlx0IV7Pu+42FdHg4pOyFm8/V0sjmAnzDbpc2
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="401065305"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="401065305"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 10:27:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="766100262"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="766100262"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Mar 2023 10:26:55 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pZyV5-0002Kv-0g;
-        Wed, 08 Mar 2023 18:26:55 +0000
-Date:   Thu, 9 Mar 2023 02:26:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, Michael Walle <michael@walle.cc>,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Kory Maincent <kory.maincent@bootlin.com>,
-        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Minghao Chi <chi.minghao@zte.com.cn>
-Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
- selectable.
-Message-ID: <202303090220.EervgFvH-lkp@intel.com>
-References: <20230308135936.761794-4-kory.maincent@bootlin.com>
+        with ESMTP id S229699AbjCHScV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 13:32:21 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AB8194F54
+        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 10:32:18 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pZyaE-0005Rb-NE; Wed, 08 Mar 2023 19:32:14 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pZyaC-002mNl-Ow; Wed, 08 Mar 2023 19:32:12 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pZyaB-003MEg-Qu; Wed, 08 Mar 2023 19:32:11 +0100
+Date:   Wed, 8 Mar 2023 19:32:11 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     David Rientjes <rientjes@google.com>, kernel@pengutronix.de,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: rebasing-and-merging: Drop wrong statement about
+ git
+Message-ID: <20230308183211.dm6jbxuenrnyr4at@pengutronix.de>
+References: <20230228134657.1797871-1-u.kleine-koenig@pengutronix.de>
+ <875yblzjoe.fsf@meer.lwn.net>
+ <20230308073058.ipiudixcn2fpwaus@pengutronix.de>
+ <87v8jbl32t.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="r2l6atz6gk6oh6uj"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230308135936.761794-4-kory.maincent@bootlin.com>
+In-Reply-To: <87v8jbl32t.fsf@meer.lwn.net>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Köry,
 
-I love your patch! Perhaps something to improve:
+--r2l6atz6gk6oh6uj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test WARNING on v6.2]
-[cannot apply to robh/for-next horms-ipvs/master net/master net-next/master linus/master v6.3-rc1 next-20230308]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Wed, Mar 08, 2023 at 07:39:38AM -0700, Jonathan Corbet wrote:
+> Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de> writes:
+>=20
+> > On Tue, Feb 28, 2023 at 12:14:41PM -0700, Jonathan Corbet wrote:
+> >> So the patch is worth applying, but I may tweak the changelog some.
+> >
+> > I spotted a414684e3b735a4114c19295a07e8cb2eb889dae in next now. You made
+> > the changelog read:
+> >
+> > 	The "^0" syntax is no longer needed to fast-forward to a mainline comm=
+it
+> >
+> > I'm willing to bet that ^0 was never needed to force a fast-forward and
+> > using it was never had an advantage.
+>=20
+> https://lore.kernel.org/lkml/CA+55aFwaxsNZ0ACQkASdDTbSrdcHMJpFPtswK485tEW=
+RBVVYrA@mail.gmail.com/
+>=20
+> Git has since been changed, as I said before, so that it's no longer
+> necessary to use the ^0 notation.  So I maintain that, while the doc
+> change was good, the changelog wasn't quite right.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
-patch link:    https://lore.kernel.org/r/20230308135936.761794-4-kory.maincent%40bootlin.com
-patch subject: [PATCH v3 3/5] net: Let the active time stamping layer be selectable.
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230309/202303090220.EervgFvH-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d81a36f239360e7e3b9ca2633e52b3cb12205590
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
-        git checkout d81a36f239360e7e3b9ca2633e52b3cb12205590
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/net/phy/
+Hmm, seems I'd have lost my bet. So it seems there was a time when git
+made a ff to merge a commit, but it didn't when it was asked to merge a
+signed tag that points to the same commit.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303090220.EervgFvH-lkp@intel.com/
+TIL! Seems I have to withdraw my objections to your wording.
 
-All warnings (new ones prefixed by >>):
+Thanks
+Uwe
 
->> drivers/net/phy/phy_device.c:1384:6: warning: no previous prototype for 'of_set_timestamp' [-Wmissing-prototypes]
-    1384 | void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
-         |      ^~~~~~~~~~~~~~~~
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
+--r2l6atz6gk6oh6uj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-vim +/of_set_timestamp +1384 drivers/net/phy/phy_device.c
+-----BEGIN PGP SIGNATURE-----
 
-  1383	
-> 1384	void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
-  1385	{
-  1386		struct device_node *node = phydev->mdio.dev.of_node;
-  1387		const struct ethtool_ops *ops = netdev->ethtool_ops;
-  1388		const char *s;
-  1389		enum timestamping_layer ts_layer = 0;
-  1390	
-  1391		if (phy_has_hwtstamp(phydev))
-  1392			ts_layer = PHY_TIMESTAMPING;
-  1393		else if (ops->get_ts_info)
-  1394			ts_layer = MAC_TIMESTAMPING;
-  1395	
-  1396		if (of_property_read_string(node, "preferred-timestamp", &s))
-  1397			goto out;
-  1398	
-  1399		if (!s)
-  1400			goto out;
-  1401	
-  1402		if (phy_has_hwtstamp(phydev) && !strcmp(s, "phy"))
-  1403			ts_layer = PHY_TIMESTAMPING;
-  1404	
-  1405		if (ops->get_ts_info && !strcmp(s, "mac"))
-  1406			ts_layer = MAC_TIMESTAMPING;
-  1407	
-  1408	out:
-  1409		netdev->selected_timestamping_layer = ts_layer;
-  1410	}
-  1411	
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmQI1KgACgkQwfwUeK3K
+7Aks2gf+MOQ1qGaWTWG3K4UnALqGPXGSCqxaOlPCjIl+MBlE8XTNwXa1xBHRT+rv
+odKhWRQk3VyuREOHD3zqTWYMXJNzxm/mmpKLQX8W4UtcdJWJSzVJM4BAcHOmHamy
+dyZ/TBO8IR79qzzbr2URCAGGd2HKeuXUDX42xhitHI69HEmncwLRuJVhY6dD7UIx
+stNKQvytMxOVKsA8NZwSwzJDb66rXgNSB+xz9UA7oI/h6mOu4NyQ8iUrE3ZodjWt
+zQ3SGhNU47z/63AeR5U9bGdr+ew7IP7xjg1voiHSGz6tZYzCvukz9WLZX/Oc53Li
+d1IqNjeQlvPQLho6CqLlffFok3eglQ==
+=zqRx
+-----END PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+--r2l6atz6gk6oh6uj--
