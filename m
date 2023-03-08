@@ -2,166 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E41BC6FD20
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 13:56:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62540C678D5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 14:01:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231788AbjCHN4x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 08:56:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53082 "EHLO
+        id S231853AbjCHOBc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 09:01:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231789AbjCHN4b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 08:56:31 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A445BC7AF;
-        Wed,  8 Mar 2023 05:55:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E7F3461831;
-        Wed,  8 Mar 2023 13:54:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66D6FC433D2;
-        Wed,  8 Mar 2023 13:54:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678283679;
-        bh=LgJmuPh62bzIRF56GeEnleYs9mQgD2X4Stitbg8Wl8Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hA61oRG3xKfbMJL3tc3kmoQ4ZglzlLfkN3tTw4z5mKtKKTgHKmczk0xRb3nlkrdnj
-         B5l9xf0FbnvMvntjpaXx2eamIVEHDU2lxg6q3vRtfhDdDDz3azrGNc9nMzC3QgR7Kj
-         dHe7wwTkW2Gd8qCjBheuU5YHSfeQSM+pD8EUiABs4YNNh/2TovcFFJGHSG5rA8Apko
-         XT1KspJrlRIsFiePDrLPwMo+ucOZ6lpEG7MilbQ4oDtFM/0u3rrwsg0t+7mY2eF5nU
-         m7IdR33AbdfCZK5YADp+fqNTLxbiessPjeMcz8dHw3BSD0Znul1VBfvSu1h6F4ckQ+
-         bPPu3QZofv/tg==
-Date:   Wed, 8 Mar 2023 13:54:33 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     ChiYuan Huang <cy_huang@richtek.com>
-Cc:     ChiaEn Wu <chiaen_wu@richtek.com>, corbet@lwn.net, pavel@ucw.cz,
-        matthias.bgg@gmail.com, andriy.shevchenko@linux.intel.com,
-        jacek.anaszewski@gmail.com,
-        angelogioacchino.delregno@collabora.com, linux-doc@vger.kernel.org,
-        peterwu.pub@gmail.com, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        szunichen@gmail.com
-Subject: Re: [PATCH v17 RESEND 2/3] leds: flash: mt6370: Add MediaTek MT6370
- flashlight support
-Message-ID: <20230308135433.GL9667@google.com>
-References: <cover.1677150607.git.chiaen_wu@richtek.com>
- <dc467984ebfc443685af62310aadb45389e804d6.1677150607.git.chiaen_wu@richtek.com>
- <20230305100608.GD2574592@google.com>
- <20230307034433.GA10739@linuxcarl2.richtek.com>
+        with ESMTP id S231834AbjCHOBL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 09:01:11 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDAEEFF0D;
+        Wed,  8 Mar 2023 05:59:44 -0800 (PST)
+Received: (Authenticated sender: kory.maincent@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 847C51C0003;
+        Wed,  8 Mar 2023 13:59:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1678283983;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=FTBqfoX84Wuze6pyOMEwaXrXDsP6bvdwqai+tioaAFE=;
+        b=Tyhi640kB8cduEHSCqX7++WDer6tvO6G7mt1SfulRraHIqpXXOLkyZeJKeDkSEcmwbMNxp
+        YsrGves4sTnPiMqQb9WW69BU2vpCptruZRd6Zw6jpsj4NQmK/4q39XVWkj0pLkP27RG09q
+        ZN+9Rr9duzqrnyvmsR0GMqQiAo5G3+Hh2yz9jyPFLT9U1BkiLvu5Rtpl3jTCxhM7ZFO54u
+        YRoNHwyQZQ3rI/8bXKfb6S8AhM3Mw486n8uVGV9RDlSEVEE/n/lwKRCEuzPOvBq9nlLRma
+        PhJLw9j2Sbkqsrr8FbySLnTzk+vG8fAJMJ2TYSNSZH4wxnIYSOok+bUPGActAQ==
+From:   =?UTF-8?q?K=C3=B6ry=20Maincent?= <kory.maincent@bootlin.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org
+Cc:     Michael Walle <michael@walle.cc>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Kory Maincent <kory.maincent@bootlin.com>,
+        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        Jie Wang <wangjie125@huawei.com>,
+        Guangbin Huang <huangguangbin2@huawei.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Sean Anderson <sean.anderson@seco.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Alexandru Tachici <alexandru.tachici@analog.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Marco Bonelli <marco@mebeim.net>,
+        Maxim Korotkov <korotkov.maxim.s@gmail.com>
+Subject: [PATCH v3 0/5] net: Make MAC/PHY time stamping selectable
+Date:   Wed,  8 Mar 2023 14:59:24 +0100
+Message-Id: <20230308135936.761794-1-kory.maincent@bootlin.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230307034433.GA10739@linuxcarl2.richtek.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 07 Mar 2023, ChiYuan Huang wrote:
+From: Kory Maincent <kory.maincent@bootlin.com>
 
-> Hi, Lee:
->    Reply below the comments.
->
-> On Sun, Mar 05, 2023 at 10:06:08AM +0000, Lee Jones wrote:
-> > On Thu, 23 Feb 2023, ChiaEn Wu wrote:
-> >
-> > > From: ChiYuan Huang <cy_huang@richtek.com>
-> > >
-> > > The MediaTek MT6370 is a highly-integrated smart power management IC,
-> > > which includes a single cell Li-Ion/Li-Polymer switching battery
-> > > charger, a USB Type-C & Power Delivery (PD) controller, dual Flash
-> > > LED current sources, a RGB LED driver, a backlight WLED driver,
-> > > a display bias driver and a general LDO for portable devices.
-> > >
-> > > Add support for the MT6370 Flash LED driver. Flash LED in MT6370
-> > > has 2 channels and support torch/strobe mode.
-> > >
-> > > Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> > > Co-developed-by: Alice Chen <alice_chen@richtek.com>
-> > > Signed-off-by: Alice Chen <alice_chen@richtek.com>
-> > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> > > ---
-> > > v17
-> > > - Update the year of Copyright from 2022 to 2023
-> > >
-> > > ---
-> > >  drivers/leds/flash/Kconfig             |  13 +
-> > >  drivers/leds/flash/Makefile            |   1 +
-> > >  drivers/leds/flash/leds-mt6370-flash.c | 596 +++++++++++++++++++++++++++++++++
-> > >  3 files changed, 610 insertions(+)
-> > >  create mode 100644 drivers/leds/flash/leds-mt6370-flash.c
+Up until now, there was no way to let the user select the layer at
+which time stamping occurs.  The stack assumed that PHY time stamping
+is always preferred, but some MAC/PHY combinations were buggy.
 
-[...]
+This series aims to allow the user to select the desired layer
+administratively.
 
-> > > +static int _mt6370_flash_brightness_set(struct led_classdev_flash *fl_cdev,
-> > > +					u32 brightness)
-> > > +{
-> > > +	struct mt6370_led *led = to_mt6370_led(fl_cdev, flash);
-> > > +	struct mt6370_priv *priv = led->priv;
-> > > +	struct led_flash_setting *setting = &fl_cdev->brightness;
-> > > +	u32 val = (brightness - setting->min) / setting->step;
-> > > +	int ret, i;
-> > > +
-> > > +	if (led->led_no == MT6370_LED_JOINT) {
-> >
-> > What is a "JOINT"?
-> >
-> Since MT6370 has two flash led channels. Per channel can drive the current up to 1.5A.
-> 'JOINT' case is used if 1.5A driving current is not enough, like as flash current 2A.
-> They can use two channels to drive 'one' flash led by the HW application.
-> This will make the driving current larger than the capability of one channel.
+- Patch 1 refactors get_ts_info copy/paste code.
 
-Is "joint" the term used in the datasheet?
+- Patch 2 introduces sysfs files that reflect the current, static
+  preference of PHY over MAC.
 
-Please make this definition clear in the code.
+- Patch 3 makes the layer selectable at run time.
 
-If I'm asking, others are likely to too.
+- Patch 4 fixes up MAC drivers that attempt to defer to the PHY layer.
+  This patch is broken out for review, but it will eventually be
+  squashed into Patch 3 after comments come in.
 
-[...]
+Changes in v2:
+- Move selected_timestamping_layer variable of the concerned patch.
+- Use sysfs_streq instead of strmcmp.
+- Use the PHY timestamp only if available.
 
-> > > +static int mt6370_init_flash_properties(struct device *dev,
-> > > +					struct mt6370_led *led,
-> > > +					struct fwnode_handle *fwnode)
-> > > +{
-> > > +	struct led_classdev_flash *flash = &led->flash;
-> > > +	struct led_classdev *lcdev = &flash->led_cdev;
-> > > +	struct mt6370_priv *priv = led->priv;
-> > > +	struct led_flash_setting *s;
-> > > +	u32 sources[MT6370_MAX_LEDS];
-> > > +	u32 max_ua, val;
-> > > +	int i, ret, num;
-> > > +
-> > > +	num = fwnode_property_count_u32(fwnode, "led-sources");
-> > > +	if (num < 1)
-> > > +		return dev_err_probe(dev, -EINVAL,
-> > > +				     "Not specified or wrong number of led-sources\n");
-> > > +
-> > > +	ret = fwnode_property_read_u32_array(fwnode, "led-sources", sources, num);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	for (i = 0; i < num; i++) {
-> > > +		if (sources[i] >= MT6370_MAX_LEDS)
-> > > +			return -EINVAL;
-> > > +		if (priv->leds_active & BIT(sources[i]))
-> > > +			return -EINVAL;
-> > > +		priv->leds_active |= BIT(sources[i]);
-> > > +	}
-> > > +
-> > > +	led->led_no = num == 2 ? MT6370_LED_JOINT : sources[0];
-> > > +
-> > > +	max_ua = num == 2 ? MT6370_ITORCH_DOUBLE_MAX_uA : MT6370_ITORCH_MAX_uA;
-> > > +	val = MT6370_ITORCH_MIN_uA;
-> >
-> > In what scenario does this not get overwritten?
-> >
-> Only if the property is missing. This will make the value keep in minimum.
+Changes in v3:
+- Expose the PTP choice to ethtool instead of sysfs.
+  You can test it with the ethtool source on branch feature_ptp of:
+  https://github.com/kmaincent/ethtool
+- Added a devicetree binding to select the preferred timestamp.
 
-If the property is missing, fwnode_property_read_u32() returns an errno, no?
+Kory Maincent (2):
+  net: Expose available time stamping layers to user space.
+  dt-bindings: net: phy: add timestamp preferred choice property
 
-If that's the case, val will be over-written in the if() clause?
+Richard Cochran (3):
+  net: ethtool: Refactor identical get_ts_info implementations.
+  net: Let the active time stamping layer be selectable.
+  net: fix up drivers WRT phy time stamping
 
---
-Lee Jones [李琼斯]
+ .../devicetree/bindings/net/ethernet-phy.yaml |  7 ++
+ Documentation/networking/ethtool-netlink.rst  |  3 +
+ drivers/net/bonding/bond_main.c               | 14 +---
+ drivers/net/ethernet/freescale/fec_main.c     | 23 +++---
+ drivers/net/ethernet/mscc/ocelot_net.c        | 21 +++---
+ drivers/net/ethernet/ti/cpsw_priv.c           | 12 ++--
+ drivers/net/ethernet/ti/netcp_ethss.c         | 26 ++-----
+ drivers/net/macvlan.c                         | 14 +---
+ drivers/net/phy/phy_device.c                  | 34 +++++++++
+ include/linux/ethtool.h                       |  8 +++
+ include/linux/netdevice.h                     |  6 ++
+ include/uapi/linux/ethtool.h                  |  3 +
+ include/uapi/linux/net_tstamp.h               |  6 ++
+ net/8021q/vlan_dev.c                          | 15 +---
+ net/core/dev_ioctl.c                          | 43 ++++++++++-
+ net/core/timestamping.c                       |  6 ++
+ net/ethtool/common.c                          | 22 ++++--
+ net/ethtool/ioctl.c                           | 71 +++++++++++++++++++
+ 18 files changed, 237 insertions(+), 97 deletions(-)
+
+-- 
+2.25.1
+
