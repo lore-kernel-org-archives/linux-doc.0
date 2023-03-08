@@ -2,99 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D37CAC64EC4
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 19:06:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A3E1C678D5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Mar 2023 19:23:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230242AbjCHTGj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 14:06:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46846 "EHLO
+        id S230099AbjCHTXl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Mar 2023 14:23:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229904AbjCHTGJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 14:06:09 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72BA443470;
-        Wed,  8 Mar 2023 11:05:32 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0991261908;
-        Wed,  8 Mar 2023 19:05:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6582C4339B;
-        Wed,  8 Mar 2023 19:05:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678302316;
-        bh=4579myHlZN9028AWu5vKlgKiQpdTskFF5YbznY9DXHs=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=fMaPrr+CXmlgTlLTxYN07FtYLmw0su0eIQl4b3c01QC2HWnHNTMK2FM7grL+JWhKK
-         3iTjUiIGJ/9BLo2f/6k557BuIeYkCpScSSiAklScWLhTQRiY1LIx++j6WRfJT7zxFx
-         IRyfLBAZFRnIcFSumGoRhS6dulelz81qRLLWoqSFfPsyqwn7iMnyA545gSAaIHKlAS
-         r1wT4ng7BoLkruuTtYaCic4X/a6jRJu35Ejb66uSoEPHgJK7pbTzKZD3iwjLI/LLit
-         HZQ2Bfil4QeATZXS50OlUfhaVNO8/cRtzWVU7iQnFOCa9KK5VGaSRqheGtWYnAmKP3
-         8/AKOw16m1IAQ==
-Message-ID: <a5e897e5-4cb9-d50f-47a8-ffb8bd8774cb@kernel.org>
-Date:   Wed, 8 Mar 2023 20:05:11 +0100
+        with ESMTP id S229841AbjCHTXg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 14:23:36 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C332591C4
+        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 11:23:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=F2/oRxm9F/YTA23JYPgKdtEwgtNV/Q1m5JbZrToTnPE=; b=saL8NDuui0ux+WSPWIb1yfubJn
+        pVNmgx8nyZY737zVj7w2p5Tk4Vytb8My+0+S5kjvsOE9ovNpvgLjZwlH+ki5lGSlEtSJqY9fl3DHs
+        rLPFfTmm0e5bfS/UfkkxwqECioCfL2IzZmK0KR7wPodu1Q9KNlHKNnynrSvdKqVKXy1npRbN65+xr
+        ioXz0yXxIZ40KiXC9YrsxeUugPkoYuSNC6Jv3ws9m20Rg2DZoSWQ5Ggym6KetMs00og3T0b3MfetA
+        uxONNUU+4JWUI7mHQZud/BOQe1KxMs9QJVd1SDyJV3OAMQ8Rvc76dj8C6AurDu8H5Lo4FdAHGe3Ma
+        QyFDqoYw==;
+Received: from [2601:1c2:980:9ec0::df2f]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pZzNo-006XPQ-Si; Wed, 08 Mar 2023 19:23:28 +0000
+Message-ID: <89ff369a-054e-b190-d541-0071e9c4e5e2@infradead.org>
+Date:   Wed, 8 Mar 2023 11:23:28 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH V2 4/6] dt-bindings: timestamp: Add Tegra234 support
+Subject: Re: [PATCH -v3] Documentation/process: Add Linux Kernel Contribution
+ Maturity Model
 Content-Language: en-US
-To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org,
-        timestamp@lists.linux.dev
-References: <20230214115553.10416-1-dipenp@nvidia.com>
- <20230214115553.10416-5-dipenp@nvidia.com>
- <3c0ad963-ce69-bd5b-20cd-888e5fbdecaf@kernel.org>
- <7a8027c9-dc73-3684-c5f2-3071f315b3cd@nvidia.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <7a8027c9-dc73-3684-c5f2-3071f315b3cd@nvidia.com>
+To:     Theodore Ts'o <tytso@mit.edu>, linux-doc@vger.kernel.org
+Cc:     Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20230308190403.2157046-1-tytso@mit.edu>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230308190403.2157046-1-tytso@mit.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/03/2023 19:45, Dipen Patel wrote:
-> On 2/16/23 6:17 AM, Krzysztof Kozlowski wrote:
->> On 14/02/2023 12:55, Dipen Patel wrote:
->>> Added timestamp provider support for the Tegra234 in devicetree
->>> bindings.
->>
->> 1. Your commit does much more. You need to explain it why you drop some
->> property.
-> ACK, will address it next patch
->>
->> 2. Bindings go before its usage (in the patchset).
-> Ack...
->>
->> 3. Please use scripts/get_maintainers.pl to get a list of necessary
->> people and lists to CC.  It might happen, that command when run on an
->> older kernel, gives you outdated entries.  Therefore please be sure you
->> base your patches on recent Linux kernel.
-> It is based on recent linux at the time patch series was sent...
-
-That's good but then why you do not use scripts/get_maintainers.pl? The
-hint about recent kernel was just a hint... Just do not invent addresses
-by yourself and use the tool to get them right.
-
-(...)
-
->>> +  properties:
->>> +    compatible:
->>> +      contains:
->>> +        enum:
->>> +          - nvidia,tegra194-gte-aon
->>
->> This is an ABI break. Does your driver handle it?
-> yes, handling patch is part of this patch series.
-
-Can you point me to the code which does it? I see "return -ENODEV;", so
-I think you do not handle ABI break. I could miss something but since
-you disagree with me, please at least bring some arguments...
 
 
-Best regards,
-Krzysztof
+On 3/8/23 11:04, Theodore Ts'o wrote:
+> As a follow-up to a discussion at the 2021 Maintainer's Summit on the
+> topic of maintainer recruitment and retention, the TAB took on the
+> task of creating a document which to help companies and other
+> organizations to grow in their ability to engage with the Linux Kernel
+> development community, using the Maturity Model[2] framework.
+> 
+> The goal is to encourage, in a management-friendly way, companies to
+> allow their engineers to contribute with the upstream Linux Kernel
+> development community, so we can grow the "talent pipeline" for
+> contributors to become respected leaders, and eventually kernel
+> maintainers.
+> 
+> [1] https://lwn.net/Articles/870581/
+> [2] https://en.wikipedia.org/wiki/Maturity_model
+> 
+> Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+> Co-developed-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Co-developed-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+> Acked-by: Jakub Kicinski <kuba@kernel.org>
+> Acked-by: Christian Brauner (Microsoft) <brauner@kernel.org>
+> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Acked-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  .../process/contribution-maturity-model.rst   | 109 ++++++++++++++++++
+>  Documentation/process/index.rst               |   1 +
+>  MAINTAINERS                                   |   8 ++
+>  3 files changed, 118 insertions(+)
+>  create mode 100644 Documentation/process/contribution-maturity-model.rst
+> 
+> diff --git a/Documentation/process/contribution-maturity-model.rst b/Documentation/process/contribution-maturity-model.rst
+> new file mode 100644
+> index 000000000000..b87ab34de22c
+> --- /dev/null
+> +++ b/Documentation/process/contribution-maturity-model.rst
 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8d5bc223f305..3ce66e199c97 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -21244,6 +21244,14 @@ S:	Maintained
+>  F:	Documentation/tools/rtla/
+>  F:	tools/tracing/rtla/
+>  
+
+This chunk is in the wrong location for alphabetical order.
+Other than that:
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+> +TECHNICAL ADVISORY BOARD PROCESS DOCS
+> +M:	"Theodore Ts'o" <tytso@mit.edu>
+> +M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> +L:	tech-board-discuss@lists.linux-foundation.org
+> +S:	Maintained
+> +F:	Documentation/process/researcher-guidelines.rst
+> +F:	Documentation/process/contribution-maturity-model.rst
+> +
+>  TRADITIONAL CHINESE DOCUMENTATION
+>  M:	Hu Haowen <src.res@email.cn>
+>  L:	linux-doc-tw-discuss@lists.sourceforge.net (moderated for non-subscribers)
+
+-- 
+~Randy
