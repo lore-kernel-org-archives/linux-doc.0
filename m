@@ -2,81 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC7DC64EC4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 14:42:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D405C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 15:06:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbjCIOmH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Mar 2023 09:42:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46302 "EHLO
+        id S231410AbjCIPGY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 10:06:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230261AbjCIOmG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 09:42:06 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B712200B;
-        Thu,  9 Mar 2023 06:42:05 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3FA6AB81E67;
-        Thu,  9 Mar 2023 14:42:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A99BCC433D2;
-        Thu,  9 Mar 2023 14:42:02 +0000 (UTC)
-Date:   Thu, 9 Mar 2023 15:42:00 +0100
-From:   Greg KH <greg@kroah.com>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev
-Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
-Message-ID: <ZAnwONGXWo5V6Wac@kroah.com>
-References: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
+        with ESMTP id S231611AbjCIPGE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 10:06:04 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 36CEDEBFBB;
+        Thu,  9 Mar 2023 07:03:43 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 10629AD7;
+        Thu,  9 Mar 2023 07:04:26 -0800 (PST)
+Received: from e127643.arm.com (unknown [10.57.48.23])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7D12F3F5A1;
+        Thu,  9 Mar 2023 07:03:39 -0800 (PST)
+From:   James Clark <james.clark@arm.com>
+To:     linux-kernel@vger.kernel.org, linux@roeck-us.net,
+        michal.simek@amd.com
+Cc:     James Clark <james.clark@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: [PATCH v2 0/4] devres: Provide krealloc_array
+Date:   Thu,  9 Mar 2023 15:03:29 +0000
+Message-Id: <20230309150334.216760-1-james.clark@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 05, 2023 at 02:04:44PM +0100, Thorsten Leemhuis wrote:
-> Add a text explaining how to quickly build a kernel, as that's something
-> users will often have to do when they want to report an issue or test
-> proposed fixes. This is a huge and frightening task for quite a few
-> users these days, as many rely on pre-compiled kernels and have never
-> built their own. They find help on quite a few websites explaining the
-> process in various ways, but those howtos often omit important details
-> or make things too hard for the 'quickly build just for testing' case
-> that 'localmodconfig' is really useful for. Hence give users something
-> at hand to guide them, as that makes it easier for them to help with
-> testing, debugging, and fixing the kernel.
-> 
-> To keep the complexity at bay, the document explicitly focuses on how to
-> compile the kernel on commodity distributions running on commodity
-> hardware. People that deal with less common distributions or hardware
-> will often know their way around already anyway.
-> 
-> The text describes a few oddities of Arch and Debian that were found by
-> the author and a few volunteers that tested the described procedure.
-> There are likely more such quirks that need to be covered as well as a
-> few things the author will have missed -- but one has to start
-> somewhere.
-> 
-> The document heavily uses anchors and links to them, which makes things
-> slightly harder to read in the source form. But the intended target
-> audience is way more likely to read rendered versions of this text on
-> pages like docs.kernel.org anyway -- and there those anchors and links
-> allow easy jumps to the reference section and back, which makes the
-> document a lot easier to work with for the intended target audience.
-> 
-> Aspects relevant for bisection were left out on purpose, as that is a
-> related, but in the end different use case. The rough plan is to have a
-> second document with a similar style to cover bisection. The idea is to
-> reuse a few bits from this document and link quite often to entries in
-> the reference section with the help of the anchors in this text.
-> 
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> 
+Changes since v1:
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ * Style fix
+
+-----------------------
+
+Hi,
+
+I had a use for a devm realloc_array in a separate change, so I've
+added one and updated all the obvious existing uses of it that I could
+find. This is basically a copy paste of the one in slab.h
+
+Applies to v6.3-rc1
+
+Thanks
+James
+
+
+James Clark (4):
+  devres: Provide krealloc_array
+  hwmon: pmbus: Use devm_krealloc_array
+  iio: adc: Use devm_krealloc_array
+  serial: qcom_geni: Use devm_krealloc_array
+
+ .../driver-api/driver-model/devres.rst          |  1 +
+ drivers/hwmon/pmbus/pmbus_core.c                |  6 +++---
+ drivers/iio/adc/xilinx-ams.c                    |  9 +++------
+ drivers/iio/adc/xilinx-xadc-core.c              | 17 +++++++----------
+ drivers/tty/serial/qcom_geni_serial.c           |  6 +++---
+ include/linux/device.h                          | 10 ++++++++++
+ 6 files changed, 27 insertions(+), 22 deletions(-)
+
+-- 
+2.34.1
+
