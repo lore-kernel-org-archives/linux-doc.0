@@ -2,196 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2715C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 17:25:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1D87C64EC4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 17:33:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230101AbjCIRY7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Mar 2023 12:24:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46072 "EHLO
+        id S230295AbjCIRdq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 12:33:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbjCIRY6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 12:24:58 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35EFDF31D0;
-        Thu,  9 Mar 2023 09:24:56 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BC21661CA0;
-        Thu,  9 Mar 2023 17:24:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2853FC433EF;
-        Thu,  9 Mar 2023 17:24:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678382695;
-        bh=gVhrjCj77/5J/qbJXsvZbwaLDnI4v1jfu9FIPhCu3LE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H9kaqCxri1hR1og1XvbopPSB+mRwmy6wXii0Zh5sZBdMMPn7jsliwFZyDY9Ldp33V
-         DEcKJPHhIhYsNZ40RRnpJ1Xl6qw38jSTxdQ+J7kbdwb7ImWyij0qAnS3paNk5OsNjV
-         0MfpkVxFgAKyMQAttlr+jPPqjBLjtEtRZ6b/e+ex8Y7AqYGO41o9PSrmHMsASZhbpm
-         x97ITw9xwFNIzLAeWIOSg7hpaYLTQJTWRRcSsjQrfCIkFWqYhCSwylImOdA3dS7CZz
-         3JWPNUeUdkxYjj1PC5BhR5AeBYhUEo2smPQrKM6v7wqqmf4bgTzQ3/T8ld/6wvkDpB
-         7K5sGj1tgH3eA==
-Date:   Thu, 9 Mar 2023 17:24:48 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     ChiYuan Huang <cy_huang@richtek.com>
-Cc:     ChiaEn Wu <chiaen_wu@richtek.com>, corbet@lwn.net, pavel@ucw.cz,
-        matthias.bgg@gmail.com, andriy.shevchenko@linux.intel.com,
-        jacek.anaszewski@gmail.com,
-        angelogioacchino.delregno@collabora.com, linux-doc@vger.kernel.org,
-        peterwu.pub@gmail.com, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        szunichen@gmail.com
-Subject: Re: [PATCH v17 RESEND 2/3] leds: flash: mt6370: Add MediaTek MT6370
- flashlight support
-Message-ID: <20230309172448.GU9667@google.com>
-References: <cover.1677150607.git.chiaen_wu@richtek.com>
- <dc467984ebfc443685af62310aadb45389e804d6.1677150607.git.chiaen_wu@richtek.com>
- <20230305100608.GD2574592@google.com>
- <20230307034433.GA10739@linuxcarl2.richtek.com>
- <20230308135433.GL9667@google.com>
- <20230309014927.GA12537@linuxcarl2.richtek.com>
+        with ESMTP id S230110AbjCIRdo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 12:33:44 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9446F1FE1;
+        Thu,  9 Mar 2023 09:33:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678383223; x=1709919223;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=kBuk/qbo+wS0XQ/dFeyx8JguJDt+9dG8zDXc8OBOCnk=;
+  b=Q6WZDTBGq8VnVY4zJsvKQiOJY539J9omDyD+BiKBKc5ZB+pZQQEOc7/X
+   ZQ4rlzkj83cIv5CvkL+1+O3vINGU/WZ9jsVkTp3mcuBguPtctOr9EpAjB
+   gSIqiVQuUxMpTQoqNscBqgSd2+oYZRh1qsE34kk3LMBVNaaQEOBy8ylBf
+   8h74ozU3DIgDumUTMxV/5ZaSH1yKUNLyVpur9pZOp2PqLF1UmdtMuvgHL
+   7yEs2T+BVMpRAgpoR4g/ub2nflgdFNylfvJGvIMqtFfjhFs0hf5IAPWa2
+   P0GUvpzBauC4pAxSGRMZdCi4vzpSu8MNeqIt+L/s0OJyaYxHd7+YGkebj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="364156732"
+X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
+   d="scan'208";a="364156732"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 09:33:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="707697340"
+X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
+   d="scan'208";a="707697340"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 09 Mar 2023 09:33:36 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1paK91-00037N-0T;
+        Thu, 09 Mar 2023 17:33:35 +0000
+Date:   Fri, 10 Mar 2023 01:33:29 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        Michael Walle <michael@walle.cc>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Kory Maincent <kory.maincent@bootlin.com>,
+        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>
+Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
+ selectable.
+Message-ID: <202303100154.iqj4R4fL-lkp@intel.com>
+References: <20230308135936.761794-4-kory.maincent@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230309014927.GA12537@linuxcarl2.richtek.com>
+In-Reply-To: <20230308135936.761794-4-kory.maincent@bootlin.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 09 Mar 2023, ChiYuan Huang wrote:
+Hi K�ry,
 
-> On Wed, Mar 08, 2023 at 01:54:33PM +0000, Lee Jones wrote:
-> Hi, Lee:
-> > On Tue, 07 Mar 2023, ChiYuan Huang wrote:
-> >
-> > > Hi, Lee:
-> > >    Reply below the comments.
-> > >
-> > > On Sun, Mar 05, 2023 at 10:06:08AM +0000, Lee Jones wrote:
-> > > > On Thu, 23 Feb 2023, ChiaEn Wu wrote:
-> > > >
-> > > > > From: ChiYuan Huang <cy_huang@richtek.com>
-> > > > >
-> > > > > The MediaTek MT6370 is a highly-integrated smart power management IC,
-> > > > > which includes a single cell Li-Ion/Li-Polymer switching battery
-> > > > > charger, a USB Type-C & Power Delivery (PD) controller, dual Flash
-> > > > > LED current sources, a RGB LED driver, a backlight WLED driver,
-> > > > > a display bias driver and a general LDO for portable devices.
-> > > > >
-> > > > > Add support for the MT6370 Flash LED driver. Flash LED in MT6370
-> > > > > has 2 channels and support torch/strobe mode.
-> > > > >
-> > > > > Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> > > > > Co-developed-by: Alice Chen <alice_chen@richtek.com>
-> > > > > Signed-off-by: Alice Chen <alice_chen@richtek.com>
-> > > > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > > > > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> > > > > ---
-> > > > > v17
-> > > > > - Update the year of Copyright from 2022 to 2023
-> > > > >
-> > > > > ---
-> > > > >  drivers/leds/flash/Kconfig             |  13 +
-> > > > >  drivers/leds/flash/Makefile            |   1 +
-> > > > >  drivers/leds/flash/leds-mt6370-flash.c | 596 +++++++++++++++++++++++++++++++++
-> > > > >  3 files changed, 610 insertions(+)
-> > > > >  create mode 100644 drivers/leds/flash/leds-mt6370-flash.c
-> >
-> > [...]
-> >
-> > > > > +static int _mt6370_flash_brightness_set(struct led_classdev_flash *fl_cdev,
-> > > > > +					u32 brightness)
-> > > > > +{
-> > > > > +	struct mt6370_led *led = to_mt6370_led(fl_cdev, flash);
-> > > > > +	struct mt6370_priv *priv = led->priv;
-> > > > > +	struct led_flash_setting *setting = &fl_cdev->brightness;
-> > > > > +	u32 val = (brightness - setting->min) / setting->step;
-> > > > > +	int ret, i;
-> > > > > +
-> > > > > +	if (led->led_no == MT6370_LED_JOINT) {
-> > > >
-> > > > What is a "JOINT"?
-> > > >
-> > > Since MT6370 has two flash led channels. Per channel can drive the current up to 1.5A.
-> > > 'JOINT' case is used if 1.5A driving current is not enough, like as flash current 2A.
-> > > They can use two channels to drive 'one' flash led by the HW application.
-> > > This will make the driving current larger than the capability of one channel.
-> >
-> > Is "joint" the term used in the datasheet?
-> >
-> Nope, this term is not clearly defined in the datasheet. but this kind of HW application is
-> allowed.
-> > Please make this definition clear in the code.
-> >
-> > If I'm asking, others are likely to too.
-> >
-> Thanks, I'll add more comments to clearly describe what the 'JOINT' code did.
-> > [...]
-> >
-> > > > > +static int mt6370_init_flash_properties(struct device *dev,
-> > > > > +					struct mt6370_led *led,
-> > > > > +					struct fwnode_handle *fwnode)
-> > > > > +{
-> > > > > +	struct led_classdev_flash *flash = &led->flash;
-> > > > > +	struct led_classdev *lcdev = &flash->led_cdev;
-> > > > > +	struct mt6370_priv *priv = led->priv;
-> > > > > +	struct led_flash_setting *s;
-> > > > > +	u32 sources[MT6370_MAX_LEDS];
-> > > > > +	u32 max_ua, val;
-> > > > > +	int i, ret, num;
-> > > > > +
-> > > > > +	num = fwnode_property_count_u32(fwnode, "led-sources");
-> > > > > +	if (num < 1)
-> > > > > +		return dev_err_probe(dev, -EINVAL,
-> > > > > +				     "Not specified or wrong number of led-sources\n");
-> > > > > +
-> > > > > +	ret = fwnode_property_read_u32_array(fwnode, "led-sources", sources, num);
-> > > > > +	if (ret)
-> > > > > +		return ret;
-> > > > > +
-> > > > > +	for (i = 0; i < num; i++) {
-> > > > > +		if (sources[i] >= MT6370_MAX_LEDS)
-> > > > > +			return -EINVAL;
-> > > > > +		if (priv->leds_active & BIT(sources[i]))
-> > > > > +			return -EINVAL;
-> > > > > +		priv->leds_active |= BIT(sources[i]);
-> > > > > +	}
-> > > > > +
-> > > > > +	led->led_no = num == 2 ? MT6370_LED_JOINT : sources[0];
-> > > > > +
-> > > > > +	max_ua = num == 2 ? MT6370_ITORCH_DOUBLE_MAX_uA : MT6370_ITORCH_MAX_uA;
-> > > > > +	val = MT6370_ITORCH_MIN_uA;
-> > > >
-> > > > In what scenario does this not get overwritten?
-> > > >
-> > > Only if the property is missing. This will make the value keep in minimum.
-> >
-> > If the property is missing, fwnode_property_read_u32() returns an errno, no?
-> >
-> > If that's the case, val will be over-written in the if() clause?
-> >
-> In this funciton, three properties needs to be paresed from DT. Each one need to clamp the value.
-> There're two ways to write the code.
->
-> [Option 1]
-> ret = fwnode_property_read_u32(...)
-> if (ret)
->     val = MIM_uA;
->
-> val = mt6370_clamp(val, MIN, MAX);
->
-> [Option 2]
-> val = MIN_uA;
-> if (!ret)
->     val = mt6370_clamp(val, MIN, MAX);
->
->
-> From the above, the sencond one can save more LOC, no?
-> But it seems the first one is more preferable by you, right?
+I love your patch! Perhaps something to improve:
 
-I see now that 'val' is used in clamp() before being overwritten now.
+[auto build test WARNING on v6.2]
+[cannot apply to robh/for-next horms-ipvs/master net/master net-next/master linus/master v6.3-rc1 next-20230309]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---
-Lee Jones [李琼斯]
+url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
+patch link:    https://lore.kernel.org/r/20230308135936.761794-4-kory.maincent%40bootlin.com
+patch subject: [PATCH v3 3/5] net: Let the active time stamping layer be selectable.
+config: x86_64-randconfig-a003 (https://download.01.org/0day-ci/archive/20230310/202303100154.iqj4R4fL-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/d81a36f239360e7e3b9ca2633e52b3cb12205590
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
+        git checkout d81a36f239360e7e3b9ca2633e52b3cb12205590
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/phy/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303100154.iqj4R4fL-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/phy/phy_device.c:1384:6: warning: no previous prototype for function 'of_set_timestamp' [-Wmissing-prototypes]
+   void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
+        ^
+   drivers/net/phy/phy_device.c:1384:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
+   ^
+   static 
+   1 warning generated.
+
+
+vim +/of_set_timestamp +1384 drivers/net/phy/phy_device.c
+
+  1383	
+> 1384	void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
+  1385	{
+  1386		struct device_node *node = phydev->mdio.dev.of_node;
+  1387		const struct ethtool_ops *ops = netdev->ethtool_ops;
+  1388		const char *s;
+  1389		enum timestamping_layer ts_layer = 0;
+  1390	
+  1391		if (phy_has_hwtstamp(phydev))
+  1392			ts_layer = PHY_TIMESTAMPING;
+  1393		else if (ops->get_ts_info)
+  1394			ts_layer = MAC_TIMESTAMPING;
+  1395	
+  1396		if (of_property_read_string(node, "preferred-timestamp", &s))
+  1397			goto out;
+  1398	
+  1399		if (!s)
+  1400			goto out;
+  1401	
+  1402		if (phy_has_hwtstamp(phydev) && !strcmp(s, "phy"))
+  1403			ts_layer = PHY_TIMESTAMPING;
+  1404	
+  1405		if (ops->get_ts_info && !strcmp(s, "mac"))
+  1406			ts_layer = MAC_TIMESTAMPING;
+  1407	
+  1408	out:
+  1409		netdev->selected_timestamping_layer = ts_layer;
+  1410	}
+  1411	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
