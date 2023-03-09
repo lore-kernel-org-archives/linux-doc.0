@@ -2,197 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35819C6FD1C
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 09:09:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48F4FC61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 09:13:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230032AbjCIJJr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Mar 2023 04:09:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58698 "EHLO
+        id S230032AbjCIJNM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 04:13:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230386AbjCIJJd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 04:09:33 -0500
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28D6E5F51F
-        for <linux-doc@vger.kernel.org>; Thu,  9 Mar 2023 01:09:30 -0800 (PST)
-Received: by mail-yb1-xb2b.google.com with SMTP id e194so1206969ybf.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Mar 2023 01:09:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678352969;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=As7r+GPHEmvAUFDtsvfEp735NwW2WEg6DbTgAlj58R0=;
-        b=d5zPXnIdCSL8PFYhyYOeGqp/z4KLzRwZUDS5MQscn602dDdMFOICNvctZM6XgOSs/s
-         Md7TYhkP3I4c8GUXNxi6ka8Hry0M3d8uw/UHhPRafzoTu+2lLo2QrAr4pyjwRTYQ4+CI
-         07WNh/oBiql5KgaJDO8K1gDaGWu+DAsLRq2nU9Y9wj39MtMFMILC9ahu+4xt7cmhGPYd
-         X90VtbPi3OMstH+/UqpSOwHHI+EYQ7LarXzbLBCDuMKzdMMFQ/UxUKKqVA7sa5cL0Uez
-         IZChwC6FoLVRu2JgNXLPAG+SxViuz8t/Op2vZmpSB0iiljJXiJOhtcT6NmEsfqrkeFEw
-         o0Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678352969;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=As7r+GPHEmvAUFDtsvfEp735NwW2WEg6DbTgAlj58R0=;
-        b=qjaK9Zy7hjPKiY0cuY7Wiz3nJMBQ9fBei0rZehq0rGmfYD49j248fgI5eHhaUaB52b
-         cIAQv+lZu3bwQF8UEgATO+0/mjzdq6n3eDwx74ON+9BfOjB3zomsfO3MpeUmVLGWExS9
-         bLLruiIWHxQuNR9MJrnvZmL6Rq8U4/fvNAh9qxQ5TncBhM414ururEudOvX0tc3a0EnD
-         0x2h3XG0ins+HD3yoqjGwGZsc3G+TB3td91+tJvcdopm7OSHDNNG2xY52eQXOiQquKky
-         SHQVVOs5xB0HmHFPeaswzmipRfT+RTG4IhbTDIguYNuu+OGolLW0TMkANGXK2nBbxdvY
-         uQPg==
-X-Gm-Message-State: AO0yUKXaU519LVUvU0wpksMwbLAPzW094r+o5/IRmaH98Dhg3NDQigos
-        Xuul6XzfRQWlIY7vnrJJ72FQbj+wL8SGE77pDFL20Q==
-X-Google-Smtp-Source: AK7set9SxHJdstKtORUta6fNpFj7c3NC6Y9ep4Dfm8p9BxYEaHWCbrFjAqLaiUObiP3YlHYpudlhcELLtQQQOTOX9Yw=
-X-Received: by 2002:a25:8c84:0:b0:b23:4649:7ef3 with SMTP id
- m4-20020a258c84000000b00b2346497ef3mr240804ybl.4.1678352969333; Thu, 09 Mar
- 2023 01:09:29 -0800 (PST)
+        with ESMTP id S230112AbjCIJMu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 04:12:50 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 932BE82A8E;
+        Thu,  9 Mar 2023 01:12:48 -0800 (PST)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 47A556603007;
+        Thu,  9 Mar 2023 09:12:46 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1678353166;
+        bh=Qgp7ji/6xp0t3nAXwRde0Z0w/a3gnXKVlDede0CScv8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=HzW0uJ9f8N1SQuBc/+pQOt2agrSXDpaAelaubH9DNO+cAA3+eTo0e8e5pVKyH9RHT
+         WjHH1nZUqjthdqoFk9uzfGzHA+kTS3p5seqHpSS17XoCPCQVu4zMWdwJq0+DqG2IWw
+         /+M3b+ndbg7oWVBOZul8lkOQuMp8ueFAxGzHovB4L38BoVr3CZ7kdvk6mIubAFCoym
+         xcvFDjFOTN+CwPZUMtLOd4JBD0rc1O3LTURQAiXU70ArxZLGZe2eDtybluy0Dcpbyy
+         PJQBfJa5KEOvA7wBPxMl6tqc4cEepp90XeW4MEysa0axLFc8n9ROPoiBUVkVR9o1VX
+         fjos71guF1Yiw==
+Date:   Thu, 9 Mar 2023 10:12:43 +0100
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Danilo Krummrich <dakr@redhat.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH drm-next v2 00/16] [RFC] DRM GPUVA Manager & Nouveau
+ VM_BIND UAPI
+Message-ID: <20230309101243.1150506f@collabora.com>
+In-Reply-To: <20230217134422.14116-1-dakr@redhat.com>
+References: <20230217134422.14116-1-dakr@redhat.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20230216013230.22978-1-ansuelsmth@gmail.com>
-In-Reply-To: <20230216013230.22978-1-ansuelsmth@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 9 Mar 2023 10:09:18 +0100
-Message-ID: <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
-Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
-To:     Christian Marangi <ansuelsmth@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Arun.Ramadoss@microchip.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Christian,
+Hi Danilo,
 
-thanks for your patch!
+On Fri, 17 Feb 2023 14:44:06 +0100
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-On Thu, Feb 16, 2023 at 2:36=E2=80=AFAM Christian Marangi <ansuelsmth@gmail=
-.com> wrote:
+> Changes in V2:
+> ==============
+>   Nouveau:
+>     - Reworked the Nouveau VM_BIND UAPI to avoid memory allocations in fence
+>       signalling critical sections. Updates to the VA space are split up in three
+>       separate stages, where only the 2. stage executes in a fence signalling
+>       critical section:
+> 
+>         1. update the VA space, allocate new structures and page tables
 
-> The current idea is:
-> - LED driver implement 3 API (hw_control_status/start/stop).
->   They are used to put the LED in hardware mode and to configure the
->   various trigger.
-> - We have hardware triggers that are used to expose to userspace the
->   supported hardware mode and set the hardware mode on trigger
->   activation.
-> - We can also have triggers that both support hardware and software mode.
-> - The LED driver will declare each supported hardware blink mode and
->   communicate with the trigger all the supported blink modes that will
->   be available by sysfs.
-> - A trigger will use blink_set to configure the blink mode to active
->   in hardware mode.
-> - On hardware trigger activation, only the hardware mode is enabled but
->   the blink modes are not configured. The LED driver should reset any
->   link mode active by default.
+Sorry for the silly question, but I didn't find where the page tables
+pre-allocation happens. Mind pointing it to me? It's also unclear when
+this step happens. Is this at bind-job submission time, when the job is
+not necessarily ready to run, potentially waiting for other deps to be
+signaled. Or is it done when all deps are met, as an extra step before
+jumping to step 2. If that's the former, then I don't see how the VA
+space update can happen, since the bind-job might depend on other
+bind-jobs modifying the same portion of the VA space (unbind ops might
+lead to intermediate page table levels disappearing while we were
+waiting for deps). If it's the latter, I wonder why this is not
+considered as an allocation in the fence signaling path (for the
+bind-job out-fence to be signaled, you need these allocations to
+succeed, unless failing to allocate page-tables is considered like a HW
+misbehavior and the fence is signaled with an error in that case).
 
-The series looks good as a start.
-There are some drivers and HW definitions etc for switch-controlled
-LEDs, which is great.
+Note that I'm not familiar at all with Nouveau or TTM, and it might
+be something that's solved by another component, or I'm just
+misunderstanding how the whole thing is supposed to work. This being
+said, I'd really like to implement a VM_BIND-like uAPI in pancsf using
+the gpuva_manager infra you're proposing here, so please bare with me
+:-).
 
-I am a bit reluctant on the ambition to rely on configuration from sysfs
-for the triggers, and I am also puzzled to how a certain trigger on a
-certain LED is going to associate itself with, say, a certain port.
+>         2. (un-)map the requested memory bindings
+>         3. free structures and page tables
+> 
+>     - Separated generic job scheduler code from specific job implementations.
+>     - Separated the EXEC and VM_BIND implementation of the UAPI.
+>     - Reworked the locking parts of the nvkm/vmm RAW interface, such that
+>       (un-)map operations can be executed in fence signalling critical sections.
+> 
 
-I want to draw your attention to this recently merged patch series
-from Hans de Goede:
-https://lore.kernel.org/linux-leds/20230120114524.408368-1-hdegoede@redhat.=
-com/
+Regards,
 
-This adds the devm_led_get() API which works similar to getting
-regulators, clocks, GPIOs or any other resources.
+Boris
 
-It is not yet (I think) hooked into the device tree framework, but it
-supports software nodes so adding DT handling should be sort of
-trivial.
-
-I think the ambition should be something like this (conjured example)
-for a DSA switch:
-
-    platform {
-            switch {
-                    compatible =3D "foo";
-
-                    leds {
-                            #address-cells =3D <1>;
-                            #size-cells =3D <0>;
-                            led0: led@0 {
-                                    reg =3D <0>;
-                                    color =3D...
-                                    function =3D ...
-                                    function-enumerator =3D ...
-                                    default-state =3D ...
-                            };
-                            led1: led@1 {
-                                    reg =3D <1>;
-                                    color =3D...
-                                    function =3D ...
-                                    function-enumerator =3D ...
-                                    default-state =3D ...
-                            };
-                    };
-
-                    ports {
-                            #address-cells =3D <1>;
-                            #size-cells =3D <0>;
-                            port@0 {
-                                    reg =3D <0>;
-                                    label =3D "lan0";
-                                    phy-handle =3D <&phy0>;
-                                    leds =3D <&led0>;
-                            };
-                            port@1 {
-                                    reg =3D <1>;
-                                    label =3D "lan1";
-                                    phy-handle =3D <&phy1>;
-                                    leds =3D <&led0>;
-                            };
-                    };
-
-                    mdio {
-                            compatible =3D "foo-mdio";
-                            #address-cells =3D <1>;
-                            #size-cells =3D <0>;
-
-                            phy0: ethernet-phy@0 {
-                                    reg =3D <0>;
-                            };
-                            phy1: ethernet-phy@1 {
-                                    reg =3D <1>;
-                            };
-                    };
-            };
-    };
-
-I am not the man to tell whether the leds =3D <&led0>; phandle should be on
-the port or actually on the phy, it may even vary. You guys know the answer
-to this.
-
-But certainly something like this resource phandle will be necessary to
-assign the right LED to the right port or phy, I hope you were not going
-to rely on strings and naming conventions?
-
-Yours,
-Linus Walleij
