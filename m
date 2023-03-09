@@ -2,178 +2,284 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFC3BC61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 10:21:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A3E0C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 11:04:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230388AbjCIKVx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Mar 2023 05:21:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38418 "EHLO
+        id S230351AbjCILEE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 06:04:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231325AbjCIKVd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 05:21:33 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9A9C1C7FF;
-        Thu,  9 Mar 2023 02:21:24 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id t11so1634513lfr.1;
-        Thu, 09 Mar 2023 02:21:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678357283;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KprGKYQ8KgwaGWUbn17Xz5NYf5KpExwL2NMCF7dMdgM=;
-        b=TRXqe8TQv4yfm7qG2xhZaoah92igaQMjG0ELmUtzdt7kOaZwrOkfWMsKMhXAsa9hWr
-         IL0zq8+qpdODRl4JxxUzTaLAhEWPwUZZ6Mhbqbt02z9+OjT3pKdWZgpfIPX1EucbWd7J
-         ZqmAIYlYVO7LhfBF3UcgAdoMoWTDMA31Wi2xJlHuATDyncXQ8Pfi9djMDqLohAWgD75d
-         mZFUk/mP5ZFsiSO08rhOZx5yv5XPUBSj0kg1POAZkFpeR90Su3vccPXA4pGFNY7nWAvL
-         VzrWe4tUvpwQXG9XL5JNCiaMy1X9pmDW9fxUDAValpicdBYX1P2nMJ3EUImUJlArelB6
-         U0qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678357283;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KprGKYQ8KgwaGWUbn17Xz5NYf5KpExwL2NMCF7dMdgM=;
-        b=jGkE77wlWiKwb4RNXKUATCKRDZUjGzI2erySO9AF10At5y+SUz7CZHXS9HmnOMFvGa
-         /Hx1JMeCzdkKk64kArZl/nyudZllfDbYcTaZYEO+sDb9mmGVoMd3JSZkuA3KuXcAhbxJ
-         qUeyjNNzHqqvTvJ/IZAmK5oIm4G2BhfsqcxOUJppFoEWQV6JLDzZiaHAfbp4+tK7Dhvv
-         i4OGNahFkNpP/SZvTNW7vwAphI3Y6g7xi6ucSTaI7F55rusAklgFq5481ioe8ZjXiWxT
-         UMFNj3h/tNm0tLGJqIoHZAcD0RtRIuLKh2+QobdjOov6I4oLA/+kknzY4wW0hOfVSvYh
-         +Blg==
-X-Gm-Message-State: AO0yUKXcmGtEb0cOPBINzmjfuMcV7LOPsjbJqo/isUXMcN7FkqFsmU1/
-        pimXnZ+Uomy7vKRDwnoR1cU=
-X-Google-Smtp-Source: AK7set8//lzFNi6UQdT0Qz69/iAT27g06pbsZrFtDMb8VzTxl8+gMl6jx74dZt+KkxkgfpPWfGRocg==
-X-Received: by 2002:ac2:4949:0:b0:4d5:831e:3154 with SMTP id o9-20020ac24949000000b004d5831e3154mr6109888lfi.45.1678357282880;
-        Thu, 09 Mar 2023 02:21:22 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id u23-20020ac24c37000000b004aac23e0dd6sm2605330lfq.29.2023.03.09.02.21.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 02:21:22 -0800 (PST)
-Date:   Thu, 9 Mar 2023 12:21:18 +0200
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Rob Clark <robdclark@chromium.org>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING 
-        FRAMEWORK),
-        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        Liu Shixin <liushixin2@huawei.com>,
-        Sean Paul <sean@poorly.run>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Vinod Polimera <quic_vpolimer@quicinc.com>
-Subject: Re: [PATCH v10 00/15] dma-fence: Deadline awareness
-Message-ID: <20230309122118.661e85b4@eldfell>
-In-Reply-To: <20230308155322.344664-1-robdclark@gmail.com>
-References: <20230308155322.344664-1-robdclark@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S230338AbjCILDC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 06:03:02 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D382AE9CD2;
+        Thu,  9 Mar 2023 02:59:00 -0800 (PST)
+Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33771589;
+        Thu,  9 Mar 2023 11:58:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1678359518;
+        bh=UKiK+zI10UGj+RIxeIufRYqUu7FHa/CmqAkga8YAWaM=;
+        h=From:To:Subject:Date:From;
+        b=lC8/u+45YyNh3yRUInIT5iqh0EOU69UzbWLS9oZmynMj7zQPAAOkGCA5faztLtPN7
+         SXko5zToCzEtCyR/A9V9mM3477Y13peAMqz571zHGV5/A/gthMxG0Fpp+BzvRrtuY7
+         66NI21xQKR+IouorDsQ1nGqaCnpDNSgNXwBQeY5k=
+From:   Daniel Scally <dan.scally@ideasonboard.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v2] usb: gadget: uvc: Make bmControls attr read/write
+Date:   Thu,  9 Mar 2023 10:58:25 +0000
+Message-Id: <20230309105825.216745-1-dan.scally@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/YsnEA9P_sNO1q.G4g.HWGt3";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/YsnEA9P_sNO1q.G4g.HWGt3
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+For the Processing Unit and Camera Terminal descriptors defined in
+the UVC Gadget we currently hard-code values into their bmControls
+fields, which enumerates which controls the gadget is able to
+support. This isn't appropriate since only the userspace companion
+program to the kernel driver will know which controls are supported.
+Make the configfs attributes that point to those fields read/write
+so userspace can set them to appropriate values.
 
-On Wed,  8 Mar 2023 07:52:51 -0800
-Rob Clark <robdclark@gmail.com> wrote:
+Document the new behaviour at the same time so the functionality is
+clear.
 
-> From: Rob Clark <robdclark@chromium.org>
->=20
-> This series adds a deadline hint to fences, so realtime deadlines
-> such as vblank can be communicated to the fence signaller for power/
-> frequency management decisions.
->=20
-> This is partially inspired by a trick i915 does, but implemented
-> via dma-fence for a couple of reasons:
->=20
-> 1) To continue to be able to use the atomic helpers
-> 2) To support cases where display and gpu are different drivers
->=20
-> This iteration adds a dma-fence ioctl to set a deadline (both to
-> support igt-tests, and compositors which delay decisions about which
-> client buffer to display), and a sw_sync ioctl to read back the
-> deadline.  IGT tests utilizing these can be found at:
->=20
->   https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence-d=
-eadline
->=20
->=20
-> v1: https://patchwork.freedesktop.org/series/93035/
-> v2: Move filtering out of later deadlines to fence implementation
->     to avoid increasing the size of dma_fence
-> v3: Add support in fence-array and fence-chain; Add some uabi to
->     support igt tests and userspace compositors.
-> v4: Rebase, address various comments, and add syncobj deadline
->     support, and sync_file EPOLLPRI based on experience with perf/
->     freq issues with clvk compute workloads on i915 (anv)
-> v5: Clarify that this is a hint as opposed to a more hard deadline
->     guarantee, switch to using u64 ns values in UABI (still absolute
->     CLOCK_MONOTONIC values), drop syncobj related cap and driver
->     feature flag in favor of allowing count_handles=3D=3D0 for probing
->     kernel support.
-> v6: Re-work vblank helper to calculate time of _start_ of vblank,
->     and work correctly if the last vblank event was more than a
->     frame ago.  Add (mostly unrelated) drm/msm patch which also
->     uses the vblank helper.  Use dma_fence_chain_contained().  More
->     verbose syncobj UABI comments.  Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> v7: Fix kbuild complaints about vblank helper.  Add more docs.
-> v8: Add patch to surface sync_file UAPI, and more docs updates.
-> v9: Drop (E)POLLPRI support.. I still like it, but not essential and
->     it can always be revived later.  Fix doc build warning.
-> v10: Update 11/15 to handle multiple CRTCs
+Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+---
 
-Hi Rob,
+This patch is based on usb-next, plus my recent patch "docs: usb: Add
+documentation for the UVC Gadget".
 
-it is very nice to keep revision numbers and list the changes in each
-patch. If I looked at series v8 last, and I now see series v10, and I
-look at a patch that lists changes done in v7, how do I know if that
-change was made between series v8 and v10 or earlier?
+Changes in v2:
 
-At least in some previous revision, series might have been v8 and a
-patch have new changes listed as v5 (because it was the 5th time that
-one patch was changed) instead of v8.
+        - Added explanatory documentation
 
-Am I expected to keep track of vN of each individual patch
-independently?
+ .../ABI/testing/configfs-usb-gadget-uvc       |   4 +-
+ Documentation/usb/gadget_uvc.rst              |  28 ++++
+ drivers/usb/gadget/function/uvc_configfs.c    | 121 +++++++++++++++++-
+ 3 files changed, 149 insertions(+), 4 deletions(-)
 
+diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+index 80b98a4a4d0f..4feb692c4c1d 100644
+--- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
++++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+@@ -76,7 +76,7 @@ Date:		Dec 2014
+ KernelVersion:	4.0
+ Description:	Default camera terminal descriptors
+ 
+-		All attributes read only:
++		All attributes read only except bmControls, which is read/write:
+ 
+ 		========================  ====================================
+ 		bmControls		  bitmap specifying which controls are
+@@ -101,7 +101,7 @@ Date:		Dec 2014
+ KernelVersion:	4.0
+ Description:	Default processing unit descriptors
+ 
+-		All attributes read only:
++		All attributes read only except bmControls, which is read/write:
+ 
+ 		===============	========================================
+ 		iProcessing	index of string descriptor
+diff --git a/Documentation/usb/gadget_uvc.rst b/Documentation/usb/gadget_uvc.rst
+index 6d22faceb1a0..62bd81ba3dd1 100644
+--- a/Documentation/usb/gadget_uvc.rst
++++ b/Documentation/usb/gadget_uvc.rst
+@@ -275,6 +275,34 @@ out with 0x00, for example:
+ 
+ bNrInPins and baSourceID function in the same way.
+ 
++Configuring Supported Controls for Camera Terminal and Processing Unit
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++The Camera Terminal and Processing Units in the UVC chain also have bmControls
++attributes which function similarly to the same field in an Extension Unit.
++Unlike XUs however, the meaning of the bitflag for these units is defined in
++the UVC specification; you should consult the "Camera Terminal Descriptor" and
++"Processing Unit Descriptor" sections for an enumeration of the flags.
++
++.. code-block:: bash
++
++        # Set the Processing Unit's bmControls, flagging Brightness, Contrast
++        # and Hue as available controls:
++        echo 0x05 > $FUNCTION/control/processing/default/bmControls
++
++        # Set the Camera Terminal's bmControls, flagging Focus Absolute and
++        # Focus Relative as available controls:
++        echo 0x60 > $FUNCTION/control/terminal/camera/default/bmControls
++
++If you do not set these fields then by default the Auto-Exposure Mode control
++for the Camera Terminal and the Brightness control for the Processing Unit will
++be flagged as available; if they are not supported you should set the field to
++0x00.
++
++Note that the size of the bmControls field for a Camera Terminal or Processing
++Unit is fixed by the UVC specification, and so the bControlSize attribute is
++read-only here.
++
+ Custom Strings Support
+ ~~~~~~~~~~~~~~~~~~~~~~
+ 
+diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+index 62b759bb7613..9bf0e985acfa 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.c
++++ b/drivers/usb/gadget/function/uvc_configfs.c
+@@ -334,6 +334,64 @@ UVCG_DEFAULT_PROCESSING_ATTR(i_processing, iProcessing, 8);
+ 
+ #undef UVCG_DEFAULT_PROCESSING_ATTR
+ 
++static ssize_t uvcg_default_processing_bm_controls_store(
++	struct config_item *item, const char *page, size_t len)
++{
++	struct config_group *group = to_config_group(item);
++	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
++	struct uvc_processing_unit_descriptor *pd;
++	struct config_item *opts_item;
++	struct f_uvc_opts *opts;
++	u8 *bm_controls, *tmp;
++	unsigned int i;
++	int ret, n = 0;
++
++	mutex_lock(su_mutex);
++
++	opts_item = group->cg_item.ci_parent->ci_parent->ci_parent;
++	opts = to_f_uvc_opts(opts_item);
++	pd = &opts->uvc_processing;
++
++	mutex_lock(&opts->lock);
++	if (opts->refcnt) {
++		ret = -EBUSY;
++		goto unlock;
++	}
++
++	ret = __uvcg_iter_item_entries(page, len, __uvcg_count_item_entries, &n,
++				       sizeof(u8));
++	if (ret)
++		goto unlock;
++
++	if (n > pd->bControlSize) {
++		ret = -EINVAL;
++		goto unlock;
++	}
++
++	tmp = bm_controls = kcalloc(n, sizeof(u8), GFP_KERNEL);
++	if (!bm_controls) {
++		ret = -ENOMEM;
++		goto unlock;
++	}
++
++	ret = __uvcg_iter_item_entries(page, len, __uvcg_fill_item_entries, &tmp,
++				       sizeof(u8));
++	if (ret)
++		goto free_mem;
++
++	for (i = 0; i < n; i++)
++		pd->bmControls[i] = bm_controls[i];
++
++	ret = len;
++
++free_mem:
++	kfree(bm_controls);
++unlock:
++	mutex_unlock(&opts->lock);
++	mutex_unlock(su_mutex);
++	return ret;
++}
++
+ static ssize_t uvcg_default_processing_bm_controls_show(
+ 	struct config_item *item, char *page)
+ {
+@@ -363,7 +421,7 @@ static ssize_t uvcg_default_processing_bm_controls_show(
+ 	return result;
+ }
+ 
+-UVC_ATTR_RO(uvcg_default_processing_, bm_controls, bmControls);
++UVC_ATTR(uvcg_default_processing_, bm_controls, bmControls);
+ 
+ static struct configfs_attribute *uvcg_default_processing_attrs[] = {
+ 	&uvcg_default_processing_attr_b_unit_id,
+@@ -445,6 +503,65 @@ UVCG_DEFAULT_CAMERA_ATTR(w_ocular_focal_length, wOcularFocalLength,
+ 
+ #undef UVCG_DEFAULT_CAMERA_ATTR
+ 
++static ssize_t uvcg_default_camera_bm_controls_store(
++	struct config_item *item, const char *page, size_t len)
++{
++	struct config_group *group = to_config_group(item);
++	struct mutex *su_mutex = &group->cg_subsys->su_mutex;
++	struct uvc_camera_terminal_descriptor *cd;
++	struct config_item *opts_item;
++	struct f_uvc_opts *opts;
++	u8 *bm_controls, *tmp;
++	unsigned int i;
++	int ret, n = 0;
++
++	mutex_lock(su_mutex);
++
++	opts_item = group->cg_item.ci_parent->ci_parent->ci_parent->
++			ci_parent;
++	opts = to_f_uvc_opts(opts_item);
++	cd = &opts->uvc_camera_terminal;
++
++	mutex_lock(&opts->lock);
++	if (opts->refcnt) {
++		ret = -EBUSY;
++		goto unlock;
++	}
++
++	ret = __uvcg_iter_item_entries(page, len, __uvcg_count_item_entries, &n,
++				       sizeof(u8));
++	if (ret)
++		goto unlock;
++
++	if (n > cd->bControlSize) {
++		ret = -EINVAL;
++		goto unlock;
++	}
++
++	tmp = bm_controls = kcalloc(n, sizeof(u8), GFP_KERNEL);
++	if (!bm_controls) {
++		ret = -ENOMEM;
++		goto unlock;
++	}
++
++	ret = __uvcg_iter_item_entries(page, len, __uvcg_fill_item_entries, &tmp,
++				       sizeof(u8));
++	if (ret)
++		goto free_mem;
++
++	for (i = 0; i < n; i++)
++		cd->bmControls[i] = bm_controls[i];
++
++	ret = len;
++
++free_mem:
++	kfree(bm_controls);
++unlock:
++	mutex_unlock(&opts->lock);
++	mutex_unlock(su_mutex);
++	return ret;
++}
++
+ static ssize_t uvcg_default_camera_bm_controls_show(
+ 	struct config_item *item, char *page)
+ {
+@@ -474,7 +591,7 @@ static ssize_t uvcg_default_camera_bm_controls_show(
+ 	return result;
+ }
+ 
+-UVC_ATTR_RO(uvcg_default_camera_, bm_controls, bmControls);
++UVC_ATTR(uvcg_default_camera_, bm_controls, bmControls);
+ 
+ static struct configfs_attribute *uvcg_default_camera_attrs[] = {
+ 	&uvcg_default_camera_attr_b_terminal_id,
+-- 
+2.34.1
 
-Thanks,
-pq
-
---Sig_/YsnEA9P_sNO1q.G4g.HWGt3
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQJsx4ACgkQI1/ltBGq
-qqeCVQ/7Bzoz7uNe1NEopzqqHKfxESL0GuvB+Ky+giA53z+1ZulhFzT1AAiKInp7
-QOwxDpDiKSJigTT68UUtK7LRc42z41SLnPXF9023LhNJYUw7lC0L7oAmQLqUaeyw
-lPuPxOWgY5XPkZWdzJoZVyky4lBS2uGnF8I0+Ek2FTWRVlpGToUiXcHW5xHxH1Vi
-aQzqiH/s7EIWSuR8dZtzSTH0uA641e3dt+9AKOGYZQlwCLOdcngZ69vu0bft5pPG
-aKrWz6zfX7iLIbwWBJvKzBb4jvKC7gV/7a0p7kwyBPTnJ+TbDS0tWgcwDJ59vTPo
-L1Lfysi8uFdx6gSW0P864n+wbh96sPaJE+ZlBc174RTW5XzN0wu9V+phPUoBM7/T
-F2G5B8sYKwTMdxA//7PVjviDGDTZ4YHn1MLLRjwhUGF6HfvU0aLrHY5iKOHtUWVc
-XAL1exaXtkOMyd5EoezO7zSIQ9umGAQGGffMg15sD7mL+4wIhKY85WehBySfXLUK
-PVlTV62a4vdO58ZcWn0U299HPi0ehjQXvHRkFe4D2827dnZNsLd+BEJHzgDmI/l3
-x0lGGauKT+X0cexJetComQh7AszbkRrdP4SJGfRxJBrfkiKN4JsTEQ5s6ZoGWBjm
-vXZD3smbWhE69Bc3HDJe/HQA/uGYskkrLTL8oV+aYiy+pj21+W4=
-=ZIGt
------END PGP SIGNATURE-----
-
---Sig_/YsnEA9P_sNO1q.G4g.HWGt3--
