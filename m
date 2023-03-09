@@ -2,138 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D526C64EC4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 15:07:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44ADEC61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 15:23:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231771AbjCIPH2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Mar 2023 10:07:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39672 "EHLO
+        id S231674AbjCIPXn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 10:23:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231566AbjCIPHB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 10:07:01 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6DB3EACE3B;
-        Thu,  9 Mar 2023 07:04:55 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A049BAD7;
-        Thu,  9 Mar 2023 07:05:38 -0800 (PST)
-Received: from [10.57.48.23] (unknown [10.57.48.23])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 157B93F5A1;
-        Thu,  9 Mar 2023 07:04:51 -0800 (PST)
-Message-ID: <3a41a7ad-37c1-7104-79b2-b9be53790a6c@arm.com>
-Date:   Thu, 9 Mar 2023 15:04:50 +0000
+        with ESMTP id S231580AbjCIPX1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 10:23:27 -0500
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3489EF16AB;
+        Thu,  9 Mar 2023 07:22:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=TZtnq4ErD6+p46J1xiQAutyT1OfQ3UHS3Utv9OsbD3k=; b=4u643A2Y3jE+yVdrqGMaYCOOLt
+        pUoE/QBgVG8HivDUgvuxodEqXCK/29gfplEGQEf/qEFBYL8Ii/Tir4i9ovOxmF8wVWYwl0TW0weqA
+        ygUG5e8884d5Ik+oAh26XdFyioQdTjOlFbjCA44mXbPUSidZwDRvcnL5pPeD8JZqv7OQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1paI63-006t3h-Ua; Thu, 09 Mar 2023 16:22:23 +0100
+Date:   Thu, 9 Mar 2023 16:22:23 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Arun.Ramadoss@microchip.com
+Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
+Message-ID: <8226f000-dd9c-4774-b972-a7f1113f0986@lunn.ch>
+References: <20230216013230.22978-1-ansuelsmth@gmail.com>
+ <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-From:   James Clark <james.clark@arm.com>
-Subject: Re: [PATCH 3/4] iio: adc: Use devm_krealloc_array
-To:     Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org
-References: <20230306152723.3090195-1-james.clark@arm.com>
- <20230306152723.3090195-4-james.clark@arm.com>
- <a5bb0516-9a21-5d46-d557-f02893ac8bf4@amd.com>
-Content-Language: en-US
-In-Reply-To: <a5bb0516-9a21-5d46-d557-f02893ac8bf4@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> I am a bit reluctant on the ambition to rely on configuration from sysfs
+> for the triggers, and I am also puzzled to how a certain trigger on a
+> certain LED is going to associate itself with, say, a certain port.
 
+Hi Linus
 
-On 08/03/2023 11:58, Michal Simek wrote:
-> 
-> 
-> On 3/6/23 16:27, James Clark wrote:
->>
->> Now that it exists, use it instead of doing the multiplication and
->> checking for overflow manually.
->>
->> Signed-off-by: James Clark <james.clark@arm.com>
->> ---
->>   drivers/iio/adc/xilinx-ams.c       |  9 +++------
->>   drivers/iio/adc/xilinx-xadc-core.c | 17 +++++++----------
->>   2 files changed, 10 insertions(+), 16 deletions(-)
->>
->> diff --git a/drivers/iio/adc/xilinx-ams.c b/drivers/iio/adc/xilinx-ams.c
->> index 34cf336b3490..f0b71a1220e0 100644
->> --- a/drivers/iio/adc/xilinx-ams.c
->> +++ b/drivers/iio/adc/xilinx-ams.c
->> @@ -1263,7 +1263,7 @@ static int ams_parse_firmware(struct iio_dev
->> *indio_dev)
->>          struct device *dev = indio_dev->dev.parent;
->>          struct fwnode_handle *child = NULL;
->>          struct fwnode_handle *fwnode = dev_fwnode(dev);
->> -       size_t ams_size, dev_size;
->> +       size_t ams_size;
->>          int ret, ch_cnt = 0, i, rising_off, falling_off;
->>          unsigned int num_channels = 0;
->>
->> @@ -1320,11 +1320,8 @@ static int ams_parse_firmware(struct iio_dev
->> *indio_dev)
->>                  }
->>          }
->>
->> -       dev_size = array_size(sizeof(*dev_channels), num_channels);
->> -       if (dev_size == SIZE_MAX)
->> -               return -ENOMEM;
->> -
->> -       dev_channels = devm_krealloc(dev, ams_channels, dev_size,
->> GFP_KERNEL);
->> +       dev_channels = devm_krealloc_array(dev, ams_channels,
->> num_channels,
->> +                                          sizeof(*dev_channels),
->> GFP_KERNEL);
->>          if (!dev_channels)
->>                  return -ENOMEM;
->>
->> diff --git a/drivers/iio/adc/xilinx-xadc-core.c
->> b/drivers/iio/adc/xilinx-xadc-core.c
->> index 292f2892d223..287df3bb951e 100644
->> --- a/drivers/iio/adc/xilinx-xadc-core.c
->> +++ b/drivers/iio/adc/xilinx-xadc-core.c
->> @@ -613,20 +613,17 @@ static int xadc_update_scan_mode(struct iio_dev
->> *indio_dev,
->>          const unsigned long *mask)
->>   {
->>          struct xadc *xadc = iio_priv(indio_dev);
->> -       size_t new_size, n;
->> +       size_t n;
->>          void *data;
->>
->>          n = bitmap_weight(mask, indio_dev->masklength);
->>
->> -       if (check_mul_overflow(n, sizeof(*xadc->data), &new_size))
->> -               return -ENOMEM;
->> -
->> -       data = devm_krealloc(indio_dev->dev.parent, xadc->data,
->> -                            new_size, GFP_KERNEL);
->> +       data = devm_krealloc_array(indio_dev->dev.parent, xadc->data,
->> +                                  n, sizeof(*xadc->data), GFP_KERNEL);
->>          if (!data)
->>                  return -ENOMEM;
->>
->> -       memset(data, 0, new_size);
->> +       memset(data, 0, n*sizeof(*xadc->data));
-> 
-> this is not correct coding style.
+There will need to be a device tree binding for the default
+trigger. That is what nearly all the rejected hacks so far have been
+about, write registers in the PHYs LEDs registers to put it into a
+specific mode. I don't see that part of the overall problem too
+problematic, apart from the old issue, is it describing configuration,
+not hardware.
 
-Oops, fixed in v2, thanks.
+As to 'how a certain trigger on a certain LED is going to associate
+itself with, say, a certain port' is clearly a property of the
+hardware, when offloading is supported. I've not seen a switch you can
+arbitrarily assign LEDs to ports. The Marvell switches have the LED
+registers within the port registers, for example, two LEDs per port.
 
 > 
-> M
+> I want to draw your attention to this recently merged patch series
+> from Hans de Goede:
+> https://lore.kernel.org/linux-leds/20230120114524.408368-1-hdegoede@redhat.com/
+> 
+> This adds the devm_led_get() API which works similar to getting
+> regulators, clocks, GPIOs or any other resources.
+
+Interesting. Thanks for pointing this out. But i don't think it is of
+interest in our use case, which is hardware offload. For a purely
+software controlled LED, where the LED could be anywhere,
+devm_led_get() makes sense. But in our case, the LED is in a well
+defined place, either the MAC or the PHY, where it has access to the
+RX and TX packets, link status etc. So we don't have the problem of
+finding it in an arbitrary location.
+
+There is also one additional problem we have, both for MAC and PHY
+LEDs. The trigger is ledtrig-netdev. All trigger state revolves around
+a netdev. A DSA port is not a netdev. A PHY is not a netdev. Each of
+these three things have there own life cycle. Often, a PHY does not
+know what netdev it is associated to until the interface is opened,
+ie. ip link set eth0 up. But once it is associated, phylib knows this
+information, so can return it, without any additional configuration
+data in DT. A DSA switch port can be created before the netdev
+associated to it is created. But again, the DSA core does know the
+mapping between a netdev and a port. Using devm_led_get() does not
+gain us anything.
+
+	Andrew
