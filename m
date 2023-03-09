@@ -2,112 +2,196 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7FDC6FD19
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 17:22:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2715C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 17:25:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbjCIRWq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Mar 2023 12:22:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39816 "EHLO
+        id S230101AbjCIRY7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 12:24:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229645AbjCIRWX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 12:22:23 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C54FE4DE19;
-        Thu,  9 Mar 2023 09:22:22 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        with ESMTP id S229910AbjCIRY6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 12:24:58 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35EFDF31D0;
+        Thu,  9 Mar 2023 09:24:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2FD5D1EC0464;
-        Thu,  9 Mar 2023 18:22:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1678382541;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=mxv9hEC3xowLTmvmFVJurKfIxwFTtqwG2eF4dqYJzWc=;
-        b=SK49obZgItT4Z5F3IIn6l60sHQMPZCT+du0YhfY9UfATb/zpIqFvtvH+kn+QPGjKeW7vHm
-        OMnvXPq8cXcj1VFAvaOS04ntDNUniOpg3bqjvWg+IjDikuPn2mi/I3mooKSXKwKxsamuD5
-        CyiyC/avKhASdDT2vhJNEDITZCO5Yis=
-Date:   Thu, 9 Mar 2023 18:22:16 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v7 31/41] x86/shstk: Introduce routines modifying shstk
-Message-ID: <20230309172216.GHZAoVyHoTqLG+YKB4@fat_crate.local>
-References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-32-rick.p.edgecombe@intel.com>
- <ZAoN6tGi8kzgcLrK@zn.tnic>
- <c42747e7c67027423940e17b6fc248db945e6d63.camel@intel.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BC21661CA0;
+        Thu,  9 Mar 2023 17:24:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2853FC433EF;
+        Thu,  9 Mar 2023 17:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678382695;
+        bh=gVhrjCj77/5J/qbJXsvZbwaLDnI4v1jfu9FIPhCu3LE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=H9kaqCxri1hR1og1XvbopPSB+mRwmy6wXii0Zh5sZBdMMPn7jsliwFZyDY9Ldp33V
+         DEcKJPHhIhYsNZ40RRnpJ1Xl6qw38jSTxdQ+J7kbdwb7ImWyij0qAnS3paNk5OsNjV
+         0MfpkVxFgAKyMQAttlr+jPPqjBLjtEtRZ6b/e+ex8Y7AqYGO41o9PSrmHMsASZhbpm
+         x97ITw9xwFNIzLAeWIOSg7hpaYLTQJTWRRcSsjQrfCIkFWqYhCSwylImOdA3dS7CZz
+         3JWPNUeUdkxYjj1PC5BhR5AeBYhUEo2smPQrKM6v7wqqmf4bgTzQ3/T8ld/6wvkDpB
+         7K5sGj1tgH3eA==
+Date:   Thu, 9 Mar 2023 17:24:48 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     ChiYuan Huang <cy_huang@richtek.com>
+Cc:     ChiaEn Wu <chiaen_wu@richtek.com>, corbet@lwn.net, pavel@ucw.cz,
+        matthias.bgg@gmail.com, andriy.shevchenko@linux.intel.com,
+        jacek.anaszewski@gmail.com,
+        angelogioacchino.delregno@collabora.com, linux-doc@vger.kernel.org,
+        peterwu.pub@gmail.com, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        szunichen@gmail.com
+Subject: Re: [PATCH v17 RESEND 2/3] leds: flash: mt6370: Add MediaTek MT6370
+ flashlight support
+Message-ID: <20230309172448.GU9667@google.com>
+References: <cover.1677150607.git.chiaen_wu@richtek.com>
+ <dc467984ebfc443685af62310aadb45389e804d6.1677150607.git.chiaen_wu@richtek.com>
+ <20230305100608.GD2574592@google.com>
+ <20230307034433.GA10739@linuxcarl2.richtek.com>
+ <20230308135433.GL9667@google.com>
+ <20230309014927.GA12537@linuxcarl2.richtek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <c42747e7c67027423940e17b6fc248db945e6d63.camel@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230309014927.GA12537@linuxcarl2.richtek.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 09, 2023 at 05:03:26PM +0000, Edgecombe, Rick P wrote:
-> On Thu, 2023-03-09 at 17:48 +0100, Borislav Petkov wrote:
-> > On Mon, Feb 27, 2023 at 02:29:47PM -0800, Rick Edgecombe wrote:
-> > > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > 
-> > > Shadow stacks are normally written to via CALL/RET or specific CET
-> > 
-> >                                        ^
-> >                                        indirectly.
-> 
-> Dunno here, RSTORSSP/SAVEPREVSSP are kind of direct.
-> 
-> > 
-> > > instructions like RSTORSSP/SAVEPREVSSP. However during some Linux
-> > > operations the kernel will need to write to directly using the
-						  ^^^^^^^^^
+On Thu, 09 Mar 2023, ChiYuan Huang wrote:
 
-Yes, I was trying to make the contrast more obvious because you say
-"directly" here.
+> On Wed, Mar 08, 2023 at 01:54:33PM +0000, Lee Jones wrote:
+> Hi, Lee:
+> > On Tue, 07 Mar 2023, ChiYuan Huang wrote:
+> >
+> > > Hi, Lee:
+> > >    Reply below the comments.
+> > >
+> > > On Sun, Mar 05, 2023 at 10:06:08AM +0000, Lee Jones wrote:
+> > > > On Thu, 23 Feb 2023, ChiaEn Wu wrote:
+> > > >
+> > > > > From: ChiYuan Huang <cy_huang@richtek.com>
+> > > > >
+> > > > > The MediaTek MT6370 is a highly-integrated smart power management IC,
+> > > > > which includes a single cell Li-Ion/Li-Polymer switching battery
+> > > > > charger, a USB Type-C & Power Delivery (PD) controller, dual Flash
+> > > > > LED current sources, a RGB LED driver, a backlight WLED driver,
+> > > > > a display bias driver and a general LDO for portable devices.
+> > > > >
+> > > > > Add support for the MT6370 Flash LED driver. Flash LED in MT6370
+> > > > > has 2 channels and support torch/strobe mode.
+> > > > >
+> > > > > Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> > > > > Co-developed-by: Alice Chen <alice_chen@richtek.com>
+> > > > > Signed-off-by: Alice Chen <alice_chen@richtek.com>
+> > > > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> > > > > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> > > > > ---
+> > > > > v17
+> > > > > - Update the year of Copyright from 2022 to 2023
+> > > > >
+> > > > > ---
+> > > > >  drivers/leds/flash/Kconfig             |  13 +
+> > > > >  drivers/leds/flash/Makefile            |   1 +
+> > > > >  drivers/leds/flash/leds-mt6370-flash.c | 596 +++++++++++++++++++++++++++++++++
+> > > > >  3 files changed, 610 insertions(+)
+> > > > >  create mode 100644 drivers/leds/flash/leds-mt6370-flash.c
+> >
+> > [...]
+> >
+> > > > > +static int _mt6370_flash_brightness_set(struct led_classdev_flash *fl_cdev,
+> > > > > +					u32 brightness)
+> > > > > +{
+> > > > > +	struct mt6370_led *led = to_mt6370_led(fl_cdev, flash);
+> > > > > +	struct mt6370_priv *priv = led->priv;
+> > > > > +	struct led_flash_setting *setting = &fl_cdev->brightness;
+> > > > > +	u32 val = (brightness - setting->min) / setting->step;
+> > > > > +	int ret, i;
+> > > > > +
+> > > > > +	if (led->led_no == MT6370_LED_JOINT) {
+> > > >
+> > > > What is a "JOINT"?
+> > > >
+> > > Since MT6370 has two flash led channels. Per channel can drive the current up to 1.5A.
+> > > 'JOINT' case is used if 1.5A driving current is not enough, like as flash current 2A.
+> > > They can use two channels to drive 'one' flash led by the HW application.
+> > > This will make the driving current larger than the capability of one channel.
+> >
+> > Is "joint" the term used in the datasheet?
+> >
+> Nope, this term is not clearly defined in the datasheet. but this kind of HW application is
+> allowed.
+> > Please make this definition clear in the code.
+> >
+> > If I'm asking, others are likely to too.
+> >
+> Thanks, I'll add more comments to clearly describe what the 'JOINT' code did.
+> > [...]
+> >
+> > > > > +static int mt6370_init_flash_properties(struct device *dev,
+> > > > > +					struct mt6370_led *led,
+> > > > > +					struct fwnode_handle *fwnode)
+> > > > > +{
+> > > > > +	struct led_classdev_flash *flash = &led->flash;
+> > > > > +	struct led_classdev *lcdev = &flash->led_cdev;
+> > > > > +	struct mt6370_priv *priv = led->priv;
+> > > > > +	struct led_flash_setting *s;
+> > > > > +	u32 sources[MT6370_MAX_LEDS];
+> > > > > +	u32 max_ua, val;
+> > > > > +	int i, ret, num;
+> > > > > +
+> > > > > +	num = fwnode_property_count_u32(fwnode, "led-sources");
+> > > > > +	if (num < 1)
+> > > > > +		return dev_err_probe(dev, -EINVAL,
+> > > > > +				     "Not specified or wrong number of led-sources\n");
+> > > > > +
+> > > > > +	ret = fwnode_property_read_u32_array(fwnode, "led-sources", sources, num);
+> > > > > +	if (ret)
+> > > > > +		return ret;
+> > > > > +
+> > > > > +	for (i = 0; i < num; i++) {
+> > > > > +		if (sources[i] >= MT6370_MAX_LEDS)
+> > > > > +			return -EINVAL;
+> > > > > +		if (priv->leds_active & BIT(sources[i]))
+> > > > > +			return -EINVAL;
+> > > > > +		priv->leds_active |= BIT(sources[i]);
+> > > > > +	}
+> > > > > +
+> > > > > +	led->led_no = num == 2 ? MT6370_LED_JOINT : sources[0];
+> > > > > +
+> > > > > +	max_ua = num == 2 ? MT6370_ITORCH_DOUBLE_MAX_uA : MT6370_ITORCH_MAX_uA;
+> > > > > +	val = MT6370_ITORCH_MIN_uA;
+> > > >
+> > > > In what scenario does this not get overwritten?
+> > > >
+> > > Only if the property is missing. This will make the value keep in minimum.
+> >
+> > If the property is missing, fwnode_property_read_u32() returns an errno, no?
+> >
+> > If that's the case, val will be over-written in the if() clause?
+> >
+> In this funciton, three properties needs to be paresed from DT. Each one need to clamp the value.
+> There're two ways to write the code.
+>
+> [Option 1]
+> ret = fwnode_property_read_u32(...)
+> if (ret)
+>     val = MIM_uA;
+>
+> val = mt6370_clamp(val, MIN, MAX);
+>
+> [Option 2]
+> val = MIN_uA;
+> if (!ret)
+>     val = mt6370_clamp(val, MIN, MAX);
+>
+>
+> From the above, the sencond one can save more LOC, no?
+> But it seems the first one is more preferable by you, right?
 
-But not too important.
+I see now that 'val' is used in clamp() before being overwritten now.
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+--
+Lee Jones [李琼斯]
