@@ -2,127 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F495C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 06:14:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9126C742A7
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 06:15:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229675AbjCIGOX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Mar 2023 01:14:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33144 "EHLO
+        id S229913AbjCIGPr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 01:15:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbjCIGOW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 01:14:22 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072EDC9A4E;
-        Wed,  8 Mar 2023 22:14:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678342461; x=1709878461;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=2K62SrZiHQjF6e8srmIrQVlR1O8haqnD1lsxLpt8L60=;
-  b=DX47vwfWGB4haEFQDZgFaJ00tCIvBQOzvuMJj0mZIjmtmCCb62bMDTix
-   1BUVCBVCM6jzW2Di63L1ayL3sVMRMxGDVTKhP5oK1HzIBUhcJr7+3PR3H
-   I7i3W9F2EgIXeq20LGMXpVfjPQJcm0MtLj4xHXMX8UIXV8PK+13QHyLad
-   MSRkBl5k1wN6QpMmMcU3RGkbzOvVhgWq78IxhVOHJM9bNXf7A9L6rl3Lx
-   cow0QSP+/ImRSlLqCdij+De+/Iba33PmbxWBNmP9JlcRL9GulurmEx0WJ
-   MBJURfD9HNspbXNd2MQ6/c880Fl+8sjhWH0WeBQVEKZx23PZItG3fDdJ7
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="337889162"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="337889162"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 22:14:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="709720991"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="709720991"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 08 Mar 2023 22:14:12 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pa9XY-0002hh-08;
-        Thu, 09 Mar 2023 06:14:12 +0000
-Date:   Thu, 9 Mar 2023 14:13:16 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, Michael Walle <michael@walle.cc>,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Kory Maincent <kory.maincent@bootlin.com>,
-        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Minghao Chi <chi.minghao@zte.com.cn>
-Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
- selectable.
-Message-ID: <202303091304.yj8NySNz-lkp@intel.com>
-References: <20230308135936.761794-4-kory.maincent@bootlin.com>
+        with ESMTP id S229614AbjCIGPp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 01:15:45 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91224C9A4E;
+        Wed,  8 Mar 2023 22:15:44 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id EB203B81DEC;
+        Thu,  9 Mar 2023 06:15:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3BC6C433EF;
+        Thu,  9 Mar 2023 06:15:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678342541;
+        bh=S5+pdx69OCp0NpUvVJzuTRg/Jd7567+ywNHesio5JsQ=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=DV8Fr2LZYj25xMrNlhFvABHT/o2gO9E+ebdYhft3HIZuCTCFNPkcRIf5F8NImnHGH
+         pp7aZmmtFnbMn1aQgWmA6QOC125bYu/HcFWrSbbyacfEnDTXAnoys6OzIuspN5imXW
+         IXHh2kNbGTc9h3btOTfad+EohSXDc9yckTTmCmNySm5OSij2dchaWVxPf8V50d7fY/
+         F412C6D4pCrHzF9KZjlQYSf6nVB3qIYmiUyVmec2MtU+guaFpKHFkHkXp9XC8se5Z+
+         PHUmm4m0l6KXGRSsIvyvCRJ04F21YqzK9nUQHZWodIxsb94pApeuaadJSwio4ByKuW
+         cG8bckkhPn2XQ==
+Message-ID: <7b269c9f-803e-69d6-9416-1620e1726e7e@kernel.org>
+Date:   Thu, 9 Mar 2023 07:15:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230308135936.761794-4-kory.maincent@bootlin.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH V2 6/6] arm64: tegra: Add GTE nodes
+Content-Language: en-US
+To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org,
+        timestamp@lists.linux.dev
+References: <20230214115553.10416-1-dipenp@nvidia.com>
+ <20230214115553.10416-7-dipenp@nvidia.com>
+ <16e3ddb4-219e-70a8-8644-c62973f84d31@kernel.org>
+ <ef58cd61-f90d-f242-9923-e9544d1aa963@nvidia.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <ef58cd61-f90d-f242-9923-e9544d1aa963@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Köry,
+On 08/03/2023 21:13, Dipen Patel wrote:
+> On 2/16/23 6:18 AM, Krzysztof Kozlowski wrote:
+>> On 14/02/2023 12:55, Dipen Patel wrote:
+>>> Add GTE nodes for the tegra234. Also modify AON GTE nodes for the
+>>> tegra194 to remove nvidia,slice property and add nvidia,gpio-controller
+>>> propertyto specify AON GPIO controller node so that GTE driver can
+>>> do namespace conversion between GPIO lines provided by the gpiolib
+>>> framework and hardware timestamping engine subsystem.
+>>>
+>>> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+>>> ---
+>>>  arch/arm64/boot/dts/nvidia/tegra194.dtsi |  3 +--
+>>>  arch/arm64/boot/dts/nvidia/tegra234.dtsi | 19 +++++++++++++++++++
+>>>  2 files changed, 20 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+>>> index 4afcbd60e144..4c92850b1ec4 100644
+>>> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+>>> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+>>> @@ -1363,7 +1363,6 @@
+>>>  			reg = <0x3aa0000 0x10000>;
+>>>  			interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
+>>>  			nvidia,int-threshold = <1>;
+>>> -			nvidia,slices = <11>;
+>>>  			#timestamp-cells = <1>;
+>>>  			status = "okay";
+>>>  		};
+>>> @@ -1586,7 +1585,7 @@
+>>>  			reg = <0xc1e0000 0x10000>;
+>>>  			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
+>>>  			nvidia,int-threshold = <1>;
+>>> -			nvidia,slices = <3>;
+>>> +			nvidia,gpio-controller = <&gpio_aon>;
+>>>  			#timestamp-cells = <1>;
+>>>  			status = "okay";
+>>>  		};
+>>> diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+>>> index eaf05ee9acd1..4a87490c5fd4 100644
+>>> --- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+>>> +++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+>>> @@ -1086,6 +1086,15 @@
+>>>  			clock-names = "fuse";
+>>>  		};
+>>>  
+>>> +		hte_lic: hardware-timestamp@3aa0000 {
+>>> +			compatible = "nvidia,tegra234-gte-lic";
+>>> +			reg = <0x3aa0000 0x10000>;
+>>> +			interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
+>>> +			nvidia,int-threshold = <1>;
+>>> +			#timestamp-cells = <1>;
+>>> +			status = "okay";
+>>
+>> Why do you need status? It's okay by default.
+> what's harm of having to explicitly mentioned? 
 
-I love your patch! Yet something to improve:
+Because useless code is not helping any review. We do not add other
+useless properties, or shall we add them?
 
-[auto build test ERROR on v6.2]
-[cannot apply to robh/for-next horms-ipvs/master net/master net-next/master linus/master v6.3-rc1 next-20230309]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>I can see status = okay in this dtsi file
+> for other nodes as well and was just following that.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
-patch link:    https://lore.kernel.org/r/20230308135936.761794-4-kory.maincent%40bootlin.com
-patch subject: [PATCH v3 3/5] net: Let the active time stamping layer be selectable.
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230309/202303091304.yj8NySNz-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/d81a36f239360e7e3b9ca2633e52b3cb12205590
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
-        git checkout d81a36f239360e7e3b9ca2633e52b3cb12205590
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
+So if you see a bug somewhere, you also duplicate it in your code?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091304.yj8NySNz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+Best regards,
+Krzysztof
 
-   /usr/bin/ld: warning: arch/x86/um/checksum_32.o: missing .note.GNU-stack section implies executable stack
-   /usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   /usr/bin/ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
-   /usr/bin/ld: net/core/dev_ioctl.o: in function `dev_hwtstamp_ioctl':
-   net/core/dev_ioctl.c:280: undefined reference to `phy_do_ioctl'
->> /usr/bin/ld: net/core/dev_ioctl.c:290: undefined reference to `phy_mii_ioctl'
-   collect2: error: ld returned 1 exit status
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
