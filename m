@@ -2,164 +2,205 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1D87C64EC4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 17:33:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54C1AC742A7
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 18:50:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230295AbjCIRdq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Mar 2023 12:33:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59844 "EHLO
+        id S230139AbjCISuI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 13:50:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230110AbjCIRdo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 12:33:44 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9446F1FE1;
-        Thu,  9 Mar 2023 09:33:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678383223; x=1709919223;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=kBuk/qbo+wS0XQ/dFeyx8JguJDt+9dG8zDXc8OBOCnk=;
-  b=Q6WZDTBGq8VnVY4zJsvKQiOJY539J9omDyD+BiKBKc5ZB+pZQQEOc7/X
-   ZQ4rlzkj83cIv5CvkL+1+O3vINGU/WZ9jsVkTp3mcuBguPtctOr9EpAjB
-   gSIqiVQuUxMpTQoqNscBqgSd2+oYZRh1qsE34kk3LMBVNaaQEOBy8ylBf
-   8h74ozU3DIgDumUTMxV/5ZaSH1yKUNLyVpur9pZOp2PqLF1UmdtMuvgHL
-   7yEs2T+BVMpRAgpoR4g/ub2nflgdFNylfvJGvIMqtFfjhFs0hf5IAPWa2
-   P0GUvpzBauC4pAxSGRMZdCi4vzpSu8MNeqIt+L/s0OJyaYxHd7+YGkebj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="364156732"
-X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="364156732"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 09:33:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="707697340"
-X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="707697340"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 Mar 2023 09:33:36 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1paK91-00037N-0T;
-        Thu, 09 Mar 2023 17:33:35 +0000
-Date:   Fri, 10 Mar 2023 01:33:29 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Michael Walle <michael@walle.cc>,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Kory Maincent <kory.maincent@bootlin.com>,
-        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Minghao Chi <chi.minghao@zte.com.cn>
-Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
- selectable.
-Message-ID: <202303100154.iqj4R4fL-lkp@intel.com>
-References: <20230308135936.761794-4-kory.maincent@bootlin.com>
+        with ESMTP id S229925AbjCISuH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 13:50:07 -0500
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2081.outbound.protection.outlook.com [40.107.92.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C80FA0B1;
+        Thu,  9 Mar 2023 10:50:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YiuyeQXQhi6H8obkfSgTOMfZEfnSYNjyMOrodeIWyGHCnRCZP1RY0k/UdWGQrr9AiOPvk0hWtcKEXJG6+XU2x7Vw88xmVmAWZXR0XMeVVx3eujkCXZge6ClpioHGzrrJEZqqJCB5YlFrYVLiVUKxpZ7imLj6kP0d5qZvDXDy7i/0NAZ2avHpoFFdndPg3F3breisqoVHbhXHslY/fz/gjRrpMU4qB/EglbSmZJobyUNgnBoALH/zV5oRejqaD6Rm/t595yiv1Ayu3XsvwMR/I1Cryvqzx6g88mR3HpvKwoKbH31Th82wP+08hWwUPgEIIUQ7aV/R086qkdgTr1lWBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tql0zFJsuG/BMQt+SeII2U4eWMRJfkiDvrLJvQR/8T8=;
+ b=IiqAumAvq8gz79VTxIw+aMTqMmdiV65XMSUl7Z+4BsPIOlLk3P5VvDZiJoWw6DgBbt4jEgydmwC65rF8j2L/CcXo4ofoK45NTurM43kjm52iGMzOU6E/QACwQ8SqMFaGikukv4vJ9kNSUixKwIA1899Z1mc18Io4NqGIc3m9sByItop6IyPGxHuZJ3NhB/YyvB8BgKWWE9YizdVrZh/mSo/UpWoRpBO7wdqa9fu+6ebmLy+wGyqx1SKX5UiLn5ApUCSlErH9uQfI5Lx3rMe7+yhFcB1AM2qQMuJ3H8knCLY4s8bn/yknwjHVNCc8MLEEH8AO8oruz7zmL4OjXuVX0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tql0zFJsuG/BMQt+SeII2U4eWMRJfkiDvrLJvQR/8T8=;
+ b=ZwJ6cGFFLAxsxXiFmA19pbqAcfDaLIowjoQpI2FHefW4vvPGWbhjQdnfLNT9o0QEDJZRhYosFq43A++I9YTlxT9hiOWs8v8nRAlyqTlfihYRtEx/IwU8KDlSmVkJkteHY6g+cQcn7THxiOY4VVKZlnw4ipvm6xZVjE0aQ6FTcNqgXxUQ4X6s7WbBQjKoxIRMy7Q62Uc5fat+OxDZIcM5/0S73lOJA1f2iQLbtVOiWRKzNWwyG1s+OjHBbTw/rQtNjlearifg9YvEHAgudooEhrN9XspglbVkabLIWNatKb/7ivjW6Nya0ezINL2DAIlEcb7JSycuoxR2NXLpXZR1Zg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA1PR12MB6604.namprd12.prod.outlook.com (2603:10b6:208:3a0::7)
+ by CH0PR12MB5171.namprd12.prod.outlook.com (2603:10b6:610:ba::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.17; Thu, 9 Mar
+ 2023 18:50:01 +0000
+Received: from IA1PR12MB6604.namprd12.prod.outlook.com
+ ([fe80::735c:fa9:2043:279a]) by IA1PR12MB6604.namprd12.prod.outlook.com
+ ([fe80::735c:fa9:2043:279a%4]) with mapi id 15.20.6156.029; Thu, 9 Mar 2023
+ 18:50:01 +0000
+Message-ID: <c1a78a59-c8ae-81e5-b641-a7cb75062ab3@nvidia.com>
+Date:   Thu, 9 Mar 2023 10:49:57 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH V2 4/6] dt-bindings: timestamp: Add Tegra234 support
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzk@kernel.org>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org,
+        timestamp@lists.linux.dev
+References: <20230214115553.10416-1-dipenp@nvidia.com>
+ <20230214115553.10416-5-dipenp@nvidia.com>
+ <3c0ad963-ce69-bd5b-20cd-888e5fbdecaf@kernel.org>
+ <7a8027c9-dc73-3684-c5f2-3071f315b3cd@nvidia.com>
+ <a5e897e5-4cb9-d50f-47a8-ffb8bd8774cb@kernel.org>
+ <18f9a6ca-a61b-4cbb-b729-1fdb6d48651a@nvidia.com>
+ <ab9f7730-d399-0786-67e5-aad57716809e@kernel.org>
+X-Nvconfidentiality: public
+From:   Dipen Patel <dipenp@nvidia.com>
+In-Reply-To: <ab9f7730-d399-0786-67e5-aad57716809e@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BY5PR16CA0034.namprd16.prod.outlook.com
+ (2603:10b6:a03:1a0::47) To IA1PR12MB6604.namprd12.prod.outlook.com
+ (2603:10b6:208:3a0::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230308135936.761794-4-kory.maincent@bootlin.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6604:EE_|CH0PR12MB5171:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f26c445-68f1-4588-0541-08db20cf1658
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: udrZgRZf8uyCAylx59K4qC0ql/QA58CeCIxVvwWc26AUGDkb3u0ToL78mxPwPAK5JiGeYaFN6HjexMPlqjJgACbVij24zR9+NtdRGoaWZhRS0asiK6lHOAjY/xWOl1hqpTZLM2duCpreEVrsyhtukSggdGzcbAX7WWogngVmHY0wQy7OJoyJaKNYtG0fNYaZCIe0MCFYSsqDmj0b9FCByQj5g0EO0zZP3eLu469eGnmoqFO6YY2Gj6gixVa9dWj/7xSGtIqryGIQpne32GHIPj9tUdz+OUdQWbE7bIzrX8TWBs0495mZ4c0CJgSlQDww3sTpXoLsyycCBJ3wgbadwcay2HF21fQiYZKnESe6n3723k6NNWlKVqZ15qHdnBhFWkjzjqtoNNYhtf/ES7dFRJgQkXe1B4wtNuuVW8F2epg1j7nyFSU55f19AjpIIvaDU7fwe+xfI4uZN1D7UfLBJdtQYVI5lyJtRPqN5+v9w9nO0NgmWn0Vow10W6sY/FJNAuHMJ850b8ESmrLb3nk007mt/D3A7yOe4207IErcKlPJRUbC9u0Pu7suAOG82ZAcEy8rvMkKzjvZ0jjG7fVHacfenVzrt1hC5w9+PNO4aCwXt3JMaOvbqbrjUfmtutcnGFFEihspt4mLe34xm4hszLtgdn56OAhJUr4mn0GhrV5Emi9nMQoySv4mfhQpjn/0/bzMxTsuixuVnkhm5CfYEf78vp3BafcsSCmKUHwpbzbAKKmIaJ6Z6mLFHHI/n+05dqJYFXoqMEz6ULA1tzlIaajt96V5wCqhBBViAkhKykox1y0pjOiE8XW+/vfK2sXXVDUorKiGopFXE2DFPvlZUQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6604.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(376002)(136003)(366004)(39860400002)(396003)(451199018)(31696002)(31686004)(2616005)(186003)(921005)(38100700002)(36756003)(86362001)(26005)(6506007)(53546011)(6512007)(83380400001)(6666004)(6486002)(41300700001)(7416002)(478600001)(316002)(966005)(66946007)(8936002)(5660300002)(66476007)(2906002)(66556008)(8676002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VWZKVGR3Mm1iM1BzMHZubDlrZXFQNnVkNndUUjl2Vk1IMW1DU3ZRMlJ6OEN1?=
+ =?utf-8?B?QjdXOUVHNnFSMFZ4cG82K3BWUGR5ZXJ6amRQd1UzN2xqbXg4QXcxOXBYLzAv?=
+ =?utf-8?B?b0dxbndOZ00ySmZkUkxKSkpPU3hrK3pUdmRLdFhrSVJ5MWJmVXd0bHd1SEZ4?=
+ =?utf-8?B?REE0bWhsbjBUSUFOcExpelN0TndCQlJOOWNhYm9TRDhxeEZKMFdMMSt5dEp3?=
+ =?utf-8?B?d2l1b2Z3L3dDTFhNc0Jma3ZFY2F6dTUrWStEcjFoR2lTSmFadG5VengzMjFS?=
+ =?utf-8?B?UkNGYlFNcUEwWE5WSHZRZEZQbUVpdTB6cWdNMWVnc3ROZFN4N3U1UXkrMnZl?=
+ =?utf-8?B?YUlsMmsvamVsMTZ1V2ZZMWxpeHVuYW9qL1JWNkdnbkhzRW9paitvckZPamRE?=
+ =?utf-8?B?N0xBTkNva0tTMUNkRktXeFA1WSt5bjByN013NUlzOE9uNGRKS0xWZHN2S0w1?=
+ =?utf-8?B?UThZT3ZRK1NoTUM4dkd1ZTNEMFk1cklNeG84UWVTUlNsME13WWNOMzJ2UjBa?=
+ =?utf-8?B?d1FuOU5pTXc5RWx3Z0hmb3dVZE1nQVhybjhmOENRbG50UmZ6YkIwRnhVQzVP?=
+ =?utf-8?B?ZzNNcU9JZHBaeHh3WUxveTg2Qm9oZGFDV29VRVF4MU9wT1d2MjZyWXJzb3RI?=
+ =?utf-8?B?Q1pXQUVveHNUU2s3NFpINjg1TjNMdXY0UWJ3M0tKTC81WTJCay8zeEpYa0JN?=
+ =?utf-8?B?NTJCRmZIak9YMVFjZDA3YVFuSDJTckQwS3BLajlkcFdHYVJCN2o0eTVSb2NG?=
+ =?utf-8?B?eTBmaVJPbmQ2MzYxa291TzNWeUFLTlg5R3hOSjhOcXFlV2sxMXdCU2UvY0tN?=
+ =?utf-8?B?dGxoOGU4YnhLdDNIMFlLSmMxV1NwTXZOdnM3WFRvKy8zZjhuQlphdDczZHVB?=
+ =?utf-8?B?Y3YxWW5mdXlzUS9KRnIzNHRQSUJVQldvbHFDY2E5dFBFWU5PSTl0eHdRSnlw?=
+ =?utf-8?B?RjQ5Q0VqWXNEb0h6VStaVGR1T2NQdURnTWtuUG5qdnpoTW5mZ01zVFh5RnBp?=
+ =?utf-8?B?RXlMMHpUa0ljSmdFZWZkTVFsZWhySTlpNllBa3BUdW1jWVV5S0tKTG5uM1RT?=
+ =?utf-8?B?akYvYVozZXdHSGhNOExYNkkraFo0RDR3MEN6UUNnbE43bDlRREtLR2JMNHNM?=
+ =?utf-8?B?eVdkdFM4em5QcWRnWWsyNjg2Ykp1QUs5aVlkdkY3cjdmMzZ1OXA0RnM4cXdq?=
+ =?utf-8?B?bFZSY3d6U29IRXFXNWY4MWppWXBFcFpaZ0NCQUw3ZWhLQWlkNlZ2ZXBidDds?=
+ =?utf-8?B?eUxqRHo5OFdBaWxDVC82Nkx0UFpRQVVKWk5KdWtjTXBJL0w4Um1zRnRiYkxH?=
+ =?utf-8?B?TDhNb0RrbStNbG9CblB5bWJ6dm13UjVTZlNpcEZpeXRMdU9yOEpGTWtBajNS?=
+ =?utf-8?B?ckV1Vk9leXVTQzFzQ2VqWlVTUWRLR296dFJRNmNJSk5Sa2o5azVTUEIwcTlo?=
+ =?utf-8?B?Z09GQXRKeUJFVmJGcXdJNEhwUzNoeGhuTGwvRS8wWnBWd1R1aWMzSmNsNUk3?=
+ =?utf-8?B?Q0NxK2RhcUtNWDBmQSswQXRJUmoreXlaWEYxYXA2Zkd3dXdMbkpyU3duN3M3?=
+ =?utf-8?B?TWdnWHc5T2FlODh0ZVlnM1ZWWHM1RFA5ajJHZnVpZHo2K29xa3BreWZMRzcy?=
+ =?utf-8?B?OGNMemtnelZSNW96NVVJK2pzYVdyWGRvOVhWWExEdDhjZUMxeDNGbWtJekxM?=
+ =?utf-8?B?cjFHcFlTOXROWGVlM2Vnd2FZaXhtUW9TOW5wVDg1d2VkWkN3anUraCt4d1Jv?=
+ =?utf-8?B?VGIxQjFpbDRlaVlhNkhkL2JIUXY1ZnVOalNUVXR4MWZ5NXIrOWNNRUl1cEF0?=
+ =?utf-8?B?U1dXbUsrS0NxQlV0dWFsU3NnZ2xpdmVjZWZxNmYrMTBIWnN5bHFYbHl0TTZL?=
+ =?utf-8?B?dnhnbXl2TXZydjdDS1ZnMGY1YnBmT2xOY2tTTFJQOU9jQS9NbEc4Ti82V2lR?=
+ =?utf-8?B?TzVMVnhmeXhVRnp2UGI3K0U4dkNHdGNlZ2FzcklNMEhiYmhoL0t6TkZHNjcr?=
+ =?utf-8?B?dGJ1WFZSQ0huWnFHU2FyMEZWN1ZGZ0J0bkNEZUo0MnlFdW8xSStBQ0lReVUw?=
+ =?utf-8?B?eVdWSUJabGE2My9uWktReXFjZExRRUR2Q0JsMGQ2dXpzS3h6UEtzRXF0b2pR?=
+ =?utf-8?Q?YAOXRA2jw/QKzmNq2t+cKh16d?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f26c445-68f1-4588-0541-08db20cf1658
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6604.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2023 18:50:01.0430
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kUPdx02WsFfQ+nLTU50zjGBpur7L2nm6HAhaPsx5S7pO5o0Yb4Y6lnOO/S1RuMDwPSreXe9GanlzfFT+XE/d2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5171
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Köry,
+On 3/8/23 10:16 PM, Krzysztof Kozlowski wrote:
+> On 08/03/2023 21:09, Dipen Patel wrote:
+>> On 3/8/23 11:05 AM, Krzysztof Kozlowski wrote:
+>>> On 08/03/2023 19:45, Dipen Patel wrote:
+>>>> On 2/16/23 6:17 AM, Krzysztof Kozlowski wrote:
+>>>>> On 14/02/2023 12:55, Dipen Patel wrote:
+>>>>>> Added timestamp provider support for the Tegra234 in devicetree
+>>>>>> bindings.
+>>>>>
+>>>>> 1. Your commit does much more. You need to explain it why you drop some
+>>>>> property.
+>>>> ACK, will address it next patch
+>>>>>
+>>>>> 2. Bindings go before its usage (in the patchset).
+>>>> Ack...
+>>>>>
+>>>>> 3. Please use scripts/get_maintainers.pl to get a list of necessary
+>>>>> people and lists to CC.  It might happen, that command when run on an
+>>>>> older kernel, gives you outdated entries.  Therefore please be sure you
+>>>>> base your patches on recent Linux kernel.
+>>>> It is based on recent linux at the time patch series was sent...
+>>>
+>>> That's good but then why you do not use scripts/get_maintainers.pl? The
+>>> hint about recent kernel was just a hint... Just do not invent addresses
+>>> by yourself and use the tool to get them right.
+>>>
+>> I will take a note for the next patch series to add any missing people. The current
+>> list of people/group is what historically helped review this new timestamp/hte subsystem.
+>>
+>>> (...)
+>>>
+>>>>>> +  properties:
+>>>>>> +    compatible:
+>>>>>> +      contains:
+>>>>>> +        enum:
+>>>>>> +          - nvidia,tegra194-gte-aon
+>>>>>
+>>>>> This is an ABI break. Does your driver handle it?
+>>>> yes, handling patch is part of this patch series.
+>>>
+>>> Can you point me to the code which does it? I see "return -ENODEV;", so
+>>> I think you do not handle ABI break. I could miss something but since
+>>> you disagree with me, please at least bring some arguments...
+>> Refer to patch https://patchwork.kernel.org/project/timestamp/patch/20230214115553.10416-3-dipenp@nvidia.com/
+>> which has compatible properties added and also code changes to reflect addition/deletion of some
+>> properties.
+> 
+> I referred to the code which breaks the ABI.
+> 
+>>
+>> I am not sure I have understood about ABI break comment. How else one should handle if
+>> there is no related gpio controller property found?
+> 
+> In a way it does not break existing users? There are many ways to handle
+> it, but I don't know your code to point you.
 
-I love your patch! Perhaps something to improve:
+It is new subsystem and has only one driver which uses it so far. This was a decision taken
+after review comments (By Thierry, also in the mailing list) to add this property (nvidia,gpio-controller)
+and necessary changes have been made to existing user. From now on, it has to follow this change.
 
-[auto build test WARNING on v6.2]
-[cannot apply to robh/for-next horms-ipvs/master net/master net-next/master linus/master v6.3-rc1 next-20230309]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+>> I am assuming you are referring to the
+>> below code from the patch 2 (link above) when you said "return -ENODEV".
+> 
+> 
+> Your bindings patch points to ABI break without any
+> explanation/justification. Then your code #2 patch actually breaks it,
+> also without any justification.
+I am going to add explanation/justification in the commit message in the next patch series. But to give
+you context, discussion happened here https://patchwork.ozlabs.org/project/linux-gpio/patch/20221103174523.29592-3-dipenp@nvidia.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
-patch link:    https://lore.kernel.org/r/20230308135936.761794-4-kory.maincent%40bootlin.com
-patch subject: [PATCH v3 3/5] net: Let the active time stamping layer be selectable.
-config: x86_64-randconfig-a003 (https://download.01.org/0day-ci/archive/20230310/202303100154.iqj4R4fL-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d81a36f239360e7e3b9ca2633e52b3cb12205590
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
-        git checkout d81a36f239360e7e3b9ca2633e52b3cb12205590
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/phy/
+> 
+> Best regards,
+> Krzysztof
+> 
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303100154.iqj4R4fL-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/net/phy/phy_device.c:1384:6: warning: no previous prototype for function 'of_set_timestamp' [-Wmissing-prototypes]
-   void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
-        ^
-   drivers/net/phy/phy_device.c:1384:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/of_set_timestamp +1384 drivers/net/phy/phy_device.c
-
-  1383	
-> 1384	void of_set_timestamp(struct net_device *netdev, struct phy_device *phydev)
-  1385	{
-  1386		struct device_node *node = phydev->mdio.dev.of_node;
-  1387		const struct ethtool_ops *ops = netdev->ethtool_ops;
-  1388		const char *s;
-  1389		enum timestamping_layer ts_layer = 0;
-  1390	
-  1391		if (phy_has_hwtstamp(phydev))
-  1392			ts_layer = PHY_TIMESTAMPING;
-  1393		else if (ops->get_ts_info)
-  1394			ts_layer = MAC_TIMESTAMPING;
-  1395	
-  1396		if (of_property_read_string(node, "preferred-timestamp", &s))
-  1397			goto out;
-  1398	
-  1399		if (!s)
-  1400			goto out;
-  1401	
-  1402		if (phy_has_hwtstamp(phydev) && !strcmp(s, "phy"))
-  1403			ts_layer = PHY_TIMESTAMPING;
-  1404	
-  1405		if (ops->get_ts_info && !strcmp(s, "mac"))
-  1406			ts_layer = MAC_TIMESTAMPING;
-  1407	
-  1408	out:
-  1409		netdev->selected_timestamping_layer = ts_layer;
-  1410	}
-  1411	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
