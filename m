@@ -2,138 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DB3DC64EC4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 04:59:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F495C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 06:14:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229590AbjCIE7O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Mar 2023 23:59:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60600 "EHLO
+        id S229675AbjCIGOX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 01:14:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229558AbjCIE7N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Mar 2023 23:59:13 -0500
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 558A75C11B
-        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 20:59:12 -0800 (PST)
-Received: by mail-qt1-x832.google.com with SMTP id c3so840054qtc.8
-        for <linux-doc@vger.kernel.org>; Wed, 08 Mar 2023 20:59:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112; t=1678337951;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u7Q758EVgylTs75aXHGbh2DNnGqg/9Af+1g3WINt/FU=;
-        b=3ync1xHxY/YBYVd3IxyroCZqUb/GWTTYzZ8PELadIq/fDhfg2coxb7kzHgPX5H2uPP
-         97pkKNtMLAIOTy7KS4xl8BRtfUTfXZGTeXaz1eBkHfQ3hxiYVeZapniGPMiCkLtQU+UI
-         4tnBNI9JVwxGld8T5h4FbOXrAb6MEZNKErtmlCLZ8E70PlymYUVVc0NsaHhvuScDNh1v
-         Vrh+7q08WKE5N2tu3HCooIUlv4S+HbzlXxPH9sgA/QXQqTGHU3pP30GAG8Zj9Un8j7Ok
-         IFsGCaZxpEkqJyH3FoaLxlQuiLQCVIevF1e8yH5CK5GwI+Jdv0siKEat2sGj4lVTA1kd
-         uetA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678337951;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u7Q758EVgylTs75aXHGbh2DNnGqg/9Af+1g3WINt/FU=;
-        b=r/qCoY6CB0yHHEdOv8xaog+UW52F1Ux3qUrr/8Zht7WyAH2gEij6dh5l42PvpYTEZN
-         mJUvVCsdZQPAbxAgTs3n7hcuJhBp8Z+DoHrRQdkvQg9IZtbZ8NnMTRZ29OKfQKiF36ER
-         rnU3X5w20b1BAO/OiRY+FVMudm9QnGzMmFdODaMOAj5sQF2ew9ws17UpGLGEXU3BNyUv
-         /LiV+xuLqUyY+AIWC6wW5uW8coy1OQUbreYVttn0BTWavsGf3V1crm0EzXnCuTsvwKY6
-         UsyRl+2fCKK7JoevvooVJ1cIDrgzdWlSvSTUtL7KS356akqoXCo/lytFyJCGDqse6SUJ
-         F7ig==
-X-Gm-Message-State: AO0yUKW7Cp3mUJAyhddstw/XvqABi8DPqpy8MPC4bkQV9VCU7QddA7ej
-        uAF7Ry33ykyfFczzf/9fZou7/aHg+7c7GvIrbdw=
-X-Google-Smtp-Source: AK7set8HRIUSrbF4IGC24O6vqnaFTBCTpfvzE95pYf2T5AMVM0aMH3GWnuSEGSNHcoiK/ACjtMjm7w==
-X-Received: by 2002:a05:622a:170b:b0:3b8:58d0:b4e4 with SMTP id h11-20020a05622a170b00b003b858d0b4e4mr2431886qtk.33.1678337951507;
-        Wed, 08 Mar 2023 20:59:11 -0800 (PST)
-Received: from localhost ([2620:10d:c091:400::5:d32c])
-        by smtp.gmail.com with ESMTPSA id e8-20020ac80108000000b003b9a6d54b6csm12913588qtg.59.2023.03.08.20.59.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 20:59:11 -0800 (PST)
-Date:   Wed, 8 Mar 2023 23:59:10 -0500
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Stefan Roesch <shr@devkernel.io>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org
-Subject: Re: [PATCH v3 1/3] mm: add new api to enable ksm per process
-Message-ID: <20230309045910.GD476158@cmpxchg.org>
-References: <20230224044000.3084046-1-shr@devkernel.io>
- <20230224044000.3084046-2-shr@devkernel.io>
- <20230308164746.GA473363@cmpxchg.org>
- <qvqwbkl2zxui.fsf@dev0134.prn3.facebook.com>
+        with ESMTP id S229692AbjCIGOW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 01:14:22 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072EDC9A4E;
+        Wed,  8 Mar 2023 22:14:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678342461; x=1709878461;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=2K62SrZiHQjF6e8srmIrQVlR1O8haqnD1lsxLpt8L60=;
+  b=DX47vwfWGB4haEFQDZgFaJ00tCIvBQOzvuMJj0mZIjmtmCCb62bMDTix
+   1BUVCBVCM6jzW2Di63L1ayL3sVMRMxGDVTKhP5oK1HzIBUhcJr7+3PR3H
+   I7i3W9F2EgIXeq20LGMXpVfjPQJcm0MtLj4xHXMX8UIXV8PK+13QHyLad
+   MSRkBl5k1wN6QpMmMcU3RGkbzOvVhgWq78IxhVOHJM9bNXf7A9L6rl3Lx
+   cow0QSP+/ImRSlLqCdij+De+/Iba33PmbxWBNmP9JlcRL9GulurmEx0WJ
+   MBJURfD9HNspbXNd2MQ6/c880Fl+8sjhWH0WeBQVEKZx23PZItG3fDdJ7
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="337889162"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="337889162"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 22:14:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="709720991"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="709720991"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 08 Mar 2023 22:14:12 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pa9XY-0002hh-08;
+        Thu, 09 Mar 2023 06:14:12 +0000
+Date:   Thu, 9 Mar 2023 14:13:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, Michael Walle <michael@walle.cc>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Kory Maincent <kory.maincent@bootlin.com>,
+        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>
+Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
+ selectable.
+Message-ID: <202303091304.yj8NySNz-lkp@intel.com>
+References: <20230308135936.761794-4-kory.maincent@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <qvqwbkl2zxui.fsf@dev0134.prn3.facebook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230308135936.761794-4-kory.maincent@bootlin.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 08, 2023 at 02:16:36PM -0800, Stefan Roesch wrote:
-> Johannes Weiner <hannes@cmpxchg.org> writes:
-> > On Thu, Feb 23, 2023 at 08:39:58PM -0800, Stefan Roesch wrote:
-> >> @@ -2405,8 +2417,20 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
-> >>  		goto no_vmas;
-> >>
-> >>  	for_each_vma(vmi, vma) {
-> >> -		if (!(vma->vm_flags & VM_MERGEABLE))
-> >> +		if (!vma_ksm_mergeable(vma))
-> >>  			continue;
-> >> +		if (!(vma->vm_flags & VM_MERGEABLE)) {
-> >
-> > IMO, the helper obscures the interaction between the vma flag and the
-> > per-process flag here. How about:
-> >
-> > 		if (!(vma->vm_flags & VM_MERGEABLE)) {
-> > 			if (!test_bit(MMF_VM_MERGE_ANY, &vma->vm_mm->flags))
-> > 				continue;
-> >
-> > 			/*
-> > 			 * With per-process merging enabled, have the MM scan
-> > 			 * enroll any existing and new VMAs on the fly.
-> > 			 *
-> > 			ksm_madvise();
-> > 		}
-> >
-> >> +			unsigned long flags = vma->vm_flags;
-> >> +
-> >> +			/* madvise failed, use next vma */
-> >> +			if (ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_MERGEABLE, &flags))
-> >> +				continue;
-> >> +			/* vma, not supported as being mergeable */
-> >> +			if (!(flags & VM_MERGEABLE))
-> >> +				continue;
-> >> +
-> >> +			vm_flags_set(vma, VM_MERGEABLE);
-> >
-> > I don't understand the local flags. Can't it pass &vma->vm_flags to
-> > ksm_madvise()? It'll set VM_MERGEABLE on success. And you know it
-> > wasn't set before because the whole thing is inside the !set
-> > branch. The return value doesn't seem super useful, it's only the flag
-> > setting that matters:
-> >
-> > 			ksm_madvise(vma, vma->vm_start, vma->vm_end, MADV_MERGEABLE, &vma->vm_flags);
-> > 			/* madvise can fail, and will skip special vmas (pfnmaps and such) */
-> > 			if (!(vma->vm_flags & VM_MERGEABLE))
-> > 				continue;
-> >
-> 
-> vm_flags is defined as const. I cannot pass it directly inside the
-> function, this is the reason, I'm using a local variable for it.
+Hi Köry,
 
-Oops, good catch.
+I love your patch! Yet something to improve:
 
-However, while looking at the flag helpers, I'm also realizing that
-modifications requires the mmap_sem in write mode, which this code
-doesn't. This function might potentially scan the entire process
-address space, so you can't just change the lock mode, either.
+[auto build test ERROR on v6.2]
+[cannot apply to robh/for-next horms-ipvs/master net/master net-next/master linus/master v6.3-rc1 next-20230309]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Staring more at this, do you actually need to set VM_MERGEABLE on the
-individual vmas? There are only a few places that check VM_MERGEABLE,
-and AFAICS they can all just check for MMF_VM_MERGE_ANY also.
+url:    https://github.com/intel-lab-lkp/linux/commits/K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
+patch link:    https://lore.kernel.org/r/20230308135936.761794-4-kory.maincent%40bootlin.com
+patch subject: [PATCH v3 3/5] net: Let the active time stamping layer be selectable.
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230309/202303091304.yj8NySNz-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/d81a36f239360e7e3b9ca2633e52b3cb12205590
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review K-ry-Maincent/net-ethtool-Refactor-identical-get_ts_info-implementations/20230308-220453
+        git checkout d81a36f239360e7e3b9ca2633e52b3cb12205590
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
 
-You'd need to factor out the vma compatibility checks from
-ksm_madvise(), and skip over special vmas during the mm scan. But
-those tests are all stable under the read lock, so that's fine.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091304.yj8NySNz-lkp@intel.com/
 
-The other thing ksm_madvise() does is ksm_enter() - but that's
-obviously not needed from inside the loop over ksm_enter'd mms. :)
+All errors (new ones prefixed by >>):
+
+   /usr/bin/ld: warning: arch/x86/um/checksum_32.o: missing .note.GNU-stack section implies executable stack
+   /usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   /usr/bin/ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+   /usr/bin/ld: net/core/dev_ioctl.o: in function `dev_hwtstamp_ioctl':
+   net/core/dev_ioctl.c:280: undefined reference to `phy_do_ioctl'
+>> /usr/bin/ld: net/core/dev_ioctl.c:290: undefined reference to `phy_mii_ioctl'
+   collect2: error: ld returned 1 exit status
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
