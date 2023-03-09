@@ -2,108 +2,197 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF222C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 06:45:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35819C6FD1C
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 09:09:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229798AbjCIGpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Mar 2023 01:45:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47724 "EHLO
+        id S230032AbjCIJJr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 04:09:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230153AbjCIGpV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 01:45:21 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1A3562847
-        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 22:45:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678344320; x=1709880320;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cs3vNazsszbTUlWEUkC6mluH9xTzAryK1Hv6ySX6Awc=;
-  b=i1lnEcwvxvhhj3oTZ2MKgRsyJ0i0DDL1xr4kc6JLEBk83Xm06aykXPVX
-   QI//vZT9MUxVxs5OTimyqhJztIgImnB6kfs+BLCqZ2Z6OdyPw8M1QEP7c
-   lqStooaHCILhQffDsjpKZCFx08EmizogqJNnwFHcR2/0Z0QLutINxeBEk
-   FHrgmbjiwM+p91k/DAzaRadcP5k2EgE1Bov6naJmT9vyKJ1puD9043UGr
-   dG6weDA5RIQAgzfnxnoleMK3qxKLNImM6BEemp6KGx3GRysrTcnFoE08v
-   sJIGTH+MjT9nSBTLNDJNvBmys4Ys0UhYbv8Nk8eD3/uXiROlpO0Tma7VX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="316026712"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="316026712"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 22:45:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="741433490"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="741433490"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 08 Mar 2023 22:45:13 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1paA1Y-0002ij-28;
-        Thu, 09 Mar 2023 06:45:12 +0000
-Date:   Thu, 9 Mar 2023 14:44:40 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [intel-tdx:guest-filter-upstream 5/31] htmldocs:
- Documentation/driver-api/device-authorize.rst:30: WARNING: Missing matching
- underline for section title overline.
-Message-ID: <202303091408.0yK4MVg7-lkp@intel.com>
+        with ESMTP id S230386AbjCIJJd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 04:09:33 -0500
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28D6E5F51F
+        for <linux-doc@vger.kernel.org>; Thu,  9 Mar 2023 01:09:30 -0800 (PST)
+Received: by mail-yb1-xb2b.google.com with SMTP id e194so1206969ybf.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Mar 2023 01:09:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678352969;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=As7r+GPHEmvAUFDtsvfEp735NwW2WEg6DbTgAlj58R0=;
+        b=d5zPXnIdCSL8PFYhyYOeGqp/z4KLzRwZUDS5MQscn602dDdMFOICNvctZM6XgOSs/s
+         Md7TYhkP3I4c8GUXNxi6ka8Hry0M3d8uw/UHhPRafzoTu+2lLo2QrAr4pyjwRTYQ4+CI
+         07WNh/oBiql5KgaJDO8K1gDaGWu+DAsLRq2nU9Y9wj39MtMFMILC9ahu+4xt7cmhGPYd
+         X90VtbPi3OMstH+/UqpSOwHHI+EYQ7LarXzbLBCDuMKzdMMFQ/UxUKKqVA7sa5cL0Uez
+         IZChwC6FoLVRu2JgNXLPAG+SxViuz8t/Op2vZmpSB0iiljJXiJOhtcT6NmEsfqrkeFEw
+         o0Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678352969;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=As7r+GPHEmvAUFDtsvfEp735NwW2WEg6DbTgAlj58R0=;
+        b=qjaK9Zy7hjPKiY0cuY7Wiz3nJMBQ9fBei0rZehq0rGmfYD49j248fgI5eHhaUaB52b
+         cIAQv+lZu3bwQF8UEgATO+0/mjzdq6n3eDwx74ON+9BfOjB3zomsfO3MpeUmVLGWExS9
+         bLLruiIWHxQuNR9MJrnvZmL6Rq8U4/fvNAh9qxQ5TncBhM414ururEudOvX0tc3a0EnD
+         0x2h3XG0ins+HD3yoqjGwGZsc3G+TB3td91+tJvcdopm7OSHDNNG2xY52eQXOiQquKky
+         SHQVVOs5xB0HmHFPeaswzmipRfT+RTG4IhbTDIguYNuu+OGolLW0TMkANGXK2nBbxdvY
+         uQPg==
+X-Gm-Message-State: AO0yUKXaU519LVUvU0wpksMwbLAPzW094r+o5/IRmaH98Dhg3NDQigos
+        Xuul6XzfRQWlIY7vnrJJ72FQbj+wL8SGE77pDFL20Q==
+X-Google-Smtp-Source: AK7set9SxHJdstKtORUta6fNpFj7c3NC6Y9ep4Dfm8p9BxYEaHWCbrFjAqLaiUObiP3YlHYpudlhcELLtQQQOTOX9Yw=
+X-Received: by 2002:a25:8c84:0:b0:b23:4649:7ef3 with SMTP id
+ m4-20020a258c84000000b00b2346497ef3mr240804ybl.4.1678352969333; Thu, 09 Mar
+ 2023 01:09:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230216013230.22978-1-ansuelsmth@gmail.com>
+In-Reply-To: <20230216013230.22978-1-ansuelsmth@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 9 Mar 2023 10:09:18 +0100
+Message-ID: <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
+Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
+To:     Christian Marangi <ansuelsmth@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Arun.Ramadoss@microchip.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/intel/tdx.git guest-filter-upstream
-head:   6bcd8bef8871c6a80cb55b1cbb2651111da10890
-commit: d0c26c6546ae5c1271597dc8fa1633456881afab [5/31] driver core: Add support to parse device authorize firmware
-reproduce:
-        # https://github.com/intel/tdx/commit/d0c26c6546ae5c1271597dc8fa1633456881afab
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx guest-filter-upstream
-        git checkout d0c26c6546ae5c1271597dc8fa1633456881afab
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Hi Christian,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303091408.0yK4MVg7-lkp@intel.com/
+thanks for your patch!
 
-All warnings (new ones prefixed by >>):
+On Thu, Feb 16, 2023 at 2:36=E2=80=AFAM Christian Marangi <ansuelsmth@gmail=
+.com> wrote:
 
->> Documentation/driver-api/device-authorize.rst:30: WARNING: Missing matching underline for section title overline.
+> The current idea is:
+> - LED driver implement 3 API (hw_control_status/start/stop).
+>   They are used to put the LED in hardware mode and to configure the
+>   various trigger.
+> - We have hardware triggers that are used to expose to userspace the
+>   supported hardware mode and set the hardware mode on trigger
+>   activation.
+> - We can also have triggers that both support hardware and software mode.
+> - The LED driver will declare each supported hardware blink mode and
+>   communicate with the trigger all the supported blink modes that will
+>   be available by sysfs.
+> - A trigger will use blink_set to configure the blink mode to active
+>   in hardware mode.
+> - On hardware trigger activation, only the hardware mode is enabled but
+>   the blink modes are not configured. The LED driver should reset any
+>   link mode active by default.
 
-vim +30 Documentation/driver-api/device-authorize.rst
+The series looks good as a start.
+There are some drivers and HW definitions etc for switch-controlled
+LEDs, which is great.
 
-    29	
-  > 30	----------------------------------------------------
-    31	|             struct da_firmware_hdr               |
-    32	|                (type=0, count=2)                 |
-    33	----------------------------------------------------
-    34	|             struct da_bus_hdr                    |
-    35	|              (bus="pci", count=2)                |
-    36	----------------------------------------------------
-    37	|             struct da_pci_devce_id               |
-    38	|                                                  |
-    39	----------------------------------------------------
-    40	|             struct da_pci_device_id              |
-    41	|                                                  |
-    42	----------------------------------------------------
-    43	|             struct da_bus_hdr                    |
-    44	|              (bus="platform", count=2)           |
-    45	----------------------------------------------------
-    46	|             struct da_bus_device_id              |
-    47	|                                                  |
-    48	----------------------------------------------------
-    49	|             struct da_bus_device_id              |
-    50	|                                                  |
-    51	----------------------------------------------------
-    52	
+I am a bit reluctant on the ambition to rely on configuration from sysfs
+for the triggers, and I am also puzzled to how a certain trigger on a
+certain LED is going to associate itself with, say, a certain port.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+I want to draw your attention to this recently merged patch series
+from Hans de Goede:
+https://lore.kernel.org/linux-leds/20230120114524.408368-1-hdegoede@redhat.=
+com/
+
+This adds the devm_led_get() API which works similar to getting
+regulators, clocks, GPIOs or any other resources.
+
+It is not yet (I think) hooked into the device tree framework, but it
+supports software nodes so adding DT handling should be sort of
+trivial.
+
+I think the ambition should be something like this (conjured example)
+for a DSA switch:
+
+    platform {
+            switch {
+                    compatible =3D "foo";
+
+                    leds {
+                            #address-cells =3D <1>;
+                            #size-cells =3D <0>;
+                            led0: led@0 {
+                                    reg =3D <0>;
+                                    color =3D...
+                                    function =3D ...
+                                    function-enumerator =3D ...
+                                    default-state =3D ...
+                            };
+                            led1: led@1 {
+                                    reg =3D <1>;
+                                    color =3D...
+                                    function =3D ...
+                                    function-enumerator =3D ...
+                                    default-state =3D ...
+                            };
+                    };
+
+                    ports {
+                            #address-cells =3D <1>;
+                            #size-cells =3D <0>;
+                            port@0 {
+                                    reg =3D <0>;
+                                    label =3D "lan0";
+                                    phy-handle =3D <&phy0>;
+                                    leds =3D <&led0>;
+                            };
+                            port@1 {
+                                    reg =3D <1>;
+                                    label =3D "lan1";
+                                    phy-handle =3D <&phy1>;
+                                    leds =3D <&led0>;
+                            };
+                    };
+
+                    mdio {
+                            compatible =3D "foo-mdio";
+                            #address-cells =3D <1>;
+                            #size-cells =3D <0>;
+
+                            phy0: ethernet-phy@0 {
+                                    reg =3D <0>;
+                            };
+                            phy1: ethernet-phy@1 {
+                                    reg =3D <1>;
+                            };
+                    };
+            };
+    };
+
+I am not the man to tell whether the leds =3D <&led0>; phandle should be on
+the port or actually on the phy, it may even vary. You guys know the answer
+to this.
+
+But certainly something like this resource phandle will be necessary to
+assign the right LED to the right port or phy, I hope you were not going
+to rely on strings and naming conventions?
+
+Yours,
+Linus Walleij
