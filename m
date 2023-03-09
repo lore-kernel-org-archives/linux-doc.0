@@ -2,33 +2,33 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CBE9C6FD1C
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 12:59:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CDA2C6FD1F
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 14:14:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231389AbjCIM7U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Mar 2023 07:59:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33232 "EHLO
+        id S231688AbjCIOOK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 09:14:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230207AbjCIM6p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 07:58:45 -0500
+        with ESMTP id S231699AbjCIONz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 09:13:55 -0500
 Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 259C613DDA;
-        Thu,  9 Mar 2023 04:57:57 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550531ADCF;
+        Thu,  9 Mar 2023 06:12:36 -0800 (PST)
 Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B3A8A1EC06C2;
-        Thu,  9 Mar 2023 13:57:55 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DBDBE1EC06C0;
+        Thu,  9 Mar 2023 15:12:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1678366675;
+        t=1678371153;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=xQyqIfhwDtsH4v2hzkG71ZUDZ3mfvpSPc21bFOtyc8o=;
-        b=fDFEvQtHUkVd5hg2jwozRJNNeYEmJDaydIMnUV32Y1pbRgJfDXS1H4M5nX/CfYRKoCVihb
-        3ILX6KDKna6HwzKfng8Lw9jZ4oJyDn4iE9ih6v1/O7oCyW0hud4Jdm2vA1Y/q2Yt7FNSO6
-        8eSpKHVFnsUjVrFxdxE+EIORJXWBCZw=
-Date:   Thu, 9 Mar 2023 13:57:52 +0100
+        bh=w2fyPKd/3AyQO0vRIYAONySJuiNLLI9cVCZnriSsS1Y=;
+        b=daTlHMXWbU7km2++Pqh1oYE/nsYUwrFU5fXZAkkWykVSRndcnEPsQVIjbBxgSOZO1YC0BR
+        6UsZoKQ7vh+Hyd4HmhRuLraKwnWiCZMKlmf1iY9ezyPRnbOPeO9bzBsWJ/F8t4tRgCvm4g
+        Ol1SfaLsjAlGQdngAX8UoQnSwNF0pb4=
+Date:   Thu, 9 Mar 2023 15:12:29 +0100
 From:   Borislav Petkov <bp@alien8.de>
 To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
 Cc:     "david@redhat.com" <david@redhat.com>,
@@ -38,6 +38,7 @@ Cc:     "david@redhat.com" <david@redhat.com>,
         "peterz@infradead.org" <peterz@infradead.org>,
         "rdunlap@infradead.org" <rdunlap@infradead.org>,
         "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
         "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
         "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
         "Eranian, Stephane" <eranian@google.com>,
@@ -69,62 +70,104 @@ Cc:     "david@redhat.com" <david@redhat.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
         "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v7 28/41] x86: Introduce userspace API for shadow stack
-Message-ID: <20230309125739.GCZAnXw5T1dfzwtqh8@fat_crate.local>
+Subject: Re: [PATCH v7 30/41] x86/shstk: Handle thread shadow stack
+Message-ID: <ZAnpTYV55gbdROxx@zn.tnic>
 References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-29-rick.p.edgecombe@intel.com>
- <ZAhjLAIm91rJ2Lpr@zn.tnic>
- <9e00b2a3d988f7b24d274a108d31f5f0096eeaae.camel@intel.com>
+ <20230227222957.24501-31-rick.p.edgecombe@intel.com>
+ <ZAipCNBCtPA2bcck@zn.tnic>
+ <d4d472e2e44787eccfbcc693bdf338370013f8a9.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9e00b2a3d988f7b24d274a108d31f5f0096eeaae.camel@intel.com>
+In-Reply-To: <d4d472e2e44787eccfbcc693bdf338370013f8a9.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 08, 2023 at 11:32:36PM +0000, Edgecombe, Rick P wrote:
-> This would be for things like the "permissive mode", where glibc
-> determines that it has to do something like dlopen() an unsupporting
-> DSO much later.
-> 
-> But being able to late lock the features is required for the working
-> behavior of glibc as well. Glibc enables shadow stack very early, then
-> disables it later if it finds that any of the normal dynamic libraries
-> don't support it. It only locks shadow stack after this point even in
-> non-permissive mode.
+On Wed, Mar 08, 2023 at 08:03:17PM +0000, Edgecombe, Rick P wrote:
 
-So this all sounds weird. Especially from a user point of view.
+Btw,
 
-Now let's imagine there's a Linux user called Boris and he goes and buys
-a CPU which supports shadow stack, gets a distro which has shadow stack
-enabled. All good.
+pls try to trim your replies as I need ot scroll through pages of quoted
+text to find the response.
 
-Now, at some point he loads a program which pulls in an old library
-which hasn't been enabled for shadow stack yet.
+> Sure. Sometimes people tell me to only ifdef out whole functions to
+> make it easier to read. I suppose in this case it's not hard to see.
 
-In the name of not breaking stuff, his glibc is configured in permissive
-mode by default so that program loads and shadow stack for it is
-disabled.
+Yeah, the less ifdeffery we have, the better.
 
-And Boris doesn't even know and continues on his merry way thinking that
-he has all that cool ROP protection.
+> If the default SSP value logic is too hidden, what about some clearer
+> code and comments, like this?
 
-So where is the knob that says, "disable permissive mode"?
+The problem with this function is that it needs to return three things:
 
-Or at least where does the user get a warning saying, "hey, this app
-doesn't do shadow stack and we disabled it for ya so that it can still
-work"?
+* success:
+ ** 0
+ or
+ ** shadow stack address
+* failure: due to allocation.
 
-Or am I way off?
+How about this below instead? (totally untested ofc):
 
-I hope you're catching my drift. Because if there's no enforcement of
-shstk and we do this permissive mode by default, this whole overhead is
-just a unnecessary nuisance...
-
-But maybe that'll come later and I should keep going through the set...
-
-Thx.
+diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+index bf703f53fa49..6e323d4e32fc 100644
+--- a/arch/x86/kernel/process.c
++++ b/arch/x86/kernel/process.c
+@@ -142,7 +142,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
+ 	struct inactive_task_frame *frame;
+ 	struct fork_frame *fork_frame;
+ 	struct pt_regs *childregs;
+-	unsigned long shstk_addr = 0;
++	unsigned long shstk_addr;
+ 	int ret = 0;
+ 
+ 	childregs = task_pt_regs(p);
+@@ -178,10 +178,9 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
+ #endif
+ 
+ 	/* Allocate a new shadow stack for pthread if needed */
+-	ret = shstk_alloc_thread_stack(p, clone_flags, args->stack_size,
+-				       &shstk_addr);
+-	if (ret)
+-		return ret;
++	shstk_addr = shstk_alloc_thread_stack(p, clone_flags, args->stack_size);
++	if (IS_ERR_VALUE(shstk_addr))
++		return PTR_ERR((void *)shstk_addr);
+ 
+ 	fpu_clone(p, clone_flags, args->fn, shstk_addr);
+ 
+diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+index 13c02747386f..b1668b499e9a 100644
+--- a/arch/x86/kernel/shstk.c
++++ b/arch/x86/kernel/shstk.c
+@@ -157,8 +157,8 @@ void reset_thread_features(void)
+ 	current->thread.features_locked = 0;
+ }
+ 
+-int shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
+-			     unsigned long stack_size, unsigned long *shstk_addr)
++unsigned long shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
++				       unsigned long stack_size)
+ {
+ 	struct thread_shstk *shstk = &tsk->thread.shstk;
+ 	unsigned long addr, size;
+@@ -180,14 +180,12 @@ int shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
+ 	size = adjust_shstk_size(stack_size);
+ 	addr = alloc_shstk(size);
+ 	if (IS_ERR_VALUE(addr))
+-		return PTR_ERR((void *)addr);
++		return addr;
+ 
+ 	shstk->base = addr;
+ 	shstk->size = size;
+ 
+-	*shstk_addr = addr + size;
+-
+-	return 0;
++	return addr + size;
+ }
+ 
+ static unsigned long get_user_shstk_addr(void)
 
 -- 
 Regards/Gruss,
