@@ -2,125 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C50C61DA4
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 06:17:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF222C61DA4
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Mar 2023 06:45:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbjCIGQ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Mar 2023 01:16:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35930 "EHLO
+        id S229798AbjCIGpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Mar 2023 01:45:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229751AbjCIGQ5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 01:16:57 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE992DBB5F;
-        Wed,  8 Mar 2023 22:16:53 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 690A8619A9;
-        Thu,  9 Mar 2023 06:16:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E589C433D2;
-        Thu,  9 Mar 2023 06:16:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678342612;
-        bh=BtthgR0zbwmyvaFDelFkF+Pa981UtRRUf5qDW/VObEI=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=N9DWIXFLEWQU7zpt7PMFfgOh9+s008I4WsuaTbdcLwGtw1dAcwh1KI6FRxxqRPihR
-         w2lgJS3F2FZtXLChCFLoduHaMIglZG7pqEyaKSR8KyGiHeNCKI1AnAPrCf95aaVbKX
-         K8y9DVVCFp7OEfwyLaeEYCnl0IYDcwcGJqFRMVVJSncGDu9cKYpwchUa/ZsOmgUQaw
-         KjeTCdYRDv2rd/tRqg5O1Rj86jrgb8leRoWzS5VhOV+sPUdaDU4htL7No7UnDpEiko
-         t/ATUSKPQcVZqUwT1nWjVG47mqk2WaPRWJmJd6VVgAtwsYdLBYm86O3CZlB3jPhukf
-         neZ8wK1iuQHsg==
-Message-ID: <ab9f7730-d399-0786-67e5-aad57716809e@kernel.org>
-Date:   Thu, 9 Mar 2023 07:16:47 +0100
+        with ESMTP id S230153AbjCIGpV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Mar 2023 01:45:21 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1A3562847
+        for <linux-doc@vger.kernel.org>; Wed,  8 Mar 2023 22:45:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678344320; x=1709880320;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Cs3vNazsszbTUlWEUkC6mluH9xTzAryK1Hv6ySX6Awc=;
+  b=i1lnEcwvxvhhj3oTZ2MKgRsyJ0i0DDL1xr4kc6JLEBk83Xm06aykXPVX
+   QI//vZT9MUxVxs5OTimyqhJztIgImnB6kfs+BLCqZ2Z6OdyPw8M1QEP7c
+   lqStooaHCILhQffDsjpKZCFx08EmizogqJNnwFHcR2/0Z0QLutINxeBEk
+   FHrgmbjiwM+p91k/DAzaRadcP5k2EgE1Bov6naJmT9vyKJ1puD9043UGr
+   dG6weDA5RIQAgzfnxnoleMK3qxKLNImM6BEemp6KGx3GRysrTcnFoE08v
+   sJIGTH+MjT9nSBTLNDJNvBmys4Ys0UhYbv8Nk8eD3/uXiROlpO0Tma7VX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="316026712"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="316026712"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 22:45:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="741433490"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
+   d="scan'208";a="741433490"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 08 Mar 2023 22:45:13 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1paA1Y-0002ij-28;
+        Thu, 09 Mar 2023 06:45:12 +0000
+Date:   Thu, 9 Mar 2023 14:44:40 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [intel-tdx:guest-filter-upstream 5/31] htmldocs:
+ Documentation/driver-api/device-authorize.rst:30: WARNING: Missing matching
+ underline for section title overline.
+Message-ID: <202303091408.0yK4MVg7-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH V2 4/6] dt-bindings: timestamp: Add Tegra234 support
-To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org,
-        timestamp@lists.linux.dev
-References: <20230214115553.10416-1-dipenp@nvidia.com>
- <20230214115553.10416-5-dipenp@nvidia.com>
- <3c0ad963-ce69-bd5b-20cd-888e5fbdecaf@kernel.org>
- <7a8027c9-dc73-3684-c5f2-3071f315b3cd@nvidia.com>
- <a5e897e5-4cb9-d50f-47a8-ffb8bd8774cb@kernel.org>
- <18f9a6ca-a61b-4cbb-b729-1fdb6d48651a@nvidia.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <18f9a6ca-a61b-4cbb-b729-1fdb6d48651a@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/03/2023 21:09, Dipen Patel wrote:
-> On 3/8/23 11:05 AM, Krzysztof Kozlowski wrote:
->> On 08/03/2023 19:45, Dipen Patel wrote:
->>> On 2/16/23 6:17 AM, Krzysztof Kozlowski wrote:
->>>> On 14/02/2023 12:55, Dipen Patel wrote:
->>>>> Added timestamp provider support for the Tegra234 in devicetree
->>>>> bindings.
->>>>
->>>> 1. Your commit does much more. You need to explain it why you drop some
->>>> property.
->>> ACK, will address it next patch
->>>>
->>>> 2. Bindings go before its usage (in the patchset).
->>> Ack...
->>>>
->>>> 3. Please use scripts/get_maintainers.pl to get a list of necessary
->>>> people and lists to CC.  It might happen, that command when run on an
->>>> older kernel, gives you outdated entries.  Therefore please be sure you
->>>> base your patches on recent Linux kernel.
->>> It is based on recent linux at the time patch series was sent...
->>
->> That's good but then why you do not use scripts/get_maintainers.pl? The
->> hint about recent kernel was just a hint... Just do not invent addresses
->> by yourself and use the tool to get them right.
->>
-> I will take a note for the next patch series to add any missing people. The current
-> list of people/group is what historically helped review this new timestamp/hte subsystem.
-> 
->> (...)
->>
->>>>> +  properties:
->>>>> +    compatible:
->>>>> +      contains:
->>>>> +        enum:
->>>>> +          - nvidia,tegra194-gte-aon
->>>>
->>>> This is an ABI break. Does your driver handle it?
->>> yes, handling patch is part of this patch series.
->>
->> Can you point me to the code which does it? I see "return -ENODEV;", so
->> I think you do not handle ABI break. I could miss something but since
->> you disagree with me, please at least bring some arguments...
-> Refer to patch https://patchwork.kernel.org/project/timestamp/patch/20230214115553.10416-3-dipenp@nvidia.com/
-> which has compatible properties added and also code changes to reflect addition/deletion of some
-> properties.
+tree:   https://github.com/intel/tdx.git guest-filter-upstream
+head:   6bcd8bef8871c6a80cb55b1cbb2651111da10890
+commit: d0c26c6546ae5c1271597dc8fa1633456881afab [5/31] driver core: Add support to parse device authorize firmware
+reproduce:
+        # https://github.com/intel/tdx/commit/d0c26c6546ae5c1271597dc8fa1633456881afab
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx guest-filter-upstream
+        git checkout d0c26c6546ae5c1271597dc8fa1633456881afab
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-I referred to the code which breaks the ABI.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303091408.0yK4MVg7-lkp@intel.com/
 
-> 
-> I am not sure I have understood about ABI break comment. How else one should handle if
-> there is no related gpio controller property found?
+All warnings (new ones prefixed by >>):
 
-In a way it does not break existing users? There are many ways to handle
-it, but I don't know your code to point you.
+>> Documentation/driver-api/device-authorize.rst:30: WARNING: Missing matching underline for section title overline.
 
-> I am assuming you are referring to the
-> below code from the patch 2 (link above) when you said "return -ENODEV".
+vim +30 Documentation/driver-api/device-authorize.rst
 
+    29	
+  > 30	----------------------------------------------------
+    31	|             struct da_firmware_hdr               |
+    32	|                (type=0, count=2)                 |
+    33	----------------------------------------------------
+    34	|             struct da_bus_hdr                    |
+    35	|              (bus="pci", count=2)                |
+    36	----------------------------------------------------
+    37	|             struct da_pci_devce_id               |
+    38	|                                                  |
+    39	----------------------------------------------------
+    40	|             struct da_pci_device_id              |
+    41	|                                                  |
+    42	----------------------------------------------------
+    43	|             struct da_bus_hdr                    |
+    44	|              (bus="platform", count=2)           |
+    45	----------------------------------------------------
+    46	|             struct da_bus_device_id              |
+    47	|                                                  |
+    48	----------------------------------------------------
+    49	|             struct da_bus_device_id              |
+    50	|                                                  |
+    51	----------------------------------------------------
+    52	
 
-Your bindings patch points to ABI break without any
-explanation/justification. Then your code #2 patch actually breaks it,
-also without any justification.
-
-Best regards,
-Krzysztof
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
