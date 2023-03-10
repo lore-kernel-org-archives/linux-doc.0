@@ -2,149 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 304CAC64EC4
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 08:47:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6034C74A44
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 09:01:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231408AbjCJIr5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 03:47:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42588 "EHLO
+        id S231465AbjCJJBq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 04:01:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231132AbjCJIrY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 03:47:24 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DD1710A293;
-        Fri, 10 Mar 2023 00:45:30 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C752B61133;
-        Fri, 10 Mar 2023 08:45:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4862C433EF;
-        Fri, 10 Mar 2023 08:45:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678437929;
-        bh=DqpiA8k7wNjjdxkzp733A1Yn67FxOT0U4u3LTJ/xLzc=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=Pl/xPLTjTj6iFkuaY6eJcMaKVOIDojBNzS/hfaWNcgngAxhO5Ugm2YvCUHNSrCFIj
-         NAqKnIB4FpFCo6/b8zScUzWfMWJTWxzr6LgSM7WArfsX2C1gGXigdBR1Rs2Uy1jKbq
-         jFhwulKlv1duy1R5bQFdlDJXNd2caHEnqGQf1Z4n8JhLDrb5gvPSB9m1aMeGjcuBZr
-         VwIwSQ3aXF0uWldICH3uVmOZHLscZI7Q/ivrgLR8p+PHSySugFAit1Wpzgbc7BYBhG
-         vvV2H4mDfkZEBbAf66uiXnLKWzkiVlbodp67bsMuiYpRbvZagYvtmGvbCMnelduIjM
-         8EmONrzJxXs0A==
-Message-ID: <f661f27f-f367-2948-1435-5b5fa43a3b46@kernel.org>
-Date:   Fri, 10 Mar 2023 09:45:24 +0100
+        with ESMTP id S231426AbjCJJA5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 04:00:57 -0500
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3234103EC6;
+        Fri, 10 Mar 2023 00:55:06 -0800 (PST)
+Received: by mail-lj1-x229.google.com with SMTP id t14so4562120ljd.5;
+        Fri, 10 Mar 2023 00:55:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678438505;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=edHnODkVWzD+JR+bIoyydgYcG1zz8EnEa8mgd61cqd4=;
+        b=nmn+F3bhghEzrDjK+rq8mJoQDiXrzHkgCqz3pHyVPvaFeJq8qRdE8ugHF3IJEigW5V
+         IwiItpBnhJ7WbwRrgw/hSRgAfWk0tHLzpPk/ARjx4zAcm4qfOsU2exfOl0qxXmYkiWxT
+         GuY3a+yrqrQT9Cm4kAqU9JTxOpjEr8drlhImeOH5O77f9YNpnC9MyDwkUsk0Hut+0V6U
+         VJBgwOI75xKOjvLFlreqmNsXM0BPuXwvWA9CzrVpxCFoNkXxYRdkrlwsHVtJZnQIQKzP
+         frfdAjA4Ojtsu7sA+BHGZu2NS49gC7N3fG8VyMwPjglXqCmb/ANq6UTnRWLMwmo86A2K
+         xVNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678438505;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=edHnODkVWzD+JR+bIoyydgYcG1zz8EnEa8mgd61cqd4=;
+        b=0NrD0ZZhJtjwCme+pZgaOWBRTiEGUXtIiM76Wh8WxXtvW3PXX2rZr7FFwcaoWnqhv5
+         Rdv3PEUlUKMnSiGjqqZUkBzRl5SaKAChercigmAOto02Y4QmklyHhwZMza3/Gxe8rTOo
+         grIH9tIMJ9Xg3+OSjdpOxYpgI4/GbgQPitJc6AItfZs2x8KMZ1IusgltOlxSJgmBmOoK
+         /SRzF2ITpi422PfaFUuNKY2p2kgfgipNP8/89/2ts4gTaqP/JNsskpB0W+ITTxWNqrYw
+         B/iw9jHfWccTuSYVf6ELapz+RL5ZOjzH2WoknN9CE6wpsnIIJDh+DB8EXmPp3j3iVz1r
+         RNzg==
+X-Gm-Message-State: AO0yUKWKrFaJ8FRIBP8iRk0H0+6MRab3ygcAvjuwOvyHzyPqTcLaQZuE
+        e+Pm2KslN2jV9It2NNOmJh8=
+X-Google-Smtp-Source: AK7set9EPLvV8/fiDbNrHoqBIWcqqujsy5NVulXNwQtqB/IxLfKm9VS5QRJOmJCt3huq1TdIgzVodQ==
+X-Received: by 2002:a2e:96cb:0:b0:295:c333:2a24 with SMTP id d11-20020a2e96cb000000b00295c3332a24mr9123946ljj.19.1678438504927;
+        Fri, 10 Mar 2023 00:55:04 -0800 (PST)
+Received: from pc636 (host-78-79-233-41.mobileonline.telia.com. [78.79.233.41])
+        by smtp.gmail.com with ESMTPSA id q19-20020a2eb4b3000000b0029868d1820dsm159165ljm.60.2023.03.10.00.55.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 00:55:04 -0800 (PST)
+From:   Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
+Date:   Fri, 10 Mar 2023 09:55:02 +0100
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Uladzislau Rezki <urezki@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+Message-ID: <ZArwZjcEYXAYwmqi@pc636>
+References: <ZAc1wsvd4trjP/xi@lothringen>
+ <ZAc+vVZUhXdhpSki@pc636>
+ <CAEXW_YRTLQpQpOW-+n+X59pmB=4TkV=gdsMiQfBkdK_4wO9Jug@mail.gmail.com>
+ <20230307173313.GJ1301832@paulmck-ThinkPad-P17-Gen-1>
+ <20230307185443.GA516865@google.com>
+ <20230307192726.GL1301832@paulmck-ThinkPad-P17-Gen-1>
+ <ZAhYP9a8u05hzsOn@pc636>
+ <20230308144528.GR1301832@paulmck-ThinkPad-P17-Gen-1>
+ <ZAnXxr9OyFT63xSx@pc636>
+ <20230309221056.GB148448@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH V2 4/6] dt-bindings: timestamp: Add Tegra234 support
-Content-Language: en-US
-To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org,
-        timestamp@lists.linux.dev
-References: <20230214115553.10416-1-dipenp@nvidia.com>
- <20230214115553.10416-5-dipenp@nvidia.com>
- <3c0ad963-ce69-bd5b-20cd-888e5fbdecaf@kernel.org>
- <7a8027c9-dc73-3684-c5f2-3071f315b3cd@nvidia.com>
- <a5e897e5-4cb9-d50f-47a8-ffb8bd8774cb@kernel.org>
- <18f9a6ca-a61b-4cbb-b729-1fdb6d48651a@nvidia.com>
- <ab9f7730-d399-0786-67e5-aad57716809e@kernel.org>
- <c1a78a59-c8ae-81e5-b641-a7cb75062ab3@nvidia.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <c1a78a59-c8ae-81e5-b641-a7cb75062ab3@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230309221056.GB148448@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/03/2023 19:49, Dipen Patel wrote:
-> On 3/8/23 10:16 PM, Krzysztof Kozlowski wrote:
->> On 08/03/2023 21:09, Dipen Patel wrote:
->>> On 3/8/23 11:05 AM, Krzysztof Kozlowski wrote:
->>>> On 08/03/2023 19:45, Dipen Patel wrote:
->>>>> On 2/16/23 6:17 AM, Krzysztof Kozlowski wrote:
->>>>>> On 14/02/2023 12:55, Dipen Patel wrote:
->>>>>>> Added timestamp provider support for the Tegra234 in devicetree
->>>>>>> bindings.
->>>>>>
->>>>>> 1. Your commit does much more. You need to explain it why you drop some
->>>>>> property.
->>>>> ACK, will address it next patch
->>>>>>
->>>>>> 2. Bindings go before its usage (in the patchset).
->>>>> Ack...
->>>>>>
->>>>>> 3. Please use scripts/get_maintainers.pl to get a list of necessary
->>>>>> people and lists to CC.  It might happen, that command when run on an
->>>>>> older kernel, gives you outdated entries.  Therefore please be sure you
->>>>>> base your patches on recent Linux kernel.
->>>>> It is based on recent linux at the time patch series was sent...
->>>>
->>>> That's good but then why you do not use scripts/get_maintainers.pl? The
->>>> hint about recent kernel was just a hint... Just do not invent addresses
->>>> by yourself and use the tool to get them right.
->>>>
->>> I will take a note for the next patch series to add any missing people. The current
->>> list of people/group is what historically helped review this new timestamp/hte subsystem.
->>>
->>>> (...)
->>>>
->>>>>>> +  properties:
->>>>>>> +    compatible:
->>>>>>> +      contains:
->>>>>>> +        enum:
->>>>>>> +          - nvidia,tegra194-gte-aon
->>>>>>
->>>>>> This is an ABI break. Does your driver handle it?
->>>>> yes, handling patch is part of this patch series.
->>>>
->>>> Can you point me to the code which does it? I see "return -ENODEV;", so
->>>> I think you do not handle ABI break. I could miss something but since
->>>> you disagree with me, please at least bring some arguments...
->>> Refer to patch https://patchwork.kernel.org/project/timestamp/patch/20230214115553.10416-3-dipenp@nvidia.com/
->>> which has compatible properties added and also code changes to reflect addition/deletion of some
->>> properties.
->>
->> I referred to the code which breaks the ABI.
->>
->>>
->>> I am not sure I have understood about ABI break comment. How else one should handle if
->>> there is no related gpio controller property found?
->>
->> In a way it does not break existing users? There are many ways to handle
->> it, but I don't know your code to point you.
+On Thu, Mar 09, 2023 at 10:10:56PM +0000, Joel Fernandes wrote:
+> On Thu, Mar 09, 2023 at 01:57:42PM +0100, Uladzislau Rezki wrote:
+> [..]
+> > > > > > > See this commit:
+> > > > > > > 
+> > > > > > > 3705b88db0d7cc ("rcu: Add a module parameter to force use of
+> > > > > > > expedited RCU primitives")
+> > > > > > > 
+> > > > > > > Antti provided this commit precisely in order to allow Android
+> > > > > > > devices to expedite the boot process and to shut off the
+> > > > > > > expediting at a time of Android userspace's choosing.  So Android
+> > > > > > > has been making this work for about ten years, which strikes me
+> > > > > > > as an adequate proof of concept.  ;-)
+> > > > > > 
+> > > > > > Thanks for the pointer. That's true. Looking at Android sources, I
+> > > > > > find that Android Mediatek devices at least are setting
+> > > > > > rcu_expedited to 1 at late stage of their userspace boot (which is
+> > > > > > weird, it should be set to 1 as early as possible), and
+> > > > > > interestingly I cannot find them resetting it back to 0!.  Maybe
+> > > > > > they set rcu_normal to 1? But I cannot find that either. Vlad? :P
+> > > > > 
+> > > > > Interesting.  Though this is consistent with Antti's commit log,
+> > > > > where he talks about expediting grace periods but not unexpediting
+> > > > > them.
+> > > > > 
+> > > > Do you think we need to unexpedite it? :))))
+> > > 
+> > > Android runs on smallish systems, so quite possibly not!
+> > > 
+> > We keep it enabled and never unexpedite it. The reason is a performance.  I
+> > have done some app-launch time analysis with enabling and disabling of it.
+> > 
+> > An expedited case is much better when it comes to app launch time. It
+> > requires ~25% less time to run an app comparing with unexpedited variant.
+> > So we have a big gain here.
 > 
-> It is new subsystem and has only one driver which uses it so far. 
-
-We do not talk about subsystem, but Tegra SoC, which is not new. Unless
-you meant this is new SoC/DTS?
-
-> This was a decision taken
-> after review comments (By Thierry, also in the mailing list) to add this property (nvidia,gpio-controller)
-> and necessary changes have been made to existing user. From now on, it has to follow this change.
-
-What is "it" which has to follow? There are rules for stable ABI and
-commit msg does not explain why they should not be followed.
-
+> Wow, that's huge. I wonder if you can dig deeper and find out why that is so
+> as the callbacks may need to be synchronize_rcu_expedited() then, as it could
+> be slowing down other usecases! I find it hard to believe, real-time
+> workloads will run better without those callbacks being always-expedited if
+> it actually gives back 25% in performance!
 > 
->>
->>> I am assuming you are referring to the
->>> below code from the patch 2 (link above) when you said "return -ENODEV".
->>
->>
->> Your bindings patch points to ABI break without any
->> explanation/justification. Then your code #2 patch actually breaks it,
->> also without any justification.
-> I am going to add explanation/justification in the commit message in the next patch series. But to give
-> you context, discussion happened here https://patchwork.ozlabs.org/project/linux-gpio/patch/20221103174523.29592-3-dipenp@nvidia.com/
+I can dig further, but on a high level i think there are some spots
+which show better performance if expedited is set. I mean synchronize_rcu()
+becomes as "less blocking a context" from a time point of view.
 
-Either too many messages (and I missed something) or I could not find
-why ABI break is accepted and justified.
+The problem of a regular synchronize_rcu() is - it can trigger a big latency
+delays for a caller. For example for nocb case we do not know where in a list
+our callback is located and when it is invoked to unblock a caller.
 
+I have already mentioned somewhere. Probably it makes sense to directly wake-up
+callers from the GP kthread instead and not via nocb-kthread that invokes our callbacks
+one by one.
 
-Best regards,
-Krzysztof
-
+--
+Uladzislau Rezki
