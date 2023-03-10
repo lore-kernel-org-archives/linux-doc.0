@@ -2,171 +2,172 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C05DC6FA99
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 16:10:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB48AC6FD1F
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 16:12:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230521AbjCJQKM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 11:10:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57366 "EHLO
+        id S231681AbjCJQMg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 11:12:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229895AbjCJQJp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 11:09:45 -0500
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2067.outbound.protection.outlook.com [40.107.21.67])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD24E4C38;
-        Fri, 10 Mar 2023 08:07:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gih0m/OTNKpGg9Cu/FwQBoS/ArWUGSpysKVbBTy7DKO6kV0MKLnizwIGL6id/7cGNewGjI4piXRaYcfx+lAW3RecqTrkmq7XcVE2LAM+LWD1kZ10yQSmESHgdFfx5Zuwt8Xrdb5tB2HKNdDrxysfYikXE5gjutqHh79J+Cd69ebl7giIUketzgQKXAInCcoGSLavX3pAzjljBigKbkI/vTGBnS7SFYFK5zj2t9HMsZsXN2D7nXaJY0QrDAYrlOxKcna7jZzfjiLdNiqx1DFx3jBhRXDMGwc7o8ZuluFam5hVmc2iQqpF6vwY72q1oQgPlYihnzbwyZYLyGgeFXCc1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ykSoph8ns4bWbHSoV0AGspKJg/h2aL7+nQ0C9qwUIEM=;
- b=oTbWTm2anMQF+WoTm1uMOaArDmzI5a2CfWev1r3+sDhnDOOsvFjTpDlmBljg4x5VEwbJz6mo5zR916n9SaNa/OI9s/RBU6tj8ayLgAM3I0jG71OxGWjoK5sP2YDXQyb2cNal+KQCOeNSk2VirWS/aaKUsExGLolC+dI4zuqPddWz5qqzhvEqz42Bsy9QwrbFey4RE1wSdAEJp2q1dUeHC6eit1aYqaMCKMw1l1iAoCyajjvutqnmyJIbHAblrN6sU9jQq6xqlgYXF3JRBi3XVBPSIYy6gUaneY12Xzz6LIbbvTHd+ATSo0X0yS+yAni7t+AY7+i60hmizTLdmLgejw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ykSoph8ns4bWbHSoV0AGspKJg/h2aL7+nQ0C9qwUIEM=;
- b=U64n9Y4RuwEK2M4BNHdhig3Ta8hPXX/sIPJEEEb3HYkIk3Kbxww4g6DJw28WuGKj/OajU5GkgtxsiNYkncx1+ONg+VDmCqn2j5+A8iQUiY9fXxrUI5aBg+DHuZdQpyfGPPpQXDyD65hISVIOvxPiQiSwekhb6gk+FXh6BHli7vU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
- by DU2PR04MB8679.eurprd04.prod.outlook.com (2603:10a6:10:2de::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.29; Fri, 10 Mar
- 2023 16:06:54 +0000
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::29a3:120c:7d42:3ca8]) by AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::29a3:120c:7d42:3ca8%7]) with mapi id 15.20.6178.019; Fri, 10 Mar 2023
- 16:06:54 +0000
-Date:   Fri, 10 Mar 2023 18:06:48 +0200
-From:   Vladimir Oltean <vladimir.oltean@nxp.com>
-To:     Michael Walle <michael@walle.cc>
-Cc:     Horatiu Vultur <horatiu.vultur@microchip.com>,
-        =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
-        Jie Wang <wangjie125@huawei.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Sean Anderson <sean.anderson@seco.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Marco Bonelli <marco@mebeim.net>
-Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
- selectable.
-Message-ID: <20230310160648.vwzbyood3rectlr7@skbuf>
-References: <20230308135936.761794-1-kory.maincent@bootlin.com>
- <20230308135936.761794-1-kory.maincent@bootlin.com>
- <20230308135936.761794-4-kory.maincent@bootlin.com>
- <20230308135936.761794-4-kory.maincent@bootlin.com>
- <20230308230321.liw3v255okrhxg6s@skbuf>
- <20230310114852.3cef643d@kmaincent-XPS-13-7390>
- <20230310113533.l7flaoli7y3bmlnr@skbuf>
- <b4ebfd3770ffa5ad1233d2b5e79499ee@walle.cc>
- <20230310131529.6bahmi4obryy5dsx@soft-dev3-1>
- <0d2304a9bc276a0d321629108cf8febd@walle.cc>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d2304a9bc276a0d321629108cf8febd@walle.cc>
-X-ClientProxiedBy: BE1P281CA0258.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:86::10) To AM0PR04MB6452.eurprd04.prod.outlook.com
- (2603:10a6:208:16d::21)
+        with ESMTP id S231307AbjCJQML (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 11:12:11 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE1C11CD58;
+        Fri, 10 Mar 2023 08:09:47 -0800 (PST)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32AFIlWj009172;
+        Fri, 10 Mar 2023 16:08:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : date : subject :
+ mime-version : content-type : content-transfer-encoding : message-id :
+ references : in-reply-to : to : cc; s=pp1;
+ bh=CPjiaxkDrxOhM80KIjTs4JVtVyYlieaiFF9qFB3yuTs=;
+ b=tXavVzjnWXnUWxo/+5gRNAvh+SrSRHn8w7I5IyuwiGH7B/7vhSDBzr8X+SOjp4La5Ofi
+ E8yWW7ATRkL3vyOkkVhvOJuih5cAwAqjwOZNB7TLZtc8R4PrbH0ETKkNlQANATXjPZu7
+ r9zreoSN0NRl592tbnyqE1ixnXvv32rk7kh1QC5Fez8klPSXWb3F69+4DO4JLZ1MYNev
+ SgjY9jPPWVQs/0bAwqDBknyQ6wVkehaMYZQHebz02lw3slEHZeMZYUilAg9OzjwPBh82
+ LrPxVNYRJjF124LC4pgAjm9Ew/iY+2kmrRDybvLWh7fRcABbfoUFY/TsKcczEFnHlSle gw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p873597vq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 10 Mar 2023 16:08:23 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32AFJhvL012093;
+        Fri, 10 Mar 2023 16:08:22 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p873597uy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 10 Mar 2023 16:08:22 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32A7uOH3030374;
+        Fri, 10 Mar 2023 16:08:19 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+        by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3p6g8642fa-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 10 Mar 2023 16:08:19 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+        by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32AG8G1F43712872
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 10 Mar 2023 16:08:16 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 23A5720040;
+        Fri, 10 Mar 2023 16:08:16 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A02E52004B;
+        Fri, 10 Mar 2023 16:08:14 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Fri, 10 Mar 2023 16:08:14 +0000 (GMT)
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+Date:   Fri, 10 Mar 2023 17:07:46 +0100
+Subject: [PATCH v8 1/6] s390/ism: Set DMA coherent mask
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|DU2PR04MB8679:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b0ba51d-5770-47de-8414-08db21817746
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jnVtxtMMPYAlybZV5eiHNS/ufwRlKnFv1XNVJiKR0smfokfkxmb/lJgoFyF6etKzoi3FC/RuEtHYfRwEcrRM+aa6j6P8xewXw72//nkCu5+6OyFxDv5aY2WFRqcso3R+TlcnX55KLDAHakbTDy0VzPEsyA6XuBYUtgVGY38W5DjiUmVdTrz6tCNXjp5wETrekGZZUZSu6xzHqA8Ra8DphKHHyoMDwUEIgQdfVr2Qxg/NRWfherEf5WAoup+iDvFy4Bpd8kBmzT+6cQdnT7IUzFRI9P0Ck0NRukRF7oAO4Uy69QYq/fwGzJM4xbvvJOFdb+Ji/6AqowFh6pasyUzdhsOP81sWHPZD/3CQl4nDbMxPcoDTi25WlhcB23S3u/wDp/ggc4dHQCS4U9l5q5Cv+2yc0kTEA5L6y870RHacpRcEVL3xUcJmfLa1CDwGwqNkWS2fat21PCxOFIoV/DbhEUqk/7wwWC3i/GcsBqD6WW18bxo43wzRA/oLP5pDIFDFD1p+pAc6HjlrPxfvXN2Ob6Mb4IAoH7AY+wmBAKIVYQwGR31OQuiXxbBIKI+rmstej9MN6i7cpBCVnhaXgrOdjVDPYuM1YQPaEoU6X2r7l/w9ZegQQ4yiNjbHqKazDg9xmg0rYEGbx2x8yTO/d4BhSA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(4636009)(346002)(376002)(396003)(39860400002)(136003)(366004)(451199018)(6666004)(9686003)(54906003)(316002)(6486002)(478600001)(41300700001)(5660300002)(7416002)(7406005)(44832011)(4326008)(6916009)(2906002)(8676002)(66946007)(66556008)(66476007)(8936002)(38100700002)(86362001)(6506007)(26005)(186003)(33716001)(83380400001)(6512007)(1076003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8ejDZ9T+WpWzRwyeMHBBbbKvJDGdnKGtxt4dojPPjtloO9q4uMtXqGID+ZkX?=
- =?us-ascii?Q?IbaOtnOk6n4/tahFvQy5S0CbYYjcRaFHZOsHK3tTNAB/2fsFgnBtm8FtWL2a?=
- =?us-ascii?Q?ErXKp50Ot/Gnj5VRnUNGl30gZ7lt/34u91f7haLJ+o6o4/QZLDexa8ihR0uV?=
- =?us-ascii?Q?CtG5f4ZsLmwkuoe5M4a0TR6f8bSyYpom/vZF0nJdPwyaIwuaVh2+Sq+deqiD?=
- =?us-ascii?Q?6YIpdOD1KGDZ4y1Sa2ExOE/lW0I4+OCDR0iOKJ0/QoIroyKVOPaJY0V1CK1V?=
- =?us-ascii?Q?NzumPtF/TQOJE4SX477y13qE1WMKKpY8KsPuv1olNIM6yuCNB3sjby/hJelz?=
- =?us-ascii?Q?BEMLl7assR/Xoaoeg6gaetyP1mJzwZ/nsLTMAIgQThCpQUBcuJ8gG3MPqpEx?=
- =?us-ascii?Q?3mvad5bUcGTt7u2TbvIeMzzDRzDMZdzD+RB2ll3SxzXrmnwVzXUG/6CsUq1G?=
- =?us-ascii?Q?MyW1NbhKWQcQmGLlSlZsX8g/wJ8SgvUOt8LsNasV7Y2b+Y4UwppmJRqLbpNH?=
- =?us-ascii?Q?/EwFeTvWCcfEFZLeZqeaE51jF33tdyUUtfjXqT/RRD+Dqy4MrrlaeVZ0qmwC?=
- =?us-ascii?Q?nr3MBflAIXcrXeb/5GR9S+U6Cd/BvrE22Eqy7fifnjAna5QTZEE4NsaJi8d/?=
- =?us-ascii?Q?DUIgoVl6p7pwXUbu4P2W9BcjoXJg+rqWAeZdqsgAS8FIk2KioUK0d45dbCkh?=
- =?us-ascii?Q?NaQDjjZdMZFwOiu9knr88EPNnUqGyqpXsxW+O5IajxiGgauLNtNFvGuOrb76?=
- =?us-ascii?Q?t/ot6GrjAbnrEHfroZwAsu1V0jzmhdfj/9ZRJsajzGiPc7N1Jndoa8sdVEzJ?=
- =?us-ascii?Q?qLsJxBFrAaScT4ZfenCA2SIGfyxc38JgDUb8IsydPBROYM28hFbtDywXNibN?=
- =?us-ascii?Q?K/foz9p+dzhsEq49uDuJZw1xIZE+7KaEdydR8yK0KC2EQecRq08ZggbSns5R?=
- =?us-ascii?Q?06UQZxkhS5zTmDcQ3O9/JjvI+7FXCHU7sD95Tx/mAHl8cEgbpl32bqwJOxyh?=
- =?us-ascii?Q?S/7kymYhD9nfQO2qN0VC/PjaD3Sc6kA0fSEk9DG+8NIUgQ9BPj7qX3MMFSaz?=
- =?us-ascii?Q?2OnnKS35q8uUNl9pWQOL2SsiYAnXK2XyoqC4a9HhBTBlMCroA7eE+QiMNUWw?=
- =?us-ascii?Q?JR+mF2YlUsfTMMGQzqRbyOItuvRspOEZwelDrSulIoubWzsGh/2skAKFpSAk?=
- =?us-ascii?Q?g2z+bBjsjilc/NQySSDbpdu7H+dj1EitlxDnwn/itMs3pADKH2yd7aHVIFGc?=
- =?us-ascii?Q?lgPe8MILAUMJwE0zDjjqQnwmWzaVd7UesQX4eIFZSkGk6Yy4xl10xo+XK0w6?=
- =?us-ascii?Q?HJSCYSvH5EA7AKqK7luvoeIZtZTAMyTd3bniOmxIeSnBFKEOHTZ6g440IRbR?=
- =?us-ascii?Q?Ddy7AGnVqeqj06dfENA0mdt3ByAZvlZtW7WjwwpE7iPgkEjPABmxz7RecVlv?=
- =?us-ascii?Q?XGWWoVixULdYa7b2PEB4xvKic44QryLxacqBOAXy+kaprv/DxTbN8/9evEZM?=
- =?us-ascii?Q?1q+sPqc+vF/YcCVmaTG3vJIUzKWtAHiLwoNKE1TYSYubr3+Z3gvs+P4qVt8A?=
- =?us-ascii?Q?C3FWywU9JRLeH30uasdOjN4trhqQG/azKFt7PddoKQLFEqX7CoUG8AzVi/WI?=
- =?us-ascii?Q?kQ=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b0ba51d-5770-47de-8414-08db21817746
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2023 16:06:54.1008
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5vYukeev3i+UtbDqWUxN5eoHwA/W1QU0PMJeHO5CF/kxtlxy9j50tuMVqwo8gZfvAVHqjxXhihuMDV6dCitqDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8679
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230310-dma_iommu-v8-1-2347dfbed7af@linux.ibm.com>
+References: <20230310-dma_iommu-v8-0-2347dfbed7af@linux.ibm.com>
+In-Reply-To: <20230310-dma_iommu-v8-0-2347dfbed7af@linux.ibm.com>
+To:     Joerg Roedel <joro@8bytes.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Will Deacon <will@kernel.org>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Gerd Bayer <gbayer@linux.ibm.com>,
+        Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>,
+        Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-doc@vger.kernel.org
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1331;
+ i=schnelle@linux.ibm.com; h=from:subject:message-id;
+ bh=QP466Tmuhke9ZpYBaps9u7QPQnPFsiOIACaxA8oBroY=;
+ b=owGbwMvMwCH2Wz534YHOJ2GMp9WSGFK4Q5+vllZav+rNo0U7la52x0cImVZcN1RS98zw3P39X
+ dcKy9xDHaUsDGIcDLJiiiyLupz91hVMMd0T1N8BM4eVCWQIAxenAEyk5BAjw1fbxSKbZiyYNOfX
+ i9e+U6NU79z3+X/DQu1J5mrDsK1bQmIZGaZefqL26+xhvtRDD/vNeD1lsyY9V5Rb46KxIP5eF2/
+ uLW4A
+X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
+ fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: t6DB5i8vhkARvWYCiBWLQXRiiRuyxhWc
+X-Proofpoint-GUID: CyMGare_uRiBCY_5gvYk6zMLo51yZXdw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-10_06,2023-03-10_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ bulkscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0 spamscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 mlxlogscore=999
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303100124
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 02:34:07PM +0100, Michael Walle wrote:
-> Yeah, but my problem right now is, that if this discussion won't find
-> any good solution, the lan8814 phy timestamping will find it's way
-> into an official kernel and then it is really hard to undo things.
-> 
-> So, I'd really prefer to *first* have a discussion how to proceed
-> with the PHY timestamping and then add the lan8814 support, so
-> existing boards don't show a regressions.
+A future change will convert the DMA API implementation from the
+architecture specific arch/s390/pci/pci_dma.c to using the common code
+drivers/iommu/dma-iommu.c which the utilizes the same IOMMU hardware
+through the s390-iommu driver. Unlike the s390 specific DMA API this
+requires devices to correctly call set the coherent mask to be allowed
+to use IOVAs >2^32 in dma_alloc_coherent(). This was however not done
+for ISM devices. ISM requires such addresses since currently the DMA
+aperture for PCI devices starts at 2^32 and all calls to
+dma_alloc_coherent() would thus fail.
 
-You don't mean LAN8814 but LAN8841, no?
+Reviewed-by: Alexandra Winter <wintera@linux.ibm.com>
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ drivers/s390/net/ism_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For the former, PTP support was added in commit ece19502834d ("net: phy:
-micrel: 1588 support for LAN8814 phy") - first present in v5.18.
+diff --git a/drivers/s390/net/ism_drv.c b/drivers/s390/net/ism_drv.c
+index eb7e13486087..a40e3afeaaa8 100644
+--- a/drivers/s390/net/ism_drv.c
++++ b/drivers/s390/net/ism_drv.c
+@@ -661,7 +661,7 @@ static int ism_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (ret)
+ 		goto err_disable;
+ 
+-	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
++	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+ 	if (ret)
+ 		goto err_resource;
+ 
 
-For the latter, it was commit cafc3662ee3f ("net: micrel: Add PHC
-support for lan8841"), and this one indeed is in the v6.3 release
-candidates.
+-- 
+2.37.2
 
-Assuming you can prove a regression, how about adding the PHY driver
-whitelist *without* the lan8841 as a patch to net.git? (blaming commit
-cafc3662ee3f ("net: micrel: Add PHC support for lan8841")).
-
-Doing this will effectively deactivate lan8841 PHY timestamping without
-reverting the code. Then, this PHY timestamping support could be
-activated back in net-next, based on some sort of explicit UAPI call.
