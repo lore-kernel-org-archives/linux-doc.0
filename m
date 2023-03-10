@@ -2,207 +2,195 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BB5EC6FD1F
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 16:48:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E66CC6FD1F
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 16:50:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231145AbjCJQsE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 11:48:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52606 "EHLO
+        id S231522AbjCJQuo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 11:50:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230204AbjCJQrm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 11:47:42 -0500
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2064.outbound.protection.outlook.com [40.107.20.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB0A82822D;
-        Fri, 10 Mar 2023 08:45:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZV19TXpgq8fPlkOJPgYT+H2eXBhC7oDDqdmzA8gMi47pHgK1ACsBm997y4HAbu84Mo64w1Ec5cb7B3XNM/5rZd4f1ifp/BH+T2R5VYhiie2SXdLUcM51s3pJo/kWoCSKmzaCU4VraGly+ljZbDzwQFKYUyDzrHa2OBHRpU8vAdLMA2aJ18f1aCDku0XVFpF0tmiJmrwjcNWwaSI609xU4NEJfsQTITP1qHAP7DGmaIsdh7gsVw3w7N9DYZL0fyTKSkOuAtl5FshVzcHd/M+EvmsyVK8R7VC1eMjBnduBYlZHfSiTFw5iQl4dtND/4W8PhtxmLtHtwTWf0uE8KQUbYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=isGOVJZ9naLn1JJzT2t6A+9jGlJwqy0JQk/Fn7Q0mlw=;
- b=dNwB0t6BWy0K4idnT1swPcw9cU6cja0uJeZoDrlYLRSLlp/qOYZ0bE1RDiMKPpkC5UdMFuZQhLM9oot8yYdbw6ywLI3kOu/0GUMy8cycTF4ECipAMTV66sQ7LtEGkLq0FWNsM/HlZAi3D9zJ3/J6zn4kyqQ4CH6ClkIB6PesCgu0aPEU76vO8IALSZhLi03XwIJYd3wUsPK61Tpc6k0wR7/9KjG47CXgNxs2DgqHwojEeZNrHsroplGMohmOF3XYNU5U6PHlat/q7IyMRKaG62rqTshU8xqTkS4bdIMFCMkpfKDZ44c0zq1cliDRzxfMCofDWyL1dtm3yBzAeGXLNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=isGOVJZ9naLn1JJzT2t6A+9jGlJwqy0JQk/Fn7Q0mlw=;
- b=SF4bt7PV3J3UwOmOOhCS1Tj98pT8CXTZJGFRafKFLUJ+BhWMaUCIdF30xMJdLaDeQBh5q4qgrPs6VOILKdJmgdhaNG6hjVd4YIrb7cDN2kb0YYssXXb/Tib9c6RaoRW1KtkEyvZ+fXWcgn0Wn3sHm3dEsJ32Bc72fITHqVdcyB0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
- by DB8PR04MB6809.eurprd04.prod.outlook.com (2603:10a6:10:11b::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.19; Fri, 10 Mar
- 2023 16:44:56 +0000
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::29a3:120c:7d42:3ca8]) by AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::29a3:120c:7d42:3ca8%7]) with mapi id 15.20.6178.019; Fri, 10 Mar 2023
- 16:44:56 +0000
-Date:   Fri, 10 Mar 2023 18:44:51 +0200
-From:   Vladimir Oltean <vladimir.oltean@nxp.com>
-To:     Horatiu Vultur <horatiu.vultur@microchip.com>
-Cc:     Michael Walle <michael@walle.cc>,
-        =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
-        Jie Wang <wangjie125@huawei.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Sean Anderson <sean.anderson@seco.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Marco Bonelli <marco@mebeim.net>
-Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
- selectable.
-Message-ID: <20230310164451.ls7bbs6pdzs4m6pw@skbuf>
-References: <20230308135936.761794-1-kory.maincent@bootlin.com>
- <20230308135936.761794-1-kory.maincent@bootlin.com>
- <20230308135936.761794-4-kory.maincent@bootlin.com>
- <20230308135936.761794-4-kory.maincent@bootlin.com>
- <20230308230321.liw3v255okrhxg6s@skbuf>
- <20230310114852.3cef643d@kmaincent-XPS-13-7390>
- <20230310113533.l7flaoli7y3bmlnr@skbuf>
- <b4ebfd3770ffa5ad1233d2b5e79499ee@walle.cc>
- <20230310131529.6bahmi4obryy5dsx@soft-dev3-1>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230310131529.6bahmi4obryy5dsx@soft-dev3-1>
-X-ClientProxiedBy: FR0P281CA0051.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:48::12) To AM0PR04MB6452.eurprd04.prod.outlook.com
- (2603:10a6:208:16d::21)
+        with ESMTP id S231540AbjCJQuW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 11:50:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8490D574C6
+        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 08:46:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678466764;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=U1nV2/qDntqDJZlPcxYfsT9dw0Ma0q80Z3zjf/0HtgY=;
+        b=Cwj9W/dUrvsjMFIfDbaCDG7ukzGehFBlCkwH0Ej0cgpgZCfld3sYrTpy13mpXey5mAgeWa
+        rZmVEH6mT4tIA9RAFzzcDfu1bbxu4CkYxqPeBH7CTyUWKa91Wvffe0jDNmSbl5qXJx7o62
+        Bafx7mUqYFz3B6uCEQOoUDuRa+BOSok=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-491-vqL6IBVJOxW7s9KGS0guUA-1; Fri, 10 Mar 2023 11:46:02 -0500
+X-MC-Unique: vqL6IBVJOxW7s9KGS0guUA-1
+Received: by mail-ed1-f72.google.com with SMTP id w7-20020a056402268700b004bbcdf3751bso8468632edd.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 08:46:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678466761;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U1nV2/qDntqDJZlPcxYfsT9dw0Ma0q80Z3zjf/0HtgY=;
+        b=e+Ur/Ju5BHeMubtD6EP5igP8NWNC6o+nyZ8IerxGvga6uUEgNGNFPTSaJNUG2LK0W4
+         MELE3jT0ZnjgTbAbD/l4rlXZ95M288U2H27IiubA/ALvzgdZH+5thZYlZo91tiuIgDhE
+         0aXDsXVFiw0ke3WPeWsj2GH1N6easJdIYe+eywq+8cAnpiUsyl+LkGdQ5v034NXuP1KW
+         sVVrgqawMoyKOjUlHcJlvMATL9s7r8OABUOiyy3scaRF7vXss4f5MdMF3pVxn7GvHu+h
+         IPFqTvqDJfLJav/lRjWgealDQMyX4+t8lSMbNrYdzp3bwbK0LreLgWFVs8bTdiIPlRoY
+         eddg==
+X-Gm-Message-State: AO0yUKXwxD5vVrSTYCnvd1gxHtQOg3hf0fLCmiNGY4BigJOp4hOyXM+5
+        GUfaaOoOVfIzWcAyjuYCZJLg7gXdxAex3nsIkaN00Dwmt2MhqDJJRjYS2Xf4A1bPSK5U9JQJZDN
+        lryN/8iEWBQc0RN2GZ+Dm
+X-Received: by 2002:aa7:c147:0:b0:4bd:e63c:d3be with SMTP id r7-20020aa7c147000000b004bde63cd3bemr24297873edp.20.1678466761652;
+        Fri, 10 Mar 2023 08:46:01 -0800 (PST)
+X-Google-Smtp-Source: AK7set9dpP4chv/p3br8fwfdqT8BO6VAbkXs+gurJic+F3oSvI/bhsLhmsg9mPQUDdSjr+l64ivZqA==
+X-Received: by 2002:aa7:c147:0:b0:4bd:e63c:d3be with SMTP id r7-20020aa7c147000000b004bde63cd3bemr24297854edp.20.1678466761360;
+        Fri, 10 Mar 2023 08:46:01 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+        by smtp.gmail.com with ESMTPSA id t21-20020a50d715000000b004accf3a63cbsm217252edi.68.2023.03.10.08.45.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Mar 2023 08:46:00 -0800 (PST)
+Message-ID: <d0e59837-703b-964a-877e-38c244f58a85@redhat.com>
+Date:   Fri, 10 Mar 2023 17:45:58 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|DB8PR04MB6809:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5915ae01-131a-49fb-8bdf-08db2186c7cb
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /V6PuMAnwT2CxERZeuROfmZthi4Btjl3kwwaXTywZAKZYRuAfBDw69UudusJlSLLDTfBIHp+lfZ99kkttXVmF5IQcaIu5gGNJc56QjIQLdw4gUXHRT+F3KVL1dDqOJp6GknuRaJOaDBkhiRo1s58nNCwkqjNcYkRcJsWBhDI9PH203ESfKWYn5cjVNNSYinPSgFvNZKVjTjBptdO+InNVcGDU7GauP8tB9paEX2n2Dm9Oo+BLMNkCXisH44udqMa6L+IFmkfvYEDhgcX2zhwI3yQL4JatHpFX2rLedgbJ6FkKzAijoee3DcjJ5zVoRv/WPtZgQXgwNHW+zEZQ/DmsioWIkveN1nVIYBEbYhLquJKYgVBPY/AR3Fo5Cqwp7/I0UKk3x/CfuRY0LWUUG3DjuGJyr5oioX0hqhpio4CiCkK+PTVEt0CnC1Za5IK+gX5uqvNbccD2vFIZrcQAr8PBbajcPjLSlFDdvypp4mMimdnxY2Q0gLF95Iy24Ue1OMQJ7qsMfqJFTSQbJLeqYzTubHYoU+h3NVIQz8YWY9ejTzb9M0FeQw8ZkYRH+8TPTH/JgnD2g96FKUzU8EhsXeiobNUBVTwc642Mq8f3RA/wffkDRHEt3wlGQHrT9ALR4kQKghHGj8bk+UoDFJmK5mkzrK8CQc7HtOKVJxBVa/xjoI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(4636009)(396003)(366004)(376002)(39860400002)(136003)(346002)(451199018)(8936002)(26005)(5660300002)(7406005)(7416002)(1076003)(8676002)(6512007)(9686003)(6506007)(41300700001)(38100700002)(6666004)(66574015)(83380400001)(33716001)(186003)(86362001)(54906003)(316002)(4326008)(66556008)(6916009)(66476007)(966005)(6486002)(478600001)(66946007)(2906002)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?NFDU0DT04K2W5g4sglIcGKUU+gEuXh3+sm+I/VE+zUZs1CaluobWOFJ7iN?=
- =?iso-8859-1?Q?3eOkWTWxgsPwAyFuAAQ2WqLvrM5P9O3nnRVQg8W61Tb78v1beAAHqZZcdD?=
- =?iso-8859-1?Q?J2L6EEI3gXWeeMiilLvhKQFkwvwLG5l3FAztrLTne+MKQrS5gB4bsyMuJV?=
- =?iso-8859-1?Q?t0vW4RHAjTBbRBjXTXXsFFlhrTLovq50Ubl8Xn6GsBIL7FQnmdf1AIUBNA?=
- =?iso-8859-1?Q?PxXv3d3fyooUdii0Yffvulo4uuTElecFhSMGxkJmiI+h2+siSxnOKXJkYY?=
- =?iso-8859-1?Q?EN5mBOXddy63K2ADB2juQyNdlIhMbjXo8HOoyAZRX40W9E4vdpTAfwgY32?=
- =?iso-8859-1?Q?h+QYkbnIr9I79hbZTTRar48Hl0vN3p7F4g9535nqN0PsPr6cAky4yO2HTG?=
- =?iso-8859-1?Q?c1jbATIRWsgcHfQT0EJnvuaDFt4ZVTI4+K+jSCgnT9PxSuelKi6nN3znWs?=
- =?iso-8859-1?Q?d+CSt80rLUAqd1JSYKHtOlcXMPorvabp4D5mIcnNhZhVAiQL7rl6zrQXtw?=
- =?iso-8859-1?Q?Fym4yqqIs3dOZFTl1vaa9tPbWHU3xm6ixGw6yG+YgnLnTQtnsVzXlfk9XK?=
- =?iso-8859-1?Q?WD5yHu57VGM5DB29t98jLZHii/IWYpxip3vf9IUkZsdt9b0JwLsSi3Agqa?=
- =?iso-8859-1?Q?7MKg2/cVqdWnEbHboadl8BTVOnz1h/CdQDI8SvXLZeqO2nvB4cbqcJOyFl?=
- =?iso-8859-1?Q?P2OMj4y9XZ3LTA6lGC+koSfIC27Q15GOStUNk+lsWlz1LxyNEhsEZ9J8iI?=
- =?iso-8859-1?Q?kJg4PmXp8fQ2fmU7DzMByQoo8Yyi7fZgxEjmFtNm+CG3Un1M8h6JIwm6Al?=
- =?iso-8859-1?Q?0asAeddCexkR0VB66AlELrGeIPdnSS2B79rx/jTwzGJKiAsY6ohWlK5h0h?=
- =?iso-8859-1?Q?mOwZENMyneEzWrPWbVW4WrmZQfugEM7w+ociNdQ0pmBE2makaDqL+Gfw/X?=
- =?iso-8859-1?Q?k1EvEFsdJQ6w5MfNkZJXp+jCueCg7Sjabb0lZeArDR/Q1ohno36PTGB0Tl?=
- =?iso-8859-1?Q?DGxkX+eyePfCH06s/ydUdvv3dTZrM86sVHBtI2aOGUgxrxZc/Kg0VaWbh/?=
- =?iso-8859-1?Q?SWBiqyS3jY7rjfNesO9Fk1UYfk1OODVKVelWKMTyQBd8TiKRwBlcovze6c?=
- =?iso-8859-1?Q?mhj7Qhpm15VHy8BRNHh4kWejyRVUszU6SOhxwihvO+IH/A0Ier8myZmKfp?=
- =?iso-8859-1?Q?5svSoKMAGGWOZjyVpRc+FTbnJBhuDYlfTj1Kc/XmdLuY7AVV725fCdpTCK?=
- =?iso-8859-1?Q?3A1ivZA7PKitu1JepccrtT/w+Bo8Xf5K1uS/83WgM3fpBiP3qM2/XlB8HU?=
- =?iso-8859-1?Q?8LRDcET1yDGBiAFmTTVO7+1wZAmgyxnwPOrQuVb36KrliVOPosAVCHMhYz?=
- =?iso-8859-1?Q?HKkPeUJQge+3+lLIeu21i7V5b1+Abla9azFbohyF2A0LrntG+7fNEFNojR?=
- =?iso-8859-1?Q?TEohmSOzd0Rt6g28guxwwX2x7vXtJfdrLUUyYCT1vjRdLpwLgpLzBxfwMn?=
- =?iso-8859-1?Q?Uu7sfNwsUNxIzFZqP76hUyIkFia1l8cEA5q1M4jQ2Pv2IJVSfSBV2ynF1h?=
- =?iso-8859-1?Q?iWTYf+C49UaWL6Mzjqq53h3kezzi8VTeZdee467VHIngrn6AQSO3Ee6qQr?=
- =?iso-8859-1?Q?2MZ/RQlnUtUQ18QF38nDf7Lp37QMF4kuShji2rzfE9yqWNHf4/ZuUQaA?=
- =?iso-8859-1?Q?=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5915ae01-131a-49fb-8bdf-08db2186c7cb
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2023 16:44:56.6428
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iQy6E60hfc7//tourbNfmYQQle3migG4cagN9R88l3REdVlmt2ichdzm8FxAtXVAjyUH1knHcPUFqxRws0iMSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6809
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH drm-next v2 00/16] [RFC] DRM GPUVA Manager & Nouveau
+ VM_BIND UAPI
+Content-Language: en-US
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+References: <20230217134422.14116-1-dakr@redhat.com>
+ <20230309101243.1150506f@collabora.com>
+ <20230309104841.7c03d5b4@collabora.com>
+From:   Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20230309104841.7c03d5b4@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 02:15:29PM +0100, Horatiu Vultur wrote:
-> I was thinking about another scenario (I am sorry if this was already
-> discussed).
-> Currently when setting up to do the timestamp, the MAC will check if the
-> PHY has timestamping support if that is the case the PHY will do the
-> timestamping. So in case the switch was supposed to be a TC then we had
-> to make sure that the HW was setting up some rules not to forward PTP
-> frames by HW but to copy these frames to CPU.
-> With this new implementation, this would not be possible anymore as the
-> MAC will not be notified when doing the timestamping in the PHY.
-> Does it mean that now the switch should allocate these rules at start
-> time?
+Hi Boris,
 
-I would say no (to the allocation of trapping rules at startup time).
-It was argued before by people present in this thread that it should be
-possible (and default behavior) for switches to forward PTP frames as if
-they were PTP-unaware:
-https://patchwork.ozlabs.org/project/netdev/patch/20190813025214.18601-5-yangbo.lu@nxp.com/
+On 3/9/23 10:48, Boris Brezillon wrote:
+> On Thu, 9 Mar 2023 10:12:43 +0100
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> 
+>> Hi Danilo,
+>>
+>> On Fri, 17 Feb 2023 14:44:06 +0100
+>> Danilo Krummrich <dakr@redhat.com> wrote:
+>>
+>>> Changes in V2:
+>>> ==============
+>>>    Nouveau:
+>>>      - Reworked the Nouveau VM_BIND UAPI to avoid memory allocations in fence
+>>>        signalling critical sections. Updates to the VA space are split up in three
+>>>        separate stages, where only the 2. stage executes in a fence signalling
+>>>        critical section:
+>>>
+>>>          1. update the VA space, allocate new structures and page tables
+>>
+>> Sorry for the silly question, but I didn't find where the page tables
+>> pre-allocation happens. Mind pointing it to me? It's also unclear when
+>> this step happens. Is this at bind-job submission time, when the job is
+>> not necessarily ready to run, potentially waiting for other deps to be
+>> signaled. Or is it done when all deps are met, as an extra step before
+>> jumping to step 2. If that's the former, then I don't see how the VA
+>> space update can happen, since the bind-job might depend on other
+>> bind-jobs modifying the same portion of the VA space (unbind ops might
+>> lead to intermediate page table levels disappearing while we were
+>> waiting for deps). If it's the latter, I wonder why this is not
+>> considered as an allocation in the fence signaling path (for the
+>> bind-job out-fence to be signaled, you need these allocations to
+>> succeed, unless failing to allocate page-tables is considered like a HW
+>> misbehavior and the fence is signaled with an error in that case).
+> 
+> Ok, so I just noticed you only have one bind queue per drm_file
+> (cli->sched_entity), and jobs are executed in-order on a given queue,
+> so I guess that allows you to modify the VA space at submit time
+> without risking any modifications to the VA space coming from other
+> bind-queues targeting the same VM. And, if I'm correct, synchronous
+> bind/unbind ops take the same path, so no risk for those to modify the
+> VA space either (just wonder if it's a good thing to have to sync
+> bind/unbind operations waiting on async ones, but that's a different
+> topic).
 
-But it raises a really good point about how much care a switch driver
-needs to take, such that with PTP timestamping, it must trap but not
-timestamp the PTP frames.
+Yes, that's all correct.
 
-There is a huge amount of variability here today.
+The page table allocation happens through nouveau_uvmm_vmm_get() which 
+either allocates the corresponding page tables or increases the 
+reference count, in case they already exist, accordingly.
+The call goes all the way through nvif into the nvkm layer (not the 
+easiest to follow the call chain) and ends up in nvkm_vmm_ptes_get().
 
-The ocelot driver would be broken with PHY timestamping, since it would
-flood the PTP messages (it installs the traps only if it is responsible
-for taking the timestamps too).
+There are multiple reasons for updating the VA space at submit time in 
+Nouveau.
 
-The lan966x driver is very fine-tuned to call lan966x_ptp_setup_traps()
-regardless of what phy_has_hwtstamp() says.
+1) Subsequent EXEC ioctl() calls would need to wait for the bind jobs 
+they depend on within the ioctl() rather than in the scheduler queue, 
+because at the point of time where the ioctl() happens the VA space 
+wouldn't be up-to-date.
 
-The sparx5 driver doesn't even seem to install traps at all (unclear if
-they are predefined in hardware or not).
+2) Let's assume a new mapping is requested and within it's range other 
+mappings already exist. Let's also assume that those existing mappings 
+aren't contiguous, such that there are gaps between them. In such a case 
+I need to allocate page tables only for the gaps between the existing 
+mappings, or alternatively, allocate them for the whole range of the new 
+mapping, but free / decrease the reference count of the page tables for 
+the ranges of the previously existing mappings afterwards.
+In the first case I need to know the gaps to allocate page tables for 
+when submitting the job, which means the VA space must be up-to-date. In 
+the latter one I must save the ranges of the previously existing 
+mappings somewhere in order to clean them up, hence I need to allocate 
+memory to store this information. Since I can't allocate this memory in 
+the jobs run() callback (fence signalling critical section) I need to do 
+it when submitting the job already and hence the VA space must be 
+up-to-date again.
+However, this is due to how page table management currently works in 
+Nouveau and we might change that in the future.
 
-I guess that we want something like lan966x to keep working, since it
-sounds like it's making the sanest decision about what to do.
+Synchronous binds/unbinds taking the same path through the scheduler is 
+a downside of this approach.
 
-But, as you point out, with Köry's/Richard's proposal, the MAC driver
-will be bypassed when the selected timestamping layer is the PHY, and
-that's a problem currently.
+- Danilo
 
-May I suggest the following? There was another RFC which proposed the
-introduction of a netdev notifier when timestamping is turned on/off:
-https://lore.kernel.org/netdev/20220317225035.3475538-1-vladimir.oltean@nxp.com/
+> 
+>>
+>> Note that I'm not familiar at all with Nouveau or TTM, and it might
+>> be something that's solved by another component, or I'm just
+>> misunderstanding how the whole thing is supposed to work. This being
+>> said, I'd really like to implement a VM_BIND-like uAPI in pancsf using
+>> the gpuva_manager infra you're proposing here, so please bare with me
+>> :-).
+>>
+>>>          2. (un-)map the requested memory bindings
+>>>          3. free structures and page tables
+>>>
+>>>      - Separated generic job scheduler code from specific job implementations.
+>>>      - Separated the EXEC and VM_BIND implementation of the UAPI.
+>>>      - Reworked the locking parts of the nvkm/vmm RAW interface, such that
+>>>        (un-)map operations can be executed in fence signalling critical sections.
+>>>    
+>>
+>> Regards,
+>>
+>> Boris
+>>
+> 
 
-It didn't go beyond RFC status, because I started doing what Jakub
-suggested (converting the raw ioctls handlers to NDOs) but quickly got
-absolutely swamped into the whole mess.
-
-If we have a notifier, then we can make switch drivers do things
-differently. They can activate timestamping per se in the timestamping
-NDO (which is only called when the MAC is the active timestamping layer),
-and they can activate PTP traps in the netdev notifier (which is called
-any time a timestamping status change takes place - the notifier info
-should contain details about which net_device and timestamping layer
-this is, for example).
-
-It's just a proposal of how to create an alternative notification path
-that doesn't disturb the goals of this patch set.
