@@ -2,102 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5184FC6FD1C
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 09:40:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C45AC64EC4
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 09:59:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbjCJJkX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 04:40:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48436 "EHLO
+        id S229925AbjCJJ7U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 04:59:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbjCJJjf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 04:39:35 -0500
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 106911C7FF
-        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 01:37:38 -0800 (PST)
-Received: by mail-yb1-xb31.google.com with SMTP id e82so4631756ybh.9
-        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 01:37:38 -0800 (PST)
+        with ESMTP id S231305AbjCJJ7Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 04:59:16 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2B210A112
+        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 01:59:00 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id e13so4475799wro.10
+        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 01:59:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678441057;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dkaa33xZucHUmrkT5EKmd+RR2GnIarbPW3jBS/IXiH4=;
-        b=ILgy/F6/c0pxMeQ/+6TFJeeOwNTnmur/K+JvQ701v0qAA0vS7Fs3hSM2WV0r7T71AR
-         7iyHIC6BKS6Txkgct7txGB9X1f9a5XW4YC4NUMtvVFayyucjCMRJWfK7Ml/3TEFIjoFV
-         V041ltbDeIdKFbE82x/frnGpKAk2ItooSDnmIwrBF0QnLTPC89Yo9wveO6wvD3WF0KtY
-         8WaWDVmLxFEWWA4uCYz5a/N6jiSA17yEwUyo9tEcTCEAWwyVVBd3K1utC5G7tXhiTF0j
-         71o7KVhFV0JvVVATu5MVkEh9usoL3P5lcfP10ng4cRA1ZwckPPEYmC1gjgqURqCJ/G+a
-         JyfA==
+        d=resnulli-us.20210112.gappssmtp.com; s=20210112; t=1678442339;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9N7u6WJBnH3s1uxLB4f4sp22AWC3MvK06S0R8KPoZzU=;
+        b=CHYchpCxA9hMoOAVvA/vXfxOjtrxAnwW6xrOY2POdw2yOvNIo9dpsMvwSSapENpW4s
+         00I/nzMqZf4901Ueiu5wr+OeUhM4fYoVilmuYwzYuEhEJSwLT6uFVIboXe4SaqjO4766
+         8mJXNo7yb6fsvroYqBMnL7F7c5TZikVadDab03IYaRQefiL+O8Rdg0CwuuyYVuPmsati
+         zMZoN88K+QuppUzmH5zpIJQ+2ciK5zDPrywMs8t2H81GFJiEd5ENqyHI7hf4/nBgCXxd
+         e2sXSgL/XiM4D+RSaallpyOfu5yK9CpIa1VElHrKNAFf1UythTFvw7RLM1O2j1WT+Ay5
+         1pHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678441057;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20210112; t=1678442339;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dkaa33xZucHUmrkT5EKmd+RR2GnIarbPW3jBS/IXiH4=;
-        b=xvn9wk4arpSnMvsAZkDJ2jug5BWW8T+23aU/Nt0iKpzJtnLM1SITTmvQ5DxEJKr0eE
-         Kw/QNKcuJJ9k9SJ6CwIKhEljMaRgx0clA6W2iH7hRETKpYC9IEiBwk/kaShMNV3StbWD
-         cpxx3ZCfFipRrz7o+rjEDL+U5gFpk2YXJo01EagejtOrkcYC02iUylRCOW+4iI67E+mP
-         LFz3P505tbNDGrAKmNqUNWv8ACWFEoJn68GXnrXeJ0jKW5oaZpJBjpAmj23ZiNYct8+0
-         xVg0LZW+BuawnHmC3NHQJsD0uI8/GHqQB4MehlGNOABO3+79ENR4hfFHem4APmnCvVRx
-         yqyA==
-X-Gm-Message-State: AO0yUKWJcMd3e+SefZ2KePn/nBDIEXfXNMzeN/ffsOl5Nv14a6/LIY33
-        78amksEC9SGkwuOAgV2ILizTDE1K68vjnLI2pGvvlw==
-X-Google-Smtp-Source: AK7set+5e6x1wi7MIweB5TOI7S3BjN5EW/S43FwJZUJkRYmGqWqeeshxKBdvJTlMBkQWSrF6TT50wquIIlxgcDtOgIE=
-X-Received: by 2002:a25:e201:0:b0:b2e:f387:b428 with SMTP id
- h1-20020a25e201000000b00b2ef387b428mr1178326ybe.5.1678441057179; Fri, 10 Mar
- 2023 01:37:37 -0800 (PST)
+        bh=9N7u6WJBnH3s1uxLB4f4sp22AWC3MvK06S0R8KPoZzU=;
+        b=pCZiMT/4nnJ85hOJ+rTK/LQwQwShHgi7v9kI/ECJIhKLl2Mu/dE5yrEbLZOOUz7vRW
+         kdgcjFye9WdIAj6Nk+nzUNsRfKQPHcBX5ihwjQFPbHsPjmFdbAuxQPuxh21GIam9xTga
+         1+xSXvd/AJGDTQ7sVmDgkLtrl3lluApqmJwX0BoCAQkXAql1zfxxWVOpQl/WTnEXSsFd
+         rotu+2b0ilERY6kaDzuG0eHxUp5C5dJHTCq5qYhPaJxVHp5suAdwD/tc/VdhVBzEKBiz
+         pn0E9RPmUUxpbnK5DoAS3QPqR7Cup+St3zp/z9BlCgNbUsLQ56vF2Izh+ZV/Hfk0JAlc
+         0ywQ==
+X-Gm-Message-State: AO0yUKX2ZEGOlJYAlPZp2qD7u8M9yxT8pv1AYYPhPXbozMXTnHYmacAo
+        aFdDp6CZdDIw7lkiqEcZeRfVRA==
+X-Google-Smtp-Source: AK7set++GFm8jqGl+OXdo6Ydv1Fz1ECYAPop4T6BWZZGqhBQ8z7WRNZ1B+7fVfa7MFzokMBqbJ4taw==
+X-Received: by 2002:adf:e908:0:b0:2c3:e0a0:93f with SMTP id f8-20020adfe908000000b002c3e0a0093fmr15968908wrm.8.1678442338966;
+        Fri, 10 Mar 2023 01:58:58 -0800 (PST)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id j17-20020a5d4651000000b002c573cff730sm1751453wrs.68.2023.03.10.01.58.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 01:58:58 -0800 (PST)
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     alex.williamson@redhat.com, corbet@lwn.net
+Subject: [patch] docs: vfio: fix header path
+Date:   Fri, 10 Mar 2023 10:58:57 +0100
+Message-Id: <20230310095857.985814-1-jiri@resnulli.us>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230216013230.22978-1-ansuelsmth@gmail.com> <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
- <8226f000-dd9c-4774-b972-a7f1113f0986@lunn.ch>
-In-Reply-To: <8226f000-dd9c-4774-b972-a7f1113f0986@lunn.ch>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 10 Mar 2023 10:37:25 +0100
-Message-ID: <CACRpkdapuk39vcdNhmsMN0tbTPTSYUgY9r+EBJ-O+v2dsB=wNA@mail.gmail.com>
-Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Arun.Ramadoss@microchip.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 9, 2023 at 4:22 PM Andrew Lunn <andrew@lunn.ch> wrote:
+From: Jiri Pirko <jiri@nvidia.com>
 
-> As to 'how a certain trigger on a certain LED is going to associate
-> itself with, say, a certain port' is clearly a property of the
-> hardware, when offloading is supported. I've not seen a switch you can
-> arbitrarily assign LEDs to ports. The Marvell switches have the LED
-> registers within the port registers, for example, two LEDs per port.
+The text points to a different header file, fix by changing
+the path to "uapi".
 
-Aha so there is an implicit HW dependency between the port and the
-LED, that we just cannot see in the device tree. Okay, it makes sense.
+Signed-off-by: Jiri Pirko <jiri@nvidia.com>
+---
+ Documentation/driver-api/vfio.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think there will be a day when a switch without LED controller appears,
-but the system has a few LEDs for the ports connected to an
-arbitrary GPIO controller, and then we will need this. But we have
-not seen that yet :)
+diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
+index 50b690f7f663..68abc089d6dd 100644
+--- a/Documentation/driver-api/vfio.rst
++++ b/Documentation/driver-api/vfio.rst
+@@ -242,7 +242,7 @@ group and can access them as follows::
+ VFIO User API
+ -------------------------------------------------------------------------------
+ 
+-Please see include/linux/vfio.h for complete API documentation.
++Please see include/uapi/linux/vfio.h for complete API documentation.
+ 
+ VFIO bus driver API
+ -------------------------------------------------------------------------------
+-- 
+2.39.0
 
-Yours,
-Linus Walleij
