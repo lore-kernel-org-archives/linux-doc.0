@@ -2,678 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04562C6FD1C
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 18:31:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AE88C6FA99
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 19:06:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbjCJSbo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 13:31:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32850 "EHLO
+        id S230039AbjCJTGu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 14:06:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231349AbjCJSbm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 13:31:42 -0500
-Received: from 66-220-144-178.mail-mxout.facebook.com (66-220-144-178.mail-mxout.facebook.com [66.220.144.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB86F5D30
-        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 10:31:40 -0800 (PST)
-Received: by dev0134.prn3.facebook.com (Postfix, from userid 425415)
-        id 2F1658D84928; Fri, 10 Mar 2023 10:28:54 -0800 (PST)
-From:   Stefan Roesch <shr@devkernel.io>
-To:     kernel-team@fb.com
-Cc:     shr@devkernel.io, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        hannes@cmpxchg.org, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v4 3/3] selftests/mm: add new selftests for KSM
-Date:   Fri, 10 Mar 2023 10:28:51 -0800
-Message-Id: <20230310182851.2579138-4-shr@devkernel.io>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230310182851.2579138-1-shr@devkernel.io>
-References: <20230310182851.2579138-1-shr@devkernel.io>
+        with ESMTP id S229901AbjCJTGt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 14:06:49 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2055.outbound.protection.outlook.com [40.107.94.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F921308C5;
+        Fri, 10 Mar 2023 11:06:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QNSErk0G6nJOcPP2tmr4XXGKpZ2auep7vuk8r2BhyqtG+nEruULv1/F2TN6bGJxg/AAMnp8IpuFkHUL8w13w7hizDIrTGvD9EX83cmX46qugzK8mfzN8d7bW7mjlYsBaGgKFhVSt7iW9tn3o1fPpSPHSs1CxbA1TUX6bPW7sPt9pJP2EjeYv68wAzNHu8wqFRrOXz5CNih99YRitbl1s15hLD/UOFHHc48vtMqlrF32yXAEwTZPkfTH4NWhNal6eNCag3sE0VVvX2v8D81wBdiX6iJeM8dYHu0w0SqLVq+c4ME+aclIfmdSusy1xKTCjUCE41DORj2Iig7qY6wXGuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ccpyOUqXwzhN8nWhoV4dQoCUJHgnsAVUXx0SK9bjC94=;
+ b=ZE5CLiFldJnRzwdseTvbGz4rjZKd9pK6ooXNkxtJ+Ev3Fhw6zG2mudVQVnXyMSBtAvrdm4/bI/smbHxjfRKQfiZBRcFThazv7EN4GJKZA8lhlghez2y8NjLuKVyZnRJMy5685VJY6FHAazAxiCCbmnLgAm2YpVjFjYT2NUHnRRxtyGAYZMQ4HNCPT+Z4mURCielYwK32olzNBwUCMsRADUJfc9hbE6JP81cJ4FzM2jKSBtOd1jucSe/22RX7xIyGqbhRMSQxowRDWwbNRiTzzF706XlH/EhDO8BYhv3q/EoPXTnyRMWSWPCuluF9Aq+YjdlvaV8AdisWggcru5DgoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ccpyOUqXwzhN8nWhoV4dQoCUJHgnsAVUXx0SK9bjC94=;
+ b=EBHNc90RqKn/Pr7smedTe5vI9rKh6xZqjU7RQCfcE/LhWxilKverJMdnQ0eorcl5iNjett5UHEFoVzZL23KfANDXLUJ7CFfUbApAvFy+Z8y9JifYeUDgJfpT11KZbxCYxeOP7kdZOvICGTOkiHi0cynvu6ct3aFhIRMYT3Gy0P+gPLenUwYLmx/x/B8S5FRyhSYXLiz3d8CPQfp4s8q/6zVgUnICQ038kqDQdpk+ADCCFhRA0ydM80sYFu9005tShhx/VfgpLrFlGJtrtoHJ4scYHvyAJJTc+v6Ii5CN6Brpq98SUEltk8Om+AZE2tPBTz1+J6vFuiZ3oPLajk0BuQ==
+Received: from MW4PR04CA0267.namprd04.prod.outlook.com (2603:10b6:303:88::32)
+ by DS7PR12MB5862.namprd12.prod.outlook.com (2603:10b6:8:79::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.20; Fri, 10 Mar 2023 19:06:45 +0000
+Received: from CO1NAM11FT101.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:88:cafe::7a) by MW4PR04CA0267.outlook.office365.com
+ (2603:10b6:303:88::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.20 via Frontend
+ Transport; Fri, 10 Mar 2023 19:06:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CO1NAM11FT101.mail.protection.outlook.com (10.13.175.164) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.20 via Frontend Transport; Fri, 10 Mar 2023 19:06:44 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Fri, 10 Mar 2023
+ 11:06:38 -0800
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Fri, 10 Mar
+ 2023 11:06:37 -0800
+Received: from dipenp.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server id 15.2.986.5 via Frontend
+ Transport; Fri, 10 Mar 2023 11:06:37 -0800
+From:   Dipen Patel <dipenp@nvidia.com>
+To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <linus.walleij@linaro.org>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <robh+dt@kernel.org>, <timestamp@lists.linux.dev>,
+        <krzysztof.kozlowski+dt@linaro.org>, <brgl@bgdev.pl>,
+        <corbet@lwn.net>, <gregkh@linuxfoundation.org>
+CC:     Dipen Patel <dipenp@nvidia.com>
+Subject: [PATCH V3 0/6] Add Tegra234 HTE support
+Date:   Fri, 10 Mar 2023 11:06:28 -0800
+Message-ID: <20230310190634.5053-1-dipenp@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT101:EE_|DS7PR12MB5862:EE_
+X-MS-Office365-Filtering-Correlation-Id: 061deccf-126f-4190-fa68-08db219a9749
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pQiIqJ3QYDoXOEjjkZd/gbvHYvoz3EGiADuM52fEQZhv9spYQrlx7QERxksoFSg8IU2W+KQ7cg2vee4+rkEv+u2P3MjiD3/2bmSe6BYtvTdSq/uSZH0QrX0iX2557yY0u6LR/VHZ2Kb+4P8DBWSCIfxesyo2LuQ1MELP71HXOI9p5rdq6QRIQXTc2M9UtVgUspcsVIxcPsXmkIe/NC2um80MMeE+wozdaYNXYD6UTrBCD2DICklhy6xI/2BL7rozDMBjR0tu8NDeomqvv6G5DRkLdpCUpibIasCOOJi7P0NIUHyOhrHEW6Ld3b5xT6QkovBPjdVNfiKZ1KX8T3Q1jjHbOmTIJYNhqdxRqESSdKB4COL4lqpJn6WNcTuaop4qPfbfe4R26j42CZrog9p09qES1jpW3OTNfDfBJzVgV53riR+gIVRfeM/AN+qTkavyS5NkNT83PgFDXTzGIiXYrdSOWC9vswAE/dD2y0zJAkW2YPOZMS/eM4TY0un4etEPG9DTa4YxcQ7bibxMlEIiNVDNrwo2lXlnyPhJ6RKKXqzmkVG/KFqxF8uGnIwgt6JpjwAwIILTQecjU2JOGOhKp0PwDb0gq7BmAyGjsdwZZDjChNoUqX6+JiZUZUdcXj3t6K6SYYj1ZvhDY+62Rn+fye/uwTm6Ke/osYLvb1mk8trYniSL8QXDC6xaggDufWs4TKzt+TK/JbUkpDZkyVdM+ZDQAqJ/MV5qHhSxWdSXI70aotKyG3JL3u5a67OXW9waim+oV8xq8hrZFcsuAmWpUbEQSqfMYjfAzvMRqFQDtbE=
+X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(396003)(346002)(136003)(376002)(451199018)(46966006)(36840700001)(7416002)(5660300002)(36756003)(83380400001)(426003)(82310400005)(47076005)(70206006)(8676002)(478600001)(7696005)(107886003)(6666004)(26005)(336012)(2616005)(1076003)(186003)(41300700001)(921005)(4326008)(70586007)(40480700001)(316002)(8936002)(356005)(86362001)(36860700001)(110136005)(82740400003)(7636003)(2906002)(2101003)(83996005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2023 19:06:44.9007
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 061deccf-126f-4190-fa68-08db219a9749
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT101.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5862
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds three new tests to the selftests for KSM.  These tests use the
-new prctl API's to enable and disable KSM.
+This patch series mainly adds support for the Tegra234 HTE provider. In
+addition, it addresses dt binding comments which prompted code
+changes in the existing HTE provider driver for the Tegra194 chips. The
+comments raised concern how existing code retrieves gpio controller node
+(the node is used to help namespace conversion between HTE and GPIOLIB).
+To help simplify that process, new DT property is suggested which adds
+gpio
+controller node in the HTE provider binding as phandle property. To
+conlude this patch series:
+- adds Tegra234 HTE provider
+- modifies existing Tegra194 and Tegra234 provider code to add address
+provider dt binding changes.
 
-1) add new prctl flags to prctl header file in tools dir
+The V1 patch series:
+- Adds tegra Tegra234 HTE(timestamp) provider supports.
+- Updates MAINTAINERS file for git tree, mail list fields.
+- Updates devicetree and API documentations.
+- Enables HTE subsystem, Tegra194 and Tegra234 HTE providers
+by default in arm64 defconfig and dts files.
 
-   This adds the new prctl flags to the include file prct.h in the
-   tools directory.  This makes sure they are available for testing.
+The V2 patch series:
+- Changes in dt bindings to remove slices property
+- Adds nvidia,gpio-controller dt property
+- Add GTE node for the Tegra234
 
-2) add KSM prctl merge test
+The V3 patch series:
+- Re-arranged patches to have dt bindings first before its usage
+- Addressed review comments regarding dt bindings
 
-   This adds the -t option to the ksm_tests program.  The -t flag
-   allows to specify if it should use madvise or prctl ksm merging.
+Dipen Patel (6):
+  MAINTAINERS: Add HTE/timestamp subsystem details
+  dt-bindings: timestamp: Add Tegra234 support
+  hte: Re-phrase tegra API document
+  hte: Add Tegra234 provider
+  gpio: tegra186: Add Tegra234 hte support
+  arm64: tegra: Add GTE nodes
 
-3) add KSM get merge type test
+ .../timestamp/nvidia,tegra194-hte.yaml        |  31 ++--
+ Documentation/driver-api/hte/tegra194-hte.rst |  33 ++--
+ MAINTAINERS                                   |   3 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |   3 +-
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi      |  17 ++
+ drivers/gpio/gpio-tegra186.c                  |   1 +
+ drivers/hte/hte-tegra194-test.c               |   2 +-
+ drivers/hte/hte-tegra194.c                    | 152 ++++++++++++++++--
+ 8 files changed, 196 insertions(+), 46 deletions(-)
 
-   This adds the -G flag to the ksm_tests program to query the KSM
-   status with prctl after KSM has been enabled with prctl.
 
-4) add KSM fork test
-
-   Add fork test to verify that the MMF_VM_MERGE_ANY flag is inherited
-   by the child process.
-
-5) add two functions for debugging merge outcome
-
-   This adds two functions to report the metrics in /proc/self/ksm_stat
-   and /sys/kernel/debug/mm/ksm.
-
-The debugging can be enabled with the following command line:
-make -C tools/testing/selftests TARGETS=3D"mm" --keep-going \
-        EXTRA_CFLAGS=3D-DDEBUG=3D1
-
-[akpm@linux-foundation.org: fix Makefile]
-Link: https://lkml.kernel.org/r/20230224044000.3084046-4-shr@devkernel.io
-Signed-off-by: Stefan Roesch <shr@devkernel.io>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Rik van Riel <riel@surriel.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
- tools/include/uapi/linux/prctl.h       |   2 +
- tools/testing/selftests/mm/Makefile    |   2 +-
- tools/testing/selftests/mm/ksm_tests.c | 254 +++++++++++++++++++++----
- 3 files changed, 218 insertions(+), 40 deletions(-)
-
-diff --git a/tools/include/uapi/linux/prctl.h b/tools/include/uapi/linux/=
-prctl.h
-index a5e06dcbba13..e4c629c1f1b0 100644
---- a/tools/include/uapi/linux/prctl.h
-+++ b/tools/include/uapi/linux/prctl.h
-@@ -284,4 +284,6 @@ struct prctl_mm_map {
- #define PR_SET_VMA		0x53564d41
- # define PR_SET_VMA_ANON_NAME		0
-=20
-+#define PR_SET_MEMORY_MERGE		67
-+#define PR_GET_MEMORY_MERGE		68
- #endif /* _LINUX_PRCTL_H */
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftest=
-s/mm/Makefile
-index c31d952cff68..fbf5646b1072 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -29,7 +29,7 @@ MACHINE ?=3D $(shell echo $(uname_M) | sed -e 's/aarch6=
-4.*/arm64/' -e 's/ppc64.*/p
- # LDLIBS.
- MAKEFLAGS +=3D --no-builtin-rules
-=20
--CFLAGS =3D -Wall -I $(top_srcdir) $(EXTRA_CFLAGS) $(KHDR_INCLUDES)
-+CFLAGS =3D -Wall -I $(top_srcdir) -I $(top_srcdir)/tools/include/uapi $(=
-EXTRA_CFLAGS) $(KHDR_INCLUDES)
- LDLIBS =3D -lrt -lpthread
- TEST_GEN_FILES =3D cow
- TEST_GEN_FILES +=3D compaction_test
-diff --git a/tools/testing/selftests/mm/ksm_tests.c b/tools/testing/selft=
-ests/mm/ksm_tests.c
-index f9eb4d67e0dd..9fb21b982dc9 100644
---- a/tools/testing/selftests/mm/ksm_tests.c
-+++ b/tools/testing/selftests/mm/ksm_tests.c
-@@ -1,6 +1,8 @@
- // SPDX-License-Identifier: GPL-2.0
-=20
- #include <sys/mman.h>
-+#include <sys/prctl.h>
-+#include <sys/wait.h>
- #include <stdbool.h>
- #include <time.h>
- #include <string.h>
-@@ -21,6 +23,7 @@
- #define KSM_PROT_STR_DEFAULT "rw"
- #define KSM_USE_ZERO_PAGES_DEFAULT false
- #define KSM_MERGE_ACROSS_NODES_DEFAULT true
-+#define KSM_MERGE_TYPE_DEFAULT 0
- #define MB (1ul << 20)
-=20
- struct ksm_sysfs {
-@@ -33,9 +36,17 @@ struct ksm_sysfs {
- 	unsigned long use_zero_pages;
- };
-=20
-+enum ksm_merge_type {
-+	KSM_MERGE_MADVISE,
-+	KSM_MERGE_PRCTL,
-+	KSM_MERGE_LAST =3D KSM_MERGE_PRCTL
-+};
-+
- enum ksm_test_name {
- 	CHECK_KSM_MERGE,
-+	CHECK_KSM_MERGE_FORK,
- 	CHECK_KSM_UNMERGE,
-+	CHECK_KSM_GET_MERGE_TYPE,
- 	CHECK_KSM_ZERO_PAGE_MERGE,
- 	CHECK_KSM_NUMA_MERGE,
- 	KSM_MERGE_TIME,
-@@ -82,6 +93,55 @@ static int ksm_read_sysfs(const char *file_path, unsig=
-ned long *val)
- 	return 0;
- }
-=20
-+#ifdef DEBUG
-+static void ksm_print_sysfs(void)
-+{
-+	unsigned long max_page_sharing, pages_sharing, pages_shared;
-+	unsigned long full_scans, pages_unshared, pages_volatile;
-+	unsigned long stable_node_chains, stable_node_dups;
-+	long general_profit;
-+
-+	if (ksm_read_sysfs(KSM_FP("pages_shared"), &pages_shared) ||
-+	    ksm_read_sysfs(KSM_FP("pages_sharing"), &pages_sharing) ||
-+	    ksm_read_sysfs(KSM_FP("max_page_sharing"), &max_page_sharing) ||
-+	    ksm_read_sysfs(KSM_FP("full_scans"), &full_scans) ||
-+	    ksm_read_sysfs(KSM_FP("pages_unshared"), &pages_unshared) ||
-+	    ksm_read_sysfs(KSM_FP("pages_volatile"), &pages_volatile) ||
-+	    ksm_read_sysfs(KSM_FP("stable_node_chains"), &stable_node_chains) |=
-|
-+	    ksm_read_sysfs(KSM_FP("stable_node_dups"), &stable_node_dups) ||
-+	    ksm_read_sysfs(KSM_FP("general_profit"), (unsigned long *)&general_=
-profit))
-+		return;
-+
-+	printf("pages_shared      : %lu\n", pages_shared);
-+	printf("pages_sharing     : %lu\n", pages_sharing);
-+	printf("max_page_sharing  : %lu\n", max_page_sharing);
-+	printf("full_scans        : %lu\n", full_scans);
-+	printf("pages_unshared    : %lu\n", pages_unshared);
-+	printf("pages_volatile    : %lu\n", pages_volatile);
-+	printf("stable_node_chains: %lu\n", stable_node_chains);
-+	printf("stable_node_dups  : %lu\n", stable_node_dups);
-+	printf("general_profit    : %ld\n", general_profit);
-+}
-+
-+static void ksm_print_procfs(void)
-+{
-+	const char *file_name =3D "/proc/self/ksm_stat";
-+	char buffer[512];
-+	FILE *f =3D fopen(file_name, "r");
-+
-+	if (!f) {
-+		fprintf(stderr, "f %s\n", file_name);
-+		perror("fopen");
-+		return;
-+	}
-+
-+	while (fgets(buffer, sizeof(buffer), f))
-+		printf("%s", buffer);
-+
-+	fclose(f);
-+}
-+#endif
-+
- static int str_to_prot(char *prot_str)
- {
- 	int prot =3D 0;
-@@ -115,7 +175,9 @@ static void print_help(void)
- 	       " -D evaluate unmerging time and speed when disabling KSM.\n"
- 	       "    For this test, the size of duplicated memory area (in MiB)\=
-n"
- 	       "    must be provided using -s option\n"
--	       " -C evaluate the time required to break COW of merged pages.\n\=
-n");
-+	       " -C evaluate the time required to break COW of merged pages.\n"
-+	       " -G query merge mode\n"
-+	       " -F evaluate that the KSM process flag is inherited\n\n");
-=20
- 	printf(" -a: specify the access protections of pages.\n"
- 	       "     <prot> must be of the form [rwx].\n"
-@@ -129,6 +191,10 @@ static void print_help(void)
- 	printf(" -m: change merge_across_nodes tunable\n"
- 	       "     Default: %d\n", KSM_MERGE_ACROSS_NODES_DEFAULT);
- 	printf(" -s: the size of duplicated memory area (in MiB)\n");
-+	printf(" -t: KSM merge type\n"
-+	       "     Default: 0\n"
-+	       "     0: madvise merging\n"
-+	       "     1: prctl merging\n");
-=20
- 	exit(0);
- }
-@@ -176,12 +242,21 @@ static int ksm_do_scan(int scan_count, struct times=
-pec start_time, int timeout)
- 	return 0;
- }
-=20
--static int ksm_merge_pages(void *addr, size_t size, struct timespec star=
-t_time, int timeout)
-+static int ksm_merge_pages(int merge_type, void *addr, size_t size,
-+			struct timespec start_time, int timeout)
- {
--	if (madvise(addr, size, MADV_MERGEABLE)) {
--		perror("madvise");
--		return 1;
-+	if (merge_type =3D=3D KSM_MERGE_MADVISE) {
-+		if (madvise(addr, size, MADV_MERGEABLE)) {
-+			perror("madvise");
-+			return 1;
-+		}
-+	} else if (merge_type =3D=3D KSM_MERGE_PRCTL) {
-+		if (prctl(PR_SET_MEMORY_MERGE, 1)) {
-+			perror("prctl");
-+			return 1;
-+		}
- 	}
-+
- 	if (ksm_write_sysfs(KSM_FP("run"), 1))
- 		return 1;
-=20
-@@ -211,6 +286,11 @@ static bool assert_ksm_pages_count(long dupl_page_co=
-unt)
- 	    ksm_read_sysfs(KSM_FP("max_page_sharing"), &max_page_sharing))
- 		return false;
-=20
-+#ifdef DEBUG
-+	ksm_print_sysfs();
-+	ksm_print_procfs();
-+#endif
-+
- 	/*
- 	 * Since there must be at least 2 pages for merging and 1 page can be
- 	 * shared with the limited number of pages (max_page_sharing), sometime=
-s
-@@ -266,7 +346,8 @@ static int ksm_restore(struct ksm_sysfs *ksm_sysfs)
- 	return 0;
- }
-=20
--static int check_ksm_merge(int mapping, int prot, long page_count, int t=
-imeout, size_t page_size)
-+static int check_ksm_merge(int merge_type, int mapping, int prot,
-+			long page_count, int timeout, size_t page_size)
- {
- 	void *map_ptr;
- 	struct timespec start_time;
-@@ -281,13 +362,16 @@ static int check_ksm_merge(int mapping, int prot, l=
-ong page_count, int timeout,
- 	if (!map_ptr)
- 		return KSFT_FAIL;
-=20
--	if (ksm_merge_pages(map_ptr, page_size * page_count, start_time, timeou=
-t))
-+	if (ksm_merge_pages(merge_type, map_ptr, page_size * page_count, start_=
-time, timeout))
- 		goto err_out;
-=20
- 	/* verify that the right number of pages are merged */
- 	if (assert_ksm_pages_count(page_count)) {
- 		printf("OK\n");
--		munmap(map_ptr, page_size * page_count);
-+		if (merge_type =3D=3D KSM_MERGE_MADVISE)
-+			munmap(map_ptr, page_size * page_count);
-+		else if (merge_type =3D=3D KSM_MERGE_PRCTL)
-+			prctl(PR_SET_MEMORY_MERGE, 0);
- 		return KSFT_PASS;
- 	}
-=20
-@@ -297,7 +381,73 @@ static int check_ksm_merge(int mapping, int prot, lo=
-ng page_count, int timeout,
- 	return KSFT_FAIL;
- }
-=20
--static int check_ksm_unmerge(int mapping, int prot, int timeout, size_t =
-page_size)
-+/* Verify that prctl ksm flag is inherited. */
-+static int check_ksm_fork(void)
-+{
-+	int rc =3D KSFT_FAIL;
-+	pid_t child_pid;
-+
-+	if (prctl(PR_SET_MEMORY_MERGE, 1)) {
-+		perror("prctl");
-+		return KSFT_FAIL;
-+	}
-+
-+	child_pid =3D fork();
-+	if (child_pid =3D=3D 0) {
-+		int is_on =3D prctl(PR_GET_MEMORY_MERGE, 0);
-+
-+		if (!is_on)
-+			exit(KSFT_FAIL);
-+
-+		exit(KSFT_PASS);
-+	}
-+
-+	if (child_pid < 0)
-+		goto out;
-+
-+	if (waitpid(child_pid, &rc, 0) < 0)
-+		rc =3D KSFT_FAIL;
-+
-+	if (prctl(PR_SET_MEMORY_MERGE, 0)) {
-+		perror("prctl");
-+		rc =3D KSFT_FAIL;
-+	}
-+
-+out:
-+	if (rc =3D=3D KSFT_PASS)
-+		printf("OK\n");
-+	else
-+		printf("Not OK\n");
-+
-+	return rc;
-+}
-+
-+static int check_ksm_get_merge_type(void)
-+{
-+	if (prctl(PR_SET_MEMORY_MERGE, 1)) {
-+		perror("prctl set");
-+		return 1;
-+	}
-+
-+	int is_on =3D prctl(PR_GET_MEMORY_MERGE, 0);
-+
-+	if (prctl(PR_SET_MEMORY_MERGE, 0)) {
-+		perror("prctl set");
-+		return 1;
-+	}
-+
-+	int is_off =3D prctl(PR_GET_MEMORY_MERGE, 0);
-+
-+	if (is_on && is_off) {
-+		printf("OK\n");
-+		return KSFT_PASS;
-+	}
-+
-+	printf("Not OK\n");
-+	return KSFT_FAIL;
-+}
-+
-+static int check_ksm_unmerge(int merge_type, int mapping, int prot, int =
-timeout, size_t page_size)
- {
- 	void *map_ptr;
- 	struct timespec start_time;
-@@ -313,7 +463,7 @@ static int check_ksm_unmerge(int mapping, int prot, i=
-nt timeout, size_t page_siz
- 	if (!map_ptr)
- 		return KSFT_FAIL;
-=20
--	if (ksm_merge_pages(map_ptr, page_size * page_count, start_time, timeou=
-t))
-+	if (ksm_merge_pages(merge_type, map_ptr, page_size * page_count, start_=
-time, timeout))
- 		goto err_out;
-=20
- 	/* change 1 byte in each of the 2 pages -- KSM must automatically unmer=
-ge them */
-@@ -337,8 +487,8 @@ static int check_ksm_unmerge(int mapping, int prot, i=
-nt timeout, size_t page_siz
- 	return KSFT_FAIL;
- }
-=20
--static int check_ksm_zero_page_merge(int mapping, int prot, long page_co=
-unt, int timeout,
--				     bool use_zero_pages, size_t page_size)
-+static int check_ksm_zero_page_merge(int merge_type, int mapping, int pr=
-ot, long page_count,
-+				int timeout, bool use_zero_pages, size_t page_size)
- {
- 	void *map_ptr;
- 	struct timespec start_time;
-@@ -356,7 +506,7 @@ static int check_ksm_zero_page_merge(int mapping, int=
- prot, long page_count, int
- 	if (!map_ptr)
- 		return KSFT_FAIL;
-=20
--	if (ksm_merge_pages(map_ptr, page_size * page_count, start_time, timeou=
-t))
-+	if (ksm_merge_pages(merge_type, map_ptr, page_size * page_count, start_=
-time, timeout))
- 		goto err_out;
-=20
-        /*
-@@ -402,8 +552,8 @@ static int get_first_mem_node(void)
- 	return get_next_mem_node(numa_max_node());
- }
-=20
--static int check_ksm_numa_merge(int mapping, int prot, int timeout, bool=
- merge_across_nodes,
--				size_t page_size)
-+static int check_ksm_numa_merge(int merge_type, int mapping, int prot, i=
-nt timeout,
-+				bool merge_across_nodes, size_t page_size)
- {
- 	void *numa1_map_ptr, *numa2_map_ptr;
- 	struct timespec start_time;
-@@ -439,8 +589,8 @@ static int check_ksm_numa_merge(int mapping, int prot=
-, int timeout, bool merge_a
- 	memset(numa2_map_ptr, '*', page_size);
-=20
- 	/* try to merge the pages */
--	if (ksm_merge_pages(numa1_map_ptr, page_size, start_time, timeout) ||
--	    ksm_merge_pages(numa2_map_ptr, page_size, start_time, timeout))
-+	if (ksm_merge_pages(merge_type, numa1_map_ptr, page_size, start_time, t=
-imeout) ||
-+	    ksm_merge_pages(merge_type, numa2_map_ptr, page_size, start_time, t=
-imeout))
- 		goto err_out;
-=20
-        /*
-@@ -466,7 +616,8 @@ static int check_ksm_numa_merge(int mapping, int prot=
-, int timeout, bool merge_a
- 	return KSFT_FAIL;
- }
-=20
--static int ksm_merge_hugepages_time(int mapping, int prot, int timeout, =
-size_t map_size)
-+static int ksm_merge_hugepages_time(int merge_type, int mapping, int pro=
-t,
-+				int timeout, size_t map_size)
- {
- 	void *map_ptr, *map_ptr_orig;
- 	struct timespec start_time, end_time;
-@@ -508,7 +659,7 @@ static int ksm_merge_hugepages_time(int mapping, int =
-prot, int timeout, size_t m
- 		perror("clock_gettime");
- 		goto err_out;
- 	}
--	if (ksm_merge_pages(map_ptr, map_size, start_time, timeout))
-+	if (ksm_merge_pages(merge_type, map_ptr, map_size, start_time, timeout)=
-)
- 		goto err_out;
- 	if (clock_gettime(CLOCK_MONOTONIC_RAW, &end_time)) {
- 		perror("clock_gettime");
-@@ -533,7 +684,7 @@ static int ksm_merge_hugepages_time(int mapping, int =
-prot, int timeout, size_t m
- 	return KSFT_FAIL;
- }
-=20
--static int ksm_merge_time(int mapping, int prot, int timeout, size_t map=
-_size)
-+static int ksm_merge_time(int merge_type, int mapping, int prot, int tim=
-eout, size_t map_size)
- {
- 	void *map_ptr;
- 	struct timespec start_time, end_time;
-@@ -549,7 +700,7 @@ static int ksm_merge_time(int mapping, int prot, int =
-timeout, size_t map_size)
- 		perror("clock_gettime");
- 		goto err_out;
- 	}
--	if (ksm_merge_pages(map_ptr, map_size, start_time, timeout))
-+	if (ksm_merge_pages(merge_type, map_ptr, map_size, start_time, timeout)=
-)
- 		goto err_out;
- 	if (clock_gettime(CLOCK_MONOTONIC_RAW, &end_time)) {
- 		perror("clock_gettime");
-@@ -574,7 +725,7 @@ static int ksm_merge_time(int mapping, int prot, int =
-timeout, size_t map_size)
- 	return KSFT_FAIL;
- }
-=20
--static int ksm_unmerge_time(int mapping, int prot, int timeout, size_t m=
-ap_size)
-+static int ksm_unmerge_time(int merge_type, int mapping, int prot, int t=
-imeout, size_t map_size)
- {
- 	void *map_ptr;
- 	struct timespec start_time, end_time;
-@@ -589,7 +740,7 @@ static int ksm_unmerge_time(int mapping, int prot, in=
-t timeout, size_t map_size)
- 		perror("clock_gettime");
- 		goto err_out;
- 	}
--	if (ksm_merge_pages(map_ptr, map_size, start_time, timeout))
-+	if (ksm_merge_pages(merge_type, map_ptr, map_size, start_time, timeout)=
-)
- 		goto err_out;
-=20
- 	if (clock_gettime(CLOCK_MONOTONIC_RAW, &start_time)) {
-@@ -621,7 +772,7 @@ static int ksm_unmerge_time(int mapping, int prot, in=
-t timeout, size_t map_size)
- 	return KSFT_FAIL;
- }
-=20
--static int ksm_cow_time(int mapping, int prot, int timeout, size_t page_=
-size)
-+static int ksm_cow_time(int merge_type, int mapping, int prot, int timeo=
-ut, size_t page_size)
- {
- 	void *map_ptr;
- 	struct timespec start_time, end_time;
-@@ -660,7 +811,7 @@ static int ksm_cow_time(int mapping, int prot, int ti=
-meout, size_t page_size)
- 		memset(map_ptr + page_size * i, '+', i / 2 + 1);
- 		memset(map_ptr + page_size * (i + 1), '+', i / 2 + 1);
- 	}
--	if (ksm_merge_pages(map_ptr, page_size * page_count, start_time, timeou=
-t))
-+	if (ksm_merge_pages(merge_type, map_ptr, page_size * page_count, start_=
-time, timeout))
- 		goto err_out;
-=20
- 	if (clock_gettime(CLOCK_MONOTONIC_RAW, &start_time)) {
-@@ -697,6 +848,7 @@ int main(int argc, char *argv[])
- 	int ret, opt;
- 	int prot =3D 0;
- 	int ksm_scan_limit_sec =3D KSM_SCAN_LIMIT_SEC_DEFAULT;
-+	int merge_type =3D KSM_MERGE_TYPE_DEFAULT;
- 	long page_count =3D KSM_PAGE_COUNT_DEFAULT;
- 	size_t page_size =3D sysconf(_SC_PAGESIZE);
- 	struct ksm_sysfs ksm_sysfs_old;
-@@ -705,7 +857,7 @@ int main(int argc, char *argv[])
- 	bool merge_across_nodes =3D KSM_MERGE_ACROSS_NODES_DEFAULT;
- 	long size_MB =3D 0;
-=20
--	while ((opt =3D getopt(argc, argv, "ha:p:l:z:m:s:MUZNPCHD")) !=3D -1) {
-+	while ((opt =3D getopt(argc, argv, "ha:p:l:z:m:s:t:FGMUZNPCHD")) !=3D -=
-1) {
- 		switch (opt) {
- 		case 'a':
- 			prot =3D str_to_prot(optarg);
-@@ -745,6 +897,20 @@ int main(int argc, char *argv[])
- 				printf("Size must be greater than 0\n");
- 				return KSFT_FAIL;
- 			}
-+		case 't':
-+			{
-+				int tmp =3D atoi(optarg);
-+
-+				if (tmp < 0 || tmp > KSM_MERGE_LAST) {
-+					printf("Invalid merge type\n");
-+					return KSFT_FAIL;
-+				}
-+				merge_type =3D atoi(optarg);
-+			}
-+			break;
-+		case 'F':
-+			test_name =3D CHECK_KSM_MERGE_FORK;
-+			break;
- 		case 'M':
- 			break;
- 		case 'U':
-@@ -753,6 +919,9 @@ int main(int argc, char *argv[])
- 		case 'Z':
- 			test_name =3D CHECK_KSM_ZERO_PAGE_MERGE;
- 			break;
-+		case 'G':
-+			test_name =3D CHECK_KSM_GET_MERGE_TYPE;
-+			break;
- 		case 'N':
- 			test_name =3D CHECK_KSM_NUMA_MERGE;
- 			break;
-@@ -795,35 +964,42 @@ int main(int argc, char *argv[])
-=20
- 	switch (test_name) {
- 	case CHECK_KSM_MERGE:
--		ret =3D check_ksm_merge(MAP_PRIVATE | MAP_ANONYMOUS, prot, page_count,
-+		ret =3D check_ksm_merge(merge_type, MAP_PRIVATE | MAP_ANONYMOUS, prot,=
- page_count,
- 				      ksm_scan_limit_sec, page_size);
- 		break;
-+	case CHECK_KSM_MERGE_FORK:
-+		ret =3D check_ksm_fork();
-+		break;
- 	case CHECK_KSM_UNMERGE:
--		ret =3D check_ksm_unmerge(MAP_PRIVATE | MAP_ANONYMOUS, prot, ksm_scan_=
-limit_sec,
--					page_size);
-+		ret =3D check_ksm_unmerge(merge_type, MAP_PRIVATE | MAP_ANONYMOUS, pro=
-t,
-+					ksm_scan_limit_sec, page_size);
-+		break;
-+	case CHECK_KSM_GET_MERGE_TYPE:
-+		ret =3D check_ksm_get_merge_type();
- 		break;
- 	case CHECK_KSM_ZERO_PAGE_MERGE:
--		ret =3D check_ksm_zero_page_merge(MAP_PRIVATE | MAP_ANONYMOUS, prot, p=
-age_count,
--						ksm_scan_limit_sec, use_zero_pages, page_size);
-+		ret =3D check_ksm_zero_page_merge(merge_type, MAP_PRIVATE | MAP_ANONYM=
-OUS, prot,
-+						page_count, ksm_scan_limit_sec, use_zero_pages,
-+						page_size);
- 		break;
- 	case CHECK_KSM_NUMA_MERGE:
--		ret =3D check_ksm_numa_merge(MAP_PRIVATE | MAP_ANONYMOUS, prot, ksm_sc=
-an_limit_sec,
--					   merge_across_nodes, page_size);
-+		ret =3D check_ksm_numa_merge(merge_type, MAP_PRIVATE | MAP_ANONYMOUS, =
-prot,
-+					ksm_scan_limit_sec, merge_across_nodes, page_size);
- 		break;
- 	case KSM_MERGE_TIME:
- 		if (size_MB =3D=3D 0) {
- 			printf("Option '-s' is required.\n");
- 			return KSFT_FAIL;
- 		}
--		ret =3D ksm_merge_time(MAP_PRIVATE | MAP_ANONYMOUS, prot, ksm_scan_lim=
-it_sec,
--				     size_MB);
-+		ret =3D ksm_merge_time(merge_type, MAP_PRIVATE | MAP_ANONYMOUS, prot,
-+				ksm_scan_limit_sec, size_MB);
- 		break;
- 	case KSM_MERGE_TIME_HUGE_PAGES:
- 		if (size_MB =3D=3D 0) {
- 			printf("Option '-s' is required.\n");
- 			return KSFT_FAIL;
- 		}
--		ret =3D ksm_merge_hugepages_time(MAP_PRIVATE | MAP_ANONYMOUS, prot,
-+		ret =3D ksm_merge_hugepages_time(merge_type, MAP_PRIVATE | MAP_ANONYMO=
-US, prot,
- 				ksm_scan_limit_sec, size_MB);
- 		break;
- 	case KSM_UNMERGE_TIME:
-@@ -831,12 +1007,12 @@ int main(int argc, char *argv[])
- 			printf("Option '-s' is required.\n");
- 			return KSFT_FAIL;
- 		}
--		ret =3D ksm_unmerge_time(MAP_PRIVATE | MAP_ANONYMOUS, prot,
-+		ret =3D ksm_unmerge_time(merge_type, MAP_PRIVATE | MAP_ANONYMOUS, prot=
-,
- 				       ksm_scan_limit_sec, size_MB);
- 		break;
- 	case KSM_COW_TIME:
--		ret =3D ksm_cow_time(MAP_PRIVATE | MAP_ANONYMOUS, prot, ksm_scan_limit=
-_sec,
--				   page_size);
-+		ret =3D ksm_cow_time(merge_type, MAP_PRIVATE | MAP_ANONYMOUS, prot,
-+				ksm_scan_limit_sec, page_size);
- 		break;
- 	}
-=20
---=20
-2.34.1
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+-- 
+2.17.1
 
