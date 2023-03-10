@@ -2,88 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C45AC64EC4
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 09:59:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4997EC6FD1C
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 10:02:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbjCJJ7U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 04:59:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39548 "EHLO
+        id S231264AbjCJKCR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 05:02:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231305AbjCJJ7Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 04:59:16 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2B210A112
-        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 01:59:00 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id e13so4475799wro.10
-        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 01:59:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20210112.gappssmtp.com; s=20210112; t=1678442339;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9N7u6WJBnH3s1uxLB4f4sp22AWC3MvK06S0R8KPoZzU=;
-        b=CHYchpCxA9hMoOAVvA/vXfxOjtrxAnwW6xrOY2POdw2yOvNIo9dpsMvwSSapENpW4s
-         00I/nzMqZf4901Ueiu5wr+OeUhM4fYoVilmuYwzYuEhEJSwLT6uFVIboXe4SaqjO4766
-         8mJXNo7yb6fsvroYqBMnL7F7c5TZikVadDab03IYaRQefiL+O8Rdg0CwuuyYVuPmsati
-         zMZoN88K+QuppUzmH5zpIJQ+2ciK5zDPrywMs8t2H81GFJiEd5ENqyHI7hf4/nBgCXxd
-         e2sXSgL/XiM4D+RSaallpyOfu5yK9CpIa1VElHrKNAFf1UythTFvw7RLM1O2j1WT+Ay5
-         1pHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678442339;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9N7u6WJBnH3s1uxLB4f4sp22AWC3MvK06S0R8KPoZzU=;
-        b=pCZiMT/4nnJ85hOJ+rTK/LQwQwShHgi7v9kI/ECJIhKLl2Mu/dE5yrEbLZOOUz7vRW
-         kdgcjFye9WdIAj6Nk+nzUNsRfKQPHcBX5ihwjQFPbHsPjmFdbAuxQPuxh21GIam9xTga
-         1+xSXvd/AJGDTQ7sVmDgkLtrl3lluApqmJwX0BoCAQkXAql1zfxxWVOpQl/WTnEXSsFd
-         rotu+2b0ilERY6kaDzuG0eHxUp5C5dJHTCq5qYhPaJxVHp5suAdwD/tc/VdhVBzEKBiz
-         pn0E9RPmUUxpbnK5DoAS3QPqR7Cup+St3zp/z9BlCgNbUsLQ56vF2Izh+ZV/Hfk0JAlc
-         0ywQ==
-X-Gm-Message-State: AO0yUKX2ZEGOlJYAlPZp2qD7u8M9yxT8pv1AYYPhPXbozMXTnHYmacAo
-        aFdDp6CZdDIw7lkiqEcZeRfVRA==
-X-Google-Smtp-Source: AK7set++GFm8jqGl+OXdo6Ydv1Fz1ECYAPop4T6BWZZGqhBQ8z7WRNZ1B+7fVfa7MFzokMBqbJ4taw==
-X-Received: by 2002:adf:e908:0:b0:2c3:e0a0:93f with SMTP id f8-20020adfe908000000b002c3e0a0093fmr15968908wrm.8.1678442338966;
-        Fri, 10 Mar 2023 01:58:58 -0800 (PST)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id j17-20020a5d4651000000b002c573cff730sm1751453wrs.68.2023.03.10.01.58.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 01:58:58 -0800 (PST)
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     kvm@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     alex.williamson@redhat.com, corbet@lwn.net
-Subject: [patch] docs: vfio: fix header path
-Date:   Fri, 10 Mar 2023 10:58:57 +0100
-Message-Id: <20230310095857.985814-1-jiri@resnulli.us>
-X-Mailer: git-send-email 2.39.0
+        with ESMTP id S231418AbjCJKCN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 05:02:13 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B67710A116;
+        Fri, 10 Mar 2023 02:02:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678442531; x=1709978531;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vNZeg10wDYhubvlfaKeve+e3pRgrtsCyFEgY2kNdb2c=;
+  b=QaejrkmAQ9P27hqw8d6h05O2c3LphI+dysDLp971T/GQ5LRYKD9/KcZ1
+   yeddmH1XiVIDXqHeCGXQZBOrR8xVjv2m5dt43/Qd//OYn6WnOhWq/JLv1
+   EAEfiQ52iX+3gENcQ3ha9TZ7I8/pJ4ngiBr4ijWrQqNoIfgVIVeFrm/LJ
+   1VJUxIU8p2OsBOMSMrB0a1VnTjBHNciwvpqrDQ3H/POg5kDbQmYmB73bX
+   YrGXnsUFHk5taV0ZR8Grf6UN9GXxSOXDCQQslH66ruC4TgKVucxWDRGFY
+   6/0Dnkyy9EwAoEHcWi+x6N2ugsdwPRuT/jTCOoUvhnmSOdmcdTMJcA5Mu
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="335391653"
+X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
+   d="scan'208";a="335391653"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 02:02:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="820990796"
+X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
+   d="scan'208";a="820990796"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 02:02:06 -0800
+Date:   Fri, 10 Mar 2023 11:02:05 +0100
+From:   Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To:     Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc:     dafna@fastmail.com, ogabbay@kernel.org, airlied@gmail.com,
+        daniel@ffwll.ch, jacek.lawrynowicz@linux.intel.com,
+        dri-devel@lists.freedesktop.org, quic_pkanojiy@quicinc.com,
+        quic_carlv@quicinc.com, quic_ajitpals@quicinc.com,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v3 0/8] QAIC accel driver
+Message-ID: <20230310100205.GA511880@linux.intel.com>
+References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jiri Pirko <jiri@nvidia.com>
 
-The text points to a different header file, fix by changing
-the path to "uapi".
+On Mon, Mar 06, 2023 at 02:33:55PM -0700, Jeffrey Hugo wrote:
+> This series introduces a driver under the accel subsystem (QAIC -
+> Qualcomm AIC) for the Qualcomm Cloud AI 100 product (AIC100).  AIC100 is
+> a PCIe adapter card that hosts a dedicated machine learning inference
+> accelerator.
 
-Signed-off-by: Jiri Pirko <jiri@nvidia.com>
----
- Documentation/driver-api/vfio.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
-index 50b690f7f663..68abc089d6dd 100644
---- a/Documentation/driver-api/vfio.rst
-+++ b/Documentation/driver-api/vfio.rst
-@@ -242,7 +242,7 @@ group and can access them as follows::
- VFIO User API
- -------------------------------------------------------------------------------
- 
--Please see include/linux/vfio.h for complete API documentation.
-+Please see include/uapi/linux/vfio.h for complete API documentation.
- 
- VFIO bus driver API
- -------------------------------------------------------------------------------
--- 
-2.39.0
-
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com> for the whole series.
