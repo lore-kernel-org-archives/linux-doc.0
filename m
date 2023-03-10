@@ -2,104 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC03C74A44
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 15:47:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FED6C64EC4
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 15:47:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234462AbjCJPrc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 10:47:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40960 "EHLO
+        id S231273AbjCJPre (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 10:47:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233814AbjCJPrB (ORCPT
+        with ESMTP id S234367AbjCJPrB (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 10:47:01 -0500
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3B2EBFA4;
-        Fri, 10 Mar 2023 07:37:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 999C2F6022;
+        Fri, 10 Mar 2023 07:37:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-        In-Reply-To:References; bh=MvFhqjBn8lsfHrgXKsRvl+cKYKntZywOxeyOqBNYdjE=; b=TM
-        3UJCQk0hGZKteBHnw0DOcgvkEPPN85rhLAKKF05n3myc43csiumRbPS4VkwATWqrDxI3A+KcJKEE7
-        Zk9OJ0g9VvNYEouuwIfV+LMEsiolzIN+8eYRgpkPr1cbHuGk/BBytaNqbNAGX3ChjucoUXKT7+hE9
-        hI4Z/BX8nNjvbo4=;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=ubonWFxei1BSJBCpzuPCTlOng9woXvk00b8UzkkOn8s=; b=L8Pz1A9cZZFsBjeAtMHtcCUw3r
+        vQSaSGju5MJBB8U5AYCpSun9Kdtwd84Gh2ehNPewetlMpwneK/2C8mATI1ANXczFA1lcIAE36Z4qg
+        d2RfzdLQoqC3TWrLbzacEUZhr8nvS0BNMOXtv88yN2U11r/JpcgE4SVUYTsTvzTb4qDM=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1paej9-006zM1-Ig; Fri, 10 Mar 2023 16:32:15 +0100
-Date:   Fri, 10 Mar 2023 16:32:15 +0100
+        id 1paeSU-006zGA-G5; Fri, 10 Mar 2023 16:15:02 +0100
+Date:   Fri, 10 Mar 2023 16:15:02 +0100
 From:   Andrew Lunn <andrew@lunn.ch>
-To:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
-        Michael Walle <michael@walle.cc>,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
+        Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
-        Jie Wang <wangjie125@huawei.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Sean Anderson <sean.anderson@seco.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Marco Bonelli <marco@mebeim.net>
-Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
- selectable.
-Message-ID: <c0719411-4c8a-4af8-9cd1-f3386b8b8d15@lunn.ch>
-References: <20230308135936.761794-1-kory.maincent@bootlin.com>
- <20230308135936.761794-4-kory.maincent@bootlin.com>
- <6408a9b3c7ae1_13061c2082a@willemb.c.googlers.com.notmuch>
- <20230310154125.696a3eb3@kmaincent-XPS-13-7390>
- <640b45e9c765e_1dc964208eb@willemb.c.googlers.com.notmuch>
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Arun.Ramadoss@microchip.com
+Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
+Message-ID: <576d57cb-481c-46ba-9e3b-d3b7e3a4ec69@lunn.ch>
+References: <20230216013230.22978-1-ansuelsmth@gmail.com>
+ <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
+ <8226f000-dd9c-4774-b972-a7f1113f0986@lunn.ch>
+ <CACRpkdapuk39vcdNhmsMN0tbTPTSYUgY9r+EBJ-O+v2dsB=wNA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <640b45e9c765e_1dc964208eb@willemb.c.googlers.com.notmuch>
+In-Reply-To: <CACRpkdapuk39vcdNhmsMN0tbTPTSYUgY9r+EBJ-O+v2dsB=wNA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 09:59:53AM -0500, Willem de Bruijn wrote:
-> Köry Maincent wrote:
-> > On Wed, 08 Mar 2023 10:28:51 -0500
-> > Willem de Bruijn <willemdebruijn.kernel@gmail.com> wrote:
-> > 
-> > > >  
-> > > > +	enum timestamping_layer selected_timestamping_layer;
-> > > > +  
-> > > 
-> > > can perhaps be a single bit rather than an enum
-> > 
-> > I need at least two bits to be able to list the PTPs available.
-> > Look at the ethtool_list_ptp function of the second patch.
+On Fri, Mar 10, 2023 at 10:37:25AM +0100, Linus Walleij wrote:
+> On Thu, Mar 9, 2023 at 4:22 PM Andrew Lunn <andrew@lunn.ch> wrote:
 > 
-> In the available bitmap, yes. Since there are only two options,
-> in the selected case, a single bit would suffice.
+> > As to 'how a certain trigger on a certain LED is going to associate
+> > itself with, say, a certain port' is clearly a property of the
+> > hardware, when offloading is supported. I've not seen a switch you can
+> > arbitrarily assign LEDs to ports. The Marvell switches have the LED
+> > registers within the port registers, for example, two LEDs per port.
+> 
+> Aha so there is an implicit HW dependency between the port and the
+> LED, that we just cannot see in the device tree. Okay, it makes sense.
 
-It was a bit tongue in cheek, but in an earlier thread discussing this
-problem, i listed how there could be up to 7 time stampers on the path
-from the RJ45 to the network stack.
+Well, i would say the dependency is in the device tree, in that the
+LEDs are described in the ports, not as a block of their own at a
+higher level within the switch. And in some switches, they might
+actually be a block of registers in there own space, rather than in
+the port registers. But i still expect there is a fixed mapping
+between LED and port.
 
-We got into this problem by assuming there could only ever be one time
-stamper. Lets try to avoid potential problems of assuming there can
-only every be two time stampers by assuming there can be N stampers.
+> I think there will be a day when a switch without LED controller appears,
+> but the system has a few LEDs for the ports connected to an
+> arbitrary GPIO controller, and then we will need this. But we have
+> not seen that yet :)
 
-     Andrew
+The microchip sparx5 might be going in that direction. It has what
+looks like a reasonably generic sgpio controller:
+drivers/pinctrl/pinctrl-microchip-sgpio.c
+
+But this not just about switches. It is also plain NICs. And using
+ledtrig-netdev, you could make your keyboard LED blink based on
+network traffic etc. So yes, using a phandle to an LED could very well
+be useful in the future.
+
+   Andrew
