@@ -2,65 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A179C6FD1F
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 15:15:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6F37C6FA99
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 15:47:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234097AbjCJPPi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 10:15:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57484 "EHLO
+        id S233502AbjCJPrb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 10:47:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234184AbjCJPPM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 10:15:12 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 904EE26C37;
-        Fri, 10 Mar 2023 07:06:28 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id y15-20020a17090aa40f00b00237ad8ee3a0so5460692pjp.2;
-        Fri, 10 Mar 2023 07:06:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678460729;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ofHHg6fIbSRzVuSUsZdgjV1B186kH8cm7+Ef7BphX3g=;
-        b=nN5DW1bWkerWgy4Rj0Rhc4VoP6Nt+wfTg1kWN6uWR1+RpGbC2XDs1uA9XXb2p7rIL8
-         11wtM42KsGZ3obAuL32fU0YsJ6hw6XpfFYL9wpyEMvQ7Il8LXCk7GXqajUXF7yTOcAKB
-         xc8N+gTtQZS403QkTvH1los7U7RxOI0P4K1NWEFMpcZ/uIko7LChMolev1GQ/wdDccsK
-         DEj4trqb4BB9f3yC1SIvvAdTXLoG6mlEkEeBS+fwaOZCCngyS9HcPMTvbr8BUrTuQ9wN
-         bNFNFHUqnFCl5XhS5xbzMa3IJf8ocQG2n6tanRoRgv2w5EmlqrnuTZ/iogkdA5HgXvnF
-         5uJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678460729;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ofHHg6fIbSRzVuSUsZdgjV1B186kH8cm7+Ef7BphX3g=;
-        b=L4flV6r+XBSjnyi62CTsL3O5qJ8TOmd8rMheA6vUX15ckeyGAo+1iyKmsoqG/XZ9yH
-         YetDMjFrdFERjurlP47v82jaVDF1MfBVkfNwBC/gbEtEaSw5pg7GWKgZ5aiq4YGECecf
-         P/tjwztTAPtbd2wv8TTWMuI7w+gASQq9ZnYyUK3jZ4ru7NKD0MtTmgJ3dRO2C6npg+sj
-         JHSRJAaSq7OHoQ/stypVSLR3M7WthfC43RkLJF70tJDidCOTIYdbOa0Tc0cys5Vo5pC1
-         Ye7BMdjxmJQtijWqwQRdij6LVxcolDCrmSytZMdvNa4Wed8tNZC98E8EAQec2W+mz2L2
-         h40w==
-X-Gm-Message-State: AO0yUKVYa754DdakcAeVQgVUSJLXPZqQbNJI0uj+iuKG+D0tGXfKz4O7
-        BtsFGZS67LDu10uclQCd3IxAMqosDZAkAw==
-X-Google-Smtp-Source: AK7set+oY1uoFFeNgUn1yO1HrcKEHwrb1cP1IDqiRtZTxJ4Zq7qGTFhjLZ6bAledhV1X3jvLbwAg2Q==
-X-Received: by 2002:a17:90a:2ec4:b0:233:dd4d:6b1a with SMTP id h4-20020a17090a2ec400b00233dd4d6b1amr2718674pjs.3.1678460728870;
-        Fri, 10 Mar 2023 07:05:28 -0800 (PST)
-Received: from hoboy.vegasvil.org ([2601:640:8200:33:e2d5:5eff:fea5:802f])
-        by smtp.gmail.com with ESMTPSA id r20-20020a17090b051400b002376d85844dsm32741pjz.51.2023.03.10.07.05.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 07:05:28 -0800 (PST)
-Date:   Fri, 10 Mar 2023 07:05:24 -0800
-From:   Richard Cochran <richardcochran@gmail.com>
+        with ESMTP id S234332AbjCJPrB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 10:47:01 -0500
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE400968FE;
+        Fri, 10 Mar 2023 07:37:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=4sSbpNcprPb8eBe1dmHD1XiLaW1EBIYi1S3oZ1ljkXQ=; b=B1e8PPb8dMa33jNS53TpZqi4ua
+        dwfXOMoyIeIY7wAffPe06ZR3P3WLR/nnrg0J+r+mx5Ylyb85YkWf7uBzDUjdtap1OhK8GffJV1sCG
+        7xVckGY6STeC0X5fMSl8e1WcE3987lRDbgEPDrRLUZtMyo/RDQoobdTCt0DJNFJjPj/w=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1paec6-006zJM-JG; Fri, 10 Mar 2023 16:24:58 +0100
+Date:   Fri, 10 Mar 2023 16:24:58 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
 To:     =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>
 Cc:     Michael Walle <michael@walle.cc>,
         Horatiu Vultur <horatiu.vultur@microchip.com>,
         Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Andrew Lunn <andrew@lunn.ch>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
         Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Richard Cochran <richardcochran@gmail.com>,
         thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
@@ -84,7 +60,7 @@ Cc:     Michael Walle <michael@walle.cc>,
         Marco Bonelli <marco@mebeim.net>
 Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
  selectable.
-Message-ID: <ZAtHNKPuZog0tnzW@hoboy.vegasvil.org>
+Message-ID: <b6457962-1327-4baf-a64d-915cd7b92a8f@lunn.ch>
 References: <20230308135936.761794-1-kory.maincent@bootlin.com>
  <20230308135936.761794-4-kory.maincent@bootlin.com>
  <20230308135936.761794-4-kory.maincent@bootlin.com>
@@ -96,15 +72,12 @@ References: <20230308135936.761794-1-kory.maincent@bootlin.com>
  <0d2304a9bc276a0d321629108cf8febd@walle.cc>
  <20230310150436.40ed168d@kmaincent-XPS-13-7390>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230310150436.40ed168d@kmaincent-XPS-13-7390>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-
-On Fri, Mar 10, 2023 at 03:04:36PM +0100, Köry Maincent wrote:
 
 > Adding this whitelist will add some PHY driver specific name in the phy API
 > core.
@@ -113,7 +86,9 @@ On Fri, Mar 10, 2023 at 03:04:36PM +0100, Köry Maincent wrote:
 > Then move on the default behavior to MAC default timestamping on the otehr
 > cases.
 
-This sounds okay to me.  @Russell will that work for your board?
+In the end, it is much the same thing. But if we really want this to
+be legacy, not used by new drivers, putting it into the core will make
+it harder for new drivers to set this bit and not get noticed during
+review.
 
-Thanks,
-Richard
+   Andrew
