@@ -2,140 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9790C74A4B
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 20:44:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4014EC6FD19
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 20:49:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231158AbjCJUoF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 15:44:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38368 "EHLO
+        id S231272AbjCJUtY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 15:49:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229940AbjCJUoE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 15:44:04 -0500
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0AA8D1ACE;
-        Fri, 10 Mar 2023 12:44:02 -0800 (PST)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-536af432ee5so121391327b3.0;
-        Fri, 10 Mar 2023 12:44:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678481042;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MiHyK6eFcFQYW0X9EQJHwCgulOPguYCYeXhog8HuzIs=;
-        b=bWhKR3NGDtXleP47GUljwpGUd0ZL772CbqQX5a8h1Cb2+VINP3RxlrjyHM10iAn2O+
-         SdnPFx1STjV9IOiCLIpPRReha5ycRwuThEYT5fYenqk3N582y6ngxY8vt9p+vls4hvh0
-         qUb+yErHdSwsoFJfneYrQi3pZJ/7whFeV5w6LeldnliyC3Sw+7dVhTb3K/nKSsBLT7MB
-         YeH++ImohPUUHeokysg68dANFfa+j6G+I19en6V7gBXDRjLJbQhB8A4W2m18HD3hROIC
-         CJR7apmB3nJsFEVSB1hz7oEiYwx4jRbCv+WRKRaDcyh4BOTFARjocbxWPqWT4FmDBl+y
-         JiGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678481042;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MiHyK6eFcFQYW0X9EQJHwCgulOPguYCYeXhog8HuzIs=;
-        b=PqaNJ1n9DB17ogoxPxT2ycz6LlScNlvXGwuOiTS8vXfXJhWnnjobFI4irHnZ0ez6B2
-         whrsiBbM2MhbMryie5tuTYVSlNQqJIPnsHN1yiSCKVUEK2NhWRRlm5LCXS8VAiRvOPvT
-         VLjCP/jX/8pRsxjJcP6eI+1NR6ANblquQDY/lcr25ANqqKm0NxXkyQa0GmIrl2vbMgDs
-         l/2uNb1GllXuIuerx01mfNoHzMdiqwDbRww7RQvUbDqrGLOHb2aHz5Z3XVOYGyyQodv5
-         JHrDYho8+8Uz1aUdRzC0PI+/y6A+2NJEbBbjD+1vepxLNWFHr9WoSt02GpqkW73KJIvR
-         pZpw==
-X-Gm-Message-State: AO0yUKWLqSlz06p5ialLxCnYfA3cknj5QPz/xv62LrlLhDupQBIkBfd4
-        C77YlBAFqSQzmFZEltF/ytD2jBY81viOpmJStKk=
-X-Google-Smtp-Source: AK7set/wnmFzHOkuniTe8FhWVZ1SloaUAzrTpFYzMfVKG6Gf7/z0x1JQCIVDicqLTJnrMPNaqokwAQhpHW8IDezq6Xw=
-X-Received: by 2002:a81:ac1a:0:b0:533:cf4e:9a80 with SMTP id
- k26-20020a81ac1a000000b00533cf4e9a80mr16886546ywh.6.1678481042094; Fri, 10
- Mar 2023 12:44:02 -0800 (PST)
+        with ESMTP id S231340AbjCJUtW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 15:49:22 -0500
+Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E0B4E4D88;
+        Fri, 10 Mar 2023 12:48:50 -0800 (PST)
+Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 2A4B2B8B;
+        Fri, 10 Mar 2023 21:48:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+        t=1678481329;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PAjAj+e/P9Pob2x2vyWB69iAlmQKDC9RdLBVUbu+2Fg=;
+        b=kCI1ZMQbkG6GyyMmiyjWndnxEn+vH4/2mmOiyvSz6eHPSPA64ss0Kp22rv5Eds6VSQcuHC
+        mqkTF/4Xoc690ER1px4+wzZoxkcbhzLhJsIA7GsBSqymYa5G6NUCk+ffxX2AlK0vcPJUuM
+        8MHafHRXP5GdClPS3VsNVeMEOYBDLzPy0mikkRJIaSjRhu00FsUvbkplxp+mEzgkt5X6eJ
+        I7LqlZmxC0q/u8aVK2HO0iJS9lpNVZQyKdEOitxpYjquvQ+MALsTN79mdqEEpDZTAc8v8l
+        hxgNsjybHRjSLM5XV8YflTL6ipDSlCFld4E+1WZB9tpOoqC91qB0lilVLvvM+A==
 MIME-Version: 1.0
-References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-29-rick.p.edgecombe@intel.com> <ZAhjLAIm91rJ2Lpr@zn.tnic>
- <9e00b2a3d988f7b24d274a108d31f5f0096eeaae.camel@intel.com>
- <20230309125739.GCZAnXw5T1dfzwtqh8@fat_crate.local> <a4dd415ac908450b09b9abbd4421a9132b3c34cc.camel@intel.com>
- <20230309235152.GBZApxGNnXLvkGXCet@fat_crate.local> <e83ee9fc1a6e98cab62b681de7209598394df911.camel@intel.com>
- <CAMe9rOrK2d6+Y_Xb+NUW4i+GWRbX+mGx+mJLwnEAB4hvsQ_eiw@mail.gmail.com>
- <CAMe9rOo990TPY-VDzOgGq7aN1aQUjZaWiXLRC81XTq_xqFUm9w@mail.gmail.com> <f020ce5ba5727dc6e25b6cc158be15e9c2ad0bee.camel@intel.com>
-In-Reply-To: <f020ce5ba5727dc6e25b6cc158be15e9c2ad0bee.camel@intel.com>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Fri, 10 Mar 2023 12:43:26 -0800
-Message-ID: <CAMe9rOqSSH06azPmGM4_oLsJO65D5F5UzZoN_GJ3+s842a9mAA@mail.gmail.com>
-Subject: Re: [PATCH v7 28/41] x86: Introduce userspace API for shadow stack
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "joao@overdrivepizza.com" <joao@overdrivepizza.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Date:   Fri, 10 Mar 2023 21:48:48 +0100
+From:   Michael Walle <michael@walle.cc>
+To:     Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc:     Horatiu Vultur <horatiu.vultur@microchip.com>,
+        =?UTF-8?Q?K=C3=B6ry_Ma?= =?UTF-8?Q?incent?= 
+        <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
+        Jie Wang <wangjie125@huawei.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Sean Anderson <sean.anderson@seco.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Marco Bonelli <marco@mebeim.net>
+Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
+ selectable.
+In-Reply-To: <20230310160648.vwzbyood3rectlr7@skbuf>
+References: <20230308135936.761794-1-kory.maincent@bootlin.com>
+ <20230308135936.761794-1-kory.maincent@bootlin.com>
+ <20230308135936.761794-4-kory.maincent@bootlin.com>
+ <20230308135936.761794-4-kory.maincent@bootlin.com>
+ <20230308230321.liw3v255okrhxg6s@skbuf>
+ <20230310114852.3cef643d@kmaincent-XPS-13-7390>
+ <20230310113533.l7flaoli7y3bmlnr@skbuf>
+ <b4ebfd3770ffa5ad1233d2b5e79499ee@walle.cc>
+ <20230310131529.6bahmi4obryy5dsx@soft-dev3-1>
+ <0d2304a9bc276a0d321629108cf8febd@walle.cc>
+ <20230310160648.vwzbyood3rectlr7@skbuf>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <4e0f6651b9206ff8ef6d25d729d45d24@walle.cc>
+X-Sender: michael@walle.cc
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 12:27 PM Edgecombe, Rick P
-<rick.p.edgecombe@intel.com> wrote:
->
-> On Fri, 2023-03-10 at 12:00 -0800, H.J. Lu wrote:
-> > > > So it does:
-> > > > 1. Enable shadow stack
-> > > > 2. Call elf libs checking functions
-> > > > 3. If all good, lock shadow stack. Else, disable shadow stack.
-> > > > 4. Return from elf checking functions and if shstk is enabled,
-> > > > don't
-> > > > underflow because it was enabled in step 1 and we have return
-> > > > addresses
-> > > > from 2 on the shadow stack
-> > > >
-> > > > I'm wondering if this can't be improved in glibc to look like:
-> > > > 1. Check elf libs, and record it somewhere
-> > > > 2. Wait until just the right spot
-> > > > 3. If all good, enable and lock shadow stack.
-> > >
-> > > I will try it out.
-> > >
-> >
-> > Currently glibc enables shadow stack as early as possible.  There
-> > are only a few places where a function call in glibc never returns.
-> > We can enable shadow stack just before calling main.   There are
-> > quite some code paths without shadow stack protection.   Is this
-> > an issue?
->
-> Thanks for checking. Hmm, does the loader get attacked?
+Am 2023-03-10 17:06, schrieb Vladimir Oltean:
+> On Fri, Mar 10, 2023 at 02:34:07PM +0100, Michael Walle wrote:
+>> Yeah, but my problem right now is, that if this discussion won't find
+>> any good solution, the lan8814 phy timestamping will find it's way
+>> into an official kernel and then it is really hard to undo things.
+>> 
+>> So, I'd really prefer to *first* have a discussion how to proceed
+>> with the PHY timestamping and then add the lan8814 support, so
+>> existing boards don't show a regressions.
+> 
+> You don't mean LAN8814 but LAN8841, no?
 
-Not I know of.  But there are user codes from .init_array
-and .preinit_array which are executed before main.   In theory,
-an attack can happen before main.
+Ohh, I'm stupid. No, I mean the LAN8814 (Quad PHY).
 
--- 
-H.J.
+> For the former, PTP support was added in commit ece19502834d ("net: 
+> phy:
+> micrel: 1588 support for LAN8814 phy") - first present in v5.18.
+
+Yeah and I remember.. there was some kind of issue with the PHY
+latencies. Ok, looks like I'm screwed then. I wonder how Microchip
+is doing it, because our board is almost an identical copy of the
+reference system.
+
+> For the latter, it was commit cafc3662ee3f ("net: micrel: Add PHC
+> support for lan8841"), and this one indeed is in the v6.3 release
+> candidates.
+> 
+> Assuming you can prove a regression, how about adding the PHY driver
+> whitelist *without* the lan8841 as a patch to net.git? (blaming commit
+> cafc3662ee3f ("net: micrel: Add PHC support for lan8841")).
+> 
+> Doing this will effectively deactivate lan8841 PHY timestamping without
+> reverting the code. Then, this PHY timestamping support could be
+> activated back in net-next, based on some sort of explicit UAPI call.
+
+Sorry for the noise and any inconvenience,
+-michael
