@@ -2,204 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4277FC6FA99
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 05:10:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E871C6FD19
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 06:56:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbjCJFKS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 00:10:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53392 "EHLO
+        id S229612AbjCJG4k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 01:56:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230161AbjCJFJx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 00:09:53 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935E6107D7B;
-        Thu,  9 Mar 2023 21:09:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678424944; x=1709960944;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=+J49aPyhvpQwkShbD0yDrpi5G/X/Mfrh2uMgIT+15TA=;
-  b=JTaGs5tZIqGmZ44KXYM7TXLUfhZZ+3OKBt+tQDqYq6uDJKKNLBSP9iuw
-   yoy+wKmwBWaGxNc/Y1moUloMIboS4WLA9FJQ9Hfe0rMpvZpzcQFpc2C11
-   ARIx40DMf9g78gvF6fHHsWpRSibFA3PBrBxsrfvlGkrbWINAwMVPNteBW
-   PO2DPro1U32vDB+quZD+xREqVQUJlDLTGpLSduugg9fG3A89vJCf7G03J
-   VXB/ys9LiQGtCdffh7lFhqpYqfuVrIdWzNVXpxf8LXjo3fzNhV8eMteLU
-   CTbbkuhb2qYAYx32qV45ttMflzD5TvdlqHMgIanFX+FlnGzn2pmCtGsly
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="335345582"
-X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; 
-   d="scan'208";a="335345582"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 21:08:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="741826265"
-X-IronPort-AV: E=Sophos;i="5.98,248,1673942400"; 
-   d="scan'208";a="741826265"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.48]) ([10.239.159.48])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Mar 2023 21:08:51 -0800
-Message-ID: <69753e4a-32f3-8760-ba1d-8286badd159e@linux.intel.com>
-Date:   Fri, 10 Mar 2023 13:07:51 +0800
+        with ESMTP id S229602AbjCJG4j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 01:56:39 -0500
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0A482F7ECC;
+        Thu,  9 Mar 2023 22:56:35 -0800 (PST)
+X-MailGates: (flag:4,DYNAMIC,BADHELO,RELAY,NOHOST:PASS)(compute_score:DE
+        LIVER,40,3)
+Received: from 192.168.10.46
+        by mg.richtek.com with MailGates ESMTP Server V5.0(20043:0:AUTH_RELAY)
+        (envelope-from <chiaen_wu@richtek.com>); Fri, 10 Mar 2023 14:56:02 +0800 (CST)
+Received: from ex3.rt.l (192.168.10.46) by ex3.rt.l (192.168.10.46) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.25; Fri, 10 Mar
+ 2023 14:56:02 +0800
+Received: from linuxcarl2.richtek.com (192.168.10.154) by ex3.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1118.25 via Frontend
+ Transport; Fri, 10 Mar 2023 14:56:02 +0800
+From:   ChiaEn Wu <chiaen_wu@richtek.com>
+To:     <corbet@lwn.net>, <pavel@ucw.cz>, <lee@kernel.org>,
+        <matthias.bgg@gmail.com>, <andriy.shevchenko@linux.intel.com>,
+        <jacek.anaszewski@gmail.com>,
+        <angelogioacchino.delregno@collabora.com>
+CC:     <linux-doc@vger.kernel.org>, <peterwu.pub@gmail.com>,
+        <cy_huang@richtek.com>, <linux-leds@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <szunichen@gmail.com>,
+        ChiaEn Wu <chiaen_wu@richtek.com>
+Subject: [PATCH v18 3/3] docs: leds: Add MT6370 RGB LED pattern document
+Date:   Fri, 10 Mar 2023 14:55:57 +0800
+Message-ID: <38f1e863b0f099158a63fb6f95056a1cb30d80a0.1678430444.git.chiaen_wu@richtek.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1678430444.git.chiaen_wu@richtek.com>
+References: <cover.1678430444.git.chiaen_wu@richtek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Cc:     baolu.lu@linux.intel.com, Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Raj Ashok <ashok.raj@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>
-Subject: Re: [PATCH v5 4/7] iommu/sva: Stop using ioasid_set for SVA
-Content-Language: en-US
-To:     Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        X86 Kernel <x86@kernel.org>, bp@alien8.de,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
-        vkoul@kernel.org, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230309222159.487826-1-jacob.jun.pan@linux.intel.com>
- <20230309222159.487826-6-jacob.jun.pan@linux.intel.com>
-From:   Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20230309222159.487826-6-jacob.jun.pan@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/10/23 6:21 AM, Jacob Pan wrote:
-> From: Jason Gunthorpe <jgg@nvidia.com>
-> 
-> Instead SVA drivers can use a simple global IDA to allocate PASIDs for
-> each mm_struct.
-> 
-> Future work would be to allow drivers using the SVA APIs to reserve global
-> PASIDs from this IDA for their internal use, eg with the DMA API PASID
-> support.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> ---
-> v5:
-> 	- Put removing iommu_sva_find() to a separate patch (Kevin)
-> 	- Make pasid allocation range to be inclusive (Tina)
-> 	- Simplified return code handling (Baolu)
-> v4:
-> 	- Keep GFP_ATOMIC flag for PASID allocation, will changed to
-> 	GFP_KERNEL in a separate patch.
-> ---
->   drivers/iommu/iommu-sva.c | 42 +++++++++++++--------------------------
->   drivers/iommu/iommu-sva.h |  2 --
->   2 files changed, 14 insertions(+), 30 deletions(-)
-> 
-> diff --git a/drivers/iommu/iommu-sva.c b/drivers/iommu/iommu-sva.c
-> index 4f357ef14f04..b75711bdbe97 100644
-> --- a/drivers/iommu/iommu-sva.c
-> +++ b/drivers/iommu/iommu-sva.c
-> @@ -9,47 +9,33 @@
->   #include "iommu-sva.h"
->   
->   static DEFINE_MUTEX(iommu_sva_lock);
-> -static DECLARE_IOASID_SET(iommu_sva_pasid);
-> +static DEFINE_IDA(iommu_global_pasid_ida);
->   
-> -/**
-> - * iommu_sva_alloc_pasid - Allocate a PASID for the mm
-> - * @mm: the mm
-> - * @min: minimum PASID value (inclusive)
-> - * @max: maximum PASID value (inclusive)
-> - *
-> - * Try to allocate a PASID for this mm, or take a reference to the existing one
-> - * provided it fits within the [@min, @max] range. On success the PASID is
-> - * available in mm->pasid and will be available for the lifetime of the mm.
-> - *
-> - * Returns 0 on success and < 0 on error.
-> - */
-> -int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max)
-> +static int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max)
->   {
->   	int ret = 0;
-> -	ioasid_t pasid;
->   
-> -	if (min == INVALID_IOASID || max == INVALID_IOASID ||
-> -	    min == 0 || max < min)
-> +	if (!pasid_valid(min) || !pasid_valid(max) ||
-> +	     min == 0 || max < min)
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-No need to change above line.
+Document the MT6370 RGB LED pattern trigger.
 
->   		return -EINVAL;
->   
->   	mutex_lock(&iommu_sva_lock);
->   	/* Is a PASID already associated with this mm? */
->   	if (pasid_valid(mm->pasid)) {
-> -		if (mm->pasid < min || mm->pasid >= max)
-> +		if (mm->pasid < min || mm->pasid > max)
+This simply describe how the pattern works, each timing period, and the
+pattern diagram for MT6370 RGB LED.
 
-I forgot why do we need to change above line. But it's better to put
-some comments there so that people don't need to dive into
-ioasid_alloc() to know the inclusion or exclusion of @min or @max.
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+---
+v18:
+- Revise the text in document title and description.
+---
+ Documentation/leds/leds-mt6370-rgb.rst | 64 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
+ create mode 100644 Documentation/leds/leds-mt6370-rgb.rst
 
->   			ret = -EOVERFLOW;
->   		goto out;
->   	}
->   
-> -	pasid = ioasid_alloc(&iommu_sva_pasid, min, max, mm);
-> -	if (!pasid_valid(pasid))
-> -		ret = -ENOMEM;
-> -	else
-> -		mm->pasid = pasid;
-> +	ret = ida_alloc_range(&iommu_global_pasid_ida, min, max, GFP_ATOMIC);
-> +	if (ret < 0)
-> +		goto out;
-> +	mm->pasid = ret;
-> +	ret = 0;
->   out:
->   	mutex_unlock(&iommu_sva_lock);
->   	return ret;
->   }
-> -EXPORT_SYMBOL_GPL(iommu_sva_alloc_pasid);
->   
->   /**
->    * iommu_sva_bind_device() - Bind a process address space to a device
-> @@ -221,8 +207,8 @@ iommu_sva_handle_iopf(struct iommu_fault *fault, void *data)
->   
->   void mm_pasid_drop(struct mm_struct *mm)
->   {
-> -	if (pasid_valid(mm->pasid)) {
-> -		ioasid_free(mm->pasid);
-> -		mm->pasid = INVALID_IOASID;
-> -	}
-> +	if (likely(!pasid_valid(mm->pasid)))
-> +		return;
-> +
-> +	ida_free(&iommu_global_pasid_ida, mm->pasid);
+diff --git a/Documentation/leds/leds-mt6370-rgb.rst b/Documentation/leds/leds-mt6370-rgb.rst
+new file mode 100644
+index 00000000..abf739e
+--- /dev/null
++++ b/Documentation/leds/leds-mt6370-rgb.rst
+@@ -0,0 +1,64 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=========================================
++The device for Mediatek MT6370 RGB LED
++=========================================
++
++Description
++-----------
++
++The MT6370 integrates a four-channel RGB LED driver, designed to provide a
++variety of lighting effect for mobile device applications. The RGB LED devices
++includes a smart LED string controller and it can drive 3 channels of LEDs with
++a sink current up to 24mA and a CHG_VIN power good indicator LED with sink
++current up to 6mA. It provides three operation modes for RGB LEDs:
++PWM Dimming mode, breath pattern mode, and constant current mode. The device
++can increase or decrease the brightness of the RGB LED via an I2C interface.
++
++The breath pattern for a channel can be programmed using the "pattern" trigger,
++using the hw_pattern attribute.
++
++/sys/class/leds/<led>/hw_pattern
++--------------------------------
++
++Specify a hardware breath pattern for a MT6370 RGB LED.
++
++The breath pattern is a series of timing pairs, with the hold-time expressed in
++milliseconds. And the brightness is controlled by
++'/sys/class/leds/<led>/brightness'. The pattern doesn't include the brightness
++setting. Hardware pattern only controls the timing for each pattern stage
++depending on the current brightness setting.
++
++Pattern diagram::
++
++     "0 Tr1 0 Tr2 0 Tf1 0 Tf2 0 Ton 0 Toff" --> '0' for dummy brightness code
++
++      ^
++      |           ============
++      |          /            \                                /
++Icurr |         /              \                              /
++      |        /                \                            /
++      |       /                  \                          /   .....repeat
++      |      /                    \                        /
++      |   ---                      ---                  ---
++      |---                            ---            ---
++      +----------------------------------============------------> Time
++       < Tr1><Tr2><   Ton    ><Tf1><Tf2 ><  Toff    >< Tr1><Tr2>
++
++Timing description::
++
++Tr1:    First rising time for duty 0 to 30%.
++Tr2:    Second rising time for duty 31% to 100%.
++Ton:    On time for duty 100%.
++Tf1:    First falling time for duty 100% to 31%.
++Tf2:    Second falling time for duty 30% to 0%.
++Toff:   Off time for duty 0%.
++
++Tr1/Tr2/Tf1/Tf2/Ton: 125ms to 3125ms, 200ms per step.
++Toff: 250ms to 6250ms, 400ms per step.
++
++Pattern example::
++
++       "0 125 0 125 0 125 0 125 0 625 0 1050"
++
++This Will configure Tr1/Tr2/Tf1/Tf2 to 125m, Ton to 625ms, and Toff to 1050ms.
+-- 
+2.7.4
 
-Any reason why do you drop "mm->pasid = INVALID_IOASID;" here?
-
->   }
-> diff --git a/drivers/iommu/iommu-sva.h b/drivers/iommu/iommu-sva.h
-> index 102eae1817a2..c22d0174ad61 100644
-> --- a/drivers/iommu/iommu-sva.h
-> +++ b/drivers/iommu/iommu-sva.h
-> @@ -8,8 +8,6 @@
->   #include <linux/ioasid.h>
->   #include <linux/mm_types.h>
->   
-> -int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max);
-> -
->   /* I/O Page fault */
->   struct device;
->   struct iommu_fault;
-
-Best regards,
-baolu
