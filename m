@@ -2,225 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5442FC6FD1C
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 17:49:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D287BC6FD1C
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 18:08:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231345AbjCJRtP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 12:49:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45140 "EHLO
+        id S231295AbjCJSIN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 13:08:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230203AbjCJRtN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 12:49:13 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EACA21111C8;
-        Fri, 10 Mar 2023 09:48:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678470530; x=1710006530;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ro8Ex/RmEa6MWq801sYiiL4x9mZmeLlidrsZDD6fPbI=;
-  b=FvB+jK/ujXBzwtP5CdRumQi9DgEeDeG92YcnA6q4Pggi40f80El5Z8Ei
-   xcQcp2rlPVr+wcGr5wzbViALTtk3TTcorld0DsB4B/DZHxb0xqUZjyT5K
-   230bhHdBOqeBXcid9k//B5zGI3KJUkyUTtaVuFBbtSZlxu2MXM5dKkrIT
-   wMJoiV4SslRNoFC11aPSVou1h7N0JaCOyrJ3+ZNA9EEob9NdJXe5K+wfp
-   2YdiMSkho5YGDjFVci7jo8ZiKD3GN9u+R39A4RBqEzYgErL53mINiwTes
-   Uk/dLVKN+gbLhoFpUvCyhDnWBc9U3m9TQBOCKb4GUGEZB85KvJTrvly8N
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="317178136"
-X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="317178136"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 09:48:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="1007203494"
-X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="1007203494"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.24.100.114])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 09:48:27 -0800
-Date:   Fri, 10 Mar 2023 09:52:20 -0800
-From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
-To:     Baolu Lu <baolu.lu@linux.intel.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        X86 Kernel <x86@kernel.org>, bp@alien8.de,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
-        vkoul@kernel.org, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Raj Ashok <ashok.raj@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>, jacob.jun.pan@linux.intel.com
-Subject: Re: [PATCH v5 4/7] iommu/sva: Stop using ioasid_set for SVA
-Message-ID: <20230310095220.5dc3d8ac@jacob-builder>
-In-Reply-To: <69753e4a-32f3-8760-ba1d-8286badd159e@linux.intel.com>
-References: <20230309222159.487826-1-jacob.jun.pan@linux.intel.com>
-        <20230309222159.487826-6-jacob.jun.pan@linux.intel.com>
-        <69753e4a-32f3-8760-ba1d-8286badd159e@linux.intel.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        with ESMTP id S230161AbjCJSIL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 13:08:11 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E98EF1B318;
+        Fri, 10 Mar 2023 10:08:06 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 14EF061BB2;
+        Fri, 10 Mar 2023 18:08:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E92FFC433EF;
+        Fri, 10 Mar 2023 18:08:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678471685;
+        bh=1Z0qzAWjdgjpl9cppEGMQkzvMHIUxky2AMt6JDpGnN4=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=dRKOZR4q0d/gZV1FcaOoD2TkSsBp9tJ4pMk6uHCG63pE7rD44jrwd3yDEJpLuJEqO
+         lJOhyy1MGFgQsUa9Gvzv8CEJm0mtnWngZKfPR6hZ5ZqkjHjW5Q4xGXI9IU1gXYDwSn
+         Lww/AAS7YhRd2h54aQHyr3an+NDRKO0dO+elLmjUUt2id6pyTHOhP9hJ+sLRcHPig2
+         f9E4lMl3dhLIvkCpzAczBixCwMzpo6P7sh54erF2w+tA8KYfu/WsuGHIhDS/plSnax
+         2n8mqX7AkBjtTXQ+oeqrW9gYPftC5rn7j0uSj20O/nlYk6/OpaJbkcXgL+riX3s9kD
+         5upRoX6NQy3MA==
+Message-ID: <d80001de-3cf7-59e9-5ae7-d8dfe0a1c21e@kernel.org>
+Date:   Fri, 10 Mar 2023 19:08:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH V2 4/6] dt-bindings: timestamp: Add Tegra234 support
+To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org,
+        timestamp@lists.linux.dev
+References: <20230214115553.10416-1-dipenp@nvidia.com>
+ <20230214115553.10416-5-dipenp@nvidia.com>
+ <3c0ad963-ce69-bd5b-20cd-888e5fbdecaf@kernel.org>
+ <7a8027c9-dc73-3684-c5f2-3071f315b3cd@nvidia.com>
+ <a5e897e5-4cb9-d50f-47a8-ffb8bd8774cb@kernel.org>
+ <18f9a6ca-a61b-4cbb-b729-1fdb6d48651a@nvidia.com>
+ <ab9f7730-d399-0786-67e5-aad57716809e@kernel.org>
+ <c1a78a59-c8ae-81e5-b641-a7cb75062ab3@nvidia.com>
+ <f661f27f-f367-2948-1435-5b5fa43a3b46@kernel.org>
+ <6733c921-3cca-cd7b-3846-0ab6ce172c14@nvidia.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <6733c921-3cca-cd7b-3846-0ab6ce172c14@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Baolu,
-
-On Fri, 10 Mar 2023 13:07:51 +0800, Baolu Lu <baolu.lu@linux.intel.com>
-wrote:
-
-> On 3/10/23 6:21 AM, Jacob Pan wrote:
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > 
-> > Instead SVA drivers can use a simple global IDA to allocate PASIDs for
-> > each mm_struct.
-> > 
-> > Future work would be to allow drivers using the SVA APIs to reserve
-> > global PASIDs from this IDA for their internal use, eg with the DMA API
-> > PASID support.
-> > 
-> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > ---
-> > v5:
-> > 	- Put removing iommu_sva_find() to a separate patch (Kevin)
-> > 	- Make pasid allocation range to be inclusive (Tina)
-> > 	- Simplified return code handling (Baolu)
-> > v4:
-> > 	- Keep GFP_ATOMIC flag for PASID allocation, will changed to
-> > 	GFP_KERNEL in a separate patch.
-> > ---
-> >   drivers/iommu/iommu-sva.c | 42 +++++++++++++--------------------------
-> >   drivers/iommu/iommu-sva.h |  2 --
-> >   2 files changed, 14 insertions(+), 30 deletions(-)
-> > 
-> > diff --git a/drivers/iommu/iommu-sva.c b/drivers/iommu/iommu-sva.c
-> > index 4f357ef14f04..b75711bdbe97 100644
-> > --- a/drivers/iommu/iommu-sva.c
-> > +++ b/drivers/iommu/iommu-sva.c
-> > @@ -9,47 +9,33 @@
-> >   #include "iommu-sva.h"
-> >   
-> >   static DEFINE_MUTEX(iommu_sva_lock);
-> > -static DECLARE_IOASID_SET(iommu_sva_pasid);
-> > +static DEFINE_IDA(iommu_global_pasid_ida);
-> >   
-> > -/**
-> > - * iommu_sva_alloc_pasid - Allocate a PASID for the mm
-> > - * @mm: the mm
-> > - * @min: minimum PASID value (inclusive)
-> > - * @max: maximum PASID value (inclusive)
-> > - *
-> > - * Try to allocate a PASID for this mm, or take a reference to the
-> > existing one
-> > - * provided it fits within the [@min, @max] range. On success the
-> > PASID is
-> > - * available in mm->pasid and will be available for the lifetime of
-> > the mm.
-> > - *
-> > - * Returns 0 on success and < 0 on error.
-> > - */
-> > -int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t
-> > max) +static int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t
-> > min, ioasid_t max) {
-> >   	int ret = 0;
-> > -	ioasid_t pasid;
-> >   
-> > -	if (min == INVALID_IOASID || max == INVALID_IOASID ||
-> > -	    min == 0 || max < min)
-> > +	if (!pasid_valid(min) || !pasid_valid(max) ||
-> > +	     min == 0 || max < min)  
+On 10/03/2023 18:19, Dipen Patel wrote:
+> On 3/10/23 12:45 AM, Krzysztof Kozlowski wrote:
+>> On 09/03/2023 19:49, Dipen Patel wrote:
+>>> On 3/8/23 10:16 PM, Krzysztof Kozlowski wrote:
+>>>> On 08/03/2023 21:09, Dipen Patel wrote:
+>>>>> On 3/8/23 11:05 AM, Krzysztof Kozlowski wrote:
+>>>>>> On 08/03/2023 19:45, Dipen Patel wrote:
+>>>>>>> On 2/16/23 6:17 AM, Krzysztof Kozlowski wrote:
+>>>>>>>> On 14/02/2023 12:55, Dipen Patel wrote:
+>>>>>>>>> Added timestamp provider support for the Tegra234 in devicetree
+>>>>>>>>> bindings.
+>>>>>>>>
+>>>>>>>> 1. Your commit does much more. You need to explain it why you drop some
+>>>>>>>> property.
+>>>>>>> ACK, will address it next patch
+>>>>>>>>
+>>>>>>>> 2. Bindings go before its usage (in the patchset).
+>>>>>>> Ack...
+>>>>>>>>
+>>>>>>>> 3. Please use scripts/get_maintainers.pl to get a list of necessary
+>>>>>>>> people and lists to CC.  It might happen, that command when run on an
+>>>>>>>> older kernel, gives you outdated entries.  Therefore please be sure you
+>>>>>>>> base your patches on recent Linux kernel.
+>>>>>>> It is based on recent linux at the time patch series was sent...
+>>>>>>
+>>>>>> That's good but then why you do not use scripts/get_maintainers.pl? The
+>>>>>> hint about recent kernel was just a hint... Just do not invent addresses
+>>>>>> by yourself and use the tool to get them right.
+>>>>>>
+>>>>> I will take a note for the next patch series to add any missing people. The current
+>>>>> list of people/group is what historically helped review this new timestamp/hte subsystem.
+>>>>>
+>>>>>> (...)
+>>>>>>
+>>>>>>>>> +  properties:
+>>>>>>>>> +    compatible:
+>>>>>>>>> +      contains:
+>>>>>>>>> +        enum:
+>>>>>>>>> +          - nvidia,tegra194-gte-aon
+>>>>>>>>
+>>>>>>>> This is an ABI break. Does your driver handle it?
+>>>>>>> yes, handling patch is part of this patch series.
+>>>>>>
+>>>>>> Can you point me to the code which does it? I see "return -ENODEV;", so
+>>>>>> I think you do not handle ABI break. I could miss something but since
+>>>>>> you disagree with me, please at least bring some arguments...
+>>>>> Refer to patch https://patchwork.kernel.org/project/timestamp/patch/20230214115553.10416-3-dipenp@nvidia.com/
+>>>>> which has compatible properties added and also code changes to reflect addition/deletion of some
+>>>>> properties.
+>>>>
+>>>> I referred to the code which breaks the ABI.
+>>>>
+>>>>>
+>>>>> I am not sure I have understood about ABI break comment. How else one should handle if
+>>>>> there is no related gpio controller property found?
+>>>>
+>>>> In a way it does not break existing users? There are many ways to handle
+>>>> it, but I don't know your code to point you.
+>>>
+>>> It is new subsystem and has only one driver which uses it so far. 
+>>
+>> We do not talk about subsystem, but Tegra SoC, which is not new. Unless
+>> you meant this is new SoC/DTS?
+>>
+>>> This was a decision taken
+>>> after review comments (By Thierry, also in the mailing list) to add this property (nvidia,gpio-controller)
+>>> and necessary changes have been made to existing user. From now on, it has to follow this change.
+>>
+>> What is "it" which has to follow? There are rules for stable ABI and
+>> commit msg does not explain why they should not be followed.
 > 
-> No need to change above line.
+> "It" here means hte-tegra194.c HTE provider which is the only one and not being used by any entity
+> yet.
 > 
-> >   		return -EINVAL;
-> >   
-> >   	mutex_lock(&iommu_sva_lock);
-> >   	/* Is a PASID already associated with this mm? */
-> >   	if (pasid_valid(mm->pasid)) {
-> > -		if (mm->pasid < min || mm->pasid >= max)
-> > +		if (mm->pasid < min || mm->pasid > max)  
+>>
+>>>
+>>>>
+>>>>> I am assuming you are referring to the
+>>>>> below code from the patch 2 (link above) when you said "return -ENODEV".
+>>>>
+>>>>
+>>>> Your bindings patch points to ABI break without any
+>>>> explanation/justification. Then your code #2 patch actually breaks it,
+>>>> also without any justification.
+>>> I am going to add explanation/justification in the commit message in the next patch series. But to give
+>>> you context, discussion happened here https://patchwork.ozlabs.org/project/linux-gpio/patch/20221103174523.29592-3-dipenp@nvidia.com/
+>>
+>> Either too many messages (and I missed something) or I could not find
+>> why ABI break is accepted and justified.
 > 
-> I forgot why do we need to change above line. But it's better to put
-> some comments there so that people don't need to dive into
-> ioasid_alloc() to know the inclusion or exclusion of @min or @max.
+> https://patchwork.ozlabs.org/project/linux-gpio/patch/20221103174523.29592-5-dipenp@nvidia.com/#3000908 and
+> affected code/comment at https://patchwork.ozlabs.org/project/linux-gpio/patch/20221103174523.29592-5-dipenp@nvidia.com/#3000908.
 > 
-just to be consistent for both limits. sure, we can add the comment.
+> Will it help if I send new patch series with detailed commit message?
 
-> >   			ret = -EOVERFLOW;
-> >   		goto out;
-> >   	}
-> >   
-> > -	pasid = ioasid_alloc(&iommu_sva_pasid, min, max, mm);
-> > -	if (!pasid_valid(pasid))
-> > -		ret = -ENOMEM;
-> > -	else
-> > -		mm->pasid = pasid;
-> > +	ret = ida_alloc_range(&iommu_global_pasid_ida, min, max,
-> > GFP_ATOMIC);
-> > +	if (ret < 0)
-> > +		goto out;
-> > +	mm->pasid = ret;
-> > +	ret = 0;
-> >   out:
-> >   	mutex_unlock(&iommu_sva_lock);
-> >   	return ret;
-> >   }
-> > -EXPORT_SYMBOL_GPL(iommu_sva_alloc_pasid);
-> >   
-> >   /**
-> >    * iommu_sva_bind_device() - Bind a process address space to a device
-> > @@ -221,8 +207,8 @@ iommu_sva_handle_iopf(struct iommu_fault *fault,
-> > void *data) 
-> >   void mm_pasid_drop(struct mm_struct *mm)
-> >   {
-> > -	if (pasid_valid(mm->pasid)) {
-> > -		ioasid_free(mm->pasid);
-> > -		mm->pasid = INVALID_IOASID;
-> > -	}
-> > +	if (likely(!pasid_valid(mm->pasid)))
-> > +		return;
-> > +
-> > +	ida_free(&iommu_global_pasid_ida, mm->pasid);  
-> 
-> Any reason why do you drop "mm->pasid = INVALID_IOASID;" here?
-> 
-mm_drop is called when mm gets released because "mm_count" becomes zero. so
-there is no more mm_users. No one will see mm->pasid after this.
+Yes. If the binding is not used, it's a perfectly valid reason and
+should be mentioned in commit msg.
 
-On the other hand, iommu_sva_bind_device() needs to hold mm_users refcount
-so it won;t happen after mm_drop.
+Best regards,
+Krzysztof
 
-> >   }
-> > diff --git a/drivers/iommu/iommu-sva.h b/drivers/iommu/iommu-sva.h
-> > index 102eae1817a2..c22d0174ad61 100644
-> > --- a/drivers/iommu/iommu-sva.h
-> > +++ b/drivers/iommu/iommu-sva.h
-> > @@ -8,8 +8,6 @@
-> >   #include <linux/ioasid.h>
-> >   #include <linux/mm_types.h>
-> >   
-> > -int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t
-> > max); -
-> >   /* I/O Page fault */
-> >   struct device;
-> >   struct iommu_fault;  
-> 
-> Best regards,
-> baolu
-
-
-Thanks,
-
-Jacob
