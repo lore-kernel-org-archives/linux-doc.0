@@ -2,125 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A401C6FA99
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 10:32:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FDDCC6FD1C
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 10:49:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231472AbjCJKcl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 05:32:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59160 "EHLO
+        id S230232AbjCJKtJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 05:49:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231192AbjCJKcU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 05:32:20 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B46AA111685;
-        Fri, 10 Mar 2023 02:32:16 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 3BDB120655;
-        Fri, 10 Mar 2023 10:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1678444335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
+        with ESMTP id S230189AbjCJKtG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 05:49:06 -0500
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 242FC5F6F8;
+        Fri, 10 Mar 2023 02:49:03 -0800 (PST)
+Received: (Authenticated sender: kory.maincent@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 00AF024000E;
+        Fri, 10 Mar 2023 10:48:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1678445342;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=SABMsfykBuZLlX/EID5G4jmWDCswPlY6bB+XmpUmDDI=;
-        b=foj1gEREC5pFoZcss66MTasW9SmKGZ8VO45QQ5RxFr2/gbLbCBrgbYL8TlQQxufdOQ3EFE
-        czVB8jboaSapWQSAvTbgzlr6p+6za4Flui5sC1W23abuExTqIegh6cm1gPfGqBzmxekr0H
-        TCUXtSdOonDGjPPPUlKUoc9FsmC5aAE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1678444335;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=SABMsfykBuZLlX/EID5G4jmWDCswPlY6bB+XmpUmDDI=;
-        b=JCOpFCvpQJqkp5/VtYAnLRuXjAB156OkLDECkwvRNK9kuNoHX2iWKKVfw/Gx5/VOde/eYE
-        9dMcNAa9idgNdMBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0984B13592;
-        Fri, 10 Mar 2023 10:32:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 6Ay0AS8HC2SsXQAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Fri, 10 Mar 2023 10:32:15 +0000
-From:   Vlastimil Babka <vbabka@suse.cz>
-To:     Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Pekka Enberg <penberg@kernel.org>
-Cc:     Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH 4/7] mm, pagemap: remove SLOB and SLQB from comments and documentation
-Date:   Fri, 10 Mar 2023 11:32:06 +0100
-Message-Id: <20230310103210.22372-5-vbabka@suse.cz>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230310103210.22372-1-vbabka@suse.cz>
-References: <20230310103210.22372-1-vbabka@suse.cz>
+        bh=TXK5+wC62JoKME3nEZqOQhQA/bUpiBeggPC719tdP5s=;
+        b=bitzjo8Zb6zDvux2zrRGEQ84tScQ0MOpBXj+QCPMgP91wvsg74WjMYBNS329LKZ5xnxIFk
+        SW9/FpbbvA5/tr21em3NedjZNPyrbSR2Yp8p0AfXHM0pIFFCVsg2aYkU/GgUbPOPE0hVfi
+        F6ZLSh/Ask3v5rfDCcqmcdDWAaFuE0QnopZ7OzVj7HE0LNJTp57qq3xkKEzn2MMq4k5AJM
+        PZTROOQMFGqa7cbSl51g+s6p3XGZfZWQIeIxfxx124wqsph9vYmqaOXVWhvZO14LC7mvpe
+        RHSu2VJfH0URGTFQjAhSk4tBNSda4GB8DseTH8f1yO56jjfG2QPr957bw6kfaQ==
+Date:   Fri, 10 Mar 2023 11:48:52 +0100
+From:   =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To:     Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
+        Michael Walle <michael@walle.cc>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
+        Jie Wang <wangjie125@huawei.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Sean Anderson <sean.anderson@seco.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Marco Bonelli <marco@mebeim.net>
+Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
+ selectable.
+Message-ID: <20230310114852.3cef643d@kmaincent-XPS-13-7390>
+In-Reply-To: <20230308230321.liw3v255okrhxg6s@skbuf>
+References: <20230308135936.761794-1-kory.maincent@bootlin.com>
+        <20230308135936.761794-1-kory.maincent@bootlin.com>
+        <20230308135936.761794-4-kory.maincent@bootlin.com>
+        <20230308135936.761794-4-kory.maincent@bootlin.com>
+        <20230308230321.liw3v255okrhxg6s@skbuf>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SLOB has been removed and SLQB never merged, so remove their mentions
-from comments and documentation of pagemap.
+Hello Vladimir,
 
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
----
- Documentation/admin-guide/mm/pagemap.rst | 6 +++---
- fs/proc/page.c                           | 5 ++---
- 2 files changed, 5 insertions(+), 6 deletions(-)
+On Thu, 9 Mar 2023 01:03:21 +0200
+Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
 
-diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
-index b5f970dc91e7..bb4aa897a773 100644
---- a/Documentation/admin-guide/mm/pagemap.rst
-+++ b/Documentation/admin-guide/mm/pagemap.rst
-@@ -91,9 +91,9 @@ Short descriptions to the page flags
-    The page is being locked for exclusive access, e.g. by undergoing read/write
-    IO.
- 7 - SLAB
--   The page is managed by the SLAB/SLOB/SLUB/SLQB kernel memory allocator.
--   When compound page is used, SLUB/SLQB will only set this flag on the head
--   page; SLOB will not flag it at all.
-+   The page is managed by the SLAB/SLUB kernel memory allocator.
-+   When compound page is used, either will only set this flag on the head
-+   page..
- 10 - BUDDY
-     A free memory block managed by the buddy system allocator.
-     The buddy system organizes free memory in blocks of various orders.
-diff --git a/fs/proc/page.c b/fs/proc/page.c
-index 6249c347809a..1356aeffd8dc 100644
---- a/fs/proc/page.c
-+++ b/fs/proc/page.c
-@@ -125,7 +125,7 @@ u64 stable_page_flags(struct page *page)
- 	/*
- 	 * pseudo flags for the well known (anonymous) memory mapped pages
- 	 *
--	 * Note that page->_mapcount is overloaded in SLOB/SLUB/SLQB, so the
-+	 * Note that page->_mapcount is overloaded in SLAB/SLUB, so the
- 	 * simple test in page_mapped() is not enough.
- 	 */
- 	if (!PageSlab(page) && page_mapped(page))
-@@ -166,8 +166,7 @@ u64 stable_page_flags(struct page *page)
- 
- 	/*
- 	 * Caveats on high order pages: page->_refcount will only be set
--	 * -1 on the head page; SLUB/SLQB do the same for PG_slab;
--	 * SLOB won't set PG_slab at all on compound pages.
-+	 * -1 on the head page; SLAB/SLUB do the same for PG_slab;
- 	 */
- 	if (PageBuddy(page))
- 		u |= 1 << KPF_BUDDY;
--- 
-2.39.2
+> (trimmed CC list of bouncing email addresses)
+ =20
+Thanks, I will be more careful on next patch series version.
+=20
+> From previous discussions, I believe that a device tree property was
+> added in order to prevent perceived performance regressions when
+> timestamping support is added to a PHY driver, correct?
 
+Yes, i.e. to select the default and better timestamp on a board.
+=20
+> I have a dumb question: if updating the device trees is needed in order
+> to prevent these behavior changes, then how is the regression problem
+> addressed for those device trees which don't contain this new property
+> (all device trees)?
+
+On that case there is not really solution, but be aware that
+CONFIG_PHY_TIMESTAMPING need to be activated to allow timestamping on the P=
+HY.
+Currently in mainline only few (3) defconfig have it enabled so it is really
+not spread, maybe I could add more documentation to prevent further regress=
+ion
+issue when adding support of timestamp to a PHY driver.
+
+Regards,
+K=C3=B6ry
