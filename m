@@ -2,139 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62BC9C6FA99
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 16:22:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82700C64EC4
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 16:27:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231674AbjCJQWj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 11:22:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33948 "EHLO
+        id S230437AbjCJQ1d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 11:27:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231355AbjCJQWS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 11:22:18 -0500
-Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2082c.outbound.protection.outlook.com [IPv6:2a01:111:f403:7011::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA09A5D74F;
-        Fri, 10 Mar 2023 08:18:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XOPD4bwonAE8RLWUYeW45nh0RCBBNVfZnY+kVgB7T8LioD8e972gNzYSGChQpNMEVzl+Mfna81n8UnX2iwst/F4ft2kLS17L/8KpweCwimqk+YblU1wo3eJ7Rv6tQTk7Qal78O1mxB8Lo/qpne8t+C+EwvvZA8FXQsD949E7H3AhmczI7hYU0J8qzZ2iI8RqrPSviiZbtoAcS2dFcyV8Lc9hhSopmGsVZ2+3szTg+VA4NqK82Iby/WN6f3iCNq5MBflSHnFpHZJTl2MPJKfv4YS96F2e68nAOl6NsQh+KJkr4e/Na+d4MwvdvGhVyR73j2MBuwJtDz/OIlIQ3vkKMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a2NtUzhnfFSfq/iZksZZGTVHbYTEaaGj/GVA/5X2di4=;
- b=gBClOtR8BS/ysLbGnT6SUXTDJLsdQWsVwi+UbaV9aGX10EhP+Mq3rnwvOuAe+3RMiC0J+1t1ZDSa6BKgpOdRymGfDQaSlIIZPgvHlzPq9kdcy62XkC3ky9MapER53zlcky8LkNSTL8eVFwQSPn8kj/yuwE8xCGCoM2KM3/qxoFzSeVnIIXbG8QRees7I5QXPUocCBYV31fCeeJSttk6v3TLXnsO1NlLk/EN3Ga7/6bsI4Q9q6Ia3ElHr/UIqKpKCtTCrod7lMUGULA+6BGUW+dq/ICXQB+6CKbEHnHaCqa/9kKMnfVxnqwDJVJP+V885Z7epoQ2AoXKTOBLGj1HPeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a2NtUzhnfFSfq/iZksZZGTVHbYTEaaGj/GVA/5X2di4=;
- b=s6x31hSDFg+Fca4ZWZGNYb00tr65EeBAg7jhm+5zOk3FX7ebOVSdx0HtPr6rUB3Z289eo4kI2D3RZatE+mEOGIqlkch+dxCrZa7L3M084vyH7Atk1tfALrQgn+eVDK7kQSbf0EOmEzcW6MV6ZhebDZH5UjoGLLz+l2JCzOwnUXk7hEvSoFaDu5+9ceB5oT9PihAE9t6DPXRS4Yx28lv7FIaerYst4g5371Xo3WI5udKOmOnquxzJgrALdm6KSV8pLlJuWxObPCJIkcOrr7mg13no3kJnzF8h2atgadT0Rl4I1hmVrv1q+zLpladaQsWbxZF3yHqhkf7eONRzwDjbwg==
-Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
- PN0P287MB0427.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:122::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.19; Fri, 10 Mar 2023 16:16:12 +0000
-Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
- ([fe80::945f:41d7:1db:1fd3]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
- ([fe80::945f:41d7:1db:1fd3%9]) with mapi id 15.20.6178.020; Fri, 10 Mar 2023
- 16:16:12 +0000
-From:   Aditya Garg <gargaditya08@live.com>
-To:     Jiri Kosina <jikos@kernel.org>
-CC:     Orlando Chamberlain <orlandoch.dev@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        with ESMTP id S230373AbjCJQ0n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 11:26:43 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D4E164B20;
+        Fri, 10 Mar 2023 08:23:12 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5C3E11EC0554;
+        Fri, 10 Mar 2023 17:22:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1678465377;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=Zn3O1Wv8hkpbU9xlZEacvI/7IhPFKYjF4Rh+Ru4Qd7o=;
+        b=i4X5Mit4U8kl9v7iGgYtOKUsx1Wd68zbYF2p6kNYzqJ7GiZu/mWyCs3+mmgXDho/tsy1Uq
+        c4NTudr4144eQrYalak0XGyKKhUqr4axXIMb0VupXDBjeddRqYLAsrfsBXdMlD8Tpvm5Mn
+        eKKNGx344acXzkCNqDR2ES0jFJr0XuE=
+Date:   Fri, 10 Mar 2023 17:22:53 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Josh Poimboeuf <jpoimboe@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        =?iso-8859-1?Q?Thomas_Wei=DFschuh?= <thomas@t-8ch.de>
-Subject: Re: [PATCH v5 0/2] Apple Magic Keyboard Backlight
-Thread-Topic: [PATCH v5 0/2] Apple Magic Keyboard Backlight
-Thread-Index: AQHZRSHQtk/6TmX0P0KgTUJwSEQZ/a70MSkAgAAb1a8=
-Date:   Fri, 10 Mar 2023 16:16:11 +0000
-Message-ID: <MA0P287MB021727E7ED58C8C74F879CE4B8BA9@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
-References: <20230220115203.76154-1-orlandoch.dev@gmail.com>
- <nycvar.YFH.7.76.2303101535440.1142@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2303101535440.1142@cbobk.fhfr.pm>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [Wyomo9HO5vpJDSL+c+fy4adhx+/r9mLF]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN0P287MB0427:EE_
-x-ms-office365-filtering-correlation-id: c593cdd9-dba8-4141-90b3-08db2182c3cd
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: d2l4slyfgnccVVGxqFN9lwy5zqYR9juw08D12j2dljlJZgly7xU/tuiccsYvN6cYVIea8rvatXQRamWzCbEN5RlIpjFiYePtO2r3fK+IHeUI3FRjhpdWA4iie+F4kz5vW0zrDKxnQcjWXcERq7CRd9bkO38Cvk/GjoyazAbBsB8XjiHOUltJMf8CZLFy7jeXPib2bV0rFd3rqGm4F1U2FTTNkrcdo6GxG/ETnuf7N+nUFPMx0GEuN/EQXx+WS6xs7YJPa3Tt8o3nLkBNvnuF4pyI/S743MHCg2FVGOfx7v9RvFrXIWDqTbLFjcExw6fczBYYY4vStdkrWRzIHR4ABWLhomltu0C1/XfOLjVQ9UJyNlkIyKoZhf3j5e88WiP78mQor3BEjZKtjHlMaUsjZ4jPVfuAn6/WO3i7LOAKkCGhp2IqbI/5ZJDFH6rG0zEL6/HNI7B5IJu1E6JxdjmhYPsR8x9uKuMc2xmgoMkc1tdj/GLtHxxhzQqhjA7fuR4I8rurke3TIlYer/HN1R7Fk3rQpqV0XIWNiiALR00n76luKXRwKOUkYwib+3bGABrnqevLhQpms+8hWt0gzy3IF1poZGd6EtioDDnESTSOq3ej9wlj5vXlCcbBQS5tOecv9flrSA6mniXJgjqw6PFxpg==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?GbzlB4TnSbdn7tOof1aSOvFPNOC+jlxn64aoNklsui08xPyPRJ8o1nva89?=
- =?iso-8859-1?Q?P1HOmIqWxcPb045hK/l1LKZRRpgGni2oTvKvyj03VuUaVxsvt4uVM1eoU+?=
- =?iso-8859-1?Q?M+5y9Sa0IuCKf9twz/r3i8Wi/TODoKr9tv6G2RVjRb0iENjkLEdCItDqoj?=
- =?iso-8859-1?Q?K07lLpPSdJsnDAhxKxCD56+9YO4KtnEytUjrjVrI5j7wsmmc7iqPBJcafB?=
- =?iso-8859-1?Q?aJTz/4kcPjWRBqQRFtH8GAgHhvf0Bs3yWNn1N5IpMp+tR5iKcZ9PnyP7ih?=
- =?iso-8859-1?Q?au6U7iGG7iCNR9F+nZyDN0li49KOucp23e6ma1ZMQje+oCUcn4zGvgV0vB?=
- =?iso-8859-1?Q?7bBmbYyHM8EIJx05QUq/lHmRRzRgCvEAHVWq54yRVAAYQ8i8A0Z9tdlqYI?=
- =?iso-8859-1?Q?BbuFv5PEzqXgx20vJjlhj01UZlJW4ZvlM8W1FN6aSDmhWuAZWHta+dVDKo?=
- =?iso-8859-1?Q?xqGNrKnhSkHNHJ66cLM/CpPfPaLRod/EKSQtBo1CxKLcFxVXTodruhxWFH?=
- =?iso-8859-1?Q?VhmUnKrWyi23orby1z8joJkJ9QhL4Hd+MSj+Ri5nXCzSOdui2EaQ/hUvoe?=
- =?iso-8859-1?Q?LdR0Tj0ppfnvI9xf5plg7htgCF4bIoqgDjYQmVfPj43hlzVi2CuYSNnbbj?=
- =?iso-8859-1?Q?rqMEg3q7N9z1IfbLfCCB3Pb9vhq/35+EpD50LhL3pBWs4xVqoR//OTAT+2?=
- =?iso-8859-1?Q?9KuMa1ofgGKq6US4Ab8UxyL/uRnEQ+8DWmBK58yJm4gVjQeCfKatXnXlI6?=
- =?iso-8859-1?Q?HM4NivOdcdHXWsnVC7vnaFHedA2lcjc3BzfBAtDmhEttsxAyyxZT0bVpTC?=
- =?iso-8859-1?Q?WzOrBfjtuywjEifalMebAbeAclj62Vr8xdi0mynRQ9qW9z1eo9mMFRMZpI?=
- =?iso-8859-1?Q?OUUXuuQhDdsZgA8ATNxPAHIvW3uDKBXi8Ybpc9SQ6fw0xf+pwSgeiXvSuB?=
- =?iso-8859-1?Q?CMvUx6b7IJd6wcvM6+kIH8M9lv1T2f9V/RCPEcyIGtc7BaUFaxiIWsC/Xy?=
- =?iso-8859-1?Q?8RFzTOBkoDOpnysv15EqZBP73lYiGVUk+92aKO5P8HHSrxJ3uIU11iYd6D?=
- =?iso-8859-1?Q?WqVgAFzZhRtB8+af4kUO82R/B0osDhDp+FXHYVn0a6ibqQtMwudLzP5Pe6?=
- =?iso-8859-1?Q?sqyv3+B5+Jbw2UdFt6TmdtTS1O3A+hBbEc6hHH/ekibbTeKLb46y6pzBV7?=
- =?iso-8859-1?Q?u6heQ4CBd3hNTMATGPYHRURKNdkp+TMzeUR8rh74/CBVYHcpuF9MJFpmwa?=
- =?iso-8859-1?Q?qwxqdXC0tnCUnpyK01UjeHWDqxq69iFo0HNPqQMOZ+jmAzG3KIsyNZQ/rn?=
- =?iso-8859-1?Q?bnHCQ3Fwam7UyKgd33BZ+R7JOg=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH -v2] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
+Message-ID: <20230310162253.GCZAtZXcpK2JK0cFkZ@fat_crate.local>
+References: <Y/knUC0s+rg6ef2r@zn.tnic>
+ <Y/k/ZXUXOFiBhOiI@zn.tnic>
+ <20230225000931.wrednfun4jifkqau@treble>
+ <Y/lUSC5x2ZkTIGu4@zn.tnic>
+ <20230225005221.425yahqvxb57c43x@desk>
+ <20230225013202.g7tibykvylprsxs5@treble>
+ <Y/n9XcbnCzWv2Vul@zn.tnic>
+ <445daef5-8417-ddbb-abbf-3c5ab38e1c9c@intel.com>
+ <Y/zO7MtvjiVLCiLg@zn.tnic>
+ <3f80e71f-a995-8ad6-b7f2-2b80fefdbd46@intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-bafef.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: c593cdd9-dba8-4141-90b3-08db2182c3cd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2023 16:16:11.6926
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0P287MB0427
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3f80e71f-a995-8ad6-b7f2-2b80fefdbd46@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+v2, with feedback addressed, and rediffed ontop of 6.3-rc1:
 
-> Hi,
->=20
-> thanks for creating the support for backlight.
->=20
-> Is there any reason why not to fold all this into existing hid-apple? I=20
-> don't think we need separate driver for the backlist, separated from the=
-=20
-> rest of hid-apple support.
->=20
-> Thanks,
->=20
-> --=20
-> Jiri Kosina
-> SUSE Labs
->=20
+---
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
 
-As far as I know, hid-apple manages the keyboards and trackpads on Macs.
+The AutoIBRS bit gets set only on the BSP as part of determining which
+mitigation to enable on AMD. Setting on the APs relies on the
+circumstance that the APs get booted through the trampoline and EFER
+- the MSR which contains that bit - gets replicated on every AP from the
+BSP.
 
-The magic backlight is managed by the touchbar on T2 Macs, so if you wanna =
-integrate the driver in some other one, then it should be the to-be-upstrea=
-med touchbar driver.
+However, this can change in the future and considering the security
+implications of this bit not being set on every CPU, make sure it is set
+by verifying EFER later in the boot process and on every AP.
 
-But when we did that, the MacBook Air 2020, the model which has magic backl=
-ight, but no touchbar faced issues. lsusb interestingly shows presence of t=
-ouch bar backlight even on this model, but backlight is registered at the 0=
-th interface on Air, and 1st interface on the Pros. So, the co-author, Kere=
-m Karabay suggested using a separate driver.
+Reported-by: Josh Poimboeuf <jpoimboe@kernel.org>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/r/20230224185257.o3mcmloei5zqu7wa@treble
+---
+ arch/x86/kernel/cpu/amd.c  | 11 +++++++++++
+ arch/x86/kernel/cpu/bugs.c | 10 +---------
+ arch/x86/kernel/cpu/cpu.h  |  8 ++++++++
+ 3 files changed, 20 insertions(+), 9 deletions(-)
 
-Although, the authors may give more detailed reason for the same.=
+diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
+index 380753b14cab..dd32dbc7c33e 100644
+--- a/arch/x86/kernel/cpu/amd.c
++++ b/arch/x86/kernel/cpu/amd.c
+@@ -996,6 +996,17 @@ static void init_amd(struct cpuinfo_x86 *c)
+ 		msr_set_bit(MSR_K7_HWCR, MSR_K7_HWCR_IRPERF_EN_BIT);
+ 
+ 	check_null_seg_clears_base(c);
++
++	/*
++	 * Make sure EFER[AIBRSE - Automatic IBRS Enable] is set. The APs are brought up
++	 * using the trampoline code and as part of it, MSR_EFER gets prepared there in
++	 * order to be replicated onto them. Regardless, set it here again, if not set,
++	 * to protect against any future refactoring/code reorganization which might
++	 * miss setting this important bit.
++	 */
++	if (spectre_v2_in_eibrs_mode(spectre_v2_enabled) &&
++	    cpu_has(c, X86_FEATURE_AUTOIBRS))
++		WARN_ON_ONCE(msr_set_bit(MSR_EFER, _EFER_AUTOIBRS));
+ }
+ 
+ #ifdef CONFIG_X86_32
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index f9d060e71c3e..182af64387d0 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -784,8 +784,7 @@ static int __init nospectre_v1_cmdline(char *str)
+ }
+ early_param("nospectre_v1", nospectre_v1_cmdline);
+ 
+-static enum spectre_v2_mitigation spectre_v2_enabled __ro_after_init =
+-	SPECTRE_V2_NONE;
++enum spectre_v2_mitigation spectre_v2_enabled __ro_after_init = SPECTRE_V2_NONE;
+ 
+ #undef pr_fmt
+ #define pr_fmt(fmt)     "RETBleed: " fmt
+@@ -1133,13 +1132,6 @@ spectre_v2_parse_user_cmdline(void)
+ 	return SPECTRE_V2_USER_CMD_AUTO;
+ }
+ 
+-static inline bool spectre_v2_in_eibrs_mode(enum spectre_v2_mitigation mode)
+-{
+-	return mode == SPECTRE_V2_EIBRS ||
+-	       mode == SPECTRE_V2_EIBRS_RETPOLINE ||
+-	       mode == SPECTRE_V2_EIBRS_LFENCE;
+-}
+-
+ static inline bool spectre_v2_in_ibrs_mode(enum spectre_v2_mitigation mode)
+ {
+ 	return spectre_v2_in_eibrs_mode(mode) || mode == SPECTRE_V2_IBRS;
+diff --git a/arch/x86/kernel/cpu/cpu.h b/arch/x86/kernel/cpu/cpu.h
+index 57a5349e6954..f97b0fe13da8 100644
+--- a/arch/x86/kernel/cpu/cpu.h
++++ b/arch/x86/kernel/cpu/cpu.h
+@@ -83,4 +83,12 @@ unsigned int aperfmperf_get_khz(int cpu);
+ extern void x86_spec_ctrl_setup_ap(void);
+ extern void update_srbds_msr(void);
+ 
++extern enum spectre_v2_mitigation spectre_v2_enabled;
++
++static inline bool spectre_v2_in_eibrs_mode(enum spectre_v2_mitigation mode)
++{
++	return mode == SPECTRE_V2_EIBRS ||
++	       mode == SPECTRE_V2_EIBRS_RETPOLINE ||
++	       mode == SPECTRE_V2_EIBRS_LFENCE;
++}
+ #endif /* ARCH_X86_CPU_H */
+-- 
+2.35.1
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
