@@ -2,371 +2,225 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FFBBC64EC4
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 17:39:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5442FC6FD1C
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 17:49:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231437AbjCJRjO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 12:39:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55550 "EHLO
+        id S231345AbjCJRtP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 12:49:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231339AbjCJRjN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 12:39:13 -0500
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A984711BB31;
-        Fri, 10 Mar 2023 09:38:33 -0800 (PST)
-Received: by mail-oi1-x232.google.com with SMTP id e21so4841289oie.1;
-        Fri, 10 Mar 2023 09:38:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678469910;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IsOaKf3a4jZHrbik3Jd7qbDgnpqS0mM6+x0lu8IoHfM=;
-        b=pjkdNpNmt+ALlrJrHctUkhawmSaFrE2Be37KvOgtI9iz4GCFVXVY87aRwdtVMH+rpu
-         fJunVMhRYDIwNCorEZ9lHSDFyI8ohk7ZPO9jdbCfgTbUEp/OShCEvP2bnnwWfU4t/UZ+
-         F9zqdmkfotow9b0NdVq/IpOfPEr9xt7QuydItnh1gVxwdqP2OReJo898JV+2ayHrr3rQ
-         Npb+E0ol5xi5nDs94aQKMEoGzaw9rr56dP09XOzogtpYLOlw4kFLdX3B+JnXEPpuO4Fy
-         glKtOkJltX83HJax73YyRqB7UEOhw1E2fLWB/Aw47hX9Rrlm05o0TAJJ/cD4gfFXfIX8
-         IQ+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678469910;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IsOaKf3a4jZHrbik3Jd7qbDgnpqS0mM6+x0lu8IoHfM=;
-        b=PHccRoQWP49OIifnhCixcrWhKkpca5FkOygIOy8kxeQH1WqAftjCR1fd2nrv3ftTU6
-         GJw+P3BlwUJanW40GF9nngcdgUyIe2KvjjvLfrLomeyP6uS+AW+T7gh8L9wighRcN2RL
-         RctlZnIUD4H3k9yd4UiGBxSN6Vi0laahN6s2NhLREak0r85jqe+tUCfi6JY6SI0bN8V+
-         l4/3s/FJ6TJbsfn5d4FaJ0qB5mL8N6gIGTFP60O8SyZjJHRkqguKv6N9H7zOMfFk0t37
-         jf1thGiP4dJEMTwBCQHTU/X0RExunxgoepu1ddofJ3L6dXI9/1cS2ILY5hkuZN9JofLZ
-         c5aQ==
-X-Gm-Message-State: AO0yUKVzQtmQi8JEGjHS023O164oi8f6a8zi+wEw8KmzM3Cu283PypkP
-        fehpaCDWRFFuU6pw8oVYkJlHiJXQJgpSOpRDzYo=
-X-Google-Smtp-Source: AK7set80Va96YaUkueCKeimiOQ/Nf2+CqzU5px/wg2FuCZZCw9TM3btgVcDxhyt0C8qXiFNfx/s0JhtJXkhdAdISJd8=
-X-Received: by 2002:a54:4501:0:b0:383:f933:98ae with SMTP id
- l1-20020a544501000000b00383f93398aemr8811212oil.3.1678469909709; Fri, 10 Mar
- 2023 09:38:29 -0800 (PST)
+        with ESMTP id S230203AbjCJRtN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 12:49:13 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EACA21111C8;
+        Fri, 10 Mar 2023 09:48:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678470530; x=1710006530;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ro8Ex/RmEa6MWq801sYiiL4x9mZmeLlidrsZDD6fPbI=;
+  b=FvB+jK/ujXBzwtP5CdRumQi9DgEeDeG92YcnA6q4Pggi40f80El5Z8Ei
+   xcQcp2rlPVr+wcGr5wzbViALTtk3TTcorld0DsB4B/DZHxb0xqUZjyT5K
+   230bhHdBOqeBXcid9k//B5zGI3KJUkyUTtaVuFBbtSZlxu2MXM5dKkrIT
+   wMJoiV4SslRNoFC11aPSVou1h7N0JaCOyrJ3+ZNA9EEob9NdJXe5K+wfp
+   2YdiMSkho5YGDjFVci7jo8ZiKD3GN9u+R39A4RBqEzYgErL53mINiwTes
+   Uk/dLVKN+gbLhoFpUvCyhDnWBc9U3m9TQBOCKb4GUGEZB85KvJTrvly8N
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="317178136"
+X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
+   d="scan'208";a="317178136"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 09:48:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="1007203494"
+X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
+   d="scan'208";a="1007203494"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.24.100.114])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 09:48:27 -0800
+Date:   Fri, 10 Mar 2023 09:52:20 -0800
+From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
+To:     Baolu Lu <baolu.lu@linux.intel.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        X86 Kernel <x86@kernel.org>, bp@alien8.de,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
+        vkoul@kernel.org, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+        Will Deacon <will@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Raj Ashok <ashok.raj@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>, jacob.jun.pan@linux.intel.com
+Subject: Re: [PATCH v5 4/7] iommu/sva: Stop using ioasid_set for SVA
+Message-ID: <20230310095220.5dc3d8ac@jacob-builder>
+In-Reply-To: <69753e4a-32f3-8760-ba1d-8286badd159e@linux.intel.com>
+References: <20230309222159.487826-1-jacob.jun.pan@linux.intel.com>
+        <20230309222159.487826-6-jacob.jun.pan@linux.intel.com>
+        <69753e4a-32f3-8760-ba1d-8286badd159e@linux.intel.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20230308155322.344664-1-robdclark@gmail.com> <20230308155322.344664-2-robdclark@gmail.com>
- <ZAtQspuFjPtGy7ze@gmail.com>
-In-Reply-To: <ZAtQspuFjPtGy7ze@gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Fri, 10 Mar 2023 09:38:18 -0800
-Message-ID: <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-To:     =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        intel-gfx@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Matt Turner <mattst88@gmail.com>,
-        freedreno@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 7:45=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.com>=
- wrote:
->
-> On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Add a way to hint to the fence signaler of an upcoming deadline, such a=
-s
-> > vblank, which the fence waiter would prefer not to miss.  This is to ai=
-d
-> > the fence signaler in making power management decisions, like boosting
-> > frequency as the deadline approaches and awareness of missing deadlines
-> > so that can be factored in to the frequency scaling.
-> >
-> > v2: Drop dma_fence::deadline and related logic to filter duplicate
-> >     deadlines, to avoid increasing dma_fence size.  The fence-context
-> >     implementation will need similar logic to track deadlines of all
-> >     the fences on the same timeline.  [ckoenig]
-> > v3: Clarify locking wrt. set_deadline callback
-> > v4: Clarify in docs comment that this is a hint
-> > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> > v6: More docs
-> > v7: Fix typo, clarify past deadlines
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Hi Baolu,
+
+On Fri, 10 Mar 2023 13:07:51 +0800, Baolu Lu <baolu.lu@linux.intel.com>
+wrote:
+
+> On 3/10/23 6:21 AM, Jacob Pan wrote:
+> > From: Jason Gunthorpe <jgg@nvidia.com>
+> > 
+> > Instead SVA drivers can use a simple global IDA to allocate PASIDs for
+> > each mm_struct.
+> > 
+> > Future work would be to allow drivers using the SVA APIs to reserve
+> > global PASIDs from this IDA for their internal use, eg with the DMA API
+> > PASID support.
+> > 
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 > > ---
->
-> Hi Rob!
->
-> >  Documentation/driver-api/dma-buf.rst |  6 +++
-> >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++++++
-> >  include/linux/dma-fence.h            | 22 +++++++++++
-> >  3 files changed, 87 insertions(+)
-> >
-> > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/drive=
-r-api/dma-buf.rst
-> > index 622b8156d212..183e480d8cea 100644
-> > --- a/Documentation/driver-api/dma-buf.rst
-> > +++ b/Documentation/driver-api/dma-buf.rst
-> > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
-> >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
-> >     :doc: fence signalling annotation
-> >
-> > +DMA Fence Deadline Hints
-> > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > v5:
+> > 	- Put removing iommu_sva_find() to a separate patch (Kevin)
+> > 	- Make pasid allocation range to be inclusive (Tina)
+> > 	- Simplified return code handling (Baolu)
+> > v4:
+> > 	- Keep GFP_ATOMIC flag for PASID allocation, will changed to
+> > 	GFP_KERNEL in a separate patch.
+> > ---
+> >   drivers/iommu/iommu-sva.c | 42 +++++++++++++--------------------------
+> >   drivers/iommu/iommu-sva.h |  2 --
+> >   2 files changed, 14 insertions(+), 30 deletions(-)
+> > 
+> > diff --git a/drivers/iommu/iommu-sva.c b/drivers/iommu/iommu-sva.c
+> > index 4f357ef14f04..b75711bdbe97 100644
+> > --- a/drivers/iommu/iommu-sva.c
+> > +++ b/drivers/iommu/iommu-sva.c
+> > @@ -9,47 +9,33 @@
+> >   #include "iommu-sva.h"
+> >   
+> >   static DEFINE_MUTEX(iommu_sva_lock);
+> > -static DECLARE_IOASID_SET(iommu_sva_pasid);
+> > +static DEFINE_IDA(iommu_global_pasid_ida);
+> >   
+> > -/**
+> > - * iommu_sva_alloc_pasid - Allocate a PASID for the mm
+> > - * @mm: the mm
+> > - * @min: minimum PASID value (inclusive)
+> > - * @max: maximum PASID value (inclusive)
+> > - *
+> > - * Try to allocate a PASID for this mm, or take a reference to the
+> > existing one
+> > - * provided it fits within the [@min, @max] range. On success the
+> > PASID is
+> > - * available in mm->pasid and will be available for the lifetime of
+> > the mm.
+> > - *
+> > - * Returns 0 on success and < 0 on error.
+> > - */
+> > -int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t
+> > max) +static int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t
+> > min, ioasid_t max) {
+> >   	int ret = 0;
+> > -	ioasid_t pasid;
+> >   
+> > -	if (min == INVALID_IOASID || max == INVALID_IOASID ||
+> > -	    min == 0 || max < min)
+> > +	if (!pasid_valid(min) || !pasid_valid(max) ||
+> > +	     min == 0 || max < min)  
+> 
+> No need to change above line.
+> 
+> >   		return -EINVAL;
+> >   
+> >   	mutex_lock(&iommu_sva_lock);
+> >   	/* Is a PASID already associated with this mm? */
+> >   	if (pasid_valid(mm->pasid)) {
+> > -		if (mm->pasid < min || mm->pasid >= max)
+> > +		if (mm->pasid < min || mm->pasid > max)  
+> 
+> I forgot why do we need to change above line. But it's better to put
+> some comments there so that people don't need to dive into
+> ioasid_alloc() to know the inclusion or exclusion of @min or @max.
+> 
+just to be consistent for both limits. sure, we can add the comment.
+
+> >   			ret = -EOVERFLOW;
+> >   		goto out;
+> >   	}
+> >   
+> > -	pasid = ioasid_alloc(&iommu_sva_pasid, min, max, mm);
+> > -	if (!pasid_valid(pasid))
+> > -		ret = -ENOMEM;
+> > -	else
+> > -		mm->pasid = pasid;
+> > +	ret = ida_alloc_range(&iommu_global_pasid_ida, min, max,
+> > GFP_ATOMIC);
+> > +	if (ret < 0)
+> > +		goto out;
+> > +	mm->pasid = ret;
+> > +	ret = 0;
+> >   out:
+> >   	mutex_unlock(&iommu_sva_lock);
+> >   	return ret;
+> >   }
+> > -EXPORT_SYMBOL_GPL(iommu_sva_alloc_pasid);
+> >   
+> >   /**
+> >    * iommu_sva_bind_device() - Bind a process address space to a device
+> > @@ -221,8 +207,8 @@ iommu_sva_handle_iopf(struct iommu_fault *fault,
+> > void *data) 
+> >   void mm_pasid_drop(struct mm_struct *mm)
+> >   {
+> > -	if (pasid_valid(mm->pasid)) {
+> > -		ioasid_free(mm->pasid);
+> > -		mm->pasid = INVALID_IOASID;
+> > -	}
+> > +	if (likely(!pasid_valid(mm->pasid)))
+> > +		return;
 > > +
-> > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > +   :doc: deadline hints
-> > +
-> >  DMA Fences Functions Reference
-> >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > index 0de0482cd36e..f177c56269bb 100644
-> > --- a/drivers/dma-buf/dma-fence.c
-> > +++ b/drivers/dma-buf/dma-fence.c
-> > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **fenc=
-es, uint32_t count,
-> >  }
-> >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> >
-> > +/**
-> > + * DOC: deadline hints
-> > + *
-> > + * In an ideal world, it would be possible to pipeline a workload suff=
-iciently
-> > + * that a utilization based device frequency governor could arrive at =
-a minimum
-> > + * frequency that meets the requirements of the use-case, in order to =
-minimize
-> > + * power consumption.  But in the real world there are many workloads =
-which
-> > + * defy this ideal.  For example, but not limited to:
-> > + *
-> > + * * Workloads that ping-pong between device and CPU, with alternating=
- periods
-> > + *   of CPU waiting for device, and device waiting on CPU.  This can r=
-esult in
-> > + *   devfreq and cpufreq seeing idle time in their respective domains =
-and in
-> > + *   result reduce frequency.
-> > + *
-> > + * * Workloads that interact with a periodic time based deadline, such=
- as double
-> > + *   buffered GPU rendering vs vblank sync'd page flipping.  In this s=
-cenario,
-> > + *   missing a vblank deadline results in an *increase* in idle time o=
-n the GPU
-> > + *   (since it has to wait an additional vblank period), sending a sig=
-nal to
-> > + *   the GPU's devfreq to reduce frequency, when in fact the opposite =
-is what is
-> > + *   needed.
->
-> This is the use case I'd like to get some better understanding about how
-> this series intends to work, as the problematic scheduling behavior
-> triggered by missed deadlines has plagued compositing display servers
-> for a long time.
->
-> I apologize, I'm not a GPU driver developer, nor an OpenGL driver
-> developer, so I will need some hand holding when it comes to
-> understanding exactly what piece of software is responsible for
-> communicating what piece of information.
->
-> > + *
-> > + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_f=
-ence_set_deadline.
-> > + * The deadline hint provides a way for the waiting driver, or userspa=
-ce, to
-> > + * convey an appropriate sense of urgency to the signaling driver.
-> > + *
-> > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for use=
-rspace
-> > + * facing APIs).  The time could either be some point in the future (s=
-uch as
-> > + * the vblank based deadline for page-flipping, or the start of a comp=
-ositor's
-> > + * composition cycle), or the current time to indicate an immediate de=
-adline
-> > + * hint (Ie. forward progress cannot be made until this fence is signa=
-led).
->
-> Is it guaranteed that a GPU driver will use the actual start of the
-> vblank as the effective deadline? I have some memories of seing
-> something about vblank evasion browsing driver code, which I might have
-> misunderstood, but I have yet to find whether this is something
-> userspace can actually expect to be something it can rely on.
+> > +	ida_free(&iommu_global_pasid_ida, mm->pasid);  
+> 
+> Any reason why do you drop "mm->pasid = INVALID_IOASID;" here?
+> 
+mm_drop is called when mm gets released because "mm_count" becomes zero. so
+there is no more mm_users. No one will see mm->pasid after this.
 
-I guess you mean s/GPU driver/display driver/ ?  It makes things more
-clear if we talk about them separately even if they happen to be the
-same device.
+On the other hand, iommu_sva_bind_device() needs to hold mm_users refcount
+so it won;t happen after mm_drop.
 
-Assuming that is what you mean, nothing strongly defines what the
-deadline is.  In practice there is probably some buffering in the
-display controller.  For ex, block based (including bandwidth
-compressed) formats, you need to buffer up a row of blocks to
-efficiently linearize for scanout.  So you probably need to latch some
-time before you start sending pixel data to the display.  But details
-like this are heavily implementation dependent.  I think the most
-reasonable thing to target is start of vblank.
+> >   }
+> > diff --git a/drivers/iommu/iommu-sva.h b/drivers/iommu/iommu-sva.h
+> > index 102eae1817a2..c22d0174ad61 100644
+> > --- a/drivers/iommu/iommu-sva.h
+> > +++ b/drivers/iommu/iommu-sva.h
+> > @@ -8,8 +8,6 @@
+> >   #include <linux/ioasid.h>
+> >   #include <linux/mm_types.h>
+> >   
+> > -int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t
+> > max); -
+> >   /* I/O Page fault */
+> >   struct device;
+> >   struct iommu_fault;  
+> 
+> Best regards,
+> baolu
 
-Also, keep in mind the deadline hint is just that.  It won't magically
-make the GPU finish by that deadline, but it gives the GPU driver
-information about lateness so it can realize if it needs to clock up.
 
-> Can userspace set a deadline that targets the next vblank deadline
-> before GPU work has been flushed e.g. at the start of a paint cycle, and
-> still be sure that the kernel has the information it needs to know it sho=
-uld
-> make its clocks increase their speed in time for when the actual work
-> has been actually flushed? Or is it needed that the this deadline is set
-> at the end?
+Thanks,
 
-You need a fence to set the deadline, and for that work needs to be
-flushed.  But you can't associate a deadline with work that the kernel
-is unaware of anyways.
-
-> What I'm more or less trying to ask is, will a mode setting compositor
-> be able to tell the kernel to boost its clocks at the time it knows is
-> best, and how will it in practice achieve this?
-
-The anticipated usage for a compositor is that, when you receive a
-<buf, fence> pair from an app, you immediately set a deadline for
-upcoming start-of-vblank on the fence fd passed from the app.  (Or for
-implicit sync you can use DMA_BUF_IOCTL_EXPORT_SYNC_FILE).  For the
-composite step, no need to set a deadline as this is already done on
-the kernel side in drm_atomic_helper_wait_for_fences().
-
-> For example relying on the atomic mode setting commit setting the
-> deadline is fundamentally flawed, since user space will at times want to
-> purposefully delay committing until as late as possible, without doing
-> so causing an increased risk of missing the deadline due to the kernel
-> not speeding up clocks at the right time for GPU work that has already
-> been flushed long ago.
-
-Right, this is the point for exposing the ioctl to userspace.
-
-> Relying on commits also has no effect on GPU work queued by
-> a compositor drawing only to dma-bufs that are never intended to be
-> presented using mode setting. How can we make sure a compositor can
-> provide hints that the kernel will know to respect despite the
-> compositor not being drm master?
-
-It doesn't matter if there are indirect dependencies.  Even if the
-compositor completely ignores deadline hints and fancy tricks like
-delaying composite decisions, the indirect dependency (app rendering)
-will delay the direct dependency (compositor rendering) of the page
-flip.  So the driver will still see whether it is late or early
-compared to the deadline, allowing it to adjust freq in the
-appropriate direction for the next frame.
-
-BR,
--R
-
->
-> Jonas
->
-> > + *
-> > + * Multiple deadlines may be set on a given fence, even in parallel.  =
-See the
-> > + * documentation for &dma_fence_ops.set_deadline.
-> > + *
-> > + * The deadline hint is just that, a hint.  The driver that created th=
-e fence
-> > + * may react by increasing frequency, making different scheduling choi=
-ces, etc.
-> > + * Or doing nothing at all.
-> > + */
-> > +
-> > +/**
-> > + * dma_fence_set_deadline - set desired fence-wait deadline hint
-> > + * @fence:    the fence that is to be waited on
-> > + * @deadline: the time by which the waiter hopes for the fence to be
-> > + *            signaled
-> > + *
-> > + * Give the fence signaler a hint about an upcoming deadline, such as
-> > + * vblank, by which point the waiter would prefer the fence to be
-> > + * signaled by.  This is intended to give feedback to the fence signal=
-er
-> > + * to aid in power management decisions, such as boosting GPU frequenc=
-y
-> > + * if a periodic vblank deadline is approaching but the fence is not
-> > + * yet signaled..
-> > + */
-> > +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-> > +{
-> > +     if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
-> > +             fence->ops->set_deadline(fence, deadline);
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_set_deadline);
-> > +
-> >  /**
-> >   * dma_fence_describe - Dump fence describtion into seq_file
-> >   * @fence: the 6fence to describe
-> > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > index 775cdc0b4f24..d54b595a0fe0 100644
-> > --- a/include/linux/dma-fence.h
-> > +++ b/include/linux/dma-fence.h
-> > @@ -257,6 +257,26 @@ struct dma_fence_ops {
-> >        */
-> >       void (*timeline_value_str)(struct dma_fence *fence,
-> >                                  char *str, int size);
-> > +
-> > +     /**
-> > +      * @set_deadline:
-> > +      *
-> > +      * Callback to allow a fence waiter to inform the fence signaler =
-of
-> > +      * an upcoming deadline, such as vblank, by which point the waite=
-r
-> > +      * would prefer the fence to be signaled by.  This is intended to
-> > +      * give feedback to the fence signaler to aid in power management
-> > +      * decisions, such as boosting GPU frequency.
-> > +      *
-> > +      * This is called without &dma_fence.lock held, it can be called
-> > +      * multiple times and from any context.  Locking is up to the cal=
-lee
-> > +      * if it has some state to manage.  If multiple deadlines are set=
-,
-> > +      * the expectation is to track the soonest one.  If the deadline =
-is
-> > +      * before the current time, it should be interpreted as an immedi=
-ate
-> > +      * deadline.
-> > +      *
-> > +      * This callback is optional.
-> > +      */
-> > +     void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
-> >  };
-> >
-> >  void dma_fence_init(struct dma_fence *fence, const struct dma_fence_op=
-s *ops,
-> > @@ -583,6 +603,8 @@ static inline signed long dma_fence_wait(struct dma=
-_fence *fence, bool intr)
-> >       return ret < 0 ? ret : 0;
-> >  }
-> >
-> > +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)=
-;
-> > +
-> >  struct dma_fence *dma_fence_get_stub(void);
-> >  struct dma_fence *dma_fence_allocate_private_stub(void);
-> >  u64 dma_fence_context_alloc(unsigned num);
-> > --
-> > 2.39.2
-> >
+Jacob
