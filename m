@@ -2,114 +2,249 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C33B5C6FA99
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 02:14:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9865FC6FD19
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 02:38:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbjCKCOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 21:14:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35490 "EHLO
+        id S229798AbjCKCiN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 21:38:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbjCKCOV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 21:14:21 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B318812B03A;
-        Fri, 10 Mar 2023 18:14:19 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so11692726pjg.4;
-        Fri, 10 Mar 2023 18:14:19 -0800 (PST)
+        with ESMTP id S229764AbjCKCiM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 21:38:12 -0500
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452A31A665
+        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 18:38:08 -0800 (PST)
+Received: by mail-il1-x135.google.com with SMTP id y9so4113154ill.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 18:38:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678500859;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Th+pbPHwUfIznt5t3aYufVmsSA6jXeeaBN7D/5f6K1k=;
-        b=URVrSNrTk7lDWS57IoA6Fabw22VHJ0/qAwQLyM5yn+Fpjiq0Ib5rqOIvveeMWmFQKY
-         CyYelRlNJUxNvTHXB5lqn6KdZgIn8Q36QGjr8vOzmVv1TAxtOQE/c1dqLFwZ0Xuz7sMp
-         HI7gzXMOTf06X/C6NltU/ONsJV+acrlB8TsvFOoQDFQP2lyVkDT0TMMOlbrpwgeK1jdo
-         YAjxjegMDbFC0LFnoR4ji9LZmCUzs6l67h6afrEAFeIA6tbBQuLaPlJ6mA9oJ6HE16D8
-         LK5Y301gpZtdp6PbP3OU7FQW07dlmH1lrTNQgyy8wny0QxL8cqFoie0vdzX/XEmhg5dz
-         aTVQ==
+        d=chromium.org; s=google; t=1678502287;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HqjQ8JlEQKuUyV+WIa0Lxz0sBHdD3KUkil3H4y4mo+w=;
+        b=BNvkRIMwLQVyPQE2KQBlS+AZx9fxAzS9KdyzuWbwoaZIgQd4c2jDssHRuPTy8SW77G
+         /fi9Ui412yRHrT3Oz+AGG0LaxqMXOiTDvLcmFev/cSpP/dgXX2QBwyBhIAZ7LoVcuXaS
+         wskjNf6mk96Wvg1OQ1KTpncPiHfDDZe4TQW5c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678500859;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Th+pbPHwUfIznt5t3aYufVmsSA6jXeeaBN7D/5f6K1k=;
-        b=r8VHEkt0WiHqguOs6q0sh1yI8NzOdQ2eMODyCUeRFKGDUNueXrjk4cH3fX8ibFTQT9
-         mqycRtc8GEDnxYK5W36q9eLjoMqNN+89WOEUZQ8/r90bl6Vcf44/+TKgjnXLBqBViFAU
-         dexgyTnOKXP6eBRuzsk23QbSgi/PYa4j2cw2nRrZuWmAmB9GLn4Jbq5zen09kStsQaz2
-         Vjs3j/FgJFA4lAHIz3O8Fa/WWEUqYLrDJ7iaz5sZMEXIPLJG5F9WQ3VJUoM5mIEDtotD
-         KOkz96te4PDUtjXpB47ySaqcChus7dyx3qhpVmPnYzR8hfPLg/8fSdAHJqJbQOaMnHR/
-         oXDg==
-X-Gm-Message-State: AO0yUKWE+kSRKWWNm0QqdoRI14udfKGbvzbiOP7PJ3kWa6OJEu36fjt/
-        +ntqUbKvXKcupFxLHnHkx8o=
-X-Google-Smtp-Source: AK7set+m2LCt6qX8jXKfsp0o8SUC4txHmHMqI1q7pruEdftPUf58X6vd9VnTgp511/2BMXL4fDbyUg==
-X-Received: by 2002:a05:6a20:3cab:b0:cd:3bca:cfa2 with SMTP id b43-20020a056a203cab00b000cd3bcacfa2mr29722214pzj.23.1678500859071;
-        Fri, 10 Mar 2023 18:14:19 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-1.three.co.id. [180.214.232.1])
-        by smtp.gmail.com with ESMTPSA id d5-20020aa78e45000000b00593e4e6516csm417945pfr.124.2023.03.10.18.14.18
+        d=1e100.net; s=20210112; t=1678502287;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HqjQ8JlEQKuUyV+WIa0Lxz0sBHdD3KUkil3H4y4mo+w=;
+        b=xDWFjm7L3wCrqmA+e8w6hyRCplXkZOEF6EZyTs05OGlyoZMqgiXEiczZVEGG2QZb+o
+         nzdaZhIj5Yto3bD0A926kOS9jfJoOOB3kICxBglMug1aqzvpuVvI3F3AuQF8wCparMFI
+         oQhNDlImc3+GashunkUXdbvqMZfou98he+fVwq2ltCXIJctNeDxjYpKH6vCK5SOdC467
+         3puqboE+pI4PS/Ho4ncwOf+Wblm7uVjvOueDsYQKsu4eMgIgM1zU2epYAtyHd6+MIVZG
+         YdT86XHx+yE8a7sQJ7UXZSlip4VL6u8LP/OoExGNcAsi2njYjgWxzbihCx76dKiWnd9r
+         1eFw==
+X-Gm-Message-State: AO0yUKUslAdVgILdus5aI7LYyYLME2R2v/VmPoh2amr8ZYYNu/CvWa8y
+        mm9P/mOb2ANS3geaFTK2xjwJ4g==
+X-Google-Smtp-Source: AK7set8cApqMBhGRp8TbZYxrzy8LGvCw+VyO4cdmPbWYOM5NCFQcB9e98YGg2pTAX/tbrpgaXjsojA==
+X-Received: by 2002:a05:6e02:1447:b0:317:9c05:e8e8 with SMTP id p7-20020a056e02144700b003179c05e8e8mr8582538ilo.10.1678502287539;
+        Fri, 10 Mar 2023 18:38:07 -0800 (PST)
+Received: from sjg1.roam.corp.google.com (c-73-14-173-85.hsd1.co.comcast.net. [73.14.173.85])
+        by smtp.gmail.com with ESMTPSA id m6-20020a6b7c06000000b0071664d0a4d7sm409633iok.49.2023.03.10.18.37.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 18:14:18 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 3965E1065AA; Sat, 11 Mar 2023 09:14:10 +0700 (WIB)
-Date:   Sat, 11 Mar 2023 09:14:10 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Sreevani Sreejith <ssreevani@meta.com>
-Cc:     void@manifault.com, psreep@gmail.com,
-        Linux BPF <bpf@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        andrii@kernel.org, mykola@meta.com,
-        Linux Documentation <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH V2 bpf-next] BPF, docs: libbpf Overview Document
-Message-ID: <ZAvj8q1C1vhGX4kT@debian.me>
-References: <DM4PR15MB53548D70925C64EE3CEF8F86CABA9@DM4PR15MB5354.namprd15.prod.outlook.com>
+        Fri, 10 Mar 2023 18:37:50 -0800 (PST)
+From:   Simon Glass <sjg@chromium.org>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     U-Boot Custodians <u-boot-custodians@lists.denx.de>,
+        Tom Rini <trini@konsulko.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        barebox@lists.infradead.org, Sascha Hauer <s.hauer@pengutronix.de>,
+        U-Boot Mailing List <u-boot@lists.denx.de>,
+        Simon Glass <sjg@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: [RESEND PATCH] kconfig: Proposed language extension for multiple builds
+Date:   Fri, 10 Mar 2023 18:37:18 -0800
+Message-Id: <20230310183717.RESEND.1.Idaaf79c3e768b85750d5a7eb732052576c5e07e5@changeid>
+X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mOE/t2XkG9SdZEvj"
-Content-Disposition: inline
-In-Reply-To: <DM4PR15MB53548D70925C64EE3CEF8F86CABA9@DM4PR15MB5354.namprd15.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+(I am sending this again to get more feedback)
 
---mOE/t2XkG9SdZEvj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In the case of Linux, only one build is produced so there is only a
+single configuration. For other projects, such as U-Boot and Zephyr, the
+same code is used to produce multiple builds, each with related (but
+different) options enabled.
 
-On Fri, Mar 10, 2023 at 04:11:38PM +0000, Sreevani Sreejith wrote:
-> Thanks, Sanjaya, for taking the time to review. I will submit a patch wit=
-h all the changes you suggested. I left the emphasis on the code line as is=
-=2E If you have a strong suggestion to remove it, let me know.
->=20
-> Also, this is the first time I am sending a reply to a patch. So please l=
-et me know if I have to adjust the reply format.
->=20
+This can be handled with the existing kconfig language, but it is quite
+verbose, somewhat tedious and very error-prone, since there is a lot of
+duplication. The result is hard to maintain.
 
-Hi,
+Describe an extension to the Kconfig language to support easier handling
+of this use case.
 
-It seems like you reply with HTML format, which makes plain-text
-formatting looks messy. See Documentation/process/email-clients.rst for
-how to configure your email client to send plain-text emails.
+Signed-off-by: Simon Glass <sjg@chromium.org>
+---
 
-Also, please reply inline with appropriate context while keeping list of
-recipients in To: and Cc: intact (via "Reply all" button in your
-client). I have to add original recipients back since these are omitted
-=66rom your reply.
+ Documentation/kbuild/kconfig-language.rst | 134 ++++++++++++++++++++++
+ 1 file changed, 134 insertions(+)
 
-Thanks!
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 858ed5d80defe..73fb016a5533f 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -228,6 +228,24 @@ applicable everywhere (see syntax).
+   enables the third modular state for all config symbols.
+   At most one symbol may have the "modules" option set.
+ 
++- phase declaration: "defphase"
++  This defines a new build phase. See `Build Phases`_.
++
++- default phase: "phasedefault"
++  This indicates the default build phase. See `Build Phases`_.
++
++- add entries for phases: "addphases"
++  This creates new phase-specific entries based on a template entry and adds
++  the same attributes to it. See `Build Phases`_.
++
++- set entries for phases: "setphases"
++  This sets the phases which need an entry. This allows creating an entry that
++  only has a primary phase. See `Build Phases`_.
++
++- indicate a phase-specific attribute: "forphases"
++  This marks an attribute as being applicable only to a particular phase or
++  group of phases.  See `Build Phases`_.
++
+ Menu dependencies
+ -----------------
+ 
+@@ -319,6 +337,119 @@ MODVERSIONS directly depends on MODULES, this means it's only visible if
+ MODULES is different from 'n'. The comment on the other hand is only
+ visible when MODULES is set to 'n'.
+ 
++Build Phases
++------------
++
++Some projects use Kconfig to control multiple build phases, each phase
++resulting in a separate set of object files and executable. This is the
++case in U-Boot [12]_. Zephyr OS seems to be heading this way too [13]_.
++
++Generally the phases are related, so that enabling an entry in the primary
++phase also enables it by default in the others. But in some cases it may
++be desirable to use separate conditions for each phase.
++
++All phases have a phase name, for example `SPL`. This name is used as a
++prefix to each entry used in that phase, with an underscore in between.
++So if FOO is the primary entry, the equivalent entry for the SPL phase
++is SPL_FOO. The primary phase is marked with a "phasedefault" entry.
++
++Phases are declared like any other menu entry except that also have a
++"defphase" keyword. Phase entries are normally hidden so do not have a
++prompt::
++
++    config PPL
++        bool
++        defphase "Primary Program Loader"
++        phasedefault
++        help
++          This is the primary bootloader.
++
++    config SPL
++        bool
++        defphase "Secondary Program Loader"
++        help
++          This is used to set up memory and load the primary bootloader.
++
++The default phase (here PPL) is assumed for all entries, in the sense that
++all entries are present in PPL by default and no prefix is needed on these
++entries. So FOO means that it applies to PPL. There must be exactly one
++default phase.
++
++The resulting menu entries can be used normally throughout the Kconfig. With
++this technique, the different build phases can be fully and individually
++controlled from Kconfig.
++
++However it is not ideal. Often the secondary phases have far fewer entries than
++the primary phase, since they offer fewer features. Even so, each FOO that is
++needed in a phase must have an SPL_FOO, etc. To avoid an explosion of entries,
++it is possible to indicate which are enabled, as a shortcut for creating new
++entries::
++
++    config FOO
++        bool "Enable foo feature"
++        addphases SPL
++        depends on %BAR
++        depends on QUX
++        forphases SPL depends on FIZZ
++
++Note that "%" expands to the phase, so this is equivalent to (ignoring BAR)::
++
++    config FOO
++        bool "Enable foo feature"
++        depends on BAR
++        depends on QUX
++
++    config SPL_FOO			   # Phase is prepended
++        bool "Enable foo feature (SPL)"    # Suffix is added
++        depends on SPL_BAR                 # "%" dependency is expanded
++        depends on QUX
++        depends on FIZZ                    # Added only for SPL
++        depends on SPL                     # Added automatically
++
++Attributes declared in the primary symbol FOO (such as "depends on BAR") also
++apply to the secondary ones.
++
++An entry without any 'addphases' attribute applies to all phases. Individual
++phase entries are not available in that case. If the entry is enabled, then
++it is enabled for all phases. Only one entry appears in the resulting Kconfig.
++
++In the case where an entry should apply only to the primary phase (or a
++particular set of phases), you can uses "setphases" instead of "addphases"::
++
++    config FOO
++        bool "Enable foo feature"
++        setphases PPL
++
++This means that even if the option is enabled, it will not be active outside
++the primary-phase build, here named "PPL".
++
++Internally, phases are implemented simply by creating new entries. These
++appear in the Kconfig as per normal. It would be possible for a Kconfig
++editor to show the entries just for a particular phase, leaving out the
++entries not applicable to that phase.
++
++When phases are used, the Kconfig tool outputs separate auto.conf files for
++each phase (e.g. auto_spl.conf), so that if SPL_FOO is enabled, then
++`CONFIG_FOO=y` is present in the file. This makes it easy for the build system
++to build the correct code, use IS_ENABLED(), etc.
++
++To ensure that the correct options are enabled for each build, in addition to
++the normal CONFIG_FOO option in the file, phase symbols are added too. For
++example, if FOO is enabled in the SPL phase, then auto_spl.conf contains::
++
++    CONFIG_FOO=y
++    CONFIG_SPL_FOO=y
++
++The phase-specific line (CONFIG_SPL_FOO) is seldom needed, but it allows one
++phase to access the symbols from another phase. For example, if the primary
++phase needs to receive boot timings from SPL, then support for boot timings must
++be added in both phases. If the timings are at a fixed address, this can be in a
++shared symbol (like CONFIG_SPL_TIMING_BASE) that both phases can access.
++
++Technical note: the grammar definition of <symbol> in this documeent does not
++include the "%" prefix at present. It can be used with any attribute. It cannot
++be used with any top-level items, like "config", "menuconfig", "if" and "menu".
++
+ 
+ Kconfig syntax
+ --------------
+@@ -744,3 +875,6 @@ https://kernelnewbies.org/KernelProjects/kconfig-sat
+ .. [9] https://www4.cs.fau.de/Publications/2011/tartler_11_eurosys.pdf
+ .. [10] https://paulgazzillo.com/papers/esecfse21.pdf
+ .. [11] https://github.com/paulgazz/kmax
++
++.. [12] https://u-boot.readthedocs.io/en/latest/develop/spl.html
++.. [13] https://docs.zephyrproject.org/latest/build/sysbuild/index.html
+-- 
+2.40.0.rc1.284.g88254d51c5-goog
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---mOE/t2XkG9SdZEvj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZAvj6QAKCRD2uYlJVVFO
-o9ViAP9MnGibNFkFvnc4fwSPcgj7P86cNwAXoe7to9S12qpljwEArSiIuPpRET+f
-lufOY2W/XIXAc4PTUuyF7GHqWpbXggM=
-=mPH8
------END PGP SIGNATURE-----
-
---mOE/t2XkG9SdZEvj--
