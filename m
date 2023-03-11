@@ -2,90 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C4FC6FD1C
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 05:39:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4423C678D5
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 06:24:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229958AbjCKFjf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Mar 2023 00:39:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52362 "EHLO
+        id S229455AbjCKGYi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Mar 2023 01:24:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229906AbjCKFj2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Mar 2023 00:39:28 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1101810B1D8;
-        Fri, 10 Mar 2023 21:39:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=4yLsCbZ+rsVcEJ1kmXrEle1JKJ7I0OS935OyKpL9AKM=; b=xcGIf3w8JiMTl0Z10uD3+V0xoe
-        Odws0iVWQAemxVGbjHglcDCygmRiG3Cs1ZWO9+0ja5hKD5tO1aaPVcNGfR/5umCvwuO2S9byGj6PJ
-        FjH3bspaptCripA50iranAMHRqEHk+q+p7lyCyobfOCwrYQ3uJ9bmwO2dnfebTb33D0o4PD8IXwGu
-        ngfS163OrHdNKxEPxyFlcgNyTXPW1Z1UJQWjPjgf0xOtCEMT0rktQrcXgks0BJVdWSGu6mIXCuZNq
-        3Azq3FoMaJecXeHh8AlIOdCD14TN1wQiwMGHh9li+G4LyaVSB25OAG2aGsuCP4n1+SruB35/5+Vgl
-        D4zqeyPg==;
-Received: from [2601:1c2:980:9ec0::df2f]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1parwr-00HDnf-AI; Sat, 11 Mar 2023 05:39:17 +0000
-Message-ID: <bae2702e-3570-f461-b86f-e56ce82a636e@infradead.org>
-Date:   Fri, 10 Mar 2023 21:39:15 -0800
+        with ESMTP id S229923AbjCKGYh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Mar 2023 01:24:37 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B05139D24;
+        Fri, 10 Mar 2023 22:24:35 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6C6396069D;
+        Sat, 11 Mar 2023 06:24:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB050C433D2;
+        Sat, 11 Mar 2023 06:24:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678515874;
+        bh=ncKcbI8fIgO1hU5wAo24LQDjRKehz0Paxz9lQzlc/M8=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=irvEQ2jUuFikjghSIf1FOWWNeSz7TvkeO0S3B0hGlUbamGhu+/RGDHalXSqR32u36
+         YkTLjMwfqK89mJHau/0t9Hw/b8DpJidXuBf5cfxg2zopNeWLPsHt+7K0yKAMPIQK1l
+         l1QMAziha3JnyWd/WDhP2BIi6KurzFR3oy3AlBQagB3jk9pdquCyiYQfNXyGTEWTJH
+         ol/pm1T8vNqXKMAQOWbC0SkEflbeoJtrsxhk0UQDZz9wxxr4rMQtOeEHXxyREy5qbD
+         QQz3qODYUuEwc/RMeNSdv4tJYvhwLIcQe3YEPP/yvPi+NRvR/b8LZ6nEcg1fsSUFy6
+         I8uZldgF2hLVQ==
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 5CA5C1540377; Fri, 10 Mar 2023 22:24:34 -0800 (PST)
+Date:   Fri, 10 Mar 2023 22:24:34 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Uladzislau Rezki <urezki@gmail.com>
+Cc:     Joel Fernandes <joel@joelfernandes.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+Message-ID: <8f8a40cd-8b1f-4121-98f7-7a1bdbcaf6a6@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <ZAc+vVZUhXdhpSki@pc636>
+ <CAEXW_YRTLQpQpOW-+n+X59pmB=4TkV=gdsMiQfBkdK_4wO9Jug@mail.gmail.com>
+ <20230307173313.GJ1301832@paulmck-ThinkPad-P17-Gen-1>
+ <20230307185443.GA516865@google.com>
+ <20230307192726.GL1301832@paulmck-ThinkPad-P17-Gen-1>
+ <ZAhYP9a8u05hzsOn@pc636>
+ <20230308144528.GR1301832@paulmck-ThinkPad-P17-Gen-1>
+ <ZAnXxr9OyFT63xSx@pc636>
+ <20230309221056.GB148448@google.com>
+ <ZArwZjcEYXAYwmqi@pc636>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RESEND PATCH] kconfig: Proposed language extension for multiple
- builds
-Content-Language: en-US
-To:     Simon Glass <sjg@chromium.org>, LKML <linux-kernel@vger.kernel.org>
-Cc:     U-Boot Custodians <u-boot-custodians@lists.denx.de>,
-        Tom Rini <trini@konsulko.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        barebox@lists.infradead.org, Sascha Hauer <s.hauer@pengutronix.de>,
-        U-Boot Mailing List <u-boot@lists.denx.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-References: <20230310183717.RESEND.1.Idaaf79c3e768b85750d5a7eb732052576c5e07e5@changeid>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230310183717.RESEND.1.Idaaf79c3e768b85750d5a7eb732052576c5e07e5@changeid>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZArwZjcEYXAYwmqi@pc636>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
-
-On 3/10/23 18:37, Simon Glass wrote:
-> (I am sending this again to get more feedback)
+On Fri, Mar 10, 2023 at 09:55:02AM +0100, Uladzislau Rezki wrote:
+> On Thu, Mar 09, 2023 at 10:10:56PM +0000, Joel Fernandes wrote:
+> > On Thu, Mar 09, 2023 at 01:57:42PM +0100, Uladzislau Rezki wrote:
+> > [..]
+> > > > > > > > See this commit:
+> > > > > > > > 
+> > > > > > > > 3705b88db0d7cc ("rcu: Add a module parameter to force use of
+> > > > > > > > expedited RCU primitives")
+> > > > > > > > 
+> > > > > > > > Antti provided this commit precisely in order to allow Android
+> > > > > > > > devices to expedite the boot process and to shut off the
+> > > > > > > > expediting at a time of Android userspace's choosing.  So Android
+> > > > > > > > has been making this work for about ten years, which strikes me
+> > > > > > > > as an adequate proof of concept.  ;-)
+> > > > > > > 
+> > > > > > > Thanks for the pointer. That's true. Looking at Android sources, I
+> > > > > > > find that Android Mediatek devices at least are setting
+> > > > > > > rcu_expedited to 1 at late stage of their userspace boot (which is
+> > > > > > > weird, it should be set to 1 as early as possible), and
+> > > > > > > interestingly I cannot find them resetting it back to 0!.  Maybe
+> > > > > > > they set rcu_normal to 1? But I cannot find that either. Vlad? :P
+> > > > > > 
+> > > > > > Interesting.  Though this is consistent with Antti's commit log,
+> > > > > > where he talks about expediting grace periods but not unexpediting
+> > > > > > them.
+> > > > > > 
+> > > > > Do you think we need to unexpedite it? :))))
+> > > > 
+> > > > Android runs on smallish systems, so quite possibly not!
+> > > > 
+> > > We keep it enabled and never unexpedite it. The reason is a performance.  I
+> > > have done some app-launch time analysis with enabling and disabling of it.
+> > > 
+> > > An expedited case is much better when it comes to app launch time. It
+> > > requires ~25% less time to run an app comparing with unexpedited variant.
+> > > So we have a big gain here.
+> > 
+> > Wow, that's huge. I wonder if you can dig deeper and find out why that is so
+> > as the callbacks may need to be synchronize_rcu_expedited() then, as it could
+> > be slowing down other usecases! I find it hard to believe, real-time
+> > workloads will run better without those callbacks being always-expedited if
+> > it actually gives back 25% in performance!
+> > 
+> I can dig further, but on a high level i think there are some spots
+> which show better performance if expedited is set. I mean synchronize_rcu()
+> becomes as "less blocking a context" from a time point of view.
 > 
-> In the case of Linux, only one build is produced so there is only a
-> single configuration. For other projects, such as U-Boot and Zephyr, the
-> same code is used to produce multiple builds, each with related (but
-> different) options enabled.
-> 
-> This can be handled with the existing kconfig language, but it is quite
-> verbose, somewhat tedious and very error-prone, since there is a lot of
-> duplication. The result is hard to maintain.
-> 
-> Describe an extension to the Kconfig language to support easier handling
-> of this use case.
-> 
-> Signed-off-by: Simon Glass <sjg@chromium.org>
+> The problem of a regular synchronize_rcu() is - it can trigger a big latency
+> delays for a caller. For example for nocb case we do not know where in a list
+> our callback is located and when it is invoked to unblock a caller.
 
-IMO Masahiro has already answered this multiple times and I agree with his answers.
+True, expedited RCU grace periods do not have this callback-invocation
+delay that normal RCU does.
 
-For others, the full previous thread is at
-  https://lore.kernel.org/all/20230219145453.1.Idaaf79c3e768b85750d5a7eb732052576c5e07e5@changeid/
+> I have already mentioned somewhere. Probably it makes sense to directly wake-up
+> callers from the GP kthread instead and not via nocb-kthread that invokes our callbacks
+> one by one.
 
+Makes sense, but it is necessary to be careful.  Wakeups are not fast,
+so making the RCU grace-period kthread do them all sequentially is not
+a strategy to win.  For example, note that the next expedited grace
+period can start before the previous expedited grace period has finished
+its wakeups.
 
-> ---
-> 
->  Documentation/kbuild/kconfig-language.rst | 134 ++++++++++++++++++++++
->  1 file changed, 134 insertions(+)
-
-
--- 
-~Randy
+							Thanx, Paul
