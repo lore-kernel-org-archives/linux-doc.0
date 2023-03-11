@@ -2,166 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC896C61DA4
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 17:19:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF50CC6FD1C
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 19:02:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229827AbjCKRTZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Mar 2023 12:19:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34844 "EHLO
+        id S229912AbjCKTCL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Mar 2023 14:02:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbjCKRTY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Mar 2023 12:19:24 -0500
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E7EC22017
-        for <linux-doc@vger.kernel.org>; Sat, 11 Mar 2023 09:19:23 -0800 (PST)
-Received: by mail-yb1-xb2e.google.com with SMTP id u32so1404494ybi.6
-        for <linux-doc@vger.kernel.org>; Sat, 11 Mar 2023 09:19:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1678555162;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gY4Nnb0Wm17pmRtek+pRIUbI9xNdyf7/b38X9mFqiVY=;
-        b=mqxt3zYBqBmZBz7V2UEZC+hclvmRZ9nR3J7/kt0M6cEeTZLIl25CVQE/XuuCwz+CyD
-         9CZu0HtWmWhyg1pbtvzW1AEYbbboLidD29GBAtPDvWM58/4faniajIXuFH8MiXCV1dfl
-         2nx7Q4Ih3S5IRd4yc+6S/CY4GH11mKwz4HiTA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678555162;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gY4Nnb0Wm17pmRtek+pRIUbI9xNdyf7/b38X9mFqiVY=;
-        b=AArchbhIVwZaGDOQmzFygRa+OjO2y7M11pfCJ6G6x0cnFRvX2MO5sd3HatJRyNFuiA
-         sKipqQELGwAa6m4zNPi7qGaoOGWTJl6YQxyLUMke1G64AOl5J7pa45JJ27ZSIAnogylQ
-         XSkr0EMxZo4EJeGDotX95gMAsPKk5gzqCAa1/7BNSk74ih3IXee1RDZdCjQV9IgcxySG
-         AKaKU2B3P9fVXvE+mTZlpnZYivxr0NoWg08PLilPgqDS87MXROpWOznpaYcjcXqzYaTe
-         dQd38wiKTI4yi+n91Tw4r6RDytNFx+JUf9BqH4ePca50d56tA4UP32DKj636XjxepW2d
-         z1kg==
-X-Gm-Message-State: AO0yUKXlpsB1szo9L+mtYf6H+OgzOmHFFsngEjz0VQVk6HLwIysLx4iL
-        127C+0OSLCHG2L+dYEJn7BXbh2XEHnwcQ9PMdIqJQg==
-X-Google-Smtp-Source: AK7set9f7UqmAgWrVofu69pWV1FamP8q6UKz3+HaEOpUb8rSZbgjPiXkY5b+zhqhseNF5U4AgkdFZ/U2/MntwljHVdY=
-X-Received: by 2002:a25:e90b:0:b0:9fc:e3d7:d60f with SMTP id
- n11-20020a25e90b000000b009fce3d7d60fmr14047854ybd.5.1678555162265; Sat, 11
- Mar 2023 09:19:22 -0800 (PST)
+        with ESMTP id S229885AbjCKTCI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Mar 2023 14:02:08 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6955E64B2D;
+        Sat, 11 Mar 2023 11:02:06 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 07DD160DD8;
+        Sat, 11 Mar 2023 19:02:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0275CC433D2;
+        Sat, 11 Mar 2023 19:02:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678561325;
+        bh=aRIPsVzahV4VaJZIFCg+vIsGtMpis+9um6e1rA2rVAc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=C+j+kZCat2117EEqGxts5x3SZZDixNF9zpT2XnUIqEHZlQp95CM5+y+uSy1rZnrE1
+         Z/5gClmxlQofaa+n3mg9HcR4EZkWWPqoZSw/O/554J+0IgZHlDPN/oiL5/NASKz+1R
+         MFXulOEzEx/yj6yNox+iX7rbqnBDm5bX8hv2I3ehoJGRUymVe/JnuxTL9IFraOjjHe
+         erWoFcsMZ8kYZgesrgeUpJn6cQkp5KEJBI3NYirUQ4TPh/bLhgersK/6HE6XT3gkvz
+         MokA7pKp+QEam/lKA3eAkmGzlSfdOKf0cw3bIoVKw7uuF1I1miQdoOI4J1eN3iBazj
+         U6LBsN4CXyI5Q==
+Date:   Sat, 11 Mar 2023 19:02:08 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     James Clark <james.clark@arm.com>
+Cc:     linux-kernel@vger.kernel.org, linux@roeck-us.net,
+        michal.simek@amd.com, Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] devres: Provide krealloc_array
+Message-ID: <20230311190208.7eca8c12@jic23-huawei>
+In-Reply-To: <20230309150334.216760-2-james.clark@arm.com>
+References: <20230309150334.216760-1-james.clark@arm.com>
+        <20230309150334.216760-2-james.clark@arm.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <ZAc+vVZUhXdhpSki@pc636> <CAEXW_YRTLQpQpOW-+n+X59pmB=4TkV=gdsMiQfBkdK_4wO9Jug@mail.gmail.com>
- <20230307173313.GJ1301832@paulmck-ThinkPad-P17-Gen-1> <20230307185443.GA516865@google.com>
- <20230307192726.GL1301832@paulmck-ThinkPad-P17-Gen-1> <ZAhYP9a8u05hzsOn@pc636>
- <20230308144528.GR1301832@paulmck-ThinkPad-P17-Gen-1> <ZAnXxr9OyFT63xSx@pc636>
- <20230309221056.GB148448@google.com> <ZArwZjcEYXAYwmqi@pc636> <8f8a40cd-8b1f-4121-98f7-7a1bdbcaf6a6@paulmck-laptop>
-In-Reply-To: <8f8a40cd-8b1f-4121-98f7-7a1bdbcaf6a6@paulmck-laptop>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Sat, 11 Mar 2023 12:19:11 -0500
-Message-ID: <CAEXW_YSyJeMY+LGJLrZWJakdr19HyFA+AJEMzXhrwZDBia9HfA@mail.gmail.com>
-Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
-To:     paulmck@kernel.org
-Cc:     Uladzislau Rezki <urezki@gmail.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 11, 2023 at 1:24=E2=80=AFAM Paul E. McKenney <paulmck@kernel.or=
-g> wrote:
->
-> On Fri, Mar 10, 2023 at 09:55:02AM +0100, Uladzislau Rezki wrote:
-> > On Thu, Mar 09, 2023 at 10:10:56PM +0000, Joel Fernandes wrote:
-> > > On Thu, Mar 09, 2023 at 01:57:42PM +0100, Uladzislau Rezki wrote:
-> > > [..]
-> > > > > > > > > See this commit:
-> > > > > > > > >
-> > > > > > > > > 3705b88db0d7cc ("rcu: Add a module parameter to force use=
- of
-> > > > > > > > > expedited RCU primitives")
-> > > > > > > > >
-> > > > > > > > > Antti provided this commit precisely in order to allow An=
-droid
-> > > > > > > > > devices to expedite the boot process and to shut off the
-> > > > > > > > > expediting at a time of Android userspace's choosing.  So=
- Android
-> > > > > > > > > has been making this work for about ten years, which stri=
-kes me
-> > > > > > > > > as an adequate proof of concept.  ;-)
-> > > > > > > >
-> > > > > > > > Thanks for the pointer. That's true. Looking at Android sou=
-rces, I
-> > > > > > > > find that Android Mediatek devices at least are setting
-> > > > > > > > rcu_expedited to 1 at late stage of their userspace boot (w=
-hich is
-> > > > > > > > weird, it should be set to 1 as early as possible), and
-> > > > > > > > interestingly I cannot find them resetting it back to 0!.  =
-Maybe
-> > > > > > > > they set rcu_normal to 1? But I cannot find that either. Vl=
-ad? :P
-> > > > > > >
-> > > > > > > Interesting.  Though this is consistent with Antti's commit l=
-og,
-> > > > > > > where he talks about expediting grace periods but not unexped=
-iting
-> > > > > > > them.
-> > > > > > >
-> > > > > > Do you think we need to unexpedite it? :))))
-> > > > >
-> > > > > Android runs on smallish systems, so quite possibly not!
-> > > > >
-> > > > We keep it enabled and never unexpedite it. The reason is a perform=
-ance.  I
-> > > > have done some app-launch time analysis with enabling and disabling=
- of it.
-> > > >
-> > > > An expedited case is much better when it comes to app launch time. =
-It
-> > > > requires ~25% less time to run an app comparing with unexpedited va=
-riant.
-> > > > So we have a big gain here.
-> > >
-> > > Wow, that's huge. I wonder if you can dig deeper and find out why tha=
-t is so
-> > > as the callbacks may need to be synchronize_rcu_expedited() then, as =
-it could
-> > > be slowing down other usecases! I find it hard to believe, real-time
-> > > workloads will run better without those callbacks being always-expedi=
-ted if
-> > > it actually gives back 25% in performance!
-> > >
-> > I can dig further, but on a high level i think there are some spots
-> > which show better performance if expedited is set. I mean synchronize_r=
-cu()
-> > becomes as "less blocking a context" from a time point of view.
-> >
-> > The problem of a regular synchronize_rcu() is - it can trigger a big la=
-tency
-> > delays for a caller. For example for nocb case we do not know where in =
-a list
-> > our callback is located and when it is invoked to unblock a caller.
->
-> True, expedited RCU grace periods do not have this callback-invocation
-> delay that normal RCU does.
->
-> > I have already mentioned somewhere. Probably it makes sense to directly=
- wake-up
-> > callers from the GP kthread instead and not via nocb-kthread that invok=
-es our callbacks
-> > one by one.
->
-> Makes sense, but it is necessary to be careful.  Wakeups are not fast,
-> so making the RCU grace-period kthread do them all sequentially is not
-> a strategy to win.  For example, note that the next expedited grace
-> period can start before the previous expedited grace period has finished
-> its wakeups.
+On Thu,  9 Mar 2023 15:03:30 +0000
+James Clark <james.clark@arm.com> wrote:
 
-The kthreads could be undergoing scheduler contention too especially
-since the workload is launching an app if I understand Vlad's usecase.
-Hence my desire for a rcutop one-stop tool which shows all these
-things (rcu kthread scheduler delays, callback latencies, etc etc).
-;-) The more and more I run into issues, the more that tool becomes
-urgent which I'm working on...
+> There is no krealloc_array equivalent in devres. Users would have to
+> do their own multiplication overflow check so provide one.
+> 
+> Signed-off-by: James Clark <james.clark@arm.com>
 
-thanks,
+Trivial comment inline, but otherwise seems reasonable to me.
 
- - Joel
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+> ---
+>  Documentation/driver-api/driver-model/devres.rst |  1 +
+>  include/linux/device.h                           | 10 ++++++++++
+>  2 files changed, 11 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+> index 4249eb4239e0..8be086b3f829 100644
+> --- a/Documentation/driver-api/driver-model/devres.rst
+> +++ b/Documentation/driver-api/driver-model/devres.rst
+> @@ -364,6 +364,7 @@ MEM
+>    devm_kmalloc_array()
+>    devm_kmemdup()
+>    devm_krealloc()
+> +  devm_krealloc_array()
+>    devm_kstrdup()
+>    devm_kstrdup_const()
+>    devm_kvasprintf()
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index 1508e637bb26..0dd5956c8516 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -223,6 +223,16 @@ static inline void *devm_kcalloc(struct device *dev,
+>  {
+>  	return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+>  }
+> +static inline __realloc_size(3, 4) void * __must_check
+> +devm_krealloc_array(struct device *dev, void *p, size_t new_n, size_t new_size, gfp_t flags)
+> +{
+> +	size_t bytes;
+> +
+> +	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
+> +		return NULL;
+
+For consistency with krealloc_array and other stuff in device.h that is
+of similar 'shape' add a blank line here.
+
+> +	return devm_krealloc(dev, p, bytes, flags);
+> +}
+> +
+>  void devm_kfree(struct device *dev, const void *p);
+>  char *devm_kstrdup(struct device *dev, const char *s, gfp_t gfp) __malloc;
+>  const char *devm_kstrdup_const(struct device *dev, const char *s, gfp_t gfp);
+
