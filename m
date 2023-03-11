@@ -2,76 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB5DC74A4B
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 01:00:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C33B5C6FA99
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 02:14:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229798AbjCKBAr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 20:00:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39242 "EHLO
+        id S229614AbjCKCOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 21:14:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229772AbjCKBAq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 20:00:46 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE6F1127135;
-        Fri, 10 Mar 2023 17:00:44 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 79AAAB8246F;
-        Sat, 11 Mar 2023 01:00:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DDE8C433EF;
-        Sat, 11 Mar 2023 01:00:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678496442;
-        bh=23FUW9NwvA7PihXPj1s/kb+tMA+fP4vkf5bAWtJBV6o=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=nl917fFocImUb30MM51jZn0HMuQ0Gsmr+dzoZ+GgH668/FGNAzV7zKqBBudu0Ux1V
-         QOBrckpvstG9/30O0lM0JZj9+dmtT7Y8uai7QnwUp0o3yyaGhsdKEkxw6ilBf1mwT+
-         296wQporPyHwipICRxl66tc3TjPEzKsbyaDeVKVzAGAOCSgDq4nkEEJWAF/e59KTp8
-         hNIfsuQ4j4LKSaGdCYm5m4Y716QOeVTS+1paSpmOi22+oKn1+fDKDNvmusx1tYT8+3
-         ZTHgkUd/N56L7AVjxbktascW+RTtnhnwXE2Cvsu9Ng7MsbOsJbdGF50pQpc1aKCO7v
-         4NKs63Mankj/Q==
-Date:   Fri, 10 Mar 2023 17:00:40 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 0/7] remove SLOB and allow kfree() with
- kmem_cache_alloc()
-Message-ID: <20230310170040.3ee6bf36@kernel.org>
-In-Reply-To: <20230310103210.22372-1-vbabka@suse.cz>
-References: <20230310103210.22372-1-vbabka@suse.cz>
+        with ESMTP id S229473AbjCKCOV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 21:14:21 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B318812B03A;
+        Fri, 10 Mar 2023 18:14:19 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so11692726pjg.4;
+        Fri, 10 Mar 2023 18:14:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678500859;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Th+pbPHwUfIznt5t3aYufVmsSA6jXeeaBN7D/5f6K1k=;
+        b=URVrSNrTk7lDWS57IoA6Fabw22VHJ0/qAwQLyM5yn+Fpjiq0Ib5rqOIvveeMWmFQKY
+         CyYelRlNJUxNvTHXB5lqn6KdZgIn8Q36QGjr8vOzmVv1TAxtOQE/c1dqLFwZ0Xuz7sMp
+         HI7gzXMOTf06X/C6NltU/ONsJV+acrlB8TsvFOoQDFQP2lyVkDT0TMMOlbrpwgeK1jdo
+         YAjxjegMDbFC0LFnoR4ji9LZmCUzs6l67h6afrEAFeIA6tbBQuLaPlJ6mA9oJ6HE16D8
+         LK5Y301gpZtdp6PbP3OU7FQW07dlmH1lrTNQgyy8wny0QxL8cqFoie0vdzX/XEmhg5dz
+         aTVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678500859;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Th+pbPHwUfIznt5t3aYufVmsSA6jXeeaBN7D/5f6K1k=;
+        b=r8VHEkt0WiHqguOs6q0sh1yI8NzOdQ2eMODyCUeRFKGDUNueXrjk4cH3fX8ibFTQT9
+         mqycRtc8GEDnxYK5W36q9eLjoMqNN+89WOEUZQ8/r90bl6Vcf44/+TKgjnXLBqBViFAU
+         dexgyTnOKXP6eBRuzsk23QbSgi/PYa4j2cw2nRrZuWmAmB9GLn4Jbq5zen09kStsQaz2
+         Vjs3j/FgJFA4lAHIz3O8Fa/WWEUqYLrDJ7iaz5sZMEXIPLJG5F9WQ3VJUoM5mIEDtotD
+         KOkz96te4PDUtjXpB47ySaqcChus7dyx3qhpVmPnYzR8hfPLg/8fSdAHJqJbQOaMnHR/
+         oXDg==
+X-Gm-Message-State: AO0yUKWE+kSRKWWNm0QqdoRI14udfKGbvzbiOP7PJ3kWa6OJEu36fjt/
+        +ntqUbKvXKcupFxLHnHkx8o=
+X-Google-Smtp-Source: AK7set+m2LCt6qX8jXKfsp0o8SUC4txHmHMqI1q7pruEdftPUf58X6vd9VnTgp511/2BMXL4fDbyUg==
+X-Received: by 2002:a05:6a20:3cab:b0:cd:3bca:cfa2 with SMTP id b43-20020a056a203cab00b000cd3bcacfa2mr29722214pzj.23.1678500859071;
+        Fri, 10 Mar 2023 18:14:19 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-1.three.co.id. [180.214.232.1])
+        by smtp.gmail.com with ESMTPSA id d5-20020aa78e45000000b00593e4e6516csm417945pfr.124.2023.03.10.18.14.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 18:14:18 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 3965E1065AA; Sat, 11 Mar 2023 09:14:10 +0700 (WIB)
+Date:   Sat, 11 Mar 2023 09:14:10 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Sreevani Sreejith <ssreevani@meta.com>
+Cc:     void@manifault.com, psreep@gmail.com,
+        Linux BPF <bpf@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        andrii@kernel.org, mykola@meta.com,
+        Linux Documentation <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH V2 bpf-next] BPF, docs: libbpf Overview Document
+Message-ID: <ZAvj8q1C1vhGX4kT@debian.me>
+References: <DM4PR15MB53548D70925C64EE3CEF8F86CABA9@DM4PR15MB5354.namprd15.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="mOE/t2XkG9SdZEvj"
+Content-Disposition: inline
+In-Reply-To: <DM4PR15MB53548D70925C64EE3CEF8F86CABA9@DM4PR15MB5354.namprd15.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 10 Mar 2023 11:32:02 +0100 Vlastimil Babka wrote:
-> Otherwise it's straightforward. Patch 2 is a cleanup in net area, that I
-> can either handle in slab tree or submit in net after SLOB is removed.
 
-Letter would be better, if you don't mind. skbuff.c is relatively hot,
-there's a good chance we'll create a conflict.
+--mOE/t2XkG9SdZEvj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Mar 10, 2023 at 04:11:38PM +0000, Sreevani Sreejith wrote:
+> Thanks, Sanjaya, for taking the time to review. I will submit a patch wit=
+h all the changes you suggested. I left the emphasis on the code line as is=
+=2E If you have a strong suggestion to remove it, let me know.
+>=20
+> Also, this is the first time I am sending a reply to a patch. So please l=
+et me know if I have to adjust the reply format.
+>=20
+
+Hi,
+
+It seems like you reply with HTML format, which makes plain-text
+formatting looks messy. See Documentation/process/email-clients.rst for
+how to configure your email client to send plain-text emails.
+
+Also, please reply inline with appropriate context while keeping list of
+recipients in To: and Cc: intact (via "Reply all" button in your
+client). I have to add original recipients back since these are omitted
+=66rom your reply.
+
+Thanks!
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--mOE/t2XkG9SdZEvj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZAvj6QAKCRD2uYlJVVFO
+o9ViAP9MnGibNFkFvnc4fwSPcgj7P86cNwAXoe7to9S12qpljwEArSiIuPpRET+f
+lufOY2W/XIXAc4PTUuyF7GHqWpbXggM=
+=mPH8
+-----END PGP SIGNATURE-----
+
+--mOE/t2XkG9SdZEvj--
