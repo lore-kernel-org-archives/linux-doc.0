@@ -2,268 +2,420 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F5DC61DA4
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 19:41:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 408B2C6FD1C
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 20:44:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbjCKTlr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Mar 2023 14:41:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40512 "EHLO
+        id S229519AbjCKUo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Mar 2023 15:44:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjCKTlq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Mar 2023 14:41:46 -0500
-X-Greylist: delayed 5541 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 11 Mar 2023 11:41:44 PST
-Received: from mx07-001d1705.pphosted.com (mx07-001d1705.pphosted.com [185.132.183.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A02A164257;
-        Sat, 11 Mar 2023 11:41:44 -0800 (PST)
-Received: from pps.filterd (m0209326.ppops.net [127.0.0.1])
-        by mx08-001d1705.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32BHbYY8002609;
-        Sat, 11 Mar 2023 17:37:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=S1;
- bh=QR3Y5qo0oxf5XCxhaBx5T42tNXTn58Tq4aju09Ue/zo=;
- b=BSZLVGfn4hnCofG3zBYt9fMPQuQaXEOx541IK910D89pE+dj2gP2n+MulLHe4gH5Zft3
- 9q1ZKN7/v5HHsXKToYz6kL44iXhNeWmExqLvs95EUW/3gZ21qHAsO6PcWKYQUHDpq0r5
- x3znbmJP4Xi+Juhq20QFUo//UAqMuoY2FshFX7cVnI0gnQdg8Xi9vU5EphdAVjX0jSXr
- C1UwIlc6fM9KT/3T3vojoYQzVsURuryCFFvGpY9uXkPn0HAmItupXRntc/zo93j2Qr2V
- weLzULUxLPxJUh2IbfVIeRqovs/A5rj1UoZIWTCPKyh/nMPAP6VnIF6CcqUcmeb5dzzR xQ== 
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
-        by mx08-001d1705.pphosted.com (PPS) with ESMTPS id 3p8fuj0c0e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 11 Mar 2023 17:37:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YGhqtT/oJ7Uo166qxQVyQJrSJET4W/wXC3teHjzGvicvyoQfz+cs+4ZEtYDhms/X+sbqL/0SXqYUmSwWsYcMjr5aJ0fz2IBoPEdzd9cHQ5z5czYvpyeiJaW3bKF95s7zljqzRQg6oNL5GhzqMLVzYaHEQsE+PGuq1OkJJ7B/4VVGlGVarlTkjfn66coXMEHrDea49nUWudQSNrkcU9OtBFtJiBnWeRsV3iCmutzJnt9zT17CsB+2Y6JUO7qjJWhcBHgN2/Rk6HlOoURyKVzwkx/jtWd9o3inO1ktfe8KWTxQ0QTIVsbYnfkIon86aDtr+s2FpAbDETOtjWxN7ltf0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QR3Y5qo0oxf5XCxhaBx5T42tNXTn58Tq4aju09Ue/zo=;
- b=h/uTcVabEwM8d+xoz68eNAc1te/PNbYR9bwm6ZrdYSWv/5xz7nSvO6NltkCdy41s7mwRyblRZY19okA/7cKtMwSeOgsWXVI9kHVFC5/BBN31bv/05IcvrUecuqJ1R/Aa6DcSrlS0jz4wKQJ+vqKLKCr/9m8sVCcadWhDrHkEN5m7bMrpXARRokJPZM/8olFUF7d8QirH0VEa4fibkP0VS/ZuE+boBuPy4N1KlrzClxrEQ3I10L9x56loZ3+v2a+rT3yuhV0yECK1jx6wLIjv/CckOD6WbBOmmcU7AiCv7AUGfPWV4kIePOYpJiT75CxtmnpOGvUvE7EDo7dz0BP9Cg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-Received: from BYAPR13MB2503.namprd13.prod.outlook.com (2603:10b6:a02:cd::33)
- by SA1PR13MB4799.namprd13.prod.outlook.com (2603:10b6:806:189::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.23; Sat, 11 Mar
- 2023 17:36:12 +0000
-Received: from BYAPR13MB2503.namprd13.prod.outlook.com
- ([fe80::f41f:44f5:862f:410b]) by BYAPR13MB2503.namprd13.prod.outlook.com
- ([fe80::f41f:44f5:862f:410b%4]) with mapi id 15.20.6178.017; Sat, 11 Mar 2023
- 17:36:11 +0000
-From:   "Bird, Tim" <Tim.Bird@sony.com>
-To:     Rae Moar <rmoar@google.com>,
-        "frowand.list@gmail.com" <frowand.list@gmail.com>,
-        "davidgow@google.com" <davidgow@google.com>,
-        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "brendanhiggins@google.com" <brendanhiggins@google.com>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "guillaume.tucker@collabora.com" <guillaume.tucker@collabora.com>,
-        "dlatypov@google.com" <dlatypov@google.com>,
-        "kernelci@groups.io" <kernelci@groups.io>,
-        "kunit-dev@googlegroups.com" <kunit-dev@googlegroups.com>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [KTAP V2 PATCH] ktap_v2: add skip test result
-Thread-Topic: [KTAP V2 PATCH] ktap_v2: add skip test result
-Thread-Index: AQHZU56ySouYIoVn9EynvNBWgDTRfa711hhQ
-Date:   Sat, 11 Mar 2023 17:36:11 +0000
-Message-ID: <BYAPR13MB2503C590A2AE6FEF6BCAC529FDBB9@BYAPR13MB2503.namprd13.prod.outlook.com>
-References: <20230310222002.3633162-1-rmoar@google.com>
-In-Reply-To: <20230310222002.3633162-1-rmoar@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR13MB2503:EE_|SA1PR13MB4799:EE_
-x-ms-office365-filtering-correlation-id: 93688253-27da-4eb1-2b77-08db22571b2b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: VBQjsFru8cs0fntynDie/7BFtNV86xdpl+FdVtWcGtLBMeC6r5POFqqQ1GuT0wn/e1Yax8TsAd3EK0DRtnDHdQje6DWr+ovM0rOIMo3Lo3TPWK7Z3uVQBieBvXxC7JKs8BdqHRbbMxKCx6qCrxNmBe/QZIov6ptcSoB1tUM2f5iRqAKJtq7CNAOowvWID5hl7r5693UU/lxmzfwfZng2AdUdhOaQE299kDkmaAuGQG7z5XqiFAQimNbcN9xj7R1hvtBBPI2zKuSg4SqfVzBjuENfqrTi9Lhzdgoms3GXnK84cK7i2c+D+4WEa3DCVt2VfnU4fcuERGebDn/rJ6DMiy3nzRLRYJc1UH01BUzm9yzfekKAehpNUAoXOdt0KJHZTdjqyTR/KgQ02+fLGpFlSNLfKaFOUQT/ECCg0vO18Df2p+hvMtAY29FDO/qqCn7ouiSyzNd/Qi/l1WAiwf5Y+eJGKGu1aH9ybayeGjvLQAVycRV6bXkCyH+rvESH369a0FtGmDZBbIibdkwfTzJqWvie19M3C3Slf64oZviEdrNweLDn0GKhW+oxhqsVy1Bumh9ju8QFPpNdcvYGZNhQrEWrY0sPZMRtnzNhLnTrd++PzP2cFF5Ceo2SSUnlBaqPED+uS4tMlqmdoiTtwBuBRg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR13MB2503.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(136003)(346002)(376002)(39860400002)(366004)(451199018)(7416002)(52536014)(5660300002)(8936002)(2906002)(41300700001)(82960400001)(86362001)(33656002)(38070700005)(38100700002)(122000001)(7696005)(71200400001)(478600001)(66946007)(66556008)(66476007)(66446008)(64756008)(8676002)(966005)(76116006)(4326008)(55016003)(110136005)(54906003)(316002)(186003)(83380400001)(9686003)(6506007)(26005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dWNlclpwVGVTOTRQNjc3ZTRtQlJYWG9kMHFra1pnNHY1MDU5ZmlBZTRONmhq?=
- =?utf-8?B?ZGlqbWdBb3Uvd0Npc3BjcnBlRkFjdnp0amFYMDBzRnVTQVdsRG5mY1pLWWdT?=
- =?utf-8?B?djJKQzlJc2QxekhQS1htOVJIQ3Yrd0I5SS8yamMwVXdDanZnSElwdGJBUDRx?=
- =?utf-8?B?RGt5WUxBNmVDcHdiU0dXWWFqNm9jUmgxT3l3UHc3dVM1UlNYRnNKSTQwRVM0?=
- =?utf-8?B?Sitiem94dTFSdmZSQWwyRmIrOEpsY09YamJwb2tDV1Y3bDc1azFjc0xOU2FJ?=
- =?utf-8?B?cFZtR05XOFYzQ2tGRExZSXZUb1JYZ09PTXZiay9BNS92cUFPN2IrRThCcTN2?=
- =?utf-8?B?RHUzL21QSHhLTkpMbEtKeVhkcndKZGIyVjl4RXUrM1hEbzREWXJqSEQxbzVs?=
- =?utf-8?B?b01aeXEvUkl1K2lxTVkwdGhpUUFDQ3VxdjQzY0V2cmRBa2luZ0NLTzF4eE5v?=
- =?utf-8?B?aDZiOXMvZ0JBMDVKWStwLzJVS0NmN2Zzc0xhTlVlb0J5T2Q3UmRLT3RxYmUy?=
- =?utf-8?B?d2FpNk9aQ1FScTVzVTY1NFhiTVArZERVamYxdTNaSVNncXFndU41b2tZaWd6?=
- =?utf-8?B?bVEzaldjQmZaSE81QmxZWVM1eEVQM2k4V0NMd3lkZ2Ywem9KR0s5OUZnNFFO?=
- =?utf-8?B?ajR3YjRYeFFzZlQ4bkRNZnRnWUUyMTE4K2xBVmx4QytFcTM2YmJncXZRc3F4?=
- =?utf-8?B?WTJiYjV6MnhMWWYyOFFVOFF0N2M5UVFvUzIzT2REZ2E5OGlLMmlNNEhoeEFr?=
- =?utf-8?B?V0MwTUQxSi9CTkNoOTNoRldiQmxVOC83b0M3T2FZVDdZY2NETGN6WTNHSWxH?=
- =?utf-8?B?U243aXhEczZLNkgrcWNnbk9oSXVzb2ZSU3ZCMjhWaWZtYkg2N2ZvTk5KcDNQ?=
- =?utf-8?B?MFFPNzY2VWJLa0FRSldzY0pJQ2Nldzh1VkxDci9DWm1GKzJNa2hqLzREVzBu?=
- =?utf-8?B?bTM5L2JuSitNSGhCdFVJbFJkYmJHNGtWZmRMYjUrT2lYYzZPT0ZuRkNHQVdO?=
- =?utf-8?B?UXUxMjJkSEJsblMzcTU3SDM2K050QmpDRDNPRTZNSlhhNmgvcDNWQnJZd0cv?=
- =?utf-8?B?NHJqZ1kxbGJISVhhTWxDMjgvWlArVjVJQjlpb0NJbFpsWFhpWVBmbU9aclNW?=
- =?utf-8?B?MjdFV2ZZa2cvRjVtQjZvT3V2N2RCMTREMldIalRoZ20yUHBLcDA0YnovOGJw?=
- =?utf-8?B?cnhEcmkxbnVCMFB4dlNFMCtETlJuM1NySXdaZUVkTFoxd2x6MnM1eEoyME05?=
- =?utf-8?B?NTRPWVZSVnp3YXZ2bFVpd2xxTS9WVU9IQ3g4ek9nMWhDRTBtOThWVEpTOWl1?=
- =?utf-8?B?UzhUL0I5YzFEZGZEc3ErWWNUbHQzSHlMTTdQUEZsRXl0aDZPUDZvZ3BmQUdu?=
- =?utf-8?B?aGtIL3VMQTVPbGg0MmJSN0QwL2NxenVsdExEaUgrcW1zWTd0UWl0K3gwSUpz?=
- =?utf-8?B?RVlLL3JJVmlKSDM1dDJ0Q1RUUDdiZW9BSDRZMlVENFJHOG5obkw5KzF2ZXY3?=
- =?utf-8?B?VTJxc2tySEgwYVlPalZwb2ZvV3pRWGxNeW5HOEpKWHdqNC9aRyttcStiMFJC?=
- =?utf-8?B?OCt3cUp4NDdFcndiNWxXMnVYNlkxVkJzcGRJb1hyUHJEQ0U1ZGs5Q09PVFdG?=
- =?utf-8?B?cHRQcmUyT1NkQktnWG12OXRKZnZZdzNWNkE0eGI5NU0zUUlBNUtPR0QwMVUy?=
- =?utf-8?B?UVBDWFNWbVFmbWMrQW5FUTJIYVlGVmY3MTlMU1h6TVJxOE80Nm1oWXg0cHRH?=
- =?utf-8?B?U3g3eFQ0OGxVYjBuSkpncjZUQXN2VDJkVEpyeWFzbkZQSU9tbERPaWxBRUkr?=
- =?utf-8?B?dE5yRlcrYk1VTzZwNWdKQnNQYVkzZzBMdnRydm45a2ZlNXQyK2s0YU9MTm5W?=
- =?utf-8?B?WllvNEFEdFl6S1M1NnpWZ1RORVE5dkIwM2pwb3FhUkRjd0toWnhDelllY1ds?=
- =?utf-8?B?L1VWcHhkdEx0QWp2MUMxOUdKVXpRUFQrOE9pekdCOXZGbFhyQk1laWpHUGJO?=
- =?utf-8?B?eTVZd1owUXNNcUsxVHBwZGN6YlE3Sk83aUZHUnVLdnF2U0JySWdHL2d5ZlFp?=
- =?utf-8?B?TG00bnZwV25pS3lHWDJnMnZyRjd0YllCdlpTY2VqeHdOVTBBOHdaRlB4UUZO?=
- =?utf-8?Q?LhCNNzl9/n2kS0qJs/mnFUXC7?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?VTVnVHQ1SUt3OFZ4bGErNXlKcVAvZnVXMGdlTWR3WU5xKzFTR1FqbVpPaEdL?=
- =?utf-8?B?U1YzMEFGWUVyU1A4SGJCdUhSdTVzTjBDbHhrNkpvdTJqaWFvOUExbmNaL0hD?=
- =?utf-8?B?SGlyTER1c2JzdmdrcXQxSTdEcm1EWDRoSzlheTB6Q21nTWlRZCs5VCt6SlFX?=
- =?utf-8?B?SWVJMTdKZmllZVIwS2VXMFNTMkxmR0pYempXU0dxSS9oOUVlMzBjQ0JzMlJH?=
- =?utf-8?B?NlFkYlBCUnZIMlRSVlUyOFlQWXRNakZWcWdhVEtKOVNFdGU0YTdSdFNGTnlz?=
- =?utf-8?B?bVBlam9SK2dhcloyOFdEbG1zT2I4TGh4QVZjVWM1Vnd6OWhOdlQzUW1tSDU5?=
- =?utf-8?B?V0pMUVhKcDJRUUxlN0NucGs1SVRYc3QzTDVxdVg0RDc5Yk1aM3Q1RG12ZTVt?=
- =?utf-8?B?OXdsQy9QSUZlVS8rNmduOXpQOVBEYmFwZmFOMVZHdVlWYVEweituRXl5ZkJu?=
- =?utf-8?B?QWNZNTFFMVNYSktEcXh4VnRqL0pvRk9wVlBlNTZsNUpjVlJvZG1PaFZERU5Z?=
- =?utf-8?B?UnVKSUVSWFRBdFVtRFdqTk1tZnVOZWhTZHdNTllXMzFtbk8xZEs1NFdrYWx4?=
- =?utf-8?B?OEd1RmZOWDdpUGxWSTlZQUlSL0E1RlZLSUx3T25DcldHVUVTOUU5bXdGVWRm?=
- =?utf-8?B?NGlDcyt5SEk5ZG1qQjBMRk42OEZlbU9RTHVBdGNBaStXQXdSMStzb2p3dHF0?=
- =?utf-8?B?enJuNElPT3RXVHU5NTQ1NVEzSWNzZFJlTnd1VVNvODAyTWFzeFZ1aUdCcXZH?=
- =?utf-8?B?aUpGdVBvT0w5ZjJCOHhVK29pNUlFNFdKcWpKNUxBVFlETE5jRnhFZWVyWVc0?=
- =?utf-8?B?UE1FUVgvL2ROR21NL3lvaTV0bnBMTXR2REh3OEdDQm1uVVBLN0NwbWZrc0JM?=
- =?utf-8?B?K2tGTkZpT0NqejRRMkZUeUlPYnZLRXVPemQzV3VvdXpUMUNtK2FGSDVEcTFG?=
- =?utf-8?B?ckJxMWJEclZzNHFRa2gwR2dlRzlMWElXS3BpRWFsc0JEQmxORFBKUWNneEV4?=
- =?utf-8?B?Wk9RNkxpSkFuMThDR2d3UTRIcVF0VkpEaStINE9vTjZ1bnJJd1JabitmQmtL?=
- =?utf-8?B?ZGp1eE01N2FGSmhkZWwrdUdDbWk2NlpnckpVNHNyaFg4V0cxam80d0JSL2cr?=
- =?utf-8?B?S3d6WFM2dFVONnpHa2trc1UrL01yMkgrSFJxbm40Y2xqOXdKZTFtMTg2eVlP?=
- =?utf-8?B?MGx5YmgzY1F3ZmRMMEE0M2MzeXBvbVhSOUZvZmJ1QTc1TEt2UGYxK0JKWkNF?=
- =?utf-8?B?RnRFMVkwRE5RQ3pOOFFJZ2piREl4REtkem5LSHNIVFBaL3IyYjBqWGhDeTZG?=
- =?utf-8?B?bGJDampBbi90UjFZM2wrUGxvUDlPWnFoOElCSncyZWk5M3pRRUN0UmJTQ2V1?=
- =?utf-8?Q?2aFlaZjiI/r6GWIxpfkwcmt4zg2kzBeM=3D?=
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR13MB2503.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93688253-27da-4eb1-2b77-08db22571b2b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2023 17:36:11.5901
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UGQtVodRWKjYPBHizRIdy4z2GWjRVqyaup9/D2/1y602iT3fmr380uP3T9b+pzuRhnlGZR3MNNljnc7/pIxCGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR13MB4799
-X-Proofpoint-GUID: qom1jIHoWfbhDCKOuXSmIJ2cywdjMq4N
-X-Proofpoint-ORIG-GUID: qom1jIHoWfbhDCKOuXSmIJ2cywdjMq4N
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        with ESMTP id S229933AbjCKUo5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Mar 2023 15:44:57 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 141CB498AE;
+        Sat, 11 Mar 2023 12:44:55 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8C5CB60DD8;
+        Sat, 11 Mar 2023 20:44:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB721C433EF;
+        Sat, 11 Mar 2023 20:44:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678567493;
+        bh=aNjUrBLAQjEI0WquHparWO+QOAGNS9UwSMxSsJZKeCE=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=R7LRLTELy/k8FS0FNQ10tuTLXV1o+ouuQf5+GHqVJBLoOd+wcpaNg/1ZoujLJOLHn
+         Tfyk7VbC6MDQ6nKU9Ivpju/0QnxaVtavOUvvighBHLHfoJKb/KQe1fVQ260Xz7v6Vf
+         GwTmMBybKO5Iz2oAWGQK8M3kzje8Bb6W6ooLdhivAsQBlavUflOoJ2K5oFR5aWw1e2
+         o6ZM4PMZUAMBPPHDOmhTV0jBwlg74naWlWNRZcIMmjezaGdYi03RYQm2qRBcxLP8g9
+         l8892BSS+o9p0UN2jOH60tT4csYMqz2zAG62ZG50H9tGuyJmpzFRxnSYon/wStF4XE
+         uPgIJVlUk5uFQ==
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 7241C154037F; Sat, 11 Mar 2023 12:44:53 -0800 (PST)
+Date:   Sat, 11 Mar 2023 12:44:53 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org, urezki@gmail.com
+Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+Message-ID: <a9e974d1-2b83-44bc-ab2e-56ef9511c2ef@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20230303213851.2090365-1-joel@joelfernandes.org>
+ <20230304010251.GD1301832@paulmck-ThinkPad-P17-Gen-1>
+ <20230304045145.GD2176990@google.com>
 MIME-Version: 1.0
-X-Sony-Outbound-GUID: qom1jIHoWfbhDCKOuXSmIJ2cywdjMq4N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-11_04,2023-03-10_01,2023-02-09_01
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230304045145.GD2176990@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmFlIE1vYXIgPHJtb2Fy
-QGdvb2dsZS5jb20+DQo+IA0KPiBBZGQgdGhlIHRlc3QgcmVzdWx0ICJza2lwIiB0byBLVEFQIHZl
-cnNpb24gMiBhcyBhbiBhbHRlcm5hdGl2ZSB3YXkgdG8NCj4gaW5kaWNhdGUgYSB0ZXN0IHdhcyBz
-a2lwcGVkLg0KPiANCj4gVGhlIGN1cnJlbnQgc3BlYyB1c2VzIHRoZSAiI1NLSVAiIGRpcmVjdGl2
-ZSB0byBpbmRpY2F0ZSB0aGF0IGEgdGVzdCB3YXMNCj4gc2tpcHBlZC4gSG93ZXZlciwgdGhlICIj
-U0tJUCIgZGlyZWN0aXZlIGlzIG5vdCBhbHdheXMgZXZpZGVudCB3aGVuIHF1aWNrbHkNCj4gc2tp
-bW1pbmcgdGhyb3VnaCBLVEFQIHJlc3VsdHMuDQo+IA0KPiBUaGUgInNraXAiIHJlc3VsdCB3b3Vs
-ZCBwcm92aWRlIGFuIGFsdGVybmF0aXZlIHRoYXQgY291bGQgbWFrZSBpdCBjbGVhcmVyDQo+IHRo
-YXQgYSB0ZXN0IGhhcyBub3Qgc3VjY2Vzc2Z1bGx5IHBhc3NlZCBiZWNhdXNlIGl0IHdhcyBza2lw
-cGVkLg0KPiANCg0KSXMgdGhlcmUgYW4gaW1wbGVtZW50YXRpb24gcGF0Y2ggKFJGQyBvciBvdGhl
-cndpc2UpIHRoYXQgYWNjb21wYW5pZXMNCnRoaXMgY2hhbmdlIGluIHRoZSBzcGVjPw0KDQpBbHNv
-LCBjYW4geW91IHRlbGwgbWUgd2hpY2gga3NlbGZ0ZXN0IG1vZHVsZXMgeW91IGV4cGVjdCB0byB1
-c2UgdGhpcw0KbmV3ICdza2lwJyByZXN1bHQsIGFzIG9wcG9zZWQgdG8gdGhlICNTS0lQIGRpcmVj
-dGl2ZT8gIEFyZSB0aGVyZSBwYXRjaGVzDQpwZW5kaW5nIHN1Ym1pc3Npb24gdGhhdCBhbHJlYWR5
-IHVzZSB0aGlzPw0KDQpXaGljaCBpbi10cmVlIGFuZCBvdXQtb2YtdHJlZSByZXN1bHRzIHBhcnNl
-cnMgd291bGQgYmUgYWZmZWN0ZWQ/DQoNCkkga25vdyBteSBGdWVnbyBrc2VsZnRlc3QgcmVzdWx0
-cyBwYXJzZXIgd291bGQgYmUgYWZmZWN0ZWQuDQoNCldoaWxlIEkgcmVjb2duaXplIHRoZSBzbGln
-aHQgaW1wcm92ZW1lbnQgaW4gaHVtYW4gcmVhZGFiaWxpdHksIHRoaXMgDQp3aWxsIGNhdXNlIGEg
-ZmFpciBhbW91bnQgb2YgY2h1cm4uICBBbmQgaXQgdGFrZXMgdXMgb3V0IG9mIFRBUCBjb21wbGlh
-bmNlLg0KQ2FuIHlvdSBxdWFudGlmeSB0aGUgY2h1cm4gYSBiaXQ/DQoNCiAtLSBUaW0NCg0KPiBC
-ZWZvcmU6DQo+IA0KPiAgS1RBUCB2ZXJzaW9uIDENCj4gIDEuLjENCj4gICAgS1RBUCB2ZXJzaW9u
-IDENCj4gICAgMS4uMg0KPiAgICBvayAxIGNhc2VfMQ0KPiAgICBvayAyIGNhc2VfMiAjU0tJUA0K
-PiAgb2sgMSBzdWl0ZQ0KPiANCj4gQWZ0ZXI6DQo+IA0KPiAgS1RBUCB2ZXJzaW9uIDINCj4gIDEu
-LjENCj4gICAgS1RBUCB2ZXJzaW9uIDINCj4gICAgMS4uMg0KPiAgICBvayAxIGNhc2VfMQ0KPiAg
-ICBza2lwIDIgY2FzZV8yDQo+ICBvayAxIHN1aXRlDQo+IA0KPiBIZXJlIGlzIGEgbGluayB0byBh
-IHZlcnNpb24gb2YgdGhlIEtVbml0IHBhcnNlciB0aGF0IGlzIGFibGUgdG8gcGFyc2UNCj4gdGhl
-IHNraXAgdGVzdCByZXN1bHQgZm9yIEtUQVAgdmVyc2lvbiAyLiBOb3RlIHRoaXMgcGFyc2VyIGlz
-IHN0aWxsIGFibGUNCj4gdG8gcGFyc2UgdGhlICIjU0tJUCIgZGlyZWN0aXZlLg0KPiANCj4gTGlu
-azogaHR0cHM6Ly9rdW5pdC1yZXZpZXcuZ29vZ2xlc291cmNlLmNvbS9jL2xpbnV4LysvNTY4OQ0K
-PiANCj4gU2lnbmVkLW9mZi1ieTogUmFlIE1vYXIgPHJtb2FyQGdvb2dsZS5jb20+DQo+IC0tLQ0K
-PiANCj4gTm90ZTogdGhpcyBwYXRjaCBpcyBiYXNlZCBvbiBGcmFuaydzIGt0YXBfc3BlY192ZXJz
-aW9uXzIgYnJhbmNoLg0KPiANCj4gIERvY3VtZW50YXRpb24vZGV2LXRvb2xzL2t0YXAucnN0IHwg
-MjcgKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgMTggaW5z
-ZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0
-aW9uL2Rldi10b29scy9rdGFwLnJzdCBiL0RvY3VtZW50YXRpb24vZGV2LXRvb2xzL2t0YXAucnN0
-DQo+IGluZGV4IGZmNzdmNGFhYTZlZi4uZjQ4YWEwMGRiOGYwIDEwMDY0NA0KPiAtLS0gYS9Eb2N1
-bWVudGF0aW9uL2Rldi10b29scy9rdGFwLnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL2Rldi10
-b29scy9rdGFwLnJzdA0KPiBAQCAtNzQsNyArNzQsOCBAQCBUaGV5IGFyZSByZXF1aXJlZCBhbmQg
-bXVzdCBoYXZlIHRoZSBmb3JtYXQ6DQo+ICAJPHJlc3VsdD4gPG51bWJlcj4gWzxkZXNjcmlwdGlv
-bj5dWyAjIFs8ZGlyZWN0aXZlPl0gWzxkaWFnbm9zdGljIGRhdGE+XV0NCj4gDQo+ICBUaGUgcmVz
-dWx0IGNhbiBiZSBlaXRoZXIgIm9rIiwgd2hpY2ggaW5kaWNhdGVzIHRoZSB0ZXN0IGNhc2UgcGFz
-c2VkLA0KPiAtb3IgIm5vdCBvayIsIHdoaWNoIGluZGljYXRlcyB0aGF0IHRoZSB0ZXN0IGNhc2Ug
-ZmFpbGVkLg0KPiArIm5vdCBvayIsIHdoaWNoIGluZGljYXRlcyB0aGF0IHRoZSB0ZXN0IGNhc2Ug
-ZmFpbGVkLCBvciAic2tpcCIsIHdoaWNoIGluZGljYXRlcw0KPiArdGhlIHRlc3QgY2FzZSBkaWQg
-bm90IHJ1bi4NCj4gDQo+ICA8bnVtYmVyPiByZXByZXNlbnRzIHRoZSBudW1iZXIgb2YgdGhlIHRl
-c3QgYmVpbmcgcGVyZm9ybWVkLiBUaGUgZmlyc3QgdGVzdCBtdXN0DQo+ICBoYXZlIHRoZSBudW1i
-ZXIgMSBhbmQgdGhlIG51bWJlciB0aGVuIG11c3QgaW5jcmVhc2UgYnkgMSBmb3IgZWFjaCBhZGRp
-dGlvbmFsDQo+IEBAIC05MSwxMiArOTIsMTMgQEAgQSBkaXJlY3RpdmUgaXMgYSBrZXl3b3JkIHRo
-YXQgaW5kaWNhdGVzIGEgZGlmZmVyZW50IG91dGNvbWUgZm9yIGEgdGVzdCBvdGhlcg0KPiAgdGhh
-biBwYXNzZWQgYW5kIGZhaWxlZC4gVGhlIGRpcmVjdGl2ZSBpcyBvcHRpb25hbCwgYW5kIGNvbnNp
-c3RzIG9mIGEgc2luZ2xlDQo+ICBrZXl3b3JkIHByZWNlZGluZyB0aGUgZGlhZ25vc3RpYyBkYXRh
-LiBJbiB0aGUgZXZlbnQgdGhhdCBhIHBhcnNlciBlbmNvdW50ZXJzDQo+ICBhIGRpcmVjdGl2ZSBp
-dCBkb2Vzbid0IHN1cHBvcnQsIGl0IHNob3VsZCBmYWxsIGJhY2sgdG8gdGhlICJvayIgLyAibm90
-IG9rIg0KPiAtcmVzdWx0Lg0KPiArLyAic2tpcCIgcmVzdWx0Lg0KPiANCj4gIEN1cnJlbnRseSBh
-Y2NlcHRlZCBkaXJlY3RpdmVzIGFyZToNCj4gDQo+IC0tICJTS0lQIiwgd2hpY2ggaW5kaWNhdGVz
-IGEgdGVzdCB3YXMgc2tpcHBlZCAobm90ZSB0aGUgcmVzdWx0IG9mIHRoZSB0ZXN0IGNhc2UNCj4g
-LSAgcmVzdWx0IGxpbmUgY2FuIGJlIGVpdGhlciAib2siIG9yICJub3Qgb2siIGlmIHRoZSBTS0lQ
-IGRpcmVjdGl2ZSBpcyB1c2VkKQ0KPiArLSAiU0tJUCIsIHdoaWNoIGluZGljYXRlcyBhIHRlc3Qg
-d2FzIHNraXBwZWQgKG5vdGUgdGhpcyBpcyBhbiBhbHRlcm5hdGl2ZSB0bw0KPiArICB0aGUgInNr
-aXAiIHJlc3VsdCB0eXBlIGFuZCBpZiB0aGUgU0tJUCBkaXJlY3RpdmUgaXMgdXNlZCwgdGhlDQo+
-ICsgIHJlc3VsdCBjYW4gYmUgYW55IHR5cGUgLSAib2siLCAibm90IG9rIiwgb3IgInNraXAiKQ0K
-PiAgLSAiVE9ETyIsIHdoaWNoIGluZGljYXRlcyB0aGF0IGEgdGVzdCBpcyBub3QgZXhwZWN0ZWQg
-dG8gcGFzcyBhdCB0aGUgbW9tZW50LA0KPiAgICBlLmcuIGJlY2F1c2UgdGhlIGZlYXR1cmUgaXQg
-aXMgdGVzdGluZyBpcyBrbm93biB0byBiZSBicm9rZW4uIFdoaWxlIHRoaXMNCj4gICAgZGlyZWN0
-aXZlIGlzIGluaGVyaXRlZCBmcm9tIFRBUCwgaXRzIHVzZSBpbiB0aGUga2VybmVsIGlzIGRpc2Nv
-dXJhZ2VkLg0KPiBAQCAtMTEwLDcgKzExMiw3IEBAIEN1cnJlbnRseSBhY2NlcHRlZCBkaXJlY3Rp
-dmVzIGFyZToNCj4gDQo+ICBUaGUgZGlhZ25vc3RpYyBkYXRhIGlzIGEgcGxhaW4tdGV4dCBmaWVs
-ZCB3aGljaCBjb250YWlucyBhbnkgYWRkaXRpb25hbCBkZXRhaWxzDQo+ICBhYm91dCB3aHkgdGhp
-cyByZXN1bHQgd2FzIHByb2R1Y2VkLiBUaGlzIGlzIHR5cGljYWxseSBhbiBlcnJvciBtZXNzYWdl
-IGZvciBFUlJPUg0KPiAtb3IgZmFpbGVkIHRlc3RzLCBvciBhIGRlc2NyaXB0aW9uIG9mIG1pc3Np
-bmcgZGVwZW5kZW5jaWVzIGZvciBhIFNLSVAgcmVzdWx0Lg0KPiArb3IgZmFpbGVkIHRlc3RzLCBv
-ciBhIGRlc2NyaXB0aW9uIG9mIG1pc3NpbmcgZGVwZW5kZW5jaWVzIGZvciBhIHNraXBwZWQgdGVz
-dC4NCj4gDQo+ICBUaGUgZGlhZ25vc3RpYyBkYXRhIGZpZWxkIGlzIG9wdGlvbmFsLCBhbmQgcmVz
-dWx0cyB3aGljaCBoYXZlIG5laXRoZXIgYQ0KPiAgZGlyZWN0aXZlIG5vciBhbnkgZGlhZ25vc3Rp
-YyBkYXRhIGRvIG5vdCBuZWVkIHRvIGluY2x1ZGUgdGhlICIjIiBmaWVsZA0KPiBAQCAtMTMwLDEx
-ICsxMzIsMTggQEAgVGhlIHRlc3QgInRlc3RfY2FzZV9uYW1lIiBmYWlsZWQuDQo+IA0KPiAgOjoN
-Cj4gDQo+IC0Jb2sgMSB0ZXN0ICMgU0tJUCBuZWNlc3NhcnkgZGVwZW5kZW5jeSB1bmF2YWlsYWJs
-ZQ0KPiArCXNraXAgMSB0ZXN0ICMgbmVjZXNzYXJ5IGRlcGVuZGVuY3kgdW5hdmFpbGFibGUNCj4g
-DQo+IC1UaGUgdGVzdCAidGVzdCIgd2FzIFNLSVBQRUQgd2l0aCB0aGUgZGlhZ25vc3RpYyBtZXNz
-YWdlICJuZWNlc3NhcnkgZGVwZW5kZW5jeQ0KPiArVGhlIHRlc3QgInRlc3QiIHdhcyBza2lwcGVk
-IHdpdGggdGhlIGRpYWdub3N0aWMgbWVzc2FnZSAibmVjZXNzYXJ5IGRlcGVuZGVuY3kNCj4gIHVu
-YXZhaWxhYmxlIi4NCj4gDQo+ICs6Og0KPiArDQo+ICsJb2sgMSB0ZXN0XzIgIyBTS0lQIHRoaXMg
-dGVzdCBzaG91bGQgbm90IHJ1bg0KPiArDQo+ICtUaGUgdGVzdCAidGVzdF8yIiB3YXMgc2tpcHBl
-ZCB3aXRoIHRoZSBkaWFnbm9zdGljIG1lc3NhZ2UgInRoaXMgdGVzdA0KPiArc2hvdWxkIG5vdCBy
-dW4iLg0KPiArDQo+ICA6Og0KPiANCj4gIAlub3Qgb2sgMSB0ZXN0ICMgVElNRU9VVCAzMCBzZWNv
-bmRzDQo+IEBAIC0yMjUsNyArMjM0LDcgQEAgQW4gZXhhbXBsZSBmb3JtYXQgd2l0aCBtdWx0aXBs
-ZSBsZXZlbHMgb2YgbmVzdGVkIHRlc3Rpbmc6DQo+ICAJICAgIG5vdCBvayAxIHRlc3RfMQ0KPiAg
-CSAgICBvayAyIHRlc3RfMg0KPiAgCSAgbm90IG9rIDEgdGVzdF8zDQo+IC0JICBvayAyIHRlc3Rf
-NCAjIFNLSVANCj4gKwkgIHNraXAgMiB0ZXN0XzQNCj4gIAlub3Qgb2sgMSBleGFtcGxlX3Rlc3Rf
-MQ0KPiAgCW9rIDIgZXhhbXBsZV90ZXN0XzINCj4gDQo+IEBAIC0yNjIsNyArMjcxLDcgQEAgRXhh
-bXBsZSBLVEFQIG91dHB1dA0KPiAgCSAgb2sgMSBleGFtcGxlX3Rlc3RfMQ0KPiAgCSAgICBLVEFQ
-IHZlcnNpb24gMg0KPiAgCSAgICAxLi4yDQo+IC0JICAgIG9rIDEgdGVzdF8xICMgU0tJUCB0ZXN0
-XzEgc2tpcHBlZA0KPiArCSAgICBza2lwIDEgdGVzdF8xICMgdGVzdF8xIHNraXBwZWQNCj4gIAkg
-ICAgb2sgMiB0ZXN0XzINCj4gIAkgIG9rIDIgZXhhbXBsZV90ZXN0XzINCj4gIAkgICAgS1RBUCB2
-ZXJzaW9uIDINCj4gDQo+IGJhc2UtY29tbWl0OiA5MDZmMDJlNDJhZGZiZDVhZTcwZDMyOGVlNzE2
-NTZlY2I2MDJhYWY1DQo+IC0tDQo+IDIuNDAuMC5yYzEuMjg0Lmc4ODI1NGQ1MWM1LWdvb2cNCg0K
+On Sat, Mar 04, 2023 at 04:51:45AM +0000, Joel Fernandes wrote:
+> Hi Paul,
+> 
+> On Fri, Mar 03, 2023 at 05:02:51PM -0800, Paul E. McKenney wrote:
+> [..]
+> > > Qiuxu also noted impressive boot-time improvements with earlier version
+> > > of patch. An excerpt from the data he shared:
+
+Now that we have the measurement methodology put to bed...
+
+[ . . . ]
+
+> > Mightn't this be simpler if the user was only permitted to write zero,
+> > thus just saying "stop immediately"?  If people really need the ability
+> > to extend or shorten the time, a patch can be produced at that point.
+> > And then a non-zero write to the file would become legal.
+> 
+> I prefer to keep it this way as with this method, I can not only get to
+> have variable rcu_boot_end_delay via boot parameter (as in my first patch), I
+> also don't need to add a separate sysfs entry, and can just reuse
+> 'rcu_boot_end_delay' parameter, which I also had in my first patch. And
+> adding yet another sysfs parameter will actually complicate it even more and
+> add more lines of code.
+> 
+> I tested difference scenarios and it works fine, though I missed that
+> mutex locking unfortunately, I did verify different test cases work as
+> expected by manual testing.
+
+Except that you don't need that extra sysfs value.  You could instead use
+any of a number of state variables that tell you that early boot is done.
+If the state says early boot (as in parsing the kernel command line),
+make the code act as it does now.  Otherwise, make it accept only zero.
+
+If there really is some system that wants to set one time limit via
+the kernel boot parameter and set another at some time during boot,
+there are very simple userspace facilities to make this happen.
+
+And there is also a smaller state space and less testing to be done,
+benefits which accrue on an ongoing basis.
+
+							Thanx, Paul
+
+> Here are some printks and on simple testing in Qemu:
+> 
+> 1. End the boot early, CONFIG is set to 120 seconds:
+> ==================================================
+> [    1.614968] rcu_boot_end_delay = 120000
+> [    1.617630] schedule delayed work joel
+> 
+> Boot took 1.57 seconds
+> root@(none):/# cat /sys/module/rcupdate/parameters/rcu_boot_end_delay
+> 120000
+> root@(none):/#
+> root@(none):/#
+> root@(none):/# echo 0 > /sys/module/rcupdate/parameters/rcu_boot_end_delay
+> [   10.108394] param called joel
+> [   10.110520] sys calling boot ended
+> [   10.112730] rcu_boot_end_delay = 0
+> [   10.115017] boot ended joel
+> -----------------------------------------------
+> 
+> 2. End the boot passing in rcupdate.rcu_boot_end_delay as 10s.
+>    This should overwride the CONFIG of 120 seconds:
+> ==================================================
+> [    1.700090] rcu_boot_end_delay = 10000
+> [    1.702628] schedule delayed work joel
+> 
+> Boot took 1.64 seconds
+> 
+> root@(none):/# [   10.414008] rcu_boot_end_delay = 10000
+> [   10.416670] boot ended joel
+> -----------------------------------------------
+> 
+> 3. Do the same thing as #2, but extend the boot via sysfs to be longer than
+> 10 seconds:
+> ==================================================
+> [    0.060025] param called joel
+> [    0.060026] param called too early joel
+> [    1.663905] rcu_boot_end_delay = 10000
+> [    1.667051] schedule delayed work joel
+> 
+> Boot took 1.61 seconds
+> 
+> root@(none):/#
+> root@(none):/# echo 20000 > /sys/module/rcupdate/parameters/rcu_boot_end_delay
+> [    6.932517] param called joel
+> [    6.934637] sys calling boot ended
+> [    6.936845] rcu_boot_end_delay = 20000
+> [    6.939291] schedule delayed work joel
+> root@(none):/# [   10.389366] rcu_boot_end_delay = 20000
+> [   10.392047] schedule delayed work joel
+> [   20.117416] rcu_boot_end_delay = 20000
+> [   20.120073] boot ended joel
+> -----------------------------------------------
+> 
+> The debug patch is here: https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?h=rcu/lazy/postboot
+> 
+> Appended is the updated v4 patch, tested as shown above, more testing is in progress.
+> 
+> thanks,
+> 
+>  - Joel
+> 
+> ---8<-----------------------
+> 
+> From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+> Subject: [PATCH v4] rcu: Add a minimum time for marking boot as completed
+> 
+> On many systems, a great deal of boot (in userspace) happens after the
+> kernel thinks the boot has completed. It is difficult to determine if
+> the system has really booted from the kernel side. Some features like
+> lazy-RCU can risk slowing down boot time if, say, a callback has been
+> added that the boot synchronously depends on. Further expedited callbacks
+> can get unexpedited way earlier than it should be, thus slowing down
+> boot (as shown in the data below).
+> 
+> For these reasons, this commit adds a config option
+> 'CONFIG_RCU_BOOT_END_DELAY' and a boot parameter rcupdate.boot_end_delay.
+> Userspace can also make RCU's view of the system as booted, by writing the
+> time in milliseconds to: /sys/module/rcupdate/parameters/rcu_boot_end_delay
+> Or even just writing a value of 0 to this sysfs node.
+> However, under no circumstance will the boot be allowed to end earlier
+> than just before init is launched.
+> 
+> The default value of CONFIG_RCU_BOOT_END_DELAY is chosen as 15s. This
+> suites ChromeOS and also a PREEMPT_RT system below very well, which need
+> no config or parameter changes, and just a simple application of this patch. A
+> system designer can also choose a specific value here to keep RCU from marking
+> boot completion.  As noted earlier, RCU's perspective of the system as booted
+> will not be marker until at least rcu_boot_end_delay milliseconds have passed
+> or an update is made via writing a small value (or 0) in milliseconds to:
+> /sys/module/rcupdate/parameters/rcu_boot_end_delay.
+> 
+> One side-effect of this patch is, there is a risk that a real-time workload
+> launched just after the kernel boots will suffer interruptions due to expedited
+> RCU, which previous ended just before init was launched. However, to mitigate
+> such an issue (however unlikely), the user should either tune
+> CONFIG_RCU_BOOT_END_DELAY to a smaller value than 15 seconds or write a value
+> of 0 to /sys/module/rcupdate/parameters/rcu_boot_end_delay, once userspace
+> boots, and before launching the real-time workload.
+> 
+> Qiuxu also noted impressive boot-time improvements with earlier version
+> of patch. An excerpt from the data he shared:
+> 
+> 1) Testing environment:
+>     OS            : CentOS Stream 8 (non-RT OS)
+>     Kernel     : v6.2
+>     Machine : Intel Cascade Lake server (2 sockets, each with 44 logical threads)
+>     Qemu  args  : -cpu host -enable-kvm, -smp 88,threads=2,sockets=2, …
+> 
+> 2) OS boot time definition:
+>     The time from the start of the kernel boot to the shell command line
+>     prompt is shown from the console. [ Different people may have
+>     different OS boot time definitions. ]
+> 
+> 3) Measurement method (very rough method):
+>     A timer in the kernel periodically prints the boot time every 100ms.
+>     As soon as the shell command line prompt is shown from the console,
+>     we record the boot time printed by the timer, then the printed boot
+>     time is the OS boot time.
+> 
+> 4) Measured OS boot time (in seconds)
+>    a) Measured 10 times w/o this patch:
+>         8.7s, 8.4s, 8.6s, 8.2s, 9.0s, 8.7s, 8.8s, 9.3s, 8.8s, 8.3s
+>         The average OS boot time was: ~8.7s
+> 
+>    b) Measure 10 times w/ this patch:
+>         8.5s, 8.2s, 7.6s, 8.2s, 8.7s, 8.2s, 7.8s, 8.2s, 9.3s, 8.4s
+>         The average OS boot time was: ~8.3s.
+> 
+> option-prefix PATCH v4
+> option-start
+> Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> 
+> diff-note-start
+> v1->v2:
+> 	Update some comments and description.
+> v2->v3:
+>         Add sysfs param, and update with Test data.
+> v3->v4:
+>         Fix locking bug found by Paul, make code more robust
+>         by refactoring locking code.
+>         Doc updates.
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 15 ++++
+>  cc_list                                       |  8 ++
+>  kernel/rcu/Kconfig                            | 21 ++++++
+>  kernel/rcu/update.c                           | 74 ++++++++++++++++++-
+>  4 files changed, 116 insertions(+), 2 deletions(-)
+>  create mode 100644 cc_list
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 2429b5e3184b..878c2780f5db 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -5085,6 +5085,21 @@
+>  	rcutorture.verbose= [KNL]
+>  			Enable additional printk() statements.
+>  
+> +	rcupdate.rcu_boot_end_delay= [KNL]
+> +			Minimum time in milliseconds from the start of boot
+> +			that must elapse before the boot sequence can be marked
+> +			complete from RCU's perspective, after which RCU's
+> +			behavior becomes more relaxed. The default value is also
+> +			configurable via CONFIG_RCU_BOOT_END_DELAY.
+> +			Userspace can also mark the boot as completed
+> +			sooner by writing the time in milliseconds, say once
+> +			userspace considers the system as booted, to:
+> +			/sys/module/rcupdate/parameters/rcu_boot_end_delay
+> +			Or even just writing a value of 0 to this sysfs node.
+> +			The sysfs node can also be used to extend the delay
+> +			to be larger than the default, assuming the marking
+> +			of boot complete has not yet occurred.
+> +
+>  	rcupdate.rcu_cpu_stall_ftrace_dump= [KNL]
+>  			Dump ftrace buffer after reporting RCU CPU
+>  			stall warning.
+> diff --git a/cc_list b/cc_list
+> new file mode 100644
+> index 000000000000..7daed4877f5a
+> --- /dev/null
+> +++ b/cc_list
+> @@ -0,0 +1,8 @@
+> +Frederic Weisbecker <frederic@kernel.org>
+> +Joel Fernandes <joel@joelfernandes.org>
+> +Lai Jiangshan <jiangshanlai@gmail.com>
+> +linux-doc@vger.kernel.org
+> +linux-kernel@vger.kernel.org
+> +"Paul E. McKenney" <paulmck@kernel.org>
+> +rcu@vger.kernel.org
+> +urezki@gmail.com
+> diff --git a/kernel/rcu/Kconfig b/kernel/rcu/Kconfig
+> index 9071182b1284..97f68120d1c0 100644
+> --- a/kernel/rcu/Kconfig
+> +++ b/kernel/rcu/Kconfig
+> @@ -217,6 +217,27 @@ config RCU_BOOST_DELAY
+>  
+>  	  Accept the default if unsure.
+>  
+> +config RCU_BOOT_END_DELAY
+> +	int "Minimum time before RCU may consider in-kernel boot as completed"
+> +	range 0 120000
+> +	default 15000
+> +	help
+> +	  Default value of the minimum time in milliseconds from the start of boot
+> +	  that must elapse before the boot sequence can be marked complete from RCU's
+> +	  perspective, after which RCU's behavior becomes more relaxed.
+> +	  Userspace can also mark the boot as completed sooner than this default
+> +	  by writing the time in milliseconds, say once userspace considers
+> +	  the system as booted, to: /sys/module/rcupdate/parameters/rcu_boot_end_delay.
+> +	  Or even just writing a value of 0 to this sysfs node. The sysfs node can
+> +	  also be used to extend the delay to be larger than the default, assuming
+> +	  the marking of boot completion has not yet occurred.
+> +
+> +	  The actual delay for RCU's view of the system to be marked as booted can be
+> +	  higher than this value if the kernel takes a long time to initialize but it
+> +	  will never be smaller than this value.
+> +
+> +	  Accept the default if unsure.
+> +
+>  config RCU_EXP_KTHREAD
+>  	bool "Perform RCU expedited work in a real-time kthread"
+>  	depends on RCU_BOOST && RCU_EXPERT
+> diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
+> index 19bf6fa3ee6a..18ed3c15e6b5 100644
+> --- a/kernel/rcu/update.c
+> +++ b/kernel/rcu/update.c
+> @@ -224,13 +224,50 @@ void rcu_unexpedite_gp(void)
+>  }
+>  EXPORT_SYMBOL_GPL(rcu_unexpedite_gp);
+>  
+> +/*
+> + * Minimum time in milliseconds from the start boot until RCU can consider
+> + * in-kernel boot as completed.  This can also be tuned at runtime to end the
+> + * boot earlier, by userspace init code writing the time in milliseconds (even
+> + * 0) to: /sys/module/rcupdate/parameters/rcu_boot_end_delay. The sysfs node
+> + * can also be used to extend the delay to be larger than the default, assuming
+> + * the marking of boot complete has not yet occurred.
+> + */
+> +static int rcu_boot_end_delay = CONFIG_RCU_BOOT_END_DELAY;
+> +
+>  static bool rcu_boot_ended __read_mostly;
+> +static bool rcu_boot_end_called __read_mostly;
+> +static DEFINE_MUTEX(rcu_boot_end_lock);
+>  
+>  /*
+> - * Inform RCU of the end of the in-kernel boot sequence.
+> + * Inform RCU of the end of the in-kernel boot sequence. The boot sequence will
+> + * not be marked ended until at least rcu_boot_end_delay milliseconds have passed.
+>   */
+> -void rcu_end_inkernel_boot(void)
+> +void rcu_end_inkernel_boot(void);
+> +static void rcu_boot_end_work_fn(struct work_struct *work)
+> +{
+> +	rcu_end_inkernel_boot();
+> +}
+> +static DECLARE_DELAYED_WORK(rcu_boot_end_work, rcu_boot_end_work_fn);
+> +
+> +/* Must be called with rcu_boot_end_lock held. */
+> +static void rcu_end_inkernel_boot_locked(void)
+>  {
+> +	rcu_boot_end_called = true;
+> +
+> +	if (rcu_boot_ended)
+> +		return;
+> +
+> +	if (rcu_boot_end_delay) {
+> +		u64 boot_ms = div_u64(ktime_get_boot_fast_ns(), 1000000UL);
+> +
+> +		if (boot_ms < rcu_boot_end_delay) {
+> +			schedule_delayed_work(&rcu_boot_end_work,
+> +					rcu_boot_end_delay - boot_ms);
+> +			return;
+> +		}
+> +	}
+> +
+> +	cancel_delayed_work(&rcu_boot_end_work);
+>  	rcu_unexpedite_gp();
+>  	rcu_async_relax();
+>  	if (rcu_normal_after_boot)
+> @@ -238,6 +275,39 @@ void rcu_end_inkernel_boot(void)
+>  	rcu_boot_ended = true;
+>  }
+>  
+> +void rcu_end_inkernel_boot(void)
+> +{
+> +	mutex_lock(&rcu_boot_end_lock);
+> +	rcu_end_inkernel_boot_locked();
+> +	mutex_unlock(&rcu_boot_end_lock);
+> +}
+> +
+> +static int param_set_rcu_boot_end(const char *val, const struct kernel_param *kp)
+> +{
+> +	uint end_ms;
+> +	int ret = kstrtouint(val, 0, &end_ms);
+> +
+> +	if (ret)
+> +		return ret;
+> +	/*
+> +	 * rcu_end_inkernel_boot() should be called at least once during init
+> +	 * before we can allow param changes to end the boot.
+> +	 */
+> +	mutex_lock(&rcu_boot_end_lock);
+> +	rcu_boot_end_delay = end_ms;
+> +	if (!rcu_boot_ended && rcu_boot_end_called) {
+> +		rcu_end_inkernel_boot_locked();
+> +	}
+> +	mutex_unlock(&rcu_boot_end_lock);
+> +	return ret;
+> +}
+> +
+> +static const struct kernel_param_ops rcu_boot_end_ops = {
+> +	.set = param_set_rcu_boot_end,
+> +	.get = param_get_uint,
+> +};
+> +module_param_cb(rcu_boot_end_delay, &rcu_boot_end_ops, &rcu_boot_end_delay, 0644);
+> +
+>  /*
+>   * Let rcutorture know when it is OK to turn it up to eleven.
+>   */
+> -- 
+> 2.40.0.rc0.216.gc4246ad0f0-goog
+> 
