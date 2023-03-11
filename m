@@ -2,249 +2,308 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9865FC6FD19
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 02:38:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD953C6FA99
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 02:42:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229798AbjCKCiN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 21:38:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36218 "EHLO
+        id S229489AbjCKCmp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 21:42:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229764AbjCKCiM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 21:38:12 -0500
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452A31A665
-        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 18:38:08 -0800 (PST)
-Received: by mail-il1-x135.google.com with SMTP id y9so4113154ill.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 18:38:08 -0800 (PST)
+        with ESMTP id S229471AbjCKCmo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 21:42:44 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6802134822;
+        Fri, 10 Mar 2023 18:42:42 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id nn12so7045452pjb.5;
+        Fri, 10 Mar 2023 18:42:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678502287;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HqjQ8JlEQKuUyV+WIa0Lxz0sBHdD3KUkil3H4y4mo+w=;
-        b=BNvkRIMwLQVyPQE2KQBlS+AZx9fxAzS9KdyzuWbwoaZIgQd4c2jDssHRuPTy8SW77G
-         /fi9Ui412yRHrT3Oz+AGG0LaxqMXOiTDvLcmFev/cSpP/dgXX2QBwyBhIAZ7LoVcuXaS
-         wskjNf6mk96Wvg1OQ1KTpncPiHfDDZe4TQW5c=
+        d=gmail.com; s=20210112; t=1678502562;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=umqzK/hOBtRu3pNuRypQQc9h+Uu3og0K8NY7WJV+iZA=;
+        b=kuu45IXEDEo/OxCiuuLWr+cOhNq7nvTvneMFTdgJQRJK9aRyg9jc4+yzEk6cD2lVGY
+         iWVqcKOzY9Iv8SzXRhy4XrY+NAlWESOMNUv4uHJI1WXyb8AixJK/zlpatlBAr+NHrFQk
+         ITQR4TvI9KEIoMD8TH/+G/M/d4NA3nNL18VEG4Dho0j65fjhx7C1oyr57KvjghB5q1+n
+         BrNdea2Z924MKhIDwdu7cX2I6fw6i5p/EUPX6l/wqJtHgCOen53t+1KkmUTAXrF1WEME
+         mElV3JADqK/VnUdZn5wxA4sRPgaY/Oj4tOut/CJHGYrEUb2kl93tbIDSxarn372OGKCM
+         Rf0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678502287;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HqjQ8JlEQKuUyV+WIa0Lxz0sBHdD3KUkil3H4y4mo+w=;
-        b=xDWFjm7L3wCrqmA+e8w6hyRCplXkZOEF6EZyTs05OGlyoZMqgiXEiczZVEGG2QZb+o
-         nzdaZhIj5Yto3bD0A926kOS9jfJoOOB3kICxBglMug1aqzvpuVvI3F3AuQF8wCparMFI
-         oQhNDlImc3+GashunkUXdbvqMZfou98he+fVwq2ltCXIJctNeDxjYpKH6vCK5SOdC467
-         3puqboE+pI4PS/Ho4ncwOf+Wblm7uVjvOueDsYQKsu4eMgIgM1zU2epYAtyHd6+MIVZG
-         YdT86XHx+yE8a7sQJ7UXZSlip4VL6u8LP/OoExGNcAsi2njYjgWxzbihCx76dKiWnd9r
-         1eFw==
-X-Gm-Message-State: AO0yUKUslAdVgILdus5aI7LYyYLME2R2v/VmPoh2amr8ZYYNu/CvWa8y
-        mm9P/mOb2ANS3geaFTK2xjwJ4g==
-X-Google-Smtp-Source: AK7set8cApqMBhGRp8TbZYxrzy8LGvCw+VyO4cdmPbWYOM5NCFQcB9e98YGg2pTAX/tbrpgaXjsojA==
-X-Received: by 2002:a05:6e02:1447:b0:317:9c05:e8e8 with SMTP id p7-20020a056e02144700b003179c05e8e8mr8582538ilo.10.1678502287539;
-        Fri, 10 Mar 2023 18:38:07 -0800 (PST)
-Received: from sjg1.roam.corp.google.com (c-73-14-173-85.hsd1.co.comcast.net. [73.14.173.85])
-        by smtp.gmail.com with ESMTPSA id m6-20020a6b7c06000000b0071664d0a4d7sm409633iok.49.2023.03.10.18.37.28
+        d=1e100.net; s=20210112; t=1678502562;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=umqzK/hOBtRu3pNuRypQQc9h+Uu3og0K8NY7WJV+iZA=;
+        b=MGuLOK7SYWNg1K6sJmn2KNfzgYTPi41mBlXqkwpWQK0k457j84ajb6ERYHfZV8pkCy
+         7kL/4ogVFhoE2E94l3CVW09e9AskrR9iHCW72o9t15MhCQiR0KB/5etxu5TcgiV/AWxG
+         nGC+ZZEnS/3fTQ0qfT7O/GMkfvgYfs2rsSukuCzV8O2ZfoBDlL6J0ED6g/Vrcja4tIve
+         nBk74Z5LqNT9JAtaKp9VbuhO5+bocE93cuGH3yL/mXOEBBGGwVeCGshCBW5GkMz7qJLj
+         2kB1Gp7cyo//TEM2dtmUxThpupo9C444idodIT1cy+xCRgRANMUuTVomrPUtfD94NLgc
+         PGBw==
+X-Gm-Message-State: AO0yUKXt9PAGmBMCUjXIc/MLqogaIler283vn+GyfFTXikPUpSAChgaA
+        bB40ntxunJojz80lRwiqvRWWu6vy9To=
+X-Google-Smtp-Source: AK7set+bw2PZKBjOfEpcK/SQBdkFCXFqFMTtZP42+Q9HLXf5vggFG+C38LdqWm3xo4+ebIC7X/Silw==
+X-Received: by 2002:a17:902:eecc:b0:199:2ee:6238 with SMTP id h12-20020a170902eecc00b0019902ee6238mr25679291plb.16.1678502562106;
+        Fri, 10 Mar 2023 18:42:42 -0800 (PST)
+Received: from debian.me (subs28-116-206-12-51.three.co.id. [116.206.12.51])
+        by smtp.gmail.com with ESMTPSA id kt7-20020a170903088700b001963bc7bdb8sm573404plb.274.2023.03.10.18.42.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 18:37:50 -0800 (PST)
-From:   Simon Glass <sjg@chromium.org>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     U-Boot Custodians <u-boot-custodians@lists.denx.de>,
-        Tom Rini <trini@konsulko.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        barebox@lists.infradead.org, Sascha Hauer <s.hauer@pengutronix.de>,
-        U-Boot Mailing List <u-boot@lists.denx.de>,
-        Simon Glass <sjg@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: [RESEND PATCH] kconfig: Proposed language extension for multiple builds
-Date:   Fri, 10 Mar 2023 18:37:18 -0800
-Message-Id: <20230310183717.RESEND.1.Idaaf79c3e768b85750d5a7eb732052576c5e07e5@changeid>
-X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
+        Fri, 10 Mar 2023 18:42:41 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 767891065A6; Sat, 11 Mar 2023 09:42:36 +0700 (WIB)
+Date:   Sat, 11 Mar 2023 09:42:35 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Vegard Nossum <vegard.nossum@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, backports@vger.kernel.org,
+        Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH] docs: add backporting and conflict resolution document
+Message-ID: <ZAvqm9EqGq/kJpkT@debian.me>
+References: <20230303162553.17212-1-vegard.nossum@oracle.com>
+ <ZAQUkbxQxCanh+9c@debian.me>
+ <e70bf38e-af6a-dc63-3249-adbf168a1233@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="5SlrIDA6gKdGPE62"
+Content-Disposition: inline
+In-Reply-To: <e70bf38e-af6a-dc63-3249-adbf168a1233@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-(I am sending this again to get more feedback)
 
-In the case of Linux, only one build is produced so there is only a
-single configuration. For other projects, such as U-Boot and Zephyr, the
-same code is used to produce multiple builds, each with related (but
-different) options enabled.
+--5SlrIDA6gKdGPE62
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This can be handled with the existing kconfig language, but it is quite
-verbose, somewhat tedious and very error-prone, since there is a lot of
-duplication. The result is hard to maintain.
+On Tue, Mar 07, 2023 at 12:43:42PM +0100, Vegard Nossum wrote:
+> This whole document is meant for the developer doing the backport.
+>=20
+> git-format-patch --base=3D is already covered here:
+>=20
+> https://docs.kernel.org/process/submitting-patches.html#providing-base-tr=
+ee-information
+>=20
+> I don't think we need to repeat it in this document.
 
-Describe an extension to the Kconfig language to support easier handling
-of this use case.
+OK.
 
-Signed-off-by: Simon Glass <sjg@chromium.org>
----
+> >=20
+> > "In most cases, you will likely want to cherry-pick with ``-x`` option
+> > to record upstream commit in the resulting backport commit description,
+> > which looks like::
+> >=20
+> >      (cherry picked from commit <upstream commit>)
+> >=20
+> > However, for backporting to stable, you need to edit the description
+> > above to either::
+> >=20
+> >      commit <upstream commit> upstream
+> >=20
+> > or
+> >      [ Upstream commit <upstream commit> ]
+> >=20
+> > "
+>=20
+> Good point -- the original blog post where this came from was meant to
+> be more general than just stable backports, but this document in
+> particular is partly also meant to aid stable contributors we might as
+> well include it.
 
- Documentation/kbuild/kconfig-language.rst | 134 ++++++++++++++++++++++
- 1 file changed, 134 insertions(+)
+Nice.
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 858ed5d80defe..73fb016a5533f 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -228,6 +228,24 @@ applicable everywhere (see syntax).
-   enables the third modular state for all config symbols.
-   At most one symbol may have the "modules" option set.
- 
-+- phase declaration: "defphase"
-+  This defines a new build phase. See `Build Phases`_.
-+
-+- default phase: "phasedefault"
-+  This indicates the default build phase. See `Build Phases`_.
-+
-+- add entries for phases: "addphases"
-+  This creates new phase-specific entries based on a template entry and adds
-+  the same attributes to it. See `Build Phases`_.
-+
-+- set entries for phases: "setphases"
-+  This sets the phases which need an entry. This allows creating an entry that
-+  only has a primary phase. See `Build Phases`_.
-+
-+- indicate a phase-specific attribute: "forphases"
-+  This marks an attribute as being applicable only to a particular phase or
-+  group of phases.  See `Build Phases`_.
-+
- Menu dependencies
- -----------------
- 
-@@ -319,6 +337,119 @@ MODVERSIONS directly depends on MODULES, this means it's only visible if
- MODULES is different from 'n'. The comment on the other hand is only
- visible when MODULES is set to 'n'.
- 
-+Build Phases
-+------------
-+
-+Some projects use Kconfig to control multiple build phases, each phase
-+resulting in a separate set of object files and executable. This is the
-+case in U-Boot [12]_. Zephyr OS seems to be heading this way too [13]_.
-+
-+Generally the phases are related, so that enabling an entry in the primary
-+phase also enables it by default in the others. But in some cases it may
-+be desirable to use separate conditions for each phase.
-+
-+All phases have a phase name, for example `SPL`. This name is used as a
-+prefix to each entry used in that phase, with an underscore in between.
-+So if FOO is the primary entry, the equivalent entry for the SPL phase
-+is SPL_FOO. The primary phase is marked with a "phasedefault" entry.
-+
-+Phases are declared like any other menu entry except that also have a
-+"defphase" keyword. Phase entries are normally hidden so do not have a
-+prompt::
-+
-+    config PPL
-+        bool
-+        defphase "Primary Program Loader"
-+        phasedefault
-+        help
-+          This is the primary bootloader.
-+
-+    config SPL
-+        bool
-+        defphase "Secondary Program Loader"
-+        help
-+          This is used to set up memory and load the primary bootloader.
-+
-+The default phase (here PPL) is assumed for all entries, in the sense that
-+all entries are present in PPL by default and no prefix is needed on these
-+entries. So FOO means that it applies to PPL. There must be exactly one
-+default phase.
-+
-+The resulting menu entries can be used normally throughout the Kconfig. With
-+this technique, the different build phases can be fully and individually
-+controlled from Kconfig.
-+
-+However it is not ideal. Often the secondary phases have far fewer entries than
-+the primary phase, since they offer fewer features. Even so, each FOO that is
-+needed in a phase must have an SPL_FOO, etc. To avoid an explosion of entries,
-+it is possible to indicate which are enabled, as a shortcut for creating new
-+entries::
-+
-+    config FOO
-+        bool "Enable foo feature"
-+        addphases SPL
-+        depends on %BAR
-+        depends on QUX
-+        forphases SPL depends on FIZZ
-+
-+Note that "%" expands to the phase, so this is equivalent to (ignoring BAR)::
-+
-+    config FOO
-+        bool "Enable foo feature"
-+        depends on BAR
-+        depends on QUX
-+
-+    config SPL_FOO			   # Phase is prepended
-+        bool "Enable foo feature (SPL)"    # Suffix is added
-+        depends on SPL_BAR                 # "%" dependency is expanded
-+        depends on QUX
-+        depends on FIZZ                    # Added only for SPL
-+        depends on SPL                     # Added automatically
-+
-+Attributes declared in the primary symbol FOO (such as "depends on BAR") also
-+apply to the secondary ones.
-+
-+An entry without any 'addphases' attribute applies to all phases. Individual
-+phase entries are not available in that case. If the entry is enabled, then
-+it is enabled for all phases. Only one entry appears in the resulting Kconfig.
-+
-+In the case where an entry should apply only to the primary phase (or a
-+particular set of phases), you can uses "setphases" instead of "addphases"::
-+
-+    config FOO
-+        bool "Enable foo feature"
-+        setphases PPL
-+
-+This means that even if the option is enabled, it will not be active outside
-+the primary-phase build, here named "PPL".
-+
-+Internally, phases are implemented simply by creating new entries. These
-+appear in the Kconfig as per normal. It would be possible for a Kconfig
-+editor to show the entries just for a particular phase, leaving out the
-+entries not applicable to that phase.
-+
-+When phases are used, the Kconfig tool outputs separate auto.conf files for
-+each phase (e.g. auto_spl.conf), so that if SPL_FOO is enabled, then
-+`CONFIG_FOO=y` is present in the file. This makes it easy for the build system
-+to build the correct code, use IS_ENABLED(), etc.
-+
-+To ensure that the correct options are enabled for each build, in addition to
-+the normal CONFIG_FOO option in the file, phase symbols are added too. For
-+example, if FOO is enabled in the SPL phase, then auto_spl.conf contains::
-+
-+    CONFIG_FOO=y
-+    CONFIG_SPL_FOO=y
-+
-+The phase-specific line (CONFIG_SPL_FOO) is seldom needed, but it allows one
-+phase to access the symbols from another phase. For example, if the primary
-+phase needs to receive boot timings from SPL, then support for boot timings must
-+be added in both phases. If the timings are at a fixed address, this can be in a
-+shared symbol (like CONFIG_SPL_TIMING_BASE) that both phases can access.
-+
-+Technical note: the grammar definition of <symbol> in this documeent does not
-+include the "%" prefix at present. It can be used with any attribute. It cannot
-+be used with any top-level items, like "config", "menuconfig", "if" and "menu".
-+
- 
- Kconfig syntax
- --------------
-@@ -744,3 +875,6 @@ https://kernelnewbies.org/KernelProjects/kconfig-sat
- .. [9] https://www4.cs.fau.de/Publications/2011/tartler_11_eurosys.pdf
- .. [10] https://paulgazzillo.com/papers/esecfse21.pdf
- .. [11] https://github.com/paulgazz/kmax
-+
-+.. [12] https://u-boot.readthedocs.io/en/latest/develop/spl.html
-+.. [13] https://docs.zephyrproject.org/latest/build/sysbuild/index.html
--- 
-2.40.0.rc1.284.g88254d51c5-goog
+>=20
+> > > +For backports, what likely happened was that your older branch is
+> > > +missing a patch compared to the branch you are backporting from --
+> > > +however, it is also possible that your older branch has some commit =
+that
+> > > +doesn't exist in the newer branch. In any case, the result is a conf=
+lict
+> > > +that needs to be resolved.
+> >=20
+> > Another conflict culprit that there are non-prerequisite commits that
+> > change the context line.
+>=20
+> I think that's already covered by "missing a patch", or at least that
+> was my intention. I guess we can change it to something like:
+>=20
+> +For backports, what likely happened was that the branch you are
+> +backporting from contains patches not in the branch you are backporting
+> +to. However, it is also possible that your older branch has some commit
+> +that doesn't exist in the newer branch. In any case, the result is a
+> +conflict that needs to be resolved.
 
+What I mean is "hey, we have changes that make context lines
+conflicted". By "patches not in the branch", I interpret that as "we
+have possible non-prereqs that cause this (messy) conflict".
+
+>=20
+> I'll fiddle a bit more with the exact phrasing.
+>=20
+> > > +git log
+> > > +^^^^^^^
+> > > +
+> > > +A good first step is to look at ``git log`` for the file that has the
+> > > +conflict -- this is usually sufficient when there aren't a lot of
+> > > +patches to the file, but may get confusing if the file is big and
+> > > +frequently patched. You should run ``git log`` on the range of commi=
+ts
+> > > +between your currently checked-out branch (``HEAD``) and the parent =
+of
+> > > +the patch you are picking (``COMMIT``), i.e.::
+> > > +
+> > > +    git log HEAD..COMMIT^ -- PATH
+> >=20
+> > HEAD and <commit> swapped, giving empty log. The correct way is:
+> >=20
+> > ```
+> > git log <commit>^..HEAD -- <path>
+> > ```
+>=20
+> Hrrm, I've double checked this and I think the original text is correct.
+>=20
+> HEAD..<commit>^ gives you commits reachable from <commit>^ (parent of
+> the commit we are backporting), excluding all commits that are reachable
+> from HEAD (the branch we are backporting to).
+>=20
+> <commit>^..HEAD, on the other hand, would give you commits reachable
+> from HEAD excluding all commits that are reachable from the parent of
+> the commit we are backporting.
+>=20
+> With a diagram like this:
+>=20
+> o--o--x--y--<commit>
+>     \
+>      \--u--v--HEAD
+>=20
+> HEAD..<commit>^ would give you x and y while
+> <commit>^..HEAD would give you u and v.
+
+In any case, the HEAD you mentioned is at target branch (linux-x.y),
+right?
+
+> > > +Sometimes the right thing to do will be to also backport the patch t=
+hat
+> > > +did the rename, but that's definitely not the most common case. Inst=
+ead,
+> > > +what you can do is to temporarily rename the file in the branch you'=
+re
+> > > +backporting to (using ``git mv`` and committing the result), restart=
+ the
+> > > +attempt to cherry-pick the patch, rename the file back (``git mv`` a=
+nd
+> > > +committing again), and finally squash the result using ``git rebase =
+-i``
+> > > +(`tutorial <https://medium.com/@slamflipstrom/a-beginners-guide-to-s=
+quashing-commits-with-git-rebase-8185cf6e62ec>`__)
+> > > +so it appears as a single commit when you are done.
+> >=20
+> > I'm kinda confused with above. Did you mean that after renaming file, I
+> > have to abort cherry-picking (``git cherry-pick --abort``) first and
+> > then redo cherry-picking?
+>=20
+> Yes, the idea is that instead of trying to resolve it as a conflict, you
+> rename the file first, do a (clean) cherry-pick, and then rename it back.
+>=20
+> What caused the confusion, specifically?
+
+I thought that the sequence was:
+
+```
+$ git checkout -b my-backport linux-x.y
+$ git cherry-pick <upstream commit>
+# we get mv/modified content conflict
+$ git mv <original path> <intended path> && git commit
+$ git cherry-pick --abort
+$ git cherry-pick <upstream commit>
+# resolve content conflicts
+$ git add <conflicted path>... && git commit
+$ git rebase -i linux-x.y
+```
+
+>=20
+> > > +Build testing
+> > > +~~~~~~~~~~~~~
+> > > +
+> > > +We won't cover runtime testing here, but it can be a good idea to bu=
+ild
+> > Runtime testing is described in the next section.
+> > > +just the files touched by the patch as a quick sanity check. For the
+> > > +Linux kernel you can build single files like this, assuming you have=
+ the
+> > > +``.config`` and build environment set up correctly::
+> > > +
+> > > +    make path/to/file.o
+> > > +
+> > > +Note that this won't discover linker errors, so you should still do a
+> > > +full build after verifying that the single file compiles. By compili=
+ng
+> > > +the single file first you can avoid having to wait for a full build =
+*in
+> > > +case* there are compiler errors in any of the files you've changed.
+> > > +
+> >=20
+> > plain ``make``?
+>=20
+> Yes, but I don't think we need to spell that out as it's the common case
+> (in other words, it is presupposed that you know this).
+>=20
+> > > +One concrete example of this was where a patch to the system call en=
+try
+> > > +code saved/restored a register and a later patch made use of the sav=
+ed
+> > > +register somewhere in the middle -- since there was no conflict, one
+> > > +could backport the second patch and believe that everything was fine,
+> > > +but in fact the code was now scribbling over an unsaved register.
+> >=20
+> > Did you mean the later patch is the backported syscall patch?
+>=20
+> Yes. I'll fiddle a bit with this paragraph to make it clearer.
+
+So, in that case, what would the correct resoultion be regarding to
+registers?
+
+> > For the external link targets, I'd like to separate them from
+> > corresponding link texts (see
+> > https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html=
+#external-links
+> > for details).
+>=20
+> We can probably do that, but it doesn't seem to be used much in existing
+> kernel documentation, I find no existing instances of it:
+>=20
+> $ git grep '\.\._.*: http' Documentation/
+> $
+
+I recently worked on Documentation/bpf/bpf_devel_QA.rst, where I mention
+this linking syntax.
+
+>=20
+> I know that lots of people really prefer to minimize the amount of
+> markup in these files (as they consume them in source form), so I'd
+> really like an ack from others before doing this.
+>=20
+
+OK. For now I'm OK with either separating targets or including them.
+
+Thanks for reply!
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--5SlrIDA6gKdGPE62
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZAvqkwAKCRD2uYlJVVFO
+o2MZAQCAq3m2XTlWIsKk4U6tgN+qvnbn7x48TuxMzTC83PN22QEA3zYHSclsym9s
+B/SoMSlJDwi63VCsTGslZfsPe4mb/w8=
+=o/ds
+-----END PGP SIGNATURE-----
+
+--5SlrIDA6gKdGPE62--
