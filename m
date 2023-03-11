@@ -2,193 +2,254 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB24C6FD19
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Mar 2023 22:21:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8FE3C6FA99
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 00:39:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231250AbjCJWVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Mar 2023 17:21:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56612 "EHLO
+        id S229742AbjCKAjr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Mar 2023 19:39:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbjCJWVf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 17:21:35 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52A63AA256
-        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 14:21:34 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id j125-20020a25d283000000b008f257b16d71so7109755ybg.15
-        for <linux-doc@vger.kernel.org>; Fri, 10 Mar 2023 14:21:34 -0800 (PST)
+        with ESMTP id S229801AbjCKAjq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Mar 2023 19:39:46 -0500
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00889A7A85;
+        Fri, 10 Mar 2023 16:39:44 -0800 (PST)
+Received: by mail-qv1-xf36.google.com with SMTP id nf5so4769527qvb.5;
+        Fri, 10 Mar 2023 16:39:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678486893;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bNk5WMZuK/TfpBzWcYdw8aTqTSoewqS7vtwhPKDCVOo=;
-        b=h3i6N8WZ48i/Qi/G0Ngo3IG/d2/GMJ5LB0xCEcllPPJWPbRwvNzNGAPOv5trMIdEMK
-         1yx6i4+ABS+Gg2sUwFytLmkpyDkpgiJ9q0LFkXA8gDJopKigN+APi3Y6K60wkYakRJar
-         B8JQQ028OlQD9okMKRTJxtHEYWvE0J6LGp1ivsa2+iPfTbYvpO3qKTfmmz3LcE4dHYRt
-         0l//B9Wa1YIvmjF2v2KHJkZOatje3n3IcBb7tKAWXcWLPVBcf3zQPlRAqhEvFTXtrCwK
-         1SpfkoPNeVa7A/owbpj5vo7DX+VveSvM6CbseMCCGlfIP4+Qu04eJmnfYdi1MkG0eYzK
-         tdjA==
+        d=gmail.com; s=20210112; t=1678495184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sjMkQjLCZ3BM2pNDIMhhzn6RH1drrsuj6qqHGDBUAzk=;
+        b=jtiDqd+qPHutJBoQQIOHT2/Oyc2PEH/Q6mnOAT3ZjBQ28OVYkAxk+xA5cbwgo9/veZ
+         BkadPXFACr4ZN3DsCmjDBO2wHo+og5UALJd+uihDisNpoDgfgNtFXPRZKhHahlSLHYNS
+         hBJQXlo0p4QwpvO4PVGzb7h39+QE1iIENJNk4jx2Fve78xIbjiS0zvqPRLjSTMSZF/5T
+         /7oqDSVrjEh7Nf6Gi+1476WFojlQA52Et9pjesfmTe5VoRU2bnIOZyLCrXhCTQIxmMQe
+         C79LD65c3E84ihUhkt9plWzh5lpbdAPBj8qsc6e2iVygcyk58AToLiuFPB9fHPQo7F2R
+         vNpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678486893;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bNk5WMZuK/TfpBzWcYdw8aTqTSoewqS7vtwhPKDCVOo=;
-        b=6x53zXdQ0jKpq+10VTi7nwVGY7C7WnwmpZ/PXi4hOyhgijvSGI58xpPhzxYsUQ+5RS
-         BKfMgHlZn0/Vda1P59ZTEaBGtGgQebKy4VQmY+krd62XD2u/tM+PM+wv0V0EQEIycgl7
-         tI1tUcSbt8DGb5tCAbNvJap0CDIG+1w1WwDQwuCTU/L68kraXyPlDOIuRcGDTElrVmpy
-         GHHHTunPnt0elkiOYD4bri2GgjiMqcoc50hXbaj6Btz5578TUqHAq+oS/QonNsV+036n
-         9lazBg1bzEvMtWqBgAq+Pndv0fQuqMMyR4cwoCaUvbzKsibkdHXZ0tttqKIfscDygcPg
-         7vkg==
-X-Gm-Message-State: AO0yUKUnjARdV0VmfsIpR1v+Nvidg/PNVs5M3mvSwAthyMe8mcZzme+0
-        yZiJYd7ebViJ2mGSK9BacBnH4IRizQ==
-X-Google-Smtp-Source: AK7set87HeKySNFsMz77J6UOYj/OTfMmt2G7hVuS71znb9YCtL54I8c/2svGFVigy1MCpaZO9jVVQWCCoQ==
-X-Received: from rmoar-specialist.c.googlers.com ([fda3:e722:ac3:cc00:2b:7d90:c0a8:45d3])
- (user=rmoar job=sendgmr) by 2002:a5b:e92:0:b0:ab8:1ed9:cfc9 with SMTP id
- z18-20020a5b0e92000000b00ab81ed9cfc9mr16429440ybr.6.1678486893605; Fri, 10
- Mar 2023 14:21:33 -0800 (PST)
-Date:   Fri, 10 Mar 2023 22:20:02 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
-Message-ID: <20230310222002.3633162-1-rmoar@google.com>
-Subject: [KTAP V2 PATCH] ktap_v2: add skip test result
-From:   Rae Moar <rmoar@google.com>
-To:     frowand.list@gmail.com, davidgow@google.com,
-        skhan@linuxfoundation.org, keescook@chromium.org,
-        Tim.Bird@sony.com, brendanhiggins@google.com
-Cc:     corbet@lwn.net, guillaume.tucker@collabora.com,
-        dlatypov@google.com, kernelci@groups.io,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        d=1e100.net; s=20210112; t=1678495184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sjMkQjLCZ3BM2pNDIMhhzn6RH1drrsuj6qqHGDBUAzk=;
+        b=TulhwXCXWz4g4RXe4TrM3VMwyUva2xsqew4dQ7/yZStFcFIKDWbGG6RQUSdifGJt1s
+         p0Tq/wirwCPYQV8CR8FxS+O5yQ7+3VazS+erajSks4tqRa8myK5mpMY4kAH9uneErkr6
+         CX+qID87eeCxTEqBduPh5x039yTb94VyJn7oMDty8rZJjXef9I2VowVIAMi3kUAoAzPx
+         o6mtdYgsXnlIdmYZFR5NR+m+yn9QVdQwEWk2fQybqrdZt1NffpJ9FVxhvQ6+jkc1pOMp
+         3PoWYd6f80d7yD5qJpz13RjCIdW5ihPbwBsMpickzBaHzwi7C0g1WmkSDTnkDMHjXYQP
+         nNog==
+X-Gm-Message-State: AO0yUKUn7roGl8ura6vGlDy8UB+PHQZk0y8sXr3ykXFlPz+E3Urma0DZ
+        /woROn/BGXK0bHbFygmVfPQ=
+X-Google-Smtp-Source: AK7set+pQM1vnDRcOz+8Pij0IfR3x7JLodqa9NsJXDenx8+mqfQxfsGld8U6lz/gHQf01tVDbQuAxg==
+X-Received: by 2002:a05:6214:226b:b0:56e:a5ea:1450 with SMTP id gs11-20020a056214226b00b0056ea5ea1450mr1909709qvb.6.1678495183915;
+        Fri, 10 Mar 2023 16:39:43 -0800 (PST)
+Received: from stbirv-lnx-1.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id a5-20020ac84345000000b003bfaff2a6b9sm868874qtn.10.2023.03.10.16.39.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 16:39:43 -0800 (PST)
+From:   Doug Berger <opendmb@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Sukadev Bhattiprolu <quic_sukadev@quicinc.com>,
+        Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>, Minchan Kim <minchan@kernel.org>,
+        Chris Goldsworthy <quic_cgoldswo@quicinc.com>,
+        "Georgi Djakov" <quic_c_gdjako@quicinc.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rae Moar <rmoar@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-mm@kvack.org, Doug Berger <opendmb@gmail.com>
+Subject: [PATCH v4 0/9] mm: introduce Designated Movable Blocks
+Date:   Fri, 10 Mar 2023 16:38:46 -0800
+Message-Id: <20230311003855.645684-1-opendmb@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the test result "skip" to KTAP version 2 as an alternative way to
-indicate a test was skipped.
+This is essentially a resubmission of v3 rebased with a
+rewritten cover letter to hopefully clarify the submission based
+on feedback and follow-on discussion. The individual patches
+have not materially changed.
 
-The current spec uses the "#SKIP" directive to indicate that a test was
-skipped. However, the "#SKIP" directive is not always evident when quickly
-skimming through KTAP results.
+The Linux Memory Management system (MM) has long supported the
+concept of movable memory. It takes advantage of address
+abstraction to allow the data held in physical memory to be
+moved to a different physical address or other form of storage
+without the user of the abstracted (i.e. virtual) address
+needing to be aware. This is generally the foundation of user
+space memory and the basic service the kernel provides to
+applications.
 
-The "skip" result would provide an alternative that could make it clearer
-that a test has not successfully passed because it was skipped.
+On the other hand, the kernel itself is generally not tolerant
+of the movement of data that it accesses so most of its usage is
+unmovable memory. It may be useful to understand that this
+terminology is relative to the kernel's perspective and that
+what the kernel considers unmovable memory may in fact be moved
+by a hypervisor that hosts the kernel, but an additional address
+abstraction must exist to keep the kernel unaware of such
+movement.
 
-Before:
+The MM supports the conversion of free memory between MOVABLE
+and UNMOVABLE (and other) migration types to allow better
+sharing of memory resources. More recently, the MM introduced
+"movablecore" memory that should never be made UNMOVABLE. As an
+implementation detail "movablecore" memory introduced the
+ZONE_MOVABLE zone to manage this type of memory and significant
+progress has been made to ensure the movability of memory in
+this zone with the few exceptions now documented in
+include/linux/mmzone.h.
 
- KTAP version 1
- 1..1
-   KTAP version 1
-   1..2
-   ok 1 case_1
-   ok 2 case_2 #SKIP
- ok 1 suite
+"Movablecore" memory can support multiple use cases including
+dynamic allocation of hugetlbfs pages, but an imbalance of
+"movablecore" memory and kernel memory can lead to serious
+consequences for kernel operation which is why the kernel
+parameter includes the warning "the administrator must be
+careful that the amount of memory usable for all allocations is
+not too small."
 
-After:
+Designated Movable Blocks represent a generic extension of the
+"movablecore" concept to allow specific blocks of memory to be
+designated part of the "movablecore" to provide support for
+additional use cases. For example, it could have been/could
+still be used to support hot unplugging of memory. A very
+similar concept was proposed in [1] for that purpose, and
+revised in [2], but ultimately a more use case specific
+implementation of the movable_node parameter was accepted. That
+implementation is dependent on NUMA, ACPI, and SRAT tables which
+narrow its usefullness. Designated Movable Blocks allow for the
+same type of discontiguous and non-monotonic configuration of
+ZONE_MOVABLE for systems whether or not they support NUMA, ACPI,
+or SRAT tables. Specifically this feature is desired by users of
+the arm64 Android GKI common kernel on Broadcom SoCs where NUMA
+is not available. These patches make minimal additions to
+existing code to offer a controllable "movablecore" feature to
+those systems.
 
- KTAP version 2
- 1..1
-   KTAP version 2
-   1..2
-   ok 1 case_1
-   skip 2 case_2
- ok 1 suite
+Like all "movablecore" memory there are no Designated Movable
+Blocks created by default. They are only created when specified
+and the warning on the "movablecore" kernel parameter remains
+just as relevant.
 
-Here is a link to a version of the KUnit parser that is able to parse
-the skip test result for KTAP version 2. Note this parser is still able
-to parse the "#SKIP" directive.
+The key feature of "movablecore" memory is that any allocations
+of the memory by the kernel page allocator must be movable and
+this has the follow-on effect that GFP_MOVABLE allocation
+requests look to "movablecore" memory first. This prioritizes
+the use of "movablecore" memory by user processes though the
+kernel can conceivably use the memory as long as movability can
+be preserved.
 
-Link: https://kunit-review.googlesource.com/c/linux/+/5689
+One use case of interest to customers of Broadcom SoCs with
+multiple memory controllers is for improved memory bandwidth
+utilization for multi-threaded user space dominant workloads.
+Designated Movable Blocks can be located on each memory
+controller and the page_alloc.shuffle=1 kernel parameter can be
+applied to provide a simplistic software-based memory channel
+interleaving of accesses from user space across the multiple
+memory controllers. Experiments using this approach with a dummy
+workload [3] on a BCM7278 dual memory controller system with 1GB
+of RAM on each controller (i.e. 2GB total RAM) and using the
+kernel parameters "movablecore=300M@0x60000000,300M@0x320000000
+page_alloc.shuffle=1" showed a more than 20% performance
+improvement over a system without this feature using either
+"movablecore=600M" or no "movablecore" kernel parameter.
 
-Signed-off-by: Rae Moar <rmoar@google.com>
----
+Another use case of interest is to add broader support for the
+"reusable" parameter for reserved-memory device tree nodes. The
+Designated Movable Block extension of movablecore would allow
+designation of the location as well as ownership of the block.
+A device driver that owns a reusable reserved-memory would own
+the underlying portion of a Designated Movable Block and could
+reclaim memory from the OS for use exclusively by the device on
+demand in a manner similar to memory hot unplugging. The
+existing alloc/free_contig_range functions could be used to
+support this or a different API could be developed. This use
+case is mentioned for consideration, but an implementation is
+not part of this submission.
 
-Note: this patch is based on Frank's ktap_spec_version_2 branch.
+There have also been efforts to reduce the amounts of memory
+CMA holds in reserve (e.g. [4]). Adding the ability to place a
+CMA pool in a Designated Movable Block could offer an option to
+improve memory utilization when increased allocation latency can
+be tolerated, but again such an implementation is not part of
+this submission.
 
- Documentation/dev-tools/ktap.rst | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+Changes in v4:
+  - rewrote the cover letter in an attempt to provide clarity
+    and encourage review.
+  - rebased to akpm-mm/master (i.e. Linux 6.3-rc1).
 
-diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-index ff77f4aaa6ef..f48aa00db8f0 100644
---- a/Documentation/dev-tools/ktap.rst
-+++ b/Documentation/dev-tools/ktap.rst
-@@ -74,7 +74,8 @@ They are required and must have the format:
- 	<result> <number> [<description>][ # [<directive>] [<diagnostic data>]]
- 
- The result can be either "ok", which indicates the test case passed,
--or "not ok", which indicates that the test case failed.
-+"not ok", which indicates that the test case failed, or "skip", which indicates
-+the test case did not run.
- 
- <number> represents the number of the test being performed. The first test must
- have the number 1 and the number then must increase by 1 for each additional
-@@ -91,12 +92,13 @@ A directive is a keyword that indicates a different outcome for a test other
- than passed and failed. The directive is optional, and consists of a single
- keyword preceding the diagnostic data. In the event that a parser encounters
- a directive it doesn't support, it should fall back to the "ok" / "not ok"
--result.
-+/ "skip" result.
- 
- Currently accepted directives are:
- 
--- "SKIP", which indicates a test was skipped (note the result of the test case
--  result line can be either "ok" or "not ok" if the SKIP directive is used)
-+- "SKIP", which indicates a test was skipped (note this is an alternative to
-+  the "skip" result type and if the SKIP directive is used, the
-+  result can be any type - "ok", "not ok", or "skip")
- - "TODO", which indicates that a test is not expected to pass at the moment,
-   e.g. because the feature it is testing is known to be broken. While this
-   directive is inherited from TAP, its use in the kernel is discouraged.
-@@ -110,7 +112,7 @@ Currently accepted directives are:
- 
- The diagnostic data is a plain-text field which contains any additional details
- about why this result was produced. This is typically an error message for ERROR
--or failed tests, or a description of missing dependencies for a SKIP result.
-+or failed tests, or a description of missing dependencies for a skipped test.
- 
- The diagnostic data field is optional, and results which have neither a
- directive nor any diagnostic data do not need to include the "#" field
-@@ -130,11 +132,18 @@ The test "test_case_name" failed.
- 
- ::
- 
--	ok 1 test # SKIP necessary dependency unavailable
-+	skip 1 test # necessary dependency unavailable
- 
--The test "test" was SKIPPED with the diagnostic message "necessary dependency
-+The test "test" was skipped with the diagnostic message "necessary dependency
- unavailable".
- 
-+::
-+
-+	ok 1 test_2 # SKIP this test should not run
-+
-+The test "test_2" was skipped with the diagnostic message "this test
-+should not run".
-+
- ::
- 
- 	not ok 1 test # TIMEOUT 30 seconds
-@@ -225,7 +234,7 @@ An example format with multiple levels of nested testing:
- 	    not ok 1 test_1
- 	    ok 2 test_2
- 	  not ok 1 test_3
--	  ok 2 test_4 # SKIP
-+	  skip 2 test_4
- 	not ok 1 example_test_1
- 	ok 2 example_test_2
- 
-@@ -262,7 +271,7 @@ Example KTAP output
- 	  ok 1 example_test_1
- 	    KTAP version 2
- 	    1..2
--	    ok 1 test_1 # SKIP test_1 skipped
-+	    skip 1 test_1 # test_1 skipped
- 	    ok 2 test_2
- 	  ok 2 example_test_2
- 	    KTAP version 2
+Changes in v3:
+  - removed OTHER OPPORTUNITIES and NOTES from the cover letter.
+  - prevent the creation of empty zones instead of adding extra
+    info to zoneinfo.
+  - size the ZONE_MOVABLE span to the minimum necessary to cover
+    pages within the zone to be more intuitive.
+  - removed "real" from variable names that were consolidated.
+  - rebased to akpm-mm/master (i.e. Linux 6.1-rc1).
 
-base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
+Changes in v2:
+  - first three commits upstreamed separately.
+  - commits 04-06 submitted separately.
+  - Corrected errors "Reported-by: kernel test robot <lkp@intel.com>"
+  - Deferred commits after 15 to simplify review of the base
+    functionality.
+  - minor reorganization of commit 13.
+
+v3: https://lore.kernel.org/lkml/20221020215318.4193269-1-opendmb@gmail.com/
+v2: https://lore.kernel.org/linux-mm/20220928223301.375229-1-opendmb@gmail.com/ 
+v1: https://lore.kernel.org/linux-mm/20220913195508.3511038-1-opendmb@gmail.com/
+
+[1] https://lwn.net/Articles/543790/
+[2] https://lore.kernel.org/all/1374220774-29974-1-git-send-email-tangchen@cn.fujitsu.com/
+[3] https://lore.kernel.org/lkml/342da4ea-d04a-996c-85c4-3065dd4dc01f@gmail.com/
+[4] https://lore.kernel.org/linux-mm/20230131071052.GB19285@hu-sbhattip-lv.qualcomm.com/
+
+Doug Berger (9):
+  lib/show_mem.c: display MovableOnly
+  mm/page_alloc: calculate node_spanned_pages from pfns
+  mm/page_alloc: prevent creation of empty zones
+  mm/page_alloc.c: allow oversized movablecore
+  mm/page_alloc: introduce init_reserved_pageblock()
+  memblock: introduce MEMBLOCK_MOVABLE flag
+  mm/dmb: Introduce Designated Movable Blocks
+  mm/page_alloc: make alloc_contig_pages DMB aware
+  mm/page_alloc: allow base for movablecore
+
+ .../admin-guide/kernel-parameters.txt         |  14 +-
+ include/linux/dmb.h                           |  29 +++
+ include/linux/gfp.h                           |   5 +-
+ include/linux/memblock.h                      |   8 +
+ lib/show_mem.c                                |   2 +-
+ mm/Kconfig                                    |  12 ++
+ mm/Makefile                                   |   1 +
+ mm/cma.c                                      |  15 +-
+ mm/dmb.c                                      |  91 +++++++++
+ mm/memblock.c                                 |  30 ++-
+ mm/page_alloc.c                               | 188 +++++++++++++-----
+ 11 files changed, 338 insertions(+), 57 deletions(-)
+ create mode 100644 include/linux/dmb.h
+ create mode 100644 mm/dmb.c
+
 -- 
-2.40.0.rc1.284.g88254d51c5-goog
+2.34.1
 
