@@ -2,63 +2,63 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F53C61DA4
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 12:23:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6393C61DA4
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 12:31:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230111AbjCKMXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Mar 2023 07:23:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47670 "EHLO
+        id S229819AbjCKMbx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Mar 2023 07:31:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230101AbjCKMXx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Mar 2023 07:23:53 -0500
+        with ESMTP id S230326AbjCKMbu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Mar 2023 07:31:50 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CC1812CC6
-        for <linux-doc@vger.kernel.org>; Sat, 11 Mar 2023 04:23:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FA9C12E157
+        for <linux-doc@vger.kernel.org>; Sat, 11 Mar 2023 04:30:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678537390;
+        s=mimecast20190719; t=1678537857;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=z0ncK7kQPU4tM41Xw7Dto2fGmFTmgA/05JfWF548UL4=;
-        b=dYiooBR2Sdu5dFshiJ9qC/T8ok4+mS7Q2S3r3zV+E1MyJ54xe6mLCEPWRaqjYZfjLjIp8I
-        MxaudMgv2tL0f60UN4xoJhqFBXKcgwiPYnOzJlgbsSz1G7AP4r1tZR4VscCObBL2t2L/dC
-        sbDBFflTRXJanvTwcRtY7x/WiC+s/js=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=6tJN+LOTi1Ma+P6eA0R3ApEkRj3LCEestZfzy3kbU+s=;
+        b=FH1VjBXrMTQoMFCENTo2Fc471FfP+Vc8cYzwRH/rdBUzm2POydcOxKOJZUCCuNcnReOUkD
+        i8jGrguHtaDbfi9zdWni3vtdWzn9SHICtXoOJ1CFKD9wprZpCDSfsrFsRVZRpYd5XB5Gd1
+        +QRfj8iucodzZHuuiectPnEC+jt/PAw=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-278--iKNL-M_PcGAepnQdfYBwg-1; Sat, 11 Mar 2023 07:23:08 -0500
-X-MC-Unique: -iKNL-M_PcGAepnQdfYBwg-1
-Received: by mail-qt1-f198.google.com with SMTP id c5-20020ac85185000000b003bfae3b8051so4481185qtn.0
-        for <linux-doc@vger.kernel.org>; Sat, 11 Mar 2023 04:23:08 -0800 (PST)
+ us-mta-302-Q8Je7cQENiuQM-WaK2TS9w-1; Sat, 11 Mar 2023 07:30:56 -0500
+X-MC-Unique: Q8Je7cQENiuQM-WaK2TS9w-1
+Received: by mail-qk1-f198.google.com with SMTP id ea22-20020a05620a489600b00742cec04043so4564161qkb.7
+        for <linux-doc@vger.kernel.org>; Sat, 11 Mar 2023 04:30:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678537388;
+        d=1e100.net; s=20210112; t=1678537855;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z0ncK7kQPU4tM41Xw7Dto2fGmFTmgA/05JfWF548UL4=;
-        b=n/qimJHOID5/WbcKEWb6DpPMKo1P/416ryHUb0G4YeUi6s6bO0h3hrKx33EcmnG0nF
-         79SCINKJPoQO3gp9lkoaausJKFjHwEKGhnAc7LwRaPpHehonI/vyx1MU9CwdmjhzmTjY
-         h0KlcGGIeXBks5nb/aRihO6JtDtgAqX0kawwnlNVJOkVs87Gh1T18prjWXf3S7KAftc2
-         JCmItHZ7dDknBiJsiO7li3zOgu1N/o+LLuV0KsX10fHy8nmndtP2vqXFGU75l+pnEyfa
-         geAZGCjim7uvkBLQUWF/qCb3hwI85z17HGVJ+B88mMszvHh8OPqAG/rxmCMqEsYbZLSE
-         pAYA==
-X-Gm-Message-State: AO0yUKVKkCfjVRtNwWwkcxXWbdMCRzbbYR1wtTwW6gluLd/aJGYKNOz2
-        lyFjGZKnpOi8x6BfceZtRV+wUnl/+G6Yq+cP7zMn6MeYrnTNS8tecqtCljmu9PWRqD7oJ+4JG/9
-        cg7Ar4K+A1Edk08oQ4JB62X2CuW9g9PA3+Yxi
-X-Received: by 2002:ae9:f00a:0:b0:742:6e03:4091 with SMTP id l10-20020ae9f00a000000b007426e034091mr1365171qkg.6.1678537387414;
-        Sat, 11 Mar 2023 04:23:07 -0800 (PST)
-X-Google-Smtp-Source: AK7set+ahdPUjKtqLXS4t/tIFiVrX+FhWFPj4c7AdJccBkphBZCKDMNyJB/8I64SarjmIvrKHtooaHXg7cKfznTu95I=
-X-Received: by 2002:ae9:f00a:0:b0:742:6e03:4091 with SMTP id
- l10-20020ae9f00a000000b007426e034091mr1365155qkg.6.1678537387081; Sat, 11 Mar
- 2023 04:23:07 -0800 (PST)
+        bh=6tJN+LOTi1Ma+P6eA0R3ApEkRj3LCEestZfzy3kbU+s=;
+        b=WtzdJI3W0jDlqSbIsHdEf3dyP3R+79GZWHJRVV5b1fI5KZo3QejavItbZwt/2V9aCu
+         XgnzKAxo4XyldHaumckfN0gQAJAHjwWycjfeuB8Xv/fyqSTQmdz6iRMbaL/FzGiHx8cC
+         0jJ03aRwmB8JE3uHQdkmXm1u0v/JXBvSuXrpOhHzu5OTPOO0sKwJJY4WU83Fpefao0+U
+         WaEQzmtsXegT0n58NXhff0+DU1Fdih6jUex7+wbtz1qKteD/KnzTTdjNw1/LVERYZrMm
+         kuwBb5tlQOm19QBJpp8GYau48SovHirpIZXYqx0eycbUJbOoDN3QhiBTEL+sK6Yghmoz
+         Fj6w==
+X-Gm-Message-State: AO0yUKXeXjFBLpSCbcOYhU8BEHJ+sGm7doNYv9wzhRXVR/KiFVgI6TTk
+        rVGvZnn/aT2Q+Fw0tN+UNpvi2Ve9gt2DT1k6pcrO4rFvyEelhl/tuvEaX19yHNfkxjj8SzF0UVU
+        VSW7fgb1f1/PeuBRJ5itoHeHPYcz1JcFps9DA
+X-Received: by 2002:a05:620a:b42:b0:742:86ba:13b9 with SMTP id x2-20020a05620a0b4200b0074286ba13b9mr1247852qkg.6.1678537855646;
+        Sat, 11 Mar 2023 04:30:55 -0800 (PST)
+X-Google-Smtp-Source: AK7set/TpnkKszZ6s4HZDKvVwUOaQa5hdplglcxvHLdzpgsai2DkB2eoJKprpykjHsivQAew4hdywCki2O4XJedO/Ys=
+X-Received: by 2002:a05:620a:b42:b0:742:86ba:13b9 with SMTP id
+ x2-20020a05620a0b4200b0074286ba13b9mr1247842qkg.6.1678537855362; Sat, 11 Mar
+ 2023 04:30:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20230310201525.2615385-1-eblake@redhat.com> <20230310201525.2615385-4-eblake@redhat.com>
-In-Reply-To: <20230310201525.2615385-4-eblake@redhat.com>
+References: <20230310201525.2615385-1-eblake@redhat.com> <20230310201525.2615385-3-eblake@redhat.com>
+In-Reply-To: <20230310201525.2615385-3-eblake@redhat.com>
 From:   Nir Soffer <nsoffer@redhat.com>
-Date:   Sat, 11 Mar 2023 14:22:51 +0200
-Message-ID: <CAMRbyyv59L9GiLr5tJvnNdwnBNdNGw+xveG7S63WC9ycOuJYrA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] block nbd: use req.cookie instead of req.handle
+Date:   Sat, 11 Mar 2023 14:30:39 +0200
+Message-ID: <CAMRbyysDE+v_D6Q3tCf_+86T0V57UE4Emw6zc_4vnUu0Yau23A@mail.gmail.com>
+Subject: Re: [PATCH 2/3] uapi nbd: add cookie alias to handle
 To:     Eric Blake <eblake@redhat.com>
 Cc:     josef@toxicpanda.com, linux-block@vger.kernel.org,
         nbd@other.debian.org, philipp.reisner@linbit.com,
@@ -74,78 +74,69 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On Fri, Mar 10, 2023 at 10:16=E2=80=AFPM Eric Blake <eblake@redhat.com> wro=
 te:
 >
-> A good compiler should not compile this any differently, but it seems
-> nicer to avoid memcpy() when integer assignment will work.
+> The uapi <linux/nbd.h> header declares a 'char handle[8]' per request;
+> which is overloaded in English (are you referring to "handle" the
+> verb, such as handling a signal or writing a callback handler, or
+> "handle" the noun, the value used in a lookup table to correlate a
+> response back to the request).  Many client-side NBD implementations
+> (both servers and clients) have instead used 'u64 cookie' or similar,
+> as it is easier to directly assign an integer than to futz around with
+> memcpy.  In fact, upstream documentation is now encouraging this shift
+> in terminology: https://lists.debian.org/nbd/2023/03/msg00031.html
+>
+> Accomplish this by use of an anonymous union to provide the alias for
+> anyone getting the definition from the uapi; this does not break
+> existing clients, while exposing the nicer name for those who prefer
+> it.  Note that block/nbd.c still uses the term handle (in fact, it
+> actually combines a 32-bit cookie and a 32-bit tag into the 64-bit
+> handle), but that internal usage is not changed the public uapi, since
+> no compliant NBD server has any reason to inspect or alter the 64
+> bits sent over the socket.
 >
 > Signed-off-by: Eric Blake <eblake@redhat.com>
 > ---
->  drivers/block/nbd.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  include/uapi/linux/nbd.h | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-> index 592cfa8b765a..672fb8d1ce67 100644
-> --- a/drivers/block/nbd.c
-> +++ b/drivers/block/nbd.c
-> @@ -606,7 +606,7 @@ static int nbd_send_cmd(struct nbd_device *nbd, struc=
-t nbd_cmd *cmd, int index)
->                 request.len =3D htonl(size);
->         }
->         handle =3D nbd_cmd_handle(cmd);
+> diff --git a/include/uapi/linux/nbd.h b/include/uapi/linux/nbd.h
+> index 8797387caaf7..f58f2043f62e 100644
+> --- a/include/uapi/linux/nbd.h
+> +++ b/include/uapi/linux/nbd.h
+> @@ -81,7 +81,10 @@ enum {
+>  struct nbd_request {
+>         __be32 magic;   /* NBD_REQUEST_MAGIC    */
+>         __be32 type;    /* See NBD_CMD_*        */
+> -       char handle[8];
+> +       union {
+> +               char handle[8];
+> +               __be64 cookie;
+> +       };
+>         __be64 from;
+>         __be32 len;
+>  } __attribute__((packed));
+> @@ -93,6 +96,9 @@ struct nbd_request {
+>  struct nbd_reply {
+>         __be32 magic;           /* NBD_REPLY_MAGIC      */
+>         __be32 error;           /* 0 =3D ok, else error   */
+> -       char handle[8];         /* handle you got from request  */
+> +       union {
+> +               char handle[8]; /* handle you got from request  */
+> +               __be64 cookie;
 
-This returns native u64 (likely little endian) but the new interface
-specifies __be64. Should we swap the bytes if needed?
+Should we document like this?
 
-This will help tools like the wireshark plugin to display the right value
-when checking traces from machines with different endianness. Or help
-the nbd server to show the same *cooike* value in the logs. The value
-is opaque but reasonable code can assume that __be64 can be safely
-parsed as an integer.
+    union {
+        __be64 cookie; /* cookie you got from request */
+        char handle[8]; /* older name */
 
-> -       memcpy(request.handle, &handle, sizeof(handle));
-> +       request.cookie =3D handle;
->
->         trace_nbd_send_request(&request, nbd->index, blk_mq_rq_from_pdu(c=
-md));
->
-> @@ -732,7 +732,7 @@ static struct nbd_cmd *nbd_handle_reply(struct nbd_de=
-vice *nbd, int index,
->         u32 tag;
->         int ret =3D 0;
->
-> -       memcpy(&handle, reply->handle, sizeof(handle));
-> +       handle =3D reply->cookie;
->         tag =3D nbd_handle_to_tag(handle);
->         hwq =3D blk_mq_unique_tag_to_hwq(tag);
->         if (hwq < nbd->tag_set.nr_hw_queues)
+I think we want future code to use the new term.
+
+> +       };
+>  };
+>  #endif /* _UAPILINUX_NBD_H */
 > --
 > 2.39.2
 >
-
-Also the same file has references to *handle* like:
-
-static u64 nbd_cmd_handle(struct nbd_cmd *cmd)
-{
-    struct request *req =3D blk_mq_rq_from_pdu(cmd);
-    u32 tag =3D blk_mq_unique_tag(req);
-    u64 cookie =3D cmd->cmd_cookie;
-
-    return (cookie << NBD_COOKIE_BITS) | tag;
-}
-
-static u32 nbd_handle_to_tag(u64 handle)
-{
-    return (u32)handle;
-}
-
-static u32 nbd_handle_to_cookie(u64 handle)
-{
-    return (u32)(handle >> NBD_COOKIE_BITS);
-}
-
-So this change is a little bit confusing.
-
-I think we need to use a term like *nbd_cookie* instead of
-*handle* to make this more clear.
 
 Nir
 
