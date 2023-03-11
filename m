@@ -2,153 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3227C678D5
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 06:33:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F53C61DA4
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Mar 2023 12:23:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbjCKGd3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Mar 2023 01:33:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38726 "EHLO
+        id S230111AbjCKMXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Mar 2023 07:23:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbjCKGd0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Mar 2023 01:33:26 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BE021C321;
-        Fri, 10 Mar 2023 22:33:25 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id h11-20020a17090a2ecb00b00237c740335cso7126115pjs.3;
-        Fri, 10 Mar 2023 22:33:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678516405;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XJ+nhmVjwHZ6QFf7JMBkQR/zIZ3Yd/huMBL/cm4iNmk=;
-        b=YwbUBaQ94Jkn4cElkpeXswJBzsf17zkSBeqeq1RolkjLWCq6FVODndKYzRo2q/2lE4
-         +Tv+KMz3XsH0UQ0JjqQk7p/xvWq46RjYtzP+5IULTM06SCjJa0h+qqgfNT+7bXs1M8IL
-         +X1k4Kwb5cCWymsteEuOFSaRxRmoNltyDwWyZVPJKJrLDh6jacOT5tLw2lfam8Wf322Y
-         jnvrJKeSU+nsU9EEDkSq1kB/Ppf5aZa5iC3VIHkyV6Q+CHLQMMtCT3XNfe55NH4AbckK
-         VpRx4SBVg7Aw3+rQRP3dPyoIxQ0gKrQroSjfaJnNVWn+A+Qilxg0/yYp3mnpTl9eb9C/
-         Jwhg==
+        with ESMTP id S230101AbjCKMXx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Mar 2023 07:23:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CC1812CC6
+        for <linux-doc@vger.kernel.org>; Sat, 11 Mar 2023 04:23:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678537390;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=z0ncK7kQPU4tM41Xw7Dto2fGmFTmgA/05JfWF548UL4=;
+        b=dYiooBR2Sdu5dFshiJ9qC/T8ok4+mS7Q2S3r3zV+E1MyJ54xe6mLCEPWRaqjYZfjLjIp8I
+        MxaudMgv2tL0f60UN4xoJhqFBXKcgwiPYnOzJlgbsSz1G7AP4r1tZR4VscCObBL2t2L/dC
+        sbDBFflTRXJanvTwcRtY7x/WiC+s/js=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-278--iKNL-M_PcGAepnQdfYBwg-1; Sat, 11 Mar 2023 07:23:08 -0500
+X-MC-Unique: -iKNL-M_PcGAepnQdfYBwg-1
+Received: by mail-qt1-f198.google.com with SMTP id c5-20020ac85185000000b003bfae3b8051so4481185qtn.0
+        for <linux-doc@vger.kernel.org>; Sat, 11 Mar 2023 04:23:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678516405;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1678537388;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XJ+nhmVjwHZ6QFf7JMBkQR/zIZ3Yd/huMBL/cm4iNmk=;
-        b=BgnVUWDPPTjR/JzrSddpx/9QfXNlKtGGjTuO1f3jbWXmsKfHICCmJJZ+KvcbolNsM6
-         ygZrKMLFVOCQgWRVbURnCweInVQGfow+GCAnI6rpjFuzZqGYhtyuzL3JFezEgrtmJ9i/
-         1P1Hwh3D96HGoITdh0O9vvXCsh2APfWMCp1IAUrySsdUvGqwBii8NBKwoeLx1QCHwtZb
-         7V2pO+eYIvJShsoRwkFhPQoTsxtnpsEybRvO36ai/hehxcr/qyoN603L5WS0aInkCTQB
-         eJYQdZYYhp1brZcUyOHs7GULwrI2kh8sylg4ELbtuonC2YwCxP0a2IfKfvQIumgLHaUS
-         5RAQ==
-X-Gm-Message-State: AO0yUKXfJ84FBrp+qUVWrT0RdRMBkC16mBcnfmu20j5PTjeRo6agJkGE
-        /dV/7/9UkkXJWqJB/Wk6odQ=
-X-Google-Smtp-Source: AK7set816qLD75sU6ayDA8I1y1Rgse0n0WSvhFSlB58g0NpWpzg8IoZ8A7Wd7E0BIRnHE2g2/4z+AA==
-X-Received: by 2002:a17:90b:1d88:b0:237:99b8:4eef with SMTP id pf8-20020a17090b1d8800b0023799b84eefmr29501361pjb.9.1678516404934;
-        Fri, 10 Mar 2023 22:33:24 -0800 (PST)
-Received: from redecorated-mbp (124-148-239-17.tpgi.com.au. [124.148.239.17])
-        by smtp.gmail.com with ESMTPSA id l8-20020a17090aaa8800b002349608e80csm850931pjq.47.2023.03.10.22.33.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 22:33:24 -0800 (PST)
-Date:   Sat, 11 Mar 2023 17:33:13 +1100
-From:   Orlando Chamberlain <orlandoch.dev@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Aditya Garg <gargaditya08@live.com>,
-        Aun-Ali Zaidi <admin@kodeit.net>,
-        Kerem Karabay <kekrby@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas@t-8ch.de>
-Subject: Re: [PATCH v5 0/2] Apple Magic Keyboard Backlight
-Message-ID: <20230311173313.66c829a7@redecorated-mbp>
-In-Reply-To: <nycvar.YFH.7.76.2303101535440.1142@cbobk.fhfr.pm>
-References: <20230220115203.76154-1-orlandoch.dev@gmail.com>
-        <nycvar.YFH.7.76.2303101535440.1142@cbobk.fhfr.pm>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
+        bh=z0ncK7kQPU4tM41Xw7Dto2fGmFTmgA/05JfWF548UL4=;
+        b=n/qimJHOID5/WbcKEWb6DpPMKo1P/416ryHUb0G4YeUi6s6bO0h3hrKx33EcmnG0nF
+         79SCINKJPoQO3gp9lkoaausJKFjHwEKGhnAc7LwRaPpHehonI/vyx1MU9CwdmjhzmTjY
+         h0KlcGGIeXBks5nb/aRihO6JtDtgAqX0kawwnlNVJOkVs87Gh1T18prjWXf3S7KAftc2
+         JCmItHZ7dDknBiJsiO7li3zOgu1N/o+LLuV0KsX10fHy8nmndtP2vqXFGU75l+pnEyfa
+         geAZGCjim7uvkBLQUWF/qCb3hwI85z17HGVJ+B88mMszvHh8OPqAG/rxmCMqEsYbZLSE
+         pAYA==
+X-Gm-Message-State: AO0yUKVKkCfjVRtNwWwkcxXWbdMCRzbbYR1wtTwW6gluLd/aJGYKNOz2
+        lyFjGZKnpOi8x6BfceZtRV+wUnl/+G6Yq+cP7zMn6MeYrnTNS8tecqtCljmu9PWRqD7oJ+4JG/9
+        cg7Ar4K+A1Edk08oQ4JB62X2CuW9g9PA3+Yxi
+X-Received: by 2002:ae9:f00a:0:b0:742:6e03:4091 with SMTP id l10-20020ae9f00a000000b007426e034091mr1365171qkg.6.1678537387414;
+        Sat, 11 Mar 2023 04:23:07 -0800 (PST)
+X-Google-Smtp-Source: AK7set+ahdPUjKtqLXS4t/tIFiVrX+FhWFPj4c7AdJccBkphBZCKDMNyJB/8I64SarjmIvrKHtooaHXg7cKfznTu95I=
+X-Received: by 2002:ae9:f00a:0:b0:742:6e03:4091 with SMTP id
+ l10-20020ae9f00a000000b007426e034091mr1365155qkg.6.1678537387081; Sat, 11 Mar
+ 2023 04:23:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20230310201525.2615385-1-eblake@redhat.com> <20230310201525.2615385-4-eblake@redhat.com>
+In-Reply-To: <20230310201525.2615385-4-eblake@redhat.com>
+From:   Nir Soffer <nsoffer@redhat.com>
+Date:   Sat, 11 Mar 2023 14:22:51 +0200
+Message-ID: <CAMRbyyv59L9GiLr5tJvnNdwnBNdNGw+xveG7S63WC9ycOuJYrA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] block nbd: use req.cookie instead of req.handle
+To:     Eric Blake <eblake@redhat.com>
+Cc:     josef@toxicpanda.com, linux-block@vger.kernel.org,
+        nbd@other.debian.org, philipp.reisner@linbit.com,
+        lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 10 Mar 2023 15:36:34 +0100 (CET)
-Jiri Kosina <jikos@kernel.org> wrote:
+On Fri, Mar 10, 2023 at 10:16=E2=80=AFPM Eric Blake <eblake@redhat.com> wro=
+te:
+>
+> A good compiler should not compile this any differently, but it seems
+> nicer to avoid memcpy() when integer assignment will work.
+>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  drivers/block/nbd.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+> index 592cfa8b765a..672fb8d1ce67 100644
+> --- a/drivers/block/nbd.c
+> +++ b/drivers/block/nbd.c
+> @@ -606,7 +606,7 @@ static int nbd_send_cmd(struct nbd_device *nbd, struc=
+t nbd_cmd *cmd, int index)
+>                 request.len =3D htonl(size);
+>         }
+>         handle =3D nbd_cmd_handle(cmd);
 
-> On Mon, 20 Feb 2023, Orlando Chamberlain wrote:
-> 
-> > This patchseries adds support for the internal keyboard backlight of
-> > Macs with Apple's "Magic" keyboard (MacBookPro16,* and
-> > MacBookAir9,1), and also documents what names should be used for
-> > keyboard backlight leds in Documentation/leds/well-known-leds.txt.
-> > 
-> > v4->v5:
-> > - use <tab><space><space> for help in Kconfig
-> > - prepend "hid-" to filename in MAINTAINERS
-> > 
-> > v3->v4:
-> > - collect reviews from Andy and Thomas
-> > - remove now unused hdev member of apple_magic_backlight
-> > 
-> > v2->v3:
-> > - remove unneeded header inclusion
-> > - use s32 for report value type
-> > - remove unneeded null check
-> > - don't set drvdata as its never used
-> > - prepend "hid-" to module name
-> > 
-> > v1->v2:
-> > - drop unneeded remove function
-> > - combine set functions
-> > - add missing header inclusions
-> > - avoid char as argument in favour of u8
-> > - handful of style/formatting fixes
-> > - use standard led name ":white:kbd_backlight"
-> > - rename USAGE_MAGIC_BL to HID_USAGE_MAGIC_BL
-> > - New patch documenting preferred keyboard backlight names
-> > 
-> > v1:
-> > https://lore.kernel.org/linux-input/7D70F1FE-7F54-4D0A-8922-5466AA2AD364@live.com/
-> > v2:
-> > https://lore.kernel.org/linux-input/20230216041224.4731-1-orlandoch.dev@gmail.com/
-> > v3:
-> > https://lore.kernel.org/linux-input/20230217102319.3419-1-orlandoch.dev@gmail.com/
-> > v4:
-> > https://lore.kernel.org/linux-input/20230218090709.7467-1-orlandoch.dev@gmail.com/
-> > 
-> > Orlando Chamberlain (2):
-> >   Documentation: leds: standardise keyboard backlight led names
-> >   HID: hid-apple-magic-backlight: Add driver for keyboard backlight
-> > on internal Magic Keyboards
-> > 
-> >  Documentation/leds/well-known-leds.txt  |   8 ++
-> >  MAINTAINERS                             |   6 ++
-> >  drivers/hid/Kconfig                     |  13 +++
-> >  drivers/hid/Makefile                    |   1 +
-> >  drivers/hid/hid-apple-magic-backlight.c | 120
-> > ++++++++++++++++++++++++ 5 files changed, 148 insertions(+)
-> >  create mode 100644 drivers/hid/hid-apple-magic-backlight.c  
-> 
-> Hi,
-> 
-> thanks for creating the support for backlight.
-> 
-> Is there any reason why not to fold all this into existing hid-apple?
-> I don't think we need separate driver for the backlist, separated
-> from the rest of hid-apple support.
+This returns native u64 (likely little endian) but the new interface
+specifies __be64. Should we swap the bytes if needed?
 
-Hi Jiri,
+This will help tools like the wireshark plugin to display the right value
+when checking traces from machines with different endianness. Or help
+the nbd server to show the same *cooike* value in the logs. The value
+is opaque but reasonable code can assume that __be64 can be safely
+parsed as an integer.
 
-I think we can do that if we modify hid-apple to support usb endpoints
-with only the keyboard backlight and no keyboard, assuming it doesn't
-prevent the (not upstream) touchbar driver from using the touchbar
-backlight interface (and I don't think it will, given hid-apple lets a
-different driver bind to the trackpad interface of the
-keyboard/trackpad usb device).
+> -       memcpy(request.handle, &handle, sizeof(handle));
+> +       request.cookie =3D handle;
+>
+>         trace_nbd_send_request(&request, nbd->index, blk_mq_rq_from_pdu(c=
+md));
+>
+> @@ -732,7 +732,7 @@ static struct nbd_cmd *nbd_handle_reply(struct nbd_de=
+vice *nbd, int index,
+>         u32 tag;
+>         int ret =3D 0;
+>
+> -       memcpy(&handle, reply->handle, sizeof(handle));
+> +       handle =3D reply->cookie;
+>         tag =3D nbd_handle_to_tag(handle);
+>         hwq =3D blk_mq_unique_tag_to_hwq(tag);
+>         if (hwq < nbd->tag_set.nr_hw_queues)
+> --
+> 2.39.2
+>
 
-> 
-> Thanks,
-> 
+Also the same file has references to *handle* like:
+
+static u64 nbd_cmd_handle(struct nbd_cmd *cmd)
+{
+    struct request *req =3D blk_mq_rq_from_pdu(cmd);
+    u32 tag =3D blk_mq_unique_tag(req);
+    u64 cookie =3D cmd->cmd_cookie;
+
+    return (cookie << NBD_COOKIE_BITS) | tag;
+}
+
+static u32 nbd_handle_to_tag(u64 handle)
+{
+    return (u32)handle;
+}
+
+static u32 nbd_handle_to_cookie(u64 handle)
+{
+    return (u32)(handle >> NBD_COOKIE_BITS);
+}
+
+So this change is a little bit confusing.
+
+I think we need to use a term like *nbd_cookie* instead of
+*handle* to make this more clear.
+
+Nir
 
