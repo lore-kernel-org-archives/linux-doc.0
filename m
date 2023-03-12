@@ -2,110 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9435C74A5B
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Mar 2023 15:49:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 372DEC6FD19
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Mar 2023 15:58:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229988AbjCLPtX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Mar 2023 11:49:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35766 "EHLO
+        id S230034AbjCLP6V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Mar 2023 11:58:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229612AbjCLPtW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Mar 2023 11:49:22 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFD9432CC0
-        for <linux-doc@vger.kernel.org>; Sun, 12 Mar 2023 08:49:20 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id ek18so8210680edb.6
-        for <linux-doc@vger.kernel.org>; Sun, 12 Mar 2023 08:49:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678636159;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ze1sZZfvq/o3HPIuxYy3C9whN6R344n7Jno797TGzZw=;
-        b=EdYr9Y2NNVd69Fe8ci4f1VHqYC77SF2qg/Jlybb2r7i6w9HWYRoDi3prZL6yLzRE8u
-         zz4EZEEKzCvM+/kerG/cumr0hQs1hEkBBJfXfmXEHrJcbgUSf0l6lOTBudAG5Yudq1yZ
-         z8l3mKtb5w+NwMPXFKZFOUwcy5qycSIyK99s+zo53XoIsl11nUwotJQD1cnHHCMN65VX
-         mrSTQtqAhT3YNU207Oh300USWGnoSu7eIEWeCVS1XPVnZpn97/2h3MGCTOHD+NK4YV/y
-         7zlveTFIHrRgwdp8tjAsvJyuxn666YWoURqbrrKWMnipMpxHOLkh1EeqG4Mcbna4v/uz
-         5l3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678636159;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ze1sZZfvq/o3HPIuxYy3C9whN6R344n7Jno797TGzZw=;
-        b=xuLU1EviMVU4vAx+RZAd9y/ziLhtRoWmxUEqd51b8LREfBhaAtLNSlh9EurLojejEn
-         pEucmO/awnjUagEBXOnUzeM4Uwo+OXNlkXlwcf7aaKSO+91lyvL++TscfWKnsDXV06h8
-         n6nCmAA9fgVJ9LOyy4lBeQmWsKpGumbiN3ckQBFisU1bqHWZf5cbFdJZ1/pvZEBS+nBf
-         6Hg7v4ldgaPHZzJpAHVuda1WqpBf9AIyEYIKe/8Xnqhijq/Zt5NR9D/cozUSbsKwQdy/
-         B4v1EH9Akz297Pyr8s4D5+NrD4YiORPPh8PsHcEHyK65hAptiC9ryYx0KaFXihBxP2Xm
-         GTMA==
-X-Gm-Message-State: AO0yUKW4FspDNSbHcAyt25BEBGnOKegI1M7JcjUfjmT1SEkZbE2elrq0
-        P6U+0F6+8j5FU3HUrzfVY4G9CQ==
-X-Google-Smtp-Source: AK7set8udaJr3jonmmaxfmotBUdoyBVYzuKxMre3xI0ZisJg58IQP/BbH1HtpCaF3M/edo7bzjfXEg==
-X-Received: by 2002:a17:907:2ceb:b0:88a:8e57:f063 with SMTP id hz11-20020a1709072ceb00b0088a8e57f063mr27906362ejc.62.1678636159425;
-        Sun, 12 Mar 2023 08:49:19 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:d9f6:3e61:beeb:295a? ([2a02:810d:15c0:828:d9f6:3e61:beeb:295a])
-        by smtp.gmail.com with ESMTPSA id pk10-20020a170906d7aa00b008d1693c212csm2349659ejb.8.2023.03.12.08.49.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Mar 2023 08:49:19 -0700 (PDT)
-Message-ID: <be1eea98-ee16-751d-b833-72a8a667b553@linaro.org>
-Date:   Sun, 12 Mar 2023 16:49:17 +0100
+        with ESMTP id S230039AbjCLP6T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Mar 2023 11:58:19 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 793001024F;
+        Sun, 12 Mar 2023 08:58:08 -0700 (PDT)
+Received: from stefanw-SCHENKER ([37.4.248.78]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1Mo7if-1qLg6s1a0p-00pYmE; Sun, 12 Mar 2023 16:57:37 +0100
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Stefan Wahren <stefan.wahren@i2se.com>
+Subject: [PATCH] docs: hwmon: sysfs-interface: Fix stray colon
+Date:   Sun, 12 Mar 2023 16:57:14 +0100
+Message-Id: <20230312155714.17290-1-stefan.wahren@i2se.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH V3 4/6] hte: Add Tegra234 provider
-Content-Language: en-US
-To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org,
-        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
-        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
-References: <20230310190634.5053-1-dipenp@nvidia.com>
- <20230310190634.5053-5-dipenp@nvidia.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230310190634.5053-5-dipenp@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:CsoXhnzDVOZwW/awzRTbhwut01ck00jfx8PBDPdfpfa9/4oSUIq
+ b3CjUuaUcxFsqM09Fqcjn/jmHU1rjdP1XffTJeoZ6ghZ/JBbz6MVRYXDCQ8wstV6pHfmES1
+ 3OjOkmssT6qCrMrNmLm/VijLBKYD5LkKVZtYnVfsjAvZUGpYRNj4vcodCO6X2+jEyyCI3Ux
+ 8Lx5eAvhqwsjm0cw8G5dw==
+UI-OutboundReport: notjunk:1;M01:P0:mSaz4uIuuPE=;CYk3QMPqYNXNWafx1H7tqFcczw8
+ DlY+2SfKmGmf1HJaCnzywTi07hufcopJXaXKToccmPDmY1IcncBXgiExPVSG1dBXh2Kw1Fwxe
+ SzCpg7+tt2hqOxQw+CW6Z43P9QdiRQRANME44cpevaO4w9kbKmkT2oUYWVi0Kr2FUE1j4BmPk
+ kjjRqhpKEfUcv3XO4SPu1O95SFpkBIUUZSpVugozxAW/wJlE9hVeWGndJ2rHN7Bkm3Uq0wmu+
+ fGg+Ix73xZXdsMN4osMV59FmPXUWHjp5gZut+pt/qiiz2SrNNn6DFXG08Q4qwW+3oloFpJjuW
+ TxIRsTWuXWJFldXo8v+d+PJK9l2lEJaDTeFCfoRcyc6i3PpU4hGvkbVSmT84LQYlZbdRxzuvO
+ 3BXRzas02csQo+o+jrTp3rgXZQHdqNovXmDTd6IeRrorQRNJMoqzeqDisaV1vpoCpQJfFMMt9
+ fZAS41YNQ5p5InYDlstBQrk6ycXFeWhgxyOcT6Y44Z8k3w22KkUfCfErqvN6vJIbdv7RWPhOf
+ Us147LkurqRT6TP4nAg7FRsXGr5rUhERGAvD7AeA3y0OyetiLEZiJCHQt5uTbodJjMHkASiiy
+ QJhCj/Ahc8Z0v/2H7HM+QSPUATmvL8RhgogZgQrIPiJzL7+InSmoJMjwt6QSV3cf70SlHnxSC
+ 7r9fNIXczBfjHQrRlVb2UTKEsYlNDoPX1df7JWC3vA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/03/2023 20:06, Dipen Patel wrote:
-> This patch adds HTE provider support for the Tegra234 and reflects the
-> changes made in the device tree as follow.
-> - Add slices field in the SoC specific structure
-> - Remove gpio chip find by name function instead make use of the phandle
-> parsed from the DT node
-> 
-> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+The commit 036d6a4e75c9 ("ABI: sysfs-class-hwmon: add ABI documentation
+for it") moved all ABI attributes to the usual ABI documentation. But this
+change left a stray colon for the fan speed control method. Fix this
+to avoid a confusion of readers.
 
-(...)
+Fixes: 036d6a4e75c9 ("ABI: sysfs-class-hwmon: add ABI documentation for it")
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+---
+ Documentation/hwmon/sysfs-interface.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->  	hte_dev->regs = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(hte_dev->regs))
->  		return PTR_ERR(hte_dev->regs);
-> @@ -635,8 +750,15 @@ static int tegra_hte_probe(struct platform_device *pdev)
->  
->  		gc->match_from_linedata = tegra_hte_match_from_linedata;
->  
-> -		hte_dev->c = gpiochip_find("tegra194-gpio-aon",
-> -					   tegra_get_gpiochip_from_name);
-> +		gpio_ctrl = of_parse_phandle(dev->of_node,
-> +					     "nvidia,gpio-controller", 0);
-> +		if (!gpio_ctrl) {
-> +			dev_err(dev, "gpio controller node not found\n");
-> +			return -ENODEV;
-
-This is non-bisectable patchset. Remember that DTS cannot go with the
-code, thus your code should handle existing DTS (which is BTW already
-released with v6.2).
-
-Any remarks to comments that no ABI was broken back then in 2022 are not
-valid now. They were valid that time, but sorry, the time passed.
-
-Best regards,
-Krzysztof
+diff --git a/Documentation/hwmon/sysfs-interface.rst b/Documentation/hwmon/sysfs-interface.rst
+index 209626fb2405..f76e9f8cc1ad 100644
+--- a/Documentation/hwmon/sysfs-interface.rst
++++ b/Documentation/hwmon/sysfs-interface.rst
+@@ -201,7 +201,7 @@ PWM
+ 		Pulse width modulation fan control.
+ 
+ `pwm[1-*]_enable`
+-		Fan speed control method:
++		Fan speed control method.
+ 
+ `pwm[1-*]_mode`
+ 		direct current or pulse-width modulation.
+-- 
+2.34.1
 
