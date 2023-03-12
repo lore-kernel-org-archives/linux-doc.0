@@ -2,193 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE3A4C6FD1C
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Mar 2023 10:01:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79CF7C74A4B
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Mar 2023 11:06:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230364AbjCLKBh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Mar 2023 06:01:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48352 "EHLO
+        id S229901AbjCLLG2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Mar 2023 07:06:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230365AbjCLKA6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Mar 2023 06:00:58 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 594E73757D;
-        Sun, 12 Mar 2023 03:00:04 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id l12so485984wrm.10;
-        Sun, 12 Mar 2023 03:00:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678615160;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F/eUf+U6VJsU72zpkAHAR/G+9W+06JthKevGiP5LF44=;
-        b=mQjD7qOx7ex1pHGWyQeUg0YqTmCHy1WTTDhdvfcblgD/O1BEmOllQOhb+WykNhIjZJ
-         8fABaAKSlHCX8WjL7ecmWEiu0afJm49LiQgrU5P3uvtEvjGEpPvoO7j8dghtH9yB888L
-         HCvBJoyz+jBZK/OH4h0rkBdLpQgxskFHjLxJKzZvU/LYcoYJYRGamZUo6R8rp+kaw/P5
-         9Sr9zUgOhCFMx8UDPSwTM1pnHDgf60/Et0uMd8VCzatob3+VhJvJcfqal/9xtFZQM0C+
-         ptVF/C9NDptX9W5XaKpi5Qjssag5XtJADn60tuPiS9xen4hjcQy9fJnpldX5GgdwflXP
-         3vAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678615160;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F/eUf+U6VJsU72zpkAHAR/G+9W+06JthKevGiP5LF44=;
-        b=VlH8iKieHIF7LUQvK/CGxgCg9ArV6GYNL8PHGyuxkQ1advI5CNuy8BFubSamajuhca
-         Iem7H13gKp+TqeL5CIwsv7KUlf3HLodLO6eFsvleuPkazkWe0WuoruKeS5EppxeNS04i
-         h3WMzRlPt8f9/kw4+c921B1hKtf77nYuNvBINPi1Surino5WqnKIQ5Hp8nDkMpEjYpS7
-         g1XKNQxZ9sCV7bB0OJMoi0s/25OoTyDCgNMeHO9xzpbFSku3B5C5/nE+rmTKUimNnqDH
-         sqBSxHZYs1qvM6JKhfNJNZI6CSZDMVpkoyAuflcrxom1jtkU5RCqJiBTsslx793AGaQt
-         nH5A==
-X-Gm-Message-State: AO0yUKXiUXe47csHxy1Gde/KpVseUZYFB/c8l7aatigt4sXc+ADc69xH
-        /dlJy7jfUObtqNaNYExcccEIdyCIxcVvcQ==
-X-Google-Smtp-Source: AK7set8l8/lXKE5CTcpAn0qTvK8Gp5PAdyHglSBceQJL8ZQLKfrUOQl3w3Kww9Ks9mqp+kEuNQe/1Q==
-X-Received: by 2002:a05:6000:181:b0:2ce:aa2e:b864 with SMTP id p1-20020a056000018100b002ceaa2eb864mr1211615wrx.27.1678615159553;
-        Sun, 12 Mar 2023 01:59:19 -0800 (PST)
-Received: from kernel.org ([46.120.23.99])
-        by smtp.gmail.com with ESMTPSA id z10-20020a5d654a000000b002ceaa0e6aa5sm1753461wrv.73.2023.03.12.01.59.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 01:59:19 -0800 (PST)
-Date:   Sun, 12 Mar 2023 11:59:15 +0200
-From:   Mike Rapoport <mike.rapoport@gmail.com>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Mike Rapoport <rppt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>
-Subject: Re: [PATCH 7/7] mm/slab: document kfree() as allowed for
- kmem_cache_alloc() objects
-Message-ID: <ZA2ic9JYXGVzps1+@kernel.org>
-References: <20230310103210.22372-1-vbabka@suse.cz>
- <20230310103210.22372-8-vbabka@suse.cz>
+        with ESMTP id S229515AbjCLLG1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Mar 2023 07:06:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A20814D618;
+        Sun, 12 Mar 2023 04:06:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5F2F2B8074D;
+        Sun, 12 Mar 2023 11:06:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA58DC433EF;
+        Sun, 12 Mar 2023 11:06:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678619183;
+        bh=GhXxQ3LGqBwu1PDYIRUrHFHxvh4REo5L/XF+09XJtA8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=UXEr1Gv/oTDMY7Vm7pkDh9fTv9KlV34UHz9IPWS6o0qb6h037dPedNzxigMD+cHES
+         8Zd9Swd1k75o1+RSblngXhEYO82KmetXLplpd3giDrkLYAxwLDU+UYu+3+yXMMNCHW
+         RV6Oh6d9lSw6z++ZdjWQWrGT5hNhAbia7XzNjTHa+4lNFCrcrMi3igT2oTqhMiM4Xq
+         CU9orID0wj8hCCjwvOOfAAXEMth0R3CVrx4zpVD8LyedqKIalnJg/TD36hAy+ITHGj
+         IQ4Q9M1dRck5G6vLhoCOs9DqLo1dpqbPBVebpCFtJay5cuzoNYecv6fTU1iyX972Kq
+         +oIm6I9XNx9Dg==
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-17683b570b8so10910037fac.13;
+        Sun, 12 Mar 2023 04:06:23 -0700 (PDT)
+X-Gm-Message-State: AO0yUKUe6SfJ4BiBqpyg7cInAhhSjO5o0pZidkxfGQ+V/TsXC+z1Yu5x
+        XurjeEbsNzXhtIlzqpGoAQf1rZmbgwyhyhn1Kw8=
+X-Google-Smtp-Source: AK7set8N/yTqs/8oLs98VVUCh2i/kT0xhMJy8fcAHCei2tSBTmzoBxO7UBLop8YToq1+IztNPBywlwqoUZb9vHGB+b8=
+X-Received: by 2002:a05:6870:b00a:b0:176:50be:85b4 with SMTP id
+ y10-20020a056870b00a00b0017650be85b4mr11293648oae.8.1678619183114; Sun, 12
+ Mar 2023 04:06:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230310103210.22372-8-vbabka@suse.cz>
+References: <20230310183717.RESEND.1.Idaaf79c3e768b85750d5a7eb732052576c5e07e5@changeid>
+ <bae2702e-3570-f461-b86f-e56ce82a636e@infradead.org> <20230311165507.GN3041508@bill-the-cat>
+In-Reply-To: <20230311165507.GN3041508@bill-the-cat>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 12 Mar 2023 20:05:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARQ-PgxiCh+gm2efpfXmNBkdTp18OTk3sHtqNsk6by5-Q@mail.gmail.com>
+Message-ID: <CAK7LNARQ-PgxiCh+gm2efpfXmNBkdTp18OTk3sHtqNsk6by5-Q@mail.gmail.com>
+Subject: Re: [RESEND PATCH] kconfig: Proposed language extension for multiple builds
+To:     Tom Rini <trini@konsulko.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Simon Glass <sjg@chromium.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        U-Boot Custodians <u-boot-custodians@lists.denx.de>,
+        barebox@lists.infradead.org, Sascha Hauer <s.hauer@pengutronix.de>,
+        U-Boot Mailing List <u-boot@lists.denx.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 11:32:09AM +0100, Vlastimil Babka wrote:
-> This will make it easier to free objects in situations when they can
-> come from either kmalloc() or kmem_cache_alloc(), and also allow
-> kfree_rcu() for freeing objects from kmem_cache_alloc().
-> 
-> For the SLAB and SLUB allocators this was always possible so with SLOB
-> gone, we can document it as supported.
-> 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> Cc: Frederic Weisbecker <frederic@kernel.org>
-> Cc: Neeraj Upadhyay <quic_neeraju@quicinc.com>
-> Cc: Josh Triplett <josh@joshtriplett.org>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> Cc: Lai Jiangshan <jiangshanlai@gmail.com>
-> Cc: Joel Fernandes <joel@joelfernandes.org>
-> ---
->  Documentation/core-api/memory-allocation.rst | 15 +++++++++++----
->  include/linux/rcupdate.h                     |  6 ++++--
->  mm/slab_common.c                             |  5 +----
->  3 files changed, 16 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
-> index 5954ddf6ee13..f9e8d352ed67 100644
-> --- a/Documentation/core-api/memory-allocation.rst
-> +++ b/Documentation/core-api/memory-allocation.rst
-> @@ -170,7 +170,14 @@ should be used if a part of the cache might be copied to the userspace.
->  After the cache is created kmem_cache_alloc() and its convenience
->  wrappers can allocate memory from that cache.
->  
-> -When the allocated memory is no longer needed it must be freed. You can
-> -use kvfree() for the memory allocated with `kmalloc`, `vmalloc` and
-> -`kvmalloc`. The slab caches should be freed with kmem_cache_free(). And
-> -don't forget to destroy the cache with kmem_cache_destroy().
-> +When the allocated memory is no longer needed it must be freed. Objects
+On Sun, Mar 12, 2023 at 1:55=E2=80=AFAM Tom Rini <trini@konsulko.com> wrote=
+:
+>
+> On Fri, Mar 10, 2023 at 09:39:15PM -0800, Randy Dunlap wrote:
+> > Hi--
+> >
+> > On 3/10/23 18:37, Simon Glass wrote:
+> > > (I am sending this again to get more feedback)
+> > >
+> > > In the case of Linux, only one build is produced so there is only a
+> > > single configuration. For other projects, such as U-Boot and Zephyr, =
+the
+> > > same code is used to produce multiple builds, each with related (but
+> > > different) options enabled.
+> > >
+> > > This can be handled with the existing kconfig language, but it is qui=
+te
+> > > verbose, somewhat tedious and very error-prone, since there is a lot =
+of
+> > > duplication. The result is hard to maintain.
+> > >
+> > > Describe an extension to the Kconfig language to support easier handl=
+ing
+> > > of this use case.
+> > >
+> > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> >
+> > IMO Masahiro has already answered this multiple times and I agree with =
+his answers.
+> >
+> > For others, the full previous thread is at
+> >   https://lore.kernel.org/all/20230219145453.1.Idaaf79c3e768b85750d5a7e=
+b732052576c5e07e5@changeid/
+>
+> Well, I think what was unclear, or maybe we just wanted to confirm the
+> answer was "none at all", was this. As good community neighbors, we see
+> a generic issue in the Kconfig language, a tool used frequently outside
+> of just the Linux kernel, and would like to contribute back. Ideally
+> without having first gone off, designed and implemented something, and
+> then been told it's all wrong and to rewrite it first. So what level of
+> interest is there in this?
 
-I'd add a line break before Objects                               ^
+Sorry, no interest.
+If you want to get a clear answer, NACK.
 
-> +allocated by `kmalloc` can be freed by `kfree` or `kvfree`.
-> +Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`
-> +or also by `kfree` or `kvfree`, which can be more convenient as it does
+>
+> As I pointed out in that thread, I believe barebox has examples where
+> some keyword like we're proposing here would help them (and yes, there's
+> only a dozen or so symbols so it's also manageable without anything
+> special),
 
-Maybe replace 'or also by' with a coma:
+Barebox keeps PBL in very limited, ad-hoc implementation.
+PBL has no more than 10 user-configurable options.
+Sascha Hauer designed it this way.
 
-Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`,
-`kfree` or `kvfree`, which can be more convenient as it does
 
 
-> +not require the kmem_cache pointed.
+Linux kernel also has a small loader (a.k.a decompressor) in
+arch/*/boot/decompress/.
 
-                             ^ pointer.
+For example, CONFIG_KERNEL_GZIP is a CONFIG option
+for the decompressor instead of the main kernel.
 
-> +The rules for _bulk and _rcu flavors of freeing functions are analogical.
+In this sense, you could apply your theory,
+"Linux kernel is also multi build-phases, so Kconfig should have this
+extension to move CONFIG_KERNEL_GZIP to another build phase".
+No, no. The main kernel and the decompressor are well separated
+and the latter is small and simple.
 
-Maybe 
+Barebox is the same - the main Barebox and PBL are well separated
+and PBL is really small and simple.
 
-The same rules apply to _bulk and _rcu flavors of freeing functions.
+The problems you are suffering from do not exist in Barebox.
 
-> +
-> +Memory allocated by `vmalloc` can be freed with `vfree` or `kvfree`.
-> +Memory allocated by `kvmalloc` can be freed with `kvfree`.
-> +Caches created by `kmem_cache_create` should be freed with
-> +`kmem_cache_destroy` only after freeing all the allocated objects first.
-> diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-> index 094321c17e48..dcd2cf1e8326 100644
-> --- a/include/linux/rcupdate.h
-> +++ b/include/linux/rcupdate.h
-> @@ -976,8 +976,10 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
->   * either fall back to use of call_rcu() or rearrange the structure to
->   * position the rcu_head structure into the first 4096 bytes.
->   *
-> - * Note that the allowable offset might decrease in the future, for example,
-> - * to allow something like kmem_cache_free_rcu().
-> + * The object to be freed can be allocated either by kmalloc() or
-> + * kmem_cache_alloc().
-> + *
-> + * Note that the allowable offset might decrease in the future.
->   *
->   * The BUILD_BUG_ON check must not involve any function calls, hence the
->   * checks are done in macros here.
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index 1522693295f5..607249785c07 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -989,12 +989,9 @@ EXPORT_SYMBOL(__kmalloc_node_track_caller);
->  
->  /**
->   * kfree - free previously allocated memory
-> - * @object: pointer returned by kmalloc.
-> + * @object: pointer returned by kmalloc() or kmem_cache_alloc()
->   *
->   * If @object is NULL, no operation is performed.
-> - *
-> - * Don't free memory not originally allocated by kmalloc()
-> - * or you will run into trouble.
->   */
->  void kfree(const void *object)
->  {
-> -- 
-> 2.39.2
-> 
 
--- 
-Sincerely yours,
-Mike.
+
+> and Simon believes Zephyr will be in a similar situation soon
+> enough (which doesn't use the kernel's implementation of the language).
+
+Zephyr does not share any Kconfig code with Linux.
+They use Python implementation, a.k.a. Kconfiglib.
+It is up to the Zephyr community, but this requires extra effort.
+
+> Frankly, I keep going back to "tristate" is just the original example of
+> what we're talking about here (CONFIG_FOO=3Dn, CONFIG_FOO_MODULE=3Dy), no=
+t
+> that I'm suggesting we would remove the tristate word.
+> So we would really like to make sure as many people and projects are
+> aware, as possible.
+
+This is on the boundary.
+We can make the tristate optional if it does not make the code too ugly.
+
+But, if you do not add CONFIG_MODULES in your Kconfig file,
+users will not see 'm' in the first place.
+
+I know some help messages still mention 'm', but is this the problem
+you want to solve?
+
+
+> And as Simon asked in the thread, what about code refactoring that makes
+> further maintenance easier? Clearly, such patches would need to be
+> against the current appropriate tree.
+
+If such patches clean up the code, they will be appreciated.
+
+--=20
+Best Regards
+Masahiro Yamada
