@@ -2,145 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F461C6FD19
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Mar 2023 21:11:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C08C6FA99
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Mar 2023 21:57:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230319AbjCLVL3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Mar 2023 17:11:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34324 "EHLO
+        id S229829AbjCLV5l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Mar 2023 17:57:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229982AbjCLVL1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Mar 2023 17:11:27 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E14AB23877
-        for <linux-doc@vger.kernel.org>; Sun, 12 Mar 2023 14:11:25 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id r15so13959839edq.11
-        for <linux-doc@vger.kernel.org>; Sun, 12 Mar 2023 14:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent.com; s=google; t=1678655484;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hil+65mTmc3AMUxw5xsQhzsU9a1qRH1xSyrgVLUlwPg=;
-        b=Iul58Gg6AFjhXB28onIUV6+BhaUNvY5osJG0aAOvsD4ewgu5tI8prqouao+qF7phjA
-         CIlxQwWiHhwFYKYzgD6dOLbWmTXMw9olJyELFNTATT7YWGGifMpa6hW36OV53+Is0wIU
-         Q9DA8r/HoxNKyfBO7RBoRNUE3297pJWCD41I2SQRlDZY7CSYHLDauiXix+j8JfxDdpDd
-         LJUgiMBeeRDGRShbOVCIXzYex9sDZwdBOAF2qBgpxi+Jt8CFz6q4OwbJ2BBNDnoH3mtt
-         XMhxqoeCuCI5MMqlkA+/CyX47dVL4OTw/65T7mGYz05UxyNx0c8tYOTltEHnOrKrwp4R
-         E5aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678655484;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hil+65mTmc3AMUxw5xsQhzsU9a1qRH1xSyrgVLUlwPg=;
-        b=2q4ksA/8Ltxdvh7zECZzVlk1SC0vZkrgKLh3hLBIBa3+oVP1+GNGf0EYfypbXwj1/O
-         RREgb0JNf7oTuarl35rG+xqGw3q6mubFb7fIgPQST8Wba7bkQdXIxWajeVKB9xQQxSCw
-         FcTUy9QVhHjjQQyeunIbWZRBzTsotKZ5a74EDSPsPohCb+xwK/5/VnXYtXusSanCFVAp
-         qJ3XKN4lJDy3U224GPuC6bVq2snJwDn5s/oVlWqyn5TniO19GW5rZYLvw7XJNNskjjxd
-         ZcVxgbbBf3mfP8y104hq50/FMW19KYEYzHmS4Pxkcaa34qkNuyy1+wR9XtS+BNbExQyS
-         AFww==
-X-Gm-Message-State: AO0yUKUkzDapKhz5BCRkWzNz+1Fpo5kin5E5KYAxDfjfxXEg06NMTz+r
-        fYuXpTul6VNlquPzUs3YX6rpaqN1Bhi/bJCZIFj28YpyfJRmWzKrLYg=
-X-Google-Smtp-Source: AK7set/w8y0erJsgMhQLRjt/vwMLCi5VNIOvczMJfE/dOPuQHDrYrNarInk51vZANGevW35ePpBXWfNfcYodIKSZlKY=
-X-Received: by 2002:a17:906:174a:b0:8ae:b14b:4b9e with SMTP id
- d10-20020a170906174a00b008aeb14b4b9emr15045042eje.9.1678655484388; Sun, 12
- Mar 2023 14:11:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230312201712.367545-1-joe@isovalent.com> <875yb5wwed.fsf@meer.lwn.net>
-In-Reply-To: <875yb5wwed.fsf@meer.lwn.net>
-From:   Joe Stringer <joe@isovalent.com>
-Date:   Sun, 12 Mar 2023 14:11:13 -0700
-Message-ID: <CADa=RyzQmTEFnpKehGoKihmz+EniibjWQ0P12XMwqgqQ8UcO-w@mail.gmail.com>
-Subject: Re: [PATCH linux-doc] docs/doc-guide: Clarify how to write tables
+        with ESMTP id S229783AbjCLV5k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Mar 2023 17:57:40 -0400
+Received: from m228-62.mailgun.net (m228-62.mailgun.net [159.135.228.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78EDE3BD93
+        for <linux-doc@vger.kernel.org>; Sun, 12 Mar 2023 14:57:38 -0700 (PDT)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev;
+ q=dns/txt; s=smtp; t=1678658257; x=1678665457; h=In-Reply-To: Content-Type:
+ MIME-Version: References: Message-ID: Subject: Subject: Cc: To: To: From:
+ From: Date: Sender: Sender; bh=w0I+lyfV4KTpAnoXhV952nqm+Pgiow7LJPvJH10ZJ6I=;
+ b=cAe6fSW4tq9JhV1uV9QICmpVPiTeEUV/EQJ7rXWCgB1C4+11zxhQkIMSOjlEw4fzyUk3mphyCByNK/4IGPq2KFsx2z1yoT02m2Ub8vdM2SgeXLIpvZN1JKnEyhMezfNEQbH00KYwIFsCWf1lm5EfZPyrS5+BFbq32c0KzLA1HkEZ9fKTG8puz8DiHuf+vJZE7oR3LgoVOCAhnAStb9TDSrcLzS+Y4k1Y/x6hIt704z2RG38wwFvlfQcjH4yeG6BzHB81crYatIByu5gTxfW/5f87F8Lt421W6KjyZ2VpXcqHSYnxgXu+YNzpJq9DkK79QG04Jw12wEcxeXSBcDISZw==
+X-Mailgun-Sending-Ip: 159.135.228.62
+X-Mailgun-Sid: WyJkNWI4MiIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCJiZTljNmQiXQ==
+Received: from guidai (186-250-91-164.mhnet.com.br [186.250.91.164]) by a70f3eba752c
+ with SMTP id 640e4ad1b0de3c33d3d2efd5; Sun, 12 Mar 2023 21:57:37 GMT
+Sender: codeagain@codeagain.dev
+Date:   Sun, 12 Mar 2023 18:57:27 -0300
+From:   Bru Moreira-Guedes <codeagain@codeagain.dev>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Patch Watchbox <patch-reply@codeagain.dev>
+Subject: Re: [PATCH] coding-style.rst: indentation: Clarify tabs text
+Message-ID: <20230312215727.xjs4jusdzpnfhjd3@guidai>
+References: <20230228222035.k227xb3okt2lbksn@guidai>
+ <87356gpjqv.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="vkxuay2ar4gkqjoa"
+Content-Disposition: inline
+In-Reply-To: <87356gpjqv.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 12, 2023 at 1:24=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
+--vkxuay2ar4gkqjoa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hello, Jonathan!
+
+(Resending for I accidentally didn't copy the lists)
+
+On Tue, Mar 07, 2023 at 10:13:44AM -0700, Jonathan Corbet wrote:
+> Bru Moreira-Guedes <codeagain@codeagain.dev> writes:
 >
-> Joe Stringer <joe@isovalent.com> writes:
->
-> Thanks for working to improve the docs...I have a couple of questions,
-> though.
->
-> > Prior to this commit, the kernel docs writing guide spent over a page
-> > describing exactly how *not* to write tables into the kernel docs,
-> > without providing a example about the desired format.
+> > It might be misleading, especially for some autistic readers for whom
+> > English is not the first language and whose tendency to interpret things
+> > more literally might be present (i.e., my very own self).
+
+Perhaps I clearly made a poor description of the problem this patch
+solves. I'll address it in details when I respond to your points. I
+could certainly improve it for a v2.
+
 > >
-> > This patch provides a positive example first in the guide so that it's
-> > harder to miss, then leaves the existing less desirable approach below
-> > for contributors to follow if they have some stronger justification for
-> > why to use that approach.
->
-> There's all kinds of things you can do in RST, but we've deliberately
-> not tried to create a new RST guide in the kernel docs.  I'm not sure
-> that tables merit an exception to that?  If people really need help,
-> perhaps a link to (say)
->
->   https://docutils.sourceforge.io/docs/user/rst/quickref.html#tables
->
-> would suffice?
-
-Thanks for the review! A link with a clear recommendation would make
-sense to me.
-
-> > Signed-off-by: Joe Stringer <joe@isovalent.com>
+> > The present patch clarifies the tabs text on such aspects.
+> >
+> > Signed-off-by: Bru Moreira-Guedes <codeagain@codeagain.dev>
 > > ---
-> >  Documentation/doc-guide/sphinx.rst | 18 +++++++++++++++++-
-> >  1 file changed, 17 insertions(+), 1 deletion(-)
+> >  Documentation/process/coding-style.rst | 14 ++++++++------
+> >  1 file changed, 8 insertions(+), 6 deletions(-)
 > >
-> > diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-gui=
-de/sphinx.rst
-> > index 23edb427e76f..9c2210b6ea3f 100644
-> > --- a/Documentation/doc-guide/sphinx.rst
-> > +++ b/Documentation/doc-guide/sphinx.rst
-> > @@ -313,9 +313,25 @@ the documentation build system will automatically =
-turn a reference to
-> >  function name exists.  If you see ``c:func:`` use in a kernel document=
-,
-> >  please feel free to remove it.
+> > diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> > index 007e49ef6cec..9a0205fa7ed3 100644
+> > --- a/Documentation/process/coding-style.rst
+> > +++ b/Documentation/process/coding-style.rst
+> > @@ -18,23 +18,25 @@ Anyway, here goes:
+> >  1) Indentation
+> >  --------------
 > >
-> > +Tables
-> > +------
-> > +
-> > +Tables should be written in cell grid form unless there is a strong
-> > +justification for using an alternate format:
-> > +
-> > +.. code-block:: rst
-> > +
-> > +   +------------------------+------------+----------+----------+
-> > +   | Header row, column 1   | Header 2   | Header 3 | Header 4 |
-> > +   | (header rows optional) |            |          |          |
-> > +   +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-> > +   | body row 1, column 1   | column 2   | column 3 | column 4 |
-> > +   +------------------------+------------+----------+----------+
-> > +   | body row 2             | ...        | ...      |          |
-> > +   +------------------------+------------+----------+----------+
+> > -Tabs are 8 characters, and thus indentations are also 8 characters.
+> > -There are heretic movements that try to make indentations 4 (or even 2!)
+> > -characters deep, and that is akin to trying to define the value of PI to
+> > -be 3.
+> > +The Linux Kernel uses the TAB character for indentation, as in the K&R
+> > +style. Tabs are meant to be viewed as 8-characters, and thus
+> > +indentations are meant to be seen as 8 characters as well. There are
+> > +heretic movements that try to use spaces for indentation, or make tabs
+> > +viewed as 4 (or even 2!) characters, and that is akin to trying to
+> > +define the value of PI to be 5.
 >
-> ...and if they do merit an exception, why would we prefer the full grid
-> format (which is harder to create and maintain) than the simple table
-> format?  Most of the time, the simple format can do what's needed, and I
-> don't think it's less readable.
+> I guess I really don't see how this kind of tweaking helps things; this
+> text has stood for a couple of decades or so without evident
+> misunderstandings.
 
-I'm not opinionated about grid format, I just picked one. But this is
-interesting - If simple table is the preferred format, then that
-sounds like the sort of detail that this docs page should communicate.
-For example:
+Well, there was my own misunderstanding that motivated this patch :-}
+so, there is at least one evidenced case. Anyway, I think this is more
+of an improvement to make the text accessible for everyone, including
+autistic readers who might have a tendency towards literal
+interpretation. Just like me :D
 
-ReStructured text provides several formats to define tables. Kernel
-style for tables is to use:
-- Simple table format wherever possible
-- Grid format if the table requires row spans
-- Other formats if there is a specific justification (see list tables
-for an example below).
+I don't actually think we would have a way to find out if everyone else
+who read this text throughout all those decades got it properly.
+Historically, the linux kernel hasn't been overall a much accessible
+project in a general sense. I think this kind of change is important if
+we want to move to the right direction.
 
-See the Quick reStructured Text cheat for examples:
-https://docutils.sourceforge.io/docs/user/rst/quickref.html#tables
+> ...and I'm totally mystified as to why we've redefined pi from 3 to 5?
+
+Ohhh, never mind this part, it shouldn't be here. At first I was
+undecided on whether to change it or not. I actually thought I had
+removed it. It just came to my mind that the value of pi is a constant,
+yet its representation is always bound to a certain precision level.
+Since the text didn't use decimal places, assuming no decimal precision
+the pi is actually near 3. Since the text appears to be trying to show
+an example of something "absurd", I think another value could be more
+appropriate. But yea, this change would not affect anyone and I think it
+shouldn't be done.
+
+> >
+> > -Now, some people will claim that having 8-character indentations makes
+> > +Now, some people will claim that viewint 8-character tab indentations makes
+>
+> Adding typos doesn't really help either.
+
+Sorry, I clearly had a poor review of the changed text (and I failed to
+setup spell-checking on checkpatch.pl). Yet Bagas did an excellent job
+in the other thread pointing me out all the details I missed. I'll be
+doing a v2 soon!
+
+Best,
+Bru Moreira-Guedes
+they/them
+
+
+--vkxuay2ar4gkqjoa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCZA5KxwAKCRAZtd3tyEY2
+knx6AQC4IrNGSbbmCnvUGreWoxw8zI51sGbmnP5/QW1HhysmvgEA0uRDJ1PFc8lw
+c03rv5iS2gh053jNGIjb8lvOM+2O3gM=
+=5Q7e
+-----END PGP SIGNATURE-----
+
+--vkxuay2ar4gkqjoa--
