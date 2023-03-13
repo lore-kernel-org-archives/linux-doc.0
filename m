@@ -2,98 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4832EC6FD1C
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 13:37:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B87E7C6FD19
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 13:38:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230448AbjCMNha (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 09:37:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58186 "EHLO
+        id S230104AbjCMNix (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 09:38:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230425AbjCMNh3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 09:37:29 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D419618B4;
-        Mon, 13 Mar 2023 06:37:26 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S229494AbjCMNiw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 09:38:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40278113C1;
+        Mon, 13 Mar 2023 06:38:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7331344A;
-        Mon, 13 Mar 2023 13:37:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7331344A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1678714646; bh=Ln4hPU22u2IyXOmWwQJeCluL6l9PhBQP9wv6XXjbGR8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=S/cRnPNHzznTXixzHt9TuGwGy8nUuRUdtUOtugauCOhrH0Mh/cU0v/6eXLJ2wPM5C
-         ZaHPkt2ACZgUuPwgNfxFpcwQo/h19PyekS+Olzl/iC6rmEUmYR4mCjdAI7ARn7XoFb
-         CXQ5J9hP/xTCL7K4Mk00TvK2zZgWrvsSXWq8PZtgOw/3s5FPy6AAQ6K2kYZwScwev2
-         wmY30Q/2ZrEW7juvbtQvFEqxFzKwOFqtydHqFin95nAFs2vyP9lbVCnWTGFVdRqrUq
-         JEAI7OiKULB629D2ioy0+kpY5zo1irnbfvbgv/7oRstFsiH8PU4Tj2ga51ZqLafJRr
-         0uCwPZz5T044Q==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     David Vernet <void@manifault.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux BPF <bpf@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Tobin C. Harding" <me@tobin.cc>
-Subject: Re: [PATCH bpf-next] bpf, doc: use internal linking for link to
- netdev FAQ
-In-Reply-To: <20230313123602.GA2392@maniforge>
-References: <20230313025119.17430-1-bagasdotme@gmail.com>
- <20230313030938.GA152792@maniforge> <ZA6knaEQcddfTCyS@debian.me>
- <fefa25fe-8148-cbd7-a91e-e4713eb6b0ef@gmail.com>
- <4653cfd1-7209-6e49-4f01-fcc3f82f16ce@gmail.com>
- <20230313123602.GA2392@maniforge>
-Date:   Mon, 13 Mar 2023 07:37:25 -0600
-Message-ID: <87wn3kvkkq.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CC5EB612BF;
+        Mon, 13 Mar 2023 13:38:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A329C4339B;
+        Mon, 13 Mar 2023 13:38:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678714710;
+        bh=VCcPwSPz5EuP/QtrFpxE9pJUqeNC8f0YH754H6N66S4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PDq/pxiKjGNdz/oa9R50TTPP9OD1zjBQ+3Z63QHpGBXKNYujgkCrjgnMOxMwHp9ju
+         2xPNVGmYShgnz76eDNLvGjhc1OOr0kSbK7fpW+XQQ1gnank2epFSHaZkEWu5ijHK5A
+         y3bQxTauHvrZowgnOmT7QsxBk/c5GoVhCTM8TAp5+VkVeGu72hXPApZtSOTmXkmOwj
+         GxZj+DsxigDp/o2TRg3Zg6E6VjnbAT+6t3HGILpe6dncJk9u6gOHPWDarDx0fA+yCZ
+         hIDIMNHpgEqYy8Xlr2atqY0mc3sVadPUoMo4nTVDbq1uoA+67mJH8m6wLY/+VibdSp
+         BRgr6G7CFGkow==
+Date:   Mon, 13 Mar 2023 14:38:24 +0100
+From:   Christian Brauner <brauner@kernel.org>
+To:     Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
+Cc:     corbet@lwn.net, Eric Biggers <ebiggers@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] docs: filesystems: vfs: actualize struct
+ file_system_type description
+Message-ID: <20230313133824.xkwa5q6pntgqd3s4@wittgenstein>
+References: <20230313130718.253708-1-aleksandr.mikhalitsyn@canonical.com>
+ <20230313130718.253708-2-aleksandr.mikhalitsyn@canonical.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230313130718.253708-2-aleksandr.mikhalitsyn@canonical.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-David Vernet <void@manifault.com> writes:
+On Mon, Mar 13, 2023 at 02:07:17PM +0100, Alexander Mikhalitsyn wrote:
+> Added descriptions for:
+> - fscontext API ('init_fs_context' method, 'parameters' field)
+> - 'fs_supers' field
+> 
+> Cc: Eric Biggers <ebiggers@kernel.org>
+> Cc: Miklos Szeredi <mszeredi@redhat.com>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
+> ---
 
-> Sure, but there are practicalities to consider here. It takes O(minutes)
-> to do a full docs build, as opposed to O(seconds). I've done reviews of
-> docs patches where the engineer tried to build the docs tree, but
-> thought it was hung and ended up cancelling it. Full docs builds also
-> unfortunately spew quite a few warnings in other subtrees. You have to
-> carefully wade through the warnings in those other subtrees to ensure
-> you haven't added any new ones.
->
-> It's hard enough to get people to write documentation. It's also hard
-> enough to get them to test building their documentation before
-> submitting it. I think there is a lot of value in being able to build
-> the documentation for the subtree you're contributing to, and be able to
-> have some expectation that it builds cleanly. Let's not make it more
-> difficult for the people who are actually adding substantive
-> documentation.
-
-I get your point, but that is essentially saying that there should be no
-linkages between our documentation subtrees, which defeats much of the
-purpose of using a system like Sphinx.
-
-In this specific case, though, there is a better solution.  Text like:
-
-  see the netdev FAQ (Documentation/process/maintainer-netdev.rst)
-
-will add links in the built docs, and also tells readers of the
-plain-text files where they should be looking.  Without adding warnings.
-
-For the bigger problem, the right answer is to start using intersphinx.
-I guess I need to get serious about playing with that.
-
-Thanks,
-
-jon
+Looks good,
+Reviewed-by: Christian Brauner <brauner@kernel.org>
