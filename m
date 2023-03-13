@@ -2,384 +2,747 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9894DC74A4B
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 17:18:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7791EC6FD19
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 17:38:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230107AbjCMRSO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 13:18:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41122 "EHLO
+        id S229477AbjCMRiP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 13:38:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231219AbjCMRSC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 13:18:02 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EEB27FD5C
-        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 10:17:33 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id k2so5857640pll.8
-        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 10:17:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678727818;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VAqBW9OBoJFzI40K3JHgnbBSX+VkCbMfrgkv95WeOsE=;
-        b=FFofb86vefMOSexxFYtPye13M2WzHaQckGsi0liMT6juia56/9fiRKVdkPnpFohPfm
-         oYJ4B29u9EpsMbo9T++LRz7qm340u4Svi03Bwwk/EgBHqYxZm9tPGKTKCBjmd1D4C+wi
-         hfiD7E4bg9UbM0w9jeRQnWd+FsZJQQpVuO6+w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678727818;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VAqBW9OBoJFzI40K3JHgnbBSX+VkCbMfrgkv95WeOsE=;
-        b=r9H+Nckdt6ukSSjmd4DaTa+wl/DD5t9/laNx8oewXNy0q3ZaNQ97xIqi7epiUAdDlA
-         /RSMlAYPAqIbzWppnrKYlIS+ii+XmkBQlF71kv8wczsaNf2jsINaYZG2rKctTBOuFYzP
-         xm4blREWDKRMo5Ta5w64zMxTTyF8PfZrILD1trj+mw4V/EH1NnMqhSLjIfgTf6znBQUD
-         CrO4OvyvxxMKQILmm0OwHqcipG8EoVYHAnw1dhm37gnSYF7EKAM8DHWrMfYYh/1bvqQK
-         YIrdS4bKMPbbbSLbnWHHrYfPSdVxwXb0/yl0LX7aWKYjTL7+C0gejygHoj604h6diydj
-         KikQ==
-X-Gm-Message-State: AO0yUKU6HscxVjPKdPYWJjtHPpXJFtY6fCWretK1SSuq7I19aXtlqM5h
-        q5R0ph3x93bTac5oQfxGnoIRug==
-X-Google-Smtp-Source: AK7set8RwKlsi+udOlmo3eRqvDlpiUUxBgZUGSP05Gcr3ahAZxzGqKwANmBstMD2BARD+XzuUYvkSA==
-X-Received: by 2002:a17:902:b218:b0:1a0:42c0:b2a6 with SMTP id t24-20020a170902b21800b001a042c0b2a6mr3212009plr.19.1678727817598;
-        Mon, 13 Mar 2023 10:16:57 -0700 (PDT)
-Received: from wafflehead.lan ([47.144.140.44])
-        by smtp.gmail.com with ESMTPSA id b6-20020a170902a9c600b0019f1027f88bsm98856plr.307.2023.03.13.10.16.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 10:16:57 -0700 (PDT)
-From:   Jeffrey Kardatzke <jkardatzke@chromium.org>
-X-Google-Original-From: Jeffrey Kardatzke <jkardatzke@google.com>
-To:     op-tee@lists.trustedfirmware.org
-Cc:     Jeffrey Kardatzke <jkardatzke@google.com>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v7] tee: optee: Add SMC for loading OP-TEE image
-Date:   Mon, 13 Mar 2023 10:16:53 -0700
-Message-Id: <20230313100414.v7.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
-X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
+        with ESMTP id S230077AbjCMRiM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 13:38:12 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F238831E29;
+        Mon, 13 Mar 2023 10:37:54 -0700 (PDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32DH41lv000627;
+        Mon, 13 Mar 2023 17:37:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=MJ4++H05ic9JJyoL8SuXJyGtLSzUGofSJBwJM5ZzQPk=;
+ b=MRLZ5pXPVWJDPCM22hl2fv0BrOyN8PNWAeIQv2mLoT8dX08Qxug0l7m08WmU+MsERdQ5
+ l0WnWhCMP8qh14+yclR4v0N34BZ+siAYvnVYtjvXisA0XamYPjXmWFkHi3bRNWrzA03f
+ dJy3jAziBX1PKtOD8D25O3Mu5cr72ni/KVG2DuZYsDdXL9RqFYsjGb80K6AsQ5fXO1NY
+ V4LljJpaUXSMO+3Ob37yQO3IuKC+RLBIeve9StCVg9D6x/9YYngkpnqw+XaO3FNgeVs6
+ cNyCXj2khB02XXTu7/Z5VnrzagLFIxzBidild7BYw565GQYqRyp7IEw17OAmgxv5HQ5v wA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pa7w6r2tb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 13 Mar 2023 17:37:32 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32DHbWow009448
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 13 Mar 2023 17:37:32 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Mon, 13 Mar
+ 2023 10:37:31 -0700
+Message-ID: <ba787919-cc97-518f-18ca-472fbe56b129@quicinc.com>
+Date:   Mon, 13 Mar 2023 11:37:30 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v3 2/8] accel/qaic: Add uapi and core driver file
+Content-Language: en-US
+To:     Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+        <dafna@fastmail.com>, <ogabbay@kernel.org>, <airlied@gmail.com>,
+        <daniel@ffwll.ch>, <stanislaw.gruszka@linux.intel.com>,
+        <dri-devel@lists.freedesktop.org>
+CC:     <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <quic_ajitpals@quicinc.com>, <quic_pkanojiy@quicinc.com>,
+        <quic_carlv@quicinc.com>
+References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
+ <1678138443-2760-3-git-send-email-quic_jhugo@quicinc.com>
+ <fcdababa-2ad1-bb2f-c306-c6f6950d9485@linux.intel.com>
+From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <fcdababa-2ad1-bb2f-c306-c6f6950d9485@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: A2IIRycRYVy_A2eiZWLfodP_jusRteb4
+X-Proofpoint-GUID: A2IIRycRYVy_A2eiZWLfodP_jusRteb4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-13_09,2023-03-13_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
+ mlxlogscore=999 malwarescore=0 impostorscore=0 phishscore=0 mlxscore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303130137
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds an SMC call that will pass an OP-TEE binary image to EL3 and
-instruct it to load it as the BL32 payload. This works in conjunction
-with a feature added to Trusted Firmware for ARMv8 and above
-architectures that supports this.
+On 3/13/2023 7:21 AM, Jacek Lawrynowicz wrote:
+> Hi,
+> 
+> On 06.03.2023 22:33, Jeffrey Hugo wrote:
+>> Add the QAIC driver uapi file and core driver file that binds to the PCIe
+>> device. The core driver file also creates the accel device and manages
+>> all the interconnections between the different parts of the driver.
+>>
+>> The driver can be built as a module. If so, it will be called "qaic.ko".
+>>
+>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+>> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>> ---
+>>   drivers/accel/qaic/qaic.h     | 282 ++++++++++++++++++
+>>   drivers/accel/qaic/qaic_drv.c | 648 ++++++++++++++++++++++++++++++++++++++++++
+>>   include/uapi/drm/qaic_accel.h | 397 ++++++++++++++++++++++++++
+>>   3 files changed, 1327 insertions(+)
+>>   create mode 100644 drivers/accel/qaic/qaic.h
+>>   create mode 100644 drivers/accel/qaic/qaic_drv.c
+>>   create mode 100644 include/uapi/drm/qaic_accel.h
+>>
+>> diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
+>> new file mode 100644
+>> index 0000000..996a68f
+>> --- /dev/null
+>> +++ b/drivers/accel/qaic/qaic.h
+>> @@ -0,0 +1,282 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only
+>> + *
+>> + * Copyright (c) 2019-2021, The Linux Foundation. All rights reserved.
+>> + * Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +#ifndef _QAIC_H_
+>> +#define _QAIC_H_
+>> +
+>> +#include <linux/interrupt.h>
+>> +#include <linux/kref.h>
+>> +#include <linux/mhi.h>
+>> +#include <linux/mutex.h>
+>> +#include <linux/pci.h>
+>> +#include <linux/spinlock.h>
+>> +#include <linux/srcu.h>
+>> +#include <linux/wait.h>
+>> +#include <linux/workqueue.h>
+>> +#include <drm/drm_device.h>
+>> +#include <drm/drm_gem.h>
+>> +
+>> +#define QAIC_DBC_BASE		SZ_128K
+>> +#define QAIC_DBC_SIZE		SZ_4K
+>> +
+>> +#define QAIC_NO_PARTITION	-1
+>> +
+>> +#define QAIC_DBC_OFF(i)		((i) * QAIC_DBC_SIZE + QAIC_DBC_BASE)
+>> +
+>> +#define to_qaic_bo(obj) container_of(obj, struct qaic_bo, base)
+>> +
+>> +extern bool poll_datapath;
+>> +
+>> +struct qaic_user {
+>> +	/* Uniquely identifies this user for the device */
+>> +	int			handle;
+>> +	struct kref		ref_count;
+>> +	/* Char device opened by this user */
+>> +	struct qaic_drm_device	*qddev;
+>> +	/* Node in list of users that opened this drm device */
+>> +	struct list_head	node;
+>> +	/* SRCU used to synchronize this user during cleanup */
+>> +	struct srcu_struct	qddev_lock;
+>> +	atomic_t		chunk_id;
+>> +};
+>> +
+>> +struct dma_bridge_chan {
+>> +	/* Pointer to device strcut maintained by driver */
+>> +	struct qaic_device	*qdev;
+>> +	/* ID of this DMA bridge channel(DBC) */
+>> +	unsigned int		id;
+>> +	/* Synchronizes access to xfer_list */
+>> +	spinlock_t		xfer_lock;
+>> +	/* Base address of request queue */
+>> +	void			*req_q_base;
+>> +	/* Base address of response queue */
+>> +	void			*rsp_q_base;
+>> +	/*
+>> +	 * Base bus address of request queue. Response queue bus address can be
+>> +	 * calculated by adding request queue size to this variable
+>> +	 */
+>> +	dma_addr_t		dma_addr;
+>> +	/* Total size of request and response queue in byte */
+>> +	u32			total_size;
+>> +	/* Capacity of request/response queue */
+>> +	u32			nelem;
+>> +	/* The user that opened this DBC */
+>> +	struct qaic_user	*usr;
+>> +	/*
+>> +	 * Request ID of next memory handle that goes in request queue. One
+>> +	 * memory handle can enqueue more than one request elements, all
+>> +	 * this requests that belong to same memory handle have same request ID
+>> +	 */
+>> +	u16			next_req_id;
+>> +	/* true: DBC is in use; false: DBC not in use */
+>> +	bool			in_use;
+>> +	/*
+>> +	 * Base address of device registers. Used to read/write request and
+>> +	 * response queue's head and tail pointer of this DBC.
+>> +	 */
+>> +	void __iomem		*dbc_base;
+>> +	/* Head of list where each node is a memory handle queued in request queue */
+>> +	struct list_head	xfer_list;
+>> +	/* Synchronizes DBC readers during cleanup */
+>> +	struct srcu_struct	ch_lock;
+>> +	/*
+>> +	 * When this DBC is released, any thread waiting on this wait queue is
+>> +	 * woken up
+>> +	 */
+>> +	wait_queue_head_t	dbc_release;
+>> +	/* Head of list where each node is a bo associated with this DBC */
+>> +	struct list_head	bo_lists;
+>> +	/* The irq line for this DBC. Used for polling */
+>> +	unsigned int		irq;
+>> +	/* Polling work item to simulate interrupts */
+>> +	struct work_struct	poll_work;
+>> +};
+>> +
+>> +struct qaic_device {
+>> +	/* Pointer to base PCI device struct of our physical device */
+>> +	struct pci_dev		*pdev;
+>> +	/* Req. ID of request that will be queued next in MHI control device */
+>> +	u32			next_seq_num;
+>> +	/* Base address of bar 0 */
+>> +	void __iomem		*bar_0;
+>> +	/* Base address of bar 2 */
+>> +	void __iomem		*bar_2;
+>> +	/* Controller structure for MHI devices */
+>> +	struct mhi_controller	*mhi_cntl;
+>> +	/* MHI control channel device */
+>> +	struct mhi_device	*cntl_ch;
+>> +	/* List of requests queued in MHI control device */
+>> +	struct list_head	cntl_xfer_list;
+>> +	/* Synchronizes MHI control device transactions and its xfer list */
+>> +	struct mutex		cntl_mutex;
+>> +	/* Array of DBC struct of this device */
+>> +	struct dma_bridge_chan	*dbc;
+>> +	/* Work queue for tasks related to MHI control device */
+>> +	struct workqueue_struct	*cntl_wq;
+>> +	/* Synchronizes all the users of device during cleanup */
+>> +	struct srcu_struct	dev_lock;
+>> +	/* true: Device under reset; false: Device not under reset */
+>> +	bool			in_reset;
+>> +	/*
+>> +	 * true: A tx MHI transaction has failed and a rx buffer is still queued
+>> +	 * in control device. Such a buffer is considered lost rx buffer
+>> +	 * false: No rx buffer is lost in control device
+>> +	 */
+>> +	bool			cntl_lost_buf;
+>> +	/* Maximum number of DBC supported by this device */
+>> +	u32			num_dbc;
+>> +	/* Reference to the drm_device for this device when it is created */
+>> +	struct qaic_drm_device	*qddev;
+>> +	/* Generate the CRC of a control message */
+>> +	u32 (*gen_crc)(void *msg);
+>> +	/* Validate the CRC of a control message */
+>> +	bool (*valid_crc)(void *msg);
+>> +};
+>> +
+>> +struct qaic_drm_device {
+>> +	/* Pointer to the root device struct driven by this driver */
+>> +	struct qaic_device	*qdev;
+>> +	/*
+>> +	 * The physical device can be partition in number of logical devices.
+>> +	 * And each logical device is given a partition id. This member stores
+>> +	 * that id. QAIC_NO_PARTITION is a sentinel used to mark that this drm
+>> +	 * device is the actual physical device
+>> +	 */
+>> +	s32			partition_id;
+>> +	/* Pointer to the drm device struct of this drm device */
+>> +	struct drm_device	*ddev;
+>> +	/* Head in list of users who have opened this drm device */
+>> +	struct list_head	users;
+>> +	/* Synchronizes access to users list */
+>> +	struct mutex		users_mutex;
+>> +};
+>> +
+>> +struct qaic_bo {
+>> +	struct drm_gem_object	base;
+>> +	/* Scatter/gather table for allocate/imported BO */
+>> +	struct sg_table		*sgt;
+>> +	/* BO size requested by user. GEM object might be bigger in size. */
+>> +	u64			size;
+>> +	/* Head in list of slices of this BO */
+>> +	struct list_head	slices;
+>> +	/* Total nents, for all slices of this BO */
+>> +	int			total_slice_nents;
+>> +	/*
+>> +	 * Direction of transfer. It can assume only two value DMA_TO_DEVICE and
+>> +	 * DMA_FROM_DEVICE.
+>> +	 */
+>> +	int			dir;
+>> +	/* The pointer of the DBC which operates on this BO */
+>> +	struct dma_bridge_chan	*dbc;
+>> +	/* Number of slice that belongs to this buffer */
+>> +	u32			nr_slice;
+>> +	/* Number of slice that have been transferred by DMA engine */
+>> +	u32			nr_slice_xfer_done;
+>> +	/* true = BO is queued for execution, true = BO is not queued */
+>> +	bool			queued;
+>> +	/*
+>> +	 * If true then user has attached slicing information to this BO by
+>> +	 * calling DRM_IOCTL_QAIC_ATTACH_SLICE_BO ioctl.
+>> +	 */
+>> +	bool			sliced;
+>> +	/* Request ID of this BO if it is queued for execution */
+>> +	u16			req_id;
+>> +	/* Handle assigned to this BO */
+>> +	u32			handle;
+>> +	/* Wait on this for completion of DMA transfer of this BO */
+>> +	struct completion	xfer_done;
+>> +	/*
+>> +	 * Node in linked list where head is dbc->xfer_list.
+>> +	 * This link list contain BO's that are queued for DMA transfer.
+>> +	 */
+>> +	struct list_head	xfer_list;
+>> +	/*
+>> +	 * Node in linked list where head is dbc->bo_lists.
+>> +	 * This link list contain BO's that are associated with the DBC it is
+>> +	 * linked to.
+>> +	 */
+>> +	struct list_head	bo_list;
+>> +	struct {
+>> +		/*
+>> +		 * Latest timestamp(ns) at which kernel received a request to
+>> +		 * execute this BO
+>> +		 */
+>> +		u64		req_received_ts;
+>> +		/*
+>> +		 * Latest timestamp(ns) at which kernel enqueued requests of
+>> +		 * this BO for execution in DMA queue
+>> +		 */
+>> +		u64		req_submit_ts;
+>> +		/*
+>> +		 * Latest timestamp(ns) at which kernel received a completion
+>> +		 * interrupt for requests of this BO
+>> +		 */
+>> +		u64		req_processed_ts;
+>> +		/*
+>> +		 * Number of elements already enqueued in DMA queue before
+>> +		 * enqueuing requests of this BO
+>> +		 */
+>> +		u32		queue_level_before;
+>> +	} perf_stats;
+>> +
+>> +};
+>> +
+>> +struct bo_slice {
+>> +	/* Mapped pages */
+>> +	struct sg_table		*sgt;
+>> +	/* Number of requests required to queue in DMA queue */
+>> +	int			nents;
+>> +	/* See enum dma_data_direction */
+>> +	int			dir;
+>> +	/* Actual requests that will be copied in DMA queue */
+>> +	struct dbc_req		*reqs;
+>> +	struct kref		ref_count;
+>> +	/* true: No DMA transfer required */
+>> +	bool			no_xfer;
+>> +	/* Pointer to the parent BO handle */
+>> +	struct qaic_bo		*bo;
+>> +	/* Node in list of slices maintained by parent BO */
+>> +	struct list_head	slice;
+>> +	/* Size of this slice in bytes */
+>> +	u64			size;
+>> +	/* Offset of this slice in buffer */
+>> +	u64			offset;
+>> +};
+>> +
+>> +int get_dbc_req_elem_size(void);
+>> +int get_dbc_rsp_elem_size(void);
+>> +int get_cntl_version(struct qaic_device *qdev, struct qaic_user *usr, u16 *major, u16 *minor);
+>> +int qaic_manage_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
+>> +void qaic_mhi_ul_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result);
+>> +
+>> +void qaic_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result);
+>> +
+>> +int qaic_control_open(struct qaic_device *qdev);
+>> +void qaic_control_close(struct qaic_device *qdev);
+>> +void qaic_release_usr(struct qaic_device *qdev, struct qaic_user *usr);
+>> +
+>> +irqreturn_t dbc_irq_threaded_fn(int irq, void *data);
+>> +irqreturn_t dbc_irq_handler(int irq, void *data);
+>> +int disable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr);
+>> +void enable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr);
+>> +void wakeup_dbc(struct qaic_device *qdev, u32 dbc_id);
+>> +void release_dbc(struct qaic_device *qdev, u32 dbc_id);
+>> +
+>> +void wake_all_cntl(struct qaic_device *qdev);
+>> +void qaic_dev_reset_clean_local_state(struct qaic_device *qdev, bool exit_reset);
+>> +
+>> +struct drm_gem_object *qaic_gem_prime_import(struct drm_device *dev, struct dma_buf *dma_buf);
+>> +
+>> +int qaic_create_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
+>> +int qaic_mmap_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
+>> +int qaic_attach_slice_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
+>> +int qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
+>> +int qaic_partial_execute_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
+>> +int qaic_wait_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
+>> +int qaic_perf_stats_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
+>> +void irq_polling_work(struct work_struct *work);
+>> +
+>> +#endif /* _QAIC_H_ */
+>> diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
+>> new file mode 100644
+>> index 0000000..9172799
+>> --- /dev/null
+>> +++ b/drivers/accel/qaic/qaic_drv.c
+>> @@ -0,0 +1,648 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +
+>> +/* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
+>> +/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
+>> +
+>> +#include <linux/delay.h>
+>> +#include <linux/dma-mapping.h>
+>> +#include <linux/idr.h>
+>> +#include <linux/interrupt.h>
+>> +#include <linux/list.h>
+>> +#include <linux/kref.h>
+>> +#include <linux/mhi.h>
+>> +#include <linux/module.h>
+>> +#include <linux/msi.h>
+>> +#include <linux/mutex.h>
+>> +#include <linux/pci.h>
+>> +#include <linux/spinlock.h>
+>> +#include <linux/workqueue.h>
+>> +#include <linux/wait.h>
+>> +#include <drm/drm_accel.h>
+>> +#include <drm/drm_drv.h>
+>> +#include <drm/drm_file.h>
+>> +#include <drm/drm_gem.h>
+>> +#include <drm/drm_ioctl.h>
+>> +#include <uapi/drm/qaic_accel.h>
+>> +
+>> +#include "mhi_controller.h"
+>> +#include "mhi_qaic_ctrl.h"
+>> +#include "qaic.h"
+>> +
+>> +MODULE_IMPORT_NS(DMA_BUF);
+>> +
+>> +#define PCI_DEV_AIC100			0xa100
+>> +#define QAIC_NAME			"qaic"
+>> +#define QAIC_DESC			"Qualcomm Cloud AI Accelerators"
+>> +#define CNTL_MAJOR			5
+>> +#define CNTL_MINOR			0
+>> +
+>> +static unsigned int datapath_polling;
+>> +module_param(datapath_polling, uint, 0400);
+>> +bool poll_datapath;
+> 
+> You can define this param as:
+>    static bool poll_datapath;
+>    module_param_named(poll_datapath, datapath_polling, bool, 0400);
+> 
+> You woudn't have to set poll_datapath manually.
+> I would also consider using a single name for the param and adding documentation using MODULE_PARM_DESC().
 
-The main purpose of this change is to facilitate updating the OP-TEE
-component on devices via a rootfs change rather than having to do a
-firmware update. Further details are linked to in the Kconfig file.
+poll_datapath is referenced in a different file, therefore it cannot be 
+static.
 
-Signed-off-by: Jeffrey Kardatzke <jkardatzke@chromium.org>
-Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
----
+Having two variables is intentional.  The parameter only takes effect at 
+module load.  This file reads datapath_polling at module load, copies 
+the value, and the driver uses the cached value (patch 5) during 
+operation.  If during operation, the module parameter changes value, 
+that doesn't take effect.
 
-Changes in v7:
-- Added documentation to Documentation/staging/tee.rst
+Your suggestion appears to make the cached variable, and the module 
+parameter the same.  Which means if the module parameter changes value 
+during driver operation, it will take effect immediately.  This seems 
+like a "footgun", giving the user an oppertunity to break things.
 
-Changes in v6:
-- Expanded Kconfig documentation
+I think datapath_polling can be defined as a bool, and the module_param 
+call can use the bool type, but the two variables remain.
 
-Changes in v5:
-- Renamed config option
-- Added runtime warning when config is used
+I could make poll_datapath device local, but then we'd have N copies of 
+it, instead of just 1, which feels like a waste of memory.
 
-Changes in v4:
-- Update commit message
-- Added more documentation
-- Renamed config option, added ARM64 dependency
+Using MODULE_PARAM_DESC feels like a good idea.  Will do.
 
-Changes in v3:
-- Removed state tracking for driver reload
-- Check UID of service to verify it needs image load
+>> +static bool link_up;
+>> +static DEFINE_IDA(qaic_usrs);
+>> +
+>> +static int qaic_create_drm_device(struct qaic_device *qdev, s32 partition_id);
+>> +static void qaic_destroy_drm_device(struct qaic_device *qdev, s32 partition_id);
+>> +
+>> +static void free_usr(struct kref *kref)
+>> +{
+>> +	struct qaic_user *usr = container_of(kref, struct qaic_user, ref_count);
+>> +
+>> +	cleanup_srcu_struct(&usr->qddev_lock);
+>> +	ida_free(&qaic_usrs, usr->handle);
+>> +	kfree(usr);
+>> +}
+>> +
+>> +static int qaic_open(struct drm_device *dev, struct drm_file *file)
+>> +{
+>> +	struct qaic_drm_device *qddev = dev->dev_private;
+>> +	struct qaic_device *qdev = qddev->qdev;
+>> +	struct qaic_user *usr;
+>> +	int rcu_id;
+>> +	int ret;
+>> +
+>> +	rcu_id = srcu_read_lock(&qdev->dev_lock);
+>> +	if (qdev->in_reset) {
+>> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
+>> +		return -ENODEV;
+>> +	}
+>> +
+>> +	usr = kmalloc(sizeof(*usr), GFP_KERNEL);
+>> +	if (!usr) {
+>> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	usr->handle = ida_alloc(&qaic_usrs, GFP_KERNEL);
+>> +	if (usr->handle < 0) {
+>> +		ret = usr->handle;
+>> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
+>> +		kfree(usr);
+>> +		return ret;
+>> +	}
+>> +	usr->qddev = qddev;
+>> +	atomic_set(&usr->chunk_id, 0);
+>> +	init_srcu_struct(&usr->qddev_lock);
+>> +	kref_init(&usr->ref_count);
+>> +
+>> +	ret = mutex_lock_interruptible(&qddev->users_mutex);
+>> +	if (ret) {
+>> +		cleanup_srcu_struct(&usr->qddev_lock);
+>> +		kfree(usr);
+>> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
+> 
+> It looks like you are leaking usr->handle here.
+> Also the order of kfree() and srcu_read_unlock() is not consistent with other error cases above.
+> I would suggest using goto to handle errors in this function.
 
-Changes in v2:
-- Fixed compile issue when feature is disabled
-- Addressed minor comments
-- Added state tracking for driver reload
+It looks like you might be right.  Will fix.
 
- Documentation/staging/tee.rst | 41 +++++++++++++++
- drivers/tee/optee/Kconfig     | 17 ++++++
- drivers/tee/optee/optee_msg.h | 12 +++++
- drivers/tee/optee/optee_smc.h | 24 +++++++++
- drivers/tee/optee/smc_abi.c   | 97 +++++++++++++++++++++++++++++++++++
- 5 files changed, 191 insertions(+)
+>> +		return ret;
+>> +	}
+>> +
+>> +	list_add(&usr->node, &qddev->users);
+>> +	mutex_unlock(&qddev->users_mutex);
+>> +
+>> +	file->driver_priv = usr;
+>> +
+>> +	srcu_read_unlock(&qdev->dev_lock, rcu_id);
+>> +	return 0;
+>> +}
+>> +
+>> +static void qaic_postclose(struct drm_device *dev, struct drm_file *file)
+>> +{
+>> +	struct qaic_user *usr = file->driver_priv;
+>> +	struct qaic_drm_device *qddev;
+>> +	struct qaic_device *qdev;
+>> +	int qdev_rcu_id;
+>> +	int usr_rcu_id;
+>> +	int i;
+>> +
+>> +	qddev = usr->qddev;
+>> +	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
+>> +	if (qddev) {
+>> +		qdev = qddev->qdev;
+>> +		qdev_rcu_id = srcu_read_lock(&qdev->dev_lock);
+>> +		if (!qdev->in_reset) {
+>> +			qaic_release_usr(qdev, usr);
+>> +			for (i = 0; i < qdev->num_dbc; ++i)
+>> +				if (qdev->dbc[i].usr && qdev->dbc[i].usr->handle == usr->handle)
+>> +					release_dbc(qdev, i);
+>> +		}
+>> +		srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
+>> +
+>> +		mutex_lock(&qddev->users_mutex);
+>> +		if (!list_empty(&usr->node))
+>> +			list_del_init(&usr->node);
+>> +		mutex_unlock(&qddev->users_mutex);
+>> +	}
+>> +
+>> +	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
+>> +	kref_put(&usr->ref_count, free_usr);
+>> +
+>> +	file->driver_priv = NULL;
+>> +}
+>> +
+>> +DEFINE_DRM_ACCEL_FOPS(qaic_accel_fops);
+>> +
+>> +static const struct drm_ioctl_desc qaic_drm_ioctls[] = {
+>> +	DRM_IOCTL_DEF_DRV(QAIC_MANAGE, qaic_manage_ioctl, DRM_RENDER_ALLOW),
+>> +	DRM_IOCTL_DEF_DRV(QAIC_CREATE_BO, qaic_create_bo_ioctl, DRM_RENDER_ALLOW),
+>> +	DRM_IOCTL_DEF_DRV(QAIC_MMAP_BO, qaic_mmap_bo_ioctl, DRM_RENDER_ALLOW),
+>> +	DRM_IOCTL_DEF_DRV(QAIC_ATTACH_SLICE_BO, qaic_attach_slice_bo_ioctl, DRM_RENDER_ALLOW),
+>> +	DRM_IOCTL_DEF_DRV(QAIC_EXECUTE_BO, qaic_execute_bo_ioctl, DRM_RENDER_ALLOW),
+>> +	DRM_IOCTL_DEF_DRV(QAIC_PARTIAL_EXECUTE_BO, qaic_partial_execute_bo_ioctl, DRM_RENDER_ALLOW),
+>> +	DRM_IOCTL_DEF_DRV(QAIC_WAIT_BO, qaic_wait_bo_ioctl, DRM_RENDER_ALLOW),
+>> +	DRM_IOCTL_DEF_DRV(QAIC_PERF_STATS_BO, qaic_perf_stats_bo_ioctl, DRM_RENDER_ALLOW),
+>> +};
+>> +
+>> +static const struct drm_driver qaic_accel_driver = {
+>> +	.driver_features	= DRIVER_GEM | DRIVER_COMPUTE_ACCEL,
+>> +
+>> +	.name			= QAIC_NAME,
+>> +	.desc			= QAIC_DESC,
+>> +	.date			= "20190618",
+>> +
+>> +	.fops			= &qaic_accel_fops,
+>> +	.open			= qaic_open,
+>> +	.postclose		= qaic_postclose,
+>> +
+>> +	.ioctls			= qaic_drm_ioctls,
+>> +	.num_ioctls		= ARRAY_SIZE(qaic_drm_ioctls),
+>> +	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+>> +	.gem_prime_import	= qaic_gem_prime_import,
+>> +};
+>> +
+>> +static int qaic_create_drm_device(struct qaic_device *qdev, s32 partition_id)
+>> +{
+>> +	struct qaic_drm_device *qddev;
+>> +	struct drm_device *ddev;
+>> +	struct device *pdev;
+>> +	int ret;
+>> +
+>> +	/* Hold off implementing partitions until the uapi is determined */
+>> +	if (partition_id != QAIC_NO_PARTITION)
+>> +		return -EINVAL;
+>> +
+>> +	pdev = &qdev->pdev->dev;
+>> +
+>> +	qddev = kzalloc(sizeof(*qddev), GFP_KERNEL);
+>> +	if (!qddev)
+>> +		return -ENOMEM;
+>> +
+>> +	ddev = drm_dev_alloc(&qaic_accel_driver, pdev);
+>> +	if (IS_ERR(ddev)) {
+>> +		ret = PTR_ERR(ddev);
+>> +		goto ddev_fail;
+>> +	}
+>> +
+>> +	ddev->dev_private = qddev;
+>> +	qddev->ddev = ddev;
+>> +
+>> +	qddev->qdev = qdev;
+>> +	qddev->partition_id = partition_id;
+>> +	INIT_LIST_HEAD(&qddev->users);
+>> +	mutex_init(&qddev->users_mutex);
+>> +
+>> +	qdev->qddev = qddev;
+>> +
+>> +	ret = drm_dev_register(ddev, 0);
+>> +	if (ret) {
+>> +		pci_dbg(qdev->pdev, "%s: drm_dev_register failed %d\n", __func__, ret);
+>> +		goto drm_reg_fail;
+>> +	}
+>> +
+>> +	return 0;
+>> +
+>> +drm_reg_fail:
+>> +	mutex_destroy(&qddev->users_mutex);
+>> +	qdev->qddev = NULL;
+>> +	drm_dev_put(ddev);
+>> +ddev_fail:
+>> +	kfree(qddev);
+>> +	return ret;
+>> +}
+>> +
+>> +static void qaic_destroy_drm_device(struct qaic_device *qdev, s32 partition_id)
+>> +{
+>> +	struct qaic_drm_device *qddev;
+>> +	struct qaic_user *usr;
+>> +
+>> +	qddev = qdev->qddev;
+>> +
+>> +	/*
+>> +	 * Existing users get unresolvable errors till they close FDs.
+>> +	 * Need to sync carefully with users calling close(). The
+>> +	 * list of users can be modified elsewhere when the lock isn't
+>> +	 * held here, but the sync'ing the srcu with the mutex held
+>> +	 * could deadlock. Grab the mutex so that the list will be
+>> +	 * unmodified. The user we get will exist as long as the
+>> +	 * lock is held. Signal that the qcdev is going away, and
+>> +	 * grab a reference to the user so they don't go away for
+>> +	 * synchronize_srcu(). Then release the mutex to avoid
+>> +	 * deadlock and make sure the user has observed the signal.
+>> +	 * With the lock released, we cannot maintain any state of the
+>> +	 * user list.
+>> +	 */
+>> +	mutex_lock(&qddev->users_mutex);
+>> +	while (!list_empty(&qddev->users)) {
+>> +		usr = list_first_entry(&qddev->users, struct qaic_user, node);
+>> +		list_del_init(&usr->node);
+>> +		kref_get(&usr->ref_count);
+>> +		usr->qddev = NULL;
+>> +		mutex_unlock(&qddev->users_mutex);
+>> +		synchronize_srcu(&usr->qddev_lock);
+>> +		kref_put(&usr->ref_count, free_usr);
+>> +		mutex_lock(&qddev->users_mutex);
+>> +	}
+>> +	mutex_unlock(&qddev->users_mutex);
+>> +
+>> +	if (qddev->ddev) {
+>> +		drm_dev_unregister(qddev->ddev);
+>> +		drm_dev_put(qddev->ddev);
+>> +	}
+>> +
+>> +	kfree(qddev);
+>> +}
+>> +
+>> +static int qaic_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
+>> +{
+>> +	struct qaic_device *qdev;
+>> +	u16 major, minor;
+>> +	int ret;
+>> +
+>> +	/*
+>> +	 * Invoking this function indicates that the control channel to the
+>> +	 * device is available. We use that as a signal to indicate that
+>> +	 * the device side firmware has booted. The device side firmware
+>> +	 * manages the device resources, so we need to communicate with it
+>> +	 * via the control channel in order to utilize the device. Therefore
+>> +	 * we wait until this signal to create the drm dev that userspace will
+>> +	 * use to control the device, because without the device side firmware,
+>> +	 * userspace can't do anything useful.
+>> +	 */
+>> +
+>> +	qdev = pci_get_drvdata(to_pci_dev(mhi_dev->mhi_cntrl->cntrl_dev));
+>> +
+>> +	qdev->in_reset = false;
+>> +
+>> +	dev_set_drvdata(&mhi_dev->dev, qdev);
+>> +	qdev->cntl_ch = mhi_dev;
+>> +
+>> +	ret = qaic_control_open(qdev);
+>> +	if (ret) {
+>> +		pci_dbg(qdev->pdev, "%s: control_open failed %d\n", __func__, ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	ret = get_cntl_version(qdev, NULL, &major, &minor);
+>> +	if (ret || major != CNTL_MAJOR || minor > CNTL_MINOR) {
+>> +		pci_err(qdev->pdev, "%s: Control protocol version (%d.%d) not supported. Supported version is (%d.%d). Ret: %d\n",
+>> +			__func__, major, minor, CNTL_MAJOR, CNTL_MINOR, ret);
+>> +		ret = -EINVAL;
+>> +		goto close_control;
+>> +	}
+>> +
+>> +	ret = qaic_create_drm_device(qdev, QAIC_NO_PARTITION);
+>> +
+>> +	return ret;
+>> +
+>> +close_control:
+>> +	qaic_control_close(qdev);
+>> +	return ret;
+>> +}
+>> +
+>> +static void qaic_mhi_remove(struct mhi_device *mhi_dev)
+>> +{
+>> + /* This is redundant since we have already observed the device crash *
+> 
+> Use tab instead of space for indent.
 
-diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
-index 498343c7ab08..315aa8e35e6b 100644
---- a/Documentation/staging/tee.rst
-+++ b/Documentation/staging/tee.rst
-@@ -214,6 +214,47 @@ call is done from the thread assisting the interrupt handler. This is a
- building block for OP-TEE OS in secure world to implement the top half and
- bottom half style of device drivers.
- 
-+OPTEE_INSECURE_LOAD_IMAGE Kconfig option
-+----------------------------------------
-+
-+The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to load the
-+BL32 OP-TEE image from the kernel after the kernel boots, rather than loading
-+it from the firmware before the kernel boots. This also requires enabling the
-+corresponding option in Trusted Firmware for Arm. The documentation there
-+explains the security threat associated with enabling this as well as
-+mitigations at the firmware and platform level.
-+https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
-+
-+There are additional attack vectors/mitigations for the kernel that should be
-+addressed when using this option.
-+
-+1. Boot chain security.
-+   Attack vector: Replace the OP-TEE OS image in the rootfs to gain control of
-+                  the system.
-+   Migitation: There must be boot chain security that verifies the kernel and
-+               rootfs, otherwise an attacker can modify the loaded OP-TEE
-+               binary by modifying it in the rootfs.
-+3. Alternate boot modes.
-+   Attack vector: Using an alternate boot mode (i.e. recovery mode), the OP-TEE
-+                  driver isn't loaded, leaving the SMC hole open.
-+   Mitigation: If there are alternate methods of booting the device, such as a
-+               recovery mode, it should be ensured that the same mitigations are
-+               applied in that mode.
-+3. Attacks prior to SMC invocation.
-+   Attack vector: Code that is executed prior to issuing the SMC call to load
-+                  OP-TEE can be exploited to then load an alternate OS image.
-+   Mitigation: The OP-TEE driver must be loaded before any potential attack
-+               vectors are opened up. This should include mounting of any
-+               modifiable filesystems, opening of network ports or communicating
-+               with external devices (e.g. USB).
-+4. Blocking SMC call to load OP-TEE.
-+   Attack vector: Prevent the driver from being probed, so the SMC call to load
-+                  OP-TEE isn't executed when desired, leaving it open to being
-+                  executed later and loading a modified OS.
-+   Mitigation: It is recommended to build the OP-TEE driver as an included
-+               driver rather than a module to prevent exploits that may cause
-+               the module to not be loaded.
-+
- AMD-TEE driver
- ==============
- 
-diff --git a/drivers/tee/optee/Kconfig b/drivers/tee/optee/Kconfig
-index f121c224e682..70898bbd5809 100644
---- a/drivers/tee/optee/Kconfig
-+++ b/drivers/tee/optee/Kconfig
-@@ -7,3 +7,20 @@ config OPTEE
- 	help
- 	  This implements the OP-TEE Trusted Execution Environment (TEE)
- 	  driver.
-+
-+config OPTEE_INSECURE_LOAD_IMAGE
-+	bool "Load OP-TEE image as firmware"
-+	default n
-+	depends on OPTEE && ARM64
-+	help
-+	  This loads the BL32 image for OP-TEE as firmware when the driver is
-+	  probed. This returns -EPROBE_DEFER until the firmware is loadable from
-+	  the filesystem which is determined by checking the system_state until
-+	  it is in SYSTEM_RUNNING. This also requires enabling the corresponding
-+	  option in Trusted Firmware for Arm. The documentation there explains
-+	  the security threat associated with enabling this as well as
-+	  mitigations at the firmware and platform level.
-+	  https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
-+
-+	  Additional documentation on kernel security risks are at
-+	  Documentation/staging/tee.rst.
-diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
-index 70e9cc2ee96b..e8840a82b983 100644
---- a/drivers/tee/optee/optee_msg.h
-+++ b/drivers/tee/optee/optee_msg.h
-@@ -241,11 +241,23 @@ struct optee_msg_arg {
-  * 384fb3e0-e7f8-11e3-af63-0002a5d5c51b.
-  * Represented in 4 32-bit words in OPTEE_MSG_UID_0, OPTEE_MSG_UID_1,
-  * OPTEE_MSG_UID_2, OPTEE_MSG_UID_3.
-+ *
-+ * In the case where the OP-TEE image is loaded by the kernel, this will
-+ * initially return an alternate UID to reflect that we are communicating with
-+ * the TF-A image loading service at that time instead of OP-TEE. That UID is:
-+ * a3fbeab1-1246-315d-c7c4-06b9c03cbea4.
-+ * Represented in 4 32-bit words in OPTEE_MSG_IMAGE_LOAD_UID_0,
-+ * OPTEE_MSG_IMAGE_LOAD_UID_1, OPTEE_MSG_IMAGE_LOAD_UID_2,
-+ * OPTEE_MSG_IMAGE_LOAD_UID_3.
-  */
- #define OPTEE_MSG_UID_0			0x384fb3e0
- #define OPTEE_MSG_UID_1			0xe7f811e3
- #define OPTEE_MSG_UID_2			0xaf630002
- #define OPTEE_MSG_UID_3			0xa5d5c51b
-+#define OPTEE_MSG_IMAGE_LOAD_UID_0	0xa3fbeab1
-+#define OPTEE_MSG_IMAGE_LOAD_UID_1	0x1246315d
-+#define OPTEE_MSG_IMAGE_LOAD_UID_2	0xc7c406b9
-+#define OPTEE_MSG_IMAGE_LOAD_UID_3	0xc03cbea4
- #define OPTEE_MSG_FUNCID_CALLS_UID	0xFF01
- 
- /*
-diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
-index 73b5e7760d10..7d9fa426505b 100644
---- a/drivers/tee/optee/optee_smc.h
-+++ b/drivers/tee/optee/optee_smc.h
-@@ -104,6 +104,30 @@ struct optee_smc_call_get_os_revision_result {
- 	unsigned long reserved1;
- };
- 
-+/*
-+ * Load Trusted OS from optee/tee.bin in the Linux firmware.
-+ *
-+ * WARNING: Use this cautiously as it could lead to insecure loading of the
-+ * Trusted OS.
-+ * This SMC instructs EL3 to load a binary and execute it as the Trusted OS.
-+ *
-+ * Call register usage:
-+ * a0 SMC Function ID, OPTEE_SMC_CALL_LOAD_IMAGE
-+ * a1 Upper 32bit of a 64bit size for the payload
-+ * a2 Lower 32bit of a 64bit size for the payload
-+ * a3 Upper 32bit of the physical address for the payload
-+ * a4 Lower 32bit of the physical address for the payload
-+ *
-+ * The payload is in the OP-TEE image format.
-+ *
-+ * Returns result in a0, 0 on success and an error code otherwise.
-+ */
-+#define OPTEE_SMC_FUNCID_LOAD_IMAGE 2
-+#define OPTEE_SMC_CALL_LOAD_IMAGE \
-+	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
-+			   ARM_SMCCC_OWNER_TRUSTED_OS_END, \
-+			   OPTEE_SMC_FUNCID_LOAD_IMAGE)
-+
- /*
-  * Call with struct optee_msg_arg as argument
-  *
-diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-index a1c1fa1a9c28..00b6b69b6f79 100644
---- a/drivers/tee/optee/smc_abi.c
-+++ b/drivers/tee/optee/smc_abi.c
-@@ -8,9 +8,11 @@
- 
- #include <linux/arm-smccc.h>
- #include <linux/errno.h>
-+#include <linux/firmware.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/irqdomain.h>
-+#include <linux/kernel.h>
- #include <linux/mm.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -1149,6 +1151,22 @@ static bool optee_msg_api_uid_is_optee_api(optee_invoke_fn *invoke_fn)
- 	return false;
- }
- 
-+#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
-+static bool optee_msg_api_uid_is_optee_image_load(optee_invoke_fn *invoke_fn)
-+{
-+	struct arm_smccc_res res;
-+
-+	invoke_fn(OPTEE_SMC_CALLS_UID, 0, 0, 0, 0, 0, 0, 0, &res);
-+
-+	if (res.a0 == OPTEE_MSG_IMAGE_LOAD_UID_0 &&
-+	   res.a1 == OPTEE_MSG_IMAGE_LOAD_UID_1 &&
-+	   res.a2 == OPTEE_MSG_IMAGE_LOAD_UID_2 &&
-+	   res.a3 == OPTEE_MSG_IMAGE_LOAD_UID_3)
-+		return true;
-+	return false;
-+}
-+#endif
-+
- static void optee_msg_get_os_revision(optee_invoke_fn *invoke_fn)
- {
- 	union {
-@@ -1354,6 +1372,81 @@ static void optee_shutdown(struct platform_device *pdev)
- 		optee_disable_shm_cache(optee);
- }
- 
-+#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
-+
-+#define OPTEE_FW_IMAGE "optee/tee.bin"
-+
-+static int optee_load_fw(struct platform_device *pdev,
-+			 optee_invoke_fn *invoke_fn)
-+{
-+	const struct firmware *fw = NULL;
-+	struct arm_smccc_res res;
-+	phys_addr_t data_pa;
-+	u8 *data_buf = NULL;
-+	u64 data_size;
-+	u32 data_pa_high, data_pa_low;
-+	u32 data_size_high, data_size_low;
-+	int rc;
-+
-+	if (!optee_msg_api_uid_is_optee_image_load(invoke_fn))
-+		return 0;
-+
-+	rc = request_firmware(&fw, OPTEE_FW_IMAGE, &pdev->dev);
-+	if (rc) {
-+		/*
-+		 * The firmware in the rootfs will not be accessible until we
-+		 * are in the SYSTEM_RUNNING state, so return EPROBE_DEFER until
-+		 * that point.
-+		 */
-+		if (system_state < SYSTEM_RUNNING)
-+			return -EPROBE_DEFER;
-+		goto fw_err;
-+	}
-+
-+	data_size = fw->size;
-+	/*
-+	 * This uses the GFP_DMA flag to ensure we are allocated memory in the
-+	 * 32-bit space since TF-A cannot map memory beyond the 32-bit boundary.
-+	 */
-+	data_buf = kmalloc(fw->size, GFP_KERNEL | GFP_DMA);
-+	if (!data_buf) {
-+		rc = -ENOMEM;
-+		goto fw_err;
-+	}
-+	memcpy(data_buf, fw->data, fw->size);
-+	data_pa = virt_to_phys(data_buf);
-+	reg_pair_from_64(&data_pa_high, &data_pa_low, data_pa);
-+	reg_pair_from_64(&data_size_high, &data_size_low, data_size);
-+	goto fw_load;
-+
-+fw_err:
-+	pr_warn("image loading failed\n");
-+	data_pa_high = data_pa_low = data_size_high = data_size_low = 0;
-+
-+fw_load:
-+	/*
-+	 * Always invoke the SMC, even if loading the image fails, to indicate
-+	 * to EL3 that we have passed the point where it should allow invoking
-+	 * this SMC.
-+	 */
-+	pr_warn("OP-TEE image loaded from kernel, this can be insecure");
-+	invoke_fn(OPTEE_SMC_CALL_LOAD_IMAGE, data_size_high, data_size_low,
-+		  data_pa_high, data_pa_low, 0, 0, 0, &res);
-+	if (!rc)
-+		rc = res.a0;
-+	if (fw)
-+		release_firmware(fw);
-+	kfree(data_buf);
-+
-+	return rc;
-+}
-+#else
-+static inline int optee_load_fw(struct platform_device *__unused1,
-+		optee_invoke_fn *__unused2) {
-+	return 0;
-+}
-+#endif
-+
- static int optee_probe(struct platform_device *pdev)
- {
- 	optee_invoke_fn *invoke_fn;
-@@ -1372,6 +1465,10 @@ static int optee_probe(struct platform_device *pdev)
- 	if (IS_ERR(invoke_fn))
- 		return PTR_ERR(invoke_fn);
- 
-+	rc = optee_load_fw(pdev, invoke_fn);
-+	if (rc)
-+		return rc;
-+
- 	if (!optee_msg_api_uid_is_optee_api(invoke_fn)) {
- 		pr_warn("api uid mismatch\n");
- 		return -EINVAL;
--- 
-2.40.0.rc1.284.g88254d51c5-goog
-
+The space was a glitch.  Will remove.
