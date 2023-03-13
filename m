@@ -2,456 +2,190 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6080AC6FD19
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 13:45:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D899C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 13:48:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230038AbjCMNpI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 09:45:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44436 "EHLO
+        id S230119AbjCMNsa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 09:48:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230252AbjCMNov (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 09:44:51 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E1C58C2B;
-        Mon, 13 Mar 2023 06:44:48 -0700 (PDT)
-Received: from [192.168.0.192] (unknown [194.146.248.75])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id AFB81660037C;
-        Mon, 13 Mar 2023 13:44:46 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1678715087;
-        bh=gGpTmT3fEqRln73YrvkUsmUPbkNfk0B34SvnPIYi1Wk=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=FWsOXcB1yIKmbYd/o+yoFgJzwVjou2p/ffXdqoq44lyW2hH4XSKpUOvk8w7ZC6Vsz
-         8qQnDfmVyhXyTOWFSmkryweV267fM9MPH0DPAE/os8pwCu52zTt0RhUSzOxsTaiJie
-         tJsn4VNLrTwIJ6oxZq7ov4vZssxc40HF2IZmYWbFFfF3KKcdT8eX4yfUUig3xPZxV2
-         JRDv6rVXV3k+6qbQx2F0UB7teOY/129pU3YO2Y40er36u63B9+ahHSx1JRC0L5ofAG
-         wm95Ea6hinBeqEAIk70k8haeKcGNHAbsI/ZwFwnxQNGSvycq6VH4rtJiwjM8nkL7GZ
-         Kfiw4SmzLAHKA==
-Message-ID: <3c7af6f9-2990-fd74-a4bd-b9432e7cf259@collabora.com>
-Date:   Mon, 13 Mar 2023 14:44:44 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] docs: usb: Add documentation for the UVC Gadget
-To:     Daniel Scally <dan.scally@ideasonboard.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-usb@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com
-References: <20230308165213.139315-1-dan.scally@ideasonboard.com>
+        with ESMTP id S231133AbjCMNs2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 09:48:28 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FF4E1CBCC;
+        Mon, 13 Mar 2023 06:48:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678715307; x=1710251307;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Jo37JS9AeqpWoXK1jvb6JY5OqNlBLUaFtJ84POEpuYM=;
+  b=UyC/DE8fjB6nFwduNkFdW4xb9YhFgl2eXIiihdNNvD58tlkybBT8nKN3
+   tuOGbBea/Fewt09GQ/jSe3TDSBaOvo8/SRQzJ2wZZK0RpCkt5HCJgHuno
+   ap+8mPSagELZxaGBcv+x703M2wcZspSTtrHZNHmDw2N5LxzKx21Wc/lIE
+   2OTP6hCkne5oOgGnbsu98xIcnuoXTuOf7CbbSq15aSxU/1fLS6YAMh9pG
+   ukvyasVhA7OBjDpj1GBxSVmMnLibKMSKTvHR4X4Q3RBPChnmcguATZ0Ns
+   jPzDBXmDrOPRDnlM+ARWx95MgjDXCxkQt/5G8MA0VTz7wj1aU8m6PdMOB
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="334623614"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="334623614"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 06:48:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="767697155"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="767697155"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by FMSMGA003.fm.intel.com with ESMTP; 13 Mar 2023 06:48:26 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 13 Mar 2023 06:48:26 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Mon, 13 Mar 2023 06:48:26 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Mon, 13 Mar 2023 06:48:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T/KKk6JR5hbj1/sUUKddK0ZIpsfA9cjuVjtVxcUIFJFZ57XD9W7vt88wW16J6DvuzveZdBbKJWGtXf13wRZ/cVx8jzhb2fzLh8byikNEpmrApB0MkzHcjUzB9w42HBkSvq9b3dEJtzeGAtx8rwa1/rlZpv+9WuZOt2wQRzos8XNJsluEEYsZPa50W4m+7bBrJF3gUjJoBqJUxSxoc1lkW4SKSjnxIzaFZOg8yP0VyVz780PCtHmsRCOcz3GCCnmeHKEFkJJj1go1u47EWnDVQkXQjmSjh2b4RI71NqxCtSj91ghgP8O2V3V1bzX1WjRCKcrDBSWXe+0wWJEpsy2YZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1r6hCpYV/7CNlQnPuhZ03W3SQmrH7ZGqNC1p3dRY4lQ=;
+ b=m+Lyxb/N/08RzKRspF4VISj2ZgFEOVY0tMSJwXBnj4IuDte14VH2I9CMpGlfKwF+dqCER7t5x71EGcAlniXpBvzDmjVQSOq58iLxsAMrGAUdnuY672R+JcUUhHdn7Jp0t8Imk6VW+s2w0/OJSWKYNkH9Xo7l77uUts97s4REuPbObCdvHdzCnVKJDA8SL1jT4guXbr40iopZj3ziem6m3i+mBK/JBsuB6lSJgmXy/OtQPjvHLsYTGjJtCe7RG7rVQYikJGid/T6JsLeIkIWfZzfKl/1Tt07Iahv3oIHTvm+H0xFB1u/KOXyIZHROankNihESG6XtTDXgBH6umlKEtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA1PR11MB6171.namprd11.prod.outlook.com (2603:10b6:208:3e9::13)
+ by PH0PR11MB4904.namprd11.prod.outlook.com (2603:10b6:510:40::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Mon, 13 Mar
+ 2023 13:48:19 +0000
+Received: from IA1PR11MB6171.namprd11.prod.outlook.com
+ ([fe80::2aed:1a72:b351:1601]) by IA1PR11MB6171.namprd11.prod.outlook.com
+ ([fe80::2aed:1a72:b351:1601%9]) with mapi id 15.20.6178.024; Mon, 13 Mar 2023
+ 13:48:19 +0000
+From:   "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
+To:     Uladzislau Rezki <urezki@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+CC:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "rcu@vger.kernel.org" <rcu@vger.kernel.org>
+Subject: RE: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+Thread-Topic: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+Thread-Index: AQHZThiYp3MlrzfqvEWnd0vYLxlOHa7vTckAgAAKtYCAAAJrAIAAPq6AgAAWxoCAAAkkAIAA7pKAgABU+wCAAXQ5AIAAmpIAgACz9gCAAWhKAIADXoaAgAArowCAABOeUA==
+Date:   Mon, 13 Mar 2023 13:48:18 +0000
+Message-ID: <IA1PR11MB61714FA7A6FA92307B7FEF7C89B99@IA1PR11MB6171.namprd11.prod.outlook.com>
+References: <20230307173313.GJ1301832@paulmck-ThinkPad-P17-Gen-1>
+ <20230307185443.GA516865@google.com>
+ <20230307192726.GL1301832@paulmck-ThinkPad-P17-Gen-1>
+ <ZAhYP9a8u05hzsOn@pc636>
+ <20230308144528.GR1301832@paulmck-ThinkPad-P17-Gen-1>
+ <ZAnXxr9OyFT63xSx@pc636> <20230309221056.GB148448@google.com>
+ <ZArwZjcEYXAYwmqi@pc636>
+ <8f8a40cd-8b1f-4121-98f7-7a1bdbcaf6a6@paulmck-laptop>
+ <ZA7yK6iznHqiBu5i@pc636> <ZA8WxjUL0eUPtVy8@pc636>
+In-Reply-To: <ZA8WxjUL0eUPtVy8@pc636>
+Accept-Language: en-US
 Content-Language: en-US
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20230308165213.139315-1-dan.scally@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR11MB6171:EE_|PH0PR11MB4904:EE_
+x-ms-office365-filtering-correlation-id: 9d6f1353-7a53-4d6b-dfb1-08db23c99a79
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VmCT5LswW7GX6OLJudiwjVmSD3fovo3YVsJi3ZIhhQDcNcg+xCHL8lSiwVwa2s+z3dBZJ1xW7dwv2zLifsJ+RM0St4R8mHWU1tnQmHl5jVmaEz9sq0nlcrsPwHBAXtYpj0utbXepxtuYrXES71NqGE7Ni2AqneQfN791Wk13epAeaDw975Bf1ShtYIdIweOV5wyYLcOupRnloJteDq3TH8ObmTywJsHv4EE/vvjEfZ5iaSVPnIlFUURnxrQtkLcuXg6pXpLuFnymnkDgHawYQFKMcxP/bBmt3oOag20U+XMHbpJJI9sPWB4YPRRZELLdCQrJxiOcu8oXojApvgUmn60A+GF8BSvY/QhzF7RCMA7Mwu76iJwnw3US8/IoYndclNVI6t2OMKzP2YgKsh6uLUXDwE10bX1RyixwfHqcTC2Pcs22xNfu1mHSLc9NF3zbF/qQfi3vbXMXxpQupBHY/su9zzEPJe+j2QnabHETvaTVcPAc8idpMKLLjq9ph+DDlgYxJxqqTBNOBvRdmHD6X/QVgsS50TFQ8Ws15WZupvp17wD45hXvmks3KlPu9VaCKiEqstjAXlstRZcDFjpxsYzIwdynxOdEuN5iI6aA2lvkHRX9B3j3eN+e7zW1Cx4h18r/qqNtdC9LRcG2RteiZvxASkJxrgFx+O2r7vAu2v5rErHojFLVzXPREzAmMxwBmVphqZeVTGa1Sr60wXkLbw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6171.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(346002)(136003)(366004)(39860400002)(376002)(396003)(451199018)(33656002)(86362001)(186003)(9686003)(41300700001)(4326008)(26005)(6506007)(5660300002)(8936002)(52536014)(316002)(71200400001)(7696005)(55016003)(478600001)(110136005)(54906003)(64756008)(76116006)(8676002)(66556008)(66946007)(66446008)(66476007)(122000001)(38100700002)(82960400001)(38070700005)(2906002)(4744005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?oHHr49i4vR8DGFeaH8z/vIStQrrBKqNyJk1X8ut3ygjB4kyL8TLj5Zl/TVdj?=
+ =?us-ascii?Q?DQWULw/wRFtoLKKs8cAfbWDdUXi1iZ6ZHIsH1LnsnHUkDb90YVZ5eJ9m3ixC?=
+ =?us-ascii?Q?DJIeUI0pkRda4UbZy5OjLjHPPoenqt23u88KLXQPNFzOqvAplM347KEsKz25?=
+ =?us-ascii?Q?jL/NDbY3JKmfkICELigpSEUBn55bYqJItbO04CnxalF3gqu6NAGD661+iitp?=
+ =?us-ascii?Q?hKVMNLBXZ4bxzlMhBlF1jD8FsYz16wx9gBw9tMbcIs3oiGIwUcFR7hCb5sxv?=
+ =?us-ascii?Q?F4NSRREc2Rc6s7Z1d9A3r+kAXn2jjvTt6QfR3cgXjSWfYayu+MllE4YpY+Cx?=
+ =?us-ascii?Q?opMCKGUsZIVp5clE2FWAHuGzmbNzTMIJXy0LX5oveE3amtESYy5jsTRfc3+l?=
+ =?us-ascii?Q?UttfFQB0zANVz07fal4mHOeWf9AmleEq6i0tX446R9iG/+cYd5XPCtUcQMfX?=
+ =?us-ascii?Q?IHEOHobmnQQ29A0m5buR4rtIuHxiWNxSuq8nLphsoo0guWgL7rb4Xx1KvPOG?=
+ =?us-ascii?Q?iLYGpuTg/+XsbnUpRdZmlBd4zt/GJ5i1LLDKKCOGFEb5XRs27bCp4KwiQQ3N?=
+ =?us-ascii?Q?06tXKP5zI6N0MESD49xRaaMbSxCBOB4eaVi44MVa8XmHZrP6XAWFKt97HDzp?=
+ =?us-ascii?Q?zcPyp6kqVBYeGvp8sqd+PQMz7JKYB0oTvIi5bUK6D96glTp7uQ5ds800/eAd?=
+ =?us-ascii?Q?IAfCEZWQ5MGrWthnd4FiK0SwZolOx180N6WMxZotYgihYzd0jvJsdNZWgp/y?=
+ =?us-ascii?Q?KQBjvDHm7nwOw0uGW8Q9s4UwfKJpYk0Dx6PYzuAzKXog2CVbbogHY4PZI8UA?=
+ =?us-ascii?Q?zKWIMH51Li8MdLDccAHRn7Ngil+eJHxH4KTli7+hMeuW3xI+hFCCPrJvPfvL?=
+ =?us-ascii?Q?Du3KDLMid+dGMQiLqITJeM5xu50PJS184CrL3ONA6DzEO11QrSprFkkr1H+D?=
+ =?us-ascii?Q?0g5tZUk18Kf3dv6jXgZXEVZ54FCfY1adfo5MBWPsEAxEEzazZEKmeOZAbbZs?=
+ =?us-ascii?Q?9mBTew5vT9nbo6t+k2wSmjRlOSIUWoAj/oFAouDPKm9gy2E1HVuj13qslpzf?=
+ =?us-ascii?Q?HDlrBGDN4ocoz+aN8b4Pr3wsEXTck6kMYDckVJo/7WNgiWHrbCh8gSvwr3+T?=
+ =?us-ascii?Q?wPLJZIoxRGHc0S2pjmGJJk6PHgsATG1WOc4D4kG3eMVNJeyTEbvVyV3545LC?=
+ =?us-ascii?Q?jM+gm9hWDS7wwyxlzzIb1Vr7OYtOQHyEPgs2G7BNeDw20Tx/1ay4L6ectKJD?=
+ =?us-ascii?Q?OpDYMR2JKIrir8I+fHfQQEF1fp6e9AKHOzPY0tYzVurISD5yEto8IglBv8ix?=
+ =?us-ascii?Q?rVk/y8XLI8hr1XtsyNral6A7xA2iSMRZ9d57StBXH0PldtewiLTSe3IAZ2lR?=
+ =?us-ascii?Q?KirtxExkb7ufA0BbpFxJ6OrgZJtEJN1XA6pvWzJ4rPez4nhxmXeVUxenx0TB?=
+ =?us-ascii?Q?2yMOsQtJCZB4WcftcczOkexCUq9xQoBo3xbC80I+WTfmqJ2A3sTBbz0Ou0dj?=
+ =?us-ascii?Q?6n+mewlJnMyuIFLP5Hgl1UholJhB3suzuaUMkpuFiZLivw7A1tn3q4DRDMKR?=
+ =?us-ascii?Q?sivJTu0O6gnPeT8HKvDZlHR8+pyNaDik03MLNA5P?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6171.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d6f1353-7a53-4d6b-dfb1-08db23c99a79
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2023 13:48:18.9509
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: m1KxpVkvUn4HH9cYJ91IX/l5K2eCQlTicU9Y/DmM2G5RQVUpSqF5gj0yaMLo3F2d+SIY9XXfzDxiG3f/H3SoqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4904
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Daniel,
+> From: Uladzislau Rezki <urezki@gmail.com>
+> [...]
+> XQ-DQ54:/ # echo 1 > /sys/kernel/rc
+> rcu_expedited       rcu_improve_normal  rcu_normal
+> XQ-DQ54:/ # echo 1 > /sys/kernel/rcu_improve_normal=20
 
-I found two typos, indicated below,
+Hi Rezki,
 
-Other than that
+I applied your prototype patch, but I did NOT find the sys-node:
+ "/sys/kernel/rcu_improve_normal" on my system.
 
-Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+What is this node used for? What am I missing? Thanks!
 
-W dniu 8.03.2023 o 17:52, Daniel Scally pisze:
-> The UVC Gadget function has become quite complex, but documentation
-> for it is fairly sparse. Add some more detailed documentation to
-> improve the situation.
-> 
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> ---
-> Greg, Jonathan - I didn't know if there's a specific tree for Documentation/
-> only patches, so this is on usb-next. If that was wrong let me know and I'll
-> resend the patch.
-> 
->   Documentation/usb/gadget_uvc.rst | 352 +++++++++++++++++++++++++++++++
->   Documentation/usb/index.rst      |   1 +
->   2 files changed, 353 insertions(+)
->   create mode 100644 Documentation/usb/gadget_uvc.rst
-> 
-> diff --git a/Documentation/usb/gadget_uvc.rst b/Documentation/usb/gadget_uvc.rst
-> new file mode 100644
-> index 000000000000..6d22faceb1a0
-> --- /dev/null
-> +++ b/Documentation/usb/gadget_uvc.rst
-> @@ -0,0 +1,352 @@
-> +=======================
-> +Linux UVC Gadget Driver
-> +=======================
-> +
-> +Overview
-> +--------
-> +The UVC Gadget driver is a driver for hardware on the *device* side of a USB
-> +connection. It is intended to run on a Linux system that has USB device-side
-> +hardware such as boards with an OTG port.
-> +
-> +On the device system, once the driver is bound it appears as a V4L2 device with
-> +the output capability.
-> +
-> +On the host side (once connected via USB cable), a device running the UVC Gadget
-> +driver *and controlled by an appropriate userspace program* should appear as a UVC
-> +specification compliant camera, and function appropriately with any program
-> +designed to handle them. The userspace program running on the device system can
-> +queue image buffers from a variety of sources to be transmitted via the USB
-> +connection. Typically this would mean forwarding the buffers from a camera sensor
-> +peripheral, but the source of the buffer is entirely dependent on the userspace
-> +companion program.
-> +
-> +Configuring the device kernel
-> +-----------------------------
-> +The Kconfig options USB_CONFIGFS, USB_LIBCOMPOSITE, USB_CONFIGFS_F_UVC and
-> +USB_F_UVC must be selected to enable support for the UVC gadget.
-> +
-> +Configuring the gadget through configfs
-> +---------------------------------------
-> +The UVC Gadget expects to be configured through configfs using the UVC function.
-> +This allows a significant degree of flexibility, as many of a UVC device's
-> +settings can be controlled this way.
-> +
-> +Not all of the available attributes are described here. For a complete enumeration
-> +see Documentation/ABI/testing/configfs-usb-gadget-uvc
-> +
-> +Assumptions
-> +~~~~~~~~~~~
-> +This section assumes that you have mounted configfs at `/sys/kernel/config` and
-> +created a gadget as `/sys/kernel/config/usb_gadget/g1`.
-> +
-> +The UVC Function
-> +~~~~~~~~~~~~~~~~
-> +
-> +The first step is to create the UVC function:
-> +
-> +.. code-block:: bash
-> +
-> +	# These variables will be assumed throughout the rest of the document
-> +	CONFIGFS="/sys/kernel/config"
-> +	GADGET="$CONFIGFS/usb_gadget/g1"
-> +	FUNCTION="$GADGET/functions/uvc.0"
-> +
-> +	mkdir -p $FUNCTION
-> +
-> +Formats and Frames
-> +~~~~~~~~~~~~~~~~~~
-> +
-> +You must configure the gadget by telling it which formats you support, as well
-> +as the frame sizes and frame intervals that are supported for each format. In
-> +the current implementation there is no way for the gadget to refuse to set a
-> +format that the host instructs it to set, so it is important that this step is
-> +completed *accurately* to ensure that the host never asks for a format that
-> +can't be provided.
-> +
-> +Formats are created under the streaming/uncompressed and streaming/mjpeg configfs
-> +groups, with the framesizes created under the formats in the following
-> +structure:
-> +
-> +::
-> +
-> +	uvc.0 +
-> +	      |
-> +	      + streaming +
-> +			  |
-> +			  + mjpeg +
-> +			  |       |
-> +			  |       + mjpeg +
-> +			  |	       |
-> +			  |	       + 720p
-> +			  |	       |
-> +			  |	       + 1080p
-> +			  |
-> +			  + uncompressed +
-> +					 |
-> +					 + yuyv +
-> +						|
-> +						+ 720p
-> +						|
-> +						+ 1080p
-> +
-> +Each frame can then be configured with a width and height, plus the maximum
-> +buffer size required to store a single frame, and finally with the supported
-> +frame intervals for that format and framesize. Width and height are enumerated in
-> +units of pixels, frame interval in units of 100ns. To create the structure
-> +above with 2, 15 and 100 fps frameintervals for each framesize for example you
-> +might do:
-> +
-> +.. code-block:: bash
-> +
-> +	create_frame() {
-> +		# Example usage:
-> +		# create_frame <width> <height> <group> <format name>
-> +
-> +		WIDTH=$1
-> +		HEIGHT=$2
-> +		FORMAT=$3
-> +		NAME=$4
-> +
-> +		wdir=$FUNCTION/streaming/$FORMAT/$NAME/${HEIGHT}p
-> +
-> +		mkdir -p $wdir
-> +		echo $WIDTH > $wdir/wWidth
-> +		echo $HEIGHT > $wdir/wHeight
-> +		echo $(( $WIDTH * $HEIGHT * 2 )) > $wdir/dwMaxVideoFrameBufferSize
-> +		cat <<EOF > $wdir/dwFrameInterval
-> +	666666
-> +	100000
-> +	5000000
-> +	EOF
-> +	}
-> +
-> +	create_frame 1280 720 mjpeg mjpeg
-> +	create_frame 1920 1080 mjpeg mjpeg
-> +	create_frame 1280 720 uncompressed yuyv
-> +	create_frame 1920 1080 uncompressed yuyv
-> +
-> +The only uncompressed format currently supported is YUYV, which is detailed at
-> +Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst.
-> +
-> +Color Matching Descriptors
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +It's possible to specify some colometry information for each format you create.
+[ There were only "rcu_expedited" & " rcu_normal" sys nodes
+on my system. ]
 
-did you mean
+-Qiuxu
 
-s/colometry/colorimetry/
-
-> +This step is optional, and default information will be included if this step is
-> +skipped; those default values follow those defined in the Color Matching Descriptor
-> +section of the UVC specification.
-> +
-> +To create a Color Matching Descriptor, create a configfs item and set its three
-> +attributes to your desired settings and then link to it from the format you wish
-> +it to be associated with:
-> +
-> +.. code-block:: bash
-> +
-> +	# Create a new Color Matching Descriptor
-> +
-> +	mkdir $FUNCTION/streaming/color_matching/yuyv
-> +	pushd $FUNCTION/streaming/color_matching/yuyv
-> +
-> +	echo 1 > bColorPrimaries
-> +	echo 1 > bTransferCharacteristics
-> +	echo 4 > bMatrixCoefficients
-> +
-> +	popd
-> +
-> +	# Create a symlink to the Color Matching Descriptor from the format's config item
-> +	ln -s $FUNCTION/streaming/color_matching/yuyv $FUNCTION/streaming/uncompressed/yuyv
-> +
-> +For details about the valid values, consult the UVC specification. Note that a
-> +default color matching descriptor exists and is used by any format which does
-> +not have a link to a different Color Matching Descriptor. It's possible to
-> +change the attribute settings for the default descriptor, so bear in mind that if
-> +you do that you are altering the defaults for any format that does not link to
-> +a different one.
-> +
-> +
-> +Header linking
-> +~~~~~~~~~~~~~~
-> +
-> +The UVC specification requires that Format and Frame descriptors be preceded by
-> +Headers detailing things such as the number and cumulative size of the different
-> +Format descriptors that follow. This and similar operations are acheived in
-
-s/acheived/achieved
-
-> +configfs by linking between the configfs item representing the header and the
-> +config items representing those other descriptors, in this manner:
-> +
-> +.. code-block:: bash
-> +
-> +	mkdir $FUNCTION/streaming/header/h
-> +
-> +	# This section links the format descriptors and their associated frames
-> +	# to the header
-> +	cd $FUNCTION/streaming/header/h
-> +	ln -s ../../uncompressed/yuyv
-> +	ln -s ../../mjpeg/mjpeg
-> +
-> +	# This section ensures that the header will be transmitted for each
-> +	# speed's set of descriptors. If support for a particular speed is not
-> +	# needed then it can be skipped here.
-> +	cd ../../class/fs
-> +	ln -s ../../header/h
-> +	cd ../../class/hs
-> +	ln -s ../../header/h
-> +	cd ../../class/ss
-> +	ln -s ../../header/h
-> +	cd ../../../control
-> +	mkdir header/h
-> +	ln -s header/h class/fs
-> +	ln -s header/h class/ss
-> +
-> +
-> +Extension Unit Support
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +A UVC Extension Unit (XU) basically provides a distinct unit to which control set
-> +and get requests can be addressed. The meaning of those control requests is
-> +entirely implementation dependent, but may be used to control settings outside
-> +of the UVC specification (for example enabling or disabling video effects). An
-> +XU can be inserted into the UVC unit chain or left free-hanging.
-> +
-> +Configuring an extension unit involves creating an entry in the appropriate
-> +directory and setting its attributes appropriately, like so:
-> +
-> +.. code-block:: bash
-> +
-> +	mkdir $FUNCTION/control/extensions/xu.0
-> +	pushd $FUNCTION/control/extensions/xu.0
-> +
-> +	# Set the bUnitID of the Processing Unit as the source for this
-> +	# Extension Unit
-> +	echo 2 > baSourceID
-> +
-> +	# Set this XU as the source of the default output terminal. This inserts
-> +	# the XU into the UVC chain between the PU and OT such that the final
-> +	# chain is IT > PU > XU.0 > OT
-> +	cat bUnitID > ../../terminal/output/default/baSourceID
-> +
-> +	# Flag some controls as being available for use. The bmControl field is
-> +	# a bitmap with each bit denoting the availability of a particular
-> +	# control. For example to flag the 0th, 2nd and 3rd controls available:
-> +	echo 0x0d > bmControls
-> +
-> +	# Set the GUID; this is a vendor-specific code identifying the XU.
-> +	echo -e -n "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10" > guidExtensionCode
-> +
-> +	popd
-> +
-> +The bmControls attribute and the baSourceID attribute are multi-value attributes.
-> +This means that you may write multiple newline separated values to them. For
-> +example to flag the 1st, 2nd, 9th and 10th controls as being available you would
-> +need to write two values to bmControls, like so:
-> +
-> +.. code-block:: bash
-> +
-> +	cat << EOF > bmControls
-> +	0x03
-> +	0x03
-> +	EOF
-> +
-> +The multi-value nature of the baSourceID attribute belies the fact that XUs can
-> +be multiple-input, though note that this currently has no significant effect.
-> +
-> +The bControlSize attribute reflects the size of the bmControls attribute, and
-> +similarly bNrInPins reflects the size of the baSourceID attributes. Both
-> +attributes are automatically increased / decreased as you set bmControls and
-> +baSourceID. It is also possible to manually increase or decrease bControlSize
-> +which has the effect of truncating entries to the new size, or padding entries
-> +out with 0x00, for example:
-> +
-> +::
-> +
-> +	$ cat bmControls
-> +	0x03
-> +	0x05
-> +
-> +	$ cat bControlSize
-> +	2
-> +
-> +	$ echo 1 > bControlSize
-> +	$ cat bmControls
-> +	0x03
-> +
-> +	$ echo 2 > bControlSize
-> +	$ cat bmControls
-> +	0x03
-> +	0x00
-> +
-> +bNrInPins and baSourceID function in the same way.
-> +
-> +Custom Strings Support
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +String descriptors that provide a textual description for various parts of a
-> +USB device can be defined in the usual place within USB configfs, and may then
-> +be linked to from the UVC function root or from Extension Unit directories to
-> +assign those strings as descriptors:
-> +
-> +.. code-block:: bash
-> +
-> +	# Create a string descriptor in us-EN and link to it from the function
-> +	# root. The name of the link is significant here, as it declares this
-> +	# descriptor to be intended for the Interface Association Descriptor.
-> +	# Other significant link names at function root are vs0_desc and vs1_desc
-> +	# For the VideoStreaming Interface 0/1 Descriptors.
-> +
-> +	mkdir -p $GADGET/strings/0x409/iad_desc
-> +	echo -n "Interface Associaton Descriptor" > $GADGET/strings/0x409/iad_desc/s
-> +	ln -s $GADGET/strings/0x409/iad_desc $FUNCTION/iad_desc
-> +
-> +	# Because the link to a String Descriptor from an Extension Unit clearly
-> +	# associates the two, the name of this link is not significant and may
-> +	# be set freely.
-> +
-> +	mkdir -p $GADGET/strings/0x409/xu.0
-> +	echo -n "A Very Useful Extension Unit" > $GADGET/strings/0x409/xu.0/s
-> +	ln -s $GADGET/strings/0x409/xu.0 $FUNCTION/control/extensions/xu.0
-> +
-> +The interrupt endpoint
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +The VideoControl interface has an optional interrupt endpoint which is by default
-> +disabled. This is intended to support delayed response control set requests for
-> +UVC (which should respond through the interrupt endpoint rather than tying up
-> +endpoint 0). At present support for sending data through this endpoint is missing
-> +and so it is left disabled to avoid confusion. If you wish to enable it you can
-> +do so through the configfs attribute:
-> +
-> +.. code-block:: bash
-> +
-> +	echo 1 > $FUNCTION/control/enable_interrupt_ep
-> +
-> +Bandwidth configuration
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +There are three attributes which control the bandwidth of the USB connection.
-> +These live in the function root and can be set within limits:
-> +
-> +.. code-block:: bash
-> +
-> +	# streaming_interval sets bInterval. Values range from 1..255
-> +	echo 1 > $FUNCTION/streaming_interval
-> +
-> +	# streaming_maxpacket sets wMaxPacketSize. Valid values are 1024/2048/3072
-> +	echo 3072 > $FUNCTION/streaming_maxpacket
-> +
-> +	# streaming_maxburst sets bMaxBurst. Valid values are 1..15
-> +	echo 1 > $FUNCTION/streaming_maxburst
-> +
-> +
-> +The values passed here will be clamped to valid values according to the UVC
-> +specification (which depend on the speed of the USB connection). To understand
-> +how the settings influence bandwidth you should consult the UVC specifications,
-> +but a rule of thumb is that increasing the streaming_maxpacket setting will
-> +improve bandwidth (and thus the maximum possible framerate), whilst the same is
-> +true for streaming_maxburst provided the USB connection is running at SuperSpeed.
-> +Increasing streaming_interval will reduce bandwidth and framerate.
-> +
-> +The userspace application
-> +-------------------------
-> +By itself, the UVC Gadget driver cannot do anything particularly interesting. It
-> +must be paired with a userspace program that responds to UVC control requests and
-> +fills buffers to be queued to the V4L2 device that the driver creates. How those
-> +things are achieved is implementation dependent and beyond the scope of this
-> +document, but a reference application can be found at https://gitlab.freedesktop.org/camera/uvc-gadget
-> diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
-> index b656c9be23ed..27955dad95e1 100644
-> --- a/Documentation/usb/index.rst
-> +++ b/Documentation/usb/index.rst
-> @@ -16,6 +16,7 @@ USB support
->       gadget_multi
->       gadget_printer
->       gadget_serial
-> +    gadget_uvc
->       gadget-testing
->       iuu_phoenix
->       mass-storage
-
+> XQ-DQ54:/ # exit=20
+> XQ-DQ54:/ $ exit urezki@pc636:~/data/yoshino_bin/scripts$ ./test-cam.sh
+> 533
+> 549
+> 563
+> 537
+> 540
+> 563
+> 531
+> 549
+> 548
+> urezki@pc636:~/data/yoshino_bin/scripts$
+>=20
+> the taken time to run an app in milliseconds.
+>=20
+> --
+> Uladzislau Rezki
