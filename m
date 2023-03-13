@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3893C6FD19
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 04:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 741B6C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 08:02:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbjCMEnB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 00:43:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50932 "EHLO
+        id S230242AbjCMICS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 04:02:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229961AbjCMEm7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 00:42:59 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D8641B49;
-        Sun, 12 Mar 2023 21:42:51 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id a2so11601873plm.4;
-        Sun, 12 Mar 2023 21:42:51 -0700 (PDT)
+        with ESMTP id S230247AbjCMIBh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 04:01:37 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50E9B3BDA5;
+        Mon, 13 Mar 2023 00:58:47 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id gp15-20020a17090adf0f00b0023d1bbd9f9eso604893pjb.0;
+        Mon, 13 Mar 2023 00:58:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678682570;
+        d=gmail.com; s=20210112; t=1678694287;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=voPVnSW+Ym1Pc3x0EfCp5jAF5bIPXKeacSRqsGL8uBA=;
-        b=oUtCU55eu/1xwhWvLOUv+LxqpLEgB5fZHs65u1ihdyCO7vTvB2QqW4D7qM5DfWTtIi
-         TBps84x2I2bbNScTEuLOsIzDyoFMShYKlOvGQeft43p3YCPjAdtz2zNAK2AUDzep4V3R
-         kkjcdLm3lMvDJqmhCzzwEVRq+9jISKmbts7vUSkTolxH3bHTQ9MDVZtpmNDStjWue9mG
-         kmXs7nu+QxEkQJ5t/YZ1eCVD/XXhl1HyuphzIibnerUT8l9FMEonLzrvkU75BoQCCxAP
-         iwXOqFgwmVZ0uQoQd2Kj84Me5RkyslmA1kGwNMYtYXZ/cIW/JFeiu+aj6Sekort2MrcH
-         XB0g==
+        bh=Hat8ABt+aIhJHmkgJ54scd67JOhwFtz9Gg2oapIINaM=;
+        b=kFmY22yZpquTAvlpQDx2jQBWU5fSGyo6DISTzAE6GWo2HPcvUO/pVxjyeP/NsOYtNX
+         g4rpW/OCvHnX9c2QqkCjafRzHKcFKbVycja/5ft3L3TcfhjKPgHoJdXCzTS7CCfNqh8Q
+         Dxy/KCFbk1s3Fee2UfMIxsrk1KkojzEjrvid4xmlV+1+av21WLTr4fLWInCzJcT5hK5g
+         qb+Ff7s6ek3GGsIYxJryfLNzIepo0u6dHgU8MlPeBmNXKdrW49C4QuawDf7XW9Y3bZhq
+         OZUnTIi33H6hDA2IyiI3FbLBjJMvvFJmaexISKBzSvjcGKqXouf4rqwU4ltyjTdMW2MI
+         uoZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678682570;
+        d=1e100.net; s=20210112; t=1678694287;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:from:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=voPVnSW+Ym1Pc3x0EfCp5jAF5bIPXKeacSRqsGL8uBA=;
-        b=AFCOocnD2eoeI+HzNj40Edi1HJRV4uphb20JmmHwJiPpzcfcAN+i4vM99nBoOcKnFM
-         GkRT9xPx4q15RCgxryNFXvRCT0IrPB5z8ssrucN3YoeEJnqMNTKNZ70+zkz57NwGv3se
-         VX7OlR66Qr4MkEAuvUOE5HxdaTuBtEpmV4pjyz5Fvtet5CDoNCtg50DCDc1Zn2JT6ldm
-         owkyG8A9RyH8dOAQDQESZnp7C0+vJZ4pPSrYeN8lN3hZ2KrCE4cZCIujRudaWopriqCF
-         UqhHYqGS440gXNtUsGLTLJy1P9x1lpIca54Sz6XxYWF2t5wqjDvsipXxUNRyi0+fLa+K
-         TbWg==
-X-Gm-Message-State: AO0yUKXC5EInmqcfCtEmYlLq8k1vAZAOnbl0AF6MumYwO/Gr/AUrIvgp
-        fILwU+H012UKCllSmFd//bg=
-X-Google-Smtp-Source: AK7set8ZZy+wjFT+uTOytBqMN1+IP+zg1kQXrnu23Ub0Dj0U3qaEhb9dPK9Qj+8mv9TZE7et2OA2qQ==
-X-Received: by 2002:a17:90b:1d03:b0:234:bff5:97e0 with SMTP id on3-20020a17090b1d0300b00234bff597e0mr9124585pjb.20.1678682570481;
-        Sun, 12 Mar 2023 21:42:50 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-24.three.co.id. [180.214.232.24])
-        by smtp.gmail.com with ESMTPSA id x10-20020a17090a2b0a00b0023b3d80c76csm2838616pjc.4.2023.03.12.21.42.45
+        bh=Hat8ABt+aIhJHmkgJ54scd67JOhwFtz9Gg2oapIINaM=;
+        b=So3kIzEncpfFp3Klf8ooW7pZh3qSif3JAPI1g3VDwy9jiJcHiiX8NbYMRiH05Ckr5T
+         RrCHHz9hw953d3iSepHTZ9K61WpgdA5p2G+vqESTpeM8Io9aVpmp+AeM9wHA9FbR2Q8i
+         3spSr/StL3ZyQmr9ARX0pXTQ4FnRBPB8j/cTM2tsTZoXm7bLH2Teknvkhvk4WKkxpFUF
+         PwSeMRtxBy0FQQHlYI0hndIvQGogFxBRfeM/3ol6C+EEuAeOGmEipBH0oE7yve0AhvIZ
+         TUZx+QGaXw7UYADEO9d1yx/PZSagNDws17YD7DfxJhiVmy1WuODzwaRy4dBcSvfAHXIv
+         LgXw==
+X-Gm-Message-State: AO0yUKXCN32FHGdKLsQ3U3dc3shwiRzDfeTOf2NyBrRaw9VKOjQmimQ/
+        z2G2NJ7ybSwcjEQsqoDfWUo=
+X-Google-Smtp-Source: AK7set+iRq23u8hMYMCXBM+T4tOxHpw2sNBM6ytHUEdT61AtXh8oAny7LUXb5iWPuPvsIocSFUGKIA==
+X-Received: by 2002:a17:902:e54a:b0:19e:8bfe:7d79 with SMTP id n10-20020a170902e54a00b0019e8bfe7d79mr37424033plf.1.1678694286928;
+        Mon, 13 Mar 2023 00:58:06 -0700 (PDT)
+Received: from [192.168.43.80] (subs28-116-206-12-36.three.co.id. [116.206.12.36])
+        by smtp.gmail.com with ESMTPSA id jz16-20020a170903431000b0019cbd37a335sm4103268plb.93.2023.03.13.00.58.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Mar 2023 21:42:49 -0700 (PDT)
-Message-ID: <fefa25fe-8148-cbd7-a91e-e4713eb6b0ef@gmail.com>
-Date:   Mon, 13 Mar 2023 11:42:42 +0700
+        Mon, 13 Mar 2023 00:58:06 -0700 (PDT)
+Message-ID: <4653cfd1-7209-6e49-4f01-fcc3f82f16ce@gmail.com>
+Date:   Mon, 13 Mar 2023 14:57:59 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
@@ -75,56 +75,68 @@ Cc:     Linux BPF <bpf@vger.kernel.org>,
         "Tobin C. Harding" <me@tobin.cc>
 References: <20230313025119.17430-1-bagasdotme@gmail.com>
  <20230313030938.GA152792@maniforge> <ZA6knaEQcddfTCyS@debian.me>
+ <fefa25fe-8148-cbd7-a91e-e4713eb6b0ef@gmail.com>
 Content-Language: en-US
-In-Reply-To: <ZA6knaEQcddfTCyS@debian.me>
+In-Reply-To: <fefa25fe-8148-cbd7-a91e-e4713eb6b0ef@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/13/23 11:20, Bagas Sanjaya wrote:
-> On Sun, Mar 12, 2023 at 10:09:38PM -0500, David Vernet wrote:
->> This regresses all of the warnings I fixed in d56b0c461d19da ("bpf,
->> docs: Fix link to netdev-FAQ target"):
+On 3/13/23 11:42, Bagas Sanjaya wrote:
+> On 3/13/23 11:20, Bagas Sanjaya wrote:
+>> On Sun, Mar 12, 2023 at 10:09:38PM -0500, David Vernet wrote:
+>>> This regresses all of the warnings I fixed in d56b0c461d19da ("bpf,
+>>> docs: Fix link to netdev-FAQ target"):
+>>>
+>>> [void@maniforge bpf-next]$ make -j SPHINXDIRS="bpf" htmldocs
+>>> make[2]: Nothing to be done for 'html'.
+>>> Using alabaster theme
+>>> source directory: bpf
+>>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:125: WARNING: unknown document: '/process/maintainer-netdev'
+>>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:150: WARNING: unknown document: '/process/maintainer-netdev'
+>>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:207: WARNING: unknown document: '/process/maintainer-netdev'
+>>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:232: WARNING: unknown document: '/process/maintainer-netdev'
+>>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:398: WARNING: unknown document: '/process/maintainer-netdev'
+>>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:414: WARNING: unknown document: '/process/maintainer-netdev'
+>>>
+>>> And it also causes the netdev-FAQ links to once again be broken and not
+>>> actually point to anything.
 >>
->> [void@maniforge bpf-next]$ make -j SPHINXDIRS="bpf" htmldocs
->> make[2]: Nothing to be done for 'html'.
->> Using alabaster theme
->> source directory: bpf
->> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:125: WARNING: unknown document: '/process/maintainer-netdev'
->> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:150: WARNING: unknown document: '/process/maintainer-netdev'
->> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:207: WARNING: unknown document: '/process/maintainer-netdev'
->> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:232: WARNING: unknown document: '/process/maintainer-netdev'
->> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:398: WARNING: unknown document: '/process/maintainer-netdev'
->> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:414: WARNING: unknown document: '/process/maintainer-netdev'
+>> Hi,
 >>
->> And it also causes the netdev-FAQ links to once again be broken and not
->> actually point to anything.
+>> I don't see these warnings in my builds. I'm using Sphinx 2.4.4
+>> (virtualenv, install with pip3 install -r
+>> Documentation/sphinx/requirements.txt). I guess your Sphinx version
+>> doesn't support :doc: directive.
+>>
+>> Also, did you enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS,
+>> and CONFIG_WARN_ABI_ERRORS?
+>>
+>> Thanks.
+>>
 > 
-> Hi,
+> Oops, I didn't see the context.
 > 
-> I don't see these warnings in my builds. I'm using Sphinx 2.4.4
-> (virtualenv, install with pip3 install -r
-> Documentation/sphinx/requirements.txt). I guess your Sphinx version
-> doesn't support :doc: directive.
+> When I rebuild the docs, I always omit SPHINXDIRS as you mentioned.
+> For :doc: links to work, you need to just do ``make htmldocs`` and
+> DO NOT specify that variable.
 > 
-> Also, did you enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS,
-> and CONFIG_WARN_ABI_ERRORS?
-> 
-> Thanks.
+> Anyway, these warnings make sense since the target is absolute
+> (rather than relative).
 > 
 
-Oops, I didn't see the context.
+Hi again,
 
-When I rebuild the docs, I always omit SPHINXDIRS as you mentioned.
-For :doc: links to work, you need to just do ``make htmldocs`` and
-DO NOT specify that variable.
-
-Anyway, these warnings make sense since the target is absolute
-(rather than relative).
+I think SPHINXDIRS specifies the subdir as root directory when
+resolving references, so when there are references to docs
+outside SPHINXDIRS, nonexistent doc warnings will occur. For normal
+(full) htmldocs builds though, these will go away (see [1]).
 
 Thanks.
+
+[1]: https://lore.kernel.org/all/f4d40da6-756b-9e75-b867-cc9eedc4b232@gmail.com/
 
 -- 
 An old man doll... just what I always wanted! - Clara
