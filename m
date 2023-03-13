@@ -2,627 +2,456 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16532C6FD19
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 13:39:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6080AC6FD19
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 13:45:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229783AbjCMNja (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 09:39:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35956 "EHLO
+        id S230038AbjCMNpI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 09:45:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbjCMNja (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 09:39:30 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CA523A87D;
-        Mon, 13 Mar 2023 06:39:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678714761; x=1710250761;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Xc2RMaE3lC0su5hkiJE21J7OIAUA4MEI1x9jT8You6U=;
-  b=CdFGSE8SiVfbc1W+TWsikBOU0Pp7ICcBYxAsPTiiHRmtJAujO58ZCG1p
-   +gs0dVjC90FShiTYgiwbYnQXf6imBcsjNWKvCcLmYv0Ii+76R+1Tke1GW
-   UqCWrxVog8yqIHIcR7mxNhnbfYDb/mPj2NHEv6m3myJ0jY1vJ4FQaNCnc
-   UQlzPtP+vdrEpywa4jTTnbogrbZ/BBLrtBzTVH0Rkelz63JaVY/PVO6ju
-   vAE1V3azBpWno/n1Fscc7zZvJLN6h06MySHwFIgmrP+6BOpQ2F9LLmTgb
-   AiTuQr0uDDcvM5QH5DhRjrJmzuJ1wFQhgkMJsMKhb/202/Mx/ud1KMaOe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="325505692"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="325505692"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 06:39:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="628639935"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="628639935"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.136.90]) ([10.249.136.90])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 06:39:08 -0700
-Message-ID: <14efa0d2-8958-7a0b-c243-45bd2fdeb1a2@linux.intel.com>
-Date:   Mon, 13 Mar 2023 14:39:06 +0100
+        with ESMTP id S230252AbjCMNov (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 09:44:51 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E1C58C2B;
+        Mon, 13 Mar 2023 06:44:48 -0700 (PDT)
+Received: from [192.168.0.192] (unknown [194.146.248.75])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: andrzej.p)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id AFB81660037C;
+        Mon, 13 Mar 2023 13:44:46 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1678715087;
+        bh=gGpTmT3fEqRln73YrvkUsmUPbkNfk0B34SvnPIYi1Wk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=FWsOXcB1yIKmbYd/o+yoFgJzwVjou2p/ffXdqoq44lyW2hH4XSKpUOvk8w7ZC6Vsz
+         8qQnDfmVyhXyTOWFSmkryweV267fM9MPH0DPAE/os8pwCu52zTt0RhUSzOxsTaiJie
+         tJsn4VNLrTwIJ6oxZq7ov4vZssxc40HF2IZmYWbFFfF3KKcdT8eX4yfUUig3xPZxV2
+         JRDv6rVXV3k+6qbQx2F0UB7teOY/129pU3YO2Y40er36u63B9+ahHSx1JRC0L5ofAG
+         wm95Ea6hinBeqEAIk70k8haeKcGNHAbsI/ZwFwnxQNGSvycq6VH4rtJiwjM8nkL7GZ
+         Kfiw4SmzLAHKA==
+Message-ID: <3c7af6f9-2990-fd74-a4bd-b9432e7cf259@collabora.com>
+Date:   Mon, 13 Mar 2023 14:44:44 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 3/8] accel/qaic: Add MHI controller
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] docs: usb: Add documentation for the UVC Gadget
+To:     Daniel Scally <dan.scally@ideasonboard.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-usb@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com
+References: <20230308165213.139315-1-dan.scally@ideasonboard.com>
 Content-Language: en-US
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
-        ogabbay@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
-        stanislaw.gruszka@linux.intel.com, dri-devel@lists.freedesktop.org
-Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
-        quic_carlv@quicinc.com
-References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
- <1678138443-2760-4-git-send-email-quic_jhugo@quicinc.com>
-From:   Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <1678138443-2760-4-git-send-email-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20230308165213.139315-1-dan.scally@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Daniel,
 
-On 06.03.2023 22:33, Jeffrey Hugo wrote:
-> An AIC100 device contains a MHI interface with a number of different
-> channels for controlling different aspects of the device. The MHI
-> controller works with the MHI bus to enable and drive that interface.
+I found two typos, indicated below,
+
+Other than that
+
+Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+
+W dniu 8.03.2023 o 17:52, Daniel Scally pisze:
+> The UVC Gadget function has become quite complex, but documentation
+> for it is fairly sparse. Add some more detailed documentation to
+> improve the situation.
 > 
-> AIC100 uses the BHI protocol in PBL to load SBL. The MHI controller
-> expects the SBL to be located at /lib/firmware/qcom/aic100/sbl.bin and
-> expects the MHI bus to manage the process of loading and sending SBL to
-> the device.
-> 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 > ---
->  drivers/accel/qaic/mhi_controller.c | 563 ++++++++++++++++++++++++++++++++++++
->  drivers/accel/qaic/mhi_controller.h |  16 +
->  2 files changed, 579 insertions(+)
->  create mode 100644 drivers/accel/qaic/mhi_controller.c
->  create mode 100644 drivers/accel/qaic/mhi_controller.h
+> Greg, Jonathan - I didn't know if there's a specific tree for Documentation/
+> only patches, so this is on usb-next. If that was wrong let me know and I'll
+> resend the patch.
 > 
-> diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
+>   Documentation/usb/gadget_uvc.rst | 352 +++++++++++++++++++++++++++++++
+>   Documentation/usb/index.rst      |   1 +
+>   2 files changed, 353 insertions(+)
+>   create mode 100644 Documentation/usb/gadget_uvc.rst
+> 
+> diff --git a/Documentation/usb/gadget_uvc.rst b/Documentation/usb/gadget_uvc.rst
 > new file mode 100644
-> index 0000000..f16dbb7
+> index 000000000000..6d22faceb1a0
 > --- /dev/null
-> +++ b/drivers/accel/qaic/mhi_controller.c
-> @@ -0,0 +1,563 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+> +++ b/Documentation/usb/gadget_uvc.rst
+> @@ -0,0 +1,352 @@
+> +=======================
+> +Linux UVC Gadget Driver
+> +=======================
 > +
-> +/* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
-> +/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
+> +Overview
+> +--------
+> +The UVC Gadget driver is a driver for hardware on the *device* side of a USB
+> +connection. It is intended to run on a Linux system that has USB device-side
+> +hardware such as boards with an OTG port.
 > +
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/memblock.h>
-> +#include <linux/mhi.h>
-> +#include <linux/moduleparam.h>
-> +#include <linux/pci.h>
-> +#include <linux/sizes.h>
+> +On the device system, once the driver is bound it appears as a V4L2 device with
+> +the output capability.
 > +
-> +#include "mhi_controller.h"
-> +#include "qaic.h"
+> +On the host side (once connected via USB cable), a device running the UVC Gadget
+> +driver *and controlled by an appropriate userspace program* should appear as a UVC
+> +specification compliant camera, and function appropriately with any program
+> +designed to handle them. The userspace program running on the device system can
+> +queue image buffers from a variety of sources to be transmitted via the USB
+> +connection. Typically this would mean forwarding the buffers from a camera sensor
+> +peripheral, but the source of the buffer is entirely dependent on the userspace
+> +companion program.
 > +
-> +#define MAX_RESET_TIME_SEC 25
+> +Configuring the device kernel
+> +-----------------------------
+> +The Kconfig options USB_CONFIGFS, USB_LIBCOMPOSITE, USB_CONFIGFS_F_UVC and
+> +USB_F_UVC must be selected to enable support for the UVC gadget.
 > +
-> +static unsigned int mhi_timeout = 2000; /* 2 sec default */
-> +module_param(mhi_timeout, uint, 0600);
-
-Consider documenting the param with MODULE_PARM_DESC() and adding _ms postfix to
-indicate that time units it is using.
-
+> +Configuring the gadget through configfs
+> +---------------------------------------
+> +The UVC Gadget expects to be configured through configfs using the UVC function.
+> +This allows a significant degree of flexibility, as many of a UVC device's
+> +settings can be controlled this way.
 > +
-> +static struct mhi_channel_config aic100_channels[] = {
-> +	{
-> +		.name = "QAIC_LOOPBACK",
-> +		.num = 0,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_LOOPBACK",
-> +		.num = 1,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_SAHARA",
-> +		.num = 2,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_SBL,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_SAHARA",
-> +		.num = 3,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_SBL,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_DIAG",
-> +		.num = 4,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_DIAG",
-> +		.num = 5,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_SSR",
-> +		.num = 6,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_SSR",
-> +		.num = 7,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_QDSS",
-> +		.num = 8,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_QDSS",
-> +		.num = 9,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_CONTROL",
-> +		.num = 10,
-> +		.num_elements = 128,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_CONTROL",
-> +		.num = 11,
-> +		.num_elements = 128,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_LOGGING",
-> +		.num = 12,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_SBL,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_LOGGING",
-> +		.num = 13,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_SBL,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_STATUS",
-> +		.num = 14,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_STATUS",
-> +		.num = 15,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_TELEMETRY",
-> +		.num = 16,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_TELEMETRY",
-> +		.num = 17,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_DEBUG",
-> +		.num = 18,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_DEBUG",
-> +		.num = 19,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.name = "QAIC_TIMESYNC",
-> +		.num = 20,
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_TO_DEVICE,
-> +		.ee_mask = MHI_CH_EE_SBL | MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +	{
-> +		.num = 21,
-> +		.name = "QAIC_TIMESYNC",
-> +		.num_elements = 32,
-> +		.local_elements = 0,
-> +		.event_ring = 0,
-> +		.dir = DMA_FROM_DEVICE,
-> +		.ee_mask = MHI_CH_EE_SBL | MHI_CH_EE_AMSS,
-> +		.pollcfg = 0,
-> +		.doorbell = MHI_DB_BRST_DISABLE,
-> +		.lpm_notify = false,
-> +		.offload_channel = false,
-> +		.doorbell_mode_switch = false,
-> +		.auto_queue = false,
-> +		.wake_capable = false,
-> +	},
-> +};
+> +Not all of the available attributes are described here. For a complete enumeration
+> +see Documentation/ABI/testing/configfs-usb-gadget-uvc
 > +
-> +static struct mhi_event_config aic100_events[] = {
-> +	{
-> +		.num_elements = 32,
-> +		.irq_moderation_ms = 0,
-> +		.irq = 0,
-> +		.channel = U32_MAX,
-> +		.priority = 1,
-> +		.mode = MHI_DB_BRST_DISABLE,
-> +		.data_type = MHI_ER_CTRL,
-> +		.hardware_event = false,
-> +		.client_managed = false,
-> +		.offload_channel = false,
-> +	},
-> +};
+> +Assumptions
+> +~~~~~~~~~~~
+> +This section assumes that you have mounted configfs at `/sys/kernel/config` and
+> +created a gadget as `/sys/kernel/config/usb_gadget/g1`.
 > +
-> +static struct mhi_controller_config aic100_config = {
-> +	.max_channels = 128,
-> +	.timeout_ms = 0, /* controlled by mhi_timeout */
-> +	.buf_len = 0,
-> +	.num_channels = ARRAY_SIZE(aic100_channels),
-> +	.ch_cfg = aic100_channels,
-> +	.num_events = ARRAY_SIZE(aic100_events),
-> +	.event_cfg = aic100_events,
-> +	.use_bounce_buf = false,
-> +	.m2_no_db = false,
-> +};
+> +The UVC Function
+> +~~~~~~~~~~~~~~~~
 > +
-> +static int mhi_read_reg(struct mhi_controller *mhi_cntl, void __iomem *addr, u32 *out)
-> +{
-> +	u32 tmp = readl_relaxed(addr);
+> +The first step is to create the UVC function:
 > +
-> +	if (tmp == U32_MAX)
-> +		return -EIO;
+> +.. code-block:: bash
 > +
-> +	*out = tmp;
+> +	# These variables will be assumed throughout the rest of the document
+> +	CONFIGFS="/sys/kernel/config"
+> +	GADGET="$CONFIGFS/usb_gadget/g1"
+> +	FUNCTION="$GADGET/functions/uvc.0"
 > +
-> +	return 0;
-> +}
+> +	mkdir -p $FUNCTION
 > +
-> +static void mhi_write_reg(struct mhi_controller *mhi_cntl, void __iomem *addr, u32 val)
-> +{
-> +	writel_relaxed(val, addr);
-> +}
+> +Formats and Frames
+> +~~~~~~~~~~~~~~~~~~
 > +
-> +static int mhi_runtime_get(struct mhi_controller *mhi_cntl)
-> +{
-> +	return 0;
-> +}
+> +You must configure the gadget by telling it which formats you support, as well
+> +as the frame sizes and frame intervals that are supported for each format. In
+> +the current implementation there is no way for the gadget to refuse to set a
+> +format that the host instructs it to set, so it is important that this step is
+> +completed *accurately* to ensure that the host never asks for a format that
+> +can't be provided.
 > +
-> +static void mhi_runtime_put(struct mhi_controller *mhi_cntl)
-> +{
-> +}
+> +Formats are created under the streaming/uncompressed and streaming/mjpeg configfs
+> +groups, with the framesizes created under the formats in the following
+> +structure:
 > +
-> +static void mhi_status_cb(struct mhi_controller *mhi_cntl, enum mhi_callback reason)
-> +{
-> +	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(mhi_cntl->cntrl_dev));
+> +::
 > +
-> +	/* this event occurs in atomic context */
-> +	if (reason == MHI_CB_FATAL_ERROR)
-> +		pci_err(qdev->pdev, "Fatal error received from device. Attempting to recover\n");
-> +	/* this event occurs in non-atomic context */
-> +	if (reason == MHI_CB_SYS_ERROR && !qdev->in_reset)
-
-Looks like qdev->in_reset should be protected by qdev->dev_lock.
-
-> +		qaic_dev_reset_clean_local_state(qdev, true);
-> +}
+> +	uvc.0 +
+> +	      |
+> +	      + streaming +
+> +			  |
+> +			  + mjpeg +
+> +			  |       |
+> +			  |       + mjpeg +
+> +			  |	       |
+> +			  |	       + 720p
+> +			  |	       |
+> +			  |	       + 1080p
+> +			  |
+> +			  + uncompressed +
+> +					 |
+> +					 + yuyv +
+> +						|
+> +						+ 720p
+> +						|
+> +						+ 1080p
 > +
-> +static int mhi_reset_and_async_power_up(struct mhi_controller *mhi_cntl)
-> +{
-> +	char time_sec = 1;
-> +	int current_ee;
-> +	int ret;
+> +Each frame can then be configured with a width and height, plus the maximum
+> +buffer size required to store a single frame, and finally with the supported
+> +frame intervals for that format and framesize. Width and height are enumerated in
+> +units of pixels, frame interval in units of 100ns. To create the structure
+> +above with 2, 15 and 100 fps frameintervals for each framesize for example you
+> +might do:
 > +
-> +	/* Reset the device to bring the device in PBL EE */
-> +	mhi_soc_reset(mhi_cntl);
+> +.. code-block:: bash
 > +
-> +	/*
-> +	 * Keep checking the execution environment(EE) after every 1 second
-> +	 * interval.
-> +	 */
-> +	do {
-> +		msleep(1000)> +		current_ee = mhi_get_exec_env(mhi_cntl);
-> +	} while (current_ee != MHI_EE_PBL && time_sec++ <= MAX_RESET_TIME_SEC);
+> +	create_frame() {
+> +		# Example usage:
+> +		# create_frame <width> <height> <group> <format name>
 > +
-> +	/* If the device is in PBL EE retry power up */
-> +	if (current_ee == MHI_EE_PBL)
-> +		ret = mhi_async_power_up(mhi_cntl);
-> +	else
-> +		ret = -EIO;
+> +		WIDTH=$1
+> +		HEIGHT=$2
+> +		FORMAT=$3
+> +		NAME=$4
 > +
-> +	return ret;
-> +}
+> +		wdir=$FUNCTION/streaming/$FORMAT/$NAME/${HEIGHT}p
 > +
-> +struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, void __iomem *mhi_bar,
-> +						    int mhi_irq)
-> +{
-> +	struct mhi_controller *mhi_cntl;
-> +	int ret;
-> +
-> +	mhi_cntl = devm_kzalloc(&pci_dev->dev, sizeof(*mhi_cntl), GFP_KERNEL);
-> +	if (!mhi_cntl)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	mhi_cntl->cntrl_dev = &pci_dev->dev;
-> +
-> +	/*
-> +	 * Covers the entire possible physical ram region. Remote side is
-> +	 * going to calculate a size of this range, so subtract 1 to prevent
-> +	 * rollover.
-> +	 */
-> +	mhi_cntl->iova_start = 0;
-> +	mhi_cntl->iova_stop = PHYS_ADDR_MAX - 1;
-> +	mhi_cntl->status_cb = mhi_status_cb;
-> +	mhi_cntl->runtime_get = mhi_runtime_get;
-> +	mhi_cntl->runtime_put = mhi_runtime_put;
-> +	mhi_cntl->read_reg = mhi_read_reg;
-> +	mhi_cntl->write_reg = mhi_write_reg;
-> +	mhi_cntl->regs = mhi_bar;
-> +	mhi_cntl->reg_len = SZ_4K;
-> +	mhi_cntl->nr_irqs = 1;
-> +	mhi_cntl->irq = devm_kmalloc(&pci_dev->dev, sizeof(*mhi_cntl->irq), GFP_KERNEL);
-> +
-> +	if (!mhi_cntl->irq)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	mhi_cntl->irq[0] = mhi_irq;
-> +	mhi_cntl->fw_image = "qcom/aic100/sbl.bin";
-> +
-> +	/* use latest configured timeout */
-> +	aic100_config.timeout_ms = mhi_timeout;
-> +	ret = mhi_register_controller(mhi_cntl, &aic100_config);
-> +	if (ret) {
-> +		pci_err(pci_dev, "mhi_register_controller failed %d\n", ret);
-> +		return ERR_PTR(ret);
+> +		mkdir -p $wdir
+> +		echo $WIDTH > $wdir/wWidth
+> +		echo $HEIGHT > $wdir/wHeight
+> +		echo $(( $WIDTH * $HEIGHT * 2 )) > $wdir/dwMaxVideoFrameBufferSize
+> +		cat <<EOF > $wdir/dwFrameInterval
+> +	666666
+> +	100000
+> +	5000000
+> +	EOF
 > +	}
 > +
-> +	ret = mhi_prepare_for_power_up(mhi_cntl);
-> +	if (ret) {
-> +		pci_err(pci_dev, "mhi_prepare_for_power_up failed %d\n", ret);
-> +		goto prepare_power_up_fail;
-> +	}
+> +	create_frame 1280 720 mjpeg mjpeg
+> +	create_frame 1920 1080 mjpeg mjpeg
+> +	create_frame 1280 720 uncompressed yuyv
+> +	create_frame 1920 1080 uncompressed yuyv
 > +
-> +	ret = mhi_async_power_up(mhi_cntl);
-> +	/*
-> +	 * If EIO is returned it is possible that device is in SBL EE, which is
-> +	 * undesired. SOC reset the device and try to power up again.
-> +	 */
-> +	if (ret == -EIO && MHI_EE_SBL == mhi_get_exec_env(mhi_cntl)) {
-> +		pci_err(pci_dev, "Device is not expected to be SBL EE. SOC resetting the device to put it in PBL EE and again trying mhi async power up. Error %d\n",
+> +The only uncompressed format currently supported is YUYV, which is detailed at
+> +Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst.
+> +
+> +Color Matching Descriptors
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +It's possible to specify some colometry information for each format you create.
 
-Please try to make this error message shorter. 
+did you mean
 
-Regards,
-Jacek
+s/colometry/colorimetry/
+
+> +This step is optional, and default information will be included if this step is
+> +skipped; those default values follow those defined in the Color Matching Descriptor
+> +section of the UVC specification.
+> +
+> +To create a Color Matching Descriptor, create a configfs item and set its three
+> +attributes to your desired settings and then link to it from the format you wish
+> +it to be associated with:
+> +
+> +.. code-block:: bash
+> +
+> +	# Create a new Color Matching Descriptor
+> +
+> +	mkdir $FUNCTION/streaming/color_matching/yuyv
+> +	pushd $FUNCTION/streaming/color_matching/yuyv
+> +
+> +	echo 1 > bColorPrimaries
+> +	echo 1 > bTransferCharacteristics
+> +	echo 4 > bMatrixCoefficients
+> +
+> +	popd
+> +
+> +	# Create a symlink to the Color Matching Descriptor from the format's config item
+> +	ln -s $FUNCTION/streaming/color_matching/yuyv $FUNCTION/streaming/uncompressed/yuyv
+> +
+> +For details about the valid values, consult the UVC specification. Note that a
+> +default color matching descriptor exists and is used by any format which does
+> +not have a link to a different Color Matching Descriptor. It's possible to
+> +change the attribute settings for the default descriptor, so bear in mind that if
+> +you do that you are altering the defaults for any format that does not link to
+> +a different one.
+> +
+> +
+> +Header linking
+> +~~~~~~~~~~~~~~
+> +
+> +The UVC specification requires that Format and Frame descriptors be preceded by
+> +Headers detailing things such as the number and cumulative size of the different
+> +Format descriptors that follow. This and similar operations are acheived in
+
+s/acheived/achieved
+
+> +configfs by linking between the configfs item representing the header and the
+> +config items representing those other descriptors, in this manner:
+> +
+> +.. code-block:: bash
+> +
+> +	mkdir $FUNCTION/streaming/header/h
+> +
+> +	# This section links the format descriptors and their associated frames
+> +	# to the header
+> +	cd $FUNCTION/streaming/header/h
+> +	ln -s ../../uncompressed/yuyv
+> +	ln -s ../../mjpeg/mjpeg
+> +
+> +	# This section ensures that the header will be transmitted for each
+> +	# speed's set of descriptors. If support for a particular speed is not
+> +	# needed then it can be skipped here.
+> +	cd ../../class/fs
+> +	ln -s ../../header/h
+> +	cd ../../class/hs
+> +	ln -s ../../header/h
+> +	cd ../../class/ss
+> +	ln -s ../../header/h
+> +	cd ../../../control
+> +	mkdir header/h
+> +	ln -s header/h class/fs
+> +	ln -s header/h class/ss
+> +
+> +
+> +Extension Unit Support
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +A UVC Extension Unit (XU) basically provides a distinct unit to which control set
+> +and get requests can be addressed. The meaning of those control requests is
+> +entirely implementation dependent, but may be used to control settings outside
+> +of the UVC specification (for example enabling or disabling video effects). An
+> +XU can be inserted into the UVC unit chain or left free-hanging.
+> +
+> +Configuring an extension unit involves creating an entry in the appropriate
+> +directory and setting its attributes appropriately, like so:
+> +
+> +.. code-block:: bash
+> +
+> +	mkdir $FUNCTION/control/extensions/xu.0
+> +	pushd $FUNCTION/control/extensions/xu.0
+> +
+> +	# Set the bUnitID of the Processing Unit as the source for this
+> +	# Extension Unit
+> +	echo 2 > baSourceID
+> +
+> +	# Set this XU as the source of the default output terminal. This inserts
+> +	# the XU into the UVC chain between the PU and OT such that the final
+> +	# chain is IT > PU > XU.0 > OT
+> +	cat bUnitID > ../../terminal/output/default/baSourceID
+> +
+> +	# Flag some controls as being available for use. The bmControl field is
+> +	# a bitmap with each bit denoting the availability of a particular
+> +	# control. For example to flag the 0th, 2nd and 3rd controls available:
+> +	echo 0x0d > bmControls
+> +
+> +	# Set the GUID; this is a vendor-specific code identifying the XU.
+> +	echo -e -n "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10" > guidExtensionCode
+> +
+> +	popd
+> +
+> +The bmControls attribute and the baSourceID attribute are multi-value attributes.
+> +This means that you may write multiple newline separated values to them. For
+> +example to flag the 1st, 2nd, 9th and 10th controls as being available you would
+> +need to write two values to bmControls, like so:
+> +
+> +.. code-block:: bash
+> +
+> +	cat << EOF > bmControls
+> +	0x03
+> +	0x03
+> +	EOF
+> +
+> +The multi-value nature of the baSourceID attribute belies the fact that XUs can
+> +be multiple-input, though note that this currently has no significant effect.
+> +
+> +The bControlSize attribute reflects the size of the bmControls attribute, and
+> +similarly bNrInPins reflects the size of the baSourceID attributes. Both
+> +attributes are automatically increased / decreased as you set bmControls and
+> +baSourceID. It is also possible to manually increase or decrease bControlSize
+> +which has the effect of truncating entries to the new size, or padding entries
+> +out with 0x00, for example:
+> +
+> +::
+> +
+> +	$ cat bmControls
+> +	0x03
+> +	0x05
+> +
+> +	$ cat bControlSize
+> +	2
+> +
+> +	$ echo 1 > bControlSize
+> +	$ cat bmControls
+> +	0x03
+> +
+> +	$ echo 2 > bControlSize
+> +	$ cat bmControls
+> +	0x03
+> +	0x00
+> +
+> +bNrInPins and baSourceID function in the same way.
+> +
+> +Custom Strings Support
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +String descriptors that provide a textual description for various parts of a
+> +USB device can be defined in the usual place within USB configfs, and may then
+> +be linked to from the UVC function root or from Extension Unit directories to
+> +assign those strings as descriptors:
+> +
+> +.. code-block:: bash
+> +
+> +	# Create a string descriptor in us-EN and link to it from the function
+> +	# root. The name of the link is significant here, as it declares this
+> +	# descriptor to be intended for the Interface Association Descriptor.
+> +	# Other significant link names at function root are vs0_desc and vs1_desc
+> +	# For the VideoStreaming Interface 0/1 Descriptors.
+> +
+> +	mkdir -p $GADGET/strings/0x409/iad_desc
+> +	echo -n "Interface Associaton Descriptor" > $GADGET/strings/0x409/iad_desc/s
+> +	ln -s $GADGET/strings/0x409/iad_desc $FUNCTION/iad_desc
+> +
+> +	# Because the link to a String Descriptor from an Extension Unit clearly
+> +	# associates the two, the name of this link is not significant and may
+> +	# be set freely.
+> +
+> +	mkdir -p $GADGET/strings/0x409/xu.0
+> +	echo -n "A Very Useful Extension Unit" > $GADGET/strings/0x409/xu.0/s
+> +	ln -s $GADGET/strings/0x409/xu.0 $FUNCTION/control/extensions/xu.0
+> +
+> +The interrupt endpoint
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The VideoControl interface has an optional interrupt endpoint which is by default
+> +disabled. This is intended to support delayed response control set requests for
+> +UVC (which should respond through the interrupt endpoint rather than tying up
+> +endpoint 0). At present support for sending data through this endpoint is missing
+> +and so it is left disabled to avoid confusion. If you wish to enable it you can
+> +do so through the configfs attribute:
+> +
+> +.. code-block:: bash
+> +
+> +	echo 1 > $FUNCTION/control/enable_interrupt_ep
+> +
+> +Bandwidth configuration
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +There are three attributes which control the bandwidth of the USB connection.
+> +These live in the function root and can be set within limits:
+> +
+> +.. code-block:: bash
+> +
+> +	# streaming_interval sets bInterval. Values range from 1..255
+> +	echo 1 > $FUNCTION/streaming_interval
+> +
+> +	# streaming_maxpacket sets wMaxPacketSize. Valid values are 1024/2048/3072
+> +	echo 3072 > $FUNCTION/streaming_maxpacket
+> +
+> +	# streaming_maxburst sets bMaxBurst. Valid values are 1..15
+> +	echo 1 > $FUNCTION/streaming_maxburst
+> +
+> +
+> +The values passed here will be clamped to valid values according to the UVC
+> +specification (which depend on the speed of the USB connection). To understand
+> +how the settings influence bandwidth you should consult the UVC specifications,
+> +but a rule of thumb is that increasing the streaming_maxpacket setting will
+> +improve bandwidth (and thus the maximum possible framerate), whilst the same is
+> +true for streaming_maxburst provided the USB connection is running at SuperSpeed.
+> +Increasing streaming_interval will reduce bandwidth and framerate.
+> +
+> +The userspace application
+> +-------------------------
+> +By itself, the UVC Gadget driver cannot do anything particularly interesting. It
+> +must be paired with a userspace program that responds to UVC control requests and
+> +fills buffers to be queued to the V4L2 device that the driver creates. How those
+> +things are achieved is implementation dependent and beyond the scope of this
+> +document, but a reference application can be found at https://gitlab.freedesktop.org/camera/uvc-gadget
+> diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
+> index b656c9be23ed..27955dad95e1 100644
+> --- a/Documentation/usb/index.rst
+> +++ b/Documentation/usb/index.rst
+> @@ -16,6 +16,7 @@ USB support
+>       gadget_multi
+>       gadget_printer
+>       gadget_serial
+> +    gadget_uvc
+>       gadget-testing
+>       iuu_phoenix
+>       mass-storage
+
