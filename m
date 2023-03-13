@@ -2,101 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C86D2C6FD19
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 18:29:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38CEBC61DA4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 18:56:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231260AbjCMS35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 14:29:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60748 "EHLO
+        id S229792AbjCMS4y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 14:56:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229919AbjCMS3k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 14:29:40 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAF681350D
-        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 11:29:03 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pbmtS-0001kx-KQ; Mon, 13 Mar 2023 19:27:34 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pbmtQ-003uMr-GO; Mon, 13 Mar 2023 19:27:32 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pbmtP-004cQD-2V; Mon, 13 Mar 2023 19:27:31 +0100
-Date:   Mon, 13 Mar 2023 19:27:30 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-clk@vger.kernel.org, kernel@pengutronix.de,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] clk: expand clk_ignore_unused mechanism to keep only
- a few clks on
-Message-ID: <20230313182730.cx4n7lvhbtcs4hpn@pengutronix.de>
-References: <20221026151812.1042052-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S231557AbjCMS4j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 14:56:39 -0400
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E53710F9
+        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 11:56:35 -0700 (PDT)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-5419d4c340aso74744587b3.11
+        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 11:56:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678733794;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4FqH2s7APO4TNP6UZzPGfxUBH+42/JyzswE/RiYzEh8=;
+        b=Z+02z+B0g3rBUiefjv4qSWPnX1pvvFWZVsm+jUxemxSMqAUNlP2uEGV2jTDFWBRGxd
+         y5nyhX2BdbypocPw/OaCksaLolYF6k0R9/BNoGHSZpC4T8egg9/7Xq1yVvCHd0B0txpo
+         PZpprC03a/SvNxPVJP0JPWfB+ddy9Shnhfne6k0QqicI144/5U1rfKo9Nx/t5j2GhOhi
+         aR29LOwteWU5IdqJY8PjO1gZzDoUtVpAlyc4Ih4GWEIC08q1462gXT1VSNt1Md9DQvcx
+         5i2JAk2HcnjJ4t0XaDAlggERf+byjgWRm1E/bmuadSKSOau4kRvWGDjZoelWCzrfBj0q
+         kkdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678733794;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4FqH2s7APO4TNP6UZzPGfxUBH+42/JyzswE/RiYzEh8=;
+        b=ZqqPIH618/4JLkEJnHOkHl/kXW30Hq9JlNSqYaU/RgvnQU/dq7kG+WpOsbh2IWeyIz
+         MtVqe6Fr42D4Ba1JRYOtQPLBnWOwYdhOn8GdFg8oTcLo+C0wkLnCl9EszSdJNWoFttmb
+         4OllP59D78CWGctAlKURFVOAFGXVnaj+jHeZC96AtGRj8H/E5ly/YuWy84wfBneZV1uh
+         Ly7EosYS5qFqjVjgDtRcVMNWYQaqCkieLdIp5ncySquWlAy2gefYOGucKAWPxi8j01St
+         H9VCWYNU4lAL3o8DWuJ2irYgmwsrDHMaWis2rh04UsX/JSyHxh5k4JpZF34CN7uywfiN
+         bk6Q==
+X-Gm-Message-State: AO0yUKVlVZg0x6hL6yeA58e0v/dp5L8WBAWstfg+bU1vCZAyqcZopB2O
+        4iWVfe75HG6TqVa121FNAj+aWJvYFOeV+/RLIGDPzY8sYDAFMw==
+X-Google-Smtp-Source: AK7set8+wr0aOrXQGkS7sYyYLYFykGG/oa5CvHnOzuT+YqpSy0YnXFZckmTqbF1PuSm2znyOBiuezFmUVzuuW8zenZk=
+X-Received: by 2002:a81:4424:0:b0:536:3c2c:bf5e with SMTP id
+ r36-20020a814424000000b005363c2cbf5emr23102103ywa.8.1678733794577; Mon, 13
+ Mar 2023 11:56:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xgfwba3jlkbdegto"
-Content-Disposition: inline
-In-Reply-To: <20221026151812.1042052-1-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <CAGypqWxMz5Sb268HRuXmtfo6EZFWY12iN8+0-GHuoZE2vdr5kQ@mail.gmail.com>
+ <b4674fec-9763-ef16-9b6b-c2292df2f469@gmail.com> <20230313110815.57961698@kernel.org>
+In-Reply-To: <20230313110815.57961698@kernel.org>
+From:   Bharath SM <bharathsm.hsk@gmail.com>
+Date:   Tue, 14 Mar 2023 00:26:23 +0530
+Message-ID: <CAGypqWyGZ+xSJ154i9CtmeG1Q5-eRw6tyVYVY79LC_c9HCir9Q@mail.gmail.com>
+Subject: Re: [PATCH] dns_resolver: correct documentation error in dns resolver
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        David Howells <dhowells@redhat.com>, davem@davemloft.net,
+        edumazet@google.com, "pabeni@redhat.com" <pabeni@redhat.com>,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        Bharath S M <bharathsm@microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> > I can't tell what the error you fix is unless I see the diff below.
+> > At a first glance, I though that you fix Sphinx warnings.
+Fixing incorrect sysfs path, right?
 
---xgfwba3jlkbdegto
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+yes, It fixes the incorrect sysfs path in dns_resolver documentation.
 
-Hello,
-
-On Wed, Oct 26, 2022 at 05:18:12PM +0200, Uwe Kleine-K=F6nig wrote:
-> Allow to pass an integer n that results in only keeping n unused clocks
-> enabled.
->=20
-> This helps to debug the problem if you only know that clk_ignore_unused
-> helps but you have no clue yet which clock is the culprit.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> ---
-> Hello,
->=20
-> compared to v2 sent in August 2021 this is a trivial rebase on top of
-> v6.1-rc1. I pinged that one repeatedly, I'm now trying with resending
-> and calling the rebased patch v3 to maybe get some feedback. :-\
-
-I didn't get any feedback on this patch and still consider it useful.
-
-Any insights from your side?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---xgfwba3jlkbdegto
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmQPaw8ACgkQwfwUeK3K
-7Al3PAf8DpEgu09BjbaLoin1vOdceJBfVEzZVAdzpCgLxVciSav2Hy2QfZAxtsuM
-J07SVb+T06jMVy1Nd/xPUvr1R/+PkBcXKeKA1ZRc5AXUoY3IMuAx6FdcV2r2K9+X
-sV4ysQfTGq0GT2UDAgpexKwyKBrE4TwrPArjh42v7RMmUX5OVOTN82NrXGrGVFYH
-BQ8rOmE1up9v5K/wZ79s7flc0ZB3hmzTso7uHJc68bnRs2tukvCzeHNGMXh5q88e
-FmQ7zPpRZd42zwN8wlfx98algYFa+O/+Qkx3ryCrHweojJx5xNDgJj+iHHnUUx2A
-UARE4pBbsGXlsIjwFS8hy3M7fcpfqw==
-=PdGy
------END PGP SIGNATURE-----
-
---xgfwba3jlkbdegto--
+On Mon, Mar 13, 2023 at 11:38=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> w=
+rote:
+>
+> On Mon, 13 Mar 2023 10:44:39 +0700 Bagas Sanjaya wrote:
+> > On 3/13/23 02:42, Bharath SM wrote:
+> > > Fix error in dns_resolver documentation
+> > >
+> >
+> > I can't tell what the error you fix is unless I see the diff below.
+> > At a first glance, I though that you fix Sphinx warnings.
+> >
+> > Also, is this patch [PATCH net]?
+>
+> No strong preference, dns_resolver is sort of in between network
+> filesystems and actual networking. So Ack for linux-doc taking this
+> directly if that's easier.
