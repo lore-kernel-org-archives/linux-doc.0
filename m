@@ -2,123 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D42C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 03:55:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 433A2C6FD19
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 04:20:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbjCMDzX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Mar 2023 23:55:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48784 "EHLO
+        id S229656AbjCMEUy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 00:20:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230215AbjCMDyo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Mar 2023 23:54:44 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4021A23D9D;
-        Sun, 12 Mar 2023 20:54:29 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id j3-20020a17090adc8300b0023d09aea4a6so1276247pjv.5;
-        Sun, 12 Mar 2023 20:54:29 -0700 (PDT)
+        with ESMTP id S229929AbjCMEUx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 00:20:53 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27BF13D917;
+        Sun, 12 Mar 2023 21:20:50 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id a2so11564074plm.4;
+        Sun, 12 Mar 2023 21:20:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678679669;
+        d=gmail.com; s=20210112; t=1678681249;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O8lGczpgHLvE7RnSt7vYDGP1Ii5/BaRcHQ5j2XjpcEI=;
-        b=AOEg9z4W6nyOpMfbmQ8mraE0Ga0hnpauG19ItBJTeGP9fLoQW9MFXqU+YokrGfJTcM
-         uo25ngtFHQ2ylwarPi5Z1mcmHCOfVUhOooLgbyqSR/b0QlyUaAblPFmhBLWbtTZhiVlC
-         KDn7gcJuoF0ngglfPDt67/NTlMZ01wBrJTpK/XZjzFjUQSKlU22p2QMJo+ZVf54nxVqY
-         KopWejd1kZOUJOf0lz4oEhsjU+Ovd7EhKIJLQGrU6gVT4z0QTQMrMLdrGpjaZcQtkVt+
-         0zALEIwKnnABKY1b4XpEOwnPkcSGp2wT11pK83PMJGH2LmBQFQBmc1VMfv7udr/qEb6b
-         vjXw==
+        bh=1RfkTOaRgCuVzM9oTbMJxfejkweTzswvuv7FcjSaan4=;
+        b=IRV6wJBFdqdpXXaMGPesjSegQZBsdmMXEljRE5qWBag8BRGG0aaqPo3/J5qMzRQYvn
+         DVRd6CvXj3nMAaOvosMEIi+kgpBdj/IpaakaEgRJCA+GLo8wra1wn2tUoVfmlisTDtqs
+         FC9tXsq8omgNXum/nERGE9Z6r7fIOTuCGs9cfRCBE9PZOU0qcx3H6WZuMyXFBORCltt2
+         6SmpPskaMWW+EvBmp9RSakB0tkqlB2cZmsy3IzXLxCBtQeiLPWfDJm0X2WHn7it67AgE
+         8jobXfeYF//6PwrY9vxZLaNDXNKz0g+wekAKYUPfd69GKs5ybmLyNzYrMJoXAyDauRhn
+         SK+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678679669;
+        d=1e100.net; s=20210112; t=1678681249;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O8lGczpgHLvE7RnSt7vYDGP1Ii5/BaRcHQ5j2XjpcEI=;
-        b=zrFo2fc38hUo7iHIpxg40NhheIjuFZag3jTPhFLivcZhrQCGxCoJ9CEHJ1b03ZVfrB
-         YTODAcvM4RjiTaEMNMJAhETcOS7EIvZqVVJ2zLWeu9A0JbhgxPwH4IVrZcSBuMRCJ9+9
-         eWgB/XwnJD1OsgHCNOkb3VW9TbThiIMZHBnPTqn/10cvgeHq3KW0KOtrbSu+6/uYmDn7
-         bKbka5t0gR1wut7nvtcP9Glv4i+gtVc65mHup/R4U4/YMlp+LAYCG5PQ6/IG5NnUfBL4
-         iwmDh00CYX1wUI4L1mseTtvzhl6H9sWxmhEGcos8Nza2t7sHS3HF04xZf3U5X2hYMoX0
-         /Jng==
-X-Gm-Message-State: AO0yUKW5j+QnT7IntSvaZnYd8Oe7eA65kwDFJy+KORmqPU0eT4oPevPm
-        xpZJEjxi7xpicBnh5NN5dm0lCnG86w4=
-X-Google-Smtp-Source: AK7set/iuYwAf5IXs0Bj0MqQMOX0grcoVOtMs+GxyLKr2Va0GQeA2Z/SRQEH36+H4IjtHwPmkUaPpg==
-X-Received: by 2002:a17:903:187:b0:19c:dc38:3eb5 with SMTP id z7-20020a170903018700b0019cdc383eb5mr43603213plg.14.1678679668694;
-        Sun, 12 Mar 2023 20:54:28 -0700 (PDT)
+        bh=1RfkTOaRgCuVzM9oTbMJxfejkweTzswvuv7FcjSaan4=;
+        b=XDJ29g6OHBz0isLDXgUFRyq++NyclHEi7fzSoYrBIquxNE0uqo4imcejF+s/bYz4s2
+         czicSkQpYTyTccPLZwDj7BwzgP9yPTvo3/FWONeZ6pLnrT8aNc7ww1rO6Y+Xyq3+Glyf
+         E9wWyJ/OdtCedylzLJcDq4Eoxo13b9gR/o00gldefTa8+hpWNp3bFDJYYRCqGD7QCfdE
+         z/iaSkOB3zquhX1C24bssaKBz+LxUuxt+5wjl9fRuaNlxMNTRrrBePSWgorOCN+RBLEN
+         UNMMjlH5zfMp5s64wqnbQxNrBctF0g2S9jsVC3Q+ZQ7l15DBKq38M/UOiZIpTISLX4jF
+         oOBg==
+X-Gm-Message-State: AO0yUKU6IHlru9sOODUleJerhgUi/3nS7fniFR+2XeD5RMnfL6SZcBcs
+        qOWrapvUcItOFpCcXQWpRRE=
+X-Google-Smtp-Source: AK7set+SbrsG/j53YfKx6j6nNALdzc7jjPvruQqmH7U6bQwmhDwp79NkEpht3c7WFz6sC0L3atD70Q==
+X-Received: by 2002:a17:90a:514a:b0:23a:f4b4:630 with SMTP id k10-20020a17090a514a00b0023af4b40630mr18195195pjm.23.1678681249559;
+        Sun, 12 Mar 2023 21:20:49 -0700 (PDT)
 Received: from debian.me (subs02-180-214-232-24.three.co.id. [180.214.232.24])
-        by smtp.gmail.com with ESMTPSA id kk3-20020a170903070300b0019f11caf11asm3567020plb.166.2023.03.12.20.54.27
+        by smtp.gmail.com with ESMTPSA id bg1-20020a1709028e8100b00199203a4fa3sm3565896plb.203.2023.03.12.21.20.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 20:54:28 -0700 (PDT)
+        Sun, 12 Mar 2023 21:20:48 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id 620CC106689; Mon, 13 Mar 2023 10:54:25 +0700 (WIB)
-Date:   Mon, 13 Mar 2023 10:54:25 +0700
+        id ABAFB1066BC; Mon, 13 Mar 2023 11:20:45 +0700 (WIB)
+Date:   Mon, 13 Mar 2023 11:20:45 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Joe Stringer <joe@isovalent.com>, bpf@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ast@kernel.org, corbet@lwn.net, martin.lau@linux.dev,
-        maxtram95@gmail.com
-Subject: Re: [PATCH bpf-next v3] docs/bpf: Add LRU internals description and
- graph
-Message-ID: <ZA6ecdQl3STWVAH6@debian.me>
-References: <20230312190600.324573-1-joe@isovalent.com>
+To:     David Vernet <void@manifault.com>
+Cc:     Linux BPF <bpf@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Tobin C. Harding" <me@tobin.cc>
+Subject: Re: [PATCH bpf-next] bpf, doc: use internal linking for link to
+ netdev FAQ
+Message-ID: <ZA6knaEQcddfTCyS@debian.me>
+References: <20230313025119.17430-1-bagasdotme@gmail.com>
+ <20230313030938.GA152792@maniforge>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="/TLMb2wQzVHenkud"
+        protocol="application/pgp-signature"; boundary="Q6XoaOYKM2RAcQLK"
 Content-Disposition: inline
-In-Reply-To: <20230312190600.324573-1-joe@isovalent.com>
+In-Reply-To: <20230313030938.GA152792@maniforge>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---/TLMb2wQzVHenkud
+--Q6XoaOYKM2RAcQLK
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 12, 2023 at 12:05:59PM -0700, Joe Stringer wrote:
-> +Even if an LRU node may be acquired, maps of type ``BPF_MAP_TYPE_LRU_HAS=
-H``
-> +may fail to insert the entry into the map if other CPUs are heavily cont=
-ending
-> +on the global hashmap lock.
+On Sun, Mar 12, 2023 at 10:09:38PM -0500, David Vernet wrote:
+> This regresses all of the warnings I fixed in d56b0c461d19da ("bpf,
+> docs: Fix link to netdev-FAQ target"):
+>=20
+> [void@maniforge bpf-next]$ make -j SPHINXDIRS=3D"bpf" htmldocs
+> make[2]: Nothing to be done for 'html'.
+> Using alabaster theme
+> source directory: bpf
+> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:125: WARN=
+ING: unknown document: '/process/maintainer-netdev'
+> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:150: WARN=
+ING: unknown document: '/process/maintainer-netdev'
+> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:207: WARN=
+ING: unknown document: '/process/maintainer-netdev'
+> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:232: WARN=
+ING: unknown document: '/process/maintainer-netdev'
+> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:398: WARN=
+ING: unknown document: '/process/maintainer-netdev'
+> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:414: WARN=
+ING: unknown document: '/process/maintainer-netdev'
+>=20
+> And it also causes the netdev-FAQ links to once again be broken and not
+> actually point to anything.
 
-"Even if an LRU node can be acquired, ..."
+Hi,
 
-> +
-> +This algorithm is described visually in the following diagram. See the
-> +description in commit 3a08c2fd7634 ("bpf: LRU List") for a full explanat=
-ion of
-> +the corresponding operations:
-> +
-> +.. kernel-figure::  map_lru_hash_update.dot
-> +   :alt:    Diagram outlining the LRU eviction steps taken during map up=
-date
-> +
-> +   LRU hash eviction during map update for ``BPF_MAP_TYPE_LRU_HASH`` and
-> +   variants
-> +
-> <snipped> ...
-> +The dot file source for the above figure uses internal kernel function n=
-ames
-> +for the node names in order to make the corresponding logic easier to fi=
-nd.
+I don't see these warnings in my builds. I'm using Sphinx 2.4.4
+(virtualenv, install with pip3 install -r
+Documentation/sphinx/requirements.txt). I guess your Sphinx version
+doesn't support :doc: directive.
 
-Shouldn't the figure note above be in :alt:?
+Also, did you enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS,
+and CONFIG_WARN_ABI_ERRORS?
 
-Otherwise LGTM.
+Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---/TLMb2wQzVHenkud
+--Q6XoaOYKM2RAcQLK
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZA6ebQAKCRD2uYlJVVFO
-o6i4AQDDoDu50SECyZ8tCj9UQ5Re9A/ZXIMWk4B2eh4IX+7HFwD9EFtVr2ElHKiq
-l5QvSUwTEuKlyXwZaxETArCgEMkVvAw=
-=Yi4J
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZA6kmAAKCRD2uYlJVVFO
+o8OWAP48sSl0DsjbnOGHtRP96KAwySjWpXf7YAyH078PlGKiVwD9Edi+WCG206kQ
++nzqwaX/7hCjxJdqyIxrC6w9PPkHFgM=
+=gcNa
 -----END PGP SIGNATURE-----
 
---/TLMb2wQzVHenkud--
+--Q6XoaOYKM2RAcQLK--
