@@ -2,316 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD037C6FD1C
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 13:59:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74C10C6FD19
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 14:27:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229757AbjCMN7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 09:59:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42270 "EHLO
+        id S231322AbjCMO1P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 10:27:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229768AbjCMN7F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 09:59:05 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D92BA1E5E6
-        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 06:58:45 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id k2so5148099pll.8
-        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 06:58:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1678715925;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eneYNU+nUmxOh8t+MF9m5KBckGw7QMn0ZWgboiFr43c=;
-        b=DduqQKirrtiP/8odRJmxLlH6WM1LkBuiNjuvGz9FSUN7fLw5HAUD6uc19foxRVmbLY
-         o3FZGAlklijqnbA28sMX92rD569rN4q4eQGx2Gwpp3ylwQaViVJxU7gs5Dq0nAF5aMuY
-         49mLcRlR8U5YHkI08IbJcgaxh/a727XUpVJAQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678715925;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eneYNU+nUmxOh8t+MF9m5KBckGw7QMn0ZWgboiFr43c=;
-        b=VqzEdVbb+IAPO3ea5xZyTnX4zHWUUNF62+LosVz8Qv0nxJSy7iAWoku6vQcpuoysPX
-         +BW2YbDyQjYhlywFqgiyrVzB0CHnU1zsYwzNFpMQ8iOVz4jiejicZZLCz3ObH/FYz5qV
-         FoPhSf+lBy9TcR+2U0uuQZNdqG1ISUtMmRFzA0Xq0X6xg9M2gct/jSFBPJZf9y9ggpyw
-         oV56v2IOm2EjijhEV20nZyX65yOjrxSc9iIO/odu+ebkuh9nrqtmGxtEk+auhnetB6jn
-         WL14axuL/RavJB5Junl1mgUiXY0UhdXsWe9x0JGywIFPFSSKEJvVrh5OIWPmbjhEqjht
-         h6aw==
-X-Gm-Message-State: AO0yUKWngPWu1/LIuk63fbyqgp8Z8sqUyky8Mn7ZnZ1wxLe49vLRtPdW
-        MDkhAQjlEnC+wPmgiq9RWBoNxQ==
-X-Google-Smtp-Source: AK7set8GqexXi9aOzjtjlYy/A2z6Eb7VJELOikOO1SEArvaYtW2BESXlMuKLO1EX78+C4TFAKMv8aw==
-X-Received: by 2002:a17:902:8688:b0:19c:d23e:52a0 with SMTP id g8-20020a170902868800b0019cd23e52a0mr28355194plo.14.1678715925149;
-        Mon, 13 Mar 2023 06:58:45 -0700 (PDT)
-Received: from smtpclient.apple (071-095-008-132.biz.spectrum.com. [71.95.8.132])
-        by smtp.gmail.com with ESMTPSA id g1-20020a1709026b4100b0019a96d3b456sm4864641plt.44.2023.03.13.06.58.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Mar 2023 06:58:44 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Joel Fernandes <joel@joelfernandes.org>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
-Date:   Mon, 13 Mar 2023 06:58:30 -0700
-Message-Id: <01559085-EB77-4962-B5EF-FF767F5A7353@joelfernandes.org>
-References: <ZA7yK6iznHqiBu5i@pc636>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-In-Reply-To: <ZA7yK6iznHqiBu5i@pc636>
-To:     Uladzislau Rezki <urezki@gmail.com>
-X-Mailer: iPhone Mail (20B101)
+        with ESMTP id S230333AbjCMO1O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 10:27:14 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7191FFF21;
+        Mon, 13 Mar 2023 07:27:13 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id ADD6C378;
+        Mon, 13 Mar 2023 14:27:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net ADD6C378
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1678717632; bh=we1dOyh2dtdOcF4wGKKVNAnTN7oZ4JTOZZ2/z75YBYY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=gBEYFFGXY6FN/xfn5GN6z1RIvDKDZLE2Jy03LTN5SDP74r8RmlO1nZ5kDagcHEpgk
+         /SS8JYmVjaX7bcVgA7AKtcFDk6osdrrHEy97vnWOTYcmoXTDtaOVXTQcjdwrwjcOEM
+         FAonGDMWicA64t3bGXbxpAC4R5/aWL8FgFqv+KRG+dEb38oiSHtbJzjCTQwf/VH+RJ
+         FclxWKR56bmLxRS14Ie0rWLKsE8sx7PQmstlOWXg0qv3HW/dHZABlM4cM20kXBrfF6
+         zbG2p/Qc7ouAOFinatBTKNrBXrJdX/sEV0vWUiZAkkiSP/ScRkc1LxcnGKPn8yNxeL
+         6tLOVCeuKZkYA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     David Vernet <void@manifault.com>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux BPF <bpf@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Tobin C. Harding" <me@tobin.cc>
+Subject: Re: [PATCH bpf-next] bpf, doc: use internal linking for link to
+ netdev FAQ
+In-Reply-To: <20230313135638.GD2392@maniforge>
+References: <20230313025119.17430-1-bagasdotme@gmail.com>
+ <20230313030938.GA152792@maniforge> <ZA6knaEQcddfTCyS@debian.me>
+ <fefa25fe-8148-cbd7-a91e-e4713eb6b0ef@gmail.com>
+ <4653cfd1-7209-6e49-4f01-fcc3f82f16ce@gmail.com>
+ <20230313123602.GA2392@maniforge> <87wn3kvkkq.fsf@meer.lwn.net>
+ <20230313135638.GD2392@maniforge>
+Date:   Mon, 13 Mar 2023 08:27:11 -0600
+Message-ID: <87sfe8vi9s.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+David Vernet <void@manifault.com> writes:
 
+>> In this specific case, though, there is a better solution.  Text like:
+>> 
+>>   see the netdev FAQ (Documentation/process/maintainer-netdev.rst)
+>> 
+>> will add links in the built docs, and also tells readers of the
+>> plain-text files where they should be looking.  Without adding warnings.
+>
+> Nice, seems like the best of both worlds. A syntax clarification
+> question: are you saying that this would work?
+>
+>> see the `netdev-FAQ`_.
+>>
+>>   <snip>
+>>
+>> .. _netdev-FAQ: Documentation/process/maintainer-netdev.rst
+>
+> Or is it required to have the full path inline in the text, as in your
+> example:
+>
+>>   see the netdev FAQ (Documentation/process/maintainer-netdev.rst)
+>
+> The benefit of the former is of course that you only have to specify the
+> link in one place.
 
-> On Mar 13, 2023, at 2:51 AM, Uladzislau Rezki <urezki@gmail.com> wrote:
->=20
-> =EF=BB=BFOn Fri, Mar 10, 2023 at 10:24:34PM -0800, Paul E. McKenney wrote:=
-
->>> On Fri, Mar 10, 2023 at 09:55:02AM +0100, Uladzislau Rezki wrote:
->>> On Thu, Mar 09, 2023 at 10:10:56PM +0000, Joel Fernandes wrote:
->>>> On Thu, Mar 09, 2023 at 01:57:42PM +0100, Uladzislau Rezki wrote:
->>>> [..]
->>>>>>>>>> See this commit:
->>>>>>>>>>=20
->>>>>>>>>> 3705b88db0d7cc ("rcu: Add a module parameter to force use of
->>>>>>>>>> expedited RCU primitives")
->>>>>>>>>>=20
->>>>>>>>>> Antti provided this commit precisely in order to allow Android
->>>>>>>>>> devices to expedite the boot process and to shut off the
->>>>>>>>>> expediting at a time of Android userspace's choosing.  So Android=
-
->>>>>>>>>> has been making this work for about ten years, which strikes me
->>>>>>>>>> as an adequate proof of concept.  ;-)
->>>>>>>>>=20
->>>>>>>>> Thanks for the pointer. That's true. Looking at Android sources, I=
-
->>>>>>>>> find that Android Mediatek devices at least are setting
->>>>>>>>> rcu_expedited to 1 at late stage of their userspace boot (which is=
-
->>>>>>>>> weird, it should be set to 1 as early as possible), and
->>>>>>>>> interestingly I cannot find them resetting it back to 0!.  Maybe
->>>>>>>>> they set rcu_normal to 1? But I cannot find that either. Vlad? :P
->>>>>>>>=20
->>>>>>>> Interesting.  Though this is consistent with Antti's commit log,
->>>>>>>> where he talks about expediting grace periods but not unexpediting
->>>>>>>> them.
->>>>>>>>=20
->>>>>>> Do you think we need to unexpedite it? :))))
->>>>>>=20
->>>>>> Android runs on smallish systems, so quite possibly not!
->>>>>>=20
->>>>> We keep it enabled and never unexpedite it. The reason is a performanc=
-e.  I
->>>>> have done some app-launch time analysis with enabling and disabling of=
- it.
->>>>>=20
->>>>> An expedited case is much better when it comes to app launch time. It
->>>>> requires ~25% less time to run an app comparing with unexpedited varia=
-nt.
->>>>> So we have a big gain here.
->>>>=20
->>>> Wow, that's huge. I wonder if you can dig deeper and find out why that i=
-s so
->>>> as the callbacks may need to be synchronize_rcu_expedited() then, as it=
- could
->>>> be slowing down other usecases! I find it hard to believe, real-time
->>>> workloads will run better without those callbacks being always-expedite=
-d if
->>>> it actually gives back 25% in performance!
->>>>=20
->>> I can dig further, but on a high level i think there are some spots
->>> which show better performance if expedited is set. I mean synchronize_rc=
-u()
->>> becomes as "less blocking a context" from a time point of view.
->>>=20
->>> The problem of a regular synchronize_rcu() is - it can trigger a big lat=
-ency
->>> delays for a caller. For example for nocb case we do not know where in a=
- list
->>> our callback is located and when it is invoked to unblock a caller.
->>=20
->> True, expedited RCU grace periods do not have this callback-invocation
->> delay that normal RCU does.
->>=20
->>> I have already mentioned somewhere. Probably it makes sense to directly w=
-ake-up
->>> callers from the GP kthread instead and not via nocb-kthread that invoke=
-s our callbacks
->>> one by one.
->>=20
->> Makes sense, but it is necessary to be careful.  Wakeups are not fast,
->> so making the RCU grace-period kthread do them all sequentially is not
->> a strategy to win.  For example, note that the next expedited grace
->> period can start before the previous expedited grace period has finished
->> its wakeups.
->>=20
-> I hove done a small and quick prototype:
->=20
-> <snip>
-> diff --git a/include/linux/rcupdate_wait.h b/include/linux/rcupdate_wait.h=
-
-> index 699b938358bf..e1a4cca9a208 100644
-> --- a/include/linux/rcupdate_wait.h
-> +++ b/include/linux/rcupdate_wait.h
-> @@ -9,6 +9,8 @@
-> #include <linux/rcupdate.h>
-> #include <linux/completion.h>
->=20
-> +extern struct llist_head gp_wait_llist;
-> +
-> /*
->  * Structure allowing asynchronous waiting on RCU.
->  */
-> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> index ee27a03d7576..50b81ca54104 100644
-> --- a/kernel/rcu/tree.c
-> +++ b/kernel/rcu/tree.c
-> @@ -113,6 +113,9 @@ int rcu_num_lvls __read_mostly =3D RCU_NUM_LVLS;
-> int num_rcu_lvl[] =3D NUM_RCU_LVL_INIT;
-> int rcu_num_nodes __read_mostly =3D NUM_RCU_NODES; /* Total # rcu_nodes in=
- use. */
->=20
-> +/* Waiters for a GP kthread. */
-> +LLIST_HEAD(gp_wait_llist);
-> +
-> /*
->  * The rcu_scheduler_active variable is initialized to the value
->  * RCU_SCHEDULER_INACTIVE and transitions RCU_SCHEDULER_INIT just before t=
-he
-> @@ -1776,6 +1779,14 @@ static noinline void rcu_gp_cleanup(void)
->                on_each_cpu(rcu_strict_gp_boundary, NULL, 0);
-> }
->=20
-> +static void rcu_notify_gp_end(struct llist_node *llist)
-> +{
-> +       struct llist_node *rcu, *next;
-> +
-> +       llist_for_each_safe(rcu, next, llist)
-> +               complete(&((struct rcu_synchronize *) rcu)->completion);
-
-This looks broken to me, so the synchronize will complete even
-if it was called in the middle of an ongoing GP?
+Yeah, but the latter is what we actually have.
 
 Thanks,
 
- - Joel
-
-
-
-> +}
-> +
-> /*
->  * Body of kthread that handles grace periods.
->  */
-> @@ -1811,6 +1822,9 @@ static int __noreturn rcu_gp_kthread(void *unused)
->                WRITE_ONCE(rcu_state.gp_state, RCU_GP_CLEANUP);
->                rcu_gp_cleanup();
->                WRITE_ONCE(rcu_state.gp_state, RCU_GP_CLEANED);
-> +
-> +               /* Wake-app all users. */
-> +               rcu_notify_gp_end(llist_del_all(&gp_wait_llist));
->        }
-> }
->=20
-> diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
-> index 19bf6fa3ee6a..1de7c328a3e5 100644
-> --- a/kernel/rcu/update.c
-> +++ b/kernel/rcu/update.c
-> @@ -426,7 +426,10 @@ void __wait_rcu_gp(bool checktiny, int n, call_rcu_fu=
-nc_t *crcu_array,
->                if (j =3D=3D i) {
->                        init_rcu_head_on_stack(&rs_array[i].head);
->                        init_completion(&rs_array[i].completion);
-> -                       (crcu_array[i])(&rs_array[i].head, wakeme_after_rc=
-u);
-> +
-> +                       /* Kick a grace period if needed. */
-> +                       (void) start_poll_synchronize_rcu();
-> +                       llist_add((struct llist_node *) &rs_array[i].head,=
- &gp_wait_llist);
->                }
->        }
-> <snip>
->=20
-> and did some experiments in terms of performance and comparison. A test ca=
-se is:
->=20
-> thread_X:
->  synchronize_rcu();
->  kfree(ptr);
->=20
-> below are results with running 10 parallel workers running 1000 times of m=
-entioned
-> test scenario:
->=20
-> # default(NOCB)
-> [   29.322944] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 172=
-86604 usec
-> [   29.325759] All test took worker0=3D63964052068 cycles
-> [   29.327255] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 234=
-14575 usec
-> [   29.329974] All test took worker1=3D86638822563 cycles
-> [   29.331460] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 233=
-57988 usec
-> [   29.334205] All test took worker2=3D86429439193 cycles
-> [   29.350808] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 171=
-74001 usec
-> [   29.353553] All test took worker3=3D63547397954 cycles
-> [   29.355039] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 171=
-41904 usec
-> [   29.357770] All test took worker4=3D63428630877 cycles
-> [   29.374831] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 233=
-97952 usec
-> [   29.377577] All test took worker5=3D86577316353 cycles
-> [   29.398809] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 171=
-42038 usec
-> [   29.401549] All test took worker6=3D63429124938 cycles
-> [   29.414828] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 171=
-58248 usec
-> [   29.417574] All test took worker7=3D63489107118 cycles
-> [   29.438811] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 181=
-02109 usec
-> [   29.441550] All test took worker8=3D66981588881 cycles
-> [   29.462826] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 234=
-46042 usec
-> [   29.465561] All test took worker9=3D86755258455 cycles
->=20
-> # patch(NOCB)
-> [   14.720986] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 883=
-7883 usec
-> [   14.723753] All test took worker0=3D32702015768 cycles
-> [   14.740386] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 883=
-7750 usec
-> [   14.743076] All test took worker1=3D32701525814 cycles
-> [   14.760350] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 883=
-7734 usec
-> [   14.763036] All test took worker2=3D32701466281 cycles
-> [   14.780369] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 883=
-7707 usec
-> [   14.783057] All test took worker3=3D32701364901 cycles
-> [   14.800352] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 883=
-7730 usec
-> [   14.803041] All test took worker4=3D32701449927 cycles
-> [   14.820355] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 883=
-7724 usec
-> [   14.823048] All test took worker5=3D32701428134 cycles
-> [   14.840359] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 883=
-7705 usec
-> [   14.843052] All test took worker6=3D32701356465 cycles
-> [   14.860322] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 883=
-7742 usec
-> [   14.863005] All test took worker7=3D32701494475 cycles
-> [   14.880363] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 883=
-7750 usec
-> [   14.883081] All test took worker8=3D32701525074 cycles
-> [   14.900362] Summary: kvfree_rcu_1_arg_vmalloc_test loops: 1000 avg: 883=
-7918 usec
-> [   14.903065] All test took worker9=3D32702145379 cycles
->=20
-> --
-> Uladzislau Rezki
+jon
