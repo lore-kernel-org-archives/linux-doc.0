@@ -2,108 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2563C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 09:19:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAB71C74A4B
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 09:28:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230526AbjCMJTj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 05:19:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59188 "EHLO
+        id S230107AbjCMJ2h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 05:28:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230479AbjCMJTi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 05:19:38 -0400
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A73D303D8
-        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 02:19:37 -0700 (PDT)
-Received: by mail-qt1-x835.google.com with SMTP id h19so12397296qtk.7
-        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 02:19:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678699176;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=93MKTJ9MDWn/ISNqBQPEJ2VlVirpHbQ1K4GLOntiehI=;
-        b=rlEA0ETcSyUHcKQJobtYi1UQrzazm3+qY4VxhVcM1WZHWp6UoKzQ2Izab3CjCxA7+c
-         WtlHpVASlkXH+YM9KwRl6+6grgGOTmCjBQq45rPLXKU+LTO9wtMPqBuFvO8VL4MY4k5I
-         kgYBW5GLz4fdeAencuAeQYCZWBpo/7JShYmyOuSHBJMrVMSH0Atl0AFJkEbqmHn6pxa3
-         n5bJd/8OrSRy6yZSH2z5Hf+lFw/RdudG/C1xDIqjKfYNdM2pa+4mfXHsHNP37UxXssbn
-         w1vK35BDCu+8l9fiJLiOZGffC+gVqyAamrMpZMjtJgrhw70mbeeZt8VE+XzE2GItp1RV
-         IsQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678699176;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=93MKTJ9MDWn/ISNqBQPEJ2VlVirpHbQ1K4GLOntiehI=;
-        b=ui1UFwtQs3QAREPZNn6W1AsvV4Khvg6nb42aIOYPPiE47yB3szfp4ukHUPK4NZaw/V
-         HgGl8Es1bsn9VuxTaZO0MaJaqWnqv8bU/z8X1zCdhfpxwnV1/tNLAelG4Vf2XY8j2c/t
-         em3SOudm/kQFTMSXspaTyu7geZUGvN+OE68rwFyWjuMr/Yep8cjCT/ihybL7D3KCiaiQ
-         zScL4FESCjXM+CJfcPDgsmE2cwoG6aGWTtGXEXjSdlQb5DQpcacbpjKSKKXg+/FjPZ//
-         Lr7fgil+OfCbqy+AurlDnrLQ7UHLB6hRdeOsjc6jM6TVGTRpctTbZFZDfvnoB9p3fWAq
-         RZbw==
-X-Gm-Message-State: AO0yUKWdv5Ex5De7J78+2xwvuMQgHDKme+GQRSxPWzJ6S+hzE+m1Wz9f
-        rwsce3/yAZnzR+nhPLD7C2zyB7m4wxgt0am2WWbORw==
-X-Google-Smtp-Source: AK7set9VU11box7gOTFGJkfvp8eIs4eJi59Sw1fXt2hbhwVTZ4v59SG61KE4Kh/xDpZsPIzYtucHidOGr02cSM+MI8U=
-X-Received: by 2002:a05:622a:4008:b0:3bf:c34b:d45a with SMTP id
- cf8-20020a05622a400800b003bfc34bd45amr3065615qtb.5.1678699176594; Mon, 13 Mar
- 2023 02:19:36 -0700 (PDT)
+        with ESMTP id S229771AbjCMJ23 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 05:28:29 -0400
+Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E06E59F5;
+        Mon, 13 Mar 2023 02:28:26 -0700 (PDT)
+Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 38905D5A;
+        Mon, 13 Mar 2023 10:28:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+        t=1678699702;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=skyNVaDreGk4up3teBKgNO9R6cLkCNyVzzbEod9/6Rg=;
+        b=DVcf4ZYa6wHEiz4Cd/JqkKPK/bVkzbgR3vXVxQqyCz4xPnSTc5hFMWAWK1G2kM2Da2tOh8
+        1mqgEdMcSlshmtEWuUN//iZmO+qU7y7ww+jT+VU0aA4kn0bmh+3tuMo8CClkhCv37vNcQJ
+        2cyomQpVH3QWY8r5C67IBT3S4jSHwUCgODwpX7OQOfcFCe3SkM5yDTc6b5UkmJnXoFsz9G
+        +GtrMbMWOSiSJ/7lWGUHuGApEZlqEVj2WNwUhIahXmmKzWlzUmzS24azUvR4HGMSB/j5n8
+        reQW0KXi3WnoOadzpI3qw7SUtMmAKyJCWEfx0uO9Y3y14/l0u1C08rFx0hL58g==
+From:   Michael Walle <michael@walle.cc>
+To:     andrew@lunn.ch, Linus Walleij <linus.walleij@linaro.org>
+Cc:     Arun.Ramadoss@microchip.com, alexander.stein@ew.tq-group.com,
+        ansuelsmth@gmail.com, bagasdotme@gmail.com, corbet@lwn.net,
+        davem@davemloft.net, devicetree@vger.kernel.org,
+        edumazet@google.com, f.fainelli@gmail.com, hdegoede@redhat.com,
+        hkallweit1@gmail.com, jacek.anaszewski@gmail.com, john@phrozen.org,
+        krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, lee@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux@armlinux.org.uk,
+        netdev@vger.kernel.org, olteanv@gmail.com, pabeni@redhat.com,
+        pavel@ucw.cz, rasmus.villemoes@prevas.dk,
+        rmk+kernel@armlinux.org.uk, robh+dt@kernel.org,
+        tharvey@gateworks.com, Michael Walle <michael@walle.cc>
+Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
+Date:   Mon, 13 Mar 2023 10:28:15 +0100
+Message-Id: <20230313092815.496442-1-michael@walle.cc>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <576d57cb-481c-46ba-9e3b-d3b7e3a4ec69@lunn.ch>
+References: <576d57cb-481c-46ba-9e3b-d3b7e3a4ec69@lunn.ch>
 MIME-Version: 1.0
-References: <20230126184157.27626-1-tony.luck@intel.com> <20230126184157.27626-8-tony.luck@intel.com>
- <CALPaoCgnOWLdEqKtonNeq+d_Fj0yr3Y7tgwwmAHmuhL5xBhqyg@mail.gmail.com> <ZAtpTl+um3nbCOz8@agluck-desk3.sc.intel.com>
-In-Reply-To: <ZAtpTl+um3nbCOz8@agluck-desk3.sc.intel.com>
-From:   Peter Newman <peternewman@google.com>
-Date:   Mon, 13 Mar 2023 10:19:25 +0100
-Message-ID: <CALPaoCiQMxgjusRzQMWhKJHtB2CYVOp3UaXpwPYYpO4VC+0KzQ@mail.gmail.com>
-Subject: Re: [PATCH 7/7] x86/resctrl: Determine if Sub-NUMA Cluster is enabled
- and initialize.
-To:     Tony Luck <tony.luck@intel.com>
-Cc:     Fenghua Yu <fenghua.yu@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Tony,
+> > I think there will be a day when a switch without LED controller appears,
+> > but the system has a few LEDs for the ports connected to an
+> > arbitrary GPIO controller, and then we will need this. But we have
+> > not seen that yet :)
+> 
+> The microchip sparx5 might be going in that direction. It has what
+> looks like a reasonably generic sgpio controller:
+> drivers/pinctrl/pinctrl-microchip-sgpio.c
 
-On Fri, Mar 10, 2023 at 6:30=E2=80=AFPM Tony Luck <tony.luck@intel.com> wro=
-te:
-> Tell me more about your CPU-less nodes. Your fix avoids a bad
-> pointer reference (because cpumask_first() returns cpu >=3D nr_cpu_ids
-> for an empty bitmask).
->
-> But now I'm worried about whether I have the right values in the
-> formula:
->
-> nr_node_ids / bitmap_weight(node_caches, nr_node_ids);
->
-> This fix avoids counting the L3 from a non-existent CPU, but still
-> counts the node in the numerator.
->
-> Is your CPU-less node a full (non-SNC) node? Like this:
->
-> Socket 0 Socket 1
-> +--------------------+ +--------------------+
-> | . | | . |
-> | SNC 0.0 . SNC 0.1 | | zero . zero |
-> | . | | CPUs . CPUs |
-> | . | | . |
-> | . | | . |
-> +--------------------+ +--------------------+
-> | L3 Cache | | L3 Cache |
-> +--------------------+ +--------------------+
+That gpio controller supports both, some kind of hardware controlled
+and pure software controlled mode. AFAIK the driver only supports
+software controlled mode (yet?). In any case, our board
+(arch/arm/boot/dts/lan966x-kontron-kswitch-d10-mmt.dtsi) is broken in
+a way that we are forced to use the software controlled mode anyway.
+Therefore, there is already such a board ;)
 
-In the case I saw, the nodes were AEP DIMMs, so all-memory nodes.
-
-Browsing sysfs, they are listed in has_memory, but not
-has_normal_memory or has_cpu.
-
-I imagine CXL.mem would have similar issues.
-
--Peter
+-michael
