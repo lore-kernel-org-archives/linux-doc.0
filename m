@@ -2,122 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E781C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 17:55:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18567C74A4B
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 18:00:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230005AbjCMRzy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 13:55:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54662 "EHLO
+        id S230055AbjCMSAf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 14:00:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229854AbjCMRzv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 13:55:51 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15EF032E45
-        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 10:55:48 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id o12so52069869edb.9
-        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 10:55:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678730146;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JlcrnhxuRd6rV69CEfffZDmaaf6zxlWaBbyK92fytus=;
-        b=zrT7N+L4i1OOmHooCUtuKQxSOa3Hl/v/al9JW1jb/ccugW//3tZctpe8h8XqOLPVPd
-         28FTmDGBe/txValWJ4yjwNiFKkBvn1KymKVGg/ybUJgLljp//aUkiRZ50xC7kl4Tbbbj
-         aiXj4BhUOmS+nYtWQ9V3TMbGRJDLU9OTqUWEyvNLqXpbcdsbGJnsYaHtBcEbR1NxYFSh
-         3TPQAbpAovUx1vfywwYojF4mNL5fHu7ax1zJ99q/wW1LOwJM2pkmAOPuzXjU+QLl044f
-         3i19gjqQNSucPGQdcdgsl+/fuoVl0xUvb3nM2+ZYkuy0CI5+fnQwDijoTSmIFrC58wP+
-         1Png==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678730146;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JlcrnhxuRd6rV69CEfffZDmaaf6zxlWaBbyK92fytus=;
-        b=7ZZkQgcxOpiILK/IvVmQiP5ecrqmgKDXiSMhQPW/ZnN14brzj3HHoxMmBgIC3nqTK7
-         jHF/6ppo74vXIPBfs4ATMQaCgVDZ54TCpcbEMecZiuP1wh4+rauqbPSYqt19g8mrqatK
-         5csHAiKLHqgGRnpsuOBrLFMoQmtzcVQp+lvcNFZcH1zheIykrvAueHTDRSM/shmi4lFF
-         3WYkcpxyzR05cYfugFjS/1iKFnIhywEStnI8zraY67G2n4Z3ZYk7rE7JiZv9tY/1F+hZ
-         DVeFPLuanl/iLgj7fFcaVt8qTjEHijcyX6MrnppTimpIYDrsG/z9Jd1/QBlLNRfkJrVh
-         yLSw==
-X-Gm-Message-State: AO0yUKV09RFF4xEjJq73kMpZhVaG5qgHCKiLzxjbyD49PmDN6EiR7jhO
-        8f6EOyW7w7RblwOjoDogWsDz2w==
-X-Google-Smtp-Source: AK7set+F+T0O61QUAlFi1WKTG8LwavM0EbkptZ54DncABKfzh7oDSD7DKJnsUeNG6kb6uO0yUhNKyQ==
-X-Received: by 2002:a17:906:2843:b0:8b1:15ab:f4cd with SMTP id s3-20020a170906284300b008b115abf4cdmr31342450ejc.53.1678730146574;
-        Mon, 13 Mar 2023 10:55:46 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:69db:4882:d071:27c4? ([2a02:810d:15c0:828:69db:4882:d071:27c4])
-        by smtp.gmail.com with ESMTPSA id h7-20020a170906718700b009289de993e2sm65306ejk.216.2023.03.13.10.55.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Mar 2023 10:55:46 -0700 (PDT)
-Message-ID: <6c5045d9-4f4a-5018-3f3f-7746b08ab2b5@linaro.org>
-Date:   Mon, 13 Mar 2023 18:55:45 +0100
+        with ESMTP id S230063AbjCMSAe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 14:00:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39BC474DF3;
+        Mon, 13 Mar 2023 11:00:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C700A6145D;
+        Mon, 13 Mar 2023 18:00:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D010C433EF;
+        Mon, 13 Mar 2023 18:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678730430;
+        bh=LVvECMF2JRIS2+UZiegISVGjENHSYWHFcEABfHx4Ofo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GmDkdvwH9Uawgk9LYBpbermXvvDECX/6RNccD8K+ELxVWRyH6oXSbon/VOBsEHR6n
+         F6u1NrAxAZeeBN3YP4JLjsGKbj+ur3URprpXcm0b5SVWjRDxLSIAjZGXNSvk7r/yLy
+         tREwM6XwdrHF5HOb86GOdDSTjy1yF+jdTm6cUtvIVPA8BIGCkRTeIQPH4r4GTlluwl
+         BCo/sMkcG64jtK1CL/eqRKmrALGrDrDlniP5oBxWgtkK1uT0A2JJYB9imUUoNzCMVq
+         ANF8rg4vOuACDCWW+Pm4zLOxx+DELNwtqJS/w1QFwVOHDfqhOV6uUXYIW5MaOfhqwq
+         XFUCyzR3sbtJQ==
+Date:   Mon, 13 Mar 2023 20:00:10 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Mike Rapoport <mike.rapoport@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Christoph Lameter <cl@linux.com>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH 0/7] remove SLOB and allow kfree() with kmem_cache_alloc()
+Message-ID: <ZA9kqkyjWli2F3/Q@kernel.org>
+References: <20230310103210.22372-1-vbabka@suse.cz>
+ <ZA2gofYkXRcJ8cLA@kernel.org>
+ <20230313123147.6d28c47e@gandalf.local.home>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH V3 2/6] dt-bindings: timestamp: Add Tegra234 support
-To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, robh+dt@kernel.org,
-        timestamp@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
-        brgl@bgdev.pl, corbet@lwn.net, gregkh@linuxfoundation.org
-References: <20230310190634.5053-1-dipenp@nvidia.com>
- <20230310190634.5053-3-dipenp@nvidia.com>
- <f6d9c84a-1c75-d9b4-59ed-39d6c5b310a9@linaro.org>
- <b4195142-6cfe-df3c-6edf-0c40b64ad02a@nvidia.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <b4195142-6cfe-df3c-6edf-0c40b64ad02a@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230313123147.6d28c47e@gandalf.local.home>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 13/03/2023 18:05, Dipen Patel wrote:
-> On 3/12/23 8:47 AM, Krzysztof Kozlowski wrote:
->> On 10/03/2023 20:06, Dipen Patel wrote:
->>> Added timestamp provider support for the Tegra234 in devicetree
->>> bindings. In addition, it addresses review comments from the
->>> previous review round as follows:
->>> - Removes nvidia,slices property. This was not necessary as it
->>> is a constant value and can be hardcoded inside the driver code.
->>> - Adds nvidia,gpio-controller property. This simplifies how GTE driver
->>> retrieves GPIO controller instance, see below explanation.
->>>
->>> Without this property code would look like:
->>> if (of_device_is_compatible(dev->of_node, "nvidia,tegra194-gte-aon"))
->>> 	hte_dev->c = gpiochip_find("tegra194-gpio-aon",
->>> 				   tegra_get_gpiochip_from_name);
->>> else if (of_device_is_compatible(dev->of_node, "nvidia,tegra234-gte-aon"))
->>> 	hte_dev->c = gpiochip_find("tegra234-gpio-aon",
->>> 				   tegra_get_gpiochip_from_name);
->>> else
->>> 	return -ENODEV;
->>>
->>> This means for every future addition of the compatible string, if else
->>> condition statements have to be expanded.
->>>
->>> With the property:
->>> gpio_ctrl = of_parse_phandle(dev->of_node, "nvidia,gpio-controller", 0);
->>> ....
->>> hte_dev->c = gpiochip_find(gpio_ctrl, tegra_get_gpiochip_from_of_node);
->>>
->>> We haven't technically started making use of these bindings, so
->>> backwards-compatibility shouldn't be an issue yet.
->>
->> Unfortunately, I don't understand this statement. The
->> nvidia,tegra194-gte-aon with removed property is in a released kernel
->> v6.2. What does it mean "technically"? It's a released kernel thus it is
->> a released ABI.
+On Mon, Mar 13, 2023 at 12:31:47PM -0400, Steven Rostedt wrote:
+> On Sun, 12 Mar 2023 11:51:29 +0200
+> Mike Rapoport <mike.rapoport@gmail.com> wrote:
 > 
-> There is no active user of that driver, so even if it breaks 6.2, it is fine
-> as there is no one to complain about it.
+> > git grep -in slob still gives a couple of matches. I've dropped the
+> > irrelevant ones it it left me with these:
+> > 
+> > CREDITS:14:D: SLOB slab allocator
+> > kernel/trace/ring_buffer.c:358: * Also stolen from mm/slob.c. Thanks to Mathieu Desnoyers for pointing
+> > mm/Kconfig:251:    SLOB allocator and is not recommended for systems with more than
+> > mm/Makefile:25:KCOV_INSTRUMENT_slob.o := n
+> >  
+> > Except the comment in kernel/trace/ring_buffer.c all are trivial.
+> > 
+> > As for the comment in ring_buffer.c, it looks completely irrelevant at this
+> > point.
+> > 
+> > @Steve?
+> 
+> You want me to remember something I wrote almost 15 years ago?
 
-How do you know? It's a released kernel, thus how can you ask millions
-of people if they use it or not?
+I just wanted to make sure you don't have a problem with removing this
+comment :)
 
-Best regards,
-Krzysztof
+> I think I understand that comment as much as you do. Yeah, that was when
+> I was still learning to write comments for my older self to understand,
+> and I failed miserably!
+>
+> But git history comes to the rescue. The commit that added that comment was:
+> 
+> ed56829cb3195 ("ring_buffer: reset buffer page when freeing")
+> 
+> This was at a time when it was suggested to me to use the struct page
+> directly in the ring buffer and where we could do fun "tricks" for
+> "performance". (I was never really for this, but I wasn't going to argue).
+> 
+> And the code in question then had:
+> 
+> /*
+>  * Also stolen from mm/slob.c. Thanks to Mathieu Desnoyers for pointing
+>  * this issue out.
+>  */
+> static inline void free_buffer_page(struct buffer_page *bpage)
+> {
+>         reset_page_mapcount(&bpage->page);
+>         bpage->page.mapping = NULL;
+>         __free_page(&bpage->page);
+> }
+> 
+> 
+> But looking at commit: e4c2ce82ca27 ("ring_buffer: allocate buffer page
+> pointer")
+> 
+> It was finally decided that method was not safe, and we should not be using
+> struct page but just allocate an actual page (much safer!).
+> 
+> I never got rid of the comment, which was more about that
+> "reset_page_mapcount()", and should have been deleted back then.
 
+Yeah, I did the same analysis, just was too lazy to post it.
+ 
+> Just remove that comment. And you could even add:
+> 
+> Suggested-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> Fixes: e4c2ce82ca27 ("ring_buffer: allocate buffer page pointer")
+> 
+> -- Steve
+
+-- 
+Sincerely yours,
+Mike.
