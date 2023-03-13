@@ -2,142 +2,169 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 741B6C61DA4
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 08:02:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 069B9C61DA4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 08:17:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230242AbjCMICS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 04:02:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60412 "EHLO
+        id S229748AbjCMIRL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 04:17:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230247AbjCMIBh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 04:01:37 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50E9B3BDA5;
-        Mon, 13 Mar 2023 00:58:47 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id gp15-20020a17090adf0f00b0023d1bbd9f9eso604893pjb.0;
-        Mon, 13 Mar 2023 00:58:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678694287;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Hat8ABt+aIhJHmkgJ54scd67JOhwFtz9Gg2oapIINaM=;
-        b=kFmY22yZpquTAvlpQDx2jQBWU5fSGyo6DISTzAE6GWo2HPcvUO/pVxjyeP/NsOYtNX
-         g4rpW/OCvHnX9c2QqkCjafRzHKcFKbVycja/5ft3L3TcfhjKPgHoJdXCzTS7CCfNqh8Q
-         Dxy/KCFbk1s3Fee2UfMIxsrk1KkojzEjrvid4xmlV+1+av21WLTr4fLWInCzJcT5hK5g
-         qb+Ff7s6ek3GGsIYxJryfLNzIepo0u6dHgU8MlPeBmNXKdrW49C4QuawDf7XW9Y3bZhq
-         OZUnTIi33H6hDA2IyiI3FbLBjJMvvFJmaexISKBzSvjcGKqXouf4rqwU4ltyjTdMW2MI
-         uoZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678694287;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hat8ABt+aIhJHmkgJ54scd67JOhwFtz9Gg2oapIINaM=;
-        b=So3kIzEncpfFp3Klf8ooW7pZh3qSif3JAPI1g3VDwy9jiJcHiiX8NbYMRiH05Ckr5T
-         RrCHHz9hw953d3iSepHTZ9K61WpgdA5p2G+vqESTpeM8Io9aVpmp+AeM9wHA9FbR2Q8i
-         3spSr/StL3ZyQmr9ARX0pXTQ4FnRBPB8j/cTM2tsTZoXm7bLH2Teknvkhvk4WKkxpFUF
-         PwSeMRtxBy0FQQHlYI0hndIvQGogFxBRfeM/3ol6C+EEuAeOGmEipBH0oE7yve0AhvIZ
-         TUZx+QGaXw7UYADEO9d1yx/PZSagNDws17YD7DfxJhiVmy1WuODzwaRy4dBcSvfAHXIv
-         LgXw==
-X-Gm-Message-State: AO0yUKXCN32FHGdKLsQ3U3dc3shwiRzDfeTOf2NyBrRaw9VKOjQmimQ/
-        z2G2NJ7ybSwcjEQsqoDfWUo=
-X-Google-Smtp-Source: AK7set+iRq23u8hMYMCXBM+T4tOxHpw2sNBM6ytHUEdT61AtXh8oAny7LUXb5iWPuPvsIocSFUGKIA==
-X-Received: by 2002:a17:902:e54a:b0:19e:8bfe:7d79 with SMTP id n10-20020a170902e54a00b0019e8bfe7d79mr37424033plf.1.1678694286928;
-        Mon, 13 Mar 2023 00:58:06 -0700 (PDT)
-Received: from [192.168.43.80] (subs28-116-206-12-36.three.co.id. [116.206.12.36])
-        by smtp.gmail.com with ESMTPSA id jz16-20020a170903431000b0019cbd37a335sm4103268plb.93.2023.03.13.00.58.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Mar 2023 00:58:06 -0700 (PDT)
-Message-ID: <4653cfd1-7209-6e49-4f01-fcc3f82f16ce@gmail.com>
-Date:   Mon, 13 Mar 2023 14:57:59 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH bpf-next] bpf, doc: use internal linking for link to
- netdev FAQ
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     David Vernet <void@manifault.com>
-Cc:     Linux BPF <bpf@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S229712AbjCMIRJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 04:17:09 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A6D2CC53;
+        Mon, 13 Mar 2023 01:17:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1678695423; x=1710231423;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=5JrPFVlcWQFwap3ILpm16k6q7pBO4Fn/SgtyEDcEoGU=;
+  b=up3gFiw+XeKOPFI2M7wG7DDT2ygITHsj2NbhiW66u1sVMjrSWL3pDQj1
+   DNRybkQxOwvQHJE9wF4Y2u20xfVpRqmV4VKeQAuaxhWPIeu3SEopunivF
+   z3neOodlZGo79tlq71x8lSGpcR4SYseAFPXCvShWuzHOvzk9ki0oETt4t
+   ReHi1DhfiLjw/LNTzp7G3XiOdLQSpk1QITO5S9K+13mojBBVTZFp+SSLs
+   3Fn+9a5XS8MrioBgVITfRxENWwQF8HHGq1yi9wBmtU6xzDDkXaK5R20aH
+   lmO0JRzVF3mhZqcCgoTVqRgB/FxcNCEzCUDw34edZ67HX9BUrDo6dk6YY
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.98,256,1673938800"; 
+   d="scan'208";a="201308119"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Mar 2023 01:17:02 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 13 Mar 2023 01:17:01 -0700
+Received: from localhost (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
+ Transport; Mon, 13 Mar 2023 01:17:00 -0700
+Date:   Mon, 13 Mar 2023 09:17:00 +0100
+From:   Horatiu Vultur <horatiu.vultur@microchip.com>
+To:     Vladimir Oltean <vladimir.oltean@nxp.com>
+CC:     Michael Walle <michael@walle.cc>,
+        =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-omap@vger.kernel.org>,
+        Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        <thomas.petazzoni@bootlin.com>,
+        Russell King <linux@armlinux.org.uk>,
         "David S. Miller" <davem@davemloft.net>,
-        "Tobin C. Harding" <me@tobin.cc>
-References: <20230313025119.17430-1-bagasdotme@gmail.com>
- <20230313030938.GA152792@maniforge> <ZA6knaEQcddfTCyS@debian.me>
- <fefa25fe-8148-cbd7-a91e-e4713eb6b0ef@gmail.com>
-Content-Language: en-US
-In-Reply-To: <fefa25fe-8148-cbd7-a91e-e4713eb6b0ef@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Eric Dumazet <edumazet@google.com>,
+        "Jakub Kicinski" <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Jay Vosburgh" <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        "Andy Gospodarek" <andy@greyhouse.net>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        <UNGLinuxDriver@microchip.com>,
+        Minghao Chi <chi.minghao@zte.com.cn>,
+        "Jie Wang" <wangjie125@huawei.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        "Sean Anderson" <sean.anderson@seco.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Marco Bonelli <marco@mebeim.net>
+Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
+ selectable.
+Message-ID: <20230313081700.ie7cwjvrlky4e27b@soft-dev3-1>
+References: <20230308135936.761794-1-kory.maincent@bootlin.com>
+ <20230308135936.761794-1-kory.maincent@bootlin.com>
+ <20230308135936.761794-4-kory.maincent@bootlin.com>
+ <20230308135936.761794-4-kory.maincent@bootlin.com>
+ <20230308230321.liw3v255okrhxg6s@skbuf>
+ <20230310114852.3cef643d@kmaincent-XPS-13-7390>
+ <20230310113533.l7flaoli7y3bmlnr@skbuf>
+ <b4ebfd3770ffa5ad1233d2b5e79499ee@walle.cc>
+ <20230310131529.6bahmi4obryy5dsx@soft-dev3-1>
+ <20230310164451.ls7bbs6pdzs4m6pw@skbuf>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230310164451.ls7bbs6pdzs4m6pw@skbuf>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/13/23 11:42, Bagas Sanjaya wrote:
-> On 3/13/23 11:20, Bagas Sanjaya wrote:
->> On Sun, Mar 12, 2023 at 10:09:38PM -0500, David Vernet wrote:
->>> This regresses all of the warnings I fixed in d56b0c461d19da ("bpf,
->>> docs: Fix link to netdev-FAQ target"):
->>>
->>> [void@maniforge bpf-next]$ make -j SPHINXDIRS="bpf" htmldocs
->>> make[2]: Nothing to be done for 'html'.
->>> Using alabaster theme
->>> source directory: bpf
->>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:125: WARNING: unknown document: '/process/maintainer-netdev'
->>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:150: WARNING: unknown document: '/process/maintainer-netdev'
->>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:207: WARNING: unknown document: '/process/maintainer-netdev'
->>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:232: WARNING: unknown document: '/process/maintainer-netdev'
->>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:398: WARNING: unknown document: '/process/maintainer-netdev'
->>> /home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:414: WARNING: unknown document: '/process/maintainer-netdev'
->>>
->>> And it also causes the netdev-FAQ links to once again be broken and not
->>> actually point to anything.
->>
->> Hi,
->>
->> I don't see these warnings in my builds. I'm using Sphinx 2.4.4
->> (virtualenv, install with pip3 install -r
->> Documentation/sphinx/requirements.txt). I guess your Sphinx version
->> doesn't support :doc: directive.
->>
->> Also, did you enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS,
->> and CONFIG_WARN_ABI_ERRORS?
->>
->> Thanks.
->>
+The 03/10/2023 18:44, Vladimir Oltean wrote:
 > 
-> Oops, I didn't see the context.
+> On Fri, Mar 10, 2023 at 02:15:29PM +0100, Horatiu Vultur wrote:
+> > I was thinking about another scenario (I am sorry if this was already
+> > discussed).
+> > Currently when setting up to do the timestamp, the MAC will check if the
+> > PHY has timestamping support if that is the case the PHY will do the
+> > timestamping. So in case the switch was supposed to be a TC then we had
+> > to make sure that the HW was setting up some rules not to forward PTP
+> > frames by HW but to copy these frames to CPU.
+> > With this new implementation, this would not be possible anymore as the
+> > MAC will not be notified when doing the timestamping in the PHY.
+> > Does it mean that now the switch should allocate these rules at start
+> > time?
 > 
-> When I rebuild the docs, I always omit SPHINXDIRS as you mentioned.
-> For :doc: links to work, you need to just do ``make htmldocs`` and
-> DO NOT specify that variable.
+> I would say no (to the allocation of trapping rules at startup time).
+> It was argued before by people present in this thread that it should be
+> possible (and default behavior) for switches to forward PTP frames as if
+> they were PTP-unaware:
+> https://patchwork.ozlabs.org/project/netdev/patch/20190813025214.18601-5-yangbo.lu@nxp.com/
+
+Thanks for the explanation!
+
 > 
-> Anyway, these warnings make sense since the target is absolute
-> (rather than relative).
+> But it raises a really good point about how much care a switch driver
+> needs to take, such that with PTP timestamping, it must trap but not
+> timestamp the PTP frames.
 > 
+> There is a huge amount of variability here today.
+> 
+> The ocelot driver would be broken with PHY timestamping, since it would
+> flood the PTP messages (it installs the traps only if it is responsible
+> for taking the timestamps too).
+> 
+> The lan966x driver is very fine-tuned to call lan966x_ptp_setup_traps()
+> regardless of what phy_has_hwtstamp() says.
+> 
+> The sparx5 driver doesn't even seem to install traps at all (unclear if
+> they are predefined in hardware or not).
 
-Hi again,
+They are not predefined in HW, I have on my TODO list to add those
+traps I just need to get the time to do this.
 
-I think SPHINXDIRS specifies the subdir as root directory when
-resolving references, so when there are references to docs
-outside SPHINXDIRS, nonexistent doc warnings will occur. For normal
-(full) htmldocs builds though, these will go away (see [1]).
-
-Thanks.
-
-[1]: https://lore.kernel.org/all/f4d40da6-756b-9e75-b867-cc9eedc4b232@gmail.com/
+> 
+> I guess that we want something like lan966x to keep working, since it
+> sounds like it's making the sanest decision about what to do.
+> 
+> But, as you point out, with Köry's/Richard's proposal, the MAC driver
+> will be bypassed when the selected timestamping layer is the PHY, and
+> that's a problem currently.
+> 
+> May I suggest the following? There was another RFC which proposed the
+> introduction of a netdev notifier when timestamping is turned on/off:
+> https://lore.kernel.org/netdev/20220317225035.3475538-1-vladimir.oltean@nxp.com/
+> 
+> It didn't go beyond RFC status, because I started doing what Jakub
+> suggested (converting the raw ioctls handlers to NDOs) but quickly got
+> absolutely swamped into the whole mess.
+> 
+> If we have a notifier, then we can make switch drivers do things
+> differently. They can activate timestamping per se in the timestamping
+> NDO (which is only called when the MAC is the active timestamping layer),
+> and they can activate PTP traps in the netdev notifier (which is called
+> any time a timestamping status change takes place - the notifier info
+> should contain details about which net_device and timestamping layer
+> this is, for example).
+> 
+> It's just a proposal of how to create an alternative notification path
+> that doesn't disturb the goals of this patch set.
 
 -- 
-An old man doll... just what I always wanted! - Clara
-
+/Horatiu
