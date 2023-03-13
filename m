@@ -2,101 +2,226 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFEDEC6FD19
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 15:42:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A21C6FD1F
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 15:50:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229950AbjCMPmQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 11:42:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60004 "EHLO
+        id S230326AbjCMPuN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 11:50:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbjCMPmP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 11:42:15 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557FE763F1;
-        Mon, 13 Mar 2023 08:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678722133; x=1710258133;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=DJywSOj3kOONae0FQh7yAxGN7pIUwFnKg9M+3IECMAY=;
-  b=Vpf5rvLmwl4EbZmEVyWjMrsdalwehhChkzZQXcWDthvJb8HBMPL+8Z9U
-   O32LtUc2vH4RQg/uwqRnmy7uVDF02cMhEMEdzeWk115lF7QvBSA0KPulT
-   JEyTfHd45pNhAKwZlWpFsPJWNEzvhOTEJSOMOuQ5HcBcI0Tge45tbt8N+
-   yZoj3IrbsjSQXKlS/KYONPCHDUHP+FTsIzW4u0ylNHhK8eHfbmRt0gUQZ
-   a/xqWgYG6+U6gA6uQlTrNPt1g/DZh1NixxBKCu+HUk/7r72F1CCKENYOW
-   Kkrr0q08Yu9r/vNGZkku/DnPbrrwyI2kr2zY39ULrnrhoaVzdouSSkpi4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="337202885"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="337202885"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 08:42:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="767749715"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="767749715"
-Received: from rahulmur-mobl3.amr.corp.intel.com (HELO [10.212.195.84]) ([10.212.195.84])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 08:42:11 -0700
-Message-ID: <9461b569-2f76-0ec7-af8d-53ee0778b7cd@intel.com>
-Date:   Mon, 13 Mar 2023 08:42:11 -0700
+        with ESMTP id S230211AbjCMPuM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 11:50:12 -0400
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EBB043911
+        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 08:50:10 -0700 (PDT)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-5416949b35aso124116787b3.13
+        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 08:50:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google; t=1678722609;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iW9eWE9NBCqdF7gHlLZZ8u43ku6/ZzsHeKSlLd8JDp0=;
+        b=F3CIhOjDkPVc+XmlQ/czoOX5hVBGuAHEACBeFs+UfSWienWD2LvcNlf5TA4tnI/mOS
+         dffhWQjNYnFnafNUZldAe6zEcGmLrJmov05ZjMqSLlQKl0pv/hfTrDyEhV7E+g0sYIPl
+         nJQvLRwY0lSa54PNb9/uYm3YF2N/hTE3s3T48=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678722609;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iW9eWE9NBCqdF7gHlLZZ8u43ku6/ZzsHeKSlLd8JDp0=;
+        b=dluTCOnypJNAeP3agzzJ3GgnLzmjGyflsaL7Jy9+DDk41grTCRZqnseh8WIJSKCkJq
+         ZzqD7rliwDZozyIykv/NNEDc00KD79f4t16NQYnGmjhWmWUcYnlsmqsbkGBePOjix2K0
+         beR3qBXYfcjRtfigOL+IYZqfm/BaHXN+6PAxq7K+Y/Z7wXf1tR/070CHCpNxj2Jpafng
+         M3LtCG6rShGyeXUng+XZKrJcjeOgawctw8pv5UhIVICScSMdFGJw20nu9fzq92eTcu5P
+         XY5Si97NBIxwUzEodpCwGFbskuuDvOKMuTINJoMFKGVZsZP/aJIpOtH5thaDfoCHm4UU
+         m5dA==
+X-Gm-Message-State: AO0yUKVnJ6pDxKmylK1A3n8oIpJBn1jsGylW4PI5d7PVbZi4DOtcA1U3
+        4YdyiV2YZJy45Xviv/8vZ8KAycBQp5uGa6QY7dq+0g==
+X-Google-Smtp-Source: AK7set93XnH7B7UWweZSF01icSoI1DL2P3OA/DvGdGm2LfcrW3o70OzGqcxrxveIAhkLwMW4FKyl66aAV2hhYM4tN5c=
+X-Received: by 2002:a81:ad66:0:b0:52e:e8b1:d51e with SMTP id
+ l38-20020a81ad66000000b0052ee8b1d51emr8123390ywk.1.1678722609593; Mon, 13 Mar
+ 2023 08:50:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH -v2] x86/CPU/AMD: Make sure EFER[AIBRSE] is set
-Content-Language: en-US
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Josh Poimboeuf <jpoimboe@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Kim Phillips <kim.phillips@amd.com>, x86@kernel.org,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Alexey Kardashevskiy <aik@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <Y/knUC0s+rg6ef2r@zn.tnic> <Y/k/ZXUXOFiBhOiI@zn.tnic>
- <20230225000931.wrednfun4jifkqau@treble> <Y/lUSC5x2ZkTIGu4@zn.tnic>
- <20230225005221.425yahqvxb57c43x@desk>
- <20230225013202.g7tibykvylprsxs5@treble> <Y/n9XcbnCzWv2Vul@zn.tnic>
- <445daef5-8417-ddbb-abbf-3c5ab38e1c9c@intel.com> <Y/zO7MtvjiVLCiLg@zn.tnic>
- <3f80e71f-a995-8ad6-b7f2-2b80fefdbd46@intel.com>
- <20230310162253.GCZAtZXcpK2JK0cFkZ@fat_crate.local>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <20230310162253.GCZAtZXcpK2JK0cFkZ@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <ZA7yK6iznHqiBu5i@pc636> <01559085-EB77-4962-B5EF-FF767F5A7353@joelfernandes.org>
+ <ZA9B+sgrlK5yommJ@pc636>
+In-Reply-To: <ZA9B+sgrlK5yommJ@pc636>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Mon, 13 Mar 2023 11:49:58 -0400
+Message-ID: <CAEXW_YTgDM+47rfz0XNjeV8MMPnhyfCcXX+o74SqONvwd4wfzA@mail.gmail.com>
+Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+To:     Uladzislau Rezki <urezki@gmail.com>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/10/23 08:22, Borislav Petkov wrote:
-> The AutoIBRS bit gets set only on the BSP as part of determining which
-> mitigation to enable on AMD. Setting on the APs relies on the
-> circumstance that the APs get booted through the trampoline and EFER
-> - the MSR which contains that bit - gets replicated on every AP from the
-> BSP.
-> 
-> However, this can change in the future and considering the security
-> implications of this bit not being set on every CPU, make sure it is set
-> by verifying EFER later in the boot process and on every AP.
-> 
-> Reported-by: Josh Poimboeuf <jpoimboe@kernel.org>
-> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-> Link: https://lore.kernel.org/r/20230224185257.o3mcmloei5zqu7wa@treble
+On Mon, Mar 13, 2023 at 11:32=E2=80=AFAM Uladzislau Rezki <urezki@gmail.com=
+> wrote:
+>
+> On Mon, Mar 13, 2023 at 06:58:30AM -0700, Joel Fernandes wrote:
+> >
+> >
+> > > On Mar 13, 2023, at 2:51 AM, Uladzislau Rezki <urezki@gmail.com> wrot=
+e:
+> > >
+> > > =EF=BB=BFOn Fri, Mar 10, 2023 at 10:24:34PM -0800, Paul E. McKenney w=
+rote:
+> > >>> On Fri, Mar 10, 2023 at 09:55:02AM +0100, Uladzislau Rezki wrote:
+> > >>> On Thu, Mar 09, 2023 at 10:10:56PM +0000, Joel Fernandes wrote:
+> > >>>> On Thu, Mar 09, 2023 at 01:57:42PM +0100, Uladzislau Rezki wrote:
+> > >>>> [..]
+> > >>>>>>>>>> See this commit:
+> > >>>>>>>>>>
+> > >>>>>>>>>> 3705b88db0d7cc ("rcu: Add a module parameter to force use of
+> > >>>>>>>>>> expedited RCU primitives")
+> > >>>>>>>>>>
+> > >>>>>>>>>> Antti provided this commit precisely in order to allow Andro=
+id
+> > >>>>>>>>>> devices to expedite the boot process and to shut off the
+> > >>>>>>>>>> expediting at a time of Android userspace's choosing.  So An=
+droid
+> > >>>>>>>>>> has been making this work for about ten years, which strikes=
+ me
+> > >>>>>>>>>> as an adequate proof of concept.  ;-)
+> > >>>>>>>>>
+> > >>>>>>>>> Thanks for the pointer. That's true. Looking at Android sourc=
+es, I
+> > >>>>>>>>> find that Android Mediatek devices at least are setting
+> > >>>>>>>>> rcu_expedited to 1 at late stage of their userspace boot (whi=
+ch is
+> > >>>>>>>>> weird, it should be set to 1 as early as possible), and
+> > >>>>>>>>> interestingly I cannot find them resetting it back to 0!.  Ma=
+ybe
+> > >>>>>>>>> they set rcu_normal to 1? But I cannot find that either. Vlad=
+? :P
+> > >>>>>>>>
+> > >>>>>>>> Interesting.  Though this is consistent with Antti's commit lo=
+g,
+> > >>>>>>>> where he talks about expediting grace periods but not unexpedi=
+ting
+> > >>>>>>>> them.
+> > >>>>>>>>
+> > >>>>>>> Do you think we need to unexpedite it? :))))
+> > >>>>>>
+> > >>>>>> Android runs on smallish systems, so quite possibly not!
+> > >>>>>>
+> > >>>>> We keep it enabled and never unexpedite it. The reason is a perfo=
+rmance.  I
+> > >>>>> have done some app-launch time analysis with enabling and disabli=
+ng of it.
+> > >>>>>
+> > >>>>> An expedited case is much better when it comes to app launch time=
+. It
+> > >>>>> requires ~25% less time to run an app comparing with unexpedited =
+variant.
+> > >>>>> So we have a big gain here.
+> > >>>>
+> > >>>> Wow, that's huge. I wonder if you can dig deeper and find out why =
+that is so
+> > >>>> as the callbacks may need to be synchronize_rcu_expedited() then, =
+as it could
+> > >>>> be slowing down other usecases! I find it hard to believe, real-ti=
+me
+> > >>>> workloads will run better without those callbacks being always-exp=
+edited if
+> > >>>> it actually gives back 25% in performance!
+> > >>>>
+> > >>> I can dig further, but on a high level i think there are some spots
+> > >>> which show better performance if expedited is set. I mean synchroni=
+ze_rcu()
+> > >>> becomes as "less blocking a context" from a time point of view.
+> > >>>
+> > >>> The problem of a regular synchronize_rcu() is - it can trigger a bi=
+g latency
+> > >>> delays for a caller. For example for nocb case we do not know where=
+ in a list
+> > >>> our callback is located and when it is invoked to unblock a caller.
+> > >>
+> > >> True, expedited RCU grace periods do not have this callback-invocati=
+on
+> > >> delay that normal RCU does.
+> > >>
+> > >>> I have already mentioned somewhere. Probably it makes sense to dire=
+ctly wake-up
+> > >>> callers from the GP kthread instead and not via nocb-kthread that i=
+nvokes our callbacks
+> > >>> one by one.
+> > >>
+> > >> Makes sense, but it is necessary to be careful.  Wakeups are not fas=
+t,
+> > >> so making the RCU grace-period kthread do them all sequentially is n=
+ot
+> > >> a strategy to win.  For example, note that the next expedited grace
+> > >> period can start before the previous expedited grace period has fini=
+shed
+> > >> its wakeups.
+> > >>
+> > > I hove done a small and quick prototype:
+> > >
+> > > <snip>
+> > > diff --git a/include/linux/rcupdate_wait.h b/include/linux/rcupdate_w=
+ait.h
+> > > index 699b938358bf..e1a4cca9a208 100644
+> > > --- a/include/linux/rcupdate_wait.h
+> > > +++ b/include/linux/rcupdate_wait.h
+> > > @@ -9,6 +9,8 @@
+> > > #include <linux/rcupdate.h>
+> > > #include <linux/completion.h>
+> > >
+> > > +extern struct llist_head gp_wait_llist;
+> > > +
+> > > /*
+> > >  * Structure allowing asynchronous waiting on RCU.
+> > >  */
+> > > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> > > index ee27a03d7576..50b81ca54104 100644
+> > > --- a/kernel/rcu/tree.c
+> > > +++ b/kernel/rcu/tree.c
+> > > @@ -113,6 +113,9 @@ int rcu_num_lvls __read_mostly =3D RCU_NUM_LVLS;
+> > > int num_rcu_lvl[] =3D NUM_RCU_LVL_INIT;
+> > > int rcu_num_nodes __read_mostly =3D NUM_RCU_NODES; /* Total # rcu_nod=
+es in use. */
+> > >
+> > > +/* Waiters for a GP kthread. */
+> > > +LLIST_HEAD(gp_wait_llist);
+> > > +
+> > > /*
+> > >  * The rcu_scheduler_active variable is initialized to the value
+> > >  * RCU_SCHEDULER_INACTIVE and transitions RCU_SCHEDULER_INIT just bef=
+ore the
+> > > @@ -1776,6 +1779,14 @@ static noinline void rcu_gp_cleanup(void)
+> > >                on_each_cpu(rcu_strict_gp_boundary, NULL, 0);
+> > > }
+> > >
+> > > +static void rcu_notify_gp_end(struct llist_node *llist)
+> > > +{
+> > > +       struct llist_node *rcu, *next;
+> > > +
+> > > +       llist_for_each_safe(rcu, next, llist)
+> > > +               complete(&((struct rcu_synchronize *) rcu)->completio=
+n);
+> >
+> > This looks broken to me, so the synchronize will complete even
+> > if it was called in the middle of an ongoing GP?
+> >
+> Do you mean before replacing the list(and after rcu_gp_cleanup()) a new
+> GP sequence can be initiated?
 
-Looks sane, thanks for adding the warning:
+I guess I mean rcu_notify_gp_end() is called at the end of the current
+grace period, which might be the grace period which started _before_
+the synchronize_rcu() was called. So the callback needs to be invoked
+after the end of the next grace period, not the current one.
 
-Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+Did I miss some part of your patch that is handling this?
 
+thanks,
+
+ - Joel
