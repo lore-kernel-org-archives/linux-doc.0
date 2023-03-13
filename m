@@ -2,226 +2,378 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A21C6FD1F
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 15:50:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26251C74A4B
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 16:12:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230326AbjCMPuN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Mar 2023 11:50:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44996 "EHLO
+        id S230313AbjCMQM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 12:12:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbjCMPuM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 11:50:12 -0400
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EBB043911
-        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 08:50:10 -0700 (PDT)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-5416949b35aso124116787b3.13
-        for <linux-doc@vger.kernel.org>; Mon, 13 Mar 2023 08:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1678722609;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iW9eWE9NBCqdF7gHlLZZ8u43ku6/ZzsHeKSlLd8JDp0=;
-        b=F3CIhOjDkPVc+XmlQ/czoOX5hVBGuAHEACBeFs+UfSWienWD2LvcNlf5TA4tnI/mOS
-         dffhWQjNYnFnafNUZldAe6zEcGmLrJmov05ZjMqSLlQKl0pv/hfTrDyEhV7E+g0sYIPl
-         nJQvLRwY0lSa54PNb9/uYm3YF2N/hTE3s3T48=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678722609;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iW9eWE9NBCqdF7gHlLZZ8u43ku6/ZzsHeKSlLd8JDp0=;
-        b=dluTCOnypJNAeP3agzzJ3GgnLzmjGyflsaL7Jy9+DDk41grTCRZqnseh8WIJSKCkJq
-         ZzqD7rliwDZozyIykv/NNEDc00KD79f4t16NQYnGmjhWmWUcYnlsmqsbkGBePOjix2K0
-         beR3qBXYfcjRtfigOL+IYZqfm/BaHXN+6PAxq7K+Y/Z7wXf1tR/070CHCpNxj2Jpafng
-         M3LtCG6rShGyeXUng+XZKrJcjeOgawctw8pv5UhIVICScSMdFGJw20nu9fzq92eTcu5P
-         XY5Si97NBIxwUzEodpCwGFbskuuDvOKMuTINJoMFKGVZsZP/aJIpOtH5thaDfoCHm4UU
-         m5dA==
-X-Gm-Message-State: AO0yUKVnJ6pDxKmylK1A3n8oIpJBn1jsGylW4PI5d7PVbZi4DOtcA1U3
-        4YdyiV2YZJy45Xviv/8vZ8KAycBQp5uGa6QY7dq+0g==
-X-Google-Smtp-Source: AK7set93XnH7B7UWweZSF01icSoI1DL2P3OA/DvGdGm2LfcrW3o70OzGqcxrxveIAhkLwMW4FKyl66aAV2hhYM4tN5c=
-X-Received: by 2002:a81:ad66:0:b0:52e:e8b1:d51e with SMTP id
- l38-20020a81ad66000000b0052ee8b1d51emr8123390ywk.1.1678722609593; Mon, 13 Mar
- 2023 08:50:09 -0700 (PDT)
+        with ESMTP id S230080AbjCMQMY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 12:12:24 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05hn2205.outbound.protection.outlook.com [52.100.20.205])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C75C65FA59;
+        Mon, 13 Mar 2023 09:12:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=59SQBEH3AfsZR6ImQtjw4Hzj+qikHduW0/M5DS0gEws=;
+ b=nz0hg+9zeioqPE7u+zE0s5wUFN75BglYXKTuzexTSifoCQxQU/5S+Tib7hFdKt/flLvWpE+ABavSjuxpXI9Qz6I2tBrzKqBEGa16JNZ1xuIohOAOKIombGkpXz+rF//1+Fz+ZU4OZYKA3PoB9fvS3YkeYYP5EIdPHlJIuCUiKRHDQJqtR61DlY31YlDrdSzST89uBVHfZTNgiGk2s0QCiQbW2lF5+UePi8sS585KpZcZ5vGwxYBvYX4vbz4q15QEuE1vmNRTCeW4QYQXHFmBJOBkm+jVQgZg4JJR6jBoy5adg9ch90D0rbmfRHk7T1GwpeJOGGQoU9+Txzu7uxJ1jQ==
+Received: from AS9PR04CA0105.eurprd04.prod.outlook.com (2603:10a6:20b:50e::27)
+ by AM9PR03MB7849.eurprd03.prod.outlook.com (2603:10a6:20b:430::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Mon, 13 Mar
+ 2023 16:12:18 +0000
+Received: from AM6EUR05FT062.eop-eur05.prod.protection.outlook.com
+ (2603:10a6:20b:50e:cafe::86) by AS9PR04CA0105.outlook.office365.com
+ (2603:10a6:20b:50e::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.25 via Frontend
+ Transport; Mon, 13 Mar 2023 16:12:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.160.56.87)
+ smtp.mailfrom=seco.com; dkim=pass (signature was verified)
+ header.d=seco.com;dmarc=pass action=none header.from=seco.com;
+Received-SPF: Pass (protection.outlook.com: domain of seco.com designates
+ 20.160.56.87 as permitted sender) receiver=protection.outlook.com;
+ client-ip=20.160.56.87; helo=inpost-eu.tmcas.trendmicro.com; pr=C
+Received: from inpost-eu.tmcas.trendmicro.com (20.160.56.87) by
+ AM6EUR05FT062.mail.protection.outlook.com (10.233.240.254) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6199.11 via Frontend Transport; Mon, 13 Mar 2023 16:12:16 +0000
+Received: from outmta (unknown [192.168.82.140])
+        by inpost-eu.tmcas.trendmicro.com (Trend Micro CAS) with ESMTP id B64C720080273;
+        Mon, 13 Mar 2023 16:12:16 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (unknown [104.47.14.52])
+        by repre.tmcas.trendmicro.com (Trend Micro CAS) with ESMTPS id A49782008006F;
+        Mon, 13 Mar 2023 16:10:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A/O34+NjZnyeUEALjyKxEYk7rx9eHCMZPiW+RQ9YWXv/diet1MYpqgoDSGwAufpXFPaIhS7rYh+TSLkeHzU8ZUkCnKdQXOzmjBHeqeBYUG4K5lB6X05dzAPFmyw1qI3T7ecqFPBg/rEPboARfwh+P9ela6lCDNKsyPIaAjSgaUabw81M47EyVGfFbrwKGtqbyaJOaG9HurhqLNkpIeJiXKliMXZCgePc7peZa1XULtSXEyPSvp+/vHreMExtj7Su04SeG0fVOuY+xEoG1F3SYWS0pweeI1SgVZ+V73dSbq947vIlvjDwQ0WVs6QPBeq+KAEqQ7cbUEF4XsrfINPXZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=59SQBEH3AfsZR6ImQtjw4Hzj+qikHduW0/M5DS0gEws=;
+ b=lhpqIQatL/vN0p3kIEqtsPEYGHvYQo6IPXmKyy+OcJ9ZyrX5n4kXKinPEcbYbYF/kduPIgSIPBzKRwrwc8k3MW9vzejPG/eK2k9NKXOgzg0Lx7/PgH+Wq9MDQnqvgwxYPvp5RpMqfKJYE+W7e2NoZzDU/o/XtXmuVR4nqZhcZlFKQdL26vQ4xI2tcnTHCZj6Lt2BDiehVx8HBFv4ezJ19zCfUtmoJQtGVb+jztTcpRk3fISOBsMfYZJC05y7BySmmfGfJ8S/oihrr7WBEWNW5uOLNk4skjiEdekmSQLMBPp+QZUfiBfT56P7aW+3+D9PZcHeyeNMvKZXWd+GChx7OQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=59SQBEH3AfsZR6ImQtjw4Hzj+qikHduW0/M5DS0gEws=;
+ b=nz0hg+9zeioqPE7u+zE0s5wUFN75BglYXKTuzexTSifoCQxQU/5S+Tib7hFdKt/flLvWpE+ABavSjuxpXI9Qz6I2tBrzKqBEGa16JNZ1xuIohOAOKIombGkpXz+rF//1+Fz+ZU4OZYKA3PoB9fvS3YkeYYP5EIdPHlJIuCUiKRHDQJqtR61DlY31YlDrdSzST89uBVHfZTNgiGk2s0QCiQbW2lF5+UePi8sS585KpZcZ5vGwxYBvYX4vbz4q15QEuE1vmNRTCeW4QYQXHFmBJOBkm+jVQgZg4JJR6jBoy5adg9ch90D0rbmfRHk7T1GwpeJOGGQoU9+Txzu7uxJ1jQ==
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
+ by AS8PR03MB7781.eurprd03.prod.outlook.com (2603:10a6:20b:405::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Mon, 13 Mar
+ 2023 16:12:06 +0000
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::dbcf:1089:3242:614e]) by DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::dbcf:1089:3242:614e%4]) with mapi id 15.20.6178.024; Mon, 13 Mar 2023
+ 16:12:06 +0000
+From:   Sean Anderson <sean.anderson@seco.com>
+To:     Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-phy@lists.infradead.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        linuxppc-dev@lists.ozlabs.org,
+        Sean Anderson <sean.anderson@seco.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        =?UTF-8?q?Fern=C3=A1ndez=20Rojas?= <noltari@gmail.com>,
+        Jonas Gorski <jonas.gorski@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: [PATCH v11 00/13] phy: Add support for Lynx 10G SerDes
+Date:   Mon, 13 Mar 2023 12:11:24 -0400
+Message-Id: <20230313161138.3598068-1-sean.anderson@seco.com>
+X-Mailer: git-send-email 2.35.1.1320.gc452695387.dirty
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1P221CA0013.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c5::11) To DB9PR03MB8847.eurprd03.prod.outlook.com
+ (2603:10a6:10:3dd::13)
 MIME-Version: 1.0
-References: <ZA7yK6iznHqiBu5i@pc636> <01559085-EB77-4962-B5EF-FF767F5A7353@joelfernandes.org>
- <ZA9B+sgrlK5yommJ@pc636>
-In-Reply-To: <ZA9B+sgrlK5yommJ@pc636>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Mon, 13 Mar 2023 11:49:58 -0400
-Message-ID: <CAEXW_YTgDM+47rfz0XNjeV8MMPnhyfCcXX+o74SqONvwd4wfzA@mail.gmail.com>
-Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
-To:     Uladzislau Rezki <urezki@gmail.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|AS8PR03MB7781:EE_|AM6EUR05FT062:EE_|AM9PR03MB7849:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3394703c-c416-47c0-b44b-08db23ddb711
+X-TrendMicro-CAS-OUT-LOOP-IDENTIFIER: 656f966764b7fb185830381c646b41a1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: AxdZo//gBilkZzOELK5j2m/iV0B8RzUn++4GmnHI4K08X/T1TObuR93ZggLs+Du9cAbm6rXr+Mh9QRV7gENE/Lu/ARFx2itZy2PlRDRIAhjW5np6QGylNqKjKrDjcMN/KDv/pjMB31IxRHLPZ14My/l9c++S2P7wqJKpBEmL8H9KJxo0L/UdplkVG/UTkc+p/qn8e4bieWpwFhVFHfTV26w85sN97gOgnbHxVMNNDrTc1Tna8Q2ZTJrTXDY2fn8ZxDEsVxKpNkSz3idFwsrCzlhnTf3dqZpl4/MqJdo+LMhT4ZbVNedgOfAButdykLgDOox/FYHOjQ37gLBlbu1GuN95rQT3dhBwuhFGkiq2KeAqGn2HBSmUDt/+2/1wuwf+eF1AKgTw7rT+emIvo3rWBP9tqZou/fWpSw0EmYB4CDqQFfHhTPAL+xbOZjNEjxH74vtLZNR7+x+UryeMMOjAPiDYMHpvLaNhykK1AtVIBmqc1XUQWOmkY9/ql4Jy+otf44+BagFEM+OOubmzbnd7oOj0YRSFR2/kOKspLlFxiL2LgxEq1c5AFHOLJwdFIS5XsOlGLfaatRR1deBnRn0zVeja4UyPX49JgwtgFs171K/kc2cZ6FB56cYUwDDXCgKkaewYG18k5BDMm92sfh9vGSmvLQg1mR6p4b3715PNUMdcrFea8rYy2cDLRl7NNUTshPqKcAPYcwXY6opOpJx9bw==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(39850400004)(346002)(396003)(376002)(136003)(451199018)(110136005)(41300700001)(54906003)(478600001)(8676002)(4326008)(66556008)(66476007)(66946007)(8936002)(36756003)(86362001)(38350700002)(38100700002)(26005)(6512007)(1076003)(6486002)(6666004)(186003)(52116002)(30864003)(44832011)(5660300002)(7416002)(2906002)(316002)(6506007)(83380400001)(2616005);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR03MB7781
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM6EUR05FT062.eop-eur05.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 19196007-a896-47d8-d063-08db23ddb0bb
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FyOKlkz9HNmj7EakKDZyaCAI22TIrTVCx65vkArcn1QAuEErF4dqtwbwF1DfRZYxeBBnrBH0OKsUbSUOTu2M3QZbs9BFNCGoUgdC8FQ3+PBEqJpPauZafyB6K/eDe8fV8TdzP25YapKK7rWqFwDhojujvBRhAGNX/5l/opAyymOwdgC2m7R/6REDKWfr7w6aS9w0vGuxPwddT8w3jxNxzVHowICehb6f9vf4jSrUvUEdFV9KMGbJE9Abv1sZCvNLbkQXlF7gIfFs5eDfT6cynfuhwIR619ftc0HOxEeM24Ilz2a5CNZt7Kiog3yh/40Yj8VJZD/laT6u/tAfWvE3l2h0rmX0FI7KrOyHJbhS8zOJXmSmOXh9NbvhhxtgJGjXvfMVu+Gk0oGzGFXuFyT2S1S0TMpuen8SdHh2G/dS2B2SVlR9BuoXDs6jWVy3DT47IBNaGZ3P1mDh7RKHRIltT1kkw7h7jpIsfsc61Sbk/WJJ861LL0ohF/uCNVt6pwlfIX6mf0O386imkhlck7nIlF8S6KKz6S2mxta48LuIrFEwuyTQ//rWkKXphunsLs4Q946h8NjNUmIuXDYMi3QB9zMps9FvsAlaXnNEe/c4SEivjFeDDRCcLT3lI4pJ/YsRXEFwX7/JaNG88qyPPPC5KDvcJdyTXktgakNQleim8tIvhyRIp1/96+YzDqMS04+pjMVlgakaWhRRUhcwer6lQB0iJ0FehYCdBr4RhBQ6juvHUvBNWZhPn7KzLDisKGCRovxqlO33/Rx7xZe93CsjXQ==
+X-Forefront-Antispam-Report: CIP:20.160.56.87;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:inpost-eu.tmcas.trendmicro.com;PTR:inpost-eu.tmcas.trendmicro.com;CAT:NONE;SFS:(13230025)(346002)(396003)(376002)(39850400004)(136003)(5400799012)(451199018)(36840700001)(46966006)(40470700004)(336012)(2616005)(7416002)(186003)(44832011)(6512007)(6506007)(26005)(1076003)(8936002)(83380400001)(34020700004)(6666004)(82310400005)(36860700001)(356005)(82740400003)(30864003)(6486002)(47076005)(5660300002)(40460700003)(4326008)(70206006)(2906002)(8676002)(40480700001)(70586007)(41300700001)(7596003)(7636003)(110136005)(316002)(478600001)(36756003)(54906003)(86362001)(12100799021);DIR:OUT;SFP:1501;
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2023 16:12:16.8723
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3394703c-c416-47c0-b44b-08db23ddb711
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bebe97c3-6438-442e-ade3-ff17aa50e733;Ip=[20.160.56.87];Helo=[inpost-eu.tmcas.trendmicro.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM6EUR05FT062.eop-eur05.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR03MB7849
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 13, 2023 at 11:32=E2=80=AFAM Uladzislau Rezki <urezki@gmail.com=
-> wrote:
->
-> On Mon, Mar 13, 2023 at 06:58:30AM -0700, Joel Fernandes wrote:
-> >
-> >
-> > > On Mar 13, 2023, at 2:51 AM, Uladzislau Rezki <urezki@gmail.com> wrot=
-e:
-> > >
-> > > =EF=BB=BFOn Fri, Mar 10, 2023 at 10:24:34PM -0800, Paul E. McKenney w=
-rote:
-> > >>> On Fri, Mar 10, 2023 at 09:55:02AM +0100, Uladzislau Rezki wrote:
-> > >>> On Thu, Mar 09, 2023 at 10:10:56PM +0000, Joel Fernandes wrote:
-> > >>>> On Thu, Mar 09, 2023 at 01:57:42PM +0100, Uladzislau Rezki wrote:
-> > >>>> [..]
-> > >>>>>>>>>> See this commit:
-> > >>>>>>>>>>
-> > >>>>>>>>>> 3705b88db0d7cc ("rcu: Add a module parameter to force use of
-> > >>>>>>>>>> expedited RCU primitives")
-> > >>>>>>>>>>
-> > >>>>>>>>>> Antti provided this commit precisely in order to allow Andro=
-id
-> > >>>>>>>>>> devices to expedite the boot process and to shut off the
-> > >>>>>>>>>> expediting at a time of Android userspace's choosing.  So An=
-droid
-> > >>>>>>>>>> has been making this work for about ten years, which strikes=
- me
-> > >>>>>>>>>> as an adequate proof of concept.  ;-)
-> > >>>>>>>>>
-> > >>>>>>>>> Thanks for the pointer. That's true. Looking at Android sourc=
-es, I
-> > >>>>>>>>> find that Android Mediatek devices at least are setting
-> > >>>>>>>>> rcu_expedited to 1 at late stage of their userspace boot (whi=
-ch is
-> > >>>>>>>>> weird, it should be set to 1 as early as possible), and
-> > >>>>>>>>> interestingly I cannot find them resetting it back to 0!.  Ma=
-ybe
-> > >>>>>>>>> they set rcu_normal to 1? But I cannot find that either. Vlad=
-? :P
-> > >>>>>>>>
-> > >>>>>>>> Interesting.  Though this is consistent with Antti's commit lo=
-g,
-> > >>>>>>>> where he talks about expediting grace periods but not unexpedi=
-ting
-> > >>>>>>>> them.
-> > >>>>>>>>
-> > >>>>>>> Do you think we need to unexpedite it? :))))
-> > >>>>>>
-> > >>>>>> Android runs on smallish systems, so quite possibly not!
-> > >>>>>>
-> > >>>>> We keep it enabled and never unexpedite it. The reason is a perfo=
-rmance.  I
-> > >>>>> have done some app-launch time analysis with enabling and disabli=
-ng of it.
-> > >>>>>
-> > >>>>> An expedited case is much better when it comes to app launch time=
-. It
-> > >>>>> requires ~25% less time to run an app comparing with unexpedited =
-variant.
-> > >>>>> So we have a big gain here.
-> > >>>>
-> > >>>> Wow, that's huge. I wonder if you can dig deeper and find out why =
-that is so
-> > >>>> as the callbacks may need to be synchronize_rcu_expedited() then, =
-as it could
-> > >>>> be slowing down other usecases! I find it hard to believe, real-ti=
-me
-> > >>>> workloads will run better without those callbacks being always-exp=
-edited if
-> > >>>> it actually gives back 25% in performance!
-> > >>>>
-> > >>> I can dig further, but on a high level i think there are some spots
-> > >>> which show better performance if expedited is set. I mean synchroni=
-ze_rcu()
-> > >>> becomes as "less blocking a context" from a time point of view.
-> > >>>
-> > >>> The problem of a regular synchronize_rcu() is - it can trigger a bi=
-g latency
-> > >>> delays for a caller. For example for nocb case we do not know where=
- in a list
-> > >>> our callback is located and when it is invoked to unblock a caller.
-> > >>
-> > >> True, expedited RCU grace periods do not have this callback-invocati=
-on
-> > >> delay that normal RCU does.
-> > >>
-> > >>> I have already mentioned somewhere. Probably it makes sense to dire=
-ctly wake-up
-> > >>> callers from the GP kthread instead and not via nocb-kthread that i=
-nvokes our callbacks
-> > >>> one by one.
-> > >>
-> > >> Makes sense, but it is necessary to be careful.  Wakeups are not fas=
-t,
-> > >> so making the RCU grace-period kthread do them all sequentially is n=
-ot
-> > >> a strategy to win.  For example, note that the next expedited grace
-> > >> period can start before the previous expedited grace period has fini=
-shed
-> > >> its wakeups.
-> > >>
-> > > I hove done a small and quick prototype:
-> > >
-> > > <snip>
-> > > diff --git a/include/linux/rcupdate_wait.h b/include/linux/rcupdate_w=
-ait.h
-> > > index 699b938358bf..e1a4cca9a208 100644
-> > > --- a/include/linux/rcupdate_wait.h
-> > > +++ b/include/linux/rcupdate_wait.h
-> > > @@ -9,6 +9,8 @@
-> > > #include <linux/rcupdate.h>
-> > > #include <linux/completion.h>
-> > >
-> > > +extern struct llist_head gp_wait_llist;
-> > > +
-> > > /*
-> > >  * Structure allowing asynchronous waiting on RCU.
-> > >  */
-> > > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> > > index ee27a03d7576..50b81ca54104 100644
-> > > --- a/kernel/rcu/tree.c
-> > > +++ b/kernel/rcu/tree.c
-> > > @@ -113,6 +113,9 @@ int rcu_num_lvls __read_mostly =3D RCU_NUM_LVLS;
-> > > int num_rcu_lvl[] =3D NUM_RCU_LVL_INIT;
-> > > int rcu_num_nodes __read_mostly =3D NUM_RCU_NODES; /* Total # rcu_nod=
-es in use. */
-> > >
-> > > +/* Waiters for a GP kthread. */
-> > > +LLIST_HEAD(gp_wait_llist);
-> > > +
-> > > /*
-> > >  * The rcu_scheduler_active variable is initialized to the value
-> > >  * RCU_SCHEDULER_INACTIVE and transitions RCU_SCHEDULER_INIT just bef=
-ore the
-> > > @@ -1776,6 +1779,14 @@ static noinline void rcu_gp_cleanup(void)
-> > >                on_each_cpu(rcu_strict_gp_boundary, NULL, 0);
-> > > }
-> > >
-> > > +static void rcu_notify_gp_end(struct llist_node *llist)
-> > > +{
-> > > +       struct llist_node *rcu, *next;
-> > > +
-> > > +       llist_for_each_safe(rcu, next, llist)
-> > > +               complete(&((struct rcu_synchronize *) rcu)->completio=
-n);
-> >
-> > This looks broken to me, so the synchronize will complete even
-> > if it was called in the middle of an ongoing GP?
-> >
-> Do you mean before replacing the list(and after rcu_gp_cleanup()) a new
-> GP sequence can be initiated?
+This adds support for the Lynx 10G SerDes found on the QorIQ T-series
+and Layerscape series. Due to limited time and hardware, only support
+for the LS1046ARDB and LS1088ARDB is added in this initial series.
 
-I guess I mean rcu_notify_gp_end() is called at the end of the current
-grace period, which might be the grace period which started _before_
-the synchronize_rcu() was called. So the callback needs to be invoked
-after the end of the next grace period, not the current one.
+This series is ready for review by the phy maintainers. I have addressed
+all known feedback and there are no outstanding issues.
 
-Did I miss some part of your patch that is handling this?
+Major reconfiguration of baud rate (e.g. 1G->10G) does not work. From my
+testing, SerDes register settings appear identical. The issue appears to
+be between the PCS and the MAC. The link itself comes up at both ends,
+and a mac loopback succeeds. However, a PCS loopback results in dropped
+packets. Perhaps there is some undocumented register in the PCS?
 
-thanks,
+I suspect this driver is around 95% complete, but I don't have the
+documentation to make it work completely. At the very least it is useful
+for two cases:
 
- - Joel
+- Although this is untested, it should support 2.5G SGMII as well as
+  1000BASE-KX. The latter needs MAC and PCS support, but the former
+  should work out of the box.
+- It allows for clock configurations not supported by the RCW. This is
+  very useful if you want to use e.g. SRDS_PRTCL_S1=0x3333 and =0x1133
+  on the same board. This is because the former setting will use PLL1
+  as the 1G reference, but the latter will use PLL1 as the 10G
+  reference. Because we can reconfigure the PLLs, it is possible to
+  always use PLL1 as the 1G reference.
+
+Changes in v11:
+- Keep empty (or almost-empty) properties on a single line
+- Don't use | unnecessarily
+- Use gpio as the node name for examples
+- Rename brcm,bcm6345-gpio.yaml to brcm,bcm63xx-gpio.yaml
+
+Changes in v10:
+- Convert gpio-mmio to yaml
+- Add compatible for QIXIS
+- Remove unnecessary inclusion of clk.h
+- Don't gate clocks in compatibility mode
+- Fix debugging print with incorrect error variable
+- Move serdes bindings to SoC dtsi
+- Add support for all (ethernet) serdes modes
+- Refer to "nodes" instead of "bindings"
+- Move compatible/reg first
+
+Changes in v9:
+- Add fsl,unused-lanes-reserved to allow for a gradual transition
+  between firmware and Linux control of the SerDes
+- Change phy-type back to fsl,type, as I was getting the error
+    '#phy-cells' is a dependency of 'phy-type'
+- Convert some u32s to unsigned long to match arguments
+- Switch from round_rate to determine_rate
+- Drop explicit reference to reference clock
+- Use .parent_names when requesting parents
+- Use devm_clk_hw_get_clk to pass clocks back to serdes
+- Fix indentation
+- Split off clock "driver" into its own patch to allow for better
+  review.
+- Add ability to defer lane initialization to phy_init. This allows
+  for easier transitioning between firmware-managed serdes and Linux-
+  managed serdes, as the consumer (such as dpaa2, which knows what the
+  firmware is doing) has the last say on who gets control.
+- Fix name of phy mode node
+- Add fsl,unused-lanes-reserved to allow a gradual transition, depending
+  on the mac link type.
+- Remove unused clocks
+- Fix some phy mode node names
+
+Changes in v8:
+- Remove unused variable from lynx_ls_mode_init
+- Rename serdes phy handles to use _A, _B, etc. instead of _0, _1, etc.
+  This should help remind readers that the numbering corresponds to the
+  physical layout of the registers, and not the lane (pin) number.
+- Prevent PCSs from probing as phys
+- Rename serdes phy handles like the LS1046A
+- Add SFP slot binding
+- Fix incorrect lane ordering (it's backwards on the LS1088A just like it is in
+  the LS1046A).
+- Fix duplicated lane 2 (it should have been lane 3).
+- Fix incorrectly-documented value for XFI1.
+- Remove interrupt for aquantia phy. It never fired for whatever reason,
+  preventing the link from coming up.
+- Add GPIOs for QIXIS FPGA.
+- Enable MAC1 PCS
+- Remove si5341 binding
+
+Changes in v7:
+- Use double quotes everywhere in yaml
+- Break out call order into generic documentation
+- Refuse to switch "major" protocols
+- Update Kconfig to reflect restrictions
+- Remove set/clear of "pcs reset" bit, since it doesn't seem to fix
+  anything.
+
+Changes in v6:
+- Bump PHY_TYPE_2500BASEX to 13, since PHY_TYPE_USXGMII was added in the
+  meantime
+- fsl,type -> phy-type
+- frequence -> frequency
+- Update MAINTAINERS to include new files
+- Include bitfield.h and slab.h to allow compilation on non-arm64
+  arches.
+- Depend on COMMON_CLK and either layerscape/ppc
+- XGI.9 -> XFI.9
+
+Changes in v5:
+- Update commit description
+- Dual id header
+- Remove references to PHY_INTERFACE_MODE_1000BASEKX to allow this
+  series to be applied directly to linux/master.
+- Add fsl,lynx-10g.h to MAINTAINERS
+
+Changes in v4:
+- Add 2500BASE-X and 10GBASE-R phy types
+- Use subnodes to describe lane configuration, instead of describing
+  PCCRs. This is the same style used by phy-cadence-sierra et al.
+- Add ids for Lynx 10g PLLs
+- Rework all debug statements to remove use of __func__. Additional
+  information has been provided as necessary.
+- Consider alternative parent rates in round_rate and not in set_rate.
+  Trying to modify out parent's rate in set_rate will deadlock.
+- Explicitly perform a stop/reset sequence in set_rate. This way we
+  always ensure that the PLL is properly stopped.
+- Set the power-down bit when disabling the PLL. We can do this now that
+  enable/disable aren't abused during the set rate sequence.
+- Fix typos in QSGMII_OFFSET and XFI_OFFSET
+- Rename LNmTECR0_TEQ_TYPE_PRE to LNmTECR0_TEQ_TYPE_POST to better
+  reflect its function (adding post-cursor equalization).
+- Use of_clk_hw_onecell_get instead of a custom function.
+- Return struct clks from lynx_clks_init instead of embedding lynx_clk
+  in lynx_priv.
+- Rework PCCR helper functions; T-series SoCs differ from Layerscape SoCs
+  primarily in the layout and offset of the PCCRs. This will help bring a
+  cleaner abstraction layer. The caps have been removed, since this handles the
+  only current usage.
+- Convert to use new binding format. As a result of this, we no longer need to
+  have protocols for PCIe or SATA. Additionally, modes now live in lynx_group
+  instead of lynx_priv.
+- Remove teq from lynx_proto_params, since it can be determined from
+  preq_ratio/postq_ratio.
+- Fix an early return from lynx_set_mode not releasing serdes->lock.
+- Rename lynx_priv.conf to .cfg, since I kept mistyping it.
+
+Changes in v3:
+- Manually expand yaml references
+- Add mode configuration to device tree
+- Rename remaining references to QorIQ SerDes to Lynx 10G
+- Fix PLL enable sequence by waiting for our reset request to be cleared
+  before continuing. Do the same for the lock, even though it isn't as
+  critical. Because we will delay for 1.5ms on average, use prepare
+  instead of enable so we can sleep.
+- Document the status of each protocol
+- Fix offset of several bitfields in RECR0
+- Take into account PLLRST_B, SDRST_B, and SDEN when considering whether
+  a PLL is "enabled."
+- Only power off unused lanes.
+- Split mode lane mask into first/last lane (like group)
+- Read modes from device tree
+- Use caps to determine whether KX/KR are supported
+- Move modes to lynx_priv
+- Ensure that the protocol controller is not already in-use when we try
+  to configure a new mode. This should only occur if the device tree is
+  misconfigured (e.g. when QSGMII is selected on two lanes but there is
+  only one QSGMII controller).
+- Split PLL drivers off into their own file
+- Add clock for "ext_dly" instead of writing the bit directly (and
+  racing with any clock code).
+- Use kasprintf instead of open-coding the snprintf dance
+- Support 1000BASE-KX in lynx_lookup_proto. This still requires PCS
+  support, so nothing is truly "enabled" yet.
+- Describe modes in device tree
+- ls1088a: Add serdes bindings
+
+Changes in v2:
+- Rename to fsl,lynx-10g.yaml
+- Refer to the device in the documentation, rather than the binding
+- Move compatible first
+- Document phy cells in the description
+- Allow a value of 1 for phy-cells. This allows for compatibility with
+  the similar (but according to Ioana Ciornei different enough) lynx-28g
+  binding.
+- Remove minItems
+- Use list for clock-names
+- Fix example binding having too many cells in regs
+- Add #clock-cells. This will allow using assigned-clocks* to configure
+  the PLLs.
+- Document the structure of the compatible strings
+- Rename driver to Lynx 10G (etc.)
+- Fix not clearing group->pll after disabling it
+- Support 1 and 2 phy-cells
+- Power off lanes during probe
+- Clear SGMIIaCR1_PCS_EN during probe
+- Rename LYNX_PROTO_UNKNOWN to LYNX_PROTO_NONE
+- Handle 1000BASE-KX in lynx_proto_mode_prep
+- Use one phy cell for SerDes1, since no lanes can be grouped
+- Disable SerDes by default to prevent breaking boards inadvertently.
+
+Sean Anderson (13):
+  dt-bindings: phy: Add 2500BASE-X and 10GBASE-R
+  dt-bindings: phy: Add Lynx 10G phy binding
+  dt-bindings: Convert gpio-mmio to yaml
+  dt-bindings: gpio-mmio: Add compatible for QIXIS
+  dt-bindings: clock: Add ids for Lynx 10g PLLs
+  clk: Add Lynx 10G SerDes PLL driver
+  phy: fsl: Add Lynx 10G SerDes driver
+  phy: lynx10g: Enable by default on Layerscape
+  arm64: dts: ls1046a: Add serdes nodes
+  arm64: dts: ls1046ardb: Add serdes descriptions
+  arm64: dts: ls1088a: Add serdes nodes
+  arm64: dts: ls1088a: Prevent PCSs from probing as phys
+  arm64: dts: ls1088ardb: Add serdes descriptions
+
+ ...m6345-gpio.yaml => brcm,bcm63xx-gpio.yaml} |   16 +-
+ .../devicetree/bindings/gpio/gpio-mmio.yaml   |  140 ++
+ .../bindings/gpio/ni,169445-nand-gpio.txt     |   38 -
+ .../devicetree/bindings/gpio/wd,mbl-gpio.txt  |   38 -
+ .../devicetree/bindings/phy/fsl,lynx-10g.yaml |  248 ++++
+ Documentation/driver-api/phy/index.rst        |    1 +
+ Documentation/driver-api/phy/lynx_10g.rst     |   58 +
+ MAINTAINERS                                   |    9 +
+ .../boot/dts/freescale/fsl-ls1046a-rdb.dts    |   26 +
+ .../arm64/boot/dts/freescale/fsl-ls1046a.dtsi |  111 ++
+ .../boot/dts/freescale/fsl-ls1088a-rdb.dts    |   82 +-
+ .../arm64/boot/dts/freescale/fsl-ls1088a.dtsi |  156 ++-
+ drivers/clk/Makefile                          |    1 +
+ drivers/clk/clk-fsl-lynx-10g.c                |  510 +++++++
+ drivers/phy/freescale/Kconfig                 |   23 +
+ drivers/phy/freescale/Makefile                |    1 +
+ drivers/phy/freescale/phy-fsl-lynx-10g.c      | 1224 +++++++++++++++++
+ include/dt-bindings/clock/fsl,lynx-10g.h      |   14 +
+ include/dt-bindings/phy/phy.h                 |    2 +
+ include/linux/phy/lynx-10g.h                  |   16 +
+ 20 files changed, 2611 insertions(+), 103 deletions(-)
+ rename Documentation/devicetree/bindings/gpio/{brcm,bcm6345-gpio.yaml => brcm,bcm63xx-gpio.yaml} (78%)
+ create mode 100644 Documentation/devicetree/bindings/gpio/gpio-mmio.yaml
+ delete mode 100644 Documentation/devicetree/bindings/gpio/ni,169445-nand-gpio.txt
+ delete mode 100644 Documentation/devicetree/bindings/gpio/wd,mbl-gpio.txt
+ create mode 100644 Documentation/devicetree/bindings/phy/fsl,lynx-10g.yaml
+ create mode 100644 Documentation/driver-api/phy/lynx_10g.rst
+ create mode 100644 drivers/clk/clk-fsl-lynx-10g.c
+ create mode 100644 drivers/phy/freescale/phy-fsl-lynx-10g.c
+ create mode 100644 include/dt-bindings/clock/fsl,lynx-10g.h
+ create mode 100644 include/linux/phy/lynx-10g.h
+
+-- 
+2.35.1.1320.gc452695387.dirty
+
