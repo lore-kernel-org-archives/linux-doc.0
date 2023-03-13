@@ -2,134 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 509F6C74A5B
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 14:05:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB91FC61DA4
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 20:38:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229999AbjCQOFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 10:05:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43900 "EHLO
+        id S229635AbjCMUiH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Mar 2023 16:38:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbjCQOFH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 10:05:07 -0400
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2DF5F96B;
-        Fri, 17 Mar 2023 07:05:04 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailnew.west.internal (Postfix) with ESMTP id 00A052B06280;
-        Fri, 17 Mar 2023 10:05:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Fri, 17 Mar 2023 10:05:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
-        1679061901; x=1679069101; bh=xzu8SPPxcjWpdn/tXzgXEXIZ4nx2l8jL4Ah
-        btNthvR4=; b=NFpM+PZoh9wA6eIbbY9536usdkrVLzkJGpQ+rLLRJx12/3taqCL
-        C5I++q7hqyU4wDSJRWl9/hHfafPZ53hjCKd9nV1hkiOjIPynmlA0AIZSlnXXwROE
-        12MJovXg8omPEpjcFwJ/WvwSazv9H8pJ5uKU75DLB8qYzCzJCDNUDJBk/Kd60oDT
-        Y4WMIgFQ59z0Sl0RJa5u5MYpovCV3EIHTRoyUTMAmx1N+nc/dzWYd77dPEln9eJc
-        1GI7GmzIunjKJ2SuX5s1BgD4bUnSVDfyyZez9htH582fFJPprT0+9VXTmQmZWn89
-        gApCy7s5j6uRweQVlJiwCa56jt1/Wu1nIOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1679061901; x=1679069101; bh=xzu8SPPxcjWpdn/tXzgXEXIZ4nx2l8jL4Ah
-        btNthvR4=; b=tZrkfiB1xKrF7qS0dUbLZ8eHYdKo/35HXW+OO8rAUudnCOPYeLJ
-        XRsFwFRQAN10Cf3E+XsJ0o2xHUFdzS1m+FOSgp4eOOjmBaezvsKw2wuIpKpGjCMJ
-        +UyX4Brhx4VYownMsOAGltrjh3Ca0j2+VFkl1k6NSlD3818P/zMocOHQsSDt5aXe
-        JqFEIdy3Rd4g6ASr+VV7zwdpBeSG+ix7dkTFCOGTOaNW/BLNJJhIT9k5NJR63sj1
-        eInr2iRRJ7kABpZnefjec6MkDGI+pLKNsGoiPTzH+UWovzOiZ8Kbjp2oimmkzlmu
-        rjrrwLn+5rY+wlA5xrKmQSHIVhSAW2yf4dw==
-X-ME-Sender: <xms:hnMUZHfzckxb7aRm-zF4kFikvuiDjFape0cyILyZavp9_VWB_Fgw6w>
-    <xme:hnMUZNOvWL-OYlrpur-cHE34k7q8cxRKiPCyAWx8DgVoczgfbifmGMRQdqh9PhYyH
-    83ulw90FPpCOpcTSZM>
-X-ME-Received: <xmr:hnMUZAjHni68kD6__MjHeVzyHLbV4AqypYfq1nLKeY6-1i8mlqJZyC1D3u4xPHPweG4dNl2QpMbO7K6NPy-ux8TsTzfwWMM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefvddgheekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnheptdekvddtgeefheevfeekffegieffudejgfdtgfeludetkeejjeetfeel
-    jefffffgnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghr
-    nhhordhtvggthh
-X-ME-Proxy: <xmx:h3MUZI9arzDspWDBC782dyfG8uPRsdWqsjgozsU0-M52H--42EDxsg>
-    <xmx:h3MUZDvNHQBFN47gWryh2nRdpLvYPe6h8YpSllH7_U5c68T0KtRYCA>
-    <xmx:h3MUZHEAXrAc4tB9ZXbBA1kirUI2MJjajeXFOVB4PwyC3Mks-f9HFA>
-    <xmx:jXMUZE4-ZrbtL2k8J2GyTjQN6XEY4v_BdcNkDQBka5orfhN9uubTqluK0sw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Mar 2023 10:04:53 -0400 (EDT)
-Date:   Fri, 17 Mar 2023 15:04:51 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc:     Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-        dafna@fastmail.com, ogabbay@kernel.org, airlied@gmail.com,
-        daniel@ffwll.ch, stanislaw.gruszka@linux.intel.com,
-        dri-devel@lists.freedesktop.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
-        quic_carlv@quicinc.com
-Subject: Re: [PATCH v3 8/8] MAINTAINERS: Add entry for QAIC driver
-Message-ID: <20230317140451.uywz7szrzvusyrjy@houat>
-References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
- <1678138443-2760-9-git-send-email-quic_jhugo@quicinc.com>
- <5e912413-eee4-5b25-5f6d-00ccc7501b9d@linux.intel.com>
- <daa3100e-8f5b-8dbb-297f-ca3a87b44a97@quicinc.com>
+        with ESMTP id S229536AbjCMUiG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Mar 2023 16:38:06 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47D9D55BE;
+        Mon, 13 Mar 2023 13:38:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678739885; x=1710275885;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=xhLemzapIYtjwt7W6UjVVSZx3bQKLmhz6UvBBX3dL3c=;
+  b=NYyfInkMm8rKQCdXPwFYho32BAhtDX4FwScEizr+Y9ocRy6vBohl5zi6
+   OkTigMJD3sZafm4Y1d6TTFkhXyJF+N6Qf3y4uj3CbY6yUz3Y4t4kB9Qo5
+   V2cOKEsPyPoUPg75hNwHNkMzUExVfVUhD4Ko2iSL3llQ3lcyEQe/qWAa1
+   zOIr3pVq9PKCDl1fi0EhKm4pyNG5+F2DagZMkGyrkdXhXRAkZNTiB/Db1
+   00ER/pDRL3fPrggUFKm09gw+CHdjzZxHqjxIHoZNfKWYVym+aezwcG+xZ
+   8kMoLgJhNUWPfhrp+FTIU/oZCSo7xAw9GVuSHnt/HcmJt524ihj7rxuWg
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="334732019"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="334732019"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 13:38:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="802584766"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="802584766"
+Received: from srinivas-otcpl-7600.jf.intel.com (HELO jacob-builder.jf.intel.com) ([10.54.39.106])
+  by orsmga004.jf.intel.com with ESMTP; 13 Mar 2023 13:38:03 -0700
+From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
+To:     LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        "Lu Baolu" <baolu.lu@linux.intel.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>,
+        "Robin Murphy" <robin.murphy@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        X86 Kernel <x86@kernel.org>, bp@alien8.de,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
+        vkoul@kernel.org, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     "Will Deacon" <will@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Raj Ashok <ashok.raj@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>
+Subject: 
+Date:   Mon, 13 Mar 2023 13:41:51 -0700
+Message-Id: <20230313204158.1495067-1-jacob.jun.pan@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <daa3100e-8f5b-8dbb-297f-ca3a87b44a97@quicinc.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 16, 2023 at 11:04:05AM -0600, Jeffrey Hugo wrote:
-> On 3/14/2023 3:59 AM, Jacek Lawrynowicz wrote:
-> > Hi
-> >=20
-> > On 06.03.2023 22:34, Jeffrey Hugo wrote:
-> > > Add MAINTAINERS entry for the Qualcomm Cloud AI 100 driver.
-> > >=20
-> > > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> > > Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> > > Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> > > ---
-> > >   MAINTAINERS | 9 +++++++++
-> > >   1 file changed, 9 insertions(+)
-> > >=20
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index b0db911..feb2974 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -17253,6 +17253,15 @@ F:	Documentation/devicetree/bindings/clock/q=
-com,*
-> > >   F:	drivers/clk/qcom/
-> > >   F:	include/dt-bindings/clock/qcom,*
-> > > +QUALCOMM CLOUD AI (QAIC) DRIVER
-> > > +M:	Jeffrey Hugo <quic_jhugo@quicinc.com>
-> > > +L:	linux-arm-msm@vger.kernel.org
-> > > +L:	dri-devel@lists.freedesktop.org
-> > > +S:	Supported
-> > > +F:	Documentation/accel/qaic/
-> > > +F:	drivers/accel/qaic/
-> > > +F:	include/uapi/drm/qaic_accel.h
-> >=20
-> > Aren't you missing repo link?
-> > T:	git git://anongit.freedesktop.org/drm/drm-misc
->=20
-> Maarten/Maxime/Thomas are we ok to follow the iVPU example and use drm-mi=
-sc
-> for this, or would a separate tree be preferred?
+Subject: [PATCH v6 0/7] Remove VT-d virtual command interface and IOASID
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Yeah, please go ahead with drm-misc
+Hi all,
 
-Do you have commit rights?
+This patch set removes unused VT-d virtual command interface followed by
+removal of the IOASID infrastructure.
 
-Maxime
+This has only been tested on x86 platforms, need help with testing on ARM
+SMMU and other architectures.
+
+
+Thanks,
+
+Jacob
+
+ChangeLog:
+v6:
+ - put pasid helpers under iommu.h instead of iommu-helper.h
+ - add comments for pasid allocation function to clarify inclusive range
+
+v5:
+ - rebased on v6.3-rc1
+ - put removing iommu_sva_find() in a separate patch (Kevin)
+ - move definition of helpers to iommu code to be consistent with
+   declarations. (Kevin)
+ - misc fixes
+
+v4:
+ - keep mm_pasid helpers inline as much as we can for fork performance
+ - separate GFP_ATOMIC to GFP_KERNEL change for bisectability
+
+v3:
+ - moved helper functions for PASID under SVA code, avoided circular inclusion
+   between mm.h and iommu.h
+ - deleted makefiles
+ - put rename under a different patch
+
+
+Jacob Pan (5):
+  iommu/vt-d: Remove virtual command interface
+  iommu/sva: Move PASID helpers to sva code
+  iommu/sva: Remove PASID to mm lookup function
+  iommu/sva: Use GFP_KERNEL for pasid allocation
+  iommu/ioasid: Rename INVALID_IOASID
+
+Jason Gunthorpe (2):
+  iommu/sva: Stop using ioasid_set for SVA
+  iommu: Remove ioasid infrastructure
+
+ Documentation/x86/sva.rst       |   2 +-
+ arch/x86/kernel/traps.c         |   5 +-
+ drivers/dma/idxd/device.c       |   8 +-
+ drivers/dma/idxd/idxd.h         |   2 +-
+ drivers/dma/idxd/init.c         |   2 +-
+ drivers/dma/idxd/irq.c          |   2 +-
+ drivers/iommu/Kconfig           |   5 -
+ drivers/iommu/Makefile          |   1 -
+ drivers/iommu/intel/cap_audit.c |   2 -
+ drivers/iommu/intel/dmar.c      |   6 +-
+ drivers/iommu/intel/iommu.c     |  87 +------
+ drivers/iommu/intel/iommu.h     |   3 -
+ drivers/iommu/intel/svm.c       |   3 +-
+ drivers/iommu/ioasid.c          | 422 --------------------------------
+ drivers/iommu/iommu-sva.c       |  63 ++---
+ drivers/iommu/iommu-sva.h       |   4 -
+ include/linux/ioasid.h          |  83 -------
+ include/linux/iommu.h           |  14 +-
+ include/linux/sched/mm.h        |  26 --
+ kernel/fork.c                   |   3 +
+ mm/init-mm.c                    |   4 +-
+ 21 files changed, 53 insertions(+), 694 deletions(-)
+ delete mode 100644 drivers/iommu/ioasid.c
+ delete mode 100644 include/linux/ioasid.h
+
+-- 
+2.25.1
+
