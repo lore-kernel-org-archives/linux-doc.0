@@ -2,184 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FFC3C6FD1C
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 03:09:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE57EC6FD19
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Mar 2023 03:44:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229932AbjCMDJ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Mar 2023 23:09:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45756 "EHLO
+        id S229743AbjCMDor (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Mar 2023 23:44:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbjCMDJo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Mar 2023 23:09:44 -0400
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B12CE3B5;
-        Sun, 12 Mar 2023 20:09:42 -0700 (PDT)
-Received: by mail-qv1-f47.google.com with SMTP id y3so7445226qvn.4;
-        Sun, 12 Mar 2023 20:09:42 -0700 (PDT)
+        with ESMTP id S229450AbjCMDoq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Mar 2023 23:44:46 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D27E334C3D
+        for <linux-doc@vger.kernel.org>; Sun, 12 Mar 2023 20:44:45 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id y10so6803272pfi.8
+        for <linux-doc@vger.kernel.org>; Sun, 12 Mar 2023 20:44:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678679085;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MIC5oWKxd6B7kSxP9s/Wbn8PZ7Vf896STwz3iAppWA0=;
+        b=QWcvh7j67xmeUNK/E7Wjpf/ufFUn3JXma2ufOrWQSF4Lk/P/A0Y6jsJ/qOS5b4xaQf
+         ID5+wWC1H/nCEU8PfIvSVjVdt0eyQqxR7gKLJk+I8Xms160sDoKqgAVbfPbMqRr5zBmc
+         q9XINeBjOq7NF5GnEku19isDfqPWrGwslj5M5e7r5ze7d3m1RfWgdwrwojb3E4S2biw2
+         8KZcDACWoitdB6cT86b2k09IhHhe8+a68rAhyVVU5sN8j9eKtzepP9HnwgJ96O6YFnhT
+         4RJ/gVwuQ22iq+gCq3K7OIPSeDo6UifYaQN1lVH2CPsFtGBJP552yWy057vpfrysBhhL
+         4Gyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678676981;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GeCN+vGycPjjiXBhDFbMeoBozzcJZj5zCfhIwuUjQhI=;
-        b=Xd3uq3Hjj1b9OI8uJJyiWjuSMKpxAyXrPUUWMpwMVc94hsVaOOG6cbwKzX7oOyd6DJ
-         0X1phmKksmIB/Bo+T79G5LRBVRarvckBQsGWPLd4M6t5JOuUq/PtKjfeQazWVPED9xBV
-         hLZgiZGSqrpdvxCKd6acuWd1bVen8CqJxXxhDrgdqeQlgdH4d3CpRMo/KkheymXnkAu8
-         6SLfxz1bmXqk64tc3zVlqHeM7HJBKv23KLOtH1rloB0g/6HBGh7+pqjpKkcZVjveJzgB
-         kO+bOWOBcdRs3JhogTarqazc5PjotfDJEQXnUaJq4+iczeZskif2nJO2nzNyKAfgrggR
-         k33w==
-X-Gm-Message-State: AO0yUKXuopAY5H8QYSmvMTUo6T92LlKemopF1AI9fPfDUXB0tUFMqgwn
-        mriu7qKF/ZHoT0ZVsuJIfdY=
-X-Google-Smtp-Source: AK7set9wsQ9bQ+JAqGmb/so+XDS0N2/uDMVI8T4aFvpoZye1cUH71dNog5QN1KTcuY/RRctUDDtEww==
-X-Received: by 2002:ad4:574a:0:b0:56e:b16d:ec93 with SMTP id q10-20020ad4574a000000b0056eb16dec93mr12626237qvx.4.1678676981447;
-        Sun, 12 Mar 2023 20:09:41 -0700 (PDT)
-Received: from maniforge ([2620:10d:c091:400::5:bf74])
-        by smtp.gmail.com with ESMTPSA id a195-20020ae9e8cc000000b007425dade624sm4605515qkg.41.2023.03.12.20.09.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 20:09:40 -0700 (PDT)
-Date:   Sun, 12 Mar 2023 22:09:38 -0500
-From:   David Vernet <void@manifault.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux BPF <bpf@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Tobin C. Harding" <me@tobin.cc>
-Subject: Re: [PATCH bpf-next] bpf, doc: use internal linking for link to
- netdev FAQ
-Message-ID: <20230313030938.GA152792@maniforge>
-References: <20230313025119.17430-1-bagasdotme@gmail.com>
+        d=1e100.net; s=20210112; t=1678679085;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MIC5oWKxd6B7kSxP9s/Wbn8PZ7Vf896STwz3iAppWA0=;
+        b=xzWiiQBxZtrToN7BAyQLhqZMMWLFReIpTxiR2Nv+9dPjn3egVFmjQixIV6V3tP+7g1
+         HJwVV7B2rVu5uBJiGFbwvGpFRpd13VZQnRbpYDmU5TVZ3HxU/lRf1I+hmqY3JuwG17HM
+         0HaX+GZQ0XJHjs9B9TDkBhQvOUY46z54yDVGqnAw5VIc7Wvj28szgZAhKbOBjUHep6Iy
+         3S5OrmGwe9vtSD1EWBzdcXzTv6+xHE5a/2MPxcm6NkGDlific/G7n55T25RZeMy1/rF7
+         AkdOA2ZP162lp4lsYBxroaCDsOpgKSoq7Ah1SCyLxg11fHfIzkafkV1fhicm1YJ7yPR1
+         WTng==
+X-Gm-Message-State: AO0yUKWp1+AIUuiuYIiCCj5UW0Ghw2hfo72AYY6j5UsXuplziNCcH3YL
+        JkIHSbc8ts3yh5hZYRpICns=
+X-Google-Smtp-Source: AK7set/OnBv8ZLuJv/do6DbN92yvBlTY8vdtbAXP781MQI6SFoXT/BZIy2SxDPCsiwnoavaD5T9ucA==
+X-Received: by 2002:aa7:941d:0:b0:5ce:ef1b:a86 with SMTP id x29-20020aa7941d000000b005ceef1b0a86mr30637512pfo.2.1678679085280;
+        Sun, 12 Mar 2023 20:44:45 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-80.three.co.id. [180.214.233.80])
+        by smtp.gmail.com with ESMTPSA id x26-20020aa7919a000000b005a8cc32b23csm3313201pfa.20.2023.03.12.20.44.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Mar 2023 20:44:44 -0700 (PDT)
+Message-ID: <b4674fec-9763-ef16-9b6b-c2292df2f469@gmail.com>
+Date:   Mon, 13 Mar 2023 10:44:39 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230313025119.17430-1-bagasdotme@gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] dns_resolver: correct documentation error in dns resolver
+To:     Bharath SM <bharathsm.hsk@gmail.com>,
+        David Howells <dhowells@redhat.com>, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org,
+        "pabeni@redhat.com" <pabeni@redhat.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Cc:     Bharath S M <bharathsm@microsoft.com>
+References: <CAGypqWxMz5Sb268HRuXmtfo6EZFWY12iN8+0-GHuoZE2vdr5kQ@mail.gmail.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <CAGypqWxMz5Sb268HRuXmtfo6EZFWY12iN8+0-GHuoZE2vdr5kQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 13, 2023 at 09:51:19AM +0700, Bagas Sanjaya wrote:
-> Commit d56b0c461d19da ("bpf, docs: Fix link to netdev-FAQ target") fixes
-> link to netdev FAQ documentation introduced in <blurb> introduced in
-> 287f4fa99a5281 ("docs: Update references to netdev-FAQ"), although the
-> former commit doesn't mention Fixes: to the latter. However, the former
-> changes the link to external link to docs.kernel.org, in contrast to the
-> internal linking employed by the latter.
+On 3/13/23 02:42, Bharath SM wrote:
+> Fix error in dns_resolver documentation
 > 
-> Use :doc: directive for linking to netdev FAQ doc, while keeping the
-> anchor text intact and consistency with intention of 287f4fa99a5281.
-> 
-> Fixes: d56b0c461d19da ("bpf, docs: Fix link to netdev-FAQ target")
-> Fixes: 287f4fa99a5281 ("docs: Update references to netdev-FAQ")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-This regresses all of the warnings I fixed in d56b0c461d19da ("bpf,
-docs: Fix link to netdev-FAQ target"):
+I can't tell what the error you fix is unless I see the diff below.
+At a first glance, I though that you fix Sphinx warnings.
 
-[void@maniforge bpf-next]$ make -j SPHINXDIRS="bpf" htmldocs
-make[2]: Nothing to be done for 'html'.
-Using alabaster theme
-source directory: bpf
-/home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:125: WARNING: unknown document: '/process/maintainer-netdev'
-/home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:150: WARNING: unknown document: '/process/maintainer-netdev'
-/home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:207: WARNING: unknown document: '/process/maintainer-netdev'
-/home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:232: WARNING: unknown document: '/process/maintainer-netdev'
-/home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:398: WARNING: unknown document: '/process/maintainer-netdev'
-/home/void/upstream/bpf-next/Documentation/bpf/bpf_devel_QA.rst:414: WARNING: unknown document: '/process/maintainer-netdev'
+Also, is this patch [PATCH net]?
 
-And it also causes the netdev-FAQ links to once again be broken and not
-actually point to anything.
+> diff --git a/Documentation/networking/dns_resolver.rst
+> b/Documentation/networking/dns_resolver.rst
+> index add4d59a99a5..99bf72a6ed45 100644
+> --- a/Documentation/networking/dns_resolver.rst
+> +++ b/Documentation/networking/dns_resolver.rst
+> @@ -152,4 +152,4 @@ Debugging
+>  Debugging messages can be turned on dynamically by writing a 1 into the
+>  following file::
+> 
+> -       /sys/module/dnsresolver/parameters/debug
+> +       /sys/module/dns_resolver/parameters/debug
 
-> ---
->  Indeed, this internal linking fix should have been made against bpf
->  tree, since the problematic original linking in 287f4fa99a5281 is also
->  seen in bpf tree. If that is the case, I will rebase on that tree.
-> 
->  Documentation/bpf/bpf_devel_QA.rst | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-> index 5f5f9ccc3862b4..e523991da9e0ce 100644
-> --- a/Documentation/bpf/bpf_devel_QA.rst
-> +++ b/Documentation/bpf/bpf_devel_QA.rst
-> @@ -128,7 +128,7 @@ into the bpf-next tree will make their way into net-next tree. net and
->  net-next are both run by David S. Miller. From there, they will go
->  into the kernel mainline tree run by Linus Torvalds. To read up on the
->  process of net and net-next being merged into the mainline tree, see
-> -the `netdev-FAQ`_.
-> +the :doc:`netdev-FAQ </process/maintainer-netdev>`.
->  
->  
->  
-> @@ -147,7 +147,8 @@ request)::
->  Q: How do I indicate which tree (bpf vs. bpf-next) my patch should be applied to?
->  ---------------------------------------------------------------------------------
->  
-> -A: The process is the very same as described in the `netdev-FAQ`_,
-> +A: The process is the very same as described in the
-> +:doc:`netdev-FAQ </process/maintainer-netdev>`,
->  so please read up on it. The subject line must indicate whether the
->  patch is a fix or rather "next-like" content in order to let the
->  maintainers know whether it is targeted at bpf or bpf-next.
-> @@ -206,8 +207,8 @@ ii) run extensive BPF test suite and
->  Once the BPF pull request was accepted by David S. Miller, then
->  the patches end up in net or net-next tree, respectively, and
->  make their way from there further into mainline. Again, see the
-> -`netdev-FAQ`_ for additional information e.g. on how often they are
-> -merged to mainline.
-> +:doc:`netdev-FAQ </process/maintainer-netdev>` for additional
-> +information e.g. on how often they are merged to mainline.
->  
->  Q: How long do I need to wait for feedback on my BPF patches?
->  -------------------------------------------------------------
-> @@ -230,7 +231,8 @@ Q: Are patches applied to bpf-next when the merge window is open?
->  -----------------------------------------------------------------
->  A: For the time when the merge window is open, bpf-next will not be
->  processed. This is roughly analogous to net-next patch processing,
-> -so feel free to read up on the `netdev-FAQ`_ about further details.
-> +so feel free to read up on the
-> +:doc:`netdev-FAQ </process/maintainer-netdev>` about further details.
->  
->  During those two weeks of merge window, we might ask you to resend
->  your patch series once bpf-next is open again. Once Linus released
-> @@ -394,7 +396,7 @@ netdev kernel mailing list in Cc and ask for the fix to be queued up:
->    netdev@vger.kernel.org
->  
->  The process in general is the same as on netdev itself, see also the
-> -`netdev-FAQ`_.
-> +:doc:`netdev-FAQ </process/maintainer-netdev>`.
->  
->  Q: Do you also backport to kernels not currently maintained as stable?
->  ----------------------------------------------------------------------
-> @@ -410,7 +412,7 @@ Q: The BPF patch I am about to submit needs to go to stable as well
->  What should I do?
->  
->  A: The same rules apply as with netdev patch submissions in general, see
-> -the `netdev-FAQ`_.
-> +the :doc:`netdev-FAQ </process/maintainer-netdev>`.
->  
->  Never add "``Cc: stable@vger.kernel.org``" to the patch description, but
->  ask the BPF maintainers to queue the patches instead. This can be done
-> @@ -685,7 +687,6 @@ when:
->  
->  .. Links
->  .. _Documentation/process/: https://www.kernel.org/doc/html/latest/process/
-> -.. _netdev-FAQ: https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
->  .. _selftests:
->     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/
->  .. _Documentation/dev-tools/kselftest.rst:
-> 
-> base-commit: 49b5300f1f8f2b542b31d63043c2febd13edbe3a
-> -- 
-> An old man doll... just what I always wanted! - Clara
-> 
+Fixing incorrect sysfs path, right?
+
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
+
