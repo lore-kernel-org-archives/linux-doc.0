@@ -2,428 +2,308 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75417C6FD1F
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 20:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAAF0C7618B
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 22:04:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230029AbjCNU5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 16:57:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57854 "EHLO
+        id S229778AbjCNWEO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 18:04:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229778AbjCNU5P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 16:57:15 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9423738E81
-        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 13:57:13 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id a9so17929579plh.11
-        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 13:57:13 -0700 (PDT)
+        with ESMTP id S229624AbjCNWEO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 18:04:14 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4800223C4B
+        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 15:04:12 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id e71so8891404ybc.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 15:04:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678827433;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DoNKK0Q5grQxk2PdyHwAq8FXRr4WDsiZby8fXWfuBhA=;
-        b=RvVxKz1iKyFki+FDzoaG1sXr1WkBfTa4R5gtt5rD6MlkhTDijRMbUourWJQE/y17m9
-         n4UCukqJxzodveH8j0GviHjnf4d8+xR+0dJGHEb0PoTIBZrOtxuTmmNa9eS9mbUzA92S
-         sVTr7bki1da7Tmb/Em7sYI9sjzZl/p1LSBt7s=
+        d=google.com; s=20210112; t=1678831451;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N/zfGwQbbEb+qzil00/Ab0eaet+X5p/Mt1ykcP2N7RM=;
+        b=fYljs8WgUXJBQKmxjkcKuXOyiTHePzPXZgCVZ8tN9Z5Q0c+nGrVNTrWmfdNXK3xjV9
+         ggfR/vMUbO/riD3uEIrU5LPab2ewbyQrFk11d+hSLAtwyKGDUElTOOwrWGOVtLQFV6EW
+         yiWmBlrI/brXxVEZi7J7H3Zhks9j3IvecomhFfjzNVIHkeg5I3FYiY9ZU+51Pry4b7lR
+         1pWQyv2xY/kRIlM3q8/P18BmIK/XdWN3CbcWq+PEvpZk7uUDXlriiQbekWcAWMREzeB4
+         c5Pxv0mSNRI6VJeNyAfpIWzb7l/2pOPNtZ/n+MKGMV5u0r2LpJBR6IxlP/Rj4eYr86gt
+         h+zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678827433;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DoNKK0Q5grQxk2PdyHwAq8FXRr4WDsiZby8fXWfuBhA=;
-        b=gSOSE0D1cMpEv8rMv2IakfIkBT6eaix7nMH1rFhDBKVB9hjKHRTDd0go1DVPpPbaI5
-         UF3HaI7PaaowNnWfRodwpRSAwJgvt8PJLpMocwXWhynHdd+CrU3r3DYINyh+XMiDQQMp
-         z8g1jJcYBiii5MerpWWyOQWEZGwX7oEUxjaVRr05LBtdk70jyL1ZaiSAyTO4YSicD5Dy
-         LLcbqCwlmO6JzAaHakZPoCH98ryFesSbEA2hy2ms0FVwoA7YPiNV13SljibU3jo5sRZj
-         zXk1MP9ApQfSIQkOqqRn+zWVj4SjneJyzeG0YJBKEnjFmY7QOEl7LSQlWQ944rb/QQEx
-         1BIw==
-X-Gm-Message-State: AO0yUKVNXZANgb4J2o29L7yP+GkBcE3ETYd96sluTpsyvQYo+ZJvQpmz
-        c7jPbszDGZixSaKnb08+YCPxAg==
-X-Google-Smtp-Source: AK7set8/WwTdjBxqYoC+lMQAgVbsDBKg90FH7k2Mn2CvNi28qGek8Q/ak42BJBS0Zf5oBwahilZvqA==
-X-Received: by 2002:a17:90a:6acf:b0:236:6e4f:bc1e with SMTP id b15-20020a17090a6acf00b002366e4fbc1emr39157874pjm.49.1678827432939;
-        Tue, 14 Mar 2023 13:57:12 -0700 (PDT)
-Received: from wafflehead.lan ([47.144.140.44])
-        by smtp.gmail.com with ESMTPSA id z35-20020a17090a6d2600b00230ffcb2e24sm2137172pjj.13.2023.03.14.13.57.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 13:57:12 -0700 (PDT)
-From:   Jeffrey Kardatzke <jkardatzke@chromium.org>
-X-Google-Original-From: Jeffrey Kardatzke <jkardatzke@google.com>
-To:     op-tee@lists.trustedfirmware.org
-Cc:     Jeffrey Kardatzke <jkardatzke@google.com>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v9] tee: optee: Add SMC for loading OP-TEE image
-Date:   Tue, 14 Mar 2023 13:57:09 -0700
-Message-Id: <20230314135704.v9.1.I8e7f9b01d9ac940507d78e15368e200a6a69bedb@changeid>
-X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
+        d=1e100.net; s=20210112; t=1678831451;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N/zfGwQbbEb+qzil00/Ab0eaet+X5p/Mt1ykcP2N7RM=;
+        b=mb+s/1wr28S4KwvYh4qrGdipHnIPcnlHaTI0b3KxOpAa+9jpf+T1GK9m/LcoKCyemP
+         Ovd+FAYfvk6foj/cL/hd5vzdsNuobVIfs7h3+hPXIqJGdh+swAPOoCBGAIMnrwB1lk3R
+         Y62jVkcoHHmceQpODqgoM0u/U0h8HSH+wG5ncfALAF6mrbTzPvLA7TRtFaaJQFxewsTx
+         Pjg5hQjc2oGFForI45Fl2P7SCpnvoyk19tinSRKCPId9C0ejgR9xiod9GInUoqSG+3Qt
+         iwgsf8gfEEsjme4/Uzsv42ujAwBUnkiYOvHFt8EybIjXaann5Haq8qvZPR8leSAvj0Di
+         Hq7Q==
+X-Gm-Message-State: AO0yUKX+NpZn6uBnSLFGiNjAomJDXU29ypa32C1elG3vBl0d2iPEHsP9
+        pNcZi6em7ABluQrYFMC/DDiqQ6gNZSsdmXkq10foTQ==
+X-Google-Smtp-Source: AK7set9rQ7rPhZlkXSA3LRVnEVHuJtVWqq4MoZuUqrCGlf5p8e2zSmw2HRhw5AcoExqE9fhI6qPtoWZ6olrg9oTBDzg=
+X-Received: by 2002:a05:6902:251:b0:9f1:6c48:f95f with SMTP id
+ k17-20020a056902025100b009f16c48f95fmr12126616ybs.5.1678831451300; Tue, 14
+ Mar 2023 15:04:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230310222002.3633162-1-rmoar@google.com> <BYAPR13MB2503C590A2AE6FEF6BCAC529FDBB9@BYAPR13MB2503.namprd13.prod.outlook.com>
+In-Reply-To: <BYAPR13MB2503C590A2AE6FEF6BCAC529FDBB9@BYAPR13MB2503.namprd13.prod.outlook.com>
+From:   Rae Moar <rmoar@google.com>
+Date:   Tue, 14 Mar 2023 18:03:59 -0400
+Message-ID: <CA+GJov5O6hGdjYMXjRd34MEZuyBuukyJCOsS=HeO30h43eLQbQ@mail.gmail.com>
+Subject: Re: [KTAP V2 PATCH] ktap_v2: add skip test result
+To:     "Bird, Tim" <Tim.Bird@sony.com>
+Cc:     "frowand.list@gmail.com" <frowand.list@gmail.com>,
+        "davidgow@google.com" <davidgow@google.com>,
+        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "brendanhiggins@google.com" <brendanhiggins@google.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "guillaume.tucker@collabora.com" <guillaume.tucker@collabora.com>,
+        "dlatypov@google.com" <dlatypov@google.com>,
+        "kernelci@groups.io" <kernelci@groups.io>,
+        "kunit-dev@googlegroups.com" <kunit-dev@googlegroups.com>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds an SMC call that will pass an OP-TEE binary image to EL3 and
-instruct it to load it as the BL32 payload. This works in conjunction
-with a feature added to Trusted Firmware for ARMv8 and above
-architectures that supports this.
+On Sat, Mar 11, 2023 at 12:37=E2=80=AFPM Bird, Tim <Tim.Bird@sony.com> wrot=
+e:
+>
+>
+>
+> > -----Original Message-----
+> > From: Rae Moar <rmoar@google.com>
+> >
+> > Add the test result "skip" to KTAP version 2 as an alternative way to
+> > indicate a test was skipped.
+> >
+> > The current spec uses the "#SKIP" directive to indicate that a test was
+> > skipped. However, the "#SKIP" directive is not always evident when quic=
+kly
+> > skimming through KTAP results.
+> >
+> > The "skip" result would provide an alternative that could make it clear=
+er
+> > that a test has not successfully passed because it was skipped.
+> >
+>
+> Is there an implementation patch (RFC or otherwise) that accompanies
+> this change in the spec?
 
-The main purpose of this change is to facilitate updating the OP-TEE
-component on devices via a rootfs change rather than having to do a
-firmware update. Further details are linked to in the Kconfig file.
+Hi Tim!
 
-Signed-off-by: Jeffrey Kardatzke <jkardatzke@chromium.org>
-Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
----
+Other than the KUnit parser implementation I linked in the commit
+message, there is no current implementation patch that accompanies
+this proposal. I was very curious to learn what others thought of the
+idea of the skip result. An implementation patch should definitely be
+created to implement the necessary changes to kselftest output and a
+few commonly used parsers.
 
-Changes in v9:
-- Add CPU hotplug callback to init on all cores at startup
+>
+> Also, can you tell me which kselftest modules you expect to use this
+> new 'skip' result, as opposed to the #SKIP directive?  Are there patches
+> pending submission that already use this?
 
-Changes in v8:
-- Renamed params and fixed alignment issue
+There are no current patches in my knowledge that are proposing to use
+this. This idea partly stems from your suggestion from the KTAP v1
+discussions where you proposed an unknown test result type:
+https://lore.kernel.org/all/BYAPR13MB25037E7EE38DE8717DC7D254FDCB9@BYAPR13M=
+B2503.namprd13.prod.outlook.com/.
+I would be open to this suggestion as an alternative.
 
-Changes in v7:
-- Added documentation to Documentation/staging/tee.rst
+>
+> Which in-tree and out-of-tree results parsers would be affected?
+>
+> I know my Fuego kselftest results parser would be affected.
 
-Changes in v6:
-- Expanded Kconfig documentation
+I honestly have much to learn about different results parsers. I
+suspect every parser in use would be affected, except for those that
+only care about failures and simply grep for "not ok". Their results
+might actually be more clear by not including skipped tests. I will
+continue to do more research on this and explore this in a potential
+implementation patch. I ask everyone to feel free to correct or
+enlighten me about the different parsers they use.
 
-Changes in v5:
-- Renamed config option
-- Added runtime warning when config is used
+>
+> While I recognize the slight improvement in human readability, this
+> will cause a fair amount of churn.  And it takes us out of TAP compliance=
+.
+> Can you quantify the churn a bit?
 
-Changes in v4:
-- Update commit message
-- Added more documentation
-- Renamed config option, added ARM64 dependency
+I do realize this would create quite a bit of churn and if people
+think it is not worth the extra effort I would understand that. But
+thinking towards the future of KTAP, I suspect we will eventually want
+to shift away from using the SKIP directive as it is inherently
+confusing to allow multiple result types with the directive, as Frank
+mentioned. It might be a question of when we want to make this shift?
 
-Changes in v3:
-- Removed state tracking for driver reload
-- Check UID of service to verify it needs image load
+I find it difficult to specifically quantify the churn. Looking at a
+LKFT build on linaro about 11% of tests were skipped and that was
+widespread across different types of tests. So skipped tests are
+certainly in widespread use. However, I suspect the actual changes to
+the code that creates kselftest output and for each parser would not
+be too difficult. But it would require parsers that did not currently
+care about skipped tests to decide how to handle the new result.
 
-Changes in v2:
-- Fixed compile issue when feature is disabled
-- Addressed minor comments
-- Added state tracking for driver reload
+One thing to note on the created churn: I have noticed a proportion of
+kselftests currently implement skipped tests in a way that does not
+use the SKIP directive. They use a comment of the format "# [SKIP]"
+prior to a test result line with no SKIP directive. Thus, in order to
+reach KTAP compliance the way skip tests are handled would need to be
+changed in these cases anyways.
 
- Documentation/staging/tee.rst |  41 +++++++++++
- drivers/tee/optee/Kconfig     |  17 +++++
- drivers/tee/optee/optee_msg.h |  12 +++
- drivers/tee/optee/optee_smc.h |  24 ++++++
- drivers/tee/optee/smc_abi.c   | 134 ++++++++++++++++++++++++++++++++++
- 5 files changed, 228 insertions(+)
+Thanks!
+Rae
 
-diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
-index 498343c7ab08..315aa8e35e6b 100644
---- a/Documentation/staging/tee.rst
-+++ b/Documentation/staging/tee.rst
-@@ -214,6 +214,47 @@ call is done from the thread assisting the interrupt handler. This is a
- building block for OP-TEE OS in secure world to implement the top half and
- bottom half style of device drivers.
- 
-+OPTEE_INSECURE_LOAD_IMAGE Kconfig option
-+----------------------------------------
-+
-+The OPTEE_INSECURE_LOAD_IMAGE Kconfig option enables the ability to load the
-+BL32 OP-TEE image from the kernel after the kernel boots, rather than loading
-+it from the firmware before the kernel boots. This also requires enabling the
-+corresponding option in Trusted Firmware for Arm. The documentation there
-+explains the security threat associated with enabling this as well as
-+mitigations at the firmware and platform level.
-+https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
-+
-+There are additional attack vectors/mitigations for the kernel that should be
-+addressed when using this option.
-+
-+1. Boot chain security.
-+   Attack vector: Replace the OP-TEE OS image in the rootfs to gain control of
-+                  the system.
-+   Migitation: There must be boot chain security that verifies the kernel and
-+               rootfs, otherwise an attacker can modify the loaded OP-TEE
-+               binary by modifying it in the rootfs.
-+3. Alternate boot modes.
-+   Attack vector: Using an alternate boot mode (i.e. recovery mode), the OP-TEE
-+                  driver isn't loaded, leaving the SMC hole open.
-+   Mitigation: If there are alternate methods of booting the device, such as a
-+               recovery mode, it should be ensured that the same mitigations are
-+               applied in that mode.
-+3. Attacks prior to SMC invocation.
-+   Attack vector: Code that is executed prior to issuing the SMC call to load
-+                  OP-TEE can be exploited to then load an alternate OS image.
-+   Mitigation: The OP-TEE driver must be loaded before any potential attack
-+               vectors are opened up. This should include mounting of any
-+               modifiable filesystems, opening of network ports or communicating
-+               with external devices (e.g. USB).
-+4. Blocking SMC call to load OP-TEE.
-+   Attack vector: Prevent the driver from being probed, so the SMC call to load
-+                  OP-TEE isn't executed when desired, leaving it open to being
-+                  executed later and loading a modified OS.
-+   Mitigation: It is recommended to build the OP-TEE driver as an included
-+               driver rather than a module to prevent exploits that may cause
-+               the module to not be loaded.
-+
- AMD-TEE driver
- ==============
- 
-diff --git a/drivers/tee/optee/Kconfig b/drivers/tee/optee/Kconfig
-index f121c224e682..70898bbd5809 100644
---- a/drivers/tee/optee/Kconfig
-+++ b/drivers/tee/optee/Kconfig
-@@ -7,3 +7,20 @@ config OPTEE
- 	help
- 	  This implements the OP-TEE Trusted Execution Environment (TEE)
- 	  driver.
-+
-+config OPTEE_INSECURE_LOAD_IMAGE
-+	bool "Load OP-TEE image as firmware"
-+	default n
-+	depends on OPTEE && ARM64
-+	help
-+	  This loads the BL32 image for OP-TEE as firmware when the driver is
-+	  probed. This returns -EPROBE_DEFER until the firmware is loadable from
-+	  the filesystem which is determined by checking the system_state until
-+	  it is in SYSTEM_RUNNING. This also requires enabling the corresponding
-+	  option in Trusted Firmware for Arm. The documentation there explains
-+	  the security threat associated with enabling this as well as
-+	  mitigations at the firmware and platform level.
-+	  https://trustedfirmware-a.readthedocs.io/en/latest/threat_model/threat_model.html
-+
-+	  Additional documentation on kernel security risks are at
-+	  Documentation/staging/tee.rst.
-diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
-index 70e9cc2ee96b..e8840a82b983 100644
---- a/drivers/tee/optee/optee_msg.h
-+++ b/drivers/tee/optee/optee_msg.h
-@@ -241,11 +241,23 @@ struct optee_msg_arg {
-  * 384fb3e0-e7f8-11e3-af63-0002a5d5c51b.
-  * Represented in 4 32-bit words in OPTEE_MSG_UID_0, OPTEE_MSG_UID_1,
-  * OPTEE_MSG_UID_2, OPTEE_MSG_UID_3.
-+ *
-+ * In the case where the OP-TEE image is loaded by the kernel, this will
-+ * initially return an alternate UID to reflect that we are communicating with
-+ * the TF-A image loading service at that time instead of OP-TEE. That UID is:
-+ * a3fbeab1-1246-315d-c7c4-06b9c03cbea4.
-+ * Represented in 4 32-bit words in OPTEE_MSG_IMAGE_LOAD_UID_0,
-+ * OPTEE_MSG_IMAGE_LOAD_UID_1, OPTEE_MSG_IMAGE_LOAD_UID_2,
-+ * OPTEE_MSG_IMAGE_LOAD_UID_3.
-  */
- #define OPTEE_MSG_UID_0			0x384fb3e0
- #define OPTEE_MSG_UID_1			0xe7f811e3
- #define OPTEE_MSG_UID_2			0xaf630002
- #define OPTEE_MSG_UID_3			0xa5d5c51b
-+#define OPTEE_MSG_IMAGE_LOAD_UID_0	0xa3fbeab1
-+#define OPTEE_MSG_IMAGE_LOAD_UID_1	0x1246315d
-+#define OPTEE_MSG_IMAGE_LOAD_UID_2	0xc7c406b9
-+#define OPTEE_MSG_IMAGE_LOAD_UID_3	0xc03cbea4
- #define OPTEE_MSG_FUNCID_CALLS_UID	0xFF01
- 
- /*
-diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
-index 73b5e7760d10..7d9fa426505b 100644
---- a/drivers/tee/optee/optee_smc.h
-+++ b/drivers/tee/optee/optee_smc.h
-@@ -104,6 +104,30 @@ struct optee_smc_call_get_os_revision_result {
- 	unsigned long reserved1;
- };
- 
-+/*
-+ * Load Trusted OS from optee/tee.bin in the Linux firmware.
-+ *
-+ * WARNING: Use this cautiously as it could lead to insecure loading of the
-+ * Trusted OS.
-+ * This SMC instructs EL3 to load a binary and execute it as the Trusted OS.
-+ *
-+ * Call register usage:
-+ * a0 SMC Function ID, OPTEE_SMC_CALL_LOAD_IMAGE
-+ * a1 Upper 32bit of a 64bit size for the payload
-+ * a2 Lower 32bit of a 64bit size for the payload
-+ * a3 Upper 32bit of the physical address for the payload
-+ * a4 Lower 32bit of the physical address for the payload
-+ *
-+ * The payload is in the OP-TEE image format.
-+ *
-+ * Returns result in a0, 0 on success and an error code otherwise.
-+ */
-+#define OPTEE_SMC_FUNCID_LOAD_IMAGE 2
-+#define OPTEE_SMC_CALL_LOAD_IMAGE \
-+	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
-+			   ARM_SMCCC_OWNER_TRUSTED_OS_END, \
-+			   OPTEE_SMC_FUNCID_LOAD_IMAGE)
-+
- /*
-  * Call with struct optee_msg_arg as argument
-  *
-diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-index a1c1fa1a9c28..fcbcd0c0c3aa 100644
---- a/drivers/tee/optee/smc_abi.c
-+++ b/drivers/tee/optee/smc_abi.c
-@@ -7,10 +7,13 @@
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
- #include <linux/arm-smccc.h>
-+#include <linux/cpuhotplug.h>
- #include <linux/errno.h>
-+#include <linux/firmware.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/irqdomain.h>
-+#include <linux/kernel.h>
- #include <linux/mm.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -1149,6 +1152,22 @@ static bool optee_msg_api_uid_is_optee_api(optee_invoke_fn *invoke_fn)
- 	return false;
- }
- 
-+#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
-+static bool optee_msg_api_uid_is_optee_image_load(optee_invoke_fn *invoke_fn)
-+{
-+	struct arm_smccc_res res;
-+
-+	invoke_fn(OPTEE_SMC_CALLS_UID, 0, 0, 0, 0, 0, 0, 0, &res);
-+
-+	if (res.a0 == OPTEE_MSG_IMAGE_LOAD_UID_0 &&
-+	   res.a1 == OPTEE_MSG_IMAGE_LOAD_UID_1 &&
-+	   res.a2 == OPTEE_MSG_IMAGE_LOAD_UID_2 &&
-+	   res.a3 == OPTEE_MSG_IMAGE_LOAD_UID_3)
-+		return true;
-+	return false;
-+}
-+#endif
-+
- static void optee_msg_get_os_revision(optee_invoke_fn *invoke_fn)
- {
- 	union {
-@@ -1354,6 +1373,117 @@ static void optee_shutdown(struct platform_device *pdev)
- 		optee_disable_shm_cache(optee);
- }
- 
-+#ifdef CONFIG_OPTEE_INSECURE_LOAD_IMAGE
-+
-+#define OPTEE_FW_IMAGE "optee/tee.bin"
-+
-+static optee_invoke_fn *cpuhp_invoke_fn;
-+
-+static int optee_cpuhp_probe(unsigned int cpu)
-+{
-+	/*
-+	 * Invoking a call on a CPU will cause OP-TEE to perform the required
-+	 * setup for that CPU. Just invoke the call to get the UID since that
-+	 * has no side effects.
-+	 */
-+	if (optee_msg_api_uid_is_optee_api(cpuhp_invoke_fn))
-+		return 0;
-+	else
-+		return -EINVAL;
-+}
-+
-+static int optee_load_fw(struct platform_device *pdev,
-+			 optee_invoke_fn *invoke_fn)
-+{
-+	const struct firmware *fw = NULL;
-+	struct arm_smccc_res res;
-+	phys_addr_t data_pa;
-+	u8 *data_buf = NULL;
-+	u64 data_size;
-+	u32 data_pa_high, data_pa_low;
-+	u32 data_size_high, data_size_low;
-+	int rc;
-+	int hp_state;
-+
-+	if (!optee_msg_api_uid_is_optee_image_load(invoke_fn))
-+		return 0;
-+
-+	rc = request_firmware(&fw, OPTEE_FW_IMAGE, &pdev->dev);
-+	if (rc) {
-+		/*
-+		 * The firmware in the rootfs will not be accessible until we
-+		 * are in the SYSTEM_RUNNING state, so return EPROBE_DEFER until
-+		 * that point.
-+		 */
-+		if (system_state < SYSTEM_RUNNING)
-+			return -EPROBE_DEFER;
-+		goto fw_err;
-+	}
-+
-+	data_size = fw->size;
-+	/*
-+	 * This uses the GFP_DMA flag to ensure we are allocated memory in the
-+	 * 32-bit space since TF-A cannot map memory beyond the 32-bit boundary.
-+	 */
-+	data_buf = kmalloc(fw->size, GFP_KERNEL | GFP_DMA);
-+	if (!data_buf) {
-+		rc = -ENOMEM;
-+		goto fw_err;
-+	}
-+	memcpy(data_buf, fw->data, fw->size);
-+	data_pa = virt_to_phys(data_buf);
-+	reg_pair_from_64(&data_pa_high, &data_pa_low, data_pa);
-+	reg_pair_from_64(&data_size_high, &data_size_low, data_size);
-+	goto fw_load;
-+
-+fw_err:
-+	pr_warn("image loading failed\n");
-+	data_pa_high = data_pa_low = data_size_high = data_size_low = 0;
-+
-+fw_load:
-+	/*
-+	 * Always invoke the SMC, even if loading the image fails, to indicate
-+	 * to EL3 that we have passed the point where it should allow invoking
-+	 * this SMC.
-+	 */
-+	pr_warn("OP-TEE image loaded from kernel, this can be insecure");
-+	invoke_fn(OPTEE_SMC_CALL_LOAD_IMAGE, data_size_high, data_size_low,
-+		  data_pa_high, data_pa_low, 0, 0, 0, &res);
-+	if (!rc)
-+		rc = res.a0;
-+	if (fw)
-+		release_firmware(fw);
-+	kfree(data_buf);
-+
-+	if (!rc) {
-+		/*
-+		 * We need to initialize OP-TEE on all other running cores as
-+		 * well. Any cores that aren't running yet will get initialized
-+		 * when they are brought up by the power management functions in
-+		 * TF-A which are registered by the OP-TEE SPD. Due to that we
-+		 * can un-register the callback right after registering it.
-+		 */
-+		cpuhp_invoke_fn = invoke_fn;
-+		hp_state = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "optee:probe",
-+					     optee_cpuhp_probe, NULL);
-+		if (hp_state < 0) {
-+			pr_warn("Failed with CPU hotplug setup for OP-TEE");
-+			return -EINVAL;
-+		}
-+		cpuhp_remove_state(hp_state);
-+		cpuhp_invoke_fn = NULL;
-+	}
-+
-+	return rc;
-+}
-+#else
-+static inline int optee_load_fw(struct platform_device *pdev,
-+				optee_invoke_fn *invoke_fn)
-+{
-+	return 0;
-+}
-+#endif
-+
- static int optee_probe(struct platform_device *pdev)
- {
- 	optee_invoke_fn *invoke_fn;
-@@ -1372,6 +1502,10 @@ static int optee_probe(struct platform_device *pdev)
- 	if (IS_ERR(invoke_fn))
- 		return PTR_ERR(invoke_fn);
- 
-+	rc = optee_load_fw(pdev, invoke_fn);
-+	if (rc)
-+		return rc;
-+
- 	if (!optee_msg_api_uid_is_optee_api(invoke_fn)) {
- 		pr_warn("api uid mismatch\n");
- 		return -EINVAL;
--- 
-2.40.0.rc1.284.g88254d51c5-goog
 
+>
+>  -- Tim
+>
+> > Before:
+> >
+> >  KTAP version 1
+> >  1..1
+> >    KTAP version 1
+> >    1..2
+> >    ok 1 case_1
+> >    ok 2 case_2 #SKIP
+> >  ok 1 suite
+> >
+> > After:
+> >
+> >  KTAP version 2
+> >  1..1
+> >    KTAP version 2
+> >    1..2
+> >    ok 1 case_1
+> >    skip 2 case_2
+> >  ok 1 suite
+> >
+> > Here is a link to a version of the KUnit parser that is able to parse
+> > the skip test result for KTAP version 2. Note this parser is still able
+> > to parse the "#SKIP" directive.
+> >
+> > Link: https://kunit-review.googlesource.com/c/linux/+/5689
+> >
+> > Signed-off-by: Rae Moar <rmoar@google.com>
+> > ---
+> >
+> > Note: this patch is based on Frank's ktap_spec_version_2 branch.
+> >
+> >  Documentation/dev-tools/ktap.rst | 27 ++++++++++++++++++---------
+> >  1 file changed, 18 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools=
+/ktap.rst
+> > index ff77f4aaa6ef..f48aa00db8f0 100644
+> > --- a/Documentation/dev-tools/ktap.rst
+> > +++ b/Documentation/dev-tools/ktap.rst
+> > @@ -74,7 +74,8 @@ They are required and must have the format:
+> >       <result> <number> [<description>][ # [<directive>] [<diagnostic d=
+ata>]]
+> >
+> >  The result can be either "ok", which indicates the test case passed,
+> > -or "not ok", which indicates that the test case failed.
+> > +"not ok", which indicates that the test case failed, or "skip", which =
+indicates
+> > +the test case did not run.
+> >
+> >  <number> represents the number of the test being performed. The first =
+test must
+> >  have the number 1 and the number then must increase by 1 for each addi=
+tional
+> > @@ -91,12 +92,13 @@ A directive is a keyword that indicates a different=
+ outcome for a test other
+> >  than passed and failed. The directive is optional, and consists of a s=
+ingle
+> >  keyword preceding the diagnostic data. In the event that a parser enco=
+unters
+> >  a directive it doesn't support, it should fall back to the "ok" / "not=
+ ok"
+> > -result.
+> > +/ "skip" result.
+> >
+> >  Currently accepted directives are:
+> >
+> > -- "SKIP", which indicates a test was skipped (note the result of the t=
+est case
+> > -  result line can be either "ok" or "not ok" if the SKIP directive is =
+used)
+> > +- "SKIP", which indicates a test was skipped (note this is an alternat=
+ive to
+> > +  the "skip" result type and if the SKIP directive is used, the
+> > +  result can be any type - "ok", "not ok", or "skip")
+> >  - "TODO", which indicates that a test is not expected to pass at the m=
+oment,
+> >    e.g. because the feature it is testing is known to be broken. While =
+this
+> >    directive is inherited from TAP, its use in the kernel is discourage=
+d.
+> > @@ -110,7 +112,7 @@ Currently accepted directives are:
+> >
+> >  The diagnostic data is a plain-text field which contains any additiona=
+l details
+> >  about why this result was produced. This is typically an error message=
+ for ERROR
+> > -or failed tests, or a description of missing dependencies for a SKIP r=
+esult.
+> > +or failed tests, or a description of missing dependencies for a skippe=
+d test.
+> >
+> >  The diagnostic data field is optional, and results which have neither =
+a
+> >  directive nor any diagnostic data do not need to include the "#" field
+> > @@ -130,11 +132,18 @@ The test "test_case_name" failed.
+> >
+> >  ::
+> >
+> > -     ok 1 test # SKIP necessary dependency unavailable
+> > +     skip 1 test # necessary dependency unavailable
+> >
+> > -The test "test" was SKIPPED with the diagnostic message "necessary dep=
+endency
+> > +The test "test" was skipped with the diagnostic message "necessary dep=
+endency
+> >  unavailable".
+> >
+> > +::
+> > +
+> > +     ok 1 test_2 # SKIP this test should not run
+> > +
+> > +The test "test_2" was skipped with the diagnostic message "this test
+> > +should not run".
+> > +
+> >  ::
+> >
+> >       not ok 1 test # TIMEOUT 30 seconds
+> > @@ -225,7 +234,7 @@ An example format with multiple levels of nested te=
+sting:
+> >           not ok 1 test_1
+> >           ok 2 test_2
+> >         not ok 1 test_3
+> > -       ok 2 test_4 # SKIP
+> > +       skip 2 test_4
+> >       not ok 1 example_test_1
+> >       ok 2 example_test_2
+> >
+> > @@ -262,7 +271,7 @@ Example KTAP output
+> >         ok 1 example_test_1
+> >           KTAP version 2
+> >           1..2
+> > -         ok 1 test_1 # SKIP test_1 skipped
+> > +         skip 1 test_1 # test_1 skipped
+> >           ok 2 test_2
+> >         ok 2 example_test_2
+> >           KTAP version 2
+> >
+> > base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
+> > --
+> > 2.40.0.rc1.284.g88254d51c5-goog
+>
