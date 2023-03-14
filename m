@@ -2,70 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6777C6FD1F
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 18:36:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42B1BC05027
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 18:43:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230308AbjCNSgL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 14:36:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52850 "EHLO
+        id S230202AbjCNSns (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 14:43:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231163AbjCNSgC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 14:36:02 -0400
+        with ESMTP id S230304AbjCNSno (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 14:43:44 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8C2661336;
-        Tue, 14 Mar 2023 11:35:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E0B92069C;
+        Tue, 14 Mar 2023 11:43:23 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 390977F9;
-        Tue, 14 Mar 2023 18:35:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 390977F9
+        by ms.lwn.net (Postfix) with ESMTPSA id AAAA144A;
+        Tue, 14 Mar 2023 18:43:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AAAA144A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1678818912; bh=21JZoynDX/z31Zg5FGW/tyVDgDWZYcBOij++lRW0aQQ=;
+        t=1678819402; bh=vXcFQCSWg3zg+N5SvxjUYr1KPTEUQJWM2L2mMNEWz3U=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=A06TqP/wqaCeWsZk/smPQxO9J9asnMP0QPXWWpDmrvpBC1tglFyMA5uYzoSVYr8ik
-         Udf1dqxROogobGj3tCcq5Myf/ptx/CFTUeH8MuDfyYTFTq62HIQLd2S1W3vSKPyRuJ
-         JYvaugYf5m086thHXExnOXYpyAUTkvfySSHhKVYV9P+VifsankUv2QXD6zmL7P4eTF
-         ETGhHxGHmOvAwlLzLZCJ2IcwsLbZToyzvlpyrnLgI1MRNALI+Cjbsv8un/Hvu09H3O
-         sQIngbKwJFcR4KdMd/MOxhAZdb56+LhFlZdKiNcDz2b0wj8nrwype+gjVW3bU0UkWm
-         nSnPPQwAuGiIQ==
+        b=FbCkW3/SaNc0c5JVowyjmJlGDiszCAEfx/pGMPIFckqWAEMQ+ZdUaQI0aIm4JuFuM
+         SXyitb1L5kpwfn7Hx5n13ZnfoUmOpMV1oUz1+6B0NKkGPv9LLkIeC8sEOulAp3yDye
+         QstqF4HH8hTgRoWYaDA92j/cRXGyiltMDjdfNy7Rm5l6NqHk4dxVGkZFROZ5IGVFJ7
+         GsFkCoMA72mXqcCQ+fugn/1XKrTyfjcY2VZnhwhSP4QPtw8i6GWLQHezDn7Rxyukm6
+         l8HsI1rDuRXwh//2IEyvyfJ/h+i9a559xNi4P8B6u5OpyEyMpXSJcLJJBJsDwhSyTr
+         ELu6QvZaKeUng==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev
-Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
-In-Reply-To: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
-References: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
-Date:   Tue, 14 Mar 2023 12:35:11 -0600
-Message-ID: <87a60frxk0.fsf@meer.lwn.net>
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, backports@vger.kernel.org,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH] docs: add backporting and conflict resolution document
+In-Reply-To: <20230303162553.17212-1-vegard.nossum@oracle.com>
+References: <20230303162553.17212-1-vegard.nossum@oracle.com>
+Date:   Tue, 14 Mar 2023 12:43:21 -0600
+Message-ID: <875yb3rx6e.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+Vegard Nossum <vegard.nossum@oracle.com> writes:
 
-> Add a text explaining how to quickly build a kernel, as that's something
-> users will often have to do when they want to report an issue or test
-> proposed fixes.
+> This is a new document based on my 2022 blog post:
+>
+>   https://blogs.oracle.com/linux/post/backporting-patches-using-git
+>
+> Although this is aimed at stable contributors and distro maintainers, it
+> does also contain useful tips and tricks for anybody who needs to
+> resolve merge conflicts.
+>
+> By adding this to the kernel as documentation we can more easily point
+> to it e.g. from stable emails about failed backports, as well as allow
+> the community to modify it over time if necessary.
+>
+> I've added this under process/ since it also has
+> process/applying-patches.rst. Another interesting document is
+> maintainer/rebasing-and-merging.rst which maybe should eventually refer
+> to this one, but I'm leaving that as a future cleanup.
+>
+> Thanks to Harshit for helping with the original blog post as well as
+> this updated document.
+>
+> Cc: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> Cc: Jason A. Donenfeld <Jason@zx2c4.com>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+> ---
+>  Documentation/process/backporting.rst | 488 ++++++++++++++++++++++++++
+>  Documentation/process/index.rst       |   1 +
+>  2 files changed, 489 insertions(+)
+>  create mode 100644 Documentation/process/backporting.rst
 
-So I think the time has come to apply this.  I did have one final
-thought, though...  In the v2 discussion, you said:
+So I'm not seeing a lot of discussion here; I guess it's almost perfect
+:)  I would request, though, that you send me a version that conforms to
+our conventions for heading markup, as described in
 
-> Be warned, if it works I might do the same for "reporting issues". ;)
-> But let's first see how this goes (and if we get any feedback to be able
-> to tell if this experiment worked).
-
-This caused me to wonder if we shouldn't create a new book called
-"tutorials" for this kind of stuff, with an explicit proviso that a more
-web-oriented approach is OK in that section?  Tutorial documentation
-*is* quite different from reference material, but we've really made no
-effort to treat the two differently so far.
-
-Thoughts?
+  Documentation/doc-guide/sphinx.rst
+  https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#specific-guidelines-for-the-kernel-documentation
 
 Thanks,
 
