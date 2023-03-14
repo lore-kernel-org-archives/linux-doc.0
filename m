@@ -2,264 +2,229 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49BC0C6FD1D
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 22:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BFC4C6FD1D
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 22:45:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229540AbjCNWVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 18:21:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57814 "EHLO
+        id S229475AbjCNWpM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 18:45:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbjCNWVg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 18:21:36 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5190354CBE
-        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 15:20:58 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id n125so3586159ybg.7
-        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 15:20:58 -0700 (PDT)
+        with ESMTP id S230221AbjCNWpK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 18:45:10 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B374C53D9D
+        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 15:44:55 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-54195ef155aso154955757b3.9
+        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 15:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678832454;
+        d=joelfernandes.org; s=google; t=1678833895;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=prmEhq3NQgLd3x/54m3N/hnamRPai5NrclABlw05kvc=;
-        b=W+qNZdRIotMleNE57r9jiKwraAWhd5MwTIvahen0WEkE5PzTRfmpRXWqkUhrPuXIJq
-         iOnlW0h/sR5EQYT1noYI5h5qxP67NxcyQAYUBvPIaBiOTQ6INBGE5VpUu4nLVv1ZgT02
-         UaGlJgByAVV73JGmEHYNz/tvTczs8bNZngZHMdpmlwhzd0aMyKtTskgYYO5Z069HIK2B
-         cVaMa5F5P19meeZJc60/mXF3AP4vN/fYubS4IlRxhs0oMqcLwh8BqCqcUp6kNhSOb7DB
-         40YDvH/qdQ3IsnL5+jzoJFLVvdy1p1rDNpZ2WNL95MejPc/m90zkXXi/+fyynxXl5xwJ
-         oY5g==
+        bh=0s+v6LS+NWGEtMekhBGCmTrpxFB8JH+hOTMrHBsYtK4=;
+        b=wylb5Cm9tGFHdcSyHqaVU4JVgHjfM8KOIxKAZBd2UxJY76hTl2eMMQixud0G7Dq8EO
+         h1HfKUUqqmaP33OeH1fpEaybhv8EkcQlxzNlaP4MuSgwef44RLkrJurMtwd/xS1xFJfG
+         tVaVaM3er5ESki6s0/mAH/nBDMkm18KFK2Hxw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678832454;
+        d=1e100.net; s=20210112; t=1678833895;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=prmEhq3NQgLd3x/54m3N/hnamRPai5NrclABlw05kvc=;
-        b=sDXQy+MtkUMkXGkGa96L5wBTtGGcXrsWV1Qm3honPT6gVNRWX4WrYjbTo09OSUtuJp
-         Jji75d42ZLt2u3Wz818ilLb1a1amKqJaB7ss5EeUpmjoS16kaNU+pzenwAhvPeQZDSXw
-         Sj2r0P8c73hrDy3cO3+xwsF4pAlqtoyTU5b6BSkAHITuGudiWNrF/mGE0Hvoqv0TWReD
-         ufzSXk3WBKGIyNDsOmoVCbrld52NzkNTTgJSWjtUDCzOfNRHn2XwCSf1lk9xWQrpkuDW
-         VJiZQng7/ryOaGUGGPYM+AnEf9W2/qpIT6DGWrtee5Yc0xkSa1PgNCfUPW3k30SzM1eq
-         KpYA==
-X-Gm-Message-State: AO0yUKWcb2K37fCJW3/tj2u5zbbXc5IcMjuPcqnpgSnzdUvxVfL4+zR8
-        P11SIk/RaRQFlTTxwUpHnuQjyPxBal9F80qVts7avv6fnpcraDhUqM6Yrg==
-X-Google-Smtp-Source: AK7set8SkYGNcFnfYPsMfzR9x36zzygYapNbW6uZiul45TDLPJiNPfU+4GRchnUtuOZ+roEgbEeaRI7iP32Bln9WT6o=
-X-Received: by 2002:a5b:38a:0:b0:ac9:cb97:bd0e with SMTP id
- k10-20020a5b038a000000b00ac9cb97bd0emr19406415ybp.5.1678832453903; Tue, 14
- Mar 2023 15:20:53 -0700 (PDT)
+        bh=0s+v6LS+NWGEtMekhBGCmTrpxFB8JH+hOTMrHBsYtK4=;
+        b=A1GE+mYytXYW30WgwA/jc8DGPfRuMepix4vmUYklprXew95WKSaDdxOoyCs/HwhyPD
+         xq2XaFOjP7HLZBn8c5GDIjB/h0BsGDJHVHuYsR9y6qqes10iKf1P1GufgOi0kPlWbokc
+         kOZzK0r3pLxYU6EoTyzdA0vHvvHt1v1PWidU2RcUlbNFcM9XOI5pMNzxN5nPZnoLMFjw
+         4H09W3LIPt08oH54OmJzD1HyRtY5dJKoCOENBIj3cJV4rqMzj6Jse/CHO+kyDNcYtz9/
+         GmRQNiDIcjlTeFVAYYKKEoQojEREZ/9ty8XAvQ+nwz/XtEnYmdi69vF5dRJw7HNKq1j2
+         EZ4w==
+X-Gm-Message-State: AO0yUKV9SpNJeVTHcxq7a04j72ZbNLMugh8uKV7XgxMOvmhJHvVcgBU8
+        ezNQxt5u5cEdNKxbrGv14fEzg+r6jvdZaJi4kGo19A==
+X-Google-Smtp-Source: AK7set9LtcZDFc2p3zjc+4NxNeUeRxuXQiqiVNtY/S5MFikpUPdUCv6H0pTbKq+aRkNrK+6v+z+hk7RutqiDCpnJ6cA=
+X-Received: by 2002:a81:af21:0:b0:541:693f:cdd1 with SMTP id
+ n33-20020a81af21000000b00541693fcdd1mr8519425ywh.9.1678833894835; Tue, 14 Mar
+ 2023 15:44:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230310222002.3633162-1-rmoar@google.com> <490271eb-1429-2217-6e38-837c6e5e328b@gmail.com>
-In-Reply-To: <490271eb-1429-2217-6e38-837c6e5e328b@gmail.com>
-From:   Rae Moar <rmoar@google.com>
-Date:   Tue, 14 Mar 2023 18:20:42 -0400
-Message-ID: <CA+GJov4hw7yDRo2_uYWWe0chmBEtUh+t8aYhxSDXp2zch9cYvg@mail.gmail.com>
-Subject: Re: [KTAP V2 PATCH] ktap_v2: add skip test result
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     davidgow@google.com, skhan@linuxfoundation.org,
-        keescook@chromium.org, Tim.Bird@sony.com,
-        brendanhiggins@google.com, corbet@lwn.net,
-        guillaume.tucker@collabora.com, dlatypov@google.com,
-        kernelci@groups.io, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+References: <ZA7yK6iznHqiBu5i@pc636> <01559085-EB77-4962-B5EF-FF767F5A7353@joelfernandes.org>
+ <ZA9B+sgrlK5yommJ@pc636>
+In-Reply-To: <ZA9B+sgrlK5yommJ@pc636>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Tue, 14 Mar 2023 18:44:44 -0400
+Message-ID: <CAEXW_YQ=cr_KTCZ8+Gpx9XLz6K6_sdcz_9KBs+gZuhuc2UQuLg@mail.gmail.com>
+Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+To:     Uladzislau Rezki <urezki@gmail.com>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 11, 2023 at 10:52=E2=80=AFPM Frank Rowand <frowand.list@gmail.c=
-om> wrote:
+On Mon, Mar 13, 2023 at 11:32=E2=80=AFAM Uladzislau Rezki <urezki@gmail.com=
+> wrote:
 >
-> On 3/10/23 16:20, Rae Moar wrote:
-> > Add the test result "skip" to KTAP version 2 as an alternative way to
-> > indicate a test was skipped.
+> On Mon, Mar 13, 2023 at 06:58:30AM -0700, Joel Fernandes wrote:
 > >
-> > The current spec uses the "#SKIP" directive to indicate that a test was
-> > skipped. However, the "#SKIP" directive is not always evident when quic=
-kly
-> > skimming through KTAP results.
 > >
-> > The "skip" result would provide an alternative that could make it clear=
-er
-> > that a test has not successfully passed because it was skipped.
+> > > On Mar 13, 2023, at 2:51 AM, Uladzislau Rezki <urezki@gmail.com> wrot=
+e:
+> > >
+> > > =EF=BB=BFOn Fri, Mar 10, 2023 at 10:24:34PM -0800, Paul E. McKenney w=
+rote:
+> > >>> On Fri, Mar 10, 2023 at 09:55:02AM +0100, Uladzislau Rezki wrote:
+> > >>> On Thu, Mar 09, 2023 at 10:10:56PM +0000, Joel Fernandes wrote:
+> > >>>> On Thu, Mar 09, 2023 at 01:57:42PM +0100, Uladzislau Rezki wrote:
+> > >>>> [..]
+> > >>>>>>>>>> See this commit:
+> > >>>>>>>>>>
+> > >>>>>>>>>> 3705b88db0d7cc ("rcu: Add a module parameter to force use of
+> > >>>>>>>>>> expedited RCU primitives")
+> > >>>>>>>>>>
+> > >>>>>>>>>> Antti provided this commit precisely in order to allow Andro=
+id
+> > >>>>>>>>>> devices to expedite the boot process and to shut off the
+> > >>>>>>>>>> expediting at a time of Android userspace's choosing.  So An=
+droid
+> > >>>>>>>>>> has been making this work for about ten years, which strikes=
+ me
+> > >>>>>>>>>> as an adequate proof of concept.  ;-)
+> > >>>>>>>>>
+> > >>>>>>>>> Thanks for the pointer. That's true. Looking at Android sourc=
+es, I
+> > >>>>>>>>> find that Android Mediatek devices at least are setting
+> > >>>>>>>>> rcu_expedited to 1 at late stage of their userspace boot (whi=
+ch is
+> > >>>>>>>>> weird, it should be set to 1 as early as possible), and
+> > >>>>>>>>> interestingly I cannot find them resetting it back to 0!.  Ma=
+ybe
+> > >>>>>>>>> they set rcu_normal to 1? But I cannot find that either. Vlad=
+? :P
+> > >>>>>>>>
+> > >>>>>>>> Interesting.  Though this is consistent with Antti's commit lo=
+g,
+> > >>>>>>>> where he talks about expediting grace periods but not unexpedi=
+ting
+> > >>>>>>>> them.
+> > >>>>>>>>
+> > >>>>>>> Do you think we need to unexpedite it? :))))
+> > >>>>>>
+> > >>>>>> Android runs on smallish systems, so quite possibly not!
+> > >>>>>>
+> > >>>>> We keep it enabled and never unexpedite it. The reason is a perfo=
+rmance.  I
+> > >>>>> have done some app-launch time analysis with enabling and disabli=
+ng of it.
+> > >>>>>
+> > >>>>> An expedited case is much better when it comes to app launch time=
+. It
+> > >>>>> requires ~25% less time to run an app comparing with unexpedited =
+variant.
+> > >>>>> So we have a big gain here.
+> > >>>>
+> > >>>> Wow, that's huge. I wonder if you can dig deeper and find out why =
+that is so
+> > >>>> as the callbacks may need to be synchronize_rcu_expedited() then, =
+as it could
+> > >>>> be slowing down other usecases! I find it hard to believe, real-ti=
+me
+> > >>>> workloads will run better without those callbacks being always-exp=
+edited if
+> > >>>> it actually gives back 25% in performance!
+> > >>>>
+> > >>> I can dig further, but on a high level i think there are some spots
+> > >>> which show better performance if expedited is set. I mean synchroni=
+ze_rcu()
+> > >>> becomes as "less blocking a context" from a time point of view.
+> > >>>
+> > >>> The problem of a regular synchronize_rcu() is - it can trigger a bi=
+g latency
+> > >>> delays for a caller. For example for nocb case we do not know where=
+ in a list
+> > >>> our callback is located and when it is invoked to unblock a caller.
+> > >>
+> > >> True, expedited RCU grace periods do not have this callback-invocati=
+on
+> > >> delay that normal RCU does.
+> > >>
+> > >>> I have already mentioned somewhere. Probably it makes sense to dire=
+ctly wake-up
+> > >>> callers from the GP kthread instead and not via nocb-kthread that i=
+nvokes our callbacks
+> > >>> one by one.
+> > >>
+> > >> Makes sense, but it is necessary to be careful.  Wakeups are not fas=
+t,
+> > >> so making the RCU grace-period kthread do them all sequentially is n=
+ot
+> > >> a strategy to win.  For example, note that the next expedited grace
+> > >> period can start before the previous expedited grace period has fini=
+shed
+> > >> its wakeups.
+> > >>
+> > > I hove done a small and quick prototype:
+> > >
+> > > <snip>
+> > > diff --git a/include/linux/rcupdate_wait.h b/include/linux/rcupdate_w=
+ait.h
+> > > index 699b938358bf..e1a4cca9a208 100644
+> > > --- a/include/linux/rcupdate_wait.h
+> > > +++ b/include/linux/rcupdate_wait.h
+> > > @@ -9,6 +9,8 @@
+> > > #include <linux/rcupdate.h>
+> > > #include <linux/completion.h>
+> > >
+> > > +extern struct llist_head gp_wait_llist;
+> > > +
+> > > /*
+> > >  * Structure allowing asynchronous waiting on RCU.
+> > >  */
+> > > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> > > index ee27a03d7576..50b81ca54104 100644
+> > > --- a/kernel/rcu/tree.c
+> > > +++ b/kernel/rcu/tree.c
+> > > @@ -113,6 +113,9 @@ int rcu_num_lvls __read_mostly =3D RCU_NUM_LVLS;
+> > > int num_rcu_lvl[] =3D NUM_RCU_LVL_INIT;
+> > > int rcu_num_nodes __read_mostly =3D NUM_RCU_NODES; /* Total # rcu_nod=
+es in use. */
+> > >
+> > > +/* Waiters for a GP kthread. */
+> > > +LLIST_HEAD(gp_wait_llist);
+> > > +
+> > > /*
+> > >  * The rcu_scheduler_active variable is initialized to the value
+> > >  * RCU_SCHEDULER_INACTIVE and transitions RCU_SCHEDULER_INIT just bef=
+ore the
+> > > @@ -1776,6 +1779,14 @@ static noinline void rcu_gp_cleanup(void)
+> > >                on_each_cpu(rcu_strict_gp_boundary, NULL, 0);
+> > > }
+> > >
+> > > +static void rcu_notify_gp_end(struct llist_node *llist)
+> > > +{
+> > > +       struct llist_node *rcu, *next;
+> > > +
+> > > +       llist_for_each_safe(rcu, next, llist)
+> > > +               complete(&((struct rcu_synchronize *) rcu)->completio=
+n);
 > >
-> > Before:
+> > This looks broken to me, so the synchronize will complete even
+> > if it was called in the middle of an ongoing GP?
 > >
-> >  KTAP version 1
-> >  1..1
-> >    KTAP version 1
-> >    1..2
-> >    ok 1 case_1
-> >    ok 2 case_2 #SKIP
-> >  ok 1 suite
-> >
-> > After:
-> >
-> >  KTAP version 2
-> >  1..1
-> >    KTAP version 2
-> >    1..2
-> >    ok 1 case_1
-> >    skip 2 case_2
-> >  ok 1 suite
-> >
-> > Here is a link to a version of the KUnit parser that is able to parse
-> > the skip test result for KTAP version 2. Note this parser is still able
-> > to parse the "#SKIP" directive.
-> >
-> > Link: https://kunit-review.googlesource.com/c/linux/+/5689
-> >
-> > Signed-off-by: Rae Moar <rmoar@google.com>
-> > --->
-> > Note: this patch is based on Frank's ktap_spec_version_2 branch.
-> >
-> >  Documentation/dev-tools/ktap.rst | 27 ++++++++++++++++++---------
-> >  1 file changed, 18 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools=
-/ktap.rst
-> > index ff77f4aaa6ef..f48aa00db8f0 100644
-> > --- a/Documentation/dev-tools/ktap.rst
-> > +++ b/Documentation/dev-tools/ktap.rst
-> > @@ -74,7 +74,8 @@ They are required and must have the format:
-> >       <result> <number> [<description>][ # [<directive>] [<diagnostic d=
-ata>]]
-> >
-> >  The result can be either "ok", which indicates the test case passed,
-> > -or "not ok", which indicates that the test case failed.
-> > +"not ok", which indicates that the test case failed, or "skip", which =
-indicates
-> > +the test case did not run.
-> >
-> >  <number> represents the number of the test being performed. The first =
-test must
-> >  have the number 1 and the number then must increase by 1 for each addi=
-tional
-> > @@ -91,12 +92,13 @@ A directive is a keyword that indicates a different=
- outcome for a test other
-> >  than passed and failed. The directive is optional, and consists of a s=
-ingle
-> >  keyword preceding the diagnostic data. In the event that a parser enco=
-unters
-> >  a directive it doesn't support, it should fall back to the "ok" / "not=
- ok"
-> > -result.
-> > +/ "skip" result.
-> >
-> >  Currently accepted directives are:
-> >
-> > -- "SKIP", which indicates a test was skipped (note the result of the t=
-est case
-> > -  result line can be either "ok" or "not ok" if the SKIP directive is =
-used)
->
-> > +- "SKIP", which indicates a test was skipped (note this is an alternat=
-ive to
-> > +  the "skip" result type and if the SKIP directive is used, the
-> > +  result can be any type - "ok", "not ok", or "skip")
->
-> For the "SKIP" directive, result type of either "ok", or "not ok" reflect=
-s the
-> current real world usage, which is mixed.  I agree is makes sense to also
-> allow the result type of "skip" with the "SKIP directive.
->
-> I think it would be good to deprecate the "SKIP" directive, with a schedu=
-led
-> removal in the V3 specification - that would allow plenty of time for tes=
-t
-> parsers to process both V1 and V2 data, before removing processing of V1 =
-data.
->
-> If so, the deprecation plan should be documented.
->
+> Do you mean before replacing the list(and after rcu_gp_cleanup()) a new
+> GP sequence can be initiated?
 
-Hi Frank!
+It looks interesting, I am happy to try it on ChromeOS once you
+provide a patch, in case it improves something, even if that is
+suspend or boot time.
 
-This is a great point. I think it is necessary to add specifications
-on how the SKIP directive will be deprecated. I will be taking all of
-these suggestions when I make a v2.
+I think the main concern I had was if you did not wait for a full
+grace period (which as you indicated, you would fix), you are not
+really measuring the long delays that the full grace period can cause
+so IMHO it is important to only measure once correctness is preserved
+by the modification.  To that end, perhaps having rcutorture pass with
+your modification could be a vote of confidence before proceeding to
+performance tests.
 
-Also, just letting you know I am planning on sending out two more KTAP
-v2 proposals in the next few days.
-
-Thanks for your insight.
--Rae
-
-> >  - "TODO", which indicates that a test is not expected to pass at the m=
-oment,
-> >    e.g. because the feature it is testing is known to be broken. While =
-this>    directive is inherited from TAP, its use in the kernel is discoura=
-ged.
-> > @@ -110,7 +112,7 @@ Currently accepted directives are:
-> >
-> >  The diagnostic data is a plain-text field which contains any additiona=
-l details
-> >  about why this result was produced. This is typically an error message=
- for ERROR
-> > -or failed tests, or a description of missing dependencies for a SKIP r=
-esult.
-> > +or failed tests, or a description of missing dependencies for a skippe=
-d test.
-> >
-> >  The diagnostic data field is optional, and results which have neither =
-a
-> >  directive nor any diagnostic data do not need to include the "#" field
-> > @@ -130,11 +132,18 @@ The test "test_case_name" failed.
-> >
-> >  ::
-> >
-> > -     ok 1 test # SKIP necessary dependency unavailable
-> > +     skip 1 test # necessary dependency unavailable
->
-> Maybe add a note that the "skip" result method is preferred over the belo=
-w
-> "ok ... # SKIP..." example below.
->
-
-Will add this to v2.
-
-> >
-> > -The test "test" was SKIPPED with the diagnostic message "necessary dep=
-endency
-> > +The test "test" was skipped with the diagnostic message "necessary dep=
-endency
-> >  unavailable".
-> >
-> > +::
-> > +
-> > +     ok 1 test_2 # SKIP this test should not run
-> > +
-> > +The test "test_2" was skipped with the diagnostic message "this test
-> > +should not run".
->
-> Maybe add a deprecation note here.
->
-
-WIll add this to v2.
-
-> > +
-> >  ::
-> >
-> >       not ok 1 test # TIMEOUT 30 seconds
-> > @@ -225,7 +234,7 @@ An example format with multiple levels of nested te=
-sting:
-> >           not ok 1 test_1
-> >           ok 2 test_2
-> >         not ok 1 test_3
-> > -       ok 2 test_4 # SKIP
-> > +       skip 2 test_4
-> >       not ok 1 example_test_1
-> >       ok 2 example_test_2
-> >
-> > @@ -262,7 +271,7 @@ Example KTAP output
-> >         ok 1 example_test_1
-> >           KTAP version 2
-> >           1..2
-> > -         ok 1 test_1 # SKIP test_1 skipped
-> > +         skip 1 test_1 # test_1 skipped
-> >           ok 2 test_2
-> >         ok 2 example_test_2
-> >           KTAP version 2
-> >
-> > base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
->
+ - Joel
