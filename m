@@ -2,140 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BFEC05027
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 19:36:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A755C6FD1F
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 19:51:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbjCNTgu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 15:36:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52898 "EHLO
+        id S229722AbjCNTv2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 15:51:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230337AbjCNTgt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 15:36:49 -0400
-X-Greylist: delayed 318 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 14 Mar 2023 12:36:47 PDT
-Received: from out-37.mta0.migadu.com (out-37.mta0.migadu.com [91.218.175.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C124028E49
-        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 12:36:47 -0700 (PDT)
-Message-ID: <c6172fe2-7d88-f9f8-e19a-47c232f9cb75@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1678822287;
+        with ESMTP id S229519AbjCNTv1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 15:51:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F472E808
+        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 12:50:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678823432;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Jpb0Syl0w3M2RYRWL+D6ZXsAlme5/bd92q0A9qcn034=;
-        b=GA6+79xgEEorjqpRIjGJLRus/237ZKFgwHcN9/f6adnSLhAB18F5rj4cgBdo8F5D89Srj2
-        kv5PueqcYHd/pHnWbeEN28dRJ7kuIbzVXEpAseoNmlASbhTAvzptRFu2yXAIJ9fjJhGxbN
-        sN9g89XPf/z3NH+MuLV81fS/YFAfj5U=
-Date:   Tue, 14 Mar 2023 12:31:24 -0700
+        bh=3M5M7uIlC8hyhww3unkjtp+hcWjh4Vt7Gzo5dt9yCXk=;
+        b=PlIDzNitNYULMVGa06UyDFNQ3ffzuSNqXlVUxzivD2gJlNfbm/uhkN9jkO0EqgLbO5Pdmm
+        bQxgOyyavaFWj9Og5oIt2qRg2/y60ZNiPG0AA5K5qrb4CuEwheWwkpEMJmVUMg+252Z/hT
+        95fit1b2GIywqZtOLFsz1VzrUsNzpWo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-404-3pv0nfEjMBCC45D0Ch-0fA-1; Tue, 14 Mar 2023 15:50:26 -0400
+X-MC-Unique: 3pv0nfEjMBCC45D0Ch-0fA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAB8938123A8;
+        Tue, 14 Mar 2023 19:50:25 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.147])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E4AB540C6E67;
+        Tue, 14 Mar 2023 19:50:24 +0000 (UTC)
+Date:   Tue, 14 Mar 2023 14:50:23 -0500
+From:   Eric Blake <eblake@redhat.com>
+To:     Nir Soffer <nsoffer@redhat.com>
+Cc:     josef@toxicpanda.com, linux-block@vger.kernel.org,
+        nbd@other.debian.org, philipp.reisner@linbit.com,
+        lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] uapi nbd: add cookie alias to handle
+Message-ID: <20230314195023.bsey5bfq2atz7d66@redhat.com>
+References: <20230310201525.2615385-1-eblake@redhat.com>
+ <20230310201525.2615385-3-eblake@redhat.com>
+ <CAMRbyysDE+v_D6Q3tCf_+86T0V57UE4Emw6zc_4vnUu0Yau23A@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v3] docs/bpf: Add LRU internals description and
- graph
-Content-Language: en-US
-To:     Joe Stringer <joe@isovalent.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ast@kernel.org, corbet@lwn.net, bagasdotme@gmail.com,
-        maxtram95@gmail.com, bpf@vger.kernel.org
-References: <20230312190600.324573-1-joe@isovalent.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Martin KaFai Lau <martin.lau@linux.dev>
-In-Reply-To: <20230312190600.324573-1-joe@isovalent.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRbyysDE+v_D6Q3tCf_+86T0V57UE4Emw6zc_4vnUu0Yau23A@mail.gmail.com>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/12/23 12:05 PM, Joe Stringer wrote:
-> Extend the bpf hashmap docs to include a brief description of the
-> internals of the LRU map type (setting appropriate API expectations),
-> including the original commit message from Martin and a variant on the
-> graph that I had presented during my Linux Plumbers Conference 2022 talk
-> on "Pressure feedback for LRU map types"[0].
+On Sat, Mar 11, 2023 at 02:30:39PM +0200, Nir Soffer wrote:
+> On Fri, Mar 10, 2023 at 10:16 PM Eric Blake <eblake@redhat.com> wrote:
+> >
+> > The uapi <linux/nbd.h> header declares a 'char handle[8]' per request;
+> > which is overloaded in English (are you referring to "handle" the
+> > verb, such as handling a signal or writing a callback handler, or
+> > "handle" the noun, the value used in a lookup table to correlate a
+> > response back to the request).  Many client-side NBD implementations
+> > (both servers and clients) have instead used 'u64 cookie' or similar,
+> > as it is easier to directly assign an integer than to futz around with
+> > memcpy.  In fact, upstream documentation is now encouraging this shift
+> > in terminology: https://lists.debian.org/nbd/2023/03/msg00031.html
+> >
+> > Accomplish this by use of an anonymous union to provide the alias for
+> > anyone getting the definition from the uapi; this does not break
+> > existing clients, while exposing the nicer name for those who prefer
+> > it.  Note that block/nbd.c still uses the term handle (in fact, it
+> > actually combines a 32-bit cookie and a 32-bit tag into the 64-bit
+> > handle), but that internal usage is not changed the public uapi, since
+> > no compliant NBD server has any reason to inspect or alter the 64
+> > bits sent over the socket.
+> >
+> > Signed-off-by: Eric Blake <eblake@redhat.com>
+> > ---
+> >  include/uapi/linux/nbd.h | 10 ++++++++--
+> >  1 file changed, 8 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/include/uapi/linux/nbd.h b/include/uapi/linux/nbd.h
+> > index 8797387caaf7..f58f2043f62e 100644
+> > --- a/include/uapi/linux/nbd.h
+> > +++ b/include/uapi/linux/nbd.h
+> > @@ -81,7 +81,10 @@ enum {
+> >  struct nbd_request {
+> >         __be32 magic;   /* NBD_REQUEST_MAGIC    */
+> >         __be32 type;    /* See NBD_CMD_*        */
+> > -       char handle[8];
+> > +       union {
+> > +               char handle[8];
+> > +               __be64 cookie;
+> > +       };
+> >         __be64 from;
+> >         __be32 len;
+> >  } __attribute__((packed));
+> > @@ -93,6 +96,9 @@ struct nbd_request {
+> >  struct nbd_reply {
+> >         __be32 magic;           /* NBD_REPLY_MAGIC      */
+> >         __be32 error;           /* 0 = ok, else error   */
+> > -       char handle[8];         /* handle you got from request  */
+> > +       union {
+> > +               char handle[8]; /* handle you got from request  */
+> > +               __be64 cookie;
 > 
-> The node names in the dot file correspond roughly to the functions where
-> the logic for those decisions or steps is defined, to help curious
-> developers to cross-reference and update this logic if the details of
-> the LRU implementation ever differ from this description.
+> Should we document like this?
 > 
-> [0]: https://lpc.events/event/16/contributions/1368/
+>     union {
+>         __be64 cookie; /* cookie you got from request */
+>         char handle[8]; /* older name */
 > 
-> Signed-off-by: Joe Stringer <joe@isovalent.com>
-> ---
-> v3: Use standard table syntax
->      Replace inline commit message with reference to commit
->      Fix incorrect Y/N label for common LRU check
->      Rename some dotfile variables to reduce confusion between cases
->      Minor wording touchups
-> v2: Fix issue that caused initial email submission to fail
-> ---
->   Documentation/bpf/map_hash.rst            |  62 ++++++++
->   Documentation/bpf/map_lru_hash_update.dot | 166 ++++++++++++++++++++++
->   2 files changed, 228 insertions(+)
->   create mode 100644 Documentation/bpf/map_lru_hash_update.dot
-> 
-> diff --git a/Documentation/bpf/map_hash.rst b/Documentation/bpf/map_hash.rst
-> index 8669426264c6..61602ce26561 100644
-> --- a/Documentation/bpf/map_hash.rst
-> +++ b/Documentation/bpf/map_hash.rst
-> @@ -1,5 +1,6 @@
->   .. SPDX-License-Identifier: GPL-2.0-only
->   .. Copyright (C) 2022 Red Hat, Inc.
-> +.. Copyright (C) 2022-2023 Isovalent, Inc.
->   
->   ===============================================
->   BPF_MAP_TYPE_HASH, with PERCPU and LRU Variants
-> @@ -206,3 +207,64 @@ Userspace walking the map elements from the map declared above:
->                       cur_key = &next_key;
->               }
->       }
-> +
-> +Internals
-> +=========
-> +
-> +This section of the document is targeted at Linux developers and describes
-> +aspects of the map implementations that are not considered stable ABI. The
-> +following details are subject to change in future versions of the kernel.
-> +
-> +``BPF_MAP_TYPE_LRU_HASH`` and variants
-> +--------------------------------------
-> +
-> +An LRU hashmap type consists of two properties: Firstly, it is a hash map and
-> +hence is indexable by key for constant time lookups. Secondly, when at map
-> +capacity, map updates will trigger eviction of old entries based on the age of
-> +the elements in a set of lists. Each of these properties may be either global
-> +or per-CPU, depending on the map type and flags used to create the map:
-> +
-> ++------------------------+---------------------------+----------------------------------+
-> +|                        | ``BPF_MAP_TYPE_LRU_HASH`` | ``BPF_MAP_TYPE_LRU_PERCPU_HASH`` |
-> ++========================+===========================+==================================+
-> +| ``BPF_NO_COMMON_LRU``  | Per-CPU LRU, global map   | Per-CPU LRU, per-cpu map         |
-> ++------------------------+---------------------------+----------------------------------+
-> +| ``!BPF_NO_COMMON_LRU`` | Global LRU, global map    | Global LRU, per-cpu map          |
-> ++------------------------+---------------------------+----------------------------------+
-> +
-> +Notably, there are various steps that the update algorithm attempts in order to
-> +enforce the LRU property which have increasing impacts on other CPUs involved
-> +in the following operation attempts:
-> +
-> +- Attempt to use CPU-local state to batch operations
-> +- Attempt to fetch free nodes from global lists
-> +- Attempt to pull any node from a global list and remove it from the hashmap
-> +- Attempt to pull any node from any CPU's list and remove it from the hashmap
-> +
-> +Even if an LRU node may be acquired, maps of type ``BPF_MAP_TYPE_LRU_HASH``
-> +may fail to insert the entry into the map if other CPUs are heavily contending
-> +on the global hashmap lock.
+> I think we want future code to use the new term.
 
-The global hashmap lock described here is the action taken in htab_lock_bucket()?
+Sure, swapping the order to favor the preferred name first makes sense.
 
-It is a percpu counter added in commit 20b6cc34ea74 ("bpf: Avoid hashtab 
-deadlock with map_locked") to avoid deadlock/recursion.
+I'm still not sure on whether cookie should be u64 or __be64 (it's
+opaque, so endianness over the wire doesn't matter; and previous code
+was using memcpy() onto char[8] which may behave differently depending
+on machine endianness).
 
-I would suggest to simplify the diagram by removing the "Can lock this hashtab 
-bucket?" details. May be a note somewhere to mention why it will still fail to 
-shrink the list because the htab_lock_bucket() have detected potential 
-deadlock/recursion which is a very unlikely case.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
-
-Thanks for the write-up!
