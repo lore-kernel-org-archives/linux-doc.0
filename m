@@ -2,67 +2,65 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A62C05027
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 18:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 634B4C05027
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 18:14:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbjCNSNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 14:13:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34120 "EHLO
+        id S230045AbjCNSOQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 14:14:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229970AbjCNSNQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 14:13:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 866B88ABCF;
-        Tue, 14 Mar 2023 11:13:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229925AbjCNSOP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 14:14:15 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F05759435;
+        Tue, 14 Mar 2023 11:14:11 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2149761879;
-        Tue, 14 Mar 2023 18:13:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 85D46C433D2;
-        Tue, 14 Mar 2023 18:13:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678817594;
-        bh=AnGgtSPzBRKLrDam5NAp1ca6zEEeQ95nNXo4T1itm+4=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=j6T5MpV7zN07htIpi5I3A+7hBcCBFZPkVRVl6aRmkt8VOck3M4BSZxAYJ66r0uQAb
-         N5jbtdMMz9y5wrisc0nI9uZtwrDEwpoW6yMq/2/qaJyajwqV2wsySI5erpI7ra+C5z
-         xTtq+x9b0saWeaZJAlPMGXNSLt7g5o7ZixQzpjhxASRcDK7jGJ/f92cfhHK0W+9KJh
-         t4LIup2ADoZxnxE4VUA+oFvTVC67JZ2qoyBKz46blPeiQgyxUOExse65+omZ8zD2Hf
-         nCEJjX3+1HcsLnqhuoWfiOw4MJYzA9qMOvbyaEcM+PEZ7OhbtomfHeHfrVFtqy9qh4
-         zjv7FzR9q3jBg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 702CCE66CB8;
-        Tue, 14 Mar 2023 18:13:14 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation fixes for 6.3
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <874jqntes0.fsf@meer.lwn.net>
-References: <874jqntes0.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <874jqntes0.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.3-fixes
-X-PR-Tracked-Commit-Id: d7ba3657d5162bd551e5c653f67f941c94a7dc0a
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4979bf8668255a67449714653314662fbc7e5bdb
-Message-Id: <167881759443.21884.17446336243460735904.pr-tracker-bot@kernel.org>
-Date:   Tue, 14 Mar 2023 18:13:14 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        by ms.lwn.net (Postfix) with ESMTPSA id EF2167F9;
+        Tue, 14 Mar 2023 18:14:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EF2167F9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1678817651; bh=lUrqa8jLrtpfMVx6uWFdQ2BCdF/ODCpQlIY3k3MELtw=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=MWsudCPKVsPUV4bz8k/qw+KNbsyL0dSHZZKJjhVuq/HEseT13hGRX9FYnm0tOMlO3
+         /FrQiLwbbPPWpmnzZJ2Ry5wu2eBSnQfle+cO5kmM3Ta1cidGIQ7fAi54btm0e6lN8+
+         T08Ds67+VJtM9ETTNjLMTRUBWk327OgMoslY08AVZPOWxgAfLTkRzJDbKhl0PWaR2r
+         C70m5+6tqT4RScDs0iQ+vTx6htwydTTYohRvxreCMLRipKNOs7c9OK/HIa+mXUQqt/
+         S6dH2vRR5c6idT3SKkRh/53GWhdnNuBLLdqOUXUbIK3nkdJ5MVJZUukEWT9PIBfzCi
+         2v9CXcHkFLUIw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Joe Stringer <joe@isovalent.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH linux-doc] docs/doc-guide: Clarify how to write tables
+In-Reply-To: <CADa=RyzQmTEFnpKehGoKihmz+EniibjWQ0P12XMwqgqQ8UcO-w@mail.gmail.com>
+References: <20230312201712.367545-1-joe@isovalent.com>
+ <875yb5wwed.fsf@meer.lwn.net>
+ <CADa=RyzQmTEFnpKehGoKihmz+EniibjWQ0P12XMwqgqQ8UcO-w@mail.gmail.com>
+Date:   Tue, 14 Mar 2023 12:14:10 -0600
+Message-ID: <87r0trryj1.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Tue, 14 Mar 2023 11:37:51 -0600:
+Joe Stringer <joe@isovalent.com> writes:
 
-> git://git.lwn.net/linux.git tags/docs-6.3-fixes
+>> ...and if they do merit an exception, why would we prefer the full grid
+>> format (which is harder to create and maintain) than the simple table
+>> format?  Most of the time, the simple format can do what's needed, and I
+>> don't think it's less readable.
+>
+> I'm not opinionated about grid format, I just picked one. But this is
+> interesting - If simple table is the preferred format, then that
+> sounds like the sort of detail that this docs page should communicate.
+> For example:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4979bf8668255a67449714653314662fbc7e5bdb
+I think that either format is fine, both are readable.  I just
+questioned whether we should push people toward the grid format, which
+takes more effort to create, in the absence of a reason to do so.
 
-Thank you!
+Thanks,
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+jon
