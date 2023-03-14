@@ -2,724 +2,209 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5D5EC6FD1C
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 12:25:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2266AC6FD1D
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 13:52:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231290AbjCNMYs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 08:24:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42654 "EHLO
+        id S232542AbjCNNwt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 09:52:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232030AbjCNMY2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 08:24:28 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A99CA17F4;
-        Tue, 14 Mar 2023 05:20:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678796451; x=1710332451;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=SU/628EAilcQrCm1rWJvSvItC7D0pYLXOncg222SWP4=;
-  b=A+lpz+yPTPRZ8NHezwcHvNyomox5Vdb01S+O1WRl+sIqfrPmAFPXurs+
-   iwS4x7RsjVqyIqkKaUM5QAC+WWbbiLfeV4+I+nbuhDYOFNubN8osOReDY
-   Pf11gU8BX5FT3OrK+FBjn/BD0HxmzyfSNgTzVgf1J8dOtlktppPuuEDt4
-   Va+UipfRreHtSj5FtrzXsmYnBs+yADmCiGMKJVazGaJlGxu9jAI6dnOdw
-   VWJhmi+E/qxj/V40k2xYTr/h7DmtM58g3Nn5Y8JSG/wvOhKDcDxrlDBrH
-   a3YAJ53kPtNGB4VzWYxKssfME6u7qM730tK1v5ycFhd33R0tvkZ1XPniK
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="336098941"
-X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="336098941"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 05:19:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="656317191"
-X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="656317191"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.237.142.115]) ([10.237.142.115])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 05:19:26 -0700
-Message-ID: <4b84823a-dc4d-a907-bacb-451a2d91d7d8@linux.intel.com>
-Date:   Tue, 14 Mar 2023 13:19:24 +0100
+        with ESMTP id S232537AbjCNNwd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 09:52:33 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87D28303DD;
+        Tue, 14 Mar 2023 06:49:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7155AB81980;
+        Tue, 14 Mar 2023 13:49:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12796C433D2;
+        Tue, 14 Mar 2023 13:49:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678801758;
+        bh=1WmlzPS+6cez3LsKTYEHzEW4sKCzQVYF8W9D81cn868=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=dUY9zUU8IniXEcE4aZUe8hiR6Xo8MdBLhAvOB5bfTKttTXPiwTUxo7QgMR0a6cSJx
+         x49+CmD2YdmB2r5+OVyGqXo5gTG+v6KuLa32vC8KfdCLV+e18b6x0ZlUByJSh8kwbU
+         fCJNicuHv5JNez6zstXvZisdXIQF1SwzE783qvMmXDKdclka8Z3K8AmOk2xrWWUP7N
+         SzGwG7bccChm7qjk6YYYuqVbFQByzyM2S740yhK06Jj8rgswhrNkIBV0gERB6OcGdg
+         GtG0s0Vo3EKrZGikBaqsxDwlNuWPPUm3Qa0+QNmaADEttNWOzCkq8MDVwpkC3WFzN0
+         +GP0fprcUntmA==
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 93F9C1540395; Tue, 14 Mar 2023 06:49:17 -0700 (PDT)
+Date:   Tue, 14 Mar 2023 06:49:17 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Uladzislau Rezki <urezki@gmail.com>
+Cc:     Joel Fernandes <joel@joelfernandes.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+Message-ID: <a3966480-5c2d-42be-96c2-3ac88ecc5963@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <ZA7yK6iznHqiBu5i@pc636>
+ <01559085-EB77-4962-B5EF-FF767F5A7353@joelfernandes.org>
+ <ZA9B+sgrlK5yommJ@pc636>
+ <CAEXW_YTgDM+47rfz0XNjeV8MMPnhyfCcXX+o74SqONvwd4wfzA@mail.gmail.com>
+ <ZA9nd8LN4+qO5Sdn@pc636>
+ <c7a7fac9-ae29-404d-98ec-e01e2c63968e@paulmck-laptop>
+ <ZBBXo/z21UQYgQ+9@pc636>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 6/8] accel/qaic: Add mhi_qaic_cntl
-Content-Language: en-US
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
-        ogabbay@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
-        stanislaw.gruszka@linux.intel.com, dri-devel@lists.freedesktop.org
-Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
-        quic_carlv@quicinc.com
-References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
- <1678138443-2760-7-git-send-email-quic_jhugo@quicinc.com>
-From:   Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <1678138443-2760-7-git-send-email-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZBBXo/z21UQYgQ+9@pc636>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On 06.03.2023 22:34, Jeffrey Hugo wrote:
-> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+On Tue, Mar 14, 2023 at 12:16:51PM +0100, Uladzislau Rezki wrote:
+> On Mon, Mar 13, 2023 at 11:56:34AM -0700, Paul E. McKenney wrote:
+> > On Mon, Mar 13, 2023 at 07:12:07PM +0100, Uladzislau Rezki wrote:
+> > > On Mon, Mar 13, 2023 at 11:49:58AM -0400, Joel Fernandes wrote:
+> > > > On Mon, Mar 13, 2023 at 11:32 AM Uladzislau Rezki <urezki@gmail.com> wrote:
+> > > > > On Mon, Mar 13, 2023 at 06:58:30AM -0700, Joel Fernandes wrote:
+> > > > > > > On Mar 13, 2023, at 2:51 AM, Uladzislau Rezki <urezki@gmail.com> wrote:
+> > > > > > >
+> > > > > > > ﻿On Fri, Mar 10, 2023 at 10:24:34PM -0800, Paul E. McKenney wrote:
+> > > > > > >>> On Fri, Mar 10, 2023 at 09:55:02AM +0100, Uladzislau Rezki wrote:
+> > > > > > >>> On Thu, Mar 09, 2023 at 10:10:56PM +0000, Joel Fernandes wrote:
+> > > > > > >>>> On Thu, Mar 09, 2023 at 01:57:42PM +0100, Uladzislau Rezki wrote:
+> > > > > > >>>> [..]
+> > > > > > >>>>>>>>>> See this commit:
+> > > > > > >>>>>>>>>>
+> > > > > > >>>>>>>>>> 3705b88db0d7cc ("rcu: Add a module parameter to force use of
+> > > > > > >>>>>>>>>> expedited RCU primitives")
+> > > > > > >>>>>>>>>>
+> > > > > > >>>>>>>>>> Antti provided this commit precisely in order to allow Android
+> > > > > > >>>>>>>>>> devices to expedite the boot process and to shut off the
+> > > > > > >>>>>>>>>> expediting at a time of Android userspace's choosing.  So Android
+> > > > > > >>>>>>>>>> has been making this work for about ten years, which strikes me
+> > > > > > >>>>>>>>>> as an adequate proof of concept.  ;-)
+> > > > > > >>>>>>>>>
+> > > > > > >>>>>>>>> Thanks for the pointer. That's true. Looking at Android sources, I
+> > > > > > >>>>>>>>> find that Android Mediatek devices at least are setting
+> > > > > > >>>>>>>>> rcu_expedited to 1 at late stage of their userspace boot (which is
+> > > > > > >>>>>>>>> weird, it should be set to 1 as early as possible), and
+> > > > > > >>>>>>>>> interestingly I cannot find them resetting it back to 0!.  Maybe
+> > > > > > >>>>>>>>> they set rcu_normal to 1? But I cannot find that either. Vlad? :P
+> > > > > > >>>>>>>>
+> > > > > > >>>>>>>> Interesting.  Though this is consistent with Antti's commit log,
+> > > > > > >>>>>>>> where he talks about expediting grace periods but not unexpediting
+> > > > > > >>>>>>>> them.
+> > > > > > >>>>>>>>
+> > > > > > >>>>>>> Do you think we need to unexpedite it? :))))
+> > > > > > >>>>>>
+> > > > > > >>>>>> Android runs on smallish systems, so quite possibly not!
+> > > > > > >>>>>>
+> > > > > > >>>>> We keep it enabled and never unexpedite it. The reason is a performance.  I
+> > > > > > >>>>> have done some app-launch time analysis with enabling and disabling of it.
+> > > > > > >>>>>
+> > > > > > >>>>> An expedited case is much better when it comes to app launch time. It
+> > > > > > >>>>> requires ~25% less time to run an app comparing with unexpedited variant.
+> > > > > > >>>>> So we have a big gain here.
+> > > > > > >>>>
+> > > > > > >>>> Wow, that's huge. I wonder if you can dig deeper and find out why that is so
+> > > > > > >>>> as the callbacks may need to be synchronize_rcu_expedited() then, as it could
+> > > > > > >>>> be slowing down other usecases! I find it hard to believe, real-time
+> > > > > > >>>> workloads will run better without those callbacks being always-expedited if
+> > > > > > >>>> it actually gives back 25% in performance!
+> > > > > > >>>>
+> > > > > > >>> I can dig further, but on a high level i think there are some spots
+> > > > > > >>> which show better performance if expedited is set. I mean synchronize_rcu()
+> > > > > > >>> becomes as "less blocking a context" from a time point of view.
+> > > > > > >>>
+> > > > > > >>> The problem of a regular synchronize_rcu() is - it can trigger a big latency
+> > > > > > >>> delays for a caller. For example for nocb case we do not know where in a list
+> > > > > > >>> our callback is located and when it is invoked to unblock a caller.
+> > > > > > >>
+> > > > > > >> True, expedited RCU grace periods do not have this callback-invocation
+> > > > > > >> delay that normal RCU does.
+> > > > > > >>
+> > > > > > >>> I have already mentioned somewhere. Probably it makes sense to directly wake-up
+> > > > > > >>> callers from the GP kthread instead and not via nocb-kthread that invokes our callbacks
+> > > > > > >>> one by one.
+> > > > > > >>
+> > > > > > >> Makes sense, but it is necessary to be careful.  Wakeups are not fast,
+> > > > > > >> so making the RCU grace-period kthread do them all sequentially is not
+> > > > > > >> a strategy to win.  For example, note that the next expedited grace
+> > > > > > >> period can start before the previous expedited grace period has finished
+> > > > > > >> its wakeups.
+> > > > > > >>
+> > > > > > > I hove done a small and quick prototype:
+> > > > > > >
+> > > > > > > <snip>
+> > > > > > > diff --git a/include/linux/rcupdate_wait.h b/include/linux/rcupdate_wait.h
+> > > > > > > index 699b938358bf..e1a4cca9a208 100644
+> > > > > > > --- a/include/linux/rcupdate_wait.h
+> > > > > > > +++ b/include/linux/rcupdate_wait.h
+> > > > > > > @@ -9,6 +9,8 @@
+> > > > > > > #include <linux/rcupdate.h>
+> > > > > > > #include <linux/completion.h>
+> > > > > > >
+> > > > > > > +extern struct llist_head gp_wait_llist;
+> > > > > > > +
+> > > > > > > /*
+> > > > > > >  * Structure allowing asynchronous waiting on RCU.
+> > > > > > >  */
+> > > > > > > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> > > > > > > index ee27a03d7576..50b81ca54104 100644
+> > > > > > > --- a/kernel/rcu/tree.c
+> > > > > > > +++ b/kernel/rcu/tree.c
+> > > > > > > @@ -113,6 +113,9 @@ int rcu_num_lvls __read_mostly = RCU_NUM_LVLS;
+> > > > > > > int num_rcu_lvl[] = NUM_RCU_LVL_INIT;
+> > > > > > > int rcu_num_nodes __read_mostly = NUM_RCU_NODES; /* Total # rcu_nodes in use. */
+> > > > > > >
+> > > > > > > +/* Waiters for a GP kthread. */
+> > > > > > > +LLIST_HEAD(gp_wait_llist);
+> > 
+> > This being a single global will of course fail due to memory contention
+> > on large systems.  So a patch that is ready for mainline must either
+> > have per-rcu_node-structure lists or similar.
+> > 
+> I agree. This is a prototype and the aim is a proof of concept :)
+> On bigger systems gp can starve if it wake-ups a lot of users.
 > 
-> Some of the MHI channels for an AIC100 device need to be routed to
-> userspace so that userspace can communicate directly with QSM. The MHI
-> bus does not support this, and while the WWAN subsystem does (for the same
-> reasons), AIC100 is not a WWAN device. Also, MHI is not something that
-> other accelerators are expected to share, thus an accel subsystem function
-> that meets this usecase is unlikely.
+> At lease i see that a camera-app improves in terms of launch time.
+> It is around 12% percent.
+
+Understood and agreed, lack of scalablity is OK for a prototype
+for testing purposes.
+
+> > > > > > > /*
+> > > > > > >  * The rcu_scheduler_active variable is initialized to the value
+> > > > > > >  * RCU_SCHEDULER_INACTIVE and transitions RCU_SCHEDULER_INIT just before the
+> > > > > > > @@ -1776,6 +1779,14 @@ static noinline void rcu_gp_cleanup(void)
+> > > > > > >                on_each_cpu(rcu_strict_gp_boundary, NULL, 0);
+> > > > > > > }
+> > > > > > >
+> > > > > > > +static void rcu_notify_gp_end(struct llist_node *llist)
+> > 
+> > And calling this directly from rcu_gp_kthread() is a no-go for large
+> > systems because the large number of wakeups will CPU-bound that kthread.
+> > Also, it would be better to invoke this from rcu_gp_cleanup().
+> > 
+> > One option would be to do the wakeups from a workqueue handler.
+> > 
+> > You might also want to have an array of lists indexed by the bottom few
+> > bits of the RCU grace-period sequence number.  This would reduce the
+> > number of spurious wakeups.
+> > 
+> > > > > > > +{
+> > > > > > > +       struct llist_node *rcu, *next;
+> > > > > > > +
+> > > > > > > +       llist_for_each_safe(rcu, next, llist)
+> > > > > > > +               complete(&((struct rcu_synchronize *) rcu)->completion);
+> > 
+> > If you don't eliminate spurious wakeups, it is necessary to do something
+> > like checking poll_state_synchronize_rcu() reject those wakeups.
+> > 
+> OK.
 > 
-> Create a QAIC specific MHI userspace shim that exposes these channels.
-> 
-> Start with QAIC_SAHARA which is required to boot AIC100 and is consumed by
-> the kickstart application as documented in aic100.rst
-> 
-> Each AIC100 instance (currently, up to 16) in a system will create a
-> chardev for QAIC_SAHARA. This chardev will be found as
-> /dev/<mhi instance>_QAIC_SAHARA
-> For example - /dev/mhi0_QAIC_SAHARA
-> 
-> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> ---
->  drivers/accel/qaic/mhi_qaic_ctrl.c | 581 +++++++++++++++++++++++++++++++++++++
->  drivers/accel/qaic/mhi_qaic_ctrl.h |  11 +
->  2 files changed, 592 insertions(+)
->  create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.c
->  create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.h
-> 
-> diff --git a/drivers/accel/qaic/mhi_qaic_ctrl.c b/drivers/accel/qaic/mhi_qaic_ctrl.c
-> new file mode 100644
-> index 0000000..f97279fd
-> --- /dev/null
-> +++ b/drivers/accel/qaic/mhi_qaic_ctrl.c
-> @@ -0,0 +1,581 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/mhi.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/poll.h>
-> +#include <linux/version.h>
-> +#include <linux/xarray.h>
-> +#include <uapi/linux/eventpoll.h>
-> +
-> +#include "mhi_qaic_ctrl.h"
-> +#include "qaic.h"
-> +
-> +#define MHI_QAIC_CTRL_DRIVER_NAME	"mhi_qaic_ctrl"
-> +#define MHI_QAIC_CTRL_MAX_MINORS	128
-> +#define MHI_MAX_MTU			0xffff
-> +static DEFINE_XARRAY_ALLOC(mqc_xa);
-> +static struct class *mqc_dev_class;
-> +static int mqc_dev_major;
-> +
-> +/**
-> + * struct mqc_buf - Buffer structure used to receive data from device
-> + * @data: Address of data to read from
-> + * @odata: Original address returned from *alloc() API. Used to free this buf.
-> + * @len: Length of data in byte
-> + * @node: This buffer will be part of list managed in struct mqc_dev
-> + */
-> +struct mqc_buf {
-> +	void *data;
-> +	void *odata;
-> +	size_t len;
-> +	struct list_head node;
-> +};
-> +
-> +/**
-> + * struct mqc_dev - MHI QAIC Control Device
-> + * @minor: MQC device node minor number
-> + * @mhi_dev: Associated mhi device object
-> + * @mtu: Max TRE buffer length
-> + * @enabled: Flag to track the state of the MQC device
-> + * @lock: Mutex lock to serialize access to open_count
-> + * @read_lock: Mutex lock to serialize readers
-> + * @write_lock: Mutex lock to serialize writers
-> + * @ul_wq: Wait queue for writers
-> + * @dl_wq: Wait queue for readers
-> + * @dl_queue_lock: Spin lock to serialize access to download queue
-> + * @dl_queue: Queue of downloaded buffers
-> + * @open_count: Track open counts
-> + * @ref_count: Reference count for this structure
-> + */
-> +struct mqc_dev {
-> +	uint32_t minor;
-> +	struct mhi_device *mhi_dev;
-> +	size_t mtu;
-> +	bool enabled;
+> I will come up with some data and figures soon.
 
-Is enabled really needed. I would think that mhi_qaic_ctrl_remove() won't be called
-unless all open files are closed.
+Sounds good!
 
-> +	struct mutex lock;
-> +	struct mutex read_lock;
-> +	struct mutex write_lock;
-> +	wait_queue_head_t ul_wq;
-> +	wait_queue_head_t dl_wq;
-> +	spinlock_t dl_queue_lock;
-> +	struct list_head dl_queue;
-> +	unsigned int open_count;
-> +	struct kref ref_count;
-> +};
-> +
-> +static void mqc_dev_release(struct kref *ref)
-> +{
-> +	struct mqc_dev *mqcdev = container_of(ref, struct mqc_dev, ref_count);
-> +
-> +	mutex_destroy(&mqcdev->read_lock);
-> +	mutex_destroy(&mqcdev->write_lock);
-> +	mutex_destroy(&mqcdev->lock);
-> +	kfree(mqcdev);
-> +}
-> +
-> +static int mhi_qaic_ctrl_fill_dl_queue(struct mqc_dev *mqcdev)
-> +{
-> +	struct mhi_device *mhi_dev = mqcdev->mhi_dev;
-> +	struct mqc_buf *ctrlbuf;
-> +	int rx_budget;
-> +	int ret = 0;
-> +	void *data;
-> +
-> +	rx_budget = mhi_get_free_desc_count(mhi_dev, DMA_FROM_DEVICE);
-> +	if (rx_budget < 0)
-> +		return -EIO;
-> +
-> +	while (rx_budget--) {
-> +		data = kzalloc(mqcdev->mtu + sizeof(*ctrlbuf), GFP_KERNEL);
-> +		if (!data)
-> +			return -ENOMEM;
-> +
-> +		ctrlbuf = data + mqcdev->mtu;
-> +		ctrlbuf->odata = data;
-> +
-> +		ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, data, mqcdev->mtu, MHI_EOT);
-> +		if (ret) {
-> +			kfree(data);
-> +			dev_err(&mhi_dev->dev, "Failed to queue buffer\n");
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int mhi_qaic_ctrl_dev_start_chan(struct mqc_dev *mqcdev)
-> +{
-> +	struct device *dev = &mqcdev->mhi_dev->dev;
-> +	int ret = 0;
-> +
-> +	ret = mutex_lock_interruptible(&mqcdev->lock);
-> +	if (ret)
-> +		return ret;
-> +	if (!mqcdev->enabled) {
-
-How "enabled" can be 0 here? It is rather not possible to open the device after
-it was released.
-
-> +		ret = -ENODEV;
-> +		goto release_dev_lock;
-> +	}
-> +	if (!mqcdev->open_count) {
-> +		ret = mhi_prepare_for_transfer(mqcdev->mhi_dev);
-> +		if (ret) {
-> +			dev_err(dev, "Error starting transfer channels\n");
-> +			goto release_dev_lock;
-> +		}
-> +
-> +		ret = mhi_qaic_ctrl_fill_dl_queue(mqcdev);
-> +		if (ret) {
-> +			dev_err(dev, "Error filling download queue.\n");
-> +			goto mhi_unprepare;
-> +		}
-> +	}
-> +	mqcdev->open_count++;
-> +	mutex_unlock(&mqcdev->lock);
-> +
-> +	return 0;
-> +
-> +mhi_unprepare:
-> +	mhi_unprepare_from_transfer(mqcdev->mhi_dev);
-> +release_dev_lock:
-> +	mutex_unlock(&mqcdev->lock);
-> +	return ret;
-> +}
-> +
-> +static struct mqc_dev *mqc_dev_get_by_minor(unsigned int minor)
-> +{
-> +	struct mqc_dev *mqcdev;
-> +
-> +	xa_lock(&mqc_xa);
-> +	mqcdev = xa_load(&mqc_xa, minor);
-> +	if (mqcdev)
-> +		kref_get(&mqcdev->ref_count);
-> +	xa_unlock(&mqc_xa);
-> +
-> +	return mqcdev;
-> +}
-> +
-> +static int mhi_qaic_ctrl_open(struct inode *inode, struct file *filp)
-> +{
-> +	struct mqc_dev *mqcdev;
-> +	int ret;
-> +
-> +	mqcdev = mqc_dev_get_by_minor(iminor(inode));
-> +	if (!mqcdev) {
-> +		pr_debug("mqc: minor %d not found\n", iminor(inode));
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = mhi_qaic_ctrl_dev_start_chan(mqcdev);
-> +	if (ret) {
-> +		kref_put(&mqcdev->ref_count, mqc_dev_release);
-> +		return ret;
-> +	}
-> +
-> +	filp->private_data = mqcdev;
-> +
-> +	return 0;
-> +}
-> +
-> +static void mhi_qaic_ctrl_buf_free(struct mqc_buf *ctrlbuf)
-> +{
-> +	list_del(&ctrlbuf->node);
-> +	kfree(ctrlbuf->odata);
-> +}
-> +
-> +static void __mhi_qaic_ctrl_release(struct mqc_dev *mqcdev)
-> +{
-> +	struct mqc_buf *ctrlbuf, *tmp;
-> +
-> +	mhi_unprepare_from_transfer(mqcdev->mhi_dev);
-> +	wake_up_interruptible(&mqcdev->ul_wq);
-> +	wake_up_interruptible(&mqcdev->dl_wq);
-> +	/*
-> +	 * Free the dl_queue. As we have already unprepared mhi transfers, we
-> +	 * do not expect any callback functions that update dl_queue hence no need
-> +	 * to grab dl_queue lock.
-> +	 */
-> +	mutex_lock(&mqcdev->read_lock);
-> +	list_for_each_entry_safe(ctrlbuf, tmp, &mqcdev->dl_queue, node)
-> +		mhi_qaic_ctrl_buf_free(ctrlbuf);
-> +	mutex_unlock(&mqcdev->read_lock);
-> +}
-> +
-> +static int mhi_qaic_ctrl_release(struct inode *inode, struct file *file)
-> +{
-> +	struct mqc_dev *mqcdev = file->private_data;
-> +
-> +	mutex_lock(&mqcdev->lock);
-> +	mqcdev->open_count--;
-> +	if (!mqcdev->open_count && mqcdev->enabled)
-> +		__mhi_qaic_ctrl_release(mqcdev);
-> +	mutex_unlock(&mqcdev->lock);
-> +
-> +	kref_put(&mqcdev->ref_count, mqc_dev_release);
-> +
-> +	return 0;
-> +}
-> +
-> +static __poll_t mhi_qaic_ctrl_poll(struct file *file, poll_table *wait)
-> +{
-> +	struct mqc_dev *mqcdev = file->private_data;
-> +	struct mhi_device *mhi_dev;
-> +	__poll_t mask = 0;
-> +
-> +	mhi_dev = mqcdev->mhi_dev;
-> +
-> +	poll_wait(file, &mqcdev->ul_wq, wait);
-> +	poll_wait(file, &mqcdev->dl_wq, wait);
-> +
-> +	mutex_lock(&mqcdev->lock);
-> +	if (!mqcdev->enabled || !mqcdev->open_count) {
-> +		mutex_unlock(&mqcdev->lock);
-> +		return EPOLLERR;
-> +	}
-> +
-> +	spin_lock_bh(&mqcdev->dl_queue_lock);
-> +	if (!list_empty(&mqcdev->dl_queue))
-> +		mask |= EPOLLIN | EPOLLRDNORM;
-> +	spin_unlock_bh(&mqcdev->dl_queue_lock);
-> +
-> +	if (mutex_lock_interruptible(&mqcdev->write_lock)) {
-> +		mutex_unlock(&mqcdev->lock);
-> +		return EPOLLERR;
-> +	}
-> +	if (mhi_get_free_desc_count(mhi_dev, DMA_TO_DEVICE) > 0)
-> +		mask |= EPOLLOUT | EPOLLWRNORM;
-> +	mutex_unlock(&mqcdev->write_lock);
-> +	mutex_unlock(&mqcdev->lock);
-> +
-> +	dev_dbg(&mhi_dev->dev, "Client attempted to poll, returning mask 0x%x\n", mask);
-> +
-> +	return mask;
-> +}
-> +
-> +static int mhi_qaic_ctrl_tx(struct mqc_dev *mqcdev)
-> +{
-> +	int ret;
-> +
-> +	ret = wait_event_interruptible(mqcdev->ul_wq,
-> +				       (!mqcdev->enabled || !mqcdev->open_count ||
-> +				       mhi_get_free_desc_count(mqcdev->mhi_dev,
-> +							       DMA_TO_DEVICE) > 0));
-> +
-> +	if (!mqcdev->open_count)
-> +		return -EPIPE;
-> +	if (!mqcdev->enabled)
-> +		return -ENODEV;
-
-I think that both "open_count" and "enabled" will never be 0 here.
-This function is called by read() and read() cannot be called without open
-file descriptor.
-
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t mhi_qaic_ctrl_write(struct file *file, const char __user *buf, size_t count,
-> +				   loff_t *offp)
-> +{
-> +	struct mqc_dev *mqcdev = file->private_data;
-> +	struct mhi_device *mhi_dev;
-> +	size_t bytes_xfered = 0;
-> +	struct device *dev;
-> +	int ret, nr_desc;
-> +
-> +	mhi_dev = mqcdev->mhi_dev;
-> +	dev = &mhi_dev->dev;
-> +
-> +	if (!mhi_dev->ul_chan)
-> +		return -EOPNOTSUPP;
-> +
-> +	if (!buf || !count)
-> +		return -EINVAL;
-> +
-> +	dev_dbg(dev, "Request to transfer %zu bytes\n", count);
-> +
-> +	ret = mhi_qaic_ctrl_tx(mqcdev);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to write %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	if (mutex_lock_interruptible(&mqcdev->write_lock))
-> +		return -EINTR;
-> +
-> +	nr_desc = mhi_get_free_desc_count(mhi_dev, DMA_TO_DEVICE);
-> +	if (nr_desc * mqcdev->mtu < count) {
-> +		ret = -EMSGSIZE;
-> +		dev_dbg(dev, "Buffer too big to transfer\n");
-> +		goto unlock_mutex;
-> +	}
-> +
-> +	while (count != bytes_xfered) {
-> +		enum mhi_flags flags;
-> +		size_t to_copy;
-> +		void *kbuf;
-> +
-> +		to_copy = min_t(size_t, count - bytes_xfered, mqcdev->mtu);
-> +		kbuf = kmalloc(to_copy, GFP_KERNEL);
-> +		if (!kbuf) {
-> +			ret = -ENOMEM;
-> +			goto unlock_mutex;
-> +		}
-> +
-> +		ret = copy_from_user(kbuf, buf + bytes_xfered, to_copy);
-> +		if (ret) {
-> +			kfree(kbuf);
-> +			ret = -EFAULT;
-> +			goto unlock_mutex;
-> +		}
-> +
-> +		if (bytes_xfered + to_copy == count)
-> +			flags = MHI_EOT;
-> +		else
-> +			flags = MHI_CHAIN;
-> +
-> +		ret = mhi_queue_buf(mhi_dev, DMA_TO_DEVICE, kbuf, to_copy, flags);
-> +		if (ret) {
-> +			kfree(kbuf);
-> +			dev_err(dev, "Failed to queue buf of size %zu\n", to_copy);
-> +			goto unlock_mutex;
-> +		}
-> +
-> +		bytes_xfered += to_copy;
-> +	}
-> +
-> +	mutex_unlock(&mqcdev->write_lock);
-> +	dev_dbg(dev, "bytes xferred: %zu\n", bytes_xfered);
-> +
-> +	return bytes_xfered;
-> +
-> +unlock_mutex:
-> +	mutex_unlock(&mqcdev->write_lock);
-> +	return ret;
-> +}
-> +
-> +static int mhi_qaic_ctrl_rx(struct mqc_dev *mqcdev)
-> +{
-> +	int ret;
-> +
-> +	ret = wait_event_interruptible(mqcdev->dl_wq, (!mqcdev->enabled || !mqcdev->open_count ||
-> +				       !list_empty(&mqcdev->dl_queue)));
-> +
-> +	if (!mqcdev->open_count)
-> +		return -EPERM;
-> +	if (!mqcdev->enabled)
-> +		return -ENODEV;
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t mhi_qaic_ctrl_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
-> +{
-> +	struct mqc_dev *mqcdev = file->private_data;
-> +	struct mqc_buf *ctrlbuf;
-> +	size_t to_copy;
-> +	int ret;
-> +
-> +	if (!mqcdev->mhi_dev->dl_chan)
-> +		return -EOPNOTSUPP;
-> +
-> +	ret = mhi_qaic_ctrl_rx(mqcdev);
-> +	if (ret) {
-> +		dev_err(&mqcdev->mhi_dev->dev, "Failed to read %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	if (mutex_lock_interruptible(&mqcdev->read_lock))
-> +		return -EINTR;
-> +
-> +	ctrlbuf = list_first_entry_or_null(&mqcdev->dl_queue, struct mqc_buf, node);
-> +	if (!ctrlbuf) {
-> +		mutex_unlock(&mqcdev->read_lock);
-> +		dev_dbg(&mqcdev->mhi_dev->dev, "Device has been released\n");
-
-I don't believe that the device can be released while in read() syscall.
-This error can only happen if read() from another thread processed the dl_queue first.
-
-> +		ret = -ENODEV;
-> +		goto error_out;
-> +	}
-> +
-> +	to_copy = min_t(size_t, count, ctrlbuf->len);
-> +	if (copy_to_user(buf, ctrlbuf->data, to_copy)) {
-> +		mutex_unlock(&mqcdev->read_lock);
-> +		dev_dbg(&mqcdev->mhi_dev->dev, "Failed to copy data to user buffer\n");
-> +		ret = -EFAULT;
-> +		goto error_out;
-> +	}
-> +
-> +	ctrlbuf->len -= to_copy;
-> +	ctrlbuf->data += to_copy;
-> +
-> +	if (!ctrlbuf->len) {
-> +		spin_lock_bh(&mqcdev->dl_queue_lock);
-> +		mhi_qaic_ctrl_buf_free(ctrlbuf);
-> +		spin_unlock_bh(&mqcdev->dl_queue_lock);
-> +		mhi_qaic_ctrl_fill_dl_queue(mqcdev);
-> +		dev_dbg(&mqcdev->mhi_dev->dev, "Read buf freed\n");
-> +	}
-> +
-> +	mutex_unlock(&mqcdev->read_lock);
-> +	return to_copy;
-> +
-> +error_out:
-> +	mutex_unlock(&mqcdev->read_lock);
-> +	return ret;
-> +}
-> +
-> +static const struct file_operations mhidev_fops = {
-> +	.owner = THIS_MODULE,
-> +	.open = mhi_qaic_ctrl_open,
-> +	.release = mhi_qaic_ctrl_release,
-> +	.read = mhi_qaic_ctrl_read,
-> +	.write = mhi_qaic_ctrl_write,
-> +	.poll = mhi_qaic_ctrl_poll,
-> +};
-> +
-> +static void mhi_qaic_ctrl_ul_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
-> +{
-> +	struct mqc_dev *mqcdev = dev_get_drvdata(&mhi_dev->dev);
-> +
-> +	dev_dbg(&mhi_dev->dev, "%s: status: %d xfer_len: %zu\n", __func__,
-> +		mhi_result->transaction_status, mhi_result->bytes_xferd);
-> +
-> +	kfree(mhi_result->buf_addr);
-> +
-> +	if (!mhi_result->transaction_status)
-> +		wake_up_interruptible(&mqcdev->ul_wq);
-> +}
-> +
-> +static void mhi_qaic_ctrl_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
-> +{
-> +	struct mqc_dev *mqcdev = dev_get_drvdata(&mhi_dev->dev);
-> +	struct mqc_buf *ctrlbuf;
-> +
-> +	dev_dbg(&mhi_dev->dev, "%s: status: %d receive_len: %zu\n", __func__,
-> +		mhi_result->transaction_status, mhi_result->bytes_xferd);
-> +
-> +	if (mhi_result->transaction_status &&
-> +	    mhi_result->transaction_status != -EOVERFLOW) {
-> +		kfree(mhi_result->buf_addr);
-> +		return;
-> +	}
-> +
-> +	ctrlbuf = mhi_result->buf_addr + mqcdev->mtu;
-> +	ctrlbuf->data = mhi_result->buf_addr;
-> +	ctrlbuf->len = mhi_result->bytes_xferd;
-> +	spin_lock_bh(&mqcdev->dl_queue_lock);
-> +	list_add_tail(&ctrlbuf->node, &mqcdev->dl_queue);
-> +	spin_unlock_bh(&mqcdev->dl_queue_lock);
-> +
-> +	wake_up_interruptible(&mqcdev->dl_wq);
-> +}
-> +
-> +static int mhi_qaic_ctrl_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
-> +{
-> +	struct mqc_dev *mqcdev;
-> +	struct device *dev;
-> +	int ret;
-> +
-> +	mqcdev = kzalloc(sizeof(*mqcdev), GFP_KERNEL);
-> +	if (!mqcdev)
-> +		return -ENOMEM;
-> +
-> +	kref_init(&mqcdev->ref_count);
-> +	mutex_init(&mqcdev->lock);
-> +	mqcdev->mhi_dev = mhi_dev;
-> +
-> +	ret = xa_alloc(&mqc_xa, &mqcdev->minor, mqcdev, XA_LIMIT(0, MHI_QAIC_CTRL_MAX_MINORS),
-> +		       GFP_KERNEL);
-> +	if (ret) {
-> +		kfree(mqcdev);
-> +		return ret;
-> +	}
-> +
-> +	init_waitqueue_head(&mqcdev->ul_wq);
-> +	init_waitqueue_head(&mqcdev->dl_wq);
-> +	mutex_init(&mqcdev->read_lock);
-> +	mutex_init(&mqcdev->write_lock);
-> +	spin_lock_init(&mqcdev->dl_queue_lock);
-> +	INIT_LIST_HEAD(&mqcdev->dl_queue);
-> +	mqcdev->mtu = min_t(size_t, id->driver_data, MHI_MAX_MTU);
-> +	mqcdev->enabled = true;
-> +	mqcdev->open_count = 0;
-> +	dev_set_drvdata(&mhi_dev->dev, mqcdev);
-> +
-> +	dev = device_create(mqc_dev_class, &mhi_dev->dev, MKDEV(mqc_dev_major, mqcdev->minor),
-> +			    mqcdev, "%s", dev_name(&mhi_dev->dev));
-> +	if (IS_ERR(dev)) {
-> +		xa_erase(&mqc_xa, mqcdev->minor);
-> +		dev_set_drvdata(&mhi_dev->dev, NULL);
-> +		kfree(mqcdev);
-> +		return PTR_ERR(dev);
-> +	}
-> +
-> +	return 0;
-> +};
-> +
-> +static void mhi_qaic_ctrl_remove(struct mhi_device *mhi_dev)
-> +{
-> +	struct mqc_dev *mqcdev = dev_get_drvdata(&mhi_dev->dev);
-> +
-> +	device_destroy(mqc_dev_class, MKDEV(mqc_dev_major, mqcdev->minor));
-> +
-> +	mutex_lock(&mqcdev->lock);
-> +	mqcdev->enabled = false;
-> +	if (mqcdev->open_count)
-> +		__mhi_qaic_ctrl_release(mqcdev);
-> +	mutex_unlock(&mqcdev->lock);
-> +
-> +	xa_erase(&mqc_xa, mqcdev->minor);
-> +	kref_put(&mqcdev->ref_count, mqc_dev_release);
-> +}
-> +
-> +/* .driver_data stores max mtu */
-> +static const struct mhi_device_id mhi_qaic_ctrl_match_table[] = {
-> +	{ .chan = "QAIC_SAHARA", .driver_data = SZ_32K},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(mhi, mhi_qaic_ctrl_match_table);
-> +
-> +static struct mhi_driver mhi_qaic_ctrl_driver = {
-> +	.id_table = mhi_qaic_ctrl_match_table,
-> +	.remove = mhi_qaic_ctrl_remove,
-> +	.probe = mhi_qaic_ctrl_probe,
-> +	.ul_xfer_cb = mhi_qaic_ctrl_ul_xfer_cb,
-> +	.dl_xfer_cb = mhi_qaic_ctrl_dl_xfer_cb,
-> +	.driver = {
-> +		.name = MHI_QAIC_CTRL_DRIVER_NAME,
-> +	},
-> +};
-> +
-> +int mhi_qaic_ctrl_init(void)
-> +{
-> +	int ret;
-> +
-> +	ret = register_chrdev(0, MHI_QAIC_CTRL_DRIVER_NAME, &mhidev_fops);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	mqc_dev_major = ret;
-> +	mqc_dev_class = class_create(THIS_MODULE, MHI_QAIC_CTRL_DRIVER_NAME);
-> +	if (IS_ERR(mqc_dev_class)) {
-> +		ret = PTR_ERR(mqc_dev_class);
-> +		goto unregister_chrdev;
-> +	}
-> +
-> +	ret = mhi_driver_register(&mhi_qaic_ctrl_driver);
-> +	if (ret)
-> +		goto destroy_class;
-> +
-> +	return 0;
-> +
-> +destroy_class:
-> +	class_destroy(mqc_dev_class);
-> +unregister_chrdev:
-> +	unregister_chrdev(mqc_dev_major, MHI_QAIC_CTRL_DRIVER_NAME);
-> +	return ret;
-> +}
-> +
-> +void mhi_qaic_ctrl_deinit(void)
-> +{
-> +	mhi_driver_unregister(&mhi_qaic_ctrl_driver);
-> +	class_destroy(mqc_dev_class);
-> +	unregister_chrdev(mqc_dev_major, MHI_QAIC_CTRL_DRIVER_NAME);
-> +	xa_destroy(&mqc_xa);
-> +}
-> diff --git a/drivers/accel/qaic/mhi_qaic_ctrl.h b/drivers/accel/qaic/mhi_qaic_ctrl.h
-> new file mode 100644
-> index 0000000..0545540
-> --- /dev/null
-> +++ b/drivers/accel/qaic/mhi_qaic_ctrl.h
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only
-> + *
-> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef __MHI_QAIC_CTRL_H__
-> +#define __MHI_QAIC_CTRL_H__
-> +
-> +int mhi_qaic_ctrl_init(void);
-> +void mhi_qaic_ctrl_deinit(void);
-
-Please add a new line here.
-
-> +#endif /* __MHI_QAIC_CTRL_H__ */
-
-Regards,
-Jacek
+							Thanx, Paul
