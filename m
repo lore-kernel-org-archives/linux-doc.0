@@ -2,139 +2,724 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B928C7618B
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 12:23:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5D5EC6FD1C
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 12:25:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232127AbjCNMXk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 08:23:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41788 "EHLO
+        id S231290AbjCNMYs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 08:24:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232030AbjCNMXY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 08:23:24 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2065.outbound.protection.outlook.com [40.107.223.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B039594A50;
-        Tue, 14 Mar 2023 05:19:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g3WDBv07MJwEPIPj5e1H/6dIyeGnO/kDetGCEewrmiaI9QuWS1YOTmgDYuhETpc6KwAWJZf7mIulVdaaeW0f9PVc2kE3qAvdS2s9GMSflApLaA2kpxK1LvJn5ph2Z6Osy4+pMrIh8UHTDQSg2jJbEqacXTi8HnruDkIhg6p0wDDr5P1cmb8otRlsCzVGEytingkUEWs6gg/djWC+3n9x6gm3ilsf6VL0HByfcu+f4vcK10b4OwxU/yuoSw6zrpa1HfbJnAA4rF3+Q1kKAAXgNZo6RJso5vDg7YYuvONLa+nRuZG6l/sx7oLEF0FgvEsIFQbt35scziNwIMIyQEQwQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gSwzhKFPYeA9ZYWordZ/2WtBeLQd/uECwPCK4IbTyxg=;
- b=FdjZqdh51uinotLSMhS/kqKA/JOvRF7p2xAhi2aRKQ3cYOxSqOs/Dil2pVE7Nb15qIzBIBSSETX3Wzg3buoTTmB7Bk+HkJefWdGdK3UwavbnQgxfwAuGUSo1eCMC0y6UHumrAmQhhsBZ1zYynbizStdvtRAzOk/qg1+fmgtUSoe040x0YenOTf4wLhJ9Hq+5XMAYyMJvVf8fOo5Xl9uzx2pUOW7+ejT5uZk6RPDtFNsnz6lMuCxk5FKR5CuJ6kJPMp5v8huUv6f6u5TlAEABl2+tYtM7GMaU7f26242M6dMPG1xH49NkmUpHGOoD7fxJUFKXKshSj77B0p40Rbbf6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gSwzhKFPYeA9ZYWordZ/2WtBeLQd/uECwPCK4IbTyxg=;
- b=UJiSclOYUOrSf2NhQYAe1CvEqVyE7JO225OAMUpRqTloGTOpeoiSnlNdTVLI5NZNfCzwtxwzvzCcVmwAgwpRSIcLlS/Odd54DOZ4IzqfF3xmmAA837s2KYJmSc+dKMyAtoliA+HLQ9XmHh/nwKlJ+ML0UoZOobXmeX816IYf6I7NhNssq7K2GMuiry80uMl1CPcesk36ITKSKc8vpxVMEkUQ4Pqnjtn64wwZ8m3G3kxsku82gf8gbVfxTWdMThG6MgI3sTVpz2/1DDAuSadegqu1uHxnl3MpdgaOP00FbKVst+SXzaVOZjflkKEZmw7D1Wl5bL28VDzfjpT6YFDpdg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
- DS7PR12MB6336.namprd12.prod.outlook.com (2603:10b6:8:93::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.26; Tue, 14 Mar 2023 12:18:19 +0000
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::5464:997b:389:4b07]) by CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::5464:997b:389:4b07%9]) with mapi id 15.20.6178.026; Tue, 14 Mar 2023
- 12:18:19 +0000
-Message-ID: <636816e1-522c-d1a1-a7d5-3a1b5608216c@nvidia.com>
-Date:   Tue, 14 Mar 2023 12:17:59 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH V3 4/6] hte: Add Tegra234 provider
-Content-Language: en-US
-To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        robh+dt@kernel.org, timestamp@lists.linux.dev,
-        krzysztof.kozlowski+dt@linaro.org, brgl@bgdev.pl, corbet@lwn.net,
-        gregkh@linuxfoundation.org
-References: <20230310190634.5053-1-dipenp@nvidia.com>
- <20230310190634.5053-5-dipenp@nvidia.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-In-Reply-To: <20230310190634.5053-5-dipenp@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO3P265CA0005.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:bb::10) To CO6PR12MB5444.namprd12.prod.outlook.com
- (2603:10b6:5:35e::8)
+        with ESMTP id S232030AbjCNMY2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 08:24:28 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A99CA17F4;
+        Tue, 14 Mar 2023 05:20:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678796451; x=1710332451;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=SU/628EAilcQrCm1rWJvSvItC7D0pYLXOncg222SWP4=;
+  b=A+lpz+yPTPRZ8NHezwcHvNyomox5Vdb01S+O1WRl+sIqfrPmAFPXurs+
+   iwS4x7RsjVqyIqkKaUM5QAC+WWbbiLfeV4+I+nbuhDYOFNubN8osOReDY
+   Pf11gU8BX5FT3OrK+FBjn/BD0HxmzyfSNgTzVgf1J8dOtlktppPuuEDt4
+   Va+UipfRreHtSj5FtrzXsmYnBs+yADmCiGMKJVazGaJlGxu9jAI6dnOdw
+   VWJhmi+E/qxj/V40k2xYTr/h7DmtM58g3Nn5Y8JSG/wvOhKDcDxrlDBrH
+   a3YAJ53kPtNGB4VzWYxKssfME6u7qM730tK1v5ycFhd33R0tvkZ1XPniK
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="336098941"
+X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
+   d="scan'208";a="336098941"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 05:19:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="656317191"
+X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
+   d="scan'208";a="656317191"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.237.142.115]) ([10.237.142.115])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 05:19:26 -0700
+Message-ID: <4b84823a-dc4d-a907-bacb-451a2d91d7d8@linux.intel.com>
+Date:   Tue, 14 Mar 2023 13:19:24 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:EE_|DS7PR12MB6336:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1daa99d7-faeb-4ecc-334c-08db2486321f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Mzm1R+czblmEB5mMVyYp2BOhMP8BxJmOPhuBzPglpNQc292xcSKCaJ6iZoTqfPBbB+PTy8U/9jNP2r7lP9J7wmnXmW6ng1bTnwPz7D/tGEssrPU+1HQk+HXhY0Q2Tmqto2C2/knL8VAsPeDheTaZeZQk1sHzsd9DNQTnbMWgBbibBtPVtEmWHOCNI/XFWqwwV+mhI+4xqUFZHfMCTi58PVq+/aJzT+7gGej+1CMXFQwHZb3q7xe18XD4jqTcD36aeMRZnqKHsE4tfbaH5qIpGoUBKm2JwiHw0jEBMXm2hgwkml6ZUT0o9ZOYu5xJK6QFWrvZ2syBhsGJjTI/Sr+Y0AkSNgr2I9/IATp8ascDzMc2zVxQvYIFdN7CgYeQNHK0sJdBIXPGc6iY3V1ZjmDKCU66apUHyvwjiZuWqRyaJWGNQ1HAgENtzdJ7b8kNcq8WoYUoeaZea4+gLuBsMEjvaj13oZcX0Uwh93W9EvwMXAmLiyuG/L5q1v6wSDhYYUhdbaJmOKy3oHuABCPI9Lvgrf1Q7cZADwETe49eLF9BGhXIJXXORm++fMGJbnz2oFfk8mZb824nWVSKJMvOFX0jUZ+Mamkq2tZGsZSoMEi9eO6pS7SSx0ODUyMuGIqy2LoIIPdgqJN27Zo4gVBaO+MdnHEn3IsshrHUigI9xxCgJrVbhmfgDrKrpFq4mznNCM1quEvMOcV6MU4AyRszx3LOmSdmHf7Y1dIEzyVlQ/wyrom5toOcuBk1w8LiKz4dysXd
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(376002)(346002)(396003)(366004)(136003)(451199018)(31696002)(921005)(86362001)(38100700002)(36756003)(41300700001)(2906002)(7416002)(4744005)(8936002)(5660300002)(6512007)(6506007)(186003)(26005)(2616005)(55236004)(53546011)(316002)(8676002)(66556008)(66476007)(66946007)(6666004)(6486002)(478600001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RlkwTmFZWnl3eUducHRDblZKaVdLTW9LTXk3NFVoSmsxUkE2ZjFxWC84Mkhl?=
- =?utf-8?B?RVl6ZU1ESG5TdHc4U04yYVAxUDltMU43eHV0R1dHT081Q3YydThLWHRzWmh0?=
- =?utf-8?B?TFY0MWVtNitwVUVFY1liL0JZaUptdkpYUzNKNDA0T001WkRzLzNSM01zODRZ?=
- =?utf-8?B?bHQya0FnSURaby9yZFhvVlh3MEhJYTcyVVdwNW4xTE9hY0syY1JoQ3ZtZk9l?=
- =?utf-8?B?Y05oclF2cXpTTnRGOGtSeVFGcnJ5RXhwTXNueUlHWXNVMDgvSjRwcjhEU0lU?=
- =?utf-8?B?SXhHdEVxR1NpcHpVbUJCeC9RaUYrNkxOdkozK0NaM25oeWJWVlB1SVo3dkRG?=
- =?utf-8?B?ZUtBZmFrWjJmKzRndDlmVGl6Z1Nkc0lDWENGUU90Ym0vUTh1bzZYa3EwZVRR?=
- =?utf-8?B?Q055OHJ2b0V6UjhBaCsyZDBRazQ3SGh1WGNoN1Q0aFM4UUhpR3prbnQ1RDQ0?=
- =?utf-8?B?bnNYak9DaXFIZG5SUms5Yk9vLzV5WTlJRjRxdkV3NjhFUk9scVl3ZThzblho?=
- =?utf-8?B?VkJ6Zll4TjNkbE1LY3dFWkxFSUM2cWRVZjV2TTlqTzlpNmliYzA3NzdaNXpy?=
- =?utf-8?B?UFRDV1dQMXBIQ2I1OHdpMXJjQVM0RVR5RnEwQTlIWjBid2JGR2FVRTFVdXdq?=
- =?utf-8?B?RnU0cDFaZitRb1RBODQ4OUx0amtDMkNSRm5qTjh5WVVkTWo3alZobk5ZTTYx?=
- =?utf-8?B?K3UxbnA2M2RuNm9pdmxSWitxS2pxUDZMelVZSTZXVmdZTU9GdldqOVJSWExL?=
- =?utf-8?B?UlAxQ212djR2OHNhQktJVm8wT3VqQ2p5ekNJK1Y4OHJpdEF3R2QvUHZVYmh4?=
- =?utf-8?B?RitFTGRvVlovNFF6WGFuWEwreTNuaFNTZXJoNjc3K21nVGp0TENrckNaTi9Y?=
- =?utf-8?B?SG0zK2JwRmI3YXlQdS9FUVdud3BzaklCS3l2YWVibjBONzFEQlZVMWxROTBB?=
- =?utf-8?B?bkF3M1BKcE10QU9RTXlvK3lLaHJlVW0xWmNlS1F1aGpoeFRjaUZTdmczMFFM?=
- =?utf-8?B?Ylh5SHpBZG1wNngreTFDQlB3dkJaNitoWm1wazVweC91TitlRDY0SDFTTDlj?=
- =?utf-8?B?RDFyaktkdHRKSURZa0trOXN6cjBoU1JTUFJhaE4xZ21XYlN5N2xRVzJNVEla?=
- =?utf-8?B?SExEeFVxQklFL0FXcmlaZ3MwTHBlUytMekFBcDQvYmZCemg3NnlxQThzdFBB?=
- =?utf-8?B?NDQ4RXdqOThVQ2JtQUJNTnlZODBpUnBMMmJ4aHlWSzNqOXcrMWtvNEVmMVJi?=
- =?utf-8?B?Q2JKR3JKT3N4cnoyZEQ3TXk4RldWZkZCZjNTd2VtSytxZ1J6THFuamlmb0xB?=
- =?utf-8?B?cnNYb0tqMk45Q2xlR1RLdmJTMlRFMW9YNXF4a1Y3b1p4Rm9UL09IaXJwYmVu?=
- =?utf-8?B?RkdnbXQ1Y0lGM1dFVnl4Q1gyaGg3K1h3UlY4eTFMMitjSmVnWTFzS0h3SUJZ?=
- =?utf-8?B?d1Zha0VsSzBpZ3lFNmZBK0lVcE1TbDNCWG9uTzQ4T3p4Yy9hTWhWVmxCeWF6?=
- =?utf-8?B?ZGhsU3k0RVNWRk53NUhnUllnVW00cTlmQXJKUGtXd0ZNSFptQUE2MVQzQ3Vh?=
- =?utf-8?B?Z2c4SGVxNVFwVG5LaW5PUkoyK25BR2tBWFo4N0RkY3ZObnNwZ3dFbFB5Q3h2?=
- =?utf-8?B?bW10eVpVc0xDYWREMG8rQU00YWFvV2hQaGFtWUN0amhVdmwwKy9wYjJ3VmVs?=
- =?utf-8?B?eUVHTzNReFQzVVNZS1ljbWdIK2JVc3JQbTV2eGFOVW1lUk9iUW5XbnBpb3A3?=
- =?utf-8?B?Y0JXRTY1Ui9MYkJHR2JreXBwNWNVWVVxNWxvUC9EWkNzNTh5aFB3WVAyS2tB?=
- =?utf-8?B?NzlBYTJIYmUvbVZVSDF6MGlPWHkxLzR5Q0dhYjUrQW5qNi9qeXBoaE5xMnZX?=
- =?utf-8?B?MXo5enhMMTJOU2x1T1RudFRUMzRtQ0gwWmtMMW1oYjFBQXJXcWw4ZFR0dGNt?=
- =?utf-8?B?YWNKM202b1dRSDJjakt4Q1lUeGRxVzdpelJ2dUJ3SWRkSzlkMHZFMmFkVFdC?=
- =?utf-8?B?RExNellsNlFsM2FjUytlTVZrcUlHemlnb05mM1hGZTBBM2JVZlJYanRzdTdY?=
- =?utf-8?B?SzRsOGlqVjJhRmtLYmpnWUg4aDRKbWF3cktvZjIzMExLWWw1RzNQeExZOE5j?=
- =?utf-8?B?NW9hQ2pMVTZ4NkZOWTFUU01PbkcxVDh3SWdleHpvZ3g2dGY2TThMcldGQm5z?=
- =?utf-8?B?VGc9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1daa99d7-faeb-4ecc-334c-08db2486321f
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 12:18:19.1773
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R9TMoV7Woq5ZjVf9NPOsBpnw0TH/Kd+BfFLjfqp6nb4WEiAhGIIfYsB38gHdEvzjvFK2edFz1o3Kw+3bfKiyEQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6336
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 6/8] accel/qaic: Add mhi_qaic_cntl
+Content-Language: en-US
+To:     Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
+        ogabbay@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
+        stanislaw.gruszka@linux.intel.com, dri-devel@lists.freedesktop.org
+Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
+        quic_carlv@quicinc.com
+References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
+ <1678138443-2760-7-git-send-email-quic_jhugo@quicinc.com>
+From:   Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <1678138443-2760-7-git-send-email-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/03/2023 19:06, Dipen Patel wrote:
-> This patch adds HTE provider support for the Tegra234 and reflects the
-> changes made in the device tree as follow.
-> - Add slices field in the SoC specific structure
-> - Remove gpio chip find by name function instead make use of the phandle
-> parsed from the DT node
+Hi,
 
+On 06.03.2023 22:34, Jeffrey Hugo wrote:
+> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> 
+> Some of the MHI channels for an AIC100 device need to be routed to
+> userspace so that userspace can communicate directly with QSM. The MHI
+> bus does not support this, and while the WWAN subsystem does (for the same
+> reasons), AIC100 is not a WWAN device. Also, MHI is not something that
+> other accelerators are expected to share, thus an accel subsystem function
+> that meets this usecase is unlikely.
+> 
+> Create a QAIC specific MHI userspace shim that exposes these channels.
+> 
+> Start with QAIC_SAHARA which is required to boot AIC100 and is consumed by
+> the kickstart application as documented in aic100.rst
+> 
+> Each AIC100 instance (currently, up to 16) in a system will create a
+> chardev for QAIC_SAHARA. This chardev will be found as
+> /dev/<mhi instance>_QAIC_SAHARA
+> For example - /dev/mhi0_QAIC_SAHARA
+> 
+> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> ---
+>  drivers/accel/qaic/mhi_qaic_ctrl.c | 581 +++++++++++++++++++++++++++++++++++++
+>  drivers/accel/qaic/mhi_qaic_ctrl.h |  11 +
+>  2 files changed, 592 insertions(+)
+>  create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.c
+>  create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.h
+> 
+> diff --git a/drivers/accel/qaic/mhi_qaic_ctrl.c b/drivers/accel/qaic/mhi_qaic_ctrl.c
+> new file mode 100644
+> index 0000000..f97279fd
+> --- /dev/null
+> +++ b/drivers/accel/qaic/mhi_qaic_ctrl.c
+> @@ -0,0 +1,581 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/mhi.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/poll.h>
+> +#include <linux/version.h>
+> +#include <linux/xarray.h>
+> +#include <uapi/linux/eventpoll.h>
+> +
+> +#include "mhi_qaic_ctrl.h"
+> +#include "qaic.h"
+> +
+> +#define MHI_QAIC_CTRL_DRIVER_NAME	"mhi_qaic_ctrl"
+> +#define MHI_QAIC_CTRL_MAX_MINORS	128
+> +#define MHI_MAX_MTU			0xffff
+> +static DEFINE_XARRAY_ALLOC(mqc_xa);
+> +static struct class *mqc_dev_class;
+> +static int mqc_dev_major;
+> +
+> +/**
+> + * struct mqc_buf - Buffer structure used to receive data from device
+> + * @data: Address of data to read from
+> + * @odata: Original address returned from *alloc() API. Used to free this buf.
+> + * @len: Length of data in byte
+> + * @node: This buffer will be part of list managed in struct mqc_dev
+> + */
+> +struct mqc_buf {
+> +	void *data;
+> +	void *odata;
+> +	size_t len;
+> +	struct list_head node;
+> +};
+> +
+> +/**
+> + * struct mqc_dev - MHI QAIC Control Device
+> + * @minor: MQC device node minor number
+> + * @mhi_dev: Associated mhi device object
+> + * @mtu: Max TRE buffer length
+> + * @enabled: Flag to track the state of the MQC device
+> + * @lock: Mutex lock to serialize access to open_count
+> + * @read_lock: Mutex lock to serialize readers
+> + * @write_lock: Mutex lock to serialize writers
+> + * @ul_wq: Wait queue for writers
+> + * @dl_wq: Wait queue for readers
+> + * @dl_queue_lock: Spin lock to serialize access to download queue
+> + * @dl_queue: Queue of downloaded buffers
+> + * @open_count: Track open counts
+> + * @ref_count: Reference count for this structure
+> + */
+> +struct mqc_dev {
+> +	uint32_t minor;
+> +	struct mhi_device *mhi_dev;
+> +	size_t mtu;
+> +	bool enabled;
 
-This patch appears to be 3 things. So this should be 3 patches.
+Is enabled really needed. I would think that mhi_qaic_ctrl_remove() won't be called
+unless all open files are closed.
 
-Thanks!
-Jon
+> +	struct mutex lock;
+> +	struct mutex read_lock;
+> +	struct mutex write_lock;
+> +	wait_queue_head_t ul_wq;
+> +	wait_queue_head_t dl_wq;
+> +	spinlock_t dl_queue_lock;
+> +	struct list_head dl_queue;
+> +	unsigned int open_count;
+> +	struct kref ref_count;
+> +};
+> +
+> +static void mqc_dev_release(struct kref *ref)
+> +{
+> +	struct mqc_dev *mqcdev = container_of(ref, struct mqc_dev, ref_count);
+> +
+> +	mutex_destroy(&mqcdev->read_lock);
+> +	mutex_destroy(&mqcdev->write_lock);
+> +	mutex_destroy(&mqcdev->lock);
+> +	kfree(mqcdev);
+> +}
+> +
+> +static int mhi_qaic_ctrl_fill_dl_queue(struct mqc_dev *mqcdev)
+> +{
+> +	struct mhi_device *mhi_dev = mqcdev->mhi_dev;
+> +	struct mqc_buf *ctrlbuf;
+> +	int rx_budget;
+> +	int ret = 0;
+> +	void *data;
+> +
+> +	rx_budget = mhi_get_free_desc_count(mhi_dev, DMA_FROM_DEVICE);
+> +	if (rx_budget < 0)
+> +		return -EIO;
+> +
+> +	while (rx_budget--) {
+> +		data = kzalloc(mqcdev->mtu + sizeof(*ctrlbuf), GFP_KERNEL);
+> +		if (!data)
+> +			return -ENOMEM;
+> +
+> +		ctrlbuf = data + mqcdev->mtu;
+> +		ctrlbuf->odata = data;
+> +
+> +		ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, data, mqcdev->mtu, MHI_EOT);
+> +		if (ret) {
+> +			kfree(data);
+> +			dev_err(&mhi_dev->dev, "Failed to queue buffer\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int mhi_qaic_ctrl_dev_start_chan(struct mqc_dev *mqcdev)
+> +{
+> +	struct device *dev = &mqcdev->mhi_dev->dev;
+> +	int ret = 0;
+> +
+> +	ret = mutex_lock_interruptible(&mqcdev->lock);
+> +	if (ret)
+> +		return ret;
+> +	if (!mqcdev->enabled) {
 
--- 
-nvpublic
+How "enabled" can be 0 here? It is rather not possible to open the device after
+it was released.
+
+> +		ret = -ENODEV;
+> +		goto release_dev_lock;
+> +	}
+> +	if (!mqcdev->open_count) {
+> +		ret = mhi_prepare_for_transfer(mqcdev->mhi_dev);
+> +		if (ret) {
+> +			dev_err(dev, "Error starting transfer channels\n");
+> +			goto release_dev_lock;
+> +		}
+> +
+> +		ret = mhi_qaic_ctrl_fill_dl_queue(mqcdev);
+> +		if (ret) {
+> +			dev_err(dev, "Error filling download queue.\n");
+> +			goto mhi_unprepare;
+> +		}
+> +	}
+> +	mqcdev->open_count++;
+> +	mutex_unlock(&mqcdev->lock);
+> +
+> +	return 0;
+> +
+> +mhi_unprepare:
+> +	mhi_unprepare_from_transfer(mqcdev->mhi_dev);
+> +release_dev_lock:
+> +	mutex_unlock(&mqcdev->lock);
+> +	return ret;
+> +}
+> +
+> +static struct mqc_dev *mqc_dev_get_by_minor(unsigned int minor)
+> +{
+> +	struct mqc_dev *mqcdev;
+> +
+> +	xa_lock(&mqc_xa);
+> +	mqcdev = xa_load(&mqc_xa, minor);
+> +	if (mqcdev)
+> +		kref_get(&mqcdev->ref_count);
+> +	xa_unlock(&mqc_xa);
+> +
+> +	return mqcdev;
+> +}
+> +
+> +static int mhi_qaic_ctrl_open(struct inode *inode, struct file *filp)
+> +{
+> +	struct mqc_dev *mqcdev;
+> +	int ret;
+> +
+> +	mqcdev = mqc_dev_get_by_minor(iminor(inode));
+> +	if (!mqcdev) {
+> +		pr_debug("mqc: minor %d not found\n", iminor(inode));
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = mhi_qaic_ctrl_dev_start_chan(mqcdev);
+> +	if (ret) {
+> +		kref_put(&mqcdev->ref_count, mqc_dev_release);
+> +		return ret;
+> +	}
+> +
+> +	filp->private_data = mqcdev;
+> +
+> +	return 0;
+> +}
+> +
+> +static void mhi_qaic_ctrl_buf_free(struct mqc_buf *ctrlbuf)
+> +{
+> +	list_del(&ctrlbuf->node);
+> +	kfree(ctrlbuf->odata);
+> +}
+> +
+> +static void __mhi_qaic_ctrl_release(struct mqc_dev *mqcdev)
+> +{
+> +	struct mqc_buf *ctrlbuf, *tmp;
+> +
+> +	mhi_unprepare_from_transfer(mqcdev->mhi_dev);
+> +	wake_up_interruptible(&mqcdev->ul_wq);
+> +	wake_up_interruptible(&mqcdev->dl_wq);
+> +	/*
+> +	 * Free the dl_queue. As we have already unprepared mhi transfers, we
+> +	 * do not expect any callback functions that update dl_queue hence no need
+> +	 * to grab dl_queue lock.
+> +	 */
+> +	mutex_lock(&mqcdev->read_lock);
+> +	list_for_each_entry_safe(ctrlbuf, tmp, &mqcdev->dl_queue, node)
+> +		mhi_qaic_ctrl_buf_free(ctrlbuf);
+> +	mutex_unlock(&mqcdev->read_lock);
+> +}
+> +
+> +static int mhi_qaic_ctrl_release(struct inode *inode, struct file *file)
+> +{
+> +	struct mqc_dev *mqcdev = file->private_data;
+> +
+> +	mutex_lock(&mqcdev->lock);
+> +	mqcdev->open_count--;
+> +	if (!mqcdev->open_count && mqcdev->enabled)
+> +		__mhi_qaic_ctrl_release(mqcdev);
+> +	mutex_unlock(&mqcdev->lock);
+> +
+> +	kref_put(&mqcdev->ref_count, mqc_dev_release);
+> +
+> +	return 0;
+> +}
+> +
+> +static __poll_t mhi_qaic_ctrl_poll(struct file *file, poll_table *wait)
+> +{
+> +	struct mqc_dev *mqcdev = file->private_data;
+> +	struct mhi_device *mhi_dev;
+> +	__poll_t mask = 0;
+> +
+> +	mhi_dev = mqcdev->mhi_dev;
+> +
+> +	poll_wait(file, &mqcdev->ul_wq, wait);
+> +	poll_wait(file, &mqcdev->dl_wq, wait);
+> +
+> +	mutex_lock(&mqcdev->lock);
+> +	if (!mqcdev->enabled || !mqcdev->open_count) {
+> +		mutex_unlock(&mqcdev->lock);
+> +		return EPOLLERR;
+> +	}
+> +
+> +	spin_lock_bh(&mqcdev->dl_queue_lock);
+> +	if (!list_empty(&mqcdev->dl_queue))
+> +		mask |= EPOLLIN | EPOLLRDNORM;
+> +	spin_unlock_bh(&mqcdev->dl_queue_lock);
+> +
+> +	if (mutex_lock_interruptible(&mqcdev->write_lock)) {
+> +		mutex_unlock(&mqcdev->lock);
+> +		return EPOLLERR;
+> +	}
+> +	if (mhi_get_free_desc_count(mhi_dev, DMA_TO_DEVICE) > 0)
+> +		mask |= EPOLLOUT | EPOLLWRNORM;
+> +	mutex_unlock(&mqcdev->write_lock);
+> +	mutex_unlock(&mqcdev->lock);
+> +
+> +	dev_dbg(&mhi_dev->dev, "Client attempted to poll, returning mask 0x%x\n", mask);
+> +
+> +	return mask;
+> +}
+> +
+> +static int mhi_qaic_ctrl_tx(struct mqc_dev *mqcdev)
+> +{
+> +	int ret;
+> +
+> +	ret = wait_event_interruptible(mqcdev->ul_wq,
+> +				       (!mqcdev->enabled || !mqcdev->open_count ||
+> +				       mhi_get_free_desc_count(mqcdev->mhi_dev,
+> +							       DMA_TO_DEVICE) > 0));
+> +
+> +	if (!mqcdev->open_count)
+> +		return -EPIPE;
+> +	if (!mqcdev->enabled)
+> +		return -ENODEV;
+
+I think that both "open_count" and "enabled" will never be 0 here.
+This function is called by read() and read() cannot be called without open
+file descriptor.
+
+> +
+> +	return ret;
+> +}
+> +
+> +static ssize_t mhi_qaic_ctrl_write(struct file *file, const char __user *buf, size_t count,
+> +				   loff_t *offp)
+> +{
+> +	struct mqc_dev *mqcdev = file->private_data;
+> +	struct mhi_device *mhi_dev;
+> +	size_t bytes_xfered = 0;
+> +	struct device *dev;
+> +	int ret, nr_desc;
+> +
+> +	mhi_dev = mqcdev->mhi_dev;
+> +	dev = &mhi_dev->dev;
+> +
+> +	if (!mhi_dev->ul_chan)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (!buf || !count)
+> +		return -EINVAL;
+> +
+> +	dev_dbg(dev, "Request to transfer %zu bytes\n", count);
+> +
+> +	ret = mhi_qaic_ctrl_tx(mqcdev);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to write %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	if (mutex_lock_interruptible(&mqcdev->write_lock))
+> +		return -EINTR;
+> +
+> +	nr_desc = mhi_get_free_desc_count(mhi_dev, DMA_TO_DEVICE);
+> +	if (nr_desc * mqcdev->mtu < count) {
+> +		ret = -EMSGSIZE;
+> +		dev_dbg(dev, "Buffer too big to transfer\n");
+> +		goto unlock_mutex;
+> +	}
+> +
+> +	while (count != bytes_xfered) {
+> +		enum mhi_flags flags;
+> +		size_t to_copy;
+> +		void *kbuf;
+> +
+> +		to_copy = min_t(size_t, count - bytes_xfered, mqcdev->mtu);
+> +		kbuf = kmalloc(to_copy, GFP_KERNEL);
+> +		if (!kbuf) {
+> +			ret = -ENOMEM;
+> +			goto unlock_mutex;
+> +		}
+> +
+> +		ret = copy_from_user(kbuf, buf + bytes_xfered, to_copy);
+> +		if (ret) {
+> +			kfree(kbuf);
+> +			ret = -EFAULT;
+> +			goto unlock_mutex;
+> +		}
+> +
+> +		if (bytes_xfered + to_copy == count)
+> +			flags = MHI_EOT;
+> +		else
+> +			flags = MHI_CHAIN;
+> +
+> +		ret = mhi_queue_buf(mhi_dev, DMA_TO_DEVICE, kbuf, to_copy, flags);
+> +		if (ret) {
+> +			kfree(kbuf);
+> +			dev_err(dev, "Failed to queue buf of size %zu\n", to_copy);
+> +			goto unlock_mutex;
+> +		}
+> +
+> +		bytes_xfered += to_copy;
+> +	}
+> +
+> +	mutex_unlock(&mqcdev->write_lock);
+> +	dev_dbg(dev, "bytes xferred: %zu\n", bytes_xfered);
+> +
+> +	return bytes_xfered;
+> +
+> +unlock_mutex:
+> +	mutex_unlock(&mqcdev->write_lock);
+> +	return ret;
+> +}
+> +
+> +static int mhi_qaic_ctrl_rx(struct mqc_dev *mqcdev)
+> +{
+> +	int ret;
+> +
+> +	ret = wait_event_interruptible(mqcdev->dl_wq, (!mqcdev->enabled || !mqcdev->open_count ||
+> +				       !list_empty(&mqcdev->dl_queue)));
+> +
+> +	if (!mqcdev->open_count)
+> +		return -EPERM;
+> +	if (!mqcdev->enabled)
+> +		return -ENODEV;
+> +
+> +	return ret;
+> +}
+> +
+> +static ssize_t mhi_qaic_ctrl_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+> +{
+> +	struct mqc_dev *mqcdev = file->private_data;
+> +	struct mqc_buf *ctrlbuf;
+> +	size_t to_copy;
+> +	int ret;
+> +
+> +	if (!mqcdev->mhi_dev->dl_chan)
+> +		return -EOPNOTSUPP;
+> +
+> +	ret = mhi_qaic_ctrl_rx(mqcdev);
+> +	if (ret) {
+> +		dev_err(&mqcdev->mhi_dev->dev, "Failed to read %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	if (mutex_lock_interruptible(&mqcdev->read_lock))
+> +		return -EINTR;
+> +
+> +	ctrlbuf = list_first_entry_or_null(&mqcdev->dl_queue, struct mqc_buf, node);
+> +	if (!ctrlbuf) {
+> +		mutex_unlock(&mqcdev->read_lock);
+> +		dev_dbg(&mqcdev->mhi_dev->dev, "Device has been released\n");
+
+I don't believe that the device can be released while in read() syscall.
+This error can only happen if read() from another thread processed the dl_queue first.
+
+> +		ret = -ENODEV;
+> +		goto error_out;
+> +	}
+> +
+> +	to_copy = min_t(size_t, count, ctrlbuf->len);
+> +	if (copy_to_user(buf, ctrlbuf->data, to_copy)) {
+> +		mutex_unlock(&mqcdev->read_lock);
+> +		dev_dbg(&mqcdev->mhi_dev->dev, "Failed to copy data to user buffer\n");
+> +		ret = -EFAULT;
+> +		goto error_out;
+> +	}
+> +
+> +	ctrlbuf->len -= to_copy;
+> +	ctrlbuf->data += to_copy;
+> +
+> +	if (!ctrlbuf->len) {
+> +		spin_lock_bh(&mqcdev->dl_queue_lock);
+> +		mhi_qaic_ctrl_buf_free(ctrlbuf);
+> +		spin_unlock_bh(&mqcdev->dl_queue_lock);
+> +		mhi_qaic_ctrl_fill_dl_queue(mqcdev);
+> +		dev_dbg(&mqcdev->mhi_dev->dev, "Read buf freed\n");
+> +	}
+> +
+> +	mutex_unlock(&mqcdev->read_lock);
+> +	return to_copy;
+> +
+> +error_out:
+> +	mutex_unlock(&mqcdev->read_lock);
+> +	return ret;
+> +}
+> +
+> +static const struct file_operations mhidev_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = mhi_qaic_ctrl_open,
+> +	.release = mhi_qaic_ctrl_release,
+> +	.read = mhi_qaic_ctrl_read,
+> +	.write = mhi_qaic_ctrl_write,
+> +	.poll = mhi_qaic_ctrl_poll,
+> +};
+> +
+> +static void mhi_qaic_ctrl_ul_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
+> +{
+> +	struct mqc_dev *mqcdev = dev_get_drvdata(&mhi_dev->dev);
+> +
+> +	dev_dbg(&mhi_dev->dev, "%s: status: %d xfer_len: %zu\n", __func__,
+> +		mhi_result->transaction_status, mhi_result->bytes_xferd);
+> +
+> +	kfree(mhi_result->buf_addr);
+> +
+> +	if (!mhi_result->transaction_status)
+> +		wake_up_interruptible(&mqcdev->ul_wq);
+> +}
+> +
+> +static void mhi_qaic_ctrl_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
+> +{
+> +	struct mqc_dev *mqcdev = dev_get_drvdata(&mhi_dev->dev);
+> +	struct mqc_buf *ctrlbuf;
+> +
+> +	dev_dbg(&mhi_dev->dev, "%s: status: %d receive_len: %zu\n", __func__,
+> +		mhi_result->transaction_status, mhi_result->bytes_xferd);
+> +
+> +	if (mhi_result->transaction_status &&
+> +	    mhi_result->transaction_status != -EOVERFLOW) {
+> +		kfree(mhi_result->buf_addr);
+> +		return;
+> +	}
+> +
+> +	ctrlbuf = mhi_result->buf_addr + mqcdev->mtu;
+> +	ctrlbuf->data = mhi_result->buf_addr;
+> +	ctrlbuf->len = mhi_result->bytes_xferd;
+> +	spin_lock_bh(&mqcdev->dl_queue_lock);
+> +	list_add_tail(&ctrlbuf->node, &mqcdev->dl_queue);
+> +	spin_unlock_bh(&mqcdev->dl_queue_lock);
+> +
+> +	wake_up_interruptible(&mqcdev->dl_wq);
+> +}
+> +
+> +static int mhi_qaic_ctrl_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
+> +{
+> +	struct mqc_dev *mqcdev;
+> +	struct device *dev;
+> +	int ret;
+> +
+> +	mqcdev = kzalloc(sizeof(*mqcdev), GFP_KERNEL);
+> +	if (!mqcdev)
+> +		return -ENOMEM;
+> +
+> +	kref_init(&mqcdev->ref_count);
+> +	mutex_init(&mqcdev->lock);
+> +	mqcdev->mhi_dev = mhi_dev;
+> +
+> +	ret = xa_alloc(&mqc_xa, &mqcdev->minor, mqcdev, XA_LIMIT(0, MHI_QAIC_CTRL_MAX_MINORS),
+> +		       GFP_KERNEL);
+> +	if (ret) {
+> +		kfree(mqcdev);
+> +		return ret;
+> +	}
+> +
+> +	init_waitqueue_head(&mqcdev->ul_wq);
+> +	init_waitqueue_head(&mqcdev->dl_wq);
+> +	mutex_init(&mqcdev->read_lock);
+> +	mutex_init(&mqcdev->write_lock);
+> +	spin_lock_init(&mqcdev->dl_queue_lock);
+> +	INIT_LIST_HEAD(&mqcdev->dl_queue);
+> +	mqcdev->mtu = min_t(size_t, id->driver_data, MHI_MAX_MTU);
+> +	mqcdev->enabled = true;
+> +	mqcdev->open_count = 0;
+> +	dev_set_drvdata(&mhi_dev->dev, mqcdev);
+> +
+> +	dev = device_create(mqc_dev_class, &mhi_dev->dev, MKDEV(mqc_dev_major, mqcdev->minor),
+> +			    mqcdev, "%s", dev_name(&mhi_dev->dev));
+> +	if (IS_ERR(dev)) {
+> +		xa_erase(&mqc_xa, mqcdev->minor);
+> +		dev_set_drvdata(&mhi_dev->dev, NULL);
+> +		kfree(mqcdev);
+> +		return PTR_ERR(dev);
+> +	}
+> +
+> +	return 0;
+> +};
+> +
+> +static void mhi_qaic_ctrl_remove(struct mhi_device *mhi_dev)
+> +{
+> +	struct mqc_dev *mqcdev = dev_get_drvdata(&mhi_dev->dev);
+> +
+> +	device_destroy(mqc_dev_class, MKDEV(mqc_dev_major, mqcdev->minor));
+> +
+> +	mutex_lock(&mqcdev->lock);
+> +	mqcdev->enabled = false;
+> +	if (mqcdev->open_count)
+> +		__mhi_qaic_ctrl_release(mqcdev);
+> +	mutex_unlock(&mqcdev->lock);
+> +
+> +	xa_erase(&mqc_xa, mqcdev->minor);
+> +	kref_put(&mqcdev->ref_count, mqc_dev_release);
+> +}
+> +
+> +/* .driver_data stores max mtu */
+> +static const struct mhi_device_id mhi_qaic_ctrl_match_table[] = {
+> +	{ .chan = "QAIC_SAHARA", .driver_data = SZ_32K},
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(mhi, mhi_qaic_ctrl_match_table);
+> +
+> +static struct mhi_driver mhi_qaic_ctrl_driver = {
+> +	.id_table = mhi_qaic_ctrl_match_table,
+> +	.remove = mhi_qaic_ctrl_remove,
+> +	.probe = mhi_qaic_ctrl_probe,
+> +	.ul_xfer_cb = mhi_qaic_ctrl_ul_xfer_cb,
+> +	.dl_xfer_cb = mhi_qaic_ctrl_dl_xfer_cb,
+> +	.driver = {
+> +		.name = MHI_QAIC_CTRL_DRIVER_NAME,
+> +	},
+> +};
+> +
+> +int mhi_qaic_ctrl_init(void)
+> +{
+> +	int ret;
+> +
+> +	ret = register_chrdev(0, MHI_QAIC_CTRL_DRIVER_NAME, &mhidev_fops);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	mqc_dev_major = ret;
+> +	mqc_dev_class = class_create(THIS_MODULE, MHI_QAIC_CTRL_DRIVER_NAME);
+> +	if (IS_ERR(mqc_dev_class)) {
+> +		ret = PTR_ERR(mqc_dev_class);
+> +		goto unregister_chrdev;
+> +	}
+> +
+> +	ret = mhi_driver_register(&mhi_qaic_ctrl_driver);
+> +	if (ret)
+> +		goto destroy_class;
+> +
+> +	return 0;
+> +
+> +destroy_class:
+> +	class_destroy(mqc_dev_class);
+> +unregister_chrdev:
+> +	unregister_chrdev(mqc_dev_major, MHI_QAIC_CTRL_DRIVER_NAME);
+> +	return ret;
+> +}
+> +
+> +void mhi_qaic_ctrl_deinit(void)
+> +{
+> +	mhi_driver_unregister(&mhi_qaic_ctrl_driver);
+> +	class_destroy(mqc_dev_class);
+> +	unregister_chrdev(mqc_dev_major, MHI_QAIC_CTRL_DRIVER_NAME);
+> +	xa_destroy(&mqc_xa);
+> +}
+> diff --git a/drivers/accel/qaic/mhi_qaic_ctrl.h b/drivers/accel/qaic/mhi_qaic_ctrl.h
+> new file mode 100644
+> index 0000000..0545540
+> --- /dev/null
+> +++ b/drivers/accel/qaic/mhi_qaic_ctrl.h
+> @@ -0,0 +1,11 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only
+> + *
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef __MHI_QAIC_CTRL_H__
+> +#define __MHI_QAIC_CTRL_H__
+> +
+> +int mhi_qaic_ctrl_init(void);
+> +void mhi_qaic_ctrl_deinit(void);
+
+Please add a new line here.
+
+> +#endif /* __MHI_QAIC_CTRL_H__ */
+
+Regards,
+Jacek
