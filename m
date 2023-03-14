@@ -2,79 +2,70 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37592C05027
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 18:55:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17CC8C05027
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 18:57:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230115AbjCNSzC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 14:55:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38766 "EHLO
+        id S229973AbjCNS51 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 14:57:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229973AbjCNSyp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 14:54:45 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 313B1241EA;
-        Tue, 14 Mar 2023 11:54:21 -0700 (PDT)
+        with ESMTP id S230071AbjCNS50 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 14:57:26 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25CA5ACB9B;
+        Tue, 14 Mar 2023 11:57:23 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1A9BC823;
-        Tue, 14 Mar 2023 18:54:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1A9BC823
+        by ms.lwn.net (Postfix) with ESMTPSA id AAD7E823;
+        Tue, 14 Mar 2023 18:57:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AAD7E823
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1678820059; bh=9Hfev68TIRE+irGbGmkJIGO/7nqwRrb/dbXlbnlfSvc=;
+        t=1678820242; bh=TzkGt8A9DDpMEyIXJHQAoEC8I5YpIpqrHqxHKmmtkLo=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=JPAGm/5ViD4jwhgPTWL//C1WiqyvJ+feaSQojHr8YO8sQo/Fyt5jsZ7+fFliyVB1y
-         UZlVHX8+mVlTBCc1htWkn6X1oiC5Zo9AIFeHno4htVKHonAKT76eK6HOyfmV7vj8/U
-         SWqIwnPuu5NrPG3cP81QkkNhSOeGGKClDln+wLZgwSaFjrkWOjvcDZ41pszuU5Y8Q2
-         j6Tp3MUS47PvSEUfg9QhvZNS8IFoKIqEYOtU3Daiw0gZtYrCmQS5vzDaWQf267CQeO
-         RyFrEH0CERe8GWe1A8pY8rX7+bs5TwiBKc5AsWgh+gsGlBu9NJHEM84PXXhBDH4hOJ
-         HuVOyIEnelZhA==
+        b=Mthh9kNep0Z5BYFro04tnA0DgaiejRklf8Xqgf14QZjTgcGXXmIRu4EQEdMOMt1ta
+         Lp+UUYKgRUuuP53VgdYJel1aEPu98wW19g0iGneo5vgqD3W/Ucoce1QjX9ZXt74sUs
+         zsmTkUqWHJbGd/eur1LeJB47ygaK/y2g66qmndRitCqxubwjMyz5JcmS5uX1uTeccu
+         hnzvYzzN7m9lEQL4dqd2oW5i8ByKZKBjp1ufuQ27vfiWuV1IXyrjePs3ydUEo6WFqc
+         xzsLeFIjcFvrgB/iJEHTaF+lq2SHn9F4RMHVG5MLy6H1xl0EsWzPd24V97cQ8XIHuV
+         6srD8Cpgg+4ig==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v3] docs/mm: Physical Memory: add example of
- interleaving nodes
-In-Reply-To: <20230213154447.1631847-1-rppt@kernel.org>
-References: <20230213154447.1631847-1-rppt@kernel.org>
-Date:   Tue, 14 Mar 2023 12:54:18 -0600
-Message-ID: <87o7ovqi3p.fsf@meer.lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     kaiwan.billimoria@gmail.com, rlove@rlove.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] docs: Add relevant kernel publications to list of books
+In-Reply-To: <a577b165-1e18-e689-7580-cac3f37317f8@amd.com>
+References: <20230222183445.3127324-1-carlos.bilbao@amd.com>
+ <a577b165-1e18-e689-7580-cac3f37317f8@amd.com>
+Date:   Tue, 14 Mar 2023 12:57:21 -0600
+Message-ID: <87jzzjqhym.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mike Rapoport <rppt@kernel.org> writes:
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-> From: "Mike Rapoport (IBM)" <rppt@kernel.org>
+> For the list of kernel published books, include publication covering kern=
+el
+> debugging from August, 2022 (ISBN 978-1801075039) and one from March, 2021
+> on the topic of char device drivers and kernel synchronization (ISBN
+> 978-1801079518). Also add foundational book from Robert Love (ISBN
+> 978-1449339531) and remove extra spaces.
 >
-> Add an example of memory layout with interleaving nodes where even memory
-> banks belong to node 0 and odd memory banks belong to node 1
+> Co-developed-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
+> Signed-off-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 >
-> Suggested-by: Michal Hocko <mhocko@kernel.org>
-> Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
 > ---
->
-> v3:
-> * Fix typos and wording (Matthew) 
->
-> v2: https://lore.kernel.org/all/20230212095445.1311627-1-rppt@kernel.org
-> * Wording update (Bagas)
-> * Add forgotten Suggested-by
->
-> v1: https://lore.kernel.org/all/20230211102207.1267058-1-rppt@kernel.org
->  Documentation/mm/physical_memory.rst | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+> Changes since v2:
+>   - Fix SoB chain.
 
-Applied (finally).  Thanks and apologies for the delay,
+So this showed up approximately 4.23=C2=B5s after I applied v2 ... I went
+back in and tweaked the signoffs to match this version.
+
+Thanks,
 
 jon
