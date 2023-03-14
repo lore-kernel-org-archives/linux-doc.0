@@ -2,165 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5EA6C6FD1C
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 07:18:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 334A4C6FD1C
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 07:19:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230223AbjCNHSV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 03:18:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52946 "EHLO
+        id S230133AbjCNHT4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 03:19:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbjCNHSU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 03:18:20 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0D46664FC;
-        Tue, 14 Mar 2023 00:18:18 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id a2so15624782plm.4;
-        Tue, 14 Mar 2023 00:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678778298;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c46t0neyKWHP+SDAFWH/g72V/Nn1AVWpZoacRj8VyLk=;
-        b=S9AG5DWg2XZsDj6Es8WNOGYTopXFo3VAhRsa+mVSSY7aikyWk81a2OqBGTAoyPFgyu
-         uVSkd8JwegJs5MqHNfKT/d8TdpPjlx6OQRMEIjo+QZlppEnGZRJDX91OuPtVkMVO99CF
-         yco0uZPL8mCTz9RAB5pnm/nIB5XrBaA3wo03zf5MOaSGbdpH5uYOOMjO3PjDvP/fmDl/
-         xMwBnJR9CuNXV5cjhCqwFicz866yGKILl3iLTL0g5K3QFtJK2DHZqnyz6TJve3ZnUq9g
-         TOUd/K54HU/ebv9PY82fNIom9wPQQn7eW9PTBohspDeTgn+yFJ3cyS9mC7O3rX4DGBpL
-         q4vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678778298;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c46t0neyKWHP+SDAFWH/g72V/Nn1AVWpZoacRj8VyLk=;
-        b=dfbQhv7xjsj/9v8RDUoKm1BXPKhDrN4eN4WNyMfrNn/qS0pTmFpJT9Lq/ax5378vFD
-         uG+0pYV5/ZxXdEUDzWaM4QIzpldt9CfhNrsuEOHYzg/S6Wet6l3OEgAJ15RDXpATp5GV
-         TUq5NrMRoEjpyFZfNoIiZKTeQ4e1VqM1fQxcnSPdn8ub98+2eunYtstHjJw0HEHA9eaY
-         vQYegpjvUB3cOjOHkW+rz1m6VbOIRfmd5nM0GHjHkg0P86CK7HPPDm1L6WZn26WLcR6y
-         LmKzvtFTSlRX4Jk9kn6RcJoza0OO0YnyLmptmrF4zNg4lnMfR9wWft/nrD3oM8JJu3qi
-         2ryw==
-X-Gm-Message-State: AO0yUKUQoZfkZzbsLRyXqZdEdcOcSfwgRXK39C16JR3PuluKwT/c1el5
-        8js+GjtjR4SwSPk97FsE4uk=
-X-Google-Smtp-Source: AK7set/TwZv/+gdR3vizxWDK5px/eSNGwwzlyNPxX57Ktb8udmkDrlYHgYRuoNUS4MHfjXuXzOFuGQ==
-X-Received: by 2002:a05:6a20:a88f:b0:d4:abe8:697d with SMTP id ca15-20020a056a20a88f00b000d4abe8697dmr4420286pzb.30.1678778298179;
-        Tue, 14 Mar 2023 00:18:18 -0700 (PDT)
-Received: from localhost ([2400:8902::f03c:93ff:fe27:642a])
-        by smtp.gmail.com with ESMTPSA id c12-20020aa781cc000000b005dc70330d9bsm875550pfn.26.2023.03.14.00.18.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 00:18:17 -0700 (PDT)
-Date:   Tue, 14 Mar 2023 07:18:11 +0000
-From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/7] mm/slob: remove CONFIG_SLOB
-Message-ID: <ZBAfsx30uLNj4TJB@localhost>
-References: <20230310103210.22372-1-vbabka@suse.cz>
- <20230310103210.22372-2-vbabka@suse.cz>
+        with ESMTP id S230242AbjCNHTx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 03:19:53 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9DDB19C68;
+        Tue, 14 Mar 2023 00:19:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5ACB9B81887;
+        Tue, 14 Mar 2023 07:19:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18B34C433EF;
+        Tue, 14 Mar 2023 07:19:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678778388;
+        bh=rEcwpr6ZTgtGaQrka2qK+7yPmKYXTmYdMJswZJ4beXE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Xc+htRg4jwkaQ1NdwL15ZlqUDMviGCnMWy9asoPgzTkQsycHYyOuxImk+2fwxRjJg
+         ANSpQgtaUXSm5JxSsOEx18+zhZX4fFXLwaw89hdRjNu+43fhg7cT2exl6XR/v50yQx
+         PVdG/eSVNK9EXDfcDdUf3czRPirAefJxegCSQo0VUSKps7q9gqtPs+f87B4YaMdsgM
+         pnULmDVF+F93AQhI8H5MAQdQAK2mCfBbSxV6ARQ0lKbuqqyuK7HcPID8wRiIB/R/S1
+         ksVWWlmvLvg/6n6asn34itV+OVlWruZdWD4KY/wTe8Y6R7U2VUCKtue6AvIarS974i
+         U01UkRTpXIeng==
+Date:   Tue, 14 Mar 2023 09:19:25 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Deepak Gupta <debug@rivosinc.com>
+Cc:     Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, nd@arm.com, al.grant@arm.com
+Subject: Re: [PATCH v7 33/41] x86/shstk: Introduce map_shadow_stack syscall
+Message-ID: <ZBAf/QI42hcVQ4Uq@kernel.org>
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-34-rick.p.edgecombe@intel.com>
+ <ZADbP7HvyPHuwUY9@arm.com>
+ <20230309185511.GA1964069@debug.ba.rivosinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230310103210.22372-2-vbabka@suse.cz>
+In-Reply-To: <20230309185511.GA1964069@debug.ba.rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 11:32:03AM +0100, Vlastimil Babka wrote:
-> Remove SLOB from Kconfig and Makefile. Everything under #ifdef
-> CONFIG_SLOB, and mm/slob.c is now dead code.
-> 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  init/Kconfig               |  2 +-
->  kernel/configs/tiny.config |  1 -
->  mm/Kconfig                 | 22 ----------------------
->  mm/Makefile                |  1 -
->  4 files changed, 1 insertion(+), 25 deletions(-)
-> 
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 1fb5f313d18f..72ac3f66bc27 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -973,7 +973,7 @@ config MEMCG
->  
->  config MEMCG_KMEM
->  	bool
-> -	depends on MEMCG && !SLOB
-> +	depends on MEMCG
->  	default y
->  
->  config BLK_CGROUP
-> diff --git a/kernel/configs/tiny.config b/kernel/configs/tiny.config
-> index c2f9c912df1c..144b2bd86b14 100644
-> --- a/kernel/configs/tiny.config
-> +++ b/kernel/configs/tiny.config
-> @@ -7,6 +7,5 @@ CONFIG_KERNEL_XZ=y
->  # CONFIG_KERNEL_LZO is not set
->  # CONFIG_KERNEL_LZ4 is not set
->  # CONFIG_SLAB is not set
-> -# CONFIG_SLOB_DEPRECATED is not set
->  CONFIG_SLUB=y
->  CONFIG_SLUB_TINY=y
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 4751031f3f05..669399ab693c 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -238,30 +238,8 @@ config SLUB
->  	   and has enhanced diagnostics. SLUB is the default choice for
->  	   a slab allocator.
->  
-> -config SLOB_DEPRECATED
-> -	depends on EXPERT
-> -	bool "SLOB (Simple Allocator - DEPRECATED)"
-> -	depends on !PREEMPT_RT
-> -	help
-> -	   Deprecated and scheduled for removal in a few cycles. SLUB
-> -	   recommended as replacement. CONFIG_SLUB_TINY can be considered
-> -	   on systems with 16MB or less RAM.
-> -
-> -	   If you need SLOB to stay, please contact linux-mm@kvack.org and
-> -	   people listed in the SLAB ALLOCATOR section of MAINTAINERS file,
-> -	   with your use case.
-> -
-> -	   SLOB replaces the stock allocator with a drastically simpler
-> -	   allocator. SLOB is generally more space efficient but
-> -	   does not perform as well on large systems.
-> -
->  endchoice
->  
-> -config SLOB
-> -	bool
-> -	default y
-> -	depends on SLOB_DEPRECATED
-> -
->  config SLUB_TINY
->  	bool "Configure SLUB for minimal memory footprint"
->  	depends on SLUB && EXPERT
-> diff --git a/mm/Makefile b/mm/Makefile
-> index 8e105e5b3e29..2d9c1e7f6085 100644
-> --- a/mm/Makefile
-> +++ b/mm/Makefile
-> @@ -81,7 +81,6 @@ obj-$(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP)	+= hugetlb_vmemmap.o
->  obj-$(CONFIG_NUMA) 	+= mempolicy.o
->  obj-$(CONFIG_SPARSEMEM)	+= sparse.o
->  obj-$(CONFIG_SPARSEMEM_VMEMMAP) += sparse-vmemmap.o
-> -obj-$(CONFIG_SLOB) += slob.o
->  obj-$(CONFIG_MMU_NOTIFIER) += mmu_notifier.o
->  obj-$(CONFIG_KSM) += ksm.o
->  obj-$(CONFIG_PAGE_POISONING) += page_poison.o
+Hi,
 
-With what Mike pointed:
-(removing 'mm/Makefile:KCOV_INSTRUMENT_slob.o := n')
-
-Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-
-> -- 
-> 2.39.2
+On Thu, Mar 09, 2023 at 10:55:11AM -0800, Deepak Gupta wrote:
+> On Thu, Mar 02, 2023 at 05:22:07PM +0000, Szabolcs Nagy wrote:
+> > The 02/27/2023 14:29, Rick Edgecombe wrote:
+> > > Previously, a new PROT_SHADOW_STACK was attempted,
+> > ...
+> > > So rather than repurpose two existing syscalls (mmap, madvise) that don't
+> > > quite fit, just implement a new map_shadow_stack syscall to allow
+> > > userspace to map and setup new shadow stacks in one step. While ucontext
+> > > is the primary motivator, userspace may have other unforeseen reasons to
+> > > setup it's own shadow stacks using the WRSS instruction. Towards this
+> > > provide a flag so that stacks can be optionally setup securely for the
+> > > common case of ucontext without enabling WRSS. Or potentially have the
+> > > kernel set up the shadow stack in some new way.
+> > ...
+> > > The following example demonstrates how to create a new shadow stack with
+> > > map_shadow_stack:
+> > > void *shstk = map_shadow_stack(addr, stack_size, SHADOW_STACK_SET_TOKEN);
+> > 
+> > i think
+> > 
+> > mmap(addr, size, PROT_READ, MAP_ANON|MAP_SHADOW_STACK, -1, 0);
+> > 
+> > could do the same with less disruption to users (new syscalls
+> > are harder to deal with than new flags). it would do the
+> > guard page and initial token setup too (there is no flag for
+> > it but could be squeezed in).
 > 
+> Discussion on this topic in v6
+> https://lore.kernel.org/all/20230223000340.GB945966@debug.ba.rivosinc.com/
+> 
+> Again I know earlier CET patches had protection flag and somehow due to pushback
+> on mailing list, it was adopted to go for special syscall because no one else
+> had shadow stack.
+> 
+> Seeing a response from Szabolcs, I am assuming arm4 would also want to follow
+> using mmap to manufacture shadow stack. For reference RFC patches for risc-v shadow stack,
+> use a new protection flag = PROT_SHADOWSTACK.
+> https://lore.kernel.org/lkml/20230213045351.3945824-1-debug@rivosinc.com/
+> 
+> I know earlier discussion had been that we let this go and do a re-factor later as other
+> arch support trickle in. But as I thought more on this and I think it may just be
+> messy from user mode point of view as well to have cognition of two different ways of
+> creating shadow stack. One would be special syscall (in current libc) and another `mmap`
+> (whenever future re-factor happens)
+> 
+> If it's not too late, it would be more wise to take `mmap`
+> approach rather than special `syscall` approach.
+ 
+I disagree. 
+
+Having shadow stack flags for mmap() adds unnecessary complexity to the
+core-mm, while having a dedicated syscall hides all the details in the
+architecture specific code.
+
+Another reason to use a dedicated system call allows for better
+extensibility if/when we'd need to update the way shadow stack VMA is
+created.
+
+As for the userspace convenience, it is anyway required to add special
+code for creating the shadow stack and it wouldn't matter if that code
+would use mmap(NEW_FLAG) or map_shadow_stack().
+
+> > most of the mmap features need not be available (EINVAL) when
+> > MAP_SHADOW_STACK is specified.
+> > 
+> > the main drawback is running out of mmap flags so extension
+> > is limited. (but the new syscall has limitations too).
+
+-- 
+Sincerely yours,
+Mike.
