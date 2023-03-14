@@ -2,79 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9045EC05027
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 18:13:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A62C05027
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 18:13:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbjCNSNB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 14:13:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33248 "EHLO
+        id S229977AbjCNSNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 14:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229573AbjCNSM7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 14:12:59 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FE922C9F;
-        Tue, 14 Mar 2023 11:12:57 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S229970AbjCNSNQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 14:13:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 866B88ABCF;
+        Tue, 14 Mar 2023 11:13:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7A9DE44A;
-        Tue, 14 Mar 2023 18:12:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7A9DE44A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1678817577; bh=C2Jo0+NKx7aG1yAi3TKpW+xiGewvFQwGLZLYK6y+3ic=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=riyT7GfS9Dsrq/Uh0slJl2Rqvebfq3qS44UocAf8YxBP+iiTOksD/Os+Gv1N3B9jE
-         IePi8fROY6Vfjb3ktM9uczLqF6DHvi/uG6q8CukhfHlnp+6LRs4nZU3btKNpj44mWk
-         6I5LbzTo+9FfFG+ifWud6tpl3QeztRKNdVlTiVi/9fIXxTc2fplI+6zTKQ1sCSN+d2
-         kJph4PmWFNWqye3mhStiSBfn9HZR0YWwCAgR1EJVJDYD0GSqFE7AvrfS1h0/Kephsz
-         1RJEtT1m3JQJ3y9QOxU+LbBKk4KfuVFKWM6ZAHRZ4R2v8BRQxakaXVCqK/Ws1lOuXe
-         Kum2/nfa8Vb6Q==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
-Cc:     Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] docs: actualize file_system_type and
- super_operations descriptions
-In-Reply-To: <20230313130718.253708-1-aleksandr.mikhalitsyn@canonical.com>
-References: <20230313130718.253708-1-aleksandr.mikhalitsyn@canonical.com>
-Date:   Tue, 14 Mar 2023 12:12:56 -0600
-Message-ID: <87v8j3ryl3.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2149761879;
+        Tue, 14 Mar 2023 18:13:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 85D46C433D2;
+        Tue, 14 Mar 2023 18:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678817594;
+        bh=AnGgtSPzBRKLrDam5NAp1ca6zEEeQ95nNXo4T1itm+4=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=j6T5MpV7zN07htIpi5I3A+7hBcCBFZPkVRVl6aRmkt8VOck3M4BSZxAYJ66r0uQAb
+         N5jbtdMMz9y5wrisc0nI9uZtwrDEwpoW6yMq/2/qaJyajwqV2wsySI5erpI7ra+C5z
+         xTtq+x9b0saWeaZJAlPMGXNSLt7g5o7ZixQzpjhxASRcDK7jGJ/f92cfhHK0W+9KJh
+         t4LIup2ADoZxnxE4VUA+oFvTVC67JZ2qoyBKz46blPeiQgyxUOExse65+omZ8zD2Hf
+         nCEJjX3+1HcsLnqhuoWfiOw4MJYzA9qMOvbyaEcM+PEZ7OhbtomfHeHfrVFtqy9qh4
+         zjv7FzR9q3jBg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 702CCE66CB8;
+        Tue, 14 Mar 2023 18:13:14 +0000 (UTC)
+Subject: Re: [GIT PULL] Documentation fixes for 6.3
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <874jqntes0.fsf@meer.lwn.net>
+References: <874jqntes0.fsf@meer.lwn.net>
+X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
+X-PR-Tracked-Message-Id: <874jqntes0.fsf@meer.lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.3-fixes
+X-PR-Tracked-Commit-Id: d7ba3657d5162bd551e5c653f67f941c94a7dc0a
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 4979bf8668255a67449714653314662fbc7e5bdb
+Message-Id: <167881759443.21884.17446336243460735904.pr-tracker-bot@kernel.org>
+Date:   Tue, 14 Mar 2023 18:13:14 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com> writes:
+The pull request you sent on Tue, 14 Mar 2023 11:37:51 -0600:
 
-> Current descriptions are from 2.6.* times, let's update them.
->
-> I've noticed that during my work on fuse recovery API.
->
-> v2:
-> - fixed commit messages according to Jonathan's advice
->
-> v3:
-> - removed direct kernel version specification as Eric proposed
->
-> Cc: Eric Biggers <ebiggers@kernel.org>
-> Cc: Miklos Szeredi <mszeredi@redhat.com>
-> Cc: Al Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
->
-> Alexander Mikhalitsyn (2):
->   docs: filesystems: vfs: actualize struct file_system_type description
->   docs: filesystems: vfs: actualize struct super_operations description
->
->  Documentation/filesystems/vfs.rst | 105 ++++++++++++++++++++++++------
->  1 file changed, 86 insertions(+), 19 deletions(-)
+> git://git.lwn.net/linux.git tags/docs-6.3-fixes
 
-Series applied, thanks.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/4979bf8668255a67449714653314662fbc7e5bdb
 
-jon
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
