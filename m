@@ -2,158 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6939AC61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 22:08:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EA99C7618A
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 22:18:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230197AbjCOWIQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 18:08:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47584 "EHLO
+        id S231636AbjCOWS6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 18:18:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230078AbjCOWIP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 18:08:15 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7D455F6C0;
-        Wed, 15 Mar 2023 15:08:13 -0700 (PDT)
+        with ESMTP id S231560AbjCOWSy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 18:18:54 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D7E2BEC4;
+        Wed, 15 Mar 2023 15:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678918093; x=1710454093;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HOUd777ewJii5EcohIHu/Zr8BYfTt1p6GNO5ZeSEJHc=;
-  b=nJas0jKcrXwTNBxflAGr7P5o1EzEcHVhHuzjzOF4UX/tIr8yxEZFhgsp
-   aJ0Chv2n8RMZfyJX76q9xr+vNULxlG4w/MSHvgsQpzPo0ZfZnd7P3W1uM
-   aLEOReB7sFxlHaeEq1s9mW0QDI/01gD3InM5lzo50yZd/v4L7NY1HZRg9
-   nCZlYhOUsYvnT1BdPJeQz+mjdUWs/TDAN77J/NlZttfH5+KNkE5ndM3GU
-   2CgMw3IDXAIoKB2Mi3rLHQIgQ0IM0yFahOSvi+m8+vF0dpVB+osZdACuN
-   MVENSq533AJQzrUANTuNBiRRfDbmM5IQ6CpqIDrwYDPxLvvFxCGkAq9QX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="335313886"
+  t=1678918713; x=1710454713;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=fU4QSBmq06kLp0HuxVosNJEKUx3vKXjpqUJcfSNehIg=;
+  b=R8eYLpwl6zOBXVjVGOh4kuc1mwc666w4yFo70wICN3yAsyT7Z8O3xNmp
+   ek5Yv5NAtbSOyscaqkrIY4ntZWeH1TZJGhOJZZMs0YaCzope36rXVDeJu
+   MOh1hznOPa5G7Ghm7wqP5UsoNhn9FKv1IRa9vWOQZEVx+1bpeyk+bilbQ
+   +/Gx6653uQJLwIkBcHUQF78YTj9oDFjQQqTPPPjJaJ9QAQBuiFemlvqTm
+   vgPQVCWgPC1YcdkIFkm9ld6z7Lv1H8FCp+fTc9XOPtExCFDnzgRIbm4Or
+   j8rB0GJ6ZVOJtY0BmvtSiAWzwBojwTlt/oKnfddN+nJdYz3FWIYJc3wHj
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="318226006"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="335313886"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 15:08:13 -0700
+   d="scan'208";a="318226006"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 15:18:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="803457572"
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="709832226"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="803457572"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 15 Mar 2023 15:08:09 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pcZI1-000845-0T;
-        Wed, 15 Mar 2023 22:08:09 +0000
-Date:   Thu, 16 Mar 2023 06:07:28 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Shanker Donthineni <sdonthineni@nvidia.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Shanker Donthineni <sdonthineni@nvidia.com>,
-        Vikram Sethi <vsethi@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v2] irqchip/gicv3: Workaround for NVIDIA erratum
- T241-FABRIC-4
-Message-ID: <202303160555.3zGOmtIL-lkp@intel.com>
-References: <20230314135128.2930580-1-sdonthineni@nvidia.com>
+   d="scan'208";a="709832226"
+Received: from arnabch1-mobl.amr.corp.intel.com (HELO [10.209.44.101]) ([10.209.44.101])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 15:18:28 -0700
+Message-ID: <fe5d1e0e-0725-45eb-8b96-edcd12ae4a8b@intel.com>
+Date:   Wed, 15 Mar 2023 15:18:28 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230314135128.2930580-1-sdonthineni@nvidia.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH RFC 0/2] Begin reorganizing the arch documentation
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Borislav Petkov <bp@alien8.de>
+References: <20230315211523.108836-1-corbet@lwn.net>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <20230315211523.108836-1-corbet@lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Shanker,
+On 3/15/23 14:15, Jonathan Corbet wrote:
+> On the other hand, it *is* a fair amount of churn.  If it's more than
+> people can handle, I'll quietly back away and we'll muddle along as we have
+> been; this isn't something I'm going to dig in my heels over.
 
-Thank you for the patch! Yet something to improve:
+I'm not fundamentally opposed to this.  It'll probably cost me a few
+keystrokes in moments of confusion, but that's the price of progress. :)
 
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on tip/irq/core soc/for-next linus/master v6.3-rc2 next-20230315]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Things in Documentation/ have also been mobile enough in recent years
+that I tend to "find Documentation | grep something" rather than try to
+remember the paths for things.  Adding an arch/ in there won't hurt
+anything.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shanker-Donthineni/irqchip-gicv3-Workaround-for-NVIDIA-erratum-T241-FABRIC-4/20230314-215648
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20230314135128.2930580-1-sdonthineni%40nvidia.com
-patch subject: [PATCH v2] irqchip/gicv3: Workaround for NVIDIA erratum T241-FABRIC-4
-config: arm-buildonly-randconfig-r003-20230312 (https://download.01.org/0day-ci/archive/20230316/202303160555.3zGOmtIL-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/f796361134151057b68a259013204e8fa5516aee
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Shanker-Donthineni/irqchip-gicv3-Workaround-for-NVIDIA-erratum-T241-FABRIC-4/20230314-215648
-        git checkout f796361134151057b68a259013204e8fa5516aee
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
+> Also, it is worth noting that, while the rendered HTML looks the same,
+> links that went to Documentation/x86 (on https://kernel.org, say) will be
+> broken by this change.  We have never considered whether we care about
+> preserving external links to the rendered docs on kernel.org or not; I
+> don't think we should break them without thinking about it.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303160555.3zGOmtIL-lkp@intel.com/
+I don't think this is a big deal.  Folks that are doing explicit versions:
 
-All errors (new ones prefixed by >>):
+	https://www.kernel.org/doc/html/v6.0/x86/
 
->> drivers/irqchip/irq-gic-v3.c:1775:21: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   chip_bmask |= BIT(FIELD_GET(T241_CHIPN_MASK,
-                                     ^
->> drivers/irqchip/irq-gic-v3.c:1786:12: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                           phys |= FIELD_PREP(T241_CHIPN_MASK, i);
-                                   ^
-   2 errors generated.
+won't break and folks that are using "latest":
 
+	https://www.kernel.org/doc/html/latest/x86/
 
-vim +/FIELD_GET +1775 drivers/irqchip/irq-gic-v3.c
+are kinda already playing with fire.  I guess we could ask the
+kernel.org admins to see how many 404's folks get after the docs get
+moved.  They could _theoretically_ redirect users from the old to new URL:
 
-  1760	
-  1761	static bool gic_enable_quirk_nvidia_t241(void *data)
-  1762	{
-  1763		unsigned long chip_bmask = 0;
-  1764		phys_addr_t phys;
-  1765		u32 i;
-  1766	
-  1767		/* Check JEP106 code for NVIDIA T241 chip (036b:0241) */
-  1768		if ((smccc_soc_id_version < 0) ||
-  1769		    ((smccc_soc_id_version & SMCCC_SOC_ID_MASK) != SMCCC_SOC_ID_T241)) {
-  1770			return false;
-  1771		}
-  1772	
-  1773		/* Find the chips based on GICR regions PHYS addr */
-  1774		for (i = 0; i < gic_data.nr_redist_regions; i++) {
-> 1775			chip_bmask |= BIT(FIELD_GET(T241_CHIPN_MASK,
-  1776					  gic_data.redist_regions[i].phys_base));
-  1777		}
-  1778	
-  1779		if (hweight32(chip_bmask) < 3)
-  1780			return false;
-  1781	
-  1782		/* Setup GICD alias regions */
-  1783		for (i = 0; i < ARRAY_SIZE(t241_dist_base_alias); i++) {
-  1784			if (chip_bmask & BIT(i)) {
-  1785				phys = gic_data.dist_phys_base + T241_CHIP_GICDA_OFFSET;
-> 1786				phys |= FIELD_PREP(T241_CHIPN_MASK, i);
-  1787				t241_dist_base_alias[i] = ioremap(phys, SZ_64K);
-  1788				WARN_ON_ONCE(!t241_dist_base_alias[i]);
-  1789			}
-  1790		}
-  1791		static_branch_enable(&gic_nvidia_t241_erratum);
-  1792		return true;
-  1793	}
-  1794	
+	doc/html/latest/x86 => doc/html/latest/arch/x86
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+but I doubt it's worth it for this one little directory.
