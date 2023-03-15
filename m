@@ -2,147 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71651C61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 21:20:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2840C7618A
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 21:24:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232956AbjCOVUG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 17:20:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39664 "EHLO
+        id S232891AbjCOVY1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 17:24:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233194AbjCOVT5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 17:19:57 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7136A591A
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 14:19:29 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id t9so1647928qtx.8
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 14:19:29 -0700 (PDT)
+        with ESMTP id S232989AbjCOVYZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 17:24:25 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC1E5251;
+        Wed, 15 Mar 2023 14:24:09 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id bf15so8437720iob.7;
+        Wed, 15 Mar 2023 14:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112; t=1678915168;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NwsJ4+G5J9g17XC5Oega2fzdoX3R4HN5m00Gv1AGrio=;
-        b=J4hENgr34NSGF6vyf2nmvDcQD6/muv0hdsHy09NIXn8lT7gniI+nN3rrtoNFk2ZMYA
-         8mmGoYBT75II1U4TG76NhTKQsb3gLBT3EbgmxXUGlLgMEhbQ67fPeCid7JCLAx3Zz7+7
-         omxNSH9aY6vY8KsFROJMmgxX+C+9yhSUFhpqknE2oyhNlQbkxezDB7Z92jO2lMaASCN/
-         lDHVA2APnVRLBvUKkcqHvurw7dD7ZMiJfaPF+ubWv3hC26Seao9b8uMeNX3tBAUVfq0K
-         tgr3+qb8BmYcHsrz1fw4ll4Fa4vur9uUTcdR0x58449+V5TSWSCUsMKioHvbW/SBQsYV
-         pS2g==
+        d=gmail.com; s=20210112; t=1678915448;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=lpkObVnmGcnbAiomQuPojaeuWlMi0Bq8XyCjHk6Oh70=;
+        b=Sv+ONJAXpjP3b5CQwmMHCuPkmTLWBWr3ROwbwziZMvxKM3KkKfLR1RprJ5lCeZbQop
+         1yffu9SvDGLHCvXKxeyXSrUvVraynolQJXPTnDMBofEl4LjOrC80k8PDWNG41cwU3wKj
+         hpHlriThCh8gfWh8p87eWFWd0ed1JeyhvU1T+QG0fBwpUv6uLDtJPDAlngDJBnTW8a6J
+         YS2qdciyH6U0/5cvg/2lxMPZEba1fpPoeTfUapI8rABldjqh1TSI+LkNAIdZs3lQLEO9
+         sJv6zNw9OMR1q0NJVsQc4u36wJVCv3MyUFCB6E1pIXI5hrtxF772ABNgrU4+X/ADIr0C
+         X7Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678915168;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NwsJ4+G5J9g17XC5Oega2fzdoX3R4HN5m00Gv1AGrio=;
-        b=yRxLNohZ1SuTzgekJ70xiQctDx6DXEXbD73wrxzHzBxcL8jD8fKP8RtrgdybGevsxR
-         JyadXUtM7DybfLwaq2zqhdIXCKQ3XSqVtfG8jFJaVAslDDG96LoSw3mGdPvHPb6Dit2g
-         0Wekshxt5kZN6dIHlHaYOf12Pj4GoENW8/tGFJ4WToHKki4kQRDersam0cR6Np8FLk4k
-         WrvUPyWu6hm8jkU0Q6gy2y5hY76CSI503YbN7klb9ktKA/+WB6yiXd+ktcfeWcVQach3
-         X5JCaKUIyTO9I78pK75pDZbOAWPGTr3GAhukhCwc5ZNZ66Q+LM6O0a9JxNiw+O/usw9m
-         uELA==
-X-Gm-Message-State: AO0yUKUYRrlgbY671/Of7MlQeo9nKd/JMt70SKqCD0NHNihtIYXhXngp
-        2ecAfgxdM1Cmst20++hQ726Cog==
-X-Google-Smtp-Source: AK7set++jBmiiVxJ+t5MUOdawKP8WhjMZoYTetmJpxQaUcMEPqlctXi+QbRMbsaCZFI2F1xv+M2Vtw==
-X-Received: by 2002:ac8:5a0a:0:b0:3bb:7603:d68e with SMTP id n10-20020ac85a0a000000b003bb7603d68emr2513487qta.10.1678915168453;
-        Wed, 15 Mar 2023 14:19:28 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:400::5:62db])
-        by smtp.gmail.com with ESMTPSA id 64-20020a370343000000b00729a26e836esm4488474qkd.84.2023.03.15.14.19.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 14:19:28 -0700 (PDT)
-Date:   Wed, 15 Mar 2023 17:19:27 -0400
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com,
-        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, Mike Kravetz <mike.kravetz@oracle.com>
-Subject: Re: [PATCH v4 0/3] mm: process/cgroup ksm support
-Message-ID: <20230315211927.GB116016@cmpxchg.org>
-References: <20230310182851.2579138-1-shr@devkernel.io>
- <273a2f82-928f-5ad1-0988-1a886d169e83@redhat.com>
- <20230315210545.GA116016@cmpxchg.org>
+        d=1e100.net; s=20210112; t=1678915448;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lpkObVnmGcnbAiomQuPojaeuWlMi0Bq8XyCjHk6Oh70=;
+        b=XA5okx8vI/RbJ1h5yIgsWpUUCH3qLZShCy5auEJZUo7t2a4X6DzTL8aFbWyna1YlfB
+         L72MEmX0MSyv45eVJxw6b9N9rRjQaqPGsT4xo0qLk0bV4JdXL+f5HgJ7Bu+x8yVA/U1M
+         mGGcRSJ3zN0oZGcMERz1r61t10vVAcLT3np1Pgq3tphp7t4dKmXN0VnH+DYI9UeYGx7D
+         51d6jjiXLTEGNDGXG1XoF9remkPEfDRXXqM7/6h5Beist+fKM3O9rbcPLemb7x2szuDj
+         cHIBch5jOEBZc+3faqL7BGmMVxUIupq/fJKLPH43EwZErc2w2eLeLYGWLmAdJMNpgQtN
+         8a8w==
+X-Gm-Message-State: AO0yUKXKLHnLA9fM3Bnlbj8dQtOrzMFYFmEpHZ+2dllgJXOwr0zHgJnh
+        V307lTGABp7Tsq6u61iEyR2Jgw/38Rk=
+X-Google-Smtp-Source: AK7set/VJfzd9pYfdVnVvFa3Q5IUrMuj90+Xi/oes7KGMXTb8BlnGNFoQYsHYW2QtCOmHdLmhnTIFw==
+X-Received: by 2002:a6b:6a05:0:b0:73d:eb4b:345e with SMTP id x5-20020a6b6a05000000b0073deb4b345emr26412516iog.6.1678915448727;
+        Wed, 15 Mar 2023 14:24:08 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id u14-20020a02c04e000000b004049ed5bda3sm2029715jam.160.2023.03.15.14.24.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Mar 2023 14:24:08 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <269496bb-ccc2-a853-f6cd-c494433cca0a@roeck-us.net>
+Date:   Wed, 15 Mar 2023 14:24:06 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230315210545.GA116016@cmpxchg.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] drivers: hwmon: ltc4282: Add support for LTC4282
+Content-Language: en-US
+To:     Mohammed Danish Ali <mohammed.danish.ali.14@gmail.com>,
+        jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <CAACz5CVXy6CjgOXF-CUC3Zd54MBWWACd=E4GgwH9=2J1gT9ZSg@mail.gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAACz5CVXy6CjgOXF-CUC3Zd54MBWWACd=E4GgwH9=2J1gT9ZSg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 15, 2023 at 05:05:47PM -0400, Johannes Weiner wrote:
-> On Wed, Mar 15, 2023 at 09:03:57PM +0100, David Hildenbrand wrote:
-> > On 10.03.23 19:28, Stefan Roesch wrote:
-> > > So far KSM can only be enabled by calling madvise for memory regions. To
-> > > be able to use KSM for more workloads, KSM needs to have the ability to be
-> > > enabled / disabled at the process / cgroup level.
-> > > 
-> > > Use case 1:
-> > > The madvise call is not available in the programming language. An example for
-> > > this are programs with forked workloads using a garbage collected language without
-> > > pointers. In such a language madvise cannot be made available.
-> > > 
-> > > In addition the addresses of objects get moved around as they are garbage
-> > > collected. KSM sharing needs to be enabled "from the outside" for these type of
-> > > workloads.
-> > > 
-> > > Use case 2:
-> > > The same interpreter can also be used for workloads where KSM brings no
-> > > benefit or even has overhead. We'd like to be able to enable KSM on a workload
-> > > by workload basis.
-> > > 
-> > > Use case 3:
-> > > With the madvise call sharing opportunities are only enabled for the current
-> > > process: it is a workload-local decision. A considerable number of sharing
-> > > opportuniites may exist across multiple workloads or jobs. Only a higler level
-> > > entity like a job scheduler or container can know for certain if its running
-> > > one or more instances of a job. That job scheduler however doesn't have
-> > > the necessary internal worklaod knowledge to make targeted madvise calls.
-> > > 
-> > > Security concerns:
-> > > In previous discussions security concerns have been brought up. The problem is
-> > > that an individual workload does not have the knowledge about what else is
-> > > running on a machine. Therefore it has to be very conservative in what memory
-> > > areas can be shared or not. However, if the system is dedicated to running
-> > > multiple jobs within the same security domain, its the job scheduler that has
-> > > the knowledge that sharing can be safely enabled and is even desirable.
-> > > 
-> > > Performance:
-> > > Experiments with using UKSM have shown a capacity increase of around 20%.
-> > 
-> > Stefan, can you do me a favor and investigate which pages we end up
-> > deduplicating -- especially if it's mostly only the zeropage and if it's
-> > still that significant when disabling THP?
-> > 
-> > 
-> > I'm currently investigating with some engineers on playing with enabling KSM
-> > on some selected processes (enabling it blindly on all VMAs of that process
-> > via madvise() ).
-> > 
-> > One thing we noticed is that such (~50 times) 20MiB processes end up saving
-> > ~2MiB of memory per process. That made me suspicious, because it's the THP
-> > size.
-> > 
-> > What I think happens is that we have a 2 MiB area (stack?) and only touch a
-> > single page. We get a whole 2 MiB THP populated. Most of that THP is zeroes.
-> > 
-> > KSM somehow ends up splitting that THP and deduplicates all resulting
-> > zeropages. Thus, we "save" 2 MiB. Actually, it's more like we no longer
-> > "waste" 2 MiB. I think the processes with KSM have less (none) THP than the
-> > processes with THP enabled, but I only took a look at a sample of the
-> > process' smaps so far.
+On 3/15/23 14:08, Mohammed Danish Ali wrote:
+> Date: Wed, 15 Mar 2023 20:48:17 +0000
 > 
-> THP and KSM is indeed an interesting problem. Better TLB hits with
-> THPs, but reduced chance of deduplicating memory - which may or may
-> not result in more IO that outweighs any THP benefits.
+> Added support for LTC4282: High Current Hot Swap Controller with I2C
+> Compatible Monitoring
 > 
-> That said, the service in the experiment referenced above has swap
-> turned on and is under significant memory pressure. Unused splitpages
-> would get swapped out. The difference from KSM was from deduplicating
-> pages that were in active use, not internal THP fragmentation.
+> Signed-off-by: Mohammed Danish Ali <mohammed.danish.ali.14@gmail.com <mailto:mohammed.danish.ali.14@gmail.com>>
+> ---
 
-Brainfart, my apologies. It could have been the ksm-induced splits
-themselves that allowed the unused subpages to get swapped out in the
-first place.
+...
 
-But no, I double checked that workload just now. On a weekly average,
-it has about 50 anon THPs and 12 million regular anon. THP is not a
-factor in the reduction results.
+> +   hwmon_dev = devm_hwmon_device_register_with_groups(dev, client->name, data, ltc4282_groups);
+
+include/hwmon/hwmon.h:
+
+/*
+  * hwmon_device_register_with_groups() and
+  * devm_hwmon_device_register_with_groups() are deprecated.
+  */
+
+Documentation/hwmon/submitting-patches.rst:
+
+* Use devm_hwmon_device_register_with_info() or, if your driver needs a remove
+   function, hwmon_device_register_with_info() to register your driver with the
+   hwmon subsystem. Try using devm_add_action() instead of a remove function if
+   possible. Do not use any of the deprecated registration functions.
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Please resubmit.
+
+Thanks,
+Guenter
+
