@@ -2,195 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CCABC61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 03:29:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E2C1C6FD1D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 03:34:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230446AbjCOD3b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 23:29:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40434 "EHLO
+        id S230426AbjCODer (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 23:34:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230357AbjCOD31 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 23:29:27 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 021815AB41;
-        Tue, 14 Mar 2023 20:29:02 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id p20so18646263plw.13;
-        Tue, 14 Mar 2023 20:29:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678850942;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y5R/cI7TwWfezMpaOcvOvboGtJ12otQ+8XRuoypBee4=;
-        b=hWYjUDw+JcnVahVBQyC2oh51nhXDZdz7TLegnfeXc1j1lgUB1Rh+kqlwdFJqn7AgLU
-         Yaz+G7vKIgkaJpSFWwMjhoMYkzLkphjkdxkq5Lpy8uqTRnqWu1UPZcBBicOTovLPP2Rk
-         zl82phAPbT0pmLTHINWG7amxpH3qYzjQGTI2KOEVxw35PYIGWZ8pdHNj6C13FGFmFRDK
-         vF+EVxhaQpYf7VRF5q4K4HSpevjyhz0CqNHiMxrxw0HVoPVRm2LnW8ugMHh0FHwoT9Yi
-         eWllSgpdbWogndzzXNVC8dQ0IrcJ0byfBachpa6eJj7gUXlBM2lnm/WeiEH/D8TBF4In
-         I4tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678850942;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y5R/cI7TwWfezMpaOcvOvboGtJ12otQ+8XRuoypBee4=;
-        b=c6oWTdZovY6mrEz9tSb9MmZTgYmuWBbvkKwQ1uSp4MeSo63qUOEdYdvrstxMcd3tVq
-         ZH3eKzBS98rI5JAYeymLtVHiGDV/c/c7/uzXsHzkGvhbZgV7TBl35LARVxEfx6MLkcGq
-         81mzoj5nSaJ2iOuFftlhp7hrXWc0zXetHST3VFbJMFt3oWa1piuES5Kb/AGCikhGWwtL
-         4NZtv/fA+Fp6HT0+DhUWq8eetEzJNQLjVqqiv2h7TxPPXY49zJN9P5lIMToKwLbe6X3J
-         ppM7hI+FY8UzjnSnZDBcU/VbSQlTQrPES2QRzXFNXArqgzOd1qUBxppNO94RDy97bIUN
-         z7AA==
-X-Gm-Message-State: AO0yUKUco0dnZf2J2Ilxdt8ZJfG3kvyRGBeV5YXomQlrbotFdM+F+bmu
-        KqAlUkgCDwKZm/ZyuVX2gIE=
-X-Google-Smtp-Source: AK7set/RY2VgORdDYf9YUYNcWxftVuo+OPUeF21C0k3GDr8ha6RqcsqN3/P4HgQVkUKK7fN2N6pvsw==
-X-Received: by 2002:a17:902:ecc7:b0:19e:8688:86fe with SMTP id a7-20020a170902ecc700b0019e868886femr1477105plh.42.1678850942252;
-        Tue, 14 Mar 2023 20:29:02 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-17.three.co.id. [180.214.232.17])
-        by smtp.gmail.com with ESMTPSA id jy11-20020a17090342cb00b0019edf07eb06sm2465198plb.122.2023.03.14.20.29.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 20:29:01 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id BF9FB1067B8; Wed, 15 Mar 2023 10:28:56 +0700 (WIB)
-Date:   Wed, 15 Mar 2023 10:28:56 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     David Vernet <void@manifault.com>
-Cc:     Sreevani Sreejith <ssreevani@meta.com>, psreep@gmail.com,
-        bpf@vger.kernel.org, Linux-kernel@vger.kernel.org,
-        andrii@kernel.org, mykola@meta.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 bpf-next] BPF, docs: libbpf Overview Document
-Message-ID: <ZBE7eMsAifEQgRQv@debian.me>
-References: <20230310180928.2462527-1-ssreevani@meta.com>
- <ZA7wm8scokV+XPav@debian.me>
- <20230313125947.GB2392@maniforge>
+        with ESMTP id S230310AbjCODeh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 23:34:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9A85A6DE
+        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 20:33:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678851228;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=P8AT5dPnPUO+JypixZa88t/Pmtrax3iyp7vcDArwYms=;
+        b=H4jmaFP0oqIrfy8krpqh4LFFqTWlg099elUbR17nW/skt8ExSQ1TJAyY+LhvHqBx4EScqz
+        HQz8AyDAPlPNIn+jsbWkns68Y9971l5iELbIjPIW8lu1iYpyJ6c81y6/Ov56UO6c6SbjVe
+        26wF8DssnRkpMkjY1BSt0Zf/2R6sTM8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-638-XmQ9F8K2Pk-Z_PtwFA-QGw-1; Tue, 14 Mar 2023 23:33:45 -0400
+X-MC-Unique: XmQ9F8K2Pk-Z_PtwFA-QGw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99C1D1C0418B;
+        Wed, 15 Mar 2023 03:33:44 +0000 (UTC)
+Received: from ovpn-8-22.pek2.redhat.com (ovpn-8-22.pek2.redhat.com [10.72.8.22])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B22940B3ED6;
+        Wed, 15 Mar 2023 03:33:37 +0000 (UTC)
+Date:   Wed, 15 Mar 2023 11:33:32 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Eric Blake <eblake@redhat.com>
+Cc:     Nir Soffer <nsoffer@redhat.com>, josef@toxicpanda.com,
+        linux-block@vger.kernel.org, nbd@other.debian.org,
+        philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+        christoph.boehmwalder@linbit.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ming.lei@redhat.com
+Subject: Re: [PATCH 2/3] uapi nbd: add cookie alias to handle
+Message-ID: <ZBE8jPO5RomMUTmG@ovpn-8-22.pek2.redhat.com>
+References: <20230310201525.2615385-1-eblake@redhat.com>
+ <20230310201525.2615385-3-eblake@redhat.com>
+ <CAMRbyysDE+v_D6Q3tCf_+86T0V57UE4Emw6zc_4vnUu0Yau23A@mail.gmail.com>
+ <20230314195023.bsey5bfq2atz7d66@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="DH9SxApjontiwtqc"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230313125947.GB2392@maniforge>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230314195023.bsey5bfq2atz7d66@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Mar 14, 2023 at 02:50:23PM -0500, Eric Blake wrote:
+> On Sat, Mar 11, 2023 at 02:30:39PM +0200, Nir Soffer wrote:
+> > On Fri, Mar 10, 2023 at 10:16 PM Eric Blake <eblake@redhat.com> wrote:
+> > >
+> > > The uapi <linux/nbd.h> header declares a 'char handle[8]' per request;
+> > > which is overloaded in English (are you referring to "handle" the
+> > > verb, such as handling a signal or writing a callback handler, or
+> > > "handle" the noun, the value used in a lookup table to correlate a
+> > > response back to the request).  Many client-side NBD implementations
+> > > (both servers and clients) have instead used 'u64 cookie' or similar,
+> > > as it is easier to directly assign an integer than to futz around with
+> > > memcpy.  In fact, upstream documentation is now encouraging this shift
+> > > in terminology: https://lists.debian.org/nbd/2023/03/msg00031.html
+> > >
+> > > Accomplish this by use of an anonymous union to provide the alias for
+> > > anyone getting the definition from the uapi; this does not break
+> > > existing clients, while exposing the nicer name for those who prefer
+> > > it.  Note that block/nbd.c still uses the term handle (in fact, it
+> > > actually combines a 32-bit cookie and a 32-bit tag into the 64-bit
+> > > handle), but that internal usage is not changed the public uapi, since
+> > > no compliant NBD server has any reason to inspect or alter the 64
+> > > bits sent over the socket.
+> > >
+> > > Signed-off-by: Eric Blake <eblake@redhat.com>
+> > > ---
+> > >  include/uapi/linux/nbd.h | 10 ++++++++--
+> > >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/include/uapi/linux/nbd.h b/include/uapi/linux/nbd.h
+> > > index 8797387caaf7..f58f2043f62e 100644
+> > > --- a/include/uapi/linux/nbd.h
+> > > +++ b/include/uapi/linux/nbd.h
+> > > @@ -81,7 +81,10 @@ enum {
+> > >  struct nbd_request {
+> > >         __be32 magic;   /* NBD_REQUEST_MAGIC    */
+> > >         __be32 type;    /* See NBD_CMD_*        */
+> > > -       char handle[8];
+> > > +       union {
+> > > +               char handle[8];
+> > > +               __be64 cookie;
+> > > +       };
+> > >         __be64 from;
+> > >         __be32 len;
+> > >  } __attribute__((packed));
+> > > @@ -93,6 +96,9 @@ struct nbd_request {
+> > >  struct nbd_reply {
+> > >         __be32 magic;           /* NBD_REPLY_MAGIC      */
+> > >         __be32 error;           /* 0 = ok, else error   */
+> > > -       char handle[8];         /* handle you got from request  */
+> > > +       union {
+> > > +               char handle[8]; /* handle you got from request  */
+> > > +               __be64 cookie;
+> > 
+> > Should we document like this?
+> > 
+> >     union {
+> >         __be64 cookie; /* cookie you got from request */
+> >         char handle[8]; /* older name */
+> > 
+> > I think we want future code to use the new term.
+> 
+> Sure, swapping the order to favor the preferred name first makes sense.
+> 
+> I'm still not sure on whether cookie should be u64 or __be64 (it's
+> opaque, so endianness over the wire doesn't matter;
 
---DH9SxApjontiwtqc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I guess it is 'u64', given ->handle is always copied to nbd_reply from
+nbd_request in nbd server side, so native endian is always applied for
+building and parsing ->handle in nbd client side.
 
-On Mon, Mar 13, 2023 at 07:59:47AM -0500, David Vernet wrote:
-> On Mon, Mar 13, 2023 at 04:44:59PM +0700, Bagas Sanjaya wrote:
-> > On Fri, Mar 10, 2023 at 10:09:28AM -0800, Sreevani Sreejith wrote:
-> > > From: Sreevani <ssreevani@meta.com>
-> > >=20
-> > > Summary: Document that provides an overview of libbpf features for BPF
-> > > application development.
-> >=20
-> > It seems like you ignore some of my reviews at [1]. Anyway, I repeat
-> > them here, augmenting my new comments.
->=20
-> Sreevani, please be sure to reply to and address all reviewers'
-> comments. I've also requested that we not use these internal Meta tags
-> on more than one occasion, so please be mindful of it for future
-> patches, and take a bit of extra time to double check that you've
-> addressed all reviewers' concerns. I also suggest reading over [0],
-> which specifies that new versions of patches should include descriptions
-> of what's changed from prior versions. Please see Joanne's patch set in
-> [1] which serves as a very nice example.
->=20
-> [0]: https://www.kernel.org/doc/html/latest/process/submitting-patches.ht=
-ml#the-canonical-patch-format
-> [1]: https://lore.kernel.org/all/20230301154953.641654-1-joannelkoong@gma=
-il.com/
->=20
-> Bagas -- just FYI, a quick git log would have shown that this is only
-> Sreevani's second patch. I don't think she intentionally ignored
-> anything. It's likely just an artifact of getting used to the kernel
-> review process.
+But it looks odd to mark it as u64.
 
-Oops, you mean this v3 is actually v2, right?
+> and previous code
+> was using memcpy() onto char[8] which may behave differently depending
+> on machine endianness).
 
-> > Why did you add heading overline and change the heading character marke=
-r?
->=20
-> I assume that Sreevani is following python documentation conventions [0],=
- which
-> suggest that #### with overline refers to the highest-level heading in a =
-page.
-> This is suggested in Sphinx documentation [1] as well.
->=20
-> [0]: https://devguide.python.org/documentation/markup/#sections
-> [1]: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.h=
-tml#sections
 
-OK.
 
-> > You may want to also add :lineos: option or manually add line numbers
-> > if you add :emphasize-lines: so that readers can see the line number
-> > it refers to.
->=20
-> What is :lineos:? I don't see it anywhere else in Documentation/ and if
-> I add it, the docs build complains:
->=20
-> Documentation/bpf/libbpf/libbpf_overview.rst:177: WARNING: Error in "code=
--block" directive:
-> unknown option: "lineos".
->=20
-> .. code-block:: C
->   :lineos:
->   :emphasize-lines: 6
 
-You forget to indent both options (see [1]).
+Thanks,
+Ming
 
->=20
->   //...
->   struct task_struct *task =3D (void *)bpf_get_current_task();
->   struct task_struct *parent_task;
->   int err;
->=20
->   err =3D bpf_core_read(&parent_task, sizeof(void *), &task->parent);
->   if (err) {
->     /* handle error */
->   }
->=20
->   /* parent_task contains the value of task->parent pointer */
->=20
-> I personally think adding line numbers is overkill. The highlighting is
-> already a nice touch, and gets the point across without the additional
-> visual cue of line numbers.
-
-But if the snippet above is instead long, how can one looking for the
-emphasized line number when reading doc (especially in .rst source) other
-than manually counting from the first line of the snippet? See
-Documentation/RCU/rcubarrier.rst for example of manual line numbering
-(and [2] for the related patch).
-
-> > BPF apps are application that use BPF program, right? I thought that
-> > despite there is libbpf-rs, I still have to develop BPF apps in C.
->=20
-> It says that at the end of the paragraph?
->=20
-
-I was confused between BPF apps and BPF programs, since I was accustomed
-that apps and programs refer to the same thing.
-
-Thanks.
-
-[1]: https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives=
-=2Ehtml#directive-code-block
-[2]: https://lore.kernel.org/linux-doc/e458e625-9a4e-da3f-13cd-a5b56fc36edf=
-@gmail.com/
-=20
---=20
-An old man doll... just what I always wanted! - Clara
-
---DH9SxApjontiwtqc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZBE7cwAKCRD2uYlJVVFO
-o+5LAP9ugSb7TIpgtudL99VV//HsXkhOZ4qpN75tVchCYTxoqwEAgeT+i1PLPcaC
-mGP+wG++6bhn9vLMJid7GJ0qACAwvgg=
-=nrQt
------END PGP SIGNATURE-----
-
---DH9SxApjontiwtqc--
