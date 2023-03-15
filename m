@@ -2,182 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 606CDC61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 05:53:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12771C6FD1D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 07:02:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230169AbjCOFx4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 01:53:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52176 "EHLO
+        id S230170AbjCOHCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 03:02:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbjCOFxz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 01:53:55 -0400
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FFF12056B;
-        Tue, 14 Mar 2023 22:53:53 -0700 (PDT)
-Received: by mail-qv1-f43.google.com with SMTP id 97so2058206qvb.6;
-        Tue, 14 Mar 2023 22:53:53 -0700 (PDT)
+        with ESMTP id S230348AbjCOHCT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 03:02:19 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0A1855060
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 00:02:11 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id p6so19107979plf.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 00:02:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678863731;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A68M7/xfFbhoMwUouBQ3PR/BIfF4GewV1Ba+f2zbZVY=;
+        b=JVj+evaMTD3GF/zeu0xHYfqII5cf4h7HjS9AtsHYIcw+Q0hpoU82yQp/dG9gXUI71A
+         zTi1Lr7zWLu/ZKNpoZ/Z17SbidMiJR/W+x5/LBKGTqwWhUxcrHyb1le0DvmGf6R803z0
+         gAgEBSI6+ixkn3qsfizKXPu167A0CfE4wN46pFTgrDqc60gBPscmgr5NIP8CnJX0GeN2
+         giEviEMKAk6asw7euYScwICFaQg/qd+yG80/6i8lrm0eFdaa/xABKUxioWZsz/g+fz4a
+         hudiCS91VML+zwkSShcv1A3YdpIVRWQsvAX684xICkSDCvZ8DpoO1vtbaeXV20J98zqV
+         OIog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678859632;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Qnn/CH2i7CTOBYyJrY4lH8ItaqeSkDLa2BwvsslQGCE=;
-        b=G3jeV2BgfD5Q1eYgGmE3xyaXsaeVM5qJ0PIyorIsxh+EkCFKDGlMDC79Td+Ae1LVy6
-         OFiCHbpAeYgZsWgx/GbzvmO9cI5fW1pry1cD7+KZoiupunz6XbPqOAme4JnDShDSECrA
-         InjuZb6kXmSc06J3sKd9jYWuAnVRYz7UGqM35sLypHJJ0Hr5LltVfeu0vZOKT7IQeXW5
-         tLFRHqw1+G6xuHfuCpggg0Z9/2u0hVPXjQ7H8aHfQJ0H8qI1otTVjgZEANfZaerKa7wC
-         4MfRuCkPQ9mvc9AGcRLFJGCzw7KFRtY0eX3pSibr47kBnUho9ejIkTCli500LQWq7SYa
-         3JmA==
-X-Gm-Message-State: AO0yUKUZAlvbWjqKHpxtsaia6BWGWjUiUQGedfg9MumTHZD0vXSfHXAm
-        A0vobSoOV22iMjnjy3EcmIs=
-X-Google-Smtp-Source: AK7set/IPEK+n9TxIOrM43Lbc+HCtmaJY04DaMiJsqM/ISI9nDcP1RZbF9BhBWbpLV5RwTSwMcA3Eg==
-X-Received: by 2002:a05:622a:15c6:b0:3bf:e39f:a9aa with SMTP id d6-20020a05622a15c600b003bfe39fa9aamr76407388qty.27.1678859632173;
-        Tue, 14 Mar 2023 22:53:52 -0700 (PDT)
-Received: from maniforge ([2620:10d:c091:400::5:7ef3])
-        by smtp.gmail.com with ESMTPSA id s17-20020a05620a29d100b007423c122457sm3283708qkp.63.2023.03.14.22.53.51
+        d=1e100.net; s=20210112; t=1678863731;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A68M7/xfFbhoMwUouBQ3PR/BIfF4GewV1Ba+f2zbZVY=;
+        b=H8RdhA884QF02nt5yEqbavDbCZBYjWrGW5rZVqxW99QtHQtwbHZzNG5xv6oKKa8rjP
+         BQFrqkt8q29Hi91WeOyxUcmwlGgeFaLRuJrIjVXRNWxOiRdZujylVHqV05lNMMwux5Tl
+         yCZtyU5avjYwYHdDPjSMkk1wLlLMdP9ZAODe+NKSh5jLqT9DOxzkgx2D7nLHKsgsHbDC
+         DYrvQhbsf09pUKdLLAMZ0UTZWZMng3woJvAr3McDeoiXJ+FVXnroojGTPzXor4IpeeqO
+         xo0JKtKRMxiqBHHs10Nr4sYuy7wk4L9De0eAMyoSPOm6licF8URpGdB7CDiSNZCUTMwM
+         SNFQ==
+X-Gm-Message-State: AO0yUKUG6bJmRNhnnt1q/Np1fLD6NDd+doM3pj/YfBi8+KREhJEKEKRc
+        0Da5HwKbPPS49lmreltyXLsaUIh3rlc=
+X-Google-Smtp-Source: AK7set/cKa2+IOFwrdTaat6s60LGg+tuE6aoJ/PUx+xw8s0A/Cf2yj4PbMxTYcWsvhl1tu3vfhXlqw==
+X-Received: by 2002:a17:902:d1cd:b0:1a0:7655:2153 with SMTP id g13-20020a170902d1cd00b001a076552153mr1400121plb.41.1678863731422;
+        Wed, 15 Mar 2023 00:02:11 -0700 (PDT)
+Received: from localhost.localdomain ([167.220.238.138])
+        by smtp.googlemail.com with ESMTPSA id i3-20020a170902c94300b0019f232619d7sm2823081pla.173.2023.03.15.00.02.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 22:53:51 -0700 (PDT)
-Date:   Wed, 15 Mar 2023 00:53:49 -0500
-From:   David Vernet <void@manifault.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Sreevani Sreejith <ssreevani@meta.com>, psreep@gmail.com,
-        bpf@vger.kernel.org, Linux-kernel@vger.kernel.org,
-        andrii@kernel.org, mykola@meta.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 bpf-next] BPF, docs: libbpf Overview Document
-Message-ID: <20230315055349.GA20638@maniforge>
-References: <20230310180928.2462527-1-ssreevani@meta.com>
- <ZA7wm8scokV+XPav@debian.me>
- <20230313125947.GB2392@maniforge>
- <ZBE7eMsAifEQgRQv@debian.me>
+        Wed, 15 Mar 2023 00:02:11 -0700 (PDT)
+From:   bharathsm.hsk@gmail.com
+To:     bagasdotme@gmail.com, edumazet@google.com, davem@davemloft.net,
+        kuba@kernel.org, pabeni@redhat.com, dhowells@redhat.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net
+Cc:     Bharath SM <bharathsm@microsoft.com>
+Subject: [PATCH v2] dns_resolver: correct documentation error in dns resolver
+Date:   Wed, 15 Mar 2023 07:01:08 +0000
+Message-Id: <20230315070108.1539587-1-bharathsm.hsk@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZBE7eMsAifEQgRQv@debian.me>
-User-Agent: Mutt/2.2.9 (2022-11-12)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 15, 2023 at 10:28:56AM +0700, Bagas Sanjaya wrote:
-> On Mon, Mar 13, 2023 at 07:59:47AM -0500, David Vernet wrote:
-> > On Mon, Mar 13, 2023 at 04:44:59PM +0700, Bagas Sanjaya wrote:
-> > > On Fri, Mar 10, 2023 at 10:09:28AM -0800, Sreevani Sreejith wrote:
-> > > > From: Sreevani <ssreevani@meta.com>
-> > > > 
-> > > > Summary: Document that provides an overview of libbpf features for BPF
-> > > > application development.
-> > > 
-> > > It seems like you ignore some of my reviews at [1]. Anyway, I
-> > > repeat them here, augmenting my new comments.
-> > 
-> > Sreevani, please be sure to reply to and address all reviewers'
-> > comments. I've also requested that we not use these internal Meta tags
-> > on more than one occasion, so please be mindful of it for future
-> > patches, and take a bit of extra time to double check that you've
-> > addressed all reviewers' concerns. I also suggest reading over [0],
-> > which specifies that new versions of patches should include descriptions
-> > of what's changed from prior versions. Please see Joanne's patch set in
-> > [1] which serves as a very nice example.
-> > 
-> > [0]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#the-canonical-patch-format
-> > [1]: https://lore.kernel.org/all/20230301154953.641654-1-joannelkoong@gmail.com/
-> > 
-> > Bagas -- just FYI, a quick git log would have shown that this is only
-> > Sreevani's second patch. I don't think she intentionally ignored
-> > anything. It's likely just an artifact of getting used to the kernel
-> > review process.
-> 
-> Oops, you mean this v3 is actually v2, right?
+From: Bharath SM <bharathsm@microsoft.com>
 
-Oh, I just meant that this is her second patch submission to the Linux
-kernel in general, (the first was [0]), so she likely just accidentally
-forgot to address your comments rather than intentionally ignoring them.
-Of course, it's good that you highlighted them again here in v3, as they
-certainly need to be addressed.
+Fix incorrect sysfs path in dns_resolver documentation
 
-[0]: https://lore.kernel.org/all/20221202221710.320810-2-ssreevani@meta.com/
+Signed-off-by: Bharath SM <bharathsm@microsoft.com>
+Acked-by: David Howells <dhowells@redhat.com>
+---
+ Documentation/networking/dns_resolver.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> > > Why did you add heading overline and change the heading character marker?
-> > 
-> > I assume that Sreevani is following python documentation conventions [0], which
-> > suggest that #### with overline refers to the highest-level heading in a page.
-> > This is suggested in Sphinx documentation [1] as well.
-> > 
-> > [0]: https://devguide.python.org/documentation/markup/#sections
-> > [1]: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#sections
-> 
-> OK.
-> 
-> > > You may want to also add :lineos: option or manually add line numbers
-> > > if you add :emphasize-lines: so that readers can see the line number
-> > > it refers to.
-> > 
-> > What is :lineos:? I don't see it anywhere else in Documentation/ and if
-> > I add it, the docs build complains:
-> > 
-> > Documentation/bpf/libbpf/libbpf_overview.rst:177: WARNING: Error in "code-block" directive:
-> > unknown option: "lineos".
-> > 
-> > .. code-block:: C
-> >   :lineos:
-> >   :emphasize-lines: 6
-> 
-> You forget to indent both options (see [1]).
+diff --git a/Documentation/networking/dns_resolver.rst b/Documentation/networking/dns_resolver.rst
+index add4d59a99a5..99bf72a6ed45 100644
+--- a/Documentation/networking/dns_resolver.rst
++++ b/Documentation/networking/dns_resolver.rst
+@@ -152,4 +152,4 @@ Debugging
+ Debugging messages can be turned on dynamically by writing a 1 into the
+ following file::
+ 
+-	/sys/module/dnsresolver/parameters/debug
++	/sys/module/dns_resolver/parameters/debug
+-- 
+2.25.1
 
-The indentation was correct ;-) The option is actually ":linenos", not
-":lineos:". That said, it's a neat option, so thank you for pointing it
-out.
-
-> > 
-> >   //...
-> >   struct task_struct *task = (void *)bpf_get_current_task();
-> >   struct task_struct *parent_task;
-> >   int err;
-> > 
-> >   err = bpf_core_read(&parent_task, sizeof(void *), &task->parent);
-> >   if (err) {
-> >     /* handle error */
-> >   }
-> > 
-> >   /* parent_task contains the value of task->parent pointer */
-> > 
-> > I personally think adding line numbers is overkill. The highlighting is
-> > already a nice touch, and gets the point across without the additional
-> > visual cue of line numbers.
-> 
-> But if the snippet above is instead long, how can one looking for the
-> emphasized line number when reading doc (especially in .rst source) other
-> than manually counting from the first line of the snippet? See
-> Documentation/RCU/rcubarrier.rst for example of manual line numbering
-> (and [2] for the related patch).
-
-Well, that's a bit of a hypothetical problem given that in this case
-we're only talking about 6 lines ;-) In any case, I don't really mind
-one way or the other, but given that none of the other example
-codeblocks in the BPF docs have line numbers, I'd personally err on the
-side of not adding them here.
-
-> > > BPF apps are application that use BPF program, right? I thought that
-> > > despite there is libbpf-rs, I still have to develop BPF apps in C.
-> > 
-> > It says that at the end of the paragraph?
-> > 
-> 
-> I was confused between BPF apps and BPF programs, since I was accustomed
-> that apps and programs refer to the same thing.
-
-This is alluded to a bit earlier in this document:
-
-> A BPF application consists of one or more BPF programs (either
-> cooperating or completely independent), BPF maps, and global
-> variables.
-
-"Program" in the context of BPF has a very specific meaning. We need to
-improve our documentation on them, but see [1] for a bit more detail.
-The TL;DR is that the BPF program is the part that runs in kernel space.
-
-[1]: https://www.kernel.org/doc/html/latest/bpf/libbpf/program_types.html#program-types-and-elf
-
-Thanks,
-David
