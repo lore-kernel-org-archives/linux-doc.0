@@ -2,198 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7B6C6FD1D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 13:07:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F4025C7618D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 13:38:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231652AbjCONH5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 09:07:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50504 "EHLO
+        id S232115AbjCONiy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 09:38:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231231AbjCONH4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 09:07:56 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEFDA85353;
-        Wed, 15 Mar 2023 06:07:54 -0700 (PDT)
-Received: from [IPV6:2001:861:4a40:8620:2c75:7350:cd65:d027] (unknown [IPv6:2001:861:4a40:8620:2c75:7350:cd65:d027])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        with ESMTP id S231806AbjCONiw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 09:38:52 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C80D7EFC;
+        Wed, 15 Mar 2023 06:38:49 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        (Authenticated sender: gtucker)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B7ED2660304F;
-        Wed, 15 Mar 2023 13:07:52 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1678885673;
-        bh=5re/JPBZEH9+G9AWINTZ7qiFtAiq3TE2YC3ggLy0kHs=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=mey0BY8Bf4z0ZDu8KtlVA2aXK2UEiKmKvoFBkKFz4EWWiacdu98oZm4R1+7wVcr0W
-         CdaFfacq3bz+flK8D8BWQgmb4t9lFMa4jQIe67Nkcfc6GBcA3KMLTwfG+C7NXXY8xi
-         i4VBSQ6ZuZUpmZ+ohBUGQ8DAGQrMKWy74gmAAa2X8SkDnBdwQePKay9Oqei3bkB3QS
-         ghvwp0DHX/rCPsFBE3jNfq/Tu7HTmaP1iPJOJj77j19g9LAMKYBQXt+ATFH0ifduMY
-         y+66bZPVYZQXUSYQMfEyJoQdmYr70vm6yeqL9edONGmhQeIoNc5YovjEdJNjEHBZ0r
-         9gK7+D8qVhcwg==
-Message-ID: <aeaae945-ddc1-09e1-4120-74868962e90c@collabora.com>
-Date:   Wed, 15 Mar 2023 14:08:40 +0100
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 5D8B31FD76;
+        Wed, 15 Mar 2023 13:38:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1678887528; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=wQFuKBaF6WvGk6vzttY4i4tA7syyP5hs6IrhdtonffA=;
+        b=cqxP2twoRj+fcrs/+8lehtiDgnL4jr0LNZ6a5rdur0lBr0tEWrBncWCbZJ6/bK8EyWpU4x
+        gZ0F+4c+4+XXRkr56WDNiSySqXnP6VfvK3ui99h+DhlZDvTySsKKDiEo77yQOun5YA6Xyt
+        sgYbKyd2dOq4T+lsVt4cYW7F2JRPFGk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1678887528;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=wQFuKBaF6WvGk6vzttY4i4tA7syyP5hs6IrhdtonffA=;
+        b=w6coZ/Uw88fhU8aHcGl6eDCI1gHVg0UOGUkVaXsHulRwjbstUIgG9UCupGjq6fQNmDKLo6
+        x/lC0q/mxOCeVZCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0211513A2F;
+        Wed, 15 Mar 2023 13:38:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id e+dPO2fKEWQSLwAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Wed, 15 Mar 2023 13:38:47 +0000
+Message-ID: <14043bee-af7d-38f3-5a46-f63940e56c1e@suse.cz>
+Date:   Wed, 15 Mar 2023 14:38:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [KTAP V2 PATCH] ktap_v2: add skip test result
-To:     Rae Moar <rmoar@google.com>, frowand.list@gmail.com,
-        davidgow@google.com, skhan@linuxfoundation.org,
-        keescook@chromium.org, Tim.Bird@sony.com, brendanhiggins@google.com
-Cc:     corbet@lwn.net, dlatypov@google.com, kernelci@groups.io,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "kernelci@lists.linux.dev" <kernelci@lists.linux.dev>,
-        "kernelci-tsc@groups.io" <kernelci-tsc@groups.io>
-References: <20230310222002.3633162-1-rmoar@google.com>
+Subject: Re: [PATCH 7/7] mm/slab: document kfree() as allowed for
+ kmem_cache_alloc() objects
 Content-Language: en-US
-From:   Guillaume Tucker <guillaume.tucker@collabora.com>
-In-Reply-To: <20230310222002.3633162-1-rmoar@google.com>
+To:     Mike Rapoport <mike.rapoport@gmail.com>
+Cc:     Christoph Lameter <cl@linux.com>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        Mike Rapoport <rppt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>
+References: <20230310103210.22372-1-vbabka@suse.cz>
+ <20230310103210.22372-8-vbabka@suse.cz> <ZA2ic9JYXGVzps1+@kernel.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <ZA2ic9JYXGVzps1+@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+ kernelci@lists.linux.dev
+On 3/12/23 10:59, Mike Rapoport wrote:
+> On Fri, Mar 10, 2023 at 11:32:09AM +0100, Vlastimil Babka wrote:
+>> This will make it easier to free objects in situations when they can
+>> come from either kmalloc() or kmem_cache_alloc(), and also allow
+>> kfree_rcu() for freeing objects from kmem_cache_alloc().
+>> 
+>> For the SLAB and SLUB allocators this was always possible so with SLOB
+>> gone, we can document it as supported.
+>> 
+>> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+>> Cc: Mike Rapoport <rppt@kernel.org>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+>> Cc: Frederic Weisbecker <frederic@kernel.org>
+>> Cc: Neeraj Upadhyay <quic_neeraju@quicinc.com>
+>> Cc: Josh Triplett <josh@joshtriplett.org>
+>> Cc: Steven Rostedt <rostedt@goodmis.org>
+>> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+>> Cc: Lai Jiangshan <jiangshanlai@gmail.com>
+>> Cc: Joel Fernandes <joel@joelfernandes.org>
+>> ---
+>>  Documentation/core-api/memory-allocation.rst | 15 +++++++++++----
+>>  include/linux/rcupdate.h                     |  6 ++++--
+>>  mm/slab_common.c                             |  5 +----
+>>  3 files changed, 16 insertions(+), 10 deletions(-)
+>> 
+>> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+>> index 5954ddf6ee13..f9e8d352ed67 100644
+>> --- a/Documentation/core-api/memory-allocation.rst
+>> +++ b/Documentation/core-api/memory-allocation.rst
+>> @@ -170,7 +170,14 @@ should be used if a part of the cache might be copied to the userspace.
+>>  After the cache is created kmem_cache_alloc() and its convenience
+>>  wrappers can allocate memory from that cache.
+>>  
+>> -When the allocated memory is no longer needed it must be freed. You can
+>> -use kvfree() for the memory allocated with `kmalloc`, `vmalloc` and
+>> -`kvmalloc`. The slab caches should be freed with kmem_cache_free(). And
+>> -don't forget to destroy the cache with kmem_cache_destroy().
+>> +When the allocated memory is no longer needed it must be freed. Objects
+> 
+> I'd add a line break before Objects                               ^
+> 
+>> +allocated by `kmalloc` can be freed by `kfree` or `kvfree`.
+>> +Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`
+>> +or also by `kfree` or `kvfree`, which can be more convenient as it does
+> 
+> Maybe replace 'or also by' with a coma:
+> 
+> Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`,
+> `kfree` or `kvfree`, which can be more convenient as it does
 
-Please note: kernelci@groups.io is not used any more, see details
-here about the move:
+But then I need to clarify what the "which" applies to?
 
-  https://groups.io/g/kernelci
+> 
+>> +not require the kmem_cache pointed.
+> 
+>                              ^ pointer.
+> 
+>> +The rules for _bulk and _rcu flavors of freeing functions are analogical.
+> 
+> Maybe 
+> 
+> The same rules apply to _bulk and _rcu flavors of freeing functions.
 
-The new KernelCI email archives can be found here:
+So like this incremental diff?
 
-  https://lore.kernel.org/kernelci/
-
-Thanks,
-Guillaume
-
-
-On 10/03/2023 23:20, Rae Moar wrote:
-> Add the test result "skip" to KTAP version 2 as an alternative way to
-> indicate a test was skipped.
-> 
-> The current spec uses the "#SKIP" directive to indicate that a test was
-> skipped. However, the "#SKIP" directive is not always evident when quickly
-> skimming through KTAP results.
-> 
-> The "skip" result would provide an alternative that could make it clearer
-> that a test has not successfully passed because it was skipped.
-> 
-> Before:
-> 
->  KTAP version 1
->  1..1
->    KTAP version 1
->    1..2
->    ok 1 case_1
->    ok 2 case_2 #SKIP
->  ok 1 suite
-> 
-> After:
-> 
->  KTAP version 2
->  1..1
->    KTAP version 2
->    1..2
->    ok 1 case_1
->    skip 2 case_2
->  ok 1 suite
-> 
-> Here is a link to a version of the KUnit parser that is able to parse
-> the skip test result for KTAP version 2. Note this parser is still able
-> to parse the "#SKIP" directive.
-> 
-> Link: https://kunit-review.googlesource.com/c/linux/+/5689
-> 
-> Signed-off-by: Rae Moar <rmoar@google.com>
-> ---
-> 
-> Note: this patch is based on Frank's ktap_spec_version_2 branch.
-> 
->  Documentation/dev-tools/ktap.rst | 27 ++++++++++++++++++---------
->  1 file changed, 18 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-> index ff77f4aaa6ef..f48aa00db8f0 100644
-> --- a/Documentation/dev-tools/ktap.rst
-> +++ b/Documentation/dev-tools/ktap.rst
-> @@ -74,7 +74,8 @@ They are required and must have the format:
->  	<result> <number> [<description>][ # [<directive>] [<diagnostic data>]]
->  
->  The result can be either "ok", which indicates the test case passed,
-> -or "not ok", which indicates that the test case failed.
-> +"not ok", which indicates that the test case failed, or "skip", which indicates
-> +the test case did not run.
->  
->  <number> represents the number of the test being performed. The first test must
->  have the number 1 and the number then must increase by 1 for each additional
-> @@ -91,12 +92,13 @@ A directive is a keyword that indicates a different outcome for a test other
->  than passed and failed. The directive is optional, and consists of a single
->  keyword preceding the diagnostic data. In the event that a parser encounters
->  a directive it doesn't support, it should fall back to the "ok" / "not ok"
-> -result.
-> +/ "skip" result.
->  
->  Currently accepted directives are:
->  
-> -- "SKIP", which indicates a test was skipped (note the result of the test case
-> -  result line can be either "ok" or "not ok" if the SKIP directive is used)
-> +- "SKIP", which indicates a test was skipped (note this is an alternative to
-> +  the "skip" result type and if the SKIP directive is used, the
-> +  result can be any type - "ok", "not ok", or "skip")
->  - "TODO", which indicates that a test is not expected to pass at the moment,
->    e.g. because the feature it is testing is known to be broken. While this
->    directive is inherited from TAP, its use in the kernel is discouraged.
-> @@ -110,7 +112,7 @@ Currently accepted directives are:
->  
->  The diagnostic data is a plain-text field which contains any additional details
->  about why this result was produced. This is typically an error message for ERROR
-> -or failed tests, or a description of missing dependencies for a SKIP result.
-> +or failed tests, or a description of missing dependencies for a skipped test.
->  
->  The diagnostic data field is optional, and results which have neither a
->  directive nor any diagnostic data do not need to include the "#" field
-> @@ -130,11 +132,18 @@ The test "test_case_name" failed.
->  
->  ::
->  
-> -	ok 1 test # SKIP necessary dependency unavailable
-> +	skip 1 test # necessary dependency unavailable
->  
-> -The test "test" was SKIPPED with the diagnostic message "necessary dependency
-> +The test "test" was skipped with the diagnostic message "necessary dependency
->  unavailable".
->  
-> +::
-> +
-> +	ok 1 test_2 # SKIP this test should not run
-> +
-> +The test "test_2" was skipped with the diagnostic message "this test
-> +should not run".
-> +
->  ::
->  
->  	not ok 1 test # TIMEOUT 30 seconds
-> @@ -225,7 +234,7 @@ An example format with multiple levels of nested testing:
->  	    not ok 1 test_1
->  	    ok 2 test_2
->  	  not ok 1 test_3
-> -	  ok 2 test_4 # SKIP
-> +	  skip 2 test_4
->  	not ok 1 example_test_1
->  	ok 2 example_test_2
->  
-> @@ -262,7 +271,7 @@ Example KTAP output
->  	  ok 1 example_test_1
->  	    KTAP version 2
->  	    1..2
-> -	    ok 1 test_1 # SKIP test_1 skipped
-> +	    skip 1 test_1 # test_1 skipped
->  	    ok 2 test_2
->  	  ok 2 example_test_2
->  	    KTAP version 2
-> 
-> base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
+diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+index f9e8d352ed67..1c58d883b273 100644
+--- a/Documentation/core-api/memory-allocation.rst
++++ b/Documentation/core-api/memory-allocation.rst
+@@ -170,12 +170,14 @@ should be used if a part of the cache might be copied to the userspace.
+ After the cache is created kmem_cache_alloc() and its convenience
+ wrappers can allocate memory from that cache.
+ 
+-When the allocated memory is no longer needed it must be freed. Objects
+-allocated by `kmalloc` can be freed by `kfree` or `kvfree`.
+-Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`
+-or also by `kfree` or `kvfree`, which can be more convenient as it does
+-not require the kmem_cache pointed.
+-The rules for _bulk and _rcu flavors of freeing functions are analogical.
++When the allocated memory is no longer needed it must be freed.
++
++Objects allocated by `kmalloc` can be freed by `kfree` or `kvfree`. Objects
++allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`, `kfree`
++or `kvfree`, where the latter two might be more convenient thanks to not
++needing the kmem_cache pointer.
++
++The same rules apply to _bulk and _rcu flavors of freeing functions.
+ 
+ Memory allocated by `vmalloc` can be freed with `vfree` or `kvfree`.
+ Memory allocated by `kvmalloc` can be freed with `kvfree`.
 
