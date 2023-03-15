@@ -2,133 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E26F9C6FD1D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 04:19:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77AC7C6FD1D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 04:28:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbjCOETV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 00:19:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41878 "EHLO
+        id S229528AbjCOE2o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 00:28:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230255AbjCOETT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 00:19:19 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E1DF19113;
-        Tue, 14 Mar 2023 21:19:17 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id om3-20020a17090b3a8300b0023efab0e3bfso438889pjb.3;
-        Tue, 14 Mar 2023 21:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678853957;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cNnbqGfLu+o/M/CLOMGQSt4vsNyS8ctukFJ1QgLUxMY=;
-        b=fNfb9RTDkf2k+i47u5Mb/JB7RG6jUw1ftN8pLPTN20kpQ7JejxL5324BKHRRNaNoxy
-         QGdKhYPqFYsvAMv3aNwZluAUNH6fID9/ylNwEbFEUv2xuZQ5/Mdxx/VtnzkD/6/V8yIg
-         HBWYzOKU2K++7jZKA6FW50xTo6hQAQbE47s2liOTtj6a0fjzBsI+RP5FVz51WsZthF3c
-         y+CLz/QrSrkz2BANi8fYbL+D6Hmi1XhyMWxM6GDn3ESZFUbTKk2dMrOgD+vCaMmdxrAK
-         k9nlxLza9GNZDhK3r/vdoXaZxNbobGv5ZXQTh7h9/RsYclgVmnuQTlT4hvk+bQDxmdjg
-         hY9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678853957;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cNnbqGfLu+o/M/CLOMGQSt4vsNyS8ctukFJ1QgLUxMY=;
-        b=SDCH5Zsc1r23qIvISoXl3Z07xkpZ84LmKI75nEclEAamMdwWcjAqvVmNXINp33+RKV
-         Lsh2Vo6LrWbphRKs/hSGO8LJFAz6X2HZjZ0RGIAr00gsPCQIO+x64rC6FjcIv1vxFrr2
-         1SHHp231HaQIqFn/pbYJWiPq0LD/qpR9Qn9GxV48x+bRZFgoVM7xTX0Rkv4diR5r6Q8g
-         pCpmokF3OZwZSrazTQdPazxUe9x2c9O0xi4N+idhJNTtR6il1kpiwHd1s+e4E0GcEGua
-         vl029J9HIpqjS/DRa0Df8i4Wa9AFDhK+NBfLruUpcaWNdIM6QGZMKCIOxXoJ/hyKbh9M
-         N1xw==
-X-Gm-Message-State: AO0yUKVT6tngRo7a4QNz09cVkGgdqU9ZZxn/ewAI5XndRyBMBWeGPCZ/
-        nRMs63C5+5hlLJy6uVKOZ7o=
-X-Google-Smtp-Source: AK7set/UsX9pMyP/MKPF7KUtYJ+zB8rFptz/fFP9Mw2ZjMZv6k5TTtI1Ru3Zz6qJ82ZIZpwFeU17/Q==
-X-Received: by 2002:a05:6a20:54a1:b0:d5:10ca:5264 with SMTP id i33-20020a056a2054a100b000d510ca5264mr7862186pzk.59.1678853956874;
-        Tue, 14 Mar 2023 21:19:16 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-17.three.co.id. [180.214.232.17])
-        by smtp.gmail.com with ESMTPSA id g12-20020aa7874c000000b006227c3d5e29sm2486932pfo.16.2023.03.14.21.19.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 21:19:16 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id DD51010619F; Wed, 15 Mar 2023 11:19:12 +0700 (WIB)
-Date:   Wed, 15 Mar 2023 11:19:12 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev
-Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
-Message-ID: <ZBFHQICkPe0tMent@debian.me>
-References: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
+        with ESMTP id S230054AbjCOE2m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 00:28:42 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B5026CE9
+        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 21:28:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=NxR+BZmuFNCXOVHjpR+qVNz1oG/Ubl50tqFNde1Zv48=; b=RgJ1s7ph8S+W+1aSsOFde6e5LZ
+        Y1AlmXXrbZDd3VdjzUV4iG/Opy7QozzKLa7POmJ7DIXenhkVz7uPe7MLbP0F510mMWRQwlqR146AJ
+        OEmQbYy85RiKHDRT6DhLUYhONgOxanFLMz0MG3k5xr/W6i+YmULrBuoC0BXPLylgDUFQY0I7HcEdm
+        QjnypB4VF+k05fu3GD17Iun9A4z3+Qdp4g3i9ls0mvB2zvK3LGBe6Tmib9p1sg9I4NLP8k7vvQeJO
+        0cBbXnrJ7tPUsGFSA4S5C0Gc80jS8eFqxaTAUX8kF607ZBIlB0lmX+Kp/4kAPTHqC/wv7C4J5Y5AT
+        Oz/iesYw==;
+Received: from [2601:1c2:980:9ec0::df2f]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pcIkG-00CHEk-1L;
+        Wed, 15 Mar 2023 04:28:12 +0000
+Message-ID: <53b1194f-ae4a-87c9-5670-d1dbc298242f@infradead.org>
+Date:   Tue, 14 Mar 2023 21:28:09 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="6JXQS39TaU+pYy8I"
-Content-Disposition: inline
-In-Reply-To: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1] docs/mm: extend ksm doc
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
+Cc:     linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
+        david@redhat.com, linux-doc@vger.kernel.org,
+        akpm@linux-foundation.org, hannes@cmpxchg.org
+References: <20230314204557.3863923-1-shr@devkernel.io>
+ <ZBFCud+I8mVAoh87@debian.me>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <ZBFCud+I8mVAoh87@debian.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi--
 
---6JXQS39TaU+pYy8I
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 3/14/23 20:59, Bagas Sanjaya wrote:
+> On Tue, Mar 14, 2023 at 01:45:57PM -0700, Stefan Roesch wrote:
+>> +to cancel that advice and restore unshared pages: whereupon KSM
+>> +unmerges whatever is merged for that process.  Note: this unmerging call
+>> +may suddenly require more memory than is available - possibly failing
+>> +with EAGAIN, but more probably arousing the Out-Of-Memory killer.
+> 
+> "... to disable KSM and let it unmerges ... . Note that this unmerging
+> call may exhaust memory and triggers OOM killer."
 
-On Sun, Mar 05, 2023 at 02:04:44PM +0100, Thorsten Leemhuis wrote:
-> Add a text explaining how to quickly build a kernel, as that's something
-> users will often have to do when they want to report an issue or test
-> proposed fixes. This is a huge and frightening task for quite a few
-> users these days, as many rely on pre-compiled kernels and have never
-> built their own. They find help on quite a few websites explaining the
-> process in various ways, but those howtos often omit important details
-> or make things too hard for the 'quickly build just for testing' case
-> that 'localmodconfig' is really useful for. Hence give users something
-> at hand to guide them, as that makes it easier for them to help with
-> testing, debugging, and fixing the kernel.
->=20
-> To keep the complexity at bay, the document explicitly focuses on how to
-> compile the kernel on commodity distributions running on commodity
-> hardware. People that deal with less common distributions or hardware
-> will often know their way around already anyway.
->=20
-> The text describes a few oddities of Arch and Debian that were found by
-> the author and a few volunteers that tested the described procedure.
-> There are likely more such quirks that need to be covered as well as a
-> few things the author will have missed -- but one has to start
-> somewhere.
->=20
-> The document heavily uses anchors and links to them, which makes things
-> slightly harder to read in the source form. But the intended target
-> audience is way more likely to read rendered versions of this text on
-> pages like docs.kernel.org anyway -- and there those anchors and links
-> allow easy jumps to the reference section and back, which makes the
-> document a lot easier to work with for the intended target audience.
->=20
-> Aspects relevant for bisection were left out on purpose, as that is a
-> related, but in the end different use case. The rough plan is to have a
-> second document with a similar style to cover bisection. The idea is to
-> reuse a few bits from this document and link quite often to entries in
-> the reference section with the help of the anchors in this text.
->=20
+I can't tell exactly what is being proposed here, but "let it unmerges"
+is not good & proper...
 
-After considering all reviews,
+Perhaps fewer ellipses and more complete sentences are in order.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>> +However, if the system is dedicated to running multiple jobs within the
+>> +same security domain, there is a usecase where multiple instances of the
+>> +same job are running inside a safe shared security domain and using the
+>> +same sensitive data.
+> 
+> "... it is possible for multiple instances ... and share the same
+> sensitive data."
+> 
+> Thanks. 
+> 
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---6JXQS39TaU+pYy8I
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZBFHQAAKCRD2uYlJVVFO
-o9ajAP46+jE2amws3QYz7rVm9TaQ5muRI2YaMJ4c/GT4KLzRVAEA6m/maSAGqCZy
-Gvl5z2OIXStHbiGJ2xAK3TnXKGilfQQ=
-=5nof
------END PGP SIGNATURE-----
-
---6JXQS39TaU+pYy8I--
+-- 
+~Randy
