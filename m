@@ -2,90 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EA8EC61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 22:52:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1AC3C6FD1D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 22:57:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231859AbjCOWwl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 18:52:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49602 "EHLO
+        id S229546AbjCOW5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 18:57:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232116AbjCOWwk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 18:52:40 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A701689B
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 15:52:04 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id p20so21703936plw.13
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 15:52:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=networkplumber-org.20210112.gappssmtp.com; s=20210112; t=1678920724;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Djv5OHuSBMMmlx35xiXRNBf7Q5cAUobzFYrXajasQoA=;
-        b=Y+Q+4MxAsQJB5ql+QZZVern/F5atMi3XzZTyQUCf0c0tcp5od0Go8PwXLL7nSvXuV5
-         0c47I0Xcj/0i4Q40GPQT5Xp+SzhjwQer7hydVojgaWTjoiBfLywphKU8/kzGC//cTaVw
-         eH5eG2nXE7tXdlHQIFF24jLlmqzDP0LPcjtN8CYVNpAaQayCyzZKlysOqZB+ZUdk2Y5F
-         hnYcR5Zc5WHF84jlGS0ZX0jMhqo+TwCsBfp+sig60fFbMCPDW2+lEwySgAbF0iCymtml
-         sPuHHIRD/yZxVi++GsXnnO+k6yoURWETbe5Jiq5de1cD+AYRpLmAGEfnG2pXEZR+2bTk
-         MA9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678920724;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Djv5OHuSBMMmlx35xiXRNBf7Q5cAUobzFYrXajasQoA=;
-        b=zkDjn7U1ulKj+V1GEhM8cSAhURx/k4srysop8ZL2LU9lRj5Rdezgg7X1p7wO6O+nUM
-         HZTpe7vQPNwVzdVy+4e1j0i41R9VYumTOUdi2FYNk/qa7lPJw+LH9j3c3d+IIpYmZEAO
-         L0QcNhnMw+dNqP9iFlcqXmWuWtkK6iF4xYUuIDTCNxOQTlUpcL+RV3oi8DRp05ydr48t
-         Krs80iHN2AR2SVRU7bva7X4+A2DUHO7loxgO7A2qA2236/PZl2mzgJ5LiQJlsp2tW7fV
-         l3ZeEvFDRizcYSIsyeKHEEp8m5MdEGVydF96cujlR1ZoNH4qArpcCQOXWqRbDKVhOqes
-         lUBA==
-X-Gm-Message-State: AO0yUKVF3Fzm2M8eV+cGbYGYys//wLcV6dl5KyrnzJmDOpXzHszKu4y4
-        YW9FvUprj9A1XM+aobZn5nT1XA==
-X-Google-Smtp-Source: AK7set+tRFJoMGo5vh0984+ntTqPEuWYTBLjQJ7xSgE7XqAplge1i3vTpKThP/ki4T00wQbLYn+yBQ==
-X-Received: by 2002:a17:90a:1c6:b0:231:24c1:8028 with SMTP id 6-20020a17090a01c600b0023124c18028mr1473644pjd.29.1678920723984;
-        Wed, 15 Mar 2023 15:52:03 -0700 (PDT)
-Received: from hermes.local (204-195-120-218.wavecable.com. [204.195.120.218])
-        by smtp.gmail.com with ESMTPSA id ml17-20020a17090b361100b002311dbb2bc5sm1891377pjb.45.2023.03.15.15.52.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 15:52:03 -0700 (PDT)
-Date:   Wed, 15 Mar 2023 15:52:02 -0700
-From:   Stephen Hemminger <stephen@networkplumber.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] docs: networking: document NAPI
-Message-ID: <20230315155202.2bba7e20@hermes.local>
-In-Reply-To: <20230315223044.471002-1-kuba@kernel.org>
-References: <20230315223044.471002-1-kuba@kernel.org>
+        with ESMTP id S232822AbjCOW5f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 18:57:35 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F4A2637DD;
+        Wed, 15 Mar 2023 15:57:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678921053; x=1710457053;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tDPZ/wPZz6V1SdFA6mDCQhkpN4FFm6ylvZiLfFxCqRM=;
+  b=UgfGKTGnVJampZb2XZkMNsysViTA4HTTa5zlytIiPgLDyyYQezKY+Cwc
+   slUI7SO2uclR66/HOYgutGhFEZO7TAZrf6AIMJMkvpZdOk0DxBcS3IIuN
+   G2fKVtUIqV81sgiap/E0X9yobFVcJr58NgXP281Uz7Tt28N/s3kiXns5X
+   +Z06Oecq21LI/T3mHJoYIpZFr7eKUF/P8r6aa1E3isxaph5HBtLrEQEHs
+   PQdnfn4F6HyQu+7zvDiozXct5Q9qzJIUE9A527KpFCHnc9qANVCnVFW/p
+   01fQXnh4c9ulu54gUnbvSBwMex4D8Jsg43xK+fxx4JAPeEnxt58Nu6ySC
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="340200309"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="340200309"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 15:57:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="672908595"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="672908595"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 15:57:32 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Fenghua Yu <fenghua.yu@intel.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, Tony Luck <tony.luck@intel.com>
+Subject: [PATCH] Documentation/x86: Update split lock documentation
+Date:   Wed, 15 Mar 2023 15:57:22 -0700
+Message-Id: <20230315225722.104607-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 15 Mar 2023 15:30:44 -0700
-Jakub Kicinski <kuba@kernel.org> wrote:
+commit b041b525dab9 ("x86/split_lock: Make life miserable for split
+lockers") added a delay and serialization of cplit locks. Commit
+727209376f49 ("x86/split_lock: Add sysctl to control the misery mode")
+provided a sysctl to turn off the misery.
 
-> Add basic documentation about NAPI. We can stop linking to the ancient
-> doc on the LF wiki.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> CC: jesse.brandeburg@intel.com
-> CC: anthony.l.nguyen@intel.com
-> CC: corbet@lwn.net
-> CC: linux-doc@vger.kernel.org
+Update the split lock documentation to describe the current state of
+the code.
 
-The one thing missing, is how to handle level vs edge triggered interrupts.
-For level triggered interrupts, the re-enable is inherently not racy.
-I.e re-enabling interrupt when packet is present will cause an interrupt.
-But for devices with edge triggered interrupts, it is often necessary to
-poll and manually schedule again. Older documentation referred to this
-as the "rotten packet" problem.
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+---
+ Documentation/x86/buslock.rst | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-Maybe this is no longer a problem for drivers?
-Or maybe all new hardware uses PCI MSI and is level triggered?
+diff --git a/Documentation/x86/buslock.rst b/Documentation/x86/buslock.rst
+index 7c051e714943..31ec0ef78086 100644
+--- a/Documentation/x86/buslock.rst
++++ b/Documentation/x86/buslock.rst
+@@ -53,8 +53,14 @@ parameter "split_lock_detect". Here is a summary of different options:
+ |off	  	   |Do nothing			|Do nothing		|
+ +------------------+----------------------------+-----------------------+
+ |warn		   |Kernel OOPs			|Warn once per task and |
+-|(default)	   |Warn once per task and	|and continues to run.  |
+-|		   |disable future checking	|			|
++|(default)	   |Warn once per task, add a	|and continues to run.  |
++|		   |delay, add synchronization	|			|
++|		   |to prevent more than one	|			|
++|		   |core from executing a	|			|
++|		   |split lock in parallel.	|			|
++|		   |sysctl split_lock_mitigate	|			|
++|		   |can be used to avoid the	|			|
++|		   |delay and synchronization	|			|
+ |		   |When both features are	|			|
+ |		   |supported, warn in #AC	|			|
+ +------------------+----------------------------+-----------------------+
+-- 
+2.39.2
+
