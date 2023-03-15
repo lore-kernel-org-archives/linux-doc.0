@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C954C6FD1D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 19:39:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01ECCC76196
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 19:39:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232925AbjCOTj0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 15:39:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38182 "EHLO
+        id S232601AbjCOTj3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 15:39:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232386AbjCOTjO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 15:39:14 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678865FE4
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 12:39:13 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id i24so1333224qtm.6
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 12:39:13 -0700 (PDT)
+        with ESMTP id S232714AbjCOTjZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 15:39:25 -0400
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BEAC61A92
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 12:39:16 -0700 (PDT)
+Received: by mail-qv1-xf34.google.com with SMTP id m6so8425692qvq.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 12:39:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1678909152;
+        d=joelfernandes.org; s=google; t=1678909155;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gkIW82Jn8PaGpB7B+YMqBxYys/Ya8U+pTY1r1WqXQ8E=;
-        b=WDyMAh8LBvLv8TcPocJTlQ9oUFNWyhm52mv3Oy3aloVLjA3GPz2f/kf8L3QTmisA+e
-         vZgmipdZ/oNQKbH4mBAG642qB5ciV2dFTAwbxCn78S00oXbU2BV2vHJUJJN4nLcJXPcT
-         yt/KduCRJHeohmdt8cRIjsM2rwQYsvJ1QusRs=
+        bh=FZQhYsvSmWyuhycEwUPUuLVCJi5L/larxVRjodrPgYU=;
+        b=WPzp7vzhgULJB2A4jk1YcDWNT1jobRT1Ako/o+cRiCARG56+shVqIoIt4PgSos4evO
+         FIJjUyWumnqa5ztJqHnm/Bl0SN05mH5YBYPmo5nO/7nl+Dg4qzpD8ZJdUeQmDXg3a3l+
+         07fArh0ALdM0jYUmpKU1a4ZPhZK8IyVKtz3LQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678909152;
+        d=1e100.net; s=20210112; t=1678909155;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gkIW82Jn8PaGpB7B+YMqBxYys/Ya8U+pTY1r1WqXQ8E=;
-        b=c26swwPAp5kKVTtBoqTGqLVyu0LYa5D4HCHFWl7fV0pfvjFb8xjFN69iVWPeFeWT2v
-         JOwFs4qcNnjjGSfRJXVP62GJzGVdqoSUXZumVPfpJTbbLC6Dvb2qgN26cIfUiyILGPWo
-         y/dvtxjQJwcE4Ib24DFeAIIywm3HP03qM/iapqMYhksGCoTNWoYvMMOvGlsmJM2pVEkB
-         i63wScthhcqtkdTgAFw1cFxJNlPG0kt6WScf9ntv8OMzrzIKnwe3ZOXg/PqILUYPvXZ6
-         htHnAzz0w/14L2AeYewkrSR15roXvgMmt6yCMpqu/HUbrMFSYTs4TTwyez60rMKCBP6J
-         70bg==
-X-Gm-Message-State: AO0yUKVoDFl7BIjS6I+iE+Lnzf0gZUX5W1ILVeWus4zVsCTjNwZVf71x
-        FL8xigA1jNLO6kt+ZVI9cU3asw==
-X-Google-Smtp-Source: AK7set/lTZX4a5orBcEG4pZUqPqTc+JtcMojbfiFqsyvENbRhEu8ihMok00SZO1QIyKvQQxg2HMNhQ==
-X-Received: by 2002:a05:622a:284:b0:3bd:140c:91ed with SMTP id z4-20020a05622a028400b003bd140c91edmr1637192qtw.52.1678909152452;
-        Wed, 15 Mar 2023 12:39:12 -0700 (PDT)
+        bh=FZQhYsvSmWyuhycEwUPUuLVCJi5L/larxVRjodrPgYU=;
+        b=EE4xLSr+R8X5XGxzWTIVuCVLK9XeMisARa0jljLTpvnijVeu/8k/QnVJs3+/Z2xZiS
+         SXQ7Y9S6Sa9tvQB7jeZ8HYHYeQI4CkmBwa47XpbA+u1aS8xygIIia3RdzLD3cKREIaBq
+         ecyPg48FCWk+iaH4jfrsADRJPBjySYF49EtAnFojRGNFrw7NYEVMPpifQgC2QXHF39mn
+         OHKsdkzSD2L7z9OAV9UopEu+W8j0KwF3icCJ5hLXyEJV5+wVLc1sNcJAUhQf+oXm5uFj
+         3doKmYS+etN3+YI8eGIUYklgPqo+X3e1XC2qu1FKg7hqwmUoPncPBnfg4zmA9wNSSx77
+         MF+A==
+X-Gm-Message-State: AO0yUKUlF28zsno906PWeEbPMROiDhIKL6Aq7NyghRHdXICY/lpbXEHz
+        ZJ+g5R4sBL/ktGiIXm3PntMB2w==
+X-Google-Smtp-Source: AK7set/BS4KvAf22SZ3pUETcpzcy8qj4TfbnI/y1P1fLDLmHD7qK7T2GWim/udjQaYTGfP+pydeECw==
+X-Received: by 2002:a05:6214:1d0b:b0:5ab:f46:e094 with SMTP id e11-20020a0562141d0b00b005ab0f46e094mr16549743qvd.49.1678909155498;
+        Wed, 15 Mar 2023 12:39:15 -0700 (PDT)
 Received: from joelboxx.c.googlers.com.com (129.239.188.35.bc.googleusercontent.com. [35.188.239.129])
-        by smtp.gmail.com with ESMTPSA id s10-20020a05620a254a00b00745af48838bsm4347227qko.5.2023.03.15.12.39.11
+        by smtp.gmail.com with ESMTPSA id s10-20020a05620a254a00b00745af48838bsm4347227qko.5.2023.03.15.12.39.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 12:39:11 -0700 (PDT)
+        Wed, 15 Mar 2023 12:39:15 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org,
         "Paul E. McKenney" <paulmck@kernel.org>,
@@ -56,46 +56,199 @@ To:     linux-kernel@vger.kernel.org,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 2/6] Documentation/RCU: s/not/note/ in checklist.rst
-Date:   Wed, 15 Mar 2023 19:38:47 +0000
-Message-Id: <20230315193851.8598-2-joel@joelfernandes.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Davidlohr Bueso <dave@stgolabs.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        rcu@vger.kernel.org
+Subject: [PATCH 4/6] Documentation: RCU: Correct spelling
+Date:   Wed, 15 Mar 2023 19:38:49 +0000
+Message-Id: <20230315193851.8598-4-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 In-Reply-To: <20230315193851.8598-1-joel@joelfernandes.org>
 References: <20230315193851.8598-1-joel@joelfernandes.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
 
-"Please not that you *cannot* rely..." has a typo.
-Fix it.
+Correct spelling problems for Documentation/RCU/ as reported
+by codespell.
 
-Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Note: in RTFP.txt, there are other misspellings that are left as is
+since they were used that way in email Subject: lines or in LWN.net
+articles. [preemptable, Preemptable, synchonisation]
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Frederic Weisbecker <frederic@kernel.org>
+Cc: Neeraj Upadhyay <quic_neeraju@quicinc.com>
+Cc: Josh Triplett <josh@joshtriplett.org>
+Cc: rcu@vger.kernel.org
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- Documentation/RCU/checklist.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../Expedited-Grace-Periods.rst                        |  6 +++---
+ .../Memory-Ordering/Tree-RCU-Memory-Ordering.rst       |  2 +-
+ Documentation/RCU/RTFP.txt                             | 10 +++++-----
+ Documentation/RCU/UP.rst                               |  4 ++--
+ Documentation/RCU/lockdep.rst                          |  2 +-
+ Documentation/RCU/torture.rst                          |  4 ++--
+ 6 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/RCU/checklist.rst b/Documentation/RCU/checklist.rst
-index cc361fb01ed4..bd3c58c44bef 100644
---- a/Documentation/RCU/checklist.rst
-+++ b/Documentation/RCU/checklist.rst
-@@ -70,7 +70,7 @@ over a rather long period of time, but improvements are always welcome!
- 	can serve as rcu_read_lock_sched(), but is less readable and
- 	prevents lockdep from detecting locking issues.
+diff --git a/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst b/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
+index c9c957c85bac..93d899d53258 100644
+--- a/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
++++ b/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
+@@ -277,7 +277,7 @@ the following access functions:
  
--	Please not that you *cannot* rely on code known to be built
-+	Please note that you *cannot* rely on code known to be built
- 	only in non-preemptible kernels.  Such code can and will break,
- 	especially in kernels built with CONFIG_PREEMPT_COUNT=y.
+ Again, only one request in a given batch need actually carry out a
+ grace-period operation, which means there must be an efficient way to
+-identify which of many concurrent reqeusts will initiate the grace
++identify which of many concurrent requests will initiate the grace
+ period, and that there be an efficient way for the remaining requests to
+ wait for that grace period to complete. However, that is the topic of
+ the next section.
+@@ -405,7 +405,7 @@ Use of Workqueues
+ In earlier implementations, the task requesting the expedited grace
+ period also drove it to completion. This straightforward approach had
+ the disadvantage of needing to account for POSIX signals sent to user
+-tasks, so more recent implemementations use the Linux kernel's
++tasks, so more recent implementations use the Linux kernel's
+ workqueues (see Documentation/core-api/workqueue.rst).
  
+ The requesting task still does counter snapshotting and funnel-lock
+@@ -465,7 +465,7 @@ corresponding disadvantage that workqueues cannot be used until they are
+ initialized, which does not happen until some time after the scheduler
+ spawns the first task. Given that there are parts of the kernel that
+ really do want to execute grace periods during this mid-boot “dead
+-zone”, expedited grace periods must do something else during thie time.
++zone”, expedited grace periods must do something else during this time.
+ 
+ What they do is to fall back to the old practice of requiring that the
+ requesting task drive the expedited grace period, as was the case before
+diff --git a/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst b/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
+index 7fdf151a8680..5750f125361b 100644
+--- a/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
++++ b/Documentation/RCU/Design/Memory-Ordering/Tree-RCU-Memory-Ordering.rst
+@@ -168,7 +168,7 @@ an ``atomic_add_return()`` of zero) to detect idle CPUs.
+ +-----------------------------------------------------------------------+
+ 
+ The approach must be extended to handle one final case, that of waking a
+-task blocked in ``synchronize_rcu()``. This task might be affinitied to
++task blocked in ``synchronize_rcu()``. This task might be affined to
+ a CPU that is not yet aware that the grace period has ended, and thus
+ might not yet be subject to the grace period's memory ordering.
+ Therefore, there is an ``smp_mb()`` after the return from
+diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
+index 588d97366a46..db8f16b392aa 100644
+--- a/Documentation/RCU/RTFP.txt
++++ b/Documentation/RCU/RTFP.txt
+@@ -201,7 +201,7 @@ work looked at debugging uses of RCU [Seyster:2011:RFA:2075416.2075425].
+ In 2012, Josh Triplett received his Ph.D. with his dissertation
+ covering RCU-protected resizable hash tables and the relationship
+ between memory barriers and read-side traversal order:  If the updater
+-is making changes in the opposite direction from the read-side traveral
++is making changes in the opposite direction from the read-side traversal
+ order, the updater need only execute a memory-barrier instruction,
+ but if in the same direction, the updater needs to wait for a grace
+ period between the individual updates [JoshTriplettPhD].  Also in 2012,
+@@ -1245,7 +1245,7 @@ Oregon Health and Sciences University"
+ [Viewed September 5, 2005]"
+ ,annotation={
+ 	First posting showing how RCU can be safely adapted for
+-	preemptable RCU read side critical sections.
++	preemptible RCU read side critical sections.
+ }
+ }
+ 
+@@ -1888,7 +1888,7 @@ Revised:
+ \url{https://lore.kernel.org/r/20070910183004.GA3299@linux.vnet.ibm.com}
+ [Viewed October 25, 2007]"
+ ,annotation={
+-	Final patch for preemptable RCU to -rt.  (Later patches were
++	Final patch for preemptible RCU to -rt.  (Later patches were
+ 	to mainline, eventually incorporated.)
+ }
+ }
+@@ -2275,7 +2275,7 @@ lot of {Linux} into your technology!!!"
+ \url{https://lore.kernel.org/r/20090724001429.GA17374@linux.vnet.ibm.com}
+ [Viewed August 15, 2009]"
+ ,annotation={
+-	First posting of simple and fast preemptable RCU.
++	First posting of simple and fast preemptible RCU.
+ }
+ }
+ 
+@@ -2639,7 +2639,7 @@ lot of {Linux} into your technology!!!"
+ 	RCU-protected hash tables, barriers vs. read-side traversal order.
+ 	.
+ 	If the updater is making changes in the opposite direction from
+-	the read-side traveral order, the updater need only execute a
++	the read-side traversal order, the updater need only execute a
+ 	memory-barrier instruction, but if in the same direction, the
+ 	updater needs to wait for a grace period between the individual
+ 	updates.
+diff --git a/Documentation/RCU/UP.rst b/Documentation/RCU/UP.rst
+index 8b20fd45f255..4060d7a2f62a 100644
+--- a/Documentation/RCU/UP.rst
++++ b/Documentation/RCU/UP.rst
+@@ -107,7 +107,7 @@ UP systems, including PREEMPT SMP builds running on UP systems.
+ 
+ Quick Quiz #3:
+ 	Why can't synchronize_rcu() return immediately on UP systems running
+-	preemptable RCU?
++	preemptible RCU?
+ 
+ .. _answer_quick_quiz_up:
+ 
+@@ -143,7 +143,7 @@ Answer to Quick Quiz #2:
+ 
+ Answer to Quick Quiz #3:
+ 	Why can't synchronize_rcu() return immediately on UP systems
+-	running preemptable RCU?
++	running preemptible RCU?
+ 
+ 	Because some other task might have been preempted in the middle
+ 	of an RCU read-side critical section.  If synchronize_rcu()
+diff --git a/Documentation/RCU/lockdep.rst b/Documentation/RCU/lockdep.rst
+index 2749f43ec1b0..69e73a39bd11 100644
+--- a/Documentation/RCU/lockdep.rst
++++ b/Documentation/RCU/lockdep.rst
+@@ -65,7 +65,7 @@ checking of rcu_dereference() primitives:
+ 	rcu_access_pointer(p):
+ 		Return the value of the pointer and omit all barriers,
+ 		but retain the compiler constraints that prevent duplicating
+-		or coalescsing.  This is useful when testing the
++		or coalescing.  This is useful when testing the
+ 		value of the pointer itself, for example, against NULL.
+ 
+ The rcu_dereference_check() check expression can be any boolean
+diff --git a/Documentation/RCU/torture.rst b/Documentation/RCU/torture.rst
+index 0316ba0c6922..b3b6dfa85248 100644
+--- a/Documentation/RCU/torture.rst
++++ b/Documentation/RCU/torture.rst
+@@ -216,7 +216,7 @@ Kernel boot arguments can also be supplied, for example, to control
+ rcutorture's module parameters.  For example, to test a change to RCU's
+ CPU stall-warning code, use "--bootargs 'rcutorture.stall_cpu=30'".
+ This will of course result in the scripting reporting a failure, namely
+-the resuling RCU CPU stall warning.  As noted above, reducing memory may
++the resulting RCU CPU stall warning.  As noted above, reducing memory may
+ require disabling rcutorture's callback-flooding tests::
+ 
+ 	kvm.sh --cpus 448 --configs '56*TREE04' --memory 128M \
+@@ -370,5 +370,5 @@ You can also re-run a previous remote run in a manner similar to kvm.sh:
+ 		tools/testing/selftests/rcutorture/res/2022.11.03-11.26.28-remote \
+ 		--duration 24h
+ 
+-In this case, most of the kvm-again.sh parmeters may be supplied following
++In this case, most of the kvm-again.sh parameters may be supplied following
+ the pathname of the old run-results directory.
 -- 
 2.40.0.rc1.284.g88254d51c5-goog
 
