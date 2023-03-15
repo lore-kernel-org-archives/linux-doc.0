@@ -2,91 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8BDCC61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 09:28:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E31EC74A5B
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 09:44:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231818AbjCOJ25 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 05:28:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33224 "EHLO
+        id S232098AbjCOJoC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 05:44:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231821AbjCOJ2z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 05:28:55 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0183574DB;
-        Wed, 15 Mar 2023 02:28:52 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pcNRA-0006fF-0x; Wed, 15 Mar 2023 10:28:48 +0100
-Message-ID: <d233a796-1cb8-a9b3-5a50-043dd2f98b3e@leemhuis.info>
-Date:   Wed, 15 Mar 2023 10:28:47 +0100
+        with ESMTP id S232094AbjCOJn7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 05:43:59 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2ADE5F6ED;
+        Wed, 15 Mar 2023 02:43:46 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Pc53z5wT4z17KqX;
+        Wed, 15 Mar 2023 17:40:47 +0800 (CST)
+Received: from localhost.localdomain (10.50.163.32) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Wed, 15 Mar 2023 17:43:44 +0800
+From:   Yicong Yang <yangyicong@huawei.com>
+To:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+        <jonathan.cameron@huawei.com>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+CC:     <alexander.shishkin@linux.intel.com>, <helgaas@kernel.org>,
+        <linux-pci@vger.kernel.org>, <prime.zeng@huawei.com>,
+        <linuxarm@huawei.com>
+Subject: [PATCH 0/4] Improve PTT filter interface and some fixes
+Date:   Wed, 15 Mar 2023 17:43:12 +0800
+Message-ID: <20230315094316.26772-1-yangyicong@huawei.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US, de-DE
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev
-References: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
- <87a60frxk0.fsf@meer.lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
-In-Reply-To: <87a60frxk0.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1678872532;7b404aaf;
-X-HE-SMSGID: 1pcNRA-0006fF-0x
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.50.163.32]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14.03.23 19:35, Jonathan Corbet wrote:
-> Thorsten Leemhuis <linux@leemhuis.info> writes:
-> 
->> Add a text explaining how to quickly build a kernel, as that's something
->> users will often have to do when they want to report an issue or test
->> proposed fixes.
-> 
-> So I think the time has come to apply this.
+From: Yicong Yang <yangyicong@hisilicon.com>
 
-Sounds good.
+This series tends to improve the PTT's filter interface in 2 aspects (Patch 2&3):
+- Support dynamically filter updating to response to hotplug
+  Previous the supported filter list is settled down once the driver probed and
+  it maybe out-of-date if hotplug events happen later. User need to reload the
+  driver to update list. Patch 1/2 enable the driver to update the list by
+  registering a PCI bus notifier and the filter list will always be the latest.
+- Export the available filters through sysfs
+  Previous user needs to calculate the filters and filter value using device's
+  BDF number, which requires the user to know the hardware well. Patch 3/3 tends
+  to export the available filter information through sysfs attributes, the filter
+  value will be gotten by reading the file. This will be more user friendly.
 
->  I did have one final
-> thought, though...  In the v2 discussion, you said:
-> 
->> Be warned, if it works I might do the same for "reporting issues". ;)
->> But let's first see how this goes (and if we get any feedback to be able
->> to tell if this experiment worked).
-> 
-> This caused me to wonder if we shouldn't create a new book called
-> "tutorials" for this kind of stuff, with an explicit proviso that a more
-> web-oriented approach is OK in that section?  Tutorial documentation
-> *is* quite different from reference material, but we've really made no
-> effort to treat the two differently so far.
-> 
-> Thoughts?
+Also includes a fix and an improve. Patch 1 tends to only export the online CPUs
+supported by the PTT, this will make perf work properly when there's offline CPUs
+within the node PTT locates. Patch 4 tends to set proper PMU capability to avoid
+collecting unnecessary data to save the storage.
 
-Hmmm. Thinking about this makes sense, as yes, reference material and
-tutorials are different kind of texts.
+Yicong Yang (4):
+  hwtracing: hisi_ptt: Make cpumask only present online CPUs
+  hwtracing: hisi_ptt: Add support for dynamically updating the filter
+    list
+  hwtracing: hisi_ptt: Export available filters through sysfs
+  hwtracing: hisi_ptt: Advertise PERF_PMU_CAP_NO_EXCLUDE for PTT PMU
 
-I'm not against separating, but it currently kinda feels wrong.
+ .../ABI/testing/sysfs-devices-hisi_ptt        |  50 +++
+ Documentation/trace/hisi-ptt.rst              |  12 +-
+ drivers/hwtracing/ptt/hisi_ptt.c              | 396 +++++++++++++++++-
+ drivers/hwtracing/ptt/hisi_ptt.h              |  51 +++
+ 4 files changed, 498 insertions(+), 11 deletions(-)
 
-Documentation/doc-guide/contributing.rst says that "books" are meant to
-"group documentation for specific readers"; creating a new book for
-tutorials would work against that, as readers (users and administrators
-in this case) then would have to consult two books.
+-- 
+2.24.0
 
-And isn't for example Documentation/process/submitting-patches.rst also
-more of a tutorial than reference material (which we also have in the
-form of Documentation/process/development-process.rst)? Does that mean
-it should be moved? Into the same book or a separate book, as it has a
-different target audience? I fear that might quickly get confusing for
-readers without any real benefits
-
-Or did I understand the idea of a new book wrong and you meant something
-else? Like creating Documentation/admin-guide/tutorials/ and putting the
-text there? That might work and would help future authors to get the
-right mental model when writing new texts. But I'm not sure that's worth it.
-
-Ciao, Thorsten
