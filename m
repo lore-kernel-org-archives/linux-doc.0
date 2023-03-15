@@ -2,92 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1AC3C6FD1D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 22:57:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AF57C6FD1D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 23:11:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229546AbjCOW5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 18:57:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57754 "EHLO
+        id S232727AbjCOXLt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 19:11:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232822AbjCOW5f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 18:57:35 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F4A2637DD;
-        Wed, 15 Mar 2023 15:57:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678921053; x=1710457053;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=tDPZ/wPZz6V1SdFA6mDCQhkpN4FFm6ylvZiLfFxCqRM=;
-  b=UgfGKTGnVJampZb2XZkMNsysViTA4HTTa5zlytIiPgLDyyYQezKY+Cwc
-   slUI7SO2uclR66/HOYgutGhFEZO7TAZrf6AIMJMkvpZdOk0DxBcS3IIuN
-   G2fKVtUIqV81sgiap/E0X9yobFVcJr58NgXP281Uz7Tt28N/s3kiXns5X
-   +Z06Oecq21LI/T3mHJoYIpZFr7eKUF/P8r6aa1E3isxaph5HBtLrEQEHs
-   PQdnfn4F6HyQu+7zvDiozXct5Q9qzJIUE9A527KpFCHnc9qANVCnVFW/p
-   01fQXnh4c9ulu54gUnbvSBwMex4D8Jsg43xK+fxx4JAPeEnxt58Nu6ySC
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="340200309"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="340200309"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 15:57:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="672908595"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="672908595"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 15:57:32 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Fenghua Yu <fenghua.yu@intel.com>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Tony Luck <tony.luck@intel.com>
-Subject: [PATCH] Documentation/x86: Update split lock documentation
-Date:   Wed, 15 Mar 2023 15:57:22 -0700
-Message-Id: <20230315225722.104607-1-tony.luck@intel.com>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S230369AbjCOXLs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 19:11:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A208C0DD;
+        Wed, 15 Mar 2023 16:11:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2413FB81F88;
+        Wed, 15 Mar 2023 23:11:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 892C1C433EF;
+        Wed, 15 Mar 2023 23:11:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678921903;
+        bh=WgX41G45vYsJWYY541lPkRVg8AlTR5oFGJx5n2hTA1Y=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jb6y7vbppnpqBBv+PodByRsxOs+l2UxI6bfdkl0eUDDZJT2phxXBqnIyH6gkJsEOs
+         4y6I257ZU9zCe0x/5t6CxPxJDI6en87uUM58Ou7OGn9CcNxv87HYhzUDXlNPw3bC00
+         hkSd3gPnDJNWyNFGKw5jeRFPKreiGbB895gC5pBl5vq0g/DkIjjmBhe1BQGVL1yR3L
+         yoCrTYoq1kaqwTUjng5hHmF5hswaXFzGPvHZF1/htbuRDSRVq4RrFZlJqnPWe7w/rp
+         hIfUrINhj71qs8N/Wg69HD4HQKygp5r3DO4KsJjpTeJKBQ+bRDaYjxxVJqJrXx8SDr
+         SKo6/d60xk9zw==
+Date:   Wed, 15 Mar 2023 16:11:42 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Stephen Hemminger <stephen@networkplumber.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] docs: networking: document NAPI
+Message-ID: <20230315161142.48de9d98@kernel.org>
+In-Reply-To: <20230315155202.2bba7e20@hermes.local>
+References: <20230315223044.471002-1-kuba@kernel.org>
+        <20230315155202.2bba7e20@hermes.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-commit b041b525dab9 ("x86/split_lock: Make life miserable for split
-lockers") added a delay and serialization of cplit locks. Commit
-727209376f49 ("x86/split_lock: Add sysctl to control the misery mode")
-provided a sysctl to turn off the misery.
+On Wed, 15 Mar 2023 15:52:02 -0700 Stephen Hemminger wrote:
+> On Wed, 15 Mar 2023 15:30:44 -0700
+> Jakub Kicinski <kuba@kernel.org> wrote:
+> 
+> > Add basic documentation about NAPI. We can stop linking to the ancient
+> > doc on the LF wiki.
+> > 
+> > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> > ---
+> > CC: jesse.brandeburg@intel.com
+> > CC: anthony.l.nguyen@intel.com
+> > CC: corbet@lwn.net
+> > CC: linux-doc@vger.kernel.org  
+> 
+> The one thing missing, is how to handle level vs edge triggered interrupts.
+> For level triggered interrupts, the re-enable is inherently not racy.
+> I.e re-enabling interrupt when packet is present will cause an interrupt.
+> But for devices with edge triggered interrupts, it is often necessary to
+> poll and manually schedule again. Older documentation referred to this
+> as the "rotten packet" problem.
+> 
+> Maybe this is no longer a problem for drivers?
+> Or maybe all new hardware uses PCI MSI and is level triggered?
 
-Update the split lock documentation to describe the current state of
-the code.
-
-Signed-off-by: Tony Luck <tony.luck@intel.com>
----
- Documentation/x86/buslock.rst | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/x86/buslock.rst b/Documentation/x86/buslock.rst
-index 7c051e714943..31ec0ef78086 100644
---- a/Documentation/x86/buslock.rst
-+++ b/Documentation/x86/buslock.rst
-@@ -53,8 +53,14 @@ parameter "split_lock_detect". Here is a summary of different options:
- |off	  	   |Do nothing			|Do nothing		|
- +------------------+----------------------------+-----------------------+
- |warn		   |Kernel OOPs			|Warn once per task and |
--|(default)	   |Warn once per task and	|and continues to run.  |
--|		   |disable future checking	|			|
-+|(default)	   |Warn once per task, add a	|and continues to run.  |
-+|		   |delay, add synchronization	|			|
-+|		   |to prevent more than one	|			|
-+|		   |core from executing a	|			|
-+|		   |split lock in parallel.	|			|
-+|		   |sysctl split_lock_mitigate	|			|
-+|		   |can be used to avoid the	|			|
-+|		   |delay and synchronization	|			|
- |		   |When both features are	|			|
- |		   |supported, warn in #AC	|			|
- +------------------+----------------------------+-----------------------+
--- 
-2.39.2
-
+It's still a problem depending on the exact design of the interrupt
+controller in the chip / tradeoffs the SW wants to make.
+I haven't actually read the LF doc, because I wasn't sure about the
+licenses (sigh). The rotten packet problem does not come up in reviews
+very often, so it wasn't front of mind. I'm not sure I'd be able to
+concisely describe it, actually :S There are many races and conditions
+which can lead to it.
