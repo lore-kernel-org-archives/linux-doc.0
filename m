@@ -2,192 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F12F3C61DA4
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 11:06:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 085EFC6FD1D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 11:10:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231232AbjCOLGA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 07:06:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43192 "EHLO
+        id S231862AbjCOLKU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 07:10:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbjCOLF7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 07:05:59 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ACD080927;
-        Wed, 15 Mar 2023 04:05:57 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 91D571FD70;
-        Wed, 15 Mar 2023 11:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1678878356; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=byKaSG6OJ59VBwcTUhTpiXq5zlFsljvYFPU9Y2HdwDQ=;
-        b=jYOBq5HuHp7Vn6xEt7/uP53ht3G85ZjFx5k7H4PVchE7eI8P7UDkW5miVps4PDJG0ThKHI
-        ugEKyZ2/zA5BvmR9lpYlR89AHysqP0/7KudJYXjf4NGcwhkQTJa7kLLeU4FhVV5285n0uk
-        kY1N9DsZoEXYFa0UNT158hhHQUJe/oE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1678878356;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=byKaSG6OJ59VBwcTUhTpiXq5zlFsljvYFPU9Y2HdwDQ=;
-        b=FZT8gQvYv9slINxxTxXBKSTnDHXDGB0JdcRCp9THbNUcqdt/nwSuEkFh9fuUJH4P7lHSES
-        zLbml6AjoVOyTsAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4CABB13A00;
-        Wed, 15 Mar 2023 11:05:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id LiNjEZSmEWTzXAAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Wed, 15 Mar 2023 11:05:56 +0000
-Message-ID: <bfacefe6-5852-3101-a016-3ee288a4e447@suse.cz>
-Date:   Wed, 15 Mar 2023 12:05:55 +0100
+        with ESMTP id S232095AbjCOLJq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 07:09:46 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9064085687
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 04:07:46 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id v16so16975096wrn.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 04:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1678878459;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t7sJa1hEO2NEIzmijWBn+Yo5/tJUW6unCVGlROZloX0=;
+        b=BN4OXdbuZ8uFRciuEBkBPXPQ3F/IL12wikKTlkCTYnDQNqhXTBwxTRU1s6ry3ByH0n
+         Y6qFNkDG+tePW9PEs8d291eb9KMDZzYXdGbf3Z40Jid9cb9yCvvtFCjbIc8u9VeoXoI8
+         D8pe8Vct7020bQHBwJ9eH2mJoo/Xj18LEEm26akPhnNGEhQZ7FsCea9pZwShGGLlimtN
+         bgpLVJJx8oBPwFS33I8QGC1vttDYBaujdc3jFBpcGyGDwuM9Xq85nMJuYC+na/zrkDXk
+         xAQUUfSHuuLq8u23sjCZsHIQF3/Kk5i0iOp4tlTG0NrTUNUNdCP965R5KyRvvXHJbJZ7
+         aIPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678878459;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t7sJa1hEO2NEIzmijWBn+Yo5/tJUW6unCVGlROZloX0=;
+        b=koJD+qfue3L8DwA8bfIZ2ZnwB0HeBSkzH1/HUjYC8fcNc9/6Z8MqGM62o02f7ij3HK
+         uVH3rRXAaEZ1fI0qdSD3M4S0AelqyklNknKAoTsTOqHctByKWz3E+JN4cZ2pPM/3ie7E
+         b2yMRjxTCTiamIWH3cLl5a6esIehKTtEf38JkyE2dWX9zqkRGMAMYhRUowqflVxRYAZA
+         MMpUXn/6l12ElxhocwSYw6yl0ooUix7Ea9tfCl3yVNaXJKRcR2KUnhGbANiWKPKMHoqE
+         86lrSglIf4fX2nRWEK68IX1CqbelX+21stSLz3uH1RtxCPFyMnPlnNoAw6a7yWtb5uTR
+         hOhA==
+X-Gm-Message-State: AO0yUKUuGrcTvOesHz1YsI2CrHUquL0jMgJBxswOoS8PnDpNX8PYk9EK
+        e5jzJgx9duPymEfwKTuZnAVkuQ==
+X-Google-Smtp-Source: AK7set/Kvb3e8IgjbdSUyGxkCEneD+0kIVRTsAtZTtxW+0Oy38BjDAF55G0RSDmkZbrhnzG9L3pvlw==
+X-Received: by 2002:a5d:4c91:0:b0:2ce:a9b9:24c4 with SMTP id z17-20020a5d4c91000000b002cea9b924c4mr1566919wrs.41.1678878459389;
+        Wed, 15 Mar 2023 04:07:39 -0700 (PDT)
+Received: from baylibre-ThinkPad-T14s-Gen-2i.. (151.31.102.84.rev.sfr.net. [84.102.31.151])
+        by smtp.gmail.com with ESMTPSA id n5-20020adfe785000000b002c7066a6f77sm4339745wrm.31.2023.03.15.04.07.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Mar 2023 04:07:39 -0700 (PDT)
+From:   Julien Panis <jpanis@baylibre.com>
+To:     lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net, arnd@arndb.de,
+        gregkh@linuxfoundation.org, derek.kiernan@xilinx.com,
+        dragan.cvetic@xilinx.com
+Cc:     eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
+        stephen@networkplumber.org, davem@davemloft.net,
+        christian.koenig@amd.com, contact@emersion.fr,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
+        eblanc@baylibre.com, jneanne@baylibre.com
+Subject: [PATCH v2 0/4] TI TPS6594 PMIC support (Core, ESM, PFSM)
+Date:   Wed, 15 Mar 2023 12:07:32 +0100
+Message-Id: <20230315110736.35506-1-jpanis@baylibre.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 4/7] mm, pagemap: remove SLOB and SLQB from comments and
- documentation
-Content-Language: en-US
-To:     Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc:     Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Lorenzo Stoakes <lstoakes@gmail.com>
-References: <20230310103210.22372-1-vbabka@suse.cz>
- <20230310103210.22372-5-vbabka@suse.cz> <ZBAuBj0hgLK7Iqgy@localhost>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <ZBAuBj0hgLK7Iqgy@localhost>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/14/23 09:19, Hyeonggon Yoo wrote:
-> On Fri, Mar 10, 2023 at 11:32:06AM +0100, Vlastimil Babka wrote:
->> SLOB has been removed and SLQB never merged, so remove their mentions
->> from comments and documentation of pagemap.
->> 
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
->> ---
->>  Documentation/admin-guide/mm/pagemap.rst | 6 +++---
->>  fs/proc/page.c                           | 5 ++---
->>  2 files changed, 5 insertions(+), 6 deletions(-)
->> 
->> diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
->> index b5f970dc91e7..bb4aa897a773 100644
->> --- a/Documentation/admin-guide/mm/pagemap.rst
->> +++ b/Documentation/admin-guide/mm/pagemap.rst
->> @@ -91,9 +91,9 @@ Short descriptions to the page flags
->>     The page is being locked for exclusive access, e.g. by undergoing read/write
->>     IO.
->>  7 - SLAB
->> -   The page is managed by the SLAB/SLOB/SLUB/SLQB kernel memory allocator.
->> -   When compound page is used, SLUB/SLQB will only set this flag on the head
->> -   page; SLOB will not flag it at all.
->> +   The page is managed by the SLAB/SLUB kernel memory allocator.
->> +   When compound page is used, either will only set this flag on the head
->> +   page..
->>  10 - BUDDY
->>      A free memory block managed by the buddy system allocator.
->>      The buddy system organizes free memory in blocks of various orders.
->> diff --git a/fs/proc/page.c b/fs/proc/page.c
->> index 6249c347809a..1356aeffd8dc 100644
->> --- a/fs/proc/page.c
->> +++ b/fs/proc/page.c
->> @@ -125,7 +125,7 @@ u64 stable_page_flags(struct page *page)
->>  	/*
->>  	 * pseudo flags for the well known (anonymous) memory mapped pages
->>  	 *
->> -	 * Note that page->_mapcount is overloaded in SLOB/SLUB/SLQB, so the
->> +	 * Note that page->_mapcount is overloaded in SLAB/SLUB, so the
-> 
-> SLUB does not overload _mapcount.
+TPS6594 is a Power Management IC which provides regulators and others
+features like GPIOs, RTC, watchdog, ESMs (Error Signal Monitor), and
+PFSM (Pre-configurable Finite State Machine). The SoC and the PMIC can
+communicate through the I2C or SPI interfaces.
+TPS6594 is the super-set device while TPS6593 and LP8764X are derivatives.
 
-True, I overlooked that, thanks.
+This series adds support to TI TPS6594 PMIC and its derivatives.
 
->>  	 * simple test in page_mapped() is not enough.
->>  	 */
->>  	if (!PageSlab(page) && page_mapped(page))
->> @@ -166,8 +166,7 @@ u64 stable_page_flags(struct page *page)
->>  
->>  	/*
->>  	 * Caveats on high order pages: page->_refcount will only be set
->> -	 * -1 on the head page; SLUB/SLQB do the same for PG_slab;
->> -	 * SLOB won't set PG_slab at all on compound pages.
->> +	 * -1 on the head page; SLAB/SLUB do the same for PG_slab;
-> 
-> I think this comment could be just saying that PG_buddy is only set on
-> head page, not saying
-> 
-> _refcount is set to -1 on head page (is it even correct?)
+The features implemented in this series are:
+- Core (MFD I2C and SPI entry points)
+- ESM (child device)
+- PFSM (child device)
 
-It's not, that scheme is outdated. So I'll have it mention PG_buddy as you
-suggest, but PG_slab also needs special care as it's not set on tail pages.
-But I noticed the compound_head() is unnecessary as that's covered by
-PageSlab() which is defined as PF_NO_TAIL. So the sum of modifications to
-this patch:
+- Core description:
+I2C and SPI interface protocols are implemented, with and without
+the bit-integrity error detection feature (CRC mode).
+In multi-PMIC configuration, all instances share a single GPIO of
+the SoC to generate interrupt requests via their respective nINT
+output pin.
 
-diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
-index bb4aa897a773..c8f380271cad 100644
---- a/Documentation/admin-guide/mm/pagemap.rst
-+++ b/Documentation/admin-guide/mm/pagemap.rst
-@@ -93,7 +93,7 @@ Short descriptions to the page flags
- 7 - SLAB
-    The page is managed by the SLAB/SLUB kernel memory allocator.
-    When compound page is used, either will only set this flag on the head
--   page..
-+   page.
- 10 - BUDDY
-     A free memory block managed by the buddy system allocator.
-     The buddy system organizes free memory in blocks of various orders.
-diff --git a/fs/proc/page.c b/fs/proc/page.c
-index 1356aeffd8dc..195b077c0fac 100644
---- a/fs/proc/page.c
-+++ b/fs/proc/page.c
-@@ -125,7 +125,7 @@ u64 stable_page_flags(struct page *page)
- 	/*
- 	 * pseudo flags for the well known (anonymous) memory mapped pages
- 	 *
--	 * Note that page->_mapcount is overloaded in SLAB/SLUB, so the
-+	 * Note that page->_mapcount is overloaded in SLAB, so the
- 	 * simple test in page_mapped() is not enough.
- 	 */
- 	if (!PageSlab(page) && page_mapped(page))
-@@ -165,8 +165,8 @@ u64 stable_page_flags(struct page *page)
- 
- 
- 	/*
--	 * Caveats on high order pages: page->_refcount will only be set
--	 * -1 on the head page; SLAB/SLUB do the same for PG_slab;
-+	 * Caveats on high order pages: PG_buddy and PG_slab will only be set
-+	 * on the head page.
- 	 */
- 	if (PageBuddy(page))
- 		u |= 1 << KPF_BUDDY;
-@@ -184,7 +184,7 @@ u64 stable_page_flags(struct page *page)
- 	u |= kpf_copy_bit(k, KPF_LOCKED,	PG_locked);
- 
- 	u |= kpf_copy_bit(k, KPF_SLAB,		PG_slab);
--	if (PageTail(page) && PageSlab(compound_head(page)))
-+	if (PageTail(page) && PageSlab(page))
- 		u |= 1 << KPF_SLAB;
- 
- 	u |= kpf_copy_bit(k, KPF_ERROR,		PG_error);
+- ESM description:
+This device monitors the SoC error output signal at its nERR_SOC
+input pin. In error condition, ESM toggles its nRSTOUT_SOC pin
+to reset the SoC.
+Basically, ESM driver starts ESM hardware.
+
+- PFSM description:
+Strictly speaking, PFSM is not hardware. It is a piece of code.
+PMIC integrates a state machine which manages operational modes.
+Depending on the current operational mode, some voltage domains
+remain energized while others can be off.
+PFSM driver can be used to trigger transitions between configured
+states.
+
+Link to v1:
+https://lore.kernel.org/all/20230216114410.183489-1-jpanis@baylibre.com/
+
+Others series will be submitted over the next few weeks, providing
+drivers for others child devices like GPIOs (pinctrl), RTC, and
+regulators. Board support will also be added (device trees).
+
+Julien Panis (4):
+  dt-bindings: mfd: Add TI TPS6594 PMIC
+  mfd: tps6594: Add driver for TI TPS6594 PMIC
+  misc: tps6594-esm: Add driver for TI TPS6594 ESM
+  misc: tps6594-pfsm: Add driver for TI TPS6594 PFSM
+
+ .../devicetree/bindings/mfd/ti,tps6594.yaml   |  191 +++
+ .../userspace-api/ioctl/ioctl-number.rst      |    1 +
+ drivers/mfd/Kconfig                           |   32 +
+ drivers/mfd/Makefile                          |    3 +
+ drivers/mfd/tps6594-core.c                    |  453 ++++++++
+ drivers/mfd/tps6594-i2c.c                     |  244 ++++
+ drivers/mfd/tps6594-spi.c                     |  129 +++
+ drivers/misc/Kconfig                          |   23 +
+ drivers/misc/Makefile                         |    2 +
+ drivers/misc/tps6594-esm.c                    |  132 +++
+ drivers/misc/tps6594-pfsm.c                   |  304 +++++
+ include/linux/mfd/tps6594.h                   | 1020 +++++++++++++++++
+ include/uapi/linux/tps6594_pfsm.h             |   45 +
+ 13 files changed, 2579 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/ti,tps6594.yaml
+ create mode 100644 drivers/mfd/tps6594-core.c
+ create mode 100644 drivers/mfd/tps6594-i2c.c
+ create mode 100644 drivers/mfd/tps6594-spi.c
+ create mode 100644 drivers/misc/tps6594-esm.c
+ create mode 100644 drivers/misc/tps6594-pfsm.c
+ create mode 100644 include/linux/mfd/tps6594.h
+ create mode 100644 include/uapi/linux/tps6594_pfsm.h
 
 
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+-- 
+2.37.3
 
