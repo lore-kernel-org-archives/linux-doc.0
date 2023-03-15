@@ -2,87 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12771C6FD1D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 07:02:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8BDCC61DA4
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 09:28:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbjCOHCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 03:02:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58406 "EHLO
+        id S231818AbjCOJ25 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 05:28:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230348AbjCOHCT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 03:02:19 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0A1855060
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 00:02:11 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id p6so19107979plf.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 00:02:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678863731;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A68M7/xfFbhoMwUouBQ3PR/BIfF4GewV1Ba+f2zbZVY=;
-        b=JVj+evaMTD3GF/zeu0xHYfqII5cf4h7HjS9AtsHYIcw+Q0hpoU82yQp/dG9gXUI71A
-         zTi1Lr7zWLu/ZKNpoZ/Z17SbidMiJR/W+x5/LBKGTqwWhUxcrHyb1le0DvmGf6R803z0
-         gAgEBSI6+ixkn3qsfizKXPu167A0CfE4wN46pFTgrDqc60gBPscmgr5NIP8CnJX0GeN2
-         giEviEMKAk6asw7euYScwICFaQg/qd+yG80/6i8lrm0eFdaa/xABKUxioWZsz/g+fz4a
-         hudiCS91VML+zwkSShcv1A3YdpIVRWQsvAX684xICkSDCvZ8DpoO1vtbaeXV20J98zqV
-         OIog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678863731;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A68M7/xfFbhoMwUouBQ3PR/BIfF4GewV1Ba+f2zbZVY=;
-        b=H8RdhA884QF02nt5yEqbavDbCZBYjWrGW5rZVqxW99QtHQtwbHZzNG5xv6oKKa8rjP
-         BQFrqkt8q29Hi91WeOyxUcmwlGgeFaLRuJrIjVXRNWxOiRdZujylVHqV05lNMMwux5Tl
-         yCZtyU5avjYwYHdDPjSMkk1wLlLMdP9ZAODe+NKSh5jLqT9DOxzkgx2D7nLHKsgsHbDC
-         DYrvQhbsf09pUKdLLAMZ0UTZWZMng3woJvAr3McDeoiXJ+FVXnroojGTPzXor4IpeeqO
-         xo0JKtKRMxiqBHHs10Nr4sYuy7wk4L9De0eAMyoSPOm6licF8URpGdB7CDiSNZCUTMwM
-         SNFQ==
-X-Gm-Message-State: AO0yUKUG6bJmRNhnnt1q/Np1fLD6NDd+doM3pj/YfBi8+KREhJEKEKRc
-        0Da5HwKbPPS49lmreltyXLsaUIh3rlc=
-X-Google-Smtp-Source: AK7set/cKa2+IOFwrdTaat6s60LGg+tuE6aoJ/PUx+xw8s0A/Cf2yj4PbMxTYcWsvhl1tu3vfhXlqw==
-X-Received: by 2002:a17:902:d1cd:b0:1a0:7655:2153 with SMTP id g13-20020a170902d1cd00b001a076552153mr1400121plb.41.1678863731422;
-        Wed, 15 Mar 2023 00:02:11 -0700 (PDT)
-Received: from localhost.localdomain ([167.220.238.138])
-        by smtp.googlemail.com with ESMTPSA id i3-20020a170902c94300b0019f232619d7sm2823081pla.173.2023.03.15.00.02.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 00:02:11 -0700 (PDT)
-From:   bharathsm.hsk@gmail.com
-To:     bagasdotme@gmail.com, edumazet@google.com, davem@davemloft.net,
-        kuba@kernel.org, pabeni@redhat.com, dhowells@redhat.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net
-Cc:     Bharath SM <bharathsm@microsoft.com>
-Subject: [PATCH v2] dns_resolver: correct documentation error in dns resolver
-Date:   Wed, 15 Mar 2023 07:01:08 +0000
-Message-Id: <20230315070108.1539587-1-bharathsm.hsk@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S231821AbjCOJ2z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 05:28:55 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0183574DB;
+        Wed, 15 Mar 2023 02:28:52 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pcNRA-0006fF-0x; Wed, 15 Mar 2023 10:28:48 +0100
+Message-ID: <d233a796-1cb8-a9b3-5a50-043dd2f98b3e@leemhuis.info>
+Date:   Wed, 15 Mar 2023 10:28:47 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US, de-DE
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        regressions@lists.linux.dev
+References: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
+ <87a60frxk0.fsf@meer.lwn.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
+In-Reply-To: <87a60frxk0.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1678872532;7b404aaf;
+X-HE-SMSGID: 1pcNRA-0006fF-0x
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bharath SM <bharathsm@microsoft.com>
+On 14.03.23 19:35, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
+> 
+>> Add a text explaining how to quickly build a kernel, as that's something
+>> users will often have to do when they want to report an issue or test
+>> proposed fixes.
+> 
+> So I think the time has come to apply this.
 
-Fix incorrect sysfs path in dns_resolver documentation
+Sounds good.
 
-Signed-off-by: Bharath SM <bharathsm@microsoft.com>
-Acked-by: David Howells <dhowells@redhat.com>
----
- Documentation/networking/dns_resolver.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>  I did have one final
+> thought, though...  In the v2 discussion, you said:
+> 
+>> Be warned, if it works I might do the same for "reporting issues". ;)
+>> But let's first see how this goes (and if we get any feedback to be able
+>> to tell if this experiment worked).
+> 
+> This caused me to wonder if we shouldn't create a new book called
+> "tutorials" for this kind of stuff, with an explicit proviso that a more
+> web-oriented approach is OK in that section?  Tutorial documentation
+> *is* quite different from reference material, but we've really made no
+> effort to treat the two differently so far.
+> 
+> Thoughts?
 
-diff --git a/Documentation/networking/dns_resolver.rst b/Documentation/networking/dns_resolver.rst
-index add4d59a99a5..99bf72a6ed45 100644
---- a/Documentation/networking/dns_resolver.rst
-+++ b/Documentation/networking/dns_resolver.rst
-@@ -152,4 +152,4 @@ Debugging
- Debugging messages can be turned on dynamically by writing a 1 into the
- following file::
- 
--	/sys/module/dnsresolver/parameters/debug
-+	/sys/module/dns_resolver/parameters/debug
--- 
-2.25.1
+Hmmm. Thinking about this makes sense, as yes, reference material and
+tutorials are different kind of texts.
 
+I'm not against separating, but it currently kinda feels wrong.
+
+Documentation/doc-guide/contributing.rst says that "books" are meant to
+"group documentation for specific readers"; creating a new book for
+tutorials would work against that, as readers (users and administrators
+in this case) then would have to consult two books.
+
+And isn't for example Documentation/process/submitting-patches.rst also
+more of a tutorial than reference material (which we also have in the
+form of Documentation/process/development-process.rst)? Does that mean
+it should be moved? Into the same book or a separate book, as it has a
+different target audience? I fear that might quickly get confusing for
+readers without any real benefits
+
+Or did I understand the idea of a new book wrong and you meant something
+else? Like creating Documentation/admin-guide/tutorials/ and putting the
+text there? That might work and would help future authors to get the
+right mental model when writing new texts. But I'm not sure that's worth it.
+
+Ciao, Thorsten
