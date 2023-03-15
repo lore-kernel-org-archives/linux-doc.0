@@ -2,145 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E2C1C6FD1D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 03:34:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD934C6FD1D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 04:00:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230426AbjCODer (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 23:34:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45330 "EHLO
+        id S229850AbjCOEAB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 00:00:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230310AbjCODeh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 23:34:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9A85A6DE
-        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 20:33:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678851228;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=P8AT5dPnPUO+JypixZa88t/Pmtrax3iyp7vcDArwYms=;
-        b=H4jmaFP0oqIrfy8krpqh4LFFqTWlg099elUbR17nW/skt8ExSQ1TJAyY+LhvHqBx4EScqz
-        HQz8AyDAPlPNIn+jsbWkns68Y9971l5iELbIjPIW8lu1iYpyJ6c81y6/Ov56UO6c6SbjVe
-        26wF8DssnRkpMkjY1BSt0Zf/2R6sTM8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-XmQ9F8K2Pk-Z_PtwFA-QGw-1; Tue, 14 Mar 2023 23:33:45 -0400
-X-MC-Unique: XmQ9F8K2Pk-Z_PtwFA-QGw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99C1D1C0418B;
-        Wed, 15 Mar 2023 03:33:44 +0000 (UTC)
-Received: from ovpn-8-22.pek2.redhat.com (ovpn-8-22.pek2.redhat.com [10.72.8.22])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B22940B3ED6;
-        Wed, 15 Mar 2023 03:33:37 +0000 (UTC)
-Date:   Wed, 15 Mar 2023 11:33:32 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Eric Blake <eblake@redhat.com>
-Cc:     Nir Soffer <nsoffer@redhat.com>, josef@toxicpanda.com,
-        linux-block@vger.kernel.org, nbd@other.debian.org,
-        philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
-        christoph.boehmwalder@linbit.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ming.lei@redhat.com
-Subject: Re: [PATCH 2/3] uapi nbd: add cookie alias to handle
-Message-ID: <ZBE8jPO5RomMUTmG@ovpn-8-22.pek2.redhat.com>
-References: <20230310201525.2615385-1-eblake@redhat.com>
- <20230310201525.2615385-3-eblake@redhat.com>
- <CAMRbyysDE+v_D6Q3tCf_+86T0V57UE4Emw6zc_4vnUu0Yau23A@mail.gmail.com>
- <20230314195023.bsey5bfq2atz7d66@redhat.com>
+        with ESMTP id S229542AbjCOEAA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 00:00:00 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 591032CC50
+        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 20:59:59 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id p13-20020a17090a284d00b0023d2e945aebso2564795pjf.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 20:59:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678852799;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XPDjkafRuofHvnDZ4c7d1mMxKts3yW6SSMO1cKOcl4Q=;
+        b=E0HRFM1ZH4e5rcglb5oc0c9BwMXTspJJpXD8Ua2sO5X0xVUmk1OtkVW7W6ay+/coNV
+         n8AP/HbkjcAjGxp5b+PnLcDQYBCELSlLnYnuGpQbf+/OWkNrwpesSUg0hVgoWaOoWWus
+         EjU+YHRNztAx6e1fhzoitVP5LWTeSvCqx1yQFdhNRa6yEDoPgkcGRg03YktF1oW5opt3
+         VjqsODPL/cmUWBSxsA7wGxlnL5KMZc4PcPt0fSPmnUyXd8mhcOxbMj5zjrdZkO3ZSZf1
+         qIzSwkd75cot2W5H6M84Av+7kHmM0apCWoNpJljirTz0A4ID3wYzzM8zReqonNGW9/LR
+         o05Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678852799;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XPDjkafRuofHvnDZ4c7d1mMxKts3yW6SSMO1cKOcl4Q=;
+        b=nVXVThTBBIERaXKUYk7YuvNc1+dnqPpgpxEgk9H7Mgstx8CtDMRnupX2mzsbLTULlX
+         +9+BPTan8ip60KSFNE5JkIkOfUjNcNGqP0jKepaiJJQWYKM7yOthoDg/p+/4byzKqUsr
+         KXU+ArnvkRalLTXEf8je6gR5x5No4GVfcS+DWBSqkyZrrra4p6wbo8FR5rTAwfOOkEXB
+         AJ/CBnQ3pcmv1IDQVkmJavXTuN9pWX+fhRDWQLNAwX2OQA6sJm/s5L9W7G3SvRcDQ/nM
+         BfSBTA7rxR/zRiUTgF/WbYeNg0apfc3YK45QscSQc1L5gALvyOlSf3zC+DorEaiIv6Kf
+         gRTQ==
+X-Gm-Message-State: AO0yUKVb3Gnr/dw2SoeXYlIPHl5Cy3aAQpK+Ma9F1IONEjSqCjvEcOJW
+        iIqbJj+dCBrSpHuKkwPEYlg=
+X-Google-Smtp-Source: AK7set8Oth3Q8SBZ/ZOQ7mU71prYZh2acMb00qeIxMMiwbUQutzyBMeMar9aDWyV+SzYQzSsSlADMA==
+X-Received: by 2002:a05:6a21:6d85:b0:d4:c605:4512 with SMTP id wl5-20020a056a216d8500b000d4c6054512mr8821821pzb.30.1678852798774;
+        Tue, 14 Mar 2023 20:59:58 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-17.three.co.id. [180.214.232.17])
+        by smtp.gmail.com with ESMTPSA id y18-20020aa78052000000b005a8bf239f5csm2339589pfm.193.2023.03.14.20.59.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Mar 2023 20:59:57 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 2BE6A106195; Wed, 15 Mar 2023 10:59:53 +0700 (WIB)
+Date:   Wed, 15 Mar 2023 10:59:53 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
+Cc:     linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
+        david@redhat.com, linux-doc@vger.kernel.org,
+        akpm@linux-foundation.org, hannes@cmpxchg.org
+Subject: Re: [PATCH v1] docs/mm: extend ksm doc
+Message-ID: <ZBFCud+I8mVAoh87@debian.me>
+References: <20230314204557.3863923-1-shr@devkernel.io>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wIjEjcYmUcp0YvzG"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230314195023.bsey5bfq2atz7d66@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+In-Reply-To: <20230314204557.3863923-1-shr@devkernel.io>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 14, 2023 at 02:50:23PM -0500, Eric Blake wrote:
-> On Sat, Mar 11, 2023 at 02:30:39PM +0200, Nir Soffer wrote:
-> > On Fri, Mar 10, 2023 at 10:16 PM Eric Blake <eblake@redhat.com> wrote:
-> > >
-> > > The uapi <linux/nbd.h> header declares a 'char handle[8]' per request;
-> > > which is overloaded in English (are you referring to "handle" the
-> > > verb, such as handling a signal or writing a callback handler, or
-> > > "handle" the noun, the value used in a lookup table to correlate a
-> > > response back to the request).  Many client-side NBD implementations
-> > > (both servers and clients) have instead used 'u64 cookie' or similar,
-> > > as it is easier to directly assign an integer than to futz around with
-> > > memcpy.  In fact, upstream documentation is now encouraging this shift
-> > > in terminology: https://lists.debian.org/nbd/2023/03/msg00031.html
-> > >
-> > > Accomplish this by use of an anonymous union to provide the alias for
-> > > anyone getting the definition from the uapi; this does not break
-> > > existing clients, while exposing the nicer name for those who prefer
-> > > it.  Note that block/nbd.c still uses the term handle (in fact, it
-> > > actually combines a 32-bit cookie and a 32-bit tag into the 64-bit
-> > > handle), but that internal usage is not changed the public uapi, since
-> > > no compliant NBD server has any reason to inspect or alter the 64
-> > > bits sent over the socket.
-> > >
-> > > Signed-off-by: Eric Blake <eblake@redhat.com>
-> > > ---
-> > >  include/uapi/linux/nbd.h | 10 ++++++++--
-> > >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/include/uapi/linux/nbd.h b/include/uapi/linux/nbd.h
-> > > index 8797387caaf7..f58f2043f62e 100644
-> > > --- a/include/uapi/linux/nbd.h
-> > > +++ b/include/uapi/linux/nbd.h
-> > > @@ -81,7 +81,10 @@ enum {
-> > >  struct nbd_request {
-> > >         __be32 magic;   /* NBD_REQUEST_MAGIC    */
-> > >         __be32 type;    /* See NBD_CMD_*        */
-> > > -       char handle[8];
-> > > +       union {
-> > > +               char handle[8];
-> > > +               __be64 cookie;
-> > > +       };
-> > >         __be64 from;
-> > >         __be32 len;
-> > >  } __attribute__((packed));
-> > > @@ -93,6 +96,9 @@ struct nbd_request {
-> > >  struct nbd_reply {
-> > >         __be32 magic;           /* NBD_REPLY_MAGIC      */
-> > >         __be32 error;           /* 0 = ok, else error   */
-> > > -       char handle[8];         /* handle you got from request  */
-> > > +       union {
-> > > +               char handle[8]; /* handle you got from request  */
-> > > +               __be64 cookie;
-> > 
-> > Should we document like this?
-> > 
-> >     union {
-> >         __be64 cookie; /* cookie you got from request */
-> >         char handle[8]; /* older name */
-> > 
-> > I think we want future code to use the new term.
-> 
-> Sure, swapping the order to favor the preferred name first makes sense.
-> 
-> I'm still not sure on whether cookie should be u64 or __be64 (it's
-> opaque, so endianness over the wire doesn't matter;
 
-I guess it is 'u64', given ->handle is always copied to nbd_reply from
-nbd_request in nbd server side, so native endian is always applied for
-building and parsing ->handle in nbd client side.
+--wIjEjcYmUcp0YvzG
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But it looks odd to mark it as u64.
+On Tue, Mar 14, 2023 at 01:45:57PM -0700, Stefan Roesch wrote:
+> +to cancel that advice and restore unshared pages: whereupon KSM
+> +unmerges whatever is merged for that process.  Note: this unmerging call
+> +may suddenly require more memory than is available - possibly failing
+> +with EAGAIN, but more probably arousing the Out-Of-Memory killer.
 
-> and previous code
-> was using memcpy() onto char[8] which may behave differently depending
-> on machine endianness).
+"... to disable KSM and let it unmerges ... . Note that this unmerging
+call may exhaust memory and triggers OOM killer."
 
+> +However, if the system is dedicated to running multiple jobs within the
+> +same security domain, there is a usecase where multiple instances of the
+> +same job are running inside a safe shared security domain and using the
+> +same sensitive data.
 
+"... it is possible for multiple instances ... and share the same
+sensitive data."
 
+Thanks.=20
 
-Thanks,
-Ming
+--=20
+An old man doll... just what I always wanted! - Clara
 
+--wIjEjcYmUcp0YvzG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZBFCtQAKCRD2uYlJVVFO
+ozI4AP9P9tfkdCTSJfH9gecQ8XguWY64xBRZzCAO9aruksa3dwEAml1J1hNvucA/
+L7hhjcsKXkv6rW/TFH3/CVkLzxIFnw4=
+=FJct
+-----END PGP SIGNATURE-----
+
+--wIjEjcYmUcp0YvzG--
