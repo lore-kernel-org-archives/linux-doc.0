@@ -2,173 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA226C76195
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 14:51:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AA9EC61DA4
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 14:55:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232391AbjCOOu7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 10:50:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60812 "EHLO
+        id S232848AbjCOOzH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 10:55:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232263AbjCOOu6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 10:50:58 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D14260ABB;
-        Wed, 15 Mar 2023 07:50:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9E718B81DED;
-        Wed, 15 Mar 2023 14:50:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C04E0C433D2;
-        Wed, 15 Mar 2023 14:50:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678891853;
-        bh=wu9HXojxuH3AtIIT++MDX+kORwbWO7Y7OZ2upGm0F4g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ni/Hy4a5bJJNljjXzq8+c+485351OSOzfK6nHpUHJ4HBGlkidr8j4Ww1Q2RuUYgEe
-         lM5RbzfsBlmTzMjurrLTYOKIicKITAeEXSadq2NXDNsMcKwXsyPhg3vCx7v0CyTaak
-         Z1qShw49YNGDF0tf6+ts62FOZRD9PlrCnILgFgnC35g53MgiBu90OrC3zTB/FcmJEK
-         PKsfzxa0MxPOdZDiIZPNF+SDQExt+L394j+lmThmbsIPDvHm+0Tf3KZO/wl52yIt2d
-         qMM0Wh8SIAXaTwmSBaHY3xxbfGMEQcmci4HTUz6ClZ9Ais/uNviMgqBYxzb83kZopJ
-         6jQsgqvSec0DQ==
-Date:   Wed, 15 Mar 2023 16:50:34 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Mike Rapoport <mike.rapoport@gmail.com>,
-        Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>
-Subject: Re: [PATCH 7/7] mm/slab: document kfree() as allowed for
- kmem_cache_alloc() objects
-Message-ID: <ZBHbOrk3P3TXSkK8@kernel.org>
-References: <20230310103210.22372-1-vbabka@suse.cz>
- <20230310103210.22372-8-vbabka@suse.cz>
- <ZA2ic9JYXGVzps1+@kernel.org>
- <14043bee-af7d-38f3-5a46-f63940e56c1e@suse.cz>
+        with ESMTP id S233321AbjCOOyd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 10:54:33 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79B77A0B30;
+        Wed, 15 Mar 2023 07:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=7ZNK08MerGzRX2ZaSmuVczeFjiWX83v3VJCjASMeBtc=; b=tln7V1X7eVe2a/4sanzpC3mYAt
+        EUSdqOCOovKT90F+2SeDKPwqMJHq9fFOHxRx7uJOcCJaWvHH0wIJ27t21QmKbgWdzNjxHLVmyZ7fL
+        4451Q8YffAZoRx9S0R6gtxbnUEmH0FPsgiYFxuJgHS/OqMN5Yoqh/eTLhYzlBO2wESxEp8Ei0lGqE
+        rraeYxyWNATk7MbupvFXozSeaAj3xhhazU5aVHa17h3DMuhu6eHnavgM1emoK1+DtWpheV4O0xlLI
+        oEVkkUfWCdbOBDjetBZ83Ki54HqdMCU14a8B8fvr1qXENR14x4BaIWHRwhkpSCwRh4R3ptiJ7zD0o
+        262IquLQ==;
+Received: from [2601:1c2:980:9ec0::21b4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pcSVM-00DgIT-1Z;
+        Wed, 15 Mar 2023 14:53:28 +0000
+Message-ID: <64f9d9a6-0acb-f65e-18a1-44fd4cb56ece@infradead.org>
+Date:   Wed, 15 Mar 2023 07:53:26 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <14043bee-af7d-38f3-5a46-f63940e56c1e@suse.cz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] Documentation: kernel-parameters: Remove meye entry
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Staging Drivers <linux-staging@lists.linux.dev>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel test robot <lkp@intel.com>
+References: <20230315100246.62324-1-bagasdotme@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230315100246.62324-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 15, 2023 at 02:38:47PM +0100, Vlastimil Babka wrote:
-> On 3/12/23 10:59, Mike Rapoport wrote:
-> > On Fri, Mar 10, 2023 at 11:32:09AM +0100, Vlastimil Babka wrote:
-> >> This will make it easier to free objects in situations when they can
-> >> come from either kmalloc() or kmem_cache_alloc(), and also allow
-> >> kfree_rcu() for freeing objects from kmem_cache_alloc().
-> >> 
-> >> For the SLAB and SLUB allocators this was always possible so with SLOB
-> >> gone, we can document it as supported.
-> >> 
-> >> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> >> Cc: Mike Rapoport <rppt@kernel.org>
-> >> Cc: Jonathan Corbet <corbet@lwn.net>
-> >> Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> >> Cc: Frederic Weisbecker <frederic@kernel.org>
-> >> Cc: Neeraj Upadhyay <quic_neeraju@quicinc.com>
-> >> Cc: Josh Triplett <josh@joshtriplett.org>
-> >> Cc: Steven Rostedt <rostedt@goodmis.org>
-> >> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> >> Cc: Lai Jiangshan <jiangshanlai@gmail.com>
-> >> Cc: Joel Fernandes <joel@joelfernandes.org>
-> >> ---
-> >>  Documentation/core-api/memory-allocation.rst | 15 +++++++++++----
-> >>  include/linux/rcupdate.h                     |  6 ++++--
-> >>  mm/slab_common.c                             |  5 +----
-> >>  3 files changed, 16 insertions(+), 10 deletions(-)
-> >> 
-> >> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
-> >> index 5954ddf6ee13..f9e8d352ed67 100644
-> >> --- a/Documentation/core-api/memory-allocation.rst
-> >> +++ b/Documentation/core-api/memory-allocation.rst
-> >> @@ -170,7 +170,14 @@ should be used if a part of the cache might be copied to the userspace.
-> >>  After the cache is created kmem_cache_alloc() and its convenience
-> >>  wrappers can allocate memory from that cache.
-> >>  
-> >> -When the allocated memory is no longer needed it must be freed. You can
-> >> -use kvfree() for the memory allocated with `kmalloc`, `vmalloc` and
-> >> -`kvmalloc`. The slab caches should be freed with kmem_cache_free(). And
-> >> -don't forget to destroy the cache with kmem_cache_destroy().
-> >> +When the allocated memory is no longer needed it must be freed. Objects
-> > 
-> > I'd add a line break before Objects                               ^
-> > 
-> >> +allocated by `kmalloc` can be freed by `kfree` or `kvfree`.
-> >> +Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`
-> >> +or also by `kfree` or `kvfree`, which can be more convenient as it does
-> > 
-> > Maybe replace 'or also by' with a coma:
-> > 
-> > Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`,
-> > `kfree` or `kvfree`, which can be more convenient as it does
-> 
-> But then I need to clarify what the "which" applies to?
 
-Yeah, I kinda missed that...
 
-> > 
-> >> +not require the kmem_cache pointed.
-> > 
-> >                              ^ pointer.
-> > 
-> >> +The rules for _bulk and _rcu flavors of freeing functions are analogical.
-> > 
-> > Maybe 
-> > 
-> > The same rules apply to _bulk and _rcu flavors of freeing functions.
+On 3/15/23 03:02, Bagas Sanjaya wrote:
+> Commit ba47652ba65523 ("media: meye: remove this deprecated driver")
+> removes meye driver but forgets to purge its kernel-parameters.txt
+> entry, hence broken reference.
 > 
-> So like this incremental diff?
- 
-> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
-> index f9e8d352ed67..1c58d883b273 100644
-> --- a/Documentation/core-api/memory-allocation.rst
-> +++ b/Documentation/core-api/memory-allocation.rst
-> @@ -170,12 +170,14 @@ should be used if a part of the cache might be copied to the userspace.
->  After the cache is created kmem_cache_alloc() and its convenience
->  wrappers can allocate memory from that cache.
+> Remove the entry.
+> 
+> Link: https://lore.kernel.org/all/202302070341.OVqstpMM-lkp@intel.com/
+> Fixes: ba47652ba65523 ("media: meye: remove this deprecated driver")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  This patch is based on staging-next tree, because the driver removal
+>  touched drivers/staging/.
+> 
+>  Documentation/admin-guide/kernel-parameters.txt | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 6221a1d057dd58..e54d4ce7870c00 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3184,9 +3184,6 @@
+>  			deep    - Suspend-To-RAM or equivalent (if supported)
+>  			See Documentation/admin-guide/pm/sleep-states.rst.
 >  
-> -When the allocated memory is no longer needed it must be freed. Objects
-> -allocated by `kmalloc` can be freed by `kfree` or `kvfree`.
-> -Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`
-> -or also by `kfree` or `kvfree`, which can be more convenient as it does
-> -not require the kmem_cache pointed.
-> -The rules for _bulk and _rcu flavors of freeing functions are analogical.
-> +When the allocated memory is no longer needed it must be freed.
-> +
-> +Objects allocated by `kmalloc` can be freed by `kfree` or `kvfree`. Objects
-> +allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`, `kfree`
-> +or `kvfree`, where the latter two might be more convenient thanks to not
-> +needing the kmem_cache pointer.
-
-... but this way it's more explicit that kfree and kvfree don't need
-kmem_cache pointer.
-
-> +
-> +The same rules apply to _bulk and _rcu flavors of freeing functions.
->  
->  Memory allocated by `vmalloc` can be freed with `vfree` or `kvfree`.
->  Memory allocated by `kvmalloc` can be freed with `kvfree`.
+> -	meye.*=		[HW] Set MotionEye Camera parameters
+> -			See Documentation/admin-guide/media/meye.rst.
+> -
+>  	mfgpt_irq=	[IA-32] Specify the IRQ to use for the
+>  			Multi-Function General Purpose Timers on AMD Geode
+>  			platforms.
 > 
+> base-commit: 458219ca9246076971961d695eef9eb56e05fcf7
 
 -- 
-Sincerely yours,
-Mike.
+~Randy
