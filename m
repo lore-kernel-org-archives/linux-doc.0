@@ -2,229 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BFC4C6FD1D
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Mar 2023 22:45:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5A2C6FD1D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 01:47:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbjCNWpM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 18:45:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41074 "EHLO
+        id S229704AbjCOBra (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 21:47:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230221AbjCNWpK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 18:45:10 -0400
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B374C53D9D
-        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 15:44:55 -0700 (PDT)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-54195ef155aso154955757b3.9
-        for <linux-doc@vger.kernel.org>; Tue, 14 Mar 2023 15:44:55 -0700 (PDT)
+        with ESMTP id S229666AbjCOBr3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 21:47:29 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E0984AFE5;
+        Tue, 14 Mar 2023 18:47:28 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id cn21so39510479edb.0;
+        Tue, 14 Mar 2023 18:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1678833895;
+        d=gmail.com; s=20210112; t=1678844846;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0s+v6LS+NWGEtMekhBGCmTrpxFB8JH+hOTMrHBsYtK4=;
-        b=wylb5Cm9tGFHdcSyHqaVU4JVgHjfM8KOIxKAZBd2UxJY76hTl2eMMQixud0G7Dq8EO
-         h1HfKUUqqmaP33OeH1fpEaybhv8EkcQlxzNlaP4MuSgwef44RLkrJurMtwd/xS1xFJfG
-         tVaVaM3er5ESki6s0/mAH/nBDMkm18KFK2Hxw=
+        bh=yPkef2qPh9L+/tKP15uMpMtWmMf4T6qBdUSEfTqaSOc=;
+        b=IW+4qLE4DVk6vWwMD0+N+ugJa0SLTsL7hTPwwGiqbqj8ONJl34QGWDfo8H+5wEsbMi
+         D66ZwJDPefozpZgB+tBLnBYep/nV3/Xl2BypdaWG6xDqZTLIONi4ufz8N0xBWHzZtAnQ
+         9sG7lRk0tfrPg+aPDfizXAp+8xMgqpSyBFucGOGCsvstUeG3+LK1AHWc7ow/dfI11OWQ
+         HcZy22xq5Y2JE0KjxEEd3EeYeUK5edy1tv7OKl9uu+m5eta/oo8u98l3aoPps02pm4oi
+         5OXortsqah4vnqlhXw1GKLUGGrgwXXMlZsAxnjeVy21LokpPonb8lvrMmr7pbmGz4aCC
+         hrDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678833895;
+        d=1e100.net; s=20210112; t=1678844846;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0s+v6LS+NWGEtMekhBGCmTrpxFB8JH+hOTMrHBsYtK4=;
-        b=A1GE+mYytXYW30WgwA/jc8DGPfRuMepix4vmUYklprXew95WKSaDdxOoyCs/HwhyPD
-         xq2XaFOjP7HLZBn8c5GDIjB/h0BsGDJHVHuYsR9y6qqes10iKf1P1GufgOi0kPlWbokc
-         kOZzK0r3pLxYU6EoTyzdA0vHvvHt1v1PWidU2RcUlbNFcM9XOI5pMNzxN5nPZnoLMFjw
-         4H09W3LIPt08oH54OmJzD1HyRtY5dJKoCOENBIj3cJV4rqMzj6Jse/CHO+kyDNcYtz9/
-         GmRQNiDIcjlTeFVAYYKKEoQojEREZ/9ty8XAvQ+nwz/XtEnYmdi69vF5dRJw7HNKq1j2
-         EZ4w==
-X-Gm-Message-State: AO0yUKV9SpNJeVTHcxq7a04j72ZbNLMugh8uKV7XgxMOvmhJHvVcgBU8
-        ezNQxt5u5cEdNKxbrGv14fEzg+r6jvdZaJi4kGo19A==
-X-Google-Smtp-Source: AK7set9LtcZDFc2p3zjc+4NxNeUeRxuXQiqiVNtY/S5MFikpUPdUCv6H0pTbKq+aRkNrK+6v+z+hk7RutqiDCpnJ6cA=
-X-Received: by 2002:a81:af21:0:b0:541:693f:cdd1 with SMTP id
- n33-20020a81af21000000b00541693fcdd1mr8519425ywh.9.1678833894835; Tue, 14 Mar
- 2023 15:44:54 -0700 (PDT)
+        bh=yPkef2qPh9L+/tKP15uMpMtWmMf4T6qBdUSEfTqaSOc=;
+        b=gAFOi3z6y5lyf7OvMPjOmX6yAWjNpMP1WIJmB4pRHzZbvPzGT5n4W01AqXHwQhllTT
+         nBw3Es4XbmHPIPOsE5jMJpfWm6aVDe+eDVoZ6O8doyuFJR46CggjUWD6IUgfTLPClTE9
+         oGf5QZ+vy71v1ZvVf5zRcxndV8z1xfUM2Er9Oy4R54yqe5ZpyXPnJ21nRWFlHJBBtBMF
+         ZVe3rWnNNLr08NsxPwxqxJag6FtKbrAB6guHvX8B6Aqmgef1acfflPCJYm9pZbwf5LqY
+         0ULFw8rDipG+X6l9YvoUx6hGHBGPmCX9x2sP0LTWjm/6KZBe8/DqdyTr+42zABMldi8o
+         tOFw==
+X-Gm-Message-State: AO0yUKWFJZFZWWr4ZLcAiRt18m1uG9ZNe+nf/6OzFz066Do3YyrQsM1a
+        RbV6b7dlu+Z5j+uxoUYrWQ2gR3FMOeIVbTWFi/rD29Gv2Ls=
+X-Google-Smtp-Source: AK7set/tr+3LL0mHM76BvBK8MhYyJJWjmHNeWVpu3ecmA/2/g3GjaLgPpdEixitD2QMOHgcJglrxJKlBpSBEZiG/P00=
+X-Received: by 2002:a17:906:753:b0:8d8:4578:18e0 with SMTP id
+ z19-20020a170906075300b008d8457818e0mr2343300ejb.10.1678844846542; Tue, 14
+ Mar 2023 18:47:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <ZA7yK6iznHqiBu5i@pc636> <01559085-EB77-4962-B5EF-FF767F5A7353@joelfernandes.org>
- <ZA9B+sgrlK5yommJ@pc636>
-In-Reply-To: <ZA9B+sgrlK5yommJ@pc636>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Tue, 14 Mar 2023 18:44:44 -0400
-Message-ID: <CAEXW_YQ=cr_KTCZ8+Gpx9XLz6K6_sdcz_9KBs+gZuhuc2UQuLg@mail.gmail.com>
-Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
-To:     Uladzislau Rezki <urezki@gmail.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+References: <20230222183445.3127324-1-carlos.bilbao@amd.com>
+ <a577b165-1e18-e689-7580-cac3f37317f8@amd.com> <87jzzjqhym.fsf@meer.lwn.net>
+In-Reply-To: <87jzzjqhym.fsf@meer.lwn.net>
+From:   Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
+Date:   Wed, 15 Mar 2023 07:17:08 +0530
+Message-ID: <CAPDLWs8oE05j4=eAmWYT8pXLjN511p3gk2DrK6FTSeqJVMEUmQ@mail.gmail.com>
+Subject: Re: [PATCH v3] docs: Add relevant kernel publications to list of books
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, rlove@rlove.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 13, 2023 at 11:32=E2=80=AFAM Uladzislau Rezki <urezki@gmail.com=
-> wrote:
->
-> On Mon, Mar 13, 2023 at 06:58:30AM -0700, Joel Fernandes wrote:
-> >
-> >
-> > > On Mar 13, 2023, at 2:51 AM, Uladzislau Rezki <urezki@gmail.com> wrot=
-e:
-> > >
-> > > =EF=BB=BFOn Fri, Mar 10, 2023 at 10:24:34PM -0800, Paul E. McKenney w=
+On Wed, Mar 15, 2023 at 12:27=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> w=
 rote:
-> > >>> On Fri, Mar 10, 2023 at 09:55:02AM +0100, Uladzislau Rezki wrote:
-> > >>> On Thu, Mar 09, 2023 at 10:10:56PM +0000, Joel Fernandes wrote:
-> > >>>> On Thu, Mar 09, 2023 at 01:57:42PM +0100, Uladzislau Rezki wrote:
-> > >>>> [..]
-> > >>>>>>>>>> See this commit:
-> > >>>>>>>>>>
-> > >>>>>>>>>> 3705b88db0d7cc ("rcu: Add a module parameter to force use of
-> > >>>>>>>>>> expedited RCU primitives")
-> > >>>>>>>>>>
-> > >>>>>>>>>> Antti provided this commit precisely in order to allow Andro=
-id
-> > >>>>>>>>>> devices to expedite the boot process and to shut off the
-> > >>>>>>>>>> expediting at a time of Android userspace's choosing.  So An=
-droid
-> > >>>>>>>>>> has been making this work for about ten years, which strikes=
- me
-> > >>>>>>>>>> as an adequate proof of concept.  ;-)
-> > >>>>>>>>>
-> > >>>>>>>>> Thanks for the pointer. That's true. Looking at Android sourc=
-es, I
-> > >>>>>>>>> find that Android Mediatek devices at least are setting
-> > >>>>>>>>> rcu_expedited to 1 at late stage of their userspace boot (whi=
-ch is
-> > >>>>>>>>> weird, it should be set to 1 as early as possible), and
-> > >>>>>>>>> interestingly I cannot find them resetting it back to 0!.  Ma=
-ybe
-> > >>>>>>>>> they set rcu_normal to 1? But I cannot find that either. Vlad=
-? :P
-> > >>>>>>>>
-> > >>>>>>>> Interesting.  Though this is consistent with Antti's commit lo=
-g,
-> > >>>>>>>> where he talks about expediting grace periods but not unexpedi=
-ting
-> > >>>>>>>> them.
-> > >>>>>>>>
-> > >>>>>>> Do you think we need to unexpedite it? :))))
-> > >>>>>>
-> > >>>>>> Android runs on smallish systems, so quite possibly not!
-> > >>>>>>
-> > >>>>> We keep it enabled and never unexpedite it. The reason is a perfo=
-rmance.  I
-> > >>>>> have done some app-launch time analysis with enabling and disabli=
-ng of it.
-> > >>>>>
-> > >>>>> An expedited case is much better when it comes to app launch time=
-. It
-> > >>>>> requires ~25% less time to run an app comparing with unexpedited =
-variant.
-> > >>>>> So we have a big gain here.
-> > >>>>
-> > >>>> Wow, that's huge. I wonder if you can dig deeper and find out why =
-that is so
-> > >>>> as the callbacks may need to be synchronize_rcu_expedited() then, =
-as it could
-> > >>>> be slowing down other usecases! I find it hard to believe, real-ti=
-me
-> > >>>> workloads will run better without those callbacks being always-exp=
-edited if
-> > >>>> it actually gives back 25% in performance!
-> > >>>>
-> > >>> I can dig further, but on a high level i think there are some spots
-> > >>> which show better performance if expedited is set. I mean synchroni=
-ze_rcu()
-> > >>> becomes as "less blocking a context" from a time point of view.
-> > >>>
-> > >>> The problem of a regular synchronize_rcu() is - it can trigger a bi=
-g latency
-> > >>> delays for a caller. For example for nocb case we do not know where=
- in a list
-> > >>> our callback is located and when it is invoked to unblock a caller.
-> > >>
-> > >> True, expedited RCU grace periods do not have this callback-invocati=
-on
-> > >> delay that normal RCU does.
-> > >>
-> > >>> I have already mentioned somewhere. Probably it makes sense to dire=
-ctly wake-up
-> > >>> callers from the GP kthread instead and not via nocb-kthread that i=
-nvokes our callbacks
-> > >>> one by one.
-> > >>
-> > >> Makes sense, but it is necessary to be careful.  Wakeups are not fas=
-t,
-> > >> so making the RCU grace-period kthread do them all sequentially is n=
-ot
-> > >> a strategy to win.  For example, note that the next expedited grace
-> > >> period can start before the previous expedited grace period has fini=
-shed
-> > >> its wakeups.
-> > >>
-> > > I hove done a small and quick prototype:
-> > >
-> > > <snip>
-> > > diff --git a/include/linux/rcupdate_wait.h b/include/linux/rcupdate_w=
-ait.h
-> > > index 699b938358bf..e1a4cca9a208 100644
-> > > --- a/include/linux/rcupdate_wait.h
-> > > +++ b/include/linux/rcupdate_wait.h
-> > > @@ -9,6 +9,8 @@
-> > > #include <linux/rcupdate.h>
-> > > #include <linux/completion.h>
-> > >
-> > > +extern struct llist_head gp_wait_llist;
-> > > +
-> > > /*
-> > >  * Structure allowing asynchronous waiting on RCU.
-> > >  */
-> > > diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> > > index ee27a03d7576..50b81ca54104 100644
-> > > --- a/kernel/rcu/tree.c
-> > > +++ b/kernel/rcu/tree.c
-> > > @@ -113,6 +113,9 @@ int rcu_num_lvls __read_mostly =3D RCU_NUM_LVLS;
-> > > int num_rcu_lvl[] =3D NUM_RCU_LVL_INIT;
-> > > int rcu_num_nodes __read_mostly =3D NUM_RCU_NODES; /* Total # rcu_nod=
-es in use. */
-> > >
-> > > +/* Waiters for a GP kthread. */
-> > > +LLIST_HEAD(gp_wait_llist);
-> > > +
-> > > /*
-> > >  * The rcu_scheduler_active variable is initialized to the value
-> > >  * RCU_SCHEDULER_INACTIVE and transitions RCU_SCHEDULER_INIT just bef=
-ore the
-> > > @@ -1776,6 +1779,14 @@ static noinline void rcu_gp_cleanup(void)
-> > >                on_each_cpu(rcu_strict_gp_boundary, NULL, 0);
-> > > }
-> > >
-> > > +static void rcu_notify_gp_end(struct llist_node *llist)
-> > > +{
-> > > +       struct llist_node *rcu, *next;
-> > > +
-> > > +       llist_for_each_safe(rcu, next, llist)
-> > > +               complete(&((struct rcu_synchronize *) rcu)->completio=
-n);
+>
+> Carlos Bilbao <carlos.bilbao@amd.com> writes:
+>
+> > For the list of kernel published books, include publication covering ke=
+rnel
+> > debugging from August, 2022 (ISBN 978-1801075039) and one from March, 2=
+021
+> > on the topic of char device drivers and kernel synchronization (ISBN
+> > 978-1801079518). Also add foundational book from Robert Love (ISBN
+> > 978-1449339531) and remove extra spaces.
 > >
-> > This looks broken to me, so the synchronize will complete even
-> > if it was called in the middle of an ongoing GP?
+> > Co-developed-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
+> > Signed-off-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
+> > Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 > >
-> Do you mean before replacing the list(and after rcu_gp_cleanup()) a new
-> GP sequence can be initiated?
+> > ---
+> > Changes since v2:
+> >   - Fix SoB chain.
+>
+> So this showed up approximately 4.23=C2=B5s after I applied v2 ... I went
+> back in and tweaked the signoffs to match this version.
+:-D
+Thanks Jon, Carlos !
 
-It looks interesting, I am happy to try it on ChromeOS once you
-provide a patch, in case it improves something, even if that is
-suspend or boot time.
-
-I think the main concern I had was if you did not wait for a full
-grace period (which as you indicated, you would fix), you are not
-really measuring the long delays that the full grace period can cause
-so IMHO it is important to only measure once correctness is preserved
-by the modification.  To that end, perhaps having rcutorture pass with
-your modification could be a vote of confidence before proceeding to
-performance tests.
-
- - Joel
+Regards,
+Kaiwan.
+>
+> Thanks,
+>
+> jon
