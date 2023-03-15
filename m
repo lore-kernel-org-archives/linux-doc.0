@@ -2,116 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDA17C6FD1D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 16:07:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CF47C7618D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 16:13:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbjCOQHC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 12:07:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44798 "EHLO
+        id S232715AbjCOQNW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 12:13:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231673AbjCOQHB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 12:07:01 -0400
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E72179312A
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 09:06:25 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id D61635C054B;
-        Wed, 15 Mar 2023 12:05:33 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Wed, 15 Mar 2023 12:05:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
-        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1678896333; x=1678982733; bh=bu
-        AS022EMPBJulMjE8ii65afZRjcdOiGwqDLGmLBepM=; b=TPdaquaXbFUmgX2SKh
-        l3KyLGQ+Jy7YFvWLALDZ+rZRKDObHYSDvAIL6M7VSYbH/WSM1Oy3hezGN0tklQl6
-        EjPeFhCmTLkS+DUy+ZGcquLY3kQXElY3TE5gQfLX5vSU+tBHbXXgVwtukDHnN4Xk
-        ykz9yZmms8mdlaEhihjAuclqIKgyes3CeHwQrKEIj4va9d2YDRoUO+QfwSYXopxn
-        p9rdwYpfGVxGtIB0PY8oLiLdSLQ/iKhAuEXceZOjIIYY8g5Kgh+QS8482Whk2iFV
-        5+/Kb3Hk8S25gsd5Z1M6gXca58+CE2hz9HCDzrJe6YYuukjFchDDCY8N7NxqN7Ni
-        RoxA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1678896333; x=1678982733; bh=buAS022EMPBJu
-        lMjE8ii65afZRjcdOiGwqDLGmLBepM=; b=n+TmOaDUKuJL9yxVA53+6MFjoH4gH
-        21apynJ/JQ5XeLjr7GmSrL8d5DzeHnTeU7zTSzh+w1umUmsC2VjUWXF349P3MibE
-        z+/Kb9f1cgAq8vJYVlUSAZGWKo/1G+xnGU+c4jPQHnDJZ+eoBS4QzONMwmupYIsC
-        5YZos8qJoB/0HErLY+wJCERF40Q64R3ztWO00Rp3Q76Qi8vYjPqUAX7vnbNJLudK
-        z1MGNF8crcAry1e7F9h28m/rMH++fKNJ9EfVYoPLgnYwqt9lO2JWEpF6G/DxRCj6
-        CouBYv4P7KCKmn792Y/IwkRf9xeqUfyzEqJO7eCQtFBAE8UlKCXwQJkRQ==
-X-ME-Sender: <xms:zewRZEIPcB7YAYJXVRRNUGl_OqighDnCd91oWzWCvWh8voTq0XurIA>
-    <xme:zewRZELnOTj61459dhn2ts_7KuCaJjLGZunPjQWz2WLOBJIcu6aP9CgzqNfziT_mz
-    zRE8FuK-xL8iWCMy2Y>
-X-ME-Received: <xmr:zewRZEsbpVpz3NrWKZy7fjImoh0-DPS5fYwfoHJwAPMx-wXXEQu_iANrWg0u0RggysIdvvvcAs-GfvtFSO6QFpQFsxaf2R__c2scE2jj>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddvkedgkeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpehffgfhvfevufffjgfkgggtsehttd
-    ertddtredtnecuhfhrohhmpefuthgvfhgrnhcutfhovghstghhuceoshhhrhesuggvvhhk
-    vghrnhgvlhdrihhoqeenucggtffrrghtthgvrhhnpeevlefggffhheduiedtheejveehtd
-    fhtedvhfeludetvdegieekgeeggfdugeeutdenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehshhhrseguvghvkhgvrhhnvghlrdhioh
-X-ME-Proxy: <xmx:zewRZBZt2WZ0Bje7FsagAP1P_wCJMc8w-Rn6gBU_uaR3liIYO1poww>
-    <xmx:zewRZLb6IAMWMNqnmEzyweFMcOmwAtisAWhiZgTf0QbLmVASF0bZdQ>
-    <xmx:zewRZNDf-GoSXOM22W4gCngab610yan4MJ98pZ7VUnEmk-_7FiM_IQ>
-    <xmx:zewRZP7F0zb3oLZrKVVELefWoaiQWgZFjkqtjdVF7ta_UuxqFQFMWQ>
-Feedback-ID: i84614614:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Mar 2023 12:05:32 -0400 (EDT)
-References: <20230314204557.3863923-1-shr@devkernel.io>
- <ZBFCud+I8mVAoh87@debian.me>
-User-agent: mu4e 1.6.11; emacs 28.2.50
-From:   Stefan Roesch <shr@devkernel.io>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     kernel-team@fb.com, linux-mm@kvack.org, riel@surriel.com,
-        mhocko@suse.com, david@redhat.com, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, hannes@cmpxchg.org
-Subject: Re: [PATCH v1] docs/mm: extend ksm doc
-Date:   Wed, 15 Mar 2023 08:59:25 -0700
-In-reply-to: <ZBFCud+I8mVAoh87@debian.me>
-Message-ID: <qvqwa60ec855.fsf@dev0134.prn3.facebook.com>
+        with ESMTP id S231792AbjCOQNG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 12:13:06 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF5597FD5;
+        Wed, 15 Mar 2023 09:12:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 669D0B81D16;
+        Wed, 15 Mar 2023 16:12:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 048C2C4339B;
+        Wed, 15 Mar 2023 16:12:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678896743;
+        bh=aDZKa+zI7S0I9Bzu6dU7bXbfDv/bHZGvLfjWumx6l7g=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=NytlMzqoOtUOUEj/IcMhp/haj2KquvS1685kggqO9ot3Px4G5JwtglzPMkyhFdX36
+         pUawV6prqpfWYsNvcILIqqPGpTNhV1vYK5PGiGs7UjiYkibNsozj5xYGR4S7cDkMyN
+         EcMIyFm/Kqcq++yx9OLBNPhJcRPUuXtW3Pz2oolVlUIF4gHtlZD8/FHQHLOP+yUL+n
+         1MFTJzqOhUwSMEAxVRa+1vl6Ez6pyhp45bek1W8F+M2NBWafHHQ/j9S8WkocAVDH+u
+         MJLcTL0d+5CMdI3FgzfOKMsVhNPb97iXSPu8an7BC0t4QQXByTdTd2BPcC3fXfHHaF
+         hbZ9F9QRIYqpA==
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 8A9811540395; Wed, 15 Mar 2023 09:12:22 -0700 (PDT)
+Date:   Wed, 15 Mar 2023 09:12:22 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Uladzislau Rezki <urezki@gmail.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, rcu@vger.kernel.org
+Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
+Message-ID: <879f7988-254b-450b-a082-c29d54efb5bb@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <CAEXW_YRTLQpQpOW-+n+X59pmB=4TkV=gdsMiQfBkdK_4wO9Jug@mail.gmail.com>
+ <20230307173313.GJ1301832@paulmck-ThinkPad-P17-Gen-1>
+ <20230307185443.GA516865@google.com>
+ <20230307192726.GL1301832@paulmck-ThinkPad-P17-Gen-1>
+ <ZAhYP9a8u05hzsOn@pc636>
+ <20230308144528.GR1301832@paulmck-ThinkPad-P17-Gen-1>
+ <ZAnXxr9OyFT63xSx@pc636>
+ <20230309221056.GB148448@google.com>
+ <ZArwZjcEYXAYwmqi@pc636>
+ <20230315122148.GF3784687@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230315122148.GF3784687@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Mar 15, 2023 at 12:21:48PM +0000, Joel Fernandes wrote:
+> On Fri, Mar 10, 2023 at 09:55:02AM +0100, Uladzislau Rezki wrote:
+> > On Thu, Mar 09, 2023 at 10:10:56PM +0000, Joel Fernandes wrote:
+> > > On Thu, Mar 09, 2023 at 01:57:42PM +0100, Uladzislau Rezki wrote:
+> > > [..]
+> > > > > > > > > See this commit:
+> > > > > > > > > 
+> > > > > > > > > 3705b88db0d7cc ("rcu: Add a module parameter to force use of
+> > > > > > > > > expedited RCU primitives")
+> > > > > > > > > 
+> > > > > > > > > Antti provided this commit precisely in order to allow Android
+> > > > > > > > > devices to expedite the boot process and to shut off the
+> > > > > > > > > expediting at a time of Android userspace's choosing.  So Android
+> > > > > > > > > has been making this work for about ten years, which strikes me
+> > > > > > > > > as an adequate proof of concept.  ;-)
+> > > > > > > > 
+> > > > > > > > Thanks for the pointer. That's true. Looking at Android sources, I
+> > > > > > > > find that Android Mediatek devices at least are setting
+> > > > > > > > rcu_expedited to 1 at late stage of their userspace boot (which is
+> > > > > > > > weird, it should be set to 1 as early as possible), and
+> > > > > > > > interestingly I cannot find them resetting it back to 0!.  Maybe
+> > > > > > > > they set rcu_normal to 1? But I cannot find that either. Vlad? :P
+> > > > > > > 
+> > > > > > > Interesting.  Though this is consistent with Antti's commit log,
+> > > > > > > where he talks about expediting grace periods but not unexpediting
+> > > > > > > them.
+> > > > > > > 
+> > > > > > Do you think we need to unexpedite it? :))))
+> > > > > 
+> > > > > Android runs on smallish systems, so quite possibly not!
+> > > > > 
+> > > > We keep it enabled and never unexpedite it. The reason is a performance.  I
+> > > > have done some app-launch time analysis with enabling and disabling of it.
+> > > > 
+> > > > An expedited case is much better when it comes to app launch time. It
+> > > > requires ~25% less time to run an app comparing with unexpedited variant.
+> > > > So we have a big gain here.
+> > > 
+> > > Wow, that's huge. I wonder if you can dig deeper and find out why that is so
+> > > as the callbacks may need to be synchronize_rcu_expedited() then, as it could
+> > > be slowing down other usecases! I find it hard to believe, real-time
+> > > workloads will run better without those callbacks being always-expedited if
+> > > it actually gives back 25% in performance!
+> > > 
+> > I can dig further, but on a high level i think there are some spots
+> > which show better performance if expedited is set. I mean synchronize_rcu()
+> > becomes as "less blocking a context" from a time point of view.
+> > 
+> > The problem of a regular synchronize_rcu() is - it can trigger a big latency
+> > delays for a caller. For example for nocb case we do not know where in a list
+> > our callback is located and when it is invoked to unblock a caller.
+> > 
+> > I have already mentioned somewhere. Probably it makes sense to directly wake-up
+> > callers from the GP kthread instead and not via nocb-kthread that invokes our callbacks
+> > one by one.
+> 
+> Looking forward to your optimization, I wonder if to overcome the issue Paul
+> mentioned about wake up overhead, whether it is possible to find out how many
+> tasks there are to wake without much overhead, and for the common case of
+> likely one task to wake up which is doing a synchronize_rcu(), wake that up.
+> But there could be dragons..
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+A per-rcu_node count of the number of tasks needing wakeups might work.
+But for best results, there would be an array of such numbers indexed
+by the low-order bits of the grace-period number (excluding the bottom
+status bits).  The callback-offloading code uses such arrays, for example,
+though not for counts of sleeping tasks.  (There cannot be that many
+rcuo kthreads per group, so there has been no need to count them.)
 
-> [[PGP Signed Part:Undecided]]
-> On Tue, Mar 14, 2023 at 01:45:57PM -0700, Stefan Roesch wrote:
->> +to cancel that advice and restore unshared pages: whereupon KSM
->> +unmerges whatever is merged for that process.  Note: this unmerging call
->> +may suddenly require more memory than is available - possibly failing
->> +with EAGAIN, but more probably arousing the Out-Of-Memory killer.
->
-
-This follows the wording in the previous paragraph, do you also want to
-change the previous paragraph?
-
-> "... to disable KSM and let it unmerges ... . Note that this unmerging
-> call may exhaust memory and triggers OOM killer."
->
->> +However, if the system is dedicated to running multiple jobs within the
->> +same security domain, there is a usecase where multiple instances of the
->> +same job are running inside a safe shared security domain and using the
->> +same sensitive data.
->
-> "... it is possible for multiple instances ... and share the same
-> sensitive data."
->
-
-Something like this?
-
->> +However, if the system is dedicated to running multiple jobs within the
->> +same security domain, there is a usecase where multiple instances of the
->> +same job are running inside a safe shared security domain and share the
->> +same sensitive data.
->
-
-The is possible I think is less clear.
-
- Thanks.
+							Thanx, Paul
