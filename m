@@ -2,139 +2,283 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51815C6FD1D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 12:23:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C23C61DA4
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 12:28:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232369AbjCOMX0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 08:23:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45442 "EHLO
+        id S232505AbjCOM2i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 08:28:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232347AbjCOMW7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 08:22:59 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 729C524BF3
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 05:21:51 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id 97so3273730qvb.6
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 05:21:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1678882910;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MsV1dSmZQh2TX7/derbiKkACl9wwmr90MM8z5+HIK6E=;
-        b=GYaA+pdVbdgjEhemVrCwtlfYBAeN1d4VpjRq95GnqMJMZq1x3za5Q75+BTySA80esv
-         Uf9qvbQVez/QLMGD+pDxoTa7EQmVbNbwskT3h88OqtPifLGc8dbI4ajqUlq5WaaTBQF8
-         cTDoTEC1o8cIidPqzac5QPuJurpO5FBMayST8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678882910;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MsV1dSmZQh2TX7/derbiKkACl9wwmr90MM8z5+HIK6E=;
-        b=z1JCyCWtzDbF1LSQnWGxxQ/PeyDG5akEYKx3ujWrYY4ppW5gUcYWOz6ATa+T3yztxa
-         zpX6GRTN/EL1p4hLOF1F1amIrWESQ4iUX/FQnVrAM6aUrj+oRQf4jkiLI/+JJIM6fqzU
-         LHnPJOLQ0qoYTZ+Ou7v+/R/iXDZrKIKaZ2iWGhauDErx7g073E1s3CIOHo+u4bwZZaS9
-         VCKT3uQpBZlytXiqoECWqknl1ERdnhCEti97lMAhr04cEFkse+Mz+4dJdg4Q5joMsyT4
-         q4pWVNpIFjgqm/SR3LkcvOpThGKHaN/JRcyhd5i0r55JsGgLnFGdfnxQnPvIUYWUIPzq
-         SWhQ==
-X-Gm-Message-State: AO0yUKXOzGPY1K/l1/zgtL4briw1qcaCAwAE2BMPC6h1YrC4vDdYLnik
-        j8IpAlmCSrsKbCNPrmgvQXAdXw==
-X-Google-Smtp-Source: AK7set+Y3Y7lCVHbdYRmbXrUZPyAmjA3Az7QpROjvnuBgJ5o6K6T6f1lAdt2WLh2u3oCdM/3e6FfxQ==
-X-Received: by 2002:a05:6214:1d2c:b0:577:6271:a035 with SMTP id f12-20020a0562141d2c00b005776271a035mr28473275qvd.1.1678882909589;
-        Wed, 15 Mar 2023 05:21:49 -0700 (PDT)
-Received: from localhost (129.239.188.35.bc.googleusercontent.com. [35.188.239.129])
-        by smtp.gmail.com with ESMTPSA id t62-20020a374641000000b0073b878e3f30sm3571908qka.59.2023.03.15.05.21.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 05:21:49 -0700 (PDT)
-Date:   Wed, 15 Mar 2023 12:21:48 +0000
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Uladzislau Rezki <urezki@gmail.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        linux-kernel@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, rcu@vger.kernel.org
-Subject: Re: [PATCH v3] rcu: Add a minimum time for marking boot as completed
-Message-ID: <20230315122148.GF3784687@google.com>
-References: <ZAc+vVZUhXdhpSki@pc636>
- <CAEXW_YRTLQpQpOW-+n+X59pmB=4TkV=gdsMiQfBkdK_4wO9Jug@mail.gmail.com>
- <20230307173313.GJ1301832@paulmck-ThinkPad-P17-Gen-1>
- <20230307185443.GA516865@google.com>
- <20230307192726.GL1301832@paulmck-ThinkPad-P17-Gen-1>
- <ZAhYP9a8u05hzsOn@pc636>
- <20230308144528.GR1301832@paulmck-ThinkPad-P17-Gen-1>
- <ZAnXxr9OyFT63xSx@pc636>
- <20230309221056.GB148448@google.com>
- <ZArwZjcEYXAYwmqi@pc636>
+        with ESMTP id S232542AbjCOM2W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 08:28:22 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415999BA64;
+        Wed, 15 Mar 2023 05:27:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XRZh0Yj6Wk1Zlo3k2KiLoHLvx2h2cOmZncvb9kjCb0Xk/7XHnVqJSK42/w6NWp0A3fWTHPM+XOTdl8v+9Qu6AyOQzwmodnKH5HtYAaYtCGJMTGfUYld0Gv2UPqJSW2vjphW8OCuhkwAyd+gBKLGVMXZ/Vkaq5h5xpzHZ/vCwQoeC1WxbYO68FbrFCcYddESd+KriiQaNfsDZSjYNmr90fo9T66I4rT1ja+ZoQXYBufkKjp7/ohZbXyov6VfhSwMml3Pf2RFipcqqMGvNmNQkYK2DJPtyKQFHtBrC/ryDs+bU94gMTE51PzWbCDOFu+/FOCoZ4lvBCDYxMUim0RR2cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GZ86oH1stlIhCmCp8iXjIUa3vhOZkKyFcrbF6PRkIjI=;
+ b=REaLorliXCbY46jBQk/3FZ5f0Xca2u/9GiDGrO/s7lHfOOhPTsXymaD/lJEphZCBXFaQjX2P/knTsZyue/61bQAu8gMzJBUaP56mxz2AdStO2IoTGq+KnCztBF0+ktgUcWuhl66dRVxtHzfbvS3zJ4osBkHPmf+lwZINxCklwr4djCzCTcE3QgwTzOFgdjrNBt9Lfaaqdo+LRRWda+gXx3MbCBmlOaNICAb+UysyyGrMi5FUB/UZe0WcUUS3AybEbQ9LhF2kK0ZRDMQ9TqriXMs3WlSuV5fpF2+b9xhVSTEMs1asNox2wyS06IjxCPuYDm4LKwuKwj4B9bbpPQ9Eug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GZ86oH1stlIhCmCp8iXjIUa3vhOZkKyFcrbF6PRkIjI=;
+ b=pphA9KVwJraOhgn9OZ2W5JDSd1spcMcytslNMx4Ib/H8RojArw43fp/CMBO6W6Vpid+EywqF+9UZipH4ePhEe6ETjp+q0vYebXLA8ZQIJANbUlfetzsoSNLooOLequcjFIuhL/OCoJVoAEZMNWnQYOxhGbxcV8pKYJov0sJl80LWvYhAx8iulYMP5LFXpH5XiwH098Mtf4Eq+bxzIcwtIek091rKXVj+LxnP3jFHo5lc6z86b/hUUz83YHTSDF20U22doXmU1RWsLu5q4QscfvsY1nORYfBZ9b8CiEJtBUpcJ23D84OqCkU0mMOICISPuKk689wfMUSnpWeNyj1f4Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN0PR12MB5762.namprd12.prod.outlook.com (2603:10b6:208:375::12)
+ by CH3PR12MB8211.namprd12.prod.outlook.com (2603:10b6:610:125::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.29; Wed, 15 Mar
+ 2023 12:27:17 +0000
+Received: from MN0PR12MB5762.namprd12.prod.outlook.com
+ ([fe80::f3e4:c5a8:7103:8ef1]) by MN0PR12MB5762.namprd12.prod.outlook.com
+ ([fe80::f3e4:c5a8:7103:8ef1%3]) with mapi id 15.20.6178.026; Wed, 15 Mar 2023
+ 12:27:16 +0000
+Message-ID: <4dda3890-e910-625e-e7ed-6b6c0bbbd9d4@nvidia.com>
+Date:   Wed, 15 Mar 2023 07:27:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2] irqchip/gicv3: Workaround for NVIDIA erratum
+ T241-FABRIC-4
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>
+References: <20230314135128.2930580-1-sdonthineni@nvidia.com>
+ <871qlqif9v.wl-maz@kernel.org>
+Content-Language: en-US
+From:   Shanker Donthineni <sdonthineni@nvidia.com>
+In-Reply-To: <871qlqif9v.wl-maz@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DS7PR03CA0021.namprd03.prod.outlook.com
+ (2603:10b6:5:3b8::26) To MN0PR12MB5762.namprd12.prod.outlook.com
+ (2603:10b6:208:375::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZArwZjcEYXAYwmqi@pc636>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB5762:EE_|CH3PR12MB8211:EE_
+X-MS-Office365-Filtering-Correlation-Id: e05ef8c6-3a55-435a-37d4-08db25509cfe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: p+WjBC2VjdcsAVt5s2hBTM5Bk0eyXcguymmS2UftvTGQ6rTLSW0ObwP88PdxAUesL2o6zsj7wRVMYyuGZpbXM/XMyyB7lLdwv9IAn1Phnt1r5c+IpbKgiexvoPBvlGKqD8+uVzm6jVMPDx2HbIOXmfVVQKzBj26rL3Pl9XuiMctWENb4iTV/Ycykr930I8ussF63CNJZqoAsFIuhfx0hz17ck9FN9fTvDodirX8+PReIo96RHMxKb7Sd4aNXTlgit3rN+8+i4r2fyUEx/MZmEW7e9MhqM4SIcqhi/pfO6rz0l1eblCHzO54ZXr3BXBsQdq7E4VtCA4ymE+uWVyklBXdFGyR1wq39rMGVvT5T9Y1u9HRBqbzA/OxOwVJsg791GvrWDgu389NpZrUwjBd9AV3ri9C1gDwpSWIrj8aude61l5R1zqXlupZgjUHBJ6wUDfevdWy6rrSv4urZ0YeltFQX903Cm/jpsq+ScTbl79xASvk6lXJ+4YG3VYbaXrJTyAHrkecv3enUkJKdh5L3oLcRbIF1NHfMhmSbV6mLFPCW7E1lTMSBBkapgGrguL4pfQz1FkBUcwBFobfQfy1/fR5cV1oqJvzGeabfnzRKcecQ0WFC3F1F34mVLLJ+hohh7NDQYK0MzrWBS+gUNGewVTd09Wi7sUOQKKP2/dV7oc/Xe1AtZhMXKXD9W5HlPR/zY2PJEtLa8kZElJPrm6szsgt4HIryxZGb4kgYB6M6kMw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB5762.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(366004)(39860400002)(136003)(346002)(396003)(451199018)(31686004)(36756003)(4326008)(7416002)(8936002)(41300700001)(5660300002)(2906002)(38100700002)(86362001)(31696002)(478600001)(66476007)(8676002)(66556008)(6486002)(107886003)(66946007)(6916009)(54906003)(316002)(53546011)(2616005)(6506007)(6512007)(186003)(83380400001)(26005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TktKRHgvYi9nVDkvdUpZZ1V3SlFlTWg4NmJhend4U1B1aWJjWURlbkloUXd5?=
+ =?utf-8?B?WjEyZWdYd0FDNU52L2I5RXlzQ1JhcjNUMVpPRWJJTHc2Y0tteWRiMTVNT3hN?=
+ =?utf-8?B?NGdjb1Y1R0tDNEU3VmhFWFpIRUFLQms3WlNHWWJIcFhMVWUrVjhsTFZXaFNO?=
+ =?utf-8?B?QUNkLy9STTVRZlAxUExYc2ZMajFkeEk1eEY2QnYvYy9OclgyZHJZdHNGcERn?=
+ =?utf-8?B?ejRJNkxFa3pSOVBpY2k0d1hTenR4MklzdU5ReFFCUmNVVnhWY2E3R0Y3MGda?=
+ =?utf-8?B?SitoV0ozL1BEOVJwUE5mMWdJRFNJazdPaDM4Nnd5UVY1Qlc0MTlVS2VjRDRK?=
+ =?utf-8?B?WUhCMEtMYkJMdElmcW05OEhKZUhzOE15QkNtT2psaS9vSDl0QVNKdHNyZXh2?=
+ =?utf-8?B?SmthaDlnQ1lmbDc0WVB3RUFWbkRrWG1EdThEZHA4N0l0bk4yeWw1czFZRTEr?=
+ =?utf-8?B?UlhzbEJWK2FqcWxyWTJDblI1T05ic01WNUlTczFiZ3BacU1zMVR4VGF6QlRY?=
+ =?utf-8?B?UVJVRyt3cDlWekgrRkVxOThxeTZPZFZQZEIyQlJtWjlLN05TdnFMNkxncGE2?=
+ =?utf-8?B?Q25xdkZhWXFhOW9rek9WVGNFS1A0ZmJOUFdFUHdqYm40UHQxdjFjUmZkV2Qz?=
+ =?utf-8?B?ZFJoRjdVMFdvYXZXYzBYNS9jTlRGRm1oVEFzT25KamVWQ2ZrMWFSRjA1aFVV?=
+ =?utf-8?B?UjhnbVpnVUlnZzZ1dzFKVmhGamM3Tkh4V0llMjg3aGRDZm5QTXc5eDJhaU9k?=
+ =?utf-8?B?VThweERyVEplOWVHcDZGQVlObW9BU3pnRW0xc1VFemtHNU1OY3ArcjdLc05H?=
+ =?utf-8?B?c3EwdmUwRzg0WnAwNDNHTW1DS1dEK1dLdGlvWEhHTHhDMmwyZnQwVDAxYUs2?=
+ =?utf-8?B?bDlra2FyVHN4TFBoU3VLZnl6L3MyVGRmcTVoMEhkYy9WcWtoRmFQOEdxajFZ?=
+ =?utf-8?B?MFRzVHFLc2FjYlRndzZ4Mkp1QUdXOHR0UGVzMTUyek5UWUJMOTBXWVlHQm95?=
+ =?utf-8?B?MlhrZkFpUmMyRUN0K09hbmdvUDZKK1plWEpTd3lVU1ZWektiWTRUTy9peVcy?=
+ =?utf-8?B?cVVYNEJQanlFSGk2ZEdST01tSW5jeWUyTm9CWW5DZnZ3WWo3eHBDMExxbkN4?=
+ =?utf-8?B?bWU3TDRoZWZ4RmZDZXZxaGRHR3lIZzJJTHNPcTNPZXA3N3VTdE1maUpQWkY1?=
+ =?utf-8?B?Y1oxQk5uRmxYZTVqL0k0bUM2UnhVNGZQWS9tVTIrVVNXU2hEZVBocTFTUzJQ?=
+ =?utf-8?B?cjY2S2tmZFExR2RtamxmTjllc2VzeGhiNktYRWplKzU0S2tEcVF0WlpRcSsy?=
+ =?utf-8?B?ekFZSW5NY0poelp2d1ZpY0toZnZMZHJibVpRdlhyS3MzWVNSeVMyR1ArVncv?=
+ =?utf-8?B?YXdCVkxxNkVvcGFRd3BDRmliZkNhTE1ZOW5PcHZIcGwyT2ZLV3VldzFjbnMx?=
+ =?utf-8?B?bW1mV0h3NWpZOW5xT3ZxWmhTbEc3c1d6cHhITlA5RDl2cDRYRDFNMXhPZlYw?=
+ =?utf-8?B?ME9FTXk0MVJyemRZeWU1Q1hYd1ZjemhlQ3RERWNTcjEyZWptS3E0Z285b1ht?=
+ =?utf-8?B?WVlvS0cremVyTmxWb0Ywb0pwM3gwREI4S2ZzN2QxbUFWZW1yRng4blBIT0Jr?=
+ =?utf-8?B?eUtKUHN4V0RLSGlrSzlCaGVqaXVtOWNIbVBqQUxtTHkwRFlxV1RwN3RLU2lO?=
+ =?utf-8?B?SFkza3pvaGlsWmVYMHU3bmNxaGhoaXdJaW84SHZkR2ZCdXJIelZyL1hWaXpW?=
+ =?utf-8?B?WlJHa0JhRWgvRUI2L1A1QytLazI3TkxOeW5IVExTVlZIaHJOTnUzUkV1ZkpS?=
+ =?utf-8?B?OFJmSGJUc0l3bE90bUNmSlNDS2pmN1ZYWTlmSDlQZWViRDkzNWdKaHJaZDZy?=
+ =?utf-8?B?cG5uZUlKN20wblVCT2sxcEpUWFB1cWo3TEZLQlRER2NmWk52VzFYRVk5LzFW?=
+ =?utf-8?B?cTBlWGZ6dUJrQVJDQUN3Y01FdUIwZ1hBYUU4OXJzbUJGa2g0RlkvcDBPY2ha?=
+ =?utf-8?B?NVd3OXBsR2lwS2FjRHRUTUJXd2tkWm93cXpDNHUwS0owZkt3TU0zcHVXcWt5?=
+ =?utf-8?B?MkxPMDMyc2x5alR0WDJDeUVzcDhiaXlib08zTXRrV1dBVk10NmxmTm8ydjVD?=
+ =?utf-8?B?SU9qVTAyZmFrS3hhZ2RHSVhBZSszM0FsalRTdUN6azJBZ3RBb3hyUjRhZmRE?=
+ =?utf-8?B?OUE9PQ==?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e05ef8c6-3a55-435a-37d4-08db25509cfe
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB5762.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2023 12:27:16.8180
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aXU0jZE9SrG7KaQ2h1mKXk2NhZ2XDJcQ4k+C1rF+NXSyZKO83BTNrGFqjXL/zZhL6zvVahPnKAHFYzqJcQbhIg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8211
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 09:55:02AM +0100, Uladzislau Rezki wrote:
-> On Thu, Mar 09, 2023 at 10:10:56PM +0000, Joel Fernandes wrote:
-> > On Thu, Mar 09, 2023 at 01:57:42PM +0100, Uladzislau Rezki wrote:
-> > [..]
-> > > > > > > > See this commit:
-> > > > > > > > 
-> > > > > > > > 3705b88db0d7cc ("rcu: Add a module parameter to force use of
-> > > > > > > > expedited RCU primitives")
-> > > > > > > > 
-> > > > > > > > Antti provided this commit precisely in order to allow Android
-> > > > > > > > devices to expedite the boot process and to shut off the
-> > > > > > > > expediting at a time of Android userspace's choosing.  So Android
-> > > > > > > > has been making this work for about ten years, which strikes me
-> > > > > > > > as an adequate proof of concept.  ;-)
-> > > > > > > 
-> > > > > > > Thanks for the pointer. That's true. Looking at Android sources, I
-> > > > > > > find that Android Mediatek devices at least are setting
-> > > > > > > rcu_expedited to 1 at late stage of their userspace boot (which is
-> > > > > > > weird, it should be set to 1 as early as possible), and
-> > > > > > > interestingly I cannot find them resetting it back to 0!.  Maybe
-> > > > > > > they set rcu_normal to 1? But I cannot find that either. Vlad? :P
-> > > > > > 
-> > > > > > Interesting.  Though this is consistent with Antti's commit log,
-> > > > > > where he talks about expediting grace periods but not unexpediting
-> > > > > > them.
-> > > > > > 
-> > > > > Do you think we need to unexpedite it? :))))
-> > > > 
-> > > > Android runs on smallish systems, so quite possibly not!
-> > > > 
-> > > We keep it enabled and never unexpedite it. The reason is a performance.  I
-> > > have done some app-launch time analysis with enabling and disabling of it.
-> > > 
-> > > An expedited case is much better when it comes to app launch time. It
-> > > requires ~25% less time to run an app comparing with unexpedited variant.
-> > > So we have a big gain here.
-> > 
-> > Wow, that's huge. I wonder if you can dig deeper and find out why that is so
-> > as the callbacks may need to be synchronize_rcu_expedited() then, as it could
-> > be slowing down other usecases! I find it hard to believe, real-time
-> > workloads will run better without those callbacks being always-expedited if
-> > it actually gives back 25% in performance!
-> > 
-> I can dig further, but on a high level i think there are some spots
-> which show better performance if expedited is set. I mean synchronize_rcu()
-> becomes as "less blocking a context" from a time point of view.
+Hi Marc,
+
+On 3/15/23 03:34, Marc Zyngier wrote:
+> Please don't duplicate existing code. There is already the required
+> infrastructure in drivers/firmware/smccc/soc_id.c. All you need to do
+> is:
 > 
-> The problem of a regular synchronize_rcu() is - it can trigger a big latency
-> delays for a caller. For example for nocb case we do not know where in a list
-> our callback is located and when it is invoked to unblock a caller.
+> - disassociate the SMCCC probing from the device registration
 > 
-> I have already mentioned somewhere. Probably it makes sense to directly wake-up
-> callers from the GP kthread instead and not via nocb-kthread that invokes our callbacks
-> one by one.
+> - probe the SOC_ID early
+> 
+> - add accessors for the relevant data
+> 
+> - select ARM_SMCCC_SOD_ID/ARM_SMCCC_DISCOVERY from the GICv3 Kconfig
 
-Looking forward to your optimization, I wonder if to overcome the issue Paul
-mentioned about wake up overhead, whether it is possible to find out how many
-tasks there are to wake without much overhead, and for the common case of
-likely one task to wake up which is doing a synchronize_rcu(), wake that up.
-But there could be dragons..
 
-thanks,
+I have not modified soc_id.c as it expects to be loaded as a module with
+the use of module_init() and module_exit() functions. The exported symbols
+in soc_id driver cannot be accessed from the built-in code.
 
- - Joel
+Agree, the SOD-ID discovery code was duplicated.
+
+Please guide me if the below approach is okay?
+
+1) Probe the SOC-ID in arm_smccc_version_init() and export two functions
+arm_smccc_get_soc_id_version() and arm_smccc_get_soc_id_revision().
+
+--- a/drivers/firmware/smccc/smccc.c
++++ b/drivers/firmware/smccc/smccc.c
+@@ -17,9 +17,13 @@ static enum arm_smccc_conduit smccc_conduit = SMCCC_CONDUIT_NONE;
+
+  bool __ro_after_init smccc_trng_available = false;
+  u64 __ro_after_init smccc_has_sve_hint = false;
++s32 __ro_after_init smccc_soc_id_version = SMCCC_RET_NOT_SUPPORTED;
++s32 __ro_after_init smccc_soc_id_revision = SMCCC_RET_NOT_SUPPORTED;
+
+  void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit)
+  {
++       struct arm_smccc_res res;
++
+         smccc_version = version;
+         smccc_conduit = conduit;
+
+@@ -27,6 +31,18 @@ void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit)
+         if (IS_ENABLED(CONFIG_ARM64_SVE) &&
+             smccc_version >= ARM_SMCCC_VERSION_1_3)
+                 smccc_has_sve_hint = true;
++
++       if ((smccc_version >= ARM_SMCCC_VERSION_1_2) &&
++           (smccc_conduit != SMCCC_CONDUIT_NONE)) {
++               arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
++                                    ARM_SMCCC_ARCH_SOC_ID, &res);
++               if ((s32)res.a0 >= 0) {
++                       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 0, &res);
++                       smccc_soc_id_version = (s32)res.a0;
++                       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 1, &res);
++                       smccc_soc_id_revision = (s32)res.a0;
++               }
++       }
+  }
+
+
++s32 arm_smccc_get_soc_id_version(void)
++{
++       return smccc_soc_id_version;
++}
++EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_version);
++
++s32 arm_smccc_get_soc_id_revision(void)
++{
++       return smccc_soc_id_revision;
++}
++EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
+
+
+--- a/include/linux/arm-smccc.h
++++ b/include/linux/arm-smccc.h
++/**
++ * arm_smccc_get_soc_id_version()
++ *
++ * Returns the SOC ID version.
++ *
++ * When ARM_SMCCC_ARCH_SOC_ID is not present, returns SMCCC_RET_NOT_SUPPORTED.
++ */
++s32 arm_smccc_get_soc_id_version(void);
+
++/**
++ * arm_smccc_get_soc_id_revision()
++ *
++ * Returns the SOC ID revision.
++ *
++ * When ARM_SMCCC_ARCH_SOC_ID is not present, returns SMCCC_RET_NOT_SUPPORTED.
++ */
++s32 arm_smccc_get_soc_id_revision(void);
+
+
+2) Use the exported functions in soc_id module.
+
+--- a/drivers/firmware/smccc/soc_id.c
++++ b/drivers/firmware/smccc/soc_id.c
+@@ -42,41 +42,23 @@ static int __init smccc_soc_init(void)
+         if (arm_smccc_get_version() < ARM_SMCCC_VERSION_1_2)
+                 return 0;
+
+-       if (arm_smccc_1_1_get_conduit() == SMCCC_CONDUIT_NONE) {
+-               pr_err("%s: invalid SMCCC conduit\n", __func__);
+-               return -EOPNOTSUPP;
+-       }
+-
+-       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+-                            ARM_SMCCC_ARCH_SOC_ID, &res);
+-
+-       if ((int)res.a0 == SMCCC_RET_NOT_SUPPORTED) {
++       soc_id_version = arm_smccc_get_soc_id_version();
++       if (soc_id_version == SMCCC_RET_NOT_SUPPORTED) {
+                 pr_info("ARCH_SOC_ID not implemented, skipping ....\n");
+                 return 0;
+         }
+
+-       if ((int)res.a0 < 0) {
+-               pr_info("ARCH_FEATURES(ARCH_SOC_ID) returned error: %lx\n",
+-                       res.a0);
+-               return -EINVAL;
+-       }
+-
+-       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 0, &res);
+-       if ((int)res.a0 < 0) {
++       if (soc_id_version < 0) {
+                 pr_err("ARCH_SOC_ID(0) returned error: %lx\n", res.a0);
+                 return -EINVAL;
+         }
+
+-       soc_id_version = res.a0;
+-
+-       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 1, &res);
+-       if ((int)res.a0 < 0) {
++       soc_id_rev = arm_smccc_get_soc_id_revision();
++       if (soc_id_rev < 0) {
+                 pr_err("ARCH_SOC_ID(1) returned error: %lx\n", res.a0);
+                 return -EINVAL;
+         }
+
+-       soc_id_rev = res.a0;
+
+Kconfig:
+--- a/drivers/irqchip/Kconfig
++++ b/drivers/irqchip/Kconfig
+@@ -35,6 +35,7 @@ config ARM_GIC_V3
+         select IRQ_DOMAIN_HIERARCHY
+         select PARTITION_PERCPU
+         select GENERIC_IRQ_EFFECTIVE_AFF_MASK if SMP
++       select HAVE_ARM_SMCCC_DISCOVERY
 
