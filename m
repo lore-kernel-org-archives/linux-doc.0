@@ -2,137 +2,219 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D07E6C7618A
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 21:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D5EC6FD1D
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 21:15:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232616AbjCOVG2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 17:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44248 "EHLO
+        id S231664AbjCOVP5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 17:15:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232285AbjCOVG0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 17:06:26 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0572AEB4F
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 14:05:53 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id c19so17698795qtn.13
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 14:05:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112; t=1678914347;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R61XbdgNwxdl4gvWLm8BP+OVhRn8qwKx//HsrYt1qmk=;
-        b=dAm7XrSJWFzPKXfbALD5L2NH+Sry4YXMzrsUHHfrTkzmxSalhFPSQ+eo4DJCiHb2aC
-         WrK0UqJxhA71JD0wFZ2mRoEubqlNXRX7MLd4rEHdZJJegyHMZQ2KXkFBpMJ5g/cC8wiz
-         07h6CT1jVGkeBuNI8TSla2ksJEpARM5YFcwsU9zCeP+B89JgPa+hK0g3sRMrQadTV3IP
-         12z4eD235fFLzsFNlPkLJwAzzTjixlXzOkgEiYTDtTGmcSbCPALt3T2E6QUs93Bbp593
-         lVWWmn7tz/MeeD+bu+6dFrIwCbdErRZqgxhYZPrW3xW8/egL3XDhYS3QTqWcAcmNN3R5
-         FfGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678914347;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R61XbdgNwxdl4gvWLm8BP+OVhRn8qwKx//HsrYt1qmk=;
-        b=O2a8isyT0pHh6JvaqYmy+L9MzSZfK+jMUc47LKxlQAhM5lJIn6VqoKvyAuVXeYchAc
-         lq5NRcLR8JcqKMCoTxS+NYp+5t/nhxf7UC8yr3+JcfivAsZDmu8m2hKFdU1M129NrKJW
-         A422ENGDaPd+D5UYj5zw6YrltcjzwnpjRhCVgzZrfGCwDuyfKV3clda0l13gmfRDk0w9
-         8rD9jXRoy1A6WaZYWU9a8sb4AMoFhlHM28GiXz3tbCPCrPSLHs5nDD6a47yLSwNa0vze
-         /R0voswEJQ8FTekRbPrLSJ0RVjMDTgQa/EdOWlJrXH6C2mLPXoYEEIVjBB24BIfTjtwu
-         Kdbg==
-X-Gm-Message-State: AO0yUKVdhqABp+pjFKDpYYo7DkU9/1C3alvRvwmA0xDi+RcsAR9Eilbg
-        yjCyRBq19oxFf2fAnv8HxvHMZg==
-X-Google-Smtp-Source: AK7set8xuYbyW7JISky8auUn+u60BrauFw8MHjUXtRQc00soTPcw9cEC/1WQHNSswFBYrXiVKUW51w==
-X-Received: by 2002:ac8:7f8c:0:b0:3bf:dc2e:ce5d with SMTP id z12-20020ac87f8c000000b003bfdc2ece5dmr2411491qtj.4.1678914347149;
-        Wed, 15 Mar 2023 14:05:47 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:400::5:62db])
-        by smtp.gmail.com with ESMTPSA id t5-20020a05620a034500b007456df35859sm4426062qkm.74.2023.03.15.14.05.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 14:05:46 -0700 (PDT)
-Date:   Wed, 15 Mar 2023 17:05:45 -0400
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com,
-        linux-mm@kvack.org, riel@surriel.com, mhocko@suse.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, Mike Kravetz <mike.kravetz@oracle.com>
-Subject: Re: [PATCH v4 0/3] mm: process/cgroup ksm support
-Message-ID: <20230315210545.GA116016@cmpxchg.org>
-References: <20230310182851.2579138-1-shr@devkernel.io>
- <273a2f82-928f-5ad1-0988-1a886d169e83@redhat.com>
+        with ESMTP id S232223AbjCOVPy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 17:15:54 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79C3A95E18;
+        Wed, 15 Mar 2023 14:15:51 -0700 (PDT)
+Received: from meer.lwn.net (unknown [IPv6:2601:281:8300:73::5f6])
+        by ms.lwn.net (Postfix) with ESMTPA id 498B2378;
+        Wed, 15 Mar 2023 21:15:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 498B2378
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1678914950; bh=bp9wnAq18A0+juKVo1Js4YF/qFjka3dcKSIzCMqh1OQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=kknMgdkuAMTOoDuKrguJtOGWJ7aLTQEeQzurApW+cXl0iHhVUMHUZpwzIJsHS2fOH
+         eWjyd2ATo+CztGkskDV+b5Nbj5aCroS6GbrUz2NV9njj/FcfZrC3JDS73vEGIwDh3T
+         GHRa1xrhDaSo+f+CGlEvlo9agy7zHPprtYA8CfcP+NAFmUMth5x3kCP+1ArDD/TerA
+         pVdrDEGQnubBhRBUqKSC0ColwCmtyqsxTHBXYRjh69tAvQGpn2JjxqiRfDweOKWK7q
+         ZIJ41NLQys7oi3Rmdh54++zGJg/Gt4t5kv8uMZ9mBhO1IsnYx/iG7G3heC2n5FAG6x
+         uE4OfBngzRiEA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Borislav Petkov <bp@alien8.de>
+Subject: [PATCH RFC 0/2] Begin reorganizing the arch documentation
+Date:   Wed, 15 Mar 2023 15:15:21 -0600
+Message-Id: <20230315211523.108836-1-corbet@lwn.net>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <273a2f82-928f-5ad1-0988-1a886d169e83@redhat.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 15, 2023 at 09:03:57PM +0100, David Hildenbrand wrote:
-> On 10.03.23 19:28, Stefan Roesch wrote:
-> > So far KSM can only be enabled by calling madvise for memory regions. To
-> > be able to use KSM for more workloads, KSM needs to have the ability to be
-> > enabled / disabled at the process / cgroup level.
-> > 
-> > Use case 1:
-> > The madvise call is not available in the programming language. An example for
-> > this are programs with forked workloads using a garbage collected language without
-> > pointers. In such a language madvise cannot be made available.
-> > 
-> > In addition the addresses of objects get moved around as they are garbage
-> > collected. KSM sharing needs to be enabled "from the outside" for these type of
-> > workloads.
-> > 
-> > Use case 2:
-> > The same interpreter can also be used for workloads where KSM brings no
-> > benefit or even has overhead. We'd like to be able to enable KSM on a workload
-> > by workload basis.
-> > 
-> > Use case 3:
-> > With the madvise call sharing opportunities are only enabled for the current
-> > process: it is a workload-local decision. A considerable number of sharing
-> > opportuniites may exist across multiple workloads or jobs. Only a higler level
-> > entity like a job scheduler or container can know for certain if its running
-> > one or more instances of a job. That job scheduler however doesn't have
-> > the necessary internal worklaod knowledge to make targeted madvise calls.
-> > 
-> > Security concerns:
-> > In previous discussions security concerns have been brought up. The problem is
-> > that an individual workload does not have the knowledge about what else is
-> > running on a machine. Therefore it has to be very conservative in what memory
-> > areas can be shared or not. However, if the system is dedicated to running
-> > multiple jobs within the same security domain, its the job scheduler that has
-> > the knowledge that sharing can be safely enabled and is even desirable.
-> > 
-> > Performance:
-> > Experiments with using UKSM have shown a capacity increase of around 20%.
-> 
-> Stefan, can you do me a favor and investigate which pages we end up
-> deduplicating -- especially if it's mostly only the zeropage and if it's
-> still that significant when disabling THP?
-> 
-> 
-> I'm currently investigating with some engineers on playing with enabling KSM
-> on some selected processes (enabling it blindly on all VMAs of that process
-> via madvise() ).
-> 
-> One thing we noticed is that such (~50 times) 20MiB processes end up saving
-> ~2MiB of memory per process. That made me suspicious, because it's the THP
-> size.
-> 
-> What I think happens is that we have a 2 MiB area (stack?) and only touch a
-> single page. We get a whole 2 MiB THP populated. Most of that THP is zeroes.
-> 
-> KSM somehow ends up splitting that THP and deduplicates all resulting
-> zeropages. Thus, we "save" 2 MiB. Actually, it's more like we no longer
-> "waste" 2 MiB. I think the processes with KSM have less (none) THP than the
-> processes with THP enabled, but I only took a look at a sample of the
-> process' smaps so far.
+This two-patch series is a bare beginning of a project to reorganize the
+Documentation directory somewhat; it's a toe in the water to see how many
+sharks chomp at it.
 
-THP and KSM is indeed an interesting problem. Better TLB hits with
-THPs, but reduced chance of deduplicating memory - which may or may
-not result in more IO that outweighs any THP benefits.
+The top-level Documentation/ directory, despite the efforts of the last few
+years, is still a mess; there is too much stuff there, making it harder to
+find anything.  We do not organize our source directories that way, and for
+good reasons.
 
-That said, the service in the experiment referenced above has swap
-turned on and is under significant memory pressure. Unused splitpages
-would get swapped out. The difference from KSM was from deduplicating
-pages that were in active use, not internal THP fragmentation.
+To bring the docs closer to the source organization, create a directory
+Documentation/arch and move the x86 docs there, updating all of the
+internal references that are broken by the move.  The appearance of the
+rendered documentation does not change.  I've deliberately not changed
+any overly long lines generated to keep the diff easy to read; that can
+be fixed up later if warranted.
+
+I can also break the second patch up if maintainers want to handle pieces
+of it separately.
+
+I think this move is worthwhile (for the other arches too) because it will
+make our documentation better organized in a way that matches the source
+and easier to navigate.  It will also make easier to experiment with tools
+like intersphinx.
+
+On the other hand, it *is* a fair amount of churn.  If it's more than
+people can handle, I'll quietly back away and we'll muddle along as we have
+been; this isn't something I'm going to dig in my heels over.
+
+Also, it is worth noting that, while the rendered HTML looks the same,
+links that went to Documentation/x86 (on https://kernel.org, say) will be
+broken by this change.  We have never considered whether we care about
+preserving external links to the rendered docs on kernel.org or not; I
+don't think we should break them without thinking about it.
+
+Thoughts?
+
+Thanks,
+
+jon
+
+
+Jonathan Corbet (2):
+  docs: create a top-level arch/ directory
+  docs: move x86 documentation into Documentation/arch/
+
+ Documentation/admin-guide/hw-vuln/mds.rst     |  2 +-
+ .../admin-guide/hw-vuln/tsx_async_abort.rst   |  2 +-
+ .../admin-guide/kernel-parameters.rst         |  6 ++--
+ .../admin-guide/kernel-parameters.txt         |  8 +++---
+ Documentation/admin-guide/ras.rst             |  2 +-
+ Documentation/admin-guide/sysctl/kernel.rst   |  4 +--
+ Documentation/arch.rst                        | 28 -------------------
+ Documentation/arch/index.rst                  | 28 +++++++++++++++++++
+ .../{ => arch}/x86/amd-memory-encryption.rst  |  0
+ Documentation/{ => arch}/x86/amd_hsmp.rst     |  0
+ Documentation/{ => arch}/x86/boot.rst         |  4 +--
+ Documentation/{ => arch}/x86/booting-dt.rst   |  2 +-
+ Documentation/{ => arch}/x86/buslock.rst      |  0
+ Documentation/{ => arch}/x86/cpuinfo.rst      |  0
+ Documentation/{ => arch}/x86/earlyprintk.rst  |  0
+ Documentation/{ => arch}/x86/elf_auxvec.rst   |  0
+ Documentation/{ => arch}/x86/entry_64.rst     |  0
+ .../{ => arch}/x86/exception-tables.rst       |  0
+ Documentation/{ => arch}/x86/features.rst     |  0
+ Documentation/{ => arch}/x86/i386/IO-APIC.rst |  0
+ Documentation/{ => arch}/x86/i386/index.rst   |  0
+ Documentation/{ => arch}/x86/ifs.rst          |  0
+ Documentation/{ => arch}/x86/index.rst        |  0
+ Documentation/{ => arch}/x86/intel-hfi.rst    |  0
+ Documentation/{ => arch}/x86/intel_txt.rst    |  0
+ Documentation/{ => arch}/x86/iommu.rst        |  0
+ .../{ => arch}/x86/kernel-stacks.rst          |  0
+ Documentation/{ => arch}/x86/mds.rst          |  0
+ Documentation/{ => arch}/x86/microcode.rst    |  0
+ Documentation/{ => arch}/x86/mtrr.rst         |  2 +-
+ Documentation/{ => arch}/x86/orc-unwinder.rst |  0
+ Documentation/{ => arch}/x86/pat.rst          |  0
+ Documentation/{ => arch}/x86/pti.rst          |  0
+ Documentation/{ => arch}/x86/resctrl.rst      |  0
+ Documentation/{ => arch}/x86/sgx.rst          |  0
+ Documentation/{ => arch}/x86/sva.rst          |  0
+ Documentation/{ => arch}/x86/tdx.rst          |  0
+ Documentation/{ => arch}/x86/tlb.rst          |  0
+ Documentation/{ => arch}/x86/topology.rst     |  0
+ .../{ => arch}/x86/tsx_async_abort.rst        |  0
+ .../{ => arch}/x86/usb-legacy-support.rst     |  0
+ .../{ => arch}/x86/x86_64/5level-paging.rst   |  2 +-
+ .../{ => arch}/x86/x86_64/boot-options.rst    |  4 +--
+ .../x86/x86_64/cpu-hotplug-spec.rst           |  0
+ .../x86/x86_64/fake-numa-for-cpusets.rst      |  2 +-
+ Documentation/{ => arch}/x86/x86_64/fsgs.rst  |  0
+ Documentation/{ => arch}/x86/x86_64/index.rst |  0
+ .../{ => arch}/x86/x86_64/machinecheck.rst    |  0
+ Documentation/{ => arch}/x86/x86_64/mm.rst    |  0
+ Documentation/{ => arch}/x86/x86_64/uefi.rst  |  0
+ Documentation/{ => arch}/x86/xstate.rst       |  0
+ Documentation/{ => arch}/x86/zero-page.rst    |  0
+ Documentation/core-api/asm-annotations.rst    |  2 +-
+ Documentation/driver-api/device-io.rst        |  2 +-
+ Documentation/index.rst                       |  2 +-
+ Documentation/virt/kvm/api.rst                |  2 +-
+ MAINTAINERS                                   | 12 ++++----
+ arch/arm/Kconfig                              |  2 +-
+ arch/x86/Kconfig                              | 10 +++----
+ arch/x86/Kconfig.debug                        |  2 +-
+ arch/x86/boot/header.S                        |  2 +-
+ arch/x86/entry/entry_64.S                     |  2 +-
+ arch/x86/include/asm/bootparam_utils.h        |  2 +-
+ arch/x86/include/asm/page_64_types.h          |  2 +-
+ arch/x86/include/asm/pgtable_64_types.h       |  2 +-
+ arch/x86/kernel/cpu/microcode/amd.c           |  2 +-
+ arch/x86/kernel/cpu/resctrl/monitor.c         |  2 +-
+ arch/x86/kernel/cpu/sgx/sgx.h                 |  2 +-
+ arch/x86/kernel/kexec-bzimage64.c             |  2 +-
+ arch/x86/kernel/pci-dma.c                     |  2 +-
+ arch/x86/mm/pat/set_memory.c                  |  2 +-
+ arch/x86/mm/tlb.c                             |  2 +-
+ arch/x86/platform/pvh/enlighten.c             |  2 +-
+ drivers/vhost/vhost.c                         |  2 +-
+ security/Kconfig                              |  2 +-
+ tools/include/linux/err.h                     |  2 +-
+ tools/objtool/Documentation/objtool.txt       |  2 +-
+ 77 files changed, 82 insertions(+), 82 deletions(-)
+ delete mode 100644 Documentation/arch.rst
+ create mode 100644 Documentation/arch/index.rst
+ rename Documentation/{ => arch}/x86/amd-memory-encryption.rst (100%)
+ rename Documentation/{ => arch}/x86/amd_hsmp.rst (100%)
+ rename Documentation/{ => arch}/x86/boot.rst (99%)
+ rename Documentation/{ => arch}/x86/booting-dt.rst (96%)
+ rename Documentation/{ => arch}/x86/buslock.rst (100%)
+ rename Documentation/{ => arch}/x86/cpuinfo.rst (100%)
+ rename Documentation/{ => arch}/x86/earlyprintk.rst (100%)
+ rename Documentation/{ => arch}/x86/elf_auxvec.rst (100%)
+ rename Documentation/{ => arch}/x86/entry_64.rst (100%)
+ rename Documentation/{ => arch}/x86/exception-tables.rst (100%)
+ rename Documentation/{ => arch}/x86/features.rst (100%)
+ rename Documentation/{ => arch}/x86/i386/IO-APIC.rst (100%)
+ rename Documentation/{ => arch}/x86/i386/index.rst (100%)
+ rename Documentation/{ => arch}/x86/ifs.rst (100%)
+ rename Documentation/{ => arch}/x86/index.rst (100%)
+ rename Documentation/{ => arch}/x86/intel-hfi.rst (100%)
+ rename Documentation/{ => arch}/x86/intel_txt.rst (100%)
+ rename Documentation/{ => arch}/x86/iommu.rst (100%)
+ rename Documentation/{ => arch}/x86/kernel-stacks.rst (100%)
+ rename Documentation/{ => arch}/x86/mds.rst (100%)
+ rename Documentation/{ => arch}/x86/microcode.rst (100%)
+ rename Documentation/{ => arch}/x86/mtrr.rst (99%)
+ rename Documentation/{ => arch}/x86/orc-unwinder.rst (100%)
+ rename Documentation/{ => arch}/x86/pat.rst (100%)
+ rename Documentation/{ => arch}/x86/pti.rst (100%)
+ rename Documentation/{ => arch}/x86/resctrl.rst (100%)
+ rename Documentation/{ => arch}/x86/sgx.rst (100%)
+ rename Documentation/{ => arch}/x86/sva.rst (100%)
+ rename Documentation/{ => arch}/x86/tdx.rst (100%)
+ rename Documentation/{ => arch}/x86/tlb.rst (100%)
+ rename Documentation/{ => arch}/x86/topology.rst (100%)
+ rename Documentation/{ => arch}/x86/tsx_async_abort.rst (100%)
+ rename Documentation/{ => arch}/x86/usb-legacy-support.rst (100%)
+ rename Documentation/{ => arch}/x86/x86_64/5level-paging.rst (98%)
+ rename Documentation/{ => arch}/x86/x86_64/boot-options.rst (98%)
+ rename Documentation/{ => arch}/x86/x86_64/cpu-hotplug-spec.rst (100%)
+ rename Documentation/{ => arch}/x86/x86_64/fake-numa-for-cpusets.rst (97%)
+ rename Documentation/{ => arch}/x86/x86_64/fsgs.rst (100%)
+ rename Documentation/{ => arch}/x86/x86_64/index.rst (100%)
+ rename Documentation/{ => arch}/x86/x86_64/machinecheck.rst (100%)
+ rename Documentation/{ => arch}/x86/x86_64/mm.rst (100%)
+ rename Documentation/{ => arch}/x86/x86_64/uefi.rst (100%)
+ rename Documentation/{ => arch}/x86/xstate.rst (100%)
+ rename Documentation/{ => arch}/x86/zero-page.rst (100%)
+
+-- 
+2.39.2
+
