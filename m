@@ -2,96 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5A2C6FD1D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 01:47:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E52DC6FD1F
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 02:34:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbjCOBra (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Mar 2023 21:47:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34866 "EHLO
+        id S229578AbjCOCeS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Mar 2023 22:34:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229666AbjCOBr3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 21:47:29 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E0984AFE5;
-        Tue, 14 Mar 2023 18:47:28 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id cn21so39510479edb.0;
-        Tue, 14 Mar 2023 18:47:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678844846;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yPkef2qPh9L+/tKP15uMpMtWmMf4T6qBdUSEfTqaSOc=;
-        b=IW+4qLE4DVk6vWwMD0+N+ugJa0SLTsL7hTPwwGiqbqj8ONJl34QGWDfo8H+5wEsbMi
-         D66ZwJDPefozpZgB+tBLnBYep/nV3/Xl2BypdaWG6xDqZTLIONi4ufz8N0xBWHzZtAnQ
-         9sG7lRk0tfrPg+aPDfizXAp+8xMgqpSyBFucGOGCsvstUeG3+LK1AHWc7ow/dfI11OWQ
-         HcZy22xq5Y2JE0KjxEEd3EeYeUK5edy1tv7OKl9uu+m5eta/oo8u98l3aoPps02pm4oi
-         5OXortsqah4vnqlhXw1GKLUGGrgwXXMlZsAxnjeVy21LokpPonb8lvrMmr7pbmGz4aCC
-         hrDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678844846;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yPkef2qPh9L+/tKP15uMpMtWmMf4T6qBdUSEfTqaSOc=;
-        b=gAFOi3z6y5lyf7OvMPjOmX6yAWjNpMP1WIJmB4pRHzZbvPzGT5n4W01AqXHwQhllTT
-         nBw3Es4XbmHPIPOsE5jMJpfWm6aVDe+eDVoZ6O8doyuFJR46CggjUWD6IUgfTLPClTE9
-         oGf5QZ+vy71v1ZvVf5zRcxndV8z1xfUM2Er9Oy4R54yqe5ZpyXPnJ21nRWFlHJBBtBMF
-         ZVe3rWnNNLr08NsxPwxqxJag6FtKbrAB6guHvX8B6Aqmgef1acfflPCJYm9pZbwf5LqY
-         0ULFw8rDipG+X6l9YvoUx6hGHBGPmCX9x2sP0LTWjm/6KZBe8/DqdyTr+42zABMldi8o
-         tOFw==
-X-Gm-Message-State: AO0yUKWFJZFZWWr4ZLcAiRt18m1uG9ZNe+nf/6OzFz066Do3YyrQsM1a
-        RbV6b7dlu+Z5j+uxoUYrWQ2gR3FMOeIVbTWFi/rD29Gv2Ls=
-X-Google-Smtp-Source: AK7set/tr+3LL0mHM76BvBK8MhYyJJWjmHNeWVpu3ecmA/2/g3GjaLgPpdEixitD2QMOHgcJglrxJKlBpSBEZiG/P00=
-X-Received: by 2002:a17:906:753:b0:8d8:4578:18e0 with SMTP id
- z19-20020a170906075300b008d8457818e0mr2343300ejb.10.1678844846542; Tue, 14
- Mar 2023 18:47:26 -0700 (PDT)
+        with ESMTP id S229624AbjCOCeS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Mar 2023 22:34:18 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 456932332B;
+        Tue, 14 Mar 2023 19:34:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=7Vv4GgSfma1E5qLrWxU5RdcBiWgWp2FnAi3GPVQ18Ss=; b=SLmnrq2XsLK5/HI1e14JtHv48Z
+        9lJI6Coc6TQxc8NkcClaWb5A1K493NFd59PGXwCuFktp80ltuHzl/U0BY/8DftGWL/DU3WGlgnGMZ
+        epLWoP6vG7vB7TOq+z+G7Za8CJFBNxtfT6ZDVqXvk5yeqKRy820uEngUMmr2Dzfj+Av9QgYH/R3DT
+        DUKka9wCjiZVrR6Ow8kx44gCjLqmO7aK7qyI2BrvINaU8Jv7GRDzC4cpkiOXL+p8yRQeCBVs/QPY7
+        PzP8ToPUOedAPCEAvptxCUNg+kI8Em318hIevBNzbyZvuojMcsZaTa4pdbI127oAsyiFrvHGqWRtn
+        GE2TaO7g==;
+Received: from [2601:1c2:980:9ec0::df2f]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pcGxx-00C3uO-00;
+        Wed, 15 Mar 2023 02:34:13 +0000
+Message-ID: <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
+Date:   Tue, 14 Mar 2023 19:34:11 -0700
 MIME-Version: 1.0
-References: <20230222183445.3127324-1-carlos.bilbao@amd.com>
- <a577b165-1e18-e689-7580-cac3f37317f8@amd.com> <87jzzjqhym.fsf@meer.lwn.net>
-In-Reply-To: <87jzzjqhym.fsf@meer.lwn.net>
-From:   Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-Date:   Wed, 15 Mar 2023 07:17:08 +0530
-Message-ID: <CAPDLWs8oE05j4=eAmWYT8pXLjN511p3gk2DrK6FTSeqJVMEUmQ@mail.gmail.com>
-Subject: Re: [PATCH v3] docs: Add relevant kernel publications to list of books
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, rlove@rlove.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] ELF: document some de-facto PT_* ABI quirks
+Content-Language: en-US
+To:     Alexey Dobriyan <adobriyan@gmail.com>, akpm@linux-foundation.org
+Cc:     linux-kernel@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 15, 2023 at 12:27=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> w=
-rote:
->
-> Carlos Bilbao <carlos.bilbao@amd.com> writes:
->
-> > For the list of kernel published books, include publication covering ke=
-rnel
-> > debugging from August, 2022 (ISBN 978-1801075039) and one from March, 2=
-021
-> > on the topic of char device drivers and kernel synchronization (ISBN
-> > 978-1801079518). Also add foundational book from Robert Love (ISBN
-> > 978-1449339531) and remove extra spaces.
-> >
-> > Co-developed-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-> > Signed-off-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-> > Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
-> >
-> > ---
-> > Changes since v2:
-> >   - Fix SoB chain.
->
-> So this showed up approximately 4.23=C2=B5s after I applied v2 ... I went
-> back in and tweaked the signoffs to match this version.
-:-D
-Thanks Jon, Carlos !
+Hi,
 
-Regards,
-Kaiwan.
->
-> Thanks,
->
-> jon
+[adding linux-doc for other interested parties]
+
+
+On 3/14/23 10:02, Alexey Dobriyan wrote:
+> Turns out rules about PT_INTERP, PT_GNU_STACK and PT_GNU_PROPERTY
+> segment headers are slightly different.
+> 
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+> ---
+> 
+>  Documentation/ELF/ELF.rst |   28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> new file mode 100644
+> --- /dev/null
+> +++ b/Documentation/ELF/ELF.rst
+> @@ -0,0 +1,28 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+
+According to Documentation/doc-guide/sphinx.rst, "=" underlines are used
+for chapters (by convention).
+
+And could the document have a title, like:
+
+=========================
+ELF header usage in Linux
+=========================
+
+(I just made that up. Feel free to change it. :)
+
+Also, the .rst file should be added to some chapter in the current
+documentation tree, such as under "Other documentation", so add this file name
+to Documentation/staging/index.rst. In fact this file could live in
+Documentation/staging instead of in Documentation/ELF/ (IMO of course).
+
+
+> +
+> +Definitions
+> +===========
+> +
+> +"First" program header is the one with the smallest offset in the file:
+> +e_phoff. "Last" program header is the one with the biggest offset:
+> +e_phoff + (e_phnum - 1) * sizeof(Elf_Phdr).
+> +
+> +PT_INTERP
+> +=========
+> +
+> +First PT_INTERP program header is used to locate the filename of ELF
+> +interpreter. Other PT_INTERP headers are ignored (since Linux 2.4.11).
+> +
+> +PT_GNU_STACK
+> +============
+> +
+> +Last PT_GNU_STACK program header defines userspace stack executability
+> +(since Linux 2.6.6). Other PT_GNU_STACK headers are ignored.
+> +
+> +PT_GNU_PROPERTY
+> +===============
+> +
+> +ELF interpreter's last PT_GNU_PROPERTY program header is used (since
+> +Linux 5.8). If interpreter doesn't have one, then the last PT_GNU_PROPERTY
+> +program header of an executable is used. Other PT_GNU_PROPERTY headers
+> +are ignored.
+
+Thanks.
+-- 
+~Randy
