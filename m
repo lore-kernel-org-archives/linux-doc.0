@@ -2,104 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2840C7618A
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 21:24:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED2FEC7618A
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 21:45:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232891AbjCOVY1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 17:24:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47458 "EHLO
+        id S232516AbjCOVpg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 17:45:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232989AbjCOVYZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 17:24:25 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC1E5251;
-        Wed, 15 Mar 2023 14:24:09 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id bf15so8437720iob.7;
-        Wed, 15 Mar 2023 14:24:09 -0700 (PDT)
+        with ESMTP id S229547AbjCOVpf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 17:45:35 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB0B46B977;
+        Wed, 15 Mar 2023 14:45:31 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id r16so17845313qtx.9;
+        Wed, 15 Mar 2023 14:45:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678915448;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=gmail.com; s=20210112; t=1678916731;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=lpkObVnmGcnbAiomQuPojaeuWlMi0Bq8XyCjHk6Oh70=;
-        b=Sv+ONJAXpjP3b5CQwmMHCuPkmTLWBWr3ROwbwziZMvxKM3KkKfLR1RprJ5lCeZbQop
-         1yffu9SvDGLHCvXKxeyXSrUvVraynolQJXPTnDMBofEl4LjOrC80k8PDWNG41cwU3wKj
-         hpHlriThCh8gfWh8p87eWFWd0ed1JeyhvU1T+QG0fBwpUv6uLDtJPDAlngDJBnTW8a6J
-         YS2qdciyH6U0/5cvg/2lxMPZEba1fpPoeTfUapI8rABldjqh1TSI+LkNAIdZs3lQLEO9
-         sJv6zNw9OMR1q0NJVsQc4u36wJVCv3MyUFCB6E1pIXI5hrtxF772ABNgrU4+X/ADIr0C
-         X7Og==
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Tj5wSiHpgsPQkAUOP519Bw4E3uBkvA+7E2x9NgpDap4=;
+        b=PfFjugJFwI2qEnx/uFMmVbdBfgZ/YKOK5MuYiZjhtEGcuMpY3BF5pizcovyhQY1WCX
+         uey2v9lf7VJmc9MlTmCNNJbBg9Tgyi4NIfa/NfCa4JDNkWILS0sxK0sFoOlZqFhKYv1K
+         aDD0UdSYh1fW9MhYu+OdYQYceD4xCIX7Xt7AhY8b+wb6F8Foo0zHFWl2oXCNrfphJRei
+         FU5S9PNjGjpa74NycbMeletE90dEqgiN+JbJAM6oweSJi9FlPdsqvmRRvtIpX2+6zat6
+         K8xdzexajEIvfzKjvZrn7ezpcxc1yKKu98E4KBIclgmw9v+a4m9OLy+cthRemjCt6qQs
+         /fiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678915448;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20210112; t=1678916731;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lpkObVnmGcnbAiomQuPojaeuWlMi0Bq8XyCjHk6Oh70=;
-        b=XA5okx8vI/RbJ1h5yIgsWpUUCH3qLZShCy5auEJZUo7t2a4X6DzTL8aFbWyna1YlfB
-         L72MEmX0MSyv45eVJxw6b9N9rRjQaqPGsT4xo0qLk0bV4JdXL+f5HgJ7Bu+x8yVA/U1M
-         mGGcRSJ3zN0oZGcMERz1r61t10vVAcLT3np1Pgq3tphp7t4dKmXN0VnH+DYI9UeYGx7D
-         51d6jjiXLTEGNDGXG1XoF9remkPEfDRXXqM7/6h5Beist+fKM3O9rbcPLemb7x2szuDj
-         cHIBch5jOEBZc+3faqL7BGmMVxUIupq/fJKLPH43EwZErc2w2eLeLYGWLmAdJMNpgQtN
-         8a8w==
-X-Gm-Message-State: AO0yUKXKLHnLA9fM3Bnlbj8dQtOrzMFYFmEpHZ+2dllgJXOwr0zHgJnh
-        V307lTGABp7Tsq6u61iEyR2Jgw/38Rk=
-X-Google-Smtp-Source: AK7set/VJfzd9pYfdVnVvFa3Q5IUrMuj90+Xi/oes7KGMXTb8BlnGNFoQYsHYW2QtCOmHdLmhnTIFw==
-X-Received: by 2002:a6b:6a05:0:b0:73d:eb4b:345e with SMTP id x5-20020a6b6a05000000b0073deb4b345emr26412516iog.6.1678915448727;
-        Wed, 15 Mar 2023 14:24:08 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id u14-20020a02c04e000000b004049ed5bda3sm2029715jam.160.2023.03.15.14.24.07
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tj5wSiHpgsPQkAUOP519Bw4E3uBkvA+7E2x9NgpDap4=;
+        b=EkxMqb7HMsUYncIrEYKOh2JVdq6dp/3IH5UjBc8JbF7yQlZik1O7t7cXjf4NkIs2ou
+         PrcYucAy0P2k7DbUJsfFhLr7QL6g3BVU0oQILrJnkCKIZih4Er357uOYIgKxD9C1PG1W
+         PWUEXJlVT+zZ7ViAAKy0+frzaO+Isf8MLMdh+FqU0/UCb7c8do+vp/hQYcfmOhjPGM7Q
+         MA3PSlz3KEY3JF/zrswi5CBhy3CTaqiZKf24D+4jN2vc18kdpNWrTkcswmYp8eqZy332
+         5/WYM7zVdEm/yl30Rh61VMFzm27zQdtXHckgksm1IQOeuws+D/GWJchTHJmypRhGAthP
+         S2BA==
+X-Gm-Message-State: AO0yUKXpzKY40EVOn89riSGm/adK45Iiwsdv/0yWm+BjBPL2ALJEmthR
+        GZmGqrCJGbrf/pqlSfXFa5o=
+X-Google-Smtp-Source: AK7set88Ftf2/QdGNAw7pbEqsZC90+DXAllNFUEL/Ob4mXQLYvcSI+1CvMmXqr5/6oJzFL8tpal9ew==
+X-Received: by 2002:ac8:570d:0:b0:3b8:58d0:b4e4 with SMTP id 13-20020ac8570d000000b003b858d0b4e4mr2337945qtw.33.1678916731050;
+        Wed, 15 Mar 2023 14:45:31 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2442:6db0:1157:1a08:54ae:71f7? ([2600:1700:2442:6db0:1157:1a08:54ae:71f7])
+        by smtp.gmail.com with ESMTPSA id 71-20020a37054a000000b007436d0e9408sm4524019qkf.127.2023.03.15.14.45.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Mar 2023 14:24:08 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <269496bb-ccc2-a853-f6cd-c494433cca0a@roeck-us.net>
-Date:   Wed, 15 Mar 2023 14:24:06 -0700
+        Wed, 15 Mar 2023 14:45:30 -0700 (PDT)
+Message-ID: <155efcdb-2be6-16c4-42bc-37930639060a@gmail.com>
+Date:   Wed, 15 Mar 2023 16:45:29 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH] drivers: hwmon: ltc4282: Add support for LTC4282
+Subject: Re: [KTAP V2 PATCH] ktap_v2: add skip test result
 Content-Language: en-US
-To:     Mohammed Danish Ali <mohammed.danish.ali.14@gmail.com>,
-        jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <CAACz5CVXy6CjgOXF-CUC3Zd54MBWWACd=E4GgwH9=2J1gT9ZSg@mail.gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <CAACz5CVXy6CjgOXF-CUC3Zd54MBWWACd=E4GgwH9=2J1gT9ZSg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To:     Mark Brown <broonie@kernel.org>, kernelci@groups.io,
+        rmoar@google.com
+Cc:     "Bird, Tim" <Tim.Bird@sony.com>,
+        "davidgow@google.com" <davidgow@google.com>,
+        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "brendanhiggins@google.com" <brendanhiggins@google.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "guillaume.tucker@collabora.com" <guillaume.tucker@collabora.com>,
+        "dlatypov@google.com" <dlatypov@google.com>,
+        "kunit-dev@googlegroups.com" <kunit-dev@googlegroups.com>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20230310222002.3633162-1-rmoar@google.com>
+ <BYAPR13MB2503C590A2AE6FEF6BCAC529FDBB9@BYAPR13MB2503.namprd13.prod.outlook.com>
+ <CA+GJov5O6hGdjYMXjRd34MEZuyBuukyJCOsS=HeO30h43eLQbQ@mail.gmail.com>
+ <4568b302-2a5a-4499-b2f7-12f89c031495@sirena.org.uk>
+From:   Frank Rowand <frowand.list@gmail.com>
+In-Reply-To: <4568b302-2a5a-4499-b2f7-12f89c031495@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/15/23 14:08, Mohammed Danish Ali wrote:
-> Date: Wed, 15 Mar 2023 20:48:17 +0000
+On 3/15/23 07:53, Mark Brown wrote:
+> On Tue, Mar 14, 2023 at 06:03:59PM -0400, Rae Moar via groups.io wrote:
 > 
-> Added support for LTC4282: High Current Hot Swap Controller with I2C
-> Compatible Monitoring
+>> One thing to note on the created churn: I have noticed a proportion of
+>> kselftests currently implement skipped tests in a way that does not
+>> use the SKIP directive. They use a comment of the format "# [SKIP]"
+>> prior to a test result line with no SKIP directive. Thus, in order to
+>> reach KTAP compliance the way skip tests are handled would need to be
+>> changed in these cases anyways.
 > 
-> Signed-off-by: Mohammed Danish Ali <mohammed.danish.ali.14@gmail.com <mailto:mohammed.danish.ali.14@gmail.com>>
-> ---
+> This is the documented way of reporting a skip in KTAP:
+> 
+>    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/ktap.rst#n97
+> 
+> TBH I'm finding it really hard to summon much enthusiasm for changing
+> this except as part of some other incompatible update - the current
+> format isn't ideal but deploying a change would be a bunch of hassle for
+> the existing test automation systems.
 
-...
+Yes, there is no need to do a single specification change that results
+in incompatibility.  But given the previous discussions there seem to
+be plenty of other desired changes that will result in incompatibility.
 
-> +   hwmon_dev = devm_hwmon_device_register_with_groups(dev, client->name, data, ltc4282_groups);
-
-include/hwmon/hwmon.h:
-
-/*
-  * hwmon_device_register_with_groups() and
-  * devm_hwmon_device_register_with_groups() are deprecated.
-  */
-
-Documentation/hwmon/submitting-patches.rst:
-
-* Use devm_hwmon_device_register_with_info() or, if your driver needs a remove
-   function, hwmon_device_register_with_info() to register your driver with the
-   hwmon subsystem. Try using devm_add_action() instead of a remove function if
-   possible. Do not use any of the deprecated registration functions.
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Please resubmit.
-
-Thanks,
-Guenter
-
+My desire is to take our time to capture as much of the desired changes
+as possible in version 2 of the specification.  And an expectation that
+there will not need to be a version 3 of the specification for many years.
+I will support not rushing version 2 of the specification so that this
+goal can be realized.
