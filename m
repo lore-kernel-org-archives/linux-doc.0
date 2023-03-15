@@ -2,468 +2,271 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70E17C6FD1D
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 16:20:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 849A3C61DA4
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Mar 2023 16:36:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231766AbjCOQUR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 12:20:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37876 "EHLO
+        id S230078AbjCOQgk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 12:36:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231823AbjCOQUG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 12:20:06 -0400
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D9D21F935;
-        Wed, 15 Mar 2023 09:20:03 -0700 (PDT)
-Received: by mail-oi1-x22f.google.com with SMTP id r36so790951oiw.7;
-        Wed, 15 Mar 2023 09:20:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678897202;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YHm8aqZXbOB1dA6dvL7Y2xb5VTwjaZrSc/p9oBx6dEA=;
-        b=N1zVk2hvrNavXuOp0eZ0S4QTNcjyoK6izz5OUnEZk+5s+0TkciqgNkLnRBqoarIbX6
-         SjjexBoVyhEIdOhye2JxUIf0Mo+o5kKesS35vENEbwVrqP1Xy/L90MQF+qh1FkFR4abX
-         rNpEXXTNdmuLdlOMqNxRXn2/86iVspJ5+AZzfD631Zqp69XWWUV4dKmVSLiBywNyesv3
-         kU3Y2Z0F7sairDCIBO59D5dxzMX6Fmz3l5UM7IWncS3muFlT118Y7oX8XF92Mp686n7/
-         L5hNSiDUWL76PtdwgnKigbR6CIkiH5ygY+dzJ0Ak/2W1PgON3FSeGR1CDMJri3Vjpwtp
-         uyYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678897202;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YHm8aqZXbOB1dA6dvL7Y2xb5VTwjaZrSc/p9oBx6dEA=;
-        b=7Ri/p6Gia5hdSwfKO0STdSwElp31PO7jdt0TCKkyd11YjpK8Qhip5Br68VkYrZD3uc
-         0jgctzOQcWm4z/mWjds5ZKRnJthYJ4Aqj8aa31wTvRaZRILFJlEs7S2zvzqpZ2L56pDl
-         WxnRV+Bu0gEispM+KO+v5WiEePCJYswieL0xjdwBjHrBgHAJMhWm+mKRV+I2O7jWmwMW
-         Q0c2hYycUGhRpBbb87196HLuQvSKdvoLmhFDgEw1/AHHFQOjdMEKfYngDYQ1b7kDkIZD
-         /2EU1z3cYOT8aYpJJiz2TO5TKCVA1QHxIFYHDTFXsQB+4XXRlbdKn/8iGvdmSs2L4Vff
-         Obeg==
-X-Gm-Message-State: AO0yUKWydFsCPl68xxJliW20McUz4pN3reOO2Ea1aM7oHD+BObr8W3xL
-        KYr3EPz9TpG9ooyswvvgU3rzrQ8W9SJExqTV55Y=
-X-Google-Smtp-Source: AK7set/to1bUzC/px7kYh7s+6isGsQUlr2afjdXliyX/Wzg0C7yiYiykegtboodu2VHL6L5D5MlRKKSUEmHzJDeR9eY=
-X-Received: by 2002:aca:654b:0:b0:384:1cf9:912e with SMTP id
- j11-20020aca654b000000b003841cf9912emr1028109oiw.5.1678897202265; Wed, 15 Mar
- 2023 09:20:02 -0700 (PDT)
+        with ESMTP id S229988AbjCOQgj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 12:36:39 -0400
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA53B6A062;
+        Wed, 15 Mar 2023 09:36:23 -0700 (PDT)
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32F6csus007578;
+        Wed, 15 Mar 2023 09:36:22 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-id :
+ content-type : mime-version; s=s2048-2021-q4;
+ bh=oTLW3wvZC96guW6n+tvLYnnu4mw//I+opho4Tt0Dqvk=;
+ b=mjecSHdh2Fw9Ys0FcR2wZZY2MYEPflQBb1oxccCV9ofo+VpxzKo5cWbZuK468mtrquuC
+ 6qfip9gz6OfPT/5ZLXDd3vW/G0Atxlj4zChed1kVRgfcFvryQR1djnDQIWvs7LfVWWwx
+ TXGgb3sSsXsSB0QrI0/LU6Xv+kacCVqu8BoR9fly0lbBeFDCjBtiKqGd3L18Byi/5+ip
+ s+CFQQm6LDgNikDvbRpCFn2tXHmlfxaWPW7cAbkocedwLKKrW9/sLXUfJhEUhUStuTY1
+ HkNfUoWYyYbECNh8VzOsx9uTZx+dAZ1q8aS3kPKyfrnOSpcnhUNjV6k4MWNRplTFN82X 7g== 
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
+        by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3pb2c65c45-2
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 15 Mar 2023 09:36:22 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hNza0E9p7UEQaiWM2vYmGxhU/BwMXJ0ZIgXXMVpp0JUvrZH2nmtIoj60cy3WaoHuyB3aB4gjAIB2NSukqD5pFk7PzzDWengmXj1fMIAtc0K8RMnZWAL5C29Y/ueEZGrqE5Cf/zOvYVENIMlqg3Qwd2Sk22udGnZrA2MyIWSSHP3btoFDlKgu8/dpvIh6kImYf/XqilyU0c34AluZ+iowKMMO94C/ufjCBPaGqheQ+IS4BC5KIt1eFDdPQPmaBsUQ8IWtP7Dxu3d9v7qE6c8wPwGdhCzSMXeWRI17ybQHUtanH4CpOSLAK7xYMvuHRvOEiktytIUoQ6OJa+n51uvE4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SPzmA6faAuxSZraUm6qbiaopgx0PFf67pwSfJiIgtwA=;
+ b=JZc40lQL2r+439ZxlmuQ+CqqX4mRBe8o17yHBJbrECTbCieotyNkIlUtQP0z9z+dPr5fz7Lg8u1NLoN462xA6zYfYluSlQ6tGlTx/xkFejYMtqAcdH6ebMdhPYQ4FQHfpdDlY/dud5OYMfdxEfvnXzQrXo9SLOCFh35NZRY/mOBLaSHAHu1Al7zm9TbMGoJPyyUG1oPwSFB5hXkgfw8jP0+BfTYnsCCLwHs4WtoeeGDbqpVgLz30fW7tuqMY08zB3OfF+aRibOkISU6ujQJdcu5eRvFP0EtKq4OQVYRtCv/Go/jPIfqFCTJTaJCKe7daTtt3oaKdhY//zg++6ESy2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=meta.com; dmarc=pass action=none header.from=meta.com;
+ dkim=pass header.d=meta.com; arc=none
+Received: from DM4PR15MB5354.namprd15.prod.outlook.com (2603:10b6:8:5d::18) by
+ DM6PR15MB3813.namprd15.prod.outlook.com (2603:10b6:5:2b0::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.29; Wed, 15 Mar 2023 16:36:19 +0000
+Received: from DM4PR15MB5354.namprd15.prod.outlook.com
+ ([fe80::8c04:a4a9:241e:2ec1]) by DM4PR15MB5354.namprd15.prod.outlook.com
+ ([fe80::8c04:a4a9:241e:2ec1%4]) with mapi id 15.20.6178.029; Wed, 15 Mar 2023
+ 16:36:19 +0000
+From:   Sreevani Sreejith <ssreevani@meta.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+CC:     Sreevani Sreejith <ssreevani@meta.com>,
+        "psreep@gmail.com" <psreep@gmail.com>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "Linux-kernel@vger.kernel.org" <Linux-kernel@vger.kernel.org>,
+        "andrii@kernel.org" <andrii@kernel.org>,
+        "mykola@meta.com" <mykola@meta.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        David Vernet <void@manifault.com>
+Subject: Re: [PATCH V3 bpf-next] BPF, docs: libbpf Overview Document
+Thread-Topic: [PATCH V3 bpf-next] BPF, docs: libbpf Overview Document
+Thread-Index: AQHZU3uIPS1/hSPDT0upU7tPQaXGO674efyAgAA2bYCAAoUrAIAAKHuAgACzdgA=
+Date:   Wed, 15 Mar 2023 16:36:19 +0000
+Message-ID: <C5E014CB-1A9D-4A29-93AC-1025CBCFC2BF@fb.com>
+References: <20230310180928.2462527-1-ssreevani@meta.com>
+ <ZA7wm8scokV+XPav@debian.me> <20230313125947.GB2392@maniforge>
+ <ZBE7eMsAifEQgRQv@debian.me> <20230315055349.GA20638@maniforge>
+In-Reply-To: <20230315055349.GA20638@maniforge>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR15MB5354:EE_|DM6PR15MB3813:EE_
+x-ms-office365-filtering-correlation-id: e5408e1a-2e2a-4592-99bd-08db257367bf
+x-fb-source: Internal
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: BKwX2WpioOFAO/YKj50wrhAUu8R49WYKBo5LcJtjrqeXYQ0tMAu/cruj9o+KkFvuOWhbwzAbU3x3R3LqXFJmparlN9qItj9KYk865VdbvyNwSEnRMrjKt1AfOx0FEpA3E5pOoy78HpYEPdgFU1JecUbF9Uku/hr3S6HyS+RwwfkHO2JbPr7FeXOBRKfVHvBfleNPq3Py5+5IdqPD61HGlqRsmBgJfnIEom9EaYqSGnEu6+9AQCUp5clT2PWVKJ4ty6XHmH7bWU3h3utGJaNbrDSi0sMVceptUst8M3Yv9Ew1+pHbmQS8guvhOZgdCLNdZFMueAefw69l5o/AfSJvg1ZPH86mgKUQApWEn2Vx5zdfkcBHdtSMDDPhuWgpnDDoRqxwRf4+3M3LuoFwGdfY4+RGDZZTeP1d3R5E3gO5aQu8xDJxcdhM5cIveX6RNDXWtCkumw04gTgbWcg8fdLpzc4XaRhkCsE8P25INRGIqprHK3K8WjV5n8UXq8WsMF81TpOzYRP/oA+y1Ir3qeOX//ep5rsC/KXheNz67G+UtimN7CWsGPQQqpRPpvL94OVmrCGM2Ny6IkRJqCnxi/N6G9011PWs0XxBUBbjRuutDs1FzhH8ZiOS46bgVU9qpRqBe/ICX/7wibJczA+jDLB6qNUk2lUDMEMoEVj7ObvjQ2Jmeuett/hk3JJU6lnSrho1TkgfYFzsO/UraJO0vKMfYJJ0e+gPFQeaW5mSE8xi4ho=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR15MB5354.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(346002)(376002)(136003)(39860400002)(396003)(451199018)(2906002)(122000001)(83380400001)(64756008)(36756003)(5660300002)(6916009)(66556008)(66476007)(66946007)(8936002)(33656002)(66446008)(4326008)(8676002)(76116006)(38070700005)(91956017)(38100700002)(316002)(86362001)(54906003)(478600001)(186003)(41300700001)(9686003)(53546011)(71200400001)(6486002)(966005)(6512007)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?tjTn/UK6htE8suGv5NHEdu0q981CfF5WfgXsOukb6M2FWVH3kuXlvjmfZ9l2?=
+ =?us-ascii?Q?kpvS7t4jYLPmY1vYWa4P/bkhpMDMxwjigSP40bxmoqwIac5HXbb7qasvdmjz?=
+ =?us-ascii?Q?65KvgvaBYAq7JntXh0x7AL1JLs63o0QnNVzYdlYZMSAxYO6GO4LDE+2HBFXb?=
+ =?us-ascii?Q?1Kcpqn/O6CDO4qO4aJNVTGKSzM/XZiKt9/2Dp2k3KNNRUgglqmg9LLHdXQLC?=
+ =?us-ascii?Q?1Jx1ogUVHqj7ZwcSTc3T1xnWZFy6ls/b9JopY5qCD3ljo2oGdwkWzqukFrpL?=
+ =?us-ascii?Q?bLfCdPzq4HdaerbtanctONIIOLrphW8zI4B1juJU8OoqCoEXbziwqdgKG1rX?=
+ =?us-ascii?Q?HgabD04M3ATwyU81T4r4d3UmLKDpDmI2CvHLuN5B9H2J+8qKlVmLZRCDuXLR?=
+ =?us-ascii?Q?dXtcbnMlyx0NZvDFwPh/zVuXonyrQg7dOa4Kjpu0ru3U13OHf30mpdq1BCGM?=
+ =?us-ascii?Q?G8/BgtpqmN6hzHoa4CIwZMANugq+o15UJkUhg4cS8XVvQN2HPBchS8cyA45W?=
+ =?us-ascii?Q?KRRFvEtjCkBemKUgliYI8MB0woTV8FBdJmyTKuMecv0Q2hIGWdgha3093O9C?=
+ =?us-ascii?Q?eWtIAzlUAE92v+uLZKg52NhGe2vLRyCkh0S0cfC12VH+f4oplLOA3noSyKCF?=
+ =?us-ascii?Q?5pzL2Iw5e0ipslS5xoyKA3vN9277+VN050xXt3B0MDl9xs17OhSRTe7236sq?=
+ =?us-ascii?Q?lAq44+c6IImQL7LuYXxo/wfJRdq6O2W6DJZeus2oFnuAoYKJFxHMeGdkdbTI?=
+ =?us-ascii?Q?OKdG+y1w8K52im7drzvlYkV6+LXVgyX+Zk6qTXK7cFIJ071j+g02OsQZWTTC?=
+ =?us-ascii?Q?AL4Lbvh2zxld94T6z+7J7wbd6pm4PWAghn1ptT+gkjfjvCnALZSrZMasMoQH?=
+ =?us-ascii?Q?0hcvuc+LP98X6OyDSoQQJZiKyhNGeGmKpgMXYWepWQqg0iDF2cjDNspj0r3j?=
+ =?us-ascii?Q?403wjw/Yzf6P0Y5/w5LewhabrqyTFSlPVW4qingJTIu2lgwAUHehtfXe0/1n?=
+ =?us-ascii?Q?iezRO+DRcQDoeH/8/o35ve3RtQwRBZec4cedxfaKz1bWN5YtOcooEnKAL7VW?=
+ =?us-ascii?Q?4aI8iObAFJtgEhHwdQmBsIy1c9n4y9v1E5taekivMHrpEvOMM6X9ME+Kg0oX?=
+ =?us-ascii?Q?I0fry6g3hWKc7NYXngRBxSE9Y0xpAaPgqUBvzx+Gwdyihk+0QCBJ4op6w85c?=
+ =?us-ascii?Q?Ja7BF+8IVmQMbTUG7Tw/3A+GQTgv2qh4JdHQO3RUl9ujIF/Ox2AvjpKRnBPb?=
+ =?us-ascii?Q?snp3bpDcGIO7VqPpGhf7wvWx3p3pAFUst18yyQV0pwkylwQBCcXvgw6fqOb5?=
+ =?us-ascii?Q?+nIxsS9BTgQFSxHGqKfKcvB32V5DtnXvp+B6qE+6TlSSryCsEaUTim92yXtD?=
+ =?us-ascii?Q?sbnmEXRT4GREsKFRcDmfHmEthzf5zqunhsM4WRaVIRfyfklpA1yIJiuYTeMn?=
+ =?us-ascii?Q?ktxHFg+6es0sJ1QrevPaNMBsybf4i/TGeah6XHCGVt312aJgFapm6mVsCj9c?=
+ =?us-ascii?Q?jE/CEuwU4yOCvyU5WEJHvWueaVM6kqxrhaa17ej7tOXkjvV2ax4yeVwY7Nf5?=
+ =?us-ascii?Q?E7c4an4bvWgcqKvytmMJ6DmdrjRmBxlqTjQo7ozRfKYpNCAMY6kYibk0ljdz?=
+ =?us-ascii?Q?9uIz/tKfLUC1AgMtFp6R2L4=3D?=
+Content-ID: <9229BB9BEB3D714F822A90DE58D530B0@namprd15.prod.outlook.com>
+X-OriginatorOrg: meta.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR15MB5354.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5408e1a-2e2a-4592-99bd-08db257367bf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Mar 2023 16:36:19.4821
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rAnULjKxD6IEsNXN/owhlyR3XTFOwHXpKHXIptZMrMcc78W2Lx+538hGNtqtUW7t2BauG7Bd5gwWZOHc4K8O3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR15MB3813
+X-Proofpoint-GUID: fG1dK5uky--z2FzXuhAqUGN7W2dl1zBh
+X-Proofpoint-ORIG-GUID: fG1dK5uky--z2FzXuhAqUGN7W2dl1zBh
+Content-Type: text/plain; charset="us-ascii"
+X-Proofpoint-UnRewURL: 2 URL's were un-rewritten
 MIME-Version: 1.0
-References: <20230308155322.344664-1-robdclark@gmail.com> <20230308155322.344664-2-robdclark@gmail.com>
- <ZAtQspuFjPtGy7ze@gmail.com> <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
- <ZBHNvT3BLgS3qvV5@gmail.com>
-In-Reply-To: <ZBHNvT3BLgS3qvV5@gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Wed, 15 Mar 2023 09:19:49 -0700
-Message-ID: <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-To:     =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        intel-gfx@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Matt Turner <mattst88@gmail.com>,
-        freedreno@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-15_08,2023-03-15_01,2023-02-09_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 15, 2023 at 6:53=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.com>=
- wrote:
->
-> On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
-> > On Fri, Mar 10, 2023 at 7:45=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.=
-com> wrote:
-> > >
-> > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
-> > > > From: Rob Clark <robdclark@chromium.org>
-> > > >
-> > > > Add a way to hint to the fence signaler of an upcoming deadline, su=
-ch as
-> > > > vblank, which the fence waiter would prefer not to miss.  This is t=
-o aid
-> > > > the fence signaler in making power management decisions, like boost=
-ing
-> > > > frequency as the deadline approaches and awareness of missing deadl=
-ines
-> > > > so that can be factored in to the frequency scaling.
-> > > >
-> > > > v2: Drop dma_fence::deadline and related logic to filter duplicate
-> > > >     deadlines, to avoid increasing dma_fence size.  The fence-conte=
-xt
-> > > >     implementation will need similar logic to track deadlines of al=
-l
-> > > >     the fences on the same timeline.  [ckoenig]
-> > > > v3: Clarify locking wrt. set_deadline callback
-> > > > v4: Clarify in docs comment that this is a hint
-> > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> > > > v6: More docs
-> > > > v7: Fix typo, clarify past deadlines
-> > > >
-> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > > > ---
-> > >
-> > > Hi Rob!
-> > >
-> > > >  Documentation/driver-api/dma-buf.rst |  6 +++
-> > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++=
-++++
-> > > >  include/linux/dma-fence.h            | 22 +++++++++++
-> > > >  3 files changed, 87 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/d=
-river-api/dma-buf.rst
-> > > > index 622b8156d212..183e480d8cea 100644
-> > > > --- a/Documentation/driver-api/dma-buf.rst
-> > > > +++ b/Documentation/driver-api/dma-buf.rst
-> > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
-> > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > >     :doc: fence signalling annotation
-> > > >
-> > > > +DMA Fence Deadline Hints
-> > > > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > +
-> > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > +   :doc: deadline hints
-> > > > +
-> > > >  DMA Fences Functions Reference
-> > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > >
-> > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fenc=
-e.c
-> > > > index 0de0482cd36e..f177c56269bb 100644
-> > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **=
-fences, uint32_t count,
-> > > >  }
-> > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> > > >
-> > > > +/**
-> > > > + * DOC: deadline hints
-> > > > + *
-> > > > + * In an ideal world, it would be possible to pipeline a workload =
-sufficiently
-> > > > + * that a utilization based device frequency governor could arrive=
- at a minimum
-> > > > + * frequency that meets the requirements of the use-case, in order=
- to minimize
-> > > > + * power consumption.  But in the real world there are many worklo=
-ads which
-> > > > + * defy this ideal.  For example, but not limited to:
-> > > > + *
-> > > > + * * Workloads that ping-pong between device and CPU, with alterna=
-ting periods
-> > > > + *   of CPU waiting for device, and device waiting on CPU.  This c=
-an result in
-> > > > + *   devfreq and cpufreq seeing idle time in their respective doma=
-ins and in
-> > > > + *   result reduce frequency.
-> > > > + *
-> > > > + * * Workloads that interact with a periodic time based deadline, =
-such as double
-> > > > + *   buffered GPU rendering vs vblank sync'd page flipping.  In th=
-is scenario,
-> > > > + *   missing a vblank deadline results in an *increase* in idle ti=
-me on the GPU
-> > > > + *   (since it has to wait an additional vblank period), sending a=
- signal to
-> > > > + *   the GPU's devfreq to reduce frequency, when in fact the oppos=
-ite is what is
-> > > > + *   needed.
-> > >
-> > > This is the use case I'd like to get some better understanding about =
-how
-> > > this series intends to work, as the problematic scheduling behavior
-> > > triggered by missed deadlines has plagued compositing display servers
-> > > for a long time.
-> > >
-> > > I apologize, I'm not a GPU driver developer, nor an OpenGL driver
-> > > developer, so I will need some hand holding when it comes to
-> > > understanding exactly what piece of software is responsible for
-> > > communicating what piece of information.
-> > >
-> > > > + *
-> > > > + * To this end, deadline hint(s) can be set on a &dma_fence via &d=
-ma_fence_set_deadline.
-> > > > + * The deadline hint provides a way for the waiting driver, or use=
-rspace, to
-> > > > + * convey an appropriate sense of urgency to the signaling driver.
-> > > > + *
-> > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for=
- userspace
-> > > > + * facing APIs).  The time could either be some point in the futur=
-e (such as
-> > > > + * the vblank based deadline for page-flipping, or the start of a =
-compositor's
-> > > > + * composition cycle), or the current time to indicate an immediat=
-e deadline
-> > > > + * hint (Ie. forward progress cannot be made until this fence is s=
-ignaled).
-> > >
-> > > Is it guaranteed that a GPU driver will use the actual start of the
-> > > vblank as the effective deadline? I have some memories of seing
-> > > something about vblank evasion browsing driver code, which I might ha=
-ve
-> > > misunderstood, but I have yet to find whether this is something
-> > > userspace can actually expect to be something it can rely on.
-> >
-> > I guess you mean s/GPU driver/display driver/ ?  It makes things more
-> > clear if we talk about them separately even if they happen to be the
-> > same device.
->
-> Sure, sorry about being unclear about that.
->
-> >
-> > Assuming that is what you mean, nothing strongly defines what the
-> > deadline is.  In practice there is probably some buffering in the
-> > display controller.  For ex, block based (including bandwidth
-> > compressed) formats, you need to buffer up a row of blocks to
-> > efficiently linearize for scanout.  So you probably need to latch some
-> > time before you start sending pixel data to the display.  But details
-> > like this are heavily implementation dependent.  I think the most
-> > reasonable thing to target is start of vblank.
->
-> The driver exposing those details would be quite useful for userspace
-> though, so that it can delay committing updates to late, but not too
-> late. Setting a deadline to be the vblank seems easy enough, but it
-> isn't enough for scheduling the actual commit.
 
-I'm not entirely sure how that would even work.. but OTOH I think you
-are talking about something on the order of 100us?  But that is a bit
-of another topic.
 
-> >
-> > Also, keep in mind the deadline hint is just that.  It won't magically
-> > make the GPU finish by that deadline, but it gives the GPU driver
-> > information about lateness so it can realize if it needs to clock up.
->
-> Sure, even if the GPU ramped up clocks to the max, if the job queue is
-> too large, it won't magically invent more cycles to squeeze in.
->
-> >
-> > > Can userspace set a deadline that targets the next vblank deadline
-> > > before GPU work has been flushed e.g. at the start of a paint cycle, =
-and
-> > > still be sure that the kernel has the information it needs to know it=
- should
-> > > make its clocks increase their speed in time for when the actual work
-> > > has been actually flushed? Or is it needed that the this deadline is =
-set
-> > > at the end?
-> >
-> > You need a fence to set the deadline, and for that work needs to be
-> > flushed.  But you can't associate a deadline with work that the kernel
-> > is unaware of anyways.
->
-> That makes sense, but it might also a bit inadequate to have it as the
-> only way to tell the kernel it should speed things up. Even with the
-> trick i915 does, with GNOME Shell, we still end up with the feedback
-> loop this series aims to mitigate. Doing triple buffering, i.e. delaying
-> or dropping the first frame is so far the best work around that works,
-> except doing other tricks that makes the kernel to ramp up its clock.
-> Having to rely on choosing between latency and frame drops should
-> ideally not have to be made.
+> On Mar 14, 2023, at 10:53 PM, David Vernet <void@manifault.com> wrote:
+> 
+> !-------------------------------------------------------------------|
+>  This Message Is From an External Sender
+> 
+> |-------------------------------------------------------------------!
+> 
+> On Wed, Mar 15, 2023 at 10:28:56AM +0700, Bagas Sanjaya wrote:
+>> On Mon, Mar 13, 2023 at 07:59:47AM -0500, David Vernet wrote:
+>>> On Mon, Mar 13, 2023 at 04:44:59PM +0700, Bagas Sanjaya wrote:
+>>>> On Fri, Mar 10, 2023 at 10:09:28AM -0800, Sreevani Sreejith wrote:
+>>>>> From: Sreevani <ssreevani@meta.com>
+>>>>> 
+>>>>> Summary: Document that provides an overview of libbpf features for BPF
+>>>>> application development.
+>>>> 
+>>>> It seems like you ignore some of my reviews at [1]. Anyway, I
+>>>> repeat them here, augmenting my new comments.
+>>> 
+>>> Sreevani, please be sure to reply to and address all reviewers'
+>>> comments. I've also requested that we not use these internal Meta tags
+>>> on more than one occasion, so please be mindful of it for future
+>>> patches, and take a bit of extra time to double check that you've
+>>> addressed all reviewers' concerns. I also suggest reading over [0],
+>>> which specifies that new versions of patches should include descriptions
+>>> of what's changed from prior versions. Please see Joanne's patch set in
+>>> [1] which serves as a very nice example.
+>>> 
+>>> [0]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#the-canonical-patch-format
+>>> [1]: https://lore.kernel.org/all/20230301154953.641654-1-joannelkoong@gmail.com/
+>>> 
+>>> Bagas -- just FYI, a quick git log would have shown that this is only
+>>> Sreevani's second patch. I don't think she intentionally ignored
+>>> anything. It's likely just an artifact of getting used to the kernel
+>>> review process.
+>> 
+>> Oops, you mean this v3 is actually v2, right?
+> 
+> Oh, I just meant that this is her second patch submission to the Linux
+> kernel in general, (the first was [0]), so she likely just accidentally
+> forgot to address your comments rather than intentionally ignoring them.
+> Of course, it's good that you highlighted them again here in v3, as they
+> certainly need to be addressed.
+> 
+> [0]: https://lore.kernel.org/all/20221202221710.320810-2-ssreevani@meta.com/
 
-Before you have a fence, the thing you want to be speeding up is the
-CPU, not the GPU.  There are existing mechanisms for that.
+Bagas, apologies for not addressing one of your comments. As David mentioned,
+ it was not intentional. I am still getting used to filtering out comments from the rest
+ of the documentation. 
+> 
+>> 
+>>>> Why did you add heading overline and change the heading character marker?
+>>> 
+>>> I assume that Sreevani is following python documentation conventions [0], which
+>>> suggest that #### with overline refers to the highest-level heading in a page.
+>>> This is suggested in Sphinx documentation [1] as well.
+>>> 
+>>> [0]: https://devguide.python.org/documentation/markup/#sections 
+>>> [1]: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#sections 
+>> 
+>> OK.
+>> 
+>>>> You may want to also add :lineos: option or manually add line numbers
+>>>> if you add :emphasize-lines: so that readers can see the line number
+>>>> it refers to.
+>>> 
+>>> What is :lineos:? I don't see it anywhere else in Documentation/ and if
+>>> I add it, the docs build complains:
+>>> 
+>>> Documentation/bpf/libbpf/libbpf_overview.rst:177: WARNING: Error in "code-block" directive:
+>>> unknown option: "lineos".
+>>> 
+>>> .. code-block:: C
+>>>  :lineos:
+>>>  :emphasize-lines: 6
+>> 
+>> You forget to indent both options (see [1]).
+> 
+> The indentation was correct ;-) The option is actually ":linenos", not
+> ":lineos:". That said, it's a neat option, so thank you for pointing it
+> out.
+> 
+>>> 
+>>>  //...
+>>>  struct task_struct *task = (void *)bpf_get_current_task();
+>>>  struct task_struct *parent_task;
+>>>  int err;
+>>> 
+>>>  err = bpf_core_read(&parent_task, sizeof(void *), &task->parent);
+>>>  if (err) {
+>>>    /* handle error */
+>>>  }
+>>> 
+>>>  /* parent_task contains the value of task->parent pointer */
+>>> 
+>>> I personally think adding line numbers is overkill. The highlighting is
+>>> already a nice touch, and gets the point across without the additional
+>>> visual cue of line numbers.
+>> 
+>> But if the snippet above is instead long, how can one looking for the
+>> emphasized line number when reading doc (especially in .rst source) other
+>> than manually counting from the first line of the snippet? See
+>> Documentation/RCU/rcubarrier.rst for example of manual line numbering
+>> (and [2] for the related patch).
+> 
+> Well, that's a bit of a hypothetical problem given that in this case
+> we're only talking about 6 lines ;-) In any case, I don't really mind
+> one way or the other, but given that none of the other example
+> codeblocks in the BPF docs have line numbers, I'd personally err on the
+> side of not adding them here.
+> 
+>>>> BPF apps are application that use BPF program, right? I thought that
+>>>> despite there is libbpf-rs, I still have to develop BPF apps in C.
+>>> 
+>>> It says that at the end of the paragraph?
+>>> 
+>> 
+>> I was confused between BPF apps and BPF programs, since I was accustomed
+>> that apps and programs refer to the same thing.
+> 
+> This is alluded to a bit earlier in this document:
+> 
+>> A BPF application consists of one or more BPF programs (either
+>> cooperating or completely independent), BPF maps, and global
+>> variables.
+> 
+> "Program" in the context of BPF has a very specific meaning. We need to
+> improve our documentation on them, but see [1] for a bit more detail.
+> The TL;DR is that the BPF program is the part that runs in kernel space.
+> 
+> [1]: https://www.kernel.org/doc/html/latest/bpf/libbpf/program_types.html#program-types-and-elf
+> 
+> Thanks,
+> David
 
-TBF I'm of the belief that there is still a need for input based cpu
-boost (and early wake-up trigger for GPU).. we have something like
-this in CrOS kernel.  That is a bit of a different topic, but my point
-is that fence deadlines are just one of several things we need to
-optimize power/perf and responsiveness, rather than the single thing
-that solves every problem under the sun ;-)
-
-> >
-> > > What I'm more or less trying to ask is, will a mode setting composito=
-r
-> > > be able to tell the kernel to boost its clocks at the time it knows i=
-s
-> > > best, and how will it in practice achieve this?
-> >
-> > The anticipated usage for a compositor is that, when you receive a
-> > <buf, fence> pair from an app, you immediately set a deadline for
-> > upcoming start-of-vblank on the fence fd passed from the app.  (Or for
-> > implicit sync you can use DMA_BUF_IOCTL_EXPORT_SYNC_FILE).  For the
-> > composite step, no need to set a deadline as this is already done on
-> > the kernel side in drm_atomic_helper_wait_for_fences().
->
-> So it sounds like the new uapi will help compositors that do not draw
-> with the intention of page flipping anything, and compositors that
-> deliberately delay the commit. I suppose with proper target presentation
-> time integration EGL/Vulkan WSI can set deadlines them as well. All that
-> sounds like a welcomed improvement, but I'm not convinced it's enough to
-> solve the problems we currently face.
-
-Yeah, like I mentioned this addresses one issue, giving the GPU kernel
-driver better information for freq mgmt.  But there probably isn't one
-single solution for everything.
-
-> >
-> > > For example relying on the atomic mode setting commit setting the
-> > > deadline is fundamentally flawed, since user space will at times want=
- to
-> > > purposefully delay committing until as late as possible, without doin=
-g
-> > > so causing an increased risk of missing the deadline due to the kerne=
-l
-> > > not speeding up clocks at the right time for GPU work that has alread=
-y
-> > > been flushed long ago.
-> >
-> > Right, this is the point for exposing the ioctl to userspace.
-> >
-> > > Relying on commits also has no effect on GPU work queued by
-> > > a compositor drawing only to dma-bufs that are never intended to be
-> > > presented using mode setting. How can we make sure a compositor can
-> > > provide hints that the kernel will know to respect despite the
-> > > compositor not being drm master?
-> >
-> > It doesn't matter if there are indirect dependencies.  Even if the
-> > compositor completely ignores deadline hints and fancy tricks like
-> > delaying composite decisions, the indirect dependency (app rendering)
-> > will delay the direct dependency (compositor rendering) of the page
-> > flip.  So the driver will still see whether it is late or early
-> > compared to the deadline, allowing it to adjust freq in the
-> > appropriate direction for the next frame.
->
-> Is it expected that WSI's will set their own deadlines, or should that
-> be the job of the compositor? For example by using compositors using
-> DMA_BUF_IOCTL_EXPORT_SYNC_FILE that you mentioned, using it to set a
-> deadline matching the vsync it most ideally will be committed to?
->
-
-I'm kind of assuming compositors, but if the WSI somehow has more
-information about ideal presentation time, then I suppose it could be
-in the WSI?  I'll defer to folks who spend more time on WSI and
-compositors to hash out the details ;-)
-
-BR,
--R
-
->
-> Jonas
->
-> >
-> > BR,
-> > -R
-> >
-> > >
-> > > Jonas
-> > >
-> > > > + *
-> > > > + * Multiple deadlines may be set on a given fence, even in paralle=
-l.  See the
-> > > > + * documentation for &dma_fence_ops.set_deadline.
-> > > > + *
-> > > > + * The deadline hint is just that, a hint.  The driver that create=
-d the fence
-> > > > + * may react by increasing frequency, making different scheduling =
-choices, etc.
-> > > > + * Or doing nothing at all.
-> > > > + */
-> > > > +
-> > > > +/**
-> > > > + * dma_fence_set_deadline - set desired fence-wait deadline hint
-> > > > + * @fence:    the fence that is to be waited on
-> > > > + * @deadline: the time by which the waiter hopes for the fence to =
-be
-> > > > + *            signaled
-> > > > + *
-> > > > + * Give the fence signaler a hint about an upcoming deadline, such=
- as
-> > > > + * vblank, by which point the waiter would prefer the fence to be
-> > > > + * signaled by.  This is intended to give feedback to the fence si=
-gnaler
-> > > > + * to aid in power management decisions, such as boosting GPU freq=
-uency
-> > > > + * if a periodic vblank deadline is approaching but the fence is n=
-ot
-> > > > + * yet signaled..
-> > > > + */
-> > > > +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadl=
-ine)
-> > > > +{
-> > > > +     if (fence->ops->set_deadline && !dma_fence_is_signaled(fence)=
-)
-> > > > +             fence->ops->set_deadline(fence, deadline);
-> > > > +}
-> > > > +EXPORT_SYMBOL(dma_fence_set_deadline);
-> > > > +
-> > > >  /**
-> > > >   * dma_fence_describe - Dump fence describtion into seq_file
-> > > >   * @fence: the 6fence to describe
-> > > > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > > > index 775cdc0b4f24..d54b595a0fe0 100644
-> > > > --- a/include/linux/dma-fence.h
-> > > > +++ b/include/linux/dma-fence.h
-> > > > @@ -257,6 +257,26 @@ struct dma_fence_ops {
-> > > >        */
-> > > >       void (*timeline_value_str)(struct dma_fence *fence,
-> > > >                                  char *str, int size);
-> > > > +
-> > > > +     /**
-> > > > +      * @set_deadline:
-> > > > +      *
-> > > > +      * Callback to allow a fence waiter to inform the fence signa=
-ler of
-> > > > +      * an upcoming deadline, such as vblank, by which point the w=
-aiter
-> > > > +      * would prefer the fence to be signaled by.  This is intende=
-d to
-> > > > +      * give feedback to the fence signaler to aid in power manage=
-ment
-> > > > +      * decisions, such as boosting GPU frequency.
-> > > > +      *
-> > > > +      * This is called without &dma_fence.lock held, it can be cal=
-led
-> > > > +      * multiple times and from any context.  Locking is up to the=
- callee
-> > > > +      * if it has some state to manage.  If multiple deadlines are=
- set,
-> > > > +      * the expectation is to track the soonest one.  If the deadl=
-ine is
-> > > > +      * before the current time, it should be interpreted as an im=
-mediate
-> > > > +      * deadline.
-> > > > +      *
-> > > > +      * This callback is optional.
-> > > > +      */
-> > > > +     void (*set_deadline)(struct dma_fence *fence, ktime_t deadlin=
-e);
-> > > >  };
-> > > >
-> > > >  void dma_fence_init(struct dma_fence *fence, const struct dma_fenc=
-e_ops *ops,
-> > > > @@ -583,6 +603,8 @@ static inline signed long dma_fence_wait(struct=
- dma_fence *fence, bool intr)
-> > > >       return ret < 0 ? ret : 0;
-> > > >  }
-> > > >
-> > > > +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadl=
-ine);
-> > > > +
-> > > >  struct dma_fence *dma_fence_get_stub(void);
-> > > >  struct dma_fence *dma_fence_allocate_private_stub(void);
-> > > >  u64 dma_fence_context_alloc(unsigned num);
-> > > > --
-> > > > 2.39.2
-> > > >
