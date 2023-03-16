@@ -2,172 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8793CC6FD19
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 16:00:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D4E8C6FD1F
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 16:21:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231573AbjCPQAQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 12:00:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38806 "EHLO
+        id S230299AbjCPQVL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 12:21:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231561AbjCPQAN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 12:00:13 -0400
+        with ESMTP id S230110AbjCPQVH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 12:21:07 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3529377CBE;
-        Thu, 16 Mar 2023 09:00:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FE6D4FF10;
+        Thu, 16 Mar 2023 09:20:48 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6DA94B8227E;
-        Thu, 16 Mar 2023 16:00:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24D36C433EF;
-        Thu, 16 Mar 2023 16:00:07 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B8CC2B82280;
+        Thu, 16 Mar 2023 16:20:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C718C433EF;
+        Thu, 16 Mar 2023 16:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678982407;
-        bh=GHqd6mmwWSIdksWIe0G7oOtf6sR281Z2AdCgPifu/AQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qId0+JoWJmZvtimfpgsvRRlwTPjX6lG7oCsd16E7p4Ns2lLReS6hNnPC0ihO9xkZW
-         RIKZHA8GO54xL/++44/qMdDFrV5txPjrUm1YSMwSLMZ3m34hTjHpUK7mLL3jOW2kpo
-         94h9gMKOqeIDLEZdFeBXBy4Q7yCaHVADw3ZYo9SEgAwdKg1ffRhKDWO+T4OYlYzX71
-         9La9qQyX/NsNjhJ3gEez2hkyyg1T6jrbqnMMaeJqjQaTZhkbId7w/QclC3w3YVA6Vm
-         AXIwr/U2NtT5KuSZke7jOtRJAjtHadCKFPLg6HuoUwpe7gq1zl7S0YbIEe1tGdAYgY
-         lkeuFzNZ+dmHA==
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <maz@kernel.org>)
-        id 1pcq1M-000crq-PH;
-        Thu, 16 Mar 2023 16:00:04 +0000
+        s=k20201202; t=1678983645;
+        bh=h71BjMhOZMMG4djc5Zr7EDNKJL2J78Ensp7aau93MzA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=A9XUQLp0wzDffjwD32BGHTpw79X8+J5ZHHIAYgidV4YNaKm4DVaqXe6P8KGJZ8HCY
+         wZZdWAuLDEkHyS39o+iCixyCUylRhULb6s0aiVeZ0O9tIlxCcU5WrepnJxuc5x18JA
+         3zVePxd90KnGCKYhITEa2CaivoQN8BR3uu3BOGla8ZumAhgGEPV7HfHuUmCYIvbfWy
+         laTDGQMJBF8rOkugU8o/Yy0BkC4O3bq0nrsAkFbj0mns8eSefBRqxX9wjq3i5+jQXB
+         8+UTItjt4yy4Lm7tuT9yztoAeQ5vZa4GSn5taKUmiKJQXqQTvQq8GBNkBAcc+j3i0Y
+         B0q2AEeTpoYzA==
+Date:   Thu, 16 Mar 2023 16:20:37 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Julien Panis <jpanis@baylibre.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        corbet@lwn.net, arnd@arndb.de, gregkh@linuxfoundation.org,
+        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
+        eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
+        stephen@networkplumber.org, davem@davemloft.net,
+        christian.koenig@amd.com, contact@emersion.fr,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
+        eblanc@baylibre.com, jneanne@baylibre.com
+Subject: Re: [PATCH v2 2/4] mfd: tps6594: Add driver for TI TPS6594 PMIC
+Message-ID: <20230316162037.GW9667@google.com>
+References: <20230315110736.35506-1-jpanis@baylibre.com>
+ <20230315110736.35506-3-jpanis@baylibre.com>
 MIME-Version: 1.0
-Date:   Thu, 16 Mar 2023 16:00:04 +0000
-From:   Marc Zyngier <maz@kernel.org>
-To:     Sudeep Holla <sudeep.holla@arm.com>
-Cc:     Shanker Donthineni <sdonthineni@nvidia.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v2] irqchip/gicv3: Workaround for NVIDIA erratum
- T241-FABRIC-4
-In-Reply-To: <20230316151014.zaoxo4wmg4mzyoiq@bogus>
-References: <20230314135128.2930580-1-sdonthineni@nvidia.com>
- <871qlqif9v.wl-maz@kernel.org>
- <4dda3890-e910-625e-e7ed-6b6c0bbbd9d4@nvidia.com>
- <20230316151014.zaoxo4wmg4mzyoiq@bogus>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <bf9f8763f0116c3f05c008923edfbedb@kernel.org>
-X-Sender: maz@kernel.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: sudeep.holla@arm.com, sdonthineni@nvidia.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, mark.rutland@arm.com, lpieralisi@kernel.org, tglx@linutronix.de, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, vsethi@nvidia.com, treding@nvidia.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230315110736.35506-3-jpanis@baylibre.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-03-16 15:10, Sudeep Holla wrote:
-> On Wed, Mar 15, 2023 at 07:27:14AM -0500, Shanker Donthineni wrote:
->> Hi Marc,
->> 
->> On 3/15/23 03:34, Marc Zyngier wrote:
->> > Please don't duplicate existing code. There is already the required
->> > infrastructure in drivers/firmware/smccc/soc_id.c. All you need to do
->> > is:
->> >
->> > - disassociate the SMCCC probing from the device registration
->> >
->> > - probe the SOC_ID early
->> >
->> > - add accessors for the relevant data
->> >
->> > - select ARM_SMCCC_SOD_ID/ARM_SMCCC_DISCOVERY from the GICv3 Kconfig
->> 
->> 
->> I have not modified soc_id.c as it expects to be loaded as a module 
->> with
->> the use of module_init() and module_exit() functions. The exported 
->> symbols
->> in soc_id driver cannot be accessed from the built-in code.
->> 
->> Agree, the SOD-ID discovery code was duplicated.
->> 
->> Please guide me if the below approach is okay?
->> 
->> 1) Probe the SOC-ID in arm_smccc_version_init() and export two 
->> functions
->> arm_smccc_get_soc_id_version() and arm_smccc_get_soc_id_revision().
->> 
->> --- a/drivers/firmware/smccc/smccc.c
->> +++ b/drivers/firmware/smccc/smccc.c
->> @@ -17,9 +17,13 @@ static enum arm_smccc_conduit smccc_conduit = 
->> SMCCC_CONDUIT_NONE;
->> 
->>  bool __ro_after_init smccc_trng_available = false;
->>  u64 __ro_after_init smccc_has_sve_hint = false;
->> +s32 __ro_after_init smccc_soc_id_version = SMCCC_RET_NOT_SUPPORTED;
->> +s32 __ro_after_init smccc_soc_id_revision = SMCCC_RET_NOT_SUPPORTED;
->> 
->>  void __init arm_smccc_version_init(u32 version, enum 
->> arm_smccc_conduit conduit)
->>  {
->> +       struct arm_smccc_res res;
->> +
->>         smccc_version = version;
->>         smccc_conduit = conduit;
->> 
->> @@ -27,6 +31,18 @@ void __init arm_smccc_version_init(u32 version, 
->> enum arm_smccc_conduit conduit)
->>         if (IS_ENABLED(CONFIG_ARM64_SVE) &&
->>             smccc_version >= ARM_SMCCC_VERSION_1_3)
->>                 smccc_has_sve_hint = true;
->> +
->> +       if ((smccc_version >= ARM_SMCCC_VERSION_1_2) &&
->> +           (smccc_conduit != SMCCC_CONDUIT_NONE)) {
->> +               arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
->> +                                    ARM_SMCCC_ARCH_SOC_ID, &res);
->> +               if ((s32)res.a0 >= 0) {
->> +                       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 0, 
->> &res);
->> +                       smccc_soc_id_version = (s32)res.a0;
->> +                       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 1, 
->> &res);
->> +                       smccc_soc_id_revision = (s32)res.a0;
->> +               }
->> +       }
->>  }
->> 
->> 
->> +s32 arm_smccc_get_soc_id_version(void)
->> +{
->> +       return smccc_soc_id_version;
->> +}
->> +EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_version);
->> +
->> +s32 arm_smccc_get_soc_id_revision(void)
->> +{
->> +       return smccc_soc_id_revision;
->> +}
->> +EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
->> 
->> 
-> 
-> Overall, it looks OK to me. However I see neither the gic nor the 
-> soc_id
-> can be build as module atm. So do we really need the export symbols if 
-> no
-> other modules are using it ?
+On Wed, 15 Mar 2023, Julien Panis wrote:
 
-It really shouldn't be exported. Having accessors should be enough.
+> This patch adds support for TPS6594 PMIC MFD core. It provides
+> communication through the I2C and SPI interfaces, and supports
+> protocols with embedded CRC data fields for safety applications.
+>
+> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> ---
+>  drivers/mfd/Kconfig         |   32 ++
+>  drivers/mfd/Makefile        |    3 +
+>  drivers/mfd/tps6594-core.c  |  453 ++++++++++++++++
+>  drivers/mfd/tps6594-i2c.c   |  244 +++++++++
+>  drivers/mfd/tps6594-spi.c   |  129 +++++
+>  include/linux/mfd/tps6594.h | 1020 +++++++++++++++++++++++++++++++++++
+>  6 files changed, 1881 insertions(+)
+>  create mode 100644 drivers/mfd/tps6594-core.c
+>  create mode 100644 drivers/mfd/tps6594-i2c.c
+>  create mode 100644 drivers/mfd/tps6594-spi.c
+>  create mode 100644 include/linux/mfd/tps6594.h
 
-Thanks,
+Once you have the misc Acks, I plan to take this via MFD:
 
-         M.
--- 
-Jazz is not dead. It just smells funny...
+For my own reference (apply this as-is to your sign-off block):
+
+Acked-for-MFD-by: Lee Jones <lee@kernel.org>
+
+--
+Lee Jones [李琼斯]
