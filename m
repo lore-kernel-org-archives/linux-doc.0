@@ -2,298 +2,375 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D199AC6FD1F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 16:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78E1DC7618E
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 16:29:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbjCPQ1d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 12:27:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57246 "EHLO
+        id S230136AbjCPQ3K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 12:29:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230153AbjCPQ13 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 12:27:29 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2083.outbound.protection.outlook.com [40.107.92.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9B88DDF20;
-        Thu, 16 Mar 2023 09:27:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hsj4UA1XOhGLQfqvWM/jhh1/kFUfBsj+A51QUK8B86nTDRm9gXEHztvDoTXSXcK0mzpTb41zOq2NOAyKSm9BOz2DH7y0GlaoaST440rZixc19TwiYXLCq+izHITYUh2eP1cRh+eDqELrtYhjtvI+Ff8WDAVj86Oa1OjA48AxENun0DbKZC18BceJ7VfaIFeEbdIX65m87/IWQjtTDxQwmaj8nfgHCfgmVh2foW12RIXB7bhHW8yXK2vqX8KbaXshmHJfrsKizb96mYBCUS5mPF9/+ysBA/PRGiHbhVe3nPVqevfvmBu4VQ3g6GmcnhPJ0WsyJaFFoNLfILM6lqs9pg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QcLG6F0xPB2Z9A3qa58gM0u3vmo+YOJN1DdgxAYdTaQ=;
- b=TuuZWlIbyPDkbY5kXLuc4PyG9LgWWmiG2QRP3XoaLE1bjT/OBcC7iellsnBo8vhSYY2U6TPWTKn0o0PX6ccr6gDvSvHxyaYaBKP7jzEfVo4C2/v41oF+L4OFnzgYm8rWrqZCjks056lEFAo9Q2C8st8QtITiQNvYfQIS8X5Jk3YHvBq9ysskszGfv3tJ0y3IkSa1uqJbL/In6F1zvul4anhcGiUKC6fjerpAA0UUrausOPTiti6d4+8E9ARH4XXgwIU/v9zfWWPi7iaARbE4iOgbal5lSd7j7OHqNf/xN9K6Mrl5hu4eZILXV92yvBGjaYtNs7XwlTy/b8LLSNzm/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QcLG6F0xPB2Z9A3qa58gM0u3vmo+YOJN1DdgxAYdTaQ=;
- b=CKW9SGyDTIZGJBv4VzYDCkOMsSd4Abx1j+OJlAp/UPWTKkTYRjzdqzKsrowdMlHXwgDgDxy+chIcvCJTG7eBGQozpWjZAUpm9vlFm3f8FJxkg5Wy1jOQCYrkV03pybffmHJAoHNPIwbAMXYg0gRHV3BlSWuibPt/ivK4EwH3O4U=
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by CY8PR12MB7513.namprd12.prod.outlook.com (2603:10b6:930:91::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Thu, 16 Mar
- 2023 16:27:22 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::3490:de56:de08:46f6]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::3490:de56:de08:46f6%9]) with mapi id 15.20.6178.029; Thu, 16 Mar 2023
- 16:27:21 +0000
-From:   "Moger, Babu" <Babu.Moger@amd.com>
-To:     Reinette Chatre <reinette.chatre@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>
-CC:     "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jmattson@google.com" <jmattson@google.com>,
-        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-        "Das1, Sandipan" <Sandipan.Das@amd.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "eranian@google.com" <eranian@google.com>,
-        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-        "jarkko@kernel.org" <jarkko@kernel.org>,
-        "adrian.hunter@intel.com" <adrian.hunter@intel.com>,
-        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
-        "peternewman@google.com" <peternewman@google.com>
-Subject: RE: [PATCH v3 1/7] x86/resctrl: Add multiple tasks to the resctrl
- group at once
-Thread-Topic: [PATCH v3 1/7] x86/resctrl: Add multiple tasks to the resctrl
- group at once
-Thread-Index: AQHZTUT+FEhR64iFTUGWFRhalBQVz678PoeAgAFT85A=
-Date:   Thu, 16 Mar 2023 16:27:21 +0000
-Message-ID: <MW3PR12MB45537DC45130BB5F02F0F3F095BC9@MW3PR12MB4553.namprd12.prod.outlook.com>
-References: <167778850105.1053859.14596357862185564029.stgit@bmoger-ubuntu>
- <167778866506.1053859.2329229096484796501.stgit@bmoger-ubuntu>
- <9af9eb7a-476c-d4b0-e114-3f5c2b45dd95@intel.com>
-In-Reply-To: <9af9eb7a-476c-d4b0-e114-3f5c2b45dd95@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-03-16T16:27:19Z;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=47685370-18df-40c1-ba3e-e40a8b54358c;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=1
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_enabled: true
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_setdate: 2023-03-16T16:27:19Z
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_method: Standard
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_name: General
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_actionid: 6eb32c54-2c60-4baa-9be6-7df788d14d4d
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_contentbits: 0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW3PR12MB4553:EE_|CY8PR12MB7513:EE_
-x-ms-office365-filtering-correlation-id: ccb8bd19-0e89-411c-91fb-08db263b51af
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ArC54IaMVbUsXjLf8qyi9boatz4879kyYcPCL5KJSXt0BG8jagTdtgWoWvCERzgxlHmqTvgdkggd5qa128qr79BcXYRgGiSvJ9/DCLca/ymbZYtsyNyFbbjV6vWhHK4U/BOUtalx4jVM7ezYGJWPTT2EGZzH4PHc0K2IJKML6vGLpDgfDznjWq9868970VSUm4DFEhR2dUFN8DIBahJNqb6m89QhCO4IBrbgB54RZmdxSgpzV1Zid+PE8EQ1hx8mwBMpMt49TWcS07Cn6amjmWz71DbU4MxxRq2HVaIQ8BkwTGx8DkpA+PorRN44rq3waBA9kr5QL9QabQduR1cAXJjqZSXhRXiKni/ewaSuYUFKtfzFG67f0RV9WmwHbZtEDeVb2EFXxdN9PzhiGrpvTolJPHGa8XNEfDjjXNXcJBnTwqcdjZc9Qo7mTP6AulDWx/nR/3SW8FtJkegT9ToJy+Wt9FRqNpbU4RSBKGRy70QP5o/Gk6i6QoP1V/82w/XcKW8tJC1TW3bdsfHf1Nw95xbrfJEYflrJD4im9MP0qIdnecDQA34io+DUvrmSHnsIbUZdte3lNwj/AT7sYsHC4pq9BfjLTEGtxXemXhS0MXqFnul6vUwJLjmkIQZPNXcFqXBOk9Z3o09bvCsjF4XRtkyWkq5SVCEkOg79iJxr50b+AnCAYnmwfWq1cdq/YSqK
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(346002)(376002)(39860400002)(366004)(136003)(451199018)(7406005)(26005)(7416002)(186003)(9686003)(6506007)(53546011)(5660300002)(83380400001)(66899018)(52536014)(8936002)(38100700002)(7696005)(38070700005)(33656002)(66476007)(66556008)(2906002)(66446008)(76116006)(64756008)(41300700001)(71200400001)(86362001)(55016003)(478600001)(110136005)(316002)(66946007)(8676002)(54906003)(4326008)(122000001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QnJuRDRlL0hFNjhwcmd2cVRxbXJEYWNmZWJRUFJqM3BvajNVWmdHeHg4RTV2?=
- =?utf-8?B?dGpibm42N1VrdFZHOGZpdHF1Ymorcm5KRmZ6dmJYK2ZXZTNZdzVrOVZnc01a?=
- =?utf-8?B?Mzg3UnR3NlczMU5nekdaaDRpSW5yWjhCZmhzK2hzYVFVREJpSnRrOGg1ZWFu?=
- =?utf-8?B?TzJvWGFwOE84TER0Z1RHK0x6d1ZDSllzUEt1YzlmMTFrZ2ZITVRWMGY5SW04?=
- =?utf-8?B?RzlaMXcza0d6U0N4d3p2enB1a0czU3J3eTE4ckhENUFBendNTjNoRVV3ek5I?=
- =?utf-8?B?QlRsSHNpRW9aVENLUWJIMWFCeGNlR3QwRWIrOVgvQk5jYU94dm9IYXhYUjBH?=
- =?utf-8?B?Z3FZUDczR2R1dGluRzd4QjB0Z2RKS0FDa2hTZ3NDcm5SY2hNOWl4UFdPN1Bn?=
- =?utf-8?B?OHNQMWI4Yk1vYmppWW5tRGt6dW9sRXNNZkZBdGJEZXlWcUM1K1VYUDVtTm1I?=
- =?utf-8?B?Q3RPN0g4em1BTWNRUzgvVzVSK0pGeHp2TktVV2RjekdUcllqQkhvVjdiN2Fo?=
- =?utf-8?B?cXFqbWxZNllkRDdLS21KWHNwRXRTS1d3Qk1mandrd1pNUXo4aXl2UUVueWZO?=
- =?utf-8?B?a0s5ZkJNZXFvVzE2RmlSOVlqNVlpSWswaWFWb21Jb0hkR0lqVkhFOFMzK1Jw?=
- =?utf-8?B?d0ViWi9jbSt0akhVWWJVRU9nUkE1UHZmWTdDb1AyRE9LNUNBZVowWnpwU1Aw?=
- =?utf-8?B?WFhiS0JSVEdNSDdSR3ZkMzI0OXBZYXRjdDloRFUzZGRmbm9xQllxRnNlQnRz?=
- =?utf-8?B?VU9pblozbXErSU4rSjR2cXNoZzZXdjZRQ1NyYVZBQlU4ei9XQTJhaHpqN05P?=
- =?utf-8?B?ZW84T2QzN3B0M1hoMG1JaFc2YkFieXEyYjJjQk5IWHA4ZmdCTmJUc2htSEhk?=
- =?utf-8?B?Rm8yZ3pIWXBockFQSnlBb1N4WWVKTkNSTFV1T0REd3lEWldiaU1WMWMzdjhW?=
- =?utf-8?B?dE1PREJQVHphbVIvcUNYR1VqbkJrRmxRWmdHMFE3SElNNkpJdHVIclVsYURR?=
- =?utf-8?B?NlFCQnFMN0NIeEJTdVZDTVZOWXIxTzNoeVViQVR5WGN1NVlkaDYybTJqVmRj?=
- =?utf-8?B?NGxuRlVQQzV5ckJNd2RVanpKS2hjQkMvb3FqUUx3SXVyaFlmYUJwQ0s1cUdm?=
- =?utf-8?B?dDBiVlZ0NEd4clg2RXJ0aHVRbXUxMVFnU3VZaWxNT21abStlQUhPNlRIb3pD?=
- =?utf-8?B?dkNLRlJUcFJFVFJrWTcrbmJDYXpKTUlCTWpNaU9QdVk0NUpVN2M3amowTlFK?=
- =?utf-8?B?VTZDbC9ZSTN2UU5qRm1jZ1ZlMXpJU1hIYjE0REdEYTJmZlgxeXNoRldSbWYr?=
- =?utf-8?B?Zm9mcVFYWjhoMjYrRmNRMkhFT2RmaDdTR1lleDJYUEJTNDJFZTEzT1ZWMm0z?=
- =?utf-8?B?M0o3c3E5QVdaZlNmY2dBNFBhQXdITDUrYkZvVlJyckJqMVc1N1pBUmVvbzlC?=
- =?utf-8?B?TWlKSEVZSFZiV21OQXJUcFBnVmYwV1hxV1I5TlNycG1UbzVGWlJpOG05c1RD?=
- =?utf-8?B?ZEJYek1tZUN1eUI4M0c2eHFDN2tvNGJKN0R5Q0lQUm5QSkJEeXNjSlQ0UFN1?=
- =?utf-8?B?SjRyODE3SWVpbWg2WUNOMGk2bGtJMUZDcFBGb2FvNG1CcXZma0xTNWwwbmNh?=
- =?utf-8?B?WlNuUEVkTmNVS3M2VHRpRXJUdVZLZFIvUEFSOTZQRzQzL2pvc3JEQzB2OUFv?=
- =?utf-8?B?QzliSjdaWGlsbldkMXo5Y2t1bGZ0Wkl5VWcrVUg5aklHekhDZnk5TklYV1A5?=
- =?utf-8?B?dS8yd0dvM0hwSmZtYklNTEp0R1VsL1pCeTZTRDErWEpqaVZ3Yk1rRXUxVU9i?=
- =?utf-8?B?Yk4yZ1l0dkgzcjh4T04rdnBzUVBVUmpKTHFaT3U4NlB4THVwQXdYSC9IUFVV?=
- =?utf-8?B?NlhYVUxBaVBQMW9SUGVSRXlBRUY4OS83dno2OVh2Ny9kdUVTZnRPZjQ5UU1r?=
- =?utf-8?B?TVU0MGx1WmVQa2JoS0xmV1lZak90WFo4RTB4Nk1CNUdNMjVtV0U2Nm4xZTVp?=
- =?utf-8?B?eG16THhwaHNpOWZCTDJQQkpaaDA2b09iYXhoVVJCT0F1RFBpYncwOFNTWGl6?=
- =?utf-8?B?QTRqQnE1RUpiZU9aL3l4NSsvNTdZVjFYZm1iNmRUWElJRFNFT2tYcmY0ZjJW?=
- =?utf-8?Q?88bo=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S230012AbjCPQ3K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 12:29:10 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 655BB11658;
+        Thu, 16 Mar 2023 09:29:08 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id v2-20020a056830090200b0069c6952f4d3so1281550ott.7;
+        Thu, 16 Mar 2023 09:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678984147;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vs3zfnYLiPrlyQpAWkqpXhNbQS3/J4YFuAxSGCahd48=;
+        b=ikNRzbRoiKTgXyd+o2RLa29YkJb2JOn/v6YIm0chMHa6jMtz7Aukxr3sDnZHlDLCPg
+         4D/22vj4EbWjYs2AIrlL21s+qmtcJrK2g0S0A9e8PiBm5W7d712LL6r2UFxgKnvXl/gm
+         ktxn0TCtFmHN3n6/5Rqp3eY/tP+45cwvCQbEr4LKfIVc3NzHlCvpaRgPl1GjprXJngVK
+         o/OzzczyZa0RYUhKwpPTamHjLGz0bzvRvfBPOcY80aDA3S86p0xzu2KL68NJou9/9dV3
+         ledWYpzzPxEcC0LxkcP1aiyD5wyrscSI78/RWFrs6d2i7fFM8PEv3ajniZ3O3cfTJDJ4
+         JOow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678984147;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vs3zfnYLiPrlyQpAWkqpXhNbQS3/J4YFuAxSGCahd48=;
+        b=6L+Fq4JYx6S/3tGnBkY5jAoo1bqTqaN6dav0ntMqZIgtqS0/GHCbRztXKZdaLWOIk2
+         8MeRKgI4nOxZSTr37RJU2CK8KyWkbdqkv4SVffITEr/iMR/DP54AuVN45dW/GjeSnoGI
+         obHYESWolyzQx2V1nb9nUJ40jPNN4SyyCVOtlAhrAhbnCx6SLraG+cYLttyUbKvG7vNP
+         xjWnZrPmT/mZGdglILY6SKXe9UFKynBN9FPpfE0CXTCO4x2JBdp8PtK7JfzqRPLaPVCr
+         MEdBgVtubkapU66xVtbgK849c9eED5SloC2yr029qx13hFsGCkddGfXUuekz67xbTFKs
+         KGhA==
+X-Gm-Message-State: AO0yUKWAcbWHay0YLPqp5UlWZllJ/4rxr2zDoMJvSZmla4nKCZd53+5b
+        BVR4A+gSFIZ4HpMLhWg50Wi/VoRfiuQTWrJRXEx29fQy
+X-Google-Smtp-Source: AK7set9IcfdpvBN64YteomtwjOCFpqzUVfHueXm0TYhNaIV/bcuG5vBYfN2vscoS0EyM3rGNZE/9BSodjB6pzEb8/aE=
+X-Received: by 2002:a9d:4b8f:0:b0:696:f275:a60d with SMTP id
+ k15-20020a9d4b8f000000b00696f275a60dmr3396308otf.7.1678984147388; Thu, 16 Mar
+ 2023 09:29:07 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccb8bd19-0e89-411c-91fb-08db263b51af
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2023 16:27:21.8131
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tNNFGDq2DSEnfd5OJ5t7N3xpTbsZt3VPWPxDvuIBi46nQHEaVs3+9Zos4BxEo4QA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7513
+References: <20230308155322.344664-1-robdclark@gmail.com> <20230308155322.344664-2-robdclark@gmail.com>
+ <ZAtQspuFjPtGy7ze@gmail.com> <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
+ <ZBHNvT3BLgS3qvV5@gmail.com> <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
+ <ZBLg0t0tTVvuPuiJ@gmail.com>
+In-Reply-To: <ZBLg0t0tTVvuPuiJ@gmail.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Thu, 16 Mar 2023 09:28:55 -0700
+Message-ID: <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
+Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
+To:     =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        intel-gfx@lists.freedesktop.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Matt Turner <mattst88@gmail.com>,
+        freedreno@lists.freedesktop.org,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-W0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEdlbmVyYWxdDQoNCkhpIFJlaW5ldHRlLA0KDQo+IC0t
-LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFJlaW5ldHRlIENoYXRyZSA8cmVpbmV0
-dGUuY2hhdHJlQGludGVsLmNvbT4NCj4gU2VudDogV2VkbmVzZGF5LCBNYXJjaCAxNSwgMjAyMyAx
-OjMzIFBNDQo+IFRvOiBNb2dlciwgQmFidSA8QmFidS5Nb2dlckBhbWQuY29tPjsgY29yYmV0QGx3
-bi5uZXQ7DQo+IHRnbHhAbGludXRyb25peC5kZTsgbWluZ29AcmVkaGF0LmNvbTsgYnBAYWxpZW44
-LmRlDQo+IENjOiBmZW5naHVhLnl1QGludGVsLmNvbTsgZGF2ZS5oYW5zZW5AbGludXguaW50ZWwu
-Y29tOyB4ODZAa2VybmVsLm9yZzsNCj4gaHBhQHp5dG9yLmNvbTsgcGF1bG1ja0BrZXJuZWwub3Jn
-OyBha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnOw0KPiBxdWljX25lZXJhanVAcXVpY2luYy5jb207
-IHJkdW5sYXBAaW5mcmFkZWFkLm9yZzsNCj4gZGFtaWVuLmxlbW9hbEBvcGVuc291cmNlLndkYy5j
-b207IHNvbmdtdWNodW5AYnl0ZWRhbmNlLmNvbTsNCj4gcGV0ZXJ6QGluZnJhZGVhZC5vcmc7IGpw
-b2ltYm9lQGtlcm5lbC5vcmc7IHBib256aW5pQHJlZGhhdC5jb207DQo+IGNoYW5nLnNlb2suYmFl
-QGludGVsLmNvbTsgcGF3YW4ua3VtYXIuZ3VwdGFAbGludXguaW50ZWwuY29tOw0KPiBqbWF0dHNv
-bkBnb29nbGUuY29tOyBkYW5pZWwuc25lZGRvbkBsaW51eC5pbnRlbC5jb207IERhczEsIFNhbmRp
-cGFuDQo+IDxTYW5kaXBhbi5EYXNAYW1kLmNvbT47IHRvbnkubHVja0BpbnRlbC5jb207IGphbWVz
-Lm1vcnNlQGFybS5jb207DQo+IGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5l
-bEB2Z2VyLmtlcm5lbC5vcmc7DQo+IGJhZ2FzZG90bWVAZ21haWwuY29tOyBlcmFuaWFuQGdvb2ds
-ZS5jb207IGNocmlzdG9waGUubGVyb3lAY3Nncm91cC5ldTsNCj4gamFya2tvQGtlcm5lbC5vcmc7
-IGFkcmlhbi5odW50ZXJAaW50ZWwuY29tOyBxdWljX2ppbGVzQHF1aWNpbmMuY29tOw0KPiBwZXRl
-cm5ld21hbkBnb29nbGUuY29tDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjMgMS83XSB4ODYvcmVz
-Y3RybDogQWRkIG11bHRpcGxlIHRhc2tzIHRvIHRoZSByZXNjdHJsIGdyb3VwDQo+IGF0IG9uY2UN
-Cj4gDQo+IEhpIEJhYnUsDQo+IA0KPiBPbiAzLzIvMjAyMyAxMjoyNCBQTSwgQmFidSBNb2dlciB3
-cm90ZToNCj4gPiBUaGUgcmVzY3RybCB0YXNrIGFzc2lnbm1lbnQgZm9yIE1PTklUT1Igb3IgQ09O
-VFJPTCBncm91cCBuZWVkcyB0byBiZQ0KPiA+IGRvbmUgb25lIGF0IGEgdGltZS4gRm9yIGV4YW1w
-bGU6DQo+ID4NCj4gPiAgICRtb3VudCAtdCByZXNjdHJsIHJlc2N0cmwgL3N5cy9mcy9yZXNjdHJs
-Lw0KPiA+ICAgJG1rZGlyIC9zeXMvZnMvcmVzY3RybC9jbG9zMQ0KPiA+ICAgJGVjaG8gMTIzID4g
-L3N5cy9mcy9yZXNjdHJsL2Nsb3MxL3Rhc2tzDQo+ID4gICAkZWNobyA0NTYgPiAvc3lzL2ZzL3Jl
-c2N0cmwvY2xvczEvdGFza3MNCj4gPiAgICRlY2hvIDc4OSA+IC9zeXMvZnMvcmVzY3RybC9jbG9z
-MS90YXNrcw0KPiA+DQo+ID4gVGhpcyBpcyBub3QgdXNlci1mcmllbmRseSB3aGVuIGRlYWxpbmcg
-d2l0aCBodW5kcmVkcyBvZiB0YXNrcy4gQWxzbywNCj4gPiB0aGVyZSBpcyBhIHN5c2NhbGwgb3Zl
-cmhlYWQgZm9yIGVhY2ggY29tbWFuZCBleGVjdXRlZCBmcm9tIHVzZXIgc3BhY2UuDQo+IA0KPiBU
-byBzdXBwb3J0IHRoaXMgY2hhbmdlIGl0IG1heSBhbHNvIGJlIGhlbHBmdWwgdG8gYWRkIHRoYXQg
-bW92aW5nIHRhc2tzIHRha2UgdGhlDQo+IG11dGV4IHNvIGF0dGVtcHRpbmcgdG8gbW92ZSB0YXNr
-cyBpbiBwYXJhbGxlbCB3aWxsIG5vdCBhY2hpZXZlIGEgc2lnbmlmaWNhbnQNCj4gcGVyZm9ybWFu
-Y2UgZ2Fpbi4NCg0KQWdyZWUuIEl0IG1heSBub3QgYmUgc2lnbmlmaWNhbnQgcGVyZm9ybWFuY2Ug
-Z2Fpbi4gIFdpbGwgcmVtb3ZlIHRoaXMgbGluZS4gDQo+IA0KPiA+DQo+ID4gSXQgY2FuIGJlIGlt
-cHJvdmVkIGJ5IHN1cHBvcnRpbmcgdGhlIG11bHRpcGxlIHRhc2sgYXNzaWdubWVudCBpbiBvbmUN
-Cj4gPiBjb21tYW5kIHdpdGggdGhlIHRhc2tzIHNlcGFyYXRlZCBieSBjb21tYXMuIEZvciBleGFt
-cGxlOg0KPiA+DQo+ID4gICAkZWNobyAxMjMsNDU2LDc4OSA+IC9zeXMvZnMvcmVzY3RybC9jbG9z
-MS90YXNrcw0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQmFidSBNb2dlciA8YmFidS5tb2dlckBh
-bWQuY29tPg0KPiA+IC0tLQ0KPiA+ICBEb2N1bWVudGF0aW9uL3g4Ni9yZXNjdHJsLnJzdCAgICAg
-ICAgICB8ICAgMTEgKysrKysrKysrLS0NCj4gPiAgYXJjaC94ODYva2VybmVsL2NwdS9yZXNjdHJs
-L3JkdGdyb3VwLmMgfCAgIDI0ICsrKysrKysrKysrKysrKysrKysrKysrLQ0KPiA+ICAyIGZpbGVz
-IGNoYW5nZWQsIDMyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZm
-IC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi94ODYvcmVzY3RybC5yc3QNCj4gPiBiL0RvY3VtZW50YXRp
-b24veDg2L3Jlc2N0cmwucnN0IGluZGV4IDA1ODI1N2RjNTZjOC4uMjUyMDNmMjAwMDJkDQo+ID4g
-MTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi94ODYvcmVzY3RybC5yc3QNCj4gPiArKysg
-Yi9Eb2N1bWVudGF0aW9uL3g4Ni9yZXNjdHJsLnJzdA0KPiA+IEBAIC0yOTIsMTMgKzI5MiwyMCBA
-QCBBbGwgZ3JvdXBzIGNvbnRhaW4gdGhlIGZvbGxvd2luZyBmaWxlczoNCj4gPiAgInRhc2tzIjoN
-Cj4gPiAgCVJlYWRpbmcgdGhpcyBmaWxlIHNob3dzIHRoZSBsaXN0IG9mIGFsbCB0YXNrcyB0aGF0
-IGJlbG9uZyB0bw0KPiA+ICAJdGhpcyBncm91cC4gV3JpdGluZyBhIHRhc2sgaWQgdG8gdGhlIGZp
-bGUgd2lsbCBhZGQgYSB0YXNrIHRvIHRoZQ0KPiA+IC0JZ3JvdXAuIElmIHRoZSBncm91cCBpcyBh
-IENUUkxfTU9OIGdyb3VwIHRoZSB0YXNrIGlzIHJlbW92ZWQgZnJvbQ0KPiA+ICsJZ3JvdXAuIE11
-bHRpcGxlIHRhc2tzIGNhbiBiZSBhc3NpZ25lZCB0b2dldGhlciBpbiBvbmUgY29tbWFuZCBieQ0K
-PiA+ICsJaW5wdXR0aW5nIHRoZSB0YXNrcyBzZXBhcmF0ZWQgYnkgY29tbWFzLiBUYXNrcyB3aWxs
-IGJlIGFzc2lnbmVkDQo+IA0KPiBIb3cgYWJvdXQgInRhc2tzIHNlcGFyYXRlZCIgLT4gInRhc2sg
-aWRzIHNlcGFyYXRlZCIgb3IgImJ5IGlucHV0dGluZyB0aGUgdGFza3MNCj4gc2VwYXJhdGVkIGJ5
-IGNvbW1hcyIgLT4gImJ5IHNlcGFyYXRpbmcgdGhlIHRhc2sgaWRzIHdpdGggY29tbWFzIg0KDQoN
-CldpbGwgY2hhbmdlIGl0IHRvICIgTXVsdGlwbGUgdGFza3MgY2FuIGJlIGFzc2lnbmVkIHRvZ2V0
-aGVyIGluIG9uZSBjb21tYW5kIGJ5IHNlcGFyYXRpbmcgdGhlIHRhc2sgaWRzIHdpdGggY29tbWFz
-LiINCiANCj4gPiArCXNlcXVlbnRpYWxseSBpbiB0aGUgb3JkZXIgaXQgaXMgcHJvdmlkZWQuIEZh
-aWx1cmUgd2hpbGUgYXNzaWduaW5nDQo+ID4gKwl0aGUgdGFza3Mgd2lsbCBiZSBhYm9ydGVkIGlt
-bWVkaWF0ZWx5LiBUaGUgdGFza3MgYmVmb3JlIHRoZSBmYWlsdXJlDQo+ID4gKwl3aWxsIGJlIGFz
-c2lnbmVkIGFuZCB0aGUgdGFza3MgbmV4dCBpbiB0aGUgc2VxdWVuY2Ugd2lsbCBub3QgYmUNCj4g
-PiArCWFzc2lnbmVkLiBVc2VycyBtYXkgbmVlZCB0byByZXRyeSB0aGVtIGFnYWluLiBUaGUgZmFp
-bHVyZSBkZXRhaWxzDQo+ID4gKwl3aWxsIGJlIGxvZ2dlZCBpbiByZXNjdHJsL2luZm8vbGFzdF9j
-bWRfc3RhdHVzIGZpbGUuDQo+IA0KPiBQbGVhc2UgdXNlIGZ1bGwgcGF0aCBhcyBpcyBkb25lIGlu
-IHJlc3Qgb2YgZG9jLg0KDQpPay4gU3VyZQ0KDQo+IA0KPiA+ICsNCj4gPiArCUlmIHRoZSBncm91
-cCBpcyBhIENUUkxfTU9OIGdyb3VwIHRoZSB0YXNrIGlzIHJlbW92ZWQgZnJvbQ0KPiA+ICAJd2hp
-Y2hldmVyIHByZXZpb3VzIENUUkxfTU9OIGdyb3VwIG93bmVkIHRoZSB0YXNrIGFuZCBhbHNvIGZy
-b20NCj4gPiAgCWFueSBNT04gZ3JvdXAgdGhhdCBvd25lZCB0aGUgdGFzay4gSWYgdGhlIGdyb3Vw
-IGlzIGEgTU9OIGdyb3VwLA0KPiA+ICAJdGhlbiB0aGUgdGFzayBtdXN0IGFscmVhZHkgYmVsb25n
-IHRvIHRoZSBDVFJMX01PTiBwYXJlbnQgb2YgdGhpcw0KPiA+ICAJZ3JvdXAuIFRoZSB0YXNrIGlz
-IHJlbW92ZWQgZnJvbSBhbnkgcHJldmlvdXMgTU9OIGdyb3VwLg0KPiA+DQo+ID4gLQ0KPiANCj4g
-V2h5IGlzIHRoaXMgbGluZSByZW1vdmFsIG5lZWRlZD8NCg0KTm90IG5lZWRlZC4gDQo+IA0KPiA+
-ICAiY3B1cyI6DQo+ID4gIAlSZWFkaW5nIHRoaXMgZmlsZSBzaG93cyBhIGJpdG1hc2sgb2YgdGhl
-IGxvZ2ljYWwgQ1BVcyBvd25lZCBieQ0KPiA+ICAJdGhpcyBncm91cC4gV3JpdGluZyBhIG1hc2sg
-dG8gdGhpcyBmaWxlIHdpbGwgYWRkIGFuZCByZW1vdmUgZGlmZg0KPiA+IC0tZ2l0IGEvYXJjaC94
-ODYva2VybmVsL2NwdS9yZXNjdHJsL3JkdGdyb3VwLmMNCj4gPiBiL2FyY2gveDg2L2tlcm5lbC9j
-cHUvcmVzY3RybC9yZHRncm91cC5jDQo+ID4gaW5kZXggZTJjMTU5OWQxYjM3Li4xNWVhNWI1NTBm
-ZTkgMTAwNjQ0DQo+ID4gLS0tIGEvYXJjaC94ODYva2VybmVsL2NwdS9yZXNjdHJsL3JkdGdyb3Vw
-LmMNCj4gPiArKysgYi9hcmNoL3g4Ni9rZXJuZWwvY3B1L3Jlc2N0cmwvcmR0Z3JvdXAuYw0KPiA+
-IEBAIC02ODMsMTYgKzY4MywzNCBAQCBzdGF0aWMgc3NpemVfdCByZHRncm91cF90YXNrc193cml0
-ZShzdHJ1Y3QNCj4ga2VybmZzX29wZW5fZmlsZSAqb2YsDQo+ID4gIAkJCQkgICAgY2hhciAqYnVm
-LCBzaXplX3QgbmJ5dGVzLCBsb2ZmX3Qgb2ZmKSAgew0KPiA+ICAJc3RydWN0IHJkdGdyb3VwICpy
-ZHRncnA7DQo+ID4gKwljaGFyICpwaWRfc3RyOw0KPiA+ICAJaW50IHJldCA9IDA7DQo+ID4gIAlw
-aWRfdCBwaWQ7DQo+ID4NCj4gPiAtCWlmIChrc3RydG9pbnQoc3Ryc3RyaXAoYnVmKSwgMCwgJnBp
-ZCkgfHwgcGlkIDwgMCkNCj4gPiArCS8qIFZhbGlkIGlucHV0IHJlcXVpcmVzIGEgdHJhaWxpbmcg
-bmV3bGluZSAqLw0KPiA+ICsJaWYgKG5ieXRlcyA9PSAwIHx8IGJ1ZltuYnl0ZXMgLSAxXSAhPSAn
-XG4nKQ0KPiA+ICAJCXJldHVybiAtRUlOVkFMOw0KPiANCj4gVGhlIHJlc2N0cmwgZmlsZXMgc2hv
-dWxkIGJlIHNlZW4gYXMgdXNlciBzcGFjZSBBUEkuIFdpdGggdGhlIGFib3ZlIGNoYW5nZSB5b3UN
-Cj4gdGFrZSBhbiBpbnRlcmZhY2UgdGhhdCBkaWQgbm90IHJlcXVpcmUgYSBuZXdsaW5lIGFuZCBk
-aWN0YXRlIHRoYXQgaXQgc2hvdWxkIGhhdmUNCj4gYSB0cmFpbGluZyBuZXdsaW5lLiBIb3cgY29u
-dmluY2VkIGFyZSB5b3UgdGhhdCB0aGlzIGRvZXMgbm90IGJyZWFrIGFueSBjdXJyZW50DQo+IHVz
-ZXIgc3BhY2Ugc2NyaXB0cyBvciBhcHBsaWNhdGlvbnM/IFdoeSBkb2VzIHRoaXMgZmVhdHVyZSBy
-ZXF1aXJlIGEgdHJhaWxpbmcNCj4gbmV3bGluZT8NCg0KSSBoYXZlIHRlc3RlZCB0aGVzZSBjaGFu
-Z2VzIHdpdGggaW50ZWxfY210X2NhdCB0b29sLiBJdCBkaWRu4oCZdCBoYXZlIGFueSBwcm9ibGVt
-cy4gDQpXZSBhcmUgYWxyZWFkeSBkb2luZyBuZXdsaW5lIGNoZWNrIGZvciBmZXcgb3RoZXIgaW5w
-dXRzLg0KDQo+IA0KPiA+ICsNCj4gPiArCWJ1ZltuYnl0ZXMgLSAxXSA9ICdcMCc7DQo+ID4gKw0K
-PiA+ICAJcmR0Z3JwID0gcmR0Z3JvdXBfa25fbG9ja19saXZlKG9mLT5rbik7DQo+ID4gIAlpZiAo
-IXJkdGdycCkgew0KPiA+ICAJCXJkdGdyb3VwX2tuX3VubG9jayhvZi0+a24pOw0KPiA+ICAJCXJl
-dHVybiAtRU5PRU5UOw0KPiA+ICAJfQ0KPiA+ICsNCj4gPiArbmV4dDoNCj4gPiArCWlmICghYnVm
-IHx8IGJ1ZlswXSA9PSAnXDAnKQ0KPiA+ICsJCWdvdG8gdW5sb2NrOw0KPiA+ICsNCj4gPiArCXBp
-ZF9zdHIgPSBzdHJpbShzdHJzZXAoJmJ1ZiwgIiwiKSk7DQo+ID4gKw0KPiANCj4gQ291bGQgbGli
-L2NtZGxpbmUuYzpnZXRfb3B0aW9uKCkgYmUgdXNlZnVsPw0KDQpZZXMuIFdlIGNvdWxkIHRoYXQg
-YWxzby4gTWF5IG5vdCBiZSByZXF1aXJlZCBmb3IgdGhlIHNpbXBsZSBjYXNlIGxpa2UgdGhpcy4N
-Cg0KPiANCj4gPiArCWlmIChrc3RydG9pbnQocGlkX3N0ciwgMCwgJnBpZCkgfHwgcGlkIDwgMCkg
-ew0KPiA+ICsJCXJkdF9sYXN0X2NtZF9wcmludGYoIkludmFsaWQgcGlkICVkIHZhbHVlXG4iLCBw
-aWQpOw0KPiANCj4gVGhpcyBpcyByaXNreS4gV2hhdCB3aWxsIHBpZCBiZSBpZiBrc3RydG9pbnQo
-KSBmYWlsZWQ/DQoNClllYS4gSSBuZWVkIHRvIHNlcGFyYXRlIHRoZXNlIGZhaWx1cmUgY2FzZXMu
-IE9uZSBpcyBwYXJzaW5nIGVycm9yLCBhbmQgYW5vdGhlciBpcyBpbnZhbGlkIHBpZC4NCg0KPiAN
-Cj4gPiArCQlyZXQgPSAtRUlOVkFMOw0KPiA+ICsJCWdvdG8gdW5sb2NrOw0KPiA+ICsJfQ0KPiA+
-ICsNCj4gPiAgCXJkdF9sYXN0X2NtZF9jbGVhcigpOw0KPiA+DQo+ID4gIAlpZiAocmR0Z3JwLT5t
-b2RlID09IFJEVF9NT0RFX1BTRVVET19MT0NLRUQgfHwgQEAgLTcwMyw2DQo+ICs3MjEsMTAgQEAN
-Cj4gPiBzdGF0aWMgc3NpemVfdCByZHRncm91cF90YXNrc193cml0ZShzdHJ1Y3Qga2VybmZzX29w
-ZW5fZmlsZSAqb2YsDQo+ID4gIAl9DQo+ID4NCj4gPiAgCXJldCA9IHJkdGdyb3VwX21vdmVfdGFz
-ayhwaWQsIHJkdGdycCwgb2YpOw0KPiA+ICsJaWYgKHJldCkNCj4gPiArCQlnb3RvIHVubG9jazsN
-Cj4gPiArCWVsc2UNCj4gPiArCQlnb3RvIG5leHQ7DQo+ID4NCj4gDQo+IFRoZSBkb2N1bWVudGF0
-aW9uIHN0YXRlcyAiVGhlIGZhaWx1cmUgZGV0YWlscyB3aWxsIGJlIGxvZ2dlZCBpbg0KPiByZXNj
-dHJsL2luZm8vbGFzdF9jbWRfc3RhdHVzIGZpbGUuIiBidXQgSSBkbyBub3Qgc2VlIGhvdyB0aGlz
-IGlzIGhhcHBlbmluZyBoZXJlLg0KPiBGcm9tIHdoYXQgSSBjYW4gdGVsbCB0aGlzIGltcGxlbWVu
-dGF0aW9uIGRvZXMgbm90IGRvIGFueXRoaW5nIGJleW9uZCB3aGF0DQo+IGxhc3RfY21kX3N0YXR1
-cyBhbHJlYWR5IGRvZXMgc28gYW55IHNwZWNpYWwgbWVudGlvbiBpbiB0aGUgZG9jcyBpcyBub3Qg
-Y2xlYXIgdG8NCj4gbWUuIFRoZSBjb3ZlciBsZXR0ZXIgc3RhdGVkICJBZGRlZCBwaWQgaW4gbGFz
-dF9jbWRfc3RhdHVzIHdoZW4gYXBwbGljYWJsZS4iIC0gaXQNCj4gc291bmRlZCBhcyB0aG91Z2gg
-bGFzdF9jbWRfc3RhdHVzIHdvdWxkIGNvbnRhaW4gdGhlIGVycm9yIHdpdGggdGhlIHBpZCB0aGF0
-DQo+IGVuY291bnRlcmVkIHRoZSBlcnJvciBidXQgSSBkbyBub3Qgc2VlIHRoaXMgaGFwcGVuaW5n
-IGhlcmUuDQoNCllvdSBhcmUgcmlnaHQgd2UgYXJlIG5vdCBkb2luZyBhbnl0aGluZyBzcGVjaWFs
-IGhlcmUuIHBpZCBmYWlsdXJlcyBlcnJvciB3YXMgYWxyZWFkeSB0aGVyZS4NCkkgd2lsbCBoYXZl
-IHRvIGNoYW5nZSB0aGUgdGV4dCBoZXJlLg0KVGhhbmtzDQpCYWJ1DQoNCj4gDQo+ID4gIHVubG9j
-azoNCj4gPiAgCXJkdGdyb3VwX2tuX3VubG9jayhvZi0+a24pOw0KPiA+DQo+ID4NCj4gDQo+IFJl
-aW5ldHRlDQo=
+On Thu, Mar 16, 2023 at 2:26=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.com>=
+ wrote:
+>
+> On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
+> > On Wed, Mar 15, 2023 at 6:53=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.=
+com> wrote:
+> > >
+> > > On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
+> > > > On Fri, Mar 10, 2023 at 7:45=E2=80=AFAM Jonas =C3=85dahl <jadahl@gm=
+ail.com> wrote:
+> > > > >
+> > > > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
+> > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > > >
+> > > > > > Add a way to hint to the fence signaler of an upcoming deadline=
+, such as
+> > > > > > vblank, which the fence waiter would prefer not to miss.  This =
+is to aid
+> > > > > > the fence signaler in making power management decisions, like b=
+oosting
+> > > > > > frequency as the deadline approaches and awareness of missing d=
+eadlines
+> > > > > > so that can be factored in to the frequency scaling.
+> > > > > >
+> > > > > > v2: Drop dma_fence::deadline and related logic to filter duplic=
+ate
+> > > > > >     deadlines, to avoid increasing dma_fence size.  The fence-c=
+ontext
+> > > > > >     implementation will need similar logic to track deadlines o=
+f all
+> > > > > >     the fences on the same timeline.  [ckoenig]
+> > > > > > v3: Clarify locking wrt. set_deadline callback
+> > > > > > v4: Clarify in docs comment that this is a hint
+> > > > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
+> > > > > > v6: More docs
+> > > > > > v7: Fix typo, clarify past deadlines
+> > > > > >
+> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > > > > > ---
+> > > > >
+> > > > > Hi Rob!
+> > > > >
+> > > > > >  Documentation/driver-api/dma-buf.rst |  6 +++
+> > > > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++=
+++++++++
+> > > > > >  include/linux/dma-fence.h            | 22 +++++++++++
+> > > > > >  3 files changed, 87 insertions(+)
+> > > > > >
+> > > > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentati=
+on/driver-api/dma-buf.rst
+> > > > > > index 622b8156d212..183e480d8cea 100644
+> > > > > > --- a/Documentation/driver-api/dma-buf.rst
+> > > > > > +++ b/Documentation/driver-api/dma-buf.rst
+> > > > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
+> > > > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
+> > > > > >     :doc: fence signalling annotation
+> > > > > >
+> > > > > > +DMA Fence Deadline Hints
+> > > > > > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > > +
+> > > > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
+> > > > > > +   :doc: deadline hints
+> > > > > > +
+> > > > > >  DMA Fences Functions Reference
+> > > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > >
+> > > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-=
+fence.c
+> > > > > > index 0de0482cd36e..f177c56269bb 100644
+> > > > > > --- a/drivers/dma-buf/dma-fence.c
+> > > > > > +++ b/drivers/dma-buf/dma-fence.c
+> > > > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fenc=
+e **fences, uint32_t count,
+> > > > > >  }
+> > > > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+> > > > > >
+> > > > > > +/**
+> > > > > > + * DOC: deadline hints
+> > > > > > + *
+> > > > > > + * In an ideal world, it would be possible to pipeline a workl=
+oad sufficiently
+> > > > > > + * that a utilization based device frequency governor could ar=
+rive at a minimum
+> > > > > > + * frequency that meets the requirements of the use-case, in o=
+rder to minimize
+> > > > > > + * power consumption.  But in the real world there are many wo=
+rkloads which
+> > > > > > + * defy this ideal.  For example, but not limited to:
+> > > > > > + *
+> > > > > > + * * Workloads that ping-pong between device and CPU, with alt=
+ernating periods
+> > > > > > + *   of CPU waiting for device, and device waiting on CPU.  Th=
+is can result in
+> > > > > > + *   devfreq and cpufreq seeing idle time in their respective =
+domains and in
+> > > > > > + *   result reduce frequency.
+> > > > > > + *
+> > > > > > + * * Workloads that interact with a periodic time based deadli=
+ne, such as double
+> > > > > > + *   buffered GPU rendering vs vblank sync'd page flipping.  I=
+n this scenario,
+> > > > > > + *   missing a vblank deadline results in an *increase* in idl=
+e time on the GPU
+> > > > > > + *   (since it has to wait an additional vblank period), sendi=
+ng a signal to
+> > > > > > + *   the GPU's devfreq to reduce frequency, when in fact the o=
+pposite is what is
+> > > > > > + *   needed.
+> > > > >
+> > > > > This is the use case I'd like to get some better understanding ab=
+out how
+> > > > > this series intends to work, as the problematic scheduling behavi=
+or
+> > > > > triggered by missed deadlines has plagued compositing display ser=
+vers
+> > > > > for a long time.
+> > > > >
+> > > > > I apologize, I'm not a GPU driver developer, nor an OpenGL driver
+> > > > > developer, so I will need some hand holding when it comes to
+> > > > > understanding exactly what piece of software is responsible for
+> > > > > communicating what piece of information.
+> > > > >
+> > > > > > + *
+> > > > > > + * To this end, deadline hint(s) can be set on a &dma_fence vi=
+a &dma_fence_set_deadline.
+> > > > > > + * The deadline hint provides a way for the waiting driver, or=
+ userspace, to
+> > > > > > + * convey an appropriate sense of urgency to the signaling dri=
+ver.
+> > > > > > + *
+> > > > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC=
+ for userspace
+> > > > > > + * facing APIs).  The time could either be some point in the f=
+uture (such as
+> > > > > > + * the vblank based deadline for page-flipping, or the start o=
+f a compositor's
+> > > > > > + * composition cycle), or the current time to indicate an imme=
+diate deadline
+> > > > > > + * hint (Ie. forward progress cannot be made until this fence =
+is signaled).
+> > > > >
+> > > > > Is it guaranteed that a GPU driver will use the actual start of t=
+he
+> > > > > vblank as the effective deadline? I have some memories of seing
+> > > > > something about vblank evasion browsing driver code, which I migh=
+t have
+> > > > > misunderstood, but I have yet to find whether this is something
+> > > > > userspace can actually expect to be something it can rely on.
+> > > >
+> > > > I guess you mean s/GPU driver/display driver/ ?  It makes things mo=
+re
+> > > > clear if we talk about them separately even if they happen to be th=
+e
+> > > > same device.
+> > >
+> > > Sure, sorry about being unclear about that.
+> > >
+> > > >
+> > > > Assuming that is what you mean, nothing strongly defines what the
+> > > > deadline is.  In practice there is probably some buffering in the
+> > > > display controller.  For ex, block based (including bandwidth
+> > > > compressed) formats, you need to buffer up a row of blocks to
+> > > > efficiently linearize for scanout.  So you probably need to latch s=
+ome
+> > > > time before you start sending pixel data to the display.  But detai=
+ls
+> > > > like this are heavily implementation dependent.  I think the most
+> > > > reasonable thing to target is start of vblank.
+> > >
+> > > The driver exposing those details would be quite useful for userspace
+> > > though, so that it can delay committing updates to late, but not too
+> > > late. Setting a deadline to be the vblank seems easy enough, but it
+> > > isn't enough for scheduling the actual commit.
+> >
+> > I'm not entirely sure how that would even work.. but OTOH I think you
+> > are talking about something on the order of 100us?  But that is a bit
+> > of another topic.
+>
+> Yes, something like that. But yea, it's not really related. Scheduling
+> commits closer to the deadline has more complex behavior than that too,
+> e.g. the need for real time scheduling, and knowing how long it usually
+> takes to create and commit and for the kernel to process.
+>
+> >
+>
+> 8-< *snip* 8-<
+>
+> > > >
+> > > > You need a fence to set the deadline, and for that work needs to be
+> > > > flushed.  But you can't associate a deadline with work that the ker=
+nel
+> > > > is unaware of anyways.
+> > >
+> > > That makes sense, but it might also a bit inadequate to have it as th=
+e
+> > > only way to tell the kernel it should speed things up. Even with the
+> > > trick i915 does, with GNOME Shell, we still end up with the feedback
+> > > loop this series aims to mitigate. Doing triple buffering, i.e. delay=
+ing
+> > > or dropping the first frame is so far the best work around that works=
+,
+> > > except doing other tricks that makes the kernel to ramp up its clock.
+> > > Having to rely on choosing between latency and frame drops should
+> > > ideally not have to be made.
+> >
+> > Before you have a fence, the thing you want to be speeding up is the
+> > CPU, not the GPU.  There are existing mechanisms for that.
+>
+> Is there no benefit to let the GPU know earlier that it should speed up,
+> so that when the job queue arrives, it's already up to speed?
+
+Downstream we have input notifier that resumes the GPU so we can
+pipeline the 1-2ms it takes to boot up the GPU with userspace.  But we
+wait to boost freq until we have cmdstream to submit, since that
+doesn't take as long.  What needs help initially after input is all
+the stuff that happens on the CPU before the GPU can start to do
+anything ;-)
+
+Btw, I guess I haven't made this clear, dma-fence deadline is trying
+to help the steady-state situation, rather than the input-latency
+situation.  It might take a frame or two of missed deadlines for
+gpufreq to arrive at a good steady-state freq.
+
+> >
+> > TBF I'm of the belief that there is still a need for input based cpu
+> > boost (and early wake-up trigger for GPU).. we have something like
+> > this in CrOS kernel.  That is a bit of a different topic, but my point
+> > is that fence deadlines are just one of several things we need to
+> > optimize power/perf and responsiveness, rather than the single thing
+> > that solves every problem under the sun ;-)
+>
+> Perhaps; but I believe it's a bit of a back channel of intent; the piece
+> of the puzzle that has the information to know whether there is need
+> actually speed up is the compositor, not the kernel.
+>
+> For example, pressing 'p' while a terminal is focused does not need high
+> frequency clocks, it just needs the terminal emulator to draw a 'p' and
+> the compositor to composite that update. Pressing <Super> may however
+> trigger a non-trivial animation moving a lot of stuff around on screen,
+> maybe triggering Wayland clients to draw and what not, and should most
+> arguably have the ability to "warn" the kernel about the upcoming flood
+> of work before it is already knocking on its door step.
+
+The super key is problematic, but not for the reason you think.  It is
+because it is a case where we should boost on key-up instead of
+key-down.. and the second key-up event comes after the cpu-boost is
+already in it's cool-down period.  But even if suboptimal in cases
+like this, it is still useful for touch/stylus cases where the
+slightest of lag is much more perceptible.
+
+This is getting off topic but I kinda favor coming up with some sort
+of static definition that userspace could give the kernel to let the
+kernel know what input to boost on.  Or maybe something could be done
+with BPF?
+
+> >
+>
+> 8-< *snip* 8-<
+>
+> > >
+> > > Is it expected that WSI's will set their own deadlines, or should tha=
+t
+> > > be the job of the compositor? For example by using compositors using
+> > > DMA_BUF_IOCTL_EXPORT_SYNC_FILE that you mentioned, using it to set a
+> > > deadline matching the vsync it most ideally will be committed to?
+> > >
+> >
+> > I'm kind of assuming compositors, but if the WSI somehow has more
+> > information about ideal presentation time, then I suppose it could be
+> > in the WSI?  I'll defer to folks who spend more time on WSI and
+> > compositors to hash out the details ;-)
+>
+> With my compositor developer hat on, it might be best to let it be up to
+> the compositor, it's the one that knows if a client's content will
+> actually end up anywhere visible.
+>
+
+wfm
+
+BR,
+-R
+
+>
+> Jonas
+>
+> >
+> > BR,
+> > -R
