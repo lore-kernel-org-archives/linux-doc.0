@@ -2,158 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C7A0C7618D
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 15:52:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EBE1C7618D
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 15:58:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231311AbjCPPwJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 11:52:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51418 "EHLO
+        id S231614AbjCPP64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 11:58:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231536AbjCPPv6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 11:51:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DBEF1B5;
-        Thu, 16 Mar 2023 08:51:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D66C862094;
-        Thu, 16 Mar 2023 15:51:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 664B5C433EF;
-        Thu, 16 Mar 2023 15:51:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678981915;
-        bh=zcCZCxOddrY19dAifEoyyXbquULTfQJDNveTVJQHbvo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TnWrTRkhsriTufDefygk8Ww1IBalyeTruIf2nR/17/pSFOGkGUCvgXRqV2HFOWnQE
-         94h9ApXSBJLsIfTYBABn7sIUUjY3mCpQGTm0lfmR9WEH3/9K/4IOFo+dbLxgWMoEcJ
-         ptdJcsVu7FPdLxmEYvCds/oEgOvWSFFWI9ETI9ycSeJF5xBn8DPIiZhYHN7+6XAZ5j
-         Sfipf1G1RMge8Ph2xaX2faK/ssY1SN2kKHxhraflL5S8FXS5FtWxdRGg6Y7yHTu+wp
-         RP/AQ3hwm2T9BWoaD74VtyuGNt2IpChEMYrvlt3KY6SDR9opQklUgYY3yqmHSeTxrP
-         2HUg8xr9rD89Q==
-Date:   Thu, 16 Mar 2023 15:51:49 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     ChiaEn Wu <chiaen_wu@richtek.com>
-Cc:     corbet@lwn.net, pavel@ucw.cz, matthias.bgg@gmail.com,
-        andriy.shevchenko@linux.intel.com, jacek.anaszewski@gmail.com,
-        angelogioacchino.delregno@collabora.com, linux-doc@vger.kernel.org,
-        peterwu.pub@gmail.com, cy_huang@richtek.com,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        szunichen@gmail.com
-Subject: Re: [PATCH v18 3/3] docs: leds: Add MT6370 RGB LED pattern document
-Message-ID: <20230316155149.GK9667@google.com>
-References: <cover.1678430444.git.chiaen_wu@richtek.com>
- <38f1e863b0f099158a63fb6f95056a1cb30d80a0.1678430444.git.chiaen_wu@richtek.com>
+        with ESMTP id S231636AbjCPP6y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 11:58:54 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B055D158B3
+        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 08:58:53 -0700 (PDT)
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1pcpzT-0001Wg-0O; Thu, 16 Mar 2023 16:58:07 +0100
+Received: from pengutronix.de (unknown [IPv6:2a00:20:3043:e035:5ae3:9609:678c:e1fb])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id EEF27194E2F;
+        Thu, 16 Mar 2023 15:57:59 +0000 (UTC)
+Date:   Thu, 16 Mar 2023 16:57:58 +0100
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     David Howells <dhowells@redhat.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Jens Axboe <axboe@kernel.dk>, Jeff Layton <jlayton@kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        bpf@vger.kernel.org, dccp@vger.kernel.org,
+        linux-afs@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-can@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hams@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-sctp@vger.kernel.org,
+        linux-wpan@vger.kernel.org, linux-x25@vger.kernel.org,
+        mptcp@lists.linux.dev, rds-devel@oss.oracle.com,
+        tipc-discussion@lists.sourceforge.net,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [RFC PATCH 28/28] sock: Remove ->sendpage*() in favour of
+ sendmsg(MSG_SPLICE_PAGES)
+Message-ID: <20230316155758.5ylpybqjma7x4lbs@pengutronix.de>
+References: <20230316152618.711970-1-dhowells@redhat.com>
+ <20230316152618.711970-29-dhowells@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="km5oeoth2y26yqyc"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <38f1e863b0f099158a63fb6f95056a1cb30d80a0.1678430444.git.chiaen_wu@richtek.com>
+In-Reply-To: <20230316152618.711970-29-dhowells@redhat.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 10 Mar 2023, ChiaEn Wu wrote:
 
-> From: ChiYuan Huang <cy_huang@richtek.com>
->
-> Document the MT6370 RGB LED pattern trigger.
->
-> This simply describe how the pattern works, each timing period, and the
-> pattern diagram for MT6370 RGB LED.
->
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> ---
-> v18:
-> - Revise the text in document title and description.
-> ---
->  Documentation/leds/leds-mt6370-rgb.rst | 64 ++++++++++++++++++++++++++++++++++
+--km5oeoth2y26yqyc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-These 3 patches now look good.
+On 16.03.2023 15:26:18, David Howells wrote:
+> [!] Note: This is a work in progress.  At the moment, some things won't
+>     build if this patch is applied.  nvme, kcm, smc, tls.
+>=20
+> Remove ->sendpage() and ->sendpage_locked().  sendmsg() with
+> MSG_SPLICE_PAGES should be used instead.  This allows multiple pages and
+> multipage folios to be passed through.
+>=20
+> Signed-off-by: David Howells <dhowells@redhat.com>
 
-You do not need to make any more changes to these.
+> cc: linux-can@vger.kernel.org
 
->  1 file changed, 64 insertions(+)
->  create mode 100644 Documentation/leds/leds-mt6370-rgb.rst
->
-> diff --git a/Documentation/leds/leds-mt6370-rgb.rst b/Documentation/leds/leds-mt6370-rgb.rst
-> new file mode 100644
-> index 00000000..abf739e
-> --- /dev/null
-> +++ b/Documentation/leds/leds-mt6370-rgb.rst
-> @@ -0,0 +1,64 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=========================================
-> +The device for Mediatek MT6370 RGB LED
-> +=========================================
-> +
-> +Description
-> +-----------
-> +
-> +The MT6370 integrates a four-channel RGB LED driver, designed to provide a
-> +variety of lighting effect for mobile device applications. The RGB LED devices
-> +includes a smart LED string controller and it can drive 3 channels of LEDs with
-> +a sink current up to 24mA and a CHG_VIN power good indicator LED with sink
-> +current up to 6mA. It provides three operation modes for RGB LEDs:
-> +PWM Dimming mode, breath pattern mode, and constant current mode. The device
-> +can increase or decrease the brightness of the RGB LED via an I2C interface.
-> +
-> +The breath pattern for a channel can be programmed using the "pattern" trigger,
-> +using the hw_pattern attribute.
-> +
-> +/sys/class/leds/<led>/hw_pattern
+Acked-by: Marc Kleine-Budde <mkl@pengutronix.de> # for net/can
 
-However, this needs an entry in Documentation/ABI/testing.
+Marc
 
-> +--------------------------------
-> +
-> +Specify a hardware breath pattern for a MT6370 RGB LED.
-> +
-> +The breath pattern is a series of timing pairs, with the hold-time expressed in
-> +milliseconds. And the brightness is controlled by
-> +'/sys/class/leds/<led>/brightness'. The pattern doesn't include the brightness
-> +setting. Hardware pattern only controls the timing for each pattern stage
-> +depending on the current brightness setting.
-> +
-> +Pattern diagram::
-> +
-> +     "0 Tr1 0 Tr2 0 Tf1 0 Tf2 0 Ton 0 Toff" --> '0' for dummy brightness code
-> +
-> +      ^
-> +      |           ============
-> +      |          /            \                                /
-> +Icurr |         /              \                              /
-> +      |        /                \                            /
-> +      |       /                  \                          /   .....repeat
-> +      |      /                    \                        /
-> +      |   ---                      ---                  ---
-> +      |---                            ---            ---
-> +      +----------------------------------============------------> Time
-> +       < Tr1><Tr2><   Ton    ><Tf1><Tf2 ><  Toff    >< Tr1><Tr2>
-> +
-> +Timing description::
-> +
-> +Tr1:    First rising time for duty 0 to 30%.
-> +Tr2:    Second rising time for duty 31% to 100%.
-> +Ton:    On time for duty 100%.
-> +Tf1:    First falling time for duty 100% to 31%.
-> +Tf2:    Second falling time for duty 30% to 0%.
-> +Toff:   Off time for duty 0%.
-> +
-> +Tr1/Tr2/Tf1/Tf2/Ton: 125ms to 3125ms, 200ms per step.
-> +Toff: 250ms to 6250ms, 400ms per step.
-> +
-> +Pattern example::
-> +
-> +       "0 125 0 125 0 125 0 125 0 625 0 1050"
-> +
-> +This Will configure Tr1/Tr2/Tf1/Tf2 to 125m, Ton to 625ms, and Toff to 1050ms.
-> --
-> 2.7.4
->
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
 
---
-Lee Jones [李琼斯]
+--km5oeoth2y26yqyc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmQTPIMACgkQvlAcSiqK
+BOj6JAgAtfBV5yq+uNvtDfdNTDCgUnr0pkrsEqo0Ygt0A84TUlJF1K9QFkFTlvFo
+NEtegJFeDvbE8EmvRgOnpoTRcMQwDClaw5c7O7TquCr3SEAcXECesFYUVLWR7hsf
+Mk3DzSWUNIqMeSUOAEPBPfWNGGQWdjut5IQHdhuIs2/irjgsb5GZJ27rYyV9F/+l
+daE1Ac6RGnKq9zV/UszZ7AbfKA7bI9TVioWBVmIFCQZeWJprHq5rD0LTH6+QjdyQ
+5AdUTjTbZ/YRTjr4KQQkISfoq8oMC/zVENiagYZ89SGTbciIaCeqBpvdgUVKTob6
+2Uoo/o+yUY90Dy8JPw9/gLSsthDGaw==
+=IhKV
+-----END PGP SIGNATURE-----
+
+--km5oeoth2y26yqyc--
