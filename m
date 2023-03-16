@@ -2,82 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 741C6C6FD19
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 15:10:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD04EC6FD19
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 15:11:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229629AbjCPPKE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 11:10:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60430 "EHLO
+        id S229522AbjCPPLH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 11:11:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231386AbjCPPJz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 11:09:55 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 898173252C
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 08:09:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678979394; x=1710515394;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eOV/ldQx3xWA9S+utd9+eO0S2mmhiPUV0nhprHPp4bM=;
-  b=H0SdlfK4cHqY0gWlHghUvm/jpxL7ngRnloiaimWVHu6uVncVR+wnuewc
-   Y15CmxDPCMsTz/aAnESD6Ab4RpSbDEprBWWZsiF05XfjNdF/MNbU16sDm
-   Cy31wJNQZnAZpg+jHQvVUKIEpZiKPpa9Xtxb631MS5MOyzX37DGblpsYp
-   i7kdCKf2C/e4zlkCwmeNrhRDYwZPd6DuWCWvj9isIbOTFeASYRkfAj42k
-   zMOeKCztf8Fp/i1sbI3sOU2EIklaH4xp8dCfUp+jgeJSwJ3oBxFMAcB1Z
-   mEF3eYxhpY7ZIk3Apx95qxmbpzWRg1+qI1HxUwKA5hJtiMQkVlKI34qKm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="339561204"
-X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="339561204"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 08:09:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="679930012"
-X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="679930012"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 16 Mar 2023 08:09:33 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pcpES-0008as-2b;
-        Thu, 16 Mar 2023 15:09:32 +0000
-Date:   Thu, 16 Mar 2023 23:09:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Alexey Dobriyan <adobriyan@gmail.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org
-Subject: [akpm-mm:mm-nonmm-unstable 23/26] htmldocs:
- Documentation/ELF/ELF.rst: WARNING: document isn't included in any toctree
-Message-ID: <202303162342.blXLNoBi-lkp@intel.com>
+        with ESMTP id S231384AbjCPPKw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 11:10:52 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6F7F234038;
+        Thu, 16 Mar 2023 08:10:50 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0D602F4;
+        Thu, 16 Mar 2023 08:11:33 -0700 (PDT)
+Received: from bogus (unknown [10.57.52.173])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE0D13F67D;
+        Thu, 16 Mar 2023 08:10:47 -0700 (PDT)
+Date:   Thu, 16 Mar 2023 15:10:14 +0000
+From:   Sudeep Holla <sudeep.holla@arm.com>
+To:     Shanker Donthineni <sdonthineni@nvidia.com>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH v2] irqchip/gicv3: Workaround for NVIDIA erratum
+ T241-FABRIC-4
+Message-ID: <20230316151014.zaoxo4wmg4mzyoiq@bogus>
+References: <20230314135128.2930580-1-sdonthineni@nvidia.com>
+ <871qlqif9v.wl-maz@kernel.org>
+ <4dda3890-e910-625e-e7ed-6b6c0bbbd9d4@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <4dda3890-e910-625e-e7ed-6b6c0bbbd9d4@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   ad1ba07b8ea42d34d4b48e960bae2ecb35d95bba
-commit: 60b38b7cbb295d7914ca4a6e6cbe1f32b234c830 [23/26] ELF: document some de-facto PT_* ABI quirks
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=60b38b7cbb295d7914ca4a6e6cbe1f32b234c830
-        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
-        git fetch --no-tags akpm-mm mm-nonmm-unstable
-        git checkout 60b38b7cbb295d7914ca4a6e6cbe1f32b234c830
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On Wed, Mar 15, 2023 at 07:27:14AM -0500, Shanker Donthineni wrote:
+> Hi Marc,
+> 
+> On 3/15/23 03:34, Marc Zyngier wrote:
+> > Please don't duplicate existing code. There is already the required
+> > infrastructure in drivers/firmware/smccc/soc_id.c. All you need to do
+> > is:
+> > 
+> > - disassociate the SMCCC probing from the device registration
+> > 
+> > - probe the SOC_ID early
+> > 
+> > - add accessors for the relevant data
+> > 
+> > - select ARM_SMCCC_SOD_ID/ARM_SMCCC_DISCOVERY from the GICv3 Kconfig
+> 
+> 
+> I have not modified soc_id.c as it expects to be loaded as a module with
+> the use of module_init() and module_exit() functions. The exported symbols
+> in soc_id driver cannot be accessed from the built-in code.
+> 
+> Agree, the SOD-ID discovery code was duplicated.
+> 
+> Please guide me if the below approach is okay?
+> 
+> 1) Probe the SOC-ID in arm_smccc_version_init() and export two functions
+> arm_smccc_get_soc_id_version() and arm_smccc_get_soc_id_revision().
+> 
+> --- a/drivers/firmware/smccc/smccc.c
+> +++ b/drivers/firmware/smccc/smccc.c
+> @@ -17,9 +17,13 @@ static enum arm_smccc_conduit smccc_conduit = SMCCC_CONDUIT_NONE;
+> 
+>  bool __ro_after_init smccc_trng_available = false;
+>  u64 __ro_after_init smccc_has_sve_hint = false;
+> +s32 __ro_after_init smccc_soc_id_version = SMCCC_RET_NOT_SUPPORTED;
+> +s32 __ro_after_init smccc_soc_id_revision = SMCCC_RET_NOT_SUPPORTED;
+> 
+>  void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit)
+>  {
+> +       struct arm_smccc_res res;
+> +
+>         smccc_version = version;
+>         smccc_conduit = conduit;
+> 
+> @@ -27,6 +31,18 @@ void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit)
+>         if (IS_ENABLED(CONFIG_ARM64_SVE) &&
+>             smccc_version >= ARM_SMCCC_VERSION_1_3)
+>                 smccc_has_sve_hint = true;
+> +
+> +       if ((smccc_version >= ARM_SMCCC_VERSION_1_2) &&
+> +           (smccc_conduit != SMCCC_CONDUIT_NONE)) {
+> +               arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+> +                                    ARM_SMCCC_ARCH_SOC_ID, &res);
+> +               if ((s32)res.a0 >= 0) {
+> +                       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 0, &res);
+> +                       smccc_soc_id_version = (s32)res.a0;
+> +                       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 1, &res);
+> +                       smccc_soc_id_revision = (s32)res.a0;
+> +               }
+> +       }
+>  }
+> 
+> 
+> +s32 arm_smccc_get_soc_id_version(void)
+> +{
+> +       return smccc_soc_id_version;
+> +}
+> +EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_version);
+> +
+> +s32 arm_smccc_get_soc_id_revision(void)
+> +{
+> +       return smccc_soc_id_revision;
+> +}
+> +EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
+> 
+>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303162342.blXLNoBi-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/ELF/ELF.rst: WARNING: document isn't included in any toctree
+Overall, it looks OK to me. However I see neither the gic nor the soc_id
+can be build as module atm. So do we really need the export symbols if no
+other modules are using it ?
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards,
+Sudeep
