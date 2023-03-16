@@ -2,94 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6190EC61DA4
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 03:19:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49583C7618D
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 03:24:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230007AbjCPDTH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 23:19:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
+        id S229912AbjCPDYN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 23:24:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbjCPDSZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 23:18:25 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 498B3A18A7;
-        Wed, 15 Mar 2023 20:18:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9F1C8B81FB9;
-        Thu, 16 Mar 2023 03:18:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE274C433AE;
-        Thu, 16 Mar 2023 03:17:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678936682;
-        bh=y0sZoUeFff+6cDV3HaVMqB5f4yIzmgYZdM8d6h5o3pc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jawiJkp4F2oYL3A1ptkMbLijjPnwxZp3UEKvAHclV5SnuNbnvSKtEvzsA5/2zLFX1
-         wNhl3Zja0S9RiC6c6bD5aJ5EDGoejYe2Q/W4Vqyf2ipXCkD7RERM0xTkL5tBHBmYt0
-         uNmGObR85LSgDkI6ZAhx09n+b+bA1g734mcxcies2Dd4UAa2enhH1EHydVBWDzFQyH
-         qYLuQ3LGLLxZ7bQl/kv9TiHXU5iRi4PENdtAc6jrSCWOOPZB4XNptSZ4Tau1K/qHAz
-         4hgcG/tmkkee1FWYq1YSJ4cL3D3TRPVAyalv3ZCpfpl8WMXTtiBop9i10FzPY+51Ia
-         0L8sJJUIiXpHg==
-From:   Bjorn Andersson <andersson@kernel.org>
+        with ESMTP id S229925AbjCPDXw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 23:23:52 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 444ACAB880;
+        Wed, 15 Mar 2023 20:21:43 -0700 (PDT)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32G242Ka026441;
+        Thu, 16 Mar 2023 03:20:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=XNhxMsKw6ZAe+EYt13fPXlDqqycgBNXXfO0jTrz0x0w=;
+ b=gW9G8XBTj3if7WlOW+L/yimmKoQhdti9K51EsKqThS3aNaI2G32PH1eXTfuGxIAS7AGZ
+ 4Zj8c68I4CXrbZgCS2g165Q3pgjCvr2xYiGr19/ElfzIixsw0CP12DBVQBAbqzC6vi3D
+ Npk5o2q0dKFTywHQSuVEB9RL7CQzUao+F/g5wcJvfrjey25uaLWjw/NgIxSAKMGmkB6t
+ lHdT3Xqt1rK3OSWY3TR+EmIfKDSNmnGf5rAvJ50q2Hf7N+/fubRLdY0FtLv58z7BEok9
+ H9DVcSAbVfbDeSEOiN7NaSboM/NR1KQUhGuE8w03f8JeJHpm3Ue8xYGEPepfjOeid4te Pw== 
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pbpxjrhp0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 16 Mar 2023 03:20:22 +0000
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+        by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 32G3KKK4003071;
+        Thu, 16 Mar 2023 03:20:20 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3p8jqmp091-1;
+        Thu, 16 Mar 2023 03:20:20 +0000
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32G3KK4P003062;
+        Thu, 16 Mar 2023 03:20:20 GMT
+Received: from hazha-gv.ap.qualcomm.com (hazha-gv.qualcomm.com [10.239.105.144])
+        by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 32G3KJUX003058;
+        Thu, 16 Mar 2023 03:20:20 +0000
+Received: by hazha-gv.ap.qualcomm.com (Postfix, from userid 4083943)
+        id 0E8331200071; Thu, 16 Mar 2023 11:20:19 +0800 (CST)
+From:   Hao Zhang <quic_hazha@quicinc.com>
 To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Kalle Valo <kvalo@kernel.org>, Andy Gross <agross@kernel.org>,
-        Alex Elder <elder@linaro.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Elliot Berman <quic_eberman@quicinc.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Hao Zhang <quic_hazha@quicinc.com>, Leo Yan <leo.yan@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        ath10k@lists.infradead.org, Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-wireless@vger.kernel.org, devicetree@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        linux-remoteproc@vger.kernel.org,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        netdev@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Marc Zyngier <maz@kernel.org>, linux-doc@vger.kernel.org,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: (subset) [PATCH v9 17/27] firmware: qcom_scm: Use fixed width src vm bitmap
-Date:   Wed, 15 Mar 2023 20:21:02 -0700
-Message-Id: <167893686406.303819.2573416221076147237.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230120224627.4053418-18-quic_eberman@quicinc.com>
-References: <20230120224627.4053418-1-quic_eberman@quicinc.com> <20230120224627.4053418-18-quic_eberman@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <andersson@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v1 3/3] Documentation: trace: Add documentation for Coresight Dummy Trace
+Date:   Thu, 16 Mar 2023 11:20:05 +0800
+Message-Id: <20230316032005.6509-4-quic_hazha@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230316032005.6509-1-quic_hazha@quicinc.com>
+References: <20230316032005.6509-1-quic_hazha@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: gkiyfvKfL9NWFB60ffMpVHMHfwfOY26B
+X-Proofpoint-ORIG-GUID: gkiyfvKfL9NWFB60ffMpVHMHfwfOY26B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-16_02,2023-03-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 phishscore=0 malwarescore=0 lowpriorityscore=0
+ adultscore=0 impostorscore=0 mlxscore=0 bulkscore=0 clxscore=1015
+ mlxlogscore=981 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303150002 definitions=main-2303160028
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 20 Jan 2023 14:46:16 -0800, Elliot Berman wrote:
-> The maximum VMID for assign_mem is 63. Use a u64 to represent this
-> bitmap instead of architecture-dependent "unsigned int" which varies in
-> size on 32-bit and 64-bit platforms.
-> 
-> 
+Add documentation for Coresight Dummy Trace under trace/coresight.
 
-Applied, thanks!
+Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
+---
+ .../trace/coresight/coresight-dummy.rst       | 58 +++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+ create mode 100644 Documentation/trace/coresight/coresight-dummy.rst
 
-[17/27] firmware: qcom_scm: Use fixed width src vm bitmap
-        commit: 968a26a07f75377afbd4f7bb18ef587a1443c244
-
-Best regards,
+diff --git a/Documentation/trace/coresight/coresight-dummy.rst b/Documentation/trace/coresight/coresight-dummy.rst
+new file mode 100644
+index 000000000000..819cabab8623
+--- /dev/null
++++ b/Documentation/trace/coresight/coresight-dummy.rst
+@@ -0,0 +1,58 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=============================
++Coresight Dummy Trace Module
++=============================
++
++    :Author:   Hao Zhang <quic_hazha@quicinc.com>
++    :Date:     March 2023
++
++Introduction
++---------------------------
++
++Coresight Dummy Trace Module is for the specific devices that HLOS don't
++have permission to access or configure. Such as Coresight sink EUD, some
++TPDMs etc. So there need driver to register dummy devices as Coresight
++devices. Provide Coresight API for dummy device operations, such as
++enabling and disabling dummy devices. Build the Coresight path for dummy
++sink or dummy source for debugging.
++
++Sysfs files and directories
++---------------------------
++
++Root: ``/sys/bus/coresight/devices/dummy<N>``
++
++----
++
++:File:            ``enable_source`` (RW)
++:Notes:
++    - > 0 : enable the datasets of dummy source.
++
++    - = 0 : disable the datasets of dummy source.
++
++:Syntax:
++    ``echo 1 > enable_source``
++
++----
++
++:File:            ``enable_sink`` (RW)
++:Notes:
++    - > 0 : enable the datasets of dummy sink.
++
++    - = 0 : disable the datasets of dummy sink.
++
++:Syntax:
++    ``echo 1 > enable_sink``
++
++----
++
++Config details
++---------------------------
++
++There are two types of nodes, dummy sink and dummy source. The nodes
++should be observed at the coresight path
++"/sys/bus/coresight/devices".
++e.g.
++/sys/bus/coresight/devices # ls -l | grep dummy
++dummy0 -> ../../../devices/platform/soc@0/soc@0:dummy_source/dummy0
++dummy1 -> ../../../devices/platform/soc@0/soc@0:dummy_sink/dummy1
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.17.1
+
