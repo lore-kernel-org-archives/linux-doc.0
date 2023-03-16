@@ -2,56 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE3C8C7618B
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 00:32:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 058E5C6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 00:33:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230147AbjCPAcv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 20:32:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34458 "EHLO
+        id S233309AbjCPAc7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 20:32:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232949AbjCPAcE (ORCPT
+        with ESMTP id S233139AbjCPAcE (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 20:32:04 -0400
-Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C795A5697
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 17:31:28 -0700 (PDT)
-Received: by mail-pf1-x449.google.com with SMTP id s11-20020a056a00194b00b0062586c7a2acso158270pfk.23
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 17:31:27 -0700 (PDT)
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A828A54EB
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 17:31:30 -0700 (PDT)
+Received: by mail-pl1-x649.google.com with SMTP id c2-20020a170903234200b001a0aecba4e1so11909plh.16
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 17:31:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678926687;
+        d=google.com; s=20210112; t=1678926690;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JBLPG3XthGG9faiSvk5U/ET6qjyhuWi/SwHOth1Ucac=;
-        b=I+hk1kHXyTdyRHWR/E+Fe4D/KjC/hhFWZULnWPbpGXImZDU13NH2r0CvjRWyfCgLxX
-         /nkIHP6zbtD+kRkLZz1i9msvu36P2j1F1ed2x92tbTloVbSMlV2L5X7YmVhhKmZ4DqvM
-         XpXOnOkjDklzkljzqZGV/y4Nh+8aXvLV39ccn20yIQi1+cuwUBgQwtL3GYk3OKYOFzt5
-         fGTKHpxrFE/fRCl2mKHPSZMCdRAxw4bOce1hR/tDvln+tyvmSAorwJz0NO2G3/AQeBf+
-         ctLv6vLizdn+6uzwfijXtM/b902mBW+WM3hgf9E7bWyK12V6rTdbKghkmJDtmACEkOkZ
-         v8Yg==
+        bh=xKXEz6/mGmWtcTzhu61L6SyW9ch3P6ySrkhZdBbEs24=;
+        b=bOjlcixbSYLhJ8wlZFJqykn9M5Vc0cFpb5g7LhT4djxRWIFNy4JccJg4iGmlnPSQyG
+         lJkRIlzLGQZ3CT8tV3X05ZRlfpMlsWsYm10BZk0r/Rv+yvfQdYk0fGtvbClQaHHaYv5l
+         Oj+/kJI0SJy2+jeH1DiW21OupNOPFM9Wh7wNdPPay5eUxl09yuqaKdEkkyKrOhWCrZJX
+         e3EV/eGevF9LE/ooEptOTOPMZBAmj7BKZBkDjiPROvuVe+4bwZbAe4m1RyZsPF9uX6pM
+         WIBv4RjDLE054xRE18NVAkWPZAWP+NMIosMPzwAwGqSXU4pxgbXQRbLdQ2u4zKCbVIO2
+         DV9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678926687;
+        d=1e100.net; s=20210112; t=1678926690;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JBLPG3XthGG9faiSvk5U/ET6qjyhuWi/SwHOth1Ucac=;
-        b=MoOct5Mevc5q29mgrESaX51Q4nLB4paDz6ACshheNsGQu1ypE+3AxsWojUUK1+N5za
-         e+zOO48RcDZpzYizYlELqt1hyWE9Z9E5fFA1C+XIPyUqwYylpbUikHzP8ut3fzpYphtd
-         XjUgI+1IMPlR6Irej0X5zMFQ67P+MJAw8bNnZTDlb0Ee43oUt7WXSJdZ2cExVfcvwbMm
-         ErHE7K2i9LGRThyv9mjTdPVFKqTR8prkpWIJzHWK3dfnmfWkljXVDy4/by+0C6FFA54h
-         mx1O5eCwgtpE86PMhnt2vVHILbJ1s7Y311Nj/+pMAOexMTkzBmk+4YKRKuFZBItHGTx5
-         yBLg==
-X-Gm-Message-State: AO0yUKUlC9mYNesxTxh5LIuTum5vZenHFXBW1LOdjGihRfDWLIzOgEU/
-        CWSVyvty4wyx+3sfZ/MuoL+pneDYqKccZYgqUw==
-X-Google-Smtp-Source: AK7set8wyHBYS0yNjAY2Bu6NPZk7sDhPcWzuxoadwL3xHiIjGr+DZnA4k/ntT0jv/7rXx9SUD16F0j0DYIAvrg8IcQ==
+        bh=xKXEz6/mGmWtcTzhu61L6SyW9ch3P6ySrkhZdBbEs24=;
+        b=4bHvSw91J8XSfm85g3KTxzuwyOtQxboeDRfnuTmB+GG2wPU0oPRDARNPJ+YX1185Ea
+         2I82Rx4kBxyoKzfsOEBgWYTdR4SACHTamBuxhfnSp0nbhJBtFKhCAlWTZ69+sKEVpp2d
+         E1fkembXIz2LpFmHvi3DhQyNuT0DGDepkWQTePS6Se/nYQm86O+sJfqryhe6zMdsCvGL
+         X22OmJdXLQXu5aIMNwrekNuVc+WlnBjRMAWix8OWX+pLqFDBzZcVHjr7kq1C57vxhzZJ
+         PzJ+mKXHax00YlewOcE2V7FK93UFT07Gy/B1fhTq5F0hZhUyTmXrMPvxk17T7f1L4ijh
+         GHhw==
+X-Gm-Message-State: AO0yUKXle5ipYFinAbWq4YljyUh/ugt8cwvjX+i/LoFIiTpYNxZryLqA
+        mw9Ex6tObtYnU5528ZXxpkE6vY5bqpIufcq00Q==
+X-Google-Smtp-Source: AK7set8gW1ruUe+jZfx4vo3AOKGV2qgKk/o0c2WgfJNyT6l/gKi5/qNPPNY0SZ250Rg6tfQ0OBKmkU3mHKKgzrPR/w==
 X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a17:902:e749:b0:1a0:4aa3:3a9a with
- SMTP id p9-20020a170902e74900b001a04aa33a9amr581092plf.2.1678926686991; Wed,
- 15 Mar 2023 17:31:26 -0700 (PDT)
-Date:   Thu, 16 Mar 2023 00:31:00 +0000
+ (user=ackerleytng job=sendgmr) by 2002:a65:6392:0:b0:50b:cc91:5534 with SMTP
+ id h18-20020a656392000000b0050bcc915534mr320262pgv.2.1678926690322; Wed, 15
+ Mar 2023 17:31:30 -0700 (PDT)
+Date:   Thu, 16 Mar 2023 00:31:02 +0000
 In-Reply-To: <cover.1678926164.git.ackerleytng@google.com>
 Mime-Version: 1.0
 References: <cover.1678926164.git.ackerleytng@google.com>
 X-Mailer: git-send-email 2.40.0.rc2.332.ga46443480c-goog
-Message-ID: <59ff32ad0aa9e3533a96064d1ae07aba11f55924.1678926164.git.ackerleytng@google.com>
-Subject: [RFC PATCH 07/10] KVM: selftests: Add vm_userspace_mem_region_add_with_restrictedmem
+Message-ID: <bdc28afc6bfba32441d6b6d17ec17318a64123ab.1678926164.git.ackerleytng@google.com>
+Subject: [RFC PATCH 09/10] KVM: selftests: Add tests around sharing a
+ restrictedmem fd
 From:   Ackerley Tng <ackerleytng@google.com>
 To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -77,105 +78,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Provide new function to allow restrictedmem's fd and offset to be
-specified in selftests.
+Tests that
 
-No functional change intended to vm_userspace_mem_region_add.
++ Different memslots in the same VM should be able to share a
+  restrictedmem_fd
++ A second VM cannot share the same offsets in a restrictedmem_fd
++ Different VMs should be able to share the same restrictedmem_fd, as
+  long as the offsets in the restrictedmem_fd are different
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- .../selftests/kvm/include/kvm_util_base.h     |  4 ++
- tools/testing/selftests/kvm/lib/kvm_util.c    | 46 +++++++++++++++++--
- 2 files changed, 46 insertions(+), 4 deletions(-)
+ .../selftests/kvm/set_memory_region_test.c    | 29 +++++++++++++++++--
+ 1 file changed, 26 insertions(+), 3 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/include/kvm_util_base.h b/tools/testing/selftests/kvm/include/kvm_util_base.h
-index b6531a4063bb..c1ac82332ca4 100644
---- a/tools/testing/selftests/kvm/include/kvm_util_base.h
-+++ b/tools/testing/selftests/kvm/include/kvm_util_base.h
-@@ -486,6 +486,10 @@ void vm_userspace_mem_region_add(struct kvm_vm *vm,
- 	enum vm_mem_backing_src_type src_type,
- 	uint64_t guest_paddr, uint32_t slot, uint64_t npages,
- 	uint32_t flags);
-+void vm_userspace_mem_region_add_with_restrictedmem(struct kvm_vm *vm,
-+	enum vm_mem_backing_src_type src_type,
-+	uint64_t guest_paddr, uint32_t slot, uint64_t npages,
-+	uint32_t flags, int restrictedmem_fd, uint64_t restrictedmem_offset);
- 
- void vm_mem_region_set_flags(struct kvm_vm *vm, uint32_t slot, uint32_t flags);
- void vm_mem_region_move(struct kvm_vm *vm, uint32_t slot, uint64_t new_gpa);
-diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
-index d0e6b10f140f..d6bfcfc5cdea 100644
---- a/tools/testing/selftests/kvm/lib/kvm_util.c
-+++ b/tools/testing/selftests/kvm/lib/kvm_util.c
-@@ -898,6 +898,43 @@ void vm_userspace_mem_region_add(struct kvm_vm *vm,
- 	enum vm_mem_backing_src_type src_type,
- 	uint64_t guest_paddr, uint32_t slot, uint64_t npages,
- 	uint32_t flags)
-+{
-+	int restrictedmem_fd;
-+
-+	restrictedmem_fd = flags & KVM_MEM_PRIVATE ? memfd_restricted(0) : 0;
-+	vm_userspace_mem_region_add_with_restrictedmem(
-+		vm, src_type, guest_paddr, slot, npages, flags,
-+		restrictedmem_fd, 0);
-+}
-+
-+/*
-+ * VM Userspace Memory Region Add With restrictedmem
-+ *
-+ * Input Args:
-+ *   vm - Virtual Machine
-+ *   src_type - Storage source for this region.
-+ *              NULL to use anonymous memory.
-+ *   guest_paddr - Starting guest physical address
-+ *   slot - KVM region slot
-+ *   npages - Number of physical pages
-+ *   flags - KVM memory region flags (e.g. KVM_MEM_LOG_DIRTY_PAGES)
-+ *   restrictedmem_fd - restrictedmem_fd for use with restrictedmem
-+ *   restrictedmem_offset - offset within restrictedmem_fd to be used
-+ *
-+ * Output Args: None
-+ *
-+ * Return: None
-+ *
-+ * Allocates a memory area of the number of pages specified by npages
-+ * and maps it to the VM specified by vm, at a starting physical address
-+ * given by guest_paddr.  The region is created with a KVM region slot
-+ * given by slot, which must be unique and < KVM_MEM_SLOTS_NUM.  The
-+ * region is created with the flags given by flags.
-+ */
-+void vm_userspace_mem_region_add_with_restrictedmem(struct kvm_vm *vm,
-+	enum vm_mem_backing_src_type src_type,
-+	uint64_t guest_paddr, uint32_t slot, uint64_t npages,
-+	uint32_t flags, int restrictedmem_fd, uint64_t restrictedmem_offset)
+diff --git a/tools/testing/selftests/kvm/set_memory_region_test.c b/tools/testing/selftests/kvm/set_memory_region_test.c
+index cc727d11569e..789c413e2a67 100644
+--- a/tools/testing/selftests/kvm/set_memory_region_test.c
++++ b/tools/testing/selftests/kvm/set_memory_region_test.c
+@@ -401,7 +401,7 @@ static bool set_private_region_failed(struct kvm_vm *vm, void *hva,
+ static void test_private_regions(void)
  {
  	int ret;
- 	struct userspace_mem_region *region;
-@@ -1011,8 +1048,8 @@ void vm_userspace_mem_region_add(struct kvm_vm *vm,
- 	region->backing_src_type = src_type;
+-	struct kvm_vm *vm;
++	struct kvm_vm *vm, *vm2;
+ 	void *mem;
+ 	int fd;
  
- 	if (flags & KVM_MEM_PRIVATE) {
--		region->region.restrictedmem_fd = memfd_restricted(0);
--		region->region.restrictedmem_offset = 0;
-+		region->region.restrictedmem_fd = restrictedmem_fd;
-+		region->region.restrictedmem_offset = restrictedmem_offset;
+@@ -416,7 +416,7 @@ static void test_private_regions(void)
  
- 		TEST_ASSERT(region->region.restrictedmem_fd >= 0,
- 			    "Failed to create restricted memfd");
-@@ -1030,10 +1067,11 @@ void vm_userspace_mem_region_add(struct kvm_vm *vm,
- 	TEST_ASSERT(ret == 0, "KVM_SET_USER_MEMORY_REGION2 IOCTL failed,\n"
- 		"  rc: %i errno: %i\n"
- 		"  slot: %u flags: 0x%x\n"
--		"  guest_phys_addr: 0x%lx size: 0x%lx restricted fd: %d\n",
-+		"  guest_phys_addr: 0x%lx size: 0x%lx\n"
-+		"  restricted fd: %d restricted_offset: 0x%llx\n",
- 		ret, errno, slot, flags,
- 		guest_paddr, (uint64_t) region->region.memory_size,
--		region->region.restrictedmem_fd);
-+		region->region.restrictedmem_fd, region->region.restrictedmem_offset);
+ 	vm = __vm_create(shape, 1, 0);
  
- 	/* Add to quick lookup data structures */
- 	vm_userspace_mem_region_gpa_insert(&vm->regions.gpa_tree, region);
+-	mem = mmap(NULL, MEM_REGION_SIZE * 2, PROT_READ | PROT_WRITE,
++	mem = mmap(NULL, MEM_REGION_SIZE * 3, PROT_READ | PROT_WRITE,
+ 		   MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORESERVE, -1, 0);
+ 	TEST_ASSERT(mem != MAP_FAILED, "Failed to mmap() host");
+ 
+@@ -448,8 +448,31 @@ static void test_private_regions(void)
+ 	TEST_ASSERT(ret == -1 && errno == EINVAL,
+ 		    "Set overlapping restrictedmem_offset should fail");
+ 
+-	munmap(mem, MEM_REGION_SIZE * 2);
++	ret = __vm_set_user_memory_region2(vm, MEM_REGION_SLOT + 1,
++					   KVM_MEM_PRIVATE,
++					   MEM_REGION_GPA + MEM_REGION_SIZE,
++					   MEM_REGION_SIZE,
++					   mem + MEM_REGION_SIZE,
++					   fd, MEM_REGION_SIZE);
++	TEST_ASSERT(!ret,
++		    "Different memslots should be able to share a restrictedmem_fd");
++
++	vm2 = __vm_create(shape, 1, 0);
++	TEST_ASSERT(set_private_region_failed(vm2, mem + 2 * MEM_REGION_SIZE, fd, 0),
++		    "Pages (offsets) of a restrictedmem_fd should be exclusive to a VM");
++
++	ret = __vm_set_user_memory_region2(vm2, MEM_REGION_SLOT,
++					   KVM_MEM_PRIVATE,
++					   MEM_REGION_GPA + 2 * MEM_REGION_SIZE,
++					   MEM_REGION_SIZE,
++					   mem + 2 * MEM_REGION_SIZE,
++					   fd, 2 * MEM_REGION_SIZE);
++	TEST_ASSERT(!ret,
++		    "Different VMs should be able to share a restrictedmem_fd");
++
++	munmap(mem, MEM_REGION_SIZE * 3);
+ 	kvm_vm_free(vm);
++	kvm_vm_free(vm2);
+ }
+ 
+ int main(int argc, char *argv[])
 -- 
 2.40.0.rc2.332.ga46443480c-goog
 
