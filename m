@@ -2,238 +2,210 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43E66C7618B
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 00:33:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFF17C6FD1D
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 01:19:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233412AbjCPAdW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 20:33:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35058 "EHLO
+        id S229621AbjCPBT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 21:19:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233267AbjCPAcN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 20:32:13 -0400
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E051A6743
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 17:31:38 -0700 (PDT)
-Received: by mail-pl1-x649.google.com with SMTP id l10-20020a17090270ca00b0019caa6e6bd1so37979plt.2
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 17:31:38 -0700 (PDT)
+        with ESMTP id S229611AbjCPBT5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 21:19:57 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7176E2C674
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 18:19:54 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id eg48so1502582edb.13
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 18:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678926692;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YxU1hhaZ4SyfL9lxoIcMNBPPAq0yfPS0xuipesTDclo=;
-        b=W0G3AmVBhmaEPW1mzeOzfktEstHk/ayT4Fca4WpYB+uqnQXqFONecZpHfNEM3EVkI8
-         dMoU+aBolGRnKrvqkSWbCeJFkilUlbcTqWcVH0y2O7kmHEk9EOK0BEV0KFKuPFrnCkbs
-         QOotzJYDWHJggJes5/KIvM96osSnaCvae3qKB3LUHRBB+uNwEOmmHmd8zvTbRGoEVjUL
-         rVFdyBsTEprlo4ciiWa3+M8yKhD16Tn+oY0bqfI0h7Rz5RgpgT08FQynab2lujb51lp7
-         x7X7TlFctPEGFqxyshGyufJ1XL1Zen+FPj5jvwOG/5BAnYWpY1i72h9z5SjlNs7jYsNa
-         hwdw==
+        d=isovalent.com; s=google; t=1678929593;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X6WPmqtphJvBgFBNycelI/R5ZAd4TzcDyEgrAAAfBQY=;
+        b=aAGaaforSe9E7/ymyqTllBFc0Dq2h/pC81v2JehvjJM78NuBxFBUFbYavRPFwjXlki
+         G0Hg59IHQsWqjIkirlZrclHMfb1MLTAPEt99ja+FBBLxBapcjKnyIC8qoeXHc3IuLMwO
+         +XZBWFdbLv6S9a2bStfyYIuqeqHOVMCcNowJbyQH/xFAsb1qlybPwy7mBO3mGc0aNpUt
+         ufok0iQ2kTCjQ8GCqANnmWnRPs3YbeVwX2wR1Kl/lNpojTtmnCoCeHIvTAPX9pLLCfZa
+         +WoAtZtAclBvpB3UNtJJd+P7kh+3ewd21rmUtHh0ZhwG60YoR5TbeNq5/RvCu8mgY6Yx
+         6XeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678926692;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YxU1hhaZ4SyfL9lxoIcMNBPPAq0yfPS0xuipesTDclo=;
-        b=2AB5Mcnao91V2fyOju/XAeZDTJy3gi1U39z0jzfoXFFTAD52pvV/tEM3qMviVG0IbS
-         XeNIxhxu6QJAYyhinpiJ/CKrt+FRv/HoWlfiHpPHNZWtMsE+knp0ATomAp/FNYesdf47
-         MaUjJvHR9y00zy0NQolvNbsSq1ov83CW/iNLIZcYTbRUpJpyqywIbI2dV0KYPd3yDdp7
-         nGi6RUhXKzJ+vOVLswHZ8TPUmvzv8z1TIZwzhLbr+XctLYPcUmfT+2BC9nqwsx2rpC+A
-         JkbMa3VyvK6KMVRFz/W3xjC7AYfrRZ2m0oTaPNdhU50sFK92ImmL7/NA7SBLleuPiIkM
-         G3Yg==
-X-Gm-Message-State: AO0yUKVF2KxS5zvrY+uZCjMkGYjkWz9bJFiOiuLavjDl0VQ8MlU58d4W
-        oAoMhk+EYyik9exw8l6mtPqSQ2HvyqvciFBt4g==
-X-Google-Smtp-Source: AK7set/r1L80ZGqvN1Jqjj7ZwUbt+f+1AOqGwiuE9AJvattpTxM2ZIa1Wyqx7LP6pavKwLlYqhK3jR4rdgiNHjRokg==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a65:530d:0:b0:502:fd12:83ce with SMTP
- id m13-20020a65530d000000b00502fd1283cemr347381pgq.5.1678926691968; Wed, 15
- Mar 2023 17:31:31 -0700 (PDT)
-Date:   Thu, 16 Mar 2023 00:31:03 +0000
-In-Reply-To: <cover.1678926164.git.ackerleytng@google.com>
-Mime-Version: 1.0
-References: <cover.1678926164.git.ackerleytng@google.com>
-X-Mailer: git-send-email 2.40.0.rc2.332.ga46443480c-goog
-Message-ID: <90aaa4ab85fa5e3d5641793e2a4873282eb16556.1678926164.git.ackerleytng@google.com>
-Subject: [RFC PATCH 10/10] KVM: selftests: Test KVM exit behavior for private memory/access
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org
-Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
-        arnd@arndb.de, bfields@fieldses.org, bp@alien8.de,
-        chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com,
-        david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
-        jmattson@google.com, joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
-        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
-        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
-        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
-        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
-        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
-        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com,
-        Ackerley Tng <ackerleytng@google.com>
+        d=1e100.net; s=20210112; t=1678929593;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X6WPmqtphJvBgFBNycelI/R5ZAd4TzcDyEgrAAAfBQY=;
+        b=Fu8INd6vKsN3Y+FgjB+xA7y+zRPohnmoat3zZLOvhX8K++5YB12tqe8POGQydBosso
+         EhVjmMSct70UV/TiwfRVoBJ9N1086GsF6uRB74W/ly3ppFHkWudZ3ot6V/5ltAM5oUp/
+         2gYPtnEnbqC7oLFlcbQxIUFKDxoHuyJM/Qm3YWFg8K7kaH/YGwVpKJvVZfZVzWdabo8c
+         Ry8zwMu8Ko6zbWKgrEDjsRo8w2/LZwPFvBEpgOXq6x7Tmk2InPIwVu4/BEohecyPdGYc
+         yyVG5e8YP7LJp5FQT9cCC2IgS+NvUZXs4I9dUnHto+vn4sW3ZZvQntUenWDhkLaIY4gQ
+         ugAw==
+X-Gm-Message-State: AO0yUKVwx+G+ecrf5fZR1RdGh2lNCmqIlbQfGdCFqHaSBKiVpHo05lWE
+        d3nFr9hk9o60c2ly2lsmV1Db9mzBaPDZuaX+fKv17Q==
+X-Google-Smtp-Source: AK7set9ZnAfCv1TXEp81dZGBQciEmGQx6bFkwQnlONPgDH2FTJCnypC62XYn1tZsJ3llLR6dsQoe5StrCFYD5E9eWa0=
+X-Received: by 2002:a50:9f48:0:b0:4fa:d919:86dd with SMTP id
+ b66-20020a509f48000000b004fad91986ddmr2533880edf.4.1678929592868; Wed, 15 Mar
+ 2023 18:19:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230312190600.324573-1-joe@isovalent.com> <6410046013834_42581208fd@john.notmuch>
+In-Reply-To: <6410046013834_42581208fd@john.notmuch>
+From:   Joe Stringer <joe@isovalent.com>
+Date:   Wed, 15 Mar 2023 18:19:41 -0700
+Message-ID: <CADa=Rywk4cm7LB_QQO662Mqjnb=HNb=Gnj76Jm+AYE15SUp6Uw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3] docs/bpf: Add LRU internals description and graph
+To:     John Fastabend <john.fastabend@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ast@kernel.org, corbet@lwn.net,
+        martin.lau@linux.dev, bagasdotme@gmail.com, maxtram95@gmail.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"Testing private access when memslot gets deleted" tests the behavior
-of KVM when a private memslot gets deleted while the VM is using the
-private memslot. When KVM looks up the deleted (slot = NULL) memslot,
-KVM should exit to userspace with KVM_EXIT_MEMORY_FAULT.
+On Mon, Mar 13, 2023 at 10:21=E2=80=AFPM John Fastabend
+<john.fastabend@gmail.com> wrote:
+>
+> Joe Stringer wrote:
+> > Extend the bpf hashmap docs to include a brief description of the
+> > internals of the LRU map type (setting appropriate API expectations),
+> > including the original commit message from Martin and a variant on the
+> > graph that I had presented during my Linux Plumbers Conference 2022 tal=
+k
+> > on "Pressure feedback for LRU map types"[0].
+> >
+> > The node names in the dot file correspond roughly to the functions wher=
+e
+> > the logic for those decisions or steps is defined, to help curious
+> > developers to cross-reference and update this logic if the details of
+> > the LRU implementation ever differ from this description.
+> >
+> > [0]: https://lpc.events/event/16/contributions/1368/
+> >
+> > Signed-off-by: Joe Stringer <joe@isovalent.com>
+>
+>
+> Thanks couple nits below
+>
+> > ---
+> > v3: Use standard table syntax
+> >     Replace inline commit message with reference to commit
+> >     Fix incorrect Y/N label for common LRU check
+> >     Rename some dotfile variables to reduce confusion between cases
+> >     Minor wording touchups
+> > v2: Fix issue that caused initial email submission to fail
+> > ---
+> >  Documentation/bpf/map_hash.rst            |  62 ++++++++
+> >  Documentation/bpf/map_lru_hash_update.dot | 166 ++++++++++++++++++++++
+> >  2 files changed, 228 insertions(+)
+> >  create mode 100644 Documentation/bpf/map_lru_hash_update.dot
+> > diff --git a/Documentation/bpf/map_hash.rst b/Documentation/bpf/map_has=
+h.rst
+> > index 8669426264c6..61602ce26561 100644
+> > --- a/Documentation/bpf/map_hash.rst
+> > +++ b/Documentation/bpf/map_hash.rst
+> > @@ -1,5 +1,6 @@
+> >  .. SPDX-License-Identifier: GPL-2.0-only
+> >  .. Copyright (C) 2022 Red Hat, Inc.
+> > +.. Copyright (C) 2022-2023 Isovalent, Inc.
+> >
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >  BPF_MAP_TYPE_HASH, with PERCPU and LRU Variants
+> > @@ -206,3 +207,64 @@ Userspace walking the map elements from the map de=
+clared above:
+> >                      cur_key =3D &next_key;
+> >              }
+> >      }
+> > +
+> > +Internals
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +This section of the document is targeted at Linux developers and descr=
+ibes
+> > +aspects of the map implementations that are not considered stable ABI.=
+ The
+> > +following details are subject to change in future versions of the kern=
+el.
+> > +
+> > +``BPF_MAP_TYPE_LRU_HASH`` and variants
+> > +--------------------------------------
+> > +
+> > +An LRU hashmap type consists of two properties: Firstly, it is a hash =
+map and
+> > +hence is indexable by key for constant time lookups. Secondly, when at=
+ map
+> > +capacity, map updates will trigger eviction of old entries based on th=
+e age of
+> > +the elements in a set of lists. Each of these properties may be either=
+ global
+> > +or per-CPU, depending on the map type and flags used to create the map=
+:
+> > +
+> > ++------------------------+---------------------------+----------------=
+------------------+
+> > +|                        | ``BPF_MAP_TYPE_LRU_HASH`` | ``BPF_MAP_TYPE_=
+LRU_PERCPU_HASH`` |
+> > ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+> > +| ``BPF_NO_COMMON_LRU``  | Per-CPU LRU, global map   | Per-CPU LRU, pe=
+r-cpu map         |
+> > ++------------------------+---------------------------+----------------=
+------------------+
+> > +| ``!BPF_NO_COMMON_LRU`` | Global LRU, global map    | Global LRU, per=
+-cpu map          |
+> > ++------------------------+---------------------------+----------------=
+------------------+
+>
+> Above all seems API to me. Maybe move the statement about not considered =
+stable
+> ABI down here? Something like,
+>
+> "
+> The internal details of which entry is evicted and acquiring a new entry
+> are not considered stable and may change in the future. But the current
+> impelementation is as follows.
+> "
+>
+> Or something like that?
 
-In the second test, upon a private access to non-private memslot, KVM
-should also exit to userspace with KVM_EXIT_MEMORY_FAULT.
+Yep sounds good to me, I'll fix that up.
 
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
----
- tools/testing/selftests/kvm/Makefile          |   1 +
- .../kvm/x86_64/private_mem_kvm_exits_test.c   | 124 ++++++++++++++++++
- 2 files changed, 125 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c
+> > +
+> > +Notably, there are various steps that the update algorithm attempts in=
+ order to
+> > +enforce the LRU property which have increasing impacts on other CPUs i=
+nvolved
+> > +in the following operation attempts:
+> > +
+> > +- Attempt to use CPU-local state to batch operations
+> > +- Attempt to fetch free nodes from global lists
+> > +- Attempt to pull any node from a global list and remove it from the h=
+ashmap
+> > +- Attempt to pull any node from any CPU's list and remove it from the =
+hashmap
+> > +
+> > +Even if an LRU node may be acquired, maps of type ``BPF_MAP_TYPE_LRU_H=
+ASH``
+> > +may fail to insert the entry into the map if other CPUs are heavily co=
+ntending
+> > +on the global hashmap lock.
+>
+> Similarly this is ABI correct? Probably we can also specify the error cod=
+e?
+> Assuming it is just EBUSY or EAGAIN?
 
-diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-index bafee3c43b2e..0ad588852a1d 100644
---- a/tools/testing/selftests/kvm/Makefile
-+++ b/tools/testing/selftests/kvm/Makefile
-@@ -80,6 +80,7 @@ TEST_GEN_PROGS_x86_64 += x86_64/nested_exceptions_test
- TEST_GEN_PROGS_x86_64 += x86_64/platform_info_test
- TEST_GEN_PROGS_x86_64 += x86_64/pmu_event_filter_test
- TEST_GEN_PROGS_x86_64 += x86_64/private_mem_conversions_test
-+TEST_GEN_PROGS_x86_64 += x86_64/private_mem_kvm_exits_test
- TEST_GEN_PROGS_x86_64 += x86_64/set_boot_cpu_id
- TEST_GEN_PROGS_x86_64 += x86_64/set_sregs_test
- TEST_GEN_PROGS_x86_64 += x86_64/smaller_maxphyaddr_emulation_test
-diff --git a/tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c b/tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c
-new file mode 100644
-index 000000000000..c8667dfbbf0a
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c
-@@ -0,0 +1,124 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2022, Google LLC.
-+ */
-+#include "kvm_util_base.h"
-+#include <linux/kvm.h>
-+#include <pthread.h>
-+#include <stdint.h>
-+#include "kvm_util.h"
-+#include "processor.h"
-+#include "test_util.h"
-+
-+/* Arbitrarily selected to avoid overlaps with anything else */
-+#define EXITS_TEST_GVA 0xc0000000
-+#define EXITS_TEST_GPA EXITS_TEST_GVA
-+#define EXITS_TEST_NPAGES 1
-+#define EXITS_TEST_SIZE (EXITS_TEST_NPAGES * PAGE_SIZE)
-+#define EXITS_TEST_SLOT 10
-+
-+static uint64_t guest_repeatedly_read(void)
-+{
-+	volatile uint64_t value;
-+
-+	while (true)
-+		value = *((uint64_t *) EXITS_TEST_GVA);
-+
-+	return value;
-+}
-+
-+static uint32_t run_vcpu_get_exit_reason(struct kvm_vcpu *vcpu)
-+{
-+	vcpu_run(vcpu);
-+
-+	return vcpu->run->exit_reason;
-+}
-+
-+const struct vm_shape protected_vm_shape = {
-+	.mode = VM_MODE_DEFAULT,
-+	.type = KVM_X86_PROTECTED_VM,
-+};
-+
-+static void test_private_access_memslot_deleted(void)
-+{
-+	struct kvm_vm *vm;
-+	struct kvm_vcpu *vcpu;
-+	pthread_t vm_thread;
-+	void *thread_return;
-+	uint32_t exit_reason;
-+
-+	vm = vm_create_shape_with_one_vcpu(protected_vm_shape, &vcpu,
-+					   guest_repeatedly_read);
-+
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-+				    EXITS_TEST_GPA, EXITS_TEST_SLOT,
-+				    EXITS_TEST_NPAGES,
-+				    KVM_MEM_PRIVATE);
-+
-+	virt_map(vm, EXITS_TEST_GVA, EXITS_TEST_GPA, EXITS_TEST_NPAGES);
-+
-+	/* Request to access page privately */
-+	vm_mem_map_shared_or_private(vm, EXITS_TEST_GPA, EXITS_TEST_SIZE, false);
-+
-+	pr_info("Testing private access when memslot gets deleted\n");
-+
-+	pthread_create(&vm_thread, NULL,
-+		       (void *(*)(void *))run_vcpu_get_exit_reason,
-+		       (void *)vcpu);
-+
-+	vm_mem_region_delete(vm, EXITS_TEST_SLOT);
-+
-+	pthread_join(vm_thread, &thread_return);
-+	exit_reason = (uint32_t)(uint64_t)thread_return;
-+
-+	ASSERT_EQ(exit_reason, KVM_EXIT_MEMORY_FAULT);
-+	ASSERT_EQ(vcpu->run->memory.flags, KVM_MEMORY_EXIT_FLAG_PRIVATE);
-+	ASSERT_EQ(vcpu->run->memory.gpa, EXITS_TEST_GPA);
-+	ASSERT_EQ(vcpu->run->memory.size, EXITS_TEST_SIZE);
-+
-+	pr_info("\t ... PASSED\n");
-+
-+	kvm_vm_free(vm);
-+}
-+
-+static void test_private_access_memslot_not_private(void)
-+{
-+	struct kvm_vm *vm;
-+	struct kvm_vcpu *vcpu;
-+	uint32_t exit_reason;
-+
-+	vm = vm_create_shape_with_one_vcpu(protected_vm_shape, &vcpu,
-+					   guest_repeatedly_read);
-+
-+	/* Add a non-private memslot (flags = 0) */
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-+				    EXITS_TEST_GPA, EXITS_TEST_SLOT,
-+				    EXITS_TEST_NPAGES, 0);
-+
-+	virt_map(vm, EXITS_TEST_GVA, EXITS_TEST_GPA, EXITS_TEST_NPAGES);
-+
-+	/* Request to access page privately */
-+	vm_set_memory_attributes(vm, EXITS_TEST_GPA, EXITS_TEST_SIZE,
-+				 KVM_MEMORY_ATTRIBUTE_PRIVATE);
-+
-+	pr_info("Testing private access to non-private memslot\n");
-+
-+	exit_reason = run_vcpu_get_exit_reason(vcpu);
-+
-+	ASSERT_EQ(exit_reason, KVM_EXIT_MEMORY_FAULT);
-+	ASSERT_EQ(vcpu->run->memory.flags, KVM_MEMORY_EXIT_FLAG_PRIVATE);
-+	ASSERT_EQ(vcpu->run->memory.gpa, EXITS_TEST_GPA);
-+	ASSERT_EQ(vcpu->run->memory.size, EXITS_TEST_SIZE);
-+
-+	pr_info("\t ... PASSED\n");
-+
-+	kvm_vm_free(vm);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_VM_TYPES) & BIT(KVM_X86_PROTECTED_VM));
-+
-+	test_private_access_memslot_deleted();
-+	test_private_access_memslot_not_private();
-+}
--- 
-2.40.0.rc2.332.ga46443480c-goog
+Hmm. It's EBUSY right now. Also looks like we're missing corresponding
+docs in the uapi header for this case:
 
+https://github.com/torvalds/linux/blob/9c1bec9c0b08abeac72ed6214b723adc2240=
+13bf/include/uapi/linux/bpf.h#L163
+
+I think that "this function may fail due to contention on map usage,
+in which case it returns EBUSY" (or similar wording) is reasonable to
+document as ABI. IMO that should go in the header linked above (which
+gets turned into UAPI docs elsewhere). This particular phrasing is
+going into more detail around things like the hashmap lock which
+should not be described as part of the uAPI/ABI.
