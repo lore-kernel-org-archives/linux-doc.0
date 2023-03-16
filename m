@@ -2,72 +2,74 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C74A9C74A5B
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 21:35:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83523C6FD1F
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 22:11:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229863AbjCPVfu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 17:35:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37216 "EHLO
+        id S229866AbjCPWL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 18:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjCPVft (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 17:35:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A63325B41B;
-        Thu, 16 Mar 2023 14:35:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3836562032;
-        Thu, 16 Mar 2023 21:35:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 321E2C433EF;
-        Thu, 16 Mar 2023 21:35:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679002547;
-        bh=R4HZeWi7PTHx5F9UF+jKDoQEKtKmsTGxdYSqVIkV7XM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=hF1xfHjAgcNypQ4Unhr+OScQjzVaNTyKEqlsvulBZmaedRSl7aS37c1Dz9IKgvpeZ
-         N+byNgWsts8stXI9Ct3HNaAN4gqZHsU//m8OyFnaoKHdwg30FrTQSW8B2vNmg8qvHh
-         xaDuTSZEY5HJcS1fGbl0DRL3DjjWOPHJ9MZrajVk6XRcMTCwD06KNrR/rzJX9Ttw0Q
-         7iKI4u5uZPrGJBPh/0gs947e3oY5sjUlPE9ZaIdR7xoOv+oT2zx/ei/HXmRsDG59re
-         xZp1IhIjjdjH9OQLb5M+uRG77n6EP6HUQ1ZAp4uvsJuxBzU9DslV/7/IwU5MtTKkiS
-         gWzLGlbwL3ymg==
-Date:   Thu, 16 Mar 2023 14:35:46 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Toke =?UTF-8?B?SMO4aWxhbmQtSsO4cmdlbnNlbg==?= <toke@redhat.com>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] docs: networking: document NAPI
-Message-ID: <20230316143546.74676a59@kernel.org>
-In-Reply-To: <87o7ot9eh1.fsf@toke.dk>
-References: <20230315223044.471002-1-kuba@kernel.org>
-        <87o7ot9eh1.fsf@toke.dk>
+        with ESMTP id S229800AbjCPWLU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 18:11:20 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 197DA18B3B;
+        Thu, 16 Mar 2023 15:10:57 -0700 (PDT)
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+        id 49B962057034; Thu, 16 Mar 2023 15:10:36 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 49B962057034
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1679004636;
+        bh=91dVpHPjN0I18MHMEPytTYoAIcj3tyyfhEHK1iqzMPQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HqM5s8Lv4cdYH4FTxM8ECxW+qlq9xYC5uyrjWzmUgAox9VPD8YUiKBlVI33RA3C4V
+         Fldv/wo+3U0Z71kycUAZ9D1j/mCkqhwZbRpTf8J90aOuMRBDyDQ/3lf1roICQ0vkut
+         tuKKCPaYpChsjgoYGO1HOGIC8r40sD49SxPTvRaA=
+Date:   Thu, 16 Mar 2023 15:10:36 -0700
+From:   Fan Wu <wufan@linux.microsoft.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v9 11/16] ipe: add support for dm-verity as a trust
+ provider
+Message-ID: <20230316221036.GA22567@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
+ <1675119451-23180-12-git-send-email-wufan@linux.microsoft.com>
+ <CAHC9VhRdm_xpXNQvSVO2hkx2js=_zzo2DiQ6PvEjAEet4OjxNw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhRdm_xpXNQvSVO2hkx2js=_zzo2DiQ6PvEjAEet4OjxNw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 16 Mar 2023 11:29:14 +0100 Toke H=C3=B8iland-J=C3=B8rgensen wrote:
-> Jakub Kicinski <kuba@kernel.org> writes:
-> > +Threaded NAPI
-> > +-------------
-> > +
-> > +Use dedicated kernel threads rather than software IRQ context for NAPI
-> > +processing. The configuration is per netdevice and will affect all
-> > +NAPI instances of that device. Each NAPI instance will spawn a separate
-> > +thread (called ``napi/${ifc-name}-${napi-id}``). =20
->=20
-> This section starts a bit abruptly. Maybe start it with "Threaded NAPI
-> is an operating mode that uses dedicated..." or something along those
-> lines?
+On Thu, Mar 02, 2023 at 02:08:04PM -0500, Paul Moore wrote:
+> 
+> If you had both IPE and dm-verity enabled in your kernel build, is
+> there ever a case where you wouldn't want IPE_PROP_DM_VERITY?  I
+> suspect you can just have IPE and dm-verity select IPE_PROP_DM_VERITY
+> and not bother the user/admin with the additional Kconfig knob.
+> 
+Sorry for the late reply, I was relocating to a new country and it
+took me some time to settle down.
 
-Fair point, I'll change as suggested.
+I have read your comments and I will try to answer some questions
+that I can answer right now. For the remaining questions, I need more
+time to get more context and information. I will get back to you
+as soon as possible.
 
-> Other than that:
->=20
-> Reviewed-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat.com>
+For this one I agree just have IPE and dm-verity select IPE_PROP_DM_VERITY
+is better, I will update this in the next version.
 
-Thanks!
+> 
+> --
+> paul-moore.com
