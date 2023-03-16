@@ -2,76 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 382DDC6FD1F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 12:10:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DF3C6FD19
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 13:01:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbjCPMKS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 08:10:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52532 "EHLO
+        id S229875AbjCPNBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 09:01:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229808AbjCPMKR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 08:10:17 -0400
-X-Greylist: delayed 334 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 16 Mar 2023 05:10:16 PDT
-Received: from violet.fr.zoreil.com (violet.fr.zoreil.com [IPv6:2001:4b98:dc0:41:216:3eff:fe56:8398])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0843D17CF6
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 05:10:15 -0700 (PDT)
-Received: from violet.fr.zoreil.com ([127.0.0.1])
-        by violet.fr.zoreil.com (8.17.1/8.17.1) with ESMTP id 32GC3aY3648944;
-        Thu, 16 Mar 2023 13:03:36 +0100
-DKIM-Filter: OpenDKIM Filter v2.11.0 violet.fr.zoreil.com 32GC3aY3648944
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fr.zoreil.com;
-        s=v20220413; t=1678968216;
-        bh=Piav4BWDHwTT77PYHWbtrrc+P7V2hvQMFwsSNmtoNVk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bWdPleEfc5DWF32WBotmIy1TzTxj3pyZPEG7bTL/vy6Teh/6nIX0EfOUVPEB3OinB
-         1TjkUSK/yEScxvwNKqgloc71iVBtY+XNzwNx2m2twzYYig9ixk6Y7WkhrTgRuE0gDK
-         GtohJ2mRTbFpUSlz0sPelC1UkzLS3ctqSL8/aUT0=
-Received: (from romieu@localhost)
-        by violet.fr.zoreil.com (8.17.1/8.17.1/Submit) id 32GC3Zsf648943;
-        Thu, 16 Mar 2023 13:03:35 +0100
-Date:   Thu, 16 Mar 2023 13:03:34 +0100
-From:   Francois Romieu <romieu@fr.zoreil.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Stephen Hemminger <stephen@networkplumber.org>,
-        davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] docs: networking: document NAPI
-Message-ID: <20230316120334.GA648750@electric-eye.fr.zoreil.com>
-References: <20230315223044.471002-1-kuba@kernel.org>
- <20230315183846.3eb99271@hermes.local>
- <20230315195829.646db7b5@kernel.org>
+        with ESMTP id S229804AbjCPNBm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 09:01:42 -0400
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7078B042;
+        Thu, 16 Mar 2023 06:01:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=fmU1+ghPDUpLHdu1qhAM4Pdh6VNfesNoUAyvXpreIY4=; b=KJdf11YRWGGA3AHBkCcBU8wMfe
+        rwamCNzbsIOFyp6DxuocuuTZaArvhKzV53IAI91iGXRwSKsFbqGEAN/rrI0MaOt3ySdy0gDkZ5u+u
+        KkwYkg6+gzzsb2E/FEEmd1abbq1WpjJ0lei3aEjjYE+XXJliYmTHF1QTFYuUPjWBgsnb0R1y2sFm9
+        S4zuDTZgIRSi4jU3MQxG2zI9GeL1ZY54LcFyYjZjpwiVoYRU5unZtPxwwDurjTuJRah3YqynTsXRR
+        NOCnpMGSBcuTq7JGyxakjdA76AIVgT46LG/dgMC7gtJzxv+nqsSQOk5iQkVTfgEi8XNh5QyvyYrfS
+        d2gcc51A==;
+Received: from [152.254.169.34] (helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1pcnEH-00DEyP-6l; Thu, 16 Mar 2023 14:01:13 +0100
+Message-ID: <65ce7063-d966-efea-6a39-db81da6b05aa@igalia.com>
+Date:   Thu, 16 Mar 2023 10:01:08 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230315195829.646db7b5@kernel.org>
-X-Organisation: Land of Sunshine Inc.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] Documentation/x86: Update split lock documentation
+Content-Language: en-US
+To:     Fenghua Yu <fenghua.yu@intel.com>, Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev
+References: <20230315225722.104607-1-tony.luck@intel.com>
+ <c34372d8-8166-6be6-b3a3-5214a2bae37a@intel.com>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <c34372d8-8166-6be6-b3a3-5214a2bae37a@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> :
-> On Wed, 15 Mar 2023 18:38:46 -0700 Stephen Hemminger wrote:
-> > On Wed, 15 Mar 2023 15:30:44 -0700
-> > Jakub Kicinski <kuba@kernel.org> wrote:
-[...]
-> > Older pre LF wiki NAPI docs still survive here
-> > https://lwn.net/2002/0321/a/napi-howto.php3
+On 15/03/2023 20:13, Fenghua Yu wrote:
+> Hi, Tony,
 > 
-> Wow, it's over 20 years old and still largely relevant!
-> Makes me feel that we stopped innovating :)
+> On 3/15/23 15:57, Tony Luck wrote:
+>> commit b041b525dab9 ("x86/split_lock: Make life miserable for split
+>> lockers") added a delay and serialization of cplit locks. Commit
+>                                               s/cplit/split/
 > 
-> Why were all the docs hosted out of tree back then?
+>> 727209376f49 ("x86/split_lock: Add sysctl to control the misery mode")
+>> provided a sysctl to turn off the misery.
+>>
+>> Update the split lock documentation to describe the current state of
+>> the code.
+>>
+>> Signed-off-by: Tony Luck <tony.luck@intel.com>
+>> ---
+>>   Documentation/x86/buslock.rst | 10 ++++++++--
+>>   1 file changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/x86/buslock.rst b/Documentation/x86/buslock.rst
+>> index 7c051e714943..31ec0ef78086 100644
+>> --- a/Documentation/x86/buslock.rst
+>> +++ b/Documentation/x86/buslock.rst
+>> @@ -53,8 +53,14 @@ parameter "split_lock_detect". Here is a summary of different options:
+>>   |off	  	   |Do nothing			|Do nothing		|
+>>   +------------------+----------------------------+-----------------------+
+>>   |warn		   |Kernel OOPs			|Warn once per task and |
+>> -|(default)	   |Warn once per task and	|and continues to run.  |
+>> -|		   |disable future checking	|			|
+>> +|(default)	   |Warn once per task, add a	|and continues to run.  |
+>> +|		   |delay, add synchronization	|			|
+>> +|		   |to prevent more than one	|			|
+>> +|		   |core from executing a	|			|
+>> +|		   |split lock in parallel.	|			|
+>> +|		   |sysctl split_lock_mitigate	|			|
+>> +|		   |can be used to avoid the	|			|
+>> +|		   |delay and synchronization	|			|
+>>   |		   |When both features are	|			|
+>>   |		   |supported, warn in #AC	|			|
+>>   +------------------+----------------------------+-----------------------+
+> 
+> Other than the typo, looks good to me.
+> 
+> Thanks.
+> 
+> -Fenghua
 
-This is not completely true.
+Thanks for fixing the documentation Tony! Also looks great for me.
+Cheers,
 
-Dave Jones's full-history-linux.git.tar shows that
-Documentation/networking/NAPI_HOWTO.txt with the same content was included by
-davem on 2002/03/13.
 
-It was possible to do quite some work with the then in-tree kernel doc
-(napi, locking, dma).
-
--- 
-Ueimor
+Guilherme
