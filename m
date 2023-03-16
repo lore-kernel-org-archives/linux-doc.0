@@ -2,95 +2,210 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40013C6FD1F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 18:28:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E8E8C7618A
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 19:30:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229943AbjCPS2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 14:28:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57606 "EHLO
+        id S230031AbjCPTa6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 15:30:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbjCPS17 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 14:27:59 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E5BE4B829;
-        Thu, 16 Mar 2023 11:27:57 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D14FA823;
-        Thu, 16 Mar 2023 18:27:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D14FA823
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1678991277; bh=OwZBhz9VMbfwLaD6vDW+gcJbWhV8x+C3/Q50X51+JhM=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=QFstPU4oaTDsTc2nbT7WD/XIDOTQ92knb79vNLSDyNlTuLSVTuHbnrG33v4DZG6/z
-         ScKv9Fw6tZhUWrmKPBuKeNC4Wpwpk0A5ELxE8awvHZjIzaiKu424sgXKxjQxVAv8HA
-         wuazJA60F7mewuumNZaL1xo0aBfcRbqanhnSCYU95qNms0+0XCx5BFul00AazkRzSy
-         LfTfAzHdZ3p3BFXcWxBJhKtd37+ajbeRa3UzS+OZ2lTaMWc4FG60rYHnTgdQc+xGr6
-         An7PAhN7AOZ0di42WKOrdrk20ZDtt9KB3z5jNPPKOmKpbKDg50D6KwDbs1bh63do1Q
-         G0lZ0aIk1TO+w==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev
-Subject: Re: [PATCH v3] docs: describe how to quickly build a trimmed kernel
-In-Reply-To: <d233a796-1cb8-a9b3-5a50-043dd2f98b3e@leemhuis.info>
-References: <1a788a8e7ba8a2063df08668f565efa832016032.1678021408.git.linux@leemhuis.info>
- <87a60frxk0.fsf@meer.lwn.net>
- <d233a796-1cb8-a9b3-5a50-043dd2f98b3e@leemhuis.info>
-Date:   Thu, 16 Mar 2023 12:27:56 -0600
-Message-ID: <87edpomtzn.fsf@meer.lwn.net>
+        with ESMTP id S230006AbjCPTa5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 15:30:57 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AABBDC0A1
+        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 12:30:52 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id u32so3222126ybi.6
+        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 12:30:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678995051;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OQinqcAul9N1/k6Qm0xi6TTExDZScG0p56fu1+mj3E8=;
+        b=aZUr5Hc3SSnInpRHn4QQapVy8DLcSf4/Fsji81ynnnbmxFUbqyycyen3xS68rzw2cJ
+         csdHHzPzn1pP4Rqhq8/jlqA8dQLTAnyjBWcvBZHm6/pvneaCtKF11X0NKVPFJ6Lwuk5o
+         72RVceBABLTBI+tJn+l9lpq3yxow6PgeoozRTUpTU2xzCTSQilljxyWqtox7dKLQwmVh
+         Mt7eATOZlaYVhW8nPozAkwkhKitbs3qSfS0zDDfCSHkn4bHon39z2LN2WrpJHFl7bH+u
+         01CLGuTfkqCSiQaPZ34ZVbtLD9fLHpC87CEEjOYCcl/1TmRK/ccg1mJnufuIL2N997aO
+         uUJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678995051;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OQinqcAul9N1/k6Qm0xi6TTExDZScG0p56fu1+mj3E8=;
+        b=a0WwUZSxbyr3eJy/zNvQ57jcPQ1dvJQMb606upsME1IAbH4J7jfqzoR48w/dEBfvhC
+         1rIv8i3t7Ql8aHDMDzPhG0ssO0f1yE8cjGAoC0gkqQnWXXPp3+j+mrQ+/c2/2GtAEjvy
+         5TklEsmRALYqNQRdFg2GBCtr5o1w4QpZ5cQ32uuaAfAszO/Zqx0/NmiidoK1H2Kx295/
+         EOENH8r7kROG6E5xj7Id+nAvWplxh3C7YLqtEuRMa88XzuALGl6h7PQNtZgJTh1hvWKX
+         yQlEZkx1eTfdRB+6iv2e3JKx56cOJ8hsaM50EuvNnmyU6BKvgJJJK4pAgEsYBHD0Ye/D
+         Yidg==
+X-Gm-Message-State: AO0yUKXSvvFkRTHSd+YUrLMx0D7CGS/Bs7MghAPmiXKPe6SXx6GK6cmJ
+        IrYW4rCCCYjtNjyHtaXFDNDN7woXwZPu0eARTLIImw==
+X-Google-Smtp-Source: AK7set8XMy0ufUxFXEARzyZfU02oLy+VwPbPQAYSeIVhzA2hlPaXVJJxn8QbOjY2tiSVxh7zXiHiE5Y10vOoOFYvORc=
+X-Received: by 2002:a25:f507:0:b0:b3b:6576:b22b with SMTP id
+ a7-20020a25f507000000b00b3b6576b22bmr10524766ybe.12.1678995051579; Thu, 16
+ Mar 2023 12:30:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-34-rick.p.edgecombe@intel.com> <ZADbP7HvyPHuwUY9@arm.com>
+ <20230309185511.GA1964069@debug.ba.rivosinc.com> <ZBAf/QI42hcVQ4Uq@kernel.org>
+In-Reply-To: <ZBAf/QI42hcVQ4Uq@kernel.org>
+From:   Deepak Gupta <debug@rivosinc.com>
+Date:   Thu, 16 Mar 2023 12:30:40 -0700
+Message-ID: <CAKC1njTP2WAnkh3vaNGGaeOCa_uArNAatVOXxie+chR2mhA89w@mail.gmail.com>
+Subject: Re: [PATCH v7 33/41] x86/shstk: Introduce map_shadow_stack syscall
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, nd@arm.com, al.grant@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+On Tue, Mar 14, 2023 at 12:19=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wr=
+ote:
+>
+> Hi,
+>
+> On Thu, Mar 09, 2023 at 10:55:11AM -0800, Deepak Gupta wrote:
+> > On Thu, Mar 02, 2023 at 05:22:07PM +0000, Szabolcs Nagy wrote:
+> > > The 02/27/2023 14:29, Rick Edgecombe wrote:
+> > > > Previously, a new PROT_SHADOW_STACK was attempted,
+> > > ...
+> > > > So rather than repurpose two existing syscalls (mmap, madvise) that=
+ don't
+> > > > quite fit, just implement a new map_shadow_stack syscall to allow
+> > > > userspace to map and setup new shadow stacks in one step. While uco=
+ntext
+> > > > is the primary motivator, userspace may have other unforeseen reaso=
+ns to
+> > > > setup it's own shadow stacks using the WRSS instruction. Towards th=
+is
+> > > > provide a flag so that stacks can be optionally setup securely for =
+the
+> > > > common case of ucontext without enabling WRSS. Or potentially have =
+the
+> > > > kernel set up the shadow stack in some new way.
+> > > ...
+> > > > The following example demonstrates how to create a new shadow stack=
+ with
+> > > > map_shadow_stack:
+> > > > void *shstk =3D map_shadow_stack(addr, stack_size, SHADOW_STACK_SET=
+_TOKEN);
+> > >
+> > > i think
+> > >
+> > > mmap(addr, size, PROT_READ, MAP_ANON|MAP_SHADOW_STACK, -1, 0);
+> > >
+> > > could do the same with less disruption to users (new syscalls
+> > > are harder to deal with than new flags). it would do the
+> > > guard page and initial token setup too (there is no flag for
+> > > it but could be squeezed in).
+> >
+> > Discussion on this topic in v6
+> > https://lore.kernel.org/all/20230223000340.GB945966@debug.ba.rivosinc.c=
+om/
+> >
+> > Again I know earlier CET patches had protection flag and somehow due to=
+ pushback
+> > on mailing list, it was adopted to go for special syscall because no on=
+e else
+> > had shadow stack.
+> >
+> > Seeing a response from Szabolcs, I am assuming arm4 would also want to =
+follow
+> > using mmap to manufacture shadow stack. For reference RFC patches for r=
+isc-v shadow stack,
+> > use a new protection flag =3D PROT_SHADOWSTACK.
+> > https://lore.kernel.org/lkml/20230213045351.3945824-1-debug@rivosinc.co=
+m/
+> >
+> > I know earlier discussion had been that we let this go and do a re-fact=
+or later as other
+> > arch support trickle in. But as I thought more on this and I think it m=
+ay just be
+> > messy from user mode point of view as well to have cognition of two dif=
+ferent ways of
+> > creating shadow stack. One would be special syscall (in current libc) a=
+nd another `mmap`
+> > (whenever future re-factor happens)
+> >
+> > If it's not too late, it would be more wise to take `mmap`
+> > approach rather than special `syscall` approach.
+>
+> I disagree.
+>
+> Having shadow stack flags for mmap() adds unnecessary complexity to the
+> core-mm, while having a dedicated syscall hides all the details in the
+> architecture specific code.
 
-> Documentation/doc-guide/contributing.rst says that "books" are meant to
-> "group documentation for specific readers"; creating a new book for
-> tutorials would work against that, as readers (users and administrators
-> in this case) then would have to consult two books.
+Again reiterating it would've made sense if only x86 had a shadow stack.
+aarch64 announced support for guarded stack. risc-v spec is in
+development to support shadow stack.
 
-The idea behind that guideline is that readers should be able to know
-where to look and to not have to dig through a lot of material that was
-not intended for them.  Not that, for any given reader, there should be
-exactly one book that has everything they might want.
+So there will be shadow stack related flow in these arches.
 
-One could also argue, of course, that readers seeking tutorials are a
-different group than those seeking reference material.
+>
+> Another reason to use a dedicated system call allows for better
+> extensibility if/when we'd need to update the way shadow stack VMA is
+> created.
 
-> And isn't for example Documentation/process/submitting-patches.rst also
-> more of a tutorial than reference material (which we also have in the
-> form of Documentation/process/development-process.rst)?
+I see two valid points here
+    - Shadow stack doesn't need conversion into different memory types
+(which is usually the case for address ranges created by mmap)
+      So there is a static page permissions on shadow stack which is
+not mutable.
 
-It's a pretty clear example of what happens when you try to combine both
-types of documentation - you get something that isn't ideal for either
-type of reader.  It tries to take people through the process, but it is
-also the only reference document we have on how patches should be
-submitted. 
+    - Future feature addition (if there is one needed) at the time of
+shadow stack creation
+      It would avoid future tax on mmap
 
-> Does that mean
-> it should be moved? Into the same book or a separate book, as it has a
-> different target audience? I fear that might quickly get confusing for
-> readers without any real benefits
+I'll think more about this.
 
-No, I wouldn't move it.  We could, someday, consider splitting it into
-two more focused documents, one of which could (say) go under tutorials/.
+>
+> As for the userspace convenience, it is anyway required to add special
+> code for creating the shadow stack and it wouldn't matter if that code
+> would use mmap(NEW_FLAG) or map_shadow_stack().
 
-> Or did I understand the idea of a new book wrong and you meant something
-> else? Like creating Documentation/admin-guide/tutorials/ and putting the
-> text there? That might work and would help future authors to get the
-> right mental model when writing new texts. But I'm not sure that's worth it.
+Yes *strictly* from userspace convenience, it doesn't matter which option.
 
-I wasn't thinking of doing it that way, but we could certainly consider
-it.  It doesn't seem like we would have vast numbers of these, though,
-and they would mostly cover relatively elementary topics, so a single,
-top-level directory might be better if we decide to take this path.
-
-Thanks,
-
-jon
+>
+> > > most of the mmap features need not be available (EINVAL) when
+> > > MAP_SHADOW_STACK is specified.
+> > >
+> > > the main drawback is running out of mmap flags so extension
+> > > is limited. (but the new syscall has limitations too).
+>
+> --
+> Sincerely yours,
+> Mike.
