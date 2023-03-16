@@ -2,210 +2,353 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E8E8C7618A
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 19:30:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF137C7618A
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 19:51:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230031AbjCPTa6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 15:30:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59160 "EHLO
+        id S229584AbjCPTvd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 15:51:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbjCPTa5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 15:30:57 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AABBDC0A1
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 12:30:52 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id u32so3222126ybi.6
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 12:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678995051;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OQinqcAul9N1/k6Qm0xi6TTExDZScG0p56fu1+mj3E8=;
-        b=aZUr5Hc3SSnInpRHn4QQapVy8DLcSf4/Fsji81ynnnbmxFUbqyycyen3xS68rzw2cJ
-         csdHHzPzn1pP4Rqhq8/jlqA8dQLTAnyjBWcvBZHm6/pvneaCtKF11X0NKVPFJ6Lwuk5o
-         72RVceBABLTBI+tJn+l9lpq3yxow6PgeoozRTUpTU2xzCTSQilljxyWqtox7dKLQwmVh
-         Mt7eATOZlaYVhW8nPozAkwkhKitbs3qSfS0zDDfCSHkn4bHon39z2LN2WrpJHFl7bH+u
-         01CLGuTfkqCSiQaPZ34ZVbtLD9fLHpC87CEEjOYCcl/1TmRK/ccg1mJnufuIL2N997aO
-         uUJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678995051;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OQinqcAul9N1/k6Qm0xi6TTExDZScG0p56fu1+mj3E8=;
-        b=a0WwUZSxbyr3eJy/zNvQ57jcPQ1dvJQMb606upsME1IAbH4J7jfqzoR48w/dEBfvhC
-         1rIv8i3t7Ql8aHDMDzPhG0ssO0f1yE8cjGAoC0gkqQnWXXPp3+j+mrQ+/c2/2GtAEjvy
-         5TklEsmRALYqNQRdFg2GBCtr5o1w4QpZ5cQ32uuaAfAszO/Zqx0/NmiidoK1H2Kx295/
-         EOENH8r7kROG6E5xj7Id+nAvWplxh3C7YLqtEuRMa88XzuALGl6h7PQNtZgJTh1hvWKX
-         yQlEZkx1eTfdRB+6iv2e3JKx56cOJ8hsaM50EuvNnmyU6BKvgJJJK4pAgEsYBHD0Ye/D
-         Yidg==
-X-Gm-Message-State: AO0yUKXSvvFkRTHSd+YUrLMx0D7CGS/Bs7MghAPmiXKPe6SXx6GK6cmJ
-        IrYW4rCCCYjtNjyHtaXFDNDN7woXwZPu0eARTLIImw==
-X-Google-Smtp-Source: AK7set8XMy0ufUxFXEARzyZfU02oLy+VwPbPQAYSeIVhzA2hlPaXVJJxn8QbOjY2tiSVxh7zXiHiE5Y10vOoOFYvORc=
-X-Received: by 2002:a25:f507:0:b0:b3b:6576:b22b with SMTP id
- a7-20020a25f507000000b00b3b6576b22bmr10524766ybe.12.1678995051579; Thu, 16
- Mar 2023 12:30:51 -0700 (PDT)
+        with ESMTP id S229555AbjCPTvc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 15:51:32 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2056.outbound.protection.outlook.com [40.107.243.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 875C17B4A0;
+        Thu, 16 Mar 2023 12:51:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kcNKCg8I6Bsrg2GSUXYdLhh6IKTqqiA4u2zolOfOSbqo8GDjom0kwELZyn+TKNjqwtg48kh2+i6PWp7OLgWlXOBd+b65euO9NUUhnQVNQndscT/k6TFi6URk5MaX0U7lINCrvpsPmNmLmnDUUOMJY4SU5sbq6+d3LO6cxVc3UDVMdUe1RC7hb9QktBlRiJJkUUeCFlw2DZbdDI37yB8D8bNe0EBYX4H6v35ZpYrxnaaU/K/mLpJFI3OpUfqkfWcENUx0Xy3LIK3b3MGVnHUT3VwksBep4jbyz3tD1y+i950/FmsTaUI/AHeRxavf2QrWi/WyTDKDbMY5lubLPlL3QA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DHeILnDXZDmvfPyikv+tMzpsCNfzhycr8nflIuP6zt8=;
+ b=T8rFpFLf1y9W3HEInmeXHcpPfGGQxFgUx9G/H/mBEK0t+Wttx1wuWNoRJnjV2slaSiRdlvdRMSDUKevW38Dr670ZZ7qU7p5ocEsKWwMnKp2YsUMKxYV2Q2rOajMXJH4/8glGEECbJ11EL06tN9AqTyJUYqkeq2WyG/TM1PyWqwBuDr+J+vnX/9azOo7J0k6ThCRFvzpnX2Ps7AlQlGcZGAKkEZ4tAEb/zPSupG/PJoi8S5UX4HaRnKyuIy1Ek7/iRazc4y0Q4IK8k78aqIGxlnnIOlmYj462pWjku47livd006aI8/QIZAaYd2VMYO0bZJqSZtaHWSBToVdz1GJAIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DHeILnDXZDmvfPyikv+tMzpsCNfzhycr8nflIuP6zt8=;
+ b=b9+Z33SkY/h9CzhZFhXm41PWi1bL3cy7RRE/+e6S3jWlBKguSFjtWoHNZh21grh63omIT+Bayjbbi+wvXdseq98s7CM7Feqh+cDFyJX/UTiyrOov6vMV3h7aGDLxmDkOSjXjXtJfu8jpg7SuguzGqfzmCmddyAc8sb+5xcW8HA0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DM4PR12MB5133.namprd12.prod.outlook.com (2603:10b6:5:390::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.31; Thu, 16 Mar
+ 2023 19:51:28 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::3490:de56:de08:46f6]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::3490:de56:de08:46f6%9]) with mapi id 15.20.6178.029; Thu, 16 Mar 2023
+ 19:51:28 +0000
+Message-ID: <39c85927-9c34-0284-86c6-724f417423db@amd.com>
+Date:   Thu, 16 Mar 2023 14:51:23 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v3 1/7] x86/resctrl: Add multiple tasks to the resctrl
+ group at once
+To:     Reinette Chatre <reinette.chatre@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>
+Cc:     "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+        "Das1, Sandipan" <Sandipan.Das@amd.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "eranian@google.com" <eranian@google.com>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "adrian.hunter@intel.com" <adrian.hunter@intel.com>,
+        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+        "peternewman@google.com" <peternewman@google.com>
+References: <167778850105.1053859.14596357862185564029.stgit@bmoger-ubuntu>
+ <167778866506.1053859.2329229096484796501.stgit@bmoger-ubuntu>
+ <9af9eb7a-476c-d4b0-e114-3f5c2b45dd95@intel.com>
+ <MW3PR12MB45537DC45130BB5F02F0F3F095BC9@MW3PR12MB4553.namprd12.prod.outlook.com>
+ <71b58853-e7c9-b522-3f90-c3d84cba1317@intel.com>
+Content-Language: en-US
+From:   "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <71b58853-e7c9-b522-3f90-c3d84cba1317@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH0PR04CA0044.namprd04.prod.outlook.com
+ (2603:10b6:610:77::19) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 MIME-Version: 1.0
-References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-34-rick.p.edgecombe@intel.com> <ZADbP7HvyPHuwUY9@arm.com>
- <20230309185511.GA1964069@debug.ba.rivosinc.com> <ZBAf/QI42hcVQ4Uq@kernel.org>
-In-Reply-To: <ZBAf/QI42hcVQ4Uq@kernel.org>
-From:   Deepak Gupta <debug@rivosinc.com>
-Date:   Thu, 16 Mar 2023 12:30:40 -0700
-Message-ID: <CAKC1njTP2WAnkh3vaNGGaeOCa_uArNAatVOXxie+chR2mhA89w@mail.gmail.com>
-Subject: Re: [PATCH v7 33/41] x86/shstk: Introduce map_shadow_stack syscall
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, nd@arm.com, al.grant@arm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM4PR12MB5133:EE_
+X-MS-Office365-Filtering-Correlation-Id: 20ccd6cb-c258-45a2-a91d-08db2657d4da
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Z/kO067AKSIbwRvRVGdOTiI3zUw6g+4YTZLO/zHCUBbVEP8G9m9pegHvZC5ar6iTqg43qu8lsspN9UzqeBTqq549RxVQYuT7bQ/m13xJ0ulwmZshUE7pNMp4IDChzIssQRziQrnbxPioB/SDMxuE4DT//1U9CmUd0+9M9NrL7ksx/7kh3v2mmo442j317Zh7XnsZqXv1TtgvsVWi4XV/OJIkfJQB+p1Lsrg6JzEnOcULqrtpsWuh4mP+HjR8mf/X6aOa9hMZj5NWZXnnWVMBwm6kNUKiO+SpBD/GbNFPpcoqzH7g/fC3QB/DSCdL+xIlBG03CPPytIUqjlpfchic/ShABbtxRfZzyMolwSCDSMnoSl121ACKrmkjixMnE17O/bPVmpmO8gd9KFQeWUwozkg0TebggKDOfVQXKFnblyML1uPqFHheDYgCQssZ+jBRr9zBXvo42VTUPp2i9kx6DYseujnJv7b6eFq09U8ISv0ugdEwcNpwtM9afS7HQ/OJ2OmQ8UzhHedtdO1DU/UY4dQplLk8G/yA8eT2ci0+DexoxLm4rjcHvijLz5VjA76q9xcvGDK2hPXxR1WcoiK9UUJnD+dbWhJOcH+9feZsDHGXJc/b3r9LznNAcj1lNilTHQmoYU0mYHYT1eNRp6vTEsAKd40vgNS9vJFyp5jF94iRVs5v2E/Qc7HRGGi+NQWrNuWYkZ8raObasHKvAXeEb6Wv4tb56THitNZEPvQ2TNM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(346002)(136003)(376002)(366004)(39860400002)(451199018)(38100700002)(86362001)(31696002)(7406005)(36756003)(2906002)(3450700001)(41300700001)(5660300002)(8936002)(7416002)(2616005)(4326008)(26005)(83380400001)(6506007)(6512007)(53546011)(186003)(54906003)(316002)(110136005)(6666004)(66946007)(66556008)(6486002)(8676002)(478600001)(66476007)(66899018)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djF0NEJCWlF5NDRsVnZrSExyM0NpTW1QR1I5MWxhTHQ4RXVvazJSZ2toMURh?=
+ =?utf-8?B?eFZrcGhZTGpDM1BtQ0owYVgrSHZrTUlTaE51QS9KR1d6ZytSWEtPMHMzU2d5?=
+ =?utf-8?B?OGNDSklMaXJ0SnppeGtJSEFZNEJwZnRiRXRjRnc1V0lzNGhocjY1bTNmelk3?=
+ =?utf-8?B?NWJINXFjMmNFSkR6dytoVlZnYTZnU01yTEp0dU9qZG5PZ0J4MTdFVzJWTmJ2?=
+ =?utf-8?B?U01MWmFOWW84aWlWbVh6NGhQSE1TRlBvWFNuMFA2N3ZybDl3WFUrc1NIOG83?=
+ =?utf-8?B?bWliMnVPVTU4azZYU3FSVjRNYXVOQUNCSytpYjhWTUNha05JZ1NaVjd2VXI2?=
+ =?utf-8?B?emhjUmc2Zk9kaWk5UndWNll1djlJSkQ1YWIyRHdBaGhZMmRqaEtSOWFUTENV?=
+ =?utf-8?B?TGNPN0xNdHVNR0MyNXorTjFLS3Q2MnBsYlFlb0JybDFTZDhWd21XQmZxSnQ4?=
+ =?utf-8?B?NXNCT1RBblcrY3I0TlUwUVhOZHovVVB1T0NXQ3Z2dlcwZVozamZuZWc5ZUw1?=
+ =?utf-8?B?dzFxOUQ5cW5ydnMwT21aekVUSEs5bG9SWWtORVJ0VUtxa0FGN2dlRkJFekx1?=
+ =?utf-8?B?UTNsRkxlRkZHY0k5Z0k0U01tVmR3OFFzdzNlMWg2Y3lBNlk2bGk5NUo1WnE5?=
+ =?utf-8?B?bmNiT0tmZkcyRzl6UVdpb0RMRFptYTNkZnh1VEdsUTQ1dXQ0R1FJby9XSWJx?=
+ =?utf-8?B?M1lZSzZoTFp1dU85dElWNnBqbVN4bUxSRFdBbGNxY0oxN0pyQ0RPU0VuTHVH?=
+ =?utf-8?B?SGxWbTZhNjRnS2ZEbldkdjRCRkxOUzVxT1RaeDFNclBhY0JVZjVhNWZEaDNX?=
+ =?utf-8?B?cjlJQUl6MzNzcmpMZCtoVncyQ2RDWHN4QmJLSmJYdHBZTHdSRUt0VWt4QXRJ?=
+ =?utf-8?B?UnpIVzZENE0zd3JlS28wclhMeGNzMWsycjZ5ZzJkYXJabE1xSDlRV0pEZURi?=
+ =?utf-8?B?RnFzS0VXVFA1UnI4TzVKbFFLV1Rkb1YwZzZHY2RkNGE1WFRmMktEZTc4MkhI?=
+ =?utf-8?B?TE1tTkJPRlhHOUlTcTNiYkNHWUFsZWV4TzcyOTVFSC9GVjMzM1UybHZGR1JV?=
+ =?utf-8?B?Q1dPZi9DMkRVSVkzL2c4ODJMTUJQbDBiM1gzdjlGUCtJQUV2WUpVanpZVXVj?=
+ =?utf-8?B?S0prVnlIbnlWd1FnUWVJZ3VwSVY5YjRrRXRMTGFaemJ6bEZlampxRXpiZVZX?=
+ =?utf-8?B?WUc5UWJkQUpGdHVUbEdrK0JJNFdRSURsSEQxMnRsam8zWkgyVmlMRlQ5WEta?=
+ =?utf-8?B?WW5XanBiTm5LWFUza0gvUEtOYnBFWXVtS1poNTJLWFllVnM2Tnd2dEM1RHda?=
+ =?utf-8?B?blhoS0w3azBGN25yT1RibE1xL0FvcXl6MldPRlk1bVBZTkN2VFZvbkd2KzRk?=
+ =?utf-8?B?VngxRlRqV2FZNVQ4UmpmNG5UeVhlYktJUStLUmNoUDY4YWxvMElpOExZL05p?=
+ =?utf-8?B?d1hjRjJ1U2htaG5OZXhsT0o1Vk5HeG96eGxGMkFoSVJLOHNNd2FYbUkvWmNu?=
+ =?utf-8?B?UFFCWndLNGtSQUc2RjU2cFVjKzhBMGpaUHIvSGF4UDJyd2ZWVENGQUVFUUhY?=
+ =?utf-8?B?SkUzVjZmYU1ESm1TMDY0UlozQ2VxTE9qWDhnUWlialJ6VndnWnF3V2VGWjBK?=
+ =?utf-8?B?bitZanZXbmx0b1EwZmoyT05LTy8zWDFLbS9JaFNCTkdaUzVYSmRBUmlDSmhS?=
+ =?utf-8?B?SVg3NHZWMFFPRURybmZlN3pCVjdiaFg5bmJYR2dUZGZyRUo2bWEvVnJZNVN5?=
+ =?utf-8?B?eXV2UnM3MkhUOXJMa3hiL3luSGlmRVJsZnFYdFZJTjZjYzAxc2tBWlF3R2Mv?=
+ =?utf-8?B?MS9DL3NGVS82K1pMQ1JkVEJtM2lhRlVYM3FTbnVpcERyWXlDOHNKbjlmblcy?=
+ =?utf-8?B?QU5HVU9lN01WcnYvWHpBV0JuZ3UrZnpFcVNLWFNwM1ZFZHNzaktSV215dGs2?=
+ =?utf-8?B?RXgyZlBjaDV0Y2dMQ2lsUDZoaGI2N0QvQkVlOURoQmRlZ1ZWYXNBb01vQW1E?=
+ =?utf-8?B?bGVJYUtCNS9yWGYrRVJCa29RM2lRdlQ4bE1xUUtYdUdQTlFxcFhJcFUwWWRJ?=
+ =?utf-8?B?b09QQzNhcVViYlRMSC9LdmZtQ2RrRUwyMit1ZmVNQzF1RU41UGg4N0xnc0Fa?=
+ =?utf-8?Q?tce8//QGY8Z6dVeKUVNWjbZdy?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20ccd6cb-c258-45a2-a91d-08db2657d4da
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2023 19:51:28.0666
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9XF/w/ojuZs57VStpuGkexMTdWOGzBYfi870emDXUHm0MG1lePik9h0D/2AESvpI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5133
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 14, 2023 at 12:19=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wr=
-ote:
->
-> Hi,
->
-> On Thu, Mar 09, 2023 at 10:55:11AM -0800, Deepak Gupta wrote:
-> > On Thu, Mar 02, 2023 at 05:22:07PM +0000, Szabolcs Nagy wrote:
-> > > The 02/27/2023 14:29, Rick Edgecombe wrote:
-> > > > Previously, a new PROT_SHADOW_STACK was attempted,
-> > > ...
-> > > > So rather than repurpose two existing syscalls (mmap, madvise) that=
- don't
-> > > > quite fit, just implement a new map_shadow_stack syscall to allow
-> > > > userspace to map and setup new shadow stacks in one step. While uco=
-ntext
-> > > > is the primary motivator, userspace may have other unforeseen reaso=
-ns to
-> > > > setup it's own shadow stacks using the WRSS instruction. Towards th=
-is
-> > > > provide a flag so that stacks can be optionally setup securely for =
-the
-> > > > common case of ucontext without enabling WRSS. Or potentially have =
-the
-> > > > kernel set up the shadow stack in some new way.
-> > > ...
-> > > > The following example demonstrates how to create a new shadow stack=
- with
-> > > > map_shadow_stack:
-> > > > void *shstk =3D map_shadow_stack(addr, stack_size, SHADOW_STACK_SET=
-_TOKEN);
-> > >
-> > > i think
-> > >
-> > > mmap(addr, size, PROT_READ, MAP_ANON|MAP_SHADOW_STACK, -1, 0);
-> > >
-> > > could do the same with less disruption to users (new syscalls
-> > > are harder to deal with than new flags). it would do the
-> > > guard page and initial token setup too (there is no flag for
-> > > it but could be squeezed in).
-> >
-> > Discussion on this topic in v6
-> > https://lore.kernel.org/all/20230223000340.GB945966@debug.ba.rivosinc.c=
-om/
-> >
-> > Again I know earlier CET patches had protection flag and somehow due to=
- pushback
-> > on mailing list, it was adopted to go for special syscall because no on=
-e else
-> > had shadow stack.
-> >
-> > Seeing a response from Szabolcs, I am assuming arm4 would also want to =
-follow
-> > using mmap to manufacture shadow stack. For reference RFC patches for r=
-isc-v shadow stack,
-> > use a new protection flag =3D PROT_SHADOWSTACK.
-> > https://lore.kernel.org/lkml/20230213045351.3945824-1-debug@rivosinc.co=
-m/
-> >
-> > I know earlier discussion had been that we let this go and do a re-fact=
-or later as other
-> > arch support trickle in. But as I thought more on this and I think it m=
-ay just be
-> > messy from user mode point of view as well to have cognition of two dif=
-ferent ways of
-> > creating shadow stack. One would be special syscall (in current libc) a=
-nd another `mmap`
-> > (whenever future re-factor happens)
-> >
-> > If it's not too late, it would be more wise to take `mmap`
-> > approach rather than special `syscall` approach.
->
-> I disagree.
->
-> Having shadow stack flags for mmap() adds unnecessary complexity to the
-> core-mm, while having a dedicated syscall hides all the details in the
-> architecture specific code.
+Hi Reinette,
 
-Again reiterating it would've made sense if only x86 had a shadow stack.
-aarch64 announced support for guarded stack. risc-v spec is in
-development to support shadow stack.
+On 3/16/23 12:12, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 3/16/2023 9:27 AM, Moger, Babu wrote:
+>>> -----Original Message-----
+>>> From: Reinette Chatre <reinette.chatre@intel.com>
+>>> Sent: Wednesday, March 15, 2023 1:33 PM
+>>> To: Moger, Babu <Babu.Moger@amd.com>; corbet@lwn.net;
+>>> tglx@linutronix.de; mingo@redhat.com; bp@alien8.de
+>>> Cc: fenghua.yu@intel.com; dave.hansen@linux.intel.com; x86@kernel.org;
+>>> hpa@zytor.com; paulmck@kernel.org; akpm@linux-foundation.org;
+>>> quic_neeraju@quicinc.com; rdunlap@infradead.org;
+>>> damien.lemoal@opensource.wdc.com; songmuchun@bytedance.com;
+>>> peterz@infradead.org; jpoimboe@kernel.org; pbonzini@redhat.com;
+>>> chang.seok.bae@intel.com; pawan.kumar.gupta@linux.intel.com;
+>>> jmattson@google.com; daniel.sneddon@linux.intel.com; Das1, Sandipan
+>>> <Sandipan.Das@amd.com>; tony.luck@intel.com; james.morse@arm.com;
+>>> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+>>> bagasdotme@gmail.com; eranian@google.com; christophe.leroy@csgroup.eu;
+>>> jarkko@kernel.org; adrian.hunter@intel.com; quic_jiles@quicinc.com;
+>>> peternewman@google.com
+>>> Subject: Re: [PATCH v3 1/7] x86/resctrl: Add multiple tasks to the resctrl group
+>>> at once
+>>>
+>>> Hi Babu,
+>>>
+>>> On 3/2/2023 12:24 PM, Babu Moger wrote:
+>>>> The resctrl task assignment for MONITOR or CONTROL group needs to be
+>>>> done one at a time. For example:
+>>>>
+>>>>   $mount -t resctrl resctrl /sys/fs/resctrl/
+>>>>   $mkdir /sys/fs/resctrl/clos1
+>>>>   $echo 123 > /sys/fs/resctrl/clos1/tasks
+>>>>   $echo 456 > /sys/fs/resctrl/clos1/tasks
+>>>>   $echo 789 > /sys/fs/resctrl/clos1/tasks
+>>>>
+>>>> This is not user-friendly when dealing with hundreds of tasks. Also,
+>>>> there is a syscall overhead for each command executed from user space.
+>>>
+>>> To support this change it may also be helpful to add that moving tasks take the
+>>> mutex so attempting to move tasks in parallel will not achieve a significant
+>>> performance gain.
+>>
+>> Agree. It may not be significant performance gain.  Will remove this line. 
+> 
+> It does not sound as though you are actually responding to my comment.
 
-So there will be shadow stack related flow in these arches.
+I am confused. I am already saying there is syscall overhead for each
+command if we move the tasks one by one. Now do you want me to add "moving
+tasks take the mutex so attempting to move tasks in parallel will not
+achieve a significant performance gain".
 
->
-> Another reason to use a dedicated system call allows for better
-> extensibility if/when we'd need to update the way shadow stack VMA is
-> created.
+It is contradictory, So, I wanted to remove the line about performance.
+Did I still miss something?
 
-I see two valid points here
-    - Shadow stack doesn't need conversion into different memory types
-(which is usually the case for address ranges created by mmap)
-      So there is a static page permissions on shadow stack which is
-not mutable.
+> 
+>>>> --- a/Documentation/x86/resctrl.rst
+>>>> +++ b/Documentation/x86/resctrl.rst
+>>>> @@ -292,13 +292,20 @@ All groups contain the following files:
+>>>>  "tasks":
+>>>>  	Reading this file shows the list of all tasks that belong to
+>>>>  	this group. Writing a task id to the file will add a task to the
+>>>> -	group. If the group is a CTRL_MON group the task is removed from
+>>>> +	group. Multiple tasks can be assigned together in one command by
+>>>> +	inputting the tasks separated by commas. Tasks will be assigned
+>>>
+>>> How about "tasks separated" -> "task ids separated" or "by inputting the tasks
+>>> separated by commas" -> "by separating the task ids with commas"
+>>
+>>
+>> Will change it to " Multiple tasks can be assigned together in one command by separating the task ids with commas."
+> 
+> I would drop the "together" since it implies that this is
+> somehow atomic. It will also improve reading by using consistent terminology -
+> note how the text switches from "add" to "assign". Something like
+> "Multiple tasks can be added by separating the task ids with commas." I think
+> using "command" is confusing since what is actually done is writing
+> text to a file.
 
-    - Future feature addition (if there is one needed) at the time of
-shadow stack creation
-      It would avoid future tax on mmap
+Ok. Sure. Will change it.
 
-I'll think more about this.
+> 
+> ...
+> 
+>>>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>>> @@ -683,16 +683,34 @@ static ssize_t rdtgroup_tasks_write(struct
+>>> kernfs_open_file *of,
+>>>>  				    char *buf, size_t nbytes, loff_t off)  {
+>>>>  	struct rdtgroup *rdtgrp;
+>>>> +	char *pid_str;
+>>>>  	int ret = 0;
+>>>>  	pid_t pid;
+>>>>
+>>>> -	if (kstrtoint(strstrip(buf), 0, &pid) || pid < 0)
+>>>> +	/* Valid input requires a trailing newline */
+>>>> +	if (nbytes == 0 || buf[nbytes - 1] != '\n')
+>>>>  		return -EINVAL;
+>>>
+>>> The resctrl files should be seen as user space API. With the above change you
+>>> take an interface that did not require a newline and dictate that it should have
+>>> a trailing newline. How convinced are you that this does not break any current
+>>> user space scripts or applications? Why does this feature require a trailing
+>>> newline?
+>>
+>> I have tested these changes with intel_cmt_cat tool. It didn’t have any problems. 
+>> We are already doing newline check for few other inputs.
+> 
+> You tested this with the _one_ user space tool that you use. This is not sufficient
+> to be convincing that this change has no impact. I do not believe that it is a valid
+> argument that other inputs do a newline check. This input never required a newline
+> check and it is not clear why this change now requires it. It seems that this is an
+> unnecessary new requirement that runs the risk of breaking an existing application.
+> 
+> I would like to ask again: How convinced are you that this does not break _any_ current
+> user space scripts or applications? Why does this feature require a trailing
+> newline?
 
->
-> As for the userspace convenience, it is anyway required to add special
-> code for creating the shadow stack and it wouldn't matter if that code
-> would use mmap(NEW_FLAG) or map_shadow_stack().
+I do not know of any other tool using resctrl fs.
+So, you want me to drop the newline requirement for this. I can try that.
+Will let you know how it goes.
 
-Yes *strictly* from userspace convenience, it doesn't matter which option.
 
->
-> > > most of the mmap features need not be available (EINVAL) when
-> > > MAP_SHADOW_STACK is specified.
-> > >
-> > > the main drawback is running out of mmap flags so extension
-> > > is limited. (but the new syscall has limitations too).
->
-> --
-> Sincerely yours,
-> Mike.
+> 
+>>
+>>>
+>>>> +
+>>>> +	buf[nbytes - 1] = '\0';
+>>>> +
+>>>>  	rdtgrp = rdtgroup_kn_lock_live(of->kn);
+>>>>  	if (!rdtgrp) {
+>>>>  		rdtgroup_kn_unlock(of->kn);
+>>>>  		return -ENOENT;
+>>>>  	}
+>>>> +
+>>>> +next:
+>>>> +	if (!buf || buf[0] == '\0')
+>>>> +		goto unlock;
+>>>> +
+>>>> +	pid_str = strim(strsep(&buf, ","));
+>>>> +
+>>>
+>>> Could lib/cmdline.c:get_option() be useful?
+>>
+>> Yes. We could that also. May not be required for the simple case like this.
+> 
+> Please keep an eye out for how much of it you end up duplicating ....
+
+Using the get_options will require at least two calls(one to get the
+length and then read the integers). Also need to allocate the integers
+array dynamically. That is lot code if we are going that route.
+
+> 
+>>>> +		ret = -EINVAL;
+>>>> +		goto unlock;
+>>>> +	}
+>>>> +
+>>>>  	rdt_last_cmd_clear();
+>>>>
+>>>>  	if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKED || @@ -703,6
+>>> +721,10 @@
+>>>> static ssize_t rdtgroup_tasks_write(struct kernfs_open_file *of,
+>>>>  	}
+>>>>
+>>>>  	ret = rdtgroup_move_task(pid, rdtgrp, of);
+>>>> +	if (ret)
+>>>> +		goto unlock;
+>>>> +	else
+>>>> +		goto next;
+>>>>
+>>>
+>>> The documentation states "The failure details will be logged in
+>>> resctrl/info/last_cmd_status file." but I do not see how this is happening here.
+>>> From what I can tell this implementation does not do anything beyond what
+>>> last_cmd_status already does so any special mention in the docs is not clear to
+>>> me. The cover letter stated "Added pid in last_cmd_status when applicable." - it
+>>> sounded as though last_cmd_status would contain the error with the pid that
+>>> encountered the error but I do not see this happening here.
+>>
+>> You are right we are not doing anything special here. pid failures error was already there.
+>> I will have to change the text here.
+> 
+> What do you mean with "pid failures error was already there"? From what
+> I understand your goal is to communicate to the user which pid
+> encountered the error and I do not see that done. How will user know
+> which pid encountered a failure?
+
+We only have couple of failures to take here. Those failures are already
+handled by rdtgroup_move_task. It logs the pid for failure(using
+rdt_last_cmd_printf).
+
+I can say "The failure pid will be logged in
+/sys/fs/resctrl/info/last_cmd_status file."
+-- 
+Thanks
+Babu Moger
