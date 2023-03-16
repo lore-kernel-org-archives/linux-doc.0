@@ -2,143 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 722F9C6FD1F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 16:41:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9088EC6FD1F
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 17:05:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231474AbjCPQlW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 12:41:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51520 "EHLO
+        id S229541AbjCPRFt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 13:05:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230419AbjCPQlI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 12:41:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5308F20575
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 09:39:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678984774;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EIjjbwXvUyx1yHV3Ag65tOZVBiQaT5p/l+soILdmUMg=;
-        b=FckdH58DNj+PMkatQY/Mcj3tp/wGNLU48w7Op0T4yXU6SNorGDZ7rPUO+1FOECV/iEhQJO
-        T+eL5QU1csIAlMF0uR4vY3gdFknECkf5k+9SZjzw5CN/VXSlqjbCgF6GFNOOpd9nyFByDS
-        9iXYqludCTEXO1phXxnTEB8MjPne+Lk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-614-lac2RHU0NCqSr6liJeFpTw-1; Thu, 16 Mar 2023 12:39:32 -0400
-X-MC-Unique: lac2RHU0NCqSr6liJeFpTw-1
-Received: by mail-ed1-f72.google.com with SMTP id y24-20020aa7ccd8000000b004be3955a42eso3871226edt.22
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 09:39:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678984771;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EIjjbwXvUyx1yHV3Ag65tOZVBiQaT5p/l+soILdmUMg=;
-        b=IzPEYA8dcZnuqMYqgr+VLECabuesDrwInUpwbOYOrUDeBkF3HoaXq5TXEq2Sc55UlG
-         ovug/AWL7xCCAD66SprqhYmWoZ/XgDayx90XJTuyNdmcnai2YyzHQwcHyYx2N5QrhZaL
-         OBNdCc/mWsMq9w9k9FWqsE+jowK5LC4AFWvhe3AcytvIUGfF9uUHDn2tfSvJxHEa+igy
-         tOSfOSAjriRcEM1d1LZLGLt2N6FDNsRhshi7F2Wp6vOJjBkrS83E9joQ5t6fzFCXGYOL
-         CFTt67LW5qLaWUHHVZVI45+b4/NR0yXLaottGbOdtyv/p/632xAQOu3CQhdqbc+wXB2s
-         fizA==
-X-Gm-Message-State: AO0yUKXB/DF89t7bIMVlvVe9yG4tj8u2Bt5fMk0gv6uN6zXv2GDeqn3n
-        ywCJmJ4O4lgmEyL1gJaySkyRSTDIYhQQPK89stNFKVjMDnh8oBZOKT/7BnDVSrLIK/LNu5jUgjL
-        N2n13HkXVJpHXNtk+VYNs
-X-Received: by 2002:a05:6402:4c5:b0:500:2cc6:36da with SMTP id n5-20020a05640204c500b005002cc636damr203729edw.19.1678984771323;
-        Thu, 16 Mar 2023 09:39:31 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9V8TDcXbJOgnOBxH6ODTR6VjYhQ4kSbUdWqsuVHaamhdMw5sSOqawbmI1THONqUSv/FiH8Xg==
-X-Received: by 2002:a05:6402:4c5:b0:500:2cc6:36da with SMTP id n5-20020a05640204c500b005002cc636damr203714edw.19.1678984771069;
-        Thu, 16 Mar 2023 09:39:31 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id v3-20020a50d083000000b004c3e3a6136dsm4068725edd.21.2023.03.16.09.39.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Mar 2023 09:39:30 -0700 (PDT)
-Message-ID: <038fbef3-1f05-7d94-89b0-0bb681481885@redhat.com>
-Date:   Thu, 16 Mar 2023 17:39:29 +0100
+        with ESMTP id S231317AbjCPRFc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 13:05:32 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39F71A271;
+        Thu, 16 Mar 2023 10:05:05 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32GGRwA6022698;
+        Thu, 16 Mar 2023 17:04:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=wgb8rv8KbzFYSeqAkvAMuG9pk38MZUdLqwMuuhTKKBg=;
+ b=EdH5Zp2daYm1GEsrKsgGT8jex1kO4KGLTCB6Fvvkd+618YWhRYG8jSG+tA+w+nqp1NlY
+ Enm7hIGaSaAvH4YZzxvf3YvDpYbLuO9PofgUpR9scjCiXpwCnbKlb8oPU7va8lxNeMhD
+ YH5cGypae597y5jRcuvdwF+mEZExg0i70iKnNRS0q88vCPvXPHw0LwDExnA0ill2+9zb
+ 8w4+SeAzNqpR0tYhOuQPfwoKdMOWgAbREa74CNdbD371x8hLQZFOMlx9H2Ho3/ppqom6
+ /ewqeGP7Gw/xfE+pwmWAnRscwjHlAAQWYo018aH1U1NNkBXAsGUewHcK2tLXeNcC2661 ew== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pc3yp8qav-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 16 Mar 2023 17:04:08 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32GH463w008774
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 16 Mar 2023 17:04:06 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 16 Mar
+ 2023 10:04:05 -0700
+Message-ID: <daa3100e-8f5b-8dbb-297f-ca3a87b44a97@quicinc.com>
+Date:   Thu, 16 Mar 2023 11:04:05 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH drm-next 00/14] [RFC] DRM GPUVA Manager & Nouveau VM_BIND
- UAPI
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v3 8/8] MAINTAINERS: Add entry for QAIC driver
 Content-Language: en-US
-To:     Oded Gabbay <ogabbay@kernel.org>
-Cc:     jason@jlekstrand.net, corbet@lwn.net,
-        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        bskeggs@redhat.com, tzimmermann@suse.de, airlied@redhat.com,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Matthew Brost <matthew.brost@intel.com>
-References: <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
- <02b0bcb8-f69f-93cf-1f56-ec883cb33965@redhat.com>
- <3602500f-05f5-10b8-5ec6-0a6246e2bb6b@amd.com>
- <bcbef353-f579-4e90-1c77-be36bbe61c0f@redhat.com>
- <CADnq5_PGaXFW-z3gt+R+W+vBVdeuL4wMuMOQh4muxU13Bemy3A@mail.gmail.com>
- <0f2d6e1a-a3b5-f323-a29d-caade427292c@redhat.com>
- <CADnq5_Nh-1esiHzvTG+qFBCfMjy21efX-YN2jfGG=WC+-4LwLQ@mail.gmail.com>
- <CAPM=9txMZO1uYj+kVdTfmCwV2Fq8uu_b3i4eq4xhqPEPKBW8Eg@mail.gmail.com>
- <7839c47e-6692-b93b-69a8-9584193cb07d@amd.com>
- <6566870d-6256-8eef-5879-cb13711e4bed@redhat.com>
- <Y8jT1TazLddqZjG4@DUT025-TGLU.fm.intel.com>
- <CAFCwf10BAfg+_JGzyV0Rgx3WHaOR4vv9hvRXm0b0wW9U6tHSOA@mail.gmail.com>
-From:   Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <CAFCwf10BAfg+_JGzyV0Rgx3WHaOR4vv9hvRXm0b0wW9U6tHSOA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+        <dafna@fastmail.com>, <ogabbay@kernel.org>, <airlied@gmail.com>,
+        <daniel@ffwll.ch>, <stanislaw.gruszka@linux.intel.com>,
+        <dri-devel@lists.freedesktop.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+CC:     <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <quic_ajitpals@quicinc.com>, <quic_pkanojiy@quicinc.com>,
+        <quic_carlv@quicinc.com>
+References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
+ <1678138443-2760-9-git-send-email-quic_jhugo@quicinc.com>
+ <5e912413-eee4-5b25-5f6d-00ccc7501b9d@linux.intel.com>
+From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <5e912413-eee4-5b25-5f6d-00ccc7501b9d@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: mAJ2KITASk0FsZJeRfyJQRX-kbvMUAhl
+X-Proofpoint-ORIG-GUID: mAJ2KITASk0FsZJeRfyJQRX-kbvMUAhl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-16_10,2023-03-16_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 priorityscore=1501 mlxscore=0
+ suspectscore=0 bulkscore=0 phishscore=0 adultscore=0 impostorscore=0
+ mlxlogscore=999 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303150002 definitions=main-2303160132
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Oded,
-
-sorry for the late response, somehow this mail slipped through.
-
-On 2/6/23 15:48, Oded Gabbay wrote:
-> On Thu, Jan 19, 2023 at 7:24 AM Matthew Brost <matthew.brost@intel.com> wrote:
->> Is this not an application issue? Millions of mappings seems a bit
->> absurd to me.
-> If I look at the most extreme case for AI, assuming 256GB of HBM
-> memory and page mapping of 2MB, we get to 128K of mappings. But that's
-> really the extreme case imo. I assume most mappings will be much
-> larger. In fact, in the most realistic scenario of large-scale
-> training, a single user will probably map the entire HBM memory using
-> 1GB pages.
+On 3/14/2023 3:59 AM, Jacek Lawrynowicz wrote:
+> Hi
 > 
-> I have also a question, could this GPUVA code manage VA ranges
-> mappings for userptr mappings, assuming we work without svm/uva/usm
-> (pointer-is-a-pointer) ? Because then we are talking about possible
-> 4KB mappings of 1 - 1.5 TB host server RAM (Implied in my question is
-> the assumption this can be used also for non-VK use-cases. Please tell
-> me if I'm totally wrong here).
-
-In V2 I switched from drm_mm to maple tree, which should improve 
-handling of lots of entries. I also dropped the requirement for GPUVA 
-entries to be backed by a valid GEM object.
-
-I think it can be used for non-VK use-cases. It basically just keeps 
-track of mappings (not allocating them in the sense of finding a hole 
-and providing a base address for a given size). There are basic 
-functions to insert and remove entries. For those basic functions it is 
-ensured that colliding entries can't be inserted and only a specific 
-given entry can be removed, rather than e.g. an arbitrary range.
-
-There are also more advanced functions where users of the GPUVA manager 
-can request to "force map" a new mapping and to unmap a given range. The 
-GPUVA manager will figure out the (sub-)operations to make this happen 
-(.e.g. remove mappings in the way, split up mappings, etc.) and either 
-provide these operations (or steps) through callbacks or though a list 
-of operations to the caller to process them.
-
-Are there any other use-cases or features you could think of that would 
-be beneficial for accelerators?
-
-- Danilo
-
+> On 06.03.2023 22:34, Jeffrey Hugo wrote:
+>> Add MAINTAINERS entry for the Qualcomm Cloud AI 100 driver.
+>>
+>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+>> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>> ---
+>>   MAINTAINERS | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index b0db911..feb2974 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -17253,6 +17253,15 @@ F:	Documentation/devicetree/bindings/clock/qcom,*
+>>   F:	drivers/clk/qcom/
+>>   F:	include/dt-bindings/clock/qcom,*
+>>   
+>> +QUALCOMM CLOUD AI (QAIC) DRIVER
+>> +M:	Jeffrey Hugo <quic_jhugo@quicinc.com>
+>> +L:	linux-arm-msm@vger.kernel.org
+>> +L:	dri-devel@lists.freedesktop.org
+>> +S:	Supported
+>> +F:	Documentation/accel/qaic/
+>> +F:	drivers/accel/qaic/
+>> +F:	include/uapi/drm/qaic_accel.h
 > 
-> Thanks,
-> Oded
-> 
+> Aren't you missing repo link?
+> T:	git git://anongit.freedesktop.org/drm/drm-misc
+
+Maarten/Maxime/Thomas are we ok to follow the iVPU example and use 
+drm-misc for this, or would a separate tree be preferred?
+
+-Jeff
 
