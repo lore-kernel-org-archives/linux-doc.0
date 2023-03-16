@@ -2,117 +2,198 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 225EBC7618A
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 22:53:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AD71C6FD1F
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 22:59:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbjCPWxn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 18:53:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57018 "EHLO
+        id S229897AbjCPW7W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 18:59:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbjCPWxm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 18:53:42 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9BC3B2F7BB;
-        Thu, 16 Mar 2023 15:53:41 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id EC6622057035; Thu, 16 Mar 2023 15:53:40 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EC6622057035
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1679007220;
-        bh=ozAKii3/G+nF0B4iMSAidkpr8EKBtFwptQ71Sgukeww=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KkZPlvrZkwVJk9N6tCVcfEWVijYklxICoHBlfmIBUdyC9L+DFQd4o9FIlLtaz5zo9
-         LlqgvLme5WmK8AGXZvR43afaNUceUwk8wqOJUB8SBwuHtIGBuXChLJM+Ctaq1+q6w0
-         SjFFKl2n5uJm/6kczK6TR5zqAcTMDJ2OG5M9TlUA=
-Date:   Thu, 16 Mar 2023 15:53:40 -0700
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     Steve Grubb <sgrubb@redhat.com>, corbet@lwn.net,
-        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
-        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
-        agk@redhat.com, snitzer@kernel.org, eparis@redhat.com,
-        linux-audit@redhat.com, dm-devel@redhat.com,
-        linux-doc@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        roberto.sassu@huawei.com, linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-integrity@vger.kernel.org
-Subject: Re: [RFC PATCH v9 07/16] uapi|audit|ipe: add ipe auditing support
-Message-ID: <20230316225340.GB22567@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1675119451-23180-1-git-send-email-wufan@linux.microsoft.com>
- <1675119451-23180-8-git-send-email-wufan@linux.microsoft.com>
- <3723852.kQq0lBPeGt@x2>
- <CAHC9VhRqMrTuvVtwzJoK2U=6O1QuaQ8ceA6+qm=6ib0TOUEeSw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhRqMrTuvVtwzJoK2U=6O1QuaQ8ceA6+qm=6ib0TOUEeSw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+        with ESMTP id S229832AbjCPW7V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 18:59:21 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA651193D3
+        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 15:59:18 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5425c04765dso29934277b3.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 15:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1679007558;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qWalks976lIx9gM0rZXHprcJNgdQ23aAcuCS3sG+Yi4=;
+        b=tDU9PX7ro8icNVMA9iC29WCiEBLRgkY0S5CrNun6+PTEQjClU+V/wUZBzQmNmt9QGN
+         ZQ9+GGEvDNsPKndiypt2UPENk8mNhhdNmP2+9GEa0ZUW17xvaKykg31zO4XL4x1oaI0Q
+         ixPa21LWXdKiTjny36mrwUEooyVC4aHmFHcaf4x0NjEFWR9Dh0vmLebfU8TUvXqeoFro
+         eW/bznvVTNANsTwoFJGt48pZHVRk4wkC6kgvBIZFQv0qX98yqiSoyOxeQ5JgLJ6+NOAK
+         cSLNSeerYOozMDwjYy1GXPqPmXr7vqUcsveEynMzK6lpUDyAeBm6UkoIFzfeGkyGXJ++
+         hwSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679007558;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qWalks976lIx9gM0rZXHprcJNgdQ23aAcuCS3sG+Yi4=;
+        b=1JvfM3VD+wfZN7lm0iFhU9v9LvS7z0pR73KliQtgNFAL7Xzk4eKHdD67/bK4lcqdL/
+         Qi803nsMCKKE0JdjaCHZvrM0BE8ktJCK3jSbLQ+uFvsK/0JbIED5r3OU+WXAmJLJ5QcU
+         QhWZr6MDlXW8ZfqXlufV6TFvXiQeq5ZJRMAxTJoiT0p/oCsePRNy2rtrS6m3WpbbF71r
+         fw4vx60psoQ8bjrLvfE/5ldhBvtnF9rzy39hAW3Bxz0jMT0gWzf+AZoLmLGYJYNSJinq
+         l9FaTaFRqtZh/IrQwFUJeNf+w2UTdwC6TCYAs+7sRWzIpwds9gKTupU/HoUFV9VCu7Dn
+         pM/Q==
+X-Gm-Message-State: AO0yUKUkwhGXKgHKuuooZ9BjNiDkwfdhw0Y6m+ck3vug1Vua2AdorKwc
+        zu/X31w8NUH/oPaoGnSlmUi8/JppCw==
+X-Google-Smtp-Source: AK7set+PsgVedABxdiCxAyh7j6bk5z0QFl1X1enf7V6rXMj1w7qnkz2nRGM1IaA5IByx14VygSQhFDWWGQ==
+X-Received: from rmoar-specialist.c.googlers.com ([fda3:e722:ac3:cc00:2b:7d90:c0a8:45d3])
+ (user=rmoar job=sendgmr) by 2002:a81:b284:0:b0:533:99bb:c296 with SMTP id
+ q126-20020a81b284000000b0053399bbc296mr3151151ywh.5.1679007558179; Thu, 16
+ Mar 2023 15:59:18 -0700 (PDT)
+Date:   Thu, 16 Mar 2023 22:59:15 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
+Message-ID: <20230316225915.494688-1-rmoar@google.com>
+Subject: [KTAP V2 PATCH] ktap_v2: add recognized test name line
+From:   Rae Moar <rmoar@google.com>
+To:     frowand.list@gmail.com, davidgow@google.com,
+        skhan@linuxfoundation.org, keescook@chromium.org,
+        Tim.Bird@sony.com, brendanhiggins@google.com
+Cc:     corbet@lwn.net, guillaume.tucker@collabora.com,
+        dlatypov@google.com, kernelci@lists.linux.dev,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rae Moar <rmoar@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 02, 2023 at 02:05:33PM -0500, Paul Moore wrote:
-> On Tue, Jan 31, 2023 at 12:11???PM Steve Grubb <sgrubb@redhat.com> wrote:
-> >
-> > Hello,
-> >
-> > On Monday, January 30, 2023 5:57:22 PM EST Fan Wu wrote:
-> > > From: Deven Bowers <deven.desai@linux.microsoft.com>
-> > >
-> > > Users of IPE require a way to identify when and why an operation fails,
-> > > allowing them to both respond to violations of policy and be notified
-> > > of potentially malicious actions on their systens with respect to IPE
-> > > itself.
-> > >
-> > > The new 1420 audit, AUDIT_IPE_ACCESS indicates the result of a policy
-> > > evaulation of a resource. The other two events, AUDIT_MAC_POLICY_LOAD,
-> > > and AUDIT_MAC_CONFIG_CHANGE represent a new policy was loaded into the
-> > > kernel and the currently active policy changed, respectively.
-> >
-> > Typically when you reuse an existing record type, it is expected to maintain
-> > the same fields in the same order. Also, it is expect that fields that are
-> > common across diferent records have the same meaning. To aid in this, we have
-> > a field dictionary here:
-> >
-> > https://github.com/linux-audit/audit-documentation/blob/main/specs/fields/
-> > field-dictionary.csv
-> >
-> > For example, dev is expected to be 2 hex numbers separated by a colon which
-> > are the device major and minor numbers. But down a couple lines from here, we
-> > find dev="tmpfs". But isn't that a filesystem type?
-> 
-> What Steve said.
-> 
-> I'll also add an administrative note, we just moved upstream Linux
-> audit development to a new mailing list, audit@vger.kernel.org, please
-> use that in future patch submissions.  As a positive, it's a fully
-> open list so you won't run into moderation delays/notifications/etc.
-> 
-Thanks for the info, I will update the address.
+Add recognition of the test name line ("# Subtest: <name>") to the KTAP v2
+spec.
 
-> > > This patch also adds support for success auditing, allowing users to
-> > > identify how a resource passed policy. It is recommended to use this
-> > > option with caution, as it is quite noisy.
-> > >
-> > > This patch adds the following audit records:
-> > >
-> > >   audit: AUDIT1420 path="/tmp/tmpwxmam366/deny/bin/hello" dev="tmpfs"
-> > >     ino=72 rule="DEFAULT op=EXECUTE action=DENY"
-> >
-> > Do we really need to log the whole rule?
-> 
-> Fan, would it be reasonable to list the properties which caused the
-> access denial?  That seems like it might be more helpful than the
-> specific rule, or am I missing something?
-> 
-Audit the whole rule can let the user find the reason of a policy decision.
-We need the whole rule because an allow/block is not caused by a specific
-property, but the combination of all property conditions in a rule.
+The purpose of this line is to declare the name of a test before its
+results. This functionality is especially useful when trying to parse test
+results incrementally and when interpretting results after a crash.
 
-We could also add a verbose switch such that we only audit
-the whole rule when a user turned the verbose switch on. 
+This line is already compliant with KTAP v1 as it is interpretted as a
+diagnostic line by parsers. Additionally, the line is currently used by
+KUnit tests and was derived from the TAP 14 spec:
+https://testanything.org/tap-version-14-specification.html.
 
--Fan
+Recognition of this line would create an accepted way for different test
+frameworks to declare the name of a test before its results.
 
-> paul-moore.com
+The proposed location for this line is between the version line and the
+test plan line. This location ensures that the line would not be
+accidentally parsed as a subtest's diagnostic lines. Note this proposed
+location would be a slight differentiation from KTAP v1.
+
+Example of test name line:
+
+ KTAP version 2
+ # Subtest: main_test
+ 1..1
+   KTAP version 2
+   # Subtest: sub_test
+   1..2
+   ok 1 test_1
+   ok 2 test_2
+ ok 1 sub_test
+
+Here is a link to a version of the KUnit parser that is able to parse the
+test name line for KTAP version 2. Note this includes a test name line for
+the main level of KTAP.
+
+Link: https://kunit-review.googlesource.com/c/linux/+/5709
+
+Signed-off-by: Rae Moar <rmoar@google.com>
+---
+
+This is a RFC. I would like to know what people think and use this as a
+platform for discussion on KTAP v2.
+
+Note: this patch is based on Frank's ktap_spec_version_2 branch.
+
+ Documentation/dev-tools/ktap.rst | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
+index ff77f4aaa6ef..9c7ed66d9f77 100644
+--- a/Documentation/dev-tools/ktap.rst
++++ b/Documentation/dev-tools/ktap.rst
+@@ -28,8 +28,7 @@ KTAP output is built from four different types of lines:
+ In general, valid KTAP output should also form valid TAP output, but some
+ information, in particular nested test results, may be lost. Also note that
+ there is a stagnant draft specification for TAP14, KTAP diverges from this in
+-a couple of places (notably the "Subtest" header), which are described where
+-relevant later in this document.
++a couple of places, which are described where relevant later in this document.
+ 
+ Version lines
+ -------------
+@@ -44,8 +43,8 @@ For example:
+ - "TAP version 14"
+ 
+ Note that, in KTAP, subtests also begin with a version line, which denotes the
+-start of the nested test results. This differs from TAP14, which uses a
+-separate "Subtest" line.
++start of the nested test results. This differs from TAP14, which uses only a
++"Subtest" line.
+ 
+ While, going forward, "KTAP version 2" should be used by compliant tests, it
+ is expected that most parsers and other tooling will accept the other versions
+@@ -166,6 +165,12 @@ even if they do not start with a "#": this is to capture any other useful
+ kernel output which may help debug the test. It is nevertheless recommended
+ that tests always prefix any diagnostic output they have with a "#" character.
+ 
++One recognized diagnostic line is the "# Subtest: <name>" line. This line
++is used to declare the name of a test before subtest results are printed. This
++is helpful for parsing and for providing context during crashes. As a rule,
++this line is placed after the version line and before the plan line. Note
++this line can be used for the main test, as well as subtests.
++
+ Unknown lines
+ -------------
+ 
+@@ -206,6 +211,7 @@ An example of a test with two nested subtests:
+ 	KTAP version 2
+ 	1..1
+ 	  KTAP version 2
++	  # Subtest: example
+ 	  1..2
+ 	  ok 1 test_1
+ 	  not ok 2 test_2
+@@ -219,6 +225,7 @@ An example format with multiple levels of nested testing:
+ 	KTAP version 2
+ 	1..2
+ 	  KTAP version 2
++	  # Subtest: example_test_1
+ 	  1..2
+ 	    KTAP version 2
+ 	    1..2
+@@ -245,7 +252,7 @@ allows an arbitrary number of tests to be nested     no         yes
+ 
+ The TAP14 specification does permit nested tests, but instead of using another
+ nested version line, uses a line of the form
+-"Subtest: <name>" where <name> is the name of the parent test.
++"Subtest: <name>" where <name> is the name of the parent test as discussed above.
+ 
+ Example KTAP output
+ --------------------
+@@ -254,6 +261,7 @@ Example KTAP output
+ 	KTAP version 2
+ 	1..1
+ 	  KTAP version 2
++	  # Subtest: main_test
+ 	  1..3
+ 	    KTAP version 2
+ 	    1..1
+@@ -266,6 +274,7 @@ Example KTAP output
+ 	    ok 2 test_2
+ 	  ok 2 example_test_2
+ 	    KTAP version 2
++		# Subtest: example_test_3
+ 	    1..3
+ 	    ok 1 test_1
+ 	    # test_2: FAIL
+
+base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
+-- 
+2.40.0.rc1.284.g88254d51c5-goog
+
