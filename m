@@ -2,112 +2,172 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EBE1C7618D
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 15:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8793CC6FD19
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 16:00:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231614AbjCPP64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 11:58:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36664 "EHLO
+        id S231573AbjCPQAQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 12:00:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231636AbjCPP6y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 11:58:54 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B055D158B3
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 08:58:53 -0700 (PDT)
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1pcpzT-0001Wg-0O; Thu, 16 Mar 2023 16:58:07 +0100
-Received: from pengutronix.de (unknown [IPv6:2a00:20:3043:e035:5ae3:9609:678c:e1fb])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id EEF27194E2F;
-        Thu, 16 Mar 2023 15:57:59 +0000 (UTC)
-Date:   Thu, 16 Mar 2023 16:57:58 +0100
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     David Howells <dhowells@redhat.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Jens Axboe <axboe@kernel.dk>, Jeff Layton <jlayton@kernel.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, dccp@vger.kernel.org,
-        linux-afs@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-can@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-hams@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-wpan@vger.kernel.org, linux-x25@vger.kernel.org,
-        mptcp@lists.linux.dev, rds-devel@oss.oracle.com,
-        tipc-discussion@lists.sourceforge.net,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [RFC PATCH 28/28] sock: Remove ->sendpage*() in favour of
- sendmsg(MSG_SPLICE_PAGES)
-Message-ID: <20230316155758.5ylpybqjma7x4lbs@pengutronix.de>
-References: <20230316152618.711970-1-dhowells@redhat.com>
- <20230316152618.711970-29-dhowells@redhat.com>
+        with ESMTP id S231561AbjCPQAN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 12:00:13 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3529377CBE;
+        Thu, 16 Mar 2023 09:00:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6DA94B8227E;
+        Thu, 16 Mar 2023 16:00:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24D36C433EF;
+        Thu, 16 Mar 2023 16:00:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678982407;
+        bh=GHqd6mmwWSIdksWIe0G7oOtf6sR281Z2AdCgPifu/AQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=qId0+JoWJmZvtimfpgsvRRlwTPjX6lG7oCsd16E7p4Ns2lLReS6hNnPC0ihO9xkZW
+         RIKZHA8GO54xL/++44/qMdDFrV5txPjrUm1YSMwSLMZ3m34hTjHpUK7mLL3jOW2kpo
+         94h9gMKOqeIDLEZdFeBXBy4Q7yCaHVADw3ZYo9SEgAwdKg1ffRhKDWO+T4OYlYzX71
+         9La9qQyX/NsNjhJ3gEez2hkyyg1T6jrbqnMMaeJqjQaTZhkbId7w/QclC3w3YVA6Vm
+         AXIwr/U2NtT5KuSZke7jOtRJAjtHadCKFPLg6HuoUwpe7gq1zl7S0YbIEe1tGdAYgY
+         lkeuFzNZ+dmHA==
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1pcq1M-000crq-PH;
+        Thu, 16 Mar 2023 16:00:04 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="km5oeoth2y26yqyc"
-Content-Disposition: inline
-In-Reply-To: <20230316152618.711970-29-dhowells@redhat.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Date:   Thu, 16 Mar 2023 16:00:04 +0000
+From:   Marc Zyngier <maz@kernel.org>
+To:     Sudeep Holla <sudeep.holla@arm.com>
+Cc:     Shanker Donthineni <sdonthineni@nvidia.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH v2] irqchip/gicv3: Workaround for NVIDIA erratum
+ T241-FABRIC-4
+In-Reply-To: <20230316151014.zaoxo4wmg4mzyoiq@bogus>
+References: <20230314135128.2930580-1-sdonthineni@nvidia.com>
+ <871qlqif9v.wl-maz@kernel.org>
+ <4dda3890-e910-625e-e7ed-6b6c0bbbd9d4@nvidia.com>
+ <20230316151014.zaoxo4wmg4mzyoiq@bogus>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <bf9f8763f0116c3f05c008923edfbedb@kernel.org>
+X-Sender: maz@kernel.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: sudeep.holla@arm.com, sdonthineni@nvidia.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, mark.rutland@arm.com, lpieralisi@kernel.org, tglx@linutronix.de, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, vsethi@nvidia.com, treding@nvidia.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2023-03-16 15:10, Sudeep Holla wrote:
+> On Wed, Mar 15, 2023 at 07:27:14AM -0500, Shanker Donthineni wrote:
+>> Hi Marc,
+>> 
+>> On 3/15/23 03:34, Marc Zyngier wrote:
+>> > Please don't duplicate existing code. There is already the required
+>> > infrastructure in drivers/firmware/smccc/soc_id.c. All you need to do
+>> > is:
+>> >
+>> > - disassociate the SMCCC probing from the device registration
+>> >
+>> > - probe the SOC_ID early
+>> >
+>> > - add accessors for the relevant data
+>> >
+>> > - select ARM_SMCCC_SOD_ID/ARM_SMCCC_DISCOVERY from the GICv3 Kconfig
+>> 
+>> 
+>> I have not modified soc_id.c as it expects to be loaded as a module 
+>> with
+>> the use of module_init() and module_exit() functions. The exported 
+>> symbols
+>> in soc_id driver cannot be accessed from the built-in code.
+>> 
+>> Agree, the SOD-ID discovery code was duplicated.
+>> 
+>> Please guide me if the below approach is okay?
+>> 
+>> 1) Probe the SOC-ID in arm_smccc_version_init() and export two 
+>> functions
+>> arm_smccc_get_soc_id_version() and arm_smccc_get_soc_id_revision().
+>> 
+>> --- a/drivers/firmware/smccc/smccc.c
+>> +++ b/drivers/firmware/smccc/smccc.c
+>> @@ -17,9 +17,13 @@ static enum arm_smccc_conduit smccc_conduit = 
+>> SMCCC_CONDUIT_NONE;
+>> 
+>>  bool __ro_after_init smccc_trng_available = false;
+>>  u64 __ro_after_init smccc_has_sve_hint = false;
+>> +s32 __ro_after_init smccc_soc_id_version = SMCCC_RET_NOT_SUPPORTED;
+>> +s32 __ro_after_init smccc_soc_id_revision = SMCCC_RET_NOT_SUPPORTED;
+>> 
+>>  void __init arm_smccc_version_init(u32 version, enum 
+>> arm_smccc_conduit conduit)
+>>  {
+>> +       struct arm_smccc_res res;
+>> +
+>>         smccc_version = version;
+>>         smccc_conduit = conduit;
+>> 
+>> @@ -27,6 +31,18 @@ void __init arm_smccc_version_init(u32 version, 
+>> enum arm_smccc_conduit conduit)
+>>         if (IS_ENABLED(CONFIG_ARM64_SVE) &&
+>>             smccc_version >= ARM_SMCCC_VERSION_1_3)
+>>                 smccc_has_sve_hint = true;
+>> +
+>> +       if ((smccc_version >= ARM_SMCCC_VERSION_1_2) &&
+>> +           (smccc_conduit != SMCCC_CONDUIT_NONE)) {
+>> +               arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+>> +                                    ARM_SMCCC_ARCH_SOC_ID, &res);
+>> +               if ((s32)res.a0 >= 0) {
+>> +                       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 0, 
+>> &res);
+>> +                       smccc_soc_id_version = (s32)res.a0;
+>> +                       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 1, 
+>> &res);
+>> +                       smccc_soc_id_revision = (s32)res.a0;
+>> +               }
+>> +       }
+>>  }
+>> 
+>> 
+>> +s32 arm_smccc_get_soc_id_version(void)
+>> +{
+>> +       return smccc_soc_id_version;
+>> +}
+>> +EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_version);
+>> +
+>> +s32 arm_smccc_get_soc_id_revision(void)
+>> +{
+>> +       return smccc_soc_id_revision;
+>> +}
+>> +EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
+>> 
+>> 
+> 
+> Overall, it looks OK to me. However I see neither the gic nor the 
+> soc_id
+> can be build as module atm. So do we really need the export symbols if 
+> no
+> other modules are using it ?
 
---km5oeoth2y26yqyc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It really shouldn't be exported. Having accessors should be enough.
 
-On 16.03.2023 15:26:18, David Howells wrote:
-> [!] Note: This is a work in progress.  At the moment, some things won't
->     build if this patch is applied.  nvme, kcm, smc, tls.
->=20
-> Remove ->sendpage() and ->sendpage_locked().  sendmsg() with
-> MSG_SPLICE_PAGES should be used instead.  This allows multiple pages and
-> multipage folios to be passed through.
->=20
-> Signed-off-by: David Howells <dhowells@redhat.com>
+Thanks,
 
-> cc: linux-can@vger.kernel.org
-
-Acked-by: Marc Kleine-Budde <mkl@pengutronix.de> # for net/can
-
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---km5oeoth2y26yqyc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmQTPIMACgkQvlAcSiqK
-BOj6JAgAtfBV5yq+uNvtDfdNTDCgUnr0pkrsEqo0Ygt0A84TUlJF1K9QFkFTlvFo
-NEtegJFeDvbE8EmvRgOnpoTRcMQwDClaw5c7O7TquCr3SEAcXECesFYUVLWR7hsf
-Mk3DzSWUNIqMeSUOAEPBPfWNGGQWdjut5IQHdhuIs2/irjgsb5GZJ27rYyV9F/+l
-daE1Ac6RGnKq9zV/UszZ7AbfKA7bI9TVioWBVmIFCQZeWJprHq5rD0LTH6+QjdyQ
-5AdUTjTbZ/YRTjr4KQQkISfoq8oMC/zVENiagYZ89SGTbciIaCeqBpvdgUVKTob6
-2Uoo/o+yUY90Dy8JPw9/gLSsthDGaw==
-=IhKV
------END PGP SIGNATURE-----
-
---km5oeoth2y26yqyc--
+         M.
+-- 
+Jazz is not dead. It just smells funny...
