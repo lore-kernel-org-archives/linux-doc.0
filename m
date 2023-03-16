@@ -2,147 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB93AC6FD19
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 17:31:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1244CC7618B
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 17:49:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbjCPRbS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 13:31:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49084 "EHLO
+        id S230203AbjCPRtM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 13:49:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229654AbjCPRbQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 13:31:16 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BD9FC2DAB
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 10:30:54 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id cn21so10832401edb.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 10:30:54 -0700 (PDT)
+        with ESMTP id S230202AbjCPRtL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 13:49:11 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A69510EAB6;
+        Thu, 16 Mar 2023 10:49:07 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id t9so2652421qtx.8;
+        Thu, 16 Mar 2023 10:49:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1678987852;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YryrzFP9xzjyk98MIHgDswzk42M925/BWmA7MtQw0v4=;
-        b=iA846uojjKEV++zy4HZ7Rt5GItD/Qjg78d/gKmMT98RgBUi0lemkA3Wwqw0HjdgE8r
-         6kJJvp5ZTNlHVEezJOUg0IrhWWQ71Vy1RNRCsr11tEd83excEtWgMkjNzKEiMvb2AouX
-         UVqRloUFwDgseRI2J1OQZ+aJoJc2OKGMJzoNQ=
+        d=gmail.com; s=20210112; t=1678988946;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=z/8oanUDBfexi57TtNYFoXvyhgYE0G1VxW08obb6zv0=;
+        b=p4vnGUY743AOhUMkm8wnCrCYQoHvHVq/5Gc2UVPYtsBRP0x+RPhjx9WHa3sMOg35ec
+         3pZjChHYQnHk+izqXVDj7yf0v4bYiFwOiV8ko4wiEuua79cSADPTSK0XLeL4Gf8MMWOp
+         9MwaGHD2ZwcmgbO0AbGKj0FbHpeszR13ziPAskRc9z+Ne/GEvImVZ2HFyGOjhvesjIKV
+         XnOsdDSMR5/R4ZjcPt83Gaiza+vfvjqBc1ycSzyumPij50bXV74ZDlEq1ELNlGcX4CzA
+         jEdRXHLHqz3K1sC7QNGo1g4EdftwV0DRA2TdcA6Z/Na1MXcuKcIseEPxCvWKsQtycD+J
+         B5DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678987852;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YryrzFP9xzjyk98MIHgDswzk42M925/BWmA7MtQw0v4=;
-        b=AJkTKe/gd4lwzbTBk0g6MWChDfqC3X3M7rWq6n+HSNLBbfDSfJT/JO9kSbKtY1ZTCH
-         lYwyOm2Y5lsaFkMXJ8N/myyT44P/5p0x1rxut2aO1+Ox8DBhal886Q6aoNDxlKlg7J7Q
-         C/rF98nf413a7lII5s4mEaEHbunWAVmB3PpC9npaKn1HgTxWUUW7SGNASjDIFkMzyQjR
-         PxvgCj4gpAqjuKH/Kwe5ObEJgkQGGSEJdHrjeQfdepgDF3Hb5M4LjIln1VEC5em5TLxI
-         XZIoxArI4WoZ3Vt+HebTZQyXzyZmFdDcjHcbJBYKqc3OKsozx1ImB8oHCyG9nwVXZBm6
-         TNJQ==
-X-Gm-Message-State: AO0yUKVUz2LTEVllsIhX08mnx7T+PQ6AOuDSVavg/6SLBHKnWffTKlCd
-        fAcGMWftcQJWSPKAxNmVjholJcD14Po8bqHiIaPc9w==
-X-Google-Smtp-Source: AK7set9FSB1LQ/kpLB02NGroVc488eLLD0r7hz6ePPZcLwlhrVM1Ze8/8Ql9YytZHiQOVD5PlDG3pQ==
-X-Received: by 2002:aa7:c315:0:b0:4fb:221b:eade with SMTP id l21-20020aa7c315000000b004fb221beademr305651edq.35.1678987852420;
-        Thu, 16 Mar 2023 10:30:52 -0700 (PDT)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
-        by smtp.gmail.com with ESMTPSA id w3-20020a50c443000000b004ac54d4da22sm28164edf.71.2023.03.16.10.30.51
-        for <linux-doc@vger.kernel.org>
+        d=1e100.net; s=20210112; t=1678988946;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z/8oanUDBfexi57TtNYFoXvyhgYE0G1VxW08obb6zv0=;
+        b=r59IzIXwKgWQvL3MqonfHfOGWb5sd1Sf7IGHB77lkNwgS5M15nWg3vnbVI+WFpPuGt
+         xjCLWqGCJJe07DFWJZjiweZ6pqzAlIfXNZO56eAKmcYPZAmHQmvwR+dgxZxjYLjrTr6B
+         YSEFn8sv34YnzaZzVo3UWaSOUvkABcL2rYeTXGbDdYlQZzxQU4tKtCodpBtAi28Bw+k7
+         wCiFsmn9dFv0oivsobWvF/yG1kxY5UEwxLnDRH/jfMBjB1q8hLTDXeG0kLPiUnczRNbd
+         uM+6dAYe9FcfXd00AtscKEkmkZjugXcGAoIBG1wy61dWJf+x6rdhpEySc8oc4pnnyCkS
+         KTzQ==
+X-Gm-Message-State: AO0yUKW0e/jrsVBnKtxR2iaT9nBzEHlirB3XO4VGz6A/CaVmfDGY5t1u
+        x6wkaGFrVbvf5B8JM8ikGlA=
+X-Google-Smtp-Source: AK7set94ojwRNEXu+PkhVIjglP3EHECiU+kHNr269KiCcOr5bb0A3bfMKFkyD7iiQuOn5DFCI/J8Hw==
+X-Received: by 2002:a05:622a:8:b0:3bf:d13f:30ae with SMTP id x8-20020a05622a000800b003bfd13f30aemr6369522qtw.54.1678988945908;
+        Thu, 16 Mar 2023 10:49:05 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2442:6db0:2cd2:a240:3730:1959? ([2600:1700:2442:6db0:2cd2:a240:3730:1959])
+        by smtp.gmail.com with ESMTPSA id i18-20020ac84f52000000b003d621964626sm65723qtw.8.2023.03.16.10.49.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Mar 2023 10:30:51 -0700 (PDT)
-Received: by mail-ed1-f47.google.com with SMTP id o12so10566891edb.9
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 10:30:51 -0700 (PDT)
-X-Received: by 2002:a17:907:2069:b0:8af:4963:fb08 with SMTP id
- qp9-20020a170907206900b008af4963fb08mr5816749ejb.15.1678987850768; Thu, 16
- Mar 2023 10:30:50 -0700 (PDT)
+        Thu, 16 Mar 2023 10:49:05 -0700 (PDT)
+Message-ID: <462cee8c-c946-4483-98f0-cb8491d9a87c@gmail.com>
+Date:   Thu, 16 Mar 2023 12:49:04 -0500
 MIME-Version: 1.0
-References: <20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net>
- <c27709bd-90af-ec4f-de0b-3a4536bc17ca@leemhuis.info> <81f8be3e-4860-baf9-8e13-fec3a103245b@tessares.net>
-In-Reply-To: <81f8be3e-4860-baf9-8e13-fec3a103245b@tessares.net>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 16 Mar 2023 10:30:34 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh0v1EeDV3v8TzK81nDC40=XuTdY2MCr0xy3m3FiBV3+Q@mail.gmail.com>
-Message-ID: <CAHk-=wh0v1EeDV3v8TzK81nDC40=XuTdY2MCr0xy3m3FiBV3+Q@mail.gmail.com>
-Subject: Re: [PATCH 0/2] docs & checkpatch: allow Closes tags with links
-To:     Matthieu Baerts <matthieu.baerts@tessares.net>
-Cc:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        =?UTF-8?Q?Kai_Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [KTAP V2 PATCH] ktap_v2: add skip test result
+Content-Language: en-US
+To:     Mark Brown <broonie@kernel.org>
+Cc:     kernelci@groups.io, rmoar@google.com,
+        "Bird, Tim" <Tim.Bird@sony.com>,
+        "davidgow@google.com" <davidgow@google.com>,
+        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "brendanhiggins@google.com" <brendanhiggins@google.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "guillaume.tucker@collabora.com" <guillaume.tucker@collabora.com>,
+        "dlatypov@google.com" <dlatypov@google.com>,
+        "kunit-dev@googlegroups.com" <kunit-dev@googlegroups.com>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20230310222002.3633162-1-rmoar@google.com>
+ <BYAPR13MB2503C590A2AE6FEF6BCAC529FDBB9@BYAPR13MB2503.namprd13.prod.outlook.com>
+ <CA+GJov5O6hGdjYMXjRd34MEZuyBuukyJCOsS=HeO30h43eLQbQ@mail.gmail.com>
+ <4568b302-2a5a-4499-b2f7-12f89c031495@sirena.org.uk>
+ <155efcdb-2be6-16c4-42bc-37930639060a@gmail.com>
+ <ad7e6e40-6542-4439-8199-d46a6fc91364@sirena.org.uk>
+From:   Frank Rowand <frowand.list@gmail.com>
+In-Reply-To: <ad7e6e40-6542-4439-8199-d46a6fc91364@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 16, 2023 at 4:43=E2=80=AFAM Matthieu Baerts
-<matthieu.baerts@tessares.net> wrote:
->
-> @Linus: in short, we would like to continue using the "Closes:" tag (or
-> similar, see below) with a URL in commit messages. They are useful to
-> have public bug trackers doing automated actions like closing a specific
-> ticket. Any objection from your side?
+On 3/16/23 06:33, Mark Brown wrote:
+> On Wed, Mar 15, 2023 at 04:45:29PM -0500, Frank Rowand wrote:
+> 
+>> Yes, there is no need to do a single specification change that results
+>> in incompatibility.  But given the previous discussions there seem to
+>> be plenty of other desired changes that will result in incompatibility.
+> 
+> Do you have a pointer to that previous discussion?
 
-As long as it's a public link, I guess that just documents what the
-drm people have been doing.
+There are links to a few threads at:
 
-I'm not convinced "Closes" is actually any better than just "Link:",
-though. I would very much hope and expect that the actual closing of
-any bug report is actually done separately and verified, rather than
-some kind of automated "well, the commit says it closes it, so.."
+   https://elinux.org/Test_Results_Format_Notes#KTAP_version_1
 
-So honestly, I feel like "Link:" is just a better thing, and I worry
-that "Closes:" is then going to be used for random internal crap.
-We've very much seen people wanting to do that - having their own
-private bug trackers, and then using the commit message to refer to
-them, which I am *violently* against. If it's only useful to some
-closed community, it shouldn't be in the public commits.
+And I am tracking KTAP Specification version 2 activity in the
+next section of that web page (not much yet, but hopefully
+becoming more active).
 
-And while the current GPU people seem to use "Closes:" the right way
-(and maybe some other groups do too - but it does seem to be mostly a
-freedesktop thing), I really think it is amenable to mis-use in ways
-"Link:" is not.
-
-The point of "Link:" is explicitly two-fold:
-
- - it makes it quite obvious that you expect an actual valid web-link,
-not some internal garbage
-
- - random people always want random extensions, and "Link:" is
-_designed_ to counter-act that creeping "let's add a random new tag"
-disease. It's very explicitly "any relevant link".
-
-and I really question the value of adding new types of tags,
-particularly ones that seem almost designed to be mis-used.
-
-So I'm not violently against it, and 99% of the existing uses seem
-fine. But I do note that some of the early "Closes:" tags in the
-kernel were very much complete garbage, and exactly the kind of thing
-that I absolutely detest.
-
-What does
-
-    Closes: 10437
-
-mean? That's crazy talk. (And yes, in that case it was a
-kernel.bugzilla.org number, which is perfectly fine, but I'm using it
-as a very real example of how "Closes:" ends up being very naturally
-to mis-use).
-
-End result: I don't hate our current "Closes:" uses. But I'm very wary of i=
-t.
-
-I'm not at all convinced that it really adds a lot of value over
-"Link:", and I am, _very_ aware of how easily it can be then taken to
-be a "let's use our own bug tracker cookies here".
-
-So I will neither endorse nor condemn it, but if I see people using it
-wrong, I will absolutely put my foot down.
-
-                    Linus
+-Frank
