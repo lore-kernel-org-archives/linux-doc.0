@@ -2,85 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D4E8C6FD1F
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 16:21:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD81C6FD19
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 16:22:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbjCPQVL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 12:21:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45902 "EHLO
+        id S230025AbjCPQWl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 12:22:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230110AbjCPQVH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 12:21:07 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FE6D4FF10;
-        Thu, 16 Mar 2023 09:20:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B8CC2B82280;
-        Thu, 16 Mar 2023 16:20:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C718C433EF;
-        Thu, 16 Mar 2023 16:20:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678983645;
-        bh=h71BjMhOZMMG4djc5Zr7EDNKJL2J78Ensp7aau93MzA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A9XUQLp0wzDffjwD32BGHTpw79X8+J5ZHHIAYgidV4YNaKm4DVaqXe6P8KGJZ8HCY
-         wZZdWAuLDEkHyS39o+iCixyCUylRhULb6s0aiVeZ0O9tIlxCcU5WrepnJxuc5x18JA
-         3zVePxd90KnGCKYhITEa2CaivoQN8BR3uu3BOGla8ZumAhgGEPV7HfHuUmCYIvbfWy
-         laTDGQMJBF8rOkugU8o/Yy0BkC4O3bq0nrsAkFbj0mns8eSefBRqxX9wjq3i5+jQXB
-         8+UTItjt4yy4Lm7tuT9yztoAeQ5vZa4GSn5taKUmiKJQXqQTvQq8GBNkBAcc+j3i0Y
-         B0q2AEeTpoYzA==
-Date:   Thu, 16 Mar 2023 16:20:37 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Julien Panis <jpanis@baylibre.com>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        corbet@lwn.net, arnd@arndb.de, gregkh@linuxfoundation.org,
-        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
-        eric.auger@redhat.com, jgg@ziepe.ca, razor@blackwall.org,
-        stephen@networkplumber.org, davem@davemloft.net,
-        christian.koenig@amd.com, contact@emersion.fr,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, sterzik@ti.com, u-kumar1@ti.com,
-        eblanc@baylibre.com, jneanne@baylibre.com
-Subject: Re: [PATCH v2 2/4] mfd: tps6594: Add driver for TI TPS6594 PMIC
-Message-ID: <20230316162037.GW9667@google.com>
-References: <20230315110736.35506-1-jpanis@baylibre.com>
- <20230315110736.35506-3-jpanis@baylibre.com>
+        with ESMTP id S229734AbjCPQWk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 12:22:40 -0400
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8AFD2365F
+        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 09:22:31 -0700 (PDT)
+Received: by mail-qv1-xf2e.google.com with SMTP id g9so1565248qvt.8
+        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 09:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1678983750;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9GBmyw0WJBg7ZCrOCyO2Mj9DN8D/RYHEWxuq24q58BM=;
+        b=IBbPWCSwUaEft4y5eeSYVHPLcYKZe6q20jMe8CFCou9o8KL0uPCCP39bC6WjHexpL3
+         h4ChTrGg9orCknI95a3z0l3Gw3j6Ry3Y/Io3bKEjrTWpiLrgc3A6GcUTlQQC1nzfcHGj
+         wjf0n7z2sSyDo7hSofVu9srGEi8xnZ0o26udc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678983750;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9GBmyw0WJBg7ZCrOCyO2Mj9DN8D/RYHEWxuq24q58BM=;
+        b=nwJXmQRFF7FC2zNWWbeOjw9HWh9nuJCjPC9GM8dVP41P+VXiXat0dNDuiSApO09Ypp
+         WiJu2S53ot/CuRfFo6XFbNBG8e783/bKq/1v6LSgSyzgT+7PQMOLv5z+8CAN9DKRIPFt
+         0fQpbv9AOu7W1K7UEK8KTl9B2PAswHmqDnCsXVaZ1c5TsionYSP+4sm+mt0mYUMgIFAD
+         UZpPRcx7Mve9WJNCmyFmRrlm0z4KN3ljmk9cotDtN0IOTjBXanAMx3cs/0vT5gc5wldX
+         OGB8w6gp/vXKvpx8nCSynwiNXlwTKfdx8Tn6pEo7bw8IinxhdgbHiQMqjvT5p/9Q48wK
+         79tg==
+X-Gm-Message-State: AO0yUKWN09WXXI8Wb/garEr14CL7hSlqCSqY0BIHdMQIUjtFQ+0BtlPM
+        YNS7FfpXySCqulBaircTD96UDJf87V1/m71Ed5o=
+X-Google-Smtp-Source: AK7set8xEGt6h86HL22O97EmhJZzwZ6k+fOwDGCLLvjvxO6ADEVZBNhra0L2aLE9daBvgDOrEjePYQ==
+X-Received: by 2002:a05:6214:19ea:b0:5ae:419a:8c22 with SMTP id q10-20020a05621419ea00b005ae419a8c22mr11533826qvc.5.1678983750655;
+        Thu, 16 Mar 2023 09:22:30 -0700 (PDT)
+Received: from meerkat.local (bras-base-mtrlpq5031w-grc-30-209-226-106-7.dsl.bell.ca. [209.226.106.7])
+        by smtp.gmail.com with ESMTPSA id r6-20020a374406000000b007423dad060bsm6139056qka.87.2023.03.16.09.22.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Mar 2023 09:22:29 -0700 (PDT)
+Date:   Thu, 16 Mar 2023 12:22:27 -0400
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Matthieu Baerts <matthieu.baerts@tessares.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Kai =?utf-8?Q?Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        mptcp@lists.linux.dev
+Subject: Re: [PATCH 0/2] docs & checkpatch: allow Closes tags with links
+Message-ID: <20230316162227.727rhima2tejdl5j@meerkat.local>
+References: <20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net>
+ <c27709bd-90af-ec4f-de0b-3a4536bc17ca@leemhuis.info>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230315110736.35506-3-jpanis@baylibre.com>
+In-Reply-To: <c27709bd-90af-ec4f-de0b-3a4536bc17ca@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 15 Mar 2023, Julien Panis wrote:
+On Thu, Mar 16, 2023 at 10:22:18AM +0100, Thorsten Leemhuis wrote:
+> I liked Andrew's `have been using "Addresses:" on occasion. [...] more
+> humble [...]` comment.  Sadly that tag is not supported by GitLab and
+> GitHub. But well, "Resolves" is and also a bit more humble if you ask
+> me. How about using that instead? Assuming that Konstantin can work with
+> that tag, too, but I guess he can.
 
-> This patch adds support for TPS6594 PMIC MFD core. It provides
-> communication through the I2C and SPI interfaces, and supports
-> protocols with embedded CRC data fields for safety applications.
->
-> Signed-off-by: Julien Panis <jpanis@baylibre.com>
-> ---
->  drivers/mfd/Kconfig         |   32 ++
->  drivers/mfd/Makefile        |    3 +
->  drivers/mfd/tps6594-core.c  |  453 ++++++++++++++++
->  drivers/mfd/tps6594-i2c.c   |  244 +++++++++
->  drivers/mfd/tps6594-spi.c   |  129 +++++
->  include/linux/mfd/tps6594.h | 1020 +++++++++++++++++++++++++++++++++++
->  6 files changed, 1881 insertions(+)
->  create mode 100644 drivers/mfd/tps6594-core.c
->  create mode 100644 drivers/mfd/tps6594-i2c.c
->  create mode 100644 drivers/mfd/tps6594-spi.c
->  create mode 100644 include/linux/mfd/tps6594.h
+There's a subtle difference between "Closes" and "Resolves" that may be
+important to consider ("closes" doesn't really imply the bug is "fixed").
 
-Once you have the misc Acks, I plan to take this via MFD:
+The Bugbot should eventually support a number of "if this, then that"
+conditions once it's done, so which tag we look for will be a matter of
+configuration. It's not yet at that stage, though I should have some initial
+trials in the near future.
 
-For my own reference (apply this as-is to your sign-off block):
-
-Acked-for-MFD-by: Lee Jones <lee@kernel.org>
-
---
-Lee Jones [李琼斯]
+-K
