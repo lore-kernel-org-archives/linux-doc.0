@@ -2,104 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DF3C6FD19
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 13:01:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFCC7C74A5B
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 13:54:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229875AbjCPNBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 09:01:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38254 "EHLO
+        id S230506AbjCPNyA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 09:54:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbjCPNBm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 09:01:42 -0400
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7078B042;
-        Thu, 16 Mar 2023 06:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=fmU1+ghPDUpLHdu1qhAM4Pdh6VNfesNoUAyvXpreIY4=; b=KJdf11YRWGGA3AHBkCcBU8wMfe
-        rwamCNzbsIOFyp6DxuocuuTZaArvhKzV53IAI91iGXRwSKsFbqGEAN/rrI0MaOt3ySdy0gDkZ5u+u
-        KkwYkg6+gzzsb2E/FEEmd1abbq1WpjJ0lei3aEjjYE+XXJliYmTHF1QTFYuUPjWBgsnb0R1y2sFm9
-        S4zuDTZgIRSi4jU3MQxG2zI9GeL1ZY54LcFyYjZjpwiVoYRU5unZtPxwwDurjTuJRah3YqynTsXRR
-        NOCnpMGSBcuTq7JGyxakjdA76AIVgT46LG/dgMC7gtJzxv+nqsSQOk5iQkVTfgEi8XNh5QyvyYrfS
-        d2gcc51A==;
-Received: from [152.254.169.34] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1pcnEH-00DEyP-6l; Thu, 16 Mar 2023 14:01:13 +0100
-Message-ID: <65ce7063-d966-efea-6a39-db81da6b05aa@igalia.com>
-Date:   Thu, 16 Mar 2023 10:01:08 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] Documentation/x86: Update split lock documentation
-Content-Language: en-US
-To:     Fenghua Yu <fenghua.yu@intel.com>, Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev
-References: <20230315225722.104607-1-tony.luck@intel.com>
- <c34372d8-8166-6be6-b3a3-5214a2bae37a@intel.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <c34372d8-8166-6be6-b3a3-5214a2bae37a@intel.com>
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S230455AbjCPNxu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 09:53:50 -0400
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56FEEB863B;
+        Thu, 16 Mar 2023 06:53:45 -0700 (PDT)
+Received: by mail-io1-f51.google.com with SMTP id q6so816349iot.2;
+        Thu, 16 Mar 2023 06:53:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678974824;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3NLIIOkA38T8xNi8thzCJbEyjLbfAZFAf+qOplovd1I=;
+        b=AgKBA1mmQ/nOAlYNUVi1QsYArvws0c7T7RBh/e8pEa+KhynPPpOqEo5E/mAAbzYO9/
+         wMCHlU0lA2ZVtblAzyabGL//aEZHABOMKVlkMlnJ0oQdNePY2x/CkfaxQ//Q2RRxjhzn
+         b88hoI5WNVUda3rH9BjTGSSmGRa3wUkTs8SfDG6jLER1KfKhrhkxnbF9mPC/G15W0T3i
+         KXUsJqUvfwpoTQI/02OnSMGYkYFZv10nAOuoWzbebsU2eNaJ5PRUggHii47KG06SLwz5
+         jdAgGoUsmzSUSW8YGnrsS/877kcLC5UziKEzC7GShNyDl5IiUGnL8UJhHVuoR0tZwhLF
+         3Dpw==
+X-Gm-Message-State: AO0yUKUVbmzu5lK5MS/WP3924qIglI34yCgxNDESDh8blX/WhYCjgBNw
+        RXUbjjne3YfBjH3LLTRkiQ==
+X-Google-Smtp-Source: AK7set8f/p7VDlt1VGn8Rrvxnn6ydrU6sfuFHCeMsWbwQmRzOITADPQaBi2wwy29Mr5G8EmDMLIVAA==
+X-Received: by 2002:a5d:84cc:0:b0:74c:a9ab:ce68 with SMTP id z12-20020a5d84cc000000b0074ca9abce68mr28374793ior.12.1678974823861;
+        Thu, 16 Mar 2023 06:53:43 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.249])
+        by smtp.gmail.com with ESMTPSA id f16-20020a056638119000b003a60da2bf58sm2521766jas.39.2023.03.16.06.53.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Mar 2023 06:53:43 -0700 (PDT)
+Received: (nullmailer pid 2744946 invoked by uid 1000);
+        Thu, 16 Mar 2023 13:53:34 -0000
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Hao Zhang <quic_hazha@quicinc.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-kernel@vger.kernel.org,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>, linux-doc@vger.kernel.org,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        coresight@lists.linaro.org, Trilok Soni <quic_tsoni@quicinc.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>
+In-Reply-To: <20230316032005.6509-3-quic_hazha@quicinc.com>
+References: <20230316032005.6509-1-quic_hazha@quicinc.com>
+ <20230316032005.6509-3-quic_hazha@quicinc.com>
+Message-Id: <167897435275.2729718.16512739524975963906.robh@kernel.org>
+Subject: Re: [PATCH v1 2/3] dt-bindings: arm: Add Coresight Dummy Trace
+ YAML schema
+Date:   Thu, 16 Mar 2023 08:53:34 -0500
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15/03/2023 20:13, Fenghua Yu wrote:
-> Hi, Tony,
-> 
-> On 3/15/23 15:57, Tony Luck wrote:
->> commit b041b525dab9 ("x86/split_lock: Make life miserable for split
->> lockers") added a delay and serialization of cplit locks. Commit
->                                               s/cplit/split/
-> 
->> 727209376f49 ("x86/split_lock: Add sysctl to control the misery mode")
->> provided a sysctl to turn off the misery.
->>
->> Update the split lock documentation to describe the current state of
->> the code.
->>
->> Signed-off-by: Tony Luck <tony.luck@intel.com>
->> ---
->>   Documentation/x86/buslock.rst | 10 ++++++++--
->>   1 file changed, 8 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/x86/buslock.rst b/Documentation/x86/buslock.rst
->> index 7c051e714943..31ec0ef78086 100644
->> --- a/Documentation/x86/buslock.rst
->> +++ b/Documentation/x86/buslock.rst
->> @@ -53,8 +53,14 @@ parameter "split_lock_detect". Here is a summary of different options:
->>   |off	  	   |Do nothing			|Do nothing		|
->>   +------------------+----------------------------+-----------------------+
->>   |warn		   |Kernel OOPs			|Warn once per task and |
->> -|(default)	   |Warn once per task and	|and continues to run.  |
->> -|		   |disable future checking	|			|
->> +|(default)	   |Warn once per task, add a	|and continues to run.  |
->> +|		   |delay, add synchronization	|			|
->> +|		   |to prevent more than one	|			|
->> +|		   |core from executing a	|			|
->> +|		   |split lock in parallel.	|			|
->> +|		   |sysctl split_lock_mitigate	|			|
->> +|		   |can be used to avoid the	|			|
->> +|		   |delay and synchronization	|			|
->>   |		   |When both features are	|			|
->>   |		   |supported, warn in #AC	|			|
->>   +------------------+----------------------------+-----------------------+
-> 
-> Other than the typo, looks good to me.
-> 
-> Thanks.
-> 
-> -Fenghua
 
-Thanks for fixing the documentation Tony! Also looks great for me.
-Cheers,
+On Thu, 16 Mar 2023 11:20:04 +0800, Hao Zhang wrote:
+> Add new coresight-dummy.yaml file describing the bindings required
+> to define coresight dummy trace in the device trees.
+> 
+> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
+> ---
+>  .../bindings/arm/qcom,coresight-dummy.yaml    | 129 ++++++++++++++++++
+>  1 file changed, 129 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
+> 
 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Guilherme
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml:91:5: [warning] wrong indentation: expected 6 but found 4 (indentation)
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml: required:4: {'oneOf': ['qcom,dummy-sink', 'qcom,dummy-source']} is not of type 'string'
+	from schema $id: http://json-schema.org/draft-07/schema#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml: ignoring, error in schema: required: 4
+Documentation/devicetree/bindings/arm/qcom,coresight-dummy.example.dtb: /example-0/dummy_sink: failed to match any schema with compatible: ['qcom,dummy']
+Documentation/devicetree/bindings/arm/qcom,coresight-dummy.example.dtb: /example-1/dummy_source: failed to match any schema with compatible: ['qcom,dummy']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230316032005.6509-3-quic_hazha@quicinc.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
