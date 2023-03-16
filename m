@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E37BFC6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 00:32:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D29F6C7618D
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 00:32:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233373AbjCPAcQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 20:32:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34490 "EHLO
+        id S233398AbjCPAcl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 20:32:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231972AbjCPAbv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 20:31:51 -0400
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D704A4B37
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 17:31:27 -0700 (PDT)
-Received: by mail-pj1-x1049.google.com with SMTP id n33-20020a17090a5aa400b0023b4f444476so68423pji.3
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 17:31:26 -0700 (PDT)
+        with ESMTP id S233276AbjCPAcB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 20:32:01 -0400
+Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD477A0286
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 17:31:29 -0700 (PDT)
+Received: by mail-pf1-x449.google.com with SMTP id l19-20020a056a0016d300b006257255adb4so172065pfc.13
+        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 17:31:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678926685;
+        d=google.com; s=20210112; t=1678926688;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=36lklAKITNKcvpGi9bBaV0pg92rnpur43Kuea+YFpfM=;
-        b=swpVj1SmNmgvWlTTZKcMha4lkIplKfRmILDkyWfcGRLXWLuIlK2d6RzDWw2bYkkCHP
-         soiW4nXc7/hBbAleU8BqoI0AbG96N9laDULGWA+oYmBxb9+GZWi0B0T26gJnbwIFOCwo
-         5kpRG9JizdS1Y6EbQlta+wo8Fhd+ryKKJGTqSzbsLYaWB10pCI4jhMlJ9DGRJ4DSAtGk
-         3aahsJCHmb9Uk47t1vgWw/SYjxk2SvIyeXgaVgaNp1TPH4oC+vl3KgGYbWyD1TlOcBi1
-         gvD1hR4NtBHZOvW4SAlG3B1IpFX0JT8Zq0hcF2742mhE+c1PzdSmxBYs2Pwk5wn4zjuL
-         RaVQ==
+        bh=K90xoVX+0RlzLAw3SfN8qTyLgxMNh2Rq4fRe4RbG85I=;
+        b=d8uc3IApbYmz26P2pZurWd/mdMnPn+5Qfc7rz6kuRm/Rdx7nODA9CSqEzNbHzvos3x
+         RveM5uzlBa4alqsey/A+ZQ+F9FkBIhKp+vzmydZ7x8yVdpJ1dFg58aZJtFtCTBrdqTeM
+         jtglH5cHaz9xRzfcMN6bC6InRMKXNsMGC/lp63mFpBGrilMy6mUNN3C7pjzFUdepgkuU
+         +cgfLXerxqml3OAS1MvZtFFYDjNKV6KkSDelOKwW/Ftb9Njw0KqVRUjV1fgWAjc/PHx5
+         vlmTiVMmyjWJKxE37zalK36nTXI7Daq2qNoskHBh/u2Z2VdJEZ3uNpydLhqA1aIDw3qB
+         CSMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678926685;
+        d=1e100.net; s=20210112; t=1678926688;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=36lklAKITNKcvpGi9bBaV0pg92rnpur43Kuea+YFpfM=;
-        b=nDe4CK1gnjPqEFjEwpCw0sehW40rfaHs5eDI9Y6KFQxaum6iFAkPMf94QJcrgXS4Sr
-         GjgoNvWqLQlvo9Ckg68GPD6C+D/hXjxfaOsNcRcIShJHNdFdimZvIjticzWKlKD9vKqU
-         rTrccyvIzKUuUQrs2rOC8N8qh3VtRooYvecgTs2FJCGG/q5UmjTDWYZctl1/no06UXoE
-         g1sFjv+lnL6UwSHJcUbn68iuhLt2tgHaTRzc5YcK53PpGmdshwGD70mjGWsCWDxJySTR
-         z9ouBD9u+T6423Sq/UwD8uEw3/lP+6cyfBBtu09/gKrlWU2k6N78NGzDgAaXX+Dyknz9
-         x9lg==
-X-Gm-Message-State: AO0yUKUdcIqrHC+bCqhh8tUzQLWPhuOEd2PBJVzggT1QrlD353+ob5Zu
-        FRqxbyMiBxD9zt0VQ8v8lMHtWCVkPMgXodkT3Q==
-X-Google-Smtp-Source: AK7set9HhZ92PQ2OitTC4KZtYEJK0EXqsjjwLnoPjbnEyW7GD+pO7NNEnen5rh0nKaexCpnSy3z8RFk0Cysc1DaScg==
+        bh=K90xoVX+0RlzLAw3SfN8qTyLgxMNh2Rq4fRe4RbG85I=;
+        b=R8UorsbjZ5R6uk1mgvlrj7VdrklRTy92Uimw4/jNw8JBe3ryTEF7xARyqPXiw138hG
+         EHCqdSfckK+h/1aOHw5wqlouw1evNiJgJUFqkKIiGt0tNfvtKsTcWDNa3rlrqGCIpEu1
+         3kRHIBC7vUAjcFCOGGHdY4cpmZk71urGHeEt4/Tiqa5u3gvUNxlCvqFs0Fjog+BRaZTU
+         IzfCpLRH0hmfdIwG1+JibtjGGw0FW7RAd0lh1ntSVK+o/u8u5w7mAZhznmz2tlN/ygLi
+         x2XLvNFev/rRF8gYEllJ1l/MT2L//pahMn5EtmIjuPyiAvXoZsDIPCsQCFeo640LWA9J
+         Vp9A==
+X-Gm-Message-State: AO0yUKV36ttQcc8OGDR8BSKrSPtkkU2Ri6ZUeUd2aAHTVR7j+1vuOgQP
+        JegpFifVjAhE/U7ZIq4lR9y27BLFoF/hxfrEaw==
+X-Google-Smtp-Source: AK7set81FNM6aZ2KKc0RpczFG5Lx+WgCWICz/KzlEJw1NjziYveSgQLqdoN474MmozxZF5HPAo3b3AmF9lnSjz983g==
 X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a17:902:d50d:b0:1a0:5402:b17f with
- SMTP id b13-20020a170902d50d00b001a05402b17fmr634600plg.6.1678926685342; Wed,
- 15 Mar 2023 17:31:25 -0700 (PDT)
-Date:   Thu, 16 Mar 2023 00:30:59 +0000
+ (user=ackerleytng job=sendgmr) by 2002:a05:6a00:198d:b0:5a9:9713:1dc with
+ SMTP id d13-20020a056a00198d00b005a9971301dcmr677531pfl.6.1678926688561; Wed,
+ 15 Mar 2023 17:31:28 -0700 (PDT)
+Date:   Thu, 16 Mar 2023 00:31:01 +0000
 In-Reply-To: <cover.1678926164.git.ackerleytng@google.com>
 Mime-Version: 1.0
 References: <cover.1678926164.git.ackerleytng@google.com>
 X-Mailer: git-send-email 2.40.0.rc2.332.ga46443480c-goog
-Message-ID: <c554a93f38f5a79627a341309ffa974531d35697.1678926164.git.ackerleytng@google.com>
-Subject: [RFC PATCH 06/10] KVM: selftests: Default private_mem_conversions_test
- to use 1 memslot for test data
+Message-ID: <287d6e84dc788d84599392ca5d65864201f9a6a4.1678926164.git.ackerleytng@google.com>
+Subject: [RFC PATCH 08/10] KVM: selftests: Default private_mem_conversions_test
+ to use 1 restrictedmem file for test data
 From:   Ackerley Tng <ackerleytng@google.com>
 To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -79,106 +79,145 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Default the private/shared memory conversion tests to use a single
-memslot, while executing on multiple vCPUs in parallel, to stress-test
-the restrictedmem subsystem.
+file (when multiple memslots are requested), while executing on
+multiple vCPUs in parallel, to stress-test the restrictedmem subsystem.
 
-Also add a flag to allow multiple memslots to be used.
+Also add a flag to allow multiple files to be used.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- .../kvm/x86_64/private_mem_conversions_test.c | 30 +++++++++++++++----
- 1 file changed, 25 insertions(+), 5 deletions(-)
+ .../kvm/x86_64/private_mem_conversions_test.c | 52 ++++++++++++++-----
+ 1 file changed, 38 insertions(+), 14 deletions(-)
 
 diff --git a/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c b/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c
-index 14aa90e9a89b..afaf8d0e52e6 100644
+index afaf8d0e52e6..ca30f0f05c39 100644
 --- a/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c
 +++ b/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c
-@@ -335,7 +335,8 @@ static void add_memslot_for_vcpu(
+@@ -324,7 +324,8 @@ void *thread_function(void *input)
  }
  
+ static void add_memslot_for_vcpu(
+-	struct kvm_vm *vm, enum vm_mem_backing_src_type src_type, uint8_t vcpu_id)
++	struct kvm_vm *vm, enum vm_mem_backing_src_type src_type, uint8_t vcpu_id,
++	int restrictedmem_fd, uint64_t restrictedmem_offset)
+ {
+ 	uint64_t gpa = data_gpa_base_for_vcpu_id(vcpu_id);
+ 	uint32_t slot = DATA_SLOT_BASE + vcpu_id;
+@@ -336,7 +337,8 @@ static void add_memslot_for_vcpu(
+ 
  static void test_mem_conversions(enum vm_mem_backing_src_type src_type,
--				 uint8_t nr_vcpus, uint32_t iterations)
-+				 uint8_t nr_vcpus, uint32_t iterations,
-+				 bool use_multiple_memslots)
+ 				 uint8_t nr_vcpus, uint32_t iterations,
+-				 bool use_multiple_memslots)
++				 bool use_multiple_memslots,
++				 bool use_different_restrictedmem_files)
  {
  	struct kvm_vcpu *vcpus[KVM_MAX_VCPUS];
  	pthread_t threads[KVM_MAX_VCPUS];
-@@ -355,6 +356,16 @@ static void test_mem_conversions(enum vm_mem_backing_src_type src_type,
+@@ -356,21 +358,28 @@ static void test_mem_conversions(enum vm_mem_backing_src_type src_type,
  	vm_enable_cap(vm, KVM_CAP_EXIT_HYPERCALL, (1 << KVM_HC_MAP_GPA_RANGE));
  
  	npages_for_all_vcpus = DATA_SIZE / vm->page_size * nr_vcpus;
-+
-+	if (use_multiple_memslots) {
-+		for (i = 0; i < nr_vcpus; i++)
-+			add_memslot_for_vcpu(vm, src_type, i);
-+	} else {
-+		vm_userspace_mem_region_add(
-+			vm, src_type, DATA_GPA_BASE, DATA_SLOT_BASE,
-+			npages_for_all_vcpus, KVM_MEM_PRIVATE);
-+	}
-+
- 	virt_map(vm, DATA_GPA_BASE, DATA_GPA_BASE, npages_for_all_vcpus);
++	virt_map(vm, DATA_GPA_BASE, DATA_GPA_BASE, npages_for_all_vcpus);
  
- 	for (i = 0; i < nr_vcpus; i++)
-@@ -371,13 +382,16 @@ static void test_mem_conversions(enum vm_mem_backing_src_type src_type,
+ 	if (use_multiple_memslots) {
+-		for (i = 0; i < nr_vcpus; i++)
+-			add_memslot_for_vcpu(vm, src_type, i);
++		int fd = memfd_restricted(0);
++		int offset = 0;
++
++		for (i = 0; i < nr_vcpus; i++) {
++			if (use_different_restrictedmem_files) {
++				if (i > 0)
++					fd = memfd_restricted(0);
++			} else {
++				offset = i * DATA_GPA_SPACING;
++			}
++
++			add_memslot_for_vcpu(vm, src_type, i, fd, offset);
++		}
+ 	} else {
+ 		vm_userspace_mem_region_add(
+ 			vm, src_type, DATA_GPA_BASE, DATA_SLOT_BASE,
+ 			npages_for_all_vcpus, KVM_MEM_PRIVATE);
+ 	}
+ 
+-	virt_map(vm, DATA_GPA_BASE, DATA_GPA_BASE, npages_for_all_vcpus);
+-
+-	for (i = 0; i < nr_vcpus; i++)
+-		add_memslot_for_vcpu(vm, src_type, i);
+-
+ 	for (i = 0; i < nr_vcpus; i++) {
+ 		args[i].vm = vm;
+ 		args[i].vcpu = vcpus[i];
+@@ -382,7 +391,7 @@ static void test_mem_conversions(enum vm_mem_backing_src_type src_type,
  	for (i = 0; i < nr_vcpus; i++)
  		pthread_join(threads[i], NULL);
  
--	test_invalidation_code_unbound(vm, nr_vcpus, DATA_SIZE);
-+	if (!use_multiple_memslots)
-+		test_invalidation_code_unbound(vm, 1, DATA_SIZE * nr_vcpus);
-+	else
-+		test_invalidation_code_unbound(vm, nr_vcpus, DATA_SIZE);
- }
- 
+-	if (!use_multiple_memslots)
++	if (!use_multiple_memslots || !use_different_restrictedmem_files)
+ 		test_invalidation_code_unbound(vm, 1, DATA_SIZE * nr_vcpus);
+ 	else
+ 		test_invalidation_code_unbound(vm, nr_vcpus, DATA_SIZE);
+@@ -391,8 +400,9 @@ static void test_mem_conversions(enum vm_mem_backing_src_type src_type,
  static void usage(const char *command)
  {
  	puts("");
--	printf("usage: %s [-h] [-s mem-type] [-n number-of-vcpus] [-i number-of-iterations]\n",
-+	printf("usage: %s [-h] [-m] [-s mem-type] [-n number-of-vcpus] [-i number-of-iterations]\n",
- 	       command);
+-	printf("usage: %s [-h] [-m] [-s mem-type] [-n number-of-vcpus] [-i number-of-iterations]\n",
+-	       command);
++	printf("usage: %s\n", command);
++	printf("       [-h] [-m] [-f] [-s mem-type]\n");
++	printf("       [-n number-of-vcpus] [-i number-of-iterations]\n");
  	puts("");
  	backing_src_help("-s");
-@@ -388,6 +402,8 @@ static void usage(const char *command)
- 	puts(" -i: specify the number iterations of memory conversion");
- 	puts("     tests to run. (default: 10)");
  	puts("");
-+	puts(" -m: use multiple memslots (default: use 1 memslot)");
+@@ -404,6 +414,9 @@ static void usage(const char *command)
+ 	puts("");
+ 	puts(" -m: use multiple memslots (default: use 1 memslot)");
+ 	puts("");
++	puts(" -f: use different restrictedmem files for each memslot");
++	puts("     (default: use 1 restrictedmem file for all memslots)");
 +	puts("");
  }
  
  int main(int argc, char *argv[])
-@@ -395,12 +411,13 @@ int main(int argc, char *argv[])
- 	enum vm_mem_backing_src_type src_type = DEFAULT_VM_MEM_SRC;
+@@ -412,12 +425,13 @@ int main(int argc, char *argv[])
  	uint8_t nr_vcpus = 2;
  	uint32_t iterations = 10;
-+	bool use_multiple_memslots = false;
+ 	bool use_multiple_memslots = false;
++	bool use_different_restrictedmem_files = false;
  	int opt;
  
  	TEST_REQUIRE(kvm_has_cap(KVM_CAP_EXIT_HYPERCALL));
  	TEST_REQUIRE(kvm_check_cap(KVM_CAP_VM_TYPES) & BIT(KVM_X86_PROTECTED_VM));
  
--	while ((opt = getopt(argc, argv, "hs:n:i:")) != -1) {
-+	while ((opt = getopt(argc, argv, "mhs:n:i:")) != -1) {
+-	while ((opt = getopt(argc, argv, "mhs:n:i:")) != -1) {
++	while ((opt = getopt(argc, argv, "fmhs:n:i:")) != -1) {
  		switch (opt) {
  		case 'n':
  			nr_vcpus = atoi_positive("nr_vcpus", optarg);
-@@ -411,6 +428,9 @@ int main(int argc, char *argv[])
- 		case 's':
- 			src_type = parse_backing_src_type(optarg);
+@@ -431,6 +445,9 @@ int main(int argc, char *argv[])
+ 		case 'm':
+ 			use_multiple_memslots = true;
  			break;
-+		case 'm':
-+			use_multiple_memslots = true;
++		case 'f':
++			use_different_restrictedmem_files = true;
 +			break;
  		case 'h':
  		default:
  			usage(argv[0]);
-@@ -418,6 +438,6 @@ int main(int argc, char *argv[])
+@@ -438,6 +455,13 @@ int main(int argc, char *argv[])
  		}
  	}
  
--	test_mem_conversions(src_type, nr_vcpus, iterations);
-+	test_mem_conversions(src_type, nr_vcpus, iterations, use_multiple_memslots);
+-	test_mem_conversions(src_type, nr_vcpus, iterations, use_multiple_memslots);
++	if (!use_multiple_memslots && use_different_restrictedmem_files) {
++		printf("Overriding -f flag: ");
++		puts("Using just 1 restrictedmem file since only 1 memslot is to be used.");
++		use_different_restrictedmem_files = false;
++	}
++
++	test_mem_conversions(src_type, nr_vcpus, iterations, use_multiple_memslots,
++			     use_different_restrictedmem_files);
  	return 0;
  }
 -- 
