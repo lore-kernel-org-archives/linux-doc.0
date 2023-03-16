@@ -2,425 +2,237 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB29C74A5B
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 22:30:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56CA9C6FD1F
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 22:42:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbjCPWa5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 18:30:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50164 "EHLO
+        id S230001AbjCPWmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 18:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229733AbjCPWaz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 18:30:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A80EEE1FF7
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 15:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679005741;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FiNRrqqvSuubpSuuWdFDbGPDB+qkVipo+igQfKYRoHk=;
-        b=I1MF304+WNdBVlrpxGyvs7ONK0dWtCqvD00fHE2YlUXMDf1JIfHSwBDKBrhBN5bbM2/FDq
-        fcZ3uRxNxd6qML/DilQyp13KJEoaKNsqsin6o7B5RX/k8/H14dekczxnby6PfMo1n4dmC8
-        nx+77dnaw5xlRYjw8Xz/IHXubzJM+i8=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-515-9FzWNrieMH2fTeUyKh6Rkw-1; Thu, 16 Mar 2023 18:22:39 -0400
-X-MC-Unique: 9FzWNrieMH2fTeUyKh6Rkw-1
-Received: by mail-lf1-f69.google.com with SMTP id o22-20020a056512051600b004db26d37741so1324748lfb.19
-        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 15:22:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679005357;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FiNRrqqvSuubpSuuWdFDbGPDB+qkVipo+igQfKYRoHk=;
-        b=3Rs1WBuysPTdTvsD3yt0nx6fUeJgONZ+N+nTWBy1vmgAzsvGAbRc8nF7cpQdnFBn2K
-         PfXySvUFPSwGDePygiWL7z9eGdLa11VQNH5g+CB0KWY0/mY3Scy+aItJVbrgfmpdghYz
-         zF0BxexakAFgxGhfO+CljIHo6fUdb8H9XunYgRl8+l0WNjTJbhWHW+aJZj/RC5gOALma
-         0Xja12L7bSeuta/CPpcIRaO9xVYKNEYFoFkz8O2DVHt2hStaKmkFiwj3rF6h8P9K5oTv
-         dFxuswvqxsGUDLowbF54/+3gig/VA/SmJKuy0Il/FFV13oP2X+YxzIiSi/95ocZ14xLg
-         PxEg==
-X-Gm-Message-State: AO0yUKV/a2GR4MxmBCNvKLoivY9oBTTxU5J0laHk3pRirXvrT6iEZddg
-        asolndkbyHvpBBNivV+06renhbngpXHef/uCMX/4oTFfmE34qPXYfivBWSAMDS3ooC6NmQqkFX1
-        QVcZCJ0FbzQTjquKpSl2wIaIR+oJYjH/K3oGH
-X-Received: by 2002:ac2:4857:0:b0:4e8:4117:67c8 with SMTP id 23-20020ac24857000000b004e8411767c8mr3732214lfy.7.1679005356714;
-        Thu, 16 Mar 2023 15:22:36 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8G08laVUog1RwsYZrLKcASLbIgQyaWUhPxFNOKZSNNfixtvrswrY1dJy7CT6DWclONJBFpHH/j6fESF/DrUps=
-X-Received: by 2002:ac2:4857:0:b0:4e8:4117:67c8 with SMTP id
- 23-20020ac24857000000b004e8411767c8mr3732197lfy.7.1679005356306; Thu, 16 Mar
- 2023 15:22:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230308155322.344664-1-robdclark@gmail.com> <20230308155322.344664-2-robdclark@gmail.com>
- <ZAtQspuFjPtGy7ze@gmail.com> <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
- <ZBHNvT3BLgS3qvV5@gmail.com> <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
- <ZBLg0t0tTVvuPuiJ@gmail.com> <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
-In-Reply-To: <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
-From:   Sebastian Wick <sebastian.wick@redhat.com>
-Date:   Thu, 16 Mar 2023 23:22:24 +0100
-Message-ID: <CA+hFU4xbssR+=Sf4ia5kPdsSb4y9SQUd4nx_2p1Szcbtna28CA@mail.gmail.com>
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        with ESMTP id S229977AbjCPWmW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 18:42:22 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2055.outbound.protection.outlook.com [40.107.237.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12536E5038;
+        Thu, 16 Mar 2023 15:42:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n3F+bToz1a0WbIfYg/HrrvopLB+QkEXO0AxG8+rZT2yH59MA0+eZCbLlTdXm7snCV8S6/Ptv3gU874rcytxA4t2TaZoSWpu9y6w98qQ8djzLf1Hbokth5vdb1Shh8CDGzfQpfEW1loVncLvKPrKMTNU1WNauiUMgmEgmrsxTANIiJ4QVfzoiXi0GKIlYVK6GgLKih3hD9ugsfdfriQ/EVQcTTW8vFCp+fi1eq88V145Ic63Vnx3NmzfFMWPNgy/M3ESG4xojINZO8f4dcIzW3n2bOAOiXnGNhP/Z9Fhu9pb4QDhGrs1j9p6bHS/SLCaVUuVCCyHkUfNkhUvUbvDnVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S3Ha+1endqMI1wsh2uCVy4MBHVOTX+lUzhxnjMkj8hA=;
+ b=ApC/Q3uV7gFyj8JCOueF94spKCm9ZBfxOPV7f1LDp0PYfKAwdIlVgEZ9wlRtcZxRCuEXcTRpfzp0Ney+Dz86I3bnXnXVchNX0JNFP7/1w5QRXAZnOCsUvFrC+CDkDpXonFmQAubHLfipeuNy90ImGFCelloCpG+0K+bVhwtjKIecInWYUVNftUi1aDUNXlCLlWe0av7vueKYJiYH8m8SZWHw5Xvs/ZJkGP0ZJKEmBkO3uk6RTuvYgD+4/7dSHRy7hSTM18McoryG4DOS02TTlDa0aK89NnGODe/hNq+R3D0wGXGuaudiU/h/Rx5a2gTHRmpA3gJhhVMOpAvC+XtBPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S3Ha+1endqMI1wsh2uCVy4MBHVOTX+lUzhxnjMkj8hA=;
+ b=lkndnWKg5lR6Ltm1yOLmsj9UlsRph4hoQg0dfz/0lfNFuJyCuToJSG/Hf4c4A4I0SOFustGGIWoa8RP7kNgbalDhNIYt5DxFbLyUMEj2Nsw9ACpF+F43Y4wYQUJhFqetIlmbQfpQQ6ejjpMGHn8hx7MnBNiy4ExJDmBNr3gVGKLv44dwNA6klmXk8U4YVeF3jsXKxhPaB+looN+JvKDeqChSqW1DKX7SAnK0/lebiUFGfhVy4gGc+VmoZAl1tkT1Qzcmg6U5WaKghgn9JoGb2nKzTJ0hU03J/FyfqcFlDGuW6/8GFAkfiiYcPIFoGqIXxOnAjiDZwCXNub1RMlX3lQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN0PR12MB5762.namprd12.prod.outlook.com (2603:10b6:208:375::12)
+ by DM4PR12MB8500.namprd12.prod.outlook.com (2603:10b6:8:190::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.31; Thu, 16 Mar
+ 2023 22:42:03 +0000
+Received: from MN0PR12MB5762.namprd12.prod.outlook.com
+ ([fe80::f3e4:c5a8:7103:8ef1]) by MN0PR12MB5762.namprd12.prod.outlook.com
+ ([fe80::f3e4:c5a8:7103:8ef1%3]) with mapi id 15.20.6178.026; Thu, 16 Mar 2023
+ 22:42:03 +0000
+Message-ID: <4b79a447-4c5b-804c-b4b9-9641e174330d@nvidia.com>
+Date:   Thu, 16 Mar 2023 17:41:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2] irqchip/gicv3: Workaround for NVIDIA erratum
+ T241-FABRIC-4
+Content-Language: en-US
+To:     Marc Zyngier <maz@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        intel-gfx@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Matt Turner <mattst88@gmail.com>,
-        freedreno@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>
+References: <20230314135128.2930580-1-sdonthineni@nvidia.com>
+ <871qlqif9v.wl-maz@kernel.org>
+ <4dda3890-e910-625e-e7ed-6b6c0bbbd9d4@nvidia.com>
+ <20230316151014.zaoxo4wmg4mzyoiq@bogus>
+ <bf9f8763f0116c3f05c008923edfbedb@kernel.org>
+From:   Shanker Donthineni <sdonthineni@nvidia.com>
+In-Reply-To: <bf9f8763f0116c3f05c008923edfbedb@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0P220CA0021.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:41b::8) To MN0PR12MB5762.namprd12.prod.outlook.com
+ (2603:10b6:208:375::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB5762:EE_|DM4PR12MB8500:EE_
+X-MS-Office365-Filtering-Correlation-Id: b9cc5577-9e9a-4582-ced5-08db266fa964
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6SrE0Ya5r1/3g1JqOh6DF2jvBFH8aW4YS0jAZPV0jTf1CLiZEbquAw+CJxDU3oyw04sZQOYc6N7tqH0ttOgHMe6Uy+KyHL3VADMIj7a3bJRsdJCepcmISTLu6vTiIxzgM04/jvrthO7J3psUQBEU4m1k2tF63Ng4OwLJxeZPIzic+rwlqbfqctAdeHZY62Exu4EskuWqxQqVAxOYQmPO3CRztrmjJGi04fhiicPAoSm54QFLbNlRg5K0iwB3Bmlx/nsfLQTNR10BYjbsk9m0i+W+qN+lL/vT8OwxKsgEavhJTNkXlYmHyXXWH8WdqRkdFk09BJy/PG6kzPX+ekfQ2YZ6bWC1tPqpXEqId9c0kpWzSZFzguw+erx3lZARnZTdCBWOuuZQYIhA7+ASwfvIlB30Q3duuomzhw3ed1YaCrfi6laUIH+O4JDH2M/8zudZns9ujESUpQ/4QOao9U1WH8X8yyQnI3Awz7eXHQzHe5TJJlm0G3CT6JxvPrhFKydeP3Hwthpidkje+KRsKA4GPGBHUyVkiQ/a15PpQTavaiQTRpYWenK3HaN9R8emKPUQPjJeu0iG1nRHbbNx77n3ABX4krAvJ/9B/rYRJZvhCGbQF6osNw5EO8XFLwo504eCvyLH83iSyVVORo2n9QM8rcHuj/QFYhiYMGvlE60qSANz5d+AuLT+hJVusj07Iu9mK+mk6EdNZD/hmfzCTXNsVOtr3+UIg35zyhzm0Z09XAA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB5762.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(346002)(136003)(396003)(376002)(39860400002)(451199018)(31696002)(38100700002)(86362001)(36756003)(2906002)(4326008)(7416002)(41300700001)(5660300002)(8936002)(186003)(6512007)(26005)(53546011)(2616005)(83380400001)(110136005)(316002)(6506007)(54906003)(66556008)(8676002)(6486002)(107886003)(66946007)(6666004)(66476007)(478600001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eFVEUGZIWUlPT25xODJsSTNRdGtXZy9NUXhqaWdIMHNQeEI2THdxQVJEUkZ5?=
+ =?utf-8?B?R0tSRE1hRDZOVklMOEx1VWpRcE1wWWN2Q0ZKUDA0NkpOSkVWOWdsekVoZGtI?=
+ =?utf-8?B?djFyYWNxQVhvVEFHQVY4azlMdGJpd1daOUVBeTNiVEJPOFhlTExWbnVtSFl6?=
+ =?utf-8?B?Mi9mV0pNY1AzQWduRFI1OW9jc3I3QWlGTlJia1ZNeGEyUzI0MTlENGUwR05C?=
+ =?utf-8?B?VmpUMHJjK3NzT1IvWW5JaFJUbHV1VDRMdGxyekdienREQ21ra3g5bjlpNWxI?=
+ =?utf-8?B?RlRPcUdpaUNKSnR3MGx2N3YySjk4ZWlRTmhCdzRNT0FqMGdHVXJheGxJeVNM?=
+ =?utf-8?B?czZiODVqY25zUjV3c2tueThPQm5zOVpTcktubXdqVjFuZ2J2akhFUmxwR3ho?=
+ =?utf-8?B?eWF5RnpLNi9uSEg4aHpHZ2lUc29IMTBwcU1qSlZ3Qm1PNmMxU2cxYkRJSlRY?=
+ =?utf-8?B?dU9OZm1jNGMxRGhKc0tKeHY2N3NQc3NoSzlydUtYa1FjTnpBNGJrRmd5ODky?=
+ =?utf-8?B?TnlqYXYzWU5sbEVST1FNbkVNTlArenE4dW5GdC9tN2owTzd4WCtLT3JpWFVI?=
+ =?utf-8?B?cGZYTUpNcXp6cjl1RTk5eWdzbUE3TVF4eGxLYWkwQ29DMlRrQ0tTTmZIbklF?=
+ =?utf-8?B?SitVMTNjWnUzeFdhTURXWEFNZlYwUlJDR0FCK3hCU2pNaU1jMUJFcDJ3blBO?=
+ =?utf-8?B?aWVBTnpIVzVQNEpPMTQ3WDRGblIzbzUzT0V1V3gvWFdnc0E1S2NscitMR2VQ?=
+ =?utf-8?B?QnVxM2JHSnRHZytFc1lkVWtjSENKQ2pjbUxrSnkzdUZ1QVhDUVcweG9JVDR2?=
+ =?utf-8?B?YzdTOC9iV2N0ODlhbzhhaUVRbFNzelYxdWhIRnZsOFBVek8rSUgzQTJYc2R1?=
+ =?utf-8?B?RVJLQWlhTE5OVnFQYlV1ZHNuK2piU0FFVUJYbkFoOFNFOEdkOGhuQk13Ukxp?=
+ =?utf-8?B?bUphMmxoQURCZW1GT2RmZVBFbnJXWlhJdWpzWlNJZkhBU0xTMHpvWHNOTnRy?=
+ =?utf-8?B?NFlEQTlITk1LZlpROWNtQ1l0Q1JyQllPWnVEek9Mc2g3MjgzOTU2Q0Zyei9K?=
+ =?utf-8?B?WUp0dlJ4M2Q4WUNaQkJRSUhTWVg5YjJpZnROa08wWEdsbkRkYmpXekFQRG04?=
+ =?utf-8?B?UGNCcXRIUE80VXozak9tejh6SmhxeksvMkxmaGl0Z001RG9XVTI4SDM2V0Nk?=
+ =?utf-8?B?Nnp2bzZlUGR3eHBIZytZNm1kMmVZbGhndjlDN0dUUVRwaDR5cHNzMGtuZGxT?=
+ =?utf-8?B?ZkZBZmJDMUUremdJeVZQVjBtNHg5VGppbFFhVE02Qmo4L2M4VUdINi9yVkJs?=
+ =?utf-8?B?WWREamxqNEVGMEd2bmxZbEZhMWZScUI3a243NXAzc3N0MXRpdjhCbGwvWmFS?=
+ =?utf-8?B?TlpSTzFVOHBkSFJKK1BNL2JuVGVxRlZwQitFUm80VTdOMktvYmdTdUJtcG5B?=
+ =?utf-8?B?VGxXckZha296ZHBIV1R2OFhENGpnUmxtVStZcXRJcytXUkZYcEorNnBPSTJN?=
+ =?utf-8?B?WGZJWTFTSkRKMkgxbkxnbnByT0s4aGNDT0tiTCtOOWZTSmZuWkh2aGpydzZP?=
+ =?utf-8?B?dXA0RlEvNS9EVHA0TzBGZDBIdG5sZDFHOHBvdXJzZGkzTnpEeDlacXRPdXpR?=
+ =?utf-8?B?VDdodUYxUW5kQ1JaWmlRUm1wK2lJTXU0RU1CUmVYTm5NbEFscFdFdHRaV2I0?=
+ =?utf-8?B?bkkvcGJJR3VtNW9sOEplVE9qV09oV1ZWbFRxaXlvQ2ErcjZGQkt2azh0bVdO?=
+ =?utf-8?B?ZE1mbllFanFnRElGQzh2WEw5SVBGWkY2TFZXL3FWdHdPdDdoMUZPVTdMRFhB?=
+ =?utf-8?B?aWdNYitTaHZsaTlkbHgrTFlEMllCbkd6bTVnR0pSY1lsSlBZV01CRWpBTVRG?=
+ =?utf-8?B?eEZWMkIyVzVDRVQvNTBoMnRWUUxEV2M0Z1NDdzhQdDRKYnhjN1RwRTRYRU01?=
+ =?utf-8?B?WEFteDA3dCtvYjVQeTBxZzdnek9OZG5ONkl2VEtCUGIrVkRtNFM2bjlMZ2Vn?=
+ =?utf-8?B?a2lTWkJlNzNoZXFCWnorQm9IQ0FKeWM4NmNoVHdQVi9BR3g2RWZiLzIrK1dX?=
+ =?utf-8?B?clQwVGlGTndJMGFGamJyYjV0Nk5DS1JqUG12SjdCcENmWTV4S1VzVGRmZStj?=
+ =?utf-8?B?OHpLWnUwVFRJa1N2WUZrbjVwbHRGYjUxT01peVFrRllpK05OSDlrSm03VkhO?=
+ =?utf-8?B?bVE9PQ==?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9cc5577-9e9a-4582-ced5-08db266fa964
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB5762.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2023 22:42:03.0751
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fWalGM7W5xsbDrgeR+OFRL//8gVeNxM7ESf13mR25htRGQh9dW4RbYP/d8k2EwWYVUBmoHgzzINfW3twlH5t0A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8500
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 16, 2023 at 5:29=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
-te:
->
-> On Thu, Mar 16, 2023 at 2:26=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.co=
-m> wrote:
-> >
-> > On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
-> > > On Wed, Mar 15, 2023 at 6:53=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmai=
-l.com> wrote:
-> > > >
-> > > > On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
-> > > > > On Fri, Mar 10, 2023 at 7:45=E2=80=AFAM Jonas =C3=85dahl <jadahl@=
-gmail.com> wrote:
-> > > > > >
-> > > > > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
-> > > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > > >
-> > > > > > > Add a way to hint to the fence signaler of an upcoming deadli=
-ne, such as
-> > > > > > > vblank, which the fence waiter would prefer not to miss.  Thi=
-s is to aid
-> > > > > > > the fence signaler in making power management decisions, like=
- boosting
-> > > > > > > frequency as the deadline approaches and awareness of missing=
- deadlines
-> > > > > > > so that can be factored in to the frequency scaling.
-> > > > > > >
-> > > > > > > v2: Drop dma_fence::deadline and related logic to filter dupl=
-icate
-> > > > > > >     deadlines, to avoid increasing dma_fence size.  The fence=
--context
-> > > > > > >     implementation will need similar logic to track deadlines=
- of all
-> > > > > > >     the fences on the same timeline.  [ckoenig]
-> > > > > > > v3: Clarify locking wrt. set_deadline callback
-> > > > > > > v4: Clarify in docs comment that this is a hint
-> > > > > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> > > > > > > v6: More docs
-> > > > > > > v7: Fix typo, clarify past deadlines
-> > > > > > >
-> > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > > > > > > ---
-> > > > > >
-> > > > > > Hi Rob!
-> > > > > >
-> > > > > > >  Documentation/driver-api/dma-buf.rst |  6 +++
-> > > > > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++=
-++++++++++
-> > > > > > >  include/linux/dma-fence.h            | 22 +++++++++++
-> > > > > > >  3 files changed, 87 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documenta=
-tion/driver-api/dma-buf.rst
-> > > > > > > index 622b8156d212..183e480d8cea 100644
-> > > > > > > --- a/Documentation/driver-api/dma-buf.rst
-> > > > > > > +++ b/Documentation/driver-api/dma-buf.rst
-> > > > > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
-> > > > > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > > >     :doc: fence signalling annotation
-> > > > > > >
-> > > > > > > +DMA Fence Deadline Hints
-> > > > > > > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > > > +
-> > > > > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > > > +   :doc: deadline hints
-> > > > > > > +
-> > > > > > >  DMA Fences Functions Reference
-> > > > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > > >
-> > > > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dm=
-a-fence.c
-> > > > > > > index 0de0482cd36e..f177c56269bb 100644
-> > > > > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fe=
-nce **fences, uint32_t count,
-> > > > > > >  }
-> > > > > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> > > > > > >
-> > > > > > > +/**
-> > > > > > > + * DOC: deadline hints
-> > > > > > > + *
-> > > > > > > + * In an ideal world, it would be possible to pipeline a wor=
-kload sufficiently
-> > > > > > > + * that a utilization based device frequency governor could =
-arrive at a minimum
-> > > > > > > + * frequency that meets the requirements of the use-case, in=
- order to minimize
-> > > > > > > + * power consumption.  But in the real world there are many =
-workloads which
-> > > > > > > + * defy this ideal.  For example, but not limited to:
-> > > > > > > + *
-> > > > > > > + * * Workloads that ping-pong between device and CPU, with a=
-lternating periods
-> > > > > > > + *   of CPU waiting for device, and device waiting on CPU.  =
-This can result in
-> > > > > > > + *   devfreq and cpufreq seeing idle time in their respectiv=
-e domains and in
-> > > > > > > + *   result reduce frequency.
-> > > > > > > + *
-> > > > > > > + * * Workloads that interact with a periodic time based dead=
-line, such as double
-> > > > > > > + *   buffered GPU rendering vs vblank sync'd page flipping. =
- In this scenario,
-> > > > > > > + *   missing a vblank deadline results in an *increase* in i=
-dle time on the GPU
-> > > > > > > + *   (since it has to wait an additional vblank period), sen=
-ding a signal to
-> > > > > > > + *   the GPU's devfreq to reduce frequency, when in fact the=
- opposite is what is
-> > > > > > > + *   needed.
-> > > > > >
-> > > > > > This is the use case I'd like to get some better understanding =
-about how
-> > > > > > this series intends to work, as the problematic scheduling beha=
-vior
-> > > > > > triggered by missed deadlines has plagued compositing display s=
-ervers
-> > > > > > for a long time.
-> > > > > >
-> > > > > > I apologize, I'm not a GPU driver developer, nor an OpenGL driv=
-er
-> > > > > > developer, so I will need some hand holding when it comes to
-> > > > > > understanding exactly what piece of software is responsible for
-> > > > > > communicating what piece of information.
-> > > > > >
-> > > > > > > + *
-> > > > > > > + * To this end, deadline hint(s) can be set on a &dma_fence =
-via &dma_fence_set_deadline.
-> > > > > > > + * The deadline hint provides a way for the waiting driver, =
-or userspace, to
-> > > > > > > + * convey an appropriate sense of urgency to the signaling d=
-river.
-> > > > > > > + *
-> > > > > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOTON=
-IC for userspace
-> > > > > > > + * facing APIs).  The time could either be some point in the=
- future (such as
-> > > > > > > + * the vblank based deadline for page-flipping, or the start=
- of a compositor's
-> > > > > > > + * composition cycle), or the current time to indicate an im=
-mediate deadline
-> > > > > > > + * hint (Ie. forward progress cannot be made until this fenc=
-e is signaled).
-> > > > > >
-> > > > > > Is it guaranteed that a GPU driver will use the actual start of=
- the
-> > > > > > vblank as the effective deadline? I have some memories of seing
-> > > > > > something about vblank evasion browsing driver code, which I mi=
-ght have
-> > > > > > misunderstood, but I have yet to find whether this is something
-> > > > > > userspace can actually expect to be something it can rely on.
-> > > > >
-> > > > > I guess you mean s/GPU driver/display driver/ ?  It makes things =
-more
-> > > > > clear if we talk about them separately even if they happen to be =
-the
-> > > > > same device.
-> > > >
-> > > > Sure, sorry about being unclear about that.
-> > > >
-> > > > >
-> > > > > Assuming that is what you mean, nothing strongly defines what the
-> > > > > deadline is.  In practice there is probably some buffering in the
-> > > > > display controller.  For ex, block based (including bandwidth
-> > > > > compressed) formats, you need to buffer up a row of blocks to
-> > > > > efficiently linearize for scanout.  So you probably need to latch=
- some
-> > > > > time before you start sending pixel data to the display.  But det=
-ails
-> > > > > like this are heavily implementation dependent.  I think the most
-> > > > > reasonable thing to target is start of vblank.
-> > > >
-> > > > The driver exposing those details would be quite useful for userspa=
-ce
-> > > > though, so that it can delay committing updates to late, but not to=
-o
-> > > > late. Setting a deadline to be the vblank seems easy enough, but it
-> > > > isn't enough for scheduling the actual commit.
-> > >
-> > > I'm not entirely sure how that would even work.. but OTOH I think you
-> > > are talking about something on the order of 100us?  But that is a bit
-> > > of another topic.
-> >
-> > Yes, something like that. But yea, it's not really related. Scheduling
-> > commits closer to the deadline has more complex behavior than that too,
-> > e.g. the need for real time scheduling, and knowing how long it usually
-> > takes to create and commit and for the kernel to process.
 
-Vblank can be really long, especially with VRR where the additional
-time you get to finish the frame comes from making vblank longer.
-Using the start of vblank as a deadline makes VRR useless. It really
-would be nice to have some feedback about the actual deadline from the
-kernel, maybe in `struct drm_event_vblank`.
 
-But yes, sorry, off topic...
+On 3/16/23 11:00, Marc Zyngier wrote:
+> External email: Use caution opening links or attachments
+> 
+> 
+> On 2023-03-16 15:10, Sudeep Holla wrote:
+>> On Wed, Mar 15, 2023 at 07:27:14AM -0500, Shanker Donthineni wrote:
+>>> Hi Marc,
+>>>
+>>> On 3/15/23 03:34, Marc Zyngier wrote:
+>>> > Please don't duplicate existing code. There is already the required
+>>> > infrastructure in drivers/firmware/smccc/soc_id.c. All you need to do
+>>> > is:
+>>> >
+>>> > - disassociate the SMCCC probing from the device registration
+>>> >
+>>> > - probe the SOC_ID early
+>>> >
+>>> > - add accessors for the relevant data
+>>> >
+>>> > - select ARM_SMCCC_SOD_ID/ARM_SMCCC_DISCOVERY from the GICv3 Kconfig
+>>>
+>>>
+>>> I have not modified soc_id.c as it expects to be loaded as a module
+>>> with
+>>> the use of module_init() and module_exit() functions. The exported
+>>> symbols
+>>> in soc_id driver cannot be accessed from the built-in code.
+>>>
+>>> Agree, the SOD-ID discovery code was duplicated.
+>>>
+>>> Please guide me if the below approach is okay?
+>>>
+>>> 1) Probe the SOC-ID in arm_smccc_version_init() and export two
+>>> functions
+>>> arm_smccc_get_soc_id_version() and arm_smccc_get_soc_id_revision().
+>>>
+>>> --- a/drivers/firmware/smccc/smccc.c
+>>> +++ b/drivers/firmware/smccc/smccc.c
+>>> @@ -17,9 +17,13 @@ static enum arm_smccc_conduit smccc_conduit =
+>>> SMCCC_CONDUIT_NONE;
+>>>
+>>>  bool __ro_after_init smccc_trng_available = false;
+>>>  u64 __ro_after_init smccc_has_sve_hint = false;
+>>> +s32 __ro_after_init smccc_soc_id_version = SMCCC_RET_NOT_SUPPORTED;
+>>> +s32 __ro_after_init smccc_soc_id_revision = SMCCC_RET_NOT_SUPPORTED;
+>>>
+>>>  void __init arm_smccc_version_init(u32 version, enum
+>>> arm_smccc_conduit conduit)
+>>>  {
+>>> +       struct arm_smccc_res res;
+>>> +
+>>>         smccc_version = version;
+>>>         smccc_conduit = conduit;
+>>>
+>>> @@ -27,6 +31,18 @@ void __init arm_smccc_version_init(u32 version,
+>>> enum arm_smccc_conduit conduit)
+>>>         if (IS_ENABLED(CONFIG_ARM64_SVE) &&
+>>>             smccc_version >= ARM_SMCCC_VERSION_1_3)
+>>>                 smccc_has_sve_hint = true;
+>>> +
+>>> +       if ((smccc_version >= ARM_SMCCC_VERSION_1_2) &&
+>>> +           (smccc_conduit != SMCCC_CONDUIT_NONE)) {
+>>> +               arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+>>> +                                    ARM_SMCCC_ARCH_SOC_ID, &res);
+>>> +               if ((s32)res.a0 >= 0) {
+>>> +                       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 0,
+>>> &res);
+>>> +                       smccc_soc_id_version = (s32)res.a0;
+>>> +                       arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 1,
+>>> &res);
+>>> +                       smccc_soc_id_revision = (s32)res.a0;
+>>> +               }
+>>> +       }
+>>>  }
+>>>
+>>>
+>>> +s32 arm_smccc_get_soc_id_version(void)
+>>> +{
+>>> +       return smccc_soc_id_version;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_version);
+>>> +
+>>> +s32 arm_smccc_get_soc_id_revision(void)
+>>> +{
+>>> +       return smccc_soc_id_revision;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
+>>>
+>>>
+>>
+>> Overall, it looks OK to me. However I see neither the gic nor the
+>> soc_id
+>> can be build as module atm. So do we really need the export symbols if
+>> no
+>> other modules are using it ?
+> 
+> It really shouldn't be exported. Having accessors should be enough.
+> 
 
-> > >
-> >
-> > 8-< *snip* 8-<
-> >
-> > > > >
-> > > > > You need a fence to set the deadline, and for that work needs to =
-be
-> > > > > flushed.  But you can't associate a deadline with work that the k=
-ernel
-> > > > > is unaware of anyways.
-> > > >
-> > > > That makes sense, but it might also a bit inadequate to have it as =
-the
-> > > > only way to tell the kernel it should speed things up. Even with th=
-e
-> > > > trick i915 does, with GNOME Shell, we still end up with the feedbac=
-k
-> > > > loop this series aims to mitigate. Doing triple buffering, i.e. del=
-aying
-> > > > or dropping the first frame is so far the best work around that wor=
-ks,
-> > > > except doing other tricks that makes the kernel to ramp up its cloc=
-k.
-> > > > Having to rely on choosing between latency and frame drops should
-> > > > ideally not have to be made.
-> > >
-> > > Before you have a fence, the thing you want to be speeding up is the
-> > > CPU, not the GPU.  There are existing mechanisms for that.
-> >
-> > Is there no benefit to let the GPU know earlier that it should speed up=
-,
-> > so that when the job queue arrives, it's already up to speed?
->
-> Downstream we have input notifier that resumes the GPU so we can
-> pipeline the 1-2ms it takes to boot up the GPU with userspace.  But we
-> wait to boost freq until we have cmdstream to submit, since that
-> doesn't take as long.  What needs help initially after input is all
-> the stuff that happens on the CPU before the GPU can start to do
-> anything ;-)
->
-> Btw, I guess I haven't made this clear, dma-fence deadline is trying
-> to help the steady-state situation, rather than the input-latency
-> situation.  It might take a frame or two of missed deadlines for
-> gpufreq to arrive at a good steady-state freq.
+Thanks, I'll remove in v3 patch.
 
-The mutter issue also is about a suboptimal steady-state.
 
-Truth be told, I'm not sure if this fence deadline idea fixes the
-issue we're seeing or at least helps sometimes. It might, it might
-not. What annoys me is that the compositor *knows* before any work is
-submitted that some work will be submitted and when it has to finish.
-We could maximize the chances to get everything right but having to
-wait for a fence to materialize in the compositor to do anything about
-it is suboptimal.
-
-> > >
-> > > TBF I'm of the belief that there is still a need for input based cpu
-> > > boost (and early wake-up trigger for GPU).. we have something like
-> > > this in CrOS kernel.  That is a bit of a different topic, but my poin=
-t
-> > > is that fence deadlines are just one of several things we need to
-> > > optimize power/perf and responsiveness, rather than the single thing
-> > > that solves every problem under the sun ;-)
-> >
-> > Perhaps; but I believe it's a bit of a back channel of intent; the piec=
-e
-> > of the puzzle that has the information to know whether there is need
-> > actually speed up is the compositor, not the kernel.
-> >
-> > For example, pressing 'p' while a terminal is focused does not need hig=
-h
-> > frequency clocks, it just needs the terminal emulator to draw a 'p' and
-> > the compositor to composite that update. Pressing <Super> may however
-> > trigger a non-trivial animation moving a lot of stuff around on screen,
-> > maybe triggering Wayland clients to draw and what not, and should most
-> > arguably have the ability to "warn" the kernel about the upcoming flood
-> > of work before it is already knocking on its door step.
->
-> The super key is problematic, but not for the reason you think.  It is
-> because it is a case where we should boost on key-up instead of
-> key-down.. and the second key-up event comes after the cpu-boost is
-> already in it's cool-down period.  But even if suboptimal in cases
-> like this, it is still useful for touch/stylus cases where the
-> slightest of lag is much more perceptible.
->
-> This is getting off topic but I kinda favor coming up with some sort
-> of static definition that userspace could give the kernel to let the
-> kernel know what input to boost on.  Or maybe something could be done
-> with BPF?
-
-Why? Do you think user space is so slow that it can't process the
-input events and then do a syscall? We need to have all input devices
-open anyway that can affect the system and know more about how they
-affect behavior than the kernel can ever know.
-
->
-> > >
-> >
-> > 8-< *snip* 8-<
-> >
-> > > >
-> > > > Is it expected that WSI's will set their own deadlines, or should t=
-hat
-> > > > be the job of the compositor? For example by using compositors usin=
-g
-> > > > DMA_BUF_IOCTL_EXPORT_SYNC_FILE that you mentioned, using it to set =
-a
-> > > > deadline matching the vsync it most ideally will be committed to?
-> > > >
-> > >
-> > > I'm kind of assuming compositors, but if the WSI somehow has more
-> > > information about ideal presentation time, then I suppose it could be
-> > > in the WSI?  I'll defer to folks who spend more time on WSI and
-> > > compositors to hash out the details ;-)
-> >
-> > With my compositor developer hat on, it might be best to let it be up t=
-o
-> > the compositor, it's the one that knows if a client's content will
-> > actually end up anywhere visible.
-> >
->
-> wfm
->
-> BR,
-> -R
->
-> >
-> > Jonas
-> >
-> > >
-> > > BR,
-> > > -R
->
-
+-Shanker
