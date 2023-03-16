@@ -2,88 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84FC6C6FD1D
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 03:17:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6190EC61DA4
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 03:19:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229454AbjCPDRZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Mar 2023 23:17:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56580 "EHLO
+        id S230007AbjCPDTH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Mar 2023 23:19:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbjCPDRY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 23:17:24 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55BA0856AC
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 20:17:22 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id b13so264617ljf.6
-        for <linux-doc@vger.kernel.org>; Wed, 15 Mar 2023 20:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678936640;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bpSONzeiXbnF6a+TR0uwezkX7CnfhK34t7ir+4j6xyc=;
-        b=ODacuaT+Ce9idqr0rK6SckQf2xkyFp16DJMgGBnGxSKrpetZXCKMjxrIHXTAEfotqQ
-         63Fk9FiphvahADiFlzMcN1TTLx2oBlClVOQDHlrQtfaaLGUyoTvQEu3HqArwcTu62Vp6
-         ZtSh6nwldMynhBi5RWyD9TkaS0g+fWIlvZZkBEJ3biLajiLthIFHnlG7SCmABkXnPTJd
-         uQNqL+o7dBHgNgUtaMkh7VzldHuSiNy47a0kgDMvZUhnT/QFIvGEZ5l+PV8Y77jK/3lj
-         s8yrQ4GHyVYzapFhII0lPE8xlIXJl8eiA5Huvcbq967axIwdrq7tYaD4vMjlxLiHWCvT
-         la1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678936640;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bpSONzeiXbnF6a+TR0uwezkX7CnfhK34t7ir+4j6xyc=;
-        b=pywTKqxDYV/Eblk7BK5u5JA9EsmKdcA1QBJ7ZeT5ttc4p7USImDODEg1ICk6sixFEX
-         FhXImKCVSyFi+JCwHCc8wA/k2RV0tPzF0z/clrNRT/hsaHVnt5RyT21owsPHkF9ah9Mu
-         7Gv/KqZhymSDdu3vvwsVz/lQwrarNucaV2N1vLgAF/x1wOY2yQIlMBZ0g4ZB/ZLd2Wt/
-         xMqLnh93i4kCdSG3QnOLk21lyiCXT78DGpJ0ULaVbISxJ2E0XpIFKkIAAgC5MaYIx5rA
-         5nqPP4eAFrc7n7CU/rf4dKMUJ+Xm4Ak2ysS5T5Gg2kTJVtmuDs8udDUdToKPMIpiOz+s
-         H4AA==
-X-Gm-Message-State: AO0yUKVnZukcmDpk9zmdLghOp6o+60R6FE7v+ThItv6O+KHo5ifK6oNM
-        ounYlXvaMGRj9uqwM1+feiYORy0Dy5/CPCDdhWuYpsEhX3eauw==
-X-Google-Smtp-Source: AK7set9zsKlSyKeInjIHrcAYy44SZVHSTLEZRZVwzlpeyndRUPMDevvDSTG/wbc08Vnvbzf/n8jSvHz3H9wMlCRCK7I=
-X-Received: by 2002:a2e:9b8a:0:b0:298:b337:c127 with SMTP id
- z10-20020a2e9b8a000000b00298b337c127mr1020479lji.1.1678936640440; Wed, 15 Mar
- 2023 20:17:20 -0700 (PDT)
+        with ESMTP id S230001AbjCPDSZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Mar 2023 23:18:25 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 498B3A18A7;
+        Wed, 15 Mar 2023 20:18:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9F1C8B81FB9;
+        Thu, 16 Mar 2023 03:18:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE274C433AE;
+        Thu, 16 Mar 2023 03:17:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678936682;
+        bh=y0sZoUeFff+6cDV3HaVMqB5f4yIzmgYZdM8d6h5o3pc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=jawiJkp4F2oYL3A1ptkMbLijjPnwxZp3UEKvAHclV5SnuNbnvSKtEvzsA5/2zLFX1
+         wNhl3Zja0S9RiC6c6bD5aJ5EDGoejYe2Q/W4Vqyf2ipXCkD7RERM0xTkL5tBHBmYt0
+         uNmGObR85LSgDkI6ZAhx09n+b+bA1g734mcxcies2Dd4UAa2enhH1EHydVBWDzFQyH
+         qYLuQ3LGLLxZ7bQl/kv9TiHXU5iRi4PENdtAc6jrSCWOOPZB4XNptSZ4Tau1K/qHAz
+         4hgcG/tmkkee1FWYq1YSJ4cL3D3TRPVAyalv3ZCpfpl8WMXTtiBop9i10FzPY+51Ia
+         0L8sJJUIiXpHg==
+From:   Bjorn Andersson <andersson@kernel.org>
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Kalle Valo <kvalo@kernel.org>, Andy Gross <agross@kernel.org>,
+        Alex Elder <elder@linaro.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        ath10k@lists.infradead.org, Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-wireless@vger.kernel.org, devicetree@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        linux-remoteproc@vger.kernel.org,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        netdev@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Marc Zyngier <maz@kernel.org>, linux-doc@vger.kernel.org,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: (subset) [PATCH v9 17/27] firmware: qcom_scm: Use fixed width src vm bitmap
+Date:   Wed, 15 Mar 2023 20:21:02 -0700
+Message-Id: <167893686406.303819.2573416221076147237.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230120224627.4053418-18-quic_eberman@quicinc.com>
+References: <20230120224627.4053418-1-quic_eberman@quicinc.com> <20230120224627.4053418-18-quic_eberman@quicinc.com>
 MIME-Version: 1.0
-References: <20230316024519.27992-1-zangleigang@hisilicon.com>
-In-Reply-To: <20230316024519.27992-1-zangleigang@hisilicon.com>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Thu, 16 Mar 2023 11:16:44 +0800
-Message-ID: <CAJy-Amn1R-0Nq-tEqNcW7-kCmjPpYUtD=EjAfCK3oJVPWirB0g@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: fix a wrong format
-To:     Zang Leigang <zangleigang@hisilicon.com>
-Cc:     alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net,
-        rppt@kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-UmV2aWV3ZWQtYnk6IEFsZXggU2hpIDxhbGV4c0BrZXJuZWwub3JnPg0KDQpPbiBUaHUsIE1hciAx
-NiwgMjAyMyBhdCAxMDo0NeKAr0FNIFphbmcgTGVpZ2FuZyA8emFuZ2xlaWdhbmdAaGlzaWxpY29u
-LmNvbT4gd3JvdGU6DQo+DQo+IEFkZCBhIG1pc3NpbmcgbWFya3VwIGZvciB0aGUgY29kZSBzbmlw
-cGV0IGF0IHRoZSBlbmQgb2YgbHJ1X3NvcnQucnN0DQo+DQo+IFNpZ25lZC1vZmYtYnk6IFphbmcg
-TGVpZ2FuZyA8emFuZ2xlaWdhbmdAaGlzaWxpY29uLmNvbT4NCj4gLS0tDQo+ICAuLi4vdHJhbnNs
-YXRpb25zL3poX0NOL2FkbWluLWd1aWRlL21tL2RhbW9uL2xydV9zb3J0LnJzdCAgICAgICAgfCAy
-ICstDQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4N
-Cj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FkbWluLWd1
-aWRlL21tL2RhbW9uL2xydV9zb3J0LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
-X0NOL2FkbWluLWd1aWRlL21tL2RhbW9uL2xydV9zb3J0LnJzdA0KPiBpbmRleCA4MTJlZjMxNWM4
-ZjYuLjAzZDMzYzcxMDYwNCAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
-bnMvemhfQ04vYWRtaW4tZ3VpZGUvbW0vZGFtb24vbHJ1X3NvcnQucnN0DQo+ICsrKyBiL0RvY3Vt
-ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FkbWluLWd1aWRlL21tL2RhbW9uL2xydV9zb3J0
-LnJzdA0KPiBAQCAtMjUwLDcgKzI1MCw3IEBAIExSVeeahOS8mOWFiOe6p+eahOaPkOWNh++8jOWQ
-jOaXtumZjeS9jumCo+S6m+i2hei/hzEyMOenkuaXoOS6uuiuv+mXrueahOWGheWtmA0KPiAg55CG
-6KKr6ZmQ5Yi25Zyo5pyA5aSaMSXnmoRDUFXku6Xpgb/lhY1EQU1PTl9MUlVfU09SVOa2iOi0uei/
-h+WkmkNQVeaXtumXtOOAguWcqOezu+e7n+epuumXsuWGheWtmOi2hei/hzUwJQ0KPiAg5pe2REFN
-T05fTFJVX1NPUlTlgZzmraLlt6XkvZzvvIzlubblnKjkvY7kuo40MCXml7bph43mlrDlvIDlp4vl
-t6XkvZzjgILlpoLmnpxEQU1PTl9SRUNMQUlN5rKh5pyJ5Y+W5b6XDQo+ICDov5vlsZXkuJTnqbrp
-l7LlhoXlrZjkvY7kuo4yMCXvvIzlho3mrKHorqlEQU1PTl9MUlVfU09SVOWBnOatouW3peS9nO+8
-jOS7peatpOWbnumAgOWIsOS7pUxSVemTvuihqOS4uuWfuuehgA0KPiAt5Lul6aG16Z2i5Li65Y2V
-5L2N55qE5YaF5a2Y5Zue5pS25LiK44CCDQo+ICvku6XpobXpnaLkuLrljZXkvY3nmoTlhoXlrZjl
-m57mlLbkuIrjgIIgOjoNCj4NCj4gICAgICAjIGNkIC9zeXMvbW9kdWxlcy9kYW1vbl9scnVfc29y
-dC9wYXJhbWV0ZXJzDQo+ICAgICAgIyBlY2hvIDUwMCA+IGhvdF90aHJlc19hY2Nlc3NfZnJlcQ0K
-PiAtLQ0KPiAyLjE3LjENCj4NCg==
+On Fri, 20 Jan 2023 14:46:16 -0800, Elliot Berman wrote:
+> The maximum VMID for assign_mem is 63. Use a u64 to represent this
+> bitmap instead of architecture-dependent "unsigned int" which varies in
+> size on 32-bit and 64-bit platforms.
+> 
+> 
+
+Applied, thanks!
+
+[17/27] firmware: qcom_scm: Use fixed width src vm bitmap
+        commit: 968a26a07f75377afbd4f7bb18ef587a1443c244
+
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
