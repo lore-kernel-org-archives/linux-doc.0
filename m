@@ -2,353 +2,666 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF137C7618A
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 19:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98C3DC7618A
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Mar 2023 20:07:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229584AbjCPTvd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Mar 2023 15:51:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60816 "EHLO
+        id S230265AbjCPUH3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Mar 2023 16:07:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjCPTvc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 15:51:32 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2056.outbound.protection.outlook.com [40.107.243.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 875C17B4A0;
-        Thu, 16 Mar 2023 12:51:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kcNKCg8I6Bsrg2GSUXYdLhh6IKTqqiA4u2zolOfOSbqo8GDjom0kwELZyn+TKNjqwtg48kh2+i6PWp7OLgWlXOBd+b65euO9NUUhnQVNQndscT/k6TFi6URk5MaX0U7lINCrvpsPmNmLmnDUUOMJY4SU5sbq6+d3LO6cxVc3UDVMdUe1RC7hb9QktBlRiJJkUUeCFlw2DZbdDI37yB8D8bNe0EBYX4H6v35ZpYrxnaaU/K/mLpJFI3OpUfqkfWcENUx0Xy3LIK3b3MGVnHUT3VwksBep4jbyz3tD1y+i950/FmsTaUI/AHeRxavf2QrWi/WyTDKDbMY5lubLPlL3QA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DHeILnDXZDmvfPyikv+tMzpsCNfzhycr8nflIuP6zt8=;
- b=T8rFpFLf1y9W3HEInmeXHcpPfGGQxFgUx9G/H/mBEK0t+Wttx1wuWNoRJnjV2slaSiRdlvdRMSDUKevW38Dr670ZZ7qU7p5ocEsKWwMnKp2YsUMKxYV2Q2rOajMXJH4/8glGEECbJ11EL06tN9AqTyJUYqkeq2WyG/TM1PyWqwBuDr+J+vnX/9azOo7J0k6ThCRFvzpnX2Ps7AlQlGcZGAKkEZ4tAEb/zPSupG/PJoi8S5UX4HaRnKyuIy1Ek7/iRazc4y0Q4IK8k78aqIGxlnnIOlmYj462pWjku47livd006aI8/QIZAaYd2VMYO0bZJqSZtaHWSBToVdz1GJAIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DHeILnDXZDmvfPyikv+tMzpsCNfzhycr8nflIuP6zt8=;
- b=b9+Z33SkY/h9CzhZFhXm41PWi1bL3cy7RRE/+e6S3jWlBKguSFjtWoHNZh21grh63omIT+Bayjbbi+wvXdseq98s7CM7Feqh+cDFyJX/UTiyrOov6vMV3h7aGDLxmDkOSjXjXtJfu8jpg7SuguzGqfzmCmddyAc8sb+5xcW8HA0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DM4PR12MB5133.namprd12.prod.outlook.com (2603:10b6:5:390::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.31; Thu, 16 Mar
- 2023 19:51:28 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::3490:de56:de08:46f6]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::3490:de56:de08:46f6%9]) with mapi id 15.20.6178.029; Thu, 16 Mar 2023
- 19:51:28 +0000
-Message-ID: <39c85927-9c34-0284-86c6-724f417423db@amd.com>
-Date:   Thu, 16 Mar 2023 14:51:23 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v3 1/7] x86/resctrl: Add multiple tasks to the resctrl
- group at once
-To:     Reinette Chatre <reinette.chatre@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>
-Cc:     "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "quic_neeraju@quicinc.com" <quic_neeraju@quicinc.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
-        "songmuchun@bytedance.com" <songmuchun@bytedance.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
-        "pawan.kumar.gupta@linux.intel.com" 
-        <pawan.kumar.gupta@linux.intel.com>,
-        "jmattson@google.com" <jmattson@google.com>,
-        "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-        "Das1, Sandipan" <Sandipan.Das@amd.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "eranian@google.com" <eranian@google.com>,
-        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-        "jarkko@kernel.org" <jarkko@kernel.org>,
-        "adrian.hunter@intel.com" <adrian.hunter@intel.com>,
-        "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
-        "peternewman@google.com" <peternewman@google.com>
-References: <167778850105.1053859.14596357862185564029.stgit@bmoger-ubuntu>
- <167778866506.1053859.2329229096484796501.stgit@bmoger-ubuntu>
- <9af9eb7a-476c-d4b0-e114-3f5c2b45dd95@intel.com>
- <MW3PR12MB45537DC45130BB5F02F0F3F095BC9@MW3PR12MB4553.namprd12.prod.outlook.com>
- <71b58853-e7c9-b522-3f90-c3d84cba1317@intel.com>
-Content-Language: en-US
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <71b58853-e7c9-b522-3f90-c3d84cba1317@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH0PR04CA0044.namprd04.prod.outlook.com
- (2603:10b6:610:77::19) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+        with ESMTP id S230147AbjCPUH1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Mar 2023 16:07:27 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C763E617
+        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 13:07:20 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id e65so3335697ybh.10
+        for <linux-doc@vger.kernel.org>; Thu, 16 Mar 2023 13:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678997239;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rShOXnkwmcluUFnoOiiTG/JZOx+YqWy4f7pfFSQut3M=;
+        b=EWv/pzQzMkLOqKsEe+DvegvGPL3CTzsvKl/2EAKCFVLAGv4EUycgjoSMH5X/RVmVOv
+         bXzQGrPvuhygzyJJaNwq7vYsS+zxRqKnusQ101koPFo4RQ6NZA7YZ6wY9UTORy5GMgWf
+         N7L4KjKTRcPRYKwYuifr+zeLrU25M9RprAB5yXzjQJtKF/ZeiapIJKHFJyK2EeTZq1bS
+         t7rgvgW2jTy79fQbJaAayqsVC4NXCqaedQ/hJAkApu+oL94bimY0J6jX7e7jljzFaskt
+         /GP6JpLoFqFfdHgk/tic8IHykbmrpYguhxGnIXqRrbJnQumjCgWJb1t6BGcJrd0IQaeL
+         KnHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678997239;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rShOXnkwmcluUFnoOiiTG/JZOx+YqWy4f7pfFSQut3M=;
+        b=d5XHTjqCBQj9klYU35ir0ZWKLeWOLj01ZFevn6jK4HYqzNXWUSB9uPB/mBGB9dV2Iz
+         9WBELksy5rF0Stetlt+rKmBAhvIOblsnJFB6CNb8qKIMbyEGgPodgjkONN2sZQbT3wew
+         Be3LVCJz9xyKv3AZ5ExqlXZ0jBV0zy8F0p8/HQ+1tOTF5zQkI+CdaBjARsBJdcNeOPAh
+         VTHigZjCspYDDZYX1O2GAZ288RxvhRUmg9imUajSeVqa0bGw/eBRViXFkpQC52oaayJp
+         iLz9D7tZOx/Z1/syACXkPZzBZuf6lvgnlss87Vf+ECN5109sVrt72uZJg5v5rulGWipm
+         mFKA==
+X-Gm-Message-State: AO0yUKXj7o15XwKq8VUkDdrF20wJ+OVH6TX3KlCjZWcJ9pFD15OwUVFR
+        wVcSXvV5Rse4rud5n1xHQT3WooqGFX/eCydlJQ3RrQ==
+X-Google-Smtp-Source: AK7set94/P+4dZkTurIWH4VJ5w4f1b+xab/AUWUURaE+NfoC2IQzgasYwNoomso2jtTnW0+FZdL2Xa6q/5b5SdrJzRA=
+X-Received: by 2002:a05:6902:188:b0:a99:de9d:d504 with SMTP id
+ t8-20020a056902018800b00a99de9dd504mr28724318ybh.12.1678997239350; Thu, 16
+ Mar 2023 13:07:19 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM4PR12MB5133:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20ccd6cb-c258-45a2-a91d-08db2657d4da
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Z/kO067AKSIbwRvRVGdOTiI3zUw6g+4YTZLO/zHCUBbVEP8G9m9pegHvZC5ar6iTqg43qu8lsspN9UzqeBTqq549RxVQYuT7bQ/m13xJ0ulwmZshUE7pNMp4IDChzIssQRziQrnbxPioB/SDMxuE4DT//1U9CmUd0+9M9NrL7ksx/7kh3v2mmo442j317Zh7XnsZqXv1TtgvsVWi4XV/OJIkfJQB+p1Lsrg6JzEnOcULqrtpsWuh4mP+HjR8mf/X6aOa9hMZj5NWZXnnWVMBwm6kNUKiO+SpBD/GbNFPpcoqzH7g/fC3QB/DSCdL+xIlBG03CPPytIUqjlpfchic/ShABbtxRfZzyMolwSCDSMnoSl121ACKrmkjixMnE17O/bPVmpmO8gd9KFQeWUwozkg0TebggKDOfVQXKFnblyML1uPqFHheDYgCQssZ+jBRr9zBXvo42VTUPp2i9kx6DYseujnJv7b6eFq09U8ISv0ugdEwcNpwtM9afS7HQ/OJ2OmQ8UzhHedtdO1DU/UY4dQplLk8G/yA8eT2ci0+DexoxLm4rjcHvijLz5VjA76q9xcvGDK2hPXxR1WcoiK9UUJnD+dbWhJOcH+9feZsDHGXJc/b3r9LznNAcj1lNilTHQmoYU0mYHYT1eNRp6vTEsAKd40vgNS9vJFyp5jF94iRVs5v2E/Qc7HRGGi+NQWrNuWYkZ8raObasHKvAXeEb6Wv4tb56THitNZEPvQ2TNM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(346002)(136003)(376002)(366004)(39860400002)(451199018)(38100700002)(86362001)(31696002)(7406005)(36756003)(2906002)(3450700001)(41300700001)(5660300002)(8936002)(7416002)(2616005)(4326008)(26005)(83380400001)(6506007)(6512007)(53546011)(186003)(54906003)(316002)(110136005)(6666004)(66946007)(66556008)(6486002)(8676002)(478600001)(66476007)(66899018)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djF0NEJCWlF5NDRsVnZrSExyM0NpTW1QR1I5MWxhTHQ4RXVvazJSZ2toMURh?=
- =?utf-8?B?eFZrcGhZTGpDM1BtQ0owYVgrSHZrTUlTaE51QS9KR1d6ZytSWEtPMHMzU2d5?=
- =?utf-8?B?OGNDSklMaXJ0SnppeGtJSEFZNEJwZnRiRXRjRnc1V0lzNGhocjY1bTNmelk3?=
- =?utf-8?B?NWJINXFjMmNFSkR6dytoVlZnYTZnU01yTEp0dU9qZG5PZ0J4MTdFVzJWTmJ2?=
- =?utf-8?B?U01MWmFOWW84aWlWbVh6NGhQSE1TRlBvWFNuMFA2N3ZybDl3WFUrc1NIOG83?=
- =?utf-8?B?bWliMnVPVTU4azZYU3FSVjRNYXVOQUNCSytpYjhWTUNha05JZ1NaVjd2VXI2?=
- =?utf-8?B?emhjUmc2Zk9kaWk5UndWNll1djlJSkQ1YWIyRHdBaGhZMmRqaEtSOWFUTENV?=
- =?utf-8?B?TGNPN0xNdHVNR0MyNXorTjFLS3Q2MnBsYlFlb0JybDFTZDhWd21XQmZxSnQ4?=
- =?utf-8?B?NXNCT1RBblcrY3I0TlUwUVhOZHovVVB1T0NXQ3Z2dlcwZVozamZuZWc5ZUw1?=
- =?utf-8?B?dzFxOUQ5cW5ydnMwT21aekVUSEs5bG9SWWtORVJ0VUtxa0FGN2dlRkJFekx1?=
- =?utf-8?B?UTNsRkxlRkZHY0k5Z0k0U01tVmR3OFFzdzNlMWg2Y3lBNlk2bGk5NUo1WnE5?=
- =?utf-8?B?bmNiT0tmZkcyRzl6UVdpb0RMRFptYTNkZnh1VEdsUTQ1dXQ0R1FJby9XSWJx?=
- =?utf-8?B?M1lZSzZoTFp1dU85dElWNnBqbVN4bUxSRFdBbGNxY0oxN0pyQ0RPU0VuTHVH?=
- =?utf-8?B?SGxWbTZhNjRnS2ZEbldkdjRCRkxOUzVxT1RaeDFNclBhY0JVZjVhNWZEaDNX?=
- =?utf-8?B?cjlJQUl6MzNzcmpMZCtoVncyQ2RDWHN4QmJLSmJYdHBZTHdSRUt0VWt4QXRJ?=
- =?utf-8?B?UnpIVzZENE0zd3JlS28wclhMeGNzMWsycjZ5ZzJkYXJabE1xSDlRV0pEZURi?=
- =?utf-8?B?RnFzS0VXVFA1UnI4TzVKbFFLV1Rkb1YwZzZHY2RkNGE1WFRmMktEZTc4MkhI?=
- =?utf-8?B?TE1tTkJPRlhHOUlTcTNiYkNHWUFsZWV4TzcyOTVFSC9GVjMzM1UybHZGR1JV?=
- =?utf-8?B?Q1dPZi9DMkRVSVkzL2c4ODJMTUJQbDBiM1gzdjlGUCtJQUV2WUpVanpZVXVj?=
- =?utf-8?B?S0prVnlIbnlWd1FnUWVJZ3VwSVY5YjRrRXRMTGFaemJ6bEZlampxRXpiZVZX?=
- =?utf-8?B?WUc5UWJkQUpGdHVUbEdrK0JJNFdRSURsSEQxMnRsam8zWkgyVmlMRlQ5WEta?=
- =?utf-8?B?WW5XanBiTm5LWFUza0gvUEtOYnBFWXVtS1poNTJLWFllVnM2Tnd2dEM1RHda?=
- =?utf-8?B?blhoS0w3azBGN25yT1RibE1xL0FvcXl6MldPRlk1bVBZTkN2VFZvbkd2KzRk?=
- =?utf-8?B?VngxRlRqV2FZNVQ4UmpmNG5UeVhlYktJUStLUmNoUDY4YWxvMElpOExZL05p?=
- =?utf-8?B?d1hjRjJ1U2htaG5OZXhsT0o1Vk5HeG96eGxGMkFoSVJLOHNNd2FYbUkvWmNu?=
- =?utf-8?B?UFFCWndLNGtSQUc2RjU2cFVjKzhBMGpaUHIvSGF4UDJyd2ZWVENGQUVFUUhY?=
- =?utf-8?B?SkUzVjZmYU1ESm1TMDY0UlozQ2VxTE9qWDhnUWlialJ6VndnWnF3V2VGWjBK?=
- =?utf-8?B?bitZanZXbmx0b1EwZmoyT05LTy8zWDFLbS9JaFNCTkdaUzVYSmRBUmlDSmhS?=
- =?utf-8?B?SVg3NHZWMFFPRURybmZlN3pCVjdiaFg5bmJYR2dUZGZyRUo2bWEvVnJZNVN5?=
- =?utf-8?B?eXV2UnM3MkhUOXJMa3hiL3luSGlmRVJsZnFYdFZJTjZjYzAxc2tBWlF3R2Mv?=
- =?utf-8?B?MS9DL3NGVS82K1pMQ1JkVEJtM2lhRlVYM3FTbnVpcERyWXlDOHNKbjlmblcy?=
- =?utf-8?B?QU5HVU9lN01WcnYvWHpBV0JuZ3UrZnpFcVNLWFNwM1ZFZHNzaktSV215dGs2?=
- =?utf-8?B?RXgyZlBjaDV0Y2dMQ2lsUDZoaGI2N0QvQkVlOURoQmRlZ1ZWYXNBb01vQW1E?=
- =?utf-8?B?bGVJYUtCNS9yWGYrRVJCa29RM2lRdlQ4bE1xUUtYdUdQTlFxcFhJcFUwWWRJ?=
- =?utf-8?B?b09QQzNhcVViYlRMSC9LdmZtQ2RrRUwyMit1ZmVNQzF1RU41UGg4N0xnc0Fa?=
- =?utf-8?Q?tce8//QGY8Z6dVeKUVNWjbZdy?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20ccd6cb-c258-45a2-a91d-08db2657d4da
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2023 19:51:28.0666
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9XF/w/ojuZs57VStpuGkexMTdWOGzBYfi870emDXUHm0MG1lePik9h0D/2AESvpI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5133
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-34-rick.p.edgecombe@intel.com> <ZADbP7HvyPHuwUY9@arm.com>
+ <20230309185511.GA1964069@debug.ba.rivosinc.com> <aaf918de8585204fb0785ac1fc0f686a8fd88bb0.camel@intel.com>
+ <20230309210817.GB1964069@debug.ba.rivosinc.com> <a3c951fee51cc05e291d3a570ed485eaec1963cf.camel@intel.com>
+ <20230310210054.GA2286507@debug.ba.rivosinc.com> <fb12a7efba525bbae26113666fc4418a10ee5adf.camel@intel.com>
+In-Reply-To: <fb12a7efba525bbae26113666fc4418a10ee5adf.camel@intel.com>
+From:   Deepak Gupta <debug@rivosinc.com>
+Date:   Thu, 16 Mar 2023 13:07:08 -0700
+Message-ID: <CAKC1njQX+mS-64dAR9AMbNNec7WGOMJW1wfcx-dOf-HRx2Re9Q@mail.gmail.com>
+Subject: Re: [PATCH v7 33/41] x86/shstk: Introduce map_shadow_stack syscall
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "david@redhat.com" <david@redhat.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "x86@kernel.org" <x86@kernel.org>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "al.grant@arm.com" <al.grant@arm.com>, "nd@arm.com" <nd@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Reinette,
+On Fri, Mar 10, 2023 at 1:43=E2=80=AFPM Edgecombe, Rick P
+<rick.p.edgecombe@intel.com> wrote:
+>
+> On Fri, 2023-03-10 at 13:00 -0800, Deepak Gupta wrote:
+> > On Fri, Mar 10, 2023 at 12:14:01AM +0000, Edgecombe, Rick P wrote:
+> > > On Thu, 2023-03-09 at 13:08 -0800, Deepak Gupta wrote:
+> > > > On Thu, Mar 09, 2023 at 07:39:41PM +0000, Edgecombe, Rick P
+> > > > wrote:
+> > > > > On Thu, 2023-03-09 at 10:55 -0800, Deepak Gupta wrote:
+> > > > > > On Thu, Mar 02, 2023 at 05:22:07PM +0000, Szabolcs Nagy
+> > > > > > wrote:
+> > > > > > > The 02/27/2023 14:29, Rick Edgecombe wrote:
+> > > > > > > > Previously, a new PROT_SHADOW_STACK was attempted,
+> > > > > > >
+> > > > > > > ...
+> > > > > > > > So rather than repurpose two existing syscalls (mmap,
+> > > > > > > > madvise)
+> > > > > > > > that don't
+> > > > > > > > quite fit, just implement a new map_shadow_stack syscall
+> > > > > > > > to
+> > > > > > > > allow
+> > > > > > > > userspace to map and setup new shadow stacks in one step.
+> > > > > > > > While
+> > > > > > > > ucontext
+> > > > > > > > is the primary motivator, userspace may have other
+> > > > > > > > unforeseen
+> > > > > > > > reasons to
+> > > > > > > > setup it's own shadow stacks using the WRSS instruction.
+> > > > > > > > Towards
+> > > > > > > > this
+> > > > > > > > provide a flag so that stacks can be optionally setup
+> > > > > > > > securely
+> > > > > > > > for the
+> > > > > > > > common case of ucontext without enabling WRSS. Or
+> > > > > > > > potentially
+> > > > > > > > have the
+> > > > > > > > kernel set up the shadow stack in some new way.
+> > > > > > >
+> > > > > > > ...
+> > > > > > > > The following example demonstrates how to create a new
+> > > > > > > > shadow
+> > > > > > > > stack with
+> > > > > > > > map_shadow_stack:
+> > > > > > > > void *shstk =3D map_shadow_stack(addr, stack_size,
+> > > > > > > > SHADOW_STACK_SET_TOKEN);
+> > > > > > >
+> > > > > > > i think
+> > > > > > >
+> > > > > > > mmap(addr, size, PROT_READ, MAP_ANON|MAP_SHADOW_STACK, -1,
+> > > > > > > 0);
+> > > > > > >
+> > > > > > > could do the same with less disruption to users (new
+> > > > > > > syscalls
+> > > > > > > are harder to deal with than new flags). it would do the
+> > > > > > > guard page and initial token setup too (there is no flag
+> > > > > > > for
+> > > > > > > it but could be squeezed in).
+> > > > > >
+> > > > > > Discussion on this topic in v6
+> > > > > >
+> > > > >
+> > > > >
+> > >
+> > >
+> https://lore.kernel.org/all/20230223000340.GB945966@debug.ba.rivosinc.com=
+/
+> > > > > >
+> > > > > > Again I know earlier CET patches had protection flag and
+> > > > > > somehow
+> > > > > > due
+> > > > > > to pushback
+> > > > > > on mailing list,
+> > > > > >  it was adopted to go for special syscall because no one else
+> > > > > > had shadow stack.
+> > > > > >
+> > > > > > Seeing a response from Szabolcs, I am assuming arm4 would
+> > > > > > also
+> > > > > > want
+> > > > > > to follow
+> > > > > > using mmap to manufacture shadow stack. For reference RFC
+> > > > > > patches
+> > > > > > for
+> > > > > > risc-v shadow stack,
+> > > > > > use a new protection flag =3D PROT_SHADOWSTACK.
+> > > > > >
+> > > > >
+> > > > >
+> > >
+> > >
+> https://lore.kernel.org/lkml/20230213045351.3945824-1-debug@rivosinc.com/
+> > > > > >
+> > > > > > I know earlier discussion had been that we let this go and do
+> > > > > > a
+> > > > > > re-
+> > > > > > factor later as other
+> > > > > > arch support trickle in. But as I thought more on this and I
+> > > > > > think it
+> > > > > > may just be
+> > > > > > messy from user mode point of view as well to have cognition
+> > > > > > of
+> > > > > > two
+> > > > > > different ways of
+> > > > > > creating shadow stack. One would be special syscall (in
+> > > > > > current
+> > > > > > libc)
+> > > > > > and another `mmap`
+> > > > > > (whenever future re-factor happens)
+> > > > > >
+> > > > > > If it's not too late, it would be more wise to take `mmap`
+> > > > > > approach rather than special `syscall` approach.
+> > > > >
+> > > > > There is sort of two things intermixed here when we talk about
+> > > > > a
+> > > > > PROT_SHADOW_STACK.
+> > > > >
+> > > > > One is: what is the interface for specifying how the shadow
+> > > > > stack
+> > > > > should be provisioned with data? Right now there are two ways
+> > > > > supported, all zero or with an X86 shadow stack restore token
+> > > > > at
+> > > > > the
+> > > > > end. Then there was already some conversation about a third
+> > > > > type.
+> > > > > In
+> > > > > which case the question would be is using mmap MAP_ flags the
+> > > > > right
+> > > > > place for this? How many types of initialization will be needed
+> > > > > in
+> > > > > the
+> > > > > end and what is the overlap between the architectures?
+> > > >
+> > > > First of all, arches can choose to have token at the bottom or
+> > > > not.
+> > > >
+> > > > Token serve following purposes
+> > > >   - It allows one to put desired value in shadow stack pointer in
+> > > > safe/secure manner.
+> > > >     Note: x86 doesn't provide any opcode encoding to value in SSP
+> > > > register. So having
+> > > >     a token is kind of a necessity because x86 doesn't easily
+> > > > allow
+> > > > writing shadow stack.
+> > > >
+> > > >   - A token at the bottom acts marker / barrier and can be useful
+> > > > in
+> > > > debugging
+> > > >
+> > > >   - If (and a big *if*) we ever reach a point in future where
+> > > > return
+> > > > address is only pushed
+> > > >     on shadow stack (x86 should have motivation to do this
+> > > > because
+> > > > less uops on call/ret),
+> > > >     a token at the bottom (bottom means lower address) is
+> > > > ensuring
+> > > > sure shot way of getting
+> > > >     a fault when exhausted.
+> > > >
+> > > > Current RISCV zisslpcfi proposal doesn't define CPU based tokens
+> > > > because it's RISC.
+> > > > It allows mechanisms using which software can define formatting
+> > > > of
+> > > > token for itself.
+> > > > Not sure of what ARM is doing.
+> > >
+> > > Ok, so riscv doesn't need to have the kernel write the token, but
+> > > x86
+> > > does.
+> > >
+> > > >
+> > > > Now coming to the point of all zero v/s shadow stack token.
+> > > > Why not always have token at the bottom?
+> > >
+> > > With WRSS you can setup the shadow stack however you want. So the
+> > > user
+> > > would then have to take care to erase the token if they didn't want
+> > > it.
+> > > Not the end of the world, but kind of clunky if there is no reason
+> > > for
+> > > it.
+> >
+> > Yes but kernel always assumes the user is going to use the token. It'
+> > upto the user
+> > to decide whether they want to use the restore token or not. If
+> > they've WRSS capability
+> > security posture is anyways diluted. An attacker who would be clever
+> > enough to
+> > re-use `RSTORSSP` present in address space to restore using kernel
+> > prepared token, should
+> > anyways can be clever enough to use WRSS as well.
+> >
+> > It kind of makes shadow stack creation simpler for kernel to always
+> > place the token.
+> > This point is irrespective of whether to use system call or mmap.
+>
+> Think about like CRIU restoring the shadow stack, or other special
+> cases like that. Userspace can always overwrite the token, but this
+> involves some amount of extra work (extra writes, earlier faulting in
+> the page, etc). It is clunky and very negligibly worse.
 
-On 3/16/23 12:12, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 3/16/2023 9:27 AM, Moger, Babu wrote:
->>> -----Original Message-----
->>> From: Reinette Chatre <reinette.chatre@intel.com>
->>> Sent: Wednesday, March 15, 2023 1:33 PM
->>> To: Moger, Babu <Babu.Moger@amd.com>; corbet@lwn.net;
->>> tglx@linutronix.de; mingo@redhat.com; bp@alien8.de
->>> Cc: fenghua.yu@intel.com; dave.hansen@linux.intel.com; x86@kernel.org;
->>> hpa@zytor.com; paulmck@kernel.org; akpm@linux-foundation.org;
->>> quic_neeraju@quicinc.com; rdunlap@infradead.org;
->>> damien.lemoal@opensource.wdc.com; songmuchun@bytedance.com;
->>> peterz@infradead.org; jpoimboe@kernel.org; pbonzini@redhat.com;
->>> chang.seok.bae@intel.com; pawan.kumar.gupta@linux.intel.com;
->>> jmattson@google.com; daniel.sneddon@linux.intel.com; Das1, Sandipan
->>> <Sandipan.Das@amd.com>; tony.luck@intel.com; james.morse@arm.com;
->>> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
->>> bagasdotme@gmail.com; eranian@google.com; christophe.leroy@csgroup.eu;
->>> jarkko@kernel.org; adrian.hunter@intel.com; quic_jiles@quicinc.com;
->>> peternewman@google.com
->>> Subject: Re: [PATCH v3 1/7] x86/resctrl: Add multiple tasks to the resctrl group
->>> at once
->>>
->>> Hi Babu,
->>>
->>> On 3/2/2023 12:24 PM, Babu Moger wrote:
->>>> The resctrl task assignment for MONITOR or CONTROL group needs to be
->>>> done one at a time. For example:
->>>>
->>>>   $mount -t resctrl resctrl /sys/fs/resctrl/
->>>>   $mkdir /sys/fs/resctrl/clos1
->>>>   $echo 123 > /sys/fs/resctrl/clos1/tasks
->>>>   $echo 456 > /sys/fs/resctrl/clos1/tasks
->>>>   $echo 789 > /sys/fs/resctrl/clos1/tasks
->>>>
->>>> This is not user-friendly when dealing with hundreds of tasks. Also,
->>>> there is a syscall overhead for each command executed from user space.
->>>
->>> To support this change it may also be helpful to add that moving tasks take the
->>> mutex so attempting to move tasks in parallel will not achieve a significant
->>> performance gain.
->>
->> Agree. It may not be significant performance gain.  Will remove this line. 
-> 
-> It does not sound as though you are actually responding to my comment.
+Earlier faulting in the page because the kernel is writing the token at bas=
+e?
 
-I am confused. I am already saying there is syscall overhead for each
-command if we move the tasks one by one. Now do you want me to add "moving
-tasks take the mutex so attempting to move tasks in parallel will not
-achieve a significant performance gain".
+>
+> >
+> > >
+> > > >
+> > > > In case of x86, Why need for two ways and why not always have a
+> > > > token
+> > > > at the bottom.
+> > > > The way x86 is going, user mode is responsible for establishing
+> > > > shadow stack and thus
+> > > > whenever shadow stack is created then if x86 kernel
+> > > > implementation
+> > > > always place a token
+> > > > at the base/bottom.
+> > >
+> > > There was also some discussion recently of adding a token AND an
+> > > end of
+> > > stack marker, as a potential solution for backtracing in ucontext
+> > > stacks. In this case it could cause an ABI break to just start
+> > > adding
+> > > the end of stack marker where the token was, and so would require a
+> > > new
+> > > map_shadow_stack flag.
+> >
+> > Was this discussed why restore token itself can't be used as marker
+> > for
+> > end of stack (if we assume there is always going to be one at the
+> > bottom).
+> > It's a unique value. An address pointing to itself.
+>
+> I thought the same thing at first, but it gets clobbered during the
+> pivot and push.
 
-It is contradictory, So, I wanted to remove the line about performance.
-Did I still miss something?
+aah I remember. It was changed from savessp/rstorssp pair to
+rstorssp/saveprevssp to follow the `make before break` model.
 
-> 
->>>> --- a/Documentation/x86/resctrl.rst
->>>> +++ b/Documentation/x86/resctrl.rst
->>>> @@ -292,13 +292,20 @@ All groups contain the following files:
->>>>  "tasks":
->>>>  	Reading this file shows the list of all tasks that belong to
->>>>  	this group. Writing a task id to the file will add a task to the
->>>> -	group. If the group is a CTRL_MON group the task is removed from
->>>> +	group. Multiple tasks can be assigned together in one command by
->>>> +	inputting the tasks separated by commas. Tasks will be assigned
->>>
->>> How about "tasks separated" -> "task ids separated" or "by inputting the tasks
->>> separated by commas" -> "by separating the task ids with commas"
->>
->>
->> Will change it to " Multiple tasks can be assigned together in one command by separating the task ids with commas."
-> 
-> I would drop the "together" since it implies that this is
-> somehow atomic. It will also improve reading by using consistent terminology -
-> note how the text switches from "add" to "assign". Something like
-> "Multiple tasks can be added by separating the task ids with commas." I think
-> using "command" is confusing since what is actually done is writing
-> text to a file.
+>
+> >
+> > >
+> > > >
+> > > > Now user mode can do following:--
+> > > >   - If it has access to WRSS, it can sure go ahead and create a
+> > > > token
+> > > > of its choosing and
+> > > >     overwrite kernel created token. and then do RSTORSSP on it's
+> > > > own
+> > > > created token.
+> > > >
+> > > >   - If it doesn't have access to WRSS (and dont need to create
+> > > > its
+> > > > own token), it can do
+> > > >     RSTORSSP on this. As soon as it does, no other thread in
+> > > > process
+> > > > can restore to it.
+> > > >     On `fork`, you get the same un-restorable token.
+> > > >
+> > > > So why not always have a token at the bottom.
+> > > > This is my plan for riscv implementation as well (to have a token
+> > > > at
+> > > > the bottom)
+> > > >
+> > > > >
+> > > > > The other thing is: should shadow stack memory creation be
+> > > > > tightly
+> > > > > controlled? For example in x86 we limit this to anonymous
+> > > > > memory,
+> > > > > etc.
+> > > > > Some reasons for this are x86 specific, but some are not. So if
+> > > > > we
+> > > > > disallow most of the options why allow the interface to take
+> > > > > them?
+> > > > > And
+> > > > > then you are in the position of carefully maintaining a list of
+> > > > > not-
+> > > > > allowed options instead letting a list of allowed options sit
+> > > > > there.
+> > > >
+> > > > I am new to linux kernel and thus may be not able to follow the
+> > > > argument of
+> > > > limiting to anonymous memory.
+> > > >
+> > > > Why is limiting it to anonymous memory a problem. IIRC, ARM's
+> > > > PROT_MTE is applicable
+> > > > only to anonymous memory. I can probably find few more examples.
+> > >
+> > > Oh I see, they have a special arch VMA flag VM_MTE_ALLOWED that
+> > > only
+> > > gets set if all the rules are followed. Then PROT_MTE can only be
+> > > set
+> > > on that to set VM_MTE. That is kind of nice because certain other
+> > > special situations can choose to support it.
+> >
+> > That's because MTE is different. It allows to assign tags to existing
+> > virtual memory. So one need to know whether a memory can have tags
+> > assigned.
+> >
+> > >
+> > > It does take another arch vma flag though. For x86 I guess I would
+> > > need
+> > > to figure out how to squeeze VM_SHADOW_STACK into other flags to
+> > > have a
+> > > free flag to use the same method. It also only supports mprotect()
+> > > and
+> > > shadow stack would only want to support mmap(). And you still have
+> > > the
+> > > initialization stuff to plumb through. Yea, I think the PROT_MTE is
+> > > a
+> > > good thing to consider, but it's not super obvious to me how
+> > > similar
+> > > the logic would be for shadow stack.
+> >
+> > I dont think you need another VMA flag. Memory tagging allows adding
+> > tags
+> > to existing virtual memory.
+>
+> ...need another VMA flag to use the existing mmap arch breakouts in the
+> same way as VM_MTE. Of course changing mmap makes other solutions
+> possible.
+>
+> >  That's why having `mprotect` makes sense for MTE.
+> > In shadow stack case, there is no requirement of changing a shadow
+> > stack
+> > to regular memory or vice-versa.
+>
+> uffd needs mprotect internals. You might take a look at it in regards
+> to your VM_WRITE/mprotect blocking approach for riscv. I was imagining,
+> even if mmap was the syscall, mprotect() would not be blocked in the
+> x86 case at least. The mprotect() blocking is a separate thing than the
+> syscall, right?
 
-Ok. Sure. Will change it.
+Yes, mprotect blocking is a different thing.
+VM_XXX flags are not exposed to mprotect (or any memory mapping API).
+PROT_XXX flags are. On riscv, in my current plan if mprotect or mmap
+specifies PROT_WRITE (no PROT_READ),
+It'll be mapped to `VM_READ | VM_WRITE` on vma flags (this is to make
+sure we don't break compat with existing user code which has
+been using only PROT_WRITE)
 
-> 
-> ...
-> 
->>>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->>>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->>>> @@ -683,16 +683,34 @@ static ssize_t rdtgroup_tasks_write(struct
->>> kernfs_open_file *of,
->>>>  				    char *buf, size_t nbytes, loff_t off)  {
->>>>  	struct rdtgroup *rdtgrp;
->>>> +	char *pid_str;
->>>>  	int ret = 0;
->>>>  	pid_t pid;
->>>>
->>>> -	if (kstrtoint(strstrip(buf), 0, &pid) || pid < 0)
->>>> +	/* Valid input requires a trailing newline */
->>>> +	if (nbytes == 0 || buf[nbytes - 1] != '\n')
->>>>  		return -EINVAL;
->>>
->>> The resctrl files should be seen as user space API. With the above change you
->>> take an interface that did not require a newline and dictate that it should have
->>> a trailing newline. How convinced are you that this does not break any current
->>> user space scripts or applications? Why does this feature require a trailing
->>> newline?
->>
->> I have tested these changes with intel_cmt_cat tool. It didn’t have any problems. 
->> We are already doing newline check for few other inputs.
-> 
-> You tested this with the _one_ user space tool that you use. This is not sufficient
-> to be convincing that this change has no impact. I do not believe that it is a valid
-> argument that other inputs do a newline check. This input never required a newline
-> check and it is not clear why this change now requires it. It seems that this is an
-> unnecessary new requirement that runs the risk of breaking an existing application.
-> 
-> I would like to ask again: How convinced are you that this does not break _any_ current
-> user space scripts or applications? Why does this feature require a trailing
-> newline?
+If PROT_SHADOWSTACK (new protection flag) is specified, it'll be
+mapped to `VM_WRITE` on the vma_flag.
 
-I do not know of any other tool using resctrl fs.
-So, you want me to drop the newline requirement for this. I can try that.
-Will let you know how it goes.
+Yes I am aware of uffd. I intend to handle it the same way I am
+handling the fork of riscv shadow stack.
+core-mm write protect checks if VM_WRiTE is specified it'll convert
+PTE encodings to read-only.
+uffd for regular memory should work as it is. In case if someone was
+monitoring shadow stack memory, following could occur
+
+1) A write happens on shadow stack memory, a store page fault would occur.
+2) A read happens, this would be allowed.
+3) A shadow stack load / store happens, a store access fault would occur.
+
+Case 1 and 3 are reported to the kernel and it can make sure the uffd
+monitor is reported about it.
+
+Was there a specific concern here with respect to uffd and x86 shadow stack=
+?
+
+>
+> >
+> > All that's needed to change is `mmap`. `mprotect` should fail.
+> > Syscall
+> > approach gives that benefit by default because there is no protection
+> > flag
+> > for shadow stack.
+> >
+> > I was giving example that any feature which gives new meaning to
+> > virtual memory
+> > has been able to work with existing memory mapping APIs without the
+> > need of new
+> > system call (including whether you're dealing with anonymous memory).
+> >
+> > >
+> > > The question I'm asking though is, not "can mmap code and rules be
+> > > changed to enforce the required limitations?". I think it is yes.
+> > > But
+> > > the question is "why is that plumbing better than a new syscall?".
+> > > I
+> > > guess to get a better idea, the mmap solution would need to get
+> > > POCed.
+> > > I had half done this at one point, but abandoned the approach.
+> > >
+> > > For your question about why limit it, the special x86 case is the
+> > > Dirty=3D1,Write=3D0 PTE bit combination for shadow stacks. So for
+> > > shadow
+> > > stack you could have some confusion about whether a PTE is actually
+> > > dirty for writeback, etc. I wouldn't say it's known to be
+> > > impossible to
+> > > do MAP_SHARED, but it has not been fully analyzed enough to know
+> > > what
+> > > the changes would be. There were some solvable concrete issues that
+> > > tipped the scale as well. It was also not expected to be a common
+> > > usage, if at all.
+> >
+> > I am not sure how confusion of D=3D1,W=3D0 is not completely taken away
+> > by
+> > syscall approach. It'll always be there. One can only do things to
+> > minimize
+> > the chances.
+> >
+> > In case of syscall approach, syscall makes sure that
+> >
+> > `flags =3D MAP_ANONYMOUS | MAP_PRIVATE | MAP_ABOVE4G`
+> >
+> > This can be easily checked in arch specific landing function for
+> > mmap.
+>
+> Right, this is why I listed two types of things in the mix here. The
+> memory features supported, and what the syscall is. You asked why limit
+> the memory features, so that is the explanation.
+>
+> >
+> >
+> > Additionally, If you always have the token at base, you don't need
+> > that ABI
+> > between user and kernel.
+> >
+> >
+> > >
+> > > The non-x86, general reasons for it, are for a smaller benefit. It
+> > > blocks a lot of ways shadow stack memory could be written to. Like
+> > > say
+> > > you have a memory mapped writable file, and you also map it shadow
+> > > stack. So it has better security properties depending on what your
+> > > threat model is.
+> >
+> > I wouldn't say any architecture should allow such primitives. It kind
+> > of defeats
+> > the purpose for shadow stack. Yes if some sort of secure memory is
+> > needed, there may
+> > be new ISA extensions for that.
+>
+> Yea, seems reasonable to prevent this regardless of the extra x86
+> reasons, if that is what you are saying. It depends on people's threat
+> models (as always in security).
+>
+> >
+> > >
+> > > >
+> > > > Eventually syscall will also go ahead and use memory management
+> > > > code
+> > > > to
+> > > > perform mapping. So I didn't understand the reasoning here. The
+> > > > way
+> > > > syscall
+> > > > can limit it to anonymous memory, why mmap can't do the same if
+> > > > it
+> > > > sees
+> > > > PROT_SHADOWSTACK.
+> > > >
+> > > > >
+> > > > > The only benefit I've heard is that it saves creating a new
+> > > > > syscall,
+> > > > > but it also saves several MAP_ flags. That, and that the RFC
+> > > > > for
+> > > > > riscv
+> > > > > did a PROT_SHADOW_STACK to start. So, yes, two people asked the
+> > > > > same
+> > > > > question, but I'm still not seeing any benefits. Can you give
+> > > > > the
+> > > > > pros
+> > > > > and cons please?
+> > > >
+> > > > Again the way syscall will limit it to anonymous memory, Why mmap
+> > > > can't do same?
+> > > > There is precedence for it (like PROT_MTE is applicable only to
+> > > > anonymous memory)
+> > > >
+> > > > So if it can be done, then why introduce a new syscall?
+> > > >
+> > > > >
+> > > > > BTW, in glibc map_shadow_stack is called from arch code. So I
+> > > > > think
+> > > > > userspace wise, for this to affect other architectures there
+> > > > > would
+> > > > > need
+> > > > > to be some code that could do things generically, with somehow
+> > > > > the
+> > > > > shadow stack pivot abstracted but the shadow stack allocation
+> > > > > not.
+> > > >
+> > > > Agreed, yes it can be done in a way where it won't put tax on
+> > > > other
+> > > > architectures.
+> > > >
+> > > > But what about fragmentation within x86. Will x86 always choose
+> > > > to
+> > > > use system call
+> > > > method map shadow stack. If future re-factor results in x86 also
+> > > > use
+> > > > `mmap` method.
+> > > > Isn't it a mess for x86 glibc to figure out what to do; whether
+> > > > to
+> > > > use system call
+> > > > or `mmap`?
+> > > >
+> > >
+> > > Ok, so this is the downside I guess. What happens if we want to
+> > > support
+> > > the other types of memory in the future and end up using mmap for
+> > > this?
+> > > Then we have 15-20 lines of extra syscall wrapping code to maintain
+> > > to
+> > > support legacy.
+> > >
+> > > For the mmap solution, we have the downside of using extra MAP_
+> > > flags,
+> > > and *some* amount of currently unknown vm_flag and address range
+> > > logic,
+> > > plus mmap arch breakouts to add to core MM. Like I said earlier,
+> > > you
+> > > would need to POC it out to see how bad that looks and get some
+> > > core MM
+> > > feedback on the new type of MAP flag usage. But, syscalls being
+> > > pretty
+> > > straightforward, it would probably be *some* amount of added
+> > > complexity
+> > > _now_ to support something that might happen in the future. I'm not
+> > > seeing either one as a landslide win.
+> > >
+> > > It's kind of an eternal software design philosophical question,
+> > > isn't
+> > > it? How much work should you do to prepare for things that might be
+> > > needed in the future? From what I've seen the balance in the kernel
+> > > seems to be to try not to paint yourself in to an ABI corner, but
+> > > otherwise let the kernel evolve naturally in response to real
+> > > usages.
+> > > If anyone wants to correct this, please do. But otherwise I think
+> > > the
+> > > new syscall is aligned with that.
+> > >
+> > > TBH, you are making me wonder if I'm missing something. It seems
+> > > you
+> > > strongly don't prefer this approach, but I'm not hearing any huge
+> > > potential negative impacts. And you also say it won't tax the riscv
+> > > implementation. Is this just something just smells bad here? Or it
+> > > would shrink the riscv series?
+> >
+> > No you're not missing anything. It's just wierdness of adding a
+> > system call
+> > which enforces certain MAP_XX flags and pretty much mapping API.
+> > And difference between architectures on how they will create shadow
+> > stack. +
+> > if x86 chooses to use `mmap` in future, then there is ugliness in
+> > user mode to
+> > decide which method to choose.
+>
+> Ok, I think I will leave it given it's entirely in arch/x86. It just
+> got some special error codes in the other thread today too.
+>
+> >
+> > And yes you got it right, to some extent there is my own selfishness
+> > playing out
+> > as well here to reduce riscv patches.
+> >
+>
+> Feel free to join the map_shadow_stack party. :)
 
 
-> 
->>
->>>
->>>> +
->>>> +	buf[nbytes - 1] = '\0';
->>>> +
->>>>  	rdtgrp = rdtgroup_kn_lock_live(of->kn);
->>>>  	if (!rdtgrp) {
->>>>  		rdtgroup_kn_unlock(of->kn);
->>>>  		return -ENOENT;
->>>>  	}
->>>> +
->>>> +next:
->>>> +	if (!buf || buf[0] == '\0')
->>>> +		goto unlock;
->>>> +
->>>> +	pid_str = strim(strsep(&buf, ","));
->>>> +
->>>
->>> Could lib/cmdline.c:get_option() be useful?
->>
->> Yes. We could that also. May not be required for the simple case like this.
-> 
-> Please keep an eye out for how much of it you end up duplicating ....
-
-Using the get_options will require at least two calls(one to get the
-length and then read the integers). Also need to allocate the integers
-array dynamically. That is lot code if we are going that route.
-
-> 
->>>> +		ret = -EINVAL;
->>>> +		goto unlock;
->>>> +	}
->>>> +
->>>>  	rdt_last_cmd_clear();
->>>>
->>>>  	if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKED || @@ -703,6
->>> +721,10 @@
->>>> static ssize_t rdtgroup_tasks_write(struct kernfs_open_file *of,
->>>>  	}
->>>>
->>>>  	ret = rdtgroup_move_task(pid, rdtgrp, of);
->>>> +	if (ret)
->>>> +		goto unlock;
->>>> +	else
->>>> +		goto next;
->>>>
->>>
->>> The documentation states "The failure details will be logged in
->>> resctrl/info/last_cmd_status file." but I do not see how this is happening here.
->>> From what I can tell this implementation does not do anything beyond what
->>> last_cmd_status already does so any special mention in the docs is not clear to
->>> me. The cover letter stated "Added pid in last_cmd_status when applicable." - it
->>> sounded as though last_cmd_status would contain the error with the pid that
->>> encountered the error but I do not see this happening here.
->>
->> You are right we are not doing anything special here. pid failures error was already there.
->> I will have to change the text here.
-> 
-> What do you mean with "pid failures error was already there"? From what
-> I understand your goal is to communicate to the user which pid
-> encountered the error and I do not see that done. How will user know
-> which pid encountered a failure?
-
-We only have couple of failures to take here. Those failures are already
-handled by rdtgroup_move_task. It logs the pid for failure(using
-rdt_last_cmd_printf).
-
-I can say "The failure pid will be logged in
-/sys/fs/resctrl/info/last_cmd_status file."
--- 
-Thanks
-Babu Moger
+I am warming up to it :-)
