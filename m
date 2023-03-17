@@ -2,144 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 954A3C6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 09:11:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D57B0C74A5B
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 10:09:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231162AbjCQJLp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 05:11:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39392 "EHLO
+        id S229784AbjCQKJD convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 06:09:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231140AbjCQJLZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 05:11:25 -0400
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050:0:465::101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33E7E3A81;
-        Fri, 17 Mar 2023 02:10:56 -0700 (PDT)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4PdJJS0wgpz9sTs;
-        Fri, 17 Mar 2023 10:10:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1679044248;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tn5PncTOyWtxRza5q2TsQE5fEAu3fMK2xK+AqAvZbho=;
-        b=Y+VziNywRfRo0p0YxCt9vAJJJkXWTB2oYFB6IXyyxVPUkQuatIDv/40S0p0S9A+Q/lhVgT
-        lTxCKmh9gCbe75OH5I4nJUCRqn77pF4gV6FN92wQfUOWOqsVXKsje+5oxU1c1/zgnCOMq0
-        H0/SEULmLieHoXsdA7AiXQw5TIVjIloXie9iKgzbO3DWKiHRZAW2zFC7/k/0cf5SDBIaxd
-        nZzNF9GokuFZdw3km6HgWQ/y173AXrLXCZH21M0OtSHKfM89JRn2d8JFeoJSSBFObO2uFa
-        YNsQn9WXl9Yn94hgddXN/Duaf6YdhQ6xYPVDouaLK+AMdLBvBmi0XMg7ZXgF9Q==
-Message-ID: <12626002-98db-7702-598e-28ea4a3e5061@mailbox.org>
-Date:   Fri, 17 Mar 2023 10:10:44 +0100
-MIME-Version: 1.0
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-Content-Language: de-CH-frami, en-CA
-To:     Sebastian Wick <sebastian.wick@redhat.com>,
-        Rob Clark <robdclark@gmail.com>
-Cc:     Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        with ESMTP id S229651AbjCQKJC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 06:09:02 -0400
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71CFE7A8A;
+        Fri, 17 Mar 2023 03:08:57 -0700 (PDT)
+Received: from ip4d1634d3.dynamic.kabel-deutschland.de ([77.22.52.211] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <heiko@sntech.de>)
+        id 1pd70n-0000QK-7c; Fri, 17 Mar 2023 11:08:37 +0100
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Evan Green <evan@rivosinc.com>
+Cc:     slewis@rivosinc.com, Conor Dooley <conor@kernel.org>,
+        vineetg@rivosinc.com, Evan Green <evan@rivosinc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrew Bresticker <abrestic@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Atish Patra <atishp@rivosinc.com>,
+        Celeste Liu <coelacanthus@outlook.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        intel-gfx@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Matt Turner <mattst88@gmail.com>,
-        freedreno@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <20230308155322.344664-1-robdclark@gmail.com>
- <20230308155322.344664-2-robdclark@gmail.com> <ZAtQspuFjPtGy7ze@gmail.com>
- <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
- <ZBHNvT3BLgS3qvV5@gmail.com>
- <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
- <ZBLg0t0tTVvuPuiJ@gmail.com>
- <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
- <CA+hFU4xbssR+=Sf4ia5kPdsSb4y9SQUd4nx_2p1Szcbtna28CA@mail.gmail.com>
-From:   =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <CA+hFU4xbssR+=Sf4ia5kPdsSb4y9SQUd4nx_2p1Szcbtna28CA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 8afd7b6bd4c7689e5ec
-X-MBO-RS-META: 7n4co8ucek6ryf9zcbhkmobgbkmu6uzh
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Tsukasa OI <research_trasio@irq.a4lg.com>,
+        Wei Fu <wefu@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 4/6] RISC-V: hwprobe: Support probing of misaligned access
+ performance
+Date:   Fri, 17 Mar 2023 11:08:36 +0100
+Message-ID: <1846748.tdWV9SEqCh@diego>
+In-Reply-To: <20230314183220.513101-5-evan@rivosinc.com>
+References: <20230314183220.513101-1-evan@rivosinc.com>
+ <20230314183220.513101-5-evan@rivosinc.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/16/23 23:22, Sebastian Wick wrote:
-> On Thu, Mar 16, 2023 at 5:29 PM Rob Clark <robdclark@gmail.com> wrote:
->> On Thu, Mar 16, 2023 at 2:26 AM Jonas Ådahl <jadahl@gmail.com> wrote:
->>> On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
->>>> On Wed, Mar 15, 2023 at 6:53 AM Jonas Ådahl <jadahl@gmail.com> wrote:
->>>>> On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
->>>>>> On Fri, Mar 10, 2023 at 7:45 AM Jonas Ådahl <jadahl@gmail.com> wrote:
->>>>>>>
->>>>>>>> + *
->>>>>>>> + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline.
->>>>>>>> + * The deadline hint provides a way for the waiting driver, or userspace, to
->>>>>>>> + * convey an appropriate sense of urgency to the signaling driver.
->>>>>>>> + *
->>>>>>>> + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for userspace
->>>>>>>> + * facing APIs).  The time could either be some point in the future (such as
->>>>>>>> + * the vblank based deadline for page-flipping, or the start of a compositor's
->>>>>>>> + * composition cycle), or the current time to indicate an immediate deadline
->>>>>>>> + * hint (Ie. forward progress cannot be made until this fence is signaled).
->>>>>>>
->>>>>>> Is it guaranteed that a GPU driver will use the actual start of the
->>>>>>> vblank as the effective deadline? I have some memories of seing
->>>>>>> something about vblank evasion browsing driver code, which I might have
->>>>>>> misunderstood, but I have yet to find whether this is something
->>>>>>> userspace can actually expect to be something it can rely on.
->>>>>>
->>>>>> I guess you mean s/GPU driver/display driver/ ?  It makes things more
->>>>>> clear if we talk about them separately even if they happen to be the
->>>>>> same device.
->>>>>
->>>>> Sure, sorry about being unclear about that.
->>>>>
->>>>>>
->>>>>> Assuming that is what you mean, nothing strongly defines what the
->>>>>> deadline is.  In practice there is probably some buffering in the
->>>>>> display controller.  For ex, block based (including bandwidth
->>>>>> compressed) formats, you need to buffer up a row of blocks to
->>>>>> efficiently linearize for scanout.  So you probably need to latch some
->>>>>> time before you start sending pixel data to the display.  But details
->>>>>> like this are heavily implementation dependent.  I think the most
->>>>>> reasonable thing to target is start of vblank.
->>>>>
->>>>> The driver exposing those details would be quite useful for userspace
->>>>> though, so that it can delay committing updates to late, but not too
->>>>> late. Setting a deadline to be the vblank seems easy enough, but it
->>>>> isn't enough for scheduling the actual commit.
->>>>
->>>> I'm not entirely sure how that would even work.. but OTOH I think you
->>>> are talking about something on the order of 100us?  But that is a bit
->>>> of another topic.
->>>
->>> Yes, something like that. But yea, it's not really related. Scheduling
->>> commits closer to the deadline has more complex behavior than that too,
->>> e.g. the need for real time scheduling, and knowing how long it usually
->>> takes to create and commit and for the kernel to process.
+Hi Evan,
+
+Am Dienstag, 14. M�rz 2023, 19:32:18 CET schrieb Evan Green:
+> This allows userspace to select various routines to use based on the
+> performance of misaligned access on the target hardware.
+
+I really like this implementation.
+
+Also interesting that T-Head actually has a fast unaligned access.
+Maybe that should be part of the commit message (including were
+this information comes from)
+
+
+> Co-developed-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Evan Green <evan@rivosinc.com>
 > 
-> Vblank can be really long, especially with VRR where the additional
-> time you get to finish the frame comes from making vblank longer.
-> Using the start of vblank as a deadline makes VRR useless.
+> ---
+> 
+> Changes in v4:
+>  - Add newlines to CPUPERF_0 documentation (Conor)
+>  - Add UNSUPPORTED value (Conor)
+>  - Switched from DT to alternatives-based probing (Rob)
+>  - Crispen up cpu index type to always be int (Conor)
+> 
+> Changes in v3:
+>  - Have hwprobe_misaligned return int instead of long.
+>  - Constify cpumask pointer in hwprobe_misaligned()
+>  - Fix warnings in _PERF_O list documentation, use :c:macro:.
+>  - Move include cpufeature.h to misaligned patch.
+>  - Fix documentation mismatch for RISCV_HWPROBE_KEY_CPUPERF_0 (Conor)
+>  - Use for_each_possible_cpu() instead of NR_CPUS (Conor)
+>  - Break early in misaligned access iteration (Conor)
+>  - Increase MISALIGNED_MASK from 2 bits to 3 for possible UNSUPPORTED future
+>    value (Conor)
+> 
+> Changes in v2:
+>  - Fixed logic error in if(of_property_read_string...) that caused crash
+>  - Include cpufeature.h in cpufeature.h to avoid undeclared variable
+>    warning.
+>  - Added a _MASK define
+>  - Fix random checkpatch complaints
+> 
+>  Documentation/riscv/hwprobe.rst       | 21 ++++++++++++++++++++
+>  arch/riscv/errata/thead/errata.c      |  9 +++++++++
+>  arch/riscv/include/asm/alternative.h  |  5 +++++
+>  arch/riscv/include/asm/cpufeature.h   |  2 ++
+>  arch/riscv/include/asm/hwprobe.h      |  2 +-
+>  arch/riscv/include/uapi/asm/hwprobe.h |  7 +++++++
+>  arch/riscv/kernel/alternative.c       | 19 ++++++++++++++++++
+>  arch/riscv/kernel/cpufeature.c        |  3 +++
+>  arch/riscv/kernel/smpboot.c           |  1 +
+>  arch/riscv/kernel/sys_riscv.c         | 28 +++++++++++++++++++++++++++
+>  10 files changed, 96 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
+> index 945d44683c40..9f0dd62dcb5d 100644
+> --- a/Documentation/riscv/hwprobe.rst
+> +++ b/Documentation/riscv/hwprobe.rst
+> @@ -63,3 +63,24 @@ The following keys are defined:
+>  
+>    * :c:macro:`RISCV_HWPROBE_IMA_C`: The C extension is supported, as defined
+>      by version 2.2 of the RISC-V ISA manual.
+> +
+> +* :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
+> +  information about the selected set of processors.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNKNOWN`: The performance of misaligned
+> +    accesses is unknown.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_EMULATED`: Misaligned accesses are
+> +    emulated via software, either in or below the kernel.  These accesses are
+> +    always extremely slow.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned accesses are supported
+> +    in hardware, but are slower than the cooresponding aligned accesses
+> +    sequences.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned accesses are supported
+> +    in hardware and are faster than the cooresponding aligned accesses
+> +    sequences.
+> +
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNSUPPORTED`: Misaligned accesses are
+> +    not supported at all and will generate a misaligned address fault.
+> diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/errata.c
+> index fac5742d1c1e..f41a45af5607 100644
+> --- a/arch/riscv/errata/thead/errata.c
+> +++ b/arch/riscv/errata/thead/errata.c
+> @@ -10,7 +10,9 @@
+>  #include <linux/uaccess.h>
+>  #include <asm/alternative.h>
+>  #include <asm/cacheflush.h>
+> +#include <asm/cpufeature.h>
+>  #include <asm/errata_list.h>
+> +#include <asm/hwprobe.h>
+>  #include <asm/patch.h>
+>  #include <asm/vendorid_list.h>
+>  
+> @@ -108,3 +110,10 @@ void __init_or_module thead_errata_patch_func(struct alt_entry *begin, struct al
+>  	if (stage == RISCV_ALTERNATIVES_EARLY_BOOT)
+>  		local_flush_icache_all();
+>  }
+> +
+> +void thead_feature_probe_func(unsigned int cpu, unsigned long archid,
+> +			      unsigned long impid)
+> +{
+> +	if ((archid == 0) && (impid == 0))
+> +		per_cpu(misaligned_access_speed, cpu) = RISCV_HWPROBE_MISALIGNED_FAST;
 
-Not really. We normally still want to aim for start of vblank with VRR, which would result in the maximum refresh rate. Missing that target just incurs less of a penalty than with fixed refresh rate.
+When looking at this function I 'm wondering if we also want to expose
+the active erratas somehow (not in this patch of course, just in general)
 
 
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+Heiko
+
 
