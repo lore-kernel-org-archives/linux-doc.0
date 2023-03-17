@@ -2,103 +2,172 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5CD2C7618A
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 19:07:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43392C6FD1D
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 19:26:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229908AbjCQTHt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 15:07:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34992 "EHLO
+        id S230112AbjCQT0Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 15:26:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjCQTHs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 15:07:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DC4698870;
-        Fri, 17 Mar 2023 12:07:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 04570612D1;
-        Fri, 17 Mar 2023 19:07:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 202BBC433D2;
-        Fri, 17 Mar 2023 19:07:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679080066;
-        bh=Gsdncf/qiu/s2AG5ocFRXuKmxU5etz+BAA6JXthNkTk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=MFBsmnKzMjA/SiIMAP6+w1lyl6U6PLUM+Tr45QLlarriW2iEsiPeBWtnWCDPxwCqi
-         +h30c+vJ2b7w0fpMncEnnIENUBn/KCLqnGAHgRx6xPpGmiiqqFIVoDsdZ03QJCYtDj
-         sbSuS9yp7fq8/vB8XjdqbN6qKMBg4uPlH330Qe1EuRQ7+/N22c13fU5fc3YNgqwW0d
-         43MR3D4QsaM3t61vXj/+RFNvdmcmch4QtWbjw9pzyK9XcxrrY7rT1yxgHzz+DO21Qe
-         HKoFfpDR4jy3tCbm5MjXlkrIecOugh8XT1WPe+V7oNcfoSvBxgI2Kf4Om6z0gzJuIF
-         3kGO5nU55WPqQ==
-Date:   Fri, 17 Mar 2023 12:07:44 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc:     =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        Michael Walle <michael@walle.cc>, Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        thomas.petazzoni@bootlin.com, Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com, Minghao Chi <chi.minghao@zte.com.cn>,
-        Jie Wang <wangjie125@huawei.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Sean Anderson <sean.anderson@seco.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Marco Bonelli <marco@mebeim.net>,
-        Max Georgiev <glipus@gmail.com>
-Subject: Re: [PATCH v3 3/5] net: Let the active time stamping layer be
- selectable.
-Message-ID: <20230317120744.5b7f1666@kernel.org>
-In-Reply-To: <20230317152150.qahrr6w5x4o3eysz@skbuf>
-References: <20230308135936.761794-4-kory.maincent@bootlin.com>
-        <20230308135936.761794-4-kory.maincent@bootlin.com>
-        <20230308230321.liw3v255okrhxg6s@skbuf>
-        <20230310114852.3cef643d@kmaincent-XPS-13-7390>
-        <20230310113533.l7flaoli7y3bmlnr@skbuf>
-        <b4ebfd3770ffa5ad1233d2b5e79499ee@walle.cc>
-        <20230310131529.6bahmi4obryy5dsx@soft-dev3-1>
-        <20230310164451.ls7bbs6pdzs4m6pw@skbuf>
-        <20230313084059.GA11063@pengutronix.de>
-        <20230316160920.53737d1c@kmaincent-XPS-13-7390>
-        <20230317152150.qahrr6w5x4o3eysz@skbuf>
+        with ESMTP id S229585AbjCQT0X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 15:26:23 -0400
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D624B43458
+        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 12:26:21 -0700 (PDT)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-5416b0ab0ecso112221897b3.6
+        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 12:26:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1679081181;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fDoP7wMOn5QpwBzbN9iej+FeZ8kKaqhVDSnQkP9mPKA=;
+        b=if4Xv7MHtb5r/yx0jJJa7ZCf6eQjI9hJYAxsdQIFhamSCND9oLO8bYH/C2I1hUNeY8
+         1BMlZLqLplLYHXMOHyoHWHhK4KDJObKlGKWpddb0oQRIBHss6GquFZ5dFLsAcM6NYro+
+         pabWPsc5c8HNd6rzXX99ECRdtkqom+eV/fa7fIRLQXScMk7ka8eBFKmzBLBeKeAYCgXz
+         Fo+VHMBQrrJ/j6Msoz1ab/7ZmVPRSyaBZpelmaWMMBlQpNFXaweiJf87AR3+9nefm4Go
+         W8PPE9VHbz+5CAs9WWpzHA+c7oQ78s1CCMbx+v4aqVmba1SLdbQ06c/wt7SrZl86mumM
+         +c2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679081181;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fDoP7wMOn5QpwBzbN9iej+FeZ8kKaqhVDSnQkP9mPKA=;
+        b=D7bg2O5foyjq0UnObtDAcF0IV513ReFZEZoMfhH3C+dHo8v7QqUK5R1T4ONgq9WK9t
+         aYmYSVv7vdGPuqsm+QiX4fhcq2xeeARc5NyR6cQi74bZNAUYPXwUBugPnbv3BvuNSpwz
+         RqKTLn8gaEZET2gOcstKpMzWcipUBnUzYu3Pk6XgTXZj+iU1HbYn3Q9Em9P5su4w1ap4
+         5bOx0BlkAt8MGd7UJd/Bph6ne609S7I93FqeC8nfqh0g0oqASlFkgLFytPl+yaZNAVun
+         Ccioor8ZJ0SkOwvHcfpwWB4+hQxfRzT9Zgdbfoc6E9MPzh01p/gabC116vxBSCpOXZr8
+         czFA==
+X-Gm-Message-State: AO0yUKXPa6JDzAqSAyZa3Ticri0mADok4LSncdR9VAxnpgHCO2tgNsit
+        Gj6hw/BdMKm2Q6KGwZ7n9wFC/RP7Ft6z4UUEO4IASQ==
+X-Google-Smtp-Source: AK7set+myjiUnKVO61LEZiJcudJZOJn6IXxmmQI8lH+wNR24WEkoog27XzLkn1lq3skZj5f0wOGKIvBdFCYchYFCzTo=
+X-Received: by 2002:a81:1904:0:b0:542:927b:1c79 with SMTP id
+ 4-20020a811904000000b00542927b1c79mr2742027ywz.3.1679081180481; Fri, 17 Mar
+ 2023 12:26:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-23-rick.p.edgecombe@intel.com> <CAKC1njQ+resjS-O8vAVLhRfLHEdgta09faEr5zwi1JTNSWK0Fw@mail.gmail.com>
+ <236ae66c-fafb-80e9-d58b-6b18a22071c1@intel.com> <CAKC1njR6WEuXbghupaX6R8LPSVP69yofYNb5+tEp5huHvsroCw@mail.gmail.com>
+ <e9a302a41d68c4886d8d1989438d92eb2a89b922.camel@intel.com>
+In-Reply-To: <e9a302a41d68c4886d8d1989438d92eb2a89b922.camel@intel.com>
+From:   Deepak Gupta <debug@rivosinc.com>
+Date:   Fri, 17 Mar 2023 12:26:08 -0700
+Message-ID: <CAKC1njQL8zNHh35wbpQ71ncqOTdm-L9+sbp9aDmUOHRcqV+Z6A@mail.gmail.com>
+Subject: Re: [PATCH v7 22/41] mm/mmap: Add shadow stack pages to memory accounting
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "Hansen, Dave" <dave.hansen@intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 17 Mar 2023 17:21:50 +0200 Vladimir Oltean wrote:
-> On Thu, Mar 16, 2023 at 04:09:20PM +0100, K=C3=B6ry Maincent wrote:
-> > Was there any useful work that could be continued on managing timestamp=
- through
-> > NDOs. As it seem we will made some change to the timestamp API, maybe i=
-t is a
-> > good time to also take care of this. =20
->=20
-> Not to my knowledge. Yes, I agree that it would be a good time to add an
-> NDO for hwtimestamping (while keeping the ioctl fallback), then
-> transitioning as many devices as we can, and removing the fallback when
-> the transition is complete.
+On Fri, Mar 17, 2023 at 10:42=E2=80=AFAM Edgecombe, Rick P
+<rick.p.edgecombe@intel.com> wrote:
+>
+> On Fri, 2023-03-17 at 10:28 -0700, Deepak Gupta wrote:
+> > On Fri, Mar 17, 2023 at 10:16=E2=80=AFAM Dave Hansen <dave.hansen@intel=
+.com>
+> > wrote:
+> > >
+> > > On 3/17/23 10:12, Deepak Gupta wrote:
+> > > > >   /*
+> > > > > - * Stack area - automatically grows in one direction
+> > > > > + * Stack area
+> > > > >    *
+> > > > > - * VM_GROWSUP / VM_GROWSDOWN VMAs are always private
+> > > > > anonymous:
+> > > > > - * do_mmap() forbids all other combinations.
+> > > > > + * VM_GROWSUP, VM_GROWSDOWN VMAs are always private
+> > > > > + * anonymous. do_mmap() forbids all other combinations.
+> > > > >    */
+> > > > >   static inline bool is_stack_mapping(vm_flags_t flags)
+> > > > >   {
+> > > > > -       return (flags & VM_STACK) =3D=3D VM_STACK;
+> > > > > +       return ((flags & VM_STACK) =3D=3D VM_STACK) || (flags &
+> > > > > VM_SHADOW_STACK);
+> > > >
+> > > > Same comment here. `VM_SHADOW_STACK` is an x86 specific way of
+> > > > encoding a shadow stack.
+> > > > Instead let's have a proxy here which allows architectures to
+> > > > have
+> > > > their own encodings to represent a shadow stack.
+> > >
+> > > This doesn't _preclude_ another architecture from coming along and
+> > > doing
+> > > that, right?  I'd just prefer that shadow stack architecture #2
+> > > comes
+> > > along and refactors this in precisely the way _they_ need it.
+> >
+> > There are two issues here
+> >  - Encoding of shadow stack: Another arch can choose different
+> > encoding.
+> >    And yes, another architecture can come in and re-factor it. But so
+> > much thought and work has been given to x86 implementation to keep
+> >    shadow stack to not impact arch agnostic parts of the kernel. So
+> > why creep it in here.
+> >
+> > - VM_SHADOW_STACK is coming out of the VM_HIGH_ARCH_XX bit position
+> > which makes it arch specific.
+> >
+> >
+>
+> VM_SHADOW_STACK is defined like this (trimmed for clarity):
+> #ifdef CONFIG_X86_USER_SHADOW_STACK
+> # define VM_SHADOW_STACK        VM_HIGH_ARCH_5
+> #else
+> # define VM_SHADOW_STACK        VM_NONE
+> #endif
 
-I believe Max was looking into it - hi Max! Did you make much
-progress? Any code you could share to build on?
+Ok.
+
+>
+> Also, we actually had an is_shadow_stack_mapping(vma) in the past, but
+> it was dropped from other feedback.
+
+looks like I've been late to the party.
+IMHO, that was the right approach.
+
+>
+>
