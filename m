@@ -2,152 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3786DC7618A
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 08:21:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A6CC6FD1D
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 08:23:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230289AbjCQIVb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 04:21:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53898 "EHLO
+        id S230169AbjCQIXN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 04:23:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230044AbjCQIVI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 04:21:08 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE3622CC79;
-        Fri, 17 Mar 2023 01:20:46 -0700 (PDT)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32H7ak6S022063;
-        Fri, 17 Mar 2023 08:19:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Odofb5S5iKcbSwRiPERtF/5jDQN1KT0/kHOd9jsZRgU=;
- b=iYR+q1WYoEz/YDSqifHS0+uJM+A/ikf1sVGG6KF85wZXCX3CjS8WcxwyLonsLqeodyMO
- Vkx0Yenv2N3VkTkdvj6UpfwfvX5uw2XsFFioYBiJD9SHF4UfZDJCMFRXx41Gw7UhOJkz
- rDK7xqOShKaQdQ5sDM/lJuQIiyYBMVbjnnrF0qC22xdTU8q0wLSX4zj09n5mcRRWCrFr
- 4DGh4pj7jRTa9DPad9ralBHrE7Mbs8Sj3FGrefmg3BXq4Rn9rfcNPt913OZCskZ9CnZO
- 8YSmBmR92b4wVKWffQwQ2ygb2FHbF4TDqT2mgqonriIFaGX2Y4Hrpekge7tmdMCrtJR6 /Q== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pcbas9972-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 17 Mar 2023 08:19:39 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32H8JcYl029041
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 17 Mar 2023 08:19:38 GMT
-Received: from [10.233.17.245] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 17 Mar
- 2023 01:19:32 -0700
-Message-ID: <d2ecff94-e608-fcca-f82c-e8e488f4288d@quicinc.com>
-Date:   Fri, 17 Mar 2023 16:19:30 +0800
+        with ESMTP id S230091AbjCQIXI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 04:23:08 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88E11A5E4;
+        Fri, 17 Mar 2023 01:22:35 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id q189so2429925pga.9;
+        Fri, 17 Mar 2023 01:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679041352;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CvZiznDb8feEQFPyw13u7jzCgvHCPleXRdMTnsLV7lw=;
+        b=C8TyryX7x0nOZ97prNCZujblQ48n0MKZf+xrMx4QaLu0I/EHiQXEr9P1ACNGDKEGMl
+         AwaKjtQUhL2sK4kCKib3CImwYzmS8e+Ew83YM5u/6gghKH1lTImrrwiTnWoCSy42BVIk
+         nfT0kyS9bwedBVEzkf9jffVgYxAktc2x4tLFUEDR+gr6QSRcIfrHCbqRELGn+UsgrljO
+         VFsvNInVq0rQocz9c1jqHK/fiAhYib6Lf4T4mi0UxtvmqVm/2catXHsNRqlHB9qaKEkA
+         E7BT0U359ir9fFvyLffQa3FuWq9IMF/7rPCHlDzavP8nVh0XdNEzLO7kfO4FBlzLIHAN
+         qy+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679041352;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CvZiznDb8feEQFPyw13u7jzCgvHCPleXRdMTnsLV7lw=;
+        b=CjviwO4+vc8fGfOdGsE/NFTooJunLfsxAxL9/T/6McAXNfWALyiCJSKJuvos9UAxdv
+         XmwiXFBKIzBCmnkVVZgbI5ZU2p/9jcavHKQehXMPFO7XVsYN8yIZ8XGhgAqAerx/BBGw
+         XsKOY9RW1LjIZOfiPRQ98M96PP9zfSNs6thNwvsX3p/a3ubjtuDBNcxIFOPrZnUCPHHJ
+         wgcoWrRlFxZaji8BHKMrdm/k/iv+Wy9BpweHbaYGEkTjmo2ki5Qnd+Frjwi3N19kTerl
+         ku7eZnH/qgUdrr/fNAR0wPFypWbXDvF1YDmEJvT2QAXIdL88a1SKldC+5ddnqkUAzMED
+         anRg==
+X-Gm-Message-State: AO0yUKVWpYCw9T1i72nfaxyc3bVFSlC3Zs7Ac0OIS2/mLVssCQXSVoy3
+        d/UEeDMgiOGkixtycO5y6ho=
+X-Google-Smtp-Source: AK7set/FA59a7uWFIVnTi0ZBQn89n77yG+1RamBNmOtXukjVceklC42Q/lvsQUOox1U2EBkHEC24vg==
+X-Received: by 2002:aa7:9830:0:b0:625:55e5:afe4 with SMTP id q16-20020aa79830000000b0062555e5afe4mr6021026pfl.26.1679041352007;
+        Fri, 17 Mar 2023 01:22:32 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-2.three.co.id. [180.214.232.2])
+        by smtp.gmail.com with ESMTPSA id s24-20020aa78298000000b005d4360ed2bbsm964214pfm.197.2023.03.17.01.22.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Mar 2023 01:22:31 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 9737C106581; Fri, 17 Mar 2023 15:22:28 +0700 (WIB)
+Date:   Fri, 17 Mar 2023 15:22:28 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        akpm@linux-foundation.org
+Cc:     linux-kernel@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] ELF: document some de-facto PT_* ABI quirks
+Message-ID: <ZBQjRLiXOwfmoIs+@debian.me>
+References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
+ <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v1 2/3] dt-bindings: arm: Add Coresight Dummy Trace YAML
- schema
-To:     Rob Herring <robh@kernel.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        <linux-kernel@vger.kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>, <linux-doc@vger.kernel.org>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        "Palmer Dabbelt" <palmer@dabbelt.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        <coresight@lists.linaro.org>,
-        "Trilok Soni" <quic_tsoni@quicinc.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>, <devicetree@vger.kernel.org>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        "Albert Ou" <aou@eecs.berkeley.edu>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>
-References: <20230316032005.6509-1-quic_hazha@quicinc.com>
- <20230316032005.6509-3-quic_hazha@quicinc.com>
- <167897435275.2729718.16512739524975963906.robh@kernel.org>
-Content-Language: en-US
-From:   Hao Zhang <quic_hazha@quicinc.com>
-In-Reply-To: <167897435275.2729718.16512739524975963906.robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: KT0SzSRxfq3sZW8Zt9NQP-Gm5Hd8OwZ9
-X-Proofpoint-ORIG-GUID: KT0SzSRxfq3sZW8Zt9NQP-Gm5Hd8OwZ9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-17_04,2023-03-16_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
- mlxlogscore=777 mlxscore=0 malwarescore=0 bulkscore=0 phishscore=0
- spamscore=0 suspectscore=0 clxscore=1011 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303170056
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="xx//7xiLGuGFtrC6"
+Content-Disposition: inline
+In-Reply-To: <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--xx//7xiLGuGFtrC6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 3/16/2023 9:53 PM, Rob Herring wrote:
-> 
-> On Thu, 16 Mar 2023 11:20:04 +0800, Hao Zhang wrote:
->> Add new coresight-dummy.yaml file describing the bindings required
->> to define coresight dummy trace in the device trees.
->>
->> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
->> ---
->>   .../bindings/arm/qcom,coresight-dummy.yaml    | 129 ++++++++++++++++++
->>   1 file changed, 129 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
->>
-> 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> ./Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml:91:5: [warning] wrong indentation: expected 6 but found 4 (indentation)
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml: required:4: {'oneOf': ['qcom,dummy-sink', 'qcom,dummy-source']} is not of type 'string'
-> 	from schema $id: http://json-schema.org/draft-07/schema#
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml: ignoring, error in schema: required: 4
-> Documentation/devicetree/bindings/arm/qcom,coresight-dummy.example.dtb: /example-0/dummy_sink: failed to match any schema with compatible: ['qcom,dummy']
-> Documentation/devicetree/bindings/arm/qcom,coresight-dummy.example.dtb: /example-1/dummy_source: failed to match any schema with compatible: ['qcom,dummy']
-> 
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230316032005.6509-3-quic_hazha@quicinc.com
-> 
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your schema.
-> 
+On Tue, Mar 14, 2023 at 07:34:11PM -0700, Randy Dunlap wrote:
+> Hi,
+>=20
+> [adding linux-doc for other interested parties]
 
-Hi Rob,
+Unfortunately akpm had already applied this doc as 60b38b7cbb295d ("ELF:
+document some de-facto PT_* ABI quirks") while it being reviewed and
+doesn't have any consensus yet.
 
-Thanks for your check.
-I have checked it and didn't see the above errors, will follow your 
-steps and change this in the next version of patch.
+> And could the document have a title, like:
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> ELF header usage in Linux
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
 
-Thanks,
-Hao
+The current doc path is Documentation/ELF/ELF.rst, which means that
+readers expect to find general info about the executable format, not
+some sort of trivia/niche like this.
+
+>=20
+> (I just made that up. Feel free to change it. :)
+>=20
+> Also, the .rst file should be added to some chapter in the current
+> documentation tree, such as under "Other documentation", so add this file=
+ name
+> to Documentation/staging/index.rst. In fact this file could live in
+> Documentation/staging instead of in Documentation/ELF/ (IMO of course).
+
+If there are more ELF docs there then a separate directory may be
+warranted.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--xx//7xiLGuGFtrC6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZBQjPwAKCRD2uYlJVVFO
+owcuAP4lDPdQVO6AVHUCej5SAiOUSoMlyrGjiEIDl26TaprLNgD+K4PvtF55ZbCc
+XjJzxMW1l5SXOEdmoWt8jltxCwrvWAg=
+=eLk5
+-----END PGP SIGNATURE-----
+
+--xx//7xiLGuGFtrC6--
