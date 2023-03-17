@@ -2,158 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DDC1C6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 07:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56FB7C7618A
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 07:54:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230169AbjCQHnB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 03:43:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44400 "EHLO
+        id S230426AbjCQHyO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 03:54:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjCQHnA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 03:43:00 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F7486BC;
-        Fri, 17 Mar 2023 00:42:58 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32H7XuMo019978;
-        Fri, 17 Mar 2023 07:41:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=LcTL+5gjoj2QFyT9gYoPRzMtz6+6VJDaGPUlo8LTWsw=;
- b=HTqyRbcx4cG/CFvnT66bRbYYdD6oldXS0bOXZhI0xeoIigRsCBuSNRvCYWWcoqN6kFb2
- dSYVtbJYRqQPJezoWFrxJY0wj5GysWJc9Yr1edkdd2M6+ik3IACnff5IK/00T2OpaqLr
- v7xuCo21wd43Wc+vf4+Bl10M4hYCjoLo0ek4WmIcfnp9piivrX8BvBDAmh0/IDlyGAOL
- AVP6pmo1htIAnHBvyqIzdC0aRoNd4FoPdoYtSM+YiEv0F+2ydsTK18pk8lMeCB8JjEIf
- YqxvaoF1WinyHaPSTeCpRUPS4Baas1QC+G0ltnE48k162nImRaKqJm5CsxsXAtTDiG3Q PQ== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pcem18t9c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 17 Mar 2023 07:41:04 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32H7f3W4022509
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 17 Mar 2023 07:41:03 GMT
-Received: from [10.233.17.245] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 17 Mar
- 2023 00:40:57 -0700
-Message-ID: <4c2ff883-13af-19be-e4e2-35a66f2572fa@quicinc.com>
-Date:   Fri, 17 Mar 2023 15:40:54 +0800
+        with ESMTP id S230396AbjCQHyM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 03:54:12 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1E7C6414;
+        Fri, 17 Mar 2023 00:53:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0B03EB8247B;
+        Fri, 17 Mar 2023 07:53:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD5E9C433EF;
+        Fri, 17 Mar 2023 07:53:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679039613;
+        bh=FHqeoUzoVZtRqyxQJUT/4e1BNJn6xtdz6lPXXgD9+QU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Vj1ByAAC/ZRd2EHSGZHX0kRv5PTnfDa6eJPKaJ3uRVm4e9ye0AdQngEC1EoNQXbZM
+         hI6/uUPPS3nLTIgu2WNwAyYWplTI1WuagQxQ5I+ERvldOyt6/rK37eHIkbOFLPCSjV
+         yroVnV+uMQJHJSqhEZOx2LquTRtov+j86ySViL0a3PawzrXRMcpkIftj20ZPvn5fxj
+         2QL6eAz/lClygp5T9Hjs9yZ72iMi7aQBsSH8Q2p1qUAmIJn9NjFglQ/DX2b+lCGReh
+         pr8ObugbtbXKMP/+RUPiBTIWZNX43Snzm0j0Y0JjS4lx2x59oBn2RKz/a0gSxxKk8s
+         bKsCzQLPNrXhA==
+Date:   Fri, 17 Mar 2023 07:53:27 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     ChiaEn Wu <chiaen_wu@richtek.com>
+Cc:     corbet@lwn.net, pavel@ucw.cz, matthias.bgg@gmail.com,
+        andriy.shevchenko@linux.intel.com, jacek.anaszewski@gmail.com,
+        angelogioacchino.delregno@collabora.com, linux-doc@vger.kernel.org,
+        peterwu.pub@gmail.com, cy_huang@richtek.com,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        szunichen@gmail.com, Alice Chen <alice_chen@richtek.com>
+Subject: Re: [PATCH v18 1/3] leds: rgb: mt6370: Add MediaTek MT6370 current
+ sink type LED Indicator support
+Message-ID: <20230317075327.GA9667@google.com>
+References: <cover.1678430444.git.chiaen_wu@richtek.com>
+ <1df93a583c3f508a7158b83b95857e9bce235e1b.1678430444.git.chiaen_wu@richtek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v1 0/3] Add support to configure Coresight Dummy subunit
-Content-Language: en-US
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     Leo Yan <leo.yan@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <coresight@lists.linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20230316032005.6509-1-quic_hazha@quicinc.com>
- <0db33881-7978-41c9-45e3-63dc2ed7be4f@arm.com>
-From:   Hao Zhang <quic_hazha@quicinc.com>
-In-Reply-To: <0db33881-7978-41c9-45e3-63dc2ed7be4f@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: uWCTNsihlvukbU0MvKCCFgtOrOVg0XMn
-X-Proofpoint-ORIG-GUID: uWCTNsihlvukbU0MvKCCFgtOrOVg0XMn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-17_04,2023-03-16_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
- priorityscore=1501 phishscore=0 impostorscore=0 suspectscore=0 mlxscore=0
- lowpriorityscore=0 clxscore=1015 spamscore=0 mlxlogscore=999 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303170051
+In-Reply-To: <1df93a583c3f508a7158b83b95857e9bce235e1b.1678430444.git.chiaen_wu@richtek.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Suzuki,
+On Fri, 10 Mar 2023, ChiaEn Wu wrote:
 
-On 3/16/2023 6:55 PM, Suzuki K Poulose wrote:
-> On 16/03/2023 03:20, Hao Zhang wrote:
->> Introduction of Coresight Dummy subunit
->> The Coresight Dummy subunit is for Coresight Dummy component, there 
->> are some
->> specific Coresight devices that HLOS don't have permission to access. 
->> Such as
-> 
-> What is HLOS ?
+> From: ChiYuan Huang <cy_huang@richtek.com>
+>
+> The MediaTek MT6370 is a highly-integrated smart power management IC,
+> which includes a single cell Li-Ion/Li-Polymer switching battery
+> charger, a USB Type-C & Power Delivery (PD) controller, dual
+> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
+> a display bias driver and a general LDO for portable devices.
+>
+> Add support for the MediaTek MT6370 Current Sink Type LED Indicator
+> driver. It can control four channels current-sink RGB LEDs with 3 modes:
+> constant current, PWM, and breath mode.
+>
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Co-developed-by: Alice Chen <alice_chen@richtek.com>
+> Signed-off-by: Alice Chen <alice_chen@richtek.com>
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> ---
+> v18:
+> - Rename 'MT6370_VENID_MASK' to more human readable
+>   'MT6370_VENDOR_ID_MASK'
+> - Define the const number vid.
+> - Unwrap each line by 100 chars limit.
+> - Remove the redudant space in 'mt6370_gen_breath_pattern()' comment for
+>   patterh data allocation.
+> - Define a sub function 'mt6370_assign_multicolor_info()' to tidy up
+>   'mt6370_init_led_properties()' for multicolor case.
+> - Define a sub function 'mt6370_multicolor_led_register' to tidy up
+>   'mt6370_led_register()' for multicolor case.
+> - Refine 'fwnode_handle_put' in probe function with 'goto'.
+> ---
+>  drivers/leds/rgb/Kconfig           |   13 +
+>  drivers/leds/rgb/Makefile          |    1 +
+>  drivers/leds/rgb/leds-mt6370-rgb.c | 1010 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 1024 insertions(+)
+>  create mode 100644 drivers/leds/rgb/leds-mt6370-rgb.c
 
-The term HLOS stands for High Level OS, it means linux in this case. The 
-HLOS runs on APPS processor.
+Applied, thanks
 
->> some TPDMs, they would be configured in NON-HLOS side, but it's 
->> necessary to
-> 
-> What is NON-HLOS ?
-
-There are some other sub-processors like modem, adsp etc, they do not 
-have a High Level OS. The OS in these sub-processors is lightweight, 
-less powerful, somewhat real-time, it would be called NON-HLOS.
-
->> build Coresight path for it to debug. So there need driver to register 
->> dummy
->> devices as Coresight devices.
-> 
-> Build a path for who to debug ? If this is used by some privileged
-> software, shouldn't that do all of the work ?
-> 
-> Suzuki
-
-There is coresight source or sink in sub-processor, it would be 
-configured by NON-HLOS, and need HLOS to configure the last coresight 
-components. So we will use dummy source or sink to replace it in HLOS 
-side for building the whole path(from source to sink).
-
-Thanks,
-Hao
-
->>
->> Commit link:
->> https://git.codelinaro.org/clo/linux-kernel/coresight/-/tree/coresight-dummy
->>
->> Hao Zhang (3):
->>    Coresight: Add coresight dummy driver
->>    dt-bindings: arm: Add Coresight Dummy Trace YAML schema
->>    Documentation: trace: Add documentation for Coresight Dummy Trace
->>
->>   .../bindings/arm/qcom,coresight-dummy.yaml    | 129 +++++++++++++
->>   .../trace/coresight/coresight-dummy.rst       |  58 ++++++
->>   drivers/hwtracing/coresight/Kconfig           |  11 ++
->>   drivers/hwtracing/coresight/Makefile          |   1 +
->>   drivers/hwtracing/coresight/coresight-dummy.c | 176 ++++++++++++++++++
->>   5 files changed, 375 insertions(+)
->>   create mode 100644 
->> Documentation/devicetree/bindings/arm/qcom,coresight-dummy.yaml
->>   create mode 100644 Documentation/trace/coresight/coresight-dummy.rst
->>   create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
->>
-> 
+--
+Lee Jones [李琼斯]
