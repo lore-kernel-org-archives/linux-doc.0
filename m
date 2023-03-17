@@ -2,475 +2,561 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE57CC6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 16:00:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F34ECC76195
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 16:26:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230113AbjCQQAT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 12:00:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54726 "EHLO
+        id S229784AbjCQQ04 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 12:26:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231432AbjCQQAO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 12:00:14 -0400
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D46A55ADEB;
-        Fri, 17 Mar 2023 09:00:01 -0700 (PDT)
-Received: by mail-oi1-x230.google.com with SMTP id bo10so4110426oib.11;
-        Fri, 17 Mar 2023 09:00:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679068801;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=odT4kHXtE8kQmg/3O1COzr8+ljO71h/l65QShukUhlg=;
-        b=W8BbGPAzOjaPDAJ96i62qqFoJdcRl1vGdecRNPXVe1bmiWjCBQ63SA04kBXvSOXnW8
-         1kqb3oUdebjwM2yvHSHc+5ChQDxieYtNe0WE3M/y5DhmoDqV561q77w3tXP7D3xGEbNb
-         vmqIo5uCI6DKzfGjtvBQbBZY4PNbr4isAKIdgedrflBRrKiOX1SN1xr4V5D0QTQBesE9
-         1SOFJJ/Iotn2vn5omUYr77oKxF2z0gY9hfIFXY26KHLGNH8hsBf5T8gUjwrOsRFMFqLJ
-         Ca0VaVXHi9VatJZawkjoWAI9sq4R7UOoA8qZp9fdiBB0E1fsiBArGeK8gTM2nzzgx6Xk
-         I2uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679068801;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=odT4kHXtE8kQmg/3O1COzr8+ljO71h/l65QShukUhlg=;
-        b=D5jPsoHEQcGN0Np8nkUaq4fojcl+tpkGBO4R5lM0xwcaWWHKgrna7eqoqM+v1IOfdB
-         OZrml5rzqYeCC0VooT8t1CyEeoLz9jt4YMgF4das4AiO7A6ddZBeCQPbY/pP3d6MZPOQ
-         iP4eHWRZO8ZEvHWbN67iqTH7nCvEx7CqdKNXWGm+507clHNmHcFl+9E/5D5JuORSGpg6
-         II+S6W6/JKlpjcbAh9bDGyINmsF7YVoxA8LVwuIuXGDeptLAgrvGXdzwfjYGiIyRMQoA
-         4fseX1Yf3OUpqGURqm5V1EdpqjcIL6sYNtldBKBNT8UysliU4pp5bmfAVS7aFB8SCF4Z
-         laQg==
-X-Gm-Message-State: AO0yUKWU4kQaMY83UjPqEcXRjEqLKHrnbqvwZlnFQ3O25BCILTit6tjt
-        LuQhtzpRTh03pR4733boz0CYI6mdXINqXTXs3Q0=
-X-Google-Smtp-Source: AK7set8lV6Joe7jC2CgUms6NPoQk+LWuWbj7n/2/+PtYFXqEALI182PXHMs8oAk+dlaWXWKjXbF+xbZiIZCMqIfmSBw=
-X-Received: by 2002:a05:6808:b2f:b0:384:1e6a:bf10 with SMTP id
- t15-20020a0568080b2f00b003841e6abf10mr2906582oij.5.1679068799344; Fri, 17 Mar
- 2023 08:59:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230308155322.344664-1-robdclark@gmail.com> <20230308155322.344664-2-robdclark@gmail.com>
- <ZAtQspuFjPtGy7ze@gmail.com> <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
- <ZBHNvT3BLgS3qvV5@gmail.com> <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
- <ZBLg0t0tTVvuPuiJ@gmail.com> <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
- <ZBQ/qoxP+EGI0E7R@gmail.com>
-In-Reply-To: <ZBQ/qoxP+EGI0E7R@gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Fri, 17 Mar 2023 08:59:48 -0700
-Message-ID: <CAF6AEGvj6SuA63M=tBBfek0ESgU3fRvPcJLKDMn3_hgL3OdnTA@mail.gmail.com>
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-To:     =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        with ESMTP id S229644AbjCQQ0x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 12:26:53 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2044.outbound.protection.outlook.com [40.107.100.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD11DCA49;
+        Fri, 17 Mar 2023 09:26:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JVolzjnGuEiRENWLaeY4zaKlZOpP0Q0XzXOIr5YZQ7Sd2SDIfzVNd6XaXroQsVHYp12CfQfIjVadZ+URwTnIcXQ0orfi5Eb9xDP4kW2GEa3BnC0NGIbrSs6uUo7GbYIV3eT68HL6n0B2cQt1PYt+vonBd2DjsGLCh+Jlv4t+g2ddiuM3Z2Vf3CPEuG/g/7Yv2v/AfaxMXVFSSPP+qvLzCeY3T1s51QRgjhGlQLE/C4DEf3TNydqZwnlSQsKKHlGZyA30r7CAX7cANZMR1WF1OTb/sotEHv4VWiOngh8257Wo+3ne8KEaH2Okc9DycyKdWoT35Dz5wuiawsZ44IE1fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3mkqBTPfG3nC3f8UxolyVeaAc57c3OAav5NHh3GQCa0=;
+ b=WuiXIV/2fEl9wpW9VXjRS7nWhnhJ4D8LwioAJ504XRQ3ZbJRvc5nYSjo7L0Kq/XRQK5XkyGq0x7yuw2OBveTykvcBJzb3yRmCIY0K9X9vRwK6HGjJH30HhcJvk+C6ylSOpm95H8i7AEgqZS3xvOAoQ9Kny7k+K3gupZaoKiKvo1p4+pGYqF8A4sg2ovffWOwynw7zlt+qOLuiA5HPozpumOx5LcVQK3VR3PpznhEKpc3Tj5lFfBpTJ2ZbkVLc16QaJYDVL0jA81kjO7j5H1WvuH2s7B0GobXVC7faVIsIWzK6q56GDpvL19FV15Mo7XJ2S6P7/5/RKEnUejCTLxlfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3mkqBTPfG3nC3f8UxolyVeaAc57c3OAav5NHh3GQCa0=;
+ b=krNx6R/ukIjoCwhsmGvuwiPB5Kb1lxWxJMnEKRIatkEmBYRh01r95mq5dOp+0/8l3j65S5kqS5HgWZsRuDwlJEXD9nJilxoG9wKMYBth4R6I7WUPa8x4MC1ECa5maJ16Hp5AoakAY3Jp/vqaYDidAnA5xmaIbKZLE+3nI0lEuPJyt3hJoS0N2d0qi0hzrc8DyyTI0ItLOZ36QmxqFD+/Rgjg0LUoiKjkZV6WWoikfON1OSZuNqpNhzk9F0NjTepuqsoNr8pTg5GYC0HrTRFd6uXhUgCA8KUw/4BCRSazgVpcUHVdsFwMFCS6PIdKJ/B3ScIM7GWKrIp2ITqu6P5Shg==
+Received: from MW2PR16CA0047.namprd16.prod.outlook.com (2603:10b6:907:1::24)
+ by CH3PR12MB8402.namprd12.prod.outlook.com (2603:10b6:610:132::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.35; Fri, 17 Mar
+ 2023 16:26:48 +0000
+Received: from CO1NAM11FT083.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:907:1:cafe::e5) by MW2PR16CA0047.outlook.office365.com
+ (2603:10b6:907:1::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.35 via Frontend
+ Transport; Fri, 17 Mar 2023 16:26:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CO1NAM11FT083.mail.protection.outlook.com (10.13.174.92) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6199.20 via Frontend Transport; Fri, 17 Mar 2023 16:26:48 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Fri, 17 Mar 2023
+ 09:26:41 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.37; Fri, 17 Mar 2023 09:26:41 -0700
+Received: from SDONTHINENI-DESKTOP.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.986.37 via Frontend
+ Transport; Fri, 17 Mar 2023 09:26:40 -0700
+From:   Shanker Donthineni <sdonthineni@nvidia.com>
+To:     Marc Zyngier <maz@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        intel-gfx@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Matt Turner <mattst88@gmail.com>,
-        freedreno@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        "Sudeep Holla" <sudeep.holla@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     Shanker Donthineni <sdonthineni@nvidia.com>,
+        Vikram Sethi <vsethi@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>
+Subject: [PATCH v3] irqchip/gicv3: Workaround for NVIDIA erratum T241-FABRIC-4
+Date:   Fri, 17 Mar 2023 11:26:36 -0500
+Message-ID: <20230317162636.851085-1-sdonthineni@nvidia.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT083:EE_|CH3PR12MB8402:EE_
+X-MS-Office365-Filtering-Correlation-Id: 810dfd8b-8ff3-4a62-eb56-08db27046863
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MPbrIb3/NV9lDLI4EKTDU8Ov2Yav/YBLaDzk6UjBVYoNmAiwF6f9p8RQiOMk6kF7qCZuYeWM1UF/8AFSd1S5UJzKplUwM2EXjiuXaHT/0U7yNA2+AKt6QQUbQgzu08wNBojT+b6M6dnqa8Z7hXf6ZD8QhwaJGQJpnEkgvr7iu0n4S/e/gxQA60gv4Sl1QbSRiTJ5vu1+kXdudCjCAnDdPORbe+J8tU9GCAHVRITf4ljiTvd9H5L+JOCmG2KEUeyZ+10t5PiWEiuK04ZMrSDMvJCqBxjvdPy+obWfNycb+Mwcodp9h01NJWS9yzDzy18ik1sH4RvPjXhDHBd6msjEH91T83DFSHOVRFPknr7zFbZxW+/KcoeAUm7k/Ditgj3b+zHZYXzysT0C2eBb4CRCmVclH8L5Zsetw6evC85xPhidwbQP6PGAPi04Rnm46bgFe4RUa5GE2irpoPuNYZcFA4L7kE10DdenD+2RmGS83r4cdzckYYklHuzpKGMOG4mRp3K+txLEwyAlxWgX3OxSOBpA3VVCUUPmgMMMLgLnYaUlzOn5gXJxQuQll5DFYXBF+9fEzfwWdhsv3PyQ5umNfkySL6GdtTvWhqGSwtjdYYVtYOM5UGMzRRAx/3hBfI+tkZXR5ScCvMMEMcoY0egWcwCuDzm78GV7KXfaZcnUM9Nc99ldAf1eCR36P0FSZ8Rw4jAXcxEa2tQDA1qxeOcsluFH/9+NeRmZZM7yY+86FMnkQRw9qi3feY075cDAmyLSK7l/w5PrOZXIkFHg1azDU2+0UJmfbTw87nypABXJR13WrRhYk/uJPlR+pJZV5A5wBjF9esZfG2Lje7XF3EHvTdVQKLpCly/ntMoKyoBcqAE=
+X-Forefront-Antispam-Report: CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(396003)(346002)(136003)(376002)(451199018)(40470700004)(36840700001)(46966006)(86362001)(7636003)(36756003)(82740400003)(921005)(356005)(82310400005)(47076005)(8936002)(2906002)(30864003)(5660300002)(7416002)(966005)(110136005)(40480700001)(41300700001)(316002)(7696005)(4326008)(478600001)(8676002)(70206006)(70586007)(83380400001)(36860700001)(26005)(186003)(107886003)(1076003)(6666004)(40460700003)(2616005)(426003)(336012)(54906003)(2101003)(83996005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2023 16:26:48.6850
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 810dfd8b-8ff3-4a62-eb56-08db27046863
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT083.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8402
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 17, 2023 at 3:23=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.com>=
- wrote:
->
-> On Thu, Mar 16, 2023 at 09:28:55AM -0700, Rob Clark wrote:
-> > On Thu, Mar 16, 2023 at 2:26=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.=
-com> wrote:
-> > >
-> > > On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
-> > > > On Wed, Mar 15, 2023 at 6:53=E2=80=AFAM Jonas =C3=85dahl <jadahl@gm=
-ail.com> wrote:
-> > > > >
-> > > > > On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
-> > > > > > On Fri, Mar 10, 2023 at 7:45=E2=80=AFAM Jonas =C3=85dahl <jadah=
-l@gmail.com> wrote:
-> > > > > > >
-> > > > > > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
-> > > > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > > > >
-> > > > > > > > Add a way to hint to the fence signaler of an upcoming dead=
-line, such as
-> > > > > > > > vblank, which the fence waiter would prefer not to miss.  T=
-his is to aid
-> > > > > > > > the fence signaler in making power management decisions, li=
-ke boosting
-> > > > > > > > frequency as the deadline approaches and awareness of missi=
-ng deadlines
-> > > > > > > > so that can be factored in to the frequency scaling.
-> > > > > > > >
-> > > > > > > > v2: Drop dma_fence::deadline and related logic to filter du=
-plicate
-> > > > > > > >     deadlines, to avoid increasing dma_fence size.  The fen=
-ce-context
-> > > > > > > >     implementation will need similar logic to track deadlin=
-es of all
-> > > > > > > >     the fences on the same timeline.  [ckoenig]
-> > > > > > > > v3: Clarify locking wrt. set_deadline callback
-> > > > > > > > v4: Clarify in docs comment that this is a hint
-> > > > > > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> > > > > > > > v6: More docs
-> > > > > > > > v7: Fix typo, clarify past deadlines
-> > > > > > > >
-> > > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com=
->
-> > > > > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > > > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > > > > > > > ---
-> > > > > > >
-> > > > > > > Hi Rob!
-> > > > > > >
-> > > > > > > >  Documentation/driver-api/dma-buf.rst |  6 +++
-> > > > > > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++=
-++++++++++++
-> > > > > > > >  include/linux/dma-fence.h            | 22 +++++++++++
-> > > > > > > >  3 files changed, 87 insertions(+)
-> > > > > > > >
-> > > > > > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documen=
-tation/driver-api/dma-buf.rst
-> > > > > > > > index 622b8156d212..183e480d8cea 100644
-> > > > > > > > --- a/Documentation/driver-api/dma-buf.rst
-> > > > > > > > +++ b/Documentation/driver-api/dma-buf.rst
-> > > > > > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
-> > > > > > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > > > >     :doc: fence signalling annotation
-> > > > > > > >
-> > > > > > > > +DMA Fence Deadline Hints
-> > > > > > > > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > > > > +
-> > > > > > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > > > > +   :doc: deadline hints
-> > > > > > > > +
-> > > > > > > >  DMA Fences Functions Reference
-> > > > > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > > > >
-> > > > > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/=
-dma-fence.c
-> > > > > > > > index 0de0482cd36e..f177c56269bb 100644
-> > > > > > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > > > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > > > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_=
-fence **fences, uint32_t count,
-> > > > > > > >  }
-> > > > > > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> > > > > > > >
-> > > > > > > > +/**
-> > > > > > > > + * DOC: deadline hints
-> > > > > > > > + *
-> > > > > > > > + * In an ideal world, it would be possible to pipeline a w=
-orkload sufficiently
-> > > > > > > > + * that a utilization based device frequency governor coul=
-d arrive at a minimum
-> > > > > > > > + * frequency that meets the requirements of the use-case, =
-in order to minimize
-> > > > > > > > + * power consumption.  But in the real world there are man=
-y workloads which
-> > > > > > > > + * defy this ideal.  For example, but not limited to:
-> > > > > > > > + *
-> > > > > > > > + * * Workloads that ping-pong between device and CPU, with=
- alternating periods
-> > > > > > > > + *   of CPU waiting for device, and device waiting on CPU.=
-  This can result in
-> > > > > > > > + *   devfreq and cpufreq seeing idle time in their respect=
-ive domains and in
-> > > > > > > > + *   result reduce frequency.
-> > > > > > > > + *
-> > > > > > > > + * * Workloads that interact with a periodic time based de=
-adline, such as double
-> > > > > > > > + *   buffered GPU rendering vs vblank sync'd page flipping=
-.  In this scenario,
-> > > > > > > > + *   missing a vblank deadline results in an *increase* in=
- idle time on the GPU
-> > > > > > > > + *   (since it has to wait an additional vblank period), s=
-ending a signal to
-> > > > > > > > + *   the GPU's devfreq to reduce frequency, when in fact t=
-he opposite is what is
-> > > > > > > > + *   needed.
-> > > > > > >
-> > > > > > > This is the use case I'd like to get some better understandin=
-g about how
-> > > > > > > this series intends to work, as the problematic scheduling be=
-havior
-> > > > > > > triggered by missed deadlines has plagued compositing display=
- servers
-> > > > > > > for a long time.
-> > > > > > >
-> > > > > > > I apologize, I'm not a GPU driver developer, nor an OpenGL dr=
-iver
-> > > > > > > developer, so I will need some hand holding when it comes to
-> > > > > > > understanding exactly what piece of software is responsible f=
-or
-> > > > > > > communicating what piece of information.
-> > > > > > >
-> > > > > > > > + *
-> > > > > > > > + * To this end, deadline hint(s) can be set on a &dma_fenc=
-e via &dma_fence_set_deadline.
-> > > > > > > > + * The deadline hint provides a way for the waiting driver=
-, or userspace, to
-> > > > > > > > + * convey an appropriate sense of urgency to the signaling=
- driver.
-> > > > > > > > + *
-> > > > > > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOT=
-ONIC for userspace
-> > > > > > > > + * facing APIs).  The time could either be some point in t=
-he future (such as
-> > > > > > > > + * the vblank based deadline for page-flipping, or the sta=
-rt of a compositor's
-> > > > > > > > + * composition cycle), or the current time to indicate an =
-immediate deadline
-> > > > > > > > + * hint (Ie. forward progress cannot be made until this fe=
-nce is signaled).
-> > > > > > >
-> > > > > > > Is it guaranteed that a GPU driver will use the actual start =
-of the
-> > > > > > > vblank as the effective deadline? I have some memories of sei=
-ng
-> > > > > > > something about vblank evasion browsing driver code, which I =
-might have
-> > > > > > > misunderstood, but I have yet to find whether this is somethi=
-ng
-> > > > > > > userspace can actually expect to be something it can rely on.
-> > > > > >
-> > > > > > I guess you mean s/GPU driver/display driver/ ?  It makes thing=
-s more
-> > > > > > clear if we talk about them separately even if they happen to b=
-e the
-> > > > > > same device.
-> > > > >
-> > > > > Sure, sorry about being unclear about that.
-> > > > >
-> > > > > >
-> > > > > > Assuming that is what you mean, nothing strongly defines what t=
-he
-> > > > > > deadline is.  In practice there is probably some buffering in t=
-he
-> > > > > > display controller.  For ex, block based (including bandwidth
-> > > > > > compressed) formats, you need to buffer up a row of blocks to
-> > > > > > efficiently linearize for scanout.  So you probably need to lat=
-ch some
-> > > > > > time before you start sending pixel data to the display.  But d=
-etails
-> > > > > > like this are heavily implementation dependent.  I think the mo=
-st
-> > > > > > reasonable thing to target is start of vblank.
-> > > > >
-> > > > > The driver exposing those details would be quite useful for users=
-pace
-> > > > > though, so that it can delay committing updates to late, but not =
-too
-> > > > > late. Setting a deadline to be the vblank seems easy enough, but =
-it
-> > > > > isn't enough for scheduling the actual commit.
-> > > >
-> > > > I'm not entirely sure how that would even work.. but OTOH I think y=
-ou
-> > > > are talking about something on the order of 100us?  But that is a b=
-it
-> > > > of another topic.
-> > >
-> > > Yes, something like that. But yea, it's not really related. Schedulin=
-g
-> > > commits closer to the deadline has more complex behavior than that to=
-o,
-> > > e.g. the need for real time scheduling, and knowing how long it usual=
-ly
-> > > takes to create and commit and for the kernel to process.
-> > >
-> > > >
-> > >
-> > > 8-< *snip* 8-<
-> > >
-> > > > > >
-> > > > > > You need a fence to set the deadline, and for that work needs t=
-o be
-> > > > > > flushed.  But you can't associate a deadline with work that the=
- kernel
-> > > > > > is unaware of anyways.
-> > > > >
-> > > > > That makes sense, but it might also a bit inadequate to have it a=
-s the
-> > > > > only way to tell the kernel it should speed things up. Even with =
-the
-> > > > > trick i915 does, with GNOME Shell, we still end up with the feedb=
-ack
-> > > > > loop this series aims to mitigate. Doing triple buffering, i.e. d=
-elaying
-> > > > > or dropping the first frame is so far the best work around that w=
-orks,
-> > > > > except doing other tricks that makes the kernel to ramp up its cl=
-ock.
-> > > > > Having to rely on choosing between latency and frame drops should
-> > > > > ideally not have to be made.
-> > > >
-> > > > Before you have a fence, the thing you want to be speeding up is th=
-e
-> > > > CPU, not the GPU.  There are existing mechanisms for that.
-> > >
-> > > Is there no benefit to let the GPU know earlier that it should speed =
-up,
-> > > so that when the job queue arrives, it's already up to speed?
-> >
-> > Downstream we have input notifier that resumes the GPU so we can
-> > pipeline the 1-2ms it takes to boot up the GPU with userspace.  But we
-> > wait to boost freq until we have cmdstream to submit, since that
-> > doesn't take as long.  What needs help initially after input is all
-> > the stuff that happens on the CPU before the GPU can start to do
-> > anything ;-)
->
-> How do you deal with boosting CPU speeds downstream? Does the input
-> notifier do that too?
+The T241 platform suffers from the T241-FABRIC-4 erratum which causes
+unexpected behavior in the GIC when multiple transactions are received
+simultaneously from different sources. This hardware issue impacts
+NVIDIA server platforms that use more than two T241 chips
+interconnected. Each chip has support for 320 {E}SPIs.
 
-Yes.. actually currently downstream (depending on device) we have 1 to
-3 input notifiers, one for CPU boost, one for early-PSR-exit, and one
-to get a head start on booting up the GPU.
+This issue occurs when multiple packets from different GICs are
+incorrectly interleaved at the target chip. The erratum text below
+specifies exactly what can cause multiple transfer packets susceptible
+to interleaving and GIC state corruption. GIC state corruption can
+lead to a range of problems, including kernel panics, and unexpected
+behavior.
 
-> >
-> > Btw, I guess I haven't made this clear, dma-fence deadline is trying
-> > to help the steady-state situation, rather than the input-latency
-> > situation.  It might take a frame or two of missed deadlines for
-> > gpufreq to arrive at a good steady-state freq.
->
-> I'm just not sure it will help. Missed deadlines set at commit hasn't
-> been enough in the past to let the kernel understand it should speed
-> things up before the next frame (which will be a whole frame late
-> without any triple buffering which should be a last resort), so I don't
-> see how it will help by adding a userspace hook to do the same thing.
+From the erratum text:
+  "In some cases, inter-socket AXI4 Stream packets with multiple
+  transfers, may be interleaved by the fabric when presented to ARM
+  Generic Interrupt Controller. GIC expects all transfers of a packet
+  to be delivered without any interleaving.
 
-So deadline is just a superset of "right now" and "sometime in the
-future".. and this has been useful enough for i915 that they have both
-forms, when waiting on GPU via i915 specific ioctls and when pageflip
-(assuming userspace isn't deferring composition decision and instead
-just pushing it all down to the kernel).  But this breaks down in a
-few cases:
+  The following GICv3 commands may result in multiple transfer packets
+  over inter-socket AXI4 Stream interface:
+   - Register reads from GICD_I* and GICD_N*
+   - Register writes to 64-bit GICD registers other than GICD_IROUTERn*
+   - ITS command MOVALL
 
-1) non pageflip (for ex. ping-ponging between cpu and gpu) use cases
-when you wait via polling on fence fd or wait via drm_syncobj instead
-of DRM_IOCTL_I915_GEM_WAIT
-2) when userspace decides late in frame to not pageflip because app
-fence isn't signaled yet
+  Multiple commands in GICv4+ utilize multiple transfer packets,
+  including VMOVP, VMOVI, VMAPP, and 64-bit register accesses."
 
-And this is all done in a way that doesn't help for situations where
-you have separate kms and render devices.  Or the kms driver doesn't
-bypass atomic helpers (ie. uses drm_atomic_helper_wait_for_fences()).
-So the technique has already proven to be useful.  This series just
-extends it beyond driver specific primitives (ie.
-dma_fence/drm_syncojb)
+  This issue impacts system configurations with more than 2 sockets,
+  that require multi-transfer packets to be sent over inter-socket
+  AXI4 Stream interface between GIC instances on different sockets.
+  GICv4 cannot be supported. GICv3 SW model can only be supported
+  with the workaround. Single and Dual socket configurations are not
+  impacted by this issue and support GICv3 and GICv4."
 
-> I think input latency and steady state target frequency here is tightly
-> linked; what we should aim for is to provide enough information at the
-> right time so that it does *not* take a frame or two to of missed
-> deadlines to arrive at the target frequency, as those missed deadlines
-> either means either stuttering and/or lag.
+Link: https://developer.nvidia.com/docs/t241-fabric-4/nvidia-t241-fabric-4-errata.pdf
 
-If you have some magic way for a gl/vk driver to accurately predict
-how many cycles it will take to execute a sequence of draws, I'm all
-ears.
+Writing to the chip alias region of the GICD_In{E} registers except
+GICD_ICENABLERn has an equivalent effect as writing to the global
+distributor. The SPI interrupt deactivate path is not impacted by
+the erratum.
 
-Realistically, the best solution on sudden input is to overshoot and
-let freqs settle back down.
+To fix this problem, implement a workaround that ensures read accesses
+to the GICD_In{E} registers are directed to the chip that owns the
+SPI, and disables GICv4.x features for KVM. To simplify code changes,
+the gic_configure_irq() function uses the same alias region for both
+read and write operations to GICD_ICFGR.
 
-But there is a lot more to input latency than GPU freq.  In UI
-workloads, even fullscreen animation, I don't really see the GPU going
-above the 2nd lowest OPP even on relatively small things like a618.
-UI input latency (touch scrolling, on-screen stylus / low-latency-ink,
-animations) are a separate issue from what this series addresses, and
-aren't too much to do with GPU freq.
+Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
+Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
+Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+---
+Changes since v2:
+ - Add accessors for the SOC-ID version & revision
+ - Include "linux/bitfield.h" and "linux/bits.h" in irq-gic-v3.c
+Changes since v1:
+ - Use SMCCC SOC-ID API for detecting the T241 chip
+ - Implement Marc's suggestions
+ - Edit commit text
 
-> That it helps with the deliberately late commit I do understand, but we
-> don't do that yet, but intend to when there is kernel uapi to lets us do
-> so without negative consequences.
->
-> >
-> > > >
-> > > > TBF I'm of the belief that there is still a need for input based cp=
-u
-> > > > boost (and early wake-up trigger for GPU).. we have something like
-> > > > this in CrOS kernel.  That is a bit of a different topic, but my po=
-int
-> > > > is that fence deadlines are just one of several things we need to
-> > > > optimize power/perf and responsiveness, rather than the single thin=
-g
-> > > > that solves every problem under the sun ;-)
-> > >
-> > > Perhaps; but I believe it's a bit of a back channel of intent; the pi=
-ece
-> > > of the puzzle that has the information to know whether there is need
-> > > actually speed up is the compositor, not the kernel.
-> > >
-> > > For example, pressing 'p' while a terminal is focused does not need h=
-igh
-> > > frequency clocks, it just needs the terminal emulator to draw a 'p' a=
-nd
-> > > the compositor to composite that update. Pressing <Super> may however
-> > > trigger a non-trivial animation moving a lot of stuff around on scree=
-n,
-> > > maybe triggering Wayland clients to draw and what not, and should mos=
-t
-> > > arguably have the ability to "warn" the kernel about the upcoming flo=
-od
-> > > of work before it is already knocking on its door step.
-> >
-> > The super key is problematic, but not for the reason you think.  It is
-> > because it is a case where we should boost on key-up instead of
-> > key-down.. and the second key-up event comes after the cpu-boost is
-> > already in it's cool-down period.  But even if suboptimal in cases
-> > like this, it is still useful for touch/stylus cases where the
-> > slightest of lag is much more perceptible.
->
-> Other keys are even more problematic. Alt, for example, does nothing,
-> Alt + Tab does some light rendering, but Alt + KeyAboveTab will,
-> depending on the current active applications, suddenly trigger N Wayland
-> surfaces to start rendering at the same time.
->
-> >
-> > This is getting off topic but I kinda favor coming up with some sort
-> > of static definition that userspace could give the kernel to let the
-> > kernel know what input to boost on.  Or maybe something could be done
-> > with BPF?
->
-> I have hard time seeing any static information can be enough, it's
-> depends too much on context what is expected to happen. And can a BPF
-> program really help? Unless BPF programs that pulls some internal kernel
-> strings to speed things up whenever userspace wants I don't see how it
-> is that much better.
->
-> I don't think userspace is necessarily too slow to actively particitpate
-> in providing direct scheduling hints either. Input processing can, for
-> example, be off loaded to a real time scheduled thread, and plumbing any
-> hints about future expectations from rendering, windowing and layout
-> subsystems will be significantly easier to plumb to a real time input
-> thread than translated into static informations or BPF programs.
+ Documentation/arm64/silicon-errata.rst |   2 +
+ drivers/firmware/smccc/smccc.c         |  26 ++++++
+ drivers/firmware/smccc/soc_id.c        |  28 ++----
+ drivers/irqchip/Kconfig                |   1 +
+ drivers/irqchip/irq-gic-v3.c           | 115 +++++++++++++++++++++++--
+ include/linux/arm-smccc.h              |  18 ++++
+ 6 files changed, 158 insertions(+), 32 deletions(-)
 
-I mean, the kernel side input handler is called from irq context long
-before even the scheduler gets involved..
+diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
+index 808ade4cc008..55492fea4427 100644
+--- a/Documentation/arm64/silicon-errata.rst
++++ b/Documentation/arm64/silicon-errata.rst
+@@ -170,6 +170,8 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
+ +----------------+-----------------+-----------------+-----------------------------+
++| NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
+++----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Freescale/NXP  | LS2080A/LS1043A | A-008585        | FSL_ERRATUM_A008585         |
+ +----------------+-----------------+-----------------+-----------------------------+
+diff --git a/drivers/firmware/smccc/smccc.c b/drivers/firmware/smccc/smccc.c
+index 60ccf3e90d7d..db818f9dcb8e 100644
+--- a/drivers/firmware/smccc/smccc.c
++++ b/drivers/firmware/smccc/smccc.c
+@@ -17,9 +17,13 @@ static enum arm_smccc_conduit smccc_conduit = SMCCC_CONDUIT_NONE;
+ 
+ bool __ro_after_init smccc_trng_available = false;
+ u64 __ro_after_init smccc_has_sve_hint = false;
++s32 __ro_after_init smccc_soc_id_version = SMCCC_RET_NOT_SUPPORTED;
++s32 __ro_after_init smccc_soc_id_revision = SMCCC_RET_NOT_SUPPORTED;
+ 
+ void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit)
+ {
++	struct arm_smccc_res res;
++
+ 	smccc_version = version;
+ 	smccc_conduit = conduit;
+ 
+@@ -27,6 +31,18 @@ void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit)
+ 	if (IS_ENABLED(CONFIG_ARM64_SVE) &&
+ 	    smccc_version >= ARM_SMCCC_VERSION_1_3)
+ 		smccc_has_sve_hint = true;
++
++	if ((smccc_version >= ARM_SMCCC_VERSION_1_2) &&
++	    (smccc_conduit != SMCCC_CONDUIT_NONE)) {
++		arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
++				     ARM_SMCCC_ARCH_SOC_ID, &res);
++		if ((s32)res.a0 >= 0) {
++			arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 0, &res);
++			smccc_soc_id_version = (s32)res.a0;
++			arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 1, &res);
++			smccc_soc_id_revision = (s32)res.a0;
++		}
++	}
+ }
+ 
+ enum arm_smccc_conduit arm_smccc_1_1_get_conduit(void)
+@@ -44,6 +60,16 @@ u32 arm_smccc_get_version(void)
+ }
+ EXPORT_SYMBOL_GPL(arm_smccc_get_version);
+ 
++s32 arm_smccc_get_soc_id_version(void)
++{
++	return smccc_soc_id_version;
++}
++
++s32 arm_smccc_get_soc_id_revision(void)
++{
++	return smccc_soc_id_revision;
++}
++
+ static int __init smccc_devices_init(void)
+ {
+ 	struct platform_device *pdev;
+diff --git a/drivers/firmware/smccc/soc_id.c b/drivers/firmware/smccc/soc_id.c
+index dd7c3d5e8b0b..890eb454599a 100644
+--- a/drivers/firmware/smccc/soc_id.c
++++ b/drivers/firmware/smccc/soc_id.c
+@@ -42,41 +42,23 @@ static int __init smccc_soc_init(void)
+ 	if (arm_smccc_get_version() < ARM_SMCCC_VERSION_1_2)
+ 		return 0;
+ 
+-	if (arm_smccc_1_1_get_conduit() == SMCCC_CONDUIT_NONE) {
+-		pr_err("%s: invalid SMCCC conduit\n", __func__);
+-		return -EOPNOTSUPP;
+-	}
+-
+-	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+-			     ARM_SMCCC_ARCH_SOC_ID, &res);
+-
+-	if ((int)res.a0 == SMCCC_RET_NOT_SUPPORTED) {
++	soc_id_version = arm_smccc_get_soc_id_version();
++	if (soc_id_version == SMCCC_RET_NOT_SUPPORTED) {
+ 		pr_info("ARCH_SOC_ID not implemented, skipping ....\n");
+ 		return 0;
+ 	}
+ 
+-	if ((int)res.a0 < 0) {
+-		pr_info("ARCH_FEATURES(ARCH_SOC_ID) returned error: %lx\n",
+-			res.a0);
+-		return -EINVAL;
+-	}
+-
+-	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 0, &res);
+-	if ((int)res.a0 < 0) {
++	if (soc_id_version < 0) {
+ 		pr_err("ARCH_SOC_ID(0) returned error: %lx\n", res.a0);
+ 		return -EINVAL;
+ 	}
+ 
+-	soc_id_version = res.a0;
+-
+-	arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 1, &res);
+-	if ((int)res.a0 < 0) {
++	soc_id_rev = arm_smccc_get_soc_id_revision();
++	if (soc_id_rev < 0) {
+ 		pr_err("ARCH_SOC_ID(1) returned error: %lx\n", res.a0);
+ 		return -EINVAL;
+ 	}
+ 
+-	soc_id_rev = res.a0;
+-
+ 	soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
+ 	if (!soc_dev_attr)
+ 		return -ENOMEM;
+diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+index caa952c40ff9..08505fdf890c 100644
+--- a/drivers/irqchip/Kconfig
++++ b/drivers/irqchip/Kconfig
+@@ -35,6 +35,7 @@ config ARM_GIC_V3
+ 	select IRQ_DOMAIN_HIERARCHY
+ 	select PARTITION_PERCPU
+ 	select GENERIC_IRQ_EFFECTIVE_AFF_MASK if SMP
++	select HAVE_ARM_SMCCC_DISCOVERY
+ 
+ config ARM_GIC_V3_ITS
+ 	bool
+diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+index 3779836737c8..606775dab6eb 100644
+--- a/drivers/irqchip/irq-gic-v3.c
++++ b/drivers/irqchip/irq-gic-v3.c
+@@ -24,6 +24,9 @@
+ #include <linux/irqchip/arm-gic-common.h>
+ #include <linux/irqchip/arm-gic-v3.h>
+ #include <linux/irqchip/irq-partition-percpu.h>
++#include <linux/bitfield.h>
++#include <linux/bits.h>
++#include <linux/arm-smccc.h>
+ 
+ #include <asm/cputype.h>
+ #include <asm/exception.h>
+@@ -57,8 +60,13 @@ struct gic_chip_data {
+ 	bool			has_rss;
+ 	unsigned int		ppi_nr;
+ 	struct partition_desc	**ppi_descs;
++	phys_addr_t		dist_phys_base;
+ };
+ 
++#define T241_CHIPS_MAX		4
++static void __iomem *t241_dist_base_alias[T241_CHIPS_MAX];
++static DEFINE_STATIC_KEY_FALSE(gic_nvidia_t241_erratum);
++
+ static struct gic_chip_data gic_data __read_mostly;
+ static DEFINE_STATIC_KEY_TRUE(supports_deactivate_key);
+ 
+@@ -179,6 +187,34 @@ static inline bool gic_irq_in_rdist(struct irq_data *d)
+ 	}
+ }
+ 
++static inline void __iomem *gic_dist_base_alias(irq_hw_number_t intid)
++{
++	u32 chip;
++
++	if (static_branch_unlikely(&gic_nvidia_t241_erratum)) {
++		/**
++		 *  {E}SPI mappings for all 4 chips
++		 *    Chip0 = 32-351
++		 *    Chip1 = 352-671
++		 *    Chip2 = 672-991
++		 *    Chip3 = 4096-4415
++		 */
++		switch (__get_intid_range(intid)) {
++		case SPI_RANGE:
++			chip = (intid - 32) / 320;
++			break;
++		case ESPI_RANGE:
++			chip = 3;
++			break;
++		default:
++			unreachable();
++		}
++		return t241_dist_base_alias[chip];
++	}
++
++	return gic_data.dist_base;
++}
++
+ static inline void __iomem *gic_dist_base(struct irq_data *d)
+ {
+ 	switch (get_intid_range(d)) {
+@@ -334,10 +370,14 @@ static int gic_peek_irq(struct irq_data *d, u32 offset)
+ 	offset = convert_offset_index(d, offset, &index);
+ 	mask = 1 << (index % 32);
+ 
++	/**
++	 * For the erratum T241-FABRIC-4, read accesses to the GICD_In{E}
++	 * registers are directed to the chip that owns the SPI.
++	 */
+ 	if (gic_irq_in_rdist(d))
+ 		base = gic_data_rdist_sgi_base();
+ 	else
+-		base = gic_data.dist_base;
++		base = gic_dist_base_alias(irqd_to_hwirq(d));
+ 
+ 	return !!(readl_relaxed(base + offset + (index / 32) * 4) & mask);
+ }
+@@ -585,13 +625,17 @@ static int gic_set_type(struct irq_data *d, unsigned int type)
+ 	    type != IRQ_TYPE_LEVEL_HIGH && type != IRQ_TYPE_EDGE_RISING)
+ 		return -EINVAL;
+ 
++	/**
++	 * For the erratum T241-FABRIC-4, read accesses to the GICD_In{E}
++	 * registers are directed to the chip that owns the SPI. Use the
++	 * same alias region for GICD_ICFGR writes to simplify code.
++	 */
+ 	if (gic_irq_in_rdist(d))
+ 		base = gic_data_rdist_sgi_base();
+ 	else
+-		base = gic_data.dist_base;
++		base = gic_dist_base_alias(irqd_to_hwirq(d));
+ 
+ 	offset = convert_offset_index(d, GICD_ICFGR, &index);
+-
+ 	ret = gic_configure_irq(index, type, base + offset, NULL);
+ 	if (ret && (range == PPI_RANGE || range == EPPI_RANGE)) {
+ 		/* Misconfigured PPIs are usually not fatal */
+@@ -1710,6 +1754,43 @@ static bool gic_enable_quirk_hip06_07(void *data)
+ 	return false;
+ }
+ 
++#define T241_CHIPN_MASK		GENMASK_ULL(45, 44)
++#define T241_CHIP_GICDA_OFFSET	0x1580000
++#define SMCCC_SOC_ID_T241	0x036b0241
++
++static bool gic_enable_quirk_nvidia_t241(void *data)
++{
++	s32 soc_id = arm_smccc_get_soc_id_version();
++	unsigned long chip_bmask = 0;
++	phys_addr_t phys;
++	u32 i;
++
++	/* Check JEP106 code for NVIDIA T241 chip (036b:0241) */
++	if ((soc_id < 0) || (soc_id != SMCCC_SOC_ID_T241))
++		return false;
++
++	/* Find the chips based on GICR regions PHYS addr */
++	for (i = 0; i < gic_data.nr_redist_regions; i++) {
++		chip_bmask |= BIT(FIELD_GET(T241_CHIPN_MASK,
++				  gic_data.redist_regions[i].phys_base));
++	}
++
++	if (hweight32(chip_bmask) < 3)
++		return false;
++
++	/* Setup GICD alias regions */
++	for (i = 0; i < ARRAY_SIZE(t241_dist_base_alias); i++) {
++		if (chip_bmask & BIT(i)) {
++			phys = gic_data.dist_phys_base + T241_CHIP_GICDA_OFFSET;
++			phys |= FIELD_PREP(T241_CHIPN_MASK, i);
++			t241_dist_base_alias[i] = ioremap(phys, SZ_64K);
++			WARN_ON_ONCE(!t241_dist_base_alias[i]);
++		}
++	}
++	static_branch_enable(&gic_nvidia_t241_erratum);
++	return true;
++}
++
+ static const struct gic_quirk gic_quirks[] = {
+ 	{
+ 		.desc	= "GICv3: Qualcomm MSM8996 broken firmware",
+@@ -1741,6 +1822,12 @@ static const struct gic_quirk gic_quirks[] = {
+ 		.mask	= 0xe8f00fff,
+ 		.init	= gic_enable_quirk_cavium_38539,
+ 	},
++	{
++		.desc	= "GICv3: NVIDIA erratum T241-FABRIC-4",
++		.iidr	= 0x0402043b,
++		.mask	= 0xffffffff,
++		.init	= gic_enable_quirk_nvidia_t241,
++	},
+ 	{
+ 	}
+ };
+@@ -1804,7 +1891,8 @@ static int __init gic_init_bases(void __iomem *dist_base,
+ 				 struct redist_region *rdist_regs,
+ 				 u32 nr_redist_regions,
+ 				 u64 redist_stride,
+-				 struct fwnode_handle *handle)
++				 struct fwnode_handle *handle,
++				 phys_addr_t dist_phys_base)
+ {
+ 	u32 typer;
+ 	int err;
+@@ -1817,6 +1905,7 @@ static int __init gic_init_bases(void __iomem *dist_base,
+ 
+ 	gic_data.fwnode = handle;
+ 	gic_data.dist_base = dist_base;
++	gic_data.dist_phys_base = dist_phys_base;
+ 	gic_data.redist_regions = rdist_regs;
+ 	gic_data.nr_redist_regions = nr_redist_regions;
+ 	gic_data.redist_stride = redist_stride;
+@@ -2055,11 +2144,12 @@ static int __init gic_of_init(struct device_node *node, struct device_node *pare
+ 	void __iomem *dist_base;
+ 	struct redist_region *rdist_regs;
+ 	struct resource res;
++	struct resource dist_res;
+ 	u64 redist_stride;
+ 	u32 nr_redist_regions;
+ 	int err, i;
+ 
+-	dist_base = gic_of_iomap(node, 0, "GICD", &res);
++	dist_base = gic_of_iomap(node, 0, "GICD", &dist_res);
+ 	if (IS_ERR(dist_base)) {
+ 		pr_err("%pOF: unable to map gic dist registers\n", node);
+ 		return PTR_ERR(dist_base);
+@@ -2097,7 +2187,7 @@ static int __init gic_of_init(struct device_node *node, struct device_node *pare
+ 	gic_enable_of_quirks(node, gic_quirks, &gic_data);
+ 
+ 	err = gic_init_bases(dist_base, rdist_regs, nr_redist_regions,
+-			     redist_stride, &node->fwnode);
++			     redist_stride, &node->fwnode, dist_res.start);
+ 	if (err)
+ 		goto out_unmap_rdist;
+ 
+@@ -2360,8 +2450,14 @@ static void __init gic_acpi_setup_kvm_info(void)
+ 		vcpu->end = vcpu->start + ACPI_GICV2_VCPU_MEM_SIZE - 1;
+ 	}
+ 
+-	gic_v3_kvm_info.has_v4 = gic_data.rdists.has_vlpis;
+-	gic_v3_kvm_info.has_v4_1 = gic_data.rdists.has_rvpeid;
++	/* Disable GICv4.x features for the erratum T241-FABRIC-4 */
++	if (static_branch_unlikely(&gic_nvidia_t241_erratum)) {
++		gic_v3_kvm_info.has_v4 = false;
++		gic_v3_kvm_info.has_v4_1 = false;
++	} else {
++		gic_v3_kvm_info.has_v4 = gic_data.rdists.has_vlpis;
++		gic_v3_kvm_info.has_v4_1 = gic_data.rdists.has_rvpeid;
++	}
+ 	vgic_set_kvm_info(&gic_v3_kvm_info);
+ }
+ 
+@@ -2414,7 +2510,8 @@ gic_acpi_init(union acpi_subtable_headers *header, const unsigned long end)
+ 	}
+ 
+ 	err = gic_init_bases(acpi_data.dist_base, acpi_data.redist_regs,
+-			     acpi_data.nr_redist_regions, 0, gsi_domain_handle);
++			     acpi_data.nr_redist_regions, 0, gsi_domain_handle,
++			     dist->base_address);
+ 	if (err)
+ 		goto out_fwhandle_free;
+ 
+diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
+index 220c8c60e021..f196c19f8e55 100644
+--- a/include/linux/arm-smccc.h
++++ b/include/linux/arm-smccc.h
+@@ -226,6 +226,24 @@ void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit);
+ 
+ extern u64 smccc_has_sve_hint;
+ 
++/**
++ * arm_smccc_get_soc_id_version()
++ *
++ * Returns the SOC ID version.
++ *
++ * When ARM_SMCCC_ARCH_SOC_ID is not present, returns SMCCC_RET_NOT_SUPPORTED.
++ */
++s32 arm_smccc_get_soc_id_version(void);
++
++/**
++ * arm_smccc_get_soc_id_revision()
++ *
++ * Returns the SOC ID revision.
++ *
++ * When ARM_SMCCC_ARCH_SOC_ID is not present, returns SMCCC_RET_NOT_SUPPORTED.
++ */
++s32 arm_smccc_get_soc_id_revision(void);
++
+ /**
+  * struct arm_smccc_res - Result from SMC/HVC call
+  * @a0-a3 result values from registers 0 to 3
+-- 
+2.25.1
 
-But I think you are over-thinking the Alt + SomeOtherKey case.  The
-important thing isn't what the other key is, it is just to know that
-Alt is a modifier key (ie. handle it on key-up instead of key-down).
-No need to over-complicate things.  It's probably enough to give the
-kernel a list of modifier+key combo's that do _something_..
-
-And like I've said before, keyboard input is the least problematic in
-terms of latency.  It is a _lot_ easier to notice lag with touch
-scrolling or stylus (on screen).  (The latter case, I think wayland
-has some catching up to do compared to CrOS or android.. you really
-need a way to allow the app to do front buffer rendering to an overlay
-for the stylus case, because even just 16ms delay is _very_
-noticeable.)
-
-BR,
--R
