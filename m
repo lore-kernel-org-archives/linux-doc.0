@@ -2,116 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39F38C6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 11:43:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1D83C6FD1D
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 11:49:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229894AbjCQLnC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 07:43:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38780 "EHLO
+        id S229878AbjCQLtC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 07:49:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230396AbjCQLmt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 07:42:49 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 95436A7295;
-        Fri, 17 Mar 2023 04:42:29 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B4C621480;
-        Fri, 17 Mar 2023 04:35:33 -0700 (PDT)
-Received: from [10.57.17.87] (unknown [10.57.17.87])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2D06D3F885;
-        Fri, 17 Mar 2023 04:34:47 -0700 (PDT)
-Message-ID: <74d8b579-6ea8-d6f3-170f-ea13534b4565@arm.com>
-Date:   Fri, 17 Mar 2023 11:34:49 +0000
+        with ESMTP id S229823AbjCQLtB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 07:49:01 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33EED4EED;
+        Fri, 17 Mar 2023 04:48:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E7656B82560;
+        Fri, 17 Mar 2023 11:48:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B7B9C433D2;
+        Fri, 17 Mar 2023 11:48:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679053736;
+        bh=Ep7xq0TiU+qHaUMEFrkyCD2+t3tCkcfkRWs301HgOUc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=G9saBPfdCtC+vAwmfznGdZB2UTqdSQzF263AJzR5mcpKX2ygzQA9bJ0Od2Q9KrrFG
+         0vWoPa2+wsEwNvcGMSYYOmV4zKj0uapfmT7udrufWWgmjAH1SgneGQuO3s+yzqqeCb
+         7HWVNseINxfc9xAm/DlR+pa3mSuP6DU6rDdOgkwf2rhNiM5AwL24XItAK5yhBdIWX1
+         lD3q/+yLOxnjrUatpIrRYGMTlVvujX34ejxxo6K/lOf/wpCQVnf5s03xfC8DfCBGJl
+         cFaZnZ5zillNOYl9Vau9q17yVFSvIzhG/r50v/UJbAsA4R7OqQpKtmhi0pLVq+RwtC
+         6Itb2xlX4MURg==
+Date:   Fri, 17 Mar 2023 13:48:38 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Christoph Lameter <cl@linux.com>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>
+Subject: Re: [PATCH v2 6/6] mm/slab: document kfree() as allowed for
+ kmem_cache_alloc() objects
+Message-ID: <ZBRTln2uTN1vj4i9@kernel.org>
+References: <20230317104307.29328-1-vbabka@suse.cz>
+ <20230317104307.29328-7-vbabka@suse.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 4/4] serial: qcom_geni: Use devm_krealloc_array
-Content-Language: en-US
-To:     Jonathan Cameron <jic23@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, linux@roeck-us.net,
-        michal.simek@amd.com, Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org
-References: <20230309150334.216760-1-james.clark@arm.com>
- <20230309150334.216760-5-james.clark@arm.com>
- <20230311191800.74ec2b84@jic23-huawei>
-From:   James Clark <james.clark@arm.com>
-In-Reply-To: <20230311191800.74ec2b84@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230317104307.29328-7-vbabka@suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 11/03/2023 19:18, Jonathan Cameron wrote:
-> On Thu,  9 Mar 2023 15:03:33 +0000
-> James Clark <james.clark@arm.com> wrote:
+On Fri, Mar 17, 2023 at 11:43:07AM +0100, Vlastimil Babka wrote:
+> This will make it easier to free objects in situations when they can
+> come from either kmalloc() or kmem_cache_alloc(), and also allow
+> kfree_rcu() for freeing objects from kmem_cache_alloc().
 > 
->> Now that it exists, use it instead of doing the multiplication manually.
->>
->> Signed-off-by: James Clark <james.clark@arm.com>
+> For the SLAB and SLUB allocators this was always possible so with SLOB
+> gone, we can document it as supported.
 > 
-> Hmm. I've stared at the users of this for a bit, and it's not actually obvious
-> that it's being used as an array of u32.  The only typed user of this is as
-> the 2nd parameter of  
-> tty_insert_flip_string() which is an unsigned char *
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> Cc: Frederic Weisbecker <frederic@kernel.org>
+> Cc: Neeraj Upadhyay <quic_neeraju@quicinc.com>
+> Cc: Josh Triplett <josh@joshtriplett.org>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Lai Jiangshan <jiangshanlai@gmail.com>
+> Cc: Joel Fernandes <joel@joelfernandes.org>
+
+Reviewed-by: Mike Rapoport (IBM) <rppt@kernel.org>
+
+> ---
+>  Documentation/core-api/memory-allocation.rst | 17 +++++++++++++----
+>  include/linux/rcupdate.h                     |  6 ++++--
+>  mm/slab_common.c                             |  5 +----
+>  3 files changed, 18 insertions(+), 10 deletions(-)
 > 
-> I wonder if that sizeof(u32) isn't a 'correct' description of where the 4 is coming
-> from even if it has the right value?  Perhaps the fifo depth is just a multiple of 4?
-> 
-> Jonathan
+> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+> index 5954ddf6ee13..1c58d883b273 100644
+> --- a/Documentation/core-api/memory-allocation.rst
+> +++ b/Documentation/core-api/memory-allocation.rst
+> @@ -170,7 +170,16 @@ should be used if a part of the cache might be copied to the userspace.
+>  After the cache is created kmem_cache_alloc() and its convenience
+>  wrappers can allocate memory from that cache.
+>  
+> -When the allocated memory is no longer needed it must be freed. You can
+> -use kvfree() for the memory allocated with `kmalloc`, `vmalloc` and
+> -`kvmalloc`. The slab caches should be freed with kmem_cache_free(). And
+> -don't forget to destroy the cache with kmem_cache_destroy().
+> +When the allocated memory is no longer needed it must be freed.
+> +
+> +Objects allocated by `kmalloc` can be freed by `kfree` or `kvfree`. Objects
+> +allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`, `kfree`
+> +or `kvfree`, where the latter two might be more convenient thanks to not
+> +needing the kmem_cache pointer.
+> +
+> +The same rules apply to _bulk and _rcu flavors of freeing functions.
+> +
+> +Memory allocated by `vmalloc` can be freed with `vfree` or `kvfree`.
+> +Memory allocated by `kvmalloc` can be freed with `kvfree`.
+> +Caches created by `kmem_cache_create` should be freed with
+> +`kmem_cache_destroy` only after freeing all the allocated objects first.
+> diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
+> index 094321c17e48..dcd2cf1e8326 100644
+> --- a/include/linux/rcupdate.h
+> +++ b/include/linux/rcupdate.h
+> @@ -976,8 +976,10 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
+>   * either fall back to use of call_rcu() or rearrange the structure to
+>   * position the rcu_head structure into the first 4096 bytes.
+>   *
+> - * Note that the allowable offset might decrease in the future, for example,
+> - * to allow something like kmem_cache_free_rcu().
+> + * The object to be freed can be allocated either by kmalloc() or
+> + * kmem_cache_alloc().
+> + *
+> + * Note that the allowable offset might decrease in the future.
+>   *
+>   * The BUILD_BUG_ON check must not involve any function calls, hence the
+>   * checks are done in macros here.
+> diff --git a/mm/slab_common.c b/mm/slab_common.c
+> index 1522693295f5..607249785c07 100644
+> --- a/mm/slab_common.c
+> +++ b/mm/slab_common.c
+> @@ -989,12 +989,9 @@ EXPORT_SYMBOL(__kmalloc_node_track_caller);
+>  
+>  /**
+>   * kfree - free previously allocated memory
+> - * @object: pointer returned by kmalloc.
+> + * @object: pointer returned by kmalloc() or kmem_cache_alloc()
+>   *
+>   * If @object is NULL, no operation is performed.
+> - *
+> - * Don't free memory not originally allocated by kmalloc()
+> - * or you will run into trouble.
+>   */
+>  void kfree(const void *object)
+>  {
+> -- 
+> 2.39.2
 > 
 
-The commit that added it (b8caf69a6946) seems to hint that something
-reads from it in words. And I see this:
-
-  /* We always configure 4 bytes per FIFO word */
-  #define BYTES_PER_FIFO_WORD		4U
-
-Perhaps sizeof(u32) isn't as accurate of a description as using
-BYTES_PER_FIFO_WORD but I'd be reluctant to make a change because I
-don't really understand the implications.
-
-There is also this in handle_rx_console():
-
-  unsigned char buf[sizeof(u32)];
-
-James
-
-> 
-> 
->> ---
->>  drivers/tty/serial/qcom_geni_serial.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/tty/serial/qcom_geni_serial.c b/drivers/tty/serial/qcom_geni_serial.c
->> index d69592e5e2ec..23fc33d182ac 100644
->> --- a/drivers/tty/serial/qcom_geni_serial.c
->> +++ b/drivers/tty/serial/qcom_geni_serial.c
->> @@ -1056,9 +1056,9 @@ static int setup_fifos(struct qcom_geni_serial_port *port)
->>  		(port->tx_fifo_depth * port->tx_fifo_width) / BITS_PER_BYTE;
->>  
->>  	if (port->rx_buf && (old_rx_fifo_depth != port->rx_fifo_depth) && port->rx_fifo_depth) {
->> -		port->rx_buf = devm_krealloc(uport->dev, port->rx_buf,
->> -					     port->rx_fifo_depth * sizeof(u32),
->> -					     GFP_KERNEL);
->> +		port->rx_buf = devm_krealloc_array(uport->dev, port->rx_buf,
->> +						   port->rx_fifo_depth, sizeof(u32),
->> +						   GFP_KERNEL);
->>  		if (!port->rx_buf)
->>  			return -ENOMEM;
->>  	}
-> 
+-- 
+Sincerely yours,
+Mike.
