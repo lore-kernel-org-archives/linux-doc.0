@@ -2,211 +2,505 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C49C6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 14:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1672C74A5B
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 15:10:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbjCQOzD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 10:55:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36740 "EHLO
+        id S230188AbjCQPKB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 11:10:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230196AbjCQOzC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 10:55:02 -0400
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F6C6559C1;
-        Fri, 17 Mar 2023 07:54:53 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.228])
-        by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4PdRl72Zggz9xqck;
-        Fri, 17 Mar 2023 22:45:55 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.204.63.22])
-        by APP2 (Coremail) with SMTP id GxC2BwBnOWDafhRkaQemAQ--.41316S7;
-        Fri, 17 Mar 2023 15:54:29 +0100 (CET)
-From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
-To:     corbet@lwn.net, ast@kernel.org, daniel@iogearbox.net,
-        andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
-        yhs@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org,
-        sdf@google.com, haoluo@google.com, jolsa@kernel.org,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, dsahern@kernel.org, shuah@kernel.org,
-        brauner@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bpf@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, ebiederm@xmission.com,
-        mcgrof@kernel.org, Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [PATCH 5/5] doc: Add documentation for the User Mode Driver management library
-Date:   Fri, 17 Mar 2023 15:52:40 +0100
-Message-Id: <20230317145240.363908-6-roberto.sassu@huaweicloud.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230317145240.363908-1-roberto.sassu@huaweicloud.com>
-References: <20230317145240.363908-1-roberto.sassu@huaweicloud.com>
+        with ESMTP id S231491AbjCQPJo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 11:09:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAE5E3A4ED
+        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 08:08:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1679065659;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dZJU/fEEhuF9U7cN3pXMxhADcyk4jZbjIzMqrS3FEvI=;
+        b=E5D+8RihUkEyViBUzQeL5QUyLjBkt8Zj7pdRq6FqpKPGYq57MXYTcosQNoQ+Jk9EaQRnlA
+        YY+g5oQeTWNxgAE95sJ2XDbZqpchUUQP4E3wl0IXYKC21HlofMS1bvgs60os5ceq9Or3XV
+        QmtRlQ4gcSNxtQH4b+X2nZl+LJ/vub0=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-313-qAh2I1ATOgqpZk5Ki96naw-1; Fri, 17 Mar 2023 11:07:37 -0400
+X-MC-Unique: qAh2I1ATOgqpZk5Ki96naw-1
+Received: by mail-lf1-f70.google.com with SMTP id p8-20020a056512234800b004dda0f69233so2144179lfu.13
+        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 08:07:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679065656;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dZJU/fEEhuF9U7cN3pXMxhADcyk4jZbjIzMqrS3FEvI=;
+        b=iinid8Bqr7WqNEFqBEvff8OuZiaxkjTi5TZ5+VTfrHLw9PPw5M6lzvPOw6oLQbElLN
+         9Z1iYaIsVs9kk9rAjd4kMGFdx+kuQqZivE1Fa3yjy83wVSXniIwxxvh//e70puak8lO+
+         +fuPvLFSRiv1yZHE+4TSQshmPvyww9bPbpSroR5nzQsMojs2P+HnGRT3FoPm+Z3gd8sp
+         /nRlqPrGl9R4RsDAS4RG77v3bKhNApe8nI+fnRD/U+PHkHDvBmjzkyZW276Vi6/Tz4/y
+         y3TI8lHs5Md1EnujZr3cAe5awY2jbuT6dzGCYsoWV/lMx3yeHOQcoAQEF4iFAwraoZtI
+         3QBA==
+X-Gm-Message-State: AO0yUKXnmgQQbZ/aE9PKikmqngZS98hZ8a3aZTs5Evv4vaOIFVaCHrtB
+        NocFZixgLuez+4Fi5XB+DKkplbqPN2vmJR1ozM5jsUGRXv3Xpe2dVaWKEJFLGLQx9DKaNjkBWtM
+        +BzJeepkG8Lx8hj0bmu00zWIME9gklR+O+9+q
+X-Received: by 2002:a19:7009:0:b0:4e8:6261:58c2 with SMTP id h9-20020a197009000000b004e8626158c2mr2512602lfc.7.1679065655841;
+        Fri, 17 Mar 2023 08:07:35 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+POVytsQS+rqGfWtdW6NULVr/TzxdPfoGfV6mMYr/se72Yd56lLKlYCXbQVCqj+CxKQBv2WyI4dF0EWqFSczU=
+X-Received: by 2002:a19:7009:0:b0:4e8:6261:58c2 with SMTP id
+ h9-20020a197009000000b004e8626158c2mr2512585lfc.7.1679065655381; Fri, 17 Mar
+ 2023 08:07:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: GxC2BwBnOWDafhRkaQemAQ--.41316S7
-X-Coremail-Antispam: 1UD129KBjvJXoW3Gw4Utr4kKFWrKrWrGw18AFb_yoW7AFW8pF
-        Z3JrWft3WkJryavr1fJw17uryrZas7Ja15GFn3Kw1rZwn8Zrn0yr1Ut3WFqFyUGryFyrW5
-        tr15Jr1UCw1DAr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPlb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
-        Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
-        rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
-        AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E
-        14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrV
-        C2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE
-        7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262
-        kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
-        6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GF
-        v_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvE
-        c7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
-        AFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZF
-        pf9x07jIPfQUUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQATBF1jj4qqgQAAsG
-X-CFilter-Loop: Reflected
+References: <20230308155322.344664-1-robdclark@gmail.com> <20230308155322.344664-2-robdclark@gmail.com>
+ <ZAtQspuFjPtGy7ze@gmail.com> <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
+ <ZBHNvT3BLgS3qvV5@gmail.com> <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
+ <ZBLg0t0tTVvuPuiJ@gmail.com> <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
+ <CA+hFU4xbssR+=Sf4ia5kPdsSb4y9SQUd4nx_2p1Szcbtna28CA@mail.gmail.com> <CAF6AEGuSaNAQUfbkJf2bt+VMTxYWTf0j0jiJOS6Q-6HfCLnw6Q@mail.gmail.com>
+In-Reply-To: <CAF6AEGuSaNAQUfbkJf2bt+VMTxYWTf0j0jiJOS6Q-6HfCLnw6Q@mail.gmail.com>
+From:   Sebastian Wick <sebastian.wick@redhat.com>
+Date:   Fri, 17 Mar 2023 16:07:24 +0100
+Message-ID: <CA+hFU4xH7C9+KdusqydNF_YxUc8RpN1D_KBi_cD8mMjwpjBO5A@mail.gmail.com>
+Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        intel-gfx@lists.freedesktop.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        dri-devel@lists.freedesktop.org,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Matt Turner <mattst88@gmail.com>,
+        freedreno@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Roberto Sassu <roberto.sassu@huawei.com>
+On Thu, Mar 16, 2023 at 11:59=E2=80=AFPM Rob Clark <robdclark@gmail.com> wr=
+ote:
+>
+> On Thu, Mar 16, 2023 at 3:22=E2=80=AFPM Sebastian Wick
+> <sebastian.wick@redhat.com> wrote:
+> >
+> > On Thu, Mar 16, 2023 at 5:29=E2=80=AFPM Rob Clark <robdclark@gmail.com>=
+ wrote:
+> > >
+> > > On Thu, Mar 16, 2023 at 2:26=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmai=
+l.com> wrote:
+> > > >
+> > > > On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
+> > > > > On Wed, Mar 15, 2023 at 6:53=E2=80=AFAM Jonas =C3=85dahl <jadahl@=
+gmail.com> wrote:
+> > > > > >
+> > > > > > On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
+> > > > > > > On Fri, Mar 10, 2023 at 7:45=E2=80=AFAM Jonas =C3=85dahl <jad=
+ahl@gmail.com> wrote:
+> > > > > > > >
+> > > > > > > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
+> > > > > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > > > > > >
+> > > > > > > > > Add a way to hint to the fence signaler of an upcoming de=
+adline, such as
+> > > > > > > > > vblank, which the fence waiter would prefer not to miss. =
+ This is to aid
+> > > > > > > > > the fence signaler in making power management decisions, =
+like boosting
+> > > > > > > > > frequency as the deadline approaches and awareness of mis=
+sing deadlines
+> > > > > > > > > so that can be factored in to the frequency scaling.
+> > > > > > > > >
+> > > > > > > > > v2: Drop dma_fence::deadline and related logic to filter =
+duplicate
+> > > > > > > > >     deadlines, to avoid increasing dma_fence size.  The f=
+ence-context
+> > > > > > > > >     implementation will need similar logic to track deadl=
+ines of all
+> > > > > > > > >     the fences on the same timeline.  [ckoenig]
+> > > > > > > > > v3: Clarify locking wrt. set_deadline callback
+> > > > > > > > > v4: Clarify in docs comment that this is a hint
+> > > > > > > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
+> > > > > > > > > v6: More docs
+> > > > > > > > > v7: Fix typo, clarify past deadlines
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > > > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.c=
+om>
+> > > > > > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > > > > > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > > > > > > > > ---
+> > > > > > > >
+> > > > > > > > Hi Rob!
+> > > > > > > >
+> > > > > > > > >  Documentation/driver-api/dma-buf.rst |  6 +++
+> > > > > > > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++=
+++++++++++++++
+> > > > > > > > >  include/linux/dma-fence.h            | 22 +++++++++++
+> > > > > > > > >  3 files changed, 87 insertions(+)
+> > > > > > > > >
+> > > > > > > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Docum=
+entation/driver-api/dma-buf.rst
+> > > > > > > > > index 622b8156d212..183e480d8cea 100644
+> > > > > > > > > --- a/Documentation/driver-api/dma-buf.rst
+> > > > > > > > > +++ b/Documentation/driver-api/dma-buf.rst
+> > > > > > > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
+> > > > > > > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
+> > > > > > > > >     :doc: fence signalling annotation
+> > > > > > > > >
+> > > > > > > > > +DMA Fence Deadline Hints
+> > > > > > > > > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > > > > > +
+> > > > > > > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
+> > > > > > > > > +   :doc: deadline hints
+> > > > > > > > > +
+> > > > > > > > >  DMA Fences Functions Reference
+> > > > > > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > > > > >
+> > > > > > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-bu=
+f/dma-fence.c
+> > > > > > > > > index 0de0482cd36e..f177c56269bb 100644
+> > > > > > > > > --- a/drivers/dma-buf/dma-fence.c
+> > > > > > > > > +++ b/drivers/dma-buf/dma-fence.c
+> > > > > > > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dm=
+a_fence **fences, uint32_t count,
+> > > > > > > > >  }
+> > > > > > > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+> > > > > > > > >
+> > > > > > > > > +/**
+> > > > > > > > > + * DOC: deadline hints
+> > > > > > > > > + *
+> > > > > > > > > + * In an ideal world, it would be possible to pipeline a=
+ workload sufficiently
+> > > > > > > > > + * that a utilization based device frequency governor co=
+uld arrive at a minimum
+> > > > > > > > > + * frequency that meets the requirements of the use-case=
+, in order to minimize
+> > > > > > > > > + * power consumption.  But in the real world there are m=
+any workloads which
+> > > > > > > > > + * defy this ideal.  For example, but not limited to:
+> > > > > > > > > + *
+> > > > > > > > > + * * Workloads that ping-pong between device and CPU, wi=
+th alternating periods
+> > > > > > > > > + *   of CPU waiting for device, and device waiting on CP=
+U.  This can result in
+> > > > > > > > > + *   devfreq and cpufreq seeing idle time in their respe=
+ctive domains and in
+> > > > > > > > > + *   result reduce frequency.
+> > > > > > > > > + *
+> > > > > > > > > + * * Workloads that interact with a periodic time based =
+deadline, such as double
+> > > > > > > > > + *   buffered GPU rendering vs vblank sync'd page flippi=
+ng.  In this scenario,
+> > > > > > > > > + *   missing a vblank deadline results in an *increase* =
+in idle time on the GPU
+> > > > > > > > > + *   (since it has to wait an additional vblank period),=
+ sending a signal to
+> > > > > > > > > + *   the GPU's devfreq to reduce frequency, when in fact=
+ the opposite is what is
+> > > > > > > > > + *   needed.
+> > > > > > > >
+> > > > > > > > This is the use case I'd like to get some better understand=
+ing about how
+> > > > > > > > this series intends to work, as the problematic scheduling =
+behavior
+> > > > > > > > triggered by missed deadlines has plagued compositing displ=
+ay servers
+> > > > > > > > for a long time.
+> > > > > > > >
+> > > > > > > > I apologize, I'm not a GPU driver developer, nor an OpenGL =
+driver
+> > > > > > > > developer, so I will need some hand holding when it comes t=
+o
+> > > > > > > > understanding exactly what piece of software is responsible=
+ for
+> > > > > > > > communicating what piece of information.
+> > > > > > > >
+> > > > > > > > > + *
+> > > > > > > > > + * To this end, deadline hint(s) can be set on a &dma_fe=
+nce via &dma_fence_set_deadline.
+> > > > > > > > > + * The deadline hint provides a way for the waiting driv=
+er, or userspace, to
+> > > > > > > > > + * convey an appropriate sense of urgency to the signali=
+ng driver.
+> > > > > > > > > + *
+> > > > > > > > > + * A deadline hint is given in absolute ktime (CLOCK_MON=
+OTONIC for userspace
+> > > > > > > > > + * facing APIs).  The time could either be some point in=
+ the future (such as
+> > > > > > > > > + * the vblank based deadline for page-flipping, or the s=
+tart of a compositor's
+> > > > > > > > > + * composition cycle), or the current time to indicate a=
+n immediate deadline
+> > > > > > > > > + * hint (Ie. forward progress cannot be made until this =
+fence is signaled).
+> > > > > > > >
+> > > > > > > > Is it guaranteed that a GPU driver will use the actual star=
+t of the
+> > > > > > > > vblank as the effective deadline? I have some memories of s=
+eing
+> > > > > > > > something about vblank evasion browsing driver code, which =
+I might have
+> > > > > > > > misunderstood, but I have yet to find whether this is somet=
+hing
+> > > > > > > > userspace can actually expect to be something it can rely o=
+n.
+> > > > > > >
+> > > > > > > I guess you mean s/GPU driver/display driver/ ?  It makes thi=
+ngs more
+> > > > > > > clear if we talk about them separately even if they happen to=
+ be the
+> > > > > > > same device.
+> > > > > >
+> > > > > > Sure, sorry about being unclear about that.
+> > > > > >
+> > > > > > >
+> > > > > > > Assuming that is what you mean, nothing strongly defines what=
+ the
+> > > > > > > deadline is.  In practice there is probably some buffering in=
+ the
+> > > > > > > display controller.  For ex, block based (including bandwidth
+> > > > > > > compressed) formats, you need to buffer up a row of blocks to
+> > > > > > > efficiently linearize for scanout.  So you probably need to l=
+atch some
+> > > > > > > time before you start sending pixel data to the display.  But=
+ details
+> > > > > > > like this are heavily implementation dependent.  I think the =
+most
+> > > > > > > reasonable thing to target is start of vblank.
+> > > > > >
+> > > > > > The driver exposing those details would be quite useful for use=
+rspace
+> > > > > > though, so that it can delay committing updates to late, but no=
+t too
+> > > > > > late. Setting a deadline to be the vblank seems easy enough, bu=
+t it
+> > > > > > isn't enough for scheduling the actual commit.
+> > > > >
+> > > > > I'm not entirely sure how that would even work.. but OTOH I think=
+ you
+> > > > > are talking about something on the order of 100us?  But that is a=
+ bit
+> > > > > of another topic.
+> > > >
+> > > > Yes, something like that. But yea, it's not really related. Schedul=
+ing
+> > > > commits closer to the deadline has more complex behavior than that =
+too,
+> > > > e.g. the need for real time scheduling, and knowing how long it usu=
+ally
+> > > > takes to create and commit and for the kernel to process.
+> >
+> > Vblank can be really long, especially with VRR where the additional
+> > time you get to finish the frame comes from making vblank longer.
+> > Using the start of vblank as a deadline makes VRR useless. It really
+> > would be nice to have some feedback about the actual deadline from the
+> > kernel, maybe in `struct drm_event_vblank`.
+>
+> note that here we are only talking about the difference between
+> start/end of vblank and the deadline for the hw to latch a change for
+> the next frame.  (Which I _expect_ generally amounts to however long
+> it takes to slurp in a row of tiles)
+>
+> > But yes, sorry, off topic...
+> >
+> > > > >
+> > > >
+> > > > 8-< *snip* 8-<
+> > > >
+> > > > > > >
+> > > > > > > You need a fence to set the deadline, and for that work needs=
+ to be
+> > > > > > > flushed.  But you can't associate a deadline with work that t=
+he kernel
+> > > > > > > is unaware of anyways.
+> > > > > >
+> > > > > > That makes sense, but it might also a bit inadequate to have it=
+ as the
+> > > > > > only way to tell the kernel it should speed things up. Even wit=
+h the
+> > > > > > trick i915 does, with GNOME Shell, we still end up with the fee=
+dback
+> > > > > > loop this series aims to mitigate. Doing triple buffering, i.e.=
+ delaying
+> > > > > > or dropping the first frame is so far the best work around that=
+ works,
+> > > > > > except doing other tricks that makes the kernel to ramp up its =
+clock.
+> > > > > > Having to rely on choosing between latency and frame drops shou=
+ld
+> > > > > > ideally not have to be made.
+> > > > >
+> > > > > Before you have a fence, the thing you want to be speeding up is =
+the
+> > > > > CPU, not the GPU.  There are existing mechanisms for that.
+> > > >
+> > > > Is there no benefit to let the GPU know earlier that it should spee=
+d up,
+> > > > so that when the job queue arrives, it's already up to speed?
+> > >
+> > > Downstream we have input notifier that resumes the GPU so we can
+> > > pipeline the 1-2ms it takes to boot up the GPU with userspace.  But w=
+e
+> > > wait to boost freq until we have cmdstream to submit, since that
+> > > doesn't take as long.  What needs help initially after input is all
+> > > the stuff that happens on the CPU before the GPU can start to do
+> > > anything ;-)
+> > >
+> > > Btw, I guess I haven't made this clear, dma-fence deadline is trying
+> > > to help the steady-state situation, rather than the input-latency
+> > > situation.  It might take a frame or two of missed deadlines for
+> > > gpufreq to arrive at a good steady-state freq.
+> >
+> > The mutter issue also is about a suboptimal steady-state.
+> >
+> > Truth be told, I'm not sure if this fence deadline idea fixes the
+> > issue we're seeing or at least helps sometimes. It might, it might
+> > not. What annoys me is that the compositor *knows* before any work is
+> > submitted that some work will be submitted and when it has to finish.
+> > We could maximize the chances to get everything right but having to
+> > wait for a fence to materialize in the compositor to do anything about
+> > it is suboptimal.
+>
+> Why would the app not immediately send the fence+buf to the compositor
+> as soon as it is submitted to the kernel on client process side?
 
-Add a documentation, to explain the motivation behind the new component, to
-describe the software architecture, the API and an example used for
-testing.
+Some apps just are not good at this. Reading back work from the GPU,
+taking a lot of CPU time to create the GPU work, etc.
 
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
----
- Documentation/driver-api/index.rst    |  1 +
- Documentation/driver-api/umd_mgmt.rst | 99 +++++++++++++++++++++++++++
- MAINTAINERS                           |  1 +
- 3 files changed, 101 insertions(+)
- create mode 100644 Documentation/driver-api/umd_mgmt.rst
+The other obvious offender: frame callbacks. Committing a buffer only
+happens after receiving a frame callback in FIFO/vsync mode which we
+try to schedule as close to the deadline as possible.
 
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index ff9aa1afdc6..ad42cd968dc 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -113,6 +113,7 @@ available subsections can be seen below.
-    xillybus
-    zorro
-    hte/index
-+   umd_mgmt
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/driver-api/umd_mgmt.rst b/Documentation/driver-api/umd_mgmt.rst
-new file mode 100644
-index 00000000000..7dbb50b3643
---- /dev/null
-+++ b/Documentation/driver-api/umd_mgmt.rst
-@@ -0,0 +1,99 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================
-+User Mode Driver Management Library
-+===================================
-+
-+:Author: Roberto Sassu, Huawei Technologies Duesseldorf GmbH
-+:Date:   2023-03-16
-+
-+Introduction
-+============
-+
-+The idea of moving code away from the kernel and running it in user space
-+is not new. For example, the User Space I/O driver model allows developers
-+to implement most of the driver logic in user space, and keep only a small
-+part in a kernel module, for example to handle interrupts.
-+
-+The User Mode Driver (UMD) is a more specialized solution, primarily used
-+by bpfilter, consisting of a user space process running from code embedded
-+in a kernel module, communicating only through a pipe with the kernel.
-+
-+The kernel makes a request, possibly originated by the user of the system,
-+and sends it to the user space process. The latter handles the kernel
-+request, and sends the response back to the kernel. Finally, the kernel
-+eventually forwards the result to the user.
-+
-+This usage model is particularly interesting for security. The kernel can
-+offload to user space workloads that could introduce possible threats, for
-+example parsing unknown and possibly malicious data. While the kernel
-+already does that, it is important to limit to the minimum the chances of
-+an attacker to exploit a vulnerability in the kernel code.
-+
-+If a user space process becomes corrupted, it can still send malicious data
-+to the kernel, but it won't be able to directly corrupt the kernel memory.
-+In addition, if the communication protocol between the user space process
-+and the kernel is simple enough, malicious data can be effectively
-+sanitized.
-+
-+The purpose of this library is simply to facilitate developers to create
-+UMDs and to help them customize the UMDs to their needs.
-+
-+
-+
-+Architecture
-+============
-+
-+The architecture of the UMD library is as follows:
-+
-+::
-+
-+ +-----------+                    +---------------+
-+ |    UMD    | 2. request module  |   UMD Loader  |
-+ |  Manager  |------------------->| (kmod +       |
-+ |           |------+             |  user binary) |
-+ +-----------+      |             +---------------+
-+       ^            |                    |                     kernel space
-+ --------------------------------------------------------------------------
-+       |            | 4. send/           v 3. fork/execve/pipe   user space
-+       |            |    receive  +-------------+
-+ 1. user request    +------------>| UMD Handler |
-+                                  | (exec user  |
-+                                  |  binary)    |
-+                                  +-------------+
-+
-+The `UMD Manager` is the frontend interface to any user or
-+kernel-originated request. It invokes the `UMD Loader` to start the
-+`UMD Handler`, and communicates with the latter to satisfy the request.
-+
-+The `UMD Loader` is merely responsible to extract the `user binary` from
-+the kernel module, copy it to a tmpfs filesystem, fork the current process,
-+start the `UMD Handler`, and create a pipe for the communication between
-+the `UMD Manager` and the `UMD Handler`.
-+
-+The `UMD Handler` reads requests from the `UMD Manager`, processes them
-+internally, and sends the response to it.
-+
-+
-+API
-+===
-+
-+.. kernel-doc:: include/linux/usermode_driver_mgmt.h
-+
-+.. kernel-doc:: kernel/usermode_driver_mgmt.c
-+
-+
-+Example
-+=======
-+
-+An example of usage of the UMD management library can be found in
-+tools/testing/selftests/umd_mgmt/sample_umd.
-+
-+sample_mgr.c implements the `UMD Manager`, sample_loader.c implements the
-+`UMD Loader` and, finally, sample_handler.c implements the `UMD Handler`.
-+
-+The `UMD Manager` exposes /sys/kernel/security/sample_umd and accepts a
-+number between 0-128K intended as an offset in the response buffer, at
-+which the `UMD Handler` sets the byte to 1. The `UMD Manager` verifies
-+that. If the byte is not set to 1, the `UMD Manager` rejects the write, so
-+that the failure can be reported by the test.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a0cd161843e..4b9d251259d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11249,6 +11249,7 @@ KERNEL USERMODE DRIVER MANAGEMENT
- M:	Roberto Sassu <roberto.sassu@huawei.com>
- L:	linux-kernel@vger.kernel.org
- S:	Maintained
-+F:	Documentation/driver-api/umd_mgmt.rst
- F:	include/linux/usermode_driver_mgmt.h
- F:	kernel/usermode_driver_mgmt.c
- F:	tools/testing/selftests/umd_mgmt/*
--- 
-2.25.1
+The idea that the clients are able to submit all GPU work some time
+early, then immediately commit to show up in the compositor well
+before the deadline is very idealized. We're trying to get there but
+we also only have control over the WSI so bad apps will still be bad
+apps.
+
+> At any rate, it really doesn't matter how early the kernel finds out
+> about the deadline, since the point is to let the kernel driver know
+> if it is missing the deadline so that it doesn't mis-interpret stall
+> time waiting for the _next_ vblank after the one we wanted.
+
+That's a good point! Let's see how well this works in practice and how
+we can improve on that in the future.
+
+> > > > >
+> > > > > TBF I'm of the belief that there is still a need for input based =
+cpu
+> > > > > boost (and early wake-up trigger for GPU).. we have something lik=
+e
+> > > > > this in CrOS kernel.  That is a bit of a different topic, but my =
+point
+> > > > > is that fence deadlines are just one of several things we need to
+> > > > > optimize power/perf and responsiveness, rather than the single th=
+ing
+> > > > > that solves every problem under the sun ;-)
+> > > >
+> > > > Perhaps; but I believe it's a bit of a back channel of intent; the =
+piece
+> > > > of the puzzle that has the information to know whether there is nee=
+d
+> > > > actually speed up is the compositor, not the kernel.
+> > > >
+> > > > For example, pressing 'p' while a terminal is focused does not need=
+ high
+> > > > frequency clocks, it just needs the terminal emulator to draw a 'p'=
+ and
+> > > > the compositor to composite that update. Pressing <Super> may howev=
+er
+> > > > trigger a non-trivial animation moving a lot of stuff around on scr=
+een,
+> > > > maybe triggering Wayland clients to draw and what not, and should m=
+ost
+> > > > arguably have the ability to "warn" the kernel about the upcoming f=
+lood
+> > > > of work before it is already knocking on its door step.
+> > >
+> > > The super key is problematic, but not for the reason you think.  It i=
+s
+> > > because it is a case where we should boost on key-up instead of
+> > > key-down.. and the second key-up event comes after the cpu-boost is
+> > > already in it's cool-down period.  But even if suboptimal in cases
+> > > like this, it is still useful for touch/stylus cases where the
+> > > slightest of lag is much more perceptible.
+> > >
+> > > This is getting off topic but I kinda favor coming up with some sort
+> > > of static definition that userspace could give the kernel to let the
+> > > kernel know what input to boost on.  Or maybe something could be done
+> > > with BPF?
+> >
+> > Why? Do you think user space is so slow that it can't process the
+> > input events and then do a syscall? We need to have all input devices
+> > open anyway that can affect the system and know more about how they
+> > affect behavior than the kernel can ever know.
+>
+> Again this is getting off into a different topic.  But my gut feel is
+> that the shorter the path to input cpu freq boost, the better.. since
+> however many extra cycles you add, they will be cycles with cpu (and
+> probably ddr) at lowest freq
+
+On the one hand, sure, that makes sense in theory. On the other hand,
+we won't know for sure until we try it and I suspect a RT thread in
+user space will be fast enough.
+
+> BR,
+> -R
+>
+> > >
+> > > > >
+> > > >
+> > > > 8-< *snip* 8-<
+> > > >
+> > > > > >
+> > > > > > Is it expected that WSI's will set their own deadlines, or shou=
+ld that
+> > > > > > be the job of the compositor? For example by using compositors =
+using
+> > > > > > DMA_BUF_IOCTL_EXPORT_SYNC_FILE that you mentioned, using it to =
+set a
+> > > > > > deadline matching the vsync it most ideally will be committed t=
+o?
+> > > > > >
+> > > > >
+> > > > > I'm kind of assuming compositors, but if the WSI somehow has more
+> > > > > information about ideal presentation time, then I suppose it coul=
+d be
+> > > > > in the WSI?  I'll defer to folks who spend more time on WSI and
+> > > > > compositors to hash out the details ;-)
+> > > >
+> > > > With my compositor developer hat on, it might be best to let it be =
+up to
+> > > > the compositor, it's the one that knows if a client's content will
+> > > > actually end up anywhere visible.
+> > > >
+> > >
+> > > wfm
+> > >
+> > > BR,
+> > > -R
+> > >
+> > > >
+> > > > Jonas
+> > > >
+> > > > >
+> > > > > BR,
+> > > > > -R
+> > >
+> >
+>
 
