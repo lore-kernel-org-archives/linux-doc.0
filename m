@@ -2,49 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2289DC6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 20:28:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7132BC6FD1D
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 20:28:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229999AbjCQU2p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 16:28:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58556 "EHLO
+        id S230137AbjCQU2y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 16:28:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229959AbjCQU2o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 16:28:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53271A9098
-        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 13:27:56 -0700 (PDT)
+        with ESMTP id S230103AbjCQU2u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 16:28:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0432ACE08
+        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 13:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679084875;
+        s=mimecast20190719; t=1679084876;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=DV4XApSba1H+jI1EziaiPZNIFxJwaca8BPvrUrvzx4E=;
-        b=aZ/5AzmViyUEbAh5DtvuRWGOr099gpT9fLbK4d4r8lHPHWmQXG3OapoQ1hIlEzpT8XvLEv
-        MDxhrh0WSW7vZlz7Kyw9GIpbfnpajjC1lZmlUsagdnmJNj1WEiyPqhdc+jov5XZC/C7O/f
-        HGyR0G1/z+iPn0Hj8YZrRrVi8jdh8T0=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=0R5I27ov4lNPeGd1XvXpj2Wrky39OKo2yJm6P6Bnges=;
+        b=KAAKi9MopcAcxSuysMaE5KaBOhOvmqpdAtQzpncBhJacRmbLM8uGo5+uxmd5zYAhJc8Adt
+        v4cD214q7EXmfnJf2VLMjXB0G4VLhhFqMhMjsrTBplrZ04sAk/q9VCtzJgeJdgr1rsEqD0
+        q8rePDrr+bt0x1D/zZxAeihIPWmmvYs=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-97-4mtHtnXROQi3iVu07KYAzQ-1; Fri, 17 Mar 2023 16:27:52 -0400
-X-MC-Unique: 4mtHtnXROQi3iVu07KYAzQ-1
+ us-mta-392-zpc23gJ5NoWr0lHdeCqhig-1; Fri, 17 Mar 2023 16:27:55 -0400
+X-MC-Unique: zpc23gJ5NoWr0lHdeCqhig-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F9383C025C0;
-        Fri, 17 Mar 2023 20:27:51 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1865C3C025C0;
+        Fri, 17 Mar 2023 20:27:55 +0000 (UTC)
 Received: from green.redhat.com (unknown [10.2.16.99])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A6BEB492B02;
-        Fri, 17 Mar 2023 20:27:50 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 218CD492B00;
+        Fri, 17 Mar 2023 20:27:54 +0000 (UTC)
 From:   Eric Blake <eblake@redhat.com>
 To:     josef@toxicpanda.com, linux-block@vger.kernel.org,
         nbd@other.debian.org
 Cc:     philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
         christoph.boehmwalder@linbit.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/5] nbd: s/handle/cookie/
-Date:   Fri, 17 Mar 2023 15:27:44 -0500
-Message-Id: <20230317202749.419094-1-eblake@redhat.com>
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ming Lei <ming.lei@redhat.com>
+Subject: [PATCH v2 1/5] uapi nbd: improve doc links to userspace spec
+Date:   Fri, 17 Mar 2023 15:27:45 -0500
+Message-Id: <20230317202749.419094-2-eblake@redhat.com>
+In-Reply-To: <20230317202749.419094-1-eblake@redhat.com>
+References: <20230317202749.419094-1-eblake@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -53,27 +57,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v1 was here: https://lkml.org/lkml/2023/3/10/1162
-since then:
-- split original 1/3 into 1/5 and 5/5
-- new patch 2/5
-- reorder members of anon union
-- always send cookie in network order
+The uapi <linux/nbd.h> header intentionally documents only the NBD
+server features that the kernel module will utilize as a client.  But
+while it already had one mention of skipped bits due to userspace
+extensions, it did not actually direct the reader to the canonical
+source to learn about those extensions.
 
-Eric Blake (5):
-  uapi nbd: improve doc links to userspace spec
-  block nbd: send handle in network order
-  uapi nbd: add cookie alias to handle
-  block nbd: use req.cookie instead of req.handle
-  docs nbd: userspace NBD now favors github over sourceforge
+While touching comments, fix an outdated reference that listed only
+READ and WRITE as commands.
 
- Documentation/admin-guide/blockdev/nbd.rst |  2 +-
- drivers/block/nbd.c                        |  6 +++---
- include/uapi/linux/nbd.h                   | 25 +++++++++++++++++-----
- 3 files changed, 24 insertions(+), 9 deletions(-)
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Ming Lei <ming.lei@redhat.com>
 
+---
+v2: Split change to sourceforge link to separate patch
+---
+ include/uapi/linux/nbd.h | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-base-commit: 8d3c682a5e3d9dfc2448ecbb22f4cd48359b9e21
+diff --git a/include/uapi/linux/nbd.h b/include/uapi/linux/nbd.h
+index 20d6cc91435d..8797387caaf7 100644
+--- a/include/uapi/linux/nbd.h
++++ b/include/uapi/linux/nbd.h
+@@ -11,6 +11,8 @@
+  *            Cleanup PARANOIA usage & code.
+  * 2004/02/19 Paul Clements
+  *            Removed PARANOIA, plus various cleanup and comments
++ * 2023 Copyright Red Hat
++ *            Link to userspace extensions.
+  */
+
+ #ifndef _UAPILINUX_NBD_H
+@@ -30,12 +32,18 @@
+ #define NBD_SET_TIMEOUT _IO( 0xab, 9 )
+ #define NBD_SET_FLAGS   _IO( 0xab, 10)
+
++/*
++ * See also https://github.com/NetworkBlockDevice/nbd/blob/master/doc/proto.md
++ * for additional userspace extensions not yet utilized in the kernel module.
++ */
++
+ enum {
+ 	NBD_CMD_READ = 0,
+ 	NBD_CMD_WRITE = 1,
+ 	NBD_CMD_DISC = 2,
+ 	NBD_CMD_FLUSH = 3,
+ 	NBD_CMD_TRIM = 4
++	/* userspace defines additional extension commands */
+ };
+
+ /* values for flags field, these are server interaction specific. */
+@@ -64,14 +72,15 @@ enum {
+ #define NBD_REQUEST_MAGIC 0x25609513
+ #define NBD_REPLY_MAGIC 0x67446698
+ /* Do *not* use magics: 0x12560953 0x96744668. */
++/* magic 0x668e33ef for structured reply not supported by kernel yet */
+
+ /*
+  * This is the packet used for communication between client and
+  * server. All data are in network byte order.
+  */
+ struct nbd_request {
+-	__be32 magic;
+-	__be32 type;	/* == READ || == WRITE 	*/
++	__be32 magic;	/* NBD_REQUEST_MAGIC	*/
++	__be32 type;	/* See NBD_CMD_*	*/
+ 	char handle[8];
+ 	__be64 from;
+ 	__be32 len;
+@@ -82,7 +91,7 @@ struct nbd_request {
+  * it has completed an I/O request (or an error occurs).
+  */
+ struct nbd_reply {
+-	__be32 magic;
++	__be32 magic;		/* NBD_REPLY_MAGIC	*/
+ 	__be32 error;		/* 0 = ok, else error	*/
+ 	char handle[8];		/* handle you got from request	*/
+ };
 -- 
 2.39.2
 
