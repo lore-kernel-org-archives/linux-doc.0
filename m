@@ -2,243 +2,197 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E250CC6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 18:11:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C6EC6FD1D
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 18:41:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230103AbjCQSLD convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 14:11:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37570 "EHLO
+        id S229654AbjCQSlJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 14:41:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229654AbjCQSLC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 14:11:02 -0400
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B239B5A6FD;
-        Fri, 17 Mar 2023 11:10:59 -0700 (PDT)
-Received: by mail-ed1-f42.google.com with SMTP id eh3so23596712edb.11;
-        Fri, 17 Mar 2023 11:10:59 -0700 (PDT)
+        with ESMTP id S229600AbjCQSlI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 14:41:08 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CEFA399D4
+        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 11:41:06 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id ek18so23946705edb.6
+        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 11:41:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tessares.net; s=google; t=1679078465;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qLt5F1/Ugauyf5shEntzjWUG+KhzEEAAsNAk/6CtFTE=;
+        b=lcoDKNmu1EfwcWHjdgwtVGLMa25SD/WC8VLwf7alwUeGfLq6eshSCJ22WOuJDtfOzb
+         6/69b0NxZlClU5YgYlWRL8KpAmwIWQOSw0civfngs2yfIhF6JLwFMe4Seg9TFyZh9GrZ
+         ytK+xvIOsMaQMd0BDqriHu/ELLUBiM0R0xAE1a2wv1u2LtV43klnMANaaqS68vU0nD2f
+         /oh9MQFTDdOXS+q+z69HiGaIdllndDY+7zS54Xou9egCnSJjupfgWj3u+aX8dQhHyUNi
+         Odh6bYxbmS79lr3QcCbLkCRU0JcC9lu5c0Z0hbPYrIEVRyRPEuJ6YtlAIkalOl8gNkdz
+         75gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679076658;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HpdgKqSo+57JqbcLX1bRLO3QEz0XBdDAd5GbdulUDS8=;
-        b=VrdsMKbs5L+FYipnp/JAgab8QHEam3OXW9Umd4qc0g2YaE0+qyjRQIxfgilEBu1CJH
-         D7AhpPJm/G+ul18X8AcaWDCj6k2WBB8apAvIBET2Vg0Aa2M0Rt2s1kcbfpMOXTKzeNK2
-         uj0IXWMiecbPKmG2xisQ22BQs1koZsD33F15D0z0iJqAiTnK4JIbkekz9406+p0tO4qr
-         Hd4i0VcVfHAx1BH2njizkVfOvY1v+ky5m5hPd1qxKrcKCef6E8PLRxmycxR4kzCPieH4
-         QaVZFTXz1cGt0p71ZPB85i2rlGURHXMYnZ9YA3ySouZYeZwqTgaFhxFA7Wz6dGtjvM8K
-         fB1A==
-X-Gm-Message-State: AO0yUKXjN/HlMppncs2cjbE9RDXUNx2hynLJaUvrbbfncnJSO9bALbMK
-        u54WF6x+sWKdaC03BmjqvVE0m/4fnlzQGvv4goA=
-X-Google-Smtp-Source: AK7set/Pssfg8iqvTh+JqxB1F470XKwa+9wd2AFDLuss0IfbIIRVrFJ3iqnIWF+B6NpTQgu/5F1N1t983oKPEaiNIGs=
-X-Received: by 2002:a50:a406:0:b0:4fb:c8e3:1ae2 with SMTP id
- u6-20020a50a406000000b004fbc8e31ae2mr994440edb.3.1679076658041; Fri, 17 Mar
- 2023 11:10:58 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679078465;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qLt5F1/Ugauyf5shEntzjWUG+KhzEEAAsNAk/6CtFTE=;
+        b=EaXMlON/B5jAno7pFn3o3lseC6kasXu4b22cUNXL7/H6SI3IESj++RJFOtnGlGhMMh
+         XECl9fMaX0wJvpbotxS0a1liUJ51CKHjKXMaguwmeHvA0vyfn8r6noI4BnD2fa8Qjc8m
+         PHk+6+V3KUaLIqMVXdwePdaoz66QOqEGPH6plDIeyHKhH0hIJD5jVJJN0iT6LUJIQUJf
+         4vvQEF7KEfui0STqMyGCmcDJ6p4WY51QMtgwig/d/+n5z8tmVdEEJFkOHAmQzEenmSGm
+         +U41OSbUyZADW3tsGMG+FX+dUOktrvz2oWFFKExWGIvt1LZ072ILKoFUV030NDgKkONH
+         o8nA==
+X-Gm-Message-State: AO0yUKVEqIUjgLWdMcSmJDsgBvrWt3Wb52lDJmPmtJ7q8MoiOuRhRWQl
+        gHo+q6L6iaOBMLlZfx+XFAB7Yg==
+X-Google-Smtp-Source: AK7set9zmfshHjflDBnfziFdWGSSG/cPG5ezsYRMkRCGB0k0XRTVRYAcMr0jg//ExGnmLG9ZrZDnQw==
+X-Received: by 2002:a17:906:d8d6:b0:886:ec6e:4c1 with SMTP id re22-20020a170906d8d600b00886ec6e04c1mr400460ejb.59.1679078464904;
+        Fri, 17 Mar 2023 11:41:04 -0700 (PDT)
+Received: from [10.44.2.5] ([81.246.10.41])
+        by smtp.gmail.com with ESMTPSA id v2-20020a170906292200b009321cd80e15sm883836ejd.73.2023.03.17.11.41.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Mar 2023 11:41:04 -0700 (PDT)
+Message-ID: <7974f3ec-3f17-c21c-139b-fd5651871a75@tessares.net>
+Date:   Fri, 17 Mar 2023 19:41:04 +0100
 MIME-Version: 1.0
-References: <20230307112740.132338-1-wyes.karny@amd.com>
-In-Reply-To: <20230307112740.132338-1-wyes.karny@amd.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Fri, 17 Mar 2023 19:10:46 +0100
-Message-ID: <CAJZ5v0gijQJeCpxgTOD6uj9Cjn8=C+FwX5Ub1SP3xe6ygCaX4Q@mail.gmail.com>
-Subject: Re: [PATCH v8 0/6] cpufreq: amd-pstate: Add guided autonomous mode support
-To:     Wyes Karny <wyes.karny@amd.com>
-Cc:     Rafael J Wysocki <rafael@kernel.org>,
-        Huang Rui <ray.huang@amd.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 0/2] docs & checkpatch: allow Closes tags with links
+Content-Language: en-GB
+To:     Daniel Vetter <daniel@ffwll.ch>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     Thorsten Leemhuis <linux@leemhuis.info>,
         Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mario.Limonciello@amd.com, Perry.Yuan@amd.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
-        santosh.shukla@amd.com, Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Ananth Narayan <ananth.narayan@amd.com>,
-        gautham.shenoy@amd.com, Tor Vic <torvic9@mailbox.org>,
-        Russell Haley <yumpusamongus@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        mptcp@lists.linux.dev
+References: <20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net>
+ <c27709bd-90af-ec4f-de0b-3a4536bc17ca@leemhuis.info>
+ <81f8be3e-4860-baf9-8e13-fec3a103245b@tessares.net>
+ <CAHk-=wh0v1EeDV3v8TzK81nDC40=XuTdY2MCr0xy3m3FiBV3+Q@mail.gmail.com>
+ <CAKMK7uESvC-zgGJEup1OAmf34Rk8s5cCrSBYUNP_REFUuer1-w@mail.gmail.com>
+From:   Matthieu Baerts <matthieu.baerts@tessares.net>
+In-Reply-To: <CAKMK7uESvC-zgGJEup1OAmf34Rk8s5cCrSBYUNP_REFUuer1-w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 7, 2023 at 12:28 PM Wyes Karny <wyes.karny@amd.com> wrote:
->
-> From ACPI spec[1] below 3 modes for CPPC can be defined:
-> 1. Non autonomous: OS scaling governor specifies operating frequency/
->    performance level through `Desired Performance` register and platform
-> follows that.
-> 2. Guided autonomous: OS scaling governor specifies min and max
->    frequencies/ performance levels through `Minimum Performance` and
-> `Maximum Performance` register, and platform can autonomously select an
-> operating frequency in this range.
-> 3. Fully autonomous: OS only hints (via EPP) to platform for the required
->    energy performance preference for the workload and platform autonomously
-> scales the frequency.
->
-> Currently (1) is supported by amd_pstate as passive mode, and (3) is
-> implemented by EPP support[2]. This change is to support (2).
->
-> In guided autonomous mode the min_perf is based on the input from the
-> scaling governor. For example, in case of schedutil this value depends
-> on the current utilization. And max_perf is set to max capacity.
->
-> To activate guided auto mode ``amd_pstate=guided`` command line
-> parameter has to be passed in the kernel.
->
-> Below are the results (normalized) of benchmarks with this patch:
-> System: Genoa 96C 192T
-> Kernel: 6.3-rc1 + patch
-> Scaling governor: schedutil
->
-> ================ dbench comparisons ================
-> dbench result comparison:
-> Here results are throughput (MB/s)
-> Clients:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
->     1      1.00 (0.00 pct)         1.01 (1.00 pct)         1.02 (2.00 pct)
->     2      1.07 (0.00 pct)         1.06 (-0.93 pct)        1.07 (0.00 pct)
->     4      1.68 (0.00 pct)         1.70 (1.19 pct)         1.72 (2.38 pct)
->     8      2.61 (0.00 pct)         2.68 (2.68 pct)         2.76 (5.74 pct)
->    16      4.16 (0.00 pct)         4.24 (1.92 pct)         4.53 (8.89 pct)
->    32      5.98 (0.00 pct)         6.17 (3.17 pct)         7.30 (22.07 pct)
->    64      8.67 (0.00 pct)         8.99 (3.69 pct)        10.71 (23.52 pct)
->   128     11.98 (0.00 pct)        12.52 (4.50 pct)        14.67 (22.45 pct)
->   256     15.73 (0.00 pct)        16.13 (2.54 pct)        17.81 (13.22 pct)
->   512     15.77 (0.00 pct)        16.32 (3.48 pct)        16.39 (3.93 pct)
-> dbench power comparison:
-> Clients:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
->     1      1.00 (0.00 pct)         1.00 (0.00 pct)         1.04 (4.00 pct)
->     2      0.99 (0.00 pct)         0.97 (-2.02 pct)        1.02 (3.03 pct)
->     4      0.98 (0.00 pct)         0.98 (0.00 pct)         1.02 (4.08 pct)
->     8      0.98 (0.00 pct)         0.99 (1.02 pct)         1.02 (4.08 pct)
->    16      0.99 (0.00 pct)         1.00 (1.01 pct)         1.04 (5.05 pct)
->    32      1.02 (0.00 pct)         1.02 (0.00 pct)         1.07 (4.90 pct)
->    64      1.05 (0.00 pct)         1.05 (0.00 pct)         1.11 (5.71 pct)
->   128      1.08 (0.00 pct)         1.08 (0.00 pct)         1.15 (6.48 pct)
->   256      1.12 (0.00 pct)         1.12 (0.00 pct)         1.20 (7.14 pct)
->   512      1.18 (0.00 pct)         1.17 (-0.84 pct)        1.26 (6.77 pct)
->
-> ================ git-source comparisons ================
-> git-source result comparison:
-> Here results are throughput (compilations per 1000 sec)
-> Threads:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
->   192      1.00 (0.00 pct)         0.93 (-7.00 pct)        1.00 (0.00 pct)
-> git-source power comparison:
-> Threads:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
->   192      1.00 (0.00 pct)         1.00 (0.00 pct)         0.96 (-4.00 pct)
->
-> ================ kernbench comparisons ================
-> kernbench result comparison:
-> Here results are throughput (compilations per 1000 sec)
-> Load:      acpi-cpufreq            amd_pst+passive         amd_pst+guided
-> 32         1.00 (0.00 pct)         1.01 (1.00 pct)         1.02 (2.00 pct)
-> 48         1.26 (0.00 pct)         1.28 (1.58 pct)         1.25 (-0.79 pct)
-> 64         1.39 (0.00 pct)         1.47 (5.75 pct)         1.43 (2.87 pct)
-> 96         1.48 (0.00 pct)         1.50 (1.35 pct)         1.49 (0.67 pct)
-> 128        1.29 (0.00 pct)         1.32 (2.32 pct)         1.33 (3.10 pct)
-> 192        1.17 (0.00 pct)         1.20 (2.56 pct)         1.21 (3.41 pct)
-> 256        1.17 (0.00 pct)         1.18 (0.85 pct)         1.20 (2.56 pct)
-> 384        1.16 (0.00 pct)         1.17 (0.86 pct)         1.21 (4.31 pct)
-> kernbench power comparison:
-> Clients:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
->    32      1.00 (0.00 pct)         0.97 (-3.00 pct)        1.00 (0.00 pct)
->    48      0.87 (0.00 pct)         0.81 (-6.89 pct)        0.88 (1.14 pct)
->    64      0.81 (0.00 pct)         0.73 (-9.87 pct)        0.77 (-4.93 pct)
->    96      0.75 (0.00 pct)         0.74 (-1.33 pct)        0.75 (0.00 pct)
->   128      0.83 (0.00 pct)         0.79 (-4.81 pct)        0.83 (0.00 pct)
->   192      0.92 (0.00 pct)         0.88 (-4.34 pct)        0.92 (0.00 pct)
->   256      0.92 (0.00 pct)         0.88 (-4.34 pct)        0.92 (0.00 pct)
->   384      0.92 (0.00 pct)         0.88 (-4.34 pct)        0.92 (0.00 pct)
->
-> ================ tbench comparisons ================
-> tbench result comparison:
-> Here results are throughput (MB/s)
-> Clients:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
->     1      1.00 (0.00 pct)         0.70 (-30.00 pct)       1.37 (37.00 pct)
->     2      2.64 (0.00 pct)         1.39 (-47.34 pct)       2.70 (2.27 pct)
->     4      4.89 (0.00 pct)         2.75 (-43.76 pct)       5.28 (7.97 pct)
->     8      9.46 (0.00 pct)         5.42 (-42.70 pct)      10.22 (8.03 pct)
->    16     19.05 (0.00 pct)        10.42 (-45.30 pct)      19.94 (4.67 pct)
->    32     37.50 (0.00 pct)        20.23 (-46.05 pct)      36.87 (-1.68 pct)
->    64     61.24 (0.00 pct)        43.08 (-29.65 pct)      62.96 (2.80 pct)
->   128     67.16 (0.00 pct)        69.08 (2.85 pct)        67.34 (0.26 pct)
->   256    154.59 (0.00 pct)       162.33 (5.00 pct)       156.78 (1.41 pct)
->   512    154.02 (0.00 pct)       156.74 (1.76 pct)       153.48 (-0.35 pct)
-> tbench power comparison:
-> Clients:   acpi-cpufreq            amd_pst+passive         amd_pst+guided
->     1      1.00 (0.00 pct)         0.97 (-3.00 pct)        1.08 (8.00 pct)
->     2      1.04 (0.00 pct)         0.97 (-6.73 pct)        1.11 (6.73 pct)
->     4      1.12 (0.00 pct)         0.99 (-11.60 pct)       1.18 (5.35 pct)
->     8      1.25 (0.00 pct)         1.04 (-16.80 pct)       1.31 (4.80 pct)
->    16      1.53 (0.00 pct)         1.13 (-26.14 pct)       1.58 (3.26 pct)
->    32      2.01 (0.00 pct)         1.36 (-32.33 pct)       2.03 (0.99 pct)
->    64      2.58 (0.00 pct)         2.14 (-17.05 pct)       2.61 (1.16 pct)
->   128      2.80 (0.00 pct)         2.81 (0.35 pct)         2.81 (0.35 pct)
->   256      3.39 (0.00 pct)         3.43 (1.17 pct)         3.42 (0.88 pct)
->   512      3.44 (0.00 pct)         3.44 (0.00 pct)         3.44 (0.00 pct)
->
-> Change log:
->
-> v7 -> v8:
-> - Rebased on top of 6.3-rc1 tip
-> - Pickup tested-by flag by Oleksandr
+Hi Linus, Daniel, Konstantin,
 
-This series has been applied as 6.4 material, but I generally prefer
-ACPI and CPPC to be spelled in capitals in patch subjects and you
-should be more careful about comments and white space added by your
-patches (I have fixed up a few assorted issues of these types in the
-patches).
+@Linus, Daniel: Thank you both for your replies!
 
-Thanks!
+@Konstantin: I have one question for you at the end of this email if you
+don't mind.
 
-> v6 -> v7:
-> - Addressed comments by Ray
-> - Reorder and rebase patches
-> - Pick up Ack by Ray
->
-> v5 -> v6:
-> - Don't return -EBUSY when changing to same mode
->
-> v4 -> v5:
-> - Rebased on top of EPP v12 series
-> - Addressed comments form Mario regarding documentation
-> - Picked up RB flags from Mario and Bagas Sanjaya
->
-> v3 -> v4:
-> - Fixed active mode low frequency issue reported by Peter Jung and Tor Vic
-> - Documentation modification suggested by Bagas Sanjaya
->
-> v2 -> v3:
-> - Addressed review comments form Mario.
-> - Picked up RB tag from Mario.
-> - Rebase on top of EPP v11 [3].
->
-> v1 -> v2:
-> - Fix issue with shared mem systems.
-> - Rebase on top of EPP series.
->
-> [1]: https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
-> [2]: https://lore.kernel.org/lkml/20221110175847.3098728-1-Perry.Yuan@amd.com/
-> [3]: https://lore.kernel.org/linux-pm/20230131090016.3970625-1-perry.yuan@amd.com/
->
-> Wyes Karny (6):
->   acpi: cppc: Add min and max perf reg writing support
->   acpi: cppc: Add auto select register read/write support
->   Documentation: cpufreq: amd-pstate: Move amd_pstate param to
->     alphabetical order
->   cpufreq: amd-pstate: Add guided autonomous mode
->   cpufreq: amd-pstate: Add guided mode control support via sysfs
->   Documentation: cpufreq: amd-pstate: Update amd_pstate status sysfs for
->     guided
->
->  .../admin-guide/kernel-parameters.txt         |  40 ++--
->  Documentation/admin-guide/pm/amd-pstate.rst   |  31 ++-
->  drivers/acpi/cppc_acpi.c                      | 121 +++++++++++-
->  drivers/cpufreq/amd-pstate.c                  | 177 +++++++++++++-----
->  include/acpi/cppc_acpi.h                      |  11 ++
->  include/linux/amd-pstate.h                    |   2 +
->  6 files changed, 302 insertions(+), 80 deletions(-)
->
-> --
-> 2.34.1
->
+On 17/03/2023 17:58, Daniel Vetter wrote:
+> On Thu, 16 Mar 2023 at 18:30, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+>>
+>> On Thu, Mar 16, 2023 at 4:43 AM Matthieu Baerts
+>> <matthieu.baerts@tessares.net> wrote:
+>>>
+>>> @Linus: in short, we would like to continue using the "Closes:" tag (or
+>>> similar, see below) with a URL in commit messages. They are useful to
+>>> have public bug trackers doing automated actions like closing a specific
+>>> ticket. Any objection from your side?
+>>
+>> As long as it's a public link, I guess that just documents what the
+>> drm people have been doing.
+>>
+>> I'm not convinced "Closes" is actually any better than just "Link:",
+>> though. I would very much hope and expect that the actual closing of
+>> any bug report is actually done separately and verified, rather than
+>> some kind of automated "well, the commit says it closes it, so.."
+>>
+>> So honestly, I feel like "Link:" is just a better thing, and I worry
+>> that "Closes:" is then going to be used for random internal crap.
+>> We've very much seen people wanting to do that - having their own
+>> private bug trackers, and then using the commit message to refer to
+>> them, which I am *violently* against. If it's only useful to some
+>> closed community, it shouldn't be in the public commits.
+> 
+> Yeah I think that's fine. The bot can then autogenerate a request in
+> the bug report to confirm that it's fixed, and ask the reporter to
+> close in that case. And then maybe if there's no message a few weeks
+> after the release, auto-close or something.
+
+That would be a nice behaviour indeed. That's just a shame it means we
+cannot use the default behaviour of these bug trackers and we need a
+dedicated bot instead. I don't know what's the behaviour with GitLab and
+other bug trackers but with GitHub, when a commit is seen in a public
+repo with a "Link:" tag pointing to an issue, a "special" comment is
+added to the bug report but no notifications are sent. So if we don't
+implement the bot you described, we will still have to do the tracking
+manually.
+
+I understand we can see that as an issue with the existing service but
+it also means we cannot use their build-in automations.
+
+Maybe it means we have to switch to Bugzilla and wait for the new bot :)
+(but no, I don't want to add pressure on Konstantin ;) )
+
+
+> Bot needs to make sure it's only parsing tags for the instance it's
+> botting for anyway, so overloading Link: with all the meanings
+> (absolutely all themeanings!) is not really a problem since Closes:
+> has the same issue if different subsystems use it for different bug
+> tracking needs.
+
+Here, "Closes:" would be used exclusively with a URL to a specific bug
+report, not just "Closes: #1234". Would this not work if different
+subsystems use it?
+
+An extra check could be added to checkpatch.pl to display a warning if
+this "Closes:" tag is not used with a URL.
+
+In the case of GitHub -- and GitLab if I'm not mistaken -- there are
+some safeguards: the closure is only done if a commit having the
+"Closes:" tag to the bug report is applied into a specific branch. In
+other words, if someone applies the same patch elsewhere, the bug report
+will not be closed automatically. Also in case of closure, a
+notification is also sent and the bug report can be re-opened if
+something wrong happened.
+
+>> And while the current GPU people seem to use "Closes:" the right way
+>> (and maybe some other groups do too - but it does seem to be mostly a
+>> freedesktop thing), I really think it is amenable to mis-use in ways
+>> "Link:" is not.
+> 
+> Huh I didn't realize this picked up. Way back we used Bugzilla: for
+> this sometimes, but I think just using Link: for everything and
+> letting instance-specific bots figure out whether it's relevant for
+> them should be perfectly fine. Humans should have no problem parsing
+> meaning out of a tag soup anyway (I mean we have Cc: stable meaning
+> backport after all, and I think that address is a blackhole).
+> 
+> I guess if you feel strongly we can percolate this a bit to
+> submaintainers and contributors in drm.
+
+I understand the risks of being misused by some and I guess the main
+point here is that we want to avoid exceptions.
+
+On our side with MPTCP, if we can definitively no longer use the
+"Closes:" tag, we will find alternatives. Probably by rewriting patches
+containing them before sending patches to netdev. This way we can
+continue to use the feature internally and when sent upstream, the
+commits will contain Fixes tag instead :)
+
+
+So correct me if I'm wrong but the conclusion is then to stop using the
+"Closes:" tag to avoid misuses. In this case, we can of course drop this
+series.
+
+@Konstantin: would it be OK for your future Bugzilla bot to deal with
+the generic "Link:" tag instead of the specific "Closes:" one?
+
+Cheers,
+Matt
+-- 
+Tessares | Belgium | Hybrid Access Solutions
+www.tessares.net
