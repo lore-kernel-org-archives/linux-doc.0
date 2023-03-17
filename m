@@ -2,171 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83165C6FD1D
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 16:59:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0901BC74A5B
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Mar 2023 17:06:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229881AbjCQQ7O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Mar 2023 12:59:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35618 "EHLO
+        id S229543AbjCQRGD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Mar 2023 13:06:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbjCQQ7N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 12:59:13 -0400
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D28F19696
-        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 09:59:10 -0700 (PDT)
-Received: by mail-oi1-x230.google.com with SMTP id bo10so4251909oib.11
-        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 09:59:10 -0700 (PDT)
+        with ESMTP id S230135AbjCQRFv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Mar 2023 13:05:51 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B80D3BC60
+        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 10:05:29 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id t6so365935ybb.9
+        for <linux-doc@vger.kernel.org>; Fri, 17 Mar 2023 10:05:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1679072349;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1679072728;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jbbDQn1A8vthNnznohW7ycJC/LEOJ/kpAS8HmP79G5g=;
-        b=HosbYxwVB7RIW33gKBDWMmwLOhKGvlQ3pOlPd4hpefavfzJ1clj7h2TS2GbVSRi3uv
-         5eWdDD6HNSDbE1q2T4S66Is7Y7mDSLwPSefJVSNMny17IkWwzWxqqNJuXHfrwDMCP0Lf
-         Er08wiZ2p6fHKOKrldHeWmqSXww/CV7Ehyx2U=
+        bh=s8pw8ANjC03MPGK7KX+jv/0782fAZ5TNseS9cfoKjGg=;
+        b=pP5A+izrLpH07QymScG4K0Q3RviucyHodZbuurWnbqgGs2l1xnUwo1+rbiuh8HFsah
+         piqiQJlAN+H5zgY2WxLTZUo/9QQHUXh1fQ8fkIDsmjBFjPbgj9csybuw3J1L9nJ/ABi2
+         bFL5HkeGlW6PAwFgupg0pDB08xpPMBGgJAHN+m8IwU/ztiydhNiNFfYurnrwyAOno9a4
+         Ujb8IACLqfDadtIwc+YU/TBIHXect4WadFxISSTKwMnlSxrq2hhm2qlA1wjrVqf162//
+         5j9vaTz0UNhHxR8M9TINFZJ7p4TkddhzKVSme3hBv4/lvcBPrlxD/Sob7G6k8WSKQlr4
+         lvhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679072349;
+        d=1e100.net; s=20210112; t=1679072728;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jbbDQn1A8vthNnznohW7ycJC/LEOJ/kpAS8HmP79G5g=;
-        b=A5EZ7r0vKU+3pmywZF+bCBTq36MiuRY7Vo7r6eAnD6DOF6EetqSeEGcarDu0iXvWuQ
-         +kEpPFSWAJCgwD7E9CuwXOm1pcpcVb7TBIe7CWN7UZqmg4IMGiWPxobwyXQyNermr2O3
-         jNmTZ8S4f3n+m0JH5Eb/Clf2sw8NUI4mNeeRfGEUnpvGEYvUYUsQI96ukNTtwqwt3iwW
-         2HJRvzKuUkrIg02svCGp81NiZIL9QcEuoyTAF/6RloYC/HLm4UDS496m0IwfP5HVNTSD
-         E2k1JQOpM/pS8qUVfEL87T1sho42ZIoNkxiNGARROAmr806hu0ecKBKksC8TR96+zCoS
-         sbnA==
-X-Gm-Message-State: AO0yUKXro1c3aS73raI995nC9sry7DwSZWYMsDylIVw6SyHFYVqfsnwQ
-        2lm97LOCnMgVcCBmvxprh63Vs2KdmpDpCthNVvWhtg==
-X-Google-Smtp-Source: AK7set+L2zleSfw5fVN0Oec1LbJ1X8C6NBaaRrjgnvp15TLcoL2wN9zgbF7gOISJ1rJb3tqW4k+GpBrcUV+ZbvYwyes=
-X-Received: by 2002:a05:6808:b30:b0:386:bc3c:408b with SMTP id
- t16-20020a0568080b3000b00386bc3c408bmr1917639oij.8.1679072349591; Fri, 17 Mar
- 2023 09:59:09 -0700 (PDT)
+        bh=s8pw8ANjC03MPGK7KX+jv/0782fAZ5TNseS9cfoKjGg=;
+        b=Lk+YblSQbgSEEGq9AKafvT7RXISbypfrchYSZzB27HQZbPw2pLMxnNzQbQ7VbLZsSi
+         IWHAsEwP7JtlfNrIu2B8xR/Ay1+B03jxgSexZnH18kyROzXRGs9itbAT0Ts/SfXnXE69
+         1wMv95rIlhLwb9DkGQUya/LZeqThXTSAX9c20dJqmO216i3nUqI20rm3XU8pXmzR2HQo
+         lUMr49PyoP7x8Tf2Sk9UoXWpc8gbGLiZJU0gXyaQdU8y2w8/UJCM03cWXMlWsVkYqj9b
+         fWQ3qAhIryASTHZVs0f3f9pSL2hpamXgNYcO+TqFiyevh4a6LPW27NRLa1KncMdZ7rON
+         Yt3w==
+X-Gm-Message-State: AO0yUKUDwe0HTa/6/7CA8jxlA8A8/6CRnRtvS9rl1heQXp7Gu+sg4m5t
+        BwhEvl3ZMum6ZHDPBRpK2NqKxe6zwsKeH6Ny+hBdgg==
+X-Google-Smtp-Source: AK7set+D8OFVbAtEyZV0DNRmF/56fcde9ah8LpollyTgt+UHbDfOUt8Zr0yeZMQQArbAGbw+RPWEeXZ7zZLCT8vnPLs=
+X-Received: by 2002:a05:6902:85:b0:a6f:9156:5579 with SMTP id
+ h5-20020a056902008500b00a6f91565579mr138099ybs.12.1679072728330; Fri, 17 Mar
+ 2023 10:05:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net>
- <c27709bd-90af-ec4f-de0b-3a4536bc17ca@leemhuis.info> <81f8be3e-4860-baf9-8e13-fec3a103245b@tessares.net>
- <CAHk-=wh0v1EeDV3v8TzK81nDC40=XuTdY2MCr0xy3m3FiBV3+Q@mail.gmail.com>
-In-Reply-To: <CAHk-=wh0v1EeDV3v8TzK81nDC40=XuTdY2MCr0xy3m3FiBV3+Q@mail.gmail.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Fri, 17 Mar 2023 17:58:58 +0100
-Message-ID: <CAKMK7uESvC-zgGJEup1OAmf34Rk8s5cCrSBYUNP_REFUuer1-w@mail.gmail.com>
-Subject: Re: [PATCH 0/2] docs & checkpatch: allow Closes tags with links
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Matthieu Baerts <matthieu.baerts@tessares.net>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com> <20230227222957.24501-25-rick.p.edgecombe@intel.com>
+In-Reply-To: <20230227222957.24501-25-rick.p.edgecombe@intel.com>
+From:   Deepak Gupta <debug@rivosinc.com>
+Date:   Fri, 17 Mar 2023 10:05:19 -0700
+Message-ID: <CAKC1njRh8zz9jUM3xwCeZ1hs9K8o=mF8VKTsYyG73a5tTe4FkA@mail.gmail.com>
+Subject: Re: [PATCH v7 24/41] mm: Don't allow write GUPs to shadow stack memory
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        =?UTF-8?Q?Kai_Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@gmail.com>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mptcp@lists.linux.dev
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 16 Mar 2023 at 18:30, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Mon, Feb 27, 2023 at 2:31=E2=80=AFPM Rick Edgecombe
+<rick.p.edgecombe@intel.com> wrote:
+> diff --git a/mm/gup.c b/mm/gup.c
+> index eab18ba045db..e7c7bcc0e268 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -978,7 +978,7 @@ static int check_vma_flags(struct vm_area_struct *vma=
+, unsigned long gup_flags)
+>                 return -EFAULT;
 >
-> On Thu, Mar 16, 2023 at 4:43=E2=80=AFAM Matthieu Baerts
-> <matthieu.baerts@tessares.net> wrote:
-> >
-> > @Linus: in short, we would like to continue using the "Closes:" tag (or
-> > similar, see below) with a URL in commit messages. They are useful to
-> > have public bug trackers doing automated actions like closing a specifi=
-c
-> > ticket. Any objection from your side?
->
-> As long as it's a public link, I guess that just documents what the
-> drm people have been doing.
->
-> I'm not convinced "Closes" is actually any better than just "Link:",
-> though. I would very much hope and expect that the actual closing of
-> any bug report is actually done separately and verified, rather than
-> some kind of automated "well, the commit says it closes it, so.."
->
-> So honestly, I feel like "Link:" is just a better thing, and I worry
-> that "Closes:" is then going to be used for random internal crap.
-> We've very much seen people wanting to do that - having their own
-> private bug trackers, and then using the commit message to refer to
-> them, which I am *violently* against. If it's only useful to some
-> closed community, it shouldn't be in the public commits.
+>         if (write) {
+> -               if (!(vm_flags & VM_WRITE)) {
+> +               if (!(vm_flags & VM_WRITE) || (vm_flags & VM_SHADOW_STACK=
+)) {
 
-Yeah I think that's fine. The bot can then autogenerate a request in
-the bug report to confirm that it's fixed, and ask the reporter to
-close in that case. And then maybe if there's no message a few weeks
-after the release, auto-close or something.
-
-Bot needs to make sure it's only parsing tags for the instance it's
-botting for anyway, so overloading Link: with all the meanings
-(absolutely all themeanings!) is not really a problem since Closes:
-has the same issue if different subsystems use it for different bug
-tracking needs.
-
-> And while the current GPU people seem to use "Closes:" the right way
-> (and maybe some other groups do too - but it does seem to be mostly a
-> freedesktop thing), I really think it is amenable to mis-use in ways
-> "Link:" is not.
-
-Huh I didn't realize this picked up. Way back we used Bugzilla: for
-this sometimes, but I think just using Link: for everything and
-letting instance-specific bots figure out whether it's relevant for
-them should be perfectly fine. Humans should have no problem parsing
-meaning out of a tag soup anyway (I mean we have Cc: stable meaning
-backport after all, and I think that address is a blackhole).
-
-I guess if you feel strongly we can percolate this a bit to
-submaintainers and contributors in drm.
--Daniel
-
-> The point of "Link:" is explicitly two-fold:
->
->  - it makes it quite obvious that you expect an actual valid web-link,
-> not some internal garbage
->
->  - random people always want random extensions, and "Link:" is
-> _designed_ to counter-act that creeping "let's add a random new tag"
-> disease. It's very explicitly "any relevant link".
->
-> and I really question the value of adding new types of tags,
-> particularly ones that seem almost designed to be mis-used.
->
-> So I'm not violently against it, and 99% of the existing uses seem
-> fine. But I do note that some of the early "Closes:" tags in the
-> kernel were very much complete garbage, and exactly the kind of thing
-> that I absolutely detest.
->
-> What does
->
->     Closes: 10437
->
-> mean? That's crazy talk. (And yes, in that case it was a
-> kernel.bugzilla.org number, which is perfectly fine, but I'm using it
-> as a very real example of how "Closes:" ends up being very naturally
-> to mis-use).
->
-> End result: I don't hate our current "Closes:" uses. But I'm very wary of=
- it.
->
-> I'm not at all convinced that it really adds a lot of value over
-> "Link:", and I am, _very_ aware of how easily it can be then taken to
-> be a "let's use our own bug tracker cookies here".
->
-> So I will neither endorse nor condemn it, but if I see people using it
-> wrong, I will absolutely put my foot down.
->
->                     Linus
+I think I missed this in the review.
+`VM_SHADOW_STACK` is an x86 specific vmaflag to represent a shadow stack VM=
+A.
+Since this is arch agnostic code. Can we instead have
+`is_arch_shadow_stack_vma` which consumes vma flags and returns true.
+This allows different architectures to choose whatever encoding of the
+vma flag to represent a shadow stack.
 
 
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>                         if (!(gup_flags & FOLL_FORCE))
+>                                 return -EFAULT;
+>                         /* hugetlb does not support FOLL_FORCE|FOLL_WRITE=
+. */
+> --
+> 2.17.1
+>
